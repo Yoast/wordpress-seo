@@ -33,6 +33,7 @@ var getTooShortParagraphs = function( paragraphsLength, recommendedValue ) {
  * @returns {{score: number, text: string }} the assessmentResult.
  */
 var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagraphs, recommendedValue, i18n ) {
+
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 40 steps, each step is 0.15
 	// Up to 13 is for scoring a 3, higher numbers give higher scores.
 	// floatingPointFix because of js rounding errors
@@ -41,11 +42,13 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 	if ( score >= 7 ) {
 		return {
 			score: score,
-			text: i18n.dgettext( "js-text-analysis", "None of your paragraphs is too short, which is great." )
+			text: i18n.dgettext( "js-text-analysis", "None of your paragraphs are too short, which is great." )
 		};
 	}
 	return {
 		score: score,
+
+		//translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains less than the recommended minimum " +
 				"of %2$d words. Try to expand this paragraph, or connect it to the previous or next paragraph.",
 				"%1$d of the paragraphs contain less than the recommended minimum of %2$d words.  Try to expand these paragraphs, " +

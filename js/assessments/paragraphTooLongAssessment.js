@@ -40,15 +40,17 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 	if ( score >= 7 ) {
 		return {
 			score: score,
-			text: i18n.dgettext( "js-text-analysis", "None of your paragraphs is too long, which is great." )
+			text: i18n.dgettext( "js-text-analysis", "None of your paragraphs are too long, which is great." )
 		};
 	}
 	return {
 		score: score,
+
+		//translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains more than the recommended maximum " +
 			"of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?",
 			"%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of" +
-			" these paragraphs is about the same topic, and therefore belongs in one single paragraph?", tooLongParagraphs ),
+			" these paragraphs is about the same topic, and therefore belongs in a single paragraph?", tooLongParagraphs ),
 			tooLongParagraphs, recommendedValue )
 	};
 };
