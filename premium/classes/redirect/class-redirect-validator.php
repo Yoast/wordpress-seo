@@ -12,6 +12,11 @@ class WPSEO_Redirect_Validator {
 	 * @var array
 	 */
 	protected $validation_rules = array(
+		'self-redirect' => array(
+			'validation_class' => 'WPSEO_Redirect_Self_Redirect_Validation',
+			'exclude_types'  => array(),
+			'exclude_format' => array( WPSEO_Redirect::FORMAT_REGEX ),
+		),
 		'uniqueness' => array(
 			'validation_class' => 'WPSEO_Redirect_Uniqueness_Validation',
 			'exclude_types'  => array(),
