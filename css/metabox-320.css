@@ -208,11 +208,11 @@
 }
 
 .snippet_container .tooLong {
-	color: #dc3232 !important;
+	color: #f00 !important;
 }
 
 .snippet-editor__field--invalid {
-	color: #dc3232;
+	color: #f00;
 }
 
 .snippet-editor__progress {
