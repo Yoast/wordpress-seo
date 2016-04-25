@@ -139,7 +139,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$notifications = $subject->get_notifications();
 
-		$this->assertEquals( 1, count( $notifications ) );
+		$this->assertEquals( 2, count( $notifications ) );
 	}
 
 	/**
@@ -240,7 +240,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$subject->update_storage();
 
 		$stored_notifications = get_option( Yoast_Notification_Center::STORAGE_KEY );
-		$test                 = WPSEO_Utils::json_encode( array( $notification->to_array() ) );
+		$test                 = wp_json_encode( array( $notification->to_array() ) );
 
 		$this->assertInternalType( 'string', $stored_notifications );
 		$this->assertEquals( $test, $stored_notifications );

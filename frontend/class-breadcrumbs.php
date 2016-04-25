@@ -437,7 +437,7 @@ class WPSEO_Breadcrumbs {
 	private function add_home_crumb() {
 		$this->add_predefined_crumb(
 			$this->options['breadcrumbs-home'],
-			get_home_url(),
+			WPSEO_Utils::home_url(),
 			true
 		);
 	}

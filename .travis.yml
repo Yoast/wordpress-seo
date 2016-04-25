@@ -9,7 +9,9 @@ matrix:
     - php: 7.0
       env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1
     - php: 5.2
-      env: WP_VERSION=4.4 WP_MULTISITE=1 PHPLINT=1
+      env: WP_VERSION=4.5 WP_MULTISITE=1 PHPLINT=1
+    - php: 7.0
+      env: WP_VERSION=4.5
     - php: 7.0
       env: WP_VERSION=4.4
     - php: 7.0
@@ -17,15 +19,15 @@ matrix:
     - php: 5.6
       env: WP_VERSION=4.2
     - php: 5.6
-      env: WP_VERSION=4.4
+      env: WP_VERSION=4.5
     - php: 5.5
-      env: WP_VERSION=4.4
+      env: WP_VERSION=4.5
     - php: 5.4
-      env: WP_VERSION=4.4
+      env: WP_VERSION=4.5
     - php: 5.3
-      env: WP_VERSION=4.4
+      env: WP_VERSION=4.5
     - php: hhvm
-      env: WP_VERSION=4.4
+      env: WP_VERSION=4.5
 
 cache:
   directories:
@@ -34,7 +36,7 @@ cache:
 
 before_script:
 - phpenv local 5.6
-- composer selfupdate --no-interaction
+- composer selfupdate 1.0.0 --no-interaction
 - composer install --no-interaction
 - composer config-yoastcs
 - phpenv local --unset
