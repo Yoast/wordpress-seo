@@ -1,5 +1,11 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
+/**
+ * Returns the score based on the number of subheadings found. 
+ * @param {number} subheadingPresence The number of subheadings found.
+ * @param {object} i18n The object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
 var calculateSubheadingPresenceResult = function( subheadingPresence, i18n ) {
 	if( subheadingPresence > 0 ) {
 		return {
