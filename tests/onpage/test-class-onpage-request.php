@@ -9,10 +9,11 @@ class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 	 * Overwrite the get_remote method, because this is a dependency.
 	 *
 	 * @param string $target_url
+	 * @param array  $parameters
 	 *
 	 * @return array
 	 */
-	protected function get_remote( $target_url ) {
+	protected function get_remote( $target_url, $parameters = array() ) {
 		$remote_data = array(
 			'is_indexable'    => '0',
 			'passes_juice_to' => '',

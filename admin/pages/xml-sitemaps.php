@@ -19,141 +19,24 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $yform = Yoast_Form::get_instance();
-
 $yform->admin_header( true, 'wpseo_xml' );
 
 $options = get_option( 'wpseo_xml' );
 
 echo '<br/>';
-
 $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'wordpress-seo' ) );
 
-?>
-	<div id="sitemapinfo">
-		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<a class="nav-tab" id="general-tab" href="#top#general"><?php _e( 'General', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="user-sitemap-tab"
-			   href="#top#user-sitemap"><?php _e( 'User sitemap', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="post-types-tab"
-			   href="#top#post-types"><?php _e( 'Post Types', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="exclude-post-tab" href="#top#exclude-post"><?php _e( 'Excluded Posts', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="taxonomies-tab"
-			   href="#top#taxonomies"><?php _e( 'Taxonomies', 'wordpress-seo' ); ?></a>
-		</h2>
+$tabs = new WPSEO_Option_Tabs( 'sitemaps' );
+$tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'user-sitemap', __( 'User sitemap', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-user-sitemap' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'post-types', __( 'Post Types', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-post-types' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'exclude-post', __( 'Excluded Posts', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-exclude-post' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'taxonomies', __( 'Taxonomies', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-taxonomies' ) ) );
 
-		<div id="general" class="wpseotab">
-			<?php
+echo '<div id="sitemapinfo">';
+$tabs->display( $yform, $options );
+echo '</div>';
 
-			if ( $options['enablexmlsitemap'] === true ) {
-				echo '<p>';
-				printf( esc_html__( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) ) . '">', '</a>' );
-				echo '<br/>';
-				echo '<br/>';
-				_e( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' );
-				echo '</p>';
-			}
-			else {
-				echo '<p>', __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ), '</p>';
-			}
-			?>
-
-			<p>
-				<strong><?php _e( 'Entries per page', 'wordpress-seo' ); ?></strong><br/>
-				<?php printf( __( 'Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ), WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' ) ); ?>
-			</p>
-
-			<?php
-			$yform->textinput( 'entries-per-page', __( 'Max entries per sitemap', 'wordpress-seo' ) );
-			?>
-		</div>
-
-		<div id="user-sitemap" class="wpseotab">
-			<?php
-			$yform->toggle_switch(
-				'disable_author_sitemap',
-				array( 'off' => __( 'Enabled', 'wordpress-seo' ), 'on' => __( 'Disabled', 'wordpress-seo' ) ),
-				__( 'Author / user sitemap', 'wordpress-seo' )
-			);
-			?>
-			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site.', 'wordpress-seo' ); ?></p>
-			<div id="xml_user_block">
-					<?php
-					$switch_values = array( 'off' => __( 'In sitemap', 'wordpress-seo' ), 'on' => __( 'Not in sitemap', 'wordpress-seo' ) );
-					$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users without posts', 'wordpress-seo' ) );
-
-					echo '<p class="expl">' . __( 'You can choose to not include users without posts.', 'wordpress-seo' ) . '</p>';
-
-					$roles = WPSEO_Utils::get_roles();
-					unset( $roles['subscriber'] );
-					if ( is_array( $roles ) && $roles !== array() ) {
-						echo '<p class="expl"><strong>' . __( 'Filter specific user roles', 'wordpress-seo' ) . '</strong></p>';
-						foreach ( $roles as $role_key => $role_name ) {
-							$yform->toggle_switch( 'user_role-' . $role_key . '-not_in_sitemap', $switch_values, $role_name );
-						}
-					} ?>
-			</div>
-		</div>
-
-		<div id="post-types" class="wpseotab">
-
-			<?php
-			/**
-			 * Filter the post types to present in interface for exclusion.
-			 *
-			 * @param array $post_types Array of post type objects.
-			 */
-			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
-			if ( is_array( $post_types ) && $post_types !== array() ) {
-				foreach ( $post_types as $pt ) {
-					$yform->toggle_switch(
-						'post_types-' . $pt->name . '-not_in_sitemap',
-						$switch_values,
-						$pt->labels->name . ' (<code>' . $pt->name . '</code>)'
-					);
-				}
-			}
-
-			?>
-
-		</div>
-
-		<div id="exclude-post" class="wpseotab">
-			<?php
-			/* Translators: %1$s: expands to '<code>1,2,99,100</code>' */
-			echo '<p>' , sprintf( __( 'You can exclude posts from the sitemap by entering a comma separated string with the Post ID\'s. The format will become something like: %1$s.', 'wordpress-seo' ), '<code>1,2,99,100</code>' ) , '</p>';
-			$yform->textinput( 'excluded-posts', __( 'Posts to exclude', 'wordpress-seo' ) );
-			?>
-		</div>
-
-		<div id="taxonomies" class="wpseotab">
-
-			<?php
-			/**
-			 * Filter the taxonomies to present in interface for exclusion.
-			 *
-			 * @param array $taxonomies Array of taxonomy objects.
-			 */
-			$taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
-			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-				foreach ( $taxonomies as $tax ) {
-					// Explicitly hide all the core taxonomies we never want in our sitemap.
-					if ( in_array( $tax->name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
-						continue;
-					}
-					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
-						$yform->toggle_switch(
-							'taxonomies-' . $tax->name . '-not_in_sitemap',
-							$switch_values,
-							$tax->labels->name . ' (<code>' . $tax->name . '</code>)'
-						);
-					}
-				}
-			}
-
-			?>
-		</div>
-	</div>
-<?php
 
 /**
  * Fires at the end of XML Sitemaps configuration form.

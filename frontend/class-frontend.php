@@ -905,10 +905,14 @@ class WPSEO_Frontend {
 		}
 		else {
 			if ( is_search() ) {
-				$canonical = get_search_link();
+				$search_query = get_search_query();
+
+				if ( ! empty( $search_query ) ) {
+					$canonical = get_search_link();
+				}
 			}
 			elseif ( is_front_page() ) {
-				$canonical = home_url();
+				$canonical = WPSEO_Utils::home_url();
 			}
 			elseif ( $this->is_posts_page() ) {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );

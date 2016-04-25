@@ -143,30 +143,42 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			switch ( $switch_key ) {
 				/* integer fields */
 				case 'entries-per-page':
-					/**
-					 * @todo [JRF/JRF => Yoast] add some more rules (minimum 50 or something
-					 * - what should be the guideline?) and adjust error message
-					 */
+
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
+
 						if ( $int !== false && $int > 0 ) {
+
+							if ( $int > 50000 ) {
+
+								$error_message = sprintf(
+									__( '"Max entries per sitemap page" should be below 50000 for Google requirements, which %s is not.', 'wordpress-seo' ),
+									'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
+								);
+								add_settings_error( $this->group_name, '_' . $key, $error_message, 'error' );
+
+								$int = 50000;
+							}
+
 							$clean[ $key ] = $int;
 						}
 						else {
+
 							if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
+
 								$int = WPSEO_Utils::validate_int( $old[ $key ] );
+
 								if ( $int !== false && $int > 0 ) {
 									$clean[ $key ] = $int;
 								}
 							}
-							if ( function_exists( 'add_settings_error' ) ) {
-								add_settings_error(
-									$this->group_name, // Slug title of the setting.
-									'_' . $key, // Suffix-id for the error message box.
-									sprintf( __( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // The error message.
-									'error' // Error type, either 'error' or 'updated'.
-								);
-							}
+
+							$error_message = sprintf(
+								__( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ),
+								'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
+							);
+							add_settings_error( $this->group_name, '_' . $key, $error_message, 'error' );
 						}
 						unset( $int );
 					}
