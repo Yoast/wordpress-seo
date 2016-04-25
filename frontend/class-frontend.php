@@ -912,7 +912,7 @@ class WPSEO_Frontend {
 				}
 			}
 			elseif ( is_front_page() ) {
-				$canonical = home_url();
+				$canonical = WPSEO_Utils::home_url();
 			}
 			elseif ( $this->is_posts_page() ) {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );

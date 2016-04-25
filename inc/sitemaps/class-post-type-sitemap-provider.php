@@ -22,7 +22,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function __construct() {
 
-		$this->home_url     = home_url();
+		$this->home_url     = WPSEO_Utils::home_url();
 		$this->options      = WPSEO_Options::get_all();
 		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
 
