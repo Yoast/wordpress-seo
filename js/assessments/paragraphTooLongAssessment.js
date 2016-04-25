@@ -32,10 +32,10 @@ var getTooLongParagraphs = function( paragraphsLength, recommendedValue ) {
  * @returns {{score: number, text: string }} the assessmentResult.
  */
 var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, recommendedValue, i18n ) {
-	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 100 steps.
+	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 100 steps, each step is 0.06.
 	// Up to 117 is for scoring a 9, higher numbers give lower scores.
 	// floatingPointFix because of js rounding errors
-	var score = 9 - Math.max( Math.min( ( 6 / 100 ) * ( paragraphsLength[ 0 ] - 117 ), 6 ), 0 );
+	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( paragraphsLength[ 0 ] - 117 ), 6 ), 0 );
 	score = fixFloatingPoint( score );
 	if ( score >= 7 ) {
 		return {
