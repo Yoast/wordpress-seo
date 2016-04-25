@@ -1,5 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var countTooLongSentences = require( "./checkForTooLongSentences.js" );
+var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
+var calculateTooLongSentences = require( "./../assessmentHelpers/calculateTooLongSentences.js" );
 
 /**
  * Calculates sentence length score
@@ -12,18 +13,15 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var tooLong = countTooLongSentences( sentences, recommendedValue );
 	var percentage = ( tooLong / sentences.length ) * 100;
 
-	// Scale percentages from 21.7 to 31.7 to a score. 21.7 scores 9, 31.7 score 3.
-	var unboundedScore = 9 - ( 6 / 10 ) * ( percentage - 21.7 );
+	var score = calculateTooLongSentences( percentage );
 
-	// Scores exceeding 9 are 9, scores below 3 are 3.
-	var score = Math.max( Math.min( unboundedScore, 9 ), 3 );
 	if ( score >= 7 ) {
-		return{
+		return {
 			score: score,
 			text:  i18n.dgettext( "js-text-analysis", "The meta description contains no sentences over 20 words." )
 		};
 	}
-	return{
+	return {
 		score: score,
 		text: i18n.sprintf( i18n.dngettext(
 			"js-text-analysis",

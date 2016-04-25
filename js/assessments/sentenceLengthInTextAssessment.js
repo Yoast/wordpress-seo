@@ -1,5 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var countTooLongSentences = require( "./checkForTooLongSentences.js" );
+var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
+var calculateTooLongSentences = require( "./../assessmentHelpers/calculateTooLongSentences.js" );
 
 /**
  * Calculates sentence length score
@@ -9,28 +10,28 @@ var countTooLongSentences = require( "./checkForTooLongSentences.js" );
  */
 var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var recommendedValue = 20;
-	var tooLong = countTooLongSentences( sentences, recommendedValue );
 	var maximumPercentage = 25;
-	var percentage = ( tooLong / sentences.length ) * 100;
-	// Scale percentages from 21.7 to 31.7 to a score. 21.7 scores 9, 31.7 score 3.
-	var unboundedScore = 9 - ( 6 / 10 ) * ( percentage - 21.7 );
 
-	// Scores exceeding 9 are 9, scores below 3 are 3.
-	var score = Math.max( Math.min( unboundedScore, 9 ), 3 );
+	var tooLong = countTooLongSentences( sentences, recommendedValue );
+	var percentage = ( tooLong / sentences.length ) * 100;
+
+	var score = calculateTooLongSentences( percentage );
 
 	if ( score >= 7 ) {
 		return{
 			score: score,
+
 			// translators: %1$s expands to number of sentences.
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than 20 words, " +
-				"which is within the recommended range." ), percentage+"%" )
+				"which is within the recommended range." ), percentage + "%" )
 		};
 	}
 	return{
 		score: score,
+
 		// translators: %1$s expands to number of sentences.
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than 20 words, " +
-			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ), percentage+"%", maximumPercentage+"%" )
+			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ), percentage + "%", maximumPercentage + "%" )
 	};
 };
 /**

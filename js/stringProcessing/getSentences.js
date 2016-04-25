@@ -6,5 +6,6 @@ var cleanText = require( "../stringProcessing/cleanText.js" );
  * @returns {Array} Sentences found in the text.
  */
 module.exports = function( text ) {
-	return cleanText( text ).split( "." );
+	var cleanedText = cleanText( text );
+	return cleanedText.split( "." );
 };
