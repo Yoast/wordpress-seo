@@ -474,7 +474,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 			basedOn: wpseoPostScraperL10n.basedOn
 		} );
 
-
 		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		var postScraper = new PostScraper();
