@@ -8,7 +8,7 @@ describe( "An assessment for scoring too short paragraphs.", function() {
 	it( "scores 1 paragraph with ok length", function() {
 		var assessment = paragraphTooShortAssessment.getResult( paper, Factory.buildMockResearcher( [ 60 ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "None of your paragraphs is too short, which is great." );
+		expect( assessment.getText() ).toBe( "None of your paragraphs are too short, which is great." );
 	} );
 	it( "scores 1 slightly too short paragraph", function() {
 		var assessment = paragraphTooShortAssessment.getResult( paper, Factory.buildMockResearcher( [ 37 ] ), i18n );
@@ -25,7 +25,7 @@ describe( "An assessment for scoring too short paragraphs.", function() {
 	it( "scores 3 paragraphs with ok length", function() {
 		var assessment = paragraphTooShortAssessment.getResult( paper, Factory.buildMockResearcher( [ 60, 71, 83 ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "None of your paragraphs is too short, which is great." );
+		expect( assessment.getText() ).toBe( "None of your paragraphs are too short, which is great." );
 	} );
 	it( "scores 3 paragraphs, one of which is too short", function() {
 		var assessment = paragraphTooShortAssessment.getResult( paper, Factory.buildMockResearcher( [ 60, 33, 183 ] ), i18n );
