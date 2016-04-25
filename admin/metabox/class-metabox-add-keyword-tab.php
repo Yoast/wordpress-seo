@@ -37,6 +37,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 							);
 						?>
 					</p>
+					<?php /* translators: %s expands to Yoast SEO Premium */ ?>
 					<a id="wpseo-add-keyword-popup-button" class="button-primary" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&amp;utm_medium=popup&amp;utm_campaign=multiple-keywords"><?php printf( __( 'Buy %s', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
 				</div>
 			<?php endif; ?>

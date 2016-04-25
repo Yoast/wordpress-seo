@@ -33,7 +33,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'og_frontpage_desc'  => '', // Text field.
 		'og_frontpage_image' => '', // Text field.
 		'opengraph'          => true,
-		'googleplus'         => false,
 		'pinterest_url'      => '',
 		'pinterestverify'    => '',
 		'plus-publisher'     => '', // Text field.
@@ -254,7 +253,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					break;
 
 				/* boolean fields */
-				case 'googleplus':
 				case 'opengraph':
 				case 'twitter':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );

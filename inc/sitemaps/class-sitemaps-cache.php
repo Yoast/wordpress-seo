@@ -23,8 +23,6 @@ class WPSEO_Sitemaps_Cache {
 		add_action( 'edited_terms', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
 		add_action( 'clean_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
 		add_action( 'clean_object_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
-
-		add_action( 'save_post', array( __CLASS__, 'invalidate_post' ) );
 	}
 
 	/**

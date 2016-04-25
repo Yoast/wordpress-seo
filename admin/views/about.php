@@ -33,8 +33,9 @@ function wpseo_display_contributors( $contributors ) {
 		?></h1>
 
 	<p class="about-text">
-		Yoast SEO 3.1 has, next to tons of bugfixes, 4 sections of "major" changes: an improved snippet editor, a
-		primary category feature, an overhauled admin section and (in Premium), an improved redirects feature.
+		Yoast SEO 3.2 has a ton of accessibility and help changes. We've made our help more accessible and included
+		support videos for every tab. In Premium we've added a new social previews feature. Much like the snippet
+		preview it shows you what your post will look like when shared on Facebook and Twitter.
 	</p>
 
 	<div class="wp-badge"></div>
@@ -42,8 +43,8 @@ function wpseo_display_contributors( $contributors ) {
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" href="#top#new" id="new-tab">
 			<?php
-			/* translators: %s: '3.0' version number */
-			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), '3.1' );
+			/* translators: %s: '3.2' version number */
+			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), '3.2' );
 			?>
 		</a>
 		<a class="nav-tab" href="#top#integrations"
@@ -53,68 +54,95 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="new" class="wpseotab">
 
-		<h2>Release video and post</h2>
-		<p>In <a href="https://yoast.com/yoast-seo-3-1/">this post</a>, Joost explains the features of Yoast SEO 3.1. If
-			you're more of a video type, check the release video below:</p>
-
 		<div class="headline-feature feature-video">
 			<?php // @codingStandardsIgnoreStart ?>
-			<iframe style="width:1050px;height:591px;" src="https://www.youtube.com/embed/Qt1yGL_spW4?rel=0&vq=hd720"
+			<iframe style="width:1050px;height:591px;" src="https://yoa.st/release-video"
 			        frameborder="0" allowfullscreen></iframe>
 			<?php // @codingStandardsIgnoreEnd ?>
 		</div>
 
 		<div class="feature-section two-col">
 			<div class="col">
-				<div class="media-container">
-					<img style="height: 350px; margin: 0 0 10px 0;"
-					     src="//yoast-30.s3.amazonaws.com/snippet-editor-new.png" alt="Snippet editor">
-				</div>
-				<h3>An improved snippet editor</h3>
+				<h3>A new help center</h3>
 
-				<p>All of the user feedback on Yoast SEO 3.0 has made us improve on the snippet editor some more. This
-					is
-					what it looks like now!</p>
+				<p>Every tab now has a help center. In the help center you will find a video explaining the settings on
+					that tab.
+					On some tabs, there's even more info, like template variables on the Titles &amp; Metas tabs.</p>
+				<div class="media-container">
+					<img style="margin: 0 0 10px 0;"
+					     src="https://yoast-30.s3.amazonaws.com/screenshot-help-center.png" alt="Help Center">
+				</div>
 			</div>
 			<div class="col">
+				<h3>Premium: social previews</h3>
+
+				<p>In Yoast SEO Premium we've added a new social previews feature. Much like the snippet
+					preview it shows you what your post will look like when shared on Facebook and Twitter.</p>
 				<div class="media-container">
-					<img style="height: 350px; margin: 0 0 10px 0;" src="//yoast-30.s3.amazonaws.com/admin-toggles.png"
-					     alt="Admin overhaul">
+					<img style="margin: 0 0 10px 0;" src="https://yoast-30.s3.amazonaws.com/yoast-social-preview.png"
+					     alt="Yoast Social Previews">
 				</div>
-				<h3>Admin overhaul</h3>
-
-				<p>We had checboxes that enabled things and checkboxes that disabled things. That's, of course,
-					completely unusable. So now we have toggles. Everywhere.</p>
 			</div>
-			<div class="col">
-				<div class="media-containerr">
-					<img style="height: 225px; margin: 0 0 10px 0;"
-					     src="//yoast-30.s3.amazonaws.com/primary-category.png" alt="Primary category">
-				</div>
-				<h3>Primary category</h3>
-
-				<p>If you've ever been annoyed by a breadcrumb showing the wrong category: this one's for you!</p>
-			</div>
-			<div class="col">
-				<div class="media-container">
-					<img style="height: 225px; margin: 0 0 10px 0;" src="//yoast-30.s3.amazonaws.com/redirect.png"
-					     alt="Redirects overhaul">
-				</div>
-				<h3>Redirects improvements</h3>
-
-				<p>We've worked hard on making our Redirects feature in Yoast SEO Premium even better. Mostly by
-					improving our validation features, like preventing you from making infinite loops. But: we've also
-					added a neat inline editor, the option to do HTTP
-					451 statuses and more.</p>
-			</div>
-
-			<div class="clear"></div>
-
-			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
-			</div>
-
 		</div>
+		<div class="feature-section two-col">
+			<div class="col">
+				<h3>Improved inline help</h3>
+
+				<p>We've improved our inline help feature everywhere, making it easier to use. In the process we got rid
+					of qTip, a JavaScript library that caused a lot of issues.</p>
+				<div class="media-container">
+					<img style="margin: 0 0 10px 0;" src="https://yoast-30.s3.amazonaws.com/improved-help.png"
+					     alt="Improved inline help">
+				</div>
+			</div>
+			<div class="col">
+				<h3>Google-</h3>
+				<p>We've removed the Google+ functionality from the plugin. Google is slowly deprecating the network. On
+					top of that, its metadata was giving conflicts with Facebook, which caused lots of issues. As
+					Google+ also uses Facebook metadata, optimizing for Facebook should do what you need for Google+ too.</p>
+			</div>
+		</div>
+
+		<hr/>
+
+		<div class="changelog">
+			<h2>Under the hood</h2>
+			<div class="under-the-hood three-col">
+				<div class="col">
+					<h3>Accessibility improvements everywhere</h3>
+					<p>We're not done yet, but we've been busy making all parts of the plugin more accessible. Starting
+						with a more accessible metabox amongst other things.</p>
+				</div>
+				<div class="col">
+					<h3>XML Sitemap improvements</h3>
+					<p>A ton of work has gone into fixing XML sitemaps related bugs. They should work better on plugin
+					activation now, amongst lots of other changes.</p>
+				</div>
+				<div class="col">
+					<h3><code>NOYDIR</code> removed</h3>
+					<p>The Yahoo! directory has been dead for a year now and we're sure it's not coming back. Because of
+						that we've removed all the <code>NOYDIR</code> options in the plugin.</p>
+				</div>
+			</div>
+			<div class="under-the-hood two-col">
+				<div class="col">
+					<h3>Remove clean up functionality</h3>
+					<p>We've removed the clean up functions we had for the <code>&lt;head&gt;</code>. There simply is
+						no SEO benefit and WordPress kept adding more stuff to the <code>&lt;head&gt;</code> anyway.</p>
+				</div>
+				<div class="col">
+					<h3>Primary term functions</h3>
+					<p>You can now use <code>%%primary_category%%</code> in your title and description templates. We've
+						also added <code>yoast_get_primary_term()</code> and <code>yoast_get_primary_term_id()</code>
+						which you can use in your templates.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="return-to-dashboard">
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
+		</div>
+
 	</div>
 
 	<div id="integrations" class="wpseotab">
@@ -126,7 +154,10 @@ function wpseo_display_contributors( $contributors ) {
 		</p>
 
 		<ol>
-			<li><a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">Yoast ACF Integration</a> - an integration built by <a href="https://forsberg.ax">Marcus Forsberg</a> and Team Yoast</li>
+			<li><a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">Yoast ACF
+					Integration</a> - an integration built by <a href="https://forsberg.ax">Marcus Forsberg</a> and Team
+				Yoast
+			</li>
 			<li><a target="_blank" href="https://www.elegantthemes.com/plugins/divi-builder/">Divi Builder</a></li>
 			<li><a target="_blank" href="https://vc.wpbakery.com/">Visual Composer</a></li>
 		</ol>
@@ -137,11 +168,17 @@ function wpseo_display_contributors( $contributors ) {
 		</p>
 
 		<ol>
-			<li><a target="_blank" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">Glue for Yoast SEO &amp; AMP</a> - an integration between <a href="https://wordpress.org/plugins/amp/">the WordPress AMP plugin</a> and Yoast SEO.</li>
+			<li><a target="_blank" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">Glue for Yoast SEO &amp;
+					AMP</a> - an integration between <a href="https://wordpress.org/plugins/amp/">the WordPress AMP
+					plugin</a> and Yoast SEO.
+			</li>
+			<li>
+				<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">Instant Articles for WP</a> - Enable Instant Articles for Facebook on your WordPress site and integrates with Yoast SEO.
+			</li>
 		</ol>
 
 
-		</div>
+	</div>
 
 	<div id="credits" class="wpseotab">
 		<p class="about-description">
@@ -191,6 +228,11 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
 				),
+				'andrea'        => (object) array(
+					'name'     => 'Andrea Fercia',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '074af62ea5ff218b6a6eeab89104f616',
+				),
 				'terw-dan'      => (object) array(
 					'name'     => 'Danny Terwindt',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
@@ -226,12 +268,6 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Tester / Developer', 'wordpress-seo' ),
 					'gravatar' => '59908788f406037240ee011388db29f8',
 				),
-				'jrfnl'         => (object) array(
-					'name'     => 'Juliette Reinders Folmer',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
-				),
-
 			);
 
 			wpseo_display_contributors( $contributors );
@@ -240,13 +276,20 @@ function wpseo_display_contributors( $contributors ) {
 		<h4 class="wp-people-group"><?php _e( 'Contributors to this release', 'wordpress-seo' ); ?></h4>
 		<?php
 		$patches_from = array(
-			'Chris Jean' => 'https://github.com/chrisbliss18',
-			'Melvin Tercan' => 'https://github.com/melvinmt',
-			'Ben Constable' => 'https://github.com/BenConstable',
-			'Emre Erkan' => 'https://github.com/karalamalar',
+			'Borja Abad'           => 'https://github.com/mines',
+			'sun'                  => 'https://github.com/sun',
+			'Mark Walker'          => 'https://github.com/mnwalker',
+			'Konstantin Kovshenin' => 'https://github.com/kovshenin',
+			'Damian Hodgkiss'      => 'https://github.com/damianhodgkiss',
+			'Kevin Lisota'         => 'https://github.com/kevinlisota',
+			'Felix Arntz'          => 'https://github.com/felixarntz',
+			'Thorsten Frommen'     => 'https://github.com/tfrommen',
+			'Darren Ethier'        => 'https://github.com/nerrad',
+			'Marko Heijnen'        => 'https://github.com/markoheijnen',
+			'Jörn Lund'            => 'https://github.com/mcguffin',
 		);
 		?>
-		<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 3.1, patches from
+		<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 3.2, patches from
 			the
 			following people made it in:</p>
 		<ul class="ul-square">
