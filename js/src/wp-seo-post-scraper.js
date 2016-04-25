@@ -469,12 +469,12 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		var translations;
 
 		// Initialize an instance of the keywordword tab.
-		mainKeywordTab = new KeywordTab(
-			{
-				prefix: wpseoPostScraperL10n.contentTab,
-				basedOn: wpseoPostScraperL10n.basedOn
-			}
-		);
+		mainKeywordTab = new KeywordTab( {
+			prefix: wpseoPostScraperL10n.contentTab,
+			basedOn: wpseoPostScraperL10n.basedOn
+		} );
+
+
 		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		var postScraper = new PostScraper();
