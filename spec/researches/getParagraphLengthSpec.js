@@ -37,6 +37,33 @@ describe("a test for getting paragraph length", function(){
 		expect( getParagraphLength( mockPaper ) ).toContain( 3 );
 	});
 
+	it("returns the paragraph length, with empty paragraphs", function(){
+		var mockPaper = new Paper( "<p>test</p><p></p><p>more text</p>" );
+		expect( getParagraphLength( mockPaper).length ).toBe( 2 );
+	});
+
+	it("returns the paragraph length, with paragraph with only image", function(){
+		var mockPaper = new Paper( "<p>test</p><p><img src='image.com/image.png' /></p><p>more text</p>" );
+		expect( getParagraphLength( mockPaper).length ).toBe( 2 );
+	});
+
+	it("returns the paragraph length, with paragraph with only image", function(){
+		var mockPaper = new Paper( "<p><img src='image.com/image.png' /></p><p><img src='image.com/image.png' /></p>" );
+		expect( getParagraphLength( mockPaper).length ).toBe( 0 );
+	});
+
+	it("returns the paragraph length, with paragraph with only image", function(){
+		var mockPaper = new Paper( "<p><img src='image.com/image.png' />test</p><p><img src='image.com/image.png' /> test </p>" );
+		expect( getParagraphLength( mockPaper).length ).toBe( 2 );
+		expect( getParagraphLength( mockPaper) ).toContain( 1 );
+	});
+
+	it("returns the paragraph length, with paragraph with only image", function(){
+		var mockPaper = new Paper( "<p><img src='image.com/image.png' />test</p><p><img src='image.com/image.png' /> </p>" );
+		expect( getParagraphLength( mockPaper).length ).toBe( 1 );
+		expect( getParagraphLength( mockPaper) ).toContain( 1 );
+	});
+
 	it("returns the paragraph length of paragraph without p tags or double linebreaks, but with h2 tags", function(){
 		var mockPaper = new Paper( "<h2>Lorem ipsum dolor sit amet</h2>" );
 		expect( getParagraphLength( mockPaper ) ).toContain( 5 );
