@@ -19,7 +19,7 @@ if ( ! empty( $tab_video_url ) ) :
 			<span class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
 			<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 		</button>
-		<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout" aria-hidden="true">
+		<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout">
 			<?php include dirname( __FILE__ ) . '/partial-help-center-video.php'; ?>
 		</div>
 	</div>
