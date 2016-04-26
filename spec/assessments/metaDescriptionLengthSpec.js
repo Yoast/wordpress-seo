@@ -35,6 +35,4 @@ describe( "An descriptionLength assessment", function(){
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual ( "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?" );
 	} );
-
-
 } );

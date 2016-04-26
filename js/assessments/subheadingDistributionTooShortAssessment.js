@@ -55,12 +55,14 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, reco
 	return {
 		score: score,
 
-		//translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
+		// translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
 		text: i18n.sprintf(
 		i18n.dngettext(
 				"js-text-analysis",
-				"%1$d of the subheadings is followed by less than the recommended minimum of %2$d words. Consider deleting that particular subheading, or the following subheading.",
-				"%1$d of the subheadings are followed by less than the recommended minimum of %2$d words. Consider deleting those particular subheadings, or the subheading following each of them.",
+				"%1$d of the subheadings is followed by less than the recommended minimum of %2$d words. " +
+				"Consider deleting that particular subheading, or the following subheading.",
+				"%1$d of the subheadings are followed by less than the recommended minimum of %2$d words. " +
+				"Consider deleting those particular subheadings, or the subheading following each of them.",
 				tooShortTexts ),
 			tooShortTexts, recommendedValue
 		)
@@ -79,7 +81,7 @@ var getSubheadingsTextLength = function( paper, researcher, i18n ) {
 	var subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
 	subheadingTextsLength = subheadingTextsLength.sort(
 		function( a, b ) {
-			return a - b ;
+			return a - b;
 		}
 	);
 	var recommendedValue = 40;
