@@ -16,7 +16,7 @@ function isSentenceTooLong( recommendedValue, sentenceLength ) {
  * @param {number} recommendedValue The recommended maximum length of sentence.
  * @returns {number} Number of too long sentences.
  */
-module.exports = function ( sentences, recommendedValue ) {
+module.exports = function( sentences, recommendedValue ) {
 	var tooLongSentences = filter( sentences, isSentenceTooLong.bind( null, recommendedValue ) );
 	return tooLongSentences.length;
 };

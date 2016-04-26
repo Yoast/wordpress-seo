@@ -9,7 +9,7 @@ var filter = require( "lodash/filter" );
 module.exports = function( sentences ) {
 	var sentencesCount = [];
 	sentences.map( function( sentence ) {
-		sentencesCount.push(  wordCount( sentence ) );
+		sentencesCount.push( wordCount( sentence ) );
 	} );
 
 	return filter( sentencesCount, function( sentenceLength ) {
