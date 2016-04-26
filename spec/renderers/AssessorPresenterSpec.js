@@ -37,13 +37,13 @@ describe( "an AssessorPresenter", function() {
 
 	describe("A function to transform a numeric overall score into a textual score", function() {
 		var expectations = [
-			[ 0, 'feedback', "Feedback" ],
+			[ 0, 'feedback', "No SEO score available" ],
 			[ 1, 'bad', "Bad SEO score" ],
 			[ 23, 'bad', "Bad SEO score" ],
 			[ 40, 'bad', "Bad SEO score" ],
-			[ 41, 'ok', "Ok SEO score" ],
-			[ 55, 'ok', "Ok SEO score" ],
-			[ 70, 'ok', "Ok SEO score" ],
+			[ 41, 'ok', "OK SEO score" ],
+			[ 55, 'ok', "OK SEO score" ],
+			[ 70, 'ok', "OK SEO score" ],
 			[ 71, 'good', "Good SEO score" ],
 			[ 83, 'good', "Good SEO score" ],
 			[ 100, 'good', "Good SEO score" ]

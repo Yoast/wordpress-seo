@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-19 16:54+0200\n"
+"POT-Creation-Date: 2016-04-26 15:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,6 +64,20 @@ msgid ""
 "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
 msgstr ""
 
+#: js/assessments/getSubheadingLengthAssessment.js:16
+msgid "The length of all subheadings is within the recommended range."
+msgstr ""
+
+#: js/assessments/getSubheadingLengthAssessment.js:24
+msgid ""
+"You have %1$d subheading containing more than the recommended maximum of "
+"%2$d characters."
+msgid_plural ""
+"You have %1$d subheadings containing more than the recommended maximum of "
+"%2$d characters."
+msgstr[0] ""
+msgstr[1] ""
+
 #: js/assessments/introductionKeywordAssessment.js:14
 msgid "The focus keyword appears in the first paragraph of the copy."
 msgstr ""
@@ -108,6 +122,7 @@ msgid ""
 "found %2$d times."
 msgstr ""
 
+#. translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
 #: js/assessments/keywordStopWordsAssessment.js:17
 msgid ""
 "Your focus keyword contains a stop word. This may or may not be wise "
@@ -164,6 +179,7 @@ msgid ""
 "While not a major ranking factor, this is beneficial."
 msgstr ""
 
+#. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/taxonomyTextLengthAssessment.js:17
 msgid ""
 "The text contains %1$d word, this is more than the %2$d word recommended "
@@ -174,6 +190,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/taxonomyTextLengthAssessment.js:30
 msgid ""
 "The text contains %1$d word, this is slightly below the %2$d word "
@@ -184,6 +201,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words
 #: js/assessments/taxonomyTextLengthAssessment.js:43
 #: js/assessments/taxonomyTextLengthAssessment.js:56
 msgid ""
@@ -195,6 +213,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %1$d expands to the number of words in the text
 #: js/assessments/taxonomyTextLengthAssessment.js:69
 msgid ""
 "The text contains %1$d word, this is far too low and should be increased."
@@ -231,6 +250,7 @@ msgstr ""
 msgid "The images on this page contain alt attributes with the focus keyword."
 msgstr ""
 
+#. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:17
 msgid ""
 "The text contains %1$d word. This is more than the %2$d word recommended "
@@ -241,6 +261,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:30
 msgid ""
 "The text contains %1$d word. This is slightly below the %2$d word "
@@ -251,6 +272,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:43
 #: js/assessments/textLengthAssessment.js:56
 msgid ""
@@ -262,6 +284,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %1$d expands to the number of words in the text
 #: js/assessments/textLengthAssessment.js:69
 msgid ""
 "The text contains %1$d word. This is far too low and should be increased."
@@ -362,6 +385,7 @@ msgstr ""
 msgid "The slug for this page is a bit long, consider shortening it."
 msgstr ""
 
+#. translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
 #: js/assessments/urlStopWordsAssessment.js:17
 msgid ""
 "The slug for this page contains a %1$sstop word%2$s, consider removing it."
@@ -396,19 +420,35 @@ msgid ""
 msgstr ""
 
 #: js/config/presenter.js:10
-msgid "Feedback"
+msgid "No SEO score available"
 msgstr ""
 
-#: js/config/presenter.js:14
-msgid "Bad SEO score"
+#: js/config/presenter.js:11
+msgid "Content Analysis: No SEO score available"
 msgstr ""
 
-#: js/config/presenter.js:18
-msgid "Ok SEO score"
+#: js/config/presenter.js:15
+msgid "Bad SEO scorexx"
 msgstr ""
 
-#: js/config/presenter.js:22
+#: js/config/presenter.js:16
+msgid "Content Analysis: Bad SEO score"
+msgstr ""
+
+#: js/config/presenter.js:20
+msgid "OK SEO score"
+msgstr ""
+
+#: js/config/presenter.js:21
+msgid "Content Analysis: OK SEO score"
+msgstr ""
+
+#: js/config/presenter.js:25
 msgid "Good SEO score"
+msgstr ""
+
+#: js/config/presenter.js:26
+msgid "Content Analysis: Good SEO score"
 msgstr ""
 
 #: js/snippetPreview.js:396
