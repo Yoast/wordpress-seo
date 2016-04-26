@@ -4,7 +4,7 @@ var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var isEmpty = require( "lodash/isEmpty" );
 
-// assessments
+// Researches
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
 var linkCount = require( "./researches/countLinks.js" );
