@@ -26,7 +26,7 @@ var getTooShortSubheadingTexts = function( subheadingTextsLength, recommendedVal
 /**
  * Calculates the score based on the subheading texts length.
  * @param {Array} subheadingTextsLength Array with subheading text lengths.
- * @param {number} tooLongTexts The number of subheading texts that are too long.
+ * @param {number} tooShortTexts The number of subheading texts that are too long.
  * @param {number} recommendedValue The recommended minimum value of the subheading text length
  * @param {object} i18n The object used for translations.
  * @returns {object} the resultobject containing a score and text if subheadings are present
@@ -35,22 +35,22 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, reco
 
 	// Return empty result if there are no subheadings
 	if ( subheadingTextsLength.length === 0 ) {
-	return {};
-}
+		return {};
+	}
 
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 40 steps, each step is 0.15.
 	// Up to 267  is for scoring a 9, higher numbers give lower scores.
 	var score = 3 + Math.max( Math.min( ( 6 / 40 ) * ( subheadingTextsLength[ 0 ] - 13 ), 6 ), 0 );
 
 	if ( score >= 7 ) {
-	return {
-		score: score,
-		text: i18n.sprintf(
-		i18n.dgettext(
-				"js-text-analysis",
-				"The amount of words following after each of your subheadings all exceed the recommended minimum of %1$d words, which is great."
-		), recommendedValue )
-	};
+		return {
+			score: score,
+			text: i18n.sprintf(
+			i18n.dgettext(
+					"js-text-analysis",
+					"The amount of words following after each of your subheadings all exceed the recommended minimum of %1$d words, which is great."
+			), recommendedValue )
+		};
 	}
 	return {
 		score: score,
@@ -89,14 +89,12 @@ var getSubheadingsTextLength = function( paper, researcher, i18n ) {
 	var subheadingsTextLengthresult = subheadingsTextLength( subheadingTextsLength, tooShortTexts, recommendedValue, i18n );
 
 	var assessmentResult = new AssessmentResult();
-
 	assessmentResult.setScore( subheadingsTextLengthresult.score );
 	assessmentResult.setText( subheadingsTextLengthresult.text );
-
 	return assessmentResult;
-	};
+};
 
-	module.exports = {
+module.exports = {
 	getResult: getSubheadingsTextLength,
 	isApplicable: function( paper ) {
 		return paper.hasText();
