@@ -130,5 +130,4 @@ class WPSEO_Facebook_Name {
 
 		return '';
 	}
-
 }
