@@ -31,7 +31,7 @@ var getTooShortSubheadingTexts = function( subheadingTextsLength, recommendedVal
  * @param {object} i18n The object used for translations.
  * @returns {object} the resultobject containing a score and text if subheadings are present
  */
-var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, recommendedValue, i18n ) {
+var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, recommendedValue, i18n ) {
 
 	// Return empty result if there are no subheadings
 	if ( subheadingTextsLength.length === 0 ) {
@@ -60,7 +60,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, recom
 		i18n.dngettext(
 				"js-text-analysis",
 				"%1$d of the subheadings is followed by less than the recommended minimum of %2$d words. Consider deleting that particular subheading, or the following subheading.",
-				"%1$d of the subheadings are followed by less than the recommended minimum of %2$d words. Consider deleting those particular subheadings, or the subheading following each of them",
+				"%1$d of the subheadings are followed by less than the recommended minimum of %2$d words. Consider deleting those particular subheadings, or the subheading following each of them.",
 				tooShortTexts ),
 			tooShortTexts, recommendedValue
 		)
