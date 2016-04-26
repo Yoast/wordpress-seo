@@ -907,7 +907,7 @@ class WPSEO_Frontend {
 			if ( is_search() ) {
 				$search_query = get_search_query();
 
-				if ( ! empty( $search_query ) ) {
+				if ( ! empty( $search_query ) && ! preg_match( '|^page/\d+$|', $search_query ) ) {
 					$canonical = get_search_link();
 				}
 			}
