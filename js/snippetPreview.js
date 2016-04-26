@@ -399,10 +399,13 @@ SnippetPreview.prototype.renderTemplate = function() {
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
 			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
-			snippetPreviewDescription: this.i18n.dgettext( "js-text-analysis", "You can click on each element in the preview to jump to the Snippet Editor." ),
 			titleLabel: this.i18n.dgettext( "js-text-analysis", "Seo title preview:" ),
 			slugLabel: this.i18n.dgettext( "js-text-analysis", "Slug preview:" ),
-			metaDescriptionLabel: this.i18n.dgettext( "js-text-analysis", "Meta description preview:" )
+			metaDescriptionLabel: this.i18n.dgettext( "js-text-analysis", "Meta description preview:" ),
+			snippetPreviewDescription: this.i18n.dgettext(
+				"js-text-analysis",
+				"You can click on each element in the preview to jump to the Snippet Editor."
+			)
 		}
 	} );
 

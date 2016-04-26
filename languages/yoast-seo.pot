@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-26 17:45+0200\n"
+"POT-Creation-Date: 2016-04-26 18:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -470,26 +470,26 @@ msgid "Snippet preview"
 msgstr ""
 
 #: js/snippetPreview.js:402
+msgid "Seo title preview:"
+msgstr ""
+
+#: js/snippetPreview.js:403
+msgid "Slug preview:"
+msgstr ""
+
+#: js/snippetPreview.js:404
+msgid "Meta description preview:"
+msgstr ""
+
+#: js/snippetPreview.js:407
 msgid ""
 "You can click on each element in the preview to jump to the Snippet Editor."
 msgstr ""
 
-#: js/snippetPreview.js:403
-msgid "Seo title preview:"
-msgstr ""
-
-#: js/snippetPreview.js:404
-msgid "Slug preview:"
-msgstr ""
-
-#: js/snippetPreview.js:405
-msgid "Meta description preview:"
-msgstr ""
-
-#: js/snippetPreview.js:594
+#: js/snippetPreview.js:597
 msgid "Please provide an SEO title by editing the snippet below."
 msgstr ""
 
-#: js/snippetPreview.js:670
+#: js/snippetPreview.js:673
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
