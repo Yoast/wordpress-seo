@@ -253,6 +253,7 @@ function updateProgressBar( element, value, maximum, rating ) {
 		];
 
 	element.value = value;
+	element.setAttribute( 'aria-valuenow', value );
 	removeClasses( element, allClasses );
 	addClass( element, "snippet-editor__progress--" + rating );
 
@@ -441,7 +442,9 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
+		this.element.progress.title.setAttribute( 'aria-valuemax', titleMaxLength );
 		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
+		this.element.progress.metaDesc.setAttribute( 'aria-valuemax', analyzerConfig.maxMeta );
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -910,14 +913,16 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	titleRating = rateTitleLength( title.length );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
 
-	updateProgressBar(
+	updateProgressBar.call(
+		this,
 		this.element.progress.title,
 		title.length,
 		titleMaxLength,
 		titleRating
 	);
 
-	updateProgressBar(
+	updateProgressBar.call(
+		this,
 		this.element.progress.metaDesc,
 		metaDescription.length,
 		analyzerConfig.maxMeta,
