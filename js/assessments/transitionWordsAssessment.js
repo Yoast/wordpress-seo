@@ -25,7 +25,7 @@ var calculateTransitionWordResult = function( sentences, transitionWordSentences
 			return {
 				score: score,
 				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
-					"which is less than the recommended minimum of %2$s." ), percentage.toFixed( 1 )+"%", recommendedMinimum+"%" )
+					"which is less than the recommended minimum of %2$s." ), percentage.toFixed( 1 ) + "%", recommendedMinimum + "%" )
 			};
 		}
 	}
@@ -40,7 +40,7 @@ var calculateTransitionWordResult = function( sentences, transitionWordSentences
 			return {
 				score: score,
 				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
-					"which is more than the recommended maximum of %2$s." ), percentage.toFixed( 1 )+"%", recommendedMaximum+"%" )
+					"which is more than the recommended maximum of %2$s." ), percentage.toFixed( 1 ) + "%", recommendedMaximum + "%" )
 			};
 		}
 	}
@@ -50,7 +50,7 @@ var calculateTransitionWordResult = function( sentences, transitionWordSentences
 	return {
 		score: score,
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, which is great."
-		), percentage.toFixed( 1 )+"%" )
+		), percentage.toFixed( 1 ) + "%" )
 	};
 };
 
