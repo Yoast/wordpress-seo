@@ -488,7 +488,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @return bool
 	 */
-	public static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
+	private static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
 
 		// Dismiss notification.
 		return ( false !== update_user_meta( get_current_user_id(), $notification->get_dismissal_key(), $meta_value ) );
