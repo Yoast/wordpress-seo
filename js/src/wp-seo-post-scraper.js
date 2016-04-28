@@ -384,7 +384,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		}
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-
 			/*
 			 * If the post has no title, WordPress wants to auto generate the slug once the title is set, so we need to
 			 * keep the post name empty.
