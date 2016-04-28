@@ -4,7 +4,7 @@
  */
 
 /**
- * Validator for validating the accessibility of a redirect's target
+ * Validates the accessibility of a redirect's target
  */
 class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation {
 
@@ -14,7 +14,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	private $error;
 
 	/**
-	 * Validate the redirect to check if the origin already exists.
+	 * Validates if the target is accessible and based on its response code it will set a warning (if applicable).
 	 *
 	 * @param WPSEO_Redirect $redirect  The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
