@@ -15,11 +15,11 @@ var subheadingPresence = require( "./assessments/subheadingPresenceAssessment.js
 var ContentAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 	this._assessments = {
-		fleschReadingEase          : fleschReadingEase,
-		sentenceLengthInText       : sentenceLengthInText,
+		fleschReadingEase:           fleschReadingEase,
+		sentenceLengthInText:        sentenceLengthInText,
 		sentenceLengthInDescription: sentenceLengthInDescription,
-		subHeadingLength           : subHeadingLength,
-		subheadingPresence         : subheadingPresence
+		subHeadingLength:            subHeadingLength,
+		subheadingPresence:          subheadingPresence
 	};
 };
 
