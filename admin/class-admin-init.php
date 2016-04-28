@@ -209,7 +209,6 @@ class WPSEO_Admin_Init {
 
 		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
 			update_option( 'wpseo_dismiss_recalculate', '1' );
-
 			return;
 		}
 
