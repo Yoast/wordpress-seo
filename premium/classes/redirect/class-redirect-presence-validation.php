@@ -4,13 +4,7 @@
  */
 
 /**
- * Validator for validating all redirect fields being filled correctly.
- *
- * This redirect will validate: if the redirect that is created/updated has al the required fields, to be sure
- * the redirect will be stored correctly.
- *
- * - For a 410 and 451 type redirect the target isn't necessary.
- * - For all other redirect types the target is required.
+ * Validates that all redirect fields have been correctly filled.
  */
 class WPSEO_Redirect_Presence_Validation implements WPSEO_Redirect_Validation {
 
@@ -20,7 +14,9 @@ class WPSEO_Redirect_Presence_Validation implements WPSEO_Redirect_Validation {
 	private $error;
 
 	/**
-	 * Validate the redirect to check if the redirect has all required fields being present.
+	 * Validates if the redirect has all the required fields.
+	 * - For a 410 and 451 type redirect the target isn't necessary.
+	 * - For all other redirect types the target is required.
 	 *
 	 * @param WPSEO_Redirect $redirect     The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.

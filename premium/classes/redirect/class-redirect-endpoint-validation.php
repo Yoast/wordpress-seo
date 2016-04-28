@@ -4,11 +4,7 @@
  */
 
 /**
- * Validator for validating the endpoint of a redirect
- *
- * This validation will check if the redirect that is created, will follow:
- * - a path with it's target as endpoint (a redirect loop). In this case an error will be given.
- * - a path that can be shorten by creating a direct redirect. In this case a warning will be given.
+ * Validates the endpoint of a redirect
  */
 class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 
@@ -23,8 +19,9 @@ class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 	private $error;
 
 	/**
-	 * Validate the redirect to check if the redirect will result in a redirect loop or can be shorter by creating a
-	 * direct redirect.
+	 * This validation checks if the redirect being created, follows:
+	 * - a path that results in a redirection to it's own origin due to other redirects pointing to the current origin.
+	 * - a path that can be shorten by creating a direct redirect.
 	 *
 	 * @param WPSEO_Redirect $redirect     The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
