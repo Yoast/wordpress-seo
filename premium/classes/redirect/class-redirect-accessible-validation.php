@@ -6,12 +6,8 @@
 /**
  * Validator for validating the accessibility of a redirect's target
  *
- * This validation will check if the target is accessible and will give for the targets response code:
- * - a specific warning if the target cannot not be resolved.
- * - a specific warning in case of a temporary ( 302, 307, 40x and 50x) redirect
- * - a specific warning in case of a 301 response code
- * - a warning in case of all none 200 response code
- *
+ * This validation will check if the target is accessible and based on its response code it will set a warning
+ * (if applicable).
  */
 class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation {
 
