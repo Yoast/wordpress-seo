@@ -496,9 +496,14 @@ class Yoast_Notification_Center {
 	 */
 	private static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
 
+		$user_id = get_current_user_id();
+
 		// Set about version when dismissing about notification.
 		if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
-			return ( false !== update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION ) );
+
+			setcookie( 'wpseo_seen_about_version_' . $user_id, WPSEO_VERSION, $_SERVER['REQUEST_TIME'] + YEAR_IN_SECONDS );
+
+			return ( false !== update_user_meta( $user_id, 'wpseo_seen_about_version', WPSEO_VERSION ) );
 		}
 
 		// Dismiss notification.
