@@ -87,7 +87,6 @@ class WPSEO_Meta_Columns {
 			return $columns;
 		}
 
-		$columns['wpseo-score']    = 'wpseo-score';
 		$columns['wpseo-metadesc'] = 'wpseo-metadesc';
 		$columns['wpseo-focuskw']  = 'wpseo-focuskw';
 
@@ -299,12 +298,6 @@ class WPSEO_Meta_Columns {
 	 */
 	private function filter_order_by( $order_by ) {
 		switch ( $order_by ) {
-			case 'wpseo-score' :
-				return array(
-					'meta_key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'orderby'  => 'meta_value_num',
-				);
-				break;
 			case 'wpseo-metadesc' :
 				return  array(
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',
