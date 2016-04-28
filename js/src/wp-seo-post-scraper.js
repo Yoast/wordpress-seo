@@ -23,7 +23,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	var mainKeywordTab;
 	var KeywordTab = require( './analysis/keywordTab' );
 
-	/**\
+	/**
 	 * wordpress scraper to gather inputfields.
 	 * @constructor
 	 */
