@@ -71,4 +71,35 @@ describe( "An image count assessment", function() {
 
 		expect( assessment.getScore() ).toEqual( 9 );
 	} );
+
+	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
+		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+			keyword: "Sample"
+		} );
+
+		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			noAlt: 0,
+			withAlt: 0,
+			withAltKeyword: 1,
+			withAltNonKeyword: 1
+		} ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+	} );
+
+	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
+		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+			keyword: "Sample"
+		} );
+
+		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			noAlt: 4,
+			withAlt: 0,
+			withAltKeyword: 1,
+			withAltNonKeyword: 1
+		} ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+	} );
+
 } );
