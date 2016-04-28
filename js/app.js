@@ -213,7 +213,7 @@ var App = function( args ) {
 		this.seoAssessor = args.seoAssessor;
 	}
 
-	//Set the content assessor
+	// Set the content assessor
 	if ( isUndefined( args.contentAssessor ) ) {
 		this.contentAssessor = new ContentAssessor( this.i18n );
 	} else {

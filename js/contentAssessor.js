@@ -1,6 +1,8 @@
 var Assessor = require( "./assessor.js" );
 
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
+var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessment.js" );
+var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
 var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
 var subheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 
@@ -13,9 +15,11 @@ var subheadingPresence = require( "./assessments/subheadingPresenceAssessment.js
 var ContentAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 	this._assessments = {
-		fleschReadingEase:		fleschReadingEase,
-		subHeadingLength:		subHeadingLength,
-		subheadingPresence:	subheadingPresence
+		fleschReadingEase:           fleschReadingEase,
+		sentenceLengthInText:        sentenceLengthInText,
+		sentenceLengthInDescription: sentenceLengthInDescription,
+		subHeadingLength:            subHeadingLength,
+		subheadingPresence:          subheadingPresence
 	};
 };
 

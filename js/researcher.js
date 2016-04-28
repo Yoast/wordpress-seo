@@ -23,6 +23,8 @@ var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" )
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
 var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
 var pageTitleLength = require( "./researches/pageTitleLength.js" );
+var countSentencesFromText = require( "./researches/countSentencesFromText.js" );
+var countSentencesFromDescription = require( "./researches/countSentencesFromDescription.js" );
 var getSubheadingLength = require( "./researches/getSubheadingLength.js" );
 var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 
@@ -54,6 +56,8 @@ var Researcher = function( paper ) {
 		"firstParagraph": findKeywordInFirstParagraph,
 		"metaDescriptionKeyword": metaDescriptionKeyword,
 		"pageTitleLength": pageTitleLength,
+		"countSentencesFromText": countSentencesFromText,
+		"countSentencesFromDescription": countSentencesFromDescription,
 		"getSubheadingLength": getSubheadingLength,
 		"getSubheadingPresence": getSubheadingPresence
 	};
