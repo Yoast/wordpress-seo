@@ -5,6 +5,7 @@ var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" 
 var paragraphTooLong = require( "./assessments/paragraphTooLongAssessment.js" );
 var paragraphTooShort = require( "./assessments/paragraphTooShortAssessment.js" );
 var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
+var subheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -18,7 +19,8 @@ var ContentAssessor = function( i18n ) {
 		fleschReadingEase:		fleschReadingEase,
 		paragraphTooLong:		paragraphTooLong,
 		paragraphTooShort:		paragraphTooShort,
-		subHeadingLength:		subHeadingLength
+		subHeadingLength:		subHeadingLength,
+		subheadingPresence:	subheadingPresence
 	};
 };
 
