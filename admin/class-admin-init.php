@@ -78,7 +78,10 @@ class WPSEO_Admin_Init {
 		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
-				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
+
+				$user_id = get_current_user_id();
+				update_user_meta( $user_id, 'wpseo_seen_about_version', WPSEO_VERSION );
+				update_user_meta( $user_id, 'wpseo-dismiss-about', 'seen' );
 
 				return;
 			}
@@ -182,7 +185,7 @@ class WPSEO_Admin_Init {
 		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
 
 			$info_message = sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
 				__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 				'Yoast SEO',
 				'5.4.3',
@@ -206,6 +209,7 @@ class WPSEO_Admin_Init {
 
 		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
 			update_option( 'wpseo_dismiss_recalculate', '1' );
+
 			return;
 		}
 
@@ -213,7 +217,7 @@ class WPSEO_Admin_Init {
 		if ( $can_access && ! $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
-					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
+				/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
 					sprintf(
 						__( 'We\'ve updated our SEO score algorithm. %1$sClick here to recalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
 						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
@@ -402,7 +406,7 @@ class WPSEO_Admin_Init {
 
 		foreach ( $deprecated_notices as $deprecated_filter ) {
 			_deprecated_function(
-				/* %s expands to the actual filter/action that has been used. */
+			/* %s expands to the actual filter/action that has been used. */
 				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
 				'WPSEO 3.0',
 				'javascript'

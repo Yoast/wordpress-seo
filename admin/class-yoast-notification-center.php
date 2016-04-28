@@ -169,11 +169,16 @@ class Yoast_Notification_Center {
 		$notification_id = $notification->get_id();
 
 		$is_dismissing = ( $dismissal_key === self::get_user_input( 'notification' ) );
+
 		if ( ! $is_dismissing ) {
 			$is_dismissing = ( $notification_id === self::get_user_input( 'notification' ) );
 		}
 
-		// Can be dismissed by dismissal_key or notification_id.
+		// Fallback to ?dismissal_key=1&nonce=bla when JavaScript fails.
+		if ( ! $is_dismissing ) {
+			$is_dismissing = ( 1 === intval( self::get_user_input( $dismissal_key ) ) );
+		}
+
 		if ( ! $is_dismissing ) {
 			return false;
 		}
@@ -483,7 +488,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @return bool
 	 */
-	private static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
+	public static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
 
 		// Dismiss notification.
 		return ( false !== update_user_meta( get_current_user_id(), $notification->get_dismissal_key(), $meta_value ) );
