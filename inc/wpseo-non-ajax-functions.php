@@ -464,6 +464,9 @@ function wpseo_admin_bar_style() {
 
 	// Single post in the backend.
 	if ( is_admin() ) {
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/screen.php' );
+		}
 		$screen = get_current_screen();
 
 		// Post (every post_type) or category page.
