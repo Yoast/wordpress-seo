@@ -5,6 +5,13 @@
 
 /**
  * Validator for validating the accessibility of a redirect's target
+ *
+ * This validation will check if the target is accessible and will give for the targets response code:
+ * - a specific warning if the target cannot not be resolved.
+ * - a specific warning in case of a temporary ( 302, 307, 40x and 50x) redirect
+ * - a specific warning in case of a 301 response code
+ * - a warning in case of all none 200 response code
+ *
  */
 class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation {
 
@@ -14,7 +21,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	private $error;
 
 	/**
-	 * Validate the redirect to check if the origin already exists.
+	 * Validate the redirect to check if the target is accessible
 	 *
 	 * @param WPSEO_Redirect $redirect  The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
