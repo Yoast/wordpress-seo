@@ -4,7 +4,7 @@ var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var isEmpty = require( "lodash/isEmpty" );
 
-// assessments
+// Researches
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
 var linkCount = require( "./researches/countLinks.js" );
@@ -26,6 +26,7 @@ var pageTitleLength = require( "./researches/pageTitleLength.js" );
 var countSentencesFromText = require( "./researches/countSentencesFromText.js" );
 var countSentencesFromDescription = require( "./researches/countSentencesFromDescription.js" );
 var getSubheadingLength = require( "./researches/getSubheadingLength.js" );
+var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 
 /**
  * This contains all possible, default researches.
@@ -57,7 +58,8 @@ var Researcher = function( paper ) {
 		"pageTitleLength": pageTitleLength,
 		"countSentencesFromText": countSentencesFromText,
 		"countSentencesFromDescription": countSentencesFromDescription,
-		"getSubheadingLength": getSubheadingLength
+		"getSubheadingLength": getSubheadingLength,
+		"getSubheadingPresence": getSubheadingPresence
 	};
 
 	this.customResearches = {};
