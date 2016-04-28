@@ -26,7 +26,7 @@ var ContentAssessor = function( i18n ) {
 		subHeadingLength:               subHeadingLength,
 		paragraphTooLong:               paragraphTooLong,
 		paragraphTooShort:              paragraphTooShort,
-		subheadingPresence:             subheadingPresence,
+		subheadingPresence:             getSubheadingPresence,
 		sentenceLengthInText:           sentenceLengthInText,
 		sentenceLengthInDescription:    sentenceLengthInDescription
 	};
