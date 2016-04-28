@@ -116,9 +116,19 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.2.4 =
+
+Release date: April 28th, 2016
+
+* Bugfixes:
+	* Fixes a regression where the post URL would be numerical when no post title was set.
+	* Fixes an issue that would cause notifications not to be dismissed even though they should be.
+	
 = 3.2.3 =
 
 Release Date: April 21th, 2016
+
+* Bugfixes:
 	* Fixes a bug where the update notification cannot be dismissed
 	* Fixes a bug where the notifications can be shown multiple times
 
