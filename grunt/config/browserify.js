@@ -11,11 +11,11 @@ module.exports = {
 			'js/dist/wp-seo-featured-image-320.js': ['js/src/wp-seo-featured-image.js'],
 			'js/dist/wp-seo-metabox-320.js': ['js/src/wp-seo-metabox.js'],
 			'js/dist/wp-seo-metabox-category-320.js': ['js/src/wp-seo-metabox-category.js'],
-			'js/dist/wp-seo-post-scraper-320.js': ['js/src/wp-seo-post-scraper.js'],
-			'js/dist/wp-seo-recalculate-320.js': ['js/src/wp-seo-recalculate.js'],
+			'js/dist/wp-seo-post-scraper-324.js': ['js/src/wp-seo-post-scraper.js'],
+			'js/dist/wp-seo-recalculate-324.js': ['js/src/wp-seo-recalculate.js'],
 			'js/dist/wp-seo-replacevar-plugin-320.js': ['js/src/wp-seo-replacevar-plugin.js'],
 			'js/dist/wp-seo-shortcode-plugin-320.js': ['js/src/wp-seo-shortcode-plugin.js'],
-			'js/dist/wp-seo-term-scraper-320.js': ['js/src/wp-seo-term-scraper.js']
+			'js/dist/wp-seo-term-scraper-324.js': ['js/src/wp-seo-term-scraper.js']
 		}
 	}
 };
