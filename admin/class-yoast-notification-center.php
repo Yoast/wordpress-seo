@@ -182,7 +182,7 @@ class Yoast_Notification_Center {
 
 		// Fallback to ?dismissal_key=1&nonce=bla when JavaScript fails.
 		if ( ! $is_dismissing ) {
-			$is_dismissing = ( 1 === intval( self::get_user_input( $dismissal_key ) ) );
+			$is_dismissing = ( '1' === self::get_user_input( $dismissal_key ) );
 		}
 
 		if ( ! $is_dismissing ) {

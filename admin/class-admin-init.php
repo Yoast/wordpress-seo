@@ -65,12 +65,12 @@ class WPSEO_Admin_Init {
 	 */
 	protected function sync_about_version_from_cookie() {
 
-		$user_id                   = get_current_user_id();
-		$meta_seen_about_version   = get_user_meta( $user_id, 'wpseo_seen_about_version', true );
-		
+		$user_id                 = get_current_user_id();
+		$meta_seen_about_version = get_user_meta( $user_id, 'wpseo_seen_about_version', true );
+
 		$cookie_key = 'wpseo_seen_about_version_' . $user_id;
 
-		$cookie_seen_about_version = isset($_COOKIE[$cookie_key]) ? $_COOKIE[$cookie_key] : '';
+		$cookie_seen_about_version = isset( $_COOKIE[ $cookie_key ] ) ? $_COOKIE[ $cookie_key ] : '';
 
 		if ( ! empty( $cookie_seen_about_version ) ) {
 
@@ -106,7 +106,6 @@ class WPSEO_Admin_Init {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
-				
 				return;
 			}
 
