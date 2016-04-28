@@ -81,7 +81,7 @@ class WPSEO_Admin_Init {
 		}
 
 		if ( $cookie_seen_about_version !== $meta_seen_about_version ) {
-			setcookie( $cookie_key, $meta_seen_about_version, $_SERVER['REQUEST_TIME'] + YEAR_IN_SECONDS );
+			setcookie( $cookie_key, $meta_seen_about_version, ( $_SERVER['REQUEST_TIME'] + YEAR_IN_SECONDS ) );
 		}
 	}
 
