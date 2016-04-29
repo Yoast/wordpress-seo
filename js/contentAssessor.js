@@ -30,7 +30,7 @@ var ContentAssessor = function( i18n ) {
 		subheadingPresence:             getSubheadingPresence,
 		sentenceLengthInText:           sentenceLengthInText,
 		sentenceLengthInDescription:    sentenceLengthInDescription,
-		transitionWords:				transitionWords
+		transitionWords:                transitionWords
 	};
 };
 

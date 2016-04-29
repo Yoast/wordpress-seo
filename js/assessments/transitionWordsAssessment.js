@@ -11,8 +11,6 @@ var isUndefined = require( "lodash/isUndefined" );
 var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var score, unboundedScore;
 	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
-	var recommendedMinimum = 20;
-	var recommendedMaximum = 30;
 
 	if ( percentage <= 23.3 ) {
 		// The 10 percentage points from 13.3 to 23.3 are scaled to a range of 6 score points: 6/10 = 0.6.
@@ -22,13 +20,17 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 		// Scores exceeding 9 are 9, scores below 3 are 3.
 		score = Math.max( Math.min ( unboundedScore, 9 ), 3 );
 		if ( score < 7 ) {
+			var recommendedMinimum = 20;
 			return {
 				score: score,
-				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
-					"which is less than the recommended minimum of %2$s." ), percentage.toFixed( 1 ) + "%", recommendedMinimum + "%" )
+				text: i18n.sprintf(
+					i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
+						"which is less than the recommended minimum of %2$s." ),
+					percentage.toFixed( 1 ) + "%", recommendedMinimum + "%" )
 			};
 		}
 	}
+
 	if ( percentage >= 26.7 ) {
 		// The 10 percentage points from 26.7 to 36.7 are scaled to a range of 6 score points: 6/10 = 0.6.
 		// 26.7 scores 9, 36.7 scores 3.
@@ -37,6 +39,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 		// Scores exceeding 9 are 9, scores below 3 are 3.
 		score = Math.max( Math.min ( unboundedScore, 9 ), 3 );
 		if ( score < 7 ) {
+			var recommendedMaximum = 30;
 			return {
 				score: score,
 				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
@@ -44,9 +47,11 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 			};
 		}
 	}
+
 	if ( isUndefined( score ) ) {
 		score = 9;
 	}
+
 	return {
 		score: score,
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, which is great."

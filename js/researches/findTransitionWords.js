@@ -12,7 +12,6 @@ var filter = require( "lodash/filter" );
  * @returns {object} An object with the total number of sentences in the text
  * and the total number of sentences containing one or more transition words.
  */
-
 module.exports = function( paper ) {
 	var text = paper.getText();
 	var sentences = getSentences( text );
@@ -20,14 +19,14 @@ module.exports = function( paper ) {
 	var twoPartTransitionWordRegex = createRegexFromDoubleArray( twoPartTransitionWords );
 	var transitionWordRegex = createRegexFromArray( transitionWords );
 	var nonMatchedSentences = filter( sentences, function ( sentence ) {
-		if( sentence.match ( twoPartTransitionWordRegex ) !== null ) {
+		if ( sentence.match ( twoPartTransitionWordRegex ) !== null ) {
 			transitionWordSentenceCount++;
 			return false;
 		}
 		return true;
 	} );
 	nonMatchedSentences.map ( function( sentence ) {
-		if( sentence.match ( transitionWordRegex ) !== null ) {
+		if ( sentence.match ( transitionWordRegex ) !== null ) {
 			transitionWordSentenceCount++;
 		}
 	} );
