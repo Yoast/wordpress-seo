@@ -30,6 +30,7 @@ var countSentencesFromDescription = require( "./researches/countSentencesFromDes
 var getSubheadingLength = require( "./researches/getSubheadingLength.js" );
 var getSubheadingTextLengths = require( "./researches/getSubheadingTextLengths.js" );
 var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
+var sentenceVariation = require( "./researches/sentenceVariation.js" );
 
 /**
  * This contains all possible, default researches.
@@ -65,7 +66,8 @@ var Researcher = function( paper ) {
 		"countSentencesFromDescription": countSentencesFromDescription,
 		"getSubheadingLength": getSubheadingLength,
 		"getSubheadingTextLengths": getSubheadingTextLengths,
-		"getSubheadingPresence": getSubheadingPresence
+		"getSubheadingPresence": getSubheadingPresence,
+		"sentenceVariation": sentenceVariation
 	};
 
 	this.customResearches = {};

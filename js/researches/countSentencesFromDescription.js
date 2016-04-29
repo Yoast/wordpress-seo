@@ -1,5 +1,5 @@
 var getSentences = require( "../stringProcessing/getSentences" );
-var sentencesLength = require( "./sentencesLength.js" );
+var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
 /**
  * Counts sentences in the description..
