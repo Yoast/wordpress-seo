@@ -38,6 +38,11 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$type_cache_validator   = self::get_validator( $type );
 
 		$prefix  = self::STORAGE_KEY_PREFIX;
+		
+		$host = parse_url(home_url(), PHP_URL_HOST);
+		$host = convert_base10_to_base61($host);
+		$prefix .= $host . '_';
+		
 		$postfix = sprintf( '_%d:%s_%s', $page, $global_cache_validator, $type_cache_validator );
 
 		try {
