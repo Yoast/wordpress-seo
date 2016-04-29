@@ -12,6 +12,7 @@ var filter = require( "lodash/filter" );
  */
 var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue, i18n ) {
 	var percentage = ( tooComplexWords / wordCount ) * 100;
+	percentage = fixFloatingPoint( percentage );
 	var recommendedMaximum = 10;
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step i 0.6
 	// Up to 6.7 percent is for scoring a 9, higher percentages give lower scores.
