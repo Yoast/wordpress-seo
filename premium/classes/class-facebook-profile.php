@@ -10,7 +10,7 @@
  *
  * To prevent doing request all the time, the obtained name will be stored as user meta for the user.
  */
-class WPSEO_Facebook_Name {
+class WPSEO_Facebook_Profile {
 
 	const USER_META_NAME = 'yoast_facebook_name';
 
@@ -28,29 +28,29 @@ class WPSEO_Facebook_Name {
 	 * Sets the AJAX action hook, to catch the AJAX request for getting the name on facebook.
 	 */
 	public function set_hooks() {
-		add_action( 'wp_ajax_wpseo_get_facebook_name', array( $this, 'get_facebook_name' ) );
+		add_action( 'wp_ajax_wpseo_get_facebook_name', array( $this, 'ajax_get_facebook_name' ) );
 	}
 
 	/**
 	 * Sets the user id and prints the full facebook name.
 	 */
-	public function get_facebook_name() {
+	public function ajax_get_facebook_name() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX  ) {
 
 			check_ajax_referer( 'get_facebook_name' );
 
-			$this->user_id = filter_input( INPUT_GET, 'user_id' );
+			$this->user_id = (int) filter_input( INPUT_GET, 'user_id' );
 
-			wp_die( $this->get_full_facebook_name() );
+			wp_die( $this->get_name() );
 		}
 	}
 
 	/**
-	 * Fetch the name from the user meta cache, if there isn't any set, fetch it from the facebook follow widget.
+	 * Get the name used on facebook from the user meta cache, if there isn't any set, fetch it from the facebook follow widget.
 	 *
 	 * @return string
 	 */
-	private function get_full_facebook_name() {
+	private function get_name() {
 		$cached_facebook_name = $this->get_cached_name();
 		if ( $cached_facebook_name ) {
 			return $cached_facebook_name;
@@ -60,7 +60,9 @@ class WPSEO_Facebook_Name {
 		if ( $facebook_profile ) {
 			$facebook_name = $this->get_name_from_facebook( $facebook_profile );
 
-			$this->set_cached_name( $facebook_name );
+			if ( ! empty( $facebook_name ) ) {
+				$this->set_cached_name( $facebook_name );
+			}
 
 			return $facebook_name;
 		}
@@ -109,7 +111,7 @@ class WPSEO_Facebook_Name {
 			return $full_name;
 		}
 
-		return'';
+		return '';
 	}
 
 	/**
