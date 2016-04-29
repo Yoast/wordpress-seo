@@ -91,7 +91,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		) );
 	}
 
-	/**
+	/**d
 	 * Test for last modified date
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
