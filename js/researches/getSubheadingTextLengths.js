@@ -1,5 +1,5 @@
-var getSubheadings = require( "../stringProcessing/getSubheadings.js" );
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
+var getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
 var forEach = require( "lodash/forEach" );
 
 /**
@@ -9,15 +9,14 @@ var forEach = require( "lodash/forEach" );
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
-	var matches = getSubheadings( text );
 
-	var subHeadings = [];
+	var matches = getSubheadingTexts( text );
+
+	var subHeadingTexts = [];
 	forEach( matches, function( subHeading ) {
-		subHeading = stripTags( subHeading ).length;
-		if ( subHeading > 0 ) {
-			subHeadings.push( subHeading );
-		}
-	} );
 
-	return subHeadings;
+		subHeadingTexts.push( countWords( subHeading ) );
+	} );
+	return subHeadingTexts;
 };
+
