@@ -61,7 +61,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 
 		$content = $item->post_content;
 
-		// Check if there's a featured image
+		// Check if there's a featured image.
 		$content .= $this->add_featured_image( $item );
 
 		/**

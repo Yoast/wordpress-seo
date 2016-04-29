@@ -136,7 +136,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		add_filter( "post_thumbnail_html", array( $this, 'mock_thumbnail' ), 10, 3);
 
 		$post = get_post($this->posts[1]);
-		$expected = "Post content 32 <img src='' />";
+		$expected = $post->post_content . " <img src='' />";
 		$response = $test_double->call_item_to_response( $post );
 
 		$this->assertEquals( $expected, $response['text'] );
@@ -145,7 +145,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		remove_filter( "post_thumbnail_html", array( $this, 'mock_thumbnail' ), 10, 3);
 
 		$post = get_post($this->posts[2]);
-		$expected = "Post content 33";
+		$expected = $post->post_content;
 		$response = $test_double->call_item_to_response( $post );
 
 		$this->assertEquals( $expected, $response['text'] );
