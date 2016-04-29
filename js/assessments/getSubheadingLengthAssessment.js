@@ -14,8 +14,9 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 	if ( score === 0 ) {
 		return {};
 	}
+
 	if( score >= 7 ) {
-		return{
+		return {
 			score: score,
 			text: i18n.sprintf(
 				i18n.dgettext(
@@ -26,7 +27,8 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 			)
 		};
 	}
-	return{
+
+	return {
 		score: score,
 		text: i18n.sprintf(
 			i18n.dngettext(
@@ -60,6 +62,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 			if( length > recommendedValue ) {
 				tooLong++;
 			}
+
 			// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 20 steps, each step is 0.3.
 			// Up to 23.4  is for scoring a 9, higher numbers give lower scores.
 			scores.push( 9 - Math.max( Math.min( ( 0.3 ) * ( length - 23.4 ), 6 ), 0 ) );
