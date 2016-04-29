@@ -1,5 +1,6 @@
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var sentencesLength = require( "../stringProcessing/sentencesLength.js" );
+var fixFloatingPoint = require( "../helpers/fixFloatingPoint" );
 var sum = require( "lodash/sum" );
 
 /**
@@ -10,19 +11,28 @@ var sum = require( "lodash/sum" );
  */
 module.exports = function( paper ){
 	var text = paper.getText();
+
 	var sentences = getSentences( text );
 	var wordCountPerSentence = sentencesLength( sentences );
-	var totalSentences = sentences.length;
+	var totalSentences = wordCountPerSentence.length;
 	var totalWords = sum( wordCountPerSentence );
 	var average = totalWords / totalSentences;
+
+	// Calculate the variations per sentence.
 	var variation;
-	sentences.map( function( sentence ) {
-		variation = wordCountPerSentence - average;
-		return Math.pow( variation , 2 );
+	var variations = [];
+	wordCountPerSentence.map( function( wordCount ) {
+		variation = wordCount - average;
+		variations.push( Math.pow( variation, 2 ) );
 	} );
 
-	var totalOfSquares = sum( sentences );
-	var dividedSquares = totalOfSquares / ( totalSentences - 1 );
+	var totalOfSquares = sum( variations );
 
-	return Math.sqrt( dividedSquares );
+	if( totalOfSquares > 0) {
+		var dividedSquares = totalOfSquares / ( totalSentences - 1 );
+
+		return fixFloatingPoint( Math.sqrt( dividedSquares ) );
+	}
+
+	return 0;
 };
