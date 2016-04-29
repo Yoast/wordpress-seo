@@ -54,4 +54,3 @@ module.exports = {
 		return paper.hasText();
 	}
 };
-

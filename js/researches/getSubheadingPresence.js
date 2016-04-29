@@ -10,4 +10,3 @@ module.exports = function( paper ) {
 	var headings = getSubheadings( text ) || [];
 	return headings.length;
 };
-
