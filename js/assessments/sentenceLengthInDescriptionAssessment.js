@@ -1,6 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
-var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthPercentageScore .js" );
+var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthPercentageScore.js" );
 
 /**
  * Calculates sentence length score
