@@ -12,17 +12,12 @@
  */
 class WPSEO_Facebook_Profile {
 
-	const USER_META_NAME = 'yoast_facebook_name';
+	const TRANSIENT_NAME = 'yoast_facebook_profiles';
 
 	/**
 	 * @var string URL providing us the full name belonging to the user.
 	 */
 	private $facebook_endpoint = 'https://www.facebook.com/plugins/follow.php?href=';
-
-	/**
-	 * @var int The given user id.
-	 */
-	private $user_id;
 
 	/**
 	 * Sets the AJAX action hook, to catch the AJAX request for getting the name on facebook.
@@ -36,56 +31,87 @@ class WPSEO_Facebook_Profile {
 	 */
 	public function ajax_get_facebook_name() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX  ) {
-
 			check_ajax_referer( 'get_facebook_name' );
 
-			$this->user_id = (int) filter_input( INPUT_GET, 'user_id' );
+			$user_id          = (int) filter_input( INPUT_GET, 'user_id' );
+			$facebook_profile = $this->get_facebook_profile( $user_id );
 
-			wp_die( $this->get_name() );
+			// Only try to get the name when the user has a profile set.
+			if( $facebook_profile !== '' ) {
+				wp_die( $this->get_name( $facebook_profile ) );
+			}
+
+			wp_die();
+
 		}
 	}
 
 	/**
-	 * Get the name used on facebook from the user meta cache, if there isn't any set, fetch it from the facebook follow widget.
+	 * Get the facebook profile url from the user profile. If field is not set or empty, just return empty string
+	 *
+	 * @param int $user_id The user to get the facebook profile field for.
 	 *
 	 * @return string
 	 */
-	private function get_name() {
-		$cached_facebook_name = $this->get_cached_name();
-		if ( $cached_facebook_name ) {
-			return $cached_facebook_name;
-		}
+	private function get_facebook_profile( $user_id ) {
+		$facebook_profile = get_the_author_meta( 'facebook', $user_id );
 
-		$facebook_profile = get_the_author_meta( 'facebook', $this->user_id );
-		if ( $facebook_profile ) {
-			$facebook_name = $this->get_name_from_facebook( $facebook_profile );
-
-			if ( ! empty( $facebook_name ) ) {
-				$this->set_cached_name( $facebook_name );
-			}
-
-			return $facebook_name;
+		if ( ! empty( $facebook_profile ) ) {
+			return $facebook_profile;
 		}
 
 		return '';
 	}
 
 	/**
-	 * Returns the stored name from the user meta.
+	 * Get the name used on facebook from the transient cache, if the name isn't fetched already get it from the facebook
+	 * follow widget.
+	 *
+	 * @param string $facebook_profile The profile to get.
 	 *
 	 * @return string
 	 */
-	private function get_cached_name() {
-		return get_user_meta( $this->user_id, self::USER_META_NAME, true );
+	private function get_name( $facebook_profile ) {
+		$cached_facebook_name = $this->get_cached_name( $facebook_profile );
+		if ( $cached_facebook_name !== false ) {
+			return $cached_facebook_name;
+		}
+
+		$facebook_name = $this->get_name_from_facebook( $facebook_profile );
+
+		$this->set_cached_name( $facebook_profile, $facebook_name );
+
+		return $facebook_name;
+	}
+
+	/**
+	 * Returns the stored name from the user meta.
+	 *
+	 * @param string $facebook_profile The facebook profile to look for.
+	 *
+	 * @return string|boolean
+	 */
+	private function get_cached_name( $facebook_profile ) {
+		$facebook_profiles = get_transient( self::TRANSIENT_NAME );
+		if ( is_array( $facebook_profiles ) && array_key_exists( $facebook_profile, $facebook_profiles ) ) {
+			return $facebook_profiles[ $facebook_profile ];
+		}
+
+		return false;
 	}
 
 	/**
 	 * Stores the fetched facebook name to the user meta.
 	 *
+	 * @param        $facebook_profile
 	 * @param string $facebook_name The name the user got on facebook.
 	 */
-	private function set_cached_name( $facebook_name ) {
-		update_user_meta( $this->user_id, self::USER_META_NAME, $facebook_name );
+	private function set_cached_name( $facebook_profile, $facebook_name ) {
+		$facebook_profiles = get_transient( self::TRANSIENT_NAME );
+
+		$facebook_profiles[ $facebook_profile ] = $facebook_name;
+
+		set_transient( self::TRANSIENT_NAME, $facebook_profiles, DAY_IN_SECONDS );
 	}
 
 	/**
