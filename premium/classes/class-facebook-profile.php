@@ -37,12 +37,11 @@ class WPSEO_Facebook_Profile {
 			$facebook_profile = $this->get_facebook_profile( $user_id );
 
 			// Only try to get the name when the user has a profile set.
-			if( $facebook_profile !== '' ) {
+			if ( $facebook_profile !== '' ) {
 				wp_die( $this->get_name( $facebook_profile ) );
 			}
 
 			wp_die();
-
 		}
 	}
 
@@ -103,8 +102,8 @@ class WPSEO_Facebook_Profile {
 	/**
 	 * Stores the fetched facebook name to the user meta.
 	 *
-	 * @param        $facebook_profile
-	 * @param string $facebook_name The name the user got on facebook.
+	 * @param string $facebook_profile The facebook profile belonging to the name.
+	 * @param string $facebook_name    The name the user got on facebook.
 	 */
 	private function set_cached_name( $facebook_profile, $facebook_name ) {
 		$facebook_profiles = get_transient( self::TRANSIENT_NAME );
