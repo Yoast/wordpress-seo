@@ -3,14 +3,14 @@ var isUndefined = require( "lodash/isUndefined" );
 
 /**
  * Calculates transition word result
- * @param {array} sentences The array containing all sentences from the text.
- * @param {array} transitionWordSentences The array with sentences containing a transition word.
+ * @param {object} transitionWordSentences The object containing the total number of sentences and the number of sentences containing
+ * a transition word.
  * @param {object} i18n The object used for translations.
  * @returns {object} Object containing score and text.
  */
-var calculateTransitionWordResult = function( sentences, transitionWordSentences, i18n ) {
+var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var score, unboundedScore;
-	var percentage = ( transitionWordSentences.length / sentences.length ) * 100;
+	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
 	var recommendedMinimum = 20;
 	var recommendedMaximum = 30;
 
@@ -61,10 +61,10 @@ var calculateTransitionWordResult = function( sentences, transitionWordSentences
  * @param {object} i18n The object used for translations.
  * @returns {object} The Assessment result.
  */
+
 var transitionWordsAssessment = function( paper, researcher, i18n ) {
-	var sentences = researcher.getResearch( "getSentencesFromText" );
-	var transitionWordSentences = researcher.getResearch( "getTransitionWordSentences" );
-	var transitionWordResult = calculateTransitionWordResult( sentences, transitionWordSentences, i18n );
+	var transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+	var transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( transitionWordResult.score );
