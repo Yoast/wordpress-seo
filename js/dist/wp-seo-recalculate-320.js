@@ -7626,6 +7626,14 @@ var calculateImageCountResult = function( imageCount, i18n ) {
  * @returns {object} The resulting score object.
  */
 var assessImages = function( altProperties, i18n ) {
+	// Has alt-tag and keywords
+	if ( altProperties.withAltKeyword > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes with the focus keyword." )
+		};
+	}
+
 	if ( altProperties.noAlt > 0 ) {
 		return {
 			score: 5,
@@ -7646,14 +7654,6 @@ var assessImages = function( altProperties, i18n ) {
 		return {
 			score: 5,
 			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing your focus keyword." )
-		};
-	}
-
-	// Has alt-tag and keywords
-	if ( altProperties.withAltKeyword > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes with the focus keyword." )
 		};
 	}
 

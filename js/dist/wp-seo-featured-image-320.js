@@ -15,6 +15,10 @@
 
 		this.featuredImage = null;
 		this.pluginName = 'addFeaturedImagePlugin';
+
+		this.registerPlugin();
+		this.registerModifications();
+
 	};
 
 	/**
@@ -98,8 +102,6 @@
 		var featuredImage = wp.media.featuredImage.frame();
 
 		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
-		featuredImagePlugin.registerPlugin();
-		featuredImagePlugin.registerModifications();
 
 		featuredImage.on( 'select', function() {
 			var selectedImageHTML, selectedImage, alt;
@@ -110,6 +112,7 @@
 
 			// WordPress falls back to the title for the alt attribute if no alt is present.
 			alt = selectedImage.get( 'alt' );
+
 			if ( '' === alt ) {
 				alt = selectedImage.get( 'title' );
 			}
