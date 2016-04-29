@@ -1,4 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var forEach = require( "lodash/forEach" );
 
 /**
@@ -46,7 +47,9 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 		if( length > recommendedValue ) {
 			tooLong++;
 		}
-		scores.push( 9 - Math.max( Math.min( ( 4 / 9 ) * ( length - 25.5 ), 6 ), 0 ) );
+		// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 20 steps, each step is 0.3.
+		// Up to 23.4  is for scoring a 9, higher numbers give lower scores.
+		scores.push( 9 - Math.max( Math.min( ( 0.3 ) * ( length - 23.4 ), 6 ), 0 ) );
 	} );
 
 	var lowestScore = scores.sort(
@@ -54,6 +57,9 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 			return a - b;
 		}
 	)[ 0 ];
+
+	// floatingPointFix because of js rounding errors
+	lowestScore = fixFloatingPoint( lowestScore );
 
 	var subheadingsLengthResult = subheadingsLengthScore( lowestScore, tooLong, recommendedValue, i18n );
 
