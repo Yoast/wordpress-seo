@@ -17,7 +17,6 @@
 
 		this.registerPlugin();
 		this.registerModifications();
-
 	};
 
 	/**
