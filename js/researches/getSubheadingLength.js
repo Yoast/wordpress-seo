@@ -13,7 +13,10 @@ module.exports = function( paper ) {
 
 	var subHeadings = [];
 	forEach( matches, function( subHeading ) {
-		subHeadings.push( stripTags( subHeading ).length );
+		subHeading = stripTags( subHeading ).length;
+		if ( subHeading > 0 ) {
+			subHeadings.push( subHeading );
+		}
 	} );
 
 	return subHeadings;
