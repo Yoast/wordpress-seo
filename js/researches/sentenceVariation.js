@@ -9,7 +9,7 @@ var sum = require( "lodash/sum" );
  * @param {Paper} paper the Paper object to use in this count.
  * @returns {number} The calculated standard deviation
  */
-module.exports = function( paper ){
+module.exports = function( paper ) {
 	var text = paper.getText();
 
 	var sentences = getSentences( text );
@@ -28,7 +28,7 @@ module.exports = function( paper ){
 
 	var totalOfSquares = sum( variations );
 
-	if( totalOfSquares > 0) {
+	if ( totalOfSquares > 0) {
 		var dividedSquares = totalOfSquares / ( totalSentences - 1 );
 
 		return fixFloatingPoint( Math.sqrt( dividedSquares ) );

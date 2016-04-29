@@ -65,7 +65,7 @@ var Researcher = function( paper ) {
 		"getSubheadingLength": getSubheadingLength,
 		"getSubheadingTextLengths": getSubheadingTextLengths,
 		"getSubheadingPresence": getSubheadingPresence,
-		"sentenceVariation" : sentenceVariation
+		"sentenceVariation": sentenceVariation
 	};
 
 	this.customResearches = {};

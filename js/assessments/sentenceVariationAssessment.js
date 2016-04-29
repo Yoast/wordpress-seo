@@ -7,7 +7,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {number} The calculated score.
  */
 var calculateScore = function( standardDeviation ) {
-	return 3 + Math.max( Math.min( ( 6 ) * ( standardDeviation - 2.33 ), 6 ), 0 )
+	return 3 + Math.max( Math.min( ( 6 ) * ( standardDeviation - 2.33 ), 6 ), 0 );
 };
 
 /**
@@ -15,16 +15,16 @@ var calculateScore = function( standardDeviation ) {
  *
  * @param {number} standardDeviation The deviation to calculate the score for.
  * @param {object} i18n The object used for translations.
- * @returns {{score: number, text: *}}
+ * @returns {{score: number, text: *}} The calculated result.
  */
 var getStandardDeviationResult = function( standardDeviation, i18n ) {
 	var score = calculateScore( standardDeviation );
 	var recommendedMinimumDeviation = 3;
-	
+
 	if ( score >= 7 ) {
 		return {
 			score: score,
-			text : i18n.sprintf(
+			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
 					// translators: %1$d expands to the calculated score. %2$d expands to the recommended minimum score
@@ -32,12 +32,12 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 					"contains a nice combination of long and short sentences."
 				), standardDeviation, recommendedMinimumDeviation
 			)
-		}
+		};
 	}
 
 	return {
 		score: score,
-		text : i18n.sprintf(
+		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
 				// translators: %1$d expands to the calculated score. %2$d expands to the recommended minimum score
@@ -45,8 +45,7 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 				"alternate more between long and short sentences."
 			), standardDeviation, recommendedMinimumDeviation
 		)
-	}
-
+	};
 };
 
 /**
