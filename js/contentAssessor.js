@@ -9,6 +9,7 @@ var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js"
 var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
 var subheadingDistributionTooShort = require( "./assessments/subheadingDistributionTooShortAssessment.js" );
 var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
+var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -27,7 +28,8 @@ var ContentAssessor = function( i18n ) {
 		paragraphTooLong:               paragraphTooLong,
 		paragraphTooShort:              paragraphTooShort,
 		sentenceLengthInText:           sentenceLengthInText,
-		sentenceLengthInDescription:    sentenceLengthInDescription
+		sentenceLengthInDescription:    sentenceLengthInDescription,
+		sentenceVariation:              sentenceVariation
 	};
 };
 
