@@ -100,32 +100,40 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_users( $arguments = array() ) {
 
-		global $wp_version;
+		global $wp_version, $wpdb;
 
 		$options = WPSEO_Options::get_all();
 
 		$defaults = array(
-			'who'        => 'authors',
+			// 'who'        => 'authors', Breaks meta keys, see https://core.trac.wordpress.org/ticket/36724#ticket R.
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
 			'order'      => 'DESC',
 			'meta_query' => array(
-				'relation' => 'OR',
+				'relation' => 'AND',
 				array(
-					'key'     => 'wpseo_excludeauthorsitemap',
-					'value'   => 'on',
+					'key'     => $wpdb->get_blog_prefix() .'user_level',
+					'value'   => '0',
 					'compare' => '!=',
 				),
 				array(
-					'key'     => 'wpseo_excludeauthorsitemap',
-					'compare' => 'NOT EXISTS',
+					'relation' => 'OR',
+					array(
+						'key'     => 'wpseo_excludeauthorsitemap',
+						'value'   => 'on',
+						'compare' => '!=',
+					),
+					array(
+						'key'     => 'wpseo_excludeauthorsitemap',
+						'compare' => 'NOT EXISTS',
+					),
 				),
 			),
 		);
 
 		// TODO Remove version condition after plugin requirements raised to WP 4.3. R.
 		if ( $options['disable_author_noposts'] === true && version_compare( $wp_version, '4.3', '>=' ) ) {
-			$defaults['who']                 = ''; // Otherwise it cancels out next argument.
+			// $defaults['who']                 = ''; // Otherwise it cancels out next argument.
 			$defaults['has_published_posts'] = true;
 		}
 
@@ -135,7 +143,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$excluded_roles = $this->get_excluded_roles();
 
 			if ( ! empty( $excluded_roles ) ) {
-				$defaults['who']          = ''; // Otherwise it cancels out next argument.
+				// $defaults['who']          = ''; // Otherwise it cancels out next argument.
 				$defaults['role__not_in'] = $excluded_roles;
 			}
 		}
