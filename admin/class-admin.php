@@ -19,7 +19,7 @@ class WPSEO_Admin {
 	 * @var array
 	 */
 	private $wpseo_pages = array(
-		//'wpseo_dashboard',
+		'wpseo_dashboard',
 		'wpseo_titles',
 		'wpseo_social',
 		'wpseo_xml',

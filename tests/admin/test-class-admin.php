@@ -1,5 +1,25 @@
 <?php
 
+class WPSEO_Admin_Double extends WPSEO_Admin {
+
+	/**
+	 * Array with all pages of the plugin.
+	 *
+	 * @var array
+	 */
+	private $wpseo_pages = array(
+		'wpseo_dashboard',
+		'wpseo_titles',
+		'wpseo_social',
+		'wpseo_xml',
+		'wpseo_advanced',
+		'wpseo_tools',
+		'wpseo_search_console',
+		'wpseo_licenses',
+	);
+
+}
+
 class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -39,6 +59,30 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
+	}
+
+	/**
+	 * Check if get_wpseo_pages returns all wpseo_pages
+	 *
+	 * @covers WPSEO_Admin::get_wpseo_pages
+	 */
+	public function test_get_wpseo_pages() {
+		$class_instance = new WPSEO_Admin_Double();
+
+		$class_instance->get_wpseo_pages();
+
+		$wpseo_pages = array(
+			'wpseo_dashboard',
+			'wpseo_titles',
+			'wpseo_social',
+			'wpseo_xml',
+			'wpseo_advanced',
+			'wpseo_tools',
+			'wpseo_search_console',
+			'wpseo_licenses',
+		);
+
+		$this->assertEquals( $wpseo_pages, $class_instance->get_wpseo_pages() );
 	}
 
 

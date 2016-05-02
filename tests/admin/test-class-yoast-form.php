@@ -37,7 +37,7 @@ class WPSEO_Yoast_Form_Test extends WPSEO_UnitTestCase {
         $this->class_instance
             ->expects( $this->once() )
             ->method( 'load_i18n_promo_class' )
-            ->willReturn( true );
+            ->will( $this->returnValue( true ) );
 
         $this->class_instance->admin_footer();
 
@@ -54,7 +54,7 @@ class WPSEO_Yoast_Form_Test extends WPSEO_UnitTestCase {
         $this->class_instance
             ->expects( $this->once() )
             ->method( 'load_i18n_promo_class' )
-            ->willReturn( false );
+            ->will( $this->returnValue( false ) );
 
         $this->class_instance->admin_footer();
 
