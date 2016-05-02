@@ -1,4 +1,4 @@
-var wordCount = require( "../stringProcessing/countWords.js" );
+var wordCount = require( "./countWords.js" );
 var filter = require( "lodash/filter" );
 
 /**
@@ -7,12 +7,12 @@ var filter = require( "lodash/filter" );
  * @returns {Array} Array with amount of words in each sentence.
  */
 module.exports = function( sentences ) {
-	var sentencesCount = [];
+	var sentencesWordCount = [];
 	sentences.map( function( sentence ) {
-		sentencesCount.push( wordCount( sentence ) );
+		sentencesWordCount.push( wordCount( sentence ) );
 	} );
 
-	return filter( sentencesCount, function( sentenceLength ) {
+	return filter( sentencesWordCount, function( sentenceLength ) {
 		return( sentenceLength > 0 );
 	} );
 };

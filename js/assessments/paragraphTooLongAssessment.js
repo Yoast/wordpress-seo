@@ -49,7 +49,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 	return {
 		score: score,
 
-		//translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
+		// translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains more than the recommended maximum " +
 			"of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?",
 			"%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of" +

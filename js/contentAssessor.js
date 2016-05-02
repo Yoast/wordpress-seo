@@ -1,6 +1,7 @@
 var Assessor = require( "./assessor.js" );
 
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
+var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 var paragraphTooLong = require( "./assessments/paragraphTooLongAssessment.js" );
 var paragraphTooShort = require( "./assessments/paragraphTooShortAssessment.js" );
 var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessment.js" );
@@ -9,6 +10,8 @@ var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js"
 var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
 var subheadingDistributionTooShort = require( "./assessments/subheadingDistributionTooShortAssessment.js" );
 var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
+var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
+var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -19,16 +22,18 @@ var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment
 var ContentAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 	this._assessments = {
-		fleschReadingEase:              fleschReadingEase,
+		fleschReadingEase:		fleschReadingEase,
+		wordComplexity:			wordComplexity,
 		getSubheadingPresence:          getSubheadingPresence,
 		subheadingDistributionTooLong:  subheadingDistributionTooLong,
 		subheadingDistributionTooShort: subheadingDistributionTooShort,
 		subHeadingLength:               subHeadingLength,
 		paragraphTooLong:               paragraphTooLong,
 		paragraphTooShort:              paragraphTooShort,
-		subheadingPresence:             getSubheadingPresence,
 		sentenceLengthInText:           sentenceLengthInText,
-		sentenceLengthInDescription:    sentenceLengthInDescription
+		sentenceLengthInDescription:    sentenceLengthInDescription,
+		transitionWords:                transitionWords,
+		sentenceVariation:              sentenceVariation
 	};
 };
 

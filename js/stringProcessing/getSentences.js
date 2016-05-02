@@ -1,4 +1,6 @@
 var cleanText = require( "../stringProcessing/cleanText.js" );
+var filter = require( "lodash/filter" );
+var isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Returns sentences in a string.
@@ -7,5 +9,8 @@ var cleanText = require( "../stringProcessing/cleanText.js" );
  */
 module.exports = function( text ) {
 	var cleanedText = cleanText( text );
-	return cleanedText.split( "." );
+	var sentences = cleanedText.split( "." );
+	return filter( sentences, function( sentence ) {
+		return(  !isEmpty( sentence ) );
+	} );
 };
