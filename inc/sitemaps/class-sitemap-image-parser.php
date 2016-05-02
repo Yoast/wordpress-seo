@@ -114,10 +114,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = $this->get_image_item( $post, $this->image_url( $thumbnail_id ), '', $post->post_title );
 		}
 
-		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-
-			$images = array_merge( $images, $this->parse_matched_images( $matches[0], $post ) );
-		}
+		$images = array_merge( $images, $this->parse_html_images( $post ) );
 
 		if ( strpos( $content, '[gallery' ) !== false ) {
 
@@ -136,24 +133,37 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Parsing the matched images
+	 * Parse `<img />` tags in post content.
 	 *
-	 * @param array  $matches Set of matches.
-	 * @param object $post    Post object.
+	 * @param object $post Post object.
 	 *
 	 * @return array
 	 */
-	private function parse_matched_images( $matches, $post ) {
+	private function parse_html_images( $post ) {
 
 		$images = array();
 
-		foreach ( $matches as $img ) {
+		if ( ! class_exists( 'DOMDocument' ) ) {
+			return $images;
+		}
 
-			if ( ! preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
+		$post_content = get_post_field( 'post_content', $post );
+
+		if ( empty( $post_content ) ) {
+			return $images;
+		}
+
+		$post_dom = new DOMDocument();
+		$post_dom->loadHTML( $post_content );
+
+		/** @var DOMElement $img */
+		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
+
+			$src = $img->getAttribute( 'src' );
+
+			if ( empty( $src ) ) {
 				continue;
 			}
-
-			$src = $match[1];
 
 			if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
 
@@ -177,23 +187,7 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			$title = false;
-			$alt   = false;
-
-			$img_dom = new DOMDocument();
-			$img_dom->loadHTML( $img );
-
-			if ( false !== $img_dom ) {
-
-				$img_node = $img_dom->getElementsByTagName( 'img' );
-				/** @var DOMElement $img_element */
-				$img_element = $img_node->item( 0 );
-
-				$title = $img_element->getAttribute( 'title' );
-				$alt   = $img_element->getAttribute( 'alt' );
-			}
-
-			$image    = $this->get_image_item( $post, $src, $title, $alt );
+			$image    = $this->get_image_item( $post, $src, $img->getAttribute( 'title' ), $img->getAttribute( 'alt' ) );
 			$images[] = $image;
 		}
 
