@@ -217,6 +217,43 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
+	 * Retrieves galleries from the passed post's content.
+	 *
+	 * Forked from core to skip executing shortcodes for performance.
+	 *
+	 * @param WP_Post $post Post object.
+	 *
+	 * @return array A list of arrays, each containing gallery data.
+	 */
+	protected function get_post_galleries( $post ) {
+
+		if ( ! has_shortcode( $post->post_content, 'gallery' ) ) {
+			return array();
+		}
+
+		$galleries = array();
+
+		if ( ! preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER ) ) {
+			return $galleries;
+		}
+
+		foreach ( $matches as $shortcode ) {
+			if ( 'gallery' === $shortcode[2] ) {
+
+				$attributes = shortcode_parse_atts( $shortcode[3] );
+
+				if ( '' === $attributes ) { // Valid shortcode without any attributes. R.
+					$attributes = array();
+				}
+
+				$galleries[] = $attributes;
+			}
+		}
+
+		return $galleries;
+	}
+
+	/**
 	 * Get image item array with filters applied.
 	 *
 	 * @param WP_Post $post  Post object for the context.
