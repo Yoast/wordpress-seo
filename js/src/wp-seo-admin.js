@@ -1,8 +1,4 @@
-/* global wpseoAdminL10n */
-/* global ajaxurl */
-/* global setWPOption */
-/* global tb_remove */
-/* global YoastSEO */
+/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
@@ -173,6 +169,37 @@
 		);
 	}
 
+	/**
+	 * Adds select2 for selected fields.
+	 */
+	function initSelect2() {
+		var select2Width = '400px';
+
+		// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
+		jQuery('#company_or_person').select2({
+			width: select2Width,
+			language: wpseoSelect2Locale
+		});
+
+		// Select2 for Twitter card meta data in Settings
+		jQuery('#twitter_card_type').select2({
+			width: select2Width,
+			language: wpseoSelect2Locale
+		});
+
+		// Select2 for taxonomy breadcrumbs in Advanced
+		jQuery('#post_types-post-maintax').select2({
+			width: select2Width,
+			language: wpseoSelect2Locale
+		});
+
+		// Select2 for profile in Search Console
+		jQuery('#profile').select2({
+			width: select2Width,
+			language: wpseoSelect2Locale
+		});
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
@@ -259,6 +286,7 @@
 			jQuery( '#' + activeTab + '-tab' ).addClass( 'nav-tab-active' );
 
 			jQuery( '.nav-tab-active' ).click();
+			initSelect2();
 		}
 	);
 }());

@@ -127,9 +127,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function test_match_any_pass() {
 
-		$me = wp_get_current_user();
-		$me->add_cap( 'bla' );
-		$me->remove_cap( 'foo' );
+		$this->add_cap( 'bla' );
+		$this->remove_cap( 'foo' );
 
 		$subject = new Yoast_Notification(
 			'message',
@@ -145,13 +144,16 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $subject->display_for_current_user() );
 
-		$me->remove_cap( 'bla' );
+		$this->remove_cap( 'bla' );
 	}
 
 	/**
 	 * Test any without matches.
 	 */
 	public function test_match_any_fail() {
+
+		$this->remove_cap( 'bla' );
+		$this->remove_cap( 'foo' );
 
 		$subject = new Yoast_Notification(
 			'message',
@@ -173,9 +175,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function test_match_all_pass() {
 
-		$me = wp_get_current_user();
-		$me->add_cap( 'bla' );
-		$me->add_cap( 'foo' );
+		$this->add_cap( 'bla' );
+		$this->add_cap( 'foo' );
 
 		$subject = new Yoast_Notification(
 			'message',
@@ -191,8 +192,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $subject->display_for_current_user() );
 
-		$me->remove_cap( 'bla' );
-		$me->remove_cap( 'foo' );
+		$this->remove_cap( 'bla' );
+		$this->remove_cap( 'foo' );
 	}
 
 	/**
@@ -212,8 +213,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$me = wp_get_current_user();
-		$me->add_cap( 'bla' );
+		$this->add_cap( 'bla' );
 
 		$this->assertFalse( $subject->display_for_current_user() );
 	}
@@ -230,7 +230,6 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$this->verify_capability_filter_args = array(
 			$capabilities,
-			$id,
 			$notification,
 		);
 
@@ -238,7 +237,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 			'wpseo_notification_capabilities',
 			array( $this, 'verify_wpseo_notification_capabilities_filter' ),
 			10,
-			3
+			2
 		);
 
 		unset( $this->verify_capability_filter_args );
@@ -248,13 +247,12 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Verify capability filter arguments
 	 *
 	 * @param array              $capabilities Capabilities.
-	 * @param string             $id           ID of the Notification.
 	 * @param Yoast_Notification $notification Notification.
 	 *
 	 * @return mixed
 	 */
-	public function verify_wpseo_notification_capabilities_filter( $capabilities, $id, $notification ) {
-		$test = array( $capabilities, $id, $notification );
+	public function verify_wpseo_notification_capabilities_filter( $capabilities, $notification ) {
+		$test = array( $capabilities, $notification );
 		$this->assertEquals( $this->verify_capability_filter_args, $test );
 
 		return $capabilities;
@@ -272,7 +270,6 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$this->verify_capability_match_filter_args = array(
 			Yoast_Notification::MATCH_ALL,
-			$id,
 			$notification,
 		);
 
@@ -280,7 +277,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 			'wpseo_notification_capability_check',
 			array( $this, 'verify_wpseo_notification_capability_check_filter' ),
 			10,
-			3
+			2
 		);
 
 		unset( $this->verify_capability_match_filter_args );
@@ -290,13 +287,12 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Verify capability_check filter arguments.
 	 *
 	 * @param string             $check        Type of the check.
-	 * @param string             $id           ID of the notification.
 	 * @param Yoast_Notification $notification Notification.
 	 *
 	 * @return mixed
 	 */
-	public function verify_wpseo_notification_capability_check_filter( $check, $id, $notification ) {
-		$test = array( $check, $id, $notification );
+	public function verify_wpseo_notification_capability_check_filter( $check, $notification ) {
+		$test = array( $check, $notification );
 		$this->assertEquals( $this->verify_capability_match_filter_args, $test );
 
 		return $check;
@@ -330,5 +326,39 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function add_wpseo_notification_capability_check( $current_capabilities = array() ) {
 		return 'any';
+	}
+
+	/**
+	 * Wrapper for WP_User::add_cap()
+	 *
+	 * @param string $capability Capability to add.
+	 */
+	private function add_cap( $capability ) {
+		// Capabilities have been changed in 4.2: code doesn't fail, just the test.
+		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
+			$this->markTestSkipped();
+		}
+
+		$me = wp_get_current_user();
+		if ( ! empty( $me ) ) {
+			$me->add_cap( $capability );
+		}
+	}
+
+	/**
+	 * Wrapper for WP_User::remove_cap()
+	 *
+	 * @param string $capability Capability to remove.
+	 */
+	private function remove_cap( $capability ) {
+		// Capabilities have been changed in 4.2: code doesn't fail, just the test.
+		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
+			$this->markTestSkipped();
+		}
+
+		$me = wp_get_current_user();
+		if ( ! empty( $me ) ) {
+			$me->remove_cap( $capability );
+		}
 	}
 }

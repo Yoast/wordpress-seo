@@ -40,6 +40,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
      */
     public function test_get_primary_term_WHERE_primary_term_EXISTS() {
         $class_instance = new WPSEO_Primary_Term_Double( $this->taxonomy_name, $this->post_id );
+        $class_instance->set_primary_term( $this->primary_term_id );
 
         $this->assertEquals( $this->primary_term_id, $class_instance->get_primary_term() );
 
@@ -66,9 +67,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 
         $class_instance = new WPSEO_Primary_Term( $this->taxonomy_name, $post_id );
 
-        $terms = wp_get_post_terms( $post_id, $this->taxonomy_name );
-
-        $this->assertEquals( $terms[0]->term_id, $class_instance->get_primary_term() );
+        $this->assertFalse( $class_instance->get_primary_term() );
     }
 
     /**
@@ -87,7 +86,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 
         $class_instance = new WPSEO_Primary_Term( $this->taxonomy_name, $post_id );
 
-        $this->assertEquals( $term_first->term_id, $class_instance->get_primary_term() );
+        $this->assertFalse( $class_instance->get_primary_term() );
     }
 
     /**

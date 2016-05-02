@@ -13,7 +13,7 @@ $robots_file    = get_home_path() . 'robots.txt';
 $ht_access_file = get_home_path() . '.htaccess';
 
 if ( isset( $_POST['create_robots'] ) ) {
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'edit_files' ) ) {
 		die( __( 'You cannot create a robots.txt file.', 'wordpress-seo' ) );
 	}
 
@@ -29,7 +29,7 @@ if ( isset( $_POST['create_robots'] ) ) {
 }
 
 if ( isset( $_POST['submitrobots'] ) ) {
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'edit_files' ) ) {
 		die( __( 'You cannot edit the robots.txt file.', 'wordpress-seo' ) );
 	}
 
@@ -47,7 +47,7 @@ if ( isset( $_POST['submitrobots'] ) ) {
 }
 
 if ( isset( $_POST['submithtaccess'] ) ) {
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'edit_files' ) ) {
 		die( __( 'You cannot edit the .htaccess file.', 'wordpress-seo' ) );
 	}
 
@@ -74,7 +74,14 @@ else {
 	$action_url = admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' );
 }
 
+echo '<br><br>';
+
+$tab_video_url = 'https://yoa.st/screencast-tools-file-editor';
+include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+
+
 echo '<h2>', __( 'Robots.txt', 'wordpress-seo' ), '</h2>';
+
 
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( get_home_path() ) ) {

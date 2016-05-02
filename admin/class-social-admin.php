@@ -44,21 +44,16 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		$social_networks = array(
 			'opengraph'  => __( 'Facebook', 'wordpress-seo' ),
 			'twitter'    => __( 'Twitter', 'wordpress-seo' ),
-			'googleplus' => __( 'Google+', 'wordpress-seo' ),
 		);
 
 		// Source: https://blog.bufferapp.com/ideal-image-sizes-social-media-posts.
 		$recommended_image_sizes = array(
-			'opengraph'   => '1200 x 628',
-			'twitter'     => '1024 x 512',
-			'google-plus' => '800 x 1200',
+			'opengraph'   => '1200 × 630', // Source: https://developers.facebook.com/docs/sharing/best-practices#images.
+			'twitter'     => '1024 × 512',
 		);
 
 		foreach ( $social_networks as $network => $label ) {
 			if ( true === $options[ $network ] ) {
-				if ( 'googleplus' == $network ) {
-					$network = 'google-plus'; // Yuck, I know.
-				}
 
 				self::$meta_fields['social'][ $network . '-title' ]['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
 				self::$meta_fields['social'][ $network . '-title' ]['description'] = sprintf( $title_text, $label );
@@ -87,7 +82,6 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
-					'link_alt' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
 					'link_title' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
 				)
 			);
@@ -99,20 +93,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
 				'<span class="dashicons dashicons-twitter"></span>',
 				array(
-					'link_alt' => __( 'Twitter metadata', 'wordpress-seo' ),
 					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
-				)
-			);
-		}
-
-		if ( $this->options['googleplus'] === true ) {
-			$tabs[] = new WPSEO_Metabox_Form_Tab(
-				'googleplus',
-				$this->get_social_tab_content( 'google-plus', $social_meta_fields ),
-				'<span class="dashicons dashicons-googleplus"></span>',
-				array(
-					'link_alt' => __( 'Google+ metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Google+ metadata', 'wordpress-seo' ),
 				)
 			);
 		}
@@ -122,7 +103,6 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			'<span class="dashicons dashicons-share"></span>',
 			$tabs,
 			array(
-				'link_alt' => __( 'Social', 'wordpress-seo' ),
 				'link_title' => __( 'Social', 'wordpress-seo' ),
 			)
 		);
@@ -131,7 +111,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	/**
 	 * Generates the html for a social settings tab for one of the supported social media.
 	 *
-	 * @param string $medium can be 'opengraph', 'twitter' or 'googleplus'.
+	 * @param string $medium can be 'opengraph' or 'twitter'.
 	 * @param array  $meta_field_defs The social meta field definitions.
 	 *
 	 * @return string

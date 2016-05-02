@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.1' );
+define( 'WPSEO_VERSION', '3.2.4' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -109,10 +109,10 @@ function wpseo_deactivate( $networkwide = false ) {
 function wpseo_network_activate_deactivate( $activate = true ) {
 	global $wpdb;
 
-	$all_blogs = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+	$network_blogs = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE site_id = %d", $wpdb->siteid ) );
 
-	if ( is_array( $all_blogs ) && $all_blogs !== array() ) {
-		foreach ( $all_blogs as $blog_id ) {
+	if ( is_array( $network_blogs ) && $network_blogs !== array() ) {
+		foreach ( $network_blogs as $blog_id ) {
 			switch_to_blog( $blog_id );
 
 			if ( $activate === true ) {
@@ -147,7 +147,8 @@ function _wpseo_activate() {
 		delete_option( 'rewrite_rules' );
 	}
 	else {
-		add_action( 'shutdown', 'flush_rewrite_rules' );
+		$wpseo_rewrite = new WPSEO_Rewrite();
+		$wpseo_rewrite->schedule_flush();
 	}
 
 	wpseo_add_capabilities();
@@ -291,9 +292,6 @@ function wpseo_frontend_head_init() {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
 	}
 
-	if ( $options['googleplus'] === true && ( is_singular() || ( is_category() || is_tax() || is_tag() ) ) ) {
-		add_action( 'wpseo_head', array( 'WPSEO_GooglePlus', 'get_instance' ), 35 );
-	}
 }
 
 /**
@@ -332,7 +330,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 	if ( is_admin() ) {
 
-		Yoast_Notification_Center::initialize_notifiers();
+		Yoast_Notification_Center::initialize_conditions();
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );

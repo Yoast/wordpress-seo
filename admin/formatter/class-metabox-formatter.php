@@ -66,5 +66,4 @@ class WPSEO_Metabox_Formatter {
 
 		return array();
 	}
-
 }

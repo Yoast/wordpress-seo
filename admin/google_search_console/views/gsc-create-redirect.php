@@ -46,7 +46,7 @@
 				echo '<h3>', __( 'Error: a redirect for this URL already exists', 'wordpress-seo' ), '</h3>';
 				echo '<p>';
 
-				/* Translators: %1$s: expands to the current url and %2$s expands to url the redirects points to. */
+				/* Translators: %1$s: expands to the current URL and %2$s expands to URL the redirects points to. */
 				echo sprintf(
 					__( 'You do not have to create a redirect for URL %1$s because a redirect already exists. The existing redirect points to %2$s. If this is fine you can mark this issue as fixed. If not, please go to the redirects page and change the target URL.', 'wordpress-seo' ),
 					$url,
@@ -63,7 +63,7 @@
 				echo sprintf(
 					__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year of support and updates, on %2$s.', 'wordpress-seo' ),
 					'Yoast SEO Premium',
-					'<a href="http://yoa.st/redirects" target="_blank">yoast.com</a>'
+					'<a href="https://yoa.st/redirects" target="_blank">yoast.com</a>'
 				);
 				echo '</p>';
 				break;

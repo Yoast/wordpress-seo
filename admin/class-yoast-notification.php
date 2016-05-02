@@ -255,7 +255,7 @@ class Yoast_Notification {
 		}
 
 		if ( ! empty( $this->options['data_json'] ) ) {
-			$attributes['data-json'] = WPSEO_Utils::json_encode( $this->options['data_json'] );
+			$attributes['data-json'] = wp_json_encode( $this->options['data_json'] );
 		}
 
 		// Combined attribute key and value into a string.

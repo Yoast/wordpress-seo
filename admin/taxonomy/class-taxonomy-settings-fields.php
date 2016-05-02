@@ -122,5 +122,4 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 
 		return $robot_index;
 	}
-
 }

@@ -82,28 +82,6 @@ function wpseo_mark_as_fixed(url) {
 	);
 }
 
-jQuery( document ).ready( function() {
-	'use strict';
-	jQuery('a.gsc_category').qtip(
-		{
-			content: {
-				attr: 'title'
-			},
-			position: {
-				my: 'bottom left',
-				at: 'top center'
-			},
-			style: {
-				tip: {
-					corner: true
-				},
-				classes: 'yoast-qtip qtip-rounded qtip-blue'
-			},
-			show: 'mouseenter',
-			hide: {
-				fixed: true,
-				delay: 500
-			}
-		}
-	);
-});
+window.wpseo_gsc_post_redirect = wpseo_gsc_post_redirect;
+window.wpseo_update_category_count = wpseo_update_category_count;
+window.wpseo_mark_as_fixed = wpseo_mark_as_fixed;

@@ -55,6 +55,33 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
+
+		$this->sync_about_version_from_cookie();
+	}
+
+	/**
+	 * Get about version seen from cookie if set.
+	 */
+	protected function sync_about_version_from_cookie() {
+
+		$user_id                 = get_current_user_id();
+		$meta_seen_about_version = get_user_meta( $user_id, 'wpseo_seen_about_version', true );
+
+		$cookie_key = 'wpseo_seen_about_version_' . $user_id;
+
+		$cookie_seen_about_version = isset( $_COOKIE[ $cookie_key ] ) ? $_COOKIE[ $cookie_key ] : '';
+
+		if ( ! empty( $cookie_seen_about_version ) ) {
+
+			if ( version_compare( $cookie_seen_about_version, $meta_seen_about_version, '>' ) ) {
+				update_user_meta( $user_id, 'wpseo_seen_about_version', $cookie_seen_about_version );
+				$meta_seen_about_version = $cookie_seen_about_version;
+			}
+		}
+
+		if ( $cookie_seen_about_version !== $meta_seen_about_version ) {
+			setcookie( $cookie_key, $meta_seen_about_version, ( $_SERVER['REQUEST_TIME'] + YEAR_IN_SECONDS ) );
+		}
 	}
 
 	/**
@@ -77,8 +104,7 @@ class WPSEO_Admin_Init {
 		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
-				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
-
+				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
 				return;
 			}
 
@@ -247,7 +273,10 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our taxonomy edit class and if so, load it.
 	 */
 	private function load_taxonomy_class() {
-		if ( 'edit-tags.php' === $this->pagenow ) {
+		if (
+			WPSEO_Taxonomy::is_term_edit( $this->pagenow )
+			|| WPSEO_Taxonomy::is_term_overview( $this->pagenow )
+		) {
 			new WPSEO_Taxonomy;
 		}
 	}
@@ -291,8 +320,8 @@ class WPSEO_Admin_Init {
 				'hook'           => 'wpseo_admin_footer',
 				'glotpress_url'  => 'http://translate.yoast.com/gp/',
 				'glotpress_name' => 'Yoast Translate',
-				'glotpress_logo' => 'http://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
-				'register_url'   => 'http://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
+				'register_url'   => 'https://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
 			)
 		);
 	}

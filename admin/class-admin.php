@@ -60,7 +60,7 @@ class WPSEO_Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 
-		if ( '0' == get_option( 'blog_public' ) ) {
+		if ( '0' === get_option( 'blog_public' ) ) {
 			add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
 		}
 
@@ -145,7 +145,6 @@ class WPSEO_Admin {
 				$manage_options_cap,
 				'wpseo_titles',
 				array( $this, 'load_page' ),
-				array( array( $this, 'title_metas_help_tab' ) ),
 			),
 			array(
 				'wpseo_dashboard',
@@ -203,7 +202,6 @@ class WPSEO_Admin {
 			),
 		);
 
-
 		// Allow submenu pages manipulation.
 		$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
 
@@ -253,7 +251,7 @@ class WPSEO_Admin {
 
 		$screen->set_help_sidebar( '
 			<p><strong>' . __( 'For more information:', 'wordpress-seo' ) . '</strong></p>
-			<p><a target="_blank" href="https://yoast.com/articles/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>
+			<p><a target="_blank" href="https://yoast.com/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>
 			<p><a target="_blank" href="https://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
 		);
 
@@ -344,6 +342,10 @@ class WPSEO_Admin {
 
 			case 'wpseo_files':
 				require_once( WPSEO_PATH . 'admin/views/tool-file-editor.php' );
+				break;
+
+			case 'wpseo_tutorial_videos':
+				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
 				break;
 
 			case 'wpseo_dashboard':
@@ -735,5 +737,4 @@ class WPSEO_Admin {
 	function options_init() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
 	}
-
-} /* End of class */
+}

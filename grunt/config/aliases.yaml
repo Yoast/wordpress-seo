@@ -7,8 +7,11 @@ build:
   - 'build:js'
   - 'build:i18n'
 # Build CSS from SCSS to production
+'build:sass':
+  - 'sass:build'
 'build:css':
-  - 'autoprefixer'
+  - 'build:sass'
+  - 'postcss:build'
   - 'wpcss'
   - 'cssmin'
 # Optimise images from source to production

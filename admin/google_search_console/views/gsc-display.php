@@ -21,6 +21,14 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 
 <?php
 
+// Video explains about the options when connected only.
+if ( null !== $this->service->get_client()->getAccessToken() ) {
+	echo '<br>';
+
+	$tab_video_url = 'https://yoa.st/screencast-search-console';
+	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+}
+
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
 		// Check if there is an access token.
@@ -41,7 +49,7 @@ switch ( $platform_tabs->current_tab() ) {
 			echo "</form>\n";
 		}
 		else {
-			$reset_button = '<a class="button-secondary" href="' . add_query_arg( 'gsc_reset', 1 ). '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) .'</a>';
+			$reset_button = '<a class="button-secondary" href="' . add_query_arg( 'gsc_reset', 1 ) . '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
 			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
 			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
 				echo '<p>';

@@ -25,7 +25,7 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	 * @return bool
 	 */
 	public function show_social() {
-		return ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true );
+		return ( $this->options['opengraph'] === true || $this->options['twitter'] === true );
 	}
 
 	/**
@@ -89,9 +89,9 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	private function get_social_networks() {
 		$social_networks = array(
-			'opengraph'  => $this->social_network( 'opengraph', __( 'Facebook', 'wordpress-seo' ), '1200 x 628' ),
-			'twitter'    => $this->social_network( 'twitter', __( 'Twitter', 'wordpress-seo' ), '1024 x 512' ),
-			'googleplus' => $this->social_network( 'google-plus', __( 'Google+', 'wordpress-seo' ), '800 x 1200' ),
+			// Source: https://developers.facebook.com/docs/sharing/best-practices#images.
+			'opengraph'  => $this->social_network( 'opengraph', __( 'Facebook', 'wordpress-seo' ), '1200 × 630' ),
+			'twitter'    => $this->social_network( 'twitter', __( 'Twitter', 'wordpress-seo' ), '1024 × 512' ),
 		);
 		$social_networks = $this->filter_social_networks( $social_networks );
 
@@ -131,5 +131,4 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 
 		return $social_networks;
 	}
-
 }

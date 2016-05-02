@@ -17,7 +17,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		ob_start();
 		?>
 			<li class="wpseo-tab-add-keyword">
-				<button type="button" class="wpseo-add-keyword">
+				<button type="button" class="wpseo-add-keyword button">
 					<span aria-hidden="true">+</span>
 					<span class="screen-reader-text"><?php _e( 'Add keyword', 'wordpress-seo' ); ?></span>
 				</button>
@@ -25,8 +25,8 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 
 			<?php if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) : ?>
 				<div id="wpseo-add-keyword-popup" style="display: none;">
-					<img class="alignright" style="margin: 10px;" src="<?php echo trailingslashit( plugin_dir_url( WPSEO_FILE ) ); ?>images/Yoast_SEO_Icon.svg" width="150" alt="Yoast SEO"/>
-					<h3><?php printf( __( 'Multiple focus keywords is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></h3>
+					<img class="alignright" style="margin: 10px;" src="<?php echo trailingslashit( plugin_dir_url( WPSEO_FILE ) ); ?>images/Yoast_SEO_Icon.svg" width="150" alt=""/>
+					<h1 id="wpseo-add-keyword-popup-title"><?php printf( __( 'Multiple focus keywords is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></h1>
 					<p>
 						<?php
 							echo sprintf(
@@ -37,8 +37,8 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 							);
 						?>
 					</p>
-					<a class="button-primary" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&amp;utm_medium=popup&amp;utm_campaign=multiple-keywords"><?php printf( __( 'Buy %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
-					<div class="clear"></div>
+					<?php /* translators: %s expands to Yoast SEO Premium */ ?>
+					<a id="wpseo-add-keyword-popup-button" class="button-primary" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&amp;utm_medium=popup&amp;utm_campaign=multiple-keywords"><?php printf( __( 'Buy %s', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
 				</div>
 			<?php endif; ?>
 		<?php

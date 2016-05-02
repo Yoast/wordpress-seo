@@ -100,9 +100,10 @@ class WPSEO_Meta {
 	public static $meta_fields = array(
 		'general'  => array(
 			'snippetpreview' => array(
-				'type'  => 'snippetpreview',
-				'title' => '', // Translation added later.
-				'help'  => '', // Translation added later.
+				'type'         => 'snippetpreview',
+				'title'        => '', // Translation added later.
+				'help'         => '', // Translation added later.
+				'help-button'  => '', // Translation added later.
 			),
 			'focuskw_text_input' => array(
 				'type'          => 'text',
@@ -111,6 +112,7 @@ class WPSEO_Meta {
 				'autocomplete'  => false,
 				'help'          => '', // Translation added later.
 				'description'   => '<div id="focuskwresults"></div>',
+				'help-button'   => '', // Translation added later.
 			),
 			'focuskw' => array(
 				'type'  => 'hidden',
@@ -146,9 +148,10 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 			),
 			'pageanalysis'   => array(
-				'type'  => 'pageanalysis',
-				'title' => '', // Translation added later.
-				'help'  => '', // Translation added later.
+				'type'         => 'pageanalysis',
+				'title'        => '', // Translation added later.
+				'help'         => '', // Translation added later.
+				'help-button'  => '', // Translation added later.
 			),
 		),
 		'advanced' => array(
@@ -239,7 +242,6 @@ class WPSEO_Meta {
 	private static $social_networks = array(
 		'opengraph'  => 'opengraph',
 		'twitter'    => 'twitter',
-		'googleplus' => 'google-plus',
 	);
 
 	/**
@@ -412,7 +414,7 @@ class WPSEO_Meta {
 
 
 				/* Don't show the breadcrumb title field if breadcrumbs aren't enabled */
-				if ( $options['breadcrumbs-enable'] !== true ) {
+				if ( $options['breadcrumbs-enable'] !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 					unset( $field_defs['bctitle'] );
 				}
 

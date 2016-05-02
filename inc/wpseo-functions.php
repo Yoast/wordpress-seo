@@ -18,7 +18,6 @@ if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	}
 }
 
-
 if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.
@@ -39,6 +38,44 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 		if ( $breadcrumbs_enabled ) {
 			return WPSEO_Breadcrumbs::breadcrumb( $before, $after, $display );
 		}
+	}
+}
+
+if ( ! function_exists( 'yoast_get_primary_term_id' ) ) {
+	/**
+	 * Get the primary term ID
+	 *
+	 * @param string           $taxonomy Optional. The taxonomy to get the primary term ID for. Defaults to category.
+	 * @param null|int|WP_Post $post Optional. Post to get the primary term ID for.
+	 *
+	 * @return bool|int
+	 */
+	function yoast_get_primary_term_id( $taxonomy = 'category', $post = null ) {
+		$post = get_post( $post );
+
+		$primary_term = new WPSEO_Primary_Term( $taxonomy, $post->ID );
+		return $primary_term->get_primary_term();
+	}
+}
+
+if ( ! function_exists( 'yoast_get_primary_term' ) ) {
+	/**
+	 * Get the primary term name
+	 *
+	 * @param string           $taxonomy Optional. The taxonomy to get the primary term for. Defaults to category.
+	 * @param null|int|WP_Post $post Optional. Post to get the primary term for.
+	 *
+	 * @return string Name of the primary term.
+	 */
+	function yoast_get_primary_term( $taxonomy = 'category', $post = null ) {
+		$primary_term_id = yoast_get_primary_term_id( $taxonomy, $post );
+
+		$term = get_term( $primary_term_id );
+		if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
+			return $term->name;
+		}
+
+		return '';
 	}
 }
 

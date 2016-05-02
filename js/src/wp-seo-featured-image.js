@@ -9,9 +9,14 @@
 	var featuredImagePlugin;
 	var featuredImageElement;
 
-	var FeaturedImagePlugin = function() {
+	var FeaturedImagePlugin = function( app ) {
+		this._app = app;
+
 		this.featuredImage = null;
 		this.pluginName = 'addFeaturedImagePlugin';
+
+		this.registerPlugin();
+		this.registerModifications();
 	};
 
 	/**
@@ -22,7 +27,7 @@
 	FeaturedImagePlugin.prototype.setFeaturedImage = function( featuredImage ) {
 		this.featuredImage = featuredImage;
 
-		YoastSEO.app.pluginReloaded( this.pluginName );
+		this._app.pluginReloaded( this.pluginName );
 	};
 
 	/**
@@ -36,14 +41,14 @@
 	 * Registers this plugin to YoastSEO
 	 */
 	FeaturedImagePlugin.prototype.registerPlugin = function() {
-		YoastSEO.app.registerPlugin( this.pluginName, { status: 'ready' } );
+		this._app.registerPlugin( this.pluginName, { status: 'ready' } );
 	};
 
 	/**
 	 * Registers modifications to YoastSEO
 	 */
 	FeaturedImagePlugin.prototype.registerModifications = function() {
-		YoastSEO.app.registerModification( 'content', this.addImageToContent.bind( this ), this.pluginName, 10 );
+		this._app.registerModification( 'content', this.addImageToContent.bind( this ), this.pluginName, 10 );
 	};
 
 	/**
@@ -94,9 +99,7 @@
 	$( document ).ready( function() {
 		var featuredImage = wp.media.featuredImage.frame();
 
-		featuredImagePlugin = new FeaturedImagePlugin();
-		featuredImagePlugin.registerPlugin();
-		featuredImagePlugin.registerModifications();
+		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
 
 		featuredImage.on( 'select', function() {
 			var selectedImageHTML, selectedImage, alt;
@@ -107,6 +110,7 @@
 
 			// WordPress falls back to the title for the alt attribute if no alt is present.
 			alt = selectedImage.get( 'alt' );
+
 			if ( '' === alt ) {
 				alt = selectedImage.get( 'title' );
 			}
@@ -176,4 +180,10 @@ function yst_overrideElemFunction() {
 function yst_removeOpengraphWarning() {
 	return;
 }
+
+window.yst_checkFeaturedImage = yst_checkFeaturedImage;
+window.thumbIdCounter = thumbIdCounter;
+window.removeThumb = removeThumb;
+window.yst_overrideElemFunction = yst_overrideElemFunction;
+window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
 /* jshint ignore:end */

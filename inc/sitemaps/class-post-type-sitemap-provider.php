@@ -22,9 +22,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function __construct() {
 
-		$this->home_url     = home_url();
+		$this->home_url     = WPSEO_Utils::home_url();
 		$this->options      = WPSEO_Options::get_all();
 		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
+
+		add_filter( 'save_post', array( $this, 'save_post' ) );
 	}
 
 	/**
@@ -44,7 +46,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @return array
 	 */
-	public function get_index_links( $max_entries) {
+	public function get_index_links( $max_entries ) {
 
 		global $wpdb;
 
@@ -185,6 +187,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Check for relevant post type before invalidation.
+	 *
+	 * @param int $post_id Post ID to possibly invalidate for.
+	 */
+	public function save_post( $post_id ) {
+
+		if ( $this->is_valid_post_type( get_post_type( $post_id ) ) ) {
+			WPSEO_Sitemaps_Cache::invalidate_post( $post_id );
+		}
+	}
+
+	/**
 	 * Check if post type should be present in sitemaps.
 	 *
 	 * @param string $post_type Post type string to check for.
@@ -245,10 +259,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			SELECT COUNT(ID)
 			FROM {$wpdb->posts}
 			{$join_filter}
-			WHERE post_status IN ('publish','inherit')
-				AND post_password = ''
-				AND post_date != '0000-00-00 00:00:00'
-				AND post_type = %s
+			WHERE {$wpdb->posts}.post_status IN ('publish','inherit')
+				AND {$wpdb->posts}.post_password = ''
+				AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
+				AND {$wpdb->posts}.post_type = %s
 				{$where_filter}
 		";
 
@@ -365,12 +379,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				SELECT ID
 				FROM {$wpdb->posts}
 				{$join_filter}
-				WHERE post_status = '%s'
-					AND post_password = ''
-					AND post_type = '%s'
-					AND post_date != '0000-00-00 00:00:00'
+				WHERE {$wpdb->posts}.post_status = '%s'
+					AND {$wpdb->posts}.post_password = ''
+					AND {$wpdb->posts}.post_type = '%s'
+					AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
 					{$where_filter}
-				ORDER BY post_modified ASC LIMIT %d OFFSET %d
+				ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
 			)
 			o JOIN {$wpdb->posts} l ON l.ID = o.ID ORDER BY l.ID
 		";
@@ -412,6 +426,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		/**
 		 * Do not include external URLs.
+		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 		 */
 		if ( false === strpos( $url['loc'], $this->home_url ) ) {

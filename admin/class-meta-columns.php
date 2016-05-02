@@ -87,7 +87,6 @@ class WPSEO_Meta_Columns {
 			return $columns;
 		}
 
-		$columns['wpseo-score']    = 'wpseo-score';
 		$columns['wpseo-metadesc'] = 'wpseo-metadesc';
 		$columns['wpseo-focuskw']  = 'wpseo-focuskw';
 
@@ -138,7 +137,7 @@ class WPSEO_Meta_Columns {
 		foreach ( $ranks as $rank ) {
 			$sel = selected( $current_seo_filter, $rank->get_rank(), false );
 			echo '
-				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label(). '</option>';
+				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label(), '</option>';
 		}
 		echo '
 			</select>';
@@ -270,7 +269,12 @@ class WPSEO_Meta_Columns {
 					$vars,
 					array(
 						'meta_query' => array(
-							'relation' => 'OR',
+							'relation' => 'AND',
+							array(
+								'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+								'value'   => 'needs-a-value-anyway',
+								'compare' => 'NOT EXISTS',
+							),
 							array(
 								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 								'value'   => 'needs-a-value-anyway',
@@ -294,12 +298,6 @@ class WPSEO_Meta_Columns {
 	 */
 	private function filter_order_by( $order_by ) {
 		switch ( $order_by ) {
-			case 'wpseo-score' :
-				return array(
-					'meta_key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'orderby'  => 'meta_value_num',
-				);
-				break;
 			case 'wpseo-metadesc' :
 				return  array(
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',
@@ -426,5 +424,4 @@ class WPSEO_Meta_Columns {
 
 		return wpseo_replace_vars( '%%title%%', $post );
 	}
-
 }

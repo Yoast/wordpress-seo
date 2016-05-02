@@ -19,7 +19,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @param array $results Results array for encoding.
  */
 function wpseo_ajax_json_echo_die( $results ) {
-	echo WPSEO_Utils::json_encode( $results );
+	echo wp_json_encode( $results );
 	die();
 }
 
@@ -356,7 +356,7 @@ function ajax_get_keyword_usage() {
 	$keyword = filter_input( INPUT_POST, 'keyword' );
 
 	wp_die(
-		WPSEO_Utils::json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
+		wp_json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
 	);
 }
 
@@ -370,8 +370,13 @@ function ajax_get_term_keyword_usage() {
 	$keyword = filter_input( INPUT_POST, 'keyword' );
 	$taxonomy = filter_input( INPUT_POST, 'taxonomy' );
 
+	$usage = WPSEO_Taxonomy_Meta::get_keyword_usage( $keyword, $post_id, $taxonomy );
+
+	// Normalize the result so it it the same as the post keyword usage AJAX request.
+	$usage = $usage[ $keyword ];
+
 	wp_die(
-		WPSEO_Utils::json_encode( WPSEO_Taxonomy_Meta::get_keyword_usage( $keyword, $post_id, $taxonomy ) )
+		wp_json_encode( $usage )
 	);
 }
 

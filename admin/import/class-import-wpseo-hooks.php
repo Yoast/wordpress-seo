@@ -36,5 +36,4 @@ class WPSEO_Import_WPSEO_Hooks extends  WPSEO_Import_Hooks {
 	public function show_deactivate_notice() {
 		echo '<div class="updated"><p>', esc_html__( 'wpSEO has been deactivated', 'wordpress-seo' ), '</p></div>';
 	}
-
 }

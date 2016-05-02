@@ -35,7 +35,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
 
 		// Check if on of the social settings is checked in the options, if so, initialize the social_admin object.
-		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
+		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true ) {
 			$this->social_admin = new WPSEO_Social_Admin( $this->options );
 		}
 	}
@@ -47,14 +47,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet Editor', 'wordpress-seo' );
-		self::$meta_fields['general']['snippetpreview']['help']  = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
+		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet Editor', 'wordpress-seo' );
+		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' );
+		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
-		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Content Analysis', 'wordpress-seo' );
-		self::$meta_fields['general']['pageanalysis']['help']  = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Content Analysis', 'wordpress-seo' );
+		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
-		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw_text_input']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus Keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
 
@@ -315,7 +318,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			__( 'Content', 'wordpress-seo' ),
 			array(
 				'link_class' => 'wpseo_keyword_tab',
-				'link_title' => __( 'Content', 'wordpress-seo' ),
 			)
 		);
 
@@ -326,7 +328,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			$tabs,
 			array(
-				'link_alt' => __( 'Content', 'wordpress-seo' ),
 				'link_title' => __( 'Content', 'wordpress-seo' ),
 			)
 		);
@@ -343,10 +344,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'advanced',
 			$content,
-			__( 'Advanced', 'wordpress-seo' ),
-			array(
-				'link_title' => __( 'Advanced', 'wordpress-seo' ),
-			)
+			__( 'Advanced', 'wordpress-seo' )
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -354,7 +352,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
 			array(
-				'link_alt' => __( 'Advanced', 'wordpress-seo' ),
 				'link_title' => __( 'Advanced', 'wordpress-seo' ),
 			)
 		);
@@ -372,7 +369,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="dashicons dashicons-admin-plugins"></span>',
 			array(),
 			array(
-				'link_alt' => __( 'Add-ons', 'wordpress-seo' ),
 				'link_title' => __( 'Add-ons', 'wordpress-seo' ),
 			)
 		);
@@ -535,9 +531,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$label = '<label for="' . $esc_form_key . '">' . $label . '</label>';
 			}
 
-			$help = '';
+			$help_button = $help_panel = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help = '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
+				$help = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
+				$help_button = $help->get_button_html();
+				$help_panel  = $help->get_panel_html();
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
@@ -546,8 +544,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			else {
 				$html = '
 					<tr>
-						<th scope="row">' . $label . $help . '</th>
-						<td>';
+						<th scope="row">' . $label . $help_button . '</th>
+						<td>' . $help_panel;
 
 				$html .= $content;
 
@@ -615,6 +613,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Enqueues all the needed JS and CSS.
+	 *
 	 * @todo [JRF => whomever] create css/metabox-mp6.css file and add it to the below allowed colors array when done
 	 */
 	public function enqueue() {
@@ -644,13 +643,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_style( 'snippet' );
-			$asset_manager->enqueue_style( 'yoast-seo' );
-			$asset_manager->enqueue_style( 'jquery-qtip.js' );
+			$asset_manager->enqueue_style( 'select2' );
 
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'admin-media' );
 
-			$asset_manager->enqueue_script( 'yoast-seo' );
 			$asset_manager->enqueue_script( 'post-scraper' );
 			$asset_manager->enqueue_script( 'replacevar-plugin' );
 			$asset_manager->enqueue_script( 'shortcode-plugin' );
@@ -661,6 +658,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
+
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				$asset_manager->enqueue_style( 'featured-image' );
@@ -772,7 +771,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			</g>
 			<g class="traffic-light-color traffic-light-red">
 				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#E31C15" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#DC3232" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
 				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
 			</g>
 			<g class="traffic-light-color traffic-light-orange">
@@ -807,8 +806,8 @@ SVG;
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
-		// Only do this on the edit post pages.
-		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base ) {
+		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
+		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' ) ) {
 			return;
 		}
 
@@ -1324,5 +1323,4 @@ SVG;
 
 		return '';
 	}
-
-} /* End of class */
+}

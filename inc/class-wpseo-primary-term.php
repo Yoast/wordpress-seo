@@ -22,11 +22,11 @@ class WPSEO_Primary_Term {
 	 * The taxonomy this term is part of
 	 *
 	 * @param string $taxonomy_name Taxonomy name for the term.
-	 * @param int    $post_ID       Post ID for the term.
+	 * @param int    $post_id       Post ID for the term.
 	 */
-	public function __construct( $taxonomy_name, $post_ID ) {
+	public function __construct( $taxonomy_name, $post_id ) {
 		$this->taxonomy_name = $taxonomy_name;
-		$this->post_ID = $post_ID;
+		$this->post_ID = $post_id;
 	}
 
 	/**
@@ -41,16 +41,6 @@ class WPSEO_Primary_Term {
 
 		if ( ! in_array( $primary_term, wp_list_pluck( $terms, 'term_id' ) ) ) {
 			$primary_term = false;
-		}
-
-		// By default the first term (sorted by ID) is the primary term.
-		if ( ! $primary_term ) {
-
-			if ( ! empty( $terms ) ) {
-				usort( $terms, '_usort_terms_by_ID' );
-				$primary_term = array_shift( $terms );
-				$primary_term = $primary_term->term_id;
-			}
 		}
 
 		$primary_term = (int) $primary_term;
