@@ -9,7 +9,7 @@ var countSyllables = require( "../stringProcessing/countSyllables.js" );
 module.exports = function( paper ) {
 	var words = getWords( paper.getText() );
 	var syllablesPerWord = [];
- 	words.map( function( word ) {
+	words.map( function( word ) {
 		syllablesPerWord.push( countSyllables( word ) );
 	} );
 	return syllablesPerWord;
