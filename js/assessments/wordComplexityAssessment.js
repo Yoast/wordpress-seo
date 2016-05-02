@@ -18,7 +18,7 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 	// Up to 6.7 percent is for scoring a 9, higher percentages give lower scores.
 	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 6.7 ), 6 ), 0 );
 	score = fixFloatingPoint ( score );
-	
+
 	if ( score >= 7 ) {
 		return {
 			score: score,
