@@ -1,0 +1,26 @@
+{
+  "name": "eslint-config-yoast",
+  "version": "1.0.0",
+  "description": "ESLint configuration for Yoast projects",
+  "keywords": [
+    "eslint",
+    "eslintconfig"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoast/eslint.git"
+  },
+  "author": "Team Yoast <support@yoast.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Yoast/eslint/issues"
+  },
+  "homepage": "https://github.com/Yoast/eslint#readme",
+  "dependencies": {
+    "js-yaml": "^3.6.0"
+  }
+}
