@@ -1,6 +1,7 @@
 var Assessor = require( "./assessor.js" );
 
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
+var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 var paragraphTooLong = require( "./assessments/paragraphTooLongAssessment.js" );
 var paragraphTooShort = require( "./assessments/paragraphTooShortAssessment.js" );
 var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessment.js" );
@@ -21,7 +22,8 @@ var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" 
 var ContentAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 	this._assessments = {
-		fleschReadingEase:              fleschReadingEase,
+		fleschReadingEase:		fleschReadingEase,
+		wordComplexity:			wordComplexity,
 		getSubheadingPresence:          getSubheadingPresence,
 		subheadingDistributionTooLong:  subheadingDistributionTooLong,
 		subheadingDistributionTooShort: subheadingDistributionTooShort,
