@@ -106,7 +106,11 @@ class WPSEO_Sitemap_Image_Parser {
 
 		$images = array();
 
-		$content      = $post->post_content;
+		if ( ! is_object( $post ) ) {
+			return $images;
+		}
+
+		$content      = get_post_field( 'post_content', $post );
 		$thumbnail_id = get_post_thumbnail_id( $post->ID );
 
 		if ( $thumbnail_id ) {
