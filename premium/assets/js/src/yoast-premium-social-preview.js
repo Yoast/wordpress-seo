@@ -238,7 +238,7 @@ var Jed = require( 'jed' );
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
-					
+
 					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'titleUpdate' );
 					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'descriptionUpdate' );
 
@@ -292,9 +292,9 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Try to get the facebook author name via AJAX and put it to the facebook preview.
+	 * Try to get the Facebook author name via AJAX and put it to the Facebook preview.
 	 *
-	 * @param {FacebookPreview} facebookPreview The facebook preview object
+	 * @param {FacebookPreview} facebookPreview The Facebook preview object
 	 */
 	function getFacebookAuthor( facebookPreview ) {
 		$.get(
@@ -314,9 +314,9 @@ var Jed = require( 'jed' );
 
 
 	/**
-	 * Initialize the facebook preview.
+	 * Initialize the Facebook preview.
 	 *
-	 * @param {Object} facebookHolder Target element for adding the facebook preview.
+	 * @param {Object} facebookHolder Target element for adding the Facebook preview.
 	 */
 	function initFacebook( facebookHolder ) {
 		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
@@ -392,7 +392,7 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * When twitter title is empty, use the facebook title
+	 * When twitter title is empty, use the Facebook title
 	 *
 	 * @param {TwitterPreview} twitterPreview The twitter preview object
 	 */

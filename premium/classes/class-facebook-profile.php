@@ -4,8 +4,8 @@
  */
 
 /**
- * This class represents the fetching of a full name for a user who has filled in a facebook profile url. The class
- * will try to fetch the full name via the facebook following plugin (widget). If the user has chosen to disallow
+ * This class represents the fetching of a full name for a user who has filled in a Facebook profile url. The class
+ * will try to fetch the full name via the Facebook following plugin (widget). If the user has chosen to disallow
  * following of his profile, there isn't returned any name - only an empty string.
  *
  * To prevent doing request all the time, the obtained name will be stored as user meta for the user.
@@ -20,14 +20,14 @@ class WPSEO_Facebook_Profile {
 	private $facebook_endpoint = 'https://www.facebook.com/plugins/follow.php?href=';
 
 	/**
-	 * Sets the AJAX action hook, to catch the AJAX request for getting the name on facebook.
+	 * Sets the AJAX action hook, to catch the AJAX request for getting the name on Facebook.
 	 */
 	public function set_hooks() {
 		add_action( 'wp_ajax_wpseo_get_facebook_name', array( $this, 'ajax_get_facebook_name' ) );
 	}
 
 	/**
-	 * Sets the user id and prints the full facebook name.
+	 * Sets the user id and prints the full Facebook name.
 	 */
 	public function ajax_get_facebook_name() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX  ) {
@@ -46,9 +46,9 @@ class WPSEO_Facebook_Profile {
 	}
 
 	/**
-	 * Get the facebook profile url from the user profile. If field is not set or empty, just return empty string
+	 * Get the Facebook profile url from the user profile. If field is not set or empty, just return empty string
 	 *
-	 * @param int $user_id The user to get the facebook profile field for.
+	 * @param int $user_id The user to get the Facebook profile field for.
 	 *
 	 * @return string
 	 */
@@ -63,7 +63,7 @@ class WPSEO_Facebook_Profile {
 	}
 
 	/**
-	 * Get the name used on facebook from the transient cache, if the name isn't fetched already get it from the facebook
+	 * Get the name used on Facebook from the transient cache, if the name isn't fetched already get it from the Facebook
 	 * follow widget.
 	 *
 	 * @param string $facebook_profile The profile to get.
@@ -86,7 +86,7 @@ class WPSEO_Facebook_Profile {
 	/**
 	 * Returns the stored name from the user meta.
 	 *
-	 * @param string $facebook_profile The facebook profile to look for.
+	 * @param string $facebook_profile The Facebook profile to look for.
 	 *
 	 * @return string|boolean
 	 */
@@ -100,10 +100,10 @@ class WPSEO_Facebook_Profile {
 	}
 
 	/**
-	 * Stores the fetched facebook name to the user meta.
+	 * Stores the fetched Facebook name to the user meta.
 	 *
-	 * @param string $facebook_profile The facebook profile belonging to the name.
-	 * @param string $facebook_name    The name the user got on facebook.
+	 * @param string $facebook_profile The Facebook profile belonging to the name.
+	 * @param string $facebook_name    The name the user got on Facebook.
 	 */
 	private function set_cached_name( $facebook_profile, $facebook_name ) {
 		$facebook_profiles = get_transient( self::TRANSIENT_NAME );
@@ -114,7 +114,7 @@ class WPSEO_Facebook_Profile {
 	}
 
 	/**
-	 * Do request to facebook to get the HTML for the follow widget.
+	 * Do request to Facebook to get the HTML for the follow widget.
 	 *
 	 * @param string $facebook_profile The profile URL to lookup.
 	 *
