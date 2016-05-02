@@ -6,18 +6,7 @@
 /**
  * Class Yoast_Default_Tagline_Notifier
  */
-class Yoast_Default_Tagline_Notifier implements Yoast_Notifier_Interface {
-
-	/**
-	 * Check if the cause for the notification is present
-	 *
-	 * @return bool True if notification is no longer relevant, False if it is still active.
-	 */
-	public function notify() {
-		$blog_description = get_bloginfo( 'description' );
-
-		return __( 'Just another WordPress site' ) === $blog_description || 'Just another WordPress site' === $blog_description;
-	}
+class Yoast_Default_Tagline_Condition implements Yoast_Notification_Condition {
 
 	/**
 	 * Create the notification
@@ -59,5 +48,16 @@ class Yoast_Default_Tagline_Notifier implements Yoast_Notifier_Interface {
 		);
 
 		return new Yoast_Notification( $info_message, $notification_options );
+	}
+
+	/**
+	 * Check if the cause for the notification is present
+	 *
+	 * @return bool True if notification is relevant, False if it is no longer present.
+	 */
+	public function is_met() {
+		$blog_description = get_bloginfo( 'description' );
+		
+		return __( 'Just another WordPress site' ) === $blog_description || 'Just another WordPress site' === $blog_description;
 	}
 }
