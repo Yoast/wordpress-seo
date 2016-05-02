@@ -84,6 +84,5 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $wpseo_pages, $class_instance->get_wpseo_pages() );
 	}
-
-
+	
 }
