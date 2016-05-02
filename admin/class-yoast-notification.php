@@ -231,7 +231,6 @@ class Yoast_Notification {
 		// Default notification classes.
 		$classes = array(
 			'yoast-notice',
-			'notice',
 		);
 
 		if ( ! empty( $this->options['type'] ) ) {
@@ -261,8 +260,28 @@ class Yoast_Notification {
 		// Combined attribute key and value into a string.
 		array_walk( $attributes, array( $this, 'parse_attributes' ) );
 
+		$dismissal_button = $this->get_dismissal_button();
+
 		// Build the output DIV.
-		return '<div ' . implode( ' ', $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
+		return '<div ' . implode( ' ', $attributes ) . '>' . wpautop( $this->message ) . $dismissal_button . '</div>' . PHP_EOL;
+	}
+
+	/**
+	 * @return string Dismissal HTML.
+	 */
+	private function get_dismissal_button() {
+		if ( ! $this->is_persistent() ) {
+			return '';
+		}
+
+		$arr_params = array(
+			'notification' => $this->get_dismissal_key(),
+			'nonce'        => $this->get_nonce(),
+		);
+
+		$url = esc_url( add_query_arg( $arr_params ) );
+
+		return sprintf( '<a class="yoast-notice-dismiss" type="button" href="%s"><span class="screen-reader-text">%s</span></a>', $url, __( 'Dismiss this notice.' ) );
 	}
 
 	/**

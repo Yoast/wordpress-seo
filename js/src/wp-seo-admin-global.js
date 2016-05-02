@@ -78,11 +78,9 @@
 	}
 
 	jQuery( document ).ready( function() {
-		jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_about_url ) );
-		jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss' ).replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_tagline_url ) );
 
-		jQuery( '.yoast-dismissible > .notice-dismiss' ).click( function() {
-			var $parentDiv = jQuery( this ).parent( '.yoast-dismissible' );
+		jQuery( '.yoast-dismissible' ).on( 'click', '.yoast-notice-dismiss', function() {
+			var $parentDiv = jQuery( this ).parent();
 
 			// Deprecated, todo: remove when all notifiers have been implemented.
 			jQuery.post(
@@ -105,8 +103,8 @@
 			);
 
 			$parentDiv.fadeTo( 100 , 0, function() {
-				jQuery(this).slideUp( 100, function() {
-					jQuery(this).remove();
+				$parentDiv.slideUp( 100, function() {
+					$parentDiv.remove();
 				});
 			});
 

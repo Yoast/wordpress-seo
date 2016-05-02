@@ -89,10 +89,7 @@ class WPSEO_Admin_Init {
 	 * For WP versions older than 4.2, this includes styles and a script to make notices dismissible.
 	 */
 	public function enqueue_dismissible() {
-		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
-			$this->asset_manager->enqueue_script( 'dismissable' );
-			$this->asset_manager->enqueue_style( 'dismissable' );
-		}
+		$this->asset_manager->enqueue_style( 'dismissible' );
 	}
 
 	/**
