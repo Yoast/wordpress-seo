@@ -27,7 +27,7 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 					"js-text-analysis",
 					// translators: %1$s expands to the percentage of complex words, %2$d expands to the recommended number of syllables,
 					// %3$s expands to the recommend maximum
-					"%1$s of the words contain over %2$d syllables, which is less than the recommended maximum of %3$s" ),
+					"%1$s of the words contain over %2$d syllables, which is less than or equal to the recommended maximum of %3$s" ),
 				percentage + "%", recommendedValue, recommendedMaximum + "%"  )
 		};
 	}
