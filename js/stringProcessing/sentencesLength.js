@@ -1,4 +1,3 @@
-
 var wordCount = require( "./countWords.js" );
 var filter = require( "lodash/filter" );
 
