@@ -234,7 +234,7 @@ var facebookDefaults = {
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
-		description: "Modify your facebook description by editing it right here",
+		description: "Modify your Facebook description by editing it right here",
 		imageUrl: ""
 	},
 	defaultValue: {
@@ -302,7 +302,7 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  * @param {string}         opts.defaultValue.imageUrl     - Default image url.
  * it.
  *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in facebook.
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in Facebook.
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
@@ -318,7 +318,7 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
  * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
- * @property {HTMLElement} element.rendered.description   - The rendered facebook description element.
+ * @property {HTMLElement} element.rendered.description   - The rendered Facebook description element.
  *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
@@ -342,7 +342,7 @@ var FacebookPreview = function( opts, i18n ) {
 	defaultsDeep( opts, facebookDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The facebook preview requires a valid target element" );
+		throw new Error( "The Facebook preview requires a valid target element" );
 	}
 
 	this.data = opts.data;
@@ -510,7 +510,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook by editing the snippet below." )
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook description by editing the snippet below." )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -529,7 +529,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 
 
 /**
- * Updates the facebook preview.
+ * Updates the Facebook preview.
  */
 FacebookPreview.prototype.updatePreview = function() {
 	// Update the data.
@@ -538,6 +538,7 @@ FacebookPreview.prototype.updatePreview = function() {
 	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
 
 	// Sets the title field
+	this.setTitle( this.element.fieldElements.title.getValue() );
 	this.setTitle( this.element.fieldElements.title.getValue() );
 
 	// Set the description field and parse the styling of it.
@@ -724,7 +725,7 @@ FacebookPreview.prototype.getMaxImageWidth = function( img ) {
 };
 
 /**
- * Detects if the facebook preview should switch to small image mode
+ * Detects if the Facebook preview should switch to small image mode
  *
  * @param {HTMLImageElement} image The image in question.
  *
@@ -738,7 +739,7 @@ FacebookPreview.prototype.isSmallImage = function( image ) {
 };
 
 /**
- * Detects if the facebook preview image is too small
+ * Detects if the Facebook preview image is too small
  *
  * @param {HTMLImageElement} image The image in question.
  *
@@ -752,7 +753,7 @@ FacebookPreview.prototype.isTooSmallImage = function( image ) {
 };
 
 /**
- * Sets the classes on the facebook preview so that it will display a small facebook image preview
+ * Sets the classes on the Facebook preview so that it will display a small Facebook image preview
  */
 FacebookPreview.prototype.setSmallImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -796,7 +797,7 @@ FacebookPreview.prototype.removeLargeImageClasses = function() {
 };
 
 /**
- * Sets the classes on the facebook preview so that it will display a portrait facebook image preview
+ * Sets the classes on the Facebook preview so that it will display a portrait Facebook image preview
  */
 FacebookPreview.prototype.setPortraitImageClasses = function() {
 	var targetElement = this.opts.targetElement;
@@ -839,7 +840,7 @@ FacebookPreview.prototype.bindEvents = function() {
 };
 
 /**
- * Sets the value of the facebook author name.
+ * Sets the value of the Facebook author name.
  *
  * @param {string} authorName The name of the author to show.
  */
