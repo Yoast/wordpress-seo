@@ -110,7 +110,7 @@ class Yoast_Form {
 			</form>';
 		}
 
-		if( $this->load_i18n_promo_class() ) {
+		if ( $this->load_i18n_promo_class() ) {
 			do_action( 'wpseo_admin_footer' );
 		}
 
@@ -553,7 +553,7 @@ class Yoast_Form {
 	 *
 	 * @return bool
 	 */
-	private function load_i18n_promo_class() {
+	protected function load_i18n_promo_class() {
 		$wpseo_admin = new WPSEO_Admin();
 
 		$current_screen = get_current_screen()->id;
@@ -562,7 +562,7 @@ class Yoast_Form {
 
 		$current_page = substr( $current_screen, $position );
 
-		if( in_array( $current_page, $wpseo_admin->get_wpseo_pages() ) ) {
+		if( in_array ( $current_page, $wpseo_admin->get_wpseo_pages() ) ) {
 			return true;
 		}
 
