@@ -145,9 +145,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$post_ids = wp_list_pluck( $posts, 'ID' );
-			$this->image_parser->cache_attachments( $post_ids );
-
 			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
 
 			foreach ( $posts as $post ) {

@@ -38,64 +38,6 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Cache attached images and thumbnails for a set of posts.
-	 *
-	 * @param array $post_ids Set of post IDs to cache attachments for.
-	 */
-	public function cache_attachments( $post_ids ) {
-
-		$imploded_post_ids = implode( $post_ids, ',' );
-		$this->attachments = $this->get_attachments( $imploded_post_ids );
-		$attachment_ids    = wp_list_pluck( $this->attachments, 'ID' );
-		$thumbnail_ids     = $this->get_thumbnails( $imploded_post_ids );
-		$attachment_ids    = array_unique( array_merge( $thumbnail_ids, $attachment_ids ) );
-
-		_prime_post_caches( $attachment_ids );
-		update_meta_cache( 'post', $attachment_ids );
-	}
-
-	/**
-	 * Getting the attachments from database.
-	 *
-	 * @param string $post_ids Set of post IDs.
-	 *
-	 * @return array
-	 */
-	private function get_attachments( $post_ids ) {
-
-		global $wpdb;
-
-		$sql = "
-			SELECT ID, post_title, post_parent
-			FROM {$wpdb->posts}
-			WHERE post_status = 'inherit'
-				AND post_type = 'attachment'
-				AND post_parent IN (" . $post_ids . ')';
-
-		return $wpdb->get_results( $sql );
-	}
-
-	/**
-	 * Get thumbnail IDs for a set of posts.
-	 *
-	 * @param array $post_ids Set of post IDs.
-	 *
-	 * @return array
-	 */
-	private function get_thumbnails( $post_ids ) {
-
-		global $wpdb;
-
-		$sql = "
-			SELECT meta_value
-			FROM {$wpdb->postmeta}
-			WHERE meta_key = '_thumbnail_id'
-				AND post_id IN (" . $post_ids . ')';
-
-		return $wpdb->get_col( $sql );
-	}
-
-	/**
 	 * Get set of image data sets for the given post.
 	 *
 	 * @param object $post Post object to get images for.
@@ -400,5 +342,17 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		return $src;
+	}
+
+	/**
+	 * Cache attached images and thumbnails for a set of posts.
+	 *
+	 * @deprecated 3.3 Blanket caching no longer makes sense with modern galleries. R.
+	 *
+	 * @param array $post_ids Set of post IDs to cache attachments for.
+	 */
+	public function cache_attachments( $post_ids ) {
+
+		_deprecated_function( __FUNCTION__, '3.3' );
 	}
 }
