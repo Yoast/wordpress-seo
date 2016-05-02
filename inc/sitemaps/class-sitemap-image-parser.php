@@ -55,8 +55,9 @@ class WPSEO_Sitemap_Image_Parser {
 		$thumbnail_id = get_post_thumbnail_id( $post->ID );
 
 		if ( $thumbnail_id ) {
+			$src = $this->get_absolute_url( $this->image_url( $thumbnail_id ) );
 			// Content of title and alt is legacy from previous logic. R.
-			$images[] = $this->get_image_item( $post, $this->image_url( $thumbnail_id ), '', $post->post_title );
+			$images[] = $this->get_image_item( $post, $src, '', $post->post_title );
 		}
 
 		$images = array_merge( $images, $this->parse_html_images( $post ), $this->parse_galleries( $post ) );
@@ -186,7 +187,7 @@ class WPSEO_Sitemap_Image_Parser {
 
 		foreach ( $attachments as $attachment ) {
 
-			$src = $this->image_url( $attachment->ID );
+			$src = $this->get_absolute_url( $this->image_url( $attachment->ID ) );
 			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
 
 			$images[] = $this->get_image_item( $post, $src, $attachment->post_title, $alt );
