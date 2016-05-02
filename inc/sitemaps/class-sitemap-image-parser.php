@@ -165,19 +165,7 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
-
-				if ( $src[0] !== '/' ) {
-					continue;
-				}
-
-				// The URL is relative, we'll have to make it absolute.
-				$src = $this->home_url . $src;
-			}
-			elseif ( strpos( $src, 'http' ) !== 0 ) {
-				// Protocol relative url, we add the scheme as the standard requires a protocol.
-				$src = $this->scheme . ':' . $src;
-			}
+			$src = $this->get_absolute_url( $src );
 
 			if ( strpos( $src, $this->host ) === false ) {
 				continue;
@@ -307,5 +295,32 @@ class WPSEO_Sitemap_Image_Parser {
 
 		// It's a newly uploaded file, therefore $file is relative to the baseurl.
 		return $uploads['baseurl'] . "/$file";
+	}
+
+	/**
+	 * Make absolute URL for domain or protocol-relative one.
+	 *
+	 * @param string $src URL to process.
+	 *
+	 * @return string
+	 */
+	protected function get_absolute_url( $src ) {
+
+		if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
+
+			if ( $src[0] !== '/' ) {
+				return $src;
+			}
+
+			// The URL is relative, we'll have to make it absolute.
+			return $this->home_url . $src;
+		}
+
+		if ( strpos( $src, 'http' ) !== 0 ) {
+			// Protocol relative url, we add the scheme as the standard requires a protocol.
+			return $this->scheme . ':' . $src;
+		}
+
+		return $src;
 	}
 }
