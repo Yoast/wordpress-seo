@@ -110,7 +110,6 @@ class WPSEO_Sitemap_Image_Parser {
 			return $images;
 		}
 
-		$content      = get_post_field( 'post_content', $post );
 		$thumbnail_id = get_post_thumbnail_id( $post->ID );
 
 		if ( $thumbnail_id ) {
@@ -118,12 +117,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = $this->get_image_item( $post, $this->image_url( $thumbnail_id ), '', $post->post_title );
 		}
 
-		$images = array_merge( $images, $this->parse_html_images( $post ) );
-
-		if ( strpos( $content, '[gallery' ) !== false ) {
-
-			$images = array_merge( $images, $this->parse_attachments( $post ) );
-		}
+		$images = array_merge( $images, $this->parse_html_images( $post ), $this->parse_galleries( $post ) );
 
 		/**
 		 * Filter images to be included for the post in XML sitemap.
@@ -187,25 +181,68 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Parses the given attachments.
+	 * Parse gallery shortcodes in a given post.
 	 *
-	 * @param WP_Post $post        Post object.
+	 * @param WP_Post $post Post object.
 	 *
 	 * @return array
 	 */
-	private function parse_attachments( $post ) {
+	private function parse_galleries( $post ) {
 
-		$images = array();
+		$images      = array();
+		$attachments = array();
+		$galleries   = $this->get_post_galleries( $post );
 
-		if ( empty( $this->attachments ) ) {
-			return $images;
+		foreach ( $galleries as $gallery ) {
+
+			$id = $post->ID;
+
+			if ( ! empty( $gallery['id'] ) ) {
+				$id = intval( $gallery['id'] );
+			}
+
+			// Forked from core gallery_shortcode() to have exact same logic. R.
+			if ( ! empty( $gallery['include'] ) ) {
+
+				$_attachments = get_posts( array(
+					'include'        => $gallery['include'],
+					'post_status'    => 'inherit',
+					'post_type'      => 'attachment',
+					'post_mime_type' => 'image',
+				) );
+
+				$gallery_attachments = array();
+
+				foreach ( $_attachments as $key => $val ) {
+					$gallery_attachments[ $val->ID ] = $_attachments[ $key ];
+				}
+			}
+			elseif ( ! empty( $gallery['exclude'] ) ) {
+
+				$gallery_attachments = get_children( array(
+					'post_parent'    => $id,
+					'exclude'        => $gallery['exclude'],
+					'post_status'    => 'inherit',
+					'post_type'      => 'attachment',
+					'post_mime_type' => 'image',
+				) );
+			}
+			else {
+
+				$gallery_attachments = get_children( array(
+					'post_parent'    => $id,
+					'post_status'    => 'inherit',
+					'post_type'      => 'attachment',
+					'post_mime_type' => 'image',
+				) );
+			}
+
+			$attachments = array_merge( $attachments, $gallery_attachments );
 		}
 
-		foreach ( $this->attachments as $attachment ) {
+		$attachments = array_unique( $attachments, SORT_REGULAR );
 
-			if ( $attachment->post_parent !== $post->ID ) {
-				continue;
-			}
+		foreach ( $attachments as $attachment ) {
 
 			$src = $this->image_url( $attachment->ID );
 			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
