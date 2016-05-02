@@ -8,4 +8,8 @@ describe( "gets the length of subheadings", function() {
 		expect( subHeadingLength( mockPaper ) ).toContain( 9 );
 		expect( subHeadingLength( mockPaper ) ).toContain( 18 );
 	} );
+	it( "returns nothing if subheading length is 0", function() {
+		var mockPaper = new Paper( "<h2></h2><h2></h2><h3></h3>" );
+		expect( subHeadingLength( mockPaper ) ).not.toContain( 0 );
+	} );
 } );

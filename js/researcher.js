@@ -30,6 +30,7 @@ var getSubheadingLength = require( "./researches/getSubheadingLength.js" );
 var getSubheadingTextLengths = require( "./researches/getSubheadingTextLengths.js" );
 var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 var findTransitionWords = require( "./researches/findTransitionWords.js" );
+var sentenceVariation = require( "./researches/sentenceVariation.js" );
 
 /**
  * This contains all possible, default researches.
@@ -65,7 +66,8 @@ var Researcher = function( paper ) {
 		"getSubheadingLength": getSubheadingLength,
 		"getSubheadingTextLengths": getSubheadingTextLengths,
 		"getSubheadingPresence": getSubheadingPresence,
-		"findTransitionWords": findTransitionWords
+		"findTransitionWords": findTransitionWords,
+		"sentenceVariation": sentenceVariation
 	};
 
 	this.customResearches = {};

@@ -10,6 +10,7 @@ var subheadingDistributionTooLong = require( "./assessments/subheadingDistributi
 var subheadingDistributionTooShort = require( "./assessments/subheadingDistributionTooShortAssessment.js" );
 var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
+var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -27,10 +28,10 @@ var ContentAssessor = function( i18n ) {
 		subHeadingLength:               subHeadingLength,
 		paragraphTooLong:               paragraphTooLong,
 		paragraphTooShort:              paragraphTooShort,
-		subheadingPresence:             getSubheadingPresence,
 		sentenceLengthInText:           sentenceLengthInText,
 		sentenceLengthInDescription:    sentenceLengthInDescription,
-		transitionWords:                transitionWords
+		transitionWords:                transitionWords,
+		sentenceVariation:              sentenceVariation
 	};
 };
 
