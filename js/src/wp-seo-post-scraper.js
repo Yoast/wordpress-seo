@@ -14,6 +14,10 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	var UsedKeywords = require( './analysis/usedKeywords' );
 
 	var currentKeyword = '';
+
+	var titleElement;
+	var leavePostNameEmpty = false;
+
 	var app, snippetPreview;
 
 	var mainKeywordTab;
@@ -27,64 +31,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		if ( typeof CKEDITOR === 'object' ) {
 			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
 		}
-
-		this.prepareSlugBinding();
-	};
-
-	/**
-	 * On a new post, WordPress doesn't include the slug editor, since a post has not been given a slug yet.
-	 * As soon as a title is chosen, an `after-autosave.update-post-slug` event fires that triggers an AJAX request
-	 * to the server to generate a slug. On the response callback a slug editor is inserted into the page on which
-	 * we can bind our Snippet Preview.
-	 *
-	 * On existing posts, the slug editor is already there and we can bind immediately.
-	 */
-	PostScraper.prototype.prepareSlugBinding = function() {
-		if ( document.getElementById( 'editable-post-name' ) === null ) {
-			var that = this;
-			jQuery( document ).on( 'after-autosave.update-post-slug', function() {
-				that.bindSnippetCiteEvents( 0 );
-			});
-		} else {
-			this.bindSlugEditor();
-		}
-	};
-
-	/**
-	 * When the `after-autosave.update-post-slug` event is triggered, this function checks to see if the slug editor has
-	 * been inserted yet. If so, it does all of the necessary event binding. If not, it retries for a maximum of 5 seconds.
-	 *
-	 * @param {int} time
-	 */
-	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
-		time = time || 0;
-		var slugElem = document.getElementById( 'editable-post-name' );
-		var titleElem = document.getElementById( 'title' );
-		var postNameElem = document.getElementById('post_name');
-
-		if ( slugElem !== null && titleElem.value !== '' ) {
-			this.bindSlugEditor();
-
-			// Always set the post name element.
-			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
-
-			snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
-			app.analyzeTimer();
-		} else if ( time < 5000 ) {
-			time += 200;
-			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
-		}
-	};
-
-	/**
-	 * We want to trigger an update of the snippetPreview on a slug update. Because the save button is not available yet, we need to
-	 * bind an event within the scope of a clickevent of the edit button.
-	 */
-	PostScraper.prototype.bindSlugEditor = function() {
-		$( '#titlediv' ).on( 'change', '#new-post-slug', function() {
-			snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
-			app.refresh();
-		});
 	};
 
 	/**
@@ -195,6 +141,17 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
 				break;
 			case 'snippet_cite':
+
+				/*
+				 * WordPress leaves the post name empty to signify that it should be generated from the title once the
+				 * post is saved. So in some cases when we receive an auto generated slug from WordPress we should be
+				 * able to not save this to the UI. This conditional makes that possible.
+				 */
+				if ( leavePostNameEmpty ) {
+					leavePostNameEmpty = false;
+					return;
+				}
+
 				document.getElementById( 'post_name' ).value = value;
 				if (
 					document.getElementById( 'editable-post-name' ) !== null &&
@@ -395,13 +352,22 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	};
 
 	/**
+	 * Returns whether or not the current post has a title
+	 *
+	 * @returns {boolean}
+	 */
+	function postHasTitle() {
+		return '' !== titleElement.val();
+	}
+
+	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview
 	 * @param {Object} response The AJAX response object
 	 * @returns {string}
 	 */
-	function getUrlPath( response ) {
+	function getUrlPathFromResponse( response ) {
 		if ( response.responseText === '' ) {
-			return jQuery( '#title' ).val();
+			return titleElement.val();
 		}
 		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
 		return jQuery( '<div>' + response.responseText + '</div>' )
@@ -420,7 +386,14 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		}
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			app.snippetPreview.setUrlPath( getUrlPath( response ) );
+			/*
+			 * If the post has no title, WordPress wants to auto generate the slug once the title is set, so we need to
+			 * keep the post name empty.
+			 */
+			if ( ! postHasTitle() ) {
+				leavePostNameEmpty = true;
+			}
+			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
 		}
 	} );
 
@@ -493,6 +466,8 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 			},
 			locale: wpseoPostScraperL10n.locale
 		};
+
+		titleElement = $( '#title' );
 
 		translations = wpseoPostScraperL10n.translations;
 

@@ -477,7 +477,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$this->factory->post->create_many( 3 );
 
-		$url = home_url();
+		$url = WPSEO_Utils::home_url();
 
 		$this->run_test_on_consecutive_pages( $url );
 	}

@@ -23,5 +23,5 @@
 }
 
 input[type="text"].snippet-editor__field--invalid {
-	color: #f00;
+	color: #dc3232;
 }
