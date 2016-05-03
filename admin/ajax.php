@@ -322,6 +322,9 @@ function wpseo_upsert_new( $what, $post_id, $new, $original ) {
  * Create an export and return the URL
  */
 function wpseo_get_export() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
 
 	$include_taxonomy = ( filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' );
 	$export           = new WPSEO_Export( $include_taxonomy );
@@ -355,6 +358,10 @@ function ajax_get_keyword_usage() {
 	$post_id = filter_input( INPUT_POST, 'post_id' );
 	$keyword = filter_input( INPUT_POST, 'keyword' );
 
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		die( '-1' );
+	}
+
 	wp_die(
 		WPSEO_Utils::json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
 	);
@@ -369,6 +376,10 @@ function ajax_get_term_keyword_usage() {
 	$post_id = filter_input( INPUT_POST, 'post_id' );
 	$keyword = filter_input( INPUT_POST, 'keyword' );
 	$taxonomy = filter_input( INPUT_POST, 'taxonomy' );
+
+	if ( ! current_user_can( 'edit_terms' ) ) {
+		die( '-1' );
+	}
 
 	$usage = WPSEO_Taxonomy_Meta::get_keyword_usage( $keyword, $post_id, $taxonomy );
 
