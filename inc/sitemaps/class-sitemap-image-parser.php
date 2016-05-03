@@ -349,10 +349,8 @@ class WPSEO_Sitemap_Image_Parser {
 	 * Cache attached images and thumbnails for a set of posts.
 	 *
 	 * @deprecated 3.3 Blanket caching no longer makes sense with modern galleries. R.
-	 *
-	 * @param array $post_ids Set of post IDs to cache attachments for.
 	 */
-	public function cache_attachments( $post_ids ) {
+	public function cache_attachments() {
 
 		_deprecated_function( __FUNCTION__, '3.3' );
 	}
