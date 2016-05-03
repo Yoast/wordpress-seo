@@ -108,8 +108,6 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			$title = $img->getAttribute( 'title' );
-			$alt   = $img->getAttribute( 'alt' );
 			$class = $img->getAttribute( 'class' );
 
 			if ( // This detects WP-inserted images, which we need to upsize. R.
@@ -131,7 +129,7 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			$image    = $this->get_image_item( $post, $src, $title, $alt );
+			$image    = $this->get_image_item( $post, $src, $img->getAttribute( 'title' ), $img->getAttribute( 'alt' ) );
 			$images[] = $image;
 		}
 
