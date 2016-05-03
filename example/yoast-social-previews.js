@@ -539,7 +539,6 @@ FacebookPreview.prototype.updatePreview = function() {
 
 	// Sets the title field
 	this.setTitle( this.element.fieldElements.title.getValue() );
-	this.setTitle( this.element.fieldElements.title.getValue() );
 
 	// Set the description field and parse the styling of it.
 	this.setDescription( this.element.fieldElements.description.getValue() );
