@@ -536,7 +536,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 			if ( '' === currentKeyword ) {
 				indicator.className = 'na';
-				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'No score available' );
+				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
 			$( '.yst-traffic-light' )
