@@ -562,10 +562,6 @@ class Yoast_Form {
 
 		$current_page = substr( $current_screen, $position );
 
-		if ( in_array( $current_page, $wpseo_admin->get_wpseo_pages() ) ) {
-			return true;
-		}
-
-		return false;
+		return in_array( $current_page, $wpseo_admin->get_wpseo_pages() );
 	}
 }
