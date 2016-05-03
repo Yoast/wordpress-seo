@@ -510,7 +510,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook by editing the snippet below." )
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook description by editing the snippet below." )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -1423,9 +1423,9 @@ module.exports = PreviewEvents;
     with (obj) {
     __p += '<span class="editable-preview__website--facebook-pipe">|</span> ' +
     __e( authorBy ) +
-    ' ' +
+    '\n<span class="editable-preview__author--facebook">' +
     __e( authorName ) +
-    '\n';
+    '</span>\n';
 
     }
     return __p
