@@ -108,6 +108,19 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
+			$title = $img->getAttribute( 'title' );
+			$alt   = $img->getAttribute( 'alt' );
+			$class = $img->getAttribute( 'class' );
+
+			if ( // This detects WP-inserted images, which we need to upsize. R.
+				! empty( $class )
+				&& false === strpos( $class, 'size-full' )
+				&& preg_match( '|wp-image-(?P<id>\d+)|', $class, $matches )
+				&& get_post_status( $matches['id'] )
+			) {
+				$src = $this->image_url( $matches['id'] );
+			}
+
 			$src = $this->get_absolute_url( $src );
 
 			if ( strpos( $src, $this->host ) === false ) {
@@ -118,7 +131,7 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			$image    = $this->get_image_item( $post, $src, $img->getAttribute( 'title' ), $img->getAttribute( 'alt' ) );
+			$image    = $this->get_image_item( $post, $src, $title, $alt );
 			$images[] = $image;
 		}
 
