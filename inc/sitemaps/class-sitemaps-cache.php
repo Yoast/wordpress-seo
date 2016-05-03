@@ -155,6 +155,10 @@ class WPSEO_Sitemaps_Cache {
 
 		$user = get_user_by( 'id', $user_id );
 
+		if ( 'user_register' === current_action() ) {
+			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
+		}
+
 		if ( ! in_array( 'subscriber', $user->roles ) ) {
 			self::invalidate( 'author' );
 		}
