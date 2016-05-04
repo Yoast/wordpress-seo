@@ -8,10 +8,10 @@ var sortBy = require ( "lodash/sortBy" );
  * @returns {object} The object containing the total number of too often used beginnings and the lowest count within those.
  */
 var calculateSentenceBeginningsResult = function( sentenceBeginnings ) {
-	var maximumConsecutiveDuplicates = 3;
+	var maximumConsecutiveDuplicates = 2;
 
 	var tooOften = partition( sentenceBeginnings, function ( word ) {
-		return word.count >= maximumConsecutiveDuplicates;
+		return word.count > maximumConsecutiveDuplicates;
 	} );
 	if ( tooOften[ 0 ].length === 0 ) {
 		return { total: 0 };
