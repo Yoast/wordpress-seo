@@ -11,7 +11,7 @@ var calculateSentenceBeginningsResult = function( sentenceBeginnings ) {
 	var maximumConsecutiveDuplicates = 3;
 
 	var tooOften = partition( sentenceBeginnings, function ( word ) {
-		return word.count > maximumConsecutiveDuplicates;
+		return word.count >= maximumConsecutiveDuplicates;
 	} );
 	if ( tooOften[ 0 ].length === 0 ) {
 		return { total: 0 };
