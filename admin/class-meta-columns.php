@@ -40,10 +40,10 @@ class WPSEO_Meta_Columns {
 		}
 
 		return array_merge( $columns, array(
-			'wpseo-score'    => __( 'SEO', 'wordpress-seo' ),
+			'wpseo-score'    => sprintf( '<span aria-label="%s">%s</span>', __( 'SEO Score', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) ),
 			'wpseo-title'    => __( 'SEO Title', 'wordpress-seo' ),
-			'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ),
-			'wpseo-focuskw'  => __( 'Focus KW', 'wordpress-seo' ),
+			'wpseo-metadesc' => sprintf( '<span aria-label="%s">%s</span>', __( 'Meta Description', 'wordpress-seo' ), __( 'Meta Desc.', 'wordpress-seo' ) ),
+			'wpseo-focuskw'  => sprintf( '<span aria-label="%s">%s</span>', __( 'Focus Keyword', 'wordpress-seo' ), __( 'Focus KW', 'wordpress-seo' ) ),
 		) );
 	}
 
@@ -66,11 +66,14 @@ class WPSEO_Meta_Columns {
 				echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
 				break;
 			case 'wpseo-metadesc' :
-				echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
+				$metadesc_val = apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) );
+				$metadesc = '' === $metadesc_val ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Meta description not set.', 'wordpress-seo' ) . '</span>' : esc_html( $metadesc_val );
+				echo $metadesc;
 				break;
 			case 'wpseo-focuskw' :
-				$focuskw = WPSEO_Meta::get_value( 'focuskw', $post_id );
-				echo esc_html( $focuskw );
+				$focuskw_val = WPSEO_Meta::get_value( 'focuskw', $post_id );
+				$focuskw = '' === $focuskw_val ? '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'Focus keyword not set.', 'wordpress-seo' ) . '</span>' : esc_html( $focuskw_val );
+				echo $focuskw;
 				break;
 		}
 	}
@@ -338,7 +341,7 @@ class WPSEO_Meta_Columns {
 			$title = $rank->get_label();
 		}
 
-		return '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div>';
+		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
 
 	}
 

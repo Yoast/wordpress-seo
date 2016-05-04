@@ -40,7 +40,7 @@ class WPSEO_Taxonomy_Columns {
 			$new_columns[ $column_name ] = $column_value;
 
 			if ( $column_name === 'description' ) {
-				$new_columns['wpseo_score'] = __( 'SEO', 'wordpress-seo' );
+				$new_columns['wpseo_score'] = sprintf( '<span aria-label="%s">%s</span>', __( 'SEO Score', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) );
 			}
 		}
 
@@ -124,7 +124,7 @@ class WPSEO_Taxonomy_Columns {
 	 * @return string
 	 */
 	private function create_score_icon( WPSEO_Rank $rank, $title ) {
-		return '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div>';
+		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
 	}
 
 	/**
