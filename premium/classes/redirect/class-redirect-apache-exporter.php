@@ -15,7 +15,15 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	 *
 	 * @var string
 	 */
-	protected $url_format   = 'Redirect %3$s "%1$s" "%2$s"';
+	protected $url_format = 'Redirect %3$s "%1$s" "%2$s"';
+
+	/**
+	 * %1$s is the old URL
+	 * %2$s is the redirect type
+	 *
+	 * @var string
+	 */
+	protected $url_non_target_format = 'Redirect %2$s "%1$s"';
 
 	/**
 	 * %1$s is the old URL
@@ -27,6 +35,14 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	protected $regex_format = 'RedirectMatch %3$s %1$s %2$s';
 
 	/**
+	 * %1$s is the old URL
+	 * %2$s is the redirect type
+	 *
+	 * @var string
+	 */
+	protected $regex_non_target_format = 'RedirectMatch %2$s %1$s';
+
+	/**
 	 * Overrides the parent method. This method will in case of URL redirects add slashes to the URL.
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect data.
@@ -34,6 +50,13 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	 * @return string
 	 */
 	public function format( WPSEO_Redirect $redirect ) {
+
+		// 4xx redirects don't have a target.
+		$redirect_type = intval( $redirect->get_type() );
+		if ( floor( $redirect_type / 100 ) == 4 ) {
+			return $this->format_non_target( $redirect );
+		}
+
 		if ( $redirect->get_format() === WPSEO_Redirect::FORMAT_PLAIN ) {
 			return sprintf(
 				$this->get_format( $redirect->get_format() ),
@@ -47,6 +70,42 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	}
 
 	/**
+	 * Build the redirect output for non-target status codes (4xx)
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect data.
+	 *
+	 * @return string
+	 */
+	public function format_non_target( WPSEO_Redirect $redirect ) {
+
+		$target = $redirect->get_origin();
+		if ( $redirect->get_format() === WPSEO_Redirect::FORMAT_PLAIN ) {
+			$target = $this->add_url_slash( $target );
+		}
+
+		return sprintf(
+			$this->get_non_target_format( $redirect->get_format() ),
+			$target,
+			$redirect->get_type()
+		);
+	}
+
+	/**
+	 * Get the format the redirect needs to output
+	 *
+	 * @param string $redirect_format The format of the redirect.
+	 *
+	 * @return string
+	 */
+	public function get_non_target_format( $redirect_format ) {
+		if ( $redirect_format === WPSEO_Redirect::FORMAT_PLAIN ) {
+			return $this->url_non_target_format;
+		}
+
+		return $this->regex_non_target_format;
+	}
+
+	/**
 	 * Check if first character is a slash, adds a slash if it ain't so
 	 *
 	 * @param string $url The URL add the slashes to.
@@ -55,7 +114,7 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	 */
 	private function add_url_slash( $url ) {
 		$scheme = parse_url( $url, PHP_URL_SCHEME );
-		if ( $url[0] !== '/' && empty( $scheme ) ) {
+		if ( substr( $url, 0, 1 ) !== '/' && empty( $scheme ) ) {
 			$url = '/' . $url;
 		}
 
