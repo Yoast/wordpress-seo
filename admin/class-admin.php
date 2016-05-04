@@ -14,22 +14,6 @@ class WPSEO_Admin {
 	private $options;
 
 	/**
-	 * Array with all pages of the plugin.
-	 *
-	 * @var array
-	 */
-	private $wpseo_pages = array(
-		'wpseo_dashboard',
-		'wpseo_titles',
-		'wpseo_social',
-		'wpseo_xml',
-		'wpseo_advanced',
-		'wpseo_tools',
-		'wpseo_search_console',
-		'wpseo_licenses',
-	);
-
-	/**
 	 * Array of classes that add admin functionality
 	 *
 	 * @var array
@@ -101,15 +85,6 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
-	}
-
-	/**
-	 * Get the array with all pages for Yoast SEO.
-	 *
-	 * @return array
-	 */
-	public function get_wpseo_pages() {
-		return $this->wpseo_pages;
 	}
 
 	/**

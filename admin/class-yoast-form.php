@@ -110,7 +110,7 @@ class Yoast_Form {
 			</form>';
 		}
 
-		if ( $this->load_i18n_promo_class() ) {
+		if ( WPSEO_Utils::is_yoast_seo_free_page() ) {
 			do_action( 'wpseo_admin_footer' );
 		}
 
@@ -546,22 +546,5 @@ class Yoast_Form {
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
-	}
-
-	/**
-	 * Check if the user is on a page of Yoast SEO
-	 *
-	 * @return bool
-	 */
-	protected function load_i18n_promo_class() {
-		$wpseo_admin = new WPSEO_Admin();
-
-		$current_screen = get_current_screen()->id;
-
-		$position = strpos( $current_screen, 'wpseo_' );
-
-		$current_page = substr( $current_screen, $position );
-
-		return in_array( $current_page, $wpseo_admin->get_wpseo_pages() );
 	}
 }
