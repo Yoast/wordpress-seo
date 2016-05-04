@@ -5,7 +5,7 @@ var firstWordExceptions = require ( "../config/firstWordExceptions.js" )();
 
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
- * @param sentenceBeginnings {array} The array containing the first word of each sentence.
+ * @param {array} sentenceBeginnings The array containing the first word of each sentence.
  * @returns {array} The array containing the objects containing the first words and the corresponding counts.
  */
 var compareFirstWords = function ( sentenceBeginnings ) {

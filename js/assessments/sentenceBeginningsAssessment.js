@@ -4,7 +4,7 @@ var sortBy = require ( "lodash/sortBy" );
 
 /**
  * Counts the number too often used sentence beginnings and determines the lowest count within that group.
- * @param sentenceBeginnings {array} The array containing the objects containing the beginning words and counts.
+ * @param {array} sentenceBeginnings The array containing the objects containing the beginning words and counts.
  * @returns {object} The object containing the total number of too often used beginnings and the lowest count within those.
  */
 var calculateSentenceBeginningsResult = function( sentenceBeginnings ) {
