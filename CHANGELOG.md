@@ -3,9 +3,15 @@
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.2.2: May 4th, 2016
+
+### Bug
+
+* Fixes a bug where the alt-attribute assessment required all images to have an alt-attribute with the keyword.
+
 ## 1.2.1: April 21th, 2016
 
-## Bugfixes
+### Bugfixes
 
 * Fixes a bug where one wrong translation could crash all the JavaScript.
 
