@@ -9,6 +9,8 @@ env:
   jquery: true
   node: true
 
+plugins: [yoast]
+
 # http://eslint.org/docs/rules/
 rules:
   # Possible Errors
@@ -217,3 +219,5 @@ rules:
   prefer-spread: 0
   prefer-template: 0
   require-yield: 0
+
+  yoast/comment-starting-capital: 1

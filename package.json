@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Yoast/eslint#readme",
   "dependencies": {
+    "eslint-plugin-yoast": "^1.0.0",
     "js-yaml": "^3.6.0"
   }
 }
