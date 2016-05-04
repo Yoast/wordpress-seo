@@ -4,7 +4,9 @@ var Paper = require( "../../js/values/Paper.js" );
 var paper;
 
 describe( "detecting passive voice in sentences", function() {
-	it( "returns passive voice in  1 sentence", function() {
+	paper = new Paper( "he is being fired from a cannon" );
+	passiveVoice( paper );
+	/*it( "returns passive voice in  1 sentence", function() {
 		paper = new Paper( "he was abducted by aliens" );
 		expect( passiveVoice( paper) ).toBe( 1 );
 	} );
@@ -32,6 +34,6 @@ describe( "detecting passive voice in sentences", function() {
 	it( "returns no passive", function(){
 		paper = new Paper( "Andy is going to make a beautiful dinner tonight, he is" );
 		expect( passiveVoice( paper) ).toBe( 1 );
-	} )
+	} )*/
 
 } );
