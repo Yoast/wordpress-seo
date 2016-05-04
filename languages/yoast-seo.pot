@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 13:46+0200\n"
+"POT-Creation-Date: 2016-05-04 16:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -225,22 +225,22 @@ msgstr ""
 msgid "No images appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:31
-msgid "The images on this page are missing alt attributes."
+#: js/assessments/textImagesAssessment.js:32
+msgid "The images on this page contain alt attributes with the focus keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:39
-msgid "The images on this page contain alt attributes."
-msgstr ""
-
-#: js/assessments/textImagesAssessment.js:47
+#: js/assessments/textImagesAssessment.js:40
 msgid ""
 "The images on this page do not have alt attributes containing your focus "
 "keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:55
-msgid "The images on this page contain alt attributes with the focus keyword."
+#: js/assessments/textImagesAssessment.js:48
+msgid "The images on this page contain alt attributes."
+msgstr ""
+
+#: js/assessments/textImagesAssessment.js:56
+msgid "The images on this page are missing alt attributes."
 msgstr ""
 
 #: js/assessments/textLengthAssessment.js:17
