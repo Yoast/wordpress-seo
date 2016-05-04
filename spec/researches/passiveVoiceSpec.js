@@ -191,9 +191,7 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper) ).toBe( 1 );
 
 	} )*/
-
-	} );
-
+/*
 	it( "returns active voice (Future in the Past - would)", function() {
 		paper = new Paper( "I knew John would finish the work by 5:00 PM." );
 		expect( passiveVoice( paper) ).toBe( 0 );
@@ -213,5 +211,5 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper( "I thought a beautiful dinner was going to be made by Sally tonight." );
 		expect( passiveVoice( paper) ).toBe( 1 );
 	} );
-
+*/
 } );
