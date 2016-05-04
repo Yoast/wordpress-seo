@@ -2,10 +2,13 @@ var getSentences = require( "../stringProcessing/getSentences.js" );
 var getWords = require( "../stringProcessing/getWords.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var firstWordExceptions = require ( "../config/firstWordExceptions.js" )();
-var find = require ( "lodash/find" );
-var isUndefined = require ( "lodash/isUndefined" );
 
-var getDuplicates = function ( sentenceBeginnings ) {
+/**
+ * Compares the first word of each sentence with the first word of the following sentence.
+ * @param sentenceBeginnings {array} The array containing the first word of each sentence.
+ * @returns {array} The array containing the objects containing the first words and the corresponding counts.
+ */
+var compareFirstWords = function ( sentenceBeginnings ) {
 	var counts = [];
 	var count = 1;
 	for ( var i = 0; i < sentenceBeginnings.length; i++ ) {
@@ -19,11 +22,10 @@ var getDuplicates = function ( sentenceBeginnings ) {
 	return counts;
 };
 
-
 /**
- * Gets the first word of each sentence from the text and returns those in an array.
+ * Gets the first word of each sentence from the text, and returns an object containing the first word of each sentence and the corresponding counts.
  * @param {Paper} paper The Paper object to get the text from.
- * @returns {Array} The array with the first word of each sentence.
+ * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
@@ -32,11 +34,10 @@ module.exports = function( paper ) {
 		sentence = stripSpaces( sentence );
 		var words = getWords( sentence );
 		var firstWord = words[ 0 ];
-		if ( ! isUndefined( find( firstWordExceptions, firstWord ) ) ) {
+		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
 			firstWord += " " + words[ 1 ];
 		}
-
+		return firstWord;
 	} );
-	var duplicates = getDuplicates( sentenceBeginnings );
+	return compareFirstWords( sentenceBeginnings );
 };
-
