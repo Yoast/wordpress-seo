@@ -12,7 +12,7 @@ var subheadingDistributionTooShort = require( "./assessments/subheadingDistribut
 var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
-var sentenceBeginnings = require( "./assessment/sentenceBeginningsAssessment.js" );
+var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 
 /**
  * Creates the Assessor
