@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 15:37+0200\n"
+"POT-Creation-Date: 2016-05-04 15:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -232,6 +232,20 @@ msgstr ""
 msgid ""
 "%1$s of the sentences contain more than 20 words, which is more than the "
 "recommended maximum of %2$s. Try to shorten your sentences."
+msgstr ""
+
+#. translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
+#: js/assessments/sentenceVariationAssessment.js:30
+msgid ""
+"The sentence variation score is %1$s, which is above the recommended minimum "
+"of %2$d. The text contains a nice combination of long and short sentences."
+msgstr ""
+
+#. translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
+#: js/assessments/sentenceVariationAssessment.js:43
+msgid ""
+"The sentence variation score is %1$s, which is less than the recommended "
+"minimum of %2$d. Try to alternate more between long and short sentences."
 msgstr ""
 
 #: js/assessments/subheadingDistributionTooLongAssessment.js:51
@@ -482,6 +496,23 @@ msgstr[1] ""
 msgid "Please create a page title."
 msgstr ""
 
+#: js/assessments/transitionWordsAssessment.js:27
+msgid ""
+"%1$s of the sentences contain a transition word or phrase, which is less "
+"than the recommended minimum of %2$s."
+msgstr ""
+
+#: js/assessments/transitionWordsAssessment.js:45
+msgid ""
+"%1$s of the sentences contain a transition word or phrase, which is more "
+"than the recommended maximum of %2$s."
+msgstr ""
+
+#: js/assessments/transitionWordsAssessment.js:57
+msgid ""
+"%1$s of the sentences contain a transition word or phrase, which is great."
+msgstr ""
+
 #: js/assessments/urlKeywordAssessment.js:14
 msgid "The focus keyword appears in the URL for this page."
 msgstr ""
@@ -510,6 +541,22 @@ msgstr[1] ""
 msgid "http://en.wikipedia.org/wiki/Stop_words"
 msgstr ""
 
+#. translators: %1$s expands to the percentage of complex words, %2$d expands to the recommended number of syllables,
+#. %3$s expands to the recommend maximum
+#: js/assessments/wordComplexityAssessment.js:30
+msgid ""
+"%1$s of the words contain over %2$d syllables, which is less than or equal "
+"to the recommended maximum of %3$s."
+msgstr ""
+
+#. translators: %1$s expands to the percentage of too complex words, %2$d expands to the recommended number of syllables
+#. %3$s expands to the recommend maximum
+#: js/assessments/wordComplexityAssessment.js:42
+msgid ""
+"%1$s of the words contain over %2$d syllables, which is more than the "
+"recommended maximum of %3$s."
+msgstr ""
+
 #: js/bundledPlugins/previouslyUsedKeywords.js:65
 msgid "You've never used this focus keyword before, very good."
 msgstr ""
@@ -531,11 +578,11 @@ msgid ""
 msgstr ""
 
 #: js/config/presenter.js:10
-msgid "No SEO score available"
+msgid "Feedback"
 msgstr ""
 
 #: js/config/presenter.js:11
-msgid "Content Analysis: No SEO score available"
+msgid "Content Analysis: Needs feedback"
 msgstr ""
 
 #: js/config/presenter.js:15
