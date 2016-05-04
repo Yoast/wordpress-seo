@@ -72,7 +72,7 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	/**
 	 * Build the redirect output for non-target status codes (4xx)
 	 *
-	 * @param WPSEO_Redirect $redirect
+	 * @param WPSEO_Redirect $redirect The redirect data.
 	 *
 	 * @return string
 	 */
