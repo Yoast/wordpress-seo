@@ -310,6 +310,17 @@ $border_radius_twitter: .42857em;
 		}
 	}
 
+	&__author {
+		&--facebook {
+			color: #3b5998;
+			cursor: pointer;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
 	&__website {
 		&--facebook {
 			text-overflow:  ellipsis;

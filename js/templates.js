@@ -125,9 +125,9 @@
     with (obj) {
     __p += '<span class="editable-preview__website--facebook-pipe">|</span> ' +
     __e( authorBy ) +
-    ' ' +
+    '\n<span class="editable-preview__author--facebook">' +
     __e( authorName ) +
-    '\n';
+    '</span>\n';
 
     }
     return __p
