@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.2.2\n"
+"Project-Id-Version: Yoast SEO 3.2.4\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-04-21 11:52:02+00:00\n"
+"POT-Creation-Date: 2016-05-04 16:16:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,25 +46,25 @@ msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
 #. %4$s to anchor tags with link to intro page
-#: admin/class-admin-init.php:88
+#: admin/class-admin-init.php:114
 msgid ""
 "%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what's "
 "new!"
 msgstr ""
 
-#: admin/class-admin-init.php:139
+#: admin/class-admin-init.php:165
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:160
+#: admin/class-admin-init.php:186
 msgid "Just another WordPress site"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands
 #. to Google Analytics by Yoast
-#: admin/class-admin-init.php:186
+#: admin/class-admin-init.php:212
 msgid ""
 "%1$s detected you are using version %2$s of %3$s, please update to the "
 "latest version to prevent compatibility issues."
@@ -72,13 +72,13 @@ msgstr ""
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:218
+#: admin/class-admin-init.php:244
 msgid ""
 "We've updated our SEO score algorithm. %1$sClick here to recalculate the SEO "
 "scores%2$s for all posts and pages."
 msgstr ""
 
-#: admin/class-admin-init.php:406
+#: admin/class-admin-init.php:432
 msgid "%s filter/action"
 msgstr ""
 
@@ -2105,33 +2105,33 @@ msgstr ""
 msgid "Primary %s"
 msgstr ""
 
-#: admin/views/partial-help-center-video.php:22
+#: admin/views/partial-help-center-video.php:27
 msgid "Need more help?"
 msgstr ""
 
 #. translators: %s expands to Yoast SEO Premium
-#: admin/views/partial-help-center-video.php:24
+#: admin/views/partial-help-center-video.php:29
 msgid "If you buy %s you'll get access to our support team and bonus features!"
 msgstr ""
 
 #. translators: %s expands to Yoast SEO Premium
-#: admin/views/partial-help-center-video.php:27
+#: admin/views/partial-help-center-video.php:32
 msgid "Get %s &raquo;"
 msgstr ""
 
 #. translators: %s expands to Yoast SEO
-#: admin/views/partial-help-center-video.php:32
+#: admin/views/partial-help-center-video.php:40
 msgid "Want to be a %s Expert?"
 msgstr ""
 
 #. translators: %$1s expands to Yoast SEO
-#: admin/views/partial-help-center-video.php:34
+#: admin/views/partial-help-center-video.php:42
 msgid ""
 "Follow our %1$s for WordPress training and become a certified %1$s Expert!"
 msgstr ""
 
 #. translators: %s expands to Yoast SEO for WordPress
-#: admin/views/partial-help-center-video.php:37
+#: admin/views/partial-help-center-video.php:45
 msgid "Enroll in the %s training &raquo;"
 msgstr ""
 
@@ -3969,22 +3969,22 @@ msgstr ""
 msgid "No images appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:31
-msgid "The images on this page are missing alt attributes."
+#: js/assessments/textImagesAssessment.js:32
+msgid "The images on this page contain alt attributes with the focus keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:39
-msgid "The images on this page contain alt attributes."
-msgstr ""
-
-#: js/assessments/textImagesAssessment.js:47
+#: js/assessments/textImagesAssessment.js:40
 msgid ""
 "The images on this page do not have alt attributes containing your focus "
 "keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:55
-msgid "The images on this page contain alt attributes with the focus keyword."
+#: js/assessments/textImagesAssessment.js:48
+msgid "The images on this page contain alt attributes."
+msgstr ""
+
+#: js/assessments/textImagesAssessment.js:56
+msgid "The images on this page are missing alt attributes."
 msgstr ""
 
 #: js/assessments/textLengthAssessment.js:17
