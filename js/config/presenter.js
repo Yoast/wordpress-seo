@@ -8,7 +8,7 @@ module.exports = function ( i18n ) {
 		feedback: {
 			className: "na",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback"),
-			fullText: i18n.dgettext( "js-text-analysis", "Content Analysis: Needs feedback")
+			fullText: i18n.dgettext( "js-text-analysis", "Content Analysis: Has feedback")
 		},
 		bad: {
 			className: "bad",
