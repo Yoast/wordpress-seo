@@ -121,11 +121,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release date: May 6th, 2016
 
 * Bugfixes:
-    * Fixes a bug in the text analysis when there are more images the alt tags are not analysed as expected.
+    * Fixes a bug in the text analysis when there are more images, the alt tags are not analysed as expected.
     * Fixes a fatal when the BCMath component has been disabled in the host environment.
-    * Fixes a fatal in wp-admin when certain plugins that hide the login are activated.
-    * Fixes a warning in the sitemap index when no post types are shown but a last modified date is being requested.
-    * Added extra capability checks in AJAX request responses.
+    * Fixes a fatal in wp-admin when certain plugins which hide the login are activated.
+    * Fixes a warning in the sitemap index when no post types are shown and a last modified date is being requested.
+    * Adds missing capability checks in AJAX request responses.
 
 = 3.2.4 =
 
