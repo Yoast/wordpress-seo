@@ -18,15 +18,23 @@ if ( ! empty( $tab_video_url ) ) :
 		<div class="wpseo-tab-video__data" data-url="<?php echo $tab_video_url ?>"></div>
 	</div>
 	<div class="wpseo-tab-video__panel wpseo-tab-video__panel--text">
-		<div class="wpseo-tab-video__panel__textarea">
-			<h3><?php _e( 'Need more help?', 'wordpress-seo' ); ?></h3>
-			<?php /* translators: %s expands to Yoast SEO Premium */ ?>
-			<p><?php printf( __( 'If you buy %s you\'ll get access to our support team and bonus features!', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></p>
-			<?php /* translators: %s expands to Yoast SEO Premium */ ?>
-			<p><a href="https://yoa.st/seo-premium-vt"
-			      target="_blank"><?php printf( __( 'Get %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
-			</p>
-		</div>
+		<?php
+
+		// Don't show for Premium.
+		if ( ! defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ) :
+			?>
+			<div class="wpseo-tab-video__panel__textarea">
+				<h3><?php _e( 'Need more help?', 'wordpress-seo' ); ?></h3>
+				<?php /* translators: %s expands to Yoast SEO Premium */ ?>
+				<p><?php printf( __( 'If you buy %s you\'ll get access to our support team and bonus features!', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></p>
+				<?php /* translators: %s expands to Yoast SEO Premium */ ?>
+				<p><a href="https://yoa.st/seo-premium-vt"
+				      target="_blank"><?php printf( __( 'Get %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
+				</p>
+			</div>
+			<?php
+		endif;
+		?>
 		<div class="wpseo-tab-video__panel__textarea">
 			<?php /* translators: %s expands to Yoast SEO */ ?>
 			<h3><?php printf( __( 'Want to be a %s Expert?', 'wordpress-seo' ), 'Yoast SEO' ); ?></h3>
