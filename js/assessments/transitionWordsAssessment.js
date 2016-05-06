@@ -18,7 +18,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 		unboundedScore = 3 + ( 0.6  * ( percentage - 13.3 ) );
 
 		// Scores exceeding 9 are 9, scores below 3 are 3.
-		score = Math.max( Math.min ( unboundedScore, 9 ), 3 );
+		score = Math.max( Math.min( unboundedScore, 9 ), 3 );
 		if ( score < 7 ) {
 			var recommendedMinimum = 20;
 			return {
@@ -37,7 +37,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 		unboundedScore = 9 - ( 0.6 * ( percentage - 26.7 ) );
 
 		// Scores exceeding 9 are 9, scores below 3 are 3.
-		score = Math.max( Math.min ( unboundedScore, 9 ), 3 );
+		score = Math.max( Math.min( unboundedScore, 9 ), 3 );
 		if ( score < 7 ) {
 			var recommendedMaximum = 30;
 			return {

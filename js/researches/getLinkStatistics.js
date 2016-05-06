@@ -46,17 +46,17 @@ module.exports = function( paper ) {
 
 	var foundKeyword;
 	for ( var i = 0; i < anchors.length; i++ ) {
-		foundKeyword = keyword ? findKeywordInUrl( anchors[i], keyword ) : false;
+		foundKeyword = keyword ? findKeywordInUrl( anchors[ i ], keyword ) : false;
 
 		if ( foundKeyword ) {
 			linkCount.totalKeyword++;
 		}
 
-		var linkType = getLinkType( anchors[i], url );
-		linkCount[linkType + "Total"]++;
+		var linkType = getLinkType( anchors[ i ], url );
+		linkCount[ linkType + "Total" ]++;
 
-		var linkFollow = checkNofollow( anchors[i] );
-		linkCount[linkType + linkFollow]++;
+		var linkFollow = checkNofollow( anchors[ i ] );
+		linkCount[ linkType + linkFollow ]++;
 	}
 	return linkCount;
 };

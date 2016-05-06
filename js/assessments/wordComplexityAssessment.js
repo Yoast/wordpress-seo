@@ -17,7 +17,7 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step i 0.6
 	// Up to 6.7 percent is for scoring a 9, higher percentages give lower scores.
 	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 6.7 ), 6 ), 0 );
-	score = fixFloatingPoint ( score );
+	score = fixFloatingPoint( score );
 
 	if ( score >= 7 ) {
 		return {

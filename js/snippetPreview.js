@@ -417,18 +417,18 @@ SnippetPreview.prototype.renderTemplate = function() {
 			metaDesc: document.getElementById( "snippet_meta" )
 		},
 		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
-			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
+			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[ 0 ],
+			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[ 0 ],
+			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[ 0 ]
 		},
 		progress: {
-			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
-			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
+			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[ 0 ],
+			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[ 0 ]
 		},
 		container: document.getElementById( "snippet_preview" ),
-		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
-		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
+		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[ 0 ],
+		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[ 0 ],
+		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[ 0 ],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
 	};
 
@@ -868,7 +868,7 @@ SnippetPreview.prototype.checkTextLength = function( event ) {
 SnippetPreview.prototype.getUnformattedText = function( event ) {
 	var currentElement = event.currentTarget.id;
 	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		event.currentTarget.textContent = this.unformattedText[currentElement];
+		event.currentTarget.textContent = this.unformattedText[ currentElement ];
 	}
 };
 
@@ -941,7 +941,7 @@ SnippetPreview.prototype.bindEvents = function() {
 		elems = [ "title", "slug", "meta-description" ];
 
 	forEach( elems, function( elem ) {
-		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
+		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[ 0 ];
 
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );

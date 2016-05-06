@@ -16,6 +16,6 @@ module.exports = function( paper ) {
 	if ( wordCount === 0 ) {
 		return 0;
 	}
-	var keywordCount = matchWords ( text, keyword );
+	var keywordCount = matchWords( text, keyword );
 	return ( keywordCount / wordCount ) * 100;
 };

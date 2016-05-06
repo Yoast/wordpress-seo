@@ -12,7 +12,7 @@ module.exports = function( url, keyword ) {
 	var formatUrl = url.match( />(.*)/ig );
 
 	if ( formatUrl !== null ) {
-		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
+		formatUrl = formatUrl[ 0 ].replace( /<.*?>\s?/ig, "" );
 		if ( formatUrl.match( keywordRegex( keyword ) ) !== null ) {
 			keywordFound = true;
 		}
