@@ -2,15 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: Yoast SEO Premium 3.2.4\n"
+"Project-Id-Version: Yoast SEO Premium 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-05-04 16:22:59+00:00\n"
-=======
-"Project-Id-Version: Yoast SEO 3.2.5\n"
-"Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-05-06 06:13:40+00:00\n"
->>>>>>> c437c100f57314c1967ca3d3c955a011117bb9ff
+"POT-Creation-Date: 2016-05-06 06:40:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4062,22 +4056,22 @@ msgstr ""
 msgid "No images appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:32
-msgid "The images on this page contain alt attributes with the focus keyword."
+#: js/assessments/textImagesAssessment.js:31
+msgid "The images on this page are missing alt attributes."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:40
+#: js/assessments/textImagesAssessment.js:39
+msgid "The images on this page contain alt attributes."
+msgstr ""
+
+#: js/assessments/textImagesAssessment.js:47
 msgid ""
 "The images on this page do not have alt attributes containing your focus "
 "keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:48
-msgid "The images on this page contain alt attributes."
-msgstr ""
-
-#: js/assessments/textImagesAssessment.js:56
-msgid "The images on this page are missing alt attributes."
+#: js/assessments/textImagesAssessment.js:55
+msgid "The images on this page contain alt attributes with the focus keyword."
 msgstr ""
 
 #: js/assessments/textLengthAssessment.js:17

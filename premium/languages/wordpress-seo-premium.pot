@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-05-06 06:26:41+00:00\n"
+"POT-Creation-Date: 2016-05-06 06:41:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -479,82 +479,91 @@ msgctxt "noun"
 msgid "Type"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:203
-msgid "Edit Facebook preview"
+#: node_modules/yoast-social-previews/js/facebookPreview.js:135
+#: node_modules/yoast-social-previews/js/twitterPreview.js:130
+msgid "This is an example title - edit by clicking here"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:204
-msgid "Facebook preview"
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:138
+#: node_modules/yoast-social-previews/js/twitterPreview.js:133
+msgid "Modify your %1$s description by editing it right here"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:205
-msgid "Facebook editor"
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:211
+#: node_modules/yoast-social-previews/js/twitterPreview.js:206
+msgid "Edit %1$s preview"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:262
-msgid "Facebook title"
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:213
+#: node_modules/yoast-social-previews/js/twitterPreview.js:208
+msgid "%1$s preview"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:270
-msgid "Facebook description"
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:215
+#: node_modules/yoast-social-previews/js/twitterPreview.js:210
+msgid "%1$s editor"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:278
-msgid "Facebook image"
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:272
+#: node_modules/yoast-social-previews/js/twitterPreview.js:269
+msgid "%1$s title"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:299
-msgid "Please provide a Facebook title by editing the snippet below."
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:281
+#: node_modules/yoast-social-previews/js/twitterPreview.js:281
+msgid "%1$s description"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:309
-msgid "Please provide a Facebook description by editing the snippet below."
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:290
+#: node_modules/yoast-social-previews/js/twitterPreview.js:293
+msgid "%1$s image"
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:424
-msgid "Please enter an image url by clicking here"
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:313
+#: node_modules/yoast-social-previews/js/twitterPreview.js:318
+msgid "Please provide a %1$s title by editing the snippet below."
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:440
-msgid "The image you selected is too small for Facebook"
+#. translators: %1$s expands to Facebook
+#. translators: %1$s expands to Twitter
+#: node_modules/yoast-social-previews/js/facebookPreview.js:327
+#: node_modules/yoast-social-previews/js/twitterPreview.js:332
+msgid "Please provide a %1$s description by editing the snippet below."
 msgstr ""
 
-#: node_modules/yoast-social-previews/js/facebookPreview.js:457
+#: node_modules/yoast-social-previews/js/facebookPreview.js:444
+msgid "Please select an image by clicking here"
+msgstr ""
+
+#. translators: %1$s expands to Facebook
+#: node_modules/yoast-social-previews/js/facebookPreview.js:463
+msgid ""
+"We are unable to detect an image in your post that is large enough to be "
+"displayed on Facebook. We advise you to select a %1$s image that fits the "
+"recommended image size."
+msgstr ""
+
+#. translators: %1$s expands to Facebook
+#: node_modules/yoast-social-previews/js/facebookPreview.js:469
+msgid "The image you selected is too small for %1$s"
+msgstr ""
+
+#: node_modules/yoast-social-previews/js/facebookPreview.js:493
 msgid "The given image url cannot be loaded"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/facebookPreview.js:648
-msgid "By"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/twitterPreview.js:196
-msgid "Edit Twitter preview"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/twitterPreview.js:197
-msgid "Twitter preview"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/twitterPreview.js:198
-msgid "Twitter editor"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/twitterPreview.js:255
-msgid "Twitter title"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/twitterPreview.js:263
-msgid "Twitter description"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/twitterPreview.js:271
-msgid "Twitter image"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/twitterPreview.js:292
-msgid "Please provide a Twitter title by editing the snippet below."
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/twitterPreview.js:302
-msgid "Please provide a description by editing the snippet below."
 msgstr ""
