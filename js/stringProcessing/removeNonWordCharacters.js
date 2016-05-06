@@ -7,5 +7,5 @@
  * @returns {string} string The string without spaces.
  */
 module.exports = function( string ) {
-	return string.replace ( /[\s\n\r\t\.,'\(\)\"\+;!?:\/]/g, "" );
+	return string.replace( /[\s\n\r\t\.,'\(\)\"\+;!?:\/]/g, "" );
 };

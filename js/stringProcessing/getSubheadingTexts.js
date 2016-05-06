@@ -12,8 +12,8 @@ module.exports = function( text ) {
 	 then replace all headings with a | and split on a |.
 	 */
 	text = text.replace( /\|/ig, "" );
-	text = text.replace ( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig, "|" );
-	var subheadings =  text.split ( "|" );
+	text = text.replace( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig, "|" );
+	var subheadings =  text.split( "|" );
 
 	// we never need the first entry, if the text starts with a subheading it will be empty, and if the text doesn't start with a subheading, the
 	// text doesnt't belong to a subheading, so it can be removed

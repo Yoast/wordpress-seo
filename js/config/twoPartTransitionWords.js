@@ -5,7 +5,7 @@
  * @returns {Array} The array filled with two-part transition words.
  */
 module.exports = function() {
-	return [ ["both", "and"], ["if", "then"], ["not only", "but also"], ["neither", "nor"], ["either", "or"], ["not", "but"],
-		["whether", "or"], ["no sooner", "than"] ];
+	return [ [ "both", "and" ], [ "if", "then" ], [ "not only", "but also" ], [ "neither", "nor" ], [ "either", "or" ], [ "not", "but" ],
+		[ "whether", "or" ], [ "no sooner", "than" ] ];
 };
 

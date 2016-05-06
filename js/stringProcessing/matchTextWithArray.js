@@ -17,7 +17,7 @@ module.exports = function( text, array ) {
 	}
 
 	matches = matches.map( function( string ) {
-		return removeSpaces ( string );
+		return removeSpaces( string );
 	} );
 
 	return matches;

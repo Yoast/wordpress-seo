@@ -14,7 +14,7 @@ var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
  * @returns {number} The amount of matches found.
  */
 module.exports = function( text, wordToMatch, extraBoundary ) {
-	text = stripSomeTags ( text );
+	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
 	text = replaceDiacritics( text );
 
