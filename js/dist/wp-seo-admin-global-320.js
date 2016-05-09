@@ -41,29 +41,6 @@
 	}
 
 	/**
-	 * Make the notices dismissible (again)
-	 */
-	function wpseoMakeDismissible() {
-		jQuery( '.notice.is-dismissible' ).each( function() {
-			var $notice = jQuery( this );
-			if ( $notice.find( '.notice-dismiss' ).empty() ) {
-				var $button = jQuery( '<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>' );
-
-				$notice.append( $button );
-
-				$button.on( 'click.wp-dismiss-notice', function( ev ) {
-					ev.preventDefault();
-					$notice.fadeTo( 100, 0, function() {
-						jQuery( this ).slideUp( 100, function() {
-							jQuery( this ).remove();
-						} );
-					} );
-				} );
-			}
-		} );
-	}
-
-	/**
 	 * Generates a dismissable anchor button
 	 *
 	 * @param {string} dismiss_link The URL that leads to the dismissing of the notice.
@@ -124,7 +101,6 @@
 	});
 	window.wpseoDismissTaglineNotice = wpseoDismissTaglineNotice;
 	window.wpseoSetIgnore = wpseoSetIgnore;
-	window.wpseoMakeDismissible = wpseoMakeDismissible;
 	window.wpseoDismissLink = wpseoDismissLink;
 }());
 
