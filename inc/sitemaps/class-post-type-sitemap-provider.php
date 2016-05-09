@@ -150,6 +150,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
 
+			$terms = wp_get_object_terms( $post_ids, 'category', array( 'fields' => 'all_with_object_id' ) );
+
+			var_dump($terms);die;
+
 			foreach ( $posts as $post ) {
 
 				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
@@ -162,7 +166,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$url = $this->get_url( $post );
 
-				if ( ! isset( $url['loc'] ) || in_array( $url['loc'], $stacked_urls ) ) {
+				if ( ! isset( $url['loc'] ) || isset( $stacked_urls[ $url['loc'] ] ) ) {
 					continue;
 				}
 
@@ -177,14 +181,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				if ( ! empty( $url ) ) {
 					$links[]        = $url;
-					$stacked_urls[] = $url['loc'];
 				}
 			}
+
+			// Sanitize stacked URLs
+
+
 			unset( $post, $url );
 		}
 
 		return $links;
 	}
+
+
 
 	/**
 	 * Check for relevant post type before invalidation.
@@ -373,27 +382,25 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion.
 		// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/.
 		$sql = "
-			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_modified_gmt, post_date, post_date_gmt
-			FROM (
-				SELECT {$wpdb->posts}.ID
-				FROM {$wpdb->posts}
-				{$join_filter}
-				{$where}
-					{$where_filter}
-				ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
-			)
-			o JOIN {$wpdb->posts} l ON l.ID = o.ID ORDER BY l.ID
+			SELECT ID, post_title, post_content, post_name, post_parent, post_author, post_modified_gmt, post_date, post_date_gmt
+			FROM {$wpdb->posts}
+			{$join_filter}
+			{$where}
+				{$where_filter}
+			ORDER BY {$wpdb->posts}.ID ASC LIMIT %d OFFSET %d
 		";
 
 		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
+
+		$post_ids = array();
 
 		foreach ( $posts as $post ) {
 			$post->post_type   = $post_type;
 			$post->post_status = 'publish';
 			$post->filter      = 'sample';
+			$post_ids[]        = $post->ID;
 		}
 
-		$post_ids = wp_list_pluck( $posts, 'ID' );
 		update_meta_cache( 'post', $post_ids );
 
 		return $posts;
