@@ -110,7 +110,7 @@ class Yoast_Form {
 			</form>';
 		}
 
-		if ( WPSEO_Utils::is_yoast_seo_free_page() ) {
+		if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
 			do_action( 'wpseo_admin_footer' );
 		}
 

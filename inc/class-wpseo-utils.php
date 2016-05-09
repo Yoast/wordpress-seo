@@ -714,7 +714,7 @@ class WPSEO_Utils {
 	 *
 	 * @return bool
 	 */
-	public static function is_yoast_seo_free_page() {
+	public static function is_yoast_seo_free_page( $current_page ) {
 		$yoast_seo_free_pages = array(
 			'wpseo_dashboard',
 			'wpseo_titles',
@@ -726,7 +726,7 @@ class WPSEO_Utils {
 			'wpseo_licenses',
 		);
 
-		$current_page = filter_input( INPUT_GET, 'page' );
+		//$current_page = filter_input( INPUT_GET, 'page' );
 
 		return in_array( $current_page, $yoast_seo_free_pages );
 	}
