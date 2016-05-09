@@ -158,6 +158,10 @@ class WPSEO_Sitemap_Image_Parser {
 			}
 
 			// Forked from core gallery_shortcode() to have exact same logic. R.
+			if ( ! empty( $gallery['ids'] ) ) {
+				$gallery['include'] = $gallery['ids'];
+			}
+
 			if ( ! empty( $gallery['include'] ) ) {
 
 				$_attachments = get_posts( array(
