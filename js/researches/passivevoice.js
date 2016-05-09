@@ -2,40 +2,32 @@ var getSentences = require( "../stringProcessing/getSentences.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 var cleanText = require( "../stringProcessing/cleanText.js" );
 var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
 
-var verbEndingEd = require( "../language/en_US/verb-ending-ed.js" )();
-var verbEndingIng = require( "../language/en_US/verb-ending-ing.js" )();
+var nonverbEndingEd = require( "../language/en_US/non-verb-ending-ed.js" )();
+
 var auxiliaries = require( "../language/en_us/auxiliaries.js" )();
 var irregulars = require( "../language/en_us/irregulars.js" )();
+var stopwords = require( "../language/en_us/stopwords.js" )();
+
 var auxiliariesExceptions = require( "../language/en_us/auxiliariesExceptions.js" )();
 var filter = require( "lodash/filter");
 var isUndefined = require( "lodash/isUndefined" );
 var isEmpty = require( "lodash/isEmpty" );
 
-
-/*
-var matchSubSentence = function( subSentence ){
-	subSentence = subSentence + ".";
-	console.log( subSentence );
-	var ingMatches = subSentence.match( ingWordRegex );
-	console.log( ingMatches );
-	if (ingMatches ){}
-	//var matches = subSentence.match( edWordRegex );
-
-};
-*/
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 
 /**
  * Matches sentence on auxiliary words.
  * @param sentence
  */
-var matchAuxiliary = function( sentence ) {
-	var matches = auxiliaries;
+var matchArray = function( sentence, matchArray ) {
+	var matches = matchArray;
 	var matchedParts = [];
 	matches.map( function( part ){
 
-		// search for each part in the auxiliaries array and filter on index -1
+		// search for each part in the array and filter on index -1
 		var index = sentence.search( stringToRegex( part ) );
 		if( index > -1 ){
 			matchedParts.push(
@@ -49,87 +41,114 @@ var matchAuxiliary = function( sentence ) {
 	return matchedParts;
 };
 
-var matchIrregular = function( sentence ) {
-	var matches = irregulars;
-
+var filterIndices = function( indices ){
+	for( var i = 0; i < indices.length; i++ ){
+		if(typeof( indices[ i + 1] ) !== "undefined" && indices[ i+1 ].index < indices[ i ].index + indices[ i ].match.length ){
+			indices.pop( i + 1);
+		}
+	}
+	return indices;
 };
 
-var matchVerbs = function( sentence ){
+/**
+ * Gets the indexes of the auxiliaries and stopwords to determine subsentences.
+ * @param subSentence
+ * @returns {Array.<T>}
+ */
+var getIndices = function( subSentence ){
+	var auxiliaryIndices = matchArray( subSentence, auxiliaries );
+	auxiliaryIndices = filterIndices( auxiliaryIndices );
+	var stopwordIndices = matchArray( subSentence, stopwords );
+	stopwordIndices = filterIndices( stopwordIndices );
+	var indices = auxiliaryIndices.concat( stopwordIndices );
 
+	return indices.sort( function( a, b ){
+		return( a.index > b.index );
+	});
 };
 
+/**
+ *
+ * @param sentence
+ * @returns {Array}
+ */
+var getSubsentences = function( sentence ){
+	// First check if there is an auxiliary word in the sentence
+	if( sentence.match( auxiliaryRegex ) !== null ) {
 
+		var indices = getIndices( sentence );
 
+		var subSentences = [];
+		var currentIndex = 0;
+
+		// Get the words after the found auxiliary
+		for( var i = 0; i < indices.length; i++ ) {
+			var endIndex = sentence.length;
+			if( typeof( indices[ i + 1 ] ) !== "undefined" ) {
+				endIndex = indices[ i + 1 ].index;
+			}
+
+			// Cut the sentence from the current index to the endIndex
+			var subSentence = stripSpaces( sentence.substr( currentIndex, endIndex - currentIndex ) );
+			currentIndex = endIndex;
+			subSentences.push( subSentence );
+		}
+	}
+	return subSentences;
+};
+
+/**
+ *
+ * @param sentence
+ */
+var getVerbs = function( sentence ){
+	var verbs;
+
+	// matches the sentences with words ending in ed
+	var matches = sentence.match( /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig ) || [];
+
+	// Filters out words ending in -ed that aren't verbs.
+	return filter( matches, function( match ){
+		return matchArray( stripSpaces( match ), nonverbEndingEd).length === 0;
+	} );
+};
+
+var getIrregularVerbs = function( sentence ) {
+	var irregularVerbs = matchArray( sentence, irregulars );
+	return filter( irregularVerbs, function( verb ){
+		// If rid is used with get, gets, getting, got or gotten, remove it.
+		if( verb.match === "rid" ){
+			var exclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
+			if( matchArray( sentence, exclusionArray).length > 0 ){
+				return false;
+			}
+		}
+		return true;
+	} );
+};
+
+/**
+ *
+ * @param paper
+ */
 module.exports = function( paper) {
 	var text = paper.getText();
 	var sentences = getSentences( text );
-	//var verb_edRegex = arrayToRegex( verbEndingEd );
-
-
-	// Matches all words ending in ED or ING.
-
-	var possibleMatches = [];
-
-
 	var passiveCount = 0;
 
-
+	// get subsentences for each sentence.
 	sentences.map( function( sentence ) {
 
-		// First check if there is an auxiliary word in the sentence
-		if( sentence.match( auxiliaryRegex ) !== null ) {
-
-			// Get the index of the Auxiliary
-			var indices = matchAuxiliary( sentence );
-			var subSentences = [];
-			var curIndex = 0;
-
-			// Get the words after the found auxiliary
-			for( var i = 0; i < indices.length; i++ ){
-				var endIndex = sentence.length;
-				if( typeof( indices[ i + 1] ) !== "undefined" ){
-					endIndex = indices[ i + 1 ].match.length
-				}
-				var subSentence = sentence.substr( curIndex, endIndex );
-				curIndex = endIndex;
-				subSentences.push( subSentences );
+		var subSentences = getSubsentences( sentence );
+		// get matches in each subsentence
+		subSentences.map( function( subSentence ){
+			var verbs = getVerbs( subSentence );
+			var irregularVerbs = getIrregularVerbs( subSentence );
+			if( verbs.length > 0 || irregularVerbs.length > 0 ){
+				passiveCount++
 			}
-		}
-	} );
-/*
-	possibleMatches.map( function( sentence ) {
-		matchAuxiliary( sentence );
-	} );
-*/
-	//split op aux, dan match op -ed, match -ed in nonverb-ed list
-	// stoppen op andere aux of stopword
-	//
-/*
-	possibleMatches.map( function( sentence ) {
-		// todo needs proper regex.
-		var parts = sentence.split( auxiliaryRegex );
-		parts.shift();
-		parts = parts.filter( function( part ) {
-			return ! isUndefined( part ) && part !== " ";
 		} );
-		console.log( parts );
-
-		parts = parts.filter( function( part ) {
-			var matches = part.match( auxiliaryRegex) || [];
-			matches.filter( function( match ){
-				return auxiliariesExceptions.indexOf( match ) > -1;
-			} );
-			return matches.length > 0;
-		} );
-
-		console.log( parts );
-
-		if( parts.length > 0 ) {
-			parts.map( function( subSentence ){
-				matchSubSentence( subSentence );
-			} );
-		}
 	} );
+
 	return passiveCount;
-	*/
 };

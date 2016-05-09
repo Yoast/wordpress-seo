@@ -1,36 +1,34 @@
 var passiveVoice = require( "../../js/researches/passiveVoice.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
-var paper;
-
+// Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
 describe( "detecting passive voice in sentences", function() {
+	/*it("returns active voice (Simple Present)", function () {
+		var paper = new Paper("Once a week, Tom cleans the house.");
+		expect(passiveVoice(paper)).toBe(0);
+	});*/
 
-	paper = new Paper( "he is being fired from a cannon" );
-	passiveVoice( paper );
-	/*it( "returns passive voice in  1 sentence", function() {
-		paper = new Paper( "he was abducted by aliens" );
+	it("returns active voice (Simple Present)", function () {
+		paper = new Paper("Once a week, Tom cleans the house.");
+		expect(passiveVoice(paper)).toBe(0);
+	});
 
-	// Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
-	it( "returns active voice (Simple Present)", function() {
-		paper = new Paper( "Once a week, Tom cleans the house." );
-		expect( passiveVoice( paper) ).toBe( 0 );
-	} );
+	it("returns passive voice (Simple Present)", function () {
+		paper = new Paper("Once a week, the house is cleaned by Tom.");
+		expect(passiveVoice(paper)).toBe(1);
+	});
 
-	it( "returns passive voice (Simple Present)", function() {
-		paper = new Paper( "Once a week, the house is cleaned by Tom." );
-		expect( passiveVoice( paper) ).toBe( 1 );
-	} );
+	it("returns active voice (Present Continuous)", function () {
+		paper = new Paper("Right now, Sarah is writing the letter.");
+		expect(passiveVoice(paper)).toBe(0);
+	});
 
-	it( "returns active voice (Present Continuous)", function() {
-		paper = new Paper( "Right now, Sarah is writing the letter." );
-		expect( passiveVoice( paper) ).toBe( 0 );
-	} );
-
-	it( "returns passive voice (Present Continuous)", function() {
-		paper = new Paper( "Right now, the letter is being written by Sarah." );
-		expect( passiveVoice( paper) ).toBe( 1 );
-	} );
-
+	it("returns passive voice (Present Continuous)", function () {
+		paper = new Paper("Right now, the letter is being written by Sarah.");
+		expect(passiveVoice(paper)).toBe(1);
+	});
+} );
+/*
 	it( "returns active voice (Simple Past)", function() {
 		paper = new Paper( "Sam repaired the car." );
 		expect( passiveVoice( paper) ).toBe( 0 );
@@ -190,8 +188,7 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper( "The pies would always be made by my mother." );
 		expect( passiveVoice( paper) ).toBe( 1 );
 
-	} )*/
-/*
+	} );
 	it( "returns active voice (Future in the Past - would)", function() {
 		paper = new Paper( "I knew John would finish the work by 5:00 PM." );
 		expect( passiveVoice( paper) ).toBe( 0 );
@@ -211,5 +208,5 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper( "I thought a beautiful dinner was going to be made by Sally tonight." );
 		expect( passiveVoice( paper) ).toBe( 1 );
 	} );
-*/
 } );
+*/
