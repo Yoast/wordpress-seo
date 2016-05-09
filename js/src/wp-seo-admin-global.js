@@ -55,7 +55,6 @@
 	}
 
 	jQuery( document ).ready( function() {
-
 		jQuery( '.yoast-dismissible' ).on( 'click', '.yoast-notice-dismiss', function() {
 			var $parentDiv = jQuery( this ).parent();
 
