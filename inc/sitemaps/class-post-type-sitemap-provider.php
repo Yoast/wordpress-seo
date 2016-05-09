@@ -150,10 +150,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
 
-			$terms = wp_get_object_terms( $post_ids, 'category', array( 'fields' => 'all_with_object_id' ) );
-
-			var_dump($terms);die;
-
 			foreach ( $posts as $post ) {
 
 				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
@@ -180,20 +176,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 
 				if ( ! empty( $url ) ) {
-					$links[]        = $url;
+					$links[] = $url;
 				}
 			}
-
-			// Sanitize stacked URLs
-
 
 			unset( $post, $url );
 		}
 
 		return $links;
 	}
-
-
 
 	/**
 	 * Check for relevant post type before invalidation.
@@ -387,7 +378,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			{$join_filter}
 			{$where}
 				{$where_filter}
-			ORDER BY {$wpdb->posts}.ID ASC LIMIT %d OFFSET %d
+			LIMIT %d OFFSET %d
 		";
 
 		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
