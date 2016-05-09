@@ -13,7 +13,12 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function __construct() {
 
-		add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
+		global $wp_version;
+
+		// TODO Remove after plugin requirements raised to WP 4.4. R.
+		if ( version_compare( $wp_version, '4.4', '<' ) ) {
+			add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
+		}
 	}
 
 	/**
@@ -35,76 +40,145 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 
-		global $wpdb;
-
 		$options = WPSEO_Options::get_all();
 
 		if ( $options['disable-author'] || $options['disable_author_sitemap'] ) {
 			return array();
 		}
 
-		$users = get_users( array( 'who' => 'authors' ) );
-		/**
-		 * Filter the authors, included in XML sitemap.
-		 *
-		 * @param array $users Array of user objects to filter.
-		 */
-		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
-		$users = wp_list_pluck( $users, 'ID' );
+		// TODO Consider doing this less often / when necessary. R.
+		$this->update_user_meta();
 
-		$count     = count( $users );
-		$max_pages = ( $count > 0 ) ? 1 : 0;
+		$has_exclude_filter = has_filter( 'wpseo_sitemap_exclude_author' );
 
-		if ( $count > $max_entries ) {
-			$max_pages = (int) ceil( $count / $max_entries );
-		};
+		$query_arguments = array();
 
-		// Must use custom raw query because WP User Query does not support ordering by usermeta.
-		// Retrieve the newest updated profile timestamp overall.
-		// TODO order by usermeta supported since WP 3.7, update implementation? R.
-		$date_query = "
-			SELECT mt1.meta_value
-			FROM $wpdb->users
-				INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-				INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id)
-			WHERE 1=1
-				AND (
-					($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
-					AND mt1.meta_key = '_yoast_wpseo_profile_updated'
-				)
-			ORDER BY mt1.meta_value
-		";
+		if ( ! $has_exclude_filter ) { // We only need full users if legacy filter(s) hooked to exclusion logic. R.
+			$query_arguments['fields'] = 'ID';
+		}
 
-		$index = array();
+		$users = $this->get_users( $query_arguments );
 
-		for ( $i = 0; $i < $max_pages; $i++ ) {
+		if ( $has_exclude_filter ) {
+			$users = $this->exclude_users( $users );
+			$users = wp_list_pluck( $users, 'ID' );
+		}
 
-			$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
+		if ( empty( $users ) ) {
+			return array();
+		}
 
-			if ( empty( $count ) || $count === $max_pages ) {
-				$sql = $wpdb->prepare(
-					$date_query . ' DESC LIMIT 1',
-					$wpdb->get_blog_prefix() . 'user_level'
-				);
-				// Retrieve the newest updated profile timestamp by an offset.
-			}
-			else {
-				$sql = $wpdb->prepare(
-					$date_query . ' DESC LIMIT 1 OFFSET %d',
-					$wpdb->get_blog_prefix() . 'user_level',
-					( ( $max_entries * ( $i + 1 ) ) - 1 )
-				);
-			}
+		$index      = array();
+		$page       = 1;
+		$user_pages = array_chunk( $users, $max_entries );
 
-			$date = $wpdb->get_var( $sql );
+		if ( count( $user_pages ) === 1 ) {
+			$page = '';
+		}
 
+		foreach ( $user_pages as $users_page ) {
+
+			$user_id = array_shift( $users_page ); // Time descending, first user on page is most recently updated.
+			$user    = get_user_by( 'id', $user_id );
 			$index[] = array(
-				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $count . '.xml' ),
-				'lastmod' => '@' . $date, // @ for explicit timestamp format
+				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $page . '.xml' ),
+				'lastmod' => '@' . $user->_yoast_wpseo_profile_updated, // @ for explicit timestamp format
 			);
+
+			$page++;
 		}
 
 		return $index;
+	}
+
+	/**
+	 * Retrieve users, taking account of all necessary exclusions.
+	 *
+	 * @param array $arguments Arguments to add.
+	 *
+	 * @return array
+	 */
+	protected function get_users( $arguments = array() ) {
+
+		global $wp_version, $wpdb;
+
+		$options = WPSEO_Options::get_all();
+
+		$defaults = array(
+			// 'who'        => 'authors', Breaks meta keys, see https://core.trac.wordpress.org/ticket/36724#ticket R.
+			'meta_key'   => '_yoast_wpseo_profile_updated',
+			'orderby'    => 'meta_value_num',
+			'order'      => 'DESC',
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key'     => $wpdb->get_blog_prefix() .'user_level',
+					'value'   => '0',
+					'compare' => '!=',
+				),
+				array(
+					'relation' => 'OR',
+					array(
+						'key'     => 'wpseo_excludeauthorsitemap',
+						'value'   => 'on',
+						'compare' => '!=',
+					),
+					array(
+						'key'     => 'wpseo_excludeauthorsitemap',
+						'compare' => 'NOT EXISTS',
+					),
+				),
+			),
+		);
+
+		// TODO Remove version condition after plugin requirements raised to WP 4.3. R.
+		if ( $options['disable_author_noposts'] === true && version_compare( $wp_version, '4.3', '>=' ) ) {
+			// $defaults['who']                 = ''; // Otherwise it cancels out next argument.
+			$defaults['has_published_posts'] = true;
+		}
+
+		// TODO Remove version condition after plugin requirements raised to WP 4.4. R.
+		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
+
+			$excluded_roles = $this->get_excluded_roles();
+
+			if ( ! empty( $excluded_roles ) ) {
+				// $defaults['who']          = ''; // Otherwise it cancels out next argument.
+				$defaults['role__not_in'] = $excluded_roles;
+			}
+		}
+
+		return get_users( array_merge( $defaults, $arguments ) );
+	}
+
+	/**
+	 * Retrieve array of roles, excluded in settings.
+	 *
+	 * @return array
+	 */
+	protected function get_excluded_roles() {
+
+		static $excluded_roles;
+
+		if ( isset( $excluded_roles ) ) {
+			return $excluded_roles;
+		}
+
+		$options = WPSEO_Options::get_all();
+		$roles   = WPSEO_Utils::get_roles();
+
+		foreach ( $roles as $role_slug => $role_name ) {
+
+			if ( ! empty( $options[ "user_role-{$role_slug}-not_in_sitemap" ] ) ) {
+				$excluded_roles[] = $role_name;
+			}
+		}
+
+		if ( ! empty( $excluded_roles ) ) { // Otherwise it's handled by who=>authors query.
+			$excluded_roles[] = 'Subscriber';
+		}
+
+		return $excluded_roles;
 	}
 
 	/**
@@ -126,10 +200,58 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$steps  = $max_entries;
-		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
+		$users = $this->get_users( array(
+			'offset' => ( $current_page - 1 ) * $max_entries,
+			'number' => $max_entries,
+		) );
 
-		// Initial query to fill in missing usermeta with the current timestamp.
+		$users = $this->exclude_users( $users );
+
+		if ( empty( $users ) ) {
+			$users = array();
+		}
+
+		$time = time();
+
+		foreach ( $users as $user ) {
+
+			$author_link = get_author_posts_url( $user->ID );
+
+			if ( empty( $author_link ) ) {
+				continue;
+			}
+
+			$mod = $time;
+
+			if ( isset( $user->_yoast_wpseo_profile_updated ) ) {
+				$mod = $user->_yoast_wpseo_profile_updated;
+			}
+
+			$url = array(
+				'loc' => $author_link,
+				'pri' => 0.8,
+				'chf' => WPSEO_Sitemaps::filter_frequency( 'author_archive', 'daily', $author_link ),
+				'mod' => date( DATE_W3C, $mod ),
+			);
+
+			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
+
+			if ( ! empty( $url ) ) {
+				$links[] = $url;
+			}
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Update any users that don't have last profile update timestamp.
+	 *
+	 * @return int Count of users updated.
+	 */
+	protected function update_user_meta() {
+
 		$users = get_users( array(
 			'who'        => 'authors',
 			'meta_query' => array(
@@ -141,66 +263,39 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			),
 		) );
 
-		foreach ( $users as $user ) {
-			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
-		}
-		unset( $users, $user );
+		$time = time();
 
-		// Query for users with this meta.
-		$users = get_users( array(
-			'who'      => 'authors',
-			'offset'   => $offset,
-			'number'   => $steps,
-			'meta_key' => '_yoast_wpseo_profile_updated',
-			'orderby'  => 'meta_value_num',
-			'order'    => 'ASC',
-		) );
+		foreach ( $users as $user ) {
+			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', $time );
+		}
+
+		return count( $users );
+	}
+
+	/**
+	 * Wrap legacy filter to deduplicate calls.
+	 *
+	 * @param array $users Array of user objects to filter.
+	 *
+	 * @return array
+	 */
+	protected function exclude_users( $users ) {
 
 		/**
 		 * Filter the authors, included in XML sitemap.
 		 *
 		 * @param array $users Array of user objects to filter.
 		 */
-		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users ); // TODO deduplicate filter. R.
-
-		if ( empty( $users ) ) {
-			$users = array();
-		}
-
-		// Ascending sort.
-		usort( $users, array( $this, 'user_map_sorter' ) );
-
-		foreach ( $users as $user ) {
-
-			$author_link = get_author_posts_url( $user->ID );
-
-			if ( empty( $author_link ) ) {
-				continue;
-			}
-
-			$url = array(
-				'loc' => $author_link,
-				'pri' => 0.8,
-				'chf' => WPSEO_Sitemaps::filter_frequency( 'author_archive', 'daily', $author_link ),
-				'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
-			);
-
-			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
-			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
-
-			if ( ! empty( $url ) ) {
-				$links[] = $url;
-			}
-		}
-		unset( $user, $author_link, $url );
-
-		return $links;
+		return apply_filters( 'wpseo_sitemap_exclude_author', $users );
 	}
 
 	/**
 	 * Filter users that should be excluded from the sitemap (by author metatag: wpseo_excludeauthorsitemap).
 	 *
 	 * Also filtering users that should be exclude by excluded role.
+	 *
+	 * @deprecated The checks are problematic legacy code and don't run on WP core above 4.4.
+	 * @TODO Remove after plugin requirements raised to WP 4.4. R.
 	 *
 	 * @param array $users Set of users to filter.
 	 *
@@ -212,15 +307,15 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $users;
 		}
 
+		global $wp_version;
+
 		$options = get_option( 'wpseo_xml' );
 
-		// TODO there are still bugs in this logic, issues on tracker. R.
 		foreach ( $users as $user_key => $user ) {
+
 			$exclude_user = false;
 
-			/**
-			 * Cheapest condition first; we have all information already.
-			 */
+			// Cheapest condition first; we have all information already.
 			if ( ! $exclude_user ) {
 				$user_role    = $user->roles[0];
 				$target_key   = "user_role-{$user_role}-not_in_sitemap";
@@ -228,26 +323,23 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				unset( $user_role, $target_key );
 			}
 
-			/**
-			 * If the author has been excluded by preference on profile.
-			 */
-			if ( ! $exclude_user ) {
-				$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
-				$exclude_user = ( $is_exclude_on === 'on' );
+			// @TODO Remove after plugin requirements raised to WP 4.3. R.
+			if ( version_compare( $wp_version, '4.3', '<' ) ) {
+
+				// If the author has been excluded by preference on profile.
+				if ( ! $exclude_user ) {
+					$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
+					$exclude_user  = ( $is_exclude_on === 'on' );
+				}
+
+				// If the author has been excluded by general settings because there are no posts.
+				if ( ! $exclude_user && $options['disable_author_noposts'] === true ) {
+					$count_posts  = (int) count_user_posts( $user->ID );
+					$exclude_user = ( $count_posts === 0 );
+					unset( $count_posts );
+				}
 			}
 
-			/**
-			 * If the author has been excluded by general settings because there are no posts.
-			 */
-			if ( ! $exclude_user && $options['disable_author_noposts'] === true ) {
-				$count_posts  = (int) count_user_posts( $user->ID );
-				$exclude_user = ( $count_posts === 0 );
-				unset( $count_posts );
-			}
-
-			/*
-			 * Remove the user from the list if excluded.
-			 */
 			if ( $exclude_user === true ) {
 				unset( $users[ $user_key ] );
 			}
@@ -260,6 +352,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field.
 	 *
 	 * @since 1.6
+	 *
+	 * @deprecated 3.3 User meta sort can now be done by queries.
 	 *
 	 * @param WP_User $first  The first WP user.
 	 * @param WP_User $second The second WP user.

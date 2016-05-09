@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-05-06 09:40:56+00:00\n"
+"POT-Creation-Date: 2016-05-06 09:57:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -87,8 +87,7 @@ msgid "General Settings"
 msgstr ""
 
 #: admin/class-admin.php:134 admin/class-admin.php:291
-#: admin/class-meta-columns.php:43
-#: admin/taxonomy/class-taxonomy-columns.php:43
+#: admin/class-meta-columns.php:43 admin/taxonomy/class-taxonomy-columns.php:43
 #: inc/wpseo-non-ajax-functions.php:258
 msgid "SEO"
 msgstr ""
@@ -161,13 +160,13 @@ msgstr ""
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:270 admin/class-admin.php:271
-#: admin/pages/metas.php:54 admin/pages/metas.php:56
+#: admin/class-admin.php:270 admin/class-admin.php:271 admin/pages/metas.php:54
+#: admin/pages/metas.php:56
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:278 admin/class-admin.php:279
-#: admin/pages/metas.php:62 admin/pages/metas.php:64
+#: admin/class-admin.php:278 admin/class-admin.php:279 admin/pages/metas.php:62
+#: admin/pages/metas.php:64
 msgid "Advanced Variables"
 msgstr ""
 
@@ -649,8 +648,7 @@ msgid "Social settings"
 msgstr ""
 
 #: admin/class-pointers.php:283 admin/class-social-admin.php:45
-#: admin/pages/social.php:17
-#: admin/taxonomy/class-taxonomy-social-fields.php:93
+#: admin/pages/social.php:17 admin/taxonomy/class-taxonomy-social-fields.php:93
 msgid "Facebook"
 msgstr ""
 
@@ -669,8 +667,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-pointers.php:285 admin/class-social-admin.php:46
-#: admin/pages/social.php:18
-#: admin/taxonomy/class-taxonomy-social-fields.php:94
+#: admin/pages/social.php:18 admin/taxonomy/class-taxonomy-social-fields.php:94
 msgid "Twitter"
 msgstr ""
 
@@ -4025,22 +4022,22 @@ msgstr ""
 msgid "No images appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:31
-msgid "The images on this page are missing alt attributes."
+#: js/assessments/textImagesAssessment.js:32
+msgid "The images on this page contain alt attributes with the focus keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:39
-msgid "The images on this page contain alt attributes."
-msgstr ""
-
-#: js/assessments/textImagesAssessment.js:47
+#: js/assessments/textImagesAssessment.js:40
 msgid ""
 "The images on this page do not have alt attributes containing your focus "
 "keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:55
-msgid "The images on this page contain alt attributes with the focus keyword."
+#: js/assessments/textImagesAssessment.js:48
+msgid "The images on this page contain alt attributes."
+msgstr ""
+
+#: js/assessments/textImagesAssessment.js:56
+msgid "The images on this page are missing alt attributes."
 msgstr ""
 
 #: js/assessments/textLengthAssessment.js:17
