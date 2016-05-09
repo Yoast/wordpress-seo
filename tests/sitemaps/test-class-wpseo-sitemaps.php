@@ -90,4 +90,29 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 			'Served from transient cache',
 		) );
 	}
+
+	/**d
+	 * Test for last modified date
+	 *
+	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
+	 */
+	public function test_last_modified_post_type() {
+
+		$older_date  = '2015-01-01 12:00:00';
+		$newest_date = '2016-01-01 12:00:00';
+
+		$this->factory->post->create( array( 'post_status' => 'publish', 'post_date' => $newest_date ) );
+		$this->factory->post->create( array( 'post_status' => 'publish', 'post_date' => $older_date ) );
+
+		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( array( 'post' ) ) );
+	}
+
+	/**
+	 * Test for last modified date with invalid post types
+	 *
+	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
+	 */
+	public function test_last_modified_with_invalid_post_type() {
+		$this->assertFalse( WPSEO_Sitemaps::get_last_modified_gmt( array( 'invalid_post_type' ) ) );
+	}
 }
