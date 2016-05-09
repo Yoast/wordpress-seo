@@ -1,25 +1,5 @@
 <?php
 
-class WPSEO_Admin_Double extends WPSEO_Admin {
-
-	/**
-	 * Array with all pages of the plugin.
-	 *
-	 * @var array
-	 */
-	private $wpseo_pages = array(
-		'wpseo_dashboard',
-		'wpseo_titles',
-		'wpseo_social',
-		'wpseo_xml',
-		'wpseo_advanced',
-		'wpseo_tools',
-		'wpseo_search_console',
-		'wpseo_licenses',
-	);
-
-}
-
 class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -60,5 +40,6 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
 	}
-	
+
+
 }
