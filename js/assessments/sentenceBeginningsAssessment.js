@@ -3,11 +3,11 @@ var partition = require ( "lodash/partition" );
 var sortBy = require ( "lodash/sortBy" );
 
 /**
- * Counts the number too often used sentence beginnings and determines the lowest count within that group.
+ * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.
  * @param {array} sentenceBeginnings The array containing the objects containing the beginning words and counts.
  * @returns {object} The object containing the total number of too often used beginnings and the lowest count within those.
  */
-var calculateSentenceBeginningsResult = function( sentenceBeginnings ) {
+var groupSentenceBeginnings = function( sentenceBeginnings ) {
 	var maximumConsecutiveDuplicates = 2;
 
 	var tooOften = partition( sentenceBeginnings, function ( word ) {
@@ -22,6 +22,28 @@ var calculateSentenceBeginningsResult = function( sentenceBeginnings ) {
 	return { total: tooOften[ 0 ].length, lowestCount: sortedCounts[ 0 ].count };
 };
 
+var calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
+	if ( groupedSentenceBeginnings.total > 0 ) {
+		return {
+			score: 3,
+			text: i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
+
+					// translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
+					// with the same word.
+					// %2$d expands to the number of consecutive sentences starting with the same word.
+					"Your text contains %2$d consecutive sentences starting with the same word. Try to mix things up!",
+					"Your text contains %1$d instances where %2$d or more consecutive sentences start with the same word. " +
+					"Try to mix things up!",
+					groupedSentenceBeginnings.total
+				),
+				groupedSentenceBeginnings.total, groupedSentenceBeginnings.lowestCount )
+		};
+	}
+	return {};
+};
+
 /**
  * Scores the repetition of sentence beginnings in consecutive sentences.
  * @param {object} paper The paper to use for the assessment.
@@ -31,24 +53,11 @@ var calculateSentenceBeginningsResult = function( sentenceBeginnings ) {
  */
 var sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
 	var sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
-	var sentenceBeginningsResult = calculateSentenceBeginningsResult( sentenceBeginnings, i18n );
+	var groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
+	var sentenceBeginningsResult = calculateSentenceBeginningsResult ( groupedSentenceBeginnings, i18n );
 	var assessmentResult = new AssessmentResult();
-	if ( sentenceBeginningsResult.total > 0 ) {
-		assessmentResult.setScore( 3 );
-		assessmentResult.setText(
-			i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-
-					// translators: %1$s expands to number of consecutive sentences starting with the same word.
-					"%2$d consecutive sentences start with the same word. Try to mix things up!",
-					"Your text contains %1$d instances where %2$d or more consecutive sentences start with the same word. " +
-					"Try to mix things up!",
-					sentenceBeginningsResult.total
-				),
-			sentenceBeginningsResult.total, sentenceBeginningsResult.lowestCount )
-		);
-	}
+	assessmentResult.setScore( sentenceBeginningsResult.score );
+	assessmentResult.setText( sentenceBeginningsResult.text );
 	return assessmentResult;
 };
 
@@ -58,3 +67,4 @@ module.exports = {
 		return paper.hasText();
 	}
 };
+
