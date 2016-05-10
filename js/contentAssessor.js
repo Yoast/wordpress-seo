@@ -21,20 +21,20 @@ var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" 
  */
 var ContentAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
-	this._assessments = {
-		fleschReadingEase:		fleschReadingEase,
-		wordComplexity:			wordComplexity,
-		getSubheadingPresence:          getSubheadingPresence,
-		subheadingDistributionTooLong:  subheadingDistributionTooLong,
-		subheadingDistributionTooShort: subheadingDistributionTooShort,
-		subHeadingLength:               subHeadingLength,
-		paragraphTooLong:               paragraphTooLong,
-		paragraphTooShort:              paragraphTooShort,
-		sentenceLengthInText:           sentenceLengthInText,
-		sentenceLengthInDescription:    sentenceLengthInDescription,
-		transitionWords:                transitionWords,
-		sentenceVariation:              sentenceVariation
-	};
+	this._assessments = [
+		fleschReadingEase,
+		wordComplexity,
+		getSubheadingPresence,
+		subheadingDistributionTooLong,
+		subheadingDistributionTooShort,
+		subHeadingLength,
+		paragraphTooLong,
+		paragraphTooShort,
+		sentenceLengthInText,
+		sentenceLengthInDescription,
+		transitionWords,
+		sentenceVariation
+	];
 };
 
 module.exports = ContentAssessor;
