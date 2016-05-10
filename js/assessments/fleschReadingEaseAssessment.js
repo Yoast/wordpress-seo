@@ -101,6 +101,7 @@ var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "fleschReadingEase",
 	getResult: fleschReadingEaseAssessment,
 	isApplicable: function( paper ) {
 		return ( paper.getLocale().indexOf( "en_" ) > -1 );
