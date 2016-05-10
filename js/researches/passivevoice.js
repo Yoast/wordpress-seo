@@ -6,6 +6,7 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
 
 var nonverbEndingEd = require( "../language/en_US/non-verb-ending-ed.js" )();
+var nonverbEndingIng = require( "../language/en_US/non-verb-ending-ing.js" )();
 
 var auxiliaries = require( "../language/en_us/auxiliaries.js" )();
 var irregulars = require( "../language/en_us/irregulars.js" )();
@@ -41,9 +42,17 @@ var matchArray = function( sentence, matchArray ) {
 	return matchedParts;
 };
 
+var sortIndices = function( indices ){
+	return indices.sort( function( a, b ){
+		return( a.index > b.index );
+	});
+};
+
 var filterIndices = function( indices ){
+	indices = sortIndices( indices );
 	for( var i = 0; i < indices.length; i++ ){
 		if(typeof( indices[ i + 1] ) !== "undefined" && indices[ i+1 ].index < indices[ i ].index + indices[ i ].match.length ){
+			console.log( "pop" );
 			indices.pop( i + 1);
 		}
 	}
@@ -61,10 +70,8 @@ var getIndices = function( subSentence ){
 	var stopwordIndices = matchArray( subSentence, stopwords );
 	stopwordIndices = filterIndices( stopwordIndices );
 	var indices = auxiliaryIndices.concat( stopwordIndices );
-
-	return indices.sort( function( a, b ){
-		return( a.index > b.index );
-	});
+//console.log( sortIndices( indices ) );
+	return sortIndices( indices );
 };
 
 /**
@@ -73,12 +80,12 @@ var getIndices = function( subSentence ){
  * @returns {Array}
  */
 var getSubsentences = function( sentence ){
+
+	var subSentences = [];
 	// First check if there is an auxiliary word in the sentence
+
 	if( sentence.match( auxiliaryRegex ) !== null ) {
-
 		var indices = getIndices( sentence );
-
-		var subSentences = [];
 		var currentIndex = 0;
 
 		// Get the words after the found auxiliary
@@ -89,11 +96,17 @@ var getSubsentences = function( sentence ){
 			}
 
 			// Cut the sentence from the current index to the endIndex
-			var subSentence = stripSpaces( sentence.substr( currentIndex, endIndex - currentIndex ) );
+			var subSentence = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+
 			currentIndex = endIndex;
 			subSentences.push( subSentence );
 		}
 	}
+
+	subSentences = filter ( subSentences, function( subSentence ) {
+		return subSentence.match( auxiliaryRegex ) !== null;
+	} );
+
 	return subSentences;
 };
 
@@ -109,7 +122,7 @@ var getVerbs = function( sentence ){
 
 	// Filters out words ending in -ed that aren't verbs.
 	return filter( matches, function( match ){
-		return matchArray( stripSpaces( match ), nonverbEndingEd).length === 0;
+		return matchArray( stripSpaces( match ), nonverbEndingEd ).length === 0;
 	} );
 };
 
@@ -140,7 +153,7 @@ module.exports = function( paper) {
 	sentences.map( function( sentence ) {
 
 		var subSentences = getSubsentences( sentence );
-		// get matches in each subsentence
+//console.log( subSentences );
 		subSentences.map( function( subSentence ){
 			var verbs = getVerbs( subSentence );
 			var irregularVerbs = getIrregularVerbs( subSentence );
