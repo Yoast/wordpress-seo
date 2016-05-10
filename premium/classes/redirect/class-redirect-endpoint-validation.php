@@ -4,7 +4,7 @@
  */
 
 /**
- * Validator for validating the endpoint of a redirect
+ * Validates the endpoint of a redirect
  */
 class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 
@@ -19,7 +19,9 @@ class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 	private $error;
 
 	/**
-	 * Validate the redirect to check if the origin already exists.
+	 * This validation checks if the redirect being created, follows:
+	 * - a path that results in a redirection to it's own origin due to other redirects pointing to the current origin.
+	 * - a path that can be shorten by creating a direct redirect.
 	 *
 	 * @param WPSEO_Redirect $redirect     The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.

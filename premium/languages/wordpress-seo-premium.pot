@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-04-21 12:42:59+00:00\n"
+"POT-Creation-Date: 2016-05-06 08:25:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -217,27 +217,27 @@ msgstr ""
 msgid "Remove image"
 msgstr ""
 
-#: classes/class-social-previews.php:143
+#: classes/class-social-previews.php:136
 msgid "Show information about Facebook title"
 msgstr ""
 
-#: classes/class-social-previews.php:144
+#: classes/class-social-previews.php:137
 msgid "Show information about Facebook description"
 msgstr ""
 
-#: classes/class-social-previews.php:145
+#: classes/class-social-previews.php:138
 msgid "Show information about Facebook image"
 msgstr ""
 
-#: classes/class-social-previews.php:146
+#: classes/class-social-previews.php:139
 msgid "Show information about Twitter title"
 msgstr ""
 
-#: classes/class-social-previews.php:147
+#: classes/class-social-previews.php:140
 msgid "Show information about Twitter description"
 msgstr ""
 
-#: classes/class-social-previews.php:148
+#: classes/class-social-previews.php:141
 msgid "Show information about Twitter image"
 msgstr ""
 

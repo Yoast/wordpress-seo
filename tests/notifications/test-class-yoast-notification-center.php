@@ -139,7 +139,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$notifications = $subject->get_notifications();
 
-		$this->assertEquals( 1, count( $notifications ) );
+		$this->assertEquals( 2, count( $notifications ) );
 	}
 
 	/**
