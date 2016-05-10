@@ -492,8 +492,8 @@ App.prototype.modifyData = function( data ) {
 	// Copy rawdata to lose object reference.
 	data = JSON.parse( JSON.stringify( data ) );
 
-	data.text = this.pluggable._applyModifications( "content", data.text );
-	data.title = this.pluggable._applyModifications( "title", data.title );
+	data.text      = this.pluggable._applyModifications( "content", data.text );
+	data.metaTitle = this.pluggable._applyModifications( "title", data.metaTitle );
 
 	return data;
 };
