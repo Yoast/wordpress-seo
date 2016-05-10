@@ -7,6 +7,11 @@ module.exports = {
 	example: {
 		files: {
 			"examples/browserified/example-browserified.js": [ "examples/browserified/example.js" ]
+		},
+		options: {
+			browserifyOptions: {
+				debug: true
+			}
 		}
 	}
 };
