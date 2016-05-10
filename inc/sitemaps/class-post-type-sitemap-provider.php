@@ -174,6 +174,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				if ( ! empty( $url ) ) {
 					$links[] = $url;
+					$stacked_urls[] = $url['loc'];
 				}
 			}
 
@@ -375,7 +376,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			{$join_filter}
 			{$where}
 				{$where_filter}
-			LIMIT %d OFFSET %d
+			ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
 		";
 
 		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
