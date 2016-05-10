@@ -710,7 +710,9 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Check if the current opened page belongs to Yoast SEO Free
+	 * Check if the current opened page belongs to Yoast SEO Free.
+	 *
+	 * @param string $current_page the current page the user is on.
 	 *
 	 * @return bool
 	 */
@@ -725,8 +727,6 @@ class WPSEO_Utils {
 			'wpseo_search_console',
 			'wpseo_licenses',
 		);
-
-		//$current_page = filter_input( INPUT_GET, 'page' );
 
 		return in_array( $current_page, $yoast_seo_free_pages );
 	}
