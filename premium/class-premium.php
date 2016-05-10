@@ -158,6 +158,10 @@ class WPSEO_Premium {
 
 		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
 		add_action( 'admin_init', array( $this, 'enqueue_social_previews' ) );
+
+		// Only initialize the AJAX for all tabs except settings.
+		$facebook_name = new WPSEO_Facebook_Profile();
+		$facebook_name->set_hooks();
 	}
 
 	/**
@@ -215,7 +219,6 @@ class WPSEO_Premium {
 			'post.php',
 			'edit.php',
 		);
-
 		$social_previews = new WPSEO_Social_Previews();
 		if ( in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
 			$social_previews->set_hooks();

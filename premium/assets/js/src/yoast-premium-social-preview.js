@@ -1,4 +1,4 @@
-/* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO  */
+/* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO, ajaxurl  */
 /* jshint -W097 */
 'use strict';
 
@@ -238,7 +238,7 @@ var Jed = require( 'jed' );
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
-					
+
 					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'titleUpdate' );
 					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'descriptionUpdate' );
 
@@ -292,9 +292,31 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Initialize the facebook preview.
+	 * Try to get the Facebook author name via AJAX and put it to the Facebook preview.
 	 *
-	 * @param {Object} facebookHolder Target element for adding the facebook preview.
+	 * @param {FacebookPreview} facebookPreview The Facebook preview object
+	 */
+	function getFacebookAuthor( facebookPreview ) {
+		$.get(
+			ajaxurl,
+			{
+				action: 'wpseo_get_facebook_name',
+				_ajax_nonce: yoastSocialPreview.facebookNonce,
+				user_id: $( '#post_author_override' ).val()
+			},
+			function( author ) {
+				if ( author !== 0 ) {
+					facebookPreview.setAuthor( author );
+				}
+			}
+		);
+	}
+
+
+	/**
+	 * Initialize the Facebook preview.
+	 *
+	 * @param {Object} facebookHolder Target element for adding the Facebook preview.
 	 */
 	function initFacebook( facebookHolder ) {
 		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
@@ -317,6 +339,13 @@ var Jed = require( 'jed' );
 		facebookPreview.init();
 
 		addUploadButton( facebookPreview );
+
+		var postAuthorDropdown = $( '#post_author_override' );
+		if( postAuthorDropdown.length > 0 ) {
+			postAuthorDropdown.on( 'change', getFacebookAuthor.bind( this, facebookPreview ) );
+			postAuthorDropdown.trigger( 'change' );
+		}
+
 	}
 
 	/**
@@ -363,7 +392,7 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * When twitter title is empty, use the facebook title
+	 * When twitter title is empty, use the Facebook title
 	 *
 	 * @param {TwitterPreview} twitterPreview The twitter preview object
 	 */

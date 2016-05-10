@@ -142,6 +142,7 @@ class WPSEO_Social_Previews {
 				),
 				'library' => $this->get_translations(),
 			),
+			'facebookNonce' => wp_create_nonce( 'get_facebook_name' ),
 		);
 	}
 
