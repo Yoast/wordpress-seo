@@ -9,6 +9,7 @@ var isString = require( "lodash/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
+var debounce = require( "lodash/debounce" );
 
 var Jed = require( "jed" );
 
@@ -241,7 +242,10 @@ var App = function( args ) {
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
 
-	this.runAnalyzer();
+	// Overwrite refresh function to make sure it can be debounced.
+	this.refresh = debounce( this.refresh.bind( this ), this.config.typeDelay );
+
+	this.refresh();
 };
 
 /**
@@ -382,13 +386,13 @@ App.prototype.initAssessorPresenters = function() {
 };
 
 /**
- * binds the analyzeTimer function to the input of the targetElement on the page.
+ * binds the refresh function to the input of the targetElement on the page.
  * @returns {void}
  */
 App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
+		elem.addEventListener( "input", this.refresh.bind( this ) );
 	}
 };
 
@@ -400,17 +404,6 @@ App.prototype.reloadSnippetText = function() {
 	if ( isUndefined( this.snippetPreview ) ) {
 		this.snippetPreview.reRender();
 	}
-};
-
-/**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
- * at every keystroke checks the reference object, so this function can be called from anywhere,
- * without problems with different scopes.
- * @returns {void}
- */
-App.prototype.analyzeTimer = function() {
-	clearTimeout( window.timer );
-	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
 };
 
 /**
@@ -625,6 +618,21 @@ App.prototype.registerTest = function() {
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 	return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
+};
+
+// Deprecated functions
+
+/**
+ * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
+ * at every keystroke checks the reference object, so this function can be called from anywhere,
+ * without problems with different scopes.
+ *
+ * @deprecated: 1.3 - Use this.refresh() instead.
+ *
+ * @returns {void}
+ */
+App.prototype.analyzeTimer = function() {
+	this.refresh();
 };
 
 module.exports = App;
