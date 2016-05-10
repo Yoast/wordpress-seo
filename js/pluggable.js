@@ -115,7 +115,7 @@ Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	this.app.analyzeTimer();
+	this.app.refresh();
 	return true;
 };
 
