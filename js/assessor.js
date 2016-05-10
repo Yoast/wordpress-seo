@@ -81,7 +81,6 @@ Assessor.prototype.assess = function( paper ) {
  * @returns {Array<AssessmentResult>} The array with all the valid assessments.
  */
 Assessor.prototype.getValidResults = function() {
-	console.log( 'results', this.results.length );
 	return filter( this.results, function( result ) {
 		return this.isValidResult( result );
 	}.bind( this ) );
