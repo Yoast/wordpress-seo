@@ -40,10 +40,10 @@ class WPSEO_Meta_Columns {
 		}
 
 		return array_merge( $columns, array(
-			'wpseo-score'    => sprintf( '<span aria-label="%s">%s</span>', __( 'SEO Score', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) ),
+			'wpseo-score'    => sprintf( '<span class="screen-reader-text">%s</span></span><span aria-hidden="true">%s</span>', __( 'SEO Score', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) ),
 			'wpseo-title'    => __( 'SEO Title', 'wordpress-seo' ),
-			'wpseo-metadesc' => sprintf( '<span aria-label="%s">%s</span>', __( 'Meta Description', 'wordpress-seo' ), __( 'Meta Desc.', 'wordpress-seo' ) ),
-			'wpseo-focuskw'  => sprintf( '<span aria-label="%s">%s</span>', __( 'Focus Keyword', 'wordpress-seo' ), __( 'Focus KW', 'wordpress-seo' ) ),
+			'wpseo-metadesc' => sprintf( '<span class="screen-reader-text">%s</span><span aria-hidden="true">%s</span>', __( 'Meta Description', 'wordpress-seo' ), __( 'Meta Desc.', 'wordpress-seo' ) ),
+			'wpseo-focuskw'  => sprintf( '<span class="screen-reader-text">%s</span><span aria-hidden="true">%s</span>', __( 'Focus Keyword', 'wordpress-seo' ), __( 'Focus KW', 'wordpress-seo' ) ),
 		) );
 	}
 
