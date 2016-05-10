@@ -37,7 +37,7 @@ YoastSEO.ExampleScraper.prototype.bindElementEvents = function( app ) {
 YoastSEO.ExampleScraper.prototype.inputElementEventBinder = function( app ) {
 	var elems = [ "content", "focusKeyword" ];
 	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( "input", app.analyzeTimer.bind( app ) );
+		document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 	}
 };
 

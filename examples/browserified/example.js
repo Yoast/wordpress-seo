@@ -8,7 +8,7 @@ var TestPlugin = require( "./example-plugin-test.js" );
 var bindEvents = function( app ) {
 	var elems = [ "content", "focusKeyword" ];
 	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( "input", app.analyzeTimer.bind( app ) );
+		document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 	}
 };
 
