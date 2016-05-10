@@ -79,6 +79,7 @@ var transitionWordsAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
