@@ -78,11 +78,11 @@ class WPSEO_Sitemap_Image_Parser {
 	/**
 	 * Parse `<img />` tags in post content.
 	 *
-	 * @param object $post Post object.
+	 * @param string $content Content string to parse.
 	 *
 	 * @return array
 	 */
-	private function parse_html_images( $post ) {
+	private function parse_html_images( $content ) {
 
 		$images = array();
 
@@ -90,14 +90,12 @@ class WPSEO_Sitemap_Image_Parser {
 			return $images;
 		}
 
-		$post_content = get_post_field( 'post_content', $post );
-
-		if ( empty( $post_content ) ) {
+		if ( empty( $content ) ) {
 			return $images;
 		}
 
 		$post_dom = new DOMDocument();
-		$post_dom->loadHTML( $post_content );
+		$post_dom->loadHTML( $content );
 
 		/** @var DOMElement $img */
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
@@ -129,8 +127,11 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			$image    = $this->get_image_item( $post, $src, $img->getAttribute( 'title' ), $img->getAttribute( 'alt' ) );
-			$images[] = $image;
+			$images[] = array(
+				'src'   => $src,
+				'title' => $img->getAttribute( 'title' ),
+				'alt'   => $img->getAttribute( 'alt' ),
+			);
 		}
 
 		return $images;
