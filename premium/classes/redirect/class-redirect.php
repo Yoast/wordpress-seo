@@ -55,7 +55,6 @@ class WPSEO_Redirect implements ArrayAccess {
 		$this->target = $this->sanitize_url( $target );
 		$this->format = $format;
 		$this->type   = (int) $type;
-
 	}
 
 	/**
@@ -216,14 +215,14 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	private function sanitize_blog_url( $url ) {
 		$blog_url = $this->strip_protocol( get_home_url() );
+		$stripped_url = $this->strip_protocol( $url );
 
-		if ( ! strpos( $url, $blog_url ) ) {
+		// Match against the stripped URL for easier matching.
+		if ( ! $this->contains_blog_url( $stripped_url, $blog_url ) || $this->is_subdomain( $stripped_url, $blog_url ) ) {
 			return $url;
 		}
 
-		$url = $this->strip_protocol( $url );
-
-		return str_replace( $blog_url, '', $url );
+		return str_replace( $blog_url, '', $stripped_url );
 	}
 
 	/**
@@ -237,5 +236,13 @@ class WPSEO_Redirect implements ArrayAccess {
 		$url = $this->sanitize_blog_url( $url );
 
 		return $this->sanitize_slash( $url );
+	}
+
+	private function contains_blog_url( $url, $blog_url ) {
+		return strpos( $url, $blog_url ) !== false;
+	}
+
+	private function is_subdomain( $url, $blog_url ) {
+		return strpos($url, $blog_url) > 0;
 	}
 }

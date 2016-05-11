@@ -187,4 +187,18 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'target', $redirect->get_target() );
 	}
 
+	/**
+	 * Tests the result of a subdomain being used as the target.
+	 *
+	 * @covers WPSEO_Redirect::sanitize_url
+	 * @covers WPSEO_Redirect::sanitize_blog_url
+	 */
+	public function test_subdomain_remains_unaffected() {
+		$blogUrl = 'http://example.org/';
+		$subdomain = 'http://sub.example.org/';
+
+		$redirect = new WPSEO_Redirect( $blogUrl, $subdomain, 301, 'plain' );
+
+		$this->assertEquals( $redirect->get_target(), $subdomain );
+	}
 }
