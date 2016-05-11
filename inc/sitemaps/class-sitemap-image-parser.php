@@ -138,21 +138,21 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Parse gallery shortcodes in a given post.
+	 * Parse gallery shortcodes in a given content.
 	 *
-	 * @param WP_Post $post Post object.
+	 * @param string $content Content string.
+	 * @param int    $post_id Optional ID of post being parsed.
 	 *
-	 * @return array
+	 * @return array Set of attachment objects.
 	 */
-	private function parse_galleries( $post ) {
+	private function parse_galleries( $content, $post_id = 0 ) {
 
-		$images      = array();
 		$attachments = array();
-		$galleries   = $this->get_post_galleries( $post );
+		$galleries   = $this->get_content_galleries( $content );
 
 		foreach ( $galleries as $gallery ) {
 
-			$id = $post->ID;
+			$id = $post_id;
 
 			if ( ! empty( $gallery['id'] ) ) {
 				$id = intval( $gallery['id'] );
@@ -163,6 +163,8 @@ class WPSEO_Sitemap_Image_Parser {
 				$gallery['include'] = $gallery['ids'];
 			}
 
+			$gallery_attachments = array();
+
 			if ( ! empty( $gallery['include'] ) ) {
 
 				$_attachments = get_posts( array(
@@ -172,13 +174,11 @@ class WPSEO_Sitemap_Image_Parser {
 					'post_mime_type' => 'image',
 				) );
 
-				$gallery_attachments = array();
-
 				foreach ( $_attachments as $key => $val ) {
 					$gallery_attachments[ $val->ID ] = $_attachments[ $key ];
 				}
 			}
-			elseif ( ! empty( $gallery['exclude'] ) ) {
+			elseif ( ! empty( $gallery['exclude'] ) && ! empty( $id ) ) {
 
 				$gallery_attachments = get_children( array(
 					'post_parent'    => $id,
@@ -188,7 +188,7 @@ class WPSEO_Sitemap_Image_Parser {
 					'post_mime_type' => 'image',
 				) );
 			}
-			else {
+			elseif ( ! empty( $id ) ) {
 
 				$gallery_attachments = get_children( array(
 					'post_parent'    => $id,
@@ -201,37 +201,27 @@ class WPSEO_Sitemap_Image_Parser {
 			$attachments = array_merge( $attachments, $gallery_attachments );
 		}
 
-		$attachments = array_unique( $attachments, SORT_REGULAR );
-
-		foreach ( $attachments as $attachment ) {
-
-			$src = $this->get_absolute_url( $this->image_url( $attachment->ID ) );
-			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
-
-			$images[] = $this->get_image_item( $post, $src, $attachment->post_title, $alt );
-		}
-
-		return $images;
+		return array_unique( $attachments, SORT_REGULAR );
 	}
 
 	/**
-	 * Retrieves galleries from the passed post's content.
+	 * Retrieves galleries from the passed content.
 	 *
 	 * Forked from core to skip executing shortcodes for performance.
 	 *
-	 * @param WP_Post $post Post object.
+	 * @param string $content Content to parse for shortcodes.
 	 *
 	 * @return array A list of arrays, each containing gallery data.
 	 */
-	protected function get_post_galleries( $post ) {
+	protected function get_content_galleries( $content ) {
 
-		if ( ! has_shortcode( $post->post_content, 'gallery' ) ) {
+		if ( ! has_shortcode( $content, 'gallery' ) ) {
 			return array();
 		}
 
 		$galleries = array();
 
-		if ( ! preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER ) ) {
+		if ( ! preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) ) {
 			return $galleries;
 		}
 
