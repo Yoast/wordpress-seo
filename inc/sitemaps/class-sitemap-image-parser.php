@@ -62,7 +62,27 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = $this->get_image_item( $post, $src, $title, $alt );
 		}
 
-		$images = array_merge( $images, $this->parse_html_images( $post ), $this->parse_galleries( $post ) );
+		$unfiltered_images = $this->parse_html_images( $post->post_content );
+
+		foreach ( $unfiltered_images as $image ) {
+			$images[] = $this->get_image_item( $post, $image['src'], $image['title'], $image['alt'] );
+		}
+
+		foreach ( $this->parse_galleries( $post->post_content, $post->ID ) as $attachment ) {
+
+			$src = $this->get_absolute_url( $this->image_url( $attachment->ID ) );
+			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
+
+			$images[] = $this->get_image_item( $post, $src, $attachment->post_title, $alt );
+		}
+
+		if ( 'attachment' === $post->post_type && wp_attachment_is_image( $post ) ) {
+
+			$src      = $this->get_absolute_url( $this->image_url( $post->ID ) );
+			$alt      = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
+
+			$images[] = $this->get_image_item( $post, $src, $post->post_title, $alt );
+		}
 
 		/**
 		 * Filter images to be included for the post in XML sitemap.
