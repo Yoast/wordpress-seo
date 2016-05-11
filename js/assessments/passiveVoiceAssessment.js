@@ -1,25 +1,34 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 var calculatePassiveVoiceResult = function( result, i18n ) {
-	var percentage = ( result.passive / result.total ) * 100;
+	var percentage = ( result.passives / result.total ) * 100;
 	var recommendedValue = 10;
 	var score = 9 - Math.max( Math.min( ( 6 / 10 ) * ( percentage - 6.7 ), 6 ), 0 );
 
 	if ( score >= 7 ) {
 		return {
 			score: score,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences is written in the passive voice, which is within the recommended range." ),
-				percentage + "%" )
+			text: i18n.sprintf(
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$s of the sentences is written in the passive voice, which is within the recommended range." ),
+					percentage + "%"
+			)
 		};
 	}
 	return {
 		score: score,
 
 		// translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
-		text: i18n.sprintf( i18n.dgettext(
-			"js-text-analysis",
-			"%1$s of the sentences is written in the passive voice, which is more than the recommended maximum of %2$s. Try to use their active counterparts."
-		), percentage + "%", recommendedValue + "%" )
+		text: i18n.sprintf(
+			i18n.dgettext(
+				"js-text-analysis",
+				"%1$s of the sentences is written in the passive voice, which is more than the recommended maximum of %2$s. " +
+				"Try to use their active counterparts."
+			),
+			percentage + "%",
+			recommendedValue + "%"
+		)
 	};
 };
 

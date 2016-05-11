@@ -1,5 +1,6 @@
 module.exports = function() {
-	return ["arisen",
+	return [
+		"arisen",
 		"awoken",
 		"reawoken",
 		"babysat",
@@ -345,5 +346,6 @@ module.exports = function() {
 		"miswritten",
 		"rewritten",
 		"overwritten",
-		"wrung"];
+		"wrung"
+	];
 };

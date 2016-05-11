@@ -56,7 +56,7 @@ var defaults = {
 	typeDelayStep: 100,
 	maxTypeDelay: 1500,
 	dynamicDelay: true,
-	locale: "en_US",
+	locale: "passivevoice-english",
 	translations: {
 		"domain": "js-text-analysis",
 		"locale_data": {
@@ -252,7 +252,7 @@ var App = function( args ) {
  */
 App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
-	args.locale = args.locale || "en_US";
+	args.locale = args.locale || "passivevoice-english";
 
 	return args;
 };

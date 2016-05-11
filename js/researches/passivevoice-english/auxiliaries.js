@@ -27,5 +27,5 @@ module.exports = function() {
 		"wasn\'t",
 		"that\'s",
 		"aren\'t"
-	]
+	];
 };
