@@ -96,7 +96,28 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Parse `<img />` tags in post content.
+	 * @param object $term Term to get images from description for.
+	 *
+	 * @return array
+	 */
+	public function get_term_images( $term ) {
+
+		$images = $this->parse_html_images( $term->description );
+
+		foreach ( $this->parse_galleries( $term->description ) as $attachment ) {
+
+			$images[] = array(
+				'src'   => $this->get_absolute_url( $this->image_url( $attachment->ID ) ),
+				'title' => $attachment->post_title,
+				'alt'   => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
+			);
+		}
+
+		return $images;
+	}
+
+	/**
+	 * Parse `<img />` tags in content.
 	 *
 	 * @param string $content Content string to parse.
 	 *
