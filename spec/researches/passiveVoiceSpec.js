@@ -3,10 +3,6 @@ var Paper = require( "../../js/values/Paper.js" );
 
 // Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
 describe( "detecting passive voice in sentences", function() {
-	/*it("returns active voice (Simple Present)", function () {
-		var paper = new Paper("Once a week, Tom cleans the house.");
-		expect(passiveVoice(paper)).toBe(0);
-	});*/
 
 	it("returns active voice (Simple Present)", function () {
 		paper = new Paper("Once a week, Tom cleans the house.");
@@ -27,8 +23,7 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper("Right now, the letter is being written by Sarah.");
 		expect(passiveVoice(paper)).toBe(1);
 	});
-} );
-/*
+
 	it( "returns active voice (Simple Past)", function() {
 		paper = new Paper( "Sam repaired the car." );
 		expect( passiveVoice( paper) ).toBe( 0 );
@@ -150,22 +145,22 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns active voice (Future Perfect Continuous- will)", function() {
-		paper = new Paper( "The famous artist will have been painting the mural for over six months by the time it is finished." );
+		paper = new Paper( "The famous artist will have been painting the mural for over six months." );
 		expect( passiveVoice( paper) ).toBe( 0 );
 	} );
 
 	it( "returns passive voice (Future Perfect Continuous- will)", function() {
-		paper = new Paper( "The mural will have been being painted by the famous artist for over six months by the time it is finished." );
+		paper = new Paper( "The mural will have been being painted by the famous artist for over six months." );
 		expect( passiveVoice( paper) ).toBe( 1 );
 	} );
 
 	it( "returns active voice (Future Perfect Continuous- be going to)", function() {
-		paper = new Paper( "The famous artist is going to have been painting the mural for over six months by the time it is finished." );
+		paper = new Paper( "The famous artist is going to have been painting the mural for over six months." );
 		expect( passiveVoice( paper) ).toBe( 0 );
 	} );
 
 	it( "returns passive voice (Future Perfect Continuous- be going to)", function() {
-		paper = new Paper( "The mural is going to have been being painted by the famous artist for over six months by the time it is finished." );
+		paper = new Paper( "The mural is going to have been being painted by the famous artist for over six months." );
 		expect( passiveVoice( paper) ).toBe( 1 );
 	} );
 
@@ -208,5 +203,75 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper( "I thought a beautiful dinner was going to be made by Sally tonight." );
 		expect( passiveVoice( paper) ).toBe( 1 );
 	} );
+
+	it( "returns active voice ( verb with -ing )", function() {
+		paper = new Paper( "He was walking and jumped" );
+		expect( passiveVoice( paper ) ).toBe( 0 );
+	} );
+
+	it( "returns active voice ( nonverb with -ing )", function() {
+		paper = new Paper( "It was a ceiling and painted" );
+		expect( passiveVoice( paper ) ).toBe( 0 );
+	} );
+
+	it( "returns passive voice ( text between having and verb )", function(){
+		paper = new Paper( "He is having the house painted" );
+		expect( passiveVoice( paper ) ).toBe( 1 );
+	});
+
+	it( "returns active voice ( no text between having and verb )", function(){
+		paper = new Paper( "He is most notable, having contributed a lot" );
+		expect( passiveVoice( paper ) ).toBe( 0 );
+	});
+
+	it( "returns active voice ( combination with left )", function(){
+		paper = new Paper( "The right way is to the left" );
+		expect( passiveVoice( paper ) ).toBe( 0 );
+	});
+
+	it( "returns passive voice ( combination with left )", function(){
+		paper = new Paper( "She was left at home" );
+		expect( passiveVoice( paper ) ).toBe( 1 );
+	});
+
+	it( "returns passive voice ( combination with left )", function(){
+		paper = new Paper( "He was hit on the left leg" );
+		expect( passiveVoice( paper ) ).toBe( 1 );
+	});
+
+	it( "returns active voice ( combination with fit )", function(){
+		paper = new Paper( "It was the right fit" );
+		expect( passiveVoice( paper ) ).toBe( 0 );
+	});
+
+	it( "returns passive voice ( combination with fit )", function(){
+		paper = new Paper( "He was fit with hearing aids" );
+		expect( passiveVoice( paper ) ).toBe( 1 );
+	});
+
+	it( "returns active voice ( combination with ing-verbs )", function(){
+		paper = new Paper( "They had apps that are constantly improving, with regular updates based on customer feedback." );
+		expect( passiveVoice( paper ) ).toBe( 0 );
+	});
+
+	it( "returns passive voice ( combination with ing-verbs )", function(){
+		paper = new Paper( "They had apps that get constantly improving, with regular updates based on customer feedback." );
+		expect( passiveVoice( paper ) ).toBe( 1 );
+	});
+
+	it( "returns passive voice ( combination with cling )", function(){
+		paper = new Paper( "They had apps that get constantly cling wrapped" );
+		expect( passiveVoice( paper ) ).toBe( 1 );
+	});
+
+	it( "returns passive voice ( combination with cling  )", function(){
+		paper = new Paper( "They had apps that are constantly cling wrapped." );
+		expect( passiveVoice( paper ) ).toBe( 1 );
+	});
 } );
-*/
+
+
+
+
+
+
