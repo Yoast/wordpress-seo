@@ -7,6 +7,7 @@ var isNumber = require( "lodash/isNumber" );
  */
 var AssessmentResult = function() {
 	this._hasScore = false;
+	this._identifier = "";
 	this.score = 0;
 	this.text = "";
 };
@@ -66,6 +67,24 @@ AssessmentResult.prototype.setText = function( text ) {
 	}
 
 	this.text = text;
+};
+
+/**
+ * Sets the identifier
+ *
+ * @param {string} identifier An alphanumeric identifier for this result.
+ */
+AssessmentResult.prototype.setIdentifier = function( identifier ) {
+	this._identifier = identifier;
+};
+
+/**
+ * Gets the identifier
+ *
+ * @returns {string} An alphanumeric identifier for this result.
+ */
+AssessmentResult.prototype.getIdentifier = function() {
+	return this._identifier;
 };
 
 module.exports = AssessmentResult;
