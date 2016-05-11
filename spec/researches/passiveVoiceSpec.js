@@ -1,4 +1,4 @@
-var passiveVoice = require( "../../js/researches/passiveVoice.js" );
+var passiveVoice = require( "../../js/researches/getPassiveVoice.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 // Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html

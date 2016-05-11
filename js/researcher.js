@@ -32,7 +32,7 @@ var getSubheadingTextLengths = require( "./researches/getSubheadingTextLengths.j
 var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var sentenceVariation = require( "./researches/sentenceVariation.js" );
-var passiveVoice = require( "./researches/passiveVoice.js" );
+var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 
 /**
