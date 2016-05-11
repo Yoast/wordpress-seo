@@ -1,10 +1,18 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 
-var calculatePassiveVoiceResult = function( result, i18n ) {
-	var percentage = ( result.passives / result.total ) * 100;
+/**
+ * Calculates the result based on the number of sentences and passives.
+ * @param {object} passiveVoice The object containing the number of sentences and passives
+ * @param {object} i18n The object used for translations.
+ * @returns {{score: number, text}} resultobject with score and text.
+ */
+var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
+	var percentage = ( passiveVoice.passives / passiveVoice.total ) * 100;
+	percentage = fixFloatingPoint( percentage );
 	var recommendedValue = 10;
 	var score = 9 - Math.max( Math.min( ( 6 / 10 ) * ( percentage - 6.7 ), 6 ), 0 );
-
+	score = fixFloatingPoint ( score );
 	if ( score >= 7 ) {
 		return {
 			score: score,
