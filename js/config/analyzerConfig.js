@@ -4,10 +4,10 @@
  *
  * @returns {object} the config object containing the maxSlugLength, maxUrlLength and the MaxMeta values
  */
-module.exports = function(){
+module.exports = function() {
 	return {
 		maxSlugLength: 20,
 		maxUrlLength: 40,
 		maxMeta: 156
-	}
+	};
 };

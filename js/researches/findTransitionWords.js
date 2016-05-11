@@ -19,14 +19,14 @@ module.exports = function( paper ) {
 	var twoPartTransitionWordRegex = createRegexFromDoubleArray( twoPartTransitionWords );
 	var transitionWordRegex = createRegexFromArray( transitionWords );
 	var nonMatchedSentences = filter( sentences, function ( sentence ) {
-		if ( sentence.match ( twoPartTransitionWordRegex ) !== null ) {
+		if ( sentence.match( twoPartTransitionWordRegex ) !== null ) {
 			transitionWordSentenceCount++;
 			return false;
 		}
 		return true;
 	} );
-	nonMatchedSentences.map ( function( sentence ) {
-		if ( sentence.match ( transitionWordRegex ) !== null ) {
+	nonMatchedSentences.map( function( sentence ) {
+		if ( sentence.match( transitionWordRegex ) !== null ) {
 			transitionWordSentenceCount++;
 		}
 	} );

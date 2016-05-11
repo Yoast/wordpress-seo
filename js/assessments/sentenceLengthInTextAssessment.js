@@ -54,6 +54,7 @@ var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textSentenceLength",
 	getResult: sentenceLengthInTextAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();

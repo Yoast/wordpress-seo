@@ -52,6 +52,7 @@ var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) 
 };
 
 module.exports = {
+	identifier: "metaDescriptionSentenceLength",
 	getResult: sentenceLengthInDescriptionAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasDescription();

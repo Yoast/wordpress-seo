@@ -36,6 +36,7 @@ var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "titleKeyword",
 	getResult: titleHasKeywordAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();

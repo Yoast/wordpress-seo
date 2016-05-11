@@ -24,5 +24,5 @@ module.exports = function ( array ) {
 		return wordCombinationToRegexString( wordCombination );
 	} );
 	var regexString = "(" + array.join( ")|(" ) + ")";
-	return new RegExp ( regexString, "ig" );
+	return new RegExp( regexString, "ig" );
 };

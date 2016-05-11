@@ -63,6 +63,7 @@ var textHasLinksAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textLinks",
 	getResult: textHasLinksAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText();

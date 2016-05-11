@@ -15,10 +15,10 @@ var countExclusionSyllables = function( text ) {
 	var count = 0, wordArray, regex, matches;
 	wordArray = syllableArray().exclusionWords;
 	for ( var i = 0; i < wordArray.length; i++ ) {
-		regex = new RegExp ( wordArray[i].word, "ig" );
-		matches = text.match ( regex );
+		regex = new RegExp( wordArray[ i ].word, "ig" );
+		matches = text.match( regex );
 		if ( matches !== null ) {
-			count += ( matches.length * wordArray[i].syllables );
+			count += ( matches.length * wordArray[ i ].syllables );
 		}
 	}
 	return count;
@@ -35,7 +35,7 @@ var removeExclusionWords = function( text ) {
 	var exclusionWords = syllableArray().exclusionWords;
 	var wordArray = [];
 	for ( var i = 0; i < exclusionWords.length; i++ ) {
-		wordArray.push( exclusionWords[i].word );
+		wordArray.push( exclusionWords[ i ].word );
 	}
 	return text.replace( arrayToRegex( wordArray ), "" );
 };
@@ -88,7 +88,7 @@ var countAdvancedSyllables = function( text, operator ) {
 			break;
 	}
 	for ( var i = 0; i < words.length; i++ ) {
-		matches = words[i].match ( regex );
+		matches = words[ i ].match( regex );
 		if ( matches !== null ) {
 			count += matches.length;
 		}

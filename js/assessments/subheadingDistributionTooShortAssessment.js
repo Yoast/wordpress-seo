@@ -95,6 +95,7 @@ var getSubheadingsTextLength = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "subheadingTooShort",
 	getResult: getSubheadingsTextLength,
 	isApplicable: function( paper ) {
 		return paper.hasText();

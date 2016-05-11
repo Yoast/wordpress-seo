@@ -33,6 +33,7 @@ var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var sentenceVariation = require( "./researches/sentenceVariation.js" );
 var passiveVoice = require( "./researches/passiveVoice.js" );
+var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 
 /**
  * This contains all possible, default researches.
@@ -71,7 +72,8 @@ var Researcher = function( paper ) {
 		"getSubheadingPresence": getSubheadingPresence,
 		"findTransitionWords": findTransitionWords,
 		"sentenceVariation": sentenceVariation,
-		"passiveVoice": passiveVoice
+		"passiveVoice": passiveVoice,
+		"getSentenceBeginnings": getSentenceBeginnings
 	};
 
 	this.customResearches = {};
@@ -104,7 +106,7 @@ Researcher.prototype.addResearch = function( name, research ) {
 		throw new InvalidTypeError( "The research requires a Function callback." );
 	}
 
-	this.customResearches[name] = research;
+	this.customResearches[ name ] = research;
 };
 
 /**

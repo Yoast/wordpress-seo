@@ -13,6 +13,7 @@ var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
+var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -35,6 +36,7 @@ var ContentAssessor = function( i18n ) {
 		sentenceLengthInDescription:	sentenceLengthInDescription,
 		transitionWords:				transitionWords,
 		sentenceVariation:				sentenceVariation,
+		sentenceBeginnings:				sentenceBeginnings,
 		passiveVoice:					passiveVoice
 	};
 };
