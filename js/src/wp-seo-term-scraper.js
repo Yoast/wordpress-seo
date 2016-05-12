@@ -303,6 +303,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 				basedOn: wpseoTermScraperL10n.basedOn
 			}
 		);
+
 		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		termScraper = new TermScraper();

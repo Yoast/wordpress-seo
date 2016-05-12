@@ -439,19 +439,21 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	}
 
 	jQuery( document ).ready(function() {
-		var translations;
+		var args, postScraper, translations;
 
 		// Initialize an instance of the keywordword tab.
-		mainKeywordTab = new KeywordTab( {
-			prefix: wpseoPostScraperL10n.contentTab,
-			basedOn: wpseoPostScraperL10n.basedOn
-		} );
+		mainKeywordTab = new KeywordTab(
+			{
+				prefix: wpseoPostScraperL10n.contentTab,
+				basedOn: wpseoPostScraperL10n.basedOn
+			}
+		);
 
 		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
-		var postScraper = new PostScraper();
+		postScraper = new PostScraper();
 
-		var args = {
+		args = {
 
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
