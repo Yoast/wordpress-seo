@@ -132,7 +132,8 @@ class WPSEO_Meta_Columns {
 		$current_seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
 		echo '
-			<select name="seo_filter">
+			<label class="screen-reader-text" for="wpseo-filter">' . __( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>
+			<select name="seo_filter" id="wpseo-filter">
 				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
 		foreach ( $ranks as $rank ) {
 			$sel = selected( $current_seo_filter, $rank->get_rank(), false );

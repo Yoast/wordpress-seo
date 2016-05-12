@@ -247,7 +247,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		// Apply base 61 encoding.
 		$compressed = self::convert_base10_to_base61( $validator );
 
-		return update_option( $key, $compressed );
+		return update_option( $key, $compressed, false );
 	}
 
 	/**
