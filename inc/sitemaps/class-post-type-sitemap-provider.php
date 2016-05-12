@@ -159,7 +159,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$url = $this->get_url( $post );
 
-				if ( ! isset( $url['loc'] ) || isset( $stacked_urls[ $url['loc'] ] ) ) {
+				if ( ! isset( $url['loc'] ) ) {
 					continue;
 				}
 
@@ -174,7 +174,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				if ( ! empty( $url ) ) {
 					$links[] = $url;
-					$stacked_urls[] = $url['loc'];
 				}
 			}
 
@@ -371,12 +370,16 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion.
 		// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/.
 		$sql = "
-			SELECT ID, post_title, post_content, post_name, post_parent, post_author, post_modified_gmt, post_date, post_date_gmt
-			FROM {$wpdb->posts}
-			{$join_filter}
-			{$where}
-				{$where_filter}
-			ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
+			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_modified_gmt, post_date, post_date_gmt
+			FROM (
+				SELECT {$wpdb->posts}.ID
+				FROM {$wpdb->posts}
+				{$join_filter}
+				{$where}
+					{$where_filter}
+				ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
+			)
+			o JOIN {$wpdb->posts} l ON l.ID = o.ID ORDER BY l.ID
 		";
 
 		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
