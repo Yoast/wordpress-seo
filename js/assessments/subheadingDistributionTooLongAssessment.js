@@ -1,16 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var filter = require( "lodash/filter" );
-
-/**
- *  Returns true or false, based on the length of the subheading text and the recommended value.
- * @param {number} recommendedValue The recommended value of subheading text length
- * @param {number} subheadingsTextLength The length of the text after the subheading
- * @returns {boolean} True if the length is greater than the recommendedValue,
- * false if it is smaller.
- */
-var isTextTooLong = function( recommendedValue, subheadingsTextLength ) {
-	return subheadingsTextLength > recommendedValue;
-};
+var isTextTooLong = require("../helpers/isValueTooLong");
 
 /**
  * Counts the number of subheading texts that are too long.
