@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: yoastseo 1.2.0\n"
+"Project-Id-Version: yoastseo 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-04 16:18+0200\n"
+"POT-Creation-Date: 2016-05-12 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,28 +102,40 @@ msgstr ""
 msgid "Your keyphrase is over 10 words, a keyphrase should be shorter."
 msgstr ""
 
-#: js/assessments/keywordDensityAssessment.js:16
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+#. %3$s expands to the maximum keyword density percentage.
+#: js/assessments/keywordDensityAssessment.js:24
 msgid ""
-"The keyword density is %1$s%%, which is way over the advised 2.5%% maximum; "
-"the focus keyword was found %2$d times."
-msgstr ""
-
-#: js/assessments/keywordDensityAssessment.js:23
-msgid ""
-"The keyword density is %1$s%%, which is over the advised 2.5%% maximum; the "
+"The keyword density is %1$s, which is way over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
-#: js/assessments/keywordDensityAssessment.js:30
+#. translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5)
+#: js/assessments/keywordDensityAssessment.js:29
+#: js/assessments/keywordDensityAssessment.js:44
+msgid "2.5"
+msgstr ""
+
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+#. %3$s expands to the maximum keyword density percentage.
+#: js/assessments/keywordDensityAssessment.js:39
 msgid ""
-"The keyword density is %1$s%%, which is great; the focus keyword was found "
+"The keyword density is %1$s, which is over the advised %3$s maximum; the "
+"focus keyword was found %2$d times."
+msgstr ""
+
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
+#: js/assessments/keywordDensityAssessment.js:53
+msgid ""
+"The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
-#: js/assessments/keywordDensityAssessment.js:36
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
+#: js/assessments/keywordDensityAssessment.js:63
 msgid ""
-"The keyword density is %1$s%%, which is a bit low; the focus keyword was "
-"found %2$d times."
+"The keyword density is %1$s, which is a bit low; the focus keyword was found "
+"%2$d times."
 msgstr ""
 
 #. translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
@@ -202,6 +214,19 @@ msgid_plural ""
 "%1$d of the paragraphs contain less than the recommended minimum of %2$d "
 "words.  Try to expand these paragraphs, or connect each of them to the "
 "previous or next paragraph."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
+#. with the same word.
+#. %2$d expands to the number of consecutive sentences starting with the same word.
+#: js/assessments/sentenceBeginningsAssessment.js:36
+msgid ""
+"Your text contains %2$d consecutive sentences starting with the same word. "
+"Try to mix things up!"
+msgid_plural ""
+"Your text contains %1$d instances where %2$d or more consecutive sentences "
+"start with the same word. Try to mix things up!"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -357,22 +382,22 @@ msgstr ""
 msgid "No images appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:31
-msgid "The images on this page are missing alt attributes."
+#: js/assessments/textImagesAssessment.js:32
+msgid "The images on this page contain alt attributes with the focus keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:39
-msgid "The images on this page contain alt attributes."
-msgstr ""
-
-#: js/assessments/textImagesAssessment.js:47
+#: js/assessments/textImagesAssessment.js:40
 msgid ""
 "The images on this page do not have alt attributes containing your focus "
 "keyword."
 msgstr ""
 
-#: js/assessments/textImagesAssessment.js:55
-msgid "The images on this page contain alt attributes with the focus keyword."
+#: js/assessments/textImagesAssessment.js:48
+msgid "The images on this page contain alt attributes."
+msgstr ""
+
+#: js/assessments/textImagesAssessment.js:56
+msgid "The images on this page are missing alt attributes."
 msgstr ""
 
 #. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words

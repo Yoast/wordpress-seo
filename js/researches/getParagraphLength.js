@@ -16,7 +16,7 @@ module.exports = function( paper ) {
 		paragraphsLength.push( countWords( paragraph ) );
 	} );
 
-	return filter ( paragraphsLength, function ( paragraphLength ) {
+	return filter( paragraphsLength, function ( paragraphLength ) {
 		return ( paragraphLength > 0 );
 	} );
 };

@@ -89,6 +89,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textSubheadingLength",
 	getResult: getSubheadingLength,
 	isApplicable: function( paper ) {
 		return paper.hasText();

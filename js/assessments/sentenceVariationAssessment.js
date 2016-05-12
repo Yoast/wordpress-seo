@@ -68,6 +68,7 @@ var getSentenceVariation = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textSentenceLengthVariation",
 	getResult: getSentenceVariation,
 	isApplicable: function( paper ) {
 		return paper.hasText();
