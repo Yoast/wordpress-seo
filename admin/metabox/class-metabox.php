@@ -287,13 +287,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_sections() {
 		$content_sections = array( $this->get_content_meta_section() );
 
-		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
-			$content_sections[] = $this->get_advanced_meta_section();
-		}
-
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
 			$content_sections[] = $this->social_admin->get_meta_section();
+		}
+		
+		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
+			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
