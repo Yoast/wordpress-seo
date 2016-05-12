@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-04 17:00+0200\n"
+"POT-Creation-Date: 2016-05-12 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -214,6 +214,19 @@ msgid_plural ""
 "%1$d of the paragraphs contain less than the recommended minimum of %2$d "
 "words.  Try to expand these paragraphs, or connect each of them to the "
 "previous or next paragraph."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
+#. with the same word.
+#. %2$d expands to the number of consecutive sentences starting with the same word.
+#: js/assessments/sentenceBeginningsAssessment.js:36
+msgid ""
+"Your text contains %2$d consecutive sentences starting with the same word. "
+"Try to mix things up!"
+msgid_plural ""
+"Your text contains %1$d instances where %2$d or more consecutive sentences "
+"start with the same word. Try to mix things up!"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -593,16 +606,32 @@ msgstr ""
 msgid "Feedback"
 msgstr ""
 
-#: js/config/presenter.js:14
+#: js/config/presenter.js:11
+msgid "Content Analysis: Has feedback"
+msgstr ""
+
+#: js/config/presenter.js:15
 msgid "Bad SEO score"
 msgstr ""
 
-#: js/config/presenter.js:18
-msgid "Ok SEO score"
+#: js/config/presenter.js:16
+msgid "Content Analysis: Bad SEO score"
 msgstr ""
 
-#: js/config/presenter.js:22
+#: js/config/presenter.js:20
+msgid "OK SEO score"
+msgstr ""
+
+#: js/config/presenter.js:21
+msgid "Content Analysis: OK SEO score"
+msgstr ""
+
+#: js/config/presenter.js:25
 msgid "Good SEO score"
+msgstr ""
+
+#: js/config/presenter.js:26
+msgid "Content Analysis: Good SEO score"
 msgstr ""
 
 #: js/snippetPreview.js:396
