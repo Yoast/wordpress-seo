@@ -229,9 +229,9 @@ var App = function( args ) {
 	if ( isValidSnippetPreview( args.snippetPreview ) ) {
 		this.snippetPreview = args.snippetPreview;
 
-		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
-		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
-		// app.
+		/* Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
+		dependency issue. In the future this should be solved by the snippet preview not having a reference to the
+		app.*/
 		if ( this.snippetPreview.refObj !== this ) {
 			this.snippetPreview.refObj = this;
 			this.snippetPreview.i18n = this.i18n;
