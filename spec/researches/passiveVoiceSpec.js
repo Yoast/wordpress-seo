@@ -4,22 +4,22 @@ var Paper = require( "../../js/values/Paper.js" );
 // Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
 describe( "detecting passive voice in sentences", function() {
 
-	it("returns active voice (Simple Present)", function () {
+	it( "returns active voice (Simple Present)", function () {
 		paper = new Paper("Once a week, Tom cleans the house.");
 		expect( passiveVoice( paper ).passives ).toBe( 0 );
 	});
 
-	it("returns passive voice (Simple Present)", function () {
+	it( "returns passive voice (Simple Present)", function () {
 		paper = new Paper("Once a week, the house is cleaned by Tom.");
 		expect(passiveVoice( paper ).passives).toBe(1);
 	});
 
-	it("returns active voice (Present Continuous)", function () {
+	it( "returns active voice (Present Continuous)", function () {
 		paper = new Paper("Right now, Sarah is writing the letter.");
 		expect(passiveVoice( paper ).passives).toBe(0);
 	});
 
-	it("returns passive voice (Present Continuous)", function () {
+	it( "returns passive voice (Present Continuous)", function () {
 		paper = new Paper("Right now, the letter is being written by Sarah.");
 		expect(passiveVoice( paper ).passives).toBe(1);
 	});

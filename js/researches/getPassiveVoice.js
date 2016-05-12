@@ -12,8 +12,7 @@ var stopwords = require( "./passivevoice-english/stopwords.js" )();
 
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
-
-var auxiliaryRegex = arrayToRegex( auxiliaries );
+var forEach = require( "lodash/forEach" );
 
 /**
  * Matches string with an array, returns the word and the index it was found on
@@ -28,15 +27,10 @@ var matchArray = function( sentence, matchArray ) {
 	matches.map( function( part ) {
 		part = stripSpaces( part );
 
-		// search for each part in the array and filter on index -1
+		// Search for each part in the array and filter on index -1
 		var index = sentence.search( stringToRegex( part ) );
-		if( index > -1 ) {
-			matchedParts.push(
-				{
-					index: index,
-					match: part
-				}
-			);
+		if ( index > -1 ) {
+			matchedParts.push( { index: index, match: part } );
 		}
 	} );
 	return matchedParts;
@@ -49,7 +43,7 @@ var matchArray = function( sentence, matchArray ) {
  */
 var sortIndices = function( indices ) {
 	return indices.sort( function( a, b ) {
-		return( a.index > b.index );
+		return ( a.index > b.index );
 	} );
 };
 
@@ -60,11 +54,11 @@ var sortIndices = function( indices ) {
  */
 var filterIndices = function( indices ) {
 	indices = sortIndices( indices );
-	for( var i = 0; i < indices.length; i++ ) {
+	for ( var i = 0; i < indices.length; i++ ) {
 
 		// If the next index is within the range of the current index and the length of the word, remove it
-		// this makes sure we don't match combinations twice, like "even though" and "though".
-		if( !isUndefined( indices[ i + 1 ] ) && indices[ i + 1 ].index < indices[ i ].index + indices[ i ].match.length ) {
+		// This makes sure we don't match combinations twice, like "even though" and "though".
+		if ( !isUndefined( indices[ i + 1 ] ) && indices[ i + 1 ].index < indices[ i ].index + indices[ i ].match.length ) {
 			indices.pop( i + 1 );
 		}
 	}
@@ -78,7 +72,7 @@ var filterIndices = function( indices ) {
  */
 var getVerbsEndingInIng = function( sentence ) {
 
-	// matches the sentences with words ending in ing
+	// Matches the sentences with words ending in ing
 	var matches = sentence.match( /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig ) || [];
 
 	var exclusionArray = [ "king", "cling", "ring", "being" ];
@@ -115,6 +109,7 @@ var getSentenceBreakers = function( sentence ) {
  * @returns {Array} The array with all subsentences of a sentence that have an auxiliary
  */
 var getSubsentences = function( sentence ) {
+	var auxiliaryRegex = arrayToRegex( auxiliaries );
 	var subSentences = [];
 
 	// First check if there is an auxiliary word in the sentence
@@ -122,9 +117,9 @@ var getSubsentences = function( sentence ) {
 		var indices = getSentenceBreakers( sentence );
 
 		// Get the words after the found auxiliary
-		for( var i = 0; i < indices.length; i++ ) {
+		for ( var i = 0; i < indices.length; i++ ) {
 			var endIndex = sentence.length;
-			if( typeof( indices[ i + 1 ] ) !== "undefined" ) {
+			if ( !isUndefined( indices[ i + 1 ] ) ) {
 				endIndex = indices[ i + 1 ].index;
 			}
 
@@ -135,7 +130,7 @@ var getSubsentences = function( sentence ) {
 	}
 
 	// If a subsentence doesn't have an auxiliary, we don't need it, so it can be filtered out.
-	subSentences = filter ( subSentences, function( subSentence ) {
+	subSentences = filter( subSentences, function( subSentence ) {
 		return subSentence.match( auxiliaryRegex ) !== null;
 	} );
 
@@ -149,7 +144,7 @@ var getSubsentences = function( sentence ) {
  */
 var getRegularVerbs = function( subSentence ) {
 
-	// matches the sentences with words ending in ed
+	// Matches the sentences with words ending in ed
 	var matches = subSentence.match( /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig ) || [];
 
 	// Filters out words ending in -ed that aren't verbs.
@@ -170,9 +165,9 @@ var getIrregularVerbs = function( subSentence ) {
 	return filter( irregularVerbs, function( verb ) {
 
 		// If rid is used with get, gets, getting, got or gotten, remove it.
-		if( verb.match === "rid" ) {
+		if ( verb.match === "rid" ) {
 			var exclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
-			if( matchArray( subSentence, exclusionArray ).length > 0 ) {
+			if ( matchArray( subSentence, exclusionArray ).length > 0 ) {
 				return false;
 			}
 		}
@@ -190,17 +185,17 @@ var isHavingException = function( subSentence, verbs ) {
 
 	// Match having with a verb directly following it. If so it is active.
 	var indexOfHaving = subSentence.indexOf( "having" );
-	if( indexOfHaving > -1 ) {
+	if ( indexOfHaving > -1 ) {
 		var verbIndices = matchArray( subSentence, verbs );
 
 		// 7 is the number of characters of the word 'having' including space
-		return verbIndices[0].index <= subSentence.indexOf( "having" ) + 7;
+		return verbIndices[ 0 ].index <= subSentence.indexOf( "having" ) + 7;
 	}
 	return false;
 };
 
 /**
- * Match the left. If left is preceeded by a or the it isn't a verb.
+ * Match the left. If left is preceeded by `a` or `the`, it isn't a verb.
  * @param {string} subSentence The subsentence to check for the word 'having' and a verb
  * @param {Array} verbs The array with verbs to check.
  * @returns {boolean} True if it is an exception, false if it is not.
@@ -219,7 +214,7 @@ var isLeftException = function ( subSentence, verbs ) {
  */
 var isFitException = function( subSentence ) {
 	var indexOfFit = subSentence.indexOf( "fit" );
-	if( indexOfFit > -1 ) {
+	if ( indexOfFit > -1 ) {
 		var subString = subSentence.substr( 0, indexOfFit );
 		var determinerIndices = matchArray( subString, determiners );
 		return determinerIndices.length > 1;
@@ -238,7 +233,7 @@ var getExceptions = function( subSentence, verbs ) {
 	var leftException = isLeftException( subSentence, verbs );
 	var fitException = isFitException( subSentence );
 
-	// if any of the exceptions is true, return true.
+	// If any of the exceptions is true, return true.
 	return havingException || leftException || fitException;
 };
 
@@ -256,7 +251,7 @@ var determinePassives = function( subSentence ) {
 	var exceptions = getExceptions( subSentence, verbs );
 
 	// If there is any exception, this subsentence cannot be passive.
-	return verbs.length > 0 && !exceptions;
+	return verbs.length > 0 && exceptions === false;
 };
 
 /**
@@ -270,13 +265,13 @@ module.exports = function( paper ) {
 	var passiveCount = 0;
 
 	// Get subsentences for each sentence.
-	sentences.map( function( sentence ) {
+	forEach( sentences, function( sentence ) {
 		var subSentences = getSubsentences( sentence );
 		var passive = false;
 		subSentences.map( function( subSentence ) {
 			passive = determinePassives( subSentence );
 		} );
-		if( passive ) {
+		if ( passive ) {
 			passiveCount++;
 			passive = false;
 		}

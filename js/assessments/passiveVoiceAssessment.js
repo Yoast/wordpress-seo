@@ -11,14 +11,20 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	var percentage = ( passiveVoice.passives / passiveVoice.total ) * 100;
 	percentage = fixFloatingPoint( percentage );
 	var recommendedValue = 10;
-	var score = 9 - Math.max( Math.min( ( 6 / 10 ) * ( percentage - 6.7 ), 6 ), 0 );
-	score = fixFloatingPoint ( score );
+
+	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps, each step is 0.6
+	// Up to
+	// FloatingPointFix because of js rounding errors
+	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 6.7 ), 6 ), 0 );
+	score = fixFloatingPoint( score );
 	if ( score >= 7 ) {
 		return {
 			score: score,
 			text: i18n.sprintf(
 					i18n.dgettext(
 						"js-text-analysis",
+
+						// Translators: %1$d expands to the number of sentences in passive voice.
 						"%1$s of the sentences is written in the passive voice, which is within the recommended range." ),
 					percentage + "%"
 			)
@@ -26,11 +32,11 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	}
 	return {
 		score: score,
-
-		// translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
+
+				// Translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value
 				"%1$s of the sentences is written in the passive voice, which is more than the recommended maximum of %2$s. " +
 				"Try to use their active counterparts."
 			),
