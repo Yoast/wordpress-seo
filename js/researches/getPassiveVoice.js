@@ -24,7 +24,7 @@ var forEach = require( "lodash/forEach" );
 var matchArray = function( sentence, matchArray ) {
 	var matches = matchArray;
 	var matchedParts = [];
-	matches.map( function( part ) {
+	forEach( matches, function( part ) {
 		part = stripSpaces( part );
 
 		// Search for each part in the array and filter on index -1
