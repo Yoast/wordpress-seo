@@ -291,7 +291,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
-		
+
 		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
