@@ -19,19 +19,21 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var score = calculateTooLongSentences( percentage );
 
 	if ( score >= 7 ) {
-		return{
+		return {
 			score: score,
 
-			// Translators: %1$s expands to number of sentences.
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$s words, " +
+			// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
+			// %3$s expands to the recommended amount of words.
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
 				"which is less than the recommended maximum of %2$s." ), percentage + "%", maximumPercentage + "%", recommendedValue )
 		};
 	}
-	return{
+	return {
 		score: score,
 
-		// Translators: %1$s expands to number of sentences.
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$s words, " +
+		// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
+		// %3$s expands to the recommended amount of words.
+		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
 			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ),
 			percentage + "%", maximumPercentage + "%", recommendedValue )
 	};
