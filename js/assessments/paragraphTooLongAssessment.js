@@ -1,16 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var isParagraphTooLong = require( "../helpers/isValueTooLong" );
 var filter = require( "lodash/filter" );
-
-/**
- * The function to use as a filter for too long paragraphs.
- * @param {number} recommendedValue The recommended maximum length of a paragraph.
- * @param {number} paragraphLength The number of words within a paragraph.
- * @returns {boolean} Returns true if paragraphLength exceeds recommendedValue.
- */
-var isParagraphTooLong = function( recommendedValue, paragraphLength ) {
-	return paragraphLength > recommendedValue;
-};
 
 /**
  * Returns an array containing only the paragraphs longer than the recommended length.

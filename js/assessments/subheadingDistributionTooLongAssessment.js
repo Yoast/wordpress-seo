@@ -1,6 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isTextTooLong = require( "../helpers/isValueTooLong" );
 var filter = require( "lodash/filter" );
-var isTextTooLong = require("../helpers/isValueTooLong");
 
 /**
  * Counts the number of subheading texts that are too long.
