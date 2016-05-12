@@ -12,6 +12,7 @@ var subheadingDistributionTooShort = require( "./assessments/subheadingDistribut
 var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
+var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
 var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 
 /**
@@ -36,7 +37,8 @@ var ContentAssessor = function( i18n ) {
 		sentenceLengthInDescription,
 		transitionWords,
 		sentenceVariation,
-		sentenceBeginnings
+		sentenceBeginnings,
+		passiveVoice
 	];
 };
 

@@ -32,6 +32,7 @@ var getSubheadingTextLengths = require( "./researches/getSubheadingTextLengths.j
 var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var sentenceVariation = require( "./researches/sentenceVariation.js" );
+var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 
 /**
@@ -71,6 +72,7 @@ var Researcher = function( paper ) {
 		"getSubheadingPresence": getSubheadingPresence,
 		"findTransitionWords": findTransitionWords,
 		"sentenceVariation": sentenceVariation,
+		"passiveVoice": passiveVoice,
 		"getSentenceBeginnings": getSentenceBeginnings
 	};
 
