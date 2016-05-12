@@ -13,7 +13,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	var recommendedValue = 10;
 
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps, each step is 0.6
-	// Up to
+	// Up to 6.7% passive sentences scores a 9, higher percentages give lower scores
 	// FloatingPointFix because of js rounding errors
 	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 6.7 ), 6 ), 0 );
 	score = fixFloatingPoint( score );
