@@ -252,6 +252,7 @@ class WPSEO_Redirect implements ArrayAccess {
 
 	/**
 	 * Checks whether or not the URL is a subdomain of the blog URL.
+	 *
 	 * @param string $url The URL to check against.
 	 * @param string $blog_url The blog URL.
 	 *
