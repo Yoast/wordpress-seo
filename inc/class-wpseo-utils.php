@@ -710,6 +710,28 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Check if the current opened page belongs to Yoast SEO Free.
+	 *
+	 * @param string $current_page the current page the user is on.
+	 *
+	 * @return bool
+	 */
+	public static function is_yoast_seo_free_page( $current_page ) {
+		$yoast_seo_free_pages = array(
+			'wpseo_dashboard',
+			'wpseo_titles',
+			'wpseo_social',
+			'wpseo_xml',
+			'wpseo_advanced',
+			'wpseo_tools',
+			'wpseo_search_console',
+			'wpseo_licenses',
+		);
+
+		return in_array( $current_page, $yoast_seo_free_pages );
+	}
+
+	/**
 	 * Determine if Yoast SEO is in development mode?
 	 *
 	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
