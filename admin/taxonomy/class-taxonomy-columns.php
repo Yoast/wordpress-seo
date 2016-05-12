@@ -40,7 +40,7 @@ class WPSEO_Taxonomy_Columns {
 			$new_columns[ $column_name ] = $column_value;
 
 			if ( $column_name === 'description' ) {
-				$new_columns['wpseo_score'] = sprintf( '<span class="screen-reader-text">%s</span><span aria-hidden="true">%s</span>', __( 'SEO Score', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) );
+				$new_columns['wpseo_score'] = __( 'SEO', 'wordpress-seo' );
 			}
 		}
 
