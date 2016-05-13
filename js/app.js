@@ -375,18 +375,20 @@ App.prototype.initAssessorPresenters = function() {
 		i18n: this.i18n
 	} );
 
-	// Pass the assessor result through to the formatter
-	this.contentAssessorPresenter = new AssessorPresenter( {
-		targets: {
-			output: this.config.targets.contentOutput
-		},
-		assessor: this.contentAssessor,
-		i18n: this.i18n
-	} );
+	if ( !isUndefined( this.config.targets.contentOutput ) ) {
+		// Pass the assessor result through to the formatter
+		this.contentAssessorPresenter = new AssessorPresenter( {
+			targets: {
+				output: this.config.targets.contentOutput
+			},
+			assessor: this.contentAssessor,
+			i18n: this.i18n
+		} );
+	}
 };
 
 /**
- * binds the refresh function to the input of the targetElement on the page.
+ * Binds the refresh function to the input of the targetElement on the page.
  * @returns {void}
  */
 App.prototype.bindInputEvent = function() {
@@ -397,7 +399,7 @@ App.prototype.bindInputEvent = function() {
 };
 
 /**
- * runs the rerender function of the snippetPreview if that object is defined.
+ * Runs the rerender function of the snippetPreview if that object is defined.
  * @returns {void}
  */
 App.prototype.reloadSnippetText = function() {
@@ -407,7 +409,7 @@ App.prototype.reloadSnippetText = function() {
 };
 
 /**
- * sets the startTime timestamp
+ * Sets the startTime timestamp
  * @returns {void}
  */
 App.prototype.startTime = function() {
@@ -415,7 +417,7 @@ App.prototype.startTime = function() {
 };
 
 /**
- * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ * Sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
  * @returns {void}
  */
 App.prototype.endTime = function() {
@@ -428,7 +430,7 @@ App.prototype.endTime = function() {
 };
 
 /**
- * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
+ * Inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  * @returns {void}
  */
@@ -464,9 +466,11 @@ App.prototype.runAnalyzer = function() {
 
 	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.seoAssessorPresenter.render();
-	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
+	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 
-	this.contentAssessorPresenter.renderIndividualRatings();
+	if ( !isUndefined( this.contentAssessorPresenter ) ) {
+		this.contentAssessorPresenter.renderIndividualRatings();
+	}
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -623,7 +627,7 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 // Deprecated functions
 
 /**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
+ * The analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
  * at every keystroke checks the reference object, so this function can be called from anywhere,
  * without problems with different scopes.
  *
