@@ -1,6 +1,7 @@
 var Researcher = require( "./researcher.js" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
+var isFunction = require( "lodash/isFunction" );
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -10,12 +11,17 @@ var ScoreRating = 9;
 /**
  * Creates the Assessor
  *
- * @param {object} i18n The i18n object used for translations.
+ * @param {Object} i18n The i18n object used for translations.
+ * @param {Object} opts The options for this assessor.
+ * @param {Object} opts.marker The marker to pass the list of marks to.
+ *
  * @constructor
  */
-var Assessor = function( i18n ) {
+var Assessor = function( i18n, opts ) {
 	this.setI18n( i18n );
 	this._assessments = [];
+
+	this._opts = opts || {};
 };
 
 /**
@@ -53,6 +59,27 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
 	return true;
 };
 
+Assessor.prototype.hasMarker = function( assessment ) {
+	return isFunction( this._opts.marker ) && assessment.hasOwnProperty( "getMarks" );
+};
+
+/**
+ * Returns the marker for a given assessment, composes the specific marker with the assessment getMarks function.
+ *
+ * @param {Object} assessment The assessment for which we are retrieving the composed marker.
+ * @param {Paper} paper The paper to retrieve the marker for.
+ * @returns {Function} A function that can mark the given paper according to the given assessment.
+ */
+Assessor.prototype.getMarker = function( assessment, paper ) {
+	var specificMarker = this._opts.marker;
+
+	return function() {
+		var marks = assessment.getMarks( paper );
+
+		specificMarker( paper, marks );
+	};
+};
+
 /**
  * Runs the researches defined in the tasklist or the default researches.
  * @param {Paper} paper The paper to run assessments on.
@@ -71,6 +98,10 @@ Assessor.prototype.assess = function( paper ) {
 		result = assessment.getResult( paper, researcher, this.i18n );
 
 		result.setIdentifier( assessment.identifier );
+
+		if ( this.hasMarker( assessment ) ) {
+			result.setMarker( this.getMarker( assessment, paper ) );
+		}
 
 		return result;
 	}.bind( this ) );
