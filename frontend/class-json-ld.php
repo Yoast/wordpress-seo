@@ -11,6 +11,10 @@
  * @since 1.8
  */
 class WPSEO_JSON_LD {
+	/**
+	 * @var string Vocabulary used for describing the properties in the json-ld.
+	 */
+	private $vocabulary = 'http://schema.org';
 
 	/**
 	 * @var array Holds the plugins options.
@@ -34,12 +38,20 @@ class WPSEO_JSON_LD {
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
 
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
-		add_action( 'wpseo_json_ld', array( $this, 'website' ), 10 );
-		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 20 );
+		// If not on the front page do not show the website or organization/person json.
+		if ( is_front_page() ) {
+			add_action( 'wpseo_json_ld', array( $this, 'website' ), 10 );
+			add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 20 );
+		}
+		else {
+			add_action( 'wpseo_json_ld', array( $this, 'breadcrumb' ), 30 );
+		}
+
 	}
 
 	/**
-	 * JSON LD output function that the functions for specific code can hook into
+	 * JSON LD output function. On the front page it echo's all
+	 * json-ld info. On other pages only the breadcrumbs, if enabled.
 	 *
 	 * @since 1.8
 	 */
@@ -80,7 +92,7 @@ class WPSEO_JSON_LD {
 	 */
 	public function website() {
 		$this->data = array(
-			'@context' => 'http://schema.org',
+			'@context' => $this->vocabulary,
 			'@type'    => 'WebSite',
 			'url'      => $this->get_home_url(),
 			'name'     => $this->get_website_name(),
@@ -127,6 +139,7 @@ class WPSEO_JSON_LD {
 			$this->data['@type'] = 'Organization';
 			$this->data['name']  = $this->options['company_name'];
 			$this->data['logo']  = $this->options['company_logo'];
+
 			return;
 		}
 		$this->data = false;
@@ -139,9 +152,63 @@ class WPSEO_JSON_LD {
 		if ( '' !== $this->options['person_name'] ) {
 			$this->data['@type'] = 'Person';
 			$this->data['name']  = $this->options['person_name'];
+
 			return;
 		}
 		$this->data = false;
+	}
+
+	/**
+	 *  Outputs a JSON-LD breadcrumb string.
+	 */
+	public function breadcrumb() {
+		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $breadcrumbs_enabled ) {
+			$options             = get_option( 'wpseo_internallinks' );
+			$breadcrumbs_enabled = ( $options['breadcrumbs-enable'] === true );
+		}
+		if ( ! $breadcrumbs_enabled ) {
+			return;
+		}
+		$breadcrumb_links      = WPSEO_Breadcrumbs::get_instance()->get_crumbs();
+		$breadcrumb_json_items = array();
+
+		foreach ( $breadcrumb_links as $link_id => $link ) {
+			if ( empty( $link['text'] ) || empty( $link['text'] ) ) {
+				continue;
+			}
+			$breadcrumb_json_items[] = self::breadcrumb_item( $link['url'], $link['text'], ( $link_id + 1 ) );
+		}
+
+		$breadcrumb_data = array(
+			'@context'        => $this->vocabulary,
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => $breadcrumb_json_items,
+		);
+		$this->data      = $breadcrumb_data;
+		$this->output( 'breadcrumb' );
+	}
+
+	/**
+	 * Creates a json-ld breadcrumb array that can be converted to JSON-LD
+	 *
+	 * @param string $url URL for the breadcrumb's page.
+	 * @param string $name Page name.
+	 * @param int $position Ordered position in the breadcrumb list.
+	 *
+	 * @return array
+	 */
+	private function breadcrumb_item( $url, $name, $position ) {
+		$breadcrumb_item = array(
+			'@type'    => 'ListItem',
+			'position' => $position,
+			'item'     => array(
+				'@id'  => $url,
+				'name' => $name,
+			),
+		);
+
+		return $breadcrumb_item;
 	}
 
 	/**
@@ -151,7 +218,7 @@ class WPSEO_JSON_LD {
 		$this->fetch_social_profiles();
 
 		$this->data = array(
-			'@context' => 'http://schema.org',
+			'@context' => $this->vocabulary,
 			'@type'    => '',
 			'url'      => WPSEO_Frontend::get_instance()->canonical( false, true ),
 			'sameAs'   => $this->profiles,

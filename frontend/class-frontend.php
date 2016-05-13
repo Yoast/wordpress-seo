@@ -162,11 +162,14 @@ class WPSEO_Frontend {
 	 * Initialize the functions that only need to run on the frontpage
 	 */
 	public function front_page_specific_init() {
+		// Check for frontpage or other page in WPSEO_JSON_LD class.
+
+		new WPSEO_JSON_LD();
+
 		if ( ! is_front_page() ) {
 			return;
 		}
 
-		new WPSEO_JSON_LD;
 		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 	}
 
@@ -302,7 +305,7 @@ class WPSEO_Frontend {
 	 *
 	 * All titles pulled from options will be run through the wpseo_replace_vars function.
 	 *
-	 * @param string       $index      name of the page to get the title from the settings for.
+	 * @param string $index name of the page to get the title from the settings for.
 	 * @param object|array $var_source possible object to pull variables from.
 	 *
 	 * @return string
@@ -329,9 +332,9 @@ class WPSEO_Frontend {
 	 * order to prevent duplicate seperations from appearing in the title (this happens when a prefix is supplied to the
 	 * wp_title call on singular pages).
 	 *
-	 * @param string $sep         The separator used between variables.
+	 * @param string $sep The separator used between variables.
 	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       Possible title that's already set.
+	 * @param string $title Possible title that's already set.
 	 *
 	 * @return string
 	 */
@@ -361,9 +364,9 @@ class WPSEO_Frontend {
 	/**
 	 * This function adds paging details to the title.
 	 *
-	 * @param string $sep         Separator used in the title.
+	 * @param string $sep Separator used in the title.
 	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       The title to append the paging info to.
+	 * @param string $title The title to append the paging info to.
 	 *
 	 * @return string
 	 */
@@ -380,10 +383,10 @@ class WPSEO_Frontend {
 	/**
 	 * Add part to title, while ensuring that the $seplocation variable is respected.
 	 *
-	 * @param string $sep         Separator used in the title.
+	 * @param string $sep Separator used in the title.
 	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       The title to append the title_part to.
-	 * @param string $title_part  The part to append to the title.
+	 * @param string $title The title to append the title_part to.
+	 * @param string $title_part The part to append to the title.
 	 *
 	 * @return string
 	 */
@@ -398,8 +401,8 @@ class WPSEO_Frontend {
 	/**
 	 * Main title function.
 	 *
-	 * @param string $title              Title that might have already been set.
-	 * @param string $separator          Separator determined in theme (unused).
+	 * @param string $title Title that might have already been set.
+	 * @param string $separator Separator determined in theme (unused).
 	 * @param string $separator_location Whether the separator should be left or right.
 	 *
 	 * @return string
@@ -415,7 +418,7 @@ class WPSEO_Frontend {
 	/**
 	 * Main title generation function.
 	 *
-	 * @param string $title              Title that might have already been set.
+	 * @param string $title Title that might have already been set.
 	 * @param string $separator_location Whether the separator should be left or right.
 	 *
 	 * @return string
@@ -805,8 +808,8 @@ class WPSEO_Frontend {
 	/**
 	 * Determine $robots values for a single post
 	 *
-	 * @param array $robots  Robots data array.
-	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
+	 * @param array $robots Robots data array.
+	 * @param int $post_id The post ID for which to determine the $robots values, defaults to current post.
 	 *
 	 * @return    array
 	 */
@@ -846,8 +849,8 @@ class WPSEO_Frontend {
 	 * This function normally outputs the canonical but is also used in other places to retrieve
 	 * the canonical URL for the current page.
 	 *
-	 * @param bool $echo        Whether or not to output the canonical element.
-	 * @param bool $un_paged    Whether or not to return the canonical with or without pagination added to the URL.
+	 * @param bool $echo Whether or not to output the canonical element.
+	 * @param bool $un_paged Whether or not to return the canonical with or without pagination added to the URL.
 	 * @param bool $no_override Whether or not to return a manually overridden canonical.
 	 *
 	 * @return string $canonical
@@ -1103,9 +1106,9 @@ class WPSEO_Frontend {
 	 *
 	 * @since 1.0.2
 	 *
-	 * @param string  $rel                  Link relationship, prev or next.
-	 * @param string  $url                  the un-paginated URL of the current archive.
-	 * @param string  $page                 the page number to add on to $url for the $link tag.
+	 * @param string $rel Link relationship, prev or next.
+	 * @param string $url the un-paginated URL of the current archive.
+	 * @param string $page the page number to add on to $url for the $link tag.
 	 * @param boolean $incl_pagination_base whether or not to include /page/ or not.
 	 *
 	 * @return void
@@ -1465,7 +1468,7 @@ class WPSEO_Frontend {
 	 *
 	 * Thanks to Mark Jaquith for this code.
 	 *
-	 * @param string $url  URL string.
+	 * @param string $url URL string.
 	 * @param string $type Context (such as single).
 	 *
 	 * @return string
