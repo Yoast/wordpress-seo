@@ -379,7 +379,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					{$where_filter}
 				ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
 			)
-			o JOIN {$wpdb->posts} l ON l.ID = o.ID ORDER BY l.ID
+			o JOIN {$wpdb->posts} l ON l.ID = o.ID
 		";
 
 		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );

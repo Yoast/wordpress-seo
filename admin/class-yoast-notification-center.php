@@ -500,9 +500,6 @@ class Yoast_Notification_Center {
 
 		// Set about version when dismissing about notification.
 		if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
-
-			setcookie( 'wpseo_seen_about_version_' . $user_id, WPSEO_VERSION, ( $_SERVER['REQUEST_TIME'] + YEAR_IN_SECONDS ) );
-
 			return ( false !== update_user_meta( $user_id, 'wpseo_seen_about_version', WPSEO_VERSION ) );
 		}
 

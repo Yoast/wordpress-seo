@@ -40,29 +40,6 @@
 	}
 
 	/**
-	 * Make the notices dismissible (again)
-	 */
-	function wpseoMakeDismissible() {
-		jQuery( '.notice.is-dismissible' ).each( function() {
-			var $notice = jQuery( this );
-			if ( $notice.find( '.notice-dismiss' ).empty() ) {
-				var $button = jQuery( '<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>' );
-
-				$notice.append( $button );
-
-				$button.on( 'click.wp-dismiss-notice', function( ev ) {
-					ev.preventDefault();
-					$notice.fadeTo( 100, 0, function() {
-						jQuery( this ).slideUp( 100, function() {
-							jQuery( this ).remove();
-						} );
-					} );
-				} );
-			}
-		} );
-	}
-
-	/**
 	 * Generates a dismissable anchor button
 	 *
 	 * @param {string} dismiss_link The URL that leads to the dismissing of the notice.
@@ -78,11 +55,8 @@
 	}
 
 	jQuery( document ).ready( function() {
-		jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_about_url ) );
-		jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss' ).replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_tagline_url ) );
-
-		jQuery( '.yoast-dismissible > .notice-dismiss' ).click( function() {
-			var $parentDiv = jQuery( this ).parent( '.yoast-dismissible' );
+		jQuery( '.yoast-dismissible' ).on( 'click', '.yoast-notice-dismiss', function() {
+			var $parentDiv = jQuery( this ).parent();
 
 			// Deprecated, todo: remove when all notifiers have been implemented.
 			jQuery.post(
@@ -105,8 +79,8 @@
 			);
 
 			$parentDiv.fadeTo( 100 , 0, function() {
-				jQuery(this).slideUp( 100, function() {
-					jQuery(this).remove();
+				$parentDiv.slideUp( 100, function() {
+					$parentDiv.remove();
 				});
 			});
 
@@ -125,7 +99,6 @@
 	});
 	window.wpseoDismissTaglineNotice = wpseoDismissTaglineNotice;
 	window.wpseoSetIgnore = wpseoSetIgnore;
-	window.wpseoMakeDismissible = wpseoMakeDismissible;
 	window.wpseoDismissLink = wpseoDismissLink;
 }());
 

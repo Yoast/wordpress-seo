@@ -182,7 +182,6 @@ class Yoast_Plugin_Conflict {
 				array(
 					'type'      => 'error yoast-dismissible',
 					'id'        => 'wpseo-dismiss-plugin-conflict',
-					'nonce'     => wp_create_nonce( 'dismiss-plugin-conflict' ),
 					'data_json' => array( 'section' => $plugin_section, 'plugins' => $this->active_plugins[ $plugin_section ] ),
 				)
 			)
