@@ -468,7 +468,7 @@ App.prototype.runAnalyzer = function() {
 	this.seoAssessorPresenter.render();
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 
-	if ( isUndefined( this.contentAssessorPresenter ) ){
+	if ( !isUndefined( this.contentAssessorPresenter ) ){
 		this.contentAssessorPresenter.renderIndividualRatings();
 	}
 
