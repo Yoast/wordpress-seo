@@ -466,7 +466,7 @@ App.prototype.runAnalyzer = function() {
 
 	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.seoAssessorPresenter.render();
-	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
+	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 
 	if ( isUndefined( this.contentAssessorPresenter ) ){
 		this.contentAssessorPresenter.renderIndividualRatings();
