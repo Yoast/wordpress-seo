@@ -50,12 +50,13 @@ AssessorPresenter.prototype.configHasProperty = function( property ) {
 /**
  * Gets a fully formatted indicator object that can be used.
  * @param {string} rating The rating to use.
- * @returns {Object} An object containing the class and screen reader text.
+ * @returns {Object} An object containing the class, the screen reader text, and the full text.
  */
 AssessorPresenter.prototype.getIndicator = function( rating ) {
 	return {
 		className: this.getIndicatorColorClass( rating ),
-		screenReaderText: this.getIndicatorScreenReaderText( rating )
+		screenReaderText: this.getIndicatorScreenReaderText( rating ),
+		fullText: this.getIndicatorFullText( rating )
 	};
 };
 
@@ -83,6 +84,19 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
 	}
 
 	return this.presenterConfig[ rating ].screenReaderText;
+};
+
+/**
+ * Get the indicator full text from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} Translated string containing the full text to be used.
+ */
+AssessorPresenter.prototype.getIndicatorFullText = function( rating ) {
+	if ( !this.configHasProperty( rating ) ) {
+		return "";
+	}
+
+	return this.presenterConfig[ rating ].fullText;
 };
 
 /**

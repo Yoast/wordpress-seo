@@ -12,6 +12,8 @@ var subheadingDistributionTooShort = require( "./assessments/subheadingDistribut
 var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
+var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
+var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -21,20 +23,23 @@ var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" 
  */
 var ContentAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
-	this._assessments = {
-		fleschReadingEase:		fleschReadingEase,
-		wordComplexity:			wordComplexity,
-		getSubheadingPresence:          getSubheadingPresence,
-		subheadingDistributionTooLong:  subheadingDistributionTooLong,
-		subheadingDistributionTooShort: subheadingDistributionTooShort,
-		subHeadingLength:               subHeadingLength,
-		paragraphTooLong:               paragraphTooLong,
-		paragraphTooShort:              paragraphTooShort,
-		sentenceLengthInText:           sentenceLengthInText,
-		sentenceLengthInDescription:    sentenceLengthInDescription,
-		transitionWords:                transitionWords,
-		sentenceVariation:              sentenceVariation
-	};
+
+	this._assessments = [
+		fleschReadingEase,
+		wordComplexity,
+		getSubheadingPresence,
+		subheadingDistributionTooLong,
+		subheadingDistributionTooShort,
+		subHeadingLength,
+		paragraphTooLong,
+		paragraphTooShort,
+		sentenceLengthInText,
+		sentenceLengthInDescription,
+		transitionWords,
+		sentenceVariation,
+		sentenceBeginnings,
+		passiveVoice
+	];
 };
 
 module.exports = ContentAssessor;

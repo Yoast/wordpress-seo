@@ -1,14 +1,5 @@
 var filter = require( "lodash/filter" );
-
-/**
- * Checks if a sentence is longer than the recommended value.
- * @param {number} recommendedValue The recommended maximum length of the sentence.
- * @param  {number} sentenceLength The length of the sentence.
- * @returns {boolean} True if the sentence is longer than recommended value.
- */
-function isSentenceTooLong( recommendedValue, sentenceLength ) {
-	return sentenceLength > recommendedValue;
-}
+var isSentenceTooLong = require( "../helpers/isValueTooLong" );
 
 /**
  * Counts number of too long sentences.

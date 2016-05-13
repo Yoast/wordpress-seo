@@ -1,17 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var isParagraphTooShort = require( "../helpers/isValueTooShort" );
 var filter = require( "lodash/filter" );
-
-
-/**
- * The function to use as a filter for too short paragraphs.
- * @param {number} recommendedValue The recommended minimum length of a paragraph.
- * @param {number} paragraphLength The number of words within a paragraph.
- * @returns {boolean} Returns true if paragraphLength is lower than recommendedValue.
- */
-var isParagraphTooShort = function( recommendedValue, paragraphLength ) {
-	return paragraphLength < recommendedValue;
-};
 
 /**
  * Returns an array containing only the paragraphs shorter than the recommended length.
@@ -86,6 +76,7 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textParagraphTooShort",
 	getResult: paragraphLengthAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();

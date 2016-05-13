@@ -66,6 +66,7 @@ var wordComplexityAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "wordComplexity",
 	getResult: wordComplexityAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText();

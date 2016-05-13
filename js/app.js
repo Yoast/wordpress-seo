@@ -9,6 +9,7 @@ var isString = require( "lodash/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
+var debounce = require( "lodash/debounce" );
 
 var Jed = require( "jed" );
 
@@ -228,9 +229,9 @@ var App = function( args ) {
 	if ( isValidSnippetPreview( args.snippetPreview ) ) {
 		this.snippetPreview = args.snippetPreview;
 
-		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
-		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
-		// app.
+		/* Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
+		dependency issue. In the future this should be solved by the snippet preview not having a reference to the
+		app.*/
 		if ( this.snippetPreview.refObj !== this ) {
 			this.snippetPreview.refObj = this;
 			this.snippetPreview.i18n = this.i18n;
@@ -241,7 +242,10 @@ var App = function( args ) {
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
 
-	this.runAnalyzer();
+	// Overwrite refresh function to make sure it can be debounced.
+	this.refresh = debounce( this.refresh.bind( this ), this.config.typeDelay );
+
+	this.refresh();
 };
 
 /**
@@ -371,29 +375,31 @@ App.prototype.initAssessorPresenters = function() {
 		i18n: this.i18n
 	} );
 
-	// Pass the assessor result through to the formatter
-	this.contentAssessorPresenter = new AssessorPresenter( {
-		targets: {
-			output: this.config.targets.contentOutput
-		},
-		assessor: this.contentAssessor,
-		i18n: this.i18n
-	} );
+	if ( !isUndefined( this.config.targets.contentOutput ) ) {
+		// Pass the assessor result through to the formatter
+		this.contentAssessorPresenter = new AssessorPresenter( {
+			targets: {
+				output: this.config.targets.contentOutput
+			},
+			assessor: this.contentAssessor,
+			i18n: this.i18n
+		} );
+	}
 };
 
 /**
- * binds the analyzeTimer function to the input of the targetElement on the page.
+ * Binds the refresh function to the input of the targetElement on the page.
  * @returns {void}
  */
 App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
+		elem.addEventListener( "input", this.refresh.bind( this ) );
 	}
 };
 
 /**
- * runs the rerender function of the snippetPreview if that object is defined.
+ * Runs the rerender function of the snippetPreview if that object is defined.
  * @returns {void}
  */
 App.prototype.reloadSnippetText = function() {
@@ -403,18 +409,7 @@ App.prototype.reloadSnippetText = function() {
 };
 
 /**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
- * at every keystroke checks the reference object, so this function can be called from anywhere,
- * without problems with different scopes.
- * @returns {void}
- */
-App.prototype.analyzeTimer = function() {
-	clearTimeout( window.timer );
-	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
-};
-
-/**
- * sets the startTime timestamp
+ * Sets the startTime timestamp
  * @returns {void}
  */
 App.prototype.startTime = function() {
@@ -422,7 +417,7 @@ App.prototype.startTime = function() {
 };
 
 /**
- * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ * Sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
  * @returns {void}
  */
 App.prototype.endTime = function() {
@@ -435,7 +430,7 @@ App.prototype.endTime = function() {
 };
 
 /**
- * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
+ * Inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  * @returns {void}
  */
@@ -471,9 +466,11 @@ App.prototype.runAnalyzer = function() {
 
 	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.seoAssessorPresenter.render();
-	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
+	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 
-	this.contentAssessorPresenter.renderIndividualRatings();
+	if ( !isUndefined( this.contentAssessorPresenter ) ) {
+		this.contentAssessorPresenter.renderIndividualRatings();
+	}
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -625,6 +622,21 @@ App.prototype.registerTest = function() {
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 	return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
+};
+
+// Deprecated functions
+
+/**
+ * The analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
+ * at every keystroke checks the reference object, so this function can be called from anywhere,
+ * without problems with different scopes.
+ *
+ * @deprecated: 1.3 - Use this.refresh() instead.
+ *
+ * @returns {void}
+ */
+App.prototype.analyzeTimer = function() {
+	this.refresh();
 };
 
 module.exports = App;

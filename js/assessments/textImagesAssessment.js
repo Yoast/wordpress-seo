@@ -90,6 +90,7 @@ var textHasImagesAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textImages",
 	getResult: textHasImagesAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText();

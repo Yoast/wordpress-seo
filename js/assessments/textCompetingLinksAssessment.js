@@ -39,6 +39,7 @@ var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textCompetingLinks",
 	getResult: textHasCompetingLinksAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText() && paper.hasKeyword();
