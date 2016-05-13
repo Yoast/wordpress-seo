@@ -375,14 +375,16 @@ App.prototype.initAssessorPresenters = function() {
 		i18n: this.i18n
 	} );
 
-	// Pass the assessor result through to the formatter
-	this.contentAssessorPresenter = new AssessorPresenter( {
-		targets: {
-			output: this.config.targets.contentOutput
-		},
-		assessor: this.contentAssessor,
-		i18n: this.i18n
-	} );
+	if ( !isUndefined ( this.config.targets.contentOutput ) ) {
+		// Pass the assessor result through to the formatter
+		this.contentAssessorPresenter = new AssessorPresenter( {
+			targets: {
+				output: this.config.targets.contentOutput
+			},
+			assessor: this.contentAssessor,
+			i18n: this.i18n
+		} );
+	}
 };
 
 /**
@@ -466,7 +468,9 @@ App.prototype.runAnalyzer = function() {
 	this.seoAssessorPresenter.render();
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
 
-	this.contentAssessorPresenter.renderIndividualRatings();
+	if ( isUndefined( this.contentAssessorPresenter ) ){
+		this.contentAssessorPresenter.renderIndividualRatings();
+	}
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
