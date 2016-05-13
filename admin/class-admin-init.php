@@ -86,7 +86,7 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * For WP versions older than 4.2, this includes styles and a script to make notices dismissible.
+	 * Enqueue our styling for dismissible yoast notifications.
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );

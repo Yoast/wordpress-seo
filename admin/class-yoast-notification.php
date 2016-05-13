@@ -267,7 +267,9 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * @return string Dismissal HTML.
+	 * Create the button to dismiss this notification
+	 *
+	 * @return string Dismissal button HTML.
 	 */
 	private function get_dismissal_button() {
 		if ( ! $this->is_persistent() ) {
@@ -281,7 +283,7 @@ class Yoast_Notification {
 
 		$url = esc_url( add_query_arg( $arr_params ) );
 
-		return sprintf( '<a class="yoast-notice-dismiss" type="button" href="%s"><span class="screen-reader-text">%s</span></a>', $url, __( 'Dismiss this notice.' ) );
+		return sprintf( '<a class="yoast-notice-dismiss" type="button" href="%s"><span class="screen-reader-text">%s</span></a>', $url, __( 'Dismiss this notice.', 'default' ) );
 	}
 
 	/**
