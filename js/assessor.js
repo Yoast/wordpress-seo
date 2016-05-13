@@ -5,6 +5,8 @@ var isFunction = require( "lodash/isFunction" );
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
+var findIndex = require( "lodash/findIndex" );
+var find = require( "lodash/find" );
 
 var ScoreRating = 9;
 
@@ -152,7 +154,11 @@ Assessor.prototype.calculateOverallScore  = function() {
  * @private
  */
 Assessor.prototype.addAssessment = function( name, assessment ) {
-	this._assessments[ name ] = assessment;
+	if ( !assessment.hasOwnProperty( "identifier" ) ) {
+		assessment.identifier = name;
+	}
+
+	this._assessments.push( assessment );
 	return true;
 };
 
@@ -161,7 +167,25 @@ Assessor.prototype.addAssessment = function( name, assessment ) {
  * @param {string} name The Assessment to remove from the list of assessments.
  */
 Assessor.prototype.removeAssessment = function( name ) {
-	delete this._assessments[ name ];
+	var toDelete = findIndex( this._assessments, function( assessment ) {
+		return assessment.hasOwnProperty( "identifier" ) && name === assessment.identifier;
+	} );
+
+	if ( -1 !== toDelete ) {
+		this._assessments.splice( toDelete, 1 );
+	}
+};
+
+/**
+ * Returns an assessment by identifier
+ *
+ * @param {string} identifier The identifier of the assessment.
+ * @returns {undefined|Object} The object if found, otherwise undefined.
+ */
+Assessor.prototype.getAssessment = function( identifier ) {
+	return find( this._assessments, function( assessment ) {
+		return assessment.hasOwnProperty( "identifier" ) && identifier === assessment.identifier;
+	} );
 };
 
 module.exports = Assessor;

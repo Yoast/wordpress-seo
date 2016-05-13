@@ -1,3 +1,5 @@
+var defaults = require( "lodash/defaults" );
+
 /**
  * Represents a marked piece of text
  *
@@ -7,6 +9,8 @@
  * @constructor
  */
 function Mark( props ) {
+	defaults( props, { original: "", marked: "" });
+
 	this._props = props;
 }
 
