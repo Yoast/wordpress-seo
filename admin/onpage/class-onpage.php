@@ -111,7 +111,6 @@ class WPSEO_OnPage {
 					array(
 						'type'  => 'error yoast-dismissible',
 						'id'    => 'wpseo-dismiss-onpageorg',
-						'nonce' => wp_create_nonce( 'wpseo-dismiss-onpageorg' ),
 					)
 				)
 			);
