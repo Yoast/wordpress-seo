@@ -137,7 +137,7 @@ function verifyArguments( args ) {
  * @returns {String} data.keyword The keyword that should be used
  * @returns {String} data.meta
  * @returns {String} data.text The text to analyze
- * @returns {String} data.pageTitle The text in the HTML title tag
+ * @returns {String} data.metaTitle The text in the HTML title tag
  * @returns {String} data.title The title to analyze
  * @returns {String} data.url The URL for the given page
  * @returns {String} data.excerpt Excerpt for the pages
@@ -317,13 +317,13 @@ App.prototype.getData = function() {
 		// Gets the data FOR the analyzer
 		var data = this.snippetPreview.getAnalyzerData();
 
-		this.rawData.pageTitle = data.title;
+		this.rawData.metaTitle = data.title;
 		this.rawData.url = data.url;
 		this.rawData.meta = data.metaDesc;
 	}
 
 	if ( this.pluggable.loaded ) {
-		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
+		this.rawData.metaTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.metaTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
 	}
 	this.rawData.locale = this.config.locale;
@@ -450,7 +450,7 @@ App.prototype.runAnalyzer = function() {
 		keyword:  this.analyzerData.keyword,
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
-		title: this.analyzerData.pageTitle,
+		title: this.analyzerData.metaTitle,
 		locale: this.config.locale
 	} );
 
@@ -489,8 +489,8 @@ App.prototype.modifyData = function( data ) {
 	// Copy rawdata to lose object reference.
 	data = JSON.parse( JSON.stringify( data ) );
 
-	data.text = this.pluggable._applyModifications( "content", data.text );
-	data.title = this.pluggable._applyModifications( "title", data.title );
+	data.text      = this.pluggable._applyModifications( "content", data.text );
+	data.metaTitle = this.pluggable._applyModifications( "title", data.metaTitle );
 
 	return data;
 };

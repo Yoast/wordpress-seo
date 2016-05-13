@@ -341,9 +341,9 @@ var SnippetPreview = function( opts ) {
 			metaDesc: this.refObj.rawData.snippetMeta || ""
 		};
 
-		// For backwards compatibility set the pageTitle as placeholder.
-		if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
-			opts.placeholder.title = this.refObj.rawData.pageTitle;
+		// For backwards compatibility set the metaTitle as placeholder.
+		if ( !isEmpty( this.refObj.rawData.metaTitle ) ) {
+			opts.placeholder.title = this.refObj.rawData.metaTitle;
 		}
 	}
 
@@ -541,7 +541,7 @@ SnippetPreview.prototype.callRegisteredEventBinder = function() {
  */
 SnippetPreview.prototype.init = function() {
 	if (
-		this.refObj.rawData.pageTitle !== null &&
+		this.refObj.rawData.metaTitle !== null &&
 		this.refObj.rawData.cite !== null
 	) {
 		this.refresh();
