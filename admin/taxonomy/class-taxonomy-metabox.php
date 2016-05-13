@@ -212,7 +212,7 @@ class WPSEO_Taxonomy_Metabox {
 			</g>
 			<g class="traffic-light-color traffic-light-red">
 				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#E31C15" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#DC3232" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
 				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
 			</g>
 			<g class="traffic-light-color traffic-light-orange">
@@ -255,8 +255,11 @@ SVG;
 				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						{{data.prefix}}
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 						<span class="wpseo-score-icon {{data.score}}">
-							<span class="screen-reader-text"></span>
+							<# if ( data.keyword ) { #>
+								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
+							<# } #>
 						</span>
 						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
 					</a>

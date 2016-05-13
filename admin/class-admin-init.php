@@ -56,16 +56,40 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
+
+		$this->sync_about_version_from_cookie();
 	}
 
 	/**
-	 * For WP versions older than 4.2, this includes styles and a script to make notices dismissible.
+	 * Get about version seen from cookie if set.
+	 */
+	protected function sync_about_version_from_cookie() {
+
+		$user_id                 = get_current_user_id();
+		$meta_seen_about_version = get_user_meta( $user_id, 'wpseo_seen_about_version', true );
+
+		$cookie_key = 'wpseo_seen_about_version_' . $user_id;
+
+		$cookie_seen_about_version = isset( $_COOKIE[ $cookie_key ] ) ? $_COOKIE[ $cookie_key ] : '';
+
+		if ( ! empty( $cookie_seen_about_version ) ) {
+
+			if ( version_compare( $cookie_seen_about_version, $meta_seen_about_version, '>' ) ) {
+				update_user_meta( $user_id, 'wpseo_seen_about_version', $cookie_seen_about_version );
+				$meta_seen_about_version = $cookie_seen_about_version;
+			}
+		}
+
+		if ( $cookie_seen_about_version !== $meta_seen_about_version ) {
+			setcookie( $cookie_key, $meta_seen_about_version, ( $_SERVER['REQUEST_TIME'] + YEAR_IN_SECONDS ) );
+		}
+	}
+
+	/**
+	 * Enqueue our styling for dismissible yoast notifications.
 	 */
 	public function enqueue_dismissible() {
-		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
-			$this->asset_manager->enqueue_script( 'dismissable' );
-			$this->asset_manager->enqueue_style( 'dismissable' );
-		}
+		$this->asset_manager->enqueue_style( 'dismissible' );
 	}
 
 	/**
@@ -78,8 +102,7 @@ class WPSEO_Admin_Init {
 		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
-				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
-
+				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
 				return;
 			}
 

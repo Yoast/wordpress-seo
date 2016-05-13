@@ -193,7 +193,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		mainKeywordTab.update( indicator.className, keyword );
+		mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
 
 		$trafficLight.attr({
 			'class': 'yst-traffic-light ' + indicator.className,
@@ -206,17 +206,18 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	 * Initializes keyword tab with the correct template
 	 */
 	TermScraper.prototype.initKeywordTabTemplate = function() {
-		var keyword, score;
+		var keyword, score, scoreText;
 
 		// Remove default functionality to prevent scrolling to top.
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
 		});
 
-		keyword = $( '#wpseo_focuskw' ).val();
-		score   = $( '#hidden_wpseo_linkdex' ).val();
+		keyword   = $( '#wpseo_focuskw' ).val();
+		score     = $( '#hidden_wpseo_linkdex' ).val();
+		scoreText = '';
 
-		mainKeywordTab.update( score, keyword );
+		mainKeywordTab.update( score, scoreText, keyword );
 	};
 
 	/**
@@ -303,9 +304,11 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		// Initialize an instance of the keywordword tab.
 		mainKeywordTab = new KeywordTab(
 			{
-				prefix: wpseoTermScraperL10n.contentTab
+				prefix: wpseoTermScraperL10n.contentTab,
+				basedOn: wpseoTermScraperL10n.basedOn
 			}
 		);
+
 		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		termScraper = new TermScraper();

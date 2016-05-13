@@ -61,6 +61,9 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 
 		$content = $item->post_content;
 
+		// Check if there's a featured image.
+		$content .= $this->add_featured_image( $item );
+
 		/**
 		 * Filter the post content for use in the SEO score recalculation.
 		 *
@@ -127,5 +130,20 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Retrieves the associated featured image if there is one present.
+	 *
+	 * @param WP_Post $item The post item to check for a featured image.
+	 *
+	 * @return string The image string.
+	 */
+	private function add_featured_image( $item ) {
+		if ( ! has_post_thumbnail( $item->ID ) ) {
+			return '';
+		}
+
+		return ' ' . get_the_post_thumbnail( $item->ID );
 	}
 }

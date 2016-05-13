@@ -29,7 +29,7 @@
 		"xrstf/composer-php52": "^1.0.20"
 	},
 	"require-dev": {
-		"yoast/yoastcs": "0.2",
+		"yoast/yoastcs": "0.3",
 		"codeclimate/php-test-reporter": "dev-master"
 	},
 	"minimum-stability": "dev",

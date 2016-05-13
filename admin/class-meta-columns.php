@@ -87,7 +87,6 @@ class WPSEO_Meta_Columns {
 			return $columns;
 		}
 
-		$columns['wpseo-score']    = 'wpseo-score';
 		$columns['wpseo-metadesc'] = 'wpseo-metadesc';
 		$columns['wpseo-focuskw']  = 'wpseo-focuskw';
 
@@ -133,7 +132,8 @@ class WPSEO_Meta_Columns {
 		$current_seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
 		echo '
-			<select name="seo_filter">
+			<label class="screen-reader-text" for="wpseo-filter">' . __( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>
+			<select name="seo_filter" id="wpseo-filter">
 				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
 		foreach ( $ranks as $rank ) {
 			$sel = selected( $current_seo_filter, $rank->get_rank(), false );
@@ -299,12 +299,6 @@ class WPSEO_Meta_Columns {
 	 */
 	private function filter_order_by( $order_by ) {
 		switch ( $order_by ) {
-			case 'wpseo-score' :
-				return array(
-					'meta_key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'orderby'  => 'meta_value_num',
-				);
-				break;
 			case 'wpseo-metadesc' :
 				return  array(
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',

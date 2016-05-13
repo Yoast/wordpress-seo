@@ -603,7 +603,7 @@ ul.wpseo-metabox-tabs li {
 }
 
 .wrong {
-	color: red;
+	color: #dc3232;
 }
 
 #current_seo_title span {
@@ -772,6 +772,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseo-metabox-tabs .active a {
 	color: #333;
+}
+
+/* Hide the `based on keyword` text to screen readers when there's no keyword */
+.wpseo-metabox-tabs .na .wpseo-keyword-tab-based-on {
+	display: none;
 }
 
 #wpseotab .ui-widget-content .ui-state-hover {
