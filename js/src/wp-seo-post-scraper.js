@@ -280,24 +280,24 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	 * @param {AssessorPresenter} assessorPresenter
 	 */
 	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) ),
-			$trafficLight = $( '.yst-traffic-light' ),
-			$trafficLightLink = $trafficLight.closest( '.wpseo-meta-section-link' ),
-			initialTitle = $trafficLightLink.data( 'initial-title' );
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+		var $trafficLight = $( '.yst-traffic-light' );
+		var $trafficLightLink = $trafficLight.closest( '.wpseo-meta-section-link' );
 
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
 				indicator.className = 'na';
-				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
+				indicator.fullText = app.i18n.dgettext( 'js-text-analysis', 'Content Analysis: Enter a focus keyword to calculate the SEO score' );
 			}
 
 			$trafficLight.attr({
 				'class': 'yst-traffic-light ' + indicator.className,
 				alt: ''
 			});
-			$trafficLightLink.attr( 'title', initialTitle + ' ' + indicator.screenReaderText );
+
+			$trafficLightLink.attr( 'title', indicator.fullText );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)

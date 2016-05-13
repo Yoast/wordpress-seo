@@ -184,11 +184,10 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	 * @param {AssessorPresenter} assessorPresenter
 	 */
 	TermScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) ),
-			keyword = this.getDataFromInput( 'keyword' ),
-			$trafficLight = $( '.yst-traffic-light' ),
-			$trafficLightLink = $trafficLight.closest( '.wpseo-meta-section-link' ),
-			initialTitle = $trafficLightLink.data( 'initial-title' );
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+		var keyword = this.getDataFromInput( 'keyword' );
+		var $trafficLight = $( '.yst-traffic-light' );
+		var $trafficLightLink = $trafficLight.closest( '.wpseo-meta-section-link' );
 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
@@ -199,7 +198,8 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 			'class': 'yst-traffic-light ' + indicator.className,
 			alt: ''
 		});
-		$trafficLightLink.attr( 'title', initialTitle + ' ' + indicator.screenReaderText );
+
+		$trafficLightLink.attr( 'title', indicator.fullText );
 	};
 
 	/**

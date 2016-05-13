@@ -102,7 +102,7 @@ class WPSEO_Taxonomy_Metabox {
 			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			array( $tab ),
 			array(
-				'link_title' => __( 'Content:', 'wordpress-seo' ),
+				'link_title' => __( 'Content', 'wordpress-seo' ),
 			)
 		);
 	}
