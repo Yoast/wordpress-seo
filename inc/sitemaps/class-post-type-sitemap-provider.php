@@ -50,9 +50,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		$post_types = get_post_types( array( 'public' => true ) );
-		$post_types = array_filter( $post_types, array( $this, 'is_valid_post_type' ) );
-		$index      = array();
+		$post_types          = get_post_types( array( 'public' => true ) );
+		$post_types          = array_filter( $post_types, array( $this, 'is_valid_post_type' ) );
+		$last_modified_times = WPSEO_Sitemaps::get_last_modified_gmt( $post_types, true );
+		$index               = array();
 
 		foreach ( $post_types as $post_type ) {
 
@@ -67,8 +68,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			for ( $i = 0; $i < $max_pages; $i++ ) {
 				$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
 
+				$date = false;
+
 				if ( empty( $count ) || $count === $max_pages ) {
-					$date = WPSEO_Sitemaps::get_last_modified_gmt( $post_type );
+
+					if ( ! empty( $last_modified_times[ $post_type ] ) ) {
+						$date = $last_modified_times[ $post_type ];
+					}
 				}
 				else {
 					$sql       = "

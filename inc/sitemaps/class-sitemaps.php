@@ -422,10 +422,11 @@ class WPSEO_Sitemaps {
 	 * Get the GMT modification date for the last modified post in the post type.
 	 *
 	 * @param string|array $post_types Post type or array of types.
+	 * @param bool         $return_all Flag to return array of values.
 	 *
-	 * @return string|false
+	 * @return string|array|false
 	 */
-	static public function get_last_modified_gmt( $post_types ) {
+	static public function get_last_modified_gmt( $post_types, $return_all = false ) {
 
 		global $wpdb;
 
@@ -434,7 +435,6 @@ class WPSEO_Sitemaps {
 		if ( ! is_array( $post_types ) ) {
 			$post_types = array( $post_types );
 		}
-
 
 		$sql = "
 			SELECT post_type, MAX(post_modified_gmt) AS date
@@ -445,15 +445,18 @@ class WPSEO_Sitemaps {
 			ORDER BY post_modified_gmt DESC
 		";
 
-		$results = $wpdb->get_results( $sql );
-		foreach ( $results as $obj ) {
+		foreach ( $wpdb->get_results( $sql ) as $obj ) {
 			$post_type_dates[ $obj->post_type ] = $obj->date;
 		}
-		unset( $sql, $results, $obj );
 
 		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
 
 		if ( count( $dates ) > 0 ) {
+
+			if ( $return_all ) {
+				return $dates;
+			}
+
 			return max( $dates );
 		}
 
