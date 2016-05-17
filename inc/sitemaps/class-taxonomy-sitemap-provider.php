@@ -99,38 +99,30 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					continue;
 				}
 
-				if ( ( empty( $current_page ) || $current_page == $max_pages ) ) {
-					$date = $last_modified_gmt;
+				$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $max_entries );
+
+				if ( ! $terms ) {
+					continue;
+				}
+
+				$args  = array(
+					'post_type' => $tax->object_type,
+					'tax_query' => array(
+						array(
+							'taxonomy' => $tax_name,
+							'terms'    => $terms,
+						),
+					),
+					'orderby'   => 'modified',
+					'order'     => 'DESC',
+				);
+				$query = new WP_Query( $args );
+
+				if ( $query->have_posts() ) {
+					$date = $query->posts[0]->post_modified_gmt;
 				}
 				else {
-					$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $max_entries );
-
-					if ( ! $terms ) {
-						continue;
-					}
-
-					$args  = array(
-						'post_type' => $tax->object_type,
-						'tax_query' => array(
-							array(
-								'taxonomy' => $tax_name,
-								'terms'    => $terms,
-							),
-						),
-						'orderby'   => 'modified',
-						'order'     => 'DESC',
-					);
-					$query = new WP_Query( $args );
-
-					$date = '';
-
-					if ( $query->have_posts() ) {
-						$date = $query->posts[0]->post_modified_gmt;
-					}
-					else {
-						$date = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
-					}
-					unset( $terms, $args, $query );
+					$date = $last_modified_gmt;
 				}
 
 				$index[] = array(
