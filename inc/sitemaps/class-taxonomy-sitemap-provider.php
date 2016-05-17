@@ -82,9 +82,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$steps = $max_entries;
-			$count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
-			$n     = ( $count > $max_entries ) ? (int) ceil( $count / $max_entries ) : 1;
+			$steps             = $max_entries;
+			$count             = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
+			$n                 = ( $count > $max_entries ) ? (int) ceil( $count / $max_entries ) : 1;
+			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
 
 			for ( $i = 0; $i < $n; $i++ ) {
 
@@ -95,7 +96,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 
 				if ( ( empty( $count ) || $count == $n ) ) {
-					$date = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
+					$date = $last_modified_gmt;
 				}
 				else {
 					$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
