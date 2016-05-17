@@ -204,11 +204,17 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function is_valid_post_type( $post_type ) {
 
+		global $wp_post_types;
+
 		if ( ! empty( $this->options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
 			return false;
 		}
 
 		if ( in_array( $post_type, array( 'revision', 'nav_menu_item' ) ) ) {
+			return false;
+		}
+
+		if ( empty( $wp_post_types[ $post_type ]->public ) ) {
 			return false;
 		}
 
