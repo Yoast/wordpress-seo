@@ -106,15 +106,16 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 
 				$args  = array(
-					'post_type' => $tax->object_type,
-					'tax_query' => array(
+					'post_type'      => $tax->object_type,
+					'tax_query'      => array(
 						array(
 							'taxonomy' => $tax_name,
 							'terms'    => $terms,
 						),
 					),
-					'orderby'   => 'modified',
-					'order'     => 'DESC',
+					'orderby'        => 'modified',
+					'order'          => 'DESC',
+					'posts_per_page' => 1,
 				);
 				$query = new WP_Query( $args );
 
