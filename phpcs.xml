@@ -15,7 +15,6 @@
     <rule ref="Yoast">
         <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" /><!-- TODO audit and fix nonces -->
         <exclude name="WordPress.WP.PreparedSQL.NotPrepared" /><!-- TODO audit raw queries -->
-        <exclude name="WordPress.VIP.RestrictedFunctions.wp_get_post_terms" /><!-- TODO audit and possibly update to get_the_terms() -->
     </rule>
 
     <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
