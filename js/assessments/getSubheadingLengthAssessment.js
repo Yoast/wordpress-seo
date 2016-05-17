@@ -1,7 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var getSubheadings = require( "../stringProcessing/getSubheadings.js" ).getSubheadings;
-var Mark = require( "../values/mark" );
+var Mark = require( "../values/Mark" );
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );

@@ -9,7 +9,7 @@ var defaults = require( "lodash/defaults" );
  * @constructor
  */
 function Mark( props ) {
-	defaults( props, { original: "", marked: "" });
+	defaults( props, { original: "", marked: "" } );
 
 	this._props = props;
 }
