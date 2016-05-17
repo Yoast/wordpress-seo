@@ -82,24 +82,28 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$steps             = $max_entries;
-			$count             = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
-			$n                 = ( $count > $max_entries ) ? (int) ceil( $count / $max_entries ) : 1;
+			$total_count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
+			$max_pages   = 1;
+
+			if ( $total_count > $max_entries ) {
+				$max_pages = (int) ceil( $total_count / $max_entries );
+			}
+
 			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
 
-			for ( $i = 0; $i < $n; $i++ ) {
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
 
-				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
+				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 
 				if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
 					continue;
 				}
 
-				if ( ( empty( $count ) || $count == $n ) ) {
+				if ( ( empty( $current_page ) || $current_page == $max_pages ) ) {
 					$date = $last_modified_gmt;
 				}
 				else {
-					$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
+					$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $max_entries );
 
 					if ( ! $terms ) {
 						continue;
@@ -130,7 +134,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 
 				$index[] = array(
-					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $tax_name . '-sitemap' . $count . '.xml' ),
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $tax_name . '-sitemap' . $current_page . '.xml' ),
 					'lastmod' => $date,
 				);
 			}
