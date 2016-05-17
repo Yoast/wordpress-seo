@@ -57,43 +57,54 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		foreach ( $post_types as $post_type ) {
 
-			$count = $this->get_post_type_count( $post_type );
+			$total_count = $this->get_post_type_count( $post_type );
 
-			if ( $count === 0 ) {
+			if ( $total_count === 0 ) {
 				continue;
 			}
 
-			$max_pages = ( $count > $max_entries ) ? (int) ceil( $count / $max_entries ) : 1;
+			$max_pages = 1;
 
-			for ( $i = 0; $i < $max_pages; $i++ ) {
-				$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
+			if ( $total_count > $max_entries ) {
+				$max_pages = (int) ceil( $total_count / $max_entries );
+			}
 
-				$date = false;
+			$all_dates = array();
 
-				if ( empty( $count ) || $count === $max_pages ) {
+			if ( $max_pages > 1 ) {
+
+				$sql       = "
+					SELECT post_modified_gmt
+					FROM (
+						SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt
+						FROM (SELECT @rownum:=0) r, $wpdb->posts
+						WHERE post_status IN ('publish','inherit')
+							AND post_type = %s
+						ORDER BY post_modified_gmt ASC
+					) x
+					WHERE rownum %%%d=0
+				";
+
+				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
+			}
+
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
+
+				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
+				$date         = false;
+
+				if ( empty( $current_page ) || $current_page === $max_pages ) {
 
 					if ( ! empty( $last_modified_times[ $post_type ] ) ) {
 						$date = $last_modified_times[ $post_type ];
 					}
 				}
 				else {
-					$sql       = "
-						SELECT post_modified_gmt
-						FROM (
-							SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt
-							FROM (SELECT @rownum:=0) r, $wpdb->posts
-							WHERE post_status IN ('publish','inherit')
-								AND post_type = %s
-							ORDER BY post_modified_gmt ASC
-						) x
-						WHERE rownum %%%d=0
-					";
-					$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
-					$date      = $all_dates[ $i ];
+					$date = $all_dates[ $page_counter ];
 				}
 
 				$index[] = array(
-					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $post_type . '-sitemap' . $count . '.xml' ),
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $post_type . '-sitemap' . $current_page . '.xml' ),
 					'lastmod' => $date,
 				);
 			}
