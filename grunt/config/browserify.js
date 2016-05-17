@@ -1,4 +1,9 @@
 module.exports = {
+	options: {
+		browserifyOptions: {
+			debug: true
+		}
+	},
 	build: {
 		files: {
 			'js/dist/wp-seo-admin-320.js': ['js/src/wp-seo-admin.js'],

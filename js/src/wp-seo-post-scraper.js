@@ -2,6 +2,40 @@
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
+var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
+
+/**
+ * Returns whether or not the tinyMCE script is available on the page.
+ *
+ * @returns {boolean}
+ */
+function isTinyMCELoaded() {
+	return (
+		typeof tinyMCE !== 'undefined' &&
+		typeof tinyMCE.editors !== 'undefined' &&
+		tinyMCE.editors.length !== 0
+	);
+}
+
+/**
+ * Returns whether or not a tinyMCE editor with the given ID is available.
+ *
+ * @param {string} editorID The ID of the tinyMCE editor
+ */
+function isTinyMCEAvailable( editorID ) {
+	console.log( isTinyMCELoaded() );
+
+	if ( ! isTinyMCELoaded() ) {
+		return false;
+	}
+
+	var editor = tinyMCE.get( editorID );
+
+	return (
+		editor !== null &&
+		! editor.isHidden()
+	);
+}
 
 (function( $ ) {
 	'use strict';
@@ -22,6 +56,8 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 	var mainKeywordTab;
 	var KeywordTab = require( './analysis/keywordTab' );
+
+	var decorator = null;
 
 	/**
 	 * wordpress scraper to gather inputfields.
@@ -199,15 +235,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	 * @returns {boolean}
 	 */
 	PostScraper.prototype.isTinyMCEAvailable = function() {
-		if ( typeof tinyMCE === 'undefined' ||
-			typeof tinyMCE.editors === 'undefined' ||
-			tinyMCE.editors.length === 0 ||
-			tinyMCE.get( 'content' ) === null ||
-			tinyMCE.get( 'content' ).isHidden() ) {
-			return false;
-		}
-
-		return true;
+		return isTinyMCEAvailable( 'content' );
 	};
 
 	/**
@@ -303,6 +331,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+
 	};
 
 	/**
@@ -450,11 +479,11 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		var postScraper = new PostScraper();
 
 		var args = {
-
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
-				output: 'wpseo-pageanalysis'
+				output: 'wpseo-pageanalysis',
+				contentOutput: 'wpseo-contentanalysis'
 			},
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
@@ -462,7 +491,17 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 				saveScores: postScraper.saveScores.bind( postScraper ),
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
-			locale: wpseoPostScraperL10n.locale
+			locale: wpseoPostScraperL10n.locale,
+			marker: function( paper, marks ) {
+				if ( isTinyMCEAvailable( 'content' ) ) {
+
+					if ( null === decorator ) { 
+						decorator = tinyMCEDecorator( tinyMCE.get( 'content' ) );
+					}
+
+					decorator( paper, marks )
+				}
+			}
 		};
 
 		titleElement = $( '#title' );

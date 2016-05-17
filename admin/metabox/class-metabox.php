@@ -38,6 +38,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true ) {
 			$this->social_admin = new WPSEO_Social_Admin( $this->options );
 		}
+
+		$this->editor = new WPSEO_Metabox_Editor();
+		$this->editor->register_hooks();
 	}
 
 	/**
@@ -418,7 +421,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
-				$content .= '<div id="wpseo-pageanalysis"></div>';
+				$content .= '<div id="wpseo-pageanalysis"></div><h2>Content assessments</h2><div id="wpseo-contentanalysis"></div>';
 				break;
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
