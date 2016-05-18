@@ -1,6 +1,11 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../renderers/marker.js" );
+
+var map = require( "lodash/map" );
+
 /**
  * Calculates the result based on the number of sentences and passives.
  * @param {object} passiveVoice The object containing the number of sentences and passives
@@ -8,7 +13,7 @@ var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
  * @returns {{score: number, text}} resultobject with score and text.
  */
 var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
-	var percentage = ( passiveVoice.passives / passiveVoice.total ) * 100;
+	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
 	percentage = fixFloatingPoint( percentage );
 	var recommendedValue = 10;
 
@@ -47,6 +52,25 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 };
 
 /**
+ *
+ * @param paper
+ * @param researcher
+ * @returns {*}
+ */
+var passiveVoiceMarker = function( paper, researcher ) {
+	var passiveVoice = researcher.getResearch( "passiveVoice" );
+	var mapped = map( passiveVoice.passives, function( sentence ) {
+		var marked = marker( sentence );
+		return new Mark( {
+			original: sentence,
+			marked: marked
+		} );
+	} );
+
+	return mapped;
+};
+
+/**
  * Runs the getParagraphLength module, based on this returns an assessment result with score and text.
  * @param {object} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
@@ -67,8 +91,10 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "passiveVoice",
 	getResult: paragraphLengthAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: passiveVoiceMarker
 };

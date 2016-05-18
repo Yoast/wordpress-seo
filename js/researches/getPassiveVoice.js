@@ -163,7 +163,6 @@ var getRegularVerbs = function( subSentence ) {
 var getIrregularVerbs = function( subSentence ) {
 	var irregularVerbs = matchArray( subSentence, irregulars );
 	return filter( irregularVerbs, function( verb ) {
-
 		// If rid is used with get, gets, getting, got or gotten, remove it.
 		if ( verb.match === "rid" ) {
 			var exclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
@@ -257,12 +256,12 @@ var determinePassives = function( subSentence ) {
 /**
  * Determines the number of passive sentences in the text.
  * @param {Paper} paper The paper object to get the text from.
- * @returns {object} The number of passives found in the text and the total nubmer of sentences
+ * @returns {object} The number of passives found in the text and the passive sentences.
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
 	var sentences = getSentences( text );
-	var passiveCount = 0;
+	var passiveSentences = [];
 
 	// Get subsentences for each sentence.
 	forEach( sentences, function( sentence ) {
@@ -272,13 +271,13 @@ module.exports = function( paper ) {
 			passive = determinePassives( subSentence );
 		} );
 		if ( passive ) {
-			passiveCount++;
+			passiveSentences.push( sentence );
 			passive = false;
 		}
 	} );
 
 	return {
 		total: sentences.length,
-		passives: passiveCount
+		passives: passiveSentences
 	};
 };
