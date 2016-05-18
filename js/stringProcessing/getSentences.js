@@ -5,7 +5,7 @@ var isEmpty = require( "lodash/isEmpty" );
 var isUndefined = require( "lodash/isUndefined" );
 var difference = require( "lodash/difference" );
 var forEach = require( "lodash/forEach" );
-var isNaN = require( "lodash/isNan" );
+var isNaN = require( "lodash/isNaN" );
 
 /**
  * Checks if the period is followed with a whitespace. If not, it is no ending of a sentence.
