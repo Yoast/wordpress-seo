@@ -3,15 +3,15 @@ var defaults = require( "lodash/defaults" );
 /**
  * Represents a marked piece of text
  *
- * @param {Object} props The properties of this Mark.
- * @param {string} props.original The original text that should be marked.
- * @param {string} props.marked The new text including marks.
+ * @param {Object} properties The properties of this Mark.
+ * @param {string} properties.original The original text that should be marked.
+ * @param {string} properties.marked The new text including marks.
  * @constructor
  */
-function Mark( props ) {
-	defaults( props, { original: "", marked: "" } );
+function Mark( properties ) {
+	defaults( properties, { original: "", marked: "" } );
 
-	this._props = props;
+	this._properties = properties;
 }
 
 
@@ -21,7 +21,7 @@ function Mark( props ) {
  * @returns {string} The original text.
  */
 Mark.prototype.getOriginal = function() {
-	return this._props.original;
+	return this._properties.original;
 };
 
 /**
@@ -30,7 +30,7 @@ Mark.prototype.getOriginal = function() {
  * @returns {string} The replaced text.
  */
 Mark.prototype.getMarked = function() {
-	return this._props.marked;
+	return this._properties.marked;
 };
 
 /**
@@ -40,7 +40,7 @@ Mark.prototype.getMarked = function() {
  * @returns {string} The A new text with the mark applied to it.
  */
 Mark.prototype.applyWithReplace = function( text ) {
-	return text.replace( this._props.original, this._props.marked );
+	return text.replace( this._properties.original, this._properties.marked );
 };
 
 module.exports = Mark;
