@@ -1,6 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
 var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthPercentageScore.js" );
+var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 
 /**
  * Calculates sentence length score
@@ -13,25 +14,28 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var maximumPercentage = 25;
 
 	var tooLong = countTooLongSentences( sentences, recommendedValue );
-	var percentage = ( tooLong / sentences.length ) * 100;
+	var percentage = fixFloatingPoint( ( tooLong / sentences.length ) * 100 );
 
 	var score = calculateTooLongSentences( percentage );
 
 	if ( score >= 7 ) {
-		return{
+		return {
 			score: score,
 
-			// translators: %1$s expands to number of sentences.
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than 20 words, " +
-				"which is within the recommended range." ), percentage + "%" )
+			// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
+			// %3$s expands to the recommended amount of words.
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
+				"which is less than the recommended maximum of %2$s." ), percentage + "%", maximumPercentage + "%", recommendedValue )
 		};
 	}
-	return{
+	return {
 		score: score,
 
-		// translators: %1$s expands to number of sentences.
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than 20 words, " +
-			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ), percentage + "%", maximumPercentage + "%" )
+		// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
+		// %3$s expands to the recommended amount of words.
+		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
+			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ),
+			percentage + "%", maximumPercentage + "%", recommendedValue )
 	};
 };
 /**
@@ -54,6 +58,7 @@ var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textSentenceLength",
 	getResult: sentenceLengthInTextAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();

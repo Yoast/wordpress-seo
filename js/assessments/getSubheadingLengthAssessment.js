@@ -1,5 +1,11 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var getSubheadings = require( "../stringProcessing/getSubheadings.js" ).getSubheadings;
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../renderers/marker.js" );
+
+var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
 var forEach = require( "lodash/forEach" );
 
 /**
@@ -88,9 +94,37 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Marks text for the subheading length assessment
+ *
+ * @param {Paper} paper The paper that should be marked.
+ * @returns {Array<Mark>} A list of marks that should be applied.
+ */
+function subheadingLengthMarker( paper ) {
+	var subheadings = getSubheadings( paper.getText() );
+
+	var lengthySubheadings = filter( subheadings, function( subheading ) {
+		return subheading[ 2 ].length > 30;
+	} );
+
+	return map( lengthySubheadings, function( subheading ) {
+		var innerText = subheading[ 2 ];
+		var outerText = subheading[ 0 ];
+
+		var marked = outerText.replace( innerText, marker( innerText ) );
+
+		return new Mark( {
+			original: outerText,
+			marked: marked
+		} );
+	} );
+}
+
 module.exports = {
+	identifier: "textSubheadingLength",
 	getResult: getSubheadingLength,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: subheadingLengthMarker
 };
