@@ -1,7 +1,8 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var getSubheadings = require( "../stringProcessing/getSubheadings.js" ).getSubheadings;
-var Mark = require( "../values/Mark" );
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../renderers/marker.js" );
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -110,7 +111,7 @@ function subheadingLengthMarker( paper ) {
 		var innerText = subheading[ 2 ];
 		var outerText = subheading[ 0 ];
 
-		var marked = outerText.replace( innerText, "<mark>" + innerText + "</mark>" );
+		var marked = outerText.replace( innerText, marker( innerText ) );
 
 		return new Mark( {
 			original: outerText,
