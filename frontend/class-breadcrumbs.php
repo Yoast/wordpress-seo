@@ -189,7 +189,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	public function get_breadcrumb_standard() {
 		$breadcrumb_config = get_theme_support( 'yoast-seo-breadcrumbs' )[0];
-		$standard          = 'data-vocabulary';
+		$standard          = 'schema';
 
 		if ( isset( $breadcrumb_config['standard'] ) && is_string( $breadcrumb_config['standard'] )
 		     && $breadcrumb_config['standard'] !== ''
