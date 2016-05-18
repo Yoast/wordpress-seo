@@ -130,8 +130,8 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Get breadcrumb string using the singleton instance of this class
 	 *
-	 * @param string $before Optional string to prepend.
-	 * @param string $after Optional string to append.
+	 * @param string $before  Optional string to prepend.
+	 * @param string $after   Optional string to append.
 	 * @param bool   $display Echo or return flag.
 	 *
 	 * @return object
@@ -188,13 +188,17 @@ class WPSEO_Breadcrumbs {
 	 * @return string breadcrumbs standard
 	 */
 	public function get_breadcrumb_standard() {
-		$breadcrumb_config = get_theme_support( 'yoast-seo-breadcrumbs' )[0];
+		$breadcrumb_config = get_theme_support( 'yoast-seo-breadcrumbs' );
 		$standard          = 'schema';
 
-		if ( isset( $breadcrumb_config['standard'] ) && is_string( $breadcrumb_config['standard'] )
-		     && $breadcrumb_config['standard'] !== ''
-		) {
-			$standard = $breadcrumb_config['standard'];
+		if ( $breadcrumb_config !== false && is_array( $breadcrumb_config ) ) {
+			// Gets resets the array iterator and returns the first value.
+			$breadcrumb_standard = reset( $breadcrumb_config );
+			if ( isset( $breadcrumb_standard['standard'] ) && is_string( $breadcrumb_standard['standard'] )
+			     && $breadcrumb_standard['standard'] !== ''
+			) {
+				$standard = $breadcrumb_standard['standard'];
+			}
 		}
 
 		/**
@@ -485,8 +489,8 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add a predefined crumb to the crumbs property
 	 *
-	 * @param string $text Text string.
-	 * @param string $url URL string.
+	 * @param string $text       Text string.
+	 * @param string $url        URL string.
 	 * @param bool   $allow_html Flag to allow HTML.
 	 */
 	private function add_predefined_crumb( $text, $url = '', $allow_html = false ) {
@@ -795,7 +799,7 @@ class WPSEO_Breadcrumbs {
 	 *                     (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
 	 *                     This prevents html stripping from the text strings set in the
 	 *                     WPSEO -> Internal Links options page.
-	 * @param  int   $i Index for the current breadcrumb.
+	 * @param  int   $i    Index for the current breadcrumb.
 	 *
 	 * @return string
 	 */
@@ -847,10 +851,10 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Creates a breadcrumb item string following the `schema.org` standards.
 	 *
-	 * @param array $link Link info array containing the keys:
+	 * @param array $link  Link info array containing the keys:
 	 *                     'text'    => (string) link text
 	 *                     'url'    => (string) link url.
-	 * @param int   $i Index for the current breadcrumb.
+	 * @param int   $i     Index for the current breadcrumb.
 	 *
 	 * @return string breadcrumb HTML link element
 	 */
@@ -877,10 +881,10 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Creates a breadcrumb item string following the (old)`data-vocabulary.net` standards
 	 *
-	 * @param array $link Link info array containing the keys:
+	 * @param array $link  Link info array containing the keys:
 	 *                     'text'    => (string) link text
 	 *                     'url'    => (string) link url.
-	 * @param int   $i Index for the current breadcrumb.
+	 * @param int   $i     Index for the current breadcrumb.
 	 *
 	 * @return string breadcrumb HTML link element
 	 */
@@ -990,7 +994,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @deprecated 1.5.2.3
 	 *
-	 * @param string $links Unused.
+	 * @param string $links   Unused.
 	 * @param string $wrapper Unused.
 	 * @param string $element Unused.
 	 *

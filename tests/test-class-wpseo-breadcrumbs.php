@@ -61,11 +61,12 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	 * Tests the changing from the breadcrumb generation standard.
 	 */
 	public function test_breadcrumb_change_standard() {
-		$standard = 'schema';
+		$standard = 'data-vocabulary';
 		add_theme_support( 'yoast-seo-breadcrumbs', array( 'standard' => $standard ) );
 
 		// Test via current_theme_supports.
 		$configured_standard = WPSEO_Breadcrumbs::get_instance()->get_breadcrumb_standard();
+
 		$this->assertEquals( $standard, $configured_standard );
 	}
 
