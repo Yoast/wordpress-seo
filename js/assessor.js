@@ -61,6 +61,12 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
 	return true;
 };
 
+/**
+ * Determines whether or not an assessment has a marker
+ *
+ * @param {Object} assessment The assessment to check for.
+ * @returns {boolean} Whether or not the assessment has a marker.
+ */
 Assessor.prototype.hasMarker = function( assessment ) {
 	return isFunction( this._options.marker ) && assessment.hasOwnProperty( "getMarks" );
 };
