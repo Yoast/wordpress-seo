@@ -68,7 +68,8 @@ var defaults = {
 	},
 	replaceTarget: [],
 	resetTarget: [],
-	elementTarget: []
+	elementTarget: [],
+	marker: function() {}
 };
 
 /**
@@ -188,6 +189,7 @@ function verifyArguments( args ) {
  * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
  * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
+ * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
  * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
  *
@@ -209,14 +211,14 @@ var App = function( args ) {
 
 	// Set the assessor
 	if ( isUndefined( args.seoAssessor ) ) {
-		this.seoAssessor = new SEOAssessor( this.i18n );
+		this.seoAssessor = new SEOAssessor( this.i18n, { marker: this.config.marker } );
 	} else {
 		this.seoAssessor = args.seoAssessor;
 	}
 
 	// Set the content assessor
 	if ( isUndefined( args.contentAssessor ) ) {
-		this.contentAssessor = new ContentAssessor( this.i18n );
+		this.contentAssessor = new ContentAssessor( this.i18n, { marker: this.config.marker } );
 	} else {
 		this.contentAssessor = args.contentAssessor;
 	}

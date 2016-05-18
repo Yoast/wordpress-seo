@@ -1,4 +1,4 @@
-var getSubheadings = require( "../stringProcessing/getSubheadings.js" );
+var getSubheadingsContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 
 /**
  * Checks if there is a subheading present in the text
@@ -7,6 +7,6 @@ var getSubheadings = require( "../stringProcessing/getSubheadings.js" );
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
-	var headings = getSubheadings( text ) || [];
+	var headings = getSubheadingsContents( text ) || [];
 	return headings.length;
 };

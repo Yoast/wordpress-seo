@@ -311,7 +311,13 @@
     ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
     '</span>\n            <span class="wpseo-score-text">' +
     ((__t = ( scores[ i ].text )) == null ? '' : __t) +
-    '</span>\n        </li>\n    ';
+    '</span>\n            ';
+     if ( scores[ i ].marker ) {
+    __p += '\n            <button type="button" class="assessment-results__mark js-assessment-results__mark-' +
+    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
+    '">Mark this in the text</button>\n            ';
+     }
+    __p += '\n        </li>\n    ';
      }
     __p += '\n</ul>\n';
 
