@@ -430,23 +430,35 @@ class WPSEO_Sitemaps {
 
 		global $wpdb;
 
-		$post_type_dates = array();
+		static $post_type_dates = null;
 
 		if ( ! is_array( $post_types ) ) {
 			$post_types = array( $post_types );
 		}
 
-		$sql = "
-			SELECT post_type, MAX(post_modified_gmt) AS date
-			FROM $wpdb->posts
-			WHERE post_status IN ('publish','inherit')
-				AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
-			GROUP BY post_type
-			ORDER BY post_modified_gmt DESC
-		";
+		foreach ( $post_types as $post_type ) {
+			if ( ! isset( $post_type_dates[ $post_type ] ) ) { // If we hadn't seen post type before. R.
+				$post_type_dates = null;
+				break;
+			}
+		}
 
-		foreach ( $wpdb->get_results( $sql ) as $obj ) {
-			$post_type_dates[ $obj->post_type ] = $obj->date;
+		if ( is_null( $post_type_dates ) ) {
+
+			$sql = "
+				SELECT post_type, MAX(post_modified_gmt) AS date
+				FROM $wpdb->posts
+				WHERE post_status IN ('publish','inherit')
+					AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
+				GROUP BY post_type
+				ORDER BY post_modified_gmt DESC
+			";
+
+			$post_type_dates = array();
+
+			foreach ( $wpdb->get_results( $sql ) as $obj ) {
+				$post_type_dates[ $obj->post_type ] = $obj->date;
+			}
 		}
 
 		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
