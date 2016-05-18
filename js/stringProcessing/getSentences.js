@@ -29,7 +29,7 @@ var inValidateOnWhiteSpace = function( text, index ) {
  */
 var inValidateOnCapital = function( text, indices, i ) {
 	var firstChar = text.substring( indices[ i ] + 2, indices[ i  ] + 3 );
-	if( firstChar === firstChar.toLocaleLowerCase() && !isNaN( parseInt( firstChar ) ) ) {
+	if( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) ) {
 		return true;
 	}
 };
