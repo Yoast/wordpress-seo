@@ -293,6 +293,10 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 			$( '.yst-traffic-light' )
 				.attr( 'class', 'yst-traffic-light ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
+
+			$( '.adminbar-seo-score' )
+				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
+				.attr( 'alt', indicator.screenReaderText );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
