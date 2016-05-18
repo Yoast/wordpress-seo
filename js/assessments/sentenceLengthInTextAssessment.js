@@ -78,8 +78,8 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
 	var sentenceCount = researcher.getResearch( "countSentencesFromText" );
 	var sentenceResult = calculateSentenceLengthResult( sentenceCount, i18n );
-	var assessmentResult = new AssessmentResult();
 
+	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( sentenceResult.score );
 	assessmentResult.setText( sentenceResult.text );
 
