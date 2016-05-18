@@ -6,7 +6,6 @@ describe("Get sentences from text", function(){
 		expect( getSentences( sentence )[1] ).toBe( " How are you");
 		expect( getSentences( sentence )[2] ).toBe( " Bye");
 	});
-
 	it("returns sentences with digits", function () {
 		var sentence = "Hello. 123 Bye";
 		expect( getSentences( sentence )[0] ).toBe( "Hello");
