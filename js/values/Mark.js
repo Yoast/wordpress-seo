@@ -14,6 +14,7 @@ function Mark( props ) {
 	this._props = props;
 }
 
+
 /**
  * Returns the original text
  *

@@ -70,13 +70,14 @@ Assessor.prototype.hasMarker = function( assessment ) {
  *
  * @param {Object} assessment The assessment for which we are retrieving the composed marker.
  * @param {Paper} paper The paper to retrieve the marker for.
+ * @param {Researcher} researcher The researcher for the paper.
  * @returns {Function} A function that can mark the given paper according to the given assessment.
  */
-Assessor.prototype.getMarker = function( assessment, paper ) {
+Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
 	var specificMarker = this._opts.marker;
 
 	return function() {
-		var marks = assessment.getMarks( paper );
+		var marks = assessment.getMarks( paper, researcher );
 
 		specificMarker( paper, marks );
 	};
@@ -102,7 +103,7 @@ Assessor.prototype.assess = function( paper ) {
 		result.setIdentifier( assessment.identifier );
 
 		if ( this.hasMarker( assessment ) ) {
-			result.setMarker( this.getMarker( assessment, paper ) );
+			result.setMarker( this.getMarker( assessment, paper, researcher ) );
 		}
 
 		return result;
