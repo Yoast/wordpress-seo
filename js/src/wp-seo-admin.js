@@ -2,6 +2,11 @@
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
+
+import React from 'react';
+import ReactDom from 'react-dom';
+import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
+
 (function() {
 	'use strict';
 
@@ -208,6 +213,12 @@
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
+			/* Inject kb-search in divs with the id 'wpseo-kb-search'. */
+			var mountingPoint = document.getElementById('wpseo-kb-search');
+			if (mountingPoint){
+				ReactDom.render(<AlgoliaSearcher/>, mountingPoint);
+			}
+
 			/* Fix banner images overlapping help texts */
 			jQuery( '.screen-meta-toggle a' ).click( function() {
 					jQuery( '#sidebar-container' ).toggle();
