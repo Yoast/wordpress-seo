@@ -7,6 +7,7 @@
  * Class WPSEO_JSON_LD_Test
  */
 class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
+	private $homepage_breadcrumb;
 
 	/**
 	 * @var WPSEO_JSON_LD
@@ -14,11 +15,34 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
+	 * WPSEO_JSON_LD_Test constructor.
+	 *
+	 * @param $homepage_breadcrumb
+	 */
+	public function __construct() {
+		$this->homepage_breadcrumb = array(
+			'@context'        => 'http://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => array(
+				array(
+					'@type'    => 'ListItem',
+					'position' => 1,
+					'item'     => array(
+						'@id'  => WPSEO_Utils::home_url(),
+						'name' => 'Home',
+					),
+				),
+			),
+		);
+	}
+
+	/**
 	 * Instantiate our class
 	 */
 	public static function setUpBeforeClass() {
 		self::$class_instance = new WPSEO_JSON_LD();
 	}
+
 
 	/**
 	 * @covers WPSEO_JSON_LD::website
@@ -96,5 +120,17 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		) );
 		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
 		$this->expectOutput( $expected, self::$class_instance->organization_or_person() );
+	}
+
+	/**
+	 * Check if standard (homepage) breadcrumb output is correct.
+	 * The standard (json)breadcrumb output should only contain the homepage.
+	 */
+	public function test_breadcrumb() {
+		$this->go_to_home();
+		$expected = '<script type=\'application/ld+json\'>'
+		            . wp_json_encode( $this->homepage_breadcrumb )
+		            . '</script>' . "\n";
+		$this->expectOutput( $expected, self::$class_instance->breadcrumb() );
 	}
 }

@@ -162,8 +162,8 @@ class WPSEO_Frontend {
 	 * Initialize the functions that only need to run on the frontpage
 	 */
 	public function front_page_specific_init() {
-		// Check for frontpage or other page in WPSEO_JSON_LD class.
 
+		// Check for frontpage or other page in WPSEO_JSON_LD class.
 		new WPSEO_JSON_LD();
 
 		if ( ! is_front_page() ) {

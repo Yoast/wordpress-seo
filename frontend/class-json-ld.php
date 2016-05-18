@@ -46,7 +46,6 @@ class WPSEO_JSON_LD {
 		else {
 			add_action( 'wpseo_json_ld', array( $this, 'breadcrumb' ), 30 );
 		}
-
 	}
 
 	/**
@@ -170,7 +169,7 @@ class WPSEO_JSON_LD {
 		if ( ! $breadcrumbs_enabled ) {
 			return;
 		}
-		$breadcrumb_links      = WPSEO_Breadcrumbs::get_instance()->get_crumbs();
+		$breadcrumb_links      = WPSEO_Breadcrumbs::get_instance()->get_breadcrumbs_array();
 		$breadcrumb_json_items = array();
 
 		foreach ( $breadcrumb_links as $link_id => $link ) {
@@ -185,7 +184,7 @@ class WPSEO_JSON_LD {
 			'@type'           => 'BreadcrumbList',
 			'itemListElement' => $breadcrumb_json_items,
 		);
-		$this->data      = $breadcrumb_data;
+		$this->data = $breadcrumb_data;
 		$this->output( 'breadcrumb' );
 	}
 

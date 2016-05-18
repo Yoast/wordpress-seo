@@ -1,8 +1,8 @@
 <?php
+
 /**
  * @package WPSEO\Unittests
  */
-
 class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -47,4 +47,36 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 		// todo test actual breadcrumb output..
 	}
 
+	/**
+	 * Tests the default standard for the breadcrumbs
+	 */
+	public function test_breadcrumb_default_standard() {
+
+		$default_standard = 'data-vocabulary';
+		$standard         = WPSEO_Breadcrumbs::get_instance()->get_breadcrumb_standard();
+		$this->assertEquals( $default_standard, $standard );
+	}
+
+	/**
+	 * Tests the changing from the breadcrumb generation standard.
+	 */
+	public function test_breadcrumb_change_standard() {
+		$standard = 'schema';
+		add_theme_support( 'yoast-seo-breadcrumbs', array( 'standard' => $standard ) );
+
+		// Test via current_theme_supports.
+		$configured_standard = WPSEO_Breadcrumbs::get_instance()->get_breadcrumb_standard();
+		$this->assertEquals( $standard, $configured_standard );
+	}
+
+	/**
+	 * Tests the default breadcrumb html output.
+	 */
+	public function test_data_vocabulary_standard() {
+		add_theme_support( 'yoast-seo-breadcrumbs', array( 'standard' => 'data-vocabulary' ) );
+
+		$expected_html = '<span xmlns:v="http://rdf.data-vocabulary.org/#"><span typeof="v:Breadcrumb"><a href="http://example.org/" rel="v:url" property="v:title">Home</a></span>';
+
+		$this->expectOutput( $expected_html, WPSEO_Breadcrumbs::breadcrumb() );
+	}
 }

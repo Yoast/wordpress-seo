@@ -159,9 +159,9 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @return array breadcrumb links
 	 */
-	public function get_crumbs() {
+	public function get_breadcrumbs_array() {
 		if ( ! is_array( $this->crumbs ) || $this->crumbs === array() ) {
-			return;
+			return null;
 		}
 		$links = array();
 		foreach ( $this->crumbs as $i => $crumb ) {
@@ -245,7 +245,6 @@ class WPSEO_Breadcrumbs {
 		}
 	}
 
-
 	/**
 	 * Get a term's parents.
 	 *
@@ -256,7 +255,7 @@ class WPSEO_Breadcrumbs {
 	private function get_term_parents( $term ) {
 		$tax     = $term->taxonomy;
 		$parents = array();
-		while ( $term->parent != 0 ) {
+		while ( $term->parent !== 0 ) {
 			$term      = get_term( $term->parent, $tax );
 			$parents[] = $term;
 		}
@@ -488,7 +487,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @param string $text Text string.
 	 * @param string $url URL string.
-	 * @param bool   $allow_html Flag to allow HTML.
+	 * @param bool $allow_html Flag to allow HTML.
 	 */
 	private function add_predefined_crumb( $text, $url = '', $allow_html = false ) {
 		$this->crumbs[] = array(
@@ -690,7 +689,7 @@ class WPSEO_Breadcrumbs {
 	 * @link http://support.google.com/webmasters/bin/answer.py?hl=en&answer=185417 Google documentation on RDFA
 	 */
 	private function prepare_links() {
-		$links = $this->get_crumbs();
+		$links = $this->get_breadcrumbs_array();
 		if ( ! is_array( $links ) || $links === array() ) {
 			return;
 		}
@@ -797,7 +796,7 @@ class WPSEO_Breadcrumbs {
 	 *                     (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
 	 *                     This prevents html stripping from the text strings set in the
 	 *                     WPSEO -> Internal Links options page.
-	 * @param  int $i Index for the current breadcrumb.
+	 * @param  int   $i Index for the current breadcrumb.
 	 *
 	 * @return string
 	 */
@@ -851,8 +850,8 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @param array $link Link info array containing the keys:
 	 *                     'text'    => (string) link text
-	 *                     'url'    => (string) link url
-	 * @param int $i Index for the current breadcrumb
+	 *                     'url'    => (string) link url.
+	 * @param int   $i Index for the current breadcrumb.
 	 *
 	 * @return string breadcrumb HTML link element
 	 */
@@ -879,10 +878,10 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Creates a breadcrumb item string following the (old)`data-vocabulary.net` standards
 	 *
-	 * @param $link Link info array containing the keys:
+	 * @param array $link Link info array containing the keys:
 	 *                     'text'    => (string) link text
-	 *                     'url'    => (string) link url
-	 * @param $i Index for the current breadcrumb
+	 *                     'url'    => (string) link url.
+	 * @param int   $i Index for the current breadcrumb.
 	 *
 	 * @return string breadcrumb HTML link element
 	 */
@@ -974,7 +973,6 @@ class WPSEO_Breadcrumbs {
 
 		return $class;
 	}
-
 
 	/********************** DEPRECATED METHODS **********************/
 
