@@ -14,16 +14,16 @@ var ScoreRating = 9;
  * Creates the Assessor
  *
  * @param {Object} i18n The i18n object used for translations.
- * @param {Object} opts The options for this assessor.
- * @param {Object} opts.marker The marker to pass the list of marks to.
+ * @param {Object} options The options for this assessor.
+ * @param {Object} options.marker The marker to pass the list of marks to.
  *
  * @constructor
  */
-var Assessor = function( i18n, opts ) {
+var Assessor = function( i18n, options ) {
 	this.setI18n( i18n );
 	this._assessments = [];
 
-	this._opts = opts || {};
+	this._options = options || {};
 };
 
 /**
@@ -62,7 +62,7 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
 };
 
 Assessor.prototype.hasMarker = function( assessment ) {
-	return isFunction( this._opts.marker ) && assessment.hasOwnProperty( "getMarks" );
+	return isFunction( this._options.marker ) && assessment.hasOwnProperty( "getMarks" );
 };
 
 /**
@@ -74,7 +74,7 @@ Assessor.prototype.hasMarker = function( assessment ) {
  * @returns {Function} A function that can mark the given paper according to the given assessment.
  */
 Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
-	var specificMarker = this._opts.marker;
+	var specificMarker = this._options.marker;
 
 	return function() {
 		var marks = assessment.getMarks( paper, researcher );

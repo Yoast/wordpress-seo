@@ -93,7 +93,7 @@ describe( "an assessor object", function() {
 
 		it( "should return true when we have a global marker and a getMarks function", function() {
 			var assessment = { getMarks: function() {} };
-			assessor._opts.marker = function() {};
+			assessor._options.marker = function() {};
 
 			expect( assessor.hasMarker( assessment ) ).toBe( true );
 		});
@@ -106,7 +106,7 @@ describe( "an assessor object", function() {
 
 		it( "should return false when we don't have a getMarks function", function() {
 			var assessment = {};
-			assessor._opts.marker = function() {};
+			assessor._options.marker = function() {};
 
 			expect( assessor.hasMarker( assessment ) ).toBe( false );
 		});
@@ -134,7 +134,7 @@ describe( "an assessor object", function() {
 			spyOn( functions, "getMarks" );
 			spyOn( functions, "globalMarker" );
 			var assessment = { getMarks: functions.getMarks };
-			assessor._opts.marker = functions.globalMarker;
+			assessor._options.marker = functions.globalMarker;
 			var marker = assessor.getMarker( assessment );
 
 			marker();
