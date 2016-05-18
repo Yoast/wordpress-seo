@@ -193,7 +193,7 @@ class WPSEO_JSON_LD {
 	 *
 	 * @param string $url URL for the breadcrumb's page.
 	 * @param string $name Page name.
-	 * @param int $position Ordered position in the breadcrumb list.
+	 * @param int    $position Ordered position in the breadcrumb list.
 	 *
 	 * @return array
 	 */

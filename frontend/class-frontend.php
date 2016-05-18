@@ -305,7 +305,7 @@ class WPSEO_Frontend {
 	 *
 	 * All titles pulled from options will be run through the wpseo_replace_vars function.
 	 *
-	 * @param string $index name of the page to get the title from the settings for.
+	 * @param string       $index name of the page to get the title from the settings for.
 	 * @param object|array $var_source possible object to pull variables from.
 	 *
 	 * @return string
@@ -809,7 +809,7 @@ class WPSEO_Frontend {
 	 * Determine $robots values for a single post
 	 *
 	 * @param array $robots Robots data array.
-	 * @param int $post_id The post ID for which to determine the $robots values, defaults to current post.
+	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
 	 *
 	 * @return    array
 	 */
@@ -1106,9 +1106,9 @@ class WPSEO_Frontend {
 	 *
 	 * @since 1.0.2
 	 *
-	 * @param string $rel Link relationship, prev or next.
-	 * @param string $url the un-paginated URL of the current archive.
-	 * @param string $page the page number to add on to $url for the $link tag.
+	 * @param string  $rel Link relationship, prev or next.
+	 * @param string  $url the un-paginated URL of the current archive.
+	 * @param string  $page the page number to add on to $url for the $link tag.
 	 * @param boolean $incl_pagination_base whether or not to include /page/ or not.
 	 *
 	 * @return void

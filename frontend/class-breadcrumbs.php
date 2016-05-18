@@ -487,7 +487,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @param string $text Text string.
 	 * @param string $url URL string.
-	 * @param bool $allow_html Flag to allow HTML.
+	 * @param bool   $allow_html Flag to allow HTML.
 	 */
 	private function add_predefined_crumb( $text, $url = '', $allow_html = false ) {
 		$this->crumbs[] = array(
