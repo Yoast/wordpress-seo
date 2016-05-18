@@ -3,7 +3,6 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var filter = require( "lodash/filter" );
 var isEmpty = require( "lodash/isEmpty" );
 var isUndefined = require( "lodash/isUndefined" );
-var difference = require( "lodash/difference" );
 var forEach = require( "lodash/forEach" );
 var isNaN = require( "lodash/isNaN" );
 
@@ -14,7 +13,7 @@ var isNaN = require( "lodash/isNaN" );
  * @param {number} index The current index to look for.
  * @returns {boolean} True if it doesn't match a whitespace.
  */
-var invalidateOnWhiteSpace = function(text, index ) {
+var invalidateOnWhiteSpace = function( text, index ) {
 	return text.substring( index + 1 ).match( /\s/ ) === null;
 };
 
@@ -27,7 +26,7 @@ var invalidateOnWhiteSpace = function(text, index ) {
  * @param {number} i The current iterator.
  * @returns {boolean} False if it doesn't match a capital.
  */
-var invalidateOnCapital = function(text, positions, i ) {
+var invalidateOnCapital = function( text, positions, i ) {
 
 	// The current index + 2 should be the first character of the new sentence. We use a range of 1, since we only need the first character.
 	var firstChar = text.substring( positions[ i ] + 2, positions[ i ] + 3 );
@@ -42,7 +41,7 @@ var invalidateOnCapital = function(text, positions, i ) {
  * @param {Array} positions The array with positions of periods in the text.
  * @returns {Array} The filtered positions.
  */
-var filterPositions = function(text, positions ) {
+var filterPositions = function( text, positions ) {
 	return filter( positions, function( position, index ) {
 		if( !isUndefined( positions[ index + 1 ] ) ) {
 			if ( invalidateOnWhiteSpace( text, positions[ index ] ) || invalidateOnCapital( text, positions, index ) ) {
