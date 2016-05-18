@@ -19,13 +19,13 @@ var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js
  * Creates the Assessor
  *
  * @param {object} i18n The i18n object used for translations.
- * @param {Object} opts The options for this assessor.
- * @param {Object} opts.marker The marker to pass the list of marks to.
+ * @param {Object} options The options for this assessor.
+ * @param {Object} options.marker The marker to pass the list of marks to.
  *
  * @constructor
  */
-var ContentAssessor = function( i18n, opts ) {
-	Assessor.call( this, i18n, opts );
+var ContentAssessor = function( i18n, options ) {
+	Assessor.call( this, i18n, options );
 
 	this._assessments = [
 		fleschReadingEase,
