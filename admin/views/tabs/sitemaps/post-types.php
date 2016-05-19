@@ -9,6 +9,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$switch_values = array(
+	'off' => __( 'In sitemap', 'wordpress-seo' ),
+	'on'  => __( 'Not in sitemap', 'wordpress-seo' ),
+);
+
 /**
  * Filter the post types to present in interface for exclusion.
  *
