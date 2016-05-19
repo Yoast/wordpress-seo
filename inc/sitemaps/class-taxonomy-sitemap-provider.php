@@ -249,7 +249,11 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu' ) ) ) {
+			return false;
+		}
+
+		if ( 'post_format' === $taxonomy_name && ! empty( $this->options['disable-post_format'] ) ) {
 			return false;
 		}
 
