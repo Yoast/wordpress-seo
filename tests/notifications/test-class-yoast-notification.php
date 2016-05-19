@@ -39,7 +39,6 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 				'dismissal_key'    => null,
 				'capabilities'     => array(),
 				'capability_check' => 'all',
-				'wpseo_page_only'  => false,
 			),
 			$test['options']
 		);
