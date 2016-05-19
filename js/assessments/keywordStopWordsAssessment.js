@@ -50,6 +50,7 @@ var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "keywordStopWords",
 	getResult: keywordHasStopWordsAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();

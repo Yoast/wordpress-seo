@@ -58,4 +58,7 @@ var metaDescriptionLengthAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: metaDescriptionLengthAssessment };
+module.exports = {
+	identifier: "metaDescriptionLength",
+	getResult: metaDescriptionLengthAssessment
+};

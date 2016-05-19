@@ -1,7 +1,30 @@
 # Change Log
 
+This changelog is according to [Keep a Changelog](http://keepachangelog.com).
+
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
+
+## [Unreleased]
+
+### Added
+
+* Added a marker argument to the `App` that can be used to inject a marker function.
+* Added a marker argument to the `Assessor` that can be used to inject a marker function.
+* Added a button after all feedback that can be marked in the text.
+* Added markers for the relevant assessments.
+
+## 1.2.2: May 4th, 2016
+
+### Bug
+
+* Fixes a bug where the alt-attribute assessment required all images to have an alt-attribute with the keyword.
+
+## 1.2.1: April 21th, 2016
+
+### Bugfixes
+
+* Fixes a bug where one wrong translation could crash all the JavaScript.
 
 ## 1.2: April 20th, 2016
 

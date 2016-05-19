@@ -9,6 +9,7 @@ var isString = require( "lodash/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
+var debounce = require( "lodash/debounce" );
 
 var Jed = require( "jed" );
 
@@ -67,7 +68,8 @@ var defaults = {
 	},
 	replaceTarget: [],
 	resetTarget: [],
-	elementTarget: []
+	elementTarget: [],
+	marker: function() {}
 };
 
 /**
@@ -136,7 +138,7 @@ function verifyArguments( args ) {
  * @returns {String} data.keyword The keyword that should be used
  * @returns {String} data.meta
  * @returns {String} data.text The text to analyze
- * @returns {String} data.pageTitle The text in the HTML title tag
+ * @returns {String} data.metaTitle The text in the HTML title tag
  * @returns {String} data.title The title to analyze
  * @returns {String} data.url The URL for the given page
  * @returns {String} data.excerpt Excerpt for the pages
@@ -187,6 +189,7 @@ function verifyArguments( args ) {
  * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
  * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
+ * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
  * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
  *
@@ -208,14 +211,14 @@ var App = function( args ) {
 
 	// Set the assessor
 	if ( isUndefined( args.seoAssessor ) ) {
-		this.seoAssessor = new SEOAssessor( this.i18n );
+		this.seoAssessor = new SEOAssessor( this.i18n, { marker: this.config.marker } );
 	} else {
 		this.seoAssessor = args.seoAssessor;
 	}
 
-	//Set the content assessor
+	// Set the content assessor
 	if ( isUndefined( args.contentAssessor ) ) {
-		this.contentAssessor = new ContentAssessor( this.i18n );
+		this.contentAssessor = new ContentAssessor( this.i18n, { marker: this.config.marker } );
 	} else {
 		this.contentAssessor = args.contentAssessor;
 	}
@@ -228,9 +231,9 @@ var App = function( args ) {
 	if ( isValidSnippetPreview( args.snippetPreview ) ) {
 		this.snippetPreview = args.snippetPreview;
 
-		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
-		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
-		// app.
+		/* Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
+		dependency issue. In the future this should be solved by the snippet preview not having a reference to the
+		app.*/
 		if ( this.snippetPreview.refObj !== this ) {
 			this.snippetPreview.refObj = this;
 			this.snippetPreview.i18n = this.i18n;
@@ -241,7 +244,10 @@ var App = function( args ) {
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
 
-	this.runAnalyzer();
+	// Overwrite refresh function to make sure it can be debounced.
+	this.refresh = debounce( this.refresh.bind( this ), this.config.typeDelay );
+
+	this.refresh();
 };
 
 /**
@@ -313,13 +319,13 @@ App.prototype.getData = function() {
 		// Gets the data FOR the analyzer
 		var data = this.snippetPreview.getAnalyzerData();
 
-		this.rawData.pageTitle = data.title;
+		this.rawData.metaTitle = data.title;
 		this.rawData.url = data.url;
 		this.rawData.meta = data.metaDesc;
 	}
 
 	if ( this.pluggable.loaded ) {
-		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
+		this.rawData.metaTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.metaTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
 	}
 	this.rawData.locale = this.config.locale;
@@ -371,29 +377,31 @@ App.prototype.initAssessorPresenters = function() {
 		i18n: this.i18n
 	} );
 
-	// Pass the assessor result through to the formatter
-	this.contentAssessorPresenter = new AssessorPresenter( {
-		targets: {
-			output: this.config.targets.contentOutput
-		},
-		assessor: this.contentAssessor,
-		i18n: this.i18n
-	} );
+	if ( !isUndefined( this.config.targets.contentOutput ) ) {
+		// Pass the assessor result through to the formatter
+		this.contentAssessorPresenter = new AssessorPresenter( {
+			targets: {
+				output: this.config.targets.contentOutput
+			},
+			assessor: this.contentAssessor,
+			i18n: this.i18n
+		} );
+	}
 };
 
 /**
- * binds the analyzeTimer function to the input of the targetElement on the page.
+ * Binds the refresh function to the input of the targetElement on the page.
  * @returns {void}
  */
 App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
+		elem.addEventListener( "input", this.refresh.bind( this ) );
 	}
 };
 
 /**
- * runs the rerender function of the snippetPreview if that object is defined.
+ * Runs the rerender function of the snippetPreview if that object is defined.
  * @returns {void}
  */
 App.prototype.reloadSnippetText = function() {
@@ -403,18 +411,7 @@ App.prototype.reloadSnippetText = function() {
 };
 
 /**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
- * at every keystroke checks the reference object, so this function can be called from anywhere,
- * without problems with different scopes.
- * @returns {void}
- */
-App.prototype.analyzeTimer = function() {
-	clearTimeout( window.timer );
-	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
-};
-
-/**
- * sets the startTime timestamp
+ * Sets the startTime timestamp
  * @returns {void}
  */
 App.prototype.startTime = function() {
@@ -422,7 +419,7 @@ App.prototype.startTime = function() {
 };
 
 /**
- * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ * Sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
  * @returns {void}
  */
 App.prototype.endTime = function() {
@@ -435,7 +432,7 @@ App.prototype.endTime = function() {
 };
 
 /**
- * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
+ * Inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  * @returns {void}
  */
@@ -455,7 +452,7 @@ App.prototype.runAnalyzer = function() {
 		keyword:  this.analyzerData.keyword,
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
-		title: this.analyzerData.pageTitle,
+		title: this.analyzerData.metaTitle,
 		locale: this.config.locale
 	} );
 
@@ -471,9 +468,11 @@ App.prototype.runAnalyzer = function() {
 
 	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.seoAssessorPresenter.render();
-	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
+	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 
-	this.contentAssessorPresenter.renderIndividualRatings();
+	if ( !isUndefined( this.contentAssessorPresenter ) ) {
+		this.contentAssessorPresenter.renderIndividualRatings();
+	}
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -492,8 +491,8 @@ App.prototype.modifyData = function( data ) {
 	// Copy rawdata to lose object reference.
 	data = JSON.parse( JSON.stringify( data ) );
 
-	data.text = this.pluggable._applyModifications( "content", data.text );
-	data.title = this.pluggable._applyModifications( "title", data.title );
+	data.text      = this.pluggable._applyModifications( "content", data.text );
+	data.metaTitle = this.pluggable._applyModifications( "title", data.metaTitle );
 
 	return data;
 };
@@ -527,7 +526,7 @@ App.prototype.showLoadingDialog = function() {
 App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
-	forEach ( plugins, function( plugin, pluginName ) {
+	forEach( plugins, function( plugin, pluginName ) {
 		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
 							plugin.status + ">" + plugin.status + "</span><br />";
 	} );
@@ -625,6 +624,21 @@ App.prototype.registerTest = function() {
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 	return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
+};
+
+// Deprecated functions
+
+/**
+ * The analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
+ * at every keystroke checks the reference object, so this function can be called from anywhere,
+ * without problems with different scopes.
+ *
+ * @deprecated: 1.3 - Use this.refresh() instead.
+ *
+ * @returns {void}
+ */
+App.prototype.analyzeTimer = function() {
+	this.refresh();
 };
 
 module.exports = App;

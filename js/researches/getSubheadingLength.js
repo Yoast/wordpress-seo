@@ -1,4 +1,4 @@
-var getSubheadings = require( "../stringProcessing/getSubheadings.js" );
+var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
 var forEach = require( "lodash/forEach" );
 
@@ -9,11 +9,14 @@ var forEach = require( "lodash/forEach" );
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
-	var matches = getSubheadings( text );
+	var matches = getSubheadingContents( text );
 
 	var subHeadings = [];
 	forEach( matches, function( subHeading ) {
-		subHeadings.push( stripTags( subHeading ).length );
+		subHeading = stripTags( subHeading ).length;
+		if ( subHeading > 0 ) {
+			subHeadings.push( subHeading );
+		}
 	} );
 
 	return subHeadings;

@@ -49,9 +49,9 @@ var getSubheadingPresence = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "subheadingPresence",
 	getResult: getSubheadingPresence,
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	}
 };
-

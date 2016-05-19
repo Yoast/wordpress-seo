@@ -4,6 +4,9 @@
             <span class="wpseo-score-icon <%- scores[ i ].className %>"></span>
             <span class="screen-reader-text"><%= scores[ i ].screenReaderText %></span>
             <span class="wpseo-score-text"><%= scores[ i ].text %></span>
+            <% if ( scores[ i ].marker ) { %>
+            <button type="button" class="assessment-results__mark js-assessment-results__mark-<%= scores[ i ].identifier %>">Mark this in the text</button>
+            <% } %>
         </li>
     <% } %>
 </ul>

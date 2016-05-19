@@ -51,9 +51,9 @@ window.onload = function() {
 	});
 
 	app.refresh();
-	
-	focusKeywordField.addEventListener( 'change', app.analyzeTimer.bind( app ) );
-	contentField.addEventListener( 'change', app.analyzeTimer.bind( app ) );
+
+	focusKeywordField.addEventListener( 'change', app.refresh.bind( app ) );
+	contentField.addEventListener( 'change', app.refresh.bind( app ) );
 };
 ```
 

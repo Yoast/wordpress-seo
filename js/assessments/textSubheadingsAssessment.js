@@ -37,6 +37,7 @@ var textHasSubheadingsAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
+	identifier: "textSubheadings",
 	getResult: textHasSubheadingsAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();

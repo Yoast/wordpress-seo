@@ -2,13 +2,15 @@ var SnippetPreview = require( "../../js/snippetPreview" );
 var App = require( "../../js/app" );
 var PreviouslyUsedKeywords = require( "../../js/bundledPlugins/previouslyUsedKeywords.js" );
 var TestPlugin = require( "./example-plugin-test.js" );
+
+var forEach = require( "lodash/foreach" );
 /**
  * binds the renewData function on the change of inputelements.
  */
 var bindEvents = function( app ) {
 	var elems = [ "content", "focusKeyword" ];
 	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( "input", app.analyzeTimer.bind( app ) );
+		document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 	}
 };
 
@@ -30,6 +32,15 @@ window.onload = function() {
 					text: document.getElementById( "content" ).value
 				};
 			}
+		},
+		marker: function( paper, marks ) {
+			var text = paper.getText();
+
+			forEach( marks, function( mark ) {
+				text = mark.applyWithReplace( text );
+			});
+
+			document.getElementsByClassName( "marked-text" )[0].innerHTML = text;
 		}
 	});
 

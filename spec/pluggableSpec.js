@@ -13,10 +13,11 @@ describe( "the pluggable interface", function() {
 	describe( "adding an assessment", function() {
 		beforeEach( function() {
 			app = {
-				updateLoadingDialog: function() {}
+				updateLoadingDialog: function() {},
+				pluginsLoaded: function() { return true }
 			};
 			pluggable = new Pluggable( app );
-			pluggable._registerPlugin( "test-plugin" );
+			pluggable._registerPlugin( "test-plugin", { status: "ready" } );
 		});
 
 		it( "should throw an error on adding an invalid assessment", function() {
@@ -31,3 +32,4 @@ describe( "the pluggable interface", function() {
 		})
 	});
 });
+
