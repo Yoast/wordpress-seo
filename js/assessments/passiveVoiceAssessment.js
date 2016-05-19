@@ -66,7 +66,7 @@ var passiveVoiceMarker = function( paper, researcher ) {
 			marked: marked
 		} );
 	} );
-
+console.log( mapped );
 	return mapped;
 };
 
