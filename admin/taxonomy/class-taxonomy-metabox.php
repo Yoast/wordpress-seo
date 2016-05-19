@@ -72,8 +72,8 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_content_sections() {
 		$content_sections = array(
 			$this->get_content_meta_section(),
-			$this->get_settings_meta_section(),
 			$this->get_social_meta_section(),
+			$this->get_settings_meta_section(),
 		);
 
 		return $content_sections;
@@ -255,8 +255,11 @@ SVG;
 				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						{{data.prefix}}
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 						<span class="wpseo-score-icon {{data.score}}">
-							<span class="screen-reader-text"></span>
+							<# if ( data.keyword ) { #>
+								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
+							<# } #>
 						</span>
 						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
 					</a>

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3fc20e5eafa8ad35fef01a5e57322aa5",
-    "content-hash": "e1951d393a852b97e4d86f8a072928c7",
+    "hash": "4688d2a8cff02521f26d4b4526c7b0ac",
+    "content-hash": "bf77ea2e75c7a7b7f2114afc96a876e0",
     "packages": [
         {
             "name": "composer/installers",
@@ -266,7 +266,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/a026a4bc86867129e760b95dca44b8cd10819333",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/3a2d3ebdc1df5acf372458c15041af240a6fc016",
                 "reference": "892163d67e3bd9c190d43655acb69657da765c7b",
                 "shasum": ""
             },
@@ -1095,16 +1095,16 @@
         },
         {
             "name": "yoast/yoastcs",
-            "version": "0.2",
+            "version": "0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "ea0a13df8283af9d4af3db05bdd754e49ed0f298"
+                "reference": "f568cc6fc1194c5ef67ccc24b7cfd24259e92a16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/ea0a13df8283af9d4af3db05bdd754e49ed0f298",
-                "reference": "ea0a13df8283af9d4af3db05bdd754e49ed0f298",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/f568cc6fc1194c5ef67ccc24b7cfd24259e92a16",
+                "reference": "f568cc6fc1194c5ef67ccc24b7cfd24259e92a16",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2016-04-01 11:32:09"
+            "time": "2016-05-03 09:58:54"
         }
     ],
     "aliases": [],

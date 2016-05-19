@@ -23,6 +23,9 @@ class WPSEO_Sitemaps_Cache {
 		add_action( 'edited_terms', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
 		add_action( 'clean_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
 		add_action( 'clean_object_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
+
+		add_action( 'user_register', array( __CLASS__, 'invalidate_author' ) );
+		add_action( 'delete_user', array( __CLASS__, 'invalidate_author' ) );
 	}
 
 	/**
@@ -141,6 +144,24 @@ class WPSEO_Sitemaps_Cache {
 	public static function invalidate_helper( $unused, $type ) {
 
 		self::invalidate( $type );
+	}
+
+	/**
+	 * Invalidate sitemap cache for authors.
+	 *
+	 * @param int $user_id User ID.
+	 */
+	public static function invalidate_author( $user_id ) {
+
+		$user = get_user_by( 'id', $user_id );
+
+		if ( 'user_register' === current_action() ) {
+			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
+		}
+
+		if ( ! in_array( 'subscriber', $user->roles ) ) {
+			self::invalidate( 'author' );
+		}
 	}
 
 	/**

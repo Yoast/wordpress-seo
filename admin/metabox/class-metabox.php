@@ -290,13 +290,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_sections() {
 		$content_sections = array( $this->get_content_meta_section() );
 
-		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
-			$content_sections[] = $this->get_advanced_meta_section();
-		}
-
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
 			$content_sections[] = $this->social_admin->get_meta_section();
+		}
+
+		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
+			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
@@ -818,10 +818,15 @@ SVG;
 				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						{{data.prefix}}
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 						<span class="wpseo-score-icon {{data.score}}">
-							<span class="screen-reader-text"></span>
+							<# if ( data.keyword ) { #>
+								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
+							<# } #>
 						</span>
-						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
+						<em>
+							<span class="wpseo_keyword">{{data.placeholder}}</span>
+						</em>
 					</a>
 					<# if ( ! data.hideRemove ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>

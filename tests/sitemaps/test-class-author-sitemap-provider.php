@@ -66,10 +66,10 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		// Filter out all administrators.
 		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_administrator_role' ) );
 
-		$result = self::$class_instance->user_sitemap_remove_excluded_authors( array( $user ) );
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 
 		// User should be removed.
-		$this->assertEquals( $result, array() );
+		$this->assertEmpty( $sitemap_links );
 	}
 
 	/**
@@ -87,10 +87,10 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		// Add filter to exclude the user.
 		add_filter( 'get_the_author_wpseo_excludeauthorsitemap', array( $this, 'filter_user_meta_exclude_author_from_sitemap' ) );
 
-		$result = self::$class_instance->user_sitemap_remove_excluded_authors( array( $user ) );
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 
 		// User should be removed.
-		$this->assertEquals( $result, array() );
+		$this->assertEmpty( $sitemap_links );
 	}
 
 	/**
@@ -105,10 +105,10 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		// Make the user have -no- posts.
 		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
 
-		$result = self::$class_instance->user_sitemap_remove_excluded_authors( array( $user ) );
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 
 		// User should be removed.
-		$this->assertEquals( $result, array() );
+		$this->assertEmpty( $sitemap_links );
 	}
 
 	/**
