@@ -75,7 +75,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_notification_dismissed() {
 		$notification_dismissal_key = 'notification_dismissal';
-		$notification = new Yoast_Notification( 'dismiss', array( 'dismissal_key' => $notification_dismissal_key ) );
+		$notification               = new Yoast_Notification( 'dismiss', array( 'dismissal_key' => $notification_dismissal_key ) );
 
 		$user_id = $this->factory->user->create();
 		wp_set_current_user( $user_id );
@@ -137,6 +137,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Saving notifications to storage
 	 */
 	public function test_update_storage() {
+
+		wp_set_current_user(1);
+
 		$message = 'b';
 		$options = array( 'id' => 'id' );
 
@@ -150,10 +153,11 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$subject->update_storage();
 
-		$stored_notifications = get_option( Yoast_Notification_Center::STORAGE_KEY );
-		$test                 = wp_json_encode( array( $notification->to_array() ) );
+		$stored_notifications = get_user_option( Yoast_Notification_Center::STORAGE_KEY, get_current_user_id() );
 
-		$this->assertInternalType( 'string', $stored_notifications );
+		$test = array( $notification->to_array() );
+
+		$this->assertInternalType( 'array', $stored_notifications );
 		$this->assertEquals( $test, $stored_notifications );
 	}
 
