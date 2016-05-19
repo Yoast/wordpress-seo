@@ -14,6 +14,9 @@ class WPSEO_Sitemaps_Renderer {
 	/** @var string $charset Holds the get_bloginfo( 'charset' ) value to reuse for performance. */
 	protected $charset = 'UTF-8';
 
+	/** @var string $output_charset Holds charset of output, might be converted. */
+	public $output_charset = 'UTF-8';
+
 	/** @var WPSEO_Sitemap_Timezone $timezone */
 	protected $timezone;
 
@@ -22,10 +25,11 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	public function __construct() {
 
-		$stylesheet_url   = preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) );
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';
-		$this->charset    = get_bloginfo( 'charset' );
-		$this->timezone   = new WPSEO_Sitemap_Timezone();
+		$stylesheet_url       = preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) );
+		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';
+		$this->charset        = get_bloginfo( 'charset' );
+		$this->output_charset = $this->charset;
+		$this->timezone       = new WPSEO_Sitemap_Timezone();
 	}
 
 	/**
@@ -102,7 +106,15 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	public function get_output( $sitemap, $transient ) {
 
-		$output = '<?xml version="1.0" encoding="' . esc_attr( $this->charset ) . '"?>';
+		$convert_charset = 'UTF-8' !== $this->charset
+		                   && function_exists( 'mb_list_encodings' )
+		                   && in_array( $this->charset, mb_list_encodings(), true );
+
+		if ( $convert_charset ) {
+			$this->output_charset = 'UTF-8';
+		}
+
+		$output = '<?xml version="1.0" encoding="' . esc_attr( $this->output_charset ) . '"?>';
 
 		if ( $this->stylesheet ) {
 			/**
@@ -118,19 +130,22 @@ class WPSEO_Sitemaps_Renderer {
 
 		$debug = WP_DEBUG || ( defined( 'WPSEO_DEBUG' ) && true === WPSEO_DEBUG );
 
-		if ( ! WP_DEBUG_DISPLAY || ! $debug ) {
-			return $output;
+		if ( WP_DEBUG_DISPLAY && $debug ) {
+
+			$memory_used = number_format( ( memory_get_peak_usage() / 1048576 ), 2 );
+			$queries_run = ( $transient ) ? 'Served from transient cache' : 'Queries executed ' . absint( $GLOBALS['wpdb']->num_queries );
+
+			$output .= "\n<!-- {$memory_used}MB | {$queries_run} -->";
+
+			if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
+
+				$queries = print_r( $GLOBALS['wpdb']->queries, true );
+				$output .= "\n<!-- {$queries} -->";
+			}
 		}
 
-		$memory_used = number_format( ( memory_get_peak_usage() / 1048576 ), 2 );
-		$queries_run = ( $transient ) ? 'Served from transient cache' : 'Queries executed ' . absint( $GLOBALS['wpdb']->num_queries );
-
-		$output .= "\n<!-- {$memory_used}MB | {$queries_run} -->";
-
-		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-
-			$queries = print_r( $GLOBALS['wpdb']->queries, true );
-			$output .= "\n<!-- {$queries} -->";
+		if ( $convert_charset ) {
+			$output = mb_convert_encoding( $output, 'UTF-8', $this->charset );
 		}
 
 		return $output;
