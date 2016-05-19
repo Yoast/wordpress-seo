@@ -19,6 +19,7 @@ var createConfig = require( "../config/presenter.js" );
  * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
  * @param {SEOAssessor} args.assessor The Assessor object to retrieve assessment results from.
  * @param {Jed} args.i18n The translation object.
+ *
  * @constructor
  */
 var AssessorPresenter = function( args ) {
