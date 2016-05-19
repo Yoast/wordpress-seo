@@ -19613,13 +19613,10 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 				var visibleKeywordValue = $( '#yoast_wpseo_focuskw_text_input' ).val();
 
 				if ( hiddenKeywordValue !== visibleKeywordValue ) {
-					console.log('verschillend');
 					hiddenKeyword.val( visibleKeywordValue );
 				}
 			} );
 		}
-
-
 	} );
 }( jQuery ));
 

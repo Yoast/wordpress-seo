@@ -519,7 +519,5 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 				}
 			} );
 		}
-
-
 	} );
 }( jQuery ));
