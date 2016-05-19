@@ -331,7 +331,11 @@ class WPSEO_Admin_Init {
 		if ( $this->on_wpseo_admin_page() ) {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
-			$this->register_i18n_promo_class();
+
+			// Only register the yoast i18n when the page is a Yoast SEO page.
+			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
+				$this->register_i18n_promo_class();
+			}
 		}
 	}
 
