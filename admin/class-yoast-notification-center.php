@@ -19,12 +19,9 @@ class Yoast_Notification_Center {
 
 	/** @var array Notifications there are newly added */
 	private $new = array();
-	
+
 	/** @var array Notifications that were added this execution */
 	private $touched = array();
-
-	/** @var array Yoast_Notification_Condition_Interface[] Registered Notification Conditions */
-	private $notification_conditions = array();
 
 	/**
 	 * Construct
@@ -40,6 +37,7 @@ class Yoast_Notification_Center {
 
 		add_action( 'wpseo_deactivate', array( $this, 'deactivate_hook' ) );
 		add_action( 'shutdown', array( $this, 'update_storage' ) );
+		add_action( 'shutdown', array( $this, 'clear_dismissals' ) );
 	}
 
 	/**
@@ -54,52 +52,6 @@ class Yoast_Notification_Center {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Initialise global notification conditions
-	 *
-	 * Conditions that don't have dependencies should be registered here.
-	 */
-	public static function initialize_conditions() {
-
-		$instance = self::get();
-
-		/**
-		 * Context dependent notifications:
-		 * - Yoast_Not_Indexable_Homepage_Condition - WPSEO_OnPage, needs option information.
-		 * - Yoast_Plugin_Conflict_Condition - Yoast_Plugin_Conflict, needs plugin+conflict information.
-		 */
-
-		/**
-		 * Action Register Notification Conditionns
-		 *
-		 * Allow to hook into the notification center conditions registration.
-		 *
-		 * @param $instance Yoast_Notification_Center Instance to register condition on.
-		 */
-		do_action( 'yoast_register_notification_conditions', $instance );
-	}
-
-	/**
-	 * Register notifications of conditions
-	 *
-	 * This has to happen after the translations have been loaded.
-	 */
-	public function register_notifications() {
-
-		/** @var Yoast_Notification_Condition $condition */
-		foreach ( $this->notification_conditions as $condition ) {
-			$notification = $condition->get_notification();
-
-			if ( $condition->is_met() ) {
-				$this->add_notification( $notification );
-			}
-			else {
-				// Remove dismissal so it will be shown next time the condition is met.
-				$this->clear_dismissal( $notification );
-			}
-		}
 	}
 
 	/**
@@ -172,6 +124,10 @@ class Yoast_Notification_Center {
 	 */
 	public static function maybe_dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
 
+		if ( ! $notification->is_persistent() ) {
+			return false;
+		}
+
 		// If notification is already dismissed, we're done.
 		if ( self::is_notification_dismissed( $notification ) ) {
 			return true;
@@ -233,11 +189,36 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Clear dismissals of resolved notifications
+	 */
+	public function clear_dismissals() {
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return;
+		}
+
+		$notifications = array_filter(
+			$this->notifications,
+			array( $this, 'filter_untouched_notifications' )
+		);
+
+		$resolved_notifications = array_diff( $this->notifications, $notifications );
+
+		// Remove dismissal so it will be shown next time the condition is met.
+		array_map( array( $this, 'clear_dismissal' ), $resolved_notifications );
+	}
+
+	/**
 	 * Add notification to the cookie
 	 *
 	 * @param Yoast_Notification $notification Notification object instance.
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
+
+		// Don't add if the user can't see it.
+		if ( ! $notification->display_for_current_user() ) {
+			return;
+		}
 
 		$notification_id = $notification->get_id();
 
@@ -250,6 +231,7 @@ class Yoast_Notification_Center {
 			$present_notification = $this->get_notification_by_id( $notification_id );
 			if ( ! is_null( $present_notification ) ) {
 				$present_notification->refresh_nonce();
+
 				return;
 			}
 		}
@@ -317,31 +299,24 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Get the number of notifications not touched this execution
-	 * 
+	 *
 	 * These notifications have been resolved and should be counted when active again.
 	 *
 	 * @return int
 	 */
 	public function get_resolved_notification_count() {
-		
-		return count( $this->notifications ) - count( $this->touched );
+
+		return ( count( $this->notifications ) - count( $this->touched ) );
 	}
 
 	/**
 	 * Return the notifications sorted on type and priority
 	 *
-	 * @param bool $visible_for_current_user Only notifications viewable for current user.
-	 *
 	 * @return array|Yoast_Notification[] Sorted Notifications
 	 */
-	public function get_sorted_notifications( $visible_for_current_user = false ) {
+	public function get_sorted_notifications() {
 
 		$notifications = $this->get_notifications();
-
-		if ( $visible_for_current_user ) {
-			$notifications = array_filter( $notifications, array( $this, 'visible_for_user' ) );
-		}
-
 		if ( empty( $notifications ) ) {
 			return array();
 		}
@@ -350,17 +325,6 @@ class Yoast_Notification_Center {
 		usort( $notifications, array( $this, 'sort_notifications' ) );
 
 		return $notifications;
-	}
-
-	/**
-	 * Filter out notifications that the current user should not see
-	 * 
-	 * @param Yoast_Notification $notification Notification to test.
-	 *
-	 * @return bool
-	 */
-	private function visible_for_user( Yoast_Notification $notification ) {
-		return $notification->display_for_current_user();
 	}
 
 	/**
@@ -380,7 +344,6 @@ class Yoast_Notification_Center {
 	 */
 	public function deactivate_hook() {
 
-		$this->clear_notification_conditions();
 		$this->clear_notifications();
 	}
 
@@ -412,16 +375,6 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Provide a way to verify registered conditions
-	 *
-	 * @return array|Yoast_Notification_Condition[] Registered conditions.
-	 */
-	public function get_notification_conditions() {
-
-		return $this->notification_conditions;
-	}
-
-	/**
 	 * Provide a way to verify present notifications
 	 *
 	 * @return array|Yoast_Notification[] Registered notifications.
@@ -430,7 +383,7 @@ class Yoast_Notification_Center {
 
 		$notifications = $this->notifications;
 
-		if ( ! defined('DOING_AJAX') || ! DOING_AJAX ) {
+		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 			$notifications = array_filter( $notifications, array( $this, 'filter_untouched_notifications' ) );
 		}
 
@@ -439,12 +392,12 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Get newly added notifications
-	 * 
+	 *
 	 * @return array
 	 */
 	public function get_new_notifications() {
 
-		return array_map( array( $this, 'get_notification_by_id'), $this->new );
+		return array_map( array( $this, 'get_notification_by_id' ), $this->new );
 	}
 
 	/**
@@ -483,33 +436,6 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Keep a list of conditions so we don't add duplicates
-	 *
-	 * @param Yoast_Notification_Condition $condition Condition to add to the stack.
-	 */
-	public function add_notification_condition( Yoast_Notification_Condition $condition ) {
-
-		// Prevent duplicates.
-		if ( $this->has_notification_condition( $condition ) ) {
-			return;
-		}
-
-		$this->notification_conditions[] = $condition;
-	}
-
-	/**
-	 * Check if the notification condition is already registered
-	 *
-	 * @param Yoast_Notification_Condition $condition Condition to check for.
-	 *
-	 * @return bool
-	 */
-	private function has_notification_condition( Yoast_Notification_Condition $condition ) {
-
-		return in_array( $condition, $this->notification_conditions, true );
-	}
-
-	/**
 	 * Check if the notification can be shown for the current user
 	 *
 	 * @param Yoast_Notification $notification Notification to check.
@@ -519,12 +445,7 @@ class Yoast_Notification_Center {
 	private function show_notification( Yoast_Notification $notification ) {
 
 		// Don't display if it has been dismissed for the current user.
-		if ( $this->maybe_dismiss_notification( $notification ) ) {
-			return false;
-		}
-
-		// Don't display if the user doesn't have enough capabilities.
-		return $notification->display_for_current_user();
+		return ! $this->maybe_dismiss_notification( $notification );
 	}
 
 	/**
@@ -567,7 +488,7 @@ class Yoast_Notification_Center {
 		}
 
 		if ( 'error' === $a_type ) {
-			return -1;
+			return - 1;
 		}
 
 		if ( 'error' === $b_type ) {
@@ -612,14 +533,6 @@ class Yoast_Notification_Center {
 	private function clear_notifications() {
 
 		$this->notifications = array();
-	}
-
-	/**
-	 * Clear notification conditions (mostly for testing)
-	 */
-	private function clear_notification_conditions() {
-
-		$this->notification_conditions = array();
 	}
 
 	/**

@@ -27,95 +27,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Registering a condition
-	 */
-	public function test_register_condition() {
-
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this
-			->getMockBuilder( 'Yoast_Notification_Condition' )
-			->setMethods( array( 'is_met', 'get_notification' ) )
-			->getMock();
-
-		$condition
-			->expects( $this->any() )
-			->method( 'is_met' )
-			->will( $this->returnValue( true ) );
-
-		$condition
-			->expects( $this->any() )
-			->method( 'get_notification' )
-			->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-
-		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
-	}
-
-
-	/**
-	 * Registering a condition
-	 */
-	public function test_register_condition_twice() {
-
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this
-			->getMockBuilder( 'Yoast_Notification_Condition' )
-			->setMethods( array( 'is_met', 'get_notification' ) )
-			->getMock();
-
-		$condition
-			->expects( $this->any() )
-			->method( 'is_met' )
-			->will( $this->returnValue( true ) );
-
-		$condition
-			->expects( $this->any() )
-			->method( 'get_notification' )
-			->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-		$subject->add_notification_condition( $condition );
-
-		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
-	}
-
-
-	/**
-	 * Clear notification after setting
-	 */
-	public function test_clear_notifications() {
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this
-			->getMockBuilder( 'Yoast_Notification_Condition' )
-			->setMethods( array( 'is_met', 'get_notification' ) )
-			->getMock();
-
-		$condition
-			->expects( $this->any() )
-			->method( 'is_met' )
-			->will( $this->returnValue( true ) );
-
-		$condition
-			->expects( $this->any() )
-			->method( 'get_notification' )
-			->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-
-		$subject->deactivate_hook();
-
-		$this->assertEquals( array(), $subject->get_notification_conditions() );
-	}
-
-
-	/**
 	 * Add notification
 	 */
 	public function test_add_notification() {
@@ -400,7 +311,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_dismissal_key = 'dismissed';
 
 		$message = 'c';
-		$options = array( 'dismissal_key' => $notification_dismissal_key );
+		$options = array( 'id' => 'my_id', 'dismissal_key' => $notification_dismissal_key );
 
 		$notification = new Yoast_Notification( $message, $options );
 

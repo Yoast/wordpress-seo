@@ -358,7 +358,7 @@ class WPSEO_Admin {
 				break;
 
 			case 'wpseo_alerts':
-				require_once WPSEO_PATH . 'admin/views/alerts-dashboard.php';
+				Yoast_Alerts::show_overview_page();
 				break;
 
 			case 'wpseo_dashboard':

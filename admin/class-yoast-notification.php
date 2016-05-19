@@ -38,7 +38,6 @@ class Yoast_Notification {
 		'dismissal_key'    => null,
 		'capabilities'     => array(),
 		'capability_check' => self::MATCH_ALL,
-		'wpseo_page_only'  => false,
 	);
 
 	/**
@@ -137,12 +136,6 @@ class Yoast_Notification {
 		if ( ! $this->is_persistent() ) {
 			return true;
 		}
-
-		// @todo document this removal
-		// If we are not on a WPSEO page and this is required.
-//		if ( true === $this->options['wpseo_page_only'] && ! WPSEO_Utils::is_yoast_seo_page() ) {
-//			return false;
-//		}
 
 		// If the current user doesn't match capabilities.
 		return $this->match_capabilities();
@@ -259,14 +252,19 @@ class Yoast_Notification {
 		return '<div ' . implode( ' ', $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
 	}
 
+	/**
+	 * Get the JSON if provided
+	 *
+	 * @return false|string
+	 */
 	public function get_json() {
 		if ( empty( $this->options['data_json'] ) ) {
 			return '';
 		}
-		
+
 		return wp_json_encode( $this->options['data_json'] );
 	}
-	
+
 	/**
 	 * Make sure we only have values that we can work with
 	 *

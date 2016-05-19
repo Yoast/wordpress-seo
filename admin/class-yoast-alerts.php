@@ -6,6 +6,8 @@
 /**
  * @todo make dismissing of alerts ajax independent.
  * @todo add new unit tests.
+ * @todo adjust colors of alerts.
+ * @todo add a11y code
  */
 
 /**
@@ -13,44 +15,28 @@
  */
 class Yoast_Alerts {
 
-	/** @var self Singleton instance */
-	private static $instance;
-
 	/** @var int Total notifications count */
-	private $notification_count = 0;
+	private static $notification_count = 0;
 
 	/** @var array All error notifications */
-	private $errors = array();
+	private static $errors = array();
 	/** @var array Active errors */
-	private $active_errors = array();
+	private static $active_errors = array();
 	/** @var array Dismissed errors */
-	private $dismissed_errors = array();
+	private static $dismissed_errors = array();
 
 	/** @var array All warning notifications */
-	private $warnings = array();
+	private static $warnings = array();
 	/** @var array Active warnings */
-	private $active_warnings = array();
+	private static $active_warnings = array();
 	/** @var array Dismissed warnings */
-	private $dismissed_warnings = array();
+	private static $dismissed_warnings = array();
 
 	/**
 	 * Yoast_Alerts constructor.
 	 */
-	private function __construct() {
+	public function __construct() {
 		$this->add_hooks();
-	}
-
-	/**
-	 * Get singleton
-	 *
-	 * @return Yoast_Alerts
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
 	}
 
 	/**
@@ -63,9 +49,9 @@ class Yoast_Alerts {
 		}
 
 		// Needed for adminbar and Alerts page.
-		add_action( 'admin_init', array( $this, 'collect_alerts' ), 99 );
+		add_action( 'admin_init', array( __CLASS__, 'collect_alerts' ), 99 );
 
-		// Add AJAX hooks
+		// Add AJAX hooks.
 		add_action( 'wp_ajax_yoast_dismiss_alert', array( $this, 'ajax_dismiss_alert' ) );
 		add_action( 'wp_ajax_yoast_restore_alert', array( $this, 'ajax_restore_alert' ) );
 	}
@@ -115,9 +101,12 @@ class Yoast_Alerts {
 	 */
 	private function output_ajax_response( $type ) {
 		$html = $this->get_view_html( $type );
-		echo json_encode( array( 'html'  => $html,
-		                         'total' => count( $this->active_errors ) + count( $this->active_warnings )
-		) );
+		echo json_encode(
+			array(
+				'html'  => $html,
+				'total' => count( self::$active_errors ) + count( self::$active_warnings ),
+			)
+		);
 	}
 
 	/**
@@ -139,10 +128,10 @@ class Yoast_Alerts {
 		}
 
 		// Re-collect alerts.
-		$this->collect_alerts();
+		self::collect_alerts();
 
 		/** @noinspection PhpUnusedLocalVariableInspection */
-		$alerts_data = $this->get_template_variables();
+		$alerts_data = self::get_template_variables();
 
 		ob_start();
 		include WPSEO_PATH . 'admin/views/partial-alerts-' . $view . '.php';
@@ -159,29 +148,38 @@ class Yoast_Alerts {
 	private function get_notification_from_ajax_request() {
 
 		$notification_center = Yoast_Notification_Center::get();
-
-		$notification_id = filter_input( INPUT_POST, 'notification' );
+		$notification_id     = filter_input( INPUT_POST, 'notification' );
 
 		return $notification_center->get_notification_by_id( $notification_id );
 	}
 
 	/**
+	 * Show the alerts overview page
+	 */
+	public static function show_overview_page() {
+		/** @noinspection PhpUnusedLocalVariableInspection */
+		$alerts_data = self::get_template_variables();
+
+		include WPSEO_PATH . 'admin/views/alerts-dashboard.php';
+	}
+
+	/**
 	 * Collect the alerts
 	 */
-	public function collect_alerts() {
+	public static function collect_alerts() {
 		$notification_center = Yoast_Notification_Center::get();
 
-		$notifications            = $notification_center->get_sorted_notifications( true );
-		$this->notification_count = count( $notifications );
+		$notifications            = $notification_center->get_notifications();
+		self::$notification_count = count( $notifications );
 
-		$this->errors   = array_filter( $notifications, array( $this, 'filter_error_alerts' ) );
-		$this->warnings = array_filter( $notifications, array( $this, 'filter_warning_alerts' ) );
+		self::$errors   = array_filter( $notifications, array( __CLASS__, 'filter_error_alerts' ) );
+		self::$warnings = array_filter( $notifications, array( __CLASS__, 'filter_warning_alerts' ) );
 
-		$this->dismissed_errors = array_filter( $this->errors, array( $this, 'filter_dismissed_alerts' ) );
-		$this->active_errors    = array_diff( $this->errors, $this->dismissed_errors );
+		self::$dismissed_errors = array_filter( self::$errors, array( __CLASS__, 'filter_dismissed_alerts' ) );
+		self::$active_errors    = array_diff( self::$errors, self::$dismissed_errors );
 
-		$this->dismissed_warnings = array_filter( $this->warnings, array( $this, 'filter_dismissed_alerts' ) );
-		$this->active_warnings    = array_diff( $this->warnings, $this->dismissed_warnings );
+		self::$dismissed_warnings = array_filter( self::$warnings, array( __CLASS__, 'filter_dismissed_alerts' ) );
+		self::$active_warnings    = array_diff( self::$warnings, self::$dismissed_warnings );
 	}
 
 	/**
@@ -189,21 +187,21 @@ class Yoast_Alerts {
 	 *
 	 * @return array
 	 */
-	public function get_template_variables() {
+	public static function get_template_variables() {
 		return array(
 			'metrics'  => array(
-				'total'    => $this->notification_count,
-				'active'   => count( $this->active_errors ) + count( $this->active_warnings ),
-				'errors'   => count( $this->errors ),
-				'warnings' => count( $this->warnings ),
+				'total'    => self::$notification_count,
+				'active'   => count( self::$active_errors ) + count( self::$active_warnings ),
+				'errors'   => count( self::$errors ),
+				'warnings' => count( self::$warnings ),
 			),
 			'errors'   => array(
-				'dismissed' => $this->dismissed_errors,
-				'active'    => $this->active_errors,
+				'dismissed' => self::$dismissed_errors,
+				'active'    => self::$active_errors,
 			),
 			'warnings' => array(
-				'dismissed' => $this->dismissed_warnings,
-				'active'    => $this->active_warnings,
+				'dismissed' => self::$dismissed_warnings,
+				'active'    => self::$active_warnings,
 			),
 		);
 	}
@@ -215,7 +213,7 @@ class Yoast_Alerts {
 	 *
 	 * @return bool
 	 */
-	private function filter_error_alerts( Yoast_Notification $notification ) {
+	private static function filter_error_alerts( Yoast_Notification $notification ) {
 		return $notification->get_type() === 'error';
 	}
 
@@ -226,7 +224,7 @@ class Yoast_Alerts {
 	 *
 	 * @return bool
 	 */
-	private function filter_warning_alerts( Yoast_Notification $notification ) {
+	private static function filter_warning_alerts( Yoast_Notification $notification ) {
 		return $notification->get_type() !== 'error';
 	}
 
@@ -237,7 +235,7 @@ class Yoast_Alerts {
 	 *
 	 * @return bool
 	 */
-	private function filter_dismissed_alerts( Yoast_Notification $notification ) {
+	private static function filter_dismissed_alerts( Yoast_Notification $notification ) {
 		return Yoast_Notification_Center::is_notification_dismissed( $notification );
 	}
 }

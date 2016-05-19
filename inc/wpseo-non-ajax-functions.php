@@ -253,7 +253,7 @@ function wpseo_admin_bar_menu() {
 		$seo_url = get_edit_post_link( $post->ID );
 	}
 
-	// Notification information:
+	// Notification information.
 	$notification_center     = Yoast_Notification_Center::get();
 	$notification_count      = $notification_center->get_notification_count();
 	$new_notifications       = $notification_center->get_new_notifications();
@@ -264,7 +264,7 @@ function wpseo_admin_bar_menu() {
 		$notification = _n( 'You have a new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' );
 		$new_notifications_html .= '<div class="yoast-issue-added">' . $notification . '</div>';
 
-		// Show alerts page when there are alerts:
+		// Show alerts page when there are alerts.
 		$seo_url = get_admin_url( null, 'admin.php?page=wpseo_alerts' );
 	}
 
@@ -275,7 +275,7 @@ function wpseo_admin_bar_menu() {
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
-		'title' => $title . $counter . $score . $new_notifications_html,
+		'title' => $title . $score . $counter . $new_notifications_html,
 		'href'  => $seo_url,
 	) );
 	$wp_admin_bar->add_menu( array(

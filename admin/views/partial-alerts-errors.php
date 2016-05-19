@@ -1,9 +1,15 @@
+<?php
+/**
+ * @package WPSEO\Admin
+ */
+
+?>
 <h2><span class="dashicons dashicons-warning"></span> <?php _e( 'Alerts', 'wordpress-seo' ); ?>
 	(<?php echo count( $alerts_data['errors']['active'] ); ?>)</h2>
 
 <div id="yoast-alerts">
 
-	<?php if ( $alerts_data['metrics']['errors'] ): ?>
+	<?php if ( $alerts_data['metrics']['errors'] ) : ?>
 
 		<p><?php _e( 'We have detected the following issues that involve a serious problem concerning the SEO of your site.' ) ?></p>
 
@@ -15,7 +21,7 @@
 			?>
 		</div>
 
-		<?php if ( $alerts_data['errors']['active'] && $alerts_data['errors']['dismissed'] ): ?>
+		<?php if ( $alerts_data['errors']['active'] && $alerts_data['errors']['dismissed'] ) : ?>
 			<div class="separator"></div>
 		<?php endif; ?>
 
@@ -29,10 +35,9 @@
 
 		<div class="yoast-bottom-spacing"></div>
 
-	<?php else: ?>
+	<?php else : ?>
 
 		<p><?php _e( 'There are no issues.', 'wordpress-seo' ); ?></p>
 
 	<?php endif; ?>
 </div>
-	
