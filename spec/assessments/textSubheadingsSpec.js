@@ -13,7 +13,7 @@ describe( "An assessment for matching keywords in subheadings", function(){
 	it( "assesses a string without subheadings", function(){
 		var result = matchKeywordAssessment.getResult( paper, Factory.buildMockResearcher( { count: 0 } ), i18n );
 
-		expect( result.getScore() ).toEqual( 7 );
+		expect( result.getScore() ).toEqual( 4 );
 		expect( result.getText() ).toEqual ( "No subheading tags (like an H2) appear in the copy." );
 	} );
 

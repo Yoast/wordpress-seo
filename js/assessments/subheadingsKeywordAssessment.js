@@ -10,7 +10,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
 var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
 	if ( subHeadings.matches === 0 ) {
 		return {
-			score: 3,
+			score: 6,
 			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
 		};
 	}
