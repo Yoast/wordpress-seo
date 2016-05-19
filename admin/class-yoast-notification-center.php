@@ -60,6 +60,8 @@ class Yoast_Notification_Center {
 
 		$instance = self::get();
 
+		$instance->add_notifier( new Yoast_GA_Incompatible_Version_Notifier() );
+
 		/**
 		 * Context dependent notifications:
 		 * - Yoast_Not_Indexable_Homepage_Condition - WPSEO_OnPage, needs option information.
