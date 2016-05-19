@@ -53,7 +53,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 
 /**
  * Marks all sentences that have the passive voice.
- * 
+ *
  * @param {object} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
  * @returns {object} All marked sentences.
