@@ -1,5 +1,9 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
+var map = require( "lodash/map" );
+
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../markers/addMark.js" );
 
 /**
  * Calculates transition word result
@@ -78,10 +82,24 @@ var transitionWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+var transitionWordsMarker = function( paper, researcher ) {
+	var transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+
+	return map( transitionWordSentences.sentenceResults, function( sentenceResult ) {
+		var sentence = sentenceResult.sentence;
+
+		return new Mark( {
+			original: sentence,
+			marked: marker( sentence )
+		} );
+	} );
+};
+
 module.exports = {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: transitionWordsMarker
 };
