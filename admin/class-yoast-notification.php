@@ -230,62 +230,33 @@ class Yoast_Notification {
 
 		// Default notification classes.
 		$classes = array(
-			'yoast-notice',
+			'yoast-alert',
 		);
 
-		if ( ! empty( $this->options['type'] ) ) {
-			$classes[] = $this->options['type'];
-		}
-
-		if ( $this->is_persistent() ) {
-			$attributes['id'] = $this->options['id'];
-
-			$classes[] = 'yoast-dismissible';
-			$classes[] = 'is-dismissible';
+		// Maintain WordPress visualisation of alerts when they are not persistent.
+		if ( ! $this->is_persistent() ) {
+			$classes[] = 'alert';
 		}
 
 		if ( ! empty( $classes ) ) {
 			$attributes['class'] = implode( ' ', $classes );
 		}
 
-		$nonce = $this->get_nonce();
-		if ( ! empty( $nonce ) ) {
-			$attributes['data-nonce'] = $nonce;
-		}
-
-		if ( ! empty( $this->options['data_json'] ) ) {
-			$attributes['data-json'] = wp_json_encode( $this->options['data_json'] );
-		}
-
 		// Combined attribute key and value into a string.
 		array_walk( $attributes, array( $this, 'parse_attributes' ) );
 
-		$dismissal_button = $this->get_dismissal_button();
-
 		// Build the output DIV.
-		return '<div ' . implode( ' ', $attributes ) . '>' . wpautop( $this->message ) . $dismissal_button . '</div>' . PHP_EOL;
+		return '<div ' . implode( ' ', $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
 	}
 
-	/**
-	 * Create the button to dismiss this notification
-	 *
-	 * @return string Dismissal button HTML.
-	 */
-	private function get_dismissal_button() {
-		if ( ! $this->is_persistent() ) {
+	public function get_json() {
+		if ( empty( $this->options['data_json'] ) ) {
 			return '';
 		}
-
-		$arr_params = array(
-			'notification' => $this->get_dismissal_key(),
-			'nonce'        => $this->get_nonce(),
-		);
-
-		$url = esc_url( add_query_arg( $arr_params ) );
-
-		return sprintf( '<a class="yoast-notice-dismiss" type="button" href="%s"><span class="screen-reader-text">%s</span></a>', $url, __( 'Dismiss this notice.', 'default' ) );
+		
+		return wp_json_encode( $this->options['data_json'] );
 	}
-
+	
 	/**
 	 * Make sure we only have values that we can work with
 	 *

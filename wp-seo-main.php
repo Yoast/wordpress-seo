@@ -331,6 +331,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	if ( is_admin() ) {
 
 		Yoast_Notification_Center::initialize_conditions();
+		Yoast_Alerts::get_instance();
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );

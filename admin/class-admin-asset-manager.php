@@ -264,6 +264,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wpseo-dismissible',
 			),
 			array(
+				'name' => 'alerts',
+				'src'  => 'alerts',
+			),
+			array(
 				'name' => 'edit-page',
 				'src'  => 'edit-page-302',
 			),

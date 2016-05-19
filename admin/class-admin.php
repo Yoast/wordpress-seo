@@ -200,6 +200,15 @@ class WPSEO_Admin {
 				array( $this, 'load_page' ),
 				null,
 			),
+			array(
+				'wpseo_dashboard',
+				'',
+				__( 'Alerts', 'wordpress-seo' ),
+				$manage_options_cap,
+				'wpseo_alerts',
+				array( $this, 'load_page' ),
+				null,
+			),
 		);
 
 		// Allow submenu pages manipulation.
@@ -346,6 +355,10 @@ class WPSEO_Admin {
 
 			case 'wpseo_tutorial_videos':
 				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
+				break;
+
+			case 'wpseo_alerts':
+				require_once WPSEO_PATH . 'admin/views/alerts-dashboard.php';
 				break;
 
 			case 'wpseo_dashboard':

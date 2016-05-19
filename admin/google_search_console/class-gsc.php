@@ -62,10 +62,8 @@ class WPSEO_GSC {
 			$this->set_dependencies();
 			$this->request_handler();
 		}
-		elseif ( WPSEO_Utils::is_yoast_seo_page() && current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
-			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
-		}
 
+		add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
@@ -73,6 +71,11 @@ class WPSEO_GSC {
 	 * If the Google Search Console has no credentials, add a notification for the user to give him a heads up. This message is dismissable.
 	 */
 	public function register_gsc_notification() {
+
+		if ( ! current_user_can( 'manage_options' ) || WPSEO_GSC_Settings::get_profile() !== '' || get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) == '1' ) {
+			return;
+		}
+
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification(
 				sprintf(
@@ -81,7 +84,7 @@ class WPSEO_GSC {
 					'</a>'
 				),
 				array(
-					'type'      => 'updated yoast-dismissible',
+					'type'      => 'warning',
 					'id'        => 'wpseo-dismiss-gsc',
 				)
 			)

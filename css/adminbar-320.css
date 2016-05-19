@@ -34,3 +34,27 @@
 .adminbar-seo-score {
 	margin: 10px 10px 0 4px !important;
 }
+
+#wpadminbar .yoast-issue-added,
+#wpadminbar .yoast-issue-added:hover {
+	position: absolute;
+	top: 32px;
+	left: 0;
+	min-width: 300px;
+	padding: 2px 8px;
+	border-radius: 0 10px 10px 10px;
+	color: white;
+	background-color: #a4286a;
+}
+
+#wpadminbar .yoast-issue-added {
+	display: none;
+}
+
+#wpadminbar .yoast-issue-counter {
+	display: inline !important;
+	padding: 1px 7px 1px 6px !important;
+	border-radius: 50%;
+	color: white;
+	background-color: #a4286a;
+}
