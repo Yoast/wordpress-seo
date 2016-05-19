@@ -4,6 +4,11 @@
  */
 
 /**
+ * @todo Add to upgrade routine:
+ * delete_option( 'yoast_notifications' );
+ */
+
+/**
  * Handles notifications storage and display.
  */
 class Yoast_Notification_Center {
@@ -28,8 +33,7 @@ class Yoast_Notification_Center {
 	 */
 	private function __construct() {
 
-		// Load the notifications from storage.
-		$this->notifications = $this->get_notifications_from_storage();
+		$this->get_notifications_from_storage();
 
 		add_action( 'admin_init', array( $this, 'register_notifications' ) );
 
@@ -272,7 +276,7 @@ class Yoast_Notification_Center {
 
 		$sorted_notifications = $this->get_sorted_notifications();
 		foreach ( $sorted_notifications as $notification ) {
-			if ( $this->show_notification( $notification ) ) {
+			if ( ! $notification->is_persistent() ) {
 				echo $notification;
 			}
 		}
@@ -291,7 +295,7 @@ class Yoast_Notification_Center {
 		$notifications = array_filter( $notifications, array( $this, 'filter_persistent_notifications' ) );
 
 		if ( ! $dismissed ) {
-			$notifications = array_filter( $notifications, array( $this, 'show_notification' ) );
+			$notifications = array_filter( $notifications, array( $this, 'filter_dismissed_notifications' ) );
 		}
 
 		return count( $notifications );
@@ -371,7 +375,7 @@ class Yoast_Notification_Center {
 		$notifications = array_map( array( $this, 'notification_to_array' ), $notifications );
 
 		// Save the notifications to the storage.
-		update_option( self::STORAGE_KEY, wp_json_encode( $notifications ), true );
+		update_user_option( get_current_user_id(), self::STORAGE_KEY, $notifications );
 	}
 
 	/**
@@ -436,38 +440,22 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Check if the notification can be shown for the current user
-	 *
-	 * @param Yoast_Notification $notification Notification to check.
-	 *
-	 * @return bool
-	 */
-	private function show_notification( Yoast_Notification $notification ) {
-
-		// Don't display if it has been dismissed for the current user.
-		return ! $this->maybe_dismiss_notification( $notification );
-	}
-
-	/**
 	 * Get the notifications from storage
 	 *
 	 * @return array Yoast_Notification[] Notifcations
 	 */
 	private function get_notifications_from_storage() {
 
-		$stored_notifications = get_option( self::STORAGE_KEY, '' );
+		$stored_notifications = get_user_option( self::STORAGE_KEY, get_current_user_id() );
 
 		// Check if notifications are stored.
-		if ( ! empty( $stored_notifications ) ) {
-
-			// Get json notifications from storage.
-			$stored_notifications = json_decode( $stored_notifications, true );
-			if ( is_array( $stored_notifications ) ) {
-				return array_map( array( $this, 'array_to_notification' ), $stored_notifications );
-			}
+		if ( empty( $stored_notifications ) ) {
+			return;
 		}
 
-		return array();
+		if ( is_array( $stored_notifications ) ) {
+			$this->notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
+		}
 	}
 
 	/**
@@ -524,7 +512,7 @@ class Yoast_Notification_Center {
 	 */
 	private function remove_storage() {
 
-		delete_option( self::STORAGE_KEY );
+		delete_user_option( get_current_user_id(), self::STORAGE_KEY );
 	}
 
 	/**
@@ -547,6 +535,18 @@ class Yoast_Notification_Center {
 	private function filter_persistent_notifications( Yoast_Notification $notification ) {
 
 		return $notification->is_persistent();
+	}
+
+	/**
+	 * Filter out dismissed notifications
+	 *
+	 * @param Yoast_Notification $notification Notification to check.
+	 *
+	 * @return bool
+	 */
+	private function filter_dismissed_notifications( Yoast_Notification $notification ) {
+
+		return ! $this->maybe_dismiss_notification( $notification );
 	}
 
 	/**
