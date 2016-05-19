@@ -30,6 +30,7 @@
 }
 
 .yoast-container {
+	position: relative;
 	max-width: 1280px;
 	margin-bottom: 2em;
 	padding: 20px 20px 0;
@@ -93,4 +94,15 @@ h2 .dashicons-warning {
 
 .yoast-container__warning .dashicons-flag {
 	color: darkorange;
+}
+
+.yoast-container-disabled {
+	display: table-cell;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border-radius: 4px;
+	background-color: rgba(232,232,232,0.7);
 }

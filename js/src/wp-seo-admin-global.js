@@ -112,22 +112,38 @@
 		hookDismissRestoreButtons();
 	});
 
+	/**
+	 * Hide popup showing new alerts are present
+	 */
 	function hideAlertPopup() {
 		$( '#wp-admin-bar-root-default > li' ).off( 'hover', hideAlertPopup );
 		$( '.yoast-issue-added' ).fadeOut( 200 );
 	}
 
+	/**
+	 * Show popup with new alerts message
+	 */
 	function showAlertPopup() {
 		$( '.yoast-issue-added' ).hover( hideAlertPopup ).fadeIn();
 		$( '#wp-admin-bar-root-default > li' ).on( 'hover', hideAlertPopup );
 		setTimeout( hideAlertPopup, 3000 );
 	}
 
+	/**
+	 * Hook the restore and dismiss buttons
+	 */
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( '.yoast-alert-holder' );
 
 		$dismissible.on( 'click', '.dismiss', function() {
-			var $source = $( this ).closest( '.yoast-alert-holder' );
+			var $this = $( this );
+			var $source = $this.closest( '.yoast-alert-holder' );
+
+			var $container = $this.closest( '.yoast-container' );
+			$container.append('<div class="yoast-container-disabled"/>');
+
+			$this.find('span').removeClass( 'dashicons-no-alt' ).addClass( 'dashicons-randomize' );
+			
 			$.post(
 				ajaxurl,
 				{
@@ -142,7 +158,14 @@
 		} );
 
 		$dismissible.on( 'click', '.restore', function() {
-			var $source = $( this ).closest( '.yoast-alert-holder' );
+			var $this = $( this );
+			var $source = $this.closest( '.yoast-alert-holder' );
+
+			var $container = $this.closest( '.yoast-container' );
+			$container.append('<div class="yoast-container-disabled"/>');
+
+			$this.find('span').removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-randomize' );
+			
 			$.post(
 				ajaxurl,
 				{
@@ -157,6 +180,12 @@
 		} );
 	}
 
+	/**
+	 * Handle dismiss and restore AJAX responses
+	 *
+	 * @param $source Object that triggered the request.
+	 * @param response AJAX response.
+	 */
 	function handleDismissRestoreResponse( $source, response ) {
 
 		$( '.yoast-alert-holder' ).off( 'click', '.restore' ).off( 'click', '.dismiss' );

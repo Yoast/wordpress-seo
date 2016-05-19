@@ -247,7 +247,9 @@ class Yoast_Notification_Center {
 			$this->touched[ $notification_id ] = true;
 
 			// If notification ID exists in notifications, don't add again.
-			if ( ! is_null( $this->get_notification_by_id( $notification_id ) ) ) {
+			$present_notification = $this->get_notification_by_id( $notification_id );
+			if ( ! is_null( $present_notification ) ) {
+				$present_notification->refresh_nonce();
 				return;
 			}
 		}
@@ -267,7 +269,7 @@ class Yoast_Notification_Center {
 	 */
 	public function get_notification_by_id( $notification_id ) {
 
-		foreach ( $this->notifications as $notification ) {
+		foreach ( $this->notifications as & $notification ) {
 			if ( $notification_id === $notification->get_id() ) {
 				return $notification;
 			}
@@ -455,6 +457,11 @@ class Yoast_Notification_Center {
 	private function filter_untouched_notifications( Yoast_Notification $notification ) {
 
 		$notification_id = $notification->get_id();
+
+		if ( empty( $notification_id ) ) {
+			return true;
+		}
+
 		return array_key_exists( $notification_id, $this->touched ) && $this->touched[ $notification_id ];
 	}
 

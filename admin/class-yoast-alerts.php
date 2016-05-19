@@ -3,6 +3,14 @@
  * @package WPSEO\Admin\Notifications
  */
 
+/**
+ * @todo make dismissing of alerts ajax independent.
+ * @todo add new unit tests.
+ */
+
+/**
+ * Class Yoast_Alerts
+ */
 class Yoast_Alerts {
 
 	/** @var self Singleton instance */
@@ -10,7 +18,7 @@ class Yoast_Alerts {
 
 	/** @var int Total notifications count */
 	private $notification_count = 0;
-	
+
 	/** @var array All error notifications */
 	private $errors = array();
 	/** @var array Active errors */
@@ -54,6 +62,7 @@ class Yoast_Alerts {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		}
 
+		// Needed for adminbar and Alerts page.
 		add_action( 'admin_init', array( $this, 'collect_alerts' ), 99 );
 
 		// Add AJAX hooks
@@ -79,7 +88,7 @@ class Yoast_Alerts {
 			$notification_center = Yoast_Notification_Center::get();
 			$notification_center->maybe_dismiss_notification( $notification );
 
-			$this->ajax_response( $notification->get_type() );
+			$this->output_ajax_response( $notification->get_type() );
 		}
 		die();
 	}
@@ -93,7 +102,7 @@ class Yoast_Alerts {
 		if ( $notification ) {
 			delete_user_meta( get_current_user_id(), $notification->get_dismissal_key() );
 
-			$this->ajax_response( $notification->get_type() );
+			$this->output_ajax_response( $notification->get_type() );
 		}
 
 		die();
@@ -104,9 +113,11 @@ class Yoast_Alerts {
 	 *
 	 * @param string $type Alert type.
 	 */
-	private function ajax_response( $type ) {
+	private function output_ajax_response( $type ) {
 		$html = $this->get_view_html( $type );
-		echo json_encode( array( 'html' => $html, 'total' => count( $this->active_errors ) + count( $this->active_warnings ) ) );
+		echo json_encode( array( 'html'  => $html,
+		                         'total' => count( $this->active_errors ) + count( $this->active_warnings )
+		) );
 	}
 
 	/**
@@ -132,11 +143,11 @@ class Yoast_Alerts {
 
 		/** @noinspection PhpUnusedLocalVariableInspection */
 		$alerts_data = $this->get_template_variables();
-		
+
 		ob_start();
 		include WPSEO_PATH . 'admin/views/partial-alerts-' . $view . '.php';
 		$html = ob_get_clean();
-		
+
 		return $html;
 	}
 
@@ -150,6 +161,7 @@ class Yoast_Alerts {
 		$notification_center = Yoast_Notification_Center::get();
 
 		$notification_id = filter_input( INPUT_POST, 'notification' );
+
 		return $notification_center->get_notification_by_id( $notification_id );
 	}
 
@@ -159,17 +171,17 @@ class Yoast_Alerts {
 	public function collect_alerts() {
 		$notification_center = Yoast_Notification_Center::get();
 
-		$notifications = $notification_center->get_sorted_notifications( true );
-		$this->notification_count = count($notifications);
+		$notifications            = $notification_center->get_sorted_notifications( true );
+		$this->notification_count = count( $notifications );
 
 		$this->errors   = array_filter( $notifications, array( $this, 'filter_error_alerts' ) );
 		$this->warnings = array_filter( $notifications, array( $this, 'filter_warning_alerts' ) );
 
-		$this->dismissed_errors     = array_filter( $this->errors, array( $this, 'filter_dismissed_alerts' ) );
-		$this->active_errors = array_diff( $this->errors, $this->dismissed_errors );
+		$this->dismissed_errors = array_filter( $this->errors, array( $this, 'filter_dismissed_alerts' ) );
+		$this->active_errors    = array_diff( $this->errors, $this->dismissed_errors );
 
-		$this->dismissed_warnings     = array_filter( $this->warnings, array( $this, 'filter_dismissed_alerts' ) );
-		$this->active_warnings = array_diff( $this->warnings, $this->dismissed_warnings );
+		$this->dismissed_warnings = array_filter( $this->warnings, array( $this, 'filter_dismissed_alerts' ) );
+		$this->active_warnings    = array_diff( $this->warnings, $this->dismissed_warnings );
 	}
 
 	/**
@@ -179,19 +191,19 @@ class Yoast_Alerts {
 	 */
 	public function get_template_variables() {
 		return array(
-			'metrics' => array(
-				'total' => $this->notification_count,
-				'active' => count( $this->active_errors ) + count( $this->active_warnings ),
-				'errors' => count( $this->errors ),
+			'metrics'  => array(
+				'total'    => $this->notification_count,
+				'active'   => count( $this->active_errors ) + count( $this->active_warnings ),
+				'errors'   => count( $this->errors ),
 				'warnings' => count( $this->warnings ),
 			),
-			'errors' => array(
+			'errors'   => array(
 				'dismissed' => $this->dismissed_errors,
-				'active' => $this->active_errors,
+				'active'    => $this->active_errors,
 			),
 			'warnings' => array(
 				'dismissed' => $this->dismissed_warnings,
-				'active' => $this->active_warnings,
+				'active'    => $this->active_warnings,
 			),
 		);
 	}

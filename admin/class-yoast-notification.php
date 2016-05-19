@@ -75,6 +75,15 @@ class Yoast_Notification {
 	}
 
 	/**
+	 * Make sure the nonce is up to date
+	 */
+	public function refresh_nonce() {
+		if ( $this->options['id'] ) {
+			$this->options['nonce'] = wp_create_nonce( $this->options['id'] );
+		}
+	}
+
+	/**
 	 * Get the type of the notification
 	 *
 	 * @return string
@@ -129,10 +138,11 @@ class Yoast_Notification {
 			return true;
 		}
 
+		// @todo document this removal
 		// If we are not on a WPSEO page and this is required.
-		if ( true === $this->options['wpseo_page_only'] && ! WPSEO_Utils::is_yoast_seo_page() ) {
-			return false;
-		}
+//		if ( true === $this->options['wpseo_page_only'] && ! WPSEO_Utils::is_yoast_seo_page() ) {
+//			return false;
+//		}
 
 		// If the current user doesn't match capabilities.
 		return $this->match_capabilities();

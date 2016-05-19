@@ -22,7 +22,7 @@
 		<div class="container" id="yoast-alerts-dismissed">
 			<?php
 			foreach ( $alerts_data['errors']['dismissed'] as $notification ) {
-				printf( '<div class="yoast-alert-holder" id="%s" data-nonce="%s" data-json="%s">%s<div class="restore"><span class="dashicons dashicons-arrow-up"></span></div></div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification );
+				printf( '<div class="yoast-alert-holder" id="%s" data-nonce="%s" data-json="%s">%s<div class="restore"><span class="dashicons dashicons-hidden"></span></div></div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification );
 			}
 			?>
 		</div>
