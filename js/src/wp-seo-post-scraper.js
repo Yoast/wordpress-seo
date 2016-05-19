@@ -502,5 +502,24 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = args;
+
+		if ( ! YoastSEO.multiKeyword ) {
+			/*
+			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
+			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
+			 * onsubmit event that is copying the focus keyword, this should be solved.
+			 */
+			$( '#post' ).on( 'submit', function() {
+				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
+				var hiddenKeywordValue  = hiddenKeyword.val();
+				var visibleKeywordValue = $( '#yoast_wpseo_focuskw_text_input' ).val();
+
+				if ( hiddenKeywordValue !== visibleKeywordValue ) {
+					hiddenKeyword.val( visibleKeywordValue );
+				}
+			} );
+		}
+
+
 	} );
 }( jQuery ));
