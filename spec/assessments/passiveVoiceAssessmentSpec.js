@@ -38,5 +38,5 @@ describe( "An assessment for scoring passive voice.", function() {
 			"Try to use their active counterparts." );
 	} );
 
-	
+
 });

@@ -52,22 +52,21 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 };
 
 /**
- *
- * @param paper
- * @param researcher
- * @returns {*}
+ * Marks all sentences that have the passive voice.
+ * 
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @returns {object} All marked sentences.
  */
 var passiveVoiceMarker = function( paper, researcher ) {
 	var passiveVoice = researcher.getResearch( "passiveVoice" );
-	var mapped = map( passiveVoice.passives, function( sentence ) {
+	return map( passiveVoice.passives, function( sentence ) {
 		var marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
 			marked: marked
 		} );
 	} );
-console.log( mapped );
-	return mapped;
 };
 
 /**
