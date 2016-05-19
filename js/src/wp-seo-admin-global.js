@@ -102,7 +102,7 @@
 	window.wpseoDismissLink = wpseoDismissLink;
 }());
 
-(function($) {
+(function() {
 	'use strict';
 
 	var $ = jQuery;
@@ -190,7 +190,7 @@
 
 		$( '.yoast-alert-holder' ).off( 'click', '.restore' ).off( 'click', '.dismiss' );
 
-		if ( typeof response.html == 'undefined' ) {
+		if ( typeof response.html === 'undefined' ) {
 			return;
 		}
 
