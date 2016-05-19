@@ -1,4 +1,6 @@
 var wordCount = require( "./countWords.js" );
+var stripSpaces = require( "./stripSpaces.js" );
+
 var filter = require( "lodash/filter" );
 
 /**
@@ -9,6 +11,7 @@ var filter = require( "lodash/filter" );
 module.exports = function( sentences ) {
 	var sentencesWordCount = [];
 	sentences.map( function( sentence ) {
+		sentence = stripSpaces( sentence );
 		sentencesWordCount.push( wordCount( sentence ) );
 	} );
 

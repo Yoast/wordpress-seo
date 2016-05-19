@@ -1,5 +1,3 @@
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
 var filter = require( "lodash/filter" );
 var isEmpty = require( "lodash/isEmpty" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -30,7 +28,9 @@ var invalidateOnCapital = function( text, positions, i ) {
 
 	// The current index + 2 should be the first character of the new sentence. We use a range of 1, since we only need the first character.
 	var firstChar = text.substring( positions[ i ] + 2, positions[ i ] + 3 );
-	if( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) ) {
+
+	// If a sentence starts with a number or a whitespace, it shouldn't invalidate
+	if( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( /\s/ ) === null ) {
 		return true;
 	}
 };
@@ -72,15 +72,14 @@ var splitOnIndex = function( positions, text ) {
 };
 
 /**
- * Unifies terminators and strip spaces.
- *
- * @param {String} text The string to clean.
- * @returns {String} The cleaned text.
+ * Returns sentences in a string.
+ * @param {String} text The string to count sentences in.
+ * @returns {Array} Sentences found in the text.
  */
-var cleanText = function( text ) {
-	if( text === "" ) {
-		return text;
-	}
+module.exports = function( text ) {
+
+	// Store the original text before changing terminators, so we can return the unaltered sentences.
+	var originalText = text;
 
 	// Unify all terminators.
 	text = text.replace( /[.?!]/g, "." );
@@ -88,28 +87,14 @@ var cleanText = function( text ) {
 	// Add period in case it is missing.
 	text += ".";
 
-	// Remove double spaces
-	text = stripSpaces( text );
-
-	return text;
-};
-
-/**
- * Returns sentences in a string.
- * @param {String} text The string to count sentences in.
- * @returns {Array} Sentences found in the text.
- */
-module.exports = function( text ) {
-	text = cleanText( text );
-
 	var positions = [];
 	var periodIndex = text.indexOf( "." );
 	while( periodIndex > -1 ) {
 		positions.push( periodIndex );
 		periodIndex = text.indexOf( ".", periodIndex + 1 );
 	}
-	positions = filterPositions( text, positions );
-	var sentences = splitOnIndex( positions, text );
+	positions = filterPositions( originalText, positions );
+	var sentences = splitOnIndex( positions, originalText );
 
 	return filter( sentences, function( sentence ) {
 		return( !isEmpty( sentence ) );
