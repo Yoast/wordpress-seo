@@ -110,9 +110,15 @@ class Yoast_Form {
 			</form>';
 		}
 
-		if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
-			do_action( 'wpseo_admin_footer' );
-		}
+		/**
+		 * Apply general admin_footer hooks
+		 */
+		do_action( 'wpseo_admin_footer' );
+
+		/**
+		 * Run possibly set actions to add for example an i18n box
+		 */
+		do_action( 'wpseo_admin_promo-footer' );
 
 		echo '
 			</div><!-- end of div wpseo_content_top -->';

@@ -350,7 +350,7 @@ class WPSEO_Admin_Init {
 				'textdomain'     => 'wordpress-seo',
 				'project_slug'   => 'wordpress-seo',
 				'plugin_name'    => 'Yoast SEO',
-				'hook'           => 'wpseo_admin_footer',
+				'hook'           => 'wpseo_admin_promo-footer',
 				'glotpress_url'  => 'http://translate.yoast.com/gp/',
 				'glotpress_name' => 'Yoast Translate',
 				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
