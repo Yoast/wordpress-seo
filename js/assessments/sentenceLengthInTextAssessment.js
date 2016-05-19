@@ -95,13 +95,12 @@ var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
  */
 var sentenceLengthMarker = function( paper, researcher ) {
 	var sentenceCount = researcher.getResearch( "countSentencesFromText" );
-	var sentences = tooLongSentences( sentenceCount, recommendedValue );
+	var sentenceObjects = tooLongSentences( sentenceCount, recommendedValue );
 
-	return map( sentences, function( sentence ) {
-		var marked = marker( sentence );
+	return map( sentenceObjects, function( sentenceObject ) {
 		return new Mark( {
-			original: sentence,
-			marked: marked
+			original: sentenceObject.sentence,
+			marked: marker( sentenceObject.sentence )
 		} );
 	} );
 };
