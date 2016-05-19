@@ -225,7 +225,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
 		this.changeElementEventBinder( app );
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
 	/**
