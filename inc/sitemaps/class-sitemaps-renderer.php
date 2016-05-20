@@ -130,22 +130,19 @@ class WPSEO_Sitemaps_Renderer {
 
 		$debug = WP_DEBUG || ( defined( 'WPSEO_DEBUG' ) && true === WPSEO_DEBUG );
 
-		if ( WP_DEBUG_DISPLAY && $debug ) {
-
-			$memory_used = number_format( ( memory_get_peak_usage() / 1048576 ), 2 );
-			$queries_run = ( $transient ) ? 'Served from transient cache' : 'Queries executed ' . absint( $GLOBALS['wpdb']->num_queries );
-
-			$output .= "\n<!-- {$memory_used}MB | {$queries_run} -->";
-
-			if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-
-				$queries = print_r( $GLOBALS['wpdb']->queries, true );
-				$output .= "\n<!-- {$queries} -->";
-			}
+		if ( ! WP_DEBUG_DISPLAY || ! $debug ) {
+			return $output;
 		}
 
-		if ( $convert_charset ) {
-			$output = mb_convert_encoding( $output, 'UTF-8', $this->charset );
+		$memory_used = number_format( ( memory_get_peak_usage() / 1048576 ), 2 );
+		$queries_run = ( $transient ) ? 'Served from transient cache' : 'Queries executed ' . absint( $GLOBALS['wpdb']->num_queries );
+
+		$output .= "\n<!-- {$memory_used}MB | {$queries_run} -->";
+
+		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
+
+			$queries = print_r( $GLOBALS['wpdb']->queries, true );
+			$output .= "\n<!-- {$queries} -->";
 		}
 
 		return $output;
