@@ -224,6 +224,11 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
 
 		var newEditor = document.getElementById( 'wp-description-wrap' );
+
+		if ( null === newEditor ) {
+			return;
+		}
+
 		newEditor.style.display = 'none';
 		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
 		//empty the TD with the old description textarea
