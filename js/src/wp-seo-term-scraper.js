@@ -220,8 +220,10 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
 	var insertTinyMCE = function() {
-		//gets the textNode from the original textField.
-		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
+		// Get the table cell that contains the description textarea.
+		var descriptionTd = jQuery( '.term-description-wrap' ).find( 'td' );
+		// Get the textNode from the original textField.
+		var textNode = descriptionTd.find( 'textarea' ).val();
 
 		var newEditor = document.getElementById( 'wp-description-wrap' );
 
@@ -230,11 +232,11 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		}
 
 		newEditor.style.display = 'none';
-		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
-		//empty the TD with the old description textarea
-		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
-		//append the editor and the helptext
-		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
+		var text = descriptionTd.find( 'p' );
+		// Empty the TD with the old description textarea.
+		descriptionTd.html( '' );
+		// Append the editor and the helptext.
+		descriptionTd.append( newEditor ).append( text );
 		newEditor.style.display = 'block';
 		document.getElementById('description').value = textNode;
 	};
