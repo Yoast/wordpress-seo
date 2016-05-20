@@ -115,6 +115,15 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 */
 	public static function invalidate_storage( $type = null ) {
 
+		static $cleared_types = array();
+
+		// Clearing type more than once within load is redundant. R.
+		if ( in_array( $type, $cleared_types, true ) ) {
+			return;
+		}
+
+		$cleared_types[] = $type;
+
 		// Global validator gets cleared when no type is provided.
 		$old_validator = null;
 
