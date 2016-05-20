@@ -279,6 +279,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$front_id       = get_option( 'page_on_front' );
 		$page_for_posts = get_option( 'page_for_posts' );
 
+		$needs_archive = true;
+
 		if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 
 			$links[] = array(
@@ -286,6 +288,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'pri' => 1,
 				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->home_url ),
 			);
+
+			$needs_archive = false;
 		}
 		elseif ( $front_id && $post_type === 'post' && $page_for_posts ) {
 
@@ -296,7 +300,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'pri' => 1,
 				'chf' => WPSEO_Sitemaps::filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
 			);
-			unset( $page_for_posts_url );
+
+			$needs_archive = false;
+		}
+
+		if ( ! $needs_archive ) {
+			return $links;
 		}
 
 		$archive_url = get_post_type_archive_link( $post_type );
