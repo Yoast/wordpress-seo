@@ -140,6 +140,11 @@ class WPSEO_Taxonomy {
 	 * Output the WordPress editor.
 	 */
 	public function custom_category_description_editor() {
+
+		if ( ! $this->show_metabox() ) {
+			return;
+		}
+
 		wp_editor( '', 'description' );
 	}
 
