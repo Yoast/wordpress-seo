@@ -15,7 +15,10 @@ class WPSEO_Sitemaps_Renderer {
 	protected $charset = 'UTF-8';
 
 	/** @var string $output_charset Holds charset of output, might be converted. */
-	public $output_charset = 'UTF-8';
+	protected $output_charset = 'UTF-8';
+
+	/** @var bool $needs_conversion If data encoding needs to be converted for output. */
+	protected $needs_conversion = false;
 
 	/** @var WPSEO_Sitemap_Timezone $timezone */
 	protected $timezone;
@@ -30,6 +33,16 @@ class WPSEO_Sitemaps_Renderer {
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
 		$this->timezone       = new WPSEO_Sitemap_Timezone();
+
+		if (
+			'UTF-8' !== $this->charset
+			&& function_exists( 'mb_list_encodings' )
+			&& in_array( $this->charset, mb_list_encodings(), true )
+		) {
+			$this->output_charset = 'UTF-8';
+		}
+
+		$this->needs_conversion = $this->output_charset !== $this->charset;
 	}
 
 	/**
@@ -106,14 +119,6 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	public function get_output( $sitemap, $transient ) {
 
-		$convert_charset = 'UTF-8' !== $this->charset
-		                   && function_exists( 'mb_list_encodings' )
-		                   && in_array( $this->charset, mb_list_encodings(), true );
-
-		if ( $convert_charset ) {
-			$this->output_charset = 'UTF-8';
-		}
-
 		$output = '<?xml version="1.0" encoding="' . esc_attr( $this->output_charset ) . '"?>';
 
 		if ( $this->stylesheet ) {
@@ -146,6 +151,15 @@ class WPSEO_Sitemaps_Renderer {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Get charset for the output.
+	 *
+	 * @return string
+	 */
+	public function get_output_charset() {
+		return $this->output_charset;
 	}
 
 	/**
