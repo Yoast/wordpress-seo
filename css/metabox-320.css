@@ -432,6 +432,20 @@ li.score {
 	animation: animatedBackground 5s linear infinite;
 }
 
+/* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
+#edittag > #wp-description-wrap {
+	display: none;
+}
+
+#wp-description-wrap .wp-editor-area {
+	border: 0;
+}
+
+/* Give the original textarea enough height to mitigate content flash. */
+.term-description-wrap td > textarea#description {
+	min-height: 530px;
+}
+
 /**
  * Lines below came from metabox-tabs.css
  *
