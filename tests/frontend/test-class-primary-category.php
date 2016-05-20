@@ -38,13 +38,7 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 			'cat_ID' => 52,
 		);
 
-		$categories = null;
-
-		$post = (object) array(
-			'ID' => 10,
-		);
-
-		$this->assertEquals( $expect, $this->subject->post_link_category( $category, $categories, $post ) );
+		$this->assertEquals( $expect, $this->subject->post_link_category( $category ) );
 	}
 
 	/**
@@ -69,12 +63,6 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 			'cat_ID' => 1,
 		);
 
-		$categories = null;
-
-		$post = (object) array(
-			'ID' => 10,
-		);
-
-		$this->assertEquals( $category, $this->subject->post_link_category( $category, $categories, $post ) );
+		$this->assertEquals( $category, $this->subject->post_link_category( $category ) );
 	}
 }
