@@ -24,7 +24,8 @@ class WPSEO_Taxonomy {
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
-		add_action( "{$this->taxonomy}_edit_form", array( $this, 'custom_category_description_editor' ) );
+		// Needs a hook that runs before the description field.
+		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {

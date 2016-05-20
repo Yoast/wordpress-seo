@@ -25,3 +25,12 @@
 input[type="text"].snippet-editor__field--invalid {
 	color: #dc3232;
 }
+
+/* Hide the term description rich editor when it's first inserted in the form. */
+#edittag > #wp-description-wrap {
+	display: none;
+}
+
+#wp-description-wrap .wp-editor-area {
+	border: 0;
+}
