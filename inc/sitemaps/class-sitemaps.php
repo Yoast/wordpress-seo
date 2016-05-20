@@ -401,17 +401,14 @@ class WPSEO_Sitemaps {
 	 */
 	public function output() {
 
-		$output  = $this->renderer->get_output( $this->sitemap, $this->transient );
-		$charset = $this->renderer->output_charset; // After output since it might be converted. R.
-
 		if ( ! headers_sent() ) {
 			header( $this->http_protocol . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex, follow', true );
-			header( 'Content-Type: text/xml; charset=' . esc_attr( $charset ) );
+			header( 'Content-Type: text/xml; charset=' . esc_attr( $this->renderer->get_output_charset() ) );
 		}
 
-		echo $output;
+		echo $this->renderer->get_output( $this->sitemap, $this->transient );
 	}
 
 	/**
