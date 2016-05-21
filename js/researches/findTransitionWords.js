@@ -21,7 +21,6 @@ module.exports = function( paper ) {
 	var twoPartTransitionWordRegex = createRegexFromDoubleArray( twoPartTransitionWords() );
 	var transitionWordRegex = createRegexFromArray( transitionWords() );
 
-
 	forEach( sentences, function( sentence ) {
 		var twoPartMatches = sentence.match( twoPartTransitionWordRegex );
 
