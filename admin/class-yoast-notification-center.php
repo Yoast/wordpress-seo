@@ -60,6 +60,8 @@ class Yoast_Notification_Center {
 
 		$instance = self::get();
 
+		$instance->add_notification_condition( new Yoast_Default_Tagline_Condition() );
+
 		/**
 		 * Context dependent notifications:
 		 * - Yoast_Not_Indexable_Homepage_Condition - WPSEO_OnPage, needs option information.
@@ -91,10 +93,39 @@ class Yoast_Notification_Center {
 				$this->add_notification( $notification );
 			}
 			else {
+				// Make sure the notification is removed from cached storage.
+				$this->remove_notification( $notification );
+
 				// Remove dismissal so it will be shown next time the condition is met.
 				$this->clear_dismissal( $notification );
 			}
 		}
+	}
+
+	/**
+	 * Force clear a notification
+	 *
+	 * @param Yoast_Notification $notification Notification to remove.
+	 */
+	public function remove_notification( Yoast_Notification $notification ) {
+
+		if ( empty( $this->notifications ) ) {
+			return;
+		}
+
+		$notification_id = $notification->get_id();
+		if ( empty( $notification_id ) ) {
+			return;
+		}
+
+		foreach ( $this->notifications as $key => $my_notification ) {
+			if ( $notification_id === $my_notification->get_id() ) {
+				unset( $this->notifications[ $key ] );
+
+				return;
+			}
+		}
+
 	}
 
 	/**
@@ -476,7 +507,7 @@ class Yoast_Notification_Center {
 		}
 
 		if ( 'error' === $a_type ) {
-			return -1;
+			return - 1;
 		}
 
 		if ( 'error' === $b_type ) {
