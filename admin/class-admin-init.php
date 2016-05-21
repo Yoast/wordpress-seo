@@ -44,7 +44,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
-		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
@@ -200,24 +199,11 @@ class WPSEO_Admin_Init {
 	/**
 	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
 	 * on the google search console page.
+	 *
+	 * @deprecatd 3.2
 	 */
 	public function ga_compatibility_notice() {
-		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
-
-			$info_message = sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
-				__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
-				'Yoast SEO',
-				'5.4.3',
-				'Google Analytics by Yoast'
-			);
-
-			$notification_options = array(
-				'type' => 'error',
-			);
-
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
-		}
+		return;
 	}
 
 	/**
