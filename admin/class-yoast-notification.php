@@ -238,7 +238,8 @@ class Yoast_Notification {
 
 		// Maintain WordPress visualisation of alerts when they are not persistent.
 		if ( ! $this->is_persistent() ) {
-			$classes[] = 'alert';
+			$classes[] = 'notice';
+			$classes[] = $this->get_type();
 		}
 
 		if ( ! empty( $classes ) ) {

@@ -36,6 +36,7 @@ class Yoast_Notification_Center {
 		$this->get_notifications_from_storage();
 
 		add_action( 'admin_init', array( $this, 'register_notifications' ) );
+		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
 
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
 
@@ -238,9 +239,9 @@ class Yoast_Notification_Center {
 
 				return;
 			}
-		}
 
-		$this->new[] = $notification_id;
+			$this->new[] = $notification_id;
+		}
 
 		// Add to list.
 		$this->notifications[] = $notification;
