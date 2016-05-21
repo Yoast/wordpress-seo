@@ -6,8 +6,7 @@
 /**
  * @todo make dismissing of alerts ajax independent.
  * @todo add new unit tests.
- * @todo adjust colors of alerts.
- * @todo add a11y code
+ * @todo add a11y code.
  */
 
 /**

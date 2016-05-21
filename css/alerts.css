@@ -14,19 +14,19 @@
 }
 
 .yoast-container__alert .yoast-alert {
-	border-left-color: red;
+	border-left-color: #dc3232;
 }
 
 #yoast-alerts-dismissed .yoast-alert {
-	border-left-color: orange;
+	border-left-color: #d93f69;
 }
 
 .yoast-container__warning .yoast-alert {
-	border-left-color: mediumpurple;
+	border-left-color: #5d237a;
 }
 
 #yoast-warnings-dismissed .yoast-alert {
-	border-left-color: #00a0d2;
+	border-left-color: #0075b3;
 }
 
 .yoast-container {
@@ -55,7 +55,7 @@
 }
 
 h2 .dashicons-warning {
-	color: darkred;
+	color: #dc3232;
 }
 
 .yoast-container .container {
@@ -93,7 +93,7 @@ h2 .dashicons-warning {
 }
 
 .yoast-container__warning .dashicons-flag {
-	color: darkorange;
+	color: #5d237a;
 }
 
 .yoast-container-disabled {
