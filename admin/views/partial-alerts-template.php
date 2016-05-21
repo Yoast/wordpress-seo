@@ -3,9 +3,35 @@
  * @package WPSEO\Admin
  */
 
+if ( ! function_exists( '_yoast_display_alerts' ) ) {
+	/**
+	 * Create the alert HTML with restore/dismiss button
+	 *
+	 * @param array  $list   List of alerts.
+	 * @param string $status Status of the alerts (active/dismissed).
+	 */
+	function _yoast_display_alerts( $list, $status ) {
+		foreach ( $list as $notification ) {
+
+			// @todo make JS independent.
+			// @todo add a11y code.
+			switch ($status) {
+				case 'active':
+					$button = '<div class="dismiss"><span class="dashicons dashicons-no-alt"></span></div>';
+					break;
+
+				case 'dismissed':
+					$button = '<div class="restore"><span class="dashicons dashicons-hidden"></span></div>';
+					break;
+			}
+
+			printf( '<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification, $button );
+		}
+	}
+}
+
 ?>
-<h2><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title ?>
-	(<?php echo $active_total ?>)</h2>
+<h2><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title ?> (<?php echo $active_total ?>)</h2>
 
 <div id="yoast-<?php echo $type ?>">
 
@@ -14,11 +40,7 @@
 		<p><?php echo $i18n_issues; ?></p>
 
 		<div class="container" id="yoast-<?php echo $type ?>-active">
-			<?php
-			foreach ( $active as $notification ) {
-				printf( '<div class="yoast-alert-holder" id="%s" data-nonce="%s" data-json="%s">%s<div class="dismiss"><span class="dashicons dashicons-no-alt"></span></div></div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification );
-			}
-			?>
+			<?php _yoast_display_alerts( $active, 'active' ); ?>
 		</div>
 
 		<?php if ( $active && $dismissed ) : ?>
@@ -26,11 +48,7 @@
 		<?php endif; ?>
 
 		<div class="container" id="yoast-<?php echo $type ?>-dismissed">
-			<?php
-			foreach ( $dismissed as $notification ) {
-				printf( '<div class="yoast-alert-holder" id="%s" data-nonce="%s" data-json="%s">%s<div class="restore"><span class="dashicons dashicons-hidden"></span></div></div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification );
-			}
-			?>
+			<?php _yoast_display_alerts( $dismissed, 'dismissed' ); ?>
 		</div>
 
 		<div class="yoast-bottom-spacing"></div>
