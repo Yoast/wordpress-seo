@@ -4,7 +4,8 @@
 module.exports = {
 	build: {
 		files: {
-			'css/metabox-320.css': [ 'css/src/metabox.scss' ]
+			'css/metabox-320.css': [ 'css/src/metabox.scss' ],
+			'css/kb-search.css': [ 'css/src/kb-search.scss' ]
 		}
 	}
 };

@@ -1,191 +1,233 @@
 import React from 'react';
 import AlgoliaSearch from 'algoliasearch';
 import debounce from 'lodash/debounce';
-// import ReactDom from 'react-dom';
 
 class AlgoliaSearcher extends React.Component {
 
-    constructor(props){
-        super();
-        this.state = {
-            searchString: '',
-            results: [],
-            errorMessage: '',
-            showDetail: false
-        };
-        this.props = props;
-        this.usedQueries = [];
-        this.initAlgoliaClient();
+	constructor( props ) {
+		super();
+		this.state = {
+			searchString: '',
+			results: [],
+			errorMessage: '',
+			showDetail: false,
+			searching: false
+		};
+		this.props = props;
+		this.usedQueries = [];
+		this.initAlgoliaClient();
 
-        this.searchInputChanged = this.searchInputChanged.bind(this);
-        this.hideDetail = this.hideDetail.bind(this);
+		this.searchInputChanged = this.searchInputChanged.bind(this);
+		this.hideDetail = this.hideDetail.bind(this);
+		this.openExternal = this.openExternal.bind(this);
 
-        this.debouncedUpdateSearchResults = debounce(this.updateSearchResults.bind(this), this.props.debounceTime);
-    }
+		this.debouncedUpdateSearchResults = debounce(this.updateSearchResults.bind(this), this.props.debounceTime);
+	}
 
-    initAlgoliaClient(){
-        this.client = AlgoliaSearch(this.props.algoliaApplicationId, this.props.algoliaApiKey);
-        this.index = this.client.initIndex(this.props.algoliaIndexName);
-    }
+	initAlgoliaClient() {
+		this.client = AlgoliaSearch(this.props.algoliaApplicationId, this.props.algoliaApiKey);
+		this.index = this.client.initIndex(this.props.algoliaIndexName);
+	}
 
-    searchInputChanged(e){
-        this.searchString = e.target.value;
-        this.usedQueries.push(this.searchString);
-        this.debouncedUpdateSearchResults();
-    }
+	searchInputChanged( e ) {
+		let searchString = e.target.value;
+		this.usedQueries.push(searchString);
+		this.setState({
+						  searchString: searchString
+					  });
+		this.debouncedUpdateSearchResults();
+	}
 
-    updateSearchResults(){
-        let searchString = this.searchString;
-        this.getSearchResults(searchString).then(function(searchResults){
-            this.setState({
-                searchString: searchString,
-                results: searchResults,
-                errorMessage: ''
-            })
-        }.bind(this)).catch(function(error){
-            this.setState({
-                searchString: searchString,
-                errorMessage: error.message
-            })
-        }.bind(this));
-    }
+	updateSearchResults() {
+		this.setState({
+						  searching: true
+					  });
+		this.getSearchResults(this.state.searchString).then(function( searchResults ) {
+			this.setState({
+							  results: searchResults,
+							  errorMessage: '',
+							  searching: false
+						  });
+		}.bind(this)).catch(function( error ) {
+			this.setState({
+							  errorMessage: error.message,
+							  searching: false
+						  });
+		}.bind(this));
+	}
 
-    getSearchResults(searchString){
-        return new Promise(function(resolve, reject){
-            this.index.search(searchString, function(err, data){
-                if (err){
-                    reject(err);
-                    return;
-                }
-                resolve(data.hits);
-            });
-        }.bind(this));
-    }
+	getSearchResults( searchString ) {
+		return new Promise(function( resolve, reject ) {
+			this.index.search(searchString, function( err, data ) {
+				if ( err ) {
+					reject(err);
+					return;
+				}
+				resolve(data.hits);
+			});
+		}.bind(this));
+	}
 
-    showDetail(resultArrayIndex){
-        this.setState({showDetail: resultArrayIndex});
-    }
+	showDetail( resultArrayIndex ) {
+		this.setState({showDetail: resultArrayIndex});
+	}
 
-    hideDetail(){
-        this.setState({showDetail: false});
-    }
+	hideDetail() {
+		this.setState({showDetail: false});
+	}
 
-    renderSearchResults(){
-        var searchResultContent;
-        if (this.state.results.length > 0){
-            var results = this.state.results.map((result, arrayIndex) =>{
-                return <SearchResult key={result.objectID} post={result}
-                                     showDetail={this.showDetail.bind(this, arrayIndex)}/>
-            });
-            searchResultContent = <div className="kb-search-results">{results}</div>;
-        } else{
-            searchResultContent = <div className="kb-search-results no-results">{this.props.noResultsText}</div>;
-        }
-        return searchResultContent;
-    }
+	openExternal() {
+		let currentPost = this.state.results[ this.state.showDetail ];
+		window.open(currentPost.permalink, "_blank");
+	}
 
-    renderDetail(){
-        let detailIndex = this.state.showDetail;
-        let post = this.state.results[detailIndex];
-        return (
-            <div className="kb-search-detail">
-                <button onClick={this.hideDetail}>&lt;-</button>
-                <a href={post.permalink} target="_blank">Read this article in {post.source}.</a>
-                <ArticleContent post={post}/>
-            </div>
-        );
-    }
+	renderSearchResults() {
+		var searchResultContent;
+		if ( this.state.results.length > 0 ) {
+			var results = this.state.results.map(( result, arrayIndex ) => {
+				return <SearchResult key={result.objectID} post={result}
+									 showDetail={this.showDetail.bind(this, arrayIndex)}/>
+			});
+			searchResultContent = <div className="kb-search-results">{results}</div>;
+		}
+		else {
+			searchResultContent = <div className="kb-search-results no-results">{this.props.noResultsText}</div>;
+		}
+		return searchResultContent;
+	}
 
-    renderError(errorMessage){
-        return (
-            <div>
-                An error has occurred:<br/>
-                {errorMessage}
-            </div>
-        );
-    }
+	renderDetail() {
+		let detailIndex = this.state.showDetail;
+		let post = this.state.results[ detailIndex ];
+		return (
+			<div className="kb-search-detail">
+				<button type="button" className="kb-search-detail-btn button dashicons-before dashicons-arrow-left"
+						onClick={this.hideDetail}>
+					Back
+				</button>
+				<button type="button"
+						className="kb-search-detail-btn kb-external button dashicons-before dashicons-external"
+						onClick={this.openExternal}>
+					Open
+				</button>
+				<ArticleContent post={post}/>
+			</div>
+		);
+	}
 
-    render(){
-        var searchBar = <SearchBar headingText={this.props.headingText} searchInputChanged={this.searchInputChanged}/>;
-        if (this.state.errorMessage){
-            return (
-                <div>
-                    {searchBar}
-                    {this.renderError(this.state.errorMessage)}
-                </div>
-            );
-        }
-        if (this.state.showDetail === false){ // if showDetail is not false, render the search results
-            return (
-                <div>
-                    {searchBar}
-                    {this.renderSearchResults()}
-                </div>
-            );
-        }
-        //else show the article content/detail view
-        return this.renderDetail();
-    }
+	renderError( errorMessage ) {
+		return (
+			<div>
+				An error has occurred:<br/>
+				{errorMessage}
+			</div>
+		);
+	}
+
+	render() {
+		var content = '';
+		var searchBar = <SearchBar headingText={this.props.headingText} searchInputChanged={this.searchInputChanged}
+								   searchString={this.state.searchString}/>;
+		if ( this.state.errorMessage ) { // Show an error message.
+			content = (
+				<div>
+					{searchBar}
+					{this.renderError(this.state.errorMessage)}
+				</div>
+			);
+		}
+		else if ( this.state.searching ) { // Show a loading indicator.
+			content = (
+				<div>
+					{searchBar}
+					{Spinner}
+					{this.renderSearchResults()}
+				</div>
+			);
+		}
+		else if ( this.state.showDetail === false ) { // Show the list of search results if the postId for the detail view isn't set.
+			content = (
+				<div>
+					{searchBar}
+					{Spinner}
+					{this.renderSearchResults()}
+				</div>
+			);
+		}
+		else { // Else show the article content/detail view
+			content = this.renderDetail();
+		}
+		return <div className="wpseo-kb-search-container">{Spinner}{content}</div>
+	}
 }
 
 AlgoliaSearcher.propTypes = {
-    debounceTime: React.PropTypes.number.isRequired,
-    noResultsText: React.PropTypes.string,
-    headingText: React.PropTypes.string,
-    algoliaApplicationId: React.PropTypes.string.isRequired,
-    algoliaApiKey: React.PropTypes.string.isRequired,
-    algoliaIndexName: React.PropTypes.string.isRequired
+	debounceTime: React.PropTypes.number.isRequired,
+	noResultsText: React.PropTypes.string,
+	headingText: React.PropTypes.string,
+	algoliaApplicationId: React.PropTypes.string.isRequired,
+	algoliaApiKey: React.PropTypes.string.isRequired,
+	algoliaIndexName: React.PropTypes.string.isRequired
 };
 
 AlgoliaSearcher.defaultProps = {
-    debounceTime: 300,
-    noResultsText: 'No results found.',
-    headingText: 'Search the Yoast knowledge base',
-    algoliaApplicationId: 'RC8G2UCWJK',
-    algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-    algoliaIndexName: 'acceptance_all'
+	debounceTime: 300,
+	noResultsText: 'No results found.',
+	headingText: 'Search the Yoast knowledge base',
+	algoliaApplicationId: 'RC8G2UCWJK',
+	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
+	algoliaIndexName: 'acceptance_all'
 };
 
 
-const SearchBar = (props) =>{
-    return (
-        <div>
-            <h2>{props.headingText}</h2>
-            <input type="text" onChange={props.searchInputChanged}/>
-            <hr/>
-        </div>
-    )
+const SearchBar = ( props ) => {
+	return (
+		<div>
+			<h2>{props.headingText}</h2>
+			<input type="text" onkeypress="preventDefault()" onChange={props.searchInputChanged}
+				   value={props.searchString}/>
+			<hr/>
+		</div>
+	)
 };
 
-const SearchResult = (props) =>{
-    let post = props.post;
-    let description = post.excerpt || post.metadesc;
-    return (
-        <div className="wpseo-kb-search-result">
-            <a onClick={props.showDetail}>
-                <div>
-                    <h3 className="wpseo-kb-search-result-title">{post.post_title}</h3>
-                    <span className="wpseo-kb-search-result-link">
-                        {post.permalink}
-                        </span>
-                    <p>{description}</p>
-                </div>
-            </a>
-        </div>
-    );
+const SearchResult = ( props ) => {
+	let post = props.post;
+	let description = post.excerpt || post.metadesc;
+	return (
+		<div >
+			<a onClick={props.showDetail} className="wpseo-kb-search-result-link">
+				<div className="wpseo-kb-search-result">
+					<h3 className="wpseo-kb-search-result-title">{post.post_title}</h3>
+					<p>{description}</p>
+				</div>
+			</a>
+		</div>
+	);
 };
 
-const ArticleContent = (props) =>{
-    let post = props.post;
-    return (
-        <div>
-            <h3>{post.post_title}</h3>
-            <article>
-                <div dangerouslySetInnerHTML={{__html: post.post_content}}></div>
-            </article>
-        </div>
-    )
+const ArticleContent = ( props ) => {
+	let post = props.post;
+	return (
+		<div>
+			<h3>{post.post_title}</h3>
+			<article>
+				<div dangerouslySetInnerHTML={{__html: post.post_content}}></div>
+			</article>
+		</div>
+	);
 };
 
-export default AlgoliaSearcher
+const Spinner = () => {
+	return (
+		<div>
+			<div class="spinner">
+				<div class="bounce1"></div>
+				<div class="bounce2"></div>
+				<div class="bounce3"></div>
+			</div>
+		</div>
+	);
+};
+export default AlgoliaSearcher;
 

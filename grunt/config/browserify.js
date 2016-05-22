@@ -24,7 +24,7 @@ module.exports = {
             ]
         },
         files: {
-            'js/dist/wp-seo-admin-320.js': ['js/src/wp-seo-admin.js'],
+            'js/dist/wp-seo-admin-320.js': ['js/src/wp-seo-admin.js']
         }
     }
 };

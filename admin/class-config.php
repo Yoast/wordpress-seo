@@ -59,6 +59,8 @@ class WPSEO_Admin_Pages {
 
 		$this->asset_manager->enqueue_style( 'admin-css' );
 
+		$this->asset_manager->enqueue_style( 'kb-search' );
+
 		if ( is_rtl() ) {
 			$this->asset_manager->enqueue_style( 'rtl' );
 		}

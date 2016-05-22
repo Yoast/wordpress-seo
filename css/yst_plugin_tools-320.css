@@ -592,3 +592,9 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	clear: both;
 	margin-right: 1em;
 }
+
+.contextual-help-tabs-wrap {
+	width: 100%;
+	margin: 0 -10px 0 0;
+	padding: 0 0 0 20px;
+}

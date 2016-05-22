@@ -213,11 +213,11 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
-			/* Inject kb-search in divs with the id 'wpseo-kb-search'. */
-			var mountingPoint = document.getElementById('wpseo-kb-search');
-			if (mountingPoint){
-				ReactDom.render(<AlgoliaSearcher/>, mountingPoint);
-			}
+			/* Inject kb-search in divs with the classname of 'wpseo-kb-search'. */
+			var mountingPoints = jQuery( '.wpseo-kb-search' );
+			jQuery.each( mountingPoints, function( _, mountingPoint ) {
+				ReactDom.render( <AlgoliaSearcher/>, mountingPoint );
+			});
 
 			/* Fix banner images overlapping help texts */
 			jQuery( '.screen-meta-toggle a' ).click( function() {

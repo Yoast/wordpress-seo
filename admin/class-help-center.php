@@ -34,7 +34,7 @@ class WPSEO_Help_Center {
 
 		$kb_help_center_item = new WPSEO_Help_Center_Item(
 			'knowledge-base', 'Knowledge base', array(
-				'content'        => '<div id="wpseo-kb-search"></div>',
+				'content'        => '<div class="wpseo-kb-search"></div>',
 				'view_arguments' => array( 'identifier' => $tab->get_name() ),
 			)
 		);
