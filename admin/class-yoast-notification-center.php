@@ -4,11 +4,6 @@
  */
 
 /**
- * @todo Add to upgrade routine:
- * delete_option( 'yoast_notifications' );
- */
-
-/**
  * Handles notifications storage and display.
  */
 class Yoast_Notification_Center {
