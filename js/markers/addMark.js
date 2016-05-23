@@ -5,5 +5,5 @@
  * @returns {string} The marked text.
  */
 module.exports = function( text ) {
-	return "<mark>" + text + "</mark>";
+	return "<yoastmark class='yoast-text-mark'>" + text + "</yoastmark>";
 };
