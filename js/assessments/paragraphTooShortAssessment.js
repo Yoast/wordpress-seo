@@ -30,7 +30,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 40 steps, each step is 0.15
 	// Up to 13 is for scoring a 3, higher numbers give higher scores.
-	// floatingPointFix because of js rounding errors
+	// FloatingPointFix because of js rounding errors.
 	var score = 3 + Math.max( Math.min( ( 0.15 ) * ( paragraphsLength[ 0 ].wordCount - 13 ), 6 ), 0 );
 	score = fixFloatingPoint( score );
 	if ( score >= 7 ) {
@@ -42,7 +42,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 	return {
 		score: score,
 
-		// translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
+		// Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value.
 		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains less than the recommended minimum " +
 				"of %2$d words. Try to expand this paragraph, or connect it to the previous or next paragraph.",
 				"%1$d of the paragraphs contain less than the recommended minimum of %2$d words.  Try to expand these paragraphs, " +
