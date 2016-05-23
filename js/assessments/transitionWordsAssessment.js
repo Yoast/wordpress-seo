@@ -70,7 +70,6 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} The Assessment result.
  */
-
 var transitionWordsAssessment = function( paper, researcher, i18n ) {
 	var transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 	var transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
@@ -82,6 +81,12 @@ var transitionWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Marks text for the transition words assessment.
+ * @param {Paper} paper The paper to use for the marking.
+ * @param {Researcher} researcher The researcher containing the necessary research.
+ * @returns {Array<Mark>} A list of marks that should be applied.
+ */
 var transitionWordsMarker = function( paper, researcher ) {
 	var transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 
