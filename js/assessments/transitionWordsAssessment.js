@@ -1,5 +1,9 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
+var map = require( "lodash/map" );
+
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../markers/addMark.js" );
 
 /**
  * Calculates transition word result
@@ -66,7 +70,6 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} The Assessment result.
  */
-
 var transitionWordsAssessment = function( paper, researcher, i18n ) {
 	var transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 	var transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
@@ -78,10 +81,30 @@ var transitionWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Marks text for the transition words assessment.
+ * @param {Paper} paper The paper to use for the marking.
+ * @param {Researcher} researcher The researcher containing the necessary research.
+ * @returns {Array<Mark>} A list of marks that should be applied.
+ */
+var transitionWordsMarker = function( paper, researcher ) {
+	var transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+
+	return map( transitionWordSentences.sentenceResults, function( sentenceResult ) {
+		var sentence = sentenceResult.sentence;
+
+		return new Mark( {
+			original: sentence,
+			marked: marker( sentence )
+		} );
+	} );
+};
+
 module.exports = {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: transitionWordsMarker
 };
