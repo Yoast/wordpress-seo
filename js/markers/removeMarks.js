@@ -5,5 +5,7 @@
  * @returns {string} The unmarked text.
  */
 module.exports = function( text ) {
-	return text.replace( "<mark>", "" ).replace( "</mark>", "" );
+	return text
+		.replace( new RegExp( "<yoastmark class='yoast-text-mark'>", "g" ), "" )
+		.replace( new RegExp( "</yoastmark>", "g" ), "" );
 };

@@ -7,5 +7,10 @@ module.exports = {
 		files: {
 			"dist/yoast-seo.min.css": "css/analyzer.scss"
 		}
+	},
+	example: {
+		files: {
+			"examples/browserified/style.css": "examples/browserified/style.scss"
+		}
 	}
 };
