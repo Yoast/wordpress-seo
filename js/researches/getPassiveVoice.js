@@ -267,10 +267,10 @@ module.exports = function( paper ) {
 	forEach( sentences, function( sentence ) {
 		var subSentences = getSubsentences( sentence );
 		var passive = false;
-		subSentences.map( function( subSentence ) {
+		forEach( subSentences, function( subSentence ) {
 			passive = determinePassives( subSentence );
 		} );
-		if ( passive ) {
+		if ( passive === true ) {
 			passiveSentences.push( sentence );
 			passive = false;
 		}
