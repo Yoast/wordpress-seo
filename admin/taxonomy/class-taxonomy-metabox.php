@@ -72,8 +72,8 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_content_sections() {
 		$content_sections = array(
 			$this->get_content_meta_section(),
-			$this->get_settings_meta_section(),
 			$this->get_social_meta_section(),
+			$this->get_settings_meta_section(),
 		);
 
 		return $content_sections;
