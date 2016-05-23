@@ -361,7 +361,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notifications = $notification_center->get_notifications();
 
 		$this->assertInternalType( 'array', $notifications );
-		$this->assertContainsOnlyInstancesOf( 'Yoast_Notification', $notifications );
 		$this->assertNotEquals( $notifications[0]->get_nonce(), $old_nonce );
 	}
 
