@@ -28,6 +28,9 @@ class Yoast_Notification_Center {
 	/** @var array Notifications that were added this execution */
 	private $touched = array();
 
+	/** @var bool Remove untouched notification if we have never reached admin_init */
+	private $remove_untouched = false;
+
 	/**
 	 * Construct
 	 */
@@ -35,7 +38,7 @@ class Yoast_Notification_Center {
 
 		$this->retrieve_notifications_from_storage();
 
-		add_action( 'admin_init', array( $this, 'register_notifications' ) );
+		add_action( 'admin_init', array( $this, 'enable_remove_untouched' ) );
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
 
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
@@ -60,6 +63,19 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * After admin_init all notification that are not added again should be removed
+	 *
+	 * We have pages that redirect after adding a notification
+	 * which means that we can't have all notifications added to the stack
+	 * so they aren't "touched".
+	 *
+	 * If we remove untouched these will be seen as new, which isn't true.
+	 */
+	public function enable_remove_untouched() {
+		$this->remove_untouched = false;
+	}
+
+	/**
 	 * Dismiss a notification
 	 */
 	public static function ajax_dismiss_notification() {
@@ -79,12 +95,6 @@ class Yoast_Notification_Center {
 				'id'            => $notification_id,
 				'dismissal_key' => $notification_id,
 			) );
-
-			/*
-			 * Activate when all legacy notifications have been replaced.
-			 *
-			 * die();
-			 */
 		}
 
 		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
@@ -272,8 +282,25 @@ class Yoast_Notification_Center {
 		foreach ( $sorted_notifications as $notification ) {
 			if ( ! $notification->is_persistent() ) {
 				echo $notification;
+				$this->remove_notification( $notification );
 			}
 		}
+	}
+
+	/**
+	 * Remove notification after it has been displayed
+	 *
+	 * @param Yoast_Notification $notification
+	 */
+	private function remove_notification( Yoast_Notification $notification ) {
+
+		$index = array_search( $notification, $this->notifications, true );
+		if ( false === $index ) {
+			return;
+		}
+
+		unset( $this->notifications[ $index ] );
+		$this->notifications = array_values( $this->notifications );
 	}
 
 	/**
@@ -357,7 +384,6 @@ class Yoast_Notification_Center {
 	public function update_storage() {
 
 		$notifications = $this->get_notifications();
-		$notifications = array_filter( $notifications, array( $this, 'filter_persistent_notifications' ) );
 
 		// No notifications to store, clear storage.
 		if ( empty( $notifications ) ) {
@@ -381,7 +407,7 @@ class Yoast_Notification_Center {
 
 		$notifications = $this->notifications;
 
-		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
+		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) && $this->remove_untouched ) {
 			$notifications = array_filter( $notifications, array( $this, 'filter_untouched_notifications' ) );
 		}
 
@@ -470,7 +496,7 @@ class Yoast_Notification_Center {
 		}
 
 		if ( 'error' === $a_type ) {
-			return - 1;
+			return -1;
 		}
 
 		if ( 'error' === $b_type ) {
