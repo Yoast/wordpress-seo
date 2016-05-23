@@ -597,19 +597,17 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_valid_datetime( $datetime ) {
-		if ( substr( $datetime, 0, 1 ) != '-' ) {
-			try {
-				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime.
-				if ( new DateTime( $datetime ) !== false ) {
-					return true;
-				}
-			}
-			catch ( Exception $exc ) {
-				return false;
-			}
+
+		if ( substr( $datetime, 0, 1 ) === '-' ) {
+			return false;
 		}
 
-		return false;
+		try {
+			return new DateTime( $datetime ) !== false;
+		}
+		catch ( Exception $exc ) {
+			return false;
+		}
 	}
 
 	/**
@@ -712,6 +710,28 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Check if the current opened page belongs to Yoast SEO Free.
+	 *
+	 * @param string $current_page the current page the user is on.
+	 *
+	 * @return bool
+	 */
+	public static function is_yoast_seo_free_page( $current_page ) {
+		$yoast_seo_free_pages = array(
+			'wpseo_dashboard',
+			'wpseo_titles',
+			'wpseo_social',
+			'wpseo_xml',
+			'wpseo_advanced',
+			'wpseo_tools',
+			'wpseo_search_console',
+			'wpseo_licenses',
+		);
+
+		return in_array( $current_page, $yoast_seo_free_pages );
+	}
+
+	/**
 	 * Determine if Yoast SEO is in development mode?
 	 *
 	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
@@ -737,6 +757,39 @@ class WPSEO_Utils {
 		 */
 
 		return apply_filters( 'yoast_seo_development_mode', $development_mode );
+	}
+
+	/**
+	 * Retrieve home URL with proper trailing slash.
+	 *
+	 * @param string      $path   Path relative to home URL.
+	 * @param string|null $scheme Scheme to apply.
+	 *
+	 * @return string Home URL with optional path, appropriately slashed if not.
+	 */
+	public static function home_url( $path = '', $scheme = null ) {
+
+		$home_url = home_url( $path, $scheme );
+
+		if ( ! empty( $path ) ) {
+			return $home_url;
+		}
+
+		$home_path = parse_url( $home_url, PHP_URL_PATH );
+
+		if ( '/' === $home_path ) { // Home at site root, already slashed.
+			return $home_url;
+		}
+
+		if ( is_null( $home_path ) ) { // Home at site root, always slash.
+			return trailingslashit( $home_url );
+		}
+
+		if ( is_string( $home_path ) ) { // Home in subdirectory, slash if permalink structure has slash.
+			return user_trailingslashit( $home_url );
+		}
+
+		return $home_url;
 	}
 
 	/**

@@ -3,6 +3,9 @@
  * @package WPSEO\Unittests
  */
 
+require_once 'class-recalculate-posts-double.php';
+
+
 class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -14,6 +17,11 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	 * @var WPSEO_Recalculate_Posts
 	 */
 	private $instance;
+
+	/**
+	 * @var string
+	 */
+	private $mock_image = "<img src='' />";
 
 	/**
 	 * Setup the class instance and create some posts
@@ -116,6 +124,61 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		remove_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content_with_shortcode' ) );
 
 		$this->assertEquals( $expected, $response['items'][0]['text'] );
+	}
+
+	/**
+	 * Test whether thumbnail images are properly added to the content, if one exists.
+	 */
+	public function test_add_featured_image_to_content() {
+		$test_double = new WPSEO_Recalculate_Posts_Test_Double();
+
+		add_filter( "get_post_metadata", array( $this, 'mock_post_metadata' ), 10, 3);
+		add_filter( "post_thumbnail_html", array( $this, 'mock_thumbnail' ), 10, 3);
+
+		$post = get_post($this->posts[1]);
+		$expected = $post->post_content . " <img src='' />";
+		$response = $test_double->call_item_to_response( $post );
+
+		$this->assertEquals( $expected, $response['text'] );
+
+		remove_filter( "get_post_metadata", array( $this, 'mock_post_metadata' ), 10, 3);
+		remove_filter( "post_thumbnail_html", array( $this, 'mock_thumbnail' ), 10, 3);
+
+		$post = get_post($this->posts[2]);
+		$expected = $post->post_content;
+		$response = $test_double->call_item_to_response( $post );
+
+		$this->assertEquals( $expected, $response['text'] );
+	}
+
+	/**
+	 * Mock the post metadata to include a thumbnail
+	 *
+	 * @param string|null $value
+	 * @param integer $object_id
+	 * @param string $meta_key
+	 *
+	 * @return int
+	 */
+	public function mock_post_metadata( $value, $object_id, $meta_key ) {
+		if ( $meta_key === '_thumbnail_id' ) {
+			return 1;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Returns the mock thumbnail
+	 *
+	 * @param string $html
+	 * @param integer $post_id
+	 * @param integer $post_thumbnail_id
+	 *
+	 * @return string
+	 */
+	public function mock_thumbnail( $html, $post_id, $post_thumbnail_id ) {
+		return $this->mock_image;
 	}
 
 	/**

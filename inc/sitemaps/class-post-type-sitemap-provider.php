@@ -22,9 +22,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function __construct() {
 
-		$this->home_url     = home_url();
+		$this->home_url     = WPSEO_Utils::home_url();
 		$this->options      = WPSEO_Options::get_all();
 		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
+
+		add_filter( 'save_post', array( $this, 'save_post' ) );
 	}
 
 	/**
@@ -143,9 +145,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$post_ids = wp_list_pluck( $posts, 'ID' );
-			$this->image_parser->cache_attachments( $post_ids );
-
 			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
 
 			foreach ( $posts as $post ) {
@@ -182,6 +181,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Check for relevant post type before invalidation.
+	 *
+	 * @param int $post_id Post ID to possibly invalidate for.
+	 */
+	public function save_post( $post_id ) {
+
+		if ( $this->is_valid_post_type( get_post_type( $post_id ) ) ) {
+			WPSEO_Sitemaps_Cache::invalidate_post( $post_id );
+		}
 	}
 
 	/**
@@ -241,18 +252,17 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
+		$where = $this->get_sql_where_clause( $post_type );
+
 		$sql   = "
-			SELECT COUNT(ID)
+			SELECT COUNT({$wpdb->posts}.ID)
 			FROM {$wpdb->posts}
 			{$join_filter}
-			WHERE {$wpdb->posts}.post_status IN ('publish','inherit')
-				AND {$wpdb->posts}.post_password = ''
-				AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
-				AND {$wpdb->posts}.post_type = %s
+			{$where}
 				{$where_filter}
 		";
 
-		return (int) $wpdb->get_var( $wpdb->prepare( $sql, $post_type ) );
+		return (int) $wpdb->get_var( $sql );
 	}
 
 	/**
@@ -355,27 +365,24 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$join_filter  = $filters[ $post_type ]['join'];
 		$where_filter = $filters[ $post_type ]['where'];
-		$status       = ( $post_type === 'attachment' ) ? 'inherit' : 'publish';
+		$where        = $this->get_sql_where_clause( $post_type );
 
 		// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion.
 		// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/.
 		$sql = "
 			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_modified_gmt, post_date, post_date_gmt
 			FROM (
-				SELECT ID
+				SELECT {$wpdb->posts}.ID
 				FROM {$wpdb->posts}
 				{$join_filter}
-				WHERE {$wpdb->posts}.post_status = '%s'
-					AND {$wpdb->posts}.post_password = ''
-					AND {$wpdb->posts}.post_type = '%s'
-					AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
+				{$where}
 					{$where_filter}
 				ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
 			)
-			o JOIN {$wpdb->posts} l ON l.ID = o.ID ORDER BY l.ID
+			o JOIN {$wpdb->posts} l ON l.ID = o.ID
 		";
 
-		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $status, $post_type, $count, $offset ) );
+		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
 
 		foreach ( $posts as $post ) {
 			$post->post_type   = $post_type;
@@ -387,6 +394,35 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		update_meta_cache( 'post', $post_ids );
 
 		return $posts;
+	}
+
+	/**
+	 * @param string $post_type Post type slug.
+	 *
+	 * @return string
+	 */
+	protected function get_sql_where_clause( $post_type ) {
+
+		global $wpdb;
+
+		$join   = '';
+		$status = "{$wpdb->posts}.post_status = 'publish'";
+
+		// Based on WP_Query->get_posts(). R.
+		if ( 'attachment' === $post_type ) {
+			$join   = " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
+			$status = "p2.post_status = 'publish'";
+		}
+
+		$where_clause = "
+		{$join}
+		WHERE {$status}
+			AND {$wpdb->posts}.post_type = '%s'
+			AND {$wpdb->posts}.post_password = ''
+			AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
+		";
+
+		return $wpdb->prepare( $where_clause, $post_type );
 	}
 
 	/**

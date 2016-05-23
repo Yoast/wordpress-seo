@@ -225,7 +225,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
 		this.changeElementEventBinder( app );
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
 	/**
@@ -287,16 +286,21 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 			if ( '' === currentKeyword ) {
 				indicator.className = 'na';
+				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
 			$( '.yst-traffic-light' )
 				.attr( 'class', 'yst-traffic-light ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
+
+			$( '.adminbar-seo-score' )
+				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
+				.attr( 'alt', indicator.screenReaderText );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( indicator.className, currentKeyword );
+			mainKeywordTab.update( indicator.className, indicator.screenReaderText, currentKeyword );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -328,7 +332,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	 * Initializes keyword tab with the correct template if multi keyword isn't available
 	 */
 	PostScraper.prototype.initKeywordTabTemplate = function() {
-		var keyword, score;
+		var keyword, score, scoreText;
 
 		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 		if ( YoastSEO.multiKeyword ) {
@@ -340,13 +344,14 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 			ev.preventDefault();
 		});
 
-		keyword = $( '#yoast_wpseo_focuskw' ).val();
-		score   = $( '#yoast_wpseo_linkdex' ).val();
+		keyword   = $( '#yoast_wpseo_focuskw' ).val();
+		score     = $( '#yoast_wpseo_linkdex' ).val();
+		scoreText = '';
 
 		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
 
 		// Updates
-		mainKeywordTab.update( score, keyword );
+		mainKeywordTab.update( score, scoreText, keyword );
 	};
 
 	/**
@@ -437,19 +442,21 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	}
 
 	jQuery( document ).ready(function() {
-		var translations;
+		var args, postScraper, translations;
 
 		// Initialize an instance of the keywordword tab.
 		mainKeywordTab = new KeywordTab(
 			{
-				prefix: wpseoPostScraperL10n.contentTab
+				prefix: wpseoPostScraperL10n.contentTab,
+				basedOn: wpseoPostScraperL10n.basedOn
 			}
 		);
+
 		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
-		var postScraper = new PostScraper();
+		postScraper = new PostScraper();
 
-		var args = {
+		args = {
 
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
@@ -499,5 +506,22 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = args;
+
+		if ( ! YoastSEO.multiKeyword ) {
+			/*
+			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
+			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
+			 * onsubmit event that is copying the focus keyword, this should be solved.
+			 */
+			$( '#post' ).on( 'submit', function() {
+				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
+				var hiddenKeywordValue  = hiddenKeyword.val();
+				var visibleKeywordValue = $( '#yoast_wpseo_focuskw_text_input' ).val();
+
+				if ( hiddenKeywordValue !== visibleKeywordValue ) {
+					hiddenKeyword.val( visibleKeywordValue );
+				}
+			} );
+		}
 	} );
 }( jQuery ));

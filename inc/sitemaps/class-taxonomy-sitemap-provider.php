@@ -11,12 +11,16 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/** @var array $options All of plugin options. */
 	protected $options;
 
+	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
+	protected $image_parser;
+
 	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
 
-		$this->options = WPSEO_Options::get_all();
+		$this->options      = WPSEO_Options::get_all();
+		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
 	}
 
 	/**
@@ -217,8 +221,9 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$url['pri'] = 0.2;
 			}
 
-			$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
-			$url['chf'] = WPSEO_Sitemaps::filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
+			$url['mod']    = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
+			$url['chf']    = WPSEO_Sitemaps::filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
+			$url['images'] = $this->image_parser->get_term_images( $term );
 
 			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
 			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
