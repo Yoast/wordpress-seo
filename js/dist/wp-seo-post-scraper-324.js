@@ -19919,7 +19919,6 @@ function isTinyMCEAvailable( editorID ) {
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
-
 	};
 
 	/**
