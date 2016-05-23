@@ -4,7 +4,7 @@ var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthP
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 
 var Mark = require( "../values/Mark.js" );
-var marker = require( "../markers/addMark.js" );
+var addMark = require( "../markers/addMark.js" );
 
 var map = require( "lodash/map" );
 
@@ -100,7 +100,7 @@ var sentenceLengthMarker = function( paper, researcher ) {
 	return map( sentenceObjects, function( sentenceObject ) {
 		return new Mark( {
 			original: sentenceObject.sentence,
-			marked: marker( sentenceObject.sentence )
+			marked: addMark( sentenceObject.sentence )
 		} );
 	} );
 };

@@ -1140,7 +1140,7 @@ SnippetPreview.prototype.setUrlPath = function( urlPath ) {
  * @param {string} metaDesc the meta description to use in the input field.
  * @returns {void}
  */
-SnippetPreview.prototype.setTitle = function( metaDesc ) {
+SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 	this.element.input.metaDesc.value = metaDesc;
 
 	this.changedInput();
