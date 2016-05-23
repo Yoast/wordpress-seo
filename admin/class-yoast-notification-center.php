@@ -33,7 +33,7 @@ class Yoast_Notification_Center {
 	 */
 	private function __construct() {
 
-		$this->get_notifications_from_storage();
+		$this->retrieve_notifications_from_storage();
 
 		add_action( 'admin_init', array( $this, 'register_notifications' ) );
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
@@ -129,6 +129,7 @@ class Yoast_Notification_Center {
 	 */
 	public static function maybe_dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
 
+		// Only persistent notifications are dismissible.
 		if ( ! $notification->is_persistent() ) {
 			return false;
 		}
@@ -141,16 +142,8 @@ class Yoast_Notification_Center {
 		$dismissal_key   = $notification->get_dismissal_key();
 		$notification_id = $notification->get_id();
 
-		$is_dismissing = ( $dismissal_key === self::get_user_input( 'notification' ) );
-		if ( ! $is_dismissing ) {
-			$is_dismissing = ( $notification_id === self::get_user_input( 'notification' ) );
-		}
-
 		// Fallback to ?dismissal_key=1&nonce=bla when JavaScript fails.
-		if ( ! $is_dismissing ) {
-			$is_dismissing = ( '1' === self::get_user_input( $dismissal_key ) );
-		}
-
+		$is_dismissing = ( $dismissal_key === self::get_user_input( 'notification' ) ) || ( $notification_id === self::get_user_input( 'notification' ) ) || ( '1' === self::get_user_input( $dismissal_key ) );
 		if ( ! $is_dismissing ) {
 			return false;
 		}
@@ -441,11 +434,11 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Get the notifications from storage
+	 * Retrieve the notifications from storage
 	 *
-	 * @return array Yoast_Notification[] Notifcations
+	 * @return array Yoast_Notification[] Notifications
 	 */
-	private function get_notifications_from_storage() {
+	private function retrieve_notifications_from_storage() {
 
 		$stored_notifications = get_user_option( self::STORAGE_KEY, get_current_user_id() );
 

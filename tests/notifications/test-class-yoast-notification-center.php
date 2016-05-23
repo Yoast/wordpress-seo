@@ -162,7 +162,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Not saving non-persistant notifications to storage
+	 * Not saving non-persistent notifications to storage
 	 */
 	public function test_update_storage_non_persistent() {
 		$notification = new Yoast_Notification( 'b' );
@@ -250,6 +250,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Display notification
+	 *
+	 * @covers Yoast_Notification_Center::display_notifications
 	 */
 	public function test_display_notifications() {
 		$message = 'c';
@@ -280,6 +282,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Display notification not for current user
+	 *
+	 * @covers Yoast_Notification_Center::add_notification
+	 * @covers Yoast_Notification_Center::display_notifications
 	 */
 	public function test_display_notifications_not_for_current_user() {
 		$message = 'c';
@@ -310,6 +315,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test dismissed notification displaying
+	 *
+	 * @covers Yoast_Notification_Center::add_notification
+	 * @covers Yoast_Notification_Center::display_notifications
 	 */
 	public function test_display_dismissed_notification() {
 		$notification_dismissal_key = 'dismissed';
@@ -331,5 +339,46 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		// It should not be displayed.
 		$this->expectOutput( '' );
+	}
+
+	/**
+	 * When a notification already exists the list with an outdated nonce it should be updated
+	 *
+	 * @covers Yoast_Notification_Center::add_notification
+	 */
+	public function test_update_nonce_on_re_add_notification() {
+		// Put outdated notification in storage / notification center list
+		$notification_center = Yoast_Notification_Center::get();
+
+		$old_nonce = 'outdated';
+
+		$outdated = new Yoast_Notification( 'outdated', array( 'nonce' => $old_nonce, 'id' => 'test' ) );
+		$new = new Yoast_Notification( 'new', array( 'id' => 'test' ) );
+
+		$notification_center->add_notification( $outdated );
+		$notification_center->add_notification( $new );
+
+		$notifications = $notification_center->get_notifications();
+
+		$this->assertInternalType( 'array', $notifications );
+		$this->assertContainsOnlyInstancesOf( 'Yoast_Notification', $notifications );
+		$this->assertNotEquals( $notifications[0]->get_nonce(), $old_nonce );
+	}
+
+	/**
+	 * Test if the persistent notification is seen as new
+	 */
+	public function test_notification_is_new() {
+		$id = 'my_id';
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		$notification = new Yoast_Notification( 'notification', array( 'id' => $id ) );
+		$notification_center->add_notification( $notification );
+
+		$new = $notification_center->get_new_notifications();
+
+		$this->assertInternalType( 'array', $new );
+		$this->assertContains( $notification, $new );
 	}
 }
