@@ -118,7 +118,7 @@ class Yoast_Form {
 		/**
 		 * Run possibly set actions to add for example an i18n box
 		 */
-		do_action( 'wpseo_admin_promo-footer' );
+		do_action( 'wpseo_admin_promo_footer' );
 
 		echo '
 			</div><!-- end of div wpseo_content_top -->';
