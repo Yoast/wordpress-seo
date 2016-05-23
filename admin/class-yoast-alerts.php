@@ -4,12 +4,6 @@
  */
 
 /**
- * @todo make dismissing of alerts ajax independent.
- * @todo add new unit tests.
- * @todo add a11y code.
- */
-
-/**
  * Class Yoast_Alerts
  */
 class Yoast_Alerts {
@@ -35,6 +29,7 @@ class Yoast_Alerts {
 	 * Yoast_Alerts constructor.
 	 */
 	public function __construct() {
+
 		$this->add_hooks();
 	}
 
@@ -42,6 +37,7 @@ class Yoast_Alerts {
 	 * Add hooks
 	 */
 	private function add_hooks() {
+
 		$page = filter_input( INPUT_GET, 'page' );
 		if ( 'wpseo_alerts' === $page ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
@@ -59,6 +55,7 @@ class Yoast_Alerts {
 	 * Enqueue assets
 	 */
 	public function enqueue_assets() {
+
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'alerts' );
 	}
@@ -99,6 +96,7 @@ class Yoast_Alerts {
 	 * @param string $type Alert type.
 	 */
 	private function output_ajax_response( $type ) {
+
 		$html = $this->get_view_html( $type );
 		echo json_encode(
 			array(
@@ -156,6 +154,7 @@ class Yoast_Alerts {
 	 * Show the alerts overview page
 	 */
 	public static function show_overview_page() {
+
 		/** @noinspection PhpUnusedLocalVariableInspection */
 		$alerts_data = self::get_template_variables();
 
@@ -163,20 +162,20 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Collect the alerts
+	 * Collect the alerts and group them together
 	 */
 	public static function collect_alerts() {
+
 		$notification_center = Yoast_Notification_Center::get();
 
 		$notifications            = $notification_center->get_notifications();
 		self::$notification_count = count( $notifications );
 
-		self::$errors   = array_filter( $notifications, array( __CLASS__, 'filter_error_alerts' ) );
-		self::$warnings = array_filter( $notifications, array( __CLASS__, 'filter_warning_alerts' ) );
-
+		self::$errors           = array_filter( $notifications, array( __CLASS__, 'filter_error_alerts' ) );
 		self::$dismissed_errors = array_filter( self::$errors, array( __CLASS__, 'filter_dismissed_alerts' ) );
 		self::$active_errors    = array_diff( self::$errors, self::$dismissed_errors );
 
+		self::$warnings           = array_filter( $notifications, array( __CLASS__, 'filter_warning_alerts' ) );
 		self::$dismissed_warnings = array_filter( self::$warnings, array( __CLASS__, 'filter_dismissed_alerts' ) );
 		self::$active_warnings    = array_diff( self::$warnings, self::$dismissed_warnings );
 	}
@@ -187,6 +186,7 @@ class Yoast_Alerts {
 	 * @return array
 	 */
 	public static function get_template_variables() {
+
 		return array(
 			'metrics'  => array(
 				'total'    => self::$notification_count,
@@ -213,6 +213,7 @@ class Yoast_Alerts {
 	 * @return bool
 	 */
 	private static function filter_error_alerts( Yoast_Notification $notification ) {
+
 		return $notification->get_type() === 'error';
 	}
 
@@ -224,6 +225,7 @@ class Yoast_Alerts {
 	 * @return bool
 	 */
 	private static function filter_warning_alerts( Yoast_Notification $notification ) {
+
 		return $notification->get_type() !== 'error';
 	}
 
@@ -235,6 +237,7 @@ class Yoast_Alerts {
 	 * @return bool
 	 */
 	private static function filter_dismissed_alerts( Yoast_Notification $notification ) {
+
 		return Yoast_Notification_Center::is_notification_dismissed( $notification );
 	}
 }

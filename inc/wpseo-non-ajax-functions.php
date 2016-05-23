@@ -263,12 +263,11 @@ function wpseo_admin_bar_menu() {
 	if ( $new_notifications_count ) {
 		$notification = _n( 'You have a new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' );
 		$new_notifications_html .= '<div class="yoast-issue-added">' . $notification . '</div>';
-
-		// Show alerts page when there are alerts.
-		$seo_url = get_admin_url( null, 'admin.php?page=wpseo_alerts' );
 	}
 
-	$counter = ( $notification_count ) ? sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count ) : '';
+	// Always show Alerts page when clicking on the main link.
+	$seo_url = get_admin_url( null, 'admin.php?page=wpseo_alerts' );
+	$counter = sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count );
 
 	// Yoast Icon.
 	$title = '<div class="wp-menu-image svg" style="width: 26px;background-image: url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGZpbGw9IiM4Mjg3OGMiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Zz48Zz48Zz48Zz48cGF0aCBzdHlsZT0iZmlsbDojODI4NzhjIiBkPSJNMjAzLjYsMzk1YzYuOC0xNy40LDYuOC0zNi42LDAtNTRsLTc5LjQtMjA0aDcwLjlsNDcuNywxNDkuNGw3NC44LTIwNy42SDExNi40Yy00MS44LDAtNzYsMzQuMi03Niw3NlYzNTdjMCw0MS44LDM0LjIsNzYsNzYsNzZIMTczQzE4OSw0MjQuMSwxOTcuNiw0MTAuMywyMDMuNiwzOTV6Ii8+PC9nPjxnPjxwYXRoIHN0eWxlPSJmaWxsOiM4Mjg3OGMiIGQ9Ik00NzEuNiwxNTQuOGMwLTQxLjgtMzQuMi03Ni03Ni03NmgtM0wyODUuNywzNjVjLTkuNiwyNi43LTE5LjQsNDkuMy0zMC4zLDY4aDIxNi4yVjE1NC44eiIvPjwvZz48L2c+PHBhdGggc3R5bGU9ImZpbGw6IzgyODc4YyIgc3Ryb2tlLXdpZHRoPSIyLjk3NCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNMzM4LDEuM2wtOTMuMywyNTkuMWwtNDIuMS0xMzEuOWgtODkuMWw4My44LDIxNS4yYzYsMTUuNSw2LDMyLjUsMCw0OGMtNy40LDE5LTE5LDM3LjMtNTMsNDEuOWwtNy4yLDF2NzZoOC4zYzgxLjcsMCwxMTguOS01Ny4yLDE0OS42LTE0Mi45TDQzMS42LDEuM0gzMzh6IE0yNzkuNCwzNjJjLTMyLjksOTItNjcuNiwxMjguNy0xMjUuNywxMzEuOHYtNDVjMzcuNS03LjUsNTEuMy0zMSw1OS4xLTUxLjFjNy41LTE5LjMsNy41LTQwLjcsMC02MGwtNzUtMTkyLjdoNTIuOGw1My4zLDE2Ni44bDEwNS45LTI5NGg1OC4xTDI3OS40LDM2MnoiLz48L2c+PC9nPjwvc3ZnPg==&quot;) !important;height: 30px;background-size: 20px;background-repeat: no-repeat;background-position: 0px 6px;float: left;"></div>';
@@ -466,14 +465,12 @@ function wpseo_admin_bar_menu() {
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 
-		if ( $notification_count ) {
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-menu',
-				'id'     => 'wpseo-alerts',
-				'title'  => __( 'SEO Alerts', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_alerts' ),
-			) );
-		}
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-menu',
+			'id'     => 'wpseo-alerts',
+			'title'  => __( 'SEO Alerts', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_alerts' ),
+		) );
 	}
 }
 

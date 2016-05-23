@@ -6,9 +6,9 @@
 $type = 'warnings';
 $dashicon = 'flag';
 
-$i18n_title = __( 'Warnings', 'wordpress-seo' );
-$i18n_issues = __( 'If you want to optimize your site properly you should follow the following suggestions to further improve your site for search engines.', 'wordpress-seo' );
-$i18n_no_issues = __( 'There are no warnings.', 'wordpress-seo' );
+$i18n_title = __( 'Improvements', 'wordpress-seo' );
+$i18n_issues = __( 'Implement the following suggestions to further optimize your site for SEO.', 'wordpress-seo' );
+$i18n_no_issues = __( 'Good job! We found nothing you can improve upon.', 'wordpress-seo' );
 
 $active_total = count( $alerts_data['warnings']['active'] );
 $total = $alerts_data['metrics']['warnings'];

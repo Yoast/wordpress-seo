@@ -13,15 +13,13 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 	function _yoast_display_alerts( $list, $status ) {
 		foreach ( $list as $notification ) {
 
-			// @todo make JS independent.
-			// @todo add a11y code.
 			switch ($status) {
 				case 'active':
-					$button = '<div class="dismiss"><span class="dashicons dashicons-no-alt"></span></div>';
+					$button = sprintf( '<button class="dismiss"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-no-alt"></span></button>', __( 'Dismiss this item.', 'wordpress-seo' ) );
 					break;
 
 				case 'dismissed':
-					$button = '<div class="restore"><span class="dashicons dashicons-hidden"></span></div>';
+					$button = sprintf( '<button class="restore"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-hidden"></span></button>', __( 'Restore this item.', 'wordpress-seo' ) );
 					break;
 			}
 
@@ -41,9 +39,12 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 
 		<div class="container" id="yoast-<?php echo $type ?>-active">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>
+			<?php if ( ! $active ): ?>
+			<div class="yoast-no-issues"><?php echo $i18n_no_issues; ?></div>
+			<?php endif; ?>
 		</div>
 
-		<?php if ( $active && $dismissed ) : ?>
+		<?php if ( $dismissed ) : ?>
 			<div class="separator"></div>
 		<?php endif; ?>
 

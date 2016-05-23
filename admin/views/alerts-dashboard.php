@@ -3,9 +3,13 @@
  * @package WPSEO\Admin
  */
 
-?><div class="wrap yoast-alerts">
+?>
+<div class="wrap yoast-alerts">
 
-	<h1>Yoast SEO alerts</h1>
+	<h1><?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( '%1$s alerts', 'wordpress-seo' ), 'Yoast SEO' );
+		?></h1>
 	<div class="yoast-container yoast-container__alert">
 		<?php include 'partial-alerts-errors.php'; ?>
 	</div>
