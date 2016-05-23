@@ -113,7 +113,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 			array( 71, true, 'good' ),
 			array( 83, true, 'good' ),
 			array( 100, true, 'good' ),
-			array( 0, false, 'N/A' ),
+			array( 0, false, 'Not available' ),
 			array( 1, false, 'Bad' ),
 			array( 23, false, 'Bad' ),
 			array( 40, false, 'Bad' ),

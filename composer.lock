@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4688d2a8cff02521f26d4b4526c7b0ac",
+    "hash": "6a2698a7e831804cae9433c325d33344",
     "content-hash": "bf77ea2e75c7a7b7f2114afc96a876e0",
     "packages": [
         {
@@ -173,16 +173,16 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "1.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "4648918ccf8bc6da12eadf57e4bece4829af29b3"
+                "reference": "7dddeee1481af3437fe451dc235ceb4a301d7220"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/4648918ccf8bc6da12eadf57e4bece4829af29b3",
-                "reference": "4648918ccf8bc6da12eadf57e4bece4829af29b3",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/7dddeee1481af3437fe451dc235ceb4a301d7220",
+                "reference": "7dddeee1481af3437fe451dc235ceb4a301d7220",
                 "shasum": ""
             },
             "type": "library",
@@ -207,7 +207,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-04-22 12:48:39"
+            "time": "2016-04-29 11:09:50"
         },
         {
             "name": "yoast/license-manager",
@@ -266,7 +266,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/3a2d3ebdc1df5acf372458c15041af240a6fc016",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/892163d67e3bd9c190d43655acb69657da765c7b",
                 "reference": "892163d67e3bd9c190d43655acb69657da765c7b",
                 "shasum": ""
             },
@@ -703,7 +703,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/d2d2b288abab05abc1f00a33c61c74ef9441ac61",
+                "url": "https://api.github.com/repos/symfony/config/zipball/58ded81f1f582a87c528ef3dae9a859f78b5f374",
                 "reference": "58ded81f1f582a87c528ef3dae9a859f78b5f374",
                 "shasum": ""
             },
