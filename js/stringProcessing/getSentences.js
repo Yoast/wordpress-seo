@@ -30,7 +30,7 @@ var invalidateOnCapital = function( text, positions, i ) {
 	var firstChar = text.substring( positions[ i ] + 2, positions[ i ] + 3 );
 
 	// If a sentence starts with a number or a whitespace, it shouldn't invalidate
-	if( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( /\s/ ) === null ) {
+	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( /\s/ ) === null ) {
 		return true;
 	}
 };
