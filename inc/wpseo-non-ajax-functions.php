@@ -253,7 +253,7 @@ function wpseo_admin_bar_menu() {
 		$score      = '<div class="' . esc_attr( 'wpseo-score-icon' ) . ' adminbar-seo-score"></div>';
 		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
 	}
-	
+
 	// Never display notifications for network admin.
 	$counter = '';
 
