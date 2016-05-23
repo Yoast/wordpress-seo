@@ -468,16 +468,6 @@ function wpseo_admin_bar_menu() {
 			'title'  => '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
-
-		// Don't show alerts for network admin.
-		if ( ! function_exists( 'is_network_admin' ) || ! is_network_admin() ) {
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-menu',
-				'id'     => 'wpseo-alerts',
-				'title'  => __( 'SEO Alerts', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=' . Yoast_Alerts::ADMIN_PAGE ),
-			) );
-		}
 	}
 }
 

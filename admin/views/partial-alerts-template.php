@@ -38,7 +38,7 @@ if ( ! $active ) {
 <div id="yoast-<?php echo $type ?>">
 
 	<?php if ( $total ) : ?>
-		<p><?php echo( ! $active ? $i18n_no_issues : $i18n_issues ); ?></p>
+		<p><?php echo ( ! $active ) ? $i18n_no_issues : $i18n_issues; ?></p>
 
 		<div class="container" id="yoast-<?php echo $type ?>-active">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>

@@ -8,6 +8,8 @@
  */
 class Yoast_Alerts {
 
+	const ADMIN_PAGE = 'wpseo_alerts';
+
 	/** @var int Total notifications count */
 	private static $notification_count = 0;
 
@@ -24,8 +26,6 @@ class Yoast_Alerts {
 	private static $active_warnings = array();
 	/** @var array Dismissed warnings */
 	private static $dismissed_warnings = array();
-	
-	const ADMIN_PAGE = 'wpseo_alerts';
 
 	/**
 	 * Yoast_Alerts constructor.

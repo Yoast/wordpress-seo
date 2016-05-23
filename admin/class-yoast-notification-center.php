@@ -286,7 +286,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Remove notification after it has been displayed
 	 *
-	 * @param Yoast_Notification $notification
+	 * @param Yoast_Notification $notification Notification to remove.
 	 */
 	private function remove_notification( Yoast_Notification $notification ) {
 
