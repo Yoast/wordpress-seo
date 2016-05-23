@@ -67,6 +67,7 @@ class Yoast_Notification_Center {
 	 * If we remove untouched these will be seen as new, which isn't true.
 	 */
 	public function enable_remove_untouched() {
+
 		$this->remove_untouched = false;
 	}
 

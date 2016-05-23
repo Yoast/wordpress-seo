@@ -381,4 +381,29 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$this->assertInternalType( 'array', $new );
 		$this->assertContains( $notification, $new );
 	}
+
+	/**
+	 * Test how many resolved notifications we have
+	 *
+	 * @covers Yoast_Notification_Center::get_resolved_notification_count
+	 */
+	public function test_resolved_notifications() {
+
+		$notification_center = Yoast_Notification_Center::get();
+		$count = $notification_center->get_resolved_notification_count();
+
+		// Apply max for static test problems.
+		$this->assertEquals( 0, max( 0, $count ) );
+	}
+
+	/**
+	 * @covers Yoast_Notification_Center::maybe_dismiss_notification
+	 */
+	public function test_maybe_dismiss_notification() {
+		$a = new Yoast_Notification( 'a' );
+		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( $a ) );
+
+		$b = new Yoast_Notification( 'b', array( 'id' => uniqid( 'id' ) ) );
+		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( $b ) );
+	}
 }
