@@ -362,7 +362,7 @@
     __e( raw.title ) +
     '" placeholder="' +
     __e( placeholder.title ) +
-    '" />\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
+    '" />\n        </label>\n        <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title" aria-hidden="true">\n            <div class="snippet-editor__progress-bar"></div>\n        </progress>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
     __e( i18n.slug ) +
     '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
     __e( raw.snippetCite ) +
@@ -374,7 +374,7 @@
     __e( placeholder.metaDesc ) +
     '">' +
     __e( raw.meta ) +
-    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
+    '</textarea>\n        </label>\n        <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description" aria-hidden="true">\n            <div class="snippet-editor__progress-bar"></div>\n        </progress>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
     __e( i18n.save ) +
     '</button>\n    </div>\n</div>\n';
 
