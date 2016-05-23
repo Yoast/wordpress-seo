@@ -15,6 +15,7 @@ function getSubheadings( text ) {
 	while ( ( match = regex.exec( text ) ) !== null ) {
 		subheadings.push( match );
 	}
+
 	return subheadings;
 }
 
