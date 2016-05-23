@@ -226,7 +226,8 @@ class WPSEO_Sitemaps_Cache {
 		if ( self::$clear_all ) {
 
 			WPSEO_Sitemaps_Cache_Validator::invalidate_storage();
-			self::$clear_all = false;
+			self::$clear_all   = false;
+			self::$clear_types = array();
 
 			return;
 		}
