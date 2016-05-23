@@ -1,11 +1,5 @@
 var wordCount = require( "./countWords.js" );
-
-var stripSpaces = require( "./stripSpaces.js" );
-
-var filter = require( "lodash/filter" );
-
 var forEach = require( "lodash/forEach" );
-
 
 /**
  * Returns an array with the number of words in a sentence.
@@ -14,9 +8,6 @@ var forEach = require( "lodash/forEach" );
  */
 module.exports = function( sentences ) {
 	var sentencesWordCount = [];
-
-
-
 	forEach( sentences, function( sentence ) {
 		var length = wordCount( sentence );
 
