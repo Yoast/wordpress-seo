@@ -10,7 +10,7 @@ var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthP
  */
 var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var recommendedValue = 20;
-	var tooLong = countTooLongSentences( sentences, recommendedValue );
+	var tooLong = countTooLongSentences( sentences, recommendedValue ).length;
 	var percentage = ( tooLong / sentences.length ) * 100;
 
 	var score = calculateTooLongSentences( percentage );

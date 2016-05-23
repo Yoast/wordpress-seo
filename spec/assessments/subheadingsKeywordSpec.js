@@ -16,7 +16,7 @@ describe( "An assessment for matching keywords in subheadings", function(){
 		var mockPaper = new Paper();
 		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 1, matches: 0 } ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual ( "You have not used your focus keyword in any subheading (such as an H2) in your copy." );
 	} );
 	it( "assesses a string with subheadings and keywords", function(){

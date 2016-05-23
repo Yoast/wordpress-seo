@@ -2,6 +2,7 @@ var getSentences = require( "../stringProcessing/getSentences.js" );
 var sentencesLength = require( "../stringProcessing/sentencesLength.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint" );
 var sum = require( "lodash/sum" );
+var reduce = require( "lodash/reduce" );
 
 /**
  * Calculates the standard deviation of a text
@@ -13,16 +14,21 @@ module.exports = function( paper ) {
 	var text = paper.getText();
 
 	var sentences = getSentences( text );
-	var wordCountPerSentence = sentencesLength( sentences );
-	var totalSentences = wordCountPerSentence.length;
-	var totalWords = sum( wordCountPerSentence );
+	var sentenceLengthResults = sentencesLength( sentences );
+	var totalSentences = sentenceLengthResults.length;
+
+	var totalWords = reduce( sentenceLengthResults, function( result, sentence ) {
+		return result + sentence.sentenceLength;
+	}, 0 );
+
 	var average = totalWords / totalSentences;
 
 	// Calculate the variations per sentence.
 	var variation;
 	var variations = [];
-	wordCountPerSentence.map( function( wordCount ) {
-		variation = wordCount - average;
+
+	sentenceLengthResults.map( function( sentence ) {
+		variation = sentence.sentenceLength - average;
 		variations.push( Math.pow( variation, 2 ) );
 	} );
 
