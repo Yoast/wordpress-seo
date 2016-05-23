@@ -25,11 +25,16 @@ class WPSEO_Metabox_Editor {
 	public function add_css_inside_editor( $css_files ) {
 		$add_file = plugins_url( 'css/inside-editor-330.css', WPSEO_FILE );
 
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$styles = $asset_manager->special_styles();
+		/** @var WPSEO_Admin_Asset $inside_editor */
+		$inside_editor = $styles['inside-editor'];
+
 		if ( '' === $css_files ) {
 			$css_files = $add_file;
 		}
 		else {
-			$css_files .= ',' . plugins_url( 'css/inside-editor-330.css', WPSEO_FILE );
+			$css_files .= ',' . $inside_editor->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE );
 		}
 
 		return $css_files;
