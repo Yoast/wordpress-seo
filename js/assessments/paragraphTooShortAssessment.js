@@ -8,7 +8,6 @@ var recommendedValue = 40;
 /**
  * Returns an array containing only the paragraphs shorter than the recommended length.
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
- * @param {number} recommendedValue The recommended minimum length of a paragraph.
  * @returns {number} The number of too short paragraphs.
  */
 var getTooShortParagraphs = function( paragraphsLength  ) {
@@ -17,21 +16,14 @@ var getTooShortParagraphs = function( paragraphsLength  ) {
 	} );
 };
 
-	/*
-var getTooShortParagraphs = function( paragraphsLength, recommendedValue ) {
-	var tooShortParagraphs = filter( paragraphsLength, isParagraphTooShort.bind( null, recommendedValue ) );
-	return tooShortParagraphs.length;
-};*/
-
 /**
  * Returns the scores and text for the ParagraphTooShortAssessment
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
  * @param {number} tooShortParagraphs The number of too short paragraphs.
- * @param {number} recommendedValue The recommended minimum length of a paragraph.
  * @param {object} i18n The i18n object used for translations.
  * @returns {{score: number, text: string }} the assessmentResult.
  */
-var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagraphs, recommendedValue, i18n ) {
+var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagraphs, i18n ) {
 	if ( paragraphsLength.length === 0 ) {
 		return {};
 	}
@@ -73,8 +65,8 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 			return a.wordCount - b.wordCount;
 		}
 	);
-	var tooShortParagraphs = getTooShortParagraphs( paragraphsLength, recommendedValue );
-	var paragraphLengthResult = calculateParagraphLengthResult( paragraphsLength, tooShortParagraphs, recommendedValue, i18n );
+	var tooShortParagraphs = getTooShortParagraphs( paragraphsLength );
+	var paragraphLengthResult = calculateParagraphLengthResult( paragraphsLength, tooShortParagraphs, i18n );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( paragraphLengthResult.score );
