@@ -86,13 +86,10 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * For WP versions older than 4.2, this includes styles and a script to make notices dismissible.
+	 * Enqueue our styling for dismissible yoast notifications.
 	 */
 	public function enqueue_dismissible() {
-		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
-			$this->asset_manager->enqueue_script( 'dismissable' );
-			$this->asset_manager->enqueue_style( 'dismissable' );
-		}
+		$this->asset_manager->enqueue_style( 'dismissible' );
 	}
 
 	/**
@@ -334,7 +331,11 @@ class WPSEO_Admin_Init {
 		if ( $this->on_wpseo_admin_page() ) {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
-			$this->register_i18n_promo_class();
+
+			// Only register the yoast i18n when the page is a Yoast SEO page.
+			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
+				$this->register_i18n_promo_class();
+			}
 		}
 	}
 
@@ -349,7 +350,7 @@ class WPSEO_Admin_Init {
 				'textdomain'     => 'wordpress-seo',
 				'project_slug'   => 'wordpress-seo',
 				'plugin_name'    => 'Yoast SEO',
-				'hook'           => 'wpseo_admin_footer',
+				'hook'           => 'wpseo_admin_promo_footer',
 				'glotpress_url'  => 'http://translate.yoast.com/gp/',
 				'glotpress_name' => 'Yoast Translate',
 				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',

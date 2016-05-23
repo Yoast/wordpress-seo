@@ -248,15 +248,19 @@ class WPSEO_Frontend {
 			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
 
-		$title = WPSEO_Meta::get_value( 'title', $object->ID );
+		if ( is_object( $object ) ) {
+			$title = WPSEO_Meta::get_value( 'title', $object->ID );
 
-		if ( $title !== '' ) {
-			return wpseo_replace_vars( $title, $object );
+			if ( $title !== '' ) {
+				return wpseo_replace_vars( $title, $object );
+			}
+
+			$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
+
+			return $this->get_title_from_options( 'title-' . $post_type, $object );
 		}
 
-		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
-
-		return $this->get_title_from_options( 'title-' . $post_type, $object );
+		return $this->get_title_from_options( 'title-404-wpseo' );
 	}
 
 	/**
@@ -912,7 +916,7 @@ class WPSEO_Frontend {
 				}
 			}
 			elseif ( is_front_page() ) {
-				$canonical = home_url();
+				$canonical = WPSEO_Utils::home_url();
 			}
 			elseif ( $this->is_posts_page() ) {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );

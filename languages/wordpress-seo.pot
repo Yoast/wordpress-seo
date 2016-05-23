@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO Premium 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-05-06 10:00:02+00:00\n"
+"POT-Creation-Date: 2016-05-23 11:52:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,25 +46,25 @@ msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
 #. %4$s to anchor tags with link to intro page
-#: admin/class-admin-init.php:114
+#: admin/class-admin-init.php:111
 msgid ""
 "%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what's "
 "new!"
 msgstr ""
 
-#: admin/class-admin-init.php:165
+#: admin/class-admin-init.php:162
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:186
+#: admin/class-admin-init.php:183
 msgid "Just another WordPress site"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands
 #. to Google Analytics by Yoast
-#: admin/class-admin-init.php:212
+#: admin/class-admin-init.php:209
 msgid ""
 "%1$s detected you are using version %2$s of %3$s, please update to the "
 "latest version to prevent compatibility issues."
@@ -72,13 +72,13 @@ msgstr ""
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:244
+#: admin/class-admin-init.php:241
 msgid ""
 "We've updated our SEO score algorithm. %1$sClick here to recalculate the SEO "
 "scores%2$s for all posts and pages."
 msgstr ""
 
-#: admin/class-admin-init.php:432
+#: admin/class-admin-init.php:433
 msgid "%s filter/action"
 msgstr ""
 
@@ -88,47 +88,47 @@ msgstr ""
 
 #: admin/class-admin.php:134 admin/class-admin.php:291
 #: admin/class-meta-columns.php:43 admin/taxonomy/class-taxonomy-columns.php:43
-#: inc/wpseo-non-ajax-functions.php:258
+#: inc/wpseo-non-ajax-functions.php:259
 msgid "SEO"
 msgstr ""
 
-#: admin/class-admin.php:144 inc/wpseo-non-ajax-functions.php:409
+#: admin/class-admin.php:144 inc/wpseo-non-ajax-functions.php:410
 msgid "Titles &amp; Metas"
 msgstr ""
 
 #: admin/class-admin.php:152 admin/class-social-admin.php:106
 #: admin/taxonomy/class-taxonomy-metabox.php:176
-#: inc/wpseo-non-ajax-functions.php:415
+#: inc/wpseo-non-ajax-functions.php:416
 msgid "Social"
 msgstr ""
 
 #: admin/class-admin.php:161 admin/class-pointers.php:300
-#: inc/wpseo-non-ajax-functions.php:421
+#: inc/wpseo-non-ajax-functions.php:422
 msgid "XML Sitemaps"
 msgstr ""
 
 #: admin/class-admin.php:170 admin/metabox/class-metabox.php:347
-#: admin/metabox/class-metabox.php:355 inc/wpseo-non-ajax-functions.php:427
+#: admin/metabox/class-metabox.php:355 inc/wpseo-non-ajax-functions.php:428
 msgid "Advanced"
 msgstr ""
 
-#: admin/class-admin.php:179 inc/wpseo-non-ajax-functions.php:433
+#: admin/class-admin.php:179 inc/wpseo-non-ajax-functions.php:434
 msgid "Tools"
 msgstr ""
 
-#: admin/class-admin.php:188 inc/wpseo-non-ajax-functions.php:439
+#: admin/class-admin.php:188 inc/wpseo-non-ajax-functions.php:440
 msgid "Search Console"
 msgstr ""
 
 #: admin/class-admin.php:197 admin/class-admin.php:304
 #: admin/class-pointers.php:331 admin/pages/licenses.php:77
-#: inc/wpseo-non-ajax-functions.php:445
+#: inc/wpseo-non-ajax-functions.php:446
 msgid "Extensions"
 msgstr ""
 
 #: admin/class-admin.php:226 admin/pages/dashboard.php:144
 #: admin/pages/metas.php:26 admin/pages/xml-sitemaps.php:30
-#: inc/wpseo-non-ajax-functions.php:403
+#: inc/wpseo-non-ajax-functions.php:404
 msgid "General"
 msgstr ""
 
@@ -439,17 +439,25 @@ msgstr ""
 msgid "Focus KW"
 msgstr ""
 
-#: admin/class-meta-columns.php:137
+#: admin/class-meta-columns.php:70
+msgid "Meta description not set."
+msgstr ""
+
+#: admin/class-meta-columns.php:75 admin/class-meta-columns.php:337
+#: admin/taxonomy/class-taxonomy-columns.php:114
+msgid "Focus keyword not set."
+msgstr ""
+
+#: admin/class-meta-columns.php:138
+msgid "Filter by SEO Score"
+msgstr ""
+
+#: admin/class-meta-columns.php:140
 msgid "All SEO Scores"
 msgstr ""
 
-#: admin/class-meta-columns.php:335 admin/metabox/class-metabox.php:148
+#: admin/class-meta-columns.php:332 admin/metabox/class-metabox.php:148
 msgid "Post is set to noindex."
-msgstr ""
-
-#: admin/class-meta-columns.php:340
-#: admin/taxonomy/class-taxonomy-columns.php:114
-msgid "Focus keyword not set."
 msgstr ""
 
 #: admin/class-option-tabs-formatter.php:82
@@ -621,7 +629,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-pointers.php:268 admin/pages/metas.php:30
-#: frontend/class-frontend.php:533
+#: frontend/class-frontend.php:537
 msgid "Archives"
 msgstr ""
 
@@ -977,24 +985,71 @@ msgstr ""
 msgid "Posts that are set to %s"
 msgstr ""
 
-#: admin/class-yoast-form.php:131
+#: admin/class-yoast-form.php:139
 msgid "Debug Information"
 msgstr ""
 
-#: admin/class-yoast-form.php:133
+#: admin/class-yoast-form.php:141
 msgid "Current option:"
 msgstr ""
 
-#: admin/class-yoast-form.php:238
+#: admin/class-yoast-form.php:172
+msgid ""
+"Order a Website Review and we will tell you what to improve to attract more "
+"visitors!"
+msgstr ""
+
+#: admin/class-yoast-form.php:177
+msgid ""
+"Take the online Basic SEO Training course and learn the fundamentals of SEO!"
+msgstr ""
+
+#: admin/class-yoast-form.php:182
+msgid ""
+"Take the Yoast SEO for WordPress Training course and become a certified "
+"Yoast SEO for WordPress expert!"
+msgstr ""
+
+#: admin/class-yoast-form.php:190
+msgid ""
+"Buy the Yoast SEO Premium plugin now and get access to extra features and "
+"24/7 support!"
+msgstr ""
+
+#: admin/class-yoast-form.php:198
+msgid ""
+"Buy the Yoast Video SEO plugin now and optimize your videos for video search "
+"results and social media!"
+msgstr ""
+
+#: admin/class-yoast-form.php:206
+msgid ""
+"Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to "
+"improve your product promotion!"
+msgstr ""
+
+#: admin/class-yoast-form.php:214
+msgid ""
+"Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO "
+"and ranking in Google Maps!"
+msgstr ""
+
+#: admin/class-yoast-form.php:222
+msgid ""
+"Buy the Yoast News SEO plugin now and start optimizing to get your site "
+"featured in Google News!"
+msgstr ""
+
+#: admin/class-yoast-form.php:246
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/class-yoast-form.php:241
+#: admin/class-yoast-form.php:249
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:327 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:336 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:33
 #: admin/views/tabs/metas/archives.php:46
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1002,7 +1057,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:327 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:336 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:32
 #: admin/views/tabs/metas/archives.php:45
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1010,9 +1065,13 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:476
+#: admin/class-yoast-form.php:485
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:89
 msgid "Upload Image"
+msgstr ""
+
+#: admin/class-yoast-notification.php:291
+msgid "Dismiss this notice."
 msgstr ""
 
 #: admin/class-yoast-plugin-conflict.php:160
@@ -1050,6 +1109,12 @@ msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:47
 msgid "Content:"
+msgstr ""
+
+#. translators: After this sentence, the used keyword will be added (if
+#. present). This string is added to support screen readers.
+#: admin/formatter/class-metabox-formatter.php:54
+msgid "Based on keyword:"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:113
@@ -1137,17 +1202,17 @@ msgid "Show information about errors in category 'Soft 404'"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-platform-tabs.php:43
-#: admin/google_search_console/class-gsc.php:280
+#: admin/google_search_console/class-gsc.php:279
 msgid "Desktop"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-platform-tabs.php:44
-#: admin/google_search_console/class-gsc.php:281
+#: admin/google_search_console/class-gsc.php:280
 msgid "Smartphone"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-platform-tabs.php:45
-#: admin/google_search_console/class-gsc.php:282
+#: admin/google_search_console/class-gsc.php:281
 msgid "Feature phone"
 msgstr ""
 
@@ -1203,44 +1268,44 @@ msgid ""
 "%2$s."
 msgstr ""
 
-#: admin/google_search_console/class-gsc.php:118
+#: admin/google_search_console/class-gsc.php:117
 msgid "Search"
 msgstr ""
 
-#: admin/google_search_console/class-gsc.php:131
+#: admin/google_search_console/class-gsc.php:130
 msgid "Crawl errors per page"
 msgstr ""
 
 #. Translators: %1$s: expands to Google Search Console.
-#: admin/google_search_console/class-gsc.php:178
+#: admin/google_search_console/class-gsc.php:177
 msgid ""
 "The %1$s data has been removed. You will have to reauthenticate if you want "
 "to retrieve the data again."
 msgstr ""
 
-#: admin/google_search_console/class-gsc.php:191
+#: admin/google_search_console/class-gsc.php:190
 msgid "The issues have been successfully reloaded!"
 msgstr ""
 
-#: admin/google_search_console/class-gsc.php:222
+#: admin/google_search_console/class-gsc.php:221
 msgid "Incorrect Google Authorization Code."
 msgstr ""
 
-#: admin/google_search_console/class-gsc.php:279
+#: admin/google_search_console/class-gsc.php:278
 msgid "Issue categories"
 msgstr ""
 
-#: admin/google_search_console/class-gsc.php:280
+#: admin/google_search_console/class-gsc.php:279
 msgid "Errors that occurred when your site was crawled by Googlebot."
 msgstr ""
 
-#: admin/google_search_console/class-gsc.php:281
+#: admin/google_search_console/class-gsc.php:280
 msgid ""
 "Errors that occurred only when your site was crawled by Googlebot-Mobile "
 "(errors didn't appear for desktop)."
 msgstr ""
 
-#: admin/google_search_console/class-gsc.php:282
+#: admin/google_search_console/class-gsc.php:281
 msgid ""
 "Errors that only occurred when your site was crawled by Googlebot for "
 "feature phones (errors didn't appear for desktop)."
@@ -2252,13 +2317,13 @@ msgid "Redirect"
 msgstr ""
 
 #: admin/views/tabs/advanced/permalinks.php:32
-msgid "Redirect attachment URL's to parent post URL."
+msgid "Redirect attachment URLs to parent post URL."
 msgstr ""
 
 #: admin/views/tabs/advanced/permalinks.php:33
 msgid ""
 "Attachments to posts are stored in the database as posts, this means they're "
-"accessible under their own URL's if you do not redirect them, enabling this "
+"accessible under their own URLs if you do not redirect them, enabling this "
 "will redirect them to the post they were attached to."
 msgstr ""
 
@@ -2289,7 +2354,7 @@ msgid ""
 msgstr ""
 
 #: admin/views/tabs/advanced/permalinks.php:45
-msgid "Enforce a trailing slash on all category and tag URL's"
+msgid "Enforce a trailing slash on all category and tag URLs"
 msgstr ""
 
 #: admin/views/tabs/advanced/permalinks.php:46
@@ -2309,7 +2374,7 @@ msgstr ""
 
 #: admin/views/tabs/advanced/permalinks.php:51
 msgid ""
-"Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)"
+"Redirect ugly URLs to clean permalinks. (Not recommended in many cases!)"
 msgstr ""
 
 #: admin/views/tabs/advanced/permalinks.php:52
@@ -2323,12 +2388,12 @@ msgid ""
 msgstr ""
 
 #: admin/views/tabs/advanced/permalinks.php:55
-msgid "Prevent cleaning out Google Site Search URL's."
+msgid "Prevent cleaning out Google Site Search URLs."
 msgstr ""
 
 #: admin/views/tabs/advanced/permalinks.php:56
 msgid ""
-"Google Site Search URL's look weird, and ugly, but if you're using Google "
+"Google Site Search URLs look weird, and ugly, but if you're using Google "
 "Site Search, you probably do not want them cleaned out."
 msgstr ""
 
@@ -2799,7 +2864,7 @@ msgstr ""
 msgid "You can choose to not include users without posts."
 msgstr ""
 
-#: admin/views/tabs/sitemaps/user-sitemap.php:32
+#: admin/views/tabs/sitemaps/user-sitemap.php:33
 msgid "Filter specific user roles"
 msgstr ""
 
@@ -3099,22 +3164,22 @@ msgstr ""
 msgid "Exclude user from Author-sitemap"
 msgstr ""
 
-#: frontend/class-frontend.php:465
+#: frontend/class-frontend.php:469
 msgid "Search for \"%s\""
 msgstr ""
 
-#: frontend/class-frontend.php:524 frontend/class-frontend.php:527
-#: frontend/class-frontend.php:530
+#: frontend/class-frontend.php:528 frontend/class-frontend.php:531
+#: frontend/class-frontend.php:534
 #: inc/options/class-wpseo-option-titles.php:227
 msgid "%s Archives"
 msgstr ""
 
-#: frontend/class-frontend.php:545
+#: frontend/class-frontend.php:549
 #: inc/options/class-wpseo-option-titles.php:179
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1246
+#: frontend/class-frontend.php:1250
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -3122,7 +3187,7 @@ msgid ""
 msgstr ""
 
 #: inc/class-wpseo-rank.php:101
-msgid "N/A"
+msgid "Not available"
 msgstr ""
 
 #: inc/class-wpseo-rank.php:102
@@ -3417,7 +3482,13 @@ msgstr ""
 msgid "%s Archive"
 msgstr ""
 
-#: inc/options/class-wpseo-option-xml.php:166
+#: inc/options/class-wpseo-option-xml.php:156
+msgid ""
+"\"Max entries per sitemap page\" should be below 50000 for Google "
+"requirements, which %s is not."
+msgstr ""
+
+#: inc/options/class-wpseo-option-xml.php:178
 msgid ""
 "\"Max entries per sitemap page\" should be a positive number, which %s is "
 "not. Please correct."
@@ -3442,75 +3513,75 @@ msgstr ""
 msgid "Expected an integer as input."
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:264
+#: inc/wpseo-non-ajax-functions.php:265
 msgid "Keyword Research"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:270
+#: inc/wpseo-non-ajax-functions.php:271
 msgid "AdWords External"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:277
+#: inc/wpseo-non-ajax-functions.php:278
 msgid "Google Insights"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:284
+#: inc/wpseo-non-ajax-functions.php:285
 msgid "SEO Book"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:296
+#: inc/wpseo-non-ajax-functions.php:297
 msgid "Analyze this page"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:302
+#: inc/wpseo-non-ajax-functions.php:303
 msgid "Check Inlinks (OSE)"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:309
+#: inc/wpseo-non-ajax-functions.php:310
 msgid "Check Keyword Density"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:316
+#: inc/wpseo-non-ajax-functions.php:317
 msgid "Check Google Cache"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:323
+#: inc/wpseo-non-ajax-functions.php:324
 msgid "Check Headers"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:330
+#: inc/wpseo-non-ajax-functions.php:331
 msgid "Check Rich Snippets"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:337
+#: inc/wpseo-non-ajax-functions.php:338
 msgid "Facebook Debugger"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:344
+#: inc/wpseo-non-ajax-functions.php:345
 msgid "Pinterest Rich Pins Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:351
+#: inc/wpseo-non-ajax-functions.php:352
 msgid "HTML Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:358
+#: inc/wpseo-non-ajax-functions.php:359
 msgid "CSS Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:365
+#: inc/wpseo-non-ajax-functions.php:366
 msgid "Google Page Speed Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:372
+#: inc/wpseo-non-ajax-functions.php:373
 msgid "Modern IE Site Scan"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:379
+#: inc/wpseo-non-ajax-functions.php:380
 msgid "Mobile-Friendly Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:398
+#: inc/wpseo-non-ajax-functions.php:399
 msgid "SEO Settings"
 msgstr ""
 

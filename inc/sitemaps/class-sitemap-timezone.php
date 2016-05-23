@@ -84,16 +84,15 @@ class WPSEO_Sitemap_Timezone {
 		// Attempt to guess the timezone string from the UTC offset.
 		$timezone = timezone_name_from_abbr( '', $utc_offset );
 
+		if ( false !== $timezone ) {
+			return $timezone;
+		}
+
 		// Last try, guess timezone string manually.
-		if ( false === $timezone ) {
-
-			$is_dst = date( 'I' );
-
-			foreach ( timezone_abbreviations_list() as $abbr ) {
-				foreach ( $abbr as $city ) {
-					if ( $city['dst'] == $is_dst && $city['offset'] == $utc_offset ) {
-						return $city['timezone_id'];
-					}
+		foreach ( timezone_abbreviations_list() as $abbr ) {
+			foreach ( $abbr as $city ) {
+				if ( $city['offset'] == $utc_offset ) {
+					return $city['timezone_id'];
 				}
 			}
 		}

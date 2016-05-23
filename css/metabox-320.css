@@ -398,16 +398,6 @@ li.score {
 	display: none;
 }
 
-@-webkit-keyframes animatedBackground {
-	from {
-		background-position: 0 0;
-	}
-
-	to {
-		background-position: 100% 0;
-	}
-}
-
 @keyframes animatedBackground {
 	from {
 		background-position: 0 0;
@@ -428,7 +418,6 @@ li.score {
 	background-image: linear-gradient(to left, #fff, #0063ff, #fff, #0063ff);
 	background-position: 0 0;
 	background-size: 300% 100%;
-	-webkit-animation: animatedBackground 5s linear infinite;
 	animation: animatedBackground 5s linear infinite;
 }
 
@@ -604,7 +593,7 @@ ul.wpseo-metabox-tabs li {
 }
 
 .wrong {
-	color: red;
+	color: #dc3232;
 }
 
 #current_seo_title span {
@@ -773,6 +762,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseo-metabox-tabs .active a {
 	color: #333;
+}
+
+/* Hide the `based on keyword` text to screen readers when there's no keyword */
+.wpseo-metabox-tabs .na .wpseo-keyword-tab-based-on {
+	display: none;
 }
 
 #wpseotab .ui-widget-content .ui-state-hover {

@@ -113,7 +113,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 			array( 71, true, 'good' ),
 			array( 83, true, 'good' ),
 			array( 100, true, 'good' ),
-			array( 0, false, 'N/A' ),
+			array( 0, false, 'Not available' ),
 			array( 1, false, 'Bad' ),
 			array( 23, false, 'Bad' ),
 			array( 40, false, 'Bad' ),
@@ -125,4 +125,39 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 			array( 100, false, 'Good' ),
 		);
 	}
+
+	/**
+	 * When current page is not in the list of Yoast SEO Free, is_yoast_seo_free_page should return false.
+	 *
+	 * @covers WPSEO_Utils::is_yoast_seo_free_page
+	 */
+	public function test_current_page_not_in_yoast_seo_free_pages() {
+		$current_page = '';
+
+		$this->assertFalse( WPSEO_Utils::is_yoast_seo_free_page( $current_page ) );
+	}
+
+	/**
+	 * When current page is not in the list of Yoast SEO Free, but is a page of one of the plugin' addons,
+	 * the function should return false.
+	 *
+	 * @covers WPSEO_Utils::is_yoast_seo_free_page
+	 */
+	public function test_current_page_not_in_yoast_seo_free_pages_but_is_yoast_seo_addon_page() {
+		$current_page = 'wpseo_news';
+
+		$this->assertFalse( WPSEO_Utils::is_yoast_seo_free_page( $current_page ) );
+	}
+
+	/**
+	 * When the current page belongs to Yoast SEO Free, the function is_yoast_seo_free_page should return true.
+	 *
+	 * @covers WPSEO_Utils::is_yoast_seo_free_page
+	 */
+	public function test_current_page_in_yoast_seo_free_pages() {
+		$current_page = 'wpseo_dashboard';
+
+		$this->assertTrue( WPSEO_Utils::is_yoast_seo_free_page( $current_page ) );
+	}
+	
 }

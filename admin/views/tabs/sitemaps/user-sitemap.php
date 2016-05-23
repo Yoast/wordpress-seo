@@ -28,6 +28,7 @@ $yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users with
 printf( '<p class="expl">%s</p>', __( 'You can choose to not include users without posts.', 'wordpress-seo' ) );
 
 $roles = WPSEO_Utils::get_roles();
+unset( $roles['subscriber'] );
 if ( is_array( $roles ) && $roles !== array() ) {
 	echo '<p class="expl"><strong>' . __( 'Filter specific user roles', 'wordpress-seo' ) . '</strong></p>';
 	foreach ( $roles as $role_key => $role_name ) {

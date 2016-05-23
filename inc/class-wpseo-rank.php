@@ -98,7 +98,7 @@ class WPSEO_Rank {
 	 */
 	public function get_label() {
 		$labels = array(
-			self::NO_FOCUS => __( 'N/A', 'wordpress-seo' ),
+			self::NO_FOCUS => __( 'Not available', 'wordpress-seo' ),
 			self::NO_INDEX => __( 'No index', 'wordpress-seo' ),
 			self::BAD      => __( 'Bad', 'wordpress-seo' ),
 			self::OK       => __( 'OK', 'wordpress-seo' ),

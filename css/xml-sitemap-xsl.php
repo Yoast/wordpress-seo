@@ -15,7 +15,9 @@ if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autoru
 	newrelic_disable_autorum();
 }
 
-$xsl = '<?xml version="1.0" encoding="UTF-8"?>
+// Echo so opening tag doesn't get confused for PHP. R.
+echo '<?xml version="1.0" encoding="UTF-8"?>';
+?>
 <xsl:stylesheet version="2.0"
 				xmlns:html="http://www.w3.org/TR/REC-html40"
 				xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
@@ -113,7 +115,7 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 										<a href="{$sitemapURL}"><xsl:value-of select="sitemap:loc"/></a>
 									</td>
 									<td>
-										<xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(\' \', substring(sitemap:lastmod,12,5)))"/>
+										<xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(' ', substring(sitemap:lastmod,12,5)),concat(' ', substring(sitemap:lastmod,20,6)))"/>
 									</td>
 								</tr>
 							</xsl:for-each>
@@ -124,20 +126,20 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 						<p class="expl">
 							This XML Sitemap contains <xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> URLs.
 						</p>
-						<p class="expl"><a href="' . esc_url( home_url( 'sitemap_index.xml' ) ) . '">&#8593; Sitemap Index</a></p>
+						<p class="expl"><a href="<?php echo esc_url( home_url( 'sitemap_index.xml' ) ) ?>">&#8593; Sitemap Index</a></p>
 						<table id="sitemap" cellpadding="3">
 							<thead>
 								<tr>
-									<th width="75%">URL</th>
+									<th width="70%">URL</th>
 									<th title="Index Priority" width="5%">Prio</th>
 									<th width="5%">Images</th>
 									<th title="Change Frequency" width="5%">Ch. Freq.</th>
-									<th title="Last Modification Time" width="10%">Last Mod.</th>
+									<th title="Last Modification Time" width="15%">Last Mod.</th>
 								</tr>
 							</thead>
 							<tbody>
-								<xsl:variable name="lower" select="\'abcdefghijklmnopqrstuvwxyz\'"/>
-								<xsl:variable name="upper" select="\'ABCDEFGHIJKLMNOPQRSTUVWXYZ\'"/>
+								<xsl:variable name="lower" select="'abcdefghijklmnopqrstuvwxyz'"/>
+								<xsl:variable name="upper" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
 								<xsl:for-each select="sitemap:urlset/sitemap:url">
 									<tr>
 										<td>
@@ -149,7 +151,7 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 											</a>
 										</td>
 										<td>
-											<xsl:value-of select="concat(sitemap:priority*100,\'%\')"/>
+											<xsl:value-of select="concat(sitemap:priority*100,'%')"/>
 										</td>
 										<td>
 											<xsl:value-of select="count(image:image)"/>
@@ -158,7 +160,7 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 											<xsl:value-of select="concat(translate(substring(sitemap:changefreq, 1, 1),concat($lower, $upper),concat($upper, $lower)),substring(sitemap:changefreq, 2))"/>
 										</td>
 										<td>
-											<xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(\' \', substring(sitemap:lastmod,12,5)))"/>
+											<xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(' ', substring(sitemap:lastmod,12,5)),concat(' ', substring(sitemap:lastmod,20,6)))"/>
 										</td>
 									</tr>
 								</xsl:for-each>
@@ -166,15 +168,14 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 						</table>
 					</xsl:if>
 				</div>
-				<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-				<script type="text/javascript" src="' . plugins_url( 'js/dist/jquery.tablesorter.min.js', WPSEO_FILE ) . '"></script>
+				<script type="text/javascript" src="<?php echo includes_url( 'js/jquery/jquery.js' ) ?>"></script>
+				<script type="text/javascript" src="<?php echo plugins_url( 'js/dist/jquery.tablesorter.min.js', WPSEO_FILE ) ?>"></script>
 				<script	type="text/javascript"><![CDATA[
-					$(document).ready(function() {
-				        $("#sitemap").tablesorter( { widgets: [\'zebra\'] } );
+					jQuery(document).ready(function() {
+				        jQuery("#sitemap").tablesorter( { widgets: ['zebra'] } );
 					});
 				]]></script>
 			</body>
 		</html>
 	</xsl:template>
-</xsl:stylesheet>';
-echo $xsl;
+</xsl:stylesheet><?php
