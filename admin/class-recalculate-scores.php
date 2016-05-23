@@ -32,6 +32,7 @@ class WPSEO_Recalculate_Scores {
 	public function modal_box() {
 		// Adding the thickbox.
 		add_thickbox();
+		wp_enqueue_script( 'wp-a11y' );
 
 		$progress = sprintf(
 			/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
@@ -42,10 +43,11 @@ class WPSEO_Recalculate_Scores {
 
 		?>
 		<div id="wpseo_recalculate" style="display:none;">
-			<p><?php esc_html_e( 'Recalculating SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ); ?></p>
+			<p><?php esc_html_e( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ); ?></p>
 
-			<div id="wpseo_progressbar"></div>
+			<div id="wpseo_progressbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 			<p><?php echo $progress; ?></p>
+			<button type="button" id="wpseo-recalculate-close" class="button"><?php esc_html_e( 'Close', 'wordpress-seo' ); ?></button>
 		</div>
 		<?php
 	}

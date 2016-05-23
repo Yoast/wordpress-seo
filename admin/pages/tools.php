@@ -34,8 +34,8 @@ if ( '' === $tool_page ) {
 	}
 
 	$tools['recalculate'] = array(
-		'href'    => '#TB_inline?width=300&height=150&inlineId=wpseo_recalculate',
-		'attr'    => "id='wpseo_recalculate_link' class='thickbox'",
+		'href'    => '#wpseo_recalculate',
+		'attr'    => "id='wpseo_recalculate_link' class='aria-button-if-js'",
 		'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
 		'desc'    => __( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ),
 	);
