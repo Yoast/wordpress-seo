@@ -4,39 +4,6 @@ var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 
-/**
- * Returns whether or not the tinyMCE script is available on the page.
- *
- * @returns {boolean}
- */
-function isTinyMCELoaded() {
-	return (
-		typeof tinyMCE !== 'undefined' &&
-		typeof tinyMCE.editors !== 'undefined' &&
-		tinyMCE.editors.length !== 0
-	);
-}
-
-/**
- * Returns whether or not a tinyMCE editor with the given ID is available.
- *
- * @param {string} editorID The ID of the tinyMCE editor
- */
-function isTinyMCEAvailable( editorID ) {
-	console.log( isTinyMCELoaded() );
-
-	if ( ! isTinyMCELoaded() ) {
-		return false;
-	}
-
-	var editor = tinyMCE.get( editorID );
-
-	return (
-		editor !== null &&
-		! editor.isHidden()
-	);
-}
-
 (function( $ ) {
 	'use strict';
 
@@ -58,6 +25,39 @@ function isTinyMCEAvailable( editorID ) {
 	var KeywordTab = require( './analysis/keywordTab' );
 
 	var decorator = null;
+
+	/**
+	 * Returns whether or not the tinyMCE script is available on the page.
+	 *
+	 * @returns {boolean}
+	 */
+	function isTinyMCELoaded() {
+		return (
+			typeof tinyMCE !== 'undefined' &&
+			typeof tinyMCE.editors !== 'undefined' &&
+			tinyMCE.editors.length !== 0
+		);
+	}
+
+	/**
+	 * Returns whether or not a tinyMCE editor with the given ID is available.
+	 *
+	 * @param {string} editorID The ID of the tinyMCE editor
+	 */
+	function isTinyMCEAvailable( editorID ) {
+		console.log( isTinyMCELoaded() );
+
+		if ( ! isTinyMCELoaded() ) {
+			return false;
+		}
+
+		var editor = tinyMCE.get( editorID );
+
+		return (
+			editor !== null &&
+			! editor.isHidden()
+		);
+	}
 
 	/**
 	 * wordpress scraper to gather inputfields.
@@ -500,12 +500,11 @@ function isTinyMCEAvailable( editorID ) {
 			locale: wpseoPostScraperL10n.locale,
 			marker: function( paper, marks ) {
 				if ( isTinyMCEAvailable( 'content' ) ) {
-
-					if ( null === decorator ) { 
+					if ( null === decorator ) {
 						decorator = tinyMCEDecorator( tinyMCE.get( 'content' ) );
 					}
 
-					decorator( paper, marks )
+					decorator( paper, marks );
 				}
 			}
 		};
