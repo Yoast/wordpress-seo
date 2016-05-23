@@ -143,8 +143,8 @@
 			var $container = $this.closest( '.yoast-container' );
 			$container.append('<div class="yoast-container-disabled"/>');
 
-			$this.find('span').removeClass( 'dashicons-no-alt' ).addClass( 'dashicons-randomize' );
-			
+			$this.find( 'span' ).removeClass( 'dashicons-no-alt' ).addClass( 'dashicons-randomize' );
+
 			$.post(
 				ajaxurl,
 				{
@@ -165,8 +165,8 @@
 			var $container = $this.closest( '.yoast-container' );
 			$container.append('<div class="yoast-container-disabled"/>');
 
-			$this.find('span').removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-randomize' );
-			
+			$this.find( 'span' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-randomize' );
+
 			$.post(
 				ajaxurl,
 				{
@@ -184,11 +184,10 @@
 	/**
 	 * Handle dismiss and restore AJAX responses
 	 *
-	 * @param $source Object that triggered the request.
-	 * @param response AJAX response.
+	 * @param {Object} $source Object that triggered the request.
+	 * @param {Object} response AJAX response.
 	 */
 	function handleDismissRestoreResponse( $source, response ) {
-
 		$( '.yoast-alert-holder' ).off( 'click', '.restore' ).off( 'click', '.dismiss' );
 
 		if ( typeof response.html === 'undefined' ) {
