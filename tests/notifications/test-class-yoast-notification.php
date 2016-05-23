@@ -93,6 +93,19 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test setting and retrieving JSON
+	 */
+	public function test_json() {
+		$data = array( 'bla' );
+
+		$subject = new Yoast_Notification( 'message', array( 'data_json' => $data ) );
+		$this->assertEquals( $subject->get_json(), wp_json_encode( $data ) );
+
+		$subject = new Yoast_Notification( 'message', array( 'data_json' => '' ) );
+		$this->assertEquals( $subject->get_json(), '' );
+	}
+
+	/**
 	 * Test retrieval of dismissal key
 	 */
 	public function test_get_dismissal_key() {

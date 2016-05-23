@@ -406,4 +406,21 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$b = new Yoast_Notification( 'b', array( 'id' => uniqid( 'id' ) ) );
 		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( $b ) );
 	}
+
+	/**
+	 * Test notification count
+	 *
+	 * @covers Yoast_Notification_Center::get_notification_count
+	 */
+	public function test_get_notification_count() {
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		$this->assertEquals( 0, $notification_center->get_notification_count() );
+
+		$notification_center->add_notification( new Yoast_Notification( 'a', array( 'id' => 'some_id' ) ) );
+
+		$this->assertEquals( 1, $notification_center->get_notification_count() );
+		$this->assertEquals( 1, $notification_center->get_notification_count( true ) );
+	}
 }
