@@ -102,8 +102,8 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
  */
 function subheadingLengthMarker( paper ) {
 	var subheadings = getSubheadings( paper.getText() );
-
 	var lengthySubheadings = filter( subheadings, function( subheading ) {
+
 		return subheading[ 2 ].length > 30;
 	} );
 

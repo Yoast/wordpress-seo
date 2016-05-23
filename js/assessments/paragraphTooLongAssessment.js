@@ -1,7 +1,13 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var isParagraphTooLong = require( "../helpers/isValueTooLong" );
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../markers/addMark.js" );
+
 var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
+
+var recommendedValue = 150;
 
 /**
  * Returns an array containing only the paragraphs longer than the recommended length.
@@ -9,27 +15,28 @@ var filter = require( "lodash/filter" );
  * @param {number} recommendedValue The recommended maximum length of a paragraph.
  * @returns {number} The number of too long paragraphs.
  */
-var getTooLongParagraphs = function( paragraphsLength, recommendedValue ) {
-	var tooLongParagraphs = filter( paragraphsLength, isParagraphTooLong.bind( null, recommendedValue ) );
-	return tooLongParagraphs.length;
+var getTooLongParagraphs = function( paragraphsLength  ) {
+	var tooLongParagraphs = filter( paragraphsLength, function( paragraph ) {
+		return isParagraphTooLong( recommendedValue, paragraph.wordCount );
+	} );
+	return tooLongParagraphs;
 };
 
 /**
  * Returns the scores and text for the ParagraphTooLongAssessment
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
  * @param {number} tooLongParagraphs The number of too long paragraphs.
- * @param {number} recommendedValue The recommended maximum length of a paragraph.
  * @param {object} i18n The i18n object used for translations.
  * @returns {{score: number, text: string }} the assessmentResult.
  */
-var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, recommendedValue, i18n ) {
+var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
 	if ( paragraphsLength.length === 0 ) {
 		return {};
 	}
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 100 steps, each step is 0.06.
 	// Up to 117 is for scoring a 9, higher numbers give lower scores.
-	// floatingPointFix because of js rounding errors
-	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( paragraphsLength[ 0 ] - 117 ), 6 ), 0 );
+	// FloatingPointFix because of js rounding errors.
+	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( paragraphsLength[ 0 ].wordCount - 117 ), 6 ), 0 );
 	score = fixFloatingPoint( score );
 	if ( score >= 7 ) {
 		return {
@@ -44,9 +51,32 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains more than the recommended maximum " +
 			"of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?",
 			"%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of" +
-			" these paragraphs is about the same topic, and therefore belongs in a single paragraph?", tooLongParagraphs ),
-			tooLongParagraphs, recommendedValue )
+			" these paragraphs is about the same topic, and therefore belongs in a single paragraph?", tooLongParagraphs.length ),
+			tooLongParagraphs.length, recommendedValue )
 	};
+};
+
+var sortParagraphs = function( paragraphs ) {
+	return paragraphs.sort(
+		function( a, b ) {
+			return b.wordCount - a.wordCount;
+		}
+	);
+};
+
+var paragraphLengthMarker = function( paper, researcher ) {
+	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
+	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
+	var mapped =  map( tooLongParagraphs, function( paragraph ) {
+
+		var marked = marker( paragraph.paragraph );
+		return new Mark( {
+			original: paragraph.paragraph,
+			marked: marked
+		} );
+	} );
+
+	return mapped;
 };
 
 /**
@@ -58,14 +88,11 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
  */
 var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
-	paragraphsLength = paragraphsLength.sort(
-		function( a, b ) {
-			return b - a;
-		}
-	);
-	var recommendedValue = 150;
-	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength, recommendedValue );
-	var paragraphLengthResult = calculateParagraphLengthResult( paragraphsLength, tooLongParagraphs, recommendedValue, i18n );
+
+	paragraphsLength = sortParagraphs( paragraphsLength );
+
+	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
+	var paragraphLengthResult = calculateParagraphLengthResult( paragraphsLength, tooLongParagraphs, i18n );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( paragraphLengthResult.score );
@@ -79,5 +106,6 @@ module.exports = {
 	getResult: paragraphLengthAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: paragraphLengthMarker
 };
