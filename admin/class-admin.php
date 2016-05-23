@@ -200,7 +200,11 @@ class WPSEO_Admin {
 				array( $this, 'load_page' ),
 				null,
 			),
-			array(
+
+		);
+
+		if ( ! function_exists( 'is_network_admin' ) || ! is_network_admin() ) {
+			$submenu_pages[] = array(
 				'wpseo_dashboard',
 				'',
 				__( 'Alerts', 'wordpress-seo' ),
@@ -208,8 +212,8 @@ class WPSEO_Admin {
 				'wpseo_alerts',
 				array( $this, 'load_page' ),
 				null,
-			),
-		);
+			);
+		}
 
 		// Allow submenu pages manipulation.
 		$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
