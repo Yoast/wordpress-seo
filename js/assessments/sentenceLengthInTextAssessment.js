@@ -4,7 +4,7 @@ var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthP
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 
 var Mark = require( "../values/Mark.js" );
-var marker = require( "../renderers/marker.js" );
+var marker = require( "../markers/addMark.js" );
 
 var map = require( "lodash/map" );
 
