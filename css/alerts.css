@@ -91,6 +91,10 @@ h2 .dashicons-warning {
 	border-top: 1px solid #ddd;
 }
 
+.yoast-container .dashicons-yes {
+	color: #77b227;
+}
+
 .yoast-container__warning .dashicons-flag {
 	color: #5d237a;
 }
@@ -109,5 +113,4 @@ h2 .dashicons-warning {
 .yoast-no-issues {
 	padding: 1em 1em 1em 16px;
 	color: #666;
-	background-color: white;
 }

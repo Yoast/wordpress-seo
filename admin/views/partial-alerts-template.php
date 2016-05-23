@@ -28,23 +28,24 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 	}
 }
 
+if ( ! $active ) {
+	$dashicon = 'yes';
+}
+
 ?>
 <h2><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title ?> (<?php echo $active_total ?>)</h2>
 
 <div id="yoast-<?php echo $type ?>">
 
 	<?php if ( $total ) : ?>
-
-		<p><?php echo $i18n_issues; ?></p>
+		<p><?php echo( ! $active ? $i18n_no_issues : $i18n_issues ); ?></p>
 
 		<div class="container" id="yoast-<?php echo $type ?>-active">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>
-			<?php if ( ! $active ) : ?>
-			<div class="yoast-no-issues"><?php echo $i18n_no_issues; ?></div>
-			<?php endif; ?>
+
 		</div>
 
-		<?php if ( $dismissed ) : ?>
+		<?php if ( $active && $dismissed ) : ?>
 			<div class="separator"></div>
 		<?php endif; ?>
 
