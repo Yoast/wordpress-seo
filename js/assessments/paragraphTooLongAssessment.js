@@ -12,14 +12,12 @@ var recommendedValue = 150;
 /**
  * Returns an array containing only the paragraphs longer than the recommended length.
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
- * @param {number} recommendedValue The recommended maximum length of a paragraph.
  * @returns {number} The number of too long paragraphs.
  */
 var getTooLongParagraphs = function( paragraphsLength  ) {
-	var tooLongParagraphs = filter( paragraphsLength, function( paragraph ) {
+	return filter( paragraphsLength, function( paragraph ) {
 		return isParagraphTooLong( recommendedValue, paragraph.wordCount );
 	} );
-	return tooLongParagraphs;
 };
 
 /**
@@ -56,6 +54,12 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 	};
 };
 
+/**
+ * Sort the paragraphs based on word count.
+ *
+ * @param {Array} paragraphs The array with paragraphs.
+ * @returns {Array} The array sorted on word counts.
+ */
 var sortParagraphs = function( paragraphs ) {
 	return paragraphs.sort(
 		function( a, b ) {
@@ -64,10 +68,17 @@ var sortParagraphs = function( paragraphs ) {
 	);
 };
 
+/**
+ * Creates a marker for the paragraphs.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @returns {Array} An array with marked paragraphs.
+ */
 var paragraphLengthMarker = function( paper, researcher ) {
 	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
 	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
-	var mapped =  map( tooLongParagraphs, function( paragraph ) {
+	return map( tooLongParagraphs, function( paragraph ) {
 
 		var marked = marker( paragraph.paragraph );
 		return new Mark( {
@@ -75,8 +86,6 @@ var paragraphLengthMarker = function( paper, researcher ) {
 			marked: marked
 		} );
 	} );
-
-	return mapped;
 };
 
 /**
