@@ -84,6 +84,11 @@ class WPSEO_Premium {
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( $this, 'init_beacon' ) );
 
+			// Only register the yoast i18n when the page is a Yoast SEO page.
+			if ( $this->is_yoast_seo_premium_page( filter_input( INPUT_GET, 'page' ) ) ) {
+				$this->register_i18n_promo_class();
+			}
+
 			// Add custom fields plugin to post and page edit pages.
 			global $pagenow;
 			if ( in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ) ) ) {
@@ -162,6 +167,39 @@ class WPSEO_Premium {
 		// Only initialize the AJAX for all tabs except settings.
 		$facebook_name = new WPSEO_Facebook_Profile();
 		$facebook_name->set_hooks();
+	}
+
+	/**
+	 * Checks if the page is a premium page
+	 *
+	 * @param string $page The page to check.
+	 *
+	 * @return bool
+	 */
+	private function is_yoast_seo_premium_page( $page ) {
+		$premium_pages = array( 'wpseo_redirects' );
+
+		return in_array( $page, $premium_pages );
+	}
+
+	/**
+	 * Register the promotion class for our GlotPress instance
+	 *
+	 * @link https://github.com/Yoast/i18n-module
+	 */
+	private function register_i18n_promo_class() {
+		new yoast_i18n(
+			array(
+				'textdomain'     => 'wordpress-seo-premium',
+				'project_slug'   => 'wordpress-seo-premium',
+				'plugin_name'    => 'Yoast SEO premium',
+				'hook'           => 'wpseo_admin_promo_footer',
+				'glotpress_url'  => 'http://translate.yoast.com/gp/',
+				'glotpress_name' => 'Yoast Translate',
+				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
+				'register_url'   => 'https://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+			)
+		);
 	}
 
 	/**
