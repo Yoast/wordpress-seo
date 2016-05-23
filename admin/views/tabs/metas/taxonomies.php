@@ -42,6 +42,13 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 					/* translators: %1$s expands to Yoast SEO */
 				), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
 		}
+		/**
+		 * Allow adding a custom checkboxes to the admin meta page - Taxonomies tab
+		 *
+		 * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
+		 * @api  Object  $tax  The taxonomy
+		 */
+		do_action( 'wpseo_admin_page_meta_taxonomies', $yform, $tax );
 		echo '<br/><br/>';
 		echo '</div>';
 	}
