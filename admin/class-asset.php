@@ -145,13 +145,18 @@ class WPSEO_Admin_Asset {
 	 * @return string The full URL to the asset.
 	 */
 	public function get_url( $type, $plugin_file ) {
-		$url = '';
+		switch ( $type ) {
+			case self::TYPE_JS:
+				$url = plugins_url( 'js/dist/' . $this->get_src() . $this->get_suffix() . '.js', $plugin_file );
+				break;
 
-		if ( self::TYPE_JS === $type ) {
-			$url = plugins_url( 'js/dist/' . $this->get_src() . $this->get_suffix() . '.js', $plugin_file );
-		}
-		else if ( self::TYPE_CSS === $type ) {
-			$url = plugins_url( 'css/' . $this->get_src() . $this->get_suffix() . '.css', WPSEO_FILE );
+			case self::TYPE_CSS:
+				$url = plugins_url( 'css/' . $this->get_src() . $this->get_suffix() . '.css', WPSEO_FILE );
+				break;
+
+			default:
+				$url = '';
+				break;
 		}
 
 		return $url;
