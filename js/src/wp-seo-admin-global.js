@@ -208,6 +208,9 @@
 		}
 
 		$issue_counter.html( response.total );
+
+		// Admin menu counter.
+		$('#toplevel_page_wpseo_alerts .plugin-count').html( response.total );
 	}
 })();
 

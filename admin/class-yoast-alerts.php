@@ -24,6 +24,8 @@ class Yoast_Alerts {
 	private static $active_warnings = array();
 	/** @var array Dismissed warnings */
 	private static $dismissed_warnings = array();
+	
+	const ADMIN_PAGE = 'wpseo_alerts';
 
 	/**
 	 * Yoast_Alerts constructor.
@@ -39,7 +41,7 @@ class Yoast_Alerts {
 	private function add_hooks() {
 
 		$page = filter_input( INPUT_GET, 'page' );
-		if ( 'wpseo_alerts' === $page ) {
+		if ( self::ADMIN_PAGE === $page ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		}
 

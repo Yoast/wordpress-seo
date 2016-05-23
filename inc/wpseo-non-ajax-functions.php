@@ -236,7 +236,7 @@ function wpseo_admin_bar_menu() {
 
 	$focuskw = '';
 	$score   = '';
-	$seo_url = get_admin_url( null, 'admin.php?page=wpseo_dashboard' );
+	$seo_url = get_admin_url( null, 'admin.php?page=' . Yoast_Alerts::ADMIN_PAGE );
 
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
 					'post.php',
@@ -270,7 +270,6 @@ function wpseo_admin_bar_menu() {
 		}
 
 		// Always show Alerts page when clicking on the main link.
-		$seo_url = get_admin_url( null, 'admin.php?page=wpseo_alerts' );
 		$counter = sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count );
 	}
 
@@ -476,7 +475,7 @@ function wpseo_admin_bar_menu() {
 				'parent' => 'wpseo-menu',
 				'id'     => 'wpseo-alerts',
 				'title'  => __( 'SEO Alerts', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_alerts' ),
+				'href'   => admin_url( 'admin.php?page=' . Yoast_Alerts::ADMIN_PAGE ),
 			) );
 		}
 	}

@@ -130,8 +130,15 @@ class WPSEO_Admin {
 
 		$manage_options_cap = $this->get_manage_options_cap();
 
+		$notification_center     = Yoast_Notification_Center::get();
+		$notification_count      = $notification_center->get_notification_count();
+
 		// Add main page.
-		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), $manage_options_cap, 'wpseo_dashboard', array(
+		$counter = sprintf( '<span class="update-plugins"><span class="plugin-count">%1$s</span></span>', $notification_count );
+
+		$parent_admin_page_slug = Yoast_Alerts::ADMIN_PAGE;
+
+		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, $parent_admin_page_slug, array(
 			$this,
 			'load_page',
 		), $icon_svg, '99.31337' );
@@ -139,7 +146,16 @@ class WPSEO_Admin {
 		// Sub menu pages.
 		$submenu_pages = array(
 			array(
+				$parent_admin_page_slug,
+				'',
+				__( 'General', 'wordpress-seo' ),
+				$manage_options_cap,
 				'wpseo_dashboard',
+				array( $this, 'load_page' ),
+				null,
+			),
+			array(
+				$parent_admin_page_slug,
 				'',
 				__( 'Titles &amp; Metas', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -147,7 +163,7 @@ class WPSEO_Admin {
 				array( $this, 'load_page' ),
 			),
 			array(
-				'wpseo_dashboard',
+				$parent_admin_page_slug,
 				'',
 				__( 'Social', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -156,7 +172,7 @@ class WPSEO_Admin {
 				null,
 			),
 			array(
-				'wpseo_dashboard',
+				$parent_admin_page_slug,
 				'',
 				__( 'XML Sitemaps', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -165,7 +181,7 @@ class WPSEO_Admin {
 				null,
 			),
 			array(
-				'wpseo_dashboard',
+				$parent_admin_page_slug,
 				'',
 				__( 'Advanced', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -174,7 +190,7 @@ class WPSEO_Admin {
 				null,
 			),
 			array(
-				'wpseo_dashboard',
+				$parent_admin_page_slug,
 				'',
 				__( 'Tools', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -183,7 +199,7 @@ class WPSEO_Admin {
 				null,
 			),
 			array(
-				'wpseo_dashboard',
+				$parent_admin_page_slug,
 				'',
 				__( 'Search Console', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -192,7 +208,7 @@ class WPSEO_Admin {
 				array( array( $this->admin_features['google_search_console'], 'set_help' ) ),
 			),
 			array(
-				'wpseo_dashboard',
+				$parent_admin_page_slug,
 				'',
 				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
 				$manage_options_cap,
@@ -202,18 +218,6 @@ class WPSEO_Admin {
 			),
 
 		);
-
-		if ( ! function_exists( 'is_network_admin' ) || ! is_network_admin() ) {
-			$submenu_pages[] = array(
-				'wpseo_dashboard',
-				'',
-				__( 'Alerts', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_alerts',
-				array( $this, 'load_page' ),
-				null,
-			);
-		}
 
 		// Allow submenu pages manipulation.
 		$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
@@ -235,8 +239,8 @@ class WPSEO_Admin {
 		}
 
 		global $submenu;
-		if ( isset( $submenu['wpseo_dashboard'] ) && current_user_can( $manage_options_cap ) ) {
-			$submenu['wpseo_dashboard'][0][0] = __( 'General', 'wordpress-seo' );
+		if ( isset( $submenu[ $parent_admin_page_slug ] ) && current_user_can( $manage_options_cap ) ) {
+			$submenu[ $parent_admin_page_slug ][0][0] = __( 'Dashboard', 'wordpress-seo' );
 		}
 	}
 
@@ -361,13 +365,13 @@ class WPSEO_Admin {
 				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
 				break;
 
-			case 'wpseo_alerts':
-				Yoast_Alerts::show_overview_page();
+			case 'wpseo_dashboard':
+				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
 				break;
 
-			case 'wpseo_dashboard':
+			case Yoast_Alerts::ADMIN_PAGE:
 			default:
-				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
+				Yoast_Alerts::show_overview_page();
 				break;
 		}
 	}

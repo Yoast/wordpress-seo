@@ -45,7 +45,7 @@ if ( ! $active ) {
 
 		</div>
 
-		<?php if ( $active && $dismissed ) : ?>
+		<?php if ( $dismissed ) : ?>
 			<div class="separator"></div>
 		<?php endif; ?>
 
