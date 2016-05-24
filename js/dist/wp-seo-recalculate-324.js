@@ -132,6 +132,10 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 		var new_value = parseInt( current_value, 10 ) + total_posts;
 		var new_width = new_value * (100 / this.total_count);
 
+		if ( 100 === new_width ) {
+			jQuery( '#wpseo-recalculate-message' ).text( wpseoRecalculateL10n.completed );
+		}
+
 		jQuery( '#wpseo_progressbar' ).progressbar( 'value', new_width );
 
 		this.updateCountElement( new_value );
