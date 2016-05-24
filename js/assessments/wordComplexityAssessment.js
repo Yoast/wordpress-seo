@@ -105,5 +105,4 @@ module.exports = {
 		return paper.hasText();
 	},
 	getMarks: wordComplexityMarker
-
 };
