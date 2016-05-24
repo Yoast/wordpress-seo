@@ -25,8 +25,8 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 			->method( 'get_primary_category' )
 			->will ( $this->returnValue( '54' ) );
 
-		$expect = ( object ) array(
-			'term_id' => 54
+		$expect = (object) array(
+			'term_id' => 54,
 		);
 
 		$this->subject
@@ -34,7 +34,7 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 			->method( 'get_category' )
 			->will( $this->returnValue( $expect ) );
 
-		$category = ( object ) array(
+		$category = (object) array(
 			'cat_ID' => 52,
 		);
 
@@ -56,7 +56,7 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 			->expects( $this->never() )
 			->method( 'get_category' );
 
-		$category = ( object ) array(
+		$category = (object) array(
 			'term_id' => 1,
 			'name' => 'test',
 			'term_taxonomy_id' => 1,
@@ -65,5 +65,4 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals( $category, $this->subject->post_link_category( $category ) );
 	}
-
 }
