@@ -1157,21 +1157,21 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
  * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
  */
 SnippetPreview.prototype.createMeasurementElements = function() {
-	var titleElement = document.createElement( 'span' );
-	var metaDescriptionElement = document.createElement( 'span' );
+	var titleElement = document.createElement( "span" );
+	var metaDescriptionElement = document.createElement( "span" );
 
-	titleElement.id = 'measureTitle';
-	titleElement.style.width = 'auto';
-	titleElement.style.height = 'auto';
-	titleElement.style.position = 'absolute';
-	titleElement.style.visibility = 'hidden';
-	titleElement.style.whiteSpace = 'nowrap';
+	titleElement.id = "measureTitle";
+	titleElement.style.width = "auto";
+	titleElement.style.height = "auto";
+	titleElement.style.position = "absolute";
+	titleElement.style.visibility = "hidden";
+	titleElement.style.whiteSpace = "nowrap";
 
-	metaDescriptionElement.id = 'measureDescription';
-	metaDescriptionElement.style.width = document.getElementById( 'meta_container' ).offsetWidth + 'px';
-	metaDescriptionElement.style.height = 'auto';
-	metaDescriptionElement.style.position = 'absolute';
-	metaDescriptionElement.style.visibility = 'hidden';
+	metaDescriptionElement.id = "measureDescription";
+	metaDescriptionElement.style.width = document.getElementById( "meta_container" ).offsetWidth + "px";
+	metaDescriptionElement.style.height = "auto";
+	metaDescriptionElement.style.position = "absolute";
+	metaDescriptionElement.style.visibility = "hidden";
 
 	document.body.appendChild( titleElement );
 	document.body.appendChild( metaDescriptionElement );
@@ -1181,7 +1181,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
  * Copies the title text to the title measure element to calculate the widht in pixels.
  */
 SnippetPreview.prototype.measureTitle = function() {
-	var titleElement = document.getElementById( 'measureTitle' );
+	var titleElement = document.getElementById( "measureTitle" );
 
 	titleElement.innerHTML = this.element.rendered.title.innerHTML;
 
@@ -1192,7 +1192,7 @@ SnippetPreview.prototype.measureTitle = function() {
  * Copies the metadescription text to the metadescription measure element to calculate the height in pixels.
  */
 SnippetPreview.prototype.measureMetaDescription = function() {
-	var metaDescriptionElement = document.getElementById( 'measureDescription' );
+	var metaDescriptionElement = document.getElementById( "measureDescription" );
 
 	metaDescriptionElement.innerHTML = this.element.rendered.metaDesc.innerHTML;
 
