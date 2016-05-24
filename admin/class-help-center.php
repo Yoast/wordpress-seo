@@ -39,6 +39,9 @@ class WPSEO_Help_Center {
 			)
 		);
 		array_push( $this->help_center_items, $kb_help_center_item );
+
+		$contact_support_help_center_item = new WPSEO_Help_Center_Item( 'contact-support', 'Contact our support team' );
+		array_push( $this->help_center_items, $contact_support_help_center_item );
 	}
 
 	/**
@@ -99,6 +102,7 @@ class WPSEO_Help_Center {
 
 							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo $class; ?>">
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>"
+								   class="<?php echo $id ?>"
 								   aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
 							</li>
 							<?php

@@ -214,11 +214,34 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
+
+	//POC extract data from event // TODO move this to premium
+	jQuery( window ).on( 'YoastSEO:ContactSupport' , function(e, data){
+		console.log(data.usedQueries);
+	});
+
 	jQuery( document ).ready( function() {
 			/* Inject kb-search in divs with the classname of 'wpseo-kb-search'. */
 			var mountingPoints = jQuery( '.wpseo-kb-search' );
-			jQuery.each( mountingPoints, function( _, mountingPoint ) {
-				ReactDom.render( <AlgoliaSearcher/>, mountingPoint ); // jshint ignore:line
+			var algoliaSearchers = [];
+			jQuery.each( mountingPoints, function( index , mountingPoint ) {
+				let tabId =  jQuery(mountingPoint).closest('.wpseotab').attr('id');
+				algoliaSearchers.push({tabName: tabId , algoliaSearcher: ReactDom.render( <AlgoliaSearcher/>, mountingPoint )}); // jshint ignore:line
+			});
+
+
+			jQuery('.contact-support').on('click', function( e ) {
+				let activeTabName = jQuery('.wpseotab.active').attr('id');
+				var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher; // 1st by defatul. (Used for the Advanced settings pages because of how the tabs were set up)
+				jQuery.each(algoliaSearchers, function( key, searcher ) {
+					if ( searcher.tabName == activeTabName ) {
+						activeAlgoliaSearcher = searcher.algoliaSearcher;
+						return false; // returning false breaks the loop.
+					}
+				});
+				let usedQueries = activeAlgoliaSearcher.state.usedQueries;
+				jQuery( window ).trigger( 'YoastSEO:ContactSupport',  {usedQueries: usedQueries});
+
 			});
 
 			/* Fix banner images overlapping help texts */

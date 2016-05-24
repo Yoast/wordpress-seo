@@ -33,19 +33,18 @@ var AlgoliaSearcher = function (_React$Component) {
 
 		_this.state = {
 			searchString: '',
+			usedQueries: [],
 			results: [],
 			errorMessage: '',
 			showDetail: false,
 			searching: false
 		};
 		_this.props = props;
-		_this.usedQueries = [];
 		_this.initAlgoliaClient();
 
 		_this.searchButtonClicked = _this.searchButtonClicked.bind(_this);
 		_this.hideDetail = _this.hideDetail.bind(_this);
 		_this.openExternal = _this.openExternal.bind(_this);
-
 		return _this;
 	}
 
@@ -59,13 +58,17 @@ var AlgoliaSearcher = function (_React$Component) {
 		key: 'searchButtonClicked',
 		value: function searchButtonClicked(e) {
 			var searchString = e.target.getElementsByTagName('input')[0].value;
-			this.usedQueries.push(searchString);
-			this.setState({
-				searchString: searchString
-			}, function () {
-				// after the state was set
-				this.updateSearchResults();
-			});
+			if (searchString != '') {
+				var usedQueries = this.state.usedQueries;
+				usedQueries.push(searchString);
+				this.setState({
+					searchString: searchString,
+					usedQueries: usedQueries
+				}, function () {
+					// after the state was set
+					this.updateSearchResults();
+				});
+			}
 		}
 	}, {
 		key: 'updateSearchResults',
@@ -151,14 +154,15 @@ var AlgoliaSearcher = function (_React$Component) {
 				_react2.default.createElement(
 					'a',
 					{ href: '#',
-						className: 'dashicons-before dashicons-arrow-left',
 						onClick: this.hideDetail },
+					_react2.default.createElement('span', { className: 'dashicons dashicons-arrow-left' }),
 					'Back'
 				),
 				_react2.default.createElement(
 					'a',
 					{ href: post.permalink,
-						className: 'wpseo-kb-search-ext-link  dashicons-before dashicons-external' },
+						className: 'wpseo-kb-search-ext-link' },
+					_react2.default.createElement('span', { className: 'dashicons dashicons-external' }),
 					'Open'
 				),
 				_react2.default.createElement(ArticleContent, { post: post })
@@ -525,11 +529,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
+	//POC extract data from event // TODO move this to premium
+	jQuery(window).on('YoastSEO:ContactSupport', function (e, data) {
+		console.log(data.usedQueries);
+	});
+
 	jQuery(document).ready(function () {
 		/* Inject kb-search in divs with the classname of 'wpseo-kb-search'. */
 		var mountingPoints = jQuery('.wpseo-kb-search');
-		jQuery.each(mountingPoints, function (_, mountingPoint) {
-			_reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default, null), mountingPoint); // jshint ignore:line
+		var algoliaSearchers = [];
+		jQuery.each(mountingPoints, function (index, mountingPoint) {
+			var tabId = jQuery(mountingPoint).closest('.wpseotab').attr('id');
+			algoliaSearchers.push({ tabName: tabId, algoliaSearcher: _reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default, null), mountingPoint) }); // jshint ignore:line
+		});
+
+		jQuery('.contact-support').on('click', function (e) {
+			var activeTabName = jQuery('.wpseotab.active').attr('id');
+			var activeAlgoliaSearcher = algoliaSearchers[0].algoliaSearcher; // 1st by defatul. (Used for the Advanced settings pages because of how the tabs were set up)
+			jQuery.each(algoliaSearchers, function (key, searcher) {
+				if (searcher.tabName == activeTabName) {
+					activeAlgoliaSearcher = searcher.algoliaSearcher;
+					return false; // returning false breaks the loop.
+				}
+			});
+			var usedQueries = activeAlgoliaSearcher.state.usedQueries;
+			jQuery(window).trigger('YoastSEO:ContactSupport', { usedQueries: usedQueries });
 		});
 
 		/* Fix banner images overlapping help texts */

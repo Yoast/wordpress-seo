@@ -4,7 +4,6 @@
 }
 
 .wpseo-kb-search-results {
-  max-height: 400px; // TODO (remove once the help center is given a max height)
   overflow: auto;
 }
 
@@ -36,7 +35,6 @@
 }
 
 .wpseo-kb-search-ext-link {
-  text-decoration: none;
   float: right
 }
 
@@ -81,6 +79,10 @@
   content: '';
   position: absolute;
   top: 0;
+}
+
+.dashicons{
+  text-decoration: none;
 }
 
 @-webkit-keyframes load7 {

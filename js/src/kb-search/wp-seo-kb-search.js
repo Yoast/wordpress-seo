@@ -7,19 +7,18 @@ class AlgoliaSearcher extends React.Component {
 		super();
 		this.state = {
 			searchString: '',
+			usedQueries: [],
 			results: [],
 			errorMessage: '',
 			showDetail: false,
 			searching: false
 		};
 		this.props = props;
-		this.usedQueries = [];
 		this.initAlgoliaClient();
 
 		this.searchButtonClicked = this.searchButtonClicked.bind(this);
 		this.hideDetail = this.hideDetail.bind(this);
 		this.openExternal = this.openExternal.bind(this);
-
 	}
 
 	initAlgoliaClient() {
@@ -29,12 +28,16 @@ class AlgoliaSearcher extends React.Component {
 
 	searchButtonClicked( e ) {
 		let searchString = e.target.getElementsByTagName('input')[ 0 ].value;
-		this.usedQueries.push(searchString);
-		this.setState({
-						  searchString: searchString
-					  }, function() { // after the state was set
-			this.updateSearchResults();
-		});
+		if ( searchString != '' ) {
+			let usedQueries = this.state.usedQueries;
+			usedQueries.push(searchString);
+			this.setState({
+							  searchString: searchString,
+							  usedQueries: usedQueries
+						  }, function() { // after the state was set
+				this.updateSearchResults();
+			});
+		}
 	}
 
 	updateSearchResults() {
@@ -101,12 +104,13 @@ class AlgoliaSearcher extends React.Component {
 		return (
 			<div className="wpseo-kb-search-detail">
 				<a href="#"
-				   className="dashicons-before dashicons-arrow-left"
 				   onClick={this.hideDetail}>
+					<span className="dashicons dashicons-arrow-left"/>
 					Back
 				</a>
 				<a href={post.permalink}
-				   className="wpseo-kb-search-ext-link  dashicons-before dashicons-external">
+				   className="wpseo-kb-search-ext-link">
+					<span className="dashicons dashicons-external"/>
 					Open
 				</a>
 				<ArticleContent post={post}/>
