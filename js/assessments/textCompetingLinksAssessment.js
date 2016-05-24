@@ -43,6 +43,13 @@ var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Mark the anchors.
+ *
+ * @param {Paper} paper The paper to use for the marking.
+ * @param {Researcher} researcher The researcher to use.
+ * @returns {Array} Array with all the marked anchors.
+ */
 var competingLinkMarker = function( paper, researcher ) {
 	var competingLinks = researcher.getResearch( "getLinkStatistics" );
 
