@@ -45,10 +45,10 @@ class WPSEO_Recalculate_Scores {
 
 		?>
 		<div id="wpseo_recalculate" style="display:none;">
-			<p aria-live="polite" id="wpseo-recalculate-message"><?php esc_html_e( 'Recalculating SEO scores...', 'wordpress-seo' ); ?></p>
+			<p aria-live="polite" id="wpseo-recalculate-message"><?php esc_html_e( 'Recalculation in progress...', 'wordpress-seo' ); ?></p>
 
 			<div id="wpseo_progressbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
-			<p><?php echo $progress; ?></p>
+			<p id="wpseo-recalculate-progress"><?php echo $progress; ?></p>
 			<button type="button" id="wpseo-recalculate-close" class="button"><?php esc_html_e( 'Close', 'wordpress-seo' ); ?></button>
 		</div>
 		<?php

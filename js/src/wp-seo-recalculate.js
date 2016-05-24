@@ -257,13 +257,14 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	// Initialize the recalculate.
 	function init() {
 		var recalculate_link = $( '#wpseo_recalculate_link' );
-		var $closeButton;
-		var $recalculateClose;
+		var closeButton;
+		var recalculateClose;
 
 		recalculate_link.click(
 			function( event ) {
 				var title = $( this ).text();
-				var $popupWindow;
+				var popupWindow;
+				var initialText;
 
 				// Reminder: avoid conflicts with the Settings pages tabs JS.
 				event.preventDefault();
@@ -271,12 +272,13 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 				tb_show( title, '#TB_inline?width=600&height=180&inlineId=wpseo_recalculate', 'group' );
 
 				// The thickbox popup UI is now available.
-				$popupWindow = $( '#TB_window' );
-				$closeButton = $( '#TB_closeWindowButton' );
-				$recalculateClose = $( '#wpseo-recalculate-close' );
+				popupWindow = $( '#TB_window' );
+				closeButton = $( '#TB_closeWindowButton' );
+				initialText = $( '#wpseo-recalculate-message' ).text();
+				recalculateClose = $( '#wpseo-recalculate-close' );
 
 				// Accessibility improvements.
-				$popupWindow
+				popupWindow
 					.attr({
 						role: 'dialog',
 						'aria-labelledby': 'TB_ajaxWindowTitle',
@@ -290,10 +292,10 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 							id = event.target.id;
 
 							if ( id === 'wpseo-recalculate-close' && ! event.shiftKey ) {
-								$closeButton.focus();
+								closeButton.focus();
 								event.preventDefault();
 							} else if ( id === 'TB_closeWindowButton' && event.shiftKey ) {
-								$recalculateClose.focus();
+								recalculateClose.focus();
 								event.preventDefault();
 							}
 						}
@@ -302,6 +304,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 				// Move focus back to the element that opened the modal.
 				$( 'body' ).on( 'thickbox:removed', function() {
 					$( '#wpseo_recalculate_link' ).focus();
+					$( '#wpseo-recalculate-message' ).text( initialText );
 				});
 
 				// Reset the count element and the progressbar
@@ -324,7 +327,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 		}
 
 		$( document.body ).on( 'click', '#wpseo-recalculate-close', function() {
-			$closeButton.trigger( 'click' );
+			closeButton.trigger( 'click' );
 		});
 	}
 
