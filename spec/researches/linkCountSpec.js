@@ -14,7 +14,7 @@ describe("Tests a string for anchors and analyzes these", function(){
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 0 );
-		expect( foundLinks.totalKeyword ).toBe( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
 
 		attributes = {
 			keyword: "link",
@@ -26,7 +26,7 @@ describe("Tests a string for anchors and analyzes these", function(){
 		expect( foundLinks.total ).toBe( 2 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 1 );
-		expect( foundLinks.totalKeyword ).toBe( 2 );
+		expect( foundLinks.keyword.totalKeyword ).toBe( 2 );
 
 
 		mockPaper = new Paper( "string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow'>link</a>", attributes );
@@ -47,7 +47,10 @@ describe("Tests a string for anchors and analyzes these", function(){
 		expect( foundLinks ).toEqual({
 			total: 0,
 			totalNaKeyword: 0,
-			totalKeyword: 0,
+			keyword: {
+				totalKeyword: 0,
+				matchedAnchors: []
+			},
 			internalTotal: 0,
 			internalDofollow: 0,
 			internalNofollow: 0,
@@ -74,7 +77,10 @@ describe("Tests a string for anchors and analyzes these", function(){
 		expect( foundLinks ).toEqual({
 			total: 8,
 			totalNaKeyword: 0,
-			totalKeyword: 2,
+			keyword: {
+				totalKeyword: 2,
+				matchedAnchors: [ "<a href='http://example.org/test123'>keyword</a>", "<a href='http://yoast.com'>keyword</a>" ]
+			},
 			internalTotal: 3,
 			internalDofollow: 2,
 			internalNofollow: 1,

@@ -17,4 +17,10 @@ describe("Get sentences from text", function(){
 		expect( getSentences( sentence )[0] ).toBe( "It was a lot");
 		expect( getSentences( sentence )[1] ).toBe( " Approx. two hundred");
 	});
+
+	it("returns sentences with a ! in it (should not be converted to . )", function () {
+		var sentence = "It was a lot. Approx! two hundred";
+		expect( getSentences( sentence )[0] ).toBe( "It was a lot");
+		expect( getSentences( sentence )[1] ).toBe( " Approx! two hundred");
+	});
 });
