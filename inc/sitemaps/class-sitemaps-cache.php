@@ -33,7 +33,7 @@ class WPSEO_Sitemaps_Cache {
 		add_action( 'user_register', array( __CLASS__, 'invalidate_author' ) );
 		add_action( 'delete_user', array( __CLASS__, 'invalidate_author' ) );
 
-		add_action( 'shutdown', array( __CLASS__, 'shutdown' ) );
+		add_action( 'shutdown', array( __CLASS__, 'clear_queued' ) );
 	}
 
 	/**
@@ -271,12 +271,5 @@ class WPSEO_Sitemaps_Cache {
 				self::clear( $types );
 			}
 		}
-	}
-
-	/**
-	 * Run queued cache clear on shutdown.
-	 */
-	public static function shutdown() {
-		self::clear_queued();
 	}
 }
