@@ -1419,7 +1419,6 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
 
 	return function() {
 		var marks = assessment.getMarks( paper, researcher );
-
 		specificMarker( paper, marks );
 	};
 };
@@ -2029,46 +2028,85 @@ module.exports = function( paper ) {
 };
 
 },{"../stringProcessing/matchTextWithWord.js":88}],39:[function(require,module,exports){
-var transitionWords = require( "../config/transitionWords.js" )();
-var twoPartTransitionWords = require( "../config/twoPartTransitionWords.js" )();
+var transitionWords = require( "../config/transitionWords.js" );
+var twoPartTransitionWords = require( "../config/twoPartTransitionWords.js" );
 var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var createRegexFromArray = require( "../stringProcessing/createRegexFromArray.js" );
-var filter = require( "lodash/filter" );
+var forEach = require( "lodash/forEach" );
+
+/**
+ * Matches the sentence against two part transition words.
+ * @param {string} sentence The sentence to match against.
+ * @returns {Array} The found transitional words.
+ */
+var matchTwoPartTransitionWords = function( sentence ) {
+	return sentence.match( createRegexFromDoubleArray( twoPartTransitionWords() ) );
+};
+
+/**
+ * Matches the sentence against transition words.
+ * @param {string} sentence The sentence to match against.
+ * @returns {Array} The found transitional words.
+ */
+var matchTransitionWords = function( sentence ) {
+	return sentence.match( createRegexFromArray( transitionWords() ) );
+};
+
+/**
+ * Checks the passed sentences to see if they contain transitional words.
+ * @param {Array} sentences The sentences to match against.
+ * @returns {Array} Array of sentence objects containing the complete sentence and the transitional words.
+ */
+var checkSentencesForTransitionWords = function( sentences ) {
+	var results = [];
+
+	forEach( sentences, function( sentence ) {
+		var twoPartMatches = matchTwoPartTransitionWords( sentence );
+
+		if ( twoPartMatches !== null ) {
+			results.push( {
+				sentence: sentence,
+				transitionWords: twoPartMatches
+			} );
+
+			return;
+		}
+
+		var transitionWordMatches = matchTransitionWords( sentence );
+
+		if ( transitionWordMatches !== null ) {
+			results.push( {
+				sentence: sentence,
+				transitionWords: transitionWordMatches
+			} );
+
+			return;
+		}
+	} );
+
+	return results;
+};
 
 /**
  * Checks how many sentences from a text contain at least one transition word or two-part transition word
  * that are defined in the transition words config and two part transition words config.
- * @param {string} paper The Paper object to get text from.
+ * @param {Paper} paper The Paper object to get text from.
  * @returns {object} An object with the total number of sentences in the text
  * and the total number of sentences containing one or more transition words.
  */
 module.exports = function( paper ) {
-	var text = paper.getText();
-	var sentences = getSentences( text );
-	var transitionWordSentenceCount = 0;
-	var twoPartTransitionWordRegex = createRegexFromDoubleArray( twoPartTransitionWords );
-	var transitionWordRegex = createRegexFromArray( transitionWords );
-	var nonMatchedSentences = filter( sentences, function ( sentence ) {
-		if ( sentence.match( twoPartTransitionWordRegex ) !== null ) {
-			transitionWordSentenceCount++;
-			return false;
-		}
-		return true;
-	} );
-	nonMatchedSentences.map( function( sentence ) {
-		if ( sentence.match( transitionWordRegex ) !== null ) {
-			transitionWordSentenceCount++;
-		}
-	} );
+	var sentences = getSentences( paper.getText() );
+	var sentenceResults = checkSentencesForTransitionWords( sentences );
 
 	return {
 		totalSentences: sentences.length,
-		transitionWordSentences: transitionWordSentenceCount
+		sentenceResults: sentenceResults,
+		transitionWordSentences: sentenceResults.length
 	};
 };
 
-},{"../config/transitionWords.js":26,"../config/twoPartTransitionWords.js":27,"../stringProcessing/createRegexFromArray.js":75,"../stringProcessing/createRegexFromDoubleArray.js":76,"../stringProcessing/getSentences.js":81,"lodash/filter":237}],40:[function(require,module,exports){
+},{"../config/transitionWords.js":26,"../config/twoPartTransitionWords.js":27,"../stringProcessing/createRegexFromArray.js":75,"../stringProcessing/createRegexFromDoubleArray.js":76,"../stringProcessing/getSentences.js":81,"lodash/forEach":240}],40:[function(require,module,exports){
 /** @module analyses/getKeywordDensity */
 
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -2360,7 +2398,6 @@ var getRegularVerbs = function( subSentence ) {
 var getIrregularVerbs = function( subSentence ) {
 	var irregularVerbs = matchArray( subSentence, irregulars );
 	return filter( irregularVerbs, function( verb ) {
-
 		// If rid is used with get, gets, getting, got or gotten, remove it.
 		if ( verb.match === "rid" ) {
 			var exclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
@@ -2454,29 +2491,29 @@ var determinePassives = function( subSentence ) {
 /**
  * Determines the number of passive sentences in the text.
  * @param {Paper} paper The paper object to get the text from.
- * @returns {object} The number of passives found in the text and the total nubmer of sentences
+ * @returns {object} The number of passives found in the text and the passive sentences.
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
 	var sentences = getSentences( text );
-	var passiveCount = 0;
+	var passiveSentences = [];
 
 	// Get subsentences for each sentence.
 	forEach( sentences, function( sentence ) {
 		var subSentences = getSubsentences( sentence );
 		var passive = false;
-		subSentences.map( function( subSentence ) {
+		forEach( subSentences, function( subSentence ) {
 			passive = determinePassives( subSentence );
 		} );
-		if ( passive ) {
-			passiveCount++;
+		if ( passive === true ) {
+			passiveSentences.push( sentence );
 			passive = false;
 		}
 	} );
 
 	return {
 		total: sentences.length,
-		passives: passiveCount
+		passives: passiveSentences
 	};
 };
 
@@ -6457,17 +6494,14 @@ module.exports = function( paper ) {
  * Returns a string that can be used in a regex to match a matchString with word boundaries.
  *
  * @param {string} matchString The string to generate a regex string for.
- * @param {string} extraWordBoundary Extra characters to match a word boundary on.
+ * @param {string} [extraWordBoundary] Extra characters to match a word boundary on.
  * @returns {string} A regex string that matches the matchString with word boundaries
  */
 module.exports = function( matchString, extraWordBoundary ) {
 	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
+	var _extraWordBoundary = extraWordBoundary || "";
 
-	if ( typeof extraWordBoundary === "undefined" ) {
-		extraWordBoundary = "";
-	}
-
-	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›" + extraWordBoundary + "<>]";
+	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›" + _extraWordBoundary + "<>]";
 	wordBoundaryStart = "(^|" + wordBoundary + ")";
 	wordBoundaryEnd = "($|" + wordBoundary + ")";
 
@@ -6714,30 +6748,32 @@ module.exports = function( text ) {
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
+var map = require( "lodash/map" );
 
 /**
  * Creates a regex of combined strings from the input array.
  *
  * @param {array} array The array with strings
- * @param {boolean} disableWordBoundary Boolean indicating whether or not to disable word boundaries
+ * @param {boolean} [disableWordBoundary] Boolean indicating whether or not to disable word boundaries
  * @returns {RegExp} regex The regex created from the array.
  */
 module.exports = function( array, disableWordBoundary ) {
 	var regexString;
+	var _disableWordBoundary = disableWordBoundary || false;
 
-	array = array.map( function( string ) {
-		if ( disableWordBoundary ) {
+	var boundedArray = map( array, function( string ) {
+		if ( _disableWordBoundary ) {
 			return string;
 		}
 		return addWordBoundary( string );
 	} );
 
-	regexString = "(" + array.join( ")|(" ) + ")";
+	regexString = "(" + boundedArray.join( ")|(" ) + ")";
 
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":69}],76:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":69,"lodash/map":264}],76:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromDoubleArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -6865,8 +6901,6 @@ module.exports = function( text, url ) {
 };
 
 },{}],81:[function(require,module,exports){
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
 var filter = require( "lodash/filter" );
 var isEmpty = require( "lodash/isEmpty" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -6897,7 +6931,9 @@ var invalidateOnCapital = function( text, positions, i ) {
 
 	// The current index + 2 should be the first character of the new sentence. We use a range of 1, since we only need the first character.
 	var firstChar = text.substring( positions[ i ] + 2, positions[ i ] + 3 );
-	if( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) ) {
+
+	// If a sentence starts with a number or a whitespace, it shouldn't invalidate
+	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( /\s/ ) === null ) {
 		return true;
 	}
 };
@@ -6910,7 +6946,7 @@ var invalidateOnCapital = function( text, positions, i ) {
  */
 var filterPositions = function( text, positions ) {
 	return filter( positions, function( position, index ) {
-		if( !isUndefined( positions[ index + 1 ] ) ) {
+		if ( !isUndefined( positions[ index + 1 ] ) ) {
 			if ( invalidateOnWhiteSpace( text, positions[ index ] ) || invalidateOnCapital( text, positions, index ) ) {
 				return false;
 			}
@@ -6939,15 +6975,14 @@ var splitOnIndex = function( positions, text ) {
 };
 
 /**
- * Unifies terminators and strip spaces.
- *
- * @param {String} text The string to clean.
- * @returns {String} The cleaned text.
+ * Returns sentences in a string.
+ * @param {String} text The string to count sentences in.
+ * @returns {Array} Sentences found in the text.
  */
-var cleanText = function( text ) {
-	if( text === "" ) {
-		return text;
-	}
+module.exports = function( text ) {
+
+	// Store the original text before changing terminators, so we can return the unaltered sentences.
+	var originalText = text;
 
 	// Unify all terminators.
 	text = text.replace( /[.?!]/g, "." );
@@ -6955,35 +6990,21 @@ var cleanText = function( text ) {
 	// Add period in case it is missing.
 	text += ".";
 
-	// Remove double spaces
-	text = stripSpaces( text );
-
-	return text;
-};
-
-/**
- * Returns sentences in a string.
- * @param {String} text The string to count sentences in.
- * @returns {Array} Sentences found in the text.
- */
-module.exports = function( text ) {
-	text = cleanText( text );
-
 	var positions = [];
 	var periodIndex = text.indexOf( "." );
-	while( periodIndex > -1 ) {
+	while ( periodIndex > -1 ) {
 		positions.push( periodIndex );
 		periodIndex = text.indexOf( ".", periodIndex + 1 );
 	}
-	positions = filterPositions( text, positions );
-	var sentences = splitOnIndex( positions, text );
+	positions = filterPositions( originalText, positions );
+	var sentences = splitOnIndex( positions, originalText );
 
 	return filter( sentences, function( sentence ) {
-		return( !isEmpty( sentence ) );
+		return ( !isEmpty( sentence ) );
 	} );
 };
 
-},{"../stringProcessing/stripSpaces.js":98,"lodash/filter":237,"lodash/forEach":240,"lodash/isEmpty":250,"lodash/isNaN":253,"lodash/isUndefined":261}],82:[function(require,module,exports){
+},{"lodash/filter":237,"lodash/forEach":240,"lodash/isEmpty":250,"lodash/isNaN":253,"lodash/isUndefined":261}],82:[function(require,module,exports){
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.
@@ -7234,7 +7255,7 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  * @returns {String} The text without characters.
  */
 module.exports = function( text ) {
-	text = text.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
+	text = text.replace( /[\[\]\{\}\(\)\*\+\?\^\$\|]/g, "" );
 	text = stripTags( text );
 	text = stripSpaces( text );
 
@@ -7252,7 +7273,6 @@ var forEach = require( "lodash/forEach" );
  */
 module.exports = function( sentences ) {
 	var sentencesWordCount = [];
-
 	forEach( sentences, function( sentence ) {
 		var length = wordCount( sentence );
 

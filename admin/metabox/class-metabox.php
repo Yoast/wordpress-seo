@@ -318,9 +318,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tabs[] = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
-			__( 'Content', 'wordpress-seo' ),
+			__( '', 'wordpress-seo' ),
 			array(
-				'link_class' => 'wpseo_keyword_tab',
+				'link_class' => 'yoast-seo__remove-tab',
 			)
 		);
 
@@ -421,7 +421,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
-				$content .= '<div id="wpseo-pageanalysis"></div><h2>Content assessments</h2><div id="wpseo-contentanalysis"></div>';
+				$content .= '<div id="wpseo-pageanalysis"></div>';
+				$content .= '<div id="yoast-seo-content-analysis"></div>';
 				break;
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';

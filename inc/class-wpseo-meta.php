@@ -140,6 +140,12 @@ class WPSEO_Meta {
 				'default_value' => '0',
 				'description'   => '',
 			),
+			'content_score'  => array(
+				'type'          => 'hidden',
+				'title'         => 'content_score',
+				'default_value' => '0',
+				'description'   => '',
+			),
 			'metakeywords'   => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.
