@@ -140,6 +140,11 @@ textarea.wpseo_variable_warning {
 	margin: 1em 0 0.5em 0;
 }
 
+.wpseo_content_wrapper h1.wpseo-redirect-url-title {
+	font-size: 1.3em;
+	margin: 1em 0 0.5em 0;
+}
+
 .wpseo_content_wrapper div.wpseo-warning h4 {
 	margin: 0.5em 0 0 0;
 }
