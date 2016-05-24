@@ -90,7 +90,6 @@ var wordComplexityMarker = function( paper, researcher ) {
 var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var wordComplexity = researcher.getResearch( "wordComplexity" );
 	var wordCount = wordComplexity.length;
-
 	var tooComplexWords = filterComplexity( wordComplexity ).length;
 	var complexityResult = calculateComplexity( wordCount, tooComplexWords, i18n );
 	var assessmentResult = new AssessmentResult();
