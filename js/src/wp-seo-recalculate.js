@@ -2,6 +2,7 @@
 /* global ajaxurl */
 /* global require */
 /* global tb_show */
+/* global wpseoRecalculateL10n */
 
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
