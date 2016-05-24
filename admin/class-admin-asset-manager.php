@@ -39,7 +39,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
 			self::PREFIX . $script->get_name(),
-			plugins_url( 'js/dist/' . $script->get_src() . $script->get_suffix() . '.js', WPSEO_FILE ),
+			$script->get_url( WPSEO_Admin_Asset::TYPE_JS, WPSEO_FILE ),
 			$script->get_deps(),
 			$script->get_version(),
 			$script->is_in_footer()
@@ -54,7 +54,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_style( WPSEO_Admin_Asset $style ) {
 		wp_register_style(
 			self::PREFIX . $style->get_name(),
-			plugins_url( 'css/' . $style->get_src() . $style->get_suffix() . '.css', WPSEO_FILE ),
+			$style->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE ),
 			$style->get_deps(),
 			$style->get_version(),
 			$style->get_media()
@@ -91,6 +91,20 @@ class WPSEO_Admin_Asset_Manager {
 			$style = new WPSEO_Admin_Asset( $style );
 			$this->register_style( $style );
 		}
+	}
+
+	/**
+	 * A list of styles that shouldn't be registered but are needed in other locations in the plugin.
+	 *
+	 * @return array
+	 */
+	public function special_styles() {
+		return array(
+			'inside-editor' => new WPSEO_Admin_Asset( array(
+				'name' => 'inside-editor',
+				'src' => 'inside-editor-330',
+			) ),
+		);
 	}
 
 	/**

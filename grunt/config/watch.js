@@ -29,7 +29,8 @@ module.exports = {
 	},
 	js: {
 		files: [
-			'<%= files.js %>'
+			'<%= files.js %>',
+			'<%= paths.js %>/**/*.js'
 		],
 		tasks: [
 			'build:js',
