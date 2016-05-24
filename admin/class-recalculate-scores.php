@@ -24,6 +24,9 @@ class WPSEO_Recalculate_Scores {
 	public function recalculate_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'recalculate' );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'recalculate', 'wpseoRecalculateL10n', array(
+			'completed' => __( 'Recalculation completed.', 'wordpress-seo' ),
+		) );
 	}
 
 	/**
@@ -42,10 +45,11 @@ class WPSEO_Recalculate_Scores {
 
 		?>
 		<div id="wpseo_recalculate" style="display:none;">
-			<p><?php esc_html_e( 'Recalculating SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ); ?></p>
+			<p aria-live="polite" id="wpseo-recalculate-message"><?php esc_html_e( 'Recalculation in progress...', 'wordpress-seo' ); ?></p>
 
-			<div id="wpseo_progressbar"></div>
-			<p><?php echo $progress; ?></p>
+			<div id="wpseo_progressbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+			<p id="wpseo-recalculate-progress"><?php echo $progress; ?></p>
+			<button type="button" id="wpseo-recalculate-close" class="button"><?php esc_html_e( 'Close', 'wordpress-seo' ); ?></button>
 		</div>
 		<?php
 	}

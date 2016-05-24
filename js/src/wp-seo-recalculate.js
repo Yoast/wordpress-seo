@@ -1,6 +1,8 @@
 /* global wpseoAdminL10n */
 /* global ajaxurl */
 /* global require */
+/* global tb_show */
+/* global wpseoRecalculateL10n */
 
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
@@ -81,6 +83,10 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 		var current_value = jQuery( '#wpseo_count' ).text();
 		var new_value = parseInt( current_value, 10 ) + total_posts;
 		var new_width = new_value * (100 / this.total_count);
+
+		if ( 100 === new_width ) {
+			jQuery( '#wpseo-recalculate-message' ).text( wpseoRecalculateL10n.completed );
+		}
 
 		jQuery( '#wpseo_progressbar' ).progressbar( 'value', new_width );
 
@@ -251,30 +257,79 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 
 	// Initialize the recalculate.
 	function init() {
-		var recalculate_link = jQuery('#wpseo_recalculate_link');
+		var recalculate_link = $( '#wpseo_recalculate_link' );
+		var closeButton;
+		var recalculateClose;
 
-		if (recalculate_link !== undefined) {
-			recalculate_link.click(
-				function() {
-					// Reset the count element and the progressbar
-					jQuery( '#wpseo_count' ).text( 0 );
+		recalculate_link.click(
+			function( event ) {
+				var title = $( this ).text();
+				var popupWindow;
+				var initialText;
 
-					$.post(
-						ajaxurl,
-						{
-							action: 'wpseo_recalculate_total',
-							nonce: jQuery( '#wpseo_recalculate_nonce' ).val()
-						},
-						start_recalculate,
-						'json'
-					);
-				}
-			);
+				// Reminder: avoid conflicts with the Settings pages tabs JS.
+				event.preventDefault();
 
-			if (recalculate_link.data('open')) {
-				recalculate_link.trigger('click');
+				tb_show( title, '#TB_inline?width=600&height=180&inlineId=wpseo_recalculate', 'group' );
+
+				// The thickbox popup UI is now available.
+				popupWindow = $( '#TB_window' );
+				closeButton = $( '#TB_closeWindowButton' );
+				initialText = $( '#wpseo-recalculate-message' ).text();
+				recalculateClose = $( '#wpseo-recalculate-close' );
+
+				// Accessibility improvements.
+				popupWindow
+					.attr({
+						role: 'dialog',
+						'aria-labelledby': 'TB_ajaxWindowTitle',
+						'aria-describedby': 'TB_ajaxContent'
+					})
+					.on( 'keydown', function( event ) {
+						var id;
+
+						// Constrain tabbing within the modal.
+						if ( 9 === event.which ) {
+							id = event.target.id;
+
+							if ( id === 'wpseo-recalculate-close' && ! event.shiftKey ) {
+								closeButton.focus();
+								event.preventDefault();
+							} else if ( id === 'TB_closeWindowButton' && event.shiftKey ) {
+								recalculateClose.focus();
+								event.preventDefault();
+							}
+						}
+					});
+
+				// Move focus back to the element that opened the modal.
+				$( 'body' ).on( 'thickbox:removed', function() {
+					$( '#wpseo_recalculate_link' ).focus();
+					$( '#wpseo-recalculate-message' ).text( initialText );
+				});
+
+				// Reset the count element and the progressbar
+				$( '#wpseo_count' ).text( 0 );
+
+				$.post(
+					ajaxurl,
+					{
+						action: 'wpseo_recalculate_total',
+						nonce: $( '#wpseo_recalculate_nonce' ).val()
+					},
+					start_recalculate,
+					'json'
+				);
 			}
+		);
+
+		if (recalculate_link.data('open')) {
+			recalculate_link.trigger('click');
 		}
+
+		$( document.body ).on( 'click', '#wpseo-recalculate-close', function() {
+			closeButton.trigger( 'click' );
+		});
 	}
 
 	$(init);
