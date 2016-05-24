@@ -68,7 +68,7 @@ class Yoast_Notification_Center {
 	 */
 	public function enable_remove_untouched() {
 
-		$this->remove_untouched = false;
+		$this->remove_untouched = true;
 	}
 
 	/**

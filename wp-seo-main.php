@@ -353,7 +353,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 		add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 	}
 
-	add_action( 'admin_init', 'load_yoast_notifications' );
+	add_action( 'plugins_loaded', 'load_yoast_notifications' );
 }
 
 // Activation and deactivation hook.
