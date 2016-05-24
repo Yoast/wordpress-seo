@@ -21,7 +21,8 @@ var defaults = {
 	data: {
 		title: "",
 		metaDesc: "",
-		urlPath: ""
+		urlPath: "",
+		titleWidth: 0
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
@@ -319,6 +320,7 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {string}      data.title                     - The title.
  * @property {string}      data.urlPath                   - The url path.
  * @property {string}      data.metaDesc                  - The meta description.
+ * @property {int}         data.titleWidth                - The width of the title in pixels.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
@@ -456,6 +458,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 	}
 
 	this.opened = false;
+	this.createMeasurementElements();
 	this.updateProgressBars();
 };
 
@@ -467,6 +470,7 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
+	this.measureTitle();
 	this.updateProgressBars();
 };
 
@@ -1145,6 +1149,31 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 
 	this.changedInput();
 };
+
+/**
+ * Creates elements with the purpose to calculate the sizes of elements.
+ */
+SnippetPreview.prototype.createMeasurementElements = function() {
+	var titleElement = document.createElement( 'span' );
+
+	titleElement.id = 'measureTitle';
+	titleElement.style.width = 'auto';
+	titleElement.style.height = 'auto';
+	titleElement.style.position = 'absolute';
+	titleElement.style.visibility = 'hidden';
+	titleElement.style.whiteSpace = 'nowrap';
+
+	document.body.appendChild( titleElement );
+};
+
+SnippetPreview.prototype.measureTitle = function() {
+	var titleElement = document.getElementById( 'measureTitle' );
+
+	titleElement.innerHTML = this.element.rendered.title.innerHTML;
+
+	this.data.titleWidth = titleElement.offsetWidth;
+};
+
 
 /* jshint ignore:start */
 /* eslint-disable */
