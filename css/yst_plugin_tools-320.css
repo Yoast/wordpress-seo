@@ -502,7 +502,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .wpseo-tab-video-slideout {
 	display: none;
-	overflow: hidden;
+	overflow-y: hidden;
+	height: 600px;
 	padding: 0.5em 0.5em 0.5em;
 	border: 1px solid #a4286a;
 	border-bottom-left-radius: 10px;
@@ -574,7 +575,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-tab-video-slideout .help-tab-content {
-	overflow: hidden;
+	overflow: auto;
+	margin: 0;
 }
 
 .wpseo-tab-video__panel__textarea {
@@ -595,6 +597,5 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .contextual-help-tabs-wrap {
 	width: 100%;
-	margin: 0 -10px 0 0;
 	padding: 0 0 0 20px;
 }
