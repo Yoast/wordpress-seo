@@ -11,8 +11,8 @@ var recommendedValue = 3;
 /**
  * Calculates the complexity of the text based on the syllables in words.
  * @param {number} wordCount The number of words used.
- * @param {number} tooComplexWords The number of words with 4 or more syllables.
- * @param {object} i18n The object used for translations.
+ * @param {Array} wordComplexity The list of words with their syllable count.
+ * @param {Object} i18n The object used for translations.
  * @returns {{score: number, text}} resultobject with score and text.
  */
 var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
