@@ -15,7 +15,9 @@ var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 var analyzerConfig = require( "./config/config.js" );
 
-var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
+var templates = require( "./templates.js" );
+var snippetEditorTemplate = templates.snippetEditor;
+var hiddenElement = templates.hiddenSpan;
 
 var defaults = {
 	data: {
@@ -308,6 +310,9 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
  * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
  *
+ * @property {HTMLElement} element.measure.titleWidth    - The rendered title width element.
+ * @property {HTMLElement} element.measure.metaHeight    - The rendered meta height element.
+ *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
  * @property {HTMLElement} element.input.urlPath          - The url path input element.
@@ -414,6 +419,10 @@ SnippetPreview.prototype.renderTemplate = function() {
 	} );
 
 	this.element = {
+		measure : {
+			titleWidth: null,
+			metaHeight: null
+		},
 		rendered: {
 			title: document.getElementById( "snippet_title" ),
 			urlBase: document.getElementById( "snippet_citeBase" ),
@@ -1157,46 +1166,50 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
  * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
  */
 SnippetPreview.prototype.createMeasurementElements = function() {
-	var titleElement = document.createElement( "span" );
-	var metaDescriptionElement = document.createElement( "span" );
+	var titleElement, metaDescriptionElement, spanHolder;
 
-	titleElement.id = "measureTitle";
-	titleElement.style.width = "auto";
-	titleElement.style.height = "auto";
-	titleElement.style.position = "absolute";
-	titleElement.style.visibility = "hidden";
-	titleElement.style.whiteSpace = "nowrap";
+	titleElement = hiddenElement( {
+		width: "auto",
+		whiteSpace: "nowrap"
+	} );
 
-	metaDescriptionElement.id = "measureDescription";
-	metaDescriptionElement.style.width = document.getElementById( "meta_container" ).offsetWidth + "px";
-	metaDescriptionElement.style.height = "auto";
-	metaDescriptionElement.style.position = "absolute";
-	metaDescriptionElement.style.visibility = "hidden";
+	metaDescriptionElement = hiddenElement(
+		{
+			width: document.getElementById( "meta_container" ).offsetWidth + "px",
+			whiteSpace: ""
+		}
+	);
 
-	document.body.appendChild( titleElement );
-	document.body.appendChild( metaDescriptionElement );
+	spanHolder = document.createElement( "div" );
+
+	spanHolder.innerHTML = titleElement + metaDescriptionElement;
+
+	document.body.appendChild( spanHolder );
+	
+	this.element.measure.titleWidth = spanHolder.childNodes[ 0 ];
+	this.element.measure.metaHeight = spanHolder.childNodes[ 1 ];
 };
 
 /**
- * Copies the title text to the title measure element to calculate the widht in pixels.
+ * Copies the title text to the title measure element to calculate the width in pixels.
  */
 SnippetPreview.prototype.measureTitle = function() {
-	var titleElement = document.getElementById( "measureTitle" );
+	var titleWidthElement = this.element.measure.titleWidth;
 
-	titleElement.innerHTML = this.element.rendered.title.innerHTML;
+	titleWidthElement.innerHTML = this.element.rendered.title.innerHTML;
 
-	this.data.titleWidth = titleElement.offsetWidth;
+	this.data.titleWidth = titleWidthElement.offsetWidth;
 };
 
 /**
  * Copies the metadescription text to the metadescription measure element to calculate the height in pixels.
  */
 SnippetPreview.prototype.measureMetaDescription = function() {
-	var metaDescriptionElement = document.getElementById( "measureDescription" );
+	var metaHeightElement = this.element.measure.metaHeight;
 
-	metaDescriptionElement.innerHTML = this.element.rendered.metaDesc.innerHTML;
+	metaHeightElement.innerHTML = this.element.rendered.metaDesc.innerHTML;
 
-	this.data.metaHeight = metaDescriptionElement.offsetHeight;
+	this.data.metaHeight = metaHeightElement.offsetHeight;
 };
 
 /* jshint ignore:start */
