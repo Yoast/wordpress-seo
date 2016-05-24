@@ -12,11 +12,10 @@ var recommendedValue = 3;
  * Calculates the complexity of the text based on the syllables in words.
  * @param {number} wordCount The number of words used.
  * @param {number} tooComplexWords The number of words with 4 or more syllables.
- * @param {number} recommendedValue The recommendedValue for amount of syllables.
  * @param {object} i18n The object used for translations.
  * @returns {{score: number, text}} resultobject with score and text.
  */
-var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue, i18n ) {
+var calculateComplexity = function( wordCount, tooComplexWords, i18n ) {
 	var percentage = ( tooComplexWords / wordCount ) * 100;
 	percentage = fixFloatingPoint( percentage );
 	var recommendedMaximum = 10;
@@ -93,7 +92,7 @@ var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var wordCount = wordComplexity.length;
 
 	var tooComplexWords = filterComplexity( wordComplexity ).length;
-	var complexityResult = calculateComplexity( wordCount, tooComplexWords, recommendedValue, i18n );
+	var complexityResult = calculateComplexity( wordCount, tooComplexWords, i18n );
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );
 	assessmentResult.setText( complexityResult.text );
