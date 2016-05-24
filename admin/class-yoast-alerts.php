@@ -74,7 +74,8 @@ class Yoast_Alerts {
 
 			$this->output_ajax_response( $notification->get_type() );
 		}
-		die();
+
+		wp_die();
 	}
 
 	/**
@@ -89,7 +90,7 @@ class Yoast_Alerts {
 			$this->output_ajax_response( $notification->get_type() );
 		}
 
-		die();
+		wp_die();
 	}
 
 	/**
@@ -100,10 +101,10 @@ class Yoast_Alerts {
 	private function output_ajax_response( $type ) {
 
 		$html = $this->get_view_html( $type );
-		echo json_encode(
+		echo wp_json_encode(
 			array(
 				'html'  => $html,
-				'total' => count( self::$active_errors ) + count( self::$active_warnings ),
+				'total' => self::get_active_alert_count(),
 			)
 		);
 	}
@@ -192,7 +193,7 @@ class Yoast_Alerts {
 		return array(
 			'metrics'  => array(
 				'total'    => self::$notification_count,
-				'active'   => count( self::$active_errors ) + count( self::$active_warnings ),
+				'active'   => self::get_active_alert_count(),
 				'errors'   => count( self::$errors ),
 				'warnings' => count( self::$warnings ),
 			),
@@ -205,6 +206,16 @@ class Yoast_Alerts {
 				'active'    => self::$active_warnings,
 			),
 		);
+	}
+
+	/**
+	 * Get the number of active alerts
+	 *
+	 * @return int
+	 */
+	public static function get_active_alert_count() {
+
+		return ( count( self::$active_errors ) + count( self::$active_warnings ) );
 	}
 
 	/**

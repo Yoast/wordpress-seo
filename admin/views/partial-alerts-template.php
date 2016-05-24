@@ -42,7 +42,6 @@ if ( ! $active ) {
 
 		<div class="container" id="yoast-<?php echo $type ?>-active">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>
-
 		</div>
 
 		<?php if ( $dismissed ) : ?>

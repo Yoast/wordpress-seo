@@ -130,8 +130,8 @@ class WPSEO_Admin {
 
 		$manage_options_cap = $this->get_manage_options_cap();
 
-		$notification_center     = Yoast_Notification_Center::get();
-		$notification_count      = $notification_center->get_notification_count();
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_count  = $notification_center->get_notification_count();
 
 		// Add main page.
 		$counter = sprintf( '<span class="update-plugins"><span class="plugin-count">%1$s</span></span>', $notification_count );
