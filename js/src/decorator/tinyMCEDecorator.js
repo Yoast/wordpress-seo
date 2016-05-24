@@ -19,8 +19,6 @@ function markTinyMCE( editor, paper, marks ) {
 		html = mark.applyWithReplace( html );
 	});
 
-	console.log( html );
-
 	editor.setContent( html );
 }
 
@@ -31,8 +29,6 @@ function markTinyMCE( editor, paper, marks ) {
  * @returns {Function} The function that can be called to decorate the editor.
  */
 function tinyMCEDecorator( editor ) {
-	console.log( editor );
-
 	window.test = editor;
 
 	return markTinyMCE.bind( null, editor );

@@ -45,8 +45,6 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 	 * @param {string} editorID The ID of the tinyMCE editor
 	 */
 	function isTinyMCEAvailable( editorID ) {
-		console.log( isTinyMCELoaded() );
-
 		if ( ! isTinyMCELoaded() ) {
 			return false;
 		}
