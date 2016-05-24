@@ -7,6 +7,7 @@ var marker = require( "../markers/addMark.js" );
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
 
+// 150 is the recommendedValue for the maximum paragraph length.
 var recommendedValue = 150;
 
 /**
@@ -79,7 +80,6 @@ var paragraphLengthMarker = function( paper, researcher ) {
 	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
 	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
 	return map( tooLongParagraphs, function( paragraph ) {
-
 		var marked = marker( paragraph.paragraph );
 		return new Mark( {
 			original: paragraph.paragraph,

@@ -3,6 +3,7 @@ var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var isParagraphTooShort = require( "../helpers/isValueTooShort" );
 var filter = require( "lodash/filter" );
 
+// 40 is the recommendedValue for the minimum paragraph length.
 var recommendedValue = 40;
 
 /**

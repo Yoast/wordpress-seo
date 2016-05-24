@@ -5,7 +5,7 @@ var map = require( "lodash/map" );
  * @param {string} text The text to match paragraph in.
  * @returns {array} An array containing all paragraphs texts.
  */
-var getParagraphsInPTags = function ( text ) {
+var getParagraphsInTags = function (text ) {
 	var paragraphs = [];
 	// Matches everything between the <p> and </p> tags.
 	var regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
@@ -27,7 +27,7 @@ var getParagraphsInPTags = function ( text ) {
  * @returns {array} The array containing all paragraphs from the text.
  */
 module.exports = function( text ) {
-	var paragraphs = getParagraphsInPTags( text );
+	var paragraphs = getParagraphsInTags( text );
 
 	if ( paragraphs.length > 0 ) {
 		return paragraphs;
