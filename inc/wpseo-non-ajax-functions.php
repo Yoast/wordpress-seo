@@ -244,13 +244,14 @@ function wpseo_admin_bar_menu() {
 				), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
-		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
-		$txtscore   = WPSEO_Utils::translate_score( $perc_score );
-		$title      = WPSEO_Utils::translate_score( $perc_score, false );
-		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) .
-		              ' adminbar-seo-score' . '"></div>';
+		$score      = '<div class="' . esc_attr( 'wpseo-score-icon' ) . ' adminbar-seo-score"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
+	}
+
+	if ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
+		$score      = '<div class="' . esc_attr( 'wpseo-score-icon' ) . ' adminbar-seo-score"></div>';
+		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
 	}
 
 	$wp_admin_bar->add_menu( array(
@@ -467,7 +468,7 @@ function wpseo_admin_bar_style() {
 		$screen = get_current_screen();
 
 		// Post (every post_type) or category page.
-		if ( 'post' === $screen->base || 'edit-tags' === $screen->base ) {
+		if ( in_array( $screen->base, array( 'post', 'edit-tags', 'term' ) ) ) {
 			$enqueue_style = true;
 		}
 	}
