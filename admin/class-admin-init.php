@@ -116,7 +116,7 @@ class WPSEO_Admin_Init {
 			);
 
 			$notification_options = array(
-				'type'  => 'updated',
+				'type'  => Yoast_Notification::UPDATED,
 				'id'    => 'wpseo-dismiss-about',
 				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
 			);
@@ -213,7 +213,7 @@ class WPSEO_Admin_Init {
 			);
 
 			$notification_options = array(
-				'type' => 'error',
+				'type' => Yoast_Notification::ERROR,
 			);
 
 			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );

@@ -84,7 +84,7 @@ class WPSEO_GSC {
 					'</a>'
 				),
 				array(
-					'type'      => 'warning',
+					'type'      => Yoast_Notification::WARNING,
 					'id'        => 'wpseo-dismiss-gsc',
 				)
 			)
@@ -177,7 +177,7 @@ class WPSEO_GSC {
 
 			// Adding notification to the notification center.
 			/* Translators: %1$s: expands to Google Search Console. */
-			$this->add_notification( sprintf( __( 'The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'Google Search Console' ), 'updated' );
+			$this->add_notification( sprintf( __( 'The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'Google Search Console' ), Yoast_Notification::UPDATED );
 
 			// Directly output the notifications.
 			wp_redirect( remove_query_arg( 'gsc_reset' ) );
@@ -190,7 +190,7 @@ class WPSEO_GSC {
 			WPSEO_GSC_Settings::reload_issues();
 
 			// Adding the notification.
-			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), 'updated' );
+			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), Yoast_Notification::UPDATED );
 
 			// Directly output the notifications.
 			Yoast_Notification_Center::get()->display_notifications();
@@ -221,7 +221,7 @@ class WPSEO_GSC {
 		// Catch the authorization code POST.
 		if ( ! empty( $gsc_values['authorization_code'] ) && wp_verify_nonce( $gsc_values['gsc_nonce'], 'wpseo-gsc_nonce' ) ) {
 			if ( ! WPSEO_GSC_Settings::validate_authorization( trim( $gsc_values['authorization_code'] ), $this->service->get_client() ) ) {
-				$this->add_notification( __( 'Incorrect Google Authorization Code.', 'wordpress-seo' ), 'error' );
+				$this->add_notification( __( 'Incorrect Google Authorization Code.', 'wordpress-seo' ), Yoast_Notification::ERROR );
 			}
 
 			// Redirect user to prevent a post resubmission which causes an oauth error.

@@ -11,7 +11,11 @@ class Yoast_Notification {
 
 	const MATCH_ALL = 'all';
 	const MATCH_ANY = 'any';
-
+	
+	const ERROR = 'error';
+	const WARNING = 'warning';
+	const UPDATED = 'updated';
+	
 	/**
 	 * Contains optional arguments:
 	 *
@@ -30,7 +34,7 @@ class Yoast_Notification {
 
 	/** @var array Contains default values for the optional arguments */
 	private $defaults = array(
-		'type'             => 'updated',
+		'type'             => self::UPDATED,
 		'id'               => '',
 		'nonce'            => null,
 		'priority'         => 0.5,
