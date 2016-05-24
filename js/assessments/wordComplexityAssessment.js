@@ -8,6 +8,19 @@ var addMark = require( "../markers/addMark.js" );
 
 // The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
 var recommendedValue = 3;
+
+/**
+ * Filters the words that aren't too long.
+ *
+ * @param {Array} words The array with words to filter on complexity.
+ * @returns {Array} The filtered list with complex words.
+ */
+var filterComplexity = function( words ) {
+	return filter( words, function( word ) {
+		return( word.complexity > recommendedValue );
+	} );
+};
+
 /**
  * Calculates the complexity of the text based on the syllables in words.
  * @param {number} wordCount The number of words used.
@@ -48,18 +61,6 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 				"%1$s of the words contain over %2$d syllables, which is more than the recommended maximum of %3$s." ),
 			percentage + "%", recommendedValue, recommendedMaximum + "%" )
 	};
-};
-
-/**
- * Filters the words that aren't too long.
- *
- * @param {Array} words The array with words to filter on complexity.
- * @returns {Array} The filtered list with complex words.
- */
-var filterComplexity = function( words ) {
-	return filter( words, function( word ) {
-		return( word.complexity > recommendedValue );
-	} );
 };
 
 /**
