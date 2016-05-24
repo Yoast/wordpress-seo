@@ -1,73 +1,108 @@
-.wpseo-kb-search-result {
-  border-bottom: 1px solid #ccc;
+.wpseo-kb-search-search-bar{
+    padding-bottom: 15px;
+    border-bottom:1px solid #ccc;
+}
+
+.wpseo-kb-search-results {
+  max-height: 400px; // TODO (remove once the help center is given a max height)
+  overflow: auto;
+}
+
+.wpseo-kb-search-no-results{
+  margin-top:10px;
+}
+
+.wpseo-kb-search-result{
+  border-bottom: 1px solid #efefef;
   text-decoration: none;
   color: #000;
+  margin:0;
   display: block;
   padding-left: 5px;
 }
 
-.wpseo-kb-search-result:hover {
-  padding-left: 0;
-  border-left: 5px solid #a4286a;
-}
-
 .wpseo-kb-search-result-link {
   cursor: pointer;
+  display: block;
 }
 
-.kb-search-detail-btn {
-  line-height: normal !important;
+.wpseo-kb-search-result-link:hover, .wpseo-kb-search-result-link:focus {
+  background-color: rgba(164,40,106, 0.1);
 }
 
-.kb-external {
+.wpseo-kb-search-result-title {
+  margin: 0 !important;
+  padding-top: 15px;
+}
+
+.wpseo-kb-search-ext-link {
+  text-decoration: none;
   float: right
 }
 
-.kb-search-results {
-  max-height: 400px;
-  overflow: scroll;
+// LOADING SPINNER - Created by @lukehaas (http://projects.lukehaas.me/css-loaders/)
+.wpseo-kb-loader:before,
+.wpseo-kb-loader:after,
+.wpseo-kb-loader {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
 }
 
-
-// loading spinner
-.spinner {
-  margin: 100px auto 0;
-  width: 70px;
-  text-align: center;
-}
-
-.spinner > div {
-  width: 18px;
-  height: 18px;
-  background-color: #333;
-
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-}
-
-.spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
-}
-
-.spinner .bounce2 {
+.wpseo-kb-loader {
+  color: #a4286a;
+  font-size: 10px;
+  margin: 0px auto;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
 
-@-webkit-keyframes sk-bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0) }
-  40% { -webkit-transform: scale(1.0) }
+.wpseo-kb-loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
 }
 
-@keyframes sk-bouncedelay {
-  0%, 80%, 100% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  } 40% {
-      -webkit-transform: scale(1.0);
-      transform: scale(1.0);
-    }
+.wpseo-kb-loader:after {
+  left: 3.5em;
 }
+
+.wpseo-kb-loader:before,
+.wpseo-kb-loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+
+// END LOADING SPINNER

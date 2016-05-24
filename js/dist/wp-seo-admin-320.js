@@ -2,7 +2,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -15,10 +15,6 @@ var _algoliasearch = require('algoliasearch');
 
 var _algoliasearch2 = _interopRequireDefault(_algoliasearch);
 
-var _debounce = require('lodash/debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27,259 +23,300 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import ReactDom from 'react-dom';
-
 var AlgoliaSearcher = function (_React$Component) {
-    _inherits(AlgoliaSearcher, _React$Component);
+	_inherits(AlgoliaSearcher, _React$Component);
 
-    function AlgoliaSearcher(props) {
-        _classCallCheck(this, AlgoliaSearcher);
+	function AlgoliaSearcher(props) {
+		_classCallCheck(this, AlgoliaSearcher);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AlgoliaSearcher).call(this));
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AlgoliaSearcher).call(this));
 
-        _this.state = {
-            searchString: '',
-            results: [],
-            errorMessage: '',
-            showDetail: false
-        };
-        _this.props = props;
-        _this.usedQueries = [];
-        _this.initAlgoliaClient();
+		_this.state = {
+			searchString: '',
+			results: [],
+			errorMessage: '',
+			showDetail: false,
+			searching: false
+		};
+		_this.props = props;
+		_this.usedQueries = [];
+		_this.initAlgoliaClient();
 
-        _this.searchInputChanged = _this.searchInputChanged.bind(_this);
-        _this.hideDetail = _this.hideDetail.bind(_this);
+		_this.searchButtonClicked = _this.searchButtonClicked.bind(_this);
+		_this.hideDetail = _this.hideDetail.bind(_this);
+		_this.openExternal = _this.openExternal.bind(_this);
 
-        _this.debouncedUpdateSearchResults = (0, _debounce2.default)(_this.updateSearchResults.bind(_this), _this.props.debounceTime);
-        return _this;
-    }
+		return _this;
+	}
 
-    _createClass(AlgoliaSearcher, [{
-        key: 'initAlgoliaClient',
-        value: function initAlgoliaClient() {
-            this.client = (0, _algoliasearch2.default)(this.props.algoliaApplicationId, this.props.algoliaApiKey);
-            this.index = this.client.initIndex(this.props.algoliaIndexName);
-        }
-    }, {
-        key: 'searchInputChanged',
-        value: function searchInputChanged(e) {
-            this.searchString = e.target.value;
-            this.usedQueries.push(this.searchString);
-            this.debouncedUpdateSearchResults();
-        }
-    }, {
-        key: 'updateSearchResults',
-        value: function updateSearchResults() {
-            var searchString = this.searchString;
-            this.getSearchResults(searchString).then(function (searchResults) {
-                this.setState({
-                    searchString: searchString,
-                    results: searchResults,
-                    errorMessage: ''
-                });
-            }.bind(this)).catch(function (error) {
-                this.setState({
-                    searchString: searchString,
-                    errorMessage: error.message
-                });
-            }.bind(this));
-        }
-    }, {
-        key: 'getSearchResults',
-        value: function getSearchResults(searchString) {
-            return new Promise(function (resolve, reject) {
-                this.index.search(searchString, function (err, data) {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    resolve(data.hits);
-                });
-            }.bind(this));
-        }
-    }, {
-        key: 'showDetail',
-        value: function showDetail(resultArrayIndex) {
-            this.setState({ showDetail: resultArrayIndex });
-        }
-    }, {
-        key: 'hideDetail',
-        value: function hideDetail() {
-            this.setState({ showDetail: false });
-        }
-    }, {
-        key: 'renderSearchResults',
-        value: function renderSearchResults() {
-            var _this2 = this;
+	_createClass(AlgoliaSearcher, [{
+		key: 'initAlgoliaClient',
+		value: function initAlgoliaClient() {
+			this.client = (0, _algoliasearch2.default)(this.props.algoliaApplicationId, this.props.algoliaApiKey);
+			this.index = this.client.initIndex(this.props.algoliaIndexName);
+		}
+	}, {
+		key: 'searchButtonClicked',
+		value: function searchButtonClicked(e) {
+			var searchString = e.target.getElementsByTagName('input')[0].value;
+			this.usedQueries.push(searchString);
+			this.setState({
+				searchString: searchString
+			}, function () {
+				// after the state was set
+				this.updateSearchResults();
+			});
+		}
+	}, {
+		key: 'updateSearchResults',
+		value: function updateSearchResults() {
+			this.setState({
+				searching: true
+			});
+			this.getSearchResults(this.state.searchString).then(function (searchResults) {
+				this.setState({
+					results: searchResults,
+					errorMessage: '',
+					searching: false
+				});
+			}.bind(this)).catch(function (error) {
+				this.setState({
+					errorMessage: error.message,
+					searching: false
+				});
+			}.bind(this));
+		}
+	}, {
+		key: 'getSearchResults',
+		value: function getSearchResults(searchString) {
+			return new Promise(function (resolve, reject) {
+				this.index.search(searchString, function (err, data) {
+					if (err) {
+						reject(err);
+						return;
+					}
+					resolve(data.hits);
+				});
+			}.bind(this));
+		}
+	}, {
+		key: 'showDetail',
+		value: function showDetail(resultArrayIndex) {
+			this.setState({ showDetail: resultArrayIndex });
+		}
+	}, {
+		key: 'hideDetail',
+		value: function hideDetail() {
+			this.setState({ showDetail: false });
+		}
+	}, {
+		key: 'openExternal',
+		value: function openExternal() {
+			var currentPost = this.state.results[this.state.showDetail];
+			window.open(currentPost.permalink, "_blank");
+		}
+	}, {
+		key: 'renderSearchResults',
+		value: function renderSearchResults() {
+			var _this2 = this;
 
-            var searchResultContent;
-            if (this.state.results.length > 0) {
-                var results = this.state.results.map(function (result, arrayIndex) {
-                    return _react2.default.createElement(SearchResult, { key: result.objectID, post: result,
-                        showDetail: _this2.showDetail.bind(_this2, arrayIndex) });
-                });
-                searchResultContent = _react2.default.createElement(
-                    'div',
-                    { className: 'kb-search-results' },
-                    results
-                );
-            } else {
-                searchResultContent = _react2.default.createElement(
-                    'div',
-                    { className: 'kb-search-results no-results' },
-                    this.props.noResultsText
-                );
-            }
-            return searchResultContent;
-        }
-    }, {
-        key: 'renderDetail',
-        value: function renderDetail() {
-            var detailIndex = this.state.showDetail;
-            var post = this.state.results[detailIndex];
-            return _react2.default.createElement(
-                'div',
-                { className: 'kb-search-detail' },
-                _react2.default.createElement(
-                    'button',
-                    { onClick: this.hideDetail },
-                    '<-'
-                ),
-                _react2.default.createElement(
-                    'a',
-                    { href: post.permalink, target: '_blank' },
-                    'Read this article in ',
-                    post.source,
-                    '.'
-                ),
-                _react2.default.createElement(ArticleContent, { post: post })
-            );
-        }
-    }, {
-        key: 'renderError',
-        value: function renderError(errorMessage) {
-            return _react2.default.createElement(
-                'div',
-                null,
-                'An error has occurred:',
-                _react2.default.createElement('br', null),
-                errorMessage
-            );
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var searchBar = _react2.default.createElement(SearchBar, { headingText: this.props.headingText, searchInputChanged: this.searchInputChanged });
-            if (this.state.errorMessage) {
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    searchBar,
-                    this.renderError(this.state.errorMessage)
-                );
-            }
-            if (this.state.showDetail === false) {
-                // if showDetail is not false, render the search results
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    searchBar,
-                    this.renderSearchResults()
-                );
-            }
-            //else show the article content/detail view
-            return this.renderDetail();
-        }
-    }]);
+			var searchResultContent;
+			if (this.state.results.length > 0) {
+				var results = this.state.results.map(function (result, arrayIndex) {
+					return _react2.default.createElement(SearchResult, { key: result.objectID, post: result,
+						showDetail: _this2.showDetail.bind(_this2, arrayIndex) });
+				});
+				searchResultContent = _react2.default.createElement(
+					'div',
+					{ className: 'wpseo-kb-search-results' },
+					results
+				);
+			} else {
+				searchResultContent = _react2.default.createElement(
+					'div',
+					{ className: 'wpseo-kb-search-no-results' },
+					this.props.noResultsText
+				);
+			}
+			return searchResultContent;
+		}
+	}, {
+		key: 'renderDetail',
+		value: function renderDetail() {
+			var detailIndex = this.state.showDetail;
+			var post = this.state.results[detailIndex];
+			return _react2.default.createElement(
+				'div',
+				{ className: 'wpseo-kb-search-detail' },
+				_react2.default.createElement(
+					'a',
+					{ href: '#',
+						className: 'dashicons-before dashicons-arrow-left',
+						onClick: this.hideDetail },
+					'Back'
+				),
+				_react2.default.createElement(
+					'a',
+					{ href: post.permalink,
+						className: 'wpseo-kb-search-ext-link  dashicons-before dashicons-external' },
+					'Open'
+				),
+				_react2.default.createElement(ArticleContent, { post: post })
+			);
+		}
+	}, {
+		key: 'renderError',
+		value: function renderError(errorMessage) {
+			return _react2.default.createElement(
+				'div',
+				null,
+				'An error has occurred:',
+				_react2.default.createElement('br', null),
+				errorMessage
+			);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var content = '';
+			var searchBar = _react2.default.createElement(SearchBar, { headingText: this.props.headingText, submitAction: this.searchButtonClicked,
+				searchString: this.state.searchString });
+			if (this.state.errorMessage) {
+				// Show an error message.
+				content = _react2.default.createElement(
+					'div',
+					null,
+					searchBar,
+					this.renderError(this.state.errorMessage)
+				);
+			} else if (this.state.searching) {
+				// Show a loading indicator (while not hiding the previous results).
+				content = _react2.default.createElement(
+					'div',
+					null,
+					searchBar,
+					_react2.default.createElement(Loading, null),
+					this.renderSearchResults()
+				);
+			} else if (this.state.showDetail === false) {
+				// Show the list of search results if the postId for the detail view isn't set.
+				content = _react2.default.createElement(
+					'div',
+					null,
+					searchBar,
+					this.renderSearchResults()
+				);
+			} else {
+				// Else show the article content/detail view
+				content = this.renderDetail();
+			}
+			return _react2.default.createElement(
+				'div',
+				{ className: 'wpseo-kb-search-container' },
+				content
+			);
+		}
+	}]);
 
-    return AlgoliaSearcher;
+	return AlgoliaSearcher;
 }(_react2.default.Component);
 
 AlgoliaSearcher.propTypes = {
-    debounceTime: _react2.default.PropTypes.number.isRequired,
-    noResultsText: _react2.default.PropTypes.string,
-    headingText: _react2.default.PropTypes.string,
-    algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
-    algoliaApiKey: _react2.default.PropTypes.string.isRequired,
-    algoliaIndexName: _react2.default.PropTypes.string.isRequired
+	noResultsText: _react2.default.PropTypes.string,
+	headingText: _react2.default.PropTypes.string,
+	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
+	algoliaApiKey: _react2.default.PropTypes.string.isRequired,
+	algoliaIndexName: _react2.default.PropTypes.string.isRequired
 };
 
 AlgoliaSearcher.defaultProps = {
-    debounceTime: 300,
-    noResultsText: 'No results found.',
-    headingText: 'Search the Yoast knowledge base',
-    algoliaApplicationId: 'RC8G2UCWJK',
-    algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-    algoliaIndexName: 'acceptance_all'
+	noResultsText: 'No results found.',
+	headingText: 'Search the Yoast knowledge base',
+	algoliaApplicationId: 'RC8G2UCWJK',
+	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
+	algoliaIndexName: 'acceptance_all'
 };
 
 var SearchBar = function SearchBar(props) {
-    return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-            'h2',
-            null,
-            props.headingText
-        ),
-        _react2.default.createElement('input', { type: 'text', onChange: props.searchInputChanged }),
-        _react2.default.createElement('hr', null)
-    );
+	return _react2.default.createElement(
+		'div',
+		{ className: 'wpseo-kb-search-search-bar' },
+		_react2.default.createElement(
+			'h2',
+			null,
+			props.headingText
+		),
+		_react2.default.createElement(
+			'form',
+			{ onSubmit: function onSubmit(e) {
+					e.preventDefault();props.submitAction(e);
+				} },
+			_react2.default.createElement('input', { type: 'text',
+				defaultValue: props.searchString }),
+			_react2.default.createElement(
+				'button',
+				{ type: 'submit', className: 'button wpseo-kb-search-search-button' },
+				'Search'
+			)
+		)
+	);
 };
 
 var SearchResult = function SearchResult(props) {
-    var post = props.post;
-    var description = post.excerpt || post.metadesc;
-    return _react2.default.createElement(
-        'div',
-        { className: 'wpseo-kb-search-result' },
-        _react2.default.createElement(
-            'a',
-            { onClick: props.showDetail },
-            _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'h3',
-                    { className: 'wpseo-kb-search-result-title' },
-                    post.post_title
-                ),
-                _react2.default.createElement(
-                    'span',
-                    { className: 'wpseo-kb-search-result-link' },
-                    post.permalink
-                ),
-                _react2.default.createElement(
-                    'p',
-                    null,
-                    description
-                )
-            )
-        )
-    );
+	var post = props.post;
+	var description = post.excerpt || post.metadesc;
+	return _react2.default.createElement(
+		'div',
+		null,
+		_react2.default.createElement(
+			'a',
+			{ onClick: props.showDetail, className: 'wpseo-kb-search-result-link' },
+			_react2.default.createElement(
+				'div',
+				{ className: 'wpseo-kb-search-result' },
+				_react2.default.createElement(
+					'h3',
+					{ className: 'wpseo-kb-search-result-title' },
+					post.post_title
+				),
+				_react2.default.createElement(
+					'p',
+					null,
+					description
+				)
+			)
+		)
+	);
 };
 
 var ArticleContent = function ArticleContent(props) {
-    var post = props.post;
-    return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-            'h3',
-            null,
-            post.post_title
-        ),
-        _react2.default.createElement(
-            'article',
-            null,
-            _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: post.post_content } })
-        )
-    );
+	var post = props.post;
+	return _react2.default.createElement(
+		'div',
+		null,
+		_react2.default.createElement(
+			'h3',
+			null,
+			post.post_title
+		),
+		_react2.default.createElement(
+			'article',
+			null,
+			_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: post.post_content } })
+		)
+	);
 };
 
+var Loading = function Loading() {
+	return _react2.default.createElement(
+		'div',
+		{ className: 'wpseo-kb-loader' },
+		'Loading...'
+	);
+};
 exports.default = AlgoliaSearcher;
 
-},{"algoliasearch":76,"lodash/debounce":115,"react":265}],2:[function(require,module,exports){
+},{"algoliasearch":9,"react":198}],2:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -295,6 +332,8 @@ var _wpSeoKbSearch = require('./kb-search/wp-seo-kb-search.js');
 var _wpSeoKbSearch2 = _interopRequireDefault(_wpSeoKbSearch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* jshint ignore:end */
 
 (function () {
 	'use strict';
@@ -487,11 +526,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery(document).ready(function () {
-		/* Inject kb-search in divs with the id 'wpseo-kb-search'. */
-		var mountingPoint = document.getElementById('wpseo-kb-search');
-		if (mountingPoint) {
-			_reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default, null), mountingPoint);
-		}
+		/* Inject kb-search in divs with the classname of 'wpseo-kb-search'. */
+		var mountingPoints = jQuery('.wpseo-kb-search');
+		jQuery.each(mountingPoints, function (_, mountingPoint) {
+			_reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default, null), mountingPoint); // jshint ignore:line
+		});
 
 		/* Fix banner images overlapping help texts */
 		jQuery('.screen-meta-toggle a').click(function () {
@@ -567,7 +606,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* jshint -W003 */
 /* jshint unused:false */
 
-},{"./kb-search/wp-seo-kb-search.js":1,"react":265,"react-dom":126}],3:[function(require,module,exports){
+/* jshint ignore:start */
+
+},{"./kb-search/wp-seo-kb-search.js":1,"react":198,"react-dom":59}],3:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -699,2665 +740,458 @@ function plural(ms, n, name) {
 }
 
 },{}],4:[function(require,module,exports){
-/**
- * Gets the last element of `array`.
- *
- * @static
- * @memberOf _
- * @category Array
- * @param {Array} array The array to query.
- * @returns {*} Returns the last element of `array`.
- * @example
- *
- * _.last([1, 2, 3]);
- * // => 3
- */
-function last(array) {
-  var length = array ? array.length : 0;
-  return length ? array[length - 1] : undefined;
-}
-
-module.exports = last;
-
-},{}],5:[function(require,module,exports){
-var arrayEach = require('../internal/arrayEach'),
-    baseEach = require('../internal/baseEach'),
-    createForEach = require('../internal/createForEach');
-
-/**
- * Iterates over elements of `collection` invoking `iteratee` for each element.
- * The `iteratee` is bound to `thisArg` and invoked with three arguments:
- * (value, index|key, collection). Iteratee functions may exit iteration early
- * by explicitly returning `false`.
- *
- * **Note:** As with other "Collections" methods, objects with a "length" property
- * are iterated like arrays. To avoid this behavior `_.forIn` or `_.forOwn`
- * may be used for object iteration.
- *
- * @static
- * @memberOf _
- * @alias each
- * @category Collection
- * @param {Array|Object|string} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @param {*} [thisArg] The `this` binding of `iteratee`.
- * @returns {Array|Object|string} Returns `collection`.
- * @example
- *
- * _([1, 2]).forEach(function(n) {
- *   console.log(n);
- * }).value();
- * // => logs each value from left to right and returns the array
- *
- * _.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
- *   console.log(n, key);
- * });
- * // => logs each value-key pair and returns the object (iteration order is not guaranteed)
- */
-var forEach = createForEach(arrayEach, baseEach);
-
-module.exports = forEach;
-
-},{"../internal/arrayEach":9,"../internal/baseEach":16,"../internal/createForEach":38}],6:[function(require,module,exports){
-var arrayMap = require('../internal/arrayMap'),
-    baseCallback = require('../internal/baseCallback'),
-    baseMap = require('../internal/baseMap'),
-    isArray = require('../lang/isArray');
-
-/**
- * Creates an array of values by running each element in `collection` through
- * `iteratee`. The `iteratee` is bound to `thisArg` and invoked with three
- * arguments: (value, index|key, collection).
- *
- * If a property name is provided for `iteratee` the created `_.property`
- * style callback returns the property value of the given element.
- *
- * If a value is also provided for `thisArg` the created `_.matchesProperty`
- * style callback returns `true` for elements that have a matching property
- * value, else `false`.
- *
- * If an object is provided for `iteratee` the created `_.matches` style
- * callback returns `true` for elements that have the properties of the given
- * object, else `false`.
- *
- * Many lodash methods are guarded to work as iteratees for methods like
- * `_.every`, `_.filter`, `_.map`, `_.mapValues`, `_.reject`, and `_.some`.
- *
- * The guarded methods are:
- * `ary`, `callback`, `chunk`, `clone`, `create`, `curry`, `curryRight`,
- * `drop`, `dropRight`, `every`, `fill`, `flatten`, `invert`, `max`, `min`,
- * `parseInt`, `slice`, `sortBy`, `take`, `takeRight`, `template`, `trim`,
- * `trimLeft`, `trimRight`, `trunc`, `random`, `range`, `sample`, `some`,
- * `sum`, `uniq`, and `words`
- *
- * @static
- * @memberOf _
- * @alias collect
- * @category Collection
- * @param {Array|Object|string} collection The collection to iterate over.
- * @param {Function|Object|string} [iteratee=_.identity] The function invoked
- *  per iteration.
- * @param {*} [thisArg] The `this` binding of `iteratee`.
- * @returns {Array} Returns the new mapped array.
- * @example
- *
- * function timesThree(n) {
- *   return n * 3;
- * }
- *
- * _.map([1, 2], timesThree);
- * // => [3, 6]
- *
- * _.map({ 'a': 1, 'b': 2 }, timesThree);
- * // => [3, 6] (iteration order is not guaranteed)
- *
- * var users = [
- *   { 'user': 'barney' },
- *   { 'user': 'fred' }
- * ];
- *
- * // using the `_.property` callback shorthand
- * _.map(users, 'user');
- * // => ['barney', 'fred']
- */
-function map(collection, iteratee, thisArg) {
-  var func = isArray(collection) ? arrayMap : baseMap;
-  iteratee = baseCallback(iteratee, thisArg, 3);
-  return func(collection, iteratee);
-}
-
-module.exports = map;
-
-},{"../internal/arrayMap":10,"../internal/baseCallback":13,"../internal/baseMap":24,"../lang/isArray":61}],7:[function(require,module,exports){
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * Creates a function that invokes `func` with the `this` binding of the
- * created function and arguments from `start` and beyond provided as an array.
- *
- * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/Web/JavaScript/Reference/Functions/rest_parameters).
- *
- * @static
- * @memberOf _
- * @category Function
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var say = _.restParam(function(what, names) {
- *   return what + ' ' + _.initial(names).join(', ') +
- *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
- * });
- *
- * say('hello', 'fred', 'barney', 'pebbles');
- * // => 'hello fred, barney, & pebbles'
- */
-function restParam(func, start) {
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
-  return function() {
-    var args = arguments,
-        index = -1,
-        length = nativeMax(args.length - start, 0),
-        rest = Array(length);
-
-    while (++index < length) {
-      rest[index] = args[start + index];
-    }
-    switch (start) {
-      case 0: return func.call(this, rest);
-      case 1: return func.call(this, args[0], rest);
-      case 2: return func.call(this, args[0], args[1], rest);
-    }
-    var otherArgs = Array(start + 1);
-    index = -1;
-    while (++index < start) {
-      otherArgs[index] = args[index];
-    }
-    otherArgs[start] = rest;
-    return func.apply(this, otherArgs);
-  };
-}
-
-module.exports = restParam;
-
-},{}],8:[function(require,module,exports){
-/**
- * Copies the values of `source` to `array`.
- *
- * @private
- * @param {Array} source The array to copy values from.
- * @param {Array} [array=[]] The array to copy values to.
- * @returns {Array} Returns `array`.
- */
-function arrayCopy(source, array) {
-  var index = -1,
-      length = source.length;
-
-  array || (array = Array(length));
-  while (++index < length) {
-    array[index] = source[index];
-  }
-  return array;
-}
-
-module.exports = arrayCopy;
-
-},{}],9:[function(require,module,exports){
-/**
- * A specialized version of `_.forEach` for arrays without support for callback
- * shorthands and `this` binding.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns `array`.
- */
-function arrayEach(array, iteratee) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (iteratee(array[index], index, array) === false) {
-      break;
-    }
-  }
-  return array;
-}
-
-module.exports = arrayEach;
-
-},{}],10:[function(require,module,exports){
-/**
- * A specialized version of `_.map` for arrays without support for callback
- * shorthands and `this` binding.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array.length,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-module.exports = arrayMap;
-
-},{}],11:[function(require,module,exports){
-/**
- * A specialized version of `_.some` for arrays without support for callback
- * shorthands and `this` binding.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {boolean} Returns `true` if any element passes the predicate check,
- *  else `false`.
- */
-function arraySome(array, predicate) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (predicate(array[index], index, array)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = arraySome;
-
-},{}],12:[function(require,module,exports){
-var baseCopy = require('./baseCopy'),
-    keys = require('../object/keys');
-
-/**
- * The base implementation of `_.assign` without support for argument juggling,
- * multiple sources, and `customizer` functions.
- *
- * @private
- * @param {Object} object The destination object.
- * @param {Object} source The source object.
- * @returns {Object} Returns `object`.
- */
-function baseAssign(object, source) {
-  return source == null
-    ? object
-    : baseCopy(source, keys(source), object);
-}
-
-module.exports = baseAssign;
-
-},{"../object/keys":68,"./baseCopy":15}],13:[function(require,module,exports){
-var baseMatches = require('./baseMatches'),
-    baseMatchesProperty = require('./baseMatchesProperty'),
-    bindCallback = require('./bindCallback'),
-    identity = require('../utility/identity'),
-    property = require('../utility/property');
-
-/**
- * The base implementation of `_.callback` which supports specifying the
- * number of arguments to provide to `func`.
- *
- * @private
- * @param {*} [func=_.identity] The value to convert to a callback.
- * @param {*} [thisArg] The `this` binding of `func`.
- * @param {number} [argCount] The number of arguments to provide to `func`.
- * @returns {Function} Returns the callback.
- */
-function baseCallback(func, thisArg, argCount) {
-  var type = typeof func;
-  if (type == 'function') {
-    return thisArg === undefined
-      ? func
-      : bindCallback(func, thisArg, argCount);
-  }
-  if (func == null) {
-    return identity;
-  }
-  if (type == 'object') {
-    return baseMatches(func);
-  }
-  return thisArg === undefined
-    ? property(func)
-    : baseMatchesProperty(func, thisArg);
-}
-
-module.exports = baseCallback;
-
-},{"../utility/identity":72,"../utility/property":73,"./baseMatches":25,"./baseMatchesProperty":26,"./bindCallback":33}],14:[function(require,module,exports){
-var arrayCopy = require('./arrayCopy'),
-    arrayEach = require('./arrayEach'),
-    baseAssign = require('./baseAssign'),
-    baseForOwn = require('./baseForOwn'),
-    initCloneArray = require('./initCloneArray'),
-    initCloneByTag = require('./initCloneByTag'),
-    initCloneObject = require('./initCloneObject'),
-    isArray = require('../lang/isArray'),
-    isObject = require('../lang/isObject');
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    funcTag = '[object Function]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    objectTag = '[object Object]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    weakMapTag = '[object WeakMap]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-/** Used to identify `toStringTag` values supported by `_.clone`. */
-var cloneableTags = {};
-cloneableTags[argsTag] = cloneableTags[arrayTag] =
-cloneableTags[arrayBufferTag] = cloneableTags[boolTag] =
-cloneableTags[dateTag] = cloneableTags[float32Tag] =
-cloneableTags[float64Tag] = cloneableTags[int8Tag] =
-cloneableTags[int16Tag] = cloneableTags[int32Tag] =
-cloneableTags[numberTag] = cloneableTags[objectTag] =
-cloneableTags[regexpTag] = cloneableTags[stringTag] =
-cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] =
-cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
-cloneableTags[errorTag] = cloneableTags[funcTag] =
-cloneableTags[mapTag] = cloneableTags[setTag] =
-cloneableTags[weakMapTag] = false;
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/**
- * The base implementation of `_.clone` without support for argument juggling
- * and `this` binding `customizer` functions.
- *
- * @private
- * @param {*} value The value to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @param {Function} [customizer] The function to customize cloning values.
- * @param {string} [key] The key of `value`.
- * @param {Object} [object] The object `value` belongs to.
- * @param {Array} [stackA=[]] Tracks traversed source objects.
- * @param {Array} [stackB=[]] Associates clones with source counterparts.
- * @returns {*} Returns the cloned value.
- */
-function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
-  var result;
-  if (customizer) {
-    result = object ? customizer(value, key, object) : customizer(value);
-  }
-  if (result !== undefined) {
-    return result;
-  }
-  if (!isObject(value)) {
-    return value;
-  }
-  var isArr = isArray(value);
-  if (isArr) {
-    result = initCloneArray(value);
-    if (!isDeep) {
-      return arrayCopy(value, result);
-    }
-  } else {
-    var tag = objToString.call(value),
-        isFunc = tag == funcTag;
-
-    if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
-      result = initCloneObject(isFunc ? {} : value);
-      if (!isDeep) {
-        return baseAssign(result, value);
-      }
-    } else {
-      return cloneableTags[tag]
-        ? initCloneByTag(value, tag, isDeep)
-        : (object ? value : {});
-    }
-  }
-  // Check for circular references and return its corresponding clone.
-  stackA || (stackA = []);
-  stackB || (stackB = []);
-
-  var length = stackA.length;
-  while (length--) {
-    if (stackA[length] == value) {
-      return stackB[length];
-    }
-  }
-  // Add the source value to the stack of traversed objects and associate it with its clone.
-  stackA.push(value);
-  stackB.push(result);
-
-  // Recursively populate clone (susceptible to call stack limits).
-  (isArr ? arrayEach : baseForOwn)(value, function(subValue, key) {
-    result[key] = baseClone(subValue, isDeep, customizer, key, value, stackA, stackB);
-  });
-  return result;
-}
-
-module.exports = baseClone;
-
-},{"../lang/isArray":61,"../lang/isObject":64,"./arrayCopy":8,"./arrayEach":9,"./baseAssign":12,"./baseForOwn":19,"./initCloneArray":45,"./initCloneByTag":46,"./initCloneObject":47}],15:[function(require,module,exports){
-/**
- * Copies properties of `source` to `object`.
- *
- * @private
- * @param {Object} source The object to copy properties from.
- * @param {Array} props The property names to copy.
- * @param {Object} [object={}] The object to copy properties to.
- * @returns {Object} Returns `object`.
- */
-function baseCopy(source, props, object) {
-  object || (object = {});
-
-  var index = -1,
-      length = props.length;
-
-  while (++index < length) {
-    var key = props[index];
-    object[key] = source[key];
-  }
-  return object;
-}
-
-module.exports = baseCopy;
-
-},{}],16:[function(require,module,exports){
-var baseForOwn = require('./baseForOwn'),
-    createBaseEach = require('./createBaseEach');
-
-/**
- * The base implementation of `_.forEach` without support for callback
- * shorthands and `this` binding.
- *
- * @private
- * @param {Array|Object|string} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array|Object|string} Returns `collection`.
- */
-var baseEach = createBaseEach(baseForOwn);
-
-module.exports = baseEach;
-
-},{"./baseForOwn":19,"./createBaseEach":36}],17:[function(require,module,exports){
-var createBaseFor = require('./createBaseFor');
-
-/**
- * The base implementation of `baseForIn` and `baseForOwn` which iterates
- * over `object` properties returned by `keysFunc` invoking `iteratee` for
- * each property. Iteratee functions may exit iteration early by explicitly
- * returning `false`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @returns {Object} Returns `object`.
- */
-var baseFor = createBaseFor();
-
-module.exports = baseFor;
-
-},{"./createBaseFor":37}],18:[function(require,module,exports){
-var baseFor = require('./baseFor'),
-    keysIn = require('../object/keysIn');
-
-/**
- * The base implementation of `_.forIn` without support for callback
- * shorthands and `this` binding.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */
-function baseForIn(object, iteratee) {
-  return baseFor(object, iteratee, keysIn);
-}
-
-module.exports = baseForIn;
-
-},{"../object/keysIn":69,"./baseFor":17}],19:[function(require,module,exports){
-var baseFor = require('./baseFor'),
-    keys = require('../object/keys');
-
-/**
- * The base implementation of `_.forOwn` without support for callback
- * shorthands and `this` binding.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */
-function baseForOwn(object, iteratee) {
-  return baseFor(object, iteratee, keys);
-}
-
-module.exports = baseForOwn;
-
-},{"../object/keys":68,"./baseFor":17}],20:[function(require,module,exports){
-var toObject = require('./toObject');
-
-/**
- * The base implementation of `get` without support for string paths
- * and default values.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} path The path of the property to get.
- * @param {string} [pathKey] The key representation of path.
- * @returns {*} Returns the resolved value.
- */
-function baseGet(object, path, pathKey) {
-  if (object == null) {
-    return;
-  }
-  if (pathKey !== undefined && pathKey in toObject(object)) {
-    path = [pathKey];
-  }
-  var index = 0,
-      length = path.length;
-
-  while (object != null && index < length) {
-    object = object[path[index++]];
-  }
-  return (index && index == length) ? object : undefined;
-}
-
-module.exports = baseGet;
-
-},{"./toObject":56}],21:[function(require,module,exports){
-var baseIsEqualDeep = require('./baseIsEqualDeep'),
-    isObject = require('../lang/isObject'),
-    isObjectLike = require('./isObjectLike');
-
-/**
- * The base implementation of `_.isEqual` without support for `this` binding
- * `customizer` functions.
- *
- * @private
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @param {Function} [customizer] The function to customize comparing values.
- * @param {boolean} [isLoose] Specify performing partial comparisons.
- * @param {Array} [stackA] Tracks traversed `value` objects.
- * @param {Array} [stackB] Tracks traversed `other` objects.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- */
-function baseIsEqual(value, other, customizer, isLoose, stackA, stackB) {
-  if (value === other) {
-    return true;
-  }
-  if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
-    return value !== value && other !== other;
-  }
-  return baseIsEqualDeep(value, other, baseIsEqual, customizer, isLoose, stackA, stackB);
-}
-
-module.exports = baseIsEqual;
-
-},{"../lang/isObject":64,"./baseIsEqualDeep":22,"./isObjectLike":53}],22:[function(require,module,exports){
-var equalArrays = require('./equalArrays'),
-    equalByTag = require('./equalByTag'),
-    equalObjects = require('./equalObjects'),
-    isArray = require('../lang/isArray'),
-    isTypedArray = require('../lang/isTypedArray');
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    objectTag = '[object Object]';
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/**
- * A specialized version of `baseIsEqual` for arrays and objects which performs
- * deep comparisons and tracks traversed objects enabling objects with circular
- * references to be compared.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} [customizer] The function to customize comparing objects.
- * @param {boolean} [isLoose] Specify performing partial comparisons.
- * @param {Array} [stackA=[]] Tracks traversed `value` objects.
- * @param {Array} [stackB=[]] Tracks traversed `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function baseIsEqualDeep(object, other, equalFunc, customizer, isLoose, stackA, stackB) {
-  var objIsArr = isArray(object),
-      othIsArr = isArray(other),
-      objTag = arrayTag,
-      othTag = arrayTag;
-
-  if (!objIsArr) {
-    objTag = objToString.call(object);
-    if (objTag == argsTag) {
-      objTag = objectTag;
-    } else if (objTag != objectTag) {
-      objIsArr = isTypedArray(object);
-    }
-  }
-  if (!othIsArr) {
-    othTag = objToString.call(other);
-    if (othTag == argsTag) {
-      othTag = objectTag;
-    } else if (othTag != objectTag) {
-      othIsArr = isTypedArray(other);
-    }
-  }
-  var objIsObj = objTag == objectTag,
-      othIsObj = othTag == objectTag,
-      isSameTag = objTag == othTag;
-
-  if (isSameTag && !(objIsArr || objIsObj)) {
-    return equalByTag(object, other, objTag);
-  }
-  if (!isLoose) {
-    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-    if (objIsWrapped || othIsWrapped) {
-      return equalFunc(objIsWrapped ? object.value() : object, othIsWrapped ? other.value() : other, customizer, isLoose, stackA, stackB);
-    }
-  }
-  if (!isSameTag) {
-    return false;
-  }
-  // Assume cyclic values are equal.
-  // For more information on detecting circular references see https://es5.github.io/#JO.
-  stackA || (stackA = []);
-  stackB || (stackB = []);
-
-  var length = stackA.length;
-  while (length--) {
-    if (stackA[length] == object) {
-      return stackB[length] == other;
-    }
-  }
-  // Add `object` and `other` to the stack of traversed objects.
-  stackA.push(object);
-  stackB.push(other);
-
-  var result = (objIsArr ? equalArrays : equalObjects)(object, other, equalFunc, customizer, isLoose, stackA, stackB);
-
-  stackA.pop();
-  stackB.pop();
-
-  return result;
-}
-
-module.exports = baseIsEqualDeep;
-
-},{"../lang/isArray":61,"../lang/isTypedArray":66,"./equalArrays":39,"./equalByTag":40,"./equalObjects":41}],23:[function(require,module,exports){
-var baseIsEqual = require('./baseIsEqual'),
-    toObject = require('./toObject');
-
-/**
- * The base implementation of `_.isMatch` without support for callback
- * shorthands and `this` binding.
- *
- * @private
- * @param {Object} object The object to inspect.
- * @param {Array} matchData The propery names, values, and compare flags to match.
- * @param {Function} [customizer] The function to customize comparing objects.
- * @returns {boolean} Returns `true` if `object` is a match, else `false`.
- */
-function baseIsMatch(object, matchData, customizer) {
-  var index = matchData.length,
-      length = index,
-      noCustomizer = !customizer;
-
-  if (object == null) {
-    return !length;
-  }
-  object = toObject(object);
-  while (index--) {
-    var data = matchData[index];
-    if ((noCustomizer && data[2])
-          ? data[1] !== object[data[0]]
-          : !(data[0] in object)
-        ) {
-      return false;
-    }
-  }
-  while (++index < length) {
-    data = matchData[index];
-    var key = data[0],
-        objValue = object[key],
-        srcValue = data[1];
-
-    if (noCustomizer && data[2]) {
-      if (objValue === undefined && !(key in object)) {
-        return false;
-      }
-    } else {
-      var result = customizer ? customizer(objValue, srcValue, key) : undefined;
-      if (!(result === undefined ? baseIsEqual(srcValue, objValue, customizer, true) : result)) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-module.exports = baseIsMatch;
-
-},{"./baseIsEqual":21,"./toObject":56}],24:[function(require,module,exports){
-var baseEach = require('./baseEach'),
-    isArrayLike = require('./isArrayLike');
-
-/**
- * The base implementation of `_.map` without support for callback shorthands
- * and `this` binding.
- *
- * @private
- * @param {Array|Object|string} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function baseMap(collection, iteratee) {
-  var index = -1,
-      result = isArrayLike(collection) ? Array(collection.length) : [];
-
-  baseEach(collection, function(value, key, collection) {
-    result[++index] = iteratee(value, key, collection);
-  });
-  return result;
-}
-
-module.exports = baseMap;
-
-},{"./baseEach":16,"./isArrayLike":48}],25:[function(require,module,exports){
-var baseIsMatch = require('./baseIsMatch'),
-    getMatchData = require('./getMatchData'),
-    toObject = require('./toObject');
-
-/**
- * The base implementation of `_.matches` which does not clone `source`.
- *
- * @private
- * @param {Object} source The object of property values to match.
- * @returns {Function} Returns the new function.
- */
-function baseMatches(source) {
-  var matchData = getMatchData(source);
-  if (matchData.length == 1 && matchData[0][2]) {
-    var key = matchData[0][0],
-        value = matchData[0][1];
-
-    return function(object) {
-      if (object == null) {
-        return false;
-      }
-      return object[key] === value && (value !== undefined || (key in toObject(object)));
-    };
-  }
-  return function(object) {
-    return baseIsMatch(object, matchData);
-  };
-}
-
-module.exports = baseMatches;
-
-},{"./baseIsMatch":23,"./getMatchData":43,"./toObject":56}],26:[function(require,module,exports){
-var baseGet = require('./baseGet'),
-    baseIsEqual = require('./baseIsEqual'),
-    baseSlice = require('./baseSlice'),
-    isArray = require('../lang/isArray'),
-    isKey = require('./isKey'),
-    isStrictComparable = require('./isStrictComparable'),
-    last = require('../array/last'),
-    toObject = require('./toObject'),
-    toPath = require('./toPath');
-
-/**
- * The base implementation of `_.matchesProperty` which does not clone `srcValue`.
- *
- * @private
- * @param {string} path The path of the property to get.
- * @param {*} srcValue The value to compare.
- * @returns {Function} Returns the new function.
- */
-function baseMatchesProperty(path, srcValue) {
-  var isArr = isArray(path),
-      isCommon = isKey(path) && isStrictComparable(srcValue),
-      pathKey = (path + '');
-
-  path = toPath(path);
-  return function(object) {
-    if (object == null) {
-      return false;
-    }
-    var key = pathKey;
-    object = toObject(object);
-    if ((isArr || !isCommon) && !(key in object)) {
-      object = path.length == 1 ? object : baseGet(object, baseSlice(path, 0, -1));
-      if (object == null) {
-        return false;
-      }
-      key = last(path);
-      object = toObject(object);
-    }
-    return object[key] === srcValue
-      ? (srcValue !== undefined || (key in object))
-      : baseIsEqual(srcValue, object[key], undefined, true);
-  };
-}
-
-module.exports = baseMatchesProperty;
-
-},{"../array/last":4,"../lang/isArray":61,"./baseGet":20,"./baseIsEqual":21,"./baseSlice":31,"./isKey":51,"./isStrictComparable":54,"./toObject":56,"./toPath":57}],27:[function(require,module,exports){
-var arrayEach = require('./arrayEach'),
-    baseMergeDeep = require('./baseMergeDeep'),
-    isArray = require('../lang/isArray'),
-    isArrayLike = require('./isArrayLike'),
-    isObject = require('../lang/isObject'),
-    isObjectLike = require('./isObjectLike'),
-    isTypedArray = require('../lang/isTypedArray'),
-    keys = require('../object/keys');
-
-/**
- * The base implementation of `_.merge` without support for argument juggling,
- * multiple sources, and `this` binding `customizer` functions.
- *
- * @private
- * @param {Object} object The destination object.
- * @param {Object} source The source object.
- * @param {Function} [customizer] The function to customize merged values.
- * @param {Array} [stackA=[]] Tracks traversed source objects.
- * @param {Array} [stackB=[]] Associates values with source counterparts.
- * @returns {Object} Returns `object`.
- */
-function baseMerge(object, source, customizer, stackA, stackB) {
-  if (!isObject(object)) {
-    return object;
-  }
-  var isSrcArr = isArrayLike(source) && (isArray(source) || isTypedArray(source)),
-      props = isSrcArr ? undefined : keys(source);
-
-  arrayEach(props || source, function(srcValue, key) {
-    if (props) {
-      key = srcValue;
-      srcValue = source[key];
-    }
-    if (isObjectLike(srcValue)) {
-      stackA || (stackA = []);
-      stackB || (stackB = []);
-      baseMergeDeep(object, source, key, baseMerge, customizer, stackA, stackB);
-    }
-    else {
-      var value = object[key],
-          result = customizer ? customizer(value, srcValue, key, object, source) : undefined,
-          isCommon = result === undefined;
-
-      if (isCommon) {
-        result = srcValue;
-      }
-      if ((result !== undefined || (isSrcArr && !(key in object))) &&
-          (isCommon || (result === result ? (result !== value) : (value === value)))) {
-        object[key] = result;
-      }
-    }
-  });
-  return object;
-}
-
-module.exports = baseMerge;
-
-},{"../lang/isArray":61,"../lang/isObject":64,"../lang/isTypedArray":66,"../object/keys":68,"./arrayEach":9,"./baseMergeDeep":28,"./isArrayLike":48,"./isObjectLike":53}],28:[function(require,module,exports){
-var arrayCopy = require('./arrayCopy'),
-    isArguments = require('../lang/isArguments'),
-    isArray = require('../lang/isArray'),
-    isArrayLike = require('./isArrayLike'),
-    isPlainObject = require('../lang/isPlainObject'),
-    isTypedArray = require('../lang/isTypedArray'),
-    toPlainObject = require('../lang/toPlainObject');
-
-/**
- * A specialized version of `baseMerge` for arrays and objects which performs
- * deep merges and tracks traversed objects enabling objects with circular
- * references to be merged.
- *
- * @private
- * @param {Object} object The destination object.
- * @param {Object} source The source object.
- * @param {string} key The key of the value to merge.
- * @param {Function} mergeFunc The function to merge values.
- * @param {Function} [customizer] The function to customize merged values.
- * @param {Array} [stackA=[]] Tracks traversed source objects.
- * @param {Array} [stackB=[]] Associates values with source counterparts.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stackB) {
-  var length = stackA.length,
-      srcValue = source[key];
-
-  while (length--) {
-    if (stackA[length] == srcValue) {
-      object[key] = stackB[length];
-      return;
-    }
-  }
-  var value = object[key],
-      result = customizer ? customizer(value, srcValue, key, object, source) : undefined,
-      isCommon = result === undefined;
-
-  if (isCommon) {
-    result = srcValue;
-    if (isArrayLike(srcValue) && (isArray(srcValue) || isTypedArray(srcValue))) {
-      result = isArray(value)
-        ? value
-        : (isArrayLike(value) ? arrayCopy(value) : []);
-    }
-    else if (isPlainObject(srcValue) || isArguments(srcValue)) {
-      result = isArguments(value)
-        ? toPlainObject(value)
-        : (isPlainObject(value) ? value : {});
-    }
-    else {
-      isCommon = false;
-    }
-  }
-  // Add the source value to the stack of traversed objects and associate
-  // it with its merged value.
-  stackA.push(srcValue);
-  stackB.push(result);
-
-  if (isCommon) {
-    // Recursively merge objects and arrays (susceptible to call stack limits).
-    object[key] = mergeFunc(result, srcValue, customizer, stackA, stackB);
-  } else if (result === result ? (result !== value) : (value === value)) {
-    object[key] = result;
-  }
-}
-
-module.exports = baseMergeDeep;
-
-},{"../lang/isArguments":60,"../lang/isArray":61,"../lang/isPlainObject":65,"../lang/isTypedArray":66,"../lang/toPlainObject":67,"./arrayCopy":8,"./isArrayLike":48}],29:[function(require,module,exports){
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-module.exports = baseProperty;
-
-},{}],30:[function(require,module,exports){
-var baseGet = require('./baseGet'),
-    toPath = require('./toPath');
-
-/**
- * A specialized version of `baseProperty` which supports deep paths.
- *
- * @private
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new function.
- */
-function basePropertyDeep(path) {
-  var pathKey = (path + '');
-  path = toPath(path);
-  return function(object) {
-    return baseGet(object, path, pathKey);
-  };
-}
-
-module.exports = basePropertyDeep;
-
-},{"./baseGet":20,"./toPath":57}],31:[function(require,module,exports){
-/**
- * The base implementation of `_.slice` without an iteratee call guard.
- *
- * @private
- * @param {Array} array The array to slice.
- * @param {number} [start=0] The start position.
- * @param {number} [end=array.length] The end position.
- * @returns {Array} Returns the slice of `array`.
- */
-function baseSlice(array, start, end) {
-  var index = -1,
-      length = array.length;
-
-  start = start == null ? 0 : (+start || 0);
-  if (start < 0) {
-    start = -start > length ? 0 : (length + start);
-  }
-  end = (end === undefined || end > length) ? length : (+end || 0);
-  if (end < 0) {
-    end += length;
-  }
-  length = start > end ? 0 : ((end - start) >>> 0);
-  start >>>= 0;
-
-  var result = Array(length);
-  while (++index < length) {
-    result[index] = array[index + start];
-  }
-  return result;
-}
-
-module.exports = baseSlice;
-
-},{}],32:[function(require,module,exports){
-/**
- * Converts `value` to a string if it's not one. An empty string is returned
- * for `null` or `undefined` values.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- */
-function baseToString(value) {
-  return value == null ? '' : (value + '');
-}
-
-module.exports = baseToString;
-
-},{}],33:[function(require,module,exports){
-var identity = require('../utility/identity');
-
-/**
- * A specialized version of `baseCallback` which only supports `this` binding
- * and specifying the number of arguments to provide to `func`.
- *
- * @private
- * @param {Function} func The function to bind.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {number} [argCount] The number of arguments to provide to `func`.
- * @returns {Function} Returns the callback.
- */
-function bindCallback(func, thisArg, argCount) {
-  if (typeof func != 'function') {
-    return identity;
-  }
-  if (thisArg === undefined) {
-    return func;
-  }
-  switch (argCount) {
-    case 1: return function(value) {
-      return func.call(thisArg, value);
-    };
-    case 3: return function(value, index, collection) {
-      return func.call(thisArg, value, index, collection);
-    };
-    case 4: return function(accumulator, value, index, collection) {
-      return func.call(thisArg, accumulator, value, index, collection);
-    };
-    case 5: return function(value, other, key, object, source) {
-      return func.call(thisArg, value, other, key, object, source);
-    };
-  }
-  return function() {
-    return func.apply(thisArg, arguments);
-  };
-}
-
-module.exports = bindCallback;
-
-},{"../utility/identity":72}],34:[function(require,module,exports){
-(function (global){
-/** Native method references. */
-var ArrayBuffer = global.ArrayBuffer,
-    Uint8Array = global.Uint8Array;
-
-/**
- * Creates a clone of the given array buffer.
- *
- * @private
- * @param {ArrayBuffer} buffer The array buffer to clone.
- * @returns {ArrayBuffer} Returns the cloned array buffer.
- */
-function bufferClone(buffer) {
-  var result = new ArrayBuffer(buffer.byteLength),
-      view = new Uint8Array(result);
-
-  view.set(new Uint8Array(buffer));
-  return result;
-}
-
-module.exports = bufferClone;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],35:[function(require,module,exports){
-var bindCallback = require('./bindCallback'),
-    isIterateeCall = require('./isIterateeCall'),
-    restParam = require('../function/restParam');
-
-/**
- * Creates a `_.assign`, `_.defaults`, or `_.merge` function.
- *
- * @private
- * @param {Function} assigner The function to assign values.
- * @returns {Function} Returns the new assigner function.
- */
-function createAssigner(assigner) {
-  return restParam(function(object, sources) {
-    var index = -1,
-        length = object == null ? 0 : sources.length,
-        customizer = length > 2 ? sources[length - 2] : undefined,
-        guard = length > 2 ? sources[2] : undefined,
-        thisArg = length > 1 ? sources[length - 1] : undefined;
-
-    if (typeof customizer == 'function') {
-      customizer = bindCallback(customizer, thisArg, 5);
-      length -= 2;
-    } else {
-      customizer = typeof thisArg == 'function' ? thisArg : undefined;
-      length -= (customizer ? 1 : 0);
-    }
-    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
-      customizer = length < 3 ? undefined : customizer;
-      length = 1;
-    }
-    while (++index < length) {
-      var source = sources[index];
-      if (source) {
-        assigner(object, source, customizer);
-      }
-    }
-    return object;
-  });
-}
-
-module.exports = createAssigner;
-
-},{"../function/restParam":7,"./bindCallback":33,"./isIterateeCall":50}],36:[function(require,module,exports){
-var getLength = require('./getLength'),
-    isLength = require('./isLength'),
-    toObject = require('./toObject');
-
-/**
- * Creates a `baseEach` or `baseEachRight` function.
- *
- * @private
- * @param {Function} eachFunc The function to iterate over a collection.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseEach(eachFunc, fromRight) {
-  return function(collection, iteratee) {
-    var length = collection ? getLength(collection) : 0;
-    if (!isLength(length)) {
-      return eachFunc(collection, iteratee);
-    }
-    var index = fromRight ? length : -1,
-        iterable = toObject(collection);
-
-    while ((fromRight ? index-- : ++index < length)) {
-      if (iteratee(iterable[index], index, iterable) === false) {
-        break;
-      }
-    }
-    return collection;
-  };
-}
-
-module.exports = createBaseEach;
-
-},{"./getLength":42,"./isLength":52,"./toObject":56}],37:[function(require,module,exports){
-var toObject = require('./toObject');
-
-/**
- * Creates a base function for `_.forIn` or `_.forInRight`.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseFor(fromRight) {
-  return function(object, iteratee, keysFunc) {
-    var iterable = toObject(object),
-        props = keysFunc(object),
-        length = props.length,
-        index = fromRight ? length : -1;
-
-    while ((fromRight ? index-- : ++index < length)) {
-      var key = props[index];
-      if (iteratee(iterable[key], key, iterable) === false) {
-        break;
-      }
-    }
-    return object;
-  };
-}
-
-module.exports = createBaseFor;
-
-},{"./toObject":56}],38:[function(require,module,exports){
-var bindCallback = require('./bindCallback'),
-    isArray = require('../lang/isArray');
-
-/**
- * Creates a function for `_.forEach` or `_.forEachRight`.
- *
- * @private
- * @param {Function} arrayFunc The function to iterate over an array.
- * @param {Function} eachFunc The function to iterate over a collection.
- * @returns {Function} Returns the new each function.
- */
-function createForEach(arrayFunc, eachFunc) {
-  return function(collection, iteratee, thisArg) {
-    return (typeof iteratee == 'function' && thisArg === undefined && isArray(collection))
-      ? arrayFunc(collection, iteratee)
-      : eachFunc(collection, bindCallback(iteratee, thisArg, 3));
-  };
-}
-
-module.exports = createForEach;
-
-},{"../lang/isArray":61,"./bindCallback":33}],39:[function(require,module,exports){
-var arraySome = require('./arraySome');
-
-/**
- * A specialized version of `baseIsEqualDeep` for arrays with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Array} array The array to compare.
- * @param {Array} other The other array to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} [customizer] The function to customize comparing arrays.
- * @param {boolean} [isLoose] Specify performing partial comparisons.
- * @param {Array} [stackA] Tracks traversed `value` objects.
- * @param {Array} [stackB] Tracks traversed `other` objects.
- * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
- */
-function equalArrays(array, other, equalFunc, customizer, isLoose, stackA, stackB) {
-  var index = -1,
-      arrLength = array.length,
-      othLength = other.length;
-
-  if (arrLength != othLength && !(isLoose && othLength > arrLength)) {
-    return false;
-  }
-  // Ignore non-index properties.
-  while (++index < arrLength) {
-    var arrValue = array[index],
-        othValue = other[index],
-        result = customizer ? customizer(isLoose ? othValue : arrValue, isLoose ? arrValue : othValue, index) : undefined;
-
-    if (result !== undefined) {
-      if (result) {
-        continue;
-      }
-      return false;
-    }
-    // Recursively compare arrays (susceptible to call stack limits).
-    if (isLoose) {
-      if (!arraySome(other, function(othValue) {
-            return arrValue === othValue || equalFunc(arrValue, othValue, customizer, isLoose, stackA, stackB);
-          })) {
-        return false;
-      }
-    } else if (!(arrValue === othValue || equalFunc(arrValue, othValue, customizer, isLoose, stackA, stackB))) {
-      return false;
-    }
-  }
-  return true;
-}
-
-module.exports = equalArrays;
-
-},{"./arraySome":11}],40:[function(require,module,exports){
-/** `Object#toString` result references. */
-var boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    numberTag = '[object Number]',
-    regexpTag = '[object RegExp]',
-    stringTag = '[object String]';
-
-/**
- * A specialized version of `baseIsEqualDeep` for comparing objects of
- * the same `toStringTag`.
- *
- * **Note:** This function only supports comparing values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {string} tag The `toStringTag` of the objects to compare.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalByTag(object, other, tag) {
-  switch (tag) {
-    case boolTag:
-    case dateTag:
-      // Coerce dates and booleans to numbers, dates to milliseconds and booleans
-      // to `1` or `0` treating invalid dates coerced to `NaN` as not equal.
-      return +object == +other;
-
-    case errorTag:
-      return object.name == other.name && object.message == other.message;
-
-    case numberTag:
-      // Treat `NaN` vs. `NaN` as equal.
-      return (object != +object)
-        ? other != +other
-        : object == +other;
-
-    case regexpTag:
-    case stringTag:
-      // Coerce regexes to strings and treat strings primitives and string
-      // objects as equal. See https://es5.github.io/#x15.10.6.4 for more details.
-      return object == (other + '');
-  }
-  return false;
-}
-
-module.exports = equalByTag;
-
-},{}],41:[function(require,module,exports){
-var keys = require('../object/keys');
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A specialized version of `baseIsEqualDeep` for objects with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} [customizer] The function to customize comparing values.
- * @param {boolean} [isLoose] Specify performing partial comparisons.
- * @param {Array} [stackA] Tracks traversed `value` objects.
- * @param {Array} [stackB] Tracks traversed `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalObjects(object, other, equalFunc, customizer, isLoose, stackA, stackB) {
-  var objProps = keys(object),
-      objLength = objProps.length,
-      othProps = keys(other),
-      othLength = othProps.length;
-
-  if (objLength != othLength && !isLoose) {
-    return false;
-  }
-  var index = objLength;
-  while (index--) {
-    var key = objProps[index];
-    if (!(isLoose ? key in other : hasOwnProperty.call(other, key))) {
-      return false;
-    }
-  }
-  var skipCtor = isLoose;
-  while (++index < objLength) {
-    key = objProps[index];
-    var objValue = object[key],
-        othValue = other[key],
-        result = customizer ? customizer(isLoose ? othValue : objValue, isLoose? objValue : othValue, key) : undefined;
-
-    // Recursively compare objects (susceptible to call stack limits).
-    if (!(result === undefined ? equalFunc(objValue, othValue, customizer, isLoose, stackA, stackB) : result)) {
-      return false;
-    }
-    skipCtor || (skipCtor = key == 'constructor');
-  }
-  if (!skipCtor) {
-    var objCtor = object.constructor,
-        othCtor = other.constructor;
-
-    // Non `Object` object instances with different constructors are not equal.
-    if (objCtor != othCtor &&
-        ('constructor' in object && 'constructor' in other) &&
-        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
-          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-module.exports = equalObjects;
-
-},{"../object/keys":68}],42:[function(require,module,exports){
-var baseProperty = require('./baseProperty');
-
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-module.exports = getLength;
-
-},{"./baseProperty":29}],43:[function(require,module,exports){
-var isStrictComparable = require('./isStrictComparable'),
-    pairs = require('../object/pairs');
-
-/**
- * Gets the propery names, values, and compare flags of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the match data of `object`.
- */
-function getMatchData(object) {
-  var result = pairs(object),
-      length = result.length;
-
-  while (length--) {
-    result[length][2] = isStrictComparable(result[length][1]);
-  }
-  return result;
-}
-
-module.exports = getMatchData;
-
-},{"../object/pairs":71,"./isStrictComparable":54}],44:[function(require,module,exports){
-var isNative = require('../lang/isNative');
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = object == null ? undefined : object[key];
-  return isNative(value) ? value : undefined;
-}
-
-module.exports = getNative;
-
-},{"../lang/isNative":63}],45:[function(require,module,exports){
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Initializes an array clone.
- *
- * @private
- * @param {Array} array The array to clone.
- * @returns {Array} Returns the initialized clone.
- */
-function initCloneArray(array) {
-  var length = array.length,
-      result = new array.constructor(length);
-
-  // Add array properties assigned by `RegExp#exec`.
-  if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
-    result.index = array.index;
-    result.input = array.input;
-  }
-  return result;
-}
-
-module.exports = initCloneArray;
-
-},{}],46:[function(require,module,exports){
-var bufferClone = require('./bufferClone');
-
-/** `Object#toString` result references. */
-var boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    numberTag = '[object Number]',
-    regexpTag = '[object RegExp]',
-    stringTag = '[object String]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-/** Used to match `RegExp` flags from their coerced string values. */
-var reFlags = /\w*$/;
-
-/**
- * Initializes an object clone based on its `toStringTag`.
- *
- * **Note:** This function only supports cloning values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
- *
- * @private
- * @param {Object} object The object to clone.
- * @param {string} tag The `toStringTag` of the object to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the initialized clone.
- */
-function initCloneByTag(object, tag, isDeep) {
-  var Ctor = object.constructor;
-  switch (tag) {
-    case arrayBufferTag:
-      return bufferClone(object);
-
-    case boolTag:
-    case dateTag:
-      return new Ctor(+object);
-
-    case float32Tag: case float64Tag:
-    case int8Tag: case int16Tag: case int32Tag:
-    case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
-      var buffer = object.buffer;
-      return new Ctor(isDeep ? bufferClone(buffer) : buffer, object.byteOffset, object.length);
-
-    case numberTag:
-    case stringTag:
-      return new Ctor(object);
-
-    case regexpTag:
-      var result = new Ctor(object.source, reFlags.exec(object));
-      result.lastIndex = object.lastIndex;
-  }
-  return result;
-}
-
-module.exports = initCloneByTag;
-
-},{"./bufferClone":34}],47:[function(require,module,exports){
-/**
- * Initializes an object clone.
- *
- * @private
- * @param {Object} object The object to clone.
- * @returns {Object} Returns the initialized clone.
- */
-function initCloneObject(object) {
-  var Ctor = object.constructor;
-  if (!(typeof Ctor == 'function' && Ctor instanceof Ctor)) {
-    Ctor = Object;
-  }
-  return new Ctor;
-}
-
-module.exports = initCloneObject;
-
-},{}],48:[function(require,module,exports){
-var getLength = require('./getLength'),
-    isLength = require('./isLength');
-
-/**
- * Checks if `value` is array-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value));
-}
-
-module.exports = isArrayLike;
-
-},{"./getLength":42,"./isLength":52}],49:[function(require,module,exports){
-/** Used to detect unsigned integer values. */
-var reIsUint = /^\d+$/;
-
-/**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-module.exports = isIndex;
-
-},{}],50:[function(require,module,exports){
-var isArrayLike = require('./isArrayLike'),
-    isIndex = require('./isIndex'),
-    isObject = require('../lang/isObject');
-
-/**
- * Checks if the provided arguments are from an iteratee call.
- *
- * @private
- * @param {*} value The potential iteratee value argument.
- * @param {*} index The potential iteratee index or key argument.
- * @param {*} object The potential iteratee object argument.
- * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
- */
-function isIterateeCall(value, index, object) {
-  if (!isObject(object)) {
-    return false;
-  }
-  var type = typeof index;
-  if (type == 'number'
-      ? (isArrayLike(object) && isIndex(index, object.length))
-      : (type == 'string' && index in object)) {
-    var other = object[index];
-    return value === value ? (value === other) : (other !== other);
-  }
-  return false;
-}
-
-module.exports = isIterateeCall;
-
-},{"../lang/isObject":64,"./isArrayLike":48,"./isIndex":49}],51:[function(require,module,exports){
-var isArray = require('../lang/isArray'),
-    toObject = require('./toObject');
-
-/** Used to match property names within property paths. */
-var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\n\\]|\\.)*?\1)\]/,
-    reIsPlainProp = /^\w*$/;
-
-/**
- * Checks if `value` is a property name and not a property path.
- *
- * @private
- * @param {*} value The value to check.
- * @param {Object} [object] The object to query keys on.
- * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
- */
-function isKey(value, object) {
-  var type = typeof value;
-  if ((type == 'string' && reIsPlainProp.test(value)) || type == 'number') {
-    return true;
-  }
-  if (isArray(value)) {
-    return false;
-  }
-  var result = !reIsDeepProp.test(value);
-  return result || (object != null && value in toObject(object));
-}
-
-module.exports = isKey;
-
-},{"../lang/isArray":61,"./toObject":56}],52:[function(require,module,exports){
-/**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-module.exports = isLength;
-
-},{}],53:[function(require,module,exports){
-/**
- * Checks if `value` is object-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-},{}],54:[function(require,module,exports){
-var isObject = require('../lang/isObject');
-
-/**
- * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` if suitable for strict
- *  equality comparisons, else `false`.
- */
-function isStrictComparable(value) {
-  return value === value && !isObject(value);
-}
-
-module.exports = isStrictComparable;
-
-},{"../lang/isObject":64}],55:[function(require,module,exports){
-var isArguments = require('../lang/isArguments'),
-    isArray = require('../lang/isArray'),
-    isIndex = require('./isIndex'),
-    isLength = require('./isLength'),
-    keysIn = require('../object/keysIn');
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A fallback implementation of `Object.keys` which creates an array of the
- * own enumerable property names of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function shimKeys(object) {
-  var props = keysIn(object),
-      propsLength = props.length,
-      length = propsLength && object.length;
-
-  var allowIndexes = !!length && isLength(length) &&
-    (isArray(object) || isArguments(object));
-
-  var index = -1,
-      result = [];
-
-  while (++index < propsLength) {
-    var key = props[index];
-    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = shimKeys;
-
-},{"../lang/isArguments":60,"../lang/isArray":61,"../object/keysIn":69,"./isIndex":49,"./isLength":52}],56:[function(require,module,exports){
-var isObject = require('../lang/isObject');
-
-/**
- * Converts `value` to an object if it's not one.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {Object} Returns the object.
- */
-function toObject(value) {
-  return isObject(value) ? value : Object(value);
-}
-
-module.exports = toObject;
-
-},{"../lang/isObject":64}],57:[function(require,module,exports){
-var baseToString = require('./baseToString'),
-    isArray = require('../lang/isArray');
-
-/** Used to match property names within property paths. */
-var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g;
-
-/** Used to match backslashes in property paths. */
-var reEscapeChar = /\\(\\)?/g;
-
-/**
- * Converts `value` to property path array if it's not one.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {Array} Returns the property path array.
- */
-function toPath(value) {
-  if (isArray(value)) {
-    return value;
-  }
-  var result = [];
-  baseToString(value).replace(rePropName, function(match, number, quote, string) {
-    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
-  });
-  return result;
-}
-
-module.exports = toPath;
-
-},{"../lang/isArray":61,"./baseToString":32}],58:[function(require,module,exports){
-var baseClone = require('../internal/baseClone'),
-    bindCallback = require('../internal/bindCallback'),
-    isIterateeCall = require('../internal/isIterateeCall');
-
-/**
- * Creates a clone of `value`. If `isDeep` is `true` nested objects are cloned,
- * otherwise they are assigned by reference. If `customizer` is provided it's
- * invoked to produce the cloned values. If `customizer` returns `undefined`
- * cloning is handled by the method instead. The `customizer` is bound to
- * `thisArg` and invoked with up to three argument; (value [, index|key, object]).
- *
- * **Note:** This method is loosely based on the
- * [structured clone algorithm](http://www.w3.org/TR/html5/infrastructure.html#internal-structured-cloning-algorithm).
- * The enumerable properties of `arguments` objects and objects created by
- * constructors other than `Object` are cloned to plain `Object` objects. An
- * empty object is returned for uncloneable values such as functions, DOM nodes,
- * Maps, Sets, and WeakMaps.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @param {Function} [customizer] The function to customize cloning values.
- * @param {*} [thisArg] The `this` binding of `customizer`.
- * @returns {*} Returns the cloned value.
- * @example
- *
- * var users = [
- *   { 'user': 'barney' },
- *   { 'user': 'fred' }
- * ];
- *
- * var shallow = _.clone(users);
- * shallow[0] === users[0];
- * // => true
- *
- * var deep = _.clone(users, true);
- * deep[0] === users[0];
- * // => false
- *
- * // using a customizer callback
- * var el = _.clone(document.body, function(value) {
- *   if (_.isElement(value)) {
- *     return value.cloneNode(false);
- *   }
- * });
- *
- * el === document.body
- * // => false
- * el.nodeName
- * // => BODY
- * el.childNodes.length;
- * // => 0
- */
-function clone(value, isDeep, customizer, thisArg) {
-  if (isDeep && typeof isDeep != 'boolean' && isIterateeCall(value, isDeep, customizer)) {
-    isDeep = false;
-  }
-  else if (typeof isDeep == 'function') {
-    thisArg = customizer;
-    customizer = isDeep;
-    isDeep = false;
-  }
-  return typeof customizer == 'function'
-    ? baseClone(value, isDeep, bindCallback(customizer, thisArg, 3))
-    : baseClone(value, isDeep);
-}
-
-module.exports = clone;
-
-},{"../internal/baseClone":14,"../internal/bindCallback":33,"../internal/isIterateeCall":50}],59:[function(require,module,exports){
-var baseClone = require('../internal/baseClone'),
-    bindCallback = require('../internal/bindCallback');
-
-/**
- * Creates a deep clone of `value`. If `customizer` is provided it's invoked
- * to produce the cloned values. If `customizer` returns `undefined` cloning
- * is handled by the method instead. The `customizer` is bound to `thisArg`
- * and invoked with up to three argument; (value [, index|key, object]).
- *
- * **Note:** This method is loosely based on the
- * [structured clone algorithm](http://www.w3.org/TR/html5/infrastructure.html#internal-structured-cloning-algorithm).
- * The enumerable properties of `arguments` objects and objects created by
- * constructors other than `Object` are cloned to plain `Object` objects. An
- * empty object is returned for uncloneable values such as functions, DOM nodes,
- * Maps, Sets, and WeakMaps.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to deep clone.
- * @param {Function} [customizer] The function to customize cloning values.
- * @param {*} [thisArg] The `this` binding of `customizer`.
- * @returns {*} Returns the deep cloned value.
- * @example
- *
- * var users = [
- *   { 'user': 'barney' },
- *   { 'user': 'fred' }
- * ];
- *
- * var deep = _.cloneDeep(users);
- * deep[0] === users[0];
- * // => false
- *
- * // using a customizer callback
- * var el = _.cloneDeep(document.body, function(value) {
- *   if (_.isElement(value)) {
- *     return value.cloneNode(true);
- *   }
- * });
- *
- * el === document.body
- * // => false
- * el.nodeName
- * // => BODY
- * el.childNodes.length;
- * // => 20
- */
-function cloneDeep(value, customizer, thisArg) {
-  return typeof customizer == 'function'
-    ? baseClone(value, true, bindCallback(customizer, thisArg, 3))
-    : baseClone(value, true);
-}
-
-module.exports = cloneDeep;
-
-},{"../internal/baseClone":14,"../internal/bindCallback":33}],60:[function(require,module,exports){
-var isArrayLike = require('../internal/isArrayLike'),
-    isObjectLike = require('../internal/isObjectLike');
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Native method references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * Checks if `value` is classified as an `arguments` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  return isObjectLike(value) && isArrayLike(value) &&
-    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
-}
-
-module.exports = isArguments;
-
-},{"../internal/isArrayLike":48,"../internal/isObjectLike":53}],61:[function(require,module,exports){
-var getNative = require('../internal/getNative'),
-    isLength = require('../internal/isLength'),
-    isObjectLike = require('../internal/isObjectLike');
-
-/** `Object#toString` result references. */
-var arrayTag = '[object Array]';
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeIsArray = getNative(Array, 'isArray');
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(function() { return arguments; }());
- * // => false
- */
-var isArray = nativeIsArray || function(value) {
-  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
-};
-
-module.exports = isArray;
-
-},{"../internal/getNative":44,"../internal/isLength":52,"../internal/isObjectLike":53}],62:[function(require,module,exports){
-var isObject = require('./isObject');
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]';
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in older versions of Chrome and Safari which return 'function' for regexes
-  // and Safari 8 which returns 'object' for typed array constructors.
-  return isObject(value) && objToString.call(value) == funcTag;
-}
-
-module.exports = isFunction;
-
-},{"./isObject":64}],63:[function(require,module,exports){
-var isFunction = require('./isFunction'),
-    isObjectLike = require('../internal/isObjectLike');
-
-/** Used to detect host constructors (Safari > 5). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var fnToString = Function.prototype.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/**
- * Checks if `value` is a native function.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
- * @example
- *
- * _.isNative(Array.prototype.push);
- * // => true
- *
- * _.isNative(_);
- * // => false
- */
-function isNative(value) {
-  if (value == null) {
-    return false;
-  }
-  if (isFunction(value)) {
-    return reIsNative.test(fnToString.call(value));
-  }
-  return isObjectLike(value) && reIsHostCtor.test(value);
-}
-
-module.exports = isNative;
-
-},{"../internal/isObjectLike":53,"./isFunction":62}],64:[function(require,module,exports){
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-},{}],65:[function(require,module,exports){
-var baseForIn = require('../internal/baseForIn'),
-    isArguments = require('./isArguments'),
-    isObjectLike = require('../internal/isObjectLike');
-
-/** `Object#toString` result references. */
-var objectTag = '[object Object]';
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * **Note:** This method assumes objects created by the `Object` constructor
- * have no inherited enumerable properties.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */
-function isPlainObject(value) {
-  var Ctor;
-
-  // Exit early for non `Object` objects.
-  if (!(isObjectLike(value) && objToString.call(value) == objectTag && !isArguments(value)) ||
-      (!hasOwnProperty.call(value, 'constructor') && (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
-    return false;
-  }
-  // IE < 9 iterates inherited properties before own properties. If the first
-  // iterated property is an object's own property then there are no inherited
-  // enumerable properties.
-  var result;
-  // In most environments an object's own properties are iterated before
-  // its inherited properties. If the last iterated property is an object's
-  // own property then there are no inherited enumerable properties.
-  baseForIn(value, function(subValue, key) {
-    result = key;
-  });
-  return result === undefined || hasOwnProperty.call(value, result);
-}
-
-module.exports = isPlainObject;
-
-},{"../internal/baseForIn":18,"../internal/isObjectLike":53,"./isArguments":60}],66:[function(require,module,exports){
-var isLength = require('../internal/isLength'),
-    isObjectLike = require('../internal/isObjectLike');
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    funcTag = '[object Function]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    objectTag = '[object Object]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    weakMapTag = '[object WeakMap]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-/** Used to identify `toStringTag` values of typed arrays. */
-var typedArrayTags = {};
-typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
-typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
-typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
-typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
-typedArrayTags[uint32Tag] = true;
-typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
-typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
-typedArrayTags[dateTag] = typedArrayTags[errorTag] =
-typedArrayTags[funcTag] = typedArrayTags[mapTag] =
-typedArrayTags[numberTag] = typedArrayTags[objectTag] =
-typedArrayTags[regexpTag] = typedArrayTags[setTag] =
-typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a typed array.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isTypedArray(new Uint8Array);
- * // => true
- *
- * _.isTypedArray([]);
- * // => false
- */
-function isTypedArray(value) {
-  return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[objToString.call(value)];
-}
-
-module.exports = isTypedArray;
-
-},{"../internal/isLength":52,"../internal/isObjectLike":53}],67:[function(require,module,exports){
-var baseCopy = require('../internal/baseCopy'),
-    keysIn = require('../object/keysIn');
-
-/**
- * Converts `value` to a plain object flattening inherited enumerable
- * properties of `value` to own properties of the plain object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {Object} Returns the converted plain object.
- * @example
- *
- * function Foo() {
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.assign({ 'a': 1 }, new Foo);
- * // => { 'a': 1, 'b': 2 }
- *
- * _.assign({ 'a': 1 }, _.toPlainObject(new Foo));
- * // => { 'a': 1, 'b': 2, 'c': 3 }
- */
-function toPlainObject(value) {
-  return baseCopy(value, keysIn(value));
-}
-
-module.exports = toPlainObject;
-
-},{"../internal/baseCopy":15,"../object/keysIn":69}],68:[function(require,module,exports){
-var getNative = require('../internal/getNative'),
-    isArrayLike = require('../internal/isArrayLike'),
-    isObject = require('../lang/isObject'),
-    shimKeys = require('../internal/shimKeys');
-
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeKeys = getNative(Object, 'keys');
-
-/**
- * Creates an array of the own enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
- * for more details.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keys(new Foo);
- * // => ['a', 'b'] (iteration order is not guaranteed)
- *
- * _.keys('hi');
- * // => ['0', '1']
- */
-var keys = !nativeKeys ? shimKeys : function(object) {
-  var Ctor = object == null ? undefined : object.constructor;
-  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
-      (typeof object != 'function' && isArrayLike(object))) {
-    return shimKeys(object);
-  }
-  return isObject(object) ? nativeKeys(object) : [];
-};
-
-module.exports = keys;
-
-},{"../internal/getNative":44,"../internal/isArrayLike":48,"../internal/shimKeys":55,"../lang/isObject":64}],69:[function(require,module,exports){
-var isArguments = require('../lang/isArguments'),
-    isArray = require('../lang/isArray'),
-    isIndex = require('../internal/isIndex'),
-    isLength = require('../internal/isLength'),
-    isObject = require('../lang/isObject');
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  if (object == null) {
-    return [];
-  }
-  if (!isObject(object)) {
-    object = Object(object);
-  }
-  var length = object.length;
-  length = (length && isLength(length) &&
-    (isArray(object) || isArguments(object)) && length) || 0;
-
-  var Ctor = object.constructor,
-      index = -1,
-      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-      result = Array(length),
-      skipIndexes = length > 0;
-
-  while (++index < length) {
-    result[index] = (index + '');
-  }
-  for (var key in object) {
-    if (!(skipIndexes && isIndex(key, length)) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = keysIn;
-
-},{"../internal/isIndex":49,"../internal/isLength":52,"../lang/isArguments":60,"../lang/isArray":61,"../lang/isObject":64}],70:[function(require,module,exports){
-var baseMerge = require('../internal/baseMerge'),
-    createAssigner = require('../internal/createAssigner');
-
-/**
- * Recursively merges own enumerable properties of the source object(s), that
- * don't resolve to `undefined` into the destination object. Subsequent sources
- * overwrite property assignments of previous sources. If `customizer` is
- * provided it's invoked to produce the merged values of the destination and
- * source properties. If `customizer` returns `undefined` merging is handled
- * by the method instead. The `customizer` is bound to `thisArg` and invoked
- * with five arguments: (objectValue, sourceValue, key, object, source).
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @param {Function} [customizer] The function to customize assigned values.
- * @param {*} [thisArg] The `this` binding of `customizer`.
- * @returns {Object} Returns `object`.
- * @example
- *
- * var users = {
- *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
- * };
- *
- * var ages = {
- *   'data': [{ 'age': 36 }, { 'age': 40 }]
- * };
- *
- * _.merge(users, ages);
- * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
- *
- * // using a customizer callback
- * var object = {
- *   'fruits': ['apple'],
- *   'vegetables': ['beet']
- * };
- *
- * var other = {
- *   'fruits': ['banana'],
- *   'vegetables': ['carrot']
- * };
- *
- * _.merge(object, other, function(a, b) {
- *   if (_.isArray(a)) {
- *     return a.concat(b);
- *   }
- * });
- * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
- */
-var merge = createAssigner(baseMerge);
-
-module.exports = merge;
-
-},{"../internal/baseMerge":27,"../internal/createAssigner":35}],71:[function(require,module,exports){
-var keys = require('./keys'),
-    toObject = require('../internal/toObject');
-
-/**
- * Creates a two dimensional array of the key-value pairs for `object`,
- * e.g. `[[key1, value1], [key2, value2]]`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the new array of key-value pairs.
- * @example
- *
- * _.pairs({ 'barney': 36, 'fred': 40 });
- * // => [['barney', 36], ['fred', 40]] (iteration order is not guaranteed)
- */
-function pairs(object) {
-  object = toObject(object);
-
-  var index = -1,
-      props = keys(object),
-      length = props.length,
-      result = Array(length);
-
-  while (++index < length) {
-    var key = props[index];
-    result[index] = [key, object[key]];
-  }
-  return result;
-}
-
-module.exports = pairs;
-
-},{"../internal/toObject":56,"./keys":68}],72:[function(require,module,exports){
-/**
- * This method returns the first argument provided to it.
- *
- * @static
- * @memberOf _
- * @category Utility
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'user': 'fred' };
- *
- * _.identity(object) === object;
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-},{}],73:[function(require,module,exports){
-var baseProperty = require('../internal/baseProperty'),
-    basePropertyDeep = require('../internal/basePropertyDeep'),
-    isKey = require('../internal/isKey');
-
-/**
- * Creates a function that returns the property value at `path` on a
- * given object.
- *
- * @static
- * @memberOf _
- * @category Utility
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var objects = [
- *   { 'a': { 'b': { 'c': 2 } } },
- *   { 'a': { 'b': { 'c': 1 } } }
- * ];
- *
- * _.map(objects, _.property('a.b.c'));
- * // => [2, 1]
- *
- * _.pluck(_.sortBy(objects, _.property(['a', 'b', 'c'])), 'a.b.c');
- * // => [1, 2]
- */
-function property(path) {
-  return isKey(path) ? baseProperty(path) : basePropertyDeep(path);
-}
-
-module.exports = property;
-
-},{"../internal/baseProperty":29,"../internal/basePropertyDeep":30,"../internal/isKey":51}],74:[function(require,module,exports){
-'use strict';
-
 module.exports = AlgoliaSearch;
 
+var Index = require('./Index.js');
+var deprecate = require('./deprecate.js');
+var deprecatedMessage = require('./deprecatedMessage.js');
+var AlgoliaSearchCore = require('./AlgoliaSearchCore.js');
+var inherits = require('inherits');
 var errors = require('./errors');
-var buildSearchMethod = require('./buildSearchMethod.js');
+
+function AlgoliaSearch() {
+  AlgoliaSearchCore.apply(this, arguments);
+}
+
+inherits(AlgoliaSearch, AlgoliaSearchCore);
+
+/*
+ * Delete an index
+ *
+ * @param indexName the name of index to delete
+ * @param callback the result callback called with two arguments
+ *  error: null or Error('message')
+ *  content: the server answer that contains the task ID
+ */
+AlgoliaSearch.prototype.deleteIndex = function(indexName, callback) {
+  return this._jsonRequest({
+    method: 'DELETE',
+    url: '/1/indexes/' + encodeURIComponent(indexName),
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/**
+ * Move an existing index.
+ * @param srcIndexName the name of index to copy.
+ * @param dstIndexName the new index name that will contains a copy of
+ * srcIndexName (destination will be overriten if it already exist).
+ * @param callback the result callback called with two arguments
+ *  error: null or Error('message')
+ *  content: the server answer that contains the task ID
+ */
+AlgoliaSearch.prototype.moveIndex = function(srcIndexName, dstIndexName, callback) {
+  var postObj = {
+    operation: 'move', destination: dstIndexName
+  };
+  return this._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(srcIndexName) + '/operation',
+    body: postObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/**
+ * Copy an existing index.
+ * @param srcIndexName the name of index to copy.
+ * @param dstIndexName the new index name that will contains a copy
+ * of srcIndexName (destination will be overriten if it already exist).
+ * @param callback the result callback called with two arguments
+ *  error: null or Error('message')
+ *  content: the server answer that contains the task ID
+ */
+AlgoliaSearch.prototype.copyIndex = function(srcIndexName, dstIndexName, callback) {
+  var postObj = {
+    operation: 'copy', destination: dstIndexName
+  };
+  return this._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(srcIndexName) + '/operation',
+    body: postObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/**
+ * Return last log entries.
+ * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+ * @param length Specify the maximum number of entries to retrieve starting
+ * at offset. Maximum allowed value: 1000.
+ * @param callback the result callback called with two arguments
+ *  error: null or Error('message')
+ *  content: the server answer that contains the task ID
+ */
+AlgoliaSearch.prototype.getLogs = function(offset, length, callback) {
+  if (arguments.length === 0 || typeof offset === 'function') {
+    // getLogs([cb])
+    callback = offset;
+    offset = 0;
+    length = 10;
+  } else if (arguments.length === 1 || typeof length === 'function') {
+    // getLogs(1, [cb)]
+    callback = length;
+    length = 10;
+  }
+
+  return this._jsonRequest({
+    method: 'GET',
+    url: '/1/logs?offset=' + offset + '&length=' + length,
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+ * List all existing indexes (paginated)
+ *
+ * @param page The page to retrieve, starting at 0.
+ * @param callback the result callback called with two arguments
+ *  error: null or Error('message')
+ *  content: the server answer with index list
+ */
+AlgoliaSearch.prototype.listIndexes = function(page, callback) {
+  var params = '';
+
+  if (page === undefined || typeof page === 'function') {
+    callback = page;
+  } else {
+    params = '?page=' + page;
+  }
+
+  return this._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes' + params,
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+ * Get the index object initialized
+ *
+ * @param indexName the name of index
+ * @param callback the result callback with one argument (the Index instance)
+ */
+AlgoliaSearch.prototype.initIndex = function(indexName) {
+  return new Index(this, indexName);
+};
+
+/*
+ * List all existing user keys with their associated ACLs
+ *
+ * @param callback the result callback called with two arguments
+ *  error: null or Error('message')
+ *  content: the server answer with user keys list
+ */
+AlgoliaSearch.prototype.listUserKeys = function(callback) {
+  return this._jsonRequest({
+    method: 'GET',
+    url: '/1/keys',
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+ * Get ACL of a user key
+ *
+ * @param key
+ * @param callback the result callback called with two arguments
+ *  error: null or Error('message')
+ *  content: the server answer with user keys list
+ */
+AlgoliaSearch.prototype.getUserKeyACL = function(key, callback) {
+  return this._jsonRequest({
+    method: 'GET',
+    url: '/1/keys/' + key,
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+ * Delete an existing user key
+ * @param key
+ * @param callback the result callback called with two arguments
+ *  error: null or Error('message')
+ *  content: the server answer with user keys list
+ */
+AlgoliaSearch.prototype.deleteUserKey = function(key, callback) {
+  return this._jsonRequest({
+    method: 'DELETE',
+    url: '/1/keys/' + key,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+ * Add a new global API key
+ *
+ * @param {string[]} acls - The list of ACL for this key. Defined by an array of strings that
+ *   can contains the following values:
+ *     - search: allow to search (https and http)
+ *     - addObject: allows to add/update an object in the index (https only)
+ *     - deleteObject : allows to delete an existing object (https only)
+ *     - deleteIndex : allows to delete index content (https only)
+ *     - settings : allows to get index settings (https only)
+ *     - editSettings : allows to change index settings (https only)
+ * @param {Object} [params] - Optionnal parameters to set for the key
+ * @param {number} params.validity - Number of seconds after which the key will be automatically removed (0 means no time limit for this key)
+ * @param {number} params.maxQueriesPerIPPerHour - Number of API calls allowed from an IP address per hour
+ * @param {number} params.maxHitsPerQuery - Number of hits this API key can retrieve in one call
+ * @param {string[]} params.indexes - Allowed targeted indexes for this key
+ * @param {string} params.description - A description for your key
+ * @param {string[]} params.referers - A list of authorized referers
+ * @param {Object} params.queryParameters - Force the key to use specific query parameters
+ * @param {Function} callback - The result callback called with two arguments
+ *   error: null or Error('message')
+ *   content: the server answer with user keys list
+ * @return {Promise|undefined} Returns a promise if no callback given
+ * @example
+ * client.addUserKey(['search'], {
+ *   validity: 300,
+ *   maxQueriesPerIPPerHour: 2000,
+ *   maxHitsPerQuery: 3,
+ *   indexes: ['fruits'],
+ *   description: 'Eat three fruits',
+ *   referers: ['*.algolia.com'],
+ *   queryParameters: {
+ *     tagFilters: ['public'],
+ *   }
+ * })
+ * @see {@link https://www.algolia.com/doc/rest_api#AddKey|Algolia REST API Documentation}
+ */
+AlgoliaSearch.prototype.addUserKey = function(acls, params, callback) {
+  var isArray = require('isarray');
+  var usage = 'Usage: client.addUserKey(arrayOfAcls[, params, callback])';
+
+  if (!isArray(acls)) {
+    throw new Error(usage);
+  }
+
+  if (arguments.length === 1 || typeof params === 'function') {
+    callback = params;
+    params = null;
+  }
+
+  var postObj = {
+    acl: acls
+  };
+
+  if (params) {
+    postObj.validity = params.validity;
+    postObj.maxQueriesPerIPPerHour = params.maxQueriesPerIPPerHour;
+    postObj.maxHitsPerQuery = params.maxHitsPerQuery;
+    postObj.indexes = params.indexes;
+    postObj.description = params.description;
+
+    if (params.queryParameters) {
+      postObj.queryParameters = this._getSearchParams(params.queryParameters, '');
+    }
+
+    postObj.referers = params.referers;
+  }
+
+  return this._jsonRequest({
+    method: 'POST',
+    url: '/1/keys',
+    body: postObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/**
+ * Add a new global API key
+ * @deprecated Please use client.addUserKey()
+ */
+AlgoliaSearch.prototype.addUserKeyWithValidity = deprecate(function(acls, params, callback) {
+  return this.addUserKey(acls, params, callback);
+}, deprecatedMessage('client.addUserKeyWithValidity()', 'client.addUserKey()'));
+
+/**
+ * Update an existing API key
+ * @param {string} key - The key to update
+ * @param {string[]} acls - The list of ACL for this key. Defined by an array of strings that
+ *   can contains the following values:
+ *     - search: allow to search (https and http)
+ *     - addObject: allows to add/update an object in the index (https only)
+ *     - deleteObject : allows to delete an existing object (https only)
+ *     - deleteIndex : allows to delete index content (https only)
+ *     - settings : allows to get index settings (https only)
+ *     - editSettings : allows to change index settings (https only)
+ * @param {Object} [params] - Optionnal parameters to set for the key
+ * @param {number} params.validity - Number of seconds after which the key will be automatically removed (0 means no time limit for this key)
+ * @param {number} params.maxQueriesPerIPPerHour - Number of API calls allowed from an IP address per hour
+ * @param {number} params.maxHitsPerQuery - Number of hits this API key can retrieve in one call
+ * @param {string[]} params.indexes - Allowed targeted indexes for this key
+ * @param {string} params.description - A description for your key
+ * @param {string[]} params.referers - A list of authorized referers
+ * @param {Object} params.queryParameters - Force the key to use specific query parameters
+ * @param {Function} callback - The result callback called with two arguments
+ *   error: null or Error('message')
+ *   content: the server answer with user keys list
+ * @return {Promise|undefined} Returns a promise if no callback given
+ * @example
+ * client.updateUserKey('APIKEY', ['search'], {
+ *   validity: 300,
+ *   maxQueriesPerIPPerHour: 2000,
+ *   maxHitsPerQuery: 3,
+ *   indexes: ['fruits'],
+ *   description: 'Eat three fruits',
+ *   referers: ['*.algolia.com'],
+ *   queryParameters: {
+ *     tagFilters: ['public'],
+ *   }
+ * })
+ * @see {@link https://www.algolia.com/doc/rest_api#UpdateIndexKey|Algolia REST API Documentation}
+ */
+AlgoliaSearch.prototype.updateUserKey = function(key, acls, params, callback) {
+  var isArray = require('isarray');
+  var usage = 'Usage: client.updateUserKey(key, arrayOfAcls[, params, callback])';
+
+  if (!isArray(acls)) {
+    throw new Error(usage);
+  }
+
+  if (arguments.length === 2 || typeof params === 'function') {
+    callback = params;
+    params = null;
+  }
+
+  var putObj = {
+    acl: acls
+  };
+
+  if (params) {
+    putObj.validity = params.validity;
+    putObj.maxQueriesPerIPPerHour = params.maxQueriesPerIPPerHour;
+    putObj.maxHitsPerQuery = params.maxHitsPerQuery;
+    putObj.indexes = params.indexes;
+    putObj.description = params.description;
+
+    if (params.queryParameters) {
+      putObj.queryParameters = this._getSearchParams(params.queryParameters, '');
+    }
+
+    putObj.referers = params.referers;
+  }
+
+  return this._jsonRequest({
+    method: 'PUT',
+    url: '/1/keys/' + key,
+    body: putObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/**
+ * Initialize a new batch of search queries
+ * @deprecated use client.search()
+ */
+AlgoliaSearch.prototype.startQueriesBatch = deprecate(function startQueriesBatchDeprecated() {
+  this._batch = [];
+}, deprecatedMessage('client.startQueriesBatch()', 'client.search()'));
+
+/**
+ * Add a search query in the batch
+ * @deprecated use client.search()
+ */
+AlgoliaSearch.prototype.addQueryInBatch = deprecate(function addQueryInBatchDeprecated(indexName, query, args) {
+  this._batch.push({
+    indexName: indexName,
+    query: query,
+    params: args
+  });
+}, deprecatedMessage('client.addQueryInBatch()', 'client.search()'));
+
+/**
+ * Launch the batch of queries using XMLHttpRequest.
+ * @deprecated use client.search()
+ */
+AlgoliaSearch.prototype.sendQueriesBatch = deprecate(function sendQueriesBatchDeprecated(callback) {
+  return this.search(this._batch, callback);
+}, deprecatedMessage('client.sendQueriesBatch()', 'client.search()'));
+
+/**
+ * Perform write operations accross multiple indexes.
+ *
+ * To reduce the amount of time spent on network round trips,
+ * you can create, update, or delete several objects in one call,
+ * using the batch endpoint (all operations are done in the given order).
+ *
+ * Available actions:
+ *   - addObject
+ *   - updateObject
+ *   - partialUpdateObject
+ *   - partialUpdateObjectNoCreate
+ *   - deleteObject
+ *
+ * https://www.algolia.com/doc/rest_api#Indexes
+ * @param  {Object[]} operations An array of operations to perform
+ * @return {Promise|undefined} Returns a promise if no callback given
+ * @example
+ * client.batch([{
+ *   action: 'addObject',
+ *   indexName: 'clients',
+ *   body: {
+ *     name: 'Bill'
+ *   }
+ * }, {
+ *   action: 'udpateObject',
+ *   indexName: 'fruits',
+ *   body: {
+ *     objectID: '29138',
+ *     name: 'banana'
+ *   }
+ * }], cb)
+ */
+AlgoliaSearch.prototype.batch = function(operations, callback) {
+  var isArray = require('isarray');
+  var usage = 'Usage: client.batch(operations[, callback])';
+
+  if (!isArray(operations)) {
+    throw new Error(usage);
+  }
+
+  return this._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/*/batch',
+    body: {
+      requests: operations
+    },
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+// environment specific methods
+AlgoliaSearch.prototype.destroy = notImplemented;
+AlgoliaSearch.prototype.enableRateLimitForward = notImplemented;
+AlgoliaSearch.prototype.disableRateLimitForward = notImplemented;
+AlgoliaSearch.prototype.useSecuredAPIKey = notImplemented;
+AlgoliaSearch.prototype.disableSecuredAPIKey = notImplemented;
+AlgoliaSearch.prototype.generateSecuredApiKey = notImplemented;
+
+function notImplemented() {
+  var message = 'Not implemented in this environment.\n' +
+    'If you feel this is a mistake, write to support@algolia.com';
+
+  throw new errors.AlgoliaSearchError(message);
+}
+
+},{"./AlgoliaSearchCore.js":5,"./Index.js":6,"./deprecate.js":16,"./deprecatedMessage.js":17,"./errors":18,"inherits":55,"isarray":56}],5:[function(require,module,exports){
+module.exports = AlgoliaSearchCore;
+
+var errors = require('./errors');
+var exitPromise = require('./exitPromise.js');
+var IndexCore = require('./IndexCore.js');
 
 // We will always put the API KEY in the JSON body in case of too long API KEY
 var MAX_API_KEY_LENGTH = 500;
@@ -3387,12 +1221,12 @@ var MAX_API_KEY_LENGTH = 500;
  *           ]) - The hosts to use for Algolia Search API.
  *           If you provide them, you will less benefit from our HA implementation
  */
-function AlgoliaSearch(applicationID, apiKey, opts) {
+function AlgoliaSearchCore(applicationID, apiKey, opts) {
   var debug = require('debug')('algoliasearch');
 
-  var clone = require('lodash/lang/clone');
-  var isArray = require('lodash/lang/isArray');
-  var map = require('lodash/collection/map');
+  var clone = require('./clone.js');
+  var isArray = require('isarray');
+  var map = require('./map.js');
 
   var usage = 'Usage: algoliasearch(applicationID, apiKey, opts)';
 
@@ -3407,11 +1241,11 @@ function AlgoliaSearch(applicationID, apiKey, opts) {
   this.applicationID = applicationID;
   this.apiKey = apiKey;
 
-  var defaultHosts = [
+  var defaultHosts = shuffle([
     this.applicationID + '-1.algolianet.com',
     this.applicationID + '-2.algolianet.com',
     this.applicationID + '-3.algolianet.com'
-  ];
+  ]);
   this.hosts = {
     read: [],
     write: []
@@ -3468,2060 +1302,479 @@ function AlgoliaSearch(applicationID, apiKey, opts) {
   debug('init done, %j', this);
 }
 
-AlgoliaSearch.prototype = {
-  /*
-   * Delete an index
-   *
-   * @param indexName the name of index to delete
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer that contains the task ID
-   */
-  deleteIndex: function(indexName, callback) {
-    return this._jsonRequest({
-      method: 'DELETE',
-      url: '/1/indexes/' + encodeURIComponent(indexName),
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /**
-   * Move an existing index.
-   * @param srcIndexName the name of index to copy.
-   * @param dstIndexName the new index name that will contains a copy of
-   * srcIndexName (destination will be overriten if it already exist).
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer that contains the task ID
-   */
-  moveIndex: function(srcIndexName, dstIndexName, callback) {
-    var postObj = {
-      operation: 'move', destination: dstIndexName
-    };
-    return this._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/' + encodeURIComponent(srcIndexName) + '/operation',
-      body: postObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /**
-   * Copy an existing index.
-   * @param srcIndexName the name of index to copy.
-   * @param dstIndexName the new index name that will contains a copy
-   * of srcIndexName (destination will be overriten if it already exist).
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer that contains the task ID
-   */
-  copyIndex: function(srcIndexName, dstIndexName, callback) {
-    var postObj = {
-      operation: 'copy', destination: dstIndexName
-    };
-    return this._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/' + encodeURIComponent(srcIndexName) + '/operation',
-      body: postObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /**
-   * Return last log entries.
-   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
-   * @param length Specify the maximum number of entries to retrieve starting
-   * at offset. Maximum allowed value: 1000.
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer that contains the task ID
-   */
-  getLogs: function(offset, length, callback) {
-    if (arguments.length === 0 || typeof offset === 'function') {
-      // getLogs([cb])
-      callback = offset;
-      offset = 0;
-      length = 10;
-    } else if (arguments.length === 1 || typeof length === 'function') {
-      // getLogs(1, [cb)]
-      callback = length;
-      length = 10;
+/*
+ * Get the index object initialized
+ *
+ * @param indexName the name of index
+ * @param callback the result callback with one argument (the Index instance)
+ */
+AlgoliaSearchCore.prototype.initIndex = function(indexName) {
+  return new IndexCore(this, indexName);
+};
+
+/**
+* Add an extra field to the HTTP request
+*
+* @param name the header field name
+* @param value the header field value
+*/
+AlgoliaSearchCore.prototype.setExtraHeader = function(name, value) {
+  this.extraHeaders.push({
+    name: name.toLowerCase(), value: value
+  });
+};
+
+/**
+* Augment sent x-algolia-agent with more data, each agent part
+* is automatically separated from the others by a semicolon;
+*
+* @param algoliaAgent the agent to add
+*/
+AlgoliaSearchCore.prototype.addAlgoliaAgent = function(algoliaAgent) {
+  this._ua += ';' + algoliaAgent;
+};
+
+/*
+ * Wrapper that try all hosts to maximize the quality of service
+ */
+AlgoliaSearchCore.prototype._jsonRequest = function(initialOpts) {
+  var requestDebug = require('debug')('algoliasearch:' + initialOpts.url);
+
+  var body;
+  var cache = initialOpts.cache;
+  var client = this;
+  var tries = 0;
+  var usingFallback = false;
+  var hasFallback = client._useFallback && client._request.fallback && initialOpts.fallback;
+  var headers;
+
+  if (this.apiKey.length > MAX_API_KEY_LENGTH && initialOpts.body !== undefined && initialOpts.body.params !== undefined) {
+    initialOpts.body.apiKey = this.apiKey;
+    headers = this._computeRequestHeaders(false);
+  } else {
+    headers = this._computeRequestHeaders();
+  }
+
+  if (initialOpts.body !== undefined) {
+    body = safeJSONStringify(initialOpts.body);
+  }
+
+  requestDebug('request start');
+  var debugData = [];
+
+  function doRequest(requester, reqOpts) {
+    var startTime = new Date();
+    var cacheID;
+
+    if (client._useCache) {
+      cacheID = initialOpts.url;
     }
 
-    return this._jsonRequest({
-      method: 'GET',
-      url: '/1/logs?offset=' + offset + '&length=' + length,
-      hostType: 'read',
-      callback: callback
-    });
-  },
-  /*
-   * List all existing indexes (paginated)
-   *
-   * @param page The page to retrieve, starting at 0.
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer with index list
-   */
-  listIndexes: function(page, callback) {
-    var params = '';
-
-    if (page === undefined || typeof page === 'function') {
-      callback = page;
-    } else {
-      params = '?page=' + page;
+    // as we sometime use POST requests to pass parameters (like query='aa'),
+    // the cacheID must also include the body to be different between calls
+    if (client._useCache && body) {
+      cacheID += '_body_' + reqOpts.body;
     }
 
-    return this._jsonRequest({
-      method: 'GET',
-      url: '/1/indexes' + params,
-      hostType: 'read',
-      callback: callback
-    });
-  },
-
-  /*
-   * Get the index object initialized
-   *
-   * @param indexName the name of index
-   * @param callback the result callback with one argument (the Index instance)
-   */
-  initIndex: function(indexName) {
-    return new this.Index(this, indexName);
-  },
-  /*
-   * List all existing user keys with their associated ACLs
-   *
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer with user keys list
-   */
-  listUserKeys: function(callback) {
-    return this._jsonRequest({
-      method: 'GET',
-      url: '/1/keys',
-      hostType: 'read',
-      callback: callback
-    });
-  },
-  /*
-   * Get ACL of a user key
-   *
-   * @param key
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer with user keys list
-   */
-  getUserKeyACL: function(key, callback) {
-    return this._jsonRequest({
-      method: 'GET',
-      url: '/1/keys/' + key,
-      hostType: 'read',
-      callback: callback
-    });
-  },
-  /*
-   * Delete an existing user key
-   * @param key
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer with user keys list
-   */
-  deleteUserKey: function(key, callback) {
-    return this._jsonRequest({
-      method: 'DELETE',
-      url: '/1/keys/' + key,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Add a new global API key
-   *
-   * @param {string[]} acls - The list of ACL for this key. Defined by an array of strings that
-   *   can contains the following values:
-   *     - search: allow to search (https and http)
-   *     - addObject: allows to add/update an object in the index (https only)
-   *     - deleteObject : allows to delete an existing object (https only)
-   *     - deleteIndex : allows to delete index content (https only)
-   *     - settings : allows to get index settings (https only)
-   *     - editSettings : allows to change index settings (https only)
-   * @param {Object} [params] - Optionnal parameters to set for the key
-   * @param {number} params.validity - Number of seconds after which the key will be automatically removed (0 means no time limit for this key)
-   * @param {number} params.maxQueriesPerIPPerHour - Number of API calls allowed from an IP address per hour
-   * @param {number} params.maxHitsPerQuery - Number of hits this API key can retrieve in one call
-   * @param {string[]} params.indexes - Allowed targeted indexes for this key
-   * @param {string} params.description - A description for your key
-   * @param {string[]} params.referers - A list of authorized referers
-   * @param {Object} params.queryParameters - Force the key to use specific query parameters
-   * @param {Function} callback - The result callback called with two arguments
-   *   error: null or Error('message')
-   *   content: the server answer with user keys list
-   * @return {Promise|undefined} Returns a promise if no callback given
-   * @example
-   * client.addUserKey(['search'], {
-   *   validity: 300,
-   *   maxQueriesPerIPPerHour: 2000,
-   *   maxHitsPerQuery: 3,
-   *   indexes: ['fruits'],
-   *   description: 'Eat three fruits',
-   *   referers: ['*.algolia.com'],
-   *   queryParameters: {
-   *     tagFilters: ['public'],
-   *   }
-   * })
-   * @see {@link https://www.algolia.com/doc/rest_api#AddKey|Algolia REST API Documentation}
-   */
-  addUserKey: function(acls, params, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var usage = 'Usage: client.addUserKey(arrayOfAcls[, params, callback])';
-
-    if (!isArray(acls)) {
-      throw new Error(usage);
+    // handle cache existence
+    if (client._useCache && cache && cache[cacheID] !== undefined) {
+      requestDebug('serving response from cache');
+      return client._promise.resolve(JSON.parse(cache[cacheID]));
     }
 
-    if (arguments.length === 1 || typeof params === 'function') {
-      callback = params;
-      params = null;
+    // if we reached max tries
+    if (tries >= client.hosts[initialOpts.hostType].length) {
+      if (!hasFallback || usingFallback) {
+        requestDebug('could not get any response');
+        // then stop
+        return client._promise.reject(new errors.AlgoliaSearchError(
+          'Cannot connect to the AlgoliaSearch API.' +
+          ' Send an email to support@algolia.com to report and resolve the issue.' +
+          ' Application id was: ' + client.applicationID, {debugData: debugData}
+        ));
+      }
+
+      requestDebug('switching to fallback');
+
+      // let's try the fallback starting from here
+      tries = 0;
+
+      // method, url and body are fallback dependent
+      reqOpts.method = initialOpts.fallback.method;
+      reqOpts.url = initialOpts.fallback.url;
+      reqOpts.jsonBody = initialOpts.fallback.body;
+      if (reqOpts.jsonBody) {
+        reqOpts.body = safeJSONStringify(reqOpts.jsonBody);
+      }
+      // re-compute headers, they could be omitting the API KEY
+      headers = client._computeRequestHeaders();
+
+      reqOpts.timeout = client.requestTimeout * (tries + 1);
+      client.hostIndex[initialOpts.hostType] = 0;
+      usingFallback = true; // the current request is now using fallback
+      return doRequest(client._request.fallback, reqOpts);
     }
 
-    var postObj = {
-      acl: acls
+    var currentHost = client.hosts[initialOpts.hostType][client.hostIndex[initialOpts.hostType]];
+
+    var url = currentHost + reqOpts.url;
+    var options = {
+      body: reqOpts.body,
+      jsonBody: reqOpts.jsonBody,
+      method: reqOpts.method,
+      headers: headers,
+      timeout: reqOpts.timeout,
+      debug: requestDebug
     };
 
-    if (params) {
-      postObj.validity = params.validity;
-      postObj.maxQueriesPerIPPerHour = params.maxQueriesPerIPPerHour;
-      postObj.maxHitsPerQuery = params.maxHitsPerQuery;
-      postObj.indexes = params.indexes;
-      postObj.description = params.description;
+    requestDebug('method: %s, url: %s, headers: %j, timeout: %d',
+      options.method, url, options.headers, options.timeout);
 
-      if (params.queryParameters) {
-        postObj.queryParameters = this._getSearchParams(params.queryParameters, '');
+    if (requester === client._request.fallback) {
+      requestDebug('using fallback');
+    }
+
+    // `requester` is any of this._request or this._request.fallback
+    // thus it needs to be called using the client as context
+    return requester.call(client, url, options).then(success, tryFallback);
+
+    function success(httpResponse) {
+      // compute the status of the response,
+      //
+      // When in browser mode, using XDR or JSONP, we have no statusCode available
+      // So we rely on our API response `status` property.
+      // But `waitTask` can set a `status` property which is not the statusCode (it's the task status)
+      // So we check if there's a `message` along `status` and it means it's an error
+      //
+      // That's the only case where we have a response.status that's not the http statusCode
+      var status = httpResponse && httpResponse.body && httpResponse.body.message && httpResponse.body.status ||
+
+        // this is important to check the request statusCode AFTER the body eventual
+        // statusCode because some implementations (jQuery XDomainRequest transport) may
+        // send statusCode 200 while we had an error
+        httpResponse.statusCode ||
+
+        // When in browser mode, using XDR or JSONP
+        // we default to success when no error (no response.status && response.message)
+        // If there was a JSON.parse() error then body is null and it fails
+        httpResponse && httpResponse.body && 200;
+
+      requestDebug('received response: statusCode: %s, computed statusCode: %d, headers: %j',
+        httpResponse.statusCode, status, httpResponse.headers);
+
+      var ok = status === 200 || status === 201;
+      var retry = !ok && Math.floor(status / 100) !== 4 && Math.floor(status / 100) !== 1;
+
+      if (client._useCache && ok && cache) {
+        cache[cacheID] = httpResponse.responseText;
       }
 
-      postObj.referers = params.referers;
-    }
-
-    return this._jsonRequest({
-      method: 'POST',
-      url: '/1/keys',
-      body: postObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /**
-   * Add a new global API key
-   * @deprecated Please use client.addUserKey()
-   */
-  addUserKeyWithValidity: deprecate(function(acls, params, callback) {
-    return this.addUserKey(acls, params, callback);
-  }, deprecatedMessage('client.addUserKeyWithValidity()', 'client.addUserKey()')),
-
-  /**
-   * Update an existing API key
-   * @param {string} key - The key to update
-   * @param {string[]} acls - The list of ACL for this key. Defined by an array of strings that
-   *   can contains the following values:
-   *     - search: allow to search (https and http)
-   *     - addObject: allows to add/update an object in the index (https only)
-   *     - deleteObject : allows to delete an existing object (https only)
-   *     - deleteIndex : allows to delete index content (https only)
-   *     - settings : allows to get index settings (https only)
-   *     - editSettings : allows to change index settings (https only)
-   * @param {Object} [params] - Optionnal parameters to set for the key
-   * @param {number} params.validity - Number of seconds after which the key will be automatically removed (0 means no time limit for this key)
-   * @param {number} params.maxQueriesPerIPPerHour - Number of API calls allowed from an IP address per hour
-   * @param {number} params.maxHitsPerQuery - Number of hits this API key can retrieve in one call
-   * @param {string[]} params.indexes - Allowed targeted indexes for this key
-   * @param {string} params.description - A description for your key
-   * @param {string[]} params.referers - A list of authorized referers
-   * @param {Object} params.queryParameters - Force the key to use specific query parameters
-   * @param {Function} callback - The result callback called with two arguments
-   *   error: null or Error('message')
-   *   content: the server answer with user keys list
-   * @return {Promise|undefined} Returns a promise if no callback given
-   * @example
-   * client.updateUserKey('APIKEY', ['search'], {
-   *   validity: 300,
-   *   maxQueriesPerIPPerHour: 2000,
-   *   maxHitsPerQuery: 3,
-   *   indexes: ['fruits'],
-   *   description: 'Eat three fruits',
-   *   referers: ['*.algolia.com'],
-   *   queryParameters: {
-   *     tagFilters: ['public'],
-   *   }
-   * })
-   * @see {@link https://www.algolia.com/doc/rest_api#UpdateIndexKey|Algolia REST API Documentation}
-   */
-  updateUserKey: function(key, acls, params, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var usage = 'Usage: client.updateUserKey(key, arrayOfAcls[, params, callback])';
-
-    if (!isArray(acls)) {
-      throw new Error(usage);
-    }
-
-    if (arguments.length === 2 || typeof params === 'function') {
-      callback = params;
-      params = null;
-    }
-
-    var putObj = {
-      acl: acls
-    };
-
-    if (params) {
-      putObj.validity = params.validity;
-      putObj.maxQueriesPerIPPerHour = params.maxQueriesPerIPPerHour;
-      putObj.maxHitsPerQuery = params.maxHitsPerQuery;
-      putObj.indexes = params.indexes;
-      putObj.description = params.description;
-
-      if (params.queryParameters) {
-        putObj.queryParameters = this._getSearchParams(params.queryParameters, '');
+      if (ok) {
+        return httpResponse.body;
       }
 
-      putObj.referers = params.referers;
-    }
-
-    return this._jsonRequest({
-      method: 'PUT',
-      url: '/1/keys/' + key,
-      body: putObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-
-  /**
-   * Set the extra security tagFilters header
-   * @param {string|array} tags The list of tags defining the current security filters
-   */
-  setSecurityTags: function(tags) {
-    if (Object.prototype.toString.call(tags) === '[object Array]') {
-      var strTags = [];
-      for (var i = 0; i < tags.length; ++i) {
-        if (Object.prototype.toString.call(tags[i]) === '[object Array]') {
-          var oredTags = [];
-          for (var j = 0; j < tags[i].length; ++j) {
-            oredTags.push(tags[i][j]);
-          }
-          strTags.push('(' + oredTags.join(',') + ')');
-        } else {
-          strTags.push(tags[i]);
-        }
-      }
-      tags = strTags.join(',');
-    }
-
-    this.securityTags = tags;
-  },
-
-  /**
-   * Set the extra user token header
-   * @param {string} userToken The token identifying a uniq user (used to apply rate limits)
-   */
-  setUserToken: function(userToken) {
-    this.userToken = userToken;
-  },
-
-  /**
-   * Initialize a new batch of search queries
-   * @deprecated use client.search()
-   */
-  startQueriesBatch: deprecate(function startQueriesBatchDeprecated() {
-    this._batch = [];
-  }, deprecatedMessage('client.startQueriesBatch()', 'client.search()')),
-
-  /**
-   * Add a search query in the batch
-   * @deprecated use client.search()
-   */
-  addQueryInBatch: deprecate(function addQueryInBatchDeprecated(indexName, query, args) {
-    this._batch.push({
-      indexName: indexName,
-      query: query,
-      params: args
-    });
-  }, deprecatedMessage('client.addQueryInBatch()', 'client.search()')),
-
-  /**
-   * Clear all queries in client's cache
-   * @return undefined
-   */
-  clearCache: function() {
-    this.cache = {};
-  },
-
-  /**
-   * Launch the batch of queries using XMLHttpRequest.
-   * @deprecated use client.search()
-   */
-  sendQueriesBatch: deprecate(function sendQueriesBatchDeprecated(callback) {
-    return this.search(this._batch, callback);
-  }, deprecatedMessage('client.sendQueriesBatch()', 'client.search()')),
-
-  /**
-  * Set the number of milliseconds a request can take before automatically being terminated.
-  *
-  * @param {Number} milliseconds
-  */
-  setRequestTimeout: function(milliseconds) {
-    if (milliseconds) {
-      this.requestTimeout = parseInt(milliseconds, 10);
-    }
-  },
-
-  /**
-   * Search through multiple indices at the same time
-   * @param  {Object[]}   queries  An array of queries you want to run.
-   * @param {string} queries[].indexName The index name you want to target
-   * @param {string} [queries[].query] The query to issue on this index. Can also be passed into `params`
-   * @param {Object} queries[].params Any search param like hitsPerPage, ..
-   * @param  {Function} callback Callback to be called
-   * @return {Promise|undefined} Returns a promise if no callback given
-   */
-  search: function(queries, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var map = require('lodash/collection/map');
-
-    var usage = 'Usage: client.search(arrayOfQueries[, callback])';
-
-    if (!isArray(queries)) {
-      throw new Error(usage);
-    }
-
-    var client = this;
-
-    var postObj = {
-      requests: map(queries, function prepareRequest(query) {
-        var params = '';
-
-        // allow query.query
-        // so we are mimicing the index.search(query, params) method
-        // {indexName:, query:, params:}
-        if (query.query !== undefined) {
-          params += 'query=' + encodeURIComponent(query.query);
-        }
-
-        return {
-          indexName: query.indexName,
-          params: client._getSearchParams(query.params, params)
-        };
-      })
-    };
-
-    var JSONPParams = map(postObj.requests, function prepareJSONPParams(request, requestId) {
-      return requestId + '=' +
-        encodeURIComponent(
-          '/1/indexes/' + encodeURIComponent(request.indexName) + '?' +
-          request.params
-        );
-    }).join('&');
-
-    return this._jsonRequest({
-      cache: this.cache,
-      method: 'POST',
-      url: '/1/indexes/*/queries',
-      body: postObj,
-      hostType: 'read',
-      fallback: {
-        method: 'GET',
-        url: '/1/indexes/*',
-        body: {
-          params: JSONPParams
-        }
-      },
-      callback: callback
-    });
-  },
-
-  /**
-   * Perform write operations accross multiple indexes.
-   *
-   * To reduce the amount of time spent on network round trips,
-   * you can create, update, or delete several objects in one call,
-   * using the batch endpoint (all operations are done in the given order).
-   *
-   * Available actions:
-   *   - addObject
-   *   - updateObject
-   *   - partialUpdateObject
-   *   - partialUpdateObjectNoCreate
-   *   - deleteObject
-   *
-   * https://www.algolia.com/doc/rest_api#Indexes
-   * @param  {Object[]} operations An array of operations to perform
-   * @return {Promise|undefined} Returns a promise if no callback given
-   * @example
-   * client.batch([{
-   *   action: 'addObject',
-   *   indexName: 'clients',
-   *   body: {
-   *     name: 'Bill'
-   *   }
-   * }, {
-   *   action: 'udpateObject',
-   *   indexName: 'fruits',
-   *   body: {
-   *     objectID: '29138',
-   *     name: 'banana'
-   *   }
-   * }], cb)
-   */
-  batch: function(operations, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var usage = 'Usage: client.batch(operations[, callback])';
-
-    if (!isArray(operations)) {
-      throw new Error(usage);
-    }
-
-    return this._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/*/batch',
-      body: {
-        requests: operations
-      },
-      hostType: 'write',
-      callback: callback
-    });
-  },
-
-  // environment specific methods
-  destroy: notImplemented,
-  enableRateLimitForward: notImplemented,
-  disableRateLimitForward: notImplemented,
-  useSecuredAPIKey: notImplemented,
-  disableSecuredAPIKey: notImplemented,
-  generateSecuredApiKey: notImplemented,
-  /*
-   * Index class constructor.
-   * You should not use this method directly but use initIndex() function
-   */
-  Index: function(algoliasearch, indexName) {
-    this.indexName = indexName;
-    this.as = algoliasearch;
-    this.typeAheadArgs = null;
-    this.typeAheadValueOption = null;
-
-    // make sure every index instance has it's own cache
-    this.cache = {};
-  },
-  /**
-  * Add an extra field to the HTTP request
-  *
-  * @param name the header field name
-  * @param value the header field value
-  */
-  setExtraHeader: function(name, value) {
-    this.extraHeaders.push({
-      name: name.toLowerCase(), value: value
-    });
-  },
-
-  /**
-  * Augment sent x-algolia-agent with more data, each agent part
-  * is automatically separated from the others by a semicolon;
-  *
-  * @param algoliaAgent the agent to add
-  */
-  addAlgoliaAgent: function(algoliaAgent) {
-    this._ua += ';' + algoliaAgent;
-  },
-
-  /*
-   * Wrapper that try all hosts to maximize the quality of service
-   */
-  _jsonRequest: function(initialOpts) {
-    var requestDebug = require('debug')('algoliasearch:' + initialOpts.url);
-
-    var body;
-    var cache = initialOpts.cache;
-    var client = this;
-    var tries = 0;
-    var usingFallback = false;
-    var hasFallback = client._useFallback && client._request.fallback && initialOpts.fallback;
-    var headers;
-
-    if (this.apiKey.length > MAX_API_KEY_LENGTH && initialOpts.body !== undefined && initialOpts.body.params !== undefined) {
-      initialOpts.body.apiKey = this.apiKey;
-      headers = this._computeRequestHeaders(false);
-    } else {
-      headers = this._computeRequestHeaders();
-    }
-
-    if (initialOpts.body !== undefined) {
-      body = safeJSONStringify(initialOpts.body);
-    }
-
-    requestDebug('request start');
-
-    function doRequest(requester, reqOpts) {
-      var cacheID;
-
-      if (client._useCache) {
-        cacheID = initialOpts.url;
-      }
-
-      // as we sometime use POST requests to pass parameters (like query='aa'),
-      // the cacheID must also include the body to be different between calls
-      if (client._useCache && body) {
-        cacheID += '_body_' + reqOpts.body;
-      }
-
-      // handle cache existence
-      if (client._useCache && cache && cache[cacheID] !== undefined) {
-        requestDebug('serving response from cache');
-        return client._promise.resolve(JSON.parse(cache[cacheID]));
-      }
-
-      // if we reached max tries
-      if (tries >= client.hosts[initialOpts.hostType].length) {
-        if (!hasFallback || usingFallback) {
-          requestDebug('could not get any response');
-          // then stop
-          return client._promise.reject(new errors.AlgoliaSearchError(
-            'Cannot connect to the AlgoliaSearch API.' +
-            ' Send an email to support@algolia.com to report and resolve the issue.' +
-            ' Application id was: ' + client.applicationID
-          ));
-        }
-
-        requestDebug('switching to fallback');
-
-        // let's try the fallback starting from here
-        tries = 0;
-
-        // method, url and body are fallback dependent
-        reqOpts.method = initialOpts.fallback.method;
-        reqOpts.url = initialOpts.fallback.url;
-        reqOpts.jsonBody = initialOpts.fallback.body;
-        if (reqOpts.jsonBody) {
-          reqOpts.body = safeJSONStringify(reqOpts.jsonBody);
-        }
-        // re-compute headers, they could be omitting the API KEY
-        headers = client._computeRequestHeaders();
-
-        reqOpts.timeout = client.requestTimeout * (tries + 1);
-        client.hostIndex[initialOpts.hostType] = 0;
-        usingFallback = true; // the current request is now using fallback
-        return doRequest(client._request.fallback, reqOpts);
-      }
-
-      var url = client.hosts[initialOpts.hostType][client.hostIndex[initialOpts.hostType]] + reqOpts.url;
-      var options = {
-        body: reqOpts.body,
-        jsonBody: reqOpts.jsonBody,
+      var endTime = new Date();
+      debugData.push({
+        currentHost: currentHost,
+        headers: removeCredentials(headers),
+        content: body || null,
+        contentLength: body !== undefined ? body.length : null,
         method: reqOpts.method,
-        headers: headers,
         timeout: reqOpts.timeout,
-        debug: requestDebug
-      };
+        url: reqOpts.url,
+        startTime: startTime,
+        endTime: endTime,
+        duration: endTime - startTime
+      });
 
-      requestDebug('method: %s, url: %s, headers: %j, timeout: %d',
-        options.method, url, options.headers, options.timeout);
-
-      if (requester === client._request.fallback) {
-        requestDebug('using fallback');
-      }
-
-      // `requester` is any of this._request or this._request.fallback
-      // thus it needs to be called using the client as context
-      return requester.call(client, url, options).then(success, tryFallback);
-
-      function success(httpResponse) {
-        // compute the status of the response,
-        //
-        // When in browser mode, using XDR or JSONP, we have no statusCode available
-        // So we rely on our API response `status` property.
-        // But `waitTask` can set a `status` property which is not the statusCode (it's the task status)
-        // So we check if there's a `message` along `status` and it means it's an error
-        //
-        // That's the only case where we have a response.status that's not the http statusCode
-        var status = httpResponse && httpResponse.body && httpResponse.body.message && httpResponse.body.status ||
-
-          // this is important to check the request statusCode AFTER the body eventual
-          // statusCode because some implementations (jQuery XDomainRequest transport) may
-          // send statusCode 200 while we had an error
-          httpResponse.statusCode ||
-
-          // When in browser mode, using XDR or JSONP
-          // we default to success when no error (no response.status && response.message)
-          // If there was a JSON.parse() error then body is null and it fails
-          httpResponse && httpResponse.body && 200;
-
-        requestDebug('received response: statusCode: %s, computed statusCode: %d, headers: %j',
-          httpResponse.statusCode, status, httpResponse.headers);
-
-        var ok = status === 200 || status === 201;
-        var retry = !ok && Math.floor(status / 100) !== 4 && Math.floor(status / 100) !== 1;
-
-        if (client._useCache && ok && cache) {
-          cache[cacheID] = httpResponse.responseText;
-        }
-
-        if (ok) {
-          return httpResponse.body;
-        }
-
-        if (retry) {
-          tries += 1;
-          return retryRequest();
-        }
-
-        var unrecoverableError = new errors.AlgoliaSearchError(
-          httpResponse.body && httpResponse.body.message
-        );
-
-        return client._promise.reject(unrecoverableError);
-      }
-
-      function tryFallback(err) {
-        // error cases:
-        //  While not in fallback mode:
-        //    - CORS not supported
-        //    - network error
-        //  While in fallback mode:
-        //    - timeout
-        //    - network error
-        //    - badly formatted JSONP (script loaded, did not call our callback)
-        //  In both cases:
-        //    - uncaught exception occurs (TypeError)
-        requestDebug('error: %s, stack: %s', err.message, err.stack);
-
-        if (!(err instanceof errors.AlgoliaSearchError)) {
-          err = new errors.Unknown(err && err.message, err);
-        }
-
+      if (retry) {
         tries += 1;
-
-        // stop the request implementation when:
-        if (
-          // we did not generate this error,
-          // it comes from a throw in some other piece of code
-          err instanceof errors.Unknown ||
-
-          // server sent unparsable JSON
-          err instanceof errors.UnparsableJSON ||
-
-          // max tries and already using fallback or no fallback
-          tries >= client.hosts[initialOpts.hostType].length &&
-          (usingFallback || !hasFallback)) {
-          // stop request implementation for this command
-          return client._promise.reject(err);
-        }
-
-        client.hostIndex[initialOpts.hostType] = ++client.hostIndex[initialOpts.hostType] % client.hosts[initialOpts.hostType].length;
-
-        if (err instanceof errors.RequestTimeout) {
-          return retryRequest();
-        } else if (!usingFallback) {
-          // next request loop, force using fallback for this request
-          tries = Infinity;
-        }
-
-        return doRequest(requester, reqOpts);
+        return retryRequest();
       }
 
-      function retryRequest() {
-        client.hostIndex[initialOpts.hostType] = ++client.hostIndex[initialOpts.hostType] % client.hosts[initialOpts.hostType].length;
-        reqOpts.timeout = client.requestTimeout * (tries + 1);
-        return doRequest(requester, reqOpts);
-      }
+      var unrecoverableError = new errors.AlgoliaSearchError(
+        httpResponse.body && httpResponse.body.message, {debugData: debugData}
+      );
+
+      return client._promise.reject(unrecoverableError);
     }
 
-    var promise = doRequest(
-      client._request, {
-        url: initialOpts.url,
-        method: initialOpts.method,
-        body: body,
-        jsonBody: initialOpts.body,
-        timeout: client.requestTimeout * (tries + 1)
-      }
-    );
+    function tryFallback(err) {
+      // error cases:
+      //  While not in fallback mode:
+      //    - CORS not supported
+      //    - network error
+      //  While in fallback mode:
+      //    - timeout
+      //    - network error
+      //    - badly formatted JSONP (script loaded, did not call our callback)
+      //  In both cases:
+      //    - uncaught exception occurs (TypeError)
+      requestDebug('error: %s, stack: %s', err.message, err.stack);
 
-    // either we have a callback
-    // either we are using promises
-    if (initialOpts.callback) {
-      promise.then(function okCb(content) {
-        exitPromise(function() {
-          initialOpts.callback(null, content);
-        }, client._setTimeout || setTimeout);
-      }, function nookCb(err) {
-        exitPromise(function() {
-          initialOpts.callback(err);
-        }, client._setTimeout || setTimeout);
+      var endTime = new Date();
+      debugData.push({
+        currentHost: currentHost,
+        headers: removeCredentials(headers),
+        content: body || null,
+        contentLength: body !== undefined ? body.length : null,
+        method: reqOpts.method,
+        timeout: reqOpts.timeout,
+        url: reqOpts.url,
+        startTime: startTime,
+        endTime: endTime,
+        duration: endTime - startTime
       });
-    } else {
-      return promise;
-    }
-  },
 
-  /*
-  * Transform search param object in query string
-  */
-  _getSearchParams: function(args, params) {
-    if (args === undefined || args === null) {
-      return params;
-    }
-    for (var key in args) {
-      if (key !== null && args[key] !== undefined && args.hasOwnProperty(key)) {
-        params += params === '' ? '' : '&';
-        params += key + '=' + encodeURIComponent(Object.prototype.toString.call(args[key]) === '[object Array]' ? safeJSONStringify(args[key]) : args[key]);
+      if (!(err instanceof errors.AlgoliaSearchError)) {
+        err = new errors.Unknown(err && err.message, err);
       }
-    }
-    return params;
-  },
 
-  _computeRequestHeaders: function(withAPIKey) {
-    var forEach = require('lodash/collection/forEach');
+      tries += 1;
 
-    var requestHeaders = {
-      'x-algolia-agent': this._ua,
-      'x-algolia-application-id': this.applicationID
-    };
+      // stop the request implementation when:
+      if (
+        // we did not generate this error,
+        // it comes from a throw in some other piece of code
+        err instanceof errors.Unknown ||
 
-    // browser will inline headers in the url, node.js will use http headers
-    // but in some situations, the API KEY will be too long (big secured API keys)
-    // so if the request is a POST and the KEY is very long, we will be asked to not put
-    // it into headers but in the JSON body
-    if (withAPIKey !== false) {
-      requestHeaders['x-algolia-api-key'] = this.apiKey;
-    }
+        // server sent unparsable JSON
+        err instanceof errors.UnparsableJSON ||
 
-    if (this.userToken) {
-      requestHeaders['x-algolia-usertoken'] = this.userToken;
-    }
+        // max tries and already using fallback or no fallback
+        tries >= client.hosts[initialOpts.hostType].length &&
+        (usingFallback || !hasFallback)) {
+        // stop request implementation for this command
+        err.debugData = debugData;
+        return client._promise.reject(err);
+      }
 
-    if (this.securityTags) {
-      requestHeaders['x-algolia-tagfilters'] = this.securityTags;
-    }
+      if (err instanceof errors.RequestTimeout) {
+        return retryRequest();
+      } else if (!usingFallback) {
+        client.hostIndex[initialOpts.hostType] = ++client.hostIndex[initialOpts.hostType] % client.hosts[initialOpts.hostType].length;
+        // next request loop, force using fallback for this request
+        tries = Infinity;
+      }
 
-    if (this.extraHeaders) {
-      forEach(this.extraHeaders, function addToRequestHeaders(header) {
-        requestHeaders[header.name] = header.value;
-      });
+      return doRequest(requester, reqOpts);
     }
 
-    return requestHeaders;
+    function retryRequest() {
+      client.hostIndex[initialOpts.hostType] = ++client.hostIndex[initialOpts.hostType] % client.hosts[initialOpts.hostType].length;
+      reqOpts.timeout = client.requestTimeout * (tries + 1);
+      return doRequest(requester, reqOpts);
+    }
+  }
+
+  var promise = doRequest(
+    client._request, {
+      url: initialOpts.url,
+      method: initialOpts.method,
+      body: body,
+      jsonBody: initialOpts.body,
+      timeout: client.requestTimeout * (tries + 1)
+    }
+  );
+
+  // either we have a callback
+  // either we are using promises
+  if (initialOpts.callback) {
+    promise.then(function okCb(content) {
+      exitPromise(function() {
+        initialOpts.callback(null, content);
+      }, client._setTimeout || setTimeout);
+    }, function nookCb(err) {
+      exitPromise(function() {
+        initialOpts.callback(err);
+      }, client._setTimeout || setTimeout);
+    });
+  } else {
+    return promise;
   }
 };
 
 /*
- * Contains all the functions related to one index
- * You should use AlgoliaSearch.initIndex(indexName) to retrieve this object
+* Transform search param object in query string
+*/
+AlgoliaSearchCore.prototype._getSearchParams = function(args, params) {
+  if (args === undefined || args === null) {
+    return params;
+  }
+  for (var key in args) {
+    if (key !== null && args[key] !== undefined && args.hasOwnProperty(key)) {
+      params += params === '' ? '' : '&';
+      params += key + '=' + encodeURIComponent(Object.prototype.toString.call(args[key]) === '[object Array]' ? safeJSONStringify(args[key]) : args[key]);
+    }
+  }
+  return params;
+};
+
+AlgoliaSearchCore.prototype._computeRequestHeaders = function(withAPIKey) {
+  var forEach = require('foreach');
+
+  var requestHeaders = {
+    'x-algolia-agent': this._ua,
+    'x-algolia-application-id': this.applicationID
+  };
+
+  // browser will inline headers in the url, node.js will use http headers
+  // but in some situations, the API KEY will be too long (big secured API keys)
+  // so if the request is a POST and the KEY is very long, we will be asked to not put
+  // it into headers but in the JSON body
+  if (withAPIKey !== false) {
+    requestHeaders['x-algolia-api-key'] = this.apiKey;
+  }
+
+  if (this.userToken) {
+    requestHeaders['x-algolia-usertoken'] = this.userToken;
+  }
+
+  if (this.securityTags) {
+    requestHeaders['x-algolia-tagfilters'] = this.securityTags;
+  }
+
+  if (this.extraHeaders) {
+    forEach(this.extraHeaders, function addToRequestHeaders(header) {
+      requestHeaders[header.name] = header.value;
+    });
+  }
+
+  return requestHeaders;
+};
+
+/**
+ * Search through multiple indices at the same time
+ * @param  {Object[]}   queries  An array of queries you want to run.
+ * @param {string} queries[].indexName The index name you want to target
+ * @param {string} [queries[].query] The query to issue on this index. Can also be passed into `params`
+ * @param {Object} queries[].params Any search param like hitsPerPage, ..
+ * @param  {Function} callback Callback to be called
+ * @return {Promise|undefined} Returns a promise if no callback given
  */
-AlgoliaSearch.prototype.Index.prototype = {
-  /*
-   * Clear all queries in cache
-   */
-  clearCache: function() {
-    this.cache = {};
-  },
-  /*
-   * Add an object in this index
-   *
-   * @param content contains the javascript object to add inside the index
-   * @param objectID (optional) an objectID you want to attribute to this object
-   * (if the attribute already exist the old object will be overwrite)
-   * @param callback (optional) the result callback called with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that contains 3 elements: createAt, taskId and objectID
-   */
-  addObject: function(content, objectID, callback) {
-    var indexObj = this;
+AlgoliaSearchCore.prototype.search = function(queries, opts, callback) {
+  var isArray = require('isarray');
+  var map = require('./map.js');
 
-    if (arguments.length === 1 || typeof objectID === 'function') {
-      callback = objectID;
-      objectID = undefined;
-    }
+  var usage = 'Usage: client.search(arrayOfQueries[, callback])';
 
-    return this.as._jsonRequest({
-      method: objectID !== undefined ?
-        'PUT' : // update or create
-        'POST', // create (API generates an objectID)
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + // create
-        (objectID !== undefined ? '/' + encodeURIComponent(objectID) : ''), // update or create
-      body: content,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Add several objects
-   *
-   * @param objects contains an array of objects to add
-   * @param callback (optional) the result callback called with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that updateAt and taskID
-   */
-  addObjects: function(objects, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var usage = 'Usage: index.addObjects(arrayOfObjects[, callback])';
+  if (!isArray(queries)) {
+    throw new Error(usage);
+  }
 
-    if (!isArray(objects)) {
-      throw new Error(usage);
-    }
+  if (typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  } else if (opts === undefined) {
+    opts = {};
+  }
 
-    var indexObj = this;
-    var postObj = {
-      requests: []
-    };
-    for (var i = 0; i < objects.length; ++i) {
-      var request = {
-        action: 'addObject',
-        body: objects[i]
+  var client = this;
+
+  var postObj = {
+    requests: map(queries, function prepareRequest(query) {
+      var params = '';
+
+      // allow query.query
+      // so we are mimicing the index.search(query, params) method
+      // {indexName:, query:, params:}
+      if (query.query !== undefined) {
+        params += 'query=' + encodeURIComponent(query.query);
+      }
+
+      return {
+        indexName: query.indexName,
+        params: client._getSearchParams(query.params, params)
       };
-      postObj.requests.push(request);
-    }
-    return this.as._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
-      body: postObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Get an object from this index
-   *
-   * @param objectID the unique identifier of the object to retrieve
-   * @param attrs (optional) if set, contains the array of attribute names to retrieve
-   * @param callback (optional) the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the object to retrieve or the error message if a failure occured
-   */
-  getObject: function(objectID, attrs, callback) {
-    var indexObj = this;
+    })
+  };
 
-    if (arguments.length === 1 || typeof attrs === 'function') {
-      callback = attrs;
-      attrs = undefined;
-    }
+  var JSONPParams = map(postObj.requests, function prepareJSONPParams(request, requestId) {
+    return requestId + '=' +
+      encodeURIComponent(
+        '/1/indexes/' + encodeURIComponent(request.indexName) + '?' +
+        request.params
+      );
+  }).join('&');
 
-    var params = '';
-    if (attrs !== undefined) {
-      params = '?attributes=';
-      for (var i = 0; i < attrs.length; ++i) {
-        if (i !== 0) {
-          params += ',';
+  var url = '/1/indexes/*/queries';
+
+  if (opts.strategy !== undefined) {
+    url += '?strategy=' + opts.strategy;
+  }
+
+  return this._jsonRequest({
+    cache: this.cache,
+    method: 'POST',
+    url: url,
+    body: postObj,
+    hostType: 'read',
+    fallback: {
+      method: 'GET',
+      url: '/1/indexes/*',
+      body: {
+        params: JSONPParams
+      }
+    },
+    callback: callback
+  });
+};
+
+/**
+ * Set the extra security tagFilters header
+ * @param {string|array} tags The list of tags defining the current security filters
+ */
+AlgoliaSearchCore.prototype.setSecurityTags = function(tags) {
+  if (Object.prototype.toString.call(tags) === '[object Array]') {
+    var strTags = [];
+    for (var i = 0; i < tags.length; ++i) {
+      if (Object.prototype.toString.call(tags[i]) === '[object Array]') {
+        var oredTags = [];
+        for (var j = 0; j < tags[i].length; ++j) {
+          oredTags.push(tags[i][j]);
         }
-        params += attrs[i];
-      }
-    }
-
-    return this.as._jsonRequest({
-      method: 'GET',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(objectID) + params,
-      hostType: 'read',
-      callback: callback
-    });
-  },
-
-  /*
-   * Get several objects from this index
-   *
-   * @param objectIDs the array of unique identifier of objects to retrieve
-   */
-  getObjects: function(objectIDs, attributesToRetrieve, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var map = require('lodash/collection/map');
-
-    var usage = 'Usage: index.getObjects(arrayOfObjectIDs[, callback])';
-
-    if (!isArray(objectIDs)) {
-      throw new Error(usage);
-    }
-
-    var indexObj = this;
-
-    if (arguments.length === 1 || typeof attributesToRetrieve === 'function') {
-      callback = attributesToRetrieve;
-      attributesToRetrieve = undefined;
-    }
-
-    var body = {
-      requests: map(objectIDs, function prepareRequest(objectID) {
-        var request = {
-          indexName: indexObj.indexName,
-          objectID: objectID
-        };
-
-        if (attributesToRetrieve) {
-          request.attributesToRetrieve = attributesToRetrieve.join(',');
-        }
-
-        return request;
-      })
-    };
-
-    return this.as._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/*/objects',
-      hostType: 'read',
-      body: body,
-      callback: callback
-    });
-  },
-
-  /*
-   * Update partially an object (only update attributes passed in argument)
-   *
-   * @param partialObject contains the javascript attributes to override, the
-   *  object must contains an objectID attribute
-   * @param createIfNotExists (optional) if false, avoid an automatic creation of the object
-   * @param callback (optional) the result callback called with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that contains 3 elements: createAt, taskId and objectID
-   */
-  partialUpdateObject: function(partialObject, createIfNotExists, callback) {
-    if (arguments.length === 1 || typeof createIfNotExists === 'function') {
-      callback = createIfNotExists;
-      createIfNotExists = undefined;
-    }
-
-    var indexObj = this;
-    var url = '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(partialObject.objectID) + '/partial';
-    if (createIfNotExists === false) {
-      url += '?createIfNotExists=false';
-    }
-
-    return this.as._jsonRequest({
-      method: 'POST',
-      url: url,
-      body: partialObject,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Partially Override the content of several objects
-   *
-   * @param objects contains an array of objects to update (each object must contains a objectID attribute)
-   * @param callback (optional) the result callback called with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that updateAt and taskID
-   */
-  partialUpdateObjects: function(objects, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var usage = 'Usage: index.partialUpdateObjects(arrayOfObjects[, callback])';
-
-    if (!isArray(objects)) {
-      throw new Error(usage);
-    }
-
-    var indexObj = this;
-    var postObj = {
-      requests: []
-    };
-    for (var i = 0; i < objects.length; ++i) {
-      var request = {
-        action: 'partialUpdateObject',
-        objectID: objects[i].objectID,
-        body: objects[i]
-      };
-      postObj.requests.push(request);
-    }
-    return this.as._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
-      body: postObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Override the content of object
-   *
-   * @param object contains the javascript object to save, the object must contains an objectID attribute
-   * @param callback (optional) the result callback called with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that updateAt and taskID
-   */
-  saveObject: function(object, callback) {
-    var indexObj = this;
-    return this.as._jsonRequest({
-      method: 'PUT',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(object.objectID),
-      body: object,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Override the content of several objects
-   *
-   * @param objects contains an array of objects to update (each object must contains a objectID attribute)
-   * @param callback (optional) the result callback called with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that updateAt and taskID
-   */
-  saveObjects: function(objects, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var usage = 'Usage: index.saveObjects(arrayOfObjects[, callback])';
-
-    if (!isArray(objects)) {
-      throw new Error(usage);
-    }
-
-    var indexObj = this;
-    var postObj = {
-      requests: []
-    };
-    for (var i = 0; i < objects.length; ++i) {
-      var request = {
-        action: 'updateObject',
-        objectID: objects[i].objectID,
-        body: objects[i]
-      };
-      postObj.requests.push(request);
-    }
-    return this.as._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
-      body: postObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Delete an object from the index
-   *
-   * @param objectID the unique identifier of object to delete
-   * @param callback (optional) the result callback called with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that contains 3 elements: createAt, taskId and objectID
-   */
-  deleteObject: function(objectID, callback) {
-    if (typeof objectID === 'function' || typeof objectID !== 'string' && typeof objectID !== 'number') {
-      var err = new errors.AlgoliaSearchError('Cannot delete an object without an objectID');
-      callback = objectID;
-      if (typeof callback === 'function') {
-        return callback(err);
-      }
-
-      return this.as._promise.reject(err);
-    }
-
-    var indexObj = this;
-    return this.as._jsonRequest({
-      method: 'DELETE',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(objectID),
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Delete several objects from an index
-   *
-   * @param objectIDs contains an array of objectID to delete
-   * @param callback (optional) the result callback called with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that contains 3 elements: createAt, taskId and objectID
-   */
-  deleteObjects: function(objectIDs, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var map = require('lodash/collection/map');
-
-    var usage = 'Usage: index.deleteObjects(arrayOfObjectIDs[, callback])';
-
-    if (!isArray(objectIDs)) {
-      throw new Error(usage);
-    }
-
-    var indexObj = this;
-    var postObj = {
-      requests: map(objectIDs, function prepareRequest(objectID) {
-        return {
-          action: 'deleteObject',
-          objectID: objectID,
-          body: {
-            objectID: objectID
-          }
-        };
-      })
-    };
-
-    return this.as._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
-      body: postObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Delete all objects matching a query
-   *
-   * @param query the query string
-   * @param params the optional query parameters
-   * @param callback (optional) the result callback called with one argument
-   *  error: null or Error('message')
-   */
-  deleteByQuery: function(query, params, callback) {
-    var clone = require('lodash/lang/clone');
-    var map = require('lodash/collection/map');
-
-    var indexObj = this;
-    var client = indexObj.as;
-
-    if (arguments.length === 1 || typeof params === 'function') {
-      callback = params;
-      params = {};
-    } else {
-      params = clone(params);
-    }
-
-    params.attributesToRetrieve = 'objectID';
-    params.hitsPerPage = 1000;
-    params.distinct = false;
-
-    // when deleting, we should never use cache to get the
-    // search results
-    this.clearCache();
-
-    // there's a problem in how we use the promise chain,
-    // see how waitTask is done
-    var promise = this
-      .search(query, params)
-      .then(stopOrDelete);
-
-    function stopOrDelete(searchContent) {
-      // stop here
-      if (searchContent.nbHits === 0) {
-        // return indexObj.as._request.resolve();
-        return searchContent;
-      }
-
-      // continue and do a recursive call
-      var objectIDs = map(searchContent.hits, function getObjectID(object) {
-        return object.objectID;
-      });
-
-      return indexObj
-        .deleteObjects(objectIDs)
-        .then(waitTask)
-        .then(doDeleteByQuery);
-    }
-
-    function waitTask(deleteObjectsContent) {
-      return indexObj.waitTask(deleteObjectsContent.taskID);
-    }
-
-    function doDeleteByQuery() {
-      return indexObj.deleteByQuery(query, params);
-    }
-
-    if (!callback) {
-      return promise;
-    }
-
-    promise.then(success, failure);
-
-    function success() {
-      exitPromise(function exit() {
-        callback(null);
-      }, client._setTimeout || setTimeout);
-    }
-
-    function failure(err) {
-      exitPromise(function exit() {
-        callback(err);
-      }, client._setTimeout || setTimeout);
-    }
-  },
-
-  /*
-   * Search inside the index using XMLHttpRequest request (Using a POST query to
-   * minimize number of OPTIONS queries: Cross-Origin Resource Sharing).
-   *
-   * @param query the full text query
-   * @param args (optional) if set, contains an object with query parameters:
-   * - page: (integer) Pagination parameter used to select the page to retrieve.
-   *                   Page is zero-based and defaults to 0. Thus,
-   *                   to retrieve the 10th page you need to set page=9
-   * - hitsPerPage: (integer) Pagination parameter used to select the number of hits per page. Defaults to 20.
-   * - attributesToRetrieve: a string that contains the list of object attributes
-   * you want to retrieve (let you minimize the answer size).
-   *   Attributes are separated with a comma (for example "name,address").
-   *   You can also use an array (for example ["name","address"]).
-   *   By default, all attributes are retrieved. You can also use '*' to retrieve all
-   *   values when an attributesToRetrieve setting is specified for your index.
-   * - attributesToHighlight: a string that contains the list of attributes you
-   *   want to highlight according to the query.
-   *   Attributes are separated by a comma. You can also use an array (for example ["name","address"]).
-   *   If an attribute has no match for the query, the raw value is returned.
-   *   By default all indexed text attributes are highlighted.
-   *   You can use `*` if you want to highlight all textual attributes.
-   *   Numerical attributes are not highlighted.
-   *   A matchLevel is returned for each highlighted attribute and can contain:
-   *      - full: if all the query terms were found in the attribute,
-   *      - partial: if only some of the query terms were found,
-   *      - none: if none of the query terms were found.
-   * - attributesToSnippet: a string that contains the list of attributes to snippet alongside
-   * the number of words to return (syntax is `attributeName:nbWords`).
-   *    Attributes are separated by a comma (Example: attributesToSnippet=name:10,content:10).
-   *    You can also use an array (Example: attributesToSnippet: ['name:10','content:10']).
-   *    By default no snippet is computed.
-   * - minWordSizefor1Typo: the minimum number of characters in a query word to accept one typo in this word.
-   * Defaults to 3.
-   * - minWordSizefor2Typos: the minimum number of characters in a query word
-   * to accept two typos in this word. Defaults to 7.
-   * - getRankingInfo: if set to 1, the result hits will contain ranking
-   * information in _rankingInfo attribute.
-   * - aroundLatLng: search for entries around a given
-   * latitude/longitude (specified as two floats separated by a comma).
-   *   For example aroundLatLng=47.316669,5.016670).
-   *   You can specify the maximum distance in meters with the aroundRadius parameter (in meters)
-   *   and the precision for ranking with aroundPrecision
-   *   (for example if you set aroundPrecision=100, two objects that are distant of
-   *   less than 100m will be considered as identical for "geo" ranking parameter).
-   *   At indexing, you should specify geoloc of an object with the _geoloc attribute
-   *   (in the form {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-   * - insideBoundingBox: search entries inside a given area defined by the two extreme points
-   * of a rectangle (defined by 4 floats: p1Lat,p1Lng,p2Lat,p2Lng).
-   *   For example insideBoundingBox=47.3165,4.9665,47.3424,5.0201).
-   *   At indexing, you should specify geoloc of an object with the _geoloc attribute
-   *   (in the form {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-   * - numericFilters: a string that contains the list of numeric filters you want to
-   * apply separated by a comma.
-   *   The syntax of one filter is `attributeName` followed by `operand` followed by `value`.
-   *   Supported operands are `<`, `<=`, `=`, `>` and `>=`.
-   *   You can have multiple conditions on one attribute like for example numericFilters=price>100,price<1000.
-   *   You can also use an array (for example numericFilters: ["price>100","price<1000"]).
-   * - tagFilters: filter the query by a set of tags. You can AND tags by separating them by commas.
-   *   To OR tags, you must add parentheses. For example, tags=tag1,(tag2,tag3) means tag1 AND (tag2 OR tag3).
-   *   You can also use an array, for example tagFilters: ["tag1",["tag2","tag3"]]
-   *   means tag1 AND (tag2 OR tag3).
-   *   At indexing, tags should be added in the _tags** attribute
-   *   of objects (for example {"_tags":["tag1","tag2"]}).
-   * - facetFilters: filter the query by a list of facets.
-   *   Facets are separated by commas and each facet is encoded as `attributeName:value`.
-   *   For example: `facetFilters=category:Book,author:John%20Doe`.
-   *   You can also use an array (for example `["category:Book","author:John%20Doe"]`).
-   * - facets: List of object attributes that you want to use for faceting.
-   *   Comma separated list: `"category,author"` or array `['category','author']`
-   *   Only attributes that have been added in **attributesForFaceting** index setting
-   *   can be used in this parameter.
-   *   You can also use `*` to perform faceting on all attributes specified in **attributesForFaceting**.
-   * - queryType: select how the query words are interpreted, it can be one of the following value:
-   *    - prefixAll: all query words are interpreted as prefixes,
-   *    - prefixLast: only the last word is interpreted as a prefix (default behavior),
-   *    - prefixNone: no query word is interpreted as a prefix. This option is not recommended.
-   * - optionalWords: a string that contains the list of words that should
-   * be considered as optional when found in the query.
-   *   Comma separated and array are accepted.
-   * - distinct: If set to 1, enable the distinct feature (disabled by default)
-   * if the attributeForDistinct index setting is set.
-   *   This feature is similar to the SQL "distinct" keyword: when enabled
-   *   in a query with the distinct=1 parameter,
-   *   all hits containing a duplicate value for the attributeForDistinct attribute are removed from results.
-   *   For example, if the chosen attribute is show_name and several hits have
-   *   the same value for show_name, then only the best
-   *   one is kept and others are removed.
-   * - restrictSearchableAttributes: List of attributes you want to use for
-   * textual search (must be a subset of the attributesToIndex index setting)
-   * either comma separated or as an array
-   * @param callback the result callback called with two arguments:
-   *  error: null or Error('message'). If false, the content contains the error.
-   *  content: the server answer that contains the list of results.
-   */
-  search: buildSearchMethod('query'),
-
-  /*
-   * -- BETA --
-   * Search a record similar to the query inside the index using XMLHttpRequest request (Using a POST query to
-   * minimize number of OPTIONS queries: Cross-Origin Resource Sharing).
-   *
-   * @param query the similar query
-   * @param args (optional) if set, contains an object with query parameters.
-   *   All search parameters are supported (see search function), restrictSearchableAttributes and facetFilters
-   *   are the two most useful to restrict the similar results and get more relevant content
-   */
-  similarSearch: buildSearchMethod('similarQuery'),
-
-  /*
-   * Browse index content. The response content will have a `cursor` property that you can use
-   * to browse subsequent pages for this query. Use `index.browseFrom(cursor)` when you want.
-   *
-   * @param {string} query - The full text query
-   * @param {Object} [queryParameters] - Any search query parameter
-   * @param {Function} [callback] - The result callback called with two arguments
-   *   error: null or Error('message')
-   *   content: the server answer with the browse result
-   * @return {Promise|undefined} Returns a promise if no callback given
-   * @example
-   * index.browse('cool songs', {
-   *   tagFilters: 'public,comments',
-   *   hitsPerPage: 500
-   * }, callback);
-   * @see {@link https://www.algolia.com/doc/rest_api#Browse|Algolia REST API Documentation}
-   */
-  // pre 3.5.0 usage, backward compatible
-  // browse: function(page, hitsPerPage, callback) {
-  browse: function(query, queryParameters, callback) {
-    var merge = require('lodash/object/merge');
-
-    var indexObj = this;
-
-    var page;
-    var hitsPerPage;
-
-    // we check variadic calls that are not the one defined
-    // .browse()/.browse(fn)
-    // => page = 0
-    if (arguments.length === 0 || arguments.length === 1 && typeof arguments[0] === 'function') {
-      page = 0;
-      callback = arguments[0];
-      query = undefined;
-    } else if (typeof arguments[0] === 'number') {
-      // .browse(2)/.browse(2, 10)/.browse(2, fn)/.browse(2, 10, fn)
-      page = arguments[0];
-      if (typeof arguments[1] === 'number') {
-        hitsPerPage = arguments[1];
-      } else if (typeof arguments[1] === 'function') {
-        callback = arguments[1];
-        hitsPerPage = undefined;
-      }
-      query = undefined;
-      queryParameters = undefined;
-    } else if (typeof arguments[0] === 'object') {
-      // .browse(queryParameters)/.browse(queryParameters, cb)
-      if (typeof arguments[1] === 'function') {
-        callback = arguments[1];
-      }
-      queryParameters = arguments[0];
-      query = undefined;
-    } else if (typeof arguments[0] === 'string' && typeof arguments[1] === 'function') {
-      // .browse(query, cb)
-      callback = arguments[1];
-      queryParameters = undefined;
-    }
-
-    // otherwise it's a .browse(query)/.browse(query, queryParameters)/.browse(query, queryParameters, cb)
-
-    // get search query parameters combining various possible calls
-    // to .browse();
-    queryParameters = merge({}, queryParameters || {}, {
-      page: page,
-      hitsPerPage: hitsPerPage,
-      query: query
-    });
-
-    var params = this.as._getSearchParams(queryParameters, '');
-
-    return this.as._jsonRequest({
-      method: 'GET',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/browse?' + params,
-      hostType: 'read',
-      callback: callback
-    });
-  },
-
-  /*
-   * Continue browsing from a previous position (cursor), obtained via a call to `.browse()`.
-   *
-   * @param {string} query - The full text query
-   * @param {Object} [queryParameters] - Any search query parameter
-   * @param {Function} [callback] - The result callback called with two arguments
-   *   error: null or Error('message')
-   *   content: the server answer with the browse result
-   * @return {Promise|undefined} Returns a promise if no callback given
-   * @example
-   * index.browseFrom('14lkfsakl32', callback);
-   * @see {@link https://www.algolia.com/doc/rest_api#Browse|Algolia REST API Documentation}
-   */
-  browseFrom: function(cursor, callback) {
-    return this.as._jsonRequest({
-      method: 'GET',
-      url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/browse?cursor=' + encodeURIComponent(cursor),
-      hostType: 'read',
-      callback: callback
-    });
-  },
-
-  /*
-   * Browse all content from an index using events. Basically this will do
-   * .browse() -> .browseFrom -> .browseFrom -> .. until all the results are returned
-   *
-   * @param {string} query - The full text query
-   * @param {Object} [queryParameters] - Any search query parameter
-   * @return {EventEmitter}
-   * @example
-   * var browser = index.browseAll('cool songs', {
-   *   tagFilters: 'public,comments',
-   *   hitsPerPage: 500
-   * });
-   *
-   * browser.on('result', function resultCallback(content) {
-   *   console.log(content.hits);
-   * });
-   *
-   * // if any error occurs, you get it
-   * browser.on('error', function(err) {
-   *   throw err;
-   * });
-   *
-   * // when you have browsed the whole index, you get this event
-   * browser.on('end', function() {
-   *   console.log('finished');
-   * });
-   *
-   * // at any point if you want to stop the browsing process, you can stop it manually
-   * // otherwise it will go on and on
-   * browser.stop();
-   *
-   * @see {@link https://www.algolia.com/doc/rest_api#Browse|Algolia REST API Documentation}
-   */
-  browseAll: function(query, queryParameters) {
-    if (typeof query === 'object') {
-      queryParameters = query;
-      query = undefined;
-    }
-
-    var merge = require('lodash/object/merge');
-
-    var IndexBrowser = require('./IndexBrowser');
-
-    var browser = new IndexBrowser();
-    var client = this.as;
-    var index = this;
-    var params = client._getSearchParams(
-      merge({}, queryParameters || {}, {
-        query: query
-      }), ''
-    );
-
-    // start browsing
-    browseLoop();
-
-    function browseLoop(cursor) {
-      if (browser._stopped) {
-        return;
-      }
-
-      var queryString;
-
-      if (cursor !== undefined) {
-        queryString = 'cursor=' + encodeURIComponent(cursor);
+        strTags.push('(' + oredTags.join(',') + ')');
       } else {
-        queryString = params;
+        strTags.push(tags[i]);
       }
-
-      client._jsonRequest({
-        method: 'GET',
-        url: '/1/indexes/' + encodeURIComponent(index.indexName) + '/browse?' + queryString,
-        hostType: 'read',
-        callback: browseCallback
-      });
     }
+    tags = strTags.join(',');
+  }
 
-    function browseCallback(err, content) {
-      if (browser._stopped) {
-        return;
-      }
+  this.securityTags = tags;
+};
 
-      if (err) {
-        browser._error(err);
-        return;
-      }
+/**
+ * Set the extra user token header
+ * @param {string} userToken The token identifying a uniq user (used to apply rate limits)
+ */
+AlgoliaSearchCore.prototype.setUserToken = function(userToken) {
+  this.userToken = userToken;
+};
 
-      browser._result(content);
+/**
+ * Clear all queries in client's cache
+ * @return undefined
+ */
+AlgoliaSearchCore.prototype.clearCache = function() {
+  this.cache = {};
+};
 
-      // no cursor means we are finished browsing
-      if (content.cursor === undefined) {
-        browser._end();
-        return;
-      }
-
-      browseLoop(content.cursor);
-    }
-
-    return browser;
-  },
-
-  /*
-   * Get a Typeahead.js adapter
-   * @param searchParams contains an object with query parameters (see search for details)
-   */
-  ttAdapter: function(params) {
-    var self = this;
-    return function ttAdapter(query, syncCb, asyncCb) {
-      var cb;
-
-      if (typeof asyncCb === 'function') {
-        // typeahead 0.11
-        cb = asyncCb;
-      } else {
-        // pre typeahead 0.11
-        cb = syncCb;
-      }
-
-      self.search(query, params, function searchDone(err, content) {
-        if (err) {
-          cb(err);
-          return;
-        }
-
-        cb(content.hits);
-      });
-    };
-  },
-
-  /*
-   * Wait the publication of a task on the server.
-   * All server task are asynchronous and you can check with this method that the task is published.
-   *
-   * @param taskID the id of the task returned by server
-   * @param callback the result callback with with two arguments:
-   *  error: null or Error('message')
-   *  content: the server answer that contains the list of results
-   */
-  waitTask: function(taskID, callback) {
-    // wait minimum 100ms before retrying
-    var baseDelay = 100;
-    // wait maximum 5s before retrying
-    var maxDelay = 5000;
-    var loop = 0;
-
-    // waitTask() must be handled differently from other methods,
-    // it's a recursive method using a timeout
-    var indexObj = this;
-    var client = indexObj.as;
-
-    var promise = retryLoop();
-
-    function retryLoop() {
-      return client._jsonRequest({
-        method: 'GET',
-        hostType: 'read',
-        url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/task/' + taskID
-      }).then(function success(content) {
-        loop++;
-        var delay = baseDelay * loop * loop;
-        if (delay > maxDelay) {
-          delay = maxDelay;
-        }
-
-        if (content.status !== 'published') {
-          return client._promise.delay(delay).then(retryLoop);
-        }
-
-        return content;
-      });
-    }
-
-    if (!callback) {
-      return promise;
-    }
-
-    promise.then(successCb, failureCb);
-
-    function successCb(content) {
-      exitPromise(function exit() {
-        callback(null, content);
-      }, client._setTimeout || setTimeout);
-    }
-
-    function failureCb(err) {
-      exitPromise(function exit() {
-        callback(err);
-      }, client._setTimeout || setTimeout);
-    }
-  },
-
-  /*
-   * This function deletes the index content. Settings and index specific API keys are kept untouched.
-   *
-   * @param callback (optional) the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the settings object or the error message if a failure occured
-   */
-  clearIndex: function(callback) {
-    var indexObj = this;
-    return this.as._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/clear',
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Get settings of this index
-   *
-   * @param callback (optional) the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the settings object or the error message if a failure occured
-   */
-  getSettings: function(callback) {
-    var indexObj = this;
-    return this.as._jsonRequest({
-      method: 'GET',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
-      hostType: 'read',
-      callback: callback
-    });
-  },
-
-  /*
-   * Set settings for this index
-   *
-   * @param settigns the settings object that can contains :
-   * - minWordSizefor1Typo: (integer) the minimum number of characters to accept one typo (default = 3).
-   * - minWordSizefor2Typos: (integer) the minimum number of characters to accept two typos (default = 7).
-   * - hitsPerPage: (integer) the number of hits per page (default = 10).
-   * - attributesToRetrieve: (array of strings) default list of attributes to retrieve in objects.
-   *   If set to null, all attributes are retrieved.
-   * - attributesToHighlight: (array of strings) default list of attributes to highlight.
-   *   If set to null, all indexed attributes are highlighted.
-   * - attributesToSnippet**: (array of strings) default list of attributes to snippet alongside the number
-   * of words to return (syntax is attributeName:nbWords).
-   *   By default no snippet is computed. If set to null, no snippet is computed.
-   * - attributesToIndex: (array of strings) the list of fields you want to index.
-   *   If set to null, all textual and numerical attributes of your objects are indexed,
-   *   but you should update it to get optimal results.
-   *   This parameter has two important uses:
-   *     - Limit the attributes to index: For example if you store a binary image in base64,
-   *     you want to store it and be able to
-   *       retrieve it but you don't want to search in the base64 string.
-   *     - Control part of the ranking*: (see the ranking parameter for full explanation)
-   *     Matches in attributes at the beginning of
-   *       the list will be considered more important than matches in attributes further down the list.
-   *       In one attribute, matching text at the beginning of the attribute will be
-   *       considered more important than text after, you can disable
-   *       this behavior if you add your attribute inside `unordered(AttributeName)`,
-   *       for example attributesToIndex: ["title", "unordered(text)"].
-   * - attributesForFaceting: (array of strings) The list of fields you want to use for faceting.
-   *   All strings in the attribute selected for faceting are extracted and added as a facet.
-   *   If set to null, no attribute is used for faceting.
-   * - attributeForDistinct: (string) The attribute name used for the Distinct feature.
-   * This feature is similar to the SQL "distinct" keyword: when enabled
-   *   in query with the distinct=1 parameter, all hits containing a duplicate
-   *   value for this attribute are removed from results.
-   *   For example, if the chosen attribute is show_name and several hits have
-   *   the same value for show_name, then only the best one is kept and others are removed.
-   * - ranking: (array of strings) controls the way results are sorted.
-   *   We have six available criteria:
-   *    - typo: sort according to number of typos,
-   *    - geo: sort according to decreassing distance when performing a geo-location based search,
-   *    - proximity: sort according to the proximity of query words in hits,
-   *    - attribute: sort according to the order of attributes defined by attributesToIndex,
-   *    - exact:
-   *        - if the user query contains one word: sort objects having an attribute
-   *        that is exactly the query word before others.
-   *          For example if you search for the "V" TV show, you want to find it
-   *          with the "V" query and avoid to have all popular TV
-   *          show starting by the v letter before it.
-   *        - if the user query contains multiple words: sort according to the
-   *        number of words that matched exactly (and not as a prefix).
-   *    - custom: sort according to a user defined formula set in **customRanking** attribute.
-   *   The standard order is ["typo", "geo", "proximity", "attribute", "exact", "custom"]
-   * - customRanking: (array of strings) lets you specify part of the ranking.
-   *   The syntax of this condition is an array of strings containing attributes
-   *   prefixed by asc (ascending order) or desc (descending order) operator.
-   *   For example `"customRanking" => ["desc(population)", "asc(name)"]`
-   * - queryType: Select how the query words are interpreted, it can be one of the following value:
-   *   - prefixAll: all query words are interpreted as prefixes,
-   *   - prefixLast: only the last word is interpreted as a prefix (default behavior),
-   *   - prefixNone: no query word is interpreted as a prefix. This option is not recommended.
-   * - highlightPreTag: (string) Specify the string that is inserted before
-   * the highlighted parts in the query result (default to "<em>").
-   * - highlightPostTag: (string) Specify the string that is inserted after
-   * the highlighted parts in the query result (default to "</em>").
-   * - optionalWords: (array of strings) Specify a list of words that should
-   * be considered as optional when found in the query.
-   * @param callback (optional) the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer or the error message if a failure occured
-   */
-  setSettings: function(settings, callback) {
-    var indexObj = this;
-    return this.as._jsonRequest({
-      method: 'PUT',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
-      hostType: 'write',
-      body: settings,
-      callback: callback
-    });
-  },
-  /*
-   * List all existing user keys associated to this index
-   *
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer with user keys list
-   */
-  listUserKeys: function(callback) {
-    var indexObj = this;
-    return this.as._jsonRequest({
-      method: 'GET',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/keys',
-      hostType: 'read',
-      callback: callback
-    });
-  },
-  /*
-   * Get ACL of a user key associated to this index
-   *
-   * @param key
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer with user keys list
-   */
-  getUserKeyACL: function(key, callback) {
-    var indexObj = this;
-    return this.as._jsonRequest({
-      method: 'GET',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/keys/' + key,
-      hostType: 'read',
-      callback: callback
-    });
-  },
-  /*
-   * Delete an existing user key associated to this index
-   *
-   * @param key
-   * @param callback the result callback called with two arguments
-   *  error: null or Error('message')
-   *  content: the server answer with user keys list
-   */
-  deleteUserKey: function(key, callback) {
-    var indexObj = this;
-    return this.as._jsonRequest({
-      method: 'DELETE',
-      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/keys/' + key,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-  /*
-   * Add a new API key to this index
-   *
-   * @param {string[]} acls - The list of ACL for this key. Defined by an array of strings that
-   *   can contains the following values:
-   *     - search: allow to search (https and http)
-   *     - addObject: allows to add/update an object in the index (https only)
-   *     - deleteObject : allows to delete an existing object (https only)
-   *     - deleteIndex : allows to delete index content (https only)
-   *     - settings : allows to get index settings (https only)
-   *     - editSettings : allows to change index settings (https only)
-   * @param {Object} [params] - Optionnal parameters to set for the key
-   * @param {number} params.validity - Number of seconds after which the key will
-   * be automatically removed (0 means no time limit for this key)
-   * @param {number} params.maxQueriesPerIPPerHour - Number of API calls allowed from an IP address per hour
-   * @param {number} params.maxHitsPerQuery - Number of hits this API key can retrieve in one call
-   * @param {string} params.description - A description for your key
-   * @param {string[]} params.referers - A list of authorized referers
-   * @param {Object} params.queryParameters - Force the key to use specific query parameters
-   * @param {Function} callback - The result callback called with two arguments
-   *   error: null or Error('message')
-   *   content: the server answer with user keys list
-   * @return {Promise|undefined} Returns a promise if no callback given
-   * @example
-   * index.addUserKey(['search'], {
-   *   validity: 300,
-   *   maxQueriesPerIPPerHour: 2000,
-   *   maxHitsPerQuery: 3,
-   *   description: 'Eat three fruits',
-   *   referers: ['*.algolia.com'],
-   *   queryParameters: {
-   *     tagFilters: ['public'],
-   *   }
-   * })
-   * @see {@link https://www.algolia.com/doc/rest_api#AddIndexKey|Algolia REST API Documentation}
-   */
-  addUserKey: function(acls, params, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var usage = 'Usage: index.addUserKey(arrayOfAcls[, params, callback])';
-
-    if (!isArray(acls)) {
-      throw new Error(usage);
-    }
-
-    if (arguments.length === 1 || typeof params === 'function') {
-      callback = params;
-      params = null;
-    }
-
-    var postObj = {
-      acl: acls
-    };
-
-    if (params) {
-      postObj.validity = params.validity;
-      postObj.maxQueriesPerIPPerHour = params.maxQueriesPerIPPerHour;
-      postObj.maxHitsPerQuery = params.maxHitsPerQuery;
-      postObj.description = params.description;
-
-      if (params.queryParameters) {
-        postObj.queryParameters = this.as._getSearchParams(params.queryParameters, '');
-      }
-
-      postObj.referers = params.referers;
-    }
-
-    return this.as._jsonRequest({
-      method: 'POST',
-      url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/keys',
-      body: postObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-
-  /**
-   * Add an existing user key associated to this index
-   * @deprecated use index.addUserKey()
-   */
-  addUserKeyWithValidity: deprecate(function deprecatedAddUserKeyWithValidity(acls, params, callback) {
-    return this.addUserKey(acls, params, callback);
-  }, deprecatedMessage('index.addUserKeyWithValidity()', 'index.addUserKey()')),
-
-  /**
-   * Update an existing API key of this index
-   * @param {string} key - The key to update
-   * @param {string[]} acls - The list of ACL for this key. Defined by an array of strings that
-   *   can contains the following values:
-   *     - search: allow to search (https and http)
-   *     - addObject: allows to add/update an object in the index (https only)
-   *     - deleteObject : allows to delete an existing object (https only)
-   *     - deleteIndex : allows to delete index content (https only)
-   *     - settings : allows to get index settings (https only)
-   *     - editSettings : allows to change index settings (https only)
-   * @param {Object} [params] - Optionnal parameters to set for the key
-   * @param {number} params.validity - Number of seconds after which the key will
-   * be automatically removed (0 means no time limit for this key)
-   * @param {number} params.maxQueriesPerIPPerHour - Number of API calls allowed from an IP address per hour
-   * @param {number} params.maxHitsPerQuery - Number of hits this API key can retrieve in one call
-   * @param {string} params.description - A description for your key
-   * @param {string[]} params.referers - A list of authorized referers
-   * @param {Object} params.queryParameters - Force the key to use specific query parameters
-   * @param {Function} callback - The result callback called with two arguments
-   *   error: null or Error('message')
-   *   content: the server answer with user keys list
-   * @return {Promise|undefined} Returns a promise if no callback given
-   * @example
-   * index.updateUserKey('APIKEY', ['search'], {
-   *   validity: 300,
-   *   maxQueriesPerIPPerHour: 2000,
-   *   maxHitsPerQuery: 3,
-   *   description: 'Eat three fruits',
-   *   referers: ['*.algolia.com'],
-   *   queryParameters: {
-   *     tagFilters: ['public'],
-   *   }
-   * })
-   * @see {@link https://www.algolia.com/doc/rest_api#UpdateIndexKey|Algolia REST API Documentation}
-   */
-  updateUserKey: function(key, acls, params, callback) {
-    var isArray = require('lodash/lang/isArray');
-    var usage = 'Usage: index.updateUserKey(key, arrayOfAcls[, params, callback])';
-
-    if (!isArray(acls)) {
-      throw new Error(usage);
-    }
-
-    if (arguments.length === 2 || typeof params === 'function') {
-      callback = params;
-      params = null;
-    }
-
-    var putObj = {
-      acl: acls
-    };
-
-    if (params) {
-      putObj.validity = params.validity;
-      putObj.maxQueriesPerIPPerHour = params.maxQueriesPerIPPerHour;
-      putObj.maxHitsPerQuery = params.maxHitsPerQuery;
-      putObj.description = params.description;
-
-      if (params.queryParameters) {
-        putObj.queryParameters = this.as._getSearchParams(params.queryParameters, '');
-      }
-
-      putObj.referers = params.referers;
-    }
-
-    return this.as._jsonRequest({
-      method: 'PUT',
-      url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/keys/' + key,
-      body: putObj,
-      hostType: 'write',
-      callback: callback
-    });
-  },
-
-  _search: function(params, url, callback) {
-    return this.as._jsonRequest({
-      cache: this.cache,
-      method: 'POST',
-      url: url || '/1/indexes/' + encodeURIComponent(this.indexName) + '/query',
-      body: {params: params},
-      hostType: 'read',
-      fallback: {
-        method: 'GET',
-        url: '/1/indexes/' + encodeURIComponent(this.indexName),
-        body: {params: params}
-      },
-      callback: callback
-    });
-  },
-
-  as: null,
-  indexName: null,
-  typeAheadArgs: null,
-  typeAheadValueOption: null
+/**
+* Set the number of milliseconds a request can take before automatically being terminated.
+*
+* @param {Number} milliseconds
+*/
+AlgoliaSearchCore.prototype.setRequestTimeout = function(milliseconds) {
+  if (milliseconds) {
+    this.requestTimeout = parseInt(milliseconds, 10);
+  }
 };
 
 function prepareHost(protocol) {
   return function prepare(host) {
     return protocol + '//' + host.toLowerCase();
   };
-}
-
-function notImplemented() {
-  var message = 'Not implemented in this environment.\n' +
-    'If you feel this is a mistake, write to support@algolia.com';
-
-  throw new errors.AlgoliaSearchError(message);
-}
-
-function deprecatedMessage(previousUsage, newUsage) {
-  var githubAnchorLink = previousUsage.toLowerCase()
-    .replace('.', '')
-    .replace('()', '');
-
-  return 'algoliasearch: `' + previousUsage + '` was replaced by `' + newUsage +
-    '`. Please see https://github.com/algolia/algoliasearch-client-js/wiki/Deprecated#' + githubAnchorLink;
-}
-
-// Parse cloud does not supports setTimeout
-// We do not store a setTimeout reference in the client everytime
-// We only fallback to a fake setTimeout when not available
-// setTimeout cannot be override globally sadly
-function exitPromise(fn, _setTimeout) {
-  _setTimeout(fn, 0);
-}
-
-function deprecate(fn, message) {
-  var warned = false;
-
-  function deprecated() {
-    if (!warned) {
-      /* eslint no-console:0 */
-      console.log(message);
-      warned = true;
-    }
-
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
 }
 
 // Prototype.js < 1.7, a widely used library, defines a weird
@@ -5546,7 +1799,1100 @@ function safeJSONStringify(obj) {
   return out;
 }
 
-},{"./IndexBrowser":75,"./buildSearchMethod.js":80,"./errors":81,"debug":84,"lodash/collection/forEach":5,"lodash/collection/map":6,"lodash/lang/clone":58,"lodash/lang/isArray":61,"lodash/object/merge":70}],75:[function(require,module,exports){
+function shuffle(array) {
+  var currentIndex = array.length;
+  var temporaryValue;
+  var randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex !== 0) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+function removeCredentials(headers) {
+  var newHeaders = {};
+
+  for (var headerName in headers) {
+    if (Object.prototype.hasOwnProperty.call(headers, headerName)) {
+      var value;
+
+      if (headerName === 'x-algolia-api-key' || headerName === 'x-algolia-application-id') {
+        value = '**hidden for security purposes**';
+      } else {
+        value = headers[headerName];
+      }
+
+      newHeaders[headerName] = value;
+    }
+  }
+
+  return newHeaders;
+}
+
+},{"./IndexCore.js":8,"./clone.js":15,"./errors":18,"./exitPromise.js":19,"./map.js":20,"debug":24,"foreach":54,"isarray":56}],6:[function(require,module,exports){
+var inherits = require('inherits');
+var IndexCore = require('./IndexCore.js');
+var deprecate = require('./deprecate.js');
+var deprecatedMessage = require('./deprecatedMessage.js');
+var exitPromise = require('./exitPromise.js');
+var errors = require('./errors');
+
+module.exports = Index;
+
+function Index() {
+  IndexCore.apply(this, arguments);
+}
+
+inherits(Index, IndexCore);
+
+/*
+* Add an object in this index
+*
+* @param content contains the javascript object to add inside the index
+* @param objectID (optional) an objectID you want to attribute to this object
+* (if the attribute already exist the old object will be overwrite)
+* @param callback (optional) the result callback called with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that contains 3 elements: createAt, taskId and objectID
+*/
+Index.prototype.addObject = function(content, objectID, callback) {
+  var indexObj = this;
+
+  if (arguments.length === 1 || typeof objectID === 'function') {
+    callback = objectID;
+    objectID = undefined;
+  }
+
+  return this.as._jsonRequest({
+    method: objectID !== undefined ?
+    'PUT' : // update or create
+    'POST', // create (API generates an objectID)
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + // create
+    (objectID !== undefined ? '/' + encodeURIComponent(objectID) : ''), // update or create
+    body: content,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Add several objects
+*
+* @param objects contains an array of objects to add
+* @param callback (optional) the result callback called with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that updateAt and taskID
+*/
+Index.prototype.addObjects = function(objects, callback) {
+  var isArray = require('isarray');
+  var usage = 'Usage: index.addObjects(arrayOfObjects[, callback])';
+
+  if (!isArray(objects)) {
+    throw new Error(usage);
+  }
+
+  var indexObj = this;
+  var postObj = {
+    requests: []
+  };
+  for (var i = 0; i < objects.length; ++i) {
+    var request = {
+      action: 'addObject',
+      body: objects[i]
+    };
+    postObj.requests.push(request);
+  }
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
+    body: postObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Get an object from this index
+*
+* @param objectID the unique identifier of the object to retrieve
+* @param attrs (optional) if set, contains the array of attribute names to retrieve
+* @param callback (optional) the result callback called with two arguments
+*  error: null or Error('message')
+*  content: the object to retrieve or the error message if a failure occured
+*/
+Index.prototype.getObject = function(objectID, attrs, callback) {
+  var indexObj = this;
+
+  if (arguments.length === 1 || typeof attrs === 'function') {
+    callback = attrs;
+    attrs = undefined;
+  }
+
+  var params = '';
+  if (attrs !== undefined) {
+    params = '?attributes=';
+    for (var i = 0; i < attrs.length; ++i) {
+      if (i !== 0) {
+        params += ',';
+      }
+      params += attrs[i];
+    }
+  }
+
+  return this.as._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(objectID) + params,
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+* Get several objects from this index
+*
+* @param objectIDs the array of unique identifier of objects to retrieve
+*/
+Index.prototype.getObjects = function(objectIDs, attributesToRetrieve, callback) {
+  var isArray = require('isarray');
+  var map = require('./map.js');
+
+  var usage = 'Usage: index.getObjects(arrayOfObjectIDs[, callback])';
+
+  if (!isArray(objectIDs)) {
+    throw new Error(usage);
+  }
+
+  var indexObj = this;
+
+  if (arguments.length === 1 || typeof attributesToRetrieve === 'function') {
+    callback = attributesToRetrieve;
+    attributesToRetrieve = undefined;
+  }
+
+  var body = {
+    requests: map(objectIDs, function prepareRequest(objectID) {
+      var request = {
+        indexName: indexObj.indexName,
+        objectID: objectID
+      };
+
+      if (attributesToRetrieve) {
+        request.attributesToRetrieve = attributesToRetrieve.join(',');
+      }
+
+      return request;
+    })
+  };
+
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/*/objects',
+    hostType: 'read',
+    body: body,
+    callback: callback
+  });
+};
+
+/*
+* Update partially an object (only update attributes passed in argument)
+*
+* @param partialObject contains the javascript attributes to override, the
+*  object must contains an objectID attribute
+* @param createIfNotExists (optional) if false, avoid an automatic creation of the object
+* @param callback (optional) the result callback called with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that contains 3 elements: createAt, taskId and objectID
+*/
+Index.prototype.partialUpdateObject = function(partialObject, createIfNotExists, callback) {
+  if (arguments.length === 1 || typeof createIfNotExists === 'function') {
+    callback = createIfNotExists;
+    createIfNotExists = undefined;
+  }
+
+  var indexObj = this;
+  var url = '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(partialObject.objectID) + '/partial';
+  if (createIfNotExists === false) {
+    url += '?createIfNotExists=false';
+  }
+
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: url,
+    body: partialObject,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Partially Override the content of several objects
+*
+* @param objects contains an array of objects to update (each object must contains a objectID attribute)
+* @param callback (optional) the result callback called with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that updateAt and taskID
+*/
+Index.prototype.partialUpdateObjects = function(objects, callback) {
+  var isArray = require('isarray');
+  var usage = 'Usage: index.partialUpdateObjects(arrayOfObjects[, callback])';
+
+  if (!isArray(objects)) {
+    throw new Error(usage);
+  }
+
+  var indexObj = this;
+  var postObj = {
+    requests: []
+  };
+  for (var i = 0; i < objects.length; ++i) {
+    var request = {
+      action: 'partialUpdateObject',
+      objectID: objects[i].objectID,
+      body: objects[i]
+    };
+    postObj.requests.push(request);
+  }
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
+    body: postObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Override the content of object
+*
+* @param object contains the javascript object to save, the object must contains an objectID attribute
+* @param callback (optional) the result callback called with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that updateAt and taskID
+*/
+Index.prototype.saveObject = function(object, callback) {
+  var indexObj = this;
+  return this.as._jsonRequest({
+    method: 'PUT',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(object.objectID),
+    body: object,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Override the content of several objects
+*
+* @param objects contains an array of objects to update (each object must contains a objectID attribute)
+* @param callback (optional) the result callback called with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that updateAt and taskID
+*/
+Index.prototype.saveObjects = function(objects, callback) {
+  var isArray = require('isarray');
+  var usage = 'Usage: index.saveObjects(arrayOfObjects[, callback])';
+
+  if (!isArray(objects)) {
+    throw new Error(usage);
+  }
+
+  var indexObj = this;
+  var postObj = {
+    requests: []
+  };
+  for (var i = 0; i < objects.length; ++i) {
+    var request = {
+      action: 'updateObject',
+      objectID: objects[i].objectID,
+      body: objects[i]
+    };
+    postObj.requests.push(request);
+  }
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
+    body: postObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Delete an object from the index
+*
+* @param objectID the unique identifier of object to delete
+* @param callback (optional) the result callback called with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that contains 3 elements: createAt, taskId and objectID
+*/
+Index.prototype.deleteObject = function(objectID, callback) {
+  if (typeof objectID === 'function' || typeof objectID !== 'string' && typeof objectID !== 'number') {
+    var err = new errors.AlgoliaSearchError('Cannot delete an object without an objectID');
+    callback = objectID;
+    if (typeof callback === 'function') {
+      return callback(err);
+    }
+
+    return this.as._promise.reject(err);
+  }
+
+  var indexObj = this;
+  return this.as._jsonRequest({
+    method: 'DELETE',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(objectID),
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Delete several objects from an index
+*
+* @param objectIDs contains an array of objectID to delete
+* @param callback (optional) the result callback called with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that contains 3 elements: createAt, taskId and objectID
+*/
+Index.prototype.deleteObjects = function(objectIDs, callback) {
+  var isArray = require('isarray');
+  var map = require('./map.js');
+
+  var usage = 'Usage: index.deleteObjects(arrayOfObjectIDs[, callback])';
+
+  if (!isArray(objectIDs)) {
+    throw new Error(usage);
+  }
+
+  var indexObj = this;
+  var postObj = {
+    requests: map(objectIDs, function prepareRequest(objectID) {
+      return {
+        action: 'deleteObject',
+        objectID: objectID,
+        body: {
+          objectID: objectID
+        }
+      };
+    })
+  };
+
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
+    body: postObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Delete all objects matching a query
+*
+* @param query the query string
+* @param params the optional query parameters
+* @param callback (optional) the result callback called with one argument
+*  error: null or Error('message')
+*/
+Index.prototype.deleteByQuery = function(query, params, callback) {
+  var clone = require('./clone.js');
+  var map = require('./map.js');
+
+  var indexObj = this;
+  var client = indexObj.as;
+
+  if (arguments.length === 1 || typeof params === 'function') {
+    callback = params;
+    params = {};
+  } else {
+    params = clone(params);
+  }
+
+  params.attributesToRetrieve = 'objectID';
+  params.hitsPerPage = 1000;
+  params.distinct = false;
+
+  // when deleting, we should never use cache to get the
+  // search results
+  this.clearCache();
+
+  // there's a problem in how we use the promise chain,
+  // see how waitTask is done
+  var promise = this
+  .search(query, params)
+  .then(stopOrDelete);
+
+  function stopOrDelete(searchContent) {
+    // stop here
+    if (searchContent.nbHits === 0) {
+      // return indexObj.as._request.resolve();
+      return searchContent;
+    }
+
+    // continue and do a recursive call
+    var objectIDs = map(searchContent.hits, function getObjectID(object) {
+      return object.objectID;
+    });
+
+    return indexObj
+    .deleteObjects(objectIDs)
+    .then(waitTask)
+    .then(doDeleteByQuery);
+  }
+
+  function waitTask(deleteObjectsContent) {
+    return indexObj.waitTask(deleteObjectsContent.taskID);
+  }
+
+  function doDeleteByQuery() {
+    return indexObj.deleteByQuery(query, params);
+  }
+
+  if (!callback) {
+    return promise;
+  }
+
+  promise.then(success, failure);
+
+  function success() {
+    exitPromise(function exit() {
+      callback(null);
+    }, client._setTimeout || setTimeout);
+  }
+
+  function failure(err) {
+    exitPromise(function exit() {
+      callback(err);
+    }, client._setTimeout || setTimeout);
+  }
+};
+
+
+/*
+* Browse index content. The response content will have a `cursor` property that you can use
+* to browse subsequent pages for this query. Use `index.browseFrom(cursor)` when you want.
+*
+* @param {string} query - The full text query
+* @param {Object} [queryParameters] - Any search query parameter
+* @param {Function} [callback] - The result callback called with two arguments
+*   error: null or Error('message')
+*   content: the server answer with the browse result
+* @return {Promise|undefined} Returns a promise if no callback given
+* @example
+* index.browse('cool songs', {
+*   tagFilters: 'public,comments',
+*   hitsPerPage: 500
+* }, callback);
+* @see {@link https://www.algolia.com/doc/rest_api#Browse|Algolia REST API Documentation}
+*/
+Index.prototype.browse = function(query, queryParameters, callback) {
+  var merge = require('./merge.js');
+
+  var indexObj = this;
+
+  var page;
+  var hitsPerPage;
+
+  // we check variadic calls that are not the one defined
+  // .browse()/.browse(fn)
+  // => page = 0
+  if (arguments.length === 0 || arguments.length === 1 && typeof arguments[0] === 'function') {
+    page = 0;
+    callback = arguments[0];
+    query = undefined;
+  } else if (typeof arguments[0] === 'number') {
+    // .browse(2)/.browse(2, 10)/.browse(2, fn)/.browse(2, 10, fn)
+    page = arguments[0];
+    if (typeof arguments[1] === 'number') {
+      hitsPerPage = arguments[1];
+    } else if (typeof arguments[1] === 'function') {
+      callback = arguments[1];
+      hitsPerPage = undefined;
+    }
+    query = undefined;
+    queryParameters = undefined;
+  } else if (typeof arguments[0] === 'object') {
+    // .browse(queryParameters)/.browse(queryParameters, cb)
+    if (typeof arguments[1] === 'function') {
+      callback = arguments[1];
+    }
+    queryParameters = arguments[0];
+    query = undefined;
+  } else if (typeof arguments[0] === 'string' && typeof arguments[1] === 'function') {
+    // .browse(query, cb)
+    callback = arguments[1];
+    queryParameters = undefined;
+  }
+
+  // otherwise it's a .browse(query)/.browse(query, queryParameters)/.browse(query, queryParameters, cb)
+
+  // get search query parameters combining various possible calls
+  // to .browse();
+  queryParameters = merge({}, queryParameters || {}, {
+    page: page,
+    hitsPerPage: hitsPerPage,
+    query: query
+  });
+
+  var params = this.as._getSearchParams(queryParameters, '');
+
+  return this.as._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/browse?' + params,
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+* Continue browsing from a previous position (cursor), obtained via a call to `.browse()`.
+*
+* @param {string} query - The full text query
+* @param {Object} [queryParameters] - Any search query parameter
+* @param {Function} [callback] - The result callback called with two arguments
+*   error: null or Error('message')
+*   content: the server answer with the browse result
+* @return {Promise|undefined} Returns a promise if no callback given
+* @example
+* index.browseFrom('14lkfsakl32', callback);
+* @see {@link https://www.algolia.com/doc/rest_api#Browse|Algolia REST API Documentation}
+*/
+Index.prototype.browseFrom = function(cursor, callback) {
+  return this.as._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/browse?cursor=' + encodeURIComponent(cursor),
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+* Browse all content from an index using events. Basically this will do
+* .browse() -> .browseFrom -> .browseFrom -> .. until all the results are returned
+*
+* @param {string} query - The full text query
+* @param {Object} [queryParameters] - Any search query parameter
+* @return {EventEmitter}
+* @example
+* var browser = index.browseAll('cool songs', {
+*   tagFilters: 'public,comments',
+*   hitsPerPage: 500
+* });
+*
+* browser.on('result', function resultCallback(content) {
+*   console.log(content.hits);
+* });
+*
+* // if any error occurs, you get it
+* browser.on('error', function(err) {
+*   throw err;
+* });
+*
+* // when you have browsed the whole index, you get this event
+* browser.on('end', function() {
+*   console.log('finished');
+* });
+*
+* // at any point if you want to stop the browsing process, you can stop it manually
+* // otherwise it will go on and on
+* browser.stop();
+*
+* @see {@link https://www.algolia.com/doc/rest_api#Browse|Algolia REST API Documentation}
+*/
+Index.prototype.browseAll = function(query, queryParameters) {
+  if (typeof query === 'object') {
+    queryParameters = query;
+    query = undefined;
+  }
+
+  var merge = require('./merge.js');
+
+  var IndexBrowser = require('./IndexBrowser');
+
+  var browser = new IndexBrowser();
+  var client = this.as;
+  var index = this;
+  var params = client._getSearchParams(
+    merge({}, queryParameters || {}, {
+      query: query
+    }), ''
+  );
+
+  // start browsing
+  browseLoop();
+
+  function browseLoop(cursor) {
+    if (browser._stopped) {
+      return;
+    }
+
+    var queryString;
+
+    if (cursor !== undefined) {
+      queryString = 'cursor=' + encodeURIComponent(cursor);
+    } else {
+      queryString = params;
+    }
+
+    client._jsonRequest({
+      method: 'GET',
+      url: '/1/indexes/' + encodeURIComponent(index.indexName) + '/browse?' + queryString,
+      hostType: 'read',
+      callback: browseCallback
+    });
+  }
+
+  function browseCallback(err, content) {
+    if (browser._stopped) {
+      return;
+    }
+
+    if (err) {
+      browser._error(err);
+      return;
+    }
+
+    browser._result(content);
+
+    // no cursor means we are finished browsing
+    if (content.cursor === undefined) {
+      browser._end();
+      return;
+    }
+
+    browseLoop(content.cursor);
+  }
+
+  return browser;
+};
+
+/*
+* Get a Typeahead.js adapter
+* @param searchParams contains an object with query parameters (see search for details)
+*/
+Index.prototype.ttAdapter = function(params) {
+  var self = this;
+  return function ttAdapter(query, syncCb, asyncCb) {
+    var cb;
+
+    if (typeof asyncCb === 'function') {
+      // typeahead 0.11
+      cb = asyncCb;
+    } else {
+      // pre typeahead 0.11
+      cb = syncCb;
+    }
+
+    self.search(query, params, function searchDone(err, content) {
+      if (err) {
+        cb(err);
+        return;
+      }
+
+      cb(content.hits);
+    });
+  };
+};
+
+/*
+* Wait the publication of a task on the server.
+* All server task are asynchronous and you can check with this method that the task is published.
+*
+* @param taskID the id of the task returned by server
+* @param callback the result callback with with two arguments:
+*  error: null or Error('message')
+*  content: the server answer that contains the list of results
+*/
+Index.prototype.waitTask = function(taskID, callback) {
+  // wait minimum 100ms before retrying
+  var baseDelay = 100;
+  // wait maximum 5s before retrying
+  var maxDelay = 5000;
+  var loop = 0;
+
+  // waitTask() must be handled differently from other methods,
+  // it's a recursive method using a timeout
+  var indexObj = this;
+  var client = indexObj.as;
+
+  var promise = retryLoop();
+
+  function retryLoop() {
+    return client._jsonRequest({
+      method: 'GET',
+      hostType: 'read',
+      url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/task/' + taskID
+    }).then(function success(content) {
+      loop++;
+      var delay = baseDelay * loop * loop;
+      if (delay > maxDelay) {
+        delay = maxDelay;
+      }
+
+      if (content.status !== 'published') {
+        return client._promise.delay(delay).then(retryLoop);
+      }
+
+      return content;
+    });
+  }
+
+  if (!callback) {
+    return promise;
+  }
+
+  promise.then(successCb, failureCb);
+
+  function successCb(content) {
+    exitPromise(function exit() {
+      callback(null, content);
+    }, client._setTimeout || setTimeout);
+  }
+
+  function failureCb(err) {
+    exitPromise(function exit() {
+      callback(err);
+    }, client._setTimeout || setTimeout);
+  }
+};
+
+/*
+* This function deletes the index content. Settings and index specific API keys are kept untouched.
+*
+* @param callback (optional) the result callback called with two arguments
+*  error: null or Error('message')
+*  content: the settings object or the error message if a failure occured
+*/
+Index.prototype.clearIndex = function(callback) {
+  var indexObj = this;
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/clear',
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Get settings of this index
+*
+* @param callback (optional) the result callback called with two arguments
+*  error: null or Error('message')
+*  content: the settings object or the error message if a failure occured
+*/
+Index.prototype.getSettings = function(callback) {
+  var indexObj = this;
+  return this.as._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+* Set settings for this index
+*
+* @param settigns the settings object that can contains :
+* - minWordSizefor1Typo: (integer) the minimum number of characters to accept one typo (default = 3).
+* - minWordSizefor2Typos: (integer) the minimum number of characters to accept two typos (default = 7).
+* - hitsPerPage: (integer) the number of hits per page (default = 10).
+* - attributesToRetrieve: (array of strings) default list of attributes to retrieve in objects.
+*   If set to null, all attributes are retrieved.
+* - attributesToHighlight: (array of strings) default list of attributes to highlight.
+*   If set to null, all indexed attributes are highlighted.
+* - attributesToSnippet**: (array of strings) default list of attributes to snippet alongside the number
+* of words to return (syntax is attributeName:nbWords).
+*   By default no snippet is computed. If set to null, no snippet is computed.
+* - attributesToIndex: (array of strings) the list of fields you want to index.
+*   If set to null, all textual and numerical attributes of your objects are indexed,
+*   but you should update it to get optimal results.
+*   This parameter has two important uses:
+*     - Limit the attributes to index: For example if you store a binary image in base64,
+*     you want to store it and be able to
+*       retrieve it but you don't want to search in the base64 string.
+*     - Control part of the ranking*: (see the ranking parameter for full explanation)
+*     Matches in attributes at the beginning of
+*       the list will be considered more important than matches in attributes further down the list.
+*       In one attribute, matching text at the beginning of the attribute will be
+*       considered more important than text after, you can disable
+*       this behavior if you add your attribute inside `unordered(AttributeName)`,
+*       for example attributesToIndex: ["title", "unordered(text)"].
+* - attributesForFaceting: (array of strings) The list of fields you want to use for faceting.
+*   All strings in the attribute selected for faceting are extracted and added as a facet.
+*   If set to null, no attribute is used for faceting.
+* - attributeForDistinct: (string) The attribute name used for the Distinct feature.
+* This feature is similar to the SQL "distinct" keyword: when enabled
+*   in query with the distinct=1 parameter, all hits containing a duplicate
+*   value for this attribute are removed from results.
+*   For example, if the chosen attribute is show_name and several hits have
+*   the same value for show_name, then only the best one is kept and others are removed.
+* - ranking: (array of strings) controls the way results are sorted.
+*   We have six available criteria:
+*    - typo: sort according to number of typos,
+*    - geo: sort according to decreassing distance when performing a geo-location based search,
+*    - proximity: sort according to the proximity of query words in hits,
+*    - attribute: sort according to the order of attributes defined by attributesToIndex,
+*    - exact:
+*        - if the user query contains one word: sort objects having an attribute
+*        that is exactly the query word before others.
+*          For example if you search for the "V" TV show, you want to find it
+*          with the "V" query and avoid to have all popular TV
+*          show starting by the v letter before it.
+*        - if the user query contains multiple words: sort according to the
+*        number of words that matched exactly (and not as a prefix).
+*    - custom: sort according to a user defined formula set in **customRanking** attribute.
+*   The standard order is ["typo", "geo", "proximity", "attribute", "exact", "custom"]
+* - customRanking: (array of strings) lets you specify part of the ranking.
+*   The syntax of this condition is an array of strings containing attributes
+*   prefixed by asc (ascending order) or desc (descending order) operator.
+*   For example `"customRanking" => ["desc(population)", "asc(name)"]`
+* - queryType: Select how the query words are interpreted, it can be one of the following value:
+*   - prefixAll: all query words are interpreted as prefixes,
+*   - prefixLast: only the last word is interpreted as a prefix (default behavior),
+*   - prefixNone: no query word is interpreted as a prefix. This option is not recommended.
+* - highlightPreTag: (string) Specify the string that is inserted before
+* the highlighted parts in the query result (default to "<em>").
+* - highlightPostTag: (string) Specify the string that is inserted after
+* the highlighted parts in the query result (default to "</em>").
+* - optionalWords: (array of strings) Specify a list of words that should
+* be considered as optional when found in the query.
+* @param callback (optional) the result callback called with two arguments
+*  error: null or Error('message')
+*  content: the server answer or the error message if a failure occured
+*/
+Index.prototype.setSettings = function(settings, callback) {
+  var indexObj = this;
+  return this.as._jsonRequest({
+    method: 'PUT',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
+    hostType: 'write',
+    body: settings,
+    callback: callback
+  });
+};
+
+/*
+* List all existing user keys associated to this index
+*
+* @param callback the result callback called with two arguments
+*  error: null or Error('message')
+*  content: the server answer with user keys list
+*/
+Index.prototype.listUserKeys = function(callback) {
+  var indexObj = this;
+  return this.as._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/keys',
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+* Get ACL of a user key associated to this index
+*
+* @param key
+* @param callback the result callback called with two arguments
+*  error: null or Error('message')
+*  content: the server answer with user keys list
+*/
+Index.prototype.getUserKeyACL = function(key, callback) {
+  var indexObj = this;
+  return this.as._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/keys/' + key,
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+* Delete an existing user key associated to this index
+*
+* @param key
+* @param callback the result callback called with two arguments
+*  error: null or Error('message')
+*  content: the server answer with user keys list
+*/
+Index.prototype.deleteUserKey = function(key, callback) {
+  var indexObj = this;
+  return this.as._jsonRequest({
+    method: 'DELETE',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/keys/' + key,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/*
+* Add a new API key to this index
+*
+* @param {string[]} acls - The list of ACL for this key. Defined by an array of strings that
+*   can contains the following values:
+*     - search: allow to search (https and http)
+*     - addObject: allows to add/update an object in the index (https only)
+*     - deleteObject : allows to delete an existing object (https only)
+*     - deleteIndex : allows to delete index content (https only)
+*     - settings : allows to get index settings (https only)
+*     - editSettings : allows to change index settings (https only)
+* @param {Object} [params] - Optionnal parameters to set for the key
+* @param {number} params.validity - Number of seconds after which the key will
+* be automatically removed (0 means no time limit for this key)
+* @param {number} params.maxQueriesPerIPPerHour - Number of API calls allowed from an IP address per hour
+* @param {number} params.maxHitsPerQuery - Number of hits this API key can retrieve in one call
+* @param {string} params.description - A description for your key
+* @param {string[]} params.referers - A list of authorized referers
+* @param {Object} params.queryParameters - Force the key to use specific query parameters
+* @param {Function} callback - The result callback called with two arguments
+*   error: null or Error('message')
+*   content: the server answer with user keys list
+* @return {Promise|undefined} Returns a promise if no callback given
+* @example
+* index.addUserKey(['search'], {
+*   validity: 300,
+*   maxQueriesPerIPPerHour: 2000,
+*   maxHitsPerQuery: 3,
+*   description: 'Eat three fruits',
+*   referers: ['*.algolia.com'],
+*   queryParameters: {
+*     tagFilters: ['public'],
+*   }
+* })
+* @see {@link https://www.algolia.com/doc/rest_api#AddIndexKey|Algolia REST API Documentation}
+*/
+Index.prototype.addUserKey = function(acls, params, callback) {
+  var isArray = require('isarray');
+  var usage = 'Usage: index.addUserKey(arrayOfAcls[, params, callback])';
+
+  if (!isArray(acls)) {
+    throw new Error(usage);
+  }
+
+  if (arguments.length === 1 || typeof params === 'function') {
+    callback = params;
+    params = null;
+  }
+
+  var postObj = {
+    acl: acls
+  };
+
+  if (params) {
+    postObj.validity = params.validity;
+    postObj.maxQueriesPerIPPerHour = params.maxQueriesPerIPPerHour;
+    postObj.maxHitsPerQuery = params.maxHitsPerQuery;
+    postObj.description = params.description;
+
+    if (params.queryParameters) {
+      postObj.queryParameters = this.as._getSearchParams(params.queryParameters, '');
+    }
+
+    postObj.referers = params.referers;
+  }
+
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/keys',
+    body: postObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+/**
+* Add an existing user key associated to this index
+* @deprecated use index.addUserKey()
+*/
+Index.prototype.addUserKeyWithValidity = deprecate(function deprecatedAddUserKeyWithValidity(acls, params, callback) {
+  return this.addUserKey(acls, params, callback);
+}, deprecatedMessage('index.addUserKeyWithValidity()', 'index.addUserKey()'));
+
+/**
+* Update an existing API key of this index
+* @param {string} key - The key to update
+* @param {string[]} acls - The list of ACL for this key. Defined by an array of strings that
+*   can contains the following values:
+*     - search: allow to search (https and http)
+*     - addObject: allows to add/update an object in the index (https only)
+*     - deleteObject : allows to delete an existing object (https only)
+*     - deleteIndex : allows to delete index content (https only)
+*     - settings : allows to get index settings (https only)
+*     - editSettings : allows to change index settings (https only)
+* @param {Object} [params] - Optionnal parameters to set for the key
+* @param {number} params.validity - Number of seconds after which the key will
+* be automatically removed (0 means no time limit for this key)
+* @param {number} params.maxQueriesPerIPPerHour - Number of API calls allowed from an IP address per hour
+* @param {number} params.maxHitsPerQuery - Number of hits this API key can retrieve in one call
+* @param {string} params.description - A description for your key
+* @param {string[]} params.referers - A list of authorized referers
+* @param {Object} params.queryParameters - Force the key to use specific query parameters
+* @param {Function} callback - The result callback called with two arguments
+*   error: null or Error('message')
+*   content: the server answer with user keys list
+* @return {Promise|undefined} Returns a promise if no callback given
+* @example
+* index.updateUserKey('APIKEY', ['search'], {
+*   validity: 300,
+*   maxQueriesPerIPPerHour: 2000,
+*   maxHitsPerQuery: 3,
+*   description: 'Eat three fruits',
+*   referers: ['*.algolia.com'],
+*   queryParameters: {
+*     tagFilters: ['public'],
+*   }
+* })
+* @see {@link https://www.algolia.com/doc/rest_api#UpdateIndexKey|Algolia REST API Documentation}
+*/
+Index.prototype.updateUserKey = function(key, acls, params, callback) {
+  var isArray = require('isarray');
+  var usage = 'Usage: index.updateUserKey(key, arrayOfAcls[, params, callback])';
+
+  if (!isArray(acls)) {
+    throw new Error(usage);
+  }
+
+  if (arguments.length === 2 || typeof params === 'function') {
+    callback = params;
+    params = null;
+  }
+
+  var putObj = {
+    acl: acls
+  };
+
+  if (params) {
+    putObj.validity = params.validity;
+    putObj.maxQueriesPerIPPerHour = params.maxQueriesPerIPPerHour;
+    putObj.maxHitsPerQuery = params.maxHitsPerQuery;
+    putObj.description = params.description;
+
+    if (params.queryParameters) {
+      putObj.queryParameters = this.as._getSearchParams(params.queryParameters, '');
+    }
+
+    putObj.referers = params.referers;
+  }
+
+  return this.as._jsonRequest({
+    method: 'PUT',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/keys/' + key,
+    body: putObj,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+},{"./IndexBrowser":7,"./IndexCore.js":8,"./clone.js":15,"./deprecate.js":16,"./deprecatedMessage.js":17,"./errors":18,"./exitPromise.js":19,"./map.js":20,"./merge.js":21,"inherits":55,"isarray":56}],7:[function(require,module,exports){
 'use strict';
 
 // This is the object returned by the `index.browseAll()` method
@@ -5587,224 +2933,390 @@ IndexBrowser.prototype._clean = function() {
   this.removeAllListeners('result');
 };
 
-},{"events":87,"inherits":114}],76:[function(require,module,exports){
+},{"events":27,"inherits":55}],8:[function(require,module,exports){
+var buildSearchMethod = require('./buildSearchMethod.js');
+
+module.exports = IndexCore;
+
+/*
+* Index class constructor.
+* You should not use this method directly but use initIndex() function
+*/
+function IndexCore(algoliasearch, indexName) {
+  this.indexName = indexName;
+  this.as = algoliasearch;
+  this.typeAheadArgs = null;
+  this.typeAheadValueOption = null;
+
+  // make sure every index instance has it's own cache
+  this.cache = {};
+}
+
+/*
+* Clear all queries in cache
+*/
+IndexCore.prototype.clearCache = function() {
+  this.cache = {};
+};
+
+/*
+* Search inside the index using XMLHttpRequest request (Using a POST query to
+* minimize number of OPTIONS queries: Cross-Origin Resource Sharing).
+*
+* @param query the full text query
+* @param args (optional) if set, contains an object with query parameters:
+* - page: (integer) Pagination parameter used to select the page to retrieve.
+*                   Page is zero-based and defaults to 0. Thus,
+*                   to retrieve the 10th page you need to set page=9
+* - hitsPerPage: (integer) Pagination parameter used to select the number of hits per page. Defaults to 20.
+* - attributesToRetrieve: a string that contains the list of object attributes
+* you want to retrieve (let you minimize the answer size).
+*   Attributes are separated with a comma (for example "name,address").
+*   You can also use an array (for example ["name","address"]).
+*   By default, all attributes are retrieved. You can also use '*' to retrieve all
+*   values when an attributesToRetrieve setting is specified for your index.
+* - attributesToHighlight: a string that contains the list of attributes you
+*   want to highlight according to the query.
+*   Attributes are separated by a comma. You can also use an array (for example ["name","address"]).
+*   If an attribute has no match for the query, the raw value is returned.
+*   By default all indexed text attributes are highlighted.
+*   You can use `*` if you want to highlight all textual attributes.
+*   Numerical attributes are not highlighted.
+*   A matchLevel is returned for each highlighted attribute and can contain:
+*      - full: if all the query terms were found in the attribute,
+*      - partial: if only some of the query terms were found,
+*      - none: if none of the query terms were found.
+* - attributesToSnippet: a string that contains the list of attributes to snippet alongside
+* the number of words to return (syntax is `attributeName:nbWords`).
+*    Attributes are separated by a comma (Example: attributesToSnippet=name:10,content:10).
+*    You can also use an array (Example: attributesToSnippet: ['name:10','content:10']).
+*    By default no snippet is computed.
+* - minWordSizefor1Typo: the minimum number of characters in a query word to accept one typo in this word.
+* Defaults to 3.
+* - minWordSizefor2Typos: the minimum number of characters in a query word
+* to accept two typos in this word. Defaults to 7.
+* - getRankingInfo: if set to 1, the result hits will contain ranking
+* information in _rankingInfo attribute.
+* - aroundLatLng: search for entries around a given
+* latitude/longitude (specified as two floats separated by a comma).
+*   For example aroundLatLng=47.316669,5.016670).
+*   You can specify the maximum distance in meters with the aroundRadius parameter (in meters)
+*   and the precision for ranking with aroundPrecision
+*   (for example if you set aroundPrecision=100, two objects that are distant of
+*   less than 100m will be considered as identical for "geo" ranking parameter).
+*   At indexing, you should specify geoloc of an object with the _geoloc attribute
+*   (in the form {"_geoloc":{"lat":48.853409, "lng":2.348800}})
+* - insideBoundingBox: search entries inside a given area defined by the two extreme points
+* of a rectangle (defined by 4 floats: p1Lat,p1Lng,p2Lat,p2Lng).
+*   For example insideBoundingBox=47.3165,4.9665,47.3424,5.0201).
+*   At indexing, you should specify geoloc of an object with the _geoloc attribute
+*   (in the form {"_geoloc":{"lat":48.853409, "lng":2.348800}})
+* - numericFilters: a string that contains the list of numeric filters you want to
+* apply separated by a comma.
+*   The syntax of one filter is `attributeName` followed by `operand` followed by `value`.
+*   Supported operands are `<`, `<=`, `=`, `>` and `>=`.
+*   You can have multiple conditions on one attribute like for example numericFilters=price>100,price<1000.
+*   You can also use an array (for example numericFilters: ["price>100","price<1000"]).
+* - tagFilters: filter the query by a set of tags. You can AND tags by separating them by commas.
+*   To OR tags, you must add parentheses. For example, tags=tag1,(tag2,tag3) means tag1 AND (tag2 OR tag3).
+*   You can also use an array, for example tagFilters: ["tag1",["tag2","tag3"]]
+*   means tag1 AND (tag2 OR tag3).
+*   At indexing, tags should be added in the _tags** attribute
+*   of objects (for example {"_tags":["tag1","tag2"]}).
+* - facetFilters: filter the query by a list of facets.
+*   Facets are separated by commas and each facet is encoded as `attributeName:value`.
+*   For example: `facetFilters=category:Book,author:John%20Doe`.
+*   You can also use an array (for example `["category:Book","author:John%20Doe"]`).
+* - facets: List of object attributes that you want to use for faceting.
+*   Comma separated list: `"category,author"` or array `['category','author']`
+*   Only attributes that have been added in **attributesForFaceting** index setting
+*   can be used in this parameter.
+*   You can also use `*` to perform faceting on all attributes specified in **attributesForFaceting**.
+* - queryType: select how the query words are interpreted, it can be one of the following value:
+*    - prefixAll: all query words are interpreted as prefixes,
+*    - prefixLast: only the last word is interpreted as a prefix (default behavior),
+*    - prefixNone: no query word is interpreted as a prefix. This option is not recommended.
+* - optionalWords: a string that contains the list of words that should
+* be considered as optional when found in the query.
+*   Comma separated and array are accepted.
+* - distinct: If set to 1, enable the distinct feature (disabled by default)
+* if the attributeForDistinct index setting is set.
+*   This feature is similar to the SQL "distinct" keyword: when enabled
+*   in a query with the distinct=1 parameter,
+*   all hits containing a duplicate value for the attributeForDistinct attribute are removed from results.
+*   For example, if the chosen attribute is show_name and several hits have
+*   the same value for show_name, then only the best
+*   one is kept and others are removed.
+* - restrictSearchableAttributes: List of attributes you want to use for
+* textual search (must be a subset of the attributesToIndex index setting)
+* either comma separated or as an array
+* @param callback the result callback called with two arguments:
+*  error: null or Error('message'). If false, the content contains the error.
+*  content: the server answer that contains the list of results.
+*/
+IndexCore.prototype.search = buildSearchMethod('query');
+
+/*
+* -- BETA --
+* Search a record similar to the query inside the index using XMLHttpRequest request (Using a POST query to
+* minimize number of OPTIONS queries: Cross-Origin Resource Sharing).
+*
+* @param query the similar query
+* @param args (optional) if set, contains an object with query parameters.
+*   All search parameters are supported (see search function), restrictSearchableAttributes and facetFilters
+*   are the two most useful to restrict the similar results and get more relevant content
+*/
+IndexCore.prototype.similarSearch = buildSearchMethod('similarQuery');
+
+IndexCore.prototype._search = function(params, url, callback) {
+  return this.as._jsonRequest({
+    cache: this.cache,
+    method: 'POST',
+    url: url || '/1/indexes/' + encodeURIComponent(this.indexName) + '/query',
+    body: {params: params},
+    hostType: 'read',
+    fallback: {
+      method: 'GET',
+      url: '/1/indexes/' + encodeURIComponent(this.indexName),
+      body: {params: params}
+    },
+    callback: callback
+  });
+};
+
+IndexCore.prototype.as = null;
+IndexCore.prototype.indexName = null;
+IndexCore.prototype.typeAheadArgs = null;
+IndexCore.prototype.typeAheadValueOption = null;
+
+},{"./buildSearchMethod.js":14}],9:[function(require,module,exports){
+'use strict';
+
+var AlgoliaSearch = require('../../AlgoliaSearch.js');
+var createAlgoliasearch = require('../createAlgoliasearch.js');
+
+module.exports = createAlgoliasearch(AlgoliaSearch);
+
+},{"../../AlgoliaSearch.js":4,"../createAlgoliasearch.js":10}],10:[function(require,module,exports){
 (function (process){
 'use strict';
+
+var Promise = window.Promise || require('es6-promise').Promise;
 
 // This is the standalone browser build entry point
 // Browser implementation of the Algolia Search JavaScript client,
 // using XMLHttpRequest, XDomainRequest and JSONP as fallback
-module.exports = algoliasearch;
+module.exports = function createAlgoliasearch(AlgoliaSearch, uaSuffix) {
+  var inherits = require('inherits');
+  var errors = require('../errors');
+  var inlineHeaders = require('./inline-headers');
+  var jsonpRequest = require('./jsonp-request');
+  var places = require('../places.js');
+  uaSuffix = uaSuffix || '';
 
-var inherits = require('inherits');
-var Promise = window.Promise || require('es6-promise').Promise;
-
-var AlgoliaSearch = require('../../AlgoliaSearch');
-var errors = require('../../errors');
-var inlineHeaders = require('../inline-headers');
-var jsonpRequest = require('../jsonp-request');
-var places = require('../../places.js');
-
-if (process.env.APP_ENV === 'development') {
-  require('debug').enable('algoliasearch*');
-}
-
-function algoliasearch(applicationID, apiKey, opts) {
-  var cloneDeep = require('lodash/lang/cloneDeep');
-
-  var getDocumentProtocol = require('../get-document-protocol');
-
-  opts = cloneDeep(opts || {});
-
-  if (opts.protocol === undefined) {
-    opts.protocol = getDocumentProtocol();
+  if (process.env.APP_ENV === 'development') {
+    require('debug').enable('algoliasearch*');
   }
 
-  opts._ua = opts._ua || algoliasearch.ua;
+  function algoliasearch(applicationID, apiKey, opts) {
+    var cloneDeep = require('../clone.js');
 
-  return new AlgoliaSearchBrowser(applicationID, apiKey, opts);
-}
+    var getDocumentProtocol = require('./get-document-protocol');
 
-algoliasearch.version = require('../../version.js');
-algoliasearch.ua = 'Algolia for vanilla JavaScript ' + algoliasearch.version;
-algoliasearch.initPlaces = places(algoliasearch);
+    opts = cloneDeep(opts || {});
 
-// we expose into window no matter how we are used, this will allow
-// us to easily debug any website running algolia
-window.__algolia = {
-  debug: require('debug'),
-  algoliasearch: algoliasearch
-};
-
-var support = {
-  hasXMLHttpRequest: 'XMLHttpRequest' in window,
-  hasXDomainRequest: 'XDomainRequest' in window,
-  cors: 'withCredentials' in new XMLHttpRequest(),
-  timeout: 'timeout' in new XMLHttpRequest()
-};
-
-function AlgoliaSearchBrowser() {
-  // call AlgoliaSearch constructor
-  AlgoliaSearch.apply(this, arguments);
-}
-
-inherits(AlgoliaSearchBrowser, AlgoliaSearch);
-
-AlgoliaSearchBrowser.prototype._request = function request(url, opts) {
-  return new Promise(function wrapRequest(resolve, reject) {
-    // no cors or XDomainRequest, no request
-    if (!support.cors && !support.hasXDomainRequest) {
-      // very old browser, not supported
-      reject(new errors.Network('CORS not supported'));
-      return;
+    if (opts.protocol === undefined) {
+      opts.protocol = getDocumentProtocol();
     }
 
-    url = inlineHeaders(url, opts.headers);
+    opts._ua = opts._ua || algoliasearch.ua;
 
-    var body = opts.body;
-    var req = support.cors ? new XMLHttpRequest() : new XDomainRequest();
-    var ontimeout;
-    var timedOut;
+    return new AlgoliaSearchBrowser(applicationID, apiKey, opts);
+  }
 
-    // do not rely on default XHR async flag, as some analytics code like hotjar
-    // breaks it and set it to false by default
-    if (req instanceof XMLHttpRequest) {
-      req.open(opts.method, url, true);
-    } else {
-      req.open(opts.method, url);
-    }
+  algoliasearch.version = require('../version.js');
+  algoliasearch.ua = 'Algolia for vanilla JavaScript ' + uaSuffix + algoliasearch.version;
+  algoliasearch.initPlaces = places(algoliasearch);
 
-    if (support.cors) {
-      if (body) {
-        if (opts.method === 'POST') {
-          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Simple_requests
-          req.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+  // we expose into window no matter how we are used, this will allow
+  // us to easily debug any website running algolia
+  window.__algolia = {
+    debug: require('debug'),
+    algoliasearch: algoliasearch
+  };
+
+  var support = {
+    hasXMLHttpRequest: 'XMLHttpRequest' in window,
+    hasXDomainRequest: 'XDomainRequest' in window,
+    cors: 'withCredentials' in new XMLHttpRequest(),
+    timeout: 'timeout' in new XMLHttpRequest()
+  };
+
+  function AlgoliaSearchBrowser() {
+    // call AlgoliaSearch constructor
+    AlgoliaSearch.apply(this, arguments);
+  }
+
+  inherits(AlgoliaSearchBrowser, AlgoliaSearch);
+
+  AlgoliaSearchBrowser.prototype._request = function request(url, opts) {
+    return new Promise(function wrapRequest(resolve, reject) {
+      // no cors or XDomainRequest, no request
+      if (!support.cors && !support.hasXDomainRequest) {
+        // very old browser, not supported
+        reject(new errors.Network('CORS not supported'));
+        return;
+      }
+
+      url = inlineHeaders(url, opts.headers);
+
+      var body = opts.body;
+      var req = support.cors ? new XMLHttpRequest() : new XDomainRequest();
+      var ontimeout;
+      var timedOut;
+
+      // do not rely on default XHR async flag, as some analytics code like hotjar
+      // breaks it and set it to false by default
+      if (req instanceof XMLHttpRequest) {
+        req.open(opts.method, url, true);
+      } else {
+        req.open(opts.method, url);
+      }
+
+      if (support.cors) {
+        if (body) {
+          if (opts.method === 'POST') {
+            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Simple_requests
+            req.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+          } else {
+            req.setRequestHeader('content-type', 'application/json');
+          }
+        }
+        req.setRequestHeader('accept', 'application/json');
+      }
+
+      // we set an empty onprogress listener
+      // so that XDomainRequest on IE9 is not aborted
+      // refs:
+      //  - https://github.com/algolia/algoliasearch-client-js/issues/76
+      //  - https://social.msdn.microsoft.com/Forums/ie/en-US/30ef3add-767c-4436-b8a9-f1ca19b4812e/ie9-rtm-xdomainrequest-issued-requests-may-abort-if-all-event-handlers-not-specified?forum=iewebdevelopment
+      req.onprogress = function noop() {};
+
+      req.onload = load;
+      req.onerror = error;
+
+      if (support.timeout) {
+        // .timeout supported by both XHR and XDR,
+        // we do receive timeout event, tested
+        req.timeout = opts.timeout;
+
+        req.ontimeout = timeout;
+      } else {
+        ontimeout = setTimeout(timeout, opts.timeout);
+      }
+
+      req.send(body);
+
+      // event object not received in IE8, at least
+      // but we do not use it, still important to note
+      function load(/* event */) {
+        // When browser does not supports req.timeout, we can
+        // have both a load and timeout event, since handled by a dumb setTimeout
+        if (timedOut) {
+          return;
+        }
+
+        if (!support.timeout) {
+          clearTimeout(ontimeout);
+        }
+
+        var out;
+
+        try {
+          out = {
+            body: JSON.parse(req.responseText),
+            responseText: req.responseText,
+            statusCode: req.status,
+            // XDomainRequest does not have any response headers
+            headers: req.getAllResponseHeaders && req.getAllResponseHeaders() || {}
+          };
+        } catch (e) {
+          out = new errors.UnparsableJSON({
+            more: req.responseText
+          });
+        }
+
+        if (out instanceof errors.UnparsableJSON) {
+          reject(out);
         } else {
-          req.setRequestHeader('content-type', 'application/json');
+          resolve(out);
         }
       }
-      req.setRequestHeader('accept', 'application/json');
-    }
 
-    // we set an empty onprogress listener
-    // so that XDomainRequest on IE9 is not aborted
-    // refs:
-    //  - https://github.com/algolia/algoliasearch-client-js/issues/76
-    //  - https://social.msdn.microsoft.com/Forums/ie/en-US/30ef3add-767c-4436-b8a9-f1ca19b4812e/ie9-rtm-xdomainrequest-issued-requests-may-abort-if-all-event-handlers-not-specified?forum=iewebdevelopment
-    req.onprogress = function noop() {};
+      function error(event) {
+        if (timedOut) {
+          return;
+        }
 
-    req.onload = load;
-    req.onerror = error;
+        if (!support.timeout) {
+          clearTimeout(ontimeout);
+        }
 
-    if (support.timeout) {
-      // .timeout supported by both XHR and XDR,
-      // we do receive timeout event, tested
-      req.timeout = opts.timeout;
-
-      req.ontimeout = timeout;
-    } else {
-      ontimeout = setTimeout(timeout, opts.timeout);
-    }
-
-    req.send(body);
-
-    // event object not received in IE8, at least
-    // but we do not use it, still important to note
-    function load(/* event */) {
-      // When browser does not supports req.timeout, we can
-      // have both a load and timeout event, since handled by a dumb setTimeout
-      if (timedOut) {
-        return;
+        // error event is trigerred both with XDR/XHR on:
+        //   - DNS error
+        //   - unallowed cross domain request
+        reject(
+          new errors.Network({
+            more: event
+          })
+        );
       }
 
-      if (!support.timeout) {
-        clearTimeout(ontimeout);
+      function timeout() {
+        if (!support.timeout) {
+          timedOut = true;
+          req.abort();
+        }
+
+        reject(new errors.RequestTimeout());
       }
-
-      var out;
-
-      try {
-        out = {
-          body: JSON.parse(req.responseText),
-          responseText: req.responseText,
-          statusCode: req.status,
-          // XDomainRequest does not have any response headers
-          headers: req.getAllResponseHeaders && req.getAllResponseHeaders() || {}
-        };
-      } catch (e) {
-        out = new errors.UnparsableJSON({
-          more: req.responseText
-        });
-      }
-
-      if (out instanceof errors.UnparsableJSON) {
-        reject(out);
-      } else {
-        resolve(out);
-      }
-    }
-
-    function error(event) {
-      if (timedOut) {
-        return;
-      }
-
-      if (!support.timeout) {
-        clearTimeout(ontimeout);
-      }
-
-      // error event is trigerred both with XDR/XHR on:
-      //   - DNS error
-      //   - unallowed cross domain request
-      reject(
-        new errors.Network({
-          more: event
-        })
-      );
-    }
-
-    function timeout() {
-      if (!support.timeout) {
-        timedOut = true;
-        req.abort();
-      }
-
-      reject(new errors.RequestTimeout());
-    }
-  });
-};
-
-AlgoliaSearchBrowser.prototype._request.fallback = function requestFallback(url, opts) {
-  url = inlineHeaders(url, opts.headers);
-
-  return new Promise(function wrapJsonpRequest(resolve, reject) {
-    jsonpRequest(url, opts, function jsonpRequestDone(err, content) {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      resolve(content);
     });
-  });
-};
+  };
 
-AlgoliaSearchBrowser.prototype._promise = {
-  reject: function rejectPromise(val) {
-    return Promise.reject(val);
-  },
-  resolve: function resolvePromise(val) {
-    return Promise.resolve(val);
-  },
-  delay: function delayPromise(ms) {
-    return new Promise(function resolveOnTimeout(resolve/* , reject*/) {
-      setTimeout(resolve, ms);
+  AlgoliaSearchBrowser.prototype._request.fallback = function requestFallback(url, opts) {
+    url = inlineHeaders(url, opts.headers);
+
+    return new Promise(function wrapJsonpRequest(resolve, reject) {
+      jsonpRequest(url, opts, function jsonpRequestDone(err, content) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(content);
+      });
     });
-  }
+  };
+
+  AlgoliaSearchBrowser.prototype._promise = {
+    reject: function rejectPromise(val) {
+      return Promise.reject(val);
+    },
+    resolve: function resolvePromise(val) {
+      return Promise.resolve(val);
+    },
+    delay: function delayPromise(ms) {
+      return new Promise(function resolveOnTimeout(resolve/* , reject*/) {
+        setTimeout(resolve, ms);
+      });
+    }
+  };
+
+  return algoliasearch;
 };
 
 }).call(this,require('_process'))
-},{"../../AlgoliaSearch":74,"../../errors":81,"../../places.js":82,"../../version.js":83,"../get-document-protocol":77,"../inline-headers":78,"../jsonp-request":79,"_process":122,"debug":84,"es6-promise":86,"inherits":114,"lodash/lang/cloneDeep":59}],77:[function(require,module,exports){
+},{"../clone.js":15,"../errors":18,"../places.js":22,"../version.js":23,"./get-document-protocol":11,"./inline-headers":12,"./jsonp-request":13,"_process":57,"debug":24,"es6-promise":26,"inherits":55}],11:[function(require,module,exports){
 'use strict';
 
 module.exports = getDocumentProtocol;
@@ -5820,12 +3332,12 @@ function getDocumentProtocol() {
   return protocol;
 }
 
-},{}],78:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 module.exports = inlineHeaders;
 
-var querystring = require('querystring');
+var encode = require('querystring-es3/encode');
 
 function inlineHeaders(url, headers) {
   if (/\?/.test(url)) {
@@ -5834,10 +3346,10 @@ function inlineHeaders(url, headers) {
     url += '?';
   }
 
-  return url + querystring.encode(headers);
+  return url + encode(headers);
 }
 
-},{"querystring":125}],79:[function(require,module,exports){
+},{"querystring-es3/encode":58}],13:[function(require,module,exports){
 'use strict';
 
 module.exports = jsonpRequest;
@@ -5967,7 +3479,7 @@ function jsonpRequest(url, opts, cb) {
   }
 }
 
-},{"../errors":81}],80:[function(require,module,exports){
+},{"../errors":18}],14:[function(require,module,exports){
 module.exports = buildSearchMethod;
 
 var errors = require('./errors.js');
@@ -6015,7 +3527,39 @@ function buildSearchMethod(queryParam, url) {
   };
 }
 
-},{"./errors.js":81}],81:[function(require,module,exports){
+},{"./errors.js":18}],15:[function(require,module,exports){
+module.exports = function clone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+};
+
+},{}],16:[function(require,module,exports){
+module.exports = function deprecate(fn, message) {
+  var warned = false;
+
+  function deprecated() {
+    if (!warned) {
+      /* eslint no-console:0 */
+      console.log(message);
+      warned = true;
+    }
+
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+},{}],17:[function(require,module,exports){
+module.exports = function deprecatedMessage(previousUsage, newUsage) {
+  var githubAnchorLink = previousUsage.toLowerCase()
+    .replace('.', '')
+    .replace('()', '');
+
+  return 'algoliasearch: `' + previousUsage + '` was replaced by `' + newUsage +
+    '`. Please see https://github.com/algolia/algoliasearch-client-js/wiki/Deprecated#' + githubAnchorLink;
+};
+
+},{}],18:[function(require,module,exports){
 'use strict';
 
 // This file hosts our error definitions
@@ -6025,7 +3569,7 @@ function buildSearchMethod(queryParam, url) {
 var inherits = require('inherits');
 
 function AlgoliaSearchError(message, extraProperties) {
-  var forEach = require('lodash/collection/forEach');
+  var forEach = require('foreach');
 
   var error = this;
 
@@ -6036,7 +3580,7 @@ function AlgoliaSearchError(message, extraProperties) {
     error.stack = (new Error()).stack || 'Cannot get a stacktrace, browser is too old';
   }
 
-  this.name = this.constructor.name;
+  this.name = 'AlgoliaSearchError';
   this.message = message || 'Unknown error';
 
   if (extraProperties) {
@@ -6095,14 +3639,55 @@ module.exports = {
   )
 };
 
-},{"inherits":114,"lodash/collection/forEach":5}],82:[function(require,module,exports){
+},{"foreach":54,"inherits":55}],19:[function(require,module,exports){
+// Parse cloud does not supports setTimeout
+// We do not store a setTimeout reference in the client everytime
+// We only fallback to a fake setTimeout when not available
+// setTimeout cannot be override globally sadly
+module.exports = function exitPromise(fn, _setTimeout) {
+  _setTimeout(fn, 0);
+};
+
+},{}],20:[function(require,module,exports){
+var foreach = require('foreach');
+
+module.exports = function map(arr, fn) {
+  var newArr = [];
+  foreach(arr, function(item, itemIndex) {
+    newArr.push(fn(item, itemIndex, arr));
+  });
+  return newArr;
+};
+
+},{"foreach":54}],21:[function(require,module,exports){
+var foreach = require('foreach');
+
+module.exports = function merge(destination/* , sources */) {
+  var sources = Array.prototype.slice.call(arguments);
+
+  foreach(sources, function(source) {
+    for (var keyName in source) {
+      if (source.hasOwnProperty(keyName)) {
+        if (typeof destination[keyName] === 'object' && typeof source[keyName] === 'object') {
+          destination[keyName] = merge({}, destination[keyName], source[keyName]);
+        } else if (source[keyName] !== undefined) {
+          destination[keyName] = source[keyName];
+        }
+      }
+    }
+  });
+
+  return destination;
+};
+
+},{"foreach":54}],22:[function(require,module,exports){
 module.exports = createPlacesClient;
 
 var buildSearchMethod = require('./buildSearchMethod.js');
 
 function createPlacesClient(algoliasearch) {
   return function places(appID, apiKey, opts) {
-    var cloneDeep = require('lodash/lang/cloneDeep');
+    var cloneDeep = require('./clone.js');
 
     opts = opts && cloneDeep(opts) || {};
     opts.hosts = opts.hosts || [
@@ -6119,12 +3704,12 @@ function createPlacesClient(algoliasearch) {
   };
 }
 
-},{"./buildSearchMethod.js":80,"lodash/lang/cloneDeep":59}],83:[function(require,module,exports){
+},{"./buildSearchMethod.js":14,"./clone.js":15}],23:[function(require,module,exports){
 'use strict';
 
-module.exports = '3.13.1';
+module.exports = '3.14.1';
 
-},{}],84:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 
 /**
  * This is the web browser implementation of `debug()`.
@@ -6294,7 +3879,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-},{"./debug":85}],85:[function(require,module,exports){
+},{"./debug":25}],25:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -6493,14 +4078,14 @@ function coerce(val) {
   return val;
 }
 
-},{"algolia-ms":3}],86:[function(require,module,exports){
+},{"algolia-ms":3}],26:[function(require,module,exports){
 (function (process,global){
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
  *            See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
- * @version   3.1.2
+ * @version   3.2.1
  */
 
 (function() {
@@ -6558,7 +4143,7 @@ function coerce(val) {
     var lib$es6$promise$asap$$browserWindow = (typeof window !== 'undefined') ? window : undefined;
     var lib$es6$promise$asap$$browserGlobal = lib$es6$promise$asap$$browserWindow || {};
     var lib$es6$promise$asap$$BrowserMutationObserver = lib$es6$promise$asap$$browserGlobal.MutationObserver || lib$es6$promise$asap$$browserGlobal.WebKitMutationObserver;
-    var lib$es6$promise$asap$$isNode = typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
+    var lib$es6$promise$asap$$isNode = typeof self === 'undefined' && typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
 
     // test for web worker but not in IE10
     var lib$es6$promise$asap$$isWorker = typeof Uint8ClampedArray !== 'undefined' &&
@@ -6648,19 +4233,19 @@ function coerce(val) {
     }
     function lib$es6$promise$then$$then(onFulfillment, onRejection) {
       var parent = this;
-      var state = parent._state;
-
-      if (state === lib$es6$promise$$internal$$FULFILLED && !onFulfillment || state === lib$es6$promise$$internal$$REJECTED && !onRejection) {
-        return this;
-      }
 
       var child = new this.constructor(lib$es6$promise$$internal$$noop);
-      var result = parent._result;
+
+      if (child[lib$es6$promise$$internal$$PROMISE_ID] === undefined) {
+        lib$es6$promise$$internal$$makePromise(child);
+      }
+
+      var state = parent._state;
 
       if (state) {
         var callback = arguments[state - 1];
         lib$es6$promise$asap$$asap(function(){
-          lib$es6$promise$$internal$$invokeCallback(state, child, callback, result);
+          lib$es6$promise$$internal$$invokeCallback(state, child, callback, parent._result);
         });
       } else {
         lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection);
@@ -6682,6 +4267,7 @@ function coerce(val) {
       return promise;
     }
     var lib$es6$promise$promise$resolve$$default = lib$es6$promise$promise$resolve$$resolve;
+    var lib$es6$promise$$internal$$PROMISE_ID = Math.random().toString(36).substring(16);
 
     function lib$es6$promise$$internal$$noop() {}
 
@@ -6912,6 +4498,18 @@ function coerce(val) {
       }
     }
 
+    var lib$es6$promise$$internal$$id = 0;
+    function lib$es6$promise$$internal$$nextId() {
+      return lib$es6$promise$$internal$$id++;
+    }
+
+    function lib$es6$promise$$internal$$makePromise(promise) {
+      promise[lib$es6$promise$$internal$$PROMISE_ID] = lib$es6$promise$$internal$$id++;
+      promise._state = undefined;
+      promise._result = undefined;
+      promise._subscribers = [];
+    }
+
     function lib$es6$promise$promise$all$$all(entries) {
       return new lib$es6$promise$enumerator$$default(this, entries).promise;
     }
@@ -6920,28 +4518,18 @@ function coerce(val) {
       /*jshint validthis:true */
       var Constructor = this;
 
-      var promise = new Constructor(lib$es6$promise$$internal$$noop);
-
       if (!lib$es6$promise$utils$$isArray(entries)) {
-        lib$es6$promise$$internal$$reject(promise, new TypeError('You must pass an array to race.'));
-        return promise;
+        return new Constructor(function(resolve, reject) {
+          reject(new TypeError('You must pass an array to race.'));
+        });
+      } else {
+        return new Constructor(function(resolve, reject) {
+          var length = entries.length;
+          for (var i = 0; i < length; i++) {
+            Constructor.resolve(entries[i]).then(resolve, reject);
+          }
+        });
       }
-
-      var length = entries.length;
-
-      function onFulfillment(value) {
-        lib$es6$promise$$internal$$resolve(promise, value);
-      }
-
-      function onRejection(reason) {
-        lib$es6$promise$$internal$$reject(promise, reason);
-      }
-
-      for (var i = 0; promise._state === lib$es6$promise$$internal$$PENDING && i < length; i++) {
-        lib$es6$promise$$internal$$subscribe(Constructor.resolve(entries[i]), undefined, onFulfillment, onRejection);
-      }
-
-      return promise;
     }
     var lib$es6$promise$promise$race$$default = lib$es6$promise$promise$race$$race;
     function lib$es6$promise$promise$reject$$reject(reason) {
@@ -6953,7 +4541,6 @@ function coerce(val) {
     }
     var lib$es6$promise$promise$reject$$default = lib$es6$promise$promise$reject$$reject;
 
-    var lib$es6$promise$promise$$counter = 0;
 
     function lib$es6$promise$promise$$needsResolver() {
       throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
@@ -7068,9 +4655,8 @@ function coerce(val) {
       @constructor
     */
     function lib$es6$promise$promise$$Promise(resolver) {
-      this._id = lib$es6$promise$promise$$counter++;
-      this._state = undefined;
-      this._result = undefined;
+      this[lib$es6$promise$$internal$$PROMISE_ID] = lib$es6$promise$$internal$$nextId();
+      this._result = this._state = undefined;
       this._subscribers = [];
 
       if (lib$es6$promise$$internal$$noop !== resolver) {
@@ -7321,7 +4907,11 @@ function coerce(val) {
       this._instanceConstructor = Constructor;
       this.promise = new Constructor(lib$es6$promise$$internal$$noop);
 
-      if (Array.isArray(input)) {
+      if (!this.promise[lib$es6$promise$$internal$$PROMISE_ID]) {
+        lib$es6$promise$$internal$$makePromise(this.promise);
+      }
+
+      if (lib$es6$promise$utils$$isArray(input)) {
         this._input     = input;
         this.length     = input.length;
         this._remaining = input.length;
@@ -7338,13 +4928,13 @@ function coerce(val) {
           }
         }
       } else {
-        lib$es6$promise$$internal$$reject(this.promise, this._validationError());
+        lib$es6$promise$$internal$$reject(this.promise, lib$es6$promise$enumerator$$validationError());
       }
     }
 
-    lib$es6$promise$enumerator$$Enumerator.prototype._validationError = function() {
+    function lib$es6$promise$enumerator$$validationError() {
       return new Error('Array Methods must be provided an Array');
-    };
+    }
 
     lib$es6$promise$enumerator$$Enumerator.prototype._enumerate = function() {
       var length  = this.length;
@@ -7451,7 +5041,7 @@ function coerce(val) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":122}],87:[function(require,module,exports){
+},{"_process":57}],27:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7754,7 +5344,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],88:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -7840,7 +5430,7 @@ var EventListener = {
 
 module.exports = EventListener;
 }).call(this,require('_process'))
-},{"./emptyFunction":95,"_process":122}],89:[function(require,module,exports){
+},{"./emptyFunction":35,"_process":57}],29:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -7876,7 +5466,7 @@ var ExecutionEnvironment = {
 };
 
 module.exports = ExecutionEnvironment;
-},{}],90:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 "use strict";
 
 /**
@@ -7908,7 +5498,7 @@ function camelize(string) {
 }
 
 module.exports = camelize;
-},{}],91:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -7948,7 +5538,7 @@ function camelizeStyleName(string) {
 }
 
 module.exports = camelizeStyleName;
-},{"./camelize":90}],92:[function(require,module,exports){
+},{"./camelize":30}],32:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7992,7 +5582,7 @@ function containsNode(outerNode, innerNode) {
 }
 
 module.exports = containsNode;
-},{"./isTextNode":105}],93:[function(require,module,exports){
+},{"./isTextNode":45}],33:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -8121,7 +5711,7 @@ function createArrayFromMixed(obj) {
 
 module.exports = createArrayFromMixed;
 }).call(this,require('_process'))
-},{"./invariant":103,"_process":122}],94:[function(require,module,exports){
+},{"./invariant":43,"_process":57}],34:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -8207,7 +5797,7 @@ function createNodesFromMarkup(markup, handleScript) {
 
 module.exports = createNodesFromMarkup;
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":89,"./createArrayFromMixed":93,"./getMarkupWrap":99,"./invariant":103,"_process":122}],95:[function(require,module,exports){
+},{"./ExecutionEnvironment":29,"./createArrayFromMixed":33,"./getMarkupWrap":39,"./invariant":43,"_process":57}],35:[function(require,module,exports){
 "use strict";
 
 /**
@@ -8245,7 +5835,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],96:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -8267,7 +5857,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = emptyObject;
 }).call(this,require('_process'))
-},{"_process":122}],97:[function(require,module,exports){
+},{"_process":57}],37:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -8294,7 +5884,7 @@ function focusNode(node) {
 }
 
 module.exports = focusNode;
-},{}],98:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 /**
@@ -8329,7 +5919,7 @@ function getActiveElement() /*?DOMElement*/{
 }
 
 module.exports = getActiveElement;
-},{}],99:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -8426,7 +6016,7 @@ function getMarkupWrap(nodeName) {
 
 module.exports = getMarkupWrap;
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":89,"./invariant":103,"_process":122}],100:[function(require,module,exports){
+},{"./ExecutionEnvironment":29,"./invariant":43,"_process":57}],40:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -8465,7 +6055,7 @@ function getUnboundedScrollPosition(scrollable) {
 }
 
 module.exports = getUnboundedScrollPosition;
-},{}],101:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 /**
@@ -8498,7 +6088,7 @@ function hyphenate(string) {
 }
 
 module.exports = hyphenate;
-},{}],102:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -8537,7 +6127,7 @@ function hyphenateStyleName(string) {
 }
 
 module.exports = hyphenateStyleName;
-},{"./hyphenate":101}],103:[function(require,module,exports){
+},{"./hyphenate":41}],43:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -8589,7 +6179,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":122}],104:[function(require,module,exports){
+},{"_process":57}],44:[function(require,module,exports){
 'use strict';
 
 /**
@@ -8612,7 +6202,7 @@ function isNode(object) {
 }
 
 module.exports = isNode;
-},{}],105:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 /**
@@ -8637,7 +6227,7 @@ function isTextNode(object) {
 }
 
 module.exports = isTextNode;
-},{"./isNode":104}],106:[function(require,module,exports){
+},{"./isNode":44}],46:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -8687,7 +6277,7 @@ var keyMirror = function (obj) {
 
 module.exports = keyMirror;
 }).call(this,require('_process'))
-},{"./invariant":103,"_process":122}],107:[function(require,module,exports){
+},{"./invariant":43,"_process":57}],47:[function(require,module,exports){
 "use strict";
 
 /**
@@ -8722,7 +6312,7 @@ var keyOf = function (oneKeyObj) {
 };
 
 module.exports = keyOf;
-},{}],108:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -8773,7 +6363,7 @@ function mapObject(object, callback, context) {
 }
 
 module.exports = mapObject;
-},{}],109:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -8805,7 +6395,7 @@ function memoizeStringOnly(callback) {
 }
 
 module.exports = memoizeStringOnly;
-},{}],110:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -8828,7 +6418,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = performance || {};
-},{"./ExecutionEnvironment":89}],111:[function(require,module,exports){
+},{"./ExecutionEnvironment":29}],51:[function(require,module,exports){
 'use strict';
 
 /**
@@ -8862,7 +6452,7 @@ if (performance.now) {
 }
 
 module.exports = performanceNow;
-},{"./performance":110}],112:[function(require,module,exports){
+},{"./performance":50}],52:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -8929,7 +6519,7 @@ function shallowEqual(objA, objB) {
 }
 
 module.exports = shallowEqual;
-},{}],113:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -8988,7 +6578,31 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 }).call(this,require('_process'))
-},{"./emptyFunction":95,"_process":122}],114:[function(require,module,exports){
+},{"./emptyFunction":35,"_process":57}],54:[function(require,module,exports){
+
+var hasOwn = Object.prototype.hasOwnProperty;
+var toString = Object.prototype.toString;
+
+module.exports = function forEach (obj, fn, ctx) {
+    if (toString.call(fn) !== '[object Function]') {
+        throw new TypeError('iterator must be a function');
+    }
+    var l = obj.length;
+    if (l === +l) {
+        for (var i = 0; i < l; i++) {
+            fn.call(ctx, obj[i], i, obj);
+        }
+    } else {
+        for (var k in obj) {
+            if (hasOwn.call(obj, k)) {
+                fn.call(ctx, obj[k], k, obj);
+            }
+        }
+    }
+};
+
+
+},{}],55:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -9013,436 +6627,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],115:[function(require,module,exports){
-var isObject = require('./isObject'),
-    now = require('./now'),
-    toNumber = require('./toNumber');
+},{}],56:[function(require,module,exports){
+var toString = {}.toString;
 
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
 
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide an options object to indicate whether `func` should be invoked on
- * the leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent calls
- * to the debounced function return the result of the last `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
- * on the trailing edge of the timeout only if the debounced function is
- * invoked more than once during the `wait` timeout.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime = 0,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        result = wait - timeSinceLastCall;
-
-    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return (!lastCallTime || (timeSinceLastCall >= wait) ||
-      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    clearTimeout(timerId);
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastCallTime = lastInvokeTime = 0;
-    lastArgs = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        clearTimeout(timerId);
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
-
-},{"./isObject":117,"./now":120,"./toNumber":121}],116:[function(require,module,exports){
-var isObject = require('./isObject');
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array and weak map constructors,
-  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-module.exports = isFunction;
-
-},{"./isObject":117}],117:[function(require,module,exports){
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-},{}],118:[function(require,module,exports){
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-},{}],119:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && objectToString.call(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-},{"./isObjectLike":118}],120:[function(require,module,exports){
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @type {Function}
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => Logs the number of milliseconds it took for the deferred function to be invoked.
- */
-var now = Date.now;
-
-module.exports = now;
-
-},{}],121:[function(require,module,exports){
-var isFunction = require('./isFunction'),
-    isObject = require('./isObject'),
-    isSymbol = require('./isSymbol');
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3);
- * // => 3
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3');
- * // => 3
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = isFunction(value.valueOf) ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-module.exports = toNumber;
-
-},{"./isFunction":116,"./isObject":117,"./isSymbol":119}],122:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -9452,6 +6644,9 @@ var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -9535,93 +6730,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],123:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-'use strict';
-
-// If obj.hasOwnProperty has been overridden, then calling
-// obj.hasOwnProperty(prop) will break.
-// See: https://github.com/joyent/node/issues/1707
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function(qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
-  }
-
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-
-  var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length;
-  // maxKeys <= 0 means that we should not limit keys count
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr, vstr, k, v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-},{}],124:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9708,18 +6817,12 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],125:[function(require,module,exports){
-'use strict';
-
-exports.decode = exports.parse = require('./decode');
-exports.encode = exports.stringify = require('./encode');
-
-},{"./decode":123,"./encode":124}],126:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 'use strict';
 
 module.exports = require('react/lib/ReactDOM');
 
-},{"react/lib/ReactDOM":162}],127:[function(require,module,exports){
+},{"react/lib/ReactDOM":95}],60:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -9744,7 +6847,7 @@ var AutoFocusUtils = {
 };
 
 module.exports = AutoFocusUtils;
-},{"./ReactDOMComponentTree":166,"fbjs/lib/focusNode":97}],128:[function(require,module,exports){
+},{"./ReactDOMComponentTree":99,"fbjs/lib/focusNode":37}],61:[function(require,module,exports){
 /**
  * Copyright 2013-present Facebook, Inc.
  * All rights reserved.
@@ -10133,7 +7236,7 @@ var BeforeInputEventPlugin = {
 };
 
 module.exports = BeforeInputEventPlugin;
-},{"./EventConstants":142,"./EventPropagators":146,"./FallbackCompositionState":147,"./SyntheticCompositionEvent":222,"./SyntheticInputEvent":226,"fbjs/lib/ExecutionEnvironment":89,"fbjs/lib/keyOf":107}],129:[function(require,module,exports){
+},{"./EventConstants":75,"./EventPropagators":79,"./FallbackCompositionState":80,"./SyntheticCompositionEvent":155,"./SyntheticInputEvent":159,"fbjs/lib/ExecutionEnvironment":29,"fbjs/lib/keyOf":47}],62:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -10282,7 +7385,7 @@ var CSSProperty = {
 };
 
 module.exports = CSSProperty;
-},{}],130:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -10490,7 +7593,7 @@ ReactPerf.measureMethods(CSSPropertyOperations, 'CSSPropertyOperations', {
 
 module.exports = CSSPropertyOperations;
 }).call(this,require('_process'))
-},{"./CSSProperty":129,"./ReactPerf":207,"./dangerousStyleValue":239,"_process":122,"fbjs/lib/ExecutionEnvironment":89,"fbjs/lib/camelizeStyleName":91,"fbjs/lib/hyphenateStyleName":102,"fbjs/lib/memoizeStringOnly":109,"fbjs/lib/warning":113}],131:[function(require,module,exports){
+},{"./CSSProperty":62,"./ReactPerf":140,"./dangerousStyleValue":172,"_process":57,"fbjs/lib/ExecutionEnvironment":29,"fbjs/lib/camelizeStyleName":31,"fbjs/lib/hyphenateStyleName":42,"fbjs/lib/memoizeStringOnly":49,"fbjs/lib/warning":53}],64:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -10598,7 +7701,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 
 module.exports = CallbackQueue;
 }).call(this,require('_process'))
-},{"./PooledClass":151,"_process":122,"fbjs/lib/invariant":103,"object-assign":264}],132:[function(require,module,exports){
+},{"./PooledClass":84,"_process":57,"fbjs/lib/invariant":43,"object-assign":197}],65:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -10924,7 +8027,7 @@ var ChangeEventPlugin = {
 };
 
 module.exports = ChangeEventPlugin;
-},{"./EventConstants":142,"./EventPluginHub":143,"./EventPropagators":146,"./ReactDOMComponentTree":166,"./ReactUpdates":215,"./SyntheticEvent":224,"./getEventTarget":247,"./isEventSupported":254,"./isTextInputElement":255,"fbjs/lib/ExecutionEnvironment":89,"fbjs/lib/keyOf":107}],133:[function(require,module,exports){
+},{"./EventConstants":75,"./EventPluginHub":76,"./EventPropagators":79,"./ReactDOMComponentTree":99,"./ReactUpdates":148,"./SyntheticEvent":157,"./getEventTarget":180,"./isEventSupported":187,"./isTextInputElement":188,"fbjs/lib/ExecutionEnvironment":29,"fbjs/lib/keyOf":47}],66:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -11084,7 +8187,7 @@ ReactPerf.measureMethods(DOMChildrenOperations, 'DOMChildrenOperations', {
 });
 
 module.exports = DOMChildrenOperations;
-},{"./DOMLazyTree":134,"./Danger":138,"./ReactMultiChildUpdateTypes":202,"./ReactPerf":207,"./createMicrosoftUnsafeLocalFunction":238,"./setInnerHTML":259,"./setTextContent":260}],134:[function(require,module,exports){
+},{"./DOMLazyTree":67,"./Danger":71,"./ReactMultiChildUpdateTypes":135,"./ReactPerf":140,"./createMicrosoftUnsafeLocalFunction":171,"./setInnerHTML":192,"./setTextContent":193}],67:[function(require,module,exports){
 /**
  * Copyright 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -11190,7 +8293,7 @@ DOMLazyTree.queueHTML = queueHTML;
 DOMLazyTree.queueText = queueText;
 
 module.exports = DOMLazyTree;
-},{"./createMicrosoftUnsafeLocalFunction":238,"./setTextContent":260}],135:[function(require,module,exports){
+},{"./createMicrosoftUnsafeLocalFunction":171,"./setTextContent":193}],68:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -11211,7 +8314,7 @@ var DOMNamespaces = {
 };
 
 module.exports = DOMNamespaces;
-},{}],136:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -11427,7 +8530,7 @@ var DOMProperty = {
 
 module.exports = DOMProperty;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103}],137:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43}],70:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -11643,7 +8746,7 @@ ReactPerf.measureMethods(DOMPropertyOperations, 'DOMPropertyOperations', {
 
 module.exports = DOMPropertyOperations;
 }).call(this,require('_process'))
-},{"./DOMProperty":136,"./ReactDOMInstrumentation":174,"./ReactPerf":207,"./quoteAttributeValueForBrowser":257,"_process":122,"fbjs/lib/warning":113}],138:[function(require,module,exports){
+},{"./DOMProperty":69,"./ReactDOMInstrumentation":107,"./ReactPerf":140,"./quoteAttributeValueForBrowser":190,"_process":57,"fbjs/lib/warning":53}],71:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -11790,7 +8893,7 @@ var Danger = {
 
 module.exports = Danger;
 }).call(this,require('_process'))
-},{"./DOMLazyTree":134,"_process":122,"fbjs/lib/ExecutionEnvironment":89,"fbjs/lib/createNodesFromMarkup":94,"fbjs/lib/emptyFunction":95,"fbjs/lib/getMarkupWrap":99,"fbjs/lib/invariant":103}],139:[function(require,module,exports){
+},{"./DOMLazyTree":67,"_process":57,"fbjs/lib/ExecutionEnvironment":29,"fbjs/lib/createNodesFromMarkup":34,"fbjs/lib/emptyFunction":35,"fbjs/lib/getMarkupWrap":39,"fbjs/lib/invariant":43}],72:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -11818,7 +8921,7 @@ var keyOf = require('fbjs/lib/keyOf');
 var DefaultEventPluginOrder = [keyOf({ ResponderEventPlugin: null }), keyOf({ SimpleEventPlugin: null }), keyOf({ TapEventPlugin: null }), keyOf({ EnterLeaveEventPlugin: null }), keyOf({ ChangeEventPlugin: null }), keyOf({ SelectEventPlugin: null }), keyOf({ BeforeInputEventPlugin: null })];
 
 module.exports = DefaultEventPluginOrder;
-},{"fbjs/lib/keyOf":107}],140:[function(require,module,exports){
+},{"fbjs/lib/keyOf":47}],73:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -11869,7 +8972,7 @@ var DisabledInputUtils = {
 };
 
 module.exports = DisabledInputUtils;
-},{}],141:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -11975,7 +9078,7 @@ var EnterLeaveEventPlugin = {
 };
 
 module.exports = EnterLeaveEventPlugin;
-},{"./EventConstants":142,"./EventPropagators":146,"./ReactDOMComponentTree":166,"./SyntheticMouseEvent":228,"fbjs/lib/keyOf":107}],142:[function(require,module,exports){
+},{"./EventConstants":75,"./EventPropagators":79,"./ReactDOMComponentTree":99,"./SyntheticMouseEvent":161,"fbjs/lib/keyOf":47}],75:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -12073,7 +9176,7 @@ var EventConstants = {
 };
 
 module.exports = EventConstants;
-},{"fbjs/lib/keyMirror":106}],143:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":46}],76:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -12311,7 +9414,7 @@ var EventPluginHub = {
 
 module.exports = EventPluginHub;
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":144,"./EventPluginUtils":145,"./ReactErrorUtils":190,"./accumulateInto":235,"./forEachAccumulated":243,"_process":122,"fbjs/lib/invariant":103}],144:[function(require,module,exports){
+},{"./EventPluginRegistry":77,"./EventPluginUtils":78,"./ReactErrorUtils":123,"./accumulateInto":168,"./forEachAccumulated":176,"_process":57,"fbjs/lib/invariant":43}],77:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -12555,7 +9658,7 @@ var EventPluginRegistry = {
 
 module.exports = EventPluginRegistry;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103}],145:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43}],78:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -12785,7 +9888,7 @@ var EventPluginUtils = {
 
 module.exports = EventPluginUtils;
 }).call(this,require('_process'))
-},{"./EventConstants":142,"./ReactErrorUtils":190,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113}],146:[function(require,module,exports){
+},{"./EventConstants":75,"./ReactErrorUtils":123,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53}],79:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -12925,7 +10028,7 @@ var EventPropagators = {
 
 module.exports = EventPropagators;
 }).call(this,require('_process'))
-},{"./EventConstants":142,"./EventPluginHub":143,"./EventPluginUtils":145,"./accumulateInto":235,"./forEachAccumulated":243,"_process":122,"fbjs/lib/warning":113}],147:[function(require,module,exports){
+},{"./EventConstants":75,"./EventPluginHub":76,"./EventPluginUtils":78,"./accumulateInto":168,"./forEachAccumulated":176,"_process":57,"fbjs/lib/warning":53}],80:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -13021,7 +10124,7 @@ _assign(FallbackCompositionState.prototype, {
 PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
-},{"./PooledClass":151,"./getTextContentAccessor":251,"object-assign":264}],148:[function(require,module,exports){
+},{"./PooledClass":84,"./getTextContentAccessor":184,"object-assign":197}],81:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -13231,7 +10334,7 @@ var HTMLDOMPropertyConfig = {
 };
 
 module.exports = HTMLDOMPropertyConfig;
-},{"./DOMProperty":136}],149:[function(require,module,exports){
+},{"./DOMProperty":69}],82:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -13290,7 +10393,7 @@ var KeyEscapeUtils = {
 };
 
 module.exports = KeyEscapeUtils;
-},{}],150:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -13426,7 +10529,7 @@ var LinkedValueUtils = {
 
 module.exports = LinkedValueUtils;
 }).call(this,require('_process'))
-},{"./ReactPropTypeLocations":209,"./ReactPropTypes":210,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113}],151:[function(require,module,exports){
+},{"./ReactPropTypeLocations":142,"./ReactPropTypes":143,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53}],84:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -13548,7 +10651,7 @@ var PooledClass = {
 
 module.exports = PooledClass;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103}],152:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43}],85:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -13638,7 +10741,7 @@ var React = {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactChildren":155,"./ReactClass":156,"./ReactComponent":157,"./ReactDOMFactories":170,"./ReactElement":187,"./ReactElementValidator":188,"./ReactPropTypes":210,"./ReactVersion":216,"./onlyChild":256,"_process":122,"fbjs/lib/warning":113,"object-assign":264}],153:[function(require,module,exports){
+},{"./ReactChildren":88,"./ReactClass":89,"./ReactComponent":90,"./ReactDOMFactories":103,"./ReactElement":120,"./ReactElementValidator":121,"./ReactPropTypes":143,"./ReactVersion":149,"./onlyChild":189,"_process":57,"fbjs/lib/warning":53,"object-assign":197}],86:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -13956,7 +11059,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 });
 
 module.exports = ReactBrowserEventEmitter;
-},{"./EventConstants":142,"./EventPluginRegistry":144,"./ReactEventEmitterMixin":191,"./ViewportMetrics":234,"./getVendorPrefixedEventName":252,"./isEventSupported":254,"object-assign":264}],154:[function(require,module,exports){
+},{"./EventConstants":75,"./EventPluginRegistry":77,"./ReactEventEmitterMixin":124,"./ViewportMetrics":167,"./getVendorPrefixedEventName":185,"./isEventSupported":187,"object-assign":197}],87:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -14084,7 +11187,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":149,"./ReactReconciler":212,"./instantiateReactComponent":253,"./shouldUpdateReactComponent":261,"./traverseAllChildren":262,"_process":122,"fbjs/lib/warning":113}],155:[function(require,module,exports){
+},{"./KeyEscapeUtils":82,"./ReactReconciler":145,"./instantiateReactComponent":186,"./shouldUpdateReactComponent":194,"./traverseAllChildren":195,"_process":57,"fbjs/lib/warning":53}],88:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -14268,7 +11371,7 @@ var ReactChildren = {
 };
 
 module.exports = ReactChildren;
-},{"./PooledClass":151,"./ReactElement":187,"./traverseAllChildren":262,"fbjs/lib/emptyFunction":95}],156:[function(require,module,exports){
+},{"./PooledClass":84,"./ReactElement":120,"./traverseAllChildren":195,"fbjs/lib/emptyFunction":35}],89:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -14994,7 +12097,7 @@ var ReactClass = {
 
 module.exports = ReactClass;
 }).call(this,require('_process'))
-},{"./ReactComponent":157,"./ReactElement":187,"./ReactNoopUpdateQueue":205,"./ReactPropTypeLocationNames":208,"./ReactPropTypeLocations":209,"_process":122,"fbjs/lib/emptyObject":96,"fbjs/lib/invariant":103,"fbjs/lib/keyMirror":106,"fbjs/lib/keyOf":107,"fbjs/lib/warning":113,"object-assign":264}],157:[function(require,module,exports){
+},{"./ReactComponent":90,"./ReactElement":120,"./ReactNoopUpdateQueue":138,"./ReactPropTypeLocationNames":141,"./ReactPropTypeLocations":142,"_process":57,"fbjs/lib/emptyObject":36,"fbjs/lib/invariant":43,"fbjs/lib/keyMirror":46,"fbjs/lib/keyOf":47,"fbjs/lib/warning":53,"object-assign":197}],90:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -15118,7 +12221,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactComponent;
 }).call(this,require('_process'))
-},{"./ReactInstrumentation":197,"./ReactNoopUpdateQueue":205,"./canDefineProperty":237,"_process":122,"fbjs/lib/emptyObject":96,"fbjs/lib/invariant":103,"fbjs/lib/warning":113}],158:[function(require,module,exports){
+},{"./ReactInstrumentation":130,"./ReactNoopUpdateQueue":138,"./canDefineProperty":170,"_process":57,"fbjs/lib/emptyObject":36,"fbjs/lib/invariant":43,"fbjs/lib/warning":53}],91:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -15163,7 +12266,7 @@ ReactPerf.measureMethods(ReactComponentBrowserEnvironment, 'ReactComponentBrowse
 });
 
 module.exports = ReactComponentBrowserEnvironment;
-},{"./DOMChildrenOperations":133,"./ReactDOMIDOperations":172,"./ReactPerf":207}],159:[function(require,module,exports){
+},{"./DOMChildrenOperations":66,"./ReactDOMIDOperations":105,"./ReactPerf":140}],92:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -15217,7 +12320,7 @@ var ReactComponentEnvironment = {
 
 module.exports = ReactComponentEnvironment;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103}],160:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43}],93:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -16014,7 +13117,7 @@ var ReactCompositeComponent = {
 
 module.exports = ReactCompositeComponent;
 }).call(this,require('_process'))
-},{"./ReactComponentEnvironment":159,"./ReactCurrentOwner":161,"./ReactElement":187,"./ReactErrorUtils":190,"./ReactInstanceMap":196,"./ReactInstrumentation":197,"./ReactNodeTypes":204,"./ReactPerf":207,"./ReactPropTypeLocationNames":208,"./ReactPropTypeLocations":209,"./ReactReconciler":212,"./ReactUpdateQueue":214,"./shouldUpdateReactComponent":261,"_process":122,"fbjs/lib/emptyObject":96,"fbjs/lib/invariant":103,"fbjs/lib/warning":113,"object-assign":264}],161:[function(require,module,exports){
+},{"./ReactComponentEnvironment":92,"./ReactCurrentOwner":94,"./ReactElement":120,"./ReactErrorUtils":123,"./ReactInstanceMap":129,"./ReactInstrumentation":130,"./ReactNodeTypes":137,"./ReactPerf":140,"./ReactPropTypeLocationNames":141,"./ReactPropTypeLocations":142,"./ReactReconciler":145,"./ReactUpdateQueue":147,"./shouldUpdateReactComponent":194,"_process":57,"fbjs/lib/emptyObject":36,"fbjs/lib/invariant":43,"fbjs/lib/warning":53,"object-assign":197}],94:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -16046,7 +13149,7 @@ var ReactCurrentOwner = {
 };
 
 module.exports = ReactCurrentOwner;
-},{}],162:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -16153,7 +13256,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactDOMComponentTree":166,"./ReactDefaultInjection":184,"./ReactMount":200,"./ReactPerf":207,"./ReactReconciler":212,"./ReactUpdates":215,"./ReactVersion":216,"./findDOMNode":241,"./getNativeComponentFromComposite":249,"./renderSubtreeIntoContainer":258,"_process":122,"fbjs/lib/ExecutionEnvironment":89,"fbjs/lib/warning":113}],163:[function(require,module,exports){
+},{"./ReactDOMComponentTree":99,"./ReactDefaultInjection":117,"./ReactMount":133,"./ReactPerf":140,"./ReactReconciler":145,"./ReactUpdates":148,"./ReactVersion":149,"./findDOMNode":174,"./getNativeComponentFromComposite":182,"./renderSubtreeIntoContainer":191,"_process":57,"fbjs/lib/ExecutionEnvironment":29,"fbjs/lib/warning":53}],96:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -16178,7 +13281,7 @@ var ReactDOMButton = {
 };
 
 module.exports = ReactDOMButton;
-},{"./DisabledInputUtils":140}],164:[function(require,module,exports){
+},{"./DisabledInputUtils":73}],97:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17090,7 +14193,7 @@ _assign(ReactDOMComponent.prototype, ReactDOMComponent.Mixin, ReactMultiChild.Mi
 
 module.exports = ReactDOMComponent;
 }).call(this,require('_process'))
-},{"./AutoFocusUtils":127,"./CSSPropertyOperations":130,"./DOMLazyTree":134,"./DOMNamespaces":135,"./DOMProperty":136,"./DOMPropertyOperations":137,"./EventConstants":142,"./EventPluginHub":143,"./EventPluginRegistry":144,"./ReactBrowserEventEmitter":153,"./ReactComponentBrowserEnvironment":158,"./ReactDOMButton":163,"./ReactDOMComponentFlags":165,"./ReactDOMComponentTree":166,"./ReactDOMInput":173,"./ReactDOMOption":175,"./ReactDOMSelect":176,"./ReactDOMTextarea":179,"./ReactMultiChild":201,"./ReactPerf":207,"./escapeTextContentForBrowser":240,"./isEventSupported":254,"./validateDOMNesting":263,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/keyOf":107,"fbjs/lib/shallowEqual":112,"fbjs/lib/warning":113,"object-assign":264}],165:[function(require,module,exports){
+},{"./AutoFocusUtils":60,"./CSSPropertyOperations":63,"./DOMLazyTree":67,"./DOMNamespaces":68,"./DOMProperty":69,"./DOMPropertyOperations":70,"./EventConstants":75,"./EventPluginHub":76,"./EventPluginRegistry":77,"./ReactBrowserEventEmitter":86,"./ReactComponentBrowserEnvironment":91,"./ReactDOMButton":96,"./ReactDOMComponentFlags":98,"./ReactDOMComponentTree":99,"./ReactDOMInput":106,"./ReactDOMOption":108,"./ReactDOMSelect":109,"./ReactDOMTextarea":112,"./ReactMultiChild":134,"./ReactPerf":140,"./escapeTextContentForBrowser":173,"./isEventSupported":187,"./validateDOMNesting":196,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/keyOf":47,"fbjs/lib/shallowEqual":52,"fbjs/lib/warning":53,"object-assign":197}],98:[function(require,module,exports){
 /**
  * Copyright 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -17109,7 +14212,7 @@ var ReactDOMComponentFlags = {
 };
 
 module.exports = ReactDOMComponentFlags;
-},{}],166:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17298,7 +14401,7 @@ var ReactDOMComponentTree = {
 
 module.exports = ReactDOMComponentTree;
 }).call(this,require('_process'))
-},{"./DOMProperty":136,"./ReactDOMComponentFlags":165,"_process":122,"fbjs/lib/invariant":103}],167:[function(require,module,exports){
+},{"./DOMProperty":69,"./ReactDOMComponentFlags":98,"_process":57,"fbjs/lib/invariant":43}],100:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17334,7 +14437,7 @@ function ReactDOMContainerInfo(topLevelWrapper, node) {
 
 module.exports = ReactDOMContainerInfo;
 }).call(this,require('_process'))
-},{"./validateDOMNesting":263,"_process":122}],168:[function(require,module,exports){
+},{"./validateDOMNesting":196,"_process":57}],101:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17398,7 +14501,7 @@ ReactDOMDebugTool.addDevtool(ReactDOMUnknownPropertyDevtool);
 
 module.exports = ReactDOMDebugTool;
 }).call(this,require('_process'))
-},{"./ReactDOMUnknownPropertyDevtool":181,"_process":122,"fbjs/lib/warning":113}],169:[function(require,module,exports){
+},{"./ReactDOMUnknownPropertyDevtool":114,"_process":57,"fbjs/lib/warning":53}],102:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -17459,7 +14562,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
 });
 
 module.exports = ReactDOMEmptyComponent;
-},{"./DOMLazyTree":134,"./ReactDOMComponentTree":166,"object-assign":264}],170:[function(require,module,exports){
+},{"./DOMLazyTree":67,"./ReactDOMComponentTree":99,"object-assign":197}],103:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17638,7 +14741,7 @@ var ReactDOMFactories = mapObject({
 
 module.exports = ReactDOMFactories;
 }).call(this,require('_process'))
-},{"./ReactElement":187,"./ReactElementValidator":188,"_process":122,"fbjs/lib/mapObject":108}],171:[function(require,module,exports){
+},{"./ReactElement":120,"./ReactElementValidator":121,"_process":57,"fbjs/lib/mapObject":48}],104:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -17657,7 +14760,7 @@ var ReactDOMFeatureFlags = {
 };
 
 module.exports = ReactDOMFeatureFlags;
-},{}],172:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -17697,7 +14800,7 @@ ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
 });
 
 module.exports = ReactDOMIDOperations;
-},{"./DOMChildrenOperations":133,"./ReactDOMComponentTree":166,"./ReactPerf":207}],173:[function(require,module,exports){
+},{"./DOMChildrenOperations":66,"./ReactDOMComponentTree":99,"./ReactPerf":140}],106:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17904,7 +15007,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMInput;
 }).call(this,require('_process'))
-},{"./DOMPropertyOperations":137,"./DisabledInputUtils":140,"./LinkedValueUtils":150,"./ReactDOMComponentTree":166,"./ReactUpdates":215,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113,"object-assign":264}],174:[function(require,module,exports){
+},{"./DOMPropertyOperations":70,"./DisabledInputUtils":73,"./LinkedValueUtils":83,"./ReactDOMComponentTree":99,"./ReactUpdates":148,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53,"object-assign":197}],107:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -17921,7 +15024,7 @@ module.exports = ReactDOMInput;
 var ReactDOMDebugTool = require('./ReactDOMDebugTool');
 
 module.exports = { debugTool: ReactDOMDebugTool };
-},{"./ReactDOMDebugTool":168}],175:[function(require,module,exports){
+},{"./ReactDOMDebugTool":101}],108:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18033,7 +15136,7 @@ var ReactDOMOption = {
 
 module.exports = ReactDOMOption;
 }).call(this,require('_process'))
-},{"./ReactChildren":155,"./ReactDOMComponentTree":166,"./ReactDOMSelect":176,"_process":122,"fbjs/lib/warning":113,"object-assign":264}],176:[function(require,module,exports){
+},{"./ReactChildren":88,"./ReactDOMComponentTree":99,"./ReactDOMSelect":109,"_process":57,"fbjs/lib/warning":53,"object-assign":197}],109:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18249,7 +15352,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMSelect;
 }).call(this,require('_process'))
-},{"./DisabledInputUtils":140,"./LinkedValueUtils":150,"./ReactDOMComponentTree":166,"./ReactUpdates":215,"_process":122,"fbjs/lib/warning":113,"object-assign":264}],177:[function(require,module,exports){
+},{"./DisabledInputUtils":73,"./LinkedValueUtils":83,"./ReactDOMComponentTree":99,"./ReactUpdates":148,"_process":57,"fbjs/lib/warning":53,"object-assign":197}],110:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -18462,7 +15565,7 @@ var ReactDOMSelection = {
 };
 
 module.exports = ReactDOMSelection;
-},{"./getNodeForCharacterOffset":250,"./getTextContentAccessor":251,"fbjs/lib/ExecutionEnvironment":89}],178:[function(require,module,exports){
+},{"./getNodeForCharacterOffset":183,"./getTextContentAccessor":184,"fbjs/lib/ExecutionEnvironment":29}],111:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18634,7 +15737,7 @@ ReactPerf.measureMethods(ReactDOMTextComponent.prototype, 'ReactDOMTextComponent
 
 module.exports = ReactDOMTextComponent;
 }).call(this,require('_process'))
-},{"./DOMChildrenOperations":133,"./DOMLazyTree":134,"./ReactDOMComponentTree":166,"./ReactPerf":207,"./escapeTextContentForBrowser":240,"./validateDOMNesting":263,"_process":122,"fbjs/lib/invariant":103,"object-assign":264}],179:[function(require,module,exports){
+},{"./DOMChildrenOperations":66,"./DOMLazyTree":67,"./ReactDOMComponentTree":99,"./ReactPerf":140,"./escapeTextContentForBrowser":173,"./validateDOMNesting":196,"_process":57,"fbjs/lib/invariant":43,"object-assign":197}],112:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18779,7 +15882,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMTextarea;
 }).call(this,require('_process'))
-},{"./DOMPropertyOperations":137,"./DisabledInputUtils":140,"./LinkedValueUtils":150,"./ReactDOMComponentTree":166,"./ReactUpdates":215,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113,"object-assign":264}],180:[function(require,module,exports){
+},{"./DOMPropertyOperations":70,"./DisabledInputUtils":73,"./LinkedValueUtils":83,"./ReactDOMComponentTree":99,"./ReactUpdates":148,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53,"object-assign":197}],113:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -18916,7 +16019,7 @@ module.exports = {
   traverseEnterLeave: traverseEnterLeave
 };
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103}],181:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43}],114:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18983,7 +16086,7 @@ var ReactDOMUnknownPropertyDevtool = {
 
 module.exports = ReactDOMUnknownPropertyDevtool;
 }).call(this,require('_process'))
-},{"./DOMProperty":136,"./EventPluginRegistry":144,"_process":122,"fbjs/lib/warning":113}],182:[function(require,module,exports){
+},{"./DOMProperty":69,"./EventPluginRegistry":77,"_process":57,"fbjs/lib/warning":53}],115:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2016-present, Facebook, Inc.
@@ -19058,7 +16161,7 @@ ReactDebugTool.addDevtool(ReactInvalidSetStateWarningDevTool);
 
 module.exports = ReactDebugTool;
 }).call(this,require('_process'))
-},{"./ReactInvalidSetStateWarningDevTool":198,"_process":122,"fbjs/lib/warning":113}],183:[function(require,module,exports){
+},{"./ReactInvalidSetStateWarningDevTool":131,"_process":57,"fbjs/lib/warning":53}],116:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -19127,7 +16230,7 @@ var ReactDefaultBatchingStrategy = {
 };
 
 module.exports = ReactDefaultBatchingStrategy;
-},{"./ReactUpdates":215,"./Transaction":233,"fbjs/lib/emptyFunction":95,"object-assign":264}],184:[function(require,module,exports){
+},{"./ReactUpdates":148,"./Transaction":166,"fbjs/lib/emptyFunction":35,"object-assign":197}],117:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19223,7 +16326,7 @@ module.exports = {
   inject: inject
 };
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":128,"./ChangeEventPlugin":132,"./DefaultEventPluginOrder":139,"./EnterLeaveEventPlugin":141,"./HTMLDOMPropertyConfig":148,"./ReactComponentBrowserEnvironment":158,"./ReactDOMComponent":164,"./ReactDOMComponentTree":166,"./ReactDOMEmptyComponent":169,"./ReactDOMTextComponent":178,"./ReactDOMTreeTraversal":180,"./ReactDefaultBatchingStrategy":183,"./ReactDefaultPerf":185,"./ReactEventListener":192,"./ReactInjection":194,"./ReactReconcileTransaction":211,"./SVGDOMPropertyConfig":217,"./SelectEventPlugin":218,"./SimpleEventPlugin":219,"_process":122,"fbjs/lib/ExecutionEnvironment":89}],185:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":61,"./ChangeEventPlugin":65,"./DefaultEventPluginOrder":72,"./EnterLeaveEventPlugin":74,"./HTMLDOMPropertyConfig":81,"./ReactComponentBrowserEnvironment":91,"./ReactDOMComponent":97,"./ReactDOMComponentTree":99,"./ReactDOMEmptyComponent":102,"./ReactDOMTextComponent":111,"./ReactDOMTreeTraversal":113,"./ReactDefaultBatchingStrategy":116,"./ReactDefaultPerf":118,"./ReactEventListener":125,"./ReactInjection":127,"./ReactReconcileTransaction":144,"./SVGDOMPropertyConfig":150,"./SelectEventPlugin":151,"./SimpleEventPlugin":152,"_process":57,"fbjs/lib/ExecutionEnvironment":29}],118:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19542,7 +16645,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 }).call(this,require('_process'))
-},{"./DOMProperty":136,"./ReactDOMComponentTree":166,"./ReactDefaultPerfAnalysis":186,"./ReactMount":200,"./ReactPerf":207,"_process":122,"fbjs/lib/performanceNow":111,"fbjs/lib/warning":113}],186:[function(require,module,exports){
+},{"./DOMProperty":69,"./ReactDOMComponentTree":99,"./ReactDefaultPerfAnalysis":119,"./ReactMount":133,"./ReactPerf":140,"_process":57,"fbjs/lib/performanceNow":51,"fbjs/lib/warning":53}],119:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -19753,7 +16856,7 @@ var ReactDefaultPerfAnalysis = {
 };
 
 module.exports = ReactDefaultPerfAnalysis;
-},{"object-assign":264}],187:[function(require,module,exports){
+},{"object-assign":197}],120:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -20043,7 +17146,7 @@ ReactElement.isValidElement = function (object) {
 
 module.exports = ReactElement;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":161,"./canDefineProperty":237,"_process":122,"fbjs/lib/warning":113,"object-assign":264}],188:[function(require,module,exports){
+},{"./ReactCurrentOwner":94,"./canDefineProperty":170,"_process":57,"fbjs/lib/warning":53,"object-assign":197}],121:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -20327,7 +17430,7 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":161,"./ReactElement":187,"./ReactPropTypeLocationNames":208,"./ReactPropTypeLocations":209,"./canDefineProperty":237,"./getIteratorFn":248,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113}],189:[function(require,module,exports){
+},{"./ReactCurrentOwner":94,"./ReactElement":120,"./ReactPropTypeLocationNames":141,"./ReactPropTypeLocations":142,"./canDefineProperty":170,"./getIteratorFn":181,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53}],122:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -20358,7 +17461,7 @@ var ReactEmptyComponent = {
 ReactEmptyComponent.injection = ReactEmptyComponentInjection;
 
 module.exports = ReactEmptyComponent;
-},{}],190:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -20437,7 +17540,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactErrorUtils;
 }).call(this,require('_process'))
-},{"_process":122}],191:[function(require,module,exports){
+},{"_process":57}],124:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -20471,7 +17574,7 @@ var ReactEventEmitterMixin = {
 };
 
 module.exports = ReactEventEmitterMixin;
-},{"./EventPluginHub":143}],192:[function(require,module,exports){
+},{"./EventPluginHub":76}],125:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -20629,7 +17732,7 @@ var ReactEventListener = {
 };
 
 module.exports = ReactEventListener;
-},{"./PooledClass":151,"./ReactDOMComponentTree":166,"./ReactUpdates":215,"./getEventTarget":247,"fbjs/lib/EventListener":88,"fbjs/lib/ExecutionEnvironment":89,"fbjs/lib/getUnboundedScrollPosition":100,"object-assign":264}],193:[function(require,module,exports){
+},{"./PooledClass":84,"./ReactDOMComponentTree":99,"./ReactUpdates":148,"./getEventTarget":180,"fbjs/lib/EventListener":28,"fbjs/lib/ExecutionEnvironment":29,"fbjs/lib/getUnboundedScrollPosition":40,"object-assign":197}],126:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -20651,7 +17754,7 @@ var ReactFeatureFlags = {
 };
 
 module.exports = ReactFeatureFlags;
-},{}],194:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -20690,7 +17793,7 @@ var ReactInjection = {
 };
 
 module.exports = ReactInjection;
-},{"./DOMProperty":136,"./EventPluginHub":143,"./EventPluginUtils":145,"./ReactBrowserEventEmitter":153,"./ReactClass":156,"./ReactComponentEnvironment":159,"./ReactEmptyComponent":189,"./ReactNativeComponent":203,"./ReactPerf":207,"./ReactUpdates":215}],195:[function(require,module,exports){
+},{"./DOMProperty":69,"./EventPluginHub":76,"./EventPluginUtils":78,"./ReactBrowserEventEmitter":86,"./ReactClass":89,"./ReactComponentEnvironment":92,"./ReactEmptyComponent":122,"./ReactNativeComponent":136,"./ReactPerf":140,"./ReactUpdates":148}],128:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -20815,7 +17918,7 @@ var ReactInputSelection = {
 };
 
 module.exports = ReactInputSelection;
-},{"./ReactDOMSelection":177,"fbjs/lib/containsNode":92,"fbjs/lib/focusNode":97,"fbjs/lib/getActiveElement":98}],196:[function(require,module,exports){
+},{"./ReactDOMSelection":110,"fbjs/lib/containsNode":32,"fbjs/lib/focusNode":37,"fbjs/lib/getActiveElement":38}],129:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -20864,7 +17967,7 @@ var ReactInstanceMap = {
 };
 
 module.exports = ReactInstanceMap;
-},{}],197:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 /**
  * Copyright 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -20881,7 +17984,7 @@ module.exports = ReactInstanceMap;
 var ReactDebugTool = require('./ReactDebugTool');
 
 module.exports = { debugTool: ReactDebugTool };
-},{"./ReactDebugTool":182}],198:[function(require,module,exports){
+},{"./ReactDebugTool":115}],131:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2016-present, Facebook, Inc.
@@ -20920,7 +18023,7 @@ var ReactInvalidSetStateWarningDevTool = {
 
 module.exports = ReactInvalidSetStateWarningDevTool;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/warning":113}],199:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/warning":53}],132:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -20971,7 +18074,7 @@ var ReactMarkupChecksum = {
 };
 
 module.exports = ReactMarkupChecksum;
-},{"./adler32":236}],200:[function(require,module,exports){
+},{"./adler32":169}],133:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21452,7 +18555,7 @@ ReactPerf.measureMethods(ReactMount, 'ReactMount', {
 
 module.exports = ReactMount;
 }).call(this,require('_process'))
-},{"./DOMLazyTree":134,"./DOMProperty":136,"./ReactBrowserEventEmitter":153,"./ReactCurrentOwner":161,"./ReactDOMComponentTree":166,"./ReactDOMContainerInfo":167,"./ReactDOMFeatureFlags":171,"./ReactElement":187,"./ReactFeatureFlags":193,"./ReactInstrumentation":197,"./ReactMarkupChecksum":199,"./ReactPerf":207,"./ReactReconciler":212,"./ReactUpdateQueue":214,"./ReactUpdates":215,"./instantiateReactComponent":253,"./setInnerHTML":259,"./shouldUpdateReactComponent":261,"_process":122,"fbjs/lib/emptyObject":96,"fbjs/lib/invariant":103,"fbjs/lib/warning":113}],201:[function(require,module,exports){
+},{"./DOMLazyTree":67,"./DOMProperty":69,"./ReactBrowserEventEmitter":86,"./ReactCurrentOwner":94,"./ReactDOMComponentTree":99,"./ReactDOMContainerInfo":100,"./ReactDOMFeatureFlags":104,"./ReactElement":120,"./ReactFeatureFlags":126,"./ReactInstrumentation":130,"./ReactMarkupChecksum":132,"./ReactPerf":140,"./ReactReconciler":145,"./ReactUpdateQueue":147,"./ReactUpdates":148,"./instantiateReactComponent":186,"./setInnerHTML":192,"./shouldUpdateReactComponent":194,"_process":57,"fbjs/lib/emptyObject":36,"fbjs/lib/invariant":43,"fbjs/lib/warning":53}],134:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21857,7 +18960,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 }).call(this,require('_process'))
-},{"./ReactChildReconciler":154,"./ReactComponentEnvironment":159,"./ReactCurrentOwner":161,"./ReactMultiChildUpdateTypes":202,"./ReactReconciler":212,"./flattenChildren":242,"_process":122,"fbjs/lib/invariant":103}],202:[function(require,module,exports){
+},{"./ReactChildReconciler":87,"./ReactComponentEnvironment":92,"./ReactCurrentOwner":94,"./ReactMultiChildUpdateTypes":135,"./ReactReconciler":145,"./flattenChildren":175,"_process":57,"fbjs/lib/invariant":43}],135:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21890,7 +18993,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 });
 
 module.exports = ReactMultiChildUpdateTypes;
-},{"fbjs/lib/keyMirror":106}],203:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":46}],136:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -21988,7 +19091,7 @@ var ReactNativeComponent = {
 
 module.exports = ReactNativeComponent;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103,"object-assign":264}],204:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43,"object-assign":197}],137:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -22028,7 +19131,7 @@ var ReactNodeTypes = {
 
 module.exports = ReactNodeTypes;
 }).call(this,require('_process'))
-},{"./ReactElement":187,"_process":122,"fbjs/lib/invariant":103}],205:[function(require,module,exports){
+},{"./ReactElement":120,"_process":57,"fbjs/lib/invariant":43}],138:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -22126,7 +19229,7 @@ var ReactNoopUpdateQueue = {
 
 module.exports = ReactNoopUpdateQueue;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/warning":113}],206:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/warning":53}],139:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -22221,7 +19324,7 @@ var ReactOwner = {
 
 module.exports = ReactOwner;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103}],207:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43}],140:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -22320,7 +19423,7 @@ function _noMeasure(objName, fnName, func) {
 
 module.exports = ReactPerf;
 }).call(this,require('_process'))
-},{"_process":122}],208:[function(require,module,exports){
+},{"_process":57}],141:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -22347,7 +19450,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactPropTypeLocationNames;
 }).call(this,require('_process'))
-},{"_process":122}],209:[function(require,module,exports){
+},{"_process":57}],142:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -22370,7 +19473,7 @@ var ReactPropTypeLocations = keyMirror({
 });
 
 module.exports = ReactPropTypeLocations;
-},{"fbjs/lib/keyMirror":106}],210:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":46}],143:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -22751,7 +19854,7 @@ function getClassName(propValue) {
 }
 
 module.exports = ReactPropTypes;
-},{"./ReactElement":187,"./ReactPropTypeLocationNames":208,"./getIteratorFn":248,"fbjs/lib/emptyFunction":95}],211:[function(require,module,exports){
+},{"./ReactElement":120,"./ReactPropTypeLocationNames":141,"./getIteratorFn":181,"fbjs/lib/emptyFunction":35}],144:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -22914,7 +20017,7 @@ _assign(ReactReconcileTransaction.prototype, Transaction.Mixin, Mixin);
 PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
-},{"./CallbackQueue":131,"./PooledClass":151,"./ReactBrowserEventEmitter":153,"./ReactInputSelection":195,"./Transaction":233,"object-assign":264}],212:[function(require,module,exports){
+},{"./CallbackQueue":64,"./PooledClass":84,"./ReactBrowserEventEmitter":86,"./ReactInputSelection":128,"./Transaction":166,"object-assign":197}],145:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -23047,7 +20150,7 @@ var ReactReconciler = {
 
 module.exports = ReactReconciler;
 }).call(this,require('_process'))
-},{"./ReactInstrumentation":197,"./ReactRef":213,"_process":122}],213:[function(require,module,exports){
+},{"./ReactInstrumentation":130,"./ReactRef":146,"_process":57}],146:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -23126,7 +20229,7 @@ ReactRef.detachRefs = function (instance, element) {
 };
 
 module.exports = ReactRef;
-},{"./ReactOwner":206}],214:[function(require,module,exports){
+},{"./ReactOwner":139}],147:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -23344,7 +20447,7 @@ var ReactUpdateQueue = {
 
 module.exports = ReactUpdateQueue;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":161,"./ReactInstanceMap":196,"./ReactUpdates":215,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113}],215:[function(require,module,exports){
+},{"./ReactCurrentOwner":94,"./ReactInstanceMap":129,"./ReactUpdates":148,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53}],148:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -23588,7 +20691,7 @@ var ReactUpdates = {
 
 module.exports = ReactUpdates;
 }).call(this,require('_process'))
-},{"./CallbackQueue":131,"./PooledClass":151,"./ReactFeatureFlags":193,"./ReactPerf":207,"./ReactReconciler":212,"./Transaction":233,"_process":122,"fbjs/lib/invariant":103,"object-assign":264}],216:[function(require,module,exports){
+},{"./CallbackQueue":64,"./PooledClass":84,"./ReactFeatureFlags":126,"./ReactPerf":140,"./ReactReconciler":145,"./Transaction":166,"_process":57,"fbjs/lib/invariant":43,"object-assign":197}],149:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -23603,7 +20706,7 @@ module.exports = ReactUpdates;
 'use strict';
 
 module.exports = '15.0.2';
-},{}],217:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -23904,7 +21007,7 @@ Object.keys(ATTRS).forEach(function (key) {
 });
 
 module.exports = SVGDOMPropertyConfig;
-},{}],218:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -24101,7 +21204,7 @@ var SelectEventPlugin = {
 };
 
 module.exports = SelectEventPlugin;
-},{"./EventConstants":142,"./EventPropagators":146,"./ReactDOMComponentTree":166,"./ReactInputSelection":195,"./SyntheticEvent":224,"./isTextInputElement":255,"fbjs/lib/ExecutionEnvironment":89,"fbjs/lib/getActiveElement":98,"fbjs/lib/keyOf":107,"fbjs/lib/shallowEqual":112}],219:[function(require,module,exports){
+},{"./EventConstants":75,"./EventPropagators":79,"./ReactDOMComponentTree":99,"./ReactInputSelection":128,"./SyntheticEvent":157,"./isTextInputElement":188,"fbjs/lib/ExecutionEnvironment":29,"fbjs/lib/getActiveElement":38,"fbjs/lib/keyOf":47,"fbjs/lib/shallowEqual":52}],152:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -24731,7 +21834,7 @@ var SimpleEventPlugin = {
 
 module.exports = SimpleEventPlugin;
 }).call(this,require('_process'))
-},{"./EventConstants":142,"./EventPropagators":146,"./ReactDOMComponentTree":166,"./SyntheticAnimationEvent":220,"./SyntheticClipboardEvent":221,"./SyntheticDragEvent":223,"./SyntheticEvent":224,"./SyntheticFocusEvent":225,"./SyntheticKeyboardEvent":227,"./SyntheticMouseEvent":228,"./SyntheticTouchEvent":229,"./SyntheticTransitionEvent":230,"./SyntheticUIEvent":231,"./SyntheticWheelEvent":232,"./getEventCharCode":244,"_process":122,"fbjs/lib/EventListener":88,"fbjs/lib/emptyFunction":95,"fbjs/lib/invariant":103,"fbjs/lib/keyOf":107}],220:[function(require,module,exports){
+},{"./EventConstants":75,"./EventPropagators":79,"./ReactDOMComponentTree":99,"./SyntheticAnimationEvent":153,"./SyntheticClipboardEvent":154,"./SyntheticDragEvent":156,"./SyntheticEvent":157,"./SyntheticFocusEvent":158,"./SyntheticKeyboardEvent":160,"./SyntheticMouseEvent":161,"./SyntheticTouchEvent":162,"./SyntheticTransitionEvent":163,"./SyntheticUIEvent":164,"./SyntheticWheelEvent":165,"./getEventCharCode":177,"_process":57,"fbjs/lib/EventListener":28,"fbjs/lib/emptyFunction":35,"fbjs/lib/invariant":43,"fbjs/lib/keyOf":47}],153:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -24771,7 +21874,7 @@ function SyntheticAnimationEvent(dispatchConfig, dispatchMarker, nativeEvent, na
 SyntheticEvent.augmentClass(SyntheticAnimationEvent, AnimationEventInterface);
 
 module.exports = SyntheticAnimationEvent;
-},{"./SyntheticEvent":224}],221:[function(require,module,exports){
+},{"./SyntheticEvent":157}],154:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -24810,7 +21913,7 @@ function SyntheticClipboardEvent(dispatchConfig, dispatchMarker, nativeEvent, na
 SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
-},{"./SyntheticEvent":224}],222:[function(require,module,exports){
+},{"./SyntheticEvent":157}],155:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -24847,7 +21950,7 @@ function SyntheticCompositionEvent(dispatchConfig, dispatchMarker, nativeEvent, 
 SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
 
 module.exports = SyntheticCompositionEvent;
-},{"./SyntheticEvent":224}],223:[function(require,module,exports){
+},{"./SyntheticEvent":157}],156:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -24884,7 +21987,7 @@ function SyntheticDragEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeE
 SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
-},{"./SyntheticMouseEvent":228}],224:[function(require,module,exports){
+},{"./SyntheticMouseEvent":161}],157:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -25148,7 +22251,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
   }
 }
 }).call(this,require('_process'))
-},{"./PooledClass":151,"_process":122,"fbjs/lib/emptyFunction":95,"fbjs/lib/warning":113,"object-assign":264}],225:[function(require,module,exports){
+},{"./PooledClass":84,"_process":57,"fbjs/lib/emptyFunction":35,"fbjs/lib/warning":53,"object-assign":197}],158:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25185,7 +22288,7 @@ function SyntheticFocusEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
-},{"./SyntheticUIEvent":231}],226:[function(require,module,exports){
+},{"./SyntheticUIEvent":164}],159:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25223,7 +22326,7 @@ function SyntheticInputEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 
 module.exports = SyntheticInputEvent;
-},{"./SyntheticEvent":224}],227:[function(require,module,exports){
+},{"./SyntheticEvent":157}],160:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25308,7 +22411,7 @@ function SyntheticKeyboardEvent(dispatchConfig, dispatchMarker, nativeEvent, nat
 SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
-},{"./SyntheticUIEvent":231,"./getEventCharCode":244,"./getEventKey":245,"./getEventModifierState":246}],228:[function(require,module,exports){
+},{"./SyntheticUIEvent":164,"./getEventCharCode":177,"./getEventKey":178,"./getEventModifierState":179}],161:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25381,7 +22484,7 @@ function SyntheticMouseEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
-},{"./SyntheticUIEvent":231,"./ViewportMetrics":234,"./getEventModifierState":246}],229:[function(require,module,exports){
+},{"./SyntheticUIEvent":164,"./ViewportMetrics":167,"./getEventModifierState":179}],162:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25427,7 +22530,7 @@ function SyntheticTouchEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
-},{"./SyntheticUIEvent":231,"./getEventModifierState":246}],230:[function(require,module,exports){
+},{"./SyntheticUIEvent":164,"./getEventModifierState":179}],163:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25467,7 +22570,7 @@ function SyntheticTransitionEvent(dispatchConfig, dispatchMarker, nativeEvent, n
 SyntheticEvent.augmentClass(SyntheticTransitionEvent, TransitionEventInterface);
 
 module.exports = SyntheticTransitionEvent;
-},{"./SyntheticEvent":224}],231:[function(require,module,exports){
+},{"./SyntheticEvent":157}],164:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25527,7 +22630,7 @@ function SyntheticUIEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEve
 SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
-},{"./SyntheticEvent":224,"./getEventTarget":247}],232:[function(require,module,exports){
+},{"./SyntheticEvent":157,"./getEventTarget":180}],165:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25582,7 +22685,7 @@ function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
-},{"./SyntheticMouseEvent":228}],233:[function(require,module,exports){
+},{"./SyntheticMouseEvent":161}],166:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -25816,7 +22919,7 @@ var Transaction = {
 
 module.exports = Transaction;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103}],234:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43}],167:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25844,7 +22947,7 @@ var ViewportMetrics = {
 };
 
 module.exports = ViewportMetrics;
-},{}],235:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -25906,7 +23009,7 @@ function accumulateInto(current, next) {
 
 module.exports = accumulateInto;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/invariant":103}],236:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/invariant":43}],169:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25950,7 +23053,7 @@ function adler32(data) {
 }
 
 module.exports = adler32;
-},{}],237:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -25977,7 +23080,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = canDefineProperty;
 }).call(this,require('_process'))
-},{"_process":122}],238:[function(require,module,exports){
+},{"_process":57}],171:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26010,7 +23113,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 };
 
 module.exports = createMicrosoftUnsafeLocalFunction;
-},{}],239:[function(require,module,exports){
+},{}],172:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -26090,7 +23193,7 @@ function dangerousStyleValue(name, value, component) {
 
 module.exports = dangerousStyleValue;
 }).call(this,require('_process'))
-},{"./CSSProperty":129,"_process":122,"fbjs/lib/warning":113}],240:[function(require,module,exports){
+},{"./CSSProperty":62,"_process":57,"fbjs/lib/warning":53}],173:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26129,7 +23232,7 @@ function escapeTextContentForBrowser(text) {
 }
 
 module.exports = escapeTextContentForBrowser;
-},{}],241:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -26188,7 +23291,7 @@ function findDOMNode(componentOrElement) {
 
 module.exports = findDOMNode;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":161,"./ReactDOMComponentTree":166,"./ReactInstanceMap":196,"./getNativeComponentFromComposite":249,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113}],242:[function(require,module,exports){
+},{"./ReactCurrentOwner":94,"./ReactDOMComponentTree":99,"./ReactInstanceMap":129,"./getNativeComponentFromComposite":182,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53}],175:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -26240,7 +23343,7 @@ function flattenChildren(children) {
 
 module.exports = flattenChildren;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":149,"./traverseAllChildren":262,"_process":122,"fbjs/lib/warning":113}],243:[function(require,module,exports){
+},{"./KeyEscapeUtils":82,"./traverseAllChildren":195,"_process":57,"fbjs/lib/warning":53}],176:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26271,7 +23374,7 @@ var forEachAccumulated = function (arr, cb, scope) {
 };
 
 module.exports = forEachAccumulated;
-},{}],244:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26322,7 +23425,7 @@ function getEventCharCode(nativeEvent) {
 }
 
 module.exports = getEventCharCode;
-},{}],245:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26425,7 +23528,7 @@ function getEventKey(nativeEvent) {
 }
 
 module.exports = getEventKey;
-},{"./getEventCharCode":244}],246:[function(require,module,exports){
+},{"./getEventCharCode":177}],179:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26469,7 +23572,7 @@ function getEventModifierState(nativeEvent) {
 }
 
 module.exports = getEventModifierState;
-},{}],247:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26505,7 +23608,7 @@ function getEventTarget(nativeEvent) {
 }
 
 module.exports = getEventTarget;
-},{}],248:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26546,7 +23649,7 @@ function getIteratorFn(maybeIterable) {
 }
 
 module.exports = getIteratorFn;
-},{}],249:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26577,7 +23680,7 @@ function getNativeComponentFromComposite(inst) {
 }
 
 module.exports = getNativeComponentFromComposite;
-},{"./ReactNodeTypes":204}],250:[function(require,module,exports){
+},{"./ReactNodeTypes":137}],183:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26652,7 +23755,7 @@ function getNodeForCharacterOffset(root, offset) {
 }
 
 module.exports = getNodeForCharacterOffset;
-},{}],251:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26686,7 +23789,7 @@ function getTextContentAccessor() {
 }
 
 module.exports = getTextContentAccessor;
-},{"fbjs/lib/ExecutionEnvironment":89}],252:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":29}],185:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26788,7 +23891,7 @@ function getVendorPrefixedEventName(eventName) {
 }
 
 module.exports = getVendorPrefixedEventName;
-},{"fbjs/lib/ExecutionEnvironment":89}],253:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":29}],186:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -26902,7 +24005,7 @@ function instantiateReactComponent(node) {
 
 module.exports = instantiateReactComponent;
 }).call(this,require('_process'))
-},{"./ReactCompositeComponent":160,"./ReactEmptyComponent":189,"./ReactNativeComponent":203,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113,"object-assign":264}],254:[function(require,module,exports){
+},{"./ReactCompositeComponent":93,"./ReactEmptyComponent":122,"./ReactNativeComponent":136,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53,"object-assign":197}],187:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26963,7 +24066,7 @@ function isEventSupported(eventNameSuffix, capture) {
 }
 
 module.exports = isEventSupported;
-},{"fbjs/lib/ExecutionEnvironment":89}],255:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":29}],188:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27005,7 +24108,7 @@ function isTextInputElement(elem) {
 }
 
 module.exports = isTextInputElement;
-},{}],256:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -27041,7 +24144,7 @@ function onlyChild(children) {
 
 module.exports = onlyChild;
 }).call(this,require('_process'))
-},{"./ReactElement":187,"_process":122,"fbjs/lib/invariant":103}],257:[function(require,module,exports){
+},{"./ReactElement":120,"_process":57,"fbjs/lib/invariant":43}],190:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27068,7 +24171,7 @@ function quoteAttributeValueForBrowser(value) {
 }
 
 module.exports = quoteAttributeValueForBrowser;
-},{"./escapeTextContentForBrowser":240}],258:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":173}],191:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27085,7 +24188,7 @@ module.exports = quoteAttributeValueForBrowser;
 var ReactMount = require('./ReactMount');
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
-},{"./ReactMount":200}],259:[function(require,module,exports){
+},{"./ReactMount":133}],192:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27168,7 +24271,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = setInnerHTML;
-},{"./createMicrosoftUnsafeLocalFunction":238,"fbjs/lib/ExecutionEnvironment":89}],260:[function(require,module,exports){
+},{"./createMicrosoftUnsafeLocalFunction":171,"fbjs/lib/ExecutionEnvironment":29}],193:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27209,7 +24312,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = setTextContent;
-},{"./escapeTextContentForBrowser":240,"./setInnerHTML":259,"fbjs/lib/ExecutionEnvironment":89}],261:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":173,"./setInnerHTML":192,"fbjs/lib/ExecutionEnvironment":29}],194:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27252,7 +24355,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 }
 
 module.exports = shouldUpdateReactComponent;
-},{}],262:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -27413,7 +24516,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":149,"./ReactCurrentOwner":161,"./ReactElement":187,"./getIteratorFn":248,"_process":122,"fbjs/lib/invariant":103,"fbjs/lib/warning":113}],263:[function(require,module,exports){
+},{"./KeyEscapeUtils":82,"./ReactCurrentOwner":94,"./ReactElement":120,"./getIteratorFn":181,"_process":57,"fbjs/lib/invariant":43,"fbjs/lib/warning":53}],196:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -27785,7 +24888,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = validateDOMNesting;
 }).call(this,require('_process'))
-},{"_process":122,"fbjs/lib/emptyFunction":95,"fbjs/lib/warning":113,"object-assign":264}],264:[function(require,module,exports){
+},{"_process":57,"fbjs/lib/emptyFunction":35,"fbjs/lib/warning":53,"object-assign":197}],197:[function(require,module,exports){
 'use strict';
 /* eslint-disable no-unused-vars */
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -27870,9 +24973,9 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],265:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib/React');
 
-},{"./lib/React":152}]},{},[2]);
+},{"./lib/React":85}]},{},[2]);

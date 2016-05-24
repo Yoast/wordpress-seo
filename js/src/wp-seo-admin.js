@@ -3,9 +3,11 @@
 /* jshint -W003 */
 /* jshint unused:false */
 
+/* jshint ignore:start */
 import React from 'react';
 import ReactDom from 'react-dom';
 import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
+/* jshint ignore:end */
 
 (function() {
 	'use strict';
@@ -216,7 +218,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 			/* Inject kb-search in divs with the classname of 'wpseo-kb-search'. */
 			var mountingPoints = jQuery( '.wpseo-kb-search' );
 			jQuery.each( mountingPoints, function( _, mountingPoint ) {
-				ReactDom.render( <AlgoliaSearcher/>, mountingPoint );
+				ReactDom.render( <AlgoliaSearcher/>, mountingPoint ); // jshint ignore:line
 			});
 
 			/* Fix banner images overlapping help texts */

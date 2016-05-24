@@ -5,7 +5,10 @@ module.exports = {
 	},
 	plugin: {
 		files: {
-			src: '<%= files.js %>'
+			src: [ '<%= files.js %>',
+				'!js/src/kb-search/*.js',
+				'!js/wp-seo-admin.js'
+			]
 		}
 	},
 	grunt: {

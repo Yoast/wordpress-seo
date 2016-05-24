@@ -1,6 +1,5 @@
 import React from 'react';
 import AlgoliaSearch from 'algoliasearch';
-import debounce from 'lodash/debounce';
 
 class AlgoliaSearcher extends React.Component {
 
@@ -17,11 +16,10 @@ class AlgoliaSearcher extends React.Component {
 		this.usedQueries = [];
 		this.initAlgoliaClient();
 
-		this.searchInputChanged = this.searchInputChanged.bind(this);
+		this.searchButtonClicked = this.searchButtonClicked.bind(this);
 		this.hideDetail = this.hideDetail.bind(this);
 		this.openExternal = this.openExternal.bind(this);
 
-		this.debouncedUpdateSearchResults = debounce(this.updateSearchResults.bind(this), this.props.debounceTime);
 	}
 
 	initAlgoliaClient() {
@@ -29,13 +27,14 @@ class AlgoliaSearcher extends React.Component {
 		this.index = this.client.initIndex(this.props.algoliaIndexName);
 	}
 
-	searchInputChanged( e ) {
-		let searchString = e.target.value;
+	searchButtonClicked( e ) {
+		let searchString = e.target.getElementsByTagName('input')[ 0 ].value;
 		this.usedQueries.push(searchString);
 		this.setState({
 						  searchString: searchString
-					  });
-		this.debouncedUpdateSearchResults();
+					  }, function() { // after the state was set
+			this.updateSearchResults();
+		});
 	}
 
 	updateSearchResults() {
@@ -88,10 +87,10 @@ class AlgoliaSearcher extends React.Component {
 				return <SearchResult key={result.objectID} post={result}
 									 showDetail={this.showDetail.bind(this, arrayIndex)}/>
 			});
-			searchResultContent = <div className="kb-search-results">{results}</div>;
+			searchResultContent = <div className="wpseo-kb-search-results">{results}</div>;
 		}
 		else {
-			searchResultContent = <div className="kb-search-results no-results">{this.props.noResultsText}</div>;
+			searchResultContent = <div className="wpseo-kb-search-no-results">{this.props.noResultsText}</div>;
 		}
 		return searchResultContent;
 	}
@@ -100,16 +99,16 @@ class AlgoliaSearcher extends React.Component {
 		let detailIndex = this.state.showDetail;
 		let post = this.state.results[ detailIndex ];
 		return (
-			<div className="kb-search-detail">
-				<button type="button" className="kb-search-detail-btn button dashicons-before dashicons-arrow-left"
-						onClick={this.hideDetail}>
+			<div className="wpseo-kb-search-detail">
+				<a href="#"
+				   className="dashicons-before dashicons-arrow-left"
+				   onClick={this.hideDetail}>
 					Back
-				</button>
-				<button type="button"
-						className="kb-search-detail-btn kb-external button dashicons-before dashicons-external"
-						onClick={this.openExternal}>
+				</a>
+				<a href={post.permalink}
+				   className="wpseo-kb-search-ext-link  dashicons-before dashicons-external">
 					Open
-				</button>
+				</a>
 				<ArticleContent post={post}/>
 			</div>
 		);
@@ -126,7 +125,7 @@ class AlgoliaSearcher extends React.Component {
 
 	render() {
 		var content = '';
-		var searchBar = <SearchBar headingText={this.props.headingText} searchInputChanged={this.searchInputChanged}
+		var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
 								   searchString={this.state.searchString}/>;
 		if ( this.state.errorMessage ) { // Show an error message.
 			content = (
@@ -136,11 +135,11 @@ class AlgoliaSearcher extends React.Component {
 				</div>
 			);
 		}
-		else if ( this.state.searching ) { // Show a loading indicator.
+		else if ( this.state.searching ) { // Show a loading indicator (while not hiding the previous results).
 			content = (
 				<div>
 					{searchBar}
-					{Spinner}
+					<Loading/>
 					{this.renderSearchResults()}
 				</div>
 			);
@@ -149,7 +148,6 @@ class AlgoliaSearcher extends React.Component {
 			content = (
 				<div>
 					{searchBar}
-					{Spinner}
 					{this.renderSearchResults()}
 				</div>
 			);
@@ -157,12 +155,11 @@ class AlgoliaSearcher extends React.Component {
 		else { // Else show the article content/detail view
 			content = this.renderDetail();
 		}
-		return <div className="wpseo-kb-search-container">{Spinner}{content}</div>
+		return <div className="wpseo-kb-search-container">{content}</div>
 	}
 }
 
 AlgoliaSearcher.propTypes = {
-	debounceTime: React.PropTypes.number.isRequired,
 	noResultsText: React.PropTypes.string,
 	headingText: React.PropTypes.string,
 	algoliaApplicationId: React.PropTypes.string.isRequired,
@@ -171,7 +168,6 @@ AlgoliaSearcher.propTypes = {
 };
 
 AlgoliaSearcher.defaultProps = {
-	debounceTime: 300,
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
@@ -182,11 +178,13 @@ AlgoliaSearcher.defaultProps = {
 
 const SearchBar = ( props ) => {
 	return (
-		<div>
+		<div className="wpseo-kb-search-search-bar">
 			<h2>{props.headingText}</h2>
-			<input type="text" onkeypress="preventDefault()" onChange={props.searchInputChanged}
-				   value={props.searchString}/>
-			<hr/>
+			<form onSubmit={function(e){e.preventDefault(); props.submitAction(e)}}>
+				<input type="text"
+					   defaultValue={props.searchString}/>
+				<button type="submit" className="button wpseo-kb-search-search-button">Search</button>
+			</form>
 		</div>
 	)
 };
@@ -218,16 +216,9 @@ const ArticleContent = ( props ) => {
 	);
 };
 
-const Spinner = () => {
+const Loading = () => {
 	return (
-		<div>
-			<div class="spinner">
-				<div class="bounce1"></div>
-				<div class="bounce2"></div>
-				<div class="bounce3"></div>
-			</div>
-		</div>
+		<div className="wpseo-kb-loader">Loading...</div>
 	);
 };
 export default AlgoliaSearcher;
-
