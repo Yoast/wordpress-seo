@@ -4,7 +4,7 @@ var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
 
 var Mark = require( "../values/Mark.js" );
-var marker = require( "../markers/addMark.js" );
+var addMark = require( "../markers/addMark.js" );
 
 // The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
 var recommendedValue = 3;
@@ -15,7 +15,8 @@ var recommendedValue = 3;
  * @param {object} i18n The object used for translations.
  * @returns {{score: number, text}} resultobject with score and text.
  */
-var calculateComplexity = function( wordCount, tooComplexWords, i18n ) {
+var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
+	var tooComplexWords = filterComplexity( wordComplexity ).length;
 	var percentage = ( tooComplexWords / wordCount ) * 100;
 	percentage = fixFloatingPoint( percentage );
 	var recommendedMaximum = 10;
@@ -72,10 +73,9 @@ var wordComplexityMarker = function( paper, researcher ) {
 	var wordComplexity = researcher.getResearch( "wordComplexity" );
 	var complexWords = filterComplexity( wordComplexity );
 	return map( complexWords, function( complexWord ) {
-		var marked = marker( complexWord.word );
 		return new Mark( {
 			original: complexWord.word,
-			marked: marked
+			marked:  addMark( complexWord.word )
 		} );
 	} );
 };
@@ -90,8 +90,8 @@ var wordComplexityMarker = function( paper, researcher ) {
 var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var wordComplexity = researcher.getResearch( "wordComplexity" );
 	var wordCount = wordComplexity.length;
-	var tooComplexWords = filterComplexity( wordComplexity ).length;
-	var complexityResult = calculateComplexity( wordCount, tooComplexWords, i18n );
+
+	var complexityResult = calculateComplexity( wordCount, wordComplexity, i18n );
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );
 	assessmentResult.setText( complexityResult.text );
