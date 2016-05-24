@@ -419,7 +419,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 	} );
 
 	this.element = {
-		measure : {
+		measure: {
 			titleWidth: null,
 			metaHeight: null
 		},
@@ -1185,7 +1185,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 	spanHolder.innerHTML = titleElement + metaDescriptionElement;
 
 	document.body.appendChild( spanHolder );
-	
+
 	this.element.measure.titleWidth = spanHolder.childNodes[ 0 ];
 	this.element.measure.metaHeight = spanHolder.childNodes[ 1 ];
 };
