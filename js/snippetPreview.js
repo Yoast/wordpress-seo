@@ -22,7 +22,8 @@ var defaults = {
 		title: "",
 		metaDesc: "",
 		urlPath: "",
-		titleWidth: 0
+		titleWidth: 0,
+		metaHeight: 0
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
@@ -321,6 +322,7 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {string}      data.urlPath                   - The url path.
  * @property {string}      data.metaDesc                  - The meta description.
  * @property {int}         data.titleWidth                - The width of the title in pixels.
+ * @property {int}         data.metaHeight                - The height of the meta description in pixels.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
@@ -471,6 +473,7 @@ SnippetPreview.prototype.refresh = function() {
 	this.renderOutput();
 	this.renderSnippetStyle();
 	this.measureTitle();
+	this.measureMetaDescription();
 	this.updateProgressBars();
 };
 
@@ -1151,10 +1154,11 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 };
 
 /**
- * Creates elements with the purpose to calculate the sizes of elements.
+ * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
  */
 SnippetPreview.prototype.createMeasurementElements = function() {
 	var titleElement = document.createElement( 'span' );
+	var metaDescriptionElement = document.createElement( 'span' );
 
 	titleElement.id = 'measureTitle';
 	titleElement.style.width = 'auto';
@@ -1163,9 +1167,19 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 	titleElement.style.visibility = 'hidden';
 	titleElement.style.whiteSpace = 'nowrap';
 
+	metaDescriptionElement.id = 'measureDescription';
+	metaDescriptionElement.style.width = document.getElementById( 'meta_container' ).offsetWidth + 'px';
+	metaDescriptionElement.style.height = 'auto';
+	metaDescriptionElement.style.position = 'absolute';
+	metaDescriptionElement.style.visibility = 'hidden';
+
 	document.body.appendChild( titleElement );
+	document.body.appendChild( metaDescriptionElement );
 };
 
+/**
+ * Copies the title text to the title measure element to calculate the widht in pixels.
+ */
 SnippetPreview.prototype.measureTitle = function() {
 	var titleElement = document.getElementById( 'measureTitle' );
 
@@ -1174,6 +1188,16 @@ SnippetPreview.prototype.measureTitle = function() {
 	this.data.titleWidth = titleElement.offsetWidth;
 };
 
+/**
+ * Copies the metadescription text to the metadescription measure element to calculate the height in pixels.
+ */
+SnippetPreview.prototype.measureMetaDescription = function() {
+	var metaDescriptionElement = document.getElementById( 'measureDescription' );
+
+	metaDescriptionElement.innerHTML = this.element.rendered.metaDesc.innerHTML;
+
+	this.data.metaHeight = metaDescriptionElement.offsetHeight;
+};
 
 /* jshint ignore:start */
 /* eslint-disable */
