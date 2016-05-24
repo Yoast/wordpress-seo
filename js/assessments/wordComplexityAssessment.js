@@ -1,7 +1,13 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
 
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../markers/addMark.js" );
+
+// The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
+var recommendedValue = 3;
 /**
  * Calculates the complexity of the text based on the syllables in words.
  * @param {number} wordCount The number of words used.
@@ -45,6 +51,37 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 };
 
 /**
+ * Filters the words that aren't too long.
+ *
+ * @param {Array} words The array with words to filter on complexity.
+ * @returns {Array} The filtered list with complex words.
+ */
+var filterComplexity = function( words ) {
+	return filter( words, function( word ) {
+		return( word.complexity > recommendedValue );
+	} );
+};
+
+/**
+ * Creates markers of words that are complex.
+ *
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @returns {Array} A list with markers
+ */
+var wordComplexityMarker = function( paper, researcher ) {
+	var wordComplexity = researcher.getResearch( "wordComplexity" );
+	var complexWords = filterComplexity( wordComplexity );
+	return map( complexWords, function( complexWord ) {
+		var marked = marker( complexWord.word );
+		return new Mark( {
+			original: complexWord.word,
+			marked: marked
+		} );
+	} );
+};
+
+/**
  * Execute the word complexity assessment and return a result based on the syllables in words
  * @param {Paper} paper The Paper object to assess.
  * @param {Researcher} researcher The Researcher object containing all available researches.
@@ -54,10 +91,8 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var wordComplexity = researcher.getResearch( "wordComplexity" );
 	var wordCount = wordComplexity.length;
-	var recommendedValue = 4;
-	var tooComplexWords = filter( wordComplexity, function( syllables ) {
-		return( syllables >= recommendedValue );
-	} ).length;
+
+	var tooComplexWords = filterComplexity( wordComplexity ).length;
 	var complexityResult = calculateComplexity( wordCount, tooComplexWords, recommendedValue, i18n );
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );
@@ -70,5 +105,7 @@ module.exports = {
 	getResult: wordComplexityAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: wordComplexityMarker
+
 };

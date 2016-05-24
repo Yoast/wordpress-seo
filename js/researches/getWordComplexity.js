@@ -2,16 +2,16 @@ var getWords = require( "../stringProcessing/getWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
 
 /**
- * Calculates the complexity of words in a text
- * @param {Paper} paper The Paper object who's
- * @returns {number} The amount of words found in the text.
+ * Calculates the complexity of words in a text, returns each words with their complexity.
+ * @param {Paper} paper The Paper object to get the text from.
+ * @returns {Object} The amount of words found in the text.
  */
 module.exports = function( paper ) {
 	var words = getWords( paper.getText() );
-	var syllablesPerWord = [];
+	var wordComplexity = [];
 	words.map( function( word ) {
-		syllablesPerWord.push( countSyllables( word ) );
+		wordComplexity.push( { word: word, complexity: countSyllables( word ) } );
 	} );
-	return syllablesPerWord;
+	return wordComplexity;
 };
 
