@@ -50,20 +50,19 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
+		add_action( 'init', array( $this, 'sync_about_version_from_cookie' ) );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
-
-		$this->sync_about_version_from_cookie();
 	}
 
 	/**
 	 * Get about version seen from cookie if set.
 	 */
-	protected function sync_about_version_from_cookie() {
+	public function sync_about_version_from_cookie() {
 
 		$user_id                 = get_current_user_id();
 		$meta_seen_about_version = get_user_meta( $user_id, 'wpseo_seen_about_version', true );
