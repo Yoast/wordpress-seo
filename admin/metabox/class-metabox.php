@@ -542,7 +542,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
-				$html = '<tr class="wpseo_hidden"><td>' . $content . '</td></tr>';
+				$html = '<tr class="wpseo_hidden"><td colspan="2">' . $content . '</td></tr>';
 			}
 			else {
 				$html = '
