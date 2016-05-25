@@ -258,20 +258,25 @@ function wpseo_admin_bar_menu() {
 	$counter = '';
 
 	if ( ! function_exists( 'is_network_admin' ) || ! is_network_admin() ) {
-		// Notification information.
-		$notification_center     = Yoast_Notification_Center::get();
-		$notification_count      = $notification_center->get_notification_count();
-		$new_notifications       = $notification_center->get_new_notifications();
-		$new_notifications_count = count( $new_notifications );
 
-		$new_notifications_html = '';
-		if ( $new_notifications_count ) {
-			$notification = _n( 'You have a new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' );
-			$new_notifications_html .= '<div class="yoast-issue-added">' . $notification . '</div>';
+		if ( '' === $score ) {
+
+			// Notification information.
+			$notification_center     = Yoast_Notification_Center::get();
+			$notification_count      = $notification_center->get_notification_count();
+			$new_notifications       = $notification_center->get_new_notifications();
+			$new_notifications_count = count( $new_notifications );
+
+			if ( $notification_count > 0 ) {
+				// Always show Alerts page when clicking on the main link.
+				$counter = sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count );
+			}
+
+			if ( $new_notifications_count ) {
+				$notification = _n( 'You have a new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' );
+				$counter .= '<div class="yoast-issue-added">' . $notification . '</div>';
+			}
 		}
-
-		// Always show Alerts page when clicking on the main link.
-		$counter = sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count );
 	}
 
 	// Yoast Icon.
@@ -279,7 +284,7 @@ function wpseo_admin_bar_menu() {
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
-		'title' => $title . $score . $counter . $new_notifications_html,
+		'title' => $title . $score . $counter,
 		'href'  => $seo_url,
 	) );
 	$wp_admin_bar->add_menu( array(
