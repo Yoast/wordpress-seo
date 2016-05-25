@@ -7,6 +7,7 @@ var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
+var tmceHelper = require('./wp-seo-tinymce');
 
 (function( $ ) {
 	'use strict';
@@ -23,40 +24,19 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 
 	var app, snippetPreview;
 
+	var mainKeywordTab;
+
+	var KeywordTab = require( './analysis/keywordTab' );
+
 	var decorator = null;
 
 	var tabManager;
 
 	/**
-	 * Returns whether or not the tinyMCE script is available on the page.
-	 *
-	 * @returns {boolean}
+	 * The HTML 'id' attribute for the TinyMCE editor.
+	 * @type {string}
 	 */
-	function isTinyMCELoaded() {
-		return (
-			typeof tinyMCE !== 'undefined' &&
-			typeof tinyMCE.editors !== 'undefined' &&
-			tinyMCE.editors.length !== 0
-		);
-	}
-
-	/**
-	 * Returns whether or not a tinyMCE editor with the given ID is available.
-	 *
-	 * @param {string} editorID The ID of the tinyMCE editor
-	 */
-	function isTinyMCEAvailable( editorID ) {
-		if ( ! isTinyMCELoaded() ) {
-			return false;
-		}
-
-		var editor = tinyMCE.get( editorID );
-
-		return (
-			editor !== null &&
-			! editor.isHidden()
-		);
-	}
+	var tmceId = 'content';
 
 	/**
 	 * wordpress scraper to gather inputfields.
@@ -99,7 +79,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 		switch ( inputType ) {
 			case 'text':
 			case 'content':
-				val = removeMarks( this.getContentTinyMCE() );
+				val = removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 				break;
 			case 'cite':
 			case 'url':
@@ -276,16 +256,8 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 			}
 		}
 
-		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
-			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-			//trigger them, or takes up to ten seconds to fire an event.
-			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function( e ) {
-				for ( var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
-				}
-			});
-		}
+		tmceHelper.tinyMceEventBinder(app, tmceId);
+
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
 	};
 
@@ -460,7 +432,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
 				output: 'wpseo-pageanalysis',
 				contentOutput: 'yoast-seo-content-analysis'
@@ -474,9 +446,9 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 			},
 			locale: wpseoPostScraperL10n.locale,
 			marker: function( paper, marks ) {
-				if ( isTinyMCEAvailable( 'content' ) ) {
+				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
 					if ( null === decorator ) {
-						decorator = tinyMCEDecorator( tinyMCE.get( 'content' ) );
+						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
 					}
 
 					decorator( paper, marks );

@@ -4,6 +4,7 @@ var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
+var tmceHelper = require( './wp-seo-tinymce' );
 
 (function( $ ) {
 	'use strict';
@@ -20,11 +21,17 @@ var TabManager = require( './analysis/tabManager' );
 
 	var tabManager;
 
-	var TermScraper = function() {
-		if ( typeof CKEDITOR === 'object' ) {
-			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
-		}
-	};
+		/**
+		 * The HTML 'id' attribute for the TinyMCE editor.
+		 * @type {string}
+		 */
+		var tmceId = 'description';
+
+		var TermScraper = function () {
+			if ( typeof CKEDITOR === 'object' ) {
+				console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+			}
+		};
 
 	/**
 	 * returns data fetched from inputfields.
@@ -97,39 +104,26 @@ var TabManager = require( './analysis/tabManager' );
 		return val;
 	};
 
-	/**
-	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
-	 * If tiny is hidden, take the value from the descriptionfield, since tinyMCE isn't updated when it isn't visible.
-	 * @returns {String}
-	 */
-	TermScraper.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'description' ).value;
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'description' ).hidden === false ) {
-			val = tinyMCE.get( 'description' ).getContent();
-		}
-		return val;
-	};
-
-	/**
-	 * When the snippet is updated, update the (hidden) fields on the page
-	 * @param {Object} value
-	 * @param {String} type
-	 */
-	TermScraper.prototype.setDataFromSnippet = function( value, type ) {
-		switch ( type ) {
-			case 'snippet_meta':
-				document.getElementById( 'hidden_wpseo_desc' ).value = value;
-				break;
-			case 'snippet_cite':
-				document.getElementById( 'slug' ).value = value;
-				break;
-			case 'snippet_title':
-				document.getElementById( 'hidden_wpseo_title' ).value = value;
-				break;
-			default:
-				break;
-		}
-	};
+		/**
+		 * When the snippet is updated, update the (hidden) fields on the page
+		 * @param {Object} value
+		 * @param {String} type
+		 */
+		TermScraper.prototype.setDataFromSnippet = function ( value, type ) {
+			switch ( type ) {
+				case 'snippet_meta':
+					document.getElementById( 'hidden_wpseo_desc' ).value = value;
+					break;
+				case 'snippet_cite':
+					document.getElementById( 'slug' ).value = value;
+					break;
+				case 'snippet_title':
+					document.getElementById( 'hidden_wpseo_title' ).value = value;
+					break;
+				default:
+					break;
+			}
+		};
 
 	/**
 	 * The data passed from the snippet editor.
@@ -152,28 +146,19 @@ var TabManager = require( './analysis/tabManager' );
 		this.inputElementEventBinder( app );
 	};
 
-	/**
-	 * binds the renewData function on the change of inputelements.
-	 */
-	TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'name', 'description', 'slug', 'wpseo_focuskw' ];
-		for (var i = 0; i < elems.length; i++) {
-			var elem = document.getElementById(elems[i]);
-			if (elem !== null) {
-				document.getElementById(elems[i]).addEventListener('input', app.analyzeTimer.bind(app));
-			}
-		}
-		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
-			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-			//trigger them, or takes up to ten seconds to fire an event.
-			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function( e ) {
-				for (var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
+		/**
+		 * binds the renewData function on the change of inputelements.
+		 */
+		TermScraper.prototype.inputElementEventBinder = function ( app ) {
+			var elems = ['name', tmceId, 'slug', 'wpseo_focuskw'];
+			for ( var i = 0; i < elems.length; i ++ ) {
+				var elem = document.getElementById( elems[i] );
+				if ( elem !== null ) {
+					document.getElementById( elems[i] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
 				}
-			});
-		}
-	};
+			}
+			tmceHelper.tinyMceEventBinder( app, tmceId );
+		};
 
 	/**
 	 * creates SVG for the overall score.
@@ -197,7 +182,7 @@ var TabManager = require( './analysis/tabManager' );
 			.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 			.attr( 'alt', indicator.screenReaderText );
 	};
-
+	
 	/**
 	 * Saves the content score to a hidden field
 	 *
@@ -312,7 +297,7 @@ var TabManager = require( './analysis/tabManager' );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ 'content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
 			targets: {
 				output: 'wpseo_analysis',
 				contentOutput: 'yoast-seo-content-analysis',
