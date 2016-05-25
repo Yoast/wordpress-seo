@@ -438,5 +438,6 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function seen_tagline_notice() {
+		return false;
 	}
 }
