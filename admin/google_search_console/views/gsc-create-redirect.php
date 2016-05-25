@@ -18,7 +18,7 @@
 		<?php
 		switch ( $view_type ) {
 			case 'create' :
-				echo '<h3>', __( 'Redirect this broken URL and fix the error', 'wordpress-seo' ), '</h3>';
+				echo '<h1 class="wpseo-redirect-url-title">', __( 'Redirect this broken URL and fix the error', 'wordpress-seo' ), '</h1>';
 				?>
 				<div class='form-field form-required'>
 					<label for='wpseo-current-url'><?php _e( 'Current URL:', 'wordpress-seo' ); ?></label>
@@ -38,12 +38,13 @@
 				</div>
 				<p class='submit'>
 					<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Create redirect', 'wordpress-seo' ); ?>' onclick='wpseo_gsc_post_redirect( jQuery( this ) );' />
+					<button type="button" class="button wpseo-redirect-close"><?php esc_html_e( 'Cancel', 'wordpress-seo' ); ?></button>
 				</p>
 				<?php
 				break;
 
 			case 'already_exists' :
-				echo '<h3>', __( 'Error: a redirect for this URL already exists', 'wordpress-seo' ), '</h3>';
+				echo '<h1 class="wpseo-redirect-url-title">', __( 'Error: a redirect for this URL already exists', 'wordpress-seo' ), '</h1>';
 				echo '<p>';
 
 				/* Translators: %1$s: expands to the current URL and %2$s expands to URL the redirects points to. */
@@ -53,11 +54,12 @@
 					$current_redirect
 				);
 				echo '</p>';
+				echo '<button type="button" class="button wpseo-redirect-close">' . __( 'Close', 'wordpress-seo' ) . '</button>';
 				break;
 
 			case 'no_premium' :
 				/* Translators: %s: expands to Yoast SEO Premium */
-				echo '<h3>', sprintf( __( 'Creating redirects is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ), '</h3>';
+				echo '<h1 class="wpseo-redirect-url-title">', sprintf( __( 'Creating redirects is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ), '</h1>';
 				echo '<p>';
 				/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 				echo sprintf(
@@ -66,6 +68,7 @@
 					'<a href="https://yoa.st/redirects" target="_blank">yoast.com</a>'
 				);
 				echo '</p>';
+				echo '<button type="button" class="button wpseo-redirect-close">' . __( 'Close', 'wordpress-seo' ) . '</button>';
 				break;
 		}
 		?>
