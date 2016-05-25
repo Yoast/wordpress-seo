@@ -45,11 +45,14 @@ module.exports = function( paper ) {
 	var sentences = getSentences( paper.getText() );
 	var sentenceBeginnings = sentences.map( function( sentence ) {
 		var words = getWords( stripSpaces( sentence ) );
-		var firstWord = removeNonWordCharacters( words[ 0 ] );
-		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
-			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
+		if( words.length > 0 ) {
+			var firstWord = removeNonWordCharacters( words[ 0 ] );
+			if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
+				firstWord += " " + removeNonWordCharacters( words[ 1 ] );
+			}
+			return firstWord;
 		}
-		return firstWord;
+		return "";
 	} );
 	return compareFirstWords( sentenceBeginnings );
 };
