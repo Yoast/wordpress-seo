@@ -9,6 +9,8 @@ var template = require( "../templates.js" ).assessmentPresenterResult;
 var scoreToRating = require( "../interpreters/scoreToRating.js" );
 var createConfig = require( "../config/presenter.js" );
 
+var domManipulation = require( "../helpers/domManipulation.js" );
+
 /**
  * Constructs the AssessorPresenter.
  *
@@ -176,8 +178,8 @@ AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
 AssessorPresenter.prototype.addRating = function( item ) {
 	var indicator = this.getIndicator( item.rating );
 	indicator.text = item.text;
-
 	indicator.identifier = item.getIdentifier();
+
 	if ( item.hasMarker() ) {
 		indicator.marker = item.getMarker();
 	}
@@ -205,6 +207,24 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 };
 
 /**
+ * Toggles the marker button class depending on its state.
+ *
+ * @param {HTMLElement} element The element to toggle the class on.
+ */
+AssessorPresenter.prototype.toggleMarkerClass = function( element ) {
+	var markers = document.getElementsByClassName( "assessment-results__mark" );
+
+	// Reset all other items prior to activating the currently active marker.
+	forEach( markers, function( marker ) {
+		domManipulation.removeClass( marker, "icon-eye-active" );
+		domManipulation.addClass( marker, "icon-eye-inactive" );
+	} );
+
+	domManipulation.removeClass( element, "icon-eye-inactive" );
+	domManipulation.addClass( element, "icon-eye-active" );
+};
+
+/**
  * Adds an event listener for the marker button
  *
  * @param {string} identifier The identifier for the assessment the marker belongs to.
@@ -212,12 +232,12 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
  */
 AssessorPresenter.prototype.addMarkerEventHandler = function( identifier, marker ) {
 	var container = document.getElementById( this.output );
-
 	var markButton = container.getElementsByClassName( "js-assessment-results__mark-" + identifier )[ 0 ];
 
-	markButton.addEventListener( "click", function() {
+	markButton.addEventListener( "click", function( event ) {
+		this.toggleMarkerClass( event.target );
 		marker();
-	} );
+	}.bind( this ) );
 };
 
 /**
