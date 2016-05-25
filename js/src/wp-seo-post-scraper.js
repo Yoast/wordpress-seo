@@ -3,14 +3,14 @@
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
+var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
+var TabManager = require( './analysis/tabManager' );
 
 (function( $ ) {
 	'use strict';
 
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 	var App = require( 'yoastseo' ).App;
-
-	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
 
 	var UsedKeywords = require( './analysis/usedKeywords' );
 
@@ -21,10 +21,9 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 
 	var app, snippetPreview;
 
-	var mainKeywordTab;
-	var KeywordTab = require( './analysis/keywordTab' );
-
 	var decorator = null;
+
+	var tabManager;
 
 	/**
 	 * Returns whether or not the tinyMCE script is available on the page.
@@ -302,12 +301,11 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 	 * Outputs the score in the overall target.
 	 *
 	 * @param {string} score
-	 * @param {AssessorPresenter} assessorPresenter
 	 */
-	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+	PostScraper.prototype.saveScores = function( score ) {
+		var indicator = getIndicatorForScore( score );
 
-		if ( this.isMainKeyword( currentKeyword ) ) {
+		if ( tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
@@ -326,7 +324,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( indicator.className, indicator.screenReaderText, currentKeyword );
+			tabManager.updateKeywordTab( score, currentKeyword );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -336,30 +334,20 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 	};
 
 	/**
-	 * Returns whether or not the keyword is the main keyword
+	 * Saves the content score to a hidden field
 	 *
-	 * @param {string} keyword The keyword to check
-	 *
-	 * @returns {boolean}
+	 * @param {number} score
 	 */
-	PostScraper.prototype.isMainKeyword = function( keyword ) {
-		var firstTab, mainKeyword;
+	PostScraper.prototype.saveContentScore = function( score ) {
+		tabManager.updateContentTab( score );
 
-		firstTab = $( '.wpseo_keyword_tab' )
-			.first()
-			.find( '.wpseo_tablink' );
-
-		mainKeyword = firstTab.data( 'keyword' );
-
-		return keyword === mainKeyword;
+		$( '#yoast_wpseo_content_score' ).val( score );
 	};
 
 	/**
 	 * Initializes keyword tab with the correct template if multi keyword isn't available
 	 */
 	PostScraper.prototype.initKeywordTabTemplate = function() {
-		var keyword, score, scoreText;
-
 		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 		if ( YoastSEO.multiKeyword ) {
 			return;
@@ -369,15 +357,6 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
 		});
-
-		keyword   = $( '#yoast_wpseo_focuskw' ).val();
-		score     = $( '#yoast_wpseo_linkdex' ).val();
-		scoreText = '';
-
-		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
-
-		// Updates
-		mainKeywordTab.update( score, scoreText, keyword );
 	};
 
 	/**
@@ -470,15 +449,10 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
 
-		// Initialize an instance of the keywordword tab.
-		mainKeywordTab = new KeywordTab(
-			{
-				prefix: wpseoPostScraperL10n.contentTab,
-				basedOn: wpseoPostScraperL10n.basedOn
-			}
-		);
-
-		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
+		tabManager = new TabManager({
+			strings: wpseoPostScraperL10n
+		});
+		tabManager.init();
 
 		postScraper = new PostScraper();
 
@@ -487,12 +461,13 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
 				output: 'wpseo-pageanalysis',
-				contentOutput: 'wpseo-contentanalysis'
+				contentOutput: 'yoast-seo-content-analysis'
 			},
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
 				saveScores: postScraper.saveScores.bind( postScraper ),
+				saveContentScore: postScraper.saveContentScore.bind( postScraper ),
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale,
@@ -551,7 +526,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 			$( '#post' ).on( 'submit', function() {
 				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
 				var hiddenKeywordValue  = hiddenKeyword.val();
-				var visibleKeywordValue = $( '#yoast_wpseo_focuskw_text_input' ).val();
+				var visibleKeywordValue = tabManager.getKeywordTab().getKeyword();
 
 				if ( hiddenKeywordValue !== visibleKeywordValue ) {
 					hiddenKeyword.val( visibleKeywordValue );
