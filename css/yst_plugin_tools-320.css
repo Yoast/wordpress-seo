@@ -502,7 +502,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .wpseo-tab-video-slideout {
 	display: none;
-	overflow-y: hidden;
 	height: 600px;
 	padding: 0.5em 0.5em 0.5em;
 	border: 1px solid #a4286a;
@@ -553,6 +552,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
+	overflow: auto;
 	width: 180px;
 	margin: -0.5em;
 	padding-left: 0.5em;

@@ -522,6 +522,50 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		});
 	}
 
+	function showContactPopup() {
+		var $ = jQuery;
+		var $buyButton = $('#wpseo-contact-support-popup'),
+		    title = "Buy Yoast SEO premium",
+		    $popupWindow,
+		    $closeButton;
+
+		tb_show(title, '#TB_inline?width=650&height=235&inlineId=wpseo-contact-support-popup', 'group');
+
+		// The thicbox popup UI is now available.
+		$popupWindow = $('#TB_window');
+		$closeButton = $('#TB_closeWindowButton');
+
+		// The container window isn't the correct size, rectify this and also the centering.
+		$popupWindow.css({ width: 680, height: 235, 'margin-left': -340 });
+
+		// Accessibility improvements.
+		$popupWindow.attr({
+			role: 'dialog',
+			'aria-labelledby': 'TB_ajaxWindowTitle',
+			'aria-describedby': 'TB_ajaxContent'
+		}).on('keydown', function (event) {
+			var id;
+
+			// Constrain tabbing within the modal.
+			if (9 === event.which) {
+				id = event.target.id;
+
+				if (id === 'wpseo-contact-support-popup-button' && !event.shiftKey) {
+					$closeButton.focus();
+					event.preventDefault();
+				} else if (id === 'TB_closeWindowButton' && event.shiftKey) {
+					$buyButton.focus();
+					event.preventDefault();
+				}
+			}
+		});
+
+		// Move focus back to the element that opened the modal.
+		$('body').on('thickbox:removed', function () {
+			$('.contact-support').focus();
+		});
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
@@ -530,9 +574,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	//POC extract data from event // TODO move this to premium
-	jQuery(window).on('YoastSEO:ContactSupport', function (e, data) {
-		console.log(data.usedQueries);
-	});
 
 	jQuery(document).ready(function () {
 		/* Inject kb-search in divs with the classname of 'wpseo-kb-search'. */
@@ -543,6 +584,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			algoliaSearchers.push({ tabName: tabId, algoliaSearcher: _reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default, null), mountingPoint) }); // jshint ignore:line
 		});
 
+		/* Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data */
 		jQuery('.contact-support').on('click', function (e) {
 			var activeTabName = jQuery('.wpseotab.active').attr('id');
 			var activeAlgoliaSearcher = algoliaSearchers[0].algoliaSearcher; // 1st by defatul. (Used for the Advanced settings pages because of how the tabs were set up)
@@ -554,6 +596,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			});
 			var usedQueries = activeAlgoliaSearcher.state.usedQueries;
 			jQuery(window).trigger('YoastSEO:ContactSupport', { usedQueries: usedQueries });
+		});
+
+		/* Open "functionality only avalible for premium" popup */
+		jQuery(window).on('YoastSEO:ContactSupport', function () {
+			showContactPopup();
 		});
 
 		/* Fix banner images overlapping help texts */
