@@ -47,7 +47,7 @@ TabManager.prototype.init = function() {
 	this.focusKeywordRow.hide();
 	this.focusKeywordInput.val( '' );
 
-	// Initialize an instance of the keywordword tab.
+	// Initialize an instance of the keyword tab.
 	this.mainKeywordTab = new KeywordTab(
 		{
 			keyword: initialKeyword,
@@ -64,7 +64,7 @@ TabManager.prototype.init = function() {
 			}.bind( this ),
 			afterActivate: function() {
 				YoastSEO.app.refresh();
-			}.bind( this )
+			}
 		}
 	);
 
@@ -86,7 +86,7 @@ TabManager.prototype.init = function() {
 		}.bind( this ),
 		afterActivate: function() {
 			YoastSEO.app.refresh();
-		}.bind( this )
+		}
 	} );
 
 	this.contentTab.init( metaboxTabs, 'prepend' );

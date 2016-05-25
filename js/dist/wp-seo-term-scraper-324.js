@@ -19968,7 +19968,6 @@ function getIndicatorForScore( score ) {
 		className: '',
 		screenReaderText: '',
 		fullText: ''
-
 	};
 
 	if ( ! isUndefined( app.contentAssessorPresenter ) ) {
@@ -20024,7 +20023,7 @@ var defaultArguments = {
 	afterActivate: function ( ) { },
 	active: false,
 
-	scoreClass: 0,
+	scoreClass: 'na',
 	scoreText: '',
 
 	showKeyword: true
@@ -20239,7 +20238,7 @@ TabManager.prototype.init = function() {
 	this.focusKeywordRow.hide();
 	this.focusKeywordInput.val( '' );
 
-	// Initialize an instance of the keywordword tab.
+	// Initialize an instance of the keyword tab.
 	this.mainKeywordTab = new KeywordTab(
 		{
 			keyword: initialKeyword,
@@ -20256,7 +20255,7 @@ TabManager.prototype.init = function() {
 			}.bind( this ),
 			afterActivate: function() {
 				YoastSEO.app.refresh();
-			}.bind( this )
+			}
 		}
 	);
 
@@ -20278,7 +20277,7 @@ TabManager.prototype.init = function() {
 		}.bind( this ),
 		afterActivate: function() {
 			YoastSEO.app.refresh();
-		}.bind( this )
+		}
 	} );
 
 	this.contentTab.init( metaboxTabs, 'prepend' );

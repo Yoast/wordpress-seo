@@ -16,7 +16,6 @@ function getIndicatorForScore( score ) {
 		className: '',
 		screenReaderText: '',
 		fullText: ''
-
 	};
 
 	if ( ! isUndefined( app.contentAssessorPresenter ) ) {

@@ -13,7 +13,7 @@ var defaultArguments = {
 	afterActivate: function ( ) { },
 	active: false,
 
-	scoreClass: 0,
+	scoreClass: 'na',
 	scoreText: '',
 
 	showKeyword: true
