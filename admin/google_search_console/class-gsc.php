@@ -86,7 +86,7 @@ class WPSEO_GSC {
 				array(
 					'type'         => Yoast_Notification::WARNING,
 					'id'           => 'wpseo-dismiss-gsc',
-					'capabilities' => 'manage_options'
+					'capabilities' => 'manage_options',
 				)
 			)
 		);
