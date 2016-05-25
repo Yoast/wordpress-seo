@@ -11,11 +11,11 @@ class Yoast_Notification {
 
 	const MATCH_ALL = 'all';
 	const MATCH_ANY = 'any';
-	
+
 	const ERROR = 'error';
 	const WARNING = 'warning';
 	const UPDATED = 'updated';
-	
+
 	/**
 	 * Contains optional arguments:
 	 *
