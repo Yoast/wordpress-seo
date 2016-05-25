@@ -3,6 +3,8 @@
 var isUndefined = require( 'lodash/isUndefined' );
 var defaults = require( 'lodash/defaults' );
 
+var $ = jQuery;
+
 var defaultArguments = {
 	keyword: '',
 	prefix: '',

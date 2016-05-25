@@ -3,6 +3,8 @@ var defaultsDeep = require( 'lodash/defaultsDeep' );
 var getIndicatorForScore = require( './getIndicatorForScore' );
 var KeywordTab = require( './keywordTab' );
 
+var $ = jQuery;
+
 var defaultArguments = {
 	strings: {
 		keywordTab: '',

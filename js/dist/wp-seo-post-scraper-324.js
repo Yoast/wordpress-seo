@@ -506,10 +506,10 @@ App.prototype.runAnalyzer = function() {
 	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.seoAssessorPresenter.render();
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
-	this.callbacks.saveContentScore( this.contentAssessor.calculateOverallScore(), this.contentAssessorPresenter );
 
 	if ( !isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessorPresenter.renderIndividualRatings();
+		this.callbacks.saveContentScore( this.contentAssessor.calculateOverallScore(), this.contentAssessorPresenter );
 	}
 
 	if ( this.config.dynamicDelay ) {
@@ -1330,35 +1330,41 @@ module.exports = {
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var isParagraphTooLong = require( "../helpers/isValueTooLong" );
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../markers/addMark.js" );
+
 var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
+
+// 150 is the recommendedValue for the maximum paragraph length.
+var recommendedValue = 150;
 
 /**
  * Returns an array containing only the paragraphs longer than the recommended length.
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
- * @param {number} recommendedValue The recommended maximum length of a paragraph.
  * @returns {number} The number of too long paragraphs.
  */
-var getTooLongParagraphs = function( paragraphsLength, recommendedValue ) {
-	var tooLongParagraphs = filter( paragraphsLength, isParagraphTooLong.bind( null, recommendedValue ) );
-	return tooLongParagraphs.length;
+var getTooLongParagraphs = function( paragraphsLength  ) {
+	return filter( paragraphsLength, function( paragraph ) {
+		return isParagraphTooLong( recommendedValue, paragraph.wordCount );
+	} );
 };
 
 /**
  * Returns the scores and text for the ParagraphTooLongAssessment
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
  * @param {number} tooLongParagraphs The number of too long paragraphs.
- * @param {number} recommendedValue The recommended maximum length of a paragraph.
  * @param {object} i18n The i18n object used for translations.
  * @returns {{score: number, text: string }} the assessmentResult.
  */
-var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, recommendedValue, i18n ) {
+var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
 	if ( paragraphsLength.length === 0 ) {
 		return {};
 	}
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 100 steps, each step is 0.06.
 	// Up to 117 is for scoring a 9, higher numbers give lower scores.
-	// floatingPointFix because of js rounding errors
-	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( paragraphsLength[ 0 ] - 117 ), 6 ), 0 );
+	// FloatingPointFix because of js rounding errors.
+	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( paragraphsLength[ 0 ].wordCount - 117 ), 6 ), 0 );
 	score = fixFloatingPoint( score );
 	if ( score >= 7 ) {
 		return {
@@ -1373,9 +1379,42 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains more than the recommended maximum " +
 			"of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?",
 			"%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of" +
-			" these paragraphs is about the same topic, and therefore belongs in a single paragraph?", tooLongParagraphs ),
-			tooLongParagraphs, recommendedValue )
+			" these paragraphs is about the same topic, and therefore belongs in a single paragraph?", tooLongParagraphs.length ),
+			tooLongParagraphs.length, recommendedValue )
 	};
+};
+
+/**
+ * Sort the paragraphs based on word count.
+ *
+ * @param {Array} paragraphs The array with paragraphs.
+ * @returns {Array} The array sorted on word counts.
+ */
+var sortParagraphs = function( paragraphs ) {
+	return paragraphs.sort(
+		function( a, b ) {
+			return b.wordCount - a.wordCount;
+		}
+	);
+};
+
+/**
+ * Creates a marker for the paragraphs.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @returns {Array} An array with marked paragraphs.
+ */
+var paragraphLengthMarker = function( paper, researcher ) {
+	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
+	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
+	return map( tooLongParagraphs, function( paragraph ) {
+		var marked = marker( paragraph.paragraph );
+		return new Mark( {
+			original: paragraph.paragraph,
+			marked: marked
+		} );
+	} );
 };
 
 /**
@@ -1387,14 +1426,11 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
  */
 var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
-	paragraphsLength = paragraphsLength.sort(
-		function( a, b ) {
-			return b - a;
-		}
-	);
-	var recommendedValue = 150;
-	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength, recommendedValue );
-	var paragraphLengthResult = calculateParagraphLengthResult( paragraphsLength, tooLongParagraphs, recommendedValue, i18n );
+
+	paragraphsLength = sortParagraphs( paragraphsLength );
+
+	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
+	var paragraphLengthResult = calculateParagraphLengthResult( paragraphsLength, tooLongParagraphs, i18n );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( paragraphLengthResult.score );
@@ -1408,43 +1444,46 @@ module.exports = {
 	getResult: paragraphLengthAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: paragraphLengthMarker
 };
 
-},{"../helpers/fixFloatingPoint.js":49,"../helpers/isValueTooLong":50,"../values/AssessmentResult.js":130,"lodash/filter":291}],14:[function(require,module,exports){
+},{"../helpers/fixFloatingPoint.js":49,"../helpers/isValueTooLong":50,"../markers/addMark.js":54,"../values/AssessmentResult.js":130,"../values/Mark.js":131,"lodash/filter":291,"lodash/map":319}],14:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var isParagraphTooShort = require( "../helpers/isValueTooShort" );
 var filter = require( "lodash/filter" );
 
+// 40 is the recommendedValue for the minimum paragraph length.
+var recommendedValue = 40;
+
 /**
  * Returns an array containing only the paragraphs shorter than the recommended length.
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
- * @param {number} recommendedValue The recommended minimum length of a paragraph.
  * @returns {number} The number of too short paragraphs.
  */
-var getTooShortParagraphs = function( paragraphsLength, recommendedValue ) {
-	var tooShortParagraphs = filter( paragraphsLength, isParagraphTooShort.bind( null, recommendedValue ) );
-	return tooShortParagraphs.length;
+var getTooShortParagraphs = function( paragraphsLength  ) {
+	return filter( paragraphsLength, function( paragraph ) {
+		return isParagraphTooShort( recommendedValue, paragraph.wordCount );
+	} );
 };
 
 /**
  * Returns the scores and text for the ParagraphTooShortAssessment
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
  * @param {number} tooShortParagraphs The number of too short paragraphs.
- * @param {number} recommendedValue The recommended minimum length of a paragraph.
  * @param {object} i18n The i18n object used for translations.
  * @returns {{score: number, text: string }} the assessmentResult.
  */
-var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagraphs, recommendedValue, i18n ) {
+var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagraphs, i18n ) {
 	if ( paragraphsLength.length === 0 ) {
 		return {};
 	}
 
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 40 steps, each step is 0.15
 	// Up to 13 is for scoring a 3, higher numbers give higher scores.
-	// floatingPointFix because of js rounding errors
-	var score = 3 + Math.max( Math.min( ( 0.15 ) * ( paragraphsLength[ 0 ] - 13 ), 6 ), 0 );
+	// FloatingPointFix because of js rounding errors.
+	var score = 3 + Math.max( Math.min( ( 0.15 ) * ( paragraphsLength[ 0 ].wordCount - 13 ), 6 ), 0 );
 	score = fixFloatingPoint( score );
 	if ( score >= 7 ) {
 		return {
@@ -1455,12 +1494,12 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 	return {
 		score: score,
 
-		// translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
+		// Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value.
 		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains less than the recommended minimum " +
 				"of %2$d words. Try to expand this paragraph, or connect it to the previous or next paragraph.",
 				"%1$d of the paragraphs contain less than the recommended minimum of %2$d words.  Try to expand these paragraphs, " +
-				"or connect each of them to the previous or next paragraph.", tooShortParagraphs ),
-			tooShortParagraphs, recommendedValue )
+				"or connect each of them to the previous or next paragraph.", tooShortParagraphs.length ),
+			tooShortParagraphs.length, recommendedValue )
 	};
 };
 
@@ -1475,12 +1514,11 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
 	paragraphsLength = paragraphsLength.sort(
 		function( a, b ) {
-			return a - b;
+			return a.wordCount - b.wordCount;
 		}
 	);
-	var recommendedValue = 40;
-	var tooShortParagraphs = getTooShortParagraphs( paragraphsLength, recommendedValue );
-	var paragraphLengthResult = calculateParagraphLengthResult( paragraphsLength, tooShortParagraphs, recommendedValue, i18n );
+	var tooShortParagraphs = getTooShortParagraphs( paragraphsLength );
+	var paragraphLengthResult = calculateParagraphLengthResult( paragraphsLength, tooShortParagraphs, i18n );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( paragraphLengthResult.score );
@@ -2235,6 +2273,11 @@ module.exports = {
 },{"../values/AssessmentResult.js":130}],24:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
+var Mark = require( "../values/Mark.js" );
+var addMark = require( "../markers/addMark.js" );
+
+var map = require( "lodash/map" );
+
 /**
  * Returns a score and text based on the number of links.
  *
@@ -2243,7 +2286,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkCountResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.totalKeyword > 0 ) {
+	if ( linkStatistics.keyword.totalKeyword > 0 ) {
 		return {
 			score: 2,
 			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
@@ -2273,15 +2316,34 @@ var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Mark the anchors.
+ *
+ * @param {Paper} paper The paper to use for the marking.
+ * @param {Researcher} researcher The researcher to use.
+ * @returns {Array} Array with all the marked anchors.
+ */
+var competingLinkMarker = function( paper, researcher ) {
+	var competingLinks = researcher.getResearch( "getLinkStatistics" );
+
+	return map( competingLinks.keyword.matchedAnchors, function( matchedAnchor ) {
+		return new Mark( {
+			original: matchedAnchor,
+			marked: addMark( matchedAnchor )
+		} );
+	} );
+};
+
 module.exports = {
 	identifier: "textCompetingLinks",
 	getResult: textHasCompetingLinksAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText() && paper.hasKeyword();
-	}
+	},
+	getMarks: competingLinkMarker
 };
 
-},{"../values/AssessmentResult.js":130}],25:[function(require,module,exports){
+},{"../markers/addMark.js":54,"../values/AssessmentResult.js":130,"../values/Mark.js":131,"lodash/map":319}],25:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -2991,16 +3053,35 @@ module.exports = {
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
+
+var Mark = require( "../values/Mark.js" );
+var addMark = require( "../markers/addMark.js" );
+
+// The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
+var recommendedValue = 3;
+
+/**
+ * Filters the words that aren't too long.
+ *
+ * @param {Array} words The array with words to filter on complexity.
+ * @returns {Array} The filtered list with complex words.
+ */
+var filterComplexity = function( words ) {
+	return filter( words, function( word ) {
+		return( word.complexity > recommendedValue );
+	} );
+};
 
 /**
  * Calculates the complexity of the text based on the syllables in words.
  * @param {number} wordCount The number of words used.
- * @param {number} tooComplexWords The number of words with 4 or more syllables.
- * @param {number} recommendedValue The recommendedValue for amount of syllables.
- * @param {object} i18n The object used for translations.
+ * @param {Array} wordComplexity The list of words with their syllable count.
+ * @param {Object} i18n The object used for translations.
  * @returns {{score: number, text}} resultobject with score and text.
  */
-var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue, i18n ) {
+var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
+	var tooComplexWords = filterComplexity( wordComplexity ).length;
 	var percentage = ( tooComplexWords / wordCount ) * 100;
 	percentage = fixFloatingPoint( percentage );
 	var recommendedMaximum = 10;
@@ -3015,7 +3096,7 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-					// translators: %1$s expands to the percentage of complex words, %2$d expands to the recommended number of syllables,
+					// Translators: %1$s expands to the percentage of complex words, %2$d expands to the recommended number of syllables,
 					// %3$s expands to the recommend maximum
 					"%1$s of the words contain over %2$d syllables, which is less than or equal to the recommended maximum of %3$s." ),
 				percentage + "%", recommendedValue, recommendedMaximum + "%"  )
@@ -3027,11 +3108,29 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
-				// translators: %1$s expands to the percentage of too complex words, %2$d expands to the recommended number of syllables
+				// Translators: %1$s expands to the percentage of too complex words, %2$d expands to the recommended number of syllables
 				// %3$s expands to the recommend maximum
 				"%1$s of the words contain over %2$d syllables, which is more than the recommended maximum of %3$s." ),
 			percentage + "%", recommendedValue, recommendedMaximum + "%" )
 	};
+};
+
+/**
+ * Creates markers of words that are complex.
+ *
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @returns {Array} A list with markers
+ */
+var wordComplexityMarker = function( paper, researcher ) {
+	var wordComplexity = researcher.getResearch( "wordComplexity" );
+	var complexWords = filterComplexity( wordComplexity );
+	return map( complexWords, function( complexWord ) {
+		return new Mark( {
+			original: complexWord.word,
+			marked:  addMark( complexWord.word )
+		} );
+	} );
 };
 
 /**
@@ -3044,11 +3143,8 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var wordComplexity = researcher.getResearch( "wordComplexity" );
 	var wordCount = wordComplexity.length;
-	var recommendedValue = 4;
-	var tooComplexWords = filter( wordComplexity, function( syllables ) {
-		return( syllables >= recommendedValue );
-	} ).length;
-	var complexityResult = calculateComplexity( wordCount, tooComplexWords, recommendedValue, i18n );
+
+	var complexityResult = calculateComplexity( wordCount, wordComplexity, i18n );
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );
 	assessmentResult.setText( complexityResult.text );
@@ -3060,10 +3156,11 @@ module.exports = {
 	getResult: wordComplexityAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: wordComplexityMarker
 };
 
-},{"../helpers/fixFloatingPoint.js":49,"../values/AssessmentResult.js":130,"lodash/filter":291}],36:[function(require,module,exports){
+},{"../helpers/fixFloatingPoint.js":49,"../markers/addMark.js":54,"../values/AssessmentResult.js":130,"../values/Mark.js":131,"lodash/filter":291,"lodash/map":319}],36:[function(require,module,exports){
 var Researcher = require( "./researcher.js" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -4838,33 +4935,51 @@ var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
 
 /**
- * Checks a text for anchors and returns an object with all linktypes found.
+ * Checks whether or not an anchor contains the passed keyword.
+ * @param {string} keyword The keyword to look for.
+ * @param {string} anchor The anchor to check against.
+ * @returns {boolean} Whether or not the keyword was found.
+ */
+var keywordInAnchor = function( keyword, anchor ) {
+	if ( keyword === "" ) {
+		return false;
+	}
+
+	return findKeywordInUrl( anchor, keyword );
+};
+
+/**
+ * Counts the links found in the text.
  *
  * @param {object} paper The paper object containing text, keyword and url.
  * @returns {object} The object containing all linktypes.
- * total: the total number of links found
- * totalNaKeyword: the total number of links if keyword is not available
- * totalKeyword: the total number of links with the keyword
- * internalTotal: the total number of links that are internal
- * internalDofollow: the internal links without a nofollow attribute
- * internalNofollow: the internal links with a nofollow attribute
- * externalTotal: the total number of links that are external
- * externalDofollow: the external links without a nofollow attribute
- * externalNofollow: the internal links with a dofollow attribute
- * otherTotal: all links that are not HTTP or HTTPS
- * otherDofollow: other links without a nofollow attribute
- * otherNofollow: other links with a nofollow attribute
+ * total: the total number of links found.
+ * totalNaKeyword: the total number of links if keyword is not available.
+ * keyword: Object containing all the keyword related counts and matches.
+ * keyword.totalKeyword: the total number of links with the keyword.
+ * keyword.matchedAnchors: Array with the anchors that contain the keyword.
+ * internalTotal: the total number of links that are internal.
+ * internalDofollow: the internal links without a nofollow attribute.
+ * internalNofollow: the internal links with a nofollow attribute.
+ * externalTotal: the total number of links that are external.
+ * externalDofollow: the external links without a nofollow attribute.
+ * externalNofollow: the internal links with a dofollow attribute.
+ * otherTotal: all links that are not HTTP or HTTPS.
+ * otherDofollow: other links without a nofollow attribute.
+ * otherNofollow: other links with a nofollow attribute.
  */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var keyword = paper.getKeyword();
+var countLinkTypes = function( paper ) {
 	var url = paper.getUrl();
-	var anchors = getLinks( text );
+	var keyword = paper.getKeyword();
+	var anchors = getLinks( paper.getText() );
 
 	var linkCount = {
 		total: anchors.length,
 		totalNaKeyword: 0,
-		totalKeyword: 0,
+		keyword: {
+			totalKeyword: 0,
+			matchedAnchors: []
+		},
 		internalTotal: 0,
 		internalDofollow: 0,
 		internalNofollow: 0,
@@ -4876,21 +4991,33 @@ module.exports = function( paper ) {
 		otherNofollow: 0
 	};
 
-	var foundKeyword;
 	for ( var i = 0; i < anchors.length; i++ ) {
-		foundKeyword = keyword ? findKeywordInUrl( anchors[ i ], keyword ) : false;
+		var currentAnchor = anchors[ i ];
 
-		if ( foundKeyword ) {
-			linkCount.totalKeyword++;
+		if ( keywordInAnchor( keyword, currentAnchor ) ) {
+
+			linkCount.keyword.totalKeyword++;
+			linkCount.keyword.matchedAnchors.push( currentAnchor );
 		}
 
-		var linkType = getLinkType( anchors[ i ], url );
-		linkCount[ linkType + "Total" ]++;
+		var linkType = getLinkType( currentAnchor, url );
+		var linkFollow = checkNofollow( currentAnchor );
 
-		var linkFollow = checkNofollow( anchors[ i ] );
+		linkCount[ linkType + "Total" ]++;
 		linkCount[ linkType + linkFollow ]++;
 	}
+
 	return linkCount;
+};
+
+/**
+ * Checks a text for anchors and returns an object with all linktypes found.
+ *
+ * @param {Paper} paper The paper object containing text, keyword and url.
+ * @returns {Object} The object containing all linktypes.
+ */
+module.exports = function( paper ) {
+	return countLinkTypes( paper );
 };
 
 },{"../stringProcessing/checkNofollow.js":98,"../stringProcessing/findKeywordInUrl.js":105,"../stringProcessing/getLinkType.js":108,"./getLinks.js":68}],68:[function(require,module,exports){
@@ -4901,8 +5028,8 @@ var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
 /**
  * Checks a text for anchors and returns the number found.
  *
- * @param {object} text The text
- * @returns {array} An array with the anchors
+ * @param {Object} text The text
+ * @returns {Array} An array with the anchors
  */
 module.exports = function( text ) {
 	return getAnchors( text );
@@ -4924,11 +5051,14 @@ module.exports = function( paper ) {
 	var paragraphs = matchParagraphs( text );
 	var paragraphsLength = [];
 	paragraphs.map( function ( paragraph ) {
-		paragraphsLength.push( countWords( paragraph ) );
+		paragraphsLength.push( {
+			wordCount: countWords( paragraph ),
+			paragraph: paragraph
+		} );
 	} );
 
 	return filter( paragraphsLength, function ( paragraphLength ) {
-		return ( paragraphLength > 0 );
+		return ( paragraphLength.wordCount > 0 );
 	} );
 };
 
@@ -5342,17 +5472,17 @@ var getWords = require( "../stringProcessing/getWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
 
 /**
- * Calculates the complexity of words in a text
- * @param {Paper} paper The Paper object who's
- * @returns {number} The amount of words found in the text.
+ * Calculates the complexity of words in a text, returns each words with their complexity.
+ * @param {Paper} paper The Paper object to get the text from.
+ * @returns {Object} The words found in the text with the number of syllables.
  */
 module.exports = function( paper ) {
 	var words = getWords( paper.getText() );
-	var syllablesPerWord = [];
+	var wordComplexity = [];
 	words.map( function( word ) {
-		syllablesPerWord.push( countSyllables( word ) );
+		wordComplexity.push( { word: word, complexity: countSyllables( word ) } );
 	} );
-	return syllablesPerWord;
+	return wordComplexity;
 };
 
 
@@ -11068,34 +11198,51 @@ module.exports = function( text ) {
 };
 
 },{"./matchStringWithRegex.js":115}],114:[function(require,module,exports){
-var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
+var map = require( "lodash/map" );
+
+/**
+ * Matches the paragraphs in <p>-tags and returns the text in them.
+ * @param {string} text The text to match paragraph in.
+ * @returns {array} An array containing all paragraphs texts.
+ */
+var getParagraphsInTags = function ( text ) {
+	var paragraphs = [];
+	// Matches everything between the <p> and </p> tags.
+	var regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
+	var match;
+
+	while ( ( match = regex.exec( text ) ) !== null ) {
+		paragraphs.push( match );
+	}
+
+	// Returns only the text from within the paragraph tags.
+	return map( paragraphs, function( paragraph ) {
+		return paragraph[ 1 ];
+	} );
+};
 
 /**
  * Returns an array with all paragraphs from the text.
- * @param {object} text The text to match paragraph in.
- * @returns {array} the array containing all paragraphs from the text.
+ * @param {string} text The text to match paragraph in.
+ * @returns {array} The array containing all paragraphs from the text.
  */
 module.exports = function( text ) {
-	var paragraphs;
+	var paragraphs = getParagraphsInTags( text );
 
-	// matches everything between the <p> and </p> tags.
-	paragraphs = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
 	if ( paragraphs.length > 0 ) {
 		return paragraphs;
 	}
 
-	/* if no <p> tags found, use a regex that matches [^], not nothing, so any character,
-	 including linebreaks untill it finds double linebreaks.
-	 */
+	// If no <p> tags found, split on double linebreaks.
 	paragraphs = text.split( "\n\n" );
 	if ( paragraphs.length > 0 ) {
 		return paragraphs;
 	}
-	// if no paragraphs are found, return an array containing the entire text.
+	// If no paragraphs are found, return an array containing the entire text.
 	return [ text ];
 };
 
-},{"../stringProcessing/matchStringWithRegex.js":115}],115:[function(require,module,exports){
+},{"lodash/map":319}],115:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -19780,6 +19927,8 @@ module.exports = getTitlePlaceholder;
 var isUndefined = require( 'lodash/isUndefined' );
 var defaults = require( 'lodash/defaults' );
 
+var $ = jQuery;
+
 var defaultArguments = {
 	keyword: '',
 	prefix: '',
@@ -19958,6 +20107,8 @@ var defaultsDeep = require( 'lodash/defaultsDeep' );
 
 var getIndicatorForScore = require( './getIndicatorForScore' );
 var KeywordTab = require( './keywordTab' );
+
+var $ = jQuery;
 
 var defaultArguments = {
 	strings: {
