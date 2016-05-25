@@ -72,7 +72,7 @@ class WPSEO_GSC {
 	 */
 	public function register_gsc_notification() {
 
-		if ( ! current_user_can( 'manage_options' ) || WPSEO_GSC_Settings::get_profile() !== '' || get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) == '1' ) {
+		if ( WPSEO_GSC_Settings::get_profile() !== '' ) {
 			return;
 		}
 
@@ -84,8 +84,9 @@ class WPSEO_GSC {
 					'</a>'
 				),
 				array(
-					'type'      => Yoast_Notification::WARNING,
-					'id'        => 'wpseo-dismiss-gsc',
+					'type'         => Yoast_Notification::WARNING,
+					'id'           => 'wpseo-dismiss-gsc',
+					'capabilities' => 'manage_options'
 				)
 			)
 		);
