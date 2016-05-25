@@ -143,35 +143,29 @@ class WPSEO_Admin_Init {
 	public function tagline_notice() {
 
 		// Just a return, because we want to temporary disable this notice (#3998).
-		return;
-
-		if ( current_user_can( 'manage_options' ) && $this->has_default_tagline() && ! $this->seen_tagline_notice() ) {
-
-			// Only add the notice on GET requests, not in the customizer, and not in "action" type submits to prevent faulty return url.
-			if ( 'GET' !== filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) || is_customize_preview() || null !== filter_input( INPUT_GET, 'action' ) ) {
-				return;
-			}
-
-			$current_url = ( is_ssl() ? 'https://' : 'http://' );
-			$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
-			$customize_url = add_query_arg( array(
-				'url' => urlencode( $current_url ),
-			), wp_customize_url() );
-
-			$info_message = sprintf(
-				__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
-				'<a href="' . esc_attr( $customize_url ) . '">',
-				'</a>'
-			);
-
-			$notification_options = array(
-				'type'  => 'error',
-				'id'    => 'wpseo-dismiss-tagline-notice',
-				'nonce' => wp_create_nonce( 'wpseo-dismiss-tagline-notice' ),
-			);
-
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		if ( ! $this->has_default_tagline() ) {
+			return;
 		}
+
+		$current_url = ( is_ssl() ? 'https://' : 'http://' );
+		$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+		$customize_url = add_query_arg( array(
+			'url' => urlencode( $current_url ),
+		), wp_customize_url() );
+
+		$info_message = sprintf(
+			__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
+			'<a href="' . esc_attr( $customize_url ) . '">',
+			'</a>'
+		);
+
+		$notification_options = array(
+			'type'         => Yoast_Notification::ERROR,
+			'id'           => 'wpseo-dismiss-tagline-notice',
+			'capabilities' => 'manage_options',
+		);
+
+		Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
 	}
 
 	/**
@@ -180,21 +174,9 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function has_default_tagline() {
-		return __( 'Just another WordPress site' ) === get_bloginfo( 'description' );
-	}
-
-	/**
-	 * Returns whether or not the user has seen the tagline notice
-	 *
-	 * @return bool
-	 */
-	public function seen_tagline_notice() {
-		// Check if the current request contain action to dismiss the notice.
-		if ( $this->dismiss_notice( 'wpseo-dismiss-tagline-notice' ) ) {
-			update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
-		}
-
-		return 'seen' === get_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', true );
+		$blog_description = get_bloginfo( 'description' );
+		$default_blog_description = 'Just another WordPress site';
+		return __( $default_blog_description ) === $blog_description || $default_blog_description === $blog_description;
 	}
 
 	/**
@@ -446,5 +428,15 @@ class WPSEO_Admin_Init {
 	 */
 	private function dismiss_notice( $notice_name ) {
 		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $notice_name );
+	}
+
+	/**
+	 * Returns whether or not the user has seen the tagline notice
+	 *
+	 * @deprecated 3.3
+	 *
+	 * @return bool
+	 */
+	public function seen_tagline_notice() {
 	}
 }
