@@ -236,7 +236,7 @@ function wpseo_admin_bar_menu() {
 
 	$focuskw = '';
 	$score   = '';
-	$seo_url = get_admin_url( null, 'admin.php?page=wpseo_dashboard' );
+	$seo_url = get_admin_url( null, 'admin.php?page=' . Yoast_Alerts::ADMIN_PAGE );
 
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
 					'post.php',
@@ -254,9 +254,32 @@ function wpseo_admin_bar_menu() {
 		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
 	}
 
+	// Never display notifications for network admin.
+	$counter = '';
+
+	if ( ! function_exists( 'is_network_admin' ) || ! is_network_admin() ) {
+		// Notification information.
+		$notification_center     = Yoast_Notification_Center::get();
+		$notification_count      = $notification_center->get_notification_count();
+		$new_notifications       = $notification_center->get_new_notifications();
+		$new_notifications_count = count( $new_notifications );
+
+		$new_notifications_html = '';
+		if ( $new_notifications_count ) {
+			$notification = _n( 'You have a new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' );
+			$new_notifications_html .= '<div class="yoast-issue-added">' . $notification . '</div>';
+		}
+
+		// Always show Alerts page when clicking on the main link.
+		$counter = sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count );
+	}
+
+	// Yoast Icon.
+	$title = '<div class="wp-menu-image yoast-logo svg"></div>';
+
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
-		'title' => __( 'SEO', 'wordpress-seo' ) . $score,
+		'title' => $title . $score . $counter . $new_notifications_html,
 		'href'  => $seo_url,
 	) );
 	$wp_admin_bar->add_menu( array(
@@ -452,34 +475,12 @@ function wpseo_admin_bar_menu() {
 add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
 
 /**
- * Enqueue a tiny bit of CSS to show so the adminbar shows right.
+ * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
-
-	$enqueue_style = false;
-
-	// Single post in the frontend.
-	if ( ! is_admin() && is_admin_bar_showing() ) {
-		$enqueue_style = ( is_singular() || is_category() );
-	}
-
-	// Single post in the backend.
-	if ( is_admin() ) {
-		$screen = get_current_screen();
-
-		// Post (every post_type) or category page.
-		if ( in_array( $screen->base, array( 'post', 'edit-tags', 'term' ) ) ) {
-			$enqueue_style = true;
-		}
-	}
-
-	if ( $enqueue_style ) {
-
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->register_assets();
-
-		$asset_manager->enqueue_style( 'adminbar' );
-	}
+	$asset_manager = new WPSEO_Admin_Asset_Manager();
+	$asset_manager->register_assets();
+	$asset_manager->enqueue_style( 'adminbar' );
 }
 
 add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_style' );
