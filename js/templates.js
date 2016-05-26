@@ -277,6 +277,7 @@
 
   var templates = {
     'assessmentPresenterResult': {},
+    'hiddenSpan': {},
     'snippetEditor': {}
   };
 
@@ -302,6 +303,24 @@
     __p += '\n        </li>\n    ';
      }
     __p += '\n</ul>\n';
+
+    }
+    return __p
+  };
+
+  templates['hiddenSpan'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<span style="width: ' +
+    __e( width ) +
+    '; height: auto; position: absolute; visibility: hidden; ';
+     if ( "" !== whiteSpace ) {
+    __p += 'white-space: ' +
+    __e(whiteSpace );
+       }
+    __p += '">\n\n</span>';
 
     }
     return __p

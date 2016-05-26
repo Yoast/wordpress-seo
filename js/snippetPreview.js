@@ -15,15 +15,19 @@ var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 var analyzerConfig = require( "./config/config.js" );
 
-var domManipulation = require( "./helpers/domManipulation.js" );
+var templates = require( "./templates.js" );
+var snippetEditorTemplate = templates.snippetEditor;
+var hiddenElement = templates.hiddenSpan;
 
-var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
+var domManipulation = require( "./helpers/domManipulation.js" );
 
 var defaults = {
 	data: {
 		title: "",
 		metaDesc: "",
-		urlPath: ""
+		urlPath: "",
+		titleWidth: 0,
+		metaHeight: 0
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
@@ -262,6 +266,9 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
  * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
  *
+ * @property {HTMLElement} element.measurers.titleWidth   - The rendered title width element.
+ * @property {HTMLElement} element.measurers.metaHeight   - The rendered meta height element.
+ *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
  * @property {HTMLElement} element.input.urlPath          - The url path input element.
@@ -275,6 +282,8 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {string}      data.title                     - The title.
  * @property {string}      data.urlPath                   - The url path.
  * @property {string}      data.metaDesc                  - The meta description.
+ * @property {int}         data.titleWidth                - The width of the title in pixels.
+ * @property {int}         data.metaHeight                - The height of the meta description in pixels.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
@@ -366,6 +375,10 @@ SnippetPreview.prototype.renderTemplate = function() {
 	} );
 
 	this.element = {
+		measurers: {
+			titleWidth: null,
+			metaHeight: null
+		},
 		rendered: {
 			title: document.getElementById( "snippet_title" ),
 			urlBase: document.getElementById( "snippet_citeBase" ),
@@ -412,6 +425,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 	}
 
 	this.opened = false;
+	this.createMeasurementElements();
 	this.updateProgressBars();
 };
 
@@ -423,6 +437,8 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
+	this.measureTitle();
+	this.measureMetaDescription();
 	this.updateProgressBars();
 };
 
@@ -1100,6 +1116,56 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 	this.element.input.metaDesc.value = metaDesc;
 
 	this.changedInput();
+};
+
+/**
+ * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
+ */
+SnippetPreview.prototype.createMeasurementElements = function() {
+	var titleElement, metaDescriptionElement, spanHolder;
+
+	titleElement = hiddenElement( {
+		width: "auto",
+		whiteSpace: "nowrap"
+	} );
+
+	metaDescriptionElement = hiddenElement(
+		{
+			width: document.getElementById( "meta_container" ).offsetWidth + "px",
+			whiteSpace: ""
+		}
+	);
+
+	spanHolder = document.createElement( "div" );
+
+	spanHolder.innerHTML = titleElement + metaDescriptionElement;
+
+	document.body.appendChild( spanHolder );
+
+	this.element.measurers.titleWidth = spanHolder.childNodes[ 0 ];
+	this.element.measurers.metaHeight = spanHolder.childNodes[ 1 ];
+};
+
+/**
+ * Copies the title text to the title measure element to calculate the width in pixels.
+ */
+SnippetPreview.prototype.measureTitle = function() {
+	var titleWidthElement = this.element.measurers.titleWidth;
+
+	titleWidthElement.innerHTML = this.element.rendered.title.innerHTML;
+
+	this.data.titleWidth = titleWidthElement.offsetWidth;
+};
+
+/**
+ * Copies the metadescription text to the metadescription measure element to calculate the height in pixels.
+ */
+SnippetPreview.prototype.measureMetaDescription = function() {
+	var metaHeightElement = this.element.measurers.metaHeight;
+
+	metaHeightElement.innerHTML = this.element.rendered.metaDesc.innerHTML;
+
+	this.data.metaHeight = metaHeightElement.offsetHeight;
 };
 
 /* jshint ignore:start */
