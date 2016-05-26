@@ -208,7 +208,11 @@
 		}
 
 		$issue_counter.html( response.total );
-		response.total === 0 ? $issue_counter.hide() : $issue_counter.show();
+		if ( response.total === 0 ) {
+			$issue_counter.hide();
+		} else {
+			$issue_counter.show();
+		}
 
 		$('#toplevel_page_wpseo_alerts .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
 		$('#toplevel_page_wpseo_alerts .plugin-count').html( response.total );
