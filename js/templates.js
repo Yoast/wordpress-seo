@@ -296,9 +296,9 @@
     ((__t = ( scores[ i ].text )) == null ? '' : __t) +
     '</span>\n            ';
      if ( scores[ i ].marker ) {
-    __p += '\n            <button type="button" class="assessment-results__mark js-assessment-results__mark-' +
+    __p += '\n            <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-' +
     ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
-    '">Mark this in the text</button>\n            ';
+    '"></button>\n            ';
      }
     __p += '\n        </li>\n    ';
      }
