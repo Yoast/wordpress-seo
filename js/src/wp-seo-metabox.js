@@ -66,7 +66,6 @@
 		// End Tabs code
 	};
 
-
 	/**
 	 * Shows a informational popup if someone click the add keyword button
 	 */
@@ -133,7 +132,6 @@
 		$( '#yoast_wpseo_meta-robots-noindex' ).select2( { width: '100%', language: wpseoSelect2Locale } );
 		$( '#yoast_wpseo_meta-robots-adv' ).select2( { width: '100%', language: wpseoSelect2Locale } );
 	}
-	
 	jQuery( document ).ready( function() {
 		jQuery( '.wpseo-meta-section').each( function( _, el ) {
 			jQuery( el ).find( '.wpseo-metabox-tabs li:first' ).addClass( 'active' );

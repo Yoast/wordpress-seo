@@ -168,9 +168,6 @@
 			updatePrimaryTermSelectors( taxonomyName );
 		};
 	}
-
-
-
 	/**
 	 * Returns the make primary event handler for a certain taxonomy name
 	 *

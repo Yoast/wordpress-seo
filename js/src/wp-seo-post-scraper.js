@@ -7,9 +7,10 @@ var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 var tmceHelper = require( './wp-seo-tinymce' );
 
-(
-	function ( $ ) {
-		'use strict';
+var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
+
+(function( $ ) {
+	'use strict';
 
 		var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 		var App = require( 'yoastseo' ).App;
@@ -22,7 +23,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		var leavePostNameEmpty = false;
 
 		var app, snippetPreview;
-		
+
 		var decorator = null;
 
 		var tabManager;
@@ -37,7 +38,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		 * wordpress scraper to gather inputfields.
 		 * @constructor
 		 */
-		var PostScraper = function () {
+		var PostScraper = function() {
 			if ( typeof CKEDITOR === 'object' ) {
 				console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
 			}
@@ -47,7 +48,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
 		 * the analyzer and the snippetpreview
 		 */
-		PostScraper.prototype.getData = function () {
+		PostScraper.prototype.getData = function() {
 			return {
 				keyword: this.getDataFromInput( 'keyword' ),
 				meta: this.getDataFromInput( 'meta' ),
@@ -74,7 +75,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 			switch ( inputType ) {
 				case 'text':
 				case 'content':
-					val = tmceHelper.getContentTinyMce( tmceId );
+					val = removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 					break;
 				case 'cite':
 				case 'url':
@@ -134,7 +135,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		 * @param {jQuery Object} li Item which contains the category
 		 * @returns {String} Name of the category
 		 */
-		PostScraper.prototype.getCategoryName = function ( li ) {
+		PostScraper.prototype.getCategoryName = function( li ) {
 			var clone = li.clone();
 			clone.children().remove();
 			return $.trim( clone.text() );
@@ -145,7 +146,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		 * @param {Object} value
 		 * @param {String} type
 		 */
-		PostScraper.prototype.setDataFromSnippet = function ( value, type ) {
+		PostScraper.prototype.setDataFromSnippet = function( value, type ) {
 			switch ( type ) {
 				case 'snippet_meta':
 					document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
@@ -186,7 +187,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		 * @param {string} data.urlPath
 		 * @param {string} data.metaDesc
 		 */
-		PostScraper.prototype.saveSnippetData = function ( data ) {
+		PostScraper.prototype.saveSnippetData = function( data ) {
 			this.setDataFromSnippet( data.title, 'snippet_title' );
 			this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
 			this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
@@ -195,7 +196,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		/**
 		 * Calls the eventbinders.
 		 */
-		PostScraper.prototype.bindElementEvents = function ( app ) {
+		PostScraper.prototype.bindElementEvents = function( app ) {
 			this.inputElementEventBinder( app );
 			this.changeElementEventBinder( app );
 		};
@@ -203,9 +204,9 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		/**
 		 * binds the reanalyze timer on change of dom element.
 		 */
-		PostScraper.prototype.changeElementEventBinder = function ( app ) {
+		PostScraper.prototype.changeElementEventBinder = function( app ) {
 			var elems = ['#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]'];
-			for ( var i = 0; i < elems.length; i ++ ) {
+			for ( var i = 0; i < elems.length; i++ ) {
 				$( elems[i] ).on( 'change', app.analyzeTimer.bind( app ) );
 			}
 		};
@@ -213,9 +214,9 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		/**
 		 * binds the renewData function on the change of inputelements.
 		 */
-		PostScraper.prototype.inputElementEventBinder = function ( app ) {
+		PostScraper.prototype.inputElementEventBinder = function( app ) {
 			var elems = ['excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title'];
-			for ( var i = 0; i < elems.length; i ++ ) {
+			for ( var i = 0; i < elems.length; i++ ) {
 				var elem = document.getElementById( elems[i] );
 				if ( elem !== null ) {
 					document.getElementById( elems[i] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
@@ -230,7 +231,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		/**
 		 * Resets the current queue if focus keyword is changed and not empty.
 		 */
-		PostScraper.prototype.resetQueue = function () {
+		PostScraper.prototype.resetQueue = function() {
 			if ( app.rawData.keyword !== '' ) {
 				app.runAnalyzer( this.rawData );
 			}
@@ -242,7 +243,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		 *
 		 * @param {string} score
 		 */
-		PostScraper.prototype.saveScores = function ( score ) {
+		PostScraper.prototype.saveScores = function( score ) {
 			var indicator = getIndicatorForScore( score );
 
 			if ( tabManager.isMainKeyword( currentKeyword ) ) {
@@ -263,7 +264,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 			}
 
 			// If multi keyword isn't available we need to update the first tab (content)
-			if ( ! YoastSEO.multiKeyword ) {
+			if ( !YoastSEO.multiKeyword ) {
 				tabManager.updateKeywordTab( score, currentKeyword );
 
 				// Updates the input with the currentKeyword value
@@ -278,7 +279,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		 *
 		 * @param {number} score
 		 */
-		PostScraper.prototype.saveContentScore = function ( score ) {
+		PostScraper.prototype.saveContentScore = function( score ) {
 			tabManager.updateContentTab( score );
 
 			$( '#yoast_wpseo_content_score' ).val( score );
@@ -287,14 +288,14 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		/**
 		 * Initializes keyword tab with the correct template if multi keyword isn't available
 		 */
-		PostScraper.prototype.initKeywordTabTemplate = function () {
+		PostScraper.prototype.initKeywordTabTemplate = function() {
 			// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 			if ( YoastSEO.multiKeyword ) {
 				return;
 			}
 
 			// Remove default functionality to prevent scrolling to top.
-			$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function ( ev ) {
+			$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 				ev.preventDefault();
 			} );
 		};
@@ -327,18 +328,18 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		 * binds to the WordPress jQuery function to put the permalink on the page.
 		 * If the response matches with permalinkstring, the snippet can be rerendered.
 		 */
-		jQuery( document ).on( 'ajaxComplete', function ( ev, response, ajaxOptions ) {
+		jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
 			var ajax_end_point = '/admin-ajax.php';
 			if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
 				return;
 			}
 
-			if ( 'string' === typeof ajaxOptions.data && - 1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
+			if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
 				/*
 				 * If the post has no title, WordPress wants to auto generate the slug once the title is set, so we need to
 				 * keep the post name empty.
 				 */
-				if ( ! postHasTitle() ) {
+				if ( !postHasTitle() ) {
 					leavePostNameEmpty = true;
 				}
 				app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
@@ -386,7 +387,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 			return new SnippetPreview( snippetPreviewArgs );
 		}
 
-		jQuery( document ).ready( function () {
+		jQuery( document ).ready( function() {
 			var args, postScraper, translations;
 
 			tabManager = new TabManager( {
@@ -418,7 +419,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 					saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 				},
 				locale: wpseoPostScraperL10n.locale,
-				marker: function ( paper, marks ) {
+				marker: function( paper, marks ) {
 					if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
 						if ( null === decorator ) {
 							decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
@@ -466,13 +467,13 @@ var tmceHelper = require( './wp-seo-tinymce' );
 			// Backwards compatibility.
 			YoastSEO.analyzerArgs = args;
 
-			if ( ! YoastSEO.multiKeyword ) {
+			if ( !YoastSEO.multiKeyword ) {
 				/*
 				 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
 				 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
 				 * onsubmit event that is copying the focus keyword, this should be solved.
 				 */
-				$( '#post' ).on( 'submit', function () {
+				$( '#post' ).on( 'submit', function() {
 					var hiddenKeyword = $( '#yoast_wpseo_focuskw' );
 					var hiddenKeywordValue = hiddenKeyword.val();
 					var visibleKeywordValue = tabManager.getKeywordTab().getKeyword();

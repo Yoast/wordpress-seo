@@ -1,7 +1,6 @@
 /* global tinyMCE */
-
 (
-	function () {
+	function() {
 		'use strict';
 
 		/**
@@ -30,17 +29,17 @@
 		/**
 		 * Returns whether or not a tinyMCE editor with the given ID is available.
 		 *
-		 * @param {string} editorID The ID of the tinyMCE editor
+		 * @param {String} editorID The ID of the tinyMCE editor
 		 */
 		function isTinyMCEAvailable( editorID ) {
-			if ( ! isTinyMCELoaded() ) {
+			if ( !isTinyMCELoaded() ) {
 				return false;
 			}
 
 			var editor = tinyMCE.get( editorID );
 
 			return (
-				editor !== null && ! editor.isHidden()
+				editor !== null && !editor.isHidden()
 			);
 		}
 
@@ -60,16 +59,16 @@
 		/**
 		 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 		 *
-		 * @param {string} editorID The ID of the tinyMCE editor
+		 * @param {String} tmce_id The ID of the tinyMCE editor.
 		 */
-		function tinyMceEventBinder( app, tmceId ) {
+		function tinyMceEventBinder( app, tmce_id ) {
 			if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
 				//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
 				//trigger them, or takes up to ten seconds to fire an event.
 				var events = ['input', 'change', 'cut', 'paste'];
-				tinyMCE.on( 'addEditor', function ( evt ) {
-					if ( evt.id === tmceId ) {
-						for ( var i = 0; i < events.length; i ++ ) {
+				tinyMCE.on( 'addEditor', function( evt ) {
+					if ( evt.id === tmce_id ) {
+						for ( var i = 0; i < events.length; i++ ) {
 							evt.editor.on( events[i], app.analyzeTimer.bind( app ) );
 						}
 					}
