@@ -189,15 +189,6 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Get the state from the user to check if the current user has dismissed
-	 *
-	 * @return mixed
-	 */
-	private function user_has_dismissed() {
-		return '1' === get_user_meta( get_current_user_id(), WPSEO_OnPage::USER_META_KEY, true );
-	}
-
-	/**
 	 * Redo the fetch request for onpage
 	 */
 	private function catch_redo_listener() {
