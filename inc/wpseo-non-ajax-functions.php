@@ -266,8 +266,11 @@ function wpseo_admin_bar_menu() {
 
 		$new_notifications_html = '';
 		if ( $new_notifications_count ) {
-			/* translators: %d resolves to the number of alerts being added. */
-			$notification = _n( 'You have a new issue concerning your SEO!', sprintf( 'You have %d new issues concerning your SEO!', $new_notifications_count ), $new_notifications_count, 'wordpress-seo' );
+			$notification = sprintf(
+				/* translators: %d resolves to the number of alerts being added. */
+				_n( 'You have a new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
+				$new_notifications_count
+			);
 			$new_notifications_html .= '<div class="yoast-issue-added">' . $notification . '</div>';
 		}
 
