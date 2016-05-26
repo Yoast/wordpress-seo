@@ -2,6 +2,8 @@
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
+var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
+var TabManager = require( './analysis/tabManager' );
 
 (function( $ ) {
 	'use strict';
@@ -12,14 +14,11 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	var UsedKeywords = require( './analysis/usedKeywords' );
 
-	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
-
 	var app, snippetPreview;
 
 	var termSlugInput;
 
-	var mainKeywordTab;
-	var KeywordTab = require( './analysis/keywordTab' );
+	var tabManager;
 
 	var TermScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
@@ -151,7 +150,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	 */
 	TermScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
-		document.getElementById( 'wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
 	/**
@@ -180,38 +178,45 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	/**
 	 * creates SVG for the overall score.
 	 *
-	 * @param {string} score
-	 * @param {AssessorPresenter} assessorPresenter
+	 * @param {number} score
 	 */
-	TermScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+	TermScraper.prototype.saveScores = function( score ) {
+		var indicator = getIndicatorForScore( score );
 		var keyword = this.getDataFromInput( 'keyword' );
 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		mainKeywordTab.update( indicator.className, keyword );
+		tabManager.updateKeywordTab( score, keyword );
 
 		$( '.yst-traffic-light' )
 			.attr( 'class', 'yst-traffic-light ' + indicator.className )
 			.attr( 'alt', indicator.screenReaderText );
+
+		$( '.adminbar-seo-score' )
+			.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
+			.attr( 'alt', indicator.screenReaderText );
+	};
+
+	/**
+	 * Saves the content score to a hidden field
+	 *
+	 * @param {number} score The score calculated by the content assessor.
+	 */
+	TermScraper.prototype.saveContentScore = function( score ) {
+		tabManager.updateContentTab( score );
+
+		$( '#hidden_wpseo_content_score' ).val( score );
 	};
 
 	/**
 	 * Initializes keyword tab with the correct template
 	 */
 	TermScraper.prototype.initKeywordTabTemplate = function() {
-		var keyword, score;
-
 		// Remove default functionality to prevent scrolling to top.
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
 		});
-
-		keyword = $( '#wpseo_focuskw' ).val();
-		score   = $( '#hidden_wpseo_linkdex' ).val();
-
-		mainKeywordTab.update( score, keyword );
 	};
 
 	/**
@@ -295,13 +300,13 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 		insertTinyMCE();
 
-		// Initialize an instance of the keywordword tab.
-		mainKeywordTab = new KeywordTab(
-			{
-				prefix: wpseoTermScraperL10n.contentTab
-			}
-		);
-		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
+		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
+
+		tabManager = new TabManager({
+			strings: wpseoTermScraperL10n,
+			focusKeywordField: '#wpseo_focuskw'
+		});
+		tabManager.init();
 
 		termScraper = new TermScraper();
 
@@ -310,12 +315,14 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 			elementTarget: [ 'content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
 			targets: {
 				output: 'wpseo_analysis',
+				contentOutput: 'yoast-seo-content-analysis',
 				snippet: 'wpseo_snippet'
 			},
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
 				saveScores: termScraper.saveScores.bind( termScraper ),
+				saveContentScore: termScraper.saveContentScore.bind( termScraper ),
 				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
 			},
 			locale: wpseoTermScraperL10n.locale

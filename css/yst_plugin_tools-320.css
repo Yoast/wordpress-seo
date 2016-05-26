@@ -599,3 +599,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	width: 100%;
 	padding: 0 0 0 20px;
 }
+
+.wpseo-tab-video__panel.wpseo-tab-video__panel--video {
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
