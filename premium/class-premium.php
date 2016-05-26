@@ -82,7 +82,7 @@ class WPSEO_Premium {
 		$this->redirect_setup();
 
 		if ( is_admin() ) {
-			add_action( 'admin_init', array( $this, 'init_beacon' ) );
+			add_action( 'admin_init', array( $this, 'init_helpscout_support' ) );
 
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( $this->is_yoast_seo_premium_page( filter_input( INPUT_GET, 'page' ) ) ) {
@@ -306,7 +306,6 @@ class WPSEO_Premium {
 		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
 			self::enqueue();
 		}
-
 	}
 
 	/**
@@ -445,16 +444,21 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Initializes beacon
+	 * Initializes the helpscout support modal for wpseo settings pages
 	 */
-	public function init_beacon() {
+	public function init_helpscout_support() {
 		$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
 
 		// Only add the helpscout beacon on Yoast SEO pages.
 		if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_contact_support' ) );
 			$beacon = yoast_get_helpscout_beacon( $query_var );
 			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() );
 			$beacon->register_hooks();
 		}
+	}
+
+	public function enqueue_contact_support(){
+		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-contact-support' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 	}
 }
