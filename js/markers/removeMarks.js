@@ -6,6 +6,6 @@
  */
 module.exports = function( text ) {
 	return text
-		.replace( new RegExp( "<yoastmark class='yoast-text-mark'>", "g" ), "" )
+		.replace( new RegExp( "<yoastmark[^>]*>", "g" ), "" )
 		.replace( new RegExp( "</yoastmark>", "g" ), "" );
 };
