@@ -166,7 +166,7 @@ class WPSEO_GSC_Service {
 	 */
 	private function incompatible_api_libs( $notice ) {
 		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification( $notice, array( 'type' => 'error' ) )
+			new Yoast_Notification( $notice, array( 'type' => Yoast_Notification::ERROR ) )
 		);
 	}
 

@@ -50,6 +50,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_30();
 		}
 
+		if ( version_compare( $this->options['version'], '3.4', '<' ) ) {
+			$this->upgrade_34();
+		}
+
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO
 		 *
@@ -180,6 +184,14 @@ class WPSEO_Upgrade {
 	private function upgrade_30() {
 		// Remove the meta fields for sitemap prio.
 		delete_post_meta_by_key( '_yoast_wpseo_sitemap-prio' );
+	}
+
+	/**
+	 * Performs upgrade functions to Yoast SEO 3.4
+	 */
+	private function upgrade_34() {
+		// Notification dismissals have been moved to User Meta instead of global option.
+		delete_option( Yoast_Notification_Center::STORAGE_KEY );
 	}
 
 	/**
