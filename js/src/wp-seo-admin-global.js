@@ -208,7 +208,7 @@
 
 		$issue_counter.html( response.total );
 		if ( response.total === 0 ) {
-			$issue_counter.hide()
+			$issue_counter.hide();
 		} else {
 			$issue_counter.show();
 		}
