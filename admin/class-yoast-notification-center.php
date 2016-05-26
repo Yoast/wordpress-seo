@@ -115,13 +115,6 @@ class Yoast_Notification_Center {
 
 		$current_value = get_user_meta( $user_id, $dismissal_key, $single = true );
 
-		if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
-			$seen_about_version = substr( get_user_meta( $user_id, 'wpseo_seen_about_version', true ), 0, 3 );
-			$last_minor_version = substr( WPSEO_VERSION, 0, 3 );
-
-			return version_compare( $seen_about_version, $last_minor_version, '>=' );
-		}
-
 		return ! empty( $current_value );
 	}
 
@@ -519,21 +512,8 @@ class Yoast_Notification_Center {
 	 * @return bool
 	 */
 	private static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
-
-		$user_id = get_current_user_id();
-
-		// Set about version when dismissing about notification.
-		if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
-
-			// Update notification gets removed when dismissed.
-			$instance = self::get();
-			$instance->remove_notification(  $notification );
-			
-			return ( false !== update_user_meta( $user_id, 'wpseo_seen_about_version', WPSEO_VERSION ) );
-		}
-
 		// Dismiss notification.
-		return ( false !== update_user_meta( $user_id, $notification->get_dismissal_key(), $meta_value ) );
+		return ( false !== update_user_meta( get_current_user_id(), $notification->get_dismissal_key(), $meta_value ) );
 	}
 
 	/**

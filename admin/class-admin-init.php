@@ -56,33 +56,6 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
-
-		$this->sync_about_version_from_cookie();
-	}
-
-	/**
-	 * Get about version seen from cookie if set.
-	 */
-	protected function sync_about_version_from_cookie() {
-
-		$user_id                 = get_current_user_id();
-		$meta_seen_about_version = get_user_meta( $user_id, 'wpseo_seen_about_version', true );
-
-		$cookie_key = 'wpseo_seen_about_version_' . $user_id;
-
-		$cookie_seen_about_version = isset( $_COOKIE[ $cookie_key ] ) ? $_COOKIE[ $cookie_key ] : '';
-
-		if ( ! empty( $cookie_seen_about_version ) ) {
-
-			if ( version_compare( $cookie_seen_about_version, $meta_seen_about_version, '>' ) ) {
-				update_user_meta( $user_id, 'wpseo_seen_about_version', $cookie_seen_about_version );
-				$meta_seen_about_version = $cookie_seen_about_version;
-			}
-		}
-
-		if ( $cookie_seen_about_version !== $meta_seen_about_version ) {
-			setcookie( $cookie_key, $meta_seen_about_version, ( $_SERVER['REQUEST_TIME'] + YEAR_IN_SECONDS ) );
-		}
 	}
 
 	/**
