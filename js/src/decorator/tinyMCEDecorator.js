@@ -1,8 +1,8 @@
 var $ = jQuery;
 
-var _forEach = require( "lodash/foreach" );
+var _forEach = require( 'lodash/foreach' );
 
-var removeMarks = require( "yoastseo/js/markers/removeMarks" );
+var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 
 /**
  * Puts a list of marks into the given tinyMCE editor
@@ -12,7 +12,7 @@ var removeMarks = require( "yoastseo/js/markers/removeMarks" );
  * @param {Array.<Mark>} marks The marks to show in the editor.
  */
 function markTinyMCE( editor, paper, marks ) {
-	var html = editor.getContent(); 
+	var html = editor.getContent();
 	html = removeMarks( html );
 
 	_forEach( marks, function( mark ) {
