@@ -94,10 +94,8 @@ class WPSEO_OnPage {
 	 */
 	public function show_notice() {
 
-		// Just a return, because we want to temporary disable this notice (#3998).
-		return;
-
 		if ( $this->should_show_notice() ) {
+
 			$notice = sprintf(
 				/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
 				__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
@@ -109,8 +107,9 @@ class WPSEO_OnPage {
 				new Yoast_Notification(
 					$notice,
 					array(
-						'type'  => 'error yoast-dismissible',
+						'type'  => Yoast_Notification::ERROR,
 						'id'    => 'wpseo-dismiss-onpageorg',
+						'capabilities' => 'manage_options',
 					)
 				)
 			);
@@ -144,12 +143,12 @@ class WPSEO_OnPage {
 	 * @return bool
 	 */
 	protected function should_show_notice() {
-		// If development note is on or the tagline notice is shown, just don't show this notice.
+		// If development note is on or the blog is not public, just don't show this notice.
 		if ( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
 			return false;
 		}
 
-		return WPSEO_Utils::grant_access() && ! $this->user_has_dismissed() && $this->onpage_option->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
+		return $this->onpage_option->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
 	}
 
 	/**
