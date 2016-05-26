@@ -20,4 +20,22 @@ describe( "removeMarks", function() {
 
 		expect( removeMarks( input ) ).toBe( "Another text with another <span>mark.</span>" );
 	});
+
+	it( "should support arbitrary HTML attributes", function() {
+		var input = "Another <yoastmark class='some-class yoast-text-mark' style='border-bottom: 1px solid red'>Marked</yoastmark>";
+
+		expect( removeMarks( input  ) ) .toBe( "Another Marked" );
+	});
+
+	it( "should support different quote styles", function() {
+		var input = 'Marked <yoastmark class="yoast-text-mark">marked</yoastmark>';
+
+		expect( removeMarks( input ) ).toBe( "Marked marked" );
+	});
+
+	it( "should remove marks without HTML attributes", function() {
+		var input = "Marked <yoastmark>marked</yoastmark>";
+
+		expect( removeMarks( input ) ).toBe( "Marked marked" );
+	});
 });
