@@ -410,11 +410,10 @@ div#separator {
 }
 
 div#separator input.radio {
-	display: none;
-	float: left;
-	width: 0 !important;
-	min-width: 0 !important;
-	opacity: 0;
+	position: absolute;
+	left: -9999em;
+	width: 1px;
+	height: 1px;
 }
 
 div#separator input.radio + label {
