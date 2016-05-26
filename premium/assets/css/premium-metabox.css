@@ -17,3 +17,8 @@ a.remove-keyword:focus span {
 .wpseo-add-keyword:disabled {
 	display: none;
 }
+
+/* Bold the main keyword tab */
+.wpseo-metabox-tabs :nth-child(2) {
+	font-weight: 600;
+}
