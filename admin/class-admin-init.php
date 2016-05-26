@@ -97,32 +97,26 @@ class WPSEO_Admin_Init {
 	 */
 	public function after_update_notice() {
 
-		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
-
-		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
-
-			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
-				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
-				return;
-			}
-
-			/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
-			$info_message = sprintf(
-				__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
-				'Yoast SEO',
-				WPSEO_VERSION,
-				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
-				'</a>'
-			);
-
-			$notification_options = array(
-				'type'  => Yoast_Notification::UPDATED,
-				'id'    => 'wpseo-dismiss-about',
-				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
-			);
-
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		if ( ! $this->has_ignored_tour() || $this->seen_about() ) {
+			return;
 		}
+
+		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
+		$info_message = sprintf(
+			__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
+			'Yoast SEO',
+			WPSEO_VERSION,
+			'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
+			'</a>'
+		);
+
+		$notification_options = array(
+			'type'         => Yoast_Notification::UPDATED,
+			'id'           => 'wpseo-dismiss-about',
+			'capabilities' => 'manage_options',
+		);
+
+		Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
 	}
 
 	/**

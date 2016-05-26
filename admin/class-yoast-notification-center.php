@@ -524,6 +524,11 @@ class Yoast_Notification_Center {
 
 		// Set about version when dismissing about notification.
 		if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
+
+			// Update notification gets removed when dismissed.
+			$instance = self::get();
+			$instance->remove_notification(  $notification );
+			
 			return ( false !== update_user_meta( $user_id, 'wpseo_seen_about_version', WPSEO_VERSION ) );
 		}
 
