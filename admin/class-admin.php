@@ -132,7 +132,14 @@ class WPSEO_Admin {
 		$notification_count  = $notification_center->get_notification_count();
 
 		// Add main page.
+<<<<<<< HEAD
 		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count">%1$d</span></span>', $notification_count );
+=======
+		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
+		$counter = sprintf( '<span class="update-plugins"><span class="plugin-count" aria-hidden="true">%1$s</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $counter_screen_reader_text );
+
+		$parent_admin_page_slug = Yoast_Alerts::ADMIN_PAGE;
+>>>>>>> Add alternative text for the icons in the toolbar and sidebar menus.
 
 		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, self::PAGE_IDENTIFIER, array(
 			$this,

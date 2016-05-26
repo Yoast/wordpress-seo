@@ -55,6 +55,7 @@ function wpseo_admin_bar_menu() {
 
 		if ( '' === $score ) {
 
+<<<<<<< HEAD
 			// Notification information.
 			$notification_center     = Yoast_Notification_Center::get();
 			$notification_count      = $notification_center->get_notification_count();
@@ -80,6 +81,15 @@ function wpseo_admin_bar_menu() {
 	// Yoast Icon.
 	$icon_svg = WPSEO_Utils::get_icon_svg();
 	$title = '<div id="yoast-ab-icon" class="ab-item yoast-logo svg" style="background-image: url(\''.$icon_svg.'\');"></div>';
+=======
+		// Always show Alerts page when clicking on the main link.
+		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
+		$counter = sprintf( ' <div class="yoast-issue-counter"><span aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );
+	}
+
+	// Yoast Icon.
+	$title = '<div class="wp-menu-image yoast-logo svg"><span class="screen-reader-text">' . __( 'SEO', 'wordpress-seo' ) . '</span></div>';
+>>>>>>> Add alternative text for the icons in the toolbar and sidebar menus.
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
