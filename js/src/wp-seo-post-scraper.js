@@ -514,6 +514,8 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 
 		postScraper.initKeywordTabTemplate();
 
+		window.YoastSEO.wp._tabManager = tabManager;
+
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		// Backwards compatibility.
