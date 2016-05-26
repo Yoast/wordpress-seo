@@ -3,6 +3,9 @@
  * @package WPSEO\Admin
  */
 
+/**
+ * Class WPSEO_Premium_popup
+ */
 class Wpseo_Premium_Popup {
 	/**
 	 * An unique identifier for the popup
@@ -38,6 +41,11 @@ class Wpseo_Premium_Popup {
 		$this->content    = $content;
 	}
 
+	/**
+	 * Returns the premium popup as an HTML string.
+	 *
+	 * @return string
+	 */
 	public function get_premium_popup() {
 		ob_start();
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) : ?>
