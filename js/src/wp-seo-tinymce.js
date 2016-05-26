@@ -59,6 +59,7 @@
 		/**
 		 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 		 *
+		 * @param {String} app Application
 		 * @param {String} tmce_id The ID of the tinyMCE editor.
 		 */
 		function tinyMceEventBinder( app, tmce_id ) {

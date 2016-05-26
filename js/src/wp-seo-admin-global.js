@@ -1,6 +1,7 @@
 /* global ajaxurl */
 /* global wpseoAdminGlobalL10n */
 /* jshint -W097 */
+/* jshint -W003 */
 /* jshint unused:false */
 (
 	function() {
@@ -259,6 +260,8 @@
 		 * Hook the restore and dismiss buttons
 		 */
 		function hookDismissRestoreButtons() {
+			var $ = jQuery;
+
 			var $dismissible = $( '.yoast-alert-holder' );
 
 			$dismissible.on( 'click', '.dismiss', function() {
@@ -310,12 +313,5 @@
 			showAlertPopup();
 			hookDismissRestoreButtons();
 		} );
-	}
-)();
-
-(
-	function() {
-		'use strict';
-		var $ = jQuery;
 	}
 )();
