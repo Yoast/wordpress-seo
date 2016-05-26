@@ -31,9 +31,9 @@ class Wpseo_Premium_Popup {
 	/**
 	 * Wpseo_Premium_Popup constructor.
 	 *
-	 * @param $identifier String An unique identifier for this popup.
-	 * @param $title      String The title of the popup.
-	 * @param $content    String The content of the popup.
+	 * @param String $identifier An unique identifier for this popup.
+	 * @param String $title      The title of the popup.
+	 * @param String $content    The content of the popup.
 	 */
 	function __construct( $identifier, $title, $content ) {
 		$this->identifier = $identifier;

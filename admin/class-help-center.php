@@ -25,8 +25,8 @@ class WPSEO_Help_Center {
 	/**
 	 * WPSEO_Help_Center constructor.
 	 *
-	 * @param $group_name String The name of the group of the tab the helpcenter is on.
-	 * @param $tab        String The name of the tab the helpcenter is on.
+	 * @param String $group_name The name of the group of the tab the helpcenter is on.
+	 * @param String $tab        The name of the tab the helpcenter is on.
 	 */
 	function __construct( $group_name, $tab ) {
 		$this->group_name = $group_name;
