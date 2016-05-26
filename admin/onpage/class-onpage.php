@@ -143,7 +143,7 @@ class WPSEO_OnPage {
 	 * @return bool
 	 */
 	protected function should_show_notice() {
-		// If development note is on or the blog is not public, just don't show this notice.
+		// If development mode is on or the blog is not public, just don't show this notice.
 		if ( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
 			return false;
 		}
