@@ -184,22 +184,24 @@ class WPSEO_Admin_Init {
 	 * on the google search console page.
 	 */
 	public function ga_compatibility_notice() {
-		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
-
-			$info_message = sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
-				__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
-				'Yoast SEO',
-				'5.4.3',
-				'Google Analytics by Yoast'
-			);
-
-			$notification_options = array(
-				'type' => Yoast_Notification::ERROR,
-			);
-
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		if ( ! defined( 'GAWP_VERSION' ) || '5.4.3' !== GAWP_VERSION ) {
+			return;
 		}
+
+		$info_message = sprintf(
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
+			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
+			'Yoast SEO',
+			'5.4.3',
+			'Google Analytics by Yoast'
+		);
+
+		$notification_options = array(
+			'id'   => 'gawp-compatibility-notice',
+			'type' => Yoast_Notification::ERROR,
+		);
+
+		Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
 	}
 
 	/**
