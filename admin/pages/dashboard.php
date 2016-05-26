@@ -10,6 +10,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 if ( filter_input( INPUT_GET, 'intro' ) ) {
+
+	update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
 	require WPSEO_PATH . 'admin/views/about.php';
 
 	return;

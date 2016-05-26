@@ -56,33 +56,6 @@ class WPSEO_Admin_Init {
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
-
-		$this->sync_about_version_from_cookie();
-	}
-
-	/**
-	 * Get about version seen from cookie if set.
-	 */
-	protected function sync_about_version_from_cookie() {
-
-		$user_id                 = get_current_user_id();
-		$meta_seen_about_version = get_user_meta( $user_id, 'wpseo_seen_about_version', true );
-
-		$cookie_key = 'wpseo_seen_about_version_' . $user_id;
-
-		$cookie_seen_about_version = isset( $_COOKIE[ $cookie_key ] ) ? $_COOKIE[ $cookie_key ] : '';
-
-		if ( ! empty( $cookie_seen_about_version ) ) {
-
-			if ( version_compare( $cookie_seen_about_version, $meta_seen_about_version, '>' ) ) {
-				update_user_meta( $user_id, 'wpseo_seen_about_version', $cookie_seen_about_version );
-				$meta_seen_about_version = $cookie_seen_about_version;
-			}
-		}
-
-		if ( $cookie_seen_about_version !== $meta_seen_about_version ) {
-			setcookie( $cookie_key, $meta_seen_about_version, ( $_SERVER['REQUEST_TIME'] + YEAR_IN_SECONDS ) );
-		}
 	}
 
 	/**
@@ -97,32 +70,26 @@ class WPSEO_Admin_Init {
 	 */
 	public function after_update_notice() {
 
-		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
-
-		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
-
-			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
-				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
-				return;
-			}
-
-			/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
-			$info_message = sprintf(
-				__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
-				'Yoast SEO',
-				WPSEO_VERSION,
-				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
-				'</a>'
-			);
-
-			$notification_options = array(
-				'type'  => Yoast_Notification::UPDATED,
-				'id'    => 'wpseo-dismiss-about',
-				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
-			);
-
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		if ( ! $this->has_ignored_tour() || $this->seen_about() ) {
+			return;
 		}
+
+		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
+		$info_message = sprintf(
+			__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
+			'Yoast SEO',
+			WPSEO_VERSION,
+			'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
+			'</a>'
+		);
+
+		$notification_options = array(
+			'type'         => Yoast_Notification::UPDATED,
+			'id'           => 'wpseo-dismiss-about',
+			'capabilities' => 'manage_options',
+		);
+
+		Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
 	}
 
 	/**
