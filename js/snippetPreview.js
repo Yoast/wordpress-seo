@@ -310,8 +310,8 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
  * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
  *
- * @property {HTMLElement} element.measure.titleWidth    - The rendered title width element.
- * @property {HTMLElement} element.measure.metaHeight    - The rendered meta height element.
+ * @property {HTMLElement} element.measurers.titleWidth   - The rendered title width element.
+ * @property {HTMLElement} element.measurers.metaHeight   - The rendered meta height element.
  *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
@@ -1186,15 +1186,15 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 
 	document.body.appendChild( spanHolder );
 
-	this.element.measure.titleWidth = spanHolder.childNodes[ 0 ];
-	this.element.measure.metaHeight = spanHolder.childNodes[ 1 ];
+	this.element.measurers.titleWidth = spanHolder.childNodes[ 0 ];
+	this.element.measurers.metaHeight = spanHolder.childNodes[ 1 ];
 };
 
 /**
  * Copies the title text to the title measure element to calculate the width in pixels.
  */
 SnippetPreview.prototype.measureTitle = function() {
-	var titleWidthElement = this.element.measure.titleWidth;
+	var titleWidthElement = this.element.measurers.titleWidth;
 
 	titleWidthElement.innerHTML = this.element.rendered.title.innerHTML;
 
@@ -1205,7 +1205,7 @@ SnippetPreview.prototype.measureTitle = function() {
  * Copies the metadescription text to the metadescription measure element to calculate the height in pixels.
  */
 SnippetPreview.prototype.measureMetaDescription = function() {
-	var metaHeightElement = this.element.measure.metaHeight;
+	var metaHeightElement = this.element.measurers.metaHeight;
 
 	metaHeightElement.innerHTML = this.element.rendered.metaDesc.innerHTML;
 
