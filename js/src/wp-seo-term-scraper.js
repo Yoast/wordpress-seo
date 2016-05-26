@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoTermScraperL10n, tinyMCE, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
@@ -267,20 +267,20 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		}
 
 		/**
+		 * Function to handle when the user updates the term slug
+		 */
+		function updatedTermSlug() {
+			snippetPreview.setUrlPath( termSlugInput.val() );
+		}
+		
+		/**
 		 * Adds a watcher on the term slug input field
 		 */
 		function initTermSlugWatcher() {
 			termSlugInput = $( '#slug' );
 			termSlugInput.on( 'change', updatedTermSlug );
 		}
-
-		/**
-		 * Function to handle when the user updates the term slug
-		 */
-		function updatedTermSlug() {
-			snippetPreview.setUrlPath( termSlugInput.val() );
-		}
-
+		
 		jQuery( document ).ready( function () {
 			var args, termScraper, translations;
 

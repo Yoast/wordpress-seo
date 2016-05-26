@@ -66,24 +66,6 @@
 		// End Tabs code
 	};
 
-	/**
-	 * Adds keyword popup if the template for it is found
-	 */
-	function initAddKeywordPopup() {
-		// If add keyword popup exists bind it to the add keyword button
-		if ( 1 === $( '#wpseo-add-keyword-popup' ).length ) {
-			$( '.wpseo-add-keyword' ).on( 'click', addKeywordPopup );
-		}
-	}
-
-	/**
-	 * Adds select2 for selected fields.
-	 */
-	function initSelect2() {
-		// Select2 for Yoast SEO Metabox Advanced tab
-		$( '#yoast_wpseo_meta-robots-noindex' ).select2( { width: '100%', language: wpseoSelect2Locale } );
-		$( '#yoast_wpseo_meta-robots-adv' ).select2( { width: '100%', language: wpseoSelect2Locale } );
-	}
 
 	/**
 	 * Shows a informational popup if someone click the add keyword button
@@ -133,6 +115,25 @@
 		});
 	}
 
+	/**
+	 * Adds keyword popup if the template for it is found
+	 */
+	function initAddKeywordPopup() {
+		// If add keyword popup exists bind it to the add keyword button
+		if ( 1 === $( '#wpseo-add-keyword-popup' ).length ) {
+			$( '.wpseo-add-keyword' ).on( 'click', addKeywordPopup );
+		}
+	}
+
+	/**
+	 * Adds select2 for selected fields.
+	 */
+	function initSelect2() {
+		// Select2 for Yoast SEO Metabox Advanced tab
+		$( '#yoast_wpseo_meta-robots-noindex' ).select2( { width: '100%', language: wpseoSelect2Locale } );
+		$( '#yoast_wpseo_meta-robots-adv' ).select2( { width: '100%', language: wpseoSelect2Locale } );
+	}
+	
 	jQuery( document ).ready( function() {
 		jQuery( '.wpseo-meta-section').each( function( _, el ) {
 			jQuery( el ).find( '.wpseo-metabox-tabs li:first' ).addClass( 'active' );
