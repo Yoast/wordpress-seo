@@ -120,11 +120,13 @@ class Yoast_Alerts {
 
 		switch ( $type ) {
 			case 'error':
-			case 'warning':
-				$view = $type . 's';
+				$view = 'errors';
 				break;
+
+			case 'warning':
 			default:
-				return false;
+				$view = 'warnings';
+				break;
 		}
 
 		// Re-collect alerts.
