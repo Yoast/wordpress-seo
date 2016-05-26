@@ -4,8 +4,7 @@
 
 	$(window).on('YoastSEO:ContactSupport', function( e, data ) {
 		data = {
-			"usedQueries": {
-			}
+			"usedQueries": {}
 		};
 		var identity = HS.beacon.get_helpscout_beacon_identity();
 		console.log(usedQueriesWithHTML(data.usedQueries));
@@ -29,7 +28,7 @@
 				output += getPostsHTML(posts);
 				output += "</tr>";
 			});
-		output = output + "</table>";
+			output = output + "</table>";
 		}
 		return output;
 	}
