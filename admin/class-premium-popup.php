@@ -25,6 +25,13 @@ class Wpseo_Premium_Popup {
 	 */
 	private $content = '';
 
+	/**
+	 * Wpseo_Premium_Popup constructor.
+	 *
+	 * @param $identifier String An unique identifier for this popup.
+	 * @param $title      String The title of the popup.
+	 * @param $content    String The content of the popup.
+	 */
 	function __construct( $identifier, $title, $content ) {
 		$this->identifier = $identifier;
 		$this->title      = $title;
@@ -34,7 +41,7 @@ class Wpseo_Premium_Popup {
 	public function get_premium_popup() {
 		ob_start();
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) : ?>
-			<div id="<?php echo "wpseo-" . $this->identifier . "-popup" ?>" class="
+			<div id="<?php echo 'wpseo-' . $this->identifier . '-popup' ?>" class="
 			     wpseo-premium-popup" style="display: none;">
 				<img class="alignright" style="margin: 10px;"
 				     src="<?php echo trailingslashit( plugin_dir_url( WPSEO_FILE ) ); ?>images/Yoast_SEO_Icon.svg"
@@ -47,7 +54,7 @@ class Wpseo_Premium_Popup {
 					?>
 				</p>
 				/* translators: %s expands to Yoast SEO Premium */
-				<a id="<?php echo "wpseo-" . $this->identifier . "-popup-button" ?>" class="button-primary"
+				<a id="<?php echo 'wpseo-' . $this->identifier . '-popup-button' ?>" class="button-primary"
 				   href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&amp;utm_medium=popup&amp;utm_campaign=help-center-contact-support"><?php printf( __( 'Buy %s', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
 			</div>
 			<?php

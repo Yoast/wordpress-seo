@@ -325,7 +325,7 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'kb-search',
 				'src'  => 'kb-search',
-			)
+			),
 		);
 	}
 }

@@ -31,16 +31,16 @@ class WPSEO_Option_Tabs_Formatter {
 		echo '</h2>';
 
 		foreach ( $option_tabs->get_tabs() as $tab ) {
-			// prepare the help center for each tab
+			// Prepare the help center for each tab.
 			$help_center = new WPSEO_Help_Center( $option_tabs->get_base(), $tab );
 
 			$identifier = $tab->get_name();
 			printf( '<div id="%s" class="wpseotab">', $identifier );
 
-			// output the help center
+			// Output the help center.
 			$help_center->draw_help_center();
 
-			// output the settings view for all tabs
+			// Output the settings view for all tabs.
 			$tab_view = $this->get_tab_view( $option_tabs, $tab );
 			if ( is_file( $tab_view ) ) {
 				require_once $tab_view;
