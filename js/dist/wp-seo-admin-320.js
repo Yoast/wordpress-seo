@@ -33,7 +33,7 @@ var AlgoliaSearcher = function (_React$Component) {
 
 		_this.state = {
 			searchString: '',
-			usedQueries: [],
+			usedQueries: {},
 			results: [],
 			errorMessage: '',
 			showDetail: false,
@@ -60,7 +60,9 @@ var AlgoliaSearcher = function (_React$Component) {
 			var searchString = e.target.getElementsByTagName('input')[0].value;
 			if (searchString != '') {
 				var usedQueries = this.state.usedQueries;
-				usedQueries.push(searchString);
+				if (usedQueries[searchString] == undefined) {
+					usedQueries[searchString] = {};
+				}
 				this.setState({
 					searchString: searchString,
 					usedQueries: usedQueries
@@ -105,7 +107,16 @@ var AlgoliaSearcher = function (_React$Component) {
 	}, {
 		key: 'showDetail',
 		value: function showDetail(resultArrayIndex) {
-			this.setState({ showDetail: resultArrayIndex });
+			var usedQueries = this.state.usedQueries;
+			var post = this.state.results[resultArrayIndex];
+			var postId = post.objectID;
+			var articleTitle = post.post_title;
+			var articleLink = post.permalink;
+			usedQueries[this.state.searchString][postId] = { title: articleTitle, link: articleLink };
+			this.setState({
+				showDetail: resultArrayIndex,
+				usedQueries: usedQueries
+			});
 		}
 	}, {
 		key: 'hideDetail',

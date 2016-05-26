@@ -7,7 +7,7 @@ class AlgoliaSearcher extends React.Component {
 		super();
 		this.state = {
 			searchString: '',
-			usedQueries: [],
+			usedQueries: {},
 			results: [],
 			errorMessage: '',
 			showDetail: false,
@@ -30,7 +30,9 @@ class AlgoliaSearcher extends React.Component {
 		let searchString = e.target.getElementsByTagName('input')[ 0 ].value;
 		if ( searchString != '' ) {
 			let usedQueries = this.state.usedQueries;
-			usedQueries.push(searchString);
+			if ( usedQueries[ searchString ] == undefined ) {
+				usedQueries[ searchString ] = {};
+			}
 			this.setState({
 							  searchString: searchString,
 							  usedQueries: usedQueries
@@ -71,7 +73,16 @@ class AlgoliaSearcher extends React.Component {
 	}
 
 	showDetail( resultArrayIndex ) {
-		this.setState({showDetail: resultArrayIndex});
+		let usedQueries = this.state.usedQueries;
+		let post = this.state.results[ resultArrayIndex ];
+		let postId = post.objectID;
+		let articleTitle = post.post_title;
+		let articleLink = post.permalink;
+		usedQueries[ this.state.searchString ][postId] = {title: articleTitle, link: articleLink};
+		this.setState({
+						  showDetail: resultArrayIndex,
+						  usedQueries: usedQueries
+					  });
 	}
 
 	hideDetail() {
