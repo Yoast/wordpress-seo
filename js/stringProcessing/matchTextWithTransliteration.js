@@ -1,5 +1,5 @@
 var map = require( "lodash/map" );
-var addWordBoundary = require( "./addWordBoundary.js" );
+var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
 
 /**
