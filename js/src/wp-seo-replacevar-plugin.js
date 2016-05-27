@@ -1,70 +1,121 @@
-/* global wpseoReplaceVarsL10n */
+/* global wpseoReplaceVarsL10n, console, require */
 (function() {
 	'use strict';
 
+	var forEach = require( 'lodash/forEach' );
+	var isUndefined = require( 'lodash/isUndefined' );
+	var ReplaceVar = require( './values/replaceVar' );
+
+	var modifiableFields = [
+		'content',
+		'title',
+		'snippet_title',
+		'snippet_meta',
+		'primary_category',
+		'data_page_title',
+		'data_meta_desc'
+	];
+
+	var placeholders = {};
+
 	/**
-	 * variable replacement plugin for wordpress.
+	 * Variable replacement plugin for WordPress.
 	 */
 	var YoastReplaceVarPlugin = function( app ) {
 		this._app = app;
-
-		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
-
 		this._app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 
+		this.registerReplacements();
 		this.registerModifications();
 	};
 
+	YoastReplaceVarPlugin.prototype.registerReplacements = function() {
+		this.addReplacement( new ReplaceVar( '%%currentdate%%', 'currentdate' ) );
+		this.addReplacement( new ReplaceVar( '%%currentday%%', 'currentday' ) );
+		this.addReplacement( new ReplaceVar( '%%currentmonth%%', 'currentmonth' ) );
+		this.addReplacement( new ReplaceVar( '%%currenttime%%', 'currenttime' ) );
+		this.addReplacement( new ReplaceVar( '%%currentyear%%', 'currentyear' ) );
+		this.addReplacement( new ReplaceVar( '%%date%%', 'date' ) );
+		this.addReplacement( new ReplaceVar( '%%id%%', 'id' ) );
+		this.addReplacement( new ReplaceVar( '%%page%%', 'page' ) );
+		this.addReplacement( new ReplaceVar( '%%searchphrase%%', 'searchphrase' ) );
+		this.addReplacement( new ReplaceVar( '%%sitedesc%%', 'sitedesc' ) );
+		this.addReplacement( new ReplaceVar( '%%sitename%%', 'sitename' ) );
+
+		this.addReplacement( new ReplaceVar( '%%sep%%(\s+%%sep%%)*', 'sep' ) );
+		this.addReplacement( new ReplaceVar( '%%focuskw%%', 'keyword', { source: 'app', aliases: [ '%%keyword%%' ] } ) );
+
+		this.addReplacement( new ReplaceVar( '%%term_description%%', 'term_description', {
+			scope: [ 'term', 'category' ],
+			aliases: [ '%%category_description%%', '%%tag_description%%' ]
+		} ) );
+		this.addReplacement( new ReplaceVar( '%%term_title%%', 'term_title', { scope: [ 'post', 'term' ] } ) );
+
+		this.addReplacement( new ReplaceVar( '%%title%%', 'title', {
+			source: 'app',
+			scope: [ 'post', 'term' ]
+		} ) );
+
+		// TODO: Allow passing custom replacement logic / fixed string
+		this.addReplacement( new ReplaceVar( '%%parent_title%%', 'title', {
+			source: 'app',
+			scope: [ 'page', 'category' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%excerpt%%', 'excerpt', {
+			source: 'app',
+			scope: [ 'post' ],
+			aliases: [ '%%excerpt_only%%' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%primary_category%%', 'primaryCategory', {
+			source: 'app', scope: [ 'post' ]
+		} ) );
+	};
+
 	/**
-	 * Registers the modifications for the plugin.
+	 * Add a replacement object to be used when replacing placeholders.
+	 *
+	 * @param {Object} replacement
+	 */
+	YoastReplaceVarPlugin.prototype.addReplacement = function( replacement ) {
+		placeholders[ replacement.placeholder ] = replacement;
+	};
+
+	/**
+	 * Registers the modifications for the plugin on initial load.
 	 */
 	YoastReplaceVarPlugin.prototype.registerModifications = function() {
-		var callback = this.replaceVariablesPlugin.bind( this );
+		var callback = this.replaceVariables.bind( this );
 
-		this._app.registerModification( 'content', callback, 'replaceVariablePlugin', 10 );
-		this._app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
-		this._app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
-		this._app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
-		this._app.registerModification( 'primary_category', callback, 'replaceVariablePlugin', 10 );
-
-		//modifications applied on the getData from the scrapers to use templates
-		this._app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
-		this._app.registerModification( 'data_meta_desc', callback, 'replaceVariablePlugin', 10);
+		forEach( modifiableFields, function( field ) {
+			this._app.registerModification( field, callback, 'replaceVariablePlugin', 10 );
+		}.bind( this ) );
 	};
 
 	/**
-	 * runs the different replacements on the data-string
+	 * Runs the different replacements on the data-string.
+	 *
 	 * @param {String} data
 	 * @returns {string}
 	 */
-	YoastReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ) {
-		if( typeof data !== 'undefined' ) {
-			data = this.titleReplace( data );
+	YoastReplaceVarPlugin.prototype.replaceVariables = function( data ) {
+		if ( isUndefined( data ) === false ) {
 			data = this.termtitleReplace( data );
-			data = this.defaultReplace( data );
+
+			// This order currently needs to be maintained until I can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
-			data = this.replaceSeparators( data );
-			data = this.excerptReplace( data );
-			data = this.primaryCategoryReplace( data );
+			data = this.defaultReplace( data );
 		}
-		return data;
-	};
-
-	/**
-	 * Replaces %%title%% with the title
-	 * @param {String} data
-	 * @returns {string}
-	 */
-	YoastReplaceVarPlugin.prototype.titleReplace = function( data ) {
-		var title = this._app.rawData.title;
-
-		data = data.replace( /%%title%%/g, title );
 
 		return data;
 	};
 
 	/**
 	 * Replaces %%term_title%% with the title of the term
+	 *
+	 * TODO: This one can also be done via a term_title property. Ruhroh.
+	 *
 	 * @param {String} data the data to replace the term_title var
 	 * @returns {String} the data with the replaced variables
 	 */
@@ -77,74 +128,90 @@
 	};
 
 	/**
-	 * Replaces %%parent_title%% with the selected value from selectbox (if available on page).
+	 * Replaces %%parent_title%% with the selected value from selectbox (if available on pages only).
 	 *
 	 * @param {String} data
 	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		var parentId = document.getElementById( 'parent_id' );
+		var parentId = jQuery( '#parent_id, #parent' )[0];
 
-		if ( parentId !== null && typeof parentId.options !== 'undefined' && parentId.options[ parentId.selectedIndex ].text !== wpseoReplaceVarsL10n.no_parent_text ) {
-			data = data.replace( /%%parent_title%%/, parentId.options[ parentId.selectedIndex ].text );
+		if ( this.hasParentTitle() ) {
+			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parentId ) );
 		}
+
 		return data;
 	};
 
 	/**
-	 * Replaces separators in the string.
+	 * Checks whether or not there's a parent title available.
 	 *
-	 * @param {String} data
-	 * @returns {String}
+	 * @returns {boolean}
 	 */
-	YoastReplaceVarPlugin.prototype.replaceSeparators = function( data ) {
-		return data.replace( /%%sep%%(\s+%%sep%%)*/g, this.replaceVars.sep );
+	YoastReplaceVarPlugin.prototype.hasParentTitle = function() {
+		var parentId = jQuery( '#parent_id, #parent' )[0];
+
+		return ( isUndefined( parentId ) === false && isUndefined( parentId.options ) === false );
 	};
 
 	/**
-	 * replaces the excerpts strings with strings for the excerpts, if not empty.
+	 * Gets the replacement for the parent title.
 	 *
-	 * @param {String} data
-	 * @returns {String}
+	 * @param parentId
+	 * @returns {*}
 	 */
-	YoastReplaceVarPlugin.prototype.excerptReplace = function( data ) {
-		if ( typeof this._app.rawData.excerpt !== 'undefined' ) {
-			data = data.replace( /%%excerpt_only%%/g, this._app.rawData.excerpt );
-			data = data.replace( /%%excerpt%%/g, this._app.rawData.excerpt );
+	YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parentId ) {
+		var parentText = parentId.options[ parentId.selectedIndex ].text;
+
+		if ( parentText === wpseoReplaceVarsL10n.no_parent_text ) {
+			return '';
 		}
-		return data;
-	};
 
-	YoastReplaceVarPlugin.prototype.primaryCategoryReplace = function( data ) {
-		var primary_category = ( typeof this._app.rawData.primaryCategory !== 'undefined' ) ? this._app.rawData.primaryCategory : '';
-		return data.replace( /%%primary_category%%/g, primary_category );
+		return parentText;
 	};
 
 	/**
-	 * replaces default variables with the values stored in the wpseoMetaboxL10n object.
+	 * Retrieves the object containing the replacements for the placeholders. Defaults to wpseoReplaceVarsL10n.
+	 * @param {Object} placeholderOptions Placeholder options object containing a replacement and source.
+	 * @returns {Object} The replacement object to use.
+	 */
+	YoastReplaceVarPlugin.prototype.getReplacementSource = function( placeholderOptions ) {
+		if ( placeholderOptions.source === 'app' ) {
+			return this._app.rawData;
+		}
+
+		return wpseoReplaceVarsL10n.replace_vars;
+	};
+
+	/**
+	 *
+	 * @param replaceVar
+	 * @returns {string}
+	 */
+	YoastReplaceVarPlugin.prototype.getReplacement = function( replaceVar ) {
+		var replacementSource = this.getReplacementSource( replaceVar.options );
+
+		if ( replaceVar.inScope( wpseoReplaceVarsL10n.scope ) === false ) {
+			return '';
+		}
+
+		return replacementSource[ replaceVar.replacement ] || '';
+	};
+
+	/**
+	 * Replaces default variables with the values stored in the wpseoMetaboxL10n object.
 	 *
 	 * @param {String} textString
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
-		var focusKeyword = this._app.rawData.keyword;
+		forEach( placeholders, function( replaceVar ) {
+			textString = textString.replace(
+				 new RegExp( replaceVar.getPlaceholder( true ), 'g' ), this.getReplacement( replaceVar )
+			);
+		}.bind( this ) );
 
-		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
-			.replace( /%%sitename%%/g, this.replaceVars.sitename )
-			.replace( /%%term_title%%/g, this.replaceVars.term_title )
-			.replace( /%%term_description%%/g, this.replaceVars.term_description )
-			.replace( /%%category_description%%/g, this.replaceVars.category_description )
-			.replace( /%%tag_description%%/g, this.replaceVars.tag_description )
-			.replace( /%%searchphrase%%/g, this.replaceVars.searchphrase )
-			.replace( /%%date%%/g, this.replaceVars.date )
-			.replace( /%%id%%/g, this.replaceVars.id )
-			.replace( /%%page%%/g, this.replaceVars.page )
-			.replace( /%%currenttime%%/g, this.replaceVars.currenttime )
-			.replace( /%%currentdate%%/g, this.replaceVars.currentdate )
-			.replace( /%%currentday%%/g, this.replaceVars.currentday )
-			.replace( /%%currentmonth%%/g, this.replaceVars.currentmonth )
-			.replace( /%%currentyear%%/g, this.replaceVars.currentyear )
-			.replace( /%%focuskw%%/g, focusKeyword );
+		return textString;
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;

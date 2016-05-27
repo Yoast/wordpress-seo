@@ -177,7 +177,26 @@ class WPSEO_Taxonomy {
 		return array(
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
+			'scope'          => $this->determine_scope(),
 		);
+	}
+
+	/**
+	 * Determine whether the current URL is a category or a term.
+	 * @return string
+	 */
+	private function determine_scope() {
+		$taxonomy = $this->get_taxonomy();
+
+		if ( $taxonomy === 'category' ) {
+			return 'category';
+		}
+
+		if ( $taxonomy === 'post_tag' ) {
+			return 'tag';
+		}
+
+		return 'term';
 	}
 
 	/**
@@ -227,8 +246,8 @@ class WPSEO_Taxonomy {
 	 * @return array replace vars.
 	 */
 	private function get_replace_vars() {
-		$term_id                 = filter_input( INPUT_GET, 'tag_ID' );
-		$term                    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+		$term  = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(

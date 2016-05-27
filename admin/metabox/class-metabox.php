@@ -230,7 +230,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return array(
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
+			'scope'          => $this->determine_scope(),
 		);
+	}
+
+	/**
+	 * Determine whether the current URL is a page or a post.
+	 * @return string
+	 */
+	private function determine_scope() {
+		$post_type = get_post_type( $this->get_metabox_post() );
+
+		if ( $post_type === 'page' ) {
+			return 'page';
+		}
+
+		return 'post';
 	}
 
 	/**
