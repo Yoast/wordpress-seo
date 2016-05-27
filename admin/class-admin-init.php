@@ -175,7 +175,7 @@ class WPSEO_Admin_Init {
 	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it before.
 	 */
 	public function recalculate_notice() {
-		// Just a return, because we want to temporary disable this notice (#3998).
+		// Just a return, because we want to temporary disable this notice (#3998 and #4532).
 		return;
 
 		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
