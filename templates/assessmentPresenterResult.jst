@@ -5,7 +5,7 @@
             <span class="screen-reader-text"><%= scores[ i ].screenReaderText %></span>
             <span class="wpseo-score-text"><%= scores[ i ].text %></span>
             <% if ( scores[ i ].marker ) { %>
-            <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-<%= scores[ i ].identifier %>"></button>
+            <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-<%= scores[ i ].identifier %>"><span class="screen-reader-text"><%= i18n.markInText %></span></button>
             <% } %>
         </li>
     <% } %>
