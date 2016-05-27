@@ -50,6 +50,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
+		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
