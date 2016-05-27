@@ -280,7 +280,7 @@ class Yoast_Form {
 	public function legend( $text, $attr ) {
 		$attr = wp_parse_args( $attr, array(
 				'id' => '',
-				'class' => ''
+				'class' => '',
 			)
 		);
 		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
