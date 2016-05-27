@@ -1,4 +1,5 @@
 /* global tinyMCE */
+/* global JSON */
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
 /* global _ */

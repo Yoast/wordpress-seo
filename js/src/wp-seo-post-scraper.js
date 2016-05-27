@@ -5,6 +5,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
+var tmceHelper = require( './wp-seo-tinymce' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 
@@ -28,38 +29,13 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	var tabManager;
 
 	/**
-	 * Returns whether or not the tinyMCE script is available on the page.
-	 *
-	 * @returns {boolean}
+	 * The HTML 'id' attribute for the TinyMCE editor.
+	 * @type {string}
 	 */
-	function isTinyMCELoaded() {
-		return (
-			typeof tinyMCE !== 'undefined' &&
-			typeof tinyMCE.editors !== 'undefined' &&
-			tinyMCE.editors.length !== 0
-		);
-	}
+	var tmceId = 'content';
 
 	/**
-	 * Returns whether or not a tinyMCE editor with the given ID is available.
-	 *
-	 * @param {string} editorID The ID of the tinyMCE editor
-	 */
-	function isTinyMCEAvailable( editorID ) {
-		if ( ! isTinyMCELoaded() ) {
-			return false;
-		}
-
-		var editor = tinyMCE.get( editorID );
-
-		return (
-			editor !== null &&
-			! editor.isHidden()
-		);
-	}
-
-	/**
-	 * wordpress scraper to gather inputfields.
+	 * Wordpress scraper to gather input fields.
 	 * @constructor
 	 */
 	var PostScraper = function() {
@@ -90,7 +66,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * gets the values from the given input. Returns this value
+	 * Gets the values from the given input. Returns this value.
 	 * @param {String} inputType
 	 * @returns {String}
 	 */
@@ -99,7 +75,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 		switch ( inputType ) {
 			case 'text':
 			case 'content':
-				val = removeMarks( this.getContentTinyMCE() );
+				val = removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 				break;
 			case 'cite':
 			case 'url':
@@ -155,18 +131,18 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * Get the category name from the list item
+	 * Get the category name from the list item.
 	 * @param {jQuery Object} li Item which contains the category
 	 * @returns {String} Name of the category
-     */
+	 */
 	PostScraper.prototype.getCategoryName = function( li ) {
 		var clone = li.clone();
 		clone.children().remove();
-		return $.trim(clone.text());
+		return $.trim( clone.text() );
 	};
 
 	/**
-	 * When the snippet is updated, update the (hidden) fields on the page
+	 * When the snippet is updated, update the (hidden) fields on the page.
 	 * @param {Object} value
 	 * @param {String} type
 	 */
@@ -218,35 +194,6 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
-	 * or is hidden it gets it's contents from getTinyMCEElementContent.
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getContentTinyMCE = function() {
-		if ( this.isTinyMCEAvailable() === false ) {
-			return this.getTinyMCEElementContent();
-		}
-		return tinyMCE.get( 'content' ).getContent();
-	};
-
-	/**
-	 * Returns whether or not TinyMCE is available.
-	 * @returns {boolean}
-	 */
-	PostScraper.prototype.isTinyMCEAvailable = function() {
-		return isTinyMCEAvailable( 'content' );
-	};
-
-	/**
-	 * Gets content from the contentfield.
-	 *
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getTinyMCEElementContent = function() {
-		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
-	};
-
-	/**
 	 * Calls the eventbinders.
 	 */
 	PostScraper.prototype.bindElementEvents = function( app ) {
@@ -255,37 +202,29 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * binds the reanalyze timer on change of dom element.
-     */
+	 * Binds the reanalyze timer on change of dom element.
+	 */
 	PostScraper.prototype.changeElementEventBinder = function( app ) {
-		var elems = [ '#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]' ];
-		for( var i = 0; i < elems.length; i++ ) {
-			$( elems[i] ).on('change', app.analyzeTimer.bind( app ) );
+		var elems = ['#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]'];
+		for ( var i = 0; i < elems.length; i++ ) {
+			$( elems[i] ).on( 'change', app.analyzeTimer.bind( app ) );
 		}
 	};
 
 	/**
-	 * binds the renewData function on the change of inputelements.
+	 * Binds the renewData function on the change of inputelements.
 	 */
 	PostScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
+		var elems = ['excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title'];
 		for ( var i = 0; i < elems.length; i++ ) {
-			var elem = document.getElementById( elems[ i ] );
+			var elem = document.getElementById( elems[i] );
 			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+				document.getElementById( elems[i] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
 			}
 		}
 
-		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
-			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-			//trigger them, or takes up to ten seconds to fire an event.
-			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function( e ) {
-				for ( var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
-				}
-			});
-		}
+		tmceHelper.tinyMceEventBinder( app, tmceId );
+
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
 	};
 
@@ -325,7 +264,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
-		if ( ! YoastSEO.multiKeyword ) {
+		if ( !YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
 
 			// Updates the input with the currentKeyword value
@@ -358,7 +297,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 		// Remove default functionality to prevent scrolling to top.
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
-		});
+		} );
 	};
 
 	/**
@@ -400,7 +339,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 			 * If the post has no title, WordPress wants to auto generate the slug once the title is set, so we need to
 			 * keep the post name empty.
 			 */
-			if ( ! postHasTitle() ) {
+			if ( !postHasTitle() ) {
 				leavePostNameEmpty = true;
 			}
 			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
@@ -446,21 +385,26 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 		}
 
 		return new SnippetPreview( snippetPreviewArgs );
-	}
-
-	jQuery( document ).ready(function() {
+	} jQuery ( document ).ready( function() {
 		var args, postScraper, translations;
 
-		tabManager = new TabManager({
+		tabManager = new TabManager( {
 			strings: wpseoPostScraperL10n
-		});
+		} );
 		tabManager.init();
 
 		postScraper = new PostScraper();
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			elementTarget: [
+				tmceId,
+				'yoast_wpseo_focuskw_text_input',
+				'yoast_wpseo_metadesc',
+				'excerpt',
+				'editable-post-name',
+				'editable-post-name-full'
+			],
 			targets: {
 				output: 'wpseo-pageanalysis',
 				contentOutput: 'yoast-seo-content-analysis'
@@ -474,9 +418,9 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 			},
 			locale: wpseoPostScraperL10n.locale,
 			marker: function( paper, marks ) {
-				if ( isTinyMCEAvailable( 'content' ) ) {
+				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
 					if ( null === decorator ) {
-						decorator = tinyMCEDecorator( tinyMCE.get( 'content' ) );
+						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
 					}
 
 					decorator( paper, marks );
@@ -492,7 +436,9 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 			translations.domain = 'js-text-analysis';
 			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
 
-			delete( translations.locale_data['wordpress-seo'] );
+			delete(
+				translations.locale_data['wordpress-seo']
+			);
 
 			args.translations = translations;
 		}
@@ -521,15 +467,15 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
-		if ( ! YoastSEO.multiKeyword ) {
+		if ( !YoastSEO.multiKeyword ) {
 			/*
 			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
 			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
 			 * onsubmit event that is copying the focus keyword, this should be solved.
 			 */
 			$( '#post' ).on( 'submit', function() {
-				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
-				var hiddenKeywordValue  = hiddenKeyword.val();
+				var hiddenKeyword = $( '#yoast_wpseo_focuskw' );
+				var hiddenKeywordValue = hiddenKeyword.val();
 				var visibleKeywordValue = tabManager.getKeywordTab().getKeyword();
 
 				if ( hiddenKeywordValue !== visibleKeywordValue ) {
@@ -537,5 +483,5 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 				}
 			} );
 		}
-	} );
-}( jQuery ));
+	});
+}( jQuery ) );

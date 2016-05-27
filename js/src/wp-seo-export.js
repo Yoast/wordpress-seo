@@ -1,6 +1,7 @@
 /* jshint strict:true */
 /* global ajaxurl */
 /* global wpseo_export_nonce */
+/* global JSON */
 jQuery( document ).ready( function( $ ) {
 		'use strict';
 		$( '#export-button' ).click( function( ev ) {
