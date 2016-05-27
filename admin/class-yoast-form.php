@@ -272,6 +272,22 @@ class Yoast_Form {
 	}
 
 	/**
+	 * Output a legend element.
+	 *
+	 * @param string $text Legend text string.
+	 * @param array  $attr HTML attributes set.
+	 */
+	public function legend( $text, $attr ) {
+		$attr = wp_parse_args( $attr, array(
+				'id' => '',
+				'class' => ''
+			)
+		);
+		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
+		echo '<legend class="yoast-form-legend ' . $attr['class'] . '"' . $id . '>' . $text . '</legend>';
+	}
+
+	/**
 	 * Create a Checkbox input field.
 	 *
 	 * @param string $var        The variable within the option to create the checkbox for.
