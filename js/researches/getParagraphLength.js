@@ -13,10 +13,13 @@ module.exports = function( paper ) {
 	var paragraphs = matchParagraphs( text );
 	var paragraphsLength = [];
 	paragraphs.map( function ( paragraph ) {
-		paragraphsLength.push( countWords( paragraph ) );
+		paragraphsLength.push( {
+			wordCount: countWords( paragraph ),
+			paragraph: paragraph
+		} );
 	} );
 
 	return filter( paragraphsLength, function ( paragraphLength ) {
-		return ( paragraphLength > 0 );
+		return ( paragraphLength.wordCount > 0 );
 	} );
 };

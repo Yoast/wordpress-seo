@@ -15,13 +15,19 @@ var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 var analyzerConfig = require( "./config/config.js" );
 
-var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
+var templates = require( "./templates.js" );
+var snippetEditorTemplate = templates.snippetEditor;
+var hiddenElement = templates.hiddenSpan;
+
+var domManipulation = require( "./helpers/domManipulation.js" );
 
 var defaults = {
 	data: {
 		title: "",
 		metaDesc: "",
-		urlPath: ""
+		urlPath: "",
+		titleWidth: 0,
+		metaHeight: 0
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
@@ -107,52 +113,6 @@ function updateUnformattedText( key, value ) {
 	this.element.input[ key ].value = value;
 
 	this.data[ key ] = value;
-}
-
-/**
- * Adds a class to an element
- *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
- * @returns {void}
- */
-function addClass( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes a class from an element
- *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
- * @returns {void}
- */
-function removeClass( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
-
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes multiple classes from an element
- *
- * @param {HTMLElement} element The element to remove the classes from.
- * @param {Array} classes A list of classes to remove
- * @returns {void}
- */
-function removeClasses( element, classes ) {
-	forEach( classes, removeClass.bind( null, element ) );
 }
 
 /**
@@ -253,8 +213,8 @@ function updateProgressBar( element, value, maximum, rating ) {
 		];
 
 	element.value = value;
-	removeClasses( element, allClasses );
-	addClass( element, "snippet-editor__progress--" + rating );
+	domManipulation.removeClasses( element, allClasses );
+	domManipulation.addClass( element, "snippet-editor__progress--" + rating );
 
 	if ( !this.hasProgressSupport ) {
 		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
@@ -269,7 +229,7 @@ function updateProgressBar( element, value, maximum, rating ) {
  */
 
 /**
- * defines the config and outputTarget for the SnippetPreview
+ * Defines the config and outputTarget for the SnippetPreview
  *
  * @param {Object}         opts                           - Snippet preview options.
  * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
@@ -306,6 +266,9 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
  * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
  *
+ * @property {HTMLElement} element.measurers.titleWidth   - The rendered title width element.
+ * @property {HTMLElement} element.measurers.metaHeight   - The rendered meta height element.
+ *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
  * @property {HTMLElement} element.input.urlPath          - The url path input element.
@@ -319,6 +282,8 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {string}      data.title                     - The title.
  * @property {string}      data.urlPath                   - The url path.
  * @property {string}      data.metaDesc                  - The meta description.
+ * @property {int}         data.titleWidth                - The width of the title in pixels.
+ * @property {int}         data.metaHeight                - The height of the meta description in pixels.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
@@ -410,6 +375,10 @@ SnippetPreview.prototype.renderTemplate = function() {
 	} );
 
 	this.element = {
+		measurers: {
+			titleWidth: null,
+			metaHeight: null
+		},
 		rendered: {
 			title: document.getElementById( "snippet_title" ),
 			urlBase: document.getElementById( "snippet_citeBase" ),
@@ -451,11 +420,12 @@ SnippetPreview.prototype.renderTemplate = function() {
 		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
-			addClass( progressElement, "snippet-editor__progress--fallback" );
+			domManipulation.addClass( progressElement, "snippet-editor__progress--fallback" );
 		} );
 	}
 
 	this.opened = false;
+	this.createMeasurementElements();
 	this.updateProgressBars();
 };
 
@@ -467,6 +437,8 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
+	this.measureTitle();
+	this.measureMetaDescription();
 	this.updateProgressBars();
 };
 
@@ -536,7 +508,7 @@ SnippetPreview.prototype.callRegisteredEventBinder = function() {
 };
 
 /**
- *  checks if title and url are set so they can be rendered in the snippetPreview
+ *  Checks if title and url are set so they can be rendered in the snippetPreview
  *  @returns {void}
  */
 SnippetPreview.prototype.init = function() {
@@ -549,7 +521,7 @@ SnippetPreview.prototype.init = function() {
 };
 
 /**
- * creates html object to contain the strings for the snippetpreview
+ * Creates html object to contain the strings for the snippetpreview
  *
  * @returns {Object} The HTML output of the collected data.
  */
@@ -755,10 +727,10 @@ SnippetPreview.prototype.getPeriodMatches = function() {
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 
-	// removes characters from the keyword that could break the regex, or give unwanted results
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
+	// Removes characters from the keyword that could break the regex, or give unwanted results.
+	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\{\}\(\)\*\+\?\.\^\$\|]/g, " " );
 
-	// Match keyword case-insensitively
+	// Match keyword case-insensitively.
 	var keywordRegex = stringToRegex( keyword, "", false );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
@@ -766,9 +738,9 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 };
 
 /**
- * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
+ * Formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
  * <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
+ * Strips unwanted characters that could break the regex or give unwanted results
  *
  * @param {string} textString The keyword string that needs to be formatted.
  * @returns {XML|string|void} The formatted keyword string to be used in the URL.
@@ -808,11 +780,11 @@ SnippetPreview.prototype.renderSnippetStyle = function() {
 	var metaDesc = getAnalyzerMetaDesc.call( this );
 
 	if ( isEmpty( metaDesc ) ) {
-		addClass( metaDescElement, "desc-render" );
-		removeClass( metaDescElement, "desc-default" );
+		domManipulation.addClass( metaDescElement, "desc-render" );
+		domManipulation.removeClass( metaDescElement, "desc-default" );
 	} else {
-		addClass( metaDescElement, "desc-default" );
-		removeClass( metaDescElement, "desc-render" );
+		domManipulation.addClass( metaDescElement, "desc-default" );
+		domManipulation.removeClass( metaDescElement, "desc-render" );
 	}
 };
 
@@ -892,15 +864,15 @@ SnippetPreview.prototype.validateFields = function() {
 	var title = getAnalyzerTitle.call( this );
 
 	if ( metaDescription.length > analyzerConfig.maxMeta ) {
-		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
+		domManipulation.addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
-		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
+		domManipulation.removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	}
 
 	if ( title.length > titleMaxLength ) {
-		addClass( this.element.input.title, "snippet-editor__field--invalid" );
+		domManipulation.addClass( this.element.input.title, "snippet-editor__field--invalid" );
 	} else {
-		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
+		domManipulation.removeClass( this.element.input.title, "snippet-editor__field--invalid" );
 	}
 };
 
@@ -1030,7 +1002,7 @@ SnippetPreview.prototype.openEditor = function() {
 	this.element.editToggle.setAttribute( "aria-expanded", "true" );
 
 	// Show these elements.
-	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+	domManipulation.removeClass( this.element.formContainer, "snippet-editor--hidden" );
 
 	this.opened = true;
 };
@@ -1042,7 +1014,7 @@ SnippetPreview.prototype.openEditor = function() {
 SnippetPreview.prototype.closeEditor = function() {
 
 	// Hide these elements.
-	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	domManipulation.addClass( this.element.formContainer,     "snippet-editor--hidden" );
 
 	this.element.editToggle.setAttribute( "aria-expanded", "false" );
 	this.element.editToggle.focus();
@@ -1073,20 +1045,20 @@ SnippetPreview.prototype._updateFocusCarets = function() {
 
 	// Disable all carets on the labels.
 	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
+		domManipulation.removeClass( element, "snippet-editor__label--focus" );
 	} );
 
 	// Disable all carets on the previews.
 	forEach( this.element.preview, function( element ) {
-		removeClass( element, "snippet-editor__container--focus" );
+		domManipulation.removeClass( element, "snippet-editor__container--focus" );
 	} );
 
 	if ( null !== this._currentFocus ) {
 		focusedLabel = this.element.label[ this._currentFocus ];
 		focusedPreview = this.element.preview[ this._currentFocus ];
 
-		addClass( focusedLabel, "snippet-editor__label--focus" );
-		addClass( focusedPreview, "snippet-editor__container--focus" );
+		domManipulation.addClass( focusedLabel, "snippet-editor__label--focus" );
+		domManipulation.addClass( focusedPreview, "snippet-editor__container--focus" );
 	}
 };
 
@@ -1100,13 +1072,13 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 	var hoveredLabel;
 
 	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
+		domManipulation.removeClass( element, "snippet-editor__label--hover" );
 	} );
 
 	if ( null !== this._currentHover ) {
 		hoveredLabel = this.element.label[ this._currentHover ];
 
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
+		domManipulation.addClass( hoveredLabel, "snippet-editor__label--hover" );
 	}
 };
 
@@ -1140,10 +1112,60 @@ SnippetPreview.prototype.setUrlPath = function( urlPath ) {
  * @param {string} metaDesc the meta description to use in the input field.
  * @returns {void}
  */
-SnippetPreview.prototype.setTitle = function( metaDesc ) {
+SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 	this.element.input.metaDesc.value = metaDesc;
 
 	this.changedInput();
+};
+
+/**
+ * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
+ */
+SnippetPreview.prototype.createMeasurementElements = function() {
+	var titleElement, metaDescriptionElement, spanHolder;
+
+	titleElement = hiddenElement( {
+		width: "auto",
+		whiteSpace: "nowrap"
+	} );
+
+	metaDescriptionElement = hiddenElement(
+		{
+			width: document.getElementById( "meta_container" ).offsetWidth + "px",
+			whiteSpace: ""
+		}
+	);
+
+	spanHolder = document.createElement( "div" );
+
+	spanHolder.innerHTML = titleElement + metaDescriptionElement;
+
+	document.body.appendChild( spanHolder );
+
+	this.element.measurers.titleWidth = spanHolder.childNodes[ 0 ];
+	this.element.measurers.metaHeight = spanHolder.childNodes[ 1 ];
+};
+
+/**
+ * Copies the title text to the title measure element to calculate the width in pixels.
+ */
+SnippetPreview.prototype.measureTitle = function() {
+	var titleWidthElement = this.element.measurers.titleWidth;
+
+	titleWidthElement.innerHTML = this.element.rendered.title.innerHTML;
+
+	this.data.titleWidth = titleWidthElement.offsetWidth;
+};
+
+/**
+ * Copies the metadescription text to the metadescription measure element to calculate the height in pixels.
+ */
+SnippetPreview.prototype.measureMetaDescription = function() {
+	var metaHeightElement = this.element.measurers.metaHeight;
+
+	metaHeightElement.innerHTML = this.element.rendered.metaDesc.innerHTML;
+
+	this.data.metaHeight = metaHeightElement.offsetHeight;
 };
 
 /* jshint ignore:start */

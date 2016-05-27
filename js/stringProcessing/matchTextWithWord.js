@@ -1,9 +1,8 @@
 /** @module stringProcessing/matchTextWithWord */
 
-var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
 var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+var matchStringWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
 
 /**
  * Returns the number of matches in a given string
@@ -16,13 +15,6 @@ var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 module.exports = function( text, wordToMatch, extraBoundary ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
-	text = replaceDiacritics( text );
-
-	var matches = text.match( stringToRegex( wordToMatch, extraBoundary ) );
-
-	if ( matches === null ) {
-		return 0;
-	}
-
+	var matches = matchStringWithTransliteration( text, wordToMatch, extraBoundary );
 	return matches.length;
 };

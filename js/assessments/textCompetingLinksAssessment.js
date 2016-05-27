@@ -1,5 +1,10 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
+var Mark = require( "../values/Mark.js" );
+var addMark = require( "../markers/addMark.js" );
+
+var map = require( "lodash/map" );
+
 /**
  * Returns a score and text based on the number of links.
  *
@@ -8,7 +13,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkCountResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.totalKeyword > 0 ) {
+	if ( linkStatistics.keyword.totalKeyword > 0 ) {
 		return {
 			score: 2,
 			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
@@ -38,10 +43,29 @@ var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Mark the anchors.
+ *
+ * @param {Paper} paper The paper to use for the marking.
+ * @param {Researcher} researcher The researcher to use.
+ * @returns {Array} Array with all the marked anchors.
+ */
+var competingLinkMarker = function( paper, researcher ) {
+	var competingLinks = researcher.getResearch( "getLinkStatistics" );
+
+	return map( competingLinks.keyword.matchedAnchors, function( matchedAnchor ) {
+		return new Mark( {
+			original: matchedAnchor,
+			marked: addMark( matchedAnchor )
+		} );
+	} );
+};
+
 module.exports = {
 	identifier: "textCompetingLinks",
 	getResult: textHasCompetingLinksAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText() && paper.hasKeyword();
-	}
+	},
+	getMarks: competingLinkMarker
 };
