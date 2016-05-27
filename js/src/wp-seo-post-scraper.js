@@ -67,7 +67,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * gets the values from the given input. Returns this value
+	 * Gets the values from the given input. Returns this value.
 	 * @param {String} inputType
 	 * @returns {String}
 	 */
@@ -132,7 +132,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * Get the category name from the list item
+	 * Get the category name from the list item.
 	 * @param {jQuery Object} li Item which contains the category
 	 * @returns {String} Name of the category
      */
@@ -143,7 +143,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * When the snippet is updated, update the (hidden) fields on the page
+	 * When the snippet is updated, update the (hidden) fields on the page.
 	 * @param {Object} value
 	 * @param {String} type
 	 */
@@ -276,7 +276,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * Saves the content score to a hidden field
+	 * Saves the content score to a hidden field.
 	 *
 	 * @param {number} score
 	 */
@@ -348,7 +348,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	} );
 
 	/**
-	 * Initializes the snippet preview
+	 * Initializes the snippet preview.
 	 *
 	 * @param {PostScraper} postScraper
 	 * @returns {YoastSEO.SnippetPreview}
