@@ -458,7 +458,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 
 		var postScraper = new PostScraper();
 
-		args = {
+		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {

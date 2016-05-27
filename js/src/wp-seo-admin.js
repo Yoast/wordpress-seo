@@ -1,4 +1,4 @@
-/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale */
+/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale, tb_show */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
@@ -208,9 +208,9 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 	}
 
 	function showContactPopup(){
-		let $ = jQuery;
+		var $ = jQuery;
 		var $buyButton = $( '#wpseo-contact-support-popup' ),
-			title = "Buy Yoast SEO premium",
+			title = 'Buy Yoast SEO premium',
 			$popupWindow,
 			$closeButton;
 
@@ -268,23 +268,23 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 			var mountingPoints = jQuery( '.wpseo-kb-search' );
 			var algoliaSearchers = [];
 			jQuery.each( mountingPoints, function( index , mountingPoint ) {
-				let tabId =  jQuery(mountingPoint).closest('.wpseotab').attr('id');
-				algoliaSearchers.push({tabName: tabId , algoliaSearcher: ReactDom.render( <AlgoliaSearcher/>, mountingPoint )}); // jshint ignore:line
+				var tabId = jQuery( mountingPoint ).closest( '.wpseotab' ).attr( 'id' );
+				algoliaSearchers.push( {tabName: tabId , algoliaSearcher: ReactDom.render( <AlgoliaSearcher/>, mountingPoint )} ); // jshint ignore:line
 			});
 
 
 			/* Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data */
-			jQuery('.contact-support').on('click', function( e ) {
-				let activeTabName = jQuery('.wpseotab.active').attr('id');
+			jQuery( '.contact-support' ).on( 'click', function( e ) {
+				var activeTabName = jQuery( '.wpseotab.active' ).attr( 'id' );
 				var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher; // 1st by defatul. (Used for the Advanced settings pages because of how the tabs were set up)
 				jQuery.each(algoliaSearchers, function( key, searcher ) {
-					if ( searcher.tabName == activeTabName ) {
+					if ( searcher.tabName === activeTabName ) {
 						activeAlgoliaSearcher = searcher.algoliaSearcher;
 						return false; // returning false breaks the loop.
 					}
 				});
-				let usedQueries = activeAlgoliaSearcher.state.usedQueries;
-				jQuery( window ).trigger( 'YoastSEO:ContactSupport',  {usedQueries: usedQueries});
+				var usedQueries = activeAlgoliaSearcher.state.usedQueries;
+				jQuery( window ).trigger( 'YoastSEO:ContactSupport',  {usedQueries: usedQueries} );
 
 			});
 
