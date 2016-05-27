@@ -25,14 +25,12 @@ describe( "a mark value object", function() {
 			expect( mark.applyWithReplace( text ) ).toBe( expected );
 		});
 
-		it( "should only apply to the first occurence", function() {
+		it( "should only apply all occurences", function() {
 			var mark = new Mark({ original: "original", marked: "marked" });
 			var text = "original original original original original original original";
-			var expected = "marked original original original original original original";
+			var expected = "marked marked marked marked marked marked marked";
 
 			expect( mark.applyWithReplace( text ) ).toBe( expected );
 		});
 	});
-
-
 } );
