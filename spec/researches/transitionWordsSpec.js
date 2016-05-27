@@ -57,15 +57,12 @@ describe("a test for finding transition words from a string", function() {
 		expect(result.totalSentences).toBe(2);
 		expect(result.transitionWordSentences).toBe(2);
 	});
-	/*
-	 // Fails because of incorrect sentence detection. See issue #471.
-	 it("returns 1 when a transition word abbreviation found in a sentence", function () {
-	 mockPaper = new Paper("That is e.g. a story...");
-	 result = transitionWordsResearch(mockPaper);
-	 expect(result.totalSentences).toBe(1);
-	 expect(result.transitionWordSentences).toBe(1);
+	it("returns 1 when a transition word abbreviation found in a sentence", function () {
+		mockPaper = new Paper("That is e.g. a story...");
+		 result = transitionWordsResearch(mockPaper);
+		 expect(result.totalSentences).toBe(1);
+		 expect(result.transitionWordSentences).toBe(1);
 	 });
-	 */
 	it("returns 1 when 2 transition words are found in the same sentence", function () {
 		mockPaper = new Paper("Firstly, I'd like to tell a story, for example");
 		result = transitionWordsResearch(mockPaper);
