@@ -8,6 +8,10 @@ describe( "matches a string to it's transliterated value", function( ) {
 	} );
 	it( "returns a match in a string with spaces", function(){
 		keyword = "the keyword";
-		expect( matchStringWithTransliteration( str, keyword )[ 0 ] ).toBe( "the keyword");
+		expect( matchStringWithTransliteration( str, keyword )[ 0 ] ).toBe( "the keyword" );
 	} );
+	it( "matches transliteration", function() {
+		keyword = "këyword";
+		expect( matchStringWithTransliteration( str, keyword, "en_US" )[ 0 ] ).toBe( "keyword" );
+	});
 } );
