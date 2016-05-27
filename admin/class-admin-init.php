@@ -159,28 +159,38 @@ class WPSEO_Admin_Init {
 	 */
 	public function ga_compatibility_notice() {
 
+		$notification        = $this->get_compatibility_notification();
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Build compatibility problem notification
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_compatibility_notification() {
 		$info_message = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
 			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'5.4.3',
 			'Google Analytics by Yoast'
 		);
 
-		$notification_options = array(
-			'id'   => 'gawp-compatibility-notice',
-			'type' => Yoast_Notification::ERROR,
+		return new Yoast_Notification(
+			$info_message,
+			array(
+				'id'   => 'gawp-compatibility-notice',
+				'type' => Yoast_Notification::ERROR,
+			)
 		);
-
-		$ga_compatibility_notification = new Yoast_Notification( $info_message, $notification_options );
-
-		$notification_center = Yoast_Notification_Center::get();
-		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
-			$notification_center->add_notification( $ga_compatibility_notification );
-		}
-		else {
-			$notification_center->remove_notification( $ga_compatibility_notification );
-		}
 	}
 
 	/**

@@ -72,7 +72,24 @@ class WPSEO_GSC {
 	 */
 	public function register_gsc_notification() {
 
-		$gsc_notification = new Yoast_Notification(
+		$notification        = $this->get_profile_notification();
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( WPSEO_GSC_Settings::get_profile() === '' ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Builds the notification used when GSC is not connected to a profile
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_profile_notification() {
+		return new Yoast_Notification(
 			sprintf(
 				__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
 				'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
@@ -84,14 +101,6 @@ class WPSEO_GSC {
 				'capabilities' => 'manage_options',
 			)
 		);
-
-		$notification_center = Yoast_Notification_Center::get();
-		if ( WPSEO_GSC_Settings::get_profile() === '' ) {
-			$notification_center->add_notification( $gsc_notification );
-		}
-		else {
-			$notification_center->remove_notification( $gsc_notification );
-		}
 	}
 
 	/**
