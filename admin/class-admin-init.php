@@ -72,7 +72,7 @@ class WPSEO_Admin_Init {
 
 		$notification        = $this->get_update_notification();
 		$notification_center = Yoast_Notification_Center::get();
-		
+
 		if ( $this->has_ignored_tour() && ! $this->seen_about() ) {
 			$notification_center->add_notification( $notification );
 		}
@@ -83,7 +83,7 @@ class WPSEO_Admin_Init {
 
 	/**
 	 * Build the update notification
-	 * 
+	 *
 	 * @return Yoast_Notification
 	 */
 	private function get_update_notification() {
