@@ -4,7 +4,7 @@ var Paper = require( "../../js/values/Paper.js" );
 describe("a test for finding transition words from a string", function() {
 
 	it("returns 1 when a transition word is found in the middle of a sentence", function () {
-		mockPaper = new Paper("this is a story about a boy");
+		mockPaper = new Paper("this story is, above all, about a boy");
 		result = transitionWordsResearch(mockPaper);
 		expect(result.totalSentences).toBe(1);
 		expect(result.transitionWordSentences).toBe(1);
@@ -40,7 +40,7 @@ describe("a test for finding transition words from a string", function() {
 		expect(result.transitionWordSentences).toBe(1);
 	});
 	it("returns 2 when a two-part transition word  is found in a sentence, and a transition word in another sentence.", function () {
-		mockPaper = new Paper("I will either tell you a story, or read you a novel. About a boy.");
+		mockPaper = new Paper("I will either tell you a story, or read you a novel. Unless it is about a boy.");
 		result = transitionWordsResearch(mockPaper);
 		expect(result.totalSentences).toBe(2);
 		expect(result.transitionWordSentences).toBe(2);
@@ -57,15 +57,12 @@ describe("a test for finding transition words from a string", function() {
 		expect(result.totalSentences).toBe(2);
 		expect(result.transitionWordSentences).toBe(2);
 	});
-	/*
-	// Fails because of incorrect sentence detection. See issue #471.
 	it("returns 1 when a transition word abbreviation found in a sentence", function () {
 		mockPaper = new Paper("That is e.g. a story...");
-		result = transitionWordsResearch(mockPaper);
-		expect(result.totalSentences).toBe(1);
-		expect(result.transitionWordSentences).toBe(1);
-	});
-	*/
+		 result = transitionWordsResearch(mockPaper);
+		 expect(result.totalSentences).toBe(1);
+		 expect(result.transitionWordSentences).toBe(1);
+	 });
 	it("returns 1 when 2 transition words are found in the same sentence", function () {
 		mockPaper = new Paper("Firstly, I'd like to tell a story, for example");
 		result = transitionWordsResearch(mockPaper);
