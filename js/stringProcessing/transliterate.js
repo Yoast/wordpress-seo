@@ -11,7 +11,6 @@ var transliterationsMap = require( "../config/transliterations.js" );
  */
 module.exports = function( text, locale ) {
 	var map = transliterationsMap( locale );
-
 	for ( var i = 0; i < map.length; i++ ) {
 		text = text.replace(
 			map[ i ].letter,
