@@ -107,7 +107,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	/**
 	 * When the snippet is updated, update the (hidden) fields on the page.
 	 * @param {Object} value Value for the data to set.
-	 * @param {String}  The field(type) that the data is set for.
+	 * @param {String} type The field(type) that the data is set for.
 	 */
 	TermScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {

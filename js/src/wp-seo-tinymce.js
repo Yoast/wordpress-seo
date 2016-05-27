@@ -59,11 +59,10 @@
 	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 	 *
-	 * @param App Application.
+	 * @param {App} app YoastSeo application.
 	 * @param {String} tmceId The ID of the tinyMCE editor.
 	 */
 	function tinyMceEventBinder( app, tmceId ) {
-
 		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
 			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
 			//trigger them, or takes up to ten seconds to fire an event.
