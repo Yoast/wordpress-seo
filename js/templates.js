@@ -273,7 +273,9 @@
      if ( scores[ i ].marker ) {
     __p += '\n            <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-' +
     ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
-    '"></button>\n            ';
+    '"><span class="screen-reader-text">' +
+    ((__t = ( i18n.markInText )) == null ? '' : __t) +
+    '</span></button>\n            ';
      }
     __p += '\n        </li>\n    ';
      }
