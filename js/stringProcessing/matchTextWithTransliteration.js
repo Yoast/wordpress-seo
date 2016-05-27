@@ -39,7 +39,7 @@ module.exports = function( text, keyword ) {
 	var transliterateKeywordRegex = toRegex( transliterateKeyword );
 	var transliterateMatches = text.match( transliterateKeywordRegex ) || [];
 
-	var combinedArray = [].concat( matches, transliterateMatches );
+	var combinedArray = matches.concat( transliterateMatches );
 	return map( combinedArray, function( keyword ) {
 		return stripSpaces( keyword );
 	} );

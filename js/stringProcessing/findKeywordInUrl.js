@@ -10,15 +10,11 @@ var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" 
  * @returns {boolean} If a keyword is found, returns true
  */
 module.exports = function( url, keyword ) {
-	var keywordFound = false;
 	var formatUrl = url.match( />(.*)/ig );
 
 	if ( formatUrl !== null ) {
 		formatUrl = formatUrl[ 0 ].replace( /<.*?>\s?/ig, "" );
-		if ( matchTextWithTransliteration( formatUrl, keyword ).length > 0 ) {
-			keywordFound = true;
-		}
+		return matchTextWithTransliteration( formatUrl, keyword ).length > 0;
 	}
-
-	return keywordFound;
+	return false;
 };
