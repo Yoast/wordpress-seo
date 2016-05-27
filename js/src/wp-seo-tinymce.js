@@ -68,7 +68,7 @@
 			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
 			//trigger them, or takes up to ten seconds to fire an event.
 			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function ( evt ) {
+			tinyMCE.on( 'addEditor', function( evt ) {
 				if ( evt.id === tmceId ) {
 					for ( var i = 0; i < events.length; i++ ) {
 						evt.editor.on( events[i], app.analyzeTimer.bind( app ) );
