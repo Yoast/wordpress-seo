@@ -461,7 +461,7 @@ class WPSEO_Premium {
 	/**
 	 * Add the Yoast contact support assets
 	 */
-	public function enqueue_contact_support(){
+	public function enqueue_contact_support() {
 		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-contact-support' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 	}
 }
