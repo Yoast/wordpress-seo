@@ -70,10 +70,6 @@ class WPSEO_Admin_Init {
 	 */
 	public function after_update_notice() {
 
-		if ( ! $this->has_ignored_tour() || $this->seen_about() ) {
-			return;
-		}
-
 		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
 		$info_message = sprintf(
 			__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
@@ -89,7 +85,15 @@ class WPSEO_Admin_Init {
 			'capabilities' => 'manage_options',
 		);
 
-		Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		$after_update_notification = new Yoast_Notification( $info_message, $notification_options );
+
+		$notification_center = Yoast_Notification_Center::get();
+		if ( $this->has_ignored_tour() && ! $this->seen_about() ) {
+			$notification_center->add_notification( $after_update_notification );
+		}
+		else {
+			$notification_center->remove_notification( $after_update_notification );
+		}
 	}
 
 	/**
@@ -109,11 +113,6 @@ class WPSEO_Admin_Init {
 	 */
 	public function tagline_notice() {
 
-		// Just a return, because we want to temporary disable this notice (#3998).
-		if ( ! $this->has_default_tagline() ) {
-			return;
-		}
-
 		$current_url = ( is_ssl() ? 'https://' : 'http://' );
 		$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 		$customize_url = add_query_arg( array(
@@ -132,7 +131,15 @@ class WPSEO_Admin_Init {
 			'capabilities' => 'manage_options',
 		);
 
-		Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
+
+		$notification_center = Yoast_Notification_Center::get();
+		if ( $this->has_default_tagline() ) {
+			$notification_center->add_notification( $tagline_notification );
+		}
+		else {
+			$notification_center->remove_notification( $tagline_notification );
+		}
 	}
 
 	/**
@@ -151,12 +158,9 @@ class WPSEO_Admin_Init {
 	 * on the google search console page.
 	 */
 	public function ga_compatibility_notice() {
-		if ( ! defined( 'GAWP_VERSION' ) || '5.4.3' !== GAWP_VERSION ) {
-			return;
-		}
 
 		$info_message = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
+		/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
 			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'5.4.3',
@@ -168,7 +172,15 @@ class WPSEO_Admin_Init {
 			'type' => Yoast_Notification::ERROR,
 		);
 
-		Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		$ga_compatibility_notification = new Yoast_Notification( $info_message, $notification_options );
+
+		$notification_center = Yoast_Notification_Center::get();
+		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
+			$notification_center->add_notification( $ga_compatibility_notification );
+		}
+		else {
+			$notification_center->remove_notification( $ga_compatibility_notification );
+		}
 	}
 
 	/**
