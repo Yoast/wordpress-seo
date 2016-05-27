@@ -35,7 +35,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	var tmceId = 'content';
 
 	/**
-	 * wordpress scraper to gather inputfields.
+	 * Wordpress scraper to gather input fields.
 	 * @constructor
 	 */
 	var PostScraper = function() {
@@ -66,7 +66,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * gets the values from the given input. Returns this value
+	 * Gets the values from the given input. Returns this value.
 	 * @param {String} inputType
 	 * @returns {String}
 	 */
@@ -131,7 +131,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * Get the category name from the list item
+	 * Get the category name from the list item.
 	 * @param {jQuery Object} li Item which contains the category
 	 * @returns {String} Name of the category
 	 */
@@ -142,7 +142,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * When the snippet is updated, update the (hidden) fields on the page
+	 * When the snippet is updated, update the (hidden) fields on the page.
 	 * @param {Object} value
 	 * @param {String} type
 	 */
@@ -202,7 +202,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * binds the reanalyze timer on change of dom element.
+	 * Binds the reanalyze timer on change of dom element.
 	 */
 	PostScraper.prototype.changeElementEventBinder = function( app ) {
 		var elems = ['#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]'];
@@ -212,7 +212,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 	};
 
 	/**
-	 * binds the renewData function on the change of inputelements.
+	 * Binds the renewData function on the change of inputelements.
 	 */
 	PostScraper.prototype.inputElementEventBinder = function( app ) {
 		var elems = ['excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title'];
@@ -483,5 +483,5 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 				}
 			} );
 		}
-	} );
+	});
 }( jQuery ) );
