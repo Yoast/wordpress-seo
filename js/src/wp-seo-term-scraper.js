@@ -85,7 +85,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 				}
 				break;
 			case 'text':
-				val = this.getContentTinyMCE();
+				val = tmceHelper.getContentTinyMce();
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
