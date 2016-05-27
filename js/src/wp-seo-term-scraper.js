@@ -152,9 +152,9 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	TermScraper.prototype.inputElementEventBinder = function( app ) {
 		var elems = [ 'name', tmceId, 'slug', 'wpseo_focuskw' ];
 		for ( var i = 0; i < elems.length; i++ ) {
-			var elem = document.getElementById( elems[i] );
+			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
-				document.getElementById( elems[i] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
 			}
 		}
 		tmceHelper.tinyMceEventBinder( app, tmceId );

@@ -7,7 +7,7 @@ var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
-var tmceHelper = require('./wp-seo-tinymce');
+var tmceHelper = require( './wp-seo-tinymce' );
 
 (function( $ ) {
 	'use strict';
