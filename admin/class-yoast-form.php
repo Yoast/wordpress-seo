@@ -489,11 +489,12 @@ class Yoast_Form {
 	/**
 	 * Create a Radio input field.
 	 *
-	 * @param string $var    The variable within the option to create the file upload field for.
-	 * @param array  $values The radio options to choose from.
-	 * @param string $legend The label to show for the field set, used for the legend element.
+	 * @param string $var         The variable within the option to create the file upload field for.
+	 * @param array  $values      The radio options to choose from.
+	 * @param string $legend      Optional. The legend to show for the field set, if any.
+	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
 	 */
-	public function radio( $var, $values, $legend ) {
+	public function radio( $var, $values, $legend = '', $legend_attr = array() ) {
 		if ( ! is_array( $values ) || $values === array() ) {
 			return;
 		}
@@ -504,8 +505,15 @@ class Yoast_Form {
 		$var_esc = esc_attr( $var );
 
 		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
-		if ( is_string( $legend ) && $legend !== '' ) {
-			$this->legend( $legend, array( 'class' => 'radiogroup' ) );
+
+		if ( is_string( $legend ) && '' !== $legend ) {
+
+			$legend_attr = wp_parse_args( $legend_attr, array(
+				'id'    => '',
+				'class' => 'radiogroup',
+			) );
+
+			$this->legend( $legend, $legend_attr );
 		}
 
 		foreach ( $values as $key => $value ) {
