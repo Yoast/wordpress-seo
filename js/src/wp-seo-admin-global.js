@@ -207,8 +207,13 @@
 		}
 
 		$issue_counter.html( response.total );
+		if ( response.total === 0 ) {
+			$issue_counter.hide();
+		} else {
+			$issue_counter.show();
+		}
 
-		// Admin menu counter.
+		$('#toplevel_page_wpseo_alerts .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
 		$('#toplevel_page_wpseo_alerts .plugin-count').html( response.total );
 	}
 })();
