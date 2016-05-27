@@ -6,6 +6,8 @@ var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
+var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
+
 (function( $ ) {
 	'use strict';
 
@@ -97,7 +99,7 @@ var TabManager = require( './analysis/tabManager' );
 		switch ( inputType ) {
 			case 'text':
 			case 'content':
-				val = this.getContentTinyMCE();
+				val = removeMarks( this.getContentTinyMCE() );
 				break;
 			case 'cite':
 			case 'url':
@@ -511,6 +513,8 @@ var TabManager = require( './analysis/tabManager' );
 		usedKeywords.init();
 
 		postScraper.initKeywordTabTemplate();
+
+		window.YoastSEO.wp._tabManager = tabManager;
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
