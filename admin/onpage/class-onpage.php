@@ -107,7 +107,7 @@ class WPSEO_OnPage {
 
 	/**
 	 * Builds the indexability notification
-	 * 
+	 *
 	 * @return Yoast_Notification
 	 */
 	private function get_indexability_notification() {
