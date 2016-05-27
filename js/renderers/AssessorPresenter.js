@@ -19,7 +19,7 @@ var domManipulation = require( "../helpers/domManipulation.js" );
  * @param {string} args.targets.output The HTML element to render the individual ratings out to.
  * @param {string} args.targets.overall The HTML element to render the overall rating out to.
  * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
- * @param {SEOAssessor} args.assessor The Assessor object to retrieve assessment results from.
+ * @param {SEOAssessor} args.assessor The Assessor object to retrib assessment results from.
  * @param {Jed} args.i18n The translation object.
  *
  * @constructor
@@ -206,12 +206,7 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 	return this.resultToRating( { score: rating } );
 };
 
-/**
- * Toggles the marker button class depending on its state.
- *
- * @param {HTMLElement} element The element to toggle the class on.
- */
-AssessorPresenter.prototype.toggleMarkerClass = function( element ) {
+AssessorPresenter.prototype.deactiveMarkerClasses = function() {
 	var markers = document.getElementsByClassName( "assessment-results__mark" );
 
 	// Reset all other items prior to activating the currently active marker.
@@ -219,6 +214,15 @@ AssessorPresenter.prototype.toggleMarkerClass = function( element ) {
 		domManipulation.removeClass( marker, "icon-eye-active" );
 		domManipulation.addClass( marker, "icon-eye-inactive" );
 	} );
+};
+
+/**
+ * Toggles the marker button class depending on its state.
+ *
+ * @param {HTMLElement} element The element to toggle the class on.
+ */
+AssessorPresenter.prototype.toggleMarkerClass = function( element ) {
+	this.deactiveMarkerClasses();
 
 	domManipulation.removeClass( element, "icon-eye-inactive" );
 	domManipulation.addClass( element, "icon-eye-active" );
@@ -234,8 +238,8 @@ AssessorPresenter.prototype.addMarkerEventHandler = function( identifier, marker
 	var container = document.getElementById( this.output );
 	var markButton = container.getElementsByClassName( "js-assessment-results__mark-" + identifier )[ 0 ];
 
-	markButton.addEventListener( "click", function( event ) {
-		this.toggleMarkerClass( event.target );
+	markButton.addEventListener( "click", function( ev ) {
+		this.toggleMarkerClass( ev.target );
 		marker();
 	}.bind( this ) );
 };
@@ -263,6 +267,28 @@ AssessorPresenter.prototype.bindMarkButtons = function( scores ) {
 };
 
 /**
+ * Removes all marks currently on the text
+ */
+AssessorPresenter.prototype.removeAllMarks = function() {
+	var marker = this.assessor.getSpecificMarker();
+
+	marker( this.assessor.getPaper(), [] );
+};
+
+/**
+ * Adds event handler to remove marks button
+ */
+AssessorPresenter.prototype.bindRemoveMarksButton = function() {
+	var container = document.getElementById( this.output );
+	var removeMarksButton = container.getElementsByClassName( "js-assessment-results__remove-marks" )[ 0 ];
+
+	removeMarksButton.addEventListener( "click", function() {
+		this.removeAllMarks();
+		this.deactiveMarkerClasses();
+	}.bind( this ) );
+};
+
+/**
  * Renders out the individual ratings.
  */
 AssessorPresenter.prototype.renderIndividualRatings = function() {
@@ -270,10 +296,15 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 	var scores = this.getIndividualRatings();
 
 	outputTarget.innerHTML = template( {
-		scores: scores
+		scores: scores,
+		i18n: {
+			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
+			removeMarks: this.i18n.dgettext( "js-text-analysis", "Remove all marks from the text" )
+		}
 	} );
 
 	this.bindMarkButtons( scores );
+	this.bindRemoveMarksButton();
 };
 
 /**
