@@ -13,6 +13,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	'use strict';
 
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+
 	var App = require( 'yoastseo' ).App;
 
 	var UsedKeywords = require( './analysis/usedKeywords' );
@@ -20,13 +21,10 @@ var tmceHelper = require('./wp-seo-tinymce');
 	var currentKeyword = '';
 
 	var titleElement;
+
 	var leavePostNameEmpty = false;
 
 	var app, snippetPreview;
-
-	var mainKeywordTab;
-
-	var KeywordTab = require( './analysis/keywordTab' );
 
 	var decorator = null;
 
@@ -39,8 +37,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	var tmceId = 'content';
 
 	/**
-	 * wordpress scraper to gather inputfields.
-	 * @constructor
+	 * Show warning in console when the unsupported CkEditor is used.
 	 */
 	var PostScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
@@ -49,8 +46,8 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
-	 * the analyzer and the snippetpreview
+	 * Get data from input fields and store them in an analyzerData object. This object will be used to fill
+	 * the analyzer and the snippet preview.
 	 */
 	PostScraper.prototype.getData = function() {
 		return {
@@ -78,7 +75,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 		var newPostSlug, val = '';
 		switch ( inputType ) {
 			case 'text':
-			case 'content':
+			case tmceId:
 				val = removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 				break;
 			case 'cite':
@@ -198,36 +195,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
-	 * or is hidden it gets it's contents from getTinyMCEElementContent.
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getContentTinyMCE = function() {
-		if ( this.isTinyMCEAvailable() === false ) {
-			return this.getTinyMCEElementContent();
-		}
-		return tinyMCE.get( 'content' ).getContent();
-	};
-
-	/**
-	 * Returns whether or not TinyMCE is available.
-	 * @returns {boolean}
-	 */
-	PostScraper.prototype.isTinyMCEAvailable = function() {
-		return isTinyMCEAvailable( 'content' );
-	};
-
-	/**
-	 * Gets content from the contentfield.
-	 *
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getTinyMCEElementContent = function() {
-		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
-	};
-
-	/**
-	 * Calls the eventbinders.
+	 * Calls the event binders.
 	 */
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
@@ -235,7 +203,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * binds the reanalyze timer on change of dom element.
+	 * Binds the reanalyze timer on change of dom element.
      */
 	PostScraper.prototype.changeElementEventBinder = function( app ) {
 		var elems = [ '#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]' ];
@@ -245,7 +213,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * binds the renewData function on the change of inputelements.
+	 * Binds the renewData function on the change of input elements.
 	 */
 	PostScraper.prototype.inputElementEventBinder = function( app ) {
 		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
@@ -319,7 +287,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * Initializes keyword tab with the correct template if multi keyword isn't available
+	 * Initializes keyword tab with the correct template if multi keyword isn't available.
 	 */
 	PostScraper.prototype.initKeywordTabTemplate = function() {
 		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
@@ -334,7 +302,7 @@ var tmceHelper = require('./wp-seo-tinymce');
 	};
 
 	/**
-	 * Returns whether or not the current post has a title
+	 * Returns whether or not the current post has a title.
 	 *
 	 * @returns {boolean}
 	 */
@@ -343,8 +311,8 @@ var tmceHelper = require('./wp-seo-tinymce');
 	}
 
 	/**
-	 * Retrieves either a generated slug or the page title as slug for the preview
-	 * @param {Object} response The AJAX response object
+	 * Retrieves either a generated slug or the page title as slug for the preview.
+	 * @param {Object} response The AJAX response object.
 	 * @returns {string}
 	 */
 	function getUrlPathFromResponse( response ) {
@@ -358,8 +326,8 @@ var tmceHelper = require('./wp-seo-tinymce');
 	}
 
 	/**
-	 * binds to the WordPress jQuery function to put the permalink on the page.
-	 * If the response matches with permalinkstring, the snippet can be rerendered.
+	 * Binds to the WordPress jQuery function to put the permalink on the page.
+	 * If the response matches with permalink string, the snippet can be rendered.
 	 */
 	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
 		var ajax_end_point = '/admin-ajax.php';
