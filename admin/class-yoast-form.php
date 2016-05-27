@@ -491,9 +491,9 @@ class Yoast_Form {
 	 *
 	 * @param string $var    The variable within the option to create the file upload field for.
 	 * @param array  $values The radio options to choose from.
-	 * @param string $label  The label to show for the variable.
+	 * @param string $legend The label to show for the field set, used for the legend element.
 	 */
-	public function radio( $var, $values, $label ) {
+	public function radio( $var, $values, $legend ) {
 		if ( ! is_array( $values ) || $values === array() ) {
 			return;
 		}
@@ -503,9 +503,9 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 
-		echo '<br/><div class="wpseo_radio_block" id="' . $var_esc . '">';
-		if ( is_string( $label ) && $label !== '' ) {
-			$this->label( $label . ':', array( 'class' => 'select' ) );
+		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
+		if ( is_string( $legend ) && $legend !== '' ) {
+			$this->legend( $legend, array( 'class' => 'radiogroup' ) );
 		}
 
 		foreach ( $values as $key => $value ) {
@@ -513,8 +513,7 @@ class Yoast_Form {
 			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />';
 			$this->label( $value, array( 'for' => $var_esc . '-' . $key_esc, 'class' => 'radio' ) );
 		}
-		echo '<div class="clear"></div>';
-		echo '</div><br/>';
+		echo '</fieldset>';
 	}
 
 
