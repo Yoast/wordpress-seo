@@ -1,14 +1,11 @@
 (function( $ ) {
 
 	$(window).on('YoastSEO:ContactSupport', function( e, data ) {
-		data = {
-			"usedQueries": {}
-		};
-		var identity = HS.beacon.get_helpscout_beacon_identity();
-		identity[ 'User searched for' ] = usedQueriesWithHTML(data.usedQueries);
-
-
-		HS.beacon.identify(identity);
+		if( data.usedQueries != undefined){
+			var identity = HS.beacon.get_helpscout_beacon_identity();
+			identity[ 'User searched for' ] = usedQueriesWithHTML(data.usedQueries);
+			HS.beacon.identify(identity);
+		}
 		HS.beacon.open();
 	});
 
