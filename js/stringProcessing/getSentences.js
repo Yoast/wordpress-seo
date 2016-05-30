@@ -82,7 +82,7 @@ module.exports = function( text ) {
 	var originalText = text;
 
 	// Unify all terminators.
-	text = text.replace( /[.?!]/g, "." );
+	text = text.replace( /[.?!:]/g, "." );
 
 	// Add period in case it is missing.
 	text += ".";

@@ -23,4 +23,9 @@ describe("Get sentences from text", function(){
 		expect( getSentences( sentence )[0] ).toBe( "It was a lot");
 		expect( getSentences( sentence )[1] ).toBe( " Approx! two hundred");
 	});
+
+	it( "returns sentences, with :", function() {
+		var sentence = "One. Two. Three: Four! Five."
+		expect( getSentences( sentence ).length ).toBe ( 5 );
+	});
 });
