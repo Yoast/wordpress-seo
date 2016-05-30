@@ -44,6 +44,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'page_comments_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
@@ -153,6 +154,32 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Display notice to disable comment pagination
+	 */
+	public function page_comments_notice() {
+
+		$info_message = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
+		$info_message .= '<br/>';
+		$info_message .= sprintf( __( 'Simply uncheck the box before "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ), '<a href="' .admin_url( 'options-discussion.php' ) . '">', '</a>' );
+
+		$notification_options = array(
+			'type'         => Yoast_Notification::WARNING,
+			'id'           => 'wpseo-dismiss-page_comments-notice',
+			'capabilities' => 'manage_options',
+		);
+
+		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
+
+		$notification_center = Yoast_Notification_Center::get();
+		if ( $this->has_page_comments() ) {
+			$notification_center->add_notification( $tagline_notification );
+		}
+		else {
+			$notification_center->remove_notification( $tagline_notification );
+		}
+	}
+
+	/**
 	 * Returns whether or not the site has the default tagline
 	 *
 	 * @return bool
@@ -161,6 +188,15 @@ class WPSEO_Admin_Init {
 		$blog_description = get_bloginfo( 'description' );
 		$default_blog_description = 'Just another WordPress site';
 		return __( $default_blog_description ) === $blog_description || $default_blog_description === $blog_description;
+	}
+
+	/**
+	 * Are page comments enabled
+	 *
+	 * @return bool
+	 */
+	public function has_page_comments() {
+		return '1' === get_option( 'page_comments' );
 	}
 
 	/**

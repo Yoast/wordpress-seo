@@ -140,13 +140,6 @@ if ( strpos( get_option( 'permalink_structure' ), '%postname%' ) === false && $o
 	echo __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' ), '</p>';
 }
 
-if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false ) {
-	echo '<p id="wrong_page_comments" class="wrong">';
-	echo '<a href="javascript:setWPOption(\'page_comments\',\'0\',\'wrong_page_comments\',\'', esc_js( wp_create_nonce( 'wpseo-setoption' ) ), '\');" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
-	echo '<a href="javascript:wpseoSetIgnore(\'page_comments\',\'wrong_page_comments\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
-	echo __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before "Break comments into pages..."', 'wordpress-seo' ), '</p>';
-}
-
 $tabs = array(
 	'general'         => array(
 		'label'                => __( 'General', 'wordpress-seo' ),

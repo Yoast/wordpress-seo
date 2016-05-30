@@ -22,7 +22,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'blocking_files'                  => array(),
 		'ignore_blog_public_warning'      => false,
 		'ignore_meta_description_warning' => null, // Overwrite in __construct().
-		'ignore_page_comments'            => false,
 		'ignore_permalink'                => false,
 		'ms_defaults_set'                 => false,
 		'theme_description_found'         => null, // Overwrite in __construct().
@@ -59,7 +58,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public $ms_exclude = array(
 		'ignore_blog_public_warning',
 		'ignore_meta_description_warning',
-		'ignore_page_comments',
 		'ignore_permalink',
 		/* theme dependent */
 		'theme_description_found',
@@ -200,7 +198,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 */
 				case 'ignore_blog_public_warning':
 				case 'ignore_meta_description_warning':
-				case 'ignore_page_comments':
 				case 'ignore_permalink':
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
@@ -271,7 +268,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		$value_change = array(
 			'ignore_blog_public_warning',
 			'ignore_meta_description_warning',
-			'ignore_page_comments',
 			'ignore_permalink',
 			// 'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true.
 		);
