@@ -44,18 +44,34 @@
 	}
 
 	/**
+	 * Converts the html entities for symbols back to the original symbol. For now this only converts the & symbol.
+	 * @param {String} text
+	 * @returns {String} text with html entities replaced with the symbol.
+	 */
+	function convertHtmlEntities( text ) {
+		// Create regular expression, this searches for the html entity '&amp;', the 'g' param is for searching the whole text.
+		var re = new RegExp('&amp;','g');
+		return String(text).replace(re, '&');
+	}
+
+	/**
 	 * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
+	 * Also converts 'amp;' to & in the content.
 	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
-	 * @returns {String}
+	 * @returns {String} Content from the TinyMCE editor.
 	 */
 	function getContentTinyMce( content_id ) {
 		//if no TinyMce object available
+		var content = '';
 		if ( isTinyMCEAvailable( content_id ) === false ) {
-			return tinyMCEElementContent( content_id );
+			content = tinyMCEElementContent( content_id );
+		}else{
+			content = tinyMCE.get( content_id ).getContent();
 		}
-		return tinyMCE.get( content_id ).getContent();
-	}
 
+		return convertHtmlEntities(content);
+	}
+	
 	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 	 *
