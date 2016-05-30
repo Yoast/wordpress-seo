@@ -21,12 +21,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// Non-form fields, set via (ajax) function.
 		'blocking_files'                  => array(),
 		'ignore_blog_public_warning'      => false,
-		'ignore_meta_description_warning' => null, // Overwrite in __construct().
 		'ignore_page_comments'            => false,
 		'ignore_permalink'                => false,
 		'ms_defaults_set'                 => false,
-		'theme_description_found'         => null, // Overwrite in __construct().
-		'theme_has_description'           => null, // Overwrite in __construct().
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
 		// Form fields:
@@ -45,25 +42,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array  Array of description related defaults
-	 */
-	public static $desc_defaults = array(
-		'ignore_meta_description_warning' => false,
-		'theme_description_found'         => '', // Text string description.
-		'theme_has_description'           => null,
-	);
-
-	/**
 	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
 	 */
 	public $ms_exclude = array(
 		'ignore_blog_public_warning',
-		'ignore_meta_description_warning',
 		'ignore_page_comments',
 		'ignore_permalink',
-		/* theme dependent */
-		'theme_description_found',
-		'theme_has_description',
 		/* privacy */
 		'alexaverify',
 		'googleverify',
@@ -82,14 +66,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @return \WPSEO_Option_Wpseo
 	 */
 	protected function __construct() {
-		/*
-		Dirty fix for making certain defaults available during activation while still only
-			   defining them once
-		*/
-		foreach ( self::$desc_defaults as $key => $value ) {
-			$this->defaults[ $key ] = $value;
-		}
-
 		parent::__construct();
 
 		/* Clear the cache on update/add */
@@ -142,16 +118,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
-
-				case 'theme_description_found':
-					if ( isset( $dirty[ $key ] ) && is_string( $dirty[ $key ] ) ) {
-						$clean[ $key ] = $dirty[ $key ]; // @todo [JRF/whomever] maybe do wp_kses ?
-					}
-					elseif ( isset( $old[ $key ] ) && is_string( $old[ $key ] ) ) {
-						$clean[ $key ] = $old[ $key ];
-					}
-					break;
-
 				case 'company_or_person':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						if ( in_array( $dirty[ $key ], array( 'company', 'person' ) ) ) {
@@ -182,24 +148,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					$this->validate_verification_string( $key, $dirty, $old, $clean );
 					break;
 
-
-				/* boolean|null fields - if set a check was done, if null, it hasn't */
-				case 'theme_has_description':
-					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
-					}
-					elseif ( isset( $old[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::validate_bool( $old[ $key ] );
-					}
-					break;
-
-
 				/*
 				Boolean dismiss warnings - not fields - may not be in form
 					   (and don't need to be either as long as the default is false)
 				 */
 				case 'ignore_blog_public_warning':
-				case 'ignore_meta_description_warning':
 				case 'ignore_page_comments':
 				case 'ignore_permalink':
 				case 'ms_defaults_set':
@@ -244,33 +197,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @return  array            Cleaned option
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
-		// Deal with renaming of some options without losing the settings.
-		$rename = array(
-			'meta_description_warning' => 'ignore_meta_description_warning',
-		);
-		foreach ( $rename as $old => $new ) {
-			if ( isset( $option_value[ $old ] ) && ! isset( $option_value[ $new ] ) ) {
-				$option_value[ $new ] = $option_value[ $old ];
-				unset( $option_value[ $old ] );
-			}
-		}
-		unset( $rename, $old, $new );
-
-
-		// Change a array sub-option to two straight sub-options.
-		if ( isset( $option_value['theme_check']['description'] ) && ! isset( $option_value['theme_has_description'] ) ) {
-			// @internal the negate is by design!
-			$option_value['theme_has_description'] = ! $option_value['theme_check']['description'];
-		}
-		if ( isset( $option_values['theme_check']['description_found'] ) && ! isset( $option_value['theme_description_found'] ) ) {
-			$option_value['theme_description_found'] = $option_value['theme_check']['description_found'];
-		}
-
 
 		// Deal with value change from text string to boolean.
 		$value_change = array(
 			'ignore_blog_public_warning',
-			'ignore_meta_description_warning',
 			'ignore_page_comments',
 			'ignore_permalink',
 			// 'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true.
