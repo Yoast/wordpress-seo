@@ -740,11 +740,12 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	// Transliterate the keyword for highlighting
 	var transliterateKeyword = transliterate( keyword, this.refObj.rawData.locale );
 	if ( transliterateKeyword !== keyword ) {
-		keywordRegex = stringToRegex( keyword, "", false );
+		keywordRegex = stringToRegex( transliterateKeyword, "", false );
 		textString = textString.replace( keywordRegex, function( str ) {
 			return "<strong>" + str + "</strong>";
 		} );
 	}
+	console.log( textString );
 	return textString;
 };
 
