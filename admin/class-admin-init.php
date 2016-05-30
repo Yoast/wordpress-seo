@@ -44,6 +44,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'blog_public_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
@@ -149,6 +150,31 @@ class WPSEO_Admin_Init {
 		}
 		else {
 			$notification_center->remove_notification( $tagline_notification );
+		}
+	}
+
+	/**
+	 * Add an alert if the blog is not publicly visible
+	 */
+	public function blog_public_notice() {
+
+		$info_message = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong>';
+		$info_message .= ' ' . sprintf( __( 'You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( admin_url( 'options-reading.php' ) ) ), '</a>' );
+		$notification_options = array(
+			'type'         => Yoast_Notification::ERROR,
+			'id'           => 'wpseo-dismiss-blog-public-notice',
+			'priority'     => 1.0,
+			'capabilities' => 'manage_options',
+		);
+
+		$notification = new Yoast_Notification( $info_message, $notification_options );
+
+		$notification_center = Yoast_Notification_Center::get();
+		if ( ! $this->is_blog_public() ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
 		}
 	}
 
@@ -440,5 +466,14 @@ class WPSEO_Admin_Init {
 	 */
 	public function seen_tagline_notice() {
 		return false;
+	}
+
+	/**
+	 * Check if the site is set to be publicly visible
+	 *
+	 * @return bool
+	 */
+	private function is_blog_public() {
+		return '1' === get_option( 'blog_public' );
 	}
 }

@@ -20,7 +20,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
 		'blocking_files'                  => array(),
-		'ignore_blog_public_warning'      => false,
 		'ignore_meta_description_warning' => null, // Overwrite in __construct().
 		'ignore_page_comments'            => false,
 		'ignore_permalink'                => false,
@@ -57,7 +56,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
 	 */
 	public $ms_exclude = array(
-		'ignore_blog_public_warning',
 		'ignore_meta_description_warning',
 		'ignore_page_comments',
 		'ignore_permalink',
@@ -198,7 +196,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				Boolean dismiss warnings - not fields - may not be in form
 					   (and don't need to be either as long as the default is false)
 				 */
-				case 'ignore_blog_public_warning':
 				case 'ignore_meta_description_warning':
 				case 'ignore_page_comments':
 				case 'ignore_permalink':
@@ -269,7 +266,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		// Deal with value change from text string to boolean.
 		$value_change = array(
-			'ignore_blog_public_warning',
 			'ignore_meta_description_warning',
 			'ignore_page_comments',
 			'ignore_permalink',

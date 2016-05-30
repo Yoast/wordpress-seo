@@ -60,10 +60,6 @@ class WPSEO_Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 
-		if ( '0' === get_option( 'blog_public' ) ) {
-			add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
-		}
-
 		if ( ( ( isset( $this->options['theme_has_description'] ) && $this->options['theme_has_description'] === true ) ||
 		       $this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true
 		) {
@@ -418,32 +414,11 @@ class WPSEO_Admin {
 
 	/**
 	 * Display an error message when the blog is set to private.
+	 *
+	 * @deprecated 3.3
 	 */
 	function blog_public_warning() {
-		if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		if ( $this->options['ignore_blog_public_warning'] === true ) {
-			return;
-		}
-		printf( '
-			<div id="robotsmessage" class="error">
-				<p>
-					<strong>%1$s</strong>
-					%2$s
-					<a href="javascript:wpseoSetIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');" class="button">%4$s</a>
-				</p>
-			</div>',
-			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
-			sprintf( __( 'You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( admin_url( 'options-reading.php' ) ) ), '</a>' ),
-			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
-			__( 'I know, don\'t bug me.', 'wordpress-seo' )
-		);
+		return;
 	}
 
 	/**
