@@ -367,7 +367,7 @@ function wpseo_allow_system_file_edit() {
  * @return void
  */
 function wpseo_title_test() {
-	return;
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 }
 
 /**
@@ -380,7 +380,7 @@ function wpseo_title_test() {
  * @return void
  */
 function wpseo_description_test() {
-	return;
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 }
 
 /**
@@ -398,7 +398,7 @@ function wpseo_description_test() {
  * @return  void
  */
 function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $themes = null ) {
-	return;
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 }
 
 /**
@@ -414,5 +414,5 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
  * @return  array  $update_actions    Unchanged array
  */
 function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) {
-	return;
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 }
