@@ -45,10 +45,12 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var tooLongTotal = tooLongSentencesTotal( sentences, recommendedValue );
 	var percentage = fixFloatingPoint( ( tooLongTotal / sentences.length ) * 100 );
 	var score = calculateTooLongSentences( percentage );
+	var hasMarks = ( percentage > 0 );
 
 	if ( score >= 7 ) {
 		return {
 			score: score,
+			hasMarks: hasMarks,
 
 			// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
 			// %3$s expands to the recommended amount of words.
@@ -59,6 +61,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 
 	return {
 		score: score,
+		hasMarks: hasMarks,
 
 		// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
 		// %3$s expands to the recommended amount of words.
@@ -83,6 +86,7 @@ var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( sentenceResult.score );
 	assessmentResult.setText( sentenceResult.text );
+	assessmentResult.setShouldMark( sentenceResult.hasMarks );
 
 	return assessmentResult;
 };

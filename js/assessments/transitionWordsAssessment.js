@@ -15,6 +15,7 @@ var marker = require( "../markers/addMark.js" );
 var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var score, unboundedScore;
 	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
+	var hasMarks   = ( percentage > 0 );
 
 	if ( percentage <= 23.3 ) {
 		// The 10 percentage points from 13.3 to 23.3 are scaled to a range of 6 score points: 6/10 = 0.6.
@@ -27,6 +28,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 			var recommendedMinimum = 20;
 			return {
 				score: score,
+				hasMarks: hasMarks,
 				text: i18n.sprintf(
 					i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
 						"which is less than the recommended minimum of %2$s." ),
@@ -46,6 +48,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 			var recommendedMaximum = 30;
 			return {
 				score: score,
+				hasMarks: hasMarks,
 				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
 					"which is more than the recommended maximum of %2$s." ), percentage.toFixed( 1 ) + "%", recommendedMaximum + "%" )
 			};
@@ -58,6 +61,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 
 	return {
 		score: score,
+		hasMarks: hasMarks,
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, which is great."
 		), percentage.toFixed( 1 ) + "%" )
 	};
@@ -77,6 +81,7 @@ var transitionWordsAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( transitionWordResult.score );
 	assessmentResult.setText( transitionWordResult.text );
+	assessmentResult.setShouldMark( transitionWordResult.hasMarks );
 
 	return assessmentResult;
 };
