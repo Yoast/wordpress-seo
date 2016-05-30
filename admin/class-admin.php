@@ -135,7 +135,7 @@ class WPSEO_Admin {
 
 		// Add main page.
 		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
-		$counter = sprintf( '<span class="update-plugins"><span class="plugin-count" aria-hidden="true">%1$s</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $counter_screen_reader_text );
+		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count" aria-hidden="true">%1$d</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $counter_screen_reader_text );
 
 		$parent_admin_page_slug = Yoast_Alerts::ADMIN_PAGE;
 
