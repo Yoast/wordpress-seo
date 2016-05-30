@@ -412,6 +412,15 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Check if the site is set to be publicly visible
+	 *
+	 * @return bool
+	 */
+	private function is_blog_public() {
+		return '1' === get_option( 'blog_public' );
+	}
+
+	/**
 	 * Shows deprecation warnings to the user if a plugin has registered a filter we have deprecated.
 	 */
 	public function show_hook_deprecation_warnings() {
@@ -466,14 +475,5 @@ class WPSEO_Admin_Init {
 	 */
 	public function seen_tagline_notice() {
 		return false;
-	}
-
-	/**
-	 * Check if the site is set to be publicly visible
-	 *
-	 * @return bool
-	 */
-	private function is_blog_public() {
-		return '1' === get_option( 'blog_public' );
 	}
 }

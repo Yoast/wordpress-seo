@@ -413,15 +413,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Display an error message when the blog is set to private.
-	 *
-	 * @deprecated 3.3
-	 */
-	function blog_public_warning() {
-		return;
-	}
-
-	/**
 	 * Display an error message when the theme contains a meta description tag.
 	 *
 	 * @since 1.4.14
@@ -732,5 +723,14 @@ class WPSEO_Admin {
 	 */
 	function options_init() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
+	}
+
+	/**
+	 * Display an error message when the blog is set to private.
+	 *
+	 * @deprecated 3.3
+	 */
+	function blog_public_warning() {
+		return;
 	}
 }
