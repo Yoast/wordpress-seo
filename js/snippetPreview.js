@@ -745,7 +745,6 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 			return "<strong>" + str + "</strong>";
 		} );
 	}
-	console.log( textString );
 	return textString;
 };
 
