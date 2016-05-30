@@ -441,16 +441,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Display an error message when the theme contains a meta description tag.
-	 *
-	 * @since 1.4.14
-	 *
-	 * @deprecated 3.3
-	 */
-	function meta_description_warning() {
-	}
-
-	/**
 	 * Add a link to the settings page to the plugins list
 	 *
 	 * @staticvar string $this_plugin holds the directory & filename for the plugin
@@ -726,5 +716,16 @@ class WPSEO_Admin {
 	 */
 	function options_init() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
+	}
+
+	/**
+	 * Display an error message when the theme contains a meta description tag.
+	 *
+	 * @since 1.4.14
+	 *
+	 * @deprecated 3.3
+	 */
+	function meta_description_warning() {
+		_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 	}
 }
