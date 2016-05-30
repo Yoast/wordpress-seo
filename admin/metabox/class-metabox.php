@@ -51,15 +51,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet Editor', 'wordpress-seo' );
-		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' );
+		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %sLearn more about the Snippet Preview%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' );
 		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
 		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Content Analysis', 'wordpress-seo' );
-		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %sLearn more about the Content Analysis Tool%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus Keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
@@ -318,9 +318,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tabs[] = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
-			__( 'Content', 'wordpress-seo' ),
+			__( '', 'wordpress-seo' ),
 			array(
-				'link_class' => 'wpseo_keyword_tab',
+				'link_class' => 'yoast-seo__remove-tab',
 			)
 		);
 
@@ -421,7 +421,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
-				$content .= '<div id="wpseo-pageanalysis"></div><h2>Content assessments</h2><div id="wpseo-contentanalysis"></div>';
+				$content .= '<div id="wpseo-pageanalysis"></div>';
+				$content .= '<div id="yoast-seo-content-analysis"></div>';
 				break;
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
@@ -542,7 +543,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
-				$html = '<tr class="wpseo_hidden"><td>' . $content . '</td></tr>';
+				$html = '<tr class="wpseo_hidden"><td colspan="2">' . $content . '</td></tr>';
 			}
 			else {
 				$html = '
@@ -815,7 +816,7 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
+				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						{{data.prefix}}
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>

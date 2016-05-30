@@ -108,6 +108,122 @@
 
 	var $ = jQuery;
 
+	$( document ).ready( function() {
+		showAlertPopup();
+		hookDismissRestoreButtons();
+	});
+
+	/**
+	 * Hide popup showing new alerts are present
+	 */
+	function hideAlertPopup() {
+		$( '#wp-admin-bar-root-default > li' ).off( 'hover', hideAlertPopup );
+		$( '.yoast-issue-added' ).fadeOut( 200 );
+	}
+
+	/**
+	 * Show popup with new alerts message
+	 */
+	function showAlertPopup() {
+		$( '.yoast-issue-added' ).hover( hideAlertPopup ).fadeIn();
+		$( '#wp-admin-bar-root-default > li' ).on( 'hover', hideAlertPopup );
+		setTimeout( hideAlertPopup, 3000 );
+	}
+
+	/**
+	 * Hook the restore and dismiss buttons
+	 */
+	function hookDismissRestoreButtons() {
+		var $dismissible = $( '.yoast-alert-holder' );
+
+		$dismissible.on( 'click', '.dismiss', function() {
+			var $this = $( this );
+			var $source = $this.closest( '.yoast-alert-holder' );
+
+			var $container = $this.closest( '.yoast-container' );
+			$container.append('<div class="yoast-container-disabled"/>');
+
+			$this.find( 'span' ).removeClass( 'dashicons-no-alt' ).addClass( 'dashicons-randomize' );
+
+			$.post(
+				ajaxurl,
+				{
+					action: 'yoast_dismiss_alert',
+					notification: $source.attr( 'id' ),
+					nonce: $source.data( 'nonce' ),
+					data: $source.data( 'json' )
+				},
+				handleDismissRestoreResponse.bind( this, $source ),
+				'json'
+			);
+		} );
+
+		$dismissible.on( 'click', '.restore', function() {
+			var $this = $( this );
+			var $source = $this.closest( '.yoast-alert-holder' );
+
+			var $container = $this.closest( '.yoast-container' );
+			$container.append('<div class="yoast-container-disabled"/>');
+
+			$this.find( 'span' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-randomize' );
+
+			$.post(
+				ajaxurl,
+				{
+					action: 'yoast_restore_alert',
+					notification: $source.attr( 'id' ),
+					nonce: $source.data( 'nonce' ),
+					data: $source.data( 'json' )
+				},
+				handleDismissRestoreResponse.bind( this, $source ),
+				'json'
+			);
+		} );
+	}
+
+	/**
+	 * Handle dismiss and restore AJAX responses
+	 *
+	 * @param {Object} $source Object that triggered the request.
+	 * @param {Object} response AJAX response.
+	 */
+	function handleDismissRestoreResponse( $source, response ) {
+		$( '.yoast-alert-holder' ).off( 'click', '.restore' ).off( 'click', '.dismiss' );
+
+		if ( typeof response.html === 'undefined' ) {
+			return;
+		}
+
+		if ( response.html ) {
+			$source.closest( '.yoast-container' ).html( response.html );
+			hookDismissRestoreButtons();
+		}
+
+		var $wpseo_menu = $( '#wp-admin-bar-wpseo-menu' );
+		var $issue_counter = $wpseo_menu.find( '.yoast-issue-counter' );
+
+		if ( ! $issue_counter.length ) {
+			$wpseo_menu.find( '> a:first-child' ).append( '<div class="yoast-issue-counter"/>' );
+			$issue_counter = $wpseo_menu.find( '.yoast-issue-counter' );
+		}
+
+		$issue_counter.html( response.total );
+		if ( response.total === 0 ) {
+			$issue_counter.hide();
+		} else {
+			$issue_counter.show();
+		}
+
+		$('#toplevel_page_wpseo_alerts .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
+		$('#toplevel_page_wpseo_alerts .plugin-count').html( response.total );
+	}
+})();
+
+(function() {
+	'use strict';
+
+	var $ = jQuery;
+
 	$( '.nav-tab' ).click( function() {
 		closeVideoSlideout();
 	} );

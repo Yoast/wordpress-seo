@@ -180,7 +180,7 @@ class Yoast_Plugin_Conflict {
 			new Yoast_Notification(
 				$error_message,
 				array(
-					'type'      => 'error yoast-dismissible',
+					'type'      => Yoast_Notification::ERROR,
 					'id'        => 'wpseo-dismiss-plugin-conflict',
 					'data_json' => array( 'section' => $plugin_section, 'plugins' => $this->active_plugins[ $plugin_section ] ),
 				)
