@@ -160,7 +160,13 @@ class WPSEO_Admin_Init {
 
 		$info_message = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
 		$info_message .= '<br/>';
-		$info_message .= sprintf( __( 'Simply uncheck the box before "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ), '<a href="' .admin_url( 'options-discussion.php' ) . '">', '</a>' );
+
+		/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
+		$info_message .= sprintf(
+			__( 'Simply uncheck the box before "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ),
+			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
+			'</a>'
+		);
 
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
