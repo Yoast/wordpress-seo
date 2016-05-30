@@ -24,4 +24,9 @@ describe("counts words in sentences from text", function(){
 		paper = new Paper( "This is a text <img src='image.jpg' alt='a bunch of words in an alt-tag' />");
 		expect( getSentences( paper )[0].sentenceLength ).toBe( 4 );
 	});
+	it( "returns sentences with html-tags, should only count words", function () {
+		paper = new Paper( "This is a text <img src='http://domain.com/image.jpg' alt='a bunch of words in an alt-tag' />. Another sentence.");
+		expect( getSentences( paper )[0].sentenceLength ).toBe( 4 );
+		expect( getSentences( paper )[1].sentenceLength ).toBe( 2 );
+	});
 });
