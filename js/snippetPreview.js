@@ -729,10 +729,18 @@ SnippetPreview.prototype.getPeriodMatches = function() {
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 	// Removes characters from the keyword that could break the regex, or give unwanted results.
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\{\}\(\)\*\+\?\.\^\$\|]/g, " " );
-	keyword = transliterate( keyword, this.refObj.rawData.locale );
 
 	// Match keyword case-insensitively.
 	var keywordRegex = stringToRegex( keyword, "", false );
+
+	textString = textString.replace( keywordRegex, function( str ) {
+		return "<strong>" + str + "</strong>";
+	} );
+
+	// Transliterate the keyword for highlighting
+	keyword = transliterate( keyword, this.refObj.rawData.locale );
+	keywordRegex = stringToRegex( keyword, "", false );
+
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
