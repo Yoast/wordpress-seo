@@ -9,12 +9,14 @@ describe( "An assessment for scoring passive voice.", function() {
 		var assessment = passiveVoiceAssessment.getResult( paper, Factory.buildMockResearcher( {total: 20, passives: [ 1 ]} ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "5% of the sentences is written in the passive voice, which is within the recommended range." );
+		expect( assessment.shouldMark() ).toBe( true );
 	} );
 
 	it( "scores 2 passive sentences - 10%", function() {
 		var assessment = passiveVoiceAssessment.getResult( paper, Factory.buildMockResearcher( {total: 20, passives: [ 1, 2 ] } ), i18n );
 		expect( assessment.getScore() ).toBe( 7.02 );
 		expect( assessment.getText() ).toBe( "10% of the sentences is written in the passive voice, which is within the recommended range." );
+		expect( assessment.shouldMark() ).toBe( true );
 	} );
 
 	it( "scores 10 passive sentence - 50%", function() {
@@ -22,6 +24,7 @@ describe( "An assessment for scoring passive voice.", function() {
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "50% of the sentences is written in the passive voice, which is more than the recommended maximum of 10%. " +
 			"Try to use their active counterparts." );
+		expect( assessment.shouldMark() ).toBe( true );
 	} );
 
 	it( "scores 5 passive sentences - 25%", function() {
@@ -29,6 +32,7 @@ describe( "An assessment for scoring passive voice.", function() {
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "25% of the sentences is written in the passive voice, which is more than the recommended maximum of 10%. " +
 			"Try to use their active counterparts." );
+		expect( assessment.shouldMark() ).toBe( true );
 	} );
 
 	it( "scores 5 passive sentences - 33%", function() {
@@ -36,6 +40,7 @@ describe( "An assessment for scoring passive voice.", function() {
 		expect( assessment.getScore() ).toBe( 5.02 );
 		expect( assessment.getText() ).toBe( "13.33% of the sentences is written in the passive voice, which is more than the recommended maximum of 10%. " +
 			"Try to use their active counterparts." );
+		expect( assessment.shouldMark() ).toBe( true );
 	} );
 
 

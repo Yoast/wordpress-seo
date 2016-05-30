@@ -34,6 +34,7 @@ describe( "an assessor object", function() {
 	var validResult = new AssessmentResult();
 	validResult.setScore( 9 );
 	validResult.setText( "all good" );
+	validResult.setShouldMark( true );
 
 	describe( "returning the overallscore", function () {
 		it( "returns the overallscore", function () {
@@ -55,7 +56,7 @@ describe( "an assessor object", function() {
 			assessor.addAssessment( "testname", mockAssessment );
 
 			var result = assessor.getAssessment( "testname" );
-			
+
 			expect( result ).toEqual( mockAssessment );
 		} );
 	} );
@@ -75,11 +76,12 @@ describe( "an assessor object", function() {
 			var paper = new Paper();
 			var assessor = new Assessor( i18n, { marker: function() {} } );
 			var assessment = { getResult: function() { return validResult; }, isApplicable: function() { return true; }, getMarks: function() {} };
+
 			assessor.addAssessment( "test1", assessment );
 
 			assessor.assess( paper );
 			var results = assessor.getValidResults();
-
+			
 			expect( results[0].hasMarker() ).toBe( true );
 		});
 	});
