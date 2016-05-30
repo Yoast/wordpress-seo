@@ -11,7 +11,7 @@ module.exports = function( sentences ) {
 	var sentencesWordCount = [];
 	forEach( sentences, function( sentence ) {
 
-	// For counting words we want to omit the HTMLtags.
+		// For counting words we want to omit the HTMLtags.
 		var strippedSentence = stripHTMLTags( sentence );
 		var length = wordCount( strippedSentence );
 
