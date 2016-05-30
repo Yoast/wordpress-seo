@@ -17,6 +17,7 @@ var emptyMarker = function() {
 var AssessmentResult = function() {
 	this._hasScore = false;
 	this._identifier = "";
+	this._shouldMark = false;
 	this._marker = emptyMarker;
 	this.score = 0;
 	this.text = "";
@@ -112,7 +113,7 @@ AssessmentResult.prototype.setMarker = function( marker ) {
  * @returns {boolean} Whether or this result has a marker.
  */
 AssessmentResult.prototype.hasMarker = function() {
-	return this._marker !== emptyMarker;
+	return this._shouldMark && this._marker !== emptyMarker;
 };
 
 /**
@@ -122,6 +123,24 @@ AssessmentResult.prototype.hasMarker = function() {
  */
 AssessmentResult.prototype.getMarker = function() {
 	return this._marker;
+};
+
+/**
+ * Sets the value of _shouldMark to determine if there is something to mark.
+ *
+ * @param {boolean} hasMarks Is there something to mark.
+ */
+AssessmentResult.prototype.setShouldMark = function( hasMarks ) {
+	this._shouldMark = hasMarks;
+};
+
+/**
+ * Returns the value of _shouldMark to determine if there is something to mark.
+ *
+ * @returns {boolean} Is there something to mark.
+ */
+AssessmentResult.prototype.shouldMark = function() {
+	return this._shouldMark;
 };
 
 module.exports = AssessmentResult;
