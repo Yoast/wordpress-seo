@@ -172,6 +172,7 @@ class WPSEO_Admin_Init {
 		$info_message = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 		$info_message .= sprintf(
+			/* translators: %1$s resolves to the starting tag of the link to the permalink settings page, %2$s resolves to the closing tag of the link */
 			__( 'You can fix this on the %1$sPermalink settings page%2$s.', 'wordpress-seo' ),
 			'<a href="' . admin_url( 'options-permalink.php' ) . '">',
 			'</a>'
