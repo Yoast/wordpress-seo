@@ -330,6 +330,9 @@ class WPSEO_Admin {
 	 * Load the form for a WPSEO admin page
 	 */
 	function load_page() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_style( 'help-center' );
+
 		$page = filter_input( INPUT_GET, 'page' );
 
 		switch ( $page ) {
