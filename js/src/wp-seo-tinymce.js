@@ -71,7 +71,6 @@
 
 		return convertHtmlEntities(content);
 	}
-	
 	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 	 *
