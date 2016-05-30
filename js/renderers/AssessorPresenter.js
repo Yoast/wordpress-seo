@@ -19,7 +19,7 @@ var domManipulation = require( "../helpers/domManipulation.js" );
  * @param {string} args.targets.output The HTML element to render the individual ratings out to.
  * @param {string} args.targets.overall The HTML element to render the overall rating out to.
  * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
- * @param {SEOAssessor} args.assessor The Assessor object to retrieves assessment results from.
+ * @param {SEOAssessor} args.assessor The Assessor object to retrieve assessment results from.
  * @param {Jed} args.i18n The translation object.
  *
  * @constructor
