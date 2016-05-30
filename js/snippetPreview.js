@@ -739,7 +739,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 
 	// Transliterate the keyword for highlighting
 	var transliterateKeyword = transliterate( keyword, this.refObj.rawData.locale );
-	if( transliterateKeyword !== keyword ) {
+	if ( transliterateKeyword !== keyword ) {
 		keywordRegex = stringToRegex( keyword, "", false );
 		textString = textString.replace( keywordRegex, function( str ) {
 			return "<strong>" + str + "</strong>";
