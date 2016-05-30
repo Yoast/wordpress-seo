@@ -170,7 +170,7 @@ class Yoast_Plugin_Conflict {
 			// By default clear errors for all plugins of the section.
 			$inactive_plugins = $this->plugins[ $section ];
 
-			// Unless some are active, filter those from clearing.
+			// If there are active plugins, filter them from being cleared.
 			if ( isset( $this->active_plugins[ $section ] ) ) {
 				$inactive_plugins = array_diff( $this->plugins[ $section ], $this->active_plugins[ $section ] );
 			}
@@ -328,6 +328,6 @@ class Yoast_Plugin_Conflict {
 	 * @return string
 	 */
 	private function get_notification_identifier( $plugin_file ) {
-		return md5($plugin_file);
+		return md5( $plugin_file );
 	}
 }
