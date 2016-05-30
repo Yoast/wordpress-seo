@@ -206,6 +206,9 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 	return this.resultToRating( { score: rating } );
 };
 
+/**
+ * Deactivates all marker buttons to show they are not activated.
+ */
 AssessorPresenter.prototype.deactiveMarkerClasses = function() {
 	var markers = document.getElementsByClassName( "assessment-results__mark" );
 
