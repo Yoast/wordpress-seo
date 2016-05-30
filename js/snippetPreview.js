@@ -738,12 +738,14 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	} );
 
 	// Transliterate the keyword for highlighting
-	keyword = transliterate( keyword, this.refObj.rawData.locale );
-	keywordRegex = stringToRegex( keyword, "", false );
-
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
+	var transliterateKeyword = transliterate( keyword, this.refObj.rawData.locale );
+	if( transliterateKeyword !== keyword ) {
+		keywordRegex = stringToRegex( keyword, "", false );
+		textString = textString.replace( keywordRegex, function( str ) {
+			return "<strong>" + str + "</strong>";
+		} );
+	}
+	return textString;
 };
 
 /**
