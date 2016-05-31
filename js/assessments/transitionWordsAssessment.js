@@ -1,5 +1,4 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isUndefined = require( "lodash/isUndefined" );
 var map = require( "lodash/map" );
 
 var Mark = require( "../values/Mark.js" );
