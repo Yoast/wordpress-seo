@@ -211,7 +211,7 @@ var AlgoliaSearcher = function (_React$Component) {
 				{ className: 'wpseo-kb-search-detail' },
 				_react2.default.createElement(
 					'button',
-					{ className: 'link',
+					{ className: 'button',
 						onClick: this.hideDetail },
 					_react2.default.createElement('span', { className: 'dashicons dashicons-arrow-left' }),
 					'Back'
@@ -219,7 +219,7 @@ var AlgoliaSearcher = function (_React$Component) {
 				_react2.default.createElement(
 					'a',
 					{ href: post.permalink,
-						className: 'wpseo-kb-search-ext-link' },
+						className: 'wpseo-kb-search-ext-link button' },
 					_react2.default.createElement('span', { className: 'dashicons dashicons-external' }),
 					'Open'
 				),
@@ -681,8 +681,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             var tabId = jQuery(mountingPoint).closest('.wpseotab').attr('id');
             algoliaSearchers.push({
                 tabName: tabId,
-                algoliaSearcher: _reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default), mountingPoint)
-            }); //jshint ignore:line
+                algoliaSearcher: _reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default), mountingPoint) //jshint ignore:line
+            });
         });
 
         // Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.

@@ -271,8 +271,8 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
                 var tabId = jQuery( mountingPoint ).closest( '.wpseotab' ).attr( 'id' );
                 algoliaSearchers.push( {
                     tabName: tabId,
-                    algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher ), mountingPoint )
-                } ); //jshint ignore:line
+                    algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher ), mountingPoint ) //jshint ignore:line
+                } );
             } );
 
             // Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.

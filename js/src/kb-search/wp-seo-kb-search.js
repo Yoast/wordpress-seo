@@ -145,13 +145,13 @@ class AlgoliaSearcher extends React.Component {
         let post = this.state.results[ detailIndex ];
         return (
             <div className="wpseo-kb-search-detail">
-                <button className="link"
+                <button className="button"
                    onClick={this.hideDetail}>
                     <span className="dashicons dashicons-arrow-left"/>
                     Back
                 </button>
                 <a href={post.permalink}
-                   className="wpseo-kb-search-ext-link">
+                   className="wpseo-kb-search-ext-link button">
                     <span className="dashicons dashicons-external"/>
                     Open
                 </a>
