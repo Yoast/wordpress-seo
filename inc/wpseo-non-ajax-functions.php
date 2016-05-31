@@ -410,8 +410,6 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
  *
  * @param   array           $update_actions Updated actions set.
  * @param   WP_Theme|string $updated_theme  Theme object instance or stylesheet name.
- *
- * @return  array  $update_actions    Unchanged array
  */
 function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
