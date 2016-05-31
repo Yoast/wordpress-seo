@@ -27,7 +27,7 @@
 		"yoast/i18n-module": "^1.0",
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.20",
-		"yoast/wp-helpscout": "^1.0"
+		"yoast/wp-helpscout": "^2.0"
 	},
 	"require-dev": {
 		"yoast/yoastcs": "0.3",
