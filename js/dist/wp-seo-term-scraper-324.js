@@ -21607,7 +21607,11 @@ function editorHasMarks( editor ) {
  * @param {tinyMCE.Editor} editor The editor to remove all marks for.
  */
 function editorRemoveMarks( editor ) {
-	tinyMCEDecorator( editor )( null, [] );
+	// Create a decorator with the given editor.
+	var decorator = tinyMCEDecorator( editor );
+
+	// Calling the decorator with an empty array of marks will clear the editor of marks.
+	decorator( null, [] );
 }
 
 module.exports = {
