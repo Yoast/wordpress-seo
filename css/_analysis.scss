@@ -92,8 +92,9 @@ li.score {
 		&.icon-eye {
 			&-inactive, &-active {
 				border: 0;
-				width: 16px;
-				height: 16px;
+				width: 28px;
+				height: 28px;
+				padding: 4px;
 				outline: none;
 				background: no-repeat center;
 				background-size: 16px;
@@ -108,12 +109,19 @@ li.score {
 				background-image: url(svg-icon-eye($color_marker_active));
 			}
 		}
+
+		&:focus {
+			border-radius: 100%;
+			box-shadow: 0 0 0 1px #5b9dd9,
+			0 0 2px 1px rgba(30, 140, 190, 0.8);
+		}
 	}
 
 	&__remove-marks {
 		border: 0;
-		width: 16px;
-		height: 16px;
+		width: 28px;
+		height: 28px;
+		padding: 4px;
 		outline: none;
 		background: url(svg-icon-eye-slash($color_marker_inactive)) no-repeat center;
 		background-size: 16px;
@@ -121,5 +129,11 @@ li.score {
 		margin-top: -16px;
 
 		float: right;
+
+		&:focus {
+			border-radius: 100%;
+			box-shadow: 0 0 0 1px #5b9dd9,
+			0 0 2px 1px rgba(30, 140, 190, 0.8);
+		}
 	}
 }
