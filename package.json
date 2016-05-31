@@ -15,8 +15,9 @@
     "url": "https://github.com/Yoast/wordpress-seo"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
+    "algoliasearch": "^3.14.6",
     "autoprefixer": "^6.3.1",
+    "grunt": "^0.4.5",
     "grunt-browserify": "^4.0.1",
     "grunt-checktextdomain": "^1.0.0",
     "grunt-contrib-clean": "~0.6.0",
@@ -26,7 +27,7 @@
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-glotpress": "^0.2.1",
-    "grunt-jscs": "^0.8.1",
+    "grunt-jscs": "^2.0.0",
     "grunt-jsonlint": "^1.0.4",
     "grunt-jsvalidate": "^0.2.2",
     "grunt-phpcs": "^0.2.2",

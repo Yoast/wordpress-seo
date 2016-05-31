@@ -502,7 +502,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .wpseo-tab-video-slideout {
 	display: none;
-	overflow: hidden;
+	height: 600px;
 	padding: 0.5em 0.5em 0.5em;
 	border: 1px solid #a4286a;
 	border-bottom-left-radius: 10px;
@@ -552,6 +552,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
+	overflow: auto;
 	width: 180px;
 	margin: -0.5em;
 	padding-left: 0.5em;
@@ -574,7 +575,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-tab-video-slideout .help-tab-content {
-	overflow: hidden;
+	overflow: auto;
+	margin: 0;
 }
 
 .wpseo-tab-video__panel__textarea {
@@ -594,7 +596,11 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
+}
+
+.contextual-help-tabs-wrap {
+	width: 100%;
+	padding-left: 20px;
 }
