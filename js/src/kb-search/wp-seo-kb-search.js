@@ -22,16 +22,16 @@ class AlgoliaSearcher extends React.Component {
 		this.props = props;
 		this.initAlgoliaClient();
 
-		this.searchButtonClicked = this.searchButtonClicked.bind(this);
-		this.hideDetail = this.hideDetail.bind(this);
+        this.searchButtonClicked = this.searchButtonClicked.bind( this );
+        this.hideDetail = this.hideDetail.bind( this );
 	}
 
 	/**
 	 * Initializes the algolia client and index variables.
 	 */
 	initAlgoliaClient() {
-		this.client = AlgoliaSearch(this.props.algoliaApplicationId, this.props.algoliaApiKey);
-		this.index = this.client.initIndex(this.props.algoliaIndexName);
+        this.client = AlgoliaSearch( this.props.algoliaApplicationId, this.props.algoliaApiKey );
+        this.index = this.client.initIndex( this.props.algoliaIndexName );
 	}
 
 	/**
@@ -40,16 +40,16 @@ class AlgoliaSearcher extends React.Component {
 	 * @param {object} e The event.
 	 */
 	searchButtonClicked( e ) {
-		let searchString = e.target.getElementsByTagName('input')[ 0 ].value;
-		if ( searchString != '' ) {
+        let searchString = e.target.getElementsByTagName( 'input' )[ 0 ].value;
+		if ( searchString !== '' ) {
 			let usedQueries = this.state.usedQueries;
-			if ( usedQueries[ searchString ] == undefined ) {
+			if ( usedQueries[ searchString ] === undefined ) {
 				usedQueries[ searchString ] = {};
 			}
 			this.setState({
-							  searchString: searchString,
-							  usedQueries: usedQueries
-						  }, function() { // after the state was set
+				searchString: searchString,
+				usedQueries: usedQueries
+			}, function() { // after the state was set
 				this.updateSearchResults();
 			});
 		}
@@ -60,20 +60,20 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	updateSearchResults() {
 		this.setState({
-						  searching: true
-					  });
-		this.getSearchResults(this.state.searchString).then(function( searchResults ) {
+			searching: true
+		});
+		this.getSearchResults( this.state.searchString ).then( function( searchResults ) {
 			this.setState({
-							  results: searchResults,
-							  errorMessage: '',
-							  searching: false
-						  });
-		}.bind(this)).catch(function( error ) {
+				results: searchResults,
+				errorMessage: '',
+				searching: false
+			});
+		}.bind( this ) ).catch( function( error ) {
 			this.setState({
-							  errorMessage: error.message,
-							  searching: false
-						  });
-		}.bind(this));
+				errorMessage: error.message,
+				searching: false
+			});
+		}.bind( this ) );
 	}
 
 	/**
@@ -82,15 +82,15 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {Promise} The promise that is performing the search.
 	 */
 	getSearchResults( searchString ) {
-		return new Promise(function( resolve, reject ) {
-			this.index.search(searchString, function( err, data ) {
+		return new Promise( function( resolve, reject ) {
+			this.index.search( searchString, function( err, data ) {
 				if ( err ) {
-					reject(err);
+					reject( err );
 					return;
 				}
-				resolve(data.hits);
+				resolve( data.hits );
 			});
-		}.bind(this));
+		}.bind( this ) );
 	}
 
 	/**
@@ -124,10 +124,10 @@ class AlgoliaSearcher extends React.Component {
 	renderSearchResults() {
 		var searchResultContent;
 		if ( this.state.results.length > 0 ) {
-			var results = this.state.results.map(( result, arrayIndex ) => {
-				return <SearchResult key={result.objectID} post={result}
-									 showDetail={this.showDetail.bind(this, arrayIndex)}/>
-			});
+            var results = this.state.results.map( ( result, arrayIndex ) => {
+                return <SearchResult key={result.objectID} post={result}
+                                     showDetail={this.showDetail.bind(this, arrayIndex)}/>
+            } );
 			searchResultContent = <div className="wpseo-kb-search-results">{results}</div>;
 		}
 		else {
@@ -140,78 +140,78 @@ class AlgoliaSearcher extends React.Component {
 	 * Renders the navigation links with the article content.
 	 * @returns {JSX}
 	 */
-	renderDetail() {
-		let detailIndex = this.state.showDetail;
-		let post = this.state.results[ detailIndex ];
-		return (
-			<div className="wpseo-kb-search-detail">
-				<a href="#"
-				   onClick={this.hideDetail}>
-					<span className="dashicons dashicons-arrow-left"/>
-					Back
-				</a>
-				<a href={post.permalink}
-				   className="wpseo-kb-search-ext-link">
-					<span className="dashicons dashicons-external"/>
-					Open
-				</a>
-				<ArticleContent post={post}/>
-			</div>
-		);
-	}
+    renderDetail() {
+        let detailIndex = this.state.showDetail;
+        let post = this.state.results[ detailIndex ];
+        return (
+            <div className="wpseo-kb-search-detail">
+                <button className="link"
+                   onClick={this.hideDetail}>
+                    <span className="dashicons dashicons-arrow-left"/>
+                    Back
+                </button>
+                <a href={post.permalink}
+                   className="wpseo-kb-search-ext-link">
+                    <span className="dashicons dashicons-external"/>
+                    Open
+                </a>
+                <ArticleContent post={post}/>
+            </div>
+        );
+    }
 
 	/**
 	 * Renders an error message.
 	 * @param String errorMessage The message to display.
 	 * @returns {HTML}
-	 */
-	renderError( errorMessage ) {
-		return (
-			<div>
-				An error has occurred:<br/>
-				{errorMessage}
-			</div>
-		);
-	}
+     */
+    renderError( errorMessage ) {
+        return (
+            <div>
+                An error has occurred:<br/>
+                {errorMessage}
+            </div>
+        );
+    }
 
-	/**
+    /**
 	 * Is called upon state change. It determines what view to render and renders it.
 	 * @returns {XML}
 	 */
 	render() {
-		var content = '';
-		var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
-								   searchString={this.state.searchString}/>;
-		if ( this.state.errorMessage ) { // Show an error message.
-			content = (
-				<div>
-					{searchBar}
-					{this.renderError(this.state.errorMessage)}
-				</div>
-			);
-		}
-		else if ( this.state.searching ) { // Show a loading indicator (while not hiding the previous results).
-			content = (
-				<div>
-					{searchBar}
-					<Loading/>
-					{this.renderSearchResults()}
-				</div>
-			);
-		}
-		else if ( this.state.showDetail === false ) { // Show the list of search results if the postId for the detail view isn't set.
-			content = (
-				<div>
-					{searchBar}
-					{this.renderSearchResults()}
-				</div>
-			);
-		}
-		else { // Else show the article content/detail view
-			content = this.renderDetail();
-		}
-		return <div className="wpseo-kb-search-container">{content}</div>
-	}
+        var content = '';
+        var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
+                                   searchString={this.state.searchString}/>;
+        if ( this.state.errorMessage ) { // Show an error message.
+            content = (
+                <div>
+                    {searchBar}
+                    {this.renderError( this.state.errorMessage )}
+                </div>
+            );
+        }
+        else if ( this.state.searching ) { // Show a loading indicator (while not hiding the previous results).
+            content = (
+                <div>
+                    {searchBar}
+                    <Loading/>
+                    {this.renderSearchResults()}
+                </div>
+            );
+        }
+        else if ( this.state.showDetail === false ) { // Show the list of search results if the postId for the detail view isn't set.
+            content = (
+                <div>
+                    {searchBar}
+                    {this.renderSearchResults()}
+                </div>
+            );
+        }
+        else { // Else show the article content/detail view
+            content = this.renderDetail();
+        }
+        return <div className="wpseo-kb-search-container">{content}</div>
+    }
 }
 
 AlgoliaSearcher.propTypes = {
@@ -286,6 +286,9 @@ const ArticleContent = ( props ) => {
 			</article>
 		</div>
 	);
+	// dangerouslySetInnerHTML is used to render the html instead of displaying its flat value.
+	// This can be done as long as the content (in this case post.post_content) originates from our own websites.
+	// This way we can be sure the content will cause no harm.
 };
 
 /**

@@ -30,7 +30,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		$content       = sprintf( __( 'To be able to add and analyze multiple keywords for a post or page you need %1$s. You can buy the plugin, including one year of support, updates and upgrades, on %2$s.', 'wordpress-seo' ),
 			'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=popup&utm_campaign=multiple-keywords">Yoast SEO Premium</a>',
 			'yoast.com' );
-		$premium_popup = new Wpseo_Premium_Popup( $identifier, $title, $content );
+		$premium_popup = new WPSEO_Premium_Popup( $identifier, $title, $content );
 		echo $premium_popup->get_premium_popup();
 
 		return ob_get_clean();

@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Premium_popup
  */
-class Wpseo_Premium_Popup {
+class WPSEO_Premium_Popup {
 	/**
 	 * An unique identifier for the popup
 	 *
