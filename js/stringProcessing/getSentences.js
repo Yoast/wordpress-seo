@@ -1,8 +1,11 @@
 var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
 var isEmpty = require( "lodash/isEmpty" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var isNaN = require( "lodash/isNaN" );
+
+var getSubheadings = require( "./getSubheadings.js" ).getSubheadings;
 
 /**
  * Checks if the period is followed with a whitespace. If not, it is no ending of a sentence.
@@ -12,7 +15,7 @@ var isNaN = require( "lodash/isNaN" );
  * @returns {boolean} True if it doesn't match a whitespace.
  */
 var invalidateOnWhiteSpace = function( text, index ) {
-	return text.substring( index + 1 ).match( /\s/ ) === null;
+	return text.substring( index, index + 1 ).match( /\s/ ) === null;
 };
 
 /**
@@ -26,11 +29,11 @@ var invalidateOnWhiteSpace = function( text, index ) {
  */
 var invalidateOnCapital = function( text, positions, i ) {
 
-	// The current index + 2 should be the first character of the new sentence. We use a range of 1, since we only need the first character.
-	var firstChar = text.substring( positions[ i ] + 2, positions[ i ] + 3 );
+	// The current index + 1 should be the first character of the new sentence. We use a range of 1, since we only need the first character.
+	var firstChar = text.substring( positions[ i ] + 1, positions[ i ] + 2 );
 
 	// If a sentence starts with a number or a whitespace, it shouldn't invalidate
-	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( /\s/ ) === null ) {
+	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( /[\s<]/ ) === null ) {
 		return true;
 	}
 };
@@ -66,9 +69,23 @@ var splitOnIndex = function( positions, text ) {
 		sentences.push( text.substring( curIndex, index ) );
 
 		// Adds 1 to skip the period.
-		curIndex = index + 1;
+		curIndex = index;
 	} );
 	return sentences;
+};
+
+/**
+ * Finds subheadings in each sentence and returns each position.
+ * @param {string} text The sentence to check for subheadings.
+ * @returns {Array} The position of each subsentence.
+ */
+var findSubheadings = function( text ) {
+	var subheadings = getSubheadings( text );
+	var position = [];
+	forEach( subheadings, function( subheading ) {
+		position.push( subheading.index + subheading[ 0 ].length );
+	} );
+	return position;
 };
 
 /**
@@ -82,19 +99,29 @@ module.exports = function( text ) {
 	var originalText = text;
 
 	// Unify all terminators.
-	text = text.replace( /[.?!]/g, "." );
+	text = text.replace( /[.?!\:;]/g, "." );
 
 	// Add period in case it is missing.
 	text += ".";
-
 	var positions = [];
 	var periodIndex = text.indexOf( "." );
 	while ( periodIndex > -1 ) {
-		positions.push( periodIndex );
+		positions.push( periodIndex + 1 );
 		periodIndex = text.indexOf( ".", periodIndex + 1 );
 	}
 	positions = filterPositions( originalText, positions );
+
+	// Add the positions of subheadings.
+	positions = positions.concat( findSubheadings( text ) );
+	positions = positions.sort( function( a, b ) {
+		return a - b;
+	} );
 	var sentences = splitOnIndex( positions, originalText );
+
+	// Remove whitespace on start of sentence.
+	sentences = map( sentences, function( sentence ) {
+		return sentence.replace( /^\s/, "" );
+	} );
 
 	return filter( sentences, function( sentence ) {
 		return ( !isEmpty( sentence ) );
