@@ -136,7 +136,7 @@ class WPSEO_Admin {
 		// Add main page.
 		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count">%1$d</span></span>', $notification_count );
 
-		$parent_admin_page_slug = Yoast_Alerts::ADMIN_PAGE;
+		$parent_admin_page_slug = 'wpseo_dashboard';
 
 		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, $parent_admin_page_slug, array(
 			$this,
@@ -366,12 +366,8 @@ class WPSEO_Admin {
 				break;
 
 			case 'wpseo_dashboard':
-				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
-				break;
-
-			case Yoast_Alerts::ADMIN_PAGE:
 			default:
-				Yoast_Alerts::show_overview_page();
+				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
 				break;
 		}
 	}

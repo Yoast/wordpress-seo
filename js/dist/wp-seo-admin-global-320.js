@@ -136,7 +136,9 @@
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( '.yoast-alert-holder' );
 
-		$dismissible.on( 'click', '.dismiss', function() {
+		$dismissible.on( 'click', '.dismiss', function( evt ) {
+			evt.preventDefault();
+
 			var $this = $( this );
 			var $source = $this.closest( '.yoast-alert-holder' );
 
@@ -158,7 +160,9 @@
 			);
 		} );
 
-		$dismissible.on( 'click', '.restore', function() {
+		$dismissible.on( 'click', '.restore', function( evt ) {
+			evt.preventDefault();
+
 			var $this = $( this );
 			var $source = $this.closest( '.yoast-alert-holder' );
 
@@ -214,8 +218,8 @@
 			$issue_counter.show();
 		}
 
-		$('#toplevel_page_wpseo_alerts .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
-		$('#toplevel_page_wpseo_alerts .plugin-count').html( response.total );
+		$('#toplevel_page_wpseo_dashboard .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
+		$('#toplevel_page_wpseo_dashboard .plugin-count').html( response.total );
 	}
 })();
 

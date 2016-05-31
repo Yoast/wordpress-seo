@@ -97,7 +97,6 @@ if ( isset( $_GET['checkmetadesc'] ) ) {
 	}
 }
 $yform = Yoast_Form::get_instance();
-
 $yform->admin_header( true, 'wpseo' );
 
 do_action( 'wpseo_all_admin_notices' );
@@ -148,6 +147,9 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 }
 
 $tabs = array(
+	'dashboard'       => array(
+		'label' => __( 'Dashboard', 'wordpress-seo' ),
+	),
 	'general'         => array(
 		'label'                => __( 'General', 'wordpress-seo' ),
 		'screencast_video_url' => 'https://yoa.st/screencast-general',
