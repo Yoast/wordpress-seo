@@ -240,7 +240,7 @@ var AlgoliaSearcher = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
-				'Something went wrong. Please try again later.'
+				this.props.errorMessage
 			);
 		}
 
@@ -300,7 +300,8 @@ AlgoliaSearcher.propTypes = {
 	headingText: _react2.default.PropTypes.string,
 	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
 	algoliaApiKey: _react2.default.PropTypes.string.isRequired,
-	algoliaIndexName: _react2.default.PropTypes.string.isRequired
+	algoliaIndexName: _react2.default.PropTypes.string.isRequired,
+	errorMessage: _react2.default.PropTypes.string.isRequired
 };
 
 AlgoliaSearcher.defaultProps = {
@@ -308,7 +309,8 @@ AlgoliaSearcher.defaultProps = {
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'acceptance_all'
+	algoliaIndexName: 'acceptance_all',
+	errorMessage: 'Something went wrong. Please try again later.'
 };
 
 /**

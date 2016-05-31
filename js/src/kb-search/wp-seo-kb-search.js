@@ -169,7 +169,7 @@ class AlgoliaSearcher extends React.Component {
 		console.err( errorMessage );
         return (
             <div>
-                Something went wrong. Please try again later.
+				{this.props.errorMessage}
             </div>
         );
     }
@@ -219,7 +219,8 @@ AlgoliaSearcher.propTypes = {
 	headingText: React.PropTypes.string,
 	algoliaApplicationId: React.PropTypes.string.isRequired,
 	algoliaApiKey: React.PropTypes.string.isRequired,
-	algoliaIndexName: React.PropTypes.string.isRequired
+	algoliaIndexName: React.PropTypes.string.isRequired,
+	errorMessage: React.PropTypes.string.isRequired
 };
 
 AlgoliaSearcher.defaultProps = {
@@ -227,7 +228,8 @@ AlgoliaSearcher.defaultProps = {
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'acceptance_all'
+	algoliaIndexName: 'acceptance_all',
+	errorMessage: 'Something went wrong. Please try again later.'
 };
 
 /**
