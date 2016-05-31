@@ -454,7 +454,7 @@ class WPSEO_Premium {
 		if ( in_array( $query_var, $this->get_beacon_pages() ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_contact_support' ) );
 			$beacon = yoast_get_helpscout_beacon( $query_var, 'no_search' );
-			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() ); 
+			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() );
 			$beacon->register_hooks();
 		}
 	}
@@ -473,7 +473,7 @@ class WPSEO_Premium {
 			'wpseo_advanced',
 			'wpseo_tools',
 			'wpseo_search_console',
-			'wpseo_licenses'
+			'wpseo_licenses',
 		);
 	}
 
