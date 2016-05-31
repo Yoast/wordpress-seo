@@ -64,12 +64,6 @@ class WPSEO_Admin {
 			add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
 		}
 
-		if ( ( ( isset( $this->options['theme_has_description'] ) && $this->options['theme_has_description'] === true ) ||
-		       $this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true
-		) {
-			add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
-		}
-
 		if ( $this->options['cleanslugs'] === true ) {
 			add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
 		}
@@ -447,41 +441,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Display an error message when the theme contains a meta description tag.
-	 *
-	 * @since 1.4.14
-	 */
-	function meta_description_warning() {
-		if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
-			return;
-		}
-
-		// No need to double display it on the dashboard.
-		if ( 'wpseo_dashboard' === filter_input( INPUT_GET, 'page' ) ) {
-			return;
-		}
-
-		if ( true === $this->options['ignore_meta_description_warning'] ) {
-			return;
-		}
-
-		printf( '
-			<div id="metamessage" class="error">
-				<p>
-					<strong>%1$s</strong>
-					%2$s
-					<a href="javascript:wpseoSetIgnore(\'meta_description_warning\',\'metamessage\',\'%3$s\');" class="button">%4$s</a>
-				</p>
-			</div>',
-			__( 'SEO Issue:', 'wordpress-seo' ),
-			/* translators: %1$s expands to Yoast SEO, %2$s to opening anchor and %3$s the anchor closing tag */
-			sprintf( __( 'Your theme contains a meta description, which blocks %1$s from working properly. Please visit the %2$sSEO Dashboard%3$s to fix this.', 'wordpress-seo' ), 'Yoast SEO', sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) ), '</a>' ),
-			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
-			__( 'I know, don\'t bug me.', 'wordpress-seo' )
-		);
-	}
-
-	/**
 	 * Add a link to the settings page to the plugins list
 	 *
 	 * @staticvar string $this_plugin holds the directory & filename for the plugin
@@ -757,5 +716,16 @@ class WPSEO_Admin {
 	 */
 	function options_init() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
+	}
+
+	/**
+	 * Display an error message when the theme contains a meta description tag.
+	 *
+	 * @since 1.4.14
+	 *
+	 * @deprecated 3.3
+	 */
+	function meta_description_warning() {
+		_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 	}
 }
