@@ -17,6 +17,8 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	percentage = fixFloatingPoint( percentage );
 	var recommendedValue = 10;
 
+	var hasMarks = ( percentage > 0 );
+
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps, each step is 0.6
 	// Up to 6.7% passive sentences scores a 9, higher percentages give lower scores.
 	// FloatingPointFix because of js rounding errors
@@ -25,6 +27,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	if ( score >= 7 ) {
 		return {
 			score: score,
+			hasMarks: hasMarks,
 			text: i18n.sprintf(
 					i18n.dgettext(
 						"js-text-analysis",
@@ -38,6 +41,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	}
 	return {
 		score: score,
+		hasMarks: hasMarks,
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
@@ -86,6 +90,7 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( passiveVoiceResult.score );
 	assessmentResult.setText( passiveVoiceResult.text );
+	assessmentResult.setHasMarks( passiveVoiceResult.hasMarks );
 
 	return assessmentResult;
 };

@@ -1,21 +1,11 @@
 var map = require( "lodash/map" );
 var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
-
-/**
- * Transliterates the keyword.
- * // todo this needs to be implemented when we have the transliterations. It should take the keyword, transliterate it
- * and return it.
- * @param {String} keyword The keyword to transliterate.
- * @returns {String} The transliterated keyword.
- */
-var transliterate = function( keyword ) {
-	return keyword;
-};
+var transliterate = require( "./transliterate.js" );
 
 /**
  * Creates a regex from the keyword with included wordboundaries.
- * @param {String} keyword The keyword to create a regex from.
+ * @param {string} keyword The keyword to create a regex from.
  * @returns {RegExp} Regular expression of the keyword with wordboundaries.
  */
 var toRegex = function( keyword ) {
@@ -25,17 +15,18 @@ var toRegex = function( keyword ) {
 
 /**
  * Matches a string with and without transliteration.
- * @param {String} text The text to match.
- * @param {String} keyword The keyword to match in the text.
+ * @param {string} text The text to match.
+ * @param {string} keyword The keyword to match in the text.
+ * @param {string} locale The locale used for transliteration.
  * @returns {Array} All matches from the original as the transliterated text and keyword.
  */
-module.exports = function( text, keyword ) {
+module.exports = function( text, keyword, locale ) {
 	var keywordRegex = toRegex( keyword );
 	var matches = text.match( keywordRegex ) || [];
 
 	text = text.replace( keywordRegex, "" );
 
-	var transliterateKeyword = transliterate( keyword );
+	var transliterateKeyword = transliterate( keyword, locale );
 	var transliterateKeywordRegex = toRegex( transliterateKeyword );
 	var transliterateMatches = text.match( transliterateKeywordRegex ) || [];
 
