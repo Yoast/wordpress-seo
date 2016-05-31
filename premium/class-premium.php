@@ -82,7 +82,8 @@ class WPSEO_Premium {
 		$this->redirect_setup();
 
 		if ( is_admin() ) {
-			add_action( 'admin_init', array( $this, 'init_helpscout_support' ) );
+			// Make sure priority is below registration of other implementations of the beacon in News, Video, etc.
+			add_action( 'admin_init', array( $this, 'init_helpscout_support' ), 1 );
 
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( $this->is_yoast_seo_premium_page( filter_input( INPUT_GET, 'page' ) ) ) {
@@ -450,12 +451,30 @@ class WPSEO_Premium {
 		$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
 
 		// Only add the helpscout beacon on Yoast SEO pages.
-		if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
+		if ( in_array( $query_var, $this->get_beacon_pages() ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_contact_support' ) );
-			$beacon = yoast_get_helpscout_beacon( $query_var, Yoast_HelpScout_Beacon::BEACON_TYPE_NO_SEARCH );
-			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() );
+			$beacon = yoast_get_helpscout_beacon( $query_var, 'no_search' );
+			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() ); 
 			$beacon->register_hooks();
 		}
+	}
+
+	/**
+	 * Get the pages the Premium beacon should be displayed on
+	 *
+	 * @return array
+	 */
+	private function get_beacon_pages() {
+		return array(
+			'wpseo_dashboard',
+			'wpseo_titles',
+			'wpseo_social',
+			'wpseo_xml',
+			'wpseo_advanced',
+			'wpseo_tools',
+			'wpseo_search_console',
+			'wpseo_licenses'
+		);
 	}
 
 	/**
