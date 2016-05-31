@@ -8,7 +8,7 @@
  */
 class Yoast_Alerts {
 
-	const ADMIN_PAGE = 'wpseo_alerts';
+	const ADMIN_PAGE = 'wpseo_dashboard';
 
 	/** @var int Total notifications count */
 	private static $notification_count = 0;

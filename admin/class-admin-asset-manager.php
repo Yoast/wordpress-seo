@@ -326,6 +326,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'kb-search',
 				'src' => 'kb-search'
 			),
+			array(
+				'name' => 'help-center',
+				'src'  => 'help-center-330',
+			),
 		);
 	}
 }
