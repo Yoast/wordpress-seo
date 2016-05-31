@@ -81,7 +81,7 @@ var transitionWordsAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( transitionWordResult.score );
 	assessmentResult.setText( transitionWordResult.text );
-	assessmentResult.setShouldMark( transitionWordResult.hasMarks );
+	assessmentResult.setHasMarks( transitionWordResult.hasMarks );
 
 	return assessmentResult;
 };

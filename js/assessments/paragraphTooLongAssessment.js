@@ -108,7 +108,7 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( paragraphLengthResult.score );
 	assessmentResult.setText( paragraphLengthResult.text );
-	assessmentResult.setShouldMark( paragraphLengthResult.hasMarks );
+	assessmentResult.setHasMarks( paragraphLengthResult.hasMarks );
 
 	return assessmentResult;
 };

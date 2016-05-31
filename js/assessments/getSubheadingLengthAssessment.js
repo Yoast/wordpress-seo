@@ -92,7 +92,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( subheadingsLengthResult.score );
 	assessmentResult.setText( subheadingsLengthResult.text );
-	assessmentResult.setShouldMark( subheadingsLengthResult.hasMarks );
+	assessmentResult.setHasMarks( subheadingsLengthResult.hasMarks );
 
 	return assessmentResult;
 };

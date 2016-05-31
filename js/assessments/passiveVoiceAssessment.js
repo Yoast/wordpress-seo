@@ -89,7 +89,7 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( passiveVoiceResult.score );
 	assessmentResult.setText( passiveVoiceResult.text );
-	assessmentResult.setShouldMark( passiveVoiceResult.hasMarks );
+	assessmentResult.setHasMarks( passiveVoiceResult.hasMarks );
 
 	return assessmentResult;
 };

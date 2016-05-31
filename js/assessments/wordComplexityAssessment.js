@@ -99,7 +99,7 @@ var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );
 	assessmentResult.setText( complexityResult.text );
-	assessmentResult.setShouldMark( complexityResult.hasMarks );
+	assessmentResult.setHasMarks( complexityResult.hasMarks );
 	return assessmentResult;
 };
 

@@ -18,7 +18,7 @@ describe( "An assessment for sentence length", function(){
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual ( "0% of the sentences contain more than 20 words, which is less than the recommended maximum of 25%." );
-		expect( assessment.shouldMark() ).toBe( false );
+		expect( assessment.hasMarks() ).toBe( false );
 	} );
 	it( "returns the score for 50% long sentences", function(){
 		mockPaper = new Paper();
@@ -31,7 +31,7 @@ describe( "An assessment for sentence length", function(){
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual ( "50% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 25%. Try to shorten your sentences." );
-		expect( assessment.shouldMark() ).toBe( true );
+		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
 	it( "returns the score for 100% long sentences", function(){
@@ -44,7 +44,7 @@ describe( "An assessment for sentence length", function(){
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual ( "100% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 25%. Try to shorten your sentences." );
-		expect( assessment.shouldMark() ).toBe( true );
+		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 25% long sentences", function(){
 		mockPaper = new Paper();
@@ -58,7 +58,7 @@ describe( "An assessment for sentence length", function(){
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 7.02 );
 		expect( assessment.getText() ).toEqual ( "25% of the sentences contain more than 20 words, which is less than the recommended maximum of 25%." );
-		expect( assessment.shouldMark() ).toBe( true );
+		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 30% long sentences", function(){
 		mockPaper = new Paper();
@@ -79,7 +79,7 @@ describe( "An assessment for sentence length", function(){
 		expect( assessment.getScore() ).toEqual( 4.02 );
 		expect( assessment.getText() ).toEqual ( "30% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 25%. Try to shorten your sentences." )
-		expect( assessment.shouldMark() ).toBe( true );
+		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "is not applicable for empty papers", function(){
 		mockPaper = new Paper();

@@ -130,7 +130,7 @@ Assessor.prototype.assess = function( paper ) {
 
 		result.setIdentifier( assessment.identifier );
 
-		if ( result.shouldMark() && this.hasMarker( assessment ) ) {
+		if ( result.hasMarks() && this.hasMarker( assessment ) ) {
 			result.setMarker( this.getMarker( assessment, paper, researcher ) );
 		}
 

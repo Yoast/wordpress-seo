@@ -86,7 +86,7 @@ var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( sentenceResult.score );
 	assessmentResult.setText( sentenceResult.text );
-	assessmentResult.setShouldMark( sentenceResult.hasMarks );
+	assessmentResult.setHasMarks( sentenceResult.hasMarks );
 
 	return assessmentResult;
 };

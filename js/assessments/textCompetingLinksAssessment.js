@@ -40,7 +40,7 @@ var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( linkCountResult.score );
 	assessmentResult.setText( linkCountResult.text );
-	assessmentResult.setShouldMark( linkCountResult.hasMarks );
+	assessmentResult.setHasMarks( linkCountResult.hasMarks );
 
 	return assessmentResult;
 };

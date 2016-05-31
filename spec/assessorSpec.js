@@ -34,7 +34,7 @@ describe( "an assessor object", function() {
 	var validResult = new AssessmentResult();
 	validResult.setScore( 9 );
 	validResult.setText( "all good" );
-	validResult.setShouldMark( true );
+	validResult.setHasMarks( true );
 
 	describe( "returning the overallscore", function () {
 		it( "returns the overallscore", function () {
