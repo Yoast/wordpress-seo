@@ -30,7 +30,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 						"js-text-analysis",
 
 						// Translators: %1$d expands to the number of sentences in passive voice.
-						"%1$s of the sentences is written in the passive voice, which is within the recommended range." ),
+						"%1$s of the sentences contain a passive voice, which is within the recommended range." ),
 					percentage + "%"
 			)
 		};
@@ -42,7 +42,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 				"js-text-analysis",
 
 				// Translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value
-				"%1$s of the sentences is written in the passive voice, which is more than the recommended maximum of %2$s. " +
+				"%1$s of the sentences contain a passive voice, which is more than the recommended maximum of %2$s. " +
 				"Try to use their active counterparts."
 			),
 			percentage + "%",
