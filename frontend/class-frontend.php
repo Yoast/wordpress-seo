@@ -1749,7 +1749,7 @@ class WPSEO_Frontend {
 	function embed_rss( $content, $context = 'full' ) {
 
 		/**
-		 * Filter: 'wpseo_include_rss_footer' - Allow the the RSS footer to be dynamically shown/hidden
+		 * Filter: 'wpseo_include_rss_footer' - Allow the RSS footer to be dynamically shown/hidden.
 		 *
 		 * @api boolean $show_embed Indicates if the RSS footer should be shown or not
 		 *

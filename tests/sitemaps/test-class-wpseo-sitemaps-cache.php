@@ -94,6 +94,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		// Act.
 		WPSEO_Sitemaps_Cache::clear();
+		WPSEO_Sitemaps_Cache::clear_queued();
 
 		$cache_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
 		$content   = get_transient( $cache_key );
@@ -116,6 +117,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		// Act.
 		WPSEO_Sitemaps_Cache::clear( array( $type ) );
+		WPSEO_Sitemaps_Cache::clear_queued();
 
 		// Get the key again.
 		$cache_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
@@ -137,6 +139,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		// Act.
 		WPSEO_Sitemaps_Cache::clear( array( 'page' ) );
+		WPSEO_Sitemaps_Cache::clear_queued();
 
 		// Get the key again.
 		$index_cache_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key();
@@ -165,6 +168,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		// Act.
 		WPSEO_Sitemaps_Cache::clear( array( $type_a ) );
+		WPSEO_Sitemaps_Cache::clear_queued();
 
 		// Get the key again.
 		$type_b_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type_b );
@@ -207,6 +211,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		// Act.
 		// Updating the option should clear cache for specified type.
 		do_action( 'update_option', $option );
+		WPSEO_Sitemaps_Cache::clear_queued();
 
 		// Get the key again.
 		$cache_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
