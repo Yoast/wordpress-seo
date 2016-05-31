@@ -44,6 +44,8 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'blog_public_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'page_comments_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
@@ -154,6 +156,37 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Add an alert if the blog is not publicly visible
+	 */
+	public function blog_public_notice() {
+
+		$info_message = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
+		$info_message .= sprintf(
+			/* translators: %1$s resolves to the opening tag of the link to the reading settings, %1$s resolves to the closing tag for the link */
+			__( 'You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
+			'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
+			'</a>'
+		);
+
+		$notification_options = array(
+			'type'         => Yoast_Notification::ERROR,
+			'id'           => 'wpseo-dismiss-blog-public-notice',
+			'priority'     => 1.0,
+			'capabilities' => 'manage_options',
+		);
+
+		$notification = new Yoast_Notification( $info_message, $notification_options );
+
+		$notification_center = Yoast_Notification_Center::get();
+		if ( ! $this->is_blog_public() ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
 	 * Display notice to disable comment pagination
 	 */
 	public function page_comments_notice() {
@@ -194,6 +227,38 @@ class WPSEO_Admin_Init {
 		$blog_description = get_bloginfo( 'description' );
 		$default_blog_description = 'Just another WordPress site';
 		return __( $default_blog_description ) === $blog_description || $default_blog_description === $blog_description;
+	}
+
+	/**
+	 * Show alert when the permalink doesn't contain %postname%
+	 */
+	public function permalink_notice() {
+
+		$info_message = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
+		$info_message .= '<br/>';
+		$info_message .= sprintf(
+			/* translators: %1$s resolves to the starting tag of the link to the permalink settings page, %2$s resolves to the closing tag of the link */
+			__( 'You can fix this on the %1$sPermalink settings page%2$s.', 'wordpress-seo' ),
+			'<a href="' . admin_url( 'options-permalink.php' ) . '">',
+			'</a>'
+		);
+
+		$notification_options = array(
+			'type'         => Yoast_Notification::WARNING,
+			'id'           => 'wpseo-dismiss-permalink-notice',
+			'capabilities' => 'manage_options',
+			'priority'     => 0.8,
+		);
+
+		$notification = new Yoast_Notification( $info_message, $notification_options );
+
+		$notification_center = Yoast_Notification_Center::get();
+		if ( ! $this->has_postname_in_permalink() ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
 	}
 
 	/**
@@ -428,6 +493,15 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Check if the site is set to be publicly visible
+	 *
+	 * @return bool
+	 */
+	private function is_blog_public() {
+		return '1' === get_option( 'blog_public' );
+	}
+
+	/**
 	 * Shows deprecation warnings to the user if a plugin has registered a filter we have deprecated.
 	 */
 	public function show_hook_deprecation_warnings() {
@@ -482,5 +556,14 @@ class WPSEO_Admin_Init {
 	 */
 	public function seen_tagline_notice() {
 		return false;
+	}
+
+	/**
+	 * Check if the permalink uses %postname%
+	 *
+	 * @return bool
+	 */
+	private function has_postname_in_permalink() {
+		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
 	}
 }
