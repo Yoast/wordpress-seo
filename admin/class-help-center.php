@@ -135,7 +135,12 @@ class WPSEO_Help_Center {
 		}
 	}
 
-	private function is_a_help_center_item( $item ){
+	/**
+	 * Checks if the param is a help center item
+	 * @param $item the object compare
+	 * @return bool
+     */
+	private function is_a_help_center_item( $item ) {
 		return is_a( $item, 'WPSEO_Help_Center_Item' );
 	}
 }
