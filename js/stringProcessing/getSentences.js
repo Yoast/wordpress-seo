@@ -68,7 +68,6 @@ var splitOnIndex = function( positions, text ) {
 	forEach( positions, function( index ) {
 		sentences.push( text.substring( curIndex, index ) );
 
-		// Adds 1 to skip the period.
 		curIndex = index;
 	} );
 	return sentences;
