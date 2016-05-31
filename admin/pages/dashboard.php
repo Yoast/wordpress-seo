@@ -53,6 +53,9 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 }
 
 $tabs = array(
+	'dashboard'       => array(
+		'label' => __( 'Dashboard', 'wordpress-seo' ),
+	),
 	'general'         => array(
 		'label'                => __( 'General', 'wordpress-seo' ),
 		'screencast_video_url' => 'https://yoa.st/screencast-general',
