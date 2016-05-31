@@ -432,7 +432,7 @@ var _wpSeoKbSearch2 = _interopRequireDefault(_wpSeoKbSearch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* jshint ignore:end jscs:enable*/
+/* jshint ignore:end */
 
 (function () {
 	'use strict';
@@ -668,18 +668,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
-	//POC extract data from event // TODO move this to premium
-
 	jQuery(document).ready(function () {
-		/* Inject kb-search in divs with the classname of 'wpseo-kb-search'. */
+		// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
 		var mountingPoints = jQuery('.wpseo-kb-search');
 		var algoliaSearchers = [];
 		jQuery.each(mountingPoints, function (index, mountingPoint) {
 			var tabId = jQuery(mountingPoint).closest('.wpseotab').attr('id');
-			algoliaSearchers.push({ tabName: tabId, algoliaSearcher: _reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default, null), mountingPoint) }); // jshint ignore:line
+			algoliaSearchers.push({ tabName: tabId, algoliaSearcher: _reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default), mountingPoint) }); //jshint ignore:line
 		});
 
-		/* Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data */
+		//Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data
 		jQuery('.contact-support').on('click', function (e) {
 			var activeTabName = jQuery('.wpseotab.active').attr('id');
 			var activeAlgoliaSearcher = algoliaSearchers[0].algoliaSearcher; // 1st by defatul. (Used for the Advanced settings pages because of how the tabs were set up)
@@ -693,7 +691,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			jQuery(window).trigger('YoastSEO:ContactSupport', { usedQueries: usedQueries });
 		});
 
-		/* Open "functionality only avalible for premium" popup */
+		// Open "functionality only avalible for premium" popup //
 		jQuery(window).on('YoastSEO:ContactSupport', function () {
 			showContactPopup();
 		});
@@ -772,7 +770,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* jshint -W003 */
 /* jshint unused:false */
 
-/* jshint ignore:start jscs:disable */
+/* jshint ignore:start */
 
 },{"./kb-search/wp-seo-kb-search.js":1,"react":198,"react-dom":59}],3:[function(require,module,exports){
 /**

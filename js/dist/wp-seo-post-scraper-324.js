@@ -878,7 +878,6 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	 * Initializes keyword tab with the correct template if multi keyword isn't available.
 	 */
 	PostScraper.prototype.initKeywordTabTemplate = function() {
-
 		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 		if ( YoastSEO.multiKeyword ) {
 			return;

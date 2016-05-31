@@ -207,7 +207,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 		});
 	}
 
-	function showContactPopup(){
+	function showContactPopup() {
 		var $ = jQuery;
 		var $buyButton = $( '#wpseo-contact-support-popup' ),
 			title = 'Buy Yoast SEO premium',
@@ -260,20 +260,16 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
-
-	//POC extract data from event // TODO move this to premium
-
 	jQuery( document ).ready( function() {
-			/* Inject kb-search in divs with the classname of 'wpseo-kb-search'. */
+			// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
 			var mountingPoints = jQuery( '.wpseo-kb-search' );
 			var algoliaSearchers = [];
 			jQuery.each( mountingPoints, function( index , mountingPoint ) {
 				var tabId = jQuery( mountingPoint ).closest( '.wpseotab' ).attr( 'id' );
-				algoliaSearchers.push( {tabName: tabId , algoliaSearcher: ReactDom.render( <AlgoliaSearcher/>, mountingPoint )} ); // jshint ignore:line
+				algoliaSearchers.push( { tabName: tabId , algoliaSearcher: ReactDom.render( React.createElement(AlgoliaSearcher), mountingPoint ) } ); //jshint ignore:line
 			});
 
-
-			/* Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data */
+			//Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data
 			jQuery( '.contact-support' ).on( 'click', function( e ) {
 				var activeTabName = jQuery( '.wpseotab.active' ).attr( 'id' );
 				var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher; // 1st by defatul. (Used for the Advanced settings pages because of how the tabs were set up)
@@ -284,15 +280,13 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 					}
 				});
 				var usedQueries = activeAlgoliaSearcher.state.usedQueries;
-				jQuery( window ).trigger( 'YoastSEO:ContactSupport',  {usedQueries: usedQueries} );
-
+				jQuery( window ).trigger( 'YoastSEO:ContactSupport',  { usedQueries: usedQueries } );
 			});
 
-			/* Open "functionality only avalible for premium" popup */
-			jQuery( window ).on( 'YoastSEO:ContactSupport' , function(){
+			// Open "functionality only avalible for premium" popup //
+			jQuery( window ).on( 'YoastSEO:ContactSupport' , function() {
 				showContactPopup();
 			});
-
 
 			/* Fix banner images overlapping help texts */
 			jQuery( '.screen-meta-toggle a' ).click( function() {
