@@ -123,6 +123,7 @@ module.exports = ReplaceVar;
 		this.addReplacement( new ReplaceVar( '%%searchphrase%%',    'searchphrase' ) );
 		this.addReplacement( new ReplaceVar( '%%sitedesc%%',        'sitedesc' ) );
 		this.addReplacement( new ReplaceVar( '%%sitename%%',        'sitename' ) );
+		this.addReplacement( new ReplaceVar( '%%category%%',        'category' ) );
 
 		this.addReplacement( new ReplaceVar( '%%sep%%(\s+%%sep%%)*', 'sep' ) );
 
@@ -390,8 +391,8 @@ module.exports = ReplaceVar;
 
 			// This order currently needs to be maintained until I can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
-			data = this.replaceDefaultPlaceholders( data );
 			data = this.replaceCustomTaxonomy( data );
+			data = this.replaceDefaultPlaceholders( data );
 		}
 
 		return data;
@@ -519,6 +520,8 @@ module.exports = ReplaceVar;
 		forEach( taxonomyElements, function( taxonomy, taxonomyName ) {
 			if ( taxonomyName !== 'category' ) {
 				data = data.replace( '%%ct_' + taxonomyName  + '%%', this.getTaxonomyReplaceVar( taxonomyName ) );
+			} else {
+				data = data.replace( '%%' + taxonomyName  + '%%', this.getTaxonomyReplaceVar( taxonomyName ) );
 			}
 		}.bind( this ) );
 
