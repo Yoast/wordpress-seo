@@ -1,5 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var forEach = require( 'lodash/forEach' );
+'use strict';
+
 var isUndefined = require( 'lodash/isUndefined' );
 var indexOf = require( 'lodash/indexOf' );
 var defaults = require( 'lodash/defaults' );
@@ -76,8 +77,8 @@ ReplaceVar.prototype.getAliases = function() {
 
 module.exports = ReplaceVar;
 
-},{"lodash/defaults":104,"lodash/forEach":107,"lodash/indexOf":111,"lodash/isUndefined":124}],2:[function(require,module,exports){
-/* global wpseoReplaceVarsL10n, console, require */
+},{"lodash/defaults":104,"lodash/indexOf":111,"lodash/isUndefined":124}],2:[function(require,module,exports){
+/* global wpseoReplaceVarsL10n, require, YoastSEO */
 (function() {
 	'use strict';
 
@@ -185,8 +186,7 @@ module.exports = ReplaceVar;
 	 * @param {Object} checkbox
 	 * @returns String
 	 */
-	YoastReplaceVarPlugin.prototype.getCategoryName = function ( checkbox ) {
-
+	YoastReplaceVarPlugin.prototype.getCategoryName = function( checkbox ) {
 		// Take parent of checkbox with type label.
 		var label = jQuery( checkbox ).parent( 'label' );
 
@@ -209,10 +209,10 @@ module.exports = ReplaceVar;
 	/**
 	 * Get the taxonomies that are available on the current page.
 	 *
-	 * @param checkboxes
-	 * @param taxonomyName
+	 * @param {Object} checkboxes
+	 * @param {string} taxonomyName
 	 */
-	YoastReplaceVarPlugin.prototype.parseTaxonomies = function ( checkboxes, taxonomyName ) {
+	YoastReplaceVarPlugin.prototype.parseTaxonomies = function( checkboxes, taxonomyName ) {
 		if ( isUndefined( taxonomyElements[ taxonomyName ] ) ) {
 			taxonomyElements[ taxonomyName ] = {};
 		}
@@ -230,9 +230,9 @@ module.exports = ReplaceVar;
 	/**
 	 * Get the custom fields that are available on the current page.
 	 *
-	 * @param textFields
+	 * @param {Object} textFields
 	 */
-	YoastReplaceVarPlugin.prototype.parseFields = function ( textFields ) {
+	YoastReplaceVarPlugin.prototype.parseFields = function( textFields ) {
 		jQuery( textFields ).each(
 			function( i, el ) {
 				var customFieldName = jQuery( '#' + el.id + '-key' ).val();
@@ -247,9 +247,9 @@ module.exports = ReplaceVar;
 	/**
 	 * Removes the custom fields.
 	 *
-	 * @param textFields
+	 * @param {Object} textFields
 	 */
-	YoastReplaceVarPlugin.prototype.removeFields = function ( textFields ) {
+	YoastReplaceVarPlugin.prototype.removeFields = function( textFields ) {
 		jQuery( textFields ).each(
 			function( i, el ) {
 				var customFieldName = jQuery( '#' + el.id + '-key' ).val();
@@ -263,11 +263,11 @@ module.exports = ReplaceVar;
 	/**
 	 * Get the taxonomies that are available on the current page.
 	 * TODO: Add more than just categories
-	 * @param {object} targetMetaBox
+	 * @param {Object} targetMetaBox
 	 *
 	 * @returns {void}
 	 */
-	YoastReplaceVarPlugin.prototype.getAvailableTaxonomies = function ( targetMetaBox ) {
+	YoastReplaceVarPlugin.prototype.getAvailableTaxonomies = function( targetMetaBox ) {
 		var checkboxes = jQuery( targetMetaBox ).find( 'input[type=checkbox]' );
 		var taxonomyName = jQuery( targetMetaBox ).attr( 'id' ).replace( 'taxonomy-', '' );
 
@@ -285,8 +285,7 @@ module.exports = ReplaceVar;
 	 *
 	 * @returns {void}
 	 */
-	YoastReplaceVarPlugin.prototype.getAvailableFields = function ( targetMetaBox ) {
-
+	YoastReplaceVarPlugin.prototype.getAvailableFields = function( targetMetaBox ) {
 		// Remove all the custom fields prior. This ensure that deleted fields don't show up.
 		this.removeCustomFields();
 
@@ -305,7 +304,7 @@ module.exports = ReplaceVar;
 	 * @param {int} index
 	 * @param {Object} taxonomyElement
 	 */
-	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function ( index, taxonomyElement ) {
+	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function( index, taxonomyElement ) {
 		taxonomyElement = jQuery( taxonomyElement );
 
 		// Set the events.
@@ -322,7 +321,7 @@ module.exports = ReplaceVar;
 	 * @param {int} index
 	 * @param {Object} customFieldElement
 	 */
-	YoastReplaceVarPlugin.prototype.bindFieldEvents = function ( index, customFieldElement ) {
+	YoastReplaceVarPlugin.prototype.bindFieldEvents = function( index, customFieldElement ) {
 		customFieldElement = jQuery( customFieldElement );
 		var customFieldElementList = customFieldElement.find( '#the-list' );
 
@@ -360,11 +359,11 @@ module.exports = ReplaceVar;
 	/**
 	 * Removes a replacement if it exists.
 	 *
-	 * @param replacement
+	 * @param {ReplaceVar} replacement
 	 */
 	YoastReplaceVarPlugin.prototype.removeReplacement = function( replacement ) {
 		delete placeholders[ replacement.getPlaceholder() ];
-	}
+	};
 
 	/**
 	 * Registers the modifications for the plugin on initial load.
@@ -444,7 +443,7 @@ module.exports = ReplaceVar;
 	/**
 	 * Gets the replacement for the parent title.
 	 *
-	 * @param parentId
+	 * @param {int} parentId
 	 * @returns {*}
 	 */
 	YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parentId ) {
@@ -475,8 +474,9 @@ module.exports = ReplaceVar;
 	};
 
 	/**
+	 * Gets the proper replacement variable.
 	 *
-	 * @param replaceVar
+	 * @param {ReplaceVar} replaceVar
 	 * @returns {string}
 	 */
 	YoastReplaceVarPlugin.prototype.getReplacement = function( replaceVar ) {
@@ -500,7 +500,6 @@ module.exports = ReplaceVar;
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceDefaultPlaceholders = function( textString ) {
-
 		forEach( placeholders, function( replaceVar ) {
 			textString = textString.replace(
 				 new RegExp( replaceVar.getPlaceholder( true ), 'g' ), this.getReplacement( replaceVar )

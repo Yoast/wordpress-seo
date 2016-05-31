@@ -1,4 +1,5 @@
-var forEach = require( 'lodash/forEach' );
+'use strict';
+
 var isUndefined = require( 'lodash/isUndefined' );
 var indexOf = require( 'lodash/indexOf' );
 var defaults = require( 'lodash/defaults' );

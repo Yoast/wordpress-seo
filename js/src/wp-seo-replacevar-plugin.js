@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, require */
+/* global wpseoReplaceVarsL10n, require, YoastSEO */
 (function() {
 	'use strict';
 
@@ -106,8 +106,7 @@
 	 * @param {Object} checkbox
 	 * @returns String
 	 */
-	YoastReplaceVarPlugin.prototype.getCategoryName = function ( checkbox ) {
-
+	YoastReplaceVarPlugin.prototype.getCategoryName = function( checkbox ) {
 		// Take parent of checkbox with type label.
 		var label = jQuery( checkbox ).parent( 'label' );
 
@@ -130,10 +129,10 @@
 	/**
 	 * Get the taxonomies that are available on the current page.
 	 *
-	 * @param checkboxes
-	 * @param taxonomyName
+	 * @param {Object} checkboxes
+	 * @param {string} taxonomyName
 	 */
-	YoastReplaceVarPlugin.prototype.parseTaxonomies = function ( checkboxes, taxonomyName ) {
+	YoastReplaceVarPlugin.prototype.parseTaxonomies = function( checkboxes, taxonomyName ) {
 		if ( isUndefined( taxonomyElements[ taxonomyName ] ) ) {
 			taxonomyElements[ taxonomyName ] = {};
 		}
@@ -151,9 +150,9 @@
 	/**
 	 * Get the custom fields that are available on the current page.
 	 *
-	 * @param textFields
+	 * @param {Object} textFields
 	 */
-	YoastReplaceVarPlugin.prototype.parseFields = function ( textFields ) {
+	YoastReplaceVarPlugin.prototype.parseFields = function( textFields ) {
 		jQuery( textFields ).each(
 			function( i, el ) {
 				var customFieldName = jQuery( '#' + el.id + '-key' ).val();
@@ -168,9 +167,9 @@
 	/**
 	 * Removes the custom fields.
 	 *
-	 * @param textFields
+	 * @param {Object} textFields
 	 */
-	YoastReplaceVarPlugin.prototype.removeFields = function ( textFields ) {
+	YoastReplaceVarPlugin.prototype.removeFields = function( textFields ) {
 		jQuery( textFields ).each(
 			function( i, el ) {
 				var customFieldName = jQuery( '#' + el.id + '-key' ).val();
@@ -184,11 +183,11 @@
 	/**
 	 * Get the taxonomies that are available on the current page.
 	 * TODO: Add more than just categories
-	 * @param {object} targetMetaBox
+	 * @param {Object} targetMetaBox
 	 *
 	 * @returns {void}
 	 */
-	YoastReplaceVarPlugin.prototype.getAvailableTaxonomies = function ( targetMetaBox ) {
+	YoastReplaceVarPlugin.prototype.getAvailableTaxonomies = function( targetMetaBox ) {
 		var checkboxes = jQuery( targetMetaBox ).find( 'input[type=checkbox]' );
 		var taxonomyName = jQuery( targetMetaBox ).attr( 'id' ).replace( 'taxonomy-', '' );
 
@@ -206,8 +205,7 @@
 	 *
 	 * @returns {void}
 	 */
-	YoastReplaceVarPlugin.prototype.getAvailableFields = function ( targetMetaBox ) {
-
+	YoastReplaceVarPlugin.prototype.getAvailableFields = function( targetMetaBox ) {
 		// Remove all the custom fields prior. This ensure that deleted fields don't show up.
 		this.removeCustomFields();
 
@@ -226,7 +224,7 @@
 	 * @param {int} index
 	 * @param {Object} taxonomyElement
 	 */
-	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function ( index, taxonomyElement ) {
+	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function( index, taxonomyElement ) {
 		taxonomyElement = jQuery( taxonomyElement );
 
 		// Set the events.
@@ -243,7 +241,7 @@
 	 * @param {int} index
 	 * @param {Object} customFieldElement
 	 */
-	YoastReplaceVarPlugin.prototype.bindFieldEvents = function ( index, customFieldElement ) {
+	YoastReplaceVarPlugin.prototype.bindFieldEvents = function( index, customFieldElement ) {
 		customFieldElement = jQuery( customFieldElement );
 		var customFieldElementList = customFieldElement.find( '#the-list' );
 
@@ -281,7 +279,7 @@
 	/**
 	 * Removes a replacement if it exists.
 	 *
-	 * @param replacement
+	 * @param {ReplaceVar} replacement
 	 */
 	YoastReplaceVarPlugin.prototype.removeReplacement = function( replacement ) {
 		delete placeholders[ replacement.getPlaceholder() ];
@@ -365,7 +363,7 @@
 	/**
 	 * Gets the replacement for the parent title.
 	 *
-	 * @param parentId
+	 * @param {int} parentId
 	 * @returns {*}
 	 */
 	YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parentId ) {
@@ -396,8 +394,9 @@
 	};
 
 	/**
+	 * Gets the proper replacement variable.
 	 *
-	 * @param replaceVar
+	 * @param {ReplaceVar} replaceVar
 	 * @returns {string}
 	 */
 	YoastReplaceVarPlugin.prototype.getReplacement = function( replaceVar ) {
@@ -421,7 +420,6 @@
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceDefaultPlaceholders = function( textString ) {
-
 		forEach( placeholders, function( replaceVar ) {
 			textString = textString.replace(
 				 new RegExp( replaceVar.getPlaceholder( true ), 'g' ), this.getReplacement( replaceVar )
