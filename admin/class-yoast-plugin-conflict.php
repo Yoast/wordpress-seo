@@ -167,10 +167,14 @@ class Yoast_Plugin_Conflict {
 
 		// For active sections clear errors for inactive plugins.
 		foreach ( $sections as $section ) {
-			if ( ! isset( $this->active_plugins[ $section ] ) ) {
-				continue;
+			// By default clear errors for all plugins of the section.
+			$inactive_plugins = $this->plugins[ $section ];
+
+			// If there are active plugins, filter them from being cleared.
+			if ( isset( $this->active_plugins[ $section ] ) ) {
+				$inactive_plugins = array_diff( $this->plugins[ $section ], $this->active_plugins[ $section ] );
 			}
-			$inactive_plugins = array_diff( $this->plugins[ $section ], $this->active_plugins[ $section ] );
+
 			array_walk( $inactive_plugins, array( $this, 'clear_error' ) );
 		}
 	}
@@ -197,13 +201,15 @@ class Yoast_Plugin_Conflict {
 			/* translators: %s: 'Facebook' plugin name of possibly conflicting plugin */
 			$error_message .= '<a target="_blank" class="button-primary" href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all', 'deactivate-plugin_' . $plugin_file ) . '">' . sprintf( __( 'Deactivate %s', 'wordpress-seo' ), WPSEO_Utils::get_plugin_name( $plugin_file ) ) . '</a> ';
 
+			$identifier = $this->get_notification_identifier( $plugin_file );
+
 			// Add the message to the notifications center.
 			$notification_center->add_notification(
 				new Yoast_Notification(
 					$error_message,
 					array(
 						'type' => Yoast_Notification::ERROR,
-						'id'   => 'wpseo-plugin-conflict-' . sanitize_title( $plugin_file ),
+						'id'   => 'wpseo-conflict-' . $identifier,
 					)
 				)
 			);
@@ -216,8 +222,10 @@ class Yoast_Plugin_Conflict {
 	 * @param string $plugin_file Clear the optional notification for this plugin.
 	 */
 	protected function clear_error( $plugin_file ) {
+		$identifier = $this->get_notification_identifier( $plugin_file );
+
 		$notification_center = Yoast_Notification_Center::get();
-		$notification = $notification_center->get_notification_by_id( 'wpseo-plugin-conflict-' . sanitize_title( $plugin_file ) );
+		$notification = $notification_center->get_notification_by_id( 'wpseo-conflict-' . $identifier );
 
 		if ( $notification ) {
 			$notification_center->remove_notification( $notification );
@@ -310,5 +318,16 @@ class Yoast_Plugin_Conflict {
 		if ( $key_to_remove !== false ) {
 			unset( $this->all_active_plugins[ $key_to_remove ] );
 		}
+	}
+
+	/**
+	 * Get the identifier from the plugin file
+	 *
+	 * @param string $plugin_file Plugin file to get Identifier from.
+	 *
+	 * @return string
+	 */
+	private function get_notification_identifier( $plugin_file ) {
+		return md5( $plugin_file );
 	}
 }
