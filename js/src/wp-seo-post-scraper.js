@@ -9,6 +9,7 @@ var TabManager = require( './analysis/tabManager' );
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 var tmceHelper = require( './wp-seo-tinymce' );
 
+
 (function( $ ) {
 	'use strict';
 
@@ -238,6 +239,41 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		}
 	};
 
+	function updateScoreInPublishBox(type, score){
+		// get the div
+		var publishSection = $('#' + type + '-score');
+		var indicator = getIndicatorForScore( score );
+
+		//get the text span
+		var text = type + ': ' + indicator.screenReaderText;
+		publishSection.children('.score-text').text(text);
+
+		//get the image span
+		var imageClass = 'image yoast-logo svg ' + indicator.className;
+		publishSection.children('.image').attr("class", imageClass);
+	}
+
+	/**
+	 * Creates a new item in the publish box for an yoast-seo score.
+	 * @param type The score type, for example content score or keyword score.
+	 * @param score The score to set for
+	 */
+	function createScoresInPublishBox( type, score ) {
+		var publishSection = $( '<div />', {
+			"class": "misc-pub-section " + "yoast-seo-score " + type +"-score",
+			"id": type + "-score",
+		} );
+		var spanElem = $( '<span />', {
+			"class": "score-text",
+			"text": type + ': ' + score ,
+		} )
+		var imgElem = $( '<span>' )
+			.attr( 'class', 'image yoast-logo svg noindex' );
+
+		publishSection.append( spanElem ).append( imgElem );
+		$( '#misc-publishing-actions' ).append( publishSection );
+	}
+
 	/**
 	 * Saves the score to the linkdex.
 	 * Outputs the score in the overall target.
@@ -255,18 +291,18 @@ var tmceHelper = require( './wp-seo-tinymce' );
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
-			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
-
 			$( '.adminbar-seo-score' )
 				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
+
+			updateScoreInPublishBox('content', indicator.className);
+
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
+			updateScoreInPublishBox('keyword', score);
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -282,6 +318,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	 */
 	PostScraper.prototype.saveContentScore = function( score ) {
 		tabManager.updateContentTab( score );
+		updateScoreInPublishBox( 'content', score );
 
 		$( '#yoast_wpseo_content_score' ).val( score );
 	};
@@ -390,6 +427,9 @@ var tmceHelper = require( './wp-seo-tinymce' );
 
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
+
+		createScoresInPublishBox( 'content', 0 );
+		createScoresInPublishBox( 'keyword', 0 );
 
 		tabManager = new TabManager({
 			strings: wpseoPostScraperL10n
