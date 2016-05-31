@@ -4,6 +4,8 @@ var _forEach = require( 'lodash/foreach' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 
+var MARK_TAG = 'yoastmark';
+
 /**
  * Puts a list of marks into the given tinyMCE editor
  *
@@ -24,7 +26,7 @@ function markTinyMCE( editor, paper, marks ) {
 	// Replace the contents in the editor with the marked HTML.
 	editor.setContent( html );
 
-	var markElements = dom.select( 'yoastmark' );
+	var markElements = dom.select( MARK_TAG );
 	/*
 	 * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
 	 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
@@ -55,7 +57,7 @@ function tinyMCEDecorator( editor ) {
 function editorHasMarks( editor ) {
 	var content = editor.getContent({ format: 'raw' });
 
-	return -1 !== content.indexOf( '<yoastmark' );
+	return -1 !== content.indexOf( '<' + MARK_TAG );
 }
 
 /**
