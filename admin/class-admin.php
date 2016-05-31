@@ -8,6 +8,9 @@
  */
 class WPSEO_Admin {
 
+	/** The page identifier used in WordPress to register the admin page !DO NOT CHANGE THIS! */
+	const PAGE_IDENTIFIER = 'wpseo_dashboard';
+
 	/**
 	 * @var array
 	 */
@@ -136,9 +139,7 @@ class WPSEO_Admin {
 		// Add main page.
 		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count">%1$d</span></span>', $notification_count );
 
-		$parent_admin_page_slug = 'wpseo_dashboard';
-
-		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, $parent_admin_page_slug, array(
+		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, self::PAGE_IDENTIFIER, array(
 			$this,
 			'load_page',
 		), $icon_svg, '99.31337' );
@@ -146,16 +147,16 @@ class WPSEO_Admin {
 		// Sub menu pages.
 		$submenu_pages = array(
 			array(
-				$parent_admin_page_slug,
+				self::PAGE_IDENTIFIER,
 				'',
 				__( 'General', 'wordpress-seo' ),
 				$manage_options_cap,
-				'wpseo_dashboard',
+				self::PAGE_IDENTIFIER,
 				array( $this, 'load_page' ),
 				null,
 			),
 			array(
-				$parent_admin_page_slug,
+				self::PAGE_IDENTIFIER,
 				'',
 				__( 'Titles &amp; Metas', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -163,7 +164,7 @@ class WPSEO_Admin {
 				array( $this, 'load_page' ),
 			),
 			array(
-				$parent_admin_page_slug,
+				self::PAGE_IDENTIFIER,
 				'',
 				__( 'Social', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -172,7 +173,7 @@ class WPSEO_Admin {
 				null,
 			),
 			array(
-				$parent_admin_page_slug,
+				self::PAGE_IDENTIFIER,
 				'',
 				__( 'XML Sitemaps', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -181,7 +182,7 @@ class WPSEO_Admin {
 				null,
 			),
 			array(
-				$parent_admin_page_slug,
+				self::PAGE_IDENTIFIER,
 				'',
 				__( 'Advanced', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -190,7 +191,7 @@ class WPSEO_Admin {
 				null,
 			),
 			array(
-				$parent_admin_page_slug,
+				self::PAGE_IDENTIFIER,
 				'',
 				__( 'Tools', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -199,7 +200,7 @@ class WPSEO_Admin {
 				null,
 			),
 			array(
-				$parent_admin_page_slug,
+				self::PAGE_IDENTIFIER,
 				'',
 				__( 'Search Console', 'wordpress-seo' ),
 				$manage_options_cap,
@@ -208,7 +209,7 @@ class WPSEO_Admin {
 				array( array( $this->admin_features['google_search_console'], 'set_help' ) ),
 			),
 			array(
-				$parent_admin_page_slug,
+				self::PAGE_IDENTIFIER,
 				'',
 				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
 				$manage_options_cap,
@@ -239,8 +240,8 @@ class WPSEO_Admin {
 		}
 
 		global $submenu;
-		if ( isset( $submenu[ $parent_admin_page_slug ] ) && current_user_can( $manage_options_cap ) ) {
-			$submenu[ $parent_admin_page_slug ][0][0] = __( 'Dashboard', 'wordpress-seo' );
+		if ( isset( $submenu[ self::PAGE_IDENTIFIER ] ) && current_user_can( $manage_options_cap ) ) {
+			$submenu[ self::PAGE_IDENTIFIER ][0][0] = __( 'Dashboard', 'wordpress-seo' );
 		}
 	}
 
@@ -305,20 +306,20 @@ class WPSEO_Admin {
 		if ( WPSEO_Utils::grant_access() ) {
 			// Base 64 encoded SVG image.
 			$icon_svg = $this->get_menu_svg();
-			add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array(
+			add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', self::PAGE_IDENTIFIER, array(
 				$this,
 				'network_config_page',
 			), $icon_svg );
 
 			if ( WPSEO_Utils::allow_system_file_edit() === true ) {
-				add_submenu_page( 'wpseo_dashboard', 'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
+				add_submenu_page( self::PAGE_IDENTIFIER, 'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
 					$this,
 					'load_page',
 				) );
 			}
 
 			// Add Extension submenu page.
-			add_submenu_page( 'wpseo_dashboard', 'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ), __( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array(
+			add_submenu_page( self::PAGE_IDENTIFIER, 'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ), __( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array(
 				$this,
 				'load_page',
 			) );
@@ -365,7 +366,7 @@ class WPSEO_Admin {
 				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
 				break;
 
-			case 'wpseo_dashboard':
+			case self::PAGE_IDENTIFIER:
 			default:
 				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
 				break;
@@ -453,7 +454,7 @@ class WPSEO_Admin {
 		}
 
 		// No need to double display it on the dashboard.
-		if ( 'wpseo_dashboard' === filter_input( INPUT_GET, 'page' ) ) {
+		if ( self::PAGE_IDENTIFIER === filter_input( INPUT_GET, 'page' ) ) {
 			return;
 		}
 
@@ -471,7 +472,7 @@ class WPSEO_Admin {
 			</div>',
 			__( 'SEO Issue:', 'wordpress-seo' ),
 			/* translators: %1$s expands to Yoast SEO, %2$s to opening anchor and %3$s the anchor closing tag */
-			sprintf( __( 'Your theme contains a meta description, which blocks %1$s from working properly. Please visit the %2$sSEO Dashboard%3$s to fix this.', 'wordpress-seo' ), 'Yoast SEO', sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) ), '</a>' ),
+			sprintf( __( 'Your theme contains a meta description, which blocks %1$s from working properly. Please visit the %2$sSEO Dashboard%3$s to fix this.', 'wordpress-seo' ), 'Yoast SEO', sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) ) ), '</a>' ),
 			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
 			__( 'I know, don\'t bug me.', 'wordpress-seo' )
 		);
@@ -489,7 +490,7 @@ class WPSEO_Admin {
 	 */
 	function add_action_link( $links, $file ) {
 		if ( WPSEO_BASENAME === $file && WPSEO_Utils::grant_access() ) {
-			$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
+			$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 			array_unshift( $links, $settings_link );
 		}
 

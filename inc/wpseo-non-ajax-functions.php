@@ -236,7 +236,7 @@ function wpseo_admin_bar_menu() {
 
 	$focuskw = '';
 	$score   = '';
-	$seo_url = get_admin_url( null, 'admin.php?page=wpseo_dashboard' );
+	$seo_url = get_admin_url( null, 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
 
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
 					'post.php',

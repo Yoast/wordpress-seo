@@ -93,7 +93,7 @@ class WPSEO_Admin_Init {
 			__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
 			'Yoast SEO',
 			WPSEO_VERSION,
-			'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
+			'<a href="' . admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) . '">',
 			'</a>'
 		);
 

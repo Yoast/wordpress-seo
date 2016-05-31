@@ -123,8 +123,8 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 
 if ( $options['theme_description_found'] !== '' ) {
 	echo '<p id="metadesc_found notice" class="wrong settings_error">';
-	echo '<a href="', esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-fix-metadesc' ) ), admin_url( 'admin.php?page=wpseo_dashboard&fixmetadesc' ) ) ), '" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
-	echo ' <a href="', esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-check-metadesc' ) ), admin_url( 'admin.php?page=wpseo_dashboard&checkmetadesc' ) ) ), '" class="button checkit">', __( 'Re-check theme.', 'wordpress-seo' ), '</a>';
+	echo '<a href="', esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-fix-metadesc' ) ), admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&fixmetadesc' ) ) ), '" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
+	echo ' <a href="', esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-check-metadesc' ) ), admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&checkmetadesc' ) ) ), '" class="button checkit">', __( 'Re-check theme.', 'wordpress-seo' ), '</a>';
 	/* translators: %1$s expands to Yoast SEO */
 	echo sprintf( __( 'Your theme contains a meta description, which blocks %1$s from working properly, please delete the following line, or press fix it:', 'wordpress-seo' ), 'Yoast SEO' ) . '<br />';
 	echo '<code>', esc_html( $options['theme_description_found'] ), '</code>';
