@@ -71,16 +71,13 @@ class WPSEO_Help_Center {
 		return null;
 	}
 
-
 	/**
 	 * Outputes the help center.
 	 */
-	function draw_help_center() {
+	public function draw_help_center() {
 		array_unshift( $this->help_center_items, $this->get_video_help_center_item() );
 		$help_center_items = apply_filters( 'wpseo_help_center_items', $this->help_center_items );
-		$help_center_items = array_filter( $help_center_items, function( $item ) {
-			return is_a( $item, 'WPSEO_Help_Center_Item' );
-		});
+		$help_center_items = array_filter( $help_center_items, array( $this, 'is_a_help_center_item' ) );
 
 		if ( ! empty( $help_center_items ) ) {
 			$id = sprintf( 'tab-help-center-%s-%s', $this->group_name, $this->tab->get_name() );
@@ -136,5 +133,9 @@ class WPSEO_Help_Center {
 			</div>
 			<?php
 		}
+	}
+
+	private function is_a_help_center_item( $item ){
+		return is_a( $item, 'WPSEO_Help_Center_Item' );
 	}
 }
