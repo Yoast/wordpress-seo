@@ -10,7 +10,7 @@ describe( "An assessment for sentence variation", function(){
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The sentence variation score is 4, which is above the recommended minimum of 3. The text contains a nice combination of long and short sentences." );
+		expect( assessment.getText() ).toEqual ( "The sentence length variation score is 4, which is more than or equal to the recommended minimum of 3. The text contains a nice combination of long and short sentences." );
 	} );
 
 	it( "returns the score when deviation is 2 ", function() {
@@ -19,7 +19,7 @@ describe( "An assessment for sentence variation", function(){
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual ( "The sentence variation score is 2, which is less than the recommended minimum of 3. Try to alternate more between long and short sentences." );
+		expect( assessment.getText() ).toEqual ( "The sentence length variation score is 2, which is less than the recommended minimum of 3. Try to alternate more between long and short sentences." );
 	} );
 
 	it( "returns the score when deviation is zero ", function() {
@@ -28,7 +28,7 @@ describe( "An assessment for sentence variation", function(){
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual ( "The sentence variation score is 0, which is less than the recommended minimum of 3. Try to alternate more between long and short sentences." );
+		expect( assessment.getText() ).toEqual ( "The sentence length variation score is 0, which is less than the recommended minimum of 3. Try to alternate more between long and short sentences." );
 	} );
 
 	it( "returns the score when deviation is 20 ", function() {
@@ -37,7 +37,7 @@ describe( "An assessment for sentence variation", function(){
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The sentence variation score is 20, which is above the recommended minimum of 3. The text contains a nice combination of long and short sentences." );
+		expect( assessment.getText() ).toEqual ( "The sentence length variation score is 20, which is more than or equal to the recommended minimum of 3. The text contains a nice combination of long and short sentences." );
 	} );
 
 } );
