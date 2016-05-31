@@ -124,7 +124,7 @@ class WPSEO_Taxonomy_Columns {
 	 * @return string
 	 */
 	private function create_score_icon( WPSEO_Rank $rank, $title ) {
-		return '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div>';
+		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
 	}
 
 	/**

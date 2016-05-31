@@ -72,8 +72,8 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_content_sections() {
 		$content_sections = array(
 			$this->get_content_meta_section(),
-			$this->get_settings_meta_section(),
 			$this->get_social_meta_section(),
+			$this->get_settings_meta_section(),
 		);
 
 		return $content_sections;
@@ -91,9 +91,9 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
-			__( 'Content', 'wordpress-seo' ),
+			__( '', 'wordpress-seo' ),
 			array(
-				'link_class' => 'wpseo_keyword_tab',
+				'link_class' => 'yoast-seo__remove-tab',
 			)
 		);
 

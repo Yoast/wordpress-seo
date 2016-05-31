@@ -39,7 +39,6 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 				'dismissal_key'    => null,
 				'capabilities'     => array(),
 				'capability_check' => 'all',
-				'wpseo_page_only'  => false,
 			),
 			$test['options']
 		);
@@ -91,6 +90,19 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	public function test_type_custom() {
 		$subject = new Yoast_Notification( 'message', array( 'type' => 'bla' ) );
 		$this->assertEquals( 'bla', $subject->get_type() );
+	}
+
+	/**
+	 * Test setting and retrieving JSON
+	 */
+	public function test_json() {
+		$data = array( 'bla' );
+
+		$subject = new Yoast_Notification( 'message', array( 'data_json' => $data ) );
+		$this->assertEquals( $subject->get_json(), wp_json_encode( $data ) );
+
+		$subject = new Yoast_Notification( 'message', array( 'data_json' => '' ) );
+		$this->assertEquals( $subject->get_json(), '' );
 	}
 
 	/**
