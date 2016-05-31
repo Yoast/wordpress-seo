@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, console, require */
+/* global wpseoReplaceVarsL10n, require */
 (function() {
 	'use strict';
 
@@ -285,7 +285,7 @@
 	 */
 	YoastReplaceVarPlugin.prototype.removeReplacement = function( replacement ) {
 		delete placeholders[ replacement.getPlaceholder() ];
-	}
+	};
 
 	/**
 	 * Registers the modifications for the plugin on initial load.
