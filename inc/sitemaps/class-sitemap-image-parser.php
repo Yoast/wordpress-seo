@@ -135,8 +135,10 @@ class WPSEO_Sitemap_Image_Parser {
 			return $images;
 		}
 
+		libxml_use_internal_errors( true );
 		$post_dom = new DOMDocument();
 		$post_dom->loadHTML( $content );
+		libxml_clear_errors();
 
 		/** @var DOMElement $img */
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
