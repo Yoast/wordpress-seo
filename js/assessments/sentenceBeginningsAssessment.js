@@ -58,7 +58,7 @@ var calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
 };
 
 /**
- * Marks all consecutive sentences with the same beginnings. 
+ * Marks all consecutive sentences with the same beginnings.
  * @param {object} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
  * @returns {object} All marked sentences.

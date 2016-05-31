@@ -20,6 +20,7 @@ var matchSentenceBeginnings = function( sentenceBeginnings, i ) {
 /**
  * Counts the number of similar sentence beginnings.
  * @param {array} sentenceBeginnings The array containing the first word of each sentence.
+ * @param {array} sentences The array containing all sentences.
  * @returns {array} The array containing the objects containing the first words and the corresponding counts.
  */
 var compareFirstWords = function ( sentenceBeginnings, sentences ) {
