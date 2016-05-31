@@ -432,7 +432,7 @@ var _wpSeoKbSearch2 = _interopRequireDefault(_wpSeoKbSearch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* jshint ignore:end */
+/* jshint ignore:end jscs:enable*/
 
 (function () {
 	'use strict';
@@ -772,7 +772,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* jshint -W003 */
 /* jshint unused:false */
 
-/* jshint ignore:start */
+/* jshint ignore:start jscs:disable */
 
 },{"./kb-search/wp-seo-kb-search.js":1,"react":198,"react-dom":59}],3:[function(require,module,exports){
 /**
