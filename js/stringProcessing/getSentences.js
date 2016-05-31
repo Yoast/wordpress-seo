@@ -7,6 +7,9 @@ var isNaN = require( "lodash/isNaN" );
 
 var getSubheadings = require( "./getSubheadings.js" ).getSubheadings;
 
+// All characters that indicate a sentence delimiter.
+var sentenceDelimiters = ".?!:;";
+
 /**
  * Checks if the period is followed with a whitespace. If not, it is no ending of a sentence.
  *
@@ -80,11 +83,9 @@ var splitOnIndex = function( positions, text ) {
  */
 var findSubheadings = function( text ) {
 	var subheadings = getSubheadings( text );
-	var position = [];
-	forEach( subheadings, function( subheading ) {
-		position.push( subheading.index + subheading[ 0 ].length );
+	return map ( subheadings, function( subheading ) {
+		return subheading.index + subheading[ 0 ].length;
 	} );
-	return position;
 };
 
 /**
@@ -98,7 +99,7 @@ module.exports = function( text ) {
 	var originalText = text;
 
 	// Unify all terminators.
-	text = text.replace( /[.?!\:;]/g, "." );
+	text = text.replace( new RegExp( "[" + sentenceDelimiters + "]", "g" ), "." );
 
 	// Add period in case it is missing.
 	text += ".";
