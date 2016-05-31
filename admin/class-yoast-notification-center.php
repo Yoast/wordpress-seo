@@ -20,11 +20,8 @@ class Yoast_Notification_Center {
 	/** @var array Notifications there are newly added */
 	private $new = array();
 
-	/** @var array Notifications that were added this execution */
-	private $touched = array();
-
-	/** @var bool Remove untouched notification if we have never reached admin_init */
-	private $remove_untouched = false;
+	/** @var array Notifications that were resolved this execution */
+	private $resolved = 0;
 
 	/**
 	 * Construct
@@ -33,14 +30,12 @@ class Yoast_Notification_Center {
 
 		$this->retrieve_notifications_from_storage();
 
-		add_action( 'admin_init', array( $this, 'enable_remove_untouched' ) );
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
 
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
 
 		add_action( 'wpseo_deactivate', array( $this, 'deactivate_hook' ) );
 		add_action( 'shutdown', array( $this, 'update_storage' ) );
-		add_action( 'shutdown', array( $this, 'clear_dismissals' ) );
 	}
 
 	/**
@@ -55,20 +50,6 @@ class Yoast_Notification_Center {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * After admin_init all notification that are not added again should be removed
-	 *
-	 * We have pages that redirect after adding a notification
-	 * which means that we can't have all notifications added to the stack
-	 * so they aren't "touched".
-	 *
-	 * If we remove untouched these will be seen as new, which isn't true.
-	 */
-	public function enable_remove_untouched() {
-
-		$this->remove_untouched = true;
 	}
 
 	/**
@@ -114,13 +95,6 @@ class Yoast_Notification_Center {
 		$dismissal_key = $notification->get_dismissal_key();
 
 		$current_value = get_user_meta( $user_id, $dismissal_key, $single = true );
-
-		if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
-			$seen_about_version = substr( get_user_meta( $user_id, 'wpseo_seen_about_version', true ), 0, 3 );
-			$last_minor_version = substr( WPSEO_VERSION, 0, 3 );
-
-			return version_compare( $seen_about_version, $last_minor_version, '>=' );
-		}
 
 		return ! empty( $current_value );
 	}
@@ -201,26 +175,6 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Clear dismissals of resolved notifications
-	 */
-	public function clear_dismissals() {
-
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			return;
-		}
-
-		$notifications = array_filter(
-			$this->notifications,
-			array( $this, 'filter_untouched_notifications' )
-		);
-
-		$resolved_notifications = array_diff( $this->notifications, $notifications );
-
-		// Remove dismissal so it will be shown next time the condition is met.
-		array_map( array( $this, 'clear_dismissal' ), $resolved_notifications );
-	}
-
-	/**
 	 * Add notification to the cookie
 	 *
 	 * @param Yoast_Notification $notification Notification object instance.
@@ -237,17 +191,15 @@ class Yoast_Notification_Center {
 		// Empty notifications are always added.
 		if ( $notification_id !== '' ) {
 
-			$this->touched[ $notification_id ] = true;
-
 			// If notification ID exists in notifications, don't add again.
 			$present_notification = $this->get_notification_by_id( $notification_id );
 			if ( ! is_null( $present_notification ) ) {
-				$present_notification->refresh_nonce();
-
-				return;
+				$this->remove_notification( $present_notification, false );
 			}
 
-			$this->new[] = $notification_id;
+			if ( is_null( $present_notification ) ) {
+				$this->new[] = $notification_id;
+			}
 		}
 
 		// Add to list.
@@ -295,12 +247,32 @@ class Yoast_Notification_Center {
 	 * Remove notification after it has been displayed
 	 *
 	 * @param Yoast_Notification $notification Notification to remove.
+	 * @param bool               $resolve Resolve as fixed.
 	 */
-	private function remove_notification( Yoast_Notification $notification ) {
+	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
-		$index = array_search( $notification, $this->notifications, true );
+		$index = false;
+
+		// Match persistent Notifications by ID, non persistent by item in the array.
+		if ( $notification->is_persistent() ) {
+			foreach ( $this->notifications as $current_index => $present_notification ) {
+				if ( $present_notification->get_id() === $notification->get_id() ) {
+					$index = $current_index;
+					break;
+				}
+			}
+		}
+		else {
+			$index = array_search( $notification, $this->notifications, true );
+		}
+
 		if ( false === $index ) {
 			return;
+		}
+
+		if ( $notification->is_persistent() && $resolve ) {
+			$this->resolved++;
+			$this->clear_dismissal( $notification );
 		}
 
 		unset( $this->notifications[ $index ] );
@@ -327,7 +299,7 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Get the number of notifications not touched this execution
+	 * Get the number of notifications resolved this execution
 	 *
 	 * These notifications have been resolved and should be counted when active again.
 	 *
@@ -335,7 +307,7 @@ class Yoast_Notification_Center {
 	 */
 	public function get_resolved_notification_count() {
 
-		return ( count( $this->notifications ) - count( $this->touched ) );
+		return $this->resolved;
 	}
 
 	/**
@@ -409,13 +381,7 @@ class Yoast_Notification_Center {
 	 */
 	public function get_notifications() {
 
-		$notifications = $this->notifications;
-
-		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) && $this->remove_untouched ) {
-			$notifications = array_filter( $notifications, array( $this, 'filter_untouched_notifications' ) );
-		}
-
-		return $notifications;
+		return $this->notifications;
 	}
 
 	/**
@@ -426,24 +392,6 @@ class Yoast_Notification_Center {
 	public function get_new_notifications() {
 
 		return array_map( array( $this, 'get_notification_by_id' ), $this->new );
-	}
-
-	/**
-	 * Only get touched notifications
-	 *
-	 * @param Yoast_Notification $notification Notification to test.
-	 *
-	 * @return bool
-	 */
-	private function filter_untouched_notifications( Yoast_Notification $notification ) {
-
-		$notification_id = $notification->get_id();
-
-		if ( empty( $notification_id ) ) {
-			return true;
-		}
-
-		return array_key_exists( $notification_id, $this->touched ) && $this->touched[ $notification_id ];
 	}
 
 	/**
@@ -519,16 +467,8 @@ class Yoast_Notification_Center {
 	 * @return bool
 	 */
 	private static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
-
-		$user_id = get_current_user_id();
-
-		// Set about version when dismissing about notification.
-		if ( $notification->get_id() === 'wpseo-dismiss-about' ) {
-			return ( false !== update_user_meta( $user_id, 'wpseo_seen_about_version', WPSEO_VERSION ) );
-		}
-
 		// Dismiss notification.
-		return ( false !== update_user_meta( $user_id, $notification->get_dismissal_key(), $meta_value ) );
+		return ( false !== update_user_meta( get_current_user_id(), $notification->get_dismissal_key(), $meta_value ) );
 	}
 
 	/**

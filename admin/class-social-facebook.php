@@ -463,7 +463,7 @@ class Yoast_Social_Facebook_Form {
 	}
 
 	/**
-	 * Check if the clear button should be displayed. This is based on the the set options
+	 * Check if the clear button should be displayed. This is based on the set options.
 	 *
 	 * @return bool
 	 */

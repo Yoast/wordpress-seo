@@ -284,6 +284,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
+		// Add Help Center to the metabox see #4701.
+		$tab_video_url = 'https://yoa.st/metabox-screencast';
+		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -897,7 +901,7 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
+				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						{{data.prefix}}
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
