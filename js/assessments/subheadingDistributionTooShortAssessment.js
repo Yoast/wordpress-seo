@@ -39,7 +39,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, reco
 				i18n.dgettext(
 						"js-text-analysis",
 						"The number of words following each of your subheadings exceeds the recommended minimum of %1$d words, which is great."
-				), recommendedValue 
+				), recommendedValue
 			)
 		};
 	}
@@ -48,11 +48,14 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, reco
 
 		// translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
 		text: i18n.sprintf(
-			i18n.dgettext(
+			i18n.dngettext(
 					"js-text-analysis",
 					"The number of words following %1$d of your subheadings is less than or equal to the recommended minimum of %2$d words. " +
-					"Consider deleting that particular subheading, or the following subheading."
-			), tooShortTexts, recommendedValue 
+					"Consider deleting that particular subheading, or the following subheading.",
+					"The number of words following %1$d of your subheadings is less than or equal to the recommended minimum of %2$d words. " +
+					"Consider deleting those particular subheadings, or the subheading following each of them.",
+					tooShortTexts ),
+				tooShortTexts, recommendedValue
 		)
 	};
 };

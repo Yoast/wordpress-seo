@@ -8,13 +8,13 @@ describe( "An assessment for finding the length of the subheadings.", function()
 	it( "returns headings < 30 chars. ", function() {
 		var assessment = subHeadingLengthAssessment.getResult( paper, Factory.buildMockResearcher( [5, 5, 20 ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "The length of all subheadings is less than the recommended maximum of 30 characters, which is great." );
+		expect( assessment.getText() ).toBe( "The length of all subheadings is less than or equal to the recommended maximum of 30 characters, which is great." );
 	} );
 
 	it( "returns headings < 30 chars. ", function() {
 		assessment = subHeadingLengthAssessment.getResult( paper, Factory.buildMockResearcher( [5, 5, 28 ] ), i18n );
 		expect( assessment.getScore() ).toBe( 7.62 );
-		expect( assessment.getText() ).toBe( "The length of all subheadings is less than the recommended maximum of 30 characters, which is great." );
+		expect( assessment.getText() ).toBe( "The length of all subheadings is less than or equal to the recommended maximum of 30 characters, which is great." );
 	} );
 	it( "returns headings > 30 chars, 1 too long heading. ", function() {
 		assessment = subHeadingLengthAssessment.getResult( paper, Factory.buildMockResearcher( [5, 5, 35 ] ), i18n );
