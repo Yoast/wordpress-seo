@@ -26,17 +26,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AlgoliaSearcher = function (_React$Component) {
 	_inherits(AlgoliaSearcher, _React$Component);
 
+	/**
+  * ALgoliaSearcher constructor.
+  *
+  * @constructor
+  * @param {object} props Properties of the ALgoliaSearcher component.
+  */
+
 	function AlgoliaSearcher(props) {
 		_classCallCheck(this, AlgoliaSearcher);
 
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AlgoliaSearcher).call(this));
 
 		_this.state = {
-			searchString: '',
-			usedQueries: {},
-			results: [],
-			errorMessage: '',
-			showDetail: false,
+			searchString: '', // The by the user given search input
+			usedQueries: {}, // An object containing the read articles by the user per used search string.
+			results: [], // The found results.
+			errorMessage: '', // An description of the error if one occurs while executing the search.
+			showDetail: false, //  Shows the search results if this is set to false. Otherwhise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
 			searching: false
 		};
 		_this.props = props;
@@ -44,9 +51,13 @@ var AlgoliaSearcher = function (_React$Component) {
 
 		_this.searchButtonClicked = _this.searchButtonClicked.bind(_this);
 		_this.hideDetail = _this.hideDetail.bind(_this);
-		_this.openExternal = _this.openExternal.bind(_this);
 		return _this;
 	}
+
+	/**
+  * Initializes the algolia client and index variables.
+  */
+
 
 	_createClass(AlgoliaSearcher, [{
 		key: 'initAlgoliaClient',
@@ -54,6 +65,13 @@ var AlgoliaSearcher = function (_React$Component) {
 			this.client = (0, _algoliasearch2.default)(this.props.algoliaApplicationId, this.props.algoliaApiKey);
 			this.index = this.client.initIndex(this.props.algoliaIndexName);
 		}
+
+		/**
+   * Handles the input changed event. It saved the used search string and performs a search.
+   *
+   * @param {object} e The event.
+   */
+
 	}, {
 		key: 'searchButtonClicked',
 		value: function searchButtonClicked(e) {
@@ -72,6 +90,11 @@ var AlgoliaSearcher = function (_React$Component) {
 				});
 			}
 		}
+
+		/**
+   * Performs a search with the searchstring saved in the state and sets the results property of the state to the results found.
+   */
+
 	}, {
 		key: 'updateSearchResults',
 		value: function updateSearchResults() {
@@ -91,6 +114,13 @@ var AlgoliaSearcher = function (_React$Component) {
 				});
 			}.bind(this));
 		}
+
+		/**
+   * Performs a search with a given searchstring on the algolia index which information was passed in the AlgoliaSearcher's props.
+   * @param String searchString The words or sentence to get the results for.
+   * @returns {Promise} The promise that is performing the search.
+   */
+
 	}, {
 		key: 'getSearchResults',
 		value: function getSearchResults(searchString) {
@@ -104,6 +134,12 @@ var AlgoliaSearcher = function (_React$Component) {
 				});
 			}.bind(this));
 		}
+
+		/**
+   * Sets all values required to display the detail view of a search result.
+   * @param resultArrayIndex
+   */
+
 	}, {
 		key: 'showDetail',
 		value: function showDetail(resultArrayIndex) {
@@ -118,17 +154,22 @@ var AlgoliaSearcher = function (_React$Component) {
 				usedQueries: usedQueries
 			});
 		}
+
+		/**
+   * Hide the detail page and returns to the results page.
+   */
+
 	}, {
 		key: 'hideDetail',
 		value: function hideDetail() {
 			this.setState({ showDetail: false });
 		}
-	}, {
-		key: 'openExternal',
-		value: function openExternal() {
-			var currentPost = this.state.results[this.state.showDetail];
-			window.open(currentPost.permalink, "_blank");
-		}
+
+		/**
+   * Renders the search results list.
+   * @returns {JSX}
+   */
+
 	}, {
 		key: 'renderSearchResults',
 		value: function renderSearchResults() {
@@ -154,6 +195,12 @@ var AlgoliaSearcher = function (_React$Component) {
 			}
 			return searchResultContent;
 		}
+
+		/**
+   * Renders the navigation links with the article content.
+   * @returns {JSX}
+   */
+
 	}, {
 		key: 'renderDetail',
 		value: function renderDetail() {
@@ -179,6 +226,13 @@ var AlgoliaSearcher = function (_React$Component) {
 				_react2.default.createElement(ArticleContent, { post: post })
 			);
 		}
+
+		/**
+   * Renders an error message.
+   * @param String errorMessage The message to display.
+   * @returns {HTML}
+   */
+
 	}, {
 		key: 'renderError',
 		value: function renderError(errorMessage) {
@@ -190,6 +244,12 @@ var AlgoliaSearcher = function (_React$Component) {
 				errorMessage
 			);
 		}
+
+		/**
+   * Is called upon state change. It determines what view to render and renders it.
+   * @returns {XML}
+   */
+
 	}, {
 		key: 'render',
 		value: function render() {
@@ -252,6 +312,12 @@ AlgoliaSearcher.defaultProps = {
 	algoliaIndexName: 'acceptance_all'
 };
 
+/**
+ * Gives the JSX to render the search bar.
+ * @param props
+ * @returns {JSX}
+ * @constructor
+ */
 var SearchBar = function SearchBar(props) {
 	return _react2.default.createElement(
 		'div',
@@ -277,6 +343,12 @@ var SearchBar = function SearchBar(props) {
 	);
 };
 
+/**
+ * Gives the JSX to render a single search result.
+ * @param props
+ * @returns {JSX}
+ * @constructor
+ */
 var SearchResult = function SearchResult(props) {
 	var post = props.post;
 	var description = post.excerpt || post.metadesc;
@@ -304,6 +376,12 @@ var SearchResult = function SearchResult(props) {
 	);
 };
 
+/**
+ * Gives the JSX to render the content of a selected article.
+ * @param props
+ * @returns {JSX}
+ * @constructor
+ */
 var ArticleContent = function ArticleContent(props) {
 	var post = props.post;
 	return _react2.default.createElement(
@@ -322,6 +400,11 @@ var ArticleContent = function ArticleContent(props) {
 	);
 };
 
+/**
+ * Gives the JSX to render a loading indicator.
+ * @returns {JSX}
+ * @constructor
+ */
 var Loading = function Loading() {
 	return _react2.default.createElement(
 		'div',
@@ -329,6 +412,7 @@ var Loading = function Loading() {
 		'Loading...'
 	);
 };
+
 exports.default = AlgoliaSearcher;
 
 },{"algoliasearch":9,"react":198}],2:[function(require,module,exports){
@@ -536,7 +620,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	function showContactPopup() {
 		var $ = jQuery;
 		var $buyButton = $('#wpseo-contact-support-popup'),
-		    title = "Buy Yoast SEO premium",
+		    title = 'Buy Yoast SEO premium',
 		    $popupWindow,
 		    $closeButton;
 
@@ -600,7 +684,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			var activeTabName = jQuery('.wpseotab.active').attr('id');
 			var activeAlgoliaSearcher = algoliaSearchers[0].algoliaSearcher; // 1st by defatul. (Used for the Advanced settings pages because of how the tabs were set up)
 			jQuery.each(algoliaSearchers, function (key, searcher) {
-				if (searcher.tabName == activeTabName) {
+				if (searcher.tabName === activeTabName) {
 					activeAlgoliaSearcher = searcher.algoliaSearcher;
 					return false; // returning false breaks the loop.
 				}
@@ -683,7 +767,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		jQuery('.nav-tab-active').click();
 		initSelect2();
 	});
-})(); /* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale */
+})(); /* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale, tb_show */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */

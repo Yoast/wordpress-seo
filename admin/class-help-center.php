@@ -51,7 +51,7 @@ class WPSEO_Help_Center {
 	}
 
 	/**
-	 * @return mixed (WPSEO_Help_Center_Item | false) returns a help center item containing a video
+	 * @return mixed (WPSEO_Help_Center_Item | false) Returns a help center item containing a video.
 	 */
 	private function get_video_help_center_item() {
 		$url = $this->tab->get_video_url();
@@ -73,7 +73,7 @@ class WPSEO_Help_Center {
 
 
 	/**
-	 * Build the help center
+	 * Outputes the help center.
 	 */
 	function draw_help_center() {
 		array_unshift( $this->help_center_items, $this->get_video_help_center_item() );
