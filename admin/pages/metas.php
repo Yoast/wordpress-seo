@@ -9,13 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-add_filter( 'yoast_option_tab_help_center_metas', 'yoast_option_tab_help_center_metas' );
-add_filter( 'yoast_option_tab_help_center_metas_general', 'yoast_option_tab_help_center_metas_general' );
-add_filter( 'yoast_option_tab_help_center_metas_home', 'yoast_option_tab_help_center_metas_home' );
-add_filter( 'yoast_option_tab_help_center_metas_post-types', 'yoast_option_tab_help_center_metas_post_types' );
-add_filter( 'yoast_option_tab_help_center_metas_taxonomies', 'yoast_option_tab_help_center_metas_taxonomies' );
-add_filter( 'yoast_option_tab_help_center_metas_archives', 'yoast_option_tab_help_center_metas_archives' );
-add_filter( 'yoast_option_tab_help_center_metas_other', 'yoast_option_tab_help_center_metas_other' );
+add_filter( 'wpseo_help_center_items', 'yoast_add_meta_options_help_center_tabs' );
 
 $options = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_permalinks', 'wpseo_internallinks' ) );
 
@@ -40,7 +34,7 @@ $yform->admin_footer();
  *
  * @return array
  */
-function yoast_option_tab_help_center_metas( $tabs ) {
+function yoast_add_meta_options_help_center_tabs( $tabs ) {
 	$tabs[] = new WPSEO_Help_Center_Item(
 		'basic-help',
 		__( 'Template explanation', 'wordpress-seo' ),
@@ -66,102 +60,4 @@ function yoast_option_tab_help_center_metas( $tabs ) {
 	);
 
 	return $tabs;
-}
-
-/**
- * Add video tab
- *
- * @param array $tabs Current help center tabs.
- *
- * @return mixed
- */
-function yoast_option_tab_help_center_metas_home( $tabs ) {
-	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-homepage' ) );
-
-	return $tabs;
-}
-
-/**
- * Add video tab
- *
- * @param array $tabs Current help center tabs.
- *
- * @return mixed
- */
-function yoast_option_tab_help_center_metas_general( $tabs ) {
-	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas' ) );
-
-	return $tabs;
-}
-
-/**
- * Add video tab
- *
- * @param array $tabs Current help center tabs.
- *
- * @return mixed
- */
-function yoast_option_tab_help_center_metas_post_types( $tabs ) {
-	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-post-types' ) );
-
-	return $tabs;
-}
-
-/**
- * Add video tab
- *
- * @param array $tabs Current help center tabs.
- *
- * @return mixed
- */
-function yoast_option_tab_help_center_metas_taxonomies( $tabs ) {
-	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-taxonomies' ) );
-
-	return $tabs;
-}
-
-/**
- * Add video tab
- *
- * @param array $tabs Current help center tabs.
- *
- * @return mixed
- */
-function yoast_option_tab_help_center_metas_archives( $tabs ) {
-	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-archives' ) );
-
-	return $tabs;
-}
-
-/**
- * Add video tab
- *
- * @param array $tabs Current help center tabs.
- *
- * @return mixed
- */
-function yoast_option_tab_help_center_metas_other( $tabs ) {
-	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-other' ) );
-
-	return $tabs;
-}
-
-/**
- * Create video help center item
- *
- * @param string $url Add video link.
- *
- * @return WPSEO_Help_Center_Item
- */
-function yoast_create_help_center_video( $url ) {
-	return new WPSEO_Help_Center_Item(
-		'video',
-		'Video tutorial',
-		array(
-			'view'           => 'partial-help-center-video',
-			'view_arguments' => array(
-				'tab_video_url' => $url,
-			),
-		)
-	);
 }

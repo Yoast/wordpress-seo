@@ -1,7 +1,14 @@
-/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale */
+/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale, tb_show */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
+
+/* jshint ignore:start */
+import React from 'react';
+import ReactDom from 'react-dom';
+import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
+/* jshint ignore:end */
+
 (function() {
 	'use strict';
 
@@ -200,6 +207,52 @@
 		});
 	}
 
+	function showContactPopup() {
+		var $ = jQuery;
+		var $buyButton = $( '#wpseo-contact-support-popup' ),
+			title = 'Buy Yoast SEO premium',
+			$popupWindow,
+			$closeButton;
+
+		tb_show( title, '#TB_inline?width=650&height=235&inlineId=wpseo-contact-support-popup', 'group' );
+
+		// The thicbox popup UI is now available.
+		$popupWindow = $( '#TB_window' );
+		$closeButton = $( '#TB_closeWindowButton' );
+
+		// The container window isn't the correct size, rectify this and also the centering.
+		$popupWindow.css({ width: 680, height: 235, 'margin-left': -340 });
+
+		// Accessibility improvements.
+		$popupWindow
+			.attr({
+					  role: 'dialog',
+					  'aria-labelledby': 'TB_ajaxWindowTitle',
+					  'aria-describedby': 'TB_ajaxContent'
+				  })
+			.on( 'keydown', function( event ) {
+				var id;
+
+				// Constrain tabbing within the modal.
+				if ( 9 === event.which ) {
+					id = event.target.id;
+
+					if ( id === 'wpseo-contact-support-popup-button' && ! event.shiftKey ) {
+						$closeButton.focus();
+						event.preventDefault();
+					} else if ( id === 'TB_closeWindowButton' && event.shiftKey ) {
+						$buyButton.focus();
+						event.preventDefault();
+					}
+				}
+			});
+
+		// Move focus back to the element that opened the modal.
+		$( 'body' ).on( 'thickbox:removed', function() {
+			$( '.contact-support' ).focus();
+		});
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
@@ -208,6 +261,33 @@
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
+			// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
+			var mountingPoints = jQuery( '.wpseo-kb-search' );
+			var algoliaSearchers = [];
+			jQuery.each( mountingPoints, function( index , mountingPoint ) {
+				var tabId = jQuery( mountingPoint ).closest( '.wpseotab' ).attr( 'id' );
+				algoliaSearchers.push( { tabName: tabId , algoliaSearcher: ReactDom.render( React.createElement(AlgoliaSearcher), mountingPoint ) } ); //jshint ignore:line
+			});
+
+			//Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data
+			jQuery( '.contact-support' ).on( 'click', function( e ) {
+				var activeTabName = jQuery( '.wpseotab.active' ).attr( 'id' );
+				var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher; // 1st by defatul. (Used for the Advanced settings pages because of how the tabs were set up)
+				jQuery.each(algoliaSearchers, function( key, searcher ) {
+					if ( searcher.tabName === activeTabName ) {
+						activeAlgoliaSearcher = searcher.algoliaSearcher;
+						return false; // returning false breaks the loop.
+					}
+				});
+				var usedQueries = activeAlgoliaSearcher.state.usedQueries;
+				jQuery( window ).trigger( 'YoastSEO:ContactSupport',  { usedQueries: usedQueries } );
+			});
+
+			// Open "functionality only avalible for premium" popup //
+			jQuery( window ).on( 'YoastSEO:ContactSupport' , function() {
+				showContactPopup();
+			});
+
 			/* Fix banner images overlapping help texts */
 			jQuery( '.screen-meta-toggle a' ).click( function() {
 					jQuery( '#sidebar-container' ).toggle();

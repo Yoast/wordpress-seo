@@ -29,6 +29,7 @@ module.exports = (function() {
 	 * @constructor
 	 */
 	function KeywordTab( args ) {
+
 		defaults( args, defaultArguments );
 
 		this.keyword = args.keyword;
@@ -53,7 +54,6 @@ module.exports = (function() {
 	KeywordTab.prototype.init = function( parent, position ) {
 		this.setElement( this.render() );
 		var $parent = $( parent );
-
 		if ( 'prepend' === position ) {
 			$parent.prepend( this.element );
 		} else {
@@ -73,7 +73,6 @@ module.exports = (function() {
 			this.keyword = keyword;
 		}
 		this.setScoreClass( scoreClass );
-		this.setScoreText( scoreText );
 		this.refresh();
 	};
 
@@ -81,6 +80,7 @@ module.exports = (function() {
 	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
 	 */
 	KeywordTab.prototype.refresh = function() {
+
 		var newElem = this.render();
 
 		this.element.replaceWith( newElem );
@@ -173,6 +173,5 @@ module.exports = (function() {
 	KeywordTab.prototype.getKeyword = function() {
 		return this.element.find( '.wpseo_tablink' ).data( 'keyword' );
 	};
-
 	return KeywordTab;
 })();

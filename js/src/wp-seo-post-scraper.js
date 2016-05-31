@@ -253,7 +253,6 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 
 			if ( '' === currentKeyword ) {
 				indicator.className = 'na';
-				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
 			$( '.yst-traffic-light' )
@@ -390,16 +389,16 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 	}
 
 	jQuery( document ).ready(function() {
-		var args, postScraper, translations;
+		var translations;
 
 		tabManager = new TabManager({
 			strings: wpseoPostScraperL10n
 		});
 		tabManager.init();
 
-		postScraper = new PostScraper();
+		var postScraper = new PostScraper();
 
-		args = {
+		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {

@@ -443,7 +443,7 @@ class Yoast_Notification_Center {
 		$b_type = $b->get_type();
 
 		if ( $a_type === $b_type ) {
-			return WPSEO_Utils::calc( $b->get_priority(), 'compare', $a->get_priority() );
+			return bccomp( $b->get_priority(), $a->get_priority() );
 		}
 
 		if ( 'error' === $a_type ) {

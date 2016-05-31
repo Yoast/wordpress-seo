@@ -453,11 +453,7 @@ class WPSEO_Sitemaps {
 
 		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
 
-		if ( count( $dates ) > 0 ) {
-			return max( $dates );
-		}
-
-		return false;
+		return max( $dates );
 	}
 
 	/**

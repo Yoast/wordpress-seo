@@ -709,8 +709,7 @@ class WPSEO_Utils {
 		return $is_yoast_seo;
 	}
 
-	/**
-	 * Check if the current opened page belongs to Yoast SEO Free.
+	/** Check if the current opened page belongs to Yoast SEO Free.
 	 *
 	 * @param string $current_page the current page the user is on.
 	 *

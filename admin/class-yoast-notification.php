@@ -237,6 +237,7 @@ class Yoast_Notification {
 
 		// Default notification classes.
 		$classes = array(
+
 			'yoast-alert',
 		);
 
@@ -255,6 +256,7 @@ class Yoast_Notification {
 
 		// Build the output DIV.
 		return '<div ' . implode( ' ', $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
+
 	}
 
 	/**

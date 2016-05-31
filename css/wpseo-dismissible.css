@@ -1,4 +1,4 @@
-.yoast-notice-dismiss:before {
+.notice-dismiss:before {
 	display: block !important;
 	width: 20px;
 	height: 20px;
@@ -12,7 +12,7 @@
 	speak: none;
 }
 
-.yoast-notice-dismiss {
+.notice-dismiss {
 	position: absolute;
 	top: 0;
 	right: 1px;
@@ -24,38 +24,34 @@
 	cursor: pointer;
 }
 
-body.rtl .yoast-notice-dismiss {
+body.rtl .notice-dismiss {
 	right: auto !important;
 	left: 1px !important;
 }
 
-.yoast-notice-dismiss:before {
+.notice-dismiss:before {
 	position: relative;
 	top: 0;
 	left: 0;
 	line-height: 20px;
 }
 
-.yoast-notice-dismiss:hover:before,
-.yoast-notice-dismiss:active:before,
-.yoast-notice-dismiss:focus:before {
+.notice-dismiss:hover:before,
+.notice-dismiss:active:before,
+.notice-dismiss:focus:before {
 	color: #c00;
 }
 
-.yoast-notice-dismiss:focus {
+.notice-dismiss:focus {
 	outline: none;
 	color: #c00;
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
-.ie8 .yoast-notice-dismiss:focus {
+.ie8 .notice-dismiss:focus {
 	outline: 1px solid #5b9dd9;
 }
 
-.yoast-notice.is-dismissible {
+.notice.is-dismissible {
 	position: relative;
-}
-
-.yoast-notice-dismiss {
-	text-decoration: none;
 }
