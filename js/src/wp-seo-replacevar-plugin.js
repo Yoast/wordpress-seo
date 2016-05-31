@@ -27,6 +27,8 @@
 		this._app = app;
 		this._app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 
+		console.log(app.rawData, wpseoReplaceVarsL10n);
+
 		this.registerReplacements();
 		this.registerModifications();
 		this.registerEvents();
@@ -439,6 +441,7 @@
 		forEach( taxonomyElements, function( taxonomy, taxonomyName ) {
 			if ( taxonomyName !== 'category' ) {
 				data = data.replace( '%%ct_' + taxonomyName  + '%%', this.getTaxonomyReplaceVar( taxonomyName ) );
+				data = data.replace( '%%ct_desc_' + taxonomyName  + '%%', this.getTaxonomyReplaceVar( taxonomyName ) );
 			} else {
 				data = data.replace( '%%' + taxonomyName  + '%%', this.getTaxonomyReplaceVar( taxonomyName ) );
 			}

@@ -1,81 +1,84 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
+/* global require */
+(function() {
+	'use strict';
 
-var isUndefined = require( 'lodash/isUndefined' );
-var indexOf = require( 'lodash/indexOf' );
-var defaults = require( 'lodash/defaults' );
+	var isUndefined = require( 'lodash/isUndefined' );
+	var indexOf = require( 'lodash/indexOf' );
+	var defaults = require( 'lodash/defaults' );
 
-/**
- * Constructs the replace var
- *
- * @param placeholder
- * @param replacement
- * @param options
- * @constructor
- */
-var ReplaceVar = function( placeholder, replacement, options ) {
-	this.placeholder    = placeholder;
-	this.replacement    = replacement;
+	/**
+	 * Constructs the replace var
+	 *
+	 * @param placeholder
+	 * @param replacement
+	 * @param options
+	 * @constructor
+	 */
+	var ReplaceVar = function( placeholder, replacement, options ) {
+		this.placeholder    = placeholder;
+		this.replacement    = replacement;
 
-	this.options        = defaults( options, { source: 'wpseoReplaceVarsL10n', scope: [], aliases: [] } );
-};
+		this.options        = defaults( options, { source: 'wpseoReplaceVarsL10n', scope: [], aliases: [] } );
+	};
 
-ReplaceVar.prototype.getPlaceholder = function( includeAliases ) {
-	includeAliases = includeAliases || false;
+	ReplaceVar.prototype.getPlaceholder = function( includeAliases ) {
+		includeAliases = includeAliases || false;
 
-	if ( includeAliases === true && this.hasAlias() ) {
-		return this.placeholder + '|' + this.getAliases().join('|');
-	}
+		if ( includeAliases === true && this.hasAlias() ) {
+			return this.placeholder + '|' + this.getAliases().join('|');
+		}
 
-	return this.placeholder;
-};
+		return this.placeholder;
+	};
 
-/**
- * Override the source of the replacement
- *
- * @param source
- */
-ReplaceVar.prototype.setSource = function( source ) {
-	this.options.source = source;
-};
+	/**
+	 * Override the source of the replacement
+	 *
+	 * @param source
+	 */
+	ReplaceVar.prototype.setSource = function( source ) {
+		this.options.source = source;
+	};
 
-ReplaceVar.prototype.hasScope = function() {
-	return isUndefined( this.options.scope ) === false && this.options.scope.length > 0;
-};
+	ReplaceVar.prototype.hasScope = function() {
+		return isUndefined( this.options.scope ) === false && this.options.scope.length > 0;
+	};
 
-ReplaceVar.prototype.setScope = function( scope ) {
-	if ( this.hasScope() === false ) {
-		this.options.scope = [];
-	}
+	ReplaceVar.prototype.setScope = function( scope ) {
+		if ( this.hasScope() === false ) {
+			this.options.scope = [];
+		}
 
-	this.options.scope.push( scope );
-};
+		this.options.scope.push( scope );
+	};
 
-ReplaceVar.prototype.inScope = function( scope ) {
-	if ( this.hasScope() === false ) {
-		return true;
-	}
+	ReplaceVar.prototype.inScope = function( scope ) {
+		if ( this.hasScope() === false ) {
+			return true;
+		}
 
-	return indexOf( this.options.scope, scope ) > -1;
-};
+		return indexOf( this.options.scope, scope ) > -1;
+	};
 
-ReplaceVar.prototype.hasAlias = function() {
-	return isUndefined( this.options.aliases ) === false && this.options.aliases.length > 0;
-};
+	ReplaceVar.prototype.hasAlias = function() {
+		return isUndefined( this.options.aliases ) === false && this.options.aliases.length > 0;
+	};
 
-ReplaceVar.prototype.setAlias = function( alias ) {
-	if ( this.hasAlias() === false ) {
-		this.options.aliases = [];
-	}
+	ReplaceVar.prototype.setAlias = function( alias ) {
+		if ( this.hasAlias() === false ) {
+			this.options.aliases = [];
+		}
 
-	this.options.aliases.push( alias );
-};
+		this.options.aliases.push( alias );
+	};
 
-ReplaceVar.prototype.getAliases = function() {
-	return this.options.aliases;
-};
+	ReplaceVar.prototype.getAliases = function() {
+		return this.options.aliases;
+	};
 
-module.exports = ReplaceVar;
+	module.exports = ReplaceVar;
+}());
 
 },{"lodash/defaults":104,"lodash/indexOf":111,"lodash/isUndefined":124}],2:[function(require,module,exports){
 /* global wpseoReplaceVarsL10n, require, YoastSEO */
@@ -106,6 +109,8 @@ module.exports = ReplaceVar;
 	var YoastReplaceVarPlugin = function( app ) {
 		this._app = app;
 		this._app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
+
+		console.log(app.rawData, wpseoReplaceVarsL10n);
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -519,6 +524,7 @@ module.exports = ReplaceVar;
 		forEach( taxonomyElements, function( taxonomy, taxonomyName ) {
 			if ( taxonomyName !== 'category' ) {
 				data = data.replace( '%%ct_' + taxonomyName  + '%%', this.getTaxonomyReplaceVar( taxonomyName ) );
+				data = data.replace( '%%ct_desc_' + taxonomyName  + '%%', this.getTaxonomyReplaceVar( taxonomyName ) );
 			} else {
 				data = data.replace( '%%' + taxonomyName  + '%%', this.getTaxonomyReplaceVar( taxonomyName ) );
 			}
