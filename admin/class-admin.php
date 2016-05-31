@@ -405,7 +405,7 @@ class WPSEO_Admin {
 
 		return $status;
 	}
-	
+
 	/**
 	 * Add a link to the settings page to the plugins list
 	 *
