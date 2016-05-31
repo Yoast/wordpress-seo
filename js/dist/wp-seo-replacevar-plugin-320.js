@@ -110,8 +110,6 @@
 		this._app = app;
 		this._app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 
-		console.log(app.rawData, wpseoReplaceVarsL10n);
-
 		this.registerReplacements();
 		this.registerModifications();
 		this.registerEvents();
