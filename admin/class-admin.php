@@ -125,7 +125,7 @@ class WPSEO_Admin {
 			return;
 		}
 
-		add_action( 'admin_head', array( $this, 'register_assets' ) );
+		add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
 
 		// Base 64 encoded SVG image.
 		$icon_svg = $this->get_menu_svg();
@@ -249,7 +249,7 @@ class WPSEO_Admin {
 	/**
 	 * Register assets needed on admin pages
 	 */
-	public function register_assets() {
+	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'help-center' );
 	}
