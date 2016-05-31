@@ -542,6 +542,8 @@ var _forEach = require( 'lodash/foreach' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 
+var MARK_TAG = 'yoastmark';
+
 /**
  * Puts a list of marks into the given tinyMCE editor
  *
@@ -562,7 +564,7 @@ function markTinyMCE( editor, paper, marks ) {
 	// Replace the contents in the editor with the marked HTML.
 	editor.setContent( html );
 
-	var markElements = dom.select( "yoastmark" );
+	var markElements = dom.select( MARK_TAG );
 	/*
 	 * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
 	 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
@@ -584,19 +586,50 @@ function tinyMCEDecorator( editor ) {
 	return markTinyMCE.bind( null, editor );
 }
 
-module.exports = tinyMCEDecorator;
+/**
+ * Returns whether or not the editor has marks
+ *
+ * @param {tinyMCE.Editor} editor The editor.
+ * @returns {boolean} Whether or not there are marks inside the editor.
+ */
+function editorHasMarks( editor ) {
+	var content = editor.getContent({ format: 'raw' });
+
+	return -1 !== content.indexOf( '<' + MARK_TAG );
+}
+
+/**
+ * Removes marks currently in the given editor
+ *
+ * @param {tinyMCE.Editor} editor The editor to remove all marks for.
+ */
+function editorRemoveMarks( editor ) {
+	// Create a decorator with the given editor.
+	var decorator = tinyMCEDecorator( editor );
+
+	// Calling the decorator with an empty array of marks will clear the editor of marks.
+	decorator( null, [] );
+}
+
+module.exports = {
+	tinyMCEDecorator: tinyMCEDecorator,
+
+	editorHasMarks: editorHasMarks,
+	editorRemoveMarks: editorRemoveMarks
+};
 
 },{"lodash/foreach":172,"yoastseo/js/markers/removeMarks":274}],8:[function(require,module,exports){
 /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
-var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 var tmceHelper = require( './wp-seo-tinymce' );
+
+var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 
 (function( $ ) {
 	'use strict';
@@ -1068,8 +1101,12 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	} );
 }( jQuery ));
 
-},{"./analysis/getDescriptionPlaceholder":1,"./analysis/getIndicatorForScore":2,"./analysis/getTitlePlaceholder":3,"./analysis/tabManager":5,"./analysis/usedKeywords":6,"./decorator/tinyMCEDecorator":7,"./wp-seo-tinymce":9,"yoastseo":219,"yoastseo/js/markers/removeMarks":274}],9:[function(require,module,exports){
-/* global tinyMCE */
+},{"./analysis/getDescriptionPlaceholder":1,"./analysis/getIndicatorForScore":2,"./analysis/getTitlePlaceholder":3,"./analysis/tabManager":5,"./analysis/usedKeywords":6,"./decorator/tinyMCE":7,"./wp-seo-tinymce":9,"yoastseo":219,"yoastseo/js/markers/removeMarks":274}],9:[function(require,module,exports){
+/* global tinyMCE, require */
+
+var forEach = require( 'lodash/forEach' );
+var editorHasMarks = require( './decorator/tinyMCE' ).editorHasMarks;
+var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 
 (function() {
 	'use strict';
@@ -1128,27 +1165,50 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	}
 
 	/**
+	 * Adds an event handler to certain tinyMCE events
+	 *
+	 * @param {string} editorId The ID for the tinyMCE editor.
+	 * @param {Array<string>} events The events to bind to.
+	 * @param {Function} callback The function to call when an event occurs.
+	 */
+	function addEventHandler( editorId, events, callback ) {
+		if ( typeof tinyMCE === 'undefined' || typeof tinyMCE.on !== 'function' ) {
+			return;
+		}
+
+		tinyMCE.on( 'addEditor', function( evt ) {
+			var editor = evt.editor;
+
+			if ( editor.id !== editorId ) {
+				return;
+			}
+
+			forEach( events, function( eventName ) {
+				editor.on( eventName, callback );
+			} );
+		});
+	}
+
+	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 	 *
 	 * @param {App} app YoastSeo application.
 	 * @param {String} tmceId The ID of the tinyMCE editor.
 	 */
 	function tinyMceEventBinder( app, tmceId ) {
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
-			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-			//trigger them, or takes up to ten seconds to fire an event.
-			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function( evt ) {
-				if ( evt.id === tmceId ) {
-					for ( var i = 0; i < events.length; i++ ) {
-						evt.editor.on( events[i], app.analyzeTimer.bind( app ) );
-					}
-				}
-			} );
-		}
+		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
+
+		addEventHandler( 'content', [ 'focus' ], function( evt ) {
+			var editor = evt.target;
+
+			if ( editorHasMarks( editor ) ) {
+				editorRemoveMarks( editor );
+			}
+		} );
 	}
 
 	module.exports = {
+		addEventHandler: addEventHandler,
 		tinyMceEventBinder: tinyMceEventBinder,
 		getContentTinyMce: getContentTinyMce,
 		isTinyMCEAvailable: isTinyMCEAvailable,
@@ -1156,7 +1216,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	};
 })(jQuery);
 
-},{}],10:[function(require,module,exports){
+},{"./decorator/tinyMCE":7,"lodash/forEach":171}],10:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
