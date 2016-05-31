@@ -70,7 +70,7 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// Yoast Icon.
-	$title = '<div class="wp-menu-image yoast-logo svg"></div>';
+	$title = '<div class="ab-item yoast-logo svg"></div>';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
