@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-12 11:33+0200\n"
+"POT-Creation-Date: 2016-05-31 12:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,14 +65,14 @@ msgid ""
 msgstr ""
 
 #. translators: %1$d expands to the recommended maximum number of characters.
-#: js/assessments/getSubheadingLengthAssessment.js:25
+#: js/assessments/getSubheadingLengthAssessment.js:31
 msgid ""
 "The length of all subheadings is less than the recommended maximum of %1$d "
 "characters, which is great."
 msgstr ""
 
 #. translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
-#: js/assessments/getSubheadingLengthAssessment.js:37
+#: js/assessments/getSubheadingLengthAssessment.js:43
 msgid ""
 "You have %1$d subheading containing more than the recommended maximum of "
 "%2$d characters."
@@ -183,12 +183,12 @@ msgid ""
 "competition? Could it be made more appealing?"
 msgstr ""
 
-#: js/assessments/paragraphTooLongAssessment.js:46
+#: js/assessments/paragraphTooLongAssessment.js:43
 msgid "None of your paragraphs are too long, which is great."
 msgstr ""
 
 #. translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
-#: js/assessments/paragraphTooLongAssessment.js:53
+#: js/assessments/paragraphTooLongAssessment.js:50
 msgid ""
 "%1$d of the paragraphs contains more than the recommended maximum of %2$d "
 "words. Are you sure all information is about the same topic, and therefore "
@@ -200,12 +200,11 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/paragraphTooShortAssessment.js:48
+#: js/assessments/paragraphTooShortAssessment.js:40
 msgid "None of your paragraphs are too short, which is great."
 msgstr ""
 
-#. translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
-#: js/assessments/paragraphTooShortAssessment.js:55
+#: js/assessments/paragraphTooShortAssessment.js:47
 msgid ""
 "%1$d of the paragraphs contains less than the recommended minimum of %2$d "
 "words. Try to expand this paragraph, or connect it to the previous or next "
@@ -216,6 +215,18 @@ msgid_plural ""
 "previous or next paragraph."
 msgstr[0] ""
 msgstr[1] ""
+
+#: js/assessments/passiveVoiceAssessment.js:33
+msgid ""
+"%1$s of the sentences is written in the passive voice, which is within the "
+"recommended range."
+msgstr ""
+
+#: js/assessments/passiveVoiceAssessment.js:45
+msgid ""
+"%1$s of the sentences is written in the passive voice, which is more than "
+"the recommended maximum of %2$s. Try to use their active counterparts."
+msgstr ""
 
 #. translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
 #. with the same word.
@@ -245,17 +256,15 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %1$s expands to number of sentences.
-#: js/assessments/sentenceLengthInTextAssessment.js:25
+#: js/assessments/sentenceLengthInTextAssessment.js:55
 msgid ""
-"%1$s of the sentences contain more than 20 words, which is within the "
-"recommended range."
+"%1$s of the sentences contain more than %3$d words, which is less than the "
+"recommended maximum of %2$s."
 msgstr ""
 
-#. translators: %1$s expands to number of sentences.
-#: js/assessments/sentenceLengthInTextAssessment.js:33
+#: js/assessments/sentenceLengthInTextAssessment.js:65
 msgid ""
-"%1$s of the sentences contain more than 20 words, which is more than the "
+"%1$s of the sentences contain more than %3$d words, which is more than the "
 "recommended maximum of %2$s. Try to shorten your sentences."
 msgstr ""
 
@@ -273,13 +282,13 @@ msgid ""
 "minimum of %2$d. Try to alternate more between long and short sentences."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:51
+#: js/assessments/subheadingDistributionTooLongAssessment.js:41
 msgid ""
 "The amount of words following after each of your subheadings don't exceed "
 "the recommended maximum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:62
+#: js/assessments/subheadingDistributionTooLongAssessment.js:52
 msgid ""
 "%1$d of the subheadings is followed by more than the recommended maximum of "
 "%2$d words. Try to insert another subheading."
@@ -289,13 +298,13 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/subheadingDistributionTooShortAssessment.js:51
+#: js/assessments/subheadingDistributionTooShortAssessment.js:41
 msgid ""
 "The amount of words following after each of your subheadings all exceed the "
 "recommended minimum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooShortAssessment.js:62
+#: js/assessments/subheadingDistributionTooShortAssessment.js:52
 msgid ""
 "%1$d of the subheadings is followed by less than the recommended minimum of "
 "%2$d words. Consider deleting that particular subheading, or the following "
@@ -372,7 +381,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/textCompetingLinksAssessment.js:14
+#: js/assessments/textCompetingLinksAssessment.js:19
 msgid ""
 "You're linking to another page with the focus keyword you want this page to "
 "rank for. Consider changing that if you truly want this page to rank."
@@ -467,18 +476,18 @@ msgid "No subheading tags (like an H2) appear in the copy."
 msgstr ""
 
 #: js/assessments/titleKeywordAssessment.js:16
-msgid "The focus keyword '%1$s' does not appear in the page title."
+msgid "The focus keyword '%1$s' does not appear in the SEO title."
 msgstr ""
 
 #: js/assessments/titleKeywordAssessment.js:21
 msgid ""
-"The page title contains the focus keyword, at the beginning which is "
+"The SEO title contains the focus keyword, at the beginning which is "
 "considered to improve rankings."
 msgstr ""
 
 #: js/assessments/titleKeywordAssessment.js:27
 msgid ""
-"The page title contains the focus keyword, but it does not appear at the "
+"The SEO title contains the focus keyword, but it does not appear at the "
 "beginning; try and move it to the beginning."
 msgstr ""
 
@@ -521,19 +530,19 @@ msgstr[1] ""
 msgid "Please create a page title."
 msgstr ""
 
-#: js/assessments/transitionWordsAssessment.js:27
+#: js/assessments/transitionWordsAssessment.js:31
 msgid ""
 "%1$s of the sentences contain a transition word or phrase, which is less "
 "than the recommended minimum of %2$s."
 msgstr ""
 
-#: js/assessments/transitionWordsAssessment.js:45
+#: js/assessments/transitionWordsAssessment.js:49
 msgid ""
 "%1$s of the sentences contain a transition word or phrase, which is more "
 "than the recommended maximum of %2$s."
 msgstr ""
 
-#: js/assessments/transitionWordsAssessment.js:57
+#: js/assessments/transitionWordsAssessment.js:61
 msgid ""
 "%1$s of the sentences contain a transition word or phrase, which is great."
 msgstr ""
@@ -566,20 +575,21 @@ msgstr[1] ""
 msgid "http://en.wikipedia.org/wiki/Stop_words"
 msgstr ""
 
-#. translators: %1$s expands to the percentage of complex words, %2$d expands to the recommended number of syllables,
-#. %3$s expands to the recommend maximum
-#: js/assessments/wordComplexityAssessment.js:30
+#: js/assessments/wordComplexityAssessment.js:49
 msgid ""
 "%1$s of the words contain over %2$d syllables, which is less than or equal "
 "to the recommended maximum of %3$s."
 msgstr ""
 
-#. translators: %1$s expands to the percentage of too complex words, %2$d expands to the recommended number of syllables
-#. %3$s expands to the recommend maximum
-#: js/assessments/wordComplexityAssessment.js:42
+#: js/assessments/wordComplexityAssessment.js:61
 msgid ""
 "%1$s of the words contain over %2$d syllables, which is more than the "
 "recommended maximum of %3$s."
+msgstr ""
+
+#. translators: %1$s expands to the name of the assessment.
+#: js/assessor.js:161
+msgid "An error occured in the '%1$s' assessment"
 msgstr ""
 
 #: js/bundledPlugins/previouslyUsedKeywords.js:65
@@ -607,7 +617,7 @@ msgid "Feedback"
 msgstr ""
 
 #: js/config/presenter.js:11
-msgid "Content Analysis: Has feedback"
+msgid "Content optimization: Has feedback"
 msgstr ""
 
 #: js/config/presenter.js:15
@@ -615,7 +625,7 @@ msgid "Bad SEO score"
 msgstr ""
 
 #: js/config/presenter.js:16
-msgid "Content Analysis: Bad SEO score"
+msgid "Content optimization: Bad SEO score"
 msgstr ""
 
 #: js/config/presenter.js:20
@@ -623,7 +633,7 @@ msgid "OK SEO score"
 msgstr ""
 
 #: js/config/presenter.js:21
-msgid "Content Analysis: OK SEO score"
+msgid "Content optimization: OK SEO score"
 msgstr ""
 
 #: js/config/presenter.js:25
@@ -631,54 +641,62 @@ msgid "Good SEO score"
 msgstr ""
 
 #: js/config/presenter.js:26
-msgid "Content Analysis: Good SEO score"
+msgid "Content optimization: Good SEO score"
 msgstr ""
 
-#: js/snippetPreview.js:396
+#: js/renderers/AssessorPresenter.js:304
+msgid "Mark this result in the text"
+msgstr ""
+
+#: js/renderers/AssessorPresenter.js:305
+msgid "Remove all marks from the text"
+msgstr ""
+
+#: js/snippetPreview.js:362
 msgid "Edit snippet"
 msgstr ""
 
-#: js/snippetPreview.js:397
+#: js/snippetPreview.js:363
 msgid "SEO title"
 msgstr ""
 
-#: js/snippetPreview.js:398
+#: js/snippetPreview.js:364
 msgid "Slug"
 msgstr ""
 
-#: js/snippetPreview.js:399
+#: js/snippetPreview.js:365
 msgid "Meta description"
 msgstr ""
 
-#: js/snippetPreview.js:400
+#: js/snippetPreview.js:366
 msgid "Close snippet editor"
 msgstr ""
 
-#: js/snippetPreview.js:401
+#: js/snippetPreview.js:367
 msgid "Snippet preview"
 msgstr ""
 
-#: js/snippetPreview.js:402
+#: js/snippetPreview.js:368
 msgid "Seo title preview:"
 msgstr ""
 
-#: js/snippetPreview.js:403
+#: js/snippetPreview.js:369
 msgid "Slug preview:"
 msgstr ""
 
-#: js/snippetPreview.js:404
+#: js/snippetPreview.js:370
 msgid "Meta description preview:"
 msgstr ""
 
-#: js/snippetPreview.js:407
+#: js/snippetPreview.js:373
 msgid ""
 "You can click on each element in the preview to jump to the Snippet Editor."
 msgstr ""
 
-#: js/snippetPreview.js:597
+#: js/snippetPreview.js:570
 msgid "Please provide an SEO title by editing the snippet below."
 msgstr ""
 
-#: js/snippetPreview.js:673
+#: js/snippetPreview.js:646
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
