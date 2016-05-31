@@ -13,11 +13,14 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 	var maxKeywords = 5;
 	var keywordTabTemplate;
 
+	var tabManager;
+
 	var YoastMultiKeyword = function() {};
 
 	YoastMultiKeyword.prototype.initDOM = function() {
-		window.YoastSEO.multiKeyword = true;
+		tabManager = window.YoastSEO.wp._tabManager;
 
+		window.YoastSEO.multiKeyword = true;
 		keywordTabTemplate = wp.template( 'keyword_tab' );
 
 		indicators = indicatorsFactory( YoastSEO.app.i18n );
@@ -114,6 +117,10 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 			// Convert to string to prevent errors if the keyword is "null".
 			var keyword = $( this ).data( 'keyword' ) + '';
 			$( '#yoast_wpseo_focuskw_text_input' ).val( keyword ).focus();
+
+			tabManager.showKeywordAnalysis();
+			tabManager.deactivateContentTab();
+
 			YoastSEO.app.refresh();
 		} );
 	};
@@ -187,9 +194,6 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 				this.addKeywordTab( keyword, score );
 			}
 		}
-
-		// On page load the first tab is always active.
-		$( '.wpseo_keyword_tab' ).first().addClass( 'active' );
 	};
 
 	/**
@@ -209,7 +213,8 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		templateArgs = {
 			keyword: keyword,
 			placeholder: placeholder,
-			score: score
+			score: score,
+			isKeywordTab: true
 		};
 
 		// If this is the first keyword we add we want to add the "Content:" prefix
@@ -333,13 +338,13 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		templateArgs = {
 			keyword: keyword,
 			placeholder: placeholder,
-			score: indicators.className
+			score: indicators.className,
+			isKeywordTab: true
 		};
 
-		// The first tab isn't deletable
-		if ( 0 === tabElement.index() ) {
+		// The first keyword tab isn't deletable, this first keyword tab is the second tab because of the content tab.
+		if ( 1 === tabElement.index() ) {
 			templateArgs.hideRemove = true;
-			templateArgs.prefix = wpseoPostScraperL10n.contentTab;
 		}
 
 		if ( true === active ) {
@@ -347,11 +352,6 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		}
 
 		html = keywordTabTemplate( templateArgs );
-
-		// Add an extra class if the tab should be active.
-		if ( true === active ) {
-			html = html.replace( 'class="wpseo_keyword_tab', 'class="wpseo_keyword_tab active' );
-		}
 
 		tabElement.replaceWith( html );
 	};
@@ -365,7 +365,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 	 */
 	YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
 		var paper;
-		var assessor = YoastSEO.app.assessor;
+		var assessor = YoastSEO.app.seoAssessor;
 		var currentPaper;
 
 		currentPaper = YoastSEO.app.paper;

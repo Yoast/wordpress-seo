@@ -14,11 +14,14 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 	var maxKeywords = 5;
 	var keywordTabTemplate;
 
+	var tabManager;
+
 	var YoastMultiKeyword = function() {};
 
 	YoastMultiKeyword.prototype.initDOM = function() {
-		window.YoastSEO.multiKeyword = true;
+		tabManager = window.YoastSEO.wp._tabManager;
 
+		window.YoastSEO.multiKeyword = true;
 		keywordTabTemplate = wp.template( 'keyword_tab' );
 
 		indicators = indicatorsFactory( YoastSEO.app.i18n );
@@ -115,6 +118,10 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 			// Convert to string to prevent errors if the keyword is "null".
 			var keyword = $( this ).data( 'keyword' ) + '';
 			$( '#yoast_wpseo_focuskw_text_input' ).val( keyword ).focus();
+
+			tabManager.showKeywordAnalysis();
+			tabManager.deactivateContentTab();
+
 			YoastSEO.app.refresh();
 		} );
 	};
@@ -188,9 +195,6 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 				this.addKeywordTab( keyword, score );
 			}
 		}
-
-		// On page load the first tab is always active.
-		$( '.wpseo_keyword_tab' ).first().addClass( 'active' );
 	};
 
 	/**
@@ -210,7 +214,8 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		templateArgs = {
 			keyword: keyword,
 			placeholder: placeholder,
-			score: score
+			score: score,
+			isKeywordTab: true
 		};
 
 		// If this is the first keyword we add we want to add the "Content:" prefix
@@ -334,13 +339,13 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		templateArgs = {
 			keyword: keyword,
 			placeholder: placeholder,
-			score: indicators.className
+			score: indicators.className,
+			isKeywordTab: true
 		};
 
-		// The first tab isn't deletable
-		if ( 0 === tabElement.index() ) {
+		// The first keyword tab isn't deletable, this first keyword tab is the second tab because of the content tab.
+		if ( 1 === tabElement.index() ) {
 			templateArgs.hideRemove = true;
-			templateArgs.prefix = wpseoPostScraperL10n.contentTab;
 		}
 
 		if ( true === active ) {
@@ -348,11 +353,6 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		}
 
 		html = keywordTabTemplate( templateArgs );
-
-		// Add an extra class if the tab should be active.
-		if ( true === active ) {
-			html = html.replace( 'class="wpseo_keyword_tab', 'class="wpseo_keyword_tab active' );
-		}
 
 		tabElement.replaceWith( html );
 	};
@@ -366,7 +366,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 	 */
 	YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
 		var paper;
-		var assessor = YoastSEO.app.assessor;
+		var assessor = YoastSEO.app.seoAssessor;
 		var currentPaper;
 
 		currentPaper = YoastSEO.app.paper;
@@ -435,7 +435,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 	window.YoastSEO.multiKeyword = true;
 }( jQuery ));
 
-},{"lodash/isUndefined":32,"yoastseo/js/config/presenter":38,"yoastseo/js/interpreters/scoreToRating":39,"yoastseo/js/values/paper":43}],2:[function(require,module,exports){
+},{"lodash/isUndefined":32,"yoastseo/js/config/presenter":37,"yoastseo/js/interpreters/scoreToRating":38,"yoastseo/js/values/paper":42}],2:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -569,7 +569,7 @@ module.exports = baseKeysIn;
  *
  * @private
  * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new accessor function.
+ * @returns {Function} Returns the new function.
  */
 function baseProperty(key) {
   return function(object) {
@@ -666,7 +666,7 @@ function createAssigner(assigner) {
         customizer = length > 1 ? sources[length - 1] : undefined,
         guard = length > 2 ? sources[2] : undefined;
 
-    customizer = (assigner.length > 3 && typeof customizer == 'function')
+    customizer = typeof customizer == 'function'
       ? (length--, customizer)
       : undefined;
 
@@ -831,17 +831,43 @@ module.exports = iteratorToArray;
 (function (global){
 var checkGlobal = require('./_checkGlobal');
 
+/** Used to determine if values are of the language type `Object`. */
+var objectTypes = {
+  'function': true,
+  'object': true
+};
+
+/** Detect free variable `exports`. */
+var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+  ? exports
+  : undefined;
+
+/** Detect free variable `module`. */
+var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+  ? module
+  : undefined;
+
 /** Detect free variable `global` from Node.js. */
-var freeGlobal = checkGlobal(typeof global == 'object' && global);
+var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
 
 /** Detect free variable `self`. */
-var freeSelf = checkGlobal(typeof self == 'object' && self);
+var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+/** Detect free variable `window`. */
+var freeWindow = checkGlobal(objectTypes[typeof window] && window);
 
 /** Detect `this` as the global object. */
-var thisGlobal = checkGlobal(typeof this == 'object' && this);
+var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
 
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
+/**
+ * Used as a reference to the global object.
+ *
+ * The `this` value is used if it's the global object to avoid Greasemonkey's
+ * restricted `window` object, otherwise the `window` object is used.
+ */
+var root = freeGlobal ||
+  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+    freeSelf || thisGlobal || Function('return this')();
 
 module.exports = root;
 
@@ -1485,7 +1511,7 @@ function rest(func, start) {
 
 module.exports = rest;
 
-},{"./_apply":3,"./toInteger":36}],35:[function(require,module,exports){
+},{"./_apply":3,"./toInteger":35}],35:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -1493,49 +1519,9 @@ var INFINITY = 1 / 0,
     MAX_INTEGER = 1.7976931348623157e+308;
 
 /**
- * Converts `value` to a finite number.
- *
- * @static
- * @memberOf _
- * @since 4.12.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted number.
- * @example
- *
- * _.toFinite(3.2);
- * // => 3.2
- *
- * _.toFinite(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toFinite(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toFinite('3.2');
- * // => 3.2
- */
-function toFinite(value) {
-  if (!value) {
-    return value === 0 ? value : 0;
-  }
-  value = toNumber(value);
-  if (value === INFINITY || value === -INFINITY) {
-    var sign = (value < 0 ? -1 : 1);
-    return sign * MAX_INTEGER;
-  }
-  return value === value ? value : 0;
-}
-
-module.exports = toFinite;
-
-},{"./toNumber":37}],36:[function(require,module,exports){
-var toFinite = require('./toFinite');
-
-/**
  * Converts `value` to an integer.
  *
- * **Note:** This method is loosely based on
+ * **Note:** This function is loosely based on
  * [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
  *
  * @static
@@ -1546,7 +1532,7 @@ var toFinite = require('./toFinite');
  * @returns {number} Returns the converted integer.
  * @example
  *
- * _.toInteger(3.2);
+ * _.toInteger(3);
  * // => 3
  *
  * _.toInteger(Number.MIN_VALUE);
@@ -1555,19 +1541,25 @@ var toFinite = require('./toFinite');
  * _.toInteger(Infinity);
  * // => 1.7976931348623157e+308
  *
- * _.toInteger('3.2');
+ * _.toInteger('3');
  * // => 3
  */
 function toInteger(value) {
-  var result = toFinite(value),
-      remainder = result % 1;
-
-  return result === result ? (remainder ? result - remainder : result) : 0;
+  if (!value) {
+    return value === 0 ? value : 0;
+  }
+  value = toNumber(value);
+  if (value === INFINITY || value === -INFINITY) {
+    var sign = (value < 0 ? -1 : 1);
+    return sign * MAX_INTEGER;
+  }
+  var remainder = value % 1;
+  return value === value ? (remainder ? value - remainder : value) : 0;
 }
 
 module.exports = toInteger;
 
-},{"./toFinite":35}],37:[function(require,module,exports){
+},{"./toNumber":36}],36:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
@@ -1601,8 +1593,8 @@ var freeParseInt = parseInt;
  * @returns {number} Returns the number.
  * @example
  *
- * _.toNumber(3.2);
- * // => 3.2
+ * _.toNumber(3);
+ * // => 3
  *
  * _.toNumber(Number.MIN_VALUE);
  * // => 5e-324
@@ -1610,8 +1602,8 @@ var freeParseInt = parseInt;
  * _.toNumber(Infinity);
  * // => Infinity
  *
- * _.toNumber('3.2');
- * // => 3.2
+ * _.toNumber('3');
+ * // => 3
  */
 function toNumber(value) {
   if (typeof value == 'number') {
@@ -1636,7 +1628,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isFunction":26,"./isObject":28,"./isSymbol":31}],38:[function(require,module,exports){
+},{"./isFunction":26,"./isObject":28,"./isSymbol":31}],37:[function(require,module,exports){
 /**
  * Returns the configuration used for score ratings and the AssessorPresenter.
  * @param {Jed} i18n The translator object.
@@ -1663,7 +1655,7 @@ module.exports = function ( i18n ) {
 	};
 };
 
-},{}],39:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /**
  * Interpreters a score and gives it a particular rating.
  *
@@ -1693,7 +1685,7 @@ var ScoreToRating = function( score ) {
 
 module.exports = ScoreToRating;
 
-},{}],40:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -1713,7 +1705,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":41,"../stringProcessing/stripSpaces.js":42}],41:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":40,"../stringProcessing/stripSpaces.js":41}],40:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -1730,7 +1722,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":42}],42:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":41}],41:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -1753,7 +1745,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],43:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
@@ -1892,4 +1884,4 @@ Paper.prototype.getLocale = function() {
 
 module.exports = Paper;
 
-},{"../stringProcessing/sanitizeString.js":40,"lodash/defaults":20}]},{},[1]);
+},{"../stringProcessing/sanitizeString.js":39,"lodash/defaults":20}]},{},[1]);

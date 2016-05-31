@@ -52,7 +52,7 @@
 }
 
 #wpadminbar .yoast-issue-counter {
-	display: inline !important;
+	display: inline;
 	padding: 1px 7px 1px 6px !important;
 	border-radius: 50%;
 	color: white;

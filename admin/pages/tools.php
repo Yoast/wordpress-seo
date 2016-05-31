@@ -33,16 +33,20 @@ if ( '' === $tool_page ) {
 		);
 	}
 
-	$tools['recalculate'] = array(
-		'href'    => '#TB_inline?width=300&height=150&inlineId=wpseo_recalculate',
-		'attr'    => "id='wpseo_recalculate_link' class='thickbox'",
-		'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
-		'desc'    => __( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ),
-	);
+	/*
+		Temporary disabled. See: https://github.com/Yoast/wordpress-seo/issues/4532
 
-	if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
-		$tools['recalculate']['attr'] .= "data-open='open'";
-	}
+		$tools['recalculate'] = array(
+			'href'    => '#TB_inline?width=300&height=150&inlineId=wpseo_recalculate',
+			'attr'    => "id='wpseo_recalculate_link' class='thickbox'",
+			'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
+			'desc'    => __( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ),
+		);
+
+		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
+			$tools['recalculate']['attr'] .= "data-open='open'";
+		}
+	*/
 
 	/* translators: %1$s expands to Yoast SEO */
 	echo '<p>', sprintf( __( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
