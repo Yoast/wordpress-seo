@@ -118,6 +118,8 @@ class WPSEO_Admin {
 			return;
 		}
 
+		add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
+
 		// Base 64 encoded SVG image.
 		$icon_svg = $this->get_menu_svg();
 
@@ -233,6 +235,14 @@ class WPSEO_Admin {
 		if ( isset( $submenu[ self::PAGE_IDENTIFIER ] ) && current_user_can( $manage_options_cap ) ) {
 			$submenu[ self::PAGE_IDENTIFIER ][0][0] = __( 'Dashboard', 'wordpress-seo' );
 		}
+	}
+
+	/**
+	 * Register assets needed on admin pages
+	 */
+	public function enqueue_assets() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_style( 'help-center' );
 	}
 
 	/**
