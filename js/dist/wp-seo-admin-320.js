@@ -236,12 +236,11 @@ var AlgoliaSearcher = function (_React$Component) {
 	}, {
 		key: 'renderError',
 		value: function renderError(errorMessage) {
+			console.err(errorMessage);
 			return _react2.default.createElement(
 				'div',
 				null,
-				'An error has occurred:',
-				_react2.default.createElement('br', null),
-				errorMessage
+				'Something went wrong. Please try again later.'
 			);
 		}
 

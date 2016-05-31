@@ -166,10 +166,10 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {HTML}
      */
     renderError( errorMessage ) {
+		console.err( errorMessage );
         return (
             <div>
-                An error has occurred:<br/>
-                {errorMessage}
+                Something went wrong. Please try again later.
             </div>
         );
     }

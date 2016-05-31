@@ -79,10 +79,10 @@ class WPSEO_Help_Center {
 		array_unshift( $this->help_center_items, $this->get_video_help_center_item() );
 		$help_center_items = apply_filters( 'wpseo_help_center_items', $this->help_center_items );
 		$help_center_items = array_filter( $help_center_items, function( $item ) {
-			return is_a($item, 'WPSEO_Help_Center_Item');
+			return is_a( $item, 'WPSEO_Help_Center_Item' );
 		});
-		
-		if( !empty( $help_center_items ) ){
+
+		if ( ! empty( $help_center_items ) ) {
 			$id = sprintf( 'tab-help-center-%s-%s', $this->group_name, $this->tab->get_name() );
 			?>
 			<div class="wpseo-tab-video-container">
@@ -98,7 +98,7 @@ class WPSEO_Help_Center {
 							<?php
 							$class = 'active wpseo-help-center-item';
 
-							foreach ($help_center_items as $help_center_item ) {
+							foreach ( $help_center_items as $help_center_item ) {
 								$id = $help_center_item->get_identifier();
 
 								$link_id  = "tab-link-{$this->group_name}_{$this->tab->get_name()}__{$id}";
