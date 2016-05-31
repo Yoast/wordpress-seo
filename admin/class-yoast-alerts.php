@@ -173,7 +173,7 @@ class Yoast_Alerts {
 
 		$notification_center = Yoast_Notification_Center::get();
 
-		$notifications            = $notification_center->get_notifications();
+		$notifications            = $notification_center->get_sorted_notifications();
 		self::$notification_count = count( $notifications );
 
 		self::$errors           = array_filter( $notifications, array( __CLASS__, 'filter_error_alerts' ) );
