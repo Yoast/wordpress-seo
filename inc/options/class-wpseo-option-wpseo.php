@@ -22,7 +22,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'blocking_files'                  => array(),
 		'ignore_blog_public_warning'      => false,
 		'ignore_page_comments'            => false,
-		'ignore_permalink'                => false,
 		'ms_defaults_set'                 => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
@@ -47,7 +46,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public $ms_exclude = array(
 		'ignore_blog_public_warning',
 		'ignore_page_comments',
-		'ignore_permalink',
 		/* privacy */
 		'alexaverify',
 		'googleverify',
@@ -154,7 +152,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 */
 				case 'ignore_blog_public_warning':
 				case 'ignore_page_comments':
-				case 'ignore_permalink':
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
@@ -202,7 +199,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		$value_change = array(
 			'ignore_blog_public_warning',
 			'ignore_page_comments',
-			'ignore_permalink',
 			// 'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true.
 		);
 		foreach ( $value_change as $key ) {
