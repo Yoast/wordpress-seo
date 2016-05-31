@@ -767,8 +767,74 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
 		}
 
-		return $cached_replacement_vars;
+		// Merge custom replace variables with the WordPress ones.
+		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $post ) );
 	}
+
+	/**
+	 * Gets the custom replace variables for custom taxonomies and fields.
+	 *
+	 * @param WP_Post $post The post to check for custom taxonomies and fields.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_replace_vars( $post ) {
+		return array(
+			'custom_fields' => $this->get_custom_fields_replace_vars( $post ),
+			'custom_taxonomies' => $this->get_custom_taxonomies_replace_vars( $post )
+		 );
+	}
+
+	/**
+	 * Gets the custom replace variables for custom taxonomies.
+	 *
+	 * @param WP_Post $post The post to check for custom taxonomies.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_taxonomies_replace_vars( $post ) {
+		$taxonomies = get_object_taxonomies( $post, 'objects' );
+		$built_in = get_taxonomies( array( '_builtin' => true, 'public' => true ) );
+
+		$custom_replace_vars = [];
+
+		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
+			if ( isset( $built_in[ $taxonomy_name ] ) === true ) {
+				continue;
+			}
+
+			$custom_replace_vars[ $taxonomy_name ] = array(
+				'name' => $taxonomy->name,
+				'description' => $taxonomy->description
+			);
+		}
+
+		return $custom_replace_vars;
+	}
+
+	/**
+	 * Gets the custom replace variables for custom fields.
+	 *
+	 * @param WP_Post $post The post to check for custom fields.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_fields_replace_vars( $post ) {
+		$custom_fields = get_post_meta( $post->ID, '', true );
+
+		$custom_replace_vars = [];
+
+		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
+			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			$custom_replace_vars[ $custom_field_name ] = $custom_field[0];
+		}
+
+		return $custom_replace_vars;
+	}
+
 
 	/**
 	 * Return the SVG for the traffic light in the metabox.
