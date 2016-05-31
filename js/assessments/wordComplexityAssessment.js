@@ -32,6 +32,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 	var tooComplexWords = filterComplexity( wordComplexity ).length;
 	var percentage = ( tooComplexWords / wordCount ) * 100;
 	percentage = fixFloatingPoint( percentage );
+	var hasMarks = ( percentage > 0 );
 	var recommendedMaximum = 10;
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step i 0.6
 	// Up to 6.7 percent is for scoring a 9, higher percentages give lower scores.
@@ -41,6 +42,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 	if ( score >= 7 ) {
 		return {
 			score: score,
+			hasMarks: hasMarks,
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
@@ -53,6 +55,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 
 	return {
 		score: score,
+		hasMarks: hasMarks,
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
@@ -96,6 +99,7 @@ var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );
 	assessmentResult.setText( complexityResult.text );
+	assessmentResult.setHasMarks( complexityResult.hasMarks );
 	return assessmentResult;
 };
 

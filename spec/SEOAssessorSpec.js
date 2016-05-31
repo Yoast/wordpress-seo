@@ -15,21 +15,21 @@ describe ( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that only require a text", function() {
 		assessor.assess( new Paper( "text" ) );
-		expect( assessor.getValidResults().length ).toBe( 7 );
+		expect( assessor.getValidResults().length ).toBe( 6 );
 	});
 
 	it( "additionally runs assessments that only require a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		expect( assessor.getValidResults().length ).toBe( 8 );
+		expect( assessor.getValidResults().length ).toBe( 7 );
 	});
 
 	it( "additionally runs assessments that require text and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		expect( assessor.getValidResults().length ).toBe( 8 );
+		expect( assessor.getValidResults().length ).toBe( 7 );
 	});
 
 	it( "additionally runs assessments that require an url", function() {
 		assessor.assess( new Paper( "text", { url: "sample url" } ) );
-		expect( assessor.getValidResults().length ).toBe( 7 );
+		expect( assessor.getValidResults().length ).toBe( 6 );
 	});
 });

@@ -86,6 +86,8 @@ li.score {
 }
 
 .assessment-results {
+	padding-top: 16px;
+
 	&__mark {
 		&.icon-eye {
 			&-inactive, &-active {
@@ -106,6 +108,18 @@ li.score {
 				background-image: url(svg-icon-eye($color_marker_active));
 			}
 		}
+	}
 
+	&__remove-marks {
+		border: 0;
+		width: 16px;
+		height: 16px;
+		outline: none;
+		background: url(svg-icon-eye-slash($color_marker_inactive)) no-repeat center;
+		background-size: 16px;
+		cursor: pointer;
+		margin-top: -16px;
+
+		float: right;
 	}
 }
