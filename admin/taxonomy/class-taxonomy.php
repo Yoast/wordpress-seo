@@ -183,6 +183,7 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Determine whether the current URL is a category or a term.
+	 *
 	 * @return string
 	 */
 	private function determine_scope() {
