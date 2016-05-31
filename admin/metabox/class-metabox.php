@@ -825,9 +825,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array Array containing all the replacement variables.
 	 */
 	private function get_custom_fields_replace_vars( $post ) {
-		$custom_fields = get_post_meta( $post->ID, '', true );
-
 		$custom_replace_vars = [];
+
+		if ( is_object( $post ) === false ) {
+			return $custom_replace_vars;
+		}
+
+		$custom_fields = get_post_meta( $post->ID, '', true );
 
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
