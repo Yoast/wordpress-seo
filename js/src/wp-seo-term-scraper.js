@@ -168,16 +168,21 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	TermScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
 		var keyword = this.getDataFromInput( 'keyword' );
+		var $trafficLight = $( '.yst-traffic-light' );
+		var $trafficLightLink = $trafficLight.closest( '.wpseo-meta-section-link' );
 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
 		tabManager.updateKeywordTab( score, keyword );
 
-		$( '.yst-traffic-light' )
+		$trafficLight
 			.attr( 'class', 'yst-traffic-light ' + indicator.className )
-			.attr( 'alt', indicator.screenReaderText );
+			.attr( 'alt', '' );
 
+		$trafficLightLink.attr( 'title', indicator.fullText );
+
+		// Update the SEO score icon in the admin bar.
 		$( '.adminbar-seo-score' )
 			.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 			.attr( 'alt', indicator.screenReaderText );

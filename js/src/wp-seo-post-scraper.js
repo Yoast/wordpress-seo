@@ -246,6 +246,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	 */
 	PostScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
+		var $metaboxTrafficLight = $( '.wpseo-metabox-sidebar .yst-traffic-light' );
+		var $metaboxTrafficLightLink = $metaboxTrafficLight.closest( '.wpseo-meta-section-link' );
 
 		if ( tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
@@ -253,12 +255,23 @@ var tmceHelper = require( './wp-seo-tinymce' );
 			if ( '' === currentKeyword ) {
 				indicator.className = 'na';
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
+				indicator.fullText = app.i18n.dgettext( 'js-text-analysis', 'Content optimization: Enter a focus keyword to calculate the SEO score' );
 			}
 
-			$( '.yst-traffic-light' )
+			// Update the traffic light in the SEO metabox.
+			$metaboxTrafficLight
+				.attr( 'class', 'yst-traffic-light ' + indicator.className )
+				.attr( 'alt', '' );
+
+			// Update the traffic light link in the SEO metabox.
+			$metaboxTrafficLightLink.attr( 'title', indicator.fullText );
+
+			// Update the traffic light in the Publish box.
+			$( '#submitpost .yst-traffic-light' )
 				.attr( 'class', 'yst-traffic-light ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
 
+			// Update the SEO score icon in the admin bar.
 			$( '.adminbar-seo-score' )
 				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
