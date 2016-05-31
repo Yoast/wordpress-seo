@@ -134,7 +134,7 @@ class WPSEO_Admin {
 		$notification_count  = $notification_center->get_notification_count();
 
 		// Add main page.
-		$counter = sprintf( '<span class="update-plugins"><span class="plugin-count">%1$s</span></span>', $notification_count );
+		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count">%1$d</span></span>', $notification_count );
 
 		$parent_admin_page_slug = Yoast_Alerts::ADMIN_PAGE;
 

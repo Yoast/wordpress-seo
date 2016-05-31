@@ -72,22 +72,33 @@ class WPSEO_GSC {
 	 */
 	public function register_gsc_notification() {
 
-		if ( WPSEO_GSC_Settings::get_profile() !== '' ) {
-			return;
-		}
+		$notification        = $this->get_profile_notification();
+		$notification_center = Yoast_Notification_Center::get();
 
-		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification(
-				sprintf(
-					__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
-					'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
-					'</a>'
-				),
-				array(
-					'type'         => Yoast_Notification::WARNING,
-					'id'           => 'wpseo-dismiss-gsc',
-					'capabilities' => 'manage_options',
-				)
+		if ( WPSEO_GSC_Settings::get_profile() === '' ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Builds the notification used when GSC is not connected to a profile
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_profile_notification() {
+		return new Yoast_Notification(
+			sprintf(
+				__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
+				'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
+				'</a>'
+			),
+			array(
+				'type'         => Yoast_Notification::WARNING,
+				'id'           => 'wpseo-dismiss-gsc',
+				'capabilities' => 'manage_options',
 			)
 		);
 	}
