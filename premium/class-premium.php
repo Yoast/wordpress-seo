@@ -452,7 +452,7 @@ class WPSEO_Premium {
 		// Only add the helpscout beacon on Yoast SEO pages.
 		if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_contact_support' ) );
-			$beacon = yoast_get_helpscout_beacon( $query_var );
+			$beacon = yoast_get_helpscout_beacon( $query_var, Yoast_HelpScout_Beacon::BEACON_TYPE_NO_SEARCH );
 			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() );
 			$beacon->register_hooks();
 		}
