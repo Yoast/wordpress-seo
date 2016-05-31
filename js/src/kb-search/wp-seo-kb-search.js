@@ -194,7 +194,7 @@ class AlgoliaSearcher extends React.Component {
             content = (
                 <div>
                     {searchBar}
-                    <Loading/>
+                    <Loading loadingPlaceholder={this.props.loadingPlaceholder}/>
                     {this.renderSearchResults()}
                 </div>
             );
@@ -220,7 +220,8 @@ AlgoliaSearcher.propTypes = {
 	algoliaApplicationId: React.PropTypes.string.isRequired,
 	algoliaApiKey: React.PropTypes.string.isRequired,
 	algoliaIndexName: React.PropTypes.string.isRequired,
-	errorMessage: React.PropTypes.string.isRequired
+	errorMessage: React.PropTypes.string.isRequired,
+	loadingPlaceholder: React.PropTypes.string.isRequired
 };
 
 AlgoliaSearcher.defaultProps = {
@@ -229,7 +230,8 @@ AlgoliaSearcher.defaultProps = {
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'acceptance_all',
-	errorMessage: 'Something went wrong. Please try again later.'
+	errorMessage: 'Something went wrong. Please try again later.',
+	loadingPlaceholder: 'Loading...'
 };
 
 /**
@@ -298,9 +300,9 @@ const ArticleContent = ( props ) => {
  * @returns {JSX}
  * @constructor
  */
-const Loading = () => {
+const Loading = ( props ) => {
 	return (
-		<div className="wpseo-kb-loader">Loading...</div>
+		<div className="wpseo-kb-loader">{props.loadingPlaceholder}</div>
 	);
 };
 

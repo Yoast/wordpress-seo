@@ -269,7 +269,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					'div',
 					null,
 					searchBar,
-					_react2.default.createElement(Loading, null),
+					_react2.default.createElement(Loading, { loadingPlaceholder: this.props.loadingPlaceholder }),
 					this.renderSearchResults()
 				);
 			} else if (this.state.showDetail === false) {
@@ -301,7 +301,8 @@ AlgoliaSearcher.propTypes = {
 	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
 	algoliaApiKey: _react2.default.PropTypes.string.isRequired,
 	algoliaIndexName: _react2.default.PropTypes.string.isRequired,
-	errorMessage: _react2.default.PropTypes.string.isRequired
+	errorMessage: _react2.default.PropTypes.string.isRequired,
+	loadingPlaceholder: _react2.default.PropTypes.string.isRequired
 };
 
 AlgoliaSearcher.defaultProps = {
@@ -310,7 +311,8 @@ AlgoliaSearcher.defaultProps = {
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'acceptance_all',
-	errorMessage: 'Something went wrong. Please try again later.'
+	errorMessage: 'Something went wrong. Please try again later.',
+	loadingPlaceholder: 'Loading...'
 };
 
 /**
@@ -409,11 +411,11 @@ var ArticleContent = function ArticleContent(props) {
  * @returns {JSX}
  * @constructor
  */
-var Loading = function Loading() {
+var Loading = function Loading(props) {
 	return _react2.default.createElement(
 		'div',
 		{ className: 'wpseo-kb-loader' },
-		'Loading...'
+		props.loadingPlaceholder
 	);
 };
 
