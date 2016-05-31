@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "39bb73e78b7e5ed9f12a98fb4826ea89",
-    "content-hash": "0b4d38847f857cac247a4e2c27d252af",
+    "hash": "aaf09b96c747803ad56a13bb2fd55af4",
+    "content-hash": "c2005d07e6bb87829888ece3fd9b53a2",
     "packages": [
         {
             "name": "composer/installers",
@@ -261,16 +261,16 @@
         },
         {
             "name": "yoast/wp-helpscout",
-            "version": "1.0.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/wp-helpscout.git",
-                "reference": "a9f7d19180dd2d53699c528646c2595a3112b4a7"
+                "reference": "d70e0c2e6a5896553698f0cf30083b1aa71c88f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/a9f7d19180dd2d53699c528646c2595a3112b4a7",
-                "reference": "a9f7d19180dd2d53699c528646c2595a3112b4a7",
+                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/d70e0c2e6a5896553698f0cf30083b1aa71c88f0",
+                "reference": "d70e0c2e6a5896553698f0cf30083b1aa71c88f0",
                 "shasum": ""
             },
             "type": "library",
@@ -294,7 +294,7 @@
                 }
             ],
             "description": "A package to integrate the helpscout beacon into WordPress",
-            "time": "2016-04-14 11:59:20"
+            "time": "2016-05-31 14:29:28"
         }
     ],
     "packages-dev": [
