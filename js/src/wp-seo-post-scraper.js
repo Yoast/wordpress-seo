@@ -2,13 +2,13 @@
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
-var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 var tmceHelper = require( './wp-seo-tinymce' );
 
+var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 
 (function( $ ) {
 	'use strict';
@@ -245,7 +245,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		var indicator = getIndicatorForScore( score );
 
 		//get the text span
-		var text = type + ': ' + indicator.screenReaderText;
+		var text = createScoreDescriptionAndText(type) + ': ' + indicator.screenReaderText;
 		publishSection.children('.score-text').text(text);
 
 		//get the image span
@@ -265,13 +265,27 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		} );
 		var spanElem = $( '<span />', {
 			"class": "score-text",
-			"text": type + ': ' + score ,
+			"text": createScoreDescriptionAndText(type) + score ,
 		} )
 		var imgElem = $( '<span>' )
 			.attr( 'class', 'image yoast-logo svg noindex' );
 
 		publishSection.append( spanElem ).append( imgElem );
 		$( '#misc-publishing-actions' ).append( publishSection );
+	}
+
+	/**
+	 *
+	 * @param scoreType
+	 * @returns {*}
+	 */
+	function createScoreDescriptionAndText(scoreType){
+		if(scoreType === 'content'){
+			return 'Content score: '
+		}
+		else if(scoreType === 'keyword'){
+			return 'SEO score: '
+		}
 	}
 
 	/**
@@ -428,8 +442,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
 
-		createScoresInPublishBox( 'content', 0 );
-		createScoresInPublishBox( 'keyword', 0 );
+		createScoresInPublishBox( 'content', 'Not available' );
+		createScoresInPublishBox( 'keyword', 'Not available' );
 
 		tabManager = new TabManager({
 			strings: wpseoPostScraperL10n
