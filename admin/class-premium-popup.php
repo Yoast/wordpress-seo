@@ -59,7 +59,7 @@ class WPSEO_Premium_Popup {
 		$cta_text = sprintf( __( 'Buy %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 
 		$popup = <<<EO_POPUP
-<div id="wpseo-{$this->identifier}-popup" class="wpseo-premium-popup" style="display: none;">
+<div>
 	<img class="alignright" style="margin: 10px;" src="{$assets_uri}images/Yoast_SEO_Icon.svg" width="150" alt="Yoast SEO"/>
 	<h1 id="wpseo-contact-support-popup-title" class="wpseo-premium-popup-title">{$this->title}</h1>
 	<p>{$this->content}</p>

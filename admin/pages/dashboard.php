@@ -53,6 +53,7 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 }
 
 $tabs = new WPSEO_Option_Tabs( 'dashboard' );
+$tabs->add_tab( new WPSEO_Option_Tab( 'dashboard', __( 'Dashboard', 'wordpress-seo' ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-general' ) ) );
 $knowledge_graph_label = ( 'company' === $options['company_or_person'] ) ? __( 'Company Info', 'wordpress-seo' ) : __( 'Your Info', 'wordpress-seo' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'knowledge-graph', __( $knowledge_graph_label, 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-knowledge-graph' ) ) );

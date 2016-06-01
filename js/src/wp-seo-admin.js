@@ -289,11 +289,6 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				jQuery( window ).trigger( 'YoastSEO:ContactSupport', { usedQueries: usedQueries } );
 			} );
 
-			// Open "functionality only avalible for premium" popup.
-			jQuery( window ).on( 'YoastSEO:ContactSupport', function() {
-				showContactPopup();
-			} );
-
 			/* Fix banner images overlapping help texts */
 			jQuery( '.screen-meta-toggle a' ).click( function() {
 					jQuery( '#sidebar-container' ).toggle();
