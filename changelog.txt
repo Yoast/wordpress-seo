@@ -49,7 +49,7 @@ Release Date: Unreleased
 	* Fixes an issue where canonical URLs didn't always correctly have a trailing slash, thanks you for your input [MatthewMi11er](https://github.com/MatthewMi11er).
 	* Fixes a bug where we didn't match a focus keyword correctly if it contained a slash.
 	* Fixes a bug where the content analysis would be executed too many times when typing in the snippet preview.
-	* Fixes a bug where the wpseo_title filter couldn't change the opengraph and twitter titles, props [Xavi Ivars](https://github.com/xavivars).
+	* Fixes a bug where the `wpseo_title` filter couldn't change the opengraph and twitter titles, props [Xavi Ivars](https://github.com/xavivars).
 	* Fixes a bug where the focus keyword wouldn't be saved when saving the post instantly after changing the focus keyword.
 	* Fixes a bug where retrieving terms in the breadcrumbs wouldn't be cached, props [Jonny Harris](https://github.com/spacedmonkey)
 	* Fixes a bug where the help center wasn't properly styled in Safari.
