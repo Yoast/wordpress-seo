@@ -6,17 +6,20 @@
 	padding-right: 0px;
 }
 .wpseo-score-text {
-	display: inline-block;
+	float: left;
 	width: 86%;
+	/* make room for score and mark icons, consider to use a better layout model */
+	width: calc( 100% - 56px );
 }
-.wpseo-score-icon {
-	display: inline-block;
+
+/* needs higher specificity than other score icons */
+.assessment-results .wpseo-score-icon {
+	float: left;
 	width: 12px;
 	height: 12px;
-	margin: 3px 10px 0 3px;
+	margin: 3px 10px 0 0;
 	border-radius: 50%;
 	background: #888;
-	vertical-align: top;
 }
 
 .wpseo-score-icon.good {
@@ -42,6 +45,12 @@
 li.score {
 	list-style-type: none !important;
 	margin-bottom: 6px;
+}
+
+li.score:after {
+	content: "";
+	display: table;
+	clear: both;
 }
 
 .screen-reader-text {
@@ -87,22 +96,21 @@ li.score {
 }
 
 .assessment-results {
-	padding-top: 16px;
 
 	&__mark {
 		&.icon-eye {
 			&-inactive, &-active {
+				float: left;
 				border: 0;
 				width: 28px;
 				height: 28px;
-				margin-top: -5px;
+				margin: -5px 0 0 3px;
 				padding: 4px;
 				border-radius: 100%;
 				outline: none;
 				background: no-repeat center;
 				background-size: 16px;
 				cursor: pointer;
-				vertical-align: top;
 			}
 
 			&-inactive {
