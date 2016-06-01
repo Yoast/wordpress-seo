@@ -240,8 +240,6 @@ var publishBox = require( './ui/publishBox' );
 		}
 	};
 
-
-
 	/**
 	 * Saves the score to the linkdex.
 	 * Outputs the score in the overall target.
@@ -268,7 +266,6 @@ var publishBox = require( './ui/publishBox' );
 				.attr( 'alt', indicator.screenReaderText );
 
 			publishBox.updateScore('keyword', indicator.className);
-
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
