@@ -475,7 +475,20 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$url['mod'] = $modified;
 		}
 
-		$url['chf'] = WPSEO_Sitemaps::filter_frequency( $post->post_type . '_single', 'weekly', $url['loc'] );
+		$frequency_filter  = $post->post_type . '_single';
+		$frequency_default = 'weekly';
+
+		if ( (int) $post->ID === $this->page_for_posts_id ) {
+			$frequency_filter  = 'blogpage';
+			$frequency_default = 'daily';
+		}
+
+		if ( (int) $post->ID === $this->page_on_front_id ) {
+			$frequency_filter  = 'homepage';
+			$frequency_default = 'daily';
+		}
+
+		$url['chf']        = WPSEO_Sitemaps::filter_frequency( $frequency_filter, $frequency_default, $url['loc'] );
 
 		$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
 
