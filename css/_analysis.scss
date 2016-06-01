@@ -7,7 +7,7 @@
 }
 .wpseo-score-text {
 	display: inline-block;
-	width: 90%;
+	width: 86%;
 }
 .wpseo-score-icon {
 	display: inline-block;
@@ -95,10 +95,12 @@ li.score {
 				width: 28px;
 				height: 28px;
 				padding: 4px;
+				border-radius: 100%;
 				outline: none;
 				background: no-repeat center;
 				background-size: 16px;
 				cursor: pointer;
+				vertical-align: top;
 			}
 
 			&-inactive {
@@ -107,6 +109,7 @@ li.score {
 
 			&-active {
 				background-image: url(svg-icon-eye($color_marker_active));
+				background-color: #a4286a;
 			}
 		}
 
@@ -122,6 +125,7 @@ li.score {
 		width: 28px;
 		height: 28px;
 		padding: 4px;
+		border-radius: 100%;
 		outline: none;
 		background: url(svg-icon-eye-slash($color_marker_inactive)) no-repeat center;
 		background-size: 16px;
@@ -131,7 +135,6 @@ li.score {
 		float: right;
 
 		&:focus {
-			border-radius: 100%;
 			box-shadow: 0 0 0 1px #5b9dd9,
 			0 0 2px 1px rgba(30, 140, 190, 0.8);
 		}
