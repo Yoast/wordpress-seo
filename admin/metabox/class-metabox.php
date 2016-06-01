@@ -801,7 +801,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$taxonomies = get_object_taxonomies( $post, 'objects' );
 		$built_in = get_taxonomies( array( '_builtin' => true, 'public' => true ) );
 
-		$custom_replace_vars = [];
+		$custom_replace_vars = array();
 
 		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
 			if ( isset( $built_in[ $taxonomy_name ] ) === true ) {
@@ -825,7 +825,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array Array containing all the replacement variables.
 	 */
 	private function get_custom_fields_replace_vars( $post ) {
-		$custom_replace_vars = [];
+		$custom_replace_vars = array();
 
 		if ( is_object( $post ) === false ) {
 			return $custom_replace_vars;
