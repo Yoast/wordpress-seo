@@ -30,5 +30,21 @@ describe("Get sentences from text", function(){
 			"<h2>Positive feedback</h2>" +
 			"First, the positive feedback. ";
 		expect( getSentences( text ) ).toEqual( ["<h2>Four types of comments</h2>","The comments people leave on blogs can be divided into four types:","<h2>Positive feedback</h2>","First, the positive feedback. "] );
+	});
+
+	it( "returns a sentence with incomplete tags", function() {
+		var text = "<p>Some text. More Text.</p>";
+		expect( getSentences( text ) ).toEqual( [ "Some text.", "More Text."] );
+	});
+
+	it( "returns a sentence with incomplete tags per sentence", function() {
+		var text = "<p><span>Some text. More Text.</span></p>";
+		expect( getSentences( text ) ).toEqual( [ "Some text.", "More Text."] );
+	});
+
+	it( "returns a sentence with incomplete tags with a link", function() {
+		var text = "Some text. More Text with <a href='http://yoast.com'>a link</a>.";
+		expect( getSentences( text ) ).toEqual( [ "Some text.", "More Text with <a href='http://yoast.com'>a link</a>."] );
 	})
+
 });
