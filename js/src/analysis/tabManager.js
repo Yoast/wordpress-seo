@@ -29,7 +29,7 @@ function TabManager( arguments ) {
 }
 
 /**
- * Initializes the two tabs and 
+ * Initializes the two tabs.
  */
 TabManager.prototype.init = function() {
 	var metaboxTabs = $( '#wpseo-metabox-tabs' );

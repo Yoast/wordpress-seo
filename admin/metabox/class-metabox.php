@@ -269,6 +269,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
+		// Add Help Center to the metabox see #4701.
+		$tab_video_url = 'https://yoa.st/metabox-screencast';
+		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
