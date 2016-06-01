@@ -1,5 +1,4 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isUndefined = require( "lodash/isUndefined" );
 var map = require( "lodash/map" );
 
 var Mark = require( "../values/Mark.js" );
@@ -36,31 +35,9 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 			};
 		}
 	}
-
-	if ( percentage >= 26.7 ) {
-		// The 10 percentage points from 26.7 to 36.7 are scaled to a range of 6 score points: 6/10 = 0.6.
-		// 26.7 scores 9, 36.7 scores 3.
-		unboundedScore = 9 - ( 0.6 * ( percentage - 26.7 ) );
-
-		// Scores exceeding 9 are 9, scores below 3 are 3.
-		score = Math.max( Math.min( unboundedScore, 9 ), 3 );
-		if ( score < 7 ) {
-			var recommendedMaximum = 30;
-			return {
-				score: score,
-				hasMarks: hasMarks,
-				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
-					"which is more than the recommended maximum of %2$s." ), percentage.toFixed( 1 ) + "%", recommendedMaximum + "%" )
-			};
-		}
-	}
-
-	if ( isUndefined( score ) ) {
-		score = 9;
-	}
-
+	// If percentage > 23.3 the score is always 9.
 	return {
-		score: score,
+		score: 9,
 		hasMarks: hasMarks,
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, which is great."
 		), percentage.toFixed( 1 ) + "%" )

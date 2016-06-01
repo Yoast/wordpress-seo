@@ -4,6 +4,19 @@ var cleanText = require( "../stringProcessing/cleanText.js" );
 var syllableArray = require( "../config/syllables.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 
+var map = require( "lodash/map" );
+var forEach = require( "lodash/forEach" );
+
+var exclusionWords = syllableArray().exclusionWords;
+var exclusionWordsRegexes = map( exclusionWords, function( exclusionWord ) {
+	return {
+		regex: new RegExp( exclusionWord.word, "ig" ),
+		syllables: exclusionWord.syllables
+	};
+} );
+var addSyllablesRegex = arrayToRegex( syllableArray().addSyllables, true );
+var subtractSyllablesRegex = arrayToRegex( syllableArray().subtractSyllables, true );
+
 /**
  * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
  * they are incorrectly detected with the syllablecounters based on regexes.
@@ -12,15 +25,16 @@ var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
  * @returns {number} The number of syllables found in the exclusionwords
  */
 var countExclusionSyllables = function( text ) {
-	var count = 0, wordArray, regex, matches;
-	wordArray = syllableArray().exclusionWords;
-	for ( var i = 0; i < wordArray.length; i++ ) {
-		regex = new RegExp( wordArray[ i ].word, "ig" );
-		matches = text.match( regex );
+	var count = 0, matches;
+
+	forEach( exclusionWordsRegexes, function( exclusionWordRegex ) {
+		matches = text.match( exclusionWordRegex.regex );
+
 		if ( matches !== null ) {
-			count += ( matches.length * wordArray[ i ].syllables );
+			count += ( matches.length * exclusionWordRegex.syllables );
 		}
-	}
+	} );
+
 	return count;
 };
 
@@ -32,12 +46,11 @@ var countExclusionSyllables = function( text ) {
  * @returns {string} The text with the exclusionwords removed
  */
 var removeExclusionWords = function( text ) {
-	var exclusionWords = syllableArray().exclusionWords;
-	var wordArray = [];
-	for ( var i = 0; i < exclusionWords.length; i++ ) {
-		wordArray.push( exclusionWords[ i ].word );
-	}
-	return text.replace( arrayToRegex( wordArray ), "" );
+	forEach( exclusionWordsRegexes, function( exclusionWordRegex ) {
+		text = text.replace( exclusionWordRegex.regex, "" );
+	} );
+
+	return text;
 };
 
 /**
@@ -79,10 +92,10 @@ var countAdvancedSyllables = function( text, operator ) {
 	var regex = "";
 	switch ( operator ) {
 		case "add":
-			regex = arrayToRegex( syllableArray().addSyllables, true );
+			regex = addSyllablesRegex;
 			break;
 		case "subtract":
-			regex = arrayToRegex( syllableArray().subtractSyllables, true );
+			regex = subtractSyllablesRegex;
 			break;
 		default:
 			break;
