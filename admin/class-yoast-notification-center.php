@@ -182,8 +182,7 @@ class Yoast_Notification_Center {
 	public function add_notification( Yoast_Notification $notification ) {
 
 		// Don't add if the user can't see it.
-		$display = array_filter( array( $notification ), array( $this, 'filter_notification_current_user' ) );
-		if ( empty( $display ) ) {
+		if ( ! $notification->display_for_current_user() ) {
 			return;
 		}
 
