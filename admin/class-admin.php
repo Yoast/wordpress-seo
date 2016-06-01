@@ -78,6 +78,11 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
+
+		$page = filter_input( INPUT_GET, 'page' );
+		if ( substr( $page, 0, 6 ) === 'wpseo_' ) {
+			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
+		}
 	}
 
 	/**
@@ -117,8 +122,6 @@ class WPSEO_Admin {
 		if ( WPSEO_Utils::grant_access() !== true ) {
 			return;
 		}
-
-		add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
 
 		// Base 64 encoded SVG image.
 		$icon_svg = $this->get_menu_svg();
@@ -332,6 +335,7 @@ class WPSEO_Admin {
 	 */
 	function load_page() {
 		$page = filter_input( INPUT_GET, 'page' );
+		add_action( 'admin_footer', array( $this, 'enqueue_assets' ) );
 
 		switch ( $page ) {
 			case 'wpseo_advanced':
