@@ -261,7 +261,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 		publishSection.children('.image').attr("class", imageClass);
 
 		var text = createSeoScoreLabel( type, status );
-		publishSection.children('.score-text').text(text);
+		publishSection.children('.score-text').html(text);
 	}
 
 	/**
@@ -276,7 +276,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 		} );
 		var spanElem = $( '<span />', {
 			"class": "score-text",
-			"text": createSeoScoreLabel( type, status ) ,
+			"html": createSeoScoreLabel( type, status ) ,
 		} )
 		var imgElem = $( '<span>' )
 			.attr( 'class', 'image yoast-logo svg noindex' );
@@ -292,12 +292,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 	 * @returns {String}
 	 */
 	function createSeoScoreLabel( scoreType, status ){
-		if(scoreType === 'content'){
-			return 'Content: ' + status.ucfirst();
-		}
-		else if(scoreType === 'keyword'){
-			return 'SEO: ' + status.ucfirst();
-		}
+		return scoreType.ucfirst() + ' score: ' + '<b>' + status.ucfirst() + '</b>';
 	}
 
 	/**
