@@ -10,6 +10,8 @@ var getSubheadings = require( "./getSubheadings.js" ).getSubheadings;
 // All characters that indicate a sentence delimiter.
 var sentenceDelimiters = ".?!:;";
 
+var afterPointRegex = /\s|</;
+
 /**
  * Checks if the period is followed with a whitespace or < for an html-tag. If not, it is no ending of a sentence.
  *
@@ -18,7 +20,7 @@ var sentenceDelimiters = ".?!:;";
  * @returns {boolean} True if it doesn't match a whitespace or < .
  */
 var invalidateOnWhiteSpace = function( text, index ) {
-	return text.substring( index, index + 1 ).match( /\s|</ ) === null;
+	return text.substring( index, index + 1 ).match( afterPointRegex ) === null;
 };
 
 /**
@@ -40,7 +42,7 @@ var invalidateOnCapital = function( text, positions, i ) {
 	var firstChar = text.substring( positions[ i ] + 1, positions[ i ] + 2 );
 
 	// If a sentence starts with a number or a whitespace, it shouldn't invalidate
-	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( /\s|</ ) === null ) {
+	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( afterPointRegex ) === null ) {
 		return true;
 	}
 };
