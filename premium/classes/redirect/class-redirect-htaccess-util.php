@@ -18,20 +18,13 @@ class WPSEO_Redirect_Htaccess_Util {
 			$htaccess = file_get_contents( self::get_htaccess_file_path() );
 		}
 
-		$htaccess = preg_replace( '`# BEGIN YOAST REDIRECTS.*# END YOAST REDIRECTS' . PHP_EOL . '`is', '', $htaccess );
-
-		// Get the $wp_filesystem object.
-		$wp_filesystem = self::get_wp_filesystem_object();
-
-		// Check if the $wp_filesystem is correct.
-		if ( null !== $wp_filesystem ) {
-			// Update the .htaccess file.
-			$wp_filesystem->put_contents(
-				self::get_htaccess_file_path(),
-				$htaccess,
-				FS_CHMOD_FILE // Predefined mode settings for WP files.
-			);
+		$cleaned = preg_replace( '`# BEGIN YOAST REDIRECTS.*# END YOAST REDIRECTS' . PHP_EOL . '`is', '', $htaccess );
+		// If nothing changed, don't even try to save it.
+		if ( $cleaned === $htaccess ) {
+			return;
 		}
+
+		WPSEO_Redirect_File_Util::write_file( self::get_htaccess_file_path(), $cleaned );
 	}
 
 	/**

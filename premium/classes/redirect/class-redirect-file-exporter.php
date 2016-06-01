@@ -27,18 +27,14 @@ abstract class WPSEO_Redirect_File_Exporter implements WPSEO_Redirect_Exporter {
 	 */
 	public function export( $redirects ) {
 
+		$file_content = '';
 		if ( ! empty( $redirects ) ) {
-			$file_content = '';
-
 			foreach ( $redirects as $redirect ) {
 				$file_content .= $this->format( $redirect ) . PHP_EOL;
 			}
-
-			// Check if the file content isset.
-			return $this->save( $file_content );
 		}
-
-		return false;
+		// Check if the file content isset.
+		return $this->save( $file_content );
 	}
 
 	/**

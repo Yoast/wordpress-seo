@@ -46,15 +46,22 @@ class WPSEO_Redirect_Settings_Presenter extends WPSEO_Redirect_Tab_Presenter {
 				return 'apache_include_file';
 			}
 
-			if ( ! $separate_file && ! is_writable( WPSEO_Redirect_Htaccess_Util::get_htaccess_file_path() ) ) {
-				return 'cannot_write_htaccess';
+			if ( ! $separate_file ) {
+				// Everything is as expected.
+				if ( is_writable( WPSEO_Redirect_Htaccess_Util::get_htaccess_file_path() ) ) {
+					return false;
+				}
 			}
+
+			return 'cannot_write_htaccess';
 		}
 
-		if ( WPSEO_Utils::is_nginx() && $file_exists ) {
-			return 'nginx_include_file';
-		}
+		if ( WPSEO_Utils::is_nginx() ) {
+			if ( $file_exists ) {
+				return 'nginx_include_file';
+			}
 
-		return 'cannot_write_file';
+			return 'cannot_write_file';
+		}
 	}
 }
