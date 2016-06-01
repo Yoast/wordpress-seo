@@ -20,9 +20,15 @@ function wpseo_admin_bar_menu() {
 
 	global $wp_admin_bar, $post;
 
+	$admin_menu = current_user_can( 'manage_options' );
+	if ( ! $admin_menu && is_multisite() ) {
+		$options    = get_site_option( 'wpseo_ms' );
+		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
+	}
+
 	$focuskw = '';
 	$score   = '';
-	$seo_url = get_admin_url( null, 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
+	$seo_url = '';
 
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
 					'post.php',
@@ -43,7 +49,9 @@ function wpseo_admin_bar_menu() {
 	// Never display notifications for network admin.
 	$counter = '';
 
-	if ( ! function_exists( 'is_network_admin' ) || ! is_network_admin() ) {
+	if ( $admin_menu ) {
+
+		$seo_url = get_admin_url( null, 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
 
 		if ( '' === $score ) {
 
@@ -200,13 +208,6 @@ function wpseo_admin_bar_menu() {
 				'meta'   => array( 'target' => '_blank' ),
 			) );
 		}
-	}
-
-	$admin_menu = current_user_can( 'manage_options' );
-
-	if ( ! $admin_menu && is_multisite() ) {
-		$options    = get_site_option( 'wpseo_ms' );
-		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
 	}
 
 	// @todo: add links to bulk title and bulk description edit pages.
