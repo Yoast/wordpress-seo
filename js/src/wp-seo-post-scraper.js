@@ -47,6 +47,15 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 	};
 
 	/**
+	 * Converts the first letter to uppercase in a string.
+	 * @returns {string} The string with the first letter uppercased.
+	 */
+	String.prototype.ucfirst = function()
+	{
+		return this.charAt(0).toUpperCase() + this.substr(1);
+	}
+
+	/**
 	 * Get data from input fields and store them in an analyzerData object. This object will be used to fill
 	 * the analyzer and the snippet preview.
 	 */
@@ -239,52 +248,55 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 		}
 	};
 
-	function updateScoreInPublishBox(type, score){
-		// get the div
+	/**
+	 * Updates a score type in the publish box.
+	 *
+	 * @param {String} type The score type to update (content or seo).
+	 * @param {String} status The status is the class name that is used to update the image.
+	 */
+	function updateScoreInPublishBox(type, status){
 		var publishSection = $('#' + type + '-score');
-		var indicator = getIndicatorForScore( score );
 
-		//get the text span
-		var text = createScoreDescriptionAndText(type) + ': ' + indicator.screenReaderText;
-		publishSection.children('.score-text').text(text);
-
-		//get the image span
-		var imageClass = 'image yoast-logo svg ' + indicator.className;
+		var imageClass = 'image yoast-logo svg ' + status;
 		publishSection.children('.image').attr("class", imageClass);
+
+		var text = createSeoScoreLabel( type, status );
+		publishSection.children('.score-text').text(text);
 	}
 
 	/**
 	 * Creates a new item in the publish box for an yoast-seo score.
-	 * @param type The score type, for example content score or keyword score.
-	 * @param score The score to set for
+	 * @param {String} type The score type, for example content score or keyword score.
+	 * @param {Stirng} status The status for the score initialisation.
 	 */
-	function createScoresInPublishBox( type, score ) {
+	function createScoresInPublishBox( type, status ) {
 		var publishSection = $( '<div />', {
 			"class": "misc-pub-section " + "yoast-seo-score " + type +"-score",
 			"id": type + "-score",
 		} );
 		var spanElem = $( '<span />', {
 			"class": "score-text",
-			"text": createScoreDescriptionAndText(type) + score ,
+			"text": createSeoScoreLabel( type, status ) ,
 		} )
 		var imgElem = $( '<span>' )
 			.attr( 'class', 'image yoast-logo svg noindex' );
 
-		publishSection.append( spanElem ).append( imgElem );
+		publishSection.append( imgElem ).append( spanElem );
 		$( '#misc-publishing-actions' ).append( publishSection );
 	}
 
 	/**
-	 *
-	 * @param scoreType
-	 * @returns {*}
+	 * Creates a text with the label and description for a seo score.
+	 * @param {String} scoreType The type of score, this is used for the label.
+	 * @param {String} status The status for the score, this is the descriptive status text.
+	 * @returns {String}
 	 */
-	function createScoreDescriptionAndText(scoreType){
+	function createSeoScoreLabel( scoreType, status ){
 		if(scoreType === 'content'){
-			return 'Content score: '
+			return 'Content: ' + status.ucfirst();
 		}
 		else if(scoreType === 'keyword'){
-			return 'SEO score: '
+			return 'SEO: ' + status.ucfirst();
 		}
 	}
 
@@ -305,18 +317,22 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
+			$( '.yst-traffic-light' )
+				.attr( 'class', 'yst-traffic-light ' + indicator.className )
+				.attr( 'alt', indicator.screenReaderText );
+
 			$( '.adminbar-seo-score' )
 				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
 
-			updateScoreInPublishBox('content', indicator.className);
+			updateScoreInPublishBox('keyword', indicator.className);
 
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
-			updateScoreInPublishBox('keyword', score);
+			updateScoreInPublishBox('content', indicator.className);
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -332,7 +348,8 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 	 */
 	PostScraper.prototype.saveContentScore = function( score ) {
 		tabManager.updateContentTab( score );
-		updateScoreInPublishBox( 'content', score );
+		var indicator = getIndicatorForScore( score );
+		updateScoreInPublishBox( 'content', indicator.className);
 
 		$( '#yoast_wpseo_content_score' ).val( score );
 	};
@@ -442,8 +459,8 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
 
-		createScoresInPublishBox( 'content', 'Not available' );
-		createScoresInPublishBox( 'keyword', 'Not available' );
+		createScoresInPublishBox( 'content', 'na' );
+		createScoresInPublishBox( 'keyword', 'na' );
 
 		tabManager = new TabManager({
 			strings: wpseoPostScraperL10n
