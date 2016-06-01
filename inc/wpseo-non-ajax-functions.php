@@ -273,6 +273,10 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
 	$asset_manager = new WPSEO_Admin_Asset_Manager();
 	$asset_manager->register_assets();
 	$asset_manager->enqueue_style( 'adminbar' );
