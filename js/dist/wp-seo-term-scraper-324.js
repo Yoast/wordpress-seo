@@ -12667,34 +12667,17 @@ module.exports = function( text ) {
 ;(function() {
   var undefined;
 
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
+  var freeExports = typeof exports == 'object' && exports;
 
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
+  var freeModule = freeExports && typeof module == 'object' && module;
 
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
+  var freeGlobal = checkGlobal(typeof global == 'object' && global);
 
-  var moduleExports = (freeModule && freeModule.exports === freeExports)
-    ? freeExports
-    : undefined;
+  var freeSelf = checkGlobal(typeof self == 'object' && self);
 
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+  var thisGlobal = checkGlobal(typeof this == 'object' && this);
 
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
+  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
 
   function checkGlobal(value) {
     return (value && value.Object === Object) ? value : null;
@@ -12704,7 +12687,7 @@ module.exports = function( text ) {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.12.0';
+  var VERSION = '4.13.0';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -12726,43 +12709,17 @@ module.exports = function( text ) {
     '`': '&#96;'
   };
 
-  /** Used to determine if values are of the language type `Object`. */
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  /** Detect free variable `exports`. */
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
-
-  /** Detect free variable `module`. */
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
-
   /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+  var freeGlobal = checkGlobal(typeof global == 'object' && global);
 
   /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  /** Detect free variable `window`. */
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+  var freeSelf = checkGlobal(typeof self == 'object' && self);
 
   /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+  var thisGlobal = checkGlobal(typeof this == 'object' && this);
 
-  /**
-   * Used as a reference to the global object.
-   *
-   * The `this` value is used if it's the global object to avoid Greasemonkey's
-   * restricted `window` object, otherwise the `window` object is used.
-   */
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
+  /** Used as a reference to the global object. */
+  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
 
   /*--------------------------------------------------------------------------*/
 
@@ -12953,8 +12910,6 @@ module.exports = function( text ) {
       : string;
   }
 
-  /*--------------------------------------------------------------------------*/
-
   var _ = { 'escape': escape };
 
   /*----------------------------------------------------------------------------*/
@@ -13073,10 +13028,8 @@ module.exports = function( text ) {
 
   /*----------------------------------------------------------------------------*/
 
-  if (freeExports && freeModule) {
-    if (moduleExports) {
-      (freeModule.exports = templates).templates = templates;
-    }
+  if (freeModule) {
+    (freeModule.exports = templates).templates = templates;
     freeExports.templates = templates;
   }
   else {
