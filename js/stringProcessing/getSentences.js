@@ -11,11 +11,11 @@ var getSubheadings = require( "./getSubheadings.js" ).getSubheadings;
 var sentenceDelimiters = ".?!:;";
 
 /**
- * Checks if the period is followed with a whitespace. If not, it is no ending of a sentence.
+ * Checks if the period is followed with a whitespace or < for an html-tag. If not, it is no ending of a sentence.
  *
  * @param {string} text The text to split in sentences.
  * @param {number} index The current index to look for.
- * @returns {boolean} True if it doesn't match a whitespace.
+ * @returns {boolean} True if it doesn't match a whitespace or < .
  */
 var invalidateOnWhiteSpace = function( text, index ) {
 	return text.substring( index, index + 1 ).match( /\s|</ ) === null;
