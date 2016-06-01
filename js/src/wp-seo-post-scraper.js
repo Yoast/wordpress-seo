@@ -265,13 +265,13 @@ var publishBox = require( './ui/publishBox' );
 				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
 
-			publishBox.updateScore('keyword', indicator.className);
+			publishBox.updateScore( 'keyword', indicator.className );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
-			publishBox.updateScore('content', indicator.className);
+			publishBox.updateScore( 'content', indicator.className );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -288,7 +288,7 @@ var publishBox = require( './ui/publishBox' );
 	PostScraper.prototype.saveContentScore = function( score ) {
 		tabManager.updateContentTab( score );
 		var indicator = getIndicatorForScore( score );
-		publishBox.updateScore( 'content', indicator.className);
+		publishBox.updateScore( 'content', indicator.className );
 
 		$( '#yoast_wpseo_content_score' ).val( score );
 	};
@@ -319,6 +319,7 @@ var publishBox = require( './ui/publishBox' );
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
+	 * 
 	 * @param {Object} response The AJAX response object.
 	 * @returns {string}
 	 */

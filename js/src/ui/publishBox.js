@@ -1,6 +1,3 @@
-var contentScoreName = 'content';
-var keywordScoreName = 'keyword';
-var notAvailableStatus = 'na';
 var scoreDescriptionClass = 'score-text';
 var imageScoreClass = 'image yoast-logo svg';
 
@@ -8,6 +5,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	'use strict';
 	/**
 	 * Converts the first letter to uppercase in a string.
+	 *
 	 * @returns {string} The string with the first letter uppercased.
 	 */
 	String.prototype.ucfirst = function () {
@@ -16,12 +14,13 @@ var imageScoreClass = 'image yoast-logo svg';
 
 	/**
 	 * Creates a text with the label and description for a seo score.
+	 *
 	 * @param {String} scoreType The type of score, this is used for the label.
 	 * @param {String} status The status for the score, this is the descriptive status text.
 	 * @returns {String} A string with label and description with correct text decoration.
 	 */
-	function createSeoScoreLabel( scoreType, status ) {
-		return scoreType.ucfirst() + ' score: ' + '<b>' + status.ucfirst() + '</b>';
+	function createSEOScoreLabel( scoreType, status ) {
+		return scoreType.ucfirst() + ' score: ' + '<strong>' + status.ucfirst() + '</strong>';
 	}
 
 	/**
@@ -36,12 +35,13 @@ var imageScoreClass = 'image yoast-logo svg';
 		var imageClass = imageScoreClass + ' ' + status;
 		publishSection.children( '.image' ).attr( 'class', imageClass );
 
-		var text = createSeoScoreLabel( type, status );
+		var text = createSEOScoreLabel( type, status );
 		publishSection.children( '.' + scoreDescriptionClass ).html( text );
 	}
 
 	/**
 	 * Creates a new item in the publish box for an yoast-seo score.
+	 *
 	 * @param {String} type The score type, for example content score or keyword score.
 	 * @param {Stirng} status The status for the score initialisation.
 	 */
@@ -53,8 +53,9 @@ var imageScoreClass = 'image yoast-logo svg';
 
 		var spanElem = $( '<span />', {
 			'class': scoreDescriptionClass,
-			'html': createSeoScoreLabel( type, status )
+			'html': createSEOScoreLabel( type, status )
 		} );
+
 		var imgElem = $( '<span>' )
 			.attr( 'class', imageScoreClass + ' noindex' );
 
@@ -63,8 +64,9 @@ var imageScoreClass = 'image yoast-logo svg';
 	}
 
 	function initialise() {
-		createScoresInPublishBox( contentScoreName, notAvailableStatus );
-		createScoresInPublishBox( keywordScoreName, notAvailableStatus );
+		var notAvailableStatus = 'na';
+		createScoresInPublishBox( 'content', notAvailableStatus );
+		createScoresInPublishBox( 'keyword', notAvailableStatus );
 	}
 
 	module.exports = {
