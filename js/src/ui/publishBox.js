@@ -57,7 +57,7 @@ var imageScoreClass = 'image yoast-logo svg';
 		} );
 
 		var imgElem = $( '<span>' )
-			.attr( 'class', imageScoreClass + ' noindex' );
+			.attr( 'class', imageScoreClass + ' na' );
 
 		publishSection.append( imgElem ).append( spanElem );
 		$( '#misc-publishing-actions' ).append( publishSection );

@@ -218,8 +218,8 @@
 			$issue_counter.show();
 		}
 
-		$('#toplevel_page_wpseo_alerts .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
-		$('#toplevel_page_wpseo_alerts .plugin-count').html( response.total );
+		$('#toplevel_page_wpseo_dashboard .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
+		$('#toplevel_page_wpseo_dashboard .plugin-count').html( response.total );
 	}
 })();
 
