@@ -135,6 +135,11 @@ class WPSEO_Redirect_Page {
 				// Remove the apache redirect entries.
 				WPSEO_Redirect_Htaccess_Util::clear_htaccess_entries();
 			}
+
+			if ( $is_php || ( $was_separate_file && ! $is_separate_file ) ) {
+				// Remove the apache separate file redirect entries.
+				WPSEO_Redirect_File_Util::write_file( WPSEO_Redirect_File_Util::get_file_path(), '' );
+			}
 		}
 
 		if ( WPSEO_Utils::is_nginx() && $is_php ) {
