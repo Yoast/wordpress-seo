@@ -41,6 +41,7 @@
 
 li.score {
 	list-style-type: none !important;
+	margin-bottom: 6px;
 }
 
 .screen-reader-text {
@@ -94,6 +95,7 @@ li.score {
 				border: 0;
 				width: 28px;
 				height: 28px;
+				margin-top: -5px;
 				padding: 4px;
 				border-radius: 100%;
 				outline: none;
