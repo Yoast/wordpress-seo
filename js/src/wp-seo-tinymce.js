@@ -45,13 +45,13 @@
 
 	/**
 	 * Converts the html entities for symbols back to the original symbol. For now this only converts the & symbol.
-	 * @param {String} text
-	 * @returns {String} text with html entities replaced with the symbol.
+	 * @param {String} text The text to replace the '&amp;' entities.
+	 * @returns {String} text Text with html entities replaced by the symbol.
 	 */
 	function convertHtmlEntities( text ) {
 		// Create regular expression, this searches for the html entity '&amp;', the 'g' param is for searching the whole text.
-		var re = new RegExp('&amp;','g');
-		return String(text).replace(re, '&');
+		var regularExpression = new RegExp('&amp;','g');
+		return text.replace(regularExpression, '&');
 	}
 
 	/**
@@ -65,11 +65,12 @@
 		var content = '';
 		if ( isTinyMCEAvailable( content_id ) === false ) {
 			content = tinyMCEElementContent( content_id );
-		}else{
+		}
+		else{
 			content = tinyMCE.get( content_id ).getContent();
 		}
 
-		return convertHtmlEntities(content);
+		return convertHtmlEntities( content );
 	}
 	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
