@@ -177,7 +177,28 @@ class WPSEO_Taxonomy {
 		return array(
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
+			'scope'          => $this->determine_scope(),
 		);
+	}
+
+	/**
+	 * Determines the scope based on the current taxonomy.
+	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
+	 *
+	 * @return string String decribing the current scope.
+	 */
+	private function determine_scope() {
+		$taxonomy = $this->get_taxonomy();
+
+		if ( $taxonomy === 'category' ) {
+			return 'category';
+		}
+
+		if ( $taxonomy === 'post_tag' ) {
+			return 'tag';
+		}
+
+		return 'term';
 	}
 
 	/**
@@ -227,8 +248,8 @@ class WPSEO_Taxonomy {
 	 * @return array replace vars.
 	 */
 	private function get_replace_vars() {
-		$term_id                 = filter_input( INPUT_GET, 'tag_ID' );
-		$term                    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+		$term  = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(
