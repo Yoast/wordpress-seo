@@ -789,12 +789,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_custom_taxonomies_replace_vars( $post ) {
 		$taxonomies = get_object_taxonomies( $post, 'objects' );
-		$built_in = get_taxonomies( array( '_builtin' => true, 'public' => true ) );
-
 		$custom_replace_vars = array();
 
 		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
-			if ( isset( $built_in[ $taxonomy_name ] ) === true ) {
+			if ( $taxonomy->_builtin && $taxonomy->public ) {
 				continue;
 			}
 
@@ -817,11 +815,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_custom_fields_replace_vars( $post ) {
 		$custom_replace_vars = array();
 
+		// If no post object is passed, return the empty custom_replace_vars array.
 		if ( ! is_object( $post ) ) {
 			return $custom_replace_vars;
 		}
 
-		$custom_fields = get_post_meta( $post->ID, '', true );
+		$custom_fields = get_post_custom( $post->ID );
 
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {

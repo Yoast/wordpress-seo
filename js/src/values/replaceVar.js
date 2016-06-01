@@ -18,10 +18,9 @@
 	 * @constructor
 	 */
 	var ReplaceVar = function( placeholder, replacement, options ) {
-		this.placeholder    = placeholder;
-		this.replacement    = replacement;
-
-		this.options        = defaults( options, defaultOptions );
+		this.placeholder = placeholder;
+		this.replacement = replacement;
+		this.options = defaults( options, defaultOptions );
 	};
 
 	/**

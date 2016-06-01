@@ -319,7 +319,7 @@ var publishBox = require( './ui/publishBox' );
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
-	 * 
+	 *
 	 * @param {Object} response The AJAX response object.
 	 * @returns {string}
 	 */
