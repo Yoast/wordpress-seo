@@ -32,7 +32,7 @@ var invalidateOnWhiteSpace = function( text, index ) {
  */
 var invalidateOnCapital = function( text, positions, i ) {
 
-	if( text.substring( positions[ i ], positions[ i ] + 1 ) === "<" ) {
+	if ( text.substring( positions[ i ], positions[ i ] + 1 ) === "<" ) {
 		return false;
 	}
 
@@ -108,13 +108,16 @@ var matchPartialTag = function( sentence ) {
 
 	var startTag = "";
 	var endTag = "";
+
 	if ( !isUndefined( beginMatch.length > 1 ) ) {
 		startTag = beginMatch[ 1 ];
 	}
+
 	if ( !isUndefined( endMatch.length > 1 ) ) {
 		endTag = endMatch[ 1 ];
 	}
-	return{
+
+	return {
 		startTag: startTag,
 		endTag: endTag
 	};
@@ -131,6 +134,7 @@ var stripPartialStartTag = function( sentence ) {
 		sentence = sentence.replace( /(<([^>]+)>)/, "" );
 		tags = matchPartialTag( sentence );
 	}
+
 	return sentence;
 };
 
@@ -185,7 +189,7 @@ module.exports = function( text ) {
 	} );
 	var sentences = splitOnIndex( positions, originalText );
 
-	// Clean sentences by stripping HTMLtags
+	// Clean sentences by stripping HTMLtags.
 	sentences = map( sentences, function( sentence ) {
 		return cleanSentence( sentence );
 	} );
