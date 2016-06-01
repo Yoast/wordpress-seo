@@ -1,7 +1,7 @@
 /* css for snippet */
 #snippet_preview {
 	position: relative;
-	width: 552px;
+	width: 640px;
 	border: 1px solid #f7f7f7;
 	border-radius: 20px;
 	background-color: #fff;
@@ -170,7 +170,7 @@
 .snippet_container .title {
 	display: block;
 	overflow: hidden;
-	width: 512px;
+	width: 600px;
 	margin: 0;
 	color: #1e0fbe;
 	font-size: 18px;
@@ -433,6 +433,16 @@ li.score {
 	display: none;
 }
 
+@-webkit-keyframes animatedBackground {
+	from {
+		background-position: 0 0;
+	}
+
+	to {
+		background-position: 100% 0;
+	}
+}
+
 @keyframes animatedBackground {
 	from {
 		background-position: 0 0;
@@ -453,6 +463,7 @@ li.score {
 	background-image: linear-gradient(to left, #fff, #0063ff, #fff, #0063ff);
 	background-position: 0 0;
 	background-size: 300% 100%;
+	-webkit-animation: animatedBackground 5s linear infinite;
 	animation: animatedBackground 5s linear infinite;
 }
 
@@ -558,6 +569,7 @@ li.score {
 }
 
 .wpseo-tab-video__panel.wpseo-tab-video__panel--video {
+	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
