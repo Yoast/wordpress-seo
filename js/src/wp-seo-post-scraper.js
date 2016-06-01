@@ -9,6 +9,7 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 var tmceHelper = require( './wp-seo-tinymce' );
 
 var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
+var publishBox = require( './ui/publishBox' );
 
 (function( $ ) {
 	'use strict';
@@ -45,15 +46,6 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
 		}
 	};
-
-	/**
-	 * Converts the first letter to uppercase in a string.
-	 * @returns {string} The string with the first letter uppercased.
-	 */
-	String.prototype.ucfirst = function()
-	{
-		return this.charAt(0).toUpperCase() + this.substr(1);
-	}
 
 	/**
 	 * Get data from input fields and store them in an analyzerData object. This object will be used to fill
@@ -248,52 +240,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 		}
 	};
 
-	/**
-	 * Updates a score type in the publish box.
-	 *
-	 * @param {String} type The score type to update (content or seo).
-	 * @param {String} status The status is the class name that is used to update the image.
-	 */
-	function updateScoreInPublishBox(type, status){
-		var publishSection = $('#' + type + '-score');
 
-		var imageClass = 'image yoast-logo svg ' + status;
-		publishSection.children('.image').attr("class", imageClass);
-
-		var text = createSeoScoreLabel( type, status );
-		publishSection.children('.score-text').html(text);
-	}
-
-	/**
-	 * Creates a new item in the publish box for an yoast-seo score.
-	 * @param {String} type The score type, for example content score or keyword score.
-	 * @param {Stirng} status The status for the score initialisation.
-	 */
-	function createScoresInPublishBox( type, status ) {
-		var publishSection = $( '<div />', {
-			"class": "misc-pub-section " + "yoast-seo-score " + type +"-score",
-			"id": type + "-score",
-		} );
-		var spanElem = $( '<span />', {
-			"class": "score-text",
-			"html": createSeoScoreLabel( type, status ) ,
-		} )
-		var imgElem = $( '<span>' )
-			.attr( 'class', 'image yoast-logo svg noindex' );
-
-		publishSection.append( imgElem ).append( spanElem );
-		$( '#misc-publishing-actions' ).append( publishSection );
-	}
-
-	/**
-	 * Creates a text with the label and description for a seo score.
-	 * @param {String} scoreType The type of score, this is used for the label.
-	 * @param {String} status The status for the score, this is the descriptive status text.
-	 * @returns {String}
-	 */
-	function createSeoScoreLabel( scoreType, status ){
-		return scoreType.ucfirst() + ' score: ' + '<b>' + status.ucfirst() + '</b>';
-	}
 
 	/**
 	 * Saves the score to the linkdex.
@@ -320,14 +267,14 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
 
-			updateScoreInPublishBox('keyword', indicator.className);
+			publishBox.updateScore('keyword', indicator.className);
 
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
-			updateScoreInPublishBox('content', indicator.className);
+			publishBox.updateScore('content', indicator.className);
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -344,7 +291,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 	PostScraper.prototype.saveContentScore = function( score ) {
 		tabManager.updateContentTab( score );
 		var indicator = getIndicatorForScore( score );
-		updateScoreInPublishBox( 'content', indicator.className);
+		publishBox.updateScore( 'content', indicator.className);
 
 		$( '#yoast_wpseo_content_score' ).val( score );
 	};
@@ -454,8 +401,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
 
-		createScoresInPublishBox( 'content', 'na' );
-		createScoresInPublishBox( 'keyword', 'na' );
+		publishBox.initalise();
 
 		tabManager = new TabManager({
 			strings: wpseoPostScraperL10n
