@@ -182,9 +182,10 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Determine whether the current URL is a category or a term.
+	 * Determines the scope based on the current taxonomy.
+	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
 	 *
-	 * @return string
+	 * @return string String decribing the current scope.
 	 */
 	private function determine_scope() {
 		$taxonomy = $this->get_taxonomy();

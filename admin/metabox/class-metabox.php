@@ -235,9 +235,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Determine whether the current URL is a page or a post.
+	 * Determines the scope based on the post type.
+	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
 	 *
-	 * @return string
+	 * @return string String decribing the current scope.
 	 */
 	private function determine_scope() {
 		$post_type = get_post_type( $this->get_metabox_post() );
@@ -827,7 +828,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_custom_fields_replace_vars( $post ) {
 		$custom_replace_vars = array();
 
-		if ( is_object( $post ) === false ) {
+		if ( ! is_object( $post ) ) {
 			return $custom_replace_vars;
 		}
 
