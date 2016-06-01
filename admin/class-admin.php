@@ -79,8 +79,7 @@ class WPSEO_Admin {
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 
-		$page = filter_input( INPUT_GET, 'page' );
-		if ( substr( $page, 0, 6 ) === 'wpseo_' ) {
+		if ( WPSEO_Utils::is_yoast_seo_page() ) {
 			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
 		}
 	}
@@ -335,7 +334,6 @@ class WPSEO_Admin {
 	 */
 	function load_page() {
 		$page = filter_input( INPUT_GET, 'page' );
-		add_action( 'admin_footer', array( $this, 'enqueue_assets' ) );
 
 		switch ( $page ) {
 			case 'wpseo_advanced':
