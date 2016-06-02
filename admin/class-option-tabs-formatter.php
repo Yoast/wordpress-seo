@@ -32,7 +32,6 @@ class WPSEO_Option_Tabs_Formatter {
 		echo '</h2>';
 
 		$filter_name            = sprintf( 'yoast_option_tab_help_center_%s', $option_tabs->get_base() );
-		$base_help_center_items = apply_filters( $filter_name, array() );
 
 		foreach ( $option_tabs->get_tabs() as $tab ) {
 			// Prepare the help center for each tab.

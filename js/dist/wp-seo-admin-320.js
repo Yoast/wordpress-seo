@@ -682,9 +682,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		var algoliaSearchers = [];
 		jQuery.each(mountingPoints, function (index, mountingPoint) {
 			var tabId = jQuery(mountingPoint).closest('.wpseotab').attr('id');
+			var translations = {
+				'noResultsText': wpseoAdminL10n.kb_no_results,
+				'headingText': wpseoAdminL10n.kb_heading,
+				'errorMessage': wpseoAdminL10n.kb_error_message,
+				'loadingPlaceholder': wpseoAdminL10n.kb_loading_placeholder,
+				'search': wpseoAdminL10n.search
+			};
 			algoliaSearchers.push({
 				tabName: tabId,
-				algoliaSearcher: _reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default), mountingPoint) //jshint ignore:line
+				algoliaSearcher: _reactDom2.default.render(_react2.default.createElement(_wpSeoKbSearch2.default, translations), mountingPoint) //jshint ignore:line
 			});
 		});
 
@@ -700,6 +707,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			});
 			var usedQueries = activeAlgoliaSearcher.state.usedQueries;
 			jQuery(window).trigger('YoastSEO:ContactSupport', { usedQueries: usedQueries });
+		});
+
+		// Open "functionality only avalible for premium" popup.
+		jQuery(window).on('YoastSEO:ContactSupport', function () {
+			showContactPopup();
 		});
 
 		/* Fix banner images overlapping help texts */

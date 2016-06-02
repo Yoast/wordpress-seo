@@ -269,9 +269,16 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 			var algoliaSearchers = [];
 			jQuery.each( mountingPoints, function( index, mountingPoint ) {
 				var tabId = jQuery( mountingPoint ).closest( '.wpseotab' ).attr( 'id' );
-				algoliaSearchers.push( {
+				var translations = {
+					'noResultsText': wpseoAdminL10n.kb_no_results,
+					'headingText': wpseoAdminL10n.kb_heading,
+					'errorMessage': wpseoAdminL10n.kb_error_message,
+					'loadingPlaceholder': wpseoAdminL10n.kb_loading_placeholder,
+					'search': wpseoAdminL10n.kb_search
+				}
+					algoliaSearchers.push( {
 					tabName: tabId,
-					algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher ), mountingPoint ) //jshint ignore:line
+					algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher , translations ), mountingPoint ) //jshint ignore:line
 				} );
 			} );
 
@@ -289,7 +296,13 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				jQuery( window ).trigger( 'YoastSEO:ContactSupport', { usedQueries: usedQueries } );
 			} );
 
-			/* Fix banner images overlapping help texts */
+			// Open "functionality only avalible for premium" popup.
+			jQuery( window ).on( 'YoastSEO:ContactSupport', function() {
+				showContactPopup();
+			} );
+
+
+		/* Fix banner images overlapping help texts */
 			jQuery( '.screen-meta-toggle a' ).click( function() {
 					jQuery( '#sidebar-container' ).toggle();
 				}
