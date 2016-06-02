@@ -1,5 +1,4 @@
 /* global ajaxurl */
-/* global wpseoMakeDismissible */
 /* jshint -W097 */
 'use strict';
 
@@ -22,7 +21,6 @@ function wpseo_show_notification() {
 			if (response !== '') {
 				var insertAfterElement = jQuery( '.wrap' ).children().eq( 0 );
 				jQuery(response ).insertAfter( insertAfterElement );
-				wpseoMakeDismissible();
 				wpseo_notification_counter = 0;
 			} else if (wpseo_notification_counter < 20 && response === '') {
 				wpseo_notification_counter++;

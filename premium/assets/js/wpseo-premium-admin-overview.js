@@ -1,5 +1,4 @@
 /* global wpseo_premium_strings */
-/* global wpseoMakeDismissible */
 /* global wpseo_undo_redirect */
 /* jshint -W097 */
 /* jshint -W098 */
@@ -12,9 +11,9 @@
  * @param {string} target
  * @param {string} type
  * @param {string} nonce
- * @param {string} id
+ * @param {object} source
  */
-function wpseo_undo_redirect( origin, target, type, nonce, id ) {
+function wpseo_undo_redirect( origin, target, type, nonce, source ) {
 	jQuery.post(
 		ajaxurl,
 		{
@@ -24,11 +23,10 @@ function wpseo_undo_redirect( origin, target, type, nonce, id ) {
 				origin: origin,
 				target: target,
 				type:   type
-			},
-			id: id
+			}
 		},
 		function() {
-			jQuery( '#' + id ).fadeOut( 'slow' );
+			jQuery( source ).closest( '.yoast-alert' ).fadeOut( 'slow' );
 		}
 	);
 }
@@ -39,9 +37,9 @@ function wpseo_undo_redirect( origin, target, type, nonce, id ) {
  * @param {string} origin
  * @param {string} type
  * @param {string} nonce
- * @param {string} id
+ * @param {object} source
  */
-function wpseo_create_redirect( origin, type, nonce, id ) {
+function wpseo_create_redirect( origin, type, nonce, source ) {
 	var target = '';
 	if( parseInt( type, 10 ) !== 410 ) {
 		target = window.prompt( wpseo_premium_strings.enter_new_url.replace( '%s', origin ) );
@@ -61,11 +59,10 @@ function wpseo_create_redirect( origin, type, nonce, id ) {
 				origin: origin,
 				target: target,
 				type:   type
-			},
-			id: id
+			}
 		},
 		function( response ) {
-			var notice = jQuery( '#' + id );
+			var notice = jQuery( source ).closest( '.yoast-alert' );
 
 			// Remove the classes first.
 			jQuery( notice )
@@ -96,7 +93,7 @@ function wpseo_create_redirect( origin, type, nonce, id ) {
 			success_message = success_message.replace( '%1$s', '<code>' + response.origin + '</code>' );
 
 			// Set class to updated and replace html with the success message
-			jQuery(notice)
+			jQuery( notice )
 				.addClass( 'updated' )
 				.html( '<p>' + success_message + '</p>' );
 		},
@@ -115,12 +112,9 @@ function wpseo_create_redirect( origin, type, nonce, id ) {
 				function( response ) {
 					if ( '' !== response ) {
 						$( '#ajax-response' ).append( response );
-						wpseoMakeDismissible();
 					}
 				}
 			);
-		}
-		);
-	}
-	);
+		});
+	});
 })( jQuery );

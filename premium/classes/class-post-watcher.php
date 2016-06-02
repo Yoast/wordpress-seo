@@ -133,7 +133,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 				'</a>'
 			);
 
-			$this->create_notification( $message, 'trash', $id );
+			$this->create_notification( $message, 'trash' ); // , $id );
 		}
 
 	}
@@ -152,13 +152,13 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			// Format the message.
 			/* translators: %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>, %3$s: </a> */
 			$message = sprintf(
-				__( '%1$s detected that you restored a post from the trash. %2$sClick here to remove the redirect%3$s.', 'wordpress-seo-premium' ),
+				__( '%1$s detected that you restored a post from the trash. %2$sClick here to remove the redirect%3$s', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
-				'<a href=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
-				'</a>'
+				'<button type="button" class="button" onclick=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
+				'</button>'
 			);
 
-			$this->create_notification( $message, 'untrash', $id );
+			$this->create_notification( $message, 'untrash' ); // , $id );
 		}
 
 	}
@@ -305,7 +305,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	protected function get_undo_slug_notification() {
 		/* translators: %1$s: Yoast SEO Premium, %2$s: <a href='{admin_redirect_url}'>, %3$s: <a href='{undo_redirect_url}'> and %4$s: </a> */
 		return __(
-			'%1$s created a %2$sredirect%4$s from the old post URL to the new post URL. %3$sClick here to undo this%4$s.',
+			'%1$s created a %2$sredirect%3$s from the old post URL to the new post URL. %4$sClick here to undo this%5$s',
 			'wordpress-seo-premium'
 		);
 	}

@@ -76,13 +76,18 @@ abstract class WPSEO_Watcher {
 	 * @param string $notification_type The type of the notification.
 	 * @param string $id 				ID that will be given to the notice.
 	 */
-	protected function create_notification( $message, $notification_type, $id ) {
+	protected function create_notification( $message, $notification_type, $id = null ) {
 		$show_notification = true;
 		$show_notification = apply_filters( 'wpseo_enable_notification_' . $this->watch_type . '_' . $notification_type, $show_notification );
 
 		if ( $show_notification ) {
 			// Add the message to the notifications center.
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message, array( 'type' => 'updated', 'id' => $id ) ) );
+			$arguments = array( 'type' => 'updated' );
+			if ( ! empty( $id ) ) {
+				$arguments['id'] = $id;
+			}
+			
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message, $arguments ) );
 		}
 
 	}
@@ -104,7 +109,7 @@ abstract class WPSEO_Watcher {
 			'</a>'
 		);
 
-		$this->create_notification( $message, 'delete', $id );
+		$this->create_notification( $message, 'delete' ); // , $id );
 	}
 
 	/**
@@ -117,12 +122,11 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function javascript_undo_redirect( WPSEO_Redirect $redirect, $id ) {
 		return sprintf(
-			'javascript:wpseo_undo_redirect( "%1$s", "%2$s", "%3$s", "%4$s", "%5$s" );',
-			urlencode( $redirect->get_origin() ),
-			urlencode( $redirect->get_target() ),
-			urlencode( $redirect->get_type() ),
-			wp_create_nonce( 'wpseo-redirects-ajax-security' ),
-			esc_attr( $id )
+			'wpseo_undo_redirect( "%1$s", "%2$s", "%3$s", "%4$s", this );',
+			esc_js( $redirect->get_origin() ),
+			esc_js( $redirect->get_target() ),
+			esc_js( $redirect->get_type() ),
+			wp_create_nonce( 'wpseo-redirects-ajax-security' )
 		);
 	}
 
@@ -157,12 +161,12 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function javascript_create_redirect( $url, $id, $type = WPSEO_Redirect::PERMANENT ) {
 		return sprintf(
-			'javascript:wpseo_create_redirect( "%1$s", "%2$s", "%3$s", "%4$s" );',
-			urlencode( $url ),
+			'wpseo_create_redirect( "%1$s", "%2$s", "%3$s", this );',
+			esc_js( $url ),
 			$type,
-			wp_create_nonce( 'wpseo-redirects-ajax-security' ),
-			esc_attr( $id )
-		);}
+			wp_create_nonce( 'wpseo-redirects-ajax-security' )
+		);
+	}
 
 	/**
 	 * Return the URL to the admin page where the just added redirect can be found
@@ -203,12 +207,13 @@ abstract class WPSEO_Watcher {
 			$this->get_undo_slug_notification(),
 			'Yoast SEO Premium',
 			'<a target="_blank" href="' . $this->admin_redirect_url( $redirect->get_origin() ) . '">',
-			'<a href=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
-			'</a>'
+			'</a>',
+			'<button type="button" class="button" onclick=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
+			'</button>'
 		);
 
 		// Only set notification when the slug change was not saved through quick edit.
-		$this->create_notification( $message, 'slug_change', $id );
+		$this->create_notification( $message, 'slug_change' ); // , $id );
 	}
 
 	/**
@@ -222,8 +227,8 @@ abstract class WPSEO_Watcher {
 	protected function get_delete_action_list( $url, $id ) {
 		return sprintf(
 			'<ul>%1$s %2$s</ul>',
-			'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::PERMANENT ) . '\'>' . __( 'Redirect it to another URL.', 'wordpress-seo-premium' ) . '</a></li>',
-			'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it serve a 410 Content Deleted header.', 'wordpress-seo-premium' ) . '</a></li>'
+			'<li><button type="button" class="button" onclick=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::PERMANENT ) . '\'>' . __( 'Redirect it to another URL', 'wordpress-seo-premium' ) . '</button></li>',
+			'<li><button type="button" class="button" onclick=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it serve a 410 Content Deleted header', 'wordpress-seo-premium' ) . '</button></li>'
 		);
 	}
 }
