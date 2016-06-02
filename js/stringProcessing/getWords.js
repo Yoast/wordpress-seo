@@ -2,6 +2,9 @@
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var removePunctuation = require( "../stringProcessing/removePunctuation.js" );
+var map = require( "lodash/map" );
+var filter = require( "lodash/filter" );
 
 /**
  * Returns an array with words used in the text.
@@ -15,6 +18,10 @@ module.exports = function( text ) {
 		return [];
 	}
 
-	return text.split( /\s/g );
+	var words = map( text.split( /\s/g ), removePunctuation );
+	
+	return filter( words, function( word ) {
+		return word.trim() !== '';
+	} );
 };
 
