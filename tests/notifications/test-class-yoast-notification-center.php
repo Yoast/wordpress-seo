@@ -15,6 +15,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Create user with proper caps
 	 */
 	public function setUp() {
+		parent::setUp();
+
 		$this->user_id = $this->factory->user->create();
 
 		$user = new WP_User( $this->user_id );
