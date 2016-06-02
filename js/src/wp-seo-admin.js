@@ -277,8 +277,8 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 					'search': wpseoAdminL10n.kb_search,
 					'open': wpseoAdminL10n.open,
 					'back': wpseoAdminL10n.kb_back
-				}
-					algoliaSearchers.push( {
+				};
+				algoliaSearchers.push( {
 					tabName: tabId,
 					algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher , translations ), mountingPoint ) //jshint ignore:line
 				} );
@@ -303,8 +303,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				showContactPopup();
 			} );
 
-
-		/* Fix banner images overlapping help texts */
+			/* Fix banner images overlapping help texts */
 			jQuery( '.screen-meta-toggle a' ).click( function() {
 					jQuery( '#sidebar-container' ).toggle();
 				}
