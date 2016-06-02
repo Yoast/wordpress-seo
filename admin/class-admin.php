@@ -462,7 +462,7 @@ class WPSEO_Admin {
 
 	/**
 	 * Enqueues the (tiny) global stylesheet needed for the plugin.
-     */
+	 */
 	public function enqueue_global_style() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'admin-global' );

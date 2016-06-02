@@ -332,8 +332,8 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'admin-global',
-				'src'  => 'admin-global-320'
-			)
+				'src'  => 'admin-global-320',
+			),
 		);
 	}
 }

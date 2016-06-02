@@ -25,8 +25,8 @@ class WPSEO_Help_Center {
 	/**
 	 * WPSEO_Help_Center constructor.
 	 *
-	 * @param String 			$group_name The name of the group of the tab the helpcenter is on.
-	 * @param WPSEO_Option_Tab 	$tab 		The name of the tab the helpcenter is on.
+	 * @param String           $group_name The name of the group of the tab the helpcenter is on.
+	 * @param WPSEO_Option_Tab $tab        The name of the tab the helpcenter is on.
 	 */
 	function __construct( $group_name, $tab ) {
 		$this->group_name = $group_name;
@@ -34,7 +34,7 @@ class WPSEO_Help_Center {
 
 		$kb_help_center_item = new WPSEO_Help_Center_Item(
 			'knowledge-base',
-			__('Knowledge base', 'wordpress-seo'),
+			__( 'Knowledge base', 'wordpress-seo' ),
 			array(
 				'content'        => '<div class="wpseo-kb-search"></div>',
 				'view_arguments' => array( 'identifier' => $tab->get_name() ),
@@ -51,7 +51,7 @@ class WPSEO_Help_Center {
 		$premium_popup = new WPSEO_Premium_Popup( 'contact-support', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
-			__('Email support', 'wordpress-seo'),
+			__( 'Email support', 'wordpress-seo' ),
 			array( 'content' => '<button type="button" class="button contact-support contact-support-button">Contact support</button>' . $premium_popup->get_premium_popup() )
 		);
 
