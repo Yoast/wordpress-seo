@@ -21,7 +21,7 @@ module.exports = function( text ) {
 	var words = map( text.split( /\s/g ), removeSentenceTerminators );
 
 	return filter( words, function( word ) {
-		return word.trim() !== '';
+		return word.trim() !== "";
 	} );
 };
 

@@ -1,5 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var removeSentenceTerminators = require( "../stringProcessing/removeSentenceTerminators" );
 var removePunctuation = require( "../stringProcessing/removePunctuation.js" );
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -78,6 +79,7 @@ var wordComplexityMarker = function( paper, researcher ) {
 	var wordComplexity = researcher.getResearch( "wordComplexity" );
 	var complexWords = filterComplexity( wordComplexity );
 	return map( complexWords, function( complexWord ) {
+		complexWord.word = removeSentenceTerminators( complexWord.word );
 		complexWord.word = removePunctuation( complexWord.word );
 
 		return new Mark( {
