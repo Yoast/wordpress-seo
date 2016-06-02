@@ -86,7 +86,7 @@ abstract class WPSEO_Watcher {
 			if ( ! empty( $id ) ) {
 				$arguments['id'] = $id;
 			}
-			
+
 			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message, $arguments ) );
 		}
 
