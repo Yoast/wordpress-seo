@@ -14,6 +14,7 @@ var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 
+var auxiliaryRegex = arrayToRegex( auxiliaries );
 /**
  * Matches string with an array, returns the word and the index it was found on
  * @param {string} sentence The sentence to match the strings from the array to.
@@ -74,12 +75,11 @@ var getVerbsEndingInIng = function( sentence ) {
 
 	// Matches the sentences with words ending in ing
 	var matches = sentence.match( /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig ) || [];
-
-	var exclusionArray = [ "king", "cling", "ring", "being" ];
+	var matches = sentence.match( verbEndingInIngRegex ) || [];
 
 	// Filters out words ending in -ing that aren't verbs.
 	return filter( matches, function( match ) {
-		return matchArray( stripSpaces( match ), exclusionArray ).length === 0;
+		return matchArray( stripSpaces( match ), ingExclusionArray ).length === 0;
 	} );
 };
 
@@ -109,16 +109,16 @@ var getSentenceBreakers = function( sentence ) {
  * @returns {Array} The array with all subsentences of a sentence that have an auxiliary
  */
 var getSubsentences = function( sentence ) {
-	var auxiliaryRegex = arrayToRegex( auxiliaries );
+
 	var subSentences = [];
 
 	// First check if there is an auxiliary word in the sentence
 	if( sentence.match( auxiliaryRegex ) !== null ) {
 		var indices = getSentenceBreakers( sentence );
+		var endIndex = sentence.length;
 
 		// Get the words after the found auxiliary
 		for ( var i = 0; i < indices.length; i++ ) {
-			var endIndex = sentence.length;
 			if ( !isUndefined( indices[ i + 1 ] ) ) {
 				endIndex = indices[ i + 1 ].index;
 			}
