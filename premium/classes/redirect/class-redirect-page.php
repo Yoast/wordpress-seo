@@ -116,11 +116,13 @@ class WPSEO_Redirect_Page {
 	 */
 	public function save_redirect_files( $old_value, $value ) {
 
-		$disable_php_redirect = ( ! empty( $value['disable_php_redirect'] ) && 'on' === $value['disable_php_redirect'] );
-		$separate_file        = ( ! empty( $value['separate_file'] ) && 'on' === $value['separate_file'] );
+		$is_php = ( empty( $value['disable_php_redirect'] ) || 'on' !== $value['disable_php_redirect'] );
+
+		$was_separate_file = ( ! empty( $old_value['separate_file'] ) && 'on' === $old_value['separate_file'] );
+		$is_separate_file  = ( ! empty( $value['separate_file'] ) && 'on' === $value['separate_file'] );
 
 		// Check if the 'disable_php_redirect' option set to true/on.
-		if ( $disable_php_redirect ) {
+		if ( ! $is_php ) {
 			// The 'disable_php_redirect' option is set to true(on) so we need to generate a file.
 			// The Redirect Manager will figure out what file needs to be created.
 			$redirect_manager = new WPSEO_Redirect_Manager();
@@ -128,12 +130,20 @@ class WPSEO_Redirect_Page {
 		}
 
 		// Check if we need to remove the .htaccess redirect entries.
-		if ( $this->remove_htaccess_entries( $disable_php_redirect, $separate_file ) ) {
-			// Remove the .htaccess redirect entries.
-			WPSEO_Redirect_Htaccess_Util::clear_htaccess_entries();
+		if ( WPSEO_Utils::is_apache() ) {
+			if ( $is_php || ( ! $was_separate_file && $is_separate_file ) ) {
+				// Remove the apache redirect entries.
+				WPSEO_Redirect_Htaccess_Util::clear_htaccess_entries();
+			}
+
+			if ( $is_php || ( $was_separate_file && ! $is_separate_file ) ) {
+				// Remove the apache separate file redirect entries.
+				WPSEO_Redirect_File_Util::write_file( WPSEO_Redirect_File_Util::get_file_path(), '' );
+			}
 		}
 
-		if ( ! $disable_php_redirect && WPSEO_Utils::is_nginx() ) {
+		if ( WPSEO_Utils::is_nginx() && $is_php ) {
+			// Remove the nginx redirect entries.
 			$this->clear_nginx_redirects();
 		}
 

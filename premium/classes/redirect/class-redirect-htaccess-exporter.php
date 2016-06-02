@@ -23,6 +23,8 @@ class WPSEO_Redirect_Htaccess_Exporter extends WPSEO_Redirect_Apache_Exporter {
 			$htaccess = $this->get_htaccess_content( $file_path, $file_content );
 			$return   = (bool) WPSEO_Redirect_File_Util::write_file( $file_path, $htaccess );
 
+			// Make sure defines are created.
+			WP_Filesystem();
 			chmod( $file_path, FS_CHMOD_FILE );
 
 			return $return;
@@ -48,11 +50,13 @@ class WPSEO_Redirect_Htaccess_Exporter extends WPSEO_Redirect_Apache_Exporter {
 
 		$htaccess = preg_replace( '`# BEGIN YOAST REDIRECTS.*# END YOAST REDIRECTS' . PHP_EOL . '`is', '', $htaccess );
 
-		// New Redirects.
-		$file_content = '# BEGIN YOAST REDIRECTS' . PHP_EOL . '<IfModule mod_rewrite.c>' . PHP_EOL . 'RewriteEngine On' . PHP_EOL . $file_content . '</IfModule>' . PHP_EOL . '# END YOAST REDIRECTS' . PHP_EOL;
+		// Only add redirect code when redirects are present.
+		if ( ! empty( $file_content ) ) {
+			$file_content = '# BEGIN YOAST REDIRECTS' . PHP_EOL . '<IfModule mod_rewrite.c>' . PHP_EOL . 'RewriteEngine On' . PHP_EOL . $file_content . '</IfModule>' . PHP_EOL . '# END YOAST REDIRECTS' . PHP_EOL;
 
-		// Prepend our redirects to htaccess file.
-		$htaccess = $file_content . $htaccess;
+			// Prepend our redirects to htaccess file.
+			$htaccess = $file_content . $htaccess;
+		}
 
 		return $htaccess;
 	}

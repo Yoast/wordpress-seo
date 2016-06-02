@@ -39,7 +39,7 @@ class WPSEO_Redirect_Nginx_Exporter_Test extends WPSEO_UnitTestCase {
 	public function test_export_empty() {
 		$class_instance = new WPSEO_Redirect_Nginx_Exporter();
 
-		$this->assertFalse( $class_instance->export( array() ) );
+		$this->assertTrue( $class_instance->export( array() ) );
 	}
 
 	/**
