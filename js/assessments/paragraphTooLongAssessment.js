@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 var isParagraphTooLong = require( "../helpers/isValueTooLong" );
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
@@ -36,7 +36,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 	// Up to 117 is for scoring a 9, higher numbers give lower scores.
 	// FloatingPointFix because of js rounding errors.
 	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( paragraphsLength[ 0 ].wordCount - 117 ), 6 ), 0 );
-	score = fixFloatingPoint( score );
+	score = formatNumber( score );
 	if ( score >= 7 ) {
 		return {
 			score: score,

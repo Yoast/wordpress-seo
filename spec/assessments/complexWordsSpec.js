@@ -37,7 +37,7 @@ describe( "an assessment returning complex words", function() {
 			{ word: "", complexity: 1 },
 			{ word: "", complexity: 10 } ]
 		), i18n );
-		expect( result.getScore() ).toBe( 7.02 );
+		expect( result.getScore() ).toBe( 7 );
 		expect( result.getText() ).toBe( "10% of the words contain over 3 syllables, which is less than or equal to the recommended maximum of 10%." );
 		expect( result.hasMarks() ).toBe( true );
 	} );

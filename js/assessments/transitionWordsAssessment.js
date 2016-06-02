@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 var map = require( "lodash/map" );
 
 var Mark = require( "../values/Mark.js" );
@@ -14,7 +14,9 @@ var marker = require( "../markers/addMark.js" );
  */
 var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var score, unboundedScore;
-	var percentage = fixFloatingPoint ( ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100 );
+	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
+
+	percentage     = formatNumber( percentage );
 	var hasMarks   = ( percentage > 0 );
 
 	if ( percentage <= 23.3 ) {
@@ -27,7 +29,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 		if ( score < 7 ) {
 			var recommendedMinimum = 20;
 			return {
-				score: score,
+				score: formatNumber( score ),
 				hasMarks: hasMarks,
 				text: i18n.sprintf(
 					i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +

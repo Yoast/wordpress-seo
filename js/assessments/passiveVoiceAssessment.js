@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
@@ -14,7 +14,7 @@ var map = require( "lodash/map" );
  */
 var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
-	percentage = fixFloatingPoint( percentage );
+	percentage = formatNumber( percentage );
 	var recommendedValue = 10;
 
 	var hasMarks = ( percentage > 0 );
@@ -23,7 +23,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	// Up to 6.7% passive sentences scores a 9, higher percentages give lower scores.
 	// FloatingPointFix because of js rounding errors
 	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 6.7 ), 6 ), 0 );
-	score = fixFloatingPoint( score );
+	score = formatNumber( score );
 	if ( score >= 7 ) {
 		return {
 			score: score,

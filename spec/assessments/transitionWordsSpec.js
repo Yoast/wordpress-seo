@@ -10,7 +10,7 @@ describe( "An assessment for transition word percentage", function(){
 			transitionWordSentences: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "25.0% of the sentences contain a transition word or phrase, which is great." );
+		expect( assessment.getText() ).toEqual ( "25% of the sentences contain a transition word or phrase, which is great." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 33.3% sentences with transition words", function(){
@@ -27,7 +27,7 @@ describe( "An assessment for transition word percentage", function(){
 		assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 6,
 			transitionWordSentences: 1 } ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 5.019999999999998 );
+		expect( assessment.getScore() ).toEqual( 5 );
 		expect( assessment.getText() ).toEqual ( "16.7% of the sentences contain a transition word or phrase, " +
 			"which is less than the recommended minimum of 20%." );
 		expect( assessment.hasMarks() ).toBe( true );
@@ -45,7 +45,7 @@ describe( "An assessment for transition word percentage", function(){
 		assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
 				transitionWordSentences: 9 } ), i18n );
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "90.0% of the sentences contain a transition word or phrase, which is great." );
+		expect( assessment.getText() ).toEqual ( "90% of the sentences contain a transition word or phrase, which is great." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "is not applicable for empty papers", function(){
