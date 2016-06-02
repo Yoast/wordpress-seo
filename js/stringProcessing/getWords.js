@@ -2,7 +2,7 @@
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var removePunctuation = require( "../stringProcessing/removePunctuation.js" );
+var removeSentenceTerminators = require( "../stringProcessing/removeSentenceTerminators.js" );
 var map = require( "lodash/map" );
 var filter = require( "lodash/filter" );
 
@@ -18,8 +18,8 @@ module.exports = function( text ) {
 		return [];
 	}
 
-	var words = map( text.split( /\s/g ), removePunctuation );
-	
+	var words = map( text.split( /\s/g ), removeSentenceTerminators );
+
 	return filter( words, function( word ) {
 		return word.trim() !== '';
 	} );
