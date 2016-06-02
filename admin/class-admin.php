@@ -78,6 +78,10 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
+
+		if ( WPSEO_Utils::is_yoast_seo_page() ) {
+			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
+		}
 	}
 
 	/**
@@ -117,8 +121,6 @@ class WPSEO_Admin {
 		if ( WPSEO_Utils::grant_access() !== true ) {
 			return;
 		}
-
-		add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
 
 		// Base 64 encoded SVG image.
 		$icon_svg = $this->get_menu_svg();

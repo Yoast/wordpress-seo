@@ -7,6 +7,24 @@
  * Class Test_Yoast_Notification_Center
  */
 class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
+
+	/** @var int User ID */
+	private $user_id;
+
+	/**
+	 * Create user with proper caps
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->user_id = $this->factory->user->create();
+
+		$user = new WP_User( $this->user_id );
+		$user->add_cap( 'manage_options' );
+
+		wp_set_current_user( $this->user_id );
+	}
+
 	/**
 	 * Remove notifications on tearDown
 	 */
@@ -77,9 +95,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_dismissal_key = 'notification_dismissal';
 		$notification               = new Yoast_Notification( 'dismiss', array( 'dismissal_key' => $notification_dismissal_key ) );
 
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-		update_user_meta( $user_id, $notification_dismissal_key, '1' );
+		update_user_meta( $this->user_id, $notification_dismissal_key, '1' );
 
 		$subject = Yoast_Notification_Center::get();
 		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
@@ -93,10 +109,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$subject = Yoast_Notification_Center::get();
 
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-
-		update_user_meta( $user_id, $notification->get_dismissal_key(), '1' );
+		update_user_meta( $this->user_id, $notification->get_dismissal_key(), '1' );
 
 		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
 
@@ -113,10 +126,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$subject = Yoast_Notification_Center::get();
 
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-
-		update_user_meta( $user_id, $notification->get_dismissal_key(), '1' );
+		update_user_meta( $this->user_id, $notification->get_dismissal_key(), '1' );
 
 		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
 
@@ -138,7 +148,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_update_storage() {
 
-		wp_set_current_user(1);
+		wp_set_current_user( 1 );
 
 		$message = 'b';
 		$options = array( 'id' => 'id' );
@@ -328,9 +338,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification = new Yoast_Notification( $message, $options );
 
 		// Dismiss the key for the current user.
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-		update_user_meta( $user_id, $notification_dismissal_key, '1' );
+		update_user_meta( $this->user_id, $notification_dismissal_key, '1' );
 
 		// Add the notification.
 		$subject = Yoast_Notification_Center::get();
@@ -347,13 +355,13 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::add_notification
 	 */
 	public function test_update_nonce_on_re_add_notification() {
-		// Put outdated notification in storage / notification center list
+		// Put outdated notification in storage / notification center list.
 		$notification_center = Yoast_Notification_Center::get();
 
 		$old_nonce = 'outdated';
 
 		$outdated = new Yoast_Notification( 'outdated', array( 'nonce' => $old_nonce, 'id' => 'test' ) );
-		$new = new Yoast_Notification( 'new', array( 'id' => 'test' ) );
+		$new      = new Yoast_Notification( 'new', array( 'id' => 'test' ) );
 
 		$notification_center->add_notification( $outdated );
 		$notification_center->add_notification( $new );
@@ -389,7 +397,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_resolved_notifications() {
 
 		$notification_center = Yoast_Notification_Center::get();
-		$count = $notification_center->get_resolved_notification_count();
+		$count               = $notification_center->get_resolved_notification_count();
 
 		// Apply max for static test problems.
 		$this->assertEquals( 0, max( 0, $count ) );

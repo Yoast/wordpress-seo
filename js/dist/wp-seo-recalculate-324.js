@@ -3238,16 +3238,21 @@ var matchSentenceBeginnings = function( sentenceBeginnings, i ) {
 /**
  * Counts the number of similar sentence beginnings.
  * @param {array} sentenceBeginnings The array containing the first word of each sentence.
+ * @param {array} sentences The array containing all sentences.
  * @returns {array} The array containing the objects containing the first words and the corresponding counts.
  */
-var compareFirstWords = function ( sentenceBeginnings ) {
+var compareFirstWords = function ( sentenceBeginnings, sentences ) {
 	var counts = [];
+	var foundSentences = [];
 	var count = 1;
 	for ( var i = 0; i < sentenceBeginnings.length; i++ ) {
 		if ( matchSentenceBeginnings( sentenceBeginnings, i ) ) {
+			foundSentences.push( sentences[ i ] );
 			count++;
 		} else {
-			counts.push( { word: sentenceBeginnings[ i ], count: count } );
+			foundSentences.push( sentences[ i ] );
+			counts.push( { word: sentenceBeginnings[ i ], count: count, sentences: foundSentences } );
+			foundSentences = [];
 			count = 1;
 		}
 	}
@@ -3272,7 +3277,7 @@ module.exports = function( paper ) {
 		}
 		return firstWord;
 	} );
-	return compareFirstWords( sentenceBeginnings );
+	return compareFirstWords( sentenceBeginnings, sentences );
 };
 
 },{"../language/en/firstWordExceptions.js":31,"../stringProcessing/getSentences.js":84,"../stringProcessing/getWords.js":87,"../stringProcessing/removeNonWordCharacters.js":93,"../stringProcessing/stripSpaces.js":102}],48:[function(require,module,exports){
@@ -7684,15 +7689,17 @@ var getSubheadings = require( "./getSubheadings.js" ).getSubheadings;
 // All characters that indicate a sentence delimiter.
 var sentenceDelimiters = ".?!:;";
 
+var afterPointRegex = /\s|</;
+
 /**
- * Checks if the period is followed with a whitespace. If not, it is no ending of a sentence.
+ * Checks if the period is followed with a whitespace or < for an html-tag. If not, it is no ending of a sentence.
  *
  * @param {string} text The text to split in sentences.
  * @param {number} index The current index to look for.
- * @returns {boolean} True if it doesn't match a whitespace.
+ * @returns {boolean} True if it doesn't match a whitespace or < .
  */
 var invalidateOnWhiteSpace = function( text, index ) {
-	return text.substring( index, index + 1 ).match( /\s/ ) === null;
+	return text.substring( index, index + 1 ).match( afterPointRegex ) === null;
 };
 
 /**
@@ -7706,11 +7713,15 @@ var invalidateOnWhiteSpace = function( text, index ) {
  */
 var invalidateOnCapital = function( text, positions, i ) {
 
+	if ( text.substring( positions[ i ], positions[ i ] + 1 ) === "<" ) {
+		return false;
+	}
+
 	// The current index + 1 should be the first character of the new sentence. We use a range of 1, since we only need the first character.
 	var firstChar = text.substring( positions[ i ] + 1, positions[ i ] + 2 );
 
 	// If a sentence starts with a number or a whitespace, it shouldn't invalidate
-	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( /[\s<]/ ) === null ) {
+	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( afterPointRegex ) === null ) {
 		return true;
 	}
 };
@@ -7757,9 +7768,76 @@ var splitOnIndex = function( positions, text ) {
  */
 var findSubheadings = function( text ) {
 	var subheadings = getSubheadings( text );
-	return map ( subheadings, function( subheading ) {
+	return map( subheadings, function( subheading ) {
 		return subheading.index + subheading[ 0 ].length;
 	} );
+};
+
+/**
+ * Matches a partial tag. If a sentence starts with a tag it should end with it. If it doesn't
+ * it is a partial tag and it should be removed since it can break markers.
+ * @param {string} sentence The sentence to check for tags.
+ * @returns {{startTag: string, endTag: string}} The start and endtag. If no tags are found, both return an empty string.
+ */
+var matchPartialTag = function( sentence ) {
+
+	// Matches a starttag at the beginning of the sentence.
+	var beginMatch = sentence.match( /^<(.\S|>+)/ ) || [];
+
+	// Matches an endtag at the end of the sentence.
+	var endMatch = sentence.match( /\/(.\S+)>$/ ) || [];
+
+	var startTag = "";
+	var endTag = "";
+
+	if ( !isUndefined( beginMatch.length > 1 ) ) {
+		startTag = beginMatch[ 1 ];
+	}
+
+	if ( !isUndefined( endMatch.length > 1 ) ) {
+		endTag = endMatch[ 1 ];
+	}
+
+	return {
+		startTag: startTag,
+		endTag: endTag
+	};
+};
+
+/**
+ * Removes partial tags at the beginning of a sentence. Runs it untill it cannot find partial tags at the beginning.
+ * @param {string} sentence The sentence to check for partial tags.
+ * @returns {string} the sentence with replaced tags.
+ */
+var stripPartialStartTag = function( sentence ) {
+	var tags = matchPartialTag( sentence );
+	while( tags.startTag !== tags.endTag ) {
+		sentence = sentence.replace( /(<([^>]+)>)/, "" );
+		tags = matchPartialTag( sentence );
+	}
+
+	return sentence;
+};
+
+/**
+ * Strips the sentence from excess whitespace and partial tags.
+ * @param {string} sentence The sentence to clean.
+ * @returns {string} The cleaned sentence.
+ */
+var cleanSentence = function( sentence ) {
+
+	// Strip whitespaces at the beginning of the sentence.
+	sentence = sentence.replace( /^\s/, "" );
+
+	// Strip endtag at the beginning of sentence.
+	while( sentence.match( /^(<\/[^>]+>)/ ) !== null ) {
+		sentence = sentence.replace( /^(<\/[^>]+>)/, "" );
+	}
+
+	// Strip partial tags in the sentence.
+	sentence = stripPartialStartTag( sentence );
+
+	return sentence;
 };
 
 /**
@@ -7792,9 +7870,9 @@ module.exports = function( text ) {
 	} );
 	var sentences = splitOnIndex( positions, originalText );
 
-	// Remove whitespace on start of sentence.
+	// Clean sentences by stripping HTMLtags.
 	sentences = map( sentences, function( sentence ) {
-		return sentence.replace( /^\s/, "" );
+		return cleanSentence( sentence );
 	} );
 
 	return filter( sentences, function( sentence ) {
