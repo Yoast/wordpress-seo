@@ -1,21 +1,21 @@
-.wpseo-kb-search-search-bar{
+.wpseo-kb-search-search-bar {
   padding-bottom: 15px;
-  border-bottom:1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 .wpseo-kb-search-results {
   overflow: auto;
 }
 
-.wpseo-kb-search-no-results{
-  margin-top:10px;
+.wpseo-kb-search-no-results {
+  margin-top: 10px;
 }
 
-.wpseo-kb-search-result{
+.wpseo-kb-search-result {
   border-bottom: 1px solid #efefef;
   text-decoration: none;
   color: #000;
-  margin:0;
+  margin: 0;
   display: block;
   padding-left: 5px;
 }
@@ -26,7 +26,7 @@
 }
 
 .wpseo-kb-search-result-link:hover, .wpseo-kb-search-result-link:focus {
-  background-color: rgba(164,40,106, 0.1);
+  background-color: rgba(164, 40, 106, 0.1);
 }
 
 .wpseo-kb-search-result-title {
@@ -51,6 +51,10 @@
   vertical-align: middle;
   font-size: 20px;
   line-height: 1.35em;
+}
+
+.wpseo-kb-search-detail {
+  padding-top: 1.5em;
 }
 
 // LOADING SPINNER - Created by @lukehaas (https://github.com/lukehaas/css-loaders)
@@ -117,7 +121,7 @@
   top: 0;
 }
 
-.dashicons{
+.dashicons {
   text-decoration: none;
 }
 
@@ -142,4 +146,5 @@
     box-shadow: 0 2.5em 0 0;
   }
 }
+
 // END LOADING SPINNER
