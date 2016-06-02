@@ -4,5 +4,5 @@
  * @returns {number} Rounded number
  */
 module.exports = function ( number ) {
-	return Math.round( number * 10 ) / 10;
+	return Math.round( number * 100 ) / 100;
 };
