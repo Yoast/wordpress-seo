@@ -268,8 +268,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					'div',
 					null,
 					searchBar,
-					_react2.default.createElement(Loading, { loadingPlaceholder: this.props.loadingPlaceholder }),
-					this.renderSearchResults()
+					_react2.default.createElement(Loading, { loadingPlaceholder: this.props.loadingPlaceholder })
 				);
 			} else if (this.state.showDetail === false) {
 				// Show the list of search results if the postId for the detail view isn't set.
@@ -311,7 +310,7 @@ AlgoliaSearcher.defaultProps = {
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'acceptance_all',
+	algoliaIndexName: 'knowledge_base_all',
 	errorMessage: 'Something went wrong. Please try again later.',
 	loadingPlaceholder: 'Loading...',
 	back: 'Back',
@@ -687,13 +686,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		jQuery.each(mountingPoints, function (index, mountingPoint) {
 			var tabId = jQuery(mountingPoint).closest('.wpseotab').attr('id');
 			var translations = {
-				'noResultsText': wpseoAdminL10n.kb_no_results,
-				'headingText': wpseoAdminL10n.kb_heading,
-				'errorMessage': wpseoAdminL10n.kb_error_message,
-				'loadingPlaceholder': wpseoAdminL10n.kb_loading_placeholder,
-				'search': wpseoAdminL10n.kb_search,
-				'open': wpseoAdminL10n.open,
-				'back': wpseoAdminL10n.kb_back
+				noResultsText: wpseoAdminL10n.kb_no_results,
+				headingText: wpseoAdminL10n.kb_heading,
+				errorMessage: wpseoAdminL10n.kb_error_message,
+				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
+				search: wpseoAdminL10n.kb_search,
+				open: wpseoAdminL10n.open,
+				back: wpseoAdminL10n.kb_back
 			};
 			algoliaSearchers.push({
 				tabName: tabId,
@@ -713,11 +712,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			});
 			var usedQueries = activeAlgoliaSearcher.state.usedQueries;
 			jQuery(window).trigger('YoastSEO:ContactSupport', { usedQueries: usedQueries });
-		});
-
-		// Open "functionality only avalible for premium" popup.
-		jQuery(window).on('YoastSEO:ContactSupport', function () {
-			showContactPopup();
 		});
 
 		/* Fix banner images overlapping help texts */

@@ -52,7 +52,7 @@ class WPSEO_Help_Center {
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Email support', 'wordpress-seo' ),
-			array( 'content' => '<button type="button" class="button contact-support contact-support-button">Contact support</button>' . $premium_popup->get_premium_popup() )
+			array( 'content' => $premium_popup->get_premium_message( false ) )
 		);
 
 		array_push( $this->help_center_items, $contact_support_help_center_item );

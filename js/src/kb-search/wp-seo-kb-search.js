@@ -194,7 +194,6 @@ class AlgoliaSearcher extends React.Component {
                 <div>
                     {searchBar}
                     <Loading loadingPlaceholder={this.props.loadingPlaceholder}/>
-                    {this.renderSearchResults()}
                 </div>
             );
         }
@@ -230,7 +229,7 @@ AlgoliaSearcher.defaultProps = {
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'acceptance_all',
+	algoliaIndexName: 'knowledge_base_all',
 	errorMessage: 'Something went wrong. Please try again later.',
 	loadingPlaceholder: 'Loading...',
 	back: 'Back',
