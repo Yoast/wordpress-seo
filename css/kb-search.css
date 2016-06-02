@@ -54,6 +54,10 @@
 	vertical-align: middle;
 }
 
+.wpseo-kb-search-detail {
+	padding-top: 1.5em;
+}
+
 .wpseo-kb-loader:before,
 .wpseo-kb-loader:after,
 .wpseo-kb-loader {

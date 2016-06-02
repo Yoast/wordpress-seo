@@ -38,6 +38,7 @@
   border: 1px solid #a4286a;
   border-bottom-left-radius: 10px;
   background-color: white;
+  position: relative;
 
   .wpseo-tab-video__panel__textarea {
     float: left;
@@ -76,6 +77,12 @@
   }
 }
 
+.inside {
+  .wpseo-tab-video-slideout {
+    height: auto;
+  }
+}
+
 .wpseo-help-center-item {
   a {
     display: block;
@@ -110,6 +117,10 @@
 }
 
 .contextual-help-tabs-wrap {
-  width: 100%;
-  padding-left: 20px;
+  position: absolute;
+  left: 180px;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  padding: 0 2em 2em;
 }
