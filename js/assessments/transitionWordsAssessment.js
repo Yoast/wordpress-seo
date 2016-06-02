@@ -14,30 +14,27 @@ var marker = require( "../markers/addMark.js" );
 var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var score, unboundedScore;
 	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
+
 	var hasMarks   = ( percentage > 0 );
 
-	if ( percentage <= 23.3 ) {
-		// The 10 percentage points from 13.3 to 23.3 are scaled to a range of 6 score points: 6/10 = 0.6.
-		// 23.3 scores 9, 13.3 scores 3.
-		unboundedScore = 3 + ( 0.6  * ( percentage - 13.3 ) );
-
-		// Scores exceeding 9 are 9, scores below 3 are 3.
-		score = Math.max( Math.min( unboundedScore, 9 ), 3 );
-		if ( score < 7 ) {
-			var recommendedMinimum = 20;
-			return {
-				score: score,
-				hasMarks: hasMarks,
-				text: i18n.sprintf(
-					i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
-						"which is less than the recommended minimum of %2$s." ),
-					percentage.toFixed( 1 ) + "%", recommendedMinimum + "%" )
-			};
-		}
+	// The 20 percentage points from 31.7 to 51.7 are scaled to a range of 6 score points: 6/20 = 0.3.
+	// 51.7 scores 9, 31.7 scores 3.
+	unboundedScore = 3 + ( 0.3  * ( percentage - 31.7 ) );
+	// Scores exceeding 9 are 9, scores below 3 are 3.
+	score = Math.max( Math.min( unboundedScore, 9 ), 3 );
+	if ( score < 7 ) {
+		var recommendedMinimum = 45;
+		return {
+			score: score,
+			hasMarks: hasMarks,
+			text: i18n.sprintf(
+				i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
+					"which is less than the recommended minimum of %2$s." ),
+				percentage.toFixed( 1 ) + "%", recommendedMinimum + "%" )
+		};
 	}
-	// If percentage > 23.3 the score is always 9.
 	return {
-		score: 9,
+		score: score,
 		hasMarks: hasMarks,
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, which is great."
 		), percentage.toFixed( 1 ) + "%" )
