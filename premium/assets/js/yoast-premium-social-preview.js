@@ -403,7 +403,7 @@ var Jed = require( 'jed' );
 						}
 					}
 
-					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( title );
+					return YoastSEO.wp.replaceVarsPlugin.replaceVariables( title );
 				},
 				modifyDescription: function( description ) {
 					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
@@ -415,7 +415,7 @@ var Jed = require( 'jed' );
 						}
 					}
 
-					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( description );
+					return YoastSEO.wp.replaceVarsPlugin.replaceVariables( description );
 				}
 			},
 			placeholder: {
