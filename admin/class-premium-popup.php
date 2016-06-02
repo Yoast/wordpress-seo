@@ -47,26 +47,27 @@ class WPSEO_Premium_Popup {
 	 * @return string
 	 */
 	public function get_premium_popup() {
-		ob_start();
-		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) : ?>
-			<div id="<?php echo 'wpseo-' . $this->identifier . '-popup' ?>" class="
-			     wpseo-premium-popup" style="display: none;">
-				<img class="alignright" style="margin: 10px;"
-				     src="<?php echo trailingslashit( plugin_dir_url( WPSEO_FILE ) ); ?>images/Yoast_SEO_Icon.svg"
-				     width="150" alt=""/>
-				<h1 id="wpseo-contact-support-popup-title"
-				    class="wpseo-premium-popup-title"><?php echo $this->title ?></h1>
-				<p>
-					<?php
-					echo $this->content
-					?>
-				</p>
-				/* translators: %s expands to Yoast SEO Premium */
-				<a id="<?php echo 'wpseo-' . $this->identifier . '-popup-button' ?>" class="button-primary"
-				   href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&amp;utm_medium=popup&amp;utm_campaign=help-center-contact-support"><?php printf( __( 'Buy %s', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
-			</div>
-			<?php
-		endif;
+		// Don't show in Premium.
+		if ( defined( 'WPSEO_PREMIUM_FILE' ) ) {
+			return '';
+		}
+
+		$assets_uri = trailingslashit( plugin_dir_url( WPSEO_FILE ) );
+		$premium_uri = 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&amp;utm_medium=popup&amp;utm_campaign=help-center-contact-support';
+
+		/* translators: %s expands to Yoast SEO Premium */
+		$cta_text = sprintf( __( 'Buy %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+
+        ob_start();
+		?>
+        <div id="<?php echo 'wpseo-' . $this->identifier . '-popup' ?>" class="wpseo-premium-popup" style="display: none;">
+            <img class="alignright" style="margin: 10px;" src="<?php echo $assets_uri?>images/Yoast_SEO_Icon.svg" width="150" alt="Yoast SEO"/>
+                <h1 id="wpseo-contact-support-popup-title" class="wpseo-premium-popup-title"><?php echo $this->title ?></h1>
+                <p><?php echo $this->content ?></p>
+
+                <a id="wpseo-<?php echo $this->identifier ?>-popup-button" class="button-primary" href="<?php echo $premium_uri?>"><?php echo $cta_text ?></a>
+            </div>
+        <?php
 
 		return ob_get_clean();
 	}

@@ -702,11 +702,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			jQuery(window).trigger('YoastSEO:ContactSupport', { usedQueries: usedQueries });
 		});
 
-		// Open "functionality only avalible for premium" popup.
-		jQuery(window).on('YoastSEO:ContactSupport', function () {
-			showContactPopup();
-		});
-
 		/* Fix banner images overlapping help texts */
 		jQuery('.screen-meta-toggle a').click(function () {
 			jQuery('#sidebar-container').toggle();
