@@ -109,7 +109,7 @@ abstract class WPSEO_Watcher {
 			'</a>'
 		);
 
-		$this->create_notification( $message, 'delete' ); // , $id );
+		$this->create_notification( $message, 'delete' );
 	}
 
 	/**
@@ -213,7 +213,7 @@ abstract class WPSEO_Watcher {
 		);
 
 		// Only set notification when the slug change was not saved through quick edit.
-		$this->create_notification( $message, 'slug_change' ); // , $id );
+		$this->create_notification( $message, 'slug_change' );
 	}
 
 	/**

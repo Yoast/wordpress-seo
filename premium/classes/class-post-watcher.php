@@ -158,7 +158,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 				'</button>'
 			);
 
-			$this->create_notification( $message, 'untrash' ); // , $id );
+			$this->create_notification( $message, 'untrash' );
 		}
 
 	}
