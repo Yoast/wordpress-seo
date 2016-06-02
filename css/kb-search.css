@@ -39,6 +39,21 @@
 	float: right;
 }
 
+.wpseo-kb-search-back-button:before {
+	content: "\f141";
+}
+
+.wpseo-kb-search-ext-link:before {
+	content: "\f504";
+}
+
+.dashicon-button:before {
+	font-family: "dashicons";
+	font-size: 20px;
+	line-height: 1.35em;
+	vertical-align: middle;
+}
+
 .wpseo-kb-loader:before,
 .wpseo-kb-loader:after,
 .wpseo-kb-loader {

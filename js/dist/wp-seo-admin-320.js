@@ -211,16 +211,15 @@ var AlgoliaSearcher = function (_React$Component) {
 				{ className: 'wpseo-kb-search-detail' },
 				_react2.default.createElement(
 					'button',
-					{ className: 'button',
+					{ className: 'button dashicon-button wpseo-kb-search-back-button',
 						onClick: this.hideDetail },
-					_react2.default.createElement('span', { className: 'dashicons dashicons-arrow-left' }),
 					'Back'
 				),
 				_react2.default.createElement(
 					'a',
 					{ href: post.permalink,
-						className: 'wpseo-kb-search-ext-link button' },
-					_react2.default.createElement('span', { className: 'dashicons dashicons-external' }),
+						className: 'button dashicon-button wpseo-kb-search-ext-link ',
+						target: '_blank' },
 					'Open'
 				),
 				_react2.default.createElement(ArticleContent, { post: post })

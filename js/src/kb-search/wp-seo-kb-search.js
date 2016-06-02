@@ -105,9 +105,9 @@ class AlgoliaSearcher extends React.Component {
 		let articleLink = post.permalink;
 		usedQueries[ this.state.searchString ][ postId ] = {title: articleTitle, link: articleLink};
 		this.setState({
-						  showDetail: resultArrayIndex,
-						  usedQueries: usedQueries
-					  });
+			showDetail: resultArrayIndex,
+			usedQueries: usedQueries
+		});
 	}
 
 	/**
@@ -145,14 +145,13 @@ class AlgoliaSearcher extends React.Component {
         let post = this.state.results[ detailIndex ];
         return (
             <div className="wpseo-kb-search-detail">
-                <button className="button"
+                <button className="button dashicon-button wpseo-kb-search-back-button"
                    onClick={this.hideDetail}>
-                    <span className="dashicons dashicons-arrow-left"/>
                     Back
                 </button>
                 <a href={post.permalink}
-                   className="wpseo-kb-search-ext-link button">
-                    <span className="dashicons dashicons-external"/>
+                   className="button dashicon-button wpseo-kb-search-ext-link "
+					target="_blank">
                     Open
                 </a>
                 <ArticleContent post={post}/>
