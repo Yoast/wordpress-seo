@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-02 08:06:45+00:00\n"
+"POT-Creation-Date: 2016-06-02 09:04:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3846,14 +3846,14 @@ msgid ""
 msgstr ""
 
 #. translators: %1$d expands to the recommended maximum number of characters.
-#: js/assessments/getSubheadingLengthAssessment.js:32
+#: js/assessments/getSubheadingLengthAssessment.js:31
 msgid ""
-"The length of all subheadings is less than or equal to the recommended "
-"maximum of %1$d characters, which is great."
+"The length of all subheadings is less than the recommended maximum of %1$d "
+"characters, which is great."
 msgstr ""
 
 #. translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
-#: js/assessments/getSubheadingLengthAssessment.js:45
+#: js/assessments/getSubheadingLengthAssessment.js:43
 msgid ""
 "You have %1$d subheading containing more than the recommended maximum of "
 "%2$d characters."
@@ -3964,12 +3964,12 @@ msgid ""
 "competition? Could it be made more appealing?"
 msgstr ""
 
-#: js/assessments/paragraphTooLongAssessment.js:44
+#: js/assessments/paragraphTooLongAssessment.js:43
 msgid "None of your paragraphs are too long, which is great."
 msgstr ""
 
 #. translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
-#: js/assessments/paragraphTooLongAssessment.js:52
+#: js/assessments/paragraphTooLongAssessment.js:50
 msgid ""
 "%1$d of the paragraphs contains more than the recommended maximum of %2$d "
 "words. Are you sure all information is about the same topic, and therefore "
@@ -3997,24 +3997,22 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:36
+#: js/assessments/passiveVoiceAssessment.js:33
 msgid ""
-"%1$s of the sentences contain a passive voice, which is less than or equal "
-"to the recommended maximum of %2$s."
+"%1$s of the sentences is written in the passive voice, which is within the "
+"recommended range."
 msgstr ""
 
-#. translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:50
+#: js/assessments/passiveVoiceAssessment.js:45
 msgid ""
-"%1$s of the sentences contain a passive voice, which is more than the "
-"recommended maximum of %2$s. Try to use their active counterparts."
+"%1$s of the sentences is written in the passive voice, which is more than "
+"the recommended maximum of %2$s. Try to use their active counterparts."
 msgstr ""
 
 #. translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
 #. with the same word.
 #. %2$d expands to the number of consecutive sentences starting with the same word.
-#: js/assessments/sentenceBeginningsAssessment.js:49
+#: js/assessments/sentenceBeginningsAssessment.js:36
 msgid ""
 "Your text contains %2$d consecutive sentences starting with the same word. "
 "Try to mix things up!"
@@ -4039,17 +4037,13 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
-#. %3$s expands to the recommended amount of words.
-#: js/assessments/sentenceLengthInTextAssessment.js:57
+#: js/assessments/sentenceLengthInTextAssessment.js:55
 msgid ""
-"%1$s of the sentences contain more than %3$d words, which is less than or "
-"equal to the recommended maximum of %2$s."
+"%1$s of the sentences contain more than %3$d words, which is less than the "
+"recommended maximum of %2$s."
 msgstr ""
 
-#. translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
-#. %3$s expands to the recommended amount of words.
-#: js/assessments/sentenceLengthInTextAssessment.js:68
+#: js/assessments/sentenceLengthInTextAssessment.js:65
 msgid ""
 "%1$s of the sentences contain more than %3$d words, which is more than the "
 "recommended maximum of %2$s. Try to shorten your sentences."
@@ -4058,23 +4052,21 @@ msgstr ""
 #. translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
 #: js/assessments/sentenceVariationAssessment.js:30
 msgid ""
-"The sentence length variation score is %1$s, which is more than or equal to "
-"the recommended minimum of %2$d. The text contains a nice combination of "
-"long and short sentences."
+"The sentence variation score is %1$s, which is above the recommended minimum "
+"of %2$d. The text contains a nice combination of long and short sentences."
 msgstr ""
 
 #. translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
 #: js/assessments/sentenceVariationAssessment.js:43
 msgid ""
-"The sentence length variation score is %1$s, which is less than the "
-"recommended minimum of %2$d. Try to alternate more between long and short "
-"sentences."
+"The sentence variation score is %1$s, which is less than the recommended "
+"minimum of %2$d. Try to alternate more between long and short sentences."
 msgstr ""
 
 #: js/assessments/subheadingDistributionTooLongAssessment.js:41
 msgid ""
-"The amount of words following each of your subheadings doesn't exceed the "
-"recommended maximum of %1$d words, which is great."
+"The amount of words following after each of your subheadings don't exceed "
+"the recommended maximum of %1$d words, which is great."
 msgstr ""
 
 #: js/assessments/subheadingDistributionTooLongAssessment.js:52
@@ -4089,19 +4081,19 @@ msgstr[1] ""
 
 #: js/assessments/subheadingDistributionTooShortAssessment.js:41
 msgid ""
-"The number of words following each of your subheadings exceeds the "
+"The amount of words following after each of your subheadings all exceed the "
 "recommended minimum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooShortAssessment.js:53
+#: js/assessments/subheadingDistributionTooShortAssessment.js:52
 msgid ""
-"The number of words following %1$d of your subheadings is less than or equal "
-"to the recommended minimum of %2$d words. Consider deleting that particular "
-"subheading, or the following subheading."
+"%1$d of the subheadings is followed by less than the recommended minimum of "
+"%2$d words. Consider deleting that particular subheading, or the following "
+"subheading."
 msgid_plural ""
-"The number of words following %1$d of your subheadings is less than or equal "
-"to the recommended minimum of %2$d words. Consider deleting those particular "
-"subheadings, or the subheading following each of them."
+"%1$d of the subheadings are followed by less than the recommended minimum of "
+"%2$d words. Consider deleting those particular subheadings, or the "
+"subheading following each of them."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -4170,7 +4162,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/textCompetingLinksAssessment.js:20
+#: js/assessments/textCompetingLinksAssessment.js:19
 msgid ""
 "You're linking to another page with the focus keyword you want this page to "
 "rank for. Consider changing that if you truly want this page to rank."
@@ -4201,43 +4193,43 @@ msgstr ""
 #. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:17
 msgid ""
-"The text contains %1$d word, which is more than the recommended minimum of "
-"%2$d word."
+"The text contains %1$d word. This is more than the %2$d word recommended "
+"minimum."
 msgid_plural ""
-"The text contains %1$d words, which is more than the recommended minimum of "
-"%2$d words."
+"The text contains %1$d words. This is more than the %2$d word recommended "
+"minimum."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:30
 msgid ""
-"The text contains %1$d word, which is slightly below the recommended minimum "
-"of %2$d word. Add a bit more copy."
+"The text contains %1$d word. This is slightly below the %2$d word "
+"recommended minimum. Add a bit more copy."
 msgid_plural ""
-"The text contains %1$d words, which is slightly below the recommended "
-"minimum of %2$d words. Add a bit more copy."
+"The text contains %1$d words. This is slightly below the %2$d word "
+"recommended minimum. Add a bit more copy."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:43
-#: js/assessments/textLengthAssessment.js:58
+#: js/assessments/textLengthAssessment.js:56
 msgid ""
-"The text contains %1$d word, which is below the recommended minimum of %2$d "
-"word. Add more useful content on this topic for readers."
+"The text contains %1$d word. This is below the %2$d word recommended "
+"minimum. Add more useful content on this topic for readers."
 msgid_plural ""
-"The text contains %1$d words, which is below the recommended minimum of %2$d "
-"words. Add more useful content on this topic for readers."
+"The text contains %1$d words. This is below the %2$d word recommended "
+"minimum. Add more useful content on this topic for readers."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$d expands to the number of words in the text
-#: js/assessments/textLengthAssessment.js:73
+#: js/assessments/textLengthAssessment.js:69
 msgid ""
-"The text contains %1$d word, which is far too low. Increase the word count."
+"The text contains %1$d word. This is far too low and should be increased."
 msgid_plural ""
-"The text contains %1$d words, which is far too low. Increase the word count."
+"The text contains %1$d words. This is far too low and should be increased."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -4319,13 +4311,19 @@ msgstr[1] ""
 msgid "Please create a page title."
 msgstr ""
 
-#: js/assessments/transitionWordsAssessment.js:32
+#: js/assessments/transitionWordsAssessment.js:31
 msgid ""
 "%1$s of the sentences contain a transition word or phrase, which is less "
 "than the recommended minimum of %2$s."
 msgstr ""
 
-#: js/assessments/transitionWordsAssessment.js:42
+#: js/assessments/transitionWordsAssessment.js:49
+msgid ""
+"%1$s of the sentences contain a transition word or phrase, which is more "
+"than the recommended maximum of %2$s."
+msgstr ""
+
+#: js/assessments/transitionWordsAssessment.js:61
 msgid ""
 "%1$s of the sentences contain a transition word or phrase, which is great."
 msgstr ""
@@ -4358,21 +4356,16 @@ msgstr[1] ""
 msgid "http://en.wikipedia.org/wiki/Stop_words"
 msgstr ""
 
-#: js/assessments/wordComplexityAssessment.js:51
+#: js/assessments/wordComplexityAssessment.js:49
 msgid ""
 "%1$s of the words contain over %2$d syllables, which is less than or equal "
 "to the recommended maximum of %3$s."
 msgstr ""
 
-#: js/assessments/wordComplexityAssessment.js:64
+#: js/assessments/wordComplexityAssessment.js:61
 msgid ""
 "%1$s of the words contain over %2$d syllables, which is more than the "
 "recommended maximum of %3$s."
-msgstr ""
-
-#. translators: %1$s expands to the name of the assessment.
-#: js/assessor.js:161
-msgid "An error occured in the '%1$s' assessment"
 msgstr ""
 
 #: js/bundledPlugins/previouslyUsedKeywords.js:65
