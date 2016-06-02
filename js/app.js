@@ -54,9 +54,9 @@ var defaults = {
 		"pageTitleLength",
 		"firstParagraph",
 		"'keywordDoubles" ],
-	typeDelay: 300,
-	typeDelayStep: 100,
-	maxTypeDelay: 1500,
+	typeDelay: 1500,
+	typeDelayStep: 250,
+	maxTypeDelay: 5000,
 	dynamicDelay: true,
 	locale: "en_US",
 	translations: {
@@ -217,6 +217,9 @@ var App = function( args ) {
 
 	this.config = args;
 
+	// Overwrite refresh function to make sure it can be debounced.
+	this.refresh = debounce( this.refresh.bind( this ), this.config.typeDelay );
+
 	this.callbacks = this.config.callbacks;
 	this.i18n = this.constructI18n( this.config.translations );
 
@@ -254,9 +257,6 @@ var App = function( args ) {
 	}
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
-
-	// Overwrite refresh function to make sure it can be debounced.
-	this.refresh = debounce( this.refresh.bind( this ), this.config.typeDelay );
 
 	this.refresh();
 };
