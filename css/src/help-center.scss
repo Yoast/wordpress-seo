@@ -1,5 +1,10 @@
+/* Dynamically set when the Help is expanded to avoid horizontal scrolling */
+#wpcontent.yoast-help-center-open {
+	overflow-x: hidden;
+}
+
 .wpseo-tab-video-container {
-  margin-bottom: 1em;
+  margin-bottom: 20px;
   border-bottom: 1px solid #a4286a;
 
   &__handle {
@@ -38,7 +43,7 @@
   margin: 0 -9999px;
   padding: 2em 9999px;
   background-color: #a4286a;
-  box-shadow: inset 0 0 10px 5px rgba(123, 30, 80, 0.5);
+  box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
   /* hide the container bottom border when expanded */
   margin-bottom: -1px;
 
@@ -93,6 +98,21 @@
     margin-right: 1em;
 	margin-bottom: 1em;
   }
+}
+
+/* When it's inside the metabox (posts, terms, media ). */
+.postbox .wpseo-tab-video-container {
+  margin: -6px -12px 20px;
+
+  &__handle {
+	margin-left: 4px;
+  }
+}
+
+/* When it's inside the metabox (posts, terms, media ). */
+.postbox .wpseo-tab-video-slideout {
+  margin: 0;
+  padding: 2em 12px 15px;
 }
 
 .wpseo-help-center-item {
