@@ -95,73 +95,6 @@ var findSubheadings = function( text ) {
 };
 
 /**
- * Matches a partial tag. If a sentence starts with a tag it should end with it. If it doesn't
- * it is a partial tag and it should be removed since it can break markers.
- * @param {string} sentence The sentence to check for tags.
- * @returns {{startTag: string, endTag: string}} The start and endtag. If no tags are found, both return an empty string.
- */
-var matchPartialTag = function( sentence ) {
-
-	// Matches a starttag at the beginning of the sentence.
-	var beginMatch = sentence.match( /^<(.\S|>+)/ ) || [];
-
-	// Matches an endtag at the end of the sentence.
-	var endMatch = sentence.match( /\/(.\S+)>$/ ) || [];
-
-	var startTag = "";
-	var endTag = "";
-
-	if ( !isUndefined( beginMatch.length > 1 ) ) {
-		startTag = beginMatch[ 1 ];
-	}
-
-	if ( !isUndefined( endMatch.length > 1 ) ) {
-		endTag = endMatch[ 1 ];
-	}
-
-	return {
-		startTag: startTag,
-		endTag: endTag
-	};
-};
-
-/**
- * Removes partial tags at the beginning of a sentence. Runs it untill it cannot find partial tags at the beginning.
- * @param {string} sentence The sentence to check for partial tags.
- * @returns {string} the sentence with replaced tags.
- */
-var stripPartialStartTag = function( sentence ) {
-	var tags = matchPartialTag( sentence );
-	while( tags.startTag !== tags.endTag ) {
-		sentence = sentence.replace( /(<([^>]+)>)/, "" );
-		tags = matchPartialTag( sentence );
-	}
-
-	return sentence;
-};
-
-/**
- * Strips the sentence from excess whitespace and partial tags.
- * @param {string} sentence The sentence to clean.
- * @returns {string} The cleaned sentence.
- */
-var cleanSentence = function( sentence ) {
-
-	// Strip whitespaces at the beginning of the sentence.
-	sentence = sentence.replace( /^\s/, "" );
-
-	// Strip endtag at the beginning of sentence.
-	while( sentence.match( /^(<\/[^>]+>)/ ) !== null ) {
-		sentence = sentence.replace( /^(<\/[^>]+>)/, "" );
-	}
-
-	// Strip partial tags in the sentence.
-	sentence = stripPartialStartTag( sentence );
-
-	return sentence;
-};
-
-/**
  * Returns sentences in a string.
  * @param {String} text The string to count sentences in.
  * @returns {Array} Sentences found in the text.
@@ -193,7 +126,7 @@ module.exports = function( text ) {
 
 	// Clean sentences by stripping HTMLtags.
 	sentences = map( sentences, function( sentence ) {
-		return cleanSentence( sentence );
+		return sentence.replace( /^\s/, "" );
 	} );
 
 	return filter( sentences, function( sentence ) {
