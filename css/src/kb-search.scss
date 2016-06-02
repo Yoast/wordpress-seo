@@ -53,9 +53,16 @@
   line-height: 1.35em;
 }
 
-.wpseo-kb-search-detail {
-  padding-top: 1.5em;
+.wpseo-kb-search-navigation {
+  z-index: 10;
+  padding: 1em 0;
 }
+
+.kb-search-content-frame{
+  width: 100%;
+  height: 543px;
+}
+
 
 // LOADING SPINNER - Created by @lukehaas (https://github.com/lukehaas/css-loaders)
 //The MIT License (MIT)

@@ -210,17 +210,21 @@ var AlgoliaSearcher = function (_React$Component) {
 				'div',
 				{ className: 'wpseo-kb-search-detail' },
 				_react2.default.createElement(
-					'button',
-					{ className: 'button dashicon-button wpseo-kb-search-back-button',
-						onClick: this.hideDetail },
-					this.props.back
-				),
-				_react2.default.createElement(
-					'a',
-					{ href: post.permalink,
-						className: 'button dashicon-button wpseo-kb-search-ext-link ',
-						target: '_blank' },
-					this.props.open
+					'div',
+					{ className: 'wpseo-kb-search-navigation' },
+					_react2.default.createElement(
+						'button',
+						{ className: 'button dashicon-button wpseo-kb-search-back-button',
+							onClick: this.hideDetail },
+						this.props.back
+					),
+					_react2.default.createElement(
+						'a',
+						{ href: post.permalink,
+							className: 'button dashicon-button wpseo-kb-search-ext-link ',
+							target: '_blank' },
+						this.props.open
+					)
 				),
 				_react2.default.createElement(ArticleContent, { post: post })
 			);
@@ -389,23 +393,7 @@ var SearchResult = function SearchResult(props) {
  */
 var ArticleContent = function ArticleContent(props) {
 	var post = props.post;
-	return _react2.default.createElement(
-		'div',
-		null,
-		_react2.default.createElement(
-			'h3',
-			null,
-			post.post_title
-		),
-		_react2.default.createElement(
-			'article',
-			null,
-			_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: post.post_content } })
-		)
-	);
-	// dangerouslySetInnerHTML is used to render the html instead of displaying its flat value.
-	// This can be done as long as the content (in this case post.post_content) originates from our own websites.
-	// This way we can be sure the content will cause no harm.
+	return _react2.default.createElement('iframe', { src: uri, className: 'kb-search-content-frame' });
 };
 
 /**

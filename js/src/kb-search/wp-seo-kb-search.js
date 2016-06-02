@@ -145,15 +145,17 @@ class AlgoliaSearcher extends React.Component {
         let post = this.state.results[ detailIndex ];
         return (
             <div className="wpseo-kb-search-detail">
-                <button className="button dashicon-button wpseo-kb-search-back-button"
-                   onClick={this.hideDetail}>
-					{this.props.back}
-                </button>
-                <a href={post.permalink}
-                   className="button dashicon-button wpseo-kb-search-ext-link "
-					target="_blank">
-					{this.props.open}
-                </a>
+				<div className="wpseo-kb-search-navigation">
+					<button className="button dashicon-button wpseo-kb-search-back-button"
+					   onClick={this.hideDetail}>
+						{this.props.back}
+					</button>
+					<a href={post.permalink}
+					   className="button dashicon-button wpseo-kb-search-ext-link "
+						target="_blank">
+						{this.props.open}
+					</a>
+				</div>
                 <ArticleContent post={post}/>
             </div>
         );
@@ -285,16 +287,8 @@ const SearchResult = ( props ) => {
 const ArticleContent = ( props ) => {
 	let post = props.post;
 	return (
-		<div>
-			<h3>{post.post_title}</h3>
-			<article>
-				<div dangerouslySetInnerHTML={{__html: post.post_content}}></div>
-			</article>
-		</div>
+		<iframe src={uri} className="kb-search-content-frame"/>
 	);
-	// dangerouslySetInnerHTML is used to render the html instead of displaying its flat value.
-	// This can be done as long as the content (in this case post.post_content) originates from our own websites.
-	// This way we can be sure the content will cause no harm.
 };
 
 /**
