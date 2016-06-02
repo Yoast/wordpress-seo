@@ -270,13 +270,13 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 			jQuery.each( mountingPoints, function( index, mountingPoint ) {
 				var tabId = jQuery( mountingPoint ).closest( '.wpseotab' ).attr( 'id' );
 				var translations = {
-					'noResultsText': wpseoAdminL10n.kb_no_results,
-					'headingText': wpseoAdminL10n.kb_heading,
-					'errorMessage': wpseoAdminL10n.kb_error_message,
-					'loadingPlaceholder': wpseoAdminL10n.kb_loading_placeholder,
-					'search': wpseoAdminL10n.kb_search,
-					'open': wpseoAdminL10n.open,
-					'back': wpseoAdminL10n.kb_back
+					noResultsText: wpseoAdminL10n.kb_no_results,
+					headingText: wpseoAdminL10n.kb_heading,
+					errorMessage: wpseoAdminL10n.kb_error_message,
+					loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
+					search: wpseoAdminL10n.kb_search,
+					open: wpseoAdminL10n.open,
+					back: wpseoAdminL10n.kb_back
 				};
 				algoliaSearchers.push( {
 					tabName: tabId,
