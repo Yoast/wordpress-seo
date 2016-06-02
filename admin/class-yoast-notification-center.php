@@ -426,7 +426,10 @@ class Yoast_Notification_Center {
 		}
 
 		if ( is_array( $stored_notifications ) ) {
-			$this->notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
+			$notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
+			$notifications = array_filter( $notifications, array( $this, 'filter_notification_current_user' ) );
+
+			$this->notifications = $notifications;
 		}
 	}
 
@@ -540,6 +543,17 @@ class Yoast_Notification_Center {
 			$notification_data['message'],
 			$notification_data['options']
 		);
+	}
+
+	/**
+	 * Filter notifications that should not be displayed for the current user
+	 *
+	 * @param Yoast_Notification $notification Notification to test.
+	 *
+	 * @return bool
+	 */
+	private function filter_notification_current_user( Yoast_Notification $notification ) {
+		return $notification->display_for_current_user();
 	}
 
 	/**

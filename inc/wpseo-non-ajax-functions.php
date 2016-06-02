@@ -20,9 +20,15 @@ function wpseo_admin_bar_menu() {
 
 	global $wp_admin_bar, $post;
 
+	$admin_menu = current_user_can( 'manage_options' );
+	if ( ! $admin_menu && is_multisite() ) {
+		$options    = get_site_option( 'wpseo_ms' );
+		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
+	}
+
 	$focuskw = '';
 	$score   = '';
-	$seo_url = get_admin_url( null, 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
+	$seo_url = '';
 
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
 					'post.php',
@@ -43,7 +49,9 @@ function wpseo_admin_bar_menu() {
 	// Never display notifications for network admin.
 	$counter = '';
 
-	if ( ! function_exists( 'is_network_admin' ) || ! is_network_admin() ) {
+	if ( $admin_menu ) {
+
+		$seo_url = get_admin_url( null, 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
 
 		if ( '' === $score ) {
 
@@ -202,13 +210,6 @@ function wpseo_admin_bar_menu() {
 		}
 	}
 
-	$admin_menu = current_user_can( 'manage_options' );
-
-	if ( ! $admin_menu && is_multisite() ) {
-		$options    = get_site_option( 'wpseo_ms' );
-		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
-	}
-
 	// @todo: add links to bulk title and bulk description edit pages.
 	if ( $admin_menu ) {
 		$wp_admin_bar->add_menu( array(
@@ -273,6 +274,10 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
 	$asset_manager = new WPSEO_Admin_Asset_Manager();
 	$asset_manager->register_assets();
 	$asset_manager->enqueue_style( 'adminbar' );
