@@ -147,12 +147,12 @@ class AlgoliaSearcher extends React.Component {
             <div className="wpseo-kb-search-detail">
                 <button className="button dashicon-button wpseo-kb-search-back-button"
                    onClick={this.hideDetail}>
-                    Back
+					{this.props.back}
                 </button>
                 <a href={post.permalink}
                    className="button dashicon-button wpseo-kb-search-ext-link "
 					target="_blank">
-                    Open
+					{this.props.open}
                 </a>
                 <ArticleContent post={post}/>
             </div>
@@ -220,7 +220,9 @@ AlgoliaSearcher.propTypes = {
 	algoliaApiKey: React.PropTypes.string.isRequired,
 	algoliaIndexName: React.PropTypes.string.isRequired,
 	errorMessage: React.PropTypes.string.isRequired,
-	loadingPlaceholder: React.PropTypes.string.isRequired
+	loadingPlaceholder: React.PropTypes.string.isRequired,
+	open: React.PropTypes.string.isRequired,
+	back: React.PropTypes.string.isRequired,
 };
 
 AlgoliaSearcher.defaultProps = {
@@ -230,7 +232,9 @@ AlgoliaSearcher.defaultProps = {
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'acceptance_all',
 	errorMessage: 'Something went wrong. Please try again later.',
-	loadingPlaceholder: 'Loading...'
+	loadingPlaceholder: 'Loading...',
+	back: 'Back',
+	open: 'Open',
 };
 
 /**
