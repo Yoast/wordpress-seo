@@ -53,8 +53,6 @@ foreach ( $tabs->get_tabs() as $tab ) {
 }
 echo '</h2>';
 
-echo '<br/>';
-
 require_once WPSEO_PATH . 'admin/views/tabs/advanced/' . $active_tab->get_name() . '.php';
 
 Yoast_Form::get_instance()->admin_footer();

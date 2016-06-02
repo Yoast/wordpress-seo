@@ -109,6 +109,15 @@ label.radio {
 	vertical-align: top;
 }
 
+.wpseo-remove-ads {
+	margin-top: 0;
+	padding: 12px;
+	border: 1px solid #0075b3;
+	border-radius: 20px;
+	border-bottom-right-radius: 0;
+	background-color: #fff;
+}
+
 #wpseo_content_top {
 	min-width: 800px;
 }
@@ -211,6 +220,10 @@ table.yoast_help td {
 	padding: 5px 10px;
 	text-align: left;
 	vertical-align: text-top;
+}
+
+table.yoast_help tr {
+	background-color: #f1f1f1;
 }
 
 table.yoast_help tr:nth-child(2n) {

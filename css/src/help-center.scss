@@ -1,20 +1,17 @@
 .wpseo-tab-video-container {
-  overflow: hidden;
   margin-bottom: 1em;
-  border-radius: 10px;
-  border-bottom-right-radius: 0;
-  background-color: #a4286a;
+  border-bottom: 1px solid #a4286a;
 
   &__handle {
-    width: 100%;
-    margin: 0;
-    padding: 0.5em;
+    margin: 6px 0;
+    padding: 6px;
     border: none;
     outline: none;
-    color: white;
-    background-color: #a4286a;
+    color: #a4286a;
+    background: none;
     text-align: left;
     cursor: pointer;
+	line-height: 19px;
 
     .toggle__arrow {
       text-decoration: none;
@@ -31,19 +28,41 @@
   }
 }
 
+.wpseotab .wpseo-tab-video-container {
+  margin-top: -15px;
+}
+
 .wpseo-tab-video-slideout {
   display: none;
   overflow: hidden;
-  padding: 0.5em 0.5em 0.5em;
-  border: 1px solid #a4286a;
-  border-bottom-left-radius: 10px;
-  background-color: white;
+  margin: 0 -9999px;
+  padding: 2em 9999px;
+  background-color: #a4286a;
+  box-shadow: inset 0 0 10px 5px rgba(123, 30, 80, 0.5);
+  /* hide the container bottom border when expanded */
+  margin-bottom: -1px;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+	margin-top: 0.5em;
+	color: white;
+	font-weight: 500;
+  }
+
+  p {
+	color: white;
+	font-weight: 300;
+  }
 
   .wpseo-tab-video__panel__textarea {
     float: left;
     width: 260px;
-    margin: 0.5em 1em 0 0;
-    padding: 15px;
+    margin: 0 1em 1em 0;
+    padding: 15px 15px 5px;
     border: 1px solid;
     border-color: white;
     border-radius: 30px;
@@ -52,16 +71,17 @@
 
     h3 {
       margin: 0;
-      color: white;
     }
   }
 
   .yoast-help-center-tabs {
     width: 180px;
-    margin: -0.5em;
-    padding-left: 0.5em;
     color: white;
     background-color: #a4286a;
+
+	ul {
+	  margin: 0;
+	}
   }
 
   .help-tab-content {
@@ -71,20 +91,26 @@
   .wpseo-tab-video__panel {
     clear: both;
     margin-right: 1em;
+	margin-bottom: 1em;
   }
 }
 
 .wpseo-help-center-item {
+  display: inline;
+
   a {
     display: block;
-    padding: 0.5em;
-    color: white;
+	padding: 10px 12px;
+	color: white;
+	text-decoration: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
   }
 
   &.active a {
-    border: 1px solid white;
-    border-right-width: 0;
-    border-left: 2px solid rgb(97, 5, 54);
     color: #a4286a;
     background-color: white;
   }
@@ -97,7 +123,7 @@
   a:hover,
   a:focus {
     color: white;
-    font-weight: bold;
+    font-weight: 500;
   }
 }
 
