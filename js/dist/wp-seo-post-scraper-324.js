@@ -2026,27 +2026,33 @@ module.exports = {
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isTextTooLong = require( "../helpers/isValueTooLong" );
 var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
+
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../markers/addMark.js" );
+
+// The maximum recommended value of the subheading text.
+var recommendedValue = 300;
 
 /**
  * Counts the number of subheading texts that are too long.
  * @param {Array} subheadingTextsLength Array with subheading text lengths.
- * @param {number} recommendedValue The recommended maximum value of the subheading text length
  * @returns {number} The number of subheading texts that are too long.
  */
-var getTooLongSubheadingTexts = function( subheadingTextsLength, recommendedValue ) {
-	var tooLongTexts = filter( subheadingTextsLength, isTextTooLong.bind( null, recommendedValue ) );
-	return tooLongTexts.length;
+var getTooLongSubheadingTexts = function( subheadingTextsLength ) {
+	return filter( subheadingTextsLength, function( subheading ) {
+		return isTextTooLong( recommendedValue, subheading.wordCount );
+	} );
 };
 
 /**
  * Calculates the score based on the subheading texts length.
  * @param {Array} subheadingTextsLength Array with subheading text lengths.
  * @param {number} tooLongTexts The number of subheading texts that are too long.
- * @param {number} recommendedValue The recommended maximum value of the subheading text length
  * @param {object} i18n The object used for translations.
  * @returns {object} the resultobject containing a score and text if subheadings are present
  */
-var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, recommendedValue, i18n ) {
+var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, i18n ) {
 
 	// Return empty result if there are no subheadings
 	if ( subheadingTextsLength.length === 0 ) {
@@ -2055,7 +2061,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, recom
 
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 100 steps, each step is 0.06.
 	// Up to 267  is for scoring a 9, higher numbers give lower scores.
-	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( subheadingTextsLength[ 0 ] - 267 ), 6 ), 0 );
+	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( subheadingTextsLength[ 0 ].wordCount - 267 ), 6 ), 0 );
 
 	if ( score >= 7 ) {
 		return {
@@ -2069,6 +2075,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, recom
 	}
 	return {
 		score: score,
+		hasMarks: true,
 
 		// translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
 		text: i18n.sprintf(
@@ -2083,6 +2090,25 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, recom
 };
 
 /**
+ * Creates a marker for each text following a subheading that is too long.
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @returns {Array} All markers for the current text.
+ */
+var subheadingsMarker = function( paper, researcher ) {
+	var subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
+	var tooLongTexts = getTooLongSubheadingTexts( subheadingTextsLength );
+
+	return map( tooLongTexts, function( tooLongText ) {
+		var marked = marker( tooLongText.text );
+		return new Mark( {
+			original: tooLongText.text,
+			marked: marked
+		} );
+	} );
+};
+
+/**
  * Runs the getSubheadingLength research and checks scores based on length.
  *
  * @param {Paper} paper The paper to use for the assessment.
@@ -2094,17 +2120,17 @@ var getSubheadingsTextLength = function( paper, researcher, i18n ) {
 	var subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
 	subheadingTextsLength = subheadingTextsLength.sort(
 		function( a, b ) {
-			return b - a;
+			return b.wordCount - a.wordCount;
 		}
 	);
-	var recommendedValue = 300;
-	var tooLongTexts = getTooLongSubheadingTexts( subheadingTextsLength, recommendedValue );
-	var subheadingsTextLengthresult = subheadingsTextLength( subheadingTextsLength, tooLongTexts, recommendedValue, i18n );
+	var tooLongTexts = getTooLongSubheadingTexts( subheadingTextsLength ).length;
+	var subheadingsTextLengthresult = subheadingsTextLength( subheadingTextsLength, tooLongTexts, i18n );
 
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( subheadingsTextLengthresult.score );
 	assessmentResult.setText( subheadingsTextLengthresult.text );
+	assessmentResult.setHasMarks( subheadingsTextLengthresult.hasMarks );
 
 	return assessmentResult;
 };
@@ -2114,34 +2140,41 @@ module.exports = {
 	getResult: getSubheadingsTextLength,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: subheadingsMarker
 };
 
-},{"../helpers/isValueTooLong":53,"../values/AssessmentResult.js":136,"lodash/filter":298}],21:[function(require,module,exports){
+},{"../helpers/isValueTooLong":53,"../markers/addMark.js":57,"../values/AssessmentResult.js":136,"../values/Mark.js":137,"lodash/filter":298,"lodash/map":327}],21:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isTextTooShort = require( "../helpers/isValueTooShort" );
 var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
+
+var Mark = require( "../values/Mark.js" );
+var marker = require( "../markers/addMark.js" );
+
+// The minimum recommended value.
+var recommendedValue = 40;
 
 /**
  * Counts the number of subheading texts that are too short.
  * @param {Array} subheadingTextsLength Array with subheading text lengths.
- * @param {number} recommendedValue The recommended minimum value of the subheading text length
  * @returns {number} The number of subheading texts that are too short.
  */
-var getTooShortSubheadingTexts = function( subheadingTextsLength, recommendedValue ) {
-	var tooShortTexts = filter( subheadingTextsLength, isTextTooShort.bind( null, recommendedValue ) );
-	return tooShortTexts.length;
+var getTooShortSubheadingTexts = function( subheadingTextsLength ) {
+	return filter( subheadingTextsLength, function( subheading ) {
+		return isTextTooShort( recommendedValue, subheading.wordCount );
+	} );
 };
 
 /**
  * Calculates the score based on the subheading texts length.
  * @param {Array} subheadingTextsLength Array with subheading text lengths.
  * @param {number} tooShortTexts The number of subheading texts that are too long.
- * @param {number} recommendedValue The recommended minimum value of the subheading text length
  * @param {object} i18n The object used for translations.
  * @returns {object} the resultobject containing a score and text if subheadings are present
  */
-var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, recommendedValue, i18n ) {
+var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n ) {
 
 	// Return empty result if there are no subheadings
 	if ( subheadingTextsLength.length === 0 ) {
@@ -2150,7 +2183,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, reco
 
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 40 steps, each step is 0.15.
 	// Up to 267  is for scoring a 9, higher numbers give lower scores.
-	var score = 3 + Math.max( Math.min( ( 6 / 40 ) * ( subheadingTextsLength[ 0 ] - 13 ), 6 ), 0 );
+	var score = 3 + Math.max( Math.min( ( 6 / 40 ) * ( subheadingTextsLength[ 0 ].wordCount - 13 ), 6 ), 0 );
 
 	if ( score >= 7 ) {
 		return {
@@ -2165,6 +2198,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, reco
 	}
 	return {
 		score: score,
+		hasMarks: true,
 
 		// translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
 		text: i18n.sprintf(
@@ -2181,6 +2215,25 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, reco
 };
 
 /**
+ * Creates a marker for each text following a subheading that is too short.
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @returns {Array} All markers for the current text.
+ */
+var subheadingsMarker = function( paper, researcher ) {
+	var subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
+	var tooShortTexts = getTooShortSubheadingTexts( subheadingTextsLength );
+
+	return map( tooShortTexts, function( tooShortText ) {
+		var marked = marker( tooShortText.text );
+		return new Mark( {
+			original: tooShortText.text,
+			marked: marked
+		} );
+	} );
+};
+
+/**
  * Runs the getSubheadingLength research and checks scores based on length.
  *
  * @param {Paper} paper The paper to use for the assessment.
@@ -2192,16 +2245,18 @@ var getSubheadingsTextLength = function( paper, researcher, i18n ) {
 	var subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
 	subheadingTextsLength = subheadingTextsLength.sort(
 		function( a, b ) {
-			return a - b;
+			return a.wordCount - b.wordCount;
 		}
 	);
-	var recommendedValue = 40;
-	var tooShortTexts = getTooShortSubheadingTexts( subheadingTextsLength, recommendedValue );
-	var subheadingsTextLengthresult = subheadingsTextLength( subheadingTextsLength, tooShortTexts, recommendedValue, i18n );
+
+	var tooShortTexts = getTooShortSubheadingTexts( subheadingTextsLength ).length;
+	var subheadingsTextLengthresult = subheadingsTextLength( subheadingTextsLength, tooShortTexts, i18n );
 
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( subheadingsTextLengthresult.score );
 	assessmentResult.setText( subheadingsTextLengthresult.text );
+	assessmentResult.setHasMarks( subheadingsTextLengthresult.hasMarks );
+
 	return assessmentResult;
 };
 
@@ -2210,10 +2265,11 @@ module.exports = {
 	getResult: getSubheadingsTextLength,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
+	getMarks: subheadingsMarker
 };
 
-},{"../helpers/isValueTooShort":54,"../values/AssessmentResult.js":136,"lodash/filter":298}],22:[function(require,module,exports){
+},{"../helpers/isValueTooShort":54,"../markers/addMark.js":57,"../values/AssessmentResult.js":136,"../values/Mark.js":137,"lodash/filter":298,"lodash/map":327}],22:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -6370,7 +6426,10 @@ module.exports = function( paper ) {
 	var subHeadingTexts = [];
 	forEach( matches, function( subHeading ) {
 
-		subHeadingTexts.push( countWords( subHeading ) );
+		subHeadingTexts.push( {
+			text: subHeading,
+			wordCount: countWords( subHeading )
+		} );
 	} );
 	return subHeadingTexts;
 };
@@ -12040,73 +12099,6 @@ var findSubheadings = function( text ) {
 };
 
 /**
- * Matches a partial tag. If a sentence starts with a tag it should end with it. If it doesn't
- * it is a partial tag and it should be removed since it can break markers.
- * @param {string} sentence The sentence to check for tags.
- * @returns {{startTag: string, endTag: string}} The start and endtag. If no tags are found, both return an empty string.
- */
-var matchPartialTag = function( sentence ) {
-
-	// Matches a starttag at the beginning of the sentence.
-	var beginMatch = sentence.match( /^<(.\S|>+)/ ) || [];
-
-	// Matches an endtag at the end of the sentence.
-	var endMatch = sentence.match( /\/(.\S+)>$/ ) || [];
-
-	var startTag = "";
-	var endTag = "";
-
-	if ( !isUndefined( beginMatch.length > 1 ) ) {
-		startTag = beginMatch[ 1 ];
-	}
-
-	if ( !isUndefined( endMatch.length > 1 ) ) {
-		endTag = endMatch[ 1 ];
-	}
-
-	return {
-		startTag: startTag,
-		endTag: endTag
-	};
-};
-
-/**
- * Removes partial tags at the beginning of a sentence. Runs it untill it cannot find partial tags at the beginning.
- * @param {string} sentence The sentence to check for partial tags.
- * @returns {string} the sentence with replaced tags.
- */
-var stripPartialStartTag = function( sentence ) {
-	var tags = matchPartialTag( sentence );
-	while( tags.startTag !== tags.endTag ) {
-		sentence = sentence.replace( /(<([^>]+)>)/, "" );
-		tags = matchPartialTag( sentence );
-	}
-
-	return sentence;
-};
-
-/**
- * Strips the sentence from excess whitespace and partial tags.
- * @param {string} sentence The sentence to clean.
- * @returns {string} The cleaned sentence.
- */
-var cleanSentence = function( sentence ) {
-
-	// Strip whitespaces at the beginning of the sentence.
-	sentence = sentence.replace( /^\s/, "" );
-
-	// Strip endtag at the beginning of sentence.
-	while( sentence.match( /^(<\/[^>]+>)/ ) !== null ) {
-		sentence = sentence.replace( /^(<\/[^>]+>)/, "" );
-	}
-
-	// Strip partial tags in the sentence.
-	sentence = stripPartialStartTag( sentence );
-
-	return sentence;
-};
-
-/**
  * Returns sentences in a string.
  * @param {String} text The string to count sentences in.
  * @returns {Array} Sentences found in the text.
@@ -12138,7 +12130,7 @@ module.exports = function( text ) {
 
 	// Clean sentences by stripping HTMLtags.
 	sentences = map( sentences, function( sentence ) {
-		return cleanSentence( sentence );
+		return sentence.replace( /^\s/, "" );
 	} );
 
 	return filter( sentences, function( sentence ) {
