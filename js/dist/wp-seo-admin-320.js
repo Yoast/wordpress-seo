@@ -273,7 +273,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					this.renderError(this.state.errorMessage)
 				);
 			} else if (this.state.searching) {
-				// Show a loading indicator (while not hiding the previous results).
+				// Show a loading indicator.
 				content = _react2.default.createElement(
 					'div',
 					null,
@@ -320,7 +320,7 @@ AlgoliaSearcher.defaultProps = {
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'edge_testall',
+	algoliaIndexName: 'knowledge_base_all',
 	errorMessage: 'Something went wrong. Please try again later.',
 	loadingPlaceholder: 'Loading...',
 	back: 'Back',
