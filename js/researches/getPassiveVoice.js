@@ -15,6 +15,8 @@ var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 
 var auxiliaryRegex = arrayToRegex( auxiliaries );
+
+var ingExclusionArray = [ "king", "cling", "ring", "being" ];
 /**
  * Matches string with an array, returns the word and the index it was found on
  * @param {string} sentence The sentence to match the strings from the array to.
