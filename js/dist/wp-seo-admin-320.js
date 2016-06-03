@@ -74,8 +74,8 @@ var AlgoliaSearcher = function (_React$Component) {
 
 	}, {
 		key: 'searchButtonClicked',
-		value: function searchButtonClicked(e) {
-			var searchString = e.target.getElementsByTagName('input')[0].value;
+		value: function searchButtonClicked(evt) {
+			var searchString = evt.target.getElementsByTagName('input')[0].value;
 			if (searchString !== '') {
 				var usedQueries = this.state.usedQueries;
 				if (usedQueries[searchString] === undefined) {
@@ -85,7 +85,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					searchString: searchString,
 					usedQueries: usedQueries
 				}, function () {
-					// after the state was set
+					// After the state was set.
 					this.updateSearchResults();
 				});
 			}
@@ -117,7 +117,8 @@ var AlgoliaSearcher = function (_React$Component) {
 
 		/**
    * Performs a search with a given searchstring on the algolia index which information was passed in the AlgoliaSearcher's props.
-   * @param String searchString The words or sentence to get the results for.
+   *
+   * @param string searchString The words or sentence to get the results for.
    * @returns {Promise} The promise that is performing the search.
    */
 
@@ -137,7 +138,8 @@ var AlgoliaSearcher = function (_React$Component) {
 
 		/**
    * Sets all values required to display the detail view of a search result.
-   * @param resultArrayIndex
+   *
+   * @param int resultArrayIndex The index of the article you want to show in the state.results array.
    */
 
 	}, {
@@ -167,7 +169,8 @@ var AlgoliaSearcher = function (_React$Component) {
 
 		/**
    * Renders the search results list.
-   * @returns {JSX}
+   *
+   * @returns {JSX} A div with either the search results, or a div with a message that no results were found.
    */
 
 	}, {
@@ -198,7 +201,8 @@ var AlgoliaSearcher = function (_React$Component) {
 
 		/**
    * Renders the navigation links with the article content.
-   * @returns {JSX}
+   *
+   * @returns {JSX} A div with navigation buttons an the content of the selected acticle.
    */
 
 	}, {
@@ -231,9 +235,10 @@ var AlgoliaSearcher = function (_React$Component) {
 		}
 
 		/**
-   * Renders an error message.
+   * Logs any occuring error and renders a warning that the search was not completed successfully.
+   *
    * @param String errorMessage The message to display.
-   * @returns {HTML}
+   * @returns {JSX} A div with a warning that the search was not completed.
       */
 
 	}, {
@@ -249,7 +254,8 @@ var AlgoliaSearcher = function (_React$Component) {
 
 		/**
   * Is called upon state change. It determines what view to render and renders it.
-  * @returns {XML}
+  *
+  * @returns {JSX} The content of the component.
   */
 
 	}, {
@@ -283,7 +289,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					this.renderSearchResults()
 				);
 			} else {
-				// Else show the article content/detail view
+				// Else show the article content/detail view.
 				content = this.renderDetail();
 			}
 			return _react2.default.createElement(
@@ -314,7 +320,7 @@ AlgoliaSearcher.defaultProps = {
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'knowledge_base_all',
+	algoliaIndexName: 'edge_testall',
 	errorMessage: 'Something went wrong. Please try again later.',
 	loadingPlaceholder: 'Loading...',
 	back: 'Back',
@@ -322,9 +328,10 @@ AlgoliaSearcher.defaultProps = {
 };
 
 /**
- * Gives the JSX to render the search bar.
+ * Gives the JSX to render the searchbar.
+ *
  * @param props
- * @returns {JSX}
+ * @returns {JSX} A div with the searchbar.
  * @constructor
  */
 var SearchBar = function SearchBar(props) {
@@ -338,8 +345,8 @@ var SearchBar = function SearchBar(props) {
 		),
 		_react2.default.createElement(
 			'form',
-			{ onSubmit: function onSubmit(e) {
-					e.preventDefault();props.submitAction(e);
+			{ onSubmit: function onSubmit(evt) {
+					evt.preventDefault();props.submitAction(evt);
 				} },
 			_react2.default.createElement('input', { type: 'text',
 				defaultValue: props.searchString }),
@@ -353,9 +360,10 @@ var SearchBar = function SearchBar(props) {
 };
 
 /**
- * Gives the JSX to render a single search result.
+ * Gives the JSX to render a single searchresult.
+ *
  * @param props
- * @returns {JSX}
+ * @returns {JSX} A div with a single searchresult.
  * @constructor
  */
 var SearchResult = function SearchResult(props) {
@@ -386,9 +394,10 @@ var SearchResult = function SearchResult(props) {
 };
 
 /**
- * Gives the JSX to render the content of a selected article.
+ * Gives the JSX to render the content of the selected article.
+ *
  * @param props
- * @returns {JSX}
+ * @returns {JSX} A div with the content of the selected article
  * @constructor
  */
 var ArticleContent = function ArticleContent(props) {
@@ -398,7 +407,8 @@ var ArticleContent = function ArticleContent(props) {
 
 /**
  * Gives the JSX to render a loading indicator.
- * @returns {JSX}
+ *
+ * @returns {JSX} A div with a loading indicator.
  * @constructor
  */
 var Loading = function Loading(props) {

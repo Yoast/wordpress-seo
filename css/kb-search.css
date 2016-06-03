@@ -30,8 +30,8 @@
 	background-color: rgba(164, 40, 106, 0.1);
 }
 
-.wpseo-kb-search-result-title {
-	margin: 0 !important;
+.wpseo-kb-search-result .wpseo-kb-search-result-title {
+	margin: 0;
 	padding-top: 15px;
 }
 

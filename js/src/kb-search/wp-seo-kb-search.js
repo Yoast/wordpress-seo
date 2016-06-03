@@ -39,19 +39,19 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @param {object} e The event.
 	 */
-	searchButtonClicked( e ) {
-        let searchString = e.target.getElementsByTagName( 'input' )[ 0 ].value;
+	searchButtonClicked( evt ) {
+        let searchString = evt.target.getElementsByTagName( 'input' )[ 0 ].value;
 		if ( searchString !== '' ) {
 			let usedQueries = this.state.usedQueries;
 			if ( usedQueries[ searchString ] === undefined ) {
 				usedQueries[ searchString ] = {};
 			}
-			this.setState({
+			this.setState( {
 				searchString: searchString,
 				usedQueries: usedQueries
-			}, function() { // after the state was set
+			}, function() { // After the state was set.
 				this.updateSearchResults();
-			});
+			} );
 		}
 	}
 
@@ -59,26 +59,27 @@ class AlgoliaSearcher extends React.Component {
 	 * Performs a search with the searchstring saved in the state and sets the results property of the state to the results found.
 	 */
 	updateSearchResults() {
-		this.setState({
+		this.setState( {
 			searching: true
-		});
+		} );
 		this.getSearchResults( this.state.searchString ).then( function( searchResults ) {
-			this.setState({
+			this.setState( {
 				results: searchResults,
 				errorMessage: '',
 				searching: false
-			});
+			} );
 		}.bind( this ) ).catch( function( error ) {
-			this.setState({
+			this.setState( {
 				errorMessage: error.message,
 				searching: false
-			});
+			} );
 		}.bind( this ) );
 	}
 
 	/**
 	 * Performs a search with a given searchstring on the algolia index which information was passed in the AlgoliaSearcher's props.
-	 * @param String searchString The words or sentence to get the results for.
+	 *
+	 * @param string searchString The words or sentence to get the results for.
 	 * @returns {Promise} The promise that is performing the search.
 	 */
 	getSearchResults( searchString ) {
@@ -89,13 +90,14 @@ class AlgoliaSearcher extends React.Component {
 					return;
 				}
 				resolve( data.hits );
-			});
+			} );
 		}.bind( this ) );
 	}
 
 	/**
 	 * Sets all values required to display the detail view of a search result.
-	 * @param resultArrayIndex
+	 *
+	 * @param int resultArrayIndex The index of the article you want to show in the state.results array.
 	 */
 	showDetail( resultArrayIndex ) {
 		let usedQueries = this.state.usedQueries;
@@ -103,30 +105,31 @@ class AlgoliaSearcher extends React.Component {
 		let postId = post.objectID;
 		let articleTitle = post.post_title;
 		let articleLink = post.permalink;
-		usedQueries[ this.state.searchString ][ postId ] = {title: articleTitle, link: articleLink};
-		this.setState({
+		usedQueries[ this.state.searchString ][ postId ] = { title: articleTitle, link: articleLink };
+		this.setState( {
 			showDetail: resultArrayIndex,
 			usedQueries: usedQueries
-		});
+		} );
 	}
 
 	/**
 	 * Hide the detail page and returns to the results page.
 	 */
 	hideDetail() {
-		this.setState({showDetail: false});
+		this.setState( { showDetail: false } );
 	}
 
 	/**
 	 * Renders the search results list.
-	 * @returns {JSX}
+	 *
+	 * @returns {JSX} A div with either the search results, or a div with a message that no results were found.
 	 */
 	renderSearchResults() {
 		var searchResultContent;
 		if ( this.state.results.length > 0 ) {
             var results = this.state.results.map( ( result, arrayIndex ) => {
                 return <SearchResult key={result.objectID} post={result}
-                                     showDetail={this.showDetail.bind(this, arrayIndex)}/>
+                                     showDetail={this.showDetail.bind( this, arrayIndex )}/>
             } );
 			searchResultContent = <div className="wpseo-kb-search-results">{results}</div>;
 		}
@@ -138,7 +141,8 @@ class AlgoliaSearcher extends React.Component {
 
 	/**
 	 * Renders the navigation links with the article content.
-	 * @returns {JSX}
+	 *
+	 * @returns {JSX} A div with navigation buttons an the content of the selected acticle.
 	 */
     renderDetail() {
         let detailIndex = this.state.showDetail;
@@ -162,9 +166,10 @@ class AlgoliaSearcher extends React.Component {
     }
 
 	/**
-	 * Renders an error message.
+	 * Logs any occuring error and renders a warning that the search was not completed successfully.
+	 *
 	 * @param String errorMessage The message to display.
-	 * @returns {HTML}
+	 * @returns {JSX} A div with a warning that the search was not completed.
      */
     renderError( errorMessage ) {
 		console.err( errorMessage );
@@ -177,7 +182,8 @@ class AlgoliaSearcher extends React.Component {
 
     /**
 	 * Is called upon state change. It determines what view to render and renders it.
-	 * @returns {XML}
+	 *
+	 * @returns {JSX} The content of the component.
 	 */
 	render() {
         var content = '';
@@ -191,7 +197,7 @@ class AlgoliaSearcher extends React.Component {
                 </div>
             );
         }
-        else if ( this.state.searching ) { // Show a loading indicator (while not hiding the previous results).
+        else if ( this.state.searching ) { // Show a loading indicator.
             content = (
                 <div>
                     {searchBar}
@@ -207,7 +213,7 @@ class AlgoliaSearcher extends React.Component {
                 </div>
             );
         }
-        else { // Else show the article content/detail view
+        else { // Else show the article content/detail view.
             content = this.renderDetail();
         }
         return <div className="wpseo-kb-search-container">{content}</div>
@@ -231,7 +237,7 @@ AlgoliaSearcher.defaultProps = {
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'knowledge_base_all',
+	algoliaIndexName: 'edge_testall',
 	errorMessage: 'Something went wrong. Please try again later.',
 	loadingPlaceholder: 'Loading...',
 	back: 'Back',
@@ -239,16 +245,17 @@ AlgoliaSearcher.defaultProps = {
 };
 
 /**
- * Gives the JSX to render the search bar.
+ * Gives the JSX to render the searchbar.
+ *
  * @param props
- * @returns {JSX}
+ * @returns {JSX} A div with the searchbar.
  * @constructor
  */
 const SearchBar = ( props ) => {
 	return (
 		<div className="wpseo-kb-search-search-bar">
 			<h2>{props.headingText}</h2>
-			<form onSubmit={function(e){e.preventDefault(); props.submitAction(e)}}>
+			<form onSubmit={function( evt ){ evt.preventDefault(); props.submitAction( evt ) } }>
 				<input type="text"
 					   defaultValue={props.searchString}/>
 				<button type="submit" className="button wpseo-kb-search-search-button">Search</button>
@@ -258,9 +265,10 @@ const SearchBar = ( props ) => {
 };
 
 /**
- * Gives the JSX to render a single search result.
+ * Gives the JSX to render a single searchresult.
+ *
  * @param props
- * @returns {JSX}
+ * @returns {JSX} A div with a single searchresult.
  * @constructor
  */
 const SearchResult = ( props ) => {
@@ -279,9 +287,10 @@ const SearchResult = ( props ) => {
 };
 
 /**
- * Gives the JSX to render the content of a selected article.
+ * Gives the JSX to render the content of the selected article.
+ *
  * @param props
- * @returns {JSX}
+ * @returns {JSX} A div with the content of the selected article
  * @constructor
  */
 const ArticleContent = ( props ) => {
@@ -293,7 +302,8 @@ const ArticleContent = ( props ) => {
 
 /**
  * Gives the JSX to render a loading indicator.
- * @returns {JSX}
+ *
+ * @returns {JSX} A div with a loading indicator.
  * @constructor
  */
 const Loading = ( props ) => {
