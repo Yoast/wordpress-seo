@@ -8,7 +8,7 @@ var includes = require( "lodash/includes" );
  * @returns {boolean} Whether or not the character is present in the list of word boundaries.
  */
 var characterInBoundary = function( character ) {
-	return includes( wordBoundaries, character )
+	return includes( wordBoundaries, character );
 };
 
 /**
