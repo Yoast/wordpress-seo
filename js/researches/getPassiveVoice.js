@@ -16,8 +16,11 @@ var forEach = require( "lodash/forEach" );
 
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var regularVerbsRegex = /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 
 var ingExclusionArray = [ "king", "cling", "ring", "being" ];
+var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
+
 /**
  * Matches string with an array, returns the word and the index it was found on
  * @param {string} sentence The sentence to match the strings from the array to.
@@ -146,7 +149,7 @@ var getSubsentences = function( sentence ) {
 var getRegularVerbs = function( subSentence ) {
 
 	// Matches the sentences with words ending in ed
-	var matches = subSentence.match( /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig ) || [];
+	var matches = subSentence.match( regularVerbsRegex ) || [];
 
 	// Filters out words ending in -ed that aren't verbs.
 	return filter( matches, function( match ) {
@@ -166,8 +169,7 @@ var getIrregularVerbs = function( subSentence ) {
 	return filter( irregularVerbs, function( verb ) {
 		// If rid is used with get, gets, getting, got or gotten, remove it.
 		if ( verb.match === "rid" ) {
-			var exclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
-			if ( matchArray( subSentence, exclusionArray ).length > 0 ) {
+			if ( matchArray( subSentence, irregularExclusionArray ).length > 0 ) {
 				return false;
 			}
 		}
