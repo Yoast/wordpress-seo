@@ -111,7 +111,6 @@ var getSentenceBreakers = function( sentence ) {
  * @returns {Array} The array with all subsentences of a sentence that have an auxiliary
  */
 var getSubsentences = function( sentence ) {
-
 	var subSentences = [];
 
 	// First check if there is an auxiliary word in the sentence
