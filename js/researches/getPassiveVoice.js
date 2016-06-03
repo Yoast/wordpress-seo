@@ -119,10 +119,10 @@ var getSubsentences = function( sentence ) {
 	// First check if there is an auxiliary word in the sentence
 	if( sentence.match( auxiliaryRegex ) !== null ) {
 		var indices = getSentenceBreakers( sentence );
-		var endIndex = sentence.length;
 
 		// Get the words after the found auxiliary
 		for ( var i = 0; i < indices.length; i++ ) {
+			var endIndex = sentence.length;
 			if ( !isUndefined( indices[ i + 1 ] ) ) {
 				endIndex = indices[ i + 1 ].index;
 			}
