@@ -26,7 +26,7 @@
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-glotpress": "^0.2.1",
-    "grunt-jscs": "^0.8.1",
+    "grunt-jscs": "^3.0.0",
     "grunt-jsonlint": "^1.0.4",
     "grunt-jsvalidate": "^0.2.2",
     "grunt-phpcs": "^0.2.2",
