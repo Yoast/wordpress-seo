@@ -93,7 +93,7 @@ var getVerbsEndingInIng = function( sentence ) {
 
 	// Filters out words ending in -ing that aren't verbs.
 	return filter( matches, function( match ) {
-		return ! includes( ingExclusionArray, stripSpaces( match ) );
+		return !includes( ingExclusionArray, stripSpaces( match ) );
 	} );
 };
 
@@ -164,7 +164,7 @@ var getRegularVerbs = function( subSentence ) {
 
 	// Filters out words ending in -ed that aren't verbs.
 	return filter( matches, function( match ) {
-		return ! includes( nonverbEndingEd, stripSpaces( match ) );
+		return !includes( nonverbEndingEd, stripSpaces( match ) );
 	} );
 };
 
@@ -179,6 +179,16 @@ var filterWordListInSentence = function( wordList, sentence ) {
 	return filter( wordList, function( word ) {
 		return matchWordInSentence( word, sentence );
 	} );
+};
+
+/**
+ * Checks whether the sentence contains an excluded verb.
+ *
+ * @param {string} sentence The sentence to check for excluded verbs.
+ * @returns {boolean} Whether or not the sentence contains an excluded verb.
+ */
+var hasExcludedIrregularVerb = function( sentence ) {
+	return filterWordListInSentence( irregularExclusionArray, sentence ).length !== 0;
 };
 
 /**
@@ -198,16 +208,6 @@ var getIrregularVerbs = function( sentence ) {
 
 		return hasExcludedIrregularVerb( sentence );
 	} );
-};
-
-/**
- * Checks whether the sentence contains an excluded verb.
- *
- * @param {string} sentence The sentence to check for excluded verbs.
- * @returns {boolean} Whether or not the sentence contains an excluded verb.
- */
-var hasExcludedIrregularVerb = function( sentence ) {
-	return filterWordListInSentence( irregularExclusionArray, sentence ).length !== 0;
 };
 
 /**
