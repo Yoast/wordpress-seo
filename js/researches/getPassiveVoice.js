@@ -1,6 +1,5 @@
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
-var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
 
@@ -37,7 +36,7 @@ var matchArray = function( sentence, matches ) {
 	forEach( matches, function( part ) {
 		part = stripSpaces( part );
 
-		if ( !matchWordInSentence( part, sentence) ) {
+		if ( !matchWordInSentence( part, sentence ) ) {
 			return;
 		}
 
