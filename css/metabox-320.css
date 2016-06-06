@@ -1,7 +1,7 @@
 /* css for snippet */
 #snippet_preview {
 	position: relative;
-	width: 552px;
+	width: 640px;
 	border: 1px solid #f7f7f7;
 	border-radius: 20px;
 	background-color: #fff;
@@ -170,7 +170,7 @@
 .snippet_container .title {
 	display: block;
 	overflow: hidden;
-	width: 512px;
+	width: 600px;
 	margin: 0;
 	color: #1e0fbe;
 	font-size: 18px;
@@ -313,18 +313,20 @@
 }
 
 .wpseo-score-text {
-	display: inline-block;
-	width: 90%;
+	float: left;
+	width: 86%;
+	/* make room for score and mark icons, consider to use a better layout model */
+	width: calc( 100% - 56px);
 }
 
-.wpseo-score-icon {
-	display: inline-block;
+/* needs higher specificity than other score icons */
+.assessment-results .wpseo-score-icon {
+	float: left;
 	width: 12px;
 	height: 12px;
-	margin: 3px 10px 0 3px;
+	margin: 3px 10px 0 0;
 	border-radius: 50%;
 	background: #888;
-	vertical-align: top;
 }
 
 .wpseo-score-icon.good {
@@ -348,7 +350,14 @@
 }
 
 li.score {
+	margin-bottom: 6px;
 	list-style-type: none !important;
+}
+
+li.score:after {
+	display: table;
+	clear: both;
+	content: "";
 }
 
 .screen-reader-text {
@@ -392,6 +401,53 @@ li.score {
 	fill: #ed261f;
 }
 
+.assessment-results__mark.icon-eye-inactive,
+.assessment-results__mark.icon-eye-active {
+	float: left;
+	width: 28px;
+	height: 28px;
+	margin: -5px 0 0 3px;
+	padding: 4px;
+	border: 0;
+	border-radius: 100%;
+	outline: none;
+	background: no-repeat center;
+	background-size: 16px;
+	cursor: pointer;
+}
+
+.assessment-results__mark.icon-eye-inactive {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M1664%20960q%2D152%2D236%2D381%2D353%2061%20104%2061%20225%200%20185%2D131%2E5%20316%2E5t%2D316%2E5%20131%2E5%2D316%2E5%2D131%2E5%2D131%2E5%2D316%2E5q0%2D121%2061%2D225%2D229%20117%2D381%20353%20133%20205%20333%2E5%20326%2E5t434%2E5%20121%2E5%20434%2E5%2D121%2E5%20333%2E5%2D326%2E5zm%2D720%2D384q0%2D20%2D14%2D34t%2D34%2D14q%2D125%200%2D214%2E5%2089%2E5t%2D89%2E5%20214%2E5q0%2020%2014%2034t34%2014%2034%2D14%2014%2D34q0%2D86%2061%2D147t147%2D61q20%200%2034%2D14t14%2D34zm848%20384q0%2034%2D20%2069%2D140%20230%2D376%2E5%20368%2E5t%2D499%2E5%20138%2E5%2D499%2E5%2D139%2D376%2E5%2D368q%2D20%2D35%2D20%2D69t20%2D69q140%2D229%20376%2E5%2D368t499%2E5%2D139%20499%2E5%20139%20376%2E5%20368q20%2035%2020%2069z%22%20%2F%3E%3C%2Fsvg%3E");
+}
+
+.assessment-results__mark.icon-eye-active {
+	background-color: #a4286a;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M1664%20960q%2D152%2D236%2D381%2D353%2061%20104%2061%20225%200%20185%2D131%2E5%20316%2E5t%2D316%2E5%20131%2E5%2D316%2E5%2D131%2E5%2D131%2E5%2D316%2E5q0%2D121%2061%2D225%2D229%20117%2D381%20353%20133%20205%20333%2E5%20326%2E5t434%2E5%20121%2E5%20434%2E5%2D121%2E5%20333%2E5%2D326%2E5zm%2D720%2D384q0%2D20%2D14%2D34t%2D34%2D14q%2D125%200%2D214%2E5%2089%2E5t%2D89%2E5%20214%2E5q0%2020%2014%2034t34%2014%2034%2D14%2014%2D34q0%2D86%2061%2D147t147%2D61q20%200%2034%2D14t14%2D34zm848%20384q0%2034%2D20%2069%2D140%20230%2D376%2E5%20368%2E5t%2D499%2E5%20138%2E5%2D499%2E5%2D139%2D376%2E5%2D368q%2D20%2D35%2D20%2D69t20%2D69q140%2D229%20376%2E5%2D368t499%2E5%2D139%20499%2E5%20139%20376%2E5%20368q20%2035%2020%2069z%22%20%2F%3E%3C%2Fsvg%3E");
+}
+
+.assessment-results__mark:focus {
+	border-radius: 100%;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.assessment-results__remove-marks {
+	float: right;
+	width: 28px;
+	height: 28px;
+	margin-top: -16px;
+	padding: 4px;
+	border: 0;
+	border-radius: 100%;
+	outline: none;
+	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M555%201335l78%2D141q%2D87%2D63%2D136%2D159t%2D49%2D203q0%2D121%2061%2D225%2D229%20117%2D381%20353%20167%20258%20427%20375zm389%2D759q0%2D20%2D14%2D34t%2D34%2D14q%2D125%200%2D214%2E5%2089%2E5t%2D89%2E5%20214%2E5q0%2020%2014%2034t34%2014%2034%2D14%2014%2D34q0%2D86%2061%2D147t147%2D61q20%200%2034%2D14t14%2D34zm363%2D191q0%207%2D1%209%2D105%20188%2D315%20566t%2D316%20567l%2D49%2089q%2D10%2016%2D28%2016%2D12%200%2D134%2D70%2D16%2D10%2D16%2D28%200%2D12%2044%2D87%2D143%2D65%2D263%2E5%2D173t%2D208%2E5%2D245q%2D20%2D31%2D20%2D69t20%2D69q153%2D235%20380%2D371t496%2D136q89%200%20180%2017l54%2D97q10%2D16%2028%2D16%205%200%2018%206t31%2015%2E5%2033%2018%2E5%2031%2E5%2018%2E5%2019%2E5%2011%2E5q16%2010%2016%2027zm37%20447q0%20139%2D79%20253%2E5t%2D209%20164%2E5l280%2D502q8%2045%208%2084zm448%20128q0%2035%2D20%2069%2D39%2064%2D109%20145%2D150%20172%2D347%2E5%20267t%2D419%2E5%2095l74%2D132q212%2D18%20392%2E5%2D137t301%2E5%2D307q%2D115%2D179%2D282%2D294l63%2D112q95%2064%20182%2E5%20153t144%2E5%20184q20%2034%2020%2069z%22%2F%3E%3C%2Fsvg%3E") no-repeat center;
+	background-size: 16px;
+	cursor: pointer;
+}
+
+.assessment-results__remove-marks:focus {
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
 /* loading dialog */
 .YoastSEO_msg .right,
 .YoastSEO_msg .left {
@@ -430,6 +486,113 @@ li.score {
 	background-size: 300% 100%;
 	-webkit-animation: animatedBackground 5s linear infinite;
 	animation: animatedBackground 5s linear infinite;
+}
+
+.wpseo-tab-video-container {
+	overflow: hidden;
+	margin-bottom: 1em;
+	border-radius: 10px;
+	border-bottom-right-radius: 0;
+	background-color: #a4286a;
+}
+
+.wpseo-tab-video-container__handle {
+	width: 100%;
+	margin: 0;
+	padding: 0.5em;
+	border: none;
+	outline: none;
+	color: white;
+	background-color: #a4286a;
+	text-align: left;
+	cursor: pointer;
+}
+
+.wpseo-tab-video-container__handle .toggle__arrow {
+	text-decoration: none;
+}
+
+.wpseo-tab-video-container__handle:hover,
+.wpseo-tab-video-container__handle:focus {
+	text-decoration: underline;
+}
+
+.wpseo-tab-video-container__handle .dashicons-before:before {
+	margin-right: 5px;
+}
+
+.wpseo-tab-video-slideout {
+	display: none;
+	overflow: hidden;
+	padding: 0.5em 0.5em 0.5em;
+	border: 1px solid #a4286a;
+	border-bottom-left-radius: 10px;
+	background-color: white;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
+	float: left;
+	width: 260px;
+	margin: 0.5em 1em 0 0;
+	padding: 15px;
+	border: 1px solid;
+	border-color: white;
+	border-radius: 30px;
+	border-bottom-right-radius: 0;
+	color: white;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea h3 {
+	margin: 0;
+	color: white;
+}
+
+.wpseo-tab-video-slideout .yoast-help-center-tabs {
+	width: 180px;
+	margin: -0.5em;
+	padding-left: 0.5em;
+	color: white;
+	background-color: #a4286a;
+}
+
+.wpseo-tab-video-slideout .help-tab-content {
+	overflow: hidden;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel {
+	clear: both;
+	margin-right: 1em;
+}
+
+.wpseo-help-center-item a {
+	display: block;
+	padding: 0.5em;
+	color: white;
+}
+
+.wpseo-help-center-item.active a {
+	border: 1px solid white;
+	border-right-width: 0;
+	border-left: 2px solid #610536;
+	color: #a4286a;
+	background-color: white;
+}
+
+.wpseo-tab-video__panel__textarea {
+	background-color: #a4286a;
+}
+
+.wpseo-tab-video__panel__textarea a,
+.wpseo-tab-video__panel__textarea a:hover,
+.wpseo-tab-video__panel__textarea a:focus {
+	color: white;
+	font-weight: bold;
+}
+
+.wpseo-tab-video__panel.wpseo-tab-video__panel--video {
+	-webkit-flex: 0 0 auto;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
 }
 
 /**
@@ -839,6 +1002,39 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 #wpseo-score {
 	float: left;
 	margin: 0 5px 0 -5px;
+}
+
+/**
+* Content and SEO score in publish bar
+*/
+.yoast-seo-score .yoast-logo.svg {
+	float: left;
+	width: 18px;
+	height: 18px;
+	margin-right: 5px;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23999%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E");
+	background-repeat: no-repeat;
+	background-size: 18px;
+}
+
+.yoast-seo-score .yoast-logo.svg.good {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%237ad03a%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-seo-score .yoast-logo.svg.ok {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ee7c1b%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-seo-score .yoast-logo.svg.bad {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23dc3232%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-seo-score .yoast-logo.svg.na {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23999%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-seo-score .yoast-logo.svg.noindex {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231e8cbe%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E");
 }
 
 body.rtl #wpseo-score {

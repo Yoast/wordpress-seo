@@ -2,12 +2,14 @@
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
-var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 var tmceHelper = require( './wp-seo-tinymce' );
+
+var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
+var publishBox = require( './ui/publishBox' );
 
 (function( $ ) {
 	'use strict';
@@ -262,11 +264,14 @@ var tmceHelper = require( './wp-seo-tinymce' );
 			$( '.adminbar-seo-score' )
 				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
+
+			publishBox.updateScore( 'keyword', indicator.className );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
+			publishBox.updateScore( 'content', indicator.className );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -282,6 +287,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	 */
 	PostScraper.prototype.saveContentScore = function( score ) {
 		tabManager.updateContentTab( score );
+		var indicator = getIndicatorForScore( score );
+		publishBox.updateScore( 'content', indicator.className );
 
 		$( '#yoast_wpseo_content_score' ).val( score );
 	};
@@ -312,6 +319,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
+	 *
 	 * @param {Object} response The AJAX response object.
 	 * @returns {string}
 	 */
@@ -390,6 +398,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
+
+		publishBox.initalise();
 
 		tabManager = new TabManager({
 			strings: wpseoPostScraperL10n

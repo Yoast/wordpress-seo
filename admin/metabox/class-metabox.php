@@ -166,17 +166,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$title = $score_title;
 			}
 		}
-
-		printf( '
-		<div title="%s" id="wpseo-score">
-			' . $this->traffic_light_svg() . '
-		</div>',
-			__( 'SEO score', 'wordpress-seo' ),
-			esc_attr( 'wpseo-score-icon ' . $score_label ),
-			__( 'SEO:', 'wordpress-seo' ),
-			$score_title,
-			__( 'Check', 'wordpress-seo' )
-		);
 	}
 
 	/**
@@ -230,7 +219,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return array(
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
+			'scope'          => $this->determine_scope(),
 		);
+	}
+
+	/**
+	 * Determines the scope based on the post type.
+	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
+	 *
+	 * @return string String decribing the current scope.
+	 */
+	private function determine_scope() {
+		$post_type = get_post_type( $this->get_metabox_post() );
+
+		if ( $post_type === 'page' ) {
+			return 'page';
+		}
+
+		return 'post';
 	}
 
 	/**
@@ -268,6 +274,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
+
+		// Add Help Center to the metabox see #4701.
+		$tab_video_url = 'https://yoa.st/metabox-screencast';
+		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
@@ -576,6 +586,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  bool|void   Boolean false if invalid save post request
 	 */
 	function save_postdata( $post_id ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return false;
+		}
+
 		if ( $post_id === null ) {
 			return false;
 		}
@@ -752,8 +767,77 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
 		}
 
-		return $cached_replacement_vars;
+		// Merge custom replace variables with the WordPress ones.
+		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $post ) );
 	}
+
+	/**
+	 * Gets the custom replace variables for custom taxonomies and fields.
+	 *
+	 * @param WP_Post $post The post to check for custom taxonomies and fields.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_replace_vars( $post ) {
+		return array(
+			'custom_fields' => $this->get_custom_fields_replace_vars( $post ),
+			'custom_taxonomies' => $this->get_custom_taxonomies_replace_vars( $post ),
+		 );
+	}
+
+	/**
+	 * Gets the custom replace variables for custom taxonomies.
+	 *
+	 * @param WP_Post $post The post to check for custom taxonomies.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_taxonomies_replace_vars( $post ) {
+		$taxonomies = get_object_taxonomies( $post, 'objects' );
+		$custom_replace_vars = array();
+
+		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
+			if ( $taxonomy->_builtin && $taxonomy->public ) {
+				continue;
+			}
+
+			$custom_replace_vars[ $taxonomy_name ] = array(
+				'name' => $taxonomy->name,
+				'description' => $taxonomy->description,
+			);
+		}
+
+		return $custom_replace_vars;
+	}
+
+	/**
+	 * Gets the custom replace variables for custom fields.
+	 *
+	 * @param WP_Post $post The post to check for custom fields.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_fields_replace_vars( $post ) {
+		$custom_replace_vars = array();
+
+		// If no post object is passed, return the empty custom_replace_vars array.
+		if ( ! is_object( $post ) ) {
+			return $custom_replace_vars;
+		}
+
+		$custom_fields = get_post_custom( $post->ID );
+
+		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
+			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			$custom_replace_vars[ $custom_field_name ] = $custom_field[0];
+		}
+
+		return $custom_replace_vars;
+	}
+
 
 	/**
 	 * Return the SVG for the traffic light in the metabox.

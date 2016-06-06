@@ -170,7 +170,7 @@ class Yoast_Notification {
 
 		// Should be an array.
 		if ( ! is_array( $capabilities ) ) {
-			$capabilities = array();
+			$capabilities = (array) $capabilities;
 		}
 
 		/**
@@ -282,6 +282,11 @@ class Yoast_Notification {
 
 		// Should not exceed 0 or 1.
 		$options['priority'] = min( 1, max( 0, $options['priority'] ) );
+
+		// Set default capabilities when not supplied.
+		if ( empty( $options['capabilities'] ) || array() === $options['capabilities'] ) {
+			$options['capabilities'] = array( 'manage_options' );
+		}
 
 		return $options;
 	}
