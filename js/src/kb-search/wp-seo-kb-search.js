@@ -7,7 +7,7 @@ class AlgoliaSearcher extends React.Component {
 	 * ALgoliaSearcher constructor.
 	 *
 	 * @constructor
-	 * @param {object} props Properties of the ALgoliaSearcher component.
+	 * @param {object} props Properties of the AlgoliaSearcher component.
 	 */
 	constructor( props ) {
 		super();
@@ -37,7 +37,7 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Handles the input changed event. It saved the used search string and performs a search.
 	 *
-	 * @param {object} e The event.
+	 * @param {object} evt The event.
 	 */
 	searchButtonClicked( evt ) {
         let searchString = evt.target.getElementsByTagName( 'input' )[ 0 ].value;
