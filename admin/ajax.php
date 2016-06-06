@@ -375,13 +375,19 @@ add_action( 'wp_ajax_get_focus_keyword_usage',  'ajax_get_keyword_usage' );
 function ajax_get_term_keyword_usage() {
 	$post_id = filter_input( INPUT_POST, 'post_id' );
 	$keyword = filter_input( INPUT_POST, 'keyword' );
-	$taxonomy = filter_input( INPUT_POST, 'taxonomy' );
+	$taxonomyName = filter_input( INPUT_POST, 'taxonomy' );
 
-	if ( ! current_user_can( 'edit_terms' ) ) {
-		die( '-1' );
+	$taxonomy = get_taxonomy( $taxonomyName );
+
+	if ( ! $taxonomy ) {
+		wp_die( 0 );
 	}
 
-	$usage = WPSEO_Taxonomy_Meta::get_keyword_usage( $keyword, $post_id, $taxonomy );
+	if ( ! current_user_can( $taxonomy->cap->edit_terms ) ) {
+		wp_die( -1 );
+	}
+
+	$usage = WPSEO_Taxonomy_Meta::get_keyword_usage( $keyword, $post_id, $taxonomyName );
 
 	// Normalize the result so it it the same as the post keyword usage AJAX request.
 	$usage = $usage[ $keyword ];
