@@ -436,6 +436,11 @@ textarea.wpseo-new-metadesc {
 	box-shadow: inset 0 0 0 2px #a4286a;
 }
 
+#separator input.radio:focus + label {
+	border-radius: 10px;
+	border-bottom-right-radius: 0;
+}
+
 .svg-container {
 	text-align: center;
 }
