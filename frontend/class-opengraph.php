@@ -931,14 +931,14 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+	 * Filter: 'wpseo_parse_post_content' - Allow filtering the content before analysis
 	 *
 	 * @api string $post_content The Post content string
 	 *
 	 * @param object $post - The post object.
 	 */
 	private function get_content_images( $post ) {
-		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+		$content = apply_filters( 'wpseo_parse_post_content', $post->post_content, $post );
 
 		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
