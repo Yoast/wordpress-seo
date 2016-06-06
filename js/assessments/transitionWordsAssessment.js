@@ -1,4 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 var map = require( "lodash/map" );
 
 var Mark = require( "../values/Mark.js" );
@@ -14,30 +15,32 @@ var marker = require( "../markers/addMark.js" );
 var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var score, unboundedScore;
 	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
-
+	percentage     = formatNumber( percentage );
 	var hasMarks   = ( percentage > 0 );
 
 	// The 20 percentage points from 31.7 to 51.7 are scaled to a range of 6 score points: 6/20 = 0.3.
 	// 51.7 scores 9, 31.7 scores 3.
 	unboundedScore = 3 + ( 0.3  * ( percentage - 31.7 ) );
+
 	// Scores exceeding 9 are 9, scores below 3 are 3.
 	score = Math.max( Math.min( unboundedScore, 9 ), 3 );
 	if ( score < 7 ) {
 		var recommendedMinimum = 45;
 		return {
-			score: score,
+			score: formatNumber( score ),
 			hasMarks: hasMarks,
 			text: i18n.sprintf(
 				i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
 					"which is less than the recommended minimum of %2$s." ),
-				percentage.toFixed( 1 ) + "%", recommendedMinimum + "%" )
+				percentage + "%", recommendedMinimum + "%" )
 		};
 	}
+
 	return {
-		score: score,
+		score: formatNumber( score ),
 		hasMarks: hasMarks,
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, which is great."
-		), percentage.toFixed( 1 ) + "%" )
+		), percentage + "%" )
 	};
 };
 
