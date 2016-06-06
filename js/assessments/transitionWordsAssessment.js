@@ -21,7 +21,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	// The 20 percentage points from 31.7 to 51.7 are scaled to a range of 6 score points: 6/20 = 0.3.
 	// 51.7 scores 9, 31.7 scores 3.
 	unboundedScore = 3 + ( 0.3  * ( percentage - 31.7 ) );
-	
+
 	// Scores exceeding 9 are 9, scores below 3 are 3.
 	score = Math.max( Math.min( unboundedScore, 9 ), 3 );
 	if ( score < 7 ) {
@@ -35,7 +35,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 				percentage + "%", recommendedMinimum + "%" )
 		};
 	}
-	
+
 	return {
 		score: formatNumber( score ),
 		hasMarks: hasMarks,

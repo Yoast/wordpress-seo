@@ -1,5 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
+var removePunctuation = require( "../stringProcessing/removePunctuation.js" );
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
 
