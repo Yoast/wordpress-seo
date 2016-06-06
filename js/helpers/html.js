@@ -31,7 +31,7 @@ var tokens = [];
 var htmlBlockTokenizer;
 
 /**
- * Creates a tokenizer to tokenize HTML into blocks
+ * Creates a tokenizer to tokenize HTML into blocks.
  */
 function createTokenizer() {
 	tokens = [];
@@ -56,7 +56,7 @@ function createTokenizer() {
 }
 
 /**
- * Returns whether or not the given element name is a block element
+ * Returns whether or not the given element name is a block element.
  *
  * @param {string} htmlElementName The name of the HTML element.
  * @returns {boolean} Whether or not it is a block element.
@@ -66,7 +66,7 @@ function isBlockElement( htmlElementName ) {
 }
 
 /**
- * Returns whether or not the given element name is an inline element
+ * Returns whether or not the given element name is an inline element.
  *
  * @param {string} htmlElementName The name of the HTML element.
  * @returns {boolean} Whether or not it is an inline element.

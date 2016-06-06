@@ -29,7 +29,7 @@ var tokens = [];
 var sentenceTokenizer;
 
 /**
- * Creates a tokenizer to create tokens from a sentence
+ * Creates a tokenizer to create tokens from a sentence.
  */
 function createTokenizer() {
 	tokens = [];
@@ -47,7 +47,7 @@ function createTokenizer() {
 }
 
 /**
- * Returns whether or not a certain character is a capital letter
+ * Returns whether or not a certain character is a capital letter.
  *
  * @param {string} character The character to check.
  * @returns {boolean} Whether or not the character is a capital letter.
@@ -57,7 +57,7 @@ function isCapitalLetter( character ) {
 }
 
 /**
- * Returns whether or not a certain character is a number
+ * Returns whether or not a certain character is a number.
  *
  * @param {string} character The character to check.
  * @returns {boolean} Whether or not the character is a capital letter.
@@ -77,7 +77,7 @@ function isBreakTag( htmlTag ) {
 }
 
 /**
- * Tokenizes a sentence, assumes that the text has already been split into blocks
+ * Tokenizes a sentence, assumes that the text has already been split into blocks.
  *
  * @param {string} text The text to tokenize.
  * @returns {Array} An array of tokens.
@@ -93,7 +93,7 @@ function tokenizeSentences( text ) {
 }
 
 /**
- * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks
+ * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
  * @param {Array} tokens The tokens from the sentence tokenizer.
  * @returns {Array<string>} A list of sentences.
@@ -195,7 +195,7 @@ function getSentencesFromTokens( tokens ) {
 }
 
 /**
- * Returns the sentences from a certain block
+ * Returns the sentences from a certain block.
  *
  * @param {string} block The HTML inside a HTML block.
  * @returns {Array<string>} The list of sentences in the block.
@@ -210,6 +210,7 @@ var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
 
 /**
  * Returns sentences in a string.
+ *
  * @param {String} text The string to count sentences in.
  * @returns {Array} Sentences found in the text.
  */
