@@ -30,12 +30,15 @@ var memoize = require( "lodash/memoize" );
 var tokens = [];
 var htmlBlockTokenizer;
 
+/**
+ * Creates a tokenizer to tokenize HTML into blocks
+ */
 function createTokenizer() {
 	tokens = [];
 
-	htmlBlockTokenizer = core(function( token ) {
+	htmlBlockTokenizer = core( function( token ) {
 		tokens.push( token );
-	});
+	} );
 
 	htmlBlockTokenizer.addRule( contentRegex, "content" );
 	htmlBlockTokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );

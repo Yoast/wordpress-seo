@@ -6,6 +6,7 @@ var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
 var countSentences = require( "../stringProcessing/countSentences.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 
 /**
  * This calculates the fleschreadingscore for a given text
@@ -30,5 +31,5 @@ module.exports = function( paper ) {
 	var syllableCount = countSyllables( text );
 	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
 
-	return score.toFixed( 1 );
+	return formatNumber( score );
 };

@@ -58,7 +58,7 @@ function isCapitalLetter( character ) {
  * @returns {boolean} Whether or not the character is a capital letter.
  */
 function isNumber( character ) {
-	return ! isNaN( parseInt( character, 10 ) );
+	return !isNaN( parseInt( character, 10 ) );
 }
 
 /**
@@ -94,7 +94,7 @@ function tokenizeSentences( text ) {
  * @returns {Array<string>} A list of sentences.
  */
 function getSentencesFromTokens( tokens ) {
-	var tokenSentences = [], currentSentence = "", nextSentenceStart, remainingTokens;
+	var tokenSentences = [], currentSentence = "", nextSentenceStart;
 
 	var sliced;
 
@@ -114,7 +114,6 @@ function getSentencesFromTokens( tokens ) {
 	forEach( tokens, function( token, i ) {
 		var hasNextSentence;
 		var nextToken = tokens[ i + 1 ];
-		remainingTokens = tokens.slice( i + 1 );
 
 		switch ( token.type ) {
 

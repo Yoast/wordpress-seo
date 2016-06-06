@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 var getSubheadings = require( "../stringProcessing/getSubheadings.js" ).getSubheadings;
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
@@ -60,7 +60,7 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
  */
 var getSubheadingLength = function( paper, researcher, i18n ) {
 	var subheadingsLength = researcher.getResearch( "getSubheadingLength" );
-	var recommendedValue = 30;
+	var recommendedValue = 50;
 	var tooLong = 0;
 	var scores = [];
 	var lowestScore = 0;
@@ -72,8 +72,8 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 			}
 
 			// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 20 steps, each step is 0.3.
-			// Up to 23.4  is for scoring a 9, higher numbers give lower scores.
-			scores.push( 9 - Math.max( Math.min( ( 0.3 ) * ( length - 23.4 ), 6 ), 0 ) );
+			// Up to 43.4 is for scoring a 9, higher numbers give lower scores.
+			scores.push( 9 - Math.max( Math.min( ( 0.3 ) * ( length - 43.4 ), 6 ), 0 ) );
 		} );
 
 		lowestScore = scores.sort(
@@ -84,7 +84,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 	}
 
 	// floatingPointFix because of js rounding errors
-	lowestScore = fixFloatingPoint( lowestScore );
+	lowestScore = formatNumber( lowestScore );
 
 	var subheadingsLengthResult = subheadingsLengthScore( lowestScore, tooLong, recommendedValue, i18n );
 

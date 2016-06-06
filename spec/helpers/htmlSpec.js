@@ -1,13 +1,10 @@
 var html = require( "../../js/helpers/html" );
 
-var {
-	blockElements,
-	inlineElements,
-	isBlockElement,
-	isInlineElement,
-	getBlocks,
-	getTokens
-} = html;
+var blockElements = html.blockElements;
+var inlineElements = html.inlineElements;
+var isBlockElement = html.isBlockElement;
+var isInlineElement = html.isInlineElement;
+var getBlocks = html.getBlocks;
 
 describe( "html", function() {
 
