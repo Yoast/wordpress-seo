@@ -1,8 +1,8 @@
 /** @module stringProcessing/countWords */
 
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var removeSentenceTerminators = require( "../stringProcessing/removeSentenceTerminators.js" );
+var stripTags = require( "./stripHTMLTags.js" );
+var stripSpaces = require( "./stripSpaces.js" );
+var removeSentenceTerminators = require( "./removeSentenceTerminators.js" );
 var map = require( "lodash/map" );
 var filter = require( "lodash/filter" );
 
