@@ -900,7 +900,7 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="<# console.log(data); if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
+				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
