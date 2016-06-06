@@ -8,7 +8,6 @@ var $ = jQuery;
 var defaultArguments = {
 	keyword: '',
 	prefix: '',
-	basedOn: '',
 	onActivate: function ( ) { },
 	afterActivate: function ( ) { },
 	active: false,
@@ -33,7 +32,6 @@ module.exports = (function() {
 
 		this.keyword = args.keyword;
 		this.prefix  = args.prefix;
-		this.basedOn = args.basedOn;
 		this.onActivate = args.onActivate;
 		this.afterActivate = args.afterActivate;
 		this.active = args.active;
@@ -106,7 +104,6 @@ module.exports = (function() {
 			hideRemove: true,
 			prefix: this.prefix + ' ',
 			active: this.active,
-			basedOn: this.basedOn,
 			scoreText: this.scoreText,
 			isKeywordTab: this.isKeywordTab
 		});
