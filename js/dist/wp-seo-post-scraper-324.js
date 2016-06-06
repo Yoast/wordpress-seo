@@ -22188,6 +22188,8 @@ var updateAdminBar = require( "./ui/adminBar" ).update;
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
 
+		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
+
 		publishBox.initalise();
 
 		tabManager = new TabManager({
@@ -22254,6 +22256,11 @@ var updateAdminBar = require( "./ui/adminBar" ).update;
 		postScraper.initKeywordTabTemplate();
 
 		window.YoastSEO.wp._tabManager = tabManager;
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+		publishBox.updateScore( 'keyword', indicator.className );
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 

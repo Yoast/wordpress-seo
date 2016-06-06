@@ -286,6 +286,8 @@ var updateAdminBar = require( "./ui/adminBar" ).update;
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
+		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
+
 		insertTinyMCE();
 
 		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
@@ -350,6 +352,10 @@ var updateAdminBar = require( "./ui/adminBar" ).update;
 		YoastSEO.analyzerArgs = args;
 
 		initTermSlugWatcher();
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 	} );
