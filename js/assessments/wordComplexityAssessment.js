@@ -34,10 +34,10 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 	var percentage = ( tooComplexWords / wordCount ) * 100;
 	percentage = fixFloatingPoint( percentage );
 	var hasMarks = ( percentage > 0 );
-	var recommendedMaximum = 10;
-	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step i 0.6
-	// Up to 6.7 percent is for scoring a 9, higher percentages give lower scores.
-	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 6.7 ), 6 ), 0 );
+	var recommendedMaximum = 5;
+	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step is 0.6
+	// Up to 1.7 percent is for scoring a 9, higher percentages give lower scores.
+	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 1.7 ), 6 ), 0 );
 	score = fixFloatingPoint( score );
 
 	if ( score >= 7 ) {
