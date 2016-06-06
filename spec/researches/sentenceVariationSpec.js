@@ -15,7 +15,7 @@ describe( "the sentence length variation research", function() {
 			"urna at molestie."
 		);
 		var result = sentenceVariation( paper );
-		expect( result ).toBe( 1.41 );
+		expect( result ).toBe( 1.4 );
 	} );
 /*
 	it( "should calculate the standard deviation short and long sentences", function() {

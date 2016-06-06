@@ -13,13 +13,13 @@ describe( "An assessment for finding the length of the subheadings.", function()
 	} );
 	it( "returns headings < 50 chars. ", function() {
 		assessment = subHeadingLengthAssessment.getResult( paper, Factory.buildMockResearcher( [ 5, 5, 46 ] ), i18n );
-		expect( assessment.getScore() ).toBe( 8.22 );
+		expect( assessment.getScore() ).toBe( 8.2 );
 		expect( assessment.getText() ).toBe( "The length of all subheadings is less than or equal to the recommended maximum of 50 characters, which is great." );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 	it( "returns headings > 50 chars, 1 too long heading. ", function() {
 		assessment = subHeadingLengthAssessment.getResult( paper, Factory.buildMockResearcher( [ 5, 5, 55 ] ), i18n );
-		expect( assessment.getScore() ).toBe( 5.52 );
+		expect( assessment.getScore() ).toBe( 5.5 );
 		expect( assessment.getText() ).toBe( "You have 1 subheading containing more than the recommended maximum of 50 characters." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -31,7 +31,7 @@ describe( "An assessment for finding the length of the subheadings.", function()
 	} );
 	it( "returns headings > 50 chars. 2 too long headings. ", function() {
 		assessment = subHeadingLengthAssessment.getResult( paper, Factory.buildMockResearcher( [ 5, 54, 56 ] ), i18n );
-		expect( assessment.getScore() ).toBe( 5.22 );
+		expect( assessment.getScore() ).toBe( 5.2 );
 		expect( assessment.getText() ).toBe( "You have 2 subheadings containing more than the recommended maximum of 50 characters." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
