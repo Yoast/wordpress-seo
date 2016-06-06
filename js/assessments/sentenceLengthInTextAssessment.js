@@ -54,7 +54,8 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 
 			// translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
 			// %3$s expands to the recommended amount of words.
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain " +
+				"<a href='https://yoa.st/short-sentences' target='_blank'>more than %3$d words</a>, " +
 				"which is less than or equal to the recommended maximum of %2$s." ), percentage + "%", maximumPercentage + "%", recommendedValue )
 		};
 	}
@@ -65,7 +66,8 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 
 		// translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
 		// %3$s expands to the recommended amount of words.
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
+		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain " +
+			"<a href='https://yoa.st/short-sentences' target='_blank'>more than %3$d words</a>, " +
 			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ),
 			percentage + "%", maximumPercentage + "%", recommendedValue )
 	};

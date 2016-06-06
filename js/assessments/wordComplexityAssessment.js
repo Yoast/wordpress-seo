@@ -51,7 +51,9 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 					"js-text-analysis",
 					// Translators: %1$s expands to the percentage of complex words, %2$d expands to the recommended number of syllables,
 					// %3$s expands to the recommend maximum
-					"%1$s of the words contain over %2$d syllables, which is less than or equal to the recommended maximum of %3$s." ),
+					"%1$s of the words contain " +
+					"<a href='https://yoa.st/difficult-words' target='_blank'> over %2$d syllables</a>, " +
+					"which is less than or equal to the recommended maximum of %3$s." ),
 				percentage + "%", recommendedValue, recommendedMaximum + "%"  )
 		};
 	}
@@ -64,7 +66,9 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 				"js-text-analysis",
 				// Translators: %1$s expands to the percentage of too complex words, %2$d expands to the recommended number of syllables
 				// %3$s expands to the recommend maximum
-				"%1$s of the words contain over %2$d syllables, which is more than the recommended maximum of %3$s." ),
+				"%1$s of the words contain " +
+				"<a href='https://yoa.st/difficult-words' target='_blank'> over %2$d syllables</a>, " +
+				"which is more than the recommended maximum of %3$s." ),
 			percentage + "%", recommendedValue, recommendedMaximum + "%" )
 	};
 };
