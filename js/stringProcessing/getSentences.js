@@ -1,98 +1,185 @@
-var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
-var isEmpty = require( "lodash/isEmpty" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var isNaN = require( "lodash/isNaN" );
+var filter = require( "lodash/filter" );
+var flatMap = require( "lodash/flatMap" );
+var isEmpty = require( "lodash/isEmpty" );
+var negate = require( "lodash/negate" );
+var memoize = require( "lodash/memoize" );
 
-var getSubheadings = require( "./getSubheadings.js" ).getSubheadings;
+var core = require( "tokenizer2/core" );
+
+var getBlocks = require( "../helpers/html.js" ).getBlocks;
 
 // All characters that indicate a sentence delimiter.
 var sentenceDelimiters = ".?!:;";
+var newLines = "\n\r|\n|\r";
 
-var afterPointRegex = /\s|</;
+var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
+var sentenceRegex = new RegExp( "^[^" + sentenceDelimiters + "<]+$" );
+var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
+var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
+var newLineRegex = new RegExp( newLines );
+
+var tokens = [];
+var sentenceTokenizer;
 
 /**
- * Checks if the period is followed with a whitespace or < for an html-tag. If not, it is no ending of a sentence.
+ * Creates a tokenizer to create tokens from a sentence
+ */
+function createTokenizer() {
+	tokens = [];
+
+	sentenceTokenizer = core( function( token ) {
+		tokens.push( token );
+	} );
+
+	sentenceTokenizer.addRule( htmlStartRegex, "html-start" );
+	sentenceTokenizer.addRule( htmlEndRegex, "html-end" );
+	sentenceTokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
+	sentenceTokenizer.addRule( sentenceRegex, "sentence" );
+}
+
+/**
+ * Returns whether or not a certain character is a capital letter
  *
- * @param {string} text The text to split in sentences.
- * @param {number} index The current index to look for.
- * @returns {boolean} True if it doesn't match a whitespace or < .
+ * @param {string} character The character to check.
+ * @returns {boolean} Whether or not the character is a capital letter.
  */
-var invalidateOnWhiteSpace = function( text, index ) {
-	return text.substring( index, index + 1 ).match( afterPointRegex ) === null;
-};
+function isCapitalLetter( character ) {
+	return character !== character.toLocaleLowerCase();
+}
 
 /**
- * Checks if the character in the next sentence is a capital letter or a number. If not, this period is not the end
- * of a sentence.
+ * Returns whether or not a certain character is a number
  *
- * @param {string} text The text to split in sentences.
- * @param {Array} positions The array with positions of periods in the text.
- * @param {number} i The current iterator.
- * @returns {boolean} False if it doesn't match a capital.
+ * @param {string} character The character to check.
+ * @returns {boolean} Whether or not the character is a capital letter.
  */
-var invalidateOnCapital = function( text, positions, i ) {
-
-	if ( text.substring( positions[ i ], positions[ i ] + 1 ) === "<" ) {
-		return false;
-	}
-
-	// The current index + 1 should be the first character of the new sentence. We use a range of 1, since we only need the first character.
-	var firstChar = text.substring( positions[ i ] + 1, positions[ i ] + 2 );
-
-	// If a sentence starts with a number or a whitespace, it shouldn't invalidate
-	if ( firstChar === firstChar.toLocaleLowerCase() && isNaN( parseInt( firstChar, 10 ) ) && firstChar.match( afterPointRegex ) === null ) {
-		return true;
-	}
-};
+function isNumber( character ) {
+	return ! isNaN( parseInt( character, 10 ) );
+}
 
 /**
- * Filters the positions that aren't valid endings to sentences.
- * @param {string} text The text to split in sentences.
- * @param {Array} positions The array with positions of periods in the text.
- * @returns {Array} The filtered positions.
+ * Returns whether or not a given HTML tag is a break tag.
+ *
+ * @param {string} htmlTag The HTML tag to check.
+ * @returns {boolean} Whether or not the given HTML tag is a break tag.
  */
-var filterPositions = function( text, positions ) {
-	return filter( positions, function( position, index ) {
-		if ( !isUndefined( positions[ index + 1 ] ) ) {
-			if ( invalidateOnWhiteSpace( text, positions[ index ] ) || invalidateOnCapital( text, positions, index ) ) {
-				return false;
-			}
+function isBreakTag( htmlTag ) {
+	return /<br/.test( htmlTag );
+}
+
+/**
+ * Tokenizes a sentence, assumes that the text has already been split into blocks
+ *
+ * @param {string} text The text to tokenize.
+ * @returns {Array} An array of tokens.
+ */
+function tokenizeSentences( text ) {
+
+	createTokenizer();
+	sentenceTokenizer.onText( text );
+
+	sentenceTokenizer.end();
+
+	return tokens;
+}
+
+/**
+ * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks
+ *
+ * @param {Array} tokens The tokens from the sentence tokenizer.
+ * @returns {Array<string>} A list of sentences.
+ */
+function getSentencesFromTokens( tokens ) {
+	var tokenSentences = [], currentSentence = "", nextSentenceStart, remainingTokens;
+
+	var sliced;
+
+	// Drop the first and last HTML tag if both are present.
+	do {
+		sliced = false;
+		var firstToken = tokens[ 0 ];
+		var lastToken = tokens[ tokens.length - 1 ];
+
+		if ( firstToken.type === "html-start" && lastToken.type === "html-end" ) {
+			tokens = tokens.slice( 1, tokens.length - 1 );
+
+			sliced = true;
 		}
-		return true;
+	} while ( sliced );
+
+	forEach( tokens, function( token, i ) {
+		var hasNextSentence;
+		var nextToken = tokens[ i + 1 ];
+		remainingTokens = tokens.slice( i + 1 );
+
+		switch ( token.type ) {
+
+			case "html-start":
+			case "html-end":
+				if ( isBreakTag( token.src ) ) {
+					tokenSentences.push( currentSentence );
+					currentSentence = "";
+				} else {
+					currentSentence += token.src;
+				}
+				break;
+
+			case "sentence":
+				currentSentence += token.src;
+				break;
+
+			case "sentence-delimiter":
+				currentSentence += token.src;
+
+				hasNextSentence = !isUndefined( nextToken ) && nextToken.src.trim().length > 0;
+				nextSentenceStart = hasNextSentence ? nextToken.src.trim()[ 0 ] : "";
+
+				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
+				if (
+					( hasNextSentence && ( isCapitalLetter( nextSentenceStart ) || isNumber( nextSentenceStart ) ) )
+					|| ( nextToken && ( "html-start" === nextToken.type || "html-end" === nextToken.type ) )
+				) {
+					tokenSentences.push( currentSentence );
+					currentSentence = "";
+				}
+				break;
+
+			case "newline":
+				tokenSentences.push( currentSentence );
+				currentSentence = "";
+				break;
+		}
 	} );
-};
+
+	if ( "" !== currentSentence ) {
+		tokenSentences.push( currentSentence );
+	}
+
+	tokenSentences = map( tokenSentences, function( sentence ) {
+		return sentence.trim();
+	} );
+
+	return tokenSentences;
+}
 
 /**
- * Split sentences based on index.
+ * Returns the sentences from a certain block
  *
- * @param {Array} positions The array with positions of periods in the text.
- * @param {string} text The text to split in sentences.
- * @returns {Array} Array with sentences.
+ * @param {string} block The HTML inside a HTML block.
+ * @returns {Array<string>} The list of sentences in the block.
  */
-var splitOnIndex = function( positions, text ) {
-	var curIndex = 0, sentences = [];
+function getSentencesFromBlock( block ) {
+	var tokens = tokenizeSentences( block );
 
-	forEach( positions, function( index ) {
-		sentences.push( text.substring( curIndex, index ) );
+	return getSentencesFromTokens( tokens );
 
-		curIndex = index;
-	} );
-	return sentences;
-};
+}
 
-/**
- * Finds subheadings in each sentence and returns each position.
- * @param {string} text The sentence to check for subheadings.
- * @returns {Array} The position of each subsentence.
- */
-var findSubheadings = function( text ) {
-	var subheadings = getSubheadings( text );
-	return map( subheadings, function( subheading ) {
-		return subheading.index + subheading[ 0 ].length;
-	} );
-};
+var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
 
 /**
  * Returns sentences in a string.
@@ -100,36 +187,14 @@ var findSubheadings = function( text ) {
  * @returns {Array} Sentences found in the text.
  */
 module.exports = function( text ) {
+	var sentences, blocks = getBlocks( text );
 
-	// Store the original text before changing terminators, so we can return the unaltered sentences.
-	var originalText = text;
-
-	// Unify all terminators.
-	text = text.replace( new RegExp( "[" + sentenceDelimiters + "]", "g" ), "." );
-
-	// Add period in case it is missing.
-	text += ".";
-	var positions = [];
-	var periodIndex = text.indexOf( "." );
-	while ( periodIndex > -1 ) {
-		positions.push( periodIndex + 1 );
-		periodIndex = text.indexOf( ".", periodIndex + 1 );
-	}
-	positions = filterPositions( originalText, positions );
-
-	// Add the positions of subheadings.
-	positions = positions.concat( findSubheadings( text ) );
-	positions = positions.sort( function( a, b ) {
-		return a - b;
-	} );
-	var sentences = splitOnIndex( positions, originalText );
-
-	// Clean sentences by stripping HTMLtags.
-	sentences = map( sentences, function( sentence ) {
-		return sentence.replace( /^\s/, "" );
+	// Split each block on newlines.
+	blocks = flatMap( blocks, function( block ) {
+		return block.split( newLineRegex );
 	} );
 
-	return filter( sentences, function( sentence ) {
-		return ( !isEmpty( sentence ) );
-	} );
+	sentences = flatMap( blocks, getSentencesFromBlockCached );
+
+	return filter( sentences, negate( isEmpty ) );
 };
