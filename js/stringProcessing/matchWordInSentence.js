@@ -20,8 +20,8 @@ var characterInBoundary = function( character ) {
  */
 module.exports = function( word, sentence ) {
 	// To ensure proper matching, make everything lowercase.
-	word = word.toLowerCase();
-	sentence = sentence.toLowerCase();
+	word = word.toLocaleLowerCase();
+	sentence = sentence.toLocaleLowerCase();
 
 	var occurrenceStart = sentence.indexOf( word );
 	var occurrenceEnd = occurrenceStart + word.length;
