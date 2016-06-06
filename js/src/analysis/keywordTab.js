@@ -160,7 +160,7 @@ module.exports = (function() {
 
 		this.onActivate();
 
-		$( '.wpseo_keyword_tab' ).removeClass( 'active' );
+		$( '.wpseo_keyword_tab, .wpseo_content_tab' ).removeClass( 'active' );
 		this.active = true;
 		this.refresh();
 
