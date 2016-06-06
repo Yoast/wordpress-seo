@@ -4,7 +4,7 @@ import AlgoliaSearch from 'algoliasearch';
 class AlgoliaSearcher extends React.Component {
 
 	/**
-	 * ALgoliaSearcher constructor.
+	 * AlgoliaSearcher constructor.
 	 *
 	 * @constructor
 	 * @param {object} props Properties of the AlgoliaSearcher component.
