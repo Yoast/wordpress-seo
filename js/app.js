@@ -55,7 +55,7 @@ var defaults = {
 		"firstParagraph",
 		"'keywordDoubles" ],
 	typeDelay: 1500,
-	typeDelayStep: 250,
+	typeDelayStep: 1500,
 	maxTypeDelay: 5000,
 	dynamicDelay: true,
 	locale: "en_US",
