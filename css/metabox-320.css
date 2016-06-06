@@ -938,11 +938,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	color: #333;
 }
 
-/* Hide the `based on keyword` text to screen readers when there's no keyword */
-.wpseo-metabox-tabs .na .wpseo-keyword-tab-based-on {
-	display: none;
-}
-
 #wpseotab .ui-widget-content .ui-state-hover {
 	border: 1px solid #dfdfdf;
 	color: #333;
