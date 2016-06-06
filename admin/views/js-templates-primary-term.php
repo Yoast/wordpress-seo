@@ -23,12 +23,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	<?php
 		printf(
 			'<button type="button" class="wpseo-make-primary-term" aria-label="%1$s">%2$s</button>',
-			sprintf(
+			esc_attr( sprintf(
 				/* translators: accessibility text. %1$s expands to the term title, %2$s to the taxonomy title. */
 				__( 'Make %1$s primary %2$s', 'wordpress-seo' ),
 				'{{data.term}}',
 				'{{data.taxonomy.title}}'
-			),
+			) ),
 			__( 'Make primary', 'wordpress-seo' )
 		);
 		?>
