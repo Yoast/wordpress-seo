@@ -12,6 +12,7 @@ var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 var publishBox = require( './ui/publishBox' );
 
 var updateTrafficLight = require( "./ui/trafficLight" ).update;
+var updateAdminBar = require( "./ui/adminBar" ).update;
 
 (function( $ ) {
 	'use strict';
@@ -260,10 +261,7 @@ var updateTrafficLight = require( "./ui/trafficLight" ).update;
 			}
 
 			updateTrafficLight( indicator );
-
-			$( '.adminbar-seo-score' )
-				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
+			updateAdminBar( indicator );
 
 			publishBox.updateScore( 'keyword', indicator.className );
 		}

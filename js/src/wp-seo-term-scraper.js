@@ -7,6 +7,7 @@ var TabManager = require( './analysis/tabManager' );
 var tmceHelper = require( './wp-seo-tinymce' );
 
 var updateTrafficLight = require( "./ui/trafficLight" ).update;
+var updateAdminBar = require( "./ui/adminBar" ).update;
 
 (function( $ ) {
 	'use strict';
@@ -177,10 +178,7 @@ var updateTrafficLight = require( "./ui/trafficLight" ).update;
 		tabManager.updateKeywordTab( score, keyword );
 
 		updateTrafficLight( indicator );
-
-		$( '.adminbar-seo-score' )
-			.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-			.attr( 'alt', indicator.screenReaderText );
+		updateAdminBar( indicator );
 	};
 	/**
 	 * Saves the content score to a hidden field.
