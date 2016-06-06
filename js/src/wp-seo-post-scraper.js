@@ -11,6 +11,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 var publishBox = require( './ui/publishBox' );
 
+var updateTrafficLight = require( "./ui/trafficLight" ).update;
+
 (function( $ ) {
 	'use strict';
 
@@ -257,9 +259,7 @@ var publishBox = require( './ui/publishBox' );
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
-			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
+			updateTrafficLight( indicator );
 
 			$( '.adminbar-seo-score' )
 				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )

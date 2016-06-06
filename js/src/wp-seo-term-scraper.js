@@ -6,6 +6,8 @@ var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 var tmceHelper = require( './wp-seo-tinymce' );
 
+var updateTrafficLight = require( "./ui/trafficLight" ).update;
+
 (function( $ ) {
 	'use strict';
 
@@ -174,9 +176,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 
 		tabManager.updateKeywordTab( score, keyword );
 
-		$( '.yst-traffic-light' )
-			.attr( 'class', 'yst-traffic-light ' + indicator.className )
-			.attr( 'alt', indicator.screenReaderText );
+		updateTrafficLight( indicator );
 
 		$( '.adminbar-seo-score' )
 			.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
