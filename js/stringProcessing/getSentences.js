@@ -17,10 +17,13 @@ var sentenceDelimiters = ".?!:;";
 var newLines = "\n\r|\n|\r";
 
 var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
-var sentenceRegex = new RegExp( "^[^" + sentenceDelimiters + "<]+$" );
+var sentenceRegex = new RegExp( "^[^" + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
 var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
+
+var blockStartRegex = /^[\[\(\{]$/;
+var blockEndRegex = /^[\]\)}]$/;
 
 var tokens = [];
 var sentenceTokenizer;
@@ -37,6 +40,8 @@ function createTokenizer() {
 
 	sentenceTokenizer.addRule( htmlStartRegex, "html-start" );
 	sentenceTokenizer.addRule( htmlEndRegex, "html-end" );
+	sentenceTokenizer.addRule( blockStartRegex, "block-start" );
+	sentenceTokenizer.addRule( blockEndRegex, "block-end" );
 	sentenceTokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
 	sentenceTokenizer.addRule( sentenceRegex, "sentence" );
 }
@@ -94,7 +99,7 @@ function tokenizeSentences( text ) {
  * @returns {Array<string>} A list of sentences.
  */
 function getSentencesFromTokens( tokens ) {
-	var tokenSentences = [], currentSentence = "", nextSentenceStart;
+	var tokenSentences = [], currentSentence = "", nextSentenceStart, previousToken;
 
 	var sliced;
 
@@ -139,8 +144,16 @@ function getSentencesFromTokens( tokens ) {
 
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 				if (
-					( hasNextSentence && ( isCapitalLetter( nextSentenceStart ) || isNumber( nextSentenceStart ) ) )
-					|| ( !isUndefined( nextToken ) && ( "html-start" === nextToken.type || "html-end" === nextToken.type ) )
+					( hasNextSentence && (
+						isCapitalLetter( nextSentenceStart )
+						|| isNumber( nextSentenceStart ) )
+					|| ( !isUndefined( nextToken ) && (
+						"html-start" === nextToken.type
+						|| "html-end" === nextToken.type
+						|| "block-start" === nextToken.type
+						|| "block-end" === nextToken.type
+						) )
+					)
 				) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
@@ -151,7 +164,23 @@ function getSentencesFromTokens( tokens ) {
 				tokenSentences.push( currentSentence );
 				currentSentence = "";
 				break;
+
+			case "block-start":
+				tokenSentences.push( currentSentence );
+				currentSentence = token.src;
+				break;
+
+			case "block-end":
+				// When a block ends after a sentence delimiter make sure to add the block end to the sentence.
+				if ( !isUndefined( previousToken ) && previousToken.type === "sentence-delimiter" ) {
+					tokenSentences[ tokenSentences.length - 1 ] += token.src;
+				} else {
+					currentSentence += token.src;
+				}
+				break;
 		}
+
+		previousToken = token;
 	} );
 
 	if ( "" !== currentSentence ) {

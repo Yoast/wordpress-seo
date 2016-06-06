@@ -107,6 +107,32 @@ describe("Get sentences from text", function(){
 		testGetSentences( testCases );
 	});
 
+	it( "can detect sentences in parentheses", function() {
+		var text = "First sentence. (Second sentence.) [Third sentence.]";
+		var expected = [
+			"First sentence.",
+			"(Second sentence.)",
+			"[Third sentence.]"
+		];
+
+		var actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	});
+
+	it( "can detect sentences in brackets", function() {
+		var text = "[First sentence. Second sentence.] Third sentence";
+		var expected = [
+			"[First sentence.",
+			"Second sentence.]",
+			"Third sentence"
+		];
+
+		var actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	});
+
 	it( "can deal with a longer text", function() {
 		var text = "<p>As of today, you'll be able to buy our SEO copywriting training! Everyone who wants to learn how to write quality and SEO-friendly content should definitely look into our online training. Through video tutorials, instructional videos and lots of challenging questions we’ll teach you everything you need to know about SEO copywriting.  If you start our training now, you'll receive $50 discount and pay only $249.</p><p>buyknop our seo copywriting training</p><p>[promofilmpje seo copywriting invoegen]</p><h2>What will you learn?</h2><p>Our SEO copywriting training will take you through all the steps of the copywriting process. We start by executing keyword research. After that, we'll teach you how to prepare a blog post and give lots of tips on how to make your text nice and easy to read. Finally, we'll help you to optimize your text for the search engines.</p><p>The SEO copywriting training contains 6 modules with lots of training video's, texts, quizzes, and assignments.  You will have to do your own keyword research and write a genuine blog post. You will receive feedback from a member of the Yoast-team on both of these assignments.</p><p>Read more about the SEO copywriting training -- linken naar sales pagina</p><p> </p>";
 		var expected = [
