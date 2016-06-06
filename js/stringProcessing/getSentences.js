@@ -140,7 +140,7 @@ function getSentencesFromTokens( tokens ) {
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 				if (
 					( hasNextSentence && ( isCapitalLetter( nextSentenceStart ) || isNumber( nextSentenceStart ) ) )
-					|| ( nextToken && ( "html-start" === nextToken.type || "html-end" === nextToken.type ) )
+					|| ( ! isUndefined( nextToken ) && ( "html-start" === nextToken.type || "html-end" === nextToken.type ) )
 				) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
@@ -174,8 +174,7 @@ function getSentencesFromTokens( tokens ) {
 function getSentencesFromBlock( block ) {
 	var tokens = tokenizeSentences( block );
 
-	return getSentencesFromTokens( tokens );
-
+	return tokens.length === 0 ? [] : getSentencesFromTokens( tokens );
 }
 
 var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
