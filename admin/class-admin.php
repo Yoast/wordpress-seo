@@ -123,7 +123,7 @@ class WPSEO_Admin {
 		}
 
 		// Base 64 encoded SVG image.
-		$icon_svg =  WPSEO_Utils::get_icon_svg();
+		$icon_svg = WPSEO_Utils::get_icon_svg();
 
 		$manage_options_cap = $this->get_manage_options_cap();
 
@@ -307,7 +307,7 @@ class WPSEO_Admin {
 	function register_network_settings_page() {
 		if ( WPSEO_Utils::grant_access() ) {
 			// Base 64 encoded SVG image.
-			$icon_svg =  WPSEO_Utils::get_icon_svg();
+			$icon_svg = WPSEO_Utils::get_icon_svg();
 
 			add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', self::PAGE_IDENTIFIER, array(
 				$this,
