@@ -21156,17 +21156,29 @@ TabManager.prototype.updateContentTab = function( score ) {
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
 TabManager.prototype.updateKeywordTab = function( score, keyword ) {
-	var indicator = getIndicatorForScore( score );
+	var indicator = {
+		className: 'na',
+		screenReaderText: YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' )
+	};
 
-	if ( this.mainKeywordTab.active ) {
+	if ( keyword === '' ) {
 		this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
 
-	} else {
-		// This branch makes sure that we see a color when loading the page.
-		indicator = getIndicatorForScore( $( '#yoast_wpseo_linkdex,#hidden_wpseo_linkdex' ).val() );
-
-		this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
+		return;
 	}
+
+	if ( this.mainKeywordTab.active ) {
+		indicator = getIndicatorForScore( score );
+
+		this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+
+		return;
+	}
+
+	// This branch makes sure that we see a color when loading the page.
+	indicator = getIndicatorForScore( $( '#yoast_wpseo_linkdex, #hidden_wpseo_linkdex' ).val() );
+
+	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
 };
 
 /**
@@ -21206,6 +21218,7 @@ module.exports = TabManager;
 var UsedKeywordsPlugin = require( 'yoastseo' ).bundledPlugins.usedKeywords;
 var _has = require( 'lodash/has' );
 var _debounce = require( 'lodash/debounce' );
+var _isArray = require( 'lodash/isArray' );
 var $ = jQuery;
 
 /**
@@ -21230,7 +21243,8 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 		postUrl: options.post_edit_url
 	}, app.i18n );
 
-	this._postID = $( '#post_ID' ).val();
+	this._postID = $( '#post_ID, [name=tag_ID]' ).val();
+	this._taxonomy = $( '[name=taxonomy]' ).val() || "";
 	this._ajaxAction = ajaxAction;
 	this._app = app;
 }
@@ -21265,7 +21279,8 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
 	$.post( ajaxurl, {
 		action: this._ajaxAction,
 		post_id: this._postID,
-		keyword: keyword
+		keyword: keyword,
+		taxonomy: this._taxonomy
 	}, this.updateKeywordUsage.bind( this, keyword ), 'json' );
 };
 
@@ -21276,9 +21291,8 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  * @param {*} response The response retrieved from the server.
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
-	if ( response ) {
+	if ( response && _isArray( response ) ) {
 		this._keywordUsage[ keyword ] = response;
-
 		this._plugin.updateKeywordUsage( this._keywordUsage );
 		this._app.analyzeTimer();
 	}
@@ -21286,7 +21300,7 @@ UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 
 module.exports = UsedKeywords;
 
-},{"lodash/debounce":465,"lodash/has":472,"yoastseo":1}],343:[function(require,module,exports){
+},{"lodash/debounce":465,"lodash/has":472,"lodash/isArray":476,"yoastseo":1}],343:[function(require,module,exports){
 var Assessor = require( "yoastseo/js/assessor.js" );
 
 var fleschReadingEase = require( "yoastseo/js/assessments/fleschReadingEaseAssessment.js" );
@@ -21880,9 +21894,16 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			if ( editorHasMarks( editor ) ) {
 				editorRemoveMarks( editor );
 
-				jQuery( '.assessment-results__mark' ).addClass( 'icon-eye-inactive' ).removeClass( 'icon-eye-active' );
+				deactivateResultMarks();
 			}
 		} );
+	}
+
+	/**
+	 * Deactivates the active result marks.
+	 */
+	function deactivateResultMarks() {
+		jQuery( '.assessment-results__mark' ).addClass( 'icon-eye-inactive' ).removeClass( 'icon-eye-active' );
 	}
 
 	module.exports = {
