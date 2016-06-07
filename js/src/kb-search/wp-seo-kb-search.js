@@ -294,7 +294,7 @@ const SearchResult = ( props ) => {
  * @constructor
  */
 const ArticleContent = ( props ) => {
-	let url = props.post.permalink + 'amp';
+	let url = props.post.permalink + 'amp?source=wpseo-kb-search';
 	return (
 		<iframe src={url} className="kb-search-content-frame"/>
 	);

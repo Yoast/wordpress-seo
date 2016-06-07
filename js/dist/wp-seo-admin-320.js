@@ -401,7 +401,7 @@ var SearchResult = function SearchResult(props) {
  * @constructor
  */
 var ArticleContent = function ArticleContent(props) {
-	var url = props.post.permalink + 'amp';
+	var url = props.post.permalink + 'amp?source=wpseo-kb-search';
 	return _react2.default.createElement('iframe', { src: url, className: 'kb-search-content-frame' });
 };
 
