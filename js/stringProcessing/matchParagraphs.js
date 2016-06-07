@@ -1,4 +1,7 @@
 var map = require( "lodash/map" );
+var flatMap = require( "lodash/flatMap" );
+
+var getBlocks = require( "../helpers/html" ).getBlocks;
 
 /**
  * Matches the paragraphs in <p>-tags and returns the text in them.
@@ -24,7 +27,7 @@ var getParagraphsInTags = function ( text ) {
 /**
  * Returns an array with all paragraphs from the text.
  * @param {string} text The text to match paragraph in.
- * @returns {array} The array containing all paragraphs from the text.
+ * @returns {Array} The array containing all paragraphs from the text.
  */
 module.exports = function( text ) {
 	var paragraphs = getParagraphsInTags( text );
@@ -34,10 +37,15 @@ module.exports = function( text ) {
 	}
 
 	// If no <p> tags found, split on double linebreaks.
-	paragraphs = text.split( "\n\n" );
+	var blocks = getBlocks( text );
+	paragraphs = flatMap( blocks, function( block ) {
+		return block.split( "\n\n" );
+	} );
+
 	if ( paragraphs.length > 0 ) {
 		return paragraphs;
 	}
+
 	// If no paragraphs are found, return an array containing the entire text.
 	return [ text ];
 };
