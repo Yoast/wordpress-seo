@@ -50,16 +50,19 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	}
 	var score = calculateTooLongSentences( percentage );
 	var hasMarks = ( percentage > 0 );
+	var sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
 
 	if ( score >= 7 ) {
 		return {
 			score: score,
 			hasMarks: hasMarks,
-
-			// translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
-			// %3$s expands to the recommended amount of words.
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
-				"which is less than or equal to the recommended maximum of %2$s." ), percentage + "%", maximumPercentage + "%", recommendedValue )
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
+				// translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+				// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
+				// %5$s expands to the recommended maximum percentage.
+				"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less than or equal to the recommended maximum of %5$s."
+				), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
+			)
 		};
 	}
 
@@ -69,9 +72,15 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 
 		// translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
 		// %3$s expands to the recommended amount of words.
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
-			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ),
-			percentage + "%", maximumPercentage + "%", recommendedValue )
+		text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
+
+			// translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
+			// %5$s expands to the recommended maximum percentage.
+			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s." +
+			"Try to shorten your sentences."
+			), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
+		)
 	};
 };
 

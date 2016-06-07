@@ -43,6 +43,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 	percentage = formatNumber( percentage );
 	var hasMarks = ( percentage > 0 );
 	var recommendedMaximum = 5;
+	var wordComplexityURL = "<a href='https://yoa.st/difficult-words' target='_blank'>";
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step is 0.6
 	// Up to 1.7 percent is for scoring a 9, higher percentages give lower scores.
 	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 1.7 ), 6 ), 0 );
@@ -55,10 +56,13 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-					// Translators: %1$s expands to the percentage of complex words, %2$d expands to the recommended number of syllables,
-					// %3$s expands to the recommend maximum
-					"%1$s of the words contain over %2$d syllables, which is less than or equal to the recommended maximum of %3$s." ),
-				percentage + "%", recommendedValue, recommendedMaximum + "%"  )
+
+					// translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+					// %3$d expands to the recommended maximum number of syllables,
+					// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+					"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
+					"which is less than or equal to the recommended maximum of %5$s." ),
+				percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  )
 		};
 	}
 
@@ -68,10 +72,13 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
-				// Translators: %1$s expands to the percentage of too complex words, %2$d expands to the recommended number of syllables
-				// %3$s expands to the recommend maximum
-				"%1$s of the words contain over %2$d syllables, which is more than the recommended maximum of %3$s." ),
-			percentage + "%", recommendedValue, recommendedMaximum + "%" )
+
+				// translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+				// %3$d expands to the recommended maximum number of syllables,
+				// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+				"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
+				"which is more than the recommended maximum of %5$s." ),
+			percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  )
 	};
 };
 

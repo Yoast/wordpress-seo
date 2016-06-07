@@ -17,6 +17,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
 	percentage     = formatNumber( percentage );
 	var hasMarks   = ( percentage > 0 );
+	var transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
 
 	// The 20 percentage points from 31.7 to 51.7 are scaled to a range of 6 score points: 6/20 = 0.3.
 	// 51.7 scores 9, 31.7 scores 3.
@@ -30,17 +31,26 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
 			text: i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
-					"which is less than the recommended minimum of %2$s." ),
-				percentage + "%", recommendedMinimum + "%" )
+				i18n.dgettext( "js-text-analysis",
+
+					// translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+					// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+					"%1$s of the sentences contain a %2$stransition word%3$s or phrase, " +
+					"which is less than the recommended minimum of %4$s."
+				), percentage + "%", transitionWordsURL, "</a>", recommendedMinimum + "%" )
 		};
 	}
 
 	return {
 		score: formatNumber( score ),
 		hasMarks: hasMarks,
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, which is great."
-		), percentage + "%" )
+		text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
+
+			// translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+			// %3$s expands to the anchor end tag.
+			"%1$s of the sentences contain a %2$stransition word%3$s or phrase, " +
+			"which is great."
+		), percentage + "%", transitionWordsURL, "</a>" )
 	};
 };
 
