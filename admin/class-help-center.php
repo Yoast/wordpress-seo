@@ -99,7 +99,7 @@ class WPSEO_Help_Center {
 			)
 		);
 	}
-	
+
 	/**
 	 * Outputs the help center.
 	 */

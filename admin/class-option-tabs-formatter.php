@@ -30,7 +30,7 @@ class WPSEO_Option_Tabs_Formatter {
 			printf( '<a class="nav-tab" id="%1$s-tab" href="#top#%1$s">%2$s</a>', $tab->get_name(), $tab->get_label() );
 		}
 		echo '</h2>';
-		
+
 		foreach ( $option_tabs->get_tabs() as $tab ) {
 			// Prepare the help center for each tab.
 			$help_center = new WPSEO_Help_Center( $option_tabs->get_base(), $tab );
