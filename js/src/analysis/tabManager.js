@@ -53,6 +53,7 @@ TabManager.prototype.init = function() {
 			keyword: initialKeyword,
 			prefix: this.strings.keywordTab,
 			basedOn: this.strings.basedOn,
+			fallback: this.strings.enterFocusKeyword,
 			onActivate: function() {
 				this.showKeywordAnalysis();
 				this.deactivateContentTab();
