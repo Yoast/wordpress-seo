@@ -22,8 +22,8 @@ var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
 
-var blockStartRegex = /^[\[\(\{]$/;
-var blockEndRegex = /^[\]\)}]$/;
+var blockStartRegex = /^\s*[\[\(\{]\s*$/;
+var blockEndRegex = /^\s*[\]\)}]\s*$/;
 
 var tokens = [];
 var sentenceTokenizer;
@@ -166,8 +166,7 @@ function getSentencesFromTokens( tokens ) {
 				break;
 
 			case "block-start":
-				tokenSentences.push( currentSentence );
-				currentSentence = token.src;
+				currentSentence += token.src;
 				break;
 
 			case "block-end":
