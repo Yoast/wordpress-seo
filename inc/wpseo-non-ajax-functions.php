@@ -36,13 +36,13 @@ function wpseo_admin_bar_menu() {
 				), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
-		$score      = '<div class="' . esc_attr( 'wpseo-score-icon' ) . ' adminbar-seo-score"></div>';
+		$score      = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
 	}
 
 	if ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
-		$score      = '<div class="' . esc_attr( 'wpseo-score-icon' ) . ' adminbar-seo-score"></div>';
+		$score      = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
 		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
 	}
 

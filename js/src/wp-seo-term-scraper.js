@@ -180,7 +180,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 
 		$( '.adminbar-seo-score' )
 			.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-			.attr( 'alt', indicator.screenReaderText );
+			.find( '.adminbar-seo-score-text' ).text( indicator.screenReaderText );
 	};
 	/**
 	 * Saves the content score to a hidden field.

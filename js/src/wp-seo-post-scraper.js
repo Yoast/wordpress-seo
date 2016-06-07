@@ -248,7 +248,7 @@ var publishBox = require( './ui/publishBox' );
 	 */
 	PostScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
-
+console.log(indicator);
 		if ( tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
@@ -263,7 +263,7 @@ var publishBox = require( './ui/publishBox' );
 
 			$( '.adminbar-seo-score' )
 				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
+				.find( '.adminbar-seo-score-text' ).text( indicator.screenReaderText );
 
 			publishBox.updateScore( 'keyword', indicator.className );
 		}
