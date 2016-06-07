@@ -237,7 +237,7 @@ AlgoliaSearcher.defaultProps = {
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'knowledge_base_all',
+	algoliaIndexName: 'edge_testall',
 	errorMessage: 'Something went wrong. Please try again later.',
 	loadingPlaceholder: 'Loading...',
 	back: 'Back',
@@ -294,9 +294,9 @@ const SearchResult = ( props ) => {
  * @constructor
  */
 const ArticleContent = ( props ) => {
-	let post = props.post;
+	let url = props.post.permalink + 'amp';
 	return (
-		<iframe src={uri} className="kb-search-content-frame"/>
+		<iframe src={url} className="kb-search-content-frame"/>
 	);
 };
 
