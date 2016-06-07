@@ -114,7 +114,7 @@ function getSentencesFromTokens( tokens ) {
 
 			sliced = true;
 		}
-	} while ( sliced );
+	} while ( sliced && tokens.length > 1 );
 
 	forEach( tokens, function( token, i ) {
 		var hasNextSentence;
