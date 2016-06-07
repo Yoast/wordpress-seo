@@ -1,7 +1,6 @@
 module.exports = {
 	build: {
 		files: {
-			'js/dist/wp-seo-admin-320.js': ['js/src/wp-seo-admin.js'],
 			'js/dist/wp-seo-admin-global-320.js': ['js/src/wp-seo-admin-global.js'],
 			'js/dist/wp-seo-admin-gsc-320.js': ['js/src/wp-seo-admin-gsc.js'],
 			'js/dist/wp-seo-admin-media-320.js': ['js/src/wp-seo-admin-media.js'],
@@ -16,6 +15,16 @@ module.exports = {
 			'js/dist/wp-seo-replacevar-plugin-320.js': ['js/src/wp-seo-replacevar-plugin.js'],
 			'js/dist/wp-seo-shortcode-plugin-320.js': ['js/src/wp-seo-shortcode-plugin.js'],
 			'js/dist/wp-seo-term-scraper-324.js': ['js/src/wp-seo-term-scraper.js']
+		}
+	},
+	buildes6: {
+		options: {
+			transform: [
+				['babelify', { presets: ['es2015'] } ]
+			]
+		},
+		files: {
+			'js/dist/wp-seo-admin-320.js': ['js/src/wp-seo-admin.js']
 		}
 	}
 };

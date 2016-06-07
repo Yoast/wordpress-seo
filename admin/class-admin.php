@@ -62,6 +62,7 @@ class WPSEO_Admin {
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, array( $this, 'add_action_link' ), 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_global_style' ) );
 
 		if ( $this->options['cleanslugs'] === true ) {
 			add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
@@ -459,6 +460,14 @@ class WPSEO_Admin {
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 		}
+	}
+
+	/**
+	 * Enqueues the (tiny) global stylesheet needed for the plugin.
+	 */
+	public function enqueue_global_style() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_style( 'admin-global' );
 	}
 
 	/**
