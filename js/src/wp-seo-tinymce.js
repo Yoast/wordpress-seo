@@ -70,7 +70,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		if ( isTinyMCEAvailable( content_id ) === false ) {
 			content = tinyMCEElementContent( content_id );
 		}
-		else{
+		else {
 			content = tinyMCE.get( content_id ).getContent();
 		}
 

@@ -12030,8 +12030,8 @@ var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
 
-var blockStartRegex = /^\s*[\[\(\{]\s*$/;
-var blockEndRegex = /^\s*[\]\)}]\s*$/;
+var blockStartRegex = /^[\[\(\{]$/;
+var blockEndRegex = /^[\]\)}]$/;
 
 var tokens = [];
 var sentenceTokenizer;
@@ -12174,7 +12174,8 @@ function getSentencesFromTokens( tokens ) {
 				break;
 
 			case "block-start":
-				currentSentence += token.src;
+				tokenSentences.push( currentSentence );
+				currentSentence = token.src;
 				break;
 
 			case "block-end":
@@ -22823,7 +22824,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		if ( isTinyMCEAvailable( content_id ) === false ) {
 			content = tinyMCEElementContent( content_id );
 		}
-		else{
+		else {
 			content = tinyMCE.get( content_id ).getContent();
 		}
 
