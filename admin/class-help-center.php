@@ -28,27 +28,41 @@ class WPSEO_Help_Center {
 	 * @param String           $group_name The name of the group of the tab the helpcenter is on.
 	 * @param WPSEO_Option_Tab $tab        The name of the tab the helpcenter is on.
 	 */
-	function __construct( $group_name, $tab ) {
+	public function __construct( $group_name, $tab ) {
 		$this->group_name = $group_name;
 		$this->tab        = $tab;
 
+		$this->add_video_tutorial_item();
+		$this->add_kb_search_item();
+		$this->add_contact_support_item();
+	}
+
+	/**
+	 * Add the knowledge base search help center item to the help center.
+	 */
+	private function add_kb_search_item() {
 		$kb_help_center_item = new WPSEO_Help_Center_Item(
 			'knowledge-base',
 			__( 'Knowledge base', 'wordpress-seo' ),
 			array(
 				'content'        => '<div class="wpseo-kb-search"></div>',
-				'view_arguments' => array( 'identifier' => $tab->get_name() ),
+				'view_arguments' => array( 'identifier' => $this->tab->get_name() ),
 			)
 		);
 		array_push( $this->help_center_items, $kb_help_center_item );
+	}
 
+	/**
+	 * Add the contact support help center item to the help center.
+	 */
+	private function add_contact_support_item() {
 		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		/* translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 		$popup_content = sprintf( __( 'To be able to contact our support team, you need %1$s. You can buy the plugin, including one year of support, updates and upgrades, on %2$s.', 'wordpress-seo' ),
 			'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=popup&utm_campaign=multiple-keywords">Yoast SEO Premium</a>',
 			'yoast.com' );
 
-		$premium_popup = new WPSEO_Premium_Popup( 'contact-support', $popup_title, $popup_content );
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Email support', 'wordpress-seo' ),
@@ -56,6 +70,13 @@ class WPSEO_Help_Center {
 		);
 
 		array_push( $this->help_center_items, $contact_support_help_center_item );
+	}
+
+	/**
+	 * Add the video tutorial help center item to the help center.
+	 */
+	private function add_video_tutorial_item() {
+		array_push( $this->help_center_items, $this->get_video_help_center_item() );
 	}
 
 	/**
@@ -78,12 +99,11 @@ class WPSEO_Help_Center {
 			)
 		);
 	}
-
+	
 	/**
 	 * Outputs the help center.
 	 */
-	public function draw_help_center() {
-		array_unshift( $this->help_center_items, $this->get_video_help_center_item() );
+	public function output_help_center() {
 		$help_center_items = apply_filters( 'wpseo_help_center_items', $this->help_center_items );
 		$help_center_items = array_filter( $help_center_items, array( $this, 'is_a_help_center_item' ) );
 

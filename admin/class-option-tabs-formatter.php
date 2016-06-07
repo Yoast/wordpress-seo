@@ -30,9 +30,7 @@ class WPSEO_Option_Tabs_Formatter {
 			printf( '<a class="nav-tab" id="%1$s-tab" href="#top#%1$s">%2$s</a>', $tab->get_name(), $tab->get_label() );
 		}
 		echo '</h2>';
-
-		$filter_name            = sprintf( 'yoast_option_tab_help_center_%s', $option_tabs->get_base() );
-
+		
 		foreach ( $option_tabs->get_tabs() as $tab ) {
 			// Prepare the help center for each tab.
 			$help_center = new WPSEO_Help_Center( $option_tabs->get_base(), $tab );
@@ -41,7 +39,7 @@ class WPSEO_Option_Tabs_Formatter {
 			printf( '<div id="%s" class="wpseotab">', $identifier );
 
 			// Output the help center.
-			$help_center->draw_help_center();
+			$help_center->output_help_center();
 
 			// Output the settings view for all tabs.
 			$tab_view = $this->get_tab_view( $option_tabs, $tab );

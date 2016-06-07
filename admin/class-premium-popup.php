@@ -35,7 +35,7 @@ class WPSEO_Premium_Popup {
 	 * @param String $title      The title of the popup.
 	 * @param String $content    The content of the popup.
 	 */
-	function __construct( $identifier, $title, $content ) {
+	public function __construct( $identifier, $title, $content ) {
 		$this->identifier = $identifier;
 		$this->title      = $title;
 		$this->content    = $content;

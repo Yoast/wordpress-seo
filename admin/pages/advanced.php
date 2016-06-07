@@ -56,7 +56,7 @@ echo '</h2>';
 echo '<br/>';
 
 $help_center = new WPSEO_Help_Center( 'advanced', $active_tab );
-$help_center->draw_help_center();
+$help_center->output_help_center();
 
 require_once WPSEO_PATH . 'admin/views/tabs/advanced/' . $active_tab->get_name() . '.php';
 
