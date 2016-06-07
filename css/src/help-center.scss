@@ -88,6 +88,11 @@
     display: block;
     padding: 0.5em;
     color: white;
+
+    &.dashicons-before:before {
+      text-decoration: none;
+      margin-right:3px;
+    }
   }
 
   &.active a {

@@ -26,6 +26,7 @@ class WPSEO_Help_Center_Item {
 	 * @param string $identifier Unique identifier for this tab.
 	 * @param string $label      Label to display.
 	 * @param array  $args       Optional. Settings for this tab.
+	 * @param string $dashicon   Optional. The classname of the dahsicon to put in front of the label.
 	 */
 	public function __construct( $identifier, $label, $args = array(), $dashicon = '' ) {
 		$this->identifier = $identifier;
@@ -57,7 +58,7 @@ class WPSEO_Help_Center_Item {
 	 *
 	 * @return string
 	 */
-	public function get_dashicon(){
+	public function get_dashicon() {
 		return $this->dashicon;
 	}
 

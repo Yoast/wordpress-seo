@@ -87,6 +87,11 @@
 	color: white;
 }
 
+.wpseo-help-center-item a.dashicons-before:before {
+	margin-right: 3px;
+	text-decoration: none;
+}
+
 .wpseo-help-center-item.active a {
 	border: 1px solid white;
 	border-right-width: 0;

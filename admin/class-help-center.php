@@ -131,8 +131,8 @@ class WPSEO_Help_Center {
 						foreach ( $help_center_items as $help_center_item ) {
 							$id = $help_center_item->get_identifier();
 							$dashicon = $help_center_item->get_dashicon();
-							if( !empty( $dashicon ) ){
-								$dashicon = "<span class='dashicons-before " . $dashicon . "' style='margin-right:3em;'/>";
+							if ( ! empty( $dashicon ) ) {
+								$dashicon = 'dashicons-before ' . $dashicon;
 							}
 							$link_id  = "tab-link-{$this->group_name}_{$this->tab->get_name()}__{$id}";
 							$panel_id = "tab-panel-{$this->group_name}_{$this->tab->get_name()}__{$id}";
@@ -140,8 +140,8 @@ class WPSEO_Help_Center {
 
 							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo $class; ?>">
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>"
-								   class="<?php echo $id ?>"
-								   aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo $dashicon . ' ' . esc_html( $help_center_item->get_label() ); ?></a>
+								   class="<?php echo $id . ' ' . $dashicon?>"
+								   aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
 							</li>
 							<?php
 							$class = 'wpseo-help-center-item';
