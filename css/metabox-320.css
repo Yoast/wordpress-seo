@@ -223,6 +223,8 @@
 	margin-top: 5px;
 	border: none;
 
+	-webkit-appearance: none;
+	-moz-appearance: none;
 	appearance: none;
 }
 
@@ -577,7 +579,6 @@ li.score:after {
 }
 
 .wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
@@ -1029,6 +1030,10 @@ body.rtl #wpseo-score {
 	margin: 0 -5px 0 5px;
 }
 
-body.edit-tags-php .postbox h3 {
-	margin-left: 20px;
+#poststuff.wpseo-taxonomy-metabox-postbox {
+	padding-top: 0;
+}
+
+.term-php .wpseo-taxonomy-metabox-postbox h2 {
+	border-bottom: 1px solid #eee;
 }

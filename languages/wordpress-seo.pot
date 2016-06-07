@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-02 08:06:45+00:00\n"
+"POT-Creation-Date: 2016-06-07 10:12:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -320,7 +320,7 @@ msgstr ""
 msgid "New %1$s Title"
 msgstr ""
 
-#: admin/class-config.php:110 admin/metabox/class-metabox.php:696
+#: admin/class-config.php:110 admin/metabox/class-metabox.php:701
 #: admin/taxonomy/class-taxonomy.php:97
 msgid "Use Image"
 msgstr ""
@@ -1100,9 +1100,13 @@ msgstr ""
 msgid "Keyword:"
 msgstr ""
 
+#: admin/formatter/class-metabox-formatter.php:49
+msgid "Enter your focus keyword"
+msgstr ""
+
 #. translators: After this sentence, the used keyword will be added (if
 #. present). This string is added to support screen readers.
-#: admin/formatter/class-metabox-formatter.php:55
+#: admin/formatter/class-metabox-formatter.php:56
 msgid "Based on keyword:"
 msgstr ""
 
@@ -1598,7 +1602,7 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:683
+#: admin/metabox/class-metabox.php:688
 msgid ""
 "The featured image should be at least 200x200 pixels to be picked up by "
 "Facebook and other social media sites."
@@ -4071,13 +4075,13 @@ msgid ""
 "sentences."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:41
+#: js/assessments/subheadingDistributionTooLongAssessment.js:47
 msgid ""
 "The amount of words following each of your subheadings doesn't exceed the "
 "recommended maximum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:52
+#: js/assessments/subheadingDistributionTooLongAssessment.js:59
 msgid ""
 "%1$d of the subheadings is followed by more than the recommended maximum of "
 "%2$d words. Try to insert another subheading."
@@ -4087,13 +4091,13 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/subheadingDistributionTooShortAssessment.js:41
+#: js/assessments/subheadingDistributionTooShortAssessment.js:47
 msgid ""
 "The number of words following each of your subheadings exceeds the "
 "recommended minimum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooShortAssessment.js:53
+#: js/assessments/subheadingDistributionTooShortAssessment.js:60
 msgid ""
 "The number of words following %1$d of your subheadings is less than or equal "
 "to the recommended minimum of %2$d words. Consider deleting that particular "
@@ -4358,13 +4362,13 @@ msgstr[1] ""
 msgid "http://en.wikipedia.org/wiki/Stop_words"
 msgstr ""
 
-#: js/assessments/wordComplexityAssessment.js:51
+#: js/assessments/wordComplexityAssessment.js:52
 msgid ""
 "%1$s of the words contain over %2$d syllables, which is less than or equal "
 "to the recommended maximum of %3$s."
 msgstr ""
 
-#: js/assessments/wordComplexityAssessment.js:64
+#: js/assessments/wordComplexityAssessment.js:65
 msgid ""
 "%1$s of the words contain over %2$d syllables, which is more than the "
 "recommended maximum of %3$s."
