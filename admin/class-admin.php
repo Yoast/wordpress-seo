@@ -123,7 +123,7 @@ class WPSEO_Admin {
 		}
 
 		// Base 64 encoded SVG image.
-		$icon_svg =  WPSEO_Utils::get_icon_svg();
+		$icon_svg = $this->get_menu_svg();
 
 		$manage_options_cap = $this->get_manage_options_cap();
 
@@ -307,7 +307,7 @@ class WPSEO_Admin {
 	function register_network_settings_page() {
 		if ( WPSEO_Utils::grant_access() ) {
 			// Base 64 encoded SVG image.
-			$icon_svg = WPSEO_Utils::get_icon_svg();
+			$icon_svg = $this->get_menu_svg();
 			add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', self::PAGE_IDENTIFIER, array(
 				$this,
 				'network_config_page',
@@ -587,6 +587,17 @@ class WPSEO_Admin {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 			}
 		}
+	}
+
+	/**
+	 * Returns a base64 URL for the svg for use in the menu
+	 *
+	 * @return string
+	 */
+	private function get_menu_svg() {
+		$icon_svg = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGZpbGw9Im5vbmUiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Zz48Zz48Zz48Zz48cGF0aCBzdHlsZT0iZmlsbDojMDAwIiBkPSJNMjAzLjYsMzk1YzYuOC0xNy40LDYuOC0zNi42LDAtNTRsLTc5LjQtMjA0aDcwLjlsNDcuNywxNDkuNGw3NC44LTIwNy42SDExNi40Yy00MS44LDAtNzYsMzQuMi03Niw3NlYzNTdjMCw0MS44LDM0LjIsNzYsNzYsNzZIMTczQzE4OSw0MjQuMSwxOTcuNiw0MTAuMywyMDMuNiwzOTV6Ii8+PC9nPjxnPjxwYXRoIHN0eWxlPSJmaWxsOiMwMDAiIGQ9Ik00NzEuNiwxNTQuOGMwLTQxLjgtMzQuMi03Ni03Ni03NmgtM0wyODUuNywzNjVjLTkuNiwyNi43LTE5LjQsNDkuMy0zMC4zLDY4aDIxNi4yVjE1NC44eiIvPjwvZz48L2c+PHBhdGggc3R5bGU9ImZpbGw6IzAwMCIgc3Ryb2tlLXdpZHRoPSIyLjk3NCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNMzM4LDEuM2wtOTMuMywyNTkuMWwtNDIuMS0xMzEuOWgtODkuMWw4My44LDIxNS4yYzYsMTUuNSw2LDMyLjUsMCw0OGMtNy40LDE5LTE5LDM3LjMtNTMsNDEuOWwtNy4yLDF2NzZoOC4zYzgxLjcsMCwxMTguOS01Ny4yLDE0OS42LTE0Mi45TDQzMS42LDEuM0gzMzh6IE0yNzkuNCwzNjJjLTMyLjksOTItNjcuNiwxMjguNy0xMjUuNywxMzEuOHYtNDVjMzcuNS03LjUsNTEuMy0zMSw1OS4xLTUxLjFjNy41LTE5LjMsNy41LTQwLjcsMC02MGwtNzUtMTkyLjdoNTIuOGw1My4zLDE2Ni44bDEwNS45LTI5NGg1OC4xTDI3OS40LDM2MnoiLz48L2c+PC9nPjwvc3ZnPg==';
+
+		return $icon_svg;
 	}
 
 	/**
