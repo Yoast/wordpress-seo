@@ -105,8 +105,6 @@ li.score:after {
 .assessment-results {
 	clear: both;
 
-
-
 	&__mark {
 		&.icon-eye {
 			&-inactive, &-active {
@@ -151,10 +149,8 @@ li.score:after {
 		background-size: 16px;
 		cursor: pointer;
 		margin-top: -16px;
-		margin-left: 43px;
+		margin-left: 3px;
 		margin-bottom: 15px;
-
-		float: left;
 
 		&:focus {
 			box-shadow: 0 0 0 1px #5b9dd9,
