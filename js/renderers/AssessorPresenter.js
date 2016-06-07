@@ -331,7 +331,7 @@ AssessorPresenter.prototype.renderOverallRating = function() {
  */
 AssessorPresenter.prototype.displayRemoveAllMarkersButton = function( hasMarks ) {
 	var outputElement     = document.getElementById( this.output );
-	var removeMarksButton = outputElement.getElementsByClassName( 'assessment-results__remove-marks' )[ 0 ];
+	var removeMarksButton = outputElement.getElementsByClassName( "assessment-results__remove-marks" )[ 0 ];
 
 	if( isUndefined( removeMarksButton ) ) {
 		return;
@@ -339,14 +339,14 @@ AssessorPresenter.prototype.displayRemoveAllMarkersButton = function( hasMarks )
 
 	// Shows the button when there are marks and removes aria-hidden for screenreaders, because element is visible.
 	if( hasMarks ) {
-		removeMarksButton.style.visibility = '';
-		removeMarksButton.removeAttribute( 'aria-hidden' );
+		removeMarksButton.style.visibility = "";
+		removeMarksButton.removeAttribute( "aria-hidden" );
 
 		return;
 	}
 
-	removeMarksButton.style.visibility = 'hidden';
-	removeMarksButton.setAttribute( 'aria-hidden', 'true');
+	removeMarksButton.style.visibility = "hidden";
+	removeMarksButton.setAttribute( "aria-hidden", "true" );
 };
 
 module.exports = AssessorPresenter;
