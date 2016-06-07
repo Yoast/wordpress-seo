@@ -454,16 +454,6 @@ li.score:after {
 	display: none;
 }
 
-@-webkit-keyframes animatedBackground {
-	from {
-		background-position: 0 0;
-	}
-
-	to {
-		background-position: 100% 0;
-	}
-}
-
 @keyframes animatedBackground {
 	from {
 		background-position: 0 0;
@@ -484,7 +474,6 @@ li.score:after {
 	background-image: linear-gradient(to left, #fff, #0063ff, #fff, #0063ff);
 	background-position: 0 0;
 	background-size: 300% 100%;
-	-webkit-animation: animatedBackground 5s linear infinite;
 	animation: animatedBackground 5s linear infinite;
 }
 
@@ -590,7 +579,6 @@ li.score:after {
 }
 
 .wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
