@@ -8,13 +8,16 @@
  */
 class WPSEO_Help_Center_Item {
 
-	/** @var string Identifier for this tab */
+	/** @var string Identifier for this tab. */
 	private $identifier;
 
-	/** @var string Label to display */
+	/** @var string Label to display. */
 	private $label;
 
-	/** @var array Optional arguments */
+	/** @var string The dashicon classname to display in front of the label. */
+	private $dashicon;
+
+	/** @var array Optional arguments. */
 	private $args = array();
 
 	/**
@@ -24,15 +27,15 @@ class WPSEO_Help_Center_Item {
 	 * @param string $label      Label to display.
 	 * @param array  $args       Optional. Settings for this tab.
 	 */
-	public function __construct( $identifier, $label, $args = array() ) {
+	public function __construct( $identifier, $label, $args = array(), $dashicon = '' ) {
 		$this->identifier = $identifier;
 		$this->label      = $label;
-
-		$this->args = $args;
+		$this->dashicon   = $dashicon;
+		$this->args       = $args;
 	}
 
 	/**
-	 * Get the label
+	 * Get the label.
 	 *
 	 * @return string
 	 */
@@ -41,7 +44,7 @@ class WPSEO_Help_Center_Item {
 	}
 
 	/**
-	 * Get the identifier
+	 * Get the identifier.
 	 *
 	 * @return string
 	 */
@@ -50,7 +53,16 @@ class WPSEO_Help_Center_Item {
 	}
 
 	/**
-	 * Get the content of this tab
+	 * Get the dashicon.
+	 *
+	 * @return string
+	 */
+	public function get_dashicon(){
+		return $this->dashicon;
+	}
+
+	/**
+	 * Get the content of this tab.
 	 *
 	 * @return mixed|string
 	 */

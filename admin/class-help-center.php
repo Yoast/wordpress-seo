@@ -47,7 +47,8 @@ class WPSEO_Help_Center {
 			array(
 				'content'        => '<div class="wpseo-kb-search"></div>',
 				'view_arguments' => array( 'identifier' => $this->tab->get_name() ),
-			)
+			),
+			'dashicons-search'
 		);
 		array_push( $this->help_center_items, $kb_help_center_item );
 	}
@@ -66,7 +67,8 @@ class WPSEO_Help_Center {
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Email support', 'wordpress-seo' ),
-			array( 'content' => $premium_popup->get_premium_message( false ) )
+			array( 'content' => $premium_popup->get_premium_message( false ) ),
+			'dashicons-email-alt'
 		);
 
 		array_push( $this->help_center_items, $contact_support_help_center_item );
@@ -90,13 +92,14 @@ class WPSEO_Help_Center {
 
 		return new WPSEO_Help_Center_Item(
 			'video',
-			'Video tutorial',
+			__( 'Video tutorial', 'wordpress-seo' ),
 			array(
 				'view'           => 'partial-help-center-video',
 				'view_arguments' => array(
 					'tab_video_url' => $url,
 				),
-			)
+			),
+			'dashicons-video-alt3'
 		);
 	}
 
@@ -106,7 +109,6 @@ class WPSEO_Help_Center {
 	public function output_help_center() {
 		$help_center_items = apply_filters( 'wpseo_help_center_items', $this->help_center_items );
 		$help_center_items = array_filter( $help_center_items, array( $this, 'is_a_help_center_item' ) );
-
 		if ( empty( $help_center_items ) ) {
 			return;
 		}
@@ -128,7 +130,10 @@ class WPSEO_Help_Center {
 
 						foreach ( $help_center_items as $help_center_item ) {
 							$id = $help_center_item->get_identifier();
-
+							$dashicon = $help_center_item->get_dashicon();
+							if( !empty( $dashicon ) ){
+								$dashicon = "<span class='dashicons-before " . $dashicon . "' style='margin-right:3em;'/>";
+							}
 							$link_id  = "tab-link-{$this->group_name}_{$this->tab->get_name()}__{$id}";
 							$panel_id = "tab-panel-{$this->group_name}_{$this->tab->get_name()}__{$id}";
 							?>
@@ -136,7 +141,7 @@ class WPSEO_Help_Center {
 							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo $class; ?>">
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>"
 								   class="<?php echo $id ?>"
-								   aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
+								   aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo $dashicon . ' ' . esc_html( $help_center_item->get_label() ); ?></a>
 							</li>
 							<?php
 							$class = 'wpseo-help-center-item';

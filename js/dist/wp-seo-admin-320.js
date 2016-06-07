@@ -189,7 +189,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					{ className: 'wpseo-kb-search-results' },
 					results
 				);
-			} else {
+			} else if (this.state.searchString !== '') {
 				searchResultContent = _react2.default.createElement(
 					'div',
 					{ className: 'wpseo-kb-search-no-results' },
