@@ -28,6 +28,11 @@ module.exports = function( paper ) {
 	text = stripHTMLTags( text );
 	var wordCount = countWords( text );
 
+	// Prevent division by zero errors.
+	if ( sentenceCount === 0 || wordCount === 0 ) {
+		return 0;
+	}
+
 	text = stripNumbers( text );
 	var syllableCount = countSyllables( text );
 

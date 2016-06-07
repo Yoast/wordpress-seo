@@ -32,8 +32,14 @@ var filterComplexity = function( words ) {
  * @returns {{score: number, text}} resultobject with score and text.
  */
 var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
+	var percentage = 0;
 	var tooComplexWords = filterComplexity( wordComplexity ).length;
-	var percentage = ( tooComplexWords / wordCount ) * 100;
+
+	// Prevent division by zero errors.
+	if ( wordCount !== 0 ) {
+		percentage = ( tooComplexWords / wordCount ) * 100;
+	}
+
 	percentage = formatNumber( percentage );
 	var hasMarks = ( percentage > 0 );
 	var recommendedMaximum = 5;
