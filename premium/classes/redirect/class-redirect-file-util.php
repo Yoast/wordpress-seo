@@ -32,17 +32,29 @@ class WPSEO_Redirect_File_Util {
 	 * Function that creates the WPSEO redirect directory
 	 */
 	public static function create_upload_dir() {
+		$basedir = self::get_dir();
+
 		// Create the Redirect file dir.
-		wp_mkdir_p( self::get_dir() );
+		if ( ! wp_mkdir_p( $basedir ) ) {
+			Yoast_Notification_Center::get()->add_notification(
+				new Yoast_Notification(
+				/* translators: %s expands to the file path that we tried to write to */
+					sprintf( __( "We're unable to create the directory %s", 'wordpress-seo-premium' ), $basedir ),
+					array( 'type' => 'error' )
+				)
+			);
+
+			return;
+		}
 
 		// Create the .htaccess file.
-		if ( ! file_exists( self::get_dir() . '/.htaccess' ) ) {
-			self::write_file( self::get_dir() . '/.htaccess', "Options -Indexes\ndeny from all" );
+		if ( ! file_exists( $basedir . '/.htaccess' ) ) {
+			self::write_file( $basedir . '/.htaccess', "Options -Indexes\ndeny from all" );
 		}
 
 		// Create an empty index.php file.
-		if ( ! file_exists( self::get_dir() . '/index.php' ) ) {
-			self::write_file( self::get_dir() . '/index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
+		if ( ! file_exists( $basedir . '/index.php' ) ) {
+			self::write_file( $basedir . '/index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
 		}
 
 		// Create an empty redirect file.
@@ -61,14 +73,14 @@ class WPSEO_Redirect_File_Util {
 	 */
 	public static function write_file( $file_path, $file_content ) {
 		$has_written = false;
-		if ( is_writable( $file_path ) ) {
+		if ( is_writable( dirname( $file_path ) ) ) {
 			$has_written = file_put_contents( $file_path, $file_content );
 		}
 
 		if ( $has_written === false ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
-					/* translators: %s expands to the file path that we tried to write to */
+				/* translators: %s expands to the file path that we tried to write to */
 					sprintf( __( "We're unable to write data to the file %s", 'wordpress-seo-premium' ), $file_path ),
 					array( 'type' => 'error' )
 				)
