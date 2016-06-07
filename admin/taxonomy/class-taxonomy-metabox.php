@@ -49,7 +49,7 @@ class WPSEO_Taxonomy_Metabox {
 			$product_title .= ' Premium';
 		}
 
-		printf( '<div id="poststuff" class="postbox wpseo-taxonomy-metabox-postbox"><h3><span>%1$s</span></h3>', $product_title );
+		printf( '<div id="poststuff" class="postbox wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
 
 		// Add Help Center to the taxonomy metabox see #4701.
 		echo '<div class="inside">';
