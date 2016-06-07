@@ -16,7 +16,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
 	percentage = formatNumber( percentage );
 	var recommendedValue = 10;
-
+	var passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
 	var hasMarks = ( percentage > 0 );
 
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps, each step is 0.6
@@ -32,11 +32,13 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 					i18n.dgettext(
 						"js-text-analysis",
 
-						// translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value.
-						"%1$s of the sentences contain a " +
-						"<a href='https://yoa.st/passive-voice' target='_blank'>passive voice</a>, " +
-						"which is less than or equal to the recommended maximum of %2$s." ),
+						// translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+						// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+						"%1$s of the sentences contain a %2$spassive voice%3$s, " +
+						"which is less than or equal to the recommended maximum of %4$s." ),
 					percentage + "%",
+					passiveVoiceURL,
+					"</a>",
 					recommendedValue + "%"
 			)
 		};
@@ -48,13 +50,14 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 			i18n.dgettext(
 				"js-text-analysis",
 
-				// translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value.
-				"%1$s of the sentences contain a " +
-				"<a href='https://yoa.st/passive-voice' target='_blank'>passive voice</a>, " +
-				"which is more than the recommended maximum of %2$s. " +
-				"Try to use their active counterparts."
+				// translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+				// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+				"%1$s of the sentences contain a %2$spassive voice%3$s, " +
+				"which is more than the recommended maximum of %4$s. Try to use their active counterparts."
 			),
 			percentage + "%",
+			passiveVoiceURL,
+			"</a>",
 			recommendedValue + "%"
 		)
 	};

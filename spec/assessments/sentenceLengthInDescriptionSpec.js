@@ -15,7 +15,8 @@ describe( "An assessment for sentence length", function(){
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The meta description contains no sentences over 20 words." );
+		expect( assessment.getText() ).toEqual ( "The meta description contains no sentences " +
+			"<a href='https://yoa.st/short-sentences' target='_blank'>over 20 words</a>." );
 	} );
 
 	it( "returns the score for 50% long sentences", function(){
@@ -27,7 +28,8 @@ describe( "An assessment for sentence length", function(){
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual ( "The meta description contains 1 sentence over 20 words. Try to shorten this sentence." );
+		expect( assessment.getText() ).toEqual ( "The meta description contains 1 sentence" +
+			" <a href='https://yoa.st/short-sentences' target='_blank'>over 20 words</a>. Try to shorten this sentence." );
 	} );
 
 	it( "returns the score for 100% long sentences", function(){
@@ -39,7 +41,8 @@ describe( "An assessment for sentence length", function(){
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual ( "The meta description contains 2 sentences over 20 words. Try to shorten these sentences." );
+		expect( assessment.getText() ).toEqual ( "The meta description contains 2 sentences " +
+			"<a href='https://yoa.st/short-sentences' target='_blank'>over 20 words</a>. Try to shorten these sentences." );
 	} );
 	it( "returns the score for 100% long sentences", function(){
 		mockPaper = new Paper();

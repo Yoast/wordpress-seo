@@ -20,18 +20,19 @@ var calculateScore = function( standardDeviation ) {
 var getStandardDeviationResult = function( standardDeviation, i18n ) {
 	var score = calculateScore( standardDeviation );
 	var recommendedMinimumDeviation = 3;
+	var sentenceVariationURL = "<a href='https://yoa.st/mix-it-up' target='_blank'>";
 	if ( score >= 7 ) {
 		return {
 			score: score,
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-					// translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
-					"The " +
-					"<a href='https://yoa.st/mix-it-up' target='_blank'>sentence length variation</a> " +
-					"score is %1$s, which is more than or equal to the recommended minimum of %2$d. The text " +
-					"contains a nice combination of long and short sentences."
-				), standardDeviation, recommendedMinimumDeviation
+				// translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+				// %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
+					"The %1$ssentence length variation%2$s score is %3$s, " +
+					"which is more than or equal to the recommended minimum of %4$d. " +
+					"The text contains a nice combination of long and short sentences."
+				 ), sentenceVariationURL, "</a>", standardDeviation, recommendedMinimumDeviation
 			)
 		};
 	}
@@ -41,12 +42,12 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
-				// translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
-				"The " +
-				"<a href='https://yoa.st/mix-it-up' target='_blank'>sentence length variation</a> " +
-				" score is %1$s, which is less than the recommended minimum of %2$d. Try to " +
-				"alternate more between long and short sentences."
-			), standardDeviation, recommendedMinimumDeviation
+				// translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+				// %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
+				"The %1$ssentence length variation%2$s score is %3$s, " +
+				"which is less than the recommended minimum of %4$d. " +
+				"Try to alternate more between long and short sentences."
+			), sentenceVariationURL, "</a>", standardDeviation, recommendedMinimumDeviation
 		)
 	};
 };

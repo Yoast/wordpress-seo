@@ -12,26 +12,34 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var recommendedValue = 20;
 	var tooLong = countTooLongSentences( sentences, recommendedValue ).length;
 	var percentage = ( tooLong / sentences.length ) * 100;
-
 	var score = calculateTooLongSentences( percentage );
+	var sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
 
 	if ( score >= 7 ) {
 		return {
 			score: score,
-			text:  i18n.dgettext( "js-text-analysis", "The meta description contains no sentences over 20 words." )
+			text: i18n.sprintf( i18n.dgettext(
+				"js-text-analysis",
+				// translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
+				// %3$s expands to the anchor end tag.
+				"The meta description contains no sentences %1$sover %2$s words%3$s."
+			), sentenceLengthURL, recommendedValue, "</a>"
+			)
 		};
 	}
 	return {
 		score: score,
 		text: i18n.sprintf( i18n.dngettext(
 			"js-text-analysis",
-			// translators: %1$d expands to number of sentences
-			"The meta description contains %1$d sentence over 20 words. Try to shorten this sentence.",
-			"The meta description contains %1$d sentences over 20 words. Try to shorten these sentences.",
-			tooLong ), tooLong
+			// translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
+			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
+			"The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to shorten this sentence.",
+			"The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to shorten these sentences.",
+			tooLong ), tooLong, sentenceLengthURL, recommendedValue, "</a>"
 		)
 	};
 };
+
 /**
  * Scores the percentage of sentences including more than the recommended number of words.
  *
