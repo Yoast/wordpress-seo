@@ -21,7 +21,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.13.0';
+  var VERSION = '4.13.1';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -263,21 +263,21 @@
     ((__t = ( i18n.removeMarks )) == null ? '' : __t) +
     '</span></button>\n<ul class="wpseoanalysis assessment-results">\n    ';
      for (var i in scores) {
-    __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
+    __p += '\n        <li class="score">\n            <span class="wpseo-marker-container">\n                ';
+     if ( scores[ i ].marker ) {
+    __p += '\n                    <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-' +
+    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
+    '"><span class="screen-reader-text">' +
+    ((__t = ( i18n.markInText )) == null ? '' : __t) +
+    '</span></button>\n                ';
+     }
+    __p += '\n            </span>\n            <span class="wpseo-score-icon ' +
     __e( scores[ i ].className ) +
     '"></span>\n            <span class="screen-reader-text">' +
     ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
     '</span>\n            <span class="wpseo-score-text">' +
     ((__t = ( scores[ i ].text )) == null ? '' : __t) +
-    '</span>\n            ';
-     if ( scores[ i ].marker ) {
-    __p += '\n            <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-' +
-    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
-    '"><span class="screen-reader-text">' +
-    ((__t = ( i18n.markInText )) == null ? '' : __t) +
-    '</span></button>\n            ';
-     }
-    __p += '\n        </li>\n    ';
+    '</span>\n        </li>\n    ';
      }
     __p += '\n</ul>\n';
 
