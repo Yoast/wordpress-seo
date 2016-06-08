@@ -45,13 +45,6 @@
 li.score {
 	list-style-type: none !important;
 	margin-bottom: 6px;
-
-	.wpseo-marker-container{
-		display: inline-block;
-		float: left;
-		width: 33px;
-		min-height: 1px;
-	}
 }
 
 li.score:after {
@@ -155,5 +148,12 @@ li.score:after {
 			box-shadow: 0 0 0 1px #5b9dd9,
 			0 0 2px 1px rgba(30, 140, 190, 0.8);
 		}
+	}
+
+	&__mark-container {
+		display: inline-block;
+		float: left;
+		width: 33px;
+		min-height: 1px;
 	}
 }

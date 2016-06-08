@@ -1,7 +1,7 @@
 <ul class="wpseoanalysis assessment-results">
     <% for (var i in scores) { %>
         <li class="score">
-            <span class="wpseo-marker-container">
+            <span class="assessment-results__mark-container">
                 <% if ( scores[ i ].marker ) { %>
                     <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-<%= scores[ i ].identifier %>"><span class="screen-reader-text"><%= i18n.markInText %></span></button>
                 <% } %>
