@@ -306,7 +306,7 @@ function yoast_menu_bar_icon_color_js() {
 		} catch ( error ) {}
 
 		if ( xml ) {
-			// replace `style` attributes in de-base64'd string
+			// Replace `style` attributes in de-base64'd string.
 			var xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + base_color + '"');
 			var hover_xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + hover_color + '"');
 
