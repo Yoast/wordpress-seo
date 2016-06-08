@@ -123,6 +123,7 @@ Assessor.prototype.assess = function( paper ) {
 	this.results = [];
 
 	assessments = filter( assessments, function( assessment ) {
+		test = this.isApplicable( assessment, paper, researcher );
 		return this.isApplicable( assessment, paper, researcher );
 	}.bind( this ) );
 
@@ -163,7 +164,6 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 
 	try {
 		result = assessment.getResult( paper, researcher, this.i18n );
-
 		result.setIdentifier( assessment.identifier );
 
 		if ( result.hasMarks() && this.hasMarker( assessment ) ) {
@@ -184,7 +184,6 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 			assessmentError
 		) );
 	}
-
 	return result;
 };
 
@@ -219,9 +218,10 @@ Assessor.prototype.calculateOverallScore  = function() {
 
 	forEach( results, function( assessmentResult ) {
 		totalScore += assessmentResult.getScore();
+
 	} );
 
-	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
+	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 ) || 0;
 };
 
 /**
