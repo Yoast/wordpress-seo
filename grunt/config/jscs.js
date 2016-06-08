@@ -6,19 +6,8 @@ module.exports = {
 	plugin: {
 		files: {
 			src: [
-				'<%= files.js %>'
-			]
-		}
-	},
-	grunt: {
-		options: {
-			// We have no control over task names that use underscores
-			requireCamelCaseOrUpperCaseIdentifiers: 'ignoreProperties'
-		},
-		files: {
-			src: [
-				'<%= files.grunt %>',
-				'<%= files.config %>'
+				'<%= files.js %>',
+				'!js/src/kb-search/*.js'
 			]
 		}
 	}
