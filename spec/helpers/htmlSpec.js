@@ -88,8 +88,8 @@ describe( "html", function() {
 		});
 
 		it( "should handle greater than or smaller than characters", function() {
-			var text = '<div>This is < than that</div><p>Hello!</p>';
-			var expected =  [ '<div>This is < than that</div>', '<p>Hello!</p>' ];
+			var text = '<div>This is < than > that</div><p>Hello!</p>';
+			var expected =  [ '<div>This is < than > that</div>', '<p>Hello!</p>' ];
 
 			var actual = getBlocks( text );
 

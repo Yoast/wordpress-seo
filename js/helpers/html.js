@@ -5,19 +5,19 @@ var inlineElements = [ "b", "big", "i", "small", "tt", "abbr", "acronym", "cite"
 	"samp", "time", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button",
 	"input", "label", "select", "textarea" ];
 
-var blockElementsRegex = new RegExp( "^(" + blockElements.join( "|" ) + ")$", "im" );
-var inlineElementsRegex = new RegExp( "^(" + inlineElements.join( "|" ) + ")$", "im" );
+var blockElementsRegex = new RegExp( "^(" + blockElements.join( "|" ) + ")$", "i" );
+var inlineElementsRegex = new RegExp( "^(" + inlineElements.join( "|" ) + ")$", "i" );
 
-var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>$", "im" );
-var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^>]*?>$", "im" );
+var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
+var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
 
-var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "im" );
-var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "im" );
+var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
+var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
 
-var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/m;
-var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/m;
+var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
+var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 
-var contentRegex = /^[^<]+$/m;
+var contentRegex = /^[^<]+$/;
 var greaterThanContentRegex = /^<[^><]*$/;
 
 var commentStartRegex = /^<!--$/;
@@ -87,11 +87,7 @@ function getBlocks( text ) {
 	createTokenizer();
 	htmlBlockTokenizer.onText( text );
 
-	try {
-		htmlBlockTokenizer.end();
-	} catch ( e ) {
-		return [];
-	}
+	htmlBlockTokenizer.end();
 
 	forEach( tokens, function( token, i ) {
 		var nextToken = tokens[ i + 1 ];
