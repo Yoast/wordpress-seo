@@ -37,6 +37,6 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	} );
 	it( "returns an empty string if only enters or whitespaces in a string", function() {
 		var mockPaper = new Paper( "   \n</div>" );
-		expect( sentenceBeginnings( mockPaper) [ 0 ].word ).toBe( "" );
+		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
 	} );
 } );
