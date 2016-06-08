@@ -505,12 +505,10 @@ App.prototype.runAnalyzer = function() {
 
 	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.seoAssessorPresenter.render();
-	this.seoAssessorPresenter.displayRemoveAllMarkersButton( this.seoAssessor.hasMarkers() );
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 
 	if ( !isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessorPresenter.renderIndividualRatings();
-		this.contentAssessorPresenter.displayRemoveAllMarkersButton( this.contentAssessor.hasMarkers() );
 		this.callbacks.saveContentScore( this.contentAssessor.calculateOverallScore(), this.contentAssessorPresenter );
 	}
 
@@ -3198,28 +3196,9 @@ Assessor.prototype.assess = function( paper ) {
 		return this.isApplicable( assessment, paper, researcher );
 	}.bind( this ) );
 
-	this.setHasMarkers( false );
 	this.results = map( assessments, this.executeAssessment.bind( this, paper, researcher ) );
 
 	this._lastPaper = paper;
-};
-
-/**
- * Sets the value of has markers with a boolean to determine if there are markers.
- *
- * @param {bool} hasMarkers True when there are markers, otherwise it is false.
- */
-Assessor.prototype.setHasMarkers = function( hasMarkers ) {
-	this._hasMarkers = hasMarkers;
-};
-
-/**
- * Returns true when there are markers.
- *
- * @returns {bool} Are there markers
- */
-Assessor.prototype.hasMarkers = function() {
-	return this._hasMarkers;
 };
 
 /**
@@ -3239,8 +3218,6 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 		result.setIdentifier( assessment.identifier );
 
 		if ( result.hasMarks() && this.hasMarker( assessment ) ) {
-			this.setHasMarkers( true );
-
 			result.setMarker( this.getMarker( assessment, paper, researcher ) );
 		}
 	} catch ( assessmentError ) {
@@ -4510,19 +4487,19 @@ var inlineElements = [ "b", "big", "i", "small", "tt", "abbr", "acronym", "cite"
 	"samp", "time", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button",
 	"input", "label", "select", "textarea" ];
 
-var blockElementsRegex = new RegExp( "^(" + blockElements.join( "|" ) + ")$", "i" );
-var inlineElementsRegex = new RegExp( "^(" + inlineElements.join( "|" ) + ")$", "i" );
+var blockElementsRegex = new RegExp( "^(" + blockElements.join( "|" ) + ")$", "im" );
+var inlineElementsRegex = new RegExp( "^(" + inlineElements.join( "|" ) + ")$", "im" );
 
-var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
-var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
+var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>$", "im" );
+var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^>]*?>$", "im" );
 
-var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
-var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
+var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "im" );
+var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "im" );
 
-var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
-var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
+var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/m;
+var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/m;
 
-var contentRegex = /^[^<]+$/;
+var contentRegex = /^[^<]+$/m;
 var greaterThanContentRegex = /^<[^><]*$/;
 
 var commentStartRegex = /^<!--$/;
@@ -4592,7 +4569,11 @@ function getBlocks( text ) {
 	createTokenizer();
 	htmlBlockTokenizer.onText( text );
 
-	htmlBlockTokenizer.end();
+	try {
+		htmlBlockTokenizer.end();
+	} catch ( e ) {
+		return [];
+	}
 
 	forEach( tokens, function( token, i ) {
 		var nextToken = tokens[ i + 1 ];
@@ -5458,31 +5439,6 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 	}
 
 	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
-};
-
-/**
- * Shows the removemarks button when there is something to mark. Otherwise it will hide the button
- *
- * @param {bool} hasMarks When there are marks (true) otherwist it is false.
- */
-AssessorPresenter.prototype.displayRemoveAllMarkersButton = function( hasMarks ) {
-	var outputElement     = document.getElementById( this.output );
-	var removeMarksButton = outputElement.getElementsByClassName( "assessment-results__remove-marks" )[ 0 ];
-
-	if( isUndefined( removeMarksButton ) ) {
-		return;
-	}
-
-	// Shows the button when there are marks and removes aria-hidden for screenreaders, because element is visible.
-	if( hasMarks ) {
-		removeMarksButton.style.visibility = "";
-		removeMarksButton.removeAttribute( "aria-hidden" );
-
-		return;
-	}
-
-	removeMarksButton.style.visibility = "hidden";
-	removeMarksButton.setAttribute( "aria-hidden", "true" );
 };
 
 module.exports = AssessorPresenter;
@@ -12074,8 +12030,8 @@ var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
 
-var blockStartRegex = /^\s*[\[\(\{]\s*$/;
-var blockEndRegex = /^\s*[\]\)}]\s*$/;
+var blockStartRegex = /^[\[\(\{]$/;
+var blockEndRegex = /^[\]\)}]$/;
 
 var tokens = [];
 var sentenceTokenizer;
@@ -12218,7 +12174,8 @@ function getSentencesFromTokens( tokens ) {
 				break;
 
 			case "block-start":
-				currentSentence += token.src;
+				tokenSentences.push( currentSentence );
+				currentSentence = token.src;
 				break;
 
 			case "block-end":
@@ -21779,13 +21736,9 @@ module.exports = (function() {
 	};
 
 	/**
-	 * Handles clicking the tab.
-	 *
-	 * @param {UIEvent} ev The event fired by the browser.
+	 * Activates the tab
 	 */
-	KeywordTab.prototype.onClick = function( ev ) {
-		ev.preventDefault();
-
+	KeywordTab.prototype.activate = function() {
 		this.onActivate();
 
 		$( '.wpseo_keyword_tab, .wpseo_content_tab' ).removeClass( 'active' );
@@ -21793,6 +21746,17 @@ module.exports = (function() {
 		this.refresh();
 
 		this.afterActivate();
+	};
+
+	/**
+	 * Handles clicking the tab.
+	 *
+	 * @param {UIEvent} ev The event fired by the browser.
+	 */
+	KeywordTab.prototype.onClick = function( ev ) {
+		ev.preventDefault();
+
+		this.activate();
 	};
 
 	/**
@@ -21940,9 +21904,7 @@ TabManager.prototype.deactivateContentTab = function() {
 TabManager.prototype.updateContentTab = function( score ) {
 	var indicator = getIndicatorForScore( score );
 
-	if ( this.contentTab.active ) {
-		this.contentTab.update( indicator.className, indicator.screenReaderText );
-	}
+	this.contentTab.update( indicator.className, indicator.screenReaderText );
 };
 
 /**
@@ -22762,6 +22724,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 		publishBox.updateScore( 'keyword', indicator.className );
+
+		tabManager.getKeywordTab().activate();
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
