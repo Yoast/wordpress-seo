@@ -21,7 +21,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.13.1';
+  var VERSION = '4.13.0';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -259,9 +259,7 @@
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<button type="button" class="assessment-results__remove-marks js-assessment-results__remove-marks"><span class="screen-reader-text">' +
-    ((__t = ( i18n.removeMarks )) == null ? '' : __t) +
-    '</span></button>\n<ul class="wpseoanalysis assessment-results">\n    ';
+    __p += '<ul class="wpseoanalysis assessment-results">\n    ';
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="wpseo-marker-container">\n                ';
      if ( scores[ i ].marker ) {
@@ -279,7 +277,9 @@
     ((__t = ( scores[ i ].text )) == null ? '' : __t) +
     '</span>\n        </li>\n    ';
      }
-    __p += '\n</ul>\n';
+    __p += '\n</ul>\n<button type="button" class="assessment-results__remove-marks js-assessment-results__remove-marks">' +
+    ((__t = ( i18n.removeMarks )) == null ? '' : __t) +
+    '</button>\n';
 
     }
     return __p
