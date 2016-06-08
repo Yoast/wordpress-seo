@@ -248,7 +248,7 @@ var publishBox = require( './ui/publishBox' );
 	 */
 	PostScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
-console.log(indicator);
+
 		if ( tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
