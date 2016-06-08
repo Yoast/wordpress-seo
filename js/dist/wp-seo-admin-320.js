@@ -2681,8 +2681,105 @@ Index.prototype.getSettings = function(callback) {
   var indexObj = this;
   return this.as._jsonRequest({
     method: 'GET',
-    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings?getVersion=2',
     hostType: 'read',
+    callback: callback
+  });
+};
+
+Index.prototype.searchSynonyms = function(params, callback) {
+  if (typeof params === 'function') {
+    callback = params;
+    params = {};
+  } else if (params === undefined) {
+    params = {};
+  }
+
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/synonyms/search',
+    body: params,
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+Index.prototype.saveSynonym = function(synonym, opts, callback) {
+  if (typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  } else if (opts === undefined) {
+    opts = {};
+  }
+
+  return this.as._jsonRequest({
+    method: 'PUT',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/synonyms/' + encodeURIComponent(synonym.objectID) +
+      '?forwardToSlaves=' + (opts.forwardToSlaves ? 'true' : 'false'),
+    body: synonym,
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+Index.prototype.getSynonym = function(objectID, callback) {
+  return this.as._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/synonyms/' + encodeURIComponent(objectID),
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+Index.prototype.deleteSynonym = function(objectID, opts, callback) {
+  if (typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  } else if (opts === undefined) {
+    opts = {};
+  }
+
+  return this.as._jsonRequest({
+    method: 'DELETE',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/synonyms/' + encodeURIComponent(objectID) +
+      '?forwardToSlaves=' + (opts.forwardToSlaves ? 'true' : 'false'),
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+Index.prototype.clearSynonyms = function(opts, callback) {
+  if (typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  } else if (opts === undefined) {
+    opts = {};
+  }
+
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/synonyms/clear' +
+      '?forwardToSlaves=' + (opts.forwardToSlaves ? 'true' : 'false'),
+    hostType: 'write',
+    callback: callback
+  });
+};
+
+Index.prototype.batchSynonyms = function(synonyms, opts, callback) {
+  if (typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  } else if (opts === undefined) {
+    opts = {};
+  }
+
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/' + encodeURIComponent(this.indexName) + '/synonyms/batch' +
+      '?forwardToSlaves=' + (opts.forwardToSlaves ? 'true' : 'false') +
+      '&replaceExistingSynonyms=' + (opts.replaceExistingSynonyms ? 'true' : 'false'),
+    hostType: 'write',
+    body: synonyms,
     callback: callback
   });
 };
@@ -3904,7 +4001,7 @@ function createPlacesClient(algoliasearch) {
 },{"./buildSearchMethod.js":14,"./clone.js":15}],23:[function(require,module,exports){
 'use strict';
 
-module.exports = '3.14.6';
+module.exports = '3.15.0';
 
 },{}],24:[function(require,module,exports){
 
@@ -6849,9 +6946,6 @@ var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
