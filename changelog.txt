@@ -7,7 +7,7 @@ This is an archive of older changelog entries. Most recent entries are maintaine
 Release Date: Unreleased
 
 * Features:
-	* Added a dashboard under the SEO menu item and moves all persistent notifications to this dashboard.
+	* Added a dashboard under the SEO menu item and moved all persistent notifications to this dashboard.
 	* Added an indicator to the menu and admin bar about pending notifications and SEO problems.
 	* Splits the analysis into content and keyword analysis.
 	* Adds a ton of content feedback about the following properties:
@@ -42,6 +42,7 @@ Release Date: Unreleased
 	* Moves social tab above settings tab in the metabox.
 	* Adds live updating to the score indicator in the admin bar on the post edit page.
 	* Optimize multiple sitemap cache clears by waiting until the end of the pageload to actual clear the cache.
+	* Improved title separator radio buttons accessibility.
 
 * Bugfixes:
 	* Fixes a bug where a quote inside an attribute in the XML sitemaps would cause not create valid XML.
