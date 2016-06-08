@@ -17,7 +17,7 @@ var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")
 var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
 var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 
-var contentRegex = /^[^<>]+$/;
+var contentRegex = /^[^<]+$/;
 var greaterThanContentRegex = /^<[^><]*$/;
 
 var commentStartRegex = /^<!--$/;
