@@ -38,9 +38,10 @@ class WPSEO_Premium_Popup {
 	/**
 	 * Wpseo_Premium_Popup constructor.
 	 *
-	 * @param String $identifier An unique identifier for the popup.
-	 * @param String $title      The title of the popup.
-	 * @param String $content    The content of the popup.
+	 * @param String $identifier    An unique identifier for the popup.
+	 * @param String $heading_level The heading level for the title of the popup.
+	 * @param String $title         The title of the popup.
+	 * @param String $content       The content of the popup.
 	 */
 	public function __construct( $identifier, $heading_level, $title, $content ) {
 		$this->identifier    = $identifier;
