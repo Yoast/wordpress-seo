@@ -27,10 +27,6 @@
 	background-color: #1e8cbe;
 }
 
-#wp-admin-bar-wpseo-menu:hover .wpseo-score-icon {
-	background-color: #2ea2cc;
-}
-
 .adminbar-seo-score {
 	margin: 10px 10px 0 4px !important;
 }

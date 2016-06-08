@@ -78,7 +78,7 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// Yoast Icon.
-	$icon_svg = WPSEO_Utils::get_icon_svg(  );
+	$icon_svg = WPSEO_Utils::get_icon_svg();
 	$title = '<div id="yoast-ab-icon" class="ab-icon wp-menu-image yoast-logo svg" style="background-image: url(\''.$icon_svg.'\') !important;"></div>';
 
 	$wp_admin_bar->add_menu( array(
@@ -288,7 +288,11 @@ function yoast_menu_bar_icon_color_js() {
 	jQuery( document ).ready(function($) {
 		// Sets yoast logo to current admin theme's icon color
 		if ( typeof window._wpColorScheme === 'undefined' ) {
-			return;
+			base_color = '#82878c';
+			hover_color = '#00a0d2';
+		} else {
+			base_color = window._wpColorScheme.icons.base;
+			hover_color = window._wpColorScheme.icons.focus;
 		}
 		var element = $('#yoast-ab-icon');
 		var encoded = element.css( 'background-image' ).match( /.+data:image\/svg\+xml;base64,([A-Za-z0-9\+\/\=]+)/ );
@@ -303,9 +307,8 @@ function yoast_menu_bar_icon_color_js() {
 
 		if ( xml ) {
 			// replace `style` attributes in de-base64'd string
-			var xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + window._wpColorScheme.icons.base + '"');
-
-			var hover_xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + window._wpColorScheme.icons.focus + '"');
+			var xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + base_color + '"');
+			var hover_xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + hover_color + '"');
 
 			if ( 'btoa' in window ) {
 				encoded = window.btoa( xml );
@@ -315,14 +318,13 @@ function yoast_menu_bar_icon_color_js() {
 				hover_xml = base64.btoa( hover_xml );
 			}
 			yst_setBackgroundImage( element, encoded );
-//			element.get(0).style.setProperty( 'background-image', "url(data:image/svg+xml;base64," + encoded + ")", "important" );
 
 			jQuery( '#wp-admin-bar-wpseo-menu' ).hover( function() {
 				yst_setBackgroundImage( element, hover_xml );
-//				element.get(0).style.setProperty( 'background-image', "url(data:image/svg+xml;base64," + hover_xml + ")", "important" );
 			}, function() {
 				yst_setBackgroundImage( element, encoded );
 			});
+
 		}
 		// Sets issue counter to current admins theme color
 		jQuery( '.yoast-issue-counter').css( 'background-color', jQuery( '.wp-menu-name .update-plugins').css( 'background-color' ) );
