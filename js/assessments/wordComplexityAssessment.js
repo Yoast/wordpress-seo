@@ -1,13 +1,14 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var removeSentenceTerminators = require( "../stringProcessing/removeSentenceTerminators" );
 var formatNumber = require( "../helpers/formatNumber.js" );
-
-var removePunctuation = require( "../stringProcessing/removePunctuation.js" );
-var filter = require( "lodash/filter" );
-var map = require( "lodash/map" );
-
 var Mark = require( "../values/Mark.js" );
 var addMark = require( "../markers/addMark.js" );
+
+var filter = require( "lodash/filter" );
+var flatMap = require( "lodash/flatMap" );
+var zip = require( "lodash/zip" );
+var forEach = require( "lodash/forEach" );
+var flatten = require( "lodash/flatten" );
 
 // The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
 var recommendedValue = 3;
@@ -90,15 +91,42 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
  * @returns {Array} A list with markers
  */
 var wordComplexityMarker = function( paper, researcher ) {
-	var wordComplexity = researcher.getResearch( "wordComplexity" );
-	var complexWords = filterComplexity( wordComplexity );
-	return map( complexWords, function( complexWord ) {
-		complexWord.word = removeSentenceTerminators( complexWord.word );
-		complexWord.word = removePunctuation( complexWord.word );
+	var sentences = researcher.getResearch( "wordComplexity" );
+
+	return flatMap( sentences, function( sentence ) {
+		var words = sentence.words;
+		sentence = sentence.sentence;
+
+		var complexWords = filterComplexity( words );
+
+		if ( complexWords.length === 0 ) {
+			return [];
+		}
+
+		var splitWords = sentence.split( /\s+/ );
+		var whitespace = sentence.split( /\S+/ );
+
+		forEach( complexWords, function( complexWord ) {
+			var wordIndex = complexWord.wordIndex;
+
+			if ( complexWord.word === splitWords[ wordIndex ]
+				|| complexWord.word === removeSentenceTerminators( splitWords[ wordIndex ] ) ) {
+				splitWords[ wordIndex ] = splitWords[ wordIndex ].replace( complexWord.word, addMark( complexWord.word ) );
+			}
+		} );
+
+		// Drop first and last elements.
+		whitespace.pop();
+		whitespace.shift();
+
+		// Rebuild the sentence with the marked words.
+		var markedSentence = zip( splitWords, whitespace );
+		markedSentence = flatten( markedSentence );
+		markedSentence = markedSentence.join( "" );
 
 		return new Mark( {
-			original: complexWord.word,
-			marked:  addMark( complexWord.word )
+			original: sentence,
+			marked: markedSentence
 		} );
 	} );
 };
@@ -112,6 +140,9 @@ var wordComplexityMarker = function( paper, researcher ) {
  */
 var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var wordComplexity = researcher.getResearch( "wordComplexity" );
+	wordComplexity = flatMap( wordComplexity, function( sentence ) {
+		return sentence.words;
+	} );
 	var wordCount = wordComplexity.length;
 
 	var complexityResult = calculateComplexity( wordCount, wordComplexity, i18n );
