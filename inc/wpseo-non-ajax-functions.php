@@ -281,6 +281,10 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
 function yoast_menu_bar_icon_color_js() {
 ?>
 <script>
+	function yst_setBackgroundImage( element, src ) {
+		element.get(0).style.setProperty( 'background-image', "url(data:image/svg+xml;base64," + src + ")", "important" );
+	}
+
 	jQuery( document ).ready(function($) {
 		// Sets yoast logo to current admin theme's icon color
 		if ( typeof window._wpColorScheme === 'undefined' ) {
@@ -301,12 +305,24 @@ function yoast_menu_bar_icon_color_js() {
 			// replace `style` attributes in de-base64'd string
 			var xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + window._wpColorScheme.icons.base + '"');
 
+			var hover_xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + window._wpColorScheme.icons.focus + '"');
+
 			if ( 'btoa' in window ) {
 				encoded = window.btoa( xml );
+				hover_xml = window.btoa( hover_xml );
 			} else {
 				encoded = base64.btoa( xml );
+				hover_xml = base64.btoa( hover_xml );
 			}
-			element.get(0).style.setProperty( 'background-image', "url(data:image/svg+xml;base64," + encoded + ")", "important" );
+			yst_setBackgroundImage( element, encoded );
+//			element.get(0).style.setProperty( 'background-image', "url(data:image/svg+xml;base64," + encoded + ")", "important" );
+
+			jQuery( '#wp-admin-bar-wpseo-menu' ).hover( function() {
+				yst_setBackgroundImage( element, hover_xml );
+//				element.get(0).style.setProperty( 'background-image', "url(data:image/svg+xml;base64," + hover_xml + ")", "important" );
+			}, function() {
+				yst_setBackgroundImage( element, encoded );
+			});
 		}
 		// Sets issue counter to current admins theme color
 		jQuery( '.yoast-issue-counter').css( 'background-color', jQuery( '.wp-menu-name .update-plugins').css( 'background-color' ) );
