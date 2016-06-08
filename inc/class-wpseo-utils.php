@@ -795,7 +795,7 @@ class WPSEO_Utils {
 	/**
 	 * Returns a base64 URL for the svg for use in the menu
 	 *
-	 * @param bool $base64
+	 * @param bool $base64 Whether or not to return base64'd output.
 	 *
 	 * @return string
 	 */
