@@ -84,6 +84,41 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 };
 
 /**
+ * Marks complex words in a sentence.
+ * @param {string} sentence The sentence to mark complex words in.
+ * @param {Array} complexWords The array with complex words.
+ * @returns {Array} All marked complex words.
+ */
+var markComplexWordsInSentence = function( sentence, complexWords ) {
+	var splitWords = sentence.split( /\s+/ );
+
+	forEach( complexWords, function( complexWord ) {
+		var wordIndex = complexWord.wordIndex;
+
+		if ( complexWord.word === splitWords[ wordIndex ]
+			|| complexWord.word === removeSentenceTerminators( splitWords[ wordIndex ] ) ) {
+			splitWords[ wordIndex ] = splitWords[ wordIndex ].replace( complexWord.word, addMark( complexWord.word ) );
+		}
+	} );
+	return splitWords;
+};
+
+/**
+ * Splits sentence on whitespace
+ * @param {string} sentence The sentence to split.
+ * @returns {Array} All words from sentence. .
+ */
+var splitSentenceOnWhitespace = function( sentence ) {
+	var whitespace = sentence.split( /\S+/ );
+
+	// Drop first and last elements.
+	whitespace.pop();
+	whitespace.shift();
+
+	return whitespace;
+};
+
+/**
  * Creates markers of words that are complex.
  *
  * @param {Paper} paper The Paper object to assess.
@@ -91,11 +126,11 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
  * @returns {Array} A list with markers
  */
 var wordComplexityMarker = function( paper, researcher ) {
-	var sentences = researcher.getResearch( "wordComplexity" );
+	var wordComplexityResults = researcher.getResearch( "wordComplexity" );
 
-	return flatMap( sentences, function( sentence ) {
-		var words = sentence.words;
-		sentence = sentence.sentence;
+	return flatMap( wordComplexityResults, function( result ) {
+		var words = result.words;
+		var sentence = result.sentence;
 
 		var complexWords = filterComplexity( words );
 
@@ -103,21 +138,9 @@ var wordComplexityMarker = function( paper, researcher ) {
 			return [];
 		}
 
-		var splitWords = sentence.split( /\s+/ );
-		var whitespace = sentence.split( /\S+/ );
+		var splitWords = markComplexWordsInSentence( sentence, complexWords );
 
-		forEach( complexWords, function( complexWord ) {
-			var wordIndex = complexWord.wordIndex;
-
-			if ( complexWord.word === splitWords[ wordIndex ]
-				|| complexWord.word === removeSentenceTerminators( splitWords[ wordIndex ] ) ) {
-				splitWords[ wordIndex ] = splitWords[ wordIndex ].replace( complexWord.word, addMark( complexWord.word ) );
-			}
-		} );
-
-		// Drop first and last elements.
-		whitespace.pop();
-		whitespace.shift();
+		var whitespace = splitSentenceOnWhitespace( sentence );
 
 		// Rebuild the sentence with the marked words.
 		var markedSentence = zip( splitWords, whitespace );
