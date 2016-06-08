@@ -523,7 +523,8 @@ li.score:after {
 
 .wpseo-tab-video-slideout {
 	display: none;
-	overflow: hidden;
+	position: relative;
+	height: 600px;
 	padding: 0.5em 0.5em 0.5em;
 	border: 1px solid #a4286a;
 	border-bottom-left-radius: 10px;
@@ -548,7 +549,8 @@ li.score:after {
 }
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
-	width: 180px;
+	overflow: auto;
+	width: 187px;
 	margin: -0.5em;
 	padding-left: 0.5em;
 	color: white;
@@ -556,7 +558,8 @@ li.score:after {
 }
 
 .wpseo-tab-video-slideout .help-tab-content {
-	overflow: hidden;
+	overflow: auto;
+	margin: 0;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
@@ -564,10 +567,19 @@ li.score:after {
 	margin-right: 1em;
 }
 
+.inside .wpseo-tab-video-slideout {
+	height: auto;
+}
+
 .wpseo-help-center-item a {
 	display: block;
 	padding: 0.5em;
 	color: white;
+}
+
+.wpseo-help-center-item a.dashicons-before:before {
+	margin-right: 3px;
+	text-decoration: none;
 }
 
 .wpseo-help-center-item.active a {
@@ -593,6 +605,14 @@ li.score:after {
 	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
+}
+
+.contextual-help-tabs-wrap {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 194px;
 }
 
 /**

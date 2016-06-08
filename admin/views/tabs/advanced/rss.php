@@ -9,11 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$tab_video_url = $active_tab->get_video_url();
-if ( ! empty( $tab_video_url ) ) {
-	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
-}
-
 $yform = Yoast_Form::get_instance();
 $yform->set_option( 'wpseo_rss' );
 
