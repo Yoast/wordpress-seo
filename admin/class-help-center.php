@@ -122,7 +122,7 @@ class WPSEO_Help_Center {
 						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 			</button>
-			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout" aria-hidden="true">
+			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout">
 				<div class="yoast-help-center-tabs">
 					<ul>
 						<?php
