@@ -39,13 +39,17 @@
 
 .wpseo-tab-video-slideout {
   display: none;
-  overflow: hidden;
+  min-height: 320px;
   margin: 0 -9999px;
   padding: 2em 9999px;
   background-color: #a4286a;
   box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
   /* hide the container bottom border when expanded */
   margin-bottom: -1px;
+
+  .contextual-help-tabs-wrap {
+	  flex: 1 1 auto;
+  }
 
   h1,
   h2,
@@ -54,6 +58,7 @@
   h5,
   h6 {
 	margin-top: 0.5em;
+	padding-top: 0;
 	color: white;
 	font-weight: 500;
   }
@@ -80,7 +85,8 @@
   }
 
   .yoast-help-center-tabs {
-    width: 180px;
+	flex: 0 0 auto;
+	width: 180px;
     color: white;
     background-color: #a4286a;
 
@@ -90,7 +96,17 @@
   }
 
   .help-tab-content {
-    overflow: hidden;
+    margin: 0;
+
+	a {
+	  color: white;
+	  text-decoration: underline;
+
+	  &.button,
+	  &.button-primary {
+		  text-decoration: none;
+	  }
+    }
   }
 
   .wpseo-tab-video__panel {
@@ -115,6 +131,12 @@
   padding: 2em 12px 15px;
 }
 
+.inside {
+  .wpseo-tab-video-slideout {
+    height: auto;
+  }
+}
+
 .wpseo-help-center-item {
   display: inline;
 
@@ -127,6 +149,11 @@
     &:hover,
     &:focus {
       text-decoration: underline;
+	}
+
+    &.dashicons-before:before {
+      text-decoration: none;
+      margin-right:3px;
     }
   }
 
@@ -142,8 +169,8 @@
   a,
   a:hover,
   a:focus {
-    color: white;
-    font-weight: 500;
+	color: white;
+	font-weight: 500;
   }
 }
 

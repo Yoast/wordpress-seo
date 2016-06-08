@@ -4,7 +4,10 @@ module.exports = {
 		options: {
 			jshintrc: '<%= paths.js %>.jshintrc'
 		},
-		src: '<%= files.js %>'
+		src: [
+			'<%= files.js %>',
+			'!js/src/kb-search/*.js'
+		]
 	},
 	grunt: {
 		options: {

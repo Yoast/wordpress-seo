@@ -529,13 +529,19 @@ li.score:after {
 
 .wpseo-tab-video-slideout {
 	display: none;
-	overflow: hidden;
+	min-height: 320px;
 	margin: 0 -9999px;
 	/* hide the container bottom border when expanded */
 	margin-bottom: -1px;
 	padding: 2em 9999px;
 	background-color: #a4286a;
 	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
+}
+
+.wpseo-tab-video-slideout .contextual-help-tabs-wrap {
+	-webkit-flex: 1 1 auto;
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .wpseo-tab-video-slideout h1,
@@ -545,6 +551,7 @@ li.score:after {
 .wpseo-tab-video-slideout h5,
 .wpseo-tab-video-slideout h6 {
 	margin-top: 0.5em;
+	padding-top: 0;
 	color: white;
 	font-weight: 500;
 }
@@ -574,6 +581,10 @@ li.score:after {
 	width: 180px;
 	color: white;
 	background-color: #a4286a;
+
+	-webkit-flex: 0 0 auto;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
 }
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs ul {
@@ -581,7 +592,17 @@ li.score:after {
 }
 
 .wpseo-tab-video-slideout .help-tab-content {
-	overflow: hidden;
+	margin: 0;
+}
+
+.wpseo-tab-video-slideout .help-tab-content a {
+	color: white;
+	text-decoration: underline;
+}
+
+.wpseo-tab-video-slideout .help-tab-content a.button,
+.wpseo-tab-video-slideout .help-tab-content a.button-primary {
+	text-decoration: none;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
@@ -604,6 +625,10 @@ li.score:after {
 	padding: 2em 12px 15px;
 }
 
+.inside .wpseo-tab-video-slideout {
+	height: auto;
+}
+
 .wpseo-help-center-item {
 	display: inline;
 }
@@ -618,6 +643,11 @@ li.score:after {
 .wpseo-help-center-item a:hover,
 .wpseo-help-center-item a:focus {
 	text-decoration: underline;
+}
+
+.wpseo-help-center-item a.dashicons-before:before {
+	margin-right: 3px;
+	text-decoration: none;
 }
 
 .wpseo-help-center-item.active a {
@@ -1089,6 +1119,10 @@ body.rtl #wpseo-score {
 	margin: 0 -5px 0 5px;
 }
 
-body.edit-tags-php .postbox h3 {
-	margin-left: 20px;
+#poststuff.wpseo-taxonomy-metabox-postbox {
+	padding-top: 0;
+}
+
+.term-php .wpseo-taxonomy-metabox-postbox h2 {
+	border-bottom: 1px solid #eee;
 }

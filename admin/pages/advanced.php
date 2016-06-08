@@ -53,6 +53,9 @@ foreach ( $tabs->get_tabs() as $tab ) {
 }
 echo '</h2>';
 
+$help_center = new WPSEO_Help_Center( 'advanced', $active_tab );
+$help_center->output_help_center();
+
 require_once WPSEO_PATH . 'admin/views/tabs/advanced/' . $active_tab->get_name() . '.php';
 
 Yoast_Form::get_instance()->admin_footer();

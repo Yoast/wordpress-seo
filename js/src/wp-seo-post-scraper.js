@@ -11,6 +11,9 @@ var tmceHelper = require( './wp-seo-tinymce' );
 var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 var publishBox = require( './ui/publishBox' );
 
+var updateTrafficLight = require( './ui/trafficLight' ).update;
+var updateAdminBar = require( './ui/adminBar' ).update;
+
 (function( $ ) {
 	'use strict';
 
@@ -257,13 +260,8 @@ var publishBox = require( './ui/publishBox' );
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
-			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
-
-			$( '.adminbar-seo-score' )
-				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
+			updateTrafficLight( indicator );
+			updateAdminBar( indicator );
 
 			publishBox.updateScore( 'keyword', indicator.className );
 		}
@@ -319,9 +317,8 @@ var publishBox = require( './ui/publishBox' );
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
-	 *
 	 * @param {Object} response The AJAX response object.
-	 * @returns {string}
+	 * @returns {String}
 	 */
 	function getUrlPathFromResponse( response ) {
 		if ( response.responseText === '' ) {
@@ -399,6 +396,8 @@ var publishBox = require( './ui/publishBox' );
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
 
+		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
+
 		publishBox.initalise();
 
 		tabManager = new TabManager({
@@ -465,6 +464,11 @@ var publishBox = require( './ui/publishBox' );
 		postScraper.initKeywordTabTemplate();
 
 		window.YoastSEO.wp._tabManager = tabManager;
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+		publishBox.updateScore( 'keyword', indicator.className );
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
