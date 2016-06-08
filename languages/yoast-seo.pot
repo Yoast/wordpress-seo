@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-02 10:05+0200\n"
+"POT-Creation-Date: 2016-06-07 16:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,35 +104,35 @@ msgstr ""
 
 #. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
-#: js/assessments/keywordDensityAssessment.js:24
+#: js/assessments/keywordDensityAssessment.js:25
 msgid ""
 "The keyword density is %1$s, which is way over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
 #. translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5)
-#: js/assessments/keywordDensityAssessment.js:29
-#: js/assessments/keywordDensityAssessment.js:44
+#: js/assessments/keywordDensityAssessment.js:30
+#: js/assessments/keywordDensityAssessment.js:45
 msgid "2.5"
 msgstr ""
 
 #. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
-#: js/assessments/keywordDensityAssessment.js:39
+#: js/assessments/keywordDensityAssessment.js:40
 msgid ""
 "The keyword density is %1$s, which is over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
 #. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: js/assessments/keywordDensityAssessment.js:53
+#: js/assessments/keywordDensityAssessment.js:54
 msgid ""
 "The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
 #. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: js/assessments/keywordDensityAssessment.js:63
+#: js/assessments/keywordDensityAssessment.js:64
 msgid ""
 "The keyword density is %1$s, which is a bit low; the focus keyword was found "
 "%2$d times."
@@ -216,18 +216,20 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:36
+#. translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+#: js/assessments/passiveVoiceAssessment.js:37
 msgid ""
-"%1$s of the sentences contain a passive voice, which is less than or equal "
-"to the recommended maximum of %2$s."
+"%1$s of the sentences contain a %2$spassive voice%3$s, which is less than or "
+"equal to the recommended maximum of %4$s."
 msgstr ""
 
-#. translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:50
+#. translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+#: js/assessments/passiveVoiceAssessment.js:55
 msgid ""
-"%1$s of the sentences contain a passive voice, which is more than the "
-"recommended maximum of %2$s. Try to use their active counterparts."
+"%1$s of the sentences contain a %2$spassive voice%3$s, which is more than "
+"the recommended maximum of %4$s. Try to use their active counterparts."
 msgstr ""
 
 #. translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
@@ -243,60 +245,67 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/sentenceLengthInDescriptionAssessment.js:21
-msgid "The meta description contains no sentences over 20 words."
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
+#. %3$s expands to the anchor end tag.
+#: js/assessments/sentenceLengthInDescriptionAssessment.js:25
+msgid "The meta description contains no sentences %1$sover %2$s words%3$s."
 msgstr ""
 
-#. translators: %1$d expands to number of sentences
-#: js/assessments/sentenceLengthInDescriptionAssessment.js:29
+#. translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
+#. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
+#: js/assessments/sentenceLengthInDescriptionAssessment.js:36
 msgid ""
-"The meta description contains %1$d sentence over 20 words. Try to shorten "
-"this sentence."
+"The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to "
+"shorten this sentence."
 msgid_plural ""
-"The meta description contains %1$d sentences over 20 words. Try to shorten "
-"these sentences."
+"The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to "
+"shorten these sentences."
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
-#. %3$s expands to the recommended amount of words.
-#: js/assessments/sentenceLengthInTextAssessment.js:57
+#. translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+#. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
+#. %5$s expands to the recommended maximum percentage.
+#: js/assessments/sentenceLengthInTextAssessment.js:63
 msgid ""
-"%1$s of the sentences contain more than %3$d words, which is less than or "
-"equal to the recommended maximum of %2$s."
+"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less "
+"than or equal to the recommended maximum of %5$s."
 msgstr ""
 
-#. translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
-#. %3$s expands to the recommended amount of words.
-#: js/assessments/sentenceLengthInTextAssessment.js:68
+#. translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+#. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
+#. %5$s expands to the recommended maximum percentage.
+#: js/assessments/sentenceLengthInTextAssessment.js:80
 msgid ""
-"%1$s of the sentences contain more than %3$d words, which is more than the "
-"recommended maximum of %2$s. Try to shorten your sentences."
+"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
+"than the recommended maximum of %5$s.Try to shorten your sentences."
 msgstr ""
 
-#. translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
-#: js/assessments/sentenceVariationAssessment.js:30
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+#. %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
+#: js/assessments/sentenceVariationAssessment.js:32
 msgid ""
-"The sentence length variation score is %1$s, which is more than or equal to "
-"the recommended minimum of %2$d. The text contains a nice combination of "
-"long and short sentences."
+"The %1$ssentence length variation%2$s score is %3$s, which is more than or "
+"equal to the recommended minimum of %4$d. The text contains a nice "
+"combination of long and short sentences."
 msgstr ""
 
-#. translators: %1$s expands to the calculated score. %2$d expands to the recommended minimum score
-#: js/assessments/sentenceVariationAssessment.js:43
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+#. %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
+#: js/assessments/sentenceVariationAssessment.js:47
 msgid ""
-"The sentence length variation score is %1$s, which is less than the "
-"recommended minimum of %2$d. Try to alternate more between long and short "
+"The %1$ssentence length variation%2$s score is %3$s, which is less than the "
+"recommended minimum of %4$d. Try to alternate more between long and short "
 "sentences."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:41
+#: js/assessments/subheadingDistributionTooLongAssessment.js:47
 msgid ""
 "The amount of words following each of your subheadings doesn't exceed the "
 "recommended maximum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:52
+#: js/assessments/subheadingDistributionTooLongAssessment.js:59
 msgid ""
 "%1$d of the subheadings is followed by more than the recommended maximum of "
 "%2$d words. Try to insert another subheading."
@@ -306,13 +315,13 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/subheadingDistributionTooShortAssessment.js:41
+#: js/assessments/subheadingDistributionTooShortAssessment.js:47
 msgid ""
 "The number of words following each of your subheadings exceeds the "
 "recommended minimum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooShortAssessment.js:53
+#: js/assessments/subheadingDistributionTooShortAssessment.js:60
 msgid ""
 "The number of words following %1$d of your subheadings is less than or equal "
 "to the recommended minimum of %2$d words. Consider deleting that particular "
@@ -479,10 +488,6 @@ msgstr ""
 msgid "This page has %1$s outbound link(s)."
 msgstr ""
 
-#: js/assessments/textSubheadingsAssessment.js:14
-msgid "No subheading tags (like an H2) appear in the copy."
-msgstr ""
-
 #: js/assessments/titleKeywordAssessment.js:16
 msgid "The focus keyword '%1$s' does not appear in the SEO title."
 msgstr ""
@@ -538,15 +543,20 @@ msgstr[1] ""
 msgid "Please create a page title."
 msgstr ""
 
-#: js/assessments/transitionWordsAssessment.js:32
+#. translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+#: js/assessments/transitionWordsAssessment.js:38
 msgid ""
-"%1$s of the sentences contain a transition word or phrase, which is less "
-"than the recommended minimum of %2$s."
+"%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
+"less than the recommended minimum of %4$s."
 msgstr ""
 
-#: js/assessments/transitionWordsAssessment.js:42
+#. translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag.
+#: js/assessments/transitionWordsAssessment.js:51
 msgid ""
-"%1$s of the sentences contain a transition word or phrase, which is great."
+"%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
+"great."
 msgstr ""
 
 #: js/assessments/urlKeywordAssessment.js:14
@@ -577,16 +587,22 @@ msgstr[1] ""
 msgid "http://en.wikipedia.org/wiki/Stop_words"
 msgstr ""
 
-#: js/assessments/wordComplexityAssessment.js:51
+#. translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+#. %3$d expands to the recommended maximum number of syllables,
+#. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+#: js/assessments/wordComplexityAssessment.js:63
 msgid ""
-"%1$s of the words contain over %2$d syllables, which is less than or equal "
-"to the recommended maximum of %3$s."
+"%1$s of the words contain %2$sover %3$s syllables%4$s, which is less than or "
+"equal to the recommended maximum of %5$s."
 msgstr ""
 
-#: js/assessments/wordComplexityAssessment.js:64
+#. translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+#. %3$d expands to the recommended maximum number of syllables,
+#. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+#: js/assessments/wordComplexityAssessment.js:79
 msgid ""
-"%1$s of the words contain over %2$d syllables, which is more than the "
-"recommended maximum of %3$s."
+"%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than "
+"the recommended maximum of %5$s."
 msgstr ""
 
 #. translators: %1$s expands to the name of the assessment.
