@@ -140,12 +140,11 @@ li.score:after {
 
 	&__remove-marks {
 		border: 0;
-		width: 28px;
 		height: 28px;
-		padding: 4px;
-		border-radius: 100%;
+		padding: 4px 4px 4px 28px;
+		border-radius: 3px;
 		outline: none;
-		background: url(svg-icon-eye-slash($color_marker_inactive)) no-repeat center;
+		background: url(svg-icon-eye-slash($color_marker_inactive)) no-repeat 6px center;
 		background-size: 16px;
 		cursor: pointer;
 		margin-top: -16px;
