@@ -29,7 +29,7 @@ function TabManager( arguments ) {
 }
 
 /**
- * Initializes the two tabs and 
+ * Initializes the two tabs.
  */
 TabManager.prototype.init = function() {
 	var metaboxTabs = $( '#wpseo-metabox-tabs' );
@@ -53,14 +53,13 @@ TabManager.prototype.init = function() {
 			keyword: initialKeyword,
 			prefix: this.strings.keywordTab,
 			basedOn: this.strings.basedOn,
+			fallback: this.strings.enterFocusKeyword,
 			onActivate: function() {
-				this.focusKeywordRow.show();
-				this.keywordAnalysis.show();
-				this.contentAnalysis.hide();
-
-				this.contentTab.active = false;
+				this.showKeywordAnalysis();
+				this.deactivateContentTab();
 
 				this.focusKeywordInput.val( this.mainKeywordTab.getKeyword() );
+
 			}.bind( this ),
 			afterActivate: function() {
 				YoastSEO.app.refresh();
@@ -75,10 +74,9 @@ TabManager.prototype.init = function() {
 		prefix: this.strings.contentTab,
 		basedOn: '',
 		showKeyword: false,
+		isKeywordTab: false,
 		onActivate: function() {
-			this.focusKeywordRow.hide();
-			this.keywordAnalysis.hide();
-			this.contentAnalysis.show();
+			this.showContentAnalysis();
 
 			this.focusKeywordInput.val( '' );
 
@@ -102,6 +100,31 @@ TabManager.prototype.init = function() {
 };
 
 /**
+ * Shows the keyword analysis elements.
+ */
+TabManager.prototype.showKeywordAnalysis = function() {
+	this.focusKeywordRow.show();
+	this.keywordAnalysis.show();
+	this.contentAnalysis.hide();
+};
+
+/**
+ * Shows the content analysis elements.
+ */
+TabManager.prototype.showContentAnalysis = function() {
+	this.focusKeywordRow.hide();
+	this.keywordAnalysis.hide();
+	this.contentAnalysis.show();
+};
+
+/**
+ * Deactivates the content tab (this will not re-render the tab.)
+ */
+TabManager.prototype.deactivateContentTab = function() {
+	this.contentTab.active = false;
+};
+
+/**
  * Updates the content tab with the calculated score
  *
  * @param {number} score The score that has been calculated.
@@ -121,17 +144,26 @@ TabManager.prototype.updateContentTab = function( score ) {
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
 TabManager.prototype.updateKeywordTab = function( score, keyword ) {
-	var indicator = getIndicatorForScore( score );
+	var indicator = {
+		className: 'na',
+		screenReaderText: YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' )
+	};
 
 	if ( this.mainKeywordTab.active ) {
-		this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+		if ( keyword === '' ) {
+			this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
+		} else {
+			indicator = getIndicatorForScore( score );
+			this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+		}
 
-	} else {
-		// This branch makes sure that we see a color when loading the page.
-		indicator = getIndicatorForScore( $( '#yoast_wpseo_linkdex,#hidden_wpseo_linkdex' ).val() );
-
-		this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
+		return;
 	}
+
+	// This branch makes sure that we see a color when loading the page.
+	indicator = getIndicatorForScore( $( '#yoast_wpseo_linkdex, #hidden_wpseo_linkdex' ).val() );
+
+	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
 };
 
 /**

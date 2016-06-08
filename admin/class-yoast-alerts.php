@@ -8,7 +8,7 @@
  */
 class Yoast_Alerts {
 
-	const ADMIN_PAGE = 'wpseo_alerts';
+	const ADMIN_PAGE = 'wpseo_dashboard';
 
 	/** @var int Total notifications count */
 	private static $notification_count = 0;
@@ -120,11 +120,13 @@ class Yoast_Alerts {
 
 		switch ( $type ) {
 			case 'error':
-			case 'warning':
-				$view = $type . 's';
+				$view = 'errors';
 				break;
+
+			case 'warning':
 			default:
-				return false;
+				$view = 'warnings';
+				break;
 		}
 
 		// Re-collect alerts.
@@ -171,7 +173,7 @@ class Yoast_Alerts {
 
 		$notification_center = Yoast_Notification_Center::get();
 
-		$notifications            = $notification_center->get_notifications();
+		$notifications            = $notification_center->get_sorted_notifications();
 		self::$notification_count = count( $notifications );
 
 		self::$errors           = array_filter( $notifications, array( __CLASS__, 'filter_error_alerts' ) );

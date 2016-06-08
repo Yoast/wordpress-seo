@@ -1,0 +1,130 @@
+.wpseo-tab-video-container {
+  overflow: hidden;
+  margin-bottom: 1em;
+  border-radius: 10px;
+  border-bottom-right-radius: 0;
+  background-color: #a4286a;
+
+  &__handle {
+    width: 100%;
+    margin: 0;
+    padding: 0.5em;
+    border: none;
+    outline: none;
+    color: white;
+    background-color: #a4286a;
+    text-align: left;
+    cursor: pointer;
+
+    .toggle__arrow {
+      text-decoration: none;
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+
+    .dashicons-before:before {
+      margin-right: 5px;
+    }
+  }
+}
+
+.wpseo-tab-video-slideout {
+  height: 600px;
+  display: none;
+  padding: 0.5em 0.5em 0.5em;
+  border: 1px solid #a4286a;
+  border-bottom-left-radius: 10px;
+  background-color: white;
+  position: relative;
+
+  .wpseo-tab-video__panel__textarea {
+    float: left;
+    width: 260px;
+    margin: 0.5em 1em 0 0;
+    padding: 15px;
+    border: 1px solid;
+    border-color: white;
+    border-radius: 30px;
+    border-bottom-right-radius: 0;
+    color: white;
+
+    h3 {
+      margin: 0;
+      color: white;
+    }
+  }
+
+  .yoast-help-center-tabs {
+    overflow: auto;
+    width: 187px;
+    margin: -0.5em;
+    padding-left: 0.5em;
+    color: white;
+    background-color: #a4286a;
+  }
+
+  .help-tab-content {
+    margin: 0;
+    overflow: auto;
+  }
+
+  .wpseo-tab-video__panel {
+    clear: both;
+    margin-right: 1em;
+  }
+}
+
+.inside {
+  .wpseo-tab-video-slideout {
+    height: auto;
+  }
+}
+
+.wpseo-help-center-item {
+  a {
+    display: block;
+    padding: 0.5em;
+    color: white;
+
+    &.dashicons-before:before {
+      text-decoration: none;
+      margin-right:3px;
+    }
+  }
+
+  &.active a {
+    border: 1px solid white;
+    border-right-width: 0;
+    border-left: 2px solid rgb(97, 5, 54);
+    color: #a4286a;
+    background-color: white;
+  }
+}
+
+.wpseo-tab-video__panel__textarea {
+  background-color: #a4286a;
+
+  a,
+  a:hover,
+  a:focus {
+    color: white;
+    font-weight: bold;
+  }
+}
+
+.wpseo-tab-video__panel.wpseo-tab-video__panel--video {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+.contextual-help-tabs-wrap {
+  position: absolute;
+  left: 194px;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}

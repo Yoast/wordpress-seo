@@ -15,42 +15,14 @@ var defaultArguments = {
 
 	scoreClass: 'na',
 	scoreText: '',
+	fallback: '',
 
-	showKeyword: true
+	showKeyword: true,
+	isKeywordTab: true
 };
 
 module.exports = (function() {
 	'use strict';
-
-	/**
-	 * Renders a keyword tab as a jQuery HTML object.
-	 *
-	 * @param {string} scoreClass
-	 * @param {string} keyword
-	 * @param {string} prefix
-	 *
-	 * @returns {HTMLElement}
-	 */
-	function renderKeywordTab( scoreClass, scoreText, keyword, prefix, basedOn, active, showKeyword ) {
-		var placeholder = keyword.length > 0 ? keyword : '...';
-
-		if ( ! showKeyword ) {
-			placeholder = '';
-		}
-
-		var html = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: scoreClass,
-			hideRemove: true,
-			prefix: prefix + ' ',
-			active: active,
-			basedOn: basedOn,
-			scoreText: scoreText
-		});
-
-		return jQuery( html );
-	}
 
 	/**
 	 * Constructor for a keyword tab object
@@ -70,6 +42,8 @@ module.exports = (function() {
 		this.scoreText = args.scoreText;
 
 		this.showKeyword = args.showKeyword;
+		this.isKeywordTab = args.isKeywordTab;
+		this.fallback = args.fallback;
 	}
 
 	/**
@@ -79,7 +53,7 @@ module.exports = (function() {
 	 * @param {string} position Either prepend or append for the position in the parent.
 	 */
 	KeywordTab.prototype.init = function( parent, position ) {
-		this.setElement( renderKeywordTab( this.scoreClass, this.scoreText, this.keyword, this.prefix, this.basedOn, this.active, this.showKeyword ) );
+		this.setElement( this.render() );
 		var $parent = $( parent );
 
 		if ( 'prepend' === position ) {
@@ -109,10 +83,45 @@ module.exports = (function() {
 	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
 	 */
 	KeywordTab.prototype.refresh = function() {
-		var newElem = renderKeywordTab( this.scoreClass, this.scoreText, this.keyword, this.prefix, this.basedOn, this.active, this.showKeyword );
+		var newElem = this.render();
 
 		this.element.replaceWith( newElem );
 		this.setElement( newElem );
+	};
+
+	/**
+	 * Renders this keyword tab as a jQuery HTML object.
+	 *
+	 * @returns {Object} jQuery HTML object.
+	 */
+	KeywordTab.prototype.render = function() {
+		var placeholder = this.keyword.length > 0 ? this.keyword : '...';
+		var prefix = this.prefix;
+
+		if ( ! this.showKeyword ) {
+			placeholder = '';
+		}
+
+		if ( '' === this.keyword && '' !== this.fallback ) {
+			placeholder = this.fallback;
+			prefix = '';
+		} else {
+			prefix += ' ';
+		}
+
+		var html = wp.template( 'keyword_tab' )({
+			keyword: this.keyword,
+			placeholder: placeholder,
+			score: this.scoreClass,
+			hideRemove: true,
+			prefix: prefix,
+			active: this.active,
+			basedOn: this.basedOn,
+			scoreText: this.scoreText,
+			isKeywordTab: this.isKeywordTab
+		});
+
+		return jQuery( html );
 	};
 
 	/**
@@ -161,7 +170,7 @@ module.exports = (function() {
 
 		this.onActivate();
 
-		$( '.wpseo_keyword_tab' ).removeClass( 'active' );
+		$( '.wpseo_keyword_tab, .wpseo_content_tab' ).removeClass( 'active' );
 		this.active = true;
 		this.refresh();
 

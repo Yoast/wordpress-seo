@@ -140,7 +140,7 @@ function wpseo_display_contributors( $contributors ) {
 		</div>
 
 		<div class="return-to-dashboard">
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) ); ?>"><?php _e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
 		</div>
 
 	</div>

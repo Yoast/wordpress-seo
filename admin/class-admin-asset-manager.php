@@ -322,6 +322,18 @@ class WPSEO_Admin_Asset_Manager {
 				'suffix' => '.min',
 				'version' => '4.0.1',
 			),
+			array(
+				'name' => 'kb-search',
+				'src'  => 'kb-search',
+			),
+			array(
+				'name' => 'help-center',
+				'src'  => 'help-center-330',
+			),
+			array(
+				'name' => 'admin-global',
+				'src'  => 'admin-global-320',
+			),
 		);
 	}
 }
