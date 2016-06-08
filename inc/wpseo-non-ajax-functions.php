@@ -78,9 +78,8 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// Yoast Icon.
-	$icon_svg = WPSEO_Utils::get_icon_svg();
-	$title = '<div class="ab-icon wp-menu-image yoast-logo svg" style="background-image: url( \'' . $icon_svg . '\' ) !important;"></div>';
-
+	$icon_svg = WPSEO_Utils::get_icon_svg(  );
+	$title = '<div id="yoast-ab-icon" class="ab-icon wp-menu-image yoast-logo svg" style="background-image: url(\''.$icon_svg.'\') !important;"></div>';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
@@ -268,9 +267,53 @@ function wpseo_admin_bar_menu() {
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 	}
+
+	yoast_menu_bar_icon_color_js();
 }
 
 add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
+
+/**
+ * The ugliest jQuery ever to change the color of an SVG.
+ *
+ * But also the exact same code core uses in svg-painter.js.
+ */
+function yoast_menu_bar_icon_color_js() {
+?>
+<script>
+	jQuery( document ).ready(function($) {
+		// Sets yoast logo to current admin theme's icon color
+		if ( typeof window._wpColorScheme === 'undefined' ) {
+			return;
+		}
+		var element = $('#yoast-ab-icon');
+		var encoded = element.css( 'background-image' ).match( /.+data:image\/svg\+xml;base64,([A-Za-z0-9\+\/\=]+)/ );
+
+		try {
+			if ( 'atob' in window ) {
+				xml = window.atob( encoded[1] );
+			} else {
+				xml = base64.atob( encoded[1] );
+			}
+		} catch ( error ) {}
+
+		if ( xml ) {
+			// replace `style` attributes in de-base64'd string
+			var xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + window._wpColorScheme.icons.base + '"');
+
+			if ( 'btoa' in window ) {
+				encoded = window.btoa( xml );
+			} else {
+				encoded = base64.btoa( xml );
+			}
+			element.get(0).style.setProperty( 'background-image', "url(data:image/svg+xml;base64," + encoded + ")", "important" );
+		}
+		// Sets issue counter to current admins theme color
+		jQuery( '.yoast-issue-counter').css( 'background-color', jQuery( '.wp-menu-name .update-plugins').css( 'background-color' ) );
+	});
+</script>
+<?php
+}
 
 /**
  * Enqueue CSS to format the Yoast SEO adminbar item.
