@@ -14,6 +14,10 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 	 * @return string
 	 */
 	public function link() {
+
+		// Ensure thickbox is enqueued.
+		add_thickbox();
+
 		ob_start();
 		?>
 		<li class="wpseo-tab-add-keyword">
