@@ -135,9 +135,7 @@
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( '.yoast-alert-holder' );
 
-		$dismissible.on( 'click', '.dismiss', function( evt ) {
-			evt.preventDefault();
-
+		$dismissible.on( 'click', '.dismiss', function() {
 			var $this = $( this );
 			var $source = $this.closest( '.yoast-alert-holder' );
 
@@ -159,9 +157,7 @@
 			);
 		} );
 
-		$dismissible.on( 'click', '.restore', function( evt ) {
-			evt.preventDefault();
-
+		$dismissible.on( 'click', '.restore', function() {
 			var $this = $( this );
 			var $source = $this.closest( '.yoast-alert-holder' );
 
