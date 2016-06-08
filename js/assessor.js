@@ -123,7 +123,6 @@ Assessor.prototype.assess = function( paper ) {
 	this.results = [];
 
 	assessments = filter( assessments, function( assessment ) {
-		test = this.isApplicable( assessment, paper, researcher );
 		return this.isApplicable( assessment, paper, researcher );
 	}.bind( this ) );
 
