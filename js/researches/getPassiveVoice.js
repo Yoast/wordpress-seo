@@ -102,6 +102,7 @@ var getVerbsEndingInIng = function( sentence ) {
  * @returns {Array} The array with valid indices to use for determining subsentences.
  */
 var getSentenceBreakers = function( sentence ) {
+	sentence = sentence.toLocaleLowerCase();
 	var auxiliaryIndices = matchArray( sentence, auxiliaries );
 
 	var stopwordIndices = matchArray( sentence, stopwords );
@@ -311,11 +312,10 @@ module.exports = function( paper ) {
 		var passive = false;
 		forEach( subSentences, function( subSentence ) {
 			passive = determinePassives( subSentence );
+			if ( passive === true ) {
+				passiveSentences.push( sentence );
+			}
 		} );
-		if ( passive === true ) {
-			passiveSentences.push( sentence );
-			passive = false;
-		}
 	} );
 
 	return {
