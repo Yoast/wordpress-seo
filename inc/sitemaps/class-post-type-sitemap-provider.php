@@ -74,15 +74,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			if ( $max_pages > 1 ) {
 
 				$sql       = "
-					SELECT post_modified_gmt
-					FROM (
-						SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt
-						FROM (SELECT @rownum:=0) r, $wpdb->posts
-						WHERE post_status IN ('publish','inherit')
-							AND post_type = %s
-						ORDER BY post_modified_gmt ASC
-					) x
-					WHERE rownum %%%d=0
+				SELECT post_modified_gmt
+				    FROM ( SELECT @rownum:=0 ) init 
+				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
+				    WHERE post_status IN ( 'publish', 'inherit' )
+				      AND post_type = %s
+				      AND ( @rownum:=@rownum+1 ) %% %d = 0
+				    ORDER BY post_modified_gmt ASC
 				";
 
 				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
