@@ -214,58 +214,63 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
-	it( "returns passive voice ( text between having and verb )", function(){
+	it( "returns passive voice ( text between having and verb )", function() {
 		paper = new Paper( "He is having the house painted" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns active voice ( no text between having and verb )", function(){
+	it( "returns active voice ( no text between having and verb )", function() {
 		paper = new Paper( "He is most notable, having contributed a lot" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
-	it( "returns active voice ( combination with left )", function(){
+	it( "returns active voice ( combination with left )", function() {
 		paper = new Paper( "The right way is to the left" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
-	it( "returns passive voice ( combination with left )", function(){
+	it( "returns passive voice ( combination with left )", function() {
 		paper = new Paper( "She was left at home" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns passive voice ( combination with left )", function(){
+	it( "returns passive voice ( combination with left )", function() {
 		paper = new Paper( "He was hit on the left leg" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns active voice ( combination with fit )", function(){
+	it( "returns active voice ( combination with fit )", function() {
 		paper = new Paper( "It was the right fit" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
-	it( "returns passive voice ( combination with fit )", function(){
+	it( "returns passive voice ( combination with fit )", function() {
 		paper = new Paper( "He was fit with hearing aids" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns active voice ( combination with ing-verbs )", function(){
+	it( "returns active voice ( combination with ing-verbs )", function() {
 		paper = new Paper( "They had apps that are constantly improving, with regular updates based on customer feedback." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
-	it( "returns passive voice ( combination with cling )", function(){
+	it( "returns passive voice ( combination with cling )", function() {
 		paper = new Paper( "They had apps that get constantly cling wrapped" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns passive voice ( combination with cling  )", function(){
+	it( "returns passive voice ( combination with cling  )", function() {
 		paper = new Paper( "They had apps that are constantly cling wrapped." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns passive voice with quotation marks", function(){
+	it( "returns passive voice with quotation marks", function() {
 		paper = new Paper( "As a result of that, a lot of blog posts will 'get lost' in a structure that is too flat." );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	});
+
+	it( "returns passive voice with multiple subsentence, where the passive is not in the last part", function() {
+		paper = new Paper( "As a result of that, a lot of blog posts will get lost in a structure that is too flat." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 } );
