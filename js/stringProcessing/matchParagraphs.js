@@ -1,5 +1,6 @@
 var map = require( "lodash/map" );
 var flatMap = require( "lodash/flatMap" );
+var filter = require( "lodash/filter" );
 
 var getBlocks = require( "../helpers/html" ).getBlocks;
 
@@ -38,6 +39,12 @@ module.exports = function( text ) {
 
 	// If no <p> tags found, split on double linebreaks.
 	var blocks = getBlocks( text );
+
+	blocks = filter( blocks, function( block ) {
+		// Match explicit paragraph tags, or if a block has no HTML tags.
+		return 0 !== block.indexOf( "<h" );
+	} );
+
 	paragraphs = flatMap( blocks, function( block ) {
 		return block.split( "\n\n" );
 	} );

@@ -19,7 +19,16 @@ describe( "Matches paragraphs in a text", function() {
 
 	it( "splits on headings", function() {
 		var text = "A piece of text<h2>More piece of text</h2>Another piece of text.";
-		var expected = [ "A piece of text", "<h2>More piece of text</h2>", "Another piece of text." ];
+		var expected = [ "A piece of text", "Another piece of text." ];
+
+		var actual = matchParagraphs( text );
+
+		expect( actual ).toEqual( expected );
+	});
+
+	it( "should see <div> tags as paragraphs", function() {
+		var text = "A piece of text<div>More piece of text</div>Another piece of text.";
+		var expected = [ "A piece of text", "<div>More piece of text</div>", "Another piece of text." ];
 
 		var actual = matchParagraphs( text );
 
