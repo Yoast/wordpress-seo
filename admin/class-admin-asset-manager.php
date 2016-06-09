@@ -331,6 +331,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'help-center-330',
 			),
 			array(
+				'name' => 'tooltips',
+				'src'  => 'tooltips',
+			),
+			array(
 				'name' => 'admin-global',
 				'src'  => 'admin-global-320',
 			),
