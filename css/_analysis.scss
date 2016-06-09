@@ -121,6 +121,11 @@ li.score:after {
 			&-active {
 				background-image: url(svg-icon-eye($color_marker_active));
 				background-color: #a4286a;
+
+				&.yoast-tooltip::before,
+				&.yoast-tooltip::after {
+					display: none;
+				}
 			}
 		}
 
