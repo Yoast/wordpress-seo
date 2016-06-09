@@ -1,17 +1,19 @@
 var Assessor = require( "./assessor.js" );
 
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
-var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 var paragraphTooLong = require( "./assessments/paragraphTooLongAssessment.js" );
 var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessment.js" );
-var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
 var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
 var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
 var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
-var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
-var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
+// var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
+// var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
+// var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
+// var subheadingDistributionTooShort = require( "./assessments/subheadingDistributionTooShortAssessment.js" );
+// var paragraphTooShort = require( "./assessments/paragraphTooShortAssessment.js" );
+// var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -27,17 +29,19 @@ var ContentAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		fleschReadingEase,
-		wordComplexity,
 		getSubheadingPresence,
 		subheadingDistributionTooLong,
 		subHeadingLength,
 		paragraphTooLong,
 		sentenceLengthInText,
-		sentenceLengthInDescription,
 		transitionWords,
-		sentenceVariation,
-		sentenceBeginnings,
 		passiveVoice
+		// sentenceVariation,
+		// sentenceBeginnings,
+		// wordComplexity,
+		// subheadingDistributionTooShort,
+		// paragraphTooShort
+		// sentenceLengthInDescription,
 	];
 };
 

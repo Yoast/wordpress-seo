@@ -113,5 +113,18 @@ describe( "html", function() {
 
 			expect( actual ).toEqual( expected );
 		});
+
+		it( "should handle HTML with newlines in it", function() {
+			var text = "<h3>First text</h3>\n" +
+			"Some text";
+			var expected = [
+				"<h3>First text</h3>",
+				"\nSome text"
+			];
+
+			var actual = getBlocks( text );
+
+			expect( actual ).toEqual( expected );
+		});
 	});
 });
