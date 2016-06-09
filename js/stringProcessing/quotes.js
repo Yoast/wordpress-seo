@@ -8,7 +8,8 @@ function normalizeSingleQuotes( text ) {
 	return text
 		.replace( "‘", "'" )
 		.replace( "’", "'" )
-		.replace( "‛", "'" );
+		.replace( "‛", "'" )
+		.replace( "`", "'" );
 }
 
 module.exports = {

@@ -8,6 +8,7 @@ describe( "a quote helper", function() {
 			expect( normalizeSingleQuotes( "‘" ) ).toBe( "'" );
 			expect( normalizeSingleQuotes( "’" ) ).toBe( "'" );
 			expect( normalizeSingleQuotes( "‛" ) ).toBe( "'" );
+			expect( normalizeSingleQuotes( "`" ) ).toBe( "'" );
 		});
 	});
 });
