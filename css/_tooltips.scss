@@ -38,16 +38,6 @@
 	pointer-events: none;
 }
 
-@-webkit-keyframes yoast-tooltip-appear {
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
-	}
-}
-
 @keyframes yoast-tooltip-appear {
 	from {
 		opacity: 0;
