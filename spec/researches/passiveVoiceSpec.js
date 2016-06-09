@@ -278,4 +278,30 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper( "As a result of that, a lot of blog posts will GET LOST in a structure that is too flat." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
+
+	it( "supports different types of quotes", function() {
+		paper = new Paper( "you're done." );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: [ "you're done." ]
+		} );
+
+		paper = new Paper( "you’re done." );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: [ "you’re done." ]
+		} );
+
+		paper = new Paper( "you‘re done." );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: [ "you‘re done." ]
+		} );
+
+		paper = new Paper( "you‛re done." );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: [ "you‛re done." ]
+		} );
+	});
 } );

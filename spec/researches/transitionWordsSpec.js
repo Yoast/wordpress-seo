@@ -105,4 +105,20 @@ describe("a test for finding transition words from a string", function() {
 		expect(result.totalSentences).toBe(3);
 		expect(result.transitionWordSentences).toBe(0);
 	});
+
+	it( "works with normalizes quotes", function() {
+		mockPaper = new Paper( "what’s more", {} );
+		result = transitionWordsResearch( mockPaper );
+
+		expect( result ).toEqual( {
+			totalSentences: 1,
+			sentenceResults: [
+				{
+					sentence: "what’s more",
+					transitionWords: [ "what's more" ]
+				}
+			],
+			transitionWordSentences: 1
+		} );
+	});
 } );

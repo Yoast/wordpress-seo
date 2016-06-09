@@ -2,6 +2,7 @@ var getSentences = require( "../stringProcessing/getSentences.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
+var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 
 var nonverbEndingEd = require( "./passivevoice-english/non-verb-ending-ed.js" )();
 var determiners = require( "./passivevoice-english/determiners.js" )();
@@ -124,6 +125,8 @@ var getSentenceBreakers = function( sentence ) {
  */
 var getSubsentences = function( sentence ) {
 	var subSentences = [];
+
+	sentence = normalizeSingleQuotes( sentence );
 
 	// First check if there is an auxiliary word in the sentence
 	if( sentence.match( auxiliaryRegex ) !== null ) {
@@ -285,6 +288,8 @@ var getExceptions = function( subSentence, verbs ) {
  * @returns {boolean} True if passive is found, false if no passive is found.
  */
 var determinePassives = function( subSentence ) {
+	subSentence = normalizeSingleQuotes( subSentence );
+
 	var regularVerbs = getRegularVerbs( subSentence );
 	var irregularVerbs = getIrregularVerbs( subSentence );
 	var verbs = regularVerbs.concat( irregularVerbs );
