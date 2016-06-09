@@ -93,6 +93,38 @@ function tokenizeSentences( text ) {
 }
 
 /**
+ * Removes duplicate whitespace from a given text.
+ *
+ * @param {string} text The text with duplicate whitespace.
+ * @returns {string} The text without duplicate whitespace.
+ */
+function removeDuplicateWhitespace( text ) {
+	return text.replace( /\s+/, " " );
+}
+
+/**
+ * Retrieves the next two characters from an array with the two next tokens.
+ *
+ * @param {Array} nextTokens The two next tokens. Might be undefined.
+ * @returns {string} The next two characters.
+ */
+function getNextTwoCharacters( nextTokens ) {
+	var next = "";
+
+	if ( !isUndefined( nextTokens[0] ) ) {
+		next += nextTokens[ 0 ].src;
+	}
+
+	if ( !isUndefined( nextTokens[ 1 ] ) ) {
+		next += nextTokens[ 1 ].src;
+	}
+
+	next = removeDuplicateWhitespace( next );
+
+	return next;
+}
+
+/**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
  * @param {Array} tokens The tokens from the sentence tokenizer.
@@ -119,6 +151,7 @@ function getSentencesFromTokens( tokens ) {
 	forEach( tokens, function( token, i ) {
 		var hasNextSentence;
 		var nextToken = tokens[ i + 1 ];
+		var secondToNextToken = tokens[ i + 2 ];
 
 		switch ( token.type ) {
 
@@ -139,8 +172,11 @@ function getSentencesFromTokens( tokens ) {
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
-				hasNextSentence = !isUndefined( nextToken ) && nextToken.src.trim().length > 0;
-				nextSentenceStart = hasNextSentence ? nextToken.src.trim()[ 0 ] : "";
+				var nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+				// For a new sentence we need to check the next two characters.
+				hasNextSentence = nextCharacters.length >= 2;
+				nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
 
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 				if (

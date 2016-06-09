@@ -166,4 +166,13 @@ describe("Get sentences from text", function(){
 
 		expect( actual ).toEqual( expected );
 	});
+
+	it( "ignores decimals with dots in them", function() {
+		var text = "This is 1.0 complete sentence";
+		var expected = [ "This is 1.0 complete sentence" ];
+
+		var actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	});
 });
