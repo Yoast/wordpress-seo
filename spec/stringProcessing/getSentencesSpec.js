@@ -168,6 +168,22 @@ describe("Get sentences from text", function(){
 		expect( actual ).toEqual( expected );
 	});
 
+
+	it( "ignores decimals with dots in them", function() {
+		var testCases = [
+			{
+				input: "This is 1.0 complete sentence",
+				expected: [ "This is 1.0 complete sentence" ]
+			},
+			{
+				input: "This is 255.255.255.255 complete sentence",
+				expected: [ "This is 255.255.255.255 complete sentence" ]
+			}
+		];
+
+		testGetSentences( testCases );
+	});
+
 	it( "should not break on colons", function() {
 		var testCases = [
 			{
