@@ -263,4 +263,9 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper( "They had apps that are constantly cling wrapped." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
+
+	it( "returns passive voice with quotation marks", function(){
+		paper = new Paper( "As a result of that, a lot of blog posts will 'get lost' in a structure that is too flat." );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	});
 } );
