@@ -314,7 +314,6 @@ module.exports = function( paper ) {
 			passive = determinePassives( subSentence );
 			if ( passive === true ) {
 				passiveSentences.push( sentence );
-				passive = false;
 			}
 		} );
 	} );
