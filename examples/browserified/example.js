@@ -65,4 +65,11 @@ window.onload = function() {
 		app, args, app.i18n
 	);
 	previouslyUsedKeywordsPlugin.registerPlugin();
+
+	var refreshAnalysis = document.getElementById( "refresh-analysis" );
+
+	refreshAnalysis.addEventListener( "click", function() {
+		app.getData();
+		app.runAnalyzer();
+	});
 };
