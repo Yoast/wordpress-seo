@@ -2,6 +2,12 @@ var getSentences = require( "../../js/stringProcessing/getSentences.js" );
 
 var forEach = require( "lodash/forEach" );
 
+function testGetSentences( testCases ) {
+	forEach( testCases, function( testCase ) {
+		expect( getSentences( testCase.input ) ).toEqual( testCase.expected );
+	});
+}
+
 describe("Get sentences from text", function(){
 	it("returns sentences", function () {
 		var sentence = "Hello. How are you? Bye";
@@ -19,12 +25,12 @@ describe("Get sentences from text", function(){
 
 	it("returns sentences with a ! in it (should not be converted to . )", function () {
 		var sentence = "It was a lot. Approx! two hundred";
-		expect( getSentences( sentence ) ).toEqual( [ "It was a lot.","Approx! two hundred" ] );
+		expect( getSentences( sentence ) ).toEqual( [ "It was a lot.","Approx!", "two hundred" ] );
 	});
 
 	it( "returns sentences, with :", function() {
 		var sentence = "One. Two. Three: Four! Five."
-		expect( getSentences( sentence ).length ).toBe ( 5 );
+		expect( getSentences( sentence ).length ).toBe ( 4 );
 	});
 
 	it("returns sentences with a text with H2 tags", function() {
@@ -59,11 +65,6 @@ describe("Get sentences from text", function(){
 		expect( getSentences( text ) ).toEqual( [ "A sentence with an image <img src='http://google.com' />" ] );
 	});
 
-	function testGetSentences( testCases ) {
-		forEach( testCases, function( testCase ) {
-			expect( getSentences( testCase.input ) ).toEqual( testCase.expected );
-		});
-	}
 
 	it( "can deal with newlines", function() {
 		var testCases = [
@@ -161,6 +162,46 @@ describe("Get sentences from text", function(){
 			"You will receive feedback from a member of the Yoast-team on both of these assignments.",
 			"Read more about the SEO copywriting training -- linken naar sales pagina"
 		];
+
+		var actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	});
+
+
+	it( "ignores decimals with dots in them", function() {
+		var testCases = [
+			{
+				input: "This is 1.0 complete sentence",
+				expected: [ "This is 1.0 complete sentence" ]
+			},
+			{
+				input: "This is 255.255.255.255 complete sentence",
+				expected: [ "This is 255.255.255.255 complete sentence" ]
+			}
+		];
+
+		testGetSentences( testCases );
+	});
+
+	it( "should not break on colons", function() {
+		var testCases = [
+			{
+				input: "This should be: one sentence",
+				expected: [ "This should be: one sentence" ]
+			},
+			{
+				input: "This should be: one sentence",
+				expected: [ "This should be: one sentence" ]
+			}
+		];
+
+		testGetSentences( testCases );
+	});
+
+	it( "should always break on ;, ? and ! even when there is no capital letter", function() {
+		var text = "First sentence; second sentence! third sentence? fourth sentence";
+		var expected = [ "First sentence;", "second sentence!", "third sentence?", "fourth sentence" ];
 
 		var actual = getSentences( text );
 

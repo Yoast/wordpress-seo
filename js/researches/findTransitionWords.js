@@ -3,6 +3,7 @@ var twoPartTransitionWords = require( "../config/twoPartTransitionWords.js" );
 var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
+var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
@@ -16,6 +17,8 @@ var twoPartTransitionWordsRegex = createRegexFromDoubleArray( twoPartTransitionW
  * @returns {Array} The found transitional words.
  */
 var matchTwoPartTransitionWords = function( sentence ) {
+	sentence = normalizeSingleQuotes( sentence );
+
 	return sentence.match( twoPartTransitionWordsRegex );
 };
 
@@ -26,6 +29,8 @@ var matchTwoPartTransitionWords = function( sentence ) {
  * @returns {Array} The found transitional words.
  */
 var matchTransitionWords = function( sentence ) {
+	sentence = normalizeSingleQuotes( sentence );
+
 	var matchedTransitionWords = filter( transitionWords(), function( word ) {
 		return matchWordInSentence( word, sentence );
 	} );

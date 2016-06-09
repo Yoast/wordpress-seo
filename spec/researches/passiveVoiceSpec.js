@@ -278,7 +278,7 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper( "As a result of that, a lot of blog posts will GET LOST in a structure that is too flat." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
-
+	
 	it( "returns the passive sentences with multiple passive subsentences", function () {
 		paper = new Paper("Once a week, the house is cleaned by Tom where the house is cleaned by Jane.");
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
@@ -287,5 +287,32 @@ describe( "detecting passive voice in sentences", function() {
 	it( "returns the passive sentences with more subsentences and only the first subsentence is passive", function () {
 		paper = new Paper("Once a week, the house is cleaned by Tom where the house is Jane.");
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	});
+
+	it( "supports different types of quotes", function() {
+		paper = new Paper( "you're done." );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: [ "you're done." ]
+		} );
+
+		paper = new Paper( "you’re done." );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: [ "you’re done." ]
+		} );
+
+		paper = new Paper( "you‘re done." );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: [ "you‘re done." ]
+		} );
+
+		paper = new Paper( "you‛re done." );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: [ "you‛re done." ]
+		} );
+
 	});
 } );

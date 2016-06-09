@@ -13,11 +13,13 @@ var core = require( "tokenizer2/core" );
 var getBlocks = require( "../helpers/html.js" ).getBlocks;
 
 // All characters that indicate a sentence delimiter.
-var sentenceDelimiters = ".?!:;";
+var fullStop = ".";
+var sentenceDelimiters = "?!;";
 var newLines = "\n\r|\n|\r";
 
+var fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
-var sentenceRegex = new RegExp( "^[^" + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
+var sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
 var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
@@ -42,6 +44,7 @@ function createTokenizer() {
 	sentenceTokenizer.addRule( htmlEndRegex, "html-end" );
 	sentenceTokenizer.addRule( blockStartRegex, "block-start" );
 	sentenceTokenizer.addRule( blockEndRegex, "block-end" );
+	sentenceTokenizer.addRule( fullStopRegex, "full-stop" );
 	sentenceTokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
 	sentenceTokenizer.addRule( sentenceRegex, "sentence" );
 }
@@ -93,6 +96,38 @@ function tokenizeSentences( text ) {
 }
 
 /**
+ * Removes duplicate whitespace from a given text.
+ *
+ * @param {string} text The text with duplicate whitespace.
+ * @returns {string} The text without duplicate whitespace.
+ */
+function removeDuplicateWhitespace( text ) {
+	return text.replace( /\s+/, " " );
+}
+
+/**
+ * Retrieves the next two characters from an array with the two next tokens.
+ *
+ * @param {Array} nextTokens The two next tokens. Might be undefined.
+ * @returns {string} The next two characters.
+ */
+function getNextTwoCharacters( nextTokens ) {
+	var next = "";
+
+	if ( !isUndefined( nextTokens[ 0 ] ) ) {
+		next += nextTokens[ 0 ].src;
+	}
+
+	if ( !isUndefined( nextTokens[ 1 ] ) ) {
+		next += nextTokens[ 1 ].src;
+	}
+
+	next = removeDuplicateWhitespace( next );
+
+	return next;
+}
+
+/**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
  * @param {Array} tokens The tokens from the sentence tokenizer.
@@ -119,6 +154,7 @@ function getSentencesFromTokens( tokens ) {
 	forEach( tokens, function( token, i ) {
 		var hasNextSentence;
 		var nextToken = tokens[ i + 1 ];
+		var secondToNextToken = tokens[ i + 2 ];
 
 		switch ( token.type ) {
 
@@ -139,8 +175,23 @@ function getSentencesFromTokens( tokens ) {
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
-				hasNextSentence = !isUndefined( nextToken ) && nextToken.src.trim().length > 0;
-				nextSentenceStart = hasNextSentence ? nextToken.src.trim()[ 0 ] : "";
+				tokenSentences.push( currentSentence );
+				currentSentence = "";
+				break;
+
+			case "full-stop":
+				currentSentence += token.src;
+
+				var nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+				// For a new sentence we need to check the next two characters.
+				hasNextSentence = nextCharacters.length >= 2;
+				nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
+
+				// If the next character is a number, never split. For example: IPv4-numbers.
+				if ( hasNextSentence && isNumber( nextCharacters[ 0 ] ) ) {
+					break;
+				}
 
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 				if (
@@ -171,7 +222,7 @@ function getSentencesFromTokens( tokens ) {
 
 			case "block-end":
 				// When a block ends after a sentence delimiter make sure to add the block end to the sentence.
-				if ( !isUndefined( previousToken ) && previousToken.type === "sentence-delimiter" ) {
+				if ( !isUndefined( previousToken ) && ( previousToken.type === "sentence-delimiter" || previousToken.type === "full-stop" ) ) {
 					tokenSentences[ tokenSentences.length - 1 ] += token.src;
 				} else {
 					currentSentence += token.src;
