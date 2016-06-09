@@ -82,7 +82,10 @@ function isInlineElement( htmlElementName ) {
  * @returns {Array} A list of blocks based on HTML block elements.
  */
 function getBlocks( text ) {
-	var blocks = [], depth = 0, currentBlock = "";
+	var blocks = [], depth = 0,
+		blockStartTag = "",
+		currentBlock = "",
+		blockEndTag = "";
 
 	createTokenizer();
 	htmlBlockTokenizer.onText( text );
@@ -106,29 +109,49 @@ function getBlocks( text ) {
 			case "comment-end":
 				if ( !nextToken || ( depth === 0 && ( nextToken.type === "block-start" || nextToken.type === "block-end" ) ) ) {
 					currentBlock += token.src;
+
 					blocks.push( currentBlock );
+					blockStartTag = "";
 					currentBlock = "";
+					blockEndTag = "";
 				} else {
 					currentBlock += token.src;
 				}
 				break;
 
 			case "block-start":
+				if ( depth !== 0 ) {
+					if ( currentBlock.trim() !== "" ) {
+						blocks.push( currentBlock );
+					}
+					currentBlock = "";
+					blockEndTag = "";
+				}
+
 				depth++;
-				currentBlock += token.src;
+				blockStartTag = token.src;
 				break;
 
 			case "block-end":
 				depth--;
-				currentBlock += token.src;
+				blockEndTag = token.src;
 
-				if ( depth === 0 ) {
+				/*
+				 * We try to match the most deep blocks so discard any other blocks that have been started but not
+				 * finished.
+				 */
+				if ( "" !== blockStartTag && "" !== blockEndTag ) {
+					blocks.push( blockStartTag + currentBlock + blockEndTag );
+				} else if ( "" !== currentBlock.trim() ) {
 					blocks.push( currentBlock );
-					currentBlock = "";
 				}
+				blockStartTag = "";
+				currentBlock = "";
+				blockEndTag = "";
 				break;
 		}
 
+		// Handles HTML with too many closing tags.
 		if ( depth < 0 ) {
 			depth = 0;
 		}

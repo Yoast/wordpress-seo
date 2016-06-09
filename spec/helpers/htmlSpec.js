@@ -126,5 +126,32 @@ describe( "html", function() {
 
 			expect( actual ).toEqual( expected );
 		});
+
+		it( "should handle nested lis tags", function() {
+			var text = "<ul><li>First LI</li><li>Second LI</li></ul>";
+			var expected = [ "<li>First LI</li>", "<li>Second LI</li>" ];
+
+			var actual = getBlocks( text );
+
+			expect( actual ).toEqual( expected );
+		});
+
+		it( "should handle nested div tags", function() {
+			var text = "<div>More content<div>First LI</div><div>Second LI</div></div>";
+			var expected = [ "More content", "<div>First LI</div>", "<div>Second LI</div>" ];
+
+			var actual = getBlocks( text );
+
+			expect( actual ).toEqual( expected );
+		});
+
+		it( "should handle nested div tags", function() {
+			var text = "<div>More content<div>First LI</div>Another<div>Second LI</div>Many more</div>";
+			var expected = [ "More content", "<div>First LI</div>", "Another", "<div>Second LI</div>", "Many more" ];
+
+			var actual = getBlocks( text );
+
+			expect( actual ).toEqual( expected );
+		});
 	});
 });
