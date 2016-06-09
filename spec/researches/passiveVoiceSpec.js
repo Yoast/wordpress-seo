@@ -273,4 +273,9 @@ describe( "detecting passive voice in sentences", function() {
 		paper = new Paper( "As a result of that, a lot of blog posts will get lost in a structure that is too flat." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
+
+	it( "returns passive voice in a sentence where the indicator is in caps.", function() {
+		paper = new Paper( "As a result of that, a lot of blog posts will GET LOST in a structure that is too flat." );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	});
 } );
