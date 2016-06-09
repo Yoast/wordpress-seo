@@ -470,6 +470,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		updateAdminBar( indicator );
 		publishBox.updateScore( 'keyword', indicator.className );
 
+		tabManager.getKeywordTab().activate();
+
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		// Backwards compatibility.
