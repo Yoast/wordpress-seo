@@ -81,7 +81,7 @@ function isBreakTag( htmlTag ) {
 }
 
 /**
- * Returns whether or not a given HTML tag is quotation mark.
+ * Returns whether or not a given character is quotation mark.
  *
  * @param {string} character character The character to check.
  * @returns {boolean} Whether or not the given character is a quotation mark.
