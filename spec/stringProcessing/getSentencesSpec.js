@@ -207,4 +207,19 @@ describe("Get sentences from text", function(){
 
 		expect( actual ).toEqual( expected );
 	});
+
+	it( "should match correctly with quotation", function() {
+		var testCases = [
+			{
+				input: "First sentence. \"Second sentence\"",
+				expected: [ "First sentence.", "\"Second sentence\"" ]
+			},
+			{
+				input: "First sentence. 'Second sentence'",
+				expected: [ "First sentence.", "'Second sentence'" ]
+			}
+		];
+
+		testGetSentences( testCases );
+	});
 });

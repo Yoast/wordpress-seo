@@ -11,6 +11,7 @@ var memoize = require( "lodash/memoize" );
 var core = require( "tokenizer2/core" );
 
 var getBlocks = require( "../helpers/html.js" ).getBlocks;
+var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
@@ -77,6 +78,19 @@ function isNumber( character ) {
  */
 function isBreakTag( htmlTag ) {
 	return /<br/.test( htmlTag );
+}
+
+/**
+ * Returns whether or not a given HTML tag is quotation mark.
+ *
+ * @param {string} character character The character to check.
+ * @returns {boolean} Whether or not the given character is a quotation mark.
+ */
+function isQuotation( character ) {
+	character = normalizeQuotes( character );
+
+	return "'" === character
+		|| "\"" === character;
 }
 
 /**
@@ -198,6 +212,7 @@ function getSentencesFromTokens( tokens ) {
 					( hasNextSentence && (
 						isCapitalLetter( nextSentenceStart )
 						|| isNumber( nextSentenceStart ) )
+						|| isQuotation( nextSentenceStart )
 					|| ( !isUndefined( nextToken ) && (
 						"html-start" === nextToken.type
 						|| "html-end" === nextToken.type
