@@ -114,7 +114,7 @@ function removeDuplicateWhitespace( text ) {
 function getNextTwoCharacters( nextTokens ) {
 	var next = "";
 
-	if ( !isUndefined( nextTokens[0] ) ) {
+	if ( !isUndefined( nextTokens[ 0 ] ) ) {
 		next += nextTokens[ 0 ].src;
 	}
 
