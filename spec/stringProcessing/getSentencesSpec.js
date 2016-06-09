@@ -120,6 +120,15 @@ describe("Get sentences from text", function(){
 		expect( actual ).toEqual( expected );
 	});
 
+	it( "should not split on parentheses", function() {
+		var text = "A sentence with (parentheses).";
+		var expected = [ "A sentence with (parentheses)." ];
+
+		var actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	});
+
 	it( "can detect sentences in brackets", function() {
 		var text = "[First sentence. Second sentence.] Third sentence";
 		var expected = [
