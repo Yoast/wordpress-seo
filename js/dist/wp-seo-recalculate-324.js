@@ -1386,28 +1386,9 @@ Assessor.prototype.assess = function( paper ) {
 		return this.isApplicable( assessment, paper, researcher );
 	}.bind( this ) );
 
-	this.setHasMarkers( false );
 	this.results = map( assessments, this.executeAssessment.bind( this, paper, researcher ) );
 
 	this._lastPaper = paper;
-};
-
-/**
- * Sets the value of has markers with a boolean to determine if there are markers.
- *
- * @param {bool} hasMarkers True when there are markers, otherwise it is false.
- */
-Assessor.prototype.setHasMarkers = function( hasMarkers ) {
-	this._hasMarkers = hasMarkers;
-};
-
-/**
- * Returns true when there are markers.
- *
- * @returns {bool} Are there markers
- */
-Assessor.prototype.hasMarkers = function() {
-	return this._hasMarkers;
 };
 
 /**
@@ -1427,8 +1408,6 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 		result.setIdentifier( assessment.identifier );
 
 		if ( result.hasMarks() && this.hasMarker( assessment ) ) {
-			this.setHasMarkers( true );
-
 			result.setMarker( this.getMarker( assessment, paper, researcher ) );
 		}
 	} catch ( assessmentError ) {
@@ -2405,19 +2384,19 @@ var inlineElements = [ "b", "big", "i", "small", "tt", "abbr", "acronym", "cite"
 	"samp", "time", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button",
 	"input", "label", "select", "textarea" ];
 
-var blockElementsRegex = new RegExp( "^(" + blockElements.join( "|" ) + ")$", "i" );
-var inlineElementsRegex = new RegExp( "^(" + inlineElements.join( "|" ) + ")$", "i" );
+var blockElementsRegex = new RegExp( "^(" + blockElements.join( "|" ) + ")$", "im" );
+var inlineElementsRegex = new RegExp( "^(" + inlineElements.join( "|" ) + ")$", "im" );
 
-var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
-var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
+var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>$", "im" );
+var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^>]*?>$", "im" );
 
-var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
-var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
+var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "im" );
+var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "im" );
 
-var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
-var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
+var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/m;
+var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/m;
 
-var contentRegex = /^[^<]+$/;
+var contentRegex = /^[^<]+$/m;
 var greaterThanContentRegex = /^<[^><]*$/;
 
 var commentStartRegex = /^<!--$/;
@@ -2487,7 +2466,11 @@ function getBlocks( text ) {
 	createTokenizer();
 	htmlBlockTokenizer.onText( text );
 
-	htmlBlockTokenizer.end();
+	try {
+		htmlBlockTokenizer.end();
+	} catch ( e ) {
+		return [];
+	}
 
 	forEach( tokens, function( token, i ) {
 		var nextToken = tokens[ i + 1 ];
@@ -7941,8 +7924,8 @@ var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
 
-var blockStartRegex = /^\s*[\[\(\{]\s*$/;
-var blockEndRegex = /^\s*[\]\)}]\s*$/;
+var blockStartRegex = /^[\[\(\{]$/;
+var blockEndRegex = /^[\]\)}]$/;
 
 var tokens = [];
 var sentenceTokenizer;
@@ -8085,7 +8068,8 @@ function getSentencesFromTokens( tokens ) {
 				break;
 
 			case "block-start":
-				currentSentence += token.src;
+				tokenSentences.push( currentSentence );
+				currentSentence = token.src;
 				break;
 
 			case "block-end":

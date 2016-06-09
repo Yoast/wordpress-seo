@@ -357,6 +357,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 
+		tabManager.getKeywordTab().activate();
+
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 	} );
 }( jQuery ));
