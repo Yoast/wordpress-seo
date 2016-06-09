@@ -2,6 +2,11 @@
 	position: relative;
 }
 
+button.yoast-tooltip {
+	/* IE 11 needs overflow: visible on buttons. */
+	overflow: visible;
+}
+
 .yoast-tooltip::after {
 	display: none;
 	position: absolute;
