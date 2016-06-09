@@ -314,13 +314,15 @@ module.exports = function( paper ) {
 	// Get subsentences for each sentence.
 	forEach( sentences, function( sentence ) {
 		var subSentences = getSubsentences( sentence );
+
 		var passive = false;
 		forEach( subSentences, function( subSentence ) {
-			passive = determinePassives( subSentence );
-			if ( passive === true ) {
-				passiveSentences.push( sentence );
-			}
+			passive = passive || determinePassives( subSentence );
 		} );
+
+		if ( passive === true ) {
+			passiveSentences.push( sentence );
+		}
 	} );
 
 	return {
