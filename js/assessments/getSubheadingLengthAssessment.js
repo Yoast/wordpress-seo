@@ -28,7 +28,7 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-					// translators: %1$d expands to the recommended maximum number of characters.
+					// Translators: %1$d expands to the recommended maximum number of characters.
 					"The length of all subheadings is less than or equal to the recommended maximum of %1$d characters, which is great."
 				), recommendedValue
 			)
@@ -41,7 +41,7 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 		text: i18n.sprintf(
 			i18n.dngettext(
 				"js-text-analysis",
-				// translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
+				// Translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
 				"You have %1$d subheading containing more than the recommended maximum of %2$d characters.",
 				"You have %1$d subheadings containing more than the recommended maximum of %2$d characters.",
 				tooLongHeaders

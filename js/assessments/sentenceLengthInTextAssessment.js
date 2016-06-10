@@ -57,7 +57,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 			score: score,
 			hasMarks: hasMarks,
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
-				// translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+				// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 				// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 				// %5$s expands to the recommended maximum percentage.
 				"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less than or equal to the recommended maximum of %5$s."
@@ -70,11 +70,11 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 		score: score,
 		hasMarks: hasMarks,
 
-		// translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
+		// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
 		// %3$s expands to the recommended amount of words.
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
 
-			// translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+			// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 			// %5$s expands to the recommended maximum percentage.
 			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s." +

@@ -43,7 +43,7 @@ var calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
 				i18n.dngettext(
 					"js-text-analysis",
 
-					// translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
+					// Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
 					// with the same word.
 					// %2$d expands to the number of consecutive sentences starting with the same word.
 					"Your text contains %2$d consecutive sentences starting with the same word. Try to mix things up!",
