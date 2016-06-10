@@ -7,7 +7,7 @@ var paper = new Paper();
 describe( "An assessment for scoring too long sub texts.", function() {
 	it( "scores 3 subheading texts, 0 are too long", function() {
 		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 100}, {text: "", wordCount: 300} ] ), i18n );
-		expect( assessment.getScore() ).toBe( 7.02 );
+		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "The amount of words following each of your subheadings doesn't exceed the recommended maximum of 300 words, which is great." );
 	} );
 
@@ -29,7 +29,7 @@ describe( "An assessment for scoring too long sub texts.", function() {
 
 	it ( "returns a heading that is too long", function() {
 		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 310}, {text: "", wordCount: 310}, {text: "", wordCount: 310} ] ), i18n );
-		expect( assessment.getScore() ).toBe( 6.42 );
+		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "3 of the subheadings are followed by more than the recommended maximum of 300 words. Try to insert additional subheadings." );
 	} );
 
