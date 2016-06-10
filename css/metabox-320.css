@@ -429,6 +429,11 @@ li.score:after {
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M1664%20960q%2D152%2D236%2D381%2D353%2061%20104%2061%20225%200%20185%2D131%2E5%20316%2E5t%2D316%2E5%20131%2E5%2D316%2E5%2D131%2E5%2D131%2E5%2D316%2E5q0%2D121%2061%2D225%2D229%20117%2D381%20353%20133%20205%20333%2E5%20326%2E5t434%2E5%20121%2E5%20434%2E5%2D121%2E5%20333%2E5%2D326%2E5zm%2D720%2D384q0%2D20%2D14%2D34t%2D34%2D14q%2D125%200%2D214%2E5%2089%2E5t%2D89%2E5%20214%2E5q0%2020%2014%2034t34%2014%2034%2D14%2014%2D34q0%2D86%2061%2D147t147%2D61q20%200%2034%2D14t14%2D34zm848%20384q0%2034%2D20%2069%2D140%20230%2D376%2E5%20368%2E5t%2D499%2E5%20138%2E5%2D499%2E5%2D139%2D376%2E5%2D368q%2D20%2D35%2D20%2D69t20%2D69q140%2D229%20376%2E5%2D368t499%2E5%2D139%20499%2E5%20139%20376%2E5%20368q20%2035%2020%2069z%22%20%2F%3E%3C%2Fsvg%3E");
 }
 
+.assessment-results__mark.icon-eye-active.yoast-tooltip::before,
+.assessment-results__mark.icon-eye-active.yoast-tooltip::after {
+	display: none;
+}
+
 .assessment-results__mark:focus {
 	border-radius: 100%;
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
@@ -497,6 +502,252 @@ li.score:after {
 	background-size: 300% 100%;
 	-webkit-animation: animatedBackground 5s linear infinite;
 	animation: animatedBackground 5s linear infinite;
+}
+
+.yoast-tooltip {
+	position: relative;
+}
+
+button.yoast-tooltip {
+	/* IE 11 needs overflow: visible on buttons. */
+	overflow: visible;
+}
+
+.yoast-tooltip::after {
+	display: none;
+	position: absolute;
+	z-index: 1000000;
+	padding: 5px 8px;
+	border-radius: 3px;
+	opacity: 0;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.8);
+	text-shadow: none;
+	font: normal normal 11px/1.5 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	text-align: center;
+	white-space: pre;
+	text-decoration: none;
+	letter-spacing: normal;
+	text-transform: none;
+	word-wrap: break-word;
+	content: attr(aria-label);
+	pointer-events: none;
+
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+.yoast-tooltip::before {
+	display: none;
+	position: absolute;
+	z-index: 1000001;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	opacity: 0;
+	color: rgba(0, 0, 0, 0.8);
+	content: "\00a0";
+	pointer-events: none;
+}
+
+@-webkit-keyframes yoast-tooltip-appear {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes yoast-tooltip-appear {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.yoast-tooltip:hover::before,
+.yoast-tooltip:hover::after,
+.yoast-tooltip:active::before,
+.yoast-tooltip:active::after,
+.yoast-tooltip:focus::before,
+.yoast-tooltip:focus::after {
+	display: inline-block;
+	text-decoration: none;
+	-webkit-animation-name: yoast-tooltip-appear;
+	animation-name: yoast-tooltip-appear;
+	-webkit-animation-duration: 0.1s;
+	animation-duration: 0.1s;
+	-webkit-animation-timing-function: ease-in;
+	animation-timing-function: ease-in;
+	-webkit-animation-delay: 0.4s;
+	animation-delay: 0.4s;
+
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+}
+
+.yoast-tooltip-no-delay:hover::before,
+.yoast-tooltip-no-delay:hover::after,
+.yoast-tooltip-no-delay:active::before,
+.yoast-tooltip-no-delay:active::after,
+.yoast-tooltip-no-delay:focus::before,
+.yoast-tooltip-no-delay:focus::after {
+	opacity: 1;
+	-webkit-animation: none;
+	animation: none;
+}
+
+.yoast-tooltip-multiline:hover::after,
+.yoast-tooltip-multiline:active::after,
+.yoast-tooltip-multiline:focus::after {
+	display: table-cell;
+}
+
+.yoast-tooltip-s::after,
+.yoast-tooltip-se::after,
+.yoast-tooltip-sw::after {
+	top: 100%;
+	right: 50%;
+	margin-top: 5px;
+}
+
+.yoast-tooltip-s::before,
+.yoast-tooltip-se::before,
+.yoast-tooltip-sw::before {
+	top: auto;
+	right: 50%;
+	bottom: -5px;
+	margin-right: -5px;
+	border-bottom-color: rgba(0, 0, 0, 0.8);
+}
+
+.yoast-tooltip-se::after {
+	right: auto;
+	left: 50%;
+	margin-left: -15px;
+}
+
+.yoast-tooltip-sw::after {
+	margin-right: -15px;
+}
+
+.yoast-tooltip-n::after,
+.yoast-tooltip-ne::after,
+.yoast-tooltip-nw::after {
+	right: 50%;
+	bottom: 100%;
+	margin-bottom: 5px;
+}
+
+.yoast-tooltip-n::before,
+.yoast-tooltip-ne::before,
+.yoast-tooltip-nw::before {
+	top: -5px;
+	right: 50%;
+	bottom: auto;
+	margin-right: -5px;
+	border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+.yoast-tooltip-ne::after {
+	right: auto;
+	left: 50%;
+	margin-left: -15px;
+}
+
+.yoast-tooltip-nw::after {
+	margin-right: -15px;
+}
+
+.yoast-tooltip-s::after,
+.yoast-tooltip-n::after {
+	-webkit-transform: translateX(50%);
+	-ms-transform: translateX(50%);
+	transform: translateX(50%);
+}
+
+.yoast-tooltip-w::after {
+	right: 100%;
+	bottom: 50%;
+	margin-right: 5px;
+	-webkit-transform: translateY(50%);
+	-ms-transform: translateY(50%);
+	transform: translateY(50%);
+}
+
+.yoast-tooltip-w::before {
+	top: 50%;
+	bottom: 50%;
+	left: -5px;
+	margin-top: -5px;
+	border-left-color: rgba(0, 0, 0, 0.8);
+}
+
+.yoast-tooltip-e::after {
+	bottom: 50%;
+	left: 100%;
+	margin-left: 5px;
+	-webkit-transform: translateY(50%);
+	-ms-transform: translateY(50%);
+	transform: translateY(50%);
+}
+
+.yoast-tooltip-e::before {
+	top: 50%;
+	right: -5px;
+	bottom: 50%;
+	margin-top: -5px;
+	border-right-color: rgba(0, 0, 0, 0.8);
+}
+
+.yoast-tooltip-multiline::after {
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: max-content;
+	max-width: 250px;
+	border-collapse: separate;
+	white-space: pre-line;
+	word-wrap: normal;
+	word-break: break-word;
+}
+
+.yoast-tooltip-multiline.yoast-tooltip-s::after,
+.yoast-tooltip-multiline.yoast-tooltip-n::after {
+	right: auto;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.yoast-tooltip-multiline.yoast-tooltip-w::after,
+.yoast-tooltip-multiline.yoast-tooltip-e::after {
+	right: 100%;
+}
+
+@media screen and (min-width: 0\0) {
+	.yoast-tooltip-multiline::after {
+		width: 250px;
+	}
+}
+
+.yoast-tooltip-sticky::before,
+.yoast-tooltip-sticky::after {
+	display: inline-block;
+}
+
+.yoast-tooltip-sticky.yoast-tooltip-multiline::after {
+	display: table-cell;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+	.yoast-tooltip-w::after {
+		margin-right: 4.5px;
+	}
 }
 
 .wpseo-tab-video-container {
