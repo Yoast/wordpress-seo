@@ -61,8 +61,7 @@ ContentAssessor.prototype.calculateNegativePoints = function() {
 	var results = this.getValidResults();
 
 	var negativePoints = map( results, function( result ) {
-		var weight;
-		var rating = scoreToRating( result.getScore() );
+		var weight, rating = scoreToRating( result.getScore() );
 
 		// Convert the ratings to negative 'points'.
 		switch ( rating ) {
@@ -87,12 +86,36 @@ ContentAssessor.prototype.calculateNegativePoints = function() {
 };
 
 /**
+ * Rates the negative points
+ *
+ * @param {number} totalNegativePoints The amount of negative points.
+ * @returns {number} The score based on the amount of negative points.
+ *
+ * @private
+ */
+ContentAssessor.prototype._rateNegativePoints = function( totalNegativePoints ) {
+	// Determine the total score based on the total negative points.
+	if ( totalNegativePoints < 2 ) {
+		// A green indicator.
+		return 90;
+	}
+
+	if ( totalNegativePoints < 4 ) {
+		// An orange indicator.
+		return 60;
+	}
+
+	// A red indicator.
+	return 30;
+};
+
+/**
  * Calculates the overall score based on the assessment results.
  *
  * @returns {number} The overall score.
  */
 ContentAssessor.prototype.calculateOverallScore = function() {
-	var totalScore, results = this.getValidResults();
+	var results = this.getValidResults();
 
 	// If you have no content, you have a red indicator.
 	if ( results.length === 0 ) {
@@ -101,22 +124,7 @@ ContentAssessor.prototype.calculateOverallScore = function() {
 
 	var totalNegativePoints = this.calculateNegativePoints();
 
-	// Determine the total score based on the total negative points.
-	if ( totalNegativePoints < 2 ) {
-
-		 // A green indicator.
-		totalScore = 90;
-	} else if ( totalNegativePoints < 4 ) {
-
-		 // An orange indicator.
-		totalScore = 60;
-	} else {
-
-		// A red indicator.
-		totalScore = 30;
-	}
-
-	return totalScore;
+	return this._rateNegativePoints( totalNegativePoints );
 };
 
 module.exports = ContentAssessor;
