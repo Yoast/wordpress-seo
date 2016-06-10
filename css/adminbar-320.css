@@ -40,7 +40,6 @@
 	padding: 2px 8px;
 	border-radius: 0 10px 10px 10px;
 	color: white;
-	background-color: #a4286a;
 }
 
 #wpadminbar .yoast-issue-added {
@@ -52,6 +51,9 @@
 	padding: 1px 7px 1px 6px !important;
 	border-radius: 50%;
 	color: white;
+}
+
+.yoast-issue-counter {
 	background-color: #d54e21;
 }
 
