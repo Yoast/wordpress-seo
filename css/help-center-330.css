@@ -47,6 +47,10 @@
 	padding: 2em 9999px;
 	background-color: #a4286a;
 	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
+
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
 }
 
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
@@ -114,9 +118,25 @@
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
-	clear: both;
 	margin-right: 1em;
 	margin-bottom: 1em;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
+	/* In the settings pages is not a children of the flexbox container. */
+	float: left;
+
+	-webkit-flex: 0 0 auto;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--text {
+	margin: 0 auto;
+
+	-webkit-flex: 1 0 0;
+	-ms-flex: 1 0 0;
+	flex: 1 0 0;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
@@ -173,10 +193,4 @@
 .wpseo-tab-video__panel__textarea a:focus {
 	color: white;
 	font-weight: 500;
-}
-
-.wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-	-webkit-flex: 0 0 auto;
-	-ms-flex: 0 0 auto;
-	flex: 0 0 auto;
 }

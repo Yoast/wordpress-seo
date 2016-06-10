@@ -40,6 +40,7 @@
 
 .wpseo-tab-video-slideout {
   display: none;
+  flex-wrap: wrap;
   min-height: 320px;
   margin: 0 -9999px;
   padding: 2em 9999px;
@@ -65,7 +66,7 @@
   }
 
   .wpseo-tab-video__panel__textarea {
-    float: left;
+	float: left;
 	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
     width: 242px;
     margin: 0 12px 1em 0;
@@ -108,9 +109,19 @@
   }
 
   .wpseo-tab-video__panel {
-    clear: both;
     margin-right: 1em;
 	margin-bottom: 1em;
+
+	&--video {
+	  flex: 0 0 auto;
+	  /* In the settings pages is not a children of the flexbox container. */
+	  float: left;
+	}
+
+	&--text {
+	  flex: 1 0 0;
+	  margin: 0 auto;
+	}
   }
 
   .wpseo-tab-video__panel--text div:last-child {
@@ -170,10 +181,4 @@
 	color: white;
 	font-weight: 500;
   }
-}
-
-.wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
 }
