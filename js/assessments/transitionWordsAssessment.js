@@ -1,6 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 var map = require( "lodash/map" );
+var inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
 
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
@@ -13,18 +14,27 @@ var marker = require( "../markers/addMark.js" );
  * @returns {object} Object containing score and text.
  */
 var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
-	var score, unboundedScore;
+	var score;
 	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
 	percentage     = formatNumber( percentage );
 	var hasMarks   = ( percentage > 0 );
 	var transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
 
-	// The 20 percentage points from 31.7 to 51.7 are scaled to a range of 6 score points: 6/20 = 0.3.
-	// 51.7 scores 9, 31.7 scores 3.
-	unboundedScore = 3 + ( 0.3  * ( percentage - 31.7 ) );
+	if ( percentage < 35 ) {
+		// Red indicator.
+		score = 3;
+	}
 
-	// Scores exceeding 9 are 9, scores below 3 are 3.
-	score = Math.max( Math.min( unboundedScore, 9 ), 3 );
+	if ( inRange( percentage, 35, 45 ) ) {
+		// Orange indicator.
+		score = 6;
+	}
+
+	if ( percentage >= 45 ) {
+		// Green indicator.
+		score = 9;
+	}
+
 	if ( score < 7 ) {
 		var recommendedMinimum = 45;
 		return {
