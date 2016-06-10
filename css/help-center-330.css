@@ -66,11 +66,6 @@
 	font-weight: 500;
 }
 
-.wpseo-tab-video-slideout p {
-	color: white;
-	font-weight: 300;
-}
-
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
 	float: left;
 	width: 260px;
@@ -103,11 +98,12 @@
 
 .wpseo-tab-video-slideout .help-tab-content {
 	margin: 0;
+	color: white;
+	font-weight: 300;
 }
 
 .wpseo-tab-video-slideout .help-tab-content a {
 	color: white;
-	text-decoration: underline;
 }
 
 .wpseo-tab-video-slideout .help-tab-content a.button,

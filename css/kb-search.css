@@ -28,13 +28,14 @@
 
 .wpseo-kb-search-result-link {
 	display: block;
-	text-decoration: none !important;
+	text-decoration: none;
 	cursor: pointer;
 }
 
 .wpseo-kb-search-result-link:hover,
 .wpseo-kb-search-result-link:focus {
-	background-color: rgba(164, 40, 106, 0.1);
+	background-color: rgba(93, 12, 55, 0.5);
+	text-decoration: underline;
 }
 
 .wpseo-kb-search-result .wpseo-kb-search-result-title {

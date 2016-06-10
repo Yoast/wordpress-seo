@@ -212,6 +212,7 @@ table.yoast_help th,
 table.yoast_help td {
 	border: 1px solid #ddd;
 	border-collapse: collapse;
+	color: #444;
 	font-size: 12px;
 }
 

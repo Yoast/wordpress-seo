@@ -63,11 +63,6 @@
 	font-weight: 500;
   }
 
-  p {
-	color: white;
-	font-weight: 300;
-  }
-
   .wpseo-tab-video__panel__textarea {
     float: left;
     width: 260px;
@@ -97,10 +92,11 @@
 
   .help-tab-content {
     margin: 0;
+	color: white;
+	font-weight: 300;
 
 	a {
 	  color: white;
-	  text-decoration: underline;
 
 	  &.button,
 	  &.button-primary {
