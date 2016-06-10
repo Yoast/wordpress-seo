@@ -52,6 +52,11 @@ var ContentAssessor = function( i18n, options ) {
 
 require( "util" ).inherits( ContentAssessor, Assessor );
 
+/**
+ * Calculates the negative points based on the assessment results.
+ *
+ * @returns {number} The total negative points for the results.
+ */
 ContentAssessor.prototype.calculateNegativePoints = function() {
 	var results = this.getValidResults();
 
@@ -81,6 +86,11 @@ ContentAssessor.prototype.calculateNegativePoints = function() {
 	return sum( negativePoints );
 };
 
+/**
+ * Calculates the overall score based on the assessment results.
+ *
+ * @returns {number} The overall score.
+ */
 ContentAssessor.prototype.calculateOverallScore = function() {
 	var totalScore, results = this.getValidResults();
 
