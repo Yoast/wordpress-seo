@@ -20,7 +20,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 			score: score,
 			text: i18n.sprintf( i18n.dgettext(
 				"js-text-analysis",
-				// translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
+				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
 				// %3$s expands to the anchor end tag.
 				"The meta description contains no sentences %1$sover %2$s words%3$s."
 			), sentenceLengthURL, recommendedValue, "</a>"
@@ -31,7 +31,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 		score: score,
 		text: i18n.sprintf( i18n.dngettext(
 			"js-text-analysis",
-			// translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
+			// Translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
 			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
 			"The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to shorten this sentence.",
 			"The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to shorten these sentences.",

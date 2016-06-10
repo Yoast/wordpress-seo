@@ -27,7 +27,7 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-				// translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
 				// %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
 					"The %1$ssentence length variation%2$s score is %3$s, " +
 					"which is more than or equal to the recommended minimum of %4$d. " +
@@ -42,7 +42,7 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
-				// translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
 				// %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
 				"The %1$ssentence length variation%2$s score is %3$s, " +
 				"which is less than the recommended minimum of %4$d. " +

@@ -58,7 +58,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 				i18n.dgettext(
 					"js-text-analysis",
 
-					// translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+					// Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
 					// %3$d expands to the recommended maximum number of syllables,
 					// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 					"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
@@ -74,7 +74,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 			i18n.dgettext(
 				"js-text-analysis",
 
-				// translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+				// Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
 				// %3$d expands to the recommended maximum number of syllables,
 				// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 				"%1$s of the words contain %2$sover %3$s syllables%4$s, " +

@@ -11,7 +11,7 @@ var calculateSubheadingPresenceResult = function( subheadingPresence, i18n ) {
 		return {
 			score: 9,
 
-			// translators: %1$d expands to the number of subheadings
+			// Translators: %1$d expands to the number of subheadings
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",

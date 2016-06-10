@@ -53,7 +53,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n
 		score: score,
 		hasMarks: true,
 
-		// translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
+		// Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
 		text: i18n.sprintf(
 			i18n.dngettext(
 					"js-text-analysis",
