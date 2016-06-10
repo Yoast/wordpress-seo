@@ -54,6 +54,13 @@ class WPSEO_Metabox_Formatter {
 			'metadesc_template' => '',
 			/* translators: After this sentence, the used keyword will be added (if present). This string is added to support screen readers. */
 			'basedOn'           => __( 'Based on keyword:', 'wordpress-seo' ),
+
+			/**
+			 * Filter to determine if the markers should be enabled or not.
+			 *
+			 * @param bool $showMarkers Should the markers being enabled. Default = true.
+			 */
+			'show_markers'      => apply_filters( 'wpseo_enable_assessment_markers', true ),
 		);
 	}
 
