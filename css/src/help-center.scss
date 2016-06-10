@@ -8,8 +8,9 @@
   border-bottom: 1px solid #a4286a;
 
   &__handle {
-    margin: 6px 0;
-    padding: 6px;
+	width: 100%;
+	margin: 0;
+    padding: 10px;
     border: none;
     outline: none;
     color: #a4286a;
@@ -65,8 +66,9 @@
 
   .wpseo-tab-video__panel__textarea {
     float: left;
-    width: 260px;
-    margin: 0 1em 1em 0;
+	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
+    width: 242px;
+    margin: 0 12px 1em 0;
     padding: 15px 15px 5px;
     border: 1px solid;
     border-color: white;
@@ -110,15 +112,15 @@
     margin-right: 1em;
 	margin-bottom: 1em;
   }
+
+  .wpseo-tab-video__panel--text div:last-child {
+  	margin-right: 0;
+  }
 }
 
 /* When it's inside the metabox (posts, terms, media ). */
 .postbox .wpseo-tab-video-container {
   margin: -6px -12px 20px;
-
-  &__handle {
-	margin-left: 4px;
-  }
 }
 
 /* When it's inside the metabox (posts, terms, media ). */
