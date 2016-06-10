@@ -63,7 +63,7 @@ function wpseo_admin_bar_menu() {
 
 			if ( $notification_count > 0 ) {
 				// Always show Alerts page when clicking on the main link.
-				$counter = sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count );
+				$counter = sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter">%d</div>', $notification_count );
 			}
 
 			if ( $new_notifications_count ) {
