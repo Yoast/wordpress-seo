@@ -3,10 +3,10 @@ var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
 var filter = require( "lodash/filter" );
 
 /**
- * Calculates the keyword density .
+ * Gets all paragraphs and their word counts from the text.
  *
- * @param {object} paper The paper containing keyword and text.
- * @returns {number} The keyword density.
+ * @param {Paper} paper The paper object to get the text from.
+ * @returns {Array} The array containing an object with the paragraph word count and paragraph text.
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
