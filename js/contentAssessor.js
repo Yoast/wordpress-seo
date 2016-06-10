@@ -14,6 +14,7 @@ var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
 // var subheadingDistributionTooShort = require( "./assessments/subheadingDistributionTooShortAssessment.js" );
 // var paragraphTooShort = require( "./assessments/paragraphTooShortAssessment.js" );
 // var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
+var textPresence = require( "./assessments/textPresenceAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -35,13 +36,14 @@ var ContentAssessor = function( i18n, options ) {
 		paragraphTooLong,
 		sentenceLengthInText,
 		transitionWords,
-		passiveVoice
+		passiveVoice,
 		// sentenceVariation,
 		// sentenceBeginnings,
 		// wordComplexity,
 		// subheadingDistributionTooShort,
 		// paragraphTooShort
 		// sentenceLengthInDescription,
+		textPresence
 	];
 };
 
