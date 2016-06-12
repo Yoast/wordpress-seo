@@ -34,13 +34,13 @@ var ContentAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		fleschReadingEase,
-		// getSubheadingPresence,
 		subheadingDistributionTooLong,
-		// subHeadingLength,
 		paragraphTooLong,
 		sentenceLengthInText,
 		transitionWords,
 		passiveVoice
+		// getSubheadingPresence,
+		// subHeadingLength,
 		// sentenceVariation,
 		// sentenceBeginnings,
 		// wordComplexity,
