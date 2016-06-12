@@ -3,11 +3,11 @@ var Assessor = require( "./assessor.js" );
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
 var paragraphTooLong = require( "./assessments/paragraphTooLongAssessment.js" );
 var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessment.js" );
-//var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
 var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
-//var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
+// var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
+// var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 // var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 // var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 // var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
@@ -34,9 +34,9 @@ var ContentAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		fleschReadingEase,
-		//getSubheadingPresence,
+		// getSubheadingPresence,
 		subheadingDistributionTooLong,
-		//subHeadingLength,
+		// subHeadingLength,
 		paragraphTooLong,
 		sentenceLengthInText,
 		transitionWords,
