@@ -13,7 +13,7 @@ describe( "A content assesor", function() {
 		contentAssessor = new ContentAssessor( i18n );
 	});
 
-	describe( "calculateNegativePoints", function() {
+	describe( "calculatePenaltyPoints", function() {
 		var results;
 
 		beforeEach( function() {
@@ -26,7 +26,7 @@ describe( "A content assesor", function() {
 			results = [];
 			var expected = 0;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
@@ -41,7 +41,7 @@ describe( "A content assesor", function() {
 			];
 			var expected = 0;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
@@ -52,7 +52,7 @@ describe( "A content assesor", function() {
 			];
 			var expected = 3;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
@@ -63,7 +63,7 @@ describe( "A content assesor", function() {
 			];
 			var expected = 2;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
@@ -82,7 +82,7 @@ describe( "A content assesor", function() {
 			];
 			var expected = 6 + 6;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
@@ -95,7 +95,7 @@ describe( "A content assesor", function() {
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
-			contentAssessor.calculateNegativePoints = function() {
+			contentAssessor.calculatePenaltyPoints = function() {
 				return points;
 			};
 		});

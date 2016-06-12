@@ -57,7 +57,7 @@ require( "util" ).inherits( ContentAssessor, Assessor );
  *
  * @returns {number} The total negative points for the results.
  */
-ContentAssessor.prototype.calculateNegativePoints = function() {
+ContentAssessor.prototype.calculatePenaltyPoints = function() {
 	var results = this.getValidResults();
 
 	var negativePoints = map( results, function( result ) {
@@ -88,19 +88,19 @@ ContentAssessor.prototype.calculateNegativePoints = function() {
 /**
  * Rates the negative points
  *
- * @param {number} totalNegativePoints The amount of negative points.
+ * @param {number} totalPenaltyPoints The amount of negative points.
  * @returns {number} The score based on the amount of negative points.
  *
  * @private
  */
-ContentAssessor.prototype._rateNegativePoints = function( totalNegativePoints ) {
+ContentAssessor.prototype._ratePenaltyPoints = function(totalPenaltyPoints ) {
 	// Determine the total score based on the total negative points.
-	if ( totalNegativePoints > 6 ) {
+	if ( totalPenaltyPoints > 6 ) {
 		// A red indicator.
 		return 30;
 	}
 
-	if ( totalNegativePoints > 4 ) {
+	if ( totalPenaltyPoints > 4 ) {
 		// An orange indicator.
 		return 60;
 	}
@@ -122,9 +122,9 @@ ContentAssessor.prototype.calculateOverallScore = function() {
 		return 30;
 	}
 
-	var totalNegativePoints = this.calculateNegativePoints();
+	var totalPenaltyPoints = this.calculatePenaltyPoints();
 
-	return this._rateNegativePoints( totalNegativePoints );
+	return this._ratePenaltyPoints( totalPenaltyPoints );
 };
 
 module.exports = ContentAssessor;
