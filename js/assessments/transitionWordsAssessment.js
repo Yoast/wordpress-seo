@@ -36,7 +36,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	}
 
 	if ( score < 7 ) {
-		var recommendedMinimum = 45;
+		var recommendedMinimum = 30;
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
