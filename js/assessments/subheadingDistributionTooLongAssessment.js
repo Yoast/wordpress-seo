@@ -31,9 +31,15 @@ var getTooLongSubheadingTexts = function( subheadingTextsLength ) {
 var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, i18n ) {
 	var score;
 
-	// Return empty result if there are no subheadings
 	if ( subheadingTextsLength.length === 0 ) {
-		return {};
+		// Red indicator, use '2' so we can differentiate in external analysis.
+		return {
+			score: 2,
+			text: i18n.dgettext(
+				"js-text-analysis",
+				"The text does not contain any subheadings. Add at least one subheading."
+			)
+		};
 	}
 
 	var longestSubheadingTextLength = subheadingTextsLength[ 0 ].wordCount;

@@ -3,9 +3,9 @@ var Assessor = require( "./assessor.js" );
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
 var paragraphTooLong = require( "./assessments/paragraphTooLongAssessment.js" );
 var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessment.js" );
-var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
+//var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
 var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
-var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
+//var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
 // var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
@@ -34,9 +34,9 @@ var ContentAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		fleschReadingEase,
-		getSubheadingPresence,
+		//getSubheadingPresence,
 		subheadingDistributionTooLong,
-		subHeadingLength,
+		//subHeadingLength,
 		paragraphTooLong,
 		sentenceLengthInText,
 		transitionWords,
@@ -66,11 +66,11 @@ ContentAssessor.prototype.calculateNegativePoints = function() {
 		// Convert the ratings to negative 'points'.
 		switch ( rating ) {
 			case "bad":
-				weight = 1;
+				weight = 3;
 				break;
 
 			case "ok":
-				weight = 1 / 2;
+				weight = 2;
 				break;
 
 			default:
@@ -95,18 +95,18 @@ ContentAssessor.prototype.calculateNegativePoints = function() {
  */
 ContentAssessor.prototype._rateNegativePoints = function( totalNegativePoints ) {
 	// Determine the total score based on the total negative points.
-	if ( totalNegativePoints < 2 ) {
-		// A green indicator.
-		return 90;
+	if ( totalNegativePoints > 6 ) {
+		// A red indicator.
+		return 30;
 	}
 
-	if ( totalNegativePoints < 4 ) {
+	if ( totalNegativePoints > 4 ) {
 		// An orange indicator.
 		return 60;
 	}
 
-	// A red indicator.
-	return 30;
+	// A green indicator.
+	return 90;
 };
 
 /**
