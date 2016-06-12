@@ -19,7 +19,7 @@ describe( "An assessment for scoring too long sub texts.", function() {
 
 	it ( "returns score 2 for no subheadings", function() {
 		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [] ), i18n );
-		expect( assessment.hasScore() ).toBe( 2 );
+		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe( "The text does not contain any subheadings. Add at least one subheading." );
 	} );
 	it ( "returns a heading that is too long", function() {

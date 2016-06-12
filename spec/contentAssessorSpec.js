@@ -117,7 +117,7 @@ describe( "A content assesor", function() {
 				{ points: 7, expected: 30 },
 				{ points: 6, expected: 60 },
 				{ points: 9, expected: 30 },
-				{ points: 4, expected: 60 },
+				{ points: 4, expected: 90 },
 				{ points: 2, expected: 90 },
 				{ points: 1.9, expected: 90 },
 				{ points: 1, expected: 90 }
