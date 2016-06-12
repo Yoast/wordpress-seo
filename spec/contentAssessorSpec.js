@@ -46,22 +46,22 @@ describe( "A content assesor", function() {
 			expect( actual ).toBe( expected );
 		});
 
-		it( "should return 1 for a red assessment result", function() {
+		it( "should return 3 for a red assessment result", function() {
 			results = [
 				new AssessmentResult({ score: 3 })
 			];
-			var expected = 1;
+			var expected = 3;
 
 			var actual = contentAssessor.calculateNegativePoints();
 
 			expect( actual ).toBe( expected );
 		});
 
-		it( "should return 1/2 for an orange assessment result", function() {
+		it( "should return 2 for an orange assessment result", function() {
 			results = [
 				new AssessmentResult({ score: 6 })
 			];
-			var expected = 1/2;
+			var expected = 2;
 
 			var actual = contentAssessor.calculateNegativePoints();
 
@@ -80,7 +80,7 @@ describe( "A content assesor", function() {
 				new AssessmentResult({ score: 9 }),
 				new AssessmentResult({ text: "A piece of feedback" })
 			];
-			var expected = 3 + 1/2;
+			var expected = 6 + 6;
 
 			var actual = contentAssessor.calculateNegativePoints();
 
@@ -114,10 +114,11 @@ describe( "A content assesor", function() {
 				new AssessmentResult()
 			];
 			var testCases = [
-				{ points: 4, expected: 30 },
-				{ points: 3.9, expected: 60 },
-				{ points: 3, expected: 60 },
-				{ points: 2, expected: 60 },
+				{ points: 7, expected: 30 },
+				{ points: 6, expected: 60 },
+				{ points: 9, expected: 30 },
+				{ points: 4, expected: 60 },
+				{ points: 2, expected: 90 },
 				{ points: 1.9, expected: 90 },
 				{ points: 1, expected: 90 }
 			];

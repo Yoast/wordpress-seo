@@ -17,9 +17,10 @@ describe( "An assessment for scoring too long sub texts.", function() {
 		expect( assessment.getText() ).toBe( "The amount of words following each of your subheadings doesn't exceed the recommended maximum of 300 words, which is great." );
 	} );
 
-	it ( "returns no score, because the string has no subheadings", function() {
+	it ( "returns score 2 for no subheadings", function() {
 		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [] ), i18n );
-		expect( assessment.hasScore() ).toBe( false );
+		expect( assessment.hasScore() ).toBe( 2 );
+		expect( assessment.getText() ).toBe( "The text does not contain any subheadings. Add at least one subheading." );
 	} );
 	it ( "returns a heading that is too long", function() {
 		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 400}, {text: "", wordCount: 300} ] ), i18n );
