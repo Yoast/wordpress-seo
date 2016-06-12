@@ -93,7 +93,7 @@ ContentAssessor.prototype.calculatePenaltyPoints = function() {
  *
  * @private
  */
-ContentAssessor.prototype._ratePenaltyPoints = function(totalPenaltyPoints ) {
+ContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
 	// Determine the total score based on the total negative points.
 	if ( totalPenaltyPoints > 6 ) {
 		// A red indicator.
