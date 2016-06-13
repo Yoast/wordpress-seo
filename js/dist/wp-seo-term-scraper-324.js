@@ -21712,8 +21712,10 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
 		return;
 	}
 
-	// This branch makes sure that we see a color when loading the page.
-	indicator = getIndicatorForScore( $( '#yoast_wpseo_linkdex, #hidden_wpseo_linkdex' ).val() );
+	if ( this.mainKeywordTab.getKeyword() !== "" ) {
+		// This branch makes sure that we see a color when loading the page.
+		indicator = getIndicatorForScore( $( '#yoast_wpseo_linkdex, #hidden_wpseo_linkdex' ).val() );
+	}
 
 	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
 };
