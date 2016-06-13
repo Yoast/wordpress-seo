@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Plugin_Availability
+ */
 
 /**
  * Class WPSEO_Plugin_Availability
@@ -66,12 +69,12 @@ class WPSEO_Plugin_Availability {
 		$installed_plugins = get_plugins();
 
 		foreach( $installed_plugins as $filename => $plugin ) {
-			$plugin_slug = sanitize_title( $plugin[ 'Name' ] );
+			$plugin_slug = sanitize_title( $plugin['Name'] );
 
-			if ( isset( $this->plugins[ $plugin_slug ] ) ) {
-				$this->plugins[ $plugin_slug ][ 'installed' ] = true;
-				$this->plugins[ $plugin_slug ][ 'version' ] = $plugin[ 'Version' ];
-				$this->plugins[ $plugin_slug ][ 'active' ] = is_plugin_active( $filename );
+			if ( isset( $this->plugins[$plugin_slug] ) ) {
+				$this->plugins[$plugin_slug]['installed'] = true;
+				$this->plugins[$plugin_slug]['version'] = $plugin['Version'];
+				$this->plugins[$plugin_slug]['active'] = is_plugin_active( $filename );
 			}
 		}
 	}
@@ -119,11 +122,11 @@ class WPSEO_Plugin_Availability {
 	 * @return string The version associated with the plugin.
 	 */
 	public function get_version( $plugin ) {
-		if ( !isset( $plugin['version'] ) ) {
+		if ( ! isset( $plugin['version'] ) ) {
 			return '';
 		}
 
-		return $plugin[ 'version' ];
+		return $plugin['version'];
 	}
 
 	/**
@@ -134,7 +137,7 @@ class WPSEO_Plugin_Availability {
 	 * @return bool Whether or not there is a dependency present.
 	 */
 	public function has_dependencies( $plugin ) {
-		return ( isset( $plugin[ '_dependencies' ] ) && !empty( $plugin[ '_dependencies' ] ) );
+		return ( isset( $plugin['_dependencies'] ) && ! empty( $plugin['_dependencies'] ) );
 	}
 
 	/**
@@ -145,11 +148,11 @@ class WPSEO_Plugin_Availability {
 	 * @return array Array containing all the dependencies associated with the plugin.
 	 */
 	public function get_dependencies( $plugin ) {
-		if ( !$this->has_dependencies( $plugin ) ) {
+		if ( ! $this->has_dependencies( $plugin ) ) {
 			return array();
 		}
 
-		return $plugin[ '_dependencies' ];
+		return $plugin['_dependencies'];
 	}
 
 	/**
@@ -160,12 +163,12 @@ class WPSEO_Plugin_Availability {
 	 * @return bool Whether or not the dependencies are satisfied.
 	 */
 	public function dependencies_are_satisfied( $plugin ) {
-		if ( !$this->has_dependencies( $plugin ) ) {
+		if ( ! $this->has_dependencies( $plugin ) ) {
 			return true;
 		}
 
 		$dependencies = $this->get_dependencies( $plugin );
-		$installed_dependencies = array_filter( $dependencies, array( $this, 'is_dependency_available') );
+		$installed_dependencies = array_filter( $dependencies, array( $this, 'is_dependency_available' ) );
 
 		return count( $installed_dependencies ) === count( $dependencies );
 	}
@@ -197,7 +200,7 @@ class WPSEO_Plugin_Availability {
 
 		foreach( $this->plugins as $pluginKey => $plugin ) {
 			if ( $this->is_installed( $plugin ) ) {
-				$installed[ $pluginKey ] = $plugin;
+				$installed[$pluginKey] = $plugin;
 			}
 		}
 
@@ -212,7 +215,7 @@ class WPSEO_Plugin_Availability {
 	 * @return bool Whether or not the plugin is available.
 	 */
 	public function is_available( $plugin ) {
-		return isset( $plugin[ 'installed' ] ) && $plugin[ 'installed' ] === true;
+		return isset( $plugin['installed'] ) && $plugin['installed'] === true;
 	}
 
 	/**
