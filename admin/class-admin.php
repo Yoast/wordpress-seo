@@ -62,6 +62,7 @@ class WPSEO_Admin {
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, array( $this, 'add_action_link' ), 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_global_style' ) );
 
 		if ( $this->options['cleanslugs'] === true ) {
 			add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
@@ -78,6 +79,10 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
+
+		if ( WPSEO_Utils::is_yoast_seo_page() ) {
+			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
+		}
 	}
 
 	/**
@@ -118,10 +123,8 @@ class WPSEO_Admin {
 			return;
 		}
 
-		add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
-
 		// Base 64 encoded SVG image.
-		$icon_svg = $this->get_menu_svg();
+		$icon_svg = WPSEO_Utils::get_icon_svg();
 
 		$manage_options_cap = $this->get_manage_options_cap();
 
@@ -305,7 +308,8 @@ class WPSEO_Admin {
 	function register_network_settings_page() {
 		if ( WPSEO_Utils::grant_access() ) {
 			// Base 64 encoded SVG image.
-			$icon_svg = $this->get_menu_svg();
+			$icon_svg = WPSEO_Utils::get_icon_svg();
+
 			add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', self::PAGE_IDENTIFIER, array(
 				$this,
 				'network_config_page',
@@ -460,6 +464,14 @@ class WPSEO_Admin {
 	}
 
 	/**
+	 * Enqueues the (tiny) global stylesheet needed for the plugin.
+	 */
+	public function enqueue_global_style() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_style( 'admin-global' );
+	}
+
+	/**
 	 * Filter the $contactmethods array and add Facebook, Google+ and Twitter.
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
@@ -585,17 +597,6 @@ class WPSEO_Admin {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 			}
 		}
-	}
-
-	/**
-	 * Returns a base64 URL for the svg for use in the menu
-	 *
-	 * @return string
-	 */
-	private function get_menu_svg() {
-		$icon_svg = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGZpbGw9Im5vbmUiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Zz48Zz48Zz48Zz48cGF0aCBzdHlsZT0iZmlsbDojMDAwIiBkPSJNMjAzLjYsMzk1YzYuOC0xNy40LDYuOC0zNi42LDAtNTRsLTc5LjQtMjA0aDcwLjlsNDcuNywxNDkuNGw3NC44LTIwNy42SDExNi40Yy00MS44LDAtNzYsMzQuMi03Niw3NlYzNTdjMCw0MS44LDM0LjIsNzYsNzYsNzZIMTczQzE4OSw0MjQuMSwxOTcuNiw0MTAuMywyMDMuNiwzOTV6Ii8+PC9nPjxnPjxwYXRoIHN0eWxlPSJmaWxsOiMwMDAiIGQ9Ik00NzEuNiwxNTQuOGMwLTQxLjgtMzQuMi03Ni03Ni03NmgtM0wyODUuNywzNjVjLTkuNiwyNi43LTE5LjQsNDkuMy0zMC4zLDY4aDIxNi4yVjE1NC44eiIvPjwvZz48L2c+PHBhdGggc3R5bGU9ImZpbGw6IzAwMCIgc3Ryb2tlLXdpZHRoPSIyLjk3NCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNMzM4LDEuM2wtOTMuMywyNTkuMWwtNDIuMS0xMzEuOWgtODkuMWw4My44LDIxNS4yYzYsMTUuNSw2LDMyLjUsMCw0OGMtNy40LDE5LTE5LDM3LjMtNTMsNDEuOWwtNy4yLDF2NzZoOC4zYzgxLjcsMCwxMTguOS01Ny4yLDE0OS42LTE0Mi45TDQzMS42LDEuM0gzMzh6IE0yNzkuNCwzNjJjLTMyLjksOTItNjcuNiwxMjguNy0xMjUuNywxMzEuOHYtNDVjMzcuNS03LjUsNTEuMy0zMSw1OS4xLTUxLjFjNy41LTE5LjMsNy41LTQwLjcsMC02MGwtNzUtMTkyLjdoNTIuOGw1My4zLDE2Ni44bDEwNS45LTI5NGg1OC4xTDI3OS40LDM2MnoiLz48L2c+PC9nPjwvc3ZnPg==';
-
-		return $icon_svg;
 	}
 
 	/**
