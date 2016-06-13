@@ -21,6 +21,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 	* The length of sentences.
 	* The presence of passive voice.
 	* The presence of transition words.
+	* The presence of links with the focus keyword as link text.
 * Transliteration for the following languages:
     * Spanish, Polish, German, Nynorsk, Bokmål, Swedish, Finnish,
     * Danish, Turkish, Latvian, Icelandic, Faroese, Czech, Russian,
