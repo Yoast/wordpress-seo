@@ -47,8 +47,8 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 			i18n.dngettext(
 				"js-text-analysis",
 				// Translators: %1$d expands to the number of paragraphs.
-				"%1$d of the paragraphs contains less than the recommended minimum.",
-				"%1$d of the paragraphs contain less than the recommended minimum.",
+				"%1$d of the paragraphs is too short.",
+				"%1$d of the paragraphs are too short.",
 				tooShortParagraphs.length
 			) + " " +
 			i18n.dngettext(

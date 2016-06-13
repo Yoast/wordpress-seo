@@ -57,8 +57,8 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n
 			i18n.dngettext(
 				"js-text-analysis",
 				// Translators: %1$d expands to the number of subheadings.
-				"The number of words following %1$d of your subheadings is less than or equal to the recommended minimum.",
-				"The number of words following %1$d of your subheadings is less than or equal to the recommended minimum.",
+				"The number of words following %1$d of your subheadings is too small.",
+				"The number of words following %1$d of your subheadings is too small.",
 				tooShortTexts
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
