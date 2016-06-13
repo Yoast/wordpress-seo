@@ -116,16 +116,9 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			if ( editorHasMarks( editor ) ) {
 				editorRemoveMarks( editor );
 
-				deactivateResultMarks();
+				YoastSEO.app.disableMarkers();
 			}
 		} );
-	}
-
-	/**
-	 * Deactivates the active result marks.
-	 */
-	function deactivateResultMarks() {
-		jQuery( '.assessment-results__mark' ).addClass( 'icon-eye-inactive' ).removeClass( 'icon-eye-active' );
 	}
 
 	module.exports = {
