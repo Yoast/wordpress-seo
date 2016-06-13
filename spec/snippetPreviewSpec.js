@@ -33,7 +33,7 @@ describe( "The SnippetPreview format functions", function(){
 
 		var mockApp = {
 			rawData: {
-				snippetTitle: "<span>snippetTitle</span>",
+				snippetTitle: "<span>snippetTitle keyword</span>",
 				snippetCite: "homeurl",
 				snippetMeta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed a dui. In sed.",
 				keyword: "keyword"
@@ -49,7 +49,7 @@ describe( "The SnippetPreview format functions", function(){
 			targetElement: mockElement
 		});
 
-		expect( snippetPreview.formatTitle() ).toBe( "snippetTitle" );
+		expect( snippetPreview.formatTitle() ).toBe( "snippetTitle keyword" );
 		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed " );
 		expect( snippetPreview.formatCite() ).toBe( "homeurl/" );
 		expect( snippetPreview.formatKeyword( "a string with keyword" ) ).toBe( "a string with<strong> keyword</strong>" );
