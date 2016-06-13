@@ -752,22 +752,25 @@ button.yoast-tooltip {
 	}
 }
 
+/* Dynamically set when the Help is expanded to avoid horizontal scrolling */
+#wpcontent.yoast-help-center-open {
+	overflow-x: hidden;
+}
+
 .wpseo-tab-video-container {
-	overflow: hidden;
-	margin-bottom: 1em;
-	border-radius: 10px;
-	border-bottom-right-radius: 0;
-	background-color: #a4286a;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #a4286a;
 }
 
 .wpseo-tab-video-container__handle {
 	width: 100%;
 	margin: 0;
-	padding: 0.5em;
+	padding: 10px;
 	border: none;
 	outline: none;
-	color: white;
-	background-color: #a4286a;
+	color: #a4286a;
+	background: none;
+	line-height: 19px;
 	text-align: left;
 	cursor: pointer;
 }
@@ -785,21 +788,45 @@ button.yoast-tooltip {
 	margin-right: 5px;
 }
 
+.wpseotab .wpseo-tab-video-container {
+	margin-top: -15px;
+}
+
 .wpseo-tab-video-slideout {
 	display: none;
-	position: relative;
-	height: 600px;
-	padding: 0.5em 0.5em 0.5em;
-	border: 1px solid #a4286a;
-	border-bottom-left-radius: 10px;
-	background-color: white;
+	min-height: 320px;
+	margin: 0 -9999px;
+	/* hide the container bottom border when expanded */
+	margin-bottom: -1px;
+	padding: 2em 9999px;
+	background-color: #a4286a;
+	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
+}
+
+.wpseo-tab-video-slideout .contextual-help-tabs-wrap {
+	-webkit-flex: 1 1 auto;
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
+}
+
+.wpseo-tab-video-slideout h1,
+.wpseo-tab-video-slideout h2,
+.wpseo-tab-video-slideout h3,
+.wpseo-tab-video-slideout h4,
+.wpseo-tab-video-slideout h5,
+.wpseo-tab-video-slideout h6 {
+	margin-top: 0.5em;
+	padding-top: 0;
+	color: white;
+	font-weight: 500;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
 	float: left;
-	width: 260px;
-	margin: 0.5em 1em 0 0;
-	padding: 15px;
+	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
+	width: 242px;
+	margin: 0 12px 1em 0;
+	padding: 15px 15px 5px;
 	border: 1px solid;
 	border-color: white;
 	border-radius: 30px;
@@ -809,36 +836,76 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea h3 {
 	margin: 0;
-	color: white;
 }
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
-	overflow: auto;
-	width: 187px;
-	margin: -0.5em;
-	padding-left: 0.5em;
+	width: 180px;
 	color: white;
 	background-color: #a4286a;
+
+	-webkit-flex: 0 0 auto;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.wpseo-tab-video-slideout .yoast-help-center-tabs ul {
+	margin: 0;
 }
 
 .wpseo-tab-video-slideout .help-tab-content {
-	overflow: auto;
 	margin: 0;
+	color: white;
+	font-weight: 300;
+}
+
+.wpseo-tab-video-slideout .help-tab-content a {
+	color: white;
+}
+
+.wpseo-tab-video-slideout .help-tab-content a.button,
+.wpseo-tab-video-slideout .help-tab-content a.button-primary {
+	text-decoration: none;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
 	clear: both;
 	margin-right: 1em;
+	margin-bottom: 1em;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
+	margin-right: 0;
+}
+
+/* When it's inside the metabox (posts, terms, media ). */
+.postbox .wpseo-tab-video-container {
+	margin: -6px -12px 20px;
+}
+
+/* When it's inside the metabox (posts, terms, media ). */
+.postbox .wpseo-tab-video-slideout {
+	margin: 0;
+	padding: 2em 12px 15px;
 }
 
 .inside .wpseo-tab-video-slideout {
 	height: auto;
 }
 
+.wpseo-help-center-item {
+	display: inline;
+}
+
 .wpseo-help-center-item a {
 	display: block;
-	padding: 0.5em;
+	padding: 10px 12px;
 	color: white;
+	text-decoration: none;
+}
+
+.wpseo-help-center-item a:hover,
+.wpseo-help-center-item a:focus {
+	text-decoration: underline;
 }
 
 .wpseo-help-center-item a.dashicons-before:before {
@@ -847,9 +914,6 @@ button.yoast-tooltip {
 }
 
 .wpseo-help-center-item.active a {
-	border: 1px solid white;
-	border-right-width: 0;
-	border-left: 2px solid #610536;
 	color: #a4286a;
 	background-color: white;
 }
@@ -862,21 +926,13 @@ button.yoast-tooltip {
 .wpseo-tab-video__panel__textarea a:hover,
 .wpseo-tab-video__panel__textarea a:focus {
 	color: white;
-	font-weight: bold;
+	font-weight: 500;
 }
 
 .wpseo-tab-video__panel.wpseo-tab-video__panel--video {
 	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
-}
-
-.contextual-help-tabs-wrap {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 194px;
 }
 
 /**
