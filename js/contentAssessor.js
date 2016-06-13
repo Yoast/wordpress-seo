@@ -3,11 +3,11 @@ var Assessor = require( "./assessor.js" );
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
 var paragraphTooLong = require( "./assessments/paragraphTooLongAssessment.js" );
 var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessment.js" );
-var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
 var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
-var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
+// var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
+// var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 // var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 // var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 // var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
@@ -30,25 +30,23 @@ var sum = require( "lodash/sum" );
  *
  * @constructor
  */
-var ContentAssessor = function( i18n, options ) {
+var ContentAssessor = function ( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
 		fleschReadingEase,
-		getSubheadingPresence,
 		subheadingDistributionTooLong,
-		subHeadingLength,
 		paragraphTooLong,
 		sentenceLengthInText,
 		transitionWords,
 		passiveVoice,
+		textPresence
 		// sentenceVariation,
 		// sentenceBeginnings,
 		// wordComplexity,
 		// subheadingDistributionTooShort,
 		// paragraphTooShort
 		// sentenceLengthInDescription,
-		textPresence
 	];
 };
 
@@ -59,20 +57,20 @@ require( "util" ).inherits( ContentAssessor, Assessor );
  *
  * @returns {number} The total negative points for the results.
  */
-ContentAssessor.prototype.calculateNegativePoints = function() {
+ContentAssessor.prototype.calculatePenaltyPoints = function () {
 	var results = this.getValidResults();
 
-	var negativePoints = map( results, function( result ) {
+	var negativePoints = map( results, function ( result ) {
 		var weight, rating = scoreToRating( result.getScore() );
 
 		// Convert the ratings to negative 'points'.
 		switch ( rating ) {
 			case "bad":
-				weight = 1;
+				weight = 3;
 				break;
 
 			case "ok":
-				weight = 1 / 2;
+				weight = 2;
 				break;
 
 			default:
@@ -90,25 +88,36 @@ ContentAssessor.prototype.calculateNegativePoints = function() {
 /**
  * Rates the negative points
  *
- * @param {number} totalNegativePoints The amount of negative points.
+ * @param {number} totalPenaltyPoints The amount of negative points.
  * @returns {number} The score based on the amount of negative points.
  *
  * @private
  */
-ContentAssessor.prototype._rateNegativePoints = function( totalNegativePoints ) {
-	// Determine the total score based on the total negative points.
-	if ( totalNegativePoints < 2 ) {
-		// A green indicator.
-		return 90;
-	}
+ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
+	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
+		// Determine the total score based on the total negative points.
+		if ( totalPenaltyPoints > 6 ) {
+			// A red indicator.
+			return 30;
+		}
 
-	if ( totalNegativePoints < 4 ) {
-		// An orange indicator.
-		return 60;
-	}
+		if ( totalPenaltyPoints > 4 ) {
+			// An orange indicator.
+			return 60;
+		}
+	} else {
+		if ( totalPenaltyPoints > 3 ) {
+			// A red indicator.
+			return 30;
+		}
 
-	// A red indicator.
-	return 30;
+		if ( totalPenaltyPoints > 2 ) {
+			// An orange indicator.
+			return 60;
+		}
+	}
+	// A green indicator.
+	return 90;
 };
 
 /**
@@ -116,7 +125,7 @@ ContentAssessor.prototype._rateNegativePoints = function( totalNegativePoints ) 
  *
  * @returns {number} The overall score.
  */
-ContentAssessor.prototype.calculateOverallScore = function() {
+ContentAssessor.prototype.calculateOverallScore = function () {
 	var results = this.getValidResults();
 
 	// If you have no content, you have a red indicator.
@@ -124,9 +133,9 @@ ContentAssessor.prototype.calculateOverallScore = function() {
 		return 30;
 	}
 
-	var totalNegativePoints = this.calculateNegativePoints();
+	var totalPenaltyPoints = this.calculatePenaltyPoints();
 
-	return this._rateNegativePoints( totalNegativePoints );
+	return this._ratePenaltyPoints( totalPenaltyPoints );
 };
 
 module.exports = ContentAssessor;

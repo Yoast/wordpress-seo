@@ -20,23 +20,23 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var hasMarks   = ( percentage > 0 );
 	var transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
 
-	if ( percentage < 35 ) {
+	if ( percentage < 20 ) {
 		// Red indicator.
 		score = 3;
 	}
 
-	if ( inRange( percentage, 35, 45 ) ) {
+	if ( inRange( percentage, 20, 30 ) ) {
 		// Orange indicator.
 		score = 6;
 	}
 
-	if ( percentage >= 45 ) {
+	if ( percentage >= 30 ) {
 		// Green indicator.
 		score = 9;
 	}
 
 	if ( score < 7 ) {
-		var recommendedMinimum = 45;
+		var recommendedMinimum = 30;
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,

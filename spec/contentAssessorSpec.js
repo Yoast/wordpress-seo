@@ -1,6 +1,7 @@
 var ContentAssessor = require( "../js/contentAssessor.js" );
 var AssessmentResult = require( "../js/values/AssessmentResult.js" );
 var Factory = require( "./helpers/factory.js" );
+var Paper = require("../js/values/Paper.js");
 
 var forEach = require( "lodash/forEach" );
 
@@ -13,7 +14,7 @@ describe( "A content assesor", function() {
 		contentAssessor = new ContentAssessor( i18n );
 	});
 
-	describe( "calculateNegativePoints", function() {
+	describe( "calculatePenaltyPoints", function() {
 		var results;
 
 		beforeEach( function() {
@@ -26,7 +27,7 @@ describe( "A content assesor", function() {
 			results = [];
 			var expected = 0;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
@@ -41,29 +42,29 @@ describe( "A content assesor", function() {
 			];
 			var expected = 0;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
 
-		it( "should return 1 for a red assessment result", function() {
+		it( "should return 3 for a red assessment result", function() {
 			results = [
 				new AssessmentResult({ score: 3 })
 			];
-			var expected = 1;
+			var expected = 3;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
 
-		it( "should return 1/2 for an orange assessment result", function() {
+		it( "should return 2 for an orange assessment result", function() {
 			results = [
 				new AssessmentResult({ score: 6 })
 			];
-			var expected = 1/2;
+			var expected = 2;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
@@ -80,9 +81,9 @@ describe( "A content assesor", function() {
 				new AssessmentResult({ score: 9 }),
 				new AssessmentResult({ text: "A piece of feedback" })
 			];
-			var expected = 3 + 1/2;
+			var expected = 6 + 6;
 
-			var actual = contentAssessor.calculateNegativePoints();
+			var actual = contentAssessor.calculatePenaltyPoints();
 
 			expect( actual ).toBe( expected );
 		});
@@ -95,9 +96,12 @@ describe( "A content assesor", function() {
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
-			contentAssessor.calculateNegativePoints = function() {
+			contentAssessor.calculatePenaltyPoints = function() {
 				return points;
 			};
+			contentAssessor.getPaper = function() {
+				return new Paper;
+			}
 		});
 
 		it( "should default to a bad indicator", function() {
@@ -114,10 +118,11 @@ describe( "A content assesor", function() {
 				new AssessmentResult()
 			];
 			var testCases = [
-				{ points: 4, expected: 30 },
-				{ points: 3.9, expected: 60 },
-				{ points: 3, expected: 60 },
-				{ points: 2, expected: 60 },
+				{ points: 7, expected: 30 },
+				{ points: 6, expected: 60 },
+				{ points: 9, expected: 30 },
+				{ points: 4, expected: 90 },
+				{ points: 2, expected: 90 },
 				{ points: 1.9, expected: 90 },
 				{ points: 1, expected: 90 }
 			];
