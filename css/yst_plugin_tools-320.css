@@ -404,37 +404,41 @@ textarea.wpseo-new-metadesc {
 	background-size: 115px 100px;
 }
 
-div#separator {
-	clear: right;
-	margin: 0 0 0 25px;
+#separator {
+	margin: 0.5em 0 1em;
 }
 
-div#separator input.radio {
-	display: none;
-	float: left;
-	width: 0 !important;
-	min-width: 0 !important;
-	opacity: 0;
+#separator input.radio {
+	/* visually hide the radio buttons but keep them accessible */
+	position: absolute;
+	left: -9999em;
+	width: 1px;
+	height: 1px;
 }
 
-div#separator input.radio + label {
+#separator input.radio + label {
 	float: left;
 	width: 30px !important;
-	margin: 3px 3px 0 0;
-	padding: 5px 8px;
+	margin: 0 5px 0 0 !important;
+	padding: 9px 6px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
 	font-family: Arial, Helvetica, sans-serif !important;
 	font-size: 18px !important;
-	line-height: 25px;
+	line-height: 24px;
 	text-align: center;
 	cursor: pointer;
 }
 
-div#separator input.radio:checked + label {
-	border: 1px solid green;
+#separator input.radio:checked + label {
+	border: 1px solid #a4286a;
 	background-color: #fff;
-	box-shadow: 1px 1px 1px green;
+	box-shadow: inset 0 0 0 2px #a4286a;
+}
+
+#separator input.radio:focus + label {
+	border-radius: 10px;
+	border-bottom-right-radius: 0;
 }
 
 .svg-container {
@@ -479,15 +483,4 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 #wpseo_progressbar .ui-progressbar-value {
 	height: 25px;
 	background: #006691;
-}
-
-#TB_window .wpseo_content_wrapper p {
-	font-size: 14px;
-	font-style: normal;
-}
-
-#TB_window .wpseo_content_wrapper label {
-	margin: 0 10px 0 0;
-	font-size: 14px;
-	font-weight: bold;
 }

@@ -14,6 +14,7 @@ var defaultArguments = {
 
 	scoreClass: 'na',
 	scoreText: '',
+	fallback: '',
 
 	showKeyword: true,
 	isKeywordTab: true
@@ -40,6 +41,7 @@ module.exports = (function() {
 
 		this.showKeyword = args.showKeyword;
 		this.isKeywordTab = args.isKeywordTab;
+		this.fallback = args.fallback;
 	}
 
 	/**
@@ -92,9 +94,17 @@ module.exports = (function() {
 	 */
 	KeywordTab.prototype.render = function() {
 		var placeholder = this.keyword.length > 0 ? this.keyword : '...';
+		var prefix = this.prefix;
 
 		if ( ! this.showKeyword ) {
 			placeholder = '';
+		}
+
+		if ( '' === this.keyword && '' !== this.fallback ) {
+			placeholder = this.fallback;
+			prefix = '';
+		} else {
+			prefix += ' ';
 		}
 
 		var html = wp.template( 'keyword_tab' )({
@@ -102,7 +112,7 @@ module.exports = (function() {
 			placeholder: placeholder,
 			score: this.scoreClass,
 			hideRemove: true,
-			prefix: this.prefix + ' ',
+			prefix: prefix,
 			active: this.active,
 			scoreText: this.scoreText,
 			isKeywordTab: this.isKeywordTab
@@ -148,13 +158,9 @@ module.exports = (function() {
 	};
 
 	/**
-	 * Handles clicking the tab.
-	 *
-	 * @param {UIEvent} ev The event fired by the browser.
+	 * Activates the tab
 	 */
-	KeywordTab.prototype.onClick = function( ev ) {
-		ev.preventDefault();
-
+	KeywordTab.prototype.activate = function() {
 		this.onActivate();
 
 		$( '.wpseo_keyword_tab, .wpseo_content_tab' ).removeClass( 'active' );
@@ -162,6 +168,17 @@ module.exports = (function() {
 		this.refresh();
 
 		this.afterActivate();
+	};
+
+	/**
+	 * Handles clicking the tab.
+	 *
+	 * @param {UIEvent} ev The event fired by the browser.
+	 */
+	KeywordTab.prototype.onClick = function( ev ) {
+		ev.preventDefault();
+
+		this.activate();
 	};
 
 	/**

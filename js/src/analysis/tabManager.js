@@ -37,6 +37,7 @@ TabManager.prototype.init = function() {
 	this.focusKeywordRow = this.focusKeywordInput.closest( 'tr' );
 	this.contentAnalysis = $( '#yoast-seo-content-analysis' );
 	this.keywordAnalysis = $( '#wpseo-pageanalysis,#wpseo_analysis' );
+	this.snippetPreview  = $( '#wpseosnippet' ).closest( 'tr' );
 
 	var initialKeyword   = $( this.arguments.focusKeywordField ).val();
 
@@ -51,6 +52,7 @@ TabManager.prototype.init = function() {
 		{
 			keyword: initialKeyword,
 			prefix: this.strings.keywordTab,
+			fallback: this.strings.enterFocusKeyword,
 			onActivate: function() {
 				this.showKeywordAnalysis();
 				this.deactivateContentTab();
@@ -102,6 +104,7 @@ TabManager.prototype.showKeywordAnalysis = function() {
 	this.focusKeywordRow.show();
 	this.keywordAnalysis.show();
 	this.contentAnalysis.hide();
+	this.snippetPreview.show();
 };
 
 /**
@@ -111,6 +114,7 @@ TabManager.prototype.showContentAnalysis = function() {
 	this.focusKeywordRow.hide();
 	this.keywordAnalysis.hide();
 	this.contentAnalysis.show();
+	this.snippetPreview.hide();
 };
 
 /**
@@ -128,9 +132,7 @@ TabManager.prototype.deactivateContentTab = function() {
 TabManager.prototype.updateContentTab = function( score ) {
 	var indicator = getIndicatorForScore( score );
 
-	if ( this.contentTab.active ) {
-		this.contentTab.update( indicator.className, indicator.screenReaderText );
-	}
+	this.contentTab.update( indicator.className, indicator.screenReaderText );
 };
 
 /**
@@ -145,16 +147,13 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
 		screenReaderText: YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' )
 	};
 
-	if ( keyword === '' ) {
-		this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
-
-		return;
-	}
-
 	if ( this.mainKeywordTab.active ) {
-		indicator = getIndicatorForScore( score );
-
-		this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+		if ( keyword === '' ) {
+			this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
+		} else {
+			indicator = getIndicatorForScore( score );
+			this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+		}
 
 		return;
 	}
