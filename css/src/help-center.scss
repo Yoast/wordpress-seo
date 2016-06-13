@@ -127,7 +127,10 @@
 	}
 
 	&--text {
-	  flex: 1 0 0%; /* the % fixes the unitless bug in IE 11 */
+	  /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	  flex-grow: 1;
+	  flex-shrink: 1;
+	  flex-basis: 0;
 	}
   }
 

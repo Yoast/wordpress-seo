@@ -140,10 +140,16 @@
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text {
-	-webkit-flex: 1 0 0;
-	-ms-flex: 1 0 0;
-	flex: 1 0 0;
-	/* the % fixes the unitless bug in IE 11 */
+	-webkit-flex-basis: 0;
+	flex-basis: 0;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-webkit-flex-grow: 1;
+	flex-grow: 1;
+	-ms-flex-negative: 1;
+	-ms-flex-positive: 1;
+	-ms-flex-preferred-size: 0;
+	-webkit-flex-shrink: 1;
+	flex-shrink: 1;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
