@@ -560,11 +560,6 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	title = stripHTMLTags( title );
 
-	// If a keyword is set we want to highlight it in the title.
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		title = this.formatKeyword( title );
-	}
-
 	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( title ) ) {
 		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
