@@ -8,8 +8,7 @@ var $ = jQuery;
 var defaultArguments = {
 	strings: {
 		keywordTab: '',
-		contentTab: '',
-		basedOn: ''
+		contentTab: ''
 	},
 	focusKeywordField: "#yoast_wpseo_focuskw"
 };
@@ -53,7 +52,6 @@ TabManager.prototype.init = function() {
 		{
 			keyword: initialKeyword,
 			prefix: this.strings.keywordTab,
-			basedOn: this.strings.basedOn,
 			fallback: this.strings.enterFocusKeyword,
 			onActivate: function() {
 				this.showKeywordAnalysis();
@@ -73,7 +71,6 @@ TabManager.prototype.init = function() {
 	this.contentTab = new KeywordTab( {
 		active: true,
 		prefix: this.strings.contentTab,
-		basedOn: '',
 		showKeyword: false,
 		isKeywordTab: false,
 		onActivate: function() {
