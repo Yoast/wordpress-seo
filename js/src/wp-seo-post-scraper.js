@@ -252,12 +252,12 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	PostScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
 
-		// If multi keyword isn't available we need to update the first tab (content)
+		// If multi keyword isn't available we need to update the first tab (content).
 		if ( ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
 			publishBox.updateScore( 'content', indicator.className );
 
-			// Updates the input with the currentKeyword value
+			// Updates the input with the currentKeyword value.
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
 		}
 
