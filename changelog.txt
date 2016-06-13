@@ -34,11 +34,11 @@ Release Date: Unreleased
 		* Danish, Turkish, Latvian, Icelandic, Faroese, Czech, Russian,
 		* Esperanto, Afrikaans, Catalan, Asturian, Aragonese, Aymara,
 		* English, French, Italian, Dutch, Bambara.
-	* Adds a search box in the help center to search in the knowledgebase.
+	* Adds a search box in the help center to search in the [Yoast knowledge base](https://kb.yoast.com).
 
 * Enhancements:
 	* Adds missing alt tags to banners.
-	* Adds a 50.000 URL limit to the sitemaps, this is what google recommends.
+	* Adds a 50.000 URL hard limit to the sitemaps, this is what google recommends.
 	* Moves social tab above settings tab in the metabox.
 	* Adds live updating to the score indicator in the admin bar on the post edit page.
 	* Optimize multiple sitemap cache clears by waiting until the end of the pageload to actual clear the cache.
