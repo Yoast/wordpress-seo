@@ -346,13 +346,17 @@ App.prototype.getData = function() {
 };
 
 /**
- * Refreshes the analyzer and output of the analyzer
- * @returns {void}
+ * Refreshes the analyzer and output of the analyzer, is debounced for a better experience.
  */
 App.prototype.refresh = function() {
 	this._pureRefresh();
 };
 
+/**
+ * Refreshes the analyzer and output of the analyzer, is throttled to prevent performance issues.
+ *
+ * @private
+ */
 App.prototype._pureRefresh = function() {
 	this.getData();
 	this.runAnalyzer();
