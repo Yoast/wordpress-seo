@@ -66,16 +66,25 @@
   }
 
   .wpseo-tab-video__panel__textarea {
-	float: left;
+	display: inline-block;
+	vertical-align: top;
 	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
     width: 242px;
-    margin: 0 12px 1em 0;
+    margin: 0 9px 1em 0; /* right margin should be 12 but it's 9 to compensate inline-block white space */
     padding: 15px 15px 5px;
     border: 1px solid;
     border-color: white;
     border-radius: 30px;
     border-bottom-right-radius: 0;
+	background-color: #a4286a;
     color: white;
+
+	a,
+	a:hover,
+	a:focus {
+	  color: white;
+	  font-weight: 500;
+	}
 
     h3 {
       margin: 0;
@@ -110,7 +119,7 @@
 
   .wpseo-tab-video__panel {
     margin-right: 1em;
-	margin-bottom: 1em;
+	padding-bottom: 1em;
 
 	&--video {
 	  flex: 0 0 auto;
@@ -120,7 +129,6 @@
 
 	&--text {
 	  flex: 1 0 0;
-	  margin: 0 auto;
 	}
   }
 
@@ -169,16 +177,5 @@
   &.active a {
     color: #a4286a;
     background-color: white;
-  }
-}
-
-.wpseo-tab-video__panel__textarea {
-  background-color: #a4286a;
-
-  a,
-  a:hover,
-  a:focus {
-	color: white;
-	font-weight: 500;
   }
 }

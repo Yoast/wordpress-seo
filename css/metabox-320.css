@@ -824,16 +824,25 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
-	float: left;
+	display: inline-block;
 	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
 	width: 242px;
-	margin: 0 12px 1em 0;
+	margin: 0 9px 1em 0;
 	padding: 15px 15px 5px;
 	border: 1px solid;
 	border-color: white;
 	border-radius: 30px;
 	border-bottom-right-radius: 0;
 	color: white;
+	background-color: #a4286a;
+	vertical-align: top;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a,
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a:hover,
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a:focus {
+	color: white;
+	font-weight: 500;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea h3 {
@@ -871,7 +880,7 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
 	margin-right: 1em;
-	margin-bottom: 1em;
+	padding-bottom: 1em;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
@@ -884,8 +893,6 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text {
-	margin: 0 auto;
-
 	-webkit-flex: 1 0 0;
 	-ms-flex: 1 0 0;
 	flex: 1 0 0;
@@ -934,17 +941,6 @@ button.yoast-tooltip {
 .wpseo-help-center-item.active a {
 	color: #a4286a;
 	background-color: white;
-}
-
-.wpseo-tab-video__panel__textarea {
-	background-color: #a4286a;
-}
-
-.wpseo-tab-video__panel__textarea a,
-.wpseo-tab-video__panel__textarea a:hover,
-.wpseo-tab-video__panel__textarea a:focus {
-	color: white;
-	font-weight: 500;
 }
 
 /**
