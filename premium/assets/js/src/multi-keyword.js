@@ -156,7 +156,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 			focusKeyword = $( ev.currentTarget ).val();
 			currentTabLink = $( 'li.active > .wpseo_tablink' );
 			currentTabLink.data( 'keyword', focusKeyword );
-			currentTabLink.find( 'span.wpseo_keyword' ).text( focusKeyword || '...' );
+			currentTabLink.find( 'span.wpseo_keyword' ).text( focusKeyword || wpseoPostScraperL10n.enterFocusKeyword );
 		}.bind( this ) );
 	};
 
@@ -191,7 +191,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 			for( var i in keywords ) {
 				var keyword = keywords[i].keyword;
 				var score = keywords[i].score;
-				this.addKeywordTab( keyword, score );
+				this.addKeywordTab( keyword, score, i == 0 );
 			}
 		}
 	};
@@ -208,7 +208,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 
 		// Insert a new keyword tab.
 		keyword = keyword || '';
-		placeholder = keyword.length > 0 ? keyword : '...';
+		placeholder = keyword.length > 0 ? keyword : wpseoPostScraperL10n.enterFocusKeyword;
 
 		templateArgs = {
 			keyword: keyword,
@@ -218,8 +218,12 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		};
 
 		// If this is the first keyword we add we want to add the "Content:" prefix
-		if ( 0 === $( '.wpseo_keyword_tab' ).length ) {
+		if ( 0 === $( '.wpseo_content_tab' ).length ) {
 			templateArgs.prefix = wpseoPostScraperL10n.contentTab;
+			templateArgs.hideRemove = true;
+		}
+
+		if ( 0 === $( '.wpseo_keyword_tab' ).length ) {
 			templateArgs.hideRemove = true;
 		}
 
@@ -331,7 +335,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 
 		tabElement = $( tabElement );
 
-		placeholder = keyword.length > 0 ? keyword : '...';
+		placeholder = keyword.length > 0 ? keyword : wpseoPostScraperL10n.enterFocusKeyword;
 
 		var indicators = this.getIndicator( score, keyword );
 
