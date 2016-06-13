@@ -54,11 +54,12 @@ ul.wpseo-metabox-tabs li.active {
 ul.wpseo-metabox-tabs li {
 	display: inline-block;
 	margin-right: 5px;
-	margin-bottom: -5px;
+	margin-bottom: -1px;
 	padding: 0;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
 	border-color: #dfdfdf;
+	vertical-align: top;
 
 	&, a {
 		max-width: 250px;
@@ -352,11 +353,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	color: #333;
 }
 
-/* Hide the `based on keyword` text to screen readers when there's no keyword */
-.wpseo-metabox-tabs .na .wpseo-keyword-tab-based-on {
-	display: none;
-}
-
 #wpseotab .ui-widget-content .ui-state-hover {
 	border: 1px solid #dfdfdf;
 	color: #333;
@@ -473,5 +469,3 @@ body.rtl #wpseo-score {
 .term-php .wpseo-taxonomy-metabox-postbox h2 {
 	border-bottom: 1px solid #eee;
 }
-
-
