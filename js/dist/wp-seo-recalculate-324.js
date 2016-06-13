@@ -2419,8 +2419,7 @@ var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 var contentRegex = /^[^<]+$/;
 var greaterThanContentRegex = /^<[^><]*$/;
 
-var commentStartRegex = /^<!--$/;
-var commentEndRegex = /^-->$/;
+var commentRegex = /<!--(.|[\r\n])*?-->/g;
 
 var core = require( "tokenizer2/core" );
 var forEach = require( "lodash/forEach" );
@@ -2446,9 +2445,6 @@ function createTokenizer() {
 	htmlBlockTokenizer.addRule( blockElementEndRegex, "block-end" );
 	htmlBlockTokenizer.addRule( inlineElementStartRegex, "inline-start" );
 	htmlBlockTokenizer.addRule( inlineElementEndRegex, "inline-end" );
-
-	htmlBlockTokenizer.addRule( commentStartRegex, "comment-start" );
-	htmlBlockTokenizer.addRule( commentEndRegex, "comment-end" );
 
 	htmlBlockTokenizer.addRule( otherElementStartRegex, "other-element-start" );
 	htmlBlockTokenizer.addRule( otherElementEndRegex, "other-element-end" );
@@ -2486,6 +2482,9 @@ function getBlocks( text ) {
 		currentBlock = "",
 		blockEndTag = "";
 
+	// Remove all comments because it is very hard to tokenize them.
+	text = text.replace( commentRegex, "" );
+
 	createTokenizer();
 	htmlBlockTokenizer.onText( text );
 
@@ -2504,8 +2503,6 @@ function getBlocks( text ) {
 			case "other-element-start":
 			case "other-element-end":
 			case "greater than sign":
-			case "comment-start":
-			case "comment-end":
 				if ( !nextToken || ( depth === 0 && ( nextToken.type === "block-start" || nextToken.type === "block-end" ) ) ) {
 					currentBlock += token.src;
 
