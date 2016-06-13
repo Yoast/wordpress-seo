@@ -479,12 +479,10 @@ App.prototype.runAnalyzer = function() {
 
 	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.seoAssessorPresenter.render();
-	this.seoAssessorPresenter.displayRemoveAllMarkersButton( this.seoAssessor.hasMarkers() );
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 
 	if ( !isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessorPresenter.renderIndividualRatings();
-		this.contentAssessorPresenter.displayRemoveAllMarkersButton( this.contentAssessor.hasMarkers() );
 		this.callbacks.saveContentScore( this.contentAssessor.calculateOverallScore(), this.contentAssessorPresenter );
 	}
 
@@ -638,6 +636,17 @@ App.prototype.registerTest = function() {
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 	return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
+};
+
+/**
+ * Disables markers visually in the UI
+ */
+App.prototype.disableMarkers = function() {
+	this.seoAssessorPresenter.disableMarker();
+
+	if ( !isUndefined( this.contentAssessorPresenter ) ) {
+		this.contentAssessorPresenter.disableMarker();
+	}
 };
 
 // Deprecated functions
