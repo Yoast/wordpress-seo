@@ -824,10 +824,10 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
-	display: inline-block;
+	float: left;
 	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
 	width: 242px;
-	margin: 0 9px 1em 0;
+	margin: 0 12px 1em 0;
 	padding: 15px 15px 5px;
 	border: 1px solid;
 	border-color: white;
@@ -835,7 +835,6 @@ button.yoast-tooltip {
 	border-bottom-right-radius: 0;
 	color: white;
 	background-color: #a4286a;
-	vertical-align: top;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a,
@@ -896,6 +895,7 @@ button.yoast-tooltip {
 	-webkit-flex: 1 0 0;
 	-ms-flex: 1 0 0;
 	flex: 1 0 0;
+	/* the % fixes the unitless bug in IE 11 */
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
