@@ -262,14 +262,10 @@ SVG;
 		echo '<script type="text/html" id="tmpl-keyword_tab">
 				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						{{data.prefix}}
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.placeholder}}</em>
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
-						<span class="wpseo-score-icon {{data.score}}">
-							<# if ( data.keyword ) { #>
-								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
-							<# } #>
-						</span>
-						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
 					</a>
 					<# if ( ! data.hideRemove ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>

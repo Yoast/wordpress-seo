@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-10 13:16:46+00:00\n"
+"POT-Creation-Date: 2016-06-13 11:01:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -138,7 +138,7 @@ msgid "Titles &amp; Metas"
 msgstr ""
 
 #: admin/class-admin.php:164 admin/class-social-admin.php:106
-#: admin/taxonomy/class-taxonomy-metabox.php:186
+#: admin/taxonomy/class-taxonomy-metabox.php:184
 #: inc/wpseo-non-ajax-functions.php:236
 msgid "Social"
 msgstr ""
@@ -219,8 +219,8 @@ msgstr ""
 
 #: admin/class-admin.php:432
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
-#: admin/taxonomy/class-taxonomy-metabox.php:132
-#: admin/taxonomy/class-taxonomy-metabox.php:140
+#: admin/taxonomy/class-taxonomy-metabox.php:130
+#: admin/taxonomy/class-taxonomy-metabox.php:138
 msgid "Settings"
 msgstr ""
 
@@ -855,7 +855,7 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to Yoast SEO Premium
-#: admin/class-premium-popup.php:61
+#: admin/class-premium-popup.php:70
 msgid "Buy %s"
 msgstr ""
 
@@ -923,7 +923,7 @@ msgid "Facebook / Open Graph metadata"
 msgstr ""
 
 #: admin/class-social-admin.php:96
-#: admin/taxonomy/class-taxonomy-metabox.php:176
+#: admin/taxonomy/class-taxonomy-metabox.php:174
 msgid "Twitter metadata"
 msgstr ""
 
@@ -1106,16 +1106,16 @@ msgid ""
 "featured in Google News!"
 msgstr ""
 
-#: admin/class-yoast-form.php:246
+#: admin/class-yoast-form.php:247
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/class-yoast-form.php:249
+#: admin/class-yoast-form.php:250
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:336 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:338 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:33
 #: admin/views/tabs/metas/archives.php:46
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1123,7 +1123,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:336 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:338 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:32
 #: admin/views/tabs/metas/archives.php:45
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1131,7 +1131,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:485
+#: admin/class-yoast-form.php:487
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:89
 msgid "Upload Image"
 msgstr ""
@@ -1149,7 +1149,7 @@ msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:47
 #: admin/metabox/class-metabox.php:344
-#: admin/taxonomy/class-taxonomy-metabox.php:115
+#: admin/taxonomy/class-taxonomy-metabox.php:113
 msgid "Content"
 msgstr ""
 
@@ -1159,12 +1159,6 @@ msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:49
 msgid "Enter your focus keyword"
-msgstr ""
-
-#. translators: After this sentence, the used keyword will be added (if
-#. present). This string is added to support screen readers.
-#: admin/formatter/class-metabox-formatter.php:56
-msgid "Based on keyword:"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:113
@@ -1415,49 +1409,49 @@ msgstr ""
 
 #. Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search
 #. Console.
-#: admin/google_search_console/views/gsc-display.php:39
+#: admin/google_search_console/views/gsc-display.php:37
 msgid ""
 "To allow %1$s to fetch your %2$s information, please enter your Google "
 "Authorization Code."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:42
+#: admin/google_search_console/views/gsc-display.php:40
 msgid "Get Google Authorization Code"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:44
+#: admin/google_search_console/views/gsc-display.php:42
 msgid ""
 "Please enter the Google Authorization Code in the field below and press the "
 "Authenticate button."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:48
+#: admin/google_search_console/views/gsc-display.php:46
 msgid "Authenticate"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:52
+#: admin/google_search_console/views/gsc-display.php:50
 msgid "Reauthenticate with Google "
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:53
-#: admin/google_search_console/views/gsc-display.php:56
+#: admin/google_search_console/views/gsc-display.php:51
+#: admin/google_search_console/views/gsc-display.php:54
 msgid "Current profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:75
-#: admin/google_search_console/views/gsc-display.php:79
+#: admin/google_search_console/views/gsc-display.php:73
+#: admin/google_search_console/views/gsc-display.php:77
 msgid "Profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:80
+#: admin/google_search_console/views/gsc-display.php:78
 msgid "There were no profiles found"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:88
+#: admin/google_search_console/views/gsc-display.php:86
 msgid "Save Profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:88
+#: admin/google_search_console/views/gsc-display.php:86
 msgid "or"
 msgstr ""
 
@@ -1480,17 +1474,17 @@ msgstr ""
 msgid "wpSEO has been deactivated"
 msgstr ""
 
-#: admin/metabox/class-metabox-add-keyword-tab.php:22
+#: admin/metabox/class-metabox-add-keyword-tab.php:26
 msgid "Add keyword"
 msgstr ""
 
-#: admin/metabox/class-metabox-add-keyword-tab.php:28
+#: admin/metabox/class-metabox-add-keyword-tab.php:31
 msgid "Multiple focus keywords is a %s feature"
 msgstr ""
 
 #. translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
 #. Premium plugin page.
-#: admin/metabox/class-metabox-add-keyword-tab.php:30
+#: admin/metabox/class-metabox-add-keyword-tab.php:33
 msgid ""
 "To be able to add and analyze multiple keywords for a post or page you need "
 "%1$s. You can buy the plugin, including one year of support, updates and "
@@ -1520,10 +1514,10 @@ msgid "Analysis"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:58
-#: admin/taxonomy/class-taxonomy-content-fields.php:36
 msgid ""
-"This is the content analysis, a collection of content checks that analyze "
-"the content of your page. %sLearn more about the Content Analysis Tool%s."
+"This is the SEO & content analysis, a collection of checks that analyze the "
+"SEO & readability of your page. %sLearn more about the Yoast Content & SEO "
+"analysis%s."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:59
@@ -1929,11 +1923,17 @@ msgstr ""
 msgid "Focus Keyword Help"
 msgstr ""
 
+#: admin/taxonomy/class-taxonomy-content-fields.php:36
+msgid ""
+"This is the content analysis, a collection of content checks that analyze "
+"the content of your page. %sLearn more about the Content Analysis Tool%s."
+msgstr ""
+
 #: admin/taxonomy/class-taxonomy-content-fields.php:39
 msgid "Content Analysis Help"
 msgstr ""
 
-#: admin/taxonomy/class-taxonomy-metabox.php:163
+#: admin/taxonomy/class-taxonomy-metabox.php:161
 msgid "Facebook / Opengraph metadata"
 msgstr ""
 
@@ -2150,9 +2150,7 @@ msgid "Problems"
 msgstr ""
 
 #: admin/views/partial-alerts-errors.php:10
-msgid ""
-"We have detected the following issues that involve a serious problem "
-"concerning the SEO of your site."
+msgid "We have detected the following issues that affect the SEO of your site."
 msgstr ""
 
 #: admin/views/partial-alerts-errors.php:11
@@ -2584,19 +2582,15 @@ msgid ""
 msgstr ""
 
 #: admin/views/tabs/dashboard/webmaster-tools.php:15
-msgid "Alexa Verification ID"
-msgstr ""
-
-#: admin/views/tabs/dashboard/webmaster-tools.php:16
 msgid "Bing Webmaster Tools"
 msgstr ""
 
-#: admin/views/tabs/dashboard/webmaster-tools.php:18
+#: admin/views/tabs/dashboard/webmaster-tools.php:17
 msgid "Yandex Webmaster Tools"
 msgstr ""
 
 #. translators: %1$s expands to OnPage.org
-#: admin/views/tabs/dashboard/webmaster-tools.php:23
+#: admin/views/tabs/dashboard/webmaster-tools.php:22
 msgid "%1$s indexability check"
 msgstr ""
 
@@ -3186,7 +3180,7 @@ msgstr ""
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1250
+#: frontend/class-frontend.php:1245
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -3491,7 +3485,7 @@ msgstr ""
 
 #: inc/options/class-wpseo-option-xml.php:156
 msgid ""
-"\"Max entries per sitemap page\" should be below 50000 for Google "
+"\"Max entries per sitemap page\" should be below %s to meet Google's "
 "requirements, which %s is not."
 msgstr ""
 
@@ -3501,11 +3495,11 @@ msgid ""
 "not. Please correct."
 msgstr ""
 
-#: inc/options/class-wpseo-option.php:299
+#: inc/options/class-wpseo-option.php:295
 msgid "%s does not seem to be a valid %s verification string. Please correct."
 msgstr ""
 
-#: inc/options/class-wpseo-option.php:332
+#: inc/options/class-wpseo-option.php:328
 msgid "%s does not seem to be a valid url. Please correct."
 msgstr ""
 
@@ -3894,21 +3888,21 @@ msgstr ""
 msgid "very difficult"
 msgstr ""
 
-#. Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
+#. translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
 #. %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score.
 #: js/assessments/fleschReadingEaseAssessment.js:81
 msgid ""
 "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
 msgstr ""
 
-#. Translators: %1$d expands to the recommended maximum number of characters.
+#. translators: %1$d expands to the recommended maximum number of characters.
 #: js/assessments/getSubheadingLengthAssessment.js:32
 msgid ""
 "The length of all subheadings is less than or equal to the recommended "
 "maximum of %1$d characters, which is great."
 msgstr ""
 
-#. Translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
+#. translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
 #: js/assessments/getSubheadingLengthAssessment.js:45
 msgid ""
 "You have %1$d subheading containing more than the recommended maximum of "
@@ -3939,7 +3933,7 @@ msgstr ""
 msgid "Your keyphrase is over 10 words, a keyphrase should be shorter."
 msgstr ""
 
-#. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
 #: js/assessments/keywordDensityAssessment.js:25
 msgid ""
@@ -3947,13 +3941,13 @@ msgid ""
 "focus keyword was found %2$d times."
 msgstr ""
 
-#. Translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5)
+#. translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5)
 #: js/assessments/keywordDensityAssessment.js:30
 #: js/assessments/keywordDensityAssessment.js:45
 msgid "2.5"
 msgstr ""
 
-#. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
 #: js/assessments/keywordDensityAssessment.js:40
 msgid ""
@@ -3961,21 +3955,21 @@ msgid ""
 "focus keyword was found %2$d times."
 msgstr ""
 
-#. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
 #: js/assessments/keywordDensityAssessment.js:54
 msgid ""
 "The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
-#. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
 #: js/assessments/keywordDensityAssessment.js:64
 msgid ""
 "The keyword density is %1$s, which is a bit low; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
-#. Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
+#. translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
 #: js/assessments/keywordStopWordsAssessment.js:17
 msgid ""
 "Your focus keyword contains a stop word. This may or may not be wise "
@@ -4024,7 +4018,7 @@ msgstr ""
 msgid "None of your paragraphs are too long, which is great."
 msgstr ""
 
-#. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
+#. translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 #: js/assessments/paragraphTooLongAssessment.js:52
 msgid ""
 "%1$d of the paragraphs contains more than the recommended maximum of %2$d "
@@ -4041,7 +4035,6 @@ msgstr[1] ""
 msgid "None of your paragraphs are too short, which is great."
 msgstr ""
 
-#. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value.
 #: js/assessments/paragraphTooShortAssessment.js:47
 msgid ""
 "%1$d of the paragraphs contains less than the recommended minimum of %2$d "
@@ -4054,7 +4047,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: js/assessments/passiveVoiceAssessment.js:37
 msgid ""
@@ -4062,7 +4055,7 @@ msgid ""
 "equal to the recommended maximum of %4$s."
 msgstr ""
 
-#. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: js/assessments/passiveVoiceAssessment.js:55
 msgid ""
@@ -4070,7 +4063,7 @@ msgid ""
 "the recommended maximum of %4$s. Try to use their active counterparts."
 msgstr ""
 
-#. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
+#. translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
 #. with the same word.
 #. %2$d expands to the number of consecutive sentences starting with the same word.
 #: js/assessments/sentenceBeginningsAssessment.js:49
@@ -4083,13 +4076,13 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
 #. %3$s expands to the anchor end tag.
 #: js/assessments/sentenceLengthInDescriptionAssessment.js:25
 msgid "The meta description contains no sentences %1$sover %2$s words%3$s."
 msgstr ""
 
-#. Translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
+#. translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
 #: js/assessments/sentenceLengthInDescriptionAssessment.js:36
 msgid ""
@@ -4101,7 +4094,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+#. translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
 #: js/assessments/sentenceLengthInTextAssessment.js:63
@@ -4110,7 +4103,7 @@ msgid ""
 "than or equal to the recommended maximum of %5$s."
 msgstr ""
 
-#. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+#. translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
 #: js/assessments/sentenceLengthInTextAssessment.js:80
@@ -4119,7 +4112,7 @@ msgid ""
 "than the recommended maximum of %5$s.Try to shorten your sentences."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
 #. %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
 #: js/assessments/sentenceVariationAssessment.js:32
 msgid ""
@@ -4128,7 +4121,7 @@ msgid ""
 "combination of long and short sentences."
 msgstr ""
 
-#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+#. translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
 #. %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
 #: js/assessments/sentenceVariationAssessment.js:47
 msgid ""
@@ -4193,7 +4186,7 @@ msgid ""
 "While not a major ranking factor, this is beneficial."
 msgstr ""
 
-#. Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
+#. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/taxonomyTextLengthAssessment.js:17
 msgid ""
 "The text contains %1$d word, this is more than the %2$d word recommended "
@@ -4204,7 +4197,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
+#. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/taxonomyTextLengthAssessment.js:30
 msgid ""
 "The text contains %1$d word, this is slightly below the %2$d word "
@@ -4215,7 +4208,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words
+#. translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words
 #: js/assessments/taxonomyTextLengthAssessment.js:43
 #: js/assessments/taxonomyTextLengthAssessment.js:56
 msgid ""
@@ -4227,7 +4220,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to the number of words in the text
+#. translators: %1$d expands to the number of words in the text
 #: js/assessments/taxonomyTextLengthAssessment.js:69
 msgid ""
 "The text contains %1$d word, this is far too low and should be increased."
@@ -4264,7 +4257,7 @@ msgstr ""
 msgid "The images on this page are missing alt attributes."
 msgstr ""
 
-#. Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
+#. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:17
 msgid ""
 "The text contains %1$d word, which is more than the recommended minimum of "
@@ -4275,7 +4268,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
+#. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:30
 msgid ""
 "The text contains %1$d word, which is slightly below the recommended minimum "
@@ -4286,7 +4279,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words
+#. translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words
 #: js/assessments/textLengthAssessment.js:43
 #: js/assessments/textLengthAssessment.js:58
 msgid ""
@@ -4298,7 +4291,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to the number of words in the text
+#. translators: %1$d expands to the number of words in the text
 #: js/assessments/textLengthAssessment.js:73
 msgid ""
 "The text contains %1$d word, which is far too low. Increase the word count."
@@ -4311,17 +4304,17 @@ msgstr[1] ""
 msgid "No links appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#. Translators: %1$s expands the number of outbound links
+#. translators: %1$s expands the number of outbound links
 #: js/assessments/textLinksAssessment.js:23
 msgid "This page has %1$s outbound link(s), all nofollowed."
 msgstr ""
 
-#. Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links
+#. translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links
 #: js/assessments/textLinksAssessment.js:32
 msgid "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)."
 msgstr ""
 
-#. Translators: %1$s expands to the number of outbound links
+#. translators: %1$s expands to the number of outbound links
 #: js/assessments/textLinksAssessment.js:41
 msgid "This page has %1$s outbound link(s)."
 msgstr ""
@@ -4342,7 +4335,7 @@ msgid ""
 "beginning; try and move it to the beginning."
 msgstr ""
 
-#. Translators: %1$d expands to the number of characters in the page title,
+#. translators: %1$d expands to the number of characters in the page title,
 #. %2$d to the minimum number of characters for the title
 #: js/assessments/titleLengthAssessment.js:22
 msgid ""
@@ -4356,14 +4349,14 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters
+#. translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters
 #: js/assessments/titleLengthAssessment.js:38
 msgid ""
 "The page title is between the %1$d character minimum and the recommended "
 "%2$d character maximum."
 msgstr ""
 
-#. Translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
+#. translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
 #. of characters for the title
 #: js/assessments/titleLengthAssessment.js:51
 msgid ""
@@ -4381,7 +4374,7 @@ msgstr[1] ""
 msgid "Please create a page title."
 msgstr ""
 
-#. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: js/assessments/transitionWordsAssessment.js:38
 msgid ""
@@ -4389,7 +4382,7 @@ msgid ""
 "less than the recommended minimum of %4$s."
 msgstr ""
 
-#. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
 #: js/assessments/transitionWordsAssessment.js:51
 msgid ""
@@ -4411,7 +4404,7 @@ msgstr ""
 msgid "The slug for this page is a bit long, consider shortening it."
 msgstr ""
 
-#. Translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
+#. translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
 #: js/assessments/urlStopWordsAssessment.js:17
 msgid ""
 "The slug for this page contains a %1$sstop word%2$s, consider removing it."
@@ -4420,31 +4413,31 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#. Translators: this link is referred to in the content analysis when a slug contains one or more stop words
+#. translators: this link is referred to in the content analysis when a slug contains one or more stop words
 #: js/assessments/urlStopWordsAssessment.js:43
 msgid "http://en.wikipedia.org/wiki/Stop_words"
 msgstr ""
 
-#. Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
 #. %3$d expands to the recommended maximum number of syllables,
 #. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
-#: js/assessments/wordComplexityAssessment.js:64
+#: js/assessments/wordComplexityAssessment.js:63
 msgid ""
 "%1$s of the words contain %2$sover %3$s syllables%4$s, which is less than or "
 "equal to the recommended maximum of %5$s."
 msgstr ""
 
-#. Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+#. translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
 #. %3$d expands to the recommended maximum number of syllables,
 #. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
-#: js/assessments/wordComplexityAssessment.js:80
+#: js/assessments/wordComplexityAssessment.js:79
 msgid ""
 "%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than "
 "the recommended maximum of %5$s."
 msgstr ""
 
-#. Translators: %1$s expands to the name of the assessment.
-#: js/assessor.js:181
+#. translators: %1$s expands to the name of the assessment.
+#: js/assessor.js:182
 msgid "An error occured in the '%1$s' assessment"
 msgstr ""
 
@@ -4452,14 +4445,14 @@ msgstr ""
 msgid "You've never used this focus keyword before, very good."
 msgstr ""
 
-#. Translators: %1$s and %2$s expand to an admin link where the focus keyword is already used
+#. translators: %1$s and %2$s expand to an admin link where the focus keyword is already used
 #: js/bundledPlugins/previouslyUsedKeywords.js:73
 msgid ""
 "You've used this focus keyword %1$sonce before%2$s, be sure to make very "
 "clear which URL on your site is the most important for this keyword."
 msgstr ""
 
-#. Translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
+#. translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
 #. keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content
 #: js/bundledPlugins/previouslyUsedKeywords.js:83
 msgid ""
