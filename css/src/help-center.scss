@@ -51,6 +51,7 @@
 
   .contextual-help-tabs-wrap {
 	  flex: 1 1 auto;
+	  padding: 0;
   }
 
   h1,
@@ -93,6 +94,7 @@
   .yoast-help-center-tabs {
 	flex: 0 0 auto;
 	width: 180px;
+	padding: 0 1em 1em 0;
     color: white;
     background-color: #a4286a;
 
@@ -117,13 +119,18 @@
   }
 
   .wpseo-tab-video__panel {
-	padding-bottom: 1em;
 
 	&--video {
 	  flex: 0 0 auto;
 	  margin-right: 1em;
+	  padding-bottom: 1em;
 	  /* In the settings pages is not a children of the flexbox container. */
 	  float: left;
+
+	  iframe {
+		  /* remove iframe descender space */
+		  vertical-align: middle;
+	  }
 	}
 
 	&--text {

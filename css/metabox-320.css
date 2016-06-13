@@ -806,6 +806,8 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
+	padding: 0;
+
 	-webkit-flex: 1 1 auto;
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
@@ -850,6 +852,7 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
 	width: 180px;
+	padding: 0 1em 1em 0;
 	color: white;
 	background-color: #a4286a;
 
@@ -877,18 +880,20 @@ button.yoast-tooltip {
 	text-decoration: none;
 }
 
-.wpseo-tab-video-slideout .wpseo-tab-video__panel {
-	padding-bottom: 1em;
-}
-
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
 	/* In the settings pages is not a children of the flexbox container. */
 	float: left;
 	margin-right: 1em;
+	padding-bottom: 1em;
 
 	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--video iframe {
+	/* remove iframe descender space */
+	vertical-align: middle;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text {
