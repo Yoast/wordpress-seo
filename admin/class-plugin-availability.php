@@ -7,13 +7,16 @@
  * Class WPSEO_Plugin_Availability
  */
 class WPSEO_Plugin_Availability {
+
+	/**
+	 * @var array
+	 */
 	protected $plugins = array();
 
 	/**
 	 * WPSEO_Plugin_Availability constructor.
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->register_yoast_plugins();
 		$this->register_yoast_plugins_status();
 	}
@@ -68,13 +71,14 @@ class WPSEO_Plugin_Availability {
 	protected function register_yoast_plugins_status() {
 		$installed_plugins = get_plugins();
 
-		foreach( $installed_plugins as $filename => $plugin ) {
+		foreach ( $installed_plugins as $filename => $plugin ) {
+
 			$plugin_slug = sanitize_title( $plugin['Name'] );
 
-			if ( isset( $this->plugins[$plugin_slug] ) ) {
-				$this->plugins[$plugin_slug]['installed'] = true;
-				$this->plugins[$plugin_slug]['version'] = $plugin['Version'];
-				$this->plugins[$plugin_slug]['active'] = is_plugin_active( $filename );
+			if ( isset( $this->plugins[ $plugin_slug ] ) ) {
+				$this->plugins[ $plugin_slug ]['installed'] = true;
+				$this->plugins[ $plugin_slug]['version'] = $plugin['Version'];
+				$this->plugins[ $plugin_slug ]['active'] = is_plugin_active( $filename );
 			}
 		}
 	}
@@ -198,9 +202,9 @@ class WPSEO_Plugin_Availability {
 	public function get_installed_plugins() {
 		$installed = array();
 
-		foreach( $this->plugins as $pluginKey => $plugin ) {
+		foreach ( $this->plugins as $pluginKey => $plugin ) {
 			if ( $this->is_installed( $plugin ) ) {
-				$installed[$pluginKey] = $plugin;
+				$installed[ $pluginKey ] = $plugin;
 			}
 		}
 

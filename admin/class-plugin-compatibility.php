@@ -1,19 +1,33 @@
 <?php
+/**
+ * @package WPSEO\Plugin_Compatibility
+ */
 
 /**
  * Class WPSEO_Plugin_Compatibility
  */
 class WPSEO_Plugin_Compatibility {
 
+	/**
+	 * @var string
+	 */
 	protected $current_wpseo_version;
+
+	/**
+	 * @var WPSEO_Plugin_Availability
+	 */
 	protected $availability_checker;
+
+	/**
+	 * @var array
+	 */
 	protected $installed_plugins;
 
 	/**
 	 * WPSEO_Plugin_Compatibility constructor.
 	 *
-	 * @param      $version
-	 * @param null|class $availability_checker
+	 * @param string $version The version to check against.
+	 * @param null|class $availability_checker The checker to use.
 	 */
 	public function __construct( $version, $availability_checker = null )
 	{
@@ -31,7 +45,7 @@ class WPSEO_Plugin_Compatibility {
 	 * @return WPSEO_Plugin_Availability
 	 */
 	private function setAvailabilityChecker( $checker ) {
-		if ( is_null( $checker ) || !is_object( $checker )) {
+		if ( is_null( $checker ) || ! is_object( $checker ) ) {
 			return new WPSEO_Plugin_Availability();
 		}
 
