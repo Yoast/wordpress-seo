@@ -32,7 +32,7 @@ class WPSEO_Plugin_Compatibility {
 	public function __construct( $version, $availability_checker = null ) {
 		// We trim off the patch version, as this shouldn't break the comparison.
 		$this->current_wpseo_version = $this->get_major_minor_version( $version );
-		$this->availability_checker = $this->retrieveAvailabilityChecker( $availability_checker );
+		$this->availability_checker = $this->retrieve_availability_checker( $availability_checker );
 		$this->installed_plugins = $this->availability_checker->get_installed_plugins();
 	}
 
@@ -43,7 +43,7 @@ class WPSEO_Plugin_Compatibility {
 	 *
 	 * @return WPSEO_Plugin_Availability The checker to use.
 	 */
-	private function retrieveAvailabilityChecker( $checker ) {
+	private function retrieve_availability_checker( $checker ) {
 		if ( is_null( $checker ) || ! is_object( $checker ) ) {
 			return new WPSEO_Plugin_Availability();
 		}
@@ -66,7 +66,8 @@ class WPSEO_Plugin_Compatibility {
 	 * @return array Array containing the installed plugins and compatibility.
 	 */
 	public function get_installed_plugins_compatibility() {
-		foreach( $this->installed_plugins as $key => $plugin ) {
+		foreach ( $this->installed_plugins as $key => $plugin ) {
+
 			$this->installed_plugins[ $key ]['compatible'] = $this->is_compatible( $key );
 		}
 
@@ -76,7 +77,7 @@ class WPSEO_Plugin_Compatibility {
 	/**
 	 * Checks whether or not a plugin is compatible.
 	 *
-	 * @param $plugin The plugin to look for and match.
+	 * @param string $plugin The plugin to look for and match.
 	 *
 	 * @return bool Whether or not the plugin is compatible.
 	 */
