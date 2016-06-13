@@ -21797,7 +21797,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * @returns {*|bool}
 	 */
 	function getMarker() {
-		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook)
+		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		if ( typeof tinyMCE !== 'undefined' && wpseoPostScraperL10n.show_markers === '1' ) {
 			return function( paper, marks ) {
 				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {

@@ -62,6 +62,7 @@ class WPSEO_Metabox_Formatter {
 			 */
 			'show_markers'      => apply_filters( 'wpseo_enable_assessment_markers', true ),
 		);
+
 	}
 
 	/**
