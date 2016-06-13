@@ -17,7 +17,7 @@ describe( "the page title length assessment", function() {
 		var paper = new Paper( "", { title: "The Title" } );
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 9 ), i18n );
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "The page title contains 9 characters, which is less than the recommended minimum of 35 characters. " +
+		expect( result.getText() ).toEqual( "The page title contains 9 characters. This is less than the recommended minimum of 35 characters. " +
 		                                    "Use the space to add keyword variations or create compelling call-to-action copy." );
 
 	});
@@ -26,7 +26,8 @@ describe( "the page title length assessment", function() {
 		var paper = new Paper( "", { title: "The Title That Is At Least As Long As It Should Be To Pass" } );
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 58 ), i18n );
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "The page title is between the 35 character minimum and the recommended 65 character maximum." );
+		expect( result.getText() ).toEqual( "The page title contains 58 characters. This is between the recommended minimum of 35 characters " +
+											"and the recommended maximum of 65 characters." );
 
 	});
 
@@ -34,8 +35,8 @@ describe( "the page title length assessment", function() {
 		var paper = new Paper( "", { title: "The Title That Is Too Long Long To Pass" } );
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 67 ), i18n );
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "The page title contains 67 characters, which is more than the viewable limit of 65 characters; " +
-		                                    "some words will not be visible to users in your listing." );
+		expect( result.getText() ).toEqual( "The page title contains 67 characters. This is more than the viewable limit of 65 characters. " +
+		                                    "Some words will not be visible to users in your listing." );
 
 	});
 });
