@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-13 10:38:54+00:00\n"
+"POT-Creation-Date: 2016-06-13 11:01:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -138,7 +138,7 @@ msgid "Titles &amp; Metas"
 msgstr ""
 
 #: admin/class-admin.php:164 admin/class-social-admin.php:106
-#: admin/taxonomy/class-taxonomy-metabox.php:186
+#: admin/taxonomy/class-taxonomy-metabox.php:184
 #: inc/wpseo-non-ajax-functions.php:236
 msgid "Social"
 msgstr ""
@@ -219,8 +219,8 @@ msgstr ""
 
 #: admin/class-admin.php:432
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
-#: admin/taxonomy/class-taxonomy-metabox.php:132
-#: admin/taxonomy/class-taxonomy-metabox.php:140
+#: admin/taxonomy/class-taxonomy-metabox.php:130
+#: admin/taxonomy/class-taxonomy-metabox.php:138
 msgid "Settings"
 msgstr ""
 
@@ -855,7 +855,7 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to Yoast SEO Premium
-#: admin/class-premium-popup.php:61
+#: admin/class-premium-popup.php:70
 msgid "Buy %s"
 msgstr ""
 
@@ -923,7 +923,7 @@ msgid "Facebook / Open Graph metadata"
 msgstr ""
 
 #: admin/class-social-admin.php:96
-#: admin/taxonomy/class-taxonomy-metabox.php:176
+#: admin/taxonomy/class-taxonomy-metabox.php:174
 msgid "Twitter metadata"
 msgstr ""
 
@@ -1106,16 +1106,16 @@ msgid ""
 "featured in Google News!"
 msgstr ""
 
-#: admin/class-yoast-form.php:246
+#: admin/class-yoast-form.php:247
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/class-yoast-form.php:249
+#: admin/class-yoast-form.php:250
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:336 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:338 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:33
 #: admin/views/tabs/metas/archives.php:46
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1123,7 +1123,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:336 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:338 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:32
 #: admin/views/tabs/metas/archives.php:45
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1131,7 +1131,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:485
+#: admin/class-yoast-form.php:487
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:89
 msgid "Upload Image"
 msgstr ""
@@ -1149,7 +1149,7 @@ msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:47
 #: admin/metabox/class-metabox.php:344
-#: admin/taxonomy/class-taxonomy-metabox.php:115
+#: admin/taxonomy/class-taxonomy-metabox.php:113
 msgid "Content"
 msgstr ""
 
@@ -1409,49 +1409,49 @@ msgstr ""
 
 #. Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search
 #. Console.
-#: admin/google_search_console/views/gsc-display.php:39
+#: admin/google_search_console/views/gsc-display.php:37
 msgid ""
 "To allow %1$s to fetch your %2$s information, please enter your Google "
 "Authorization Code."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:42
+#: admin/google_search_console/views/gsc-display.php:40
 msgid "Get Google Authorization Code"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:44
+#: admin/google_search_console/views/gsc-display.php:42
 msgid ""
 "Please enter the Google Authorization Code in the field below and press the "
 "Authenticate button."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:48
+#: admin/google_search_console/views/gsc-display.php:46
 msgid "Authenticate"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:52
+#: admin/google_search_console/views/gsc-display.php:50
 msgid "Reauthenticate with Google "
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:53
-#: admin/google_search_console/views/gsc-display.php:56
+#: admin/google_search_console/views/gsc-display.php:51
+#: admin/google_search_console/views/gsc-display.php:54
 msgid "Current profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:75
-#: admin/google_search_console/views/gsc-display.php:79
+#: admin/google_search_console/views/gsc-display.php:73
+#: admin/google_search_console/views/gsc-display.php:77
 msgid "Profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:80
+#: admin/google_search_console/views/gsc-display.php:78
 msgid "There were no profiles found"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:88
+#: admin/google_search_console/views/gsc-display.php:86
 msgid "Save Profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:88
+#: admin/google_search_console/views/gsc-display.php:86
 msgid "or"
 msgstr ""
 
@@ -1474,17 +1474,17 @@ msgstr ""
 msgid "wpSEO has been deactivated"
 msgstr ""
 
-#: admin/metabox/class-metabox-add-keyword-tab.php:22
+#: admin/metabox/class-metabox-add-keyword-tab.php:26
 msgid "Add keyword"
 msgstr ""
 
-#: admin/metabox/class-metabox-add-keyword-tab.php:28
+#: admin/metabox/class-metabox-add-keyword-tab.php:31
 msgid "Multiple focus keywords is a %s feature"
 msgstr ""
 
 #. translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
 #. Premium plugin page.
-#: admin/metabox/class-metabox-add-keyword-tab.php:30
+#: admin/metabox/class-metabox-add-keyword-tab.php:33
 msgid ""
 "To be able to add and analyze multiple keywords for a post or page you need "
 "%1$s. You can buy the plugin, including one year of support, updates and "
@@ -1514,10 +1514,10 @@ msgid "Analysis"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:58
-#: admin/taxonomy/class-taxonomy-content-fields.php:36
 msgid ""
-"This is the content analysis, a collection of content checks that analyze "
-"the content of your page. %sLearn more about the Content Analysis Tool%s."
+"This is the SEO & content analysis, a collection of checks that analyze the "
+"SEO & readability of your page. %sLearn more about the Yoast Content & SEO "
+"analysis%s."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:59
@@ -1923,11 +1923,17 @@ msgstr ""
 msgid "Focus Keyword Help"
 msgstr ""
 
+#: admin/taxonomy/class-taxonomy-content-fields.php:36
+msgid ""
+"This is the content analysis, a collection of content checks that analyze "
+"the content of your page. %sLearn more about the Content Analysis Tool%s."
+msgstr ""
+
 #: admin/taxonomy/class-taxonomy-content-fields.php:39
 msgid "Content Analysis Help"
 msgstr ""
 
-#: admin/taxonomy/class-taxonomy-metabox.php:163
+#: admin/taxonomy/class-taxonomy-metabox.php:161
 msgid "Facebook / Opengraph metadata"
 msgstr ""
 
@@ -2144,9 +2150,7 @@ msgid "Problems"
 msgstr ""
 
 #: admin/views/partial-alerts-errors.php:10
-msgid ""
-"We have detected the following issues that involve a serious problem "
-"concerning the SEO of your site."
+msgid "We have detected the following issues that affect the SEO of your site."
 msgstr ""
 
 #: admin/views/partial-alerts-errors.php:11
@@ -2578,19 +2582,15 @@ msgid ""
 msgstr ""
 
 #: admin/views/tabs/dashboard/webmaster-tools.php:15
-msgid "Alexa Verification ID"
-msgstr ""
-
-#: admin/views/tabs/dashboard/webmaster-tools.php:16
 msgid "Bing Webmaster Tools"
 msgstr ""
 
-#: admin/views/tabs/dashboard/webmaster-tools.php:18
+#: admin/views/tabs/dashboard/webmaster-tools.php:17
 msgid "Yandex Webmaster Tools"
 msgstr ""
 
 #. translators: %1$s expands to OnPage.org
-#: admin/views/tabs/dashboard/webmaster-tools.php:23
+#: admin/views/tabs/dashboard/webmaster-tools.php:22
 msgid "%1$s indexability check"
 msgstr ""
 
@@ -3180,7 +3180,7 @@ msgstr ""
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1250
+#: frontend/class-frontend.php:1245
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -3485,7 +3485,7 @@ msgstr ""
 
 #: inc/options/class-wpseo-option-xml.php:156
 msgid ""
-"\"Max entries per sitemap page\" should be below 50000 for Google "
+"\"Max entries per sitemap page\" should be below %s to meet Google's "
 "requirements, which %s is not."
 msgstr ""
 
@@ -3495,11 +3495,11 @@ msgid ""
 "not. Please correct."
 msgstr ""
 
-#: inc/options/class-wpseo-option.php:299
+#: inc/options/class-wpseo-option.php:295
 msgid "%s does not seem to be a valid %s verification string. Please correct."
 msgstr ""
 
-#: inc/options/class-wpseo-option.php:332
+#: inc/options/class-wpseo-option.php:328
 msgid "%s does not seem to be a valid url. Please correct."
 msgstr ""
 

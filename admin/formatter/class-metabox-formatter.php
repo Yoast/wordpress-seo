@@ -52,7 +52,15 @@ class WPSEO_Metabox_Formatter {
 			'keyword_usage'     => array(),
 			'title_template'    => '',
 			'metadesc_template' => '',
+
+			/**
+			 * Filter to determine if the markers should be enabled or not.
+			 *
+			 * @param bool $showMarkers Should the markers being enabled. Default = true.
+			 */
+			'show_markers'      => apply_filters( 'wpseo_enable_assessment_markers', true ),
 		);
+
 	}
 
 	/**
