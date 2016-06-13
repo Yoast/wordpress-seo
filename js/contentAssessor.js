@@ -94,7 +94,7 @@ ContentAssessor.prototype.calculatePenaltyPoints = function () {
  * @private
  */
 ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
-	if ( this._lastPaper.getLocale().indexOf( "en_" ) > -1 ) {
+	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
 		// Determine the total score based on the total negative points.
 		if ( totalPenaltyPoints > 6 ) {
 			// A red indicator.

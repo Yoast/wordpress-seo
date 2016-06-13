@@ -1,6 +1,7 @@
 var ContentAssessor = require( "../js/contentAssessor.js" );
 var AssessmentResult = require( "../js/values/AssessmentResult.js" );
 var Factory = require( "./helpers/factory.js" );
+var Paper = require("../js/values/Paper.js");
 
 var forEach = require( "lodash/forEach" );
 
@@ -98,6 +99,9 @@ describe( "A content assesor", function() {
 			contentAssessor.calculatePenaltyPoints = function() {
 				return points;
 			};
+			contentAssessor.getPaper = function() {
+				return new Paper;
+			}
 		});
 
 		it( "should default to a bad indicator", function() {
