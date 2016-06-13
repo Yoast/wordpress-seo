@@ -53,8 +53,6 @@ foreach ( $tabs->get_tabs() as $tab ) {
 }
 echo '</h2>';
 
-echo '<br/>';
-
 $help_center = new WPSEO_Help_Center( 'advanced', $active_tab );
 $help_center->output_help_center();
 

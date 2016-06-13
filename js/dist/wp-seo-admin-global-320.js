@@ -250,6 +250,9 @@
 		$container.find( '.wpseo-tab-video-slideout' ).css( 'display', 'flex' );
 
 		var $activeTabLink = $container.find('.wpseo-help-center-item.active > a');
+
+		$( '#wpcontent' ).addClass( 'yoast-help-center-open' );
+
 		if ( $activeTabLink.length > 0 ) {
 			var activeTab = $activeTabLink.attr( 'aria-controls' );
 			activateVideo( $( '#' + activeTab ) );
@@ -317,6 +320,8 @@
 
 		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-arrow-down' );
 		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'false' );
+
+		$( '#wpcontent' ).removeClass( 'yoast-help-center-open' );
 	}
 })();
 
