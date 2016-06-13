@@ -1,7 +1,7 @@
 /* css for snippet */
 #snippet_preview {
 	position: relative;
-	width: 552px;
+	width: 640px;
 	border: 1px solid #f7f7f7;
 	border-radius: 20px;
 	background-color: #fff;
@@ -170,7 +170,7 @@
 .snippet_container .title {
 	display: block;
 	overflow: hidden;
-	width: 512px;
+	width: 600px;
 	margin: 0;
 	color: #1e0fbe;
 	font-size: 18px;
@@ -313,18 +313,20 @@
 }
 
 .wpseo-score-text {
-	display: inline-block;
-	width: 90%;
+	float: left;
+	width: 86%;
+	/* make room for score and mark icons, consider to use a better layout model */
+	width: calc( 100% - 56px);
 }
 
-.wpseo-score-icon {
-	display: inline-block;
+/* needs higher specificity than other score icons */
+.assessment-results .wpseo-score-icon {
+	float: left;
 	width: 12px;
 	height: 12px;
-	margin: 3px 10px 0 3px;
+	margin: 3px 10px 0 0;
 	border-radius: 50%;
 	background: #888;
-	vertical-align: top;
 }
 
 .wpseo-score-icon.good {
@@ -348,7 +350,14 @@
 }
 
 li.score {
+	margin-bottom: 6px;
 	list-style-type: none !important;
+}
+
+li.score:after {
+	display: table;
+	clear: both;
+	content: "";
 }
 
 .screen-reader-text {
@@ -393,14 +402,18 @@ li.score {
 }
 
 .assessment-results {
-	padding-top: 16px;
+	clear: both;
 }
 
 .assessment-results__mark.icon-eye-inactive,
 .assessment-results__mark.icon-eye-active {
-	width: 16px;
-	height: 16px;
+	float: left;
+	width: 28px;
+	height: 28px;
+	margin: -5px 3px 0 3px;
+	padding: 4px;
 	border: 0;
+	border-radius: 100%;
 	outline: none;
 	background: no-repeat center;
 	background-size: 16px;
@@ -440,6 +453,17 @@ li.score {
 	background-size: 16px;
 	font-size: 0.8rem;
 	cursor: pointer;
+}
+
+.assessment-results__remove-marks:focus {
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.assessment-results__mark-container {
+	display: inline-block;
+	float: left;
+	width: 33px;
+	min-height: 1px;
 }
 
 /* loading dialog */
@@ -516,16 +540,6 @@ button.yoast-tooltip {
 	pointer-events: none;
 }
 
-@-webkit-keyframes yoast-tooltip-appear {
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
-	}
-}
-
 @keyframes yoast-tooltip-appear {
 	from {
 		opacity: 0;
@@ -544,16 +558,11 @@ button.yoast-tooltip {
 .yoast-tooltip:focus::after {
 	display: inline-block;
 	text-decoration: none;
-	-webkit-animation-name: yoast-tooltip-appear;
 	animation-name: yoast-tooltip-appear;
-	-webkit-animation-duration: 0.1s;
 	animation-duration: 0.1s;
-	-webkit-animation-timing-function: ease-in;
 	animation-timing-function: ease-in;
-	-webkit-animation-delay: 0.4s;
 	animation-delay: 0.4s;
 
-	-webkit-animation-fill-mode: forwards;
 	animation-fill-mode: forwards;
 }
 
@@ -564,7 +573,6 @@ button.yoast-tooltip {
 .yoast-tooltip-no-delay:focus::before,
 .yoast-tooltip-no-delay:focus::after {
 	opacity: 1;
-	-webkit-animation: none;
 	animation: none;
 }
 
@@ -632,7 +640,6 @@ button.yoast-tooltip {
 
 .yoast-tooltip-s::after,
 .yoast-tooltip-n::after {
-	-webkit-transform: translateX(50%);
 	-ms-transform: translateX(50%);
 	transform: translateX(50%);
 }
@@ -641,7 +648,6 @@ button.yoast-tooltip {
 	right: 100%;
 	bottom: 50%;
 	margin-right: 5px;
-	-webkit-transform: translateY(50%);
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -658,7 +664,6 @@ button.yoast-tooltip {
 	bottom: 50%;
 	left: 100%;
 	margin-left: 5px;
-	-webkit-transform: translateY(50%);
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -686,7 +691,6 @@ button.yoast-tooltip {
 .yoast-tooltip-multiline.yoast-tooltip-n::after {
 	right: auto;
 	left: 50%;
-	-webkit-transform: translateX(-50%);
 	-ms-transform: translateX(-50%);
 	transform: translateX(-50%);
 }
@@ -769,7 +773,6 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
-	-webkit-flex: 1 1 auto;
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
 }
@@ -808,7 +811,6 @@ button.yoast-tooltip {
 	color: white;
 	background-color: #a4286a;
 
-	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }

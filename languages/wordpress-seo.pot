@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO Premium 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-10 13:16:46+00:00\n"
+"POT-Creation-Date: 2016-06-13 09:49:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -138,7 +138,7 @@ msgid "Titles &amp; Metas"
 msgstr ""
 
 #: admin/class-admin.php:164 admin/class-social-admin.php:106
-#: admin/taxonomy/class-taxonomy-metabox.php:186
+#: admin/taxonomy/class-taxonomy-metabox.php:184
 #: inc/wpseo-non-ajax-functions.php:236
 msgid "Social"
 msgstr ""
@@ -219,8 +219,8 @@ msgstr ""
 
 #: admin/class-admin.php:432
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
-#: admin/taxonomy/class-taxonomy-metabox.php:132
-#: admin/taxonomy/class-taxonomy-metabox.php:140
+#: admin/taxonomy/class-taxonomy-metabox.php:130
+#: admin/taxonomy/class-taxonomy-metabox.php:138
 msgid "Settings"
 msgstr ""
 
@@ -855,7 +855,7 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to Yoast SEO Premium
-#: admin/class-premium-popup.php:61
+#: admin/class-premium-popup.php:70
 msgid "Buy %s"
 msgstr ""
 
@@ -923,7 +923,7 @@ msgid "Facebook / Open Graph metadata"
 msgstr ""
 
 #: admin/class-social-admin.php:96
-#: admin/taxonomy/class-taxonomy-metabox.php:176
+#: admin/taxonomy/class-taxonomy-metabox.php:174
 msgid "Twitter metadata"
 msgstr ""
 
@@ -1106,16 +1106,16 @@ msgid ""
 "featured in Google News!"
 msgstr ""
 
-#: admin/class-yoast-form.php:246
+#: admin/class-yoast-form.php:247
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/class-yoast-form.php:249
+#: admin/class-yoast-form.php:250
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:336 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:338 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:33
 #: admin/views/tabs/metas/archives.php:46
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1123,7 +1123,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:336 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:338 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:32
 #: admin/views/tabs/metas/archives.php:45
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1131,7 +1131,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:485
+#: admin/class-yoast-form.php:487
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:89
 msgid "Upload Image"
 msgstr ""
@@ -1149,7 +1149,7 @@ msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:47
 #: admin/metabox/class-metabox.php:344
-#: admin/taxonomy/class-taxonomy-metabox.php:115
+#: admin/taxonomy/class-taxonomy-metabox.php:113
 msgid "Content"
 msgstr ""
 
@@ -1164,12 +1164,6 @@ msgstr ""
 #. translators: After this sentence, the used keyword will be added (if
 #. present). This string is added to support screen readers.
 #: admin/formatter/class-metabox-formatter.php:56
-msgid "Based on keyword:"
-msgstr ""
-
-#. translators: After this sentence, the used keyword will be added (if
-#. present). This string is added to support screen readers.
-#: admin/formatter/class-metabox-formatter.php:54
 msgid "Based on keyword:"
 msgstr ""
 
@@ -1429,49 +1423,49 @@ msgstr ""
 
 #. Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search
 #. Console.
-#: admin/google_search_console/views/gsc-display.php:39
+#: admin/google_search_console/views/gsc-display.php:37
 msgid ""
 "To allow %1$s to fetch your %2$s information, please enter your Google "
 "Authorization Code."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:42
+#: admin/google_search_console/views/gsc-display.php:40
 msgid "Get Google Authorization Code"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:44
+#: admin/google_search_console/views/gsc-display.php:42
 msgid ""
 "Please enter the Google Authorization Code in the field below and press the "
 "Authenticate button."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:48
+#: admin/google_search_console/views/gsc-display.php:46
 msgid "Authenticate"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:52
+#: admin/google_search_console/views/gsc-display.php:50
 msgid "Reauthenticate with Google "
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:53
-#: admin/google_search_console/views/gsc-display.php:56
+#: admin/google_search_console/views/gsc-display.php:51
+#: admin/google_search_console/views/gsc-display.php:54
 msgid "Current profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:75
-#: admin/google_search_console/views/gsc-display.php:79
+#: admin/google_search_console/views/gsc-display.php:73
+#: admin/google_search_console/views/gsc-display.php:77
 msgid "Profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:80
+#: admin/google_search_console/views/gsc-display.php:78
 msgid "There were no profiles found"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:88
+#: admin/google_search_console/views/gsc-display.php:86
 msgid "Save Profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:88
+#: admin/google_search_console/views/gsc-display.php:86
 msgid "or"
 msgstr ""
 
@@ -1494,17 +1488,17 @@ msgstr ""
 msgid "wpSEO has been deactivated"
 msgstr ""
 
-#: admin/metabox/class-metabox-add-keyword-tab.php:22
+#: admin/metabox/class-metabox-add-keyword-tab.php:26
 msgid "Add keyword"
 msgstr ""
 
-#: admin/metabox/class-metabox-add-keyword-tab.php:28
+#: admin/metabox/class-metabox-add-keyword-tab.php:31
 msgid "Multiple focus keywords is a %s feature"
 msgstr ""
 
 #. translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
 #. Premium plugin page.
-#: admin/metabox/class-metabox-add-keyword-tab.php:30
+#: admin/metabox/class-metabox-add-keyword-tab.php:33
 msgid ""
 "To be able to add and analyze multiple keywords for a post or page you need "
 "%1$s. You can buy the plugin, including one year of support, updates and "
@@ -1947,7 +1941,7 @@ msgstr ""
 msgid "Content Analysis Help"
 msgstr ""
 
-#: admin/taxonomy/class-taxonomy-metabox.php:163
+#: admin/taxonomy/class-taxonomy-metabox.php:161
 msgid "Facebook / Opengraph metadata"
 msgstr ""
 
@@ -2598,19 +2592,15 @@ msgid ""
 msgstr ""
 
 #: admin/views/tabs/dashboard/webmaster-tools.php:15
-msgid "Alexa Verification ID"
-msgstr ""
-
-#: admin/views/tabs/dashboard/webmaster-tools.php:16
 msgid "Bing Webmaster Tools"
 msgstr ""
 
-#: admin/views/tabs/dashboard/webmaster-tools.php:18
+#: admin/views/tabs/dashboard/webmaster-tools.php:17
 msgid "Yandex Webmaster Tools"
 msgstr ""
 
 #. translators: %1$s expands to OnPage.org
-#: admin/views/tabs/dashboard/webmaster-tools.php:23
+#: admin/views/tabs/dashboard/webmaster-tools.php:22
 msgid "%1$s indexability check"
 msgstr ""
 
@@ -3200,7 +3190,7 @@ msgstr ""
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1250
+#: frontend/class-frontend.php:1245
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -3515,11 +3505,11 @@ msgid ""
 "not. Please correct."
 msgstr ""
 
-#: inc/options/class-wpseo-option.php:299
+#: inc/options/class-wpseo-option.php:295
 msgid "%s does not seem to be a valid %s verification string. Please correct."
 msgstr ""
 
-#: inc/options/class-wpseo-option.php:332
+#: inc/options/class-wpseo-option.php:328
 msgid "%s does not seem to be a valid url. Please correct."
 msgstr ""
 
@@ -3804,6 +3794,97 @@ msgstr ""
 
 #: vendor/yoast/license-manager/views/form.php:84
 msgid "%sRenew your license now%s."
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:92
+msgid ""
+"Please explain what you're trying to find or do. If something isn't working, "
+"please explain what you expect to happen. If you can make a screenshot, "
+"please attach it."
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:94
+msgid "Note: submitting this form also sends us debug info about your server."
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:106
+msgid "What can we help you with?"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:107
+msgid ""
+"Your search timed out. Please double-check your internet connection and try "
+"again."
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:108
+msgid "No results found for"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:109
+msgid "Send a Message"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:110
+msgid "Attach a file"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:111
+msgid "The maximum file size is 10mb"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:112
+msgid "Your Name"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:113
+msgid "Please enter your name"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:114
+msgid "Email address"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:115
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:116
+msgid "Select a topic"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:117
+msgid "Please select a topic from the list"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:118
+msgid "Subject"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:119
+msgid "Please enter a subject"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:120
+msgid "How can we help you?"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:121
+msgid "Please enter a message"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:122
+msgid "Send"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:123
+msgid "Message sent, thank you!"
+msgstr ""
+
+#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:124
+msgid ""
+"Someone from Team Yoast will get back to you soon, normally within a couple "
+"of hours."
 msgstr ""
 
 #: wp-seo-main.php:396
