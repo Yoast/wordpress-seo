@@ -141,7 +141,7 @@
 	  flex-shrink: 1;
 	  flex-basis: 0;
 	  margin: 0 auto;
-	  min-width: 274px; /* 242+15+15+1+1 text boxes */
+	  min-width: 264px; /* must be less than a text box min width */
 	}
   }
 

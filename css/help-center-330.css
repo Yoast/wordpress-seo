@@ -147,7 +147,7 @@
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text {
-	min-width: 274px;
+	min-width: 264px;
 	margin: 0 auto;
 
 	-webkit-flex-basis: 0;
@@ -160,7 +160,7 @@
 	-ms-flex-preferred-size: 0;
 	-webkit-flex-shrink: 1;
 	flex-shrink: 1;
-	/* 242+15+15+1+1 text boxes */
+	/* must be less than a text box min width */
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
