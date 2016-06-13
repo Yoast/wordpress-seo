@@ -808,9 +808,16 @@ button.yoast-tooltip {
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
 	padding: 0;
 
-	-webkit-flex: 1 1 auto;
-	-ms-flex: 1 1 auto;
-	flex: 1 1 auto;
+	-webkit-flex-basis: 0;
+	flex-basis: 0;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-webkit-flex-grow: 1;
+	flex-grow: 1;
+	-ms-flex-negative: 1;
+	-ms-flex-positive: 1;
+	-ms-flex-preferred-size: 0;
+	-webkit-flex-shrink: 1;
+	flex-shrink: 1;
 }
 
 .wpseo-tab-video-slideout h1,
@@ -827,9 +834,9 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
 	float: left;
-	/* min-width to make two boxes have always have the same min width */
+	/* min-width to make two boxes always have the same min width */
 	min-width: 234px;
-	/* max-width to make two boxes have the same width of the video above: 560px */
+	/* max-width to make two boxes take the same space of the video above: 560px */
 	max-width: 242px;
 	margin: 0 12px 1em 0;
 	padding: 15px 15px 5px;
