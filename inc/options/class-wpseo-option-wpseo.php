@@ -24,7 +24,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
 		// Form fields:
-		'alexaverify'                     => '', // Text field.
 		'company_logo'                    => '',
 		'company_name'                    => '',
 		'company_or_person'               => '',
@@ -135,7 +134,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				/* verification strings */
-				case 'alexaverify':
 				case 'googleverify':
 				case 'msverify':
 				case 'yandexverify':

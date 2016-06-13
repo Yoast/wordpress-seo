@@ -279,10 +279,6 @@ abstract class WPSEO_Option {
 					case 'yandexverify':
 						$service = 'Yandex Webmaster tools';
 						break;
-
-					case 'alexaverify':
-						$regex   = '`^[A-Za-z0-9_-]{20,}$`';
-						$service = 'Alexa ID';
 				}
 
 				if ( preg_match( $regex, $meta ) ) {
