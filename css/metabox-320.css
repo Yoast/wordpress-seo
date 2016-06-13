@@ -878,13 +878,13 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
-	margin-right: 1em;
 	padding-bottom: 1em;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
 	/* In the settings pages is not a children of the flexbox container. */
 	float: left;
+	margin-right: 1em;
 
 	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
@@ -892,6 +892,9 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text {
+	min-width: 274px;
+	margin: 0 auto;
+
 	-webkit-flex-basis: 0;
 	flex-basis: 0;
 	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
@@ -902,6 +905,7 @@ button.yoast-tooltip {
 	-ms-flex-preferred-size: 0;
 	-webkit-flex-shrink: 1;
 	flex-shrink: 1;
+	/* 242+15+15+1+1 text boxes */
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {

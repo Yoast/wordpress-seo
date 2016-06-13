@@ -117,11 +117,11 @@
   }
 
   .wpseo-tab-video__panel {
-    margin-right: 1em;
 	padding-bottom: 1em;
 
 	&--video {
 	  flex: 0 0 auto;
+	  margin-right: 1em;
 	  /* In the settings pages is not a children of the flexbox container. */
 	  float: left;
 	}
@@ -131,6 +131,8 @@
 	  flex-grow: 1;
 	  flex-shrink: 1;
 	  flex-basis: 0;
+	  margin: 0 auto;
+	  min-width: 274px; /* 242+15+15+1+1 text boxes */
 	}
   }
 
