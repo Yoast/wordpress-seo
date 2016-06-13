@@ -43,6 +43,7 @@ Release Date: Unreleased
 	* Adds live updating to the score indicator in the admin bar on the post edit page.
 	* Optimize multiple sitemap cache clears by waiting until the end of the pageload to actual clear the cache.
 	* Improved title separator radio buttons accessibility.
+	* Removed Alexa verification from the plugin as it no longer works.
 
 * Bugfixes:
 	* Fixes a bug where a quote inside an attribute in the XML sitemaps would cause not create valid XML.
