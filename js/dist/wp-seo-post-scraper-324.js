@@ -21592,7 +21592,9 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
 	if ( keyword !== '' ) {
 		indicator = getIndicatorForScore( score );
 	}
-	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );};
+
+	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+};
 
 /**
  * Returns whether or not the keyword is the main keyword
