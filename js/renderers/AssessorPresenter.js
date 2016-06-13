@@ -9,8 +9,6 @@ var template = require( "../templates.js" ).assessmentPresenterResult;
 var scoreToRating = require( "../interpreters/scoreToRating.js" );
 var createConfig = require( "../config/presenter.js" );
 
-var domManipulation = require( "../helpers/domManipulation.js" );
-
 /**
  * Constructs the AssessorPresenter.
  *
@@ -31,6 +29,8 @@ var AssessorPresenter = function( args ) {
 	this.output = args.targets.output;
 	this.overall = args.targets.overall || "overallScore";
 	this.presenterConfig = createConfig( args.i18n );
+
+	this._activeMarker = false;
 };
 
 /**
@@ -207,28 +207,29 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 };
 
 /**
- * Deactivates all marker buttons to show they are not activated.
+ * Mark with a given marker. This will set the active marker to the correct value.
+ *
+ * @param {string} identifier The identifier for the assessment/marker.
+ * @param {Function} marker The marker function.
  */
-AssessorPresenter.prototype.deactiveMarkerClasses = function() {
-	var markers = document.getElementsByClassName( "assessment-results__mark" );
+AssessorPresenter.prototype.markAssessment = function( identifier, marker ) {
+	if ( this._activeMarker === identifier ) {
+		this.removeAllMarks();
+		this._activeMarker = false;
+	} else {
+		marker();
+		this._activeMarker = identifier;
+	}
 
-	// Reset all other items prior to activating the currently active marker.
-	forEach( markers, function( marker ) {
-		domManipulation.removeClass( marker, "icon-eye-active" );
-		domManipulation.addClass( marker, "icon-eye-inactive" );
-	} );
+	this.render();
 };
 
 /**
- * Toggles the marker button class depending on its state.
- *
- * @param {HTMLElement} element The element to toggle the class on.
+ * Disables the currently active marker in the UI.
  */
-AssessorPresenter.prototype.toggleMarkerClass = function( element ) {
-	this.deactiveMarkerClasses();
-
-	domManipulation.removeClass( element, "icon-eye-inactive" );
-	domManipulation.addClass( element, "icon-eye-active" );
+AssessorPresenter.prototype.disableMarker = function() {
+	this._activeMarker = false;
+	this.render();
 };
 
 /**
@@ -241,10 +242,7 @@ AssessorPresenter.prototype.addMarkerEventHandler = function( identifier, marker
 	var container = document.getElementById( this.output );
 	var markButton = container.getElementsByClassName( "js-assessment-results__mark-" + identifier )[ 0 ];
 
-	markButton.addEventListener( "click", function( ev ) {
-		this.toggleMarkerClass( ev.target );
-		marker();
-	}.bind( this ) );
+	markButton.addEventListener( "click", this.markAssessment.bind( this, identifier, marker ) );
 };
 
 /**
@@ -279,19 +277,6 @@ AssessorPresenter.prototype.removeAllMarks = function() {
 };
 
 /**
- * Adds event handler to remove marks button
- */
-AssessorPresenter.prototype.bindRemoveMarksButton = function() {
-	var container = document.getElementById( this.output );
-	var removeMarksButton = container.getElementsByClassName( "js-assessment-results__remove-marks" )[ 0 ];
-
-	removeMarksButton.addEventListener( "click", function() {
-		this.removeAllMarks();
-		this.deactiveMarkerClasses();
-	}.bind( this ) );
-};
-
-/**
  * Renders out the individual ratings.
  */
 AssessorPresenter.prototype.renderIndividualRatings = function() {
@@ -302,12 +287,13 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 		scores: scores,
 		i18n: {
 			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
+			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" ),
 			removeMarks: this.i18n.dgettext( "js-text-analysis", "Remove all marks from the text" )
-		}
+		},
+		activeMarker: this._activeMarker
 	} );
 
 	this.bindMarkButtons( scores );
-	this.bindRemoveMarksButton();
 };
 
 /**
@@ -322,31 +308,6 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 	}
 
 	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
-};
-
-/**
- * Shows the removemarks button when there is something to mark. Otherwise it will hide the button
- *
- * @param {bool} hasMarks When there are marks (true) otherwist it is false.
- */
-AssessorPresenter.prototype.displayRemoveAllMarkersButton = function( hasMarks ) {
-	var outputElement     = document.getElementById( this.output );
-	var removeMarksButton = outputElement.getElementsByClassName( "assessment-results__remove-marks" )[ 0 ];
-
-	if( isUndefined( removeMarksButton ) ) {
-		return;
-	}
-
-	// Shows the button when there are marks and removes aria-hidden for screenreaders, because element is visible.
-	if( hasMarks ) {
-		removeMarksButton.style.visibility = "";
-		removeMarksButton.removeAttribute( "aria-hidden" );
-
-		return;
-	}
-
-	removeMarksButton.style.visibility = "hidden";
-	removeMarksButton.setAttribute( "aria-hidden", "true" );
 };
 
 module.exports = AssessorPresenter;
