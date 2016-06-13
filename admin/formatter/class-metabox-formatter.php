@@ -52,8 +52,6 @@ class WPSEO_Metabox_Formatter {
 			'keyword_usage'     => array(),
 			'title_template'    => '',
 			'metadesc_template' => '',
-			/* translators: After this sentence, the used keyword will be added (if present). This string is added to support screen readers. */
-			'basedOn'           => __( 'Based on keyword:', 'wordpress-seo' ),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
