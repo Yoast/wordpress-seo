@@ -4,6 +4,7 @@
 }
 
 .wpseo-kb-search-search-bar input[type="text"] {
+	min-width: 50%;
 	height: 28px;
 	margin-right: 3px;
 }
