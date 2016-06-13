@@ -1,4 +1,4 @@
-/* global tinyMCE, require */
+/* global tinyMCE, require, YoastSEO */
 
 var forEach = require( 'lodash/forEach' );
 var editorHasMarks = require( './decorator/tinyMCE' ).editorHasMarks;
