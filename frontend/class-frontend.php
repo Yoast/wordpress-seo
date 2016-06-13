@@ -630,11 +630,6 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings
 	 */
 	public function webmaster_tools_authentication() {
-		// Alexa.
-		if ( $this->options['alexaverify'] !== '' ) {
-			echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
-		}
-
 		// Bing.
 		if ( $this->options['msverify'] !== '' ) {
 			echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
