@@ -287,8 +287,7 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 		scores: scores,
 		i18n: {
 			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
-			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" ),
-			removeMarks: this.i18n.dgettext( "js-text-analysis", "Remove all marks from the text" )
+			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" )
 		},
 		activeMarker: this._activeMarker
 	} );
