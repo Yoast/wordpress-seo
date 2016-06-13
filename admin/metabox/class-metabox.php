@@ -902,13 +902,13 @@ SVG;
 		echo '<script type="text/html" id="tmpl-keyword_tab">
 				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						{{data.prefix}}
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 						<span class="wpseo-score-icon {{data.score}}">
 							<# if ( data.keyword ) { #>
 								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
 							<# } #>
 						</span>
+						{{data.prefix}}
 						<em>
 							<span class="wpseo_keyword">{{data.placeholder}}</span>
 						</em>
