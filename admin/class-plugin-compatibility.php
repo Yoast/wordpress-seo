@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * Class WPSEO_Plugin_Compatibility
+ */
+class WPSEO_Plugin_Compatibility {
+
+	protected $current_wpseo_version;
+	protected $availability_checker;
+	protected $installed_plugins;
+
+	/**
+	 * WPSEO_Plugin_Compatibility constructor.
+	 *
+	 * @param      $version
+	 * @param null|class $availability_checker
+	 */
+	public function __construct( $version, $availability_checker = null )
+	{
+		// We trim off the patch version, as this shouldn't break the comparison.
+		$this->current_wpseo_version = $this->get_major_minor_version( $version );
+		$this->availability_checker = $this->setAvailabilityChecker( $availability_checker );
+		$this->installed_plugins = $this->availability_checker->get_installed_plugins();
+	}
+
+	/**
+	 * Sets the availability checker.
+	 *
+	 * @param  $checker The checker to set.
+	 *
+	 * @return WPSEO_Plugin_Availability
+	 */
+	private function setAvailabilityChecker( $checker ) {
+		if ( is_null( $checker ) || !is_object( $checker )) {
+			return new WPSEO_Plugin_Availability();
+		}
+
+		return $checker;
+	}
+
+	/**
+	 * Wraps the availability checker's get_installed_plugins method.
+	 *
+	 * @return array Array containing all the installed plugins.
+	 */
+	public function get_installed_plugins() {
+		return $this->installed_plugins;
+	}
+
+	/**
+	 * Creates a list of installed plugins and whether or not they are compatible.
+	 *
+	 * @return array Array containing the installed plugins and compatibility.
+	 */
+	public function get_installed_plugins_compatibility() {
+		foreach( $this->installed_plugins as $key => $plugin ) {
+			$this->installed_plugins[ $key ]['compatible'] = $this->is_compatible( $key );
+		}
+
+		return $this->installed_plugins;
+	}
+
+	/**
+	 * Checks whether or not a plugin is compatible.
+	 *
+	 * @param $plugin The plugin to look for and match.
+	 *
+	 * @return bool Whether or not the plugin is compatible.
+	 */
+	public function is_compatible( $plugin ) {
+		$plugin = $this->availability_checker->get_plugin( $plugin );
+		$plugin_version = $this->availability_checker->get_version( $plugin );
+
+		return $this->get_major_minor_version( $plugin_version ) === $this->current_wpseo_version;
+	}
+
+	/**
+	 * Gets the major/minor version of the plugin for easier comparing.
+	 *
+	 * @param string $version The version to trim.
+	 *
+	 * @return string The major/minor version of the plugin.
+	 */
+	protected function get_major_minor_version( $version ) {
+		return substr( $version, 0, 3 );
+	}
+
+}
