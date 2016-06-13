@@ -238,7 +238,7 @@ function wpseo_display_contributors( $contributors ) {
 				'irenestr'=> (object) array(
 					'name'     => 'Irene Strikkers',
 					'role'     => __( 'Linguist & Developer', 'wordpress-seo' ),
-					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
+					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
 				),
 				'andizer'       => (object) array(
 					'name'     => 'Andy Meerwaldt',
