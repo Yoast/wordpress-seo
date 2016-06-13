@@ -59,6 +59,14 @@ ul.wpseo-metabox-tabs li {
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
 	border-color: #dfdfdf;
+
+	&, a {
+		max-width: 250px;
+		overflow:hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
 }
 
 .wpseotab.active {
