@@ -320,14 +320,15 @@ class WPSEO_Admin_Init {
 
 		$notification_center = Yoast_Notification_Center::get();
 
-		foreach( $plugins as $name => $plugin ) {
-			if ( $plugin[ 'compatible' ] === false && $plugin[ 'active' ] === true ) {
+		foreach ( $plugins as $name => $plugin ) {
+
+			if ( $plugin['compatible'] === false && $plugin['active'] === true ) {
 				$notification = $this->get_yoast_seo_compatibility_notification( $plugin, Yoast_Notification::ERROR );
 
 				$notification_center->add_notification( $notification );
 			}
 
-			if ( $plugin[ 'compatible' ] === false && $plugin[ 'active' ] === false ) {
+			if ( $plugin['compatible'] === false && $plugin['active'] === false ) {
 				$notification = $this->get_yoast_seo_compatibility_notification( $plugin );
 
 				$notification_center->add_notification( $notification );
@@ -337,6 +338,9 @@ class WPSEO_Admin_Init {
 
 	/**
 	 * Build Yoast SEO compatibility problem notification
+	 *
+	 * @param array  $plugin The plugin to retrieve the data from.
+	 * @param string $level The severity level to use for the notification.
 	 *
 	 * @return Yoast_Notification
 	 */
