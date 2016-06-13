@@ -10,6 +10,7 @@ var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
+var throttle = require( "lodash/throttle" );
 
 var Jed = require( "jed" );
 
@@ -19,6 +20,8 @@ var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
 var Paper = require( "./values/Paper.js" );
+
+var inputDebounceDelay = 400;
 
 /**
  * Default config for YoastSEO.js
@@ -54,7 +57,7 @@ var defaults = {
 		"pageTitleLength",
 		"firstParagraph",
 		"'keywordDoubles" ],
-	typeDelay: 1500,
+	typeDelay: 3000,
 	typeDelayStep: 1500,
 	maxTypeDelay: 5000,
 	dynamicDelay: true,
@@ -217,8 +220,8 @@ var App = function( args ) {
 
 	this.config = args;
 
-	// Overwrite refresh function to make sure it can be debounced.
-	this.refresh = debounce( this.refresh.bind( this ), this.config.typeDelay );
+	this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+	this._pureRefresh = throttle( this._pureRefresh.bind( this ), this.config.typeDelay );
 
 	this.callbacks = this.config.callbacks;
 	this.i18n = this.constructI18n( this.config.translations );
@@ -347,6 +350,10 @@ App.prototype.getData = function() {
  * @returns {void}
  */
 App.prototype.refresh = function() {
+	this._pureRefresh();
+};
+
+App.prototype._pureRefresh = function() {
 	this.getData();
 	this.runAnalyzer();
 };
