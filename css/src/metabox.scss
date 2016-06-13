@@ -60,6 +60,14 @@ ul.wpseo-metabox-tabs li {
 	border-style: solid solid none;
 	border-color: #dfdfdf;
 	vertical-align: top;
+
+	&, a {
+		max-width: 250px;
+		overflow:hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
 }
 
 .wpseotab.active {
