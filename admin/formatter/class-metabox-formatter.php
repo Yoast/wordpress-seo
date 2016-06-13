@@ -59,6 +59,18 @@ class WPSEO_Metabox_Formatter {
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
 			'show_markers'      => apply_filters( 'wpseo_enable_assessment_markers', true ),
+			'publish_box'       => array(
+				'labels'   => array(
+					'content' => __( 'Content', 'wordpress-seo' ),
+					'keyword' => __( 'SEO', 'wordpress-seo' ),
+				),
+				'statuses' => array(
+					'na'   => __( 'Not available', 'wordpress-seo' ),
+					'bad'  => __( 'Bad', 'wordpress-seo' ),
+					'ok'   => __( 'OK', 'wordpress-seo' ),
+					'good' => __( 'Good', 'wordpress-seo' ),
+				),
+			),
 		);
 
 	}
