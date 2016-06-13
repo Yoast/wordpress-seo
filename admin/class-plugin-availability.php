@@ -77,7 +77,7 @@ class WPSEO_Plugin_Availability {
 
 			if ( isset( $this->plugins[ $plugin_slug ] ) ) {
 				$this->plugins[ $plugin_slug ]['installed'] = true;
-				$this->plugins[ $plugin_slug]['version'] = $plugin['Version'];
+				$this->plugins[ $plugin_slug ]['version'] = $plugin['Version'];
 				$this->plugins[ $plugin_slug ]['active'] = is_plugin_active( $filename );
 			}
 		}

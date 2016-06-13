@@ -26,25 +26,24 @@ class WPSEO_Plugin_Compatibility {
 	/**
 	 * WPSEO_Plugin_Compatibility constructor.
 	 *
-	 * @param string $version The version to check against.
+	 * @param string     $version The version to check against.
 	 * @param null|class $availability_checker The checker to use.
 	 */
-	public function __construct( $version, $availability_checker = null )
-	{
+	public function __construct( $version, $availability_checker = null ) {
 		// We trim off the patch version, as this shouldn't break the comparison.
 		$this->current_wpseo_version = $this->get_major_minor_version( $version );
-		$this->availability_checker = $this->setAvailabilityChecker( $availability_checker );
+		$this->availability_checker = $this->retrieveAvailabilityChecker( $availability_checker );
 		$this->installed_plugins = $this->availability_checker->get_installed_plugins();
 	}
 
 	/**
-	 * Sets the availability checker.
+	 * Retrieves the availability checker.
 	 *
-	 * @param  $checker The checker to set.
+	 * @param null|object $checker The checker to set.
 	 *
-	 * @return WPSEO_Plugin_Availability
+	 * @return WPSEO_Plugin_Availability The checker to use.
 	 */
-	private function setAvailabilityChecker( $checker ) {
+	private function retrieveAvailabilityChecker( $checker ) {
 		if ( is_null( $checker ) || ! is_object( $checker ) ) {
 			return new WPSEO_Plugin_Availability();
 		}
@@ -98,5 +97,4 @@ class WPSEO_Plugin_Compatibility {
 	protected function get_major_minor_version( $version ) {
 		return substr( $version, 0, 3 );
 	}
-
 }
