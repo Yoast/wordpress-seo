@@ -153,5 +153,14 @@ describe( "html", function() {
 
 			expect( actual ).toEqual( expected );
 		});
+		
+		it( "should ignore comments", function() {
+			var text = "<div>More content<!-- ignored> -->Many more</div>";
+			var expected = [ "<div>More contentMany more</div>" ];
+
+			var actual = getBlocks( text );
+
+			expect( actual ).toEqual( expected );
+		});
 	});
 });
