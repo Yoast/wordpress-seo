@@ -75,8 +75,10 @@
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
 	float: left;
-	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
-	width: 242px;
+	/* min-width to make two boxes have always have the same min width */
+	min-width: 234px;
+	/* max-width to make two boxes have the same width of the video above: 560px */
+	max-width: 242px;
 	margin: 0 12px 1em 0;
 	padding: 15px 15px 5px;
 	border: 1px solid;
