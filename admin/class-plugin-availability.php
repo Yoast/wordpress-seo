@@ -105,23 +105,6 @@ class WPSEO_Plugin_Availability {
 		return $this->plugins;
 	}
 
-	public function get_plugins_by_slug( $slug ) {
-
-		$matches = array();
-
-		foreach ( $this->plugins as $name => $plugin ) {
-			if ( $plugin['slug'] === $slug ) {
-				$matches[ $name ] = $plugin;
-			}
-		}
-
-		return $matches;
-	}
-
-	protected function compare_slugs( $plugin, $slug ) {
-		return $plugin['slug'] === $slug;
-	}
-
 	/**
 	 * Gets a specific plugin. Returns an empty array if it cannot be found.
 	 *
