@@ -20,7 +20,9 @@ var imageScoreClass = 'image yoast-logo svg';
 	 * @returns {String} A string with label and description with correct text decoration.
 	 */
 	function createSEOScoreLabel( scoreType, status ) {
-		return scoreType.ucfirst() + ' score: ' + '<strong>' + status.ucfirst() + '</strong>';
+		var label =  wpseoPostScraperL10n.publish_box.labels[scoreType] || "";
+		var status = wpseoPostScraperL10n.publish_box.statuses[status] || "";
+		return label + ': <strong>' + status + '</strong>';
 	}
 
 	/**

@@ -1025,6 +1025,15 @@ ul.wpseo-metabox-tabs li {
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
 	border-color: #dfdfdf;
+	vertical-align: top;
+}
+
+ul.wpseo-metabox-tabs li,
+ul.wpseo-metabox-tabs li a {
+	overflow: hidden;
+	max-width: 250px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .wpseotab.active {
@@ -1307,11 +1316,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseo-metabox-tabs .active a {
 	color: #333;
-}
-
-/* Hide the `based on keyword` text to screen readers when there's no keyword */
-.wpseo-metabox-tabs .na .wpseo-keyword-tab-based-on {
-	display: none;
 }
 
 #wpseotab .ui-widget-content .ui-state-hover {
