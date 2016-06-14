@@ -27,8 +27,6 @@ $height_twitter_image_large: 254px;
 $border_radius_twitter: .42857em;
 
 .social-preview__inner {
-	overflow: hidden;
-
 	&--facebook {
 		box-shadow:       0 0 0 1.5px rgba(0, 0, 0, .1) inset, 0 1px 1px rgba(0, 0, 0, .05);
 
@@ -218,7 +216,6 @@ $border_radius_twitter: .42857em;
 
 		&--twitter {
 			max-height: 2.6em;
-			text-transform: lowercase;
 			margin-top: .32333em;
 		}
 	}
@@ -371,6 +368,7 @@ $border_radius_twitter: .42857em;
 .social-image-placeholder {
 	&--facebook {
 		width: $width_facebook;
+		line-height: 1.4;
 	}
 
 	&--twitter {

@@ -1,6 +1,7 @@
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
+var isObject = require( "lodash/lang/isObject" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -26,11 +27,6 @@ var facebookDefaults = {
 	data: {
 		title: "",
 		description: "",
-		imageUrl: ""
-	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		description: "Modify your Facebook description by editing it right here",
 		imageUrl: ""
 	},
 	defaultValue: {
@@ -135,6 +131,18 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  * @constructor
  */
 var FacebookPreview = function( opts, i18n ) {
+	this.i18n = i18n || this.constructI18n();
+
+	facebookDefaults.placeholder = {
+		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
+		description: this.i18n.sprintf(
+			/** translators: %1$s expands to Facebook */
+			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
+			"Facebook"
+		),
+		imageUrl: ""
+	};
+
 	defaultsDeep( opts, facebookDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
@@ -142,8 +150,8 @@ var FacebookPreview = function( opts, i18n ) {
 	}
 
 	this.data = opts.data;
-	this.i18n = i18n || this.constructI18n();
 	this.opts = opts;
+
 
 	this._currentFocus = null;
 	this._currentHover = null;
@@ -165,9 +173,10 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 			}
 		}
 	};
+	
+	translations = translations || {};
 
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
+	defaultsDeep( translations, defaultTranslations );
 
 	return new Jed( translations );
 };
@@ -200,9 +209,12 @@ FacebookPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Facebook preview" ),
-			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Facebook preview" ),
-			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Facebook editor" )
+			/** translators: %1$s expands to Facebook */
+			edit: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Edit %1$s preview" ), "Facebook" ),
+			/** translators: %1$s expands to Facebook */
+			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "Facebook" ),
+			/** translators: %1$s expands to Facebook */
+			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Facebook" )
 		}
 	} );
 
@@ -259,7 +271,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook title" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s title" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -267,7 +280,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook description" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s description" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -275,7 +289,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s image" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} )
 	};
@@ -296,7 +311,11 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook title by editing the snippet below." )
+				fallback: this.i18n.sprintf(
+					/** translators: %1$s expands to Facebook */
+					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
+					"Facebook"
+				)
 			},
 			this.updatePreview.bind( this )
 		),
@@ -306,7 +325,11 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook description by editing the snippet below." )
+				fallback: this.i18n.sprintf(
+					/** translators: %1$s expands to Facebook */
+					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
+					"Facebook"
+				)
 			},
 			this.updatePreview.bind( this )
 		),
@@ -422,7 +445,7 @@ FacebookPreview.prototype.noUrlSet = function() {
 
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
+		this.i18n.dgettext( "yoast-social-previews", "Please select an image by clicking here" ),
 		false,
 		"facebook"
 	);
@@ -435,10 +458,26 @@ FacebookPreview.prototype.noUrlSet = function() {
  * @returns {void}
  */
 FacebookPreview.prototype.imageTooSmall = function() {
+	var message;
 	this.removeImageClasses();
+
+	if ( this.data.imageUrl === '' ) {
+		message = this.i18n.sprintf(
+			/* translators: %1$s expands to Facebook */
+			this.i18n.dgettext( "yoast-social-previews", "We are unable to detect an image in your post that is large enough to be displayed on Facebook. We advise you to select a %1$s image that fits the recommended image size." ),
+			"Facebook"
+		)
+	} else {
+		message = this.i18n.sprintf(
+			/* translators: %1$s expands to Facebook */
+			this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for %1$s" ),
+			"Facebook"
+		);
+	}
+
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
+		message,
 		true,
 		"facebook"
 	);
