@@ -172,6 +172,16 @@ class Yoast_Form {
 				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
 			),
 			array(
+				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
+				'img' => 'banner-website-review.png',
+				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
+			),
+			array(
+				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
+				'img' => 'banner-website-review.png',
+				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
+			),
+			array(
 				'url' => 'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
 				'img' => 'banner-seo-copywriting-training.png',
 				'alt' => __( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' ),
