@@ -254,7 +254,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-320',
+				'src'  => 'yst_plugin_tools-330',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			// TODO minify toggle styles. R.
@@ -266,7 +266,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'   => 'toggle-switch',
-				'src'    => 'toggle-switch',
+				'src'    => 'toggle-switch-330',
 				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
 			),
 			array(
@@ -275,7 +275,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wpseo-dismissible',
+				'src'  => 'wpseo-dismissible-330',
 			),
 			array(
 				'name' => 'alerts',
@@ -283,34 +283,34 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'edit-page',
-				'src'  => 'edit-page-302',
+				'src'  => 'edit-page-330',
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'featured-image',
+				'src'  => 'featured-image-330',
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-320',
+				'src'  => 'metabox-330',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
 			),
 			array(
 				'name' => 'wp-dashboard',
-				'src'  => 'dashboard-305',
+				'src'  => 'dashboard-330',
 			),
 			array(
 				'name' => 'scoring',
-				'src'  => 'yst_seo_score-310',
+				'src'  => 'yst_seo_score-330',
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-320',
+				'src'  => 'snippet-330',
 			),
 			array(
 				'name' => 'adminbar',
-				'src'  => 'adminbar-320',
+				'src'  => 'adminbar-330',
 			),
 			array(
 				'name' => 'primary-category',
@@ -332,7 +332,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'admin-global',
-				'src'  => 'admin-global-320',
+				'src'  => 'admin-global-330',
 			),
 		);
 	}
