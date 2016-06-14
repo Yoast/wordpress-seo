@@ -630,11 +630,6 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings
 	 */
 	public function webmaster_tools_authentication() {
-		// Alexa.
-		if ( $this->options['alexaverify'] !== '' ) {
-			echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
-		}
-
 		// Bing.
 		if ( $this->options['msverify'] !== '' ) {
 			echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
@@ -1749,7 +1744,7 @@ class WPSEO_Frontend {
 	function embed_rss( $content, $context = 'full' ) {
 
 		/**
-		 * Filter: 'wpseo_include_rss_footer' - Allow the the RSS footer to be dynamically shown/hidden
+		 * Filter: 'wpseo_include_rss_footer' - Allow the RSS footer to be dynamically shown/hidden.
 		 *
 		 * @api boolean $show_embed Indicates if the RSS footer should be shown or not
 		 *

@@ -194,12 +194,12 @@ class Yoast_Notification_Center {
 			// If notification ID exists in notifications, don't add again.
 			$present_notification = $this->get_notification_by_id( $notification_id );
 			if ( ! is_null( $present_notification ) ) {
-				$present_notification->refresh_nonce();
-
-				return;
+				$this->remove_notification( $present_notification, false );
 			}
 
-			$this->new[] = $notification_id;
+			if ( is_null( $present_notification ) ) {
+				$this->new[] = $notification_id;
+			}
 		}
 
 		// Add to list.
@@ -247,8 +247,9 @@ class Yoast_Notification_Center {
 	 * Remove notification after it has been displayed
 	 *
 	 * @param Yoast_Notification $notification Notification to remove.
+	 * @param bool               $resolve Resolve as fixed.
 	 */
-	public function remove_notification( Yoast_Notification $notification ) {
+	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
 		$index = false;
 
@@ -269,7 +270,7 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		if ( $notification->is_persistent() ) {
+		if ( $notification->is_persistent() && $resolve ) {
 			$this->resolved++;
 			$this->clear_dismissal( $notification );
 		}
@@ -425,7 +426,10 @@ class Yoast_Notification_Center {
 		}
 
 		if ( is_array( $stored_notifications ) ) {
-			$this->notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
+			$notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
+			$notifications = array_filter( $notifications, array( $this, 'filter_notification_current_user' ) );
+
+			$this->notifications = $notifications;
 		}
 	}
 
@@ -539,6 +543,17 @@ class Yoast_Notification_Center {
 			$notification_data['message'],
 			$notification_data['options']
 		);
+	}
+
+	/**
+	 * Filter notifications that should not be displayed for the current user
+	 *
+	 * @param Yoast_Notification $notification Notification to test.
+	 *
+	 * @return bool
+	 */
+	private function filter_notification_current_user( Yoast_Notification $notification ) {
+		return $notification->display_for_current_user();
 	}
 
 	/**

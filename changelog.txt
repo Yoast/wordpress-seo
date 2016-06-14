@@ -2,6 +2,59 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
+= Unreleased =
+
+Release Date: Unreleased
+
+* Features:
+	* Added a dashboard under the SEO menu item and moved all persistent notifications to this dashboard.
+	* Added an indicator to the menu and admin bar about pending notifications and SEO problems.
+	* Splits the analysis into content and keyword analysis.
+	* Adds a ton of content feedback about the following properties:
+		* The length of subheadings.
+		* The length of text following a subheading.
+		* The length of paragraphs.
+		* The length of sentences.
+		* The presence of transition words.
+		* The presence of the passive voice.
+	* Adds a marker button for specific properties to mark these in the editor:
+		* The length of paragraphs.
+		* The length of sentences.
+		* The presence of passive voice.
+		* The presence of transition words.
+		* The presence of links with the focus keyword as link text.
+	* Adds slug transliteration for the following languages, this means that we now match with both the non-transliterated keyword and the transliterated keyword:
+		* Spanish, Polish, German, Nynorsk, Bokmål, Swedish, Finnish,
+		* Danish, Turkish, Latvian, Icelandic, Faroese, Czech, Russian,
+		* Esperanto, Afrikaans, Catalan, Asturian, Aragonese, Aymara,
+		* English, French, Italian, Dutch, Bambara.
+	* Adds a search box in the help center to search in the [Yoast knowledge base](https://kb.yoast.com).
+
+* Enhancements:
+	* Adds missing alt tags to banners.
+	* Adds a 50.000 URL hard limit to the sitemaps, this is what google recommends.
+	* Moves social tab above settings tab in the metabox.
+	* Adds live updating to the score indicator in the admin bar on the post edit page.
+	* Optimize multiple sitemap cache clears by waiting until the end of the pageload to actual clear the cache.
+	* Improved title separator radio buttons accessibility.
+	* Removed Alexa verification from the plugin as it no longer works.
+
+* Bugfixes:
+	* Fixes a bug where a quote inside an attribute in the XML sitemaps would cause to create invalid XML.
+	* Fixes a bug where using a custom posts table would not result in correct output in the XML sitemaps.
+	* Fixes an issue where canonical URLs didn't always correctly have a trailing slash, thanks you for your input [MatthewMi11er](https://github.com/MatthewMi11er).
+	* Fixes a bug where we didn't match a focus keyword correctly if it contained a slash.
+	* Fixes a bug where the content analysis would be executed too many times when typing in the snippet preview.
+	* Fixes a bug where the `wpseo_title` filter couldn't change the opengraph and twitter titles, props [Xavi Ivars](https://github.com/xavivars).
+	* Fixes a bug where the focus keyword wouldn't be saved when saving the post instantly after changing the focus keyword.
+	* Fixes a bug where retrieving terms in the breadcrumbs wouldn't be cached, props [Jonny Harris](https://github.com/spacedmonkey)
+	* Fixes a bug where the help center wasn't properly styled in Safari.
+
+* Removed:
+	* Removes the ability to sort on the post score column, because the scores aren't meant to be sorted.
+	* Removes recalculation because there were too many issues with integration missing that can only be added on the actual post edit admin page.
+	* Removes `json_encode` wrapper, it was only necessary for older WordPress versions.
+
 = 3.0.7 =
 
 Release Date: December 23rd, 2015
@@ -437,7 +490,7 @@ Release Date: February 17th, 2015
 	* When meta description is present, `og:description` is filled with that on category pages.
 	* Texturize some pointers, props @nacin.
 	* Fix typo in tour, props @markjaquith.
-	* Code optimization in in replace vars functionality, props @dannyvankooten.
+	* Code optimization in the replace vars functionality, props @dannyvankooten.
 
 = 1.6.1 =
 
@@ -2082,7 +2135,7 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 	* Further improved error handling when *uploads/wpseo* dir creation fails.
 
 * New features:
-	* Remove category base, removes `/category/` from category URL's. Find it under Permalinks. 
+	* Remove category base, removes `/category/` from category URL's. Find it under Permalinks.
 	* Admin bar goodness: an SEO menu! Try it if you're on 3.1 already, it allows you to perform several SEO actions!
 
 = 0.2 =
