@@ -94,26 +94,38 @@ class WPSEO_OnPage {
 	 */
 	public function show_notice() {
 
+		$notification        = $this->get_indexability_notification();
+		$notification_center = Yoast_Notification_Center::get();
+
 		if ( $this->should_show_notice() ) {
-
-			$notice = sprintf(
-				/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-				__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
-				'<a href="https://yoa.st/onpageindexerror" target="_blank">',
-				'</a>'
-			);
-
-			Yoast_Notification_Center::get()->add_notification(
-				new Yoast_Notification(
-					$notice,
-					array(
-						'type'  => Yoast_Notification::ERROR,
-						'id'    => 'wpseo-dismiss-onpageorg',
-						'capabilities' => 'manage_options',
-					)
-				)
-			);
+			$notification_center->add_notification( $notification );
 		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Builds the indexability notification
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_indexability_notification() {
+		$notice = sprintf(
+			/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
+			__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
+			'<a href="https://yoa.st/onpageindexerror" target="_blank">',
+			'</a>'
+		);
+
+		return new Yoast_Notification(
+			$notice,
+			array(
+				'type'  => Yoast_Notification::ERROR,
+				'id'    => 'wpseo-dismiss-onpageorg',
+				'capabilities' => 'manage_options',
+			)
+		);
 	}
 
 	/**
