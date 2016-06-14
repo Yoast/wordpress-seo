@@ -321,17 +321,13 @@ class WPSEO_Admin_Init {
 		$notification_center = Yoast_Notification_Center::get();
 
 		foreach ( $plugins as $name => $plugin ) {
+			$type = $plugin['active'] ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
+			$notification = $this->get_yoast_seo_compatibility_notification( $name, $plugin, $type );
 
-			if ( $plugin['compatible'] === false && $plugin['active'] === true ) {
-				$notification = $this->get_yoast_seo_compatibility_notification( $plugin, Yoast_Notification::ERROR );
-
+			if ( $plugin['compatible'] === false ) {
 				$notification_center->add_notification( $notification );
-			}
-
-			if ( $plugin['compatible'] === false && $plugin['active'] === false ) {
-				$notification = $this->get_yoast_seo_compatibility_notification( $plugin );
-
-				$notification_center->add_notification( $notification );
+			} else {
+				$notification_center->remove_notification( $notification );
 			}
 		}
 	}
@@ -344,7 +340,7 @@ class WPSEO_Admin_Init {
 	 *
 	 * @return Yoast_Notification
 	 */
-	private function get_yoast_seo_compatibility_notification( $plugin, $level = Yoast_Notification::WARNING ) {
+	private function get_yoast_seo_compatibility_notification( $name, $plugin, $level = Yoast_Notification::WARNING ) {
 		$info_message = sprintf(
 		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
 			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
@@ -356,7 +352,7 @@ class WPSEO_Admin_Init {
 		return new Yoast_Notification(
 			$info_message,
 			array(
-				'id'   => 'wpseo-outdated-yoast-seo-plugins',
+				'id'   => 'wpseo-outdated-yoast-seo-plugin-' . $name,
 				'type' => $level,
 			)
 		);

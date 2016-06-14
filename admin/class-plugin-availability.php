@@ -32,6 +32,7 @@ class WPSEO_Plugin_Availability {
 				/* translators: %1$s expands to Yoast SEO */
 				'description' => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
 				'installed' => false,
+				'slug' => 'wordpress-seo-premium/wp-seo-premium.php',
 			),
 
 			'video-seo-for-wordpress-seo-by-yoast' => array(
@@ -39,6 +40,7 @@ class WPSEO_Plugin_Availability {
 				'title'     => 'Video SEO',
 				'description' => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
 				'installed' => false,
+				'slug' => 'wpseo-video/video-seo.php',
 			),
 
 			'yoast-news-seo' => array(
@@ -46,6 +48,7 @@ class WPSEO_Plugin_Availability {
 				'title'     => 'News SEO',
 				'description' => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
 				'installed' => false,
+				'slug' => 'wpseo-news/wpseo-news.php',
 			),
 
 			'local-seo-for-yoast-seo' => array(
@@ -53,6 +56,7 @@ class WPSEO_Plugin_Availability {
 				'title'     => 'Local SEO',
 				'description' => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 				'installed' => false,
+				'slug' => 'wordpress-seo-local/local-seo.php',
 			),
 
 			'yoast-woocommerce-seo' => array(
@@ -61,6 +65,7 @@ class WPSEO_Plugin_Availability {
 				/* translators: %1$s expands to Yoast SEO */
 				'description' => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
 				'installed' => false,
+				'slug' => 'wpseo-woocommerce/wpseo-woocommerce.php',
 			),
 		);
 	}
@@ -71,14 +76,11 @@ class WPSEO_Plugin_Availability {
 	protected function register_yoast_plugins_status() {
 		$installed_plugins = get_plugins();
 
-		foreach ( $installed_plugins as $filename => $plugin ) {
-
-			$plugin_slug = sanitize_title( $plugin['Name'] );
-
-			if ( isset( $this->plugins[ $plugin_slug ] ) ) {
-				$this->plugins[ $plugin_slug ]['installed'] = true;
-				$this->plugins[ $plugin_slug ]['version'] = $plugin['Version'];
-				$this->plugins[ $plugin_slug ]['active'] = is_plugin_active( $filename );
+		foreach ( $this->plugins as $name => $plugin ) {
+			if ( isset( $installed_plugins[ $plugin['slug'] ] ) ) {
+				$this->plugins[ $name ]['installed'] = true;
+				$this->plugins[ $name ]['version'] = $installed_plugins[ $plugin['slug'] ]['Version'];
+				$this->plugins[ $name ]['active'] = is_plugin_active( $plugin['slug'] );
 			}
 		}
 	}
@@ -101,6 +103,23 @@ class WPSEO_Plugin_Availability {
 	 */
 	public function get_plugins() {
 		return $this->plugins;
+	}
+
+	public function get_plugins_by_slug( $slug ) {
+
+		$matches = array();
+
+		foreach ( $this->plugins as $name => $plugin ) {
+			if ( $plugin['slug'] === $slug ) {
+				$matches[ $name ] = $plugin;
+			}
+		}
+
+		return $matches;
+	}
+
+	protected function compare_slugs( $plugin, $slug ) {
+		return $plugin['slug'] === $slug;
 	}
 
 	/**
