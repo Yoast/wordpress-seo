@@ -330,13 +330,13 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 	if ( is_admin() ) {
 
-		Yoast_Notification_Center::initialize_conditions();
+		new Yoast_Alerts();
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
 
 			// Crawl Issue Manager AJAX hooks.
-			new WPSEO_GSC_Ajax;
+			new WPSEO_GSC_Ajax();
 
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
@@ -353,12 +353,11 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 		add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 	}
 
-	add_action( 'admin_init', 'load_yoast_notifications' );
+	add_action( 'plugins_loaded', 'load_yoast_notifications' );
 }
 
 // Activation and deactivation hook.
 register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
-register_activation_hook( WPSEO_FILE, array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
 register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );

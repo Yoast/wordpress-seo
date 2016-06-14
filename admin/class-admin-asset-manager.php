@@ -278,6 +278,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wpseo-dismissible',
 			),
 			array(
+				'name' => 'alerts',
+				'src'  => 'alerts',
+			),
+			array(
 				'name' => 'edit-page',
 				'src'  => 'edit-page-302',
 			),
@@ -317,6 +321,18 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'dist/select2/select2',
 				'suffix' => '.min',
 				'version' => '4.0.1',
+			),
+			array(
+				'name' => 'kb-search',
+				'src'  => 'kb-search',
+			),
+			array(
+				'name' => 'help-center',
+				'src'  => 'help-center-330',
+			),
+			array(
+				'name' => 'admin-global',
+				'src'  => 'admin-global-320',
 			),
 		);
 	}

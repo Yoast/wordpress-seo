@@ -27,10 +27,41 @@
 	background-color: #1e8cbe;
 }
 
-#wp-admin-bar-wpseo-menu:hover .wpseo-score-icon {
-	background-color: #2ea2cc;
-}
-
 .adminbar-seo-score {
 	margin: 10px 10px 0 4px !important;
+}
+
+#wpadminbar .yoast-issue-added,
+#wpadminbar .yoast-issue-added:hover {
+	position: absolute;
+	top: 32px;
+	left: 0;
+	min-width: 300px;
+	padding: 2px 8px;
+	border-radius: 0 10px 10px 10px;
+	color: white;
+}
+
+#wpadminbar .yoast-issue-added {
+	display: none;
+}
+
+#wpadminbar .yoast-issue-counter {
+	display: inline;
+	padding: 1px 7px 1px 6px !important;
+	border-radius: 50%;
+	color: white;
+}
+
+.yoast-issue-counter {
+	background-color: #d54e21;
+}
+
+#wpadminbar .yoast-logo.svg {
+	float: left;
+	width: 26px;
+	height: 30px;
+	background-repeat: no-repeat;
+	background-position: 0 6px;
+	background-size: 20px;
 }

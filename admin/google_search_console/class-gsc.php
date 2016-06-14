@@ -62,10 +62,8 @@ class WPSEO_GSC {
 			$this->set_dependencies();
 			$this->request_handler();
 		}
-		elseif ( WPSEO_Utils::is_yoast_seo_page() && current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
-			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
-		}
 
+		add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
@@ -73,17 +71,34 @@ class WPSEO_GSC {
 	 * If the Google Search Console has no credentials, add a notification for the user to give him a heads up. This message is dismissable.
 	 */
 	public function register_gsc_notification() {
-		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification(
-				sprintf(
-					__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
-					'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
-					'</a>'
-				),
-				array(
-					'type'      => 'updated yoast-dismissible',
-					'id'        => 'wpseo-dismiss-gsc',
-				)
+
+		$notification        = $this->get_profile_notification();
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( WPSEO_GSC_Settings::get_profile() === '' ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Builds the notification used when GSC is not connected to a profile
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_profile_notification() {
+		return new Yoast_Notification(
+			sprintf(
+				__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
+				'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
+				'</a>'
+			),
+			array(
+				'type'         => Yoast_Notification::WARNING,
+				'id'           => 'wpseo-dismiss-gsc',
+				'capabilities' => 'manage_options',
 			)
 		);
 	}
@@ -174,7 +189,7 @@ class WPSEO_GSC {
 
 			// Adding notification to the notification center.
 			/* Translators: %1$s: expands to Google Search Console. */
-			$this->add_notification( sprintf( __( 'The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'Google Search Console' ), 'updated' );
+			$this->add_notification( sprintf( __( 'The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'Google Search Console' ), Yoast_Notification::UPDATED );
 
 			// Directly output the notifications.
 			wp_redirect( remove_query_arg( 'gsc_reset' ) );
@@ -187,7 +202,7 @@ class WPSEO_GSC {
 			WPSEO_GSC_Settings::reload_issues();
 
 			// Adding the notification.
-			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), 'updated' );
+			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), Yoast_Notification::UPDATED );
 
 			// Directly output the notifications.
 			Yoast_Notification_Center::get()->display_notifications();
@@ -218,7 +233,7 @@ class WPSEO_GSC {
 		// Catch the authorization code POST.
 		if ( ! empty( $gsc_values['authorization_code'] ) && wp_verify_nonce( $gsc_values['gsc_nonce'], 'wpseo-gsc_nonce' ) ) {
 			if ( ! WPSEO_GSC_Settings::validate_authorization( trim( $gsc_values['authorization_code'] ), $this->service->get_client() ) ) {
-				$this->add_notification( __( 'Incorrect Google Authorization Code.', 'wordpress-seo' ), 'error' );
+				$this->add_notification( __( 'Incorrect Google Authorization Code.', 'wordpress-seo' ), Yoast_Notification::ERROR );
 			}
 
 			// Redirect user to prevent a post resubmission which causes an oauth error.

@@ -243,10 +243,12 @@ class Yoast_Form {
 			$i ++;
 		}
 		?>
+				<p class="wpseo-remove-ads">
 				<strong><?php _e( 'Remove these ads?', 'wordpress-seo' ); ?></strong><br/>
 				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&amp;utm_medium=textlink&amp;utm_campaign=remove-ads-link"><?php
 				 /* translators: %1$s expands to Yoast SEO Premium */
-				printf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a><br/><br/>
+				printf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
+			</p>
 			</div>
 		</div>
 	<?php
@@ -269,6 +271,22 @@ class Yoast_Form {
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
+	}
+
+	/**
+	 * Output a legend element.
+	 *
+	 * @param string $text Legend text string.
+	 * @param array  $attr HTML attributes set.
+	 */
+	public function legend( $text, $attr ) {
+		$attr = wp_parse_args( $attr, array(
+				'id' => '',
+				'class' => '',
+			)
+		);
+		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
+		echo '<legend class="yoast-form-legend ' . $attr['class'] . '"' . $id . '>' . $text . '</legend>';
 	}
 
 	/**
