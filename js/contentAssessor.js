@@ -94,6 +94,11 @@ ContentAssessor.prototype.calculatePenaltyPoints = function () {
  * @private
  */
 ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
+	if ( this.getValidResults().length === 1 ) {
+		// If we have only 1 result, we only have a "no content" result
+		return 30;
+	}
+
 	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
 		// Determine the total score based on the total negative points.
 		if ( totalPenaltyPoints > 6 ) {
