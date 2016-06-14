@@ -52,7 +52,7 @@ function getIndicatorForScore( score ) {
 
 module.exports = getIndicatorForScore;
 
-},{"lodash/isUndefined":194,"yoastseo":221}],3:[function(require,module,exports){
+},{"lodash/isUndefined":194,"yoastseo":222}],3:[function(require,module,exports){
 /* global wpseoPostScraperL10n, wpseoTermScraperL10n */
 
 var isUndefined = require( 'lodash/isUndefined' );
@@ -91,7 +91,6 @@ var $ = jQuery;
 var defaultArguments = {
 	keyword: '',
 	prefix: '',
-	basedOn: '',
 	onActivate: function ( ) { },
 	afterActivate: function ( ) { },
 	active: false,
@@ -117,7 +116,6 @@ module.exports = (function() {
 
 		this.keyword = args.keyword;
 		this.prefix  = args.prefix;
-		this.basedOn = args.basedOn;
 		this.onActivate = args.onActivate;
 		this.afterActivate = args.afterActivate;
 		this.active = args.active;
@@ -199,7 +197,6 @@ module.exports = (function() {
 			hideRemove: true,
 			prefix: prefix,
 			active: this.active,
-			basedOn: this.basedOn,
 			scoreText: this.scoreText,
 			isKeywordTab: this.isKeywordTab
 		});
@@ -288,8 +285,7 @@ var $ = jQuery;
 var defaultArguments = {
 	strings: {
 		keywordTab: '',
-		contentTab: '',
-		basedOn: ''
+		contentTab: ''
 	},
 	focusKeywordField: "#yoast_wpseo_focuskw"
 };
@@ -326,20 +322,16 @@ TabManager.prototype.init = function() {
 	this.contentAnalysis.show();
 	this.keywordAnalysis.hide();
 	this.focusKeywordRow.hide();
-	this.focusKeywordInput.val( '' );
 
 	// Initialize an instance of the keyword tab.
 	this.mainKeywordTab = new KeywordTab(
 		{
 			keyword: initialKeyword,
 			prefix: this.strings.keywordTab,
-			basedOn: this.strings.basedOn,
 			fallback: this.strings.enterFocusKeyword,
 			onActivate: function() {
 				this.showKeywordAnalysis();
 				this.deactivateContentTab();
-
-				this.focusKeywordInput.val( this.mainKeywordTab.getKeyword() );
 
 			}.bind( this ),
 			afterActivate: function() {
@@ -353,13 +345,10 @@ TabManager.prototype.init = function() {
 	this.contentTab = new KeywordTab( {
 		active: true,
 		prefix: this.strings.contentTab,
-		basedOn: '',
 		showKeyword: false,
 		isKeywordTab: false,
 		onActivate: function() {
 			this.showContentAnalysis();
-
-			this.focusKeywordInput.val( '' );
 
 			this.mainKeywordTab.active = false;
 		}.bind( this ),
@@ -371,13 +360,6 @@ TabManager.prototype.init = function() {
 	this.contentTab.init( metaboxTabs, 'prepend' );
 
 	$( '.yoast-seo__remove-tab' ).remove();
-
-	this.focusKeywordInput.val( '' );
-
-	// Prevent us from saving an empty focus keyword when we are on the content tab.
-	$( '#edittag' ).on( 'submit', function() {
-		this.focusKeywordInput.val( this.mainKeywordTab.getKeyword() );
-	}.bind( this ) );
 };
 
 /**
@@ -430,21 +412,11 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
 		screenReaderText: YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' )
 	};
 
-	if ( this.mainKeywordTab.active ) {
-		if ( keyword === '' ) {
-			this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
-		} else {
-			indicator = getIndicatorForScore( score );
-			this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
-		}
-
-		return;
+	if ( keyword !== '' ) {
+		indicator = getIndicatorForScore( score );
 	}
 
-	// This branch makes sure that we see a color when loading the page.
-	indicator = getIndicatorForScore( $( '#yoast_wpseo_linkdex, #hidden_wpseo_linkdex' ).val() );
-
-	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText );
+	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
 };
 
 /**
@@ -566,55 +538,7 @@ UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 
 module.exports = UsedKeywords;
 
-},{"lodash/debounce":161,"lodash/has":172,"lodash/isArray":178,"yoastseo":221}],7:[function(require,module,exports){
-var Assessor = require( "yoastseo/js/assessor.js" );
-
-var fleschReadingEase = require( "yoastseo/js/assessments/fleschReadingEaseAssessment.js" );
-var introductionKeyword = require( "yoastseo/js/assessments/introductionKeywordAssessment.js" );
-var keyphraseLength = require( "yoastseo/js/assessments/keyphraseLengthAssessment.js" );
-var keywordDensity = require( "yoastseo/js/assessments/keywordDensityAssessment.js" );
-var keywordStopWords = require( "yoastseo/js/assessments/keywordStopWordsAssessment.js" );
-var metaDescriptionKeyword = require ( "yoastseo/js/assessments/metaDescriptionKeywordAssessment.js" );
-var metaDescriptionLength = require( "yoastseo/js/assessments/metaDescriptionLengthAssessment.js" );
-var titleKeyword = require( "yoastseo/js/assessments/titleKeywordAssessment.js" );
-var titleLength = require( "yoastseo/js/assessments/titleLengthAssessment.js" );
-var urlKeyword = require( "yoastseo/js/assessments/urlKeywordAssessment.js" );
-var urlLength = require( "yoastseo/js/assessments/urlLengthAssessment.js" );
-var urlStopWords = require( "yoastseo/js/assessments/urlStopWordsAssessment.js" );
-var taxonomyTextLength = require( 'yoastseo/js/assessments/taxonomyTextLengthAssessment' );
-
-/**
- * Creates the Assessor
- *
- * @param {object} i18n The i18n object used for translations.
- * @constructor
- */
-var TaxonomyAssessor = function( i18n ) {
-	Assessor.call( this, i18n );
-
-	this._assessments = {
-		fleschReadingEase:      fleschReadingEase,
-		introductionKeyword:    introductionKeyword,
-		keyphraseLength:        keyphraseLength,
-		keywordDensity:         keywordDensity,
-		keywordStopWords:       keywordStopWords,
-		metaDescriptionKeyword: metaDescriptionKeyword,
-		metaDescriptionLength:  metaDescriptionLength,
-		taxonomyTextLength:     taxonomyTextLength,
-		titleKeyword:           titleKeyword,
-		titleLength:            titleLength,
-		urlKeyword:             urlKeyword,
-		urlLength:              urlLength,
-		urlStopWords:           urlStopWords
-	};
-};
-
-module.exports = TaxonomyAssessor;
-
-require( "util" ).inherits( module.exports, Assessor );
-
-
-},{"util":220,"yoastseo/js/assessments/fleschReadingEaseAssessment.js":224,"yoastseo/js/assessments/introductionKeywordAssessment.js":225,"yoastseo/js/assessments/keyphraseLengthAssessment.js":226,"yoastseo/js/assessments/keywordDensityAssessment.js":227,"yoastseo/js/assessments/keywordStopWordsAssessment.js":228,"yoastseo/js/assessments/metaDescriptionKeywordAssessment.js":229,"yoastseo/js/assessments/metaDescriptionLengthAssessment.js":230,"yoastseo/js/assessments/taxonomyTextLengthAssessment":236,"yoastseo/js/assessments/titleKeywordAssessment.js":242,"yoastseo/js/assessments/titleLengthAssessment.js":243,"yoastseo/js/assessments/urlKeywordAssessment.js":245,"yoastseo/js/assessments/urlLengthAssessment.js":246,"yoastseo/js/assessments/urlStopWordsAssessment.js":247,"yoastseo/js/assessor.js":248}],8:[function(require,module,exports){
+},{"lodash/debounce":161,"lodash/has":172,"lodash/isArray":178,"yoastseo":222}],7:[function(require,module,exports){
 var $ = jQuery;
 
 var _forEach = require( 'lodash/foreach' );
@@ -697,7 +621,7 @@ module.exports = {
 	editorRemoveMarks: editorRemoveMarks
 };
 
-},{"lodash/foreach":170,"yoastseo/js/markers/removeMarks":273}],9:[function(require,module,exports){
+},{"lodash/foreach":170,"yoastseo/js/markers/removeMarks":273}],8:[function(require,module,exports){
 $ = jQuery;
 
 /**
@@ -714,6 +638,86 @@ function updateAdminBar( indicator ) {
 module.exports = {
 	update: updateAdminBar
 };
+
+},{}],9:[function(require,module,exports){
+var scoreDescriptionClass = 'score-text';
+var imageScoreClass = 'image yoast-logo svg';
+
+(function( $ ) {
+	'use strict';
+	/**
+	 * Converts the first letter to uppercase in a string.
+	 *
+	 * @returns {string} The string with the first letter uppercased.
+	 */
+	String.prototype.ucfirst = function () {
+		return this.charAt( 0 ).toUpperCase() + this.substr( 1 );
+	};
+
+	/**
+	 * Creates a text with the label and description for a seo score.
+	 *
+	 * @param {String} scoreType The type of score, this is used for the label.
+	 * @param {String} status The status for the score, this is the descriptive status text.
+	 * @returns {String} A string with label and description with correct text decoration.
+	 */
+	function createSEOScoreLabel( scoreType, status ) {
+		var label =  wpseoPostScraperL10n.publish_box.labels[scoreType] || "";
+		var status = wpseoPostScraperL10n.publish_box.statuses[status] || "";
+		return label + ': <strong>' + status + '</strong>';
+	}
+
+	/**
+	 * Updates a score type in the publish box.
+	 *
+	 * @param {String} type The score type to update (content or seo).
+	 * @param {String} status The status is the class name that is used to update the image.
+	 */
+	function updateScoreInPublishBox( type, status ) {
+		var publishSection = $( '#' + type + '-score' );
+
+		var imageClass = imageScoreClass + ' ' + status;
+		publishSection.children( '.image' ).attr( 'class', imageClass );
+
+		var text = createSEOScoreLabel( type, status );
+		publishSection.children( '.' + scoreDescriptionClass ).html( text );
+	}
+
+	/**
+	 * Creates a new item in the publish box for an yoast-seo score.
+	 *
+	 * @param {String} type The score type, for example content score or keyword score.
+	 * @param {Stirng} status The status for the score initialisation.
+	 */
+	function createScoresInPublishBox( type, status ) {
+		var publishSection = $( '<div />', {
+			'class': 'misc-pub-section ' + 'yoast-seo-score ' + type + '-score',
+			'id': type + '-score'
+		} );
+
+		var spanElem = $( '<span />', {
+			'class': scoreDescriptionClass,
+			'html': createSEOScoreLabel( type, status )
+		} );
+
+		var imgElem = $( '<span>' )
+			.attr( 'class', imageScoreClass + ' na' );
+
+		publishSection.append( imgElem ).append( spanElem );
+		$( '#misc-publishing-actions' ).append( publishSection );
+	}
+
+	function initialise() {
+		var notAvailableStatus = 'na';
+		createScoresInPublishBox( 'content', notAvailableStatus );
+		createScoresInPublishBox( 'keyword', notAvailableStatus );
+	}
+
+	module.exports = {
+		initalise: initialise,
+		updateScore: updateScoreInPublishBox
+	};
+}( jQuery ));
 
 },{}],10:[function(require,module,exports){
 $ = jQuery;
@@ -734,13 +738,18 @@ module.exports = {
 };
 
 },{}],11:[function(require,module,exports){
-/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
+
+var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 var tmceHelper = require( './wp-seo-tinymce' );
+
+var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
+var publishBox = require( './ui/publishBox' );
 
 var updateTrafficLight = require( './ui/trafficLight' ).update;
 var updateAdminBar = require( './ui/adminBar' ).update;
@@ -748,116 +757,168 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 (function( $ ) {
 	'use strict';
 
-	var App = require( 'yoastseo' ).App;
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
-	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
+	var App = require( 'yoastseo' ).App;
+
 	var UsedKeywords = require( './analysis/usedKeywords' );
+
+	var currentKeyword = '';
+
+	var titleElement;
+
+	var leavePostNameEmpty = false;
 
 	var app, snippetPreview;
 
-	var termSlugInput;
+	var decorator = null;
 
 	var tabManager;
 
 	/**
 	 * The HTML 'id' attribute for the TinyMCE editor.
-	 * @type {String}
+	 * @type {string}
 	 */
-	var tmceId = 'description';
+	var tmceId = 'content';
 
-	var TermScraper = function() {
+	/**
+	 * Show warning in console when the unsupported CkEditor is used.
+	 */
+	var PostScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
 			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
 		}
 	};
 
 	/**
-	 * Returns data fetched from input fields.
-	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
+	 * Get data from input fields and store them in an analyzerData object. This object will be used to fill
+	 * the analyzer and the snippet preview.
 	 */
-	TermScraper.prototype.getData = function() {
+	PostScraper.prototype.getData = function() {
 		return {
-			name: this.getDataFromInput( 'name' ),
-			title: this.getDataFromInput( 'title' ),
 			keyword: this.getDataFromInput( 'keyword' ),
-			text: this.getDataFromInput( 'text' ),
-			pageTitle: this.getDataFromInput( 'pageTitle' ),
-			url: this.getDataFromInput( 'url' ),
-			baseUrl: this.getDataFromInput( 'baseUrl' ),
-			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
+			text: this.getDataFromInput( 'text' ),
+			title: this.getDataFromInput( 'title' ),
+			url: this.getDataFromInput( 'url' ),
+			excerpt: this.getDataFromInput( 'excerpt' ),
+			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' )
+			snippetCite: this.getDataFromInput( 'cite' ),
+			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
+			searchUrl: wpseoPostScraperL10n.search_url,
+			postUrl: wpseoPostScraperL10n.post_edit_url
 		};
 	};
 
 	/**
-	 * Gets the data from a input fields in the term editor page.
-	 * @param {String} inputType The input type for the field to get the data from.
+	 * Gets the values from the given input. Returns this value.
+	 * @param {String} inputType
+	 * @returns {String}
 	 */
-	TermScraper.prototype.getDataFromInput = function( inputType ) {
-		var val = '';
-		var elem;
-		switch( inputType ) {
-			case 'keyword':
-				elem = document.getElementById( 'wpseo_focuskw' );
-				val = elem.value;
-				if ( val === '' ) {
-					val = document.getElementById( 'name' ).value;
-					elem.placeholder = val;
-				}
+	PostScraper.prototype.getDataFromInput = function( inputType ) {
+		var newPostSlug, val = '';
+		switch ( inputType ) {
+			case 'text':
+			case tmceId:
+				val = removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 				break;
-			case 'name':
-				val = document.getElementById( 'name' ).value;
+			case 'cite':
+			case 'url':
+				newPostSlug = $( '#new-post-slug' );
+				if ( 0 < newPostSlug.length ) {
+					val = newPostSlug.val();
+				}
+				else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
+					val = document.getElementById( 'editable-post-name-full' ).textContent;
+				}
 				break;
 			case 'meta':
-				elem = document.getElementById( 'hidden_wpseo_desc' );
-				if ( elem !== null ) {
-					val = elem.value;
-				}
+				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 				break;
 			case 'snippetMeta':
-				elem = document.getElementById( 'hidden_wpseo_desc' );
-				if ( elem !== null ) {
-					val = elem.value;
-				}
+				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 				break;
-			case 'text':
-				val = tmceHelper.getContentTinyMce( tmceId );
-				break;
-			case 'pageTitle':
-				val = document.getElementById( 'hidden_wpseo_title' ).value;
+			case 'keyword':
+				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
+				currentKeyword = val;
 				break;
 			case 'title':
-				val = document.getElementById( 'hidden_wpseo_title' ).value;
+				val = document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
 				break;
-			case 'url':
-			case 'cite':
-				val = document.getElementById( 'slug' ).value;
+			case 'snippetTitle':
+				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
 				break;
-			case 'baseUrl':
-				val = wpseoTermScraperL10n.base_url;
+			case 'excerpt':
+				if ( document.getElementById( 'excerpt' ) !== null ) {
+					val = document.getElementById( 'excerpt' ) && document.getElementById( 'excerpt' ).value || '';
+				}
+				break;
+			case 'primaryCategory':
+				var categoryBase = $( '#category-all' ).find( 'ul.categorychecklist' );
+
+				// If only one is visible than that item is the primary category.
+				var checked = categoryBase.find( 'li input:checked' );
+				if ( checked.length === 1 ) {
+					val = this.getCategoryName( checked.parent() );
+					break;
+				}
+
+				var primaryTerm = categoryBase.find( '.wpseo-primary-term > label' );
+				if ( primaryTerm.length ) {
+					val = this.getCategoryName( primaryTerm );
+					break;
+				}
+				break;
+			default:
 				break;
 		}
 		return val;
 	};
 
 	/**
+	 * Get the category name from the list item.
+	 * @param {jQuery Object} li Item which contains the category
+	 * @returns {String} Name of the category
+     */
+	PostScraper.prototype.getCategoryName = function( li ) {
+		var clone = li.clone();
+		clone.children().remove();
+		return $.trim(clone.text());
+	};
+
+	/**
 	 * When the snippet is updated, update the (hidden) fields on the page.
-	 * @param {Object} value Value for the data to set.
-	 * @param {String} type The field(type) that the data is set for.
+	 * @param {Object} value
+	 * @param {String} type
 	 */
-	TermScraper.prototype.setDataFromSnippet = function( value, type ) {
+	PostScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
 			case 'snippet_meta':
-				document.getElementById( 'hidden_wpseo_desc' ).value = value;
+				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
 				break;
 			case 'snippet_cite':
-				document.getElementById( 'slug' ).value = value;
+
+				/*
+				 * WordPress leaves the post name empty to signify that it should be generated from the title once the
+				 * post is saved. So in some cases when we receive an auto generated slug from WordPress we should be
+				 * able to not save this to the UI. This conditional makes that possible.
+				 */
+				if ( leavePostNameEmpty ) {
+					leavePostNameEmpty = false;
+					return;
+				}
+
+				document.getElementById( 'post_name' ).value = value;
+				if (
+					document.getElementById( 'editable-post-name' ) !== null &&
+					document.getElementById( 'editable-post-name-full' ) !== null ) {
+					document.getElementById( 'editable-post-name' ).textContent = value;
+					document.getElementById( 'editable-post-name-full' ).textContent = value;
+				}
 				break;
 			case 'snippet_title':
-				document.getElementById( 'hidden_wpseo_title' ).value = value;
+				document.getElementById( 'yoast_wpseo_title' ).value = value;
 				break;
 			default:
 				break;
@@ -872,65 +933,113 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * @param {string} data.urlPath
 	 * @param {string} data.metaDesc
 	 */
-	TermScraper.prototype.saveSnippetData = function( data ) {
+	PostScraper.prototype.saveSnippetData = function( data ) {
 		this.setDataFromSnippet( data.title, 'snippet_title' );
 		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
 		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
 	};
 
 	/**
-	 * binds elements
+	 * Calls the event binders.
 	 */
-	TermScraper.prototype.bindElementEvents = function( app ) {
+	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
+		this.changeElementEventBinder( app );
 	};
 
 	/**
-	 * binds the renewData function on the change of inputelements.
+	 * Binds the reanalyze timer on change of dom element.
+     */
+	PostScraper.prototype.changeElementEventBinder = function( app ) {
+		var elems = [ '#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]' ];
+		for( var i = 0; i < elems.length; i++ ) {
+			$( elems[i] ).on('change', app.analyzeTimer.bind( app ) );
+		}
+	};
+
+	/**
+	 * Binds the renewData function on the change of input elements.
 	 */
-	TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'name', tmceId, 'slug', 'wpseo_focuskw' ];
+	PostScraper.prototype.inputElementEventBinder = function( app ) {
+		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
 				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
 			}
 		}
-		tmceHelper.tinyMceEventBinder( app, tmceId );
+
+		tmceHelper.tinyMceEventBinder(app, tmceId);
+
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
 	};
 
 	/**
-	 * Creates SVG for the overall score.
-	 *
-	 * @param {number} score Score to save.
+	 * Resets the current queue if focus keyword is changed and not empty.
 	 */
-	TermScraper.prototype.saveScores = function( score ) {
-		var indicator = getIndicatorForScore( score );
-		var keyword = this.getDataFromInput( 'keyword' );
-
-		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
-		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
-
-		tabManager.updateKeywordTab( score, keyword );
-
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
+	PostScraper.prototype.resetQueue = function() {
+		if ( app.rawData.keyword !== '' ) {
+			app.runAnalyzer( this.rawData );
+		}
 	};
+
+	/**
+	 * Saves the score to the linkdex.
+	 * Outputs the score in the overall target.
+	 *
+	 * @param {string} score
+	 */
+	PostScraper.prototype.saveScores = function( score ) {
+		var indicator = getIndicatorForScore( score );
+
+		// If multi keyword isn't available we need to update the first tab (content).
+		if ( ! YoastSEO.multiKeyword ) {
+			tabManager.updateKeywordTab( score, currentKeyword );
+			publishBox.updateScore( 'content', indicator.className );
+
+			// Updates the input with the currentKeyword value.
+			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
+		}
+
+		if ( tabManager.isMainKeyword( currentKeyword ) ) {
+			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+
+			if ( '' === currentKeyword ) {
+				indicator.className = 'na';
+				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
+			}
+
+			updateTrafficLight( indicator );
+			updateAdminBar( indicator );
+
+			publishBox.updateScore( 'keyword', indicator.className );
+		}
+
+		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+	};
+
 	/**
 	 * Saves the content score to a hidden field.
 	 *
-	 * @param {number} score The score calculated by the content assessor.
+	 * @param {number} score
 	 */
-	TermScraper.prototype.saveContentScore = function( score ) {
+	PostScraper.prototype.saveContentScore = function( score ) {
 		tabManager.updateContentTab( score );
+		var indicator = getIndicatorForScore( score );
+		publishBox.updateScore( 'content', indicator.className );
 
-		$( '#hidden_wpseo_content_score' ).val( score );
+		$( '#yoast_wpseo_content_score' ).val( score );
 	};
 
 	/**
-	 * Initializes keyword tab with the correct template.
+	 * Initializes keyword tab with the correct template if multi keyword isn't available.
 	 */
-	TermScraper.prototype.initKeywordTabTemplate = function() {
+	PostScraper.prototype.initKeywordTabTemplate = function() {
+		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
+		if ( YoastSEO.multiKeyword ) {
+			return;
+		}
+
 		// Remove default functionality to prevent scrolling to top.
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
@@ -938,43 +1047,65 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	};
 
 	/**
-	 * Add new description field to content, creates new element via wp_editor and appends this to the term-description-wrap
-	 * this way we can use the wp tinyMCE editor on the description field.
+	 * Returns whether or not the current post has a title.
+	 *
+	 * @returns {boolean}
 	 */
-	var insertTinyMCE = function() {
-		//gets the textNode from the original textField.
-		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
+	function postHasTitle() {
+		return '' !== titleElement.val();
+	}
 
-		var newEditor = document.getElementById( 'wp-description-wrap' );
-		newEditor.style.display = 'none';
+	/**
+	 * Retrieves either a generated slug or the page title as slug for the preview.
+	 * @param {Object} response The AJAX response object.
+	 * @returns {String}
+	 */
+	function getUrlPathFromResponse( response ) {
+		if ( response.responseText === '' ) {
+			return titleElement.val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery( '<div>' + response.responseText + '</div>' )
+			.find( '#editable-post-name-full' )
+			.text();
+	}
 
-		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
+	/**
+	 * Binds to the WordPress jQuery function to put the permalink on the page.
+	 * If the response matches with permalink string, the snippet can be rendered.
+	 */
+	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
+		var ajax_end_point = '/admin-ajax.php';
+		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+			return;
+		}
 
-		//empty the TD with the old description textarea
-		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
-
-		//append the editor and the helptext
-		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
-
-		newEditor.style.display = 'block';
-
-		document.getElementById( 'description' ).value = textNode;
-	};
+		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
+			/*
+			 * If the post has no title, WordPress wants to auto generate the slug once the title is set, so we need to
+			 * keep the post name empty.
+			 */
+			if ( ! postHasTitle() ) {
+				leavePostNameEmpty = true;
+			}
+			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
+		}
+	} );
 
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {TermScraper} termScraper
+	 * @param {PostScraper} postScraper
 	 * @returns {YoastSEO.SnippetPreview}
 	 */
-	function initSnippetPreview( termScraper ) {
-		var data = termScraper.getData();
+	function initSnippetPreview( postScraper ) {
+		var data = postScraper.getData();
 
 		var titlePlaceholder = getTitlePlaceholder();
 		var descriptionPlaceholder = getDescriptionPlaceholder();
 
 		var snippetPreviewArgs = {
-			targetElement: document.getElementById( 'wpseo_snippet' ),
+			targetElement: document.getElementById( 'wpseosnippet' ),
 			placeholder: {
 				title: titlePlaceholder,
 				urlPath: ''
@@ -982,11 +1113,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			defaultValue: {
 				title: titlePlaceholder
 			},
-			baseURL: wpseoTermScraperL10n.base_url,
+			baseURL: wpseoPostScraperL10n.base_url,
 			callbacks: {
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
-			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
 			data: {
 				title: data.snippetTitle,
 				urlPath: data.snippetCite,
@@ -994,113 +1125,133 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			}
 		};
 
-		var metaPlaceholder = descriptionPlaceholder;
-
-		if ( metaPlaceholder !== '' ) {
-			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
-			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		if ( descriptionPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = descriptionPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
 		}
 
 		return new SnippetPreview( snippetPreviewArgs );
 	}
 
 	/**
-	 * Adds a watcher on the term slug input field
+	 * Returns the marker callback method for the assessor.
+	 *
+	 * @returns {*|bool}
 	 */
-	function initTermSlugWatcher() {
-		termSlugInput = $( '#slug' );
-		termSlugInput.on( 'change', updatedTermSlug );
-	}
+	function getMarker() {
+		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
+		if ( typeof tinyMCE !== 'undefined' && wpseoPostScraperL10n.show_markers === '1' ) {
+			return function( paper, marks ) {
+				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
+					if ( null === decorator ) {
+						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+					}
 
-	/**
-	 * Function to handle when the user updates the term slug
-	 */
-	function updatedTermSlug() {
-		snippetPreview.setUrlPath( termSlugInput.val() );
+					decorator( paper, marks );
+				}
+			};
+		}
+
+		return false;
 	}
 
 	jQuery( document ).ready(function() {
-		var args, termScraper, translations;
+		var args, postScraper, translations;
 
-		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
+		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
 
-		insertTinyMCE();
-
-		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
+		publishBox.initalise();
 
 		tabManager = new TabManager({
-			strings: wpseoTermScraperL10n,
-			focusKeywordField: '#wpseo_focuskw'
+			strings: wpseoPostScraperL10n
 		});
-
 		tabManager.init();
 
-		termScraper = new TermScraper();
+		postScraper = new PostScraper();
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
-				output: 'wpseo_analysis',
-				contentOutput: 'yoast-seo-content-analysis',
-				snippet: 'wpseo_snippet'
+				output: 'wpseo-pageanalysis',
+				contentOutput: 'yoast-seo-content-analysis'
 			},
 			callbacks: {
-				getData: termScraper.getData.bind( termScraper ),
-				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
-				saveScores: termScraper.saveScores.bind( termScraper ),
-				saveContentScore: termScraper.saveContentScore.bind( termScraper ),
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
+				getData: postScraper.getData.bind( postScraper ),
+				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
+				saveScores: postScraper.saveScores.bind( postScraper ),
+				saveContentScore: postScraper.saveContentScore.bind( postScraper ),
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
-			locale: wpseoTermScraperL10n.locale
+			locale: wpseoPostScraperL10n.locale,
+			marker: getMarker()
 		};
 
-		translations = wpseoTermScraperL10n.translations;
+		titleElement = $( '#title' );
 
-		if ( translations.length > 0 ) {
+		translations = wpseoPostScraperL10n.translations;
+
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
 			translations.domain = 'js-text-analysis';
 			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+
 			delete( translations.locale_data['wordpress-seo'] );
 
 			args.translations = translations;
 		}
 
-		snippetPreview = initSnippetPreview( termScraper );
+		snippetPreview = initSnippetPreview( postScraper );
 		args.snippetPreview = snippetPreview;
 
 		app = new App( args );
-
-		app.assessor = new TaxonomyAssessor( app.i18n );
-
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
-		termScraper.initKeywordTabTemplate();
-
-		// Init Plugins.
+		// Init Plugins
 		YoastSEO.wp = {};
 		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( app );
 
-		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
+		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
 		usedKeywords.init();
 
-		// For backwards compatibility.
-		YoastSEO.analyzerArgs = args;
+		postScraper.initKeywordTabTemplate();
 
-		initTermSlugWatcher();
+		window.YoastSEO.wp._tabManager = tabManager;
 
 		var indicator = getIndicatorForScore( savedKeywordScore );
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
+		publishBox.updateScore( 'keyword', indicator.className );
 
 		tabManager.getKeywordTab().activate();
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
+
+		// Backwards compatibility.
+		YoastSEO.analyzerArgs = args;
+
+		if ( ! YoastSEO.multiKeyword ) {
+			/*
+			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
+			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
+			 * onsubmit event that is copying the focus keyword, this should be solved.
+			 */
+			$( '#post' ).on( 'submit', function() {
+				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
+				var hiddenKeywordValue  = hiddenKeyword.val();
+				var visibleKeywordValue = tabManager.getKeywordTab().getKeyword();
+
+				if ( hiddenKeywordValue !== visibleKeywordValue ) {
+					hiddenKeyword.val( visibleKeywordValue );
+				}
+			} );
+		}
 	} );
 }( jQuery ));
 
-},{"./analysis/getDescriptionPlaceholder":1,"./analysis/getIndicatorForScore":2,"./analysis/getTitlePlaceholder":3,"./analysis/tabManager":5,"./analysis/usedKeywords":6,"./assessors/taxonomyAssessor":7,"./ui/adminBar":9,"./ui/trafficLight":10,"./wp-seo-tinymce":12,"yoastseo":221}],12:[function(require,module,exports){
-/* global tinyMCE, require */
+},{"./analysis/getDescriptionPlaceholder":1,"./analysis/getIndicatorForScore":2,"./analysis/getTitlePlaceholder":3,"./analysis/tabManager":5,"./analysis/usedKeywords":6,"./decorator/tinyMCE":7,"./ui/adminBar":8,"./ui/publishBox":9,"./ui/trafficLight":10,"./wp-seo-tinymce":12,"yoastseo":222,"yoastseo/js/markers/removeMarks":273}],12:[function(require,module,exports){
+/* global tinyMCE, require, YoastSEO */
 
 var forEach = require( 'lodash/forEach' );
 var editorHasMarks = require( './decorator/tinyMCE' ).editorHasMarks;
@@ -1218,16 +1369,9 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			if ( editorHasMarks( editor ) ) {
 				editorRemoveMarks( editor );
 
-				deactivateResultMarks();
+				YoastSEO.app.disableMarkers();
 			}
 		} );
-	}
-
-	/**
-	 * Deactivates the active result marks.
-	 */
-	function deactivateResultMarks() {
-		jQuery( '.assessment-results__mark' ).addClass( 'icon-eye-inactive' ).removeClass( 'icon-eye-active' );
 	}
 
 	module.exports = {
@@ -1239,7 +1383,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	};
 })(jQuery);
 
-},{"./decorator/tinyMCE":8,"lodash/forEach":170}],13:[function(require,module,exports){
+},{"./decorator/tinyMCE":7,"lodash/forEach":170}],13:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -3936,7 +4080,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 
 module.exports = baseMergeDeep;
 
-},{"./_assignMergeValue":40,"./_baseClone":44,"./_copyArray":91,"./isArguments":177,"./isArray":178,"./isArrayLikeObject":180,"./isFunction":184,"./isObject":188,"./isPlainObject":190,"./isTypedArray":193,"./toPlainObject":213}],71:[function(require,module,exports){
+},{"./_assignMergeValue":40,"./_baseClone":44,"./_copyArray":91,"./isArguments":177,"./isArray":178,"./isArrayLikeObject":180,"./isFunction":184,"./isObject":188,"./isPlainObject":190,"./isTypedArray":193,"./toPlainObject":214}],71:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -6180,7 +6324,7 @@ var stringToPath = memoize(function(string) {
 
 module.exports = stringToPath;
 
-},{"./memoize":198,"./toString":214}],157:[function(require,module,exports){
+},{"./memoize":198,"./toString":215}],157:[function(require,module,exports){
 var isSymbol = require('./isSymbol');
 
 /** Used as references for various `Number` constants. */
@@ -6486,7 +6630,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"./isObject":188,"./now":203,"./toNumber":212}],162:[function(require,module,exports){
+},{"./isObject":188,"./now":203,"./toNumber":213}],162:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInDefaults = require('./_assignInDefaults'),
     assignInWith = require('./assignInWith'),
@@ -6777,7 +6921,7 @@ function findIndex(array, predicate, fromIndex) {
 
 module.exports = findIndex;
 
-},{"./_baseFindIndex":49,"./_baseIteratee":63,"./toInteger":211}],169:[function(require,module,exports){
+},{"./_baseFindIndex":49,"./_baseIteratee":63,"./toInteger":212}],169:[function(require,module,exports){
 var baseFlatten = require('./_baseFlatten'),
     map = require('./map');
 
@@ -7039,7 +7183,7 @@ function inRange(number, start, end) {
 
 module.exports = inRange;
 
-},{"./_baseInRange":57,"./toNumber":212}],176:[function(require,module,exports){
+},{"./_baseInRange":57,"./toNumber":213}],176:[function(require,module,exports){
 var baseIndexOf = require('./_baseIndexOf'),
     isArrayLike = require('./isArrayLike'),
     isString = require('./isString'),
@@ -7094,7 +7238,7 @@ function includes(collection, value, fromIndex, guard) {
 
 module.exports = includes;
 
-},{"./_baseIndexOf":58,"./isArrayLike":179,"./isString":191,"./toInteger":211,"./values":216}],177:[function(require,module,exports){
+},{"./_baseIndexOf":58,"./isArrayLike":179,"./isString":191,"./toInteger":212,"./values":217}],177:[function(require,module,exports){
 var isArrayLikeObject = require('./isArrayLikeObject');
 
 /** `Object#toString` result references. */
@@ -8455,7 +8599,7 @@ function rest(func, start) {
 
 module.exports = rest;
 
-},{"./_apply":30,"./toInteger":211}],207:[function(require,module,exports){
+},{"./_apply":30,"./toInteger":212}],207:[function(require,module,exports){
 /**
  * A method that returns a new empty array.
  *
@@ -8527,6 +8671,74 @@ function sum(array) {
 module.exports = sum;
 
 },{"./_baseSum":74,"./identity":174}],210:[function(require,module,exports){
+var debounce = require('./debounce'),
+    isObject = require('./isObject');
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide an options object to indicate whether
+ * `func` should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return the
+ * result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.throttle` and `_.debounce`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to throttle.
+ * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=true]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new throttled function.
+ * @example
+ *
+ * // Avoid excessively updating the position while scrolling.
+ * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+ *
+ * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+ * jQuery(element).on('click', throttled);
+ *
+ * // Cancel the trailing throttled invocation.
+ * jQuery(window).on('popstate', throttled.cancel);
+ */
+function throttle(func, wait, options) {
+  var leading = true,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+
+module.exports = throttle;
+
+},{"./debounce":161,"./isObject":188}],211:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -8570,7 +8782,7 @@ function toFinite(value) {
 
 module.exports = toFinite;
 
-},{"./toNumber":212}],211:[function(require,module,exports){
+},{"./toNumber":213}],212:[function(require,module,exports){
 var toFinite = require('./toFinite');
 
 /**
@@ -8608,7 +8820,7 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toFinite":210}],212:[function(require,module,exports){
+},{"./toFinite":211}],213:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
@@ -8677,7 +8889,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isFunction":184,"./isObject":188,"./isSymbol":192}],213:[function(require,module,exports){
+},{"./isFunction":184,"./isObject":188,"./isSymbol":192}],214:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keysIn = require('./keysIn');
 
@@ -8711,7 +8923,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"./_copyObject":92,"./keysIn":196}],214:[function(require,module,exports){
+},{"./_copyObject":92,"./keysIn":196}],215:[function(require,module,exports){
 var baseToString = require('./_baseToString');
 
 /**
@@ -8741,7 +8953,7 @@ function toString(value) {
 
 module.exports = toString;
 
-},{"./_baseToString":76}],215:[function(require,module,exports){
+},{"./_baseToString":76}],216:[function(require,module,exports){
 var baseIteratee = require('./_baseIteratee'),
     baseUniq = require('./_baseUniq');
 
@@ -8775,7 +8987,7 @@ function uniqBy(array, iteratee) {
 
 module.exports = uniqBy;
 
-},{"./_baseIteratee":63,"./_baseUniq":78}],216:[function(require,module,exports){
+},{"./_baseIteratee":63,"./_baseUniq":78}],217:[function(require,module,exports){
 var baseValues = require('./_baseValues'),
     keys = require('./keys');
 
@@ -8811,7 +9023,7 @@ function values(object) {
 
 module.exports = values;
 
-},{"./_baseValues":79,"./keys":195}],217:[function(require,module,exports){
+},{"./_baseValues":79,"./keys":195}],218:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8821,9 +9033,6 @@ var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -8907,7 +9116,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],218:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 var findMatchingRule = function(rules, text){
   var i;
   for(i=0; i<rules.length; i++)
@@ -8982,14 +9191,14 @@ module.exports = function(onToken_orig){
   };
 };
 
-},{}],219:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],220:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9579,7 +9788,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":219,"_process":217,"inherits":13}],221:[function(require,module,exports){
+},{"./support/isBuffer":220,"_process":218,"inherits":13}],222:[function(require,module,exports){
 var plugins = {
 	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
 };
@@ -9597,14 +9806,14 @@ module.exports = {
 	Researcher: require( "./js/researcher" ),
 	SnippetPreview: require( "./js/snippetPreview.js" ),
 
-	Paper: require( "./js/values/paper" ),
+	Paper: require( "./js/values/Paper" ),
 	AssessmentResult: require( "./js/values/AssessmentResult" ),
 
 	bundledPlugins: plugins,
 	helpers: helpers
 };
 
-},{"./js/app":222,"./js/assessor":248,"./js/bundledPlugins/previouslyUsedKeywords":249,"./js/contentAssessor":259,"./js/interpreters/scoreToRating":268,"./js/pluggable":274,"./js/researcher":276,"./js/seoAssessor":313,"./js/snippetPreview.js":314,"./js/values/AssessmentResult":353,"./js/values/paper":355}],222:[function(require,module,exports){
+},{"./js/app":223,"./js/assessor":248,"./js/bundledPlugins/previouslyUsedKeywords":249,"./js/contentAssessor":259,"./js/interpreters/scoreToRating":268,"./js/pluggable":274,"./js/researcher":276,"./js/seoAssessor":313,"./js/snippetPreview.js":314,"./js/values/AssessmentResult":353,"./js/values/Paper":355}],223:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -9617,6 +9826,7 @@ var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
+var throttle = require( "lodash/throttle" );
 
 var Jed = require( "jed" );
 
@@ -9626,6 +9836,8 @@ var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
 var Paper = require( "./values/Paper.js" );
+
+var inputDebounceDelay = 400;
 
 /**
  * Default config for YoastSEO.js
@@ -9661,7 +9873,7 @@ var defaults = {
 		"pageTitleLength",
 		"firstParagraph",
 		"'keywordDoubles" ],
-	typeDelay: 1500,
+	typeDelay: 3000,
 	typeDelayStep: 1500,
 	maxTypeDelay: 5000,
 	dynamicDelay: true,
@@ -9824,8 +10036,8 @@ var App = function( args ) {
 
 	this.config = args;
 
-	// Overwrite refresh function to make sure it can be debounced.
-	this.refresh = debounce( this.refresh.bind( this ), this.config.typeDelay );
+	this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+	this._pureRefresh = throttle( this._pureRefresh.bind( this ), this.config.typeDelay );
 
 	this.callbacks = this.config.callbacks;
 	this.i18n = this.constructI18n( this.config.translations );
@@ -9950,10 +10162,18 @@ App.prototype.getData = function() {
 };
 
 /**
- * Refreshes the analyzer and output of the analyzer
- * @returns {void}
+ * Refreshes the analyzer and output of the analyzer, is debounced for a better experience.
  */
 App.prototype.refresh = function() {
+	this._pureRefresh();
+};
+
+/**
+ * Refreshes the analyzer and output of the analyzer, is throttled to prevent performance issues.
+ *
+ * @private
+ */
+App.prototype._pureRefresh = function() {
 	this.getData();
 	this.runAnalyzer();
 };
@@ -10086,12 +10306,10 @@ App.prototype.runAnalyzer = function() {
 
 	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.seoAssessorPresenter.render();
-	this.seoAssessorPresenter.displayRemoveAllMarkersButton( this.seoAssessor.hasMarkers() );
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 
 	if ( !isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessorPresenter.renderIndividualRatings();
-		this.contentAssessorPresenter.displayRemoveAllMarkersButton( this.contentAssessor.hasMarkers() );
 		this.callbacks.saveContentScore( this.contentAssessor.calculateOverallScore(), this.contentAssessorPresenter );
 	}
 
@@ -10247,6 +10465,17 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 	return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
 };
 
+/**
+ * Disables markers visually in the UI
+ */
+App.prototype.disableMarkers = function() {
+	this.seoAssessorPresenter.disableMarker();
+
+	if ( !isUndefined( this.contentAssessorPresenter ) ) {
+		this.contentAssessorPresenter.disableMarker();
+	}
+};
+
 // Deprecated functions
 
 /**
@@ -10264,7 +10493,7 @@ App.prototype.analyzeTimer = function() {
 
 module.exports = App;
 
-},{"./config/config.js":250,"./contentAssessor.js":259,"./errors/missingArgument":261,"./pluggable.js":274,"./renderers/AssessorPresenter.js":275,"./researcher.js":276,"./seoAssessor.js":313,"./snippetPreview.js":314,"./values/Paper.js":355,"jed":14,"lodash/debounce":161,"lodash/defaultsDeep":163,"lodash/forEach":170,"lodash/isObject":188,"lodash/isString":191,"lodash/isUndefined":194}],223:[function(require,module,exports){
+},{"./config/config.js":250,"./contentAssessor.js":259,"./errors/missingArgument":261,"./pluggable.js":274,"./renderers/AssessorPresenter.js":275,"./researcher.js":276,"./seoAssessor.js":313,"./snippetPreview.js":314,"./values/Paper.js":355,"jed":14,"lodash/debounce":161,"lodash/defaultsDeep":163,"lodash/forEach":170,"lodash/isObject":188,"lodash/isString":191,"lodash/isUndefined":194,"lodash/throttle":210}],224:[function(require,module,exports){
 var filter = require( "lodash/filter" );
 var isSentenceTooLong = require( "../helpers/isValueTooLong" );
 
@@ -10282,7 +10511,7 @@ module.exports = function( sentences, recommendedValue ) {
 	return tooLongSentences;
 };
 
-},{"../helpers/isValueTooLong":267,"lodash/filter":166}],224:[function(require,module,exports){
+},{"../helpers/isValueTooLong":267,"lodash/filter":166}],225:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -10393,7 +10622,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":353,"lodash/inRange":175}],225:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353,"lodash/inRange":175}],226:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -10445,7 +10674,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":353}],226:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],227:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -10478,7 +10707,7 @@ module.exports = {
 	getResult: keyphraseAssessment
 };
 
-},{"../values/AssessmentResult.js":353}],227:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],228:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -10507,8 +10736,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 			" which is way over the advised %3$s maximum;" +
 			" the focus keyword was found %2$d times." );
 
-		/* Translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5) */
-		max = i18n.dgettext( "js-text-analysis", "2.5" ) + "%";
+		max = "2.5%";
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
@@ -10522,8 +10750,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 			" which is over the advised %3$s maximum;" +
 			" the focus keyword was found %2$d times." );
 
-		/* Translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5) */
-		max = i18n.dgettext( "js-text-analysis", "2.5" ) + "%";
+		max = "2.5%";
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
@@ -10584,7 +10811,7 @@ module.exports = {
 	}
 };
 
-},{"../helpers/formatNumber.js":264,"../stringProcessing/countWords.js":320,"../stringProcessing/matchTextWithWord.js":335,"../values/AssessmentResult.js":353,"lodash/inRange":175}],228:[function(require,module,exports){
+},{"../helpers/formatNumber.js":264,"../stringProcessing/countWords.js":320,"../stringProcessing/matchTextWithWord.js":335,"../values/AssessmentResult.js":353,"lodash/inRange":175}],229:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -10644,7 +10871,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":353}],229:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],230:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -10696,7 +10923,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":353}],230:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],231:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -10762,7 +10989,7 @@ module.exports = {
 	getResult: metaDescriptionLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":353}],231:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],232:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isParagraphTooLong = require( "../helpers/isValueTooLong" );
 var Mark = require( "../values/Mark.js" );
@@ -10902,7 +11129,7 @@ module.exports = {
 	getMarks: paragraphLengthMarker
 };
 
-},{"../helpers/inRange.js":266,"../helpers/isValueTooLong":267,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/filter":166,"lodash/map":197}],232:[function(require,module,exports){
+},{"../helpers/inRange.js":266,"../helpers/isValueTooLong":267,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/filter":166,"lodash/map":197}],233:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
@@ -11029,7 +11256,7 @@ module.exports = {
 	getMarks: passiveVoiceMarker
 };
 
-},{"../helpers/formatNumber.js":264,"../helpers/inRange.js":266,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/map":197}],233:[function(require,module,exports){
+},{"../helpers/formatNumber.js":264,"../helpers/inRange.js":266,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/map":197}],234:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
@@ -11179,7 +11406,7 @@ module.exports = {
 	getMarks: sentenceLengthMarker
 };
 
-},{"../helpers/formatNumber.js":264,"../helpers/inRange.js":266,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"./../assessmentHelpers/checkForTooLongSentences.js":223,"lodash/map":197}],234:[function(require,module,exports){
+},{"../helpers/formatNumber.js":264,"../helpers/inRange.js":266,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"./../assessmentHelpers/checkForTooLongSentences.js":224,"lodash/map":197}],235:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isTextTooLong = require( "../helpers/isValueTooLong" );
 var filter = require( "lodash/filter" );
@@ -11323,7 +11550,7 @@ module.exports = {
 	getMarks: subheadingsMarker
 };
 
-},{"../helpers/inRange.js":266,"../helpers/isValueTooLong":267,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/filter":166,"lodash/map":197}],235:[function(require,module,exports){
+},{"../helpers/inRange.js":266,"../helpers/isValueTooLong":267,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/filter":166,"lodash/map":197}],236:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -11377,107 +11604,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":353}],236:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculate the score based on the current word count.
- * @param {number} wordCount The amount of words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount > 150 ) {
-		return {
-			score: 9,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
-				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 125, 150 ) ) {
-		return {
-			score: 7,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 100, 125 ) ) {
-		return {
-			score: 5,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 50, 100 ) ) {
-		return {
-			score: -10,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 0, 50 ) ) {
-		return {
-			score: -20,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word, this is far too low and should be increased.",
-				"The text contains %1$d words, this is far too low and should be increased.",
-				wordCount
-			)
-		};
-	}
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
-	var wordCount = researcher.getResearch( "wordCountInText" );
-	var wordCountResult = calculateWordCountResult( wordCount, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 150 ) );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "taxonomyTextLength",
-	getResult: taxonomyTextLengthAssessment
-};
-
-},{"../values/AssessmentResult.js":353,"lodash/inRange":175}],237:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],237:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 var Mark = require( "../values/Mark.js" );
@@ -13598,6 +13725,11 @@ ContentAssessor.prototype.calculatePenaltyPoints = function () {
  * @private
  */
 ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
+	if ( this.getValidResults().length === 1 ) {
+		// If we have only 1 result, we only have a "no content" result
+		return 30;
+	}
+
 	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
 		// Determine the total score based on the total negative points.
 		if ( totalPenaltyPoints > 6 ) {
@@ -13645,7 +13777,7 @@ ContentAssessor.prototype.calculateOverallScore = function () {
 module.exports = ContentAssessor;
 
 
-},{"./assessments/fleschReadingEaseAssessment.js":224,"./assessments/paragraphTooLongAssessment.js":231,"./assessments/passiveVoiceAssessment.js":232,"./assessments/sentenceLengthInTextAssessment.js":233,"./assessments/subheadingDistributionTooLongAssessment.js":234,"./assessments/textPresenceAssessment.js":241,"./assessments/transitionWordsAssessment.js":244,"./assessor.js":248,"./interpreters/scoreToRating":268,"lodash/map":197,"lodash/sum":209,"util":220}],260:[function(require,module,exports){
+},{"./assessments/fleschReadingEaseAssessment.js":225,"./assessments/paragraphTooLongAssessment.js":232,"./assessments/passiveVoiceAssessment.js":233,"./assessments/sentenceLengthInTextAssessment.js":234,"./assessments/subheadingDistributionTooLongAssessment.js":235,"./assessments/textPresenceAssessment.js":241,"./assessments/transitionWordsAssessment.js":244,"./assessor.js":248,"./interpreters/scoreToRating":268,"lodash/map":197,"lodash/sum":209,"util":221}],260:[function(require,module,exports){
 /**
  * Throws an invalid type error
  * @param {string} message The message to show when the error is thrown
@@ -13659,7 +13791,7 @@ module.exports = function InvalidTypeError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":220}],261:[function(require,module,exports){
+},{"util":221}],261:[function(require,module,exports){
 module.exports = function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
@@ -13668,7 +13800,7 @@ module.exports = function MissingArgumentError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":220}],262:[function(require,module,exports){
+},{"util":221}],262:[function(require,module,exports){
 var forEach = require( "lodash/forEach" );
 
 /**
@@ -13943,7 +14075,7 @@ module.exports = {
 	getBlocks: memoize( getBlocks )
 };
 
-},{"lodash/forEach":170,"lodash/memoize":198,"tokenizer2/core":218}],266:[function(require,module,exports){
+},{"lodash/forEach":170,"lodash/memoize":198,"tokenizer2/core":219}],266:[function(require,module,exports){
 /**
  * Checks if `n` is between `start` and up to, but not including, `start`.
  *
@@ -14070,7 +14202,7 @@ function removeDuplicateMarks( marks ) {
 
 module.exports = removeDuplicateMarks;
 
-},{"lodash/uniqBy":215}],273:[function(require,module,exports){
+},{"lodash/uniqBy":216}],273:[function(require,module,exports){
 /**
  * Removes all marks from a text
  *
@@ -14481,8 +14613,6 @@ var template = require( "../templates.js" ).assessmentPresenterResult;
 var scoreToRating = require( "../interpreters/scoreToRating.js" );
 var createConfig = require( "../config/presenter.js" );
 
-var domManipulation = require( "../helpers/domManipulation.js" );
-
 /**
  * Constructs the AssessorPresenter.
  *
@@ -14503,6 +14633,8 @@ var AssessorPresenter = function( args ) {
 	this.output = args.targets.output;
 	this.overall = args.targets.overall || "overallScore";
 	this.presenterConfig = createConfig( args.i18n );
+
+	this._activeMarker = false;
 };
 
 /**
@@ -14679,28 +14811,29 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 };
 
 /**
- * Deactivates all marker buttons to show they are not activated.
+ * Mark with a given marker. This will set the active marker to the correct value.
+ *
+ * @param {string} identifier The identifier for the assessment/marker.
+ * @param {Function} marker The marker function.
  */
-AssessorPresenter.prototype.deactiveMarkerClasses = function() {
-	var markers = document.getElementsByClassName( "assessment-results__mark" );
+AssessorPresenter.prototype.markAssessment = function( identifier, marker ) {
+	if ( this._activeMarker === identifier ) {
+		this.removeAllMarks();
+		this._activeMarker = false;
+	} else {
+		marker();
+		this._activeMarker = identifier;
+	}
 
-	// Reset all other items prior to activating the currently active marker.
-	forEach( markers, function( marker ) {
-		domManipulation.removeClass( marker, "icon-eye-active" );
-		domManipulation.addClass( marker, "icon-eye-inactive" );
-	} );
+	this.render();
 };
 
 /**
- * Toggles the marker button class depending on its state.
- *
- * @param {HTMLElement} element The element to toggle the class on.
+ * Disables the currently active marker in the UI.
  */
-AssessorPresenter.prototype.toggleMarkerClass = function( element ) {
-	this.deactiveMarkerClasses();
-
-	domManipulation.removeClass( element, "icon-eye-inactive" );
-	domManipulation.addClass( element, "icon-eye-active" );
+AssessorPresenter.prototype.disableMarker = function() {
+	this._activeMarker = false;
+	this.render();
 };
 
 /**
@@ -14713,10 +14846,7 @@ AssessorPresenter.prototype.addMarkerEventHandler = function( identifier, marker
 	var container = document.getElementById( this.output );
 	var markButton = container.getElementsByClassName( "js-assessment-results__mark-" + identifier )[ 0 ];
 
-	markButton.addEventListener( "click", function( ev ) {
-		this.toggleMarkerClass( ev.target );
-		marker();
-	}.bind( this ) );
+	markButton.addEventListener( "click", this.markAssessment.bind( this, identifier, marker ) );
 };
 
 /**
@@ -14751,19 +14881,6 @@ AssessorPresenter.prototype.removeAllMarks = function() {
 };
 
 /**
- * Adds event handler to remove marks button
- */
-AssessorPresenter.prototype.bindRemoveMarksButton = function() {
-	var container = document.getElementById( this.output );
-	var removeMarksButton = container.getElementsByClassName( "js-assessment-results__remove-marks" )[ 0 ];
-
-	removeMarksButton.addEventListener( "click", function() {
-		this.removeAllMarks();
-		this.deactiveMarkerClasses();
-	}.bind( this ) );
-};
-
-/**
  * Renders out the individual ratings.
  */
 AssessorPresenter.prototype.renderIndividualRatings = function() {
@@ -14774,12 +14891,12 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 		scores: scores,
 		i18n: {
 			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
-			removeMarks: this.i18n.dgettext( "js-text-analysis", "Remove all marks from the text" )
-		}
+			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" )
+		},
+		activeMarker: this._activeMarker
 	} );
 
 	this.bindMarkButtons( scores );
-	this.bindRemoveMarksButton();
 };
 
 /**
@@ -14796,34 +14913,9 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
 };
 
-/**
- * Shows the removemarks button when there is something to mark. Otherwise it will hide the button
- *
- * @param {bool} hasMarks When there are marks (true) otherwist it is false.
- */
-AssessorPresenter.prototype.displayRemoveAllMarkersButton = function( hasMarks ) {
-	var outputElement     = document.getElementById( this.output );
-	var removeMarksButton = outputElement.getElementsByClassName( "assessment-results__remove-marks" )[ 0 ];
-
-	if( isUndefined( removeMarksButton ) ) {
-		return;
-	}
-
-	// Shows the button when there are marks and removes aria-hidden for screenreaders, because element is visible.
-	if( hasMarks ) {
-		removeMarksButton.style.visibility = "";
-		removeMarksButton.removeAttribute( "aria-hidden" );
-
-		return;
-	}
-
-	removeMarksButton.style.visibility = "hidden";
-	removeMarksButton.setAttribute( "aria-hidden", "true" );
-};
-
 module.exports = AssessorPresenter;
 
-},{"../config/presenter.js":252,"../helpers/domManipulation.js":262,"../interpreters/scoreToRating.js":268,"../templates.js":352,"lodash/difference":164,"lodash/forEach":170,"lodash/isNumber":187,"lodash/isObject":188,"lodash/isUndefined":194}],276:[function(require,module,exports){
+},{"../config/presenter.js":252,"../interpreters/scoreToRating.js":268,"../templates.js":352,"lodash/difference":164,"lodash/forEach":170,"lodash/isNumber":187,"lodash/isObject":188,"lodash/isUndefined":194}],276:[function(require,module,exports){
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -19765,7 +19857,7 @@ module.exports = SEOAssessor;
 require( "util" ).inherits( module.exports, Assessor );
 
 
-},{"./assessments/introductionKeywordAssessment.js":225,"./assessments/keyphraseLengthAssessment.js":226,"./assessments/keywordDensityAssessment.js":227,"./assessments/keywordStopWordsAssessment.js":228,"./assessments/metaDescriptionKeywordAssessment.js":229,"./assessments/metaDescriptionLengthAssessment.js":230,"./assessments/subheadingsKeywordAssessment.js":235,"./assessments/textCompetingLinksAssessment.js":237,"./assessments/textImagesAssessment.js":238,"./assessments/textLengthAssessment.js":239,"./assessments/textLinksAssessment.js":240,"./assessments/titleKeywordAssessment.js":242,"./assessments/titleLengthAssessment.js":243,"./assessments/urlKeywordAssessment.js":245,"./assessments/urlLengthAssessment.js":246,"./assessments/urlStopWordsAssessment.js":247,"./assessor.js":248,"util":220}],314:[function(require,module,exports){
+},{"./assessments/introductionKeywordAssessment.js":226,"./assessments/keyphraseLengthAssessment.js":227,"./assessments/keywordDensityAssessment.js":228,"./assessments/keywordStopWordsAssessment.js":229,"./assessments/metaDescriptionKeywordAssessment.js":230,"./assessments/metaDescriptionLengthAssessment.js":231,"./assessments/subheadingsKeywordAssessment.js":236,"./assessments/textCompetingLinksAssessment.js":237,"./assessments/textImagesAssessment.js":238,"./assessments/textLengthAssessment.js":239,"./assessments/textLinksAssessment.js":240,"./assessments/titleKeywordAssessment.js":242,"./assessments/titleLengthAssessment.js":243,"./assessments/urlKeywordAssessment.js":245,"./assessments/urlLengthAssessment.js":246,"./assessments/urlStopWordsAssessment.js":247,"./assessor.js":248,"util":221}],314:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/isEmpty" );
@@ -21713,7 +21805,7 @@ module.exports = function( text ) {
 	return filter( sentences, negate( isEmpty ) );
 };
 
-},{"../helpers/html.js":265,"../stringProcessing/quotes.js":337,"lodash/filter":166,"lodash/flatMap":169,"lodash/forEach":170,"lodash/isEmpty":183,"lodash/isNaN":186,"lodash/isUndefined":194,"lodash/map":197,"lodash/memoize":198,"lodash/negate":201,"tokenizer2/core":218}],328:[function(require,module,exports){
+},{"../helpers/html.js":265,"../stringProcessing/quotes.js":337,"lodash/filter":166,"lodash/flatMap":169,"lodash/forEach":170,"lodash/isEmpty":183,"lodash/isNaN":186,"lodash/isUndefined":194,"lodash/map":197,"lodash/memoize":198,"lodash/negate":201,"tokenizer2/core":219}],328:[function(require,module,exports){
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.
@@ -22377,34 +22469,17 @@ module.exports = function( text ) {
 ;(function() {
   var undefined;
 
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
+  var freeExports = typeof exports == 'object' && exports;
 
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
+  var freeModule = freeExports && typeof module == 'object' && module;
 
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
+  var freeGlobal = checkGlobal(typeof global == 'object' && global);
 
-  var moduleExports = (freeModule && freeModule.exports === freeExports)
-    ? freeExports
-    : undefined;
+  var freeSelf = checkGlobal(typeof self == 'object' && self);
 
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+  var thisGlobal = checkGlobal(typeof this == 'object' && this);
 
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
+  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
 
   function checkGlobal(value) {
     return (value && value.Object === Object) ? value : null;
@@ -22414,7 +22489,7 @@ module.exports = function( text ) {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.11.2';
+  var VERSION = '4.13.0';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -22436,43 +22511,17 @@ module.exports = function( text ) {
     '`': '&#96;'
   };
 
-  /** Used to determine if values are of the language type `Object`. */
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  /** Detect free variable `exports`. */
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
-
-  /** Detect free variable `module`. */
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
-
   /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+  var freeGlobal = checkGlobal(typeof global == 'object' && global);
 
   /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  /** Detect free variable `window`. */
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+  var freeSelf = checkGlobal(typeof self == 'object' && self);
 
   /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+  var thisGlobal = checkGlobal(typeof this == 'object' && this);
 
-  /**
-   * Used as a reference to the global object.
-   *
-   * The `this` value is used if it's the global object to avoid Greasemonkey's
-   * restricted `window` object, otherwise the `window` object is used.
-   */
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
+  /** Used as a reference to the global object. */
+  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
 
   /*--------------------------------------------------------------------------*/
 
@@ -22663,8 +22712,6 @@ module.exports = function( text ) {
       : string;
   }
 
-  /*--------------------------------------------------------------------------*/
-
   var _ = { 'escape': escape };
 
   /*----------------------------------------------------------------------------*/
@@ -22684,13 +22731,25 @@ module.exports = function( text ) {
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="assessment-results__mark-container">\n                ';
      if ( scores[ i ].marker ) {
-    __p += '\n                    <button type="button" aria-label="' +
+    __p += '\n                    <button type="button"\n                        aria-label="' +
     ((__t = ( i18n.markInText )) == null ? '' : __t) +
-    '" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-' +
+    '"\n                        class="assessment-results__mark ';
+     if ( scores[ i ].identifier === activeMarker ) {
+    __p += 'icon-eye-active';
+     } else {
+    __p += 'icon-eye-inactive';
+     }
+    __p += ' js-assessment-results__mark-' +
     ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
-    ' yoast-tooltip yoast-tooltip-s"><span class="screen-reader-text">' +
-    ((__t = ( i18n.markInText )) == null ? '' : __t) +
-    '</span></button>\n                ';
+    ' yoast-tooltip yoast-tooltip-s"><span class="screen-reader-text">';
+     if ( scores[ i ].identifier === activeMarker ) {
+    __p +=
+    ((__t = ( i18n.removeMarksInText )) == null ? '' : __t);
+     } else {
+    __p +=
+    ((__t = ( i18n.markInText )) == null ? '' : __t);
+     }
+    __p += '</span></button>\n                ';
      }
     __p += '\n            </span>\n            <span class="wpseo-score-icon ' +
     __e( scores[ i ].className ) +
@@ -22700,9 +22759,7 @@ module.exports = function( text ) {
     ((__t = ( scores[ i ].text )) == null ? '' : __t) +
     '</span>\n        </li>\n    ';
      }
-    __p += '\n</ul>\n<button type="button" class="assessment-results__remove-marks js-assessment-results__remove-marks">' +
-    ((__t = ( i18n.removeMarks )) == null ? '' : __t) +
-    '</button>\n';
+    __p += '\n</ul>\n';
 
     }
     return __p
@@ -22785,10 +22842,8 @@ module.exports = function( text ) {
 
   /*----------------------------------------------------------------------------*/
 
-  if (freeExports && freeModule) {
-    if (moduleExports) {
-      (freeModule.exports = templates).templates = templates;
-    }
+  if (freeModule) {
+    (freeModule.exports = templates).templates = templates;
     freeExports.templates = templates;
   }
   else {

@@ -23,7 +23,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                 => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
-		// Form fields:
+
+		// Form fields.
 		'company_logo'                    => '',
 		'company_name'                    => '',
 		'company_or_person'               => '',

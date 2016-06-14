@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO Premium 3.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-13 09:49:38+00:00\n"
+"POT-Creation-Date: 2016-06-14 11:57:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,31 +46,31 @@ msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
 #. %4$s to anchor tags with link to intro page
-#: admin/class-admin-init.php:96
+#: admin/class-admin-init.php:97
 msgid ""
 "%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what's "
 "new!"
 msgstr ""
 
-#: admin/class-admin-init.php:136
+#: admin/class-admin-init.php:137
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:163
+#: admin/class-admin-init.php:164
 msgid "Huge SEO Issue: You're blocking access to robots."
 msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the reading
 #. settings, %1$s resolves to the closing tag for the link
-#: admin/class-admin-init.php:166
+#: admin/class-admin-init.php:167
 msgid ""
 "You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search "
 "Engine Visibility."
 msgstr ""
 
-#: admin/class-admin-init.php:194
+#: admin/class-admin-init.php:195
 msgid ""
 "Paging comments is enabled, this is not needed in 999 out of 1000 cases, we "
 "recommend to disable it."
@@ -78,13 +78,13 @@ msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the comment
 #. setting page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:199
+#: admin/class-admin-init.php:200
 msgid ""
 "Simply uncheck the box before \"Break comments into pages...\" on the "
 "%1$sComment settings page%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:237
+#: admin/class-admin-init.php:238
 msgid ""
 "You do not have your postname in the URL of your posts and pages, it is "
 "highly recommended that you do. Consider setting your permalink structure to "
@@ -93,13 +93,15 @@ msgstr ""
 
 #. translators: %1$s resolves to the starting tag of the link to the permalink
 #. settings page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:241
+#: admin/class-admin-init.php:242
 msgid "You can fix this on the %1$sPermalink settings page%2$s."
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands
 #. to Google Analytics by Yoast
-#: admin/class-admin-init.php:298
+#. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
+#. %3$s expands to the plugin name
+#: admin/class-admin-init.php:299 admin/class-admin-init.php:348
 msgid ""
 "%1$s detected you are using version %2$s of %3$s, please update to the "
 "latest version to prevent compatibility issues."
@@ -107,13 +109,13 @@ msgstr ""
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:331
+#: admin/class-admin-init.php:381
 msgid ""
 "We've updated our SEO score algorithm. %1$sClick here to recalculate the SEO "
 "scores%2$s for all posts and pages."
 msgstr ""
 
-#: admin/class-admin-init.php:532
+#: admin/class-admin-init.php:582
 msgid "%s filter/action"
 msgstr ""
 
@@ -123,7 +125,9 @@ msgid "Dashboard"
 msgstr ""
 
 #: admin/class-admin.php:137 admin/class-admin.php:313
-#: admin/class-meta-columns.php:43 admin/taxonomy/class-taxonomy-columns.php:43
+#: admin/class-meta-columns.php:43
+#: admin/formatter/class-metabox-formatter.php:65
+#: admin/taxonomy/class-taxonomy-columns.php:43
 msgid "SEO"
 msgstr ""
 
@@ -524,6 +528,31 @@ msgstr ""
 
 #: admin/class-meta-columns.php:332 admin/metabox/class-metabox.php:151
 msgid "Post is set to noindex."
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-plugin-availability.php:33 admin/pages/licenses.php:18
+msgid "The premium version of %1$s with more features & support."
+msgstr ""
+
+#: admin/class-plugin-availability.php:41 admin/pages/licenses.php:24
+msgid ""
+"Optimize your videos to show them off in search results and get more clicks!"
+msgstr ""
+
+#: admin/class-plugin-availability.php:49 admin/pages/licenses.php:30
+msgid ""
+"Are you in Google News? Increase your traffic from Google News by optimizing "
+"for it!"
+msgstr ""
+
+#: admin/class-plugin-availability.php:57 admin/pages/licenses.php:36
+msgid "Rank better locally and in Google Maps, without breaking a sweat!"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-plugin-availability.php:66 admin/pages/licenses.php:43
+msgid "Seamlessly integrate WooCommerce with %1$s and get extra features!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of
@@ -1059,63 +1088,70 @@ msgstr ""
 msgid "Current option:"
 msgstr ""
 
-#: admin/class-yoast-form.php:172
+#: admin/class-yoast-form.php:172 admin/class-yoast-form.php:177
+#: admin/class-yoast-form.php:182
 msgid ""
 "Order a Website Review and we will tell you what to improve to attract more "
 "visitors!"
 msgstr ""
 
-#: admin/class-yoast-form.php:177
+#: admin/class-yoast-form.php:187
+msgid ""
+"Take the online SEO Copywriting Training course and learn how to write "
+"awesome copy that ranks!"
+msgstr ""
+
+#: admin/class-yoast-form.php:192
 msgid ""
 "Take the online Basic SEO Training course and learn the fundamentals of SEO!"
 msgstr ""
 
-#: admin/class-yoast-form.php:182
+#: admin/class-yoast-form.php:197
 msgid ""
 "Take the Yoast SEO for WordPress Training course and become a certified "
 "Yoast SEO for WordPress expert!"
 msgstr ""
 
-#: admin/class-yoast-form.php:190
+#: admin/class-yoast-form.php:205
 msgid ""
 "Buy the Yoast SEO Premium plugin now and get access to extra features and "
 "24/7 support!"
 msgstr ""
 
-#: admin/class-yoast-form.php:198
+#: admin/class-yoast-form.php:213
 msgid ""
 "Buy the Yoast Video SEO plugin now and optimize your videos for video search "
 "results and social media!"
 msgstr ""
 
-#: admin/class-yoast-form.php:206
+#: admin/class-yoast-form.php:221
 msgid ""
 "Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to "
 "improve your product promotion!"
 msgstr ""
 
-#: admin/class-yoast-form.php:214
+#: admin/class-yoast-form.php:229
 msgid ""
 "Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO "
 "and ranking in Google Maps!"
 msgstr ""
 
-#: admin/class-yoast-form.php:222
+#: admin/class-yoast-form.php:237
 msgid ""
 "Buy the Yoast News SEO plugin now and start optimizing to get your site "
 "featured in Google News!"
 msgstr ""
 
-#: admin/class-yoast-form.php:247
+#: admin/class-yoast-form.php:262
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/class-yoast-form.php:250
+#: admin/class-yoast-form.php:265
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:338 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:353 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:33
 #: admin/views/tabs/metas/archives.php:46
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1123,7 +1159,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:338 admin/views/tabs/dashboard/security.php:14
+#: admin/class-yoast-form.php:353 admin/views/tabs/dashboard/security.php:14
 #: admin/views/tabs/metas/archives.php:32
 #: admin/views/tabs/metas/archives.php:45
 #: admin/views/tabs/metas/taxonomies.php:25
@@ -1131,7 +1167,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:487
+#: admin/class-yoast-form.php:502
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:89
 msgid "Upload Image"
 msgstr ""
@@ -1148,6 +1184,7 @@ msgid "Deactivate %s"
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:47
+#: admin/formatter/class-metabox-formatter.php:64
 #: admin/metabox/class-metabox.php:344
 #: admin/taxonomy/class-taxonomy-metabox.php:113
 msgid "Content"
@@ -1161,10 +1198,20 @@ msgstr ""
 msgid "Enter your focus keyword"
 msgstr ""
 
-#. translators: After this sentence, the used keyword will be added (if
-#. present). This string is added to support screen readers.
-#: admin/formatter/class-metabox-formatter.php:56
-msgid "Based on keyword:"
+#: admin/formatter/class-metabox-formatter.php:68 inc/class-wpseo-rank.php:101
+msgid "Not available"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:69 inc/class-wpseo-rank.php:103
+msgid "Bad"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:70 inc/class-wpseo-rank.php:104
+msgid "OK"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:71 inc/class-wpseo-rank.php:105
+msgid "Good"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:113
@@ -1528,10 +1575,10 @@ msgid "Analysis"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:58
-#: admin/taxonomy/class-taxonomy-content-fields.php:36
 msgid ""
-"This is the content analysis, a collection of content checks that analyze "
-"the content of your page. %sLearn more about the Content Analysis Tool%s."
+"This is the SEO & content analysis, a collection of checks that analyze the "
+"SEO & readability of your page. %sLearn more about the Yoast Content & SEO "
+"analysis%s."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:59
@@ -1726,31 +1773,6 @@ msgid "Security"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/licenses.php:18
-msgid "The premium version of %1$s with more features & support."
-msgstr ""
-
-#: admin/pages/licenses.php:24
-msgid ""
-"Optimize your videos to show them off in search results and get more clicks!"
-msgstr ""
-
-#: admin/pages/licenses.php:30
-msgid ""
-"Are you in Google News? Increase your traffic from Google News by optimizing "
-"for it!"
-msgstr ""
-
-#: admin/pages/licenses.php:36
-msgid "Rank better locally and in Google Maps, without breaking a sweat!"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
-#: admin/pages/licenses.php:43
-msgid "Seamlessly integrate WooCommerce with %1$s and get extra features!"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
 #: admin/pages/licenses.php:73
 msgid "%1$s Extensions"
 msgstr ""
@@ -1937,6 +1959,12 @@ msgstr ""
 msgid "Focus Keyword Help"
 msgstr ""
 
+#: admin/taxonomy/class-taxonomy-content-fields.php:36
+msgid ""
+"This is the content analysis, a collection of content checks that analyze "
+"the content of your page. %sLearn more about the Content Analysis Tool%s."
+msgstr ""
+
 #: admin/taxonomy/class-taxonomy-content-fields.php:39
 msgid "Content Analysis Help"
 msgstr ""
@@ -2028,75 +2056,99 @@ msgid ""
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/about.php:32
+#: admin/views/about.php:34
 msgid "Thank you for updating %1$s!"
 msgstr ""
 
 #. translators: %s: '3.2' version number
-#: admin/views/about.php:47
+#: admin/views/about.php:48
 msgid "What’s new in %s"
 msgstr ""
 
-#: admin/views/about.php:51
+#: admin/views/about.php:52
 msgid "Integrations"
 msgstr ""
 
-#: admin/views/about.php:52
+#: admin/views/about.php:53
 msgid "Credits"
 msgstr ""
 
-#: admin/views/about.php:143
+#: admin/views/about.php:149
 msgid "Go to the General settings page →"
 msgstr ""
 
 #. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
-#: admin/views/about.php:187
+#: admin/views/about.php:194
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "%3$s is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:189
+#: admin/views/about.php:196
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:193
-msgid "Project Leaders"
+#: admin/views/about.php:200
+msgid "Product Management"
 msgstr ""
 
-#: admin/views/about.php:199
+#: admin/views/about.php:206
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:204
-msgid "Lead Architect"
+#: admin/views/about.php:211
+msgid "Head R&D"
 msgstr ""
 
-#: admin/views/about.php:209
+#: admin/views/about.php:216
+msgid "Linguist"
+msgstr ""
+
+#: admin/views/about.php:223
+msgid "Development Leaders"
+msgstr ""
+
+#: admin/views/about.php:229
+msgid "CTO"
+msgstr ""
+
+#: admin/views/about.php:234 admin/views/about.php:239
 msgid "Architect"
 msgstr ""
 
-#: admin/views/about.php:214
-msgid "QA & Translations Manager"
+#: admin/views/about.php:247
+msgid "Yoast Developers"
 msgstr ""
 
-#: admin/views/about.php:222
-msgid "Contributing Developers"
-msgstr ""
-
-#: admin/views/about.php:228 admin/views/about.php:233
-#: admin/views/about.php:238 admin/views/about.php:243
-#: admin/views/about.php:248 admin/views/about.php:253
-#: admin/views/about.php:258
+#: admin/views/about.php:253 admin/views/about.php:258
+#: admin/views/about.php:263 admin/views/about.php:268
+#: admin/views/about.php:273 admin/views/about.php:278
+#: admin/views/about.php:283 admin/views/about.php:288
+#: admin/views/about.php:293
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:263 admin/views/about.php:268
-msgid "Tester / Developer"
+#: admin/views/about.php:301
+msgid "Quality Assurance & Testing"
 msgstr ""
 
-#: admin/views/about.php:276
-msgid "Contributors to this release"
+#: admin/views/about.php:307
+msgid "QA & Translations Manager"
+msgstr ""
+
+#: admin/views/about.php:312
+msgid "Tester"
+msgstr ""
+
+#: admin/views/about.php:320
+msgid "Community contributors"
+msgstr ""
+
+#: admin/views/about.php:328
+msgid ""
+"We're always grateful for patches from non-regular contributors, in Yoast "
+"SEO %s, patches from\n"
+"\t\t\tthe following people made it in:"
 msgstr ""
 
 #: admin/views/dashboard-widget.php:16
@@ -2158,9 +2210,7 @@ msgid "Problems"
 msgstr ""
 
 #: admin/views/partial-alerts-errors.php:10
-msgid ""
-"We have detected the following issues that involve a serious problem "
-"concerning the SEO of your site."
+msgid "We have detected the following issues that affect the SEO of your site."
 msgstr ""
 
 #: admin/views/partial-alerts-errors.php:11
@@ -3197,24 +3247,8 @@ msgid ""
 "SEO -> Titles menu and set up a template."
 msgstr ""
 
-#: inc/class-wpseo-rank.php:101
-msgid "Not available"
-msgstr ""
-
 #: inc/class-wpseo-rank.php:102
 msgid "No index"
-msgstr ""
-
-#: inc/class-wpseo-rank.php:103
-msgid "Bad"
-msgstr ""
-
-#: inc/class-wpseo-rank.php:104
-msgid "OK"
-msgstr ""
-
-#: inc/class-wpseo-rank.php:105
-msgid "Good"
 msgstr ""
 
 #: inc/class-wpseo-rank.php:118
@@ -3495,7 +3529,7 @@ msgstr ""
 
 #: inc/options/class-wpseo-option-xml.php:156
 msgid ""
-"\"Max entries per sitemap page\" should be below 50000 for Google "
+"\"Max entries per sitemap page\" should be below %s to meet Google's "
 "requirements, which %s is not."
 msgstr ""
 
@@ -3633,63 +3667,63 @@ msgstr ""
 msgid "Register now &raquo;"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:138
+#: vendor/yoast/license-manager/class-license-manager.php:134
 msgid ""
 "<b>Warning!</b> You're blocking external requests which means you won't be "
 "able to get %s updates. Please add %s to %s."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:179
+#: vendor/yoast/license-manager/class-license-manager.php:175
 msgid "Your %s license has been activated. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:183
+#: vendor/yoast/license-manager/class-license-manager.php:179
 msgid "You have an unlimited license. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:185
+#: vendor/yoast/license-manager/class-license-manager.php:181
 msgid "You have used %d/%d activations. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:190
+#: vendor/yoast/license-manager/class-license-manager.php:186
 msgid "<a href=\"%s\">Did you know you can upgrade your license?</a>"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:194
+#: vendor/yoast/license-manager/class-license-manager.php:190
 msgid ""
 "<a href=\"%s\">Your license is expiring in %d days, would you like to extend "
 "it?</a>"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:203
+#: vendor/yoast/license-manager/class-license-manager.php:199
 msgid ""
 "You've reached your activation limit. You must <a href=\"%s\">upgrade your "
 "license</a> to use it on this site."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:206
+#: vendor/yoast/license-manager/class-license-manager.php:202
 msgid ""
 "Your license has expired. You must <a href=\"%s\">extend your license</a> in "
 "order to use it again."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:209
+#: vendor/yoast/license-manager/class-license-manager.php:205
 msgid "Failed to activate your license, your license key seems to be invalid."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:233
+#: vendor/yoast/license-manager/class-license-manager.php:229
 msgid "Your %s license has been deactivated."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:235
+#: vendor/yoast/license-manager/class-license-manager.php:231
 msgid "Failed to deactivate your %s license."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:271
+#: vendor/yoast/license-manager/class-license-manager.php:267
 msgid "Request error: \"%s\" (%scommon license notices%s)"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:430
+#: vendor/yoast/license-manager/class-license-manager.php:426
 msgid "%s: License Settings"
 msgstr ""
 
@@ -3714,24 +3748,24 @@ msgstr ""
 msgid "Theme License"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-theme-update-manager.php:96
+#: vendor/yoast/license-manager/class-theme-update-manager.php:92
 msgid ""
 "Updating this theme will lose any customizations you have made. 'Cancel' to "
 "stop, 'OK' to update."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-theme-update-manager.php:101
+#: vendor/yoast/license-manager/class-theme-update-manager.php:97
 msgid ""
 "<strong>%s version %s</strong> is available. <a href=\"%s\" class=\"thickbox"
 "\" title=\"%s\">Check out what's new</a> or <a href=\"%s\" %s>update now</a>."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-update-manager.php:83
+#: vendor/yoast/license-manager/class-update-manager.php:79
 msgid ""
 "%s failed to check for updates because of the following error: <em>%s</em>"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-update-manager.php:153
+#: vendor/yoast/license-manager/class-update-manager.php:157
 msgid ""
 "This site has not been activated properly on yoast.com and thus cannot check "
 "for future updates. Please activate your site with a valid license key."
