@@ -5,7 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## [Unreleased]
+## 1.3.1: June 14th, 2016
+
+### Fixed
+* Fix a bug where no content would result in a green overall content score.
+
+## 1.3.0: June 14th, 2016
 
 ### Added
 
