@@ -1,3 +1,11 @@
+### 3.3.0: June 14th, 2016
+* Add author name support to the social previews.
+* Add a tab inside the help center to contact support, this replaces the question mark at the bottom right of the page.
+* Fixes a bug where the redirects couldn't be saved to the .htaccess in certain scenarios.
+* Fixes a bug where subdomains would be stripped from target URLs in the redirects.
+* Fixes a bug where the Redirection import wasn't present.
+* Includes every change in Yoast SEO core 3.3.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/). 
+
 ### 3.2.5: May 6th, 2016
 * Fixes "undefined index" notices when Facebook and/or Twitter have been disabled in settings.
 * Fixes a bug when writing 4xx redirects into the .htaccess file on Apache.
