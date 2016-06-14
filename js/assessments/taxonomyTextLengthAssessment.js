@@ -16,7 +16,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 
 
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
+				/* Translators: %1$d expands to the number of words in the text. */
 				"The text contains %1$d word.",
 				"The text contains %1$d words.",
 				wordCount
@@ -35,13 +35,13 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 7,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
+				/* Translators: %1$d expands to the number of words in the text. */
 				"The text contains %1$d word.",
 				"The text contains %1$d words.",
 				wordCount
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
 				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
 				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
 				recommendedMinimum
@@ -54,13 +54,13 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 5,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
+				/* Translators: %1$d expands to the number of words in the text. */
 				"The text contains %1$d word.",
 				"The text contains %1$d words.",
 				wordCount
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
 				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
 				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
 				recommendedMinimum
@@ -73,13 +73,13 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -10,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
+				/* Translators: %1$d expands to the number of words in the text. */
 				"The text contains %1$d word.",
 				"The text contains %1$d words.",
 				wordCount
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
 				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
 				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
 				recommendedMinimum
@@ -92,13 +92,13 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -20,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
+				/* Translators: %1$d expands to the number of words in the text. */
 				"The text contains %1$d word.",
 				"The text contains %1$d words.",
 				wordCount
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
 				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
 				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
 				recommendedMinimum
