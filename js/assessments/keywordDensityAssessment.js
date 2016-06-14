@@ -26,8 +26,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 			" which is way over the advised %3$s maximum;" +
 			" the focus keyword was found %2$d times." );
 
-		/* Translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5) */
-		max = i18n.dgettext( "js-text-analysis", "2.5" ) + "%";
+		max = "2.5%";
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
@@ -41,8 +40,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 			" which is over the advised %3$s maximum;" +
 			" the focus keyword was found %2$d times." );
 
-		/* Translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5) */
-		max = i18n.dgettext( "js-text-analysis", "2.5" ) + "%";
+		max = "2.5%";
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
