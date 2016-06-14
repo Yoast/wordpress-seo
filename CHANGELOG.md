@@ -14,19 +14,13 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
     * The length of text following a subheading.
     * The length of paragraphs.
     * The length of sentences.
-    * The repetition of words at the beginning of sentences.
-    * The presence of complex words.
     * The presence of transition words.
-    * The variation of sentence length.
     * The presence of the passive voice.
-    * The length of sentences inside the meta description.
 * Markers for certain assessments that can show the location of the feedback inside the text:
-	* The length of subheadings.
 	* The length of paragraphs.
 	* The length of sentences.
 	* The presence of passive voice.
 	* The presence of transition words.
-	* The presence of complex words.
 	* The presence of links with the focus keyword as link text.
 * Transliteration for the following languages:
     * Spanish, Polish, German, Nynorsk, Bokmål, Swedish, Finnish,
