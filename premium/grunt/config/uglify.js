@@ -10,7 +10,7 @@ module.exports = {
 					src: [
 						'<%= files.js %>',
 						'!assets/js/src/**/*.js',
-						'assets/js/yoast-premium-social-preview.js'
+						'assets/js/yoast-premium-social-preview-330.js'
 					],
 					ext: '.min.js',
 					extDot: 'first',
