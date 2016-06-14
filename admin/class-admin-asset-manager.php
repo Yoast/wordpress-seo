@@ -118,7 +118,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-320',
+				'src'  => 'wp-seo-admin-330',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -147,17 +147,17 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wp-seo-dismissible-320',
+				'src'  => 'wp-seo-dismissible-330',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-320',
+				'src'  => 'wp-seo-admin-global-330',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-320',
+				'src'  => 'wp-seo-metabox-330',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -169,7 +169,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'wp-seo-featured-image-320',
+				'src'  => 'wp-seo-featured-image-330',
 				'deps' => array(
 					'jquery'
 				),
@@ -182,7 +182,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-324',
+				'src'  => 'wp-seo-post-scraper-330',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -191,14 +191,14 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-324',
+				'src'  => 'wp-seo-term-scraper-330',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
-				'src'  => 'wp-seo-replacevar-plugin-320',
+				'src'  => 'wp-seo-replacevar-plugin-330',
 			),
 			array(
 				'name' => 'shortcode-plugin',
