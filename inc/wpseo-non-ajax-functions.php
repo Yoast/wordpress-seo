@@ -269,6 +269,7 @@ function wpseo_admin_bar_menu() {
 
 			if ( $notification_count > 0 ) {
 				// Always show Alerts page when clicking on the main link.
+				/* translators: %s: number of notifications */
 				$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
 				$counter = sprintf( ' <div class="yoast-issue-counter"><span aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );
 			}

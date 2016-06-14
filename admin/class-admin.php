@@ -134,6 +134,7 @@ class WPSEO_Admin {
 		$notification_count  = $notification_center->get_notification_count();
 
 		// Add main page.
+		/* translators: %s: number of notifications */
 		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
 		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count" aria-hidden="true">%1$d</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $counter_screen_reader_text );
 
