@@ -8,13 +8,13 @@ var $ = jQuery;
 var defaultArguments = {
 	keyword: '',
 	prefix: '',
-	basedOn: '',
 	onActivate: function ( ) { },
 	afterActivate: function ( ) { },
 	active: false,
 
 	scoreClass: 'na',
 	scoreText: '',
+	fallback: '',
 
 	showKeyword: true,
 	isKeywordTab: true
@@ -33,7 +33,6 @@ module.exports = (function() {
 
 		this.keyword = args.keyword;
 		this.prefix  = args.prefix;
-		this.basedOn = args.basedOn;
 		this.onActivate = args.onActivate;
 		this.afterActivate = args.afterActivate;
 		this.active = args.active;
@@ -42,6 +41,7 @@ module.exports = (function() {
 
 		this.showKeyword = args.showKeyword;
 		this.isKeywordTab = args.isKeywordTab;
+		this.fallback = args.fallback;
 	}
 
 	/**
@@ -94,9 +94,17 @@ module.exports = (function() {
 	 */
 	KeywordTab.prototype.render = function() {
 		var placeholder = this.keyword.length > 0 ? this.keyword : '...';
+		var prefix = this.prefix;
 
 		if ( ! this.showKeyword ) {
 			placeholder = '';
+		}
+
+		if ( '' === this.keyword && '' !== this.fallback ) {
+			placeholder = this.fallback;
+			prefix = '';
+		} else {
+			prefix += ' ';
 		}
 
 		var html = wp.template( 'keyword_tab' )({
@@ -104,9 +112,8 @@ module.exports = (function() {
 			placeholder: placeholder,
 			score: this.scoreClass,
 			hideRemove: true,
-			prefix: this.prefix + ' ',
+			prefix: prefix,
 			active: this.active,
-			basedOn: this.basedOn,
 			scoreText: this.scoreText,
 			isKeywordTab: this.isKeywordTab
 		});
@@ -151,6 +158,19 @@ module.exports = (function() {
 	};
 
 	/**
+	 * Activates the tab
+	 */
+	KeywordTab.prototype.activate = function() {
+		this.onActivate();
+
+		$( '.wpseo_keyword_tab, .wpseo_content_tab' ).removeClass( 'active' );
+		this.active = true;
+		this.refresh();
+
+		this.afterActivate();
+	};
+
+	/**
 	 * Handles clicking the tab.
 	 *
 	 * @param {UIEvent} ev The event fired by the browser.
@@ -158,13 +178,7 @@ module.exports = (function() {
 	KeywordTab.prototype.onClick = function( ev ) {
 		ev.preventDefault();
 
-		this.onActivate();
-
-		$( '.wpseo_keyword_tab' ).removeClass( 'active' );
-		this.active = true;
-		this.refresh();
-
-		this.afterActivate();
+		this.activate();
 	};
 
 	/**

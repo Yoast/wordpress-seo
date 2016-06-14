@@ -49,7 +49,15 @@ class WPSEO_Taxonomy_Metabox {
 			$product_title .= ' Premium';
 		}
 
-		printf( '<div id="poststuff" class="postbox"><h3><span>%1$s</span></h3><div id="taxonomy_overall"></div><div class="inside">' , $product_title );
+		printf( '<div id="poststuff" class="postbox wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
+
+		// Add Help Center to the taxonomy metabox see #4701.
+		echo '<div class="inside">';
+		$tab_video_url = 'https://yoa.st/metabox-taxonomy-screencast';
+		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+
+
+		echo '<div id="taxonomy_overall"></div>';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -254,14 +262,10 @@ SVG;
 		echo '<script type="text/html" id="tmpl-keyword_tab">
 				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						{{data.prefix}}
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.placeholder}}</em>
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
-						<span class="wpseo-score-icon {{data.score}}">
-							<# if ( data.keyword ) { #>
-								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
-							<# } #>
-						</span>
-						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
 					</a>
 					<# if ( ! data.hideRemove ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>

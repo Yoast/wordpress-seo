@@ -65,7 +65,7 @@
 	"requireCommaBeforeLineBreak": true,
 	"requireCapitalizedConstructors": true,
 	"safeContextKeyword": [ "that" ],
-	"validateJSDoc": {
+	"jsDoc": {
 		"checkParamNames": true,
 		"checkRedundantParams": true,
 		"requireParamTypes": true

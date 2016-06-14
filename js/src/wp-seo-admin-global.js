@@ -213,8 +213,8 @@
 			$issue_counter.show();
 		}
 
-		$('#toplevel_page_wpseo_alerts .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
-		$('#toplevel_page_wpseo_alerts .plugin-count').html( response.total );
+		$('#toplevel_page_wpseo_dashboard .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
+		$('#toplevel_page_wpseo_dashboard .plugin-count').html( response.total );
 	}
 })();
 
@@ -249,6 +249,9 @@
 		$container.find( '.wpseo-tab-video-slideout' ).css( 'display', 'flex' );
 
 		var $activeTabLink = $container.find('.wpseo-help-center-item.active > a');
+
+		$( '#wpcontent' ).addClass( 'yoast-help-center-open' );
+
 		if ( $activeTabLink.length > 0 ) {
 			var activeTab = $activeTabLink.attr( 'aria-controls' );
 			activateVideo( $( '#' + activeTab ) );
@@ -316,5 +319,7 @@
 
 		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-arrow-down' );
 		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'false' );
+
+		$( '#wpcontent' ).removeClass( 'yoast-help-center-open' );
 	}
 })();
