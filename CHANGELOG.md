@@ -56,6 +56,7 @@ assessor.
 * Fix a bug where a modification on the title wasn't correctly taken into account.
 * Fix a bug where alt tags were requires in all images instead of in only one of the images.
 * Fix a bug where having subheadings without the focus keyword was worse than having no subheadings at all.
+* Fix a bug where requiring paper in index.js would fail on case-sensitive systems, props [Chris Bosco](https://github.com/cbosco).
 
 ## 1.2.2: May 4th, 2016
 
