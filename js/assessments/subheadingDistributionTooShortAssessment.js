@@ -62,7 +62,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n
 				tooShortTexts
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
-				// %2$d expands to the recommended value
+				// Translators: %2$d expands to the recommended value.
 				"The recommended minimum is %2$d word.",
 				"The recommended minimum is %2$d words.",
 				recommendedValue
