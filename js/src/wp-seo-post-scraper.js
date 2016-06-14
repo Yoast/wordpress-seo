@@ -2,12 +2,17 @@
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
-var tinyMCEDecorator = require( './decorator/tinyMCEDecorator' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
 var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 var tmceHelper = require( './wp-seo-tinymce' );
+
+var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
+var publishBox = require( './ui/publishBox' );
+
+var updateTrafficLight = require( './ui/trafficLight' ).update;
+var updateAdminBar = require( './ui/adminBar' ).update;
 
 (function( $ ) {
 	'use strict';
@@ -247,6 +252,15 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	PostScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
 
+		// If multi keyword isn't available we need to update the first tab (content).
+		if ( ! YoastSEO.multiKeyword ) {
+			tabManager.updateKeywordTab( score, currentKeyword );
+			publishBox.updateScore( 'content', indicator.className );
+
+			// Updates the input with the currentKeyword value.
+			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
+		}
+
 		if ( tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
@@ -255,21 +269,10 @@ var tmceHelper = require( './wp-seo-tinymce' );
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
-			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
+			updateTrafficLight( indicator );
+			updateAdminBar( indicator );
 
-			$( '.adminbar-seo-score' )
-				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
-		}
-
-		// If multi keyword isn't available we need to update the first tab (content)
-		if ( ! YoastSEO.multiKeyword ) {
-			tabManager.updateKeywordTab( score, currentKeyword );
-
-			// Updates the input with the currentKeyword value
-			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
+			publishBox.updateScore( 'keyword', indicator.className );
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
@@ -282,6 +285,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	 */
 	PostScraper.prototype.saveContentScore = function( score ) {
 		tabManager.updateContentTab( score );
+		var indicator = getIndicatorForScore( score );
+		publishBox.updateScore( 'content', indicator.className );
 
 		$( '#yoast_wpseo_content_score' ).val( score );
 	};
@@ -313,7 +318,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
 	 * @param {Object} response The AJAX response object.
-	 * @returns {string}
+	 * @returns {String}
 	 */
 	function getUrlPathFromResponse( response ) {
 		if ( response.responseText === '' ) {
@@ -388,8 +393,34 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		return new SnippetPreview( snippetPreviewArgs );
 	}
 
+	/**
+	 * Returns the marker callback method for the assessor.
+	 *
+	 * @returns {*|bool}
+	 */
+	function getMarker() {
+		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
+		if ( typeof tinyMCE !== 'undefined' && wpseoPostScraperL10n.show_markers === '1' ) {
+			return function( paper, marks ) {
+				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
+					if ( null === decorator ) {
+						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+					}
+
+					decorator( paper, marks );
+				}
+			};
+		}
+
+		return false;
+	}
+
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
+
+		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
+
+		publishBox.initalise();
 
 		tabManager = new TabManager({
 			strings: wpseoPostScraperL10n
@@ -413,15 +444,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale,
-			marker: function( paper, marks ) {
-				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
-					if ( null === decorator ) {
-						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
-					}
-
-					decorator( paper, marks );
-				}
-			}
+			marker: getMarker()
 		};
 
 		titleElement = $( '#title' );
@@ -455,6 +478,13 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		postScraper.initKeywordTabTemplate();
 
 		window.YoastSEO.wp._tabManager = tabManager;
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+		publishBox.updateScore( 'keyword', indicator.className );
+
+		tabManager.getKeywordTab().activate();
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 

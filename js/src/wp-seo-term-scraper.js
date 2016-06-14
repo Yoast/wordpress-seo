@@ -6,6 +6,9 @@ var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 var tmceHelper = require( './wp-seo-tinymce' );
 
+var updateTrafficLight = require( './ui/trafficLight' ).update;
+var updateAdminBar = require( './ui/adminBar' ).update;
+
 (function( $ ) {
 	'use strict';
 
@@ -60,7 +63,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	TermScraper.prototype.getDataFromInput = function( inputType ) {
 		var val = '';
 		var elem;
-		switch( inputType ){
+		switch( inputType ) {
 			case 'keyword':
 				elem = document.getElementById( 'wpseo_focuskw' );
 				val = elem.value;
@@ -85,7 +88,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 				}
 				break;
 			case 'text':
-				val = tmceHelper.getContentTinyMce();
+				val = tmceHelper.getContentTinyMce( tmceId );
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
@@ -174,13 +177,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 
 		tabManager.updateKeywordTab( score, keyword );
 
-		$( '.yst-traffic-light' )
-			.attr( 'class', 'yst-traffic-light ' + indicator.className )
-			.attr( 'alt', indicator.screenReaderText );
-
-		$( '.adminbar-seo-score' )
-			.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-			.attr( 'alt', indicator.screenReaderText );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
 	};
 	/**
 	 * Saves the content score to a hidden field.
@@ -213,13 +211,18 @@ var tmceHelper = require( './wp-seo-tinymce' );
 
 		var newEditor = document.getElementById( 'wp-description-wrap' );
 		newEditor.style.display = 'none';
+
 		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
+
 		//empty the TD with the old description textarea
 		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
+
 		//append the editor and the helptext
 		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
+
 		newEditor.style.display = 'block';
-		document.getElementById('description').value = textNode;
+
+		document.getElementById( 'description' ).value = textNode;
 	};
 
 	/**
@@ -256,6 +259,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		};
 
 		var metaPlaceholder = descriptionPlaceholder;
+
 		if ( metaPlaceholder !== '' ) {
 			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
 			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
@@ -282,6 +286,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
+		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
+
 		insertTinyMCE();
 
 		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
@@ -290,6 +296,7 @@ var tmceHelper = require( './wp-seo-tinymce' );
 			strings: wpseoTermScraperL10n,
 			focusKeywordField: '#wpseo_focuskw'
 		});
+
 		tabManager.init();
 
 		termScraper = new TermScraper();
@@ -345,6 +352,12 @@ var tmceHelper = require( './wp-seo-tinymce' );
 		YoastSEO.analyzerArgs = args;
 
 		initTermSlugWatcher();
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+
+		tabManager.getKeywordTab().activate();
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 	} );
