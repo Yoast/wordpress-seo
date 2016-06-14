@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 1.1.0: June 14th, 2016
+
+### Features
+
+* Add author name to Facebook social preview.
+
+## 1.0.0: April 20th, 2016
 
 ### Features
 
