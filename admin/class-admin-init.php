@@ -48,6 +48,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'page_comments_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
@@ -306,6 +307,55 @@ class WPSEO_Admin_Init {
 			array(
 				'id'   => 'gawp-compatibility-notice',
 				'type' => Yoast_Notification::ERROR,
+			)
+		);
+	}
+
+	/**
+	 * Add an alert if outdated versions of Yoast SEO plugins are running.
+	 */
+	public function yoast_plugin_compatibility_notification() {
+		$compatibility_checker = new WPSEO_Plugin_Compatibility( WPSEO_VERSION );
+		$plugins = $compatibility_checker->get_installed_plugins_compatibility();
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		foreach ( $plugins as $name => $plugin ) {
+			$type = ( $plugin['active'] ) ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
+			$notification = $this->get_yoast_seo_compatibility_notification( $name, $plugin, $type );
+
+			if ( $plugin['compatible'] === false ) {
+				$notification_center->add_notification( $notification );
+			}
+			else {
+				$notification_center->remove_notification( $notification );
+			}
+		}
+	}
+
+	/**
+	 * Build Yoast SEO compatibility problem notification
+	 *
+	 * @param string $name The plugin name to use for the unique ID.
+	 * @param array  $plugin The plugin to retrieve the data from.
+	 * @param string $level The severity level to use for the notification.
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_yoast_seo_compatibility_notification( $name, $plugin, $level = Yoast_Notification::WARNING ) {
+		$info_message = sprintf(
+		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
+			'Yoast SEO',
+			$plugin['version'],
+			$plugin['title']
+		);
+
+		return new Yoast_Notification(
+			$info_message,
+			array(
+				'id'   => 'wpseo-outdated-yoast-seo-plugin-' . $name,
+				'type' => $level,
 			)
 		);
 	}
