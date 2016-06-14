@@ -22,15 +22,15 @@ $unique_id = md5( $url );
 			?>
 			<div class='form-field form-required'>
 				<label for='wpseo-current-url-<?php echo $unique_id; ?>'><?php _e( 'Current URL:', 'wordpress-seo' ); ?></label>
-				<input type='text' id='wpseo-current-url-<?php echo $unique_id; ?>' name='current_url' value='<?php echo $url; ?>' readonly>
+				<input type='text' id='wpseo-current-url-<?php echo $unique_id; ?>' name='current_url' value='<?php echo $url; ?>' readonly />
 			</div>
 			<div class='form-field form-required'>
 				<label for='wpseo-new-url-<?php echo $unique_id; ?>'><?php _e( 'New URL:', 'wordpress-seo' ); ?></label>
-				<input type='text' id='wpseo-new-url-<?php echo $unique_id; ?>' name='new_url' value=''>
+				<input type='text' id='wpseo-new-url-<?php echo $unique_id; ?>' name='new_url' value='' />
 			</div>
 			<div class='form-field form-required'>
 				<label for='wpseo-mark-as-fixed-<?php echo $unique_id; ?>' class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo' ); ?></label>
-				<input type='checkbox' checked value='1' id='wpseo-mark-as-fixed-<?php echo $unique_id; ?>' name='mark_as_fixed' class='clear' aria-describedby='wpseo-mark-as-fixed-desc-<?php echo $unique_id; ?>'>
+				<input type='checkbox' checked value='1' id='wpseo-mark-as-fixed-<?php echo $unique_id; ?>' name='mark_as_fixed' class='clear' aria-describedby='wpseo-mark-as-fixed-desc-<?php echo $unique_id; ?>' />
 				<p id='wpseo-mark-as-fixed-desc-<?php echo $unique_id; ?>'><?php
 					/* Translators: %1$s: expands to 'Google Search Console'. */
 					echo sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo' ), 'Google Search Console' );
