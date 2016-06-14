@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 1.0: April 20th, 2016
 
 ### Features
 

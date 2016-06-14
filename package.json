@@ -1,6 +1,6 @@
 {
   "name": "yoast-social-previews",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "",
   "private": true,
   "main": "index.js",
@@ -19,7 +19,7 @@
   "dependencies": {
     "jed": "^1.1.0",
     "lodash": "^3.10.1",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
