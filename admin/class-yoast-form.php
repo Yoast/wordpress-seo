@@ -489,7 +489,7 @@ class Yoast_Form {
 	/**
 	 * Create a Radio input field.
 	 *
-	 * @param string $var         The variable within the option to create the file upload field for.
+	 * @param string $var         The variable within the option to create the radio button for.
 	 * @param array  $values      The radio options to choose from.
 	 * @param string $legend      Optional. The legend to show for the field set, if any.
 	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
