@@ -163,6 +163,7 @@ Release Date: June 14th, 2016
 	* Fixes a bug where the focus keyword wouldn't be saved when saving the post instantly after changing the focus keyword.
 	* Fixes a bug where retrieving terms in the breadcrumbs wouldn't be cached, props [Jonny Harris](https://github.com/spacedmonkey)
 	* Fixes a bug where the help center wasn't properly styled in Safari.
+	* Fixes an XSS issue, props [Hristo Pandjarov](https://twitter.com/pandjarov).
 
 * Removed:
 	* Removes the ability to sort on the post score column, because the scores aren't meant to be sorted.
