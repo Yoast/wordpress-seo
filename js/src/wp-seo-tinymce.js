@@ -101,6 +101,14 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		});
 	}
 
+	function hideMarkerButtons(){
+		$(".assessment-results > .score > .assessment-results__mark-container > button").hide();
+	}
+
+	function showMarkerButtons() {
+		$(".assessment-results > .score > .assessment-results__mark-container > button").show();
+	}
+
 	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 	 *
@@ -109,6 +117,9 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 */
 	function tinyMceEventBinder( app, tmceId ) {
 		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
+
+		addEventHandler( tmceId, [ 'hide'], hideMarkerButtons );
+		addEventHandler( tmceId, [ 'show'], showMarkerButtons );
 
 		addEventHandler( 'content', [ 'focus' ], function( evt ) {
 			var editor = evt.target;
