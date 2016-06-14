@@ -9,10 +9,48 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ### Added
 
+* Assessments that assess the following properties:
+    * The length of subheadings.
+    * The length of text following a subheading.
+    * The length of paragraphs.
+    * The length of sentences.
+    * The presence of transition words.
+    * The presence of the passive voice.
+* Markers for certain assessments that can show the location of the feedback inside the text:
+	* The length of paragraphs.
+	* The length of sentences.
+	* The presence of passive voice.
+	* The presence of transition words.
+	* The presence of links with the focus keyword as link text.
+* Transliteration for the following languages:
+    * Spanish, Polish, German, Nynorsk, Bokmål, Swedish, Finnish,
+    * Danish, Turkish, Latvian, Icelandic, Faroese, Czech, Russian,
+    * Esperanto, Afrikaans, Catalan, Asturian, Aragonese, Aymara,
+    * English, French, Italian, Dutch, Bambara.
+* Improved accessibility in the snippet preview.
+
 * Added a marker argument to the `App` that can be used to inject a marker function.
 * Added a marker argument to the `Assessor` that can be used to inject a marker function.
-* Added a button after all feedback that can be marked in the text.
-* Added markers for the relevant assessments.
+* Added a button after all assessment results that can be marked in the text.
+
+### Changed
+
+* Created a contentAssessor that contains all content assessments. Some
+assessments have been moved from the SEO sssessor to the content
+assessor.
+* Gracefully fail on assessment failure. An assessment that has a fatal
+ error now will be shown as a gray bullet and add a trace to the console.
+* Improve the way we detect sentences in the text.
+* Improve performance of the flesch reading ease.
+* Make sure the refresh of the app is always properly debounced.
+* Add identifier to all assessments and assessment results to be able to reference them later.
+* Hide progress bars from screen readers.
+
+### Fixed
+* Fix a bug where a modification on the title wasn't correctly taken into account.
+* Fix a bug where alt tags were requires in all images instead of in only one of the images.
+* Fix a bug where having subheadings without the focus keyword was worse than having no subheadings at all.
+* Fix a bug where requiring paper in index.js would fail on case-sensitive systems, props [Chris Bosco](https://github.com/cbosco).
 
 ## 1.2.2: May 4th, 2016
 
