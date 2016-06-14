@@ -25,14 +25,14 @@ describe( "An assessment for scoring too long sub texts.", function() {
 	it ( "returns a heading that is too short", function() {
 		var assessment = subheadingDistributionTooShort.getResult( paper, Factory.buildMockResearcher( [{text: "", wordCount: 10},{text: "", wordCount: 200},{text: "", wordCount: 300} ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "The number of words following 1 of your subheadings is less than or equal to the recommended minimum of 40 words. Consider deleting that particular subheading, or the following subheading." );
+		expect( assessment.getText() ).toBe( "The number of words following 1 of your subheadings is too small. The recommended minimum is 40 words. Consider deleting that particular subheading, or the following subheading." );
 	} );
 
 	it ( "returns 3 headings that are too short", function() {
 		var assessment = subheadingDistributionTooShort.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 10},{text: "", wordCount: 20},{text: "", wordCount: 30},{text: "", wordCount: 310}
 		 ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "The number of words following 3 of your subheadings is less than or equal to the recommended minimum of 40 words. Consider deleting those particular subheadings, or the subheading following each of them." );
+		expect( assessment.getText() ).toBe( "The number of words following 3 of your subheadings is too small. The recommended minimum is 40 words. Consider deleting those particular subheadings, or the subheading following each of them." );
 	} );
 
 	it( "returns false because the paper has no text", function(){

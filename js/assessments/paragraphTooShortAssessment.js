@@ -43,12 +43,30 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 	return {
 		score: score,
 
-		// Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value.
-		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains less than the recommended minimum " +
-				"of %2$d words. Try to expand this paragraph, or connect it to the previous or next paragraph.",
-				"%1$d of the paragraphs contain less than the recommended minimum of %2$d words.  Try to expand these paragraphs, " +
-				"or connect each of them to the previous or next paragraph.", tooShortParagraphs.length ),
-			tooShortParagraphs.length, recommendedValue )
+		text: i18n.sprintf(
+			i18n.dngettext(
+				"js-text-analysis",
+				// Translators: %1$d expands to the number of paragraphs.
+				"%1$d of the paragraphs is too short.",
+				"%1$d of the paragraphs are too short.",
+				tooShortParagraphs.length
+			) + " " +
+			i18n.dngettext(
+				"js-text-analysis",
+				// Translators: %2$d expands to the recommended value.
+				"The recommended minimum is %2$d word.",
+				"The recommended minimum is %2$d words.",
+				recommendedValue
+			) + " " +
+			i18n.dngettext(
+				"js-text-analysis",
+				"Try to expand this paragraph, or connect it to the previous or next paragraph.",
+				"Try to expand these paragraphs, or connect each of them to the previous or next paragraph.",
+				tooShortParagraphs.length
+			),
+			tooShortParagraphs.length,
+			recommendedValue
+		)
 	};
 };
 
