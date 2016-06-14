@@ -40,7 +40,7 @@ Release Date: Unreleased
 	* Removed Alexa verification from the plugin as it no longer works.
 
 * Bugfixes:
-	* Fixes a bug where a quote inside an attribute in the XML sitemaps would cause not create valid XML.
+	* Fixes a bug where a quote inside an attribute in the XML sitemaps would cause to create invalid XML.
 	* Fixes a bug where using a custom posts table would not result in correct output in the XML sitemaps.
 	* Fixes an issue where canonical URLs didn't always correctly have a trailing slash, thanks you for your input [MatthewMi11er](https://github.com/MatthewMi11er).
 	* Fixes a bug where we didn't match a focus keyword correctly if it contained a slash.
