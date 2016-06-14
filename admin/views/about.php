@@ -248,45 +248,45 @@ function wpseo_display_contributors( $contributors ) {
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$people = array(
-				'irenestr'      => (object) array(
-					'name'     => 'Irene Strikkers',
+				'andrea'        => (object) array(
+					'name'     => 'Andrea Fercia',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
+					'gravatar' => '074af62ea5ff218b6a6eeab89104f616',
+				),
+				'rarst'         => (object) array(
+					'name'     => 'Andrey Savchenko',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'c445c2491f9f55409b2e4dccee357961',
 				),
 				'andizer'       => (object) array(
 					'name'     => 'Andy Meerwaldt',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
 				),
-				'andrea'        => (object) array(
-					'name'     => 'Andrea Fercia',
+				'CarolineGeven' => (object) array(
+					'name'     => 'Caroline Geven',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => '074af62ea5ff218b6a6eeab89104f616',
+					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
 				),
 				'terw-dan'      => (object) array(
 					'name'     => 'Danny Terwindt',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '20a04b0736e630e80ce2dbefe3f1d62f',
 				),
-				'CarolineGeven' => (object) array(
-					'name'     => 'Caroline Geven',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
-				),
-				'jcomack'       => (object) array(
-					'name'     => 'Jimmy Comack',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
-				),
 				'diedexx'       => (object) array(
 					'name'     => 'Diede Exterkate',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '59908788f406037240ee011388db29f8',
 				),
-				'rarst'         => (object) array(
-					'name'     => 'Andrey Savchenko',
+				'irenestr'      => (object) array(
+					'name'     => 'Irene Strikkers',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'c445c2491f9f55409b2e4dccee357961',
+					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
+				),
+				'jcomack'       => (object) array(
+					'name'     => 'Jimmy Comack',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
 				),
 				'rensw90'       => (object) array(
 					'name'     => 'Rens Weerman',
