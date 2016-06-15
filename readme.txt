@@ -127,11 +127,11 @@ Release Date: June 15th, 2016
 
 * Bugfixes
 	* Fixes a bug where the primary category wouldn't be in the permalink if `get_permalink` was called outside the loop.
-	* Fixes a compatibility issue where we set $ to jQuery.
+	* Fixes a compatibility issue where we set `$` to `jQuery`.
 	* Fixes a bug with redirects on a subsite in a multisite installation, props [nicholas-eden](https://github.com/nicholas-eden).
 	* Fixes a bug where invalid HTML would throw a warning.
-	* Fixes a bug where reading server variables using filter_input returns an empty result.
-	* Fixes a bug where the passive voice and transition words would be shown on non-english languages.
+	* Fixes a bug where reading server variables using `filter_input` returns an empty result.
+	* Fixes a bug where the passive voice and transition words would be shown on non-english language
 
 = 3.3.0 =
 
