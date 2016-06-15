@@ -8,15 +8,15 @@ a.remove-keyword span {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
-	vertical-align: top;
 	padding: 0;
 	border: 1px solid transparent;
 	border-radius: 100%;
 	color: #686868;
-	text-align: center;
 	font-size: 12px;
-	line-height: 15px;
 	font-weight: 500;
+	line-height: 15px;
+	text-align: center;
+	vertical-align: top;
 }
 
 a.remove-keyword:hover span,
