@@ -184,12 +184,10 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	protected function get_undo_slug_notification() {
 		/* translators: %1$s: Yoast SEO Premium, %2$s: <a href='{admin_redirect_url}'>, %3$s: <a href='{undo_redirect_url}'> and %4$s: </a> */
-		$undo_message = __(
-			'%1$s created a %2$sredirect%4$s from the old term URL to the new term URL. %3$sClick here to undo this%4$s.',
+		return __(
+			'%1$s created a %2$sredirect%3$s from the old term URL to the new term URL. %4$sClick here to undo this%5$s',
 			'wordpress-seo-premium'
 		);
-
-		return $undo_message;
 	}
 
 	/**
