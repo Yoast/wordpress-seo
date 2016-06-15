@@ -1,4 +1,5 @@
 /* jshint strict:true */
+/* global JSON */
 /* global ajaxurl */
 /* global wpseo_export_nonce */
 jQuery( document ).ready( function( $ ) {
