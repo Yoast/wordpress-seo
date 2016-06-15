@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO Premium 3.2.5\n"
+"Project-Id-Version: Yoast SEO 3.3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-14 11:57:34+00:00\n"
+"POT-Creation-Date: 2016-06-15 13:27:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -917,7 +917,7 @@ msgstr ""
 #: admin/class-social-admin.php:38
 msgid ""
 "If you want to override the image used on %s for this post, upload / choose "
-"an image here."
+"an image or add the URL here."
 msgstr ""
 
 #. translators: %1$s expands to the social network, %2$s to the recommended
@@ -1433,17 +1433,9 @@ msgstr ""
 msgid "Error: a redirect for this URL already exists"
 msgstr ""
 
-#. Translators: %1$s: expands to the current URL.
-#: admin/google_search_console/views/gsc-create-redirect.php:53
-msgid ""
-"You do not have to create a redirect for URL %1$s because a redirect already "
-"exists. If this is fine you can mark this issue as fixed. If not, please go "
-"to the redirects page and change the redirect."
-msgstr ""
-
 #. Translators: %1$s: expands to the current URL and %2$s expands to URL the
 #. redirects points to.
-#: admin/google_search_console/views/gsc-create-redirect.php:60
+#: admin/google_search_console/views/gsc-create-redirect.php:51
 msgid ""
 "You do not have to create a redirect for URL %1$s because a redirect already "
 "exists. The existing redirect points to %2$s. If this is fine you can mark "
@@ -1452,13 +1444,13 @@ msgid ""
 msgstr ""
 
 #. Translators: %s: expands to Yoast SEO Premium
-#: admin/google_search_console/views/gsc-create-redirect.php:70
+#: admin/google_search_console/views/gsc-create-redirect.php:60
 msgid "Creating redirects is a %s feature"
 msgstr ""
 
 #. Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
 #. Premium plugin page.
-#: admin/google_search_console/views/gsc-create-redirect.php:74
+#: admin/google_search_console/views/gsc-create-redirect.php:64
 msgid ""
 "To be able to create a redirect and fix this issue, you need %1$s. You can "
 "buy the plugin, including one year of support and updates, on %2$s."
@@ -1470,49 +1462,49 @@ msgstr ""
 
 #. Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search
 #. Console.
-#: admin/google_search_console/views/gsc-display.php:37
+#: admin/google_search_console/views/gsc-display.php:41
 msgid ""
 "To allow %1$s to fetch your %2$s information, please enter your Google "
 "Authorization Code."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:40
+#: admin/google_search_console/views/gsc-display.php:44
 msgid "Get Google Authorization Code"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:42
+#: admin/google_search_console/views/gsc-display.php:46
 msgid ""
 "Please enter the Google Authorization Code in the field below and press the "
 "Authenticate button."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:46
+#: admin/google_search_console/views/gsc-display.php:50
 msgid "Authenticate"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:50
+#: admin/google_search_console/views/gsc-display.php:54
 msgid "Reauthenticate with Google "
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:51
-#: admin/google_search_console/views/gsc-display.php:54
+#: admin/google_search_console/views/gsc-display.php:55
+#: admin/google_search_console/views/gsc-display.php:58
 msgid "Current profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:73
 #: admin/google_search_console/views/gsc-display.php:77
+#: admin/google_search_console/views/gsc-display.php:81
 msgid "Profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:78
+#: admin/google_search_console/views/gsc-display.php:82
 msgid "There were no profiles found"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:86
+#: admin/google_search_console/views/gsc-display.php:90
 msgid "Save Profile"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-display.php:86
+#: admin/google_search_console/views/gsc-display.php:90
 msgid "or"
 msgstr ""
 
@@ -3830,97 +3822,6 @@ msgstr ""
 msgid "%sRenew your license now%s."
 msgstr ""
 
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:92
-msgid ""
-"Please explain what you're trying to find or do. If something isn't working, "
-"please explain what you expect to happen. If you can make a screenshot, "
-"please attach it."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:94
-msgid "Note: submitting this form also sends us debug info about your server."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:106
-msgid "What can we help you with?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:107
-msgid ""
-"Your search timed out. Please double-check your internet connection and try "
-"again."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:108
-msgid "No results found for"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:109
-msgid "Send a Message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:110
-msgid "Attach a file"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:111
-msgid "The maximum file size is 10mb"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:112
-msgid "Your Name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:113
-msgid "Please enter your name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:114
-msgid "Email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:115
-msgid "Please enter a valid email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:116
-msgid "Select a topic"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:117
-msgid "Please select a topic from the list"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:118
-msgid "Subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:119
-msgid "Please enter a subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:120
-msgid "How can we help you?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:121
-msgid "Please enter a message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:122
-msgid "Send"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:123
-msgid "Message sent, thank you!"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:124
-msgid ""
-"Someone from Team Yoast will get back to you soon, normally within a couple "
-"of hours."
-msgstr ""
-
 #: wp-seo-main.php:396
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
@@ -3947,7 +3848,7 @@ msgid "Activation failed:"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "Yoast SEO Premium"
+msgid "Yoast SEO"
 msgstr ""
 
 #. Plugin URI of the plugin/theme

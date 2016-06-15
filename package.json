@@ -55,6 +55,6 @@
   "dependencies": {
     "lodash": "^4.7.0",
     "select2": "^4.0.1",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
   }
 }
