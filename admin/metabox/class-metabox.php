@@ -38,6 +38,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true ) {
 			$this->social_admin = new WPSEO_Social_Admin( $this->options );
 		}
+
+		$this->editor = new WPSEO_Metabox_Editor();
+		$this->editor->register_hooks();
 	}
 
 	/**
@@ -47,16 +50,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet Editor', 'wordpress-seo' );
-		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' );
+		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet editor', 'wordpress-seo' );
+		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %sLearn more about the Snippet Preview%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' );
 		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
-		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Content Analysis', 'wordpress-seo' );
-		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Analysis', 'wordpress-seo' );
+		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the SEO & content analysis, a collection of checks that analyze the SEO & readability of your page. %sLearn more about the Yoast Content & SEO analysis%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
-		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus Keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
@@ -163,17 +166,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$title = $score_title;
 			}
 		}
-
-		printf( '
-		<div title="%s" id="wpseo-score">
-			' . $this->traffic_light_svg() . '
-		</div>',
-			__( 'SEO score', 'wordpress-seo' ),
-			esc_attr( 'wpseo-score-icon ' . $score_label ),
-			__( 'SEO:', 'wordpress-seo' ),
-			$score_title,
-			__( 'Check', 'wordpress-seo' )
-		);
 	}
 
 	/**
@@ -227,7 +219,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return array(
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
+			'scope'          => $this->determine_scope(),
 		);
+	}
+
+	/**
+	 * Determines the scope based on the post type.
+	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
+	 *
+	 * @return string String decribing the current scope.
+	 */
+	private function determine_scope() {
+		$post_type = get_post_type( $this->get_metabox_post() );
+
+		if ( $post_type === 'page' ) {
+			return 'page';
+		}
+
+		return 'post';
 	}
 
 	/**
@@ -266,6 +275,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
+		// Add Help Center to the metabox see #4701.
+		$tab_video_url = 'https://yoa.st/metabox-screencast';
+		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -287,13 +300,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_sections() {
 		$content_sections = array( $this->get_content_meta_section() );
 
-		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
-			$content_sections[] = $this->get_advanced_meta_section();
-		}
-
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
 			$content_sections[] = $this->social_admin->get_meta_section();
+		}
+
+		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
+			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
@@ -315,9 +328,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tabs[] = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
-			__( 'Content', 'wordpress-seo' ),
+			__( '', 'wordpress-seo' ),
 			array(
-				'link_class' => 'wpseo_keyword_tab',
+				'link_class' => 'yoast-seo__remove-tab',
 			)
 		);
 
@@ -419,6 +432,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
 				$content .= '<div id="wpseo-pageanalysis"></div>';
+				$content .= '<div id="yoast-seo-content-analysis"></div>';
 				break;
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
@@ -539,7 +553,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
-				$html = '<tr class="wpseo_hidden"><td>' . $content . '</td></tr>';
+				$html = '<tr class="wpseo_hidden"><td colspan="2">' . $content . '</td></tr>';
 			}
 			else {
 				$html = '
@@ -572,6 +586,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  bool|void   Boolean false if invalid save post request
 	 */
 	function save_postdata( $post_id ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return false;
+		}
+
 		if ( $post_id === null ) {
 			return false;
 		}
@@ -748,8 +767,77 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
 		}
 
-		return $cached_replacement_vars;
+		// Merge custom replace variables with the WordPress ones.
+		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $post ) );
 	}
+
+	/**
+	 * Gets the custom replace variables for custom taxonomies and fields.
+	 *
+	 * @param WP_Post $post The post to check for custom taxonomies and fields.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_replace_vars( $post ) {
+		return array(
+			'custom_fields' => $this->get_custom_fields_replace_vars( $post ),
+			'custom_taxonomies' => $this->get_custom_taxonomies_replace_vars( $post ),
+		 );
+	}
+
+	/**
+	 * Gets the custom replace variables for custom taxonomies.
+	 *
+	 * @param WP_Post $post The post to check for custom taxonomies.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_taxonomies_replace_vars( $post ) {
+		$taxonomies = get_object_taxonomies( $post, 'objects' );
+		$custom_replace_vars = array();
+
+		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
+			if ( $taxonomy->_builtin && $taxonomy->public ) {
+				continue;
+			}
+
+			$custom_replace_vars[ $taxonomy_name ] = array(
+				'name' => $taxonomy->name,
+				'description' => $taxonomy->description,
+			);
+		}
+
+		return $custom_replace_vars;
+	}
+
+	/**
+	 * Gets the custom replace variables for custom fields.
+	 *
+	 * @param WP_Post $post The post to check for custom fields.
+	 *
+	 * @return array Array containing all the replacement variables.
+	 */
+	private function get_custom_fields_replace_vars( $post ) {
+		$custom_replace_vars = array();
+
+		// If no post object is passed, return the empty custom_replace_vars array.
+		if ( ! is_object( $post ) ) {
+			return $custom_replace_vars;
+		}
+
+		$custom_fields = get_post_custom( $post->ID );
+
+		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
+			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			$custom_replace_vars[ $custom_field_name ] = $custom_field[0];
+		}
+
+		return $custom_replace_vars;
+	}
+
 
 	/**
 	 * Return the SVG for the traffic light in the metabox.
@@ -812,18 +900,12 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
+				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						{{data.prefix}}
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.placeholder}}</em>
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
-						<span class="wpseo-score-icon {{data.score}}">
-							<# if ( data.keyword ) { #>
-								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
-							<# } #>
-						</span>
-						<em>
-							<span class="wpseo_keyword">{{data.placeholder}}</span>
-						</em>
 					</a>
 					<# if ( ! data.hideRemove ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>
