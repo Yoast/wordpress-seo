@@ -135,8 +135,14 @@ class WPSEO_Sitemap_Image_Parser {
 			return $images;
 		}
 
+		// Prevent DOMDocument from bubbling warnings about invalid HTML.
+		libxml_use_internal_errors( true );
+
 		$post_dom = new DOMDocument();
 		$post_dom->loadHTML( $content );
+
+		// Clear the errors, so they don't get kept in memory.
+		libxml_clear_errors();
 
 		/** @var DOMElement $img */
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
