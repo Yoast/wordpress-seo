@@ -8,7 +8,6 @@ var $ = jQuery;
 var defaultArguments = {
 	keyword: '',
 	prefix: '',
-	basedOn: '',
 	onActivate: function ( ) { },
 	afterActivate: function ( ) { },
 	active: false,
@@ -34,7 +33,6 @@ module.exports = (function() {
 
 		this.keyword = args.keyword;
 		this.prefix  = args.prefix;
-		this.basedOn = args.basedOn;
 		this.onActivate = args.onActivate;
 		this.afterActivate = args.afterActivate;
 		this.active = args.active;
@@ -116,7 +114,6 @@ module.exports = (function() {
 			hideRemove: true,
 			prefix: prefix,
 			active: this.active,
-			basedOn: this.basedOn,
 			scoreText: this.scoreText,
 			isKeywordTab: this.isKeywordTab
 		});
@@ -161,13 +158,9 @@ module.exports = (function() {
 	};
 
 	/**
-	 * Handles clicking the tab.
-	 *
-	 * @param {UIEvent} ev The event fired by the browser.
+	 * Activates the tab
 	 */
-	KeywordTab.prototype.onClick = function( ev ) {
-		ev.preventDefault();
-
+	KeywordTab.prototype.activate = function() {
 		this.onActivate();
 
 		$( '.wpseo_keyword_tab, .wpseo_content_tab' ).removeClass( 'active' );
@@ -175,6 +168,17 @@ module.exports = (function() {
 		this.refresh();
 
 		this.afterActivate();
+	};
+
+	/**
+	 * Handles clicking the tab.
+	 *
+	 * @param {UIEvent} ev The event fired by the browser.
+	 */
+	KeywordTab.prototype.onClick = function( ev ) {
+		ev.preventDefault();
+
+		this.activate();
 	};
 
 	/**

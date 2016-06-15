@@ -252,6 +252,15 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	PostScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
 
+		// If multi keyword isn't available we need to update the first tab (content).
+		if ( ! YoastSEO.multiKeyword ) {
+			tabManager.updateKeywordTab( score, currentKeyword );
+			publishBox.updateScore( 'content', indicator.className );
+
+			// Updates the input with the currentKeyword value.
+			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
+		}
+
 		if ( tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
@@ -264,15 +273,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			updateAdminBar( indicator );
 
 			publishBox.updateScore( 'keyword', indicator.className );
-		}
-
-		// If multi keyword isn't available we need to update the first tab (content)
-		if ( ! YoastSEO.multiKeyword ) {
-			tabManager.updateKeywordTab( score, currentKeyword );
-			publishBox.updateScore( 'content', indicator.className );
-
-			// Updates the input with the currentKeyword value
-			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
@@ -393,6 +393,28 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		return new SnippetPreview( snippetPreviewArgs );
 	}
 
+	/**
+	 * Returns the marker callback method for the assessor.
+	 *
+	 * @returns {*|bool}
+	 */
+	function getMarker() {
+		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
+		if ( typeof tinyMCE !== 'undefined' && wpseoPostScraperL10n.show_markers === '1' ) {
+			return function( paper, marks ) {
+				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
+					if ( null === decorator ) {
+						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+					}
+
+					decorator( paper, marks );
+				}
+			};
+		}
+
+		return false;
+	}
+
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
 
@@ -422,15 +444,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale,
-			marker: function( paper, marks ) {
-				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
-					if ( null === decorator ) {
-						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
-					}
-
-					decorator( paper, marks );
-				}
-			}
+			marker: getMarker()
 		};
 
 		titleElement = $( '#title' );
@@ -469,6 +483,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 		publishBox.updateScore( 'keyword', indicator.className );
+
+		tabManager.getKeywordTab().activate();
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 

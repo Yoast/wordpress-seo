@@ -55,7 +55,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
 		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Analysis', 'wordpress-seo' );
-		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %sLearn more about the Content Analysis Tool%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the SEO & content analysis, a collection of checks that analyze the SEO & readability of your page. %sLearn more about the Yoast Content & SEO analysis%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus keyword', 'wordpress-seo' );
@@ -902,16 +902,10 @@ SVG;
 		echo '<script type="text/html" id="tmpl-keyword_tab">
 				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						{{data.prefix}}
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.placeholder}}</em>
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
-						<span class="wpseo-score-icon {{data.score}}">
-							<# if ( data.keyword ) { #>
-								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
-							<# } #>
-						</span>
-						<em>
-							<span class="wpseo_keyword">{{data.placeholder}}</span>
-						</em>
 					</a>
 					<# if ( ! data.hideRemove ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>

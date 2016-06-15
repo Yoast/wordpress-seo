@@ -63,7 +63,9 @@ function wpseo_admin_bar_menu() {
 
 			if ( $notification_count > 0 ) {
 				// Always show Alerts page when clicking on the main link.
-				$counter = sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count );
+				/* translators: %s: number of notifications */
+				$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
+				$counter = sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter"><span aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );
 			}
 
 			if ( $new_notifications_count ) {
@@ -78,7 +80,8 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// Yoast Icon.
-	$title = '<div class="wp-menu-image yoast-logo svg"></div>';
+	$icon_svg = WPSEO_Utils::get_icon_svg();
+	$title = '<div id="yoast-ab-icon" class="ab-item yoast-logo svg" style="background-image: url(\''.$icon_svg.'\');"><span class="screen-reader-text">' . __( 'SEO', 'wordpress-seo' ) . '</span></div>';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
@@ -266,6 +269,7 @@ function wpseo_admin_bar_menu() {
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 	}
+
 }
 
 add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );

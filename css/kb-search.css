@@ -3,8 +3,15 @@
 	border-bottom: 1px solid #ccc;
 }
 
+.wpseo-kb-search-search-bar input[type="text"] {
+	min-width: 50%;
+	height: 28px;
+	margin-right: 3px;
+}
+
 .wpseo-kb-search-results {
 	overflow: auto;
+	height: 500px;
 }
 
 .wpseo-kb-search-no-results {
@@ -22,12 +29,14 @@
 
 .wpseo-kb-search-result-link {
 	display: block;
+	text-decoration: none;
 	cursor: pointer;
 }
 
 .wpseo-kb-search-result-link:hover,
 .wpseo-kb-search-result-link:focus {
-	background-color: rgba(164, 40, 106, 0.1);
+	background-color: rgba(93, 12, 55, 0.5);
+	text-decoration: underline;
 }
 
 .wpseo-kb-search-result .wpseo-kb-search-result-title {
@@ -65,7 +74,7 @@
 }
 
 .kb-search-content-frame {
-	background: url("data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100%\" height=\"100%\" viewBox=\"0 0 100% 100%\"><text fill=\"%23000000\" x=\"50%\" y=\"50%\" font-family=\"'Lucida Grande', sans-serif\" font-size=\"24\" text-anchor=\"middle\">Loading article...</text></svg>") 0 0 no-repeat;
+	background: url("data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100%\" height=\"100%\" viewBox=\"0 0 100% 100%\"><text fill=\"%23ffffff\" x=\"50%\" y=\"50%\" font-family=\"'Lucida Grande', sans-serif\" font-size=\"24\" text-anchor=\"middle\">Loading article...</text></svg>") 0 0 no-repeat;
 }
 
 .wpseo-kb-loader:before,

@@ -15,6 +15,13 @@ class WPSEO_Premium_Popup {
 	private $identifier = '';
 
 	/**
+	 * The heading level of the title of the popup.
+	 *
+	 * @var String
+	 */
+	private $heading_level = '';
+
+	/**
 	 * The title of the popup
 	 *
 	 * @var String
@@ -31,14 +38,16 @@ class WPSEO_Premium_Popup {
 	/**
 	 * Wpseo_Premium_Popup constructor.
 	 *
-	 * @param String $identifier An unique identifier for the popup.
-	 * @param String $title      The title of the popup.
-	 * @param String $content    The content of the popup.
+	 * @param String $identifier    An unique identifier for the popup.
+	 * @param String $heading_level The heading level for the title of the popup.
+	 * @param String $title         The title of the popup.
+	 * @param String $content       The content of the popup.
 	 */
-	public function __construct( $identifier, $title, $content ) {
-		$this->identifier = $identifier;
-		$this->title      = $title;
-		$this->content    = $content;
+	public function __construct( $identifier, $heading_level, $title, $content ) {
+		$this->identifier    = $identifier;
+		$this->heading_level = $heading_level;
+		$this->title         = $title;
+		$this->content       = $content;
 	}
 
 	/**
@@ -67,7 +76,7 @@ class WPSEO_Premium_Popup {
 		$popup = <<<EO_POPUP
 <div id="wpseo-{$this->identifier}-popup" class="wpseo-premium-popup" style="{$display}">
 	<img class="alignright" style="margin: 10px;" src="{$assets_uri}images/Yoast_SEO_Icon.svg" width="150" alt="Yoast SEO"/>
-	<h1 id="wpseo-contact-support-popup-title" class="wpseo-premium-popup-title">{$this->title}</h1>
+	<{$this->heading_level} id="wpseo-contact-support-popup-title" class="wpseo-premium-popup-title">{$this->title}</{$this->heading_level}>
 	<p>{$this->content}</p>
 	<a id="wpseo-{$this->identifier}-popup-button" class="button-primary" href="{$premium_uri}">{$cta_text}</a>
 </div>
