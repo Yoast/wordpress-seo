@@ -1,5 +1,6 @@
 /* jshint strict:true */
 /* global ajaxurl */
+/* global JSON */
 /* global wpseo_export_nonce */
 jQuery( document ).ready( function( $ ) {
 		'use strict';
