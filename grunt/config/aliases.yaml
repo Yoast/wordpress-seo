@@ -19,7 +19,8 @@ build:
   - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
-  - 'browserify'
+  - 'browserify:build'
+  - 'browserify:buildes6'
   - 'uglify'
 # Build internationalisation features
 'build:i18n':
@@ -44,6 +45,15 @@ check:
   - 'phpcs'
 'check:i18n':
   - 'checktextdomain'
+# Get the project ready for release
+release:
+  - 'build:css'
+  - 'build:images'
+  - 'release:js'
+'release:js':
+  - 'browserify:build'
+  - 'browserify:release-es6'
+  - 'uglify'
 # Default task
 default:
   - build

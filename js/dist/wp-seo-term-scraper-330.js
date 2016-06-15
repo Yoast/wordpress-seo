@@ -670,15 +670,13 @@ module.exports = {
 };
 
 },{"lodash/foreach":170,"yoastseo/js/markers/removeMarks":274}],9:[function(require,module,exports){
-$ = jQuery;
-
 /**
  * Updates the traffic light present on the page
  *
  * @param {Object} indicator The indicator for the keyword score.
  */
 function updateAdminBar( indicator ) {
-	$( '.adminbar-seo-score' )
+	jQuery( '.adminbar-seo-score' )
 		.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 		.attr( 'alt', indicator.screenReaderText );
 }
@@ -688,15 +686,13 @@ module.exports = {
 };
 
 },{}],10:[function(require,module,exports){
-$ = jQuery;
-
 /**
  * Updates the traffic light present on the page
  *
  * @param {Object} indicator The indicator for the keyword score.
  */
 function updateTrafficLight( indicator ) {
-	$( '.yst-traffic-light' )
+	jQuery( '.yst-traffic-light' )
 		.attr( 'class', 'yst-traffic-light ' + indicator.className )
 		.attr( 'alt', indicator.screenReaderText );
 }
