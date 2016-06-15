@@ -25,6 +25,9 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 if ( null !== $this->service->get_client()->getAccessToken() ) {
 	$tab_video_url = 'https://yoa.st/screencast-search-console';
 	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+} else {
+	$tab_video_url = 'https://yoa.st/screencast-connect-search-console';
+	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 }
 
 switch ( $platform_tabs->current_tab() ) {
