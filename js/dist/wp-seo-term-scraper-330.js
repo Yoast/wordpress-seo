@@ -21752,16 +21752,16 @@ $ = jQuery;
  * @param {Object} indicator The indicator for the keyword score.
  */
 function updateTrafficLight( indicator ) {
-	var $trafficLight = $( '.yst-traffic-light' );
-	var $trafficLightLink = $trafficLight.closest( '.wpseo-meta-section-link' );
+	var trafficLight = jQuery( '.yst-traffic-light' );
+	var trafficLightLink = trafficLight.closest( '.wpseo-meta-section-link' );
 
 	// Update the traffic light image.
-	$trafficLight
+	trafficLight
 		.attr( 'class', 'yst-traffic-light ' + indicator.className )
-		.attr( 'alt', indicator.screenReaderText );
+		.attr( 'alt', '' );
 
 	// Update the traffic light link.
-	$trafficLightLink.attr( 'title', indicator.fullText );
+	trafficLightLink.attr( 'title', indicator.fullText );
 }
 
 module.exports = {
