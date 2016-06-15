@@ -21,7 +21,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.13.0';
+  var VERSION = '4.13.1';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -263,7 +263,11 @@
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="assessment-results__mark-container">\n                ';
      if ( scores[ i ].marker ) {
-    __p += '\n                    <button type="button"\n                        aria-label="' +
+    __p += '\n                    <button type="button" ';
+     if ( markerButtonsDisabled ) {
+    __p += ' disabled="disabled" ';
+     }
+    __p += '\n                        aria-label="' +
     ((__t = ( i18n.markInText )) == null ? '' : __t) +
     '"\n                        class="assessment-results__mark ';
      if ( scores[ i ].identifier === activeMarker ) {

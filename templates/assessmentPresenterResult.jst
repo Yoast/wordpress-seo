@@ -3,7 +3,7 @@
         <li class="score">
             <span class="assessment-results__mark-container">
                 <% if ( scores[ i ].marker ) { %>
-                    <button type="button"
+                    <button type="button" <% if ( markerButtonsDisabled ) { %> disabled="disabled" <% } %>
                         aria-label="<%= i18n.markInText %>"
                         class="assessment-results__mark <% if ( scores[ i ].identifier === activeMarker ) { %>icon-eye-active<% } else { %>icon-eye-inactive<% } %> js-assessment-results__mark-<%= scores[ i ].identifier %> yoast-tooltip yoast-tooltip-s"><span class="screen-reader-text"><% if ( scores[ i ].identifier === activeMarker ) { %><%= i18n.removeMarksInText %><% } else { %><%= i18n.markInText %><% } %></span></button>
                 <% } %>

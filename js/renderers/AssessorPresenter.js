@@ -30,6 +30,8 @@ var AssessorPresenter = function( args ) {
 	this.overall = args.targets.overall || "overallScore";
 	this.presenterConfig = createConfig( args.i18n );
 
+	this._disableMarkerButtons = false;
+
 	this._activeMarker = false;
 };
 
@@ -233,6 +235,22 @@ AssessorPresenter.prototype.disableMarker = function() {
 };
 
 /**
+ * Disables the marker buttons.
+ */
+AssessorPresenter.prototype.disableMarkerButtons = function() {
+	this._disableMarkerButtons = true;
+	this.render();
+};
+
+/**
+ * Enables the marker buttons.
+ */
+AssessorPresenter.prototype.enableMarkerButtons = function() {
+	this._disableMarkerButtons = false;
+	this.render();
+};
+
+/**
  * Adds an event listener for the marker button
  *
  * @param {string} identifier The identifier for the assessment the marker belongs to.
@@ -289,7 +307,8 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
 			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" )
 		},
-		activeMarker: this._activeMarker
+		activeMarker: this._activeMarker,
+		markerButtonsDisabled: this._disableMarkerButtons
 	} );
 
 	this.bindMarkButtons( scores );
