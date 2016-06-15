@@ -48,6 +48,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'page_comments_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
@@ -91,9 +92,9 @@ class WPSEO_Admin_Init {
 	 * @return Yoast_Notification
 	 */
 	private function get_update_notification() {
-		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
+		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page */
 		$info_message = sprintf(
-			__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
+			__( '%1$s has been updated to version %2$s. %3$sFind out what\'s new!%4$s', 'wordpress-seo' ),
 			'Yoast SEO',
 			WPSEO_VERSION,
 			'<a href="' . admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) . '">',
@@ -311,6 +312,55 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Add an alert if outdated versions of Yoast SEO plugins are running.
+	 */
+	public function yoast_plugin_compatibility_notification() {
+		$compatibility_checker = new WPSEO_Plugin_Compatibility( WPSEO_VERSION );
+		$plugins = $compatibility_checker->get_installed_plugins_compatibility();
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		foreach ( $plugins as $name => $plugin ) {
+			$type = ( $plugin['active'] ) ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
+			$notification = $this->get_yoast_seo_compatibility_notification( $name, $plugin, $type );
+
+			if ( $plugin['compatible'] === false ) {
+				$notification_center->add_notification( $notification );
+			}
+			else {
+				$notification_center->remove_notification( $notification );
+			}
+		}
+	}
+
+	/**
+	 * Build Yoast SEO compatibility problem notification
+	 *
+	 * @param string $name The plugin name to use for the unique ID.
+	 * @param array  $plugin The plugin to retrieve the data from.
+	 * @param string $level The severity level to use for the notification.
+	 *
+	 * @return Yoast_Notification
+	 */
+	private function get_yoast_seo_compatibility_notification( $name, $plugin, $level = Yoast_Notification::WARNING ) {
+		$info_message = sprintf(
+		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
+			'Yoast SEO',
+			$plugin['version'],
+			$plugin['title']
+		);
+
+		return new Yoast_Notification(
+			$info_message,
+			array(
+				'id'   => 'wpseo-outdated-yoast-seo-plugin-' . $name,
+				'type' => $level,
+			)
+		);
+	}
+
+	/**
 	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it before.
 	 */
 	public function recalculate_notice() {
@@ -328,7 +378,7 @@ class WPSEO_Admin_Init {
 				new Yoast_Notification(
 					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
 					sprintf(
-						__( 'We\'ve updated our SEO score algorithm. %1$sClick here to recalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
+						__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
 						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
 						'</a>'
 					),

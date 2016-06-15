@@ -2,58 +2,78 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
-= Unreleased =
+= 3.1.2 =
 
-Release Date: Unreleased
-
-* Features:
-	* Added a dashboard under the SEO menu item and moved all persistent notifications to this dashboard.
-	* Added an indicator to the menu and admin bar about pending notifications and SEO problems.
-	* Splits the analysis into content and keyword analysis.
-	* Adds a ton of content feedback about the following properties:
-		* The length of subheadings.
-		* The length of text following a subheading.
-		* The length of paragraphs.
-		* The length of sentences.
-		* The presence of transition words.
-		* The presence of the passive voice.
-	* Adds a marker button for specific properties to mark these in the editor:
-		* The length of paragraphs.
-		* The length of sentences.
-		* The presence of passive voice.
-		* The presence of transition words.
-		* The presence of links with the focus keyword as link text.
-	* Adds slug transliteration for the following languages, this means that we now match with both the non-transliterated keyword and the transliterated keyword:
-		* Spanish, Polish, German, Nynorsk, Bokmål, Swedish, Finnish,
-		* Danish, Turkish, Latvian, Icelandic, Faroese, Czech, Russian,
-		* Esperanto, Afrikaans, Catalan, Asturian, Aragonese, Aymara,
-		* English, French, Italian, Dutch, Bambara.
-	* Adds a search box in the help center to search in the [Yoast knowledge base](https://kb.yoast.com).
+Release Date: March 23rd, 2016
 
 * Enhancements:
-	* Adds missing alt tags to banners.
-	* Adds a 50.000 URL hard limit to the sitemaps, this is what google recommends.
-	* Moves social tab above settings tab in the metabox.
-	* Adds live updating to the score indicator in the admin bar on the post edit page.
-	* Optimize multiple sitemap cache clears by waiting until the end of the pageload to actual clear the cache.
-	* Improved title separator radio buttons accessibility.
-	* Removed Alexa verification from the plugin as it no longer works.
+	* Makes sure the permalink on the frontend also makes use of the primary category if one has been selected.
 
 * Bugfixes:
-	* Fixes a bug where a quote inside an attribute in the XML sitemaps would cause to create invalid XML.
-	* Fixes a bug where using a custom posts table would not result in correct output in the XML sitemaps.
-	* Fixes an issue where canonical URLs didn't always correctly have a trailing slash, thanks you for your input [MatthewMi11er](https://github.com/MatthewMi11er).
-	* Fixes a bug where we didn't match a focus keyword correctly if it contained a slash.
-	* Fixes a bug where the content analysis would be executed too many times when typing in the snippet preview.
-	* Fixes a bug where the `wpseo_title` filter couldn't change the opengraph and twitter titles, props [Xavi Ivars](https://github.com/xavivars).
-	* Fixes a bug where the focus keyword wouldn't be saved when saving the post instantly after changing the focus keyword.
-	* Fixes a bug where retrieving terms in the breadcrumbs wouldn't be cached, props [Jonny Harris](https://github.com/spacedmonkey)
-	* Fixes a bug where the help center wasn't properly styled in Safari.
+	* Fixes a compatibility issue with the upcoming WordPress 4.5, where the Yoast SEO metabox and columns were no longer shown on taxonomy and term edit pages.
+	* Fixes a bug where the default category that was shown in the breadcrumbs was no longer the most deeply nested one.
+	* Fixes a bug where the file editor could be accessed by non admin users. Thanks [Jörn Lund](https://github.com/mcguffin) for the patch!
+	* Fixes a JS error on the post edit page that was caused when the WP slugeditor wasn't present.
+	* Fixes an issue where our indexability check would fail on installs with WordFence that have the "block fake Google crawlers" setting enabled.
 
-* Removed:
-	* Removes the ability to sort on the post score column, because the scores aren't meant to be sorted.
-	* Removes recalculation because there were too many issues with integration missing that can only be added on the actual post edit admin page.
-	* Removes `json_encode` wrapper, it was only necessary for older WordPress versions.
+= 3.1.1 =
+
+Release Date: March 8th, 2016
+
+* Bugfixes:
+	* Fixes a bug where part of the Yoast SEO metabox was no longer translated.
+	* Fixes a bug where the post slug would be overwritten with the post ID in case a post was autosaved and did not have a title yet.
+
+= 3.1 =
+
+Release Date: March 1st, 2016
+
+* Features:
+	* Added an interface to select a primary category for a post, which are used in the post's breadcrumbs and have a few other nice SEO advantages.
+	* Added SEO score column to the taxonomy overviews.
+
+* Enhancements:
+	* Replaces all checkboxes and radio buttons on settings pages with styled toggles.
+	* Adds a new interface for the snippet preview which addresses most of the known UX issues:
+		* To clarify how the snippet preview can be edited, we've added an 'edit' button.
+		* Many users were looking for the "SEO title" and "Meta description" input fields. Those have been reintroduced and can be edited by clicking the edit button.
+		* We've gotten rid of the horribly inaccessible contenteditable elements and moved back to labeled input elements.
+		* The progress indicator for both SEO title and meta description has returned in the form of progress bars underneath the input elements.
+		* We've made a clear distinction between the snippet preview and the snippet editor and have tried to clearly signify which input fields affect which parts of the snippet preview.
+		* We've made sure both preview and snippet editor handle "%%" variables well. In the editor we show the variables and in the preview we render them.
+		* We've made sure templates that are set under "Titles & Metas" are well reflected in the snippet preview and editor. When they are set, they are shown as placeholder text in the input fields.
+		* The progress bars also take into account templates and "%%" variables, giving clearer indication if anything should still be added to the SEO title or meta description.
+		* We've reintroduced behavior where a (generated) example meta description is made grey in the snippet preview to indicate that it's not been set.
+	* Adds og:image:width and og:image:height metatags to ensure an image is properly rendered for a user the first time a page is shared on Facebook.
+	* Includes a few minor performance improvements for the content analysis.
+	* Slightly optimizes the way options are handled. We now only fetch the options we need.
+	* Makes sure SEO scores for taxonomies are also taken into account when recalculating the SEO scores.
+	* Updated the list of locales supported by Facebook.
+	* Makes sure the notification to see the latest changes only pops up on major and minor version and is dismissible even if JavaScript is broken.
+	* Corrected priority of gallery images in Twitter cards.
+	* Added filters to allow filtering term and post content before it is sent to the recalculation tool for analysis.
+	* Improved the way sitemaps are invalidated.
+	* Duplicate content prevention / Crawl budget improvement: We now hide XML sitemaps for internal WP taxonomies like link category, nav menu and post format.
+	* Removed all functionality related to Yahoo! directory, since it no longer exists...
+	* Makes sure the post type archive link for the "Post" post type is not shown in the breadcrumbs.
+	* Temporarily disabled all non-vital notifications until we come up with a more user-friendly way of dealing with them.
+
+
+* Bugfixes:
+	* Fixes a bug where the date was no longer shown in the snippet preview even when the option to show it was selected under "Titles & Metas".
+	* Fixes a reported "property of non-object" notice that occured when no valid screen object was available. Thanks [Chris Jean](https://github.com/chrisbliss18) for the fix.
+	* Fixes a bug where Google Search Console would display last_crawled and last_received dates in the wrong format.
+	* Fixes a bug where the `wpseo_canonical` filter could still be overridden by an admin setting. This is no longer the case.
+	* Fixes shorthand date formats for Open Graph tags.
+	* Fixes a bug where calls to translate.yoast.com would fail because of issues with HTTPS.
+	* Fixes a bug where the content analysis would not work properly anymore when switching multiple times between "text" and "visual" in tinyMCE.
+	* Fixes a bug where the Yoast SEO metabox was no longer loaded on the Media edit page.
+	* Fixes an "invalid argument warning" in the options. Thanks [Melvin Tercan](https://github.com/melvinmt) for fixing.
+	* Fixes a bug where we were causing JS errors by hooking to erroneously on AjaxComplete. This solves multiple compatibility issues including the ones with "Advanced Custom Fields".
+	* Fixes a bug where saving a nav menu item would cause unnecessary pings to search engines, also resulting in timeouts and long load times for saving menu's. Thanks [Ben Constable](https://github.com/BenConstable) for providing a fix.
+	* Fixes memory issues caused by doing post counts with WP_Query. Thanks [Emre Erkan](https://github.com/karalamalar) for fixing.
+	* Fixes a bug where sitemap caches were not properly cleared for sites that use external object caching.
+	* Fixes a bug where stopwords were no longer stripped from the slug that was generated by WordPress.
 
 = 3.0.7 =
 
