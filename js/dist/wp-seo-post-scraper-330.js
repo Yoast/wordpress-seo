@@ -11247,7 +11247,7 @@ module.exports = {
 	identifier: "passiveVoice",
 	getResult: paragraphLengthAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText();
+		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
 	},
 	getMarks: passiveVoiceMarker
 };
@@ -12229,7 +12229,7 @@ module.exports = {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText();
+		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
 	},
 	getMarks: transitionWordsMarker
 };
