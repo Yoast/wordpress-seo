@@ -26,5 +26,19 @@ module.exports = {
 		files: {
 			'js/dist/wp-seo-admin-330.js': ['js/src/wp-seo-admin.js']
 		}
+	},
+	"release-es6": {
+		options: {
+			transform: [
+				['babelify', { presets: ['es2015'] } ],
+
+				// This is here to make a production build of React.
+				['envify', {
+					global: true, // This makes sure we also transform the React files.
+					NODE_ENV: 'production'
+				} ]
+			]
+		},
+		files: '<%= browserify.buildes6.files %>'
 	}
 };
