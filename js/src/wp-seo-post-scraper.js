@@ -406,7 +406,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 					if ( null === decorator ) {
 						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
 					}
-
 					decorator( paper, marks );
 				}
 			};

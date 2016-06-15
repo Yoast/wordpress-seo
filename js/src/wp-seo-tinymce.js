@@ -36,7 +36,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 * @param {string} editorID The ID of the tinyMCE editor.
 	 */
 	function isTinyMCEAvailable( editorID ) {
-		if ( !isTinyMCELoaded() ) {
+		if ( !isTinyMCELoaded()) {
 			return false;
 		}
 
@@ -101,12 +101,14 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		});
 	}
 
-	function hideMarkerButtons(){
-		$(".assessment-results > .score > .assessment-results__mark-container > button").hide();
+	function disableMarkerButtons(){
+		YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
+//		$(".assessment-results > .score > .assessment-results__mark-container > button").hide();
 	}
 
-	function showMarkerButtons() {
-		$(".assessment-results > .score > .assessment-results__mark-container > button").show();
+	function enableMarkerButtons() {
+		YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
+//		$(".assessment-results > .score > .assessment-results__mark-container > button").show();
 	}
 
 	/**
@@ -118,8 +120,8 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	function tinyMceEventBinder( app, tmceId ) {
 		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
 
-		addEventHandler( tmceId, [ 'hide'], hideMarkerButtons );
-		addEventHandler( tmceId, [ 'show'], showMarkerButtons );
+		addEventHandler( tmceId, [ 'hide' ], disableMarkerButtons );
+		addEventHandler( tmceId, [ 'show' ], enableMarkerButtons );
 
 		addEventHandler( 'content', [ 'focus' ], function( evt ) {
 			var editor = evt.target;
