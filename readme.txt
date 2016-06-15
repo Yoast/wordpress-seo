@@ -116,6 +116,23 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.3.1 =
+
+Release Date: June 15th, 2016
+
+* Enhancements:
+	* Adds help center to google search console page when not connected to google search console.
+	* Adds video to the Yoast SEO dashboard to explain it.
+	* Ships the production version of React instead of the development version.
+
+* Bugfixes
+	* Fixes a bug where the primary category wouldn't be in the permalink if `get_permalink` was called outside the loop.
+	* Fixes a compatibility issue where we set $ to jQuery.
+	* Fixes a bug with redirects on a subsite in a multisite installation, props [nicholas-eden](https://github.com/nicholas-eden).
+	* Fixes a bug where invalid HTML would throw a warning.
+	* Fixes a bug where reading server variables using filter_input returns an empty result.
+	* Fixes a bug where the passive voice and transition words would be shown on non-english languages.
+
 = 3.3.0 =
 
 Release Date: June 14th, 2016
