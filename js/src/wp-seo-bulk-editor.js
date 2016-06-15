@@ -1,6 +1,5 @@
 /* global ajaxurl */
 /* global wpseo_bulk_editor_nonce */
-/* global JSON */
 /* jshint -W097 */
 (function() {
 	'use strict';

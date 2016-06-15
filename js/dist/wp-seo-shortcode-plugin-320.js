@@ -3,7 +3,6 @@
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
 /* global _ */
-/* global JSON */
 /* global console */
 (function() {
 	'use strict';

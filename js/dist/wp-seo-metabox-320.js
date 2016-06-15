@@ -68,6 +68,16 @@
 	};
 
 	/**
+	 * Adds keyword popup if the template for it is found
+	 */
+	function initAddKeywordPopup() {
+		// If add keyword popup exists bind it to the add keyword button
+		if ( 1 === $( '#wpseo-add-keyword-popup' ).length ) {
+			$( '.wpseo-add-keyword' ).on( 'click', addKeywordPopup );
+		}
+	}
+
+	/**
 	 * Adds select2 for selected fields.
 	 */
 	function initSelect2() {
@@ -122,16 +132,6 @@
 		$( 'body' ).on( 'thickbox:removed', function() {
 			$( '.wpseo-add-keyword' ).focus();
 		});
-	}
-
-	/**
-	 * Adds keyword popup if the template for it is found
-	 */
-	function initAddKeywordPopup() {
-		// If add keyword popup exists bind it to the add keyword button
-		if ( 1 === $( '#wpseo-add-keyword-popup' ).length ) {
-			$( '.wpseo-add-keyword' ).on( 'click', addKeywordPopup );
-		}
 	}
 
 	jQuery( document ).ready( function() {
