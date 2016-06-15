@@ -30,6 +30,22 @@ a.remove-keyword:focus span {
 }
 
 /* Bold the main keyword tab */
-.wpseo-metabox-tabs > :nth-child(2) {
+.wpseo_content_tab + .wpseo_keyword_tab .wpseo-keyword {
 	font-weight: 600;
+}
+
+/* But not bold when there is no keyword set */
+.wpseo_content_tab + .wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	font-weight: normal;
+}
+
+/* Narrow all the tabs without a focus keyword */
+.wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	max-width: 1em;
+	max-width: 1rem;
+}
+
+/* Except the active one */
+.wpseo_keyword_tab.active a[data-score="na"] .wpseo-keyword {
+	max-width: none;
 }
