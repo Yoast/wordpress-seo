@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: yoastseo 1.2.2\n"
+"Project-Id-Version: yoastseo 1.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-10 15:14+0200\n"
+"POT-Creation-Date: 2016-06-15 13:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,14 +65,14 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$d expands to the recommended maximum number of characters.
-#: js/assessments/getSubheadingLengthAssessment.js:32
+#: js/assessments/getSubheadingLengthAssessment.js:33
 msgid ""
 "The length of all subheadings is less than or equal to the recommended "
 "maximum of %1$d characters, which is great."
 msgstr ""
 
 #. Translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
-#: js/assessments/getSubheadingLengthAssessment.js:45
+#: js/assessments/getSubheadingLengthAssessment.js:46
 msgid ""
 "You have %1$d subheading containing more than the recommended maximum of "
 "%2$d characters."
@@ -110,29 +110,23 @@ msgid ""
 "focus keyword was found %2$d times."
 msgstr ""
 
-#. Translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5)
-#: js/assessments/keywordDensityAssessment.js:30
-#: js/assessments/keywordDensityAssessment.js:45
-msgid "2.5"
-msgstr ""
-
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
-#: js/assessments/keywordDensityAssessment.js:40
+#: js/assessments/keywordDensityAssessment.js:39
 msgid ""
 "The keyword density is %1$s, which is over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: js/assessments/keywordDensityAssessment.js:54
+#: js/assessments/keywordDensityAssessment.js:52
 msgid ""
 "The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: js/assessments/keywordDensityAssessment.js:64
+#: js/assessments/keywordDensityAssessment.js:62
 msgid ""
 "The keyword density is %1$s, which is a bit low; the focus keyword was found "
 "%2$d times."
@@ -183,12 +177,12 @@ msgid ""
 "competition? Could it be made more appealing?"
 msgstr ""
 
-#: js/assessments/paragraphTooLongAssessment.js:44
+#: js/assessments/paragraphTooLongAssessment.js:59
 msgid "None of your paragraphs are too long, which is great."
 msgstr ""
 
 #. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
-#: js/assessments/paragraphTooLongAssessment.js:52
+#: js/assessments/paragraphTooLongAssessment.js:67
 msgid ""
 "%1$d of the paragraphs contains more than the recommended maximum of %2$d "
 "words. Are you sure all information is about the same topic, and therefore "
@@ -219,7 +213,7 @@ msgstr[1] ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:37
+#: js/assessments/passiveVoiceAssessment.js:50
 msgid ""
 "%1$s of the sentences contain a %2$spassive voice%3$s, which is less than or "
 "equal to the recommended maximum of %4$s."
@@ -227,7 +221,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:55
+#: js/assessments/passiveVoiceAssessment.js:68
 msgid ""
 "%1$s of the sentences contain a %2$spassive voice%3$s, which is more than "
 "the recommended maximum of %4$s. Try to use their active counterparts."
@@ -267,7 +261,7 @@ msgstr[1] ""
 #. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
-#: js/assessments/sentenceLengthInTextAssessment.js:63
+#: js/assessments/sentenceLengthInTextAssessment.js:78
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less "
 "than or equal to the recommended maximum of %5$s."
@@ -276,7 +270,7 @@ msgstr ""
 #. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
-#: js/assessments/sentenceLengthInTextAssessment.js:80
+#: js/assessments/sentenceLengthInTextAssessment.js:95
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
 "than the recommended maximum of %5$s.Try to shorten your sentences."
@@ -300,13 +294,18 @@ msgid ""
 "sentences."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:47
+#: js/assessments/subheadingDistributionTooLongAssessment.js:40
+#: js/assessments/subheadingPresenceAssessment.js:28
+msgid "The text does not contain any subheadings. Add at least one subheading."
+msgstr ""
+
+#: js/assessments/subheadingDistributionTooLongAssessment.js:68
 msgid ""
 "The amount of words following each of your subheadings doesn't exceed the "
 "recommended maximum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:59
+#: js/assessments/subheadingDistributionTooLongAssessment.js:81
 msgid ""
 "%1$d of the subheadings is followed by more than the recommended maximum of "
 "%2$d words. Try to insert another subheading."
@@ -339,10 +338,6 @@ msgid "The text contains %1$d subheading, which is great."
 msgid_plural "The text contains %1$d subheadings, which is great."
 msgstr[0] ""
 msgstr[1] ""
-
-#: js/assessments/subheadingPresenceAssessment.js:28
-msgid "The text does not contain any subheadings. Add at least one subheading."
-msgstr ""
 
 #: js/assessments/subheadingsKeywordAssessment.js:14
 msgid ""
@@ -489,6 +484,12 @@ msgstr ""
 msgid "This page has %1$s outbound link(s)."
 msgstr ""
 
+#: js/assessments/textPresenceAssessment.js:18
+msgid ""
+"You have far too little content, please add some content to enable a good "
+"analysis."
+msgstr ""
+
 #: js/assessments/titleKeywordAssessment.js:16
 msgid "The focus keyword '%1$s' does not appear in the SEO title."
 msgstr ""
@@ -546,7 +547,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/transitionWordsAssessment.js:38
+#: js/assessments/transitionWordsAssessment.js:48
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "less than the recommended minimum of %4$s."
@@ -554,7 +555,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
-#: js/assessments/transitionWordsAssessment.js:51
+#: js/assessments/transitionWordsAssessment.js:61
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "great."
@@ -663,12 +664,16 @@ msgstr ""
 msgid "Content Analysis: Good SEO score"
 msgstr ""
 
-#: js/renderers/AssessorPresenter.js:304
+#: js/renderers/AssessorPresenter.js:307
+msgid "Marks are disabled in current view."
+msgstr ""
+
+#: js/renderers/AssessorPresenter.js:308
 msgid "Mark this result in the text"
 msgstr ""
 
-#: js/renderers/AssessorPresenter.js:305
-msgid "Remove all marks from the text"
+#: js/renderers/AssessorPresenter.js:309
+msgid "Remove marks in the text"
 msgstr ""
 
 #: js/snippetPreview.js:362
@@ -696,7 +701,7 @@ msgid "Snippet preview"
 msgstr ""
 
 #: js/snippetPreview.js:368
-msgid "Seo title preview:"
+msgid "SEO title preview:"
 msgstr ""
 
 #: js/snippetPreview.js:369
@@ -712,10 +717,10 @@ msgid ""
 "You can click on each element in the preview to jump to the Snippet Editor."
 msgstr ""
 
-#: js/snippetPreview.js:570
+#: js/snippetPreview.js:565
 msgid "Please provide an SEO title by editing the snippet below."
 msgstr ""
 
-#: js/snippetPreview.js:646
+#: js/snippetPreview.js:641
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""

@@ -100,7 +100,7 @@ li.score:after {
 
 	&__mark {
 		&.icon-eye {
-			&-inactive, &-active {
+			&-inactive, &-active, &-disabled {
 				float: left;
 				border: 0;
 				width: 28px;
@@ -127,6 +127,11 @@ li.score:after {
 					display: none;
 				}
 			}
+
+			&-disabled {
+				background-image: url(svg-icon-eye($color_marker_disabled));
+			}
+
 		}
 
 		&:focus {
