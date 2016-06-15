@@ -192,7 +192,7 @@ class WPSEO_Sitemaps_Renderer {
 		$url['loc'] = htmlspecialchars( $url['loc'] );
 
 		$output = "\t<url>\n";
-		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
+		$output .= "\t\t<loc>" . $this->encode_url_rfc3986( $url['loc'] ) . "</loc>\n";
 		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date ) . "</lastmod>\n";
 		$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
 		$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
@@ -208,7 +208,7 @@ class WPSEO_Sitemaps_Renderer {
 			}
 
 			$output .= "\t\t<image:image>\n";
-			$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
+			$output .= "\t\t\t<image:loc>" . esc_html( $this->encode_url_rfc3986( $img['src'] ) ) . "</image:loc>\n";
 
 			if ( ! empty( $img['title'] ) ) {
 				$title = _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) );
@@ -234,5 +234,51 @@ class WPSEO_Sitemaps_Renderer {
 		 * @param array  $url The sitemap url array on which the output is based.
 		 */
 		return apply_filters( 'wpseo_sitemap_url', $output, $url );
+	}
+
+	/**
+	 * Apply some best effort conversion to comply with RFC3986.
+	 *
+	 * @param string $url URL to encode.
+	 *
+	 * @return string
+	 */
+	protected function encode_url_rfc3986( $url ) {
+
+		if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+			return $url;
+		}
+
+		$path = parse_url( $url, PHP_URL_PATH );
+
+		if ( ! empty( $path ) && '/' !== $path ) {
+
+			$encoded_path = explode( '/', $path );
+			$encoded_path = array_map( 'rawurlencode', $encoded_path );
+			$encoded_path = implode( '/', $encoded_path );
+			$encoded_path = str_replace( '%7E', '~', $encoded_path ); // PHP <5.3.
+
+			$url = str_replace( $path, $encoded_path, $url );
+		}
+
+		$query = parse_url( $url, PHP_URL_QUERY );
+
+		if ( ! empty( $query ) ) {
+
+			parse_str( $query, $parsed_query );
+
+			if ( defined( 'PHP_QUERY_RFC3986' ) ) { // PHP 5.4+.
+				$parsed_query = http_build_query( $parsed_query, null, '&amp;', PHP_QUERY_RFC3986 );
+			}
+			else {
+				$parsed_query = http_build_query( $parsed_query, null, '&amp;' );
+				$parsed_query = str_replace( '+', '%20', $parsed_query );
+				$parsed_query = str_replace( '%7E', '~', $parsed_query );
+			}
+
+			$url = str_replace( $query, $parsed_query, $url );
+		}
+
+		return $url;
 	}
 }

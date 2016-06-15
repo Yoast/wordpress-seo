@@ -22,7 +22,7 @@ if ( ! current_theme_supports( 'title-tag' ) ) {
 		<td>
 			<?php
 			$yform->radio( 'separator', WPSEO_Option_Titles::get_instance()->get_separator_options(), '' );
-			echo '<p class="description">', __( 'Choose the symbol to use as your title separator. This will display, for instance, between your post title and site name.', 'wordpress-seo' ), ' ', __( 'Symbols are shown in the size they\'ll appear in in search results.', 'wordpress-seo' ), '</p>';
+			echo '<p class="description">', __( 'Choose the symbol to use as your title separator. This will display, for instance, between your post title and site name.', 'wordpress-seo' ), ' ', __( 'Symbols are shown in the size they\'ll appear in the search results.', 'wordpress-seo' ), '</p>';
 			?>
 		</td>
 	</tr>
