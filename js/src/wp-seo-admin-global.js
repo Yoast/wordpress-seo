@@ -201,5 +201,4 @@
 			closeVideoSlideout();
 		}
 	} );
-
 })();

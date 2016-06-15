@@ -64,10 +64,5 @@
 	"disallowQuotedKeysInObjects": "allButReserved",
 	"requireCommaBeforeLineBreak": true,
 	"requireCapitalizedConstructors": true,
-	"safeContextKeyword": [ "that" ],
-	"validateJSDoc": {
-		"checkParamNames": true,
-		"checkRedundantParams": true,
-		"requireParamTypes": true
-	}
+	"safeContextKeyword": [ "that" ]
 }
