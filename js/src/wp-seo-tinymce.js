@@ -118,6 +118,25 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	}
 
 	/**
+	 * Check if the TinyMCE editor is created in the DOM. If it doesn't exist yet an on create event created.
+	 * This enables the marker buttons, when TinyMCE is created.
+	 */
+	function wpTextViewOnInitCheck(){
+		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
+		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
+		if ( jQuery( '#wp-content-wrap' ).hasClass( 'html-active' ) ) {
+			// The enable/disable marker functions are not called here,
+			// because the render function(in yoastseo lib) doesn't have to be called.
+			YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
+			YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
+
+			tinyMCE.on( 'AddEditor' , function( ) {
+				enableMarkerButtons( );
+			} );
+		}
+	}
+
+	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 	 *
 	 * @param {App} app YoastSeo application.
@@ -127,6 +146,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
 
 		addEventHandler( tmceId, [ 'hide' ], disableMarkerButtons );
+		addEventHandler( tmceId, [ 'show' ], enableMarkerButtons );
 
 		addEventHandler( 'content', [ 'focus' ], function( evt ) {
 			var editor = evt.target;
@@ -145,6 +165,8 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		getContentTinyMce: getContentTinyMce,
 		isTinyMCEAvailable: isTinyMCEAvailable,
 		isTinyMCELoaded: isTinyMCELoaded,
-		disableMarkerButtons: disableMarkerButtons
+		disableMarkerButtons: disableMarkerButtons,
+		enableMarkerButtons: enableMarkerButtons,
+		wpTextViewOnInitCheck: wpTextViewOnInitCheck
 	};
 })(jQuery);

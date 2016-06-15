@@ -968,6 +968,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
 			}
 		}
+
 		tmceHelper.tinyMceEventBinder(app, tmceId);
 
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
@@ -1145,7 +1146,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 					if ( null === decorator ) {
 						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
 					}
-
 					decorator( paper, marks );
 				}
 			};
@@ -1205,6 +1205,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		app = new App( args );
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+
+		tmceHelper.wpTextViewOnInitCheck();
 
 		// Init Plugins
 		YoastSEO.wp = {};
@@ -1288,7 +1290,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 * @param {string} editorID The ID of the tinyMCE editor.
 	 */
 	function isTinyMCEAvailable( editorID ) {
-		if ( !isTinyMCELoaded() ) {
+		if ( !isTinyMCELoaded()) {
 			return false;
 		}
 
@@ -1353,12 +1355,39 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		});
 	}
 
-	function hideMarkerButtons(){
-		$(".assessment-results > .score > .assessment-results__mark-container > button").hide();
+	/**
+	 * Calls the function in the YoastSEO.js app that disables the marker (eye)icons.
+	 */
+	function disableMarkerButtons() {
+		YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
+		YoastSEO.app.seoAssessorPresenter.disableMarkerButtons();
 	}
 
-	function showMarkerButtons() {
-		$(".assessment-results > .score > .assessment-results__mark-container > button").show();
+	/**
+	 * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
+	 */
+	function enableMarkerButtons() {
+		YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
+		YoastSEO.app.seoAssessorPresenter.enableMarkerButtons();
+	}
+
+	/**
+	 * Check if the TinyMCE editor is created in the DOM. If it doesn't exist yet an on create event created.
+	 * This enables the marker buttons, when TinyMCE is created.
+	 */
+	function wpTextViewOnInitCheck(){
+		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
+		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
+		if ( jQuery( '#wp-content-wrap' ).hasClass( 'html-active' ) ) {
+			// The enable/disable marker functions are not called here,
+			// because the render function(in yoastseo lib) doesn't have to be called.
+			YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
+			YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
+
+			tinyMCE.on( 'AddEditor' , function( ) {
+				enableMarkerButtons( );
+			} );
+		}
 	}
 
 	/**
@@ -1370,8 +1399,8 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	function tinyMceEventBinder( app, tmceId ) {
 		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
 
-		addEventHandler( tmceId, [ 'hide'], hideMarkerButtons );
-		addEventHandler( tmceId, [ 'show'], showMarkerButtons );
+		addEventHandler( tmceId, [ 'hide' ], disableMarkerButtons );
+		addEventHandler( tmceId, [ 'show' ], enableMarkerButtons );
 
 		addEventHandler( 'content', [ 'focus' ], function( evt ) {
 			var editor = evt.target;
@@ -1389,7 +1418,10 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		tinyMceEventBinder: tinyMceEventBinder,
 		getContentTinyMce: getContentTinyMce,
 		isTinyMCEAvailable: isTinyMCEAvailable,
-		isTinyMCELoaded: isTinyMCELoaded
+		isTinyMCELoaded: isTinyMCELoaded,
+		disableMarkerButtons: disableMarkerButtons,
+		enableMarkerButtons: enableMarkerButtons,
+		wpTextViewOnInitCheck: wpTextViewOnInitCheck
 	};
 })(jQuery);
 
@@ -7881,7 +7913,6 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
  * Disables markers visually in the UI
  */
 App.prototype.disableMarkers = function() {
-	console.log('disable markers');
 	this.seoAssessorPresenter.disableMarker();
 
 	if ( !isUndefined( this.contentAssessorPresenter ) ) {
@@ -11138,6 +11169,11 @@ ContentAssessor.prototype.calculatePenaltyPoints = function () {
  * @private
  */
 ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
+	if ( this.getValidResults().length === 1 ) {
+		// If we have only 1 result, we only have a "no content" result
+		return 30;
+	}
+
 	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
 		// Determine the total score based on the total negative points.
 		if ( totalPenaltyPoints > 6 ) {
@@ -12042,6 +12078,8 @@ var AssessorPresenter = function( args ) {
 	this.overall = args.targets.overall || "overallScore";
 	this.presenterConfig = createConfig( args.i18n );
 
+	this._disableMarkerButtons = false;
+
 	this._activeMarker = false;
 };
 
@@ -12245,6 +12283,22 @@ AssessorPresenter.prototype.disableMarker = function() {
 };
 
 /**
+ * Disables the marker buttons.
+ */
+AssessorPresenter.prototype.disableMarkerButtons = function() {
+	this._disableMarkerButtons = true;
+	this.render();
+};
+
+/**
+ * Enables the marker buttons.
+ */
+AssessorPresenter.prototype.enableMarkerButtons = function() {
+	this._disableMarkerButtons = false;
+	this.render();
+};
+
+/**
  * Adds an event listener for the marker button
  *
  * @param {string} identifier The identifier for the assessment the marker belongs to.
@@ -12298,10 +12352,12 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 	outputTarget.innerHTML = template( {
 		scores: scores,
 		i18n: {
+			disabledMarkText : this.i18n.dgettext( "js-text-analysis", "Marks are disabled in current view" ),
 			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
 			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" )
 		},
-		activeMarker: this._activeMarker
+		activeMarker: this._activeMarker,
+		markerButtonsDisabled: this._disableMarkerButtons
 	} );
 
 	this.bindMarkButtons( scores );
@@ -19897,7 +19953,7 @@ module.exports = function( text ) {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.13.0';
+  var VERSION = '4.13.1';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -20139,25 +20195,50 @@ module.exports = function( text ) {
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="assessment-results__mark-container">\n                ';
      if ( scores[ i ].marker ) {
-    __p += '\n                    <button type="button"\n                        aria-label="' +
-    ((__t = ( i18n.markInText )) == null ? '' : __t) +
-    '"\n                        class="assessment-results__mark ';
-     if ( scores[ i ].identifier === activeMarker ) {
-    __p += 'icon-eye-active';
-     } else {
-    __p += 'icon-eye-inactive';
+    __p += '\n                    <button type="button" ';
+     if ( markerButtonsDisabled ) {
+    __p += ' disabled="disabled" ';
      }
-    __p += ' js-assessment-results__mark-' +
-    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
-    ' yoast-tooltip yoast-tooltip-s"><span class="screen-reader-text">';
-     if ( scores[ i ].identifier === activeMarker ) {
+    __p += '\n                        aria-label="';
+     if ( markerButtonsDisabled ) {
+    __p +=
+    ((__t = ( i18n.disabledMarkText )) == null ? '' : __t);
+     }
+                                else if ( scores[ i ].identifier === activeMarker ) {
     __p +=
     ((__t = ( i18n.removeMarksInText )) == null ? '' : __t);
-     } else {
+     }
+                                else {
     __p +=
     ((__t = ( i18n.markInText )) == null ? '' : __t);
      }
-    __p += '</span></button>\n                ';
+    __p += '"\n                        class="assessment-results__mark ';
+
+                            if ( markerButtonsDisabled ) {
+    __p += ' icon-eye-disabled ';
+     }
+                            else if ( scores[ i ].identifier === activeMarker ) {
+    __p += '\n                            icon-eye-active\n                        ';
+     }
+                            else {
+    __p += '\n                            icon-eye-inactive\n                        ';
+     }
+    __p += '\n                        js-assessment-results__mark-' +
+    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
+    ' yoast-tooltip yoast-tooltip-s">\n                        <span class="screen-reader-text">';
+     if ( markerButtonsDisabled ) {
+    __p +=
+    ((__t = ( i18n.disabledMarkText )) == null ? '' : __t);
+     }
+                                else if ( scores[ i ].identifier === activeMarker ) {
+    __p +=
+    ((__t = ( i18n.removeMarksInText )) == null ? '' : __t);
+     }
+                                else {
+    __p +=
+    ((__t = ( i18n.markInText )) == null ? '' : __t);
+     }
+    __p += '\n                        </span></button>\n                ';
      }
     __p += '\n            </span>\n            <span class="wpseo-score-icon ' +
     __e( scores[ i ].className ) +
@@ -20395,7 +20476,7 @@ AssessmentResult.prototype.hasMarker = function() {
 };
 
 /**
- * Gets the marker, a pure function that an return the marks for a given Paper
+ * Gets the marker, a pure function that can return the marks for a given Paper
  *
  * @returns {Function} The marker.
  */
