@@ -933,6 +933,20 @@ button.yoast-tooltip {
 	flex: 0 0 auto;
 }
 
+/* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
+#edittag > #wp-description-wrap {
+	display: none;
+}
+
+#wp-description-wrap .wp-editor-area {
+	border: 0;
+}
+
+/* Give the original textarea enough height to mitigate content flash. */
+.term-description-wrap td > textarea#description {
+	min-height: 530px;
+}
+
 /**
  * Lines below came from metabox-tabs.css
  *
@@ -942,6 +956,13 @@ ul.wpseo-metabox-tabs {
 	display: none;
 	margin-top: 6px;
 	margin-bottom: 0;
+}
+
+/* Contain floated list items and have overflow visible for the active tab */
+ul.wpseo-metabox-tabs:after {
+	display: table;
+	clear: both; 
+	content: "";
 }
 
 .wpseo-metabox-tabs-div ul {
@@ -983,21 +1004,22 @@ ul.wpseo-metabox-tabs li.active {
 	color: #333;
 }
 
+/* Floated to reset white space between list items */
 ul.wpseo-metabox-tabs li {
-	display: inline-block;
+	float: left;
 	margin-right: 5px;
 	margin-bottom: -1px;
 	padding: 0;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
 	border-color: #dfdfdf;
-	vertical-align: top;
 }
-
-ul.wpseo-metabox-tabs li,
-ul.wpseo-metabox-tabs li a {
+ul.wpseo-metabox-tabs li .wpseo-keyword {
+	display: inline-block;
 	overflow: hidden;
-	max-width: 250px;
+	max-width: 8em;
+	max-width: 8rem;
+	vertical-align: top;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
@@ -1011,9 +1033,20 @@ ul.wpseo-metabox-tabs li a {
 }
 
 .wpseo-metabox-tabs a {
-	display: block;
-	padding: 5px 12px;
+	display: inline-block;
+	padding: 5px 4px 6px 12px;
+	vertical-align: top;
 	text-decoration: none;
+}
+
+/* Bigger right padding only for the content tab and the main keyword tabs */
+.wpseo-metabox-tabs .wpseo_content_tab a,
+.wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
+	padding-right: 12px;
+}
+
+.wpseo-metabox-tabs .wpseo-score-icon {
+	margin-left: 0;
 }
 
 #wpseo-meta-section-social .wpseo-metabox-tabs a {
@@ -1170,10 +1203,7 @@ table.wpseoanalysis td.score {
 }
 
 ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
-	margin-left: -3px;
-	padding: 0;
 	border: none;
-	vertical-align: top;
 }
 
 .wpseo-tab-add-keyword .wpseo-add-keyword.button {
