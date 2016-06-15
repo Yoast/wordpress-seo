@@ -101,14 +101,20 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		});
 	}
 
-	function disableMarkerButtons(){
+	/**
+	 * Calls the function in the YoastSEO.js app that disables the marker (eye)icons.
+	 */
+	function disableMarkerButtons() {
 		YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
-//		$(".assessment-results > .score > .assessment-results__mark-container > button").hide();
+		YoastSEO.app.seoAssessorPresenter.disableMarkerButtons();
 	}
 
+	/**
+	 * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
+	 */
 	function enableMarkerButtons() {
 		YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
-//		$(".assessment-results > .score > .assessment-results__mark-container > button").show();
+		YoastSEO.app.seoAssessorPresenter.enableMarkerButtons();
 	}
 
 	/**
@@ -121,7 +127,6 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
 
 		addEventHandler( tmceId, [ 'hide' ], disableMarkerButtons );
-		addEventHandler( tmceId, [ 'show' ], enableMarkerButtons );
 
 		addEventHandler( 'content', [ 'focus' ], function( evt ) {
 			var editor = evt.target;
@@ -139,6 +144,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		tinyMceEventBinder: tinyMceEventBinder,
 		getContentTinyMce: getContentTinyMce,
 		isTinyMCEAvailable: isTinyMCEAvailable,
-		isTinyMCELoaded: isTinyMCELoaded
+		isTinyMCELoaded: isTinyMCELoaded,
+		disableMarkerButtons: disableMarkerButtons
 	};
 })(jQuery);

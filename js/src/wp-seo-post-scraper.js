@@ -466,6 +466,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
+		if ( jQuery( '.wp-editor-wrap' ).hasClass( 'html-active' ) ) {
+			app.contentAssessorPresenter._disableMarkerButtons = true;
+			app.seoAssessorPresenter._disableMarkerButtons = true;
+		}
+
 		// Init Plugins
 		YoastSEO.wp = {};
 		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
@@ -477,7 +482,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		postScraper.initKeywordTabTemplate();
 
 		window.YoastSEO.wp._tabManager = tabManager;
-
+		
 		var indicator = getIndicatorForScore( savedKeywordScore );
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
