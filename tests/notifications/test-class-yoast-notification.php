@@ -37,7 +37,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 				'priority'         => 0.5,
 				'data_json'        => array(),
 				'dismissal_key'    => null,
-				'capabilities'     => array(),
+				'capabilities'     => array( 'manage_options' ),
 				'capability_check' => 'all',
 			),
 			$test['options']
@@ -315,7 +315,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function test_invalid_filter_return_values() {
 		$subject = new Yoast_Notification( 'message', array( 'id' => 'id', 'capabilities' => 'not_an_array' ) );
-		$this->assertTrue( $subject->display_for_current_user() );
+		$this->assertFalse( $subject->display_for_current_user() );
 	}
 
 	/**

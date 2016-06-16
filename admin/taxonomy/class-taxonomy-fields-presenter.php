@@ -53,7 +53,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	}
 
 	/**
-	 * Generates the html for the the given field config
+	 * Generates the html for the given field config.
 	 *
 	 * @param string $field_type  The fieldtype, e.g: text, checkbox, etc.
 	 * @param string $field_name  The name of the field.

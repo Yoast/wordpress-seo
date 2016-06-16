@@ -9,220 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-
-/**
- * Test whether force rewrite should be enabled or not.
- */
-function wpseo_title_test() {
-	$options = get_option( 'wpseo_titles' );
-
-	$options['forcerewritetitle'] = false;
-	$options['title_test']        = 1;
-	update_option( 'wpseo_titles', $options );
-
-	// Setting title_test to > 0 forces the plugin to output the title below through a filter in class-frontend.php.
-	$expected_title = 'This is a Yoast Test Title';
-
-	WPSEO_Utils::clear_cache();
-
-
-	$args = array(
-		'user-agent' => sprintf( 'WordPress/%1$s; %2$s - Yoast', $GLOBALS['wp_version'], get_site_url() ),
-	);
-	$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
-
-	if ( ( $resp && ! is_wp_error( $resp ) ) && ( 200 == $resp['response']['code'] && isset( $resp['body'] ) ) ) {
-		$res = preg_match( '`<title>([^<]+)</title>`im', $resp['body'], $matches );
-
-		if ( $res && strcmp( $matches[1], $expected_title ) !== 0 ) {
-			$options['forcerewritetitle'] = true;
-
-			$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
-			$res  = false;
-			if ( ( $resp && ! is_wp_error( $resp ) ) && ( 200 == $resp['response']['code'] && isset( $resp['body'] ) ) ) {
-				$res = preg_match( '`/<title>([^>]+)</title>`im', $resp['body'], $matches );
-			}
-		}
-
-		if ( ! $res || $matches[1] != $expected_title ) {
-			$options['forcerewritetitle'] = false;
-		}
-	}
-	else {
-		// If that dies, let's make sure the titles are correct and force the output.
-		$options['forcerewritetitle'] = true;
-	}
-
-	$options['title_test'] = 0;
-	update_option( 'wpseo_titles', $options );
-}
-
-// Commented out? add_filter( 'switch_theme', 'wpseo_title_test', 0 ); R.
-/**
- * Test whether the active theme contains a <meta> description tag.
- *
- * @since 1.4.14 Moved from dashboard.php and adjusted - see changelog
- *
- * @return void
- */
-function wpseo_description_test() {
-	$options = get_option( 'wpseo' );
-
-	// Reset any related options - dirty way of getting the default to make sure it works on activation.
-	$options['theme_has_description']   = WPSEO_Option_Wpseo::$desc_defaults['theme_has_description'];
-	$options['theme_description_found'] = WPSEO_Option_Wpseo::$desc_defaults['theme_description_found'];
-
-	/**
-	 * @internal Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
-	 * as well and new warning would be warranted then. Only might give irritation on theme upgrade.
-	 */
-	$options['ignore_meta_description_warning'] = WPSEO_Option_Wpseo::$desc_defaults['ignore_meta_description_warning'];
-
-	$file = false;
-	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
-		// Theme or child theme.
-		$file = get_stylesheet_directory() . '/header.php';
-	}
-	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
-		// Parent theme in case of a child theme.
-		$file = get_template_directory() . '/header.php';
-	}
-
-	if ( is_string( $file ) && $file !== '' ) {
-		$header_file = file_get_contents( $file );
-		$issue       = preg_match_all( '#<\s*meta\s*(name|content)\s*=\s*("|\')(.*)("|\')\s*(name|content)\s*=\s*("|\')(.*)("|\')(\s+)?/?>#i', $header_file, $matches, PREG_SET_ORDER );
-		if ( $issue === false || $issue === 0 ) {
-			$options['theme_has_description'] = false;
-		}
-		else {
-			foreach ( $matches as $meta ) {
-				if ( ( strtolower( $meta[1] ) == 'name' && strtolower( $meta[3] ) == 'description' ) || ( strtolower( $meta[5] ) == 'name' && strtolower( $meta[7] ) == 'description' ) ) {
-					$options['theme_description_found']         = $meta[0];
-					$options['ignore_meta_description_warning'] = false;
-					break; // No need to run through the rest of the meta's.
-				}
-			}
-			if ( $options['theme_description_found'] !== '' ) {
-				$options['theme_has_description'] = true;
-			}
-			else {
-				$options['theme_has_description'] = false;
-			}
-		}
-	}
-	update_option( 'wpseo', $options );
-}
-
-add_filter( 'after_switch_theme', 'wpseo_description_test', 0 );
-
-if ( version_compare( $GLOBALS['wp_version'], '3.6.99', '>' ) ) {
-	// Use the new and *sigh* adjusted action hook WP 3.7+.
-	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 2 );
-}
-elseif ( version_compare( $GLOBALS['wp_version'], '3.5.99', '>' ) ) {
-	// Use the new action hook WP 3.6+.
-	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 3 );
-}
-else {
-	// Abuse filters to do our action.
-	add_filter( 'update_theme_complete_actions', 'wpseo_update_theme_complete_actions', 10, 2 );
-	add_filter( 'update_bulk_theme_complete_actions', 'wpseo_update_theme_complete_actions', 10, 2 );
-}
-
-
-/**
- * Check if the current theme was updated and if so, test the updated theme
- * for the title and meta description tag
- *
- * @since    1.4.14
- *
- * @param WP_Upgrader $upgrader_object Upgrader object instance.
- * @param array       $context_array   Context data array.
- * @param mixed       $themes          Optional themes set.
- *
- * @return  void
- */
-function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $themes = null ) {
-	$options = get_option( 'wpseo' );
-
-	// Break if admin_notice already in place.
-	if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true ) {
-		return;
-	}
-	// Break if this is not a theme update, not interested in installs as after_switch_theme would still be called.
-	if ( ! isset( $context_array['type'] ) || $context_array['type'] !== 'theme' || ! isset( $context_array['action'] ) || $context_array['action'] !== 'update' ) {
-		return;
-	}
-
-	$theme = get_stylesheet();
-	if ( ! isset( $themes ) ) {
-		// WP 3.7+.
-		$themes = array();
-		if ( isset( $context_array['themes'] ) && $context_array['themes'] !== array() ) {
-			$themes = $context_array['themes'];
-		}
-		elseif ( isset( $context_array['theme'] ) && $context_array['theme'] !== '' ) {
-			$themes = $context_array['theme'];
-		}
-	}
-
-	if ( ( isset( $context_array['bulk'] ) && $context_array['bulk'] === true ) && ( is_array( $themes ) && count( $themes ) > 0 ) ) {
-
-		if ( in_array( $theme, $themes ) ) {
-			// Commented out? wpseo_title_test(); R.
-			wpseo_description_test();
-		}
-	}
-	elseif ( is_string( $themes ) && $themes === $theme ) {
-		// Commented out? wpseo_title_test(); R.
-		wpseo_description_test();
-	}
-
-	return;
-}
-
-/**
- * Abuse a filter to check if the current theme was updated and if so, test the updated theme
- * for the title and meta description tag
- *
- * @since 1.4.14
- *
- * @param   array           $update_actions Updated actions set.
- * @param   WP_Theme|string $updated_theme  Theme object instance or stylesheet name.
- *
- * @return  array  $update_actions    Unchanged array
- */
-function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) {
-	$options = get_option( 'wpseo' );
-
-	// Break if admin_notice already in place.
-	if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true ) {
-		return $update_actions;
-	}
-
-	$theme = get_stylesheet();
-	if ( is_object( $updated_theme ) ) {
-		/*
-		Bulk update and $updated_theme only contains info on which theme was last in the list
-		   of updated themes, so go & test
-		*/
-
-		// Commented out? wpseo_title_test(); R.
-		wpseo_description_test();
-	}
-	elseif ( $updated_theme === $theme ) {
-		/*
-		Single theme update for the active theme
-		*/
-
-		// Commented out? wpseo_title_test(); R.
-		wpseo_description_test();
-	}
-
-	return $update_actions;
-}
-
-
 /**
  * Adds an SEO admin bar menu with several options. If the current user is an admin he can also go straight to several settings menu's from here.
  */
@@ -234,9 +20,15 @@ function wpseo_admin_bar_menu() {
 
 	global $wp_admin_bar, $post;
 
+	$admin_menu = current_user_can( 'manage_options' );
+	if ( ! $admin_menu && is_multisite() ) {
+		$options    = get_site_option( 'wpseo_ms' );
+		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
+	}
+
 	$focuskw = '';
 	$score   = '';
-	$seo_url = get_admin_url( null, 'admin.php?page=' . Yoast_Alerts::ADMIN_PAGE );
+	$seo_url = '';
 
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
 					'post.php',
@@ -257,7 +49,9 @@ function wpseo_admin_bar_menu() {
 	// Never display notifications for network admin.
 	$counter = '';
 
-	if ( ! function_exists( 'is_network_admin' ) || ! is_network_admin() ) {
+	if ( $admin_menu ) {
+
+		$seo_url = get_admin_url( null, 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
 
 		if ( '' === $score ) {
 
@@ -269,7 +63,9 @@ function wpseo_admin_bar_menu() {
 
 			if ( $notification_count > 0 ) {
 				// Always show Alerts page when clicking on the main link.
-				$counter = sprintf( ' <div class="yoast-issue-counter">%d</div>', $notification_count );
+				/* translators: %s: number of notifications */
+				$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
+				$counter = sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter"><span aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );
 			}
 
 			if ( $new_notifications_count ) {
@@ -284,7 +80,8 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// Yoast Icon.
-	$title = '<div class="wp-menu-image yoast-logo svg"></div>';
+	$icon_svg = WPSEO_Utils::get_icon_svg();
+	$title = '<div id="yoast-ab-icon" class="ab-item yoast-logo svg" style="background-image: url(\''.$icon_svg.'\');"><span class="screen-reader-text">' . __( 'SEO', 'wordpress-seo' ) . '</span></div>';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
@@ -416,13 +213,6 @@ function wpseo_admin_bar_menu() {
 		}
 	}
 
-	$admin_menu = current_user_can( 'manage_options' );
-
-	if ( ! $admin_menu && is_multisite() ) {
-		$options    = get_site_option( 'wpseo_ms' );
-		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
-	}
-
 	// @todo: add links to bulk title and bulk description edit pages.
 	if ( $admin_menu ) {
 		$wp_admin_bar->add_menu( array(
@@ -479,6 +269,7 @@ function wpseo_admin_bar_menu() {
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 	}
+
 }
 
 add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
@@ -487,6 +278,10 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
 	$asset_manager = new WPSEO_Admin_Asset_Manager();
 	$asset_manager->register_assets();
 	$asset_manager->enqueue_style( 'adminbar' );
@@ -556,7 +351,6 @@ function wpseo_translate_score( $val, $css_value = true ) {
 	return WPSEO_Utils::translate_score();
 }
 
-
 /**
  * Check whether file editing is allowed for the .htaccess and robots.txt files
  *
@@ -572,4 +366,60 @@ function wpseo_allow_system_file_edit() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::allow_system_file_edit()' );
 
 	return WPSEO_Utils::allow_system_file_edit();
+}
+
+/**
+ * Test whether force rewrite should be enabled or not.
+ *
+ * @deprecated 3.3
+ *
+ * @return void
+ */
+function wpseo_title_test() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
+}
+
+/**
+ * Test whether the active theme contains a <meta> description tag.
+ *
+ * @since 1.4.14 Moved from dashboard.php and adjusted - see changelog
+ *
+ * @deprecated 3.3
+ *
+ * @return void
+ */
+function wpseo_description_test() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
+}
+
+/**
+ * Check if the current theme was updated and if so, test the updated theme
+ * for the title and meta description tag
+ *
+ * @since    1.4.14
+ *
+ * @deprecated 3.3
+ *
+ * @param WP_Upgrader $upgrader_object Upgrader object instance.
+ * @param array       $context_array   Context data array.
+ * @param mixed       $themes          Optional themes set.
+ *
+ * @return  void
+ */
+function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $themes = null ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
+}
+
+/**
+ * Abuse a filter to check if the current theme was updated and if so, test the updated theme
+ * for the title and meta description tag
+ *
+ * @since 1.4.14
+ * @deprecated 3.3
+ *
+ * @param   array           $update_actions Updated actions set.
+ * @param   WP_Theme|string $updated_theme  Theme object instance or stylesheet name.
+ */
+function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 }
