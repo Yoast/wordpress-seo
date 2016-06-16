@@ -1,12 +1,12 @@
 // https://github.com/markoheijnen/grunt-glotpress
 module.exports = {
-	plugin: {
+	'yoastseo-js': {
 		options: {
 			url: '<%= pkg.plugin.glotpress %>',
 			domainPath: '<%= paths.languages %>',
 			file_format: '%domainPath%/%textdomain%-%wp_locale%.%format%',
-			slug: '<%= pkg.plugin.textdomain %>',
-			textdomain: '<%= pkg.plugin.textdomain %>',
+			slug: 'yoastseo-js',
+			textdomain: 'js-text-analysis',
 			formats: [ 'mo', 'po' ],
 			filter: {
 				translation_sets: false,
