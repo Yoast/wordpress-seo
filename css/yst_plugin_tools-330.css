@@ -83,6 +83,10 @@ label.checkbox {
 	background-color: transparent;
 }
 
+.wp-core-ui .button.wpseo-gsc-save-profile {
+	margin-left: 200px;
+}
+
 table.wpseo th {
 	text-align: left;
 }
@@ -270,14 +274,6 @@ table.yoast_help tr:hover {
 
 .wpseo_content_wrapper input.wpseo_image_upload_button {
 	margin-top: 5px;
-}
-
-.button {
-	color: #000 !important;
-}
-
-.button#submit {
-	color: #fff !important;
 }
 
 .postbox#donate {
