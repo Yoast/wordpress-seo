@@ -149,8 +149,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
-		global $wpdb;
-
 		$links    = array();
 		$taxonomy = get_taxonomy( $type );
 
@@ -169,20 +167,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( empty( $terms ) ) {
 			$terms = array();
 		}
-
-		// Grab last modified date.
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS lastmod
-			FROM	$wpdb->posts AS p
-			INNER JOIN $wpdb->term_relationships AS term_rel
-				ON		term_rel.object_id = p.ID
-			INNER JOIN $wpdb->term_taxonomy AS term_tax
-				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-				AND		term_tax.taxonomy = %s
-				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN ('publish','inherit')
-				AND		p.post_password = ''
-		";
 
 		foreach ( $terms as $term ) {
 
@@ -221,7 +205,24 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$url['pri'] = 0.2;
 			}
 
-			$url['mod']    = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
+			$posts = get_posts( array(
+				'post_type'      => 'any',
+				'post_status'    => array( 'publish', 'inherit' ),
+				'tax_query'      => array(
+					array(
+						'taxonomy' => $term->taxonomy,
+						'terms'    => $term->term_id,
+					),
+				),
+				'orderby'        => 'modified',
+				'order'          => 'DESC',
+				'posts_per_page' => 1,
+			) );
+
+			if ( isset( $posts[0] ) ) {
+				$url['mod'] = $posts[0]->post_modified;
+			}
+
 			$url['chf']    = WPSEO_Sitemaps::filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
 			$url['images'] = $this->image_parser->get_term_images( $term );
 
