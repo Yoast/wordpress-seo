@@ -1095,16 +1095,16 @@
         },
         {
             "name": "yoast/php-development-environment",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/php-development-environment.git",
-                "reference": "d168fc71529bc717529e6ab112c3b822d69789b5"
+                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/php-development-environment/zipball/d168fc71529bc717529e6ab112c3b822d69789b5",
-                "reference": "d168fc71529bc717529e6ab112c3b822d69789b5",
+                "url": "https://api.github.com/repos/Yoast/php-development-environment/zipball/d53b054d96b688a96e47d4c2e4306983375efd75",
+                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75",
                 "shasum": ""
             },
             "type": "library",
@@ -1129,7 +1129,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2016-06-16 08:33:25"
+            "time": "2016-06-16 10:12:26"
         },
         {
             "name": "yoast/yoastcs",
