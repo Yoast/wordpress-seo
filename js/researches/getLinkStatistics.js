@@ -41,7 +41,7 @@ var sanitizeUrl = function( url ) {
  * @param {string} currentUrl The current URL to match against.
  * @returns {boolean} Whether or not the URLs match.
  */
-var matchAnchorUrlToCurrentUrl = function( url, currentUrl) {
+var matchAnchorUrlToCurrentUrl = function( url, currentUrl ) {
 	var anchorUrl = extractUrl( url );
 
 	// Sanitize the anchorURL to strip off extra parameters.
