@@ -48,10 +48,14 @@ release:
   - 'build:images'
   - 'release:js'
   - 'build:i18n'
+  - 'release:clean'
 'release:js':
   - 'browserify:build'
   - 'browserify:release-es6'
   - 'uglify'
+'release:clean':
+  - 'clean:release-js'
+  - 'clean:release-css'
 # Default task
 default:
   - build

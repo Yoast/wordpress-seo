@@ -3,5 +3,15 @@ module.exports = {
 	'po-files': [
 		'languages/*.{po,mo}',
 		'languages/yoast-seo.json'
+	],
+	'release-css': [
+		'css/src/**',
+		'css/*.css',
+		'!css/*.min.css'
+	],
+	'release-js': [
+		'js/src/**',
+		'js/dist/*.js',
+		'!js/dist/*.min.js'
 	]
 };
