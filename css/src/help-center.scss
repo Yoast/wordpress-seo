@@ -52,6 +52,15 @@
 	  flex: 1 1 auto;
   }
 
+  a {
+	color: white;
+
+	&.button,
+	&.button-primary {
+	  text-decoration: none;
+	}
+  }
+
   h1,
   h2,
   h3,
@@ -96,15 +105,6 @@
     margin: 0;
 	color: white;
 	font-weight: 300;
-
-	a {
-	  color: white;
-
-	  &.button,
-	  &.button-primary {
-		  text-decoration: none;
-	  }
-    }
   }
 
   .wpseo-tab-video__panel {
@@ -167,7 +167,6 @@
   a,
   a:hover,
   a:focus {
-	color: white;
 	font-weight: 500;
   }
 }

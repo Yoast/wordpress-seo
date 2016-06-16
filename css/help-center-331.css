@@ -55,6 +55,15 @@
 	flex: 1 1 auto;
 }
 
+.wpseo-tab-video-slideout a {
+	color: white;
+}
+
+.wpseo-tab-video-slideout a.button,
+.wpseo-tab-video-slideout a.button-primary {
+	text-decoration: none;
+}
+
 .wpseo-tab-video-slideout h1,
 .wpseo-tab-video-slideout h2,
 .wpseo-tab-video-slideout h3,
@@ -102,15 +111,6 @@
 	margin: 0;
 	color: white;
 	font-weight: 300;
-}
-
-.wpseo-tab-video-slideout .help-tab-content a {
-	color: white;
-}
-
-.wpseo-tab-video-slideout .help-tab-content a.button,
-.wpseo-tab-video-slideout .help-tab-content a.button-primary {
-	text-decoration: none;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
@@ -171,7 +171,6 @@
 .wpseo-tab-video__panel__textarea a,
 .wpseo-tab-video__panel__textarea a:hover,
 .wpseo-tab-video__panel__textarea a:focus {
-	color: white;
 	font-weight: 500;
 }
 
