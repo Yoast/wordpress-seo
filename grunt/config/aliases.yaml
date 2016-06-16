@@ -50,10 +50,14 @@ release:
   - 'build:css'
   - 'build:images'
   - 'release:js'
+  - 'release:clean'
 'release:js':
   - 'browserify:build'
   - 'browserify:release-es6'
   - 'uglify'
+'release:clean':
+  - 'clean:release-js'
+  - 'clean:release-css'
 # Default task
 default:
   - build
