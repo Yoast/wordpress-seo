@@ -115,6 +115,7 @@ describe( "A content assesor", function() {
 
 		it( "should give worse results based on the negative points", function() {
 			results = [
+				new AssessmentResult(),
 				new AssessmentResult()
 			];
 			var testCases = [
