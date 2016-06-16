@@ -2,8 +2,24 @@
 /* global wpseoAdminGlobalL10n */
 /* jshint -W097 */
 /* jshint unused:false */
+
+var isUndefined = require( 'lodash/isUndefined' );
+var forEach = require( 'lodash/forEach' );
+
 (function() {
 	'use strict';
+
+	function displayConsoleNotifications() {
+		if ( isUndefined( window.wpseoConsoleNotifications ) || isUndefined( console ) ) {
+			return;
+		}
+
+		forEach( wpseoConsoleNotifications, function( message ) {
+			console.warn( message );
+		} );
+	}
+
+	jQuery( document ).ready( displayConsoleNotifications );
 
 	/**
 	 * Used to dismiss the tagline notice for a specific user.

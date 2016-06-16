@@ -16,6 +16,9 @@ class WPSEO_Utils {
 	 */
 	public static $has_filters;
 
+	/** @var array notifications to be shown in the JavaScript console */
+	protected static $console_notifications = array();
+	
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
@@ -91,6 +94,45 @@ class WPSEO_Utils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Register a notification to be shown in the JavaScript console
+	 *
+	 * @param string $identifier    Notification identifier
+	 * @param string $message       Message to be shown
+	 * @param bool   $one_time_only Only show once (if added multiple times)
+	 */
+	public static function javascript_console_notification( $identifier, $message, $one_time_only = false ) {
+		static $registered_hook;
+
+		if ( is_null( $registered_hook ) ) {
+			add_action( 'admin_footer', array( __CLASS__, 'localize_console_notices' ), 999 );
+			$registered_hook = true;
+		}
+
+		$prefix = 'Yoast SEO: ';
+		if ( substr( $message, 0, strlen( $prefix ) ) !== $prefix ) {
+			$message = $prefix . $message;
+		}
+
+		if ( $one_time_only ) {
+			self::$console_notifications[ $identifier ] = $message;
+		}
+		else {
+			self::$console_notifications[] = $message;
+		}
+	}
+
+	/**
+	 * Localize the console notifications to JavaScript
+	 */
+	public static function localize_console_notices() {
+		if ( empty( self::$console_notifications ) ) {
+			return;
+		}
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoConsoleNotifications', array_values( self::$console_notifications ) );
 	}
 
 	/**

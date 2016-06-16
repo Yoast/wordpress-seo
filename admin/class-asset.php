@@ -145,20 +145,56 @@ class WPSEO_Admin_Asset {
 	 * @return string The full URL to the asset.
 	 */
 	public function get_url( $type, $plugin_file ) {
+
+		$relative_file = $this->get_relative_file( $type );
+		if ( empty( $relative_file ) ) {
+			return '';
+		}
+
+		if ( ! $this->get_suffix() ) {
+
+			$plugin_path = plugin_dir_path( $plugin_file );
+
+			if ( ! file_exists( $plugin_path . $relative_file ) ) {
+
+				// Give a notice to the user in the console (only once)
+				WPSEO_Utils::javascript_console_notification(
+					'Development Files',
+					'You are trying to load non-minified files, these are only available in our development package. Check out https://github.com/Yoast/wordpress-seo to see all the source files.',
+					true
+				);
+
+				// Just load the .min
+				$relative_file = $this->get_relative_file( $type, '.min' );
+			}
+		}
+
+		return plugins_url( $relative_file, $plugin_file );
+	}
+
+	/**
+	 * Get the relative file for this asset
+	 *
+	 * @param string $type Type of this asset.
+	 * @param null $force_suffix Force use suffix.
+	 *
+	 * @return string
+	 */
+	protected function get_relative_file( $type, $force_suffix = null ) {
+		$relative_file = '';
+
+		$suffix = ( is_null( $force_suffix ) ) ? $this->get_suffix() : $force_suffix;
+
 		switch ( $type ) {
 			case self::TYPE_JS:
-				$url = plugins_url( 'js/dist/' . $this->get_src() . $this->get_suffix() . '.js', $plugin_file );
+				$relative_file = 'js/dist/' . $this->get_src() . $suffix . '.js';
 				break;
 
 			case self::TYPE_CSS:
-				$url = plugins_url( 'css/' . $this->get_src() . $this->get_suffix() . '.css', WPSEO_FILE );
-				break;
-
-			default:
-				$url = '';
+				$relative_file = 'css/' . $this->get_src() . $suffix . '.css';
 				break;
 		}
 
-		return $url;
+		return $relative_file;
 	}
 }
