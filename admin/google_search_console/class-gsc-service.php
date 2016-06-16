@@ -152,7 +152,7 @@ class WPSEO_GSC_Service {
 				)
 			);
 
-			wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
+			wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
 			exit;
 		}
 
@@ -166,7 +166,7 @@ class WPSEO_GSC_Service {
 	 */
 	private function incompatible_api_libs( $notice ) {
 		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification( $notice, array( 'type' => 'error' ) )
+			new Yoast_Notification( $notice, array( 'type' => Yoast_Notification::ERROR ) )
 		);
 	}
 

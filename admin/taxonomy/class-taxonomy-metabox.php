@@ -49,7 +49,15 @@ class WPSEO_Taxonomy_Metabox {
 			$product_title .= ' Premium';
 		}
 
-		printf( '<div id="poststuff" class="postbox"><h3><span>%1$s</span></h3><div id="taxonomy_overall"></div><div class="inside">' , $product_title );
+		printf( '<div id="poststuff" class="postbox wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
+
+		// Add Help Center to the taxonomy metabox see #4701.
+		echo '<div class="inside">';
+		$tab_video_url = 'https://yoa.st/metabox-taxonomy-screencast';
+		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+
+
+		echo '<div id="taxonomy_overall"></div>';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -72,8 +80,8 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_content_sections() {
 		$content_sections = array(
 			$this->get_content_meta_section(),
-			$this->get_settings_meta_section(),
 			$this->get_social_meta_section(),
+			$this->get_settings_meta_section(),
 		);
 
 		return $content_sections;
@@ -91,9 +99,9 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
-			__( 'Content', 'wordpress-seo' ),
+			__( '', 'wordpress-seo' ),
 			array(
-				'link_class' => 'wpseo_keyword_tab',
+				'link_class' => 'yoast-seo__remove-tab',
 			)
 		);
 
@@ -254,11 +262,10 @@ SVG;
 		echo '<script type="text/html" id="tmpl-keyword_tab">
 				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						{{data.prefix}}
-						<span class="wpseo-score-icon {{data.score}}">
-							<span class="screen-reader-text"></span>
-						</span>
-						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.placeholder}}</em>
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 					</a>
 					<# if ( ! data.hideRemove ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>

@@ -1,7 +1,13 @@
-/* global YoastSEO: true, wpseoTermScraperL10n, tinyMCE, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
+var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
+var TabManager = require( './analysis/tabManager' );
+var tmceHelper = require( './wp-seo-tinymce' );
+
+var updateTrafficLight = require( './ui/trafficLight' ).update;
+var updateAdminBar = require( './ui/adminBar' ).update;
 
 (function( $ ) {
 	'use strict';
@@ -12,14 +18,17 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	var UsedKeywords = require( './analysis/usedKeywords' );
 
-	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
-
 	var app, snippetPreview;
 
 	var termSlugInput;
 
-	var mainKeywordTab;
-	var KeywordTab = require( './analysis/keywordTab' );
+	var tabManager;
+
+	/**
+	 * The HTML 'id' attribute for the TinyMCE editor.
+	 * @type {String}
+	 */
+	var tmceId = 'description';
 
 	var TermScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
@@ -28,7 +37,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	};
 
 	/**
-	 * returns data fetched from inputfields.
+	 * Returns data fetched from input fields.
 	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
 	 */
 	TermScraper.prototype.getData = function() {
@@ -48,13 +57,13 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	};
 
 	/**
-	 *
-	 * @param {string} inputType
+	 * Gets the data from a input fields in the term editor page.
+	 * @param {String} inputType The input type for the field to get the data from.
 	 */
 	TermScraper.prototype.getDataFromInput = function( inputType ) {
 		var val = '';
 		var elem;
-		switch( inputType ){
+		switch( inputType ) {
 			case 'keyword':
 				elem = document.getElementById( 'wpseo_focuskw' );
 				val = elem.value;
@@ -79,7 +88,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 				}
 				break;
 			case 'text':
-				val = this.getContentTinyMCE();
+				val = tmceHelper.getContentTinyMce( tmceId );
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
@@ -99,22 +108,9 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	};
 
 	/**
-	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
-	 * If tiny is hidden, take the value from the descriptionfield, since tinyMCE isn't updated when it isn't visible.
-	 * @returns {String}
-	 */
-	TermScraper.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'description' ).value;
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'description' ).hidden === false ) {
-			val = tinyMCE.get( 'description' ).getContent();
-		}
-		return val;
-	};
-
-	/**
-	 * When the snippet is updated, update the (hidden) fields on the page
-	 * @param {Object} value
-	 * @param {String} type
+	 * When the snippet is updated, update the (hidden) fields on the page.
+	 * @param {Object} value Value for the data to set.
+	 * @param {String} type The field(type) that the data is set for.
 	 */
 	TermScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
@@ -151,90 +147,94 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	 */
 	TermScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
-		document.getElementById( 'wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
 	/**
 	 * binds the renewData function on the change of inputelements.
 	 */
 	TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'name', 'description', 'slug', 'wpseo_focuskw' ];
-		for (var i = 0; i < elems.length; i++) {
-			var elem = document.getElementById(elems[i]);
-			if (elem !== null) {
-				document.getElementById(elems[i]).addEventListener('input', app.analyzeTimer.bind(app));
+		var elems = [ 'name', tmceId, 'slug', 'wpseo_focuskw' ];
+		for ( var i = 0; i < elems.length; i++ ) {
+			var elem = document.getElementById( elems[ i ] );
+			if ( elem !== null ) {
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
 			}
 		}
-		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
-			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-			//trigger them, or takes up to ten seconds to fire an event.
-			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function( e ) {
-				for (var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
-				}
-			});
-		}
+		tmceHelper.tinyMceEventBinder( app, tmceId );
 	};
 
 	/**
-	 * creates SVG for the overall score.
+	 * Creates SVG for the overall score.
 	 *
-	 * @param {string} score
-	 * @param {AssessorPresenter} assessorPresenter
+	 * @param {number} score Score to save.
 	 */
-	TermScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+	TermScraper.prototype.saveScores = function( score ) {
+		var indicator = getIndicatorForScore( score );
 		var keyword = this.getDataFromInput( 'keyword' );
 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		mainKeywordTab.update( indicator.className, keyword );
+		tabManager.updateKeywordTab( score, keyword );
 
-		$( '.yst-traffic-light' )
-			.attr( 'class', 'yst-traffic-light ' + indicator.className )
-			.attr( 'alt', indicator.screenReaderText );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	};
+	/**
+	 * Saves the content score to a hidden field.
+	 *
+	 * @param {number} score The score calculated by the content assessor.
+	 */
+	TermScraper.prototype.saveContentScore = function( score ) {
+		tabManager.updateContentTab( score );
+
+		$( '#hidden_wpseo_content_score' ).val( score );
 	};
 
 	/**
-	 * Initializes keyword tab with the correct template
+	 * Initializes keyword tab with the correct template.
 	 */
 	TermScraper.prototype.initKeywordTabTemplate = function() {
-		var keyword, score;
-
 		// Remove default functionality to prevent scrolling to top.
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
 		});
-
-		keyword = $( '#wpseo_focuskw' ).val();
-		score   = $( '#hidden_wpseo_linkdex' ).val();
-
-		mainKeywordTab.update( score, keyword );
 	};
 
 	/**
-	 * add new descriptionfield to content, creates new element via wp_editor and appends this to the term-description-wrap
-	 * this way we can use the wp tinyMCE editor on the descriptionfield.
+	 * Get the editor created via wp_editor() and append it to the term-description-wrap
+	 * table cell. This way we can use the wp tinyMCE editor on the description field.
 	 */
 	var insertTinyMCE = function() {
-		//gets the textNode from the original textField.
-		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
+		// Get the table cell that contains the description textarea.
+		var descriptionTd = jQuery( '.term-description-wrap' ).find( 'td' );
 
+		// Get the textNode from the original textarea.
+		var textNode = descriptionTd.find( 'textarea' ).val();
+
+		// Get the editor container.
 		var newEditor = document.getElementById( 'wp-description-wrap' );
-		newEditor.style.display = 'none';
-		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
-		//empty the TD with the old description textarea
-		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
-		//append the editor and the helptext
-		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
-		newEditor.style.display = 'block';
-		document.getElementById('description').value = textNode;
+
+		// Get the description help text below the textarea.
+		var text = descriptionTd.find( 'p' );
+
+		// Empty the TD with the old description textarea.
+		descriptionTd.html( '' );
+
+		/*
+		 * The editor is printed out via PHP as child of the form and initially
+		 * hidden with a child `>` CSS selector. We now move the editor and the
+		 * help text in a new position so the previous CSS rule won't apply any
+		 * longer and the editor will be visible.
+		 */
+		descriptionTd.append( newEditor ).append( text );
+
+		// Populate the editor textarea with the original content,
+		document.getElementById( 'description' ).value = textNode;
 	};
 
 	/**
-	 * Initializes the snippet preview
+	 * Initializes the snippet preview.
 	 *
 	 * @param {TermScraper} termScraper
 	 * @returns {YoastSEO.SnippetPreview}
@@ -267,6 +267,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		};
 
 		var metaPlaceholder = descriptionPlaceholder;
+
 		if ( metaPlaceholder !== '' ) {
 			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
 			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
@@ -293,29 +294,34 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
+		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
+
 		insertTinyMCE();
 
-		// Initialize an instance of the keywordword tab.
-		mainKeywordTab = new KeywordTab(
-			{
-				prefix: wpseoTermScraperL10n.contentTab
-			}
-		);
-		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
+		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
+
+		tabManager = new TabManager({
+			strings: wpseoTermScraperL10n,
+			focusKeywordField: '#wpseo_focuskw'
+		});
+
+		tabManager.init();
 
 		termScraper = new TermScraper();
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ 'content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
 			targets: {
 				output: 'wpseo_analysis',
+				contentOutput: 'yoast-seo-content-analysis',
 				snippet: 'wpseo_snippet'
 			},
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
 				saveScores: termScraper.saveScores.bind( termScraper ),
+				saveContentScore: termScraper.saveContentScore.bind( termScraper ),
 				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
 			},
 			locale: wpseoTermScraperL10n.locale
@@ -354,6 +360,12 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		YoastSEO.analyzerArgs = args;
 
 		initTermSlugWatcher();
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+
+		tabManager.getKeywordTab().activate();
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 	} );
