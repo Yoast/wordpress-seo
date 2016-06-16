@@ -406,8 +406,7 @@ li.score:after {
 }
 
 .assessment-results__mark.icon-eye-inactive,
-.assessment-results__mark.icon-eye-active,
-.assessment-results__mark.icon-eye-disabled {
+.assessment-results__mark.icon-eye-active {
 	float: left;
 	width: 28px;
 	height: 28px;
@@ -433,10 +432,6 @@ li.score:after {
 .assessment-results__mark.icon-eye-active.yoast-tooltip::before,
 .assessment-results__mark.icon-eye-active.yoast-tooltip::after {
 	display: none;
-}
-
-.assessment-results__mark.icon-eye-disabled {
-	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23e6e6e6%22%20d%3D%22M1664%20960q%2D152%2D236%2D381%2D353%2061%20104%2061%20225%200%20185%2D131%2E5%20316%2E5t%2D316%2E5%20131%2E5%2D316%2E5%2D131%2E5%2D131%2E5%2D316%2E5q0%2D121%2061%2D225%2D229%20117%2D381%20353%20133%20205%20333%2E5%20326%2E5t434%2E5%20121%2E5%20434%2E5%2D121%2E5%20333%2E5%2D326%2E5zm%2D720%2D384q0%2D20%2D14%2D34t%2D34%2D14q%2D125%200%2D214%2E5%2089%2E5t%2D89%2E5%20214%2E5q0%2020%2014%2034t34%2014%2034%2D14%2014%2D34q0%2D86%2061%2D147t147%2D61q20%200%2034%2D14t14%2D34zm848%20384q0%2034%2D20%2069%2D140%20230%2D376%2E5%20368%2E5t%2D499%2E5%20138%2E5%2D499%2E5%2D139%2D376%2E5%2D368q%2D20%2D35%2D20%2D69t20%2D69q140%2D229%20376%2E5%2D368t499%2E5%2D139%20499%2E5%20139%20376%2E5%20368q20%2035%2020%2069z%22%20%2F%3E%3C%2Fsvg%3E");
 }
 
 .assessment-results__mark:focus {
@@ -775,11 +770,21 @@ button.yoast-tooltip {
 	padding: 2em 9999px;
 	background-color: #a4286a;
 	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
+
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
 }
 
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
-	-ms-flex: 1 1 auto;
-	flex: 1 1 auto;
+	padding: 0;
+
+	flex-basis: 0;
+	flex-grow: 1;
+	-ms-flex-negative: 1;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-ms-flex-positive: 1;
+	-ms-flex-preferred-size: 0;
+	flex-shrink: 1;
 }
 
 .wpseo-tab-video-slideout h1,
@@ -796,8 +801,10 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
 	float: left;
-	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
-	width: 242px;
+	/* min-width to make two boxes always have the same min width */
+	min-width: 234px;
+	/* max-width to make two boxes take the same space of the video above: 560px */
+	max-width: 242px;
 	margin: 0 12px 1em 0;
 	padding: 15px 15px 5px;
 	border: 1px solid;
@@ -805,6 +812,14 @@ button.yoast-tooltip {
 	border-radius: 30px;
 	border-bottom-right-radius: 0;
 	color: white;
+	background-color: #a4286a;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a,
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a:hover,
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a:focus {
+	color: white;
+	font-weight: 500;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea h3 {
@@ -813,6 +828,7 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
 	width: 180px;
+	padding: 0 1em 1em 0;
 	color: white;
 	background-color: #a4286a;
 
@@ -839,10 +855,33 @@ button.yoast-tooltip {
 	text-decoration: none;
 }
 
-.wpseo-tab-video-slideout .wpseo-tab-video__panel {
-	clear: both;
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
+	/* In the settings pages is not a children of the flexbox container. */
+	float: left;
 	margin-right: 1em;
-	margin-bottom: 1em;
+	padding-bottom: 1em;
+
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--video iframe {
+	/* remove iframe descender space */
+	vertical-align: middle;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--text {
+	min-width: 264px;
+	margin: 0 auto;
+
+	flex-basis: 0;
+	flex-grow: 1;
+	-ms-flex-negative: 1;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-ms-flex-positive: 1;
+	-ms-flex-preferred-size: 0;
+	flex-shrink: 1;
+	/* must be less than a text box min width */
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
@@ -890,20 +929,18 @@ button.yoast-tooltip {
 	background-color: white;
 }
 
-.wpseo-tab-video__panel__textarea {
-	background-color: #a4286a;
+/* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
+#edittag > #wp-description-wrap {
+	display: none;
 }
 
-.wpseo-tab-video__panel__textarea a,
-.wpseo-tab-video__panel__textarea a:hover,
-.wpseo-tab-video__panel__textarea a:focus {
-	color: white;
-	font-weight: 500;
+#wp-description-wrap .wp-editor-area {
+	border: 0;
 }
 
-.wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-	-ms-flex: 0 0 auto;
-	flex: 0 0 auto;
+/* Give the original textarea enough height to mitigate content flash. */
+.term-description-wrap td > textarea#description {
+	min-height: 530px;
 }
 
 /**
@@ -915,6 +952,13 @@ ul.wpseo-metabox-tabs {
 	display: none;
 	margin-top: 6px;
 	margin-bottom: 0;
+}
+
+/* Contain floated list items and have overflow visible for the active tab */
+ul.wpseo-metabox-tabs:after {
+	display: table;
+	clear: both; 
+	content: "";
 }
 
 .wpseo-metabox-tabs-div ul {
@@ -956,21 +1000,22 @@ ul.wpseo-metabox-tabs li.active {
 	color: #333;
 }
 
+/* Floated to reset white space between list items */
 ul.wpseo-metabox-tabs li {
-	display: inline-block;
+	float: left;
 	margin-right: 5px;
 	margin-bottom: -1px;
 	padding: 0;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
 	border-color: #dfdfdf;
-	vertical-align: top;
 }
-
-ul.wpseo-metabox-tabs li,
-ul.wpseo-metabox-tabs li a {
+ul.wpseo-metabox-tabs li .wpseo-keyword {
+	display: inline-block;
 	overflow: hidden;
-	max-width: 250px;
+	max-width: 8em;
+	max-width: 8rem;
+	vertical-align: top;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
@@ -984,9 +1029,20 @@ ul.wpseo-metabox-tabs li a {
 }
 
 .wpseo-metabox-tabs a {
-	display: block;
-	padding: 5px 12px;
+	display: inline-block;
+	padding: 5px 4px 6px 12px;
+	vertical-align: top;
 	text-decoration: none;
+}
+
+/* Bigger right padding only for the content tab and the main keyword tabs */
+.wpseo-metabox-tabs .wpseo_content_tab a,
+.wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
+	padding-right: 12px;
+}
+
+.wpseo-metabox-tabs .wpseo-score-icon {
+	margin-left: 0;
 }
 
 #wpseo-meta-section-social .wpseo-metabox-tabs a {
@@ -1143,10 +1199,7 @@ table.wpseoanalysis td.score {
 }
 
 ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
-	margin-left: -3px;
-	padding: 0;
 	border: none;
-	vertical-align: top;
 }
 
 .wpseo-tab-add-keyword .wpseo-add-keyword.button {

@@ -47,11 +47,21 @@
 	padding: 2em 9999px;
 	background-color: #a4286a;
 	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
+
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
 }
 
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
-	-ms-flex: 1 1 auto;
-	flex: 1 1 auto;
+	padding: 0;
+
+	flex-basis: 0;
+	flex-grow: 1;
+	-ms-flex-negative: 1;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-ms-flex-positive: 1;
+	-ms-flex-preferred-size: 0;
+	flex-shrink: 1;
 }
 
 .wpseo-tab-video-slideout h1,
@@ -68,8 +78,10 @@
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
 	float: left;
-	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
-	width: 242px;
+	/* min-width to make two boxes always have the same min width */
+	min-width: 234px;
+	/* max-width to make two boxes take the same space of the video above: 560px */
+	max-width: 242px;
 	margin: 0 12px 1em 0;
 	padding: 15px 15px 5px;
 	border: 1px solid;
@@ -77,6 +89,14 @@
 	border-radius: 30px;
 	border-bottom-right-radius: 0;
 	color: white;
+	background-color: #a4286a;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a,
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a:hover,
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea a:focus {
+	color: white;
+	font-weight: 500;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea h3 {
@@ -85,6 +105,7 @@
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
 	width: 180px;
+	padding: 0 1em 1em 0;
 	color: white;
 	background-color: #a4286a;
 
@@ -111,10 +132,33 @@
 	text-decoration: none;
 }
 
-.wpseo-tab-video-slideout .wpseo-tab-video__panel {
-	clear: both;
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
+	/* In the settings pages is not a children of the flexbox container. */
+	float: left;
 	margin-right: 1em;
-	margin-bottom: 1em;
+	padding-bottom: 1em;
+
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--video iframe {
+	/* remove iframe descender space */
+	vertical-align: middle;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel--text {
+	min-width: 264px;
+	margin: 0 auto;
+
+	flex-basis: 0;
+	flex-grow: 1;
+	-ms-flex-negative: 1;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-ms-flex-positive: 1;
+	-ms-flex-preferred-size: 0;
+	flex-shrink: 1;
+	/* must be less than a text box min width */
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
@@ -160,20 +204,4 @@
 .wpseo-help-center-item.active a {
 	color: #a4286a;
 	background-color: white;
-}
-
-.wpseo-tab-video__panel__textarea {
-	background-color: #a4286a;
-}
-
-.wpseo-tab-video__panel__textarea a,
-.wpseo-tab-video__panel__textarea a:hover,
-.wpseo-tab-video__panel__textarea a:focus {
-	color: white;
-	font-weight: 500;
-}
-
-.wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-	-ms-flex: 0 0 auto;
-	flex: 0 0 auto;
 }

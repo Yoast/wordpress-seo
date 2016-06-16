@@ -36,7 +36,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 * @param {string} editorID The ID of the tinyMCE editor.
 	 */
 	function isTinyMCEAvailable( editorID ) {
-		if ( !isTinyMCELoaded()) {
+		if ( !isTinyMCELoaded() ) {
 			return false;
 		}
 
@@ -121,7 +121,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 * Check if the TinyMCE editor is created in the DOM. If it doesn't exist yet an on create event created.
 	 * This enables the marker buttons, when TinyMCE is created.
 	 */
-	function wpTextViewOnInitCheck(){
+	function wpTextViewOnInitCheck() {
 		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
 		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
 		if ( jQuery( '#wp-content-wrap' ).hasClass( 'html-active' ) ) {
