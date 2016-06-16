@@ -622,15 +622,13 @@ module.exports = {
 };
 
 },{"lodash/foreach":173,"yoastseo/js/markers/removeMarks":272}],8:[function(require,module,exports){
-$ = jQuery;
-
 /**
  * Updates the traffic light present on the page
  *
  * @param {Object} indicator The indicator for the keyword score.
  */
 function updateAdminBar( indicator ) {
-	$( '.adminbar-seo-score' )
+	jQuery( '.adminbar-seo-score' )
 		.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
 		.attr( 'alt', indicator.screenReaderText );
 }
@@ -720,15 +718,13 @@ var imageScoreClass = 'image yoast-logo svg';
 }( jQuery ));
 
 },{}],10:[function(require,module,exports){
-$ = jQuery;
-
 /**
  * Updates the traffic light present on the page
  *
  * @param {Object} indicator The indicator for the keyword score.
  */
 function updateTrafficLight( indicator ) {
-	$( '.yst-traffic-light' )
+	jQuery( '.yst-traffic-light' )
 		.attr( 'class', 'yst-traffic-light ' + indicator.className )
 		.attr( 'alt', indicator.screenReaderText );
 }
