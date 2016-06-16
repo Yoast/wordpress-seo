@@ -35,13 +35,13 @@ var sanitizeUrl = function( url ) {
 };
 
 /**
- * Matches the URL retrieved from an anchor with the current url.
+ * Matches the URL retrieved from an anchor with the current url and determines that it's linking to itself.
  *
  * @param {string} url The URL to look for.
  * @param {string} currentUrl The current URL to match against.
- * @returns {boolean} Whether or not the URLs match.
+ * @returns {boolean} Whether or not the anchor is linking to itself.
  */
-var matchAnchorUrlToCurrentUrl = function( url, currentUrl ) {
+var isLinkToSelf = function( url, currentUrl ) {
 	var anchorUrl = extractUrl( url );
 
 	// Sanitize the anchorURL to strip off extra parameters.
@@ -98,9 +98,9 @@ var countLinkTypes = function( paper ) {
 
 	for ( var i = 0; i < anchors.length; i++ ) {
 		var currentAnchor = anchors[ i ];
-		var matched = matchAnchorUrlToCurrentUrl( currentAnchor, url );
+		var linkToSelf = isLinkToSelf( currentAnchor, url );
 
-		if ( keywordInAnchor( keyword, currentAnchor, locale ) && !matched ) {
+		if ( keywordInAnchor( keyword, currentAnchor, locale ) && !linkToSelf ) {
 			linkCount.keyword.totalKeyword++;
 			linkCount.keyword.matchedAnchors.push( currentAnchor );
 		}
