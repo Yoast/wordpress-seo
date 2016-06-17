@@ -1,4 +1,4 @@
-/* global tinyMCE, require */
+/* global tinyMCE, require, YoastSEO */
 
 var forEach = require( 'lodash/forEach' );
 var editorHasMarks = require( './decorator/tinyMCE' ).editorHasMarks;
@@ -48,18 +48,34 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	}
 
 	/**
+	 * Converts the html entities for symbols back to the original symbol. For now this only converts the & symbol.
+	 * @param {String} text The text to replace the '&amp;' entities.
+	 * @returns {String} text Text with html entities replaced by the symbol.
+	 */
+	function convertHtmlEntities( text ) {
+		// Create regular expression, this searches for the html entity '&amp;', the 'g' param is for searching the whole text.
+		var regularExpression = new RegExp('&amp;','g');
+		return text.replace(regularExpression, '&');
+	}
+
+	/**
 	 * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
+	 * Also converts 'amp;' to & in the content.
 	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
-	 * @returns {String}
+	 * @returns {String} Content from the TinyMCE editor.
 	 */
 	function getContentTinyMce( content_id ) {
 		//if no TinyMce object available
+		var content = '';
 		if ( isTinyMCEAvailable( content_id ) === false ) {
-			return tinyMCEElementContent( content_id );
+			content = tinyMCEElementContent( content_id );
 		}
-		return tinyMCE.get( content_id ).getContent();
-	}
+		else {
+			content = tinyMCE.get( content_id ).getContent();
+		}
 
+		return convertHtmlEntities( content );
+	}
 	/**
 	 * Adds an event handler to certain tinyMCE events
 	 *
@@ -86,6 +102,41 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	}
 
 	/**
+	 * Calls the function in the YoastSEO.js app that disables the marker (eye)icons.
+	 */
+	function disableMarkerButtons() {
+		YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
+		YoastSEO.app.seoAssessorPresenter.disableMarkerButtons();
+	}
+
+	/**
+	 * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
+	 */
+	function enableMarkerButtons() {
+		YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
+		YoastSEO.app.seoAssessorPresenter.enableMarkerButtons();
+	}
+
+	/**
+	 * Check if the TinyMCE editor is created in the DOM. If it doesn't exist yet an on create event created.
+	 * This enables the marker buttons, when TinyMCE is created.
+	 */
+	function wpTextViewOnInitCheck() {
+		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
+		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
+		if ( jQuery( '#wp-content-wrap' ).hasClass( 'html-active' ) ) {
+			// The enable/disable marker functions are not called here,
+			// because the render function(in yoastseo lib) doesn't have to be called.
+			YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
+			YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
+
+			tinyMCE.on( 'AddEditor' , function( ) {
+				enableMarkerButtons( );
+			} );
+		}
+	}
+
+	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 	 *
 	 * @param {App} app YoastSeo application.
@@ -94,11 +145,16 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	function tinyMceEventBinder( app, tmceId ) {
 		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
 
+		addEventHandler( tmceId, [ 'hide' ], disableMarkerButtons );
+		addEventHandler( tmceId, [ 'show' ], enableMarkerButtons );
+
 		addEventHandler( 'content', [ 'focus' ], function( evt ) {
 			var editor = evt.target;
 
 			if ( editorHasMarks( editor ) ) {
 				editorRemoveMarks( editor );
+
+				YoastSEO.app.disableMarkers();
 			}
 		} );
 	}
@@ -108,6 +164,9 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		tinyMceEventBinder: tinyMceEventBinder,
 		getContentTinyMce: getContentTinyMce,
 		isTinyMCEAvailable: isTinyMCEAvailable,
-		isTinyMCELoaded: isTinyMCELoaded
+		isTinyMCELoaded: isTinyMCELoaded,
+		disableMarkerButtons: disableMarkerButtons,
+		enableMarkerButtons: enableMarkerButtons,
+		wpTextViewOnInitCheck: wpTextViewOnInitCheck
 	};
 })(jQuery);

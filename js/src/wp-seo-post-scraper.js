@@ -11,6 +11,9 @@ var tmceHelper = require( './wp-seo-tinymce' );
 var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
 var publishBox = require( './ui/publishBox' );
 
+var updateTrafficLight = require( './ui/trafficLight' ).update;
+var updateAdminBar = require( './ui/adminBar' ).update;
+
 (function( $ ) {
 	'use strict';
 
@@ -24,7 +27,7 @@ var publishBox = require( './ui/publishBox' );
 
 	var titleElement;
 
-	var leavePostNameEmpty = false;
+	var leavePostNameUntouched = false;
 
 	var app, snippetPreview;
 
@@ -158,11 +161,11 @@ var publishBox = require( './ui/publishBox' );
 
 				/*
 				 * WordPress leaves the post name empty to signify that it should be generated from the title once the
-				 * post is saved. So in some cases when we receive an auto generated slug from WordPress we should be
+				 * post is saved. So when we receive an auto generated slug from WordPress we should be
 				 * able to not save this to the UI. This conditional makes that possible.
 				 */
-				if ( leavePostNameEmpty ) {
-					leavePostNameEmpty = false;
+				if ( leavePostNameUntouched ) {
+					leavePostNameUntouched = false;
 					return;
 				}
 
@@ -249,6 +252,15 @@ var publishBox = require( './ui/publishBox' );
 	PostScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
 
+		// If multi keyword isn't available we need to update the first tab (content).
+		if ( ! YoastSEO.multiKeyword ) {
+			tabManager.updateKeywordTab( score, currentKeyword );
+			publishBox.updateScore( 'content', indicator.className );
+
+			// Updates the input with the currentKeyword value.
+			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
+		}
+
 		if ( tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
@@ -257,24 +269,10 @@ var publishBox = require( './ui/publishBox' );
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 			}
 
-			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
-
-			$( '.adminbar-seo-score' )
-				.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
+			updateTrafficLight( indicator );
+			updateAdminBar( indicator );
 
 			publishBox.updateScore( 'keyword', indicator.className );
-		}
-
-		// If multi keyword isn't available we need to update the first tab (content)
-		if ( ! YoastSEO.multiKeyword ) {
-			tabManager.updateKeywordTab( score, currentKeyword );
-			publishBox.updateScore( 'content', indicator.className );
-
-			// Updates the input with the currentKeyword value
-			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
@@ -309,19 +307,9 @@ var publishBox = require( './ui/publishBox' );
 	};
 
 	/**
-	 * Returns whether or not the current post has a title.
-	 *
-	 * @returns {boolean}
-	 */
-	function postHasTitle() {
-		return '' !== titleElement.val();
-	}
-
-	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
-	 *
 	 * @param {Object} response The AJAX response object.
-	 * @returns {string}
+	 * @returns {String}
 	 */
 	function getUrlPathFromResponse( response ) {
 		if ( response.responseText === '' ) {
@@ -345,12 +333,10 @@ var publishBox = require( './ui/publishBox' );
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
 			/*
-			 * If the post has no title, WordPress wants to auto generate the slug once the title is set, so we need to
-			 * keep the post name empty.
+			 * WordPress do not update post name for auto-generated slug, so we should leave this field untouched.
 			 */
-			if ( ! postHasTitle() ) {
-				leavePostNameEmpty = true;
-			}
+			leavePostNameUntouched = true;
+
 			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
 		}
 	} );
@@ -396,8 +382,31 @@ var publishBox = require( './ui/publishBox' );
 		return new SnippetPreview( snippetPreviewArgs );
 	}
 
+	/**
+	 * Returns the marker callback method for the assessor.
+	 *
+	 * @returns {*|bool}
+	 */
+	function getMarker() {
+		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
+		if ( typeof tinyMCE !== 'undefined' && wpseoPostScraperL10n.show_markers === '1' ) {
+			return function( paper, marks ) {
+				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
+					if ( null === decorator ) {
+						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+					}
+					decorator( paper, marks );
+				}
+			};
+		}
+
+		return false;
+	}
+
 	jQuery( document ).ready(function() {
 		var args, postScraper, translations;
+
+		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
 
 		publishBox.initalise();
 
@@ -423,15 +432,7 @@ var publishBox = require( './ui/publishBox' );
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale,
-			marker: function( paper, marks ) {
-				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
-					if ( null === decorator ) {
-						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
-					}
-
-					decorator( paper, marks );
-				}
-			}
+			marker: getMarker()
 		};
 
 		titleElement = $( '#title' );
@@ -454,6 +455,8 @@ var publishBox = require( './ui/publishBox' );
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
+		tmceHelper.wpTextViewOnInitCheck();
+
 		// Init Plugins
 		YoastSEO.wp = {};
 		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
@@ -465,6 +468,13 @@ var publishBox = require( './ui/publishBox' );
 		postScraper.initKeywordTabTemplate();
 
 		window.YoastSEO.wp._tabManager = tabManager;
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+		publishBox.updateScore( 'keyword', indicator.className );
+
+		tabManager.getKeywordTab().activate();
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 

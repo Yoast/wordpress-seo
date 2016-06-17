@@ -52,50 +52,14 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 	}
 }
 
-$tabs = array(
-	'dashboard'       => array(
-		'label' => __( 'Dashboard', 'wordpress-seo' ),
-	),
-	'general'         => array(
-		'label'                => __( 'General', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-general',
-	),
-	'knowledge-graph' => array(
-		'label'                => ( 'company' === $options['company_or_person'] ) ? __( 'Company Info', 'wordpress-seo' ) : __( 'Your Info', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-knowledge-graph',
-	),
-	'webmaster-tools' => array(
-		'label'                => __( 'Webmaster Tools', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-general-search-console',
-	),
-	'security'        => array(
-		'label'                => __( 'Security', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-security',
-	),
-);
-
-?>
-	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<?php foreach ( $tabs as $identifier => $tab ) : ?>
-		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
-		<?php endforeach; ?>
-	</h2>
-
-<?php
-
-foreach ( $tabs as $identifier => $tab ) {
-
-	printf( '<div id="%s" class="wpseotab">', $identifier );
-
-	if ( ! empty( $tab['screencast_video_url'] ) ) {
-		$tab_video_url = $tab['screencast_video_url'];
-		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
-	}
-
-	require_once WPSEO_PATH . 'admin/views/tabs/dashboard/' . $identifier . '.php';
-
-	echo '</div>';
-}
+$tabs = new WPSEO_Option_Tabs( 'dashboard' );
+$tabs->add_tab( new WPSEO_Option_Tab( 'dashboard', __( 'Dashboard', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-notification-center' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-general' ) ) );
+$knowledge_graph_label = ( 'company' === $options['company_or_person'] ) ? __( 'Company Info', 'wordpress-seo' ) : __( 'Your Info', 'wordpress-seo' );
+$tabs->add_tab( new WPSEO_Option_Tab( 'knowledge-graph', __( $knowledge_graph_label, 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-knowledge-graph' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'webmaster-tools', __( 'Webmaster Tools', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-general-search-console' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'security', __( 'Security', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-security' ) ) );
+$tabs->display( $yform, $options );
 
 do_action( 'wpseo_dashboard' );
 

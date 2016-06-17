@@ -136,9 +136,7 @@
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( '.yoast-alert-holder' );
 
-		$dismissible.on( 'click', '.dismiss', function( evt ) {
-			evt.preventDefault();
-
+		$dismissible.on( 'click', '.dismiss', function() {
 			var $this = $( this );
 			var $source = $this.closest( '.yoast-alert-holder' );
 
@@ -160,9 +158,7 @@
 			);
 		} );
 
-		$dismissible.on( 'click', '.restore', function( evt ) {
-			evt.preventDefault();
-
+		$dismissible.on( 'click', '.restore', function() {
 			var $this = $( this );
 			var $source = $this.closest( '.yoast-alert-holder' );
 
@@ -254,6 +250,9 @@
 		$container.find( '.wpseo-tab-video-slideout' ).css( 'display', 'flex' );
 
 		var $activeTabLink = $container.find('.wpseo-help-center-item.active > a');
+
+		$( '#wpcontent' ).addClass( 'yoast-help-center-open' );
+
 		if ( $activeTabLink.length > 0 ) {
 			var activeTab = $activeTabLink.attr( 'aria-controls' );
 			activateVideo( $( '#' + activeTab ) );
@@ -321,6 +320,8 @@
 
 		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-arrow-down' );
 		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'false' );
+
+		$( '#wpcontent' ).removeClass( 'yoast-help-center-open' );
 	}
 })();
 

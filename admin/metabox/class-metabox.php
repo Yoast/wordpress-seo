@@ -50,15 +50,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet Editor', 'wordpress-seo' );
+		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet editor', 'wordpress-seo' );
 		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %sLearn more about the Snippet Preview%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' );
 		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
-		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Content Analysis', 'wordpress-seo' );
-		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %sLearn more about the Content Analysis Tool%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Analysis', 'wordpress-seo' );
+		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the SEO & content analysis, a collection of checks that analyze the SEO & readability of your page. %sLearn more about the Yoast Content & SEO analysis%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
-		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus Keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus keyword', 'wordpress-seo' );
 		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
@@ -902,16 +902,10 @@ SVG;
 		echo '<script type="text/html" id="tmpl-keyword_tab">
 				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						{{data.prefix}}
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.placeholder}}</em>
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
-						<span class="wpseo-score-icon {{data.score}}">
-							<# if ( data.keyword ) { #>
-								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
-							<# } #>
-						</span>
-						<em>
-							<span class="wpseo_keyword">{{data.placeholder}}</span>
-						</em>
 					</a>
 					<# if ( ! data.hideRemove ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>
