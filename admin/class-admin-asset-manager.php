@@ -39,7 +39,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
 			self::PREFIX . $script->get_name(),
-			plugins_url( 'js/dist/' . $script->get_src() . $script->get_suffix() . '.js', WPSEO_FILE ),
+			$script->get_url( WPSEO_Admin_Asset::TYPE_JS, WPSEO_FILE ),
 			$script->get_deps(),
 			$script->get_version(),
 			$script->is_in_footer()
@@ -54,7 +54,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_style( WPSEO_Admin_Asset $style ) {
 		wp_register_style(
 			self::PREFIX . $style->get_name(),
-			plugins_url( 'css/' . $style->get_src() . $style->get_suffix() . '.css', WPSEO_FILE ),
+			$style->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE ),
 			$style->get_deps(),
 			$style->get_version(),
 			$style->get_media()
@@ -94,6 +94,20 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * A list of styles that shouldn't be registered but are needed in other locations in the plugin.
+	 *
+	 * @return array
+	 */
+	public function special_styles() {
+		return array(
+			'inside-editor' => new WPSEO_Admin_Asset( array(
+				'name' => 'inside-editor',
+				'src' => 'inside-editor-331',
+			) ),
+		);
+	}
+
+	/**
 	 * Returns the scripts that need to be registered.
 	 *
 	 * @TODO data format is not self-documenting. Needs explanation inline. R.
@@ -104,7 +118,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-320',
+				'src'  => 'wp-seo-admin-330',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -133,17 +147,17 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wp-seo-dismissible-320',
+				'src'  => 'wp-seo-dismissible-330',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-320',
+				'src'  => 'wp-seo-admin-global-330',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-320',
+				'src'  => 'wp-seo-metabox-330',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -155,7 +169,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'wp-seo-featured-image-320',
+				'src'  => 'wp-seo-featured-image-330',
 				'deps' => array(
 					'jquery'
 				),
@@ -168,7 +182,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-324',
+				'src'  => 'wp-seo-post-scraper-331',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -177,14 +191,14 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-324',
+				'src'  => 'wp-seo-term-scraper-331',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
-				'src'  => 'wp-seo-replacevar-plugin-320',
+				'src'  => 'wp-seo-replacevar-plugin-330',
 			),
 			array(
 				'name' => 'shortcode-plugin',
@@ -240,7 +254,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-320',
+				'src'  => 'yst_plugin_tools-330',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			// TODO minify toggle styles. R.
@@ -252,7 +266,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'   => 'toggle-switch',
-				'src'    => 'toggle-switch',
+				'src'    => 'toggle-switch-330',
 				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
 			),
 			array(
@@ -261,38 +275,42 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wpseo-dismissible',
+				'src'  => 'wpseo-dismissible-330',
+			),
+			array(
+				'name' => 'alerts',
+				'src'  => 'alerts',
 			),
 			array(
 				'name' => 'edit-page',
-				'src'  => 'edit-page-302',
+				'src'  => 'edit-page-330',
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'featured-image',
+				'src'  => 'featured-image-330',
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-320',
+				'src'  => 'metabox-331',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
 			),
 			array(
 				'name' => 'wp-dashboard',
-				'src'  => 'dashboard-305',
+				'src'  => 'dashboard-330',
 			),
 			array(
 				'name' => 'scoring',
-				'src'  => 'yst_seo_score-310',
+				'src'  => 'yst_seo_score-330',
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-320',
+				'src'  => 'snippet-330',
 			),
 			array(
 				'name' => 'adminbar',
-				'src'  => 'adminbar-320',
+				'src'  => 'adminbar-330',
 			),
 			array(
 				'name' => 'primary-category',
@@ -303,6 +321,18 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'dist/select2/select2',
 				'suffix' => '.min',
 				'version' => '4.0.1',
+			),
+			array(
+				'name' => 'kb-search',
+				'src'  => 'kb-search-331',
+			),
+			array(
+				'name' => 'help-center',
+				'src'  => 'help-center-331',
+			),
+			array(
+				'name' => 'admin-global',
+				'src'  => 'admin-global-330',
 			),
 		);
 	}

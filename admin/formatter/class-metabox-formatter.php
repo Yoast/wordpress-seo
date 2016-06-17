@@ -44,15 +44,35 @@ class WPSEO_Metabox_Formatter {
 			'search_url'        => '',
 			'post_edit_url'     => '',
 			'base_url'          => '',
-			'contentTab'        => __( 'Content:', 'wordpress-seo' ),
+			'contentTab'        => __( 'Content', 'wordpress-seo' ),
+			'keywordTab'        => __( 'Keyword:', 'wordpress-seo' ),
+			'enterFocusKeyword' => __( 'Enter your focus keyword', 'wordpress-seo' ),
 			'locale'            => get_locale(),
 			'translations'      => $this->get_translations(),
 			'keyword_usage'     => array(),
 			'title_template'    => '',
 			'metadesc_template' => '',
-			/* translators: After this sentence, the used keyword will be added (if present). This string is added to support screen readers. */
-			'basedOn'           => __( 'Based on keyword:', 'wordpress-seo' ),
+
+			/**
+			 * Filter to determine if the markers should be enabled or not.
+			 *
+			 * @param bool $showMarkers Should the markers being enabled. Default = true.
+			 */
+			'show_markers'      => apply_filters( 'wpseo_enable_assessment_markers', true ),
+			'publish_box'       => array(
+				'labels'   => array(
+					'content' => __( 'Content', 'wordpress-seo' ),
+					'keyword' => __( 'SEO', 'wordpress-seo' ),
+				),
+				'statuses' => array(
+					'na'   => __( 'Not available', 'wordpress-seo' ),
+					'bad'  => __( 'Bad', 'wordpress-seo' ),
+					'ok'   => __( 'OK', 'wordpress-seo' ),
+					'good' => __( 'Good', 'wordpress-seo' ),
+				),
+			),
 		);
+
 	}
 
 	/**

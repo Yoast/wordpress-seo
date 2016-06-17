@@ -9,7 +9,7 @@
 class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/** @var string $home_url Holds the home_url() value to speed up loops. */
-	protected $home_url = '';
+	protected $home_url = null;
 
 	/** @var array $options All of plugin options. */
 	protected $options = array();
@@ -35,6 +35,22 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$this->page_for_posts_id = (int) get_option( 'page_for_posts' );
 
 		add_filter( 'save_post', array( $this, 'save_post' ) );
+	}
+
+	/**
+	 * Get Home URL
+	 *
+	 * This has been moved from the constructor because wp_rewrite is not available on plugins_loaded in multisite.
+	 * It will now be requested on need and not on initialization.
+	 *
+	 * @return string
+	 */
+	protected function get_home_url() {
+		if ( ! isset( $this->home_url ) ) {
+			$this->home_url = WPSEO_Utils::home_url();
+		}
+
+		return $this->home_url;
 	}
 
 	/**
@@ -297,9 +313,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( ! $this->page_on_front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 
 			$links[] = array(
-				'loc' => $this->home_url,
+				'loc' => $this->get_home_url(),
 				'pri' => 1,
-				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->home_url ),
+				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->get_home_url() ),
 			);
 
 			$needs_archive = false;
@@ -473,7 +489,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 		 */
-		if ( false === strpos( $url['loc'], $this->home_url ) ) {
+		if ( false === strpos( $url['loc'], $this->get_home_url() ) ) {
 			return false;
 		}
 

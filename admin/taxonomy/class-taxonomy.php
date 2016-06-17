@@ -24,6 +24,8 @@ class WPSEO_Taxonomy {
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		// Needs a hook that runs before the description field.
+		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
@@ -81,9 +83,6 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'scoring' );
-
-			wp_editor( '', 'description' );
-
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'term-scraper' );
 
@@ -138,6 +137,18 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * Output the WordPress editor.
+	 */
+	public function custom_category_description_editor() {
+
+		if ( ! $this->show_metabox() ) {
+			return;
+		}
+
+		wp_editor( '', 'description' );
+	}
+
+	/**
 	 * Adds shortcode support to category descriptions.
 	 *
 	 * @param string $desc String to add shortcodes in.
@@ -177,7 +188,28 @@ class WPSEO_Taxonomy {
 		return array(
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
+			'scope'          => $this->determine_scope(),
 		);
+	}
+
+	/**
+	 * Determines the scope based on the current taxonomy.
+	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
+	 *
+	 * @return string String decribing the current scope.
+	 */
+	private function determine_scope() {
+		$taxonomy = $this->get_taxonomy();
+
+		if ( $taxonomy === 'category' ) {
+			return 'category';
+		}
+
+		if ( $taxonomy === 'post_tag' ) {
+			return 'tag';
+		}
+
+		return 'term';
 	}
 
 	/**
@@ -227,8 +259,8 @@ class WPSEO_Taxonomy {
 	 * @return array replace vars.
 	 */
 	private function get_replace_vars() {
-		$term_id                 = filter_input( INPUT_GET, 'tag_ID' );
-		$term                    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+		$term  = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(
