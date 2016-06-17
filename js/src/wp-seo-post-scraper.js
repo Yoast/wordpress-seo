@@ -395,7 +395,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 					if ( null === decorator ) {
 						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
 					}
-
 					decorator( paper, marks );
 				}
 			};
@@ -455,6 +454,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		app = new App( args );
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+
+		tmceHelper.wpTextViewOnInitCheck();
 
 		// Init Plugins
 		YoastSEO.wp = {};
