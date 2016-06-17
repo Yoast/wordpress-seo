@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 echo "<div id='author-archives-titles-metas'>";
-echo '<h3>' . __( 'Author archives', 'wordpress-seo' ) . '</h3>';
+echo '<h2>' . __( 'Author archives', 'wordpress-seo' ) . '</h2>';
 $yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 $yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
 if ( $options['usemetakeywords'] === true ) {
@@ -19,7 +19,7 @@ if ( $options['usemetakeywords'] === true ) {
 echo '</div>';
 
 echo "<div id='date-archives-titles-metas'>";
-echo '<h3>' . __( 'Date archives', 'wordpress-seo' ) . '</h3>';
+echo '<h2>' . __( 'Date archives', 'wordpress-seo' ) . '</h2>';
 $yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 $yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
 echo '</div>';
@@ -27,7 +27,7 @@ echo '</div>';
 echo '<br/>';
 
 echo '<div id="duplicate-content-prevention">';
-echo '<h3>' . __( 'Author archives', 'wordpress-seo' ) . '</h3>';
+echo '<h2>' . __( 'Author archives', 'wordpress-seo' ) . '</h2>';
 $yform->toggle_switch( 'disable-author', array(
 	'off' => __( 'Enabled', 'wordpress-seo' ),
 	'on'  => __( 'Disabled', 'wordpress-seo' ),
@@ -40,7 +40,8 @@ echo ' ';
 /* translators: %s expands to <code>noindex, follow</code> */
 printf( __( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
 echo '</p>';
-echo '<h3>' . __( 'Date-based archives', 'wordpress-seo' ) . '</h3>';
+
+echo '<h2>' . __( 'Date-based archives', 'wordpress-seo' ) . '</h2>';
 $yform->toggle_switch( 'disable-date', array(
 	'off' => __( 'Enabled', 'wordpress-seo' ),
 	'on'  => __( 'Disabled', 'wordpress-seo' ),
