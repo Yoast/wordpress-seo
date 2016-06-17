@@ -136,9 +136,9 @@ class Yoast_Form {
 			<div id="poststuff">
 			<div id="wpseo-debug-info" class="postbox">
 
-				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
+				<h2 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h2>
 				<div class="inside">
-					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h4>
+					<h3 class="wpseo-debug-heading">' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h3>
 					' . ( ( $xdebug ) ? '' : '<pre>' );
 			var_dump( $this->get_option() );
 			echo '

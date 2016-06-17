@@ -348,8 +348,8 @@ h2 code {
 	cursor: auto;
 }
 
-#wpseo-debug-info h3 span:last-child {
-	padding-left: 16px;
+#wpseo-debug-info .wpseo-debug-heading {
+	font-size: 1em;
 }
 
 #wpseo-debug-info .wpseo-debug {
