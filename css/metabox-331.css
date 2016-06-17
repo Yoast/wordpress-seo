@@ -440,18 +440,16 @@ li.score:after {
 }
 
 .assessment-results__remove-marks {
-	height: 36px;
-	margin-top: 0;
+	height: 28px;
+	margin-top: -16px;
 	margin-bottom: 15px;
 	margin-left: 3px;
-	padding: 8px 10px 8px 28px;
-	border: 1px solid #dbdbdb;
-	border-radius: 4px;
+	padding: 4px 4px 4px 28px;
+	border: 0;
+	border-radius: 3px;
 	outline: none;
-	color: #555;
-	background: #f7f7f7 url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M555%201335l78%2D141q%2D87%2D63%2D136%2D159t%2D49%2D203q0%2D121%2061%2D225%2D229%20117%2D381%20353%20167%20258%20427%20375zm389%2D759q0%2D20%2D14%2D34t%2D34%2D14q%2D125%200%2D214%2E5%2089%2E5t%2D89%2E5%20214%2E5q0%2020%2014%2034t34%2014%2034%2D14%2014%2D34q0%2D86%2061%2D147t147%2D61q20%200%2034%2D14t14%2D34zm363%2D191q0%207%2D1%209%2D105%20188%2D315%20566t%2D316%20567l%2D49%2089q%2D10%2016%2D28%2016%2D12%200%2D134%2D70%2D16%2D10%2D16%2D28%200%2D12%2044%2D87%2D143%2D65%2D263%2E5%2D173t%2D208%2E5%2D245q%2D20%2D31%2D20%2D69t20%2D69q153%2D235%20380%2D371t496%2D136q89%200%20180%2017l54%2D97q10%2D16%2028%2D16%205%200%2018%206t31%2015%2E5%2033%2018%2E5%2031%2E5%2018%2E5%2019%2E5%2011%2E5q16%2010%2016%2027zm37%20447q0%20139%2D79%20253%2E5t%2D209%20164%2E5l280%2D502q8%2045%208%2084zm448%20128q0%2035%2D20%2069%2D39%2064%2D109%20145%2D150%20172%2D347%2E5%20267t%2D419%2E5%2095l74%2D132q212%2D18%20392%2E5%2D137t301%2E5%2D307q%2D115%2D179%2D282%2D294l63%2D112q95%2064%20182%2E5%20153t144%2E5%20184q20%2034%2020%2069z%22%2F%3E%3C%2Fsvg%3E") no-repeat 6px center;
+	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M555%201335l78%2D141q%2D87%2D63%2D136%2D159t%2D49%2D203q0%2D121%2061%2D225%2D229%20117%2D381%20353%20167%20258%20427%20375zm389%2D759q0%2D20%2D14%2D34t%2D34%2D14q%2D125%200%2D214%2E5%2089%2E5t%2D89%2E5%20214%2E5q0%2020%2014%2034t34%2014%2034%2D14%2014%2D34q0%2D86%2061%2D147t147%2D61q20%200%2034%2D14t14%2D34zm363%2D191q0%207%2D1%209%2D105%20188%2D315%20566t%2D316%20567l%2D49%2089q%2D10%2016%2D28%2016%2D12%200%2D134%2D70%2D16%2D10%2D16%2D28%200%2D12%2044%2D87%2D143%2D65%2D263%2E5%2D173t%2D208%2E5%2D245q%2D20%2D31%2D20%2D69t20%2D69q153%2D235%20380%2D371t496%2D136q89%200%20180%2017l54%2D97q10%2D16%2028%2D16%205%200%2018%206t31%2015%2E5%2033%2018%2E5%2031%2E5%2018%2E5%2019%2E5%2011%2E5q16%2010%2016%2027zm37%20447q0%20139%2D79%20253%2E5t%2D209%20164%2E5l280%2D502q8%2045%208%2084zm448%20128q0%2035%2D20%2069%2D39%2064%2D109%20145%2D150%20172%2D347%2E5%20267t%2D419%2E5%2095l74%2D132q212%2D18%20392%2E5%2D137t301%2E5%2D307q%2D115%2D179%2D282%2D294l63%2D112q95%2064%20182%2E5%20153t144%2E5%20184q20%2034%2020%2069z%22%2F%3E%3C%2Fsvg%3E") no-repeat 6px center;
 	background-size: 16px;
-	font-size: 0.8rem;
 	cursor: pointer;
 }
 
@@ -470,6 +468,16 @@ li.score:after {
 .YoastSEO_msg .right,
 .YoastSEO_msg .left {
 	display: none;
+}
+
+@-webkit-keyframes animatedBackground {
+	from {
+		background-position: 0 0;
+	}
+
+	to {
+		background-position: 100% 0;
+	}
 }
 
 @keyframes animatedBackground {
@@ -492,6 +500,7 @@ li.score:after {
 	background-image: linear-gradient(to left, #fff, #0063ff, #fff, #0063ff);
 	background-position: 0 0;
 	background-size: 300% 100%;
+	-webkit-animation: animatedBackground 5s linear infinite;
 	animation: animatedBackground 5s linear infinite;
 }
 
@@ -540,6 +549,16 @@ button.yoast-tooltip {
 	pointer-events: none;
 }
 
+@-webkit-keyframes yoast-tooltip-appear {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
 @keyframes yoast-tooltip-appear {
 	from {
 		opacity: 0;
@@ -558,11 +577,16 @@ button.yoast-tooltip {
 .yoast-tooltip:focus::after {
 	display: inline-block;
 	text-decoration: none;
+	-webkit-animation-name: yoast-tooltip-appear;
 	animation-name: yoast-tooltip-appear;
+	-webkit-animation-duration: 0.1s;
 	animation-duration: 0.1s;
+	-webkit-animation-timing-function: ease-in;
 	animation-timing-function: ease-in;
+	-webkit-animation-delay: 0.4s;
 	animation-delay: 0.4s;
 
+	-webkit-animation-fill-mode: forwards;
 	animation-fill-mode: forwards;
 }
 
@@ -573,6 +597,7 @@ button.yoast-tooltip {
 .yoast-tooltip-no-delay:focus::before,
 .yoast-tooltip-no-delay:focus::after {
 	opacity: 1;
+	-webkit-animation: none;
 	animation: none;
 }
 
@@ -640,6 +665,7 @@ button.yoast-tooltip {
 
 .yoast-tooltip-s::after,
 .yoast-tooltip-n::after {
+	-webkit-transform: translateX(50%);
 	-ms-transform: translateX(50%);
 	transform: translateX(50%);
 }
@@ -648,6 +674,7 @@ button.yoast-tooltip {
 	right: 100%;
 	bottom: 50%;
 	margin-right: 5px;
+	-webkit-transform: translateY(50%);
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -664,6 +691,7 @@ button.yoast-tooltip {
 	bottom: 50%;
 	left: 100%;
 	margin-left: 5px;
+	-webkit-transform: translateY(50%);
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -691,6 +719,7 @@ button.yoast-tooltip {
 .yoast-tooltip-multiline.yoast-tooltip-n::after {
 	right: auto;
 	left: 50%;
+	-webkit-transform: translateX(-50%);
 	-ms-transform: translateX(-50%);
 	transform: translateX(-50%);
 }
@@ -771,6 +800,7 @@ button.yoast-tooltip {
 	background-color: #a4286a;
 	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
 
+	-webkit-flex-wrap: wrap;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 }
@@ -778,13 +808,25 @@ button.yoast-tooltip {
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
 	padding: 0;
 
+	-webkit-flex-basis: 0;
 	flex-basis: 0;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-webkit-flex-grow: 1;
 	flex-grow: 1;
 	-ms-flex-negative: 1;
-	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
 	-ms-flex-positive: 1;
 	-ms-flex-preferred-size: 0;
+	-webkit-flex-shrink: 1;
 	flex-shrink: 1;
+}
+
+.wpseo-tab-video-slideout a {
+	color: white;
+}
+
+.wpseo-tab-video-slideout a.button,
+.wpseo-tab-video-slideout a.button-primary {
+	text-decoration: none;
 }
 
 .wpseo-tab-video-slideout h1,
@@ -832,6 +874,7 @@ button.yoast-tooltip {
 	color: white;
 	background-color: #a4286a;
 
+	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
@@ -846,21 +889,13 @@ button.yoast-tooltip {
 	font-weight: 300;
 }
 
-.wpseo-tab-video-slideout .help-tab-content a {
-	color: white;
-}
-
-.wpseo-tab-video-slideout .help-tab-content a.button,
-.wpseo-tab-video-slideout .help-tab-content a.button-primary {
-	text-decoration: none;
-}
-
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
 	/* In the settings pages is not a children of the flexbox container. */
 	float: left;
 	margin-right: 1em;
 	padding-bottom: 1em;
 
+	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
@@ -874,12 +909,15 @@ button.yoast-tooltip {
 	min-width: 264px;
 	margin: 0 auto;
 
+	-webkit-flex-basis: 0;
 	flex-basis: 0;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-webkit-flex-grow: 1;
 	flex-grow: 1;
 	-ms-flex-negative: 1;
-	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
 	-ms-flex-positive: 1;
 	-ms-flex-preferred-size: 0;
+	-webkit-flex-shrink: 1;
 	flex-shrink: 1;
 	/* must be less than a text box min width */
 }
