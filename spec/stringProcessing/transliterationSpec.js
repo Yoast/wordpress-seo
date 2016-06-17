@@ -52,6 +52,9 @@ describe("a test removing special characters from text", function( ){
 	it("returns a Catalan string without special characters.", function(  ){
 		expect( transliteration( "àÀéÉèÈíÍïÏóÓòÒúÚüÜçÇ", "ca" ) ).toBe( "aAeEeEiIiIoOoOuUuUcC" );
 	});
+	it("returns a Balearean Catalan string without special characters.", function(  ){
+		expect( transliteration( "àÀéÉèÈíÍïÏóÓòÒúÚüÜçÇ", "bal" ) ).toBe( "aAeEeEiIiIoOoOuUuUcC" );
+	});
 	it("returns an Asturian string without special characters.", function(  ){
 		expect( transliteration( "ñÑ", "ast" ) ).toBe( "nN" );
 	});
@@ -109,6 +112,122 @@ describe("a test removing special characters from text", function( ){
 	it("returns a Ukrainian string without special characters.", function(  ){
 		expect( transliteration( "ЯЯ Я", "uk" ) ).toBe( "YaIA Ya" );
 	});
+	it("returns a Breton string without special characters.", function(  ){
+		expect( transliteration( "âÂêÊîÎôÔûÛùÙüÜñÑ", "br" ) ).toBe( "aAeEiIoOuUuUuUnN" );
+	});
+	it("returns a Chamorro string without special characters.", function(  ){
+		expect( transliteration( "'åÅñÑ", "ch" ) ).toBe( "aAnN" );
+	});
+	it("returns a Kashubian string without special characters.", function(  ){
+		expect( transliteration( "ąĄãÃéÉëËłŁńŃòÒóÓôÔùÙżŻ", "csb" ) ).toBe( "aAaAeEeElLnNoOoOoOuUzZ" );
+	});
+	it("returns a Welsh string without special characters.", function(  ){
+		expect( transliteration( "âÂêÊîÎôÔûÛŵŴŷŶ", "cy" ) ).toBe( "aAeEiIoOuUwWyY" );
+	});
+	it("returns an Ewe string without special characters.", function(  ){
+		expect( transliteration( "ɖƉɛƐƒƑɣƔŋŊɔƆʋƲãáàǎâÃÁÀǍÂéèěêÉÈĚÊóòǒôÓÒǑÔúùǔûÚÙǓÛíìǐîÍÌǏÎ", "ee" ) ).toBe( "dDeEfFngNgoO..aaaaaAAAAAeeeeEEEEooooOOOOuuuuUUUUiiiiIIII" );
+	});
+	it("returns an Estonian string without special characters.", function(  ){
+		expect( transliteration( "šŠžŽõÕäÄöÖüÜ", "et" ) ).toBe( "shShzhZhoOaAoOuU" );
+	});
+	it("returns a Basque string without special characters.", function(  ){
+		expect( transliteration( "ÑñÇçüÜ", "eu" ) ).toBe( "NnCcuU" );
+
+	});
+	it("returns a Fulah string without special characters.", function(  ){
+		expect( transliteration( "ɓƁɗƊŋŊɲƝƴƳñÑɠƓ", "fuc" ) ).toBe( "bBdDngNgnyNyyYnyNygG" );
+	});
+	it("returns a Fijian string without special characters.", function(  ){
+		expect( transliteration( "ĀāĒēĪīŪūŌō", "fj" ) ).toBe( "AaEeIiUuOo" );
+	});
+	it("returns an Arpitan string without special characters.", function(  ){
+		expect( transliteration( "âÂêÊèÈéÉîÎôÔûÛüÜ", "frp" ) ).toBe( "aAeEeEeEiIoOuUuU" );
+	});
+	it("returns a Friulian string without special characters.", function(  ){
+		expect( transliteration( "çÇàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛčČğĞšŠ", "fur" ) ).toBe( "cCaAeEiIoOuUaAeEiIoOuUcCgGsS" );
+	});
+	it("returns a Frisian string without special characters.", function(  ){
+		expect( transliteration( "âÂêÊéÉôÔûÛúÚāĀäÄåÅēĒöÖüÜíÍúÚđĐðÐ", "fy" ) ).toBe( "aAeEeEoOuUuUaAaAaAeEoOuUiIuUdDdD" );
+	});
+	it("returns an Irish string without special characters.", function(  ){
+		expect( transliteration( "áÁéÉíÍóÓúÚ", "ga" ) ).toBe( "aAeEiIoOuU" );
+	});
+	it("returns a Scottish Gaelic string without special characters.", function(  ){
+		expect( transliteration( "àÀèÈìÌòÒùÙ", "gd" ) ).toBe( "aAeEiIoOuU" );
+	});
+	it("returns a Galician string without special characters.", function(  ){
+		expect( transliteration( "áàÁÀéêÉÊíïÍÏóÓúüÚÜçÇñÑ", "gl" ) ).toBe( "aaAAeeEEiiIIoOuuUUcCnN" );
+	});
+	it("returns a Guarani string without special characters.", function(  ){
+		expect( transliteration( "’g̃G̃ãÃẽẼĩĨñÑõÕũŨỹỸ", "gn" ) ).toBe( "gGaAeEiInNoOuUyY" );
+	});
+	it("returns a Swiss german string without special characters.", function(  ){
+		expect( transliteration( "äöüÄÖÜ", "gsw" ) ).toBe( "aouAOU" );
+	});
+	it("returns a Haitian Creole string without special characters.", function(  ){
+		expect( transliteration( "èÈòÒ", "hat" ) ).toBe( "eEoO" );
+	});
+	it("returns a Hawaiian string without special characters.", function(  ){
+		expect( transliteration( "ʻ'’āēīōūĀĒĪŌŪ", "haw" ) ).toBe( "aeiouAEIOU" );
+	});
+	it("returns a Croatian string without special characters.", function(  ){
+		expect( transliteration( "čČćĆđĐšŠžŽ", "hr" ) ).toBe( "cCcCdjDjsSzZ" );
+	});
+	it("returns a Georgian string without special characters.", function(  ){
+		expect( transliteration( "აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ", "ka" ) ).toBe( "abgdevztiklmnopzhrstupkghqshchtsdztschkhjh" );
+	});
+	it("returns a Greenlandic string without special characters.", function(  ){
+		expect( transliteration( "åÅæӕÆӔøØ", "kal" ) ).toBe( "aaAaaeaeAeAeoeOe" );
+	});
+	it("returns a Kinyarwanda string without special characters.", function(  ){
+		expect( transliteration( "’'", "kin" ) ).toBe( "" );
+	});
+	it("returns a Luxembourgish string without special characters.", function(  ){
+		expect( transliteration( "äÄëËéÉ", "lb" ) ).toBe( "aAeEeE" );
+	});
+	it("returns a Limburgish string without special characters.", function(  ){
+		expect( transliteration( "áâàäÁÂÀÄëèêËÈÊöóÖÓ", "li" ) ).toBe( "aaaaAAAAeeeEEEooOO" );
+	});
+	it("returns a Lingala string without special characters.", function(  ){
+		expect( transliteration( "áâǎÁÂǍéêěÉÊĚɛɛ́ɛ̂ɛ̌ƐƐ́Ɛ̂Ɛ̌íîǐÍÎǏóôǒÓÔǑɔɔ́ɔ̂ɔ̌ƆƆ́Ɔ̂Ɔ̌úÚ", "lin" ) ).toBe( "aaaAAAeeeEEEeeeeEEEEiiiIIIoooOOOooooOOOOuU" );
+	});
+	it("returns a Lithuanian string without special characters.", function(  ){
+		expect( transliteration( "ąĄčČęĘėĖįĮšŠųŲūŪžŽ", "lt" ) ).toBe( "aAcCeEeEiIsSuUuUzZ" );
+	});
+	it("returns a Malagasy string without special characters.", function(  ){
+		expect( transliteration( "ôÔ", "mg" ) ).toBe( "aoAo" );
+	});
+	it("returns a Macedonian string without special characters.", function(  ){
+		expect( transliteration( "Ситe чoвeчки суштeствa сe рaѓaaт слoбoдни и eднaкви пo дoстoинствo и прaвa. Tиe сe oбдaрeни сo рaзум и сoвeст и трeбa дa сe oднeсувaaт eдeн кoн друг вo духoт нa oпштo чoвeчкaтa припaднoст.", "mk" ) ).toBe( "Site chovechki sushtestva se ragjaat slobodni i ednakvi po dostoinstvo i prava. Tie se obdareni so razum i sovest i treba da se odnesuvaat eden kon drug vo duhot na opshto chovechkata pripadnost." );
+	});
+	it("returns a Macedonian string without special characters.", function(  ){
+		expect( transliteration( "АаБбВвГгДдЃѓЕеЖжЗзЅѕИиЈјКкЛлЉљМмНнЊњОоПпРрСсТтЌќУуФфХхЦцЧчЏџШш", "mk" ) ).toBe( "AaBbVvGgDdGjgjEeZhzhZzDzdzIiJjKkLlLjljMmNnNjnjOoPpRrSsTtKjkjUuFfHhCcChchDjdjShsh" );
+	});
+	it("returns a Maori string without special characters.", function(  ){
+		expect( transliteration( "āĀēĒīĪōŌūŪ", "mri" ) ).toBe( "aaAaeeEeiiIiooOouuUu" );
+	});
+	it("returns a Mirandese string without special characters.", function(  ){
+		expect( transliteration( "çÇáÁéÉêÊíÍóÓôÔúÚũŨ", "mwl" ) ).toBe( "cCaAeEeEiIoOoOuUuU" );
+	});
+	it("returns a Occitan string without special characters.", function(  ){
+		expect( transliteration( "àáÀÁèéÈÉòóÒÓíïÍÏúüÚÜçÇ·", "oci" ) ).toBe( "aaAAeeEEooOOiiIIuuUUcC" );
+	});
+	it("returns a Oromo string without special characters.", function(  ){
+		expect( transliteration( "'", "orm" ) ).toBe( "" );
+	});
+	it("returns a Portuguese string without special characters.", function(  ){
+		expect( transliteration( "çÇáâãàÁÂÃÀéêÉÊíÍóôõÓÔÕúÚ", "pt" ) ).toBe( "cCaaaaAAAAeeEEiIoooOOOuU" );
+	});
+	it("returns a Romansh Vallader string without special characters.", function(  ){
+		expect( transliteration( "éèêÉÈÊïÏöÖüÜäÄ", "roh" ) ).toBe( "eeeEEEiIoeOeueUeaeAe" );
+	});
+	it("returns a Aromanian string without special characters.", function(  ){
+		expect( transliteration( "ãÃ", "rup" ) ).toBe( "aA" );
+	});
+
+
+
+
 	it("returns an unchanged string for a non-existing locale.", function(  ){
 		expect( transliteration( "abc", "qxz" ) ).toBe( "abc" );
 	});
