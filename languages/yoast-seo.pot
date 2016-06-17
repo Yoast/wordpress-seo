@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-17 15:18+0200\n"
+"POT-Creation-Date: 2016-06-17 15:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -677,11 +677,15 @@ msgstr ""
 msgid "Content optimization: Good SEO score"
 msgstr ""
 
-#: js/renderers/AssessorPresenter.js:289
+#: js/renderers/AssessorPresenter.js:307
+msgid "Marks are disabled in current view"
+msgstr ""
+
+#: js/renderers/AssessorPresenter.js:308
 msgid "Mark this result in the text"
 msgstr ""
 
-#: js/renderers/AssessorPresenter.js:290
+#: js/renderers/AssessorPresenter.js:309
 msgid "Remove marks in the text"
 msgstr ""
 
