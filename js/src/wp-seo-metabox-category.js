@@ -120,7 +120,7 @@
 
 		html = primaryTermUITemplate({
 			taxonomy: taxonomies[ taxonomyName ],
-			term: label.text()
+			term: $.trim( label.text() )
 		});
 
 		label.after( html );
