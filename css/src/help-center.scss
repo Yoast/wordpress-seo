@@ -40,6 +40,7 @@
 
 .wpseo-tab-video-slideout {
   display: none;
+  flex-wrap: wrap;
   min-height: 320px;
   margin: 0 -9999px;
   padding: 2em 9999px;
@@ -49,7 +50,11 @@
   margin-bottom: -1px;
 
   .contextual-help-tabs-wrap {
-	  flex: 1 1 auto;
+	  /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	  flex-grow: 1;
+	  flex-shrink: 1;
+	  flex-basis: 0;
+	  padding: 0;
   }
 
   h1,
@@ -65,16 +70,26 @@
   }
 
   .wpseo-tab-video__panel__textarea {
-    float: left;
-	/* two boxes with padding, borders, and margin should have the same width of the video above: 560px */
-    width: 242px;
+	float: left;
+	/* min-width to make two boxes always have the same min width */
+    min-width: 234px;
+	/* max-width to make two boxes take the same space of the video above: 560px */
+	max-width: 242px;
     margin: 0 12px 1em 0;
     padding: 15px 15px 5px;
     border: 1px solid;
     border-color: white;
     border-radius: 30px;
     border-bottom-right-radius: 0;
+	background-color: #a4286a;
     color: white;
+
+	a,
+	a:hover,
+	a:focus {
+	  color: white;
+	  font-weight: 500;
+	}
 
     h3 {
       margin: 0;
@@ -84,6 +99,7 @@
   .yoast-help-center-tabs {
 	flex: 0 0 auto;
 	width: 180px;
+	padding: 0 1em 1em 0;
     color: white;
     background-color: #a4286a;
 
@@ -108,9 +124,28 @@
   }
 
   .wpseo-tab-video__panel {
-    clear: both;
-    margin-right: 1em;
-	margin-bottom: 1em;
+
+	&--video {
+	  flex: 0 0 auto;
+	  margin-right: 1em;
+	  padding-bottom: 1em;
+	  /* In the settings pages is not a children of the flexbox container. */
+	  float: left;
+
+	  iframe {
+		  /* remove iframe descender space */
+		  vertical-align: middle;
+	  }
+	}
+
+	&--text {
+	  /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	  flex-grow: 1;
+	  flex-shrink: 1;
+	  flex-basis: 0;
+	  margin: 0 auto;
+	  min-width: 264px; /* must be less than a text box min width */
+	}
   }
 
   .wpseo-tab-video__panel--text div:last-child {
@@ -159,21 +194,4 @@
     color: #a4286a;
     background-color: white;
   }
-}
-
-.wpseo-tab-video__panel__textarea {
-  background-color: #a4286a;
-
-  a,
-  a:hover,
-  a:focus {
-	color: white;
-	font-weight: 500;
-  }
-}
-
-.wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
 }
