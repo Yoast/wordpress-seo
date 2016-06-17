@@ -1,5 +1,3 @@
-$ = jQuery;
-
 /**
  * Updates the traffic light present on the page
  *

@@ -1,5 +1,6 @@
 {
   "name": "wordpress-seo",
+  "license": "GPL-2.0+",
   "description": "Development files for the Yoast SEO plugin",
   "plugin": {
     "glotpress": "http://translate.yoast.com",
@@ -20,6 +21,7 @@
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
     "babelify": "^7.3.0",
+    "envify": "^3.4.0",
     "grunt": "^0.4.5",
     "grunt-browserify": "^4.0.1",
     "grunt-checktextdomain": "^1.0.0",
@@ -54,6 +56,6 @@
   "dependencies": {
     "lodash": "^4.7.0",
     "select2": "^4.0.1",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
   }
 }
