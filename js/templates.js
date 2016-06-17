@@ -38,7 +38,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.12.0';
+  var VERSION = '4.11.2';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -304,25 +304,37 @@
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<ul class="wpseoanalysis assessment-results">\n    <button type="button" class="assessment-results__remove-marks js-assessment-results__remove-marks"><span class="screen-reader-text">' +
-    ((__t = ( i18n.removeMarks )) == null ? '' : __t) +
-    '</span></button>\n    ';
+    __p += '<ul class="wpseoanalysis assessment-results">\n    ';
      for (var i in scores) {
-    __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
+    __p += '\n        <li class="score">\n            <span class="assessment-results__mark-container">\n                ';
+     if ( scores[ i ].marker ) {
+    __p += '\n                    <button type="button"\n                        aria-label="' +
+    ((__t = ( i18n.markInText )) == null ? '' : __t) +
+    '"\n                        class="assessment-results__mark ';
+     if ( scores[ i ].identifier === activeMarker ) {
+    __p += 'icon-eye-active';
+     } else {
+    __p += 'icon-eye-inactive';
+     }
+    __p += ' js-assessment-results__mark-' +
+    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
+    ' yoast-tooltip yoast-tooltip-s"><span class="screen-reader-text">';
+     if ( scores[ i ].identifier === activeMarker ) {
+    __p +=
+    ((__t = ( i18n.removeMarksInText )) == null ? '' : __t);
+     } else {
+    __p +=
+    ((__t = ( i18n.markInText )) == null ? '' : __t);
+     }
+    __p += '</span></button>\n                ';
+     }
+    __p += '\n            </span>\n            <span class="wpseo-score-icon ' +
     __e( scores[ i ].className ) +
     '"></span>\n            <span class="screen-reader-text">' +
     ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
     '</span>\n            <span class="wpseo-score-text">' +
     ((__t = ( scores[ i ].text )) == null ? '' : __t) +
-    '</span>\n            ';
-     if ( scores[ i ].marker ) {
-    __p += '\n            <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-' +
-    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
-    '"><span class="screen-reader-text">' +
-    ((__t = ( i18n.markInText )) == null ? '' : __t) +
-    '</span></button>\n            ';
-     }
-    __p += '\n        </li>\n    ';
+    '</span>\n        </li>\n    ';
      }
     __p += '\n</ul>\n';
 

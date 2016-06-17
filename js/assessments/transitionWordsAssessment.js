@@ -1,6 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isUndefined = require( "lodash/isUndefined" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 var map = require( "lodash/map" );
+var inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
 
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
@@ -13,53 +14,53 @@ var marker = require( "../markers/addMark.js" );
  * @returns {object} Object containing score and text.
  */
 var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
-	var score, unboundedScore;
+	var score;
 	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
+	percentage     = formatNumber( percentage );
+	var hasMarks   = ( percentage > 0 );
+	var transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
 
-	if ( percentage <= 23.3 ) {
-		// The 10 percentage points from 13.3 to 23.3 are scaled to a range of 6 score points: 6/10 = 0.6.
-		// 23.3 scores 9, 13.3 scores 3.
-		unboundedScore = 3 + ( 0.6  * ( percentage - 13.3 ) );
-
-		// Scores exceeding 9 are 9, scores below 3 are 3.
-		score = Math.max( Math.min( unboundedScore, 9 ), 3 );
-		if ( score < 7 ) {
-			var recommendedMinimum = 20;
-			return {
-				score: score,
-				text: i18n.sprintf(
-					i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
-						"which is less than the recommended minimum of %2$s." ),
-					percentage.toFixed( 1 ) + "%", recommendedMinimum + "%" )
-			};
-		}
+	if ( percentage < 20 ) {
+		// Red indicator.
+		score = 3;
 	}
 
-	if ( percentage >= 26.7 ) {
-		// The 10 percentage points from 26.7 to 36.7 are scaled to a range of 6 score points: 6/10 = 0.6.
-		// 26.7 scores 9, 36.7 scores 3.
-		unboundedScore = 9 - ( 0.6 * ( percentage - 26.7 ) );
-
-		// Scores exceeding 9 are 9, scores below 3 are 3.
-		score = Math.max( Math.min( unboundedScore, 9 ), 3 );
-		if ( score < 7 ) {
-			var recommendedMaximum = 30;
-			return {
-				score: score,
-				text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, " +
-					"which is more than the recommended maximum of %2$s." ), percentage.toFixed( 1 ) + "%", recommendedMaximum + "%" )
-			};
-		}
+	if ( inRange( percentage, 20, 30 ) ) {
+		// Orange indicator.
+		score = 6;
 	}
 
-	if ( isUndefined( score ) ) {
+	if ( percentage >= 30 ) {
+		// Green indicator.
 		score = 9;
 	}
 
+	if ( score < 7 ) {
+		var recommendedMinimum = 30;
+		return {
+			score: formatNumber( score ),
+			hasMarks: hasMarks,
+			text: i18n.sprintf(
+				i18n.dgettext( "js-text-analysis",
+
+					// Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+					// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+					"%1$s of the sentences contain a %2$stransition word%3$s or phrase, " +
+					"which is less than the recommended minimum of %4$s."
+				), percentage + "%", transitionWordsURL, "</a>", recommendedMinimum + "%" )
+		};
+	}
+
 	return {
-		score: score,
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain a transition word or phrase, which is great."
-		), percentage.toFixed( 1 ) + "%" )
+		score: formatNumber( score ),
+		hasMarks: hasMarks,
+		text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
+
+			// Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+			// %3$s expands to the anchor end tag.
+			"%1$s of the sentences contain a %2$stransition word%3$s or phrase, " +
+			"which is great."
+		), percentage + "%", transitionWordsURL, "</a>" )
 	};
 };
 
@@ -77,6 +78,7 @@ var transitionWordsAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( transitionWordResult.score );
 	assessmentResult.setText( transitionWordResult.text );
+	assessmentResult.setHasMarks( transitionWordResult.hasMarks );
 
 	return assessmentResult;
 };
@@ -104,7 +106,7 @@ module.exports = {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText();
+		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
 	},
 	getMarks: transitionWordsMarker
 };

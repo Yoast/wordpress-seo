@@ -1,6 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
+var recommendedMinimum = 300;
 /**
  * Calculate the score based on the current word count.
  * @param {number} wordCount The amount of words to be checked against.
@@ -13,10 +14,16 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 9,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-				"The text contains %1$d word. This is more than the %2$d word recommended minimum.",
-				"The text contains %1$d words. This is more than the %2$d word recommended minimum.",
+				/* Translators: %1$d expands to the number of words in the text */
+				"The text contains %1$d word.",
+				"The text contains %1$d words.",
 				wordCount
+			) + " " + i18n.dngettext(
+				"js-text-analysis",
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
+				"This is more than the recommended minimum of %2$d word.",
+				"This is more than the recommended minimum of %2$d words.",
+				recommendedMinimum
 			)
 		};
 	}
@@ -26,10 +33,16 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 7,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-				"The text contains %1$d word. This is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				"The text contains %1$d words. This is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				/* Translators: %1$d expands to the number of words in the text */
+				"The text contains %1$d word.",
+				"The text contains %1$d words.",
 				wordCount
+			) + " " + i18n.dngettext(
+				"js-text-analysis",
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
+				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
+				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
+				recommendedMinimum
 			)
 		};
 	}
@@ -39,10 +52,16 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 5,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-				"The text contains %1$d word. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				/* Translators: %1$d expands to the number of words in the text */
+				"The text contains %1$d word.",
+				"The text contains %1$d words.",
 				wordCount
+			) + " " + i18n.dngettext(
+				"js-text-analysis",
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
+				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
+				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
+				recommendedMinimum
 			)
 		};
 	}
@@ -52,10 +71,16 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -10,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-				"The text contains %1$d word. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				/* Translators: %1$d expands to the number of words in the text */
+				"The text contains %1$d word.",
+				"The text contains %1$d words.",
 				wordCount
+			) + " " + i18n.dngettext(
+				"js-text-analysis",
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
+				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
+				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
+				recommendedMinimum
 			)
 		};
 	}
@@ -65,10 +90,16 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -20,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word. This is far too low and should be increased.",
-				"The text contains %1$d words. This is far too low and should be increased.",
+				/* Translators: %1$d expands to the number of words in the text */
+				"The text contains %1$d word.",
+				"The text contains %1$d words.",
 				wordCount
+			) + " " + i18n.dngettext(
+				"js-text-analysis",
+				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
+				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
+				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
+				recommendedMinimum
 			)
 		};
 	}
@@ -87,7 +118,7 @@ var textLengthAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, recommendedMinimum ) );
 
 	return assessmentResult;
 };

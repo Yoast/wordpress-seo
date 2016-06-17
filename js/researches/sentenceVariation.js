@@ -1,6 +1,6 @@
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var sentencesLength = require( "../stringProcessing/sentencesLength.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint" );
+var formatNumber = require( "../helpers/formatNumber" );
 var sum = require( "lodash/sum" );
 var reduce = require( "lodash/reduce" );
 
@@ -37,7 +37,7 @@ module.exports = function( paper ) {
 	if ( totalOfSquares > 0 ) {
 		var dividedSquares = totalOfSquares / ( totalSentences - 1 );
 
-		return fixFloatingPoint( Math.sqrt( dividedSquares ) );
+		return formatNumber( Math.sqrt( dividedSquares ) );
 	}
 
 	return 0;

@@ -1,11 +1,10 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
-var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthPercentageScore.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
+var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
 
 var Mark = require( "../values/Mark.js" );
 var addMark = require( "../markers/addMark.js" );
-
 
 var map = require( "lodash/map" );
 
@@ -42,29 +41,61 @@ var tooLongSentencesTotal = function( sentences, recommendedValue ) {
  * @returns {Object} Object containing score and text.
  */
 var calculateSentenceLengthResult = function( sentences, i18n ) {
+	var score;
+	var percentage = 0;
 	var tooLongTotal = tooLongSentencesTotal( sentences, recommendedValue );
-	var percentage = fixFloatingPoint( ( tooLongTotal / sentences.length ) * 100 );
-	var score = calculateTooLongSentences( percentage );
+
+	if ( sentences.length !== 0 ) {
+		percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );
+	}
+
+	if ( percentage <= 25 ) {
+		// Red indicator.
+		score = 9;
+	}
+
+	if ( inRange( percentage, 25, 30 ) ) {
+		// Orange indicator.
+		score = 6;
+	}
+
+	if ( percentage > 30 ) {
+		// Red indicator.
+		score = 3;
+	}
+
+	var hasMarks = ( percentage > 0 );
+	var sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
 
 	if ( score >= 7 ) {
 		return {
 			score: score,
-
-			// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
-			// %3$s expands to the recommended amount of words.
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
-				"which is less than the recommended maximum of %2$s." ), percentage + "%", maximumPercentage + "%", recommendedValue )
+			hasMarks: hasMarks,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
+				// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+				// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
+				// %5$s expands to the recommended maximum percentage.
+				"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less than or equal to the recommended maximum of %5$s."
+				), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
+			)
 		};
 	}
 
 	return {
 		score: score,
+		hasMarks: hasMarks,
 
 		// Translators: %1$s expands to the percentage of sentences, %2$d expands to the maximum percentage of sentences.
 		// %3$s expands to the recommended amount of words.
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than %3$d words, " +
-			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ),
-			percentage + "%", maximumPercentage + "%", recommendedValue )
+		text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
+
+			// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
+			// %5$s expands to the recommended maximum percentage.
+			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s." +
+			"Try to shorten your sentences."
+			), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
+		)
 	};
 };
 
@@ -83,6 +114,7 @@ var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( sentenceResult.score );
 	assessmentResult.setText( sentenceResult.text );
+	assessmentResult.setHasMarks( sentenceResult.hasMarks );
 
 	return assessmentResult;
 };

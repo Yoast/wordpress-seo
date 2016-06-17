@@ -16,4 +16,22 @@ describe( "Matches paragraphs in a text", function() {
 		var text = "This is a text without any paragraphs";
 		expect( matchParagraphs ( text ) ).toContain( "This is a text without any paragraphs" );
 	} );
+
+	it( "splits on headings", function() {
+		var text = "A piece of text<h2>More piece of text</h2>Another piece of text.";
+		var expected = [ "A piece of text", "Another piece of text." ];
+
+		var actual = matchParagraphs( text );
+
+		expect( actual ).toEqual( expected );
+	});
+
+	it( "should see <div> tags as paragraphs", function() {
+		var text = "A piece of text<div>More piece of text</div>Another piece of text.";
+		var expected = [ "A piece of text", "<div>More piece of text</div>", "Another piece of text." ];
+
+		var actual = matchParagraphs( text );
+
+		expect( actual ).toEqual( expected );
+	});
 } );

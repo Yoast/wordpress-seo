@@ -365,7 +365,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
 			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
-			titleLabel: this.i18n.dgettext( "js-text-analysis", "Seo title preview:" ),
+			titleLabel: this.i18n.dgettext( "js-text-analysis", "SEO title preview:" ),
 			slugLabel: this.i18n.dgettext( "js-text-analysis", "Slug preview:" ),
 			metaDescriptionLabel: this.i18n.dgettext( "js-text-analysis", "Meta description preview:" ),
 			snippetPreviewDescription: this.i18n.dgettext(
@@ -559,11 +559,6 @@ SnippetPreview.prototype.formatTitle = function() {
 	}
 
 	title = stripHTMLTags( title );
-
-	// If a keyword is set we want to highlight it in the title.
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		title = this.formatKeyword( title );
-	}
 
 	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( title ) ) {

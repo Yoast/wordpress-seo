@@ -83,6 +83,35 @@ npm test
 
 Generate coverage using the `--coverage` flag.
 
+## Code style
+
+To test your code style:
+
+```bash
+grunt check
+```
+
+## Testing with Yoast SEO
+
+In the YoastSEO.js directory, run:
+
+```bash
+npm link
+```
+
+Then, in the [Yoast SEO](https://github.com/Yoast/wordpress-seo) directory, assuming you have a complete development version, run:
+
+```bash
+npm link yoastseo
+grunt build:js && grunt build:css
+```
+
+From that point on you need to re-do `grunt build:js && grunt build:css` when you make changes to YoastSEO.js. If you want to unlink, simply do:
+
+```bash
+npm unlink yoastseo
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.

@@ -1,8 +1,9 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 var getSubheadings = require( "../stringProcessing/getSubheadings.js" ).getSubheadings;
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
+var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -24,11 +25,12 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 	if( score >= 7 ) {
 		return {
 			score: score,
+			hasMarks: false,
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-					// translators: %1$d expands to the recommended maximum number of characters.
-					"The length of all subheadings is less than the recommended maximum of %1$d characters, which is great."
+					// Translators: %1$d expands to the recommended maximum number of characters.
+					"The length of all subheadings is less than or equal to the recommended maximum of %1$d characters, which is great."
 				), recommendedValue
 			)
 		};
@@ -36,10 +38,11 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 
 	return {
 		score: score,
+		hasMarks: true,
 		text: i18n.sprintf(
 			i18n.dngettext(
 				"js-text-analysis",
-				// translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
+				// Translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
 				"You have %1$d subheading containing more than the recommended maximum of %2$d characters.",
 				"You have %1$d subheadings containing more than the recommended maximum of %2$d characters.",
 				tooLongHeaders
@@ -58,7 +61,7 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
  */
 var getSubheadingLength = function( paper, researcher, i18n ) {
 	var subheadingsLength = researcher.getResearch( "getSubheadingLength" );
-	var recommendedValue = 30;
+	var recommendedValue = 50;
 	var tooLong = 0;
 	var scores = [];
 	var lowestScore = 0;
@@ -69,9 +72,20 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 				tooLong++;
 			}
 
-			// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 20 steps, each step is 0.3.
-			// Up to 23.4  is for scoring a 9, higher numbers give lower scores.
-			scores.push( 9 - Math.max( Math.min( ( 0.3 ) * ( length - 23.4 ), 6 ), 0 ) );
+			if ( length <= 50 ) {
+				// Green indicator.
+				scores.push( 9 );
+			}
+
+			if ( inRange( length, 50, 60 ) ) {
+				// Orange indicator.
+				scores.push( 6 );
+			}
+
+			if ( length > 60 ) {
+				// Red indicator.
+				scores.push( 3 );
+			}
 		} );
 
 		lowestScore = scores.sort(
@@ -82,7 +96,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 	}
 
 	// floatingPointFix because of js rounding errors
-	lowestScore = fixFloatingPoint( lowestScore );
+	lowestScore = formatNumber( lowestScore );
 
 	var subheadingsLengthResult = subheadingsLengthScore( lowestScore, tooLong, recommendedValue, i18n );
 
@@ -90,6 +104,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( subheadingsLengthResult.score );
 	assessmentResult.setText( subheadingsLengthResult.text );
+	assessmentResult.setHasMarks( subheadingsLengthResult.hasMarks );
 
 	return assessmentResult;
 };

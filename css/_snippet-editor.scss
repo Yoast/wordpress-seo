@@ -2,6 +2,8 @@
 @import "mixins";
 @import "icons";
 
+$snippet_width: 600px;
+
 @mixin svg-caret-before($color) {
 	background-image: url(svg-icon-caret-right($color));
 
@@ -22,7 +24,7 @@
 	border-radius: 20px;
 	background-color: #fff;
 	position: relative;
-	width: 552px;
+	width: $snippet_width + 40;
 }
 
 .snippet_container:after {
@@ -175,7 +177,7 @@
 	text-overflow: ellipsis;
 	text-decoration: none;
 	white-space: nowrap;
-	width: 512px;
+	width: $snippet_width;
 	font-size: 18px;
 	line-height: 1.2;
 	font-weight: normal;

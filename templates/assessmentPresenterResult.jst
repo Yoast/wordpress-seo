@@ -1,13 +1,16 @@
 <ul class="wpseoanalysis assessment-results">
-    <button type="button" class="assessment-results__remove-marks js-assessment-results__remove-marks"><span class="screen-reader-text"><%= i18n.removeMarks %></span></button>
     <% for (var i in scores) { %>
         <li class="score">
+            <span class="assessment-results__mark-container">
+                <% if ( scores[ i ].marker ) { %>
+                    <button type="button"
+                        aria-label="<%= i18n.markInText %>"
+                        class="assessment-results__mark <% if ( scores[ i ].identifier === activeMarker ) { %>icon-eye-active<% } else { %>icon-eye-inactive<% } %> js-assessment-results__mark-<%= scores[ i ].identifier %> yoast-tooltip yoast-tooltip-s"><span class="screen-reader-text"><% if ( scores[ i ].identifier === activeMarker ) { %><%= i18n.removeMarksInText %><% } else { %><%= i18n.markInText %><% } %></span></button>
+                <% } %>
+            </span>
             <span class="wpseo-score-icon <%- scores[ i ].className %>"></span>
             <span class="screen-reader-text"><%= scores[ i ].screenReaderText %></span>
             <span class="wpseo-score-text"><%= scores[ i ].text %></span>
-            <% if ( scores[ i ].marker ) { %>
-            <button type="button" class="assessment-results__mark icon-eye-inactive js-assessment-results__mark-<%= scores[ i ].identifier %>"><span class="screen-reader-text"><%= i18n.markInText %></span></button>
-            <% } %>
         </li>
     <% } %>
 </ul>

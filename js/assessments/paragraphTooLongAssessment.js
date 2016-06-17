@@ -1,8 +1,8 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var isParagraphTooLong = require( "../helpers/isValueTooLong" );
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
+var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -29,24 +29,41 @@ var getTooLongParagraphs = function( paragraphsLength  ) {
  * @returns {{score: number, text: string }} the assessmentResult.
  */
 var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
+	var score;
+
 	if ( paragraphsLength.length === 0 ) {
 		return {};
 	}
-	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 100 steps, each step is 0.06.
-	// Up to 117 is for scoring a 9, higher numbers give lower scores.
-	// FloatingPointFix because of js rounding errors.
-	var score = 9 - Math.max( Math.min( ( 0.06 ) * ( paragraphsLength[ 0 ].wordCount - 117 ), 6 ), 0 );
-	score = fixFloatingPoint( score );
+
+	var longestParagraphLength = paragraphsLength[ 0 ].wordCount;
+
+	if ( longestParagraphLength <= 150 ) {
+		// Green indicator.
+		score = 9;
+	}
+
+	if ( inRange( longestParagraphLength, 150, 200 ) ) {
+		// Orange indicator.
+		score = 6;
+	}
+
+	if ( longestParagraphLength > 200 ) {
+		// Red indicator.
+		score = 3;
+	}
+
 	if ( score >= 7 ) {
 		return {
 			score: score,
+			hasMarks: false,
 			text: i18n.dgettext( "js-text-analysis", "None of your paragraphs are too long, which is great." )
 		};
 	}
 	return {
 		score: score,
+		hasMarks: true,
 
-		// translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
+		// Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 		text: i18n.sprintf( i18n.dngettext( "js-text-analysis", "%1$d of the paragraphs contains more than the recommended maximum " +
 			"of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?",
 			"%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of" +
@@ -106,6 +123,7 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( paragraphLengthResult.score );
 	assessmentResult.setText( paragraphLengthResult.text );
+	assessmentResult.setHasMarks( paragraphLengthResult.hasMarks );
 
 	return assessmentResult;
 };

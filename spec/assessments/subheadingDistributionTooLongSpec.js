@@ -6,30 +6,31 @@ var i18n = Factory.buildJed();
 var paper = new Paper();
 describe( "An assessment for scoring too long sub texts.", function() {
 	it( "scores 3 subheading texts, 0 are too long", function() {
-		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ 60,  100, 300 ] ), i18n );
-		expect( assessment.getScore() ).toBe( 7.02 );
-		expect( assessment.getText() ).toBe( "The amount of words following after each of your subheadings don't exceed the recommended maximum of 300 words, which is great." );
+		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 100}, {text: "", wordCount: 300} ] ), i18n );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "The amount of words following each of your subheadings doesn't exceed the recommended maximum of 300 words, which is great." );
 	} );
 
 	it( "scores 3 subheading texts, 0 are too long", function() {
-		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ 60,  100, 200 ] ), i18n );
+		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 100}, {text: "", wordCount: 200} ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "The amount of words following after each of your subheadings don't exceed the recommended maximum of 300 words, which is great." );
+		expect( assessment.getText() ).toBe( "The amount of words following each of your subheadings doesn't exceed the recommended maximum of 300 words, which is great." );
 	} );
 
-	it ( "returns no score, because the string has no subheadings", function() {
+	it ( "returns score 2 for no subheadings", function() {
 		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [] ), i18n );
-		expect( assessment.hasScore() ).toBe( false );
+		expect( assessment.getScore() ).toBe( 2 );
+		expect( assessment.getText() ).toBe( "The text does not contain any subheadings. Add at least one subheading." );
 	} );
 	it ( "returns a heading that is too long", function() {
-		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ 60,  400, 300 ] ), i18n );
+		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 400}, {text: "", wordCount: 300} ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "1 of the subheadings is followed by more than the recommended maximum of 300 words. Try to insert another subheading." );
 	} );
 
 	it ( "returns a heading that is too long", function() {
-		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ 60,  310, 310, 310 ] ), i18n );
-		expect( assessment.getScore() ).toBe( 6.42 );
+		var assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 310}, {text: "", wordCount: 310}, {text: "", wordCount: 310} ] ), i18n );
+		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "3 of the subheadings are followed by more than the recommended maximum of 300 words. Try to insert additional subheadings." );
 	} );
 

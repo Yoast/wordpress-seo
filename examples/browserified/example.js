@@ -4,6 +4,7 @@ var PreviouslyUsedKeywords = require( "../../js/bundledPlugins/previouslyUsedKey
 var TestPlugin = require( "./example-plugin-test.js" );
 
 var forEach = require( "lodash/foreach" );
+var escape = require( "lodash/escape" );
 /**
  * binds the renewData function on the change of inputelements.
  */
@@ -41,6 +42,8 @@ window.onload = function() {
 			});
 
 			document.getElementsByClassName( "marked-text" )[0].innerHTML = text;
+
+			document.getElementsByClassName( "marked-text-raw" )[0].innerHTML = escape( text );
 		}
 	});
 
@@ -62,4 +65,11 @@ window.onload = function() {
 		app, args, app.i18n
 	);
 	previouslyUsedKeywordsPlugin.registerPlugin();
+
+	var refreshAnalysis = document.getElementById( "refresh-analysis" );
+
+	refreshAnalysis.addEventListener( "click", function() {
+		app.getData();
+		app.runAnalyzer();
+	});
 };

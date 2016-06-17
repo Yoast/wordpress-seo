@@ -5,7 +5,7 @@ var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).g
 
 /**
  * Checks if there are any subheadings like h2 in the text.
- * @param {object} paper The paper object containing the text.
+ * @param {Paper} paper The paper object containing the text.
  * @returns {object} The result object.
  */
 module.exports = function( paper ) {

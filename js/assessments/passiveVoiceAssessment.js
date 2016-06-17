@@ -1,5 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
+var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
 
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
@@ -13,39 +14,63 @@ var map = require( "lodash/map" );
  * @returns {{score: number, text}} resultobject with score and text.
  */
 var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
-	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
-	percentage = fixFloatingPoint( percentage );
-	var recommendedValue = 10;
+	var score;
 
-	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps, each step is 0.6
-	// Up to 6.7% passive sentences scores a 9, higher percentages give lower scores.
-	// FloatingPointFix because of js rounding errors
-	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 6.7 ), 6 ), 0 );
-	score = fixFloatingPoint( score );
+	var percentage = ( passiveVoice.passives.length / passiveVoice.total ) * 100;
+	percentage = formatNumber( percentage );
+	var recommendedValue = 10;
+	var passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
+	var hasMarks = ( percentage > 0 );
+
+	if ( percentage <= 10 ) {
+		// Green indicator.
+		score = 9;
+	}
+
+	if ( inRange( percentage, 10, 15 ) ) {
+		// Orange indicator.
+		score = 6;
+	}
+
+	if ( percentage > 15 ) {
+		// Red indicator.
+		score = 3;
+	}
+
 	if ( score >= 7 ) {
 		return {
 			score: score,
+			hasMarks: hasMarks,
 			text: i18n.sprintf(
 					i18n.dgettext(
 						"js-text-analysis",
 
-						// Translators: %1$d expands to the number of sentences in passive voice.
-						"%1$s of the sentences is written in the passive voice, which is within the recommended range." ),
-					percentage + "%"
+						// Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+						// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+						"%1$s of the sentences contain %2$spassive voice%3$s, " +
+						"which is less than or equal to the recommended maximum of %4$s." ),
+					percentage + "%",
+					passiveVoiceURL,
+					"</a>",
+					recommendedValue + "%"
 			)
 		};
 	}
 	return {
 		score: score,
+		hasMarks: hasMarks,
 		text: i18n.sprintf(
 			i18n.dgettext(
 				"js-text-analysis",
 
-				// Translators: %1$d expands to the number of sentences in passive voice, %2$d expands to the recommended value
-				"%1$s of the sentences is written in the passive voice, which is more than the recommended maximum of %2$s. " +
-				"Try to use their active counterparts."
+				// Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+				// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+				"%1$s of the sentences contain %2$spassive voice%3$s, " +
+				"which is more than the recommended maximum of %4$s. Try to use their active counterparts."
 			),
 			percentage + "%",
+			passiveVoiceURL,
+			"</a>",
 			recommendedValue + "%"
 		)
 	};
@@ -85,6 +110,7 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( passiveVoiceResult.score );
 	assessmentResult.setText( passiveVoiceResult.text );
+	assessmentResult.setHasMarks( passiveVoiceResult.hasMarks );
 
 	return assessmentResult;
 };
@@ -93,7 +119,7 @@ module.exports = {
 	identifier: "passiveVoice",
 	getResult: paragraphLengthAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText();
+		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
 	},
 	getMarks: passiveVoiceMarker
 };
