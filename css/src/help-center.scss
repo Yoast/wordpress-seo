@@ -1,0 +1,197 @@
+/* Dynamically set when the Help is expanded to avoid horizontal scrolling */
+#wpcontent.yoast-help-center-open {
+	overflow-x: hidden;
+}
+
+.wpseo-tab-video-container {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #a4286a;
+
+  &__handle {
+	width: 100%;
+	margin: 0;
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: #a4286a;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+	line-height: 19px;
+
+    .toggle__arrow {
+      text-decoration: none;
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+
+    .dashicons-before:before {
+      margin-right: 5px;
+    }
+  }
+}
+
+.wpseotab .wpseo-tab-video-container {
+  margin-top: -15px;
+}
+
+.wpseo-tab-video-slideout {
+  display: none;
+  flex-wrap: wrap;
+  min-height: 320px;
+  margin: 0 -9999px;
+  padding: 2em 9999px;
+  background-color: #a4286a;
+  box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
+  /* hide the container bottom border when expanded */
+  margin-bottom: -1px;
+
+  .contextual-help-tabs-wrap {
+	  /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	  flex-grow: 1;
+	  flex-shrink: 1;
+	  flex-basis: 0;
+	  padding: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+	margin-top: 0.5em;
+	padding-top: 0;
+	color: white;
+	font-weight: 500;
+  }
+
+  .wpseo-tab-video__panel__textarea {
+	float: left;
+	/* min-width to make two boxes always have the same min width */
+    min-width: 234px;
+	/* max-width to make two boxes take the same space of the video above: 560px */
+	max-width: 242px;
+    margin: 0 12px 1em 0;
+    padding: 15px 15px 5px;
+    border: 1px solid;
+    border-color: white;
+    border-radius: 30px;
+    border-bottom-right-radius: 0;
+	background-color: #a4286a;
+    color: white;
+
+	a,
+	a:hover,
+	a:focus {
+	  color: white;
+	  font-weight: 500;
+	}
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .yoast-help-center-tabs {
+	flex: 0 0 auto;
+	width: 180px;
+	padding: 0 1em 1em 0;
+    color: white;
+    background-color: #a4286a;
+
+	ul {
+	  margin: 0;
+	}
+  }
+
+  .help-tab-content {
+    margin: 0;
+	color: white;
+	font-weight: 300;
+
+	a {
+	  color: white;
+
+	  &.button,
+	  &.button-primary {
+		  text-decoration: none;
+	  }
+    }
+  }
+
+  .wpseo-tab-video__panel {
+
+	&--video {
+	  flex: 0 0 auto;
+	  margin-right: 1em;
+	  padding-bottom: 1em;
+	  /* In the settings pages is not a children of the flexbox container. */
+	  float: left;
+
+	  iframe {
+		  /* remove iframe descender space */
+		  vertical-align: middle;
+	  }
+	}
+
+	&--text {
+	  /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	  flex-grow: 1;
+	  flex-shrink: 1;
+	  flex-basis: 0;
+	  margin: 0 auto;
+	  min-width: 264px; /* must be less than a text box min width */
+	}
+  }
+
+  .wpseo-tab-video__panel--text div:last-child {
+  	margin-right: 0;
+  }
+}
+
+/* When it's inside the metabox (posts, terms, media ). */
+.postbox .wpseo-tab-video-container {
+  margin: -6px -12px 20px;
+}
+
+/* When it's inside the metabox (posts, terms, media ). */
+.postbox .wpseo-tab-video-slideout {
+  margin: 0;
+  padding: 2em 12px 15px;
+}
+
+.inside {
+  .wpseo-tab-video-slideout {
+    height: auto;
+  }
+}
+
+.wpseo-help-center-item {
+  display: inline;
+
+  a {
+    display: block;
+	padding: 10px 12px;
+	color: white;
+	text-decoration: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+	}
+
+    &.dashicons-before:before {
+      text-decoration: none;
+      margin-right:3px;
+    }
+  }
+
+  &.active a {
+    color: #a4286a;
+    background-color: white;
+  }
+}
