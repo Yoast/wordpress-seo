@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the yoastseo package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-17 10:57+0200\n"
+"POT-Creation-Date: 2016-06-17 15:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -650,7 +650,7 @@ msgid "Feedback"
 msgstr ""
 
 #: js/config/presenter.js:11
-msgid "Content Analysis: Has feedback"
+msgid "Content optimization: Has feedback"
 msgstr ""
 
 #: js/config/presenter.js:15
@@ -658,7 +658,7 @@ msgid "Bad SEO score"
 msgstr ""
 
 #: js/config/presenter.js:16
-msgid "Content Analysis: Bad SEO score"
+msgid "Content optimization: Bad SEO score"
 msgstr ""
 
 #: js/config/presenter.js:20
@@ -666,7 +666,7 @@ msgid "OK SEO score"
 msgstr ""
 
 #: js/config/presenter.js:21
-msgid "Content Analysis: OK SEO score"
+msgid "Content optimization: OK SEO score"
 msgstr ""
 
 #: js/config/presenter.js:25
@@ -674,7 +674,7 @@ msgid "Good SEO score"
 msgstr ""
 
 #: js/config/presenter.js:26
-msgid "Content Analysis: Good SEO score"
+msgid "Content optimization: Good SEO score"
 msgstr ""
 
 #: js/renderers/AssessorPresenter.js:307
