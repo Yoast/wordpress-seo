@@ -147,30 +147,33 @@ class WPSEO_Admin_Asset {
 	 */
 	public function get_url( $type, $plugin_file ) {
 
-		$relative_file = $this->get_relative_file( $type );
-		if ( empty( $relative_file ) ) {
+		$relative_path = $this->get_relative_path( $type );
+		if ( empty( $relative_path ) ) {
 			return '';
 		}
 
 		if ( ! $this->get_suffix() ) {
 
 			$plugin_path = plugin_dir_path( $plugin_file );
-
-			if ( ! file_exists( $plugin_path . $relative_file ) ) {
+			if ( ! file_exists( $plugin_path . $relative_path ) ) {
 
 				// Give a notice to the user in the console (only once).
 				WPSEO_Utils::javascript_console_notification(
 					'Development Files',
-					'You are trying to load non-minified files, these are only available in our development package. Check out https://github.com/Yoast/wordpress-seo to see all the source files.',
+					sprintf(
+						/* translators: %1$s resolves to https://github.com/Yoast/wordpress-seo */
+						__( 'You are trying to load non-minified files, these are only available in our development package. Check out %1$s to see all the source files.', 'wordpress-seo' ),
+						'https://github.com/Yoast/wordpress-seo'
+					),
 					true
 				);
 
 				// Just load the .min file.
-				$relative_file = $this->get_relative_file( $type, '.min' );
+				$relative_path = $this->get_relative_path( $type, '.min' );
 			}
 		}
 
-		return plugins_url( $relative_file, $plugin_file );
+		return plugins_url( $relative_path, $plugin_file );
 	}
 
 	/**
@@ -181,7 +184,7 @@ class WPSEO_Admin_Asset {
 	 *
 	 * @return string
 	 */
-	protected function get_relative_file( $type, $force_suffix = null ) {
+	protected function get_relative_path( $type, $force_suffix = null ) {
 		$relative_file = '';
 
 		$suffix = ( is_null( $force_suffix ) ) ? $this->get_suffix() : $force_suffix;
