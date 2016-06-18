@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Internals
+ * @package    WPSEO\Internals
  * @since      1.8.0
  */
 
@@ -18,7 +18,7 @@ class WPSEO_Utils {
 
 	/** @var array notifications to be shown in the JavaScript console */
 	protected static $console_notifications = array();
-	
+
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
@@ -99,9 +99,9 @@ class WPSEO_Utils {
 	/**
 	 * Register a notification to be shown in the JavaScript console
 	 *
-	 * @param string $identifier    Notification identifier
-	 * @param string $message       Message to be shown
-	 * @param bool   $one_time_only Only show once (if added multiple times)
+	 * @param string $identifier    Notification identifier.
+	 * @param string $message       Message to be shown.
+	 * @param bool   $one_time_only Only show once (if added multiple times).
 	 */
 	public static function javascript_console_notification( $identifier, $message, $one_time_only = false ) {
 		static $registered_hook;
@@ -496,19 +496,19 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param mixed  $number1   Scalar (string/int/float/bool).
-	 * @param string $action    Calculation action to execute. Valid input:
+	 * @param mixed  $number1     Scalar (string/int/float/bool).
+	 * @param string $action      Calculation action to execute. Valid input:
 	 *                            '+' or 'add' or 'addition',
 	 *                            '-' or 'sub' or 'subtract',
 	 *                            '*' or 'mul' or 'multiply',
 	 *                            '/' or 'div' or 'divide',
 	 *                            '%' or 'mod' or 'modulus'
 	 *                            '=' or 'comp' or 'compare'.
-	 * @param mixed  $number2   Scalar (string/int/float/bool).
-	 * @param bool   $round     Whether or not to round the result. Defaults to false.
-	 *                          Will be disregarded for a compare operation.
-	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
-	 * @param int    $precision Calculation precision. Defaults to 10.
+	 * @param mixed  $number2     Scalar (string/int/float/bool).
+	 * @param bool   $round       Whether or not to round the result. Defaults to false.
+	 *                            Will be disregarded for a compare operation.
+	 * @param int    $decimals    Decimals for rounding operation. Defaults to 0.
+	 * @param int    $precision   Calculation precision. Defaults to 10.
 	 *
 	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
 	 *                          an invalid operation was passed
@@ -646,8 +646,7 @@ class WPSEO_Utils {
 
 		try {
 			return new DateTime( $datetime ) !== false;
-		}
-		catch ( Exception $exc ) {
+		} catch ( Exception $exc ) {
 			return false;
 		}
 	}
@@ -911,8 +910,8 @@ class WPSEO_Utils {
 	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
 	 *
 	 * @param array $array_to_encode The array which will be encoded.
-	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
-	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
+	 * @param int   $options         Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth           Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
 	 *
 	 * @return false|string
 	 */

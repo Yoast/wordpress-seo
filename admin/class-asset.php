@@ -79,13 +79,13 @@ class WPSEO_Admin_Asset {
 			'suffix'    => WPSEO_CSSJS_SUFFIX,
 		), $args );
 
-		$this->name = $args['name'];
-		$this->src = $args['src'];
-		$this->deps = $args['deps'];
-		$this->version = $args['version'];
-		$this->media = $args['media'];
+		$this->name      = $args['name'];
+		$this->src       = $args['src'];
+		$this->deps      = $args['deps'];
+		$this->version   = $args['version'];
+		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
-		$this->suffix = $args['suffix'];
+		$this->suffix    = $args['suffix'];
 	}
 
 	/**
@@ -140,8 +140,9 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns the full URL for this asset based on the path to the plugin file.
 	 *
-	 * @param string $type Type of asset.
+	 * @param string $type        Type of asset.
 	 * @param string $plugin_file Absolute path to the plugin file.
+	 *
 	 * @return string The full URL to the asset.
 	 */
 	public function get_url( $type, $plugin_file ) {
@@ -157,14 +158,14 @@ class WPSEO_Admin_Asset {
 
 			if ( ! file_exists( $plugin_path . $relative_file ) ) {
 
-				// Give a notice to the user in the console (only once)
+				// Give a notice to the user in the console (only once).
 				WPSEO_Utils::javascript_console_notification(
 					'Development Files',
 					'You are trying to load non-minified files, these are only available in our development package. Check out https://github.com/Yoast/wordpress-seo to see all the source files.',
 					true
 				);
 
-				// Just load the .min
+				// Just load the .min file.
 				$relative_file = $this->get_relative_file( $type, '.min' );
 			}
 		}
@@ -175,8 +176,8 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Get the relative file for this asset
 	 *
-	 * @param string $type Type of this asset.
-	 * @param null $force_suffix Force use suffix.
+	 * @param string $type         Type of this asset.
+	 * @param null   $force_suffix Force use suffix.
 	 *
 	 * @return string
 	 */

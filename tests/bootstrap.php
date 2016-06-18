@@ -15,8 +15,8 @@ if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
 }
 
-// Make CSS and JS behaviour testable in WordPress before 4.3.
-define( 'WPSEO_CSSJS_SUFFIX', '' );
+define( 'YOAST_ENVIRONMENT', 'production' );
+
 
 $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),

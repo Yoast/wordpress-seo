@@ -3,20 +3,19 @@
 /* jshint -W097 */
 /* jshint unused:false */
 
-var isUndefined = require( 'lodash/isUndefined' );
-var forEach = require( 'lodash/forEach' );
-
 (function() {
 	'use strict';
 
 	function displayConsoleNotifications() {
-		if ( isUndefined( window.wpseoConsoleNotifications ) || isUndefined( console ) ) {
+		if ( typeof window.wpseoConsoleNotifications === 'undefined' || typeof console === 'undefined' ) {
 			return;
 		}
 
-		forEach( wpseoConsoleNotifications, function( message ) {
-			console.warn( message );
-		} );
+		/* jshint ignore:start */
+		for ( var index = 0; index < wpseoConsoleNotifications.length; index++ ) {
+			console.warn( wpseoConsoleNotifications[index] );
+		}
+		/* jshint ignore:end */
 	}
 
 	jQuery( document ).ready( displayConsoleNotifications );

@@ -906,34 +906,26 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	};
 
 	/**
-	 * Get the editor created via wp_editor() and append it to the term-description-wrap
-	 * table cell. This way we can use the wp tinyMCE editor on the description field.
+	 * Add new description field to content, creates new element via wp_editor and appends this to the term-description-wrap
+	 * this way we can use the wp tinyMCE editor on the description field.
 	 */
 	var insertTinyMCE = function() {
-		// Get the table cell that contains the description textarea.
-		var descriptionTd = jQuery( '.term-description-wrap' ).find( 'td' );
+		//gets the textNode from the original textField.
+		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
 
-		// Get the textNode from the original textarea.
-		var textNode = descriptionTd.find( 'textarea' ).val();
-
-		// Get the editor container.
 		var newEditor = document.getElementById( 'wp-description-wrap' );
+		newEditor.style.display = 'none';
 
-		// Get the description help text below the textarea.
-		var text = descriptionTd.find( 'p' );
+		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
 
-		// Empty the TD with the old description textarea.
-		descriptionTd.html( '' );
+		//empty the TD with the old description textarea
+		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
 
-		/*
-		 * The editor is printed out via PHP as child of the form and initially
-		 * hidden with a child `>` CSS selector. We now move the editor and the
-		 * help text in a new position so the previous CSS rule won't apply any
-		 * longer and the editor will be visible.
-		 */
-		descriptionTd.append( newEditor ).append( text );
+		//append the editor and the helptext
+		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
 
-		// Populate the editor textarea with the original content,
+		newEditor.style.display = 'block';
+
 		document.getElementById( 'description' ).value = textNode;
 	};
 
