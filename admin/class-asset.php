@@ -19,7 +19,7 @@ class WPSEO_Admin_Asset {
 	// Style specific.
 	const MEDIA = 'media';
 
-	// Script specififc.
+	// Script specific.
 	const IN_FOOTER = 'in_footer';
 
 	/**
@@ -185,20 +185,20 @@ class WPSEO_Admin_Asset {
 	 * @return string
 	 */
 	protected function get_relative_path( $type, $force_suffix = null ) {
-		$relative_file = '';
+		$relative_path = '';
 
 		$suffix = ( is_null( $force_suffix ) ) ? $this->get_suffix() : $force_suffix;
 
 		switch ( $type ) {
 			case self::TYPE_JS:
-				$relative_file = 'js/dist/' . $this->get_src() . $suffix . '.js';
+				$relative_path = 'js/dist/' . $this->get_src() . $suffix . '.js';
 				break;
 
 			case self::TYPE_CSS:
-				$relative_file = 'css/' . $this->get_src() . $suffix . '.css';
+				$relative_path = 'css/' . $this->get_src() . $suffix . '.css';
 				break;
 		}
 
-		return $relative_file;
+		return $relative_path;
 	}
 }
