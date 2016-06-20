@@ -52,11 +52,9 @@ module.exports = function(grunt) {
 		jitGrunt: {
 			staticMappings: {
 				addtextdomain: 'grunt-wp-i18n',
-				makepot: 'grunt-wp-i18n',
 				glotpress_download: 'grunt-glotpress',
 				wpcss: 'grunt-wp-css'
-			},
-			customTasksDir: 'grunt/custom'
+			}
 		}
 	});
 };
