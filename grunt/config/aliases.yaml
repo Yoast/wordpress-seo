@@ -13,7 +13,6 @@ build:
   - 'build:sass'
   - 'postcss:build'
   - 'wpcss'
-  - 'cssmin'
 # Optimise images from source to production
 'build:images':
   - 'imagemin'
@@ -21,7 +20,6 @@ build:
 'build:js':
   - 'browserify:build'
   - 'browserify:buildes6'
-  - 'uglify'
 # Build internationalisation features
 'build:i18n':
   - 'makepot'
@@ -45,12 +43,16 @@ check:
   - 'phpcs'
 'check:i18n':
   - 'checktextdomain'
+
 # Get the project ready for release
 release:
-  - 'build:css'
   - 'build:images'
+  - 'release:css'
   - 'release:js'
   - 'release:clean'
+'release:css':
+  - 'build:css'
+  - 'cssmin'
 'release:js':
   - 'browserify:build'
   - 'browserify:release-es6'
