@@ -10,8 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 echo '<p>';
-_e( 'To inform Google about your social profiles, we need to know their URLs.', 'wordpress-seo' );
-_e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' );
+_e( 'To let search engines know which social profiles are associated to this site, enter them below:', 'wordpress-seo' );
 echo '</p>';
 
 $yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
