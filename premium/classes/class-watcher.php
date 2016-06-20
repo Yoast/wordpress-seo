@@ -201,13 +201,16 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function set_undo_slug_notification( WPSEO_Redirect $redirect ) {
 		$id = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
-
+		$old_url = home_url() . '/' . $redirect->get_origin();
+		$new_url = home_url() . '/' . $redirect->get_target();
 		// Format the message.
 		$message = sprintf(
 			$this->get_undo_slug_notification(),
 			'Yoast SEO Premium',
 			'<a target="_blank" href="' . $this->admin_redirect_url( $redirect->get_origin() ) . '">',
 			'</a>',
+			$old_url,
+			$new_url,
 			'<button type="button" class="button" onclick=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
 			'</button>'
 		);
