@@ -100,9 +100,9 @@ ContentAssessor.prototype.calculatePenaltyPoints = function () {
 
 		if ( self.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
 			return self.calculateNegativePointsEnglish( rating );
-		} else {
-			return self.calculateNegativePointsNonEnglish( rating );
 		}
+
+		return self.calculateNegativePointsNonEnglish( rating );
 	} );
 
 	return sum( negativePoints );
