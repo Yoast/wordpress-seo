@@ -665,6 +665,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	function createSEOScoreLabel( scoreType, status ) {
 		var label =  wpseoPostScraperL10n.publish_box.labels[scoreType] || "";
 		var status = wpseoPostScraperL10n.publish_box.statuses[status] || "";
+
 		return label + ': <strong>' + status + '</strong>';
 	}
 
@@ -688,7 +689,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	 * Creates a new item in the publish box for an yoast-seo score.
 	 *
 	 * @param {String} type The score type, for example content score or keyword score.
-	 * @param {Stirng} status The status for the score initialisation.
+	 * @param {String} status The status for the score initialisation.
 	 */
 	function createScoresInPublishBox( type, status ) {
 		var publishSection = $( '<div />', {
@@ -710,7 +711,11 @@ var imageScoreClass = 'image yoast-logo svg';
 
 	function initialise() {
 		var notAvailableStatus = 'na';
-		createScoresInPublishBox( 'content', notAvailableStatus );
+
+		if ( wpseoPostScraperL10n.contentAnalysisActive === '1' ) {
+			createScoresInPublishBox( 'content', notAvailableStatus );
+		}
+
 		createScoresInPublishBox( 'keyword', notAvailableStatus );
 	}
 
