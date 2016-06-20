@@ -287,7 +287,8 @@ var defaultArguments = {
 		keywordTab: '',
 		contentTab: ''
 	},
-	focusKeywordField: "#yoast_wpseo_focuskw"
+	focusKeywordField: '#yoast_wpseo_focuskw',
+	contentAnalysisActive: '1'
 };
 
 /**
@@ -357,7 +358,9 @@ TabManager.prototype.init = function() {
 		}
 	} );
 
-	this.contentTab.init( metaboxTabs, 'prepend' );
+	if ( this.arguments.contentAnalysisActive === '1' ) {
+		this.contentTab.init( metaboxTabs, 'prepend' );
+	}
 
 	$( '.yoast-seo__remove-tab' ).remove();
 };
