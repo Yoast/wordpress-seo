@@ -24,8 +24,11 @@ build:
   - 'uglify'
 # Build internationalisation features
 'build:i18n':
+  - 'makepot'
+  - 'shell:combine-pot-files'
   - 'glotpress_download'
   - 'po2json'
+  - 'i18n-clean-json'
   - 'clean:po-files'
 # Check health of the project
 check:
@@ -47,7 +50,6 @@ release:
   - 'build:css'
   - 'build:images'
   - 'release:js'
-  - 'build:i18n'
   - 'release:clean'
 'release:js':
   - 'browserify:build'
