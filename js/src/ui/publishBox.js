@@ -66,6 +66,9 @@ var imageScoreClass = 'image yoast-logo svg';
 		$( '#misc-publishing-actions' ).append( publishSection );
 	}
 
+	/**
+	 * Initialize the publish box score indicators.
+	 */
 	function initialise() {
 		var notAvailableStatus = 'na';
 
