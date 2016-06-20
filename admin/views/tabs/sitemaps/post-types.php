@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<h2>' . __( 'Post types sitemap settings', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Post types sitemap settings', 'wordpress-seo' ) . '</h2>';
 
 /**
  * Filter the post types to present in interface for exclusion.

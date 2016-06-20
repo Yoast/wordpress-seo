@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<h2>' . __( 'Taxonomies sitemap settings', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Taxonomies sitemap settings', 'wordpress-seo' ) . '</h2>';
 
 /**
  * Filter the taxonomies to present in interface for exclusion.

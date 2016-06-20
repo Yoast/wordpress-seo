@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<h2>' . __( 'Excluded posts settings', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Excluded posts settings', 'wordpress-seo' ) . '</h2>';
 
 /* Translators: %1$s: expands to '<code>1,2,99,100</code>' */
 echo '<p>', sprintf( __( 'You can exclude posts from the sitemap by entering a comma separated string with the Post ID\'s. The format will become something like: %1$s.', 'wordpress-seo' ), '<code>1,2,99,100</code>' ), '</p>';

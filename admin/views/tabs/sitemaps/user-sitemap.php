@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<h2>' . __( 'User sitemap settings', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'User sitemap settings', 'wordpress-seo' ) . '</h2>';
 
 $yform->toggle_switch(
 	'disable_author_sitemap',
@@ -32,7 +32,7 @@ printf( '<p class="expl">%s</p>', __( 'You can choose to not include users witho
 $roles = WPSEO_Utils::get_roles();
 unset( $roles['subscriber'] );
 if ( is_array( $roles ) && $roles !== array() ) {
-	echo '<h2>' . __( 'Filter specific user roles', 'wordpress-seo' ) . '</h2>';
+	echo '<h2>' . esc_html__( 'Filter specific user roles', 'wordpress-seo' ) . '</h2>';
 	foreach ( $roles as $role_key => $role_name ) {
 		$yform->toggle_switch( 'user_role-' . $role_key . '-not_in_sitemap', $switch_values, $role_name );
 	}
