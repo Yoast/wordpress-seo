@@ -27,7 +27,7 @@ module.exports = {
 			'js/dist/wp-seo-admin-330.js': ['js/src/wp-seo-admin.js']
 		}
 	},
-	"release-es6": {
+	'release-es6': {
 		options: {
 			transform: [
 				['babelify', { presets: ['es2015'] } ],

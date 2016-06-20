@@ -6,7 +6,7 @@
 function updateAdminBar( indicator ) {
 	jQuery( '.adminbar-seo-score' )
 		.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-		.attr( 'alt', indicator.screenReaderText );
+		.find( '.adminbar-seo-score-text' ).text( indicator.screenReaderText );
 }
 
 module.exports = {
