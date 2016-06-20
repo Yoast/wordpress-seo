@@ -1,5 +1,6 @@
 {
   "name": "wordpress-seo",
+  "license": "GPL-2.0+",
   "description": "Development files for the Yoast SEO plugin",
   "plugin": {
     "glotpress": "http://translate.yoast.com",
