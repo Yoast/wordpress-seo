@@ -31,6 +31,7 @@ var sum = require( "lodash/sum" );
  * @constructor
  */
 var ContentAssessor = function ( i18n, options ) {
+
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
@@ -53,33 +54,55 @@ var ContentAssessor = function ( i18n, options ) {
 require( "util" ).inherits( ContentAssessor, Assessor );
 
 /**
+ * Calculates the weighted rating for English languages based on a given rating.
+ * @param {number} rating The rating to be weighted.
+ * @returns {number} The weighted rating.
+ */
+ContentAssessor.prototype.calculateNegativePointsEnglish = function( rating ) {
+	switch ( rating ) {
+		case "bad":
+			return 3;
+		case "ok":
+			return 2;
+		default:
+		case "good":
+			return 0;
+	}
+};
+
+/**
+ * Calculates the weighted rating for non-English languages based on a given rating.
+ * @param {number} rating The rating to be weighted.
+ * @returns {number} The weighted rating.
+ */
+ContentAssessor.prototype.calculateNegativePointsNonEnglish = function( rating ) {
+	switch ( rating ) {
+		case "bad":
+			return 4;
+		case "ok":
+			return 2;
+		default:
+		case "good":
+			return 0;
+	}
+};
+
+/**
  * Calculates the negative points based on the assessment results.
  *
  * @returns {number} The total negative points for the results.
  */
 ContentAssessor.prototype.calculatePenaltyPoints = function () {
 	var results = this.getValidResults();
-
+	var self = this;
 	var negativePoints = map( results, function ( result ) {
-		var weight, rating = scoreToRating( result.getScore() );
+		var rating = scoreToRating( result.getScore() );
 
-		// Convert the ratings to negative 'points'.
-		switch ( rating ) {
-			case "bad":
-				weight = 4;
-				break;
-
-			case "ok":
-				weight = 2;
-				break;
-
-			default:
-			case "good":
-				weight = 0;
-				break;
+		if ( self.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
+			return self.calculateNegativePointsEnglish( rating );
+		} else {
+			return self.calculateNegativePointsNonEnglish( rating );
 		}
-
-		return weight;
 	} );
 
 	return sum( negativePoints );
@@ -101,7 +124,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
 
 	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
 		// Determine the total score based on the total negative points.
-		if ( totalPenaltyPoints > 8 ) {
+		if ( totalPenaltyPoints > 6 ) {
 			// A red indicator.
 			return 30;
 		}

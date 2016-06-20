@@ -16,11 +16,14 @@ describe( "A content assesor", function() {
 
 	describe( "calculatePenaltyPoints", function() {
 		var results;
-
+		var paper = new Paper();
 		beforeEach( function() {
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
+			contentAssessor.getPaper = function() {
+				return paper;
+			}
 		});
 
 		it( "should have no points for an empty result set", function() {
@@ -51,7 +54,7 @@ describe( "A content assesor", function() {
 			results = [
 				new AssessmentResult({ score: 3 })
 			];
-			var expected = 4;
+			var expected = 3;
 
 			var actual = contentAssessor.calculatePenaltyPoints();
 
@@ -81,8 +84,7 @@ describe( "A content assesor", function() {
 				new AssessmentResult({ score: 9 }),
 				new AssessmentResult({ text: "A piece of feedback" })
 			];
-			// Total 14. score = 3 gets 4 penalty points, score = 6 gets 2 penaltypoints.
-			var expected = 2 + 4 + 2 + 4 + 2;
+			var expected = 6 + 6;
 
 			var actual = contentAssessor.calculatePenaltyPoints();
 
@@ -120,8 +122,7 @@ describe( "A content assesor", function() {
 				new AssessmentResult()
 			];
 			var testCases = [
-				{ points: 8.5, expected: 30 },
-				{ points: 7, expected: 60 },
+				{ points: 7, expected: 30 },
 				{ points: 6, expected: 60 },
 				{ points: 9, expected: 30 },
 				{ points: 4, expected: 90 },
@@ -137,6 +138,43 @@ describe( "A content assesor", function() {
 
 				expect( actual ).toBe( testCase.expected );
 			} );
+		});
+
+		describe( "calculateOverallScore for non English", function() {
+			var points, results;
+
+			beforeEach( function() {
+				contentAssessor.getValidResults = function() {
+					return results;
+				};
+				contentAssessor.calculatePenaltyPoints = function() {
+					return points;
+				};
+				contentAssessor.getPaper = function() {
+					return new Paper( "", { locale: "nl_NL" } );
+				}
+			});
+
+			it( "should give worse results based on the negative points", function() {
+				results = [
+					new AssessmentResult(),
+					new AssessmentResult()
+				];
+				var testCases = [
+					{ points: 6, expected: 30 },
+					{ points: 4, expected: 60 },
+					{ points: 3, expected: 60 },
+					{ points: 2, expected: 90 }
+				];
+
+				forEach( testCases, function( testCase ) {
+					points = testCase.points;
+
+					var actual = contentAssessor.calculateOverallScore();
+
+					expect( actual ).toBe( testCase.expected );
+				} );
+			});
 		});
 	});
 });
