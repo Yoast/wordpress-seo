@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 echo "<div id='author-archives-titles-metas'>";
-echo '<h2>' . __( 'Author archives', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Author archives', 'wordpress-seo' ) . '</h2>';
 $yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 $yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
 if ( $options['usemetakeywords'] === true ) {
@@ -33,7 +33,7 @@ echo '</div>';
 echo '<br/>';
 
 echo "<div id='date-archives-titles-metas'>";
-echo '<h2>' . __( 'Date archives', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Date archives', 'wordpress-seo' ) . '</h2>';
 $yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 $yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
 $yform->toggle_switch( 'disable-date', array(
@@ -49,7 +49,7 @@ echo '</div>';
 echo '<br/>';
 
 echo '<div id="special-pages-titles-metas">';
-echo '<h2>' . __( 'Special Pages', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Special Pages', 'wordpress-seo' ) . '</h2>';
 /* translators: %s expands to <code>noindex, follow</code> */
 echo '<p>' . sprintf( __( 'These pages will be %s by default, so they will never show up in search results.', 'wordpress-seo' ), '<code>noindex, follow</code>' ) . '</p>';
 echo '<p><strong>' . __( 'Search pages', 'wordpress-seo' ) . '</strong><br/>';
