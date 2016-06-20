@@ -12,6 +12,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $yform = Yoast_Form::get_instance();
 $yform->set_option( 'wpseo_rss' );
 
+echo '<h2>' . __( 'RSS feed settings', 'wordpress-seo' ) . '</h2>';
+
 echo '<p>' . __( "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.", 'wordpress-seo' ) . '</p>';
 
 $textarea_atts = array(
