@@ -51,7 +51,7 @@ describe( "A content assesor", function() {
 			results = [
 				new AssessmentResult({ score: 3 })
 			];
-			var expected = 3;
+			var expected = 4;
 
 			var actual = contentAssessor.calculatePenaltyPoints();
 
@@ -81,7 +81,7 @@ describe( "A content assesor", function() {
 				new AssessmentResult({ score: 9 }),
 				new AssessmentResult({ text: "A piece of feedback" })
 			];
-			var expected = 6 + 6;
+			var expected = 2 + 4 + 2 + 4 + 2;
 
 			var actual = contentAssessor.calculatePenaltyPoints();
 
@@ -119,7 +119,8 @@ describe( "A content assesor", function() {
 				new AssessmentResult()
 			];
 			var testCases = [
-				{ points: 7, expected: 30 },
+				{ points: 8.5, expected: 30 },
+				{ points: 7, expected: 60 },
 				{ points: 6, expected: 60 },
 				{ points: 9, expected: 30 },
 				{ points: 4, expected: 90 },

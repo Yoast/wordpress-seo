@@ -66,7 +66,7 @@ ContentAssessor.prototype.calculatePenaltyPoints = function () {
 		// Convert the ratings to negative 'points'.
 		switch ( rating ) {
 			case "bad":
-				weight = 3;
+				weight = 4;
 				break;
 
 			case "ok":
@@ -101,7 +101,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
 
 	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
 		// Determine the total score based on the total negative points.
-		if ( totalPenaltyPoints > 6 ) {
+		if ( totalPenaltyPoints > 8 ) {
 			// A red indicator.
 			return 30;
 		}
@@ -111,7 +111,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
 			return 60;
 		}
 	} else {
-		if ( totalPenaltyPoints > 3 ) {
+		if ( totalPenaltyPoints > 4 ) {
 			// A red indicator.
 			return 30;
 		}
