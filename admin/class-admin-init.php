@@ -92,9 +92,9 @@ class WPSEO_Admin_Init {
 	 * @return Yoast_Notification
 	 */
 	private function get_update_notification() {
-		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
+		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page */
 		$info_message = sprintf(
-			__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
+			__( '%1$s has been updated to version %2$s. %3$sFind out what\'s new!%4$s', 'wordpress-seo' ),
 			'Yoast SEO',
 			WPSEO_VERSION,
 			'<a href="' . admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) . '">',
@@ -378,7 +378,7 @@ class WPSEO_Admin_Init {
 				new Yoast_Notification(
 					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
 					sprintf(
-						__( 'We\'ve updated our SEO score algorithm. %1$sClick here to recalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
+						__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
 						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
 						'</a>'
 					),

@@ -36,13 +36,13 @@ function wpseo_admin_bar_menu() {
 				), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
-		$score      = '<div class="' . esc_attr( 'wpseo-score-icon' ) . ' adminbar-seo-score"></div>';
+		$score      = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
 	}
 
 	if ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
-		$score      = '<div class="' . esc_attr( 'wpseo-score-icon' ) . ' adminbar-seo-score"></div>';
+		$score      = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
 		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
 	}
 
@@ -63,7 +63,9 @@ function wpseo_admin_bar_menu() {
 
 			if ( $notification_count > 0 ) {
 				// Always show Alerts page when clicking on the main link.
-				$counter = sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter">%d</div>', $notification_count );
+				/* translators: %s: number of notifications */
+				$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
+				$counter = sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter"><span aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );
 			}
 
 			if ( $new_notifications_count ) {
@@ -79,7 +81,7 @@ function wpseo_admin_bar_menu() {
 
 	// Yoast Icon.
 	$icon_svg = WPSEO_Utils::get_icon_svg();
-	$title = '<div id="yoast-ab-icon" class="ab-item yoast-logo svg" style="background-image: url(\''.$icon_svg.'\');"></div>';
+	$title = '<div id="yoast-ab-icon" class="ab-item yoast-logo svg" style="background-image: url(\''.$icon_svg.'\');"><span class="screen-reader-text">' . __( 'SEO', 'wordpress-seo' ) . '</span></div>';
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
