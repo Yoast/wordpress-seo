@@ -319,22 +319,6 @@ function wpseo_upsert_new( $what, $post_id, $new, $original ) {
 }
 
 /**
- * Create an export and return the URL
- */
-function wpseo_get_export() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	$include_taxonomy = ( filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' );
-	$export           = new WPSEO_Export( $include_taxonomy );
-
-	wpseo_ajax_json_echo_die( $export->get_results() );
-}
-
-add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
-
-/**
  * Handles the posting of a new FB admin.
  */
 function wpseo_add_fb_admin() {
