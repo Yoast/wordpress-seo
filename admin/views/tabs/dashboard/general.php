@@ -10,9 +10,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) :
-	?>
+
+	echo '<h2>' . esc_html__( 'Introduction tour', 'wordpress-seo' ) . '</h2>';
+?>
 	<p>
-		<strong><?php _e( 'Introduction Tour', 'wordpress-seo' ); ?></strong><br/>
 		<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>
 	</p>
 	<p>
@@ -21,26 +22,28 @@ if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) :
 	</p>
 
 	<br/>
-	<?php
+<?php
 endif;
-?>
 
+echo '<h2>' . esc_html__( 'Latest changes', 'wordpress-seo' ) . '</h2>';
+?>
 <p>
-	<strong><?php _e( 'Latest Changes', 'wordpress-seo' ); ?></strong><br/>
 	<?php
 	/* translators: %s expands to Yoast SEO */
 	printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'Yoast SEO' );
 	?>
 </p>
+
 <p>
 	<a class="button-secondary"
 	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php _e( 'View Changes', 'wordpress-seo' ); ?></a>
 </p>
 
 <br/>
-
+<?php
+echo '<h2>' . esc_html__( 'Restore default settings', 'wordpress-seo' ) . '</h2>';
+?>
 <p>
-	<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
 	<?php
 	/* translators: %s expands to Yoast SEO */
 	printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'Yoast SEO' );
