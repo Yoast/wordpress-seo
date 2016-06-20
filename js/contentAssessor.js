@@ -55,6 +55,7 @@ require( "util" ).inherits( ContentAssessor, Assessor );
 
 /**
  * Calculates the weighted rating for English languages based on a given rating.
+ *
  * @param {number} rating The rating to be weighted.
  * @returns {number} The weighted rating.
  */
@@ -72,6 +73,7 @@ ContentAssessor.prototype.calculateNegativePointsEnglish = function( rating ) {
 
 /**
  * Calculates the weighted rating for non-English languages based on a given rating.
+ *
  * @param {number} rating The rating to be weighted.
  * @returns {number} The weighted rating.
  */
