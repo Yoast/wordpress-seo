@@ -267,6 +267,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			if ( '' === currentKeyword ) {
 				indicator.className = 'na';
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
+				indicator.fullText = app.i18n.dgettext( 'js-text-analysis', 'Content optimization: Enter a focus keyword to calculate the SEO score' );
 			}
 
 			updateTrafficLight( indicator );

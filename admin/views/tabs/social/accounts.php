@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+echo '<h2>' . esc_html__( 'Your social profiles', 'wordpress-seo' ) . '</h2>';
+
 echo '<p>';
 _e( 'To inform Google about your social profiles, we need to know their URLs.', 'wordpress-seo' );
 _e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' );

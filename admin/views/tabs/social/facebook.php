@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+echo '<h2>' . esc_html__( 'Facebook settings', 'wordpress-seo' ) . '</h2>';
+
 $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) );
 
 ?>
@@ -21,7 +23,7 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 
 <?php
 if ( 'posts' == get_option( 'show_on_front' ) ) {
-	echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
+	echo '<h2>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 
 	$yform->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
@@ -33,10 +35,13 @@ if ( 'posts' == get_option( 'show_on_front' ) ) {
 	echo '<input type="hidden" id="meta_description" value="', esc_attr( $meta_options['metadesc-home-wpseo'] ), '" />';
 	echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="wpseoCopyHomeMeta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
 
-} ?>
+}
 
-	<h4><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></h4>
-<?php $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) ); ?>
+echo '<h2>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h2>';
+
+$yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
+
+?>
 	<p class="desc label">
 		<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>
