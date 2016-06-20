@@ -5,10 +5,10 @@
 
 ?>
 
-<h3 id="wordpress-seo"><?php
+<h2 id="wordpress-seo"><?php
 	/* translators: %1$s expands to Yoast SEO */
 	printf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
-	?></h3>
+	?></h2>
 <table class="form-table">
 	<tr>
 		<th>
