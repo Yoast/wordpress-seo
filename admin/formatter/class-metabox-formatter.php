@@ -98,7 +98,7 @@ class WPSEO_Metabox_Formatter {
 	private function is_content_analysis_active() {
 		$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
-		if ( ! $options[ 'content-analysis-active' ] ) {
+		if ( ! $options['content-analysis-active'] ) {
 			return 0;
 		}
 
