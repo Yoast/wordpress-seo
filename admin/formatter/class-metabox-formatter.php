@@ -98,6 +98,10 @@ class WPSEO_Metabox_Formatter {
 	private function is_content_analysis_active() {
 		$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
-		return $options[ 'content-analysis-active' ] ? 1 : 0;
+		if ( ! $options[ 'content-analysis-active' ] ) {
+			return 0;
+		}
+
+		return ( ! get_the_author_meta( 'wpseo_content_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
 	}
 }
