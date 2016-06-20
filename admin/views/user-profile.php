@@ -53,5 +53,19 @@
 			       value="on" <?php echo ( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
 		</td>
 	</tr>
+
+	<?php if ( $options['content-analysis-active'] === true ) { ?>
+		<tr>
+			<th>
+				<label
+					for="wpseo_content_analysis_disable"><?php _e( 'Disable content analysis', 'wordpress-seo' ); ?></label>
+			</th>
+			<td>
+				<input class="checkbox double" type="checkbox" id="wpseo_content_analysis_disable"
+				       name="wpseo_content_analysis_disable"
+				       value="on" <?php echo ( get_the_author_meta( 'wpseo_content_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
+			</td>
+		</tr>
+	<?php } ?>
 </table>
 <br/><br/>

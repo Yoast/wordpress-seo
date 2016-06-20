@@ -13,6 +13,7 @@ if ( ! current_theme_supports( 'title-tag' ) ) {
 	$yform->light_switch( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
 	echo '<p class="description">', sprintf( __( '%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
 }
+
 ?>
 <table class="form-table">
 	<tr>
@@ -27,3 +28,9 @@ if ( ! current_theme_supports( 'title-tag' ) ) {
 		</td>
 	</tr>
 </table>
+
+<?php
+echo '<h2>' . __( 'Enabled analysis', 'wordpress-seo' ) . '</h2>';
+
+$yform->light_switch( 'content-analysis-active', __( 'Content analysis', 'wordpress-seo' ) );
+echo '<p class="description">', __( 'Removes the content tab from the metabox and disables all content-related suggestions.', 'wordpress-seo' ) . '</p>';
