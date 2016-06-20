@@ -38,7 +38,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox_Formatter::get_translations
 	 */
 	public function test_with_fake_language_file() {
-		$file_name = plugin_dir_path( WPSEO_FILE ) . 'languages/js-text-analysis-' . get_locale() . '.json';
+		$file_name = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
 		file_put_contents(
 			$file_name,
 			json_encode( array( 'key' => 'value' ) )
