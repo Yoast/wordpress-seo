@@ -81,6 +81,7 @@ describe( "A content assesor", function() {
 				new AssessmentResult({ score: 9 }),
 				new AssessmentResult({ text: "A piece of feedback" })
 			];
+			// Total 14. score = 3 gets 4 penalty points, score = 6 gets 2 penaltypoints.
 			var expected = 2 + 4 + 2 + 4 + 2;
 
 			var actual = contentAssessor.calculatePenaltyPoints();
