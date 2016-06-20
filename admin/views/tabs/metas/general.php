@@ -14,7 +14,7 @@ if ( ! current_theme_supports( 'title-tag' ) ) {
 	echo '<p class="description">', sprintf( __( '%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
 }
 
-echo '<h2>' . __( 'Title Separator', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Title Separator', 'wordpress-seo' ) . '</h2>';
 
 $legend      = __( 'Title separator symbol', 'wordpress-seo' );
 $legend_attr = array( 'class' => 'radiogroup screen-reader-text' );
