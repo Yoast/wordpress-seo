@@ -96,16 +96,16 @@ ContentAssessor.prototype.calculateNegativePointsNonEnglish = function( rating )
  */
 ContentAssessor.prototype.calculatePenaltyPoints = function () {
 	var results = this.getValidResults();
-	var self = this;
+
 	var negativePoints = map( results, function ( result ) {
 		var rating = scoreToRating( result.getScore() );
 
-		if ( self.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
-			return self.calculateNegativePointsEnglish( rating );
+		if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
+			return this.calculateNegativePointsEnglish( rating );
 		}
 
-		return self.calculateNegativePointsNonEnglish( rating );
-	} );
+		return this.calculateNegativePointsNonEnglish( rating );
+	}.bind( this ) );
 
 	return sum( negativePoints );
 };
