@@ -3,7 +3,7 @@ module.exports = {
 	plugin: {
 		options: {
 			domainPath: '<%= paths.languages %>',
-			potFilename: '<%= pkg.plugin.textdomain %>-temp.pot',
+			potFilename: '<%= pkg.plugin.textdomain %>.pot',
 			potHeaders: {
 				poedit: true,
 				'report-msgid-bugs-to': '<%= pkg.pot.reportmsgidbugsto %>',
