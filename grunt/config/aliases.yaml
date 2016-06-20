@@ -58,6 +58,7 @@ release:
 'release:clean':
   - 'clean:release-js'
   - 'clean:release-css'
+  - 'clean:release-misc'
 # Default task
 default:
   - build
