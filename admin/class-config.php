@@ -97,8 +97,8 @@ class WPSEO_Admin_Pages {
 			$this->asset_manager->enqueue_script( 'bulk-editor' );
 		}
 
-		if ( 'wpseo_tools' === $page && 'import-export' === $tool ) {
-			$this->asset_manager->enqueue_script( 'export' );
+		if ( 'wpseo_tools' === $page && 'import-export' === $tool && filter_input( INPUT_POST, 'yoast_export' ) === '1' ) {
+			$this->do_yoast_export();
 		}
 	}
 
@@ -135,6 +135,21 @@ class WPSEO_Admin_Pages {
 		);
 	}
 
+	/**
+	 * Runs the yoast exporter class to possibly init the file download.
+	 */
+	protected function do_yoast_export( ) {
+
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'export_nonce' ), 'wpseo-export' ) ) {
+			return;
+		}
+
+
+		$wpseo_post       = filter_input( INPUT_POST, 'wpseo' );
+		$include_taxonomy = ! empty( $wpseo_post['include_taxonomy'] );
+		$export           = new WPSEO_Export( $include_taxonomy );
+	}
+	
 	/********************** DEPRECATED METHODS **********************/
 
 	/**

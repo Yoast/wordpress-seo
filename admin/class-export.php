@@ -134,6 +134,7 @@ class WPSEO_Export {
 	 * @param string $opt_group Option group name.
 	 */
 	private function write_opt_group( $opt_group ) {
+
 		$this->write_line( '[' . $opt_group . ']', true );
 
 		$options = get_option( $opt_group );
@@ -210,14 +211,44 @@ class WPSEO_Export {
 	 * @return boolean unsigned
 	 */
 	private function zip_file() {
+
 		chdir( $this->dir['path'] );
 		$zip = new PclZip( './settings.zip' );
 		if ( 0 === $zip->create( './settings.ini' ) ) {
 			return false;
 		}
 
-		$this->export_zip_url = $this->dir['url'] . '/settings.zip';
+		$this->download_zip( 'settings.zip' );
+		$this->remove_files();
 
-		return true;
+		exit;
 	}
+
+	/**
+	 * Downloads the zip file.
+	 *
+	 * @param string $filename The name of the zip file to download.
+	 */
+	private function download_zip( $filename ) {
+
+		if ( file_exists( $filename ) ) {
+			ob_clean();
+			header( 'Content-Type: application/octet-stream; charset=utf-8' );
+			header( 'Content-Transfer-Encoding: Binary' );
+			header( 'Content-Disposition: attachment; filename=' . $filename );
+			header( 'Content-Length: ' . filesize( 'settings.zip' ) );
+			ob_end_flush();
+
+			readfile( $filename );
+		}
+	}
+
+	/**
+	 * Removes the files because they are already downloaded.
+	 */
+	private function remove_files() {
+		unlink( './settings.ini' );
+		unlink( './settings.zip' );
+	}
+
 }
