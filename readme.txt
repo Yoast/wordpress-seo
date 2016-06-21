@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.3
 Tested up to: 4.5
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -118,7 +118,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 3.3.2 =
 
-Release Date: Unreleased
+Release Date: June 21st, 2016
 
 * Enhancements:
 	* Removes non-minified files. This makes the download a lot smaller which will result in less cases of an incomplete or failed download.
