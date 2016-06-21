@@ -302,7 +302,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		tabManager = new TabManager({
 			strings: wpseoTermScraperL10n,
-			focusKeywordField: '#wpseo_focuskw'
+			focusKeywordField: '#wpseo_focuskw',
+			contentAnalysisActive: wpseoTermScraperL10n.contentAnalysisActive
 		});
 
 		tabManager.init();
@@ -314,7 +315,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
 			targets: {
 				output: 'wpseo_analysis',
-				contentOutput: 'yoast-seo-content-analysis',
 				snippet: 'wpseo_snippet'
 			},
 			callbacks: {
@@ -326,6 +326,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			},
 			locale: wpseoTermScraperL10n.locale
 		};
+
+		// Determine whether or not the content analysis should be executed.
+		if ( wpseoTermScraperL10n.contentAnalysisActive === '1' ) {
+			args.targets.contentOutput = 'yoast-seo-content-analysis';
+		}
 
 		translations = wpseoTermScraperL10n.translations;
 

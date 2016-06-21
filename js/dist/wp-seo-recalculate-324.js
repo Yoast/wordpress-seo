@@ -8699,7 +8699,6 @@ module.exports = {
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
-var recommendedMinimum = 150;
 /**
  * Calculate the score based on the current word count.
  * @param {number} wordCount The amount of words to be checked against.
@@ -8711,19 +8710,11 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 		return {
 			score: 9,
 			text: i18n.dngettext(
-
-
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
+				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than the recommended minimum of %2$d word.",
-				"This is more than the recommended minimum of %2$d words.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8733,16 +8724,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 7,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
-				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8752,16 +8737,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 5,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8771,16 +8750,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -10,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8790,16 +8763,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -20,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text */
+				"The text contains %1$d word, this is far too low and should be increased.",
+				"The text contains %1$d words, this is far too low and should be increased.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8818,7 +8785,7 @@ var taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, recommendedMinimum ) );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 150 ) );
 
 	return assessmentResult;
 };
@@ -9007,7 +8974,6 @@ module.exports = {
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
-var recommendedMinimum = 300;
 /**
  * Calculate the score based on the current word count.
  * @param {number} wordCount The amount of words to be checked against.
@@ -9020,16 +8986,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 9,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, which is more than the recommended minimum of %2$d word.",
+				"The text contains %1$d words, which is more than the recommended minimum of %2$d words.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than the recommended minimum of %2$d word.",
-				"This is more than the recommended minimum of %2$d words.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9039,16 +8999,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 7,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, which is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
+				"The text contains %1$d words, which is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
-				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9058,16 +9012,12 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 5,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, which is below the recommended minimum of %2$d word. " +
+				"Add more useful content on this topic for readers.",
+				"The text contains %1$d words, which is below the recommended minimum of %2$d words. " +
+				"Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9077,16 +9027,12 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -10,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, which is below the recommended minimum of %2$d word. " +
+				"Add more useful content on this topic for readers.",
+				"The text contains %1$d words, which is below the recommended minimum of %2$d words. " +
+				"Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9097,15 +9043,9 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			text: i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				"The text contains %1$d word, which is far too low. Increase the word count.",
+				"The text contains %1$d words, which is far too low. Increase the word count.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9124,7 +9064,7 @@ var textLengthAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, recommendedMinimum ) );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
 
 	return assessmentResult;
 };
@@ -9273,20 +9213,13 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					%2$s expands to the recommended minimum number of characters for the title */
-					"This is less than the recommended minimum of %2$d character. " +
+					/* Translators: %1$d expands to the number of characters in the page title,
+					%2$d to the minimum number of characters for the title */
+					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
 					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					"This is less than the recommended minimum of %2$d characters. " +
+					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
 					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					minLength
-				),
+				pageTitleLength ),
 				pageTitleLength, minLength )
 		};
 	}
@@ -9295,29 +9228,11 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 		return {
 			score: 9,
 			text: i18n.sprintf(
-				i18n.dngettext(
+				i18n.dgettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					%2$s expands to the recommended minimum number of characters for the title. The following string is
-					"and the recommended maximum of %3$d characters." */
-					"This is between the recommended minimum of %2$d character",
-					"This is between the recommended minimum of %2$d characters",
-					minLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding string is "This is between the recommended minimum of x characters".
-					%3$s expands to the recommended minimum number of characters for the title */
-					"and the recommended maximum of %3$d character.",
-					"and the recommended maximum of %3$d characters.",
-					maxLength
-			),
-				pageTitleLength, minLength, maxLength )
+					/* Translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
+				minLength, maxLength )
 		};
 	}
 
@@ -9327,21 +9242,14 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					 %2$s expands to the recommended minimum number of characters for the title. The following string is "and the
-					 recommended maximum of %3$d characters." */
-					"This is more than the viewable limit of %2$d character. Some words will not be visible to users in your listing.",
-					"This is more than the viewable limit of %2$d characters. Some words will not be visible to users in your listing.",
-					maxLength
-				),
+					/* Translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
+					of characters for the title */
+					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					pageTitleLength ),
 				pageTitleLength, maxLength )
-
 		};
 	}
 
@@ -17317,7 +17225,7 @@ AssessmentResult.prototype.hasMarker = function() {
 };
 
 /**
- * Gets the marker, a pure function that can return the marks for a given Paper
+ * Gets the marker, a pure function that an return the marks for a given Paper
  *
  * @returns {Function} The marker.
  */

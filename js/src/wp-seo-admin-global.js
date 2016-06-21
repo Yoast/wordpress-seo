@@ -2,8 +2,23 @@
 /* global wpseoAdminGlobalL10n */
 /* jshint -W097 */
 /* jshint unused:false */
+
 (function() {
 	'use strict';
+
+	function displayConsoleNotifications() {
+		if ( typeof window.wpseoConsoleNotifications === 'undefined' || typeof console === 'undefined' ) {
+			return;
+		}
+
+		/* jshint ignore:start */
+		for ( var index = 0; index < wpseoConsoleNotifications.length; index++ ) {
+			console.warn( wpseoConsoleNotifications[index] );
+		}
+		/* jshint ignore:end */
+	}
+
+	jQuery( document ).ready( displayConsoleNotifications );
 
 	/**
 	 * Used to dismiss the tagline notice for a specific user.

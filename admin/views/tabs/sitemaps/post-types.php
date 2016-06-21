@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+echo '<h2>' . esc_html__( 'Post types sitemap settings', 'wordpress-seo' ) . '</h2>';
+
 /**
  * Filter the post types to present in interface for exclusion.
  *
@@ -31,4 +33,3 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		do_action( 'wpseo_admin_page_sitemap_post_types', $yform, $pt );
 	}
 }
-
