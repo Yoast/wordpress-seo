@@ -37,7 +37,7 @@
     "grunt-jsvalidate": "^0.2.2",
     "grunt-phpcs": "^0.4.0",
     "grunt-phplint": "0.0.8",
-    "grunt-po2json": "^0.3.0",
+    "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
     "grunt-postcss": "^0.8.0",
     "grunt-replace": "^1.0.1",
     "grunt-sass": "^1.1.0",
