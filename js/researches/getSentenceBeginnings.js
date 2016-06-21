@@ -11,7 +11,7 @@ var firstWordExceptions = require ( "../language/en/firstWordExceptions.js" )();
  * @returns {boolean} Returns true if sentence beginnings match.
  */
 var matchSentenceBeginnings = function( sentenceBeginnings, i ) {
-	if ( sentenceBeginnings[ i ] === sentenceBeginnings[ i + 1 ] ) {
+	if ( sentenceBeginnings[ i ] !== "" && sentenceBeginnings[ i ] === sentenceBeginnings[ i + 1 ] ) {
 		return true;
 	}
 	return false;
@@ -53,7 +53,7 @@ module.exports = function( paper ) {
 		if( words.length === 0 ) {
 			return "";
 		}
-		var firstWord = removeNonWordCharacters( words[ 0 ] );
+		var firstWord = removeNonWordCharacters( words[ 0 ] ).toLocaleLowerCase();
 		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
 			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
 		}
