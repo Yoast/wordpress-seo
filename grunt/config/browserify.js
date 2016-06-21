@@ -6,7 +6,6 @@ module.exports = {
 			'js/dist/wp-seo-admin-media-320.js': ['js/src/wp-seo-admin-media.js'],
 			'js/dist/wp-seo-bulk-editor-320.js': ['js/src/wp-seo-bulk-editor.js'],
 			'js/dist/wp-seo-dismissible-330.js': ['js/src/wp-seo-dismissible.js'],
-			'js/dist/wp-seo-export-320.js': ['js/src/wp-seo-export.js'],
 			'js/dist/wp-seo-featured-image-330.js': ['js/src/wp-seo-featured-image.js'],
 			'js/dist/wp-seo-metabox-330.js': ['js/src/wp-seo-metabox.js'],
 			'js/dist/wp-seo-metabox-category-320.js': ['js/src/wp-seo-metabox-category.js'],
