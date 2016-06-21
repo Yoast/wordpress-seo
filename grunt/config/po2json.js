@@ -1,19 +1,11 @@
 // https://github.com/rockykitamura/grunt-po2json
 module.exports = {
-	all: {
+	'yoastseo-js': {
 		options: {
 			format: 'jed1.x',
-			domain: 'wordpress-seo'
+			domain: 'js-text-analysis'
 		},
-		src: ['languages/*.po'],
-		dest: 'languages'
-	},
-	js: {
-		options: {
-			format: 'jed1.x',
-			domain: 'wordpress-seo'
-		},
-		src: ['node_modules/yoastseo/languages/yoast-seo.pot'],
+		src: ['languages/js-text-analysis-*.po'],
 		dest: 'languages'
 	}
 };
