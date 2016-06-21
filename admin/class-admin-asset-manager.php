@@ -141,11 +141,6 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( 'jquery' ),
 			),
 			array(
-				'name' => 'export',
-				'src'  => 'wp-seo-export-320',
-				'deps' => array( 'jquery' ),
-			),
-			array(
 				'name' => 'dismissible',
 				'src'  => 'wp-seo-dismissible-330',
 				'deps' => array( 'jquery' ),
