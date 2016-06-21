@@ -64,6 +64,7 @@
 				<input class="checkbox double" type="checkbox" id="wpseo_content_analysis_disable"
 				       name="wpseo_content_analysis_disable"
 				       value="on" <?php echo ( get_the_author_meta( 'wpseo_content_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
+				<p class="description"><label for="wpseo_content_analysis_disable"><?php _e( 'Removes the content tab from the metabox and disables all content-related suggestions.', 'wordpress-seo' ); ?></label></p>
 			</td>
 		</tr>
 	<?php } ?>
