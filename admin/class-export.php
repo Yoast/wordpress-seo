@@ -51,57 +51,55 @@ class WPSEO_Export {
 	public function __construct( $include_taxonomy = false ) {
 		$this->include_taxonomy = $include_taxonomy;
 		$this->dir              = wp_upload_dir();
-		$this->success          = $this->export_settings();
+
+		$this->export_settings();
 	}
 
 	/**
-	 * Returns an array with status and output message.
+	 * Returns true when the property error has a value.
 	 *
-	 * @return array $results
+	 * @return bool
 	 */
-	public function get_results() {
-		$results = array();
-		if ( $this->success ) {
-			$results['status'] = 'success';
-			$results['msg']    = sprintf( __( 'Export created: %1$sdownload your export file here%2$s.', 'wordpress-seo' ), '<a href="' . $this->export_zip_url . '">', '</a>' );
-		}
-		else {
-			$results['status'] = 'failure';
-			/* translators: %1$s expands to Yoast SEO */
-			$results['msg']    = sprintf( __( 'Error creating %1$s export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
-		}
+	public function has_error() {
+		return ( $this->error !== '' );
+	}
 
-		return $results;
+	/**
+	 * Sets the error hook, to display the error to the user.
+	 */
+	public function set_error_hook() {
+		$class   = 'notice notice-error';
+		$message = sprintf( __( 'Error creating %1$s export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
+
+		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 	}
 
 	/**
 	 * Exports the current site's WP SEO settings.
-	 *
-	 * @return boolean|string $return true when success, error when failed.
 	 */
 	private function export_settings() {
 
 		$this->export_header();
 
 		foreach ( WPSEO_Options::get_option_names() as $opt_group ) {
-			$this->write_opt_group( $opt_group, $this->export );
+			$this->write_opt_group( $opt_group );
 		}
 
 		$this->taxonomy_metadata();
 
-		if ( $this->write_file() ) {
+		if ( $this->write_settings_file() ) {
 			if ( $this->zip_file() ) {
-				return true;
+				// Just exit, because there is a download being served.
+				exit;
 			}
-			else {
-				$this->error = __( 'Could not zip settings-file.', 'wordpress-seo' );
 
-				return false;
-			}
+			return;
+
 		}
+
 		$this->error = __( 'Could not write settings to file.', 'wordpress-seo' );
 
-		return false;
+		return;
 	}
 
 	/**
@@ -189,7 +187,7 @@ class WPSEO_Export {
 	 *
 	 * @return boolean unsigned
 	 */
-	private function write_file() {
+	private function write_settings_file() {
 		$handle = fopen( $this->dir['path'] . '/settings.ini', 'w' );
 		if ( ! $handle ) {
 			return false;
@@ -208,20 +206,34 @@ class WPSEO_Export {
 	/**
 	 * Zips the settings ini file
 	 *
-	 * @return boolean unsigned
+	 * @return bool|null
 	 */
 	private function zip_file() {
+		$is_zip_created = $this->create_zip();
 
+		// This one isn't needed anymore.
+		$this->remove_settings_ini();
+
+		if ( ! $is_zip_created ) {
+			$this->error = __( 'Could not zip settings-file.', 'wordpress-seo' );
+
+			return false;
+		}
+
+		$this->download_zip( 'settings.zip' );
+		$this->remove_zip();
+
+		return true;
+	}
+
+	private function create_zip() {
 		chdir( $this->dir['path'] );
 		$zip = new PclZip( './settings.zip' );
 		if ( 0 === $zip->create( './settings.ini' ) ) {
 			return false;
 		}
 
-		$this->download_zip( 'settings.zip' );
-		$this->remove_files();
-
-		exit;
+		return file_exists( 'settings.zip' );
 	}
 
 	/**
@@ -230,24 +242,27 @@ class WPSEO_Export {
 	 * @param string $filename The name of the zip file to download.
 	 */
 	private function download_zip( $filename ) {
+		ob_clean();
+		header( 'Content-Type: application/octet-stream; charset=utf-8' );
+		header( 'Content-Transfer-Encoding: Binary' );
+		header( 'Content-Disposition: attachment; filename=' . $filename );
+		header( 'Content-Length: ' . filesize( 'settings.zip' ) );
+		ob_end_flush();
 
-		if ( file_exists( $filename ) ) {
-			ob_clean();
-			header( 'Content-Type: application/octet-stream; charset=utf-8' );
-			header( 'Content-Transfer-Encoding: Binary' );
-			header( 'Content-Disposition: attachment; filename=' . $filename );
-			header( 'Content-Length: ' . filesize( 'settings.zip' ) );
-			ob_end_flush();
+		readfile( $filename );
+	}
 
-			readfile( $filename );
-		}
+	/**
+	 * Removes the settings ini file.
+	 */
+	private function remove_settings_ini() {
+		unlink( './settings.ini' );
 	}
 
 	/**
 	 * Removes the files because they are already downloaded.
 	 */
-	private function remove_files() {
-		unlink( './settings.ini' );
+	private function remove_zip() {
 		unlink( './settings.zip' );
 	}
 

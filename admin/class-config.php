@@ -145,10 +145,14 @@ class WPSEO_Admin_Pages {
 			return;
 		}
 
-
 		$wpseo_post       = filter_input( INPUT_POST, 'wpseo' );
 		$include_taxonomy = ! empty( $wpseo_post['include_taxonomy'] );
 		$export           = new WPSEO_Export( $include_taxonomy );
+
+		if ( $export->has_error() ) {
+			add_action( 'admin_notices', array( $export, 'set_error_hook' ) );
+
+		}
 	}
 
 	/********************** DEPRECATED METHODS **********************/
