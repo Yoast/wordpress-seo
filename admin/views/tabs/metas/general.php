@@ -32,5 +32,5 @@ if ( ! current_theme_supports( 'title-tag' ) ) {
 <?php
 echo '<h2>' . __( 'Enabled analysis', 'wordpress-seo' ) . '</h2>';
 
-$yform->light_switch( 'content-analysis-active', __( 'Content analysis', 'wordpress-seo' ) );
-echo '<p class="description">', __( 'Removes the content tab from the metabox and disables all content-related suggestions.', 'wordpress-seo' ) . '</p>';
+$yform->light_switch( 'content-analysis-active', __( 'Readability analysis', 'wordpress-seo' ) );
+echo '<p class="description">', __( 'Removes the readability tab from the metabox and disables all readability-related suggestions.', 'wordpress-seo' ) . '</p>';
