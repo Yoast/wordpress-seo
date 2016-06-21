@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.3.1' );
+define( 'WPSEO_VERSION', '3.3.2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -22,11 +22,6 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
 }
-
-if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
-	define( 'WPSEO_CSSJS_SUFFIX', ( ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min' ) );
-}
-
 
 /* ***************************** CLASS AUTOLOADING *************************** */
 
@@ -68,6 +63,21 @@ if ( function_exists( 'spl_autoload_register' ) ) {
 	spl_autoload_register( 'wpseo_auto_load' );
 }
 
+/* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
+
+/**
+ * Defaults to production, for safety
+ */
+if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
+	define( 'YOAST_ENVIRONMENT', 'production' );
+}
+
+/**
+ * Only use minified assets when we are in a production environment
+ */
+if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
+	define( 'WPSEO_CSSJS_SUFFIX', ( 'development' !== YOAST_ENVIRONMENT ) ? '.min' : '' );
+}
 
 /* ***************************** PLUGIN (DE-)ACTIVATION *************************** */
 
