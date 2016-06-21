@@ -43,7 +43,6 @@ var ContentAssessor = function ( i18n, options ) {
 		textPresence,
 		sentenceBeginnings
 		// sentenceVariation,
-		//
 		// wordComplexity,
 		// subheadingDistributionTooShort,
 		// paragraphTooShort

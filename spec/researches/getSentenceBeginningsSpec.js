@@ -48,6 +48,12 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( sentenceBeginnings( mockPaper )[ 0 ].count ).toBe( 4 );
 	});
 
+	it( "returns an object with sentence beginnings with paragraph tags - it should match over paragraphs", function() {
+		var mockPaper = new Paper( "<p>Sentence 1. Sentence 2.</p><p>Sentence 3.</p>" );
+		expect( sentenceBeginnings( mockPaper )[ 0 ].word ).toBe( "sentence" );
+		expect( sentenceBeginnings( mockPaper )[ 0 ].count ).toBe( 3 );
+	});
+
 	it( "returns an object with sentence beginnings in different capitalizations", function() {
 		var mockPaper = new Paper( "Sentence 1. SENTENCE 2. Sentence 3." );
 		expect( sentenceBeginnings( mockPaper )[ 0 ].word ).toBe( "sentence" );
