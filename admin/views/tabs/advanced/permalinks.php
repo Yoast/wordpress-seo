@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $yform                = Yoast_Form::get_instance();
 $yform->currentoption = 'wpseo_permalinks';
 
-echo '<h3>', __( 'Change URLs', 'wordpress-seo' ), '</h3>';
+echo '<h2>', __( 'Change URLs', 'wordpress-seo' ), '</h2>';
 
 $remove_buttons = array( __( 'Keep', 'wordpress-seo' ), __( 'Remove', 'wordpress-seo' ) );
 /* translators: %s expands to <code>/category/</code> */
@@ -27,7 +27,7 @@ $redirect_buttons = array( __( 'No redirect', 'wordpress-seo' ), __( 'Redirect',
 $yform->light_switch( 'redirectattachment', __( 'Redirect attachment URLs to parent post URL.', 'wordpress-seo' ), $redirect_buttons );
 echo '<p>' . __( 'Attachments to posts are stored in the database as posts, this means they\'re accessible under their own URLs if you do not redirect them, enabling this will redirect them to the post they were attached to.', 'wordpress-seo' ) . '</p>';
 
-echo '<h3>', __( 'Clean up permalinks', 'wordpress-seo' ), '</h3>';
+echo '<h2>', __( 'Clean up permalinks', 'wordpress-seo' ), '</h2>';
 $yform->light_switch( 'cleanslugs', __( 'Remove stop words from slugs.', 'wordpress-seo' ), $remove_buttons, false );
 echo '<p>' . __( 'This helps you to create cleaner URLs by automatically removing the stopwords from them.', 'wordpress-seo' ) . '</p>';
 

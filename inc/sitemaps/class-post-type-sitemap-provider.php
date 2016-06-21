@@ -17,13 +17,22 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
 	protected $image_parser;
 
+	/** @var int $page_on_front_id Static front page ID.  */
+	protected $page_on_front_id = 0;
+
+	/** @var int $page_for_posts_id Posts page ID.  */
+	protected $page_for_posts_id = 0;
+
 	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
 
-		$this->options      = WPSEO_Options::get_all();
-		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
+		$this->home_url          = WPSEO_Utils::home_url();
+		$this->options           = WPSEO_Options::get_all();
+		$this->image_parser      = new WPSEO_Sitemap_Image_Parser();
+		$this->page_on_front_id  = (int) get_option( 'page_on_front' );
+		$this->page_for_posts_id = (int) get_option( 'page_for_posts' );
 
 		add_filter( 'save_post', array( $this, 'save_post' ) );
 	}
@@ -187,10 +196,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				 */
 				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 
-				if ( ! empty( $url ) ) {
-					$links[]        = $url;
-					$stacked_urls[] = $url['loc'];
+				if ( empty( $url ) ) {
+					continue;
 				}
+
+				$stacked_urls[] = $url['loc'];
+
+				if ( (int) $post->ID === $this->page_for_posts_id || (int) $post->ID === $this->page_on_front_id ) {
+
+					array_unshift( $links, $url );
+					continue;
+				}
+				$links[] = $url;
 			}
 			unset( $post, $url );
 		}
@@ -291,27 +308,33 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$links = array();
 
-		$front_id       = get_option( 'page_on_front' );
-		$page_for_posts = get_option( 'page_for_posts' );
+		$needs_archive = true;
 
-		if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
+		if ( ! $this->page_on_front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 
 			$links[] = array(
 				'loc' => $this->get_home_url(),
 				'pri' => 1,
 				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->get_home_url() ),
 			);
-		}
-		elseif ( $front_id && $post_type === 'post' && $page_for_posts ) {
 
-			$page_for_posts_url = get_permalink( $page_for_posts );
+			$needs_archive = false;
+		}
+		elseif ( $this->page_on_front_id && $post_type === 'post' && $this->page_for_posts_id ) {
+
+			$page_for_posts_url = get_permalink( $this->page_for_posts_id );
 
 			$links[] = array(
 				'loc' => $page_for_posts_url,
 				'pri' => 1,
 				'chf' => WPSEO_Sitemaps::filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
 			);
-			unset( $page_for_posts_url );
+
+			$needs_archive = false;
+		}
+
+		if ( ! $needs_archive ) {
+			return $links;
 		}
 
 		$archive_url = get_post_type_archive_link( $post_type );
@@ -476,7 +499,20 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$url['mod'] = $modified;
 		}
 
-		$url['chf'] = WPSEO_Sitemaps::filter_frequency( $post->post_type . '_single', 'weekly', $url['loc'] );
+		$frequency_filter  = $post->post_type . '_single';
+		$frequency_default = 'weekly';
+
+		if ( (int) $post->ID === $this->page_for_posts_id ) {
+			$frequency_filter  = 'blogpage';
+			$frequency_default = 'daily';
+		}
+
+		if ( (int) $post->ID === $this->page_on_front_id ) {
+			$frequency_filter  = 'homepage';
+			$frequency_default = 'daily';
+		}
+
+		$url['chf']        = WPSEO_Sitemaps::filter_frequency( $frequency_filter, $frequency_default, $url['loc'] );
 
 		$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
 
@@ -514,9 +550,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$return = 0.8;
 		}
 
-		$front_id = get_option( 'page_on_front' );
-
-		if ( isset( $front_id ) && $post->ID === $front_id ) {
+		if ( $post->ID === $this->page_on_front_id || $post->ID === $this->page_for_posts_id ) {
 			$return = 1.0;
 		}
 
