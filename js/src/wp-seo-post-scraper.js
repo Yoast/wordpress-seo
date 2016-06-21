@@ -423,7 +423,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		publishBox.initalise();
 
 		tabManager = new TabManager({
-			strings: wpseoPostScraperL10n
+			strings: wpseoPostScraperL10n,
+			contentAnalysisActive: wpseoPostScraperL10n.contentAnalysisActive
 		});
 		tabManager.init();
 
@@ -433,8 +434,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
-				output: 'wpseo-pageanalysis',
-				contentOutput: 'yoast-seo-content-analysis'
+				output: 'wpseo-pageanalysis'
 			},
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
@@ -446,6 +446,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			locale: wpseoPostScraperL10n.locale,
 			marker: getMarker()
 		};
+
+		// Determine whether or not the content analysis should be executed.
+		if ( wpseoPostScraperL10n.contentAnalysisActive === '1' ) {
+			args.targets.contentOutput = 'yoast-seo-content-analysis';
+		}
 
 		titleElement = $( '#title' );
 

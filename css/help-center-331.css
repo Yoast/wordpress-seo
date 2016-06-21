@@ -50,7 +50,6 @@
 }
 
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
-	-webkit-flex: 1 1 auto;
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
 }
@@ -89,7 +88,6 @@
 	color: white;
 	background-color: #a4286a;
 
-	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
@@ -176,7 +174,6 @@
 }
 
 .wpseo-tab-video__panel.wpseo-tab-video__panel--video {
-	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
