@@ -14,6 +14,12 @@ class WPSEO_Sitemaps_Cache {
 	/** @var bool $is_enabled Mirror of enabled status for static calls. */
 	protected static $is_enabled = true;
 
+	/** @var bool $clear_all Holds the flag to clear all cache. */
+	protected static $clear_all = false;
+
+	/** @var array $clear_types Holds the array of types to clear. */
+	protected static $clear_types = array();
+
 	/**
 	 * Hook methods for invalidation on necessary events.
 	 */
@@ -31,6 +37,8 @@ class WPSEO_Sitemaps_Cache {
 
 		add_action( 'user_register', array( __CLASS__, 'invalidate_author' ) );
 		add_action( 'delete_user', array( __CLASS__, 'invalidate_author' ) );
+
+		add_action( 'shutdown', array( __CLASS__, 'clear_queued' ) );
 	}
 
 	/**
@@ -210,7 +218,7 @@ class WPSEO_Sitemaps_Cache {
 
 		// No types provided, clear all.
 		if ( empty( $types ) ) {
-			WPSEO_Sitemaps_Cache_Validator::invalidate_storage();
+			self::$clear_all = true;
 
 			return;
 		}
@@ -221,8 +229,31 @@ class WPSEO_Sitemaps_Cache {
 		}
 
 		foreach ( $types as $type ) {
+			if ( ! in_array( $type, self::$clear_types ) ) {
+				self::$clear_types[] = $type;
+			}
+		}
+	}
+
+	/**
+	 * Invalidate storage for cache types queued to clear.
+	 */
+	public static function clear_queued() {
+
+		if ( self::$clear_all ) {
+
+			WPSEO_Sitemaps_Cache_Validator::invalidate_storage();
+			self::$clear_all   = false;
+			self::$clear_types = array();
+
+			return;
+		}
+
+		foreach ( self::$clear_types as $type ) {
 			WPSEO_Sitemaps_Cache_Validator::invalidate_storage( $type );
 		}
+
+		self::$clear_types = array();
 	}
 
 	/**

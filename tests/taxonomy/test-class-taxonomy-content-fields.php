@@ -52,6 +52,6 @@ class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( is_array( $fields ) );
 
 		$this->assertTrue( array_key_exists( 'title', $fields ) );
-		$this->assertEquals( __( 'Snippet Editor', 'wordpress-seo' ), $fields['snippet']['label'] );
+		$this->assertEquals( __( 'Snippet editor', 'wordpress-seo' ), $fields['snippet']['label'] );
 	}
 }

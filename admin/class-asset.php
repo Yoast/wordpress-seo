@@ -8,6 +8,9 @@
  */
 class WPSEO_Admin_Asset {
 
+	const TYPE_JS = 'js';
+	const TYPE_CSS = 'css';
+
 	const NAME = 'name';
 	const SRC = 'src';
 	const DEPS = 'deps';
@@ -132,5 +135,30 @@ class WPSEO_Admin_Asset {
 	 */
 	public function get_suffix() {
 		return $this->suffix;
+	}
+
+	/**
+	 * Returns the full URL for this asset based on the path to the plugin file.
+	 *
+	 * @param string $type Type of asset.
+	 * @param string $plugin_file Absolute path to the plugin file.
+	 * @return string The full URL to the asset.
+	 */
+	public function get_url( $type, $plugin_file ) {
+		switch ( $type ) {
+			case self::TYPE_JS:
+				$url = plugins_url( 'js/dist/' . $this->get_src() . $this->get_suffix() . '.js', $plugin_file );
+				break;
+
+			case self::TYPE_CSS:
+				$url = plugins_url( 'css/' . $this->get_src() . $this->get_suffix() . '.css', WPSEO_FILE );
+				break;
+
+			default:
+				$url = '';
+				break;
+		}
+
+		return $url;
 	}
 }

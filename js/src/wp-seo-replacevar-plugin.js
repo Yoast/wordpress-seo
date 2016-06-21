@@ -1,72 +1,452 @@
-/* global wpseoReplaceVarsL10n */
+/* global wpseoReplaceVarsL10n, require, YoastSEO */
 (function() {
 	'use strict';
 
+	var forEach = require( 'lodash/forEach' );
+	var filter = require( 'lodash/filter' );
+	var isUndefined = require( 'lodash/isUndefined' );
+	var ReplaceVar = require( './values/replaceVar' );
+
+	var modifiableFields = [
+		'content',
+		'title',
+		'snippet_title',
+		'snippet_meta',
+		'primary_category',
+		'data_page_title',
+		'data_meta_desc'
+	];
+
+	var placeholders = {};
+	var taxonomyElements = {};
+
 	/**
-	 * variable replacement plugin for wordpress.
+	 * Variable replacement plugin for WordPress.
 	 */
 	var YoastReplaceVarPlugin = function( app ) {
 		this._app = app;
-
-		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
-
 		this._app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 
+		this.registerReplacements();
 		this.registerModifications();
+		this.registerEvents();
 	};
 
 	/**
-	 * Registers the modifications for the plugin.
+	 * GENERIC
+	 */
+
+	/**
+	 * Registers all the placeholders and their replacements.
+	 */
+	YoastReplaceVarPlugin.prototype.registerReplacements = function() {
+		this.addReplacement( new ReplaceVar( '%%currentdate%%',     'currentdate' ) );
+		this.addReplacement( new ReplaceVar( '%%currentday%%',      'currentday' ) );
+		this.addReplacement( new ReplaceVar( '%%currentmonth%%',    'currentmonth' ) );
+		this.addReplacement( new ReplaceVar( '%%currenttime%%',     'currenttime' ) );
+		this.addReplacement( new ReplaceVar( '%%currentyear%%',     'currentyear' ) );
+		this.addReplacement( new ReplaceVar( '%%date%%',            'date' ) );
+		this.addReplacement( new ReplaceVar( '%%id%%',              'id' ) );
+		this.addReplacement( new ReplaceVar( '%%page%%',            'page' ) );
+		this.addReplacement( new ReplaceVar( '%%searchphrase%%',    'searchphrase' ) );
+		this.addReplacement( new ReplaceVar( '%%sitedesc%%',        'sitedesc' ) );
+		this.addReplacement( new ReplaceVar( '%%sitename%%',        'sitename' ) );
+		this.addReplacement( new ReplaceVar( '%%category%%',        'category' ) );
+
+		this.addReplacement( new ReplaceVar( '%%focuskw%%', 'keyword', {
+			source: 'app',
+			aliases: [ '%%keyword%%' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%term_description%%', 'text', {
+			source: 'app',
+			scope: [ 'term', 'category', 'tag' ],
+			aliases: [ '%%tag_description%%', '%%category_description%%' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%term_title%%', 'term_title', {
+			scope: [ 'post', 'term' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%title%%', 'title', {
+			source: 'app',
+			scope: [ 'post', 'term', 'page' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%parent_title%%', 'title', {
+			source: 'app',
+			scope: [ 'page', 'category' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%excerpt%%', 'excerpt', {
+			source: 'app',
+			scope: [ 'post' ],
+			aliases: [ '%%excerpt_only%%' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%primary_category%%', 'primaryCategory', {
+			source: 'app', scope: [ 'post' ]
+		} ) );
+
+		this.addReplacement( new ReplaceVar( '%%sep%%(\\s*%%sep%%)*', 'sep' ) );
+	};
+
+	/**
+	 * Register all the necessary events to live replace, placeholders.
+	 */
+	YoastReplaceVarPlugin.prototype.registerEvents = function() {
+		var currentScope = wpseoReplaceVarsL10n.scope;
+
+		if ( currentScope === 'post' ) {
+			// Set events for each taxonomy box.
+			jQuery( '.categorydiv' ).each( this.bindTaxonomyEvents.bind( this ) );
+		}
+
+		if ( currentScope === 'post' || currentScope === 'page' ) {
+			// Add support for custom fields as well.
+			jQuery( '#postcustomstuff > #list-table' ).each( this.bindFieldEvents.bind( this ) );
+		}
+	};
+
+	/**
+	 * Add a replacement object to be used when replacing placeholders.
+	 *
+	 * @param {ReplaceVar} replacement The replacement to add to the placeholders.
+	 */
+	YoastReplaceVarPlugin.prototype.addReplacement = function( replacement ) {
+		placeholders[ replacement.placeholder ] = replacement;
+	};
+
+	/**
+	 * Removes a replacement if it exists.
+	 *
+	 * @param {ReplaceVar} replacement The replacement to remove.
+	 */
+	YoastReplaceVarPlugin.prototype.removeReplacement = function( replacement ) {
+		delete placeholders[ replacement.getPlaceholder() ];
+	};
+
+	/**
+	 * Registers the modifications for the plugin on initial load.
 	 */
 	YoastReplaceVarPlugin.prototype.registerModifications = function() {
-		var callback = this.replaceVariablesPlugin.bind( this );
+		var callback = this.replaceVariables.bind( this );
 
-		this._app.registerModification( 'content', callback, 'replaceVariablePlugin', 10 );
-		this._app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
-		this._app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
-		this._app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
-		this._app.registerModification( 'primary_category', callback, 'replaceVariablePlugin', 10 );
-
-		//modifications applied on the getData from the scrapers to use templates
-		this._app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
-		this._app.registerModification( 'data_meta_desc', callback, 'replaceVariablePlugin', 10);
+		forEach( modifiableFields, function( field ) {
+			this._app.registerModification( field, callback, 'replaceVariablePlugin', 10 );
+		}.bind( this ) );
 	};
 
 	/**
-	 * runs the different replacements on the data-string
-	 * @param {String} data
-	 * @returns {string}
+	 * Runs the different replacements on the data-string.
+	 *
+	 * @param {string} data The data that needs its placeholders replaced.
+	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
-	YoastReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ) {
-		if( typeof data !== 'undefined' ) {
-			data = this.titleReplace( data );
+	YoastReplaceVarPlugin.prototype.replaceVariables = function( data ) {
+		if ( ! isUndefined( data ) ) {
 			data = this.termtitleReplace( data );
-			data = this.defaultReplace( data );
+
+			// This order currently needs to be maintained until we can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
-			data = this.replaceSeparators( data );
-			data = this.excerptReplace( data );
-			data = this.primaryCategoryReplace( data );
+			data = this.replaceCustomTaxonomy( data );
+			data = this.replacePlaceholders( data );
 		}
+
 		return data;
 	};
 
 	/**
-	 * Replaces %%title%% with the title
-	 * @param {String} data
-	 * @returns {string}
+	 * Retrieves the object containing the replacements for the placeholders. Defaults to wpseoReplaceVarsL10n.
+	 *
+	 * @param {Object} placeholderOptions Placeholder options object containing a replacement and source.
+	 * @returns {Object} The replacement object to use.
 	 */
-	YoastReplaceVarPlugin.prototype.titleReplace = function( data ) {
-		var title = this._app.rawData.title;
+	YoastReplaceVarPlugin.prototype.getReplacementSource = function( placeholderOptions ) {
+		if ( placeholderOptions.source === 'app' ) {
+			return this._app.rawData;
+		}
 
-		data = data.replace( /%%title%%/g, title );
+		if ( placeholderOptions.source === 'direct' ) {
+			return 'direct';
+		}
 
-		return data;
+		return wpseoReplaceVarsL10n.replace_vars;
 	};
 
 	/**
-	 * Replaces %%term_title%% with the title of the term
-	 * @param {String} data the data to replace the term_title var
-	 * @returns {String} the data with the replaced variables
+	 * Gets the proper replacement variable.
+	 *
+	 * @param {ReplaceVar} replaceVar The replacevar object to use for its source, scope and replacement property.
+	 * @returns {string} The replacement for the placeholder.
+	 */
+	YoastReplaceVarPlugin.prototype.getReplacement = function( replaceVar ) {
+		var replacementSource = this.getReplacementSource( replaceVar.options );
+
+		if ( replaceVar.inScope( wpseoReplaceVarsL10n.scope ) === false ) {
+			return '';
+		}
+
+		if ( replacementSource === 'direct' ) {
+			return replaceVar.replacement;
+		}
+
+		return replacementSource[ replaceVar.replacement ] || '';
+	};
+
+	/**
+	 * Replaces placeholder variables with their replacement value.
+	 *
+	 * @param {string} text The text to have its placeholders replaced.
+	 * @return {string} The text in which the placeholders have been replaced.
+	 */
+	YoastReplaceVarPlugin.prototype.replacePlaceholders = function( text ) {
+		forEach( placeholders, function( replaceVar ) {
+			text = text.replace(
+				new RegExp( replaceVar.getPlaceholder( true ), 'g' ), this.getReplacement( replaceVar )
+			);
+		}.bind( this ) );
+
+		return text;
+	};
+
+	/**
+	 * Declares reloaded with YoastSEO.
+	 */
+	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
+		YoastSEO.app.pluginReloaded( 'replaceVariablePlugin' );
+	};
+
+	/**
+	 * TAXONOMIES
+	 */
+
+	/**
+	 * Gets the taxonomy name from categories.
+	 * The logic of this function is inspired by: http://viralpatel.net/blogs/jquery-get-text-element-without-child-element/
+	 *
+	 * @param {Object} checkbox The checkbox to parse to retrieve the label.
+	 * @returns {string} The category name.
+	 */
+	YoastReplaceVarPlugin.prototype.getCategoryName = function( checkbox ) {
+		// Take the parent of checkbox with type label and clone it.
+		var clonedLabel = checkbox.parent( 'label' ).clone();
+
+		// Finds child elements and removes them so we only get the label's text left.
+		clonedLabel.children().remove();
+
+		// Returns the trimmed text value,
+		return clonedLabel.text().trim();
+	};
+
+	/**
+	 * Gets the checkbox-based taxonomies that are available on the current page and based on their checked state.
+	 *
+	 * @param {Object} checkboxes The checkboxes to check.
+	 * @param {string} taxonomyName The taxonomy name to use as a reference.
+	 */
+	YoastReplaceVarPlugin.prototype.parseTaxonomies = function( checkboxes, taxonomyName ) {
+		if ( isUndefined( taxonomyElements[ taxonomyName ] ) ) {
+			taxonomyElements[ taxonomyName ] = {};
+		}
+
+		forEach( checkboxes, function( checkbox ) {
+			checkbox = jQuery( checkbox );
+			var taxonomyID = checkbox.val();
+
+			taxonomyElements[ taxonomyName ][ taxonomyID ] = {
+				label: this.getCategoryName( checkbox ),
+				checked: checkbox.prop( 'checked' )
+			};
+		}.bind( this ) );
+	};
+
+	/**
+	 * Get the taxonomies that are available on the current page.
+	 *
+	 * @param {Object} targetMetaBox The HTML element to use as a source for the taxonomies.
+	 * @returns {void}
+	 */
+	YoastReplaceVarPlugin.prototype.getAvailableTaxonomies = function( targetMetaBox ) {
+		var checkboxes = jQuery( targetMetaBox ).find( 'input[type=checkbox]' );
+		var taxonomyName = jQuery( targetMetaBox ).attr( 'id' ).replace( 'taxonomy-', '' );
+
+		if ( checkboxes.length > 0 ) {
+			this.parseTaxonomies( checkboxes, taxonomyName );
+		}
+
+		this.declareReloaded();
+	};
+
+	/**
+	 * Binding events for each taxonomy metabox element.
+	 *
+	 * @param {int} index The index of the element.
+	 * @param {Object} taxonomyElement The element to bind the events to.
+	 */
+	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function( index, taxonomyElement ) {
+		taxonomyElement = jQuery( taxonomyElement );
+
+		// Set the events.
+		taxonomyElement.on( 'wpListAddEnd', '.categorychecklist', this.getAvailableTaxonomies.bind( this, taxonomyElement ) );
+		taxonomyElement.on( 'change', 'input[type=checkbox]', this.getAvailableTaxonomies.bind( this, taxonomyElement ) );
+
+		// Get the available taxonomies upon loading the plugin.
+		this.getAvailableTaxonomies( taxonomyElement );
+	};
+
+	/**
+	 * Replace the custom taxonomies.
+	 *
+	 * @param {string} text The text to have its custom taxonomy placeholders replaced.
+	 * @return {string} The text in which the custom taxonomy placeholders have been replaced.
+	 */
+	YoastReplaceVarPlugin.prototype.replaceCustomTaxonomy = function( text ) {
+		forEach( taxonomyElements, function( taxonomy, taxonomyName ) {
+			var generatedPlaceholder = '%%ct_' + taxonomyName  + '%%';
+
+			if ( taxonomyName === 'category' ) {
+				generatedPlaceholder = '%%' + taxonomyName + '%%';
+			}
+
+			text = text.replace( generatedPlaceholder, this.getTaxonomyReplaceVar( taxonomyName ) );
+		}.bind( this ) );
+
+		return text;
+	};
+
+	/**
+	 * Returns the string to replace the category taxonomy placeholders.
+	 *
+	 * @param {string} taxonomyName The name of the taxonomy needed for the lookup.
+	 * @returns {string} The categories as a comma separated list.
+	 */
+	YoastReplaceVarPlugin.prototype.getTaxonomyReplaceVar = function( taxonomyName ) {
+		var filtered = [];
+		var toReplaceTaxonomy = taxonomyElements[ taxonomyName ];
+
+		// If no replacement is available, return an empty string.
+		if ( isUndefined( toReplaceTaxonomy ) === true ) {
+			return '';
+		}
+
+		forEach( toReplaceTaxonomy, function( item ) {
+			if ( item.checked === false ) {
+				return;
+			}
+
+			filtered.push( item.label );
+		} );
+
+		return jQuery.unique( filtered ).join( ', ' );
+	};
+
+	/**
+	 * CUSTOM FIELDS
+	 */
+
+	/**
+	 * Get the custom fields that are available on the current page and adds them to the placeholders.
+	 *
+	 * @param {Object} customFields The custom fields to parse and add.
+	 */
+	YoastReplaceVarPlugin.prototype.parseFields = function( customFields ) {
+		jQuery( customFields ).each( function( i, customField ) {
+			var customFieldName = jQuery( '#' + customField.id + '-key' ).val();
+			var customValue = jQuery( '#' + customField.id + '-value' ).val();
+
+			// Register these as new replacevars. The replacement text will be a literal string.
+			this.addReplacement( new ReplaceVar( '%%cf_' + this.sanitizeCustomFieldNames( customFieldName ) + '%%',
+				customValue,
+				{ source: 'direct' }
+			) );
+		}.bind( this ) );
+	};
+
+	/**
+	 * Removes the custom fields from the placeholders.
+	 *
+	 * @param {Object} customFields The fields to parse and remove.
+	 */
+	YoastReplaceVarPlugin.prototype.removeFields = function( customFields ) {
+		jQuery( customFields ).each( function( i, customField ) {
+			var customFieldName = jQuery( '#' + customField.id + '-key' ).val();
+
+			// Register these as new replacevars
+			this.removeReplacement( '%%cf_' + this.sanitizeCustomFieldNames( customFieldName ) + '%%' );
+		}.bind( this ) );
+	};
+
+	/**
+	 * Sanitizes the custom field's name by replacing spaces with underscores for easier matching.
+	 *
+	 * @param {string} customFieldName The field name to sanitize.
+	 * @returns {string} The sanitized field name.
+	 */
+	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function( customFieldName ) {
+		return customFieldName.replace( ' ', '_' );
+	};
+
+	/**
+	 * Get the custom fields that are available on the current page.
+	 *
+	 * @param {object} targetMetaBox The HTML element to use as a source for the taxonomies.
+	 * @returns {void}
+	 */
+	YoastReplaceVarPlugin.prototype.getAvailableFields = function( targetMetaBox ) {
+		// Remove all the custom fields prior. This ensures that deleted fields don't show up anymore.
+		this.removeCustomFields();
+
+		var textFields = jQuery( targetMetaBox ).find( '#the-list > tr:visible' );
+
+		if ( textFields.length > 0 ) {
+			this.parseFields( textFields );
+		}
+
+		this.declareReloaded();
+	};
+
+	/**
+	 * Binding events for each custom field element.
+	 *
+	 * @param {int} index The index of the element.
+	 * @param {Object} customFieldElement The element to bind the events to.
+	 */
+	YoastReplaceVarPlugin.prototype.bindFieldEvents = function( index, customFieldElement ) {
+		customFieldElement = jQuery( customFieldElement );
+		var customFieldElementList = customFieldElement.find( '#the-list' );
+
+		customFieldElementList.on( 'wpListDelEnd.wpseoCustomFields', this.getAvailableFields.bind( this, customFieldElement ) );
+		customFieldElementList.on( 'wpListAddEnd.wpseoCustomFields', this.getAvailableFields.bind( this, customFieldElement ) );
+		customFieldElementList.on( 'input.wpseoCustomFields', '.textarea', this.getAvailableFields.bind( this, customFieldElement ) );
+		customFieldElementList.on( 'click.wpseoCustomFields', '.button + .updatemeta', this.getAvailableFields.bind( this, customFieldElement ) );
+
+		// Get the available fields upon loading the plugin.
+		this.getAvailableFields( customFieldElement );
+	};
+
+	/**
+	 * Looks for custom fields in the list of placeholders and deletes them.
+	 */
+	YoastReplaceVarPlugin.prototype.removeCustomFields = function() {
+		var customFields = filter( placeholders, function( item, key ) {
+			return key.indexOf( '%%cf_' ) > -1;
+		} );
+
+		forEach( customFields, function( item ) {
+			this.removeReplacement( item );
+		}.bind( this ) );
+	};
+
+	/**
+	 * SPECIALIZED REPLACES
+	 */
+
+	/**
+	 * Replaces %%term_title%% with the title of the term.
+	 *
+	 * @param {string} data The data that needs its placeholders replaced.
+	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
 		var term_title = this._app.rawData.name;
@@ -77,74 +457,44 @@
 	};
 
 	/**
-	 * Replaces %%parent_title%% with the selected value from selectbox (if available on page).
+	 * Replaces %%parent_title%% with the selected value from selectbox (if available on pages only).
 	 *
-	 * @param {String} data
-	 * @returns {String}
+	 * @param {string} data The data that needs its placeholders replaced.
+	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		var parentId = document.getElementById( 'parent_id' );
+		var parent = jQuery( '#parent_id, #parent' ).eq( 0 );
 
-		if ( parentId !== null && typeof parentId.options !== 'undefined' && parentId.options[ parentId.selectedIndex ].text !== wpseoReplaceVarsL10n.no_parent_text ) {
-			data = data.replace( /%%parent_title%%/, parentId.options[ parentId.selectedIndex ].text );
+		if ( this.hasParentTitle( parent ) ) {
+			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );
 		}
+
 		return data;
 	};
 
 	/**
-	 * Replaces separators in the string.
+	 * Checks whether or not there's a parent title available.
 	 *
-	 * @param {String} data
-	 * @returns {String}
+	 * @returns {boolean} Whether or not there is a parent title present.
 	 */
-	YoastReplaceVarPlugin.prototype.replaceSeparators = function( data ) {
-		return data.replace( /%%sep%%(\s+%%sep%%)*/g, this.replaceVars.sep );
+	YoastReplaceVarPlugin.prototype.hasParentTitle = function( parent ) {
+		return ( ! isUndefined( parent ) && ! isUndefined( parent.prop( 'options' ) ) );
 	};
 
 	/**
-	 * replaces the excerpts strings with strings for the excerpts, if not empty.
+	 * Gets the replacement for the parent title.
 	 *
-	 * @param {String} data
-	 * @returns {String}
+	 * @param {Object} parent The parent object to use to look for the selected option.
+	 * @returns {string} The string to replace the placeholder with.
 	 */
-	YoastReplaceVarPlugin.prototype.excerptReplace = function( data ) {
-		if ( typeof this._app.rawData.excerpt !== 'undefined' ) {
-			data = data.replace( /%%excerpt_only%%/g, this._app.rawData.excerpt );
-			data = data.replace( /%%excerpt%%/g, this._app.rawData.excerpt );
+	YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parent ) {
+		var parentText = parent.find( 'option:selected' ).text();
+
+		if ( parentText === wpseoReplaceVarsL10n.no_parent_text ) {
+			return '';
 		}
-		return data;
-	};
 
-	YoastReplaceVarPlugin.prototype.primaryCategoryReplace = function( data ) {
-		var primary_category = ( typeof this._app.rawData.primaryCategory !== 'undefined' ) ? this._app.rawData.primaryCategory : '';
-		return data.replace( /%%primary_category%%/g, primary_category );
-	};
-
-	/**
-	 * replaces default variables with the values stored in the wpseoMetaboxL10n object.
-	 *
-	 * @param {String} textString
-	 * @return {String}
-	 */
-	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
-		var focusKeyword = this._app.rawData.keyword;
-
-		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
-			.replace( /%%sitename%%/g, this.replaceVars.sitename )
-			.replace( /%%term_title%%/g, this.replaceVars.term_title )
-			.replace( /%%term_description%%/g, this.replaceVars.term_description )
-			.replace( /%%category_description%%/g, this.replaceVars.category_description )
-			.replace( /%%tag_description%%/g, this.replaceVars.tag_description )
-			.replace( /%%searchphrase%%/g, this.replaceVars.searchphrase )
-			.replace( /%%date%%/g, this.replaceVars.date )
-			.replace( /%%id%%/g, this.replaceVars.id )
-			.replace( /%%page%%/g, this.replaceVars.page )
-			.replace( /%%currenttime%%/g, this.replaceVars.currenttime )
-			.replace( /%%currentdate%%/g, this.replaceVars.currentdate )
-			.replace( /%%currentday%%/g, this.replaceVars.currentday )
-			.replace( /%%currentmonth%%/g, this.replaceVars.currentmonth )
-			.replace( /%%currentyear%%/g, this.replaceVars.currentyear )
-			.replace( /%%focuskw%%/g, focusKeyword );
+		return parentText;
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;

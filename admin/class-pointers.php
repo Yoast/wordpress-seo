@@ -170,7 +170,7 @@ class WPSEO_Pointers {
 	 * Show a pointer that starts the tour for Yoast SEO
 	 */
 	private function start_tour_pointer() {
-		$selector = 'li.toplevel_page_wpseo_dashboard';
+		$selector = 'li.toplevel_page_wpseo_alerts a[href="admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '"]';
 		$content  = '<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>'
 					/* translators: %1$s expands to Yoast SEO */
 		            . '<p>' . sprintf( __( 'You&#8217;ve just installed %1$s! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
@@ -180,7 +180,7 @@ class WPSEO_Pointers {
 		);
 
 		$this->button_array['button2']['text']     = __( 'Start Tour', 'wordpress-seo' );
-		$this->button_array['button2']['function'] = sprintf( 'document.location="%s";', admin_url( 'admin.php?page=wpseo_dashboard' ) );
+		$this->button_array['button2']['function'] = sprintf( 'document.location="%s";', admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
 
 		$this->print_scripts( $selector, $opt_arr );
 	}
