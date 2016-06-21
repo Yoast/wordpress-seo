@@ -226,6 +226,11 @@ class WPSEO_Export {
 		return true;
 	}
 
+	/**
+	 * Creates the zipfile and returns true if it created successful.
+	 *
+	 * @return bool
+	 */
 	private function create_zip() {
 		chdir( $this->dir['path'] );
 		$zip = new PclZip( './settings.zip' );
@@ -265,5 +270,4 @@ class WPSEO_Export {
 	private function remove_zip() {
 		unlink( './settings.zip' );
 	}
-
 }
