@@ -23,6 +23,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'title_test'             => 0,
 		// Form fields.
 		'forcerewritetitle'      => false,
+		'content-analysis-active' => true,
 		'separator'              => 'sc-dash',
 		'noodp'                  => false,
 		'usemetakeywords'        => false,
