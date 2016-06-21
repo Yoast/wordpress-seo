@@ -433,3 +433,16 @@ new WPSEO_Taxonomy_Columns();
 
 // Setting the notice for the recalculate the posts.
 new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax::FOR_SITE );
+
+/********************** DEPRECATED METHODS **********************/
+
+/**
+ * Create an export and return the URL
+ *
+ * @deprecated 3.3.2
+ */
+function wpseo_get_export() {
+	_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated.' );
+
+	wpseo_ajax_json_echo_die( '' );
+}

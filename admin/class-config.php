@@ -78,7 +78,6 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'thickbox' );
 
 		$page = filter_input( INPUT_GET, 'page' );
-		$tool = filter_input( INPUT_GET, 'tool' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
 
@@ -89,16 +88,8 @@ class WPSEO_Admin_Pages {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
-		if ( 'wpseo_tools' === $page && empty( $tool ) ) {
-			$this->asset_manager->enqueue_script( 'yoast-seo' );
-		}
-
-		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
-			$this->asset_manager->enqueue_script( 'bulk-editor' );
-		}
-
-		if ( 'wpseo_tools' === $page && 'import-export' === $tool && filter_input( INPUT_POST, 'yoast_export' ) === '1' ) {
-			$this->do_yoast_export();
+		if ( 'wpseo_tools' === $page ) {
+			$this->enqueue_tools_scripts();
 		}
 	}
 
@@ -136,10 +127,29 @@ class WPSEO_Admin_Pages {
 	}
 
 	/**
+	 * Enqueues and handles all the tool dependencies.
+	 */
+	private function enqueue_tools_scripts() {
+		$tool = filter_input( INPUT_GET, 'tool' );
+
+		if ( empty( $tool ) ) {
+			$this->asset_manager->enqueue_script( 'yoast-seo' );
+		}
+
+		if ( 'bulk-editor' === $tool ) {
+			$this->asset_manager->enqueue_script( 'bulk-editor' );
+		}
+
+		if ( 'import-export' === $tool && filter_input( INPUT_POST, WPSEO_Export::NONCE_NAME ) !== null ) {
+			$this->do_yoast_export();
+		}
+	}
+
+	/**
 	 * Runs the yoast exporter class to possibly init the file download.
 	 */
-	protected function do_yoast_export() {
-		check_admin_referer( WPSEO_Export::NONCE );
+	private function do_yoast_export() {
+		check_admin_referer( WPSEO_Export::NONCE_ACTION, WPSEO_Export::NONCE_NAME );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;

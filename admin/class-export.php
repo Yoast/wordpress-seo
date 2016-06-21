@@ -10,10 +10,11 @@
  */
 class WPSEO_Export {
 
-	const ZIP_FILENAME = 'settings.zip';
+	const ZIP_FILENAME = 'yoast-seo-settings-export.zip';
 	const INI_FILENAME = 'settings.ini';
 
-	const NONCE = 'wpseo_export';
+	const NONCE_ACTION = 'wpseo_export';
+	const NONCE_NAME   = 'wpseo_export_nonce';
 
 	/**
 	 * @var string
@@ -92,19 +93,16 @@ class WPSEO_Export {
 
 		$this->taxonomy_metadata();
 
-		if ( $this->write_settings_file() ) {
-			if ( $this->zip_file() ) {
-				// Just exit, because there is a download being served.
-				exit;
-			}
+		if ( ! $this->write_settings_file() ) {
+			$this->error = __( 'Could not write settings to file.', 'wordpress-seo' );
 
 			return;
-
 		}
 
-		$this->error = __( 'Could not write settings to file.', 'wordpress-seo' );
-
-		return;
+		if ( $this->zip_file() ) {
+			// Just exit, because there is a download being served.
+			exit;
+		}
 	}
 
 	/**
@@ -225,7 +223,7 @@ class WPSEO_Export {
 			return false;
 		}
 
-		$this->download_zip();
+		$this->serve_settings_export();
 		$this->remove_zip();
 
 		return true;
@@ -249,7 +247,7 @@ class WPSEO_Export {
 	/**
 	 * Downloads the zip file.
 	 */
-	private function download_zip() {
+	private function serve_settings_export() {
 		// Clean any content that has been already output. For example by other plugins or faulty PHP files.
 		ob_clean();
 		header( 'Content-Type: application/octet-stream; charset=utf-8' );
