@@ -24,9 +24,9 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		}
 		$name = $pt->name;
 		echo "<div id='" . esc_attr( $name ) . "-titles-metas'>";
-		echo '<strong id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</strong><br/>';
+		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</h2>';
 		if ( $warn === true ) {
-			echo '<h4 class="error-message">' . __( 'Take note:', 'wordpress-seo' ) . '</h4>';
+			echo '<h3 class="error-message">' . esc_html__( 'Take note:', 'wordpress-seo' ) . '</h3>';
 			echo '<p class="error-message">' . __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!', 'wordpress-seo' ) . '</p>';
 			echo '<p class="error-message">' . sprintf( __( 'So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' ) . '</p>';
 		}
@@ -65,11 +65,11 @@ unset( $post_types );
 
 $post_types = get_post_types( array( '_builtin' => false, 'has_archive' => true ), 'objects' );
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	echo '<h2>' . __( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
+	echo '<h2>' . esc_html__( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
 	foreach ( $post_types as $pt ) {
 		$name = $pt->name;
-		echo '<strong>' . esc_html( ucfirst( $pt->labels->name ) ) . '</strong><br/>';
+		echo '<h3>' . esc_html( ucfirst( $pt->labels->name ) ) . '</h3>';
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 		if ( $options['usemetakeywords'] === true ) {
