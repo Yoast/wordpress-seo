@@ -31,6 +31,7 @@ var sum = require( "lodash/sum" );
  * @constructor
  */
 var ContentAssessor = function ( i18n, options ) {
+
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
@@ -53,43 +54,67 @@ var ContentAssessor = function ( i18n, options ) {
 require( "util" ).inherits( ContentAssessor, Assessor );
 
 /**
- * Calculates the negative points based on the assessment results.
+ * Calculates the weighted rating for English languages based on a given rating.
  *
- * @returns {number} The total negative points for the results.
+ * @param {number} rating The rating to be weighted.
+ * @returns {number} The weighted rating.
+ */
+ContentAssessor.prototype.calculatePenaltyPointsEnglish = function( rating ) {
+	switch ( rating ) {
+		case "bad":
+			return 3;
+		case "ok":
+			return 2;
+		default:
+		case "good":
+			return 0;
+	}
+};
+
+/**
+ * Calculates the weighted rating for non-English languages based on a given rating.
+ *
+ * @param {number} rating The rating to be weighted.
+ * @returns {number} The weighted rating.
+ */
+ContentAssessor.prototype.calculatePenaltyPointsNonEnglish = function( rating ) {
+	switch ( rating ) {
+		case "bad":
+			return 4;
+		case "ok":
+			return 2;
+		default:
+		case "good":
+			return 0;
+	}
+};
+
+/**
+ * Calculates the penalty points based on the assessment results.
+ *
+ * @returns {number} The total penalty points for the results.
  */
 ContentAssessor.prototype.calculatePenaltyPoints = function () {
 	var results = this.getValidResults();
 
-	var negativePoints = map( results, function ( result ) {
-		var weight, rating = scoreToRating( result.getScore() );
+	var penaltyPoints = map( results, function ( result ) {
+		var rating = scoreToRating( result.getScore() );
 
-		// Convert the ratings to negative 'points'.
-		switch ( rating ) {
-			case "bad":
-				weight = 3;
-				break;
-
-			case "ok":
-				weight = 2;
-				break;
-
-			default:
-			case "good":
-				weight = 0;
-				break;
+		if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
+			return this.calculatePenaltyPointsEnglish( rating );
 		}
 
-		return weight;
-	} );
+		return this.calculatePenaltyPointsNonEnglish( rating );
+	}.bind( this ) );
 
-	return sum( negativePoints );
+	return sum( penaltyPoints );
 };
 
 /**
- * Rates the negative points
+ * Rates the penalty points
  *
- * @param {number} totalPenaltyPoints The amount of negative points.
- * @returns {number} The score based on the amount of negative points.
+ * @param {number} totalPenaltyPoints The amount of penalty points.
+ * @returns {number} The score based on the amount of penalty points.
  *
  * @private
  */
@@ -100,7 +125,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
 	}
 
 	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
-		// Determine the total score based on the total negative points.
+		// Determine the total score based on the total penalty points.
 		if ( totalPenaltyPoints > 6 ) {
 			// A red indicator.
 			return 30;
@@ -111,7 +136,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
 			return 60;
 		}
 	} else {
-		if ( totalPenaltyPoints > 3 ) {
+		if ( totalPenaltyPoints > 4 ) {
 			// A red indicator.
 			return 30;
 		}
