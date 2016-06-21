@@ -116,6 +116,18 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.3.2 =
+
+Release Date: Unreleased
+
+* Enhancements:
+	* Removes non-minified files. This makes the download a lot smaller which will result in less cases of an incomplete or failed download.
+	* Add setting and user option to disable the content analysis; The SEO analysis will still be present.
+	* Change the overall content analysis bullet to be more lenient in non-English languages. This means it will be easier to get a green bullet for non-English languages.
+
+* Bugfixes:
+	* Fix issue where the settings export zip file could be read from the uploads folder after doing an export.
+
 = 3.3.1 =
 
 Release Date: June 15th, 2016
