@@ -35,10 +35,13 @@ if ( 'posts' == get_option( 'show_on_front' ) ) {
 	echo '<input type="hidden" id="meta_description" value="', esc_attr( $meta_options['metadesc-home-wpseo'] ), '" />';
 	echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="wpseoCopyHomeMeta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
 
-} ?>
+}
 
-	<h2><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></h2>
-<?php $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) ); ?>
+echo '<h2>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h2>';
+
+$yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
+
+?>
 	<p class="desc label">
 		<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>
