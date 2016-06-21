@@ -6,12 +6,12 @@ All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
 ## 1.3.3: Unreleased
-* Changed the calculation of the aggregate content score to be more lenient for non-english languages. 
+* Changed the calculation of the aggregate content score to be more lenient for non-English languages. 
 
 ## 1.3.2: June 15th, 2016
 
 ### Fixed
-* Fix a bug where the transition words and passive voice assessments would display on non-english languages. 
+* Fix a bug where the transition words and passive voice assessments would display on non-English languages. 
 
 ## 1.3.1: June 14th, 2016
 
