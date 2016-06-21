@@ -253,7 +253,6 @@ class WPSEO_Sitemaps_Cache {
 			WPSEO_Sitemaps_Cache_Validator::invalidate_storage( $type );
 		}
 
-		die();
 		self::$clear_types = array();
 	}
 
