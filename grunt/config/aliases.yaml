@@ -13,6 +13,7 @@ build:
   - 'build:sass'
   - 'postcss:build'
   - 'wpcss'
+  - 'cssmin'
 # Optimise images from source to production
 'build:images':
   - 'imagemin'
@@ -20,6 +21,7 @@ build:
 'build:js':
   - 'browserify:build'
   - 'browserify:buildes6'
+  - 'uglify'
 # Build internationalisation features
 'build:i18n':
   - 'makepot'
