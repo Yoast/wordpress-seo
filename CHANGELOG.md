@@ -5,8 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.3.3: Unreleased
-* Changed the calculation of the aggregate content score to be more lenient for non-English languages. 
+## 1.3.3: June 21st, 2016
+
+### Changed
+* Change the calculation of the aggregate content score to be more lenient for non-English languages. 
 
 ## 1.3.2: June 15th, 2016
 
