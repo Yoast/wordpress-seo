@@ -45,7 +45,7 @@ class WPSEO_Frontend_Primary_Category {
 	protected function get_primary_category( $post = null ) {
 		$post = get_post( $post );
 
-		if( $post === null ) {
+		if ( $post === null ) {
 			return false;
 		}
 
