@@ -36,7 +36,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return int
 	 */
 	protected function get_page_on_front_id() {
-		if ( ! isset(self::$page_on_front_id ) ) {
+		if ( ! isset( self::$page_on_front_id ) ) {
 			self::$page_on_front_id = (int) get_option( 'page_on_front' );
 		}
 
