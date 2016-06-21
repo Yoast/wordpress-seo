@@ -292,6 +292,22 @@
 	// Instantiate the quick edit form.
 	var redirectsQuickEdit = new RedirectQuickEdit();
 
+	// Extend the jQuery UI dialog widget for our needs.
+	$.widget( 'ui.dialog', $.ui.dialog, {
+		// Extend the `_createOverlay` function.
+	    _createOverlay: function() {
+			this._super();
+			// If the modal option is true, add a click event on the overlay.
+			if ( this.options.modal ) {
+				this._on( this.overlay, {
+					click: function( event ) {
+						this.close( event );
+					}
+				});
+			}
+	    }
+	});
+
 	/**
 	 * Extending the elements with a wpseo_redirects object
 	 * @param {string} arg_type
@@ -390,7 +406,8 @@
 						my: 'center center',
 						of: window
 					},
-					buttons: buttons
+					buttons: buttons,
+					modal: true
 				}
 			);
 		};
