@@ -55,8 +55,8 @@ if ( ! empty( $redirect_file ) ) {
 	?>
 
 <div id="table-settings" class="tab-url redirect-table-tab">
+<?php echo '<h2>' . esc_html( 'Regular Expressions redirects', 'wordpress-seo' ) . '</h2>'; ?>
 	<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
-		<br class="clear" />
 		<?php
 		settings_fields( 'yoast_wpseo_redirect_options' );
 
