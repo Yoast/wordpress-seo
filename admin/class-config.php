@@ -139,9 +139,9 @@ class WPSEO_Admin_Pages {
 	 * Runs the yoast exporter class to possibly init the file download.
 	 */
 	protected function do_yoast_export() {
-		$can_manage_options = current_user_can( 'manage_options' );
-		$is_nonce_invalid   = ! wp_verify_nonce( filter_input( INPUT_POST, 'export_nonce' ), 'wpseo-export' );
-		if ( ! $can_manage_options && $is_nonce_invalid ) {
+		check_admin_referer( WPSEO_Export::NONCE );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 

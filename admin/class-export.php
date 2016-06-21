@@ -10,6 +10,11 @@
  */
 class WPSEO_Export {
 
+	const ZIP_FILENAME = 'settings.zip';
+	const INI_FILENAME = 'settings.ini';
+
+	const NONCE = 'wpseo_export';
+
 	/**
 	 * @var string
 	 */
@@ -188,7 +193,7 @@ class WPSEO_Export {
 	 * @return boolean unsigned
 	 */
 	private function write_settings_file() {
-		$handle = fopen( $this->dir['path'] . '/settings.ini', 'w' );
+		$handle = fopen( $this->dir['path'] . '/' . self::INI_FILENAME, 'w' );
 		if ( ! $handle ) {
 			return false;
 		}
@@ -211,7 +216,7 @@ class WPSEO_Export {
 	private function zip_file() {
 		$is_zip_created = $this->create_zip();
 
-		// This one isn't needed anymore.
+		// The settings.ini isn't needed, because it's in the zipfile.
 		$this->remove_settings_ini();
 
 		if ( ! $is_zip_created ) {
@@ -220,7 +225,7 @@ class WPSEO_Export {
 			return false;
 		}
 
-		$this->download_zip( 'settings.zip' );
+		$this->download_zip();
 		$this->remove_zip();
 
 		return true;
@@ -233,41 +238,39 @@ class WPSEO_Export {
 	 */
 	private function create_zip() {
 		chdir( $this->dir['path'] );
-		$zip = new PclZip( './settings.zip' );
-		if ( 0 === $zip->create( './settings.ini' ) ) {
+		$zip = new PclZip( './' . self::ZIP_FILENAME );
+		if ( 0 === $zip->create( './' . self::INI_FILENAME ) ) {
 			return false;
 		}
 
-		return file_exists( 'settings.zip' );
+		return file_exists( self::ZIP_FILENAME );
 	}
 
 	/**
 	 * Downloads the zip file.
-	 *
-	 * @param string $filename The name of the zip file to download.
 	 */
-	private function download_zip( $filename ) {
+	private function download_zip() {
+		// Clean any content that has been already output. For example by other plugins or faulty PHP files.
 		ob_clean();
 		header( 'Content-Type: application/octet-stream; charset=utf-8' );
 		header( 'Content-Transfer-Encoding: Binary' );
-		header( 'Content-Disposition: attachment; filename=' . $filename );
-		header( 'Content-Length: ' . filesize( 'settings.zip' ) );
-		ob_end_flush();
+		header( 'Content-Disposition: attachment; filename=' . self::ZIP_FILENAME );
+		header( 'Content-Length: ' . filesize( self::ZIP_FILENAME ) );
 
-		readfile( $filename );
+		readfile( self::ZIP_FILENAME );
 	}
 
 	/**
 	 * Removes the settings ini file.
 	 */
 	private function remove_settings_ini() {
-		unlink( './settings.ini' );
+		unlink( './' . self::INI_FILENAME );
 	}
 
 	/**
 	 * Removes the files because they are already downloaded.
 	 */
 	private function remove_zip() {
-		unlink( './settings.zip' );
+		unlink( './' . self::ZIP_FILENAME );
 	}
 }
