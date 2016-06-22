@@ -69,20 +69,27 @@ h2 .dashicons-warning {
 .restore .dashicons,
 .dismiss .dashicons {
 	font-size: 24px;
+	width: 24px;
+	height: 24px;
 }
 
 .yoast-bottom-spacing {
 	margin-bottom: 20px;
 }
 
-.restore,
-.dismiss {
-	width: 32px;
+.yoast-alerts .button.restore,
+.yoast-alerts .button.dismiss {
+	flex: 0 0 40px;
+	width: 40px;
 	height: 40px;
-	margin-left: 8px;
-	border: none;
-	background-color: transparent;
-	cursor: pointer;
+	line-height: inherit;
+}
+
+.yoast-alerts .button.restore:hover,
+.yoast-alerts .button.dismiss:hover,
+.yoast-alerts .button.restore:focus,
+.yoast-alerts .button.dismiss:focus {
+	background: transparent;
 }
 
 .yoast-container .separator {
