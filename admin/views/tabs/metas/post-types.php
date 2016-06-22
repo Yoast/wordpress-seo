@@ -17,18 +17,15 @@ $index_switch_values = array(
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $pt ) {
-		$warn = false;
-		if ( $options['redirectattachment'] === true && $pt->name == 'attachment' ) {
-			echo '<div class="wpseo-warning">';
-			$warn = true;
-		}
 		$name = $pt->name;
 		echo "<div id='" . esc_attr( $name ) . "-titles-metas'>";
 		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</h2>';
-		if ( $warn === true ) {
-			echo '<h3 class="error-message">' . esc_html__( 'Take note:', 'wordpress-seo' ) . '</h3>';
-			echo '<p class="error-message">' . __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!', 'wordpress-seo' ) . '</p>';
-			echo '<p class="error-message">' . sprintf( __( 'So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' ) . '</p>';
+		if ( $options['redirectattachment'] === true && $pt->name == 'attachment' ) {
+			// The `inline` CSS class prevents the notice from being moved to the top via JavaScript.
+			echo '<div class="notice notice-error inline"><p>';
+			/* translators: %1$s and %2$s expand to a link to the SEO Permalinks settings page */
+			printf( __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items! So remember: If you change the %1$sattachment redirection setting%2$s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' );
+			echo '</p></div>';
 		}
 		$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
@@ -54,10 +51,6 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		 */
 		do_action( 'wpseo_admin_page_meta_post_types', $yform, $name );
 		echo '<br/><br/>';
-		if ( $warn === true ) {
-			echo '</div>';
-		}
-		unset( $warn );
 	}
 	unset( $pt );
 }

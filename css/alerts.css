@@ -62,6 +62,7 @@ h2 .dashicons-warning {
 
 .yoast-container .yoast-alert-holder {
 	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 }
 
