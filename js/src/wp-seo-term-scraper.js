@@ -52,7 +52,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' )
+			snippetCite: this.getDataFromInput( 'cite' ),
+			permalink: this.getDataFromInput( 'baseUrl' ) + this.getDataFromInput( 'url' ) + '/'
 		};
 	};
 

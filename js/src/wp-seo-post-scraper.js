@@ -67,7 +67,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			snippetCite: this.getDataFromInput( 'cite' ),
 			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
 			searchUrl: wpseoPostScraperL10n.search_url,
-			postUrl: wpseoPostScraperL10n.post_edit_url
+			postUrl: wpseoPostScraperL10n.post_edit_url,
+			permalink: wpseoPostScraperL10n.base_url + this.getDataFromInput( 'url' )
 		};
 	};
 
@@ -350,7 +351,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	function initSnippetPreview( postScraper ) {
 		var data = postScraper.getData();
-
 		var titlePlaceholder = getTitlePlaceholder();
 		var descriptionPlaceholder = getDescriptionPlaceholder();
 
