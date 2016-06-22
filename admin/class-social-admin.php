@@ -179,7 +179,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 			if ( $reset_facebook_cache ) {
 				wp_remote_get(
-					'https://graph.facebook.com/?id=' . get_permalink( $post->ID ) . '&scrape=true&method=post'
+					'https://graph.facebook.com/v2.6/?id=' . get_permalink( $post->ID ) . '&scrape=true&method=post'
 				);
 			}
 		}
