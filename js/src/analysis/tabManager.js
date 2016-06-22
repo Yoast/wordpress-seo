@@ -2,6 +2,7 @@ var defaultsDeep = require( 'lodash/defaultsDeep' );
 
 var getIndicatorForScore = require( './getIndicatorForScore' );
 var KeywordTab = require( './keywordTab' );
+var GenericTab = require( './genericTab' );
 
 var $ = jQuery;
 
@@ -37,7 +38,7 @@ TabManager.prototype.init = function() {
 	this.focusKeywordInput = $( '#yoast_wpseo_focuskw_text_input,#wpseo_focuskw' );
 	this.focusKeywordRow = this.focusKeywordInput.closest( 'tr' );
 	this.contentAnalysis = $( '#yoast-seo-content-analysis' );
-	this.keywordAnalysis = $( '#wpseo-pageanalysis,#wpseo_analysis' );
+	this.keywordAnalysis = $( '#wpseo-pageanalysis, #wpseo_analysis' );
 	this.snippetPreview  = $( '#wpseosnippet' ).closest( 'tr' );
 
 	var initialKeyword   = $( this.arguments.focusKeywordField ).val();
@@ -64,17 +65,15 @@ TabManager.prototype.init = function() {
 		}
 	);
 
-	this.mainKeywordTab.init( metaboxTabs, 'prepend' );
+	if ( this.arguments.keywordAnalysisActive === '1' ) {
+		this.mainKeywordTab.init( metaboxTabs, 'prepend' );
+	}
 
-	this.contentTab = new KeywordTab( {
+	this.contentTab = new GenericTab( {
+		label: this.strings.contentTab,
 		active: true,
-		prefix: this.strings.contentTab,
-		showKeyword: false,
-		isKeywordTab: false,
 		onActivate: function() {
 			this.showContentAnalysis();
-
-			this.mainKeywordTab.active = false;
 		}.bind( this ),
 		afterActivate: function() {
 			YoastSEO.app.refresh();
@@ -82,7 +81,7 @@ TabManager.prototype.init = function() {
 	} );
 
 	if ( this.arguments.contentAnalysisActive === '1' ) {
-		this.contentTab.init( metaboxTabs, 'prepend' );
+		this.contentTab.init( metaboxTabs );
 	}
 
 	$( '.yoast-seo__remove-tab' ).remove();

@@ -53,6 +53,7 @@ class WPSEO_Metabox_Formatter {
 			'title_template'    => '',
 			'metadesc_template' => '',
 			'contentAnalysisActive' => $this->is_content_analysis_active(),
+			'keywordAnalysisActive' => $this->is_keyword_analysis_active(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -103,5 +104,20 @@ class WPSEO_Metabox_Formatter {
 		}
 
 		return ( ! get_the_author_meta( 'wpseo_content_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
+	}
+
+	/**
+	 * Determines if the keyword analysis is active or not.
+	 *
+	 * @return bool Whether or not the keyword analysis is active.
+	 */
+	private function is_keyword_analysis_active() {
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+		if ( ! $options['keyword-analysis-active'] ) {
+			return 0;
+		}
+
+		return ( ! get_the_author_meta( 'wpseo_keyword_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
 	}
 }

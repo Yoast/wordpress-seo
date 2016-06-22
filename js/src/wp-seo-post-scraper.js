@@ -413,7 +413,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		tabManager = new TabManager({
 			strings: wpseoPostScraperL10n,
-			contentAnalysisActive: wpseoPostScraperL10n.contentAnalysisActive
+			contentAnalysisActive: wpseoPostScraperL10n.contentAnalysisActive,
+			keywordAnalysisActive: wpseoPostScraperL10n.keywordAnalysisActive
 		});
 		tabManager.init();
 

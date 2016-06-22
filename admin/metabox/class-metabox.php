@@ -31,6 +31,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
+		add_action( 'admin_footer', array( $this, 'template_generic_tab' ) );
 
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
 
@@ -888,6 +889,30 @@ class WPSEO_Metabox extends WPSEO_Meta {
 </svg>
 SVG;
 
+	}
+
+	/**
+	 * Generic tab.
+	 */
+	public function template_generic_tab() {
+		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
+		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' ) ) {
+			return;
+		}
+
+		echo '<script type="text/html" id="tmpl-generic_tab">
+				<li class="wpseo_generic_tab<# if ( data.additionalClasses ) { data.additionalClasses } #><# if ( data.active ) { #> active<# } #>">
+					<a class="wpseo_tablink" href="#wpseo_generic" data-score="{{data.score}}">
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-generic-tab-prefix">{{data.label}}</span>
+						<span class="wpseo-generic-tab-prefix">{{data.placeholder}}</span>
+						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
+					</a>
+					<# if ( data.hideAble ) { #>
+						<a href="#" class="remove-tab"><span>x</span></a>
+					<# } #>
+				</li>
+			</script>';
 	}
 
 	/**
