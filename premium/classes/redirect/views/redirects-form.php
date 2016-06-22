@@ -8,7 +8,6 @@
  */
 
 ?>
-<br class='clear'/>
 <div class="redirect_form_row" id="row-wpseo_redirects_type">
 	<label class='textinput' for='wpseo_redirects_type<?php echo $input_suffix; ?>'>
 		<span class="title"><?php echo _x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></span>
