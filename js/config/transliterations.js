@@ -656,8 +656,8 @@ var transliterations = {
 		{ letter: /[\u014a]/g, alternative: "Ng" },
 		{ letter: /[\u0254]/g, alternative: "o" },
 		{ letter: /[\u0186]/g, alternative: "O" },
-		{ letter: /[\u028b]/g, alternative: "??" },
-		{ letter: /[\u01b2]/g, alternative: "??" },
+		{ letter: /[\u028b]/g, alternative: "w" },
+		{ letter: /[\u01b2]/g, alternative: "W" },
 		{ letter: /\u0061\u0303/g, alternative: "a" },
 		{ letter: /[\u00e1\u00e0\u01ce\u00e2\u00e3]/g, alternative: "a" },
 		{ letter: /\u0041\u0303/g, alternative: "A" },
@@ -888,7 +888,10 @@ var transliterations = {
 		{ letter: /[\u0161]/g, alternative: "s" },
 		{ letter: /[\u0160]/g, alternative: "S" },
 		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" }
+		{ letter: /[\u017d]/g, alternative: "Z" },
+		{ letter: /[\u01c4]/g, alternative: "DZ" },
+		{ letter: /[\u01c5]/g, alternative: "Dz" },
+		{ letter: /[\u01c6]/g, alternative: "dz" }
 	],
 	// Language: Georgian
 	// The Georgian language does not use capital letters.
@@ -1161,12 +1164,240 @@ var transliterations = {
 		{ letter: /[\u00c4]/g, alternative: "Ae" }
 	],
 	// Language: Aromanian.
-	// Source: https://en.wikipedia.org/wiki/Aromanian_alphabet http://www.omniglot.com/writing/aromanian.htm
+	// Sources: https://en.wikipedia.org/wiki/Aromanian_alphabet http://www.omniglot.com/writing/aromanian.htm
 	rup: [
 		{ letter: /[\u00e3]/g, alternative: "a" },
 		{ letter: /[\u00c3]/g, alternative: "A" }
 	],
-
+	// Language: Romanian.
+	// Sources: http://forum.wordreference.com/threads/romanian-transliteration.3193544/#post-16161251
+	// https://en.wikipedia.org/wiki/Romanian_alphabet http://www.omniglot.com/writing/romanian.htm
+	ro: [
+		{ letter: /[\u0103\u00e2]/g, alternative: "a" },
+		{ letter: /[\u0102\u00c2]/g, alternative: "A" },
+		{ letter: /[\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00ce]/g, alternative: "I" },
+		{ letter: /[\u0219\u015f]/g, alternative: "s" },
+		{ letter: /[\u0218\u015e]/g, alternative: "S" },
+		{ letter: /[\u021b\u0163]/g, alternative: "t" },
+		{ letter: /[\u021a\u0162]/g, alternative: "T" }
+	],
+	// Language: Klingon.
+	// Sources: http://www.omniglot.com/conscripts/klingon.htm https://en.wikipedia.org/wiki/Klingon_language#Writing_systems
+	// This translation module only works for Klingon written in Latin characters. KLI PlqaD script is not supported yet.
+	tlh: [
+		{ letter: /[\u2019\u0027]/g, alternative: "" }
+	],
+	// Language: Slovak.
+	// Sources: https://en.wikipedia.org/wiki/Dz_(digraph) https://en.wikipedia.org/wiki/Slovak_orthography
+	// http://www.omniglot.com/writing/slovak.htm
+	sk: [
+		{ letter: /[\u01c4]/g, alternative: "DZ" },
+		{ letter: /[\u01c5]/g, alternative: "Dz" },
+		{ letter: /[\u01c6]/g, alternative: "dz" },
+		{ letter: /[\u00e1\u00e4]/g, alternative: "a" },
+		{ letter: /[\u00c1\u00c4]/g, alternative: "A" },
+		{ letter: /[\u010d]/g, alternative: "c" },
+		{ letter: /[\u010c]/g, alternative: "C" },
+		{ letter: /[\u010f]/g, alternative: "d" },
+		{ letter: /[\u010e]/g, alternative: "D" },
+		{ letter: /[\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cd]/g, alternative: "I" },
+		{ letter: /[\u013e\u013a]/g, alternative: "l" },
+		{ letter: /[\u013d\u0139]/g, alternative: "L" },
+		{ letter: /[\u0148]/g, alternative: "n" },
+		{ letter: /[\u0147]/g, alternative: "N" },
+		{ letter: /[\u00f3\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d4]/g, alternative: "O" },
+		{ letter: /[\u0155]/g, alternative: "r" },
+		{ letter: /[\u0154]/g, alternative: "R" },
+		{ letter: /[\u0161]/g, alternative: "s" },
+		{ letter: /[\u0160]/g, alternative: "S" },
+		{ letter: /[\u0165]/g, alternative: "t" },
+		{ letter: /[\u0164]/g, alternative: "T" },
+		{ letter: /[\u00fa]/g, alternative: "u" },
+		{ letter: /[\u00da]/g, alternative: "U" },
+		{ letter: /[\u00fd]/g, alternative: "y" },
+		{ letter: /[\u00dd]/g, alternative: "Y" },
+		{ letter: /[\u017e]/g, alternative: "z" },
+		{ letter: /[\u017d]/g, alternative: "Z" }
+	],
+	// Language: Slovenian.
+	// Sources: https://en.wikipedia.org/wiki/Slovene_alphabet http://www.omniglot.com/writing/slovene.htm
+	sl: [
+		{ letter: /[\u010d\u0107]/g, alternative: "c" },
+		{ letter: /[\u010c\u0106]/g, alternative: "C" },
+		{ letter: /[\u0111]/g, alternative: "d" },
+		{ letter: /[\u0110]/g, alternative: "D" },
+		{ letter: /[\u0161]/g, alternative: "s" },
+		{ letter: /[\u0160]/g, alternative: "S" },
+		{ letter: /[\u017e]/g, alternative: "z" },
+		{ letter: /[\u017d]/g, alternative: "Z" },
+		{ letter: /[\u00e0\u00e1\u0203\u0201]/g, alternative: "a" },
+		{ letter: /[\u00c0\u00c1\u0202\u0200]/g, alternative: "A" },
+		{ letter: /[\u00e8\u00e9\u0207\u0205]/g, alternative: "e" },
+		{ letter: /\u01dd\u0300/g, alternative: "e" },
+		{ letter: /\u01dd\u030f/g, alternative: "e" },
+		{ letter: /\u1eb9\u0301/g, alternative: "e" },
+		{ letter: /\u1eb9\u0311/g, alternative: "e" },
+		{ letter: /[\u00c8\u00c9\u0206\u0204]/g, alternative: "E" },
+		{ letter: /\u018e\u030f/g, alternative: "E" },
+		{ letter: /\u018e\u0300/g, alternative: "E" },
+		{ letter: /\u1eb8\u0311/g, alternative: "E" },
+		{ letter: /\u1eb8\u0301/g, alternative: "E" },
+		{ letter: /[\u00ec\u00ed\u020b\u0209]/g, alternative: "i" },
+		{ letter: /[\u00cc\u00cd\u020a\u0208]/g, alternative: "I" },
+		{ letter: /[\u00f2\u00f3\u020f\u020d]/g, alternative: "o" },
+		{ letter: /\u1ecd\u0311/g, alternative: "o" },
+		{ letter: /\u1ecd\u0301/g, alternative: "o" },
+		{ letter: /\u1ecc\u0311/g, alternative: "O" },
+		{ letter: /\u1ecc\u0301/g, alternative: "O" },
+		{ letter: /[\u00d2\u00d3\u020e\u020c]/g, alternative: "O" },
+		{ letter: /[\u00f9\u00fa\u0217\u0215]/g, alternative: "u" },
+		{ letter: /[\u00d9\u00da\u0216\u0214]/g, alternative: "U" },
+		{ letter: /[\u0155\u0213]/g, alternative: "r" },
+		{ letter: /[\u0154\u0212]/g, alternative: "R" }
+	],
+	// Language: Albanian.
+	// Sources: https://en.wikipedia.org/wiki/Albanian_alphabet http://www.omniglot.com/writing/albanian.htm
+	sq: [
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00eb]/g, alternative: "e" },
+		{ letter: /[\u00cb]/g, alternative: "E" }
+	],
+	// Language: Hungarian.
+	// Sources: http://forum.wordreference.com/threads/hungarian-transliteration.3193022/#post-16166901
+	// http://www.omniglot.com/writing/hungarian.htm
+	hu: [
+		{ letter: /[\u00e1]/g, alternative: "a" },
+		{ letter: /[\u00c1]/g, alternative: "A" },
+		{ letter: /[\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cd]/g, alternative: "I" },
+		{ letter: /[\u00f3\u00f6\u0151]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d6\u0150]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00fc\u0171]/g, alternative: "u" },
+		{ letter: /[\u00da\u00dc\u0170]/g, alternative: "U" }
+	],
+	// Language: Sardinian.
+	// Sources: http://www.omniglot.com/writing/sardinian.htm https://en.wikipedia.org/wiki/Sardinian_language
+	srd: [
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00e0\u00e1]/g, alternative: "a" },
+		{ letter: /[\u00c0\u00c1]/g, alternative: "A" },
+		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
+		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
+		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00f9]/g, alternative: "u" },
+		{ letter: /[\u00da\u00d9]/g, alternative: "U" }
+	],
+	// Language: Silesian.
+	// Source: https://en.wikipedia.org/wiki/Silesian_language#Writing_system
+	szl: [
+		{ letter: /[\u0107]/g, alternative: "c" },
+		{ letter: /[\u0106]/g, alternative: "C" },
+		{ letter: /[\u00e3]/g, alternative: "a" },
+		{ letter: /[\u00c3]/g, alternative: "A" },
+		{ letter: /[\u0142]/g, alternative: "u" },
+		{ letter: /[\u0141]/g, alternative: "U" },
+		{ letter: /[\u006e]/g, alternative: "n" },
+		{ letter: /[\u004e]/g, alternative: "N" },
+		{ letter: /[\u014f\u014d\u00f4\u00f5]/g, alternative: "o" },
+		{ letter: /[\u014e\u014c\u00d4\u00d5]/g, alternative: "O" },
+		{ letter: /[\u015b]/g, alternative: "s" },
+		{ letter: /[\u015a]/g, alternative: "S" },
+		{ letter: /[\u017a\u017c\u017e]/g, alternative: "z" },
+		{ letter: /[\u0179\u017b\u017d]/g, alternative: "Z" },
+		{ letter: /[\u016f]/g, alternative: "u" },
+		{ letter: /[\u016e]/g, alternative: "U" },
+		{ letter: /[\u010d]/g, alternative: "cz" },
+		{ letter: /[\u010c]/g, alternative: "Cz" },
+		{ letter: /[\u0159]/g, alternative: "rz" },
+		{ letter: /[\u0158]/g, alternative: "Rz" },
+		{ letter: /[\u0161]/g, alternative: "sz" },
+		{ letter: /[\u0160]/g, alternative: "Sz" }
+	],
+	// Language: Tahitian.
+	// Sources: https://en.wikipedia.org/wiki/Tahitian_language#Phonology http://www.omniglot.com/writing/tahitian.htm
+	tah: [
+		{ letter: /[\u0101\u00e2\u00e0]/g, alternative: "a" },
+		{ letter: /[\u0100\u00c2\u00c0]/g, alternative: "A" },
+		{ letter: /[\u00ef\u00ee\u00ec]/g, alternative: "i" },
+		{ letter: /[\u00cf\u00ce\u00cc]/g, alternative: "I" },
+		{ letter: /[\u0113\u00ea\u00e9]/g, alternative: "e" },
+		{ letter: /[\u0112\u00ca\u00c9]/g, alternative: "E" },
+		{ letter: /[\u016b\u00fb\u00fa]/g, alternative: "u" },
+		{ letter: /[\u016a\u00db\u00da]/g, alternative: "U" },
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00f2\u00f4\u014d]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d4\u014c]/g, alternative: "O" },
+		{ letter: /[\u2019\u0027\u2018]/g, alternative: "" }
+	],
+	// Language: Venetian.
+	// Sources: http://www.omniglot.com/writing/venetian.htm https://en.wikipedia.org/wiki/Venetian_language#Spelling_systems
+	// http://www.venipedia.org/wiki/index.php?title=Venetian_Language
+	vec: [
+		{ letter: /\u0073\u002d\u0063/g, alternative: "sc" },
+		{ letter: /\u0053\u002d\u0043/g, alternative: "SC" },
+		{ letter: /\u0073\u0027\u0063/g, alternative: "sc" },
+		{ letter: /\u0053\u0027\u0043/g, alternative: "SC" },
+		{ letter: /\u0073\u2019\u0063/g, alternative: "sc" },
+		{ letter: /\u0053\u2019\u0043/g, alternative: "SC" },
+		{ letter: /\u0073\u2018\u0063/g, alternative: "sc" },
+		{ letter: /\u0053\u2018\u0043/g, alternative: "SC" },
+		{ letter: /\u0053\u002d\u0063/g, alternative: "Sc" },
+		{ letter: /\u0053\u0027\u0063/g, alternative: "Sc" },
+		{ letter: /\u0053\u2019\u0063/g, alternative: "Sc" },
+		{ letter: /\u0053\u2018\u0063/g, alternative: "Sc" },
+		{ letter: /\u0063\u2019/g, alternative: "c" },
+		{ letter: /\u0043\u2019/g, alternative: "C" },
+		{ letter: /\u0063\u2018/g, alternative: "c" },
+		{ letter: /\u0043\u2018/g, alternative: "C" },
+		{ letter: /\u0063\u0027/g, alternative: "c" },
+		{ letter: /\u0043\u0027/g, alternative: "C" },
+		{ letter: /[\u00e0\u00e1\u00e2]/g, alternative: "a" },
+		{ letter: /[\u00c0\u00c1\u00c2]/g, alternative: "A" },
+		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
+		{ letter: /[\u00f9\u00fa]/g, alternative: "u" },
+		{ letter: /[\u00d9\u00da]/g, alternative: "U" },
+		{ letter: /[\u00e7\u010d\u010b]/g, alternative: "c" },
+		{ letter: /[\u00c7\u010c\u010a]/g, alternative: "C" },
+		{ letter: /[\u0142]/g, alternative: "l" },
+		{ letter: /[\u00a3\u0141]/g, alternative: "L" },
+		{ letter: /\ud835\udeff/g, alternative: "dh" },
+		{ letter: /[\u0111\u03b4]/g, alternative: "dh" },
+		{ letter: /[\u0110\u0394]/g, alternative: "Dh" }
+	],
+	// Language: Walloon.
+	// Sources: http://www.omniglot.com/writing/walloon.htm https://en.wikipedia.org/wiki/Walloon_language
+	wa: [
+		{ letter: /[\u00e2\u00e5]/g, alternative: "a" },
+		{ letter: /[\u00c2\u00c5]/g, alternative: "A" },
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /\u0065\u030a/g, alternative: "e" },
+		{ letter: /\u0045\u030a/g, alternative: "E" },
+		{ letter: /[\u00eb\u00ea\u00e8\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00c8\u00ca\u00cb]/g, alternative: "E" },
+		{ letter: /[\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00ce]/g, alternative: "I" },
+		{ letter: /[\u00f4\u00f6]/g, alternative: "o" },
+		{ letter: /[\u00d6\u00d4]/g, alternative: "O" },
+		{ letter: /[\u00fb]/g, alternative: "u" },
+		{ letter: /[\u00db]/g, alternative: "U" }
+	],
 };
 
 /**
@@ -1304,6 +1535,28 @@ module.exports = function( locale ) {
 			return transliterations.roh;
 		case "rup":
 			return transliterations.rup;
+		case "ro":
+			return transliterations.ro;
+		case "tlh":
+			return transliterations.tlh;
+		case "sk":
+			return transliterations.sk;
+		case "sl":
+			return transliterations.sl;
+		case "sq":
+			return transliterations.sq;
+		case "hu":
+			return transliterations.hu;
+		case "srd":
+			return transliterations.srd;
+		case "szl":
+			return transliterations.szl;
+		case "tah":
+			return transliterations.tah;
+		case "vec":
+			return transliterations.vec;
+		case "wa":
+			return transliterations.wa;
 		default:
 			return [];
 	}
