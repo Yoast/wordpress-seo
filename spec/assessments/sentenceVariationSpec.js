@@ -3,9 +3,12 @@ var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
 
-describe( "An assessment for sentence variation", function(){
+describe( "An assessment for sentence variation", function() {
+
+	//Add 2 sentences to the paper, so the assessment will return a valid result.
+	var mockPaper = new Paper( "Sentence. Sentence." );
+
 	it( "returns the score when deviation 4 ", function() {
-		var mockPaper = new Paper();
 		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 4 ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
@@ -15,7 +18,6 @@ describe( "An assessment for sentence variation", function(){
 	} );
 
 	it( "returns the score when deviation is 2 ", function() {
-		var mockPaper = new Paper();
 		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 2 ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
@@ -25,7 +27,6 @@ describe( "An assessment for sentence variation", function(){
 	} );
 
 	it( "returns the score when deviation is zero ", function() {
-		var mockPaper = new Paper();
 		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
@@ -35,7 +36,6 @@ describe( "An assessment for sentence variation", function(){
 	} );
 
 	it( "returns the score when deviation is 20 ", function() {
-		var mockPaper = new Paper();
 		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 20 ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
@@ -44,4 +44,9 @@ describe( "An assessment for sentence variation", function(){
 			"which is more than or equal to the recommended minimum of 3. The text contains a nice combination of long and short sentences." );
 	} );
 
+	it( "returns no score when there is only 1 sentence", function() {
+		mockPaper = new Paper( "" );
+		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 20 ), i18n );
+		expect( assessment.hasScore() ).toBe( false );
+	} );
 } );
