@@ -740,7 +740,8 @@ var transliterations = {
 		{ letter: /[\u00d4]/g, alternative: "O" }
 	],
 	// Language: Friulian
-	// Sources: https://en.wikipedia.org/wiki/Friulian_language https://en.wikipedia.org/wiki/Faggin-Nazzi_alphabet http://www.omniglot.com/writing/friulian.htm
+	// Sources: https://en.wikipedia.org/wiki/Friulian_language https://en.wikipedia.org/wiki/Faggin-Nazzi_alphabet
+	// http://www.omniglot.com/writing/friulian.htm
 	fur: [
 		{ letter: /[\u00E7]/g, alternative: "c" },
 		{ letter: /[\u00C7]/g, alternative: "C" },
@@ -1381,7 +1382,7 @@ var transliterations = {
 		{ letter: /[\u0110\u0394]/g, alternative: "Dh" }
 	],
 	// Language: Walloon.
-	// Sources: http://www.omniglot.com/writing/walloon.htm https://en.wikipedia.org/wiki/Walloon_language
+	// Sources: http://www.omniglot.com/writing/walloon.htm https://en.wikipedia.org/wiki/Walloon_alphabet
 	wa: [
 		{ letter: /[\u00e2\u00e5]/g, alternative: "a" },
 		{ letter: /[\u00c2\u00c5]/g, alternative: "A" },
@@ -1398,6 +1399,30 @@ var transliterations = {
 		{ letter: /[\u00fb]/g, alternative: "u" },
 		{ letter: /[\u00db]/g, alternative: "U" }
 	],
+	// Language: Yoruba.
+	// Sources: http://www.omniglot.com/writing/yoruba.htm https://en.wikipedia.org/wiki/Yoruba_language
+	yor: [
+		{ letter: /[\u00e1\u00e0]/g, alternative: "a" },
+		{ letter: /[\u00c1\u00c0]/g, alternative: "A" },
+		{ letter: /[\u00ec\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cc\u00cd]/g, alternative: "I" },
+		{ letter: /\u1ecd\u0301/g, alternative: "o" },
+		{ letter: /\u1ecc\u0301/g, alternative: "O" },
+		{ letter: /\u1ecd\u0300/g, alternative: "o" },
+		{ letter: /\u1ecc\u0300/g, alternative: "O" },
+		{ letter: /[\u00f3\u00f2\u1ecd]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d2\u1ecc]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00f9]/g, alternative: "u" },
+		{ letter: /[\u00da\u00d9]/g, alternative: "U" },
+		{ letter: /\u1eb9\u0301/g, alternative: "e" },
+		{ letter: /\u1eb8\u0301/g, alternative: "E" },
+		{ letter: /\u1eb9\u0300/g, alternative: "e" },
+		{ letter: /\u1eb8\u0300/g, alternative: "E" },
+		{ letter: /[\u00e9\u00e8\u1eb9]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00c8\u1eb8]/g, alternative: "E" },
+		{ letter: /[\u1e63]/g, alternative: "s" },
+		{ letter: /[\u1e62]/g, alternative: "S" }
+	]
 };
 
 /**
@@ -1557,6 +1582,8 @@ module.exports = function( locale ) {
 			return transliterations.vec;
 		case "wa":
 			return transliterations.wa;
+		case "yor":
+			return transliterations.yor;
 		default:
 			return [];
 	}

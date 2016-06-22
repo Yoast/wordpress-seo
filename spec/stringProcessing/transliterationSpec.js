@@ -247,7 +247,7 @@ describe("a test removing special characters from text", function( ){
 		expect( transliteration( "čćČĆđĐšŠžŽàáȃȁÀÁȂȀèéẹ́ȇẹ̑ȅǝ̏ǝ̀ÈÉẸ́ȆẸ̑ȄƎ̏Ǝ̀ìíȋȉÌÍȊȈòóọ́ȏọ̑ȍÒÓỌ́ȎỌ̑ȌùúȗȕÙÚȖȔŕȓŔȒ", "sl" ) ).toBe
 		( "ccCCdDsSzZaaaaAAAAeeeeeeeeEEEEEEEEiiiiIIIIooooooOOOOOOuuuuUUUUrrRR" );
 	});
-	it("returns a Albanian string without special characters.", function(  ){
+	it("returns an Albanian string without special characters.", function(  ){
 		expect( transliteration( "çÇëË", "sq" ) ).toBe( "cCeE" );
 	});
 	it("returns a Hungarian string without special characters.", function(  ){
@@ -272,11 +272,10 @@ describe("a test removing special characters from text", function( ){
 	it("returns a Walloon string without special characters.", function(  ){
 		expect( transliteration( "âÂåÅçÇéÉèÈêÊëËe̊E̊îÎôÔöÖûÛ", "wa" ) ).toBe( "aAaAcCeEeEeEeEeEiIoOoOuU" );
 	});
-
-
-	
-
-
+	it("returns a Yoruba string without special characters.", function(  ){
+		expect( transliteration( "áàìíóòọọ́ọ̀úùéèẹẹ́ẹ̀ṣÁÀÌÍÓÒỌỌ́Ọ̀ÚÙÉÈẸẸ́Ẹ̀Ṣ", "yor" )
+		).toBe( "aaiiooooouueeeeesAAIIOOOOOUUEEEEES" );
+	});
 	it("returns an unchanged string for a non-existing locale.", function(  ){
 		expect( transliteration( "abc", "qxz" ) ).toBe( "abc" );
 	});
