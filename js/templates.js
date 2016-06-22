@@ -1,17 +1,34 @@
 ;(function() {
   var undefined;
 
-  var freeExports = typeof exports == 'object' && exports;
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
 
-  var freeModule = freeExports && typeof module == 'object' && module;
+  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+    ? exports
+    : undefined;
 
-  var freeGlobal = checkGlobal(typeof global == 'object' && global);
+  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+    ? module
+    : undefined;
 
-  var freeSelf = checkGlobal(typeof self == 'object' && self);
+  var moduleExports = (freeModule && freeModule.exports === freeExports)
+    ? freeExports
+    : undefined;
 
-  var thisGlobal = checkGlobal(typeof this == 'object' && this);
+  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
 
-  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
+  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+  var root = freeGlobal ||
+    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+      freeSelf || thisGlobal || Function('return this')();
 
   function checkGlobal(value) {
     return (value && value.Object === Object) ? value : null;
@@ -21,7 +38,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.13.0';
+  var VERSION = '4.11.2';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -43,17 +60,43 @@
     '`': '&#96;'
   };
 
+  /** Used to determine if values are of the language type `Object`. */
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  /** Detect free variable `exports`. */
+  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+    ? exports
+    : undefined;
+
+  /** Detect free variable `module`. */
+  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+    ? module
+    : undefined;
+
   /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(typeof global == 'object' && global);
+  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
 
   /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(typeof self == 'object' && self);
+  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+  /** Detect free variable `window`. */
+  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
 
   /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(typeof this == 'object' && this);
+  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
 
-  /** Used as a reference to the global object. */
-  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
+  /**
+   * Used as a reference to the global object.
+   *
+   * The `this` value is used if it's the global object to avoid Greasemonkey's
+   * restricted `window` object, otherwise the `window` object is used.
+   */
+  var root = freeGlobal ||
+    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+      freeSelf || thisGlobal || Function('return this')();
 
   /*--------------------------------------------------------------------------*/
 
@@ -244,6 +287,8 @@
       : string;
   }
 
+  /*--------------------------------------------------------------------------*/
+
   var _ = { 'escape': escape };
 
   /*----------------------------------------------------------------------------*/
@@ -263,25 +308,50 @@
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="assessment-results__mark-container">\n                ';
      if ( scores[ i ].marker ) {
-    __p += '\n                    <button type="button"\n                        aria-label="' +
-    ((__t = ( i18n.markInText )) == null ? '' : __t) +
-    '"\n                        class="assessment-results__mark ';
-     if ( scores[ i ].identifier === activeMarker ) {
-    __p += 'icon-eye-active';
-     } else {
-    __p += 'icon-eye-inactive';
+    __p += '\n                    <button type="button" ';
+     if ( markerButtonsDisabled ) {
+    __p += ' disabled="disabled" ';
      }
-    __p += ' js-assessment-results__mark-' +
-    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
-    ' yoast-tooltip yoast-tooltip-s"><span class="screen-reader-text">';
-     if ( scores[ i ].identifier === activeMarker ) {
+    __p += '\n                        aria-label="';
+     if ( markerButtonsDisabled ) {
+    __p +=
+    ((__t = ( i18n.disabledMarkText )) == null ? '' : __t);
+     }
+                                else if ( scores[ i ].identifier === activeMarker ) {
     __p +=
     ((__t = ( i18n.removeMarksInText )) == null ? '' : __t);
-     } else {
+     }
+                                else {
     __p +=
     ((__t = ( i18n.markInText )) == null ? '' : __t);
      }
-    __p += '</span></button>\n                ';
+    __p += '"\n                        class="assessment-results__mark ';
+
+                            if ( markerButtonsDisabled ) {
+    __p += ' icon-eye-disabled ';
+     }
+                            else if ( scores[ i ].identifier === activeMarker ) {
+    __p += '\n                            icon-eye-active\n                        ';
+     }
+                            else {
+    __p += '\n                            icon-eye-inactive\n                        ';
+     }
+    __p += '\n                        js-assessment-results__mark-' +
+    ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
+    ' yoast-tooltip yoast-tooltip-s">\n                        <span class="screen-reader-text">';
+     if ( markerButtonsDisabled ) {
+    __p +=
+    ((__t = ( i18n.disabledMarkText )) == null ? '' : __t);
+     }
+                                else if ( scores[ i ].identifier === activeMarker ) {
+    __p +=
+    ((__t = ( i18n.removeMarksInText )) == null ? '' : __t);
+     }
+                                else {
+    __p +=
+    ((__t = ( i18n.markInText )) == null ? '' : __t);
+     }
+    __p += '\n                        </span></button>\n                ';
      }
     __p += '\n            </span>\n            <span class="wpseo-score-icon ' +
     __e( scores[ i ].className ) +
@@ -374,8 +444,10 @@
 
   /*----------------------------------------------------------------------------*/
 
-  if (freeModule) {
-    (freeModule.exports = templates).templates = templates;
+  if (freeExports && freeModule) {
+    if (moduleExports) {
+      (freeModule.exports = templates).templates = templates;
+    }
     freeExports.templates = templates;
   }
   else {

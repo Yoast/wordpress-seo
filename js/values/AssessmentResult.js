@@ -132,7 +132,7 @@ AssessmentResult.prototype.hasMarker = function() {
 };
 
 /**
- * Gets the marker, a pure function that an return the marks for a given Paper
+ * Gets the marker, a pure function that can return the marks for a given Paper
  *
  * @returns {Function} The marker.
  */

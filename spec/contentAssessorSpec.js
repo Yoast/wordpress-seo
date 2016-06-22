@@ -16,11 +16,14 @@ describe( "A content assesor", function() {
 
 	describe( "calculatePenaltyPoints", function() {
 		var results;
-
+		var paper = new Paper();
 		beforeEach( function() {
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
+			contentAssessor.getPaper = function() {
+				return paper;
+			}
 		});
 
 		it( "should have no points for an empty result set", function() {
@@ -135,6 +138,43 @@ describe( "A content assesor", function() {
 
 				expect( actual ).toBe( testCase.expected );
 			} );
+		});
+
+		describe( "calculateOverallScore for non English", function() {
+			var points, results;
+
+			beforeEach( function() {
+				contentAssessor.getValidResults = function() {
+					return results;
+				};
+				contentAssessor.calculatePenaltyPoints = function() {
+					return points;
+				};
+				contentAssessor.getPaper = function() {
+					return new Paper( "", { locale: "nl_NL" } );
+				}
+			});
+
+			it( "should give worse results based on the negative points", function() {
+				results = [
+					new AssessmentResult(),
+					new AssessmentResult()
+				];
+				var testCases = [
+					{ points: 6, expected: 30 },
+					{ points: 4, expected: 60 },
+					{ points: 3, expected: 60 },
+					{ points: 2, expected: 90 }
+				];
+
+				forEach( testCases, function( testCase ) {
+					points = testCase.points;
+
+					var actual = contentAssessor.calculateOverallScore();
+
+					expect( actual ).toBe( testCase.expected );
+				} );
+			});
 		});
 	});
 });

@@ -9,7 +9,8 @@ describe( "A word count assessment", function(){
 		var assessment = taxonomyTextLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual ( 'The text contains 1 word, this is far too low and should be increased.' );
+		expect( assessment.getText() ).toEqual ( 'The text contains 1 word. This is far below the recommended minimum of 150 words. ' +
+			'Increase the word count with content that is relevant for the topic.' );
 	} );
 
 	it( "assesses a low word count", function(){
@@ -17,7 +18,8 @@ describe( "A word count assessment", function(){
 		var assessment = taxonomyTextLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual ( 'The text contains 5 words, this is far too low and should be increased.' );
+		expect( assessment.getText() ).toEqual ( 'The text contains 5 words. This is far below the recommended minimum of 150 words. ' +
+			'Increase the word count with content that is relevant for the topic.' );
 	} );
 
 	it( "assesses a medium word count", function(){
@@ -25,6 +27,8 @@ describe( "A word count assessment", function(){
 		var assessment = taxonomyTextLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 90 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -10 );
+		expect( assessment.getText() ).toEqual ( 'The text contains 90 words. This is below the recommended minimum of 150 words. ' +
+			'Add more content that is relevant for the topic.' );
 	} );
 
 	it( "assesses a slightly higher than medium word count", function(){
@@ -32,6 +36,8 @@ describe( "A word count assessment", function(){
 		var assessment = taxonomyTextLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 110 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 5 );
+		expect( assessment.getText() ).toEqual ( 'The text contains 110 words. This is below the recommended minimum of 150 words. ' +
+			'Add more content that is relevant for the topic.' );
 	} );
 
 	it( "assesses an almost at the recommended amount, word count", function(){
@@ -39,6 +45,8 @@ describe( "A word count assessment", function(){
 		var assessment = taxonomyTextLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 130 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 7 );
+		expect( assessment.getText() ).toEqual ( 'The text contains 130 words. This is slightly below the recommended minimum of 150 words. ' +
+			'Add a bit more copy.' );
 	} );
 
 	it( "assesses high word count", function(){
@@ -46,5 +54,6 @@ describe( "A word count assessment", function(){
 		var assessment = taxonomyTextLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 175 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual ( 'The text contains 175 words. This is more than the recommended minimum of 150 words.' );
 	} );
 } );
