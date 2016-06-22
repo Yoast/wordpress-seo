@@ -23,8 +23,8 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		if ( $options['redirectattachment'] === true && $pt->name == 'attachment' ) {
 			// The `inline` CSS class prevents the notice from being moved to the top via JavaScript.
 			echo '<div class="notice notice-error inline"><p>';
-			/* translators: %1$s and %2$s expand to a link to the SEO Permalinks settings page */
-			printf( __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items! So remember: If you change the %1$sattachment redirection setting%2$s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' );
+			/* translators: %1$s and %2$s expand to a link to the SEO Permalinks settings page. */
+			echo sprintf( __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on unattached media items! So remember: If you change the %1$sattachment redirection setting%2$s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' );
 			echo '</p></div>';
 		}
 		$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ), 'template posttype-template' );
