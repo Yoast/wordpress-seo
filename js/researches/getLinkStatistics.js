@@ -73,7 +73,6 @@ var isLinkToSelf = function( url, currentUrl ) {
  * otherNofollow: other links with a nofollow attribute.
  */
 var countLinkTypes = function( paper ) {
-	var url = paper.getUrl();
 	var keyword = paper.getKeyword();
 	var locale = paper.getLocale();
 	var anchors = getLinks( paper.getText() );
