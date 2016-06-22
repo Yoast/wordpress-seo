@@ -475,7 +475,8 @@ App.prototype.runAnalyzer = function() {
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
 		title: this.analyzerData.metaTitle,
-		locale: this.config.locale
+		locale: this.config.locale,
+		permalink: this.analyzerData.permalink
 	} );
 
 	// The new researcher

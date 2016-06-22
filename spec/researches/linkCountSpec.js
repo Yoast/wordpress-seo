@@ -8,7 +8,8 @@ describe("Tests a string for anchors and analyzes these", function() {
 	it( "returns an object with all linktypes found", function () {
 		var attributes = {
 			keyword: "test",
-			url: "http://yoast.com"
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
 		};
 		var mockPaper = new Paper( "string <a href='http://yoast.com'>link</a>", attributes );
 
@@ -20,7 +21,8 @@ describe("Tests a string for anchors and analyzes these", function() {
 
 		attributes = {
 			keyword: "link",
-			url: "http://yoast.com"
+			url: "http://yoast.com",
+			permalink: "http://yoast.com"
 		};
 
 		mockPaper = new Paper( "string <a href='http://yoast.com'>link</a>, <a href='http://example.com'>link</a>", attributes );
@@ -41,7 +43,8 @@ describe("Tests a string for anchors and analyzes these", function() {
 	it( "should return all special types", function () {
 		var attributes = {
 			keyword: "keyword",
-			url: "http://example.org"
+			url: "http://example.org",
+			permalink: "http://example.org"
 		};
 		var mockPaper = new Paper( "hello", attributes );
 
@@ -99,7 +102,8 @@ describe("Tests a string for anchors and analyzes these", function() {
 	it( "should ignore the keyword in an url when referencing to the current url", function() {
 		var attributes = {
 			keyword: "keyword",
-			url: "http://example.org/keyword"
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword"
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword'>Keyword</a>", attributes );
@@ -128,7 +132,8 @@ describe("Tests a string for anchors and analyzes these", function() {
 	it( "should ignore the keyword in an url when referencing to the current url with a hash", function() {
 		var attributes = {
 			keyword: "keyword",
-			url: "http://example.org/keyword#top"
+			url: "http://example.org/keyword#top",
+			permalink: "http://example.org/keyword#top"
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword'>Keyword</a>", attributes );
@@ -157,7 +162,8 @@ describe("Tests a string for anchors and analyzes these", function() {
 	it( "should ignore the keyword in an url with a hash when referencing to the current url", function() {
 		var attributes = {
 			keyword: "keyword",
-			url: "http://example.org/keyword"
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword"
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword#top'>resume</a>", attributes );
@@ -187,7 +193,8 @@ describe("Tests a string for anchors and analyzes these", function() {
 	it( "should match the keyword in an url with a hash", function() {
 		var attributes = {
 			keyword: "keyword",
-			url: "http://example.org/keyword"
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword"
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>resume</a>", attributes );
@@ -217,7 +224,8 @@ describe("Tests a string for anchors and analyzes these", function() {
 	it( "should match the keyword in an url with a hash in the current url", function() {
 		var attributes = {
 			keyword: "keyword",
-			url: "http://example.org/keyword#top"
+			url: "http://example.org/keyword#top",
+			permalink: "http://example.org/keyword#top"
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>keyword</a>", attributes );
