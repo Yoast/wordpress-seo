@@ -335,11 +335,13 @@ class WPSEO_Redirect_Handler {
 				$target_url = trailingslashit( $target_url );
 			}
 
-			$blog_details = get_blog_details();
-			if ( $blog_details && ! empty( $blog_details->path ) ) {
-				$blog_path = ltrim( $blog_details->path, '/' );
-				if ( 0 === strpos( $target_url, $blog_path ) ) {
-					$target_url = substr( $target_url, strlen( $blog_path ) );
+			if( is_multisite() ) {
+				$blog_details = get_blog_details();
+				if ( $blog_details && ! empty( $blog_details->path ) ) {
+					$blog_path = ltrim( $blog_details->path, '/' );
+					if ( 0 === strpos( $target_url, $blog_path ) ) {
+						$target_url = substr( $target_url, strlen( $blog_path ) );
+					}
 				}
 			}
 

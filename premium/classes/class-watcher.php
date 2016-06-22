@@ -201,8 +201,9 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function set_undo_slug_notification( WPSEO_Redirect $redirect ) {
 		$id = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
-		$old_url = home_url() . '/' . $redirect->get_origin();
-		$new_url = home_url() . '/' . $redirect->get_target();
+		$old_url = $this->create_hyperlink_from_url( home_url() . '/' . $redirect->get_origin() );
+		$new_url = $this->create_hyperlink_from_url( home_url() . '/' . $redirect->get_target() );
+
 		// Format the message.
 		$message = sprintf(
 			$this->get_undo_slug_notification(),
@@ -233,5 +234,16 @@ abstract class WPSEO_Watcher {
 			'<li><button type="button" class="button" onclick=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::PERMANENT ) . '\'>' . __( 'Redirect it to another URL', 'wordpress-seo-premium' ) . '</button></li>',
 			'<li><button type="button" class="button" onclick=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it serve a 410 Content Deleted header', 'wordpress-seo-premium' ) . '</button></li>'
 		);
+	}
+
+	/**
+	 * Returns the passed url in hyperlink form. Both the target and the text of the hyperlink is the passed url.
+	 *
+	 * @param string $url The url in string form to convert to a hyperlink.
+	 *
+	 * @return string
+	 */
+	protected function create_hyperlink_from_url ($url) {
+		return "<a target='_blank' href=" . $url . ">" . $url . "</a>";
 	}
 }
