@@ -120,9 +120,7 @@ TabManager.prototype.deactivateContentTab = function() {
  * @param {number} score The score that has been calculated.
  */
 TabManager.prototype.updateContentTab = function( score ) {
-	var indicator = getIndicatorForScore( score );
-
-	this.contentTab.update( indicator.className, indicator.screenReaderText );
+	this.contentTab.updateScore( score );
 };
 
 /**

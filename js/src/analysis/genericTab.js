@@ -2,21 +2,16 @@
 
 var isUndefined = require( 'lodash/isUndefined' );
 var defaultsDeep = require( 'lodash/defaultsDeep' );
+var getIndicatorForScore = require( './getIndicatorForScore' );
 
 var $ = jQuery;
 
 var defaultArguments = {
 	label: '',
-	placeholder: '...',
-
 	active: false,
-	hideable: false,
+	hideable: true,
 
 	classes: [ 'wpseo_tab', 'wpseo_generic_tab' ],
-
-	// Possibly remove this and use an indicator instead
-	scoreClass: 'na',
-	scoreText: '',
 
 	onActivate: function ( ) { },
 	afterActivate: function ( ) { },
@@ -33,17 +28,12 @@ module.exports = (function() {
 	function GenericTab( args ) {
 		defaultsDeep( args, defaultArguments );
 
-		console.log( args );
+		this.label          = args.label;
+		this.active         = args.active;
+		this.hideable       = args.hideable;
 
-		this.label = args.label;
-		this.placeholder = args.placeholder;
-		this.active = args.active;
-
-		this.onActivate = args.onActivate;
-		this.afterActivate = args.afterActivate;
-
-//		this.scoreClass = args.scoreClass;
-//		this.scoreText = args.scoreText;
+		this.onActivate     = args.onActivate;
+		this.afterActivate  = args.afterActivate;
 	}
 
 	/**
@@ -79,13 +69,14 @@ module.exports = (function() {
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
-	 * @param {string} scoreClass
-	 * @param {string} scoreText
+	 * @param {int} indicator
 	 */
-	GenericTab.prototype.update = function( scoreClass, scoreText ) {
-		// TODO: Get an indicator here, you fool.
-//		this.setScoreClass( scoreClass );
-//		this.setScoreText( scoreText );
+	GenericTab.prototype.updateScore = function( score ) {
+		var indicator = getIndicatorForScore( score );
+
+		this.score = indicator.className;
+		this.scoreText = indicator.screenReaderText;
+
 		this.refresh();
 	};
 
@@ -105,15 +96,16 @@ module.exports = (function() {
 	 * @returns {Object} jQuery HTML object.
 	 */
 	GenericTab.prototype.render = function() {
+		console.log( this.hideable );
+
 		var html = wp.template( 'generic_tab' )( {
 			label: this.label,
-			placeholder: this.placeholder,
 
 			active: this.active,
-			hideRemove: true,
+			hideable: this.hideable,
 
-			score: this.scoreClass,
-			scoreText: this.scoreText,
+			score: this.score,
+			scoreText: this.scoreText
 		} );
 
 		return jQuery( html );
@@ -171,4 +163,4 @@ module.exports = (function() {
 	};
 
 	return GenericTab;
-})();
+} )();

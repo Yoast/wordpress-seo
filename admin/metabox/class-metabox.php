@@ -905,10 +905,9 @@ SVG;
 					<a class="wpseo_tablink" href="#wpseo_generic" data-score="{{data.score}}">
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-generic-tab-prefix">{{data.label}}</span>
-						<span class="wpseo-generic-tab-prefix">{{data.placeholder}}</span>
 						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
 					</a>
-					<# if ( data.hideAble ) { #>
+					<# if ( data.hideable ) { #>
 						<a href="#" class="remove-tab"><span>x</span></a>
 					<# } #>
 				</li>
