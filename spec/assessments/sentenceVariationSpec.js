@@ -46,19 +46,16 @@ describe( "An assessment for sentence variation", function() {
 
 	it( "returns no score when there is only 1 sentence", function() {
 		mockPaper = new Paper( "This is one sentence." );
-		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 20 ), i18n );
-		expect( assessment.hasScore() ).toBe( false );
+		expect( sentenceVariationAssessment.isApplicable( mockPaper ) ).toBe( false );
 	} );
 
 	it( "returns no score when there is only HTMLtags ", function() {
 		mockPaper = new Paper( "<iframe src='framesource'>" );
-		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 20 ), i18n );
-		expect( assessment.hasScore() ).toBe( false );
+		expect( sentenceVariationAssessment.isApplicable( mockPaper ) ).toBe( false );
 	} );
 
 	it( "returns no score when there is only HTMLtags and 1 sentence", function() {
 		mockPaper = new Paper( "<iframe src='framesource'> One sentence." );
-		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 20 ), i18n );
-		expect( assessment.hasScore() ).toBe( false );
+		expect( sentenceVariationAssessment.isApplicable( mockPaper ) ).toBe( false );
 	} );
 } );

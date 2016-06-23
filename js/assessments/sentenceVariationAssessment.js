@@ -65,13 +65,7 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 var getSentenceVariation = function( paper, researcher, i18n ) {
 	var standardDeviation = researcher.getResearch( "sentenceVariation" );
 
-	var numberOfSentences = getSentences( paper.getText() ).length;
 	var assessmentResult = new AssessmentResult();
-
-	if ( numberOfSentences <= 1 ) {
-		return assessmentResult;
-	}
-
 	var sentenceDeviationResult =  getStandardDeviationResult( standardDeviation, i18n );
 
 	assessmentResult.setScore( sentenceDeviationResult.score );
@@ -84,7 +78,8 @@ module.exports = {
 	identifier: "textSentenceLengthVariation",
 	getResult: getSentenceVariation,
 	isApplicable: function( paper ) {
-		return paper.hasText();
+		var numberOfSentences = getSentences( paper.getText() ).length;
+		return paper.hasText() && numberOfSentences > 1;
 	}
 };
 
