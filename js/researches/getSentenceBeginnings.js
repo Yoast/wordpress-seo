@@ -6,6 +6,7 @@ var firstWordExceptions = require ( "../language/en/firstWordExceptions.js" )();
 
 var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
+
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
  *
@@ -13,8 +14,8 @@ var forEach = require( "lodash/forEach" );
  * @param {string} nextSentenceBeginning The first word of the next sentence.
  * @returns {boolean} Returns true if sentence beginnings match.
  */
-var hasSameBeginWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
-	if( !isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
+var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
+	if ( !isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
 		return true;
 	}
 	return false;
@@ -36,7 +37,7 @@ var compareFirstWords = function ( sentenceBeginnings, sentences ) {
 		var nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
 		foundSentences.push( sentences );
 
-		if( hasSameBeginWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
+		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
 			sameBeginnings++;
 		} else {
 			consecutiveFirstWords.push( { word: currentSentenceBeginning, count: sameBeginnings, sentences: foundSentences } );
