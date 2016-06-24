@@ -4,8 +4,11 @@ var cleanText = require( "../stringProcessing/cleanText.js" );
 var syllableArray = require( "../config/syllables.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 
+var getWords = require( "../stringProcessing/getWords.js" );
+
 var map = require( "lodash/map" );
 var forEach = require( "lodash/forEach" );
+var filter = require( "lodash/filter" );
 
 var exclusionWords = syllableArray().exclusionWords;
 var exclusionWordsRegexes = map( exclusionWords, function( exclusionWord ) {
@@ -16,6 +19,7 @@ var exclusionWordsRegexes = map( exclusionWords, function( exclusionWord ) {
 } );
 var addSyllablesRegex = arrayToRegex( syllableArray().addSyllables, true );
 var subtractSyllablesRegex = arrayToRegex( syllableArray().subtractSyllables, true );
+var vowelRegex = new RegExp( "[^" + syllableArray().vowels + "]", "ig" );
 
 /**
  * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
@@ -60,24 +64,19 @@ var removeExclusionWords = function( text ) {
  * @returns {number} the syllable count
  */
 var countBasicSyllables = function( text ) {
-	var array = text.split( " " );
-	var i, j, splitWord, count = 0;
 
-	// split textstring to individual words
-	for ( i = 0; i < array.length; i++ ) {
+	var words = getWords( text );
+	var numberOfSyllables = 0;
 
-		// split on consonants
-		splitWord = array[ i ].split( /[^aeiouy]/g );
+	forEach( words, function( word ) {
+		var foundVowels = word.split( vowelRegex );
+		var filteredWords = filter( foundVowels, function( vowel ){
+			return vowel !== ""
+		} );
+		numberOfSyllables += filteredWords.length;
+	} );
 
-		// if the string isn't empty, a consonant was found, up the counter
-		for ( j = 0; j < splitWord.length; j++ ) {
-			if ( splitWord[ j ] !== "" ) {
-				count++;
-			}
-		}
-	}
-
-	return count;
+	return numberOfSyllables;
 };
 
 /**

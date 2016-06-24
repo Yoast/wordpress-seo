@@ -15,6 +15,7 @@ module.exports = function() {
 		exclusionWords: [
 			{ word: "shoreline", syllables: 2 },
 			{ word: "simile", syllables: 3 }
-		]
+		],
+		vowels: 'aeiouy'
 	};
 };
