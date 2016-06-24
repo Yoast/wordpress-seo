@@ -18,10 +18,10 @@ module.exports = function( text ) {
 		return [];
 	}
 
-	var words = map( text.split( /\s/g ), removeSentenceTerminators );
+	var words = text.split( /\s/g );
 
 	return filter( words, function( word ) {
-		return word.trim() !== "";
+		return word.trim() !== "" && removeSentenceTerminators( word ) !== "";
 	} );
 };
 
