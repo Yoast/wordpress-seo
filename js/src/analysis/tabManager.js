@@ -49,38 +49,35 @@ TabManager.prototype.init = function() {
 	this.focusKeywordRow.hide();
 
 	// Initialize an instance of the keyword tab.
-	this.mainKeywordTab = new KeywordTab(
-		{
-			keyword: initialKeyword,
-			prefix: this.strings.keywordTab,
-			fallback: this.strings.enterFocusKeyword,
-			onActivate: function() {
-				this.showKeywordAnalysis();
-				this.deactivateContentTab();
-
-			}.bind( this ),
-			afterActivate: function() {
-				YoastSEO.app.refresh();
-			}
-		}
-	);
-
-	if ( this.arguments.keywordAnalysisActive === '1' ) {
-		this.mainKeywordTab.init( metaboxTabs, 'prepend' );
-	}
-
-	this.contentTab = new GenericTab( {
-		label: this.strings.contentTab,
-		active: true,
+	this.mainKeywordTab = new KeywordTab( {
+		keyword:    initialKeyword,
+		prefix:     this.strings.keywordTab,
+		fallback:   this.strings.enterFocusKeyword,
 		onActivate: function() {
-			this.showContentAnalysis();
+			this.showKeywordAnalysis();
+			this.contentTab.deactivate();
 		}.bind( this ),
 		afterActivate: function() {
 			YoastSEO.app.refresh();
 		}
 	} );
 
-	if ( this.arguments.contentAnalysisActive === '1' ) {
+	this.contentTab = new GenericTab( {
+		label: this.strings.contentTab,
+		onActivate: function() {
+			this.showContentAnalysis();
+			this.mainKeywordTab.deactivate();
+		}.bind( this ),
+		afterActivate: function() {
+			YoastSEO.app.refresh();
+		}
+	} );
+
+	if ( this.arguments.keywordAnalysisActive ) {
+		this.mainKeywordTab.init( metaboxTabs );
+	}
+
+	if ( this.arguments.contentAnalysisActive ) {
 		this.contentTab.init( metaboxTabs );
 	}
 
@@ -108,13 +105,6 @@ TabManager.prototype.showContentAnalysis = function() {
 };
 
 /**
- * Deactivates the content tab (this will not re-render the tab.)
- */
-TabManager.prototype.deactivateContentTab = function() {
-	this.contentTab.active = false;
-};
-
-/**
  * Updates the content tab with the calculated score
  *
  * @param {number} score The score that has been calculated.
@@ -130,16 +120,7 @@ TabManager.prototype.updateContentTab = function( score ) {
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
 TabManager.prototype.updateKeywordTab = function( score, keyword ) {
-	var indicator = {
-		className: 'na',
-		screenReaderText: YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' )
-	};
-
-	if ( keyword !== '' ) {
-		indicator = getIndicatorForScore( score );
-	}
-
-	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+	this.mainKeywordTab.updateScore( score, keyword );
 };
 
 /**
@@ -150,7 +131,7 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
  * @returns {boolean}
  */
 TabManager.prototype.isMainKeyword = function( keyword ) {
-	return this.mainKeywordTab.getKeyword() === keyword;
+	return this.mainKeywordTab.getKeywordFromElement() === keyword;
 };
 
 /**

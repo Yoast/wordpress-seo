@@ -10,7 +10,7 @@ var $ = jQuery;
 var defaultArguments = {
 	label: '',
 	active: false,
-	hideable: true,
+	hideable: false,
 
 	classes: [ 'wpseo_tab', 'wpseo_generic_tab' ],
 
@@ -32,6 +32,7 @@ module.exports = (function() {
 		this.label          = args.label;
 		this.active         = args.active;
 		this.hideable       = args.hideable;
+		this.classes        = args.classes;
 
 		this.onActivate     = args.onActivate;
 		this.afterActivate  = args.afterActivate;
@@ -68,12 +69,22 @@ module.exports = (function() {
 	};
 
 	/**
+	 * Gets the indicator object based on the passed score.
+	 *
+	 * @param {int} score The score to be used to determine the indicator.
+	 * @returns {Object} The indicator.
+	 */
+	GenericTab.prototype.getIndicator = function( score ) {
+		return getIndicatorForScore( score );
+	};
+
+	/**
 	 * Updates the keyword tabs with new values.
 	 *
 	 * @param {int} indicator
 	 */
 	GenericTab.prototype.updateScore = function( score ) {
-		var indicator = getIndicatorForScore( score );
+		var indicator = this.getIndicator( score );
 
 		this.score = indicator.className;
 		this.scoreText = indicator.screenReaderText;
@@ -92,13 +103,20 @@ module.exports = (function() {
 	};
 
 	/**
+	 * Adds additional CSS classes based on the classes field.
+	 *
+	 * @returns {string} The classes to add.
+	 */
+	GenericTab.prototype.addAdditionalClasses = function() {
+		return this.classes.join( ' ' );
+	};
+
+	/**
 	 * Renders this keyword tab as a jQuery HTML object.
 	 *
-	 * @returns {Object} jQuery HTML object.
+	 * @returns {HTMLElement} jQuery HTML object.
 	 */
 	GenericTab.prototype.render = function() {
-		console.log( this.hideable );
-
 		var html = wp.template( 'generic_tab' )( {
 			label: this.label,
 
@@ -106,7 +124,9 @@ module.exports = (function() {
 			hideable: this.hideable,
 
 			score: this.score,
-			scoreText: this.scoreText
+			scoreText: this.scoreText,
+
+			classes: this.addAdditionalClasses()
 		} );
 
 		return jQuery( html );
@@ -149,6 +169,7 @@ module.exports = (function() {
 	 * Removes active state class from all tabs.
 	 */
 	GenericTab.prototype.deactivate = function() {
+		this.active = false;
 		$( '.wpseo_tab' ).removeClass( 'active' );
 	};
 
@@ -250,29 +271,30 @@ module.exports = getTitlePlaceholder;
 
 },{"lodash/isUndefined":200}],5:[function(require,module,exports){
 /* global wp, jQuery */
-
 var isUndefined = require( 'lodash/isUndefined' );
-var defaults = require( 'lodash/defaults' );
+var defaultsDeep = require( 'lodash/defaultsDeep' );
 
-var $ = jQuery;
+var GenericTab = require( './genericTab' );
 
 var defaultArguments = {
 	keyword: '',
-	prefix: '',
-	onActivate: function ( ) { },
-	afterActivate: function ( ) { },
+	placeholder: '',
+
 	active: false,
+	hideable: false,
+	prefix: '',
 
-	scoreClass: 'na',
-	scoreText: '',
-	fallback: '',
+	classes: [ 'wpseo_tab', 'wpseo_keyword_tab' ],
 
-	showKeyword: true,
-	isKeywordTab: true
+	onActivate: function ( ) { },
+	afterActivate: function ( ) { }
 };
 
 module.exports = (function() {
 	'use strict';
+
+	// Extending all the things.
+	KeywordTab.prototype = Object.create( GenericTab.prototype );
 
 	/**
 	 * Constructor for a keyword tab object
@@ -280,62 +302,72 @@ module.exports = (function() {
 	 * @constructor
 	 */
 	function KeywordTab( args ) {
-		defaults( args, defaultArguments );
+		defaultsDeep( args, defaultArguments );
+		this.fallback       = args.fallback;
+		this.keyword        = args.keyword;
+		this.placeholder    = args.placeholder;
+		this.prefix         = args.prefix;
 
-		this.keyword = args.keyword;
-		this.prefix  = args.prefix;
-		this.onActivate = args.onActivate;
-		this.afterActivate = args.afterActivate;
-		this.active = args.active;
-		this.scoreClass = args.scoreClass;
-		this.scoreText = args.scoreText;
+		this.classes        = args.classes;
 
-		this.showKeyword = args.showKeyword;
-		this.isKeywordTab = args.isKeywordTab;
-		this.fallback = args.fallback;
+		this.onActivate     = args.onActivate;
+		this.afterActivate  = args.afterActivate;
 	}
-
-	/**
-	 * Initialize a keyword tab.
-	 *
-	 * @param {HTMLElement} parent
-	 * @param {string} position Either prepend or append for the position in the parent.
-	 */
-	KeywordTab.prototype.init = function( parent, position ) {
-		this.setElement( this.render() );
-		var $parent = $( parent );
-
-		if ( 'prepend' === position ) {
-			$parent.prepend( this.element );
-		} else {
-			$parent.append( this.element );
-		}
-	};
 
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
 	 * @param {string} scoreClass
 	 * @param {string} scoreText
-	 * @param {string=""} keyword
+	 * @param {string} [keyword]
 	 */
-	KeywordTab.prototype.update = function( scoreClass, scoreText, keyword ) {
+	KeywordTab.prototype.updateScore = function( score, keyword ) {
 		if ( ! isUndefined( keyword ) ) {
 			this.keyword = keyword;
 		}
-		this.setScoreClass( scoreClass );
-		this.setScoreText( scoreText );
+
+		if ( keyword === '' ) {
+			this.score = 'na';
+			this.scoreText = YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
+			this.refresh();
+
+			return;
+		}
+
+		var indicator   = this.getIndicator( score );
+
+		this.score      = indicator.className;
+		this.scoreText  = indicator.screenReaderText;
+
 		this.refresh();
 	};
 
-	/**
-	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
-	 */
-	KeywordTab.prototype.refresh = function() {
-		var newElem = this.render();
+	KeywordTab.prototype.hasKeyword = function() {
+		return this.keyword !== '';
+	};
 
-		this.element.replaceWith( newElem );
-		this.setElement( newElem );
+	KeywordTab.prototype.getKeyWord = function() {
+		return this.hasKeyword() ? this.keyword : '...';
+	};
+
+	KeywordTab.prototype.hasFallback = function() {
+		return this.fallback !== '';
+	};
+
+	KeywordTab.prototype.determinePrefix = function() {
+		if ( ! this.hasKeyword() && this.hasFallback() ) {
+			return '';
+		}
+
+		return this.prefix;
+	};
+
+	KeywordTab.prototype.determineLabel = function() {
+		if ( ! this.hasKeyword() && this.hasFallback() ) {
+			return this.fallback;
+		}
+
+		return this.getKeyWord();
 	};
 
 	/**
@@ -344,105 +376,35 @@ module.exports = (function() {
 	 * @returns {Object} jQuery HTML object.
 	 */
 	KeywordTab.prototype.render = function() {
-		var placeholder = this.keyword.length > 0 ? this.keyword : '...';
-		var prefix = this.prefix;
-
-		if ( ! this.showKeyword ) {
-			placeholder = '';
-		}
-
-		if ( '' === this.keyword && '' !== this.fallback ) {
-			placeholder = this.fallback;
-			prefix = '';
-		} else {
-			prefix += ' ';
-		}
-
 		var html = wp.template( 'keyword_tab' )({
-			keyword: this.keyword,
-			placeholder: placeholder,
-			score: this.scoreClass,
-			hideRemove: true,
-			prefix: prefix,
+			label: this.determineLabel(),
+			keyword: this.getKeyWord(),
+
+			hideable: this.hideable,
 			active: this.active,
+
+			prefix: this.determinePrefix(),
+
+			score: this.score,
 			scoreText: this.scoreText,
-			isKeywordTab: this.isKeywordTab
+
+			classes: this.addAdditionalClasses()
 		});
 
 		return jQuery( html );
 	};
 
 	/**
-	 * Sets the current element
-	 *
-	 * @param {HTMLElement} element
-	 */
-	KeywordTab.prototype.setElement = function( element ) {
-		this.element = jQuery( element );
-
-		this.addEventHandler();
-	};
-
-	/**
-	 * Formats the given score and store it in the attribute.
-	 *
-	 * @param {string} scoreClass
-	 */
-	KeywordTab.prototype.setScoreClass = function( scoreClass ) {
-		this.scoreClass = scoreClass;
-	};
-
-	/**
-	 * Formats the given score text and store it in the attribute.
-	 *
-	 * @param {string} scoreText
-	 */
-	KeywordTab.prototype.setScoreText = function( scoreText ) {
-		this.scoreText = scoreText;
-	};
-
-	/**
-	 * Adds event handler to tab
-	 */
-	KeywordTab.prototype.addEventHandler = function() {
-		$( this.element ).on( 'click', this.onClick.bind( this ) );
-	};
-
-	/**
-	 * Activates the tab
-	 */
-	KeywordTab.prototype.activate = function() {
-		this.onActivate();
-
-		$( '.wpseo_keyword_tab, .wpseo_content_tab' ).removeClass( 'active' );
-		this.active = true;
-		this.refresh();
-
-		this.afterActivate();
-	};
-
-	/**
-	 * Handles clicking the tab.
-	 *
-	 * @param {UIEvent} ev The event fired by the browser.
-	 */
-	KeywordTab.prototype.onClick = function( ev ) {
-		ev.preventDefault();
-
-		this.activate();
-	};
-
-	/**
 	 * Returns the keyword for this keyword tab
 	 */
-	KeywordTab.prototype.getKeyword = function() {
+	KeywordTab.prototype.getKeywordFromElement = function() {
 		return this.element.find( '.wpseo_tablink' ).data( 'keyword' );
 	};
 
 	return KeywordTab;
 })();
 
-},{"lodash/defaults":166,"lodash/isUndefined":200}],6:[function(require,module,exports){
+},{"./genericTab":1,"lodash/defaultsDeep":167,"lodash/isUndefined":200}],6:[function(require,module,exports){
 var defaultsDeep = require( 'lodash/defaultsDeep' );
 
 var getIndicatorForScore = require( './getIndicatorForScore' );
@@ -494,38 +456,35 @@ TabManager.prototype.init = function() {
 	this.focusKeywordRow.hide();
 
 	// Initialize an instance of the keyword tab.
-	this.mainKeywordTab = new KeywordTab(
-		{
-			keyword: initialKeyword,
-			prefix: this.strings.keywordTab,
-			fallback: this.strings.enterFocusKeyword,
-			onActivate: function() {
-				this.showKeywordAnalysis();
-				this.deactivateContentTab();
-
-			}.bind( this ),
-			afterActivate: function() {
-				YoastSEO.app.refresh();
-			}
-		}
-	);
-
-	if ( this.arguments.keywordAnalysisActive === '1' ) {
-		this.mainKeywordTab.init( metaboxTabs, 'prepend' );
-	}
-
-	this.contentTab = new GenericTab( {
-		label: this.strings.contentTab,
-		active: true,
+	this.mainKeywordTab = new KeywordTab( {
+		keyword:    initialKeyword,
+		prefix:     this.strings.keywordTab,
+		fallback:   this.strings.enterFocusKeyword,
 		onActivate: function() {
-			this.showContentAnalysis();
+			this.showKeywordAnalysis();
+			this.contentTab.deactivate();
 		}.bind( this ),
 		afterActivate: function() {
 			YoastSEO.app.refresh();
 		}
 	} );
 
-	if ( this.arguments.contentAnalysisActive === '1' ) {
+	this.contentTab = new GenericTab( {
+		label: this.strings.contentTab,
+		onActivate: function() {
+			this.showContentAnalysis();
+			this.mainKeywordTab.deactivate();
+		}.bind( this ),
+		afterActivate: function() {
+			YoastSEO.app.refresh();
+		}
+	} );
+
+	if ( this.arguments.keywordAnalysisActive ) {
+		this.mainKeywordTab.init( metaboxTabs );
+	}
+
+	if ( this.arguments.contentAnalysisActive ) {
 		this.contentTab.init( metaboxTabs );
 	}
 
@@ -553,13 +512,6 @@ TabManager.prototype.showContentAnalysis = function() {
 };
 
 /**
- * Deactivates the content tab (this will not re-render the tab.)
- */
-TabManager.prototype.deactivateContentTab = function() {
-	this.contentTab.active = false;
-};
-
-/**
  * Updates the content tab with the calculated score
  *
  * @param {number} score The score that has been calculated.
@@ -575,16 +527,7 @@ TabManager.prototype.updateContentTab = function( score ) {
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
 TabManager.prototype.updateKeywordTab = function( score, keyword ) {
-	var indicator = {
-		className: 'na',
-		screenReaderText: YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' )
-	};
-
-	if ( keyword !== '' ) {
-		indicator = getIndicatorForScore( score );
-	}
-
-	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+	this.mainKeywordTab.updateScore( score, keyword );
 };
 
 /**
@@ -595,7 +538,7 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
  * @returns {boolean}
  */
 TabManager.prototype.isMainKeyword = function( keyword ) {
-	return this.mainKeywordTab.getKeyword() === keyword;
+	return this.mainKeywordTab.getKeywordFromElement() === keyword;
 };
 
 /**
@@ -884,7 +827,9 @@ var imageScoreClass = 'image yoast-logo svg';
 			createScoresInPublishBox( 'content', notAvailableStatus );
 		}
 
-		createScoresInPublishBox( 'keyword', notAvailableStatus );
+		if ( wpseoPostScraperL10n.keywordAnalysisActive === '1' ) {
+			createScoresInPublishBox( 'keyword', notAvailableStatus );
+		}
 	}
 
 	module.exports = {
@@ -1038,16 +983,19 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 				// If only one is visible than that item is the primary category.
 				var checked = categoryBase.find( 'li input:checked' );
+
 				if ( checked.length === 1 ) {
 					val = this.getCategoryName( checked.parent() );
 					break;
 				}
 
 				var primaryTerm = categoryBase.find( '.wpseo-primary-term > label' );
+
 				if ( primaryTerm.length ) {
 					val = this.getCategoryName( primaryTerm );
 					break;
 				}
+
 				break;
 			default:
 				break;
@@ -1172,7 +1120,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		var indicator = getIndicatorForScore( score );
 
 		// If multi keyword isn't available we need to update the first tab (content).
-		if ( ! YoastSEO.multiKeyword ) {
+		if ( keywordAnalysisIsActive() && ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
 			publishBox.updateScore( 'content', indicator.className );
 
@@ -1180,7 +1128,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
 		}
 
-		if ( tabManager.isMainKeyword( currentKeyword ) ) {
+		if ( keywordAnalysisIsActive() && tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
@@ -1303,43 +1251,100 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	}
 
 	/**
+	 * Determines if markers should be shown.
+	 *
+	 * @returns {boolean}
+	 */
+	function displayMarkers() {
+		return wpseoPostScraperL10n.show_markers === '1';
+	}
+
+	/**
+	 * Determines if the keyword analysis is active.
+	 *
+	 * @returns {boolean}
+	 */
+	function keywordAnalysisIsActive() {
+		return wpseoPostScraperL10n.keywordAnalysisActive === '1';
+	}
+
+	/**
+	 * Determines if the content analysis is active.
+	 *
+	 * @returns {boolean}
+	 */
+	function contentAnalysisIsActive() {
+		return wpseoPostScraperL10n.contentAnalysisActive === '1';
+	}
+
+	/**
 	 * Returns the marker callback method for the assessor.
 	 *
 	 * @returns {*|bool}
 	 */
 	function getMarker() {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
-		if ( typeof tinyMCE !== 'undefined' && wpseoPostScraperL10n.show_markers === '1' ) {
-			return function( paper, marks ) {
-				if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
-					if ( null === decorator ) {
-						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
-					}
-					decorator( paper, marks );
-				}
-			};
+		if ( ! tmceHelper.isTinyMCEAvailable( tmceId ) || ! displayMarkers() ) {
+			return false;
 		}
 
-		return false;
+		if ( decorator === null ) {
+			decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+		}
+
+		return function( paper, marks ) {
+			decorator( paper, marks );
+		};
 	}
 
-	jQuery( document ).ready(function() {
-		var args, postScraper, translations;
+	/**
+	 * Retrieves translations.
+	 *
+	 * @returns {Object}
+	 */
+	function retrieveTranslations() {
+		var translations = wpseoPostScraperL10n.translations;
 
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
+			translations.domain = 'js-text-analysis';
+			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+
+			delete( translations.locale_data['wordpress-seo'] );
+		}
+
+		return translations;
+	}
+
+	function initializeKeywordAnalysis( app, postScraper, tabManager, publishBox ) {
 		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
+		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
 
+		usedKeywords.init();
+		postScraper.initKeywordTabTemplate();
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+
+		publishBox.updateScore( 'keyword', indicator.className );
+
+		tabManager.getKeywordTab().activate();
+	}
+
+	jQuery( document ).ready( function() {
+		var postScraper = new PostScraper();
 		publishBox.initalise();
 
-		tabManager = new TabManager({
+		tabManager = new TabManager( {
 			strings: wpseoPostScraperL10n,
-			contentAnalysisActive: wpseoPostScraperL10n.contentAnalysisActive,
-			keywordAnalysisActive: wpseoPostScraperL10n.keywordAnalysisActive
-		});
+			contentAnalysisActive: contentAnalysisIsActive(),
+			keywordAnalysisActive: keywordAnalysisIsActive()
+		} );
+
 		tabManager.init();
 
-		postScraper = new PostScraper();
-
-		args = {
+		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
@@ -1357,27 +1362,19 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		};
 
 		// Determine whether or not the content analysis should be executed.
-		if ( wpseoPostScraperL10n.contentAnalysisActive === '1' ) {
+		if ( contentAnalysisIsActive() ) {
 			args.targets.contentOutput = 'yoast-seo-content-analysis';
 		}
 
 		titleElement = $( '#title' );
 
-		translations = wpseoPostScraperL10n.translations;
-
-		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-
-			delete( translations.locale_data['wordpress-seo'] );
-
-			args.translations = translations;
-		}
-
 		snippetPreview = initSnippetPreview( postScraper );
+
 		args.snippetPreview = snippetPreview;
+		args.translations = retrieveTranslations();
 
 		app = new App( args );
+
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
@@ -1388,26 +1385,22 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 		YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( app );
 
-		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
-		usedKeywords.init();
-
-		postScraper.initKeywordTabTemplate();
-
 		window.YoastSEO.wp._tabManager = tabManager;
 
-		var indicator = getIndicatorForScore( savedKeywordScore );
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
-		publishBox.updateScore( 'keyword', indicator.className );
+		if ( keywordAnalysisIsActive() ) {
+			initializeKeywordAnalysis( app, postScraper, tabManager, publishBox );
+		}
 
-		tabManager.getKeywordTab().activate();
+		if ( ! keywordAnalysisIsActive() && contentAnalysisIsActive() ) {
+			tabManager.getContentTab().activate();
+		}
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
-		if ( ! YoastSEO.multiKeyword ) {
+		if ( keywordAnalysisIsActive() && ! YoastSEO.multiKeyword ) {
 			/*
 			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
 			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
@@ -1416,7 +1409,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			$( '#post' ).on( 'submit', function() {
 				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
 				var hiddenKeywordValue  = hiddenKeyword.val();
-				var visibleKeywordValue = tabManager.getKeywordTab().getKeyword();
+				var visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
 
 				if ( hiddenKeywordValue !== visibleKeywordValue ) {
 					hiddenKeyword.val( visibleKeywordValue );

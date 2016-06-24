@@ -901,10 +901,11 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-generic_tab">
-				<li class="wpseo_generic_tab<# if ( data.additionalClasses ) { data.additionalClasses } #><# if ( data.active ) { #> active<# } #>">
+				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_generic" data-score="{{data.score}}">
 						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-generic-tab-prefix">{{data.label}}</span>
+						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
+						<span class="wpseo-tab-label">{{data.label}}</span>
 						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
 					</a>
 					<# if ( data.hideable ) { #>
@@ -924,14 +925,14 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
+				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
-						<em class="wpseo-keyword">{{data.placeholder}}</em>
+						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.label}}</em>
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 					</a>
-					<# if ( ! data.hideRemove ) { #>
+					<# if ( data.hideable ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>
 					<# } #>
 				</li>

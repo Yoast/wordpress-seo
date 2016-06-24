@@ -9,7 +9,7 @@ var $ = jQuery;
 var defaultArguments = {
 	label: '',
 	active: false,
-	hideable: true,
+	hideable: false,
 
 	classes: [ 'wpseo_tab', 'wpseo_generic_tab' ],
 
@@ -31,6 +31,7 @@ module.exports = (function() {
 		this.label          = args.label;
 		this.active         = args.active;
 		this.hideable       = args.hideable;
+		this.classes        = args.classes;
 
 		this.onActivate     = args.onActivate;
 		this.afterActivate  = args.afterActivate;
@@ -67,12 +68,22 @@ module.exports = (function() {
 	};
 
 	/**
+	 * Gets the indicator object based on the passed score.
+	 *
+	 * @param {int} score The score to be used to determine the indicator.
+	 * @returns {Object} The indicator.
+	 */
+	GenericTab.prototype.getIndicator = function( score ) {
+		return getIndicatorForScore( score );
+	};
+
+	/**
 	 * Updates the keyword tabs with new values.
 	 *
 	 * @param {int} indicator
 	 */
 	GenericTab.prototype.updateScore = function( score ) {
-		var indicator = getIndicatorForScore( score );
+		var indicator = this.getIndicator( score );
 
 		this.score = indicator.className;
 		this.scoreText = indicator.screenReaderText;
@@ -91,13 +102,20 @@ module.exports = (function() {
 	};
 
 	/**
+	 * Adds additional CSS classes based on the classes field.
+	 *
+	 * @returns {string} The classes to add.
+	 */
+	GenericTab.prototype.addAdditionalClasses = function() {
+		return this.classes.join( ' ' );
+	};
+
+	/**
 	 * Renders this keyword tab as a jQuery HTML object.
 	 *
-	 * @returns {Object} jQuery HTML object.
+	 * @returns {HTMLElement} jQuery HTML object.
 	 */
 	GenericTab.prototype.render = function() {
-		console.log( this.hideable );
-
 		var html = wp.template( 'generic_tab' )( {
 			label: this.label,
 
@@ -105,7 +123,9 @@ module.exports = (function() {
 			hideable: this.hideable,
 
 			score: this.score,
-			scoreText: this.scoreText
+			scoreText: this.scoreText,
+
+			classes: this.addAdditionalClasses()
 		} );
 
 		return jQuery( html );
@@ -148,6 +168,7 @@ module.exports = (function() {
 	 * Removes active state class from all tabs.
 	 */
 	GenericTab.prototype.deactivate = function() {
+		this.active = false;
 		$( '.wpseo_tab' ).removeClass( 'active' );
 	};
 
