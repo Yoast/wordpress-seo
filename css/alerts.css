@@ -39,11 +39,11 @@
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.yoast-alerts h1 {
+.yoast-alerts > h2:first-child {
 	margin-bottom: 1em;
 }
 
-.yoast-container h2 {
+.yoast-alerts .yoast-container h3 {
 	margin: -20px -20px 0;
 	padding: 1em;
 	border-bottom: 1px solid #ccc;
@@ -52,7 +52,7 @@
 	font-size: 1.6em;
 }
 
-h2 .dashicons-warning {
+h3 .dashicons-warning {
 	color: #dc3232;
 }
 
@@ -107,7 +107,7 @@ h2 .dashicons-warning {
 	bottom: 0;
 	left: 0;
 	border-radius: 4px;
-	background-color: rgba(232,232,232,0.7);
+	background-color: rgba(232, 232, 232, 0.7);
 }
 
 .yoast-no-issues {

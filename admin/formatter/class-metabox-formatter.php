@@ -44,7 +44,7 @@ class WPSEO_Metabox_Formatter {
 			'search_url'        => '',
 			'post_edit_url'     => '',
 			'base_url'          => '',
-			'contentTab'        => __( 'Content', 'wordpress-seo' ),
+			'contentTab'        => __( 'Readability', 'wordpress-seo' ),
 			'keywordTab'        => __( 'Keyword:', 'wordpress-seo' ),
 			'enterFocusKeyword' => __( 'Enter your focus keyword', 'wordpress-seo' ),
 			'locale'            => get_locale(),
@@ -52,6 +52,7 @@ class WPSEO_Metabox_Formatter {
 			'keyword_usage'     => array(),
 			'title_template'    => '',
 			'metadesc_template' => '',
+			'contentAnalysisActive' => $this->is_content_analysis_active(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -61,12 +62,12 @@ class WPSEO_Metabox_Formatter {
 			'show_markers'      => apply_filters( 'wpseo_enable_assessment_markers', true ),
 			'publish_box'       => array(
 				'labels'   => array(
-					'content' => __( 'Content', 'wordpress-seo' ),
+					'content' => __( 'Readability', 'wordpress-seo' ),
 					'keyword' => __( 'SEO', 'wordpress-seo' ),
 				),
 				'statuses' => array(
 					'na'   => __( 'Not available', 'wordpress-seo' ),
-					'bad'  => __( 'Bad', 'wordpress-seo' ),
+					'bad'  => __( 'Needs improvement', 'wordpress-seo' ),
 					'ok'   => __( 'OK', 'wordpress-seo' ),
 					'good' => __( 'Good', 'wordpress-seo' ),
 				),
@@ -87,5 +88,20 @@ class WPSEO_Metabox_Formatter {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Determines if the content analysis is active or not.
+	 *
+	 * @return bool Whether or not the content analysis is active.
+	 */
+	private function is_content_analysis_active() {
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+		if ( ! $options['content-analysis-active'] ) {
+			return 0;
+		}
+
+		return ( ! get_the_author_meta( 'wpseo_content_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
 	}
 }

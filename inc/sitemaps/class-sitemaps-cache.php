@@ -11,6 +11,9 @@ class WPSEO_Sitemaps_Cache {
 	/** @var array $cache_clear Holds the options that, when updated, should cause the cache to clear. */
 	protected static $cache_clear = array();
 
+	/** @var bool $is_enabled Mirror of enabled status for static calls. */
+	protected static $is_enabled = true;
+
 	/** @var bool $clear_all Holds the flag to clear all cache. */
 	protected static $clear_all = false;
 
@@ -21,6 +24,8 @@ class WPSEO_Sitemaps_Cache {
 	 * Hook methods for invalidation on necessary events.
 	 */
 	public function __construct() {
+
+		add_action( 'init', array( $this, 'init' ) );
 
 		add_action( 'deleted_term_relationships', array( __CLASS__, 'invalidate' ) );
 
@@ -34,6 +39,14 @@ class WPSEO_Sitemaps_Cache {
 		add_action( 'delete_user', array( __CLASS__, 'invalidate_author' ) );
 
 		add_action( 'shutdown', array( __CLASS__, 'clear_queued' ) );
+	}
+
+	/**
+	 * Setup context for static calls.
+	 */
+	public function init() {
+
+		self::$is_enabled = $this->is_enabled();
 	}
 
 	/**
@@ -198,6 +211,10 @@ class WPSEO_Sitemaps_Cache {
 	 * @return void
 	 */
 	public static function clear( $types = array() ) {
+
+		if ( ! self::$is_enabled ) {
+			return;
+		}
 
 		// No types provided, clear all.
 		if ( empty( $types ) ) {

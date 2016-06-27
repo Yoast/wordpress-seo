@@ -38,6 +38,7 @@ $unique_id = md5( $url );
 			</div>
 			<p class='submit'>
 				<input type='button' name='submit' id='submit-<?php echo $unique_id; ?>' class='button button-primary' value='<?php _e( 'Create redirect', 'wordpress-seo' ); ?>' onclick='wpseo_gsc_post_redirect( jQuery( this ) );' />
+				<button type="button" class="button wpseo-redirect-close"><?php esc_html_e( 'Cancel', 'wordpress-seo' ); ?></button>
 			</p>
 			<?php
 			break;
@@ -53,6 +54,7 @@ $unique_id = md5( $url );
 				$current_redirect
 			);
 			echo '</p>';
+			echo '<button type="button" class="button wpseo-redirect-close">' . __( 'Close', 'wordpress-seo' ) . '</button>';
 			break;
 
 		case 'no_premium' :
@@ -66,6 +68,7 @@ $unique_id = md5( $url );
 				'<a href="https://yoa.st/redirects" target="_blank">yoast.com</a>'
 			);
 			echo '</p>';
+			echo '<button type="button" class="button wpseo-redirect-close">' . __( 'Close', 'wordpress-seo' ) . '</button>';
 			break;
 	}
 	?>
