@@ -1,7 +1,7 @@
 /** @module stringProcessing/countSyllables */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
-var syllableArray = require( "../config/syllables.js" );
+var syllableMatchers = require( "../config/syllables.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 
 var getWords = require( "../stringProcessing/getWords.js" );
@@ -10,16 +10,20 @@ var map = require( "lodash/map" );
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 
-var exclusionWords = syllableArray().exclusionWords;
+var exclusionWords = syllableMatchers().exclusionWords;
 var exclusionWordsRegexes = map( exclusionWords, function( exclusionWord ) {
 	return {
 		regex: new RegExp( exclusionWord.word, "ig" ),
 		syllables: exclusionWord.syllables
 	};
 } );
-var addSyllablesRegex = arrayToRegex( syllableArray().addSyllables, true );
-var subtractSyllablesRegex = arrayToRegex( syllableArray().subtractSyllables, true );
-var vowelRegex = new RegExp( "[^" + syllableArray().vowels + "]", "ig" );
+var addSyllablesRegex = arrayToRegex( syllableMatchers().addSyllables, true );
+var subtractSyllablesRegex = arrayToRegex( syllableMatchers().subtractSyllables, true );
+var vowelRegex = new RegExp( "[^" + syllableMatchers().vowels + "]", "ig" );
+
+var LanguageSyllableRegexMaster = require( "../values/LanguageSyllableRegexMaster.js" );
+
+var languageSyllableRegexMaster = new LanguageSyllableRegexMaster( syllableMatchers() );
 
 /**
  * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
@@ -63,7 +67,7 @@ var removeExclusionWords = function( text ) {
  * @param {string} text A text with words to count syllables.
  * @returns {number} the syllable count
  */
-var countBasicSyllables = function( text ) {
+var countBasic = function( text ) {
 
 	var words = getWords( text );
 	var numberOfSyllables = 0;
@@ -77,6 +81,13 @@ var countBasicSyllables = function( text ) {
 	} );
 
 	return numberOfSyllables;
+};
+
+
+var countAdd = function( text ) {
+	forEach( syllableMatchers().addSyllables, function( matcher ) {
+
+	} );
 };
 
 /**
@@ -108,6 +119,25 @@ var countAdvancedSyllables = function( text, operator ) {
 	return count;
 };
 
+var countExclusions = function( word ) {
+	var syllableCount = 0;
+	forEach( exclusionWords, function( exclusionWordsObject ) {
+		if( exclusionWordsObject.word === word ) {
+			syllableCount = exclusionWordsObject.syllables;
+			return;
+		}
+	} );
+	return syllableCount;
+};
+
+var countSyllables = function( word ) {
+	var count = 0;
+	count += countBasic( word );
+	count += countAdd ( word );
+	//count += countSubtract ( word );
+	return count;
+};
+
 /**
  * Counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
  * counter and advanced syllable counter.
@@ -116,16 +146,30 @@ var countAdvancedSyllables = function( text, operator ) {
  * @returns {int} syllable count
  */
 module.exports = function( text ) {
+	var words = getWords( text );
 	var count = 0;
-	count += countExclusionSyllables( text );
+/*
+	forEach( words, function( word ) {
+		var exclusions = countExclusions( word );
+		if ( exclusions !== 0 ) {
+			count += exclusions;
+			return;
+		}
+		count += countSyllables( word );
+	} );
+*/
 
-	text = removeExclusionWords( text );
-	text = cleanText( text );
-	text.replace( /[.]/g, " " );
+	//count += countExclusionSyllables( text );
 
-	count += countBasicSyllables( text );
-	count += countAdvancedSyllables( text, "add" );
-	count -= countAdvancedSyllables( text, "subtract" );
+	//text = removeExclusionWords( text );
+
+	//text = cleanText( text );
+
+	//text.replace( /[.]/g, " " );
+
+	//count += countBasicSyllables( text );
+	//count += countAdvancedSyllables( text, "add" );
+	//count -= countAdvancedSyllables( text, "subtract" );
 
 	return count;
 };

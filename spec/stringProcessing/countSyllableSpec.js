@@ -1,7 +1,7 @@
 var countSyllableFunction = require("../../js/stringProcessing/countSyllables.js");
 
 describe("a syllable counter for textstrings", function(){
-	it("returns the number of syllables", function(){
+	it( "returns the number of syllables", function(){
 		expect( countSyllableFunction("this is a textstring") ).toBe( 5 );
 		expect( countSyllableFunction("human beings") ).toBe( 4 );
 		expect( countSyllableFunction("along the shoreline") ).toBe( 5 );
@@ -12,4 +12,14 @@ describe("a syllable counter for textstrings", function(){
 		expect( countSyllableFunction("Bridger Pass is a mountain pass in Carbon County, Wyoming on the Continental Divide near the south Great Divide Basin bifurcation point, i.e., the point at which the divide appears to split and envelop the basin.") ).toBe( 57 );
 		expect( countSyllableFunction("A test based on exclusionwords for syllablecount") ).toBe( 14 );
 	});
+});
+
+describe( "counting syllables", function() {
+	it( "returns the number of syllables in an exclusion word", function(){
+		expect( countSyllableFunction( "shoreline") ).toBe( 2 );
+		expect( countSyllableFunction( "business" ) ).toBe( 2 );
+	});
+	it( "returns the number of syllables in normal word", function(){
+
+	})
 });
