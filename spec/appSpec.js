@@ -78,19 +78,6 @@ describe( "Creating an App", function(){
 		});
 	});
 
-	it( "throws on a missing output element ID", function() {
-		expect( function() {
-			new App({
-				targets: {
-					snippet: "snippetID"
-				},
-				callbacks: {
-					getData: function() { return {} }
-				}
-			} )
-		} ).toThrowError( MissingArgument );
-	});
-
 	it( "works with correct arguments", function() {
 		new App({
 			targets: {
