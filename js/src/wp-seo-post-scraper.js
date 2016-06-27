@@ -42,7 +42,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	var tmceId = 'content';
 
 	/**
-	 * Show warning in console when the unsupported CkEditor is used.
+	 * Show warning in console when the unsupported CkEditor is used
 	 */
 	var PostScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
@@ -273,11 +273,17 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 				indicator.fullText = app.i18n.dgettext( 'js-text-analysis', 'Content optimization: Enter a focus keyword to calculate the SEO score' );
 			}
 
+
+
+			tabManager.updateKeywordTab( score, currentKeyword );
+
+
 			updateTrafficLight( indicator );
 			updateAdminBar( indicator );
 
 			publishBox.updateScore( 'keyword', indicator.className );
 		}
+
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 	};
@@ -298,16 +304,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	/**
 	 * Initializes keyword tab with the correct template if multi keyword isn't available.
 	 */
-	PostScraper.prototype.initKeywordTabTemplate = function() {
+	PostScraper.prototype.initKeywordTabTemplate = function () {
 		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 		if ( YoastSEO.multiKeyword ) {
 			return;
 		}
-
-		// Remove default functionality to prevent scrolling to top.
-		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
-			ev.preventDefault();
-		});
 	};
 
 	/**
@@ -451,7 +452,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		return translations;
 	}
 
-	function initializeKeywordAnalysis( app, postScraper, tabManager, publishBox ) {
+	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
 		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
 		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
 
@@ -464,8 +465,49 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		updateAdminBar( indicator );
 
 		publishBox.updateScore( 'keyword', indicator.className );
+	}
 
-		tabManager.getKeywordTab().activate();
+	function initializeContentAnalysis( publishBox ) {
+		var savedContentScore = $( '#yoast_wpseo_content_score' ).val();
+
+		var indicator = getIndicatorForScore( savedContentScore );
+
+		updateAdminBar( indicator );
+
+		publishBox.updateScore( 'content', indicator.className );
+	}
+
+	function keywordElementSubmitHandler() {
+		if ( keywordAnalysisIsActive() && ! YoastSEO.multiKeyword ) {
+			/*
+			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
+			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
+			 * onsubmit event that is copying the focus keyword, this should be solved.
+			 */
+			$( '#post' ).on( 'submit', function() {
+				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
+				var hiddenKeywordValue  = hiddenKeyword.val();
+				var visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
+
+				if ( hiddenKeywordValue !== visibleKeywordValue ) {
+					hiddenKeyword.val( visibleKeywordValue );
+				}
+			} );
+		}
+	}
+
+	function retrieveTargets() {
+		var targets = {};
+
+		if ( keywordAnalysisIsActive() ) {
+			targets.output = 'wpseo-pageanalysis';
+		}
+
+		if ( contentAnalysisIsActive() ) {
+			targets.contentOutput = 'yoast-seo-content-analysis';
+		}
+
+		return targets;
 	}
 
 	jQuery( document ).ready( function() {
@@ -484,7 +526,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
-				output: 'wpseo-pageanalysis'
+				output: ''
 			},
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
@@ -494,13 +536,10 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale,
-			marker: getMarker()
+			marker: getMarker(),
+			contentAnalysisActive: contentAnalysisIsActive(),
+			keywordAnalysisActive: keywordAnalysisIsActive()
 		};
-
-		// Determine whether or not the content analysis should be executed.
-		if ( contentAnalysisIsActive() ) {
-			args.targets.contentOutput = 'yoast-seo-content-analysis';
-		}
 
 		titleElement = $( '#title' );
 
@@ -508,6 +547,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		args.snippetPreview = snippetPreview;
 		args.translations = retrieveTranslations();
+		args.targets = retrieveTargets();
 
 		app = new App( args );
 
@@ -516,7 +556,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		tmceHelper.wpTextViewOnInitCheck();
 
-		// Init Plugins
+		// Init Plugins.
 		YoastSEO.wp = {};
 		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 		YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( app );
@@ -524,7 +564,12 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		window.YoastSEO.wp._tabManager = tabManager;
 
 		if ( keywordAnalysisIsActive() ) {
-			initializeKeywordAnalysis( app, postScraper, tabManager, publishBox );
+			initializeKeywordAnalysis( app, postScraper, publishBox );
+			tabManager.getKeywordTab().activate();
+		}
+
+		if ( contentAnalysisIsActive() ) {
+			initializeContentAnalysis( publishBox );
 		}
 
 		if ( ! keywordAnalysisIsActive() && contentAnalysisIsActive() ) {
@@ -536,21 +581,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
-		if ( keywordAnalysisIsActive() && ! YoastSEO.multiKeyword ) {
-			/*
-			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
-			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
-			 * onsubmit event that is copying the focus keyword, this should be solved.
-			 */
-			$( '#post' ).on( 'submit', function() {
-				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
-				var hiddenKeywordValue  = hiddenKeyword.val();
-				var visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
+		keywordElementSubmitHandler();
 
-				if ( hiddenKeywordValue !== visibleKeywordValue ) {
-					hiddenKeyword.val( visibleKeywordValue );
-				}
-			} );
-		}
 	} );
 }( jQuery ));

@@ -9,6 +9,26 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+function wpseo_content_analysis_is_enabled() {
+	$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+	if ( ! $options['content-analysis-active'] ) {
+		return 0;
+	}
+
+	return ( ! get_the_author_meta( 'wpseo_content_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
+}
+
+function wpseo_keyword_analysis_is_enabled() {
+	$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+	if ( ! $options['keyword-analysis-active'] ) {
+		return 0;
+	}
+
+	return ( ! get_the_author_meta( 'wpseo_keyword_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
+}
+
 /**
  * Adds an SEO admin bar menu with several options. If the current user is an admin he can also go straight to several settings menu's from here.
  */
@@ -36,13 +56,19 @@ function wpseo_admin_bar_menu() {
 				), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
-		$score      = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+
+		if ( wpseo_content_analysis_is_enabled() || wpseo_keyword_analysis_is_enabled() ) {
+			$score = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+		}
 
 		$seo_url = get_edit_post_link( $post->ID );
 	}
 
 	if ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
-		$score      = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+		if ( wpseo_content_analysis_is_enabled() || wpseo_keyword_analysis_is_enabled() ) {
+			$score = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+		}
+
 		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
 	}
 

@@ -99,9 +99,9 @@ module.exports = (function() {
 	};
 
 	/**
-	 * Renders this keyword tab as a jQuery HTML object.
+	 * Renders this keyword tab as a jQuery HTML object
 	 *
-	 * @returns {Object} jQuery HTML object.
+	 * @returns {HTMLElement} jQuery HTML object.
 	 */
 	KeywordTab.prototype.render = function() {
 		var html = wp.template( 'keyword_tab' )({

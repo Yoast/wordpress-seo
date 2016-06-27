@@ -16,7 +16,7 @@ var defaultArguments = {
 };
 
 /**
- * The tab manager is responsible for managing the analysis tabs in the metabox
+ * The tab manager is responsible for managing the analysis tabs in the metabox.
  *
  * @constructor
  */
@@ -34,6 +34,11 @@ function TabManager( arguments ) {
  */
 TabManager.prototype.init = function() {
 	var metaboxTabs = $( '#wpseo-metabox-tabs' );
+
+	// Remove default functionality to prevent scrolling to top.
+	metaboxTabs.on( 'click', '.wpseo_tablink', function( ev ) {
+		ev.preventDefault();
+	});
 
 	this.focusKeywordInput = $( '#yoast_wpseo_focuskw_text_input,#wpseo_focuskw' );
 	this.focusKeywordRow = this.focusKeywordInput.closest( 'tr' );
