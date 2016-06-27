@@ -33,7 +33,7 @@ if ( ! $active ) {
 }
 
 ?>
-<h2><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title ?> (<?php echo $active_total ?>)</h2>
+<h3><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title ?> (<?php echo $active_total ?>)</h3>
 
 <div id="yoast-<?php echo $type ?>">
 
