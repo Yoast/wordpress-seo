@@ -35,13 +35,14 @@ var compareFirstWords = function ( sentenceBeginnings, sentences ) {
 	forEach( sentenceBeginnings, function( beginning, i ) {
 		var currentSentenceBeginning = beginning;
 		var nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
-		foundSentences.push( sentences );
+		foundSentences.push( sentences[ i ] );
 
 		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
 			sameBeginnings++;
 		} else {
 			consecutiveFirstWords.push( { word: currentSentenceBeginning, count: sameBeginnings, sentences: foundSentences } );
 			sameBeginnings = 1;
+			foundSentences = [];
 		}
 	} );
 
