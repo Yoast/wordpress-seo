@@ -16,11 +16,11 @@ $index_switch_values = array(
 );
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	foreach ( $post_types as $pt ) {
-		$name = $pt->name;
+	foreach ( $post_types as $post_type ) {
+		$name = $post_type->name;
 		echo "<div id='" . esc_attr( $name ) . "-titles-metas'>";
-		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</h2>';
-		if ( $options['redirectattachment'] === true && $pt->name == 'attachment' ) {
+		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h2>';
+		if ( $options['redirectattachment'] === true && $name === 'attachment' ) {
 			// The `inline` CSS class prevents the notice from being moved to the top via JavaScript.
 			echo '<div class="notice notice-error inline"><p>';
 			/* translators: %1$s and %2$s expand to a link to the SEO Permalinks settings page. */
@@ -52,7 +52,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		do_action( 'wpseo_admin_page_meta_post_types', $yform, $name );
 		echo '<br/><br/>';
 	}
-	unset( $pt );
+	unset( $post_type );
 }
 unset( $post_types );
 
@@ -60,9 +60,9 @@ $post_types = get_post_types( array( '_builtin' => false, 'has_archive' => true 
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	echo '<h2>' . esc_html__( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
-	foreach ( $post_types as $pt ) {
-		$name = $pt->name;
-		echo '<h3>' . esc_html( ucfirst( $pt->labels->name ) ) . '</h3>';
+	foreach ( $post_types as $post_type ) {
+		$name = $post_type->name;
+		echo '<h3>' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h3>';
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 		if ( $options['usemetakeywords'] === true ) {
@@ -75,6 +75,6 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 
 		echo '<br/><br/>';
 	}
-	unset( $pt );
+	unset( $post_type );
 }
 unset( $post_types );
