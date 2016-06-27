@@ -10,9 +10,10 @@
  * @var WPSEO_Redirect_Form_Presenter       $form_presenter
  */
 ?>
+
 <div id="table-plain" class="tab-url redirect-table-tab">
+<?php echo '<h2>' . esc_html( 'Plain redirects', 'wordpress-seo' ) . '</h2>'; ?>
 	<form class='wpseo-new-redirect-form' method='post'>
-		<br class='clear'/>
 		<div class='wpseo_redirect_form'>
 <?php
 $form_presenter->display(
@@ -27,7 +28,7 @@ $form_presenter->display(
 );
 ?>
 
-			<a href='javascript:;' class='button-primary'><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></a>
+			<a href='javascript:;' class='button button-primary'><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></a>
 		</div>
 	</form>
 

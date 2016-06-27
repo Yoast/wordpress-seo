@@ -18,8 +18,8 @@ function getIndicatorForScore( score ) {
 		fullText: ''
 	};
 
-	if ( ! isUndefined( app.contentAssessorPresenter ) ) {
-		indicator = app.contentAssessorPresenter.getIndicator( scoreToRating( score ) );
+	if ( ! isUndefined( app.seoAssessorPresenter ) ) {
+		indicator = app.seoAssessorPresenter.getIndicator( scoreToRating( score ) );
 	}
 
 	return indicator;

@@ -27,7 +27,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 	var titleElement;
 
-	var leavePostNameEmpty = false;
+	var leavePostNameUntouched = false;
 
 	var app, snippetPreview;
 
@@ -161,11 +161,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 				/*
 				 * WordPress leaves the post name empty to signify that it should be generated from the title once the
-				 * post is saved. So in some cases when we receive an auto generated slug from WordPress we should be
+				 * post is saved. So when we receive an auto generated slug from WordPress we should be
 				 * able to not save this to the UI. This conditional makes that possible.
 				 */
-				if ( leavePostNameEmpty ) {
-					leavePostNameEmpty = false;
+				if ( leavePostNameUntouched ) {
+					leavePostNameUntouched = false;
 					return;
 				}
 
@@ -267,6 +267,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			if ( '' === currentKeyword ) {
 				indicator.className = 'na';
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
+				indicator.fullText = app.i18n.dgettext( 'js-text-analysis', 'Content optimization: Enter a focus keyword to calculate the SEO score' );
 			}
 
 			updateTrafficLight( indicator );
@@ -307,15 +308,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	};
 
 	/**
-	 * Returns whether or not the current post has a title.
-	 *
-	 * @returns {boolean}
-	 */
-	function postHasTitle() {
-		return '' !== titleElement.val();
-	}
-
-	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
 	 * @param {Object} response The AJAX response object.
 	 * @returns {String}
@@ -342,12 +334,10 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
 			/*
-			 * If the post has no title, WordPress wants to auto generate the slug once the title is set, so we need to
-			 * keep the post name empty.
+			 * WordPress do not update post name for auto-generated slug, so we should leave this field untouched.
 			 */
-			if ( ! postHasTitle() ) {
-				leavePostNameEmpty = true;
-			}
+			leavePostNameUntouched = true;
+
 			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
 		}
 	} );
@@ -406,7 +396,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 					if ( null === decorator ) {
 						decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
 					}
-
 					decorator( paper, marks );
 				}
 			};
@@ -423,7 +412,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		publishBox.initalise();
 
 		tabManager = new TabManager({
-			strings: wpseoPostScraperL10n
+			strings: wpseoPostScraperL10n,
+			contentAnalysisActive: wpseoPostScraperL10n.contentAnalysisActive
 		});
 		tabManager.init();
 
@@ -433,8 +423,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
-				output: 'wpseo-pageanalysis',
-				contentOutput: 'yoast-seo-content-analysis'
+				output: 'wpseo-pageanalysis'
 			},
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
@@ -446,6 +435,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			locale: wpseoPostScraperL10n.locale,
 			marker: getMarker()
 		};
+
+		// Determine whether or not the content analysis should be executed.
+		if ( wpseoPostScraperL10n.contentAnalysisActive === '1' ) {
+			args.targets.contentOutput = 'yoast-seo-content-analysis';
+		}
 
 		titleElement = $( '#title' );
 
@@ -466,6 +460,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		app = new App( args );
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+
+		tmceHelper.wpTextViewOnInitCheck();
 
 		// Init Plugins
 		YoastSEO.wp = {};

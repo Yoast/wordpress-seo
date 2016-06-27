@@ -1,3 +1,6 @@
+### 3.3.2: June 21st, 2016
+* Includes every change in Yoast SEO core 3.3.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.3.1: June 15th, 2016
 * Fixes a bug with redirects on a subsite in a multisite installation, props [nicholas-eden](https://github.com/nicholas-eden).
 * Fixes a bug where the tabs inside the metabox weren't aligned properly.

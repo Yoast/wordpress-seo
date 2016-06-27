@@ -26,3 +26,7 @@ tbody .column-old .remove-slashes:before,
 tbody .column-old .remove-slashes:after {
 	content: none;
 }
+
+.wpseo-redirect-clear {
+	clear: both;
+}

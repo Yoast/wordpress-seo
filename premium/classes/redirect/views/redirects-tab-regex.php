@@ -12,6 +12,7 @@
 ?>
 
 <div id="table-regex" class="tab-url redirect-table-tab">
+<?php echo '<h2>' . esc_html( 'Regular Expressions redirects', 'wordpress-seo' ) . '</h2>'; ?>
 	<p>
 		<?php
 		/* translators: %1$s contains a line break tag. %2$s links to our knowledge base, %3$s closes the link. */
@@ -34,7 +35,7 @@ $form_presenter->display(
 );
 ?>
 
-			<a href='javascript:;' class='button-primary'><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></a>
+			<a href='javascript:;' class='button button-primary'><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></a>
 		</div>
 	</form>
 
