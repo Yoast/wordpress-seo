@@ -77,6 +77,7 @@ h3 .dashicons-warning {
 	margin-bottom: 20px;
 }
 
+/* These selectors need a higher specificity than .wp-core-ui .button */
 .yoast-alerts .button.restore,
 .yoast-alerts .button.dismiss {
 	width: 40px;
