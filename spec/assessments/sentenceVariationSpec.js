@@ -5,7 +5,7 @@ var i18n = Factory.buildJed();
 
 describe( "An assessment for sentence variation", function() {
 
-	//Add 2 sentences to the paper, so the assessment will return a valid result.
+	// Add 2 sentences to the paper, so the assessment will return a valid result.
 	var mockPaper = new Paper( "Sentence. Sentence." );
 
 	it( "returns the score when deviation 4 ", function() {

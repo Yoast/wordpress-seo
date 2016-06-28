@@ -7,7 +7,7 @@ var inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
  * Get the sentence length variation result based on the score.
  *
  * @param {number} standardDeviation The standard deviation to calculate the score for.
- * @param {Object} i18n The object used for translations.
+ * @param {Jed} i18n The object used for translations.
  * @returns {Object} The object containing score and text.
  */
 

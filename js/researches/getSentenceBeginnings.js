@@ -4,14 +4,18 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var removeNonWordCharacters = require( "../stringProcessing/removeNonWordCharacters.js" );
 var firstWordExceptions = require ( "../language/en/firstWordExceptions.js" )();
 
+var isEmpty = require( "lodash/isEmpty" );
+var forEach = require( "lodash/forEach" );
+
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
- * @param {array} sentenceBeginnings The array containing the first word of each sentence.
- * @param {number} i The iterator for the sentenceBeginning array.
+ *
+ * @param {string} currentSentenceBeginning The first word of the current sentence.
+ * @param {string} nextSentenceBeginning The first word of the next sentence.
  * @returns {boolean} Returns true if sentence beginnings match.
  */
-var matchSentenceBeginnings = function( sentenceBeginnings, i ) {
-	if ( sentenceBeginnings[ i ] === sentenceBeginnings[ i + 1 ] ) {
+var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
+	if ( !isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
 		return true;
 	}
 	return false;
@@ -24,21 +28,25 @@ var matchSentenceBeginnings = function( sentenceBeginnings, i ) {
  * @returns {array} The array containing the objects containing the first words and the corresponding counts.
  */
 var compareFirstWords = function ( sentenceBeginnings, sentences ) {
-	var counts = [];
+	var consecutiveFirstWords = [];
 	var foundSentences = [];
-	var count = 1;
-	for ( var i = 0; i < sentenceBeginnings.length; i++ ) {
-		if ( matchSentenceBeginnings( sentenceBeginnings, i ) ) {
-			foundSentences.push( sentences[ i ] );
-			count++;
+	var sameBeginnings = 1;
+
+	forEach( sentenceBeginnings, function( beginning, i ) {
+		var currentSentenceBeginning = beginning;
+		var nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
+		foundSentences.push( sentences[ i ] );
+
+		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
+			sameBeginnings++;
 		} else {
-			foundSentences.push( sentences[ i ] );
-			counts.push( { word: sentenceBeginnings[ i ], count: count, sentences: foundSentences } );
+			consecutiveFirstWords.push( { word: currentSentenceBeginning, count: sameBeginnings, sentences: foundSentences } );
+			sameBeginnings = 1;
 			foundSentences = [];
-			count = 1;
 		}
-	}
-	return counts;
+	} );
+
+	return consecutiveFirstWords;
 };
 
 /**
@@ -53,7 +61,7 @@ module.exports = function( paper ) {
 		if( words.length === 0 ) {
 			return "";
 		}
-		var firstWord = removeNonWordCharacters( words[ 0 ] );
+		var firstWord = removeNonWordCharacters( words[ 0 ] ).toLocaleLowerCase();
 		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
 			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
 		}
