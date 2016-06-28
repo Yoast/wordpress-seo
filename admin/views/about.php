@@ -325,8 +325,7 @@ function wpseo_display_contributors( $contributors ) {
 			'Xavi Ivars'       => 'https://github.com/xavivars',
 		);
 		?>
-		<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in Yoast SEO %s, patches from
-			the following people made it in:', 'wordpress-seo' ), $version ); ?></p>
+		<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in Yoast SEO %s, patches from the following people made it in:', 'wordpress-seo' ), $version ); ?></p>
 		<ul class="ul-square">
 			<?php
 			foreach ( $patches_from as $patcher => $link ) {
