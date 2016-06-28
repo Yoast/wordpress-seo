@@ -1,40 +1,48 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 var getSentences = require( "../stringProcessing/getSentences.js" );
+var inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
 
 /**
- * Calculates the score based on the given deviation.
+ * Get the sentence length variation result based on the score.
  *
- * @param {number} standardDeviation The deviation to calculate the score for.
- * @returns {number} The calculated score.
+ * @param {number} standardDeviation The standard deviation to calculate the score for.
+ * @param {Object} i18n The object used for translations.
+ * @returns {Object} The object containing score and text.
  */
-var calculateScore = function( standardDeviation ) {
-	return 3 + Math.max( Math.min( ( 6 ) * ( standardDeviation - 2.33 ), 6 ), 0 );
-};
 
-/**
- * Get the result based on the score. When score is 7 or more, the result is good. Below 7 should be improved.
- *
- * @param {number} standardDeviation The deviation to calculate the score for.
- * @param {object} i18n The object used for translations.
- * @returns {{score: number, text: *}} The calculated result.
- */
 var getStandardDeviationResult = function( standardDeviation, i18n ) {
-	var score = calculateScore( standardDeviation );
+	var score = 0;
 	var recommendedMinimumDeviation = 3;
 	var sentenceVariationURL = "<a href='https://yoa.st/mix-it-up' target='_blank'>";
+
+	if ( standardDeviation >= 3 ) {
+		// Green indicator.
+		score = 9;
+	}
+
+	if ( inRange( standardDeviation, 2.5, 3 ) ) {
+		// Orange indicator.
+		score = 6;
+	}
+
+	if ( standardDeviation < 2.5 ) {
+		// Red indicator.
+		score = 3;
+	}
+
 	if ( score >= 7 ) {
 		return {
 			score: score,
 			text: i18n.sprintf(
 				i18n.dgettext(
 					"js-text-analysis",
-				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
-				// %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
+					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
+					// %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
 					"The %1$ssentence length variation%2$s score is %3$s, " +
 					"which is more than or equal to the recommended minimum of %4$d. " +
 					"The text contains a nice combination of long and short sentences."
-				 ), sentenceVariationURL, "</a>", standardDeviation, recommendedMinimumDeviation
+				), sentenceVariationURL, "</a>", standardDeviation, recommendedMinimumDeviation
 			)
 		};
 	}

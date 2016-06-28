@@ -26,6 +26,33 @@ describe( "An assessment for sentence variation", function() {
 			"which is less than the recommended minimum of 3. Try to alternate more between long and short sentences." );
 	} );
 
+	it( "returns the score when deviation is 2.5 ", function() {
+		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 2.5 ), i18n );
+
+		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual ( "The <a href='https://yoa.st/mix-it-up' target='_blank'>sentence length variation</a> score is 2.5, " +
+			"which is less than the recommended minimum of 3. Try to alternate more between long and short sentences." );
+	} );
+
+	it( "returns the score when deviation is 2.7 ", function() {
+		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 2.7 ), i18n );
+
+		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual ( "The <a href='https://yoa.st/mix-it-up' target='_blank'>sentence length variation</a> score is 2.7, " +
+			"which is less than the recommended minimum of 3. Try to alternate more between long and short sentences." );
+	} );
+
+	it( "returns the score when deviation is 3 ", function() {
+		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 3 ), i18n );
+
+		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual ( "The <a href='https://yoa.st/mix-it-up' target='_blank'>sentence length variation</a> score is 3, " +
+			"which is more than or equal to the recommended minimum of 3. The text contains a nice combination of long and short sentences." );
+	} );
+
 	it( "returns the score when deviation is zero ", function() {
 		var assessment = sentenceVariationAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
