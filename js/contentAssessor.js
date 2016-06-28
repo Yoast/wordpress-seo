@@ -6,15 +6,15 @@ var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessmen
 var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
+var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
+var textPresence = require( "./assessments/textPresenceAssessment.js" );
 // var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
 // var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
 // var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
-var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 // var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 // var subheadingDistributionTooShort = require( "./assessments/subheadingDistributionTooShortAssessment.js" );
 // var paragraphTooShort = require( "./assessments/paragraphTooShortAssessment.js" );
 // var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
-var textPresence = require( "./assessments/textPresenceAssessment.js" );
 
 var scoreToRating = require( "./interpreters/scoreToRating" );
 
