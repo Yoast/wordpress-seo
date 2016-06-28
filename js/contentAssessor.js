@@ -8,9 +8,9 @@ var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
 var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 var textPresence = require( "./assessments/textPresenceAssessment.js" );
+var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 // var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
 // var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
-// var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 // var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 // var subheadingDistributionTooShort = require( "./assessments/subheadingDistributionTooShortAssessment.js" );
 // var paragraphTooShort = require( "./assessments/paragraphTooShortAssessment.js" );
@@ -42,8 +42,8 @@ var ContentAssessor = function ( i18n, options ) {
 		transitionWords,
 		passiveVoice,
 		textPresence,
+		sentenceVariation,
 		sentenceBeginnings
-		// sentenceVariation,
 		// wordComplexity,
 		// subheadingDistributionTooShort,
 		// paragraphTooShort
