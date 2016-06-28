@@ -62,11 +62,14 @@ h3 .dashicons-warning {
 
 .yoast-container .yoast-alert-holder {
 	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 }
 
 .restore .dashicons,
 .dismiss .dashicons {
+	width: 24px;
+	height: 24px;
 	font-size: 24px;
 }
 
@@ -74,14 +77,23 @@ h3 .dashicons-warning {
 	margin-bottom: 20px;
 }
 
-.restore,
-.dismiss {
-	width: 32px;
+/* These selectors need a higher specificity than .wp-core-ui .button */
+.yoast-alerts .button.restore,
+.yoast-alerts .button.dismiss {
+	width: 40px;
 	height: 40px;
-	margin-left: 8px;
-	border: none;
-	background-color: transparent;
-	cursor: pointer;
+	line-height: inherit;
+
+	-webkit-flex: 0 0 40px;
+	-ms-flex: 0 0 40px;
+	flex: 0 0 40px;
+}
+
+.yoast-alerts .button.restore:hover,
+.yoast-alerts .button.dismiss:hover,
+.yoast-alerts .button.restore:focus,
+.yoast-alerts .button.dismiss:focus {
+	background: transparent;
 }
 
 .yoast-container .separator {
