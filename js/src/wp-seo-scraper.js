@@ -1,0 +1,385 @@
+/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, wpseoTermScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+
+var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
+var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
+var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
+var TabManager = require( './analysis/tabManager' );
+
+var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
+var tmceHelper = require( './wp-seo-tinymce' );
+
+var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
+var publishBox = require( './ui/publishBox' );
+
+var updateTrafficLight = require( './ui/trafficLight' ).update;
+var updateAdminBar = require( './ui/adminBar' ).update;
+
+(function( $ ) {
+	'use strict';
+
+	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+	var App = require( 'yoastseo' ).App;
+	var UsedKeywords = require( './analysis/usedKeywords' );
+	var currentKeyword = '';
+	var titleElement;
+	var leavePostNameUntouched = false;
+	var app, snippetPreview;
+	var decorator = null;
+	var tabManager;
+
+	/**
+	 * The HTML 'id' attribute for the TinyMCE editor.
+	 * @type {string}
+	 */
+	var tmceId = 'content';
+
+	/**
+	 * Show warning in console when the unsupported CkEditor is used
+	 */
+	var Scraper = function() {
+		if ( typeof CKEDITOR === 'object' ) {
+			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		}
+	};
+
+	Scraper.prototype.init = function( l10n, linkdex, keywordField ) {
+		this.l10n = l10n;
+		this.linkdex = linkdex;
+		this.keywordField = keywordField;
+	};
+
+	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	Scraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
+	 * Calls the event binders.
+	 */
+	Scraper.prototype.bindElementEvents = function( app, elements ) {
+		this.inputElementEventBinder( app, elements );
+	};
+
+	/**
+	 * Binds the renewData function on the change of input elements.
+	 */
+	Scraper.prototype.inputElementEventBinder = function( app, elements ) {
+		var elems = elements || [];
+
+		for ( var i = 0; i < elems.length; i++ ) {
+			var elem = document.getElementById( elems[ i ] );
+			if ( elem !== null ) {
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+			}
+		}
+
+		tmceHelper.tinyMceEventBinder(app, tmceId);
+
+		$( '#yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
+	};
+
+	/**
+	 * Resets the current queue if focus keyword is changed and not empty.
+	 */
+	Scraper.prototype.resetQueue = function() {
+		if ( app.rawData.keyword !== '' ) {
+			app.runAnalyzer( this.rawData );
+		}
+	};
+
+	/**
+	 * Saves the score to the linkdex.
+	 * Outputs the score in the overall target.
+	 *
+	 * @param {string} score
+	 */
+	Scraper.prototype.saveScores = function( score ) {
+		var indicator = this.getIndicator( score );
+
+		if ( keywordAnalysisIsActive() ) {
+			tabManager.updateKeywordTab( indicator, currentKeyword );
+		}
+
+		// If multi keyword isn't available we need to update the first tab (content).
+		if ( keywordAnalysisIsActive() && ! YoastSEO.multiKeyword ) {
+
+			// TODO: Currently the publishbox assumes we're on the post edit page. This will break when using on a term page.
+			publishBox.updateScore( 'content', indicator );
+
+			// Updates the input with the currentKeyword value.
+			$( this.keywordField ).val( currentKeyword );
+		}
+
+		if ( keywordAnalysisIsActive() && tabManager.isMainKeyword( currentKeyword ) ) {
+			this.updateLinkdex( score );
+
+			publishBox.updateScore( 'keyword', indicator );
+		}
+
+		this.triggerScoreEvent( score );
+	};
+
+	Scraper.prototype.triggerScoreEvent = function( score ) {
+		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+	};
+
+	Scraper.prototype.getIndicator = function( score ) {
+		if ( currentKeyword === '' ) {
+			return this.getEmptyKeywordIndicator();
+		}
+
+		return getIndicatorForScore( score );
+	};
+
+	Scraper.prototype.updateInterfaceIndicators = function( indicator ) {
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	};
+
+	Scraper.prototype.getLinkdexValue = function() {
+		return $( this.linkdex ).val();
+	};
+
+	Scraper.prototype.updateLinkdex = function( score ) {
+		$( this.linkdex ).val( score );
+	};
+
+	Scraper.prototype.getEmptyKeywordIndicator = function() {
+		return {
+			className: 'na',
+			screenReaderText: app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' ),
+			fullText: app.i18n.dgettext( 'js-text-analysis', 'Content optimization: Enter a focus keyword to calculate the SEO score' )
+		};
+	};
+
+	/**
+	 * Saves the content score to a hidden field.
+	 *
+	 * @param {number} score
+	 */
+	Scraper.prototype.saveContentScore = function( element, score ) {
+		tabManager.updateContentTab( score );
+
+		$( element ).val( score );
+	};
+
+	/**
+	 * Initializes keyword tab with the correct template if multi keyword isn't available.
+	 */
+	Scraper.prototype.initKeywordTabTemplate = function () {
+		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
+		if ( YoastSEO.multiKeyword ) {
+			return;
+		}
+	};
+
+	/**
+	 * Retrieves either a generated slug or the page title as slug for the preview.
+	 * @param {Object} response The AJAX response object.
+	 * @returns {String}
+	 */
+	function getUrlPathFromResponse( response ) {
+		if ( response.responseText === '' ) {
+			return titleElement.val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery( '<div>' + response.responseText + '</div>' )
+			.find( '#editable-post-name-full' )
+			.text();
+	}
+
+	/**
+	 * Binds to the WordPress jQuery function to put the permalink on the page.
+	 * If the response matches with permalink string, the snippet can be rendered.
+	 */
+	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
+		var ajax_end_point = '/admin-ajax.php';
+		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+			return;
+		}
+
+		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
+			/*
+			 * WordPress do not update post name for auto-generated slug, so we should leave this field untouched.
+			 */
+			leavePostNameUntouched = true;
+
+			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
+		}
+	} );
+
+	/**
+	 * Initializes the snippet preview.
+	 *
+	 * @param {PostScraper} postScraper
+	 * @returns {YoastSEO.SnippetPreview}
+	 */
+	Scraper.prototype.initSnippetPreview = function( scraperData, args ) {
+		var data = scraperData;
+		var args = args || {};
+
+		var titlePlaceholder = getTitlePlaceholder();
+		var descriptionPlaceholder = getDescriptionPlaceholder();
+
+		var snippetPreviewArgs = {
+			targetElement: $( args.target ),
+			placeholder: {
+				title: titlePlaceholder,
+				urlPath: ''
+			},
+			defaultValue: {
+				title: titlePlaceholder
+			},
+			baseURL: args.base_url,
+			callbacks: {
+				saveSnippetData: args.saveSnippetData
+			},
+			metaDescriptionDate: args.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		if ( descriptionPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = descriptionPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
+		}
+
+		return new SnippetPreview( snippetPreviewArgs );
+	}
+
+	/**
+	 * Determines if markers should be shown.
+	 *
+	 * @returns {boolean}
+	 */
+	Scraper.prototype.displayMarkers = function() {
+		return this.l10n.show_markers === '1';
+	}
+
+	/**
+	 * Determines if the keyword analysis is active.
+	 *
+	 * @returns {boolean}
+	 */
+	Scraper.prototype.keywordAnalysisIsActive = function() {
+		console.log(this.l10n);
+		return this.l10n.keywordAnalysisActive === '1';
+	}
+
+	/**
+	 * Determines if the content analysis is active.
+	 *
+	 * @returns {boolean}
+	 */
+	Scraper.prototype.contentAnalysisIsActive = function() {
+		return this.l10n.contentAnalysisActive === '1';
+	}
+
+	/**
+	 * Returns the marker callback method for the assessor.
+	 *
+	 * @returns {*|bool}
+	 */
+	Scraper.prototype.getMarker = function() {
+		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
+		if ( ! tmceHelper.isTinyMCEAvailable( tmceId ) || ! displayMarkers() ) {
+			return false;
+		}
+
+		if ( decorator === null ) {
+			decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+		}
+
+		return function( paper, marks ) {
+			decorator( paper, marks );
+		};
+	}
+
+	/**
+	 * Retrieves translations.
+	 *
+	 * @returns {Object}
+	 */
+	Scraper.prototype.retrieveTranslations = function() {
+		var translations = this.l10n.translations;
+
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
+			translations.domain = 'js-text-analysis';
+			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+
+			delete( translations.locale_data['wordpress-seo'] );
+		}
+
+		return translations;
+	}
+
+	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
+		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
+		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', this.l10n, app );
+
+		usedKeywords.init();
+		postScraper.initKeywordTabTemplate();
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+
+		publishBox.updateScore( 'keyword', indicator.className );
+	}
+
+	function initializeContentAnalysis( publishBox ) {
+		var savedContentScore = $( '#yoast_wpseo_content_score' ).val();
+
+		var indicator = getIndicatorForScore( savedContentScore );
+
+		updateAdminBar( indicator );
+
+		publishBox.updateScore( 'content', indicator.className );
+	}
+
+	function keywordElementSubmitHandler() {
+		if ( keywordAnalysisIsActive() && ! YoastSEO.multiKeyword ) {
+			/*
+			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
+			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
+			 * onsubmit event that is copying the focus keyword, this should be solved.
+			 */
+			$( '#post' ).on( 'submit', function() {
+				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
+				var hiddenKeywordValue  = hiddenKeyword.val();
+				var visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
+
+				if ( hiddenKeywordValue !== visibleKeywordValue ) {
+					hiddenKeyword.val( visibleKeywordValue );
+				}
+			} );
+		}
+	}
+
+	Scraper.prototype.retrieveTargets = function() {
+		var targets = {};
+
+		if ( keywordAnalysisIsActive() ) {
+			targets.output = 'wpseo-pageanalysis';
+		}
+
+		if ( contentAnalysisIsActive() ) {
+			targets.contentOutput = 'yoast-seo-content-analysis';
+		}
+
+		return targets;
+	}
+}( jQuery ));
