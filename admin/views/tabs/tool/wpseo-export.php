@@ -22,5 +22,5 @@ $submit_button_value = sprintf( __( 'Export your %1$s settings', 'wordpress-seo'
 	accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 	<?php $yform->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) ); ?><br />
 	<?php wp_nonce_field( WPSEO_Export::NONCE_ACTION, WPSEO_Export::NONCE_NAME );  ?>
-	<button type="submit" class="button-primary" id="export-button"><?php echo esc_html( $submit_button_value ); ?></button>
+	<button type="submit" class="button button-primary" id="export-button"><?php echo esc_html( $submit_button_value ); ?></button>
 </form>

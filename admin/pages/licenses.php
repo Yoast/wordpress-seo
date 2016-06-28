@@ -93,9 +93,9 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 
 					<p>
 						<?php if ( $extension->installed ) : ?>
-							<button class="button-primary installed">Installed</button>
+							<button class="button button-primary installed">Installed</button>
 						<?php else : ?>
-							<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button-primary">
+							<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button button-primary">
 								<?php _e( 'Get this extension', 'wordpress-seo' ); ?>
 							</a>
 						<?php endif; ?>
