@@ -58,7 +58,8 @@ function wpseo_display_contributors( $contributors ) {
 		<div class="headline-feature feature-video">
 			<?php // @codingStandardsIgnoreStart ?>
 			<iframe style="width:1050px;height:591px;" src="https://yoa.st/3-3-release-video"
-			        frameborder="0" allowfullscreen></iframe>
+			        title="<?php esc_attr_e( 'New release video', 'wordpress-seo' ); ?>"
+					frameborder="0" allowfullscreen></iframe>
 			<?php // @codingStandardsIgnoreEnd ?>
 		</div>
 
