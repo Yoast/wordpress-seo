@@ -41,7 +41,10 @@ describe("a test removing special characters from text", function( ){
 		expect( transliteration( "áÁčČďĎéÉěĚíÍňŇóÓřŘšŠťŤúÚůŮýÝžŽ", "cs_CZ" ) ).toBe( "aAcCdDeEeEiInNoOrRsStTuUuUyYzZ" );
 	});
 	it("returns a Russian string without special characters.", function(  ){
-		expect( transliteration( "бБвВгГдДёЁжЖзЗиИйЙкКлЛмМнНпПpPсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯ", "ru_RU" ) ).toBe( "bBvVgGdDeEzhZhzZiIiIkKlLmMnNpPrRsStTuUfFkhKhtsTschChshShshchShchieIeyYeEiuIuiaIa" );
+		expect( transliteration( "АабБвВгГдДеЕёЁжЖзЗиИйЙіІкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯ", "ru_RU" ) ).toBe( "AabBvVgGdDeEeEzhZhzZiIiIiIkKlLmMnNoOpPrRsStTuUfFkhKhtsTschChshShshchShchieIeyYeEiuIuiaIa" );
+	});
+	it("returns a Russian string without special characters.", function(  ){
+		expect( transliteration( "Транслитерация", "ru_RU" ) ).toBe( "Transliteratsiia" );
 	});
 	it("returns an Esperanto string without special characters.", function(  ){
 		expect( transliteration( "ĉĈĝĜĥĤĵĴŝŜŭŬ", "eo" ) ).toBe( "chChghGhhxHxjxJxsxSxuxUx" );
