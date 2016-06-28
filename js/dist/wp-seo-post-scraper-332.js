@@ -243,11 +243,10 @@ function getIndicatorForScore( score ) {
 	// Scale because scoreToRating works from 0 to 10.
 	score /= 10;
 
-
 	var indicator = {
+		fullText: '',
 		className: '',
-		screenReaderText: '',
-		fullText: ''
+		screenReaderText: ''
 	};
 
 	var presenter = getPresenter();
@@ -548,11 +547,11 @@ TabManager.prototype.updateContentTab = function( score ) {
 /**
  * Updates the keyword tab with the calculated score
  *
- * @param {number} score The score that has been calculated.
+ * @param {Object} indicator The indicator that needs to be used.
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
-TabManager.prototype.updateKeywordTab = function( score, keyword ) {
-	this.mainKeywordTab.updateScore( score, keyword );
+TabManager.prototype.updateKeywordTab = function( indicator, keyword ) {
+	this.mainKeywordTab.updateScore( indicator, keyword );
 };
 
 /**
@@ -845,7 +844,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	/**
 	 * Initializes the publish box score indicators.
 	 */
-	function initialise() {
+	function initialize() {
 		var notAvailableStatus = 'na';
 
 		if ( wpseoPostScraperL10n.contentAnalysisActive === '1' ) {
@@ -858,7 +857,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	}
 
 	module.exports = {
-		initalise: initialise,
+		initialize: initialize,
 		updateScore: updateScoreInPublishBox
 	};
 }( jQuery ));
@@ -1385,6 +1384,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		}
 	}
 
+	/**
+	 * Retrieves the possible HTML elements to render out the analysis to.
+	 *
+	 * @returns {{}}
+	 */
 	function retrieveTargets() {
 		var targets = {};
 
@@ -1401,7 +1405,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 	jQuery( document ).ready( function() {
 		var postScraper = new PostScraper();
-		publishBox.initalise();
+		publishBox.initialize( wpseoPostScraperL10n );
 
 		tabManager = new TabManager( {
 			strings: wpseoPostScraperL10n,

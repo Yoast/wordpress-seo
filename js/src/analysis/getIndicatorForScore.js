@@ -29,11 +29,10 @@ function getIndicatorForScore( score ) {
 	// Scale because scoreToRating works from 0 to 10.
 	score /= 10;
 
-
 	var indicator = {
+		fullText: '',
 		className: '',
-		screenReaderText: '',
-		fullText: ''
+		screenReaderText: ''
 	};
 
 	var presenter = getPresenter();

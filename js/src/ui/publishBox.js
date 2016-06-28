@@ -69,7 +69,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	/**
 	 * Initializes the publish box score indicators.
 	 */
-	function initialise() {
+	function initialize() {
 		var notAvailableStatus = 'na';
 
 		if ( wpseoPostScraperL10n.contentAnalysisActive === '1' ) {
@@ -82,7 +82,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	}
 
 	module.exports = {
-		initalise: initialise,
+		initialize: initialize,
 		updateScore: updateScoreInPublishBox
 	};
 }( jQuery ));

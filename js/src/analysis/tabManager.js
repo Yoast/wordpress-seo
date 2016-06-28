@@ -121,11 +121,11 @@ TabManager.prototype.updateContentTab = function( score ) {
 /**
  * Updates the keyword tab with the calculated score
  *
- * @param {number} score The score that has been calculated.
+ * @param {Object} indicator The indicator that needs to be used.
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
-TabManager.prototype.updateKeywordTab = function( score, keyword ) {
-	this.mainKeywordTab.updateScore( score, keyword );
+TabManager.prototype.updateKeywordTab = function( indicator, keyword ) {
+	this.mainKeywordTab.updateScore( indicator, keyword );
 };
 
 /**

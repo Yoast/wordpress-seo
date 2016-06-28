@@ -496,6 +496,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		}
 	}
 
+	/**
+	 * Retrieves the possible HTML elements to render out the analysis to.
+	 *
+	 * @returns {{}}
+	 */
 	function retrieveTargets() {
 		var targets = {};
 
@@ -512,7 +517,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 	jQuery( document ).ready( function() {
 		var postScraper = new PostScraper();
-		publishBox.initalise();
+		publishBox.initialize( wpseoPostScraperL10n );
 
 		tabManager = new TabManager( {
 			strings: wpseoPostScraperL10n,
