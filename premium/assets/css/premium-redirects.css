@@ -21,7 +21,9 @@ tbody .column-new .has-trailing-slash:after {
 }
 
 tbody .column-new .remove-slashes:before,
-tbody .column-new .remove-slashes:after {
+tbody .column-new .remove-slashes:after,
+tbody .column-old .remove-slashes:before,
+tbody .column-old .remove-slashes:after {
 	content: none;
 }
 

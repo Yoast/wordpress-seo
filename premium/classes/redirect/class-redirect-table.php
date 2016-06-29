@@ -184,6 +184,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function column_default( $item, $column_name ) {
 
+		$is_regex    = ( filter_input( INPUT_GET, 'tab' ) === 'regex' );
 		$row_actions = $this->get_row_actions( $column_name );
 
 		switch ( $column_name ) {
@@ -191,7 +192,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 				$classes = array( 'val' );
 				$new_url = $item['new'];
 
-				if ( WPSEO_Redirect_Util::requires_trailing_slash( $new_url ) ) {
+				if ( ! $is_regex && WPSEO_Redirect_Util::requires_trailing_slash( $new_url ) ) {
 					$classes[] = 'has-trailing-slash';
 				}
 
@@ -206,7 +207,12 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 				return "<div class='" . esc_attr( implode( ' ', $classes ) ) . "'>" . esc_html( $new_url ) . '</div>' . $row_actions;
 				break;
 			case 'old':
-				return "<div class='val'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
+				$classes = '';
+				if ( $is_regex === true ) {
+					$classes = 'remove-slashes';
+				}
+
+				return "<div class='val " . $classes . "'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
 				break;
 			case 'type';
 				return '<div class="val type">' . esc_html( $item['type'] ) .'</div>' . $row_actions;
