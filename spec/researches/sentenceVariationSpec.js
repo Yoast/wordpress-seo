@@ -14,7 +14,7 @@ describe( "the sentence length variation research", function() {
 			"urna at molestie."
 		);
 		var result = sentenceVariation( paper );
-		expect( result ).toBe( 1.4 );
+		expect( result ).toBe( 1 );
 	} );
 
 	it( "should calculate the standard deviation short and long sentences", function() {
@@ -26,7 +26,7 @@ describe( "the sentence length variation research", function() {
 		);
 
 		var result = sentenceVariation( paper );
-		expect( result ).toBe( 3.3 );
+		expect( result ).toBe( 3.1 );
 	} );
 
 	it( "should calculate the standard deviation of a text containing six lines", function() {
@@ -38,6 +38,6 @@ describe( "the sentence length variation research", function() {
 		);
 
 		var result = sentenceVariation( paper );
-		expect( result ).toBe( 2.2 );
+		expect( result ).toBe( 2.0 );
 	} );
 });
