@@ -80,7 +80,6 @@ var countSyllables = function( word ) {
 	var syllableCount = 0;
 	syllableCount += countUsingVowels( word );
 	syllableCount += countVowelExclusions ( word );
-	console.log( word, " ", syllableCount );
 	return syllableCount;
 };
 
@@ -92,7 +91,6 @@ var countSyllables = function( word ) {
  * @returns {int} The total number of syllables found in the text.
  */
 module.exports = function( text ) {
-	text = text.replace( ".", " " );
 	var words = getWords( text );
 	var syllableCount = 0;
 
@@ -104,7 +102,6 @@ module.exports = function( text ) {
 		}
 		syllableCount += countSyllables( word );
 	} );
-	console.log( syllableCount );
 	return syllableCount;
 };
 

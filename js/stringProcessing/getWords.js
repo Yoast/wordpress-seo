@@ -5,6 +5,7 @@ var stripSpaces = require( "./stripSpaces.js" );
 var removeSentenceTerminators = require( "./removeSentenceTerminators.js" );
 var map = require( "lodash/map" );
 var filter = require( "lodash/filter" );
+var forEach = require( "lodash/forEach" );
 
 /**
  * Returns an array with words used in the text.
@@ -20,8 +21,13 @@ module.exports = function( text ) {
 
 	var words = text.split( /\s/g );
 
+	words = map( words, function( word ) {
+		word = removeSentenceTerminators( word );
+	 	return stripSpaces( word );
+	} );
+
 	return filter( words, function( word ) {
-		return word.trim() !== "" && removeSentenceTerminators( word ) !== "";
+		return word.trim() !== "";
 	} );
 };
 
