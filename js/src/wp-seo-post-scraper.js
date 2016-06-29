@@ -55,12 +55,14 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * the analyzer and the snippet preview.
 	 */
 	PostScraper.prototype.getData = function() {
+		var url = this.getDataFromInput( 'url' );
+
 		return {
 			keyword: this.getDataFromInput( 'keyword' ),
 			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
 			title: this.getDataFromInput( 'title' ),
-			url: this.getDataFromInput( 'url' ),
+			url: url,
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
@@ -68,7 +70,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
 			searchUrl: wpseoPostScraperL10n.search_url,
 			postUrl: wpseoPostScraperL10n.post_edit_url,
-			permalink: wpseoPostScraperL10n.base_url + this.getDataFromInput( 'url' )
+			permalink: wpseoPostScraperL10n.base_url + url
 		};
 	};
 
