@@ -275,7 +275,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 					errorMessage: wpseoAdminL10n.kb_error_message,
 					loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 					search: wpseoAdminL10n.kb_search,
-					open: wpseoAdminL10n.open,
+					open: wpseoAdminL10n.kb_open,
 					back: wpseoAdminL10n.kb_back
 				};
 				algoliaSearchers.push( {
