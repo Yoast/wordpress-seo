@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.3
 Tested up to: 4.5
-Stable tag: 3.3.2
+Stable tag: 3.3.3
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -115,6 +115,14 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 3.3.3 =
+
+Release Date: June 30th, 2016
+
+* Bugfixes:
+	* Fixes a bug where the focus keyword is not shown for posts created using WordPress SEO 2.x
+	* Fixes a bug where changing the title in the bulk editor could be used to trigger JavaScript for the current user
 
 = 3.3.2 =
 
