@@ -93,7 +93,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 			// %5$s expands to the recommended maximum percentage.
 			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s." +
-			"Try to shorten your sentences."
+			"Try to shorten the sentences."
 			), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
 		)
 	};

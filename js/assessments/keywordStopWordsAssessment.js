@@ -14,9 +14,9 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 			text: i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
+				"The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
 				"Read %1$sthis article%2$s for more info.",
-				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
+				"The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
 				"Read %1$sthis article%2$s for more info.",
 				stopWordCount
 			)
