@@ -1,5 +1,6 @@
 var LanguageSyllableRegex = require ( "./LanguageSyllableRegex.js" );
 
+var isUndefined = require( "lodash/isUndefined" );
 var forEach = require ( "lodash/forEach" );
 
 /**
@@ -10,8 +11,9 @@ var forEach = require ( "lodash/forEach" );
  */
 var LanguageSyllableRegexMaster = function( config ) {
 	this.availableLanguageSyllableRegexes = [];
-
-	this.createSyllabeRegexes( config.syllables );
+	if( !isUndefined( config ) ) {
+		this.createSyllabeRegexes( config.syllableExclusion );
+	}
 };
 
 /**
