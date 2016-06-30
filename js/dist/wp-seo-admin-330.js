@@ -230,7 +230,7 @@ var AlgoliaSearcher = function (_React$Component) {
 						this.props.open
 					)
 				),
-				_react2.default.createElement(ArticleContent, { post: post })
+				_react2.default.createElement(ArticleContent, { post: post, iframeTitle: this.props.iframeTitle })
 			);
 		}
 
@@ -306,6 +306,7 @@ var AlgoliaSearcher = function (_React$Component) {
 AlgoliaSearcher.propTypes = {
 	noResultsText: _react2.default.PropTypes.string,
 	headingText: _react2.default.PropTypes.string,
+	iframeTitle: _react2.default.PropTypes.string,
 	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
 	algoliaApiKey: _react2.default.PropTypes.string.isRequired,
 	algoliaIndexName: _react2.default.PropTypes.string.isRequired,
@@ -318,6 +319,7 @@ AlgoliaSearcher.propTypes = {
 AlgoliaSearcher.defaultProps = {
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
+	iframeTitle: 'Knowledge base article',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'knowledge_base_all',
@@ -402,7 +404,7 @@ var SearchResult = function SearchResult(props) {
  */
 var ArticleContent = function ArticleContent(props) {
 	var url = props.post.permalink + 'amp?source=wpseo-kb-search';
-	return _react2.default.createElement('iframe', { src: url, className: 'kb-search-content-frame' });
+	return _react2.default.createElement('iframe', { src: url, className: 'kb-search-content-frame', title: props.iframeTitle });
 };
 
 /**
@@ -690,7 +692,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 				search: wpseoAdminL10n.kb_search,
 				open: wpseoAdminL10n.kb_open,
-				back: wpseoAdminL10n.kb_back
+				back: wpseoAdminL10n.kb_back,
+				iframeTitle: wpseoAdminL10n.kb_iframe_title
 			};
 			algoliaSearchers.push({
 				tabName: tabId,
@@ -1001,25 +1004,38 @@ AlgoliaSearch.prototype.copyIndex = function(srcIndexName, dstIndexName, callbac
  * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
  * @param length Specify the maximum number of entries to retrieve starting
  * at offset. Maximum allowed value: 1000.
+ * @param type Specify the maximum number of entries to retrieve starting
+ * at offset. Maximum allowed value: 1000.
  * @param callback the result callback called with two arguments
  *  error: null or Error('message')
  *  content: the server answer that contains the task ID
  */
 AlgoliaSearch.prototype.getLogs = function(offset, length, callback) {
-  if (arguments.length === 0 || typeof offset === 'function') {
+  var clone = require('./clone.js');
+  var params = {};
+  if (typeof offset === 'object') {
+    // getLogs(params)
+    params = clone(offset);
+    callback = length;
+  } else if (arguments.length === 0 || typeof offset === 'function') {
     // getLogs([cb])
     callback = offset;
-    offset = 0;
-    length = 10;
   } else if (arguments.length === 1 || typeof length === 'function') {
     // getLogs(1, [cb)]
     callback = length;
-    length = 10;
+    params.offset = offset;
+  } else {
+    // getLogs(1, 2, [cb])
+    params.offset = offset;
+    params.length = length;
   }
+
+  if (params.offset === undefined) params.offset = 0;
+  if (params.length === undefined) params.length = 10;
 
   return this._jsonRequest({
     method: 'GET',
-    url: '/1/logs?offset=' + offset + '&length=' + length,
+    url: '/1/logs?' + this._getSearchParams(params, ''),
     hostType: 'read',
     callback: callback
   });
@@ -1366,7 +1382,7 @@ function notImplemented() {
   throw new errors.AlgoliaSearchError(message);
 }
 
-},{"./AlgoliaSearchCore.js":5,"./Index.js":6,"./deprecate.js":16,"./deprecatedMessage.js":17,"./errors":18,"inherits":57,"isarray":58}],5:[function(require,module,exports){
+},{"./AlgoliaSearchCore.js":5,"./Index.js":6,"./clone.js":15,"./deprecate.js":16,"./deprecatedMessage.js":17,"./errors":18,"inherits":57,"isarray":58}],5:[function(require,module,exports){
 module.exports = AlgoliaSearchCore;
 
 var errors = require('./errors');
@@ -3663,13 +3679,10 @@ function jsonpRequest(url, opts, cb) {
   var done = false;
 
   window[cbName] = function(data) {
-    try {
-      delete window[cbName];
-    } catch (e) {
-      window[cbName] = undefined;
-    }
+    removeGlobals();
 
     if (timedOut) {
+      opts.debug('JSONP: Late answer, ignoring');
       return;
     }
 
@@ -3736,19 +3749,19 @@ function jsonpRequest(url, opts, cb) {
     script.onreadystatechange = null;
     script.onerror = null;
     head.removeChild(script);
+  }
 
+  function removeGlobals() {
     try {
       delete window[cbName];
       delete window[cbName + '_loaded'];
     } catch (e) {
-      window[cbName] = null;
-      window[cbName + '_loaded'] = null;
+      window[cbName] = window[cbName + '_loaded'] = undefined;
     }
   }
 
   function timeout() {
     opts.debug('JSONP: Script timeout');
-
     timedOut = true;
     clean();
     cb(new errors.RequestTimeout());
@@ -4001,7 +4014,7 @@ function createPlacesClient(algoliasearch) {
 },{"./buildSearchMethod.js":14,"./clone.js":15}],23:[function(require,module,exports){
 'use strict';
 
-module.exports = '3.15.0';
+module.exports = '3.15.1';
 
 },{}],24:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.

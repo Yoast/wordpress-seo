@@ -276,7 +276,8 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 					loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 					search: wpseoAdminL10n.kb_search,
 					open: wpseoAdminL10n.kb_open,
-					back: wpseoAdminL10n.kb_back
+					back: wpseoAdminL10n.kb_back,
+					iframeTitle: wpseoAdminL10n.kb_iframe_title
 				};
 				algoliaSearchers.push( {
 					tabName: tabId,

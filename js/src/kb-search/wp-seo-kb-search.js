@@ -160,7 +160,7 @@ class AlgoliaSearcher extends React.Component {
 						{this.props.open}
 					</a>
 				</div>
-                <ArticleContent post={post}/>
+                <ArticleContent post={post} iframeTitle={this.props.iframeTitle}/>
             </div>
         );
     }
@@ -223,6 +223,7 @@ class AlgoliaSearcher extends React.Component {
 AlgoliaSearcher.propTypes = {
 	noResultsText: React.PropTypes.string,
 	headingText: React.PropTypes.string,
+	iframeTitle: React.PropTypes.string,
 	algoliaApplicationId: React.PropTypes.string.isRequired,
 	algoliaApiKey: React.PropTypes.string.isRequired,
 	algoliaIndexName: React.PropTypes.string.isRequired,
@@ -235,6 +236,7 @@ AlgoliaSearcher.propTypes = {
 AlgoliaSearcher.defaultProps = {
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
+	iframeTitle: 'Knowledge base article',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'knowledge_base_all',
@@ -296,7 +298,7 @@ const SearchResult = ( props ) => {
 const ArticleContent = ( props ) => {
 	let url = props.post.permalink + 'amp?source=wpseo-kb-search';
 	return (
-		<iframe src={url} className="kb-search-content-frame"/>
+		<iframe src={url} className="kb-search-content-frame" title={props.iframeTitle}/>
 	);
 };
 

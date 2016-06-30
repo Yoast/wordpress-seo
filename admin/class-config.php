@@ -123,6 +123,7 @@ class WPSEO_Admin_Pages {
 			'kb_search' => __( 'search', 'wordpress-seo' ),
 			'kb_back' => __( 'Back', 'wordpress-seo' ),
 			'kb_open' => __( 'Open', 'wordpress-seo' ),
+			'kb_iframe_title' => __( 'Knowledge base article', 'wordpress-seo' ),
 		);
 	}
 
