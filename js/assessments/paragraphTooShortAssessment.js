@@ -37,7 +37,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 	if ( score >= 7 ) {
 		return {
 			score: score,
-			text: i18n.dgettext( "js-text-analysis", "None of your paragraphs are too short, which is great." )
+			text: i18n.dgettext( "js-text-analysis", "None of the paragraphs are too short, which is great." )
 		};
 	}
 	return {

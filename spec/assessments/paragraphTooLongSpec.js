@@ -8,7 +8,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 	it( "scores 1 paragraph with ok length", function() {
 		var assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 60, paragraph: "" } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "None of your paragraphs are too long, which is great." );
+		expect( assessment.getText() ).toBe( "None of the paragraphs are too long, which is great." );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 	it( "scores 1 slightly too long paragraph", function() {
@@ -28,7 +28,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 	it( "scores 3 paragraphs with ok length", function() {
 		var assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 60, paragraph: "" }, { wordCount: 71, paragraph: "" }, { wordCount: 83, paragraph: "" } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "None of your paragraphs are too long, which is great." );
+		expect( assessment.getText() ).toBe( "None of the paragraphs are too long, which is great." );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 	it( "scores 3 paragraphs, one of which is too long", function() {
