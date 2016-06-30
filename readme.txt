@@ -121,8 +121,8 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date: June 30th, 2016
 
 * Bugfixes:
-	* Fixes a bug where the focus keyword is not shown for posts created using WordPress SEO 2.x
-	* Fixes a bug where changing the title in the bulk editor could be used to trigger JavaScript for the current user
+	* Fixes a bug where the focus keyword is not shown for posts created using WordPress SEO 2.x.
+	* Fixes a bug where changing the title in the bulk editor could be used to trigger JavaScript for the current user.
 
 = 3.3.2 =
 

@@ -7,8 +7,8 @@ This is an archive of older changelog entries. Most recent entries are maintaine
 Release Date: June 30th, 2016
 
 * Bugfixes:
-	* Fixes a bug where the focus keyword is not shown for posts created while using WordPress SEO 2.x
-	* Fixes a bug where changing the title in the bulk editor could be used to trigger JavaScript for the current user
+	* Fixes a bug where the focus keyword is not shown for posts created while using WordPress SEO 2.x.
+	* Fixes a bug where changing the title in the bulk editor could be used to trigger JavaScript for the current user.
 
 = 3.1.2 =
 
