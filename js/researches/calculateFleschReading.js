@@ -6,8 +6,6 @@ var countWords = require( "../stringProcessing/countWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 
-var getSentences = require( "../stringProcessing/getSentences.js" );
-
 /**
  * This calculates the fleschreadingscore for a given text
  * The formula used:

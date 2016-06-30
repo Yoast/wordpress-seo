@@ -4,7 +4,6 @@ var syllableMatchers = require( "../config/syllables.js" );
 
 var getWords = require( "../stringProcessing/getWords.js" );
 
-var map = require( "lodash/map" );
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 
@@ -25,8 +24,8 @@ var languageSyllableRegexMaster = new LanguageSyllableRegexMaster( syllableMatch
 var countUsingVowels = function( word ) {
 	var numberOfSyllables = 0;
 	var foundVowels = word.split( vowelRegex );
-	var filteredWords = filter( foundVowels, function( vowel ){
-		return vowel !== ""
+	var filteredWords = filter( foundVowels, function( vowel ) {
+		return vowel !== "";
 	} );
 	numberOfSyllables += filteredWords.length;
 
@@ -41,14 +40,7 @@ var countUsingVowels = function( word ) {
  * @returns {number} The number of syllables found in the given word.
  */
 var countVowelExclusions = function( word ) {
-	var syllableCount = 0;
-	var array = languageSyllableRegexMaster.getAvailableLanguageSyllableRegexes();
-	forEach( array, function( syllableMatcher ) {
-		if( syllableMatcher.getRegex ) {
-			syllableCount += syllableMatcher.countSyllables( word );
-		}
-	} );
-	return syllableCount;
+	return languageSyllableRegexMaster.countSyllables( word );
 };
 
 /**
