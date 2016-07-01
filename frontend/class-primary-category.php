@@ -44,6 +44,11 @@ class WPSEO_Frontend_Primary_Category {
 	 */
 	protected function get_primary_category( $post = null ) {
 		$post = get_post( $post );
+
+		if ( $post === null ) {
+			return false;
+		}
+
 		$primary_term = new WPSEO_Primary_Term( 'category', $post->ID );
 
 		return $primary_term->get_primary_term();

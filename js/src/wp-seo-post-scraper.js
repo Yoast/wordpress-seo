@@ -55,19 +55,22 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * the analyzer and the snippet preview.
 	 */
 	PostScraper.prototype.getData = function() {
+		var url = this.getDataFromInput( 'url' );
+
 		return {
 			keyword: this.getDataFromInput( 'keyword' ),
 			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
 			title: this.getDataFromInput( 'title' ),
-			url: this.getDataFromInput( 'url' ),
+			url: url,
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' ),
 			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
 			searchUrl: wpseoPostScraperL10n.search_url,
-			postUrl: wpseoPostScraperL10n.post_edit_url
+			postUrl: wpseoPostScraperL10n.post_edit_url,
+			permalink: wpseoPostScraperL10n.base_url + url
 		};
 	};
 
@@ -305,6 +308,9 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
 		});
+
+		var keyword = $( '#yoast_wpseo_focuskw' ).val();
+		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
 	};
 
 	/**
@@ -350,7 +356,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	function initSnippetPreview( postScraper ) {
 		var data = postScraper.getData();
-
 		var titlePlaceholder = getTitlePlaceholder();
 		var descriptionPlaceholder = getDescriptionPlaceholder();
 
@@ -412,7 +417,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		publishBox.initalise();
 
 		tabManager = new TabManager({
-			strings: wpseoPostScraperL10n
+			strings: wpseoPostScraperL10n,
+			contentAnalysisActive: wpseoPostScraperL10n.contentAnalysisActive
 		});
 		tabManager.init();
 
@@ -422,8 +428,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			targets: {
-				output: 'wpseo-pageanalysis',
-				contentOutput: 'yoast-seo-content-analysis'
+				output: 'wpseo-pageanalysis'
 			},
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
@@ -435,6 +440,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			locale: wpseoPostScraperL10n.locale,
 			marker: getMarker()
 		};
+
+		// Determine whether or not the content analysis should be executed.
+		if ( wpseoPostScraperL10n.contentAnalysisActive === '1' ) {
+			args.targets.contentOutput = 'yoast-seo-content-analysis';
+		}
 
 		titleElement = $( '#title' );
 

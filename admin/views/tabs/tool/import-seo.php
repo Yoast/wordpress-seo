@@ -31,6 +31,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	$yform->checkbox( 'deleteolddata', __( 'Delete the old data after import? (recommended)', 'wordpress-seo' ) );
 	?>
 	<br/>
-	<input type="submit" class="button-primary" name="import"
+	<input type="submit" class="button button-primary" name="import"
 	       value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
 </form>

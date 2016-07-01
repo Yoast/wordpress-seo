@@ -23,7 +23,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		);
 		$result = $class_instance->get_values();
 
-		$this->assertEquals( 'Content', $result['contentTab'] );
+		$this->assertEquals( 'Readability', $result['contentTab'] );
 		$this->assertTrue( array_key_exists( 'locale' , $result ) );
 		$this->assertTrue( array_key_exists( 'translations' , $result ) );
 		$this->assertTrue( is_array( $result['translations'] ) );

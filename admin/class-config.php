@@ -78,7 +78,6 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'thickbox' );
 
 		$page = filter_input( INPUT_GET, 'page' );
-		$tool = filter_input( INPUT_GET, 'tool' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
 
@@ -89,16 +88,8 @@ class WPSEO_Admin_Pages {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
-		if ( 'wpseo_tools' === $page && empty( $tool ) ) {
-			$this->asset_manager->enqueue_script( 'yoast-seo' );
-		}
-
-		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
-			$this->asset_manager->enqueue_script( 'bulk-editor' );
-		}
-
-		if ( 'wpseo_tools' === $page && 'import-export' === $tool ) {
-			$this->asset_manager->enqueue_script( 'export' );
+		if ( 'wpseo_tools' === $page ) {
+			$this->enqueue_tools_scripts();
 		}
 	}
 
@@ -131,8 +122,49 @@ class WPSEO_Admin_Pages {
 			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
 			'kb_search' => __( 'search', 'wordpress-seo' ),
 			'kb_back' => __( 'Back', 'wordpress-seo' ),
+			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
 			'kb_open' => __( 'Open', 'wordpress-seo' ),
+			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
 		);
+	}
+
+	/**
+	 * Enqueues and handles all the tool dependencies.
+	 */
+	private function enqueue_tools_scripts() {
+		$tool = filter_input( INPUT_GET, 'tool' );
+
+		if ( empty( $tool ) ) {
+			$this->asset_manager->enqueue_script( 'yoast-seo' );
+		}
+
+		if ( 'bulk-editor' === $tool ) {
+			$this->asset_manager->enqueue_script( 'bulk-editor' );
+		}
+
+		if ( 'import-export' === $tool && filter_input( INPUT_POST, WPSEO_Export::NONCE_NAME ) !== null ) {
+			$this->do_yoast_export();
+		}
+	}
+
+	/**
+	 * Runs the yoast exporter class to possibly init the file download.
+	 */
+	private function do_yoast_export() {
+		check_admin_referer( WPSEO_Export::NONCE_ACTION, WPSEO_Export::NONCE_NAME );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$wpseo_post       = filter_input( INPUT_POST, 'wpseo' );
+		$include_taxonomy = ! empty( $wpseo_post['include_taxonomy'] );
+		$export           = new WPSEO_Export( $include_taxonomy );
+
+		if ( $export->has_error() ) {
+			add_action( 'admin_notices', array( $export, 'set_error_hook' ) );
+
+		}
 	}
 
 	/********************** DEPRECATED METHODS **********************/
@@ -151,9 +183,8 @@ class WPSEO_Admin_Pages {
 		if ( $export->success ) {
 			return $export->export_zip_url;
 		}
-		else {
-			return false;
-		}
+
+		return false;
 	}
 
 	/**

@@ -108,7 +108,7 @@ class WPSEO_Pointers {
 
 				wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 					buttons: function (event, t) {
-						var button = jQuery('<a href="<?php echo $this->get_ignore_url(); ?>" id="pointer-close" style="margin:0 5px;" class="button-secondary">' + '<?php _e( 'Close', 'wordpress-seo' ) ?>' + '</a>');
+						var button = jQuery('<a href="<?php echo $this->get_ignore_url(); ?>" id="pointer-close" style="margin:0 5px;" class="button button-secondary">' + '<?php _e( 'Close', 'wordpress-seo' ) ?>' + '</a>');
 						button.bind('click.pointer', function () {
 							t.element.pointer('close');
 						});
@@ -143,7 +143,7 @@ class WPSEO_Pointers {
 	private function button2() {
 		if ( $this->button_array['button2']['text'] ) {
 			?>
-			lastOpenedPointer.find( '#pointer-close' ).after('<a id="pointer-primary" class="button-primary">' +
+			lastOpenedPointer.find( '#pointer-close' ).after('<a id="pointer-primary" class="button button-primary">' +
 				'<?php echo $this->button_array['button2']['text']; ?>' + '</a>');
 			lastOpenedPointer.find('#pointer-primary').click(function () {
 			<?php echo $this->button_array['button2']['function']; ?>
@@ -158,7 +158,7 @@ class WPSEO_Pointers {
 	private function button3() {
 		if ( $this->button_array['button3']['text'] ) {
 			?>
-			lastOpenedPointer.find('#pointer-primary').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' +
+			lastOpenedPointer.find('#pointer-primary').after('<a id="pointer-ternary" style="float: left;" class="button button-secondary">' +
 				'<?php echo $this->button_array['button3']['text']; ?>' + '</a>');
 			lastOpenedPointer.find('#pointer-ternary').click(function () {
 			<?php echo $this->button_array['button3']['function']; ?>
@@ -247,7 +247,7 @@ class WPSEO_Pointers {
 			               . '<p>'
 			               . '<input style="margin: 5px; color:#666" name="EMAIL" value="' . esc_attr( $current_user->user_email ) . '" selector="newsletter-email" placeholder="' . __( 'Email', 'wordpress-seo' ) . '"/>'
 			               . '<input type="hidden" name="group" value="2"/>'
-			               . '<button type="submit" class="button-primary">' . __( 'Subscribe', 'wordpress-seo' ) . '</button>'
+			               . '<button type="submit" class="button button-primary">' . __( 'Subscribe', 'wordpress-seo' ) . '</button>'
 			               . '</p>'
 			               . '</form>',
 			'next_page' => 'titles',

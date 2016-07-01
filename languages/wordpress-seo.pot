@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.3.0\n"
+"Project-Id-Version: Yoast SEO 3.3.3\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-15 13:27:12+00:00\n"
+"POT-Creation-Date: 2016-06-30 09:34:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -126,7 +126,7 @@ msgstr ""
 
 #: admin/class-admin.php:137 admin/class-admin.php:313
 #: admin/class-meta-columns.php:43
-#: admin/formatter/class-metabox-formatter.php:65
+#: admin/formatter/class-metabox-formatter.php:66
 #: admin/taxonomy/class-taxonomy-columns.php:43
 msgid "SEO"
 msgstr ""
@@ -249,6 +249,13 @@ msgstr ""
 msgid "Facebook profile URL"
 msgstr ""
 
+#. translators: %1$s resolves to https:github.com/Yoast/wordpress-seo
+#: admin/class-asset.php:165
+msgid ""
+"You are trying to load non-minified files, these are only available in our "
+"development package. Check out %1$s to see all the source files."
+msgstr ""
+
 #: admin/class-bulk-description-editor-list-table.php:44
 msgid "Existing Yoast Meta Description"
 msgstr ""
@@ -324,46 +331,46 @@ msgstr ""
 msgid "New %1$s Title"
 msgstr ""
 
-#: admin/class-config.php:112 admin/metabox/class-metabox.php:701
+#: admin/class-config.php:103 admin/metabox/class-metabox.php:701
 #: admin/taxonomy/class-taxonomy.php:97
 msgid "Use Image"
 msgstr ""
 
 #. translators: %s: '%%term_title%%' variable used in titles and meta's
 #. template that's not compatible with the given template
-#: admin/class-config.php:126
+#: admin/class-config.php:117
 msgid "Warning: the variable %s cannot be used in this template."
 msgstr ""
 
-#: admin/class-config.php:126
+#: admin/class-config.php:117
 msgid "See the help tab for more info."
 msgstr ""
 
-#: admin/class-config.php:128
+#: admin/class-config.php:119
 msgid "No results found."
 msgstr ""
 
-#: admin/class-config.php:129
+#: admin/class-config.php:120
 msgid "Search the Yoast knowledge base"
 msgstr ""
 
-#: admin/class-config.php:130
+#: admin/class-config.php:121
 msgid "Something went wrong. Please try again later."
 msgstr ""
 
-#: admin/class-config.php:131
+#: admin/class-config.php:122
 msgid "Loading..."
 msgstr ""
 
-#: admin/class-config.php:132
+#: admin/class-config.php:123
 msgid "search"
 msgstr ""
 
-#: admin/class-config.php:133
+#: admin/class-config.php:124
 msgid "Back"
 msgstr ""
 
-#: admin/class-config.php:134
+#: admin/class-config.php:125
 msgid "Open"
 msgstr ""
 
@@ -400,34 +407,29 @@ msgstr ""
 msgid "Breadcrumb for 404 pages:"
 msgstr ""
 
-#: admin/class-export.php:66
-msgid "Export created: %1$sdownload your export file here%2$s."
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
-#: admin/class-export.php:71
+#: admin/class-export.php:78
 msgid "Error creating %1$s export: "
 msgstr ""
 
 #: admin/class-export.php:97
-msgid "Could not zip settings-file."
-msgstr ""
-
-#: admin/class-export.php:102
 msgid "Could not write settings to file."
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-export.php:112
+#: admin/class-export.php:113
 msgid "This is a settings export file for the %1$s plugin by Yoast.com"
 msgstr ""
 
-#: admin/class-export.php:114
+#: admin/class-export.php:115
 msgid "This export includes taxonomy metadata"
 msgstr ""
 
-#: admin/class-export.php:181
+#: admin/class-export.php:183
 msgid "No taxonomy metadata found"
+msgstr ""
+
+#: admin/class-export.php:221
+msgid "Could not zip settings-file."
 msgstr ""
 
 #: admin/class-help-center.php:46
@@ -1184,10 +1186,8 @@ msgid "Deactivate %s"
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:47
-#: admin/formatter/class-metabox-formatter.php:64
-#: admin/metabox/class-metabox.php:344
-#: admin/taxonomy/class-taxonomy-metabox.php:113
-msgid "Content"
+#: admin/formatter/class-metabox-formatter.php:65
+msgid "Readability"
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:48
@@ -1198,19 +1198,19 @@ msgstr ""
 msgid "Enter your focus keyword"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:68 inc/class-wpseo-rank.php:101
+#: admin/formatter/class-metabox-formatter.php:69 inc/class-wpseo-rank.php:101
 msgid "Not available"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:69 inc/class-wpseo-rank.php:103
-msgid "Bad"
+#: admin/formatter/class-metabox-formatter.php:70
+msgid "Needs improvement"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:70 inc/class-wpseo-rank.php:104
+#: admin/formatter/class-metabox-formatter.php:71 inc/class-wpseo-rank.php:104
 msgid "OK"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:71 inc/class-wpseo-rank.php:105
+#: admin/formatter/class-metabox-formatter.php:72 inc/class-wpseo-rank.php:105
 msgid "Good"
 msgstr ""
 
@@ -1695,6 +1695,11 @@ msgstr ""
 
 #: admin/metabox/class-metabox.php:220 admin/taxonomy/class-taxonomy.php:178
 msgid "(no parent)"
+msgstr ""
+
+#: admin/metabox/class-metabox.php:344
+#: admin/taxonomy/class-taxonomy-metabox.php:113
+msgid "Content"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:385
@@ -2743,18 +2748,32 @@ msgid ""
 "change the setting here."
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:20
+#: admin/views/tabs/metas/general.php:21
 msgid "Title Separator"
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:25
+#: admin/views/tabs/metas/general.php:26
 msgid ""
 "Choose the symbol to use as your title separator. This will display, for "
 "instance, between your post title and site name."
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:25
+#: admin/views/tabs/metas/general.php:26
 msgid "Symbols are shown in the size they'll appear in the search results."
+msgstr ""
+
+#: admin/views/tabs/metas/general.php:33
+msgid "Enabled analysis"
+msgstr ""
+
+#: admin/views/tabs/metas/general.php:35
+msgid "Readability analysis"
+msgstr ""
+
+#: admin/views/tabs/metas/general.php:36 admin/views/user-profile.php:67
+msgid ""
+"Removes the readability tab from the metabox and disables all readability-"
+"related suggestions."
 msgstr ""
 
 #: admin/views/tabs/metas/home.php:24
@@ -3092,19 +3111,19 @@ msgid "Import"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/tool/wpseo-export.php:14
+#: admin/views/tabs/tool/wpseo-export.php:13
+msgid "Export your %1$s settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/tabs/tool/wpseo-export.php:17
 msgid ""
 "Export your %1$s settings here, to import them again later or to import them "
 "on another site."
 msgstr ""
 
-#: admin/views/tabs/tool/wpseo-export.php:16
+#: admin/views/tabs/tool/wpseo-export.php:23
 msgid "Include Taxonomy Metadata"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/tool/wpseo-export.php:19
-msgid "Export your %1$s settings"
 msgstr ""
 
 #: admin/views/tabs/tool/wpseo-import.php:13
@@ -3217,18 +3236,22 @@ msgstr ""
 msgid "Exclude user from Author-sitemap"
 msgstr ""
 
+#: admin/views/user-profile.php:61
+msgid "Disable readability analysis"
+msgstr ""
+
 #: frontend/class-frontend.php:469
 msgid "Search for \"%s\""
 msgstr ""
 
 #: frontend/class-frontend.php:528 frontend/class-frontend.php:531
 #: frontend/class-frontend.php:534
-#: inc/options/class-wpseo-option-titles.php:227
+#: inc/options/class-wpseo-option-titles.php:228
 msgid "%s Archives"
 msgstr ""
 
 #: frontend/class-frontend.php:549
-#: inc/options/class-wpseo-option-titles.php:179
+#: inc/options/class-wpseo-option-titles.php:180
 msgid "Page not found"
 msgstr ""
 
@@ -3241,6 +3264,10 @@ msgstr ""
 
 #: inc/class-wpseo-rank.php:102
 msgid "No index"
+msgstr ""
+
+#: inc/class-wpseo-rank.php:103
+msgid "Bad"
 msgstr ""
 
 #: inc/class-wpseo-rank.php:118
@@ -3507,15 +3534,15 @@ msgstr ""
 msgid "%s does not seem to be a valid Twitter user-id. Please correct."
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:177
+#: inc/options/class-wpseo-option-titles.php:178
 msgid "%s, Author at %s"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:178
+#: inc/options/class-wpseo-option-titles.php:179
 msgid "You searched for %s"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:211
+#: inc/options/class-wpseo-option-titles.php:212
 msgid "%s Archive"
 msgstr ""
 
@@ -3822,7 +3849,7 @@ msgstr ""
 msgid "%sRenew your license now%s."
 msgstr ""
 
-#: wp-seo-main.php:396
+#: wp-seo-main.php:406
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
 "your web host to enable it."
@@ -3831,19 +3858,19 @@ msgstr ""
 #. translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the
 #. installation manual in the Readme for the Yoast SEO code repository on
 #. GitHub
-#: wp-seo-main.php:418
+#: wp-seo-main.php:428
 msgid ""
 "The %1$s plugin installation is incomplete. Please refer to %2$sinstallation "
 "instructions%3$s."
 msgstr ""
 
-#: wp-seo-main.php:442
+#: wp-seo-main.php:452
 msgid ""
 "The filter extension seem to be unavailable. Please ask your web host to "
 "enable it."
 msgstr ""
 
-#: wp-seo-main.php:452
+#: wp-seo-main.php:462
 msgid "Activation failed:"
 msgstr ""
 

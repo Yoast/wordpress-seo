@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.3
 Tested up to: 4.5
-Stable tag: 3.3.1
+Stable tag: 3.3.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -116,6 +116,32 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.3.4 =
+
+Release Date: June 30th, 2016
+
+* Fixed a bug in the 3.3.3 release that caused the release folder to not have a fix.
+
+= 3.3.3 =
+
+Release Date: June 30th, 2016
+
+* Bugfixes:
+	* Fixes a bug where the focus keyword is not shown for posts created using WordPress SEO 2.x.
+	* Fixes a bug where changing the title in the bulk editor could be used to trigger JavaScript for the current user.
+
+= 3.3.2 =
+
+Release Date: June 21st, 2016
+
+* Enhancements:
+	* Removes non-minified files. This makes the download a lot smaller which will result in less cases of an incomplete or failed download.
+	* Add setting and user option to disable the content analysis; The SEO analysis will still be present.
+	* Change the overall content analysis bullet to be more lenient in non-English languages. This means it will be easier to get a green bullet for non-English languages.
+
+* Bugfixes:
+	* Fix issue where the settings export zip file could be read from the uploads folder after doing an export.
+
 = 3.3.1 =
 
 Release Date: June 15th, 2016
@@ -205,7 +231,7 @@ Release date: April 28th, 2016
 * Bugfixes:
 	* Fixes a regression where the post URL would be numerical when no post title was set.
 	* Fixes an issue that would cause notifications not to be dismissed even though they should be.
-	
+
 = 3.2.3 =
 
 Release Date: April 21th, 2016

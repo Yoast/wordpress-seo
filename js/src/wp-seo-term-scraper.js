@@ -41,18 +41,21 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
 	 */
 	TermScraper.prototype.getData = function() {
+		var url = this.getDataFromInput( 'url' );
+
 		return {
 			name: this.getDataFromInput( 'name' ),
 			title: this.getDataFromInput( 'title' ),
 			keyword: this.getDataFromInput( 'keyword' ),
 			text: this.getDataFromInput( 'text' ),
 			pageTitle: this.getDataFromInput( 'pageTitle' ),
-			url: this.getDataFromInput( 'url' ),
+			url: url,
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' )
+			snippetCite: this.getDataFromInput( 'cite' ),
+			permalink: this.getDataFromInput( 'baseUrl' ) + url + '/'
 		};
 	};
 
@@ -277,18 +280,18 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	}
 
 	/**
+	 * Function to handle when the user updates the term slug
+	 */
+	function updatedTermSlug() {
+		snippetPreview.setUrlPath( termSlugInput.val() );
+	}
+
+	/**
 	 * Adds a watcher on the term slug input field
 	 */
 	function initTermSlugWatcher() {
 		termSlugInput = $( '#slug' );
 		termSlugInput.on( 'change', updatedTermSlug );
-	}
-
-	/**
-	 * Function to handle when the user updates the term slug
-	 */
-	function updatedTermSlug() {
-		snippetPreview.setUrlPath( termSlugInput.val() );
 	}
 
 	jQuery( document ).ready(function() {
@@ -302,7 +305,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		tabManager = new TabManager({
 			strings: wpseoTermScraperL10n,
-			focusKeywordField: '#wpseo_focuskw'
+			focusKeywordField: '#wpseo_focuskw',
+			contentAnalysisActive: wpseoTermScraperL10n.contentAnalysisActive
 		});
 
 		tabManager.init();
@@ -314,7 +318,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
 			targets: {
 				output: 'wpseo_analysis',
-				contentOutput: 'yoast-seo-content-analysis',
 				snippet: 'wpseo_snippet'
 			},
 			callbacks: {
@@ -326,6 +329,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			},
 			locale: wpseoTermScraperL10n.locale
 		};
+
+		// Determine whether or not the content analysis should be executed.
+		if ( wpseoTermScraperL10n.contentAnalysisActive === '1' ) {
+			args.targets.contentOutput = 'yoast-seo-content-analysis';
+		}
 
 		translations = wpseoTermScraperL10n.translations;
 
