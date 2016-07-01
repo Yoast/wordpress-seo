@@ -9,11 +9,11 @@ var escape = require( "lodash/escape" );
  * binds the renewData function on the change of inputelements.
  */
 var bindEvents = function( app ) {
-	var elems = [ "content", "focusKeyword" ];
+	var elems = [ "content", "focusKeyword", "locale" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 	}
-	document.getElementById( "locale" ).addEventListener( "change", setLocale.bind( app ) );
+	document.getElementById( "locale" ).addEventListener( "input", setLocale.bind( app ) );
 };
 
 var setLocale = function() {
