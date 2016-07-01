@@ -47,7 +47,7 @@ var defaults = {
 	metaDescriptionDate: ""
 };
 
-var titleMaxLength = 65;
+var titleMaxLength = 600;
 
 var inputPreviewBindings = [
 	{
@@ -149,12 +149,12 @@ function rateTitleLength( titleLength ) {
 	var rating;
 
 	switch ( true ) {
-		case titleLength > 0 && titleLength <= 34:
-		case titleLength >= 66:
+		case titleLength > 0 && titleLength <= 399:
+		case titleLength >= 600:
 			rating = "ok";
 			break;
 
-		case titleLength >= 35 && titleLength <= 65:
+		case titleLength >= 400 && titleLength <= 599:
 			rating = "good";
 			break;
 
@@ -891,14 +891,14 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	var metaDescriptionRating, titleRating, metaDescription, title;
 
 	metaDescription = getAnalyzerMetaDesc.call( this );
-	title = getAnalyzerTitle.call( this );
+	//title = getAnalyzerTitle.call( this );
 
-	titleRating = rateTitleLength( title.length );
+	titleRating = rateTitleLength( this.data.titleWidth );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
 
 	updateProgressBar(
 		this.element.progress.title,
-		title.length,
+		this.data.titleWidth,
 		titleMaxLength,
 		titleRating
 	);
