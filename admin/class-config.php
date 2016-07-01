@@ -122,7 +122,9 @@ class WPSEO_Admin_Pages {
 			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
 			'kb_search' => __( 'search', 'wordpress-seo' ),
 			'kb_back' => __( 'Back', 'wordpress-seo' ),
+			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
 			'kb_open' => __( 'Open', 'wordpress-seo' ),
+			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
 		);
 	}
 
