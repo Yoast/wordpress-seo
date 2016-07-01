@@ -689,6 +689,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		jQuery.each(mountingPoints, function (index, mountingPoint) {
 			var tabId = jQuery(mountingPoint).closest('.wpseotab').attr('id');
 			var translations = {
+				foundResultsText: wpseoAdminL10n.kb_found_results,
 				noResultsText: wpseoAdminL10n.kb_no_results,
 				headingText: wpseoAdminL10n.kb_heading,
 				errorMessage: wpseoAdminL10n.kb_error_message,
