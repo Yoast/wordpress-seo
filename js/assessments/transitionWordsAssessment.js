@@ -106,7 +106,9 @@ module.exports = {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
-		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
+		var locale = paper.getLocale().split( "_" )[ 0 ];
+		var validLocale = locale === "en" || locale === "de";
+		return ( validLocale > -1 && paper.hasText() );
 	},
 	getMarks: transitionWordsMarker
 };

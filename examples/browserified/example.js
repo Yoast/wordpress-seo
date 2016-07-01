@@ -13,6 +13,11 @@ var bindEvents = function( app ) {
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 	}
+	document.getElementById( "locale" ).addEventListener( "change", setLocale.bind( app ) );
+};
+
+var setLocale = function() {
+	this.config.locale = document.getElementById( "locale" ).value;
 };
 
 window.onload = function() {
