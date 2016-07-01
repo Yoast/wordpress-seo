@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.3.1\n"
+"Project-Id-Version: Yoast SEO 3.3.3\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-06-21 09:41:45+00:00\n"
+"POT-Creation-Date: 2016-06-30 09:34:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -331,46 +331,46 @@ msgstr ""
 msgid "New %1$s Title"
 msgstr ""
 
-#: admin/class-config.php:112 admin/metabox/class-metabox.php:701
+#: admin/class-config.php:103 admin/metabox/class-metabox.php:701
 #: admin/taxonomy/class-taxonomy.php:97
 msgid "Use Image"
 msgstr ""
 
 #. translators: %s: '%%term_title%%' variable used in titles and meta's
 #. template that's not compatible with the given template
-#: admin/class-config.php:126
+#: admin/class-config.php:117
 msgid "Warning: the variable %s cannot be used in this template."
 msgstr ""
 
-#: admin/class-config.php:126
+#: admin/class-config.php:117
 msgid "See the help tab for more info."
 msgstr ""
 
-#: admin/class-config.php:128
+#: admin/class-config.php:119
 msgid "No results found."
 msgstr ""
 
-#: admin/class-config.php:129
+#: admin/class-config.php:120
 msgid "Search the Yoast knowledge base"
 msgstr ""
 
-#: admin/class-config.php:130
+#: admin/class-config.php:121
 msgid "Something went wrong. Please try again later."
 msgstr ""
 
-#: admin/class-config.php:131
+#: admin/class-config.php:122
 msgid "Loading..."
 msgstr ""
 
-#: admin/class-config.php:132
+#: admin/class-config.php:123
 msgid "search"
 msgstr ""
 
-#: admin/class-config.php:133
+#: admin/class-config.php:124
 msgid "Back"
 msgstr ""
 
-#: admin/class-config.php:134
+#: admin/class-config.php:125
 msgid "Open"
 msgstr ""
 
@@ -407,34 +407,29 @@ msgstr ""
 msgid "Breadcrumb for 404 pages:"
 msgstr ""
 
-#: admin/class-export.php:66
-msgid "Export created: %1$sdownload your export file here%2$s."
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
-#: admin/class-export.php:71
+#: admin/class-export.php:78
 msgid "Error creating %1$s export: "
 msgstr ""
 
 #: admin/class-export.php:97
-msgid "Could not zip settings-file."
-msgstr ""
-
-#: admin/class-export.php:102
 msgid "Could not write settings to file."
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-export.php:112
+#: admin/class-export.php:113
 msgid "This is a settings export file for the %1$s plugin by Yoast.com"
 msgstr ""
 
-#: admin/class-export.php:114
+#: admin/class-export.php:115
 msgid "This export includes taxonomy metadata"
 msgstr ""
 
-#: admin/class-export.php:181
+#: admin/class-export.php:183
 msgid "No taxonomy metadata found"
+msgstr ""
+
+#: admin/class-export.php:221
+msgid "Could not zip settings-file."
 msgstr ""
 
 #: admin/class-help-center.php:46
@@ -1192,9 +1187,7 @@ msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:47
 #: admin/formatter/class-metabox-formatter.php:65
-#: admin/metabox/class-metabox.php:344
-#: admin/taxonomy/class-taxonomy-metabox.php:113
-msgid "Content"
+msgid "Readability"
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:48
@@ -1209,8 +1202,8 @@ msgstr ""
 msgid "Not available"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:70 inc/class-wpseo-rank.php:103
-msgid "Bad"
+#: admin/formatter/class-metabox-formatter.php:70
+msgid "Needs improvement"
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:71 inc/class-wpseo-rank.php:104
@@ -1702,6 +1695,11 @@ msgstr ""
 
 #: admin/metabox/class-metabox.php:220 admin/taxonomy/class-taxonomy.php:178
 msgid "(no parent)"
+msgstr ""
+
+#: admin/metabox/class-metabox.php:344
+#: admin/taxonomy/class-taxonomy-metabox.php:113
+msgid "Content"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:385
@@ -2769,13 +2767,13 @@ msgid "Enabled analysis"
 msgstr ""
 
 #: admin/views/tabs/metas/general.php:35
-msgid "Content analysis"
+msgid "Readability analysis"
 msgstr ""
 
-#: admin/views/tabs/metas/general.php:36
+#: admin/views/tabs/metas/general.php:36 admin/views/user-profile.php:67
 msgid ""
-"Removes the content tab from the metabox and disables all content-related "
-"suggestions."
+"Removes the readability tab from the metabox and disables all readability-"
+"related suggestions."
 msgstr ""
 
 #: admin/views/tabs/metas/home.php:24
@@ -3113,19 +3111,19 @@ msgid "Import"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/tool/wpseo-export.php:14
+#: admin/views/tabs/tool/wpseo-export.php:13
+msgid "Export your %1$s settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/tabs/tool/wpseo-export.php:17
 msgid ""
 "Export your %1$s settings here, to import them again later or to import them "
 "on another site."
 msgstr ""
 
-#: admin/views/tabs/tool/wpseo-export.php:16
+#: admin/views/tabs/tool/wpseo-export.php:23
 msgid "Include Taxonomy Metadata"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
-#: admin/views/tabs/tool/wpseo-export.php:19
-msgid "Export your %1$s settings"
 msgstr ""
 
 #: admin/views/tabs/tool/wpseo-import.php:13
@@ -3239,7 +3237,7 @@ msgid "Exclude user from Author-sitemap"
 msgstr ""
 
 #: admin/views/user-profile.php:61
-msgid "Disable content analysis"
+msgid "Disable readability analysis"
 msgstr ""
 
 #: frontend/class-frontend.php:469
@@ -3266,6 +3264,10 @@ msgstr ""
 
 #: inc/class-wpseo-rank.php:102
 msgid "No index"
+msgstr ""
+
+#: inc/class-wpseo-rank.php:103
+msgid "Bad"
 msgstr ""
 
 #: inc/class-wpseo-rank.php:118
@@ -3957,14 +3959,14 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$d expands to the recommended maximum number of characters.
-#: js/assessments/getSubheadingLengthAssessment.js:33
+#: js/assessments/getSubheadingLengthAssessment.js:32
 msgid ""
 "The length of all subheadings is less than or equal to the recommended "
 "maximum of %1$d characters, which is great."
 msgstr ""
 
 #. Translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters.
-#: js/assessments/getSubheadingLengthAssessment.js:46
+#: js/assessments/getSubheadingLengthAssessment.js:45
 msgid ""
 "You have %1$d subheading containing more than the recommended maximum of "
 "%2$d characters."
@@ -4002,23 +4004,29 @@ msgid ""
 "focus keyword was found %2$d times."
 msgstr ""
 
+#. Translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5)
+#: js/assessments/keywordDensityAssessment.js:30
+#: js/assessments/keywordDensityAssessment.js:45
+msgid "2.5"
+msgstr ""
+
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
-#: js/assessments/keywordDensityAssessment.js:39
+#: js/assessments/keywordDensityAssessment.js:40
 msgid ""
 "The keyword density is %1$s, which is over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: js/assessments/keywordDensityAssessment.js:52
+#: js/assessments/keywordDensityAssessment.js:54
 msgid ""
 "The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: js/assessments/keywordDensityAssessment.js:62
+#: js/assessments/keywordDensityAssessment.js:64
 msgid ""
 "The keyword density is %1$s, which is a bit low; the focus keyword was found "
 "%2$d times."
@@ -4069,12 +4077,12 @@ msgid ""
 "competition? Could it be made more appealing?"
 msgstr ""
 
-#: js/assessments/paragraphTooLongAssessment.js:59
+#: js/assessments/paragraphTooLongAssessment.js:44
 msgid "None of your paragraphs are too long, which is great."
 msgstr ""
 
 #. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
-#: js/assessments/paragraphTooLongAssessment.js:67
+#: js/assessments/paragraphTooLongAssessment.js:52
 msgid ""
 "%1$d of the paragraphs contains more than the recommended maximum of %2$d "
 "words. Are you sure all information is about the same topic, and therefore "
@@ -4105,7 +4113,7 @@ msgstr[1] ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:50
+#: js/assessments/passiveVoiceAssessment.js:37
 msgid ""
 "%1$s of the sentences contain a %2$spassive voice%3$s, which is less than or "
 "equal to the recommended maximum of %4$s."
@@ -4113,7 +4121,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:68
+#: js/assessments/passiveVoiceAssessment.js:55
 msgid ""
 "%1$s of the sentences contain a %2$spassive voice%3$s, which is more than "
 "the recommended maximum of %4$s. Try to use their active counterparts."
@@ -4153,7 +4161,7 @@ msgstr[1] ""
 #. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
-#: js/assessments/sentenceLengthInTextAssessment.js:78
+#: js/assessments/sentenceLengthInTextAssessment.js:63
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less "
 "than or equal to the recommended maximum of %5$s."
@@ -4162,7 +4170,7 @@ msgstr ""
 #. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
-#: js/assessments/sentenceLengthInTextAssessment.js:95
+#: js/assessments/sentenceLengthInTextAssessment.js:80
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
 "than the recommended maximum of %5$s.Try to shorten your sentences."
@@ -4186,18 +4194,13 @@ msgid ""
 "sentences."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:40
-#: js/assessments/subheadingPresenceAssessment.js:28
-msgid "The text does not contain any subheadings. Add at least one subheading."
-msgstr ""
-
-#: js/assessments/subheadingDistributionTooLongAssessment.js:68
+#: js/assessments/subheadingDistributionTooLongAssessment.js:47
 msgid ""
 "The amount of words following each of your subheadings doesn't exceed the "
 "recommended maximum of %1$d words, which is great."
 msgstr ""
 
-#: js/assessments/subheadingDistributionTooLongAssessment.js:81
+#: js/assessments/subheadingDistributionTooLongAssessment.js:59
 msgid ""
 "%1$d of the subheadings is followed by more than the recommended maximum of "
 "%2$d words. Try to insert another subheading."
@@ -4230,6 +4233,10 @@ msgid "The text contains %1$d subheading, which is great."
 msgid_plural "The text contains %1$d subheadings, which is great."
 msgstr[0] ""
 msgstr[1] ""
+
+#: js/assessments/subheadingPresenceAssessment.js:28
+msgid "The text does not contain any subheadings. Add at least one subheading."
+msgstr ""
 
 #: js/assessments/subheadingsKeywordAssessment.js:14
 msgid ""
@@ -4376,12 +4383,6 @@ msgstr ""
 msgid "This page has %1$s outbound link(s)."
 msgstr ""
 
-#: js/assessments/textPresenceAssessment.js:18
-msgid ""
-"You have far too little content, please add some content to enable a good "
-"analysis."
-msgstr ""
-
 #: js/assessments/titleKeywordAssessment.js:16
 msgid "The focus keyword '%1$s' does not appear in the SEO title."
 msgstr ""
@@ -4439,7 +4440,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/transitionWordsAssessment.js:48
+#: js/assessments/transitionWordsAssessment.js:38
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "less than the recommended minimum of %4$s."
@@ -4447,7 +4448,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
-#: js/assessments/transitionWordsAssessment.js:61
+#: js/assessments/transitionWordsAssessment.js:51
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "great."
@@ -4556,12 +4557,12 @@ msgstr ""
 msgid "Content Analysis: Good SEO score"
 msgstr ""
 
-#: js/renderers/AssessorPresenter.js:289
+#: js/renderers/AssessorPresenter.js:304
 msgid "Mark this result in the text"
 msgstr ""
 
-#: js/renderers/AssessorPresenter.js:290
-msgid "Remove marks in the text"
+#: js/renderers/AssessorPresenter.js:305
+msgid "Remove all marks from the text"
 msgstr ""
 
 #: js/snippetPreview.js:362
@@ -4585,7 +4586,7 @@ msgid "Snippet preview"
 msgstr ""
 
 #: js/snippetPreview.js:368
-msgid "SEO title preview:"
+msgid "Seo title preview:"
 msgstr ""
 
 #: js/snippetPreview.js:369
@@ -4601,10 +4602,10 @@ msgid ""
 "You can click on each element in the preview to jump to the Snippet Editor."
 msgstr ""
 
-#: js/snippetPreview.js:565
+#: js/snippetPreview.js:570
 msgid "Please provide an SEO title by editing the snippet below."
 msgstr ""
 
-#: js/snippetPreview.js:641
+#: js/snippetPreview.js:646
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
