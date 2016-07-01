@@ -22,7 +22,7 @@ function getDescriptionPlaceholder( l10n ) {
 
 module.exports = getDescriptionPlaceholder;
 
-},{"lodash/isUndefined":161}],2:[function(require,module,exports){
+},{"lodash/isUndefined":195}],2:[function(require,module,exports){
 var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
 var isUndefined = require( 'lodash/isUndefined' );
 
@@ -52,7 +52,7 @@ function getIndicatorForScore( score ) {
 
 module.exports = getIndicatorForScore;
 
-},{"lodash/isUndefined":161,"yoastseo":178}],3:[function(require,module,exports){
+},{"lodash/isUndefined":195,"yoastseo":222}],3:[function(require,module,exports){
 /* global wpseoPostScraperL10n, wpseoTermScraperL10n */
 
 var isUndefined = require( 'lodash/isUndefined' );
@@ -80,7 +80,7 @@ function getTitlePlaceholder() {
 
 module.exports = getTitlePlaceholder;
 
-},{"lodash/isUndefined":161}],4:[function(require,module,exports){
+},{"lodash/isUndefined":195}],4:[function(require,module,exports){
 /* global wp, jQuery */
 
 var isUndefined = require( 'lodash/isUndefined' );
@@ -274,7 +274,7 @@ module.exports = (function() {
 	return KeywordTab;
 })();
 
-},{"lodash/defaults":140,"lodash/isUndefined":161}],5:[function(require,module,exports){
+},{"lodash/defaults":163,"lodash/isUndefined":195}],5:[function(require,module,exports){
 var defaultsDeep = require( 'lodash/defaultsDeep' );
 
 var getIndicatorForScore = require( './getIndicatorForScore' );
@@ -453,7 +453,7 @@ TabManager.prototype.getContentTab = function() {
 
 module.exports = TabManager;
 
-},{"./getIndicatorForScore":2,"./keywordTab":4,"lodash/defaultsDeep":141}],6:[function(require,module,exports){
+},{"./getIndicatorForScore":2,"./keywordTab":4,"lodash/defaultsDeep":164}],6:[function(require,module,exports){
 /* global jQuery, ajaxurl */
 
 var UsedKeywordsPlugin = require( 'yoastseo' ).bundledPlugins.usedKeywords;
@@ -541,7 +541,7 @@ UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 
 module.exports = UsedKeywords;
 
-},{"lodash/debounce":139,"lodash/has":145,"lodash/isArray":149,"yoastseo":178}],7:[function(require,module,exports){
+},{"lodash/debounce":162,"lodash/has":173,"lodash/isArray":179,"yoastseo":222}],7:[function(require,module,exports){
 var $ = jQuery;
 
 var _forEach = require( 'lodash/foreach' );
@@ -624,7 +624,7 @@ module.exports = {
 	editorRemoveMarks: editorRemoveMarks
 };
 
-},{"lodash/foreach":143,"yoastseo/js/markers/removeMarks":231}],8:[function(require,module,exports){
+},{"lodash/foreach":171,"yoastseo/js/markers/removeMarks":273}],8:[function(require,module,exports){
 /**
  * Updates the traffic light present on the page
  *
@@ -809,12 +809,14 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * the analyzer and the snippet preview.
 	 */
 	PostScraper.prototype.getData = function() {
+		var url = this.getDataFromInput( 'url' );
+
 		return {
 			keyword: this.getDataFromInput( 'keyword' ),
 			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
 			title: this.getDataFromInput( 'title' ),
-			url: this.getDataFromInput( 'url' ),
+			url: url,
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
@@ -822,7 +824,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
 			searchUrl: wpseoPostScraperL10n.search_url,
 			postUrl: wpseoPostScraperL10n.post_edit_url,
-			permalink: wpseoPostScraperL10n.base_url + this.getDataFromInput( 'url' )
+			permalink: wpseoPostScraperL10n.base_url + url
 		};
 	};
 
@@ -1060,6 +1062,9 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
 		});
+
+		var keyword = $( '#yoast_wpseo_focuskw' ).val();
+		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
 	};
 
 	/**
@@ -1260,7 +1265,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	} );
 }( jQuery ));
 
-},{"./analysis/getDescriptionPlaceholder":1,"./analysis/getIndicatorForScore":2,"./analysis/getTitlePlaceholder":3,"./analysis/tabManager":5,"./analysis/usedKeywords":6,"./decorator/tinyMCE":7,"./ui/adminBar":8,"./ui/publishBox":9,"./ui/trafficLight":10,"./wp-seo-tinymce":12,"yoastseo":178,"yoastseo/js/markers/removeMarks":231}],12:[function(require,module,exports){
+},{"./analysis/getDescriptionPlaceholder":1,"./analysis/getIndicatorForScore":2,"./analysis/getTitlePlaceholder":3,"./analysis/tabManager":5,"./analysis/usedKeywords":6,"./decorator/tinyMCE":7,"./ui/adminBar":8,"./ui/publishBox":9,"./ui/trafficLight":10,"./wp-seo-tinymce":12,"yoastseo":222,"yoastseo/js/markers/removeMarks":273}],12:[function(require,module,exports){
 /* global tinyMCE, require, YoastSEO */
 
 var forEach = require( 'lodash/forEach' );
@@ -1434,7 +1439,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	};
 })(jQuery);
 
-},{"./decorator/tinyMCE":7,"lodash/forEach":143}],13:[function(require,module,exports){
+},{"./decorator/tinyMCE":7,"lodash/forEach":171}],13:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1581,6 +1586,1030 @@ if (typeof Object.create === 'function') {
 }
 
 },{}],15:[function(require,module,exports){
+/**
+ * @preserve jed.js https://github.com/SlexAxton/Jed
+ */
+/*
+-----------
+A gettext compatible i18n library for modern JavaScript Applications
+
+by Alex Sexton - AlexSexton [at] gmail - @SlexAxton
+WTFPL license for use
+Dojo CLA for contributions
+
+Jed offers the entire applicable GNU gettext spec'd set of
+functions, but also offers some nicer wrappers around them.
+The api for gettext was written for a language with no function
+overloading, so Jed allows a little more of that.
+
+Many thanks to Joshua I. Miller - unrtst@cpan.org - who wrote
+gettext.js back in 2008. I was able to vet a lot of my ideas
+against his. I also made sure Jed passed against his tests
+in order to offer easy upgrades -- jsgettext.berlios.de
+*/
+(function (root, undef) {
+
+  // Set up some underscore-style functions, if you already have
+  // underscore, feel free to delete this section, and use it
+  // directly, however, the amount of functions used doesn't
+  // warrant having underscore as a full dependency.
+  // Underscore 1.3.0 was used to port and is licensed
+  // under the MIT License by Jeremy Ashkenas.
+  var ArrayProto    = Array.prototype,
+      ObjProto      = Object.prototype,
+      slice         = ArrayProto.slice,
+      hasOwnProp    = ObjProto.hasOwnProperty,
+      nativeForEach = ArrayProto.forEach,
+      breaker       = {};
+
+  // We're not using the OOP style _ so we don't need the
+  // extra level of indirection. This still means that you
+  // sub out for real `_` though.
+  var _ = {
+    forEach : function( obj, iterator, context ) {
+      var i, l, key;
+      if ( obj === null ) {
+        return;
+      }
+
+      if ( nativeForEach && obj.forEach === nativeForEach ) {
+        obj.forEach( iterator, context );
+      }
+      else if ( obj.length === +obj.length ) {
+        for ( i = 0, l = obj.length; i < l; i++ ) {
+          if ( i in obj && iterator.call( context, obj[i], i, obj ) === breaker ) {
+            return;
+          }
+        }
+      }
+      else {
+        for ( key in obj) {
+          if ( hasOwnProp.call( obj, key ) ) {
+            if ( iterator.call (context, obj[key], key, obj ) === breaker ) {
+              return;
+            }
+          }
+        }
+      }
+    },
+    extend : function( obj ) {
+      this.forEach( slice.call( arguments, 1 ), function ( source ) {
+        for ( var prop in source ) {
+          obj[prop] = source[prop];
+        }
+      });
+      return obj;
+    }
+  };
+  // END Miniature underscore impl
+
+  // Jed is a constructor function
+  var Jed = function ( options ) {
+    // Some minimal defaults
+    this.defaults = {
+      "locale_data" : {
+        "messages" : {
+          "" : {
+            "domain"       : "messages",
+            "lang"         : "en",
+            "plural_forms" : "nplurals=2; plural=(n != 1);"
+          }
+          // There are no default keys, though
+        }
+      },
+      // The default domain if one is missing
+      "domain" : "messages",
+      // enable debug mode to log untranslated strings to the console
+      "debug" : false
+    };
+
+    // Mix in the sent options with the default options
+    this.options = _.extend( {}, this.defaults, options );
+    this.textdomain( this.options.domain );
+
+    if ( options.domain && ! this.options.locale_data[ this.options.domain ] ) {
+      throw new Error('Text domain set to non-existent domain: `' + options.domain + '`');
+    }
+  };
+
+  // The gettext spec sets this character as the default
+  // delimiter for context lookups.
+  // e.g.: context\u0004key
+  // If your translation company uses something different,
+  // just change this at any time and it will use that instead.
+  Jed.context_delimiter = String.fromCharCode( 4 );
+
+  function getPluralFormFunc ( plural_form_string ) {
+    return Jed.PF.compile( plural_form_string || "nplurals=2; plural=(n != 1);");
+  }
+
+  function Chain( key, i18n ){
+    this._key = key;
+    this._i18n = i18n;
+  }
+
+  // Create a chainable api for adding args prettily
+  _.extend( Chain.prototype, {
+    onDomain : function ( domain ) {
+      this._domain = domain;
+      return this;
+    },
+    withContext : function ( context ) {
+      this._context = context;
+      return this;
+    },
+    ifPlural : function ( num, pkey ) {
+      this._val = num;
+      this._pkey = pkey;
+      return this;
+    },
+    fetch : function ( sArr ) {
+      if ( {}.toString.call( sArr ) != '[object Array]' ) {
+        sArr = [].slice.call(arguments, 0);
+      }
+      return ( sArr && sArr.length ? Jed.sprintf : function(x){ return x; } )(
+        this._i18n.dcnpgettext(this._domain, this._context, this._key, this._pkey, this._val),
+        sArr
+      );
+    }
+  });
+
+  // Add functions to the Jed prototype.
+  // These will be the functions on the object that's returned
+  // from creating a `new Jed()`
+  // These seem redundant, but they gzip pretty well.
+  _.extend( Jed.prototype, {
+    // The sexier api start point
+    translate : function ( key ) {
+      return new Chain( key, this );
+    },
+
+    textdomain : function ( domain ) {
+      if ( ! domain ) {
+        return this._textdomain;
+      }
+      this._textdomain = domain;
+    },
+
+    gettext : function ( key ) {
+      return this.dcnpgettext.call( this, undef, undef, key );
+    },
+
+    dgettext : function ( domain, key ) {
+     return this.dcnpgettext.call( this, domain, undef, key );
+    },
+
+    dcgettext : function ( domain , key /*, category */ ) {
+      // Ignores the category anyways
+      return this.dcnpgettext.call( this, domain, undef, key );
+    },
+
+    ngettext : function ( skey, pkey, val ) {
+      return this.dcnpgettext.call( this, undef, undef, skey, pkey, val );
+    },
+
+    dngettext : function ( domain, skey, pkey, val ) {
+      return this.dcnpgettext.call( this, domain, undef, skey, pkey, val );
+    },
+
+    dcngettext : function ( domain, skey, pkey, val/*, category */) {
+      return this.dcnpgettext.call( this, domain, undef, skey, pkey, val );
+    },
+
+    pgettext : function ( context, key ) {
+      return this.dcnpgettext.call( this, undef, context, key );
+    },
+
+    dpgettext : function ( domain, context, key ) {
+      return this.dcnpgettext.call( this, domain, context, key );
+    },
+
+    dcpgettext : function ( domain, context, key/*, category */) {
+      return this.dcnpgettext.call( this, domain, context, key );
+    },
+
+    npgettext : function ( context, skey, pkey, val ) {
+      return this.dcnpgettext.call( this, undef, context, skey, pkey, val );
+    },
+
+    dnpgettext : function ( domain, context, skey, pkey, val ) {
+      return this.dcnpgettext.call( this, domain, context, skey, pkey, val );
+    },
+
+    // The most fully qualified gettext function. It has every option.
+    // Since it has every option, we can use it from every other method.
+    // This is the bread and butter.
+    // Technically there should be one more argument in this function for 'Category',
+    // but since we never use it, we might as well not waste the bytes to define it.
+    dcnpgettext : function ( domain, context, singular_key, plural_key, val ) {
+      // Set some defaults
+
+      plural_key = plural_key || singular_key;
+
+      // Use the global domain default if one
+      // isn't explicitly passed in
+      domain = domain || this._textdomain;
+
+      var fallback;
+
+      // Handle special cases
+
+      // No options found
+      if ( ! this.options ) {
+        // There's likely something wrong, but we'll return the correct key for english
+        // We do this by instantiating a brand new Jed instance with the default set
+        // for everything that could be broken.
+        fallback = new Jed();
+        return fallback.dcnpgettext.call( fallback, undefined, undefined, singular_key, plural_key, val );
+      }
+
+      // No translation data provided
+      if ( ! this.options.locale_data ) {
+        throw new Error('No locale data provided.');
+      }
+
+      if ( ! this.options.locale_data[ domain ] ) {
+        throw new Error('Domain `' + domain + '` was not found.');
+      }
+
+      if ( ! this.options.locale_data[ domain ][ "" ] ) {
+        throw new Error('No locale meta information provided.');
+      }
+
+      // Make sure we have a truthy key. Otherwise we might start looking
+      // into the empty string key, which is the options for the locale
+      // data.
+      if ( ! singular_key ) {
+        throw new Error('No translation key found.');
+      }
+
+      var key  = context ? context + Jed.context_delimiter + singular_key : singular_key,
+          locale_data = this.options.locale_data,
+          dict = locale_data[ domain ],
+          defaultConf = (locale_data.messages || this.defaults.locale_data.messages)[""],
+          pluralForms = dict[""].plural_forms || dict[""]["Plural-Forms"] || dict[""]["plural-forms"] || defaultConf.plural_forms || defaultConf["Plural-Forms"] || defaultConf["plural-forms"],
+          val_list,
+          res;
+
+      var val_idx;
+      if (val === undefined) {
+        // No value passed in; assume singular key lookup.
+        val_idx = 0;
+
+      } else {
+        // Value has been passed in; use plural-forms calculations.
+
+        // Handle invalid numbers, but try casting strings for good measure
+        if ( typeof val != 'number' ) {
+          val = parseInt( val, 10 );
+
+          if ( isNaN( val ) ) {
+            throw new Error('The number that was passed in is not a number.');
+          }
+        }
+
+        val_idx = getPluralFormFunc(pluralForms)(val);
+      }
+
+      // Throw an error if a domain isn't found
+      if ( ! dict ) {
+        throw new Error('No domain named `' + domain + '` could be found.');
+      }
+
+      val_list = dict[ key ];
+
+      // If there is no match, then revert back to
+      // english style singular/plural with the keys passed in.
+      if ( ! val_list || val_idx > val_list.length ) {
+        if (this.options.missing_key_callback) {
+          this.options.missing_key_callback(key, domain);
+        }
+        res = [ singular_key, plural_key ];
+
+        // collect untranslated strings
+        if (this.options.debug===true) {
+          console.log(res[ getPluralFormFunc(pluralForms)( val ) ]);
+        }
+        return res[ getPluralFormFunc()( val ) ];
+      }
+
+      res = val_list[ val_idx ];
+
+      // This includes empty strings on purpose
+      if ( ! res  ) {
+        res = [ singular_key, plural_key ];
+        return res[ getPluralFormFunc()( val ) ];
+      }
+      return res;
+    }
+  });
+
+
+  // We add in sprintf capabilities for post translation value interolation
+  // This is not internally used, so you can remove it if you have this
+  // available somewhere else, or want to use a different system.
+
+  // We _slightly_ modify the normal sprintf behavior to more gracefully handle
+  // undefined values.
+
+  /**
+   sprintf() for JavaScript 0.7-beta1
+   http://www.diveintojavascript.com/projects/javascript-sprintf
+
+   Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+       * Redistributions of source code must retain the above copyright
+         notice, this list of conditions and the following disclaimer.
+       * Redistributions in binary form must reproduce the above copyright
+         notice, this list of conditions and the following disclaimer in the
+         documentation and/or other materials provided with the distribution.
+       * Neither the name of sprintf() for JavaScript nor the
+         names of its contributors may be used to endorse or promote products
+         derived from this software without specific prior written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+   DISCLAIMED. IN NO EVENT SHALL Alexandru Marasteanu BE LIABLE FOR ANY
+   DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+   ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+  var sprintf = (function() {
+    function get_type(variable) {
+      return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase();
+    }
+    function str_repeat(input, multiplier) {
+      for (var output = []; multiplier > 0; output[--multiplier] = input) {/* do nothing */}
+      return output.join('');
+    }
+
+    var str_format = function() {
+      if (!str_format.cache.hasOwnProperty(arguments[0])) {
+        str_format.cache[arguments[0]] = str_format.parse(arguments[0]);
+      }
+      return str_format.format.call(null, str_format.cache[arguments[0]], arguments);
+    };
+
+    str_format.format = function(parse_tree, argv) {
+      var cursor = 1, tree_length = parse_tree.length, node_type = '', arg, output = [], i, k, match, pad, pad_character, pad_length;
+      for (i = 0; i < tree_length; i++) {
+        node_type = get_type(parse_tree[i]);
+        if (node_type === 'string') {
+          output.push(parse_tree[i]);
+        }
+        else if (node_type === 'array') {
+          match = parse_tree[i]; // convenience purposes only
+          if (match[2]) { // keyword argument
+            arg = argv[cursor];
+            for (k = 0; k < match[2].length; k++) {
+              if (!arg.hasOwnProperty(match[2][k])) {
+                throw(sprintf('[sprintf] property "%s" does not exist', match[2][k]));
+              }
+              arg = arg[match[2][k]];
+            }
+          }
+          else if (match[1]) { // positional argument (explicit)
+            arg = argv[match[1]];
+          }
+          else { // positional argument (implicit)
+            arg = argv[cursor++];
+          }
+
+          if (/[^s]/.test(match[8]) && (get_type(arg) != 'number')) {
+            throw(sprintf('[sprintf] expecting number but found %s', get_type(arg)));
+          }
+
+          // Jed EDIT
+          if ( typeof arg == 'undefined' || arg === null ) {
+            arg = '';
+          }
+          // Jed EDIT
+
+          switch (match[8]) {
+            case 'b': arg = arg.toString(2); break;
+            case 'c': arg = String.fromCharCode(arg); break;
+            case 'd': arg = parseInt(arg, 10); break;
+            case 'e': arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential(); break;
+            case 'f': arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg); break;
+            case 'o': arg = arg.toString(8); break;
+            case 's': arg = ((arg = String(arg)) && match[7] ? arg.substring(0, match[7]) : arg); break;
+            case 'u': arg = Math.abs(arg); break;
+            case 'x': arg = arg.toString(16); break;
+            case 'X': arg = arg.toString(16).toUpperCase(); break;
+          }
+          arg = (/[def]/.test(match[8]) && match[3] && arg >= 0 ? '+'+ arg : arg);
+          pad_character = match[4] ? match[4] == '0' ? '0' : match[4].charAt(1) : ' ';
+          pad_length = match[6] - String(arg).length;
+          pad = match[6] ? str_repeat(pad_character, pad_length) : '';
+          output.push(match[5] ? arg + pad : pad + arg);
+        }
+      }
+      return output.join('');
+    };
+
+    str_format.cache = {};
+
+    str_format.parse = function(fmt) {
+      var _fmt = fmt, match = [], parse_tree = [], arg_names = 0;
+      while (_fmt) {
+        if ((match = /^[^\x25]+/.exec(_fmt)) !== null) {
+          parse_tree.push(match[0]);
+        }
+        else if ((match = /^\x25{2}/.exec(_fmt)) !== null) {
+          parse_tree.push('%');
+        }
+        else if ((match = /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(_fmt)) !== null) {
+          if (match[2]) {
+            arg_names |= 1;
+            var field_list = [], replacement_field = match[2], field_match = [];
+            if ((field_match = /^([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
+              field_list.push(field_match[1]);
+              while ((replacement_field = replacement_field.substring(field_match[0].length)) !== '') {
+                if ((field_match = /^\.([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
+                  field_list.push(field_match[1]);
+                }
+                else if ((field_match = /^\[(\d+)\]/.exec(replacement_field)) !== null) {
+                  field_list.push(field_match[1]);
+                }
+                else {
+                  throw('[sprintf] huh?');
+                }
+              }
+            }
+            else {
+              throw('[sprintf] huh?');
+            }
+            match[2] = field_list;
+          }
+          else {
+            arg_names |= 2;
+          }
+          if (arg_names === 3) {
+            throw('[sprintf] mixing positional and named placeholders is not (yet) supported');
+          }
+          parse_tree.push(match);
+        }
+        else {
+          throw('[sprintf] huh?');
+        }
+        _fmt = _fmt.substring(match[0].length);
+      }
+      return parse_tree;
+    };
+
+    return str_format;
+  })();
+
+  var vsprintf = function(fmt, argv) {
+    argv.unshift(fmt);
+    return sprintf.apply(null, argv);
+  };
+
+  Jed.parse_plural = function ( plural_forms, n ) {
+    plural_forms = plural_forms.replace(/n/g, n);
+    return Jed.parse_expression(plural_forms);
+  };
+
+  Jed.sprintf = function ( fmt, args ) {
+    if ( {}.toString.call( args ) == '[object Array]' ) {
+      return vsprintf( fmt, [].slice.call(args) );
+    }
+    return sprintf.apply(this, [].slice.call(arguments) );
+  };
+
+  Jed.prototype.sprintf = function () {
+    return Jed.sprintf.apply(this, arguments);
+  };
+  // END sprintf Implementation
+
+  // Start the Plural forms section
+  // This is a full plural form expression parser. It is used to avoid
+  // running 'eval' or 'new Function' directly against the plural
+  // forms.
+  //
+  // This can be important if you get translations done through a 3rd
+  // party vendor. I encourage you to use this instead, however, I
+  // also will provide a 'precompiler' that you can use at build time
+  // to output valid/safe function representations of the plural form
+  // expressions. This means you can build this code out for the most
+  // part.
+  Jed.PF = {};
+
+  Jed.PF.parse = function ( p ) {
+    var plural_str = Jed.PF.extractPluralExpr( p );
+    return Jed.PF.parser.parse.call(Jed.PF.parser, plural_str);
+  };
+
+  Jed.PF.compile = function ( p ) {
+    // Handle trues and falses as 0 and 1
+    function imply( val ) {
+      return (val === true ? 1 : val ? val : 0);
+    }
+
+    var ast = Jed.PF.parse( p );
+    return function ( n ) {
+      return imply( Jed.PF.interpreter( ast )( n ) );
+    };
+  };
+
+  Jed.PF.interpreter = function ( ast ) {
+    return function ( n ) {
+      var res;
+      switch ( ast.type ) {
+        case 'GROUP':
+          return Jed.PF.interpreter( ast.expr )( n );
+        case 'TERNARY':
+          if ( Jed.PF.interpreter( ast.expr )( n ) ) {
+            return Jed.PF.interpreter( ast.truthy )( n );
+          }
+          return Jed.PF.interpreter( ast.falsey )( n );
+        case 'OR':
+          return Jed.PF.interpreter( ast.left )( n ) || Jed.PF.interpreter( ast.right )( n );
+        case 'AND':
+          return Jed.PF.interpreter( ast.left )( n ) && Jed.PF.interpreter( ast.right )( n );
+        case 'LT':
+          return Jed.PF.interpreter( ast.left )( n ) < Jed.PF.interpreter( ast.right )( n );
+        case 'GT':
+          return Jed.PF.interpreter( ast.left )( n ) > Jed.PF.interpreter( ast.right )( n );
+        case 'LTE':
+          return Jed.PF.interpreter( ast.left )( n ) <= Jed.PF.interpreter( ast.right )( n );
+        case 'GTE':
+          return Jed.PF.interpreter( ast.left )( n ) >= Jed.PF.interpreter( ast.right )( n );
+        case 'EQ':
+          return Jed.PF.interpreter( ast.left )( n ) == Jed.PF.interpreter( ast.right )( n );
+        case 'NEQ':
+          return Jed.PF.interpreter( ast.left )( n ) != Jed.PF.interpreter( ast.right )( n );
+        case 'MOD':
+          return Jed.PF.interpreter( ast.left )( n ) % Jed.PF.interpreter( ast.right )( n );
+        case 'VAR':
+          return n;
+        case 'NUM':
+          return ast.val;
+        default:
+          throw new Error("Invalid Token found.");
+      }
+    };
+  };
+
+  Jed.PF.extractPluralExpr = function ( p ) {
+    // trim first
+    p = p.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+
+    if (! /;\s*$/.test(p)) {
+      p = p.concat(';');
+    }
+
+    var nplurals_re = /nplurals\=(\d+);/,
+        plural_re = /plural\=(.*);/,
+        nplurals_matches = p.match( nplurals_re ),
+        res = {},
+        plural_matches;
+
+    // Find the nplurals number
+    if ( nplurals_matches.length > 1 ) {
+      res.nplurals = nplurals_matches[1];
+    }
+    else {
+      throw new Error('nplurals not found in plural_forms string: ' + p );
+    }
+
+    // remove that data to get to the formula
+    p = p.replace( nplurals_re, "" );
+    plural_matches = p.match( plural_re );
+
+    if (!( plural_matches && plural_matches.length > 1 ) ) {
+      throw new Error('`plural` expression not found: ' + p);
+    }
+    return plural_matches[ 1 ];
+  };
+
+  /* Jison generated parser */
+  Jed.PF.parser = (function(){
+
+var parser = {trace: function trace() { },
+yy: {},
+symbols_: {"error":2,"expressions":3,"e":4,"EOF":5,"?":6,":":7,"||":8,"&&":9,"<":10,"<=":11,">":12,">=":13,"!=":14,"==":15,"%":16,"(":17,")":18,"n":19,"NUMBER":20,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",6:"?",7:":",8:"||",9:"&&",10:"<",11:"<=",12:">",13:">=",14:"!=",15:"==",16:"%",17:"(",18:")",19:"n",20:"NUMBER"},
+productions_: [0,[3,2],[4,5],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,1],[4,1]],
+performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
+
+var $0 = $$.length - 1;
+switch (yystate) {
+case 1: return { type : 'GROUP', expr: $$[$0-1] };
+break;
+case 2:this.$ = { type: 'TERNARY', expr: $$[$0-4], truthy : $$[$0-2], falsey: $$[$0] };
+break;
+case 3:this.$ = { type: "OR", left: $$[$0-2], right: $$[$0] };
+break;
+case 4:this.$ = { type: "AND", left: $$[$0-2], right: $$[$0] };
+break;
+case 5:this.$ = { type: 'LT', left: $$[$0-2], right: $$[$0] };
+break;
+case 6:this.$ = { type: 'LTE', left: $$[$0-2], right: $$[$0] };
+break;
+case 7:this.$ = { type: 'GT', left: $$[$0-2], right: $$[$0] };
+break;
+case 8:this.$ = { type: 'GTE', left: $$[$0-2], right: $$[$0] };
+break;
+case 9:this.$ = { type: 'NEQ', left: $$[$0-2], right: $$[$0] };
+break;
+case 10:this.$ = { type: 'EQ', left: $$[$0-2], right: $$[$0] };
+break;
+case 11:this.$ = { type: 'MOD', left: $$[$0-2], right: $$[$0] };
+break;
+case 12:this.$ = { type: 'GROUP', expr: $$[$0-1] };
+break;
+case 13:this.$ = { type: 'VAR' };
+break;
+case 14:this.$ = { type: 'NUM', val: Number(yytext) };
+break;
+}
+},
+table: [{3:1,4:2,17:[1,3],19:[1,4],20:[1,5]},{1:[3]},{5:[1,6],6:[1,7],8:[1,8],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16]},{4:17,17:[1,3],19:[1,4],20:[1,5]},{5:[2,13],6:[2,13],7:[2,13],8:[2,13],9:[2,13],10:[2,13],11:[2,13],12:[2,13],13:[2,13],14:[2,13],15:[2,13],16:[2,13],18:[2,13]},{5:[2,14],6:[2,14],7:[2,14],8:[2,14],9:[2,14],10:[2,14],11:[2,14],12:[2,14],13:[2,14],14:[2,14],15:[2,14],16:[2,14],18:[2,14]},{1:[2,1]},{4:18,17:[1,3],19:[1,4],20:[1,5]},{4:19,17:[1,3],19:[1,4],20:[1,5]},{4:20,17:[1,3],19:[1,4],20:[1,5]},{4:21,17:[1,3],19:[1,4],20:[1,5]},{4:22,17:[1,3],19:[1,4],20:[1,5]},{4:23,17:[1,3],19:[1,4],20:[1,5]},{4:24,17:[1,3],19:[1,4],20:[1,5]},{4:25,17:[1,3],19:[1,4],20:[1,5]},{4:26,17:[1,3],19:[1,4],20:[1,5]},{4:27,17:[1,3],19:[1,4],20:[1,5]},{6:[1,7],8:[1,8],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16],18:[1,28]},{6:[1,7],7:[1,29],8:[1,8],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16]},{5:[2,3],6:[2,3],7:[2,3],8:[2,3],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16],18:[2,3]},{5:[2,4],6:[2,4],7:[2,4],8:[2,4],9:[2,4],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16],18:[2,4]},{5:[2,5],6:[2,5],7:[2,5],8:[2,5],9:[2,5],10:[2,5],11:[2,5],12:[2,5],13:[2,5],14:[2,5],15:[2,5],16:[1,16],18:[2,5]},{5:[2,6],6:[2,6],7:[2,6],8:[2,6],9:[2,6],10:[2,6],11:[2,6],12:[2,6],13:[2,6],14:[2,6],15:[2,6],16:[1,16],18:[2,6]},{5:[2,7],6:[2,7],7:[2,7],8:[2,7],9:[2,7],10:[2,7],11:[2,7],12:[2,7],13:[2,7],14:[2,7],15:[2,7],16:[1,16],18:[2,7]},{5:[2,8],6:[2,8],7:[2,8],8:[2,8],9:[2,8],10:[2,8],11:[2,8],12:[2,8],13:[2,8],14:[2,8],15:[2,8],16:[1,16],18:[2,8]},{5:[2,9],6:[2,9],7:[2,9],8:[2,9],9:[2,9],10:[2,9],11:[2,9],12:[2,9],13:[2,9],14:[2,9],15:[2,9],16:[1,16],18:[2,9]},{5:[2,10],6:[2,10],7:[2,10],8:[2,10],9:[2,10],10:[2,10],11:[2,10],12:[2,10],13:[2,10],14:[2,10],15:[2,10],16:[1,16],18:[2,10]},{5:[2,11],6:[2,11],7:[2,11],8:[2,11],9:[2,11],10:[2,11],11:[2,11],12:[2,11],13:[2,11],14:[2,11],15:[2,11],16:[2,11],18:[2,11]},{5:[2,12],6:[2,12],7:[2,12],8:[2,12],9:[2,12],10:[2,12],11:[2,12],12:[2,12],13:[2,12],14:[2,12],15:[2,12],16:[2,12],18:[2,12]},{4:30,17:[1,3],19:[1,4],20:[1,5]},{5:[2,2],6:[1,7],7:[2,2],8:[1,8],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16],18:[2,2]}],
+defaultActions: {6:[2,1]},
+parseError: function parseError(str, hash) {
+    throw new Error(str);
+},
+parse: function parse(input) {
+    var self = this,
+        stack = [0],
+        vstack = [null], // semantic value stack
+        lstack = [], // location stack
+        table = this.table,
+        yytext = '',
+        yylineno = 0,
+        yyleng = 0,
+        recovering = 0,
+        TERROR = 2,
+        EOF = 1;
+
+    //this.reductionCount = this.shiftCount = 0;
+
+    this.lexer.setInput(input);
+    this.lexer.yy = this.yy;
+    this.yy.lexer = this.lexer;
+    if (typeof this.lexer.yylloc == 'undefined')
+        this.lexer.yylloc = {};
+    var yyloc = this.lexer.yylloc;
+    lstack.push(yyloc);
+
+    if (typeof this.yy.parseError === 'function')
+        this.parseError = this.yy.parseError;
+
+    function popStack (n) {
+        stack.length = stack.length - 2*n;
+        vstack.length = vstack.length - n;
+        lstack.length = lstack.length - n;
+    }
+
+    function lex() {
+        var token;
+        token = self.lexer.lex() || 1; // $end = 1
+        // if token isn't its numeric value, convert
+        if (typeof token !== 'number') {
+            token = self.symbols_[token] || token;
+        }
+        return token;
+    }
+
+    var symbol, preErrorSymbol, state, action, a, r, yyval={},p,len,newState, expected;
+    while (true) {
+        // retreive state number from top of stack
+        state = stack[stack.length-1];
+
+        // use default actions if available
+        if (this.defaultActions[state]) {
+            action = this.defaultActions[state];
+        } else {
+            if (symbol == null)
+                symbol = lex();
+            // read action for current state and first input
+            action = table[state] && table[state][symbol];
+        }
+
+        // handle parse error
+        _handle_error:
+        if (typeof action === 'undefined' || !action.length || !action[0]) {
+
+            if (!recovering) {
+                // Report error
+                expected = [];
+                for (p in table[state]) if (this.terminals_[p] && p > 2) {
+                    expected.push("'"+this.terminals_[p]+"'");
+                }
+                var errStr = '';
+                if (this.lexer.showPosition) {
+                    errStr = 'Parse error on line '+(yylineno+1)+":\n"+this.lexer.showPosition()+"\nExpecting "+expected.join(', ') + ", got '" + this.terminals_[symbol]+ "'";
+                } else {
+                    errStr = 'Parse error on line '+(yylineno+1)+": Unexpected " +
+                                  (symbol == 1 /*EOF*/ ? "end of input" :
+                                              ("'"+(this.terminals_[symbol] || symbol)+"'"));
+                }
+                this.parseError(errStr,
+                    {text: this.lexer.match, token: this.terminals_[symbol] || symbol, line: this.lexer.yylineno, loc: yyloc, expected: expected});
+            }
+
+            // just recovered from another error
+            if (recovering == 3) {
+                if (symbol == EOF) {
+                    throw new Error(errStr || 'Parsing halted.');
+                }
+
+                // discard current lookahead and grab another
+                yyleng = this.lexer.yyleng;
+                yytext = this.lexer.yytext;
+                yylineno = this.lexer.yylineno;
+                yyloc = this.lexer.yylloc;
+                symbol = lex();
+            }
+
+            // try to recover from error
+            while (1) {
+                // check for error recovery rule in this state
+                if ((TERROR.toString()) in table[state]) {
+                    break;
+                }
+                if (state == 0) {
+                    throw new Error(errStr || 'Parsing halted.');
+                }
+                popStack(1);
+                state = stack[stack.length-1];
+            }
+
+            preErrorSymbol = symbol; // save the lookahead token
+            symbol = TERROR;         // insert generic error symbol as new lookahead
+            state = stack[stack.length-1];
+            action = table[state] && table[state][TERROR];
+            recovering = 3; // allow 3 real symbols to be shifted before reporting a new error
+        }
+
+        // this shouldn't happen, unless resolve defaults are off
+        if (action[0] instanceof Array && action.length > 1) {
+            throw new Error('Parse Error: multiple actions possible at state: '+state+', token: '+symbol);
+        }
+
+        switch (action[0]) {
+
+            case 1: // shift
+                //this.shiftCount++;
+
+                stack.push(symbol);
+                vstack.push(this.lexer.yytext);
+                lstack.push(this.lexer.yylloc);
+                stack.push(action[1]); // push state
+                symbol = null;
+                if (!preErrorSymbol) { // normal execution/no error
+                    yyleng = this.lexer.yyleng;
+                    yytext = this.lexer.yytext;
+                    yylineno = this.lexer.yylineno;
+                    yyloc = this.lexer.yylloc;
+                    if (recovering > 0)
+                        recovering--;
+                } else { // error just occurred, resume old lookahead f/ before error
+                    symbol = preErrorSymbol;
+                    preErrorSymbol = null;
+                }
+                break;
+
+            case 2: // reduce
+                //this.reductionCount++;
+
+                len = this.productions_[action[1]][1];
+
+                // perform semantic action
+                yyval.$ = vstack[vstack.length-len]; // default to $$ = $1
+                // default location, uses first token for firsts, last for lasts
+                yyval._$ = {
+                    first_line: lstack[lstack.length-(len||1)].first_line,
+                    last_line: lstack[lstack.length-1].last_line,
+                    first_column: lstack[lstack.length-(len||1)].first_column,
+                    last_column: lstack[lstack.length-1].last_column
+                };
+                r = this.performAction.call(yyval, yytext, yyleng, yylineno, this.yy, action[1], vstack, lstack);
+
+                if (typeof r !== 'undefined') {
+                    return r;
+                }
+
+                // pop off stack
+                if (len) {
+                    stack = stack.slice(0,-1*len*2);
+                    vstack = vstack.slice(0, -1*len);
+                    lstack = lstack.slice(0, -1*len);
+                }
+
+                stack.push(this.productions_[action[1]][0]);    // push nonterminal (reduce)
+                vstack.push(yyval.$);
+                lstack.push(yyval._$);
+                // goto new state = table[STATE][NONTERMINAL]
+                newState = table[stack[stack.length-2]][stack[stack.length-1]];
+                stack.push(newState);
+                break;
+
+            case 3: // accept
+                return true;
+        }
+
+    }
+
+    return true;
+}};/* Jison generated lexer */
+var lexer = (function(){
+
+var lexer = ({EOF:1,
+parseError:function parseError(str, hash) {
+        if (this.yy.parseError) {
+            this.yy.parseError(str, hash);
+        } else {
+            throw new Error(str);
+        }
+    },
+setInput:function (input) {
+        this._input = input;
+        this._more = this._less = this.done = false;
+        this.yylineno = this.yyleng = 0;
+        this.yytext = this.matched = this.match = '';
+        this.conditionStack = ['INITIAL'];
+        this.yylloc = {first_line:1,first_column:0,last_line:1,last_column:0};
+        return this;
+    },
+input:function () {
+        var ch = this._input[0];
+        this.yytext+=ch;
+        this.yyleng++;
+        this.match+=ch;
+        this.matched+=ch;
+        var lines = ch.match(/\n/);
+        if (lines) this.yylineno++;
+        this._input = this._input.slice(1);
+        return ch;
+    },
+unput:function (ch) {
+        this._input = ch + this._input;
+        return this;
+    },
+more:function () {
+        this._more = true;
+        return this;
+    },
+pastInput:function () {
+        var past = this.matched.substr(0, this.matched.length - this.match.length);
+        return (past.length > 20 ? '...':'') + past.substr(-20).replace(/\n/g, "");
+    },
+upcomingInput:function () {
+        var next = this.match;
+        if (next.length < 20) {
+            next += this._input.substr(0, 20-next.length);
+        }
+        return (next.substr(0,20)+(next.length > 20 ? '...':'')).replace(/\n/g, "");
+    },
+showPosition:function () {
+        var pre = this.pastInput();
+        var c = new Array(pre.length + 1).join("-");
+        return pre + this.upcomingInput() + "\n" + c+"^";
+    },
+next:function () {
+        if (this.done) {
+            return this.EOF;
+        }
+        if (!this._input) this.done = true;
+
+        var token,
+            match,
+            col,
+            lines;
+        if (!this._more) {
+            this.yytext = '';
+            this.match = '';
+        }
+        var rules = this._currentRules();
+        for (var i=0;i < rules.length; i++) {
+            match = this._input.match(this.rules[rules[i]]);
+            if (match) {
+                lines = match[0].match(/\n.*/g);
+                if (lines) this.yylineno += lines.length;
+                this.yylloc = {first_line: this.yylloc.last_line,
+                               last_line: this.yylineno+1,
+                               first_column: this.yylloc.last_column,
+                               last_column: lines ? lines[lines.length-1].length-1 : this.yylloc.last_column + match[0].length}
+                this.yytext += match[0];
+                this.match += match[0];
+                this.matches = match;
+                this.yyleng = this.yytext.length;
+                this._more = false;
+                this._input = this._input.slice(match[0].length);
+                this.matched += match[0];
+                token = this.performAction.call(this, this.yy, this, rules[i],this.conditionStack[this.conditionStack.length-1]);
+                if (token) return token;
+                else return;
+            }
+        }
+        if (this._input === "") {
+            return this.EOF;
+        } else {
+            this.parseError('Lexical error on line '+(this.yylineno+1)+'. Unrecognized text.\n'+this.showPosition(),
+                    {text: "", token: null, line: this.yylineno});
+        }
+    },
+lex:function lex() {
+        var r = this.next();
+        if (typeof r !== 'undefined') {
+            return r;
+        } else {
+            return this.lex();
+        }
+    },
+begin:function begin(condition) {
+        this.conditionStack.push(condition);
+    },
+popState:function popState() {
+        return this.conditionStack.pop();
+    },
+_currentRules:function _currentRules() {
+        return this.conditions[this.conditionStack[this.conditionStack.length-1]].rules;
+    },
+topState:function () {
+        return this.conditionStack[this.conditionStack.length-2];
+    },
+pushState:function begin(condition) {
+        this.begin(condition);
+    }});
+lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
+
+var YYSTATE=YY_START;
+switch($avoiding_name_collisions) {
+case 0:/* skip whitespace */
+break;
+case 1:return 20
+break;
+case 2:return 19
+break;
+case 3:return 8
+break;
+case 4:return 9
+break;
+case 5:return 6
+break;
+case 6:return 7
+break;
+case 7:return 11
+break;
+case 8:return 13
+break;
+case 9:return 10
+break;
+case 10:return 12
+break;
+case 11:return 14
+break;
+case 12:return 15
+break;
+case 13:return 16
+break;
+case 14:return 17
+break;
+case 15:return 18
+break;
+case 16:return 5
+break;
+case 17:return 'INVALID'
+break;
+}
+};
+lexer.rules = [/^\s+/,/^[0-9]+(\.[0-9]+)?\b/,/^n\b/,/^\|\|/,/^&&/,/^\?/,/^:/,/^<=/,/^>=/,/^</,/^>/,/^!=/,/^==/,/^%/,/^\(/,/^\)/,/^$/,/^./];
+lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],"inclusive":true}};return lexer;})()
+parser.lexer = lexer;
+return parser;
+})();
+// End parser
+
+  // Handle node, amd, and global systems
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Jed;
+    }
+    exports.Jed = Jed;
+  }
+  else {
+    if (typeof define === 'function' && define.amd) {
+      define('jed', function() {
+        return Jed;
+      });
+    }
+    // Leak a global regardless of module system
+    root['Jed'] = Jed;
+  }
+
+})(this);
+
+},{}],16:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1589,7 +2618,7 @@ var DataView = getNative(root, 'DataView');
 
 module.exports = DataView;
 
-},{"./_getNative":88,"./_root":126}],16:[function(require,module,exports){
+},{"./_getNative":108,"./_root":148}],17:[function(require,module,exports){
 var hashClear = require('./_hashClear'),
     hashDelete = require('./_hashDelete'),
     hashGet = require('./_hashGet'),
@@ -1623,7 +2652,7 @@ Hash.prototype.set = hashSet;
 
 module.exports = Hash;
 
-},{"./_hashClear":94,"./_hashDelete":95,"./_hashGet":96,"./_hashHas":97,"./_hashSet":98}],17:[function(require,module,exports){
+},{"./_hashClear":114,"./_hashDelete":115,"./_hashGet":116,"./_hashHas":117,"./_hashSet":118}],18:[function(require,module,exports){
 var listCacheClear = require('./_listCacheClear'),
     listCacheDelete = require('./_listCacheDelete'),
     listCacheGet = require('./_listCacheGet'),
@@ -1657,7 +2686,7 @@ ListCache.prototype.set = listCacheSet;
 
 module.exports = ListCache;
 
-},{"./_listCacheClear":112,"./_listCacheDelete":113,"./_listCacheGet":114,"./_listCacheHas":115,"./_listCacheSet":116}],18:[function(require,module,exports){
+},{"./_listCacheClear":134,"./_listCacheDelete":135,"./_listCacheGet":136,"./_listCacheHas":137,"./_listCacheSet":138}],19:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1666,7 +2695,7 @@ var Map = getNative(root, 'Map');
 
 module.exports = Map;
 
-},{"./_getNative":88,"./_root":126}],19:[function(require,module,exports){
+},{"./_getNative":108,"./_root":148}],20:[function(require,module,exports){
 var mapCacheClear = require('./_mapCacheClear'),
     mapCacheDelete = require('./_mapCacheDelete'),
     mapCacheGet = require('./_mapCacheGet'),
@@ -1700,7 +2729,7 @@ MapCache.prototype.set = mapCacheSet;
 
 module.exports = MapCache;
 
-},{"./_mapCacheClear":117,"./_mapCacheDelete":118,"./_mapCacheGet":119,"./_mapCacheHas":120,"./_mapCacheSet":121}],20:[function(require,module,exports){
+},{"./_mapCacheClear":139,"./_mapCacheDelete":140,"./_mapCacheGet":141,"./_mapCacheHas":142,"./_mapCacheSet":143}],21:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1709,7 +2738,7 @@ var Promise = getNative(root, 'Promise');
 
 module.exports = Promise;
 
-},{"./_getNative":88,"./_root":126}],21:[function(require,module,exports){
+},{"./_getNative":108,"./_root":148}],22:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1717,7 +2746,7 @@ var Reflect = root.Reflect;
 
 module.exports = Reflect;
 
-},{"./_root":126}],22:[function(require,module,exports){
+},{"./_root":148}],23:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1726,7 +2755,7 @@ var Set = getNative(root, 'Set');
 
 module.exports = Set;
 
-},{"./_getNative":88,"./_root":126}],23:[function(require,module,exports){
+},{"./_getNative":108,"./_root":148}],24:[function(require,module,exports){
 var MapCache = require('./_MapCache'),
     setCacheAdd = require('./_setCacheAdd'),
     setCacheHas = require('./_setCacheHas');
@@ -1755,7 +2784,7 @@ SetCache.prototype.has = setCacheHas;
 
 module.exports = SetCache;
 
-},{"./_MapCache":19,"./_setCacheAdd":127,"./_setCacheHas":128}],24:[function(require,module,exports){
+},{"./_MapCache":20,"./_setCacheAdd":149,"./_setCacheHas":150}],25:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     stackClear = require('./_stackClear'),
     stackDelete = require('./_stackDelete'),
@@ -1783,7 +2812,7 @@ Stack.prototype.set = stackSet;
 
 module.exports = Stack;
 
-},{"./_ListCache":17,"./_stackClear":130,"./_stackDelete":131,"./_stackGet":132,"./_stackHas":133,"./_stackSet":134}],25:[function(require,module,exports){
+},{"./_ListCache":18,"./_stackClear":152,"./_stackDelete":153,"./_stackGet":154,"./_stackHas":155,"./_stackSet":156}],26:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1791,7 +2820,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":126}],26:[function(require,module,exports){
+},{"./_root":148}],27:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1799,7 +2828,7 @@ var Uint8Array = root.Uint8Array;
 
 module.exports = Uint8Array;
 
-},{"./_root":126}],27:[function(require,module,exports){
+},{"./_root":148}],28:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1808,7 +2837,7 @@ var WeakMap = getNative(root, 'WeakMap');
 
 module.exports = WeakMap;
 
-},{"./_getNative":88,"./_root":126}],28:[function(require,module,exports){
+},{"./_getNative":108,"./_root":148}],29:[function(require,module,exports){
 /**
  * Adds the key-value `pair` to `map`.
  *
@@ -1825,7 +2854,7 @@ function addMapEntry(map, pair) {
 
 module.exports = addMapEntry;
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * Adds `value` to `set`.
  *
@@ -1841,7 +2870,7 @@ function addSetEntry(set, value) {
 
 module.exports = addSetEntry;
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * A faster alternative to `Function#apply`, this function invokes `func`
  * with the `this` binding of `thisArg` and the arguments of `args`.
@@ -1865,7 +2894,7 @@ function apply(func, thisArg, args) {
 
 module.exports = apply;
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for
  * iteratee shorthands.
@@ -1889,7 +2918,100 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
+/**
+ * A specialized version of `_.filter` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ */
+function arrayFilter(array, predicate) {
+  var index = -1,
+      length = array ? array.length : 0,
+      resIndex = 0,
+      result = [];
+
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result[resIndex++] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = arrayFilter;
+
+},{}],34:[function(require,module,exports){
+var baseIndexOf = require('./_baseIndexOf');
+
+/**
+ * A specialized version of `_.includes` for arrays without support for
+ * specifying an index to search from.
+ *
+ * @private
+ * @param {Array} [array] The array to search.
+ * @param {*} target The value to search for.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludes(array, value) {
+  var length = array ? array.length : 0;
+  return !!length && baseIndexOf(array, value, 0) > -1;
+}
+
+module.exports = arrayIncludes;
+
+},{"./_baseIndexOf":59}],35:[function(require,module,exports){
+/**
+ * This function is like `arrayIncludes` except that it accepts a comparator.
+ *
+ * @private
+ * @param {Array} [array] The array to search.
+ * @param {*} target The value to search for.
+ * @param {Function} comparator The comparator invoked per element.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludesWith(array, value, comparator) {
+  var index = -1,
+      length = array ? array.length : 0;
+
+  while (++index < length) {
+    if (comparator(value, array[index])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+module.exports = arrayIncludesWith;
+
+},{}],36:[function(require,module,exports){
+/**
+ * A specialized version of `_.map` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function arrayMap(array, iteratee) {
+  var index = -1,
+      length = array ? array.length : 0,
+      result = Array(length);
+
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+
+module.exports = arrayMap;
+
+},{}],37:[function(require,module,exports){
 /**
  * Appends the elements of `values` to `array`.
  *
@@ -1911,7 +3033,7 @@ function arrayPush(array, values) {
 
 module.exports = arrayPush;
 
-},{}],33:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /**
  * A specialized version of `_.reduce` for arrays without support for
  * iteratee shorthands.
@@ -1939,7 +3061,7 @@ function arrayReduce(array, iteratee, accumulator, initAccum) {
 
 module.exports = arrayReduce;
 
-},{}],34:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
  * A specialized version of `_.some` for arrays without support for iteratee
  * shorthands.
@@ -1964,7 +3086,7 @@ function arraySome(array, predicate) {
 
 module.exports = arraySome;
 
-},{}],35:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -1993,7 +3115,7 @@ function assignInDefaults(objValue, srcValue, key, object) {
 
 module.exports = assignInDefaults;
 
-},{"./eq":142}],36:[function(require,module,exports){
+},{"./eq":166}],41:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -2014,7 +3136,7 @@ function assignMergeValue(object, key, value) {
 
 module.exports = assignMergeValue;
 
-},{"./eq":142}],37:[function(require,module,exports){
+},{"./eq":166}],42:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -2043,7 +3165,7 @@ function assignValue(object, key, value) {
 
 module.exports = assignValue;
 
-},{"./eq":142}],38:[function(require,module,exports){
+},{"./eq":166}],43:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -2066,7 +3188,7 @@ function assocIndexOf(array, key) {
 
 module.exports = assocIndexOf;
 
-},{"./eq":142}],39:[function(require,module,exports){
+},{"./eq":166}],44:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keys = require('./keys');
 
@@ -2085,7 +3207,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"./_copyObject":75,"./keys":162}],40:[function(require,module,exports){
+},{"./_copyObject":93,"./keys":196}],45:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignValue = require('./_assignValue'),
@@ -2226,7 +3348,7 @@ function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
 
 module.exports = baseClone;
 
-},{"./_Stack":24,"./_arrayEach":31,"./_assignValue":37,"./_baseAssign":39,"./_cloneBuffer":67,"./_copyArray":74,"./_copySymbols":76,"./_getAllKeys":84,"./_getTag":91,"./_initCloneArray":100,"./_initCloneByTag":101,"./_initCloneObject":102,"./_isHostObject":103,"./isArray":149,"./isBuffer":152,"./isObject":155,"./keys":162}],41:[function(require,module,exports){
+},{"./_Stack":25,"./_arrayEach":32,"./_assignValue":42,"./_baseAssign":44,"./_cloneBuffer":85,"./_copyArray":92,"./_copySymbols":94,"./_getAllKeys":104,"./_getTag":111,"./_initCloneArray":121,"./_initCloneByTag":122,"./_initCloneObject":123,"./_isHostObject":125,"./isArray":179,"./isBuffer":182,"./isObject":189,"./keys":196}],46:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** Built-in value references. */
@@ -2246,7 +3368,76 @@ function baseCreate(proto) {
 
 module.exports = baseCreate;
 
-},{"./isObject":155}],42:[function(require,module,exports){
+},{"./isObject":189}],47:[function(require,module,exports){
+var SetCache = require('./_SetCache'),
+    arrayIncludes = require('./_arrayIncludes'),
+    arrayIncludesWith = require('./_arrayIncludesWith'),
+    arrayMap = require('./_arrayMap'),
+    baseUnary = require('./_baseUnary'),
+    cacheHas = require('./_cacheHas');
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * The base implementation of methods like `_.difference` without support
+ * for excluding multiple arrays or iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Array} values The values to exclude.
+ * @param {Function} [iteratee] The iteratee invoked per element.
+ * @param {Function} [comparator] The comparator invoked per element.
+ * @returns {Array} Returns the new array of filtered values.
+ */
+function baseDifference(array, values, iteratee, comparator) {
+  var index = -1,
+      includes = arrayIncludes,
+      isCommon = true,
+      length = array.length,
+      result = [],
+      valuesLength = values.length;
+
+  if (!length) {
+    return result;
+  }
+  if (iteratee) {
+    values = arrayMap(values, baseUnary(iteratee));
+  }
+  if (comparator) {
+    includes = arrayIncludesWith;
+    isCommon = false;
+  }
+  else if (values.length >= LARGE_ARRAY_SIZE) {
+    includes = cacheHas;
+    isCommon = false;
+    values = new SetCache(values);
+  }
+  outer:
+  while (++index < length) {
+    var value = array[index],
+        computed = iteratee ? iteratee(value) : value;
+
+    value = (comparator || value !== 0) ? value : 0;
+    if (isCommon && computed === computed) {
+      var valuesIndex = valuesLength;
+      while (valuesIndex--) {
+        if (values[valuesIndex] === computed) {
+          continue outer;
+        }
+      }
+      result.push(value);
+    }
+    else if (!includes(values, computed, comparator)) {
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+module.exports = baseDifference;
+
+},{"./_SetCache":24,"./_arrayIncludes":34,"./_arrayIncludesWith":35,"./_arrayMap":36,"./_baseUnary":78,"./_cacheHas":81}],48:[function(require,module,exports){
 var baseForOwn = require('./_baseForOwn'),
     createBaseEach = require('./_createBaseEach');
 
@@ -2262,7 +3453,96 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./_baseForOwn":44,"./_createBaseEach":79}],43:[function(require,module,exports){
+},{"./_baseForOwn":53,"./_createBaseEach":97}],49:[function(require,module,exports){
+var baseEach = require('./_baseEach');
+
+/**
+ * The base implementation of `_.filter` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ */
+function baseFilter(collection, predicate) {
+  var result = [];
+  baseEach(collection, function(value, index, collection) {
+    if (predicate(value, index, collection)) {
+      result.push(value);
+    }
+  });
+  return result;
+}
+
+module.exports = baseFilter;
+
+},{"./_baseEach":48}],50:[function(require,module,exports){
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseFindIndex;
+
+},{}],51:[function(require,module,exports){
+var arrayPush = require('./_arrayPush'),
+    isFlattenable = require('./_isFlattenable');
+
+/**
+ * The base implementation of `_.flatten` with support for restricting flattening.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {number} depth The maximum recursion depth.
+ * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+ * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, depth, predicate, isStrict, result) {
+  var index = -1,
+      length = array.length;
+
+  predicate || (predicate = isFlattenable);
+  result || (result = []);
+
+  while (++index < length) {
+    var value = array[index];
+    if (depth > 0 && predicate(value)) {
+      if (depth > 1) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, depth - 1, predicate, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = baseFlatten;
+
+},{"./_arrayPush":37,"./_isFlattenable":124}],52:[function(require,module,exports){
 var createBaseFor = require('./_createBaseFor');
 
 /**
@@ -2280,7 +3560,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./_createBaseFor":80}],44:[function(require,module,exports){
+},{"./_createBaseFor":98}],53:[function(require,module,exports){
 var baseFor = require('./_baseFor'),
     keys = require('./keys');
 
@@ -2298,7 +3578,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"./_baseFor":43,"./keys":162}],45:[function(require,module,exports){
+},{"./_baseFor":52,"./keys":196}],54:[function(require,module,exports){
 var castPath = require('./_castPath'),
     isKey = require('./_isKey'),
     toKey = require('./_toKey');
@@ -2325,7 +3605,7 @@ function baseGet(object, path) {
 
 module.exports = baseGet;
 
-},{"./_castPath":64,"./_isKey":106,"./_toKey":136}],46:[function(require,module,exports){
+},{"./_castPath":82,"./_isKey":128,"./_toKey":158}],55:[function(require,module,exports){
 var arrayPush = require('./_arrayPush'),
     isArray = require('./isArray');
 
@@ -2347,7 +3627,7 @@ function baseGetAllKeys(object, keysFunc, symbolsFunc) {
 
 module.exports = baseGetAllKeys;
 
-},{"./_arrayPush":32,"./isArray":149}],47:[function(require,module,exports){
+},{"./_arrayPush":37,"./isArray":179}],56:[function(require,module,exports){
 var getPrototype = require('./_getPrototype');
 
 /** Used for built-in method references. */
@@ -2375,7 +3655,7 @@ function baseHas(object, key) {
 
 module.exports = baseHas;
 
-},{"./_getPrototype":89}],48:[function(require,module,exports){
+},{"./_getPrototype":109}],57:[function(require,module,exports){
 /**
  * The base implementation of `_.hasIn` without support for deep paths.
  *
@@ -2390,7 +3670,56 @@ function baseHasIn(object, key) {
 
 module.exports = baseHasIn;
 
-},{}],49:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * The base implementation of `_.inRange` which doesn't coerce arguments to numbers.
+ *
+ * @private
+ * @param {number} number The number to check.
+ * @param {number} start The start of the range.
+ * @param {number} end The end of the range.
+ * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
+ */
+function baseInRange(number, start, end) {
+  return number >= nativeMin(start, end) && number < nativeMax(start, end);
+}
+
+module.exports = baseInRange;
+
+},{}],59:[function(require,module,exports){
+var indexOfNaN = require('./_indexOfNaN');
+
+/**
+ * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  if (value !== value) {
+    return indexOfNaN(array, fromIndex);
+  }
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseIndexOf;
+
+},{"./_indexOfNaN":120}],60:[function(require,module,exports){
 var baseIsEqualDeep = require('./_baseIsEqualDeep'),
     isObject = require('./isObject'),
     isObjectLike = require('./isObjectLike');
@@ -2422,7 +3751,7 @@ function baseIsEqual(value, other, customizer, bitmask, stack) {
 
 module.exports = baseIsEqual;
 
-},{"./_baseIsEqualDeep":50,"./isObject":155,"./isObjectLike":156}],50:[function(require,module,exports){
+},{"./_baseIsEqualDeep":61,"./isObject":189,"./isObjectLike":190}],61:[function(require,module,exports){
 var Stack = require('./_Stack'),
     equalArrays = require('./_equalArrays'),
     equalByTag = require('./_equalByTag'),
@@ -2506,7 +3835,7 @@ function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = baseIsEqualDeep;
 
-},{"./_Stack":24,"./_equalArrays":81,"./_equalByTag":82,"./_equalObjects":83,"./_getTag":91,"./_isHostObject":103,"./isArray":149,"./isTypedArray":160}],51:[function(require,module,exports){
+},{"./_Stack":25,"./_equalArrays":101,"./_equalByTag":102,"./_equalObjects":103,"./_getTag":111,"./_isHostObject":125,"./isArray":179,"./isTypedArray":194}],62:[function(require,module,exports){
 var Stack = require('./_Stack'),
     baseIsEqual = require('./_baseIsEqual');
 
@@ -2570,7 +3899,7 @@ function baseIsMatch(object, source, matchData, customizer) {
 
 module.exports = baseIsMatch;
 
-},{"./_Stack":24,"./_baseIsEqual":49}],52:[function(require,module,exports){
+},{"./_Stack":25,"./_baseIsEqual":60}],63:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isHostObject = require('./_isHostObject'),
     isMasked = require('./_isMasked'),
@@ -2619,7 +3948,7 @@ function baseIsNative(value) {
 
 module.exports = baseIsNative;
 
-},{"./_isHostObject":103,"./_isMasked":108,"./_toSource":137,"./isFunction":153,"./isObject":155}],53:[function(require,module,exports){
+},{"./_isHostObject":125,"./_isMasked":130,"./_toSource":159,"./isFunction":185,"./isObject":189}],64:[function(require,module,exports){
 var baseMatches = require('./_baseMatches'),
     baseMatchesProperty = require('./_baseMatchesProperty'),
     identity = require('./identity'),
@@ -2652,7 +3981,7 @@ function baseIteratee(value) {
 
 module.exports = baseIteratee;
 
-},{"./_baseMatches":56,"./_baseMatchesProperty":57,"./identity":147,"./isArray":149,"./property":167}],54:[function(require,module,exports){
+},{"./_baseMatches":68,"./_baseMatchesProperty":69,"./identity":175,"./isArray":179,"./property":205}],65:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = Object.keys;
 
@@ -2670,7 +3999,7 @@ function baseKeys(object) {
 
 module.exports = baseKeys;
 
-},{}],55:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 var Reflect = require('./_Reflect'),
     iteratorToArray = require('./_iteratorToArray');
 
@@ -2708,7 +4037,31 @@ if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
 
 module.exports = baseKeysIn;
 
-},{"./_Reflect":21,"./_iteratorToArray":111}],56:[function(require,module,exports){
+},{"./_Reflect":22,"./_iteratorToArray":133}],67:[function(require,module,exports){
+var baseEach = require('./_baseEach'),
+    isArrayLike = require('./isArrayLike');
+
+/**
+ * The base implementation of `_.map` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function baseMap(collection, iteratee) {
+  var index = -1,
+      result = isArrayLike(collection) ? Array(collection.length) : [];
+
+  baseEach(collection, function(value, key, collection) {
+    result[++index] = iteratee(value, key, collection);
+  });
+  return result;
+}
+
+module.exports = baseMap;
+
+},{"./_baseEach":48,"./isArrayLike":180}],68:[function(require,module,exports){
 var baseIsMatch = require('./_baseIsMatch'),
     getMatchData = require('./_getMatchData'),
     matchesStrictComparable = require('./_matchesStrictComparable');
@@ -2732,7 +4085,7 @@ function baseMatches(source) {
 
 module.exports = baseMatches;
 
-},{"./_baseIsMatch":51,"./_getMatchData":87,"./_matchesStrictComparable":123}],57:[function(require,module,exports){
+},{"./_baseIsMatch":62,"./_getMatchData":107,"./_matchesStrictComparable":145}],69:[function(require,module,exports){
 var baseIsEqual = require('./_baseIsEqual'),
     get = require('./get'),
     hasIn = require('./hasIn'),
@@ -2767,7 +4120,7 @@ function baseMatchesProperty(path, srcValue) {
 
 module.exports = baseMatchesProperty;
 
-},{"./_baseIsEqual":49,"./_isKey":106,"./_isStrictComparable":110,"./_matchesStrictComparable":123,"./_toKey":136,"./get":144,"./hasIn":146}],58:[function(require,module,exports){
+},{"./_baseIsEqual":60,"./_isKey":128,"./_isStrictComparable":132,"./_matchesStrictComparable":145,"./_toKey":158,"./get":172,"./hasIn":174}],70:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignMergeValue = require('./_assignMergeValue'),
@@ -2819,7 +4172,7 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
 
 module.exports = baseMerge;
 
-},{"./_Stack":24,"./_arrayEach":31,"./_assignMergeValue":36,"./_baseMergeDeep":59,"./isArray":149,"./isObject":155,"./isTypedArray":160,"./keysIn":163}],59:[function(require,module,exports){
+},{"./_Stack":25,"./_arrayEach":32,"./_assignMergeValue":41,"./_baseMergeDeep":71,"./isArray":179,"./isObject":189,"./isTypedArray":194,"./keysIn":197}],71:[function(require,module,exports){
 var assignMergeValue = require('./_assignMergeValue'),
     baseClone = require('./_baseClone'),
     copyArray = require('./_copyArray'),
@@ -2904,7 +4257,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 
 module.exports = baseMergeDeep;
 
-},{"./_assignMergeValue":36,"./_baseClone":40,"./_copyArray":74,"./isArguments":148,"./isArray":149,"./isArrayLikeObject":151,"./isFunction":153,"./isObject":155,"./isPlainObject":157,"./isTypedArray":160,"./toPlainObject":174}],60:[function(require,module,exports){
+},{"./_assignMergeValue":41,"./_baseClone":45,"./_copyArray":92,"./isArguments":178,"./isArray":179,"./isArrayLikeObject":181,"./isFunction":185,"./isObject":189,"./isPlainObject":191,"./isTypedArray":194,"./toPlainObject":215}],72:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -2920,7 +4273,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],61:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -2938,7 +4291,58 @@ function basePropertyDeep(path) {
 
 module.exports = basePropertyDeep;
 
-},{"./_baseGet":45}],62:[function(require,module,exports){
+},{"./_baseGet":54}],74:[function(require,module,exports){
+/**
+ * The base implementation of `_.reduce` and `_.reduceRight`, without support
+ * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {*} accumulator The initial value.
+ * @param {boolean} initAccum Specify using the first or last element of
+ *  `collection` as the initial value.
+ * @param {Function} eachFunc The function to iterate over `collection`.
+ * @returns {*} Returns the accumulated value.
+ */
+function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
+  eachFunc(collection, function(value, index, collection) {
+    accumulator = initAccum
+      ? (initAccum = false, value)
+      : iteratee(accumulator, value, index, collection);
+  });
+  return accumulator;
+}
+
+module.exports = baseReduce;
+
+},{}],75:[function(require,module,exports){
+/**
+ * The base implementation of `_.sum` and `_.sumBy` without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {number} Returns the sum.
+ */
+function baseSum(array, iteratee) {
+  var result,
+      index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    var current = iteratee(array[index]);
+    if (current !== undefined) {
+      result = result === undefined ? current : (result + current);
+    }
+  }
+  return result;
+}
+
+module.exports = baseSum;
+
+},{}],76:[function(require,module,exports){
 /**
  * The base implementation of `_.times` without support for iteratee shorthands
  * or max array length checks.
@@ -2960,7 +4364,7 @@ function baseTimes(n, iteratee) {
 
 module.exports = baseTimes;
 
-},{}],63:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     isSymbol = require('./isSymbol');
 
@@ -2993,7 +4397,133 @@ function baseToString(value) {
 
 module.exports = baseToString;
 
-},{"./_Symbol":25,"./isSymbol":159}],64:[function(require,module,exports){
+},{"./_Symbol":26,"./isSymbol":193}],78:[function(require,module,exports){
+/**
+ * The base implementation of `_.unary` without support for storing wrapper metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+module.exports = baseUnary;
+
+},{}],79:[function(require,module,exports){
+var SetCache = require('./_SetCache'),
+    arrayIncludes = require('./_arrayIncludes'),
+    arrayIncludesWith = require('./_arrayIncludesWith'),
+    cacheHas = require('./_cacheHas'),
+    createSet = require('./_createSet'),
+    setToArray = require('./_setToArray');
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * The base implementation of `_.uniqBy` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} [iteratee] The iteratee invoked per element.
+ * @param {Function} [comparator] The comparator invoked per element.
+ * @returns {Array} Returns the new duplicate free array.
+ */
+function baseUniq(array, iteratee, comparator) {
+  var index = -1,
+      includes = arrayIncludes,
+      length = array.length,
+      isCommon = true,
+      result = [],
+      seen = result;
+
+  if (comparator) {
+    isCommon = false;
+    includes = arrayIncludesWith;
+  }
+  else if (length >= LARGE_ARRAY_SIZE) {
+    var set = iteratee ? null : createSet(array);
+    if (set) {
+      return setToArray(set);
+    }
+    isCommon = false;
+    includes = cacheHas;
+    seen = new SetCache;
+  }
+  else {
+    seen = iteratee ? [] : result;
+  }
+  outer:
+  while (++index < length) {
+    var value = array[index],
+        computed = iteratee ? iteratee(value) : value;
+
+    value = (comparator || value !== 0) ? value : 0;
+    if (isCommon && computed === computed) {
+      var seenIndex = seen.length;
+      while (seenIndex--) {
+        if (seen[seenIndex] === computed) {
+          continue outer;
+        }
+      }
+      if (iteratee) {
+        seen.push(computed);
+      }
+      result.push(value);
+    }
+    else if (!includes(seen, computed, comparator)) {
+      if (seen !== result) {
+        seen.push(computed);
+      }
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+module.exports = baseUniq;
+
+},{"./_SetCache":24,"./_arrayIncludes":34,"./_arrayIncludesWith":35,"./_cacheHas":81,"./_createSet":100,"./_setToArray":151}],80:[function(require,module,exports){
+var arrayMap = require('./_arrayMap');
+
+/**
+ * The base implementation of `_.values` and `_.valuesIn` which creates an
+ * array of `object` property values corresponding to the property names
+ * of `props`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array} props The property names to get values for.
+ * @returns {Object} Returns the array of property values.
+ */
+function baseValues(object, props) {
+  return arrayMap(props, function(key) {
+    return object[key];
+  });
+}
+
+module.exports = baseValues;
+
+},{"./_arrayMap":36}],81:[function(require,module,exports){
+/**
+ * Checks if a cache value for `key` exists.
+ *
+ * @private
+ * @param {Object} cache The cache to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function cacheHas(cache, key) {
+  return cache.has(key);
+}
+
+module.exports = cacheHas;
+
+},{}],82:[function(require,module,exports){
 var isArray = require('./isArray'),
     stringToPath = require('./_stringToPath');
 
@@ -3010,7 +4540,7 @@ function castPath(value) {
 
 module.exports = castPath;
 
-},{"./_stringToPath":135,"./isArray":149}],65:[function(require,module,exports){
+},{"./_stringToPath":157,"./isArray":179}],83:[function(require,module,exports){
 /**
  * Checks if `value` is a global object.
  *
@@ -3024,7 +4554,7 @@ function checkGlobal(value) {
 
 module.exports = checkGlobal;
 
-},{}],66:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 var Uint8Array = require('./_Uint8Array');
 
 /**
@@ -3042,7 +4572,7 @@ function cloneArrayBuffer(arrayBuffer) {
 
 module.exports = cloneArrayBuffer;
 
-},{"./_Uint8Array":26}],67:[function(require,module,exports){
+},{"./_Uint8Array":27}],85:[function(require,module,exports){
 /**
  * Creates a clone of  `buffer`.
  *
@@ -3062,7 +4592,7 @@ function cloneBuffer(buffer, isDeep) {
 
 module.exports = cloneBuffer;
 
-},{}],68:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -3080,7 +4610,7 @@ function cloneDataView(dataView, isDeep) {
 
 module.exports = cloneDataView;
 
-},{"./_cloneArrayBuffer":66}],69:[function(require,module,exports){
+},{"./_cloneArrayBuffer":84}],87:[function(require,module,exports){
 var addMapEntry = require('./_addMapEntry'),
     arrayReduce = require('./_arrayReduce'),
     mapToArray = require('./_mapToArray');
@@ -3101,7 +4631,7 @@ function cloneMap(map, isDeep, cloneFunc) {
 
 module.exports = cloneMap;
 
-},{"./_addMapEntry":28,"./_arrayReduce":33,"./_mapToArray":122}],70:[function(require,module,exports){
+},{"./_addMapEntry":29,"./_arrayReduce":38,"./_mapToArray":144}],88:[function(require,module,exports){
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -3120,7 +4650,7 @@ function cloneRegExp(regexp) {
 
 module.exports = cloneRegExp;
 
-},{}],71:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 var addSetEntry = require('./_addSetEntry'),
     arrayReduce = require('./_arrayReduce'),
     setToArray = require('./_setToArray');
@@ -3141,7 +4671,7 @@ function cloneSet(set, isDeep, cloneFunc) {
 
 module.exports = cloneSet;
 
-},{"./_addSetEntry":29,"./_arrayReduce":33,"./_setToArray":129}],72:[function(require,module,exports){
+},{"./_addSetEntry":30,"./_arrayReduce":38,"./_setToArray":151}],90:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used to convert symbols to primitives and strings. */
@@ -3161,7 +4691,7 @@ function cloneSymbol(symbol) {
 
 module.exports = cloneSymbol;
 
-},{"./_Symbol":25}],73:[function(require,module,exports){
+},{"./_Symbol":26}],91:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -3179,7 +4709,7 @@ function cloneTypedArray(typedArray, isDeep) {
 
 module.exports = cloneTypedArray;
 
-},{"./_cloneArrayBuffer":66}],74:[function(require,module,exports){
+},{"./_cloneArrayBuffer":84}],92:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -3201,7 +4731,7 @@ function copyArray(source, array) {
 
 module.exports = copyArray;
 
-},{}],75:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 var assignValue = require('./_assignValue');
 
 /**
@@ -3234,7 +4764,7 @@ function copyObject(source, props, object, customizer) {
 
 module.exports = copyObject;
 
-},{"./_assignValue":37}],76:[function(require,module,exports){
+},{"./_assignValue":42}],94:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     getSymbols = require('./_getSymbols');
 
@@ -3252,7 +4782,7 @@ function copySymbols(source, object) {
 
 module.exports = copySymbols;
 
-},{"./_copyObject":75,"./_getSymbols":90}],77:[function(require,module,exports){
+},{"./_copyObject":93,"./_getSymbols":110}],95:[function(require,module,exports){
 var root = require('./_root');
 
 /** Used to detect overreaching core-js shims. */
@@ -3260,7 +4790,7 @@ var coreJsData = root['__core-js_shared__'];
 
 module.exports = coreJsData;
 
-},{"./_root":126}],78:[function(require,module,exports){
+},{"./_root":148}],96:[function(require,module,exports){
 var isIterateeCall = require('./_isIterateeCall'),
     rest = require('./rest');
 
@@ -3299,7 +4829,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"./_isIterateeCall":105,"./rest":168}],79:[function(require,module,exports){
+},{"./_isIterateeCall":127,"./rest":207}],97:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike');
 
 /**
@@ -3333,7 +4863,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./isArrayLike":150}],80:[function(require,module,exports){
+},{"./isArrayLike":180}],98:[function(require,module,exports){
 /**
  * Creates a base function for methods like `_.forIn` and `_.forOwn`.
  *
@@ -3360,7 +4890,60 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{}],81:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
+var baseIteratee = require('./_baseIteratee'),
+    isArrayLike = require('./isArrayLike'),
+    keys = require('./keys');
+
+/**
+ * Creates a `_.find` or `_.findLast` function.
+ *
+ * @private
+ * @param {Function} findIndexFunc The function to find the collection index.
+ * @returns {Function} Returns the new find function.
+ */
+function createFind(findIndexFunc) {
+  return function(collection, predicate, fromIndex) {
+    var iterable = Object(collection);
+    predicate = baseIteratee(predicate, 3);
+    if (!isArrayLike(collection)) {
+      var props = keys(collection);
+    }
+    var index = findIndexFunc(props || collection, function(value, key) {
+      if (props) {
+        key = value;
+        value = iterable[key];
+      }
+      return predicate(value, key, iterable);
+    }, fromIndex);
+    return index > -1 ? collection[props ? props[index] : index] : undefined;
+  };
+}
+
+module.exports = createFind;
+
+},{"./_baseIteratee":64,"./isArrayLike":180,"./keys":196}],100:[function(require,module,exports){
+var Set = require('./_Set'),
+    noop = require('./noop'),
+    setToArray = require('./_setToArray');
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/**
+ * Creates a set of `values`.
+ *
+ * @private
+ * @param {Array} values The values to add to the set.
+ * @returns {Object} Returns the new set.
+ */
+var createSet = !(Set && (1 / setToArray(new Set([,-0]))[1]) == INFINITY) ? noop : function(values) {
+  return new Set(values);
+};
+
+module.exports = createSet;
+
+},{"./_Set":23,"./_setToArray":151,"./noop":203}],101:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arraySome = require('./_arraySome');
 
@@ -3443,7 +5026,7 @@ function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalArrays;
 
-},{"./_SetCache":23,"./_arraySome":34}],82:[function(require,module,exports){
+},{"./_SetCache":24,"./_arraySome":39}],102:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     Uint8Array = require('./_Uint8Array'),
     equalArrays = require('./_equalArrays'),
@@ -3559,7 +5142,7 @@ function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalByTag;
 
-},{"./_Symbol":25,"./_Uint8Array":26,"./_equalArrays":81,"./_mapToArray":122,"./_setToArray":129}],83:[function(require,module,exports){
+},{"./_Symbol":26,"./_Uint8Array":27,"./_equalArrays":101,"./_mapToArray":144,"./_setToArray":151}],103:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     keys = require('./keys');
 
@@ -3644,7 +5227,7 @@ function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalObjects;
 
-},{"./_baseHas":47,"./keys":162}],84:[function(require,module,exports){
+},{"./_baseHas":56,"./keys":196}],104:[function(require,module,exports){
 var baseGetAllKeys = require('./_baseGetAllKeys'),
     getSymbols = require('./_getSymbols'),
     keys = require('./keys');
@@ -3662,7 +5245,7 @@ function getAllKeys(object) {
 
 module.exports = getAllKeys;
 
-},{"./_baseGetAllKeys":46,"./_getSymbols":90,"./keys":162}],85:[function(require,module,exports){
+},{"./_baseGetAllKeys":55,"./_getSymbols":110,"./keys":196}],105:[function(require,module,exports){
 var baseProperty = require('./_baseProperty');
 
 /**
@@ -3680,7 +5263,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./_baseProperty":60}],86:[function(require,module,exports){
+},{"./_baseProperty":72}],106:[function(require,module,exports){
 var isKeyable = require('./_isKeyable');
 
 /**
@@ -3700,7 +5283,7 @@ function getMapData(map, key) {
 
 module.exports = getMapData;
 
-},{"./_isKeyable":107}],87:[function(require,module,exports){
+},{"./_isKeyable":129}],107:[function(require,module,exports){
 var isStrictComparable = require('./_isStrictComparable'),
     keys = require('./keys');
 
@@ -3726,7 +5309,7 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
-},{"./_isStrictComparable":110,"./keys":162}],88:[function(require,module,exports){
+},{"./_isStrictComparable":132,"./keys":196}],108:[function(require,module,exports){
 var baseIsNative = require('./_baseIsNative'),
     getValue = require('./_getValue');
 
@@ -3745,7 +5328,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"./_baseIsNative":52,"./_getValue":92}],89:[function(require,module,exports){
+},{"./_baseIsNative":63,"./_getValue":112}],109:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetPrototype = Object.getPrototypeOf;
 
@@ -3762,7 +5345,7 @@ function getPrototype(value) {
 
 module.exports = getPrototype;
 
-},{}],90:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 var stubArray = require('./stubArray');
 
 /** Built-in value references. */
@@ -3788,7 +5371,7 @@ if (!getOwnPropertySymbols) {
 
 module.exports = getSymbols;
 
-},{"./stubArray":169}],91:[function(require,module,exports){
+},{"./stubArray":208}],111:[function(require,module,exports){
 var DataView = require('./_DataView'),
     Map = require('./_Map'),
     Promise = require('./_Promise'),
@@ -3860,7 +5443,7 @@ if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
 
 module.exports = getTag;
 
-},{"./_DataView":15,"./_Map":18,"./_Promise":20,"./_Set":22,"./_WeakMap":27,"./_toSource":137}],92:[function(require,module,exports){
+},{"./_DataView":16,"./_Map":19,"./_Promise":21,"./_Set":23,"./_WeakMap":28,"./_toSource":159}],112:[function(require,module,exports){
 /**
  * Gets the value at `key` of `object`.
  *
@@ -3875,7 +5458,7 @@ function getValue(object, key) {
 
 module.exports = getValue;
 
-},{}],93:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 var castPath = require('./_castPath'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -3918,7 +5501,7 @@ function hasPath(object, path, hasFunc) {
 
 module.exports = hasPath;
 
-},{"./_castPath":64,"./_isIndex":104,"./_isKey":106,"./_toKey":136,"./isArguments":148,"./isArray":149,"./isLength":154,"./isString":158}],94:[function(require,module,exports){
+},{"./_castPath":82,"./_isIndex":126,"./_isKey":128,"./_toKey":158,"./isArguments":178,"./isArray":179,"./isLength":186,"./isString":192}],114:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /**
@@ -3934,7 +5517,7 @@ function hashClear() {
 
 module.exports = hashClear;
 
-},{"./_nativeCreate":125}],95:[function(require,module,exports){
+},{"./_nativeCreate":147}],115:[function(require,module,exports){
 /**
  * Removes `key` and its value from the hash.
  *
@@ -3951,7 +5534,7 @@ function hashDelete(key) {
 
 module.exports = hashDelete;
 
-},{}],96:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -3983,7 +5566,7 @@ function hashGet(key) {
 
 module.exports = hashGet;
 
-},{"./_nativeCreate":125}],97:[function(require,module,exports){
+},{"./_nativeCreate":147}],117:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -4008,7 +5591,7 @@ function hashHas(key) {
 
 module.exports = hashHas;
 
-},{"./_nativeCreate":125}],98:[function(require,module,exports){
+},{"./_nativeCreate":147}],118:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -4032,7 +5615,7 @@ function hashSet(key, value) {
 
 module.exports = hashSet;
 
-},{"./_nativeCreate":125}],99:[function(require,module,exports){
+},{"./_nativeCreate":147}],119:[function(require,module,exports){
 var baseTimes = require('./_baseTimes'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -4058,7 +5641,32 @@ function indexKeys(object) {
 
 module.exports = indexKeys;
 
-},{"./_baseTimes":62,"./isArguments":148,"./isArray":149,"./isLength":154,"./isString":158}],100:[function(require,module,exports){
+},{"./_baseTimes":76,"./isArguments":178,"./isArray":179,"./isLength":186,"./isString":192}],120:[function(require,module,exports){
+/**
+ * Gets the index at which the first occurrence of `NaN` is found in `array`.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched `NaN`, else `-1`.
+ */
+function indexOfNaN(array, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    var other = array[index];
+    if (other !== other) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = indexOfNaN;
+
+},{}],121:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -4086,7 +5694,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],101:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer'),
     cloneDataView = require('./_cloneDataView'),
     cloneMap = require('./_cloneMap'),
@@ -4168,7 +5776,7 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./_cloneArrayBuffer":66,"./_cloneDataView":68,"./_cloneMap":69,"./_cloneRegExp":70,"./_cloneSet":71,"./_cloneSymbol":72,"./_cloneTypedArray":73}],102:[function(require,module,exports){
+},{"./_cloneArrayBuffer":84,"./_cloneDataView":86,"./_cloneMap":87,"./_cloneRegExp":88,"./_cloneSet":89,"./_cloneSymbol":90,"./_cloneTypedArray":91}],123:[function(require,module,exports){
 var baseCreate = require('./_baseCreate'),
     getPrototype = require('./_getPrototype'),
     isPrototype = require('./_isPrototype');
@@ -4188,7 +5796,24 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{"./_baseCreate":41,"./_getPrototype":89,"./_isPrototype":109}],103:[function(require,module,exports){
+},{"./_baseCreate":46,"./_getPrototype":109,"./_isPrototype":131}],124:[function(require,module,exports){
+var isArguments = require('./isArguments'),
+    isArray = require('./isArray');
+
+/**
+ * Checks if `value` is a flattenable `arguments` object or array.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+ */
+function isFlattenable(value) {
+  return isArray(value) || isArguments(value);
+}
+
+module.exports = isFlattenable;
+
+},{"./isArguments":178,"./isArray":179}],125:[function(require,module,exports){
 /**
  * Checks if `value` is a host object in IE < 9.
  *
@@ -4210,7 +5835,7 @@ function isHostObject(value) {
 
 module.exports = isHostObject;
 
-},{}],104:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -4234,7 +5859,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],105:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 var eq = require('./eq'),
     isArrayLike = require('./isArrayLike'),
     isIndex = require('./_isIndex'),
@@ -4266,7 +5891,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"./_isIndex":104,"./eq":142,"./isArrayLike":150,"./isObject":155}],106:[function(require,module,exports){
+},{"./_isIndex":126,"./eq":166,"./isArrayLike":180,"./isObject":189}],128:[function(require,module,exports){
 var isArray = require('./isArray'),
     isSymbol = require('./isSymbol');
 
@@ -4297,7 +5922,7 @@ function isKey(value, object) {
 
 module.exports = isKey;
 
-},{"./isArray":149,"./isSymbol":159}],107:[function(require,module,exports){
+},{"./isArray":179,"./isSymbol":193}],129:[function(require,module,exports){
 /**
  * Checks if `value` is suitable for use as unique object key.
  *
@@ -4314,7 +5939,7 @@ function isKeyable(value) {
 
 module.exports = isKeyable;
 
-},{}],108:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 var coreJsData = require('./_coreJsData');
 
 /** Used to detect methods masquerading as native. */
@@ -4336,7 +5961,7 @@ function isMasked(func) {
 
 module.exports = isMasked;
 
-},{"./_coreJsData":77}],109:[function(require,module,exports){
+},{"./_coreJsData":95}],131:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -4356,7 +5981,7 @@ function isPrototype(value) {
 
 module.exports = isPrototype;
 
-},{}],110:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /**
@@ -4373,7 +5998,7 @@ function isStrictComparable(value) {
 
 module.exports = isStrictComparable;
 
-},{"./isObject":155}],111:[function(require,module,exports){
+},{"./isObject":189}],133:[function(require,module,exports){
 /**
  * Converts `iterator` to an array.
  *
@@ -4393,7 +6018,7 @@ function iteratorToArray(iterator) {
 
 module.exports = iteratorToArray;
 
-},{}],112:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 /**
  * Removes all key-value entries from the list cache.
  *
@@ -4407,7 +6032,7 @@ function listCacheClear() {
 
 module.exports = listCacheClear;
 
-},{}],113:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /** Used for built-in method references. */
@@ -4443,7 +6068,7 @@ function listCacheDelete(key) {
 
 module.exports = listCacheDelete;
 
-},{"./_assocIndexOf":38}],114:[function(require,module,exports){
+},{"./_assocIndexOf":43}],136:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -4464,7 +6089,7 @@ function listCacheGet(key) {
 
 module.exports = listCacheGet;
 
-},{"./_assocIndexOf":38}],115:[function(require,module,exports){
+},{"./_assocIndexOf":43}],137:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -4482,7 +6107,7 @@ function listCacheHas(key) {
 
 module.exports = listCacheHas;
 
-},{"./_assocIndexOf":38}],116:[function(require,module,exports){
+},{"./_assocIndexOf":43}],138:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -4509,7 +6134,7 @@ function listCacheSet(key, value) {
 
 module.exports = listCacheSet;
 
-},{"./_assocIndexOf":38}],117:[function(require,module,exports){
+},{"./_assocIndexOf":43}],139:[function(require,module,exports){
 var Hash = require('./_Hash'),
     ListCache = require('./_ListCache'),
     Map = require('./_Map');
@@ -4531,7 +6156,7 @@ function mapCacheClear() {
 
 module.exports = mapCacheClear;
 
-},{"./_Hash":16,"./_ListCache":17,"./_Map":18}],118:[function(require,module,exports){
+},{"./_Hash":17,"./_ListCache":18,"./_Map":19}],140:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -4549,7 +6174,7 @@ function mapCacheDelete(key) {
 
 module.exports = mapCacheDelete;
 
-},{"./_getMapData":86}],119:[function(require,module,exports){
+},{"./_getMapData":106}],141:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -4567,7 +6192,7 @@ function mapCacheGet(key) {
 
 module.exports = mapCacheGet;
 
-},{"./_getMapData":86}],120:[function(require,module,exports){
+},{"./_getMapData":106}],142:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -4585,7 +6210,7 @@ function mapCacheHas(key) {
 
 module.exports = mapCacheHas;
 
-},{"./_getMapData":86}],121:[function(require,module,exports){
+},{"./_getMapData":106}],143:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -4605,7 +6230,7 @@ function mapCacheSet(key, value) {
 
 module.exports = mapCacheSet;
 
-},{"./_getMapData":86}],122:[function(require,module,exports){
+},{"./_getMapData":106}],144:[function(require,module,exports){
 /**
  * Converts `map` to its key-value pairs.
  *
@@ -4625,7 +6250,7 @@ function mapToArray(map) {
 
 module.exports = mapToArray;
 
-},{}],123:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 /**
  * A specialized version of `matchesProperty` for source values suitable
  * for strict equality comparisons, i.e. `===`.
@@ -4647,7 +6272,7 @@ function matchesStrictComparable(key, srcValue) {
 
 module.exports = matchesStrictComparable;
 
-},{}],124:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     isObject = require('./isObject');
 
@@ -4673,7 +6298,7 @@ function mergeDefaults(objValue, srcValue, key, object, source, stack) {
 
 module.exports = mergeDefaults;
 
-},{"./_baseMerge":58,"./isObject":155}],125:[function(require,module,exports){
+},{"./_baseMerge":70,"./isObject":189}],147:[function(require,module,exports){
 var getNative = require('./_getNative');
 
 /* Built-in method references that are verified to be native. */
@@ -4681,7 +6306,7 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
-},{"./_getNative":88}],126:[function(require,module,exports){
+},{"./_getNative":108}],148:[function(require,module,exports){
 (function (global){
 var checkGlobal = require('./_checkGlobal');
 
@@ -4700,7 +6325,7 @@ var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_checkGlobal":65}],127:[function(require,module,exports){
+},{"./_checkGlobal":83}],149:[function(require,module,exports){
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
@@ -4721,7 +6346,7 @@ function setCacheAdd(value) {
 
 module.exports = setCacheAdd;
 
-},{}],128:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 /**
  * Checks if `value` is in the array cache.
  *
@@ -4737,7 +6362,7 @@ function setCacheHas(value) {
 
 module.exports = setCacheHas;
 
-},{}],129:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 /**
  * Converts `set` to an array of its values.
  *
@@ -4757,7 +6382,7 @@ function setToArray(set) {
 
 module.exports = setToArray;
 
-},{}],130:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 var ListCache = require('./_ListCache');
 
 /**
@@ -4773,7 +6398,7 @@ function stackClear() {
 
 module.exports = stackClear;
 
-},{"./_ListCache":17}],131:[function(require,module,exports){
+},{"./_ListCache":18}],153:[function(require,module,exports){
 /**
  * Removes `key` and its value from the stack.
  *
@@ -4789,7 +6414,7 @@ function stackDelete(key) {
 
 module.exports = stackDelete;
 
-},{}],132:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 /**
  * Gets the stack value for `key`.
  *
@@ -4805,7 +6430,7 @@ function stackGet(key) {
 
 module.exports = stackGet;
 
-},{}],133:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 /**
  * Checks if a stack value for `key` exists.
  *
@@ -4821,7 +6446,7 @@ function stackHas(key) {
 
 module.exports = stackHas;
 
-},{}],134:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     MapCache = require('./_MapCache');
 
@@ -4849,7 +6474,7 @@ function stackSet(key, value) {
 
 module.exports = stackSet;
 
-},{"./_ListCache":17,"./_MapCache":19}],135:[function(require,module,exports){
+},{"./_ListCache":18,"./_MapCache":20}],157:[function(require,module,exports){
 var memoize = require('./memoize'),
     toString = require('./toString');
 
@@ -4876,7 +6501,7 @@ var stringToPath = memoize(function(string) {
 
 module.exports = stringToPath;
 
-},{"./memoize":164,"./toString":175}],136:[function(require,module,exports){
+},{"./memoize":199,"./toString":216}],158:[function(require,module,exports){
 var isSymbol = require('./isSymbol');
 
 /** Used as references for various `Number` constants. */
@@ -4899,7 +6524,7 @@ function toKey(value) {
 
 module.exports = toKey;
 
-},{"./isSymbol":159}],137:[function(require,module,exports){
+},{"./isSymbol":193}],159:[function(require,module,exports){
 /** Used to resolve the decompiled source of functions. */
 var funcToString = Function.prototype.toString;
 
@@ -4924,7 +6549,7 @@ function toSource(func) {
 
 module.exports = toSource;
 
-},{}],138:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     createAssigner = require('./_createAssigner'),
     keysIn = require('./keysIn');
@@ -4964,7 +6589,42 @@ var assignInWith = createAssigner(function(object, source, srcIndex, customizer)
 
 module.exports = assignInWith;
 
-},{"./_copyObject":75,"./_createAssigner":78,"./keysIn":163}],139:[function(require,module,exports){
+},{"./_copyObject":93,"./_createAssigner":96,"./keysIn":197}],161:[function(require,module,exports){
+var baseClone = require('./_baseClone');
+
+/**
+ * Creates a shallow clone of `value`.
+ *
+ * **Note:** This method is loosely based on the
+ * [structured clone algorithm](https://mdn.io/Structured_clone_algorithm)
+ * and supports cloning arrays, array buffers, booleans, date objects, maps,
+ * numbers, `Object` objects, regexes, sets, strings, symbols, and typed
+ * arrays. The own enumerable properties of `arguments` objects are cloned
+ * as plain objects. An empty object is returned for uncloneable values such
+ * as error objects, functions, DOM nodes, and WeakMaps.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to clone.
+ * @returns {*} Returns the cloned value.
+ * @see _.cloneDeep
+ * @example
+ *
+ * var objects = [{ 'a': 1 }, { 'b': 2 }];
+ *
+ * var shallow = _.clone(objects);
+ * console.log(shallow[0] === objects[0]);
+ * // => true
+ */
+function clone(value) {
+  return baseClone(value, false, true);
+}
+
+module.exports = clone;
+
+},{"./_baseClone":45}],162:[function(require,module,exports){
 var isObject = require('./isObject'),
     now = require('./now'),
     toNumber = require('./toNumber');
@@ -5147,7 +6807,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"./isObject":155,"./now":166,"./toNumber":173}],140:[function(require,module,exports){
+},{"./isObject":189,"./now":204,"./toNumber":214}],163:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInDefaults = require('./_assignInDefaults'),
     assignInWith = require('./assignInWith'),
@@ -5181,7 +6841,7 @@ var defaults = rest(function(args) {
 
 module.exports = defaults;
 
-},{"./_apply":30,"./_assignInDefaults":35,"./assignInWith":138,"./rest":168}],141:[function(require,module,exports){
+},{"./_apply":31,"./_assignInDefaults":40,"./assignInWith":160,"./rest":207}],164:[function(require,module,exports){
 var apply = require('./_apply'),
     mergeDefaults = require('./_mergeDefaults'),
     mergeWith = require('./mergeWith'),
@@ -5214,7 +6874,40 @@ var defaultsDeep = rest(function(args) {
 
 module.exports = defaultsDeep;
 
-},{"./_apply":30,"./_mergeDefaults":124,"./mergeWith":165,"./rest":168}],142:[function(require,module,exports){
+},{"./_apply":31,"./_mergeDefaults":146,"./mergeWith":201,"./rest":207}],165:[function(require,module,exports){
+var baseDifference = require('./_baseDifference'),
+    baseFlatten = require('./_baseFlatten'),
+    isArrayLikeObject = require('./isArrayLikeObject'),
+    rest = require('./rest');
+
+/**
+ * Creates an array of unique `array` values not included in the other given
+ * arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * for equality comparisons. The order of result values is determined by the
+ * order they occur in the first array.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @param {...Array} [values] The values to exclude.
+ * @returns {Array} Returns the new array of filtered values.
+ * @see _.without, _.xor
+ * @example
+ *
+ * _.difference([2, 1], [2, 3]);
+ * // => [1]
+ */
+var difference = rest(function(array, values) {
+  return isArrayLikeObject(array)
+    ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true))
+    : [];
+});
+
+module.exports = difference;
+
+},{"./_baseDifference":47,"./_baseFlatten":51,"./isArrayLikeObject":181,"./rest":207}],166:[function(require,module,exports){
 /**
  * Performs a
  * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
@@ -5253,7 +6946,191 @@ function eq(value, other) {
 
 module.exports = eq;
 
-},{}],143:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
+var arrayFilter = require('./_arrayFilter'),
+    baseFilter = require('./_baseFilter'),
+    baseIteratee = require('./_baseIteratee'),
+    isArray = require('./isArray');
+
+/**
+ * Iterates over elements of `collection`, returning an array of all elements
+ * `predicate` returns truthy for. The predicate is invoked with three
+ * arguments: (value, index|key, collection).
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Array|Function|Object|string} [predicate=_.identity]
+ *  The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ * @see _.reject
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney', 'age': 36, 'active': true },
+ *   { 'user': 'fred',   'age': 40, 'active': false }
+ * ];
+ *
+ * _.filter(users, function(o) { return !o.active; });
+ * // => objects for ['fred']
+ *
+ * // The `_.matches` iteratee shorthand.
+ * _.filter(users, { 'age': 36, 'active': true });
+ * // => objects for ['barney']
+ *
+ * // The `_.matchesProperty` iteratee shorthand.
+ * _.filter(users, ['active', false]);
+ * // => objects for ['fred']
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.filter(users, 'active');
+ * // => objects for ['barney']
+ */
+function filter(collection, predicate) {
+  var func = isArray(collection) ? arrayFilter : baseFilter;
+  return func(collection, baseIteratee(predicate, 3));
+}
+
+module.exports = filter;
+
+},{"./_arrayFilter":33,"./_baseFilter":49,"./_baseIteratee":64,"./isArray":179}],168:[function(require,module,exports){
+var createFind = require('./_createFind'),
+    findIndex = require('./findIndex');
+
+/**
+ * Iterates over elements of `collection`, returning the first element
+ * `predicate` returns truthy for. The predicate is invoked with three
+ * arguments: (value, index|key, collection).
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to search.
+ * @param {Array|Function|Object|string} [predicate=_.identity]
+ *  The function invoked per iteration.
+ * @param {number} [fromIndex=0] The index to search from.
+ * @returns {*} Returns the matched element, else `undefined`.
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney',  'age': 36, 'active': true },
+ *   { 'user': 'fred',    'age': 40, 'active': false },
+ *   { 'user': 'pebbles', 'age': 1,  'active': true }
+ * ];
+ *
+ * _.find(users, function(o) { return o.age < 40; });
+ * // => object for 'barney'
+ *
+ * // The `_.matches` iteratee shorthand.
+ * _.find(users, { 'age': 1, 'active': true });
+ * // => object for 'pebbles'
+ *
+ * // The `_.matchesProperty` iteratee shorthand.
+ * _.find(users, ['active', false]);
+ * // => object for 'fred'
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.find(users, 'active');
+ * // => object for 'barney'
+ */
+var find = createFind(findIndex);
+
+module.exports = find;
+
+},{"./_createFind":99,"./findIndex":169}],169:[function(require,module,exports){
+var baseFindIndex = require('./_baseFindIndex'),
+    baseIteratee = require('./_baseIteratee'),
+    toInteger = require('./toInteger');
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * This method is like `_.find` except that it returns the index of the first
+ * element `predicate` returns truthy for instead of the element itself.
+ *
+ * @static
+ * @memberOf _
+ * @since 1.1.0
+ * @category Array
+ * @param {Array} array The array to search.
+ * @param {Array|Function|Object|string} [predicate=_.identity]
+ *  The function invoked per iteration.
+ * @param {number} [fromIndex=0] The index to search from.
+ * @returns {number} Returns the index of the found element, else `-1`.
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney',  'active': false },
+ *   { 'user': 'fred',    'active': false },
+ *   { 'user': 'pebbles', 'active': true }
+ * ];
+ *
+ * _.findIndex(users, function(o) { return o.user == 'barney'; });
+ * // => 0
+ *
+ * // The `_.matches` iteratee shorthand.
+ * _.findIndex(users, { 'user': 'fred', 'active': false });
+ * // => 1
+ *
+ * // The `_.matchesProperty` iteratee shorthand.
+ * _.findIndex(users, ['active', false]);
+ * // => 0
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.findIndex(users, 'active');
+ * // => 2
+ */
+function findIndex(array, predicate, fromIndex) {
+  var length = array ? array.length : 0;
+  if (!length) {
+    return -1;
+  }
+  var index = fromIndex == null ? 0 : toInteger(fromIndex);
+  if (index < 0) {
+    index = nativeMax(length + index, 0);
+  }
+  return baseFindIndex(array, baseIteratee(predicate, 3), index);
+}
+
+module.exports = findIndex;
+
+},{"./_baseFindIndex":50,"./_baseIteratee":64,"./toInteger":213}],170:[function(require,module,exports){
+var baseFlatten = require('./_baseFlatten'),
+    map = require('./map');
+
+/**
+ * Creates a flattened array of values by running each element in `collection`
+ * thru `iteratee` and flattening the mapped results. The iteratee is invoked
+ * with three arguments: (value, index|key, collection).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Array|Function|Object|string} [iteratee=_.identity]
+ *  The function invoked per iteration.
+ * @returns {Array} Returns the new flattened array.
+ * @example
+ *
+ * function duplicate(n) {
+ *   return [n, n];
+ * }
+ *
+ * _.flatMap([1, 2], duplicate);
+ * // => [1, 1, 2, 2]
+ */
+function flatMap(collection, iteratee) {
+  return baseFlatten(map(collection, iteratee), 1);
+}
+
+module.exports = flatMap;
+
+},{"./_baseFlatten":51,"./map":198}],171:[function(require,module,exports){
 var arrayEach = require('./_arrayEach'),
     baseEach = require('./_baseEach'),
     baseIteratee = require('./_baseIteratee'),
@@ -5296,7 +7173,7 @@ function forEach(collection, iteratee) {
 
 module.exports = forEach;
 
-},{"./_arrayEach":31,"./_baseEach":42,"./_baseIteratee":53,"./isArray":149}],144:[function(require,module,exports){
+},{"./_arrayEach":32,"./_baseEach":48,"./_baseIteratee":64,"./isArray":179}],172:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -5331,7 +7208,7 @@ function get(object, path, defaultValue) {
 
 module.exports = get;
 
-},{"./_baseGet":45}],145:[function(require,module,exports){
+},{"./_baseGet":54}],173:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     hasPath = require('./_hasPath');
 
@@ -5368,7 +7245,7 @@ function has(object, path) {
 
 module.exports = has;
 
-},{"./_baseHas":47,"./_hasPath":93}],146:[function(require,module,exports){
+},{"./_baseHas":56,"./_hasPath":113}],174:[function(require,module,exports){
 var baseHasIn = require('./_baseHasIn'),
     hasPath = require('./_hasPath');
 
@@ -5404,7 +7281,7 @@ function hasIn(object, path) {
 
 module.exports = hasIn;
 
-},{"./_baseHasIn":48,"./_hasPath":93}],147:[function(require,module,exports){
+},{"./_baseHasIn":57,"./_hasPath":113}],175:[function(require,module,exports){
 /**
  * This method returns the first argument given to it.
  *
@@ -5427,7 +7304,118 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],148:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
+var baseInRange = require('./_baseInRange'),
+    toNumber = require('./toNumber');
+
+/**
+ * Checks if `n` is between `start` and up to, but not including, `end`. If
+ * `end` is not specified, it's set to `start` with `start` then set to `0`.
+ * If `start` is greater than `end` the params are swapped to support
+ * negative ranges.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.3.0
+ * @category Number
+ * @param {number} number The number to check.
+ * @param {number} [start=0] The start of the range.
+ * @param {number} end The end of the range.
+ * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
+ * @see _.range, _.rangeRight
+ * @example
+ *
+ * _.inRange(3, 2, 4);
+ * // => true
+ *
+ * _.inRange(4, 8);
+ * // => true
+ *
+ * _.inRange(4, 2);
+ * // => false
+ *
+ * _.inRange(2, 2);
+ * // => false
+ *
+ * _.inRange(1.2, 2);
+ * // => true
+ *
+ * _.inRange(5.2, 4);
+ * // => false
+ *
+ * _.inRange(-3, -2, -6);
+ * // => true
+ */
+function inRange(number, start, end) {
+  start = toNumber(start) || 0;
+  if (end === undefined) {
+    end = start;
+    start = 0;
+  } else {
+    end = toNumber(end) || 0;
+  }
+  number = toNumber(number);
+  return baseInRange(number, start, end);
+}
+
+module.exports = inRange;
+
+},{"./_baseInRange":58,"./toNumber":214}],177:[function(require,module,exports){
+var baseIndexOf = require('./_baseIndexOf'),
+    isArrayLike = require('./isArrayLike'),
+    isString = require('./isString'),
+    toInteger = require('./toInteger'),
+    values = require('./values');
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Checks if `value` is in `collection`. If `collection` is a string, it's
+ * checked for a substring of `value`, otherwise
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * is used for equality comparisons. If `fromIndex` is negative, it's used as
+ * the offset from the end of `collection`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object|string} collection The collection to search.
+ * @param {*} value The value to search for.
+ * @param {number} [fromIndex=0] The index to search from.
+ * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
+ * @returns {boolean} Returns `true` if `value` is found, else `false`.
+ * @example
+ *
+ * _.includes([1, 2, 3], 1);
+ * // => true
+ *
+ * _.includes([1, 2, 3], 1, 2);
+ * // => false
+ *
+ * _.includes({ 'user': 'fred', 'age': 40 }, 'fred');
+ * // => true
+ *
+ * _.includes('pebbles', 'eb');
+ * // => true
+ */
+function includes(collection, value, fromIndex, guard) {
+  collection = isArrayLike(collection) ? collection : values(collection);
+  fromIndex = (fromIndex && !guard) ? toInteger(fromIndex) : 0;
+
+  var length = collection.length;
+  if (fromIndex < 0) {
+    fromIndex = nativeMax(length + fromIndex, 0);
+  }
+  return isString(collection)
+    ? (fromIndex <= length && collection.indexOf(value, fromIndex) > -1)
+    : (!!length && baseIndexOf(collection, value, fromIndex) > -1);
+}
+
+module.exports = includes;
+
+},{"./_baseIndexOf":59,"./isArrayLike":180,"./isString":192,"./toInteger":213,"./values":218}],178:[function(require,module,exports){
 var isArrayLikeObject = require('./isArrayLikeObject');
 
 /** `Object#toString` result references. */
@@ -5475,7 +7463,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"./isArrayLikeObject":151}],149:[function(require,module,exports){
+},{"./isArrayLikeObject":181}],179:[function(require,module,exports){
 /**
  * Checks if `value` is classified as an `Array` object.
  *
@@ -5505,7 +7493,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],150:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 var getLength = require('./_getLength'),
     isFunction = require('./isFunction'),
     isLength = require('./isLength');
@@ -5541,7 +7529,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./_getLength":85,"./isFunction":153,"./isLength":154}],151:[function(require,module,exports){
+},{"./_getLength":105,"./isFunction":185,"./isLength":186}],181:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isObjectLike = require('./isObjectLike');
 
@@ -5576,7 +7564,7 @@ function isArrayLikeObject(value) {
 
 module.exports = isArrayLikeObject;
 
-},{"./isArrayLike":150,"./isObjectLike":156}],152:[function(require,module,exports){
+},{"./isArrayLike":180,"./isObjectLike":190}],182:[function(require,module,exports){
 var root = require('./_root'),
     stubFalse = require('./stubFalse');
 
@@ -5615,7 +7603,117 @@ var isBuffer = !Buffer ? stubFalse : function(value) {
 
 module.exports = isBuffer;
 
-},{"./_root":126,"./stubFalse":170}],153:[function(require,module,exports){
+},{"./_root":148,"./stubFalse":209}],183:[function(require,module,exports){
+var isObjectLike = require('./isObjectLike'),
+    isPlainObject = require('./isPlainObject');
+
+/**
+ * Checks if `value` is likely a DOM element.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a DOM element,
+ *  else `false`.
+ * @example
+ *
+ * _.isElement(document.body);
+ * // => true
+ *
+ * _.isElement('<body>');
+ * // => false
+ */
+function isElement(value) {
+  return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
+}
+
+module.exports = isElement;
+
+},{"./isObjectLike":190,"./isPlainObject":191}],184:[function(require,module,exports){
+var getTag = require('./_getTag'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isArrayLike = require('./isArrayLike'),
+    isBuffer = require('./isBuffer'),
+    isFunction = require('./isFunction'),
+    isObjectLike = require('./isObjectLike'),
+    isString = require('./isString'),
+    keys = require('./keys');
+
+/** `Object#toString` result references. */
+var mapTag = '[object Map]',
+    setTag = '[object Set]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
+var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
+
+/**
+ * Checks if `value` is an empty object, collection, map, or set.
+ *
+ * Objects are considered empty if they have no own enumerable string keyed
+ * properties.
+ *
+ * Array-like values such as `arguments` objects, arrays, buffers, strings, or
+ * jQuery-like collections are considered empty if they have a `length` of `0`.
+ * Similarly, maps and sets are considered empty if they have a `size` of `0`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ * @example
+ *
+ * _.isEmpty(null);
+ * // => true
+ *
+ * _.isEmpty(true);
+ * // => true
+ *
+ * _.isEmpty(1);
+ * // => true
+ *
+ * _.isEmpty([1, 2, 3]);
+ * // => false
+ *
+ * _.isEmpty({ 'a': 1 });
+ * // => false
+ */
+function isEmpty(value) {
+  if (isArrayLike(value) &&
+      (isArray(value) || isString(value) || isFunction(value.splice) ||
+        isArguments(value) || isBuffer(value))) {
+    return !value.length;
+  }
+  if (isObjectLike(value)) {
+    var tag = getTag(value);
+    if (tag == mapTag || tag == setTag) {
+      return !value.size;
+    }
+  }
+  for (var key in value) {
+    if (hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return !(nonEnumShadows && keys(value).length);
+}
+
+module.exports = isEmpty;
+
+},{"./_getTag":111,"./isArguments":178,"./isArray":179,"./isArrayLike":180,"./isBuffer":182,"./isFunction":185,"./isObjectLike":190,"./isString":192,"./keys":196}],185:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -5660,7 +7758,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":155}],154:[function(require,module,exports){
+},{"./isObject":189}],186:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -5698,7 +7796,97 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],155:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
+var isNumber = require('./isNumber');
+
+/**
+ * Checks if `value` is `NaN`.
+ *
+ * **Note:** This method is based on
+ * [`Number.isNaN`](https://mdn.io/Number/isNaN) and is not the same as
+ * global [`isNaN`](https://mdn.io/isNaN) which returns `true` for
+ * `undefined` and other non-number values.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ * @example
+ *
+ * _.isNaN(NaN);
+ * // => true
+ *
+ * _.isNaN(new Number(NaN));
+ * // => true
+ *
+ * isNaN(undefined);
+ * // => true
+ *
+ * _.isNaN(undefined);
+ * // => false
+ */
+function isNaN(value) {
+  // An `NaN` primitive is the only value that is not equal to itself.
+  // Perform the `toStringTag` check first to avoid errors with some
+  // ActiveX objects in IE.
+  return isNumber(value) && value != +value;
+}
+
+module.exports = isNaN;
+
+},{"./isNumber":188}],188:[function(require,module,exports){
+var isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var numberTag = '[object Number]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Number` primitive or object.
+ *
+ * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
+ * classified as numbers, use the `_.isFinite` method.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isNumber(3);
+ * // => true
+ *
+ * _.isNumber(Number.MIN_VALUE);
+ * // => true
+ *
+ * _.isNumber(Infinity);
+ * // => true
+ *
+ * _.isNumber('3');
+ * // => false
+ */
+function isNumber(value) {
+  return typeof value == 'number' ||
+    (isObjectLike(value) && objectToString.call(value) == numberTag);
+}
+
+module.exports = isNumber;
+
+},{"./isObjectLike":190}],189:[function(require,module,exports){
 /**
  * Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
@@ -5731,7 +7919,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],156:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -5762,7 +7950,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],157:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 var getPrototype = require('./_getPrototype'),
     isHostObject = require('./_isHostObject'),
     isObjectLike = require('./isObjectLike');
@@ -5834,7 +8022,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_getPrototype":89,"./_isHostObject":103,"./isObjectLike":156}],158:[function(require,module,exports){
+},{"./_getPrototype":109,"./_isHostObject":125,"./isObjectLike":190}],192:[function(require,module,exports){
 var isArray = require('./isArray'),
     isObjectLike = require('./isObjectLike');
 
@@ -5876,7 +8064,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"./isArray":149,"./isObjectLike":156}],159:[function(require,module,exports){
+},{"./isArray":179,"./isObjectLike":190}],193:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike');
 
 /** `Object#toString` result references. */
@@ -5917,7 +8105,7 @@ function isSymbol(value) {
 
 module.exports = isSymbol;
 
-},{"./isObjectLike":156}],160:[function(require,module,exports){
+},{"./isObjectLike":190}],194:[function(require,module,exports){
 var isLength = require('./isLength'),
     isObjectLike = require('./isObjectLike');
 
@@ -5999,7 +8187,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"./isLength":154,"./isObjectLike":156}],161:[function(require,module,exports){
+},{"./isLength":186,"./isObjectLike":190}],195:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -6023,7 +8211,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],162:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     baseKeys = require('./_baseKeys'),
     indexKeys = require('./_indexKeys'),
@@ -6081,7 +8269,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{"./_baseHas":47,"./_baseKeys":54,"./_indexKeys":99,"./_isIndex":104,"./_isPrototype":109,"./isArrayLike":150}],163:[function(require,module,exports){
+},{"./_baseHas":56,"./_baseKeys":65,"./_indexKeys":119,"./_isIndex":126,"./_isPrototype":131,"./isArrayLike":180}],197:[function(require,module,exports){
 var baseKeysIn = require('./_baseKeysIn'),
     indexKeys = require('./_indexKeys'),
     isIndex = require('./_isIndex'),
@@ -6138,7 +8326,63 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"./_baseKeysIn":55,"./_indexKeys":99,"./_isIndex":104,"./_isPrototype":109}],164:[function(require,module,exports){
+},{"./_baseKeysIn":66,"./_indexKeys":119,"./_isIndex":126,"./_isPrototype":131}],198:[function(require,module,exports){
+var arrayMap = require('./_arrayMap'),
+    baseIteratee = require('./_baseIteratee'),
+    baseMap = require('./_baseMap'),
+    isArray = require('./isArray');
+
+/**
+ * Creates an array of values by running each element in `collection` thru
+ * `iteratee`. The iteratee is invoked with three arguments:
+ * (value, index|key, collection).
+ *
+ * Many lodash methods are guarded to work as iteratees for methods like
+ * `_.every`, `_.filter`, `_.map`, `_.mapValues`, `_.reject`, and `_.some`.
+ *
+ * The guarded methods are:
+ * `ary`, `chunk`, `curry`, `curryRight`, `drop`, `dropRight`, `every`,
+ * `fill`, `invert`, `parseInt`, `random`, `range`, `rangeRight`, `repeat`,
+ * `sampleSize`, `slice`, `some`, `sortBy`, `split`, `take`, `takeRight`,
+ * `template`, `trim`, `trimEnd`, `trimStart`, and `words`
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Array|Function|Object|string} [iteratee=_.identity]
+ *  The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ * @example
+ *
+ * function square(n) {
+ *   return n * n;
+ * }
+ *
+ * _.map([4, 8], square);
+ * // => [16, 64]
+ *
+ * _.map({ 'a': 4, 'b': 8 }, square);
+ * // => [16, 64] (iteration order is not guaranteed)
+ *
+ * var users = [
+ *   { 'user': 'barney' },
+ *   { 'user': 'fred' }
+ * ];
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.map(users, 'user');
+ * // => ['barney', 'fred']
+ */
+function map(collection, iteratee) {
+  var func = isArray(collection) ? arrayMap : baseMap;
+  return func(collection, baseIteratee(iteratee, 3));
+}
+
+module.exports = map;
+
+},{"./_arrayMap":36,"./_baseIteratee":64,"./_baseMap":67,"./isArray":179}],199:[function(require,module,exports){
 var MapCache = require('./_MapCache');
 
 /** Used as the `TypeError` message for "Functions" methods. */
@@ -6213,7 +8457,48 @@ memoize.Cache = MapCache;
 
 module.exports = memoize;
 
-},{"./_MapCache":19}],165:[function(require,module,exports){
+},{"./_MapCache":20}],200:[function(require,module,exports){
+var baseMerge = require('./_baseMerge'),
+    createAssigner = require('./_createAssigner');
+
+/**
+ * This method is like `_.assign` except that it recursively merges own and
+ * inherited enumerable string keyed properties of source objects into the
+ * destination object. Source properties that resolve to `undefined` are
+ * skipped if a destination value exists. Array and plain object properties
+ * are merged recursively. Other objects and value types are overridden by
+ * assignment. Source objects are applied from left to right. Subsequent
+ * sources overwrite property assignments of previous sources.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.5.0
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * var users = {
+ *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
+ * };
+ *
+ * var ages = {
+ *   'data': [{ 'age': 36 }, { 'age': 40 }]
+ * };
+ *
+ * _.merge(users, ages);
+ * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
+ */
+var merge = createAssigner(function(object, source, srcIndex) {
+  baseMerge(object, source, srcIndex);
+});
+
+module.exports = merge;
+
+},{"./_baseMerge":70,"./_createAssigner":96}],201:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     createAssigner = require('./_createAssigner');
 
@@ -6261,7 +8546,61 @@ var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
 
 module.exports = mergeWith;
 
-},{"./_baseMerge":58,"./_createAssigner":78}],166:[function(require,module,exports){
+},{"./_baseMerge":70,"./_createAssigner":96}],202:[function(require,module,exports){
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a function that negates the result of the predicate `func`. The
+ * `func` predicate is invoked with the `this` binding and arguments of the
+ * created function.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Function
+ * @param {Function} predicate The predicate to negate.
+ * @returns {Function} Returns the new negated function.
+ * @example
+ *
+ * function isEven(n) {
+ *   return n % 2 == 0;
+ * }
+ *
+ * _.filter([1, 2, 3, 4, 5, 6], _.negate(isEven));
+ * // => [1, 3, 5]
+ */
+function negate(predicate) {
+  if (typeof predicate != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  return function() {
+    return !predicate.apply(this, arguments);
+  };
+}
+
+module.exports = negate;
+
+},{}],203:[function(require,module,exports){
+/**
+ * A method that returns `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.3.0
+ * @category Util
+ * @example
+ *
+ * _.times(2, _.noop);
+ * // => [undefined, undefined]
+ */
+function noop() {
+  // No operation performed.
+}
+
+module.exports = noop;
+
+},{}],204:[function(require,module,exports){
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
  * the Unix epoch (1 January 1970 00:00:00 UTC).
@@ -6284,7 +8623,7 @@ function now() {
 
 module.exports = now;
 
-},{}],167:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 var baseProperty = require('./_baseProperty'),
     basePropertyDeep = require('./_basePropertyDeep'),
     isKey = require('./_isKey'),
@@ -6318,7 +8657,60 @@ function property(path) {
 
 module.exports = property;
 
-},{"./_baseProperty":60,"./_basePropertyDeep":61,"./_isKey":106,"./_toKey":136}],168:[function(require,module,exports){
+},{"./_baseProperty":72,"./_basePropertyDeep":73,"./_isKey":128,"./_toKey":158}],206:[function(require,module,exports){
+var arrayReduce = require('./_arrayReduce'),
+    baseEach = require('./_baseEach'),
+    baseIteratee = require('./_baseIteratee'),
+    baseReduce = require('./_baseReduce'),
+    isArray = require('./isArray');
+
+/**
+ * Reduces `collection` to a value which is the accumulated result of running
+ * each element in `collection` thru `iteratee`, where each successive
+ * invocation is supplied the return value of the previous. If `accumulator`
+ * is not given, the first element of `collection` is used as the initial
+ * value. The iteratee is invoked with four arguments:
+ * (accumulator, value, index|key, collection).
+ *
+ * Many lodash methods are guarded to work as iteratees for methods like
+ * `_.reduce`, `_.reduceRight`, and `_.transform`.
+ *
+ * The guarded methods are:
+ * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `orderBy`,
+ * and `sortBy`
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @param {*} [accumulator] The initial value.
+ * @returns {*} Returns the accumulated value.
+ * @see _.reduceRight
+ * @example
+ *
+ * _.reduce([1, 2], function(sum, n) {
+ *   return sum + n;
+ * }, 0);
+ * // => 3
+ *
+ * _.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+ *   (result[value] || (result[value] = [])).push(key);
+ *   return result;
+ * }, {});
+ * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
+ */
+function reduce(collection, iteratee, accumulator) {
+  var func = isArray(collection) ? arrayReduce : baseReduce,
+      initAccum = arguments.length < 3;
+
+  return func(collection, baseIteratee(iteratee, 4), accumulator, initAccum, baseEach);
+}
+
+module.exports = reduce;
+
+},{"./_arrayReduce":38,"./_baseEach":48,"./_baseIteratee":64,"./_baseReduce":74,"./isArray":179}],207:[function(require,module,exports){
 var apply = require('./_apply'),
     toInteger = require('./toInteger');
 
@@ -6384,7 +8776,7 @@ function rest(func, start) {
 
 module.exports = rest;
 
-},{"./_apply":30,"./toInteger":172}],169:[function(require,module,exports){
+},{"./_apply":31,"./toInteger":213}],208:[function(require,module,exports){
 /**
  * A method that returns a new empty array.
  *
@@ -6409,7 +8801,7 @@ function stubArray() {
 
 module.exports = stubArray;
 
-},{}],170:[function(require,module,exports){
+},{}],209:[function(require,module,exports){
 /**
  * A method that returns `false`.
  *
@@ -6429,7 +8821,101 @@ function stubFalse() {
 
 module.exports = stubFalse;
 
-},{}],171:[function(require,module,exports){
+},{}],210:[function(require,module,exports){
+var baseSum = require('./_baseSum'),
+    identity = require('./identity');
+
+/**
+ * Computes the sum of the values in `array`.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.4.0
+ * @category Math
+ * @param {Array} array The array to iterate over.
+ * @returns {number} Returns the sum.
+ * @example
+ *
+ * _.sum([4, 2, 8, 6]);
+ * // => 20
+ */
+function sum(array) {
+  return (array && array.length)
+    ? baseSum(array, identity)
+    : 0;
+}
+
+module.exports = sum;
+
+},{"./_baseSum":75,"./identity":175}],211:[function(require,module,exports){
+var debounce = require('./debounce'),
+    isObject = require('./isObject');
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide an options object to indicate whether
+ * `func` should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return the
+ * result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.throttle` and `_.debounce`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to throttle.
+ * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=true]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new throttled function.
+ * @example
+ *
+ * // Avoid excessively updating the position while scrolling.
+ * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+ *
+ * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+ * jQuery(element).on('click', throttled);
+ *
+ * // Cancel the trailing throttled invocation.
+ * jQuery(window).on('popstate', throttled.cancel);
+ */
+function throttle(func, wait, options) {
+  var leading = true,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+
+module.exports = throttle;
+
+},{"./debounce":162,"./isObject":189}],212:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -6473,7 +8959,7 @@ function toFinite(value) {
 
 module.exports = toFinite;
 
-},{"./toNumber":173}],172:[function(require,module,exports){
+},{"./toNumber":214}],213:[function(require,module,exports){
 var toFinite = require('./toFinite');
 
 /**
@@ -6511,7 +8997,7 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toFinite":171}],173:[function(require,module,exports){
+},{"./toFinite":212}],214:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
@@ -6580,7 +9066,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isFunction":153,"./isObject":155,"./isSymbol":159}],174:[function(require,module,exports){
+},{"./isFunction":185,"./isObject":189,"./isSymbol":193}],215:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keysIn = require('./keysIn');
 
@@ -6614,7 +9100,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"./_copyObject":75,"./keysIn":163}],175:[function(require,module,exports){
+},{"./_copyObject":93,"./keysIn":197}],216:[function(require,module,exports){
 var baseToString = require('./_baseToString');
 
 /**
@@ -6644,14 +9130,159 @@ function toString(value) {
 
 module.exports = toString;
 
-},{"./_baseToString":63}],176:[function(require,module,exports){
+},{"./_baseToString":77}],217:[function(require,module,exports){
+var baseIteratee = require('./_baseIteratee'),
+    baseUniq = require('./_baseUniq');
+
+/**
+ * This method is like `_.uniq` except that it accepts `iteratee` which is
+ * invoked for each element in `array` to generate the criterion by which
+ * uniqueness is computed. The iteratee is invoked with one argument: (value).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @param {Array|Function|Object|string} [iteratee=_.identity]
+ *  The iteratee invoked per element.
+ * @returns {Array} Returns the new duplicate free array.
+ * @example
+ *
+ * _.uniqBy([2.1, 1.2, 2.3], Math.floor);
+ * // => [2.1, 1.2]
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.uniqBy([{ 'x': 1 }, { 'x': 2 }, { 'x': 1 }], 'x');
+ * // => [{ 'x': 1 }, { 'x': 2 }]
+ */
+function uniqBy(array, iteratee) {
+  return (array && array.length)
+    ? baseUniq(array, baseIteratee(iteratee))
+    : [];
+}
+
+module.exports = uniqBy;
+
+},{"./_baseIteratee":64,"./_baseUniq":79}],218:[function(require,module,exports){
+var baseValues = require('./_baseValues'),
+    keys = require('./keys');
+
+/**
+ * Creates an array of the own enumerable string keyed property values of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property values.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.values(new Foo);
+ * // => [1, 2] (iteration order is not guaranteed)
+ *
+ * _.values('hi');
+ * // => ['h', 'i']
+ */
+function values(object) {
+  return object ? baseValues(object, keys(object)) : [];
+}
+
+module.exports = values;
+
+},{"./_baseValues":80,"./keys":196}],219:[function(require,module,exports){
+var findMatchingRule = function(rules, text){
+  var i;
+  for(i=0; i<rules.length; i++)
+    if(rules[i].regex.test(text))
+      return rules[i];
+  return undefined;
+};
+
+var findMaxIndexAndRule = function(rules, text){
+  var i, rule, last_matching_rule;
+  for(i=0; i<text.length; i++){
+    rule = findMatchingRule(rules, text.substring(0, i + 1));
+    if(rule)
+      last_matching_rule = rule;
+    else if(last_matching_rule)
+      return {max_index: i, rule: last_matching_rule};
+  }
+  return last_matching_rule ? {max_index: text.length, rule: last_matching_rule} : undefined;
+};
+
+module.exports = function(onToken_orig){
+  var buffer = "";
+  var rules = [];
+  var line = 1;
+  var col = 1;
+
+  var onToken = function(src, type){
+    onToken_orig({
+      type: type,
+      src: src,
+      line: line,
+      col: col
+    });
+    var lines = src.split("\n");
+    line += lines.length - 1;
+    col = (lines.length > 1 ? 1 : col) + lines[lines.length - 1].length;
+  };
+
+  return {
+    addRule: function(regex, type){
+      rules.push({regex: regex, type: type});
+    },
+    onText: function(text){
+      var str = buffer + text;
+      var m = findMaxIndexAndRule(rules, str);
+      while(m && m.max_index !== str.length){
+        onToken(str.substring(0, m.max_index), m.rule.type);
+
+        //now find the next token
+        str = str.substring(m.max_index);
+        m = findMaxIndexAndRule(rules, str);
+      }
+      buffer = str;
+    },
+    end: function(){
+      if(buffer.length === 0)
+        return;
+
+      var rule = findMatchingRule(rules, buffer);
+      if(!rule){
+        var err = new Error("unable to tokenize");
+        err.tokenizer2 = {
+          buffer: buffer,
+          line: line,
+          col: col
+        };
+        throw err;
+      }
+
+      onToken(buffer, rule.type);
+    }
+  };
+};
+
+},{}],220:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],177:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -7241,7 +9872,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":176,"_process":13,"inherits":14}],178:[function(require,module,exports){
+},{"./support/isBuffer":220,"_process":13,"inherits":14}],222:[function(require,module,exports){
 var plugins = {
 	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
 };
@@ -7266,7 +9897,7 @@ module.exports = {
 	helpers: helpers
 };
 
-},{"./js/app":179,"./js/assessor":206,"./js/bundledPlugins/previouslyUsedKeywords":207,"./js/contentAssessor":217,"./js/interpreters/scoreToRating":226,"./js/pluggable":232,"./js/researcher":234,"./js/seoAssessor":271,"./js/snippetPreview.js":272,"./js/values/AssessmentResult":311,"./js/values/Paper":313}],179:[function(require,module,exports){
+},{"./js/app":223,"./js/assessor":248,"./js/bundledPlugins/previouslyUsedKeywords":249,"./js/contentAssessor":259,"./js/interpreters/scoreToRating":268,"./js/pluggable":274,"./js/researcher":276,"./js/seoAssessor":313,"./js/snippetPreview.js":314,"./js/values/AssessmentResult":353,"./js/values/Paper":355}],223:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -7946,7 +10577,7 @@ App.prototype.analyzeTimer = function() {
 
 module.exports = App;
 
-},{"./config/config.js":208,"./contentAssessor.js":217,"./errors/missingArgument":219,"./pluggable.js":232,"./renderers/AssessorPresenter.js":233,"./researcher.js":234,"./seoAssessor.js":271,"./snippetPreview.js":272,"./values/Paper.js":313,"jed":314,"lodash/debounce":469,"lodash/defaultsDeep":471,"lodash/forEach":479,"lodash/isObject":496,"lodash/isString":499,"lodash/isUndefined":502,"lodash/throttle":520}],180:[function(require,module,exports){
+},{"./config/config.js":250,"./contentAssessor.js":259,"./errors/missingArgument":261,"./pluggable.js":274,"./renderers/AssessorPresenter.js":275,"./researcher.js":276,"./seoAssessor.js":313,"./snippetPreview.js":314,"./values/Paper.js":355,"jed":15,"lodash/debounce":162,"lodash/defaultsDeep":164,"lodash/forEach":171,"lodash/isObject":189,"lodash/isString":192,"lodash/isUndefined":195,"lodash/throttle":211}],224:[function(require,module,exports){
 var filter = require( "lodash/filter" );
 var isSentenceTooLong = require( "../helpers/isValueTooLong" );
 
@@ -7964,7 +10595,7 @@ module.exports = function( sentences, recommendedValue ) {
 	return tooLongSentences;
 };
 
-},{"../helpers/isValueTooLong":225,"lodash/filter":474}],181:[function(require,module,exports){
+},{"../helpers/isValueTooLong":267,"lodash/filter":167}],225:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -8075,7 +10706,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311,"lodash/inRange":483}],182:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353,"lodash/inRange":176}],226:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8127,7 +10758,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311}],183:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],227:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8160,7 +10791,7 @@ module.exports = {
 	getResult: keyphraseAssessment
 };
 
-},{"../values/AssessmentResult.js":311}],184:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],228:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -8264,7 +10895,7 @@ module.exports = {
 	}
 };
 
-},{"../helpers/formatNumber.js":222,"../stringProcessing/countWords.js":278,"../stringProcessing/matchTextWithWord.js":293,"../values/AssessmentResult.js":311,"lodash/inRange":483}],185:[function(require,module,exports){
+},{"../helpers/formatNumber.js":264,"../stringProcessing/countWords.js":320,"../stringProcessing/matchTextWithWord.js":335,"../values/AssessmentResult.js":353,"lodash/inRange":176}],229:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8324,7 +10955,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311}],186:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],230:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8376,7 +11007,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311}],187:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],231:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8442,7 +11073,7 @@ module.exports = {
 	getResult: metaDescriptionLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":311}],188:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],232:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isParagraphTooLong = require( "../helpers/isValueTooLong" );
 var Mark = require( "../values/Mark.js" );
@@ -8582,7 +11213,7 @@ module.exports = {
 	getMarks: paragraphLengthMarker
 };
 
-},{"../helpers/inRange.js":224,"../helpers/isValueTooLong":225,"../markers/addMark.js":229,"../values/AssessmentResult.js":311,"../values/Mark.js":312,"lodash/filter":474,"lodash/map":505}],189:[function(require,module,exports){
+},{"../helpers/inRange.js":266,"../helpers/isValueTooLong":267,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/filter":167,"lodash/map":198}],233:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
@@ -8632,7 +11263,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 
 						// Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 						// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-						"%1$s of the sentences contain %2$spassive voice%3$s, " +
+						"%1$s of the sentences contain a %2$spassive voice%3$s, " +
 						"which is less than or equal to the recommended maximum of %4$s." ),
 					percentage + "%",
 					passiveVoiceURL,
@@ -8650,7 +11281,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 
 				// Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 				// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-				"%1$s of the sentences contain %2$spassive voice%3$s, " +
+				"%1$s of the sentences contain a %2$spassive voice%3$s, " +
 				"which is more than the recommended maximum of %4$s. Try to use their active counterparts."
 			),
 			percentage + "%",
@@ -8709,118 +11340,7 @@ module.exports = {
 	getMarks: passiveVoiceMarker
 };
 
-},{"../helpers/formatNumber.js":222,"../helpers/inRange.js":224,"../markers/addMark.js":229,"../values/AssessmentResult.js":311,"../values/Mark.js":312,"lodash/map":505}],190:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var partition = require ( "lodash/partition" );
-var sortBy = require ( "lodash/sortBy" );
-var map = require( "lodash/map" );
-var filter = require( "lodash/filter" );
-var flatten = require( "lodash/flatten" );
-
-var Mark = require( "../values/Mark.js" );
-var marker = require( "../markers/addMark.js" );
-
-var maximumConsecutiveDuplicates = 2;
-
-/**
- * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.
- * @param {array} sentenceBeginnings The array containing the objects containing the beginning words and counts.
- * @returns {object} The object containing the total number of too often used beginnings and the lowest count within those.
- */
-var groupSentenceBeginnings = function( sentenceBeginnings ) {
-	var tooOften = partition( sentenceBeginnings, function ( word ) {
-		return word.count > maximumConsecutiveDuplicates;
-	} );
-	if ( tooOften[ 0 ].length === 0 ) {
-		return { total: 0 };
-	}
-	var sortedCounts = sortBy( tooOften[ 0 ], function( word ) {
-		return word.count;
-	} );
-	return { total: tooOften[ 0 ].length, lowestCount: sortedCounts[ 0 ].count };
-};
-
-/**
- * Calculates the score based on sentence beginnings.
- * @param {Array} groupedSentenceBeginnings The array with grouped sentence beginnings.
- * @param {object} i18n The object used for translations.
- * @returns {{score: number, text: string, hasMarks: boolean}} resultobject with score and text.
- */
-var calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
-	if ( groupedSentenceBeginnings.total > 0 ) {
-		return {
-			score: 3,
-			hasMarks: true,
-			text: i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-
-					// Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
-					// with the same word.
-					// %2$d expands to the number of consecutive sentences starting with the same word.
-					"Your text contains %2$d consecutive sentences starting with the same word. Try to mix things up!",
-					"Your text contains %1$d instances where %2$d or more consecutive sentences start with the same word. " +
-					"Try to mix things up!",
-					groupedSentenceBeginnings.total
-				),
-				groupedSentenceBeginnings.total, groupedSentenceBeginnings.lowestCount )
-		};
-	}
-	return {};
-};
-
-/**
- * Marks all consecutive sentences with the same beginnings.
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @returns {object} All marked sentences.
- */
-var sentenceBeginningMarker = function( paper, researcher ) {
-	var sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
-	sentenceBeginnings = filter( sentenceBeginnings, function( sentenceBeginning ) {
-		return sentenceBeginning.count > maximumConsecutiveDuplicates;
-	} );
-	var sentences = map ( sentenceBeginnings, function( begin ) {
-		return begin.sentences;
-	} );
-	return map( flatten( sentences ), function( sentence ) {
-		var marked = marker( sentence );
-		return new Mark( {
-			original: sentence,
-			marked: marked
-		} );
-	} );
-};
-
-/**
- * Scores the repetition of sentence beginnings in consecutive sentences.
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} The Assessment result
- */
-var sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
-	var sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
-	var groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
-	var sentenceBeginningsResult = calculateSentenceBeginningsResult ( groupedSentenceBeginnings, i18n );
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( sentenceBeginningsResult.score );
-	assessmentResult.setText( sentenceBeginningsResult.text );
-	assessmentResult.setHasMarks( sentenceBeginningsResult.hasMarks );
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "sentenceBeginnings",
-	getResult: sentenceBeginningsAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText();
-	},
-	getMarks: sentenceBeginningMarker
-};
-
-
-},{"../markers/addMark.js":229,"../values/AssessmentResult.js":311,"../values/Mark.js":312,"lodash/filter":474,"lodash/flatten":478,"lodash/map":505,"lodash/partition":512,"lodash/sortBy":516}],191:[function(require,module,exports){
+},{"../helpers/formatNumber.js":264,"../helpers/inRange.js":266,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/map":198}],234:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
@@ -8859,7 +11379,7 @@ var tooLongSentencesTotal = function( sentences, recommendedValue ) {
 /**
  * Calculates sentence length score.
  *
- * @param {Object} sentences The object containing sentences and their lengths.
+ * @param {Object} sentences The object containing sentences and its length.
  * @param {Object} i18n The object used for translations.
  * @returns {Object} Object containing score and text.
  */
@@ -8873,7 +11393,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	}
 
 	if ( percentage <= 25 ) {
-		// Green indicator.
+		// Red indicator.
 		score = 9;
 	}
 
@@ -8970,102 +11490,7 @@ module.exports = {
 	getMarks: sentenceLengthMarker
 };
 
-},{"../helpers/formatNumber.js":222,"../helpers/inRange.js":224,"../markers/addMark.js":229,"../values/AssessmentResult.js":311,"../values/Mark.js":312,"./../assessmentHelpers/checkForTooLongSentences.js":180,"lodash/map":505}],192:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-var getSentences = require( "../stringProcessing/getSentences.js" );
-var inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
-
-/**
- * Get the sentence length variation result based on the score.
- *
- * @param {number} standardDeviation The standard deviation to calculate the score for.
- * @param {Jed} i18n The object used for translations.
- * @returns {Object} The object containing score and text.
- */
-
-var getStandardDeviationResult = function( standardDeviation, i18n ) {
-	var score = 0;
-	var recommendedMinimumDeviation = 3;
-	var sentenceVariationURL = "<a href='https://yoa.st/mix-it-up' target='_blank'>";
-
-	if ( standardDeviation >= 3 ) {
-		// Green indicator.
-		score = 9;
-	}
-
-	if ( inRange( standardDeviation, 2.5, 3 ) ) {
-		// Orange indicator.
-		score = 6;
-	}
-
-	if ( standardDeviation < 2.5 ) {
-		// Red indicator.
-		score = 3;
-	}
-
-	if ( score >= 7 ) {
-		return {
-			score: score,
-			text: i18n.sprintf(
-				i18n.dgettext(
-					"js-text-analysis",
-					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
-					// %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
-					"The %1$ssentence length variation%2$s score is %3$s, " +
-					"which is more than or equal to the recommended minimum of %4$d. " +
-					"The text contains a nice combination of long and short sentences."
-				), sentenceVariationURL, "</a>", standardDeviation, recommendedMinimumDeviation
-			)
-		};
-	}
-
-	return {
-		score: score,
-		text: i18n.sprintf(
-			i18n.dgettext(
-				"js-text-analysis",
-				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
-				// %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
-				"The %1$ssentence length variation%2$s score is %3$s, " +
-				"which is less than the recommended minimum of %4$d. " +
-				"Try to alternate more between long and short sentences."
-			), sentenceVariationURL, "</a>", standardDeviation, recommendedMinimumDeviation
-		)
-	};
-};
-
-/**
- * Runs the sentenceVariation research and checks scores based on calculated deviation.
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} The Assessmentresult
- */
-var getSentenceVariation = function( paper, researcher, i18n ) {
-	var standardDeviation = researcher.getResearch( "sentenceVariation" );
-
-	var assessmentResult = new AssessmentResult();
-	var sentenceDeviationResult =  getStandardDeviationResult( standardDeviation, i18n );
-
-	assessmentResult.setScore( sentenceDeviationResult.score );
-	assessmentResult.setText( sentenceDeviationResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "textSentenceLengthVariation",
-	getResult: getSentenceVariation,
-	isApplicable: function( paper ) {
-		var numberOfSentences = getSentences( paper.getText() ).length;
-		return paper.hasText() && numberOfSentences > 1;
-	}
-};
-
-
-},{"../helpers/inRange.js":224,"../stringProcessing/getSentences.js":285,"../values/AssessmentResult.js":311}],193:[function(require,module,exports){
+},{"../helpers/formatNumber.js":264,"../helpers/inRange.js":266,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"./../assessmentHelpers/checkForTooLongSentences.js":224,"lodash/map":198}],235:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isTextTooLong = require( "../helpers/isValueTooLong" );
 var filter = require( "lodash/filter" );
@@ -9209,7 +11634,7 @@ module.exports = {
 	getMarks: subheadingsMarker
 };
 
-},{"../helpers/inRange.js":224,"../helpers/isValueTooLong":225,"../markers/addMark.js":229,"../values/AssessmentResult.js":311,"../values/Mark.js":312,"lodash/filter":474,"lodash/map":505}],194:[function(require,module,exports){
+},{"../helpers/inRange.js":266,"../helpers/isValueTooLong":267,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/filter":167,"lodash/map":198}],236:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9263,7 +11688,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311}],195:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],237:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 var Mark = require( "../values/Mark.js" );
@@ -9338,7 +11763,7 @@ module.exports = {
 	getMarks: competingLinkMarker
 };
 
-},{"../markers/addMark.js":229,"../values/AssessmentResult.js":311,"../values/Mark.js":312,"lodash/map":505}],196:[function(require,module,exports){
+},{"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/map":198}],238:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -9438,11 +11863,10 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311,"lodash/isEmpty":491}],197:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353,"lodash/isEmpty":184}],239:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
-var recommendedMinimum = 300;
 /**
  * Calculate the score based on the current word count.
  * @param {number} wordCount The amount of words to be checked against.
@@ -9455,16 +11879,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 9,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, which is more than the recommended minimum of %2$d word.",
+				"The text contains %1$d words, which is more than the recommended minimum of %2$d words.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than the recommended minimum of %2$d word.",
-				"This is more than the recommended minimum of %2$d words.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9474,16 +11892,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 7,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, which is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
+				"The text contains %1$d words, which is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
-				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9493,16 +11905,12 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 5,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, which is below the recommended minimum of %2$d word. " +
+				"Add more useful content on this topic for readers.",
+				"The text contains %1$d words, which is below the recommended minimum of %2$d words. " +
+				"Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9512,16 +11920,12 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -10,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, which is below the recommended minimum of %2$d word. " +
+				"Add more useful content on this topic for readers.",
+				"The text contains %1$d words, which is below the recommended minimum of %2$d words. " +
+				"Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9532,15 +11936,9 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			text: i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				"The text contains %1$d word, which is far too low. Increase the word count.",
+				"The text contains %1$d words, which is far too low. Increase the word count.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9559,7 +11957,7 @@ var textLengthAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, recommendedMinimum ) );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
 
 	return assessmentResult;
 };
@@ -9569,7 +11967,7 @@ module.exports = {
 	getResult: textLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":311,"lodash/inRange":483}],198:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353,"lodash/inRange":176}],240:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -9642,7 +12040,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311,"lodash/isEmpty":491}],199:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353,"lodash/isEmpty":184}],241:[function(require,module,exports){
 var stripHTMLTags = require( "../stringProcessing/stripHTMLTags" );
 var AssessmentResult = require( "../values/AssessmentResult" );
 
@@ -9674,7 +12072,7 @@ module.exports = {
 	getResult: textPresenceAssessment
 };
 
-},{"../stringProcessing/stripHTMLTags":303,"../values/AssessmentResult":311}],200:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags":345,"../values/AssessmentResult":353}],242:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9720,7 +12118,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311}],201:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],243:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -9740,20 +12138,13 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					%2$s expands to the recommended minimum number of characters for the title */
-					"This is less than the recommended minimum of %2$d character. " +
+					/* Translators: %1$d expands to the number of characters in the page title,
+					%2$d to the minimum number of characters for the title */
+					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
 					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					"This is less than the recommended minimum of %2$d characters. " +
+					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
 					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					minLength
-				),
+				pageTitleLength ),
 				pageTitleLength, minLength )
 		};
 	}
@@ -9762,29 +12153,11 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 		return {
 			score: 9,
 			text: i18n.sprintf(
-				i18n.dngettext(
+				i18n.dgettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					%2$s expands to the recommended minimum number of characters for the title. The following string is
-					"and the recommended maximum of %3$d characters." */
-					"This is between the recommended minimum of %2$d character",
-					"This is between the recommended minimum of %2$d characters",
-					minLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding string is "This is between the recommended minimum of x characters".
-					%3$s expands to the recommended minimum number of characters for the title */
-					"and the recommended maximum of %3$d character.",
-					"and the recommended maximum of %3$d characters.",
-					maxLength
-			),
-				pageTitleLength, minLength, maxLength )
+					/* Translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
+				minLength, maxLength )
 		};
 	}
 
@@ -9794,21 +12167,14 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					 %2$s expands to the recommended minimum number of characters for the title. The following string is "and the
-					 recommended maximum of %3$d characters." */
-					"This is more than the viewable limit of %2$d character. Some words will not be visible to users in your listing.",
-					"This is more than the viewable limit of %2$d characters. Some words will not be visible to users in your listing.",
-					maxLength
-				),
+					/* Translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
+					of characters for the title */
+					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					pageTitleLength ),
 				pageTitleLength, maxLength )
-
 		};
 	}
 
@@ -9842,7 +12208,7 @@ module.exports = {
 	getResult: titleLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":311,"lodash/inRange":483}],202:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353,"lodash/inRange":176}],244:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 var map = require( "lodash/map" );
@@ -9956,7 +12322,7 @@ module.exports = {
 	getMarks: transitionWordsMarker
 };
 
-},{"../helpers/formatNumber.js":222,"../helpers/inRange.js":224,"../markers/addMark.js":229,"../values/AssessmentResult.js":311,"../values/Mark.js":312,"lodash/map":505}],203:[function(require,module,exports){
+},{"../helpers/formatNumber.js":264,"../helpers/inRange.js":266,"../markers/addMark.js":271,"../values/AssessmentResult.js":353,"../values/Mark.js":354,"lodash/map":198}],245:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -10007,7 +12373,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311}],204:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],246:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -10038,7 +12404,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":311}],205:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],247:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -10093,7 +12459,7 @@ module.exports = {
 	getResult: urlHasStopWordsAssessment
 };
 
-},{"../values/AssessmentResult.js":311}],206:[function(require,module,exports){
+},{"../values/AssessmentResult.js":353}],248:[function(require,module,exports){
 var Researcher = require( "./researcher.js" );
 var MissingArgument = require( "./errors/missingArgument" );
 var removeDuplicateMarks = require( "./markers/removeDuplicateMarks" );
@@ -10364,7 +12730,7 @@ Assessor.prototype.getAssessment = function( identifier ) {
 
 module.exports = Assessor;
 
-},{"./errors/missingArgument":219,"./helpers/errors.js":221,"./markers/removeDuplicateMarks":230,"./researcher.js":234,"./values/AssessmentResult.js":311,"lodash/filter":474,"lodash/find":475,"lodash/findIndex":476,"lodash/forEach":479,"lodash/isFunction":492,"lodash/isUndefined":502,"lodash/map":505}],207:[function(require,module,exports){
+},{"./errors/missingArgument":261,"./helpers/errors.js":263,"./markers/removeDuplicateMarks":272,"./researcher.js":276,"./values/AssessmentResult.js":353,"lodash/filter":167,"lodash/find":168,"lodash/findIndex":169,"lodash/forEach":171,"lodash/isFunction":185,"lodash/isUndefined":195,"lodash/map":198}],249:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
@@ -10498,7 +12864,7 @@ PreviouslyUsedKeyword.prototype.assess = function( paper, researcher, i18n ) {
 
 module.exports = PreviouslyUsedKeyword;
 
-},{"../../js/errors/missingArgument":219,"../values/AssessmentResult.js":311,"lodash/isUndefined":502}],208:[function(require,module,exports){
+},{"../../js/errors/missingArgument":261,"../values/AssessmentResult.js":353,"lodash/isUndefined":195}],250:[function(require,module,exports){
 var analyzerConfig = {
 	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
@@ -10510,7 +12876,7 @@ var analyzerConfig = {
 
 module.exports = analyzerConfig;
 
-},{}],209:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 /** @module config/diacritics */
 
 /**
@@ -10618,7 +12984,7 @@ module.exports = function() {
 	];
 };
 
-},{}],210:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 /**
  * Returns the configuration used for score ratings and the AssessorPresenter.
  * @param {Jed} i18n The translator object.
@@ -10629,27 +12995,27 @@ module.exports = function ( i18n ) {
 		feedback: {
 			className: "na",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback" ),
-			fullText: i18n.dgettext( "js-text-analysis", "Content optimization: Has feedback" )
+			fullText: i18n.dgettext( "js-text-analysis", "Content Analysis: Has feedback" )
 		},
 		bad: {
 			className: "bad",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Bad SEO score" ),
-			fullText: i18n.dgettext( "js-text-analysis", "Content optimization: Bad SEO score" )
+			fullText: i18n.dgettext( "js-text-analysis", "Content Analysis: Bad SEO score" )
 		},
 		ok: {
 			className: "ok",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "OK SEO score" ),
-			fullText: i18n.dgettext( "js-text-analysis", "Content optimization: OK SEO score" )
+			fullText: i18n.dgettext( "js-text-analysis", "Content Analysis: OK SEO score" )
 		},
 		good: {
 			className: "good",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Good SEO score" ),
-			fullText: i18n.dgettext( "js-text-analysis", "Content optimization: Good SEO score" )
+			fullText: i18n.dgettext( "js-text-analysis", "Content Analysis: Good SEO score" )
 		}
 	};
 };
 
-},{}],211:[function(require,module,exports){
+},{}],253:[function(require,module,exports){
 /** @module config/removalWords */
 
 /**
@@ -10661,7 +13027,7 @@ module.exports = function() {
 	return [ " a", " in", " an", " on", " for", " the", " and" ];
 };
 
-},{}],212:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 /** @module config/stopwords */
 
 /**
@@ -10673,7 +13039,7 @@ module.exports = function() {
 	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
 };
 
-},{}],213:[function(require,module,exports){
+},{}],255:[function(require,module,exports){
 /** @module config/syllables */
 
 /**
@@ -10695,7 +13061,7 @@ module.exports = function() {
 	};
 };
 
-},{}],214:[function(require,module,exports){
+},{}],256:[function(require,module,exports){
 /** @module config/transitionWords */
 
 /**
@@ -10707,7 +13073,7 @@ module.exports = function() {
 };
 
 
-},{}],215:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 
 /**
@@ -10957,8 +13323,6 @@ var transliterations = {
 	// In text it is transliterated to a character similar to an apostroph: ′.
 	// I recommend omittance in slugs. (https://en.wikipedia.org/wiki/Romanization_of_Russian)
 	ru: [
-		{ letter: /[\u0430]/g, alternative: "a" },
-		{ letter: /[\u0410]/g, alternative: "A" },
 		{ letter: /[\u0431]/g, alternative: "b" },
 		{ letter: /[\u0411]/g, alternative: "B" },
 		{ letter: /[\u0432]/g, alternative: "v" },
@@ -10967,14 +13331,12 @@ var transliterations = {
 		{ letter: /[\u0413]/g, alternative: "G" },
 		{ letter: /[\u0434]/g, alternative: "d" },
 		{ letter: /[\u0414]/g, alternative: "D" },
-		{ letter: /[\u0435]/g, alternative: "e" },
-		{ letter: /[\u0415]/g, alternative: "E" },
 		{ letter: /[\u0436]/g, alternative: "zh" },
 		{ letter: /[\u0416]/g, alternative: "Zh" },
 		{ letter: /[\u0437]/g, alternative: "z" },
 		{ letter: /[\u0417]/g, alternative: "Z" },
-		{ letter: /[\u0456\u0438\u0439]/g, alternative: "i" },
-		{ letter: /[\u0406\u0418\u0419]/g, alternative: "I" },
+		{ letter: /[\u0438\u0439]/g, alternative: "i" },
+		{ letter: /[\u0418\u0419]/g, alternative: "I" },
 		{ letter: /[\u043A]/g, alternative: "k" },
 		{ letter: /[\u041A]/g, alternative: "K" },
 		{ letter: /[\u043B]/g, alternative: "l" },
@@ -10983,10 +13345,8 @@ var transliterations = {
 		{ letter: /[\u041C]/g, alternative: "M" },
 		{ letter: /[\u043D]/g, alternative: "n" },
 		{ letter: /[\u041D]/g, alternative: "N" },
-		{ letter: /[\u0440]/g, alternative: "r" },
-		{ letter: /[\u0420]/g, alternative: "R" },
-		{ letter: /[\u043E]/g, alternative: "o" },
-		{ letter: /[\u041E]/g, alternative: "O" },
+		{ letter: /[\u0070]/g, alternative: "r" },
+		{ letter: /[\u0050]/g, alternative: "R" },
 		{ letter: /[\u043F]/g, alternative: "p" },
 		{ letter: /[\u041F]/g, alternative: "P" },
 		{ letter: /[\u0441]/g, alternative: "s" },
@@ -11269,875 +13629,6 @@ var transliterations = {
 		{ letter: /^[\u042F]/g, alternative: "Ya" },
 		{ letter: /[\s][\u042F]/g, alternative: " Ya" },
 		{ letter: /[\u042F]/g, alternative: "IA" }
-	],
-	// Language: Breton
-	// Source: http://www.omniglot.com/writing/breton.htm
-	br: [
-		{ letter: /\u0063\u0027\u0068/g, alternative: "ch" },
-		{ letter: /\u0043\u0027\u0048/g, alternative: "CH" },
-		{ letter: /[\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fb\u00f9\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00db\u00d9\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" }
-	],
-	// Language: Chamorro
-	// Source: http://www.omniglot.com/writing/chamorro.htm
-	ch: [
-		{ letter: /[\u0027]/g, alternative: "" },
-		{ letter: /[\u00e5]/g, alternative: "a" },
-		{ letter: /[\u00c5]/g, alternative: "A" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" }
-	],
-	// Language: Corsican
-	// Sources: http://www.omniglot.com/writing/corsican.htm https://en.wikipedia.org/wiki/Corsican_alphabet
-	co: [
-		{ letter: /[\u00e2\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c2\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00e6\u04d5]/g, alternative: "ae" },
-		{ letter: /[\u00c6\u04d4]/g, alternative: "Ae" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e9\u00ea\u00e8\u00eb]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00ca\u00c8\u00cb]/g, alternative: "E" },
-		{ letter: /[\u00ec\u00ee\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cc\u00ce\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" },
-		{ letter: /[\u00f4\u00f2]/g, alternative: "o" },
-		{ letter: /[\u00d4\u00d2]/g, alternative: "O" },
-		{ letter: /[\u0153]/g, alternative: "oe" },
-		{ letter: /[\u0152]]/g, alternative: "Oe" },
-		{ letter: /[\u00f9\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00d9\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00ff]/g, alternative: "y" },
-		{ letter: /[\u0178]/g, alternative: "Y" }
-	],
-	// Language: Kashubian
-	// Sources: http://www.omniglot.com/writing/kashubian.htm https://en.wikipedia.org/wiki/Kashubian_language
-	csb: [
-		{ letter: /[\u0105\u00e3]/g, alternative: "a" },
-		{ letter: /[\u0104\u00c3]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00eb]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00cb]/g, alternative: "E" },
-		{ letter: /[\u0142]/g, alternative: "l" },
-		{ letter: /[\u0141]/g, alternative: "L" },
-		{ letter: /[\u0144]/g, alternative: "n" },
-		{ letter: /[\u0143]/g, alternative: "N" },
-		{ letter: /[\u00f2\u00f3\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d3\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00f9]/g, alternative: "u" },
-		{ letter: /[\u00d9]/g, alternative: "U" },
-		{ letter: /[\u017c]/g, alternative: "z" },
-		{ letter: /[\u017b]/g, alternative: "Z" }
-	],
-	// Language: Welsh
-	// Sources: http://www.omniglot.com/writing/welsh.htm https://en.wikipedia.org/wiki/Welsh_orthography#Diacritics
-	cy: [
-		{ letter: /[\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fb]/g, alternative: "u" },
-		{ letter: /[\u00db]/g, alternative: "U" },
-		{ letter: /[\u0175]/g, alternative: "w" },
-		{ letter: /[\u0174]/g, alternative: "W" },
-		{ letter: /[\u0177]/g, alternative: "y" },
-		{ letter: /[\u0176]/g, alternative: "Y" }
-	],
-	// Language: Ewe
-	// Sources: http://www.omniglot.com/writing/ewe.htm https://en.wikipedia.org/wiki/Ewe_language#Writing_system
-	ee: [
-		{ letter: /[\u0256]/g, alternative: "d" },
-		{ letter: /[\u0189]/g, alternative: "D" },
-		{ letter: /[\u025b]/g, alternative: "e" },
-		{ letter: /[\u0190]/g, alternative: "E" },
-		{ letter: /[\u0192]/g, alternative: "f" },
-		{ letter: /[\u0191]/g, alternative: "F" },
-		{ letter: /[\u0263]/g, alternative: "g" },
-		{ letter: /[\u0194]/g, alternative: "G" },
-		{ letter: /[\u014b]/g, alternative: "ng" },
-		{ letter: /[\u014a]/g, alternative: "Ng" },
-		{ letter: /[\u0254]/g, alternative: "o" },
-		{ letter: /[\u0186]/g, alternative: "O" },
-		{ letter: /[\u028b]/g, alternative: "w" },
-		{ letter: /[\u01b2]/g, alternative: "W" },
-		{ letter: /\u0061\u0303/g, alternative: "a" },
-		{ letter: /[\u00e1\u00e0\u01ce\u00e2\u00e3]/g, alternative: "a" },
-		{ letter: /\u0041\u0303/g, alternative: "A" },
-		{ letter: /[\u00c1\u00c0\u01cd\u00c2\u00c3]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00e8\u011b\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00c8\u011a\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00f3\u00f2\u01d2\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d2\u01d1\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00f9\u01d4\u00fb]/g, alternative: "u" },
-		{ letter: /[\u00da\u00d9\u01d3\u00db]/g, alternative: "U" },
-		{ letter: /[\u00ed\u00ec\u01d0\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00cc\u01cf\u00ce]/g, alternative: "I" }
-	],
-	// Language: Estonian
-	// Sources: http://www.omniglot.com/writing/estonian.htm https://en.wikipedia.org/wiki/Estonian_orthography https://en.wikipedia.org/wiki/%C5%BD https://en.wikipedia.org/wiki/%C5%A0
-	et: [
-		{ letter: /[\u0161]/g, alternative: "sh" },
-		{ letter: /[\u0160]/g, alternative: "Sh" },
-		{ letter: /[\u017e]/g, alternative: "zh" },
-		{ letter: /[\u017d]/g, alternative: "Zh" },
-		{ letter: /[\u00f5\u00f6]/g, alternative: "o" },
-		{ letter: /[\u00d6\u00d5]/g, alternative: "O" },
-		{ letter: /[\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c4]/g, alternative: "A" },
-		{ letter: /[\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00dc]/g, alternative: "U" }
-		],
-	// Language: Basque
-	// Sources: http://www.omniglot.com/writing/basque.htm https://en.wikipedia.org/wiki/Basque_language#Writing_system https://en	.wikipedia.org/wiki/Basque_alphabet
-	eu: [
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00dc]/g, alternative: "U" }
-	],
-	// Language: Fulah
-	// Sources: http://www.omniglot.com/writing/fula.htm https://en.wikipedia.org/wiki/Fula_language#Writing_systems
-	fuc: [
-		{ letter: /[\u0253]/g, alternative: "b" },
-		{ letter: /[\u0181]/g, alternative: "B" },
-		{ letter: /[\u0257]/g, alternative: "d" },
-		{ letter: /[\u018a]/g, alternative: "D" },
-		{ letter: /[\u014b]/g, alternative: "ng" },
-		{ letter: /[\u014a]/g, alternative: "Ng" },
-		{ letter: /[\u0272\u00f1]/g, alternative: "ny" },
-		{ letter: /[\u019d\u00d1]/g, alternative: "Ny" },
-		{ letter: /[\u01b4]/g, alternative: "y" },
-		{ letter: /[\u01b3]/g, alternative: "Y" },
-		{ letter: /[\u0260]/g, alternative: "g" },
-		{ letter: /[\u0193]/g, alternative: "G" }
-	],
-	// Language: Fijian
-	// Source: http://www.omniglot.com/writing/fijian.htm
-	fj: [
-		{ letter: /[\u0101]/g, alternative: "a" },
-		{ letter: /[\u0100]/g, alternative: "A" },
-		{ letter: /[\u0113]/g, alternative: "e" },
-		{ letter: /[\u0112]/g, alternative: "E" },
-		{ letter: /[\u012b]/g, alternative: "i" },
-		{ letter: /[\u012a]/g, alternative: "I" },
-		{ letter: /[\u016b]/g, alternative: "u" },
-		{ letter: /[\u016a]/g, alternative: "U" },
-		{ letter: /[\u014d]/g, alternative: "o" },
-		{ letter: /[\u014c]/g, alternative: "O" }
-	],
-	// Language: Arpitan (Franco-Provençal language)
-	// Source: http://www.omniglot.com/writing/francoprovencal.htm
-	frp: [
-		{ letter: /[\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00ea\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00ca\u00c8\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00fb\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00db\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d4]/g, alternative: "O" }
-	],
-	// Language: Friulian
-	// Sources: https://en.wikipedia.org/wiki/Friulian_language https://en.wikipedia.org/wiki/Faggin-Nazzi_alphabet
-	// http://www.omniglot.com/writing/friulian.htm
-	fur: [
-		{ letter: /[\u00E7]/g, alternative: "c" },
-		{ letter: /[\u00C7]/g, alternative: "C" },
-		{ letter: /[\u00e0\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c8\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ec\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00cc\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00f2\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00f9\u00fb]/g, alternative: "u" },
-		{ letter: /[\u00d9\u00db]/g, alternative: "U" },
-		{ letter: /[\u010d]/g, alternative: "c" },
-		{ letter: /[\u010c]/g, alternative: "C" },
-		{ letter: /[\u011f]/g, alternative: "g" },
-		{ letter: /[\u011e]/g, alternative: "G" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" }
-	],
-	// Language: Frisian
-	// Sources: https://en.wikipedia.org/wiki/West_Frisian_alphabet http://www.omniglot.com/writing/frisian.htm
-	fy: [
-		{ letter: /[\u00e2\u0101\u00e4\u00e5]/g, alternative: "a" },
-		{ letter: /[\u00c2\u0100\u00c4\u00c5]/g, alternative: "A" },
-		{ letter: /[\u00ea\u00e9\u0113]/g, alternative: "e" },
-		{ letter: /[\u00ca\u00c9\u0112]/g, alternative: "E" },
-		{ letter: /[\u00f4\u00f6]/g, alternative: "o" },
-		{ letter: /[\u00d4\u00d6]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00fb\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00da\u00db\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u0111\u00f0]/g, alternative: "d" },
-		{ letter: /[\u0110\u00d0]/g, alternative: "D" }
-	],
-	// Language: Irish
-	// Source: https://en.wikipedia.org/wiki/Irish_orthography
-	ga: [
-		{ letter: /[\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00da]/g, alternative: "U" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" }
-	],
-	// Language: Scottish Gaelic
-	// Sources: https://en.wikipedia.org/wiki/Scottish_Gaelic_orthography http://www.omniglot.com/writing/gaelic.htm
-	gd: [
-		{ letter: /[\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00e8]/g, alternative: "e" },
-		{ letter: /[\u00c8]/g, alternative: "E" },
-		{ letter: /[\u00f2]/g, alternative: "o" },
-		{ letter: /[\u00d2]/g, alternative: "O" },
-		{ letter: /[\u00f9]/g, alternative: "u" },
-		{ letter: /[\u00d9]/g, alternative: "U" },
-		{ letter: /[\u00ec]/g, alternative: "i" },
-		{ letter: /[\u00cc]/g, alternative: "I" }
-	],
-	// Language: Galician
-	// Sources: https://en.wikipedia.org/wiki/Diacritic https://en.wikipedia.org/wiki/Galician_Alphabet
-	gl: [
-		{ letter: /[\u00e1\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00da\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" }
-	],
-	// Language: Guarani
-	// Sources: https://en.wikipedia.org/wiki/Guarani_alphabet http://www.omniglot.com/writing/guarani.htm
-	gn: [
-		{ letter: /[\u2019]/g, alternative: "" },
-		{ letter: /\u0067\u0303/g, alternative: "g" },
-		{ letter: /\u0047\u0303/g, alternative: "G" },
-		{ letter: /[\u00e3]/g, alternative: "a" },
-		{ letter: /[\u00c3]/g, alternative: "A" },
-		{ letter: /[\u1ebd]/g, alternative: "e" },
-		{ letter: /[\u1ebc]/g, alternative: "E" },
-		{ letter: /[\u0129]/g, alternative: "i" },
-		{ letter: /[\u0128]/g, alternative: "I" },
-		{ letter: /[\u00f5]/g, alternative: "o" },
-		{ letter: /[\u00d5]/g, alternative: "O" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" },
-		{ letter: /[\u0169]/g, alternative: "u" },
-		{ letter: /[\u0168]/g, alternative: "U" },
-		{ letter: /[\u1ef9]/g, alternative: "y" },
-		{ letter: /[\u1ef8]/g, alternative: "Y" }
-	],
-	// Language: Swiss German
-	// Source: http://www.omniglot.com/writing/swissgerman.htm
-	gsw: [
-		{ letter: /[\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c4]/g, alternative: "A" },
-		{ letter: /[\u00f6]/g, alternative: "o" },
-		{ letter: /[\u00d6]/g, alternative: "O" },
-		{ letter: /[\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00dc]/g, alternative: "U" }
-	],
-	// Language: Haitian Creole
-	// Sources: https://en.wikipedia.org/wiki/Haitian_Creole http://www.omniglot.com/writing/haitiancreole.htm
-	hat: [
-		{ letter: /[\u00e8]/g, alternative: "e" },
-		{ letter: /[\u00c8]/g, alternative: "E" },
-		{ letter: /[\u00f2]/g, alternative: "o" },
-		{ letter: /[\u00d2]/g, alternative: "O" }
-	],
-	// Language: Hawaiian
-	// Sources: https://en.wikipedia.org/wiki/Hawaiian_language#Macron http://www.omniglot.com/writing/hawaiian.htm
-	haw: [
-		{ letter: /[\u02bb\u0027\u2019]/g, alternative: "" },
-		{ letter: /[\u0101]/g, alternative: "a" },
-		{ letter: /[\u0113]/g, alternative: "e" },
-		{ letter: /[\u012b]/g, alternative: "i" },
-		{ letter: /[\u014d]/g, alternative: "o" },
-		{ letter: /[\u016b]/g, alternative: "u" },
-		{ letter: /[\u0100]/g, alternative: "A" },
-		{ letter: /[\u0112]/g, alternative: "E" },
-		{ letter: /[\u012a]/g, alternative: "I" },
-		{ letter: /[\u014c]/g, alternative: "O" },
-		{ letter: /[\u016a]/g, alternative: "U" }
-	],
-	// Language: Croatian
-	// Sources: https://en.wikipedia.org/wiki/Gaj%27s_Latin_alphabet https://en.wikipedia.org/wiki/D_with_stroke
-	// http://www.omniglot.com/writing/croatian.htm
-	hr: [
-		{ letter: /[\u010d\u0107]/g, alternative: "c" },
-		{ letter: /[\u010c\u0106]/g, alternative: "C" },
-		{ letter: /[\u0111]/g, alternative: "dj" },
-		{ letter: /[\u0110]/g, alternative: "Dj" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" },
-		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" },
-		{ letter: /[\u01c4]/g, alternative: "DZ" },
-		{ letter: /[\u01c5]/g, alternative: "Dz" },
-		{ letter: /[\u01c6]/g, alternative: "dz" }
-	],
-	// Language: Georgian
-	// The Georgian language does not use capital letters.
-	// Sources: https://en.wikipedia.org/wiki/Romanization_of_Georgian (national system)
-	ka: [
-		{ letter: /[\u10d0]/g, alternative: "a" },
-		{ letter: /[\u10d1]/g, alternative: "b" },
-		{ letter: /[\u10d2]/g, alternative: "g" },
-		{ letter: /[\u10d3]/g, alternative: "d" },
-		{ letter: /[\u10d4]/g, alternative: "e" },
-		{ letter: /[\u10d5]/g, alternative: "v" },
-		{ letter: /[\u10d6]/g, alternative: "z" },
-		{ letter: /[\u10d7]/g, alternative: "t" },
-		{ letter: /[\u10d8]/g, alternative: "i" },
-		{ letter: /[\u10d9]/g, alternative: "k" },
-		{ letter: /[\u10da]/g, alternative: "l" },
-		{ letter: /[\u10db]/g, alternative: "m" },
-		{ letter: /[\u10dc]/g, alternative: "n" },
-		{ letter: /[\u10dd]/g, alternative: "o" },
-		{ letter: /[\u10de]/g, alternative: "p" },
-		{ letter: /[\u10df]/g, alternative: "zh" },
-		{ letter: /[\u10e0]/g, alternative: "r" },
-		{ letter: /[\u10e1]/g, alternative: "s" },
-		{ letter: /[\u10e2]/g, alternative: "t" },
-		{ letter: /[\u10e3]/g, alternative: "u" },
-		{ letter: /[\u10e4]/g, alternative: "p" },
-		{ letter: /[\u10e5]/g, alternative: "k" },
-		{ letter: /[\u10e6]/g, alternative: "gh" },
-		{ letter: /[\u10e7]/g, alternative: "q" },
-		{ letter: /[\u10e8]/g, alternative: "sh" },
-		{ letter: /[\u10e9]/g, alternative: "ch" },
-		{ letter: /[\u10ea]/g, alternative: "ts" },
-		{ letter: /[\u10eb]/g, alternative: "dz" },
-		{ letter: /[\u10ec]/g, alternative: "ts" },
-		{ letter: /[\u10ed]/g, alternative: "ch" },
-		{ letter: /[\u10ee]/g, alternative: "kh" },
-		{ letter: /[\u10ef]/g, alternative: "j" },
-		{ letter: /[\u10f0]/g, alternative: "h" }
-	],
-	// Language: Greenlandic.
-	// Source: https://en.wikipedia.org/wiki/Greenlandic_language#Orthography
-	kal: [
-		{ letter: /[\u00E5]/g, alternative: "aa" },
-		{ letter: /[\u00C5]/g, alternative: "Aa" },
-		{ letter: /[\u00E6\u04D5]/g, alternative: "ae" },
-		{ letter: /[\u00C6\u04D4]/g, alternative: "Ae" },
-		{ letter: /[\u00C4]/g, alternative: "Ae" },
-		{ letter: /[\u00F8]/g, alternative: "oe" },
-		{ letter: /[\u00D8]/g, alternative: "Oe" }
-		],
-	// Language: Kinyarwanda.
-	// Source: https://en.wikipedia.org/wiki/Kinyarwanda
-	kin: [
-		{ letter: /[\u2019\u0027]/g, alternative: "" }
-	],
-	// Language: Luxembourgish.
-	// Source: http://www.omniglot.com/writing/luxembourgish.htm
-	lb: [
-		{ letter: /[\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c4]/g, alternative: "A" },
-		{ letter: /[\u00eb\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00cb\u00c9]/g, alternative: "E" }
-	],
-	// Language: Limburgish.
-	// Source: http://www.omniglot.com/writing/limburgish.htm
-	li: [
-		{ letter: /[\u00e1\u00e2\u00e0\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c2\u00c0\u00c4]/g, alternative: "A" },
-		{ letter: /[\u00eb\u00e8\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00cb\u00c8\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00f6\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d6\u00d3]/g, alternative: "O" }
-	],
-	// Language: Lingala.
-	// Sources: https://en.wikipedia.org/wiki/Lingala#Writing_system http://www.omniglot.com/writing/lingala.htm
-	lin: [
-		{ letter: /[\u00e1\u00e2\u01ce]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c2\u01cd]/g, alternative: "A" },
-		{ letter: /\u025b\u0301/g, alternative: "e" },
-		{ letter: /\u025b\u0302/g, alternative: "e" },
-		{ letter: /\u025b\u030c/g, alternative: "e" },
-		{ letter: /[\u00e9\u00ea\u011b\u025b]/g, alternative: "e" },
-		{ letter: /\u0190\u0301/g, alternative: "E" },
-		{ letter: /\u0190\u0302/g, alternative: "E" },
-		{ letter: /\u0190\u030c/g, alternative: "E" },
-		{ letter: /[\u00c9\u00ca\u011a\u0190]/g, alternative: "E" },
-		{ letter: /[\u00ed\u00ee\u01d0]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00ce\u01cf]/g, alternative: "I" },
-		{ letter: /\u0254\u0301/g, alternative: "o" },
-		{ letter: /\u0254\u0302/g, alternative: "o" },
-		{ letter: /\u0254\u030c/g, alternative: "o" },
-		{ letter: /[\u00f3\u00f4\u01d2\u0254]/g, alternative: "o" },
-		{ letter: /\u0186\u0301/g, alternative: "O" },
-		{ letter: /\u0186\u0302/g, alternative: "O" },
-		{ letter: /\u0186\u030c/g, alternative: "O" },
-		{ letter: /[\u00d3\u00d4\u01d1\u0186]/g, alternative: "O" },
-		{ letter: /[\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00da]/g, alternative: "U" }
-	],
-	// Language: Lithuanian.
-	// Sources: https://en.wikipedia.org/wiki/Lithuanian_orthography http://www.omniglot.com/writing/lithuanian.htm
-	lt: [
-		{ letter: /[\u0105]/g, alternative: "a" },
-		{ letter: /[\u0104]/g, alternative: "A" },
-		{ letter: /[\u010d]/g, alternative: "c" },
-		{ letter: /[\u010c]/g, alternative: "C" },
-		{ letter: /[\u0119\u0117]/g, alternative: "e" },
-		{ letter: /[\u0118\u0116]/g, alternative: "E" },
-		{ letter: /[\u012f]/g, alternative: "i" },
-		{ letter: /[\u012e]/g, alternative: "I" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" },
-		{ letter: /[\u0173\u016b]/g, alternative: "u" },
-		{ letter: /[\u0172\u016a]/g, alternative: "U" },
-		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" }
-	],
-	// Language: Malagasy.
-	// Source: http://www.omniglot.com/writing/malagasy.htm
-	mg: [
-		{ letter: /[\u00f4]/g, alternative: "ao" },
-		{ letter: /[\u00d4]/g, alternative: "Ao" }
-	],
-	// Language: Macedonian.
-	// Source: http://www.omniglot.com/writing/macedonian.htm
-	mk: [
-		{ letter: /[\u0430]/g, alternative: "a" },
-		{ letter: /[\u0410]/g, alternative: "A" },
-		{ letter: /[\u0431]/g, alternative: "b" },
-		{ letter: /[\u0411]/g, alternative: "B" },
-		{ letter: /[\u0432]/g, alternative: "v" },
-		{ letter: /[\u0412]/g, alternative: "V" },
-		{ letter: /[\u0433]/g, alternative: "g" },
-		{ letter: /[\u0413]/g, alternative: "G" },
-		{ letter: /[\u0434]/g, alternative: "d" },
-		{ letter: /[\u0414]/g, alternative: "D" },
-		{ letter: /[\u0453]/g, alternative: "gj" },
-		{ letter: /[\u0403]/g, alternative: "Gj" },
-		{ letter: /[\u0435]/g, alternative: "e" },
-		{ letter: /[\u0415]/g, alternative: "E" },
-		{ letter: /[\u0436]/g, alternative: "zh" },
-		{ letter: /[\u0416]/g, alternative: "Zh" },
-		{ letter: /[\u0437]/g, alternative: "z" },
-		{ letter: /[\u0417]/g, alternative: "Z" },
-		{ letter: /[\u0455]/g, alternative: "dz" },
-		{ letter: /[\u0405]/g, alternative: "Dz" },
-		{ letter: /[\u0438]/g, alternative: "i" },
-		{ letter: /[\u0418]/g, alternative: "I" },
-		{ letter: /[\u0458]/g, alternative: "j" },
-		{ letter: /[\u0408]/g, alternative: "J" },
-		{ letter: /[\u043A]/g, alternative: "k" },
-		{ letter: /[\u041A]/g, alternative: "K" },
-		{ letter: /[\u043B]/g, alternative: "l" },
-		{ letter: /[\u041B]/g, alternative: "L" },
-		{ letter: /[\u0459]/g, alternative: "lj" },
-		{ letter: /[\u0409]/g, alternative: "Lj" },
-		{ letter: /[\u043C]/g, alternative: "m" },
-		{ letter: /[\u041C]/g, alternative: "M" },
-		{ letter: /[\u043D]/g, alternative: "n" },
-		{ letter: /[\u041D]/g, alternative: "N" },
-		{ letter: /[\u045A]/g, alternative: "nj" },
-		{ letter: /[\u040A]/g, alternative: "Nj" },
-		{ letter: /[\u043E]/g, alternative: "o" },
-		{ letter: /[\u041E]/g, alternative: "O" },
-		{ letter: /[\u0440]/g, alternative: "r" },
-		{ letter: /[\u0420]/g, alternative: "R" },
-		{ letter: /[\u043F]/g, alternative: "p" },
-		{ letter: /[\u041F]/g, alternative: "P" },
-		{ letter: /[\u0441]/g, alternative: "s" },
-		{ letter: /[\u0421]/g, alternative: "S" },
-		{ letter: /[\u0442]/g, alternative: "t" },
-		{ letter: /[\u0422]/g, alternative: "T" },
-		{ letter: /[\u045C]/g, alternative: "kj" },
-		{ letter: /[\u040C]/g, alternative: "Kj" },
-		{ letter: /[\u0443]/g, alternative: "u" },
-		{ letter: /[\u0423]/g, alternative: "U" },
-		{ letter: /[\u0444]/g, alternative: "f" },
-		{ letter: /[\u0424]/g, alternative: "F" },
-		{ letter: /[\u0445]/g, alternative: "h" },
-		{ letter: /[\u0425]/g, alternative: "H" },
-		{ letter: /[\u0446]/g, alternative: "c" },
-		{ letter: /[\u0426]/g, alternative: "C" },
-		{ letter: /[\u0447]/g, alternative: "ch" },
-		{ letter: /[\u0427]/g, alternative: "Ch" },
-		{ letter: /[\u045F]/g, alternative: "dj" },
-		{ letter: /[\u040F]/g, alternative: "Dj" },
-		{ letter: /[\u0448]/g, alternative: "sh" },
-		{ letter: /[\u0428]/g, alternative: "Sh" }
-	],
-	// Language: Maori.
-	// Source: http://www.omniglot.com/writing/maori.htm
-	mri: [
-		{ letter: /[\u0101]/g, alternative: "aa" },
-		{ letter: /[\u0100]/g, alternative: "Aa" },
-		{ letter: /[\u0113]/g, alternative: "ee" },
-		{ letter: /[\u0112]/g, alternative: "Ee" },
-		{ letter: /[\u012b]/g, alternative: "ii" },
-		{ letter: /[\u012a]/g, alternative: "Ii" },
-		{ letter: /[\u014d]/g, alternative: "oo" },
-		{ letter: /[\u014c]/g, alternative: "Oo" },
-		{ letter: /[\u016b]/g, alternative: "uu" },
-		{ letter: /[\u016a]/g, alternative: "Uu" }
-	],
-	// Language: Mirandese.
-	// Source: http://www.omniglot.com/writing/mirandese.htm
-	mwl: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u00f3\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fa\u0169]/g, alternative: "u" },
-		{ letter: /[\u00da\u0168]/g, alternative: "U" }
-	],
-	// Language: Occitan.
-	// Sources: http://www.omniglot.com/writing/oromo.htm https://en.wikipedia.org/wiki/Occitan_alphabet
-	oci: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e0\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00da\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00b7]/g, alternative: "" }
-	],
-	// Language: Oromo.
-	// Source: http://www.omniglot.com/writing/occitan.htm
-	orm: [
-		{ letter: /[\u0027]/g, alternative: "" }
-	],
-	// Language: Portuguese.
-	// Source: https://en.wikipedia.org/wiki/Portuguese_orthography http://www.omniglot.com/writing/portuguese.htm
-	pt: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e1\u00e2\u00e3\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c2\u00c3\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u00f3\u00f4\u00f5]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d4\u00d5]/g, alternative: "O" },
-		{ letter: /[\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00da]/g, alternative: "U" }
-	],
-	// Language: Romansh Vallader.
-	// Source: https://en.wikipedia.org/wiki/Romansh_language#Orthography http://www.omniglot.com/writing/romansh.htm
-	roh: [
-		{ letter: /[\u00e9\u00e8\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00c8\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f6]/g, alternative: "oe" },
-		{ letter: /[\u00d6]/g, alternative: "Oe" },
-		{ letter: /[\u00fc]/g, alternative: "ue" },
-		{ letter: /[\u00dc]/g, alternative: "Ue" },
-		{ letter: /[\u00e4]/g, alternative: "ae" },
-		{ letter: /[\u00c4]/g, alternative: "Ae" }
-	],
-	// Language: Aromanian.
-	// Sources: https://en.wikipedia.org/wiki/Aromanian_alphabet http://www.omniglot.com/writing/aromanian.htm
-	rup: [
-		{ letter: /[\u00e3]/g, alternative: "a" },
-		{ letter: /[\u00c3]/g, alternative: "A" }
-	],
-	// Language: Romanian.
-	// Sources: http://forum.wordreference.com/threads/romanian-transliteration.3193544/#post-16161251
-	// https://en.wikipedia.org/wiki/Romanian_alphabet http://www.omniglot.com/writing/romanian.htm
-	ro: [
-		{ letter: /[\u0103\u00e2]/g, alternative: "a" },
-		{ letter: /[\u0102\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u0219\u015f]/g, alternative: "s" },
-		{ letter: /[\u0218\u015e]/g, alternative: "S" },
-		{ letter: /[\u021b\u0163]/g, alternative: "t" },
-		{ letter: /[\u021a\u0162]/g, alternative: "T" }
-	],
-	// Language: Klingon.
-	// Sources: http://www.omniglot.com/conscripts/klingon.htm https://en.wikipedia.org/wiki/Klingon_language#Writing_systems
-	// This translation module only works for Klingon written in Latin characters. KLI PlqaD script is not supported yet.
-	tlh: [
-		{ letter: /[\u2019\u0027]/g, alternative: "" }
-	],
-	// Language: Slovak.
-	// Sources: https://en.wikipedia.org/wiki/Dz_(digraph) https://en.wikipedia.org/wiki/Slovak_orthography
-	// http://www.omniglot.com/writing/slovak.htm
-	sk: [
-		{ letter: /[\u01c4]/g, alternative: "DZ" },
-		{ letter: /[\u01c5]/g, alternative: "Dz" },
-		{ letter: /[\u01c6]/g, alternative: "dz" },
-		{ letter: /[\u00e1\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c4]/g, alternative: "A" },
-		{ letter: /[\u010d]/g, alternative: "c" },
-		{ letter: /[\u010c]/g, alternative: "C" },
-		{ letter: /[\u010f]/g, alternative: "d" },
-		{ letter: /[\u010e]/g, alternative: "D" },
-		{ letter: /[\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u013e\u013a]/g, alternative: "l" },
-		{ letter: /[\u013d\u0139]/g, alternative: "L" },
-		{ letter: /[\u0148]/g, alternative: "n" },
-		{ letter: /[\u0147]/g, alternative: "N" },
-		{ letter: /[\u00f3\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d4]/g, alternative: "O" },
-		{ letter: /[\u0155]/g, alternative: "r" },
-		{ letter: /[\u0154]/g, alternative: "R" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" },
-		{ letter: /[\u0165]/g, alternative: "t" },
-		{ letter: /[\u0164]/g, alternative: "T" },
-		{ letter: /[\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00da]/g, alternative: "U" },
-		{ letter: /[\u00fd]/g, alternative: "y" },
-		{ letter: /[\u00dd]/g, alternative: "Y" },
-		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" }
-	],
-	// Language: Slovenian.
-	// Sources: https://en.wikipedia.org/wiki/Slovene_alphabet http://www.omniglot.com/writing/slovene.htm
-	sl: [
-		{ letter: /[\u010d\u0107]/g, alternative: "c" },
-		{ letter: /[\u010c\u0106]/g, alternative: "C" },
-		{ letter: /[\u0111]/g, alternative: "d" },
-		{ letter: /[\u0110]/g, alternative: "D" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" },
-		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" },
-		{ letter: /[\u00e0\u00e1\u0203\u0201]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c1\u0202\u0200]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00e9\u0207\u0205]/g, alternative: "e" },
-		{ letter: /\u01dd\u0300/g, alternative: "e" },
-		{ letter: /\u01dd\u030f/g, alternative: "e" },
-		{ letter: /\u1eb9\u0301/g, alternative: "e" },
-		{ letter: /\u1eb9\u0311/g, alternative: "e" },
-		{ letter: /[\u00c8\u00c9\u0206\u0204]/g, alternative: "E" },
-		{ letter: /\u018e\u030f/g, alternative: "E" },
-		{ letter: /\u018e\u0300/g, alternative: "E" },
-		{ letter: /\u1eb8\u0311/g, alternative: "E" },
-		{ letter: /\u1eb8\u0301/g, alternative: "E" },
-		{ letter: /[\u00ec\u00ed\u020b\u0209]/g, alternative: "i" },
-		{ letter: /[\u00cc\u00cd\u020a\u0208]/g, alternative: "I" },
-		{ letter: /[\u00f2\u00f3\u020f\u020d]/g, alternative: "o" },
-		{ letter: /\u1ecd\u0311/g, alternative: "o" },
-		{ letter: /\u1ecd\u0301/g, alternative: "o" },
-		{ letter: /\u1ecc\u0311/g, alternative: "O" },
-		{ letter: /\u1ecc\u0301/g, alternative: "O" },
-		{ letter: /[\u00d2\u00d3\u020e\u020c]/g, alternative: "O" },
-		{ letter: /[\u00f9\u00fa\u0217\u0215]/g, alternative: "u" },
-		{ letter: /[\u00d9\u00da\u0216\u0214]/g, alternative: "U" },
-		{ letter: /[\u0155\u0213]/g, alternative: "r" },
-		{ letter: /[\u0154\u0212]/g, alternative: "R" }
-	],
-	// Language: Albanian.
-	// Sources: https://en.wikipedia.org/wiki/Albanian_alphabet http://www.omniglot.com/writing/albanian.htm
-	sq: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00eb]/g, alternative: "e" },
-		{ letter: /[\u00cb]/g, alternative: "E" }
-	],
-	// Language: Hungarian.
-	// Sources: http://forum.wordreference.com/threads/hungarian-transliteration.3193022/#post-16166901
-	// http://www.omniglot.com/writing/hungarian.htm
-	hu: [
-		{ letter: /[\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u00f3\u00f6\u0151]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d6\u0150]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00fc\u0171]/g, alternative: "u" },
-		{ letter: /[\u00da\u00dc\u0170]/g, alternative: "U" }
-	],
-	// Language: Sardinian.
-	// Sources: http://www.omniglot.com/writing/sardinian.htm https://en.wikipedia.org/wiki/Sardinian_language
-	srd: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e0\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00f9]/g, alternative: "u" },
-		{ letter: /[\u00da\u00d9]/g, alternative: "U" }
-	],
-	// Language: Silesian.
-	// Source: https://en.wikipedia.org/wiki/Silesian_language#Writing_system
-	szl: [
-		{ letter: /[\u0107]/g, alternative: "c" },
-		{ letter: /[\u0106]/g, alternative: "C" },
-		{ letter: /[\u00e3]/g, alternative: "a" },
-		{ letter: /[\u00c3]/g, alternative: "A" },
-		{ letter: /[\u0142]/g, alternative: "u" },
-		{ letter: /[\u0141]/g, alternative: "U" },
-		{ letter: /[\u006e]/g, alternative: "n" },
-		{ letter: /[\u004e]/g, alternative: "N" },
-		{ letter: /[\u014f\u014d\u00f4\u00f5]/g, alternative: "o" },
-		{ letter: /[\u014e\u014c\u00d4\u00d5]/g, alternative: "O" },
-		{ letter: /[\u015b]/g, alternative: "s" },
-		{ letter: /[\u015a]/g, alternative: "S" },
-		{ letter: /[\u017a\u017c\u017e]/g, alternative: "z" },
-		{ letter: /[\u0179\u017b\u017d]/g, alternative: "Z" },
-		{ letter: /[\u016f]/g, alternative: "u" },
-		{ letter: /[\u016e]/g, alternative: "U" },
-		{ letter: /[\u010d]/g, alternative: "cz" },
-		{ letter: /[\u010c]/g, alternative: "Cz" },
-		{ letter: /[\u0159]/g, alternative: "rz" },
-		{ letter: /[\u0158]/g, alternative: "Rz" },
-		{ letter: /[\u0161]/g, alternative: "sz" },
-		{ letter: /[\u0160]/g, alternative: "Sz" }
-	],
-	// Language: Tahitian.
-	// Sources: https://en.wikipedia.org/wiki/Tahitian_language#Phonology http://www.omniglot.com/writing/tahitian.htm
-	tah: [
-		{ letter: /[\u0101\u00e2\u00e0]/g, alternative: "a" },
-		{ letter: /[\u0100\u00c2\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00ef\u00ee\u00ec]/g, alternative: "i" },
-		{ letter: /[\u00cf\u00ce\u00cc]/g, alternative: "I" },
-		{ letter: /[\u0113\u00ea\u00e9]/g, alternative: "e" },
-		{ letter: /[\u0112\u00ca\u00c9]/g, alternative: "E" },
-		{ letter: /[\u016b\u00fb\u00fa]/g, alternative: "u" },
-		{ letter: /[\u016a\u00db\u00da]/g, alternative: "U" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00f2\u00f4\u014d]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d4\u014c]/g, alternative: "O" },
-		{ letter: /[\u2019\u0027\u2018]/g, alternative: "" }
-	],
-	// Language: Venetian.
-	// Sources: http://www.omniglot.com/writing/venetian.htm https://en.wikipedia.org/wiki/Venetian_language#Spelling_systems
-	// http://www.venipedia.org/wiki/index.php?title=Venetian_Language
-	vec: [
-		{ letter: /\u0073\u002d\u0063/g, alternative: "sc" },
-		{ letter: /\u0053\u002d\u0043/g, alternative: "SC" },
-		{ letter: /\u0073\u0027\u0063/g, alternative: "sc" },
-		{ letter: /\u0053\u0027\u0043/g, alternative: "SC" },
-		{ letter: /\u0073\u2019\u0063/g, alternative: "sc" },
-		{ letter: /\u0053\u2019\u0043/g, alternative: "SC" },
-		{ letter: /\u0073\u2018\u0063/g, alternative: "sc" },
-		{ letter: /\u0053\u2018\u0043/g, alternative: "SC" },
-		{ letter: /\u0053\u002d\u0063/g, alternative: "Sc" },
-		{ letter: /\u0053\u0027\u0063/g, alternative: "Sc" },
-		{ letter: /\u0053\u2019\u0063/g, alternative: "Sc" },
-		{ letter: /\u0053\u2018\u0063/g, alternative: "Sc" },
-		{ letter: /\u0063\u2019/g, alternative: "c" },
-		{ letter: /\u0043\u2019/g, alternative: "C" },
-		{ letter: /\u0063\u2018/g, alternative: "c" },
-		{ letter: /\u0043\u2018/g, alternative: "C" },
-		{ letter: /\u0063\u0027/g, alternative: "c" },
-		{ letter: /\u0043\u0027/g, alternative: "C" },
-		{ letter: /[\u00e0\u00e1\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c1\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00f9\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00d9\u00da]/g, alternative: "U" },
-		{ letter: /[\u00e7\u010d\u010b]/g, alternative: "c" },
-		{ letter: /[\u00c7\u010c\u010a]/g, alternative: "C" },
-		{ letter: /[\u0142]/g, alternative: "l" },
-		{ letter: /[\u00a3\u0141]/g, alternative: "L" },
-		{ letter: /\ud835\udeff/g, alternative: "dh" },
-		{ letter: /[\u0111\u03b4]/g, alternative: "dh" },
-		{ letter: /[\u0110\u0394]/g, alternative: "Dh" }
-	],
-	// Language: Walloon.
-	// Sources: http://www.omniglot.com/writing/walloon.htm https://en.wikipedia.org/wiki/Walloon_alphabet
-	wa: [
-		{ letter: /[\u00e2\u00e5]/g, alternative: "a" },
-		{ letter: /[\u00c2\u00c5]/g, alternative: "A" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /\u0065\u030a/g, alternative: "e" },
-		{ letter: /\u0045\u030a/g, alternative: "E" },
-		{ letter: /[\u00eb\u00ea\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00c8\u00ca\u00cb]/g, alternative: "E" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00f4\u00f6]/g, alternative: "o" },
-		{ letter: /[\u00d6\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fb]/g, alternative: "u" },
-		{ letter: /[\u00db]/g, alternative: "U" }
-	],
-	// Language: Yoruba.
-	// Sources: http://www.omniglot.com/writing/yoruba.htm https://en.wikipedia.org/wiki/Yoruba_language
-	yor: [
-		{ letter: /[\u00e1\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00ec\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cc\u00cd]/g, alternative: "I" },
-		{ letter: /\u1ecd\u0301/g, alternative: "o" },
-		{ letter: /\u1ecc\u0301/g, alternative: "O" },
-		{ letter: /\u1ecd\u0300/g, alternative: "o" },
-		{ letter: /\u1ecc\u0300/g, alternative: "O" },
-		{ letter: /[\u00f3\u00f2\u1ecd]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d2\u1ecc]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00f9]/g, alternative: "u" },
-		{ letter: /[\u00da\u00d9]/g, alternative: "U" },
-		{ letter: /\u1eb9\u0301/g, alternative: "e" },
-		{ letter: /\u1eb8\u0301/g, alternative: "E" },
-		{ letter: /\u1eb9\u0300/g, alternative: "e" },
-		{ letter: /\u1eb8\u0300/g, alternative: "E" },
-		{ letter: /[\u00e9\u00e8\u1eb9]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00c8\u1eb8]/g, alternative: "E" },
-		{ letter: /[\u1e63]/g, alternative: "s" },
-		{ letter: /[\u1e62]/g, alternative: "S" }
 	]
 };
 
@@ -12183,7 +13674,6 @@ module.exports = function( locale ) {
 			return transliterations.eo;
 		case "af":
 			return transliterations.af;
-		case "bal":
 		case "ca":
 			return transliterations.ca;
 		case "ast":
@@ -12204,108 +13694,12 @@ module.exports = function( locale ) {
 			return transliterations.bm;
 		case "uk":
 			return transliterations.uk;
-		case "br":
-			return transliterations.br;
-		case "ch":
-			return transliterations.ch;
-		case "csb":
-			return transliterations.csb;
-		case "cy":
-			return transliterations.cy;
-		case "ee":
-			return transliterations.ee;
-		case "et":
-			return transliterations.et;
-		case "eu":
-			return transliterations.eu;
-		case "fuc":
-			return transliterations.fuc;
-		case "fj":
-			return transliterations.fj;
-		case "frp":
-			return transliterations.frp;
-		case "fur":
-			return transliterations.fur;
-		case "fy":
-			return transliterations.fy;
-		case "ga":
-			return transliterations.ga;
-		case "gd":
-			return transliterations.gd;
-		case "gl":
-			return transliterations.gl;
-		case "gn":
-			return transliterations.gn;
-		case "gsw":
-			return transliterations.gsw;
-		case "hat":
-			return transliterations.hat;
-		case "haw":
-			return transliterations.haw;
-		case "hr":
-			return transliterations.hr;
-		case "ka":
-			return transliterations.ka;
-		case "kal":
-			return transliterations.kal;
-		case "kin":
-			return transliterations.kin;
-		case "lb":
-			return transliterations.lb;
-		case "li":
-			return transliterations.li;
-		case "lin":
-			return transliterations.lin;
-		case "lt":
-			return transliterations.lt;
-		case "mg":
-			return transliterations.mg;
-		case "mk":
-			return transliterations.mk;
-		case "mri":
-			return transliterations.mri;
-		case "mwl":
-			return transliterations.mwl;
-		case "oci":
-			return transliterations.oci;
-		case "orm":
-			return transliterations.orm;
-		case "pt":
-			return transliterations.pt;
-		case "roh":
-			return transliterations.roh;
-		case "rup":
-			return transliterations.rup;
-		case "ro":
-			return transliterations.ro;
-		case "tlh":
-			return transliterations.tlh;
-		case "sk":
-			return transliterations.sk;
-		case "sl":
-			return transliterations.sl;
-		case "sq":
-			return transliterations.sq;
-		case "hu":
-			return transliterations.hu;
-		case "srd":
-			return transliterations.srd;
-		case "szl":
-			return transliterations.szl;
-		case "tah":
-			return transliterations.tah;
-		case "vec":
-			return transliterations.vec;
-		case "wa":
-			return transliterations.wa;
-		case "yor":
-			return transliterations.yor;
 		default:
 			return [];
 	}
 };
 
-},{"lodash/isUndefined":502}],216:[function(require,module,exports){
+},{"lodash/isUndefined":195}],258:[function(require,module,exports){
 /** @module config/twoPartTransitionWords */
 
 /**
@@ -12318,7 +13712,7 @@ module.exports = function() {
 };
 
 
-},{}],217:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 var Assessor = require( "./assessor.js" );
 
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
@@ -12327,15 +13721,15 @@ var sentenceLengthInText = require( "./assessments/sentenceLengthInTextAssessmen
 var subheadingDistributionTooLong = require( "./assessments/subheadingDistributionTooLongAssessment.js" );
 var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
-var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
-var textPresence = require( "./assessments/textPresenceAssessment.js" );
-var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
 // var subHeadingLength = require( "./assessments/getSubheadingLengthAssessment.js" );
 // var getSubheadingPresence = require( "./assessments/subheadingPresenceAssessment.js" );
+// var sentenceVariation = require( "./assessments/sentenceVariationAssessment.js" );
+// var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 // var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 // var subheadingDistributionTooShort = require( "./assessments/subheadingDistributionTooShortAssessment.js" );
 // var paragraphTooShort = require( "./assessments/paragraphTooShortAssessment.js" );
 // var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
+var textPresence = require( "./assessments/textPresenceAssessment.js" );
 
 var scoreToRating = require( "./interpreters/scoreToRating" );
 
@@ -12362,9 +13756,9 @@ var ContentAssessor = function ( i18n, options ) {
 		sentenceLengthInText,
 		transitionWords,
 		passiveVoice,
-		textPresence,
-		sentenceVariation,
-		sentenceBeginnings
+		textPresence
+		// sentenceVariation,
+		// sentenceBeginnings,
 		// wordComplexity,
 		// subheadingDistributionTooShort,
 		// paragraphTooShort
@@ -12492,7 +13886,7 @@ ContentAssessor.prototype.calculateOverallScore = function () {
 module.exports = ContentAssessor;
 
 
-},{"./assessments/fleschReadingEaseAssessment.js":181,"./assessments/paragraphTooLongAssessment.js":188,"./assessments/passiveVoiceAssessment.js":189,"./assessments/sentenceBeginningsAssessment.js":190,"./assessments/sentenceLengthInTextAssessment.js":191,"./assessments/sentenceVariationAssessment.js":192,"./assessments/subheadingDistributionTooLongAssessment.js":193,"./assessments/textPresenceAssessment.js":199,"./assessments/transitionWordsAssessment.js":202,"./assessor.js":206,"./interpreters/scoreToRating":226,"lodash/map":505,"lodash/sum":519,"util":177}],218:[function(require,module,exports){
+},{"./assessments/fleschReadingEaseAssessment.js":225,"./assessments/paragraphTooLongAssessment.js":232,"./assessments/passiveVoiceAssessment.js":233,"./assessments/sentenceLengthInTextAssessment.js":234,"./assessments/subheadingDistributionTooLongAssessment.js":235,"./assessments/textPresenceAssessment.js":241,"./assessments/transitionWordsAssessment.js":244,"./assessor.js":248,"./interpreters/scoreToRating":268,"lodash/map":198,"lodash/sum":210,"util":221}],260:[function(require,module,exports){
 /**
  * Throws an invalid type error
  * @param {string} message The message to show when the error is thrown
@@ -12506,7 +13900,7 @@ module.exports = function InvalidTypeError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":177}],219:[function(require,module,exports){
+},{"util":221}],261:[function(require,module,exports){
 module.exports = function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
@@ -12515,7 +13909,7 @@ module.exports = function MissingArgumentError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":177}],220:[function(require,module,exports){
+},{"util":221}],262:[function(require,module,exports){
 var forEach = require( "lodash/forEach" );
 
 /**
@@ -12582,7 +13976,7 @@ module.exports = {
 	removeClasses: removeClasses
 };
 
-},{"lodash/forEach":479}],221:[function(require,module,exports){
+},{"lodash/forEach":171}],263:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 
 /**
@@ -12607,7 +14001,7 @@ module.exports = {
 	showTrace: showTrace
 };
 
-},{"lodash/isUndefined":502}],222:[function(require,module,exports){
+},{"lodash/isUndefined":195}],264:[function(require,module,exports){
 /**
  * Returns rounded number to fix floating point bug http://floating-point-gui.de
  * @param {number} number The unrounded number
@@ -12622,7 +14016,7 @@ module.exports = function ( number ) {
 	return Math.round( number * 10 ) / 10;
 };
 
-},{}],223:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 var blockElements = [ "address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption",
 	"figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav",
 	"noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video" ];
@@ -12790,7 +14184,7 @@ module.exports = {
 	getBlocks: memoize( getBlocks )
 };
 
-},{"lodash/forEach":479,"lodash/memoize":506,"tokenizer2/core":528}],224:[function(require,module,exports){
+},{"lodash/forEach":171,"lodash/memoize":199,"tokenizer2/core":219}],266:[function(require,module,exports){
 /**
  * Checks if `n` is between `start` and up to, but not including, `start`.
  *
@@ -12833,7 +14227,7 @@ module.exports = {
 	inRangeEndInclusive: inRangeEndInclusive
 };
 
-},{}],225:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 /**
  * Returns true or false, based on the length of the value text and the recommended value.
  *
@@ -12845,7 +14239,7 @@ module.exports = function( recommendedValue, valueLength ) {
 	return valueLength > recommendedValue;
 };
 
-},{}],226:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 /**
  * Interpreters a score and gives it a particular rating.
  *
@@ -12875,21 +14269,21 @@ var ScoreToRating = function( score ) {
 
 module.exports = ScoreToRating;
 
-},{}],227:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
  */
 module.exports = function() {
-	return [ "a", "an", "the", "this", "that", "these", "those", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten" ];
+	return [ "A", "An", "The", "This", "That", "These", "Those", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ];
 };
 
-},{}],228:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 module.exports = function() {
 	return [ " ", "\\n", "\\r", "\\t", ".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">" ];
 };
 
-},{}],229:[function(require,module,exports){
+},{}],271:[function(require,module,exports){
 /**
  * Marks a text with HTML tags
  *
@@ -12900,7 +14294,7 @@ module.exports = function( text ) {
 	return "<yoastmark class='yoast-text-mark'>" + text + "</yoastmark>";
 };
 
-},{}],230:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 var uniqBy = require( "lodash/uniqBy" );
 
 /**
@@ -12917,7 +14311,7 @@ function removeDuplicateMarks( marks ) {
 
 module.exports = removeDuplicateMarks;
 
-},{"lodash/uniqBy":526}],231:[function(require,module,exports){
+},{"lodash/uniqBy":217}],273:[function(require,module,exports){
 /**
  * Removes all marks from a text
  *
@@ -12930,7 +14324,7 @@ module.exports = function( text ) {
 		.replace( new RegExp( "</yoastmark>", "g" ), "" );
 };
 
-},{}],232:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 /* global console: true */
 /* global setTimeout: true */
 var isUndefined = require( "lodash/isUndefined" );
@@ -13316,7 +14710,7 @@ Pluggable.prototype._validateUniqueness = function( pluginName ) {
 
 module.exports = Pluggable;
 
-},{"./errors/invalidType":218,"lodash/forEach":479,"lodash/isObject":496,"lodash/isString":499,"lodash/isUndefined":502,"lodash/reduce":514}],233:[function(require,module,exports){
+},{"./errors/invalidType":260,"lodash/forEach":171,"lodash/isObject":189,"lodash/isString":192,"lodash/isUndefined":195,"lodash/reduce":206}],275:[function(require,module,exports){
 /* jshint browser: true */
 
 var forEach = require( "lodash/forEach" );
@@ -13348,8 +14742,6 @@ var AssessorPresenter = function( args ) {
 	this.output = args.targets.output;
 	this.overall = args.targets.overall || "overallScore";
 	this.presenterConfig = createConfig( args.i18n );
-
-	this._disableMarkerButtons = false;
 
 	this._activeMarker = false;
 };
@@ -13554,22 +14946,6 @@ AssessorPresenter.prototype.disableMarker = function() {
 };
 
 /**
- * Disables the marker buttons.
- */
-AssessorPresenter.prototype.disableMarkerButtons = function() {
-	this._disableMarkerButtons = true;
-	this.render();
-};
-
-/**
- * Enables the marker buttons.
- */
-AssessorPresenter.prototype.enableMarkerButtons = function() {
-	this._disableMarkerButtons = false;
-	this.render();
-};
-
-/**
  * Adds an event listener for the marker button
  *
  * @param {string} identifier The identifier for the assessment the marker belongs to.
@@ -13623,12 +14999,10 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 	outputTarget.innerHTML = template( {
 		scores: scores,
 		i18n: {
-			disabledMarkText: this.i18n.dgettext( "js-text-analysis", "Marks are disabled in current view" ),
 			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
 			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" )
 		},
-		activeMarker: this._activeMarker,
-		markerButtonsDisabled: this._disableMarkerButtons
+		activeMarker: this._activeMarker
 	} );
 
 	this.bindMarkButtons( scores );
@@ -13650,7 +15024,7 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 
 module.exports = AssessorPresenter;
 
-},{"../config/presenter.js":210,"../interpreters/scoreToRating.js":226,"../templates.js":310,"lodash/difference":472,"lodash/forEach":479,"lodash/isNumber":495,"lodash/isObject":496,"lodash/isUndefined":502}],234:[function(require,module,exports){
+},{"../config/presenter.js":252,"../interpreters/scoreToRating.js":268,"../templates.js":352,"lodash/difference":165,"lodash/forEach":171,"lodash/isNumber":188,"lodash/isObject":189,"lodash/isUndefined":195}],276:[function(require,module,exports){
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -13802,7 +15176,7 @@ Researcher.prototype.getResearch = function( name ) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":218,"./errors/missingArgument":219,"./researches/calculateFleschReading.js":235,"./researches/countLinks.js":236,"./researches/countSentencesFromDescription.js":237,"./researches/countSentencesFromText.js":238,"./researches/findKeywordInFirstParagraph.js":239,"./researches/findKeywordInPageTitle.js":240,"./researches/findTransitionWords.js":241,"./researches/getKeywordDensity.js":242,"./researches/getLinkStatistics.js":243,"./researches/getParagraphLength.js":245,"./researches/getPassiveVoice.js":246,"./researches/getSentenceBeginnings.js":247,"./researches/getSubheadingLength.js":248,"./researches/getSubheadingPresence.js":249,"./researches/getSubheadingTextLengths.js":250,"./researches/getWordComplexity.js":251,"./researches/imageAltTags.js":252,"./researches/imageCountInText.js":253,"./researches/keyphraseLength":254,"./researches/keywordCountInUrl":255,"./researches/matchKeywordInSubheadings.js":256,"./researches/metaDescriptionKeyword.js":257,"./researches/metaDescriptionLength.js":258,"./researches/pageTitleLength.js":259,"./researches/sentenceVariation.js":265,"./researches/stopWordsInKeyword":266,"./researches/stopWordsInUrl":268,"./researches/urlIsTooLong.js":269,"./researches/wordCountInText.js":270,"lodash/isEmpty":491,"lodash/isUndefined":502,"lodash/merge":507}],235:[function(require,module,exports){
+},{"./errors/invalidType":260,"./errors/missingArgument":261,"./researches/calculateFleschReading.js":277,"./researches/countLinks.js":278,"./researches/countSentencesFromDescription.js":279,"./researches/countSentencesFromText.js":280,"./researches/findKeywordInFirstParagraph.js":281,"./researches/findKeywordInPageTitle.js":282,"./researches/findTransitionWords.js":283,"./researches/getKeywordDensity.js":284,"./researches/getLinkStatistics.js":285,"./researches/getParagraphLength.js":287,"./researches/getPassiveVoice.js":288,"./researches/getSentenceBeginnings.js":289,"./researches/getSubheadingLength.js":290,"./researches/getSubheadingPresence.js":291,"./researches/getSubheadingTextLengths.js":292,"./researches/getWordComplexity.js":293,"./researches/imageAltTags.js":294,"./researches/imageCountInText.js":295,"./researches/keyphraseLength":296,"./researches/keywordCountInUrl":297,"./researches/matchKeywordInSubheadings.js":298,"./researches/metaDescriptionKeyword.js":299,"./researches/metaDescriptionLength.js":300,"./researches/pageTitleLength.js":301,"./researches/sentenceVariation.js":307,"./researches/stopWordsInKeyword":308,"./researches/stopWordsInUrl":310,"./researches/urlIsTooLong.js":311,"./researches/wordCountInText.js":312,"lodash/isEmpty":184,"lodash/isUndefined":195,"lodash/merge":200}],277:[function(require,module,exports){
 /** @module analyses/calculateFleschReading */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -13846,7 +15220,7 @@ module.exports = function( paper ) {
 	return formatNumber( score );
 };
 
-},{"../helpers/formatNumber.js":222,"../stringProcessing/cleanText.js":275,"../stringProcessing/countSentences.js":276,"../stringProcessing/countSyllables.js":277,"../stringProcessing/countWords.js":278,"../stringProcessing/stripHTMLTags.js":303,"../stringProcessing/stripNumbers.js":305}],236:[function(require,module,exports){
+},{"../helpers/formatNumber.js":264,"../stringProcessing/cleanText.js":317,"../stringProcessing/countSentences.js":318,"../stringProcessing/countSyllables.js":319,"../stringProcessing/countWords.js":320,"../stringProcessing/stripHTMLTags.js":345,"../stringProcessing/stripNumbers.js":347}],278:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks" );
@@ -13864,7 +15238,7 @@ module.exports = function( paper ) {
 	return anchors.length;
 };
 
-},{"./getLinks":244}],237:[function(require,module,exports){
+},{"./getLinks":286}],279:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
@@ -13878,7 +15252,7 @@ module.exports = function( paper ) {
 	return sentencesLength( sentences );
 };
 
-},{"../stringProcessing/getSentences":285,"./../stringProcessing/sentencesLength.js":301}],238:[function(require,module,exports){
+},{"../stringProcessing/getSentences":327,"./../stringProcessing/sentencesLength.js":343}],280:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
@@ -13892,7 +15266,7 @@ module.exports = function( paper ) {
 	return sentencesLength( sentences );
 };
 
-},{"../stringProcessing/getSentences":285,"./../stringProcessing/sentencesLength.js":301}],239:[function(require,module,exports){
+},{"../stringProcessing/getSentences":327,"./../stringProcessing/sentencesLength.js":343}],281:[function(require,module,exports){
 /** @module analyses/findKeywordInFirstParagraph */
 
 var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
@@ -13911,7 +15285,7 @@ module.exports = function( paper ) {
 	return wordMatch( paragraph[ 0 ], paper.getKeyword(), paper.getLocale() );
 };
 
-},{"../stringProcessing/matchParagraphs.js":290,"../stringProcessing/matchTextWithWord.js":293}],240:[function(require,module,exports){
+},{"../stringProcessing/matchParagraphs.js":332,"../stringProcessing/matchTextWithWord.js":335}],282:[function(require,module,exports){
 /** @module analyses/findKeywordInPageTitle */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -13935,7 +15309,7 @@ module.exports = function( paper ) {
 	return result;
 };
 
-},{"../stringProcessing/matchTextWithWord.js":293}],241:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":335}],283:[function(require,module,exports){
 var transitionWords = require( "../config/transitionWords.js" );
 var twoPartTransitionWords = require( "../config/twoPartTransitionWords.js" );
 var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
@@ -14031,7 +15405,7 @@ module.exports = function( paper ) {
 	};
 };
 
-},{"../config/transitionWords.js":214,"../config/twoPartTransitionWords.js":216,"../stringProcessing/createRegexFromDoubleArray.js":280,"../stringProcessing/getSentences.js":285,"../stringProcessing/matchWordInSentence.js":294,"../stringProcessing/quotes.js":295,"lodash/filter":474,"lodash/forEach":479}],242:[function(require,module,exports){
+},{"../config/transitionWords.js":256,"../config/twoPartTransitionWords.js":258,"../stringProcessing/createRegexFromDoubleArray.js":322,"../stringProcessing/getSentences.js":327,"../stringProcessing/matchWordInSentence.js":336,"../stringProcessing/quotes.js":337,"lodash/filter":167,"lodash/forEach":171}],284:[function(require,module,exports){
 /** @module analyses/getKeywordDensity */
 
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -14055,7 +15429,7 @@ module.exports = function( paper ) {
 	return ( keywordCount / wordCount ) * 100;
 };
 
-},{"../stringProcessing/countWords.js":278,"../stringProcessing/matchTextWithWord.js":293}],243:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":320,"../stringProcessing/matchTextWithWord.js":335}],285:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks.js" );
@@ -14151,7 +15525,7 @@ module.exports = function( paper ) {
 	return countLinkTypes( paper );
 };
 
-},{"../stringProcessing/checkNofollow.js":274,"../stringProcessing/findKeywordInUrl.js":281,"../stringProcessing/getLinkType.js":284,"./getLinks.js":244}],244:[function(require,module,exports){
+},{"../stringProcessing/checkNofollow.js":316,"../stringProcessing/findKeywordInUrl.js":323,"../stringProcessing/getLinkType.js":326,"./getLinks.js":286}],286:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
@@ -14166,7 +15540,7 @@ module.exports = function( text ) {
 	return getAnchors( text );
 };
 
-},{"../stringProcessing/getAnchorsFromText.js":283}],245:[function(require,module,exports){
+},{"../stringProcessing/getAnchorsFromText.js":325}],287:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords.js" );
 var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
 var filter = require( "lodash/filter" );
@@ -14193,7 +15567,7 @@ module.exports = function( paper ) {
 	} );
 };
 
-},{"../stringProcessing/countWords.js":278,"../stringProcessing/matchParagraphs.js":290,"lodash/filter":474}],246:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":320,"../stringProcessing/matchParagraphs.js":332,"lodash/filter":167}],288:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -14527,25 +15901,21 @@ module.exports = function( paper ) {
 	};
 };
 
-},{"../stringProcessing/createRegexFromArray.js":279,"../stringProcessing/getSentences.js":285,"../stringProcessing/matchWordInSentence.js":294,"../stringProcessing/quotes.js":295,"../stringProcessing/stripSpaces.js":306,"./passivevoice-english/auxiliaries.js":260,"./passivevoice-english/determiners.js":261,"./passivevoice-english/irregulars.js":262,"./passivevoice-english/non-verb-ending-ed.js":263,"./passivevoice-english/stopwords.js":264,"lodash/filter":474,"lodash/forEach":479,"lodash/includes":484,"lodash/isUndefined":502}],247:[function(require,module,exports){
+},{"../stringProcessing/createRegexFromArray.js":321,"../stringProcessing/getSentences.js":327,"../stringProcessing/matchWordInSentence.js":336,"../stringProcessing/quotes.js":337,"../stringProcessing/stripSpaces.js":348,"./passivevoice-english/auxiliaries.js":302,"./passivevoice-english/determiners.js":303,"./passivevoice-english/irregulars.js":304,"./passivevoice-english/non-verb-ending-ed.js":305,"./passivevoice-english/stopwords.js":306,"lodash/filter":167,"lodash/forEach":171,"lodash/includes":177,"lodash/isUndefined":195}],289:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var getWords = require( "../stringProcessing/getWords.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var removeNonWordCharacters = require( "../stringProcessing/removeNonWordCharacters.js" );
 var firstWordExceptions = require ( "../language/en/firstWordExceptions.js" )();
 
-var isEmpty = require( "lodash/isEmpty" );
-var forEach = require( "lodash/forEach" );
-
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
- *
- * @param {string} currentSentenceBeginning The first word of the current sentence.
- * @param {string} nextSentenceBeginning The first word of the next sentence.
+ * @param {array} sentenceBeginnings The array containing the first word of each sentence.
+ * @param {number} i The iterator for the sentenceBeginning array.
  * @returns {boolean} Returns true if sentence beginnings match.
  */
-var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
-	if ( !isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
+var matchSentenceBeginnings = function( sentenceBeginnings, i ) {
+	if ( sentenceBeginnings[ i ] === sentenceBeginnings[ i + 1 ] ) {
 		return true;
 	}
 	return false;
@@ -14558,25 +15928,21 @@ var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginni
  * @returns {array} The array containing the objects containing the first words and the corresponding counts.
  */
 var compareFirstWords = function ( sentenceBeginnings, sentences ) {
-	var consecutiveFirstWords = [];
+	var counts = [];
 	var foundSentences = [];
-	var sameBeginnings = 1;
-
-	forEach( sentenceBeginnings, function( beginning, i ) {
-		var currentSentenceBeginning = beginning;
-		var nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
-		foundSentences.push( sentences[ i ] );
-
-		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
-			sameBeginnings++;
+	var count = 1;
+	for ( var i = 0; i < sentenceBeginnings.length; i++ ) {
+		if ( matchSentenceBeginnings( sentenceBeginnings, i ) ) {
+			foundSentences.push( sentences[ i ] );
+			count++;
 		} else {
-			consecutiveFirstWords.push( { word: currentSentenceBeginning, count: sameBeginnings, sentences: foundSentences } );
-			sameBeginnings = 1;
+			foundSentences.push( sentences[ i ] );
+			counts.push( { word: sentenceBeginnings[ i ], count: count, sentences: foundSentences } );
 			foundSentences = [];
+			count = 1;
 		}
-	} );
-
-	return consecutiveFirstWords;
+	}
+	return counts;
 };
 
 /**
@@ -14591,7 +15957,7 @@ module.exports = function( paper ) {
 		if( words.length === 0 ) {
 			return "";
 		}
-		var firstWord = removeNonWordCharacters( words[ 0 ] ).toLocaleLowerCase();
+		var firstWord = removeNonWordCharacters( words[ 0 ] );
 		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
 			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
 		}
@@ -14600,7 +15966,7 @@ module.exports = function( paper ) {
 	return compareFirstWords( sentenceBeginnings, sentences );
 };
 
-},{"../language/en/firstWordExceptions.js":227,"../stringProcessing/getSentences.js":285,"../stringProcessing/getWords.js":288,"../stringProcessing/removeNonWordCharacters.js":296,"../stringProcessing/stripSpaces.js":306,"lodash/forEach":479,"lodash/isEmpty":491}],248:[function(require,module,exports){
+},{"../language/en/firstWordExceptions.js":269,"../stringProcessing/getSentences.js":327,"../stringProcessing/getWords.js":330,"../stringProcessing/removeNonWordCharacters.js":338,"../stringProcessing/stripSpaces.js":348}],290:[function(require,module,exports){
 var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
 var forEach = require( "lodash/forEach" );
@@ -14625,7 +15991,7 @@ module.exports = function( paper ) {
 	return subHeadings;
 };
 
-},{"../stringProcessing/getSubheadings.js":287,"../stringProcessing/stripHTMLTags.js":303,"lodash/forEach":479}],249:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":329,"../stringProcessing/stripHTMLTags.js":345,"lodash/forEach":171}],291:[function(require,module,exports){
 var getSubheadingsContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 
 /**
@@ -14639,7 +16005,7 @@ module.exports = function( paper ) {
 	return headings.length;
 };
 
-},{"../stringProcessing/getSubheadings.js":287}],250:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":329}],292:[function(require,module,exports){
 var getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var forEach = require( "lodash/forEach" );
@@ -14666,7 +16032,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/countWords.js":278,"../stringProcessing/getSubheadingTexts.js":286,"lodash/forEach":479}],251:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":320,"../stringProcessing/getSubheadingTexts.js":328,"lodash/forEach":171}],293:[function(require,module,exports){
 var getWords = require( "../stringProcessing/getWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
@@ -14711,7 +16077,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/countSyllables.js":277,"../stringProcessing/getSentences.js":285,"../stringProcessing/getWords.js":288,"lodash/forEach":479,"lodash/map":505}],252:[function(require,module,exports){
+},{"../stringProcessing/countSyllables.js":319,"../stringProcessing/getSentences.js":327,"../stringProcessing/getWords.js":330,"lodash/forEach":171,"lodash/map":198}],294:[function(require,module,exports){
 /** @module researches/imageAltTags */
 
 var imageInText = require( "../stringProcessing/imageInText" );
@@ -14776,7 +16142,7 @@ module.exports = function( paper ) {
 	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword(), paper.getLocale() );
 };
 
-},{"../stringProcessing/getAlttagContent":282,"../stringProcessing/imageInText":289,"../stringProcessing/matchTextWithWord":293}],253:[function(require,module,exports){
+},{"../stringProcessing/getAlttagContent":324,"../stringProcessing/imageInText":331,"../stringProcessing/matchTextWithWord":335}],295:[function(require,module,exports){
 /** @module researches/imageInText */
 
 var imageInText = require( "./../stringProcessing/imageInText" );
@@ -14791,7 +16157,7 @@ module.exports = function( paper ) {
 	return imageInText( paper.getText() ).length;
 };
 
-},{"./../stringProcessing/imageInText":289}],254:[function(require,module,exports){
+},{"./../stringProcessing/imageInText":331}],296:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords" );
 var sanitizeString = require( "../stringProcessing/sanitizeString" );
 
@@ -14809,7 +16175,7 @@ function keyphraseLengthResearch( paper ) {
 
 module.exports = keyphraseLengthResearch;
 
-},{"../stringProcessing/countWords":278,"../stringProcessing/sanitizeString":300}],255:[function(require,module,exports){
+},{"../stringProcessing/countWords":320,"../stringProcessing/sanitizeString":342}],297:[function(require,module,exports){
 /** @module researches/countKeywordInUrl */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -14825,7 +16191,7 @@ module.exports = function( paper ) {
 	return wordMatch( paper.getUrl(), keyword, paper.getLocale() );
 };
 
-},{"../stringProcessing/matchTextWithWord.js":293}],256:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":335}],298:[function(require,module,exports){
 /* @module analyses/matchKeywordInSubheadings */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
@@ -14856,7 +16222,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/getSubheadings.js":287,"../stringProcessing/stripNonTextTags.js":304,"../stringProcessing/subheadingsMatch.js":307}],257:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":329,"../stringProcessing/stripNonTextTags.js":346,"../stringProcessing/subheadingsMatch.js":349}],299:[function(require,module,exports){
 var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
@@ -14874,7 +16240,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/matchTextWithWord.js":293}],258:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":335}],300:[function(require,module,exports){
 /**
  * Check the length of the description.
  * @param {Paper} paper The paper object containing the description.
@@ -14884,7 +16250,7 @@ module.exports = function( paper ) {
 	return paper.getDescription().length;
 };
 
-},{}],259:[function(require,module,exports){
+},{}],301:[function(require,module,exports){
 /**
  * Check the length of the title.
  * @param {Paper} paper The paper object containing the title.
@@ -14894,7 +16260,7 @@ module.exports = function( paper ) {
 	return paper.getTitle().length;
 };
 
-},{}],260:[function(require,module,exports){
+},{}],302:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"am",
@@ -14927,7 +16293,7 @@ module.exports = function() {
 	];
 };
 
-},{}],261:[function(require,module,exports){
+},{}],303:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"a",
@@ -14971,7 +16337,7 @@ module.exports = function() {
 };
 
 
-},{}],262:[function(require,module,exports){
+},{}],304:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"arisen",
@@ -15324,7 +16690,7 @@ module.exports = function() {
 	];
 };
 
-},{}],263:[function(require,module,exports){
+},{}],305:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"ablebodied",
@@ -18364,7 +19730,7 @@ module.exports = function() {
 	];
 };
 
-},{}],264:[function(require,module,exports){
+},{}],306:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"to",
@@ -18415,7 +19781,7 @@ module.exports = function() {
 	];
 };
 
-},{}],265:[function(require,module,exports){
+},{}],307:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var sentencesLength = require( "../stringProcessing/sentencesLength.js" );
 var formatNumber = require( "../helpers/formatNumber" );
@@ -18461,7 +19827,7 @@ module.exports = function( paper ) {
 	return 0;
 };
 
-},{"../helpers/formatNumber":222,"../stringProcessing/getSentences.js":285,"../stringProcessing/sentencesLength.js":301,"lodash/reduce":514,"lodash/sum":519}],266:[function(require,module,exports){
+},{"../helpers/formatNumber":264,"../stringProcessing/getSentences.js":327,"../stringProcessing/sentencesLength.js":343,"lodash/reduce":206,"lodash/sum":210}],308:[function(require,module,exports){
 /** @module researches/stopWordsInKeyword */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -18475,7 +19841,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getKeyword() );
 };
 
-},{"./stopWordsInText.js":267}],267:[function(require,module,exports){
+},{"./stopWordsInText.js":309}],309:[function(require,module,exports){
 var stopwords = require( "../config/stopwords.js" )();
 var toRegex = require( "../stringProcessing/stringToRegex.js" );
 
@@ -18497,7 +19863,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{"../config/stopwords.js":212,"../stringProcessing/stringToRegex.js":302}],268:[function(require,module,exports){
+},{"../config/stopwords.js":254,"../stringProcessing/stringToRegex.js":344}],310:[function(require,module,exports){
 /** @module researches/stopWordsInUrl */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -18511,7 +19877,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
 };
 
-},{"./stopWordsInText.js":267}],269:[function(require,module,exports){
+},{"./stopWordsInText.js":309}],311:[function(require,module,exports){
 /** @module analyses/isUrlTooLong */
 
 /**
@@ -18532,7 +19898,7 @@ module.exports = function( paper ) {
 	return false;
 };
 
-},{}],270:[function(require,module,exports){
+},{}],312:[function(require,module,exports){
 var wordCount = require( "../stringProcessing/countWords.js" );
 
 /**
@@ -18544,7 +19910,7 @@ module.exports = function( paper ) {
 	return wordCount( paper.getText() );
 };
 
-},{"../stringProcessing/countWords.js":278}],271:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":320}],313:[function(require,module,exports){
 var Assessor = require( "./assessor.js" );
 
 var introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
@@ -18600,7 +19966,7 @@ module.exports = SEOAssessor;
 require( "util" ).inherits( module.exports, Assessor );
 
 
-},{"./assessments/introductionKeywordAssessment.js":182,"./assessments/keyphraseLengthAssessment.js":183,"./assessments/keywordDensityAssessment.js":184,"./assessments/keywordStopWordsAssessment.js":185,"./assessments/metaDescriptionKeywordAssessment.js":186,"./assessments/metaDescriptionLengthAssessment.js":187,"./assessments/subheadingsKeywordAssessment.js":194,"./assessments/textCompetingLinksAssessment.js":195,"./assessments/textImagesAssessment.js":196,"./assessments/textLengthAssessment.js":197,"./assessments/textLinksAssessment.js":198,"./assessments/titleKeywordAssessment.js":200,"./assessments/titleLengthAssessment.js":201,"./assessments/urlKeywordAssessment.js":203,"./assessments/urlLengthAssessment.js":204,"./assessments/urlStopWordsAssessment.js":205,"./assessor.js":206,"util":177}],272:[function(require,module,exports){
+},{"./assessments/introductionKeywordAssessment.js":226,"./assessments/keyphraseLengthAssessment.js":227,"./assessments/keywordDensityAssessment.js":228,"./assessments/keywordStopWordsAssessment.js":229,"./assessments/metaDescriptionKeywordAssessment.js":230,"./assessments/metaDescriptionLengthAssessment.js":231,"./assessments/subheadingsKeywordAssessment.js":236,"./assessments/textCompetingLinksAssessment.js":237,"./assessments/textImagesAssessment.js":238,"./assessments/textLengthAssessment.js":239,"./assessments/textLinksAssessment.js":240,"./assessments/titleKeywordAssessment.js":242,"./assessments/titleLengthAssessment.js":243,"./assessments/urlKeywordAssessment.js":245,"./assessments/urlLengthAssessment.js":246,"./assessments/urlStopWordsAssessment.js":247,"./assessor.js":248,"util":221}],314:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/isEmpty" );
@@ -19828,7 +21194,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {};
 /* eslint-disable */
 module.exports = SnippetPreview;
 
-},{"../js/stringProcessing/replaceDiacritics.js":298,"../js/stringProcessing/sanitizeString.js":300,"../js/stringProcessing/stringToRegex.js":302,"../js/stringProcessing/stripHTMLTags.js":303,"../js/stringProcessing/stripSpaces.js":306,"../js/stringProcessing/transliterate.js":308,"./config/config.js":208,"./helpers/domManipulation.js":220,"./templates.js":310,"lodash/clone":468,"lodash/debounce":469,"lodash/defaultsDeep":471,"lodash/forEach":479,"lodash/isElement":490,"lodash/isEmpty":491,"lodash/isUndefined":502}],273:[function(require,module,exports){
+},{"../js/stringProcessing/replaceDiacritics.js":340,"../js/stringProcessing/sanitizeString.js":342,"../js/stringProcessing/stringToRegex.js":344,"../js/stringProcessing/stripHTMLTags.js":345,"../js/stringProcessing/stripSpaces.js":348,"../js/stringProcessing/transliterate.js":350,"./config/config.js":250,"./helpers/domManipulation.js":262,"./templates.js":352,"lodash/clone":161,"lodash/debounce":162,"lodash/defaultsDeep":164,"lodash/forEach":171,"lodash/isElement":183,"lodash/isEmpty":184,"lodash/isUndefined":195}],315:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -19849,7 +21215,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],274:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 /** @module stringProcessing/checkNofollow */
 
 /**
@@ -19868,7 +21234,7 @@ module.exports = function( text ) {
 	return linkFollow;
 };
 
-},{}],275:[function(require,module,exports){
+},{}],317:[function(require,module,exports){
 /** @module stringProcessing/cleanText */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -19926,7 +21292,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/replaceDiacritics.js":298,"../stringProcessing/stripSpaces.js":306,"../stringProcessing/unifyWhitespace.js":309}],276:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":340,"../stringProcessing/stripSpaces.js":348,"../stringProcessing/unifyWhitespace.js":351}],318:[function(require,module,exports){
 /** @module stringProcessing/countSentences */
 
 var getSentences = require( "../stringProcessing/getSentences.js" );
@@ -19948,7 +21314,7 @@ module.exports = function( text ) {
 	return sentenceCount;
 };
 
-},{"../stringProcessing/getSentences.js":285}],277:[function(require,module,exports){
+},{"../stringProcessing/getSentences.js":327}],319:[function(require,module,exports){
 /** @module stringProcessing/countSyllables */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -20083,7 +21449,7 @@ module.exports = function( text ) {
 };
 
 
-},{"../config/syllables.js":213,"../stringProcessing/cleanText.js":275,"../stringProcessing/createRegexFromArray.js":279,"lodash/forEach":479,"lodash/map":505}],278:[function(require,module,exports){
+},{"../config/syllables.js":255,"../stringProcessing/cleanText.js":317,"../stringProcessing/createRegexFromArray.js":321,"lodash/forEach":171,"lodash/map":198}],320:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var getWords = require( "../stringProcessing/getWords.js" );
@@ -20098,7 +21464,7 @@ module.exports = function( text ) {
 	return getWords( text ).length;
 };
 
-},{"../stringProcessing/getWords.js":288}],279:[function(require,module,exports){
+},{"../stringProcessing/getWords.js":330}],321:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -20127,7 +21493,7 @@ module.exports = function( array, disableWordBoundary ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":273,"lodash/map":505}],280:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":315,"lodash/map":198}],322:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromDoubleArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -20157,7 +21523,7 @@ module.exports = function ( array ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":273}],281:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":315}],323:[function(require,module,exports){
 /** @module stringProcessing/findKeywordInUrl */
 
 var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" );
@@ -20180,7 +21546,7 @@ module.exports = function( url, keyword, locale ) {
 	return false;
 };
 
-},{"./matchTextWithTransliteration.js":292}],282:[function(require,module,exports){
+},{"./matchTextWithTransliteration.js":334}],324:[function(require,module,exports){
 /** @module stringProcessing/getAlttagContent */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -20207,7 +21573,7 @@ module.exports = function( text ) {
 	return alt;
 };
 
-},{"../stringProcessing/stripSpaces.js":306}],283:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":348}],325:[function(require,module,exports){
 /** @module stringProcessing/getAnchorsFromText */
 
 /**
@@ -20228,7 +21594,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{}],284:[function(require,module,exports){
+},{}],326:[function(require,module,exports){
 /** @module stringProcess/getLinkType */
 
 /**
@@ -20253,7 +21619,7 @@ module.exports = function( text, url ) {
 	return linkType;
 };
 
-},{}],285:[function(require,module,exports){
+},{}],327:[function(require,module,exports){
 var map = require( "lodash/map" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
@@ -20548,7 +21914,7 @@ module.exports = function( text ) {
 	return filter( sentences, negate( isEmpty ) );
 };
 
-},{"../helpers/html.js":223,"../stringProcessing/quotes.js":295,"lodash/filter":474,"lodash/flatMap":477,"lodash/forEach":479,"lodash/isEmpty":491,"lodash/isNaN":494,"lodash/isUndefined":502,"lodash/map":505,"lodash/memoize":506,"lodash/negate":509,"tokenizer2/core":528}],286:[function(require,module,exports){
+},{"../helpers/html.js":265,"../stringProcessing/quotes.js":337,"lodash/filter":167,"lodash/flatMap":170,"lodash/forEach":171,"lodash/isEmpty":184,"lodash/isNaN":187,"lodash/isUndefined":195,"lodash/map":198,"lodash/memoize":199,"lodash/negate":202,"tokenizer2/core":219}],328:[function(require,module,exports){
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.
@@ -20574,7 +21940,7 @@ module.exports = function( text ) {
 
 
 
-},{}],287:[function(require,module,exports){
+},{}],329:[function(require,module,exports){
 var map = require( "lodash/map" );
 
 /**
@@ -20617,7 +21983,7 @@ module.exports = {
 	getSubheadingContents: getSubheadingContents
 };
 
-},{"lodash/map":505}],288:[function(require,module,exports){
+},{"lodash/map":198}],330:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var stripTags = require( "./stripHTMLTags.js" );
@@ -20646,7 +22012,7 @@ module.exports = function( text ) {
 };
 
 
-},{"./removeSentenceTerminators.js":297,"./stripHTMLTags.js":303,"./stripSpaces.js":306,"lodash/filter":474,"lodash/map":505}],289:[function(require,module,exports){
+},{"./removeSentenceTerminators.js":339,"./stripHTMLTags.js":345,"./stripSpaces.js":348,"lodash/filter":167,"lodash/map":198}],331:[function(require,module,exports){
 /** @module stringProcessing/imageInText */
 
 var matchStringWithRegex = require( "./matchStringWithRegex.js" );
@@ -20661,7 +22027,7 @@ module.exports = function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 };
 
-},{"./matchStringWithRegex.js":291}],290:[function(require,module,exports){
+},{"./matchStringWithRegex.js":333}],332:[function(require,module,exports){
 var map = require( "lodash/map" );
 var flatMap = require( "lodash/flatMap" );
 var filter = require( "lodash/filter" );
@@ -20721,7 +22087,7 @@ module.exports = function( text ) {
 	return [ text ];
 };
 
-},{"../helpers/html":223,"lodash/filter":474,"lodash/flatMap":477,"lodash/map":505}],291:[function(require,module,exports){
+},{"../helpers/html":265,"lodash/filter":167,"lodash/flatMap":170,"lodash/map":198}],333:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -20742,7 +22108,7 @@ module.exports = function( text, regexString ) {
 	return matches;
 };
 
-},{}],292:[function(require,module,exports){
+},{}],334:[function(require,module,exports){
 var map = require( "lodash/map" );
 var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
@@ -20783,7 +22149,7 @@ module.exports = function( text, keyword, locale ) {
 
 
 
-},{"./addWordboundary.js":273,"./stripSpaces.js":306,"./transliterate.js":308,"lodash/map":505}],293:[function(require,module,exports){
+},{"./addWordboundary.js":315,"./stripSpaces.js":348,"./transliterate.js":350,"lodash/map":198}],335:[function(require,module,exports){
 /** @module stringProcessing/matchTextWithWord */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
@@ -20806,7 +22172,7 @@ module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	return matches.length;
 };
 
-},{"../stringProcessing/matchTextWithTransliteration.js":292,"../stringProcessing/stripNonTextTags.js":304,"../stringProcessing/unifyWhitespace.js":309}],294:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithTransliteration.js":334,"../stringProcessing/stripNonTextTags.js":346,"../stringProcessing/unifyWhitespace.js":351}],336:[function(require,module,exports){
 var wordBoundaries = require( "../language/wordBoundaries.js" )();
 var includes = require( "lodash/includes" );
 
@@ -20847,7 +22213,7 @@ module.exports = function( word, sentence ) {
 	return ( ( previousCharacter ) && ( nextCharacter ) );
 };
 
-},{"../language/wordBoundaries.js":228,"lodash/includes":484}],295:[function(require,module,exports){
+},{"../language/wordBoundaries.js":270,"lodash/includes":177}],337:[function(require,module,exports){
 /**
  * Normalizes single quotes to 'regular' quotes.
  *
@@ -20895,7 +22261,7 @@ module.exports = {
 	normalize: normalizeQuotes
 };
 
-},{}],296:[function(require,module,exports){
+},{}],338:[function(require,module,exports){
 /** @module stringProcessing/removeNonWordCharacters.js */
 
 /**
@@ -20908,7 +22274,7 @@ module.exports = function( string ) {
 	return string.replace( /[\s\n\r\t\.,'\(\)\"\+;!?:\/]/g, "" );
 };
 
-},{}],297:[function(require,module,exports){
+},{}],339:[function(require,module,exports){
 // These are sentence terminators, that never should be in the middle of a word.
 var sentenceTerminators = /[.?!:;,]/g;
 
@@ -20923,7 +22289,7 @@ module.exports = function( text ) {
 	return text.replace( sentenceTerminators, "" );
 };
 
-},{}],298:[function(require,module,exports){
+},{}],340:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var diacriticsRemovalMap = require( "../config/diacritics.js" );
@@ -20946,7 +22312,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../config/diacritics.js":209}],299:[function(require,module,exports){
+},{"../config/diacritics.js":251}],341:[function(require,module,exports){
 /** @module stringProcessing/replaceString */
 
 /**
@@ -20963,7 +22329,7 @@ module.exports = function( text, stringToReplace, replacement ) {
 	return text;
 };
 
-},{}],300:[function(require,module,exports){
+},{}],342:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -20983,7 +22349,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":303,"../stringProcessing/stripSpaces.js":306}],301:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":345,"../stringProcessing/stripSpaces.js":348}],343:[function(require,module,exports){
 var wordCount = require( "./countWords.js" );
 var forEach = require( "lodash/forEach" );
 var stripHTMLTags = require( "./stripHTMLTags.js" );
@@ -21013,7 +22379,7 @@ module.exports = function( sentences ) {
 	return sentencesWordCount;
 };
 
-},{"./countWords.js":278,"./stripHTMLTags.js":303,"lodash/forEach":479}],302:[function(require,module,exports){
+},{"./countWords.js":320,"./stripHTMLTags.js":345,"lodash/forEach":171}],344:[function(require,module,exports){
 /** @module stringProcessing/stringToRegex */
 var isUndefined = require( "lodash/isUndefined" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
@@ -21044,7 +22410,7 @@ module.exports = memoize( function( string, extraBoundary, doReplaceDiacritics )
 	return new RegExp( string, "ig" );
 } );
 
-},{"../stringProcessing/addWordboundary.js":273,"../stringProcessing/replaceDiacritics.js":298,"../stringProcessing/sanitizeString.js":300,"lodash/isUndefined":502,"lodash/memoize":506}],303:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":315,"../stringProcessing/replaceDiacritics.js":340,"../stringProcessing/sanitizeString.js":342,"lodash/isUndefined":195,"lodash/memoize":199}],345:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -21061,7 +22427,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":306}],304:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":348}],346:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -21078,7 +22444,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":306}],305:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":348}],347:[function(require,module,exports){
 /** @module stringProcessing/stripNumbers */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -21103,7 +22469,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":306}],306:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":348}],348:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -21126,7 +22492,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],307:[function(require,module,exports){
+},{}],349:[function(require,module,exports){
 var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" )();
 var matchTextWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
@@ -21162,7 +22528,7 @@ module.exports = function( matches, keyword, locale ) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":211,"../stringProcessing/matchTextWithTransliteration.js":292,"../stringProcessing/replaceString.js":299}],308:[function(require,module,exports){
+},{"../config/removalWords.js":253,"../stringProcessing/matchTextWithTransliteration.js":334,"../stringProcessing/replaceString.js":341}],350:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var transliterationsMap = require( "../config/transliterations.js" );
@@ -21185,7 +22551,7 @@ module.exports = function( text, locale ) {
 	return text;
 };
 
-},{"../config/transliterations.js":215}],309:[function(require,module,exports){
+},{"../config/transliterations.js":257}],351:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
 
 /**
@@ -21207,7 +22573,7 @@ module.exports = function( text ) {
 };
 
 
-},{}],310:[function(require,module,exports){
+},{}],352:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -21232,7 +22598,7 @@ module.exports = function( text ) {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.13.1';
+  var VERSION = '4.13.0';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -21474,50 +22840,25 @@ module.exports = function( text ) {
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="assessment-results__mark-container">\n                ';
      if ( scores[ i ].marker ) {
-    __p += '\n                    <button type="button" ';
-     if ( markerButtonsDisabled ) {
-    __p += ' disabled="disabled" ';
+    __p += '\n                    <button type="button"\n                        aria-label="' +
+    ((__t = ( i18n.markInText )) == null ? '' : __t) +
+    '"\n                        class="assessment-results__mark ';
+     if ( scores[ i ].identifier === activeMarker ) {
+    __p += 'icon-eye-active';
+     } else {
+    __p += 'icon-eye-inactive';
      }
-    __p += '\n                        aria-label="';
-     if ( markerButtonsDisabled ) {
-    __p +=
-    ((__t = ( i18n.disabledMarkText )) == null ? '' : __t);
-     }
-                                else if ( scores[ i ].identifier === activeMarker ) {
-    __p +=
-    ((__t = ( i18n.removeMarksInText )) == null ? '' : __t);
-     }
-                                else {
-    __p +=
-    ((__t = ( i18n.markInText )) == null ? '' : __t);
-     }
-    __p += '"\n                        class="assessment-results__mark ';
-
-                            if ( markerButtonsDisabled ) {
-    __p += ' icon-eye-disabled ';
-     }
-                            else if ( scores[ i ].identifier === activeMarker ) {
-    __p += '\n                            icon-eye-active\n                        ';
-     }
-                            else {
-    __p += '\n                            icon-eye-inactive\n                        ';
-     }
-    __p += '\n                        js-assessment-results__mark-' +
+    __p += ' js-assessment-results__mark-' +
     ((__t = ( scores[ i ].identifier )) == null ? '' : __t) +
-    ' yoast-tooltip yoast-tooltip-s">\n                        <span class="screen-reader-text">';
-     if ( markerButtonsDisabled ) {
-    __p +=
-    ((__t = ( i18n.disabledMarkText )) == null ? '' : __t);
-     }
-                                else if ( scores[ i ].identifier === activeMarker ) {
+    ' yoast-tooltip yoast-tooltip-s"><span class="screen-reader-text">';
+     if ( scores[ i ].identifier === activeMarker ) {
     __p +=
     ((__t = ( i18n.removeMarksInText )) == null ? '' : __t);
-     }
-                                else {
+     } else {
     __p +=
     ((__t = ( i18n.markInText )) == null ? '' : __t);
      }
-    __p += '\n                        </span></button>\n                ';
+    __p += '</span></button>\n                ';
      }
     __p += '\n            </span>\n            <span class="wpseo-score-icon ' +
     __e( scores[ i ].className ) +
@@ -21620,7 +22961,7 @@ module.exports = function( text ) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],311:[function(require,module,exports){
+},{}],353:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 var isNumber = require( "lodash/isNumber" );
 
@@ -21755,7 +23096,7 @@ AssessmentResult.prototype.hasMarker = function() {
 };
 
 /**
- * Gets the marker, a pure function that can return the marks for a given Paper
+ * Gets the marker, a pure function that an return the marks for a given Paper
  *
  * @returns {Function} The marker.
  */
@@ -21783,7 +23124,7 @@ AssessmentResult.prototype.hasMarks = function() {
 
 module.exports = AssessmentResult;
 
-},{"lodash/isNumber":495,"lodash/isUndefined":502}],312:[function(require,module,exports){
+},{"lodash/isNumber":188,"lodash/isUndefined":195}],354:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 
 /**
@@ -21832,7 +23173,7 @@ Mark.prototype.applyWithReplace = function( text ) {
 
 module.exports = Mark;
 
-},{"lodash/defaults":470}],313:[function(require,module,exports){
+},{"lodash/defaults":163}],355:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
@@ -21971,3319 +23312,4 @@ Paper.prototype.getLocale = function() {
 
 module.exports = Paper;
 
-},{"../stringProcessing/sanitizeString.js":300,"lodash/defaults":470}],314:[function(require,module,exports){
-/**
- * @preserve jed.js https://github.com/SlexAxton/Jed
- */
-/*
------------
-A gettext compatible i18n library for modern JavaScript Applications
-
-by Alex Sexton - AlexSexton [at] gmail - @SlexAxton
-WTFPL license for use
-Dojo CLA for contributions
-
-Jed offers the entire applicable GNU gettext spec'd set of
-functions, but also offers some nicer wrappers around them.
-The api for gettext was written for a language with no function
-overloading, so Jed allows a little more of that.
-
-Many thanks to Joshua I. Miller - unrtst@cpan.org - who wrote
-gettext.js back in 2008. I was able to vet a lot of my ideas
-against his. I also made sure Jed passed against his tests
-in order to offer easy upgrades -- jsgettext.berlios.de
-*/
-(function (root, undef) {
-
-  // Set up some underscore-style functions, if you already have
-  // underscore, feel free to delete this section, and use it
-  // directly, however, the amount of functions used doesn't
-  // warrant having underscore as a full dependency.
-  // Underscore 1.3.0 was used to port and is licensed
-  // under the MIT License by Jeremy Ashkenas.
-  var ArrayProto    = Array.prototype,
-      ObjProto      = Object.prototype,
-      slice         = ArrayProto.slice,
-      hasOwnProp    = ObjProto.hasOwnProperty,
-      nativeForEach = ArrayProto.forEach,
-      breaker       = {};
-
-  // We're not using the OOP style _ so we don't need the
-  // extra level of indirection. This still means that you
-  // sub out for real `_` though.
-  var _ = {
-    forEach : function( obj, iterator, context ) {
-      var i, l, key;
-      if ( obj === null ) {
-        return;
-      }
-
-      if ( nativeForEach && obj.forEach === nativeForEach ) {
-        obj.forEach( iterator, context );
-      }
-      else if ( obj.length === +obj.length ) {
-        for ( i = 0, l = obj.length; i < l; i++ ) {
-          if ( i in obj && iterator.call( context, obj[i], i, obj ) === breaker ) {
-            return;
-          }
-        }
-      }
-      else {
-        for ( key in obj) {
-          if ( hasOwnProp.call( obj, key ) ) {
-            if ( iterator.call (context, obj[key], key, obj ) === breaker ) {
-              return;
-            }
-          }
-        }
-      }
-    },
-    extend : function( obj ) {
-      this.forEach( slice.call( arguments, 1 ), function ( source ) {
-        for ( var prop in source ) {
-          obj[prop] = source[prop];
-        }
-      });
-      return obj;
-    }
-  };
-  // END Miniature underscore impl
-
-  // Jed is a constructor function
-  var Jed = function ( options ) {
-    // Some minimal defaults
-    this.defaults = {
-      "locale_data" : {
-        "messages" : {
-          "" : {
-            "domain"       : "messages",
-            "lang"         : "en",
-            "plural_forms" : "nplurals=2; plural=(n != 1);"
-          }
-          // There are no default keys, though
-        }
-      },
-      // The default domain if one is missing
-      "domain" : "messages",
-      // enable debug mode to log untranslated strings to the console
-      "debug" : false
-    };
-
-    // Mix in the sent options with the default options
-    this.options = _.extend( {}, this.defaults, options );
-    this.textdomain( this.options.domain );
-
-    if ( options.domain && ! this.options.locale_data[ this.options.domain ] ) {
-      throw new Error('Text domain set to non-existent domain: `' + options.domain + '`');
-    }
-  };
-
-  // The gettext spec sets this character as the default
-  // delimiter for context lookups.
-  // e.g.: context\u0004key
-  // If your translation company uses something different,
-  // just change this at any time and it will use that instead.
-  Jed.context_delimiter = String.fromCharCode( 4 );
-
-  function getPluralFormFunc ( plural_form_string ) {
-    return Jed.PF.compile( plural_form_string || "nplurals=2; plural=(n != 1);");
-  }
-
-  function Chain( key, i18n ){
-    this._key = key;
-    this._i18n = i18n;
-  }
-
-  // Create a chainable api for adding args prettily
-  _.extend( Chain.prototype, {
-    onDomain : function ( domain ) {
-      this._domain = domain;
-      return this;
-    },
-    withContext : function ( context ) {
-      this._context = context;
-      return this;
-    },
-    ifPlural : function ( num, pkey ) {
-      this._val = num;
-      this._pkey = pkey;
-      return this;
-    },
-    fetch : function ( sArr ) {
-      if ( {}.toString.call( sArr ) != '[object Array]' ) {
-        sArr = [].slice.call(arguments, 0);
-      }
-      return ( sArr && sArr.length ? Jed.sprintf : function(x){ return x; } )(
-        this._i18n.dcnpgettext(this._domain, this._context, this._key, this._pkey, this._val),
-        sArr
-      );
-    }
-  });
-
-  // Add functions to the Jed prototype.
-  // These will be the functions on the object that's returned
-  // from creating a `new Jed()`
-  // These seem redundant, but they gzip pretty well.
-  _.extend( Jed.prototype, {
-    // The sexier api start point
-    translate : function ( key ) {
-      return new Chain( key, this );
-    },
-
-    textdomain : function ( domain ) {
-      if ( ! domain ) {
-        return this._textdomain;
-      }
-      this._textdomain = domain;
-    },
-
-    gettext : function ( key ) {
-      return this.dcnpgettext.call( this, undef, undef, key );
-    },
-
-    dgettext : function ( domain, key ) {
-     return this.dcnpgettext.call( this, domain, undef, key );
-    },
-
-    dcgettext : function ( domain , key /*, category */ ) {
-      // Ignores the category anyways
-      return this.dcnpgettext.call( this, domain, undef, key );
-    },
-
-    ngettext : function ( skey, pkey, val ) {
-      return this.dcnpgettext.call( this, undef, undef, skey, pkey, val );
-    },
-
-    dngettext : function ( domain, skey, pkey, val ) {
-      return this.dcnpgettext.call( this, domain, undef, skey, pkey, val );
-    },
-
-    dcngettext : function ( domain, skey, pkey, val/*, category */) {
-      return this.dcnpgettext.call( this, domain, undef, skey, pkey, val );
-    },
-
-    pgettext : function ( context, key ) {
-      return this.dcnpgettext.call( this, undef, context, key );
-    },
-
-    dpgettext : function ( domain, context, key ) {
-      return this.dcnpgettext.call( this, domain, context, key );
-    },
-
-    dcpgettext : function ( domain, context, key/*, category */) {
-      return this.dcnpgettext.call( this, domain, context, key );
-    },
-
-    npgettext : function ( context, skey, pkey, val ) {
-      return this.dcnpgettext.call( this, undef, context, skey, pkey, val );
-    },
-
-    dnpgettext : function ( domain, context, skey, pkey, val ) {
-      return this.dcnpgettext.call( this, domain, context, skey, pkey, val );
-    },
-
-    // The most fully qualified gettext function. It has every option.
-    // Since it has every option, we can use it from every other method.
-    // This is the bread and butter.
-    // Technically there should be one more argument in this function for 'Category',
-    // but since we never use it, we might as well not waste the bytes to define it.
-    dcnpgettext : function ( domain, context, singular_key, plural_key, val ) {
-      // Set some defaults
-
-      plural_key = plural_key || singular_key;
-
-      // Use the global domain default if one
-      // isn't explicitly passed in
-      domain = domain || this._textdomain;
-
-      var fallback;
-
-      // Handle special cases
-
-      // No options found
-      if ( ! this.options ) {
-        // There's likely something wrong, but we'll return the correct key for english
-        // We do this by instantiating a brand new Jed instance with the default set
-        // for everything that could be broken.
-        fallback = new Jed();
-        return fallback.dcnpgettext.call( fallback, undefined, undefined, singular_key, plural_key, val );
-      }
-
-      // No translation data provided
-      if ( ! this.options.locale_data ) {
-        throw new Error('No locale data provided.');
-      }
-
-      if ( ! this.options.locale_data[ domain ] ) {
-        throw new Error('Domain `' + domain + '` was not found.');
-      }
-
-      if ( ! this.options.locale_data[ domain ][ "" ] ) {
-        throw new Error('No locale meta information provided.');
-      }
-
-      // Make sure we have a truthy key. Otherwise we might start looking
-      // into the empty string key, which is the options for the locale
-      // data.
-      if ( ! singular_key ) {
-        throw new Error('No translation key found.');
-      }
-
-      var key  = context ? context + Jed.context_delimiter + singular_key : singular_key,
-          locale_data = this.options.locale_data,
-          dict = locale_data[ domain ],
-          defaultConf = (locale_data.messages || this.defaults.locale_data.messages)[""],
-          pluralForms = dict[""].plural_forms || dict[""]["Plural-Forms"] || dict[""]["plural-forms"] || defaultConf.plural_forms || defaultConf["Plural-Forms"] || defaultConf["plural-forms"],
-          val_list,
-          res;
-
-      var val_idx;
-      if (val === undefined) {
-        // No value passed in; assume singular key lookup.
-        val_idx = 0;
-
-      } else {
-        // Value has been passed in; use plural-forms calculations.
-
-        // Handle invalid numbers, but try casting strings for good measure
-        if ( typeof val != 'number' ) {
-          val = parseInt( val, 10 );
-
-          if ( isNaN( val ) ) {
-            throw new Error('The number that was passed in is not a number.');
-          }
-        }
-
-        val_idx = getPluralFormFunc(pluralForms)(val);
-      }
-
-      // Throw an error if a domain isn't found
-      if ( ! dict ) {
-        throw new Error('No domain named `' + domain + '` could be found.');
-      }
-
-      val_list = dict[ key ];
-
-      // If there is no match, then revert back to
-      // english style singular/plural with the keys passed in.
-      if ( ! val_list || val_idx > val_list.length ) {
-        if (this.options.missing_key_callback) {
-          this.options.missing_key_callback(key, domain);
-        }
-        res = [ singular_key, plural_key ];
-
-        // collect untranslated strings
-        if (this.options.debug===true) {
-          console.log(res[ getPluralFormFunc(pluralForms)( val ) ]);
-        }
-        return res[ getPluralFormFunc()( val ) ];
-      }
-
-      res = val_list[ val_idx ];
-
-      // This includes empty strings on purpose
-      if ( ! res  ) {
-        res = [ singular_key, plural_key ];
-        return res[ getPluralFormFunc()( val ) ];
-      }
-      return res;
-    }
-  });
-
-
-  // We add in sprintf capabilities for post translation value interolation
-  // This is not internally used, so you can remove it if you have this
-  // available somewhere else, or want to use a different system.
-
-  // We _slightly_ modify the normal sprintf behavior to more gracefully handle
-  // undefined values.
-
-  /**
-   sprintf() for JavaScript 0.7-beta1
-   http://www.diveintojavascript.com/projects/javascript-sprintf
-
-   Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>
-   All rights reserved.
-
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions are met:
-       * Redistributions of source code must retain the above copyright
-         notice, this list of conditions and the following disclaimer.
-       * Redistributions in binary form must reproduce the above copyright
-         notice, this list of conditions and the following disclaimer in the
-         documentation and/or other materials provided with the distribution.
-       * Neither the name of sprintf() for JavaScript nor the
-         names of its contributors may be used to endorse or promote products
-         derived from this software without specific prior written permission.
-
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-   DISCLAIMED. IN NO EVENT SHALL Alexandru Marasteanu BE LIABLE FOR ANY
-   DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-   ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  */
-  var sprintf = (function() {
-    function get_type(variable) {
-      return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase();
-    }
-    function str_repeat(input, multiplier) {
-      for (var output = []; multiplier > 0; output[--multiplier] = input) {/* do nothing */}
-      return output.join('');
-    }
-
-    var str_format = function() {
-      if (!str_format.cache.hasOwnProperty(arguments[0])) {
-        str_format.cache[arguments[0]] = str_format.parse(arguments[0]);
-      }
-      return str_format.format.call(null, str_format.cache[arguments[0]], arguments);
-    };
-
-    str_format.format = function(parse_tree, argv) {
-      var cursor = 1, tree_length = parse_tree.length, node_type = '', arg, output = [], i, k, match, pad, pad_character, pad_length;
-      for (i = 0; i < tree_length; i++) {
-        node_type = get_type(parse_tree[i]);
-        if (node_type === 'string') {
-          output.push(parse_tree[i]);
-        }
-        else if (node_type === 'array') {
-          match = parse_tree[i]; // convenience purposes only
-          if (match[2]) { // keyword argument
-            arg = argv[cursor];
-            for (k = 0; k < match[2].length; k++) {
-              if (!arg.hasOwnProperty(match[2][k])) {
-                throw(sprintf('[sprintf] property "%s" does not exist', match[2][k]));
-              }
-              arg = arg[match[2][k]];
-            }
-          }
-          else if (match[1]) { // positional argument (explicit)
-            arg = argv[match[1]];
-          }
-          else { // positional argument (implicit)
-            arg = argv[cursor++];
-          }
-
-          if (/[^s]/.test(match[8]) && (get_type(arg) != 'number')) {
-            throw(sprintf('[sprintf] expecting number but found %s', get_type(arg)));
-          }
-
-          // Jed EDIT
-          if ( typeof arg == 'undefined' || arg === null ) {
-            arg = '';
-          }
-          // Jed EDIT
-
-          switch (match[8]) {
-            case 'b': arg = arg.toString(2); break;
-            case 'c': arg = String.fromCharCode(arg); break;
-            case 'd': arg = parseInt(arg, 10); break;
-            case 'e': arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential(); break;
-            case 'f': arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg); break;
-            case 'o': arg = arg.toString(8); break;
-            case 's': arg = ((arg = String(arg)) && match[7] ? arg.substring(0, match[7]) : arg); break;
-            case 'u': arg = Math.abs(arg); break;
-            case 'x': arg = arg.toString(16); break;
-            case 'X': arg = arg.toString(16).toUpperCase(); break;
-          }
-          arg = (/[def]/.test(match[8]) && match[3] && arg >= 0 ? '+'+ arg : arg);
-          pad_character = match[4] ? match[4] == '0' ? '0' : match[4].charAt(1) : ' ';
-          pad_length = match[6] - String(arg).length;
-          pad = match[6] ? str_repeat(pad_character, pad_length) : '';
-          output.push(match[5] ? arg + pad : pad + arg);
-        }
-      }
-      return output.join('');
-    };
-
-    str_format.cache = {};
-
-    str_format.parse = function(fmt) {
-      var _fmt = fmt, match = [], parse_tree = [], arg_names = 0;
-      while (_fmt) {
-        if ((match = /^[^\x25]+/.exec(_fmt)) !== null) {
-          parse_tree.push(match[0]);
-        }
-        else if ((match = /^\x25{2}/.exec(_fmt)) !== null) {
-          parse_tree.push('%');
-        }
-        else if ((match = /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(_fmt)) !== null) {
-          if (match[2]) {
-            arg_names |= 1;
-            var field_list = [], replacement_field = match[2], field_match = [];
-            if ((field_match = /^([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
-              field_list.push(field_match[1]);
-              while ((replacement_field = replacement_field.substring(field_match[0].length)) !== '') {
-                if ((field_match = /^\.([a-z_][a-z_\d]*)/i.exec(replacement_field)) !== null) {
-                  field_list.push(field_match[1]);
-                }
-                else if ((field_match = /^\[(\d+)\]/.exec(replacement_field)) !== null) {
-                  field_list.push(field_match[1]);
-                }
-                else {
-                  throw('[sprintf] huh?');
-                }
-              }
-            }
-            else {
-              throw('[sprintf] huh?');
-            }
-            match[2] = field_list;
-          }
-          else {
-            arg_names |= 2;
-          }
-          if (arg_names === 3) {
-            throw('[sprintf] mixing positional and named placeholders is not (yet) supported');
-          }
-          parse_tree.push(match);
-        }
-        else {
-          throw('[sprintf] huh?');
-        }
-        _fmt = _fmt.substring(match[0].length);
-      }
-      return parse_tree;
-    };
-
-    return str_format;
-  })();
-
-  var vsprintf = function(fmt, argv) {
-    argv.unshift(fmt);
-    return sprintf.apply(null, argv);
-  };
-
-  Jed.parse_plural = function ( plural_forms, n ) {
-    plural_forms = plural_forms.replace(/n/g, n);
-    return Jed.parse_expression(plural_forms);
-  };
-
-  Jed.sprintf = function ( fmt, args ) {
-    if ( {}.toString.call( args ) == '[object Array]' ) {
-      return vsprintf( fmt, [].slice.call(args) );
-    }
-    return sprintf.apply(this, [].slice.call(arguments) );
-  };
-
-  Jed.prototype.sprintf = function () {
-    return Jed.sprintf.apply(this, arguments);
-  };
-  // END sprintf Implementation
-
-  // Start the Plural forms section
-  // This is a full plural form expression parser. It is used to avoid
-  // running 'eval' or 'new Function' directly against the plural
-  // forms.
-  //
-  // This can be important if you get translations done through a 3rd
-  // party vendor. I encourage you to use this instead, however, I
-  // also will provide a 'precompiler' that you can use at build time
-  // to output valid/safe function representations of the plural form
-  // expressions. This means you can build this code out for the most
-  // part.
-  Jed.PF = {};
-
-  Jed.PF.parse = function ( p ) {
-    var plural_str = Jed.PF.extractPluralExpr( p );
-    return Jed.PF.parser.parse.call(Jed.PF.parser, plural_str);
-  };
-
-  Jed.PF.compile = function ( p ) {
-    // Handle trues and falses as 0 and 1
-    function imply( val ) {
-      return (val === true ? 1 : val ? val : 0);
-    }
-
-    var ast = Jed.PF.parse( p );
-    return function ( n ) {
-      return imply( Jed.PF.interpreter( ast )( n ) );
-    };
-  };
-
-  Jed.PF.interpreter = function ( ast ) {
-    return function ( n ) {
-      var res;
-      switch ( ast.type ) {
-        case 'GROUP':
-          return Jed.PF.interpreter( ast.expr )( n );
-        case 'TERNARY':
-          if ( Jed.PF.interpreter( ast.expr )( n ) ) {
-            return Jed.PF.interpreter( ast.truthy )( n );
-          }
-          return Jed.PF.interpreter( ast.falsey )( n );
-        case 'OR':
-          return Jed.PF.interpreter( ast.left )( n ) || Jed.PF.interpreter( ast.right )( n );
-        case 'AND':
-          return Jed.PF.interpreter( ast.left )( n ) && Jed.PF.interpreter( ast.right )( n );
-        case 'LT':
-          return Jed.PF.interpreter( ast.left )( n ) < Jed.PF.interpreter( ast.right )( n );
-        case 'GT':
-          return Jed.PF.interpreter( ast.left )( n ) > Jed.PF.interpreter( ast.right )( n );
-        case 'LTE':
-          return Jed.PF.interpreter( ast.left )( n ) <= Jed.PF.interpreter( ast.right )( n );
-        case 'GTE':
-          return Jed.PF.interpreter( ast.left )( n ) >= Jed.PF.interpreter( ast.right )( n );
-        case 'EQ':
-          return Jed.PF.interpreter( ast.left )( n ) == Jed.PF.interpreter( ast.right )( n );
-        case 'NEQ':
-          return Jed.PF.interpreter( ast.left )( n ) != Jed.PF.interpreter( ast.right )( n );
-        case 'MOD':
-          return Jed.PF.interpreter( ast.left )( n ) % Jed.PF.interpreter( ast.right )( n );
-        case 'VAR':
-          return n;
-        case 'NUM':
-          return ast.val;
-        default:
-          throw new Error("Invalid Token found.");
-      }
-    };
-  };
-
-  Jed.PF.extractPluralExpr = function ( p ) {
-    // trim first
-    p = p.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-
-    if (! /;\s*$/.test(p)) {
-      p = p.concat(';');
-    }
-
-    var nplurals_re = /nplurals\=(\d+);/,
-        plural_re = /plural\=(.*);/,
-        nplurals_matches = p.match( nplurals_re ),
-        res = {},
-        plural_matches;
-
-    // Find the nplurals number
-    if ( nplurals_matches.length > 1 ) {
-      res.nplurals = nplurals_matches[1];
-    }
-    else {
-      throw new Error('nplurals not found in plural_forms string: ' + p );
-    }
-
-    // remove that data to get to the formula
-    p = p.replace( nplurals_re, "" );
-    plural_matches = p.match( plural_re );
-
-    if (!( plural_matches && plural_matches.length > 1 ) ) {
-      throw new Error('`plural` expression not found: ' + p);
-    }
-    return plural_matches[ 1 ];
-  };
-
-  /* Jison generated parser */
-  Jed.PF.parser = (function(){
-
-var parser = {trace: function trace() { },
-yy: {},
-symbols_: {"error":2,"expressions":3,"e":4,"EOF":5,"?":6,":":7,"||":8,"&&":9,"<":10,"<=":11,">":12,">=":13,"!=":14,"==":15,"%":16,"(":17,")":18,"n":19,"NUMBER":20,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",6:"?",7:":",8:"||",9:"&&",10:"<",11:"<=",12:">",13:">=",14:"!=",15:"==",16:"%",17:"(",18:")",19:"n",20:"NUMBER"},
-productions_: [0,[3,2],[4,5],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,1],[4,1]],
-performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
-
-var $0 = $$.length - 1;
-switch (yystate) {
-case 1: return { type : 'GROUP', expr: $$[$0-1] };
-break;
-case 2:this.$ = { type: 'TERNARY', expr: $$[$0-4], truthy : $$[$0-2], falsey: $$[$0] };
-break;
-case 3:this.$ = { type: "OR", left: $$[$0-2], right: $$[$0] };
-break;
-case 4:this.$ = { type: "AND", left: $$[$0-2], right: $$[$0] };
-break;
-case 5:this.$ = { type: 'LT', left: $$[$0-2], right: $$[$0] };
-break;
-case 6:this.$ = { type: 'LTE', left: $$[$0-2], right: $$[$0] };
-break;
-case 7:this.$ = { type: 'GT', left: $$[$0-2], right: $$[$0] };
-break;
-case 8:this.$ = { type: 'GTE', left: $$[$0-2], right: $$[$0] };
-break;
-case 9:this.$ = { type: 'NEQ', left: $$[$0-2], right: $$[$0] };
-break;
-case 10:this.$ = { type: 'EQ', left: $$[$0-2], right: $$[$0] };
-break;
-case 11:this.$ = { type: 'MOD', left: $$[$0-2], right: $$[$0] };
-break;
-case 12:this.$ = { type: 'GROUP', expr: $$[$0-1] };
-break;
-case 13:this.$ = { type: 'VAR' };
-break;
-case 14:this.$ = { type: 'NUM', val: Number(yytext) };
-break;
-}
-},
-table: [{3:1,4:2,17:[1,3],19:[1,4],20:[1,5]},{1:[3]},{5:[1,6],6:[1,7],8:[1,8],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16]},{4:17,17:[1,3],19:[1,4],20:[1,5]},{5:[2,13],6:[2,13],7:[2,13],8:[2,13],9:[2,13],10:[2,13],11:[2,13],12:[2,13],13:[2,13],14:[2,13],15:[2,13],16:[2,13],18:[2,13]},{5:[2,14],6:[2,14],7:[2,14],8:[2,14],9:[2,14],10:[2,14],11:[2,14],12:[2,14],13:[2,14],14:[2,14],15:[2,14],16:[2,14],18:[2,14]},{1:[2,1]},{4:18,17:[1,3],19:[1,4],20:[1,5]},{4:19,17:[1,3],19:[1,4],20:[1,5]},{4:20,17:[1,3],19:[1,4],20:[1,5]},{4:21,17:[1,3],19:[1,4],20:[1,5]},{4:22,17:[1,3],19:[1,4],20:[1,5]},{4:23,17:[1,3],19:[1,4],20:[1,5]},{4:24,17:[1,3],19:[1,4],20:[1,5]},{4:25,17:[1,3],19:[1,4],20:[1,5]},{4:26,17:[1,3],19:[1,4],20:[1,5]},{4:27,17:[1,3],19:[1,4],20:[1,5]},{6:[1,7],8:[1,8],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16],18:[1,28]},{6:[1,7],7:[1,29],8:[1,8],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16]},{5:[2,3],6:[2,3],7:[2,3],8:[2,3],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16],18:[2,3]},{5:[2,4],6:[2,4],7:[2,4],8:[2,4],9:[2,4],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16],18:[2,4]},{5:[2,5],6:[2,5],7:[2,5],8:[2,5],9:[2,5],10:[2,5],11:[2,5],12:[2,5],13:[2,5],14:[2,5],15:[2,5],16:[1,16],18:[2,5]},{5:[2,6],6:[2,6],7:[2,6],8:[2,6],9:[2,6],10:[2,6],11:[2,6],12:[2,6],13:[2,6],14:[2,6],15:[2,6],16:[1,16],18:[2,6]},{5:[2,7],6:[2,7],7:[2,7],8:[2,7],9:[2,7],10:[2,7],11:[2,7],12:[2,7],13:[2,7],14:[2,7],15:[2,7],16:[1,16],18:[2,7]},{5:[2,8],6:[2,8],7:[2,8],8:[2,8],9:[2,8],10:[2,8],11:[2,8],12:[2,8],13:[2,8],14:[2,8],15:[2,8],16:[1,16],18:[2,8]},{5:[2,9],6:[2,9],7:[2,9],8:[2,9],9:[2,9],10:[2,9],11:[2,9],12:[2,9],13:[2,9],14:[2,9],15:[2,9],16:[1,16],18:[2,9]},{5:[2,10],6:[2,10],7:[2,10],8:[2,10],9:[2,10],10:[2,10],11:[2,10],12:[2,10],13:[2,10],14:[2,10],15:[2,10],16:[1,16],18:[2,10]},{5:[2,11],6:[2,11],7:[2,11],8:[2,11],9:[2,11],10:[2,11],11:[2,11],12:[2,11],13:[2,11],14:[2,11],15:[2,11],16:[2,11],18:[2,11]},{5:[2,12],6:[2,12],7:[2,12],8:[2,12],9:[2,12],10:[2,12],11:[2,12],12:[2,12],13:[2,12],14:[2,12],15:[2,12],16:[2,12],18:[2,12]},{4:30,17:[1,3],19:[1,4],20:[1,5]},{5:[2,2],6:[1,7],7:[2,2],8:[1,8],9:[1,9],10:[1,10],11:[1,11],12:[1,12],13:[1,13],14:[1,14],15:[1,15],16:[1,16],18:[2,2]}],
-defaultActions: {6:[2,1]},
-parseError: function parseError(str, hash) {
-    throw new Error(str);
-},
-parse: function parse(input) {
-    var self = this,
-        stack = [0],
-        vstack = [null], // semantic value stack
-        lstack = [], // location stack
-        table = this.table,
-        yytext = '',
-        yylineno = 0,
-        yyleng = 0,
-        recovering = 0,
-        TERROR = 2,
-        EOF = 1;
-
-    //this.reductionCount = this.shiftCount = 0;
-
-    this.lexer.setInput(input);
-    this.lexer.yy = this.yy;
-    this.yy.lexer = this.lexer;
-    if (typeof this.lexer.yylloc == 'undefined')
-        this.lexer.yylloc = {};
-    var yyloc = this.lexer.yylloc;
-    lstack.push(yyloc);
-
-    if (typeof this.yy.parseError === 'function')
-        this.parseError = this.yy.parseError;
-
-    function popStack (n) {
-        stack.length = stack.length - 2*n;
-        vstack.length = vstack.length - n;
-        lstack.length = lstack.length - n;
-    }
-
-    function lex() {
-        var token;
-        token = self.lexer.lex() || 1; // $end = 1
-        // if token isn't its numeric value, convert
-        if (typeof token !== 'number') {
-            token = self.symbols_[token] || token;
-        }
-        return token;
-    }
-
-    var symbol, preErrorSymbol, state, action, a, r, yyval={},p,len,newState, expected;
-    while (true) {
-        // retreive state number from top of stack
-        state = stack[stack.length-1];
-
-        // use default actions if available
-        if (this.defaultActions[state]) {
-            action = this.defaultActions[state];
-        } else {
-            if (symbol == null)
-                symbol = lex();
-            // read action for current state and first input
-            action = table[state] && table[state][symbol];
-        }
-
-        // handle parse error
-        _handle_error:
-        if (typeof action === 'undefined' || !action.length || !action[0]) {
-
-            if (!recovering) {
-                // Report error
-                expected = [];
-                for (p in table[state]) if (this.terminals_[p] && p > 2) {
-                    expected.push("'"+this.terminals_[p]+"'");
-                }
-                var errStr = '';
-                if (this.lexer.showPosition) {
-                    errStr = 'Parse error on line '+(yylineno+1)+":\n"+this.lexer.showPosition()+"\nExpecting "+expected.join(', ') + ", got '" + this.terminals_[symbol]+ "'";
-                } else {
-                    errStr = 'Parse error on line '+(yylineno+1)+": Unexpected " +
-                                  (symbol == 1 /*EOF*/ ? "end of input" :
-                                              ("'"+(this.terminals_[symbol] || symbol)+"'"));
-                }
-                this.parseError(errStr,
-                    {text: this.lexer.match, token: this.terminals_[symbol] || symbol, line: this.lexer.yylineno, loc: yyloc, expected: expected});
-            }
-
-            // just recovered from another error
-            if (recovering == 3) {
-                if (symbol == EOF) {
-                    throw new Error(errStr || 'Parsing halted.');
-                }
-
-                // discard current lookahead and grab another
-                yyleng = this.lexer.yyleng;
-                yytext = this.lexer.yytext;
-                yylineno = this.lexer.yylineno;
-                yyloc = this.lexer.yylloc;
-                symbol = lex();
-            }
-
-            // try to recover from error
-            while (1) {
-                // check for error recovery rule in this state
-                if ((TERROR.toString()) in table[state]) {
-                    break;
-                }
-                if (state == 0) {
-                    throw new Error(errStr || 'Parsing halted.');
-                }
-                popStack(1);
-                state = stack[stack.length-1];
-            }
-
-            preErrorSymbol = symbol; // save the lookahead token
-            symbol = TERROR;         // insert generic error symbol as new lookahead
-            state = stack[stack.length-1];
-            action = table[state] && table[state][TERROR];
-            recovering = 3; // allow 3 real symbols to be shifted before reporting a new error
-        }
-
-        // this shouldn't happen, unless resolve defaults are off
-        if (action[0] instanceof Array && action.length > 1) {
-            throw new Error('Parse Error: multiple actions possible at state: '+state+', token: '+symbol);
-        }
-
-        switch (action[0]) {
-
-            case 1: // shift
-                //this.shiftCount++;
-
-                stack.push(symbol);
-                vstack.push(this.lexer.yytext);
-                lstack.push(this.lexer.yylloc);
-                stack.push(action[1]); // push state
-                symbol = null;
-                if (!preErrorSymbol) { // normal execution/no error
-                    yyleng = this.lexer.yyleng;
-                    yytext = this.lexer.yytext;
-                    yylineno = this.lexer.yylineno;
-                    yyloc = this.lexer.yylloc;
-                    if (recovering > 0)
-                        recovering--;
-                } else { // error just occurred, resume old lookahead f/ before error
-                    symbol = preErrorSymbol;
-                    preErrorSymbol = null;
-                }
-                break;
-
-            case 2: // reduce
-                //this.reductionCount++;
-
-                len = this.productions_[action[1]][1];
-
-                // perform semantic action
-                yyval.$ = vstack[vstack.length-len]; // default to $$ = $1
-                // default location, uses first token for firsts, last for lasts
-                yyval._$ = {
-                    first_line: lstack[lstack.length-(len||1)].first_line,
-                    last_line: lstack[lstack.length-1].last_line,
-                    first_column: lstack[lstack.length-(len||1)].first_column,
-                    last_column: lstack[lstack.length-1].last_column
-                };
-                r = this.performAction.call(yyval, yytext, yyleng, yylineno, this.yy, action[1], vstack, lstack);
-
-                if (typeof r !== 'undefined') {
-                    return r;
-                }
-
-                // pop off stack
-                if (len) {
-                    stack = stack.slice(0,-1*len*2);
-                    vstack = vstack.slice(0, -1*len);
-                    lstack = lstack.slice(0, -1*len);
-                }
-
-                stack.push(this.productions_[action[1]][0]);    // push nonterminal (reduce)
-                vstack.push(yyval.$);
-                lstack.push(yyval._$);
-                // goto new state = table[STATE][NONTERMINAL]
-                newState = table[stack[stack.length-2]][stack[stack.length-1]];
-                stack.push(newState);
-                break;
-
-            case 3: // accept
-                return true;
-        }
-
-    }
-
-    return true;
-}};/* Jison generated lexer */
-var lexer = (function(){
-
-var lexer = ({EOF:1,
-parseError:function parseError(str, hash) {
-        if (this.yy.parseError) {
-            this.yy.parseError(str, hash);
-        } else {
-            throw new Error(str);
-        }
-    },
-setInput:function (input) {
-        this._input = input;
-        this._more = this._less = this.done = false;
-        this.yylineno = this.yyleng = 0;
-        this.yytext = this.matched = this.match = '';
-        this.conditionStack = ['INITIAL'];
-        this.yylloc = {first_line:1,first_column:0,last_line:1,last_column:0};
-        return this;
-    },
-input:function () {
-        var ch = this._input[0];
-        this.yytext+=ch;
-        this.yyleng++;
-        this.match+=ch;
-        this.matched+=ch;
-        var lines = ch.match(/\n/);
-        if (lines) this.yylineno++;
-        this._input = this._input.slice(1);
-        return ch;
-    },
-unput:function (ch) {
-        this._input = ch + this._input;
-        return this;
-    },
-more:function () {
-        this._more = true;
-        return this;
-    },
-pastInput:function () {
-        var past = this.matched.substr(0, this.matched.length - this.match.length);
-        return (past.length > 20 ? '...':'') + past.substr(-20).replace(/\n/g, "");
-    },
-upcomingInput:function () {
-        var next = this.match;
-        if (next.length < 20) {
-            next += this._input.substr(0, 20-next.length);
-        }
-        return (next.substr(0,20)+(next.length > 20 ? '...':'')).replace(/\n/g, "");
-    },
-showPosition:function () {
-        var pre = this.pastInput();
-        var c = new Array(pre.length + 1).join("-");
-        return pre + this.upcomingInput() + "\n" + c+"^";
-    },
-next:function () {
-        if (this.done) {
-            return this.EOF;
-        }
-        if (!this._input) this.done = true;
-
-        var token,
-            match,
-            col,
-            lines;
-        if (!this._more) {
-            this.yytext = '';
-            this.match = '';
-        }
-        var rules = this._currentRules();
-        for (var i=0;i < rules.length; i++) {
-            match = this._input.match(this.rules[rules[i]]);
-            if (match) {
-                lines = match[0].match(/\n.*/g);
-                if (lines) this.yylineno += lines.length;
-                this.yylloc = {first_line: this.yylloc.last_line,
-                               last_line: this.yylineno+1,
-                               first_column: this.yylloc.last_column,
-                               last_column: lines ? lines[lines.length-1].length-1 : this.yylloc.last_column + match[0].length}
-                this.yytext += match[0];
-                this.match += match[0];
-                this.matches = match;
-                this.yyleng = this.yytext.length;
-                this._more = false;
-                this._input = this._input.slice(match[0].length);
-                this.matched += match[0];
-                token = this.performAction.call(this, this.yy, this, rules[i],this.conditionStack[this.conditionStack.length-1]);
-                if (token) return token;
-                else return;
-            }
-        }
-        if (this._input === "") {
-            return this.EOF;
-        } else {
-            this.parseError('Lexical error on line '+(this.yylineno+1)+'. Unrecognized text.\n'+this.showPosition(),
-                    {text: "", token: null, line: this.yylineno});
-        }
-    },
-lex:function lex() {
-        var r = this.next();
-        if (typeof r !== 'undefined') {
-            return r;
-        } else {
-            return this.lex();
-        }
-    },
-begin:function begin(condition) {
-        this.conditionStack.push(condition);
-    },
-popState:function popState() {
-        return this.conditionStack.pop();
-    },
-_currentRules:function _currentRules() {
-        return this.conditions[this.conditionStack[this.conditionStack.length-1]].rules;
-    },
-topState:function () {
-        return this.conditionStack[this.conditionStack.length-2];
-    },
-pushState:function begin(condition) {
-        this.begin(condition);
-    }});
-lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
-
-var YYSTATE=YY_START;
-switch($avoiding_name_collisions) {
-case 0:/* skip whitespace */
-break;
-case 1:return 20
-break;
-case 2:return 19
-break;
-case 3:return 8
-break;
-case 4:return 9
-break;
-case 5:return 6
-break;
-case 6:return 7
-break;
-case 7:return 11
-break;
-case 8:return 13
-break;
-case 9:return 10
-break;
-case 10:return 12
-break;
-case 11:return 14
-break;
-case 12:return 15
-break;
-case 13:return 16
-break;
-case 14:return 17
-break;
-case 15:return 18
-break;
-case 16:return 5
-break;
-case 17:return 'INVALID'
-break;
-}
-};
-lexer.rules = [/^\s+/,/^[0-9]+(\.[0-9]+)?\b/,/^n\b/,/^\|\|/,/^&&/,/^\?/,/^:/,/^<=/,/^>=/,/^</,/^>/,/^!=/,/^==/,/^%/,/^\(/,/^\)/,/^$/,/^./];
-lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],"inclusive":true}};return lexer;})()
-parser.lexer = lexer;
-return parser;
-})();
-// End parser
-
-  // Handle node, amd, and global systems
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Jed;
-    }
-    exports.Jed = Jed;
-  }
-  else {
-    if (typeof define === 'function' && define.amd) {
-      define('jed', function() {
-        return Jed;
-      });
-    }
-    // Leak a global regardless of module system
-    root['Jed'] = Jed;
-  }
-
-})(this);
-
-},{}],315:[function(require,module,exports){
-arguments[4][15][0].apply(exports,arguments)
-},{"./_getNative":414,"./_root":455,"dup":15}],316:[function(require,module,exports){
-arguments[4][16][0].apply(exports,arguments)
-},{"./_hashClear":420,"./_hashDelete":421,"./_hashGet":422,"./_hashHas":423,"./_hashSet":424,"dup":16}],317:[function(require,module,exports){
-arguments[4][17][0].apply(exports,arguments)
-},{"./_listCacheClear":441,"./_listCacheDelete":442,"./_listCacheGet":443,"./_listCacheHas":444,"./_listCacheSet":445,"dup":17}],318:[function(require,module,exports){
-arguments[4][18][0].apply(exports,arguments)
-},{"./_getNative":414,"./_root":455,"dup":18}],319:[function(require,module,exports){
-arguments[4][19][0].apply(exports,arguments)
-},{"./_mapCacheClear":446,"./_mapCacheDelete":447,"./_mapCacheGet":448,"./_mapCacheHas":449,"./_mapCacheSet":450,"dup":19}],320:[function(require,module,exports){
-arguments[4][20][0].apply(exports,arguments)
-},{"./_getNative":414,"./_root":455,"dup":20}],321:[function(require,module,exports){
-arguments[4][21][0].apply(exports,arguments)
-},{"./_root":455,"dup":21}],322:[function(require,module,exports){
-arguments[4][22][0].apply(exports,arguments)
-},{"./_getNative":414,"./_root":455,"dup":22}],323:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"./_MapCache":319,"./_setCacheAdd":456,"./_setCacheHas":457,"dup":23}],324:[function(require,module,exports){
-arguments[4][24][0].apply(exports,arguments)
-},{"./_ListCache":317,"./_stackClear":459,"./_stackDelete":460,"./_stackGet":461,"./_stackHas":462,"./_stackSet":463,"dup":24}],325:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"./_root":455,"dup":25}],326:[function(require,module,exports){
-arguments[4][26][0].apply(exports,arguments)
-},{"./_root":455,"dup":26}],327:[function(require,module,exports){
-arguments[4][27][0].apply(exports,arguments)
-},{"./_getNative":414,"./_root":455,"dup":27}],328:[function(require,module,exports){
-arguments[4][28][0].apply(exports,arguments)
-},{"dup":28}],329:[function(require,module,exports){
-arguments[4][29][0].apply(exports,arguments)
-},{"dup":29}],330:[function(require,module,exports){
-arguments[4][30][0].apply(exports,arguments)
-},{"dup":30}],331:[function(require,module,exports){
-/**
- * A specialized version of `baseAggregator` for arrays.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} setter The function to set `accumulator` values.
- * @param {Function} iteratee The iteratee to transform keys.
- * @param {Object} accumulator The initial aggregated object.
- * @returns {Function} Returns `accumulator`.
- */
-function arrayAggregator(array, setter, iteratee, accumulator) {
-  var index = -1,
-      length = array ? array.length : 0;
-
-  while (++index < length) {
-    var value = array[index];
-    setter(accumulator, value, iteratee(value), array);
-  }
-  return accumulator;
-}
-
-module.exports = arrayAggregator;
-
-},{}],332:[function(require,module,exports){
-arguments[4][31][0].apply(exports,arguments)
-},{"dup":31}],333:[function(require,module,exports){
-/**
- * A specialized version of `_.filter` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {Array} Returns the new filtered array.
- */
-function arrayFilter(array, predicate) {
-  var index = -1,
-      length = array ? array.length : 0,
-      resIndex = 0,
-      result = [];
-
-  while (++index < length) {
-    var value = array[index];
-    if (predicate(value, index, array)) {
-      result[resIndex++] = value;
-    }
-  }
-  return result;
-}
-
-module.exports = arrayFilter;
-
-},{}],334:[function(require,module,exports){
-var baseIndexOf = require('./_baseIndexOf');
-
-/**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} [array] The array to search.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludes(array, value) {
-  var length = array ? array.length : 0;
-  return !!length && baseIndexOf(array, value, 0) > -1;
-}
-
-module.exports = arrayIncludes;
-
-},{"./_baseIndexOf":360}],335:[function(require,module,exports){
-/**
- * This function is like `arrayIncludes` except that it accepts a comparator.
- *
- * @private
- * @param {Array} [array] The array to search.
- * @param {*} target The value to search for.
- * @param {Function} comparator The comparator invoked per element.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludesWith(array, value, comparator) {
-  var index = -1,
-      length = array ? array.length : 0;
-
-  while (++index < length) {
-    if (comparator(value, array[index])) {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = arrayIncludesWith;
-
-},{}],336:[function(require,module,exports){
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array ? array.length : 0,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-module.exports = arrayMap;
-
-},{}],337:[function(require,module,exports){
-arguments[4][32][0].apply(exports,arguments)
-},{"dup":32}],338:[function(require,module,exports){
-arguments[4][33][0].apply(exports,arguments)
-},{"dup":33}],339:[function(require,module,exports){
-arguments[4][34][0].apply(exports,arguments)
-},{"dup":34}],340:[function(require,module,exports){
-arguments[4][35][0].apply(exports,arguments)
-},{"./eq":473,"dup":35}],341:[function(require,module,exports){
-arguments[4][36][0].apply(exports,arguments)
-},{"./eq":473,"dup":36}],342:[function(require,module,exports){
-arguments[4][37][0].apply(exports,arguments)
-},{"./eq":473,"dup":37}],343:[function(require,module,exports){
-arguments[4][38][0].apply(exports,arguments)
-},{"./eq":473,"dup":38}],344:[function(require,module,exports){
-var baseEach = require('./_baseEach');
-
-/**
- * Aggregates elements of `collection` on `accumulator` with keys transformed
- * by `iteratee` and values set by `setter`.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} setter The function to set `accumulator` values.
- * @param {Function} iteratee The iteratee to transform keys.
- * @param {Object} accumulator The initial aggregated object.
- * @returns {Function} Returns `accumulator`.
- */
-function baseAggregator(collection, setter, iteratee, accumulator) {
-  baseEach(collection, function(value, key, collection) {
-    setter(accumulator, value, iteratee(value), collection);
-  });
-  return accumulator;
-}
-
-module.exports = baseAggregator;
-
-},{"./_baseEach":349}],345:[function(require,module,exports){
-arguments[4][39][0].apply(exports,arguments)
-},{"./_copyObject":398,"./keys":503,"dup":39}],346:[function(require,module,exports){
-arguments[4][40][0].apply(exports,arguments)
-},{"./_Stack":324,"./_arrayEach":332,"./_assignValue":342,"./_baseAssign":345,"./_cloneBuffer":388,"./_copyArray":397,"./_copySymbols":399,"./_getAllKeys":410,"./_getTag":417,"./_initCloneArray":427,"./_initCloneByTag":428,"./_initCloneObject":429,"./_isHostObject":432,"./isArray":486,"./isBuffer":489,"./isObject":496,"./keys":503,"dup":40}],347:[function(require,module,exports){
-arguments[4][41][0].apply(exports,arguments)
-},{"./isObject":496,"dup":41}],348:[function(require,module,exports){
-var SetCache = require('./_SetCache'),
-    arrayIncludes = require('./_arrayIncludes'),
-    arrayIncludesWith = require('./_arrayIncludesWith'),
-    arrayMap = require('./_arrayMap'),
-    baseUnary = require('./_baseUnary'),
-    cacheHas = require('./_cacheHas');
-
-/** Used as the size to enable large array optimizations. */
-var LARGE_ARRAY_SIZE = 200;
-
-/**
- * The base implementation of methods like `_.difference` without support
- * for excluding multiple arrays or iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Array} values The values to exclude.
- * @param {Function} [iteratee] The iteratee invoked per element.
- * @param {Function} [comparator] The comparator invoked per element.
- * @returns {Array} Returns the new array of filtered values.
- */
-function baseDifference(array, values, iteratee, comparator) {
-  var index = -1,
-      includes = arrayIncludes,
-      isCommon = true,
-      length = array.length,
-      result = [],
-      valuesLength = values.length;
-
-  if (!length) {
-    return result;
-  }
-  if (iteratee) {
-    values = arrayMap(values, baseUnary(iteratee));
-  }
-  if (comparator) {
-    includes = arrayIncludesWith;
-    isCommon = false;
-  }
-  else if (values.length >= LARGE_ARRAY_SIZE) {
-    includes = cacheHas;
-    isCommon = false;
-    values = new SetCache(values);
-  }
-  outer:
-  while (++index < length) {
-    var value = array[index],
-        computed = iteratee ? iteratee(value) : value;
-
-    value = (comparator || value !== 0) ? value : 0;
-    if (isCommon && computed === computed) {
-      var valuesIndex = valuesLength;
-      while (valuesIndex--) {
-        if (values[valuesIndex] === computed) {
-          continue outer;
-        }
-      }
-      result.push(value);
-    }
-    else if (!includes(values, computed, comparator)) {
-      result.push(value);
-    }
-  }
-  return result;
-}
-
-module.exports = baseDifference;
-
-},{"./_SetCache":323,"./_arrayIncludes":334,"./_arrayIncludesWith":335,"./_arrayMap":336,"./_baseUnary":381,"./_cacheHas":384}],349:[function(require,module,exports){
-arguments[4][42][0].apply(exports,arguments)
-},{"./_baseForOwn":354,"./_createBaseEach":403,"dup":42}],350:[function(require,module,exports){
-var baseEach = require('./_baseEach');
-
-/**
- * The base implementation of `_.filter` without support for iteratee shorthands.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {Array} Returns the new filtered array.
- */
-function baseFilter(collection, predicate) {
-  var result = [];
-  baseEach(collection, function(value, index, collection) {
-    if (predicate(value, index, collection)) {
-      result.push(value);
-    }
-  });
-  return result;
-}
-
-module.exports = baseFilter;
-
-},{"./_baseEach":349}],351:[function(require,module,exports){
-/**
- * The base implementation of `_.findIndex` and `_.findLastIndex` without
- * support for iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {Function} predicate The function invoked per iteration.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseFindIndex(array, predicate, fromIndex, fromRight) {
-  var length = array.length,
-      index = fromIndex + (fromRight ? 1 : -1);
-
-  while ((fromRight ? index-- : ++index < length)) {
-    if (predicate(array[index], index, array)) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = baseFindIndex;
-
-},{}],352:[function(require,module,exports){
-var arrayPush = require('./_arrayPush'),
-    isFlattenable = require('./_isFlattenable');
-
-/**
- * The base implementation of `_.flatten` with support for restricting flattening.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {number} depth The maximum recursion depth.
- * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
- * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */
-function baseFlatten(array, depth, predicate, isStrict, result) {
-  var index = -1,
-      length = array.length;
-
-  predicate || (predicate = isFlattenable);
-  result || (result = []);
-
-  while (++index < length) {
-    var value = array[index];
-    if (depth > 0 && predicate(value)) {
-      if (depth > 1) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, depth - 1, predicate, isStrict, result);
-      } else {
-        arrayPush(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
-    }
-  }
-  return result;
-}
-
-module.exports = baseFlatten;
-
-},{"./_arrayPush":337,"./_isFlattenable":430}],353:[function(require,module,exports){
-arguments[4][43][0].apply(exports,arguments)
-},{"./_createBaseFor":404,"dup":43}],354:[function(require,module,exports){
-arguments[4][44][0].apply(exports,arguments)
-},{"./_baseFor":353,"./keys":503,"dup":44}],355:[function(require,module,exports){
-arguments[4][45][0].apply(exports,arguments)
-},{"./_castPath":385,"./_isKey":435,"./_toKey":465,"dup":45}],356:[function(require,module,exports){
-arguments[4][46][0].apply(exports,arguments)
-},{"./_arrayPush":337,"./isArray":486,"dup":46}],357:[function(require,module,exports){
-arguments[4][47][0].apply(exports,arguments)
-},{"./_getPrototype":415,"dup":47}],358:[function(require,module,exports){
-arguments[4][48][0].apply(exports,arguments)
-},{"dup":48}],359:[function(require,module,exports){
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * The base implementation of `_.inRange` which doesn't coerce arguments to numbers.
- *
- * @private
- * @param {number} number The number to check.
- * @param {number} start The start of the range.
- * @param {number} end The end of the range.
- * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
- */
-function baseInRange(number, start, end) {
-  return number >= nativeMin(start, end) && number < nativeMax(start, end);
-}
-
-module.exports = baseInRange;
-
-},{}],360:[function(require,module,exports){
-var indexOfNaN = require('./_indexOfNaN');
-
-/**
- * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} value The value to search for.
- * @param {number} fromIndex The index to search from.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseIndexOf(array, value, fromIndex) {
-  if (value !== value) {
-    return indexOfNaN(array, fromIndex);
-  }
-  var index = fromIndex - 1,
-      length = array.length;
-
-  while (++index < length) {
-    if (array[index] === value) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = baseIndexOf;
-
-},{"./_indexOfNaN":426}],361:[function(require,module,exports){
-arguments[4][49][0].apply(exports,arguments)
-},{"./_baseIsEqualDeep":362,"./isObject":496,"./isObjectLike":497,"dup":49}],362:[function(require,module,exports){
-arguments[4][50][0].apply(exports,arguments)
-},{"./_Stack":324,"./_equalArrays":407,"./_equalByTag":408,"./_equalObjects":409,"./_getTag":417,"./_isHostObject":432,"./isArray":486,"./isTypedArray":501,"dup":50}],363:[function(require,module,exports){
-arguments[4][51][0].apply(exports,arguments)
-},{"./_Stack":324,"./_baseIsEqual":361,"dup":51}],364:[function(require,module,exports){
-arguments[4][52][0].apply(exports,arguments)
-},{"./_isHostObject":432,"./_isMasked":437,"./_toSource":466,"./isFunction":492,"./isObject":496,"dup":52}],365:[function(require,module,exports){
-arguments[4][53][0].apply(exports,arguments)
-},{"./_baseMatches":369,"./_baseMatchesProperty":370,"./identity":482,"./isArray":486,"./property":513,"dup":53}],366:[function(require,module,exports){
-arguments[4][54][0].apply(exports,arguments)
-},{"dup":54}],367:[function(require,module,exports){
-arguments[4][55][0].apply(exports,arguments)
-},{"./_Reflect":321,"./_iteratorToArray":440,"dup":55}],368:[function(require,module,exports){
-var baseEach = require('./_baseEach'),
-    isArrayLike = require('./isArrayLike');
-
-/**
- * The base implementation of `_.map` without support for iteratee shorthands.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function baseMap(collection, iteratee) {
-  var index = -1,
-      result = isArrayLike(collection) ? Array(collection.length) : [];
-
-  baseEach(collection, function(value, key, collection) {
-    result[++index] = iteratee(value, key, collection);
-  });
-  return result;
-}
-
-module.exports = baseMap;
-
-},{"./_baseEach":349,"./isArrayLike":487}],369:[function(require,module,exports){
-arguments[4][56][0].apply(exports,arguments)
-},{"./_baseIsMatch":363,"./_getMatchData":413,"./_matchesStrictComparable":452,"dup":56}],370:[function(require,module,exports){
-arguments[4][57][0].apply(exports,arguments)
-},{"./_baseIsEqual":361,"./_isKey":435,"./_isStrictComparable":439,"./_matchesStrictComparable":452,"./_toKey":465,"./get":480,"./hasIn":481,"dup":57}],371:[function(require,module,exports){
-arguments[4][58][0].apply(exports,arguments)
-},{"./_Stack":324,"./_arrayEach":332,"./_assignMergeValue":341,"./_baseMergeDeep":372,"./isArray":486,"./isObject":496,"./isTypedArray":501,"./keysIn":504,"dup":58}],372:[function(require,module,exports){
-arguments[4][59][0].apply(exports,arguments)
-},{"./_assignMergeValue":341,"./_baseClone":346,"./_copyArray":397,"./isArguments":485,"./isArray":486,"./isArrayLikeObject":488,"./isFunction":492,"./isObject":496,"./isPlainObject":498,"./isTypedArray":501,"./toPlainObject":524,"dup":59}],373:[function(require,module,exports){
-var arrayMap = require('./_arrayMap'),
-    baseIteratee = require('./_baseIteratee'),
-    baseMap = require('./_baseMap'),
-    baseSortBy = require('./_baseSortBy'),
-    baseUnary = require('./_baseUnary'),
-    compareMultiple = require('./_compareMultiple'),
-    identity = require('./identity');
-
-/**
- * The base implementation of `_.orderBy` without param guards.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function[]|Object[]|string[]} iteratees The iteratees to sort by.
- * @param {string[]} orders The sort orders of `iteratees`.
- * @returns {Array} Returns the new sorted array.
- */
-function baseOrderBy(collection, iteratees, orders) {
-  var index = -1;
-  iteratees = arrayMap(iteratees.length ? iteratees : [identity], baseUnary(baseIteratee));
-
-  var result = baseMap(collection, function(value, key, collection) {
-    var criteria = arrayMap(iteratees, function(iteratee) {
-      return iteratee(value);
-    });
-    return { 'criteria': criteria, 'index': ++index, 'value': value };
-  });
-
-  return baseSortBy(result, function(object, other) {
-    return compareMultiple(object, other, orders);
-  });
-}
-
-module.exports = baseOrderBy;
-
-},{"./_arrayMap":336,"./_baseIteratee":365,"./_baseMap":368,"./_baseSortBy":377,"./_baseUnary":381,"./_compareMultiple":396,"./identity":482}],374:[function(require,module,exports){
-arguments[4][60][0].apply(exports,arguments)
-},{"dup":60}],375:[function(require,module,exports){
-arguments[4][61][0].apply(exports,arguments)
-},{"./_baseGet":355,"dup":61}],376:[function(require,module,exports){
-/**
- * The base implementation of `_.reduce` and `_.reduceRight`, without support
- * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {*} accumulator The initial value.
- * @param {boolean} initAccum Specify using the first or last element of
- *  `collection` as the initial value.
- * @param {Function} eachFunc The function to iterate over `collection`.
- * @returns {*} Returns the accumulated value.
- */
-function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
-  eachFunc(collection, function(value, index, collection) {
-    accumulator = initAccum
-      ? (initAccum = false, value)
-      : iteratee(accumulator, value, index, collection);
-  });
-  return accumulator;
-}
-
-module.exports = baseReduce;
-
-},{}],377:[function(require,module,exports){
-/**
- * The base implementation of `_.sortBy` which uses `comparer` to define the
- * sort order of `array` and replaces criteria objects with their corresponding
- * values.
- *
- * @private
- * @param {Array} array The array to sort.
- * @param {Function} comparer The function to define sort order.
- * @returns {Array} Returns `array`.
- */
-function baseSortBy(array, comparer) {
-  var length = array.length;
-
-  array.sort(comparer);
-  while (length--) {
-    array[length] = array[length].value;
-  }
-  return array;
-}
-
-module.exports = baseSortBy;
-
-},{}],378:[function(require,module,exports){
-/**
- * The base implementation of `_.sum` and `_.sumBy` without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {number} Returns the sum.
- */
-function baseSum(array, iteratee) {
-  var result,
-      index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    var current = iteratee(array[index]);
-    if (current !== undefined) {
-      result = result === undefined ? current : (result + current);
-    }
-  }
-  return result;
-}
-
-module.exports = baseSum;
-
-},{}],379:[function(require,module,exports){
-arguments[4][62][0].apply(exports,arguments)
-},{"dup":62}],380:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"./_Symbol":325,"./isSymbol":500,"dup":63}],381:[function(require,module,exports){
-/**
- * The base implementation of `_.unary` without support for storing wrapper metadata.
- *
- * @private
- * @param {Function} func The function to cap arguments for.
- * @returns {Function} Returns the new capped function.
- */
-function baseUnary(func) {
-  return function(value) {
-    return func(value);
-  };
-}
-
-module.exports = baseUnary;
-
-},{}],382:[function(require,module,exports){
-var SetCache = require('./_SetCache'),
-    arrayIncludes = require('./_arrayIncludes'),
-    arrayIncludesWith = require('./_arrayIncludesWith'),
-    cacheHas = require('./_cacheHas'),
-    createSet = require('./_createSet'),
-    setToArray = require('./_setToArray');
-
-/** Used as the size to enable large array optimizations. */
-var LARGE_ARRAY_SIZE = 200;
-
-/**
- * The base implementation of `_.uniqBy` without support for iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Function} [iteratee] The iteratee invoked per element.
- * @param {Function} [comparator] The comparator invoked per element.
- * @returns {Array} Returns the new duplicate free array.
- */
-function baseUniq(array, iteratee, comparator) {
-  var index = -1,
-      includes = arrayIncludes,
-      length = array.length,
-      isCommon = true,
-      result = [],
-      seen = result;
-
-  if (comparator) {
-    isCommon = false;
-    includes = arrayIncludesWith;
-  }
-  else if (length >= LARGE_ARRAY_SIZE) {
-    var set = iteratee ? null : createSet(array);
-    if (set) {
-      return setToArray(set);
-    }
-    isCommon = false;
-    includes = cacheHas;
-    seen = new SetCache;
-  }
-  else {
-    seen = iteratee ? [] : result;
-  }
-  outer:
-  while (++index < length) {
-    var value = array[index],
-        computed = iteratee ? iteratee(value) : value;
-
-    value = (comparator || value !== 0) ? value : 0;
-    if (isCommon && computed === computed) {
-      var seenIndex = seen.length;
-      while (seenIndex--) {
-        if (seen[seenIndex] === computed) {
-          continue outer;
-        }
-      }
-      if (iteratee) {
-        seen.push(computed);
-      }
-      result.push(value);
-    }
-    else if (!includes(seen, computed, comparator)) {
-      if (seen !== result) {
-        seen.push(computed);
-      }
-      result.push(value);
-    }
-  }
-  return result;
-}
-
-module.exports = baseUniq;
-
-},{"./_SetCache":323,"./_arrayIncludes":334,"./_arrayIncludesWith":335,"./_cacheHas":384,"./_createSet":406,"./_setToArray":458}],383:[function(require,module,exports){
-var arrayMap = require('./_arrayMap');
-
-/**
- * The base implementation of `_.values` and `_.valuesIn` which creates an
- * array of `object` property values corresponding to the property names
- * of `props`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} props The property names to get values for.
- * @returns {Object} Returns the array of property values.
- */
-function baseValues(object, props) {
-  return arrayMap(props, function(key) {
-    return object[key];
-  });
-}
-
-module.exports = baseValues;
-
-},{"./_arrayMap":336}],384:[function(require,module,exports){
-/**
- * Checks if a cache value for `key` exists.
- *
- * @private
- * @param {Object} cache The cache to query.
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function cacheHas(cache, key) {
-  return cache.has(key);
-}
-
-module.exports = cacheHas;
-
-},{}],385:[function(require,module,exports){
-arguments[4][64][0].apply(exports,arguments)
-},{"./_stringToPath":464,"./isArray":486,"dup":64}],386:[function(require,module,exports){
-arguments[4][65][0].apply(exports,arguments)
-},{"dup":65}],387:[function(require,module,exports){
-arguments[4][66][0].apply(exports,arguments)
-},{"./_Uint8Array":326,"dup":66}],388:[function(require,module,exports){
-arguments[4][67][0].apply(exports,arguments)
-},{"dup":67}],389:[function(require,module,exports){
-arguments[4][68][0].apply(exports,arguments)
-},{"./_cloneArrayBuffer":387,"dup":68}],390:[function(require,module,exports){
-arguments[4][69][0].apply(exports,arguments)
-},{"./_addMapEntry":328,"./_arrayReduce":338,"./_mapToArray":451,"dup":69}],391:[function(require,module,exports){
-arguments[4][70][0].apply(exports,arguments)
-},{"dup":70}],392:[function(require,module,exports){
-arguments[4][71][0].apply(exports,arguments)
-},{"./_addSetEntry":329,"./_arrayReduce":338,"./_setToArray":458,"dup":71}],393:[function(require,module,exports){
-arguments[4][72][0].apply(exports,arguments)
-},{"./_Symbol":325,"dup":72}],394:[function(require,module,exports){
-arguments[4][73][0].apply(exports,arguments)
-},{"./_cloneArrayBuffer":387,"dup":73}],395:[function(require,module,exports){
-var isSymbol = require('./isSymbol');
-
-/**
- * Compares values to sort them in ascending order.
- *
- * @private
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {number} Returns the sort order indicator for `value`.
- */
-function compareAscending(value, other) {
-  if (value !== other) {
-    var valIsDefined = value !== undefined,
-        valIsNull = value === null,
-        valIsReflexive = value === value,
-        valIsSymbol = isSymbol(value);
-
-    var othIsDefined = other !== undefined,
-        othIsNull = other === null,
-        othIsReflexive = other === other,
-        othIsSymbol = isSymbol(other);
-
-    if ((!othIsNull && !othIsSymbol && !valIsSymbol && value > other) ||
-        (valIsSymbol && othIsDefined && othIsReflexive && !othIsNull && !othIsSymbol) ||
-        (valIsNull && othIsDefined && othIsReflexive) ||
-        (!valIsDefined && othIsReflexive) ||
-        !valIsReflexive) {
-      return 1;
-    }
-    if ((!valIsNull && !valIsSymbol && !othIsSymbol && value < other) ||
-        (othIsSymbol && valIsDefined && valIsReflexive && !valIsNull && !valIsSymbol) ||
-        (othIsNull && valIsDefined && valIsReflexive) ||
-        (!othIsDefined && valIsReflexive) ||
-        !othIsReflexive) {
-      return -1;
-    }
-  }
-  return 0;
-}
-
-module.exports = compareAscending;
-
-},{"./isSymbol":500}],396:[function(require,module,exports){
-var compareAscending = require('./_compareAscending');
-
-/**
- * Used by `_.orderBy` to compare multiple properties of a value to another
- * and stable sort them.
- *
- * If `orders` is unspecified, all values are sorted in ascending order. Otherwise,
- * specify an order of "desc" for descending or "asc" for ascending sort order
- * of corresponding values.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {boolean[]|string[]} orders The order to sort by for each property.
- * @returns {number} Returns the sort order indicator for `object`.
- */
-function compareMultiple(object, other, orders) {
-  var index = -1,
-      objCriteria = object.criteria,
-      othCriteria = other.criteria,
-      length = objCriteria.length,
-      ordersLength = orders.length;
-
-  while (++index < length) {
-    var result = compareAscending(objCriteria[index], othCriteria[index]);
-    if (result) {
-      if (index >= ordersLength) {
-        return result;
-      }
-      var order = orders[index];
-      return result * (order == 'desc' ? -1 : 1);
-    }
-  }
-  // Fixes an `Array#sort` bug in the JS engine embedded in Adobe applications
-  // that causes it, under certain circumstances, to provide the same value for
-  // `object` and `other`. See https://github.com/jashkenas/underscore/pull/1247
-  // for more details.
-  //
-  // This also ensures a stable sort in V8 and other engines.
-  // See https://bugs.chromium.org/p/v8/issues/detail?id=90 for more details.
-  return object.index - other.index;
-}
-
-module.exports = compareMultiple;
-
-},{"./_compareAscending":395}],397:[function(require,module,exports){
-arguments[4][74][0].apply(exports,arguments)
-},{"dup":74}],398:[function(require,module,exports){
-arguments[4][75][0].apply(exports,arguments)
-},{"./_assignValue":342,"dup":75}],399:[function(require,module,exports){
-arguments[4][76][0].apply(exports,arguments)
-},{"./_copyObject":398,"./_getSymbols":416,"dup":76}],400:[function(require,module,exports){
-arguments[4][77][0].apply(exports,arguments)
-},{"./_root":455,"dup":77}],401:[function(require,module,exports){
-var arrayAggregator = require('./_arrayAggregator'),
-    baseAggregator = require('./_baseAggregator'),
-    baseIteratee = require('./_baseIteratee'),
-    isArray = require('./isArray');
-
-/**
- * Creates a function like `_.groupBy`.
- *
- * @private
- * @param {Function} setter The function to set accumulator values.
- * @param {Function} [initializer] The accumulator object initializer.
- * @returns {Function} Returns the new aggregator function.
- */
-function createAggregator(setter, initializer) {
-  return function(collection, iteratee) {
-    var func = isArray(collection) ? arrayAggregator : baseAggregator,
-        accumulator = initializer ? initializer() : {};
-
-    return func(collection, setter, baseIteratee(iteratee), accumulator);
-  };
-}
-
-module.exports = createAggregator;
-
-},{"./_arrayAggregator":331,"./_baseAggregator":344,"./_baseIteratee":365,"./isArray":486}],402:[function(require,module,exports){
-arguments[4][78][0].apply(exports,arguments)
-},{"./_isIterateeCall":434,"./rest":515,"dup":78}],403:[function(require,module,exports){
-arguments[4][79][0].apply(exports,arguments)
-},{"./isArrayLike":487,"dup":79}],404:[function(require,module,exports){
-arguments[4][80][0].apply(exports,arguments)
-},{"dup":80}],405:[function(require,module,exports){
-var baseIteratee = require('./_baseIteratee'),
-    isArrayLike = require('./isArrayLike'),
-    keys = require('./keys');
-
-/**
- * Creates a `_.find` or `_.findLast` function.
- *
- * @private
- * @param {Function} findIndexFunc The function to find the collection index.
- * @returns {Function} Returns the new find function.
- */
-function createFind(findIndexFunc) {
-  return function(collection, predicate, fromIndex) {
-    var iterable = Object(collection);
-    predicate = baseIteratee(predicate, 3);
-    if (!isArrayLike(collection)) {
-      var props = keys(collection);
-    }
-    var index = findIndexFunc(props || collection, function(value, key) {
-      if (props) {
-        key = value;
-        value = iterable[key];
-      }
-      return predicate(value, key, iterable);
-    }, fromIndex);
-    return index > -1 ? collection[props ? props[index] : index] : undefined;
-  };
-}
-
-module.exports = createFind;
-
-},{"./_baseIteratee":365,"./isArrayLike":487,"./keys":503}],406:[function(require,module,exports){
-var Set = require('./_Set'),
-    noop = require('./noop'),
-    setToArray = require('./_setToArray');
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/**
- * Creates a set of `values`.
- *
- * @private
- * @param {Array} values The values to add to the set.
- * @returns {Object} Returns the new set.
- */
-var createSet = !(Set && (1 / setToArray(new Set([,-0]))[1]) == INFINITY) ? noop : function(values) {
-  return new Set(values);
-};
-
-module.exports = createSet;
-
-},{"./_Set":322,"./_setToArray":458,"./noop":510}],407:[function(require,module,exports){
-arguments[4][81][0].apply(exports,arguments)
-},{"./_SetCache":323,"./_arraySome":339,"dup":81}],408:[function(require,module,exports){
-arguments[4][82][0].apply(exports,arguments)
-},{"./_Symbol":325,"./_Uint8Array":326,"./_equalArrays":407,"./_mapToArray":451,"./_setToArray":458,"dup":82}],409:[function(require,module,exports){
-arguments[4][83][0].apply(exports,arguments)
-},{"./_baseHas":357,"./keys":503,"dup":83}],410:[function(require,module,exports){
-arguments[4][84][0].apply(exports,arguments)
-},{"./_baseGetAllKeys":356,"./_getSymbols":416,"./keys":503,"dup":84}],411:[function(require,module,exports){
-arguments[4][85][0].apply(exports,arguments)
-},{"./_baseProperty":374,"dup":85}],412:[function(require,module,exports){
-arguments[4][86][0].apply(exports,arguments)
-},{"./_isKeyable":436,"dup":86}],413:[function(require,module,exports){
-arguments[4][87][0].apply(exports,arguments)
-},{"./_isStrictComparable":439,"./keys":503,"dup":87}],414:[function(require,module,exports){
-arguments[4][88][0].apply(exports,arguments)
-},{"./_baseIsNative":364,"./_getValue":418,"dup":88}],415:[function(require,module,exports){
-arguments[4][89][0].apply(exports,arguments)
-},{"dup":89}],416:[function(require,module,exports){
-arguments[4][90][0].apply(exports,arguments)
-},{"./stubArray":517,"dup":90}],417:[function(require,module,exports){
-arguments[4][91][0].apply(exports,arguments)
-},{"./_DataView":315,"./_Map":318,"./_Promise":320,"./_Set":322,"./_WeakMap":327,"./_toSource":466,"dup":91}],418:[function(require,module,exports){
-arguments[4][92][0].apply(exports,arguments)
-},{"dup":92}],419:[function(require,module,exports){
-arguments[4][93][0].apply(exports,arguments)
-},{"./_castPath":385,"./_isIndex":433,"./_isKey":435,"./_toKey":465,"./isArguments":485,"./isArray":486,"./isLength":493,"./isString":499,"dup":93}],420:[function(require,module,exports){
-arguments[4][94][0].apply(exports,arguments)
-},{"./_nativeCreate":454,"dup":94}],421:[function(require,module,exports){
-arguments[4][95][0].apply(exports,arguments)
-},{"dup":95}],422:[function(require,module,exports){
-arguments[4][96][0].apply(exports,arguments)
-},{"./_nativeCreate":454,"dup":96}],423:[function(require,module,exports){
-arguments[4][97][0].apply(exports,arguments)
-},{"./_nativeCreate":454,"dup":97}],424:[function(require,module,exports){
-arguments[4][98][0].apply(exports,arguments)
-},{"./_nativeCreate":454,"dup":98}],425:[function(require,module,exports){
-arguments[4][99][0].apply(exports,arguments)
-},{"./_baseTimes":379,"./isArguments":485,"./isArray":486,"./isLength":493,"./isString":499,"dup":99}],426:[function(require,module,exports){
-/**
- * Gets the index at which the first occurrence of `NaN` is found in `array`.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched `NaN`, else `-1`.
- */
-function indexOfNaN(array, fromIndex, fromRight) {
-  var length = array.length,
-      index = fromIndex + (fromRight ? 1 : -1);
-
-  while ((fromRight ? index-- : ++index < length)) {
-    var other = array[index];
-    if (other !== other) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = indexOfNaN;
-
-},{}],427:[function(require,module,exports){
-arguments[4][100][0].apply(exports,arguments)
-},{"dup":100}],428:[function(require,module,exports){
-arguments[4][101][0].apply(exports,arguments)
-},{"./_cloneArrayBuffer":387,"./_cloneDataView":389,"./_cloneMap":390,"./_cloneRegExp":391,"./_cloneSet":392,"./_cloneSymbol":393,"./_cloneTypedArray":394,"dup":101}],429:[function(require,module,exports){
-arguments[4][102][0].apply(exports,arguments)
-},{"./_baseCreate":347,"./_getPrototype":415,"./_isPrototype":438,"dup":102}],430:[function(require,module,exports){
-var isArguments = require('./isArguments'),
-    isArray = require('./isArray');
-
-/**
- * Checks if `value` is a flattenable `arguments` object or array.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
- */
-function isFlattenable(value) {
-  return isArray(value) || isArguments(value);
-}
-
-module.exports = isFlattenable;
-
-},{"./isArguments":485,"./isArray":486}],431:[function(require,module,exports){
-var isArray = require('./isArray'),
-    isFunction = require('./isFunction');
-
-/**
- * Checks if `value` is a flattenable array and not a `_.matchesProperty`
- * iteratee shorthand.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
- */
-function isFlattenableIteratee(value) {
-  return isArray(value) && !(value.length == 2 && !isFunction(value[0]));
-}
-
-module.exports = isFlattenableIteratee;
-
-},{"./isArray":486,"./isFunction":492}],432:[function(require,module,exports){
-arguments[4][103][0].apply(exports,arguments)
-},{"dup":103}],433:[function(require,module,exports){
-arguments[4][104][0].apply(exports,arguments)
-},{"dup":104}],434:[function(require,module,exports){
-arguments[4][105][0].apply(exports,arguments)
-},{"./_isIndex":433,"./eq":473,"./isArrayLike":487,"./isObject":496,"dup":105}],435:[function(require,module,exports){
-arguments[4][106][0].apply(exports,arguments)
-},{"./isArray":486,"./isSymbol":500,"dup":106}],436:[function(require,module,exports){
-arguments[4][107][0].apply(exports,arguments)
-},{"dup":107}],437:[function(require,module,exports){
-arguments[4][108][0].apply(exports,arguments)
-},{"./_coreJsData":400,"dup":108}],438:[function(require,module,exports){
-arguments[4][109][0].apply(exports,arguments)
-},{"dup":109}],439:[function(require,module,exports){
-arguments[4][110][0].apply(exports,arguments)
-},{"./isObject":496,"dup":110}],440:[function(require,module,exports){
-arguments[4][111][0].apply(exports,arguments)
-},{"dup":111}],441:[function(require,module,exports){
-arguments[4][112][0].apply(exports,arguments)
-},{"dup":112}],442:[function(require,module,exports){
-arguments[4][113][0].apply(exports,arguments)
-},{"./_assocIndexOf":343,"dup":113}],443:[function(require,module,exports){
-arguments[4][114][0].apply(exports,arguments)
-},{"./_assocIndexOf":343,"dup":114}],444:[function(require,module,exports){
-arguments[4][115][0].apply(exports,arguments)
-},{"./_assocIndexOf":343,"dup":115}],445:[function(require,module,exports){
-arguments[4][116][0].apply(exports,arguments)
-},{"./_assocIndexOf":343,"dup":116}],446:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./_Hash":316,"./_ListCache":317,"./_Map":318,"dup":117}],447:[function(require,module,exports){
-arguments[4][118][0].apply(exports,arguments)
-},{"./_getMapData":412,"dup":118}],448:[function(require,module,exports){
-arguments[4][119][0].apply(exports,arguments)
-},{"./_getMapData":412,"dup":119}],449:[function(require,module,exports){
-arguments[4][120][0].apply(exports,arguments)
-},{"./_getMapData":412,"dup":120}],450:[function(require,module,exports){
-arguments[4][121][0].apply(exports,arguments)
-},{"./_getMapData":412,"dup":121}],451:[function(require,module,exports){
-arguments[4][122][0].apply(exports,arguments)
-},{"dup":122}],452:[function(require,module,exports){
-arguments[4][123][0].apply(exports,arguments)
-},{"dup":123}],453:[function(require,module,exports){
-arguments[4][124][0].apply(exports,arguments)
-},{"./_baseMerge":371,"./isObject":496,"dup":124}],454:[function(require,module,exports){
-arguments[4][125][0].apply(exports,arguments)
-},{"./_getNative":414,"dup":125}],455:[function(require,module,exports){
-arguments[4][126][0].apply(exports,arguments)
-},{"./_checkGlobal":386,"dup":126}],456:[function(require,module,exports){
-arguments[4][127][0].apply(exports,arguments)
-},{"dup":127}],457:[function(require,module,exports){
-arguments[4][128][0].apply(exports,arguments)
-},{"dup":128}],458:[function(require,module,exports){
-arguments[4][129][0].apply(exports,arguments)
-},{"dup":129}],459:[function(require,module,exports){
-arguments[4][130][0].apply(exports,arguments)
-},{"./_ListCache":317,"dup":130}],460:[function(require,module,exports){
-arguments[4][131][0].apply(exports,arguments)
-},{"dup":131}],461:[function(require,module,exports){
-arguments[4][132][0].apply(exports,arguments)
-},{"dup":132}],462:[function(require,module,exports){
-arguments[4][133][0].apply(exports,arguments)
-},{"dup":133}],463:[function(require,module,exports){
-arguments[4][134][0].apply(exports,arguments)
-},{"./_ListCache":317,"./_MapCache":319,"dup":134}],464:[function(require,module,exports){
-arguments[4][135][0].apply(exports,arguments)
-},{"./memoize":506,"./toString":525,"dup":135}],465:[function(require,module,exports){
-arguments[4][136][0].apply(exports,arguments)
-},{"./isSymbol":500,"dup":136}],466:[function(require,module,exports){
-arguments[4][137][0].apply(exports,arguments)
-},{"dup":137}],467:[function(require,module,exports){
-arguments[4][138][0].apply(exports,arguments)
-},{"./_copyObject":398,"./_createAssigner":402,"./keysIn":504,"dup":138}],468:[function(require,module,exports){
-var baseClone = require('./_baseClone');
-
-/**
- * Creates a shallow clone of `value`.
- *
- * **Note:** This method is loosely based on the
- * [structured clone algorithm](https://mdn.io/Structured_clone_algorithm)
- * and supports cloning arrays, array buffers, booleans, date objects, maps,
- * numbers, `Object` objects, regexes, sets, strings, symbols, and typed
- * arrays. The own enumerable properties of `arguments` objects are cloned
- * as plain objects. An empty object is returned for uncloneable values such
- * as error objects, functions, DOM nodes, and WeakMaps.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to clone.
- * @returns {*} Returns the cloned value.
- * @see _.cloneDeep
- * @example
- *
- * var objects = [{ 'a': 1 }, { 'b': 2 }];
- *
- * var shallow = _.clone(objects);
- * console.log(shallow[0] === objects[0]);
- * // => true
- */
-function clone(value) {
-  return baseClone(value, false, true);
-}
-
-module.exports = clone;
-
-},{"./_baseClone":346}],469:[function(require,module,exports){
-arguments[4][139][0].apply(exports,arguments)
-},{"./isObject":496,"./now":511,"./toNumber":523,"dup":139}],470:[function(require,module,exports){
-arguments[4][140][0].apply(exports,arguments)
-},{"./_apply":330,"./_assignInDefaults":340,"./assignInWith":467,"./rest":515,"dup":140}],471:[function(require,module,exports){
-arguments[4][141][0].apply(exports,arguments)
-},{"./_apply":330,"./_mergeDefaults":453,"./mergeWith":508,"./rest":515,"dup":141}],472:[function(require,module,exports){
-var baseDifference = require('./_baseDifference'),
-    baseFlatten = require('./_baseFlatten'),
-    isArrayLikeObject = require('./isArrayLikeObject'),
-    rest = require('./rest');
-
-/**
- * Creates an array of unique `array` values not included in the other given
- * arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
- * for equality comparisons. The order of result values is determined by the
- * order they occur in the first array.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Array
- * @param {Array} array The array to inspect.
- * @param {...Array} [values] The values to exclude.
- * @returns {Array} Returns the new array of filtered values.
- * @see _.without, _.xor
- * @example
- *
- * _.difference([2, 1], [2, 3]);
- * // => [1]
- */
-var difference = rest(function(array, values) {
-  return isArrayLikeObject(array)
-    ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true))
-    : [];
-});
-
-module.exports = difference;
-
-},{"./_baseDifference":348,"./_baseFlatten":352,"./isArrayLikeObject":488,"./rest":515}],473:[function(require,module,exports){
-arguments[4][142][0].apply(exports,arguments)
-},{"dup":142}],474:[function(require,module,exports){
-var arrayFilter = require('./_arrayFilter'),
-    baseFilter = require('./_baseFilter'),
-    baseIteratee = require('./_baseIteratee'),
-    isArray = require('./isArray');
-
-/**
- * Iterates over elements of `collection`, returning an array of all elements
- * `predicate` returns truthy for. The predicate is invoked with three
- * arguments: (value, index|key, collection).
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Array|Function|Object|string} [predicate=_.identity]
- *  The function invoked per iteration.
- * @returns {Array} Returns the new filtered array.
- * @see _.reject
- * @example
- *
- * var users = [
- *   { 'user': 'barney', 'age': 36, 'active': true },
- *   { 'user': 'fred',   'age': 40, 'active': false }
- * ];
- *
- * _.filter(users, function(o) { return !o.active; });
- * // => objects for ['fred']
- *
- * // The `_.matches` iteratee shorthand.
- * _.filter(users, { 'age': 36, 'active': true });
- * // => objects for ['barney']
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.filter(users, ['active', false]);
- * // => objects for ['fred']
- *
- * // The `_.property` iteratee shorthand.
- * _.filter(users, 'active');
- * // => objects for ['barney']
- */
-function filter(collection, predicate) {
-  var func = isArray(collection) ? arrayFilter : baseFilter;
-  return func(collection, baseIteratee(predicate, 3));
-}
-
-module.exports = filter;
-
-},{"./_arrayFilter":333,"./_baseFilter":350,"./_baseIteratee":365,"./isArray":486}],475:[function(require,module,exports){
-var createFind = require('./_createFind'),
-    findIndex = require('./findIndex');
-
-/**
- * Iterates over elements of `collection`, returning the first element
- * `predicate` returns truthy for. The predicate is invoked with three
- * arguments: (value, index|key, collection).
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to search.
- * @param {Array|Function|Object|string} [predicate=_.identity]
- *  The function invoked per iteration.
- * @param {number} [fromIndex=0] The index to search from.
- * @returns {*} Returns the matched element, else `undefined`.
- * @example
- *
- * var users = [
- *   { 'user': 'barney',  'age': 36, 'active': true },
- *   { 'user': 'fred',    'age': 40, 'active': false },
- *   { 'user': 'pebbles', 'age': 1,  'active': true }
- * ];
- *
- * _.find(users, function(o) { return o.age < 40; });
- * // => object for 'barney'
- *
- * // The `_.matches` iteratee shorthand.
- * _.find(users, { 'age': 1, 'active': true });
- * // => object for 'pebbles'
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.find(users, ['active', false]);
- * // => object for 'fred'
- *
- * // The `_.property` iteratee shorthand.
- * _.find(users, 'active');
- * // => object for 'barney'
- */
-var find = createFind(findIndex);
-
-module.exports = find;
-
-},{"./_createFind":405,"./findIndex":476}],476:[function(require,module,exports){
-var baseFindIndex = require('./_baseFindIndex'),
-    baseIteratee = require('./_baseIteratee'),
-    toInteger = require('./toInteger');
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * This method is like `_.find` except that it returns the index of the first
- * element `predicate` returns truthy for instead of the element itself.
- *
- * @static
- * @memberOf _
- * @since 1.1.0
- * @category Array
- * @param {Array} array The array to search.
- * @param {Array|Function|Object|string} [predicate=_.identity]
- *  The function invoked per iteration.
- * @param {number} [fromIndex=0] The index to search from.
- * @returns {number} Returns the index of the found element, else `-1`.
- * @example
- *
- * var users = [
- *   { 'user': 'barney',  'active': false },
- *   { 'user': 'fred',    'active': false },
- *   { 'user': 'pebbles', 'active': true }
- * ];
- *
- * _.findIndex(users, function(o) { return o.user == 'barney'; });
- * // => 0
- *
- * // The `_.matches` iteratee shorthand.
- * _.findIndex(users, { 'user': 'fred', 'active': false });
- * // => 1
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.findIndex(users, ['active', false]);
- * // => 0
- *
- * // The `_.property` iteratee shorthand.
- * _.findIndex(users, 'active');
- * // => 2
- */
-function findIndex(array, predicate, fromIndex) {
-  var length = array ? array.length : 0;
-  if (!length) {
-    return -1;
-  }
-  var index = fromIndex == null ? 0 : toInteger(fromIndex);
-  if (index < 0) {
-    index = nativeMax(length + index, 0);
-  }
-  return baseFindIndex(array, baseIteratee(predicate, 3), index);
-}
-
-module.exports = findIndex;
-
-},{"./_baseFindIndex":351,"./_baseIteratee":365,"./toInteger":522}],477:[function(require,module,exports){
-var baseFlatten = require('./_baseFlatten'),
-    map = require('./map');
-
-/**
- * Creates a flattened array of values by running each element in `collection`
- * thru `iteratee` and flattening the mapped results. The iteratee is invoked
- * with three arguments: (value, index|key, collection).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Array|Function|Object|string} [iteratee=_.identity]
- *  The function invoked per iteration.
- * @returns {Array} Returns the new flattened array.
- * @example
- *
- * function duplicate(n) {
- *   return [n, n];
- * }
- *
- * _.flatMap([1, 2], duplicate);
- * // => [1, 1, 2, 2]
- */
-function flatMap(collection, iteratee) {
-  return baseFlatten(map(collection, iteratee), 1);
-}
-
-module.exports = flatMap;
-
-},{"./_baseFlatten":352,"./map":505}],478:[function(require,module,exports){
-var baseFlatten = require('./_baseFlatten');
-
-/**
- * Flattens `array` a single level deep.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Array
- * @param {Array} array The array to flatten.
- * @returns {Array} Returns the new flattened array.
- * @example
- *
- * _.flatten([1, [2, [3, [4]], 5]]);
- * // => [1, 2, [3, [4]], 5]
- */
-function flatten(array) {
-  var length = array ? array.length : 0;
-  return length ? baseFlatten(array, 1) : [];
-}
-
-module.exports = flatten;
-
-},{"./_baseFlatten":352}],479:[function(require,module,exports){
-arguments[4][143][0].apply(exports,arguments)
-},{"./_arrayEach":332,"./_baseEach":349,"./_baseIteratee":365,"./isArray":486,"dup":143}],480:[function(require,module,exports){
-arguments[4][144][0].apply(exports,arguments)
-},{"./_baseGet":355,"dup":144}],481:[function(require,module,exports){
-arguments[4][146][0].apply(exports,arguments)
-},{"./_baseHasIn":358,"./_hasPath":419,"dup":146}],482:[function(require,module,exports){
-arguments[4][147][0].apply(exports,arguments)
-},{"dup":147}],483:[function(require,module,exports){
-var baseInRange = require('./_baseInRange'),
-    toNumber = require('./toNumber');
-
-/**
- * Checks if `n` is between `start` and up to, but not including, `end`. If
- * `end` is not specified, it's set to `start` with `start` then set to `0`.
- * If `start` is greater than `end` the params are swapped to support
- * negative ranges.
- *
- * @static
- * @memberOf _
- * @since 3.3.0
- * @category Number
- * @param {number} number The number to check.
- * @param {number} [start=0] The start of the range.
- * @param {number} end The end of the range.
- * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
- * @see _.range, _.rangeRight
- * @example
- *
- * _.inRange(3, 2, 4);
- * // => true
- *
- * _.inRange(4, 8);
- * // => true
- *
- * _.inRange(4, 2);
- * // => false
- *
- * _.inRange(2, 2);
- * // => false
- *
- * _.inRange(1.2, 2);
- * // => true
- *
- * _.inRange(5.2, 4);
- * // => false
- *
- * _.inRange(-3, -2, -6);
- * // => true
- */
-function inRange(number, start, end) {
-  start = toNumber(start) || 0;
-  if (end === undefined) {
-    end = start;
-    start = 0;
-  } else {
-    end = toNumber(end) || 0;
-  }
-  number = toNumber(number);
-  return baseInRange(number, start, end);
-}
-
-module.exports = inRange;
-
-},{"./_baseInRange":359,"./toNumber":523}],484:[function(require,module,exports){
-var baseIndexOf = require('./_baseIndexOf'),
-    isArrayLike = require('./isArrayLike'),
-    isString = require('./isString'),
-    toInteger = require('./toInteger'),
-    values = require('./values');
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * Checks if `value` is in `collection`. If `collection` is a string, it's
- * checked for a substring of `value`, otherwise
- * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
- * is used for equality comparisons. If `fromIndex` is negative, it's used as
- * the offset from the end of `collection`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object|string} collection The collection to search.
- * @param {*} value The value to search for.
- * @param {number} [fromIndex=0] The index to search from.
- * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
- * @returns {boolean} Returns `true` if `value` is found, else `false`.
- * @example
- *
- * _.includes([1, 2, 3], 1);
- * // => true
- *
- * _.includes([1, 2, 3], 1, 2);
- * // => false
- *
- * _.includes({ 'user': 'fred', 'age': 40 }, 'fred');
- * // => true
- *
- * _.includes('pebbles', 'eb');
- * // => true
- */
-function includes(collection, value, fromIndex, guard) {
-  collection = isArrayLike(collection) ? collection : values(collection);
-  fromIndex = (fromIndex && !guard) ? toInteger(fromIndex) : 0;
-
-  var length = collection.length;
-  if (fromIndex < 0) {
-    fromIndex = nativeMax(length + fromIndex, 0);
-  }
-  return isString(collection)
-    ? (fromIndex <= length && collection.indexOf(value, fromIndex) > -1)
-    : (!!length && baseIndexOf(collection, value, fromIndex) > -1);
-}
-
-module.exports = includes;
-
-},{"./_baseIndexOf":360,"./isArrayLike":487,"./isString":499,"./toInteger":522,"./values":527}],485:[function(require,module,exports){
-arguments[4][148][0].apply(exports,arguments)
-},{"./isArrayLikeObject":488,"dup":148}],486:[function(require,module,exports){
-arguments[4][149][0].apply(exports,arguments)
-},{"dup":149}],487:[function(require,module,exports){
-arguments[4][150][0].apply(exports,arguments)
-},{"./_getLength":411,"./isFunction":492,"./isLength":493,"dup":150}],488:[function(require,module,exports){
-arguments[4][151][0].apply(exports,arguments)
-},{"./isArrayLike":487,"./isObjectLike":497,"dup":151}],489:[function(require,module,exports){
-arguments[4][152][0].apply(exports,arguments)
-},{"./_root":455,"./stubFalse":518,"dup":152}],490:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike'),
-    isPlainObject = require('./isPlainObject');
-
-/**
- * Checks if `value` is likely a DOM element.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a DOM element,
- *  else `false`.
- * @example
- *
- * _.isElement(document.body);
- * // => true
- *
- * _.isElement('<body>');
- * // => false
- */
-function isElement(value) {
-  return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
-}
-
-module.exports = isElement;
-
-},{"./isObjectLike":497,"./isPlainObject":498}],491:[function(require,module,exports){
-var getTag = require('./_getTag'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isArrayLike = require('./isArrayLike'),
-    isBuffer = require('./isBuffer'),
-    isFunction = require('./isFunction'),
-    isObjectLike = require('./isObjectLike'),
-    isString = require('./isString'),
-    keys = require('./keys');
-
-/** `Object#toString` result references. */
-var mapTag = '[object Map]',
-    setTag = '[object Set]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
-var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
-
-/**
- * Checks if `value` is an empty object, collection, map, or set.
- *
- * Objects are considered empty if they have no own enumerable string keyed
- * properties.
- *
- * Array-like values such as `arguments` objects, arrays, buffers, strings, or
- * jQuery-like collections are considered empty if they have a `length` of `0`.
- * Similarly, maps and sets are considered empty if they have a `size` of `0`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is empty, else `false`.
- * @example
- *
- * _.isEmpty(null);
- * // => true
- *
- * _.isEmpty(true);
- * // => true
- *
- * _.isEmpty(1);
- * // => true
- *
- * _.isEmpty([1, 2, 3]);
- * // => false
- *
- * _.isEmpty({ 'a': 1 });
- * // => false
- */
-function isEmpty(value) {
-  if (isArrayLike(value) &&
-      (isArray(value) || isString(value) || isFunction(value.splice) ||
-        isArguments(value) || isBuffer(value))) {
-    return !value.length;
-  }
-  if (isObjectLike(value)) {
-    var tag = getTag(value);
-    if (tag == mapTag || tag == setTag) {
-      return !value.size;
-    }
-  }
-  for (var key in value) {
-    if (hasOwnProperty.call(value, key)) {
-      return false;
-    }
-  }
-  return !(nonEnumShadows && keys(value).length);
-}
-
-module.exports = isEmpty;
-
-},{"./_getTag":417,"./isArguments":485,"./isArray":486,"./isArrayLike":487,"./isBuffer":489,"./isFunction":492,"./isObjectLike":497,"./isString":499,"./keys":503}],492:[function(require,module,exports){
-arguments[4][153][0].apply(exports,arguments)
-},{"./isObject":496,"dup":153}],493:[function(require,module,exports){
-arguments[4][154][0].apply(exports,arguments)
-},{"dup":154}],494:[function(require,module,exports){
-var isNumber = require('./isNumber');
-
-/**
- * Checks if `value` is `NaN`.
- *
- * **Note:** This method is based on
- * [`Number.isNaN`](https://mdn.io/Number/isNaN) and is not the same as
- * global [`isNaN`](https://mdn.io/isNaN) which returns `true` for
- * `undefined` and other non-number values.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
- * @example
- *
- * _.isNaN(NaN);
- * // => true
- *
- * _.isNaN(new Number(NaN));
- * // => true
- *
- * isNaN(undefined);
- * // => true
- *
- * _.isNaN(undefined);
- * // => false
- */
-function isNaN(value) {
-  // An `NaN` primitive is the only value that is not equal to itself.
-  // Perform the `toStringTag` check first to avoid errors with some
-  // ActiveX objects in IE.
-  return isNumber(value) && value != +value;
-}
-
-module.exports = isNaN;
-
-},{"./isNumber":495}],495:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var numberTag = '[object Number]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Number` primitive or object.
- *
- * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
- * classified as numbers, use the `_.isFinite` method.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isNumber(3);
- * // => true
- *
- * _.isNumber(Number.MIN_VALUE);
- * // => true
- *
- * _.isNumber(Infinity);
- * // => true
- *
- * _.isNumber('3');
- * // => false
- */
-function isNumber(value) {
-  return typeof value == 'number' ||
-    (isObjectLike(value) && objectToString.call(value) == numberTag);
-}
-
-module.exports = isNumber;
-
-},{"./isObjectLike":497}],496:[function(require,module,exports){
-arguments[4][155][0].apply(exports,arguments)
-},{"dup":155}],497:[function(require,module,exports){
-arguments[4][156][0].apply(exports,arguments)
-},{"dup":156}],498:[function(require,module,exports){
-arguments[4][157][0].apply(exports,arguments)
-},{"./_getPrototype":415,"./_isHostObject":432,"./isObjectLike":497,"dup":157}],499:[function(require,module,exports){
-arguments[4][158][0].apply(exports,arguments)
-},{"./isArray":486,"./isObjectLike":497,"dup":158}],500:[function(require,module,exports){
-arguments[4][159][0].apply(exports,arguments)
-},{"./isObjectLike":497,"dup":159}],501:[function(require,module,exports){
-arguments[4][160][0].apply(exports,arguments)
-},{"./isLength":493,"./isObjectLike":497,"dup":160}],502:[function(require,module,exports){
-arguments[4][161][0].apply(exports,arguments)
-},{"dup":161}],503:[function(require,module,exports){
-arguments[4][162][0].apply(exports,arguments)
-},{"./_baseHas":357,"./_baseKeys":366,"./_indexKeys":425,"./_isIndex":433,"./_isPrototype":438,"./isArrayLike":487,"dup":162}],504:[function(require,module,exports){
-arguments[4][163][0].apply(exports,arguments)
-},{"./_baseKeysIn":367,"./_indexKeys":425,"./_isIndex":433,"./_isPrototype":438,"dup":163}],505:[function(require,module,exports){
-var arrayMap = require('./_arrayMap'),
-    baseIteratee = require('./_baseIteratee'),
-    baseMap = require('./_baseMap'),
-    isArray = require('./isArray');
-
-/**
- * Creates an array of values by running each element in `collection` thru
- * `iteratee`. The iteratee is invoked with three arguments:
- * (value, index|key, collection).
- *
- * Many lodash methods are guarded to work as iteratees for methods like
- * `_.every`, `_.filter`, `_.map`, `_.mapValues`, `_.reject`, and `_.some`.
- *
- * The guarded methods are:
- * `ary`, `chunk`, `curry`, `curryRight`, `drop`, `dropRight`, `every`,
- * `fill`, `invert`, `parseInt`, `random`, `range`, `rangeRight`, `repeat`,
- * `sampleSize`, `slice`, `some`, `sortBy`, `split`, `take`, `takeRight`,
- * `template`, `trim`, `trimEnd`, `trimStart`, and `words`
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Array|Function|Object|string} [iteratee=_.identity]
- *  The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- * @example
- *
- * function square(n) {
- *   return n * n;
- * }
- *
- * _.map([4, 8], square);
- * // => [16, 64]
- *
- * _.map({ 'a': 4, 'b': 8 }, square);
- * // => [16, 64] (iteration order is not guaranteed)
- *
- * var users = [
- *   { 'user': 'barney' },
- *   { 'user': 'fred' }
- * ];
- *
- * // The `_.property` iteratee shorthand.
- * _.map(users, 'user');
- * // => ['barney', 'fred']
- */
-function map(collection, iteratee) {
-  var func = isArray(collection) ? arrayMap : baseMap;
-  return func(collection, baseIteratee(iteratee, 3));
-}
-
-module.exports = map;
-
-},{"./_arrayMap":336,"./_baseIteratee":365,"./_baseMap":368,"./isArray":486}],506:[function(require,module,exports){
-arguments[4][164][0].apply(exports,arguments)
-},{"./_MapCache":319,"dup":164}],507:[function(require,module,exports){
-var baseMerge = require('./_baseMerge'),
-    createAssigner = require('./_createAssigner');
-
-/**
- * This method is like `_.assign` except that it recursively merges own and
- * inherited enumerable string keyed properties of source objects into the
- * destination object. Source properties that resolve to `undefined` are
- * skipped if a destination value exists. Array and plain object properties
- * are merged recursively. Other objects and value types are overridden by
- * assignment. Source objects are applied from left to right. Subsequent
- * sources overwrite property assignments of previous sources.
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @since 0.5.0
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @returns {Object} Returns `object`.
- * @example
- *
- * var users = {
- *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
- * };
- *
- * var ages = {
- *   'data': [{ 'age': 36 }, { 'age': 40 }]
- * };
- *
- * _.merge(users, ages);
- * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
- */
-var merge = createAssigner(function(object, source, srcIndex) {
-  baseMerge(object, source, srcIndex);
-});
-
-module.exports = merge;
-
-},{"./_baseMerge":371,"./_createAssigner":402}],508:[function(require,module,exports){
-arguments[4][165][0].apply(exports,arguments)
-},{"./_baseMerge":371,"./_createAssigner":402,"dup":165}],509:[function(require,module,exports){
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a function that negates the result of the predicate `func`. The
- * `func` predicate is invoked with the `this` binding and arguments of the
- * created function.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Function
- * @param {Function} predicate The predicate to negate.
- * @returns {Function} Returns the new negated function.
- * @example
- *
- * function isEven(n) {
- *   return n % 2 == 0;
- * }
- *
- * _.filter([1, 2, 3, 4, 5, 6], _.negate(isEven));
- * // => [1, 3, 5]
- */
-function negate(predicate) {
-  if (typeof predicate != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  return function() {
-    return !predicate.apply(this, arguments);
-  };
-}
-
-module.exports = negate;
-
-},{}],510:[function(require,module,exports){
-/**
- * A method that returns `undefined`.
- *
- * @static
- * @memberOf _
- * @since 2.3.0
- * @category Util
- * @example
- *
- * _.times(2, _.noop);
- * // => [undefined, undefined]
- */
-function noop() {
-  // No operation performed.
-}
-
-module.exports = noop;
-
-},{}],511:[function(require,module,exports){
-arguments[4][166][0].apply(exports,arguments)
-},{"dup":166}],512:[function(require,module,exports){
-var createAggregator = require('./_createAggregator');
-
-/**
- * Creates an array of elements split into two groups, the first of which
- * contains elements `predicate` returns truthy for, the second of which
- * contains elements `predicate` returns falsey for. The predicate is
- * invoked with one argument: (value).
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Array|Function|Object|string} [predicate=_.identity]
- *  The function invoked per iteration.
- * @returns {Array} Returns the array of grouped elements.
- * @example
- *
- * var users = [
- *   { 'user': 'barney',  'age': 36, 'active': false },
- *   { 'user': 'fred',    'age': 40, 'active': true },
- *   { 'user': 'pebbles', 'age': 1,  'active': false }
- * ];
- *
- * _.partition(users, function(o) { return o.active; });
- * // => objects for [['fred'], ['barney', 'pebbles']]
- *
- * // The `_.matches` iteratee shorthand.
- * _.partition(users, { 'age': 1, 'active': false });
- * // => objects for [['pebbles'], ['barney', 'fred']]
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.partition(users, ['active', false]);
- * // => objects for [['barney', 'pebbles'], ['fred']]
- *
- * // The `_.property` iteratee shorthand.
- * _.partition(users, 'active');
- * // => objects for [['fred'], ['barney', 'pebbles']]
- */
-var partition = createAggregator(function(result, value, key) {
-  result[key ? 0 : 1].push(value);
-}, function() { return [[], []]; });
-
-module.exports = partition;
-
-},{"./_createAggregator":401}],513:[function(require,module,exports){
-arguments[4][167][0].apply(exports,arguments)
-},{"./_baseProperty":374,"./_basePropertyDeep":375,"./_isKey":435,"./_toKey":465,"dup":167}],514:[function(require,module,exports){
-var arrayReduce = require('./_arrayReduce'),
-    baseEach = require('./_baseEach'),
-    baseIteratee = require('./_baseIteratee'),
-    baseReduce = require('./_baseReduce'),
-    isArray = require('./isArray');
-
-/**
- * Reduces `collection` to a value which is the accumulated result of running
- * each element in `collection` thru `iteratee`, where each successive
- * invocation is supplied the return value of the previous. If `accumulator`
- * is not given, the first element of `collection` is used as the initial
- * value. The iteratee is invoked with four arguments:
- * (accumulator, value, index|key, collection).
- *
- * Many lodash methods are guarded to work as iteratees for methods like
- * `_.reduce`, `_.reduceRight`, and `_.transform`.
- *
- * The guarded methods are:
- * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `orderBy`,
- * and `sortBy`
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @param {*} [accumulator] The initial value.
- * @returns {*} Returns the accumulated value.
- * @see _.reduceRight
- * @example
- *
- * _.reduce([1, 2], function(sum, n) {
- *   return sum + n;
- * }, 0);
- * // => 3
- *
- * _.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
- *   (result[value] || (result[value] = [])).push(key);
- *   return result;
- * }, {});
- * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
- */
-function reduce(collection, iteratee, accumulator) {
-  var func = isArray(collection) ? arrayReduce : baseReduce,
-      initAccum = arguments.length < 3;
-
-  return func(collection, baseIteratee(iteratee, 4), accumulator, initAccum, baseEach);
-}
-
-module.exports = reduce;
-
-},{"./_arrayReduce":338,"./_baseEach":349,"./_baseIteratee":365,"./_baseReduce":376,"./isArray":486}],515:[function(require,module,exports){
-arguments[4][168][0].apply(exports,arguments)
-},{"./_apply":330,"./toInteger":522,"dup":168}],516:[function(require,module,exports){
-var baseFlatten = require('./_baseFlatten'),
-    baseOrderBy = require('./_baseOrderBy'),
-    isArray = require('./isArray'),
-    isFlattenableIteratee = require('./_isFlattenableIteratee'),
-    isIterateeCall = require('./_isIterateeCall'),
-    rest = require('./rest');
-
-/**
- * Creates an array of elements, sorted in ascending order by the results of
- * running each element in a collection thru each iteratee. This method
- * performs a stable sort, that is, it preserves the original sort order of
- * equal elements. The iteratees are invoked with one argument: (value).
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {...(Array|Array[]|Function|Function[]|Object|Object[]|string|string[])}
- *  [iteratees=[_.identity]] The iteratees to sort by.
- * @returns {Array} Returns the new sorted array.
- * @example
- *
- * var users = [
- *   { 'user': 'fred',   'age': 48 },
- *   { 'user': 'barney', 'age': 36 },
- *   { 'user': 'fred',   'age': 40 },
- *   { 'user': 'barney', 'age': 34 }
- * ];
- *
- * _.sortBy(users, function(o) { return o.user; });
- * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
- *
- * _.sortBy(users, ['user', 'age']);
- * // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
- *
- * _.sortBy(users, 'user', function(o) {
- *   return Math.floor(o.age / 10);
- * });
- * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
- */
-var sortBy = rest(function(collection, iteratees) {
-  if (collection == null) {
-    return [];
-  }
-  var length = iteratees.length;
-  if (length > 1 && isIterateeCall(collection, iteratees[0], iteratees[1])) {
-    iteratees = [];
-  } else if (length > 2 && isIterateeCall(iteratees[0], iteratees[1], iteratees[2])) {
-    iteratees = [iteratees[0]];
-  }
-  iteratees = (iteratees.length == 1 && isArray(iteratees[0]))
-    ? iteratees[0]
-    : baseFlatten(iteratees, 1, isFlattenableIteratee);
-
-  return baseOrderBy(collection, iteratees, []);
-});
-
-module.exports = sortBy;
-
-},{"./_baseFlatten":352,"./_baseOrderBy":373,"./_isFlattenableIteratee":431,"./_isIterateeCall":434,"./isArray":486,"./rest":515}],517:[function(require,module,exports){
-arguments[4][169][0].apply(exports,arguments)
-},{"dup":169}],518:[function(require,module,exports){
-arguments[4][170][0].apply(exports,arguments)
-},{"dup":170}],519:[function(require,module,exports){
-var baseSum = require('./_baseSum'),
-    identity = require('./identity');
-
-/**
- * Computes the sum of the values in `array`.
- *
- * @static
- * @memberOf _
- * @since 3.4.0
- * @category Math
- * @param {Array} array The array to iterate over.
- * @returns {number} Returns the sum.
- * @example
- *
- * _.sum([4, 2, 8, 6]);
- * // => 20
- */
-function sum(array) {
-  return (array && array.length)
-    ? baseSum(array, identity)
-    : 0;
-}
-
-module.exports = sum;
-
-},{"./_baseSum":378,"./identity":482}],520:[function(require,module,exports){
-var debounce = require('./debounce'),
-    isObject = require('./isObject');
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a throttled function that only invokes `func` at most once per
- * every `wait` milliseconds. The throttled function comes with a `cancel`
- * method to cancel delayed `func` invocations and a `flush` method to
- * immediately invoke them. Provide an options object to indicate whether
- * `func` should be invoked on the leading and/or trailing edge of the `wait`
- * timeout. The `func` is invoked with the last arguments provided to the
- * throttled function. Subsequent calls to the throttled function return the
- * result of the last `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the throttled function
- * is invoked more than once during the `wait` timeout.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.throttle` and `_.debounce`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to throttle.
- * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=true]
- *  Specify invoking on the leading edge of the timeout.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new throttled function.
- * @example
- *
- * // Avoid excessively updating the position while scrolling.
- * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
- *
- * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
- * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
- * jQuery(element).on('click', throttled);
- *
- * // Cancel the trailing throttled invocation.
- * jQuery(window).on('popstate', throttled.cancel);
- */
-function throttle(func, wait, options) {
-  var leading = true,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  if (isObject(options)) {
-    leading = 'leading' in options ? !!options.leading : leading;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-  return debounce(func, wait, {
-    'leading': leading,
-    'maxWait': wait,
-    'trailing': trailing
-  });
-}
-
-module.exports = throttle;
-
-},{"./debounce":469,"./isObject":496}],521:[function(require,module,exports){
-arguments[4][171][0].apply(exports,arguments)
-},{"./toNumber":523,"dup":171}],522:[function(require,module,exports){
-arguments[4][172][0].apply(exports,arguments)
-},{"./toFinite":521,"dup":172}],523:[function(require,module,exports){
-arguments[4][173][0].apply(exports,arguments)
-},{"./isFunction":492,"./isObject":496,"./isSymbol":500,"dup":173}],524:[function(require,module,exports){
-arguments[4][174][0].apply(exports,arguments)
-},{"./_copyObject":398,"./keysIn":504,"dup":174}],525:[function(require,module,exports){
-arguments[4][175][0].apply(exports,arguments)
-},{"./_baseToString":380,"dup":175}],526:[function(require,module,exports){
-var baseIteratee = require('./_baseIteratee'),
-    baseUniq = require('./_baseUniq');
-
-/**
- * This method is like `_.uniq` except that it accepts `iteratee` which is
- * invoked for each element in `array` to generate the criterion by which
- * uniqueness is computed. The iteratee is invoked with one argument: (value).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Array
- * @param {Array} array The array to inspect.
- * @param {Array|Function|Object|string} [iteratee=_.identity]
- *  The iteratee invoked per element.
- * @returns {Array} Returns the new duplicate free array.
- * @example
- *
- * _.uniqBy([2.1, 1.2, 2.3], Math.floor);
- * // => [2.1, 1.2]
- *
- * // The `_.property` iteratee shorthand.
- * _.uniqBy([{ 'x': 1 }, { 'x': 2 }, { 'x': 1 }], 'x');
- * // => [{ 'x': 1 }, { 'x': 2 }]
- */
-function uniqBy(array, iteratee) {
-  return (array && array.length)
-    ? baseUniq(array, baseIteratee(iteratee))
-    : [];
-}
-
-module.exports = uniqBy;
-
-},{"./_baseIteratee":365,"./_baseUniq":382}],527:[function(require,module,exports){
-var baseValues = require('./_baseValues'),
-    keys = require('./keys');
-
-/**
- * Creates an array of the own enumerable string keyed property values of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property values.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.values(new Foo);
- * // => [1, 2] (iteration order is not guaranteed)
- *
- * _.values('hi');
- * // => ['h', 'i']
- */
-function values(object) {
-  return object ? baseValues(object, keys(object)) : [];
-}
-
-module.exports = values;
-
-},{"./_baseValues":383,"./keys":503}],528:[function(require,module,exports){
-var findMatchingRule = function(rules, text){
-  var i;
-  for(i=0; i<rules.length; i++)
-    if(rules[i].regex.test(text))
-      return rules[i];
-  return undefined;
-};
-
-var findMaxIndexAndRule = function(rules, text){
-  var i, rule, last_matching_rule;
-  for(i=0; i<text.length; i++){
-    rule = findMatchingRule(rules, text.substring(0, i + 1));
-    if(rule)
-      last_matching_rule = rule;
-    else if(last_matching_rule)
-      return {max_index: i, rule: last_matching_rule};
-  }
-  return last_matching_rule ? {max_index: text.length, rule: last_matching_rule} : undefined;
-};
-
-module.exports = function(onToken_orig){
-  var buffer = "";
-  var rules = [];
-  var line = 1;
-  var col = 1;
-
-  var onToken = function(src, type){
-    onToken_orig({
-      type: type,
-      src: src,
-      line: line,
-      col: col
-    });
-    var lines = src.split("\n");
-    line += lines.length - 1;
-    col = (lines.length > 1 ? 1 : col) + lines[lines.length - 1].length;
-  };
-
-  return {
-    addRule: function(regex, type){
-      rules.push({regex: regex, type: type});
-    },
-    onText: function(text){
-      var str = buffer + text;
-      var m = findMaxIndexAndRule(rules, str);
-      while(m && m.max_index !== str.length){
-        onToken(str.substring(0, m.max_index), m.rule.type);
-
-        //now find the next token
-        str = str.substring(m.max_index);
-        m = findMaxIndexAndRule(rules, str);
-      }
-      buffer = str;
-    },
-    end: function(){
-      if(buffer.length === 0)
-        return;
-
-      var rule = findMatchingRule(rules, buffer);
-      if(!rule){
-        var err = new Error("unable to tokenize");
-        err.tokenizer2 = {
-          buffer: buffer,
-          line: line,
-          col: col
-        };
-        throw err;
-      }
-
-      onToken(buffer, rule.type);
-    }
-  };
-};
-
-},{}]},{},[11]);
+},{"../stringProcessing/sanitizeString.js":342,"lodash/defaults":163}]},{},[11]);
