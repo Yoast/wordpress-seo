@@ -2868,11 +2868,19 @@ Index.prototype.batchSynonyms = function(synonyms, opts, callback) {
 *  error: null or Error('message')
 *  content: the server answer or the error message if a failure occured
 */
-Index.prototype.setSettings = function(settings, callback) {
+Index.prototype.setSettings = function(settings, opts, callback) {
+  if (arguments.length === 1 || typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  }
+
+  var forwardToSlaves = opts.forwardToSlaves || false;
+
   var indexObj = this;
   return this.as._jsonRequest({
     method: 'PUT',
-    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings?forwardToSlaves='
+      + (forwardToSlaves ? 'true' : 'false'),
     hostType: 'write',
     body: settings,
     callback: callback
@@ -4011,7 +4019,7 @@ function createPlacesClient(algoliasearch) {
 },{"./buildSearchMethod.js":14,"./clone.js":15}],23:[function(require,module,exports){
 'use strict';
 
-module.exports = '3.15.1';
+module.exports = '3.16.0';
 
 },{}],24:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.

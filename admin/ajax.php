@@ -207,7 +207,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	$upsert_results = array(
 		'status'                 => 'success',
 		'post_id'                => $post_id,
-		"new_{$return_key}"      => $new_meta_value,
+		"new_{$return_key}"      => $sanitized_new_meta_value,
 		"original_{$return_key}" => $orig_meta_value,
 	);
 
