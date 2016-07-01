@@ -179,7 +179,8 @@ var AlgoliaSearcher = function (_React$Component) {
 			var _this2 = this;
 
 			var searchResultContent;
-			if (this.state.results.length > 0) {
+			var resultsCount = this.state.results.length;
+			if (resultsCount > 0) {
 				var results = this.state.results.map(function (result, arrayIndex) {
 					return _react2.default.createElement(SearchResult, { key: result.objectID, post: result,
 						showDetail: _this2.showDetail.bind(_this2, arrayIndex) });
@@ -189,12 +190,14 @@ var AlgoliaSearcher = function (_React$Component) {
 					{ className: 'wpseo-kb-search-results' },
 					results
 				);
+				window.wp.a11y.speak(this.props.foundResultsText.replace('%d', resultsCount));
 			} else if (this.state.searchString !== '') {
 				searchResultContent = _react2.default.createElement(
 					'div',
 					{ className: 'wpseo-kb-search-no-results' },
 					this.props.noResultsText
 				);
+				window.wp.a11y.speak(this.props.noResultsText);
 			}
 			return searchResultContent;
 		}
@@ -304,6 +307,7 @@ var AlgoliaSearcher = function (_React$Component) {
 }(_react2.default.Component);
 
 AlgoliaSearcher.propTypes = {
+	foundResultsText: _react2.default.PropTypes.string,
 	noResultsText: _react2.default.PropTypes.string,
 	headingText: _react2.default.PropTypes.string,
 	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
@@ -316,6 +320,7 @@ AlgoliaSearcher.propTypes = {
 };
 
 AlgoliaSearcher.defaultProps = {
+	foundResultsText: 'Number of search results: %d',
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',
@@ -2868,19 +2873,11 @@ Index.prototype.batchSynonyms = function(synonyms, opts, callback) {
 *  error: null or Error('message')
 *  content: the server answer or the error message if a failure occured
 */
-Index.prototype.setSettings = function(settings, opts, callback) {
-  if (arguments.length === 1 || typeof opts === 'function') {
-    callback = opts;
-    opts = {};
-  }
-
-  var forwardToSlaves = opts.forwardToSlaves || false;
-
+Index.prototype.setSettings = function(settings, callback) {
   var indexObj = this;
   return this.as._jsonRequest({
     method: 'PUT',
-    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings?forwardToSlaves='
-      + (forwardToSlaves ? 'true' : 'false'),
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
     hostType: 'write',
     body: settings,
     callback: callback
@@ -4019,7 +4016,7 @@ function createPlacesClient(algoliasearch) {
 },{"./buildSearchMethod.js":14,"./clone.js":15}],23:[function(require,module,exports){
 'use strict';
 
-module.exports = '3.16.0';
+module.exports = '3.15.1';
 
 },{}],24:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.

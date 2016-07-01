@@ -126,15 +126,18 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	renderSearchResults() {
 		var searchResultContent;
-		if ( this.state.results.length > 0 ) {
+		var resultsCount = this.state.results.length;
+		if ( resultsCount > 0 ) {
             var results = this.state.results.map( ( result, arrayIndex ) => {
                 return <SearchResult key={result.objectID} post={result}
                                      showDetail={this.showDetail.bind( this, arrayIndex )}/>
             } );
 			searchResultContent = <div className="wpseo-kb-search-results">{results}</div>;
+			window.wp.a11y.speak( this.props.foundResultsText.replace( '%d', resultsCount ) );
 		}
 		else if ( this.state.searchString !== '' ) {
 			searchResultContent = <div className="wpseo-kb-search-no-results">{this.props.noResultsText}</div>;
+			window.wp.a11y.speak( this.props.noResultsText );
 		}
 		return searchResultContent;
 	}
@@ -221,6 +224,7 @@ class AlgoliaSearcher extends React.Component {
 }
 
 AlgoliaSearcher.propTypes = {
+	foundResultsText: React.PropTypes.string,
 	noResultsText: React.PropTypes.string,
 	headingText: React.PropTypes.string,
 	algoliaApplicationId: React.PropTypes.string.isRequired,
@@ -233,6 +237,7 @@ AlgoliaSearcher.propTypes = {
 };
 
 AlgoliaSearcher.defaultProps = {
+	foundResultsText: 'Number of search results: %d',
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
 	algoliaApplicationId: 'RC8G2UCWJK',

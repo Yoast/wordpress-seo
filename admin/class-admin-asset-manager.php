@@ -148,7 +148,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'admin-global-script',
 				'src'  => 'wp-seo-admin-global-332',
-				'deps' => array( 'jquery' ),
+				'deps' => array(
+					'jquery',
+					'wp-a11y',
+				),
 			),
 			array(
 				'name' => 'metabox',
