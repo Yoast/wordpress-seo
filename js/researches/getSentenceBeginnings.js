@@ -2,7 +2,7 @@ var getSentences = require( "../stringProcessing/getSentences.js" );
 var getWords = require( "../stringProcessing/getWords.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var removeNonWordCharacters = require( "../stringProcessing/removeNonWordCharacters.js" );
-var firstWordExceptions = require ( "../language/en/firstWordExceptions.js" )();
+var firstWordExceptions = require ( "./english/firstWordExceptions.js" )();
 
 var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
