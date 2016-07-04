@@ -17,6 +17,8 @@ var updateTrafficLight = require( './ui/trafficLight' ).update;
 var updateAdminBar = require( './ui/adminBar' ).update;
 
 var getTranslations = require( './analysis/getTranslations' );
+var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
+var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
 
 (function( $ ) {
 	'use strict';
@@ -319,7 +321,7 @@ var getTranslations = require( './analysis/getTranslations' );
 		var indicator = getIndicatorForScore( score );
 
 		// If multi keyword isn't available we need to update the first tab (content).
-		if ( keywordAnalysisIsActive() && ! YoastSEO.multiKeyword ) {
+		if ( isKeywordAnalysisActive() && ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
 			publishBox.updateScore( 'content', indicator.className );
 
@@ -327,7 +329,7 @@ var getTranslations = require( './analysis/getTranslations' );
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
 		}
 
-		if ( keywordAnalysisIsActive() && tabManager.isMainKeyword( currentKeyword ) ) {
+		if ( isKeywordAnalysisActive() && tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
@@ -462,24 +464,6 @@ var getTranslations = require( './analysis/getTranslations' );
 	}
 
 	/**
-	 * Determines if the keyword analysis is active.
-	 *
-	 * @returns {boolean}
-	 */
-	function keywordAnalysisIsActive() {
-		return wpseoPostScraperL10n.keywordAnalysisActive === '1';
-	}
-
-	/**
-	 * Determines if the content analysis is active.
-	 *
-	 * @returns {boolean}
-	 */
-	function contentAnalysisIsActive() {
-		return wpseoPostScraperL10n.contentAnalysisActive === '1';
-	}
-
-	/**
 	 * Returns the marker callback method for the assessor.
 	 *
 	 * @returns {*|bool}
@@ -525,7 +509,7 @@ var getTranslations = require( './analysis/getTranslations' );
 	}
 
 	function keywordElementSubmitHandler() {
-		if ( keywordAnalysisIsActive() && ! YoastSEO.multiKeyword ) {
+		if ( isKeywordAnalysisActive() && ! YoastSEO.multiKeyword ) {
 			/*
 			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
 			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
@@ -546,11 +530,11 @@ var getTranslations = require( './analysis/getTranslations' );
 	function retrieveTargets() {
 		var targets = {};
 
-		if ( keywordAnalysisIsActive() ) {
+		if ( isKeywordAnalysisActive() ) {
 			targets.output = 'wpseo-pageanalysis';
 		}
 
-		if ( contentAnalysisIsActive() ) {
+		if ( isContentAnalysisActive() ) {
 			targets.contentOutput = 'yoast-seo-content-analysis';
 		}
 
@@ -563,8 +547,8 @@ var getTranslations = require( './analysis/getTranslations' );
 
 		tabManager = new TabManager( {
 			strings: wpseoPostScraperL10n,
-			contentAnalysisActive: contentAnalysisIsActive(),
-			keywordAnalysisActive: keywordAnalysisIsActive()
+			contentAnalysisActive: isContentAnalysisActive(),
+			keywordAnalysisActive: isKeywordAnalysisActive()
 		} );
 
 		tabManager.init();
@@ -584,8 +568,8 @@ var getTranslations = require( './analysis/getTranslations' );
 			},
 			locale: wpseoPostScraperL10n.locale,
 			marker: getMarker(),
-			contentAnalysisActive: contentAnalysisIsActive(),
-			keywordAnalysisActive: keywordAnalysisIsActive()
+			contentAnalysisActive: isContentAnalysisActive(),
+			keywordAnalysisActive: isKeywordAnalysisActive()
 		};
 
 		titleElement = $( '#title' );
@@ -614,16 +598,16 @@ var getTranslations = require( './analysis/getTranslations' );
 
 		window.YoastSEO.wp._tabManager = tabManager;
 
-		if ( keywordAnalysisIsActive() ) {
+		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( app, postScraper, publishBox );
 			tabManager.getKeywordTab().activate();
 		}
 
-		if ( contentAnalysisIsActive() ) {
+		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis( publishBox );
 		}
 
-		if ( ! keywordAnalysisIsActive() && contentAnalysisIsActive() ) {
+		if ( ! isKeywordAnalysisActive() && isContentAnalysisActive() ) {
 			tabManager.getContentTab().activate();
 		}
 

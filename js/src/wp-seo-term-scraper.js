@@ -12,6 +12,8 @@ var updateTrafficLight = require( './ui/trafficLight' ).update;
 var updateAdminBar = require( './ui/adminBar' ).update;
 
 var getTranslations = require( './analysis/getTranslations' );
+var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
+var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
 
 (function( $ ) {
 	'use strict';
@@ -350,34 +352,16 @@ var getTranslations = require( './analysis/getTranslations' );
 		termSlugInput.on( 'change', updatedTermSlug );
 	}
 
-	/**
-	 * Determines if the keyword analysis is active.
-	 *
-	 * @returns {boolean}
-	 */
-	function keywordAnalysisIsActive() {
-		return wpseoTermScraperL10n.keywordAnalysisActive === '1';
-	}
-
-	/**
-	 * Determines if the content analysis is active.
-	 *
-	 * @returns {boolean}
-	 */
-	function contentAnalysisIsActive() {
-		return wpseoTermScraperL10n.contentAnalysisActive === '1';
-	}
-
 	function retrieveTargets() {
 		var targets = {
 			snippet: 'wpseo_snippet'
 		};
 
-		if ( keywordAnalysisIsActive() ) {
+		if ( isKeywordAnalysisActive() ) {
 			targets.output = 'wpseo_analysis';
 		}
 
-		if ( contentAnalysisIsActive() ) {
+		if ( isContentAnalysisActive() ) {
 			targets.contentOutput = 'yoast-seo-content-analysis';
 		}
 
@@ -396,8 +380,8 @@ var getTranslations = require( './analysis/getTranslations' );
 		tabManager = new TabManager({
 			strings: wpseoTermScraperL10n,
 			focusKeywordField: '#wpseo_focuskw',
-			contentAnalysisActive: contentAnalysisIsActive(),
-			keywordAnalysisActive: keywordAnalysisIsActive()
+			contentAnalysisActive: isContentAnalysisActive(),
+			keywordAnalysisActive: isKeywordAnalysisActive()
 		});
 
 		tabManager.init();
@@ -451,9 +435,9 @@ var getTranslations = require( './analysis/getTranslations' );
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 
-		if ( keywordAnalysisIsActive() ) {
+		if ( isKeywordAnalysisActive() ) {
 			tabManager.getKeywordTab().activate();
-		} else if ( contentAnalysisIsActive() ) {
+		} else if ( isContentAnalysisActive() ) {
 			tabManager.getContentTab().activate();
 		}
 
