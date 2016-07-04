@@ -20,7 +20,7 @@ module.exports = function( paper ) {
 		return 0;
 	}
 
-	var numberOfSentences = countSentences ( text );
+	var numberOfSentences = countSentences( text );
 
 	var numberOfWords = countWords( text );
 

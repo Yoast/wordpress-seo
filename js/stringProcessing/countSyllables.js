@@ -11,7 +11,7 @@ var exclusionWords = syllableMatchers().exclusionWords;
 
 var vowelRegex = new RegExp( "[^" + syllableMatchers().vowels + "]", "ig" );
 
-var LanguageSyllableRegexMaster = require( "../values/LanguageSyllableRegexMaster.js" );
+var LanguageSyllableRegexMaster = require( "../values/syllableCountIterator.js" );
 
 var languageSyllableRegexMaster = new LanguageSyllableRegexMaster( syllableMatchers() );
 
@@ -49,7 +49,7 @@ var countVowelExclusions = function( word ) {
  * @param {String} word The word to check against exclusion words.
  * @returns {number} The number of syllables found.
  */
-var countExclusions = function( word ) {
+var countSyllablesInExclusions = function( word ) {
 	var syllableCount = 0;
 	forEach( exclusionWords, function( exclusionWordsObject ) {
 		if( exclusionWordsObject.word === word ) {
@@ -87,7 +87,7 @@ module.exports = function( text ) {
 	var syllableCount = 0;
 
 	forEach( words, function( word ) {
-		var exclusions = countExclusions( word );
+		var exclusions = countSyllablesInExclusions( word );
 		if ( exclusions !== 0 ) {
 			syllableCount += exclusions;
 			return;

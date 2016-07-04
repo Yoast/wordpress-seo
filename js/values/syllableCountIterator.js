@@ -1,4 +1,4 @@
-var LanguageSyllableRegex = require ( "./LanguageSyllableRegex.js" );
+var LanguageSyllableRegex = require ( "./syllableCountMethod.js" );
 
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require ( "lodash/forEach" );
@@ -9,7 +9,7 @@ var forEach = require ( "lodash/forEach" );
  * @param {object} config The config object containing an array with syllable exclusions
  * @constructor
  */
-var LanguageSyllableRegexMaster = function( config ) {
+var syllableCountIterator = function( config ) {
 	this.availableLanguageSyllableRegexes = [];
 	if( !isUndefined( config ) ) {
 		this.createSyllabeRegexes( config.syllableExclusion );
@@ -21,7 +21,7 @@ var LanguageSyllableRegexMaster = function( config ) {
  *
  * @param {object} syllableRegexes The object containing all exclusion syllables including the multipliers.
  */
-LanguageSyllableRegexMaster.prototype.createSyllabeRegexes = function( syllableRegexes ) {
+syllableCountIterator.prototype.createSyllabeRegexes = function( syllableRegexes ) {
 	forEach( syllableRegexes, function( syllableRegex ) {
 		this.availableLanguageSyllableRegexes.push( new LanguageSyllableRegex( syllableRegex ) );
 	}.bind( this ) );
@@ -32,7 +32,7 @@ LanguageSyllableRegexMaster.prototype.createSyllabeRegexes = function( syllableR
  *
  * @returns {Array} All available language syllable regexes.
  */
-LanguageSyllableRegexMaster.prototype.getAvailableLanguageSyllableRegexes = function() {
+syllableCountIterator.prototype.getAvailableLanguageSyllableRegexes = function() {
 	return this.availableLanguageSyllableRegexes;
 };
 
@@ -42,7 +42,7 @@ LanguageSyllableRegexMaster.prototype.getAvailableLanguageSyllableRegexes = func
  * @param {String} word The word to count syllables in.
  * @returns {number} The number of syllables found based on exclusions
  */
-LanguageSyllableRegexMaster.prototype.countSyllables = function( word ) {
+syllableCountIterator.prototype.countSyllables = function( word ) {
 	var syllableCount = 0;
 	forEach( this.availableLanguageSyllableRegexes, function( languageSyllableRegex ) {
 		syllableCount += languageSyllableRegex.countSyllables( word );
@@ -50,4 +50,4 @@ LanguageSyllableRegexMaster.prototype.countSyllables = function( word ) {
 	return syllableCount;
 };
 
-module.exports = LanguageSyllableRegexMaster;
+module.exports = syllableCountIterator;
