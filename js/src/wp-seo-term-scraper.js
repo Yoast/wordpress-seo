@@ -111,8 +111,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		return this.getDataFromInput( 'pageTitle' );
 	};
 
-
-
 	/**
 	 * Gets the data from a input fields in the term editor page.
 	 * @param {String} inputType The input type for the field to get the data from.
@@ -227,7 +225,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	TermScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
-		var keyword = this.getDataFromInput( 'keyword' );
+		var keyword = this.getKeyword();
 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
