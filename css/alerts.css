@@ -62,7 +62,6 @@ h3 .dashicons-warning {
 
 .yoast-container .yoast-alert-holder {
 	display: -ms-flexbox;
-	display: -webkit-flex;
 	display: flex;
 }
 
@@ -84,7 +83,6 @@ h3 .dashicons-warning {
 	height: 40px;
 	line-height: inherit;
 
-	-webkit-flex: 0 0 40px;
 	-ms-flex: 0 0 40px;
 	flex: 0 0 40px;
 }
