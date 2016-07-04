@@ -154,7 +154,7 @@ function rateTitleLength( titleLength ) {
 			rating = "ok";
 			break;
 
-		case titleLength >= 400 && titleLength <= 599:
+		case titleLength >= 400 && titleLength <= 600:
 			rating = "good";
 			break;
 

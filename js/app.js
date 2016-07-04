@@ -475,7 +475,7 @@ App.prototype.runAnalyzer = function() {
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
 		title: this.analyzerData.metaTitle,
-		titleWidthInPixels: this.snippetPreview.data.titleWidth,
+		titleWidth: this.snippetPreview.data.titleWidth,
 		locale: this.config.locale
 	} );
 
