@@ -608,8 +608,9 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return array(
-			'dismiss_about_url'   => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
-			'dismiss_tagline_url' => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
+			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
+			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
+			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
 		);
 	}
 
