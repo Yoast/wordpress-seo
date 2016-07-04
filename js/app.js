@@ -690,7 +690,9 @@ App.prototype.registerTest = function() {
  * @returns {boolean} Whether or not the test was successfully registered.
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
+	if ( !isUndefined( this.seoAssessor ) ) {
+		return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
+	}
 };
 
 /**
