@@ -188,7 +188,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.refresh.bind( app ) );
 			}
 		}
 		tmceHelper.tinyMceEventBinder( app, tmceId );
@@ -217,7 +217,14 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * @param {number} score The score calculated by the content assessor.
 	 */
 	TermScraper.prototype.saveContentScore = function( score ) {
+		var indicator = getIndicatorForScore( score );
+
 		tabManager.updateContentTab( score );
+
+		if ( ! isKeywordAnalysisActive() ) {
+			updateTrafficLight( indicator );
+			updateAdminBar( indicator );
+		}
 
 		$( '#hidden_wpseo_content_score' ).val( score );
 	};
@@ -307,12 +314,32 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return targets;
 	}
 
+	function initializeKeywordAnalysis( app, termScraper ) {
+		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
+		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
+
+		usedKeywords.init();
+		termScraper.initKeywordTabTemplate();
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	function initializeContentAnalysis() {
+		var savedContentScore = $( '#hidden_wpseo_content_score' ).val();
+
+		var indicator = getIndicatorForScore( savedContentScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
 		snippetContainer = $( '#wpseo_snippet' );
-
-		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
 
 		insertTinyMCE();
 
@@ -328,28 +355,30 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		tabManager.init();
 
 		termScraper = new TermScraper();
+		snippetPreview = initSnippetPreview( termScraper );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+			targets: retrieveTargets(),
 			callbacks: {
-				getData: termScraper.getData.bind( termScraper ),
-				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
-				saveScores: termScraper.saveScores.bind( termScraper ),
-				saveContentScore: termScraper.saveContentScore.bind( termScraper ),
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
+				getData: termScraper.getData.bind( termScraper )
 			},
-			locale: wpseoTermScraperL10n.locale
+			locale: wpseoTermScraperL10n.locale,
+			snippetPreview: snippetPreview
 		};
+		if ( isKeywordAnalysisActive() ) {
+			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
+		}
+
+		if ( isContentAnalysisActive() ) {
+			args.callbacks.saveContentScore = termScraper.saveContentScore.bind( termScraper );
+		}
 
 		translations = getTranslations();
 		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
 			args.translations = translations;
 		}
-
-		snippetPreview = initSnippetPreview( termScraper );
-		args.snippetPreview = snippetPreview;
-		args.targets = retrieveTargets();
 
 		app = new App( args );
 
@@ -364,26 +393,23 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		YoastSEO.wp = {};
 		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 
-		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
-		usedKeywords.init();
-
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
 		initTermSlugWatcher();
-
-		var indicator = getIndicatorForScore( savedKeywordScore );
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
+		termScraper.bindElementEvents( app );
 
 		if ( isKeywordAnalysisActive() ) {
+			initializeKeywordAnalysis( app, termScraper );
 			tabManager.getKeywordTab().activate();
 		} else if ( isContentAnalysisActive() ) {
 			tabManager.getContentTab().activate();
+		} else {
+			snippetPreviewHelpers.isolate( snippetContainer );
 		}
 
-		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
-			snippetPreviewHelpers.isolate( snippetContainer );
+		if ( isContentAnalysisActive() ) {
+			initializeContentAnalysis();
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );

@@ -22680,7 +22680,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		var indicator = getIndicatorForScore( score );
 
 		// If multi keyword isn't available we need to update the first tab (content).
-		if ( isKeywordAnalysisActive() && ! YoastSEO.multiKeyword ) {
+		if ( ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
 			publishBox.updateScore( 'content', indicator.className );
 
@@ -22688,7 +22688,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
 		}
 
-		if ( isKeywordAnalysisActive() && tabManager.isMainKeyword( currentKeyword ) ) {
+		if ( tabManager.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
@@ -22696,8 +22696,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
 				indicator.fullText = app.i18n.dgettext( 'js-text-analysis', 'Content optimization: Enter a focus keyword to calculate the SEO score' );
 			}
-
-
 
 			tabManager.updateKeywordTab( score, currentKeyword );
 
@@ -22707,7 +22705,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 			publishBox.updateScore( 'keyword', indicator.className );
 		}
-
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 	};
@@ -22721,6 +22718,11 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		tabManager.updateContentTab( score );
 		var indicator = getIndicatorForScore( score );
 		publishBox.updateScore( 'content', indicator.className );
+
+		if ( ! isKeywordAnalysisActive() ) {
+			updateTrafficLight( indicator );
+			updateAdminBar( indicator );
+		}
 
 		$( '#yoast_wpseo_content_score' ).val( score );
 	};
@@ -22887,31 +22889,31 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 		tabManager.init();
 
+		snippetPreview = initSnippetPreview( postScraper );
+
 		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
-			targets: {
-				output: ''
-			},
+			targets: retrieveTargets(),
 			callbacks: {
-				getData: postScraper.getData.bind( postScraper ),
-				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
-				saveScores: postScraper.saveScores.bind( postScraper ),
-				saveContentScore: postScraper.saveContentScore.bind( postScraper ),
-				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+				getData: postScraper.getData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale,
 			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive()
+			keywordAnalysisActive: isKeywordAnalysisActive(),
+			snippetPreview: snippetPreview
 		};
 
+		if ( isKeywordAnalysisActive() ) {
+			args.callbacks.saveScores = postScraper.saveScores.bind( postScraper );
+		}
+
+		if ( isContentAnalysisActive() ) {
+			args.callbacks.saveContentScore = postScraper.saveContentScore.bind( postScraper );
+		}
+
 		titleElement = $( '#title' );
-
-		snippetPreview = initSnippetPreview( postScraper );
-
-		args.snippetPreview = snippetPreview;
-		args.targets = retrieveTargets();
 
 		var translations = getTranslations();
 		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
@@ -22951,8 +22953,10 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		YoastSEO.analyzerArgs = args;
 
 		keywordElementSubmitHandler();
+		postScraper.bindElementEvents( app );
 
 		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
+			console.log( 'isolating' );
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
 	} );
