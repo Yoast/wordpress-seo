@@ -22557,6 +22557,40 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		termSlugInput.on( 'change', updatedTermSlug );
 	}
 
+	/**
+	 * Determines if the keyword analysis is active.
+	 *
+	 * @returns {boolean}
+	 */
+	function keywordAnalysisIsActive() {
+		return wpseoTermScraperL10n.keywordAnalysisActive === '1';
+	}
+
+	/**
+	 * Determines if the content analysis is active.
+	 *
+	 * @returns {boolean}
+	 */
+	function contentAnalysisIsActive() {
+		return wpseoTermScraperL10n.contentAnalysisActive === '1';
+	}
+
+	function retrieveTargets() {
+		var targets = {
+			snippet: 'wpseo_snippet'
+		};
+
+		if ( keywordAnalysisIsActive() ) {
+			targets.output = 'wpseo_analysis';
+		}
+
+		if ( contentAnalysisIsActive() ) {
+			targets.contentOutput = 'yoast-seo-content-analysis';
+		}
+
+		return targets;
+	}
+
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
@@ -22569,7 +22603,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		tabManager = new TabManager({
 			strings: wpseoTermScraperL10n,
 			focusKeywordField: '#wpseo_focuskw',
-			contentAnalysisActive: wpseoTermScraperL10n.contentAnalysisActive
+			contentAnalysisActive: contentAnalysisIsActive(),
+			keywordAnalysisActive: keywordAnalysisIsActive()
 		});
 
 		tabManager.init();
@@ -22579,10 +22614,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
-			targets: {
-				output: 'wpseo_analysis',
-				snippet: 'wpseo_snippet'
-			},
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
@@ -22592,11 +22623,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			},
 			locale: wpseoTermScraperL10n.locale
 		};
-
-		// Determine whether or not the content analysis should be executed.
-		if ( wpseoTermScraperL10n.contentAnalysisActive === '1' ) {
-			args.targets.contentOutput = 'yoast-seo-content-analysis';
-		}
 
 		translations = wpseoTermScraperL10n.translations;
 
@@ -22610,6 +22636,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		snippetPreview = initSnippetPreview( termScraper );
 		args.snippetPreview = snippetPreview;
+		args.targets = retrieveTargets();
 
 		app = new App( args );
 
