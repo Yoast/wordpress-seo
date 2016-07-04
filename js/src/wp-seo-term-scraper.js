@@ -40,19 +40,22 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	var TermScraper = function() {
 		this.scraper = new Scraper();
 		this.scraper.init( wpseoTermScraperL10n, '#hidden_wpseo_linkdex', '#wpseo_focuskw' );
-	}
+	};
 
 	/**
 	 * Returns data fetched from input fields.
 	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
 	 */
 	TermScraper.prototype.getData = function() {
+		var url = this.getDataFromInput( 'url' );
+
 		return {
 			title:          this.getDataFromInput( 'title' ),
 			keyword:        this.getDataFromInput( 'keyword' ),
 			text:           this.getDataFromInput( 'text' ),
 			meta:           this.getDataFromInput( 'meta' ),
-			url:            this.getDataFromInput( 'url' ),
+			url:            url,
+			permalink:      this.getDataFromInput( 'baseUrl' ) + url + '/',
 
 			snippetCite:    this.getDataFromInput( 'cite' ),
 			snippetTitle:   this.getDataFromInput( 'title' ),
@@ -206,18 +209,18 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	};
 
 	/**
+	 * Function to handle when the user updates the term slug
+	 */
+	function updatedTermSlug() {
+		snippetPreview.setUrlPath( termSlugInput.val() );
+	}
+
+	/**
 	 * Adds a watcher on the term slug input field
 	 */
 	function initTermSlugWatcher() {
 		termSlugInput = $( '#slug' );
 		termSlugInput.on( 'change', updatedTermSlug );
-	}
-
-	/**
-	 * Function to handle when the user updates the term slug
-	 */
-	function updatedTermSlug() {
-		snippetPreview.setUrlPath( termSlugInput.val() );
 	}
 
 	jQuery( document ).ready(function() {

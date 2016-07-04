@@ -16,19 +16,16 @@ $index_switch_values = array(
 );
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	foreach ( $post_types as $pt ) {
-		$warn = false;
-		if ( $options['redirectattachment'] === true && $pt->name == 'attachment' ) {
-			echo '<div class="wpseo-warning">';
-			$warn = true;
-		}
-		$name = $pt->name;
+	foreach ( $post_types as $post_type ) {
+		$name = $post_type->name;
 		echo "<div id='" . esc_attr( $name ) . "-titles-metas'>";
-		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</h2>';
-		if ( $warn === true ) {
-			echo '<h3 class="error-message">' . esc_html__( 'Take note:', 'wordpress-seo' ) . '</h3>';
-			echo '<p class="error-message">' . __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!', 'wordpress-seo' ) . '</p>';
-			echo '<p class="error-message">' . sprintf( __( 'So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' ) . '</p>';
+		echo '<h2 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h2>';
+		if ( $options['redirectattachment'] === true && $name === 'attachment' ) {
+			// The `inline` CSS class prevents the notice from being moved to the top via JavaScript.
+			echo '<div class="notice notice-error inline"><p>';
+			/* translators: %1$s and %2$s expand to a link to the SEO Permalinks settings page. */
+			echo sprintf( __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on unattached media items! So remember: If you change the %1$sattachment redirection setting%2$s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' );
+			echo '</p></div>';
 		}
 		$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
@@ -54,12 +51,8 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		 */
 		do_action( 'wpseo_admin_page_meta_post_types', $yform, $name );
 		echo '<br/><br/>';
-		if ( $warn === true ) {
-			echo '</div>';
-		}
-		unset( $warn );
 	}
-	unset( $pt );
+	unset( $post_type );
 }
 unset( $post_types );
 
@@ -67,9 +60,9 @@ $post_types = get_post_types( array( '_builtin' => false, 'has_archive' => true 
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	echo '<h2>' . esc_html__( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
-	foreach ( $post_types as $pt ) {
-		$name = $pt->name;
-		echo '<h3>' . esc_html( ucfirst( $pt->labels->name ) ) . '</h3>';
+	foreach ( $post_types as $post_type ) {
+		$name = $post_type->name;
+		echo '<h3>' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h3>';
 		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 		if ( $options['usemetakeywords'] === true ) {
@@ -82,6 +75,6 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 
 		echo '<br/><br/>';
 	}
-	unset( $pt );
+	unset( $post_type );
 }
 unset( $post_types );

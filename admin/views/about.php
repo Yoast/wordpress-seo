@@ -19,9 +19,8 @@ $version = '3.3';
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person" id="wp-person-', $username, '">';
-		echo '<a href="https://github.com/', $username, '"><img	src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="', $dev->name, '"></a>';
-		echo '<a class="web" href="https://github.com/', $username, '">', $dev->name, '</a>';
-		echo '<span class="title">', $dev->role, '</span></li>';
+		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="">', $dev->name, '</a>';
+		echo '<span class="title">', $dev->role, "</span></li>\n";
 	}
 }
 
@@ -58,7 +57,8 @@ function wpseo_display_contributors( $contributors ) {
 		<div class="headline-feature feature-video">
 			<?php // @codingStandardsIgnoreStart ?>
 			<iframe style="width:1050px;height:591px;" src="https://yoa.st/3-3-release-video"
-			        frameborder="0" allowfullscreen></iframe>
+			        title="<?php esc_attr_e( 'New release video', 'wordpress-seo' ); ?>"
+					frameborder="0" allowfullscreen></iframe>
 			<?php // @codingStandardsIgnoreEnd ?>
 		</div>
 
@@ -325,8 +325,7 @@ function wpseo_display_contributors( $contributors ) {
 			'Xavi Ivars'       => 'https://github.com/xavivars',
 		);
 		?>
-		<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in Yoast SEO %s, patches from
-			the following people made it in:', 'wordpress-seo' ), $version ); ?></p>
+		<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?></p>
 		<ul class="ul-square">
 			<?php
 			foreach ( $patches_from as $patcher => $link ) {
