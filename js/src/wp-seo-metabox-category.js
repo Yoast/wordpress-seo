@@ -122,10 +122,6 @@
 	function makeFirstTermPrimary( taxonomyName ) {
 		var firstTerm = $( '#' + taxonomyName + 'checklist input[type="checkbox"]:checked:first' );
 
-		html = primaryTermUITemplate({
-			taxonomy: taxonomies[ taxonomyName ],
-			term: $.trim( label.text() )
-		});
 		setPrimaryTerm( taxonomyName, firstTerm.val() );
 		updatePrimaryTermSelectors( taxonomyName );
 	}
