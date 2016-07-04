@@ -251,7 +251,7 @@
 			return;
 		}
 
-		$data.append( '<iframe width="560" height="315" src="' + $data.data( 'url' ) + '" frameborder="0" allowfullscreen></iframe>' );
+		$data.append( '<iframe width="560" height="315" src="' + $data.data( 'url' ) + '" title="' + wpseoAdminGlobalL10n.help_video_iframe_title + '" frameborder="0" allowfullscreen></iframe>' );
 	}
 
 	/**

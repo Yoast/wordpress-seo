@@ -219,6 +219,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					_react2.default.createElement(
 						'button',
 						{ className: 'button dashicon-button wpseo-kb-search-back-button',
+							'aria-label': this.props.backLabel,
 							onClick: this.hideDetail },
 						this.props.back
 					),
@@ -226,6 +227,7 @@ var AlgoliaSearcher = function (_React$Component) {
 						'a',
 						{ href: post.permalink,
 							className: 'button dashicon-button wpseo-kb-search-ext-link ',
+							'aria-label': this.props.openLabel,
 							target: '_blank' },
 						this.props.open
 					)
@@ -312,7 +314,9 @@ AlgoliaSearcher.propTypes = {
 	errorMessage: _react2.default.PropTypes.string.isRequired,
 	loadingPlaceholder: _react2.default.PropTypes.string.isRequired,
 	open: _react2.default.PropTypes.string.isRequired,
-	back: _react2.default.PropTypes.string.isRequired
+	openLabel: _react2.default.PropTypes.string.isRequired,
+	back: _react2.default.PropTypes.string.isRequired,
+	backLabel: _react2.default.PropTypes.string.isRequired
 };
 
 AlgoliaSearcher.defaultProps = {
@@ -324,7 +328,9 @@ AlgoliaSearcher.defaultProps = {
 	errorMessage: 'Something went wrong. Please try again later.',
 	loadingPlaceholder: 'Loading...',
 	back: 'Back',
-	open: 'Open'
+	backLabel: 'Back to search results',
+	open: 'Open',
+	openLabel: 'Open the knowledge base article in a new window or read it in the iframe below'
 };
 
 /**
@@ -692,7 +698,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 				search: wpseoAdminL10n.kb_search,
 				open: wpseoAdminL10n.kb_open,
-				back: wpseoAdminL10n.kb_back
+				openLabel: wpseoAdminL10n.kb_open_label,
+				back: wpseoAdminL10n.kb_back,
+				backLabel: wpseoAdminL10n.kb_back_label
 			};
 			algoliaSearchers.push({
 				tabName: tabId,
