@@ -22722,22 +22722,74 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		var url = this.getDataFromInput( 'url' );
 
 		return {
-			title:          this.getDataFromInput( 'title' ),
-			keyword:        this.getDataFromInput( 'keyword' ),
-			text:           this.getDataFromInput( 'text' ),
-			meta:           this.getDataFromInput( 'meta' ),
-			url:            url,
-			permalink:      this.getDataFromInput( 'baseUrl' ) + url + '/',
-
-			snippetCite:    this.getDataFromInput( 'cite' ),
-			snippetTitle:   this.getDataFromInput( 'title' ),
-			snippetMeta:    this.getDataFromInput( 'snippetMeta' ),
-
-			name:           this.getDataFromInput( 'name' ),
-			baseUrl:        this.getDataFromInput( 'baseUrl' ),
-			pageTitle:      this.getDataFromInput( 'pageTitle' )
+			title: this.getTitle(),
+			keyword: this.getKeyword(),
+			text: this.getText(),
+			meta: this.getMeta(),
+			url: this.getUrl(),
+			permalink: this.getPermalink(),
+			snippetCite: this.getSnippetCite(),
+			snippetTitle: this.getSnippetTitle(),
+			snippetMeta: this.getSnippetMeta(),
+			name: this.getName(),
+			baseUrl: this.getBaseUrl(),
+			pageTitle: this.getPageTitle()
 		};
 	};
+
+	TermScraper.prototype.getTitle = function() {
+		return this.getDataFromInput( 'title' );
+	};
+
+	TermScraper.prototype.getKeyword = function() {
+		return this.getDataFromInput( 'keyword' );
+	};
+
+	TermScraper.prototype.getText = function() {
+		return this.getDataFromInput( 'text' );
+	};
+
+	TermScraper.prototype.getMeta = function() {
+		return this.getDataFromInput( 'meta' );
+	};
+
+	TermScraper.prototype.getUrl = function() {
+		var url = this.getDataFromInput( 'url' );
+
+		return url;
+	};
+
+	TermScraper.prototype.getPermalink = function() {
+		var url = this.getDataFromInput( 'url' );
+
+		return this.getDataFromInput( 'baseUrl' ) + url + '/';
+	};
+
+	TermScraper.prototype.getSnippetCite = function() {
+		return this.getDataFromInput( 'cite' );
+	};
+
+	TermScraper.prototype.getSnippetTitle = function() {
+		return this.getDataFromInput( 'title' );
+	};
+
+	TermScraper.prototype.getSnippetMeta = function() {
+		return this.getDataFromInput( 'snippetMeta' );
+	};
+
+	TermScraper.prototype.getName = function() {
+		return this.getDataFromInput( 'name' );
+	};
+
+	TermScraper.prototype.getBaseUrl = function() {
+		return this.getDataFromInput( 'baseUrl' );
+	};
+
+	TermScraper.prototype.getPageTitle = function() {
+		return this.getDataFromInput( 'pageTitle' );
+	};
+
+
 
 	/**
 	 * Gets the data from a input fields in the term editor page.

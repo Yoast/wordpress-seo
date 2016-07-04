@@ -22162,20 +22162,76 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		var url = this.getDataFromInput( 'url' );
 
 		return {
-			keyword: this.getDataFromInput( 'keyword' ),
-			meta: this.getDataFromInput( 'meta' ),
-			text: this.getDataFromInput( 'text' ),
-			title: this.getDataFromInput( 'title' ),
-			url: url,
-			excerpt: this.getDataFromInput( 'excerpt' ),
-			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
-			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' ),
-			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
-			searchUrl: wpseoPostScraperL10n.search_url,
-			postUrl: wpseoPostScraperL10n.post_edit_url,
-			permalink: wpseoPostScraperL10n.base_url + url
+			keyword: this.getKeyword(),
+			meta: this.getMeta(),
+			text: this.getText(),
+			title: this.getTitle(),
+			url: this.getUrl(),
+			excerpt: this.getExcerpt(),
+			snippetTitle: this.getSnippetTitle(),
+			snippetMeta: this.getSnippetMeta(),
+			snippetCite: this.getSnippetCite(),
+			primaryCategory: this.getPrimaryCategory(),
+			searchUrl: this.getSearchUrl(),
+			postUrl: this.getPostUrl(),
+			permalink: this.getPermalink()
 		};
+	};
+
+	PostScraper.prototype.getKeyword = function() {
+		return this.getDataFromInput( 'keyword' );
+	};
+
+	PostScraper.prototype.getMeta = function() {
+		return this.getDataFromInput( 'meta' );
+	};
+
+	PostScraper.prototype.getText = function() {
+		return this.getDataFromInput( 'text' );
+	};
+
+	PostScraper.prototype.getTitle = function() {
+		return this.getDataFromInput( 'title' );
+	};
+
+	PostScraper.prototype.getUrl = function() {
+		var url = this.getDataFromInput( 'url' );
+
+		return url;
+	};
+
+	PostScraper.prototype.getExcerpt = function() {
+		return this.getDataFromInput( 'excerpt' );
+	};
+
+	PostScraper.prototype.getSnippetTitle = function() {
+		return this.getDataFromInput( 'snippetTitle' );
+	};
+
+	PostScraper.prototype.getSnippetMeta = function() {
+		return this.getDataFromInput( 'snippetMeta' );
+	};
+
+	PostScraper.prototype.getSnippetCite = function() {
+		return this.getDataFromInput( 'cite' );
+	};
+
+	PostScraper.prototype.getPrimaryCategory = function() {
+		return this.getDataFromInput( 'primaryCategory' );
+	};
+
+	PostScraper.prototype.getSearchUrl = function() {
+		return wpseoPostScraperL10n.search_url;
+	};
+
+	PostScraper.prototype.getPostUrl = function() {
+		return wpseoPostScraperL10n.post_edit_url;
+	};
+
+	PostScraper.prototype.getPermalink = function() {
+		var url = this.getDataFromInput( 'url' );
+
+		return wpseoPostScraperL10n.base_url + url;
 	};
 
 	/**
