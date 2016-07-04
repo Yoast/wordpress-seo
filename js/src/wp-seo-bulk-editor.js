@@ -1,4 +1,5 @@
 /* global ajaxurl */
+/* global JSON */
 /* global wpseo_bulk_editor_nonce */
 /* jshint -W097 */
 (function() {

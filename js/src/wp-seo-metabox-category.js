@@ -43,15 +43,22 @@
 	}
 
 	/**
-	 * Makes the first term primary for a certain taxonomy
+	 * Creates the elements necessary to show something is a primary term or to make it the primary term
 	 *
 	 * @param {string} taxonomyName
+	 * @param {Object} checkbox
 	 */
-	function makeFirstTermPrimary( taxonomyName ) {
-		var firstTerm = $( '#' + taxonomyName + 'checklist input[type="checkbox"]:checked:first' );
+	function createPrimaryTermElements( taxonomyName, checkbox ) {
+		var label, html;
 
-		setPrimaryTerm( taxonomyName, firstTerm.val() );
-		updatePrimaryTermSelectors( taxonomyName );
+		label = $( checkbox ).closest( 'label' );
+
+		html = primaryTermUITemplate({
+			taxonomy: taxonomies[ taxonomyName ],
+			term: label.text()
+		});
+
+		label.after( html );
 	}
 
 	/**
@@ -108,22 +115,33 @@
 	}
 
 	/**
-	 * Creates the elements necessary to show something is a primary term or to make it the primary term
+	 * Makes the first term primary for a certain taxonomy
 	 *
 	 * @param {string} taxonomyName
-	 * @param {Object} checkbox
 	 */
-	function createPrimaryTermElements( taxonomyName, checkbox ) {
-		var label, html;
+	function makeFirstTermPrimary( taxonomyName ) {
+		var firstTerm = $( '#' + taxonomyName + 'checklist input[type="checkbox"]:checked:first' );
 
-		label = $( checkbox ).closest( 'label' );
-
+<<<<<<< HEAD
 		html = primaryTermUITemplate({
 			taxonomy: taxonomies[ taxonomyName ],
 			term: $.trim( label.text() )
 		});
+=======
+		setPrimaryTerm( taxonomyName, firstTerm.val() );
+		updatePrimaryTermSelectors( taxonomyName );
+	}
+>>>>>>> trunk
 
-		label.after( html );
+	/**
+	 * If we check a term while there is no primary term we make that one the primary term.
+	 *
+	 * @param {string} taxonomyName
+	 */
+	function ensurePrimaryTerm(taxonomyName) {
+		if ('' === getPrimaryTerm(taxonomyName)) {
+			makeFirstTermPrimary(taxonomyName);
+		}
 	}
 
 	/**
@@ -156,17 +174,6 @@
 			ensurePrimaryTerm(taxonomyName);
 			updatePrimaryTermSelectors( taxonomyName );
 		};
-	}
-
-	/**
-	 * If we check a term while there is no primary term we make that one the primary term.
-	 *
-	 * @param {string} taxonomyName
-	 */
-	function ensurePrimaryTerm(taxonomyName) {
-		if ('' === getPrimaryTerm(taxonomyName)) {
-			makeFirstTermPrimary(taxonomyName);
-		}
 	}
 
 	/**

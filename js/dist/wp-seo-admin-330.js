@@ -219,6 +219,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					_react2.default.createElement(
 						'button',
 						{ className: 'button dashicon-button wpseo-kb-search-back-button',
+							'aria-label': this.props.backLabel,
 							onClick: this.hideDetail },
 						this.props.back
 					),
@@ -226,6 +227,7 @@ var AlgoliaSearcher = function (_React$Component) {
 						'a',
 						{ href: post.permalink,
 							className: 'button dashicon-button wpseo-kb-search-ext-link ',
+							'aria-label': this.props.openLabel,
 							target: '_blank' },
 						this.props.open
 					)
@@ -312,7 +314,9 @@ AlgoliaSearcher.propTypes = {
 	errorMessage: _react2.default.PropTypes.string.isRequired,
 	loadingPlaceholder: _react2.default.PropTypes.string.isRequired,
 	open: _react2.default.PropTypes.string.isRequired,
-	back: _react2.default.PropTypes.string.isRequired
+	openLabel: _react2.default.PropTypes.string.isRequired,
+	back: _react2.default.PropTypes.string.isRequired,
+	backLabel: _react2.default.PropTypes.string.isRequired
 };
 
 AlgoliaSearcher.defaultProps = {
@@ -324,7 +328,9 @@ AlgoliaSearcher.defaultProps = {
 	errorMessage: 'Something went wrong. Please try again later.',
 	loadingPlaceholder: 'Loading...',
 	back: 'Back',
-	open: 'Open'
+	backLabel: 'Back to search results',
+	open: 'Open',
+	openLabel: 'Open the knowledge base article in a new window or read it in the iframe below'
 };
 
 /**
@@ -689,8 +695,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 				errorMessage: wpseoAdminL10n.kb_error_message,
 				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 				search: wpseoAdminL10n.kb_search,
-				open: wpseoAdminL10n.open,
-				back: wpseoAdminL10n.kb_back
+				open: wpseoAdminL10n.kb_open,
+				openLabel: wpseoAdminL10n.kb_open_label,
+				back: wpseoAdminL10n.kb_back,
+				backLabel: wpseoAdminL10n.kb_back_label
 			};
 			algoliaSearchers.push({
 				tabName: tabId,
@@ -2868,11 +2876,19 @@ Index.prototype.batchSynonyms = function(synonyms, opts, callback) {
 *  error: null or Error('message')
 *  content: the server answer or the error message if a failure occured
 */
-Index.prototype.setSettings = function(settings, callback) {
+Index.prototype.setSettings = function(settings, opts, callback) {
+  if (arguments.length === 1 || typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  }
+
+  var forwardToSlaves = opts.forwardToSlaves || false;
+
   var indexObj = this;
   return this.as._jsonRequest({
     method: 'PUT',
-    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings?forwardToSlaves='
+      + (forwardToSlaves ? 'true' : 'false'),
     hostType: 'write',
     body: settings,
     callback: callback
@@ -4011,7 +4027,7 @@ function createPlacesClient(algoliasearch) {
 },{"./buildSearchMethod.js":14,"./clone.js":15}],23:[function(require,module,exports){
 'use strict';
 
-module.exports = '3.15.1';
+module.exports = '3.16.0';
 
 },{}],24:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
