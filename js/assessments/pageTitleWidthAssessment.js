@@ -26,7 +26,7 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			score: 9,
 			text: i18n.dgettext(
 				"js-text-analysis",
-				"The page title is within the viewable range."
+				"The page title has a nice length."
 			)
 		};
 	}

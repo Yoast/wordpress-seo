@@ -25,7 +25,7 @@ describe( "the page title length assessment", function() {
 		var paper = new Paper( "", { title: "The Title That Is At Least As Long As It Should Be To Pass" } );
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 450 ), i18n );
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "The page title is within the viewable range." );
+		expect( result.getText() ).toEqual( "The page title has a nice length." );
 
 	});
 
