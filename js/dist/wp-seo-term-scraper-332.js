@@ -22456,8 +22456,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
 	 */
 	TermScraper.prototype.getData = function() {
-		var url = this.getDataFromInput( 'url' );
-
 		return {
 			title: this.getTitle(),
 			keyword: this.getKeyword(),
@@ -22475,106 +22473,76 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	};
 
 	TermScraper.prototype.getTitle = function() {
-		return this.getDataFromInput( 'title' );
+		return document.getElementById( 'hidden_wpseo_title' ).value;
 	};
 
 	TermScraper.prototype.getKeyword = function() {
-		return this.getDataFromInput( 'keyword' );
+		var elem, val;
+
+		elem = document.getElementById( 'wpseo_focuskw' );
+		val = elem.value;
+		if ( val === '' ) {
+			val = document.getElementById( 'name' ).value;
+			elem.placeholder = val;
+		}
+
+		return val;
 	};
 
 	TermScraper.prototype.getText = function() {
-		return this.getDataFromInput( 'text' );
+		return tmceHelper.getContentTinyMce( tmceId );
 	};
 
 	TermScraper.prototype.getMeta = function() {
-		return this.getDataFromInput( 'meta' );
+		var  val = '';
+
+		var elem = document.getElementById( 'hidden_wpseo_desc' );
+		if ( elem !== null ) {
+			val = elem.value;
+		}
+
+		return val;
 	};
 
 	TermScraper.prototype.getUrl = function() {
-		var url = this.getDataFromInput( 'url' );
-
-		return url;
+		return document.getElementById( 'slug' ).value;
 	};
 
 	TermScraper.prototype.getPermalink = function() {
-		var url = this.getDataFromInput( 'url' );
+		var url = this.getUrl();
 
-		return this.getDataFromInput( 'baseUrl' ) + url + '/';
+		return this.getBaseUrl() + url + '/';
 	};
 
 	TermScraper.prototype.getSnippetCite = function() {
-		return this.getDataFromInput( 'cite' );
+		return this.getUrl();
 	};
 
 	TermScraper.prototype.getSnippetTitle = function() {
-		return this.getDataFromInput( 'title' );
+		return document.getElementById( 'hidden_wpseo_title' ).value;
 	};
 
 	TermScraper.prototype.getSnippetMeta = function() {
-		return this.getDataFromInput( 'snippetMeta' );
+		var val = '';
+
+		var elem = document.getElementById( 'hidden_wpseo_desc' );
+		if ( elem !== null ) {
+			val = elem.value;
+		}
+
+		return val;
 	};
 
 	TermScraper.prototype.getName = function() {
-		return this.getDataFromInput( 'name' );
+		return document.getElementById( 'name' ).value;
 	};
 
 	TermScraper.prototype.getBaseUrl = function() {
-		return this.getDataFromInput( 'baseUrl' );
+		return wpseoTermScraperL10n.base_url;
 	};
 
 	TermScraper.prototype.getPageTitle = function() {
-		return this.getDataFromInput( 'pageTitle' );
-	};
-
-	/**
-	 * Gets the data from a input fields in the term editor page.
-	 * @param {String} inputType The input type for the field to get the data from.
-	 */
-	TermScraper.prototype.getDataFromInput = function( inputType ) {
-		var val = '';
-		var elem;
-		switch( inputType ) {
-			case 'keyword':
-				elem = document.getElementById( 'wpseo_focuskw' );
-				val = elem.value;
-				if ( val === '' ) {
-					val = document.getElementById( 'name' ).value;
-					elem.placeholder = val;
-				}
-				break;
-			case 'name':
-				val = document.getElementById( 'name' ).value;
-				break;
-			case 'meta':
-				elem = document.getElementById( 'hidden_wpseo_desc' );
-				if ( elem !== null ) {
-					val = elem.value;
-				}
-				break;
-			case 'snippetMeta':
-				elem = document.getElementById( 'hidden_wpseo_desc' );
-				if ( elem !== null ) {
-					val = elem.value;
-				}
-				break;
-			case 'text':
-				val = tmceHelper.getContentTinyMce( tmceId );
-				break;
-			case 'pageTitle':
-				val = document.getElementById( 'hidden_wpseo_title' ).value;
-				break;
-			case 'title':
-				val = document.getElementById( 'hidden_wpseo_title' ).value;
-				break;
-			case 'url':
-			case 'cite':
-				val = document.getElementById( 'slug' ).value;
-				break;
-			case 'baseUrl':
-				val = wpseoTermScraperL10n.base_url;
-				break;
-		}
-		return val;
+		return document.getElementById( 'hidden_wpseo_title' ).value;
 	};
 
 	/**

@@ -22379,8 +22379,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * the analyzer and the snippet preview.
 	 */
 	PostScraper.prototype.getData = function() {
-		var url = this.getDataFromInput( 'url' );
-
 		return {
 			keyword: this.getKeyword(),
 			meta: this.getMeta(),
@@ -22399,45 +22397,82 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	};
 
 	PostScraper.prototype.getKeyword = function() {
-		return this.getDataFromInput( 'keyword' );
+		var val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
+		currentKeyword = val;
+
+		return val;
 	};
 
 	PostScraper.prototype.getMeta = function() {
-		return this.getDataFromInput( 'meta' );
+		return document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 	};
 
 	PostScraper.prototype.getText = function() {
-		return this.getDataFromInput( 'text' );
+		return removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 	};
 
 	PostScraper.prototype.getTitle = function() {
-		return this.getDataFromInput( 'title' );
+		return document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
 	};
 
 	PostScraper.prototype.getUrl = function() {
-		var url = this.getDataFromInput( 'url' );
+		var url = '';
+
+		var newPostSlug = $( '#new-post-slug' );
+		if ( 0 < newPostSlug.length ) {
+			url = newPostSlug.val();
+		}
+		else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
+			url = document.getElementById( 'editable-post-name-full' ).textContent;
+		}
 
 		return url;
 	};
 
 	PostScraper.prototype.getExcerpt = function() {
-		return this.getDataFromInput( 'excerpt' );
+		var val = '';
+
+		if ( document.getElementById( 'excerpt' ) !== null ) {
+			val = document.getElementById( 'excerpt' ) && document.getElementById( 'excerpt' ).value || '';
+		}
+
+		return val;
 	};
 
 	PostScraper.prototype.getSnippetTitle = function() {
-		return this.getDataFromInput( 'snippetTitle' );
+		return document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
 	};
 
 	PostScraper.prototype.getSnippetMeta = function() {
-		return this.getDataFromInput( 'snippetMeta' );
+		return document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 	};
 
 	PostScraper.prototype.getSnippetCite = function() {
-		return this.getDataFromInput( 'cite' );
+		return this.getUrl();
 	};
 
 	PostScraper.prototype.getPrimaryCategory = function() {
-		return this.getDataFromInput( 'primaryCategory' );
+		var val = '';
+		var categoryBase = $( '#category-all' ).find( 'ul.categorychecklist' );
+
+		// If only one is visible than that item is the primary category.
+		var checked = categoryBase.find( 'li input:checked' );
+
+		if ( checked.length === 1 ) {
+			val = this.getCategoryName( checked.parent() );
+
+			return val;
+		}
+
+		var primaryTerm = categoryBase.find( '.wpseo-primary-term > label' );
+
+		if ( primaryTerm.length ) {
+			val = this.getCategoryName( primaryTerm );
+
+			return val;
+		}
+
+		return val;
 	};
 
 	PostScraper.prototype.getSearchUrl = function() {
@@ -22449,77 +22484,9 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	};
 
 	PostScraper.prototype.getPermalink = function() {
-		var url = this.getDataFromInput( 'url' );
+		var url = this.getUrl();
 
 		return wpseoPostScraperL10n.base_url + url;
-	};
-
-	/**
-	 * Gets the values from the given input. Returns this value.
-	 * @param {String} inputType
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getDataFromInput = function( inputType ) {
-		var newPostSlug, val = '';
-		switch ( inputType ) {
-			case 'text':
-			case tmceId:
-				val = removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
-				break;
-			case 'cite':
-			case 'url':
-				newPostSlug = $( '#new-post-slug' );
-				if ( 0 < newPostSlug.length ) {
-					val = newPostSlug.val();
-				}
-				else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
-					val = document.getElementById( 'editable-post-name-full' ).textContent;
-				}
-				break;
-			case 'meta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				break;
-			case 'snippetMeta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				break;
-			case 'keyword':
-				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
-				currentKeyword = val;
-				break;
-			case 'title':
-				val = document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
-				break;
-			case 'snippetTitle':
-				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				break;
-			case 'excerpt':
-				if ( document.getElementById( 'excerpt' ) !== null ) {
-					val = document.getElementById( 'excerpt' ) && document.getElementById( 'excerpt' ).value || '';
-				}
-				break;
-			case 'primaryCategory':
-				var categoryBase = $( '#category-all' ).find( 'ul.categorychecklist' );
-
-				// If only one is visible than that item is the primary category.
-				var checked = categoryBase.find( 'li input:checked' );
-
-				if ( checked.length === 1 ) {
-					val = this.getCategoryName( checked.parent() );
-					break;
-				}
-
-				var primaryTerm = categoryBase.find( '.wpseo-primary-term > label' );
-
-				if ( primaryTerm.length ) {
-					val = this.getCategoryName( primaryTerm );
-					break;
-				}
-
-				break;
-			default:
-				break;
-		}
-		return val;
 	};
 
 	/**
