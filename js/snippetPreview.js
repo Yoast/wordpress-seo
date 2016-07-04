@@ -888,10 +888,9 @@ SnippetPreview.prototype.validateFields = function() {
  * @returns {void}
  */
 SnippetPreview.prototype.updateProgressBars = function() {
-	var metaDescriptionRating, titleRating, metaDescription, title;
+	var metaDescriptionRating, titleRating, metaDescription;
 
 	metaDescription = getAnalyzerMetaDesc.call( this );
-	//title = getAnalyzerTitle.call( this );
 
 	titleRating = rateTitleLength( this.data.titleWidth );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
@@ -1133,7 +1132,8 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 
 	titleElement = hiddenElement( {
 		width: "auto",
-		whiteSpace: "nowrap"
+		whiteSpace: "nowrap",
+		fontSize: "18px"
 	} );
 
 	metaDescriptionElement = hiddenElement(
@@ -1150,6 +1150,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 	document.body.appendChild( spanHolder );
 
 	this.element.measurers.titleWidth = spanHolder.childNodes[ 0 ];
+	this.element.measurers.titleWidth.className = "hidden-title";
 	this.element.measurers.metaHeight = spanHolder.childNodes[ 1 ];
 };
 

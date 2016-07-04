@@ -9,7 +9,7 @@ var defaultAttributes = {
 	keyword: "",
 	description: "",
 	title: "",
-	titleWidthInPixels: "",
+	titleWidth: 0,
 	url: "",
 	locale: "en_US"
 };
@@ -107,16 +107,16 @@ Paper.prototype.getTitle = function() {
  * Check whether an title width in pixels is available
  * @returns {boolean} Returns true if the Paper has a title.
  */
-Paper.prototype.hasTitleWidthInPixels = function() {
-	return this._attributes.titleWidthInPixels !== "";
+Paper.prototype.hasTitleWidth = function() {
+	return this._attributes.titleWidth !== "";
 };
 
 /**
  * Return the title width in pixels, or an empty string of no title width in pixels is available.
  * @returns {string} Returns the title
  */
-Paper.prototype.getTitleWidthInPixels = function() {
-	return this._attributes.titleWidthInPixels;
+Paper.prototype.getTitleWidth = function() {
+	return this._attributes.titleWidth;
 };
 
 /**

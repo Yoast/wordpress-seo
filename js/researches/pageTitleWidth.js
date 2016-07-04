@@ -4,5 +4,8 @@
  * @returns {number} The width of the title in pixels
  */
 module.exports = function( paper ) {
-	return paper.getTitleWidthInPixels();
+	if( paper.hasTitle() ) {
+		return paper.getTitleWidth();
+	}
+	return 0;
 };
