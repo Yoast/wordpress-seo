@@ -1,4 +1,4 @@
-var LanguageSyllableRegex = require( "../../js/values/syllableCountMethod.js" );
+var LanguageSyllableRegex = require( "../../js/values/syllableCountStep.js" );
 
 describe( "A test for creating a language syllable regex", function() {
 	it( "creates an empty language syllable regex", function() {

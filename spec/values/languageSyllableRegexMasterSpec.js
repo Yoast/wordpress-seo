@@ -1,4 +1,4 @@
-var languageSyllableRegexMaster = require(  "../../js/values/syllableCountIterator.js" );
+var languageSyllableRegexMaster = require(  "../../js/values/syllableCountMethod.js" );
 
 describe( "creating a language syllable regex master", function() {
 	it( "returns an empty language syllable regex master", function() {

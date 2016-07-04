@@ -11,7 +11,7 @@ var exclusionWords = syllableMatchers().exclusionWords;
 
 var vowelRegex = new RegExp( "[^" + syllableMatchers().vowels + "]", "ig" );
 
-var LanguageSyllableRegexMaster = require( "../values/syllableCountIterator.js" );
+var LanguageSyllableRegexMaster = require( "../values/syllableCountMethod.js" );
 
 var languageSyllableRegexMaster = new LanguageSyllableRegexMaster( syllableMatchers() );
 

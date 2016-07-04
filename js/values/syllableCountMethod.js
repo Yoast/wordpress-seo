@@ -1,65 +1,53 @@
-var isUndefined = require( "lodash/isUndefined" );
+var LanguageSyllableRegex = require ( "./syllableCountStep.js" );
 
-var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require ( "lodash/forEach" );
 
 /**
- * Constructs a language syllable regex that contains a regex for matching syllable exclusion.
+ * Creates a Language Syllable Regex Master
  *
- * @param {object} syllableRegex The object containing the syllable exclusions
+ * @param {object} config The config object containing an array with syllable exclusions
  * @constructor
  */
-var syllableCountMethod = function( syllableRegex ) {
-	this._hasRegex = false;
-	this._regex = "";
-	this._multiplier = "";
-	this.createRegex( syllableRegex );
-};
-
-/**
- * Returns if a valid regex has been set.
- *
- * @returns {boolean} True if a regex has been set, false if not.
- */
-syllableCountMethod.prototype.hasRegex = function() {
-	return this._hasRegex;
-};
-
-/**
- * Creates a regex based on the given syllable exclusions, and sets the multiplier to use.
- *
- * @param {object} syllableRegex The object containing the syllable exclusions and multiplier
- */
-syllableCountMethod.prototype.createRegex = function( syllableRegex ) {
-	if( !isUndefined( syllableRegex ) && !isUndefined( syllableRegex.syllables ) ) {
-
-		this._hasRegex = true;
-		this._regex = arrayToRegex( syllableRegex.syllables, true );
-		this._multiplier = syllableRegex.multiplier;
+var syllableCountIterator = function( config ) {
+	this.availableLanguageSyllableRegexes = [];
+	if( !isUndefined( config ) ) {
+		this.createSyllabeRegexes( config.syllableExclusion );
 	}
 };
 
 /**
- * Returns the stored regular expression.
+ * Creates a language syllable regex for each exclusion.
  *
- * @returns {RegExp} The stored regular expression.
+ * @param {object} syllableRegexes The object containing all exclusion syllables including the multipliers.
  */
-syllableCountMethod.prototype.getRegex = function() {
-	return this._regex;
+syllableCountIterator.prototype.createSyllabeRegexes = function( syllableRegexes ) {
+	forEach( syllableRegexes, function( syllableRegex ) {
+		this.availableLanguageSyllableRegexes.push( new LanguageSyllableRegex( syllableRegex ) );
+	}.bind( this ) );
 };
 
 /**
- * Matches syllable exclusions in a given word and the returns the number found multiplied with the
- * given multiplier.
+ * Returns all available language syllable regexes
  *
- * @param {String} word The word to match for syllable exclusions.
- * @returns {number} The amount of syllables found.
+ * @returns {Array} All available language syllable regexes.
  */
-syllableCountMethod.prototype.countSyllables = function( word ) {
-	if( this._hasRegex ) {
-		var match = word.match( this._regex ) || [];
-		return match.length * this._multiplier;
-	}
-	return 0;
+syllableCountIterator.prototype.getAvailableLanguageSyllableRegexes = function() {
+	return this.availableLanguageSyllableRegexes;
 };
 
-module.exports = syllableCountMethod;
+/**
+ * Counts the syllables for all the available syllable regexes and returns the total syllable count.
+ *
+ * @param {String} word The word to count syllables in.
+ * @returns {number} The number of syllables found based on exclusions
+ */
+syllableCountIterator.prototype.countSyllables = function( word ) {
+	var syllableCount = 0;
+	forEach( this.availableLanguageSyllableRegexes, function( languageSyllableRegex ) {
+		syllableCount += languageSyllableRegex.countSyllables( word );
+	} );
+	return syllableCount;
+};
+
+module.exports = syllableCountIterator;
