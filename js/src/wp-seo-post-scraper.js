@@ -19,6 +19,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 var getTranslations = require( './analysis/getTranslations' );
 var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
 var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
+var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 (function( $ ) {
 	'use strict';
@@ -541,7 +542,20 @@ var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
 		return targets;
 	}
 
+	function createStandaloneSnippetPreview() {
+		var snippetContainer = $( '#wpseosnippet' );
+
+		snippetPreviewHelpers.isolate( snippetContainer );
+		snippetPreviewHelpers.createStandalone( snippetContainer );
+	}
+
 	jQuery( document ).ready( function() {
+		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
+			createStandaloneSnippetPreview();
+
+			return;
+		}
+
 		var postScraper = new PostScraper();
 		publishBox.initalise();
 

@@ -14,6 +14,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 var getTranslations = require( './analysis/getTranslations' );
 var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
 var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
+var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 (function( $ ) {
 	'use strict';
@@ -337,6 +338,13 @@ var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
 		return new SnippetPreview( snippetPreviewArgs );
 	}
 
+	function createStandaloneSnippetPreview() {
+		var snippetContainer = $( '#wpseo_snippet' );
+
+		snippetPreviewHelpers.isolate( snippetContainer );
+		snippetPreviewHelpers.createStandalone( snippetContainer );
+	}
+
 	/**
 	 * Function to handle when the user updates the term slug
 	 */
@@ -370,6 +378,12 @@ var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
 
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
+
+		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
+			createStandaloneSnippetPreview();
+
+			return;
+		}
 
 		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
 
