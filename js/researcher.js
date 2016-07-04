@@ -22,7 +22,6 @@ var keyphraseLength = require( "./researches/keyphraseLength" );
 var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
 var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
-var pageTitleLength = require( "./researches/pageTitleLength.js" );
 var pageTitleWidth = require( "./researches/pageTitleWidth.js" );
 var wordComplexity = require( "./researches/getWordComplexity.js" );
 var getParagraphLength = require( "./researches/getParagraphLength.js" );
@@ -63,7 +62,6 @@ var Researcher = function( paper ) {
 		"keywordCountInUrl": keywordCountInUrl,
 		"firstParagraph": findKeywordInFirstParagraph,
 		"metaDescriptionKeyword": metaDescriptionKeyword,
-		"pageTitleLength": pageTitleLength,
 		"pageTitleWidth": pageTitleWidth,
 		"wordComplexity": wordComplexity,
 		"getParagraphLength": getParagraphLength,
