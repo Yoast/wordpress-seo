@@ -5,7 +5,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 var tmceHelper = require( './wp-seo-tinymce' );
-var Scraper = require( './wp-seo-scraper' );
 
 var updateTrafficLight = require( './ui/trafficLight' ).update;
 var updateAdminBar = require( './ui/adminBar' ).update;
@@ -21,9 +20,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 	var app, snippetPreview;
 
-
 	var termSlugInput;
-	var currentKeyword = '';
+
 	var tabManager;
 
 	/**
@@ -32,14 +30,10 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	var tmceId = 'description';
 
-	/**
-	 *
-	 * @param {Scraper} scraper
-	 * @constructor
-	 */
 	var TermScraper = function() {
-		this.scraper = new Scraper();
-		this.scraper.init( wpseoTermScraperL10n, '#hidden_wpseo_linkdex', '#wpseo_focuskw' );
+		if ( typeof CKEDITOR === 'object' ) {
+			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		}
 	};
 
 	/**
@@ -134,9 +128,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 					val = document.getElementById( 'name' ).value;
 					elem.placeholder = val;
 				}
-
-				currentKeyword = val;
-
 				break;
 			case 'name':
 				val = document.getElementById( 'name' ).value;
@@ -195,10 +186,38 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	};
 
 	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	TermScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
 	 * binds elements
 	 */
 	TermScraper.prototype.bindElementEvents = function( app ) {
-		this.scraper.inputElementEventBinder( app );
+		this.inputElementEventBinder( app );
+	};
+
+	/**
+	 * binds the renewData function on the change of inputelements.
+	 */
+	TermScraper.prototype.inputElementEventBinder = function( app ) {
+		var elems = [ 'name', tmceId, 'slug', 'wpseo_focuskw' ];
+		for ( var i = 0; i < elems.length; i++ ) {
+			var elem = document.getElementById( elems[ i ] );
+			if ( elem !== null ) {
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+			}
+		}
+		tmceHelper.tinyMceEventBinder( app, tmceId );
 	};
 
 	/**
@@ -207,14 +226,36 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * @param {number} score Score to save.
 	 */
 	TermScraper.prototype.saveScores = function( score ) {
+		var indicator = getIndicatorForScore( score );
+		var keyword = this.getDataFromInput( 'keyword' );
 
-		var indicator = this.scraper.getIndicator( score );
-
-		this.scraper.saveScores( score );
-		this.scraper.updateLinkdex( score );
-		this.scraper.updateInterfaceIndicators( indicator )
-
+		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+
+		tabManager.updateKeywordTab( score, keyword );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	};
+	/**
+	 * Saves the content score to a hidden field.
+	 *
+	 * @param {number} score The score calculated by the content assessor.
+	 */
+	TermScraper.prototype.saveContentScore = function( score ) {
+		tabManager.updateContentTab( score );
+
+		$( '#hidden_wpseo_content_score' ).val( score );
+	};
+
+	/**
+	 * Initializes keyword tab with the correct template.
+	 */
+	TermScraper.prototype.initKeywordTabTemplate = function() {
+		// Remove default functionality to prevent scrolling to top.
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
+			ev.preventDefault();
+		});
 	};
 
 	/**
@@ -250,15 +291,47 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	};
 
 	/**
-	 * Saves the content score to a hidden field.
+	 * Initializes the snippet preview.
 	 *
-	 * @param {number} score The score calculated by the content assessor.
+	 * @param {TermScraper} termScraper
+	 * @returns {YoastSEO.SnippetPreview}
 	 */
-	TermScraper.prototype.saveContentScore = function( score ) {
-		tabManager.updateContentTab( score );
+	function initSnippetPreview( termScraper ) {
+		var data = termScraper.getData();
 
-		$( '#hidden_wpseo_content_score' ).val( score );
-	};
+		var titlePlaceholder = getTitlePlaceholder();
+		var descriptionPlaceholder = getDescriptionPlaceholder();
+
+		var snippetPreviewArgs = {
+			targetElement: document.getElementById( 'wpseo_snippet' ),
+			placeholder: {
+				title: titlePlaceholder,
+				urlPath: ''
+			},
+			defaultValue: {
+				title: titlePlaceholder
+			},
+			baseURL: wpseoTermScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
+			},
+			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		var metaPlaceholder = descriptionPlaceholder;
+
+		if ( metaPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		}
+
+		return new SnippetPreview( snippetPreviewArgs );
+	}
 
 	/**
 	 * Function to handle when the user updates the term slug
@@ -296,16 +369,17 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, 'yoast_wpseo_focuskw' ],
+			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
 			targets: {
-				output: ''
+				output: 'wpseo_analysis',
+				snippet: 'wpseo_snippet'
 			},
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
-				bindElementEvents: this.scraper.bindElementEvents.bind( termScraper, [ 'name', tmceId, 'slug', 'wpseo_focuskw' ] ),
+				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
 				saveScores: termScraper.saveScores.bind( termScraper ),
-				saveContentScore: this.scraper.saveContentScore.bind( '#hidden_wpseo_content_score', termScraper ),
-				saveSnippetData: this.scraper.saveSnippetData.bind( termScraper )
+				saveContentScore: termScraper.saveContentScore.bind( termScraper ),
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
 			},
 			locale: wpseoTermScraperL10n.locale
 		};
@@ -315,17 +389,17 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			args.targets.contentOutput = 'yoast-seo-content-analysis';
 		}
 
-		args.targets = this.scraper.retrieveTargets();
-		args.targets.snippet = 'wpseo_snippet';
-		args.translations = this.scraper.retrieveTranslations( wpseoTermScraperL10n );
+		translations = wpseoTermScraperL10n.translations;
 
-		snippetPreview = this.scraper.initSnippetPreview( termScraper.getData(), {
-			target: args.targets.snippet,
-			base_url: wpseoTermScraperL10n.base_url,
-			saveSnippetData: this.scraper.saveSnippetData.bind( termScraper ),
-			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate
-		} );
+		if ( translations.length > 0 ) {
+			translations.domain = 'js-text-analysis';
+			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+			delete( translations.locale_data['wordpress-seo'] );
 
+			args.translations = translations;
+		}
+
+		snippetPreview = initSnippetPreview( termScraper );
 		args.snippetPreview = snippetPreview;
 
 		app = new App( args );
@@ -335,7 +409,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
-		this.scraper.initKeywordTabTemplate();
+		termScraper.initKeywordTabTemplate();
 
 		// Init Plugins.
 		YoastSEO.wp = {};

@@ -34,6 +34,7 @@ var isObject = require( "lodash/isObject" );
 var isString = require( "lodash/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
+var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 var throttle = require( "lodash/throttle" );
@@ -601,10 +602,14 @@ App.prototype.pluginsLoaded = function() {
  * @returns {void}
  */
 App.prototype.showLoadingDialog = function() {
-	var dialogDiv = document.createElement( "div" );
-	dialogDiv.className = "YoastSEO_msg";
-	dialogDiv.id = "YoastSEO-plugin-loading";
-	document.getElementById( this.defaultOutputElement ).appendChild( dialogDiv );
+	var outputElement = document.getElementById( this.defaultOutputElement );
+
+	if ( this.defaultOutputElement !== "" && !isEmpty( outputElement ) ) {
+		var dialogDiv = document.createElement( "div" );
+		dialogDiv.className = "YoastSEO_msg";
+		dialogDiv.id = "YoastSEO-plugin-loading";
+		document.getElementById( this.defaultOutputElement ).appendChild( dialogDiv );
+	}
 };
 
 /**
@@ -613,6 +618,12 @@ App.prototype.showLoadingDialog = function() {
  * @returns {void}
  */
 App.prototype.updateLoadingDialog = function( plugins ) {
+	var outputElement = document.getElementById( this.defaultOutputElement );
+
+	if ( this.defaultOutputElement === "" || isEmpty( outputElement ) ) {
+		return;
+	}
+
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
 
@@ -629,7 +640,9 @@ App.prototype.updateLoadingDialog = function( plugins ) {
  * @returns {void}
  */
 App.prototype.removeLoadingDialog = function() {
-	if ( this.defaultOutputElement !== "" ) {
+	var outputElement = document.getElementById( this.defaultOutputElement );
+
+	if ( this.defaultOutputElement !== "" && !isEmpty( outputElement ) ) {
 		document.getElementById( this.defaultOutputElement ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 	}
 };
@@ -749,7 +762,7 @@ App.prototype.analyzeTimer = function() {
 
 module.exports = App;
 
-},{"./config/config.js":29,"./contentAssessor.js":38,"./errors/missingArgument":40,"./pluggable.js":53,"./renderers/AssessorPresenter.js":54,"./researcher.js":55,"./seoAssessor.js":92,"./snippetPreview.js":93,"./values/Paper.js":134,"jed":135,"lodash/debounce":281,"lodash/defaultsDeep":283,"lodash/forEach":290,"lodash/isObject":307,"lodash/isString":310,"lodash/isUndefined":313,"lodash/throttle":329}],3:[function(require,module,exports){
+},{"./config/config.js":29,"./contentAssessor.js":38,"./errors/missingArgument":40,"./pluggable.js":53,"./renderers/AssessorPresenter.js":54,"./researcher.js":55,"./seoAssessor.js":92,"./snippetPreview.js":93,"./values/Paper.js":134,"jed":135,"lodash/debounce":281,"lodash/defaultsDeep":283,"lodash/forEach":290,"lodash/isEmpty":302,"lodash/isObject":307,"lodash/isString":310,"lodash/isUndefined":313,"lodash/throttle":329}],3:[function(require,module,exports){
 var filter = require( "lodash/filter" );
 var isSentenceTooLong = require( "../helpers/isValueTooLong" );
 
@@ -21459,10 +21472,11 @@ function getIndicatorForScore( score ) {
 	// Scale because scoreToRating works from 0 to 10.
 	score /= 10;
 
+
 	var indicator = {
-		fullText: '',
 		className: '',
-		screenReaderText: ''
+		screenReaderText: '',
+		fullText: ''
 	};
 
 	var presenter = getPresenter();
@@ -21763,11 +21777,11 @@ TabManager.prototype.updateContentTab = function( score ) {
 /**
  * Updates the keyword tab with the calculated score
  *
- * @param {Object} indicator The indicator that needs to be used.
+ * @param {number} score The score that has been calculated.
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
-TabManager.prototype.updateKeywordTab = function( indicator, keyword ) {
-	this.mainKeywordTab.updateScore( indicator, keyword );
+TabManager.prototype.updateKeywordTab = function( score, keyword ) {
+	this.mainKeywordTab.updateScore( score, keyword );
 };
 
 /**
@@ -22060,7 +22074,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	/**
 	 * Initializes the publish box score indicators.
 	 */
-	function initialize() {
+	function initialise() {
 		var notAvailableStatus = 'na';
 
 		if ( wpseoPostScraperL10n.contentAnalysisActive === '1' ) {
@@ -22073,7 +22087,7 @@ var imageScoreClass = 'image yoast-logo svg';
 	}
 
 	module.exports = {
-		initialize: initialize,
+		initalise: initialise,
 		updateScore: updateScoreInPublishBox
 	};
 }( jQuery ));
@@ -22661,11 +22675,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		}
 	}
 
-	/**
-	 * Retrieves the possible HTML elements to render out the analysis to.
-	 *
-	 * @returns {{}}
-	 */
 	function retrieveTargets() {
 		var targets = {};
 
@@ -22682,7 +22691,7 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 	jQuery( document ).ready( function() {
 		var postScraper = new PostScraper();
-		publishBox.initialize( wpseoPostScraperL10n );
+		publishBox.initalise();
 
 		tabManager = new TabManager( {
 			strings: wpseoPostScraperL10n,
