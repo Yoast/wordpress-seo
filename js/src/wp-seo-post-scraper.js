@@ -1,5 +1,7 @@
 /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
+var isUndefined = require( 'lodash/isUndefined' );
+
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
@@ -13,6 +15,8 @@ var publishBox = require( './ui/publishBox' );
 
 var updateTrafficLight = require( './ui/trafficLight' ).update;
 var updateAdminBar = require( './ui/adminBar' ).update;
+
+var getTranslations = require( './analysis/getTranslations' );
 
 (function( $ ) {
 	'use strict';
@@ -495,24 +499,6 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		};
 	}
 
-	/**
-	 * Retrieves translations.
-	 *
-	 * @returns {Object}
-	 */
-	function retrieveTranslations() {
-		var translations = wpseoPostScraperL10n.translations;
-
-		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-
-			delete( translations.locale_data['wordpress-seo'] );
-		}
-
-		return translations;
-	}
-
 	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
 		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
 		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
@@ -607,8 +593,12 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		snippetPreview = initSnippetPreview( postScraper );
 
 		args.snippetPreview = snippetPreview;
-		args.translations = retrieveTranslations();
 		args.targets = retrieveTargets();
+
+		var translations = getTranslations();
+		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
+			args.translations = translations;
+		}
 
 		app = new App( args );
 

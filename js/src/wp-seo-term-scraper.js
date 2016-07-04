@@ -1,5 +1,7 @@
 /* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
+var isUndefined = require( 'lodash/isUndefined' );
+
 var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
@@ -8,6 +10,8 @@ var tmceHelper = require( './wp-seo-tinymce' );
 
 var updateTrafficLight = require( './ui/trafficLight' ).update;
 var updateAdminBar = require( './ui/adminBar' ).update;
+
+var getTranslations = require( './analysis/getTranslations' );
 
 (function( $ ) {
 	'use strict';
@@ -413,13 +417,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 			locale: wpseoTermScraperL10n.locale
 		};
 
-		translations = wpseoTermScraperL10n.translations;
-
-		if ( translations.length > 0 ) {
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-			delete( translations.locale_data['wordpress-seo'] );
-
+		translations = getTranslations();
+		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
 			args.translations = translations;
 		}
 
@@ -452,7 +451,9 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 
-		if ( ! keywordAnalysisIsActive() && contentAnalysisIsActive() ) {
+		if ( keywordAnalysisIsActive() ) {
+			tabManager.getKeywordTab().activate();
+		} else if ( contentAnalysisIsActive() ) {
 			tabManager.getContentTab().activate();
 		}
 
