@@ -452,7 +452,9 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 
-		tabManager.getKeywordTab().activate();
+		if ( ! keywordAnalysisIsActive() && contentAnalysisIsActive() ) {
+			tabManager.getContentTab().activate();
+		}
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 	} );

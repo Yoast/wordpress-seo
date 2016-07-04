@@ -22589,6 +22589,31 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		return targets;
 	}
 
+	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
+		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
+		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
+
+		usedKeywords.init();
+		postScraper.initKeywordTabTemplate();
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+
+		publishBox.updateScore( 'keyword', indicator.className );
+	}
+
+	function initializeContentAnalysis( publishBox ) {
+		var savedContentScore = $( '#yoast_wpseo_content_score' ).val();
+
+		var indicator = getIndicatorForScore( savedContentScore );
+
+		updateAdminBar( indicator );
+
+		publishBox.updateScore( 'content', indicator.className );
+	}
+
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
@@ -22661,7 +22686,9 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 
-		tabManager.getKeywordTab().activate();
+		if ( ! keywordAnalysisIsActive() && contentAnalysisIsActive() ) {
+			tabManager.getContentTab().activate();
+		}
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 	} );
