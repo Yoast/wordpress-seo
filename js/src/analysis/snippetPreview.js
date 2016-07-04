@@ -15,10 +15,10 @@ function isolate( snippetContainer ) {
 
 	// Remove all other table rows except the snippet preview one.
 	var tr = snippetContainer.closest( 'tr' );
-	tr.siblings().remove();
+	tr.siblings().hide();
 
 	// Remove the tab navigation.
-	jQuery( '#wpseo-metabox-tabs' ).remove();
+	jQuery( '#wpseo-metabox-tabs' ).hide();
 }
 
 /**
