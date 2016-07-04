@@ -267,43 +267,16 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * Initializes the snippet preview.
 	 *
 	 * @param {TermScraper} termScraper
-	 * @returns {YoastSEO.SnippetPreview}
+	 * @returns {SnippetPreview}
 	 */
 	function initSnippetPreview( termScraper ) {
-		var data = termScraper.getData();
+		var snippetContainer = $( '#wpseo_snippet' );
 
-		var titlePlaceholder = getTitlePlaceholder();
-		var descriptionPlaceholder = getDescriptionPlaceholder();
-
-		var snippetPreviewArgs = {
-			targetElement: document.getElementById( 'wpseo_snippet' ),
-			placeholder: {
-				title: titlePlaceholder,
-				urlPath: ''
-			},
-			defaultValue: {
-				title: titlePlaceholder
-			},
-			baseURL: wpseoTermScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
-			},
-			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		};
-
-		var metaPlaceholder = descriptionPlaceholder;
-
-		if ( metaPlaceholder !== '' ) {
-			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
-			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
-		}
-
-		return new SnippetPreview( snippetPreviewArgs );
+		return snippetPreviewHelpers.create( snippetContainer, {
+			title: termScraper.getSnippetTitle(),
+			urlPath: termScraper.getSnippetCite(),
+			metaDesc: termScraper.getSnippetMeta()
+		}, termScraper.saveSnippetData.bind( termScraper ) );
 	}
 
 	function createStandaloneSnippetPreview() {

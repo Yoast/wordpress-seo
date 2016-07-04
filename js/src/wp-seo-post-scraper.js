@@ -386,40 +386,23 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * Initializes the snippet preview.
 	 *
 	 * @param {PostScraper} postScraper
-	 * @returns {YoastSEO.SnippetPreview}
+	 * @returns {SnippetPreview}
 	 */
 	function initSnippetPreview( postScraper ) {
-		var data = postScraper.getData();
-		var titlePlaceholder = getTitlePlaceholder();
-		var descriptionPlaceholder = getDescriptionPlaceholder();
+		var snippetContainer = $( '#wpseosnippet' );
 
-		var snippetPreviewArgs = {
-			targetElement: document.getElementById( 'wpseosnippet' ),
-			placeholder: {
-				title: titlePlaceholder,
-				urlPath: ''
-			},
-			defaultValue: {
-				title: titlePlaceholder
-			},
-			baseURL: wpseoPostScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
-			},
-			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		};
+		return snippetPreviewHelpers.create( snippetContainer, {
+			title: postScraper.getSnippetTitle(),
+			urlPath: postScraper.getSnippetCite(),
+			metaDesc: postScraper.getSnippetMeta()
+		}, postScraper.saveSnippetData.bind( postScraper ) );
+	}
 
-		if ( descriptionPlaceholder !== '' ) {
-			snippetPreviewArgs.placeholder.metaDesc = descriptionPlaceholder;
-			snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
-		}
+	function createStandaloneSnippetPreview() {
+		var snippetContainer = $( '#wpseosnippet' );
 
-		return new SnippetPreview( snippetPreviewArgs );
+		snippetPreviewHelpers.isolate( snippetContainer );
+		snippetPreviewHelpers.createStandalone( snippetContainer );
 	}
 
 	/**
@@ -507,13 +490,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		}
 
 		return targets;
-	}
-
-	function createStandaloneSnippetPreview() {
-		var snippetContainer = $( '#wpseosnippet' );
-
-		snippetPreviewHelpers.isolate( snippetContainer );
-		snippetPreviewHelpers.createStandalone( snippetContainer );
 	}
 
 	jQuery( document ).ready( function() {

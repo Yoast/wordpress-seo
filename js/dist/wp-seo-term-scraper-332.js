@@ -21933,7 +21933,11 @@ module.exports = (function() {
 
 "use strict";
 
+var getL10nObject = require( './getL10nObject' );
 var getI18n = require( './getI18n' );
+var getTitlePlaceholder = require( './getTitlePlaceholder' );
+var getDescriptionPlaceholder = require( './getDescriptionPlaceholder' );
+
 var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
 /**
@@ -21949,7 +21953,55 @@ function isolate( snippetContainer ) {
 	tr.siblings().hide();
 
 	// Remove the tab navigation.
-	jQuery( '#wpseo-metabox-tabs' ).remove();
+	jQuery( '#wpseo-metabox-tabs' ).hide();
+}
+
+/**
+ * Creates a snippet preview in the given location
+ *
+ * @param {Object} snippetContainer A jQuery object with the snippet container element.
+ *
+ * @param {Object} data The data that is saved for the snippet editor fields.
+ * @param {Object} data.title The title for the snippet editor.
+ * @param {Object} data.urlPath The url path for the snippet editor.
+ * @param {Object} data.metaDesc The meta description for the snippet editor.
+ *
+ * @param {Function} saveCallback A callback that is called when the snippet editor fields should be saved.
+ *
+ * @return {SnippetPreview} The newly created snippet preview object.
+ */
+function create( snippetContainer, data, saveCallback ) {
+	var l10nObject = getL10nObject();
+
+	snippetContainer = jQuery( snippetContainer ).get( 0 );
+
+	var titlePlaceholder = getTitlePlaceholder();
+	var descriptionPlaceholder = getDescriptionPlaceholder();
+
+	var snippetPreviewArgs = {
+		targetElement: snippetContainer,
+		placeholder: {
+			title: titlePlaceholder,
+			urlPath: ''
+		},
+		defaultValue: {
+			title: titlePlaceholder
+		},
+		baseURL: l10nObject.base_url,
+		callbacks: {
+			saveSnippetData: saveCallback
+		},
+		metaDescriptionDate: l10nObject.metaDescriptionDate,
+		data: data
+
+	};
+
+	if ( descriptionPlaceholder !== '' ) {
+		snippetPreviewArgs.placeholder.metaDesc = descriptionPlaceholder;
+		snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
+	}
+
+	return new SnippetPreview( snippetPreviewArgs );
 }
 
 /**
@@ -21982,10 +22034,11 @@ function createStandalone( snippetContainer ) {
 
 module.exports = {
 	isolate: isolate,
+	create: create,
 	createStandalone: createStandalone
 };
 
-},{"./getI18n":341,"yoastseo":1}],350:[function(require,module,exports){
+},{"./getDescriptionPlaceholder":340,"./getI18n":341,"./getL10nObject":343,"./getTitlePlaceholder":344,"yoastseo":1}],350:[function(require,module,exports){
 var defaultsDeep = require( 'lodash/defaultsDeep' );
 
 var getIndicatorForScore = require( './getIndicatorForScore' );
@@ -22675,43 +22728,16 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * Initializes the snippet preview.
 	 *
 	 * @param {TermScraper} termScraper
-	 * @returns {YoastSEO.SnippetPreview}
+	 * @returns {SnippetPreview}
 	 */
 	function initSnippetPreview( termScraper ) {
-		var data = termScraper.getData();
+		var snippetContainer = $( '#wpseo_snippet' );
 
-		var titlePlaceholder = getTitlePlaceholder();
-		var descriptionPlaceholder = getDescriptionPlaceholder();
-
-		var snippetPreviewArgs = {
-			targetElement: document.getElementById( 'wpseo_snippet' ),
-			placeholder: {
-				title: titlePlaceholder,
-				urlPath: ''
-			},
-			defaultValue: {
-				title: titlePlaceholder
-			},
-			baseURL: wpseoTermScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
-			},
-			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		};
-
-		var metaPlaceholder = descriptionPlaceholder;
-
-		if ( metaPlaceholder !== '' ) {
-			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
-			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
-		}
-
-		return new SnippetPreview( snippetPreviewArgs );
+		return snippetPreviewHelpers.create( snippetContainer, {
+			title: termScraper.getSnippetTitle(),
+			urlPath: termScraper.getSnippetCite(),
+			metaDesc: termScraper.getSnippetMeta()
+		}, termScraper.saveSnippetData.bind( termScraper ) );
 	}
 
 	function createStandaloneSnippetPreview() {
