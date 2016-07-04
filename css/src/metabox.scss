@@ -501,3 +501,8 @@ body.rtl #wpseo-score {
 .term-php .wpseo-taxonomy-metabox-postbox h2 {
 	border-bottom: 1px solid #eee;
 }
+
+.yoast-tooltip.yoast-tooltip-hidden::before,
+.yoast-tooltip.yoast-tooltip-hidden::after {
+	display: none;
+}

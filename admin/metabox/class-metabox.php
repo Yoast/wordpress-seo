@@ -330,7 +330,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content,
 			__( '', 'wordpress-seo' ),
 			array(
-				'link_class' => 'yoast-seo__remove-tab',
+				'tab_class' => 'yoast-seo__remove-tab',
 			)
 		);
 
@@ -338,10 +338,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'content',
-			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
+			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			$tabs,
 			array(
-				'link_title' => __( 'Content optimization', 'wordpress-seo' ),
+				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-multiline yoast-tooltip-e',
 			)
 		);
 	}
@@ -362,10 +363,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'advanced',
-			'<span class="dashicons dashicons-admin-generic"></span>',
+			'<span class="screen-reader-text">' . __( 'Advanced', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
 			array(
-				'link_title' => __( 'Advanced', 'wordpress-seo' ),
+				'link_aria_label' => __( 'Advanced', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}
@@ -379,10 +381,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_addons_meta_section() {
 		return new WPSEO_Metabox_Addon_Tab_Section(
 			'addons',
-			'<span class="dashicons dashicons-admin-plugins"></span>',
+			'<span class="screen-reader-text">' . __( 'Add-ons', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-plugins"></span>',
 			array(),
 			array(
-				'link_title' => __( 'Add-ons', 'wordpress-seo' ),
+				'link_aria_label' => __( 'Add-ons', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}

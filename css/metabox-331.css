@@ -477,6 +477,16 @@ li.score:after {
 	display: none;
 }
 
+@-webkit-keyframes animatedBackground {
+	from {
+		background-position: 0 0;
+	}
+
+	to {
+		background-position: 100% 0;
+	}
+}
+
 @keyframes animatedBackground {
 	from {
 		background-position: 0 0;
@@ -497,6 +507,7 @@ li.score:after {
 	background-image: linear-gradient(to left, #fff, #0063ff, #fff, #0063ff);
 	background-position: 0 0;
 	background-size: 300% 100%;
+	-webkit-animation: animatedBackground 5s linear infinite;
 	animation: animatedBackground 5s linear infinite;
 }
 
@@ -545,6 +556,16 @@ button.yoast-tooltip {
 	pointer-events: none;
 }
 
+@-webkit-keyframes yoast-tooltip-appear {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
 @keyframes yoast-tooltip-appear {
 	from {
 		opacity: 0;
@@ -563,11 +584,16 @@ button.yoast-tooltip {
 .yoast-tooltip:focus::after {
 	display: inline-block;
 	text-decoration: none;
+	-webkit-animation-name: yoast-tooltip-appear;
 	animation-name: yoast-tooltip-appear;
+	-webkit-animation-duration: 0.1s;
 	animation-duration: 0.1s;
+	-webkit-animation-timing-function: ease-in;
 	animation-timing-function: ease-in;
+	-webkit-animation-delay: 0.4s;
 	animation-delay: 0.4s;
 
+	-webkit-animation-fill-mode: forwards;
 	animation-fill-mode: forwards;
 }
 
@@ -578,6 +604,7 @@ button.yoast-tooltip {
 .yoast-tooltip-no-delay:focus::before,
 .yoast-tooltip-no-delay:focus::after {
 	opacity: 1;
+	-webkit-animation: none;
 	animation: none;
 }
 
@@ -645,6 +672,7 @@ button.yoast-tooltip {
 
 .yoast-tooltip-s::after,
 .yoast-tooltip-n::after {
+	-webkit-transform: translateX(50%);
 	-ms-transform: translateX(50%);
 	transform: translateX(50%);
 }
@@ -653,6 +681,7 @@ button.yoast-tooltip {
 	right: 100%;
 	bottom: 50%;
 	margin-right: 5px;
+	-webkit-transform: translateY(50%);
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -669,6 +698,7 @@ button.yoast-tooltip {
 	bottom: 50%;
 	left: 100%;
 	margin-left: 5px;
+	-webkit-transform: translateY(50%);
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -696,6 +726,7 @@ button.yoast-tooltip {
 .yoast-tooltip-multiline.yoast-tooltip-n::after {
 	right: auto;
 	left: 50%;
+	-webkit-transform: translateX(-50%);
 	-ms-transform: translateX(-50%);
 	transform: translateX(-50%);
 }
@@ -776,6 +807,7 @@ button.yoast-tooltip {
 	background-color: #a4286a;
 	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
 
+	-webkit-flex-wrap: wrap;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 }
@@ -783,12 +815,15 @@ button.yoast-tooltip {
 .wpseo-tab-video-slideout .contextual-help-tabs-wrap {
 	padding: 0;
 
+	-webkit-flex-basis: 0;
 	flex-basis: 0;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-webkit-flex-grow: 1;
 	flex-grow: 1;
 	-ms-flex-negative: 1;
-	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
 	-ms-flex-positive: 1;
 	-ms-flex-preferred-size: 0;
+	-webkit-flex-shrink: 1;
 	flex-shrink: 1;
 }
 
@@ -846,6 +881,7 @@ button.yoast-tooltip {
 	color: white;
 	background-color: #a4286a;
 
+	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
@@ -866,6 +902,7 @@ button.yoast-tooltip {
 	margin-right: 1em;
 	padding-bottom: 1em;
 
+	-webkit-flex: 0 0 auto;
 	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
@@ -879,12 +916,15 @@ button.yoast-tooltip {
 	min-width: 264px;
 	margin: 0 auto;
 
+	-webkit-flex-basis: 0;
 	flex-basis: 0;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-webkit-flex-grow: 1;
 	flex-grow: 1;
 	-ms-flex-negative: 1;
-	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
 	-ms-flex-positive: 1;
 	-ms-flex-preferred-size: 0;
+	-webkit-flex-shrink: 1;
 	flex-shrink: 1;
 	/* must be less than a text box min width */
 }
@@ -1421,4 +1461,9 @@ body.rtl #wpseo-score {
 
 .term-php .wpseo-taxonomy-metabox-postbox h2 {
 	border-bottom: 1px solid #eee;
+}
+
+.yoast-tooltip.yoast-tooltip-hidden::before,
+.yoast-tooltip.yoast-tooltip-hidden::after {
+	display: none;
 }

@@ -26,12 +26,22 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	/**
 	 * @var string
 	 */
+	private $tab_class;
+
+	/**
+	 * @var string
+	 */
 	private $link_class;
 
 	/**
 	 * @var string
 	 */
 	private $link_title;
+
+	/**
+	 * @var string
+	 */
+	private $link_aria_label;
 
 	/**
 	 * Constructor.
@@ -42,11 +52,13 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 * @param array  $options      Optional link attributes.
 	 */
 	public function __construct( $name, $content, $link_content, array $options = array() ) {
-		$this->name         = $name;
-		$this->content      = $content;
-		$this->link_content = $link_content;
-		$this->link_class	= isset( $options['link_class'] ) ? $options['link_class'] : '';
-		$this->link_title   = isset( $options['link_title'] ) ? $options['link_title'] : '';
+		$this->name            = $name;
+		$this->content         = $content;
+		$this->link_content    = $link_content;
+		$this->tab_class       = isset( $options['tab_class'] ) ? $options['tab_class'] : '';
+		$this->link_class      = isset( $options['link_class'] ) ? $options['link_class'] : '';
+		$this->link_title      = isset( $options['link_title'] ) ? $options['link_title'] : '';
+		$this->link_aria_label = isset( $options['link_aria_label'] ) ? $options['link_aria_label'] : '';
 	}
 
 	/**
@@ -56,10 +68,12 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 */
 	public function link() {
 		return sprintf(
-			'<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s"%3$s>%4$s</a></li>',
+			'<li class="%1$s %2$s"><a class="wpseo_tablink %3$s" href="#wpseo_%1$s"%4$s%5$s>%6$s</a></li>',
 			esc_attr( $this->name ),
+			esc_attr( $this->tab_class ),
 			esc_attr( $this->link_class ),
 			( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
+			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
 			$this->link_content
 		);
 	}

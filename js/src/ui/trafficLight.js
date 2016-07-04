@@ -13,7 +13,7 @@ function updateTrafficLight( indicator ) {
 		.attr( 'alt', '' );
 
 	// Update the traffic light link.
-	trafficLightLink.attr( 'title', indicator.fullText );
+	trafficLightLink.attr( 'aria-label', indicator.fullText );
 }
 
 module.exports = {

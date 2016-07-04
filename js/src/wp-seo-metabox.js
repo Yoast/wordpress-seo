@@ -5,11 +5,15 @@
 
 	window.wpseo_init_tabs = function() {
 		if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
-			jQuery( '.wpseo-metabox-tabs' ).on( 'click', 'a.wpseo_tablink', function( ev ) {
+			jQuery( '.wpseo-metabox-tabs' )
+				.on( 'click', 'a.wpseo_tablink', function( ev ) {
 					ev.preventDefault();
 
 					jQuery( '.wpseo-meta-section.active .wpseo-metabox-tabs li' ).removeClass( 'active' );
 					jQuery( '.wpseo-meta-section.active .wpseotab' ).removeClass( 'active' );
+
+					// Hide the Yoast tooltip when the element gets clicked.
+					jQuery( this ).addClass( 'yoast-tooltip-hidden' );
 
 					var targetElem = jQuery( jQuery( this ).attr( 'href' ) );
 					targetElem.addClass( 'active' );
@@ -21,8 +25,15 @@
 							}, 500
 						);
 					}
-				}
-			);
+				})
+				.on( 'mouseleave', 'a.wpseo_tablink', function() {
+					// The element can still have focus, ensure to hide the tooltip.
+					jQuery( this ).addClass( 'yoast-tooltip-hidden' );
+				})
+				.on( 'blur mouseenter', 'a.wpseo_tablink', function() {
+					// Make the element tooltip-able again.
+					jQuery( this ).removeClass( 'yoast-tooltip-hidden' );
+				});
 		}
 
 		if ( jQuery( '.wpseo-meta-section' ).length > 0 ) {
@@ -31,18 +42,29 @@
 				return jQuery( this ).find('.wpseo-meta-section-link').attr( 'href' ) === 'content';
 			} ).addClass('active');
 
-			jQuery( 'a.wpseo-meta-section-link' ).click( function( ev ) {
+			jQuery( 'a.wpseo-meta-section-link' )
+				.on( 'click', function( ev ) {
 					ev.preventDefault();
 
 					jQuery( '.wpseo-metabox-sidebar li' ).removeClass( 'active' );
 					jQuery( '.wpseo-meta-section' ).removeClass( 'active' );
 
+					// Hide the Yoast tooltip when the element gets clicked.
+					jQuery( this ).addClass( 'yoast-tooltip-hidden' );
+
 					var targetElem = jQuery( jQuery( this ).attr( 'href' ) );
 					targetElem.addClass( 'active' );
 
 					jQuery( this ).parent( 'li' ).addClass( 'active' );
-				}
-			);
+				})
+				.on( 'mouseleave', function() {
+					// The element can still have focus, ensure to hide the tooltip.
+					jQuery( this ).addClass( 'yoast-tooltip-hidden' );
+				})
+				.on( 'blur mouseenter', function() {
+					// Make the element tooltip-able again.
+					jQuery( this ).removeClass( 'yoast-tooltip-hidden' );
+				});
 		}
 
 		jQuery( '.wpseo-heading' ).hide();
