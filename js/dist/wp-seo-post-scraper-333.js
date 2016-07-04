@@ -22414,6 +22414,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 (function( $ ) {
 	'use strict';
 
+	var snippetContainer;
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
 	var App = require( 'yoastseo' ).App;
@@ -22779,27 +22780,12 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * @returns {SnippetPreview}
 	 */
 	function initSnippetPreview( postScraper ) {
-		var snippetContainer = $( '#wpseosnippet' );
-
 		return snippetPreviewHelpers.create( snippetContainer, {
 			title: postScraper.getSnippetTitle(),
 			urlPath: postScraper.getSnippetCite(),
 			metaDesc: postScraper.getSnippetMeta()
 		}, postScraper.saveSnippetData.bind( postScraper ) );
 	}
-
-	function createStandaloneSnippetPreview() {
-		var snippetContainer = $( '#wpseosnippet' );
-		var postScraper = new PostScraper();
-
-		snippetPreviewHelpers.isolate( snippetContainer );
-		snippetPreviewHelpers.createStandalone( snippetContainer, {
-			title: postScraper.getSnippetTitle(),
-			urlPath: postScraper.getSnippetCite(),
-			metaDesc: postScraper.getSnippetMeta()
-		}, postScraper.saveSnippetData.bind( postScraper ) );
-	}
-
 	/**
 	 * Determines if markers should be shown.
 	 *
@@ -22888,11 +22874,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	}
 
 	jQuery( document ).ready( function() {
-		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
-			createStandaloneSnippetPreview();
-
-			return;
-		}
+		snippetContainer = $( '#wpseosnippet' );
 
 		var postScraper = new PostScraper();
 		publishBox.initalise();
@@ -22970,6 +22952,9 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 		keywordElementSubmitHandler();
 
+		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
+			snippetPreviewHelpers.isolate( snippetContainer );
+		}
 	} );
 }( jQuery ));
 

@@ -19,6 +19,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 (function( $ ) {
 	'use strict';
 
+	var snippetContainer;
 	var App = require( 'yoastseo' ).App;
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
@@ -270,22 +271,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * @returns {SnippetPreview}
 	 */
 	function initSnippetPreview( termScraper ) {
-		var snippetContainer = $( '#wpseo_snippet' );
-
 		return snippetPreviewHelpers.create( snippetContainer, {
-			title: termScraper.getSnippetTitle(),
-			urlPath: termScraper.getSnippetCite(),
-			metaDesc: termScraper.getSnippetMeta()
-		}, termScraper.saveSnippetData.bind( termScraper ) );
-	}
-
-	function createStandaloneSnippetPreview() {
-		var termScraper = new TermScraper();
-
-		var snippetContainer = $( '#wpseo_snippet' );
-
-		snippetPreviewHelpers.isolate( snippetContainer );
-		snippetPreviewHelpers.createStandalone( snippetContainer, {
 			title: termScraper.getSnippetTitle(),
 			urlPath: termScraper.getSnippetCite(),
 			metaDesc: termScraper.getSnippetMeta()
@@ -308,9 +294,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	}
 
 	function retrieveTargets() {
-		var targets = {
-			snippet: 'wpseo_snippet'
-		};
+		var targets = {};
 
 		if ( isKeywordAnalysisActive() ) {
 			targets.output = 'wpseo_analysis';
@@ -326,11 +310,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
-		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
-			createStandaloneSnippetPreview();
-
-			return;
-		}
+		snippetContainer = $( '#wpseo_snippet' );
 
 		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
 
@@ -400,6 +380,10 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 			tabManager.getKeywordTab().activate();
 		} else if ( isContentAnalysisActive() ) {
 			tabManager.getContentTab().activate();
+		}
+
+		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
+			snippetPreviewHelpers.isolate( snippetContainer );
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
