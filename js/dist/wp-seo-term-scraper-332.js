@@ -22846,6 +22846,8 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 				getData: termScraper.getData.bind( termScraper )
 			},
 			locale: wpseoTermScraperL10n.locale,
+			contentAnalysisActive: isContentAnalysisActive(),
+			keywordAnalysisActive: isKeywordAnalysisActive(),
 			snippetPreview: snippetPreview
 		};
 		if ( isKeywordAnalysisActive() ) {

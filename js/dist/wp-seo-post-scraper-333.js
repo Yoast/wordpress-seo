@@ -22640,7 +22640,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	PostScraper.prototype.changeElementEventBinder = function( app ) {
 		var elems = [ '#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]' ];
 		for( var i = 0; i < elems.length; i++ ) {
-			$( elems[i] ).on('change', app.analyzeTimer.bind( app ) );
+			$( elems[i] ).on('change', app.refresh.bind( app ) );
 		}
 	};
 
@@ -22652,7 +22652,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.refresh.bind( app ) );
 			}
 		}
 
