@@ -123,9 +123,16 @@
 	function makeFirstTermPrimary( taxonomyName ) {
 		var firstTerm = $( '#' + taxonomyName + 'checklist input[type="checkbox"]:checked:first' );
 
+<<<<<<< HEAD
+		html = primaryTermUITemplate({
+			taxonomy: taxonomies[ taxonomyName ],
+			term: $.trim( label.text() )
+		});
+=======
 		setPrimaryTerm( taxonomyName, firstTerm.val() );
 		updatePrimaryTermSelectors( taxonomyName );
 	}
+>>>>>>> trunk
 
 	/**
 	 * If we check a term while there is no primary term we make that one the primary term.
