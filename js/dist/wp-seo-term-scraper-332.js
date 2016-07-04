@@ -21957,7 +21957,7 @@ function isolate( snippetContainer ) {
 }
 
 /**
- * Creates a snippet preview in the given location
+ * Returns all the arguments required to create a snippet preview object
  *
  * @param {Object} snippetContainer A jQuery object with the snippet container element.
  *
@@ -21968,9 +21968,9 @@ function isolate( snippetContainer ) {
  *
  * @param {Function} saveCallback A callback that is called when the snippet editor fields should be saved.
  *
- * @return {SnippetPreview} The newly created snippet preview object.
+ * @return {Object} An object with all the arguments required to create a snippet preview object
  */
-function create( snippetContainer, data, saveCallback ) {
+function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
 	var l10nObject = getL10nObject();
 
 	snippetContainer = jQuery( snippetContainer ).get( 0 );
@@ -22001,7 +22001,26 @@ function create( snippetContainer, data, saveCallback ) {
 		snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
 	}
 
-	return new SnippetPreview( snippetPreviewArgs );
+	return snippetPreviewArgs;
+}
+/**
+ * Creates a snippet preview in the given location
+ *
+ * @param {Object} snippetContainer A jQuery object with the snippet container element.
+ *
+ * @param {Object} data The data that is saved for the snippet editor fields.
+ * @param {Object} data.title The title for the snippet editor.
+ * @param {Object} data.urlPath The url path for the snippet editor.
+ * @param {Object} data.metaDesc The meta description for the snippet editor.
+ *
+ * @param {Function} saveCallback A callback that is called when the snippet editor fields should be saved.
+ *
+ * @return {SnippetPreview} The newly created snippet preview object.
+ */
+function create( snippetContainer, data, saveCallback ) {
+	var args = getSnippetPreviewArgs( snippetContainer, data, saveCallback );
+
+	return new SnippetPreview( args );
 }
 
 /**
@@ -22009,19 +22028,20 @@ function create( snippetContainer, data, saveCallback ) {
  *
  * @param {Object} snippetContainer A jQuery object with the snippet container element.
  *
+ * @param {Object} data The data that is saved for the snippet editor fields.
+ * @param {Object} data.title The title for the snippet editor.
+ * @param {Object} data.urlPath The url path for the snippet editor.
+ * @param {Object} data.metaDesc The meta description for the snippet editor.
+ *
+ * @param {Function} saveCallback A callback that is called when the snippet editor fields should be saved.
+ *
  * @returns {SnippetPreview} The newly created snippet preview object.
  */
-function createStandalone( snippetContainer ) {
-	snippetContainer = jQuery( snippetContainer );
+function createStandalone( snippetContainer, data, saveCallback ) {
+	var args;
 
-	var i18n = getI18n();
-
-	var snippetPreviewContainer = snippetContainer.get( 0 );
-
-	var args = {
-		i18n: i18n,
-		targetElement: snippetPreviewContainer
-	};
+	args = getSnippetPreviewArgs( snippetContainer, data, saveCallback );
+	args.i18n = getI18n();
 
 	var snippetPreview = new SnippetPreview( args );
 	snippetPreview.renderTemplate();
@@ -22741,10 +22761,16 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	}
 
 	function createStandaloneSnippetPreview() {
+		var termScraper = new TermScraper();
+
 		var snippetContainer = $( '#wpseo_snippet' );
 
 		snippetPreviewHelpers.isolate( snippetContainer );
-		snippetPreviewHelpers.createStandalone( snippetContainer );
+		snippetPreviewHelpers.createStandalone( snippetContainer, {
+			title: termScraper.getSnippetTitle(),
+			urlPath: termScraper.getSnippetCite(),
+			metaDesc: termScraper.getSnippetMeta()
+		}, termScraper.saveSnippetData.bind( termScraper ) );
 	}
 
 	/**

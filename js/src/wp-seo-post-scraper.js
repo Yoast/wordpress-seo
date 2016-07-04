@@ -400,9 +400,14 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 	function createStandaloneSnippetPreview() {
 		var snippetContainer = $( '#wpseosnippet' );
+		var postScraper = new PostScraper();
 
 		snippetPreviewHelpers.isolate( snippetContainer );
-		snippetPreviewHelpers.createStandalone( snippetContainer );
+		snippetPreviewHelpers.createStandalone( snippetContainer, {
+			title: postScraper.getSnippetTitle(),
+			urlPath: postScraper.getSnippetCite(),
+			metaDesc: postScraper.getSnippetMeta()
+		}, postScraper.saveSnippetData.bind( postScraper ) );
 	}
 
 	/**

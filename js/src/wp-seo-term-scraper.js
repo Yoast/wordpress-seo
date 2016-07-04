@@ -280,10 +280,16 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	}
 
 	function createStandaloneSnippetPreview() {
+		var termScraper = new TermScraper();
+
 		var snippetContainer = $( '#wpseo_snippet' );
 
 		snippetPreviewHelpers.isolate( snippetContainer );
-		snippetPreviewHelpers.createStandalone( snippetContainer );
+		snippetPreviewHelpers.createStandalone( snippetContainer, {
+			title: termScraper.getSnippetTitle(),
+			urlPath: termScraper.getSnippetCite(),
+			metaDesc: termScraper.getSnippetMeta()
+		}, termScraper.saveSnippetData.bind( termScraper ) );
 	}
 
 	/**
