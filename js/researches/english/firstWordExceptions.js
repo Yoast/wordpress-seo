@@ -3,5 +3,6 @@
  * @returns {Array} The array filled with exceptions.
  */
 module.exports = function() {
-	return [ "a", "an", "the", "this", "that", "these", "those", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten" ];
+	return [ "a", "an", "the", "this", "that", "these", "those", "one", "two", "three", "four", "five",
+		"six", "seven", "eight", "nine", "ten" ];
 };
