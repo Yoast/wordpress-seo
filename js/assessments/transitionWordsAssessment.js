@@ -2,6 +2,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 var map = require( "lodash/map" );
 var inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
+var getLanguage = require( "../helpers/getLanguage.js" );
 
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
@@ -106,9 +107,9 @@ module.exports = {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
-		var locale = paper.getLocale().split( "_" )[ 0 ];
+		var locale = getLanguage( paper.getLocale() );
 		var validLocale = locale === "en" || locale === "de";
-		return ( validLocale > -1 && paper.hasText() );
+		return ( validLocale && paper.hasText() );
 	},
 	getMarks: transitionWordsMarker
 };

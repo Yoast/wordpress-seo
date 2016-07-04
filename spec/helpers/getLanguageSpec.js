@@ -7,4 +7,7 @@ describe("a function to get the language from the locale ", function(){
 	it("returns de in case of de_DE", function(){
 		expect( getLanguage( 'de_DE' ) ).toBe( 'de' );
 	});
+	it("returns empty string in case of empty locale", function(){
+		expect( getLanguage( '' ) ).toBe( '' );
+	});
 });

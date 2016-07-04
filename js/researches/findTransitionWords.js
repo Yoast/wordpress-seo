@@ -2,7 +2,7 @@ var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDo
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
-var transitionWordsLocale = require( "../helpers/transitionWordsLocale.js" );
+var getTransitionWords = require( "../helpers/transitionWordsLocale.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
@@ -86,7 +86,7 @@ var checkSentencesForTransitionWords = function( sentences, transitionWords ) {
  */
 module.exports = function( paper ) {
 	var locale = paper.getLocale();
-	var transitionWords = transitionWordsLocale( locale );
+	var transitionWords = getTransitionWords( locale );
 	var sentences = getSentences( paper.getText() );
 	var sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords );
 
