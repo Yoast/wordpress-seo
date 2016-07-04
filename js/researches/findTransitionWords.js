@@ -2,7 +2,7 @@ var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDo
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
-var getTransitionWords = require( "../helpers/transitionWordsLocale.js" );
+var getTransitionWords = require( "../helpers/getTransitionWords.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
