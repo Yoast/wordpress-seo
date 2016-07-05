@@ -1,7 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Assessor = require( "yoastseo/js/assessor.js" );
 
-var fleschReadingEase = require( "yoastseo/js/assessments/fleschReadingEaseAssessment.js" );
 var introductionKeyword = require( "yoastseo/js/assessments/introductionKeywordAssessment.js" );
 var keyphraseLength = require( "yoastseo/js/assessments/keyphraseLengthAssessment.js" );
 var keywordDensity = require( "yoastseo/js/assessments/keywordDensityAssessment.js" );
@@ -24,21 +23,20 @@ var taxonomyTextLength = require( 'yoastseo/js/assessments/taxonomyTextLengthAss
 var TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
-	this._assessments = {
-		fleschReadingEase:      fleschReadingEase,
-		introductionKeyword:    introductionKeyword,
-		keyphraseLength:        keyphraseLength,
-		keywordDensity:         keywordDensity,
-		keywordStopWords:       keywordStopWords,
-		metaDescriptionKeyword: metaDescriptionKeyword,
-		metaDescriptionLength:  metaDescriptionLength,
-		taxonomyTextLength:     taxonomyTextLength,
-		titleKeyword:           titleKeyword,
-		titleLength:            titleLength,
-		urlKeyword:             urlKeyword,
-		urlLength:              urlLength,
-		urlStopWords:           urlStopWords
-	};
+	this._assessments = [
+		introductionKeyword,
+		keyphraseLength,
+		keywordDensity,
+		keywordStopWords,
+		metaDescriptionKeyword,
+		metaDescriptionLength,
+		taxonomyTextLength,
+		titleKeyword,
+		titleLength,
+		urlKeyword,
+		urlLength,
+		urlStopWords
+	];
 };
 
 module.exports = TaxonomyAssessor;
@@ -46,7 +44,7 @@ module.exports = TaxonomyAssessor;
 require( "util" ).inherits( module.exports, Assessor );
 
 
-},{"util":6,"yoastseo/js/assessments/fleschReadingEaseAssessment.js":200,"yoastseo/js/assessments/introductionKeywordAssessment.js":201,"yoastseo/js/assessments/keyphraseLengthAssessment.js":202,"yoastseo/js/assessments/keywordDensityAssessment.js":203,"yoastseo/js/assessments/keywordStopWordsAssessment.js":204,"yoastseo/js/assessments/metaDescriptionKeywordAssessment.js":205,"yoastseo/js/assessments/metaDescriptionLengthAssessment.js":206,"yoastseo/js/assessments/taxonomyTextLengthAssessment":208,"yoastseo/js/assessments/titleKeywordAssessment.js":213,"yoastseo/js/assessments/titleLengthAssessment.js":214,"yoastseo/js/assessments/urlKeywordAssessment.js":215,"yoastseo/js/assessments/urlLengthAssessment.js":216,"yoastseo/js/assessments/urlStopWordsAssessment.js":217,"yoastseo/js/assessor.js":218}],2:[function(require,module,exports){
+},{"util":6,"yoastseo/js/assessments/introductionKeywordAssessment.js":200,"yoastseo/js/assessments/keyphraseLengthAssessment.js":201,"yoastseo/js/assessments/keywordDensityAssessment.js":202,"yoastseo/js/assessments/keywordStopWordsAssessment.js":203,"yoastseo/js/assessments/metaDescriptionKeywordAssessment.js":204,"yoastseo/js/assessments/metaDescriptionLengthAssessment.js":205,"yoastseo/js/assessments/taxonomyTextLengthAssessment":207,"yoastseo/js/assessments/titleKeywordAssessment.js":212,"yoastseo/js/assessments/titleLengthAssessment.js":213,"yoastseo/js/assessments/urlKeywordAssessment.js":214,"yoastseo/js/assessments/urlLengthAssessment.js":215,"yoastseo/js/assessments/urlStopWordsAssessment.js":216,"yoastseo/js/assessor.js":217}],2:[function(require,module,exports){
 /* global wpseoAdminL10n */
 /* global ajaxurl */
 /* global require */
@@ -329,7 +327,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	$(init);
 }(jQuery));
 
-},{"./assessors/taxonomyAssessor":1,"jed":7,"yoastseo/js/SEOAssessor":199,"yoastseo/js/values/Paper":311}],3:[function(require,module,exports){
+},{"./assessors/taxonomyAssessor":1,"jed":7,"yoastseo/js/SEOAssessor":199,"yoastseo/js/values/Paper":310}],3:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8144,118 +8142,7 @@ module.exports = SEOAssessor;
 require( "util" ).inherits( module.exports, Assessor );
 
 
-},{"./assessments/introductionKeywordAssessment.js":201,"./assessments/keyphraseLengthAssessment.js":202,"./assessments/keywordDensityAssessment.js":203,"./assessments/keywordStopWordsAssessment.js":204,"./assessments/metaDescriptionKeywordAssessment.js":205,"./assessments/metaDescriptionLengthAssessment.js":206,"./assessments/subheadingsKeywordAssessment.js":207,"./assessments/textCompetingLinksAssessment.js":209,"./assessments/textImagesAssessment.js":210,"./assessments/textLengthAssessment.js":211,"./assessments/textLinksAssessment.js":212,"./assessments/titleKeywordAssessment.js":213,"./assessments/titleLengthAssessment.js":214,"./assessments/urlKeywordAssessment.js":215,"./assessments/urlLengthAssessment.js":216,"./assessments/urlStopWordsAssessment.js":217,"./assessor.js":218,"util":6}],200:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculates the assessment result based on the fleschReadingScore
- * @param {int} fleschReadingScore The score from the fleschReadingtest
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} object with score, resultText and note
- */
-var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
-	if ( fleschReadingScore > 90 ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 80, 90 ) ) {
-		return {
-			score: 9,
-			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 70, 80 ) ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 60, 70 ) ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 50, 60 ) ) {
-		return {
-			score: 6,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 30, 50 ) ) {
-		return {
-			score: 3,
-			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-
-	if ( fleschReadingScore < 30 ) {
-		return {
-			score: 3,
-			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-};
-
-/**
- * The assessment that runs the FleschReading on the paper.
- *
- * @param {object} paper The paper to run this assessment on
- * @param {object} researcher The researcher used for the assessment
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} an assessmentresult with the score and formatted text.
- */
-var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
-	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
-
-	/* Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
-	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
-	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
-	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
-
-	// scores must be between 0 and 100;
-	if ( fleschReadingScore < 0 ) {
-		fleschReadingScore = 0;
-	}
-	if ( fleschReadingScore > 100 ) {
-		fleschReadingScore = 100;
-	}
-
-	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
-
-	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
-
-	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( fleschReadingResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "fleschReadingEase",
-	getResult: fleschReadingEaseAssessment,
-	isApplicable: function( paper ) {
-		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
-	}
-};
-
-},{"../values/AssessmentResult.js":309,"lodash/inRange":160}],201:[function(require,module,exports){
+},{"./assessments/introductionKeywordAssessment.js":200,"./assessments/keyphraseLengthAssessment.js":201,"./assessments/keywordDensityAssessment.js":202,"./assessments/keywordStopWordsAssessment.js":203,"./assessments/metaDescriptionKeywordAssessment.js":204,"./assessments/metaDescriptionLengthAssessment.js":205,"./assessments/subheadingsKeywordAssessment.js":206,"./assessments/textCompetingLinksAssessment.js":208,"./assessments/textImagesAssessment.js":209,"./assessments/textLengthAssessment.js":210,"./assessments/textLinksAssessment.js":211,"./assessments/titleKeywordAssessment.js":212,"./assessments/titleLengthAssessment.js":213,"./assessments/urlKeywordAssessment.js":214,"./assessments/urlLengthAssessment.js":215,"./assessments/urlStopWordsAssessment.js":216,"./assessor.js":217,"util":6}],200:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8307,7 +8194,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309}],202:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],201:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8329,7 +8216,7 @@ function keyphraseAssessment( paper, researcher, i18n ) {
 			"If you do not set a focus keyword, no score can be calculated." ) );
 	} else if ( keyphraseLength > 10 ) {
 		assessmentResult.setScore( 0 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "The keyphrase is over 10 words, a keyphrase should be shorter." ) );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
 	}
 
 	return assessmentResult;
@@ -8340,7 +8227,7 @@ module.exports = {
 	getResult: keyphraseAssessment
 };
 
-},{"../values/AssessmentResult.js":309}],203:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],202:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -8444,7 +8331,7 @@ module.exports = {
 	}
 };
 
-},{"../helpers/formatNumber.js":229,"../stringProcessing/countWords.js":277,"../stringProcessing/matchTextWithWord.js":292,"../values/AssessmentResult.js":309,"lodash/inRange":160}],204:[function(require,module,exports){
+},{"../helpers/formatNumber.js":228,"../stringProcessing/countWords.js":276,"../stringProcessing/matchTextWithWord.js":291,"../values/AssessmentResult.js":308,"lodash/inRange":160}],203:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8461,9 +8348,9 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 			text: i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-				"The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
+				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
 				"Read %1$sthis article%2$s for more info.",
-				"The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
+				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
 				"Read %1$sthis article%2$s for more info.",
 				stopWordCount
 			)
@@ -8504,7 +8391,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309}],205:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],204:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8556,7 +8443,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309}],206:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],205:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8622,7 +8509,7 @@ module.exports = {
 	getResult: metaDescriptionLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":309}],207:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],206:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8636,7 +8523,7 @@ var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
 	if ( subHeadings.matches === 0 ) {
 		return {
 			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "You have not used the focus keyword in any subheading (such as an H2) in your copy." )
+			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
 		};
 	}
 	if ( subHeadings.matches >= 1 ) {
@@ -8676,11 +8563,10 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309}],208:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],207:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
-var recommendedMinimum = 150;
 /**
  * Calculate the score based on the current word count.
  * @param {number} wordCount The amount of words to be checked against.
@@ -8692,19 +8578,11 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 		return {
 			score: 9,
 			text: i18n.dngettext(
-
-
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
+				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than the recommended minimum of %2$d word.",
-				"This is more than the recommended minimum of %2$d words.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8714,16 +8592,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 7,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
-				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8733,16 +8605,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 5,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8752,16 +8618,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -10,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8771,16 +8631,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -20,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text */
+				"The text contains %1$d word, this is far too low and should be increased.",
+				"The text contains %1$d words, this is far too low and should be increased.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -8799,7 +8653,7 @@ var taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, recommendedMinimum ) );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 150 ) );
 
 	return assessmentResult;
 };
@@ -8809,7 +8663,7 @@ module.exports = {
 	getResult: taxonomyTextLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":309,"lodash/inRange":160}],209:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308,"lodash/inRange":160}],208:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 var Mark = require( "../values/Mark.js" );
@@ -8884,7 +8738,7 @@ module.exports = {
 	getMarks: competingLinkMarker
 };
 
-},{"../markers/addMark.js":233,"../values/AssessmentResult.js":309,"../values/Mark.js":310,"lodash/map":181}],210:[function(require,module,exports){
+},{"../markers/addMark.js":232,"../values/AssessmentResult.js":308,"../values/Mark.js":309,"lodash/map":181}],209:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -8924,7 +8778,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.withAltNonKeyword > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing the focus keyword." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing your focus keyword." )
 		};
 	}
 
@@ -8984,11 +8838,10 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309,"lodash/isEmpty":167}],211:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308,"lodash/isEmpty":167}],210:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
-var recommendedMinimum = 300;
 /**
  * Calculate the score based on the current word count.
  * @param {number} wordCount The amount of words to be checked against.
@@ -9001,16 +8854,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 9,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, which is more than the recommended minimum of %2$d word.",
+				"The text contains %1$d words, which is more than the recommended minimum of %2$d words.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than the recommended minimum of %2$d word.",
-				"This is more than the recommended minimum of %2$d words.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9020,16 +8867,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 7,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				"The text contains %1$d word, which is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
+				"The text contains %1$d words, which is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
-				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9039,16 +8880,12 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: 5,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, which is below the recommended minimum of %2$d word. " +
+				"Add more useful content on this topic for readers.",
+				"The text contains %1$d words, which is below the recommended minimum of %2$d words. " +
+				"Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9058,16 +8895,12 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			score: -10,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				/* Translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				"The text contains %1$d word, which is below the recommended minimum of %2$d word. " +
+				"Add more useful content on this topic for readers.",
+				"The text contains %1$d words, which is below the recommended minimum of %2$d words. " +
+				"Add more useful content on this topic for readers.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9078,15 +8911,9 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			text: i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$d expands to the number of words in the text */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
+				"The text contains %1$d word, which is far too low. Increase the word count.",
+				"The text contains %1$d words, which is far too low. Increase the word count.",
 				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
-				recommendedMinimum
 			)
 		};
 	}
@@ -9105,7 +8932,7 @@ var textLengthAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, recommendedMinimum ) );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
 
 	return assessmentResult;
 };
@@ -9115,7 +8942,7 @@ module.exports = {
 	getResult: textLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":309,"lodash/inRange":160}],212:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308,"lodash/inRange":160}],211:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -9188,7 +9015,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309,"lodash/isEmpty":167}],213:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308,"lodash/isEmpty":167}],212:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9234,7 +9061,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309}],214:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],213:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -9254,20 +9081,13 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					%2$s expands to the recommended minimum number of characters for the title */
-					"This is less than the recommended minimum of %2$d character. " +
+					/* Translators: %1$d expands to the number of characters in the page title,
+					%2$d to the minimum number of characters for the title */
+					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
 					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					"This is less than the recommended minimum of %2$d characters. " +
+					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
 					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					minLength
-				),
+				pageTitleLength ),
 				pageTitleLength, minLength )
 		};
 	}
@@ -9276,29 +9096,11 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 		return {
 			score: 9,
 			text: i18n.sprintf(
-				i18n.dngettext(
+				i18n.dgettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					%2$s expands to the recommended minimum number of characters for the title. The following string is
-					"and the recommended maximum of %3$d characters." */
-					"This is between the recommended minimum of %2$d character",
-					"This is between the recommended minimum of %2$d characters",
-					minLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding string is "This is between the recommended minimum of x characters".
-					%3$s expands to the recommended minimum number of characters for the title */
-					"and the recommended maximum of %3$d character.",
-					"and the recommended maximum of %3$d characters.",
-					maxLength
-			),
-				pageTitleLength, minLength, maxLength )
+					/* Translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
+				minLength, maxLength )
 		};
 	}
 
@@ -9308,21 +9110,14 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of characters in the page title */
-					"The page title contains %1$d character.",
-					"The page title contains %1$d characters.",
-					pageTitleLength
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The page title contains x characters.".
-					 %2$s expands to the recommended minimum number of characters for the title. The following string is "and the
-					 recommended maximum of %3$d characters." */
-					"This is more than the viewable limit of %2$d character. Some words will not be visible to users in your listing.",
-					"This is more than the viewable limit of %2$d characters. Some words will not be visible to users in your listing.",
-					maxLength
-				),
+					/* Translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
+					of characters for the title */
+					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					pageTitleLength ),
 				pageTitleLength, maxLength )
-
 		};
 	}
 
@@ -9356,7 +9151,7 @@ module.exports = {
 	getResult: titleLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":309,"lodash/inRange":160}],215:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308,"lodash/inRange":160}],214:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9407,7 +9202,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309}],216:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],215:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9438,7 +9233,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":309}],217:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],216:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9493,7 +9288,7 @@ module.exports = {
 	getResult: urlHasStopWordsAssessment
 };
 
-},{"../values/AssessmentResult.js":309}],218:[function(require,module,exports){
+},{"../values/AssessmentResult.js":308}],217:[function(require,module,exports){
 var Researcher = require( "./researcher.js" );
 var MissingArgument = require( "./errors/missingArgument" );
 var removeDuplicateMarks = require( "./markers/removeDuplicateMarks" );
@@ -9764,7 +9559,7 @@ Assessor.prototype.getAssessment = function( identifier ) {
 
 module.exports = Assessor;
 
-},{"./errors/missingArgument":227,"./helpers/errors.js":228,"./markers/removeDuplicateMarks":234,"./researcher.js":235,"./values/AssessmentResult.js":309,"lodash/filter":152,"lodash/find":153,"lodash/findIndex":154,"lodash/forEach":156,"lodash/isFunction":168,"lodash/isUndefined":178,"lodash/map":181}],219:[function(require,module,exports){
+},{"./errors/missingArgument":226,"./helpers/errors.js":227,"./markers/removeDuplicateMarks":233,"./researcher.js":234,"./values/AssessmentResult.js":308,"lodash/filter":152,"lodash/find":153,"lodash/findIndex":154,"lodash/forEach":156,"lodash/isFunction":168,"lodash/isUndefined":178,"lodash/map":181}],218:[function(require,module,exports){
 /** @module config/diacritics */
 
 /**
@@ -9872,7 +9667,7 @@ module.exports = function() {
 	];
 };
 
-},{}],220:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 /** @module config/removalWords */
 
 /**
@@ -9884,7 +9679,7 @@ module.exports = function() {
 	return [ " a", " in", " an", " on", " for", " the", " and" ];
 };
 
-},{}],221:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 /** @module config/stopwords */
 
 /**
@@ -9896,7 +9691,7 @@ module.exports = function() {
 	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
 };
 
-},{}],222:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 /** @module config/syllables */
 
 /**
@@ -9918,7 +9713,7 @@ module.exports = function() {
 	};
 };
 
-},{}],223:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 /** @module config/transitionWords */
 
 /**
@@ -9930,7 +9725,7 @@ module.exports = function() {
 };
 
 
-},{}],224:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 
 /**
@@ -10180,8 +9975,6 @@ var transliterations = {
 	// In text it is transliterated to a character similar to an apostroph: ′.
 	// I recommend omittance in slugs. (https://en.wikipedia.org/wiki/Romanization_of_Russian)
 	ru: [
-		{ letter: /[\u0430]/g, alternative: "a" },
-		{ letter: /[\u0410]/g, alternative: "A" },
 		{ letter: /[\u0431]/g, alternative: "b" },
 		{ letter: /[\u0411]/g, alternative: "B" },
 		{ letter: /[\u0432]/g, alternative: "v" },
@@ -10190,14 +9983,12 @@ var transliterations = {
 		{ letter: /[\u0413]/g, alternative: "G" },
 		{ letter: /[\u0434]/g, alternative: "d" },
 		{ letter: /[\u0414]/g, alternative: "D" },
-		{ letter: /[\u0435]/g, alternative: "e" },
-		{ letter: /[\u0415]/g, alternative: "E" },
 		{ letter: /[\u0436]/g, alternative: "zh" },
 		{ letter: /[\u0416]/g, alternative: "Zh" },
 		{ letter: /[\u0437]/g, alternative: "z" },
 		{ letter: /[\u0417]/g, alternative: "Z" },
-		{ letter: /[\u0456\u0438\u0439]/g, alternative: "i" },
-		{ letter: /[\u0406\u0418\u0419]/g, alternative: "I" },
+		{ letter: /[\u0438\u0439]/g, alternative: "i" },
+		{ letter: /[\u0418\u0419]/g, alternative: "I" },
 		{ letter: /[\u043A]/g, alternative: "k" },
 		{ letter: /[\u041A]/g, alternative: "K" },
 		{ letter: /[\u043B]/g, alternative: "l" },
@@ -10206,10 +9997,8 @@ var transliterations = {
 		{ letter: /[\u041C]/g, alternative: "M" },
 		{ letter: /[\u043D]/g, alternative: "n" },
 		{ letter: /[\u041D]/g, alternative: "N" },
-		{ letter: /[\u0440]/g, alternative: "r" },
-		{ letter: /[\u0420]/g, alternative: "R" },
-		{ letter: /[\u043E]/g, alternative: "o" },
-		{ letter: /[\u041E]/g, alternative: "O" },
+		{ letter: /[\u0070]/g, alternative: "r" },
+		{ letter: /[\u0050]/g, alternative: "R" },
 		{ letter: /[\u043F]/g, alternative: "p" },
 		{ letter: /[\u041F]/g, alternative: "P" },
 		{ letter: /[\u0441]/g, alternative: "s" },
@@ -10492,875 +10281,6 @@ var transliterations = {
 		{ letter: /^[\u042F]/g, alternative: "Ya" },
 		{ letter: /[\s][\u042F]/g, alternative: " Ya" },
 		{ letter: /[\u042F]/g, alternative: "IA" }
-	],
-	// Language: Breton
-	// Source: http://www.omniglot.com/writing/breton.htm
-	br: [
-		{ letter: /\u0063\u0027\u0068/g, alternative: "ch" },
-		{ letter: /\u0043\u0027\u0048/g, alternative: "CH" },
-		{ letter: /[\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fb\u00f9\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00db\u00d9\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" }
-	],
-	// Language: Chamorro
-	// Source: http://www.omniglot.com/writing/chamorro.htm
-	ch: [
-		{ letter: /[\u0027]/g, alternative: "" },
-		{ letter: /[\u00e5]/g, alternative: "a" },
-		{ letter: /[\u00c5]/g, alternative: "A" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" }
-	],
-	// Language: Corsican
-	// Sources: http://www.omniglot.com/writing/corsican.htm https://en.wikipedia.org/wiki/Corsican_alphabet
-	co: [
-		{ letter: /[\u00e2\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c2\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00e6\u04d5]/g, alternative: "ae" },
-		{ letter: /[\u00c6\u04d4]/g, alternative: "Ae" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e9\u00ea\u00e8\u00eb]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00ca\u00c8\u00cb]/g, alternative: "E" },
-		{ letter: /[\u00ec\u00ee\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cc\u00ce\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" },
-		{ letter: /[\u00f4\u00f2]/g, alternative: "o" },
-		{ letter: /[\u00d4\u00d2]/g, alternative: "O" },
-		{ letter: /[\u0153]/g, alternative: "oe" },
-		{ letter: /[\u0152]]/g, alternative: "Oe" },
-		{ letter: /[\u00f9\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00d9\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00ff]/g, alternative: "y" },
-		{ letter: /[\u0178]/g, alternative: "Y" }
-	],
-	// Language: Kashubian
-	// Sources: http://www.omniglot.com/writing/kashubian.htm https://en.wikipedia.org/wiki/Kashubian_language
-	csb: [
-		{ letter: /[\u0105\u00e3]/g, alternative: "a" },
-		{ letter: /[\u0104\u00c3]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00eb]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00cb]/g, alternative: "E" },
-		{ letter: /[\u0142]/g, alternative: "l" },
-		{ letter: /[\u0141]/g, alternative: "L" },
-		{ letter: /[\u0144]/g, alternative: "n" },
-		{ letter: /[\u0143]/g, alternative: "N" },
-		{ letter: /[\u00f2\u00f3\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d3\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00f9]/g, alternative: "u" },
-		{ letter: /[\u00d9]/g, alternative: "U" },
-		{ letter: /[\u017c]/g, alternative: "z" },
-		{ letter: /[\u017b]/g, alternative: "Z" }
-	],
-	// Language: Welsh
-	// Sources: http://www.omniglot.com/writing/welsh.htm https://en.wikipedia.org/wiki/Welsh_orthography#Diacritics
-	cy: [
-		{ letter: /[\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fb]/g, alternative: "u" },
-		{ letter: /[\u00db]/g, alternative: "U" },
-		{ letter: /[\u0175]/g, alternative: "w" },
-		{ letter: /[\u0174]/g, alternative: "W" },
-		{ letter: /[\u0177]/g, alternative: "y" },
-		{ letter: /[\u0176]/g, alternative: "Y" }
-	],
-	// Language: Ewe
-	// Sources: http://www.omniglot.com/writing/ewe.htm https://en.wikipedia.org/wiki/Ewe_language#Writing_system
-	ee: [
-		{ letter: /[\u0256]/g, alternative: "d" },
-		{ letter: /[\u0189]/g, alternative: "D" },
-		{ letter: /[\u025b]/g, alternative: "e" },
-		{ letter: /[\u0190]/g, alternative: "E" },
-		{ letter: /[\u0192]/g, alternative: "f" },
-		{ letter: /[\u0191]/g, alternative: "F" },
-		{ letter: /[\u0263]/g, alternative: "g" },
-		{ letter: /[\u0194]/g, alternative: "G" },
-		{ letter: /[\u014b]/g, alternative: "ng" },
-		{ letter: /[\u014a]/g, alternative: "Ng" },
-		{ letter: /[\u0254]/g, alternative: "o" },
-		{ letter: /[\u0186]/g, alternative: "O" },
-		{ letter: /[\u028b]/g, alternative: "w" },
-		{ letter: /[\u01b2]/g, alternative: "W" },
-		{ letter: /\u0061\u0303/g, alternative: "a" },
-		{ letter: /[\u00e1\u00e0\u01ce\u00e2\u00e3]/g, alternative: "a" },
-		{ letter: /\u0041\u0303/g, alternative: "A" },
-		{ letter: /[\u00c1\u00c0\u01cd\u00c2\u00c3]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00e8\u011b\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00c8\u011a\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00f3\u00f2\u01d2\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d2\u01d1\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00f9\u01d4\u00fb]/g, alternative: "u" },
-		{ letter: /[\u00da\u00d9\u01d3\u00db]/g, alternative: "U" },
-		{ letter: /[\u00ed\u00ec\u01d0\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00cc\u01cf\u00ce]/g, alternative: "I" }
-	],
-	// Language: Estonian
-	// Sources: http://www.omniglot.com/writing/estonian.htm https://en.wikipedia.org/wiki/Estonian_orthography https://en.wikipedia.org/wiki/%C5%BD https://en.wikipedia.org/wiki/%C5%A0
-	et: [
-		{ letter: /[\u0161]/g, alternative: "sh" },
-		{ letter: /[\u0160]/g, alternative: "Sh" },
-		{ letter: /[\u017e]/g, alternative: "zh" },
-		{ letter: /[\u017d]/g, alternative: "Zh" },
-		{ letter: /[\u00f5\u00f6]/g, alternative: "o" },
-		{ letter: /[\u00d6\u00d5]/g, alternative: "O" },
-		{ letter: /[\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c4]/g, alternative: "A" },
-		{ letter: /[\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00dc]/g, alternative: "U" }
-		],
-	// Language: Basque
-	// Sources: http://www.omniglot.com/writing/basque.htm https://en.wikipedia.org/wiki/Basque_language#Writing_system https://en	.wikipedia.org/wiki/Basque_alphabet
-	eu: [
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00dc]/g, alternative: "U" }
-	],
-	// Language: Fulah
-	// Sources: http://www.omniglot.com/writing/fula.htm https://en.wikipedia.org/wiki/Fula_language#Writing_systems
-	fuc: [
-		{ letter: /[\u0253]/g, alternative: "b" },
-		{ letter: /[\u0181]/g, alternative: "B" },
-		{ letter: /[\u0257]/g, alternative: "d" },
-		{ letter: /[\u018a]/g, alternative: "D" },
-		{ letter: /[\u014b]/g, alternative: "ng" },
-		{ letter: /[\u014a]/g, alternative: "Ng" },
-		{ letter: /[\u0272\u00f1]/g, alternative: "ny" },
-		{ letter: /[\u019d\u00d1]/g, alternative: "Ny" },
-		{ letter: /[\u01b4]/g, alternative: "y" },
-		{ letter: /[\u01b3]/g, alternative: "Y" },
-		{ letter: /[\u0260]/g, alternative: "g" },
-		{ letter: /[\u0193]/g, alternative: "G" }
-	],
-	// Language: Fijian
-	// Source: http://www.omniglot.com/writing/fijian.htm
-	fj: [
-		{ letter: /[\u0101]/g, alternative: "a" },
-		{ letter: /[\u0100]/g, alternative: "A" },
-		{ letter: /[\u0113]/g, alternative: "e" },
-		{ letter: /[\u0112]/g, alternative: "E" },
-		{ letter: /[\u012b]/g, alternative: "i" },
-		{ letter: /[\u012a]/g, alternative: "I" },
-		{ letter: /[\u016b]/g, alternative: "u" },
-		{ letter: /[\u016a]/g, alternative: "U" },
-		{ letter: /[\u014d]/g, alternative: "o" },
-		{ letter: /[\u014c]/g, alternative: "O" }
-	],
-	// Language: Arpitan (Franco-Provençal language)
-	// Source: http://www.omniglot.com/writing/francoprovencal.htm
-	frp: [
-		{ letter: /[\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00ea\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00ca\u00c8\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00fb\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00db\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d4]/g, alternative: "O" }
-	],
-	// Language: Friulian
-	// Sources: https://en.wikipedia.org/wiki/Friulian_language https://en.wikipedia.org/wiki/Faggin-Nazzi_alphabet
-	// http://www.omniglot.com/writing/friulian.htm
-	fur: [
-		{ letter: /[\u00E7]/g, alternative: "c" },
-		{ letter: /[\u00C7]/g, alternative: "C" },
-		{ letter: /[\u00e0\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c8\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ec\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00cc\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00f2\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00f9\u00fb]/g, alternative: "u" },
-		{ letter: /[\u00d9\u00db]/g, alternative: "U" },
-		{ letter: /[\u010d]/g, alternative: "c" },
-		{ letter: /[\u010c]/g, alternative: "C" },
-		{ letter: /[\u011f]/g, alternative: "g" },
-		{ letter: /[\u011e]/g, alternative: "G" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" }
-	],
-	// Language: Frisian
-	// Sources: https://en.wikipedia.org/wiki/West_Frisian_alphabet http://www.omniglot.com/writing/frisian.htm
-	fy: [
-		{ letter: /[\u00e2\u0101\u00e4\u00e5]/g, alternative: "a" },
-		{ letter: /[\u00c2\u0100\u00c4\u00c5]/g, alternative: "A" },
-		{ letter: /[\u00ea\u00e9\u0113]/g, alternative: "e" },
-		{ letter: /[\u00ca\u00c9\u0112]/g, alternative: "E" },
-		{ letter: /[\u00f4\u00f6]/g, alternative: "o" },
-		{ letter: /[\u00d4\u00d6]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00fb\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00da\u00db\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u0111\u00f0]/g, alternative: "d" },
-		{ letter: /[\u0110\u00d0]/g, alternative: "D" }
-	],
-	// Language: Irish
-	// Source: https://en.wikipedia.org/wiki/Irish_orthography
-	ga: [
-		{ letter: /[\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00da]/g, alternative: "U" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" }
-	],
-	// Language: Scottish Gaelic
-	// Sources: https://en.wikipedia.org/wiki/Scottish_Gaelic_orthography http://www.omniglot.com/writing/gaelic.htm
-	gd: [
-		{ letter: /[\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00e8]/g, alternative: "e" },
-		{ letter: /[\u00c8]/g, alternative: "E" },
-		{ letter: /[\u00f2]/g, alternative: "o" },
-		{ letter: /[\u00d2]/g, alternative: "O" },
-		{ letter: /[\u00f9]/g, alternative: "u" },
-		{ letter: /[\u00d9]/g, alternative: "U" },
-		{ letter: /[\u00ec]/g, alternative: "i" },
-		{ letter: /[\u00cc]/g, alternative: "I" }
-	],
-	// Language: Galician
-	// Sources: https://en.wikipedia.org/wiki/Diacritic https://en.wikipedia.org/wiki/Galician_Alphabet
-	gl: [
-		{ letter: /[\u00e1\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00da\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" }
-	],
-	// Language: Guarani
-	// Sources: https://en.wikipedia.org/wiki/Guarani_alphabet http://www.omniglot.com/writing/guarani.htm
-	gn: [
-		{ letter: /[\u2019]/g, alternative: "" },
-		{ letter: /\u0067\u0303/g, alternative: "g" },
-		{ letter: /\u0047\u0303/g, alternative: "G" },
-		{ letter: /[\u00e3]/g, alternative: "a" },
-		{ letter: /[\u00c3]/g, alternative: "A" },
-		{ letter: /[\u1ebd]/g, alternative: "e" },
-		{ letter: /[\u1ebc]/g, alternative: "E" },
-		{ letter: /[\u0129]/g, alternative: "i" },
-		{ letter: /[\u0128]/g, alternative: "I" },
-		{ letter: /[\u00f5]/g, alternative: "o" },
-		{ letter: /[\u00d5]/g, alternative: "O" },
-		{ letter: /[\u00f1]/g, alternative: "n" },
-		{ letter: /[\u00d1]/g, alternative: "N" },
-		{ letter: /[\u0169]/g, alternative: "u" },
-		{ letter: /[\u0168]/g, alternative: "U" },
-		{ letter: /[\u1ef9]/g, alternative: "y" },
-		{ letter: /[\u1ef8]/g, alternative: "Y" }
-	],
-	// Language: Swiss German
-	// Source: http://www.omniglot.com/writing/swissgerman.htm
-	gsw: [
-		{ letter: /[\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c4]/g, alternative: "A" },
-		{ letter: /[\u00f6]/g, alternative: "o" },
-		{ letter: /[\u00d6]/g, alternative: "O" },
-		{ letter: /[\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00dc]/g, alternative: "U" }
-	],
-	// Language: Haitian Creole
-	// Sources: https://en.wikipedia.org/wiki/Haitian_Creole http://www.omniglot.com/writing/haitiancreole.htm
-	hat: [
-		{ letter: /[\u00e8]/g, alternative: "e" },
-		{ letter: /[\u00c8]/g, alternative: "E" },
-		{ letter: /[\u00f2]/g, alternative: "o" },
-		{ letter: /[\u00d2]/g, alternative: "O" }
-	],
-	// Language: Hawaiian
-	// Sources: https://en.wikipedia.org/wiki/Hawaiian_language#Macron http://www.omniglot.com/writing/hawaiian.htm
-	haw: [
-		{ letter: /[\u02bb\u0027\u2019]/g, alternative: "" },
-		{ letter: /[\u0101]/g, alternative: "a" },
-		{ letter: /[\u0113]/g, alternative: "e" },
-		{ letter: /[\u012b]/g, alternative: "i" },
-		{ letter: /[\u014d]/g, alternative: "o" },
-		{ letter: /[\u016b]/g, alternative: "u" },
-		{ letter: /[\u0100]/g, alternative: "A" },
-		{ letter: /[\u0112]/g, alternative: "E" },
-		{ letter: /[\u012a]/g, alternative: "I" },
-		{ letter: /[\u014c]/g, alternative: "O" },
-		{ letter: /[\u016a]/g, alternative: "U" }
-	],
-	// Language: Croatian
-	// Sources: https://en.wikipedia.org/wiki/Gaj%27s_Latin_alphabet https://en.wikipedia.org/wiki/D_with_stroke
-	// http://www.omniglot.com/writing/croatian.htm
-	hr: [
-		{ letter: /[\u010d\u0107]/g, alternative: "c" },
-		{ letter: /[\u010c\u0106]/g, alternative: "C" },
-		{ letter: /[\u0111]/g, alternative: "dj" },
-		{ letter: /[\u0110]/g, alternative: "Dj" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" },
-		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" },
-		{ letter: /[\u01c4]/g, alternative: "DZ" },
-		{ letter: /[\u01c5]/g, alternative: "Dz" },
-		{ letter: /[\u01c6]/g, alternative: "dz" }
-	],
-	// Language: Georgian
-	// The Georgian language does not use capital letters.
-	// Sources: https://en.wikipedia.org/wiki/Romanization_of_Georgian (national system)
-	ka: [
-		{ letter: /[\u10d0]/g, alternative: "a" },
-		{ letter: /[\u10d1]/g, alternative: "b" },
-		{ letter: /[\u10d2]/g, alternative: "g" },
-		{ letter: /[\u10d3]/g, alternative: "d" },
-		{ letter: /[\u10d4]/g, alternative: "e" },
-		{ letter: /[\u10d5]/g, alternative: "v" },
-		{ letter: /[\u10d6]/g, alternative: "z" },
-		{ letter: /[\u10d7]/g, alternative: "t" },
-		{ letter: /[\u10d8]/g, alternative: "i" },
-		{ letter: /[\u10d9]/g, alternative: "k" },
-		{ letter: /[\u10da]/g, alternative: "l" },
-		{ letter: /[\u10db]/g, alternative: "m" },
-		{ letter: /[\u10dc]/g, alternative: "n" },
-		{ letter: /[\u10dd]/g, alternative: "o" },
-		{ letter: /[\u10de]/g, alternative: "p" },
-		{ letter: /[\u10df]/g, alternative: "zh" },
-		{ letter: /[\u10e0]/g, alternative: "r" },
-		{ letter: /[\u10e1]/g, alternative: "s" },
-		{ letter: /[\u10e2]/g, alternative: "t" },
-		{ letter: /[\u10e3]/g, alternative: "u" },
-		{ letter: /[\u10e4]/g, alternative: "p" },
-		{ letter: /[\u10e5]/g, alternative: "k" },
-		{ letter: /[\u10e6]/g, alternative: "gh" },
-		{ letter: /[\u10e7]/g, alternative: "q" },
-		{ letter: /[\u10e8]/g, alternative: "sh" },
-		{ letter: /[\u10e9]/g, alternative: "ch" },
-		{ letter: /[\u10ea]/g, alternative: "ts" },
-		{ letter: /[\u10eb]/g, alternative: "dz" },
-		{ letter: /[\u10ec]/g, alternative: "ts" },
-		{ letter: /[\u10ed]/g, alternative: "ch" },
-		{ letter: /[\u10ee]/g, alternative: "kh" },
-		{ letter: /[\u10ef]/g, alternative: "j" },
-		{ letter: /[\u10f0]/g, alternative: "h" }
-	],
-	// Language: Greenlandic.
-	// Source: https://en.wikipedia.org/wiki/Greenlandic_language#Orthography
-	kal: [
-		{ letter: /[\u00E5]/g, alternative: "aa" },
-		{ letter: /[\u00C5]/g, alternative: "Aa" },
-		{ letter: /[\u00E6\u04D5]/g, alternative: "ae" },
-		{ letter: /[\u00C6\u04D4]/g, alternative: "Ae" },
-		{ letter: /[\u00C4]/g, alternative: "Ae" },
-		{ letter: /[\u00F8]/g, alternative: "oe" },
-		{ letter: /[\u00D8]/g, alternative: "Oe" }
-		],
-	// Language: Kinyarwanda.
-	// Source: https://en.wikipedia.org/wiki/Kinyarwanda
-	kin: [
-		{ letter: /[\u2019\u0027]/g, alternative: "" }
-	],
-	// Language: Luxembourgish.
-	// Source: http://www.omniglot.com/writing/luxembourgish.htm
-	lb: [
-		{ letter: /[\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c4]/g, alternative: "A" },
-		{ letter: /[\u00eb\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00cb\u00c9]/g, alternative: "E" }
-	],
-	// Language: Limburgish.
-	// Source: http://www.omniglot.com/writing/limburgish.htm
-	li: [
-		{ letter: /[\u00e1\u00e2\u00e0\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c2\u00c0\u00c4]/g, alternative: "A" },
-		{ letter: /[\u00eb\u00e8\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00cb\u00c8\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00f6\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d6\u00d3]/g, alternative: "O" }
-	],
-	// Language: Lingala.
-	// Sources: https://en.wikipedia.org/wiki/Lingala#Writing_system http://www.omniglot.com/writing/lingala.htm
-	lin: [
-		{ letter: /[\u00e1\u00e2\u01ce]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c2\u01cd]/g, alternative: "A" },
-		{ letter: /\u025b\u0301/g, alternative: "e" },
-		{ letter: /\u025b\u0302/g, alternative: "e" },
-		{ letter: /\u025b\u030c/g, alternative: "e" },
-		{ letter: /[\u00e9\u00ea\u011b\u025b]/g, alternative: "e" },
-		{ letter: /\u0190\u0301/g, alternative: "E" },
-		{ letter: /\u0190\u0302/g, alternative: "E" },
-		{ letter: /\u0190\u030c/g, alternative: "E" },
-		{ letter: /[\u00c9\u00ca\u011a\u0190]/g, alternative: "E" },
-		{ letter: /[\u00ed\u00ee\u01d0]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00ce\u01cf]/g, alternative: "I" },
-		{ letter: /\u0254\u0301/g, alternative: "o" },
-		{ letter: /\u0254\u0302/g, alternative: "o" },
-		{ letter: /\u0254\u030c/g, alternative: "o" },
-		{ letter: /[\u00f3\u00f4\u01d2\u0254]/g, alternative: "o" },
-		{ letter: /\u0186\u0301/g, alternative: "O" },
-		{ letter: /\u0186\u0302/g, alternative: "O" },
-		{ letter: /\u0186\u030c/g, alternative: "O" },
-		{ letter: /[\u00d3\u00d4\u01d1\u0186]/g, alternative: "O" },
-		{ letter: /[\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00da]/g, alternative: "U" }
-	],
-	// Language: Lithuanian.
-	// Sources: https://en.wikipedia.org/wiki/Lithuanian_orthography http://www.omniglot.com/writing/lithuanian.htm
-	lt: [
-		{ letter: /[\u0105]/g, alternative: "a" },
-		{ letter: /[\u0104]/g, alternative: "A" },
-		{ letter: /[\u010d]/g, alternative: "c" },
-		{ letter: /[\u010c]/g, alternative: "C" },
-		{ letter: /[\u0119\u0117]/g, alternative: "e" },
-		{ letter: /[\u0118\u0116]/g, alternative: "E" },
-		{ letter: /[\u012f]/g, alternative: "i" },
-		{ letter: /[\u012e]/g, alternative: "I" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" },
-		{ letter: /[\u0173\u016b]/g, alternative: "u" },
-		{ letter: /[\u0172\u016a]/g, alternative: "U" },
-		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" }
-	],
-	// Language: Malagasy.
-	// Source: http://www.omniglot.com/writing/malagasy.htm
-	mg: [
-		{ letter: /[\u00f4]/g, alternative: "ao" },
-		{ letter: /[\u00d4]/g, alternative: "Ao" }
-	],
-	// Language: Macedonian.
-	// Source: http://www.omniglot.com/writing/macedonian.htm
-	mk: [
-		{ letter: /[\u0430]/g, alternative: "a" },
-		{ letter: /[\u0410]/g, alternative: "A" },
-		{ letter: /[\u0431]/g, alternative: "b" },
-		{ letter: /[\u0411]/g, alternative: "B" },
-		{ letter: /[\u0432]/g, alternative: "v" },
-		{ letter: /[\u0412]/g, alternative: "V" },
-		{ letter: /[\u0433]/g, alternative: "g" },
-		{ letter: /[\u0413]/g, alternative: "G" },
-		{ letter: /[\u0434]/g, alternative: "d" },
-		{ letter: /[\u0414]/g, alternative: "D" },
-		{ letter: /[\u0453]/g, alternative: "gj" },
-		{ letter: /[\u0403]/g, alternative: "Gj" },
-		{ letter: /[\u0435]/g, alternative: "e" },
-		{ letter: /[\u0415]/g, alternative: "E" },
-		{ letter: /[\u0436]/g, alternative: "zh" },
-		{ letter: /[\u0416]/g, alternative: "Zh" },
-		{ letter: /[\u0437]/g, alternative: "z" },
-		{ letter: /[\u0417]/g, alternative: "Z" },
-		{ letter: /[\u0455]/g, alternative: "dz" },
-		{ letter: /[\u0405]/g, alternative: "Dz" },
-		{ letter: /[\u0438]/g, alternative: "i" },
-		{ letter: /[\u0418]/g, alternative: "I" },
-		{ letter: /[\u0458]/g, alternative: "j" },
-		{ letter: /[\u0408]/g, alternative: "J" },
-		{ letter: /[\u043A]/g, alternative: "k" },
-		{ letter: /[\u041A]/g, alternative: "K" },
-		{ letter: /[\u043B]/g, alternative: "l" },
-		{ letter: /[\u041B]/g, alternative: "L" },
-		{ letter: /[\u0459]/g, alternative: "lj" },
-		{ letter: /[\u0409]/g, alternative: "Lj" },
-		{ letter: /[\u043C]/g, alternative: "m" },
-		{ letter: /[\u041C]/g, alternative: "M" },
-		{ letter: /[\u043D]/g, alternative: "n" },
-		{ letter: /[\u041D]/g, alternative: "N" },
-		{ letter: /[\u045A]/g, alternative: "nj" },
-		{ letter: /[\u040A]/g, alternative: "Nj" },
-		{ letter: /[\u043E]/g, alternative: "o" },
-		{ letter: /[\u041E]/g, alternative: "O" },
-		{ letter: /[\u0440]/g, alternative: "r" },
-		{ letter: /[\u0420]/g, alternative: "R" },
-		{ letter: /[\u043F]/g, alternative: "p" },
-		{ letter: /[\u041F]/g, alternative: "P" },
-		{ letter: /[\u0441]/g, alternative: "s" },
-		{ letter: /[\u0421]/g, alternative: "S" },
-		{ letter: /[\u0442]/g, alternative: "t" },
-		{ letter: /[\u0422]/g, alternative: "T" },
-		{ letter: /[\u045C]/g, alternative: "kj" },
-		{ letter: /[\u040C]/g, alternative: "Kj" },
-		{ letter: /[\u0443]/g, alternative: "u" },
-		{ letter: /[\u0423]/g, alternative: "U" },
-		{ letter: /[\u0444]/g, alternative: "f" },
-		{ letter: /[\u0424]/g, alternative: "F" },
-		{ letter: /[\u0445]/g, alternative: "h" },
-		{ letter: /[\u0425]/g, alternative: "H" },
-		{ letter: /[\u0446]/g, alternative: "c" },
-		{ letter: /[\u0426]/g, alternative: "C" },
-		{ letter: /[\u0447]/g, alternative: "ch" },
-		{ letter: /[\u0427]/g, alternative: "Ch" },
-		{ letter: /[\u045F]/g, alternative: "dj" },
-		{ letter: /[\u040F]/g, alternative: "Dj" },
-		{ letter: /[\u0448]/g, alternative: "sh" },
-		{ letter: /[\u0428]/g, alternative: "Sh" }
-	],
-	// Language: Maori.
-	// Source: http://www.omniglot.com/writing/maori.htm
-	mri: [
-		{ letter: /[\u0101]/g, alternative: "aa" },
-		{ letter: /[\u0100]/g, alternative: "Aa" },
-		{ letter: /[\u0113]/g, alternative: "ee" },
-		{ letter: /[\u0112]/g, alternative: "Ee" },
-		{ letter: /[\u012b]/g, alternative: "ii" },
-		{ letter: /[\u012a]/g, alternative: "Ii" },
-		{ letter: /[\u014d]/g, alternative: "oo" },
-		{ letter: /[\u014c]/g, alternative: "Oo" },
-		{ letter: /[\u016b]/g, alternative: "uu" },
-		{ letter: /[\u016a]/g, alternative: "Uu" }
-	],
-	// Language: Mirandese.
-	// Source: http://www.omniglot.com/writing/mirandese.htm
-	mwl: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u00f3\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fa\u0169]/g, alternative: "u" },
-		{ letter: /[\u00da\u0168]/g, alternative: "U" }
-	],
-	// Language: Occitan.
-	// Sources: http://www.omniglot.com/writing/oromo.htm https://en.wikipedia.org/wiki/Occitan_alphabet
-	oci: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e0\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00fc]/g, alternative: "u" },
-		{ letter: /[\u00da\u00dc]/g, alternative: "U" },
-		{ letter: /[\u00b7]/g, alternative: "" }
-	],
-	// Language: Oromo.
-	// Source: http://www.omniglot.com/writing/occitan.htm
-	orm: [
-		{ letter: /[\u0027]/g, alternative: "" }
-	],
-	// Language: Portuguese.
-	// Source: https://en.wikipedia.org/wiki/Portuguese_orthography http://www.omniglot.com/writing/portuguese.htm
-	pt: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e1\u00e2\u00e3\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c2\u00c3\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u00f3\u00f4\u00f5]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d4\u00d5]/g, alternative: "O" },
-		{ letter: /[\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00da]/g, alternative: "U" }
-	],
-	// Language: Romansh Vallader.
-	// Source: https://en.wikipedia.org/wiki/Romansh_language#Orthography http://www.omniglot.com/writing/romansh.htm
-	roh: [
-		{ letter: /[\u00e9\u00e8\u00ea]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00c8\u00ca]/g, alternative: "E" },
-		{ letter: /[\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f6]/g, alternative: "oe" },
-		{ letter: /[\u00d6]/g, alternative: "Oe" },
-		{ letter: /[\u00fc]/g, alternative: "ue" },
-		{ letter: /[\u00dc]/g, alternative: "Ue" },
-		{ letter: /[\u00e4]/g, alternative: "ae" },
-		{ letter: /[\u00c4]/g, alternative: "Ae" }
-	],
-	// Language: Aromanian.
-	// Sources: https://en.wikipedia.org/wiki/Aromanian_alphabet http://www.omniglot.com/writing/aromanian.htm
-	rup: [
-		{ letter: /[\u00e3]/g, alternative: "a" },
-		{ letter: /[\u00c3]/g, alternative: "A" }
-	],
-	// Language: Romanian.
-	// Sources: http://forum.wordreference.com/threads/romanian-transliteration.3193544/#post-16161251
-	// https://en.wikipedia.org/wiki/Romanian_alphabet http://www.omniglot.com/writing/romanian.htm
-	ro: [
-		{ letter: /[\u0103\u00e2]/g, alternative: "a" },
-		{ letter: /[\u0102\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u0219\u015f]/g, alternative: "s" },
-		{ letter: /[\u0218\u015e]/g, alternative: "S" },
-		{ letter: /[\u021b\u0163]/g, alternative: "t" },
-		{ letter: /[\u021a\u0162]/g, alternative: "T" }
-	],
-	// Language: Klingon.
-	// Sources: http://www.omniglot.com/conscripts/klingon.htm https://en.wikipedia.org/wiki/Klingon_language#Writing_systems
-	// This translation module only works for Klingon written in Latin characters. KLI PlqaD script is not supported yet.
-	tlh: [
-		{ letter: /[\u2019\u0027]/g, alternative: "" }
-	],
-	// Language: Slovak.
-	// Sources: https://en.wikipedia.org/wiki/Dz_(digraph) https://en.wikipedia.org/wiki/Slovak_orthography
-	// http://www.omniglot.com/writing/slovak.htm
-	sk: [
-		{ letter: /[\u01c4]/g, alternative: "DZ" },
-		{ letter: /[\u01c5]/g, alternative: "Dz" },
-		{ letter: /[\u01c6]/g, alternative: "dz" },
-		{ letter: /[\u00e1\u00e4]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c4]/g, alternative: "A" },
-		{ letter: /[\u010d]/g, alternative: "c" },
-		{ letter: /[\u010c]/g, alternative: "C" },
-		{ letter: /[\u010f]/g, alternative: "d" },
-		{ letter: /[\u010e]/g, alternative: "D" },
-		{ letter: /[\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u013e\u013a]/g, alternative: "l" },
-		{ letter: /[\u013d\u0139]/g, alternative: "L" },
-		{ letter: /[\u0148]/g, alternative: "n" },
-		{ letter: /[\u0147]/g, alternative: "N" },
-		{ letter: /[\u00f3\u00f4]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d4]/g, alternative: "O" },
-		{ letter: /[\u0155]/g, alternative: "r" },
-		{ letter: /[\u0154]/g, alternative: "R" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" },
-		{ letter: /[\u0165]/g, alternative: "t" },
-		{ letter: /[\u0164]/g, alternative: "T" },
-		{ letter: /[\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00da]/g, alternative: "U" },
-		{ letter: /[\u00fd]/g, alternative: "y" },
-		{ letter: /[\u00dd]/g, alternative: "Y" },
-		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" }
-	],
-	// Language: Slovenian.
-	// Sources: https://en.wikipedia.org/wiki/Slovene_alphabet http://www.omniglot.com/writing/slovene.htm
-	sl: [
-		{ letter: /[\u010d\u0107]/g, alternative: "c" },
-		{ letter: /[\u010c\u0106]/g, alternative: "C" },
-		{ letter: /[\u0111]/g, alternative: "d" },
-		{ letter: /[\u0110]/g, alternative: "D" },
-		{ letter: /[\u0161]/g, alternative: "s" },
-		{ letter: /[\u0160]/g, alternative: "S" },
-		{ letter: /[\u017e]/g, alternative: "z" },
-		{ letter: /[\u017d]/g, alternative: "Z" },
-		{ letter: /[\u00e0\u00e1\u0203\u0201]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c1\u0202\u0200]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00e9\u0207\u0205]/g, alternative: "e" },
-		{ letter: /\u01dd\u0300/g, alternative: "e" },
-		{ letter: /\u01dd\u030f/g, alternative: "e" },
-		{ letter: /\u1eb9\u0301/g, alternative: "e" },
-		{ letter: /\u1eb9\u0311/g, alternative: "e" },
-		{ letter: /[\u00c8\u00c9\u0206\u0204]/g, alternative: "E" },
-		{ letter: /\u018e\u030f/g, alternative: "E" },
-		{ letter: /\u018e\u0300/g, alternative: "E" },
-		{ letter: /\u1eb8\u0311/g, alternative: "E" },
-		{ letter: /\u1eb8\u0301/g, alternative: "E" },
-		{ letter: /[\u00ec\u00ed\u020b\u0209]/g, alternative: "i" },
-		{ letter: /[\u00cc\u00cd\u020a\u0208]/g, alternative: "I" },
-		{ letter: /[\u00f2\u00f3\u020f\u020d]/g, alternative: "o" },
-		{ letter: /\u1ecd\u0311/g, alternative: "o" },
-		{ letter: /\u1ecd\u0301/g, alternative: "o" },
-		{ letter: /\u1ecc\u0311/g, alternative: "O" },
-		{ letter: /\u1ecc\u0301/g, alternative: "O" },
-		{ letter: /[\u00d2\u00d3\u020e\u020c]/g, alternative: "O" },
-		{ letter: /[\u00f9\u00fa\u0217\u0215]/g, alternative: "u" },
-		{ letter: /[\u00d9\u00da\u0216\u0214]/g, alternative: "U" },
-		{ letter: /[\u0155\u0213]/g, alternative: "r" },
-		{ letter: /[\u0154\u0212]/g, alternative: "R" }
-	],
-	// Language: Albanian.
-	// Sources: https://en.wikipedia.org/wiki/Albanian_alphabet http://www.omniglot.com/writing/albanian.htm
-	sq: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00eb]/g, alternative: "e" },
-		{ letter: /[\u00cb]/g, alternative: "E" }
-	],
-	// Language: Hungarian.
-	// Sources: http://forum.wordreference.com/threads/hungarian-transliteration.3193022/#post-16166901
-	// http://www.omniglot.com/writing/hungarian.htm
-	hu: [
-		{ letter: /[\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cd]/g, alternative: "I" },
-		{ letter: /[\u00f3\u00f6\u0151]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d6\u0150]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00fc\u0171]/g, alternative: "u" },
-		{ letter: /[\u00da\u00dc\u0170]/g, alternative: "U" }
-	],
-	// Language: Sardinian.
-	// Sources: http://www.omniglot.com/writing/sardinian.htm https://en.wikipedia.org/wiki/Sardinian_language
-	srd: [
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00e0\u00e1]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c1]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
-		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
-		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00f9]/g, alternative: "u" },
-		{ letter: /[\u00da\u00d9]/g, alternative: "U" }
-	],
-	// Language: Silesian.
-	// Source: https://en.wikipedia.org/wiki/Silesian_language#Writing_system
-	szl: [
-		{ letter: /[\u0107]/g, alternative: "c" },
-		{ letter: /[\u0106]/g, alternative: "C" },
-		{ letter: /[\u00e3]/g, alternative: "a" },
-		{ letter: /[\u00c3]/g, alternative: "A" },
-		{ letter: /[\u0142]/g, alternative: "u" },
-		{ letter: /[\u0141]/g, alternative: "U" },
-		{ letter: /[\u006e]/g, alternative: "n" },
-		{ letter: /[\u004e]/g, alternative: "N" },
-		{ letter: /[\u014f\u014d\u00f4\u00f5]/g, alternative: "o" },
-		{ letter: /[\u014e\u014c\u00d4\u00d5]/g, alternative: "O" },
-		{ letter: /[\u015b]/g, alternative: "s" },
-		{ letter: /[\u015a]/g, alternative: "S" },
-		{ letter: /[\u017a\u017c\u017e]/g, alternative: "z" },
-		{ letter: /[\u0179\u017b\u017d]/g, alternative: "Z" },
-		{ letter: /[\u016f]/g, alternative: "u" },
-		{ letter: /[\u016e]/g, alternative: "U" },
-		{ letter: /[\u010d]/g, alternative: "cz" },
-		{ letter: /[\u010c]/g, alternative: "Cz" },
-		{ letter: /[\u0159]/g, alternative: "rz" },
-		{ letter: /[\u0158]/g, alternative: "Rz" },
-		{ letter: /[\u0161]/g, alternative: "sz" },
-		{ letter: /[\u0160]/g, alternative: "Sz" }
-	],
-	// Language: Tahitian.
-	// Sources: https://en.wikipedia.org/wiki/Tahitian_language#Phonology http://www.omniglot.com/writing/tahitian.htm
-	tah: [
-		{ letter: /[\u0101\u00e2\u00e0]/g, alternative: "a" },
-		{ letter: /[\u0100\u00c2\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00ef\u00ee\u00ec]/g, alternative: "i" },
-		{ letter: /[\u00cf\u00ce\u00cc]/g, alternative: "I" },
-		{ letter: /[\u0113\u00ea\u00e9]/g, alternative: "e" },
-		{ letter: /[\u0112\u00ca\u00c9]/g, alternative: "E" },
-		{ letter: /[\u016b\u00fb\u00fa]/g, alternative: "u" },
-		{ letter: /[\u016a\u00db\u00da]/g, alternative: "U" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /[\u00f2\u00f4\u014d]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d4\u014c]/g, alternative: "O" },
-		{ letter: /[\u2019\u0027\u2018]/g, alternative: "" }
-	],
-	// Language: Venetian.
-	// Sources: http://www.omniglot.com/writing/venetian.htm https://en.wikipedia.org/wiki/Venetian_language#Spelling_systems
-	// http://www.venipedia.org/wiki/index.php?title=Venetian_Language
-	vec: [
-		{ letter: /\u0073\u002d\u0063/g, alternative: "sc" },
-		{ letter: /\u0053\u002d\u0043/g, alternative: "SC" },
-		{ letter: /\u0073\u0027\u0063/g, alternative: "sc" },
-		{ letter: /\u0053\u0027\u0043/g, alternative: "SC" },
-		{ letter: /\u0073\u2019\u0063/g, alternative: "sc" },
-		{ letter: /\u0053\u2019\u0043/g, alternative: "SC" },
-		{ letter: /\u0073\u2018\u0063/g, alternative: "sc" },
-		{ letter: /\u0053\u2018\u0043/g, alternative: "SC" },
-		{ letter: /\u0053\u002d\u0063/g, alternative: "Sc" },
-		{ letter: /\u0053\u0027\u0063/g, alternative: "Sc" },
-		{ letter: /\u0053\u2019\u0063/g, alternative: "Sc" },
-		{ letter: /\u0053\u2018\u0063/g, alternative: "Sc" },
-		{ letter: /\u0063\u2019/g, alternative: "c" },
-		{ letter: /\u0043\u2019/g, alternative: "C" },
-		{ letter: /\u0063\u2018/g, alternative: "c" },
-		{ letter: /\u0043\u2018/g, alternative: "C" },
-		{ letter: /\u0063\u0027/g, alternative: "c" },
-		{ letter: /\u0043\u0027/g, alternative: "C" },
-		{ letter: /[\u00e0\u00e1\u00e2]/g, alternative: "a" },
-		{ letter: /[\u00c0\u00c1\u00c2]/g, alternative: "A" },
-		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
-		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
-		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
-		{ letter: /[\u00f9\u00fa]/g, alternative: "u" },
-		{ letter: /[\u00d9\u00da]/g, alternative: "U" },
-		{ letter: /[\u00e7\u010d\u010b]/g, alternative: "c" },
-		{ letter: /[\u00c7\u010c\u010a]/g, alternative: "C" },
-		{ letter: /[\u0142]/g, alternative: "l" },
-		{ letter: /[\u00a3\u0141]/g, alternative: "L" },
-		{ letter: /\ud835\udeff/g, alternative: "dh" },
-		{ letter: /[\u0111\u03b4]/g, alternative: "dh" },
-		{ letter: /[\u0110\u0394]/g, alternative: "Dh" }
-	],
-	// Language: Walloon.
-	// Sources: http://www.omniglot.com/writing/walloon.htm https://en.wikipedia.org/wiki/Walloon_alphabet
-	wa: [
-		{ letter: /[\u00e2\u00e5]/g, alternative: "a" },
-		{ letter: /[\u00c2\u00c5]/g, alternative: "A" },
-		{ letter: /[\u00e7]/g, alternative: "c" },
-		{ letter: /[\u00c7]/g, alternative: "C" },
-		{ letter: /\u0065\u030a/g, alternative: "e" },
-		{ letter: /\u0045\u030a/g, alternative: "E" },
-		{ letter: /[\u00eb\u00ea\u00e8\u00e9]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00c8\u00ca\u00cb]/g, alternative: "E" },
-		{ letter: /[\u00ee]/g, alternative: "i" },
-		{ letter: /[\u00ce]/g, alternative: "I" },
-		{ letter: /[\u00f4\u00f6]/g, alternative: "o" },
-		{ letter: /[\u00d6\u00d4]/g, alternative: "O" },
-		{ letter: /[\u00fb]/g, alternative: "u" },
-		{ letter: /[\u00db]/g, alternative: "U" }
-	],
-	// Language: Yoruba.
-	// Sources: http://www.omniglot.com/writing/yoruba.htm https://en.wikipedia.org/wiki/Yoruba_language
-	yor: [
-		{ letter: /[\u00e1\u00e0]/g, alternative: "a" },
-		{ letter: /[\u00c1\u00c0]/g, alternative: "A" },
-		{ letter: /[\u00ec\u00ed]/g, alternative: "i" },
-		{ letter: /[\u00cc\u00cd]/g, alternative: "I" },
-		{ letter: /\u1ecd\u0301/g, alternative: "o" },
-		{ letter: /\u1ecc\u0301/g, alternative: "O" },
-		{ letter: /\u1ecd\u0300/g, alternative: "o" },
-		{ letter: /\u1ecc\u0300/g, alternative: "O" },
-		{ letter: /[\u00f3\u00f2\u1ecd]/g, alternative: "o" },
-		{ letter: /[\u00d3\u00d2\u1ecc]/g, alternative: "O" },
-		{ letter: /[\u00fa\u00f9]/g, alternative: "u" },
-		{ letter: /[\u00da\u00d9]/g, alternative: "U" },
-		{ letter: /\u1eb9\u0301/g, alternative: "e" },
-		{ letter: /\u1eb8\u0301/g, alternative: "E" },
-		{ letter: /\u1eb9\u0300/g, alternative: "e" },
-		{ letter: /\u1eb8\u0300/g, alternative: "E" },
-		{ letter: /[\u00e9\u00e8\u1eb9]/g, alternative: "e" },
-		{ letter: /[\u00c9\u00c8\u1eb8]/g, alternative: "E" },
-		{ letter: /[\u1e63]/g, alternative: "s" },
-		{ letter: /[\u1e62]/g, alternative: "S" }
 	]
 };
 
@@ -11406,7 +10326,6 @@ module.exports = function( locale ) {
 			return transliterations.eo;
 		case "af":
 			return transliterations.af;
-		case "bal":
 		case "ca":
 			return transliterations.ca;
 		case "ast":
@@ -11427,108 +10346,12 @@ module.exports = function( locale ) {
 			return transliterations.bm;
 		case "uk":
 			return transliterations.uk;
-		case "br":
-			return transliterations.br;
-		case "ch":
-			return transliterations.ch;
-		case "csb":
-			return transliterations.csb;
-		case "cy":
-			return transliterations.cy;
-		case "ee":
-			return transliterations.ee;
-		case "et":
-			return transliterations.et;
-		case "eu":
-			return transliterations.eu;
-		case "fuc":
-			return transliterations.fuc;
-		case "fj":
-			return transliterations.fj;
-		case "frp":
-			return transliterations.frp;
-		case "fur":
-			return transliterations.fur;
-		case "fy":
-			return transliterations.fy;
-		case "ga":
-			return transliterations.ga;
-		case "gd":
-			return transliterations.gd;
-		case "gl":
-			return transliterations.gl;
-		case "gn":
-			return transliterations.gn;
-		case "gsw":
-			return transliterations.gsw;
-		case "hat":
-			return transliterations.hat;
-		case "haw":
-			return transliterations.haw;
-		case "hr":
-			return transliterations.hr;
-		case "ka":
-			return transliterations.ka;
-		case "kal":
-			return transliterations.kal;
-		case "kin":
-			return transliterations.kin;
-		case "lb":
-			return transliterations.lb;
-		case "li":
-			return transliterations.li;
-		case "lin":
-			return transliterations.lin;
-		case "lt":
-			return transliterations.lt;
-		case "mg":
-			return transliterations.mg;
-		case "mk":
-			return transliterations.mk;
-		case "mri":
-			return transliterations.mri;
-		case "mwl":
-			return transliterations.mwl;
-		case "oci":
-			return transliterations.oci;
-		case "orm":
-			return transliterations.orm;
-		case "pt":
-			return transliterations.pt;
-		case "roh":
-			return transliterations.roh;
-		case "rup":
-			return transliterations.rup;
-		case "ro":
-			return transliterations.ro;
-		case "tlh":
-			return transliterations.tlh;
-		case "sk":
-			return transliterations.sk;
-		case "sl":
-			return transliterations.sl;
-		case "sq":
-			return transliterations.sq;
-		case "hu":
-			return transliterations.hu;
-		case "srd":
-			return transliterations.srd;
-		case "szl":
-			return transliterations.szl;
-		case "tah":
-			return transliterations.tah;
-		case "vec":
-			return transliterations.vec;
-		case "wa":
-			return transliterations.wa;
-		case "yor":
-			return transliterations.yor;
 		default:
 			return [];
 	}
 };
 
-},{"lodash/isUndefined":178}],225:[function(require,module,exports){
+},{"lodash/isUndefined":178}],224:[function(require,module,exports){
 /** @module config/twoPartTransitionWords */
 
 /**
@@ -11541,7 +10364,7 @@ module.exports = function() {
 };
 
 
-},{}],226:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 /**
  * Throws an invalid type error
  * @param {string} message The message to show when the error is thrown
@@ -11555,7 +10378,7 @@ module.exports = function InvalidTypeError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":6}],227:[function(require,module,exports){
+},{"util":6}],226:[function(require,module,exports){
 module.exports = function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
@@ -11564,7 +10387,7 @@ module.exports = function MissingArgumentError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":6}],228:[function(require,module,exports){
+},{"util":6}],227:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 
 /**
@@ -11589,7 +10412,7 @@ module.exports = {
 	showTrace: showTrace
 };
 
-},{"lodash/isUndefined":178}],229:[function(require,module,exports){
+},{"lodash/isUndefined":178}],228:[function(require,module,exports){
 /**
  * Returns rounded number to fix floating point bug http://floating-point-gui.de
  * @param {number} number The unrounded number
@@ -11604,7 +10427,7 @@ module.exports = function ( number ) {
 	return Math.round( number * 10 ) / 10;
 };
 
-},{}],230:[function(require,module,exports){
+},{}],229:[function(require,module,exports){
 var blockElements = [ "address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption",
 	"figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav",
 	"noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video" ];
@@ -11772,21 +10595,21 @@ module.exports = {
 	getBlocks: memoize( getBlocks )
 };
 
-},{"lodash/forEach":156,"lodash/memoize":182,"tokenizer2/core":312}],231:[function(require,module,exports){
+},{"lodash/forEach":156,"lodash/memoize":182,"tokenizer2/core":311}],230:[function(require,module,exports){
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
  */
 module.exports = function() {
-	return [ "a", "an", "the", "this", "that", "these", "those", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten" ];
+	return [ "A", "An", "The", "This", "That", "These", "Those", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ];
 };
 
-},{}],232:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
 module.exports = function() {
 	return [ " ", "\\n", "\\r", "\\t", ".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">" ];
 };
 
-},{}],233:[function(require,module,exports){
+},{}],232:[function(require,module,exports){
 /**
  * Marks a text with HTML tags
  *
@@ -11797,7 +10620,7 @@ module.exports = function( text ) {
 	return "<yoastmark class='yoast-text-mark'>" + text + "</yoastmark>";
 };
 
-},{}],234:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 var uniqBy = require( "lodash/uniqBy" );
 
 /**
@@ -11814,7 +10637,7 @@ function removeDuplicateMarks( marks ) {
 
 module.exports = removeDuplicateMarks;
 
-},{"lodash/uniqBy":197}],235:[function(require,module,exports){
+},{"lodash/uniqBy":197}],234:[function(require,module,exports){
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -11966,7 +10789,7 @@ Researcher.prototype.getResearch = function( name ) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":226,"./errors/missingArgument":227,"./researches/calculateFleschReading.js":236,"./researches/countLinks.js":237,"./researches/countSentencesFromDescription.js":238,"./researches/countSentencesFromText.js":239,"./researches/findKeywordInFirstParagraph.js":240,"./researches/findKeywordInPageTitle.js":241,"./researches/findTransitionWords.js":242,"./researches/getKeywordDensity.js":243,"./researches/getLinkStatistics.js":244,"./researches/getParagraphLength.js":246,"./researches/getPassiveVoice.js":247,"./researches/getSentenceBeginnings.js":248,"./researches/getSubheadingLength.js":249,"./researches/getSubheadingPresence.js":250,"./researches/getSubheadingTextLengths.js":251,"./researches/getWordComplexity.js":252,"./researches/imageAltTags.js":253,"./researches/imageCountInText.js":254,"./researches/keyphraseLength":255,"./researches/keywordCountInUrl":256,"./researches/matchKeywordInSubheadings.js":257,"./researches/metaDescriptionKeyword.js":258,"./researches/metaDescriptionLength.js":259,"./researches/pageTitleLength.js":260,"./researches/sentenceVariation.js":266,"./researches/stopWordsInKeyword":267,"./researches/stopWordsInUrl":269,"./researches/urlIsTooLong.js":270,"./researches/wordCountInText.js":271,"lodash/isEmpty":167,"lodash/isUndefined":178,"lodash/merge":183}],236:[function(require,module,exports){
+},{"./errors/invalidType":225,"./errors/missingArgument":226,"./researches/calculateFleschReading.js":235,"./researches/countLinks.js":236,"./researches/countSentencesFromDescription.js":237,"./researches/countSentencesFromText.js":238,"./researches/findKeywordInFirstParagraph.js":239,"./researches/findKeywordInPageTitle.js":240,"./researches/findTransitionWords.js":241,"./researches/getKeywordDensity.js":242,"./researches/getLinkStatistics.js":243,"./researches/getParagraphLength.js":245,"./researches/getPassiveVoice.js":246,"./researches/getSentenceBeginnings.js":247,"./researches/getSubheadingLength.js":248,"./researches/getSubheadingPresence.js":249,"./researches/getSubheadingTextLengths.js":250,"./researches/getWordComplexity.js":251,"./researches/imageAltTags.js":252,"./researches/imageCountInText.js":253,"./researches/keyphraseLength":254,"./researches/keywordCountInUrl":255,"./researches/matchKeywordInSubheadings.js":256,"./researches/metaDescriptionKeyword.js":257,"./researches/metaDescriptionLength.js":258,"./researches/pageTitleLength.js":259,"./researches/sentenceVariation.js":265,"./researches/stopWordsInKeyword":266,"./researches/stopWordsInUrl":268,"./researches/urlIsTooLong.js":269,"./researches/wordCountInText.js":270,"lodash/isEmpty":167,"lodash/isUndefined":178,"lodash/merge":183}],235:[function(require,module,exports){
 /** @module analyses/calculateFleschReading */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -12010,7 +10833,7 @@ module.exports = function( paper ) {
 	return formatNumber( score );
 };
 
-},{"../helpers/formatNumber.js":229,"../stringProcessing/cleanText.js":274,"../stringProcessing/countSentences.js":275,"../stringProcessing/countSyllables.js":276,"../stringProcessing/countWords.js":277,"../stringProcessing/stripHTMLTags.js":302,"../stringProcessing/stripNumbers.js":304}],237:[function(require,module,exports){
+},{"../helpers/formatNumber.js":228,"../stringProcessing/cleanText.js":273,"../stringProcessing/countSentences.js":274,"../stringProcessing/countSyllables.js":275,"../stringProcessing/countWords.js":276,"../stringProcessing/stripHTMLTags.js":301,"../stringProcessing/stripNumbers.js":303}],236:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks" );
@@ -12028,7 +10851,7 @@ module.exports = function( paper ) {
 	return anchors.length;
 };
 
-},{"./getLinks":245}],238:[function(require,module,exports){
+},{"./getLinks":244}],237:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
@@ -12042,7 +10865,7 @@ module.exports = function( paper ) {
 	return sentencesLength( sentences );
 };
 
-},{"../stringProcessing/getSentences":284,"./../stringProcessing/sentencesLength.js":300}],239:[function(require,module,exports){
+},{"../stringProcessing/getSentences":283,"./../stringProcessing/sentencesLength.js":299}],238:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
@@ -12056,7 +10879,7 @@ module.exports = function( paper ) {
 	return sentencesLength( sentences );
 };
 
-},{"../stringProcessing/getSentences":284,"./../stringProcessing/sentencesLength.js":300}],240:[function(require,module,exports){
+},{"../stringProcessing/getSentences":283,"./../stringProcessing/sentencesLength.js":299}],239:[function(require,module,exports){
 /** @module analyses/findKeywordInFirstParagraph */
 
 var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
@@ -12075,7 +10898,7 @@ module.exports = function( paper ) {
 	return wordMatch( paragraph[ 0 ], paper.getKeyword(), paper.getLocale() );
 };
 
-},{"../stringProcessing/matchParagraphs.js":289,"../stringProcessing/matchTextWithWord.js":292}],241:[function(require,module,exports){
+},{"../stringProcessing/matchParagraphs.js":288,"../stringProcessing/matchTextWithWord.js":291}],240:[function(require,module,exports){
 /** @module analyses/findKeywordInPageTitle */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -12099,7 +10922,7 @@ module.exports = function( paper ) {
 	return result;
 };
 
-},{"../stringProcessing/matchTextWithWord.js":292}],242:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":291}],241:[function(require,module,exports){
 var transitionWords = require( "../config/transitionWords.js" );
 var twoPartTransitionWords = require( "../config/twoPartTransitionWords.js" );
 var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
@@ -12195,7 +11018,7 @@ module.exports = function( paper ) {
 	};
 };
 
-},{"../config/transitionWords.js":223,"../config/twoPartTransitionWords.js":225,"../stringProcessing/createRegexFromDoubleArray.js":279,"../stringProcessing/getSentences.js":284,"../stringProcessing/matchWordInSentence.js":293,"../stringProcessing/quotes.js":294,"lodash/filter":152,"lodash/forEach":156}],243:[function(require,module,exports){
+},{"../config/transitionWords.js":222,"../config/twoPartTransitionWords.js":224,"../stringProcessing/createRegexFromDoubleArray.js":278,"../stringProcessing/getSentences.js":283,"../stringProcessing/matchWordInSentence.js":292,"../stringProcessing/quotes.js":293,"lodash/filter":152,"lodash/forEach":156}],242:[function(require,module,exports){
 /** @module analyses/getKeywordDensity */
 
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -12219,7 +11042,7 @@ module.exports = function( paper ) {
 	return ( keywordCount / wordCount ) * 100;
 };
 
-},{"../stringProcessing/countWords.js":277,"../stringProcessing/matchTextWithWord.js":292}],244:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":276,"../stringProcessing/matchTextWithWord.js":291}],243:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks.js" );
@@ -12315,7 +11138,7 @@ module.exports = function( paper ) {
 	return countLinkTypes( paper );
 };
 
-},{"../stringProcessing/checkNofollow.js":273,"../stringProcessing/findKeywordInUrl.js":280,"../stringProcessing/getLinkType.js":283,"./getLinks.js":245}],245:[function(require,module,exports){
+},{"../stringProcessing/checkNofollow.js":272,"../stringProcessing/findKeywordInUrl.js":279,"../stringProcessing/getLinkType.js":282,"./getLinks.js":244}],244:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
@@ -12330,7 +11153,7 @@ module.exports = function( text ) {
 	return getAnchors( text );
 };
 
-},{"../stringProcessing/getAnchorsFromText.js":282}],246:[function(require,module,exports){
+},{"../stringProcessing/getAnchorsFromText.js":281}],245:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords.js" );
 var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
 var filter = require( "lodash/filter" );
@@ -12357,7 +11180,7 @@ module.exports = function( paper ) {
 	} );
 };
 
-},{"../stringProcessing/countWords.js":277,"../stringProcessing/matchParagraphs.js":289,"lodash/filter":152}],247:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":276,"../stringProcessing/matchParagraphs.js":288,"lodash/filter":152}],246:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -12691,25 +11514,21 @@ module.exports = function( paper ) {
 	};
 };
 
-},{"../stringProcessing/createRegexFromArray.js":278,"../stringProcessing/getSentences.js":284,"../stringProcessing/matchWordInSentence.js":293,"../stringProcessing/quotes.js":294,"../stringProcessing/stripSpaces.js":305,"./passivevoice-english/auxiliaries.js":261,"./passivevoice-english/determiners.js":262,"./passivevoice-english/irregulars.js":263,"./passivevoice-english/non-verb-ending-ed.js":264,"./passivevoice-english/stopwords.js":265,"lodash/filter":152,"lodash/forEach":156,"lodash/includes":161,"lodash/isUndefined":178}],248:[function(require,module,exports){
+},{"../stringProcessing/createRegexFromArray.js":277,"../stringProcessing/getSentences.js":283,"../stringProcessing/matchWordInSentence.js":292,"../stringProcessing/quotes.js":293,"../stringProcessing/stripSpaces.js":304,"./passivevoice-english/auxiliaries.js":260,"./passivevoice-english/determiners.js":261,"./passivevoice-english/irregulars.js":262,"./passivevoice-english/non-verb-ending-ed.js":263,"./passivevoice-english/stopwords.js":264,"lodash/filter":152,"lodash/forEach":156,"lodash/includes":161,"lodash/isUndefined":178}],247:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var getWords = require( "../stringProcessing/getWords.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var removeNonWordCharacters = require( "../stringProcessing/removeNonWordCharacters.js" );
 var firstWordExceptions = require ( "../language/en/firstWordExceptions.js" )();
 
-var isEmpty = require( "lodash/isEmpty" );
-var forEach = require( "lodash/forEach" );
-
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
- *
- * @param {string} currentSentenceBeginning The first word of the current sentence.
- * @param {string} nextSentenceBeginning The first word of the next sentence.
+ * @param {array} sentenceBeginnings The array containing the first word of each sentence.
+ * @param {number} i The iterator for the sentenceBeginning array.
  * @returns {boolean} Returns true if sentence beginnings match.
  */
-var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
-	if ( !isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
+var matchSentenceBeginnings = function( sentenceBeginnings, i ) {
+	if ( sentenceBeginnings[ i ] === sentenceBeginnings[ i + 1 ] ) {
 		return true;
 	}
 	return false;
@@ -12722,25 +11541,21 @@ var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginni
  * @returns {array} The array containing the objects containing the first words and the corresponding counts.
  */
 var compareFirstWords = function ( sentenceBeginnings, sentences ) {
-	var consecutiveFirstWords = [];
+	var counts = [];
 	var foundSentences = [];
-	var sameBeginnings = 1;
-
-	forEach( sentenceBeginnings, function( beginning, i ) {
-		var currentSentenceBeginning = beginning;
-		var nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
-		foundSentences.push( sentences[ i ] );
-
-		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
-			sameBeginnings++;
+	var count = 1;
+	for ( var i = 0; i < sentenceBeginnings.length; i++ ) {
+		if ( matchSentenceBeginnings( sentenceBeginnings, i ) ) {
+			foundSentences.push( sentences[ i ] );
+			count++;
 		} else {
-			consecutiveFirstWords.push( { word: currentSentenceBeginning, count: sameBeginnings, sentences: foundSentences } );
-			sameBeginnings = 1;
+			foundSentences.push( sentences[ i ] );
+			counts.push( { word: sentenceBeginnings[ i ], count: count, sentences: foundSentences } );
 			foundSentences = [];
+			count = 1;
 		}
-	} );
-
-	return consecutiveFirstWords;
+	}
+	return counts;
 };
 
 /**
@@ -12755,7 +11570,7 @@ module.exports = function( paper ) {
 		if( words.length === 0 ) {
 			return "";
 		}
-		var firstWord = removeNonWordCharacters( words[ 0 ] ).toLocaleLowerCase();
+		var firstWord = removeNonWordCharacters( words[ 0 ] );
 		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
 			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
 		}
@@ -12764,7 +11579,7 @@ module.exports = function( paper ) {
 	return compareFirstWords( sentenceBeginnings, sentences );
 };
 
-},{"../language/en/firstWordExceptions.js":231,"../stringProcessing/getSentences.js":284,"../stringProcessing/getWords.js":287,"../stringProcessing/removeNonWordCharacters.js":295,"../stringProcessing/stripSpaces.js":305,"lodash/forEach":156,"lodash/isEmpty":167}],249:[function(require,module,exports){
+},{"../language/en/firstWordExceptions.js":230,"../stringProcessing/getSentences.js":283,"../stringProcessing/getWords.js":286,"../stringProcessing/removeNonWordCharacters.js":294,"../stringProcessing/stripSpaces.js":304}],248:[function(require,module,exports){
 var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
 var forEach = require( "lodash/forEach" );
@@ -12789,7 +11604,7 @@ module.exports = function( paper ) {
 	return subHeadings;
 };
 
-},{"../stringProcessing/getSubheadings.js":286,"../stringProcessing/stripHTMLTags.js":302,"lodash/forEach":156}],250:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":285,"../stringProcessing/stripHTMLTags.js":301,"lodash/forEach":156}],249:[function(require,module,exports){
 var getSubheadingsContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 
 /**
@@ -12803,7 +11618,7 @@ module.exports = function( paper ) {
 	return headings.length;
 };
 
-},{"../stringProcessing/getSubheadings.js":286}],251:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":285}],250:[function(require,module,exports){
 var getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var forEach = require( "lodash/forEach" );
@@ -12830,7 +11645,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/countWords.js":277,"../stringProcessing/getSubheadingTexts.js":285,"lodash/forEach":156}],252:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":276,"../stringProcessing/getSubheadingTexts.js":284,"lodash/forEach":156}],251:[function(require,module,exports){
 var getWords = require( "../stringProcessing/getWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
@@ -12875,7 +11690,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/countSyllables.js":276,"../stringProcessing/getSentences.js":284,"../stringProcessing/getWords.js":287,"lodash/forEach":156,"lodash/map":181}],253:[function(require,module,exports){
+},{"../stringProcessing/countSyllables.js":275,"../stringProcessing/getSentences.js":283,"../stringProcessing/getWords.js":286,"lodash/forEach":156,"lodash/map":181}],252:[function(require,module,exports){
 /** @module researches/imageAltTags */
 
 var imageInText = require( "../stringProcessing/imageInText" );
@@ -12940,7 +11755,7 @@ module.exports = function( paper ) {
 	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword(), paper.getLocale() );
 };
 
-},{"../stringProcessing/getAlttagContent":281,"../stringProcessing/imageInText":288,"../stringProcessing/matchTextWithWord":292}],254:[function(require,module,exports){
+},{"../stringProcessing/getAlttagContent":280,"../stringProcessing/imageInText":287,"../stringProcessing/matchTextWithWord":291}],253:[function(require,module,exports){
 /** @module researches/imageInText */
 
 var imageInText = require( "./../stringProcessing/imageInText" );
@@ -12955,7 +11770,7 @@ module.exports = function( paper ) {
 	return imageInText( paper.getText() ).length;
 };
 
-},{"./../stringProcessing/imageInText":288}],255:[function(require,module,exports){
+},{"./../stringProcessing/imageInText":287}],254:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords" );
 var sanitizeString = require( "../stringProcessing/sanitizeString" );
 
@@ -12973,7 +11788,7 @@ function keyphraseLengthResearch( paper ) {
 
 module.exports = keyphraseLengthResearch;
 
-},{"../stringProcessing/countWords":277,"../stringProcessing/sanitizeString":299}],256:[function(require,module,exports){
+},{"../stringProcessing/countWords":276,"../stringProcessing/sanitizeString":298}],255:[function(require,module,exports){
 /** @module researches/countKeywordInUrl */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -12989,7 +11804,7 @@ module.exports = function( paper ) {
 	return wordMatch( paper.getUrl(), keyword, paper.getLocale() );
 };
 
-},{"../stringProcessing/matchTextWithWord.js":292}],257:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":291}],256:[function(require,module,exports){
 /* @module analyses/matchKeywordInSubheadings */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
@@ -13020,7 +11835,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/getSubheadings.js":286,"../stringProcessing/stripNonTextTags.js":303,"../stringProcessing/subheadingsMatch.js":306}],258:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":285,"../stringProcessing/stripNonTextTags.js":302,"../stringProcessing/subheadingsMatch.js":305}],257:[function(require,module,exports){
 var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
@@ -13038,7 +11853,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/matchTextWithWord.js":292}],259:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":291}],258:[function(require,module,exports){
 /**
  * Check the length of the description.
  * @param {Paper} paper The paper object containing the description.
@@ -13048,7 +11863,7 @@ module.exports = function( paper ) {
 	return paper.getDescription().length;
 };
 
-},{}],260:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 /**
  * Check the length of the title.
  * @param {Paper} paper The paper object containing the title.
@@ -13058,7 +11873,7 @@ module.exports = function( paper ) {
 	return paper.getTitle().length;
 };
 
-},{}],261:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"am",
@@ -13091,7 +11906,7 @@ module.exports = function() {
 	];
 };
 
-},{}],262:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"a",
@@ -13135,7 +11950,7 @@ module.exports = function() {
 };
 
 
-},{}],263:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"arisen",
@@ -13488,7 +12303,7 @@ module.exports = function() {
 	];
 };
 
-},{}],264:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"ablebodied",
@@ -16528,7 +15343,7 @@ module.exports = function() {
 	];
 };
 
-},{}],265:[function(require,module,exports){
+},{}],264:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"to",
@@ -16579,7 +15394,7 @@ module.exports = function() {
 	];
 };
 
-},{}],266:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var sentencesLength = require( "../stringProcessing/sentencesLength.js" );
 var formatNumber = require( "../helpers/formatNumber" );
@@ -16617,7 +15432,7 @@ module.exports = function( paper ) {
 	var totalOfSquares = sum( variations );
 
 	if ( totalOfSquares > 0 ) {
-		var dividedSquares = totalOfSquares / ( totalSentences );
+		var dividedSquares = totalOfSquares / ( totalSentences - 1 );
 
 		return formatNumber( Math.sqrt( dividedSquares ) );
 	}
@@ -16625,7 +15440,7 @@ module.exports = function( paper ) {
 	return 0;
 };
 
-},{"../helpers/formatNumber":229,"../stringProcessing/getSentences.js":284,"../stringProcessing/sentencesLength.js":300,"lodash/reduce":187,"lodash/sum":191}],267:[function(require,module,exports){
+},{"../helpers/formatNumber":228,"../stringProcessing/getSentences.js":283,"../stringProcessing/sentencesLength.js":299,"lodash/reduce":187,"lodash/sum":191}],266:[function(require,module,exports){
 /** @module researches/stopWordsInKeyword */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -16639,7 +15454,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getKeyword() );
 };
 
-},{"./stopWordsInText.js":268}],268:[function(require,module,exports){
+},{"./stopWordsInText.js":267}],267:[function(require,module,exports){
 var stopwords = require( "../config/stopwords.js" )();
 var toRegex = require( "../stringProcessing/stringToRegex.js" );
 
@@ -16661,7 +15476,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{"../config/stopwords.js":221,"../stringProcessing/stringToRegex.js":301}],269:[function(require,module,exports){
+},{"../config/stopwords.js":220,"../stringProcessing/stringToRegex.js":300}],268:[function(require,module,exports){
 /** @module researches/stopWordsInUrl */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -16675,7 +15490,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
 };
 
-},{"./stopWordsInText.js":268}],270:[function(require,module,exports){
+},{"./stopWordsInText.js":267}],269:[function(require,module,exports){
 /** @module analyses/isUrlTooLong */
 
 /**
@@ -16696,7 +15511,7 @@ module.exports = function( paper ) {
 	return false;
 };
 
-},{}],271:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 var wordCount = require( "../stringProcessing/countWords.js" );
 
 /**
@@ -16708,7 +15523,7 @@ module.exports = function( paper ) {
 	return wordCount( paper.getText() );
 };
 
-},{"../stringProcessing/countWords.js":277}],272:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":276}],271:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -16729,7 +15544,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],273:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 /** @module stringProcessing/checkNofollow */
 
 /**
@@ -16748,7 +15563,7 @@ module.exports = function( text ) {
 	return linkFollow;
 };
 
-},{}],274:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 /** @module stringProcessing/cleanText */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -16806,7 +15621,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/replaceDiacritics.js":297,"../stringProcessing/stripSpaces.js":305,"../stringProcessing/unifyWhitespace.js":308}],275:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":296,"../stringProcessing/stripSpaces.js":304,"../stringProcessing/unifyWhitespace.js":307}],274:[function(require,module,exports){
 /** @module stringProcessing/countSentences */
 
 var getSentences = require( "../stringProcessing/getSentences.js" );
@@ -16828,7 +15643,7 @@ module.exports = function( text ) {
 	return sentenceCount;
 };
 
-},{"../stringProcessing/getSentences.js":284}],276:[function(require,module,exports){
+},{"../stringProcessing/getSentences.js":283}],275:[function(require,module,exports){
 /** @module stringProcessing/countSyllables */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -16963,7 +15778,7 @@ module.exports = function( text ) {
 };
 
 
-},{"../config/syllables.js":222,"../stringProcessing/cleanText.js":274,"../stringProcessing/createRegexFromArray.js":278,"lodash/forEach":156,"lodash/map":181}],277:[function(require,module,exports){
+},{"../config/syllables.js":221,"../stringProcessing/cleanText.js":273,"../stringProcessing/createRegexFromArray.js":277,"lodash/forEach":156,"lodash/map":181}],276:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var getWords = require( "../stringProcessing/getWords.js" );
@@ -16978,7 +15793,7 @@ module.exports = function( text ) {
 	return getWords( text ).length;
 };
 
-},{"../stringProcessing/getWords.js":287}],278:[function(require,module,exports){
+},{"../stringProcessing/getWords.js":286}],277:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -17007,7 +15822,7 @@ module.exports = function( array, disableWordBoundary ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":272,"lodash/map":181}],279:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":271,"lodash/map":181}],278:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromDoubleArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -17037,7 +15852,7 @@ module.exports = function ( array ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":272}],280:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":271}],279:[function(require,module,exports){
 /** @module stringProcessing/findKeywordInUrl */
 
 var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" );
@@ -17060,7 +15875,7 @@ module.exports = function( url, keyword, locale ) {
 	return false;
 };
 
-},{"./matchTextWithTransliteration.js":291}],281:[function(require,module,exports){
+},{"./matchTextWithTransliteration.js":290}],280:[function(require,module,exports){
 /** @module stringProcessing/getAlttagContent */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -17087,7 +15902,7 @@ module.exports = function( text ) {
 	return alt;
 };
 
-},{"../stringProcessing/stripSpaces.js":305}],282:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":304}],281:[function(require,module,exports){
 /** @module stringProcessing/getAnchorsFromText */
 
 /**
@@ -17108,7 +15923,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{}],283:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 /** @module stringProcess/getLinkType */
 
 /**
@@ -17133,7 +15948,7 @@ module.exports = function( text, url ) {
 	return linkType;
 };
 
-},{}],284:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 var map = require( "lodash/map" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
@@ -17428,7 +16243,7 @@ module.exports = function( text ) {
 	return filter( sentences, negate( isEmpty ) );
 };
 
-},{"../helpers/html.js":230,"../stringProcessing/quotes.js":294,"lodash/filter":152,"lodash/flatMap":155,"lodash/forEach":156,"lodash/isEmpty":167,"lodash/isNaN":170,"lodash/isUndefined":178,"lodash/map":181,"lodash/memoize":182,"lodash/negate":184,"tokenizer2/core":312}],285:[function(require,module,exports){
+},{"../helpers/html.js":229,"../stringProcessing/quotes.js":293,"lodash/filter":152,"lodash/flatMap":155,"lodash/forEach":156,"lodash/isEmpty":167,"lodash/isNaN":170,"lodash/isUndefined":178,"lodash/map":181,"lodash/memoize":182,"lodash/negate":184,"tokenizer2/core":311}],284:[function(require,module,exports){
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.
@@ -17454,7 +16269,7 @@ module.exports = function( text ) {
 
 
 
-},{}],286:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 var map = require( "lodash/map" );
 
 /**
@@ -17497,7 +16312,7 @@ module.exports = {
 	getSubheadingContents: getSubheadingContents
 };
 
-},{"lodash/map":181}],287:[function(require,module,exports){
+},{"lodash/map":181}],286:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var stripTags = require( "./stripHTMLTags.js" );
@@ -17526,7 +16341,7 @@ module.exports = function( text ) {
 };
 
 
-},{"./removeSentenceTerminators.js":296,"./stripHTMLTags.js":302,"./stripSpaces.js":305,"lodash/filter":152,"lodash/map":181}],288:[function(require,module,exports){
+},{"./removeSentenceTerminators.js":295,"./stripHTMLTags.js":301,"./stripSpaces.js":304,"lodash/filter":152,"lodash/map":181}],287:[function(require,module,exports){
 /** @module stringProcessing/imageInText */
 
 var matchStringWithRegex = require( "./matchStringWithRegex.js" );
@@ -17541,7 +16356,7 @@ module.exports = function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 };
 
-},{"./matchStringWithRegex.js":290}],289:[function(require,module,exports){
+},{"./matchStringWithRegex.js":289}],288:[function(require,module,exports){
 var map = require( "lodash/map" );
 var flatMap = require( "lodash/flatMap" );
 var filter = require( "lodash/filter" );
@@ -17601,7 +16416,7 @@ module.exports = function( text ) {
 	return [ text ];
 };
 
-},{"../helpers/html":230,"lodash/filter":152,"lodash/flatMap":155,"lodash/map":181}],290:[function(require,module,exports){
+},{"../helpers/html":229,"lodash/filter":152,"lodash/flatMap":155,"lodash/map":181}],289:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -17622,7 +16437,7 @@ module.exports = function( text, regexString ) {
 	return matches;
 };
 
-},{}],291:[function(require,module,exports){
+},{}],290:[function(require,module,exports){
 var map = require( "lodash/map" );
 var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
@@ -17663,7 +16478,7 @@ module.exports = function( text, keyword, locale ) {
 
 
 
-},{"./addWordboundary.js":272,"./stripSpaces.js":305,"./transliterate.js":307,"lodash/map":181}],292:[function(require,module,exports){
+},{"./addWordboundary.js":271,"./stripSpaces.js":304,"./transliterate.js":306,"lodash/map":181}],291:[function(require,module,exports){
 /** @module stringProcessing/matchTextWithWord */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
@@ -17686,7 +16501,7 @@ module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	return matches.length;
 };
 
-},{"../stringProcessing/matchTextWithTransliteration.js":291,"../stringProcessing/stripNonTextTags.js":303,"../stringProcessing/unifyWhitespace.js":308}],293:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithTransliteration.js":290,"../stringProcessing/stripNonTextTags.js":302,"../stringProcessing/unifyWhitespace.js":307}],292:[function(require,module,exports){
 var wordBoundaries = require( "../language/wordBoundaries.js" )();
 var includes = require( "lodash/includes" );
 
@@ -17727,7 +16542,7 @@ module.exports = function( word, sentence ) {
 	return ( ( previousCharacter ) && ( nextCharacter ) );
 };
 
-},{"../language/wordBoundaries.js":232,"lodash/includes":161}],294:[function(require,module,exports){
+},{"../language/wordBoundaries.js":231,"lodash/includes":161}],293:[function(require,module,exports){
 /**
  * Normalizes single quotes to 'regular' quotes.
  *
@@ -17775,7 +16590,7 @@ module.exports = {
 	normalize: normalizeQuotes
 };
 
-},{}],295:[function(require,module,exports){
+},{}],294:[function(require,module,exports){
 /** @module stringProcessing/removeNonWordCharacters.js */
 
 /**
@@ -17788,7 +16603,7 @@ module.exports = function( string ) {
 	return string.replace( /[\s\n\r\t\.,'\(\)\"\+;!?:\/]/g, "" );
 };
 
-},{}],296:[function(require,module,exports){
+},{}],295:[function(require,module,exports){
 // These are sentence terminators, that never should be in the middle of a word.
 var sentenceTerminators = /[.?!:;,]/g;
 
@@ -17803,7 +16618,7 @@ module.exports = function( text ) {
 	return text.replace( sentenceTerminators, "" );
 };
 
-},{}],297:[function(require,module,exports){
+},{}],296:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var diacriticsRemovalMap = require( "../config/diacritics.js" );
@@ -17826,7 +16641,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../config/diacritics.js":219}],298:[function(require,module,exports){
+},{"../config/diacritics.js":218}],297:[function(require,module,exports){
 /** @module stringProcessing/replaceString */
 
 /**
@@ -17843,7 +16658,7 @@ module.exports = function( text, stringToReplace, replacement ) {
 	return text;
 };
 
-},{}],299:[function(require,module,exports){
+},{}],298:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -17863,7 +16678,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":302,"../stringProcessing/stripSpaces.js":305}],300:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":301,"../stringProcessing/stripSpaces.js":304}],299:[function(require,module,exports){
 var wordCount = require( "./countWords.js" );
 var forEach = require( "lodash/forEach" );
 var stripHTMLTags = require( "./stripHTMLTags.js" );
@@ -17893,7 +16708,7 @@ module.exports = function( sentences ) {
 	return sentencesWordCount;
 };
 
-},{"./countWords.js":277,"./stripHTMLTags.js":302,"lodash/forEach":156}],301:[function(require,module,exports){
+},{"./countWords.js":276,"./stripHTMLTags.js":301,"lodash/forEach":156}],300:[function(require,module,exports){
 /** @module stringProcessing/stringToRegex */
 var isUndefined = require( "lodash/isUndefined" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
@@ -17924,7 +16739,7 @@ module.exports = memoize( function( string, extraBoundary, doReplaceDiacritics )
 	return new RegExp( string, "ig" );
 } );
 
-},{"../stringProcessing/addWordboundary.js":272,"../stringProcessing/replaceDiacritics.js":297,"../stringProcessing/sanitizeString.js":299,"lodash/isUndefined":178,"lodash/memoize":182}],302:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":271,"../stringProcessing/replaceDiacritics.js":296,"../stringProcessing/sanitizeString.js":298,"lodash/isUndefined":178,"lodash/memoize":182}],301:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -17941,7 +16756,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":305}],303:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":304}],302:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -17958,7 +16773,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":305}],304:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":304}],303:[function(require,module,exports){
 /** @module stringProcessing/stripNumbers */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -17983,7 +16798,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":305}],305:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":304}],304:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -18006,7 +16821,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],306:[function(require,module,exports){
+},{}],305:[function(require,module,exports){
 var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" )();
 var matchTextWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
@@ -18042,7 +16857,7 @@ module.exports = function( matches, keyword, locale ) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":220,"../stringProcessing/matchTextWithTransliteration.js":291,"../stringProcessing/replaceString.js":298}],307:[function(require,module,exports){
+},{"../config/removalWords.js":219,"../stringProcessing/matchTextWithTransliteration.js":290,"../stringProcessing/replaceString.js":297}],306:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var transliterationsMap = require( "../config/transliterations.js" );
@@ -18065,7 +16880,7 @@ module.exports = function( text, locale ) {
 	return text;
 };
 
-},{"../config/transliterations.js":224}],308:[function(require,module,exports){
+},{"../config/transliterations.js":223}],307:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
 
 /**
@@ -18087,7 +16902,7 @@ module.exports = function( text ) {
 };
 
 
-},{}],309:[function(require,module,exports){
+},{}],308:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 var isNumber = require( "lodash/isNumber" );
 
@@ -18222,7 +17037,7 @@ AssessmentResult.prototype.hasMarker = function() {
 };
 
 /**
- * Gets the marker, a pure function that can return the marks for a given Paper
+ * Gets the marker, a pure function that an return the marks for a given Paper
  *
  * @returns {Function} The marker.
  */
@@ -18250,7 +17065,7 @@ AssessmentResult.prototype.hasMarks = function() {
 
 module.exports = AssessmentResult;
 
-},{"lodash/isNumber":171,"lodash/isUndefined":178}],310:[function(require,module,exports){
+},{"lodash/isNumber":171,"lodash/isUndefined":178}],309:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 
 /**
@@ -18299,7 +17114,7 @@ Mark.prototype.applyWithReplace = function( text ) {
 
 module.exports = Mark;
 
-},{"lodash/defaults":150}],311:[function(require,module,exports){
+},{"lodash/defaults":150}],310:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
@@ -18438,7 +17253,7 @@ Paper.prototype.getLocale = function() {
 
 module.exports = Paper;
 
-},{"../stringProcessing/sanitizeString.js":299,"lodash/defaults":150}],312:[function(require,module,exports){
+},{"../stringProcessing/sanitizeString.js":298,"lodash/defaults":150}],311:[function(require,module,exports){
 var findMatchingRule = function(rules, text){
   var i;
   for(i=0; i<rules.length; i++)
