@@ -23,7 +23,7 @@ describe( "the keyphrase length assessment", function() {
 		var result = keyphraseLengthAssessment.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 0 );
-		expect( result.getText() ).toEqual( "Your keyphrase is over 10 words, a keyphrase should be shorter." );
+		expect( result.getText() ).toEqual( "The keyphrase is over 10 words, a keyphrase should be shorter." );
 	});
 
 	it( "should not assess a paper with a keyphrase that's the correct length", function() {

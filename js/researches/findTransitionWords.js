@@ -1,24 +1,24 @@
-var transitionWords = require( "../config/transitionWords.js" );
-var twoPartTransitionWords = require( "../config/twoPartTransitionWords.js" );
 var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
+var getTransitionWords = require( "../helpers/getTransitionWords.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
+var memoize = require( "lodash/memoize" );
 
-var twoPartTransitionWordsRegex = createRegexFromDoubleArray( twoPartTransitionWords() );
-
+var createRegexFromDoubleArrayCached = memoize( createRegexFromDoubleArray );
 /**
  * Matches the sentence against two part transition words.
  *
  * @param {string} sentence The sentence to match against.
+ * @param {Array} twoPartTransitionWords The array containing two-part transition words.
  * @returns {Array} The found transitional words.
  */
-var matchTwoPartTransitionWords = function( sentence ) {
+var matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords ) {
 	sentence = normalizeSingleQuotes( sentence );
-
+	var twoPartTransitionWordsRegex = createRegexFromDoubleArrayCached( twoPartTransitionWords );
 	return sentence.match( twoPartTransitionWordsRegex );
 };
 
@@ -26,12 +26,13 @@ var matchTwoPartTransitionWords = function( sentence ) {
  * Matches the sentence against transition words.
  *
  * @param {string} sentence The sentence to match against.
+ * @param {Array} transitionWords The array containing transition words.
  * @returns {Array} The found transitional words.
  */
-var matchTransitionWords = function( sentence ) {
+var matchTransitionWords = function( sentence, transitionWords ) {
 	sentence = normalizeSingleQuotes( sentence );
 
-	var matchedTransitionWords = filter( transitionWords(), function( word ) {
+	var matchedTransitionWords = filter( transitionWords, function( word ) {
 		return matchWordInSentence( word, sentence );
 	} );
 
@@ -39,16 +40,17 @@ var matchTransitionWords = function( sentence ) {
 };
 
 /**
- * Checks the passed sentences to see if they contain transitional words.
+ * Checks the passed sentences to see if they contain transition words.
  *
  * @param {Array} sentences The sentences to match against.
- * @returns {Array} Array of sentence objects containing the complete sentence and the transitional words.
+ * @param {Object} transitionWords The object containing both transition words and two part transition words.
+ * @returns {Array} Array of sentence objects containing the complete sentence and the transition words.
  */
-var checkSentencesForTransitionWords = function( sentences ) {
+var checkSentencesForTransitionWords = function( sentences, transitionWords ) {
 	var results = [];
 
 	forEach( sentences, function( sentence ) {
-		var twoPartMatches = matchTwoPartTransitionWords( sentence );
+		var twoPartMatches = matchTwoPartTransitionWords( sentence, transitionWords.twoPartTransitionWords() );
 
 		if ( twoPartMatches !== null ) {
 			results.push( {
@@ -59,7 +61,7 @@ var checkSentencesForTransitionWords = function( sentences ) {
 			return;
 		}
 
-		var transitionWordMatches = matchTransitionWords( sentence );
+		var transitionWordMatches = matchTransitionWords( sentence, transitionWords.transitionWords() );
 
 		if ( transitionWordMatches.length !== 0 ) {
 			results.push( {
@@ -83,8 +85,10 @@ var checkSentencesForTransitionWords = function( sentences ) {
  * and the total number of sentences containing one or more transition words.
  */
 module.exports = function( paper ) {
+	var locale = paper.getLocale();
+	var transitionWords = getTransitionWords( locale );
 	var sentences = getSentences( paper.getText() );
-	var sentenceResults = checkSentencesForTransitionWords( sentences );
+	var sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords );
 
 	return {
 		totalSentences: sentences.length,

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: yoastseo 1.3.2\n"
+"Project-Id-Version: yoastseo 1.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-17 15:20+0200\n"
+"POT-Creation-Date: 2016-06-28 16:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -290,7 +290,7 @@ msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
 #. %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
-#: js/assessments/sentenceVariationAssessment.js:32
+#: js/assessments/sentenceVariationAssessment.js:42
 msgid ""
 "The %1$ssentence length variation%2$s score is %3$s, which is more than or "
 "equal to the recommended minimum of %4$d. The text contains a nice "
@@ -299,7 +299,7 @@ msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
 #. %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
-#: js/assessments/sentenceVariationAssessment.js:47
+#: js/assessments/sentenceVariationAssessment.js:57
 msgid ""
 "The %1$ssentence length variation%2$s score is %3$s, which is less than the "
 "recommended minimum of %4$d. Try to alternate more between long and short "
