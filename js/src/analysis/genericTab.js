@@ -53,7 +53,7 @@ module.exports = (function() {
 	/**
 	 * Adds the current tab to the container element.
 	 *
-	 * @param {HTMLElement} container The container element to add the tab to.
+	 * @param {string|Object} container The container element to add the tab to. jQuery object or selector.
 	 * @param {string} [position] Either prepend or append for the position in the container.
 	 */
 	GenericTab.prototype.addToContainer = function ( container, position ) {

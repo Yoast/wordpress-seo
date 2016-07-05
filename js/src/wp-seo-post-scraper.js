@@ -77,6 +77,11 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		};
 	};
 
+	/**
+	 * Returns the keyword from the DOM.
+	 *
+	 * @returns {string} The keyword.
+	 */
 	PostScraper.prototype.getKeyword = function() {
 		var val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
 		currentKeyword = val;
@@ -84,18 +89,38 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return val;
 	};
 
+	/**
+	 * Returns the Meta from the DOM.
+	 *
+	 * @returns {string} The meta description.
+	 */
 	PostScraper.prototype.getMeta = function() {
 		return document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 	};
 
+	/**
+	 * Returns the Text from the DOM.
+	 *
+	 * @returns {string} The text.
+	 */
 	PostScraper.prototype.getText = function() {
 		return removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 	};
 
+	/**
+	 * Returns the Title from the DOM.
+	 *
+	 * @returns {string} The title.
+	 */
 	PostScraper.prototype.getTitle = function() {
 		return document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
 	};
 
+	/**
+	 * Returns the Url from the DOM.
+	 *
+	 * @returns {string} The url.
+	 */
 	PostScraper.prototype.getUrl = function() {
 		var url = '';
 
@@ -110,6 +135,11 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return url;
 	};
 
+	/**
+	 * Returns the Excerpt from the DOM.
+	 *
+	 * @returns {string} The excerpt.
+	 */
 	PostScraper.prototype.getExcerpt = function() {
 		var val = '';
 
@@ -120,18 +150,38 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return val;
 	};
 
+	/**
+	 * Returns the SnippetTitle from the DOM.
+	 *
+	 * @returns {string} The snippet title.
+	 */
 	PostScraper.prototype.getSnippetTitle = function() {
 		return document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
 	};
 
+	/**
+	 * Returns the SnippetMeta from the DOM.
+	 *
+	 * @returns {string} The snippet meta.
+	 */
 	PostScraper.prototype.getSnippetMeta = function() {
 		return document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 	};
 
+	/**
+	 * Returns the SnippetCite from the DOM.
+	 *
+	 * @returns {string} The snippet cite.
+	 */
 	PostScraper.prototype.getSnippetCite = function() {
 		return this.getUrl();
 	};
 
+	/**
+	 * Returns the PrimaryCategory from the DOM.
+	 *
+	 * @returns {string} The primary category.
+	 */
 	PostScraper.prototype.getPrimaryCategory = function() {
 		var val = '';
 		var categoryBase = $( '#category-all' ).find( 'ul.categorychecklist' );
@@ -156,14 +206,29 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return val;
 	};
 
+	/**
+	 * Returns the SearchUrl from the DOM.
+	 *
+	 * @returns {string} The search url.
+	 */
 	PostScraper.prototype.getSearchUrl = function() {
 		return wpseoPostScraperL10n.search_url;
 	};
 
+	/**
+	 * Returns the PostUrl from the DOM.
+	 *
+	 * @returns {string} The post url.
+	 */
 	PostScraper.prototype.getPostUrl = function() {
 		return wpseoPostScraperL10n.post_edit_url;
 	};
 
+	/**
+	 * Returns the Permalink from the DOM.
+	 *
+	 * @returns {string} The permalink.
+	 */
 	PostScraper.prototype.getPermalink = function() {
 		var url = this.getUrl();
 
@@ -423,6 +488,13 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		};
 	}
 
+	/**
+	 * Initializes keyword analysis.
+	 *
+	 * @param {App} app The App object.
+	 * @param {PostScraper} postScraper The post scraper object.
+	 * @param {Object} publishBox The publish box object.
+	 */
 	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
 		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
 		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
@@ -438,6 +510,11 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		publishBox.updateScore( 'keyword', indicator.className );
 	}
 
+	/**
+	 * Initializes content analysis
+	 *
+	 * @param {Object} publishBox The publish box object.
+	 */
 	function initializeContentAnalysis( publishBox ) {
 		var savedContentScore = $( '#yoast_wpseo_content_score' ).val();
 
@@ -467,6 +544,11 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		}
 	}
 
+	/**
+	 * Retrieves the target to be passed to the App.
+	 *
+	 * @returns {Object} The targets object for the App.
+	 */
 	function retrieveTargets() {
 		var targets = {};
 
@@ -562,7 +644,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		postScraper.bindElementEvents( app );
 
 		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
-			console.log( 'isolating' );
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
 	} );

@@ -62,10 +62,20 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		};
 	};
 
+	/**
+	 * Returns the title from the DOM.
+	 *
+	 * @returns {string} The title.
+	 */
 	TermScraper.prototype.getTitle = function() {
 		return document.getElementById( 'hidden_wpseo_title' ).value;
 	};
 
+	/**
+	 * Returns the keyword from the DOM.
+	 *
+	 * @returns {string} The keyword.
+	 */
 	TermScraper.prototype.getKeyword = function() {
 		var elem, val;
 
@@ -79,10 +89,20 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return val;
 	};
 
+	/**
+	 * Returns the text from the DOM.
+	 *
+	 * @returns {string} The text.
+	 */
 	TermScraper.prototype.getText = function() {
 		return tmceHelper.getContentTinyMce( tmceId );
 	};
 
+	/**
+	 * Returns the meta description from the DOM.
+	 *
+	 * @returns {string} The meta.
+	 */
 	TermScraper.prototype.getMeta = function() {
 		var  val = '';
 
@@ -94,24 +114,49 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return val;
 	};
 
+	/**
+	 * Returns the url from the DOM.
+	 *
+	 * @returns {string} The url.
+	 */
 	TermScraper.prototype.getUrl = function() {
 		return document.getElementById( 'slug' ).value;
 	};
 
+	/**
+	 * Returns the permalink from the DOM.
+	 *
+	 * @returns {string} The permalink.
+	 */
 	TermScraper.prototype.getPermalink = function() {
 		var url = this.getUrl();
 
 		return this.getBaseUrl() + url + '/';
 	};
 
+	/**
+	 * Returns the snippet cite from the DOM.
+	 *
+	 * @returns {string} The snippet cite.
+	 */
 	TermScraper.prototype.getSnippetCite = function() {
 		return this.getUrl();
 	};
 
+	/**
+	 * Returns the snippet title from the DOM.
+	 *
+	 * @returns {string} The snippet title.
+	 */
 	TermScraper.prototype.getSnippetTitle = function() {
 		return document.getElementById( 'hidden_wpseo_title' ).value;
 	};
 
+	/**
+	 * Returns the snippet meta from the DOM.
+	 *
+	 * @returns {string} The snippet meta.
+	 */
 	TermScraper.prototype.getSnippetMeta = function() {
 		var val = '';
 
@@ -123,14 +168,29 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return val;
 	};
 
+	/**
+	 * Returns the name from the DOM.
+	 *
+	 * @returns {string} The name.
+	 */
 	TermScraper.prototype.getName = function() {
 		return document.getElementById( 'name' ).value;
 	};
 
+	/**
+	 * Returns the base url from the DOM.
+	 *
+	 * @returns {string} The base url.
+	 */
 	TermScraper.prototype.getBaseUrl = function() {
 		return wpseoTermScraperL10n.base_url;
 	};
 
+	/**
+	 * Returns the page title from the DOM.
+	 *
+	 * @returns {string} The page title.
+	 */
 	TermScraper.prototype.getPageTitle = function() {
 		return document.getElementById( 'hidden_wpseo_title' ).value;
 	};
@@ -297,6 +357,11 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		termSlugInput.on( 'change', updatedTermSlug );
 	}
 
+	/**
+	 * Retrieves the target to be passed to the App.
+	 *
+	 * @returns {Object} The targets object for the App.
+	 */
 	function retrieveTargets() {
 		var targets = {};
 
@@ -311,6 +376,12 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return targets;
 	}
 
+	/**
+	 * Initializes keyword analysis.
+	 *
+	 * @param {App} app The App object.
+	 * @param {TermScraper} termScraper The post scraper object.
+	 */
 	function initializeKeywordAnalysis( app, termScraper ) {
 		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
 		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
@@ -324,6 +395,9 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		updateAdminBar( indicator );
 	}
 
+	/**
+	 * Initializes content analysis
+	 */
 	function initializeContentAnalysis() {
 		var savedContentScore = $( '#hidden_wpseo_content_score' ).val();
 

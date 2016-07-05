@@ -5,7 +5,7 @@ var isUndefined = require( 'lodash/isUndefined' );
 /**
  * Returns the l10n object for the current page, either term or post.
  *
- * @returns {Object}
+ * @returns {Object} The l10n object for the current page.
  */
 function getL10nObject() {
 	var l10nObject = null;

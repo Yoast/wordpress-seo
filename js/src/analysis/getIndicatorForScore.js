@@ -1,12 +1,22 @@
 var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
 var isUndefined = require( 'lodash/isUndefined' );
 
+/**
+ * Returns whether or not the current page has presenters.
+ *
+ * @returns {boolean} Whether or not the page has presenters.
+ */
 var hasPresenter = function() {
 	var app = YoastSEO.app;
 
 	return ( ! isUndefined( app.seoAssessorPresenter ) || ! isUndefined( app.contentAssessorPresenter ) );
 };
 
+/**
+ * Returns the presenter that is currently present on the page. Prevent errors if one of the analyses is disabled.
+ *
+ * @returns {AssessorPresenter} An active assessor presenter.
+ */
 var getPresenter = function() {
 	var app = YoastSEO.app;
 

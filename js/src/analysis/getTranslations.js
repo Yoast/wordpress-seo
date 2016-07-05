@@ -5,7 +5,7 @@ var isUndefined = require( 'lodash/isUndefined' );
 /**
  * Retrieves translations for YoastSEO.js for the current page, either term or post.
  *
- * @returns {Object}
+ * @returns {Object} The translations object for the current page.
  */
 function getTranslations() {
 	"use strict";
