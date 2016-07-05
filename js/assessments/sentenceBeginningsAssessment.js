@@ -1,4 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var getLanguage = require( "../helpers/getLanguage.js" );
+
 var partition = require ( "lodash/partition" );
 var sortBy = require ( "lodash/sortBy" );
 var map = require( "lodash/map" );
@@ -102,7 +104,9 @@ module.exports = {
 	identifier: "sentenceBeginnings",
 	getResult: sentenceBeginningsAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText();
+		var locale = getLanguage( paper.getLocale() );
+		var validLocale = locale === "en" || locale === "de";
+		return ( validLocale && paper.hasText() );
 	},
 	getMarks: sentenceBeginningMarker
 };
