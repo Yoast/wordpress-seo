@@ -190,7 +190,7 @@ class AlgoliaSearcher extends React.Component {
 	render() {
         var content = '';
         var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
-                                   searchString={this.state.searchString}/>;
+                                   searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
         if ( this.state.errorMessage ) { // Show an error message.
             content = (
                 <div>
@@ -225,6 +225,7 @@ class AlgoliaSearcher extends React.Component {
 AlgoliaSearcher.propTypes = {
 	noResultsText: React.PropTypes.string,
 	headingText: React.PropTypes.string,
+	searchButtonText: React.PropTypes.string,
 	algoliaApplicationId: React.PropTypes.string.isRequired,
 	algoliaApiKey: React.PropTypes.string.isRequired,
 	algoliaIndexName: React.PropTypes.string.isRequired,
@@ -239,6 +240,7 @@ AlgoliaSearcher.propTypes = {
 AlgoliaSearcher.defaultProps = {
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
+	searchButtonText: 'Search',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'knowledge_base_all',
@@ -264,7 +266,7 @@ const SearchBar = ( props ) => {
 			<form onSubmit={function( evt ){ evt.preventDefault(); props.submitAction( evt ) } }>
 				<input type="text"
 					   defaultValue={props.searchString}/>
-				<button type="submit" className="button wpseo-kb-search-search-button">Search</button>
+				<button type="submit" className="button wpseo-kb-search-search-button">{props.searchButtonText}</button>
 			</form>
 		</div>
 	)
