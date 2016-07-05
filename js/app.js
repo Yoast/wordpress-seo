@@ -257,6 +257,12 @@ var App = function( args ) {
 	this.refresh();
 };
 
+/**
+ * Returns the default output element based on which analyses are active.
+ *
+ * @param {Object} args The arguments passed to the App.
+ * @returns {string} The ID of the target that is active.
+ */
 App.prototype.getDefaultOutputElement = function( args ) {
 	if ( args.keywordAnalysisActive ) {
 		return args.targets.output;
@@ -269,6 +275,11 @@ App.prototype.getDefaultOutputElement = function( args ) {
 	return "";
 };
 
+/**
+ * Initializes assessors based on if the respective analysis is active.
+ *
+ * @param {Object} args The arguments passed to the App.
+ */
 App.prototype.initializeAssessors = function( args ) {
 	if ( args.keywordAnalysisActive ) {
 		this.initializeSEOAssessor( args );
@@ -279,6 +290,11 @@ App.prototype.initializeAssessors = function( args ) {
 	}
 };
 
+/**
+ * Initializes the SEO assessor.
+ *
+ * @param {Object} args The arguments passed to the App.
+ */
 App.prototype.initializeSEOAssessor = function( args ) {
 	// Set the assessor
 	if ( isUndefined( args.seoAssessor ) ) {
@@ -288,6 +304,11 @@ App.prototype.initializeSEOAssessor = function( args ) {
 	}
 };
 
+/**
+ * Initializes the content assessor.
+ *
+ * @param {Object} args The arguments passed to the App.
+ */
 App.prototype.initializeContentAssessor = function( args ) {
 	// Set the content assessor
 	if ( isUndefined( args.contentAssessor ) ) {
