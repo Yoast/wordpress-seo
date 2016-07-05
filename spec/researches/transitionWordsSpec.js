@@ -157,4 +157,20 @@ describe("a test for finding transition words from a string", function() {
 			transitionWordSentences: 1
 		} );
 	});
+
+	it( "works with the no-break space character", function() {
+		mockPaper = new Paper( "and\u00a0then" );
+		var expected = {
+			totalSentences: 1,
+			sentenceResults: [{
+				sentence: "and\u00a0then",
+				transitionWords: [ "then" ]
+			}],
+			transitionWordSentences: 1
+		};
+
+		var result = transitionWordsResearch( mockPaper );
+
+		expect( result ).toEqual( expected );
+	});
 } );
