@@ -1183,7 +1183,7 @@ SnippetPreview.prototype.measureMetaDescription = function() {
  */
 SnippetPreview.prototype.getTitleWidth = function() {
 	return this.data.titleWidth;
-}
+};
 
 /* jshint ignore:start */
 /* eslint-disable */
