@@ -346,7 +346,7 @@ var SearchBar = function SearchBar(props) {
 		{ className: 'wpseo-kb-search-search-bar' },
 		_react2.default.createElement(
 			'h2',
-			{ id: 'kb-search-heading' },
+			{ id: 'wpseo-kb-search-heading' },
 			props.headingText
 		),
 		_react2.default.createElement(
@@ -354,7 +354,7 @@ var SearchBar = function SearchBar(props) {
 			{ onSubmit: function onSubmit(evt) {
 					evt.preventDefault();props.submitAction(evt);
 				} },
-			_react2.default.createElement('input', { type: 'text', 'aria-labelledby': 'kb-search-heading',
+			_react2.default.createElement('input', { type: 'text', 'aria-labelledby': 'wpseo-kb-search-heading',
 				defaultValue: props.searchString }),
 			_react2.default.createElement(
 				'button',
