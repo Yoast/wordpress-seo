@@ -23541,7 +23541,6 @@ module.exports = UsedKeywords;
 },{"lodash/debounce":487,"lodash/has":493,"lodash/isArray":497,"yoastseo":1}],355:[function(require,module,exports){
 var Assessor = require( "yoastseo/js/assessor.js" );
 
-var fleschReadingEase = require( "yoastseo/js/assessments/fleschReadingEaseAssessment.js" );
 var introductionKeyword = require( "yoastseo/js/assessments/introductionKeywordAssessment.js" );
 var keyphraseLength = require( "yoastseo/js/assessments/keyphraseLengthAssessment.js" );
 var keywordDensity = require( "yoastseo/js/assessments/keywordDensityAssessment.js" );
@@ -23564,21 +23563,20 @@ var taxonomyTextLength = require( 'yoastseo/js/assessments/taxonomyTextLengthAss
 var TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
-	this._assessments = {
-		fleschReadingEase:      fleschReadingEase,
-		introductionKeyword:    introductionKeyword,
-		keyphraseLength:        keyphraseLength,
-		keywordDensity:         keywordDensity,
-		keywordStopWords:       keywordStopWords,
-		metaDescriptionKeyword: metaDescriptionKeyword,
-		metaDescriptionLength:  metaDescriptionLength,
-		taxonomyTextLength:     taxonomyTextLength,
-		titleKeyword:           titleKeyword,
-		titleLength:            titleLength,
-		urlKeyword:             urlKeyword,
-		urlLength:              urlLength,
-		urlStopWords:           urlStopWords
-	};
+	this._assessments = [
+		introductionKeyword,
+		keyphraseLength,
+		keywordDensity,
+		keywordStopWords,
+		metaDescriptionKeyword,
+		metaDescriptionLength,
+		taxonomyTextLength,
+		titleKeyword,
+		titleLength,
+		urlKeyword,
+		urlLength,
+		urlStopWords
+	];
 };
 
 module.exports = TaxonomyAssessor;
@@ -23586,7 +23584,7 @@ module.exports = TaxonomyAssessor;
 require( "util" ).inherits( module.exports, Assessor );
 
 
-},{"util":525,"yoastseo/js/assessments/fleschReadingEaseAssessment.js":4,"yoastseo/js/assessments/introductionKeywordAssessment.js":5,"yoastseo/js/assessments/keyphraseLengthAssessment.js":6,"yoastseo/js/assessments/keywordDensityAssessment.js":7,"yoastseo/js/assessments/keywordStopWordsAssessment.js":8,"yoastseo/js/assessments/metaDescriptionKeywordAssessment.js":9,"yoastseo/js/assessments/metaDescriptionLengthAssessment.js":10,"yoastseo/js/assessments/taxonomyTextLengthAssessment":18,"yoastseo/js/assessments/titleKeywordAssessment.js":24,"yoastseo/js/assessments/titleLengthAssessment.js":25,"yoastseo/js/assessments/urlKeywordAssessment.js":27,"yoastseo/js/assessments/urlLengthAssessment.js":28,"yoastseo/js/assessments/urlStopWordsAssessment.js":29,"yoastseo/js/assessor.js":30}],356:[function(require,module,exports){
+},{"util":525,"yoastseo/js/assessments/introductionKeywordAssessment.js":5,"yoastseo/js/assessments/keyphraseLengthAssessment.js":6,"yoastseo/js/assessments/keywordDensityAssessment.js":7,"yoastseo/js/assessments/keywordStopWordsAssessment.js":8,"yoastseo/js/assessments/metaDescriptionKeywordAssessment.js":9,"yoastseo/js/assessments/metaDescriptionLengthAssessment.js":10,"yoastseo/js/assessments/taxonomyTextLengthAssessment":18,"yoastseo/js/assessments/titleKeywordAssessment.js":24,"yoastseo/js/assessments/titleLengthAssessment.js":25,"yoastseo/js/assessments/urlKeywordAssessment.js":27,"yoastseo/js/assessments/urlLengthAssessment.js":28,"yoastseo/js/assessments/urlStopWordsAssessment.js":29,"yoastseo/js/assessor.js":30}],356:[function(require,module,exports){
 var $ = jQuery;
 
 var _forEach = require( 'lodash/foreach' );
@@ -24061,7 +24059,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		app = new App( args );
 
-		app.assessor = new TaxonomyAssessor( app.i18n );
+		app.seoAssessor = new TaxonomyAssessor( app.i18n );
+		app.seoAssessorPresenter.assessor = app.seoAssessor;
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;

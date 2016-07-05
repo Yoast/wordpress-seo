@@ -350,7 +350,8 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 
 		app = new App( args );
 
-		app.assessor = new TaxonomyAssessor( app.i18n );
+		app.seoAssessor = new TaxonomyAssessor( app.i18n );
+		app.seoAssessorPresenter.assessor = app.seoAssessor;
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;

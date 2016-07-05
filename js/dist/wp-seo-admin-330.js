@@ -265,7 +265,7 @@ var AlgoliaSearcher = function (_React$Component) {
 		value: function render() {
 			var content = '';
 			var searchBar = _react2.default.createElement(SearchBar, { headingText: this.props.headingText, submitAction: this.searchButtonClicked,
-				searchString: this.state.searchString });
+				searchString: this.state.searchString, searchButtonText: this.props.searchButtonText });
 			if (this.state.errorMessage) {
 				// Show an error message.
 				content = _react2.default.createElement(
@@ -308,6 +308,7 @@ var AlgoliaSearcher = function (_React$Component) {
 AlgoliaSearcher.propTypes = {
 	noResultsText: _react2.default.PropTypes.string,
 	headingText: _react2.default.PropTypes.string,
+	searchButtonText: _react2.default.PropTypes.string,
 	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
 	algoliaApiKey: _react2.default.PropTypes.string.isRequired,
 	algoliaIndexName: _react2.default.PropTypes.string.isRequired,
@@ -322,6 +323,7 @@ AlgoliaSearcher.propTypes = {
 AlgoliaSearcher.defaultProps = {
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
+	searchButtonText: 'Search',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'knowledge_base_all',
@@ -359,7 +361,7 @@ var SearchBar = function SearchBar(props) {
 			_react2.default.createElement(
 				'button',
 				{ type: 'submit', className: 'button wpseo-kb-search-search-button' },
-				'Search'
+				props.searchButtonText
 			)
 		)
 	);
@@ -694,6 +696,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			var translations = {
 				noResultsText: wpseoAdminL10n.kb_no_results,
 				headingText: wpseoAdminL10n.kb_heading,
+				searchButtonText: wpseoAdminL10n.kb_search_button_text,
 				errorMessage: wpseoAdminL10n.kb_error_message,
 				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 				search: wpseoAdminL10n.kb_search,
