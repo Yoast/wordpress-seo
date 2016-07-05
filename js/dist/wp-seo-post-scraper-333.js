@@ -24076,8 +24076,6 @@ module.exports = {
 
 var isUndefined = require( 'lodash/isUndefined' );
 
-var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
-var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
@@ -24099,7 +24097,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	'use strict';
 
 	var snippetContainer;
-	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
 	var App = require( 'yoastseo' ).App;
 
@@ -24414,7 +24411,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	/**
 	 * Initializes keyword tab with the correct template if multi keyword isn't available.
 	 */
-	PostScraper.prototype.initKeywordTabTemplate = function () {
+	PostScraper.prototype.initKeywordTabTemplate = function() {
 		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 		if ( YoastSEO.multiKeyword ) {
 			return;
@@ -24646,7 +24643,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	} );
 }( jQuery ));
 
-},{"./analysis/getDescriptionPlaceholder":356,"./analysis/getIndicatorForScore":358,"./analysis/getTitlePlaceholder":360,"./analysis/getTranslations":361,"./analysis/isContentAnalysisActive":362,"./analysis/isKeywordAnalysisActive":363,"./analysis/snippetPreview":365,"./analysis/tabManager":366,"./analysis/usedKeywords":367,"./decorator/tinyMCE":368,"./ui/adminBar":369,"./ui/publishBox":370,"./ui/trafficLight":371,"./wp-seo-tinymce":373,"lodash/isUndefined":521,"yoastseo":1,"yoastseo/js/markers/removeMarks":53}],373:[function(require,module,exports){
+},{"./analysis/getIndicatorForScore":358,"./analysis/getTranslations":361,"./analysis/isContentAnalysisActive":362,"./analysis/isKeywordAnalysisActive":363,"./analysis/snippetPreview":365,"./analysis/tabManager":366,"./analysis/usedKeywords":367,"./decorator/tinyMCE":368,"./ui/adminBar":369,"./ui/publishBox":370,"./ui/trafficLight":371,"./wp-seo-tinymce":373,"lodash/isUndefined":521,"yoastseo":1,"yoastseo/js/markers/removeMarks":53}],373:[function(require,module,exports){
 /* global tinyMCE, require, YoastSEO */
 
 var forEach = require( 'lodash/forEach' );

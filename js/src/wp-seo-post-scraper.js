@@ -2,8 +2,6 @@
 
 var isUndefined = require( 'lodash/isUndefined' );
 
-var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
-var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 
@@ -25,7 +23,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	'use strict';
 
 	var snippetContainer;
-	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
 	var App = require( 'yoastseo' ).App;
 
@@ -309,7 +306,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 			tabManager.updateKeywordTab( score, currentKeyword );
 
-
 			updateTrafficLight( indicator );
 			updateAdminBar( indicator );
 
@@ -340,7 +336,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	/**
 	 * Initializes keyword tab with the correct template if multi keyword isn't available.
 	 */
-	PostScraper.prototype.initKeywordTabTemplate = function () {
+	PostScraper.prototype.initKeywordTabTemplate = function() {
 		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 		if ( YoastSEO.multiKeyword ) {
 			return;

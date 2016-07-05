@@ -2,8 +2,6 @@
 
 var isUndefined = require( 'lodash/isUndefined' );
 
-var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
-var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 var tmceHelper = require( './wp-seo-tinymce' );
@@ -21,7 +19,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 	var snippetContainer;
 	var App = require( 'yoastseo' ).App;
-	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
 	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	var UsedKeywords = require( './analysis/usedKeywords' );

@@ -24167,8 +24167,6 @@ module.exports = {
 
 var isUndefined = require( 'lodash/isUndefined' );
 
-var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
-var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
 var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
 var TabManager = require( './analysis/tabManager' );
 var tmceHelper = require( './wp-seo-tinymce' );
@@ -24186,7 +24184,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 	var snippetContainer;
 	var App = require( 'yoastseo' ).App;
-	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
 	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	var UsedKeywords = require( './analysis/usedKeywords' );
@@ -24583,7 +24580,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	} );
 }( jQuery ));
 
-},{"./analysis/getDescriptionPlaceholder":357,"./analysis/getIndicatorForScore":359,"./analysis/getTitlePlaceholder":361,"./analysis/getTranslations":362,"./analysis/isContentAnalysisActive":363,"./analysis/isKeywordAnalysisActive":364,"./analysis/snippetPreview":366,"./analysis/tabManager":367,"./analysis/usedKeywords":368,"./assessors/taxonomyAssessor":369,"./ui/adminBar":371,"./ui/trafficLight":372,"./wp-seo-tinymce":374,"lodash/isUndefined":522,"yoastseo":1}],374:[function(require,module,exports){
+},{"./analysis/getIndicatorForScore":359,"./analysis/getTranslations":362,"./analysis/isContentAnalysisActive":363,"./analysis/isKeywordAnalysisActive":364,"./analysis/snippetPreview":366,"./analysis/tabManager":367,"./analysis/usedKeywords":368,"./assessors/taxonomyAssessor":369,"./ui/adminBar":371,"./ui/trafficLight":372,"./wp-seo-tinymce":374,"lodash/isUndefined":522,"yoastseo":1}],374:[function(require,module,exports){
 /* global tinyMCE, require, YoastSEO */
 
 var forEach = require( 'lodash/forEach' );
