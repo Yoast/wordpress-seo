@@ -262,9 +262,9 @@ AlgoliaSearcher.defaultProps = {
 const SearchBar = ( props ) => {
 	return (
 		<div className="wpseo-kb-search-search-bar">
-			<h2>{props.headingText}</h2>
+			<h2 id="wpseo-kb-search-heading">{props.headingText}</h2>
 			<form onSubmit={function( evt ){ evt.preventDefault(); props.submitAction( evt ) } }>
-				<input type="text"
+				<input type="text" aria-labelledby="wpseo-kb-search-heading"
 					   defaultValue={props.searchString}/>
 				<button type="submit" className="button wpseo-kb-search-search-button">{props.searchButtonText}</button>
 			</form>
