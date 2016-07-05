@@ -3,8 +3,15 @@
  * @returns {Array} The array filled with exceptions.
  */
 module.exports = function() {
-	return [ "el", "los", "la", "las", "un", "una", "unos", "unas", "unos", "dos", "tres", "cuatro", "cinco", "seis",
-		"siete", "ocho", "nueve", "diez", "este", "estos", "esta", "estas", "ese", "esos", "esa", "esas", "aquel",
+	return [
+		// Definite articles:
+		"el", "los", "la", "las",
+		// Indefinite articles:
+		"un", "una", "unas", "unos",
+		// Numbers 1-10:
+		"uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez",
+		// Demonstrative pronouns:
+		"este", "estos", "esta", "estas", "ese", "esos", "esa", "esas", "aquel",
 		"aquellos", "aquella", "aquellas", "esto", "eso", "aquello" ];
 };
 

@@ -3,9 +3,17 @@
  * @returns {Array} The array filled with exceptions.
  */
 module.exports = function() {
-	return [ "acht", "das", "dem", "den", "denen", "der", "deren", "derer", "des", "dessen", "die", "diese", "diesem",
-		"diesen", "dieser", "dieses", "drei", "ein", "eine", "einem", "einen", "einer", "eines", "eins", "fünf", "jene",
-		"jenem", "jenen", "jener", "jenes", "neun", "sechs", "sieben", "vier", "zehn", "zwei" ];
+	return [
+		// Definite articles:
+		"das", "dem", "den", "der", "des", "die",
+		// Indefinite articles:
+		"ein", "eine", "einem", "einen", "einer", "eines",
+		// Numbers 1-10:
+		"eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn",
+		// Demonstrative pronouns:
+		"denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses", "jene",
+		"jenem", "jenen", "jener", "jenes"
+	];
 };
 
 
