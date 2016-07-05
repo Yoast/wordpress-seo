@@ -24380,7 +24380,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 			tabManager.updateKeywordTab( score, currentKeyword );
 
-
 			updateTrafficLight( indicator );
 			updateAdminBar( indicator );
 

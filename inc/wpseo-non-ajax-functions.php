@@ -9,6 +9,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+/**
+ * Returns whether or not the readability analysis is enabled. A 1 if it is, a 0 if it isn't.
+ *
+ * @return int Whether or not the readability analysis is enabled.
+ */
 function wpseo_content_analysis_is_enabled() {
 	$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
@@ -19,6 +24,11 @@ function wpseo_content_analysis_is_enabled() {
 	return ( ! get_the_author_meta( 'wpseo_content_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
 }
 
+/**
+ * Returns whether or not the SEO analysis is enabled. A 1 if it is, 1 0 if it isn't.
+ *
+ * @return int Whether or not the SEO analysis is enabled.
+ */
 function wpseo_keyword_analysis_is_enabled() {
 	$options = WPSEO_Options::get_option( 'wpseo_titles' );
 
