@@ -108,7 +108,7 @@ Paper.prototype.getTitle = function() {
  * @returns {boolean} Returns true if the Paper has a title.
  */
 Paper.prototype.hasTitleWidth = function() {
-	return this._attributes.titleWidth !== "";
+	return this._attributes.titleWidth !== 0;
 };
 
 /**

@@ -1176,6 +1176,15 @@ SnippetPreview.prototype.measureMetaDescription = function() {
 	this.data.metaHeight = metaHeightElement.offsetHeight;
 };
 
+/**
+ * Returns the width of the title in pixels.
+ *
+ * @returns {Number} The width of the title in pixels.
+ */
+SnippetPreview.prototype.getTitleWidth = function() {
+	return this.data.titleWidth;
+}
+
 /* jshint ignore:start */
 /* eslint-disable */
 
