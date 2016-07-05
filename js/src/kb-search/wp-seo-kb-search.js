@@ -174,7 +174,7 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {JSX} A div with a warning that the search was not completed.
      */
     renderError( errorMessage ) {
-		console.err( errorMessage );
+		console.error( errorMessage );
         return (
             <div>
 				{this.props.errorMessage}
@@ -282,7 +282,7 @@ const SearchResult = ( props ) => {
 	let description = post.excerpt || post.metadesc;
 	return (
 		<div>
-			<a onClick={props.showDetail} className="wpseo-kb-search-result-link">
+			<a href={post.permalink} onClick={ function( evt ) { evt.preventDefault(); props.showDetail() } } className="wpseo-kb-search-result-link">
 				<div className="wpseo-kb-search-result">
 					<h3 className="wpseo-kb-search-result-title">{post.post_title}</h3>
 					<p>{description}</p>

@@ -12869,7 +12869,7 @@ SnippetPreview.prototype.measureMetaDescription = function() {
 /**
  * Returns whether or not an app object is present.
  *
- * @returns {boolean}
+ * @returns {boolean} Whether or not there is an App object present.
  */
 SnippetPreview.prototype.hasApp = function() {
 	return !isUndefined( this.refObj );
@@ -12877,6 +12877,8 @@ SnippetPreview.prototype.hasApp = function() {
 
 /**
  * Returns whether or not a pluggable object is present.
+ *
+ * @returns {boolean} Whether or not there is a Pluggable object present.
  */
 SnippetPreview.prototype.hasPluggable = function() {
 	return !isUndefined( this.refObj ) && !isUndefined( this.refObj.pluggable );
