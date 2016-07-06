@@ -104,7 +104,7 @@ module.exports = {
 	getResult: sentenceBeginningsAssessment,
 	isApplicable: function( paper ) {
 		var locale = getLanguage( paper.getLocale() );
-		var validLocale = locale === "en" || locale === "de";
+		var validLocale = locale === "en" || locale === "de" || locale === "fr" || locale === "es";
 		return ( validLocale && paper.hasText() );
 	},
 	getMarks: sentenceBeginningMarker
