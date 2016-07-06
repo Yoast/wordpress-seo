@@ -247,7 +247,8 @@ var AlgoliaSearcher = function (_React$Component) {
 	}, {
 		key: 'renderError',
 		value: function renderError(errorMessage) {
-			console.err(errorMessage);
+			console.error(errorMessage);
+			window.wp.a11y.speak(this.props.errorMessage);
 			return _react2.default.createElement(
 				'div',
 				null,
