@@ -272,11 +272,14 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				var translations = {
 					noResultsText: wpseoAdminL10n.kb_no_results,
 					headingText: wpseoAdminL10n.kb_heading,
+					searchButtonText: wpseoAdminL10n.kb_search_button_text,
 					errorMessage: wpseoAdminL10n.kb_error_message,
 					loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 					search: wpseoAdminL10n.kb_search,
 					open: wpseoAdminL10n.kb_open,
+					openLabel: wpseoAdminL10n.kb_open_label,
 					back: wpseoAdminL10n.kb_back,
+					backLabel: wpseoAdminL10n.kb_back_label,
 					iframeTitle: wpseoAdminL10n.kb_iframe_title
 				};
 				algoliaSearchers.push( {

@@ -308,6 +308,9 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
 		});
+
+		var keyword = $( '#yoast_wpseo_focuskw' ).val();
+		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
 	};
 
 	/**
