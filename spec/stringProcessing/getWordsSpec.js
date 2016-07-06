@@ -21,4 +21,17 @@ describe( "a test getting words from a sentence", function() {
 		expect( words[1] ).toBe( "emphasized" );
 	});
 
+	it( "returns the correct array of words with a ton of punctuation", function() {
+		var words = getWords( "A sentence with words. And some; punctuation." );
+
+		expect( words ).toEqual([
+			"A",
+			"sentence",
+			"with",
+			"words",
+			"And",
+			"some",
+			"punctuation"
+		]);
+	});
 });
