@@ -283,3 +283,7 @@ $snippet_width: 600px;
 @include progress-bar-color(".snippet-editor__progress--bad", $color_bad);
 @include progress-bar-color(".snippet-editor__progress--ok", $color_ok);
 @include progress-bar-color(".snippet-editor__progress--good", $color_good);
+
+.hidden-title {
+	font-size: 18px;
+}
