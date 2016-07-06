@@ -474,7 +474,6 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * @returns {*|bool}
 	 */
 	function getMarker() {
-
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === 'undefined' || ! displayMarkers() ) {
