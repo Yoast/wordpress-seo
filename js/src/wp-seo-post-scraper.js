@@ -61,7 +61,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 */
 	PostScraper.prototype.getData = function() {
 		return {
-			keyword: this.getKeyword(),
+			keyword: isKeywordAnalysisActive() ? this.getKeyword() : '',
 			meta: this.getMeta(),
 			text: this.getText(),
 			title: this.getTitle(),
