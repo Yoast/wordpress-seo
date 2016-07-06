@@ -23615,7 +23615,7 @@ module.exports = (function() {
 	};
 
 	KeywordTab.prototype.getKeyWord = function() {
-		return this.hasKeyword() ? this.keyword : '...';
+		return this.keyword;
 	};
 
 	KeywordTab.prototype.hasFallback = function() {
@@ -23635,7 +23635,7 @@ module.exports = (function() {
 			return this.fallback;
 		}
 
-		return this.getKeyWord();
+		return this.hasKeyword() ? this.getKeyWord() : '...';
 	};
 
 	/**
