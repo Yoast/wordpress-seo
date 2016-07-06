@@ -31,6 +31,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
+		add_action( 'admin_footer', array( $this, 'template_generic_tab' ) );
 
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
 
@@ -891,6 +892,30 @@ SVG;
 	}
 
 	/**
+	 * Generic tab.
+	 */
+	public function template_generic_tab() {
+		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
+		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' ) ) {
+			return;
+		}
+
+		echo '<script type="text/html" id="tmpl-generic_tab">
+				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
+					<a class="wpseo_tablink" href="#wpseo_generic" data-score="{{data.score}}">
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
+						<span class="wpseo-tab-label">{{data.label}}</span>
+						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
+					</a>
+					<# if ( data.hideable ) { #>
+						<a href="#" class="remove-tab"><span>x</span></a>
+					<# } #>
+				</li>
+			</script>';
+	}
+
+	/**
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
@@ -900,14 +925,14 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="<# if ( ! data.isKeywordTab ) { #>wpseo_content_tab<# } else { #>wpseo_keyword_tab<# } #><# if ( data.active ) { #> active<# } #>">
+				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
-						<em class="wpseo-keyword">{{data.placeholder}}</em>
+						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.label}}</em>
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 					</a>
-					<# if ( ! data.hideRemove ) { #>
+					<# if ( data.hideable ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>
 					<# } #>
 				</li>
