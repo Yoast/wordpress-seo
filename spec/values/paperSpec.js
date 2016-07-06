@@ -61,4 +61,14 @@ describe( "Creating a Paper", function() {
 		expect( paper.hasKeyword()).toBe(false);
 		expect( paper.hasTitleWidth()).toBe(false);
 	});
+	it( "returns locale", function () {
+		var paper = new Paper ("");
+		expect( paper.getLocale() ).toBe( "en_US" );
+		paper = new Paper ("", { locale: "de_DE" } );
+		expect( paper.getLocale() ).toBe( "de_DE" );
+		paper = new Paper ("", { locale: "" } );
+		expect( paper.getLocale() ).toBe( "en_US" );
+		expect( paper.hasLocale() ).toBe( true );
+	} )
+
 } );

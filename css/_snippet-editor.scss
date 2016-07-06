@@ -27,7 +27,7 @@ $snippet_width: 600px;
 	width: $snippet_width + 40;
 }
 
-.snippet_container:after {
+.snippet_container {
 	@include clearfix;
 }
 
