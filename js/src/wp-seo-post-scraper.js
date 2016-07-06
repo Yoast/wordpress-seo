@@ -474,17 +474,21 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 * @returns {*|bool}
 	 */
 	function getMarker() {
+
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
-		if ( ! tmceHelper.isTinyMCEAvailable( tmceId ) || ! displayMarkers() ) {
+		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
+		if ( typeof tinyMCE === 'undefined' || ! displayMarkers() ) {
 			return false;
 		}
 
-		if ( decorator === null ) {
-			decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
-		}
-
 		return function( paper, marks ) {
-			decorator( paper, marks );
+			if ( tmceHelper.isTinyMCEAvailable( tmceId ) ) {
+				if ( null === decorator ) {
+					decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+				}
+
+				decorator( paper, marks );
+			}
 		};
 	}
 

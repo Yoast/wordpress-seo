@@ -7,13 +7,13 @@
 	background-color: #fff;
 }
 
-.snippet_container:after:before,
-.snippet_container:after:after {
+.snippet_container:before,
+.snippet_container:after {
 	display: table;
 	content: " ";
 }
 
-.snippet_container:after:after {
+.snippet_container:after {
 	clear: both;
 }
 
