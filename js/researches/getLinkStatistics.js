@@ -2,9 +2,9 @@
 
 var getLinks = require( "./getLinks.js" );
 var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
-var extractUrl = require( "../stringProcessing/extractUrl.js" );
 var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
+var urlHelper = require( "../stringProcessing/url.js" );
 
 /**
  * Checks whether or not an anchor contains the passed keyword.
@@ -19,37 +19,6 @@ var keywordInAnchor = function( keyword, anchor, locale ) {
 	}
 
 	return findKeywordInUrl( anchor, keyword, locale );
-};
-
-/**
- * Sanitizes the URL by removing parameters.
- *
- * @param {string} url The URL to sanitize.
- * @returns {string} The sanitized URL.
- */
-var sanitizeUrl = function( url ) {
-	// Sanitize hashbangs.
-	url = url.split( "#" )[0];
-
-	return url.split( "?" )[0];
-};
-
-/**
- * Matches the URL retrieved from an anchor with the current url and determines that it's linking to itself.
- *
- * @param {string} url The URL to look for.
- * @param {string} currentUrl The current URL to match against.
- * @returns {boolean} Whether or not the anchor is linking to itself.
- */
-var isLinkToSelf = function( url, currentUrl ) {
-	var anchorUrl = extractUrl( url );
-
-	// Sanitize the anchorURL to strip off extra parameters.
-	// This should also take hashes into account, as these should come after parameters.
-	anchorUrl = sanitizeUrl( anchorUrl[0][2] );
-	currentUrl = sanitizeUrl( currentUrl );
-
-	return anchorUrl === currentUrl;
 };
 
 /**
@@ -98,7 +67,9 @@ var countLinkTypes = function( paper ) {
 
 	for ( var i = 0; i < anchors.length; i++ ) {
 		var currentAnchor = anchors[ i ];
-		var linkToSelf = isLinkToSelf( currentAnchor, permalink );
+
+		var anchorLink = urlHelper.getFromAnchorTag( currentAnchor );
+		var linkToSelf = urlHelper.areEqual( anchorLink, permalink );
 
 		if ( keywordInAnchor( keyword, currentAnchor, locale ) && !linkToSelf ) {
 			linkCount.keyword.totalKeyword++;
