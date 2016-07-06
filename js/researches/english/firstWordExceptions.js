@@ -8,7 +8,7 @@ module.exports = function() {
 		"the",
 		// Indefinite articles:
 		"a", "an",
-		// Numbers 1-10 ('une' is already included in the indefinite articles):
+		// Numbers 1-10:
 		"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
 		// Demonstrative pronouns:
 		"this", "that", "these", "those"
