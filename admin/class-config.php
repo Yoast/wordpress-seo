@@ -126,6 +126,7 @@ class WPSEO_Admin_Pages {
 			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
 			'kb_open' => __( 'Open', 'wordpress-seo' ),
 			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
+			'kb_iframe_title' => __( 'Knowledge base article', 'wordpress-seo' ),
 		);
 	}
 

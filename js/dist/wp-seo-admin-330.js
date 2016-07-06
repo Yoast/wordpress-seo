@@ -232,7 +232,7 @@ var AlgoliaSearcher = function (_React$Component) {
 						this.props.open
 					)
 				),
-				_react2.default.createElement(ArticleContent, { post: post })
+				_react2.default.createElement(ArticleContent, { post: post, iframeTitle: this.props.iframeTitle })
 			);
 		}
 
@@ -309,6 +309,7 @@ AlgoliaSearcher.propTypes = {
 	noResultsText: _react2.default.PropTypes.string,
 	headingText: _react2.default.PropTypes.string,
 	searchButtonText: _react2.default.PropTypes.string,
+	iframeTitle: _react2.default.PropTypes.string,
 	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
 	algoliaApiKey: _react2.default.PropTypes.string.isRequired,
 	algoliaIndexName: _react2.default.PropTypes.string.isRequired,
@@ -324,6 +325,7 @@ AlgoliaSearcher.defaultProps = {
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
 	searchButtonText: 'Search',
+	iframeTitle: 'Knowledge base article',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'knowledge_base_all',
@@ -412,7 +414,7 @@ var SearchResult = function SearchResult(props) {
  */
 var ArticleContent = function ArticleContent(props) {
 	var url = props.post.permalink + 'amp?source=wpseo-kb-search';
-	return _react2.default.createElement('iframe', { src: url, className: 'kb-search-content-frame' });
+	return _react2.default.createElement('iframe', { src: url, className: 'kb-search-content-frame', title: props.iframeTitle });
 };
 
 /**
@@ -703,7 +705,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 				open: wpseoAdminL10n.kb_open,
 				openLabel: wpseoAdminL10n.kb_open_label,
 				back: wpseoAdminL10n.kb_back,
-				backLabel: wpseoAdminL10n.kb_back_label
+				backLabel: wpseoAdminL10n.kb_back_label,
+				iframeTitle: wpseoAdminL10n.kb_iframe_title
 			};
 			algoliaSearchers.push({
 				tabName: tabId,
