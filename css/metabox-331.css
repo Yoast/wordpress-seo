@@ -962,7 +962,7 @@ ul.wpseo-metabox-tabs {
 /* Contain floated list items and have overflow visible for the active tab */
 ul.wpseo-metabox-tabs:after {
 	display: table;
-	clear: both;
+	clear: both; 
 	content: "";
 }
 

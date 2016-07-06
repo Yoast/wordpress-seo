@@ -232,7 +232,7 @@ var AlgoliaSearcher = function (_React$Component) {
 						this.props.open
 					)
 				),
-				_react2.default.createElement(ArticleContent, { post: post })
+				_react2.default.createElement(ArticleContent, { post: post, iframeTitle: this.props.iframeTitle })
 			);
 		}
 
@@ -265,7 +265,7 @@ var AlgoliaSearcher = function (_React$Component) {
 		value: function render() {
 			var content = '';
 			var searchBar = _react2.default.createElement(SearchBar, { headingText: this.props.headingText, submitAction: this.searchButtonClicked,
-				searchString: this.state.searchString });
+				searchString: this.state.searchString, searchButtonText: this.props.searchButtonText });
 			if (this.state.errorMessage) {
 				// Show an error message.
 				content = _react2.default.createElement(
@@ -308,6 +308,8 @@ var AlgoliaSearcher = function (_React$Component) {
 AlgoliaSearcher.propTypes = {
 	noResultsText: _react2.default.PropTypes.string,
 	headingText: _react2.default.PropTypes.string,
+	searchButtonText: _react2.default.PropTypes.string,
+	iframeTitle: _react2.default.PropTypes.string,
 	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
 	algoliaApiKey: _react2.default.PropTypes.string.isRequired,
 	algoliaIndexName: _react2.default.PropTypes.string.isRequired,
@@ -322,6 +324,8 @@ AlgoliaSearcher.propTypes = {
 AlgoliaSearcher.defaultProps = {
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
+	searchButtonText: 'Search',
+	iframeTitle: 'Knowledge base article',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
 	algoliaIndexName: 'knowledge_base_all',
@@ -346,7 +350,7 @@ var SearchBar = function SearchBar(props) {
 		{ className: 'wpseo-kb-search-search-bar' },
 		_react2.default.createElement(
 			'h2',
-			null,
+			{ id: 'wpseo-kb-search-heading' },
 			props.headingText
 		),
 		_react2.default.createElement(
@@ -354,12 +358,12 @@ var SearchBar = function SearchBar(props) {
 			{ onSubmit: function onSubmit(evt) {
 					evt.preventDefault();props.submitAction(evt);
 				} },
-			_react2.default.createElement('input', { type: 'text',
+			_react2.default.createElement('input', { type: 'text', 'aria-labelledby': 'wpseo-kb-search-heading',
 				defaultValue: props.searchString }),
 			_react2.default.createElement(
 				'button',
 				{ type: 'submit', className: 'button wpseo-kb-search-search-button' },
-				'Search'
+				props.searchButtonText
 			)
 		)
 	);
@@ -410,7 +414,7 @@ var SearchResult = function SearchResult(props) {
  */
 var ArticleContent = function ArticleContent(props) {
 	var url = props.post.permalink + 'amp?source=wpseo-kb-search';
-	return _react2.default.createElement('iframe', { src: url, className: 'kb-search-content-frame' });
+	return _react2.default.createElement('iframe', { src: url, className: 'kb-search-content-frame', title: props.iframeTitle });
 };
 
 /**
@@ -694,13 +698,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			var translations = {
 				noResultsText: wpseoAdminL10n.kb_no_results,
 				headingText: wpseoAdminL10n.kb_heading,
+				searchButtonText: wpseoAdminL10n.kb_search_button_text,
 				errorMessage: wpseoAdminL10n.kb_error_message,
 				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 				search: wpseoAdminL10n.kb_search,
 				open: wpseoAdminL10n.kb_open,
 				openLabel: wpseoAdminL10n.kb_open_label,
 				back: wpseoAdminL10n.kb_back,
-				backLabel: wpseoAdminL10n.kb_back_label
+				backLabel: wpseoAdminL10n.kb_back_label,
+				iframeTitle: wpseoAdminL10n.kb_iframe_title
 			};
 			algoliaSearchers.push({
 				tabName: tabId,
