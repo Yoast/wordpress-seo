@@ -227,7 +227,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'select2-translations',
-				'src'  => 'select2/i18n/' . substr( get_locale(), 0, 2 ),
+				'src'  => 'select2/i18n/' . WPSEO_Utils::get_language( get_locale() ),
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'select2',
