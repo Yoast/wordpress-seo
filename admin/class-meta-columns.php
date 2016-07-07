@@ -9,12 +9,19 @@
 class WPSEO_Meta_Columns {
 
 	/**
+	 * @var WPSEO_Metabox_Analysis_SEO
+	 */
+	private $analysis_seo;
+
+	/**
 	 * When page analysis is enabled, just initialize the hooks
 	 */
 	public function __construct() {
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 			add_action( 'admin_init', array( $this, 'setup_hooks' ) );
 		}
+
+		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 	}
 
 	/**
@@ -39,11 +46,16 @@ class WPSEO_Meta_Columns {
 			return $columns;
 		}
 
+		if ( $this->analysis_seo->is_enabled() ) {
+			$columns = array_merge( $columns, array(
+				'wpseo-score'    => __( 'SEO', 'wordpress-seo' ),
+				'wpseo-focuskw'  => __( 'Focus KW', 'wordpress-seo' ),
+			) );
+		}
+
 		return array_merge( $columns, array(
-			'wpseo-score'    => __( 'SEO', 'wordpress-seo' ),
 			'wpseo-title'    => __( 'SEO Title', 'wordpress-seo' ),
 			'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ),
-			'wpseo-focuskw'  => __( 'Focus KW', 'wordpress-seo' ),
 		) );
 	}
 
@@ -91,7 +103,10 @@ class WPSEO_Meta_Columns {
 		}
 
 		$columns['wpseo-metadesc'] = 'wpseo-metadesc';
-		$columns['wpseo-focuskw']  = 'wpseo-focuskw';
+
+		if ( $this->analysis_seo->is_enabled() ) {
+			$columns['wpseo-focuskw'] = 'wpseo-focuskw';
+		}
 
 		return $columns;
 	}
@@ -115,7 +130,11 @@ class WPSEO_Meta_Columns {
 				$result = array();
 			}
 
-			array_push( $result, 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+			array_push( $result, 'wpseo-title', 'wpseo-metadesc' );
+
+			if ( $this->analysis_seo->is_enabled() ) {
+				array_push( $result, 'wpseo-focuskw' );
+			}
 		}
 
 		return $result;

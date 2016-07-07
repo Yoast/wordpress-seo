@@ -1,6 +1,7 @@
 /* global tinyMCE, require, YoastSEO */
 
 var forEach = require( 'lodash/forEach' );
+var isUndefined = require( 'lodash/isUndefined' );
 var editorHasMarks = require( './decorator/tinyMCE' ).editorHasMarks;
 var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 
@@ -105,16 +106,26 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 * Calls the function in the YoastSEO.js app that disables the marker (eye)icons.
 	 */
 	function disableMarkerButtons() {
-		YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
-		YoastSEO.app.seoAssessorPresenter.disableMarkerButtons();
+		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
+			YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
+		}
+
+		if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
+			YoastSEO.app.seoAssessorPresenter.disableMarkerButtons();
+		}
 	}
 
 	/**
 	 * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
 	 */
 	function enableMarkerButtons() {
-		YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
-		YoastSEO.app.seoAssessorPresenter.enableMarkerButtons();
+		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
+			YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
+		}
+
+		if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
+			YoastSEO.app.seoAssessorPresenter.enableMarkerButtons();
+		}
 	}
 
 	/**

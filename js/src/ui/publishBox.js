@@ -76,7 +76,9 @@ var imageScoreClass = 'image yoast-logo svg';
 			createScoresInPublishBox( 'content', notAvailableStatus );
 		}
 
-		createScoresInPublishBox( 'keyword', notAvailableStatus );
+		if ( wpseoPostScraperL10n.keywordAnalysisActive === '1' ) {
+			createScoresInPublishBox( 'keyword', notAvailableStatus );
+		}
 	}
 
 	module.exports = {

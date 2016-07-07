@@ -2,7 +2,7 @@
 module.exports = {
 	'wordpres-seo': {
 		options: {
-			preserveComments: 'some',
+			preserveComments: /^!|@preserve|@license|@cc_on/,
 			report: 'gzip'
 		},
 		files: [{
