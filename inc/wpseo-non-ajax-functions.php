@@ -10,6 +10,36 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 /**
+ * Returns whether or not the readability analysis is enabled. A 1 if it is, a 0 if it isn't.
+ *
+ * @return int Whether or not the readability analysis is enabled.
+ */
+function wpseo_content_analysis_is_enabled() {
+	$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+	if ( ! $options['content-analysis-active'] ) {
+		return 0;
+	}
+
+	return ( ! get_the_author_meta( 'wpseo_content_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
+}
+
+/**
+ * Returns whether or not the SEO analysis is enabled. A 1 if it is, 1 0 if it isn't.
+ *
+ * @return int Whether or not the SEO analysis is enabled.
+ */
+function wpseo_keyword_analysis_is_enabled() {
+	$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+	if ( ! $options['keyword-analysis-active'] ) {
+		return 0;
+	}
+
+	return ( ! get_the_author_meta( 'wpseo_keyword_analysis_disable', get_current_user_id() ) ) ? 1 : 0;
+}
+
+/**
  * Adds an SEO admin bar menu with several options. If the current user is an admin he can also go straight to several settings menu's from here.
  */
 function wpseo_admin_bar_menu() {
@@ -30,9 +60,6 @@ function wpseo_admin_bar_menu() {
 	$score   = '';
 	$seo_url = '';
 
-	$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
-	$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
-
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
 					'post.php',
 					'post-new.php',
@@ -40,7 +67,7 @@ function wpseo_admin_bar_menu() {
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
-		if ( $analysis_readability->is_enabled() || $analysis_seo->is_enabled() ) {
+		if ( wpseo_content_analysis_is_enabled() || wpseo_keyword_analysis_is_enabled() ) {
 			$score = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
 		}
 
@@ -48,7 +75,7 @@ function wpseo_admin_bar_menu() {
 	}
 
 	if ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
-		if ( $analysis_readability->is_enabled() || $analysis_seo->is_enabled() ) {
+		if ( wpseo_content_analysis_is_enabled() || wpseo_keyword_analysis_is_enabled() ) {
 			$score = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
 		}
 

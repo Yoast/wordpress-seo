@@ -9,28 +9,18 @@
 class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/** @var array $options All of plugin options. */
-	protected static $options;
+	protected $options;
 
 	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
-	protected static $image_parser;
+	protected $image_parser;
 
 	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-	}
 
-	/**
-	 * Get Options
-	 *
-	 * @return array
-	 */
-	protected function get_options() {
-		if ( ! isset( self::$options ) ) {
-			self::$options = WPSEO_Options::get_all();
-		}
-
-		return self::$options;
+		$this->options      = WPSEO_Options::get_all();
+		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
 	}
 
 	/**
@@ -127,6 +117,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					);
 					$query = new WP_Query( $args );
 
+					$date = '';
+
 					if ( $query->have_posts() ) {
 						$date = $query->posts[0]->post_modified_gmt;
 					}
@@ -165,8 +157,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) || ! $taxonomy->public ) {
 			return $links;
 		}
-
-		$options = $this->get_options();
 
 		$steps  = $max_entries;
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
@@ -215,7 +205,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$url['loc'] = get_term_link( $term, $term->taxonomy );
 
-				if ( $options['trailingslash'] === true ) {
+				if ( $this->options['trailingslash'] === true ) {
 
 					$url['loc'] = trailingslashit( $url['loc'] );
 				}
@@ -233,7 +223,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$url['mod']    = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
 			$url['chf']    = WPSEO_Sitemaps::filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
-			$url['images'] = $this->get_image_parser()->get_term_images( $term );
+			$url['images'] = $this->image_parser->get_term_images( $term );
 
 			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
 			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
@@ -255,8 +245,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function is_valid_taxonomy( $taxonomy_name ) {
 
-		$options = $this->get_options();
-		if ( ! empty( $options[ "taxonomies-{$taxonomy_name}-not_in_sitemap" ] ) ) {
+		if ( ! empty( $this->options[ "taxonomies-{$taxonomy_name}-not_in_sitemap" ] ) ) {
 			return false;
 		}
 
@@ -275,18 +264,5 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get the Image Parser
-	 *
-	 * @return WPSEO_Sitemap_Image_Parser
-	 */
-	protected function get_image_parser() {
-		if ( ! isset( self::$image_parser ) ) {
-			self::$image_parser = new WPSEO_Sitemap_Image_Parser();
-		}
-
-		return self::$image_parser;
 	}
 }
