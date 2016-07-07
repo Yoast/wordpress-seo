@@ -134,7 +134,7 @@ class AlgoliaSearcher extends React.Component {
 			searchResultContent = <div className="wpseo-kb-search-results">{results}</div>;
 		}
 		else if ( this.state.searchString !== '' ) {
-			searchResultContent = <div className="wpseo-kb-search-no-results">{this.props.noResultsText}</div>;
+			searchResultContent = <p>{this.props.noResultsText}</p>;
 		}
 		return searchResultContent;
 	}
@@ -176,9 +176,9 @@ class AlgoliaSearcher extends React.Component {
     renderError( errorMessage ) {
 		console.error( errorMessage );
         return (
-            <div>
+            <p>
 				{this.props.errorMessage}
-            </div>
+            </p>
         );
     }
 
