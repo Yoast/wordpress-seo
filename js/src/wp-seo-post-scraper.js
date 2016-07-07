@@ -567,7 +567,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	}
 
 	/**
-	 * Hides the add keyword button
+	 * Hides the add keyword button.
 	 */
 	function hideAddKeywordButton() {
 		$( '.wpseo-tab-add-keyword' ).hide();
