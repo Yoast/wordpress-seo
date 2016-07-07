@@ -36,4 +36,3 @@ module.exports = function() {
 		"sino", "sobre todo", "supongamos", "supuesto que", "tal como", "también", "tan pronto como", "tanto como", "tercero",
 		"una vez", "verbigracia", "vice-versa", "ya", "ya que" ];
 };
-

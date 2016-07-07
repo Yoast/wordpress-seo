@@ -123,6 +123,32 @@ describe("a test for finding transition words from a string", function() {
 		expect(result.totalSentences).toBe(1);
 		expect(result.transitionWordSentences).toBe(0);
 	});
+
+	it("returns 1 when a transition word is found in a sentence (French)", function () {
+		mockPaper = new Paper("Deuxièmement, il convient de reconnaître la complexité des tâches à entreprendre.", { locale: 'fr_FR'} );
+		result = transitionWordsResearch(mockPaper);
+		expect(result.totalSentences).toBe(1);
+		expect(result.transitionWordSentences).toBe(1);
+	});
+	it("returns 1 when a two-part transition word is found in a sentence (French)", function () {
+		mockPaper = new Paper("Non seulement on l’estime, mais encore on l’aime.", { locale: 'fr_FR'} );
+		result = transitionWordsResearch(mockPaper);
+		expect(result.totalSentences).toBe(1);
+		expect(result.transitionWordSentences).toBe(1);
+	});
+	it("returns 1 when a transition word with an apostroph is found in a sentence (French)", function () {
+		mockPaper = new Paper("Quoi qu’il en soit, le gouvernement du Mali a perdu sa légitimité.", { locale: 'fr_FR'} );
+		result = transitionWordsResearch(mockPaper);
+		expect(result.totalSentences).toBe(1);
+		expect(result.transitionWordSentences).toBe(1);
+	});
+	it("returns 0 when no transition words are present in a sentence (French)", function () {
+		mockPaper = new Paper("Une, deux, trois.", { locale: 'fr_FR'} );
+		result = transitionWordsResearch(mockPaper);
+		expect(result.totalSentences).toBe(1);
+		expect(result.transitionWordSentences).toBe(0);
+	});
+
 	it("returns a result based on the default English locale in case of a bogus locale", function () {
 		mockPaper = new Paper("A bogus locale.", { locale: 'xx_YY'} );
 		result = transitionWordsResearch(mockPaper);
