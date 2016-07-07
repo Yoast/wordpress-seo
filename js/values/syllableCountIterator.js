@@ -1,4 +1,4 @@
-var syllableCountStep = require ( "./syllableCountStep.js" );
+var SyllableCountStep = require ( "./syllableCountStep.js" );
 
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require ( "lodash/forEach" );
@@ -9,7 +9,7 @@ var forEach = require ( "lodash/forEach" );
  * @param {object} config The config object containing an array with syllable exclusions
  * @constructor
  */
-var syllableCountIterator = function( config ) {
+var SyllableCountIterator = function( config ) {
 	this.countSteps = [];
 	if( !isUndefined( config ) ) {
 		this.createSyllableCountSteps( config.syllableExclusion );
@@ -21,9 +21,9 @@ var syllableCountIterator = function( config ) {
  *
  * @param {object} syllableRegexes The object containing all exclusion syllables including the multipliers.
  */
-syllableCountIterator.prototype.createSyllableCountSteps = function( syllableRegexes ) {
+SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableRegexes ) {
 	forEach( syllableRegexes, function( syllableRegex ) {
-		this.countSteps.push( new syllableCountStep( syllableRegex ) );
+		this.countSteps.push( new SyllableCountStep( syllableRegex ) );
 	}.bind( this ) );
 };
 
@@ -32,17 +32,17 @@ syllableCountIterator.prototype.createSyllableCountSteps = function( syllableReg
  *
  * @returns {Array} All available language syllable regexes.
  */
-syllableCountIterator.prototype.getAvailableSyllableCountSteps = function() {
+SyllableCountIterator.prototype.getAvailableSyllableCountSteps = function() {
 	return this.countSteps;
 };
 
 /**
  * Counts the syllables for all the available syllable regexes and returns the total syllable count.
- *
+ *git
  * @param {String} word The word to count syllables in.
  * @returns {number} The number of syllables found based on exclusions
  */
-syllableCountIterator.prototype.countSyllables = function( word ) {
+SyllableCountIterator.prototype.countSyllables = function( word ) {
 	var syllableCount = 0;
 	forEach( this.countSteps, function( step ) {
 		syllableCount += step.countSyllables( word );
@@ -50,4 +50,4 @@ syllableCountIterator.prototype.countSyllables = function( word ) {
 	return syllableCount;
 };
 
-module.exports = syllableCountIterator;
+module.exports = SyllableCountIterator;

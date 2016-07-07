@@ -8,7 +8,7 @@ var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
  * @param {object} syllableRegex The object containing the syllable exclusions
  * @constructor
  */
-var syllableCountStep = function( syllableRegex ) {
+var SyllableCountStep = function( syllableRegex ) {
 	this._hasRegex = false;
 	this._regex = "";
 	this._multiplier = "";
@@ -20,7 +20,7 @@ var syllableCountStep = function( syllableRegex ) {
  *
  * @returns {boolean} True if a regex has been set, false if not.
  */
-syllableCountStep.prototype.hasRegex = function() {
+SyllableCountStep.prototype.hasRegex = function() {
 	return this._hasRegex;
 };
 
@@ -29,7 +29,7 @@ syllableCountStep.prototype.hasRegex = function() {
  *
  * @param {object} syllableRegex The object containing the syllable exclusions and multiplier
  */
-syllableCountStep.prototype.createRegex = function( syllableRegex ) {
+SyllableCountStep.prototype.createRegex = function( syllableRegex ) {
 	if( !isUndefined( syllableRegex ) && !isUndefined( syllableRegex.syllables ) ) {
 
 		this._hasRegex = true;
@@ -43,7 +43,7 @@ syllableCountStep.prototype.createRegex = function( syllableRegex ) {
  *
  * @returns {RegExp} The stored regular expression.
  */
-syllableCountStep.prototype.getRegex = function() {
+SyllableCountStep.prototype.getRegex = function() {
 	return this._regex;
 };
 
@@ -54,7 +54,7 @@ syllableCountStep.prototype.getRegex = function() {
  * @param {String} word The word to match for syllable exclusions.
  * @returns {number} The amount of syllables found.
  */
-syllableCountStep.prototype.countSyllables = function( word ) {
+SyllableCountStep.prototype.countSyllables = function( word ) {
 	if( this._hasRegex ) {
 		var match = word.match( this._regex ) || [];
 		return match.length * this._multiplier;
@@ -62,4 +62,4 @@ syllableCountStep.prototype.countSyllables = function( word ) {
 	return 0;
 };
 
-module.exports = syllableCountStep;
+module.exports = SyllableCountStep;

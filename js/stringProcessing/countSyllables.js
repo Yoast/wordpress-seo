@@ -6,7 +6,6 @@ var getWords = require( "../stringProcessing/getWords.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
-var map = require( "lodash/map" );
 
 var exclusionWords = syllableMatchers().exclusionWords;
 
