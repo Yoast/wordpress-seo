@@ -5,7 +5,7 @@ var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 /**
  * Constructs a language syllable regex that contains a regex for matching syllable exclusion.
  *
- * @param {object} syllableRegex The object containing the syllable exclusions
+ * @param {object} syllableRegex The object containing the syllable exclusions.
  * @constructor
  */
 var SyllableCountStep = function( syllableRegex ) {
@@ -27,7 +27,7 @@ SyllableCountStep.prototype.hasRegex = function() {
 /**
  * Creates a regex based on the given syllable exclusions, and sets the multiplier to use.
  *
- * @param {object} syllableRegex The object containing the syllable exclusions and multiplier
+ * @param {object} syllableRegex The object containing the syllable exclusions and multiplier.
  */
 SyllableCountStep.prototype.createRegex = function( syllableRegex ) {
 	if( !isUndefined( syllableRegex ) && !isUndefined( syllableRegex.syllables ) ) {
