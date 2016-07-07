@@ -357,7 +357,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param integer $post_id The ID of the post for which to show the score.
 	 *
-	 * @return string
+	 * @return string The HTML for the SEO score indicator.
 	 */
 	private function parse_column_score( $post_id ) {
 		if ( '1' === WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) ) {
@@ -379,11 +379,11 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Parsing the readability score column
+	 * Parsing the readability score column.
 	 *
 	 * @param int $post_id The ID of the post for which to show the readability score.
 	 *
-	 * @return string
+	 * @return string The HTML for the readability score indicator.
 	 */
 	private function parse_column_score_readability( $post_id ) {
 		$score = (int) WPSEO_Meta::get_value( 'content_score', $post_id );
