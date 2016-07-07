@@ -14,6 +14,11 @@ class WPSEO_Meta_Columns {
 	private $analysis_seo;
 
 	/**
+	 * @var WPSEO_Metabox_Analysis_Readability
+	 */
+	private $analysis_readability;
+
+	/**
 	 * When page analysis is enabled, just initialize the hooks
 	 */
 	public function __construct() {
@@ -22,6 +27,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -46,17 +52,22 @@ class WPSEO_Meta_Columns {
 			return $columns;
 		}
 
+		$added_columns = array();
+
 		if ( $this->analysis_seo->is_enabled() ) {
-			$columns = array_merge( $columns, array(
-				'wpseo-score'    => __( 'SEO', 'wordpress-seo' ),
-				'wpseo-focuskw'  => __( 'Focus KW', 'wordpress-seo' ),
-			) );
+			$added_columns['wpseo-score'] = __( 'SEO', 'wordpress-seo' );
+		}
+		if ( $this->analysis_readability->is_enabled() ) {
+			$added_columns['wpseo-score-readability'] = __( 'Readability', 'wordpress-seo' );
+		}
+		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );
+		$added_columns['wpseo-metadesc'] = __( 'Meta Desc.', 'wordpress-seo' );
+
+		if ( $this->analysis_seo->is_enabled() ) {
+			$added_columns['wpseo-focuskw']  = __( 'Focus KW', 'wordpress-seo' );
 		}
 
-		return array_merge( $columns, array(
-			'wpseo-title'    => __( 'SEO Title', 'wordpress-seo' ),
-			'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ),
-		) );
+		return array_merge( $columns, $added_columns );
 	}
 
 	/**
@@ -73,6 +84,9 @@ class WPSEO_Meta_Columns {
 		switch ( $column_name ) {
 			case 'wpseo-score' :
 				echo $this->parse_column_score( $post_id );
+				break;
+			case 'wpseo-score-readability':
+				echo $this->parse_column_score_readability( $post_id );
 				break;
 			case 'wpseo-title' :
 				echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
@@ -361,8 +375,21 @@ class WPSEO_Meta_Columns {
 			$title = $rank->get_label();
 		}
 
-		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
+		return $this->render_score_indicator( $rank, $title );
+	}
 
+	/**
+	 * Parsing the readability score column
+	 *
+	 * @param int $post_id The ID of the post for which to show the readability score.
+	 *
+	 * @return string
+	 */
+	private function parse_column_score_readability( $post_id ) {
+		$score = (int) WPSEO_Meta::get_value( 'content_score', $post_id );
+		$rank = WPSEO_Rank::from_numeric_score( $score );
+
+		return $this->render_score_indicator( $rank );
 	}
 
 	/**
@@ -446,5 +473,19 @@ class WPSEO_Meta_Columns {
 		}
 
 		return wpseo_replace_vars( '%%title%%', $post );
+	}
+
+	/**
+	 * @param WPSEO_Rank $rank The rank this indicator should have.
+	 * @param string     $title Optional. The title for this rank, defaults to the title of the rank.
+	 *
+	 * @return string The HTML for a score indicator.
+	 */
+	private function render_score_indicator( $rank, $title = '' ) {
+		if ( empty( $title ) ) {
+			$title = $rank->get_label();
+		}
+
+		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
 	}
 }
