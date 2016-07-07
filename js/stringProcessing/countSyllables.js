@@ -6,14 +6,15 @@ var getWords = require( "../stringProcessing/getWords.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
+var map = require( "lodash/map" );
 
 var exclusionWords = syllableMatchers().exclusionWords;
 
 var vowelRegex = new RegExp( "[^" + syllableMatchers().vowels + "]", "ig" );
 
-var LanguageSyllableRegexMaster = require( "../values/syllableCountMethod.js" );
+var SyllableCountIterator = require( "../values/syllableCountIterator.js" );
 
-var languageSyllableRegexMaster = new LanguageSyllableRegexMaster( syllableMatchers() );
+var syllableCountIterator = new SyllableCountIterator( syllableMatchers() );
 
 /**
  * Counts the syllables by splitting on consonants, leaving groups of vowels.
@@ -40,7 +41,7 @@ var countUsingVowels = function( word ) {
  * @returns {number} The number of syllables found in the given word.
  */
 var countVowelExclusions = function( word ) {
-	return languageSyllableRegexMaster.countSyllables( word );
+	return syllableCountIterator.countSyllables( word );
 };
 
 /**
@@ -84,6 +85,7 @@ var countSyllables = function( word ) {
  */
 module.exports = function( text ) {
 	var words = getWords( text );
+
 	var syllableCount = 0;
 
 	forEach( words, function( word ) {

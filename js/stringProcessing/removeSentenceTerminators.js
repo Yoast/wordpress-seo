@@ -9,5 +9,5 @@ var sentenceTerminators = /[.?!:;,]/g;
  * @returns {String} The sanitized text.
  */
 module.exports = function( text ) {
-	return text.replace( sentenceTerminators, " " );
+	return text.replace( sentenceTerminators, "" );
 };

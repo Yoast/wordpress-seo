@@ -2,7 +2,7 @@
 
 var stripTags = require( "./stripHTMLTags.js" );
 var stripSpaces = require( "./stripSpaces.js" );
-var removeSentenceTerminators = require( "./removeSentenceTerminators.js" );
+var removeTerminators = require( "./removeTerminators.js" );
 var map = require( "lodash/map" );
 var filter = require( "lodash/filter" );
 
@@ -21,8 +21,7 @@ module.exports = function( text ) {
 	var words = text.split( /\s/g );
 
 	words = map( words, function( word ) {
-		word = removeSentenceTerminators( word );
-		return stripSpaces( word );
+		return removeTerminators( word );
 	} );
 
 	return filter( words, function( word ) {

@@ -20,6 +20,6 @@ describe( "counting syllables", function() {
 		expect( countSyllableFunction( "business" ) ).toBe( 2 );
 	});
 	it( "returns the number of syllables in normal word", function(){
-
+		expect( countSyllableFunction( "strawberry" ) ).toBe( 3 );
 	})
 });

@@ -1,18 +1,18 @@
-var LanguageSyllableRegex = require ( "./syllableCountStep.js" );
+var syllableCountStep = require ( "./syllableCountStep.js" );
 
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require ( "lodash/forEach" );
 
 /**
- * Creates a Language Syllable Regex Master
+ * Creates a syllable count iterator
  *
  * @param {object} config The config object containing an array with syllable exclusions
  * @constructor
  */
 var syllableCountIterator = function( config ) {
-	this.availableLanguageSyllableRegexes = [];
+	this.countSteps = [];
 	if( !isUndefined( config ) ) {
-		this.createSyllabeRegexes( config.syllableExclusion );
+		this.createSyllableCountSteps( config.syllableExclusion );
 	}
 };
 
@@ -21,9 +21,9 @@ var syllableCountIterator = function( config ) {
  *
  * @param {object} syllableRegexes The object containing all exclusion syllables including the multipliers.
  */
-syllableCountIterator.prototype.createSyllabeRegexes = function( syllableRegexes ) {
+syllableCountIterator.prototype.createSyllableCountSteps = function( syllableRegexes ) {
 	forEach( syllableRegexes, function( syllableRegex ) {
-		this.availableLanguageSyllableRegexes.push( new LanguageSyllableRegex( syllableRegex ) );
+		this.countSteps.push( new syllableCountStep( syllableRegex ) );
 	}.bind( this ) );
 };
 
@@ -32,8 +32,8 @@ syllableCountIterator.prototype.createSyllabeRegexes = function( syllableRegexes
  *
  * @returns {Array} All available language syllable regexes.
  */
-syllableCountIterator.prototype.getAvailableLanguageSyllableRegexes = function() {
-	return this.availableLanguageSyllableRegexes;
+syllableCountIterator.prototype.getAvailableSyllableCountSteps = function() {
+	return this.countSteps;
 };
 
 /**
@@ -44,8 +44,8 @@ syllableCountIterator.prototype.getAvailableLanguageSyllableRegexes = function()
  */
 syllableCountIterator.prototype.countSyllables = function( word ) {
 	var syllableCount = 0;
-	forEach( this.availableLanguageSyllableRegexes, function( languageSyllableRegex ) {
-		syllableCount += languageSyllableRegex.countSyllables( word );
+	forEach( this.countSteps, function( step ) {
+		syllableCount += step.countSyllables( word );
 	} );
 	return syllableCount;
 };

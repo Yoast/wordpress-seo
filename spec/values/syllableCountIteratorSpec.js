@@ -1,9 +1,9 @@
-var languageSyllableRegexMaster = require(  "../../js/values/syllableCountMethod.js" );
+var syllableCountIterator = require(  "../../js/values/syllableCountIterator.js" );
 
 describe( "creating a language syllable regex master", function() {
 	it( "returns an empty language syllable regex master", function() {
-		var mockMaster = new languageSyllableRegexMaster();
-		expect( mockMaster.getAvailableLanguageSyllableRegexes().length ).toBe( 0 );
+		var mockMaster = new syllableCountIterator();
+		expect( mockMaster.getAvailableSyllableCountSteps().length ).toBe( 0 );
 	} );
 
 
@@ -20,8 +20,8 @@ describe( "creating a language syllable regex master", function() {
 				}
 			}
 		};
-		var mockMaster = new languageSyllableRegexMaster( mockConfig );
-		expect( mockMaster.getAvailableLanguageSyllableRegexes().length ).toBe( 2 );
+		var mockMaster = new syllableCountIterator( mockConfig );
+		expect( mockMaster.getAvailableSyllableCountSteps().length ).toBe( 2 );
 		expect( mockMaster.countSyllables( "a" ) ).toBe ( -1 );
 		expect( mockMaster.countSyllables( "bb" ) ).toBe ( 2 );
 	} )
