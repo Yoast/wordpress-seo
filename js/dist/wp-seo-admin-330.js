@@ -191,8 +191,8 @@ var AlgoliaSearcher = function (_React$Component) {
 				);
 			} else if (this.state.searchString !== '') {
 				searchResultContent = _react2.default.createElement(
-					'div',
-					{ className: 'wpseo-kb-search-no-results' },
+					'p',
+					null,
 					this.props.noResultsText
 				);
 			}
@@ -248,7 +248,7 @@ var AlgoliaSearcher = function (_React$Component) {
 		value: function renderError(errorMessage) {
 			console.error(errorMessage);
 			return _react2.default.createElement(
-				'div',
+				'p',
 				null,
 				this.props.errorMessage
 			);

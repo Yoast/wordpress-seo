@@ -1,60 +1,74 @@
 .wpseo-score-icon {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin: 3px 10px 0 3px;
-  border-radius: 50%;
-  background: #888;
-  vertical-align: top; }
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin: 3px 10px 0 3px;
+	border-radius: 50%;
+	background: #888;
+	vertical-align: top;
+}
 
 .wpseo-score-icon.good {
-  background-color: #7ad03a; }
+	background-color: #7ad03a;
+}
 
 .wpseo-score-icon.ok {
-  background-color: #ee7c1b; }
+	background-color: #ee7c1b;
+}
 
 .wpseo-score-icon.bad {
-  background-color: #dc3232; }
+	background-color: #dc3232;
+}
 
 .wpseo-score-icon.na {
-  background-color: #888; }
+	background-color: #888;
+}
 
 .wpseo-score-icon.noindex {
-  background-color: #1e8cbe; }
+	background-color: #1e8cbe;
+}
 
 #wpseo-dashboard-overview th {
-  font-weight: 400;
-  text-align: left; }
+	font-weight: 400;
+	text-align: left;
+}
 
 #wpseo-dashboard-overview th:after {
-  color: #0073aa;
-  /* &raquo; */
-  content: "\bb"; }
+	color: #0073aa;
+	/* &raquo; */
+	content: "\bb";
+}
 
 #wpseo-dashboard-overview .post-count {
-  padding: 0 0 0 10px;
-  text-align: right; }
+	padding: 0 0 0 10px;
+	text-align: right;
+}
 
 #wpseo-dashboard-overview .onpage {
-  margin: 5px 0 0;
-  padding: 10px 0 0;
-  border-top: 1px solid #eee; }
+	margin: 5px 0 0;
+	padding: 10px 0 0;
+	border-top: 1px solid #eee;
+}
 
 #wpseo-dashboard-overview .onpage > div {
-  margin-top: 5px; }
+	margin-top: 5px;
+}
 
 #wpseo-dashboard-overview .onpage .button {
-  clear: both;
-  margin-top: 5px; }
+	clear: both;
+	margin-top: 5px;
+}
 
 #wpseo-dashboard-overview .onpage .button.landing-page {
-  border-color: #658435;
-  color: #fff;
-  background: #81a844;
-  box-shadow: inset 0 1px 0 #a5c672, 0 1px 0 rgba(0, 0, 0, 0.15); }
+	border-color: #658435;
+	color: #fff;
+	background: #81a844;
+	box-shadow: inset 0 1px 0 #a5c672, 0 1px 0 rgba(0, 0, 0, 0.15);
+}
 
 #wpseo-dashboard-overview .onpage .button.landing-page:hover {
-  border-color: #57722e;
-  color: #fff;
-  background: #73963d;
-  box-shadow: inset 0 1px 0 #9abf60; }
+	border-color: #57722e;
+	color: #fff;
+	background: #73963d;
+	box-shadow: inset 0 1px 0 #9abf60;
+}
