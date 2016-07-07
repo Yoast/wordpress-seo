@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Metabox
+ */
 
 /**
  * Describes an interface for an analysis that can either be enabled or disabled

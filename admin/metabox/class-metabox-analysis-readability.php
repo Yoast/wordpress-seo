@@ -1,6 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Admin\Metabox
+ */
 
-
+/**
+ * Represents the readability analysis
+ */
 class WPSEO_Metabox_Analysis_Readability implements WPSEO_Metabox_Analysis {
 
 	/**
