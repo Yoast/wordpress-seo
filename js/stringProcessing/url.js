@@ -1,5 +1,5 @@
 var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
-var urlMethods = require( 'url' );
+var urlMethods = require( "url" );
 
 /**
  * Removes a hash from a URL, assumes a well formed URL.
