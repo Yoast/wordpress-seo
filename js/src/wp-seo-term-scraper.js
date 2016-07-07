@@ -48,7 +48,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	TermScraper.prototype.getData = function() {
 		return {
 			title: this.getTitle(),
-			keyword: this.getKeyword(),
+			keyword: isKeywordAnalysisActive() ? this.getKeyword() : '',
 			text: this.getText(),
 			meta: this.getMeta(),
 			url: this.getUrl(),
@@ -455,8 +455,10 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
 		app = new App( args );
 
-		app.seoAssessor = new TaxonomyAssessor( app.i18n );
-		app.seoAssessorPresenter.assessor = app.seoAssessor;
+		if ( isKeywordAnalysisActive() ) {
+			app.seoAssessor = new TaxonomyAssessor( app.i18n );
+			app.seoAssessorPresenter.assessor = app.seoAssessor;
+		}
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;

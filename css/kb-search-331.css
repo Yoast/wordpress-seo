@@ -79,10 +79,8 @@
 	width: 2.5em;
 	height: 2.5em;
 	border-radius: 50%;
-	-webkit-animation: load7 1.8s infinite ease-in-out;
 	animation: load7 1.8s infinite ease-in-out;
 
-	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 }
 
@@ -92,16 +90,13 @@
 	color: #a4286a;
 	font-size: 10px;
 	text-indent: -9999em;
-	-webkit-transform: translateZ(0);
 	-ms-transform: translateZ(0);
 	transform: translateZ(0);
-	-webkit-animation-delay: -0.16s;
 	animation-delay: -0.16s;
 }
 
 .wpseo-kb-loader:before {
 	left: -3.5em;
-	-webkit-animation-delay: -0.32s;
 	animation-delay: -0.32s;
 }
 
@@ -118,18 +113,6 @@
 
 .dashicons {
 	text-decoration: none;
-}
-
-@-webkit-keyframes load7 {
-	0%,
-	80%,
-	100% {
-		box-shadow: 0 2.5em 0 -1.3em;
-	}
-
-	40% {
-		box-shadow: 0 2.5em 0 0;
-	}
 }
 
 @keyframes load7 {
