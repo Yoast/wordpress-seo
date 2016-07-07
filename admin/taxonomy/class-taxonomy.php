@@ -16,6 +16,16 @@ class WPSEO_Taxonomy {
 	private $taxonomy = '';
 
 	/**
+	 * @var WPSEO_Metabox_Analysis_SEO
+	 */
+	private $analysis_seo;
+
+	/**
+	 * @var WPSEO_Metabox_Analysis_Readability
+	 */
+	private $analysis_readability;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -31,6 +41,9 @@ class WPSEO_Taxonomy {
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
+
+		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -112,11 +125,34 @@ class WPSEO_Taxonomy {
 			if ( $posted_value = filter_input( INPUT_POST, $key ) ) {
 				$new_meta_data[ $key ] = $posted_value;
 			}
+
+			// If analysis is disabled remove that analysis score value from the DB.
+			if ( $this->is_meta_value_disabled( $key ) ) {
+				$new_meta_data[ $key ] = '';
+			}
 		}
 		unset( $key, $default );
 
 		// Saving the values.
 		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
+	}
+
+	/**
+	 * Determines if the given meta value key is disabled
+	 *
+	 * @param string $key The key of the meta value.
+	 * @return bool Whether the given meta value key is disabled.
+	 */
+	public function is_meta_value_disabled( $key ) {
+		if ( 'wpseo_linkdex' === $key && ! $this->analysis_seo->is_enabled() ) {
+			return true;
+		}
+
+		if ( 'wpseo_content_score' === $key && ! $this->analysis_readability->is_enabled() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

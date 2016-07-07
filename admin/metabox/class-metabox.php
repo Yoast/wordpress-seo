@@ -19,6 +19,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $social_admin;
 
 	/**
+	 * @var WPSEO_Metabox_Analysis_SEO
+	 */
+	protected $analysis_seo;
+
+	/**
+	 * @var WPSEO_Metabox_Analysis_Readability
+	 */
+	protected $analysis_readability;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -42,6 +52,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
+
+		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -614,6 +627,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$meta_boxes = array_merge( $meta_boxes, $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
+
+			// If analysis is disabled remove that analysis score value from the DB.
+			if ( $this->is_meta_value_disabled( $key ) ) {
+				self::delete( $key, $post_id );
+				continue;
+			}
+
 			$data = null;
 			if ( 'checkbox' === $meta_box['type'] ) {
 				$data = isset( $_POST[ self::$form_prefix . $key ] ) ? 'on' : 'off';
@@ -629,6 +649,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		do_action( 'wpseo_saved_postdata' );
+	}
+
+	/**
+	 * Determines if the given meta value key is disabled
+	 *
+	 * @param string $key The key of the meta value.
+	 * @return bool Whether the given meta value key is disabled.
+	 */
+	public function is_meta_value_disabled( $key ) {
+		if ( 'linkdex' === $key && ! $this->analysis_seo->is_enabled() ) {
+			return true;
+		}
+
+		if ( 'content_score' === $key && ! $this->analysis_readability->is_enabled() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
