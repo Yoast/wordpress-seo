@@ -19,7 +19,7 @@ var syllableCountIterator = new SyllableCountIterator( syllableMatchers() );
  * Counts the syllables by splitting on consonants, leaving groups of vowels.
  *
  * @param {string} word A text with words to count syllables.
- * @returns {number} the syllable count
+ * @returns {number} the syllable count.
  */
 var countUsingVowels = function( word ) {
 	var numberOfSyllables = 0;
