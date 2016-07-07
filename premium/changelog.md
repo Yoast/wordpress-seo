@@ -1,3 +1,6 @@
+### 3.3.3: June 30th, 2016
+* Includes every change in Yoast SEO core 3.3.3 and 3.3.4, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.3.2: June 21st, 2016
 * Includes every change in Yoast SEO core 3.3.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
