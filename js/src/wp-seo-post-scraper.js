@@ -61,7 +61,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 	 */
 	PostScraper.prototype.getData = function() {
 		return {
-			keyword: this.getKeyword(),
+			keyword: isKeywordAnalysisActive() ? this.getKeyword() : '',
 			meta: this.getMeta(),
 			text: this.getText(),
 			title: this.getTitle(),
@@ -566,6 +566,13 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		return targets;
 	}
 
+	/**
+	 * Hides the add keyword button.
+	 */
+	function hideAddKeywordButton() {
+		$( '.wpseo-tab-add-keyword' ).hide();
+	}
+
 	jQuery( document ).ready( function() {
 		snippetContainer = $( '#wpseosnippet' );
 
@@ -628,6 +635,8 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( app, postScraper, publishBox );
 			tabManager.getKeywordTab().activate();
+		} else {
+			hideAddKeywordButton();
 		}
 
 		if ( isContentAnalysisActive() ) {

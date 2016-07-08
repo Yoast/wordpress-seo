@@ -26,6 +26,7 @@ class WPSEO_Taxonomy_Columns {
 		}
 
 		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -48,6 +49,10 @@ class WPSEO_Taxonomy_Columns {
 
 			if ( $column_name === 'description' && $this->analysis_seo->is_enabled() ) {
 				$new_columns['wpseo_score'] = __( 'SEO', 'wordpress-seo' );
+
+				if ( $this->analysis_readability->is_enabled() ) {
+					$new_columns['wpseo_score_readability'] = __( 'Readability', 'wordpress-seo' );
+				}
 			}
 		}
 
@@ -69,6 +74,10 @@ class WPSEO_Taxonomy_Columns {
 			case 'wpseo_score':
 				return $this->get_score_value( $term_id );
 
+				break;
+
+			case 'wpseo_score_readability':
+				return $this->get_score_readability_value( $term_id );
 				break;
 		}
 
@@ -92,7 +101,7 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Parses the value for the score column.
 	 *
-	 * @param integer $term_id ID of requested taxonomy.
+	 * @param integer $term_id ID of requested term.
 	 *
 	 * @return string
 	 */
@@ -123,14 +132,32 @@ class WPSEO_Taxonomy_Columns {
 	}
 
 	/**
+	 * Parses the value for the readability score column.
+	 *
+	 * @param int $term_id ID of the requested term.
+	 *
+	 * @return string The HTML for the readability score indicator.
+	 */
+	private function get_score_readability_value( $term_id ) {
+		$score = (int) WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'content_score' );
+		$rank = WPSEO_Rank::from_numeric_score( $score );
+
+		return $this->create_score_icon( $rank );
+	}
+
+	/**
 	 * Creates an icon by the given values.
 	 *
 	 * @param WPSEO_Rank $rank The ranking object.
-	 * @param string     $title The title to show.
+	 * @param string     $title Optional. The title to show. Defaults to the rank label.
 	 *
-	 * @return string
+	 * @return string The HTML for a score icon.
 	 */
-	private function create_score_icon( WPSEO_Rank $rank, $title ) {
+	private function create_score_icon( WPSEO_Rank $rank, $title = '' ) {
+		if ( empty( $title ) ) {
+			$title = $rank->get_label();
+		}
+
 		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
 	}
 
