@@ -32,11 +32,13 @@
 }
 
 .wpseo-kb-search-result p {
-	margin: 0;
+	max-width: none;
+	margin-top: 0;
 }
 
 .wpseo-kb-search-result-link {
 	display: block;
+	outline: none;
 	text-decoration: none;
 	cursor: pointer;
 }
@@ -44,6 +46,7 @@
 .wpseo-kb-search-result-link:hover,
 .wpseo-kb-search-result-link:focus {
 	background-color: rgba(93, 12, 55, 0.5);
+	box-shadow: none;
 	text-decoration: underline;
 }
 
