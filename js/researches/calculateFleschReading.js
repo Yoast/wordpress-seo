@@ -20,6 +20,8 @@ module.exports = function( paper ) {
 		return 0;
 	}
 
+	text = stripNumbers( text );
+
 	var numberOfSentences = countSentences( text );
 
 	var numberOfWords = countWords( text );
@@ -29,7 +31,6 @@ module.exports = function( paper ) {
 		return 0;
 	}
 
-	text = stripNumbers( text );
 	var numberOfSyllables = countSyllables( text );
 
 	var score = 206.835 - ( 1.015 * ( numberOfWords / numberOfSentences ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
