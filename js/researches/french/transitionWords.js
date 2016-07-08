@@ -5,7 +5,7 @@
  * @returns {Array} The array filled with transition words.
  */
 module.exports = function() {
-	return [ 
+	return [
 		"à cause de", "à ce propos", "à ce sujet", "à condition que", "à l'encontre de", "à l'image de", "à l'inverse",
 		"à l'inverse de", "à mesure que", "à moins que", "à première vue", "à savoir", "à seule fin que", "à supposer que",
 		"à vrai dire", "afin que", "ainsi", "ainsi donc", "ainsi que", "alors", "alors que", "apès réflexion", "après cela",
@@ -37,7 +37,7 @@ module.exports = function() {
 		"quand même", "quant à", "quant même", "quel que soit", "qui que", "quoi qu'il en soit", "quoi que", "quoiqu'il en soit",
 		"quoique", "sans doute", "selon", "selon que", "semblablement", "si bien que", "si ce n'est que", "sinon", "sitôt que",
 		"somme toute", "sous prétexte que", "suivant", "suivant que", "supposé que", "tandis que", "tant et si bien que", "tant que",
-		"tellement que", "tout bien pesé", "tout compte fait", "tout d'abord", "tout de même", "toutefois", "troisièmement", "vu que" 
+		"tellement que", "tout bien pesé", "tout compte fait", "tout d'abord", "tout de même", "toutefois", "troisièmement", "vu que"
 	];
 };
 
