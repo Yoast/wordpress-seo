@@ -9,6 +9,11 @@
 class WPSEO_Taxonomy_Columns {
 
 	/**
+	 * @var WPSEO_Metabox_Analysis_SEO
+	 */
+	private $analysis_seo;
+
+	/**
 	 * WPSEO_Taxonomy_Columns constructor.
 	 */
 	public function __construct() {
@@ -20,6 +25,7 @@ class WPSEO_Taxonomy_Columns {
 			add_filter( 'manage_' . $this->taxonomy . '_custom_column', array( $this, 'parse_column' ), 10, 3 );
 		}
 
+		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
@@ -41,7 +47,7 @@ class WPSEO_Taxonomy_Columns {
 		foreach ( $columns as $column_name => $column_value ) {
 			$new_columns[ $column_name ] = $column_value;
 
-			if ( $column_name === 'description' ) {
+			if ( $column_name === 'description' && $this->analysis_seo->is_enabled() ) {
 				$new_columns['wpseo_score'] = __( 'SEO', 'wordpress-seo' );
 
 				if ( $this->analysis_readability->is_enabled() ) {
