@@ -13,4 +13,3 @@ module.exports = function() {
 		[ "soit", "soit" ], [ "tantôt", "tantôt" ], [ "tout d'abord", "ensuite" ], [ "tout", "que" ]
 	];
 };
-

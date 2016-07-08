@@ -40,4 +40,3 @@ module.exports = function() {
 		"tellement que", "tout bien pesé", "tout compte fait", "tout d'abord", "tout de même", "toutefois", "troisièmement", "vu que"
 	];
 };
-
