@@ -10,17 +10,29 @@
 }
 
 .wpseo-kb-search-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   height: 500px;
   overflow: auto;
+}
+
+.help-tab-content .wpseo-kb-search-results li {
+  list-style: none;
+  max-width: none;
+  margin: 0;
 }
 
 .wpseo-kb-search-result {
   border-bottom: 1px solid #efefef;
   text-decoration: none;
-  color: #000;
   margin: 0;
   display: block;
   padding-left: 5px;
+}
+
+.wpseo-kb-search-result p {
+	margin: 0;
 }
 
 .wpseo-kb-search-result-link {
@@ -37,7 +49,7 @@
 
 .wpseo-kb-search-result .wpseo-kb-search-result-title {
   margin: 0;
-  padding-top: 15px;
+  padding: 14px 0;
 }
 
 .wpseo-kb-search-ext-link {
