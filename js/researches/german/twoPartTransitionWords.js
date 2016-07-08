@@ -11,4 +11,3 @@ module.exports = function() {
 		[ "sowohl", "wie auch" ], [ "unbeschadet dessen", "dass" ], [ "weder", "noch" ], [ "wenn", "auch" ],
 		[ "wenn", "schon" ], [ "nicht weil", "sondern" ]  ];
 };
-

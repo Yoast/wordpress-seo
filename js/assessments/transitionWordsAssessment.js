@@ -108,7 +108,7 @@ module.exports = {
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
 		var locale = getLanguage( paper.getLocale() );
-		var validLocale = locale === "en" || locale === "de";
+		var validLocale = locale === "en" || locale === "de" || locale === "es" || locale === "fr";
 		return ( validLocale && paper.hasText() );
 	},
 	getMarks: transitionWordsMarker
