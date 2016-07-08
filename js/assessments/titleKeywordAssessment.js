@@ -8,6 +8,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {AssessmentResult} The result of the assessment with text and score
  */
 var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
+
 	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
 	var score, text;
 

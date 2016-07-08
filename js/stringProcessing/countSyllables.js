@@ -1,133 +1,100 @@
 /** @module stringProcessing/countSyllables */
 
-var cleanText = require( "../stringProcessing/cleanText.js" );
-var syllableArray = require( "../config/syllables.js" );
-var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
+var syllableMatchers = require( "../config/syllables.js" );
 
-var map = require( "lodash/map" );
+var getWords = require( "../stringProcessing/getWords.js" );
+
 var forEach = require( "lodash/forEach" );
+var filter = require( "lodash/filter" );
 
-var exclusionWords = syllableArray().exclusionWords;
-var exclusionWordsRegexes = map( exclusionWords, function( exclusionWord ) {
-	return {
-		regex: new RegExp( exclusionWord.word, "ig" ),
-		syllables: exclusionWord.syllables
-	};
-} );
-var addSyllablesRegex = arrayToRegex( syllableArray().addSyllables, true );
-var subtractSyllablesRegex = arrayToRegex( syllableArray().subtractSyllables, true );
+var exclusionWords = syllableMatchers().exclusionWords;
+
+var vowelRegex = new RegExp( "[^" + syllableMatchers().vowels + "]", "ig" );
+
+var SyllableCountIterator = require( "../values/syllableCountIterator.js" );
+
+var syllableCountIterator = new SyllableCountIterator( syllableMatchers() );
 
 /**
- * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
- * they are incorrectly detected with the syllablecounters based on regexes.
+ * Counts the syllables by splitting on consonants, leaving groups of vowels.
  *
- * @param {string} text The text to look for exclusionwords
- * @returns {number} The number of syllables found in the exclusionwords
+ * @param {string} word A text with words to count syllables.
+ * @returns {number} the syllable count.
  */
-var countExclusionSyllables = function( text ) {
-	var count = 0, matches;
+var countUsingVowels = function( word ) {
+	var numberOfSyllables = 0;
+	var foundVowels = word.split( vowelRegex );
+	var filteredWords = filter( foundVowels, function( vowel ) {
+		return vowel !== "";
+	} );
+	numberOfSyllables += filteredWords.length;
 
-	forEach( exclusionWordsRegexes, function( exclusionWordRegex ) {
-		matches = text.match( exclusionWordRegex.regex );
+	return numberOfSyllables;
+};
 
-		if ( matches !== null ) {
-			count += ( matches.length * exclusionWordRegex.syllables );
+/**
+ * Counts the syllables using vowel exclusions. These are used for groups of vowels that are more or less
+ * then 1 syllable.
+ *
+ * @param {String} word The word to count syllables in.
+ * @returns {number} The number of syllables found in the given word.
+ */
+var countVowelExclusions = function( word ) {
+	return syllableCountIterator.countSyllables( word );
+};
+
+/**
+ * Checks if the word is an exclusion word.
+ *
+ * @param {String} word The word to check against exclusion words.
+ * @returns {number} The number of syllables found.
+ */
+var countSyllablesInExclusions = function( word ) {
+	var syllableCount = 0;
+	forEach( exclusionWords, function( exclusionWordsObject ) {
+		if( exclusionWordsObject.word === word ) {
+			syllableCount = exclusionWordsObject.syllables;
+
+			// If we find an exclusion, we can break out of this forEach.
+			return false;
 		}
 	} );
-
-	return count;
+	return syllableCount;
 };
 
 /**
- * Removes words from the text that are in the exclusion array. These words are counted
- * incorrectly in the syllable counters, so they are removed and checked sperately.
+ * Count the number of syllables in a word, using vowels and exceptions.
  *
- * @param {string} text The text to remove words from
- * @returns {string} The text with the exclusionwords removed
+ * @param {String} word The word to count the number of syllables.
+ * @returns {number} The number of syllables found in a word.
  */
-var removeExclusionWords = function( text ) {
-	forEach( exclusionWordsRegexes, function( exclusionWordRegex ) {
-		text = text.replace( exclusionWordRegex.regex, "" );
-	} );
-
-	return text;
+var countSyllables = function( word ) {
+	var syllableCount = 0;
+	syllableCount += countUsingVowels( word );
+	syllableCount += countVowelExclusions ( word );
+	return syllableCount;
 };
 
 /**
- * Counts the syllables by splitting on consonants.
+ * Counts the number of syllables in a textstring per word based on vowels.
+ * Uses exclusion words for words that cannot be matched with vowel matching.
  *
- * @param {string} text A text with words to count syllables.
- * @returns {number} the syllable count
- */
-var countBasicSyllables = function( text ) {
-	var array = text.split( " " );
-	var i, j, splitWord, count = 0;
-
-	// split textstring to individual words
-	for ( i = 0; i < array.length; i++ ) {
-
-		// split on consonants
-		splitWord = array[ i ].split( /[^aeiouy]/g );
-
-		// if the string isn't empty, a consonant was found, up the counter
-		for ( j = 0; j < splitWord.length; j++ ) {
-			if ( splitWord[ j ] !== "" ) {
-				count++;
-			}
-		}
-	}
-
-	return count;
-};
-
-/**
- * Advanced syllable counter to match texstring with regexes.
- *
- * @param {String} text The text to count the syllables.
- * @param {String} operator The operator to determine which regex to use.
- * @returns {number} the amount of syllables found in string.
- */
-var countAdvancedSyllables = function( text, operator ) {
-	var matches, count = 0, words = text.split( " " );
-	var regex = "";
-	switch ( operator ) {
-		case "add":
-			regex = addSyllablesRegex;
-			break;
-		case "subtract":
-			regex = subtractSyllablesRegex;
-			break;
-		default:
-			break;
-	}
-	for ( var i = 0; i < words.length; i++ ) {
-		matches = words[ i ].match( regex );
-		if ( matches !== null ) {
-			count += matches.length;
-		}
-	}
-	return count;
-};
-
-/**
- * Counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
- * counter and advanced syllable counter.
- *
- * @param {String} text The text to count the syllables from.
- * @returns {int} syllable count
+ * @param {String} text The text to count the syllables in.
+ * @returns {int} The total number of syllables found in the text.
  */
 module.exports = function( text ) {
-	var count = 0;
-	count += countExclusionSyllables( text );
+	var words = getWords( text );
 
-	text = removeExclusionWords( text );
-	text = cleanText( text );
-	text.replace( /[.]/g, " " );
+	var syllableCount = 0;
 
-	count += countBasicSyllables( text );
-	count += countAdvancedSyllables( text, "add" );
-	count -= countAdvancedSyllables( text, "subtract" );
-
-	return count;
+	forEach( words, function( word ) {
+		var exclusions = countSyllablesInExclusions( word );
+		if ( exclusions !== 0 ) {
+			syllableCount += exclusions;
+			return;
+		}
+		syllableCount += countSyllables( word );
+	} );
+	return syllableCount;
 };
 

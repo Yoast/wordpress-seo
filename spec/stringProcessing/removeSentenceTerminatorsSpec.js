@@ -6,7 +6,7 @@ describe( "a test removing sentence terminators from a string", function() {
 		expect( removeSentenceTerminators( ".t.e.s.t" ) ).toBe( "test" );
 	});
 
-	it( "returns string with none terminator in middle of word untouched", function() {
+	it( "returns string with no terminators in word untouched", function() {
 		expect( removeSentenceTerminators( "te-st" ) ).toBe( "te-st" );
 	});
 
