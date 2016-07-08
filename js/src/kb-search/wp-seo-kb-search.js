@@ -131,7 +131,7 @@ class AlgoliaSearcher extends React.Component {
                 return <SearchResult key={result.objectID} post={result}
                                      showDetail={this.showDetail.bind( this, arrayIndex )}/>
             } );
-			searchResultContent = <ul className="wpseo-kb-search-results">{results}</ul>;
+			searchResultContent = <ul role="list" className="wpseo-kb-search-results">{results}</ul>;
 		}
 		else if ( this.state.searchString !== '' ) {
 			searchResultContent = <p>{this.props.noResultsText}</p>;

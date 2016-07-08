@@ -186,7 +186,7 @@ var AlgoliaSearcher = function (_React$Component) {
 				});
 				searchResultContent = _react2.default.createElement(
 					'ul',
-					{ className: 'wpseo-kb-search-results' },
+					{ role: 'list', className: 'wpseo-kb-search-results' },
 					results
 				);
 			} else if (this.state.searchString !== '') {
@@ -706,6 +706,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 				noResultsText: wpseoAdminL10n.kb_no_results,
 				headingText: wpseoAdminL10n.kb_heading,
 				searchButtonText: wpseoAdminL10n.kb_search_button_text,
+				searchResultsHeading: wpseoAdminL10n.kb_search_results_heading,
 				errorMessage: wpseoAdminL10n.kb_error_message,
 				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 				search: wpseoAdminL10n.kb_search,
