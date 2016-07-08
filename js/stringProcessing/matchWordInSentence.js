@@ -1,4 +1,4 @@
-var wordBoundaries = require( "../language/wordBoundaries.js" )();
+var wordBoundaries = require( "../config/wordBoundaries.js" )();
 var includes = require( "lodash/includes" );
 
 /**

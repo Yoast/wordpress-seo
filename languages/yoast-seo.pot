@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: yoastseo 1.3.2\n"
+"Project-Id-Version: yoastseo 1.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-17 15:20+0200\n"
+"POT-Creation-Date: 2016-07-07 14:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,7 +99,7 @@ msgid ""
 msgstr ""
 
 #: js/assessments/keyphraseLengthAssessment.js:22
-msgid "Your keyphrase is over 10 words, a keyphrase should be shorter."
+msgid "The keyphrase is over 10 words, a keyphrase should be shorter."
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
@@ -128,17 +128,17 @@ msgstr ""
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
 #: js/assessments/keywordDensityAssessment.js:62
 msgid ""
-"The keyword density is %1$s, which is a bit low; the focus keyword was found "
+"The keyword density is %1$s, which is too low; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
 #. Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
 #: js/assessments/keywordStopWordsAssessment.js:17
 msgid ""
-"Your focus keyword contains a stop word. This may or may not be wise "
+"The focus keyword contains a stop word. This may or may not be wise "
 "depending on the circumstances. Read %1$sthis article%2$s for more info."
 msgid_plural ""
-"Your focus keyword contains %3$d stop words. This may or may not be wise "
+"The focus keyword contains %3$d stop words. This may or may not be wise "
 "depending on the circumstances. Read %1$sthis article%2$s for more info."
 msgstr[0] ""
 msgstr[1] ""
@@ -177,8 +177,27 @@ msgid ""
 "competition? Could it be made more appealing?"
 msgstr ""
 
+#: js/assessments/pageTitleWidthAssessment.js:19
+msgid ""
+"The page title is too short. Use the space to add keyword variations or "
+"create compelling call-to-action copy."
+msgstr ""
+
+#: js/assessments/pageTitleWidthAssessment.js:29
+msgid "The page title has a nice length."
+msgstr ""
+
+#: js/assessments/pageTitleWidthAssessment.js:39
+msgid "The page title is wider than the viewable limit."
+msgstr ""
+
+#: js/assessments/pageTitleWidthAssessment.js:46
+#: js/assessments/titleLengthAssessment.js:94
+msgid "Please create a page title."
+msgstr ""
+
 #: js/assessments/paragraphTooLongAssessment.js:59
-msgid "None of your paragraphs are too long, which is great."
+msgid "None of the paragraphs are too long, which is great."
 msgstr ""
 
 #. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
@@ -195,7 +214,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: js/assessments/paragraphTooShortAssessment.js:40
-msgid "None of your paragraphs are too short, which is great."
+msgid "None of the paragraphs are too short, which is great."
 msgstr ""
 
 #. Translators: %1$d expands to the number of paragraphs.
@@ -239,15 +258,14 @@ msgid ""
 "recommended maximum of %4$s. Try to use their active counterparts."
 msgstr ""
 
-#. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start
-#. with the same word.
+#. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
 #. %2$d expands to the number of consecutive sentences starting with the same word.
-#: js/assessments/sentenceBeginningsAssessment.js:49
+#: js/assessments/sentenceBeginningsAssessment.js:50
 msgid ""
-"Your text contains %2$d consecutive sentences starting with the same word. "
+"The text contains %2$d consecutive sentences starting with the same word. "
 "Try to mix things up!"
 msgid_plural ""
-"Your text contains %1$d instances where %2$d or more consecutive sentences "
+"The text contains %1$d instances where %2$d or more consecutive sentences "
 "start with the same word. Try to mix things up!"
 msgstr[0] ""
 msgstr[1] ""
@@ -285,12 +303,12 @@ msgstr ""
 #: js/assessments/sentenceLengthInTextAssessment.js:95
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
-"than the recommended maximum of %5$s.Try to shorten your sentences."
+"than the recommended maximum of %5$s.Try to shorten the sentences."
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
 #. %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
-#: js/assessments/sentenceVariationAssessment.js:32
+#: js/assessments/sentenceVariationAssessment.js:42
 msgid ""
 "The %1$ssentence length variation%2$s score is %3$s, which is more than or "
 "equal to the recommended minimum of %4$d. The text contains a nice "
@@ -299,7 +317,7 @@ msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
 #. %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score.
-#: js/assessments/sentenceVariationAssessment.js:47
+#: js/assessments/sentenceVariationAssessment.js:57
 msgid ""
 "The %1$ssentence length variation%2$s score is %3$s, which is less than the "
 "recommended minimum of %4$d. Try to alternate more between long and short "
@@ -313,7 +331,7 @@ msgstr ""
 
 #: js/assessments/subheadingDistributionTooLongAssessment.js:68
 msgid ""
-"The amount of words following each of your subheadings doesn't exceed the "
+"The amount of words following each of the subheadings doesn't exceed the "
 "recommended maximum of %1$d words, which is great."
 msgstr ""
 
@@ -329,15 +347,15 @@ msgstr[1] ""
 
 #: js/assessments/subheadingDistributionTooShortAssessment.js:47
 msgid ""
-"The number of words following each of your subheadings exceeds the "
+"The number of words following each of the subheadings exceeds the "
 "recommended minimum of %1$d words, which is great."
 msgstr ""
 
 #. Translators: %1$d expands to the number of subheadings.
 #: js/assessments/subheadingDistributionTooShortAssessment.js:60
-msgid "The number of words following %1$d of your subheadings is too small."
+msgid "The number of words following %1$d of the subheadings is too small."
 msgid_plural ""
-"The number of words following %1$d of your subheadings is too small."
+"The number of words following %1$d of the subheadings is too small."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -358,7 +376,7 @@ msgstr[1] ""
 
 #: js/assessments/subheadingsKeywordAssessment.js:14
 msgid ""
-"You have not used your focus keyword in any subheading (such as an H2) in "
+"You have not used the focus keyword in any subheading (such as an H2) in "
 "your copy."
 msgstr ""
 
@@ -426,11 +444,11 @@ msgstr[1] ""
 #: js/assessments/taxonomyTextLengthAssessment.js:102
 #: js/assessments/textLengthAssessment.js:100
 msgid ""
-"This is far below the recommended minimum of %2$d word. Increase the word "
-"count with content that is relevant for the topic."
+"This is far below the recommended minimum of %2$d word. Add more content "
+"that is relevant for the topic."
 msgid_plural ""
-"This is far below the recommended minimum of %2$d words. Increase the word "
-"count with content that is relevant for the topic."
+"This is far below the recommended minimum of %2$d words. Add more content "
+"that is relevant for the topic."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -450,7 +468,7 @@ msgstr ""
 
 #: js/assessments/textImagesAssessment.js:40
 msgid ""
-"The images on this page do not have alt attributes containing your focus "
+"The images on this page do not have alt attributes containing the focus "
 "keyword."
 msgstr ""
 
@@ -554,13 +572,9 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/titleLengthAssessment.js:94
-msgid "Please create a page title."
-msgstr ""
-
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/transitionWordsAssessment.js:48
+#: js/assessments/transitionWordsAssessment.js:49
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "less than the recommended minimum of %4$s."
@@ -568,7 +582,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
-#: js/assessments/transitionWordsAssessment.js:61
+#: js/assessments/transitionWordsAssessment.js:62
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "great."
@@ -689,51 +703,51 @@ msgstr ""
 msgid "Remove marks in the text"
 msgstr ""
 
-#: js/snippetPreview.js:362
+#: js/snippetPreview.js:368
 msgid "Edit snippet"
 msgstr ""
 
-#: js/snippetPreview.js:363
+#: js/snippetPreview.js:369
 msgid "SEO title"
 msgstr ""
 
-#: js/snippetPreview.js:364
+#: js/snippetPreview.js:370
 msgid "Slug"
 msgstr ""
 
-#: js/snippetPreview.js:365
+#: js/snippetPreview.js:371
 msgid "Meta description"
 msgstr ""
 
-#: js/snippetPreview.js:366
+#: js/snippetPreview.js:372
 msgid "Close snippet editor"
 msgstr ""
 
-#: js/snippetPreview.js:367
+#: js/snippetPreview.js:373
 msgid "Snippet preview"
 msgstr ""
 
-#: js/snippetPreview.js:368
+#: js/snippetPreview.js:374
 msgid "SEO title preview:"
 msgstr ""
 
-#: js/snippetPreview.js:369
+#: js/snippetPreview.js:375
 msgid "Slug preview:"
 msgstr ""
 
-#: js/snippetPreview.js:370
+#: js/snippetPreview.js:376
 msgid "Meta description preview:"
 msgstr ""
 
-#: js/snippetPreview.js:373
+#: js/snippetPreview.js:379
 msgid ""
 "You can click on each element in the preview to jump to the Snippet Editor."
 msgstr ""
 
-#: js/snippetPreview.js:565
+#: js/snippetPreview.js:578
 msgid "Please provide an SEO title by editing the snippet below."
 msgstr ""
 
-#: js/snippetPreview.js:641
+#: js/snippetPreview.js:654
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""

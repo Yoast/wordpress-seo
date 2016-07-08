@@ -35,7 +35,7 @@ module.exports = function( paper ) {
 	var totalOfSquares = sum( variations );
 
 	if ( totalOfSquares > 0 ) {
-		var dividedSquares = totalOfSquares / ( totalSentences - 1 );
+		var dividedSquares = totalOfSquares / ( totalSentences );
 
 		return formatNumber( Math.sqrt( dividedSquares ) );
 	}

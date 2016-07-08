@@ -19,7 +19,7 @@ function keyphraseAssessment( paper, researcher, i18n ) {
 			"If you do not set a focus keyword, no score can be calculated." ) );
 	} else if ( keyphraseLength > 10 ) {
 		assessmentResult.setScore( 0 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "The keyphrase is over 10 words, a keyphrase should be shorter." ) );
 	}
 
 	return assessmentResult;

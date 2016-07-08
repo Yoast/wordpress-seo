@@ -23,7 +23,7 @@ describe( "A stop word in keyword assessment", function() {
 		var assessment = stopWordsInKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ "about" ] ), i18n );
 		expect( assessment.getScore() ).toEqual( 0 );
 		expect( assessment.hasScore() ).toEqual( true );
-		expect( assessment.getText() ).toEqual ( "Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. Read <a href='https://yoast.com/handling-stopwords/' target='new'>this article</a> for more info.");
+		expect( assessment.getText() ).toEqual ( "The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. Read <a href='https://yoast.com/handling-stopwords/' target='new'>this article</a> for more info.");
 	} );
 
 	it( "assesses multiple stop words in the keyword", function(){
@@ -33,6 +33,6 @@ describe( "A stop word in keyword assessment", function() {
 
 		var assessment = stopWordsInKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ "about", "before" ] ), i18n );
 		expect( assessment.getScore() ).toEqual( 0 );
-		expect( assessment.getText() ).toEqual ( "Your focus keyword contains 2 stop words. This may or may not be wise depending on the circumstances. Read <a href='https://yoast.com/handling-stopwords/' target='new'>this article</a> for more info.");
+		expect( assessment.getText() ).toEqual ( "The focus keyword contains 2 stop words. This may or may not be wise depending on the circumstances. Read <a href='https://yoast.com/handling-stopwords/' target='new'>this article</a> for more info.");
 	} );
 } );

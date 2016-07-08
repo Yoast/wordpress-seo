@@ -54,7 +54,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 5 );
-		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing your focus keyword." );
+		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword", function() {

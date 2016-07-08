@@ -4,12 +4,12 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 
-var nonverbEndingEd = require( "./passivevoice-english/non-verb-ending-ed.js" )();
-var determiners = require( "./passivevoice-english/determiners.js" )();
+var nonverbEndingEd = require( "./english/passivevoice-english/non-verb-ending-ed.js" )();
+var determiners = require( "./english/passivevoice-english/determiners.js" )();
 
-var auxiliaries = require( "./passivevoice-english/auxiliaries.js" )();
-var irregulars = require( "./passivevoice-english/irregulars.js" )();
-var stopwords = require( "./passivevoice-english/stopwords.js" )();
+var auxiliaries = require( "./english/passivevoice-english/auxiliaries.js" )();
+var irregulars = require( "./english/passivevoice-english/irregulars.js" )();
+var stopwords = require( "./english/passivevoice-english/stopwords.js" )();
 
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );

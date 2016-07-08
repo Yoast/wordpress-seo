@@ -10,7 +10,7 @@ describe( "An assessment for the keywordDensity", function(){
 		var paper = new Paper( "string without the key", {keyword: "keyword"} );
 		var result = keywordDensityAssessment.getResult( paper, Factory.buildMockResearcher( 0.0 ), i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "The keyword density is 0%, which is a bit low; the focus keyword was found 0 times.");
+		expect( result.getText() ).toBe( "The keyword density is 0%, which is too low; the focus keyword was found 0 times.");
 
 		paper = new Paper( "string with the keyword", {keyword: "keyword"} );
 		result = keywordDensityAssessment.getResult( paper, Factory.buildMockResearcher( 10.0 ), i18n );

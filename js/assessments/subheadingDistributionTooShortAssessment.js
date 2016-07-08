@@ -44,7 +44,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n
 			text: i18n.sprintf(
 				i18n.dgettext(
 						"js-text-analysis",
-						"The number of words following each of your subheadings exceeds the recommended minimum of %1$d words, which is great."
+						"The number of words following each of the subheadings exceeds the recommended minimum of %1$d words, which is great."
 				), recommendedValue
 			)
 		};
@@ -57,8 +57,8 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n
 			i18n.dngettext(
 				"js-text-analysis",
 				// Translators: %1$d expands to the number of subheadings.
-				"The number of words following %1$d of your subheadings is too small.",
-				"The number of words following %1$d of your subheadings is too small.",
+				"The number of words following %1$d of the subheadings is too small.",
+				"The number of words following %1$d of the subheadings is too small.",
 				tooShortTexts
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
