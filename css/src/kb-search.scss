@@ -10,7 +10,8 @@
 }
 
 .wpseo-kb-search-results {
-  list-style: none;
+  /* Don't use `list-style: none;` see Safari + VoiceOver bug
+     http://s.codepen.io/goetsu/debug/MKmojR */
   margin: 0;
   padding: 0;
   height: 500px;
@@ -18,7 +19,6 @@
 }
 
 .help-tab-content .wpseo-kb-search-results li {
-  list-style: none;
   max-width: none;
   margin: 0;
 }
