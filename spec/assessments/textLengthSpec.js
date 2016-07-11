@@ -11,7 +11,7 @@ describe( "A word count assessment", function(){
 
 		expect( assessment.getScore() ).toEqual( -20 );
 		expect( assessment.getText() ).toEqual ( 'The text contains 1 word. This is far below the recommended minimum of 300 words. ' +
-			'Increase the word count with content that is relevant for the topic.' );
+			'Add more content that is relevant for the topic.' );
 	} );
 
 	it( "assesses a low word count", function(){
@@ -20,7 +20,7 @@ describe( "A word count assessment", function(){
 
 		expect( assessment.getScore() ).toEqual( -20 );
 		expect( assessment.getText() ).toEqual ( 'The text contains 5 words. This is far below the recommended minimum of 300 words. ' +
-			'Increase the word count with content that is relevant for the topic.' );
+			'Add more content that is relevant for the topic.' );
 	} );
 
 	it( "assesses a medium word count", function(){

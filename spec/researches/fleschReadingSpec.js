@@ -5,7 +5,7 @@ describe("a test to calculate the fleschReading score", function(){
 	it("returns a score", function(){
 
 		var mockPaper = new Paper( "A piece of text to calculate scores." );
-		expect( fleschFunction( mockPaper ) ).toBe( 78.9 );
+		expect( fleschFunction( mockPaper ) ).toBe( 91 );
 
 		mockPaper = new Paper( "One question we get quite often in our website reviews is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble" );
 		expect( fleschFunction( mockPaper )).toBe( 63.9 );

@@ -1,8 +1,6 @@
 /** @module analyses/calculateFleschReading */
 
-var cleanText = require( "../stringProcessing/cleanText.js" );
 var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
 var countSentences = require( "../stringProcessing/countSentences.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
@@ -22,21 +20,19 @@ module.exports = function( paper ) {
 		return 0;
 	}
 
-	var sentenceCount = countSentences( text );
+	var numberOfSentences = countSentences( text );
 
-	text = cleanText( text );
-	text = stripHTMLTags( text );
-	var wordCount = countWords( text );
+	var numberOfWords = countWords( text );
 
 	// Prevent division by zero errors.
-	if ( sentenceCount === 0 || wordCount === 0 ) {
+	if ( numberOfSentences === 0 || numberOfWords === 0 ) {
 		return 0;
 	}
 
 	text = stripNumbers( text );
-	var syllableCount = countSyllables( text );
+	var numberOfSyllables = countSyllables( text );
 
-	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
+	var score = 206.835 - ( 1.015 * ( numberOfWords / numberOfSentences ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
 
 	return formatNumber( score );
 };

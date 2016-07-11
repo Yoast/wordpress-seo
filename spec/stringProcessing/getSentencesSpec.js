@@ -217,6 +217,14 @@ describe("Get sentences from text", function(){
 			{
 				input: "First sentence. 'Second sentence'",
 				expected: [ "First sentence.", "'Second sentence'" ]
+			},
+			{
+				input: "First sentence. ¿Second sentence?",
+				expected: [ "First sentence.", "¿Second sentence?" ]
+			},
+			{
+				input: "First sentence. ¡Second sentence!",
+				expected: [ "First sentence.", "¡Second sentence!" ]
 			}
 		];
 

@@ -44,11 +44,13 @@ describe( "Creating a Paper", function() {
 
 	it("returns title", function () {
 		var attributes = {
-			title: "title"
+			title: "title",
+			titleWidth: 10
 		};
 		var paper = new Paper( "text", attributes );
 		expect( paper.hasTitle()).toBe(true);
 		expect( paper.getTitle()).toBe("title");
+		expect( paper.hasTitleWidth()).toBe(true);
 	});
 
 	it( "returns nothing", function () {
@@ -57,5 +59,16 @@ describe( "Creating a Paper", function() {
 		expect( paper.hasDescription()).toBe(false);
 		expect( paper.hasUrl()).toBe(false);
 		expect( paper.hasKeyword()).toBe(false);
+		expect( paper.hasTitleWidth()).toBe(false);
 	});
+	it( "returns locale", function () {
+		var paper = new Paper ("");
+		expect( paper.getLocale() ).toBe( "en_US" );
+		paper = new Paper ("", { locale: "de_DE" } );
+		expect( paper.getLocale() ).toBe( "de_DE" );
+		paper = new Paper ("", { locale: "" } );
+		expect( paper.getLocale() ).toBe( "en_US" );
+		expect( paper.hasLocale() ).toBe( true );
+	} )
+
 } );
