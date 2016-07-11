@@ -642,53 +642,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		});
 	}
 
-	/**
-  * Shows the "buy Yoast SEO premium" popup.
-  */
-	function showContactPopup() {
-		var $ = jQuery;
-		var $buyButton = $('#wpseo-contact-support-popup'),
-		    title = 'Buy Yoast SEO premium',
-		    $popupWindow,
-		    $closeButton;
-
-		tb_show(title, '#TB_inline?width=650&height=235&inlineId=wpseo-contact-support-popup', 'group');
-
-		// The thicbox popup UI is now available.
-		$popupWindow = $('#TB_window');
-		$closeButton = $('#TB_closeWindowButton');
-
-		// The container window isn't the correct size, rectify this and also the centering.
-		$popupWindow.css({ width: 680, height: 235, 'margin-left': -340 });
-
-		// Accessibility improvements.
-		$popupWindow.attr({
-			role: 'dialog',
-			'aria-labelledby': 'TB_ajaxWindowTitle',
-			'aria-describedby': 'TB_ajaxContent'
-		}).on('keydown', function (event) {
-			var id;
-
-			// Constrain tabbing within the modal.
-			if (9 === event.which) {
-				id = event.target.id;
-
-				if (id === 'wpseo-contact-support-popup-button' && !event.shiftKey) {
-					$closeButton.focus();
-					event.preventDefault();
-				} else if (id === 'TB_closeWindowButton' && event.shiftKey) {
-					$buyButton.focus();
-					event.preventDefault();
-				}
-			}
-		});
-
-		// Move focus back to the element that opened the modal.
-		$('body').on('thickbox:removed', function () {
-			$('.contact-support').focus();
-		});
-	}
-
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
