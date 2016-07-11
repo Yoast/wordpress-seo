@@ -12,46 +12,34 @@ class WPSEO_Post_Slug_Watcher {
 	 * Setting the hooks
 	 */
 	public function __construct() {
-		add_action( 'wp_unique_post_slug', array( $this, 'hook_unique_post_slug' ), 10, 6 );
+		add_action( 'draft_to_publish', array( $this, 'guarantee_unique_post_url' ) );
 	}
 
 	/**
-	 * Generate an unique slug if it is necessary. This might be the case when given slug is redirected.
+	 * Changes the URL of a given post to make sure no redirect origin exists that is the same as the post.
 	 *
-	 * @param string $slug          The slug that has to be unique.
-	 * @param int    $post_ID       Post ID.
-	 * @param string $post_status   The post status.
-	 * @param string $post_type     Post type.
-	 * @param int    $post_parent   Post parent ID.
-	 * @param string $original_slug The original post slug.
-	 *
-	 * @return string Unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
+	 * @param WP_Post $post The post to guarentee a unique URL for.
 	 */
-	public function hook_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug ) {
+	public function guarantee_unique_post_url( $post ) {
+		$slug = $this->remove_domain( get_permalink( $post ) );
 
-		$parent_slug    = '';
-		$slug_to_verify = $slug;
-
-		$old_status = get_post_status( $post_ID );
-		if ( $post_status === 'trash' || $old_status === 'trash' ) {
-			return $slug;
+		if ( $this->check_for_redirect( $slug ) ) {
+			$unique_slug = $post->post_name . '-2';
+			wp_update_post( array(
+				'ID' => $post->ID,
+				'post_name' => $unique_slug,
+			) );
 		}
+	}
 
-		// When there is a post_parent, get the slug from that one.
-		if ( $post_parent > 0 ) {
-			$parent_slug = $this->get_parent_slug( $post_parent );
-
-			// Prepend the parent slug to the slug.
-			$slug_to_verify = $parent_slug . $slug_to_verify;
-		}
-
-		if ( $this->check_for_redirect( $slug_to_verify ) ) {
-			$suffix = $this->get_suffix( $slug_to_verify, $parent_slug . $original_slug );
-			$slug   = $original_slug . '-' . $suffix;
-			$slug   = wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent );
-		}
-
-		return $slug;
+	/**
+	 * Returns the slug part of a permalink.
+	 *
+	 * @param string $permalink A permalink with domain and slug.
+	 * @return string The slug based on the permalink.
+	 */
+	private function remove_domain( $permalink ) {
+		return str_replace( trailingslashit( home_url() ), '', $permalink );
 	}
 
 	/**
@@ -66,34 +54,5 @@ class WPSEO_Post_Slug_Watcher {
 		$redirect         = $redirect_manager->get_redirect( $slug );
 
 		return $redirect instanceof WPSEO_Redirect;
-	}
-
-	/**
-	 * Get the new suffix.
-	 *
-	 * @param string $slug          The new slug.
-	 * @param string $original_slug The original slug.
-	 *
-	 * @return integer
-	 */
-	protected function get_suffix( $slug, $original_slug ) {
-		if ( $slug === $original_slug ) {
-			return 2;
-		}
-
-		return ( str_replace( $original_slug . '-', '', $slug ) + 1 );
-	}
-
-	/**
-	 * Strips the parent out of the slug.
-	 *
-	 * @param integer $post_parent The slug that has to be unique.
-	 *
-	 * @return string
-	 */
-	protected function get_parent_slug( $post_parent ) {
-		$post = get_post( $post_parent );
-
-		return $post->post_name . '/';
 	}
 }
