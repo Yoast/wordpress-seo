@@ -101,7 +101,7 @@ function wpseo_admin_bar_menu() {
 		'parent' => 'wpseo-menu',
 		'id'     => 'wpseo-kwresearch',
 		'title'  => __( 'Keyword Research', 'wordpress-seo' ),
-		'#',
+		'meta'   => array( 'tabindex' => '0' ),
 	) );
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wpseo-kwresearch',
@@ -133,7 +133,7 @@ function wpseo_admin_bar_menu() {
 				'parent' => 'wpseo-menu',
 				'id'     => 'wpseo-analysis',
 				'title'  => __( 'Analyze this page', 'wordpress-seo' ),
-				'#',
+				'meta'   => array( 'tabindex' => '0' ),
 			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-analysis',
@@ -228,6 +228,7 @@ function wpseo_admin_bar_menu() {
 			'parent' => 'wpseo-menu',
 			'id'     => 'wpseo-settings',
 			'title'  => __( 'SEO Settings', 'wordpress-seo' ),
+			'meta'   => array( 'tabindex' => '0' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
