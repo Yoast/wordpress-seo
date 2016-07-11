@@ -65,7 +65,6 @@ describe("Get sentences from text", function(){
 		expect( getSentences( text ) ).toEqual( [ "A sentence with an image <img src='http://google.com' />" ] );
 	});
 
-
 	it( "can deal with newlines", function() {
 		var testCases = [
 			{
