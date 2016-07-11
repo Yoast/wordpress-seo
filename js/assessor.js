@@ -178,7 +178,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 		result.setScore( 0 );
 		result.setText( this.i18n.sprintf(
 			/* Translators: %1$s expands to the name of the assessment. */
-			this.i18n.dgettext( "js-text-analysis", "An error occured in the '%1$s' assessment" ),
+			this.i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
 			assessment.identifier,
 			assessmentError
 		) );
