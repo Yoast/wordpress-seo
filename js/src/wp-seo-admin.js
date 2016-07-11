@@ -302,12 +302,6 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				jQuery( window ).trigger( 'YoastSEO:ContactSupport', { usedQueries: usedQueries } );
 			} );
 
-			/* Fix banner images overlapping help texts */
-			jQuery( '.screen-meta-toggle a' ).click( function() {
-					jQuery( '#sidebar-container' ).toggle();
-				}
-			);
-
 			// events
 			jQuery( '#enablexmlsitemap' ).change( function() {
 					jQuery( '#sitemapinfo' ).toggle( jQuery( this ).is( ':checked' ) );
