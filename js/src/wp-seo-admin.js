@@ -224,6 +224,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 					noResultsText: wpseoAdminL10n.kb_no_results,
 					headingText: wpseoAdminL10n.kb_heading,
 					searchButtonText: wpseoAdminL10n.kb_search_button_text,
+					searchResultsHeading: wpseoAdminL10n.kb_search_results_heading,
 					errorMessage: wpseoAdminL10n.kb_error_message,
 					loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 					search: wpseoAdminL10n.kb_search,
@@ -252,12 +253,6 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				var usedQueries = activeAlgoliaSearcher.state.usedQueries;
 				jQuery( window ).trigger( 'YoastSEO:ContactSupport', { usedQueries: usedQueries } );
 			} );
-
-			/* Fix banner images overlapping help texts */
-			jQuery( '.screen-meta-toggle a' ).click( function() {
-					jQuery( '#sidebar-container' ).toggle();
-				}
-			);
 
 			// events
 			jQuery( '#enablexmlsitemap' ).change( function() {
