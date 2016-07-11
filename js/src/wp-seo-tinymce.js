@@ -138,8 +138,12 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		if ( jQuery( '#wp-content-wrap' ).hasClass( 'html-active' ) ) {
 			// The enable/disable marker functions are not called here,
 			// because the render function(in yoastseo lib) doesn't have to be called.
-			YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
-			YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
+			if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
+				YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
+			}
+			if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
+				YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
+			}
 
 			tinyMCE.on( 'AddEditor' , function( ) {
 				enableMarkerButtons( );

@@ -96,7 +96,10 @@ TabManager.prototype.showKeywordAnalysis = function() {
 	this.focusKeywordRow.show();
 	this.keywordAnalysis.show();
 	this.contentAnalysis.hide();
-	this.snippetPreview.show();
+
+	if ( this.arguments.keywordAnalysisActive ) {
+		this.snippetPreview.show();
+	}
 };
 
 /**
@@ -106,7 +109,10 @@ TabManager.prototype.showContentAnalysis = function() {
 	this.focusKeywordRow.hide();
 	this.keywordAnalysis.hide();
 	this.contentAnalysis.show();
-	this.snippetPreview.hide();
+
+	if ( this.arguments.keywordAnalysisActive ) {
+		this.snippetPreview.hide();
+	}
 };
 
 /**

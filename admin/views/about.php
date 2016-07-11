@@ -123,7 +123,7 @@ function wpseo_display_contributors( $contributors ) {
 				</div>
 				<div class="col">
 					<h3>Change title width</h3>
-					<p>Google updated the width of titles in the search resutls, so we've adapted our snippet preview.
+					<p>Google updated the width of titles in the search results, so we've adapted our snippet preview.
 						We've also removed the bolding
 						of keywords in the title as keywords are never bold anymore.</p>
 				</div>
