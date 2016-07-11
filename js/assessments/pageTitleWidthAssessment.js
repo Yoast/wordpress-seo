@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
+var inRange = require( "../helpers/inRange" ).inRangeEndInclusive;
 
 /**
  * Returns the score and text for the pageTitleLength
