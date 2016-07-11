@@ -65,7 +65,6 @@ describe("Get sentences from text", function(){
 		expect( getSentences( text ) ).toEqual( [ "A sentence with an image <img src='http://google.com' />" ] );
 	});
 
-
 	it( "can deal with newlines", function() {
 		var testCases = [
 			{
@@ -230,4 +229,14 @@ describe("Get sentences from text", function(){
 
 		testGetSentences( testCases );
 	});
+	it( "should ignore non breaking spaces", function() {
+		var testCases = [
+			{
+				input: "First sentence. Second sentence. &nbsp;",
+				expected: [ "First sentence.", "Second sentence." ]
+			}
+		];
+
+		testGetSentences( testCases );
+	} );
 });

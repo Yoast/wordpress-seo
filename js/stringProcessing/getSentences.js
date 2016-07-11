@@ -13,6 +13,8 @@ var core = require( "tokenizer2/core" );
 var getBlocks = require( "../helpers/html.js" ).getBlocks;
 var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyNonBreakingSpace;
+
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
 var sentenceDelimiters = "?!;";
@@ -293,6 +295,7 @@ var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
  * @returns {Array} Sentences found in the text.
  */
 module.exports = function( text ) {
+	text = unifyWhitespace( text );
 	var sentences, blocks = getBlocks( text );
 
 	// Split each block on newlines.
