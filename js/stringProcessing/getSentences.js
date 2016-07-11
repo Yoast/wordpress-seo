@@ -83,7 +83,7 @@ function isBreakTag( htmlTag ) {
 /**
  * Returns whether or not a given character is quotation mark.
  *
- * @param {string} character character The character to check.
+ * @param {string} character The character to check.
  * @returns {boolean} Whether or not the given character is a quotation mark.
  */
 function isQuotation( character ) {
@@ -91,6 +91,18 @@ function isQuotation( character ) {
 
 	return "'" === character
 		|| "\"" === character;
+}
+
+/**
+ * Returns whether or not a given character is a punctuation mark that can be at the beginning
+ * of a sentence, like ¿ and ¡ used in Spanish.
+ *
+ * @param {string} character The character to check.
+ * @returns {boolean} Whether or not the given character is a punctuation mark.
+ */
+function isPunctuation( character ) {
+	return "¿" === character
+		|| "¡" === character;
 }
 
 /**
@@ -213,6 +225,7 @@ function getSentencesFromTokens( tokens ) {
 						isCapitalLetter( nextSentenceStart )
 						|| isNumber( nextSentenceStart ) )
 						|| isQuotation( nextSentenceStart )
+						|| isPunctuation( nextSentenceStart )
 					|| ( !isUndefined( nextToken ) && (
 						"html-start" === nextToken.type
 						|| "html-end" === nextToken.type
