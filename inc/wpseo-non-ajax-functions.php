@@ -113,8 +113,8 @@ function wpseo_admin_bar_menu() {
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wpseo-kwresearch',
 		'id'     => 'wpseo-googleinsights',
-		'title'  => __( 'Google Insights', 'wordpress-seo' ),
-		'href'   => 'http://www.google.com/insights/search/#q=' . urlencode( $focuskw ) . '&cmpt=q',
+		'title'  => __( 'Google Trends', 'wordpress-seo' ),
+		'href'   => 'https://www.google.com/trends/explore#q=' . urlencode( $focuskw ),
 		'meta'   => array( 'target' => '_blank' ),
 	) );
 	$wp_admin_bar->add_menu( array(
@@ -232,7 +232,7 @@ function wpseo_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-general',
-			'title'  => __( 'General', 'wordpress-seo' ),
+			'title'  => __( 'Dashboard', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_dashboard' ),
 		) );
 		$wp_admin_bar->add_menu( array(
