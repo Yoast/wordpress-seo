@@ -14,3 +14,10 @@ describe("a test to calculate the fleschReading score", function(){
 		expect( fleschFunction( mockPaper ) ).toBe( 0 );
 	});
 });
+describe( "A test to check the filtere of digits", function() {
+	var mockPaper = new Paper( "A text string to test with digits");
+	var mockPaperWithDigits = new Paper( "A 456 text string to test with 123 digits");
+	it( "should return the same for a text string with only extra digits", function(){
+		expect( fleschFunction( mockPaper ) ).toBe( fleschFunction( mockPaperWithDigits ) );
+	});
+});
