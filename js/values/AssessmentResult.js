@@ -13,7 +13,7 @@ var emptyMarker = function() {
 /**
  * Construct the AssessmentResult value object.
  *
- * @param {Object} values The values for this assessment result.
+ * @param {Object} [values] The values for this assessment result.
  *
  * @constructor
  */

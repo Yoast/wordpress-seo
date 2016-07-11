@@ -17,5 +17,6 @@ module.exports = function( url, keyword, locale ) {
 		formatUrl = formatUrl[ 0 ].replace( /<.*?>\s?/ig, "" );
 		return matchTextWithTransliteration( formatUrl, keyword, locale ).length > 0;
 	}
+
 	return false;
 };

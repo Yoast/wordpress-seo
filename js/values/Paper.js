@@ -11,7 +11,8 @@ var defaultAttributes = {
 	title: "",
 	titleWidth: 0,
 	url: "",
-	locale: "en_US"
+	locale: "en_US",
+	permalink: ""
 };
 
 /**
@@ -152,6 +153,22 @@ Paper.prototype.hasLocale = function() {
  */
 Paper.prototype.getLocale = function() {
 	return this._attributes.locale;
+};
+
+/**
+ * Check whether a permalink is available
+ * @returns {boolean} Returns true if the Paper has a permalink.
+ */
+Paper.prototype.hasPermalink = function() {
+	return this._attributes.permalink !== "";
+};
+
+/**
+ * Return the permalink, or an empty string of no permalink is available.
+ * @returns {string} Returns the permalink.
+ */
+Paper.prototype.getPermalink = function() {
+	return this._attributes.permalink;
 };
 
 module.exports = Paper;

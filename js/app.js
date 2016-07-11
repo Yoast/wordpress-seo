@@ -533,7 +533,8 @@ App.prototype.runAnalyzer = function() {
 		url: this.analyzerData.url,
 		title: this.analyzerData.metaTitle,
 		titleWidth: this.snippetPreview.getTitleWidth(),
-		locale: this.config.locale
+		locale: this.config.locale,
+		permalink: this.analyzerData.permalink
 	} );
 
 	// The new researcher

@@ -4,6 +4,7 @@ var getLinks = require( "./getLinks.js" );
 var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
 var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
+var urlHelper = require( "../stringProcessing/url.js" );
 
 /**
  * Checks whether or not an anchor contains the passed keyword.
@@ -41,10 +42,10 @@ var keywordInAnchor = function( keyword, anchor, locale ) {
  * otherNofollow: other links with a nofollow attribute.
  */
 var countLinkTypes = function( paper ) {
-	var url = paper.getUrl();
 	var keyword = paper.getKeyword();
 	var locale = paper.getLocale();
 	var anchors = getLinks( paper.getText() );
+	var permalink = paper.getPermalink();
 
 	var linkCount = {
 		total: anchors.length,
@@ -67,13 +68,15 @@ var countLinkTypes = function( paper ) {
 	for ( var i = 0; i < anchors.length; i++ ) {
 		var currentAnchor = anchors[ i ];
 
-		if ( keywordInAnchor( keyword, currentAnchor, locale ) ) {
+		var anchorLink = urlHelper.getFromAnchorTag( currentAnchor );
+		var linkToSelf = urlHelper.areEqual( anchorLink, permalink );
 
+		if ( keywordInAnchor( keyword, currentAnchor, locale ) && !linkToSelf ) {
 			linkCount.keyword.totalKeyword++;
 			linkCount.keyword.matchedAnchors.push( currentAnchor );
 		}
 
-		var linkType = getLinkType( currentAnchor, url );
+		var linkType = getLinkType( currentAnchor, permalink );
 		var linkFollow = checkNofollow( currentAnchor );
 
 		linkCount[ linkType + "Total" ]++;
