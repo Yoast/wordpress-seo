@@ -1,18 +1,18 @@
 /** @module stringProcessing/unifyWhitespace */
 
 /**
- *
- * @param text
- * @returns {string|void|*|XML}
+ * Replaces a non breaking space with a normal space
+ * @param {string} text The string to replace the non breaking space in.
+ * @returns {string} The text with unified spaces.
  */
 var unifyNonBreakingSpace = function( text ) {
 	return text.replace( /&nbsp;/g, " " );
 };
 
 /**
- *
- * @param text
- * @returns {string|void|*|XML}
+ * Replaces all whitespaces with a normal space
+ * @param {string} text The string to replace the non breaking space in.
+ * @returns {string} The text with unified spaces.
  */
 var unifyWhiteSpace = function( text ) {
 	return text.replace( /\s/g, " " );

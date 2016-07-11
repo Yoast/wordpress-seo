@@ -14,7 +14,6 @@ var getBlocks = require( "../helpers/html.js" ).getBlocks;
 var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
 var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyNonBreakingSpace;
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
