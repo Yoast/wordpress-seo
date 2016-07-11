@@ -273,6 +273,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 					noResultsText: wpseoAdminL10n.kb_no_results,
 					headingText: wpseoAdminL10n.kb_heading,
 					searchButtonText: wpseoAdminL10n.kb_search_button_text,
+					searchResultsHeading: wpseoAdminL10n.kb_search_results_heading,
 					errorMessage: wpseoAdminL10n.kb_error_message,
 					loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 					search: wpseoAdminL10n.kb_search,
