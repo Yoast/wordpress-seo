@@ -29,6 +29,14 @@ describe( "the page title length assessment", function() {
 
 	});
 
+	it( "should assess a paper with a page title that's in range of the recommended value", function() {
+		var paper = new Paper( "", { title: "The Title That Is At Least As Long As It Should Be To Pass" } );
+		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 600 ), i18n );
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "The page title has a nice length." );
+
+	});
+
 	it( "should assess a paper with a page title that's longer than the recommended value", function() {
 		var paper = new Paper( "", { title: "The Title That Is Too Long Long To Pass" } );
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 620 ), i18n );
