@@ -144,10 +144,12 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
 				YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
 			}
+			if( isTinyMCELoaded() ) {
+				tinyMCE.on( 'AddEditor' , function( ) {
+					enableMarkerButtons( );
+				} );
+			}
 
-			tinyMCE.on( 'AddEditor' , function( ) {
-				enableMarkerButtons( );
-			} );
 		}
 	}
 
