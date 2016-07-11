@@ -351,9 +351,9 @@
     __e( i18n.snippetPreviewDescription ) +
     '</p>\n\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="screen-reader-text">' +
     __e( i18n.titleLabel ) +
-    '</span>\n            <span class="title" id="snippet_title">\n                ' +
+    '</span>\n            <span class="title" id="render_title_container">\n                <span id="snippet_title">\n                    ' +
     __e( rendered.title ) +
-    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <span class="screen-reader-text">' +
+    '\n                </span>\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <span class="screen-reader-text">' +
     __e( i18n.slugLabel ) +
     '</span>\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
     __e( rendered.baseUrl ) +

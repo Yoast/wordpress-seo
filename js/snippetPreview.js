@@ -150,7 +150,7 @@ function rateTitleLength( titleLength ) {
 
 	switch ( true ) {
 		case titleLength > 0 && titleLength <= 399:
-		case titleLength >= 600:
+		case titleLength > 600:
 			rating = "ok";
 			break;
 
@@ -383,7 +383,6 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		measurers: {
-			titleWidth: null,
 			metaHeight: null
 		},
 		rendered: {
@@ -1143,14 +1142,7 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
  * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
  */
 SnippetPreview.prototype.createMeasurementElements = function() {
-	var titleElement, metaDescriptionElement, spanHolder;
-
-	titleElement = hiddenElement( {
-		width: "auto",
-		whiteSpace: "nowrap",
-		fontSize: "18px"
-	} );
-
+	var metaDescriptionElement, spanHolder;
 	metaDescriptionElement = hiddenElement(
 		{
 			width: document.getElementById( "meta_container" ).offsetWidth + "px",
@@ -1160,12 +1152,10 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 
 	spanHolder = document.createElement( "div" );
 
-	spanHolder.innerHTML = titleElement + metaDescriptionElement;
+	spanHolder.innerHTML = metaDescriptionElement;
 
 	document.body.appendChild( spanHolder );
 
-	this.element.measurers.titleWidth = spanHolder.childNodes[ 0 ];
-	this.element.measurers.titleWidth.className = "hidden-title";
 	this.element.measurers.metaHeight = spanHolder.childNodes[ 1 ];
 };
 
@@ -1173,11 +1163,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
  * Copies the title text to the title measure element to calculate the width in pixels.
  */
 SnippetPreview.prototype.measureTitle = function() {
-	var titleWidthElement = this.element.measurers.titleWidth;
-
-	titleWidthElement.innerHTML = this.element.rendered.title.innerHTML;
-
-	this.data.titleWidth = titleWidthElement.offsetWidth;
+	this.data.titleWidth = this.element.rendered.title.offsetWidth;
 };
 
 /**
