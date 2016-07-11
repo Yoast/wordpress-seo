@@ -149,7 +149,6 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 					enableMarkerButtons( );
 				} );
 			}
-
 		}
 	}
 
