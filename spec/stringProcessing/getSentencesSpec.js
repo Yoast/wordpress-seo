@@ -229,4 +229,14 @@ describe("Get sentences from text", function(){
 
 		testGetSentences( testCases );
 	});
+	it( "should ignore non breaking spaces", function() {
+		var testCases = [
+			{
+				input: "First sentence. Second sentence. &nbsp;",
+				expected: [ "First sentence.", "Second sentence." ]
+			}
+		];
+
+		testGetSentences( testCases );
+	} );
 });
