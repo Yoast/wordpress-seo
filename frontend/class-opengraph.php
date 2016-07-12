@@ -856,12 +856,14 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * If opengraph-image is set, call add_image and return true
+	 * If opengraph-image is set, call add_image and return true.
+	 *
+	 * @param int $post_id Optional post ID to use.
 	 *
 	 * @return bool
 	 */
-	private function get_opengraph_image_post() {
-		$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
+	private function get_opengraph_image_post( $post_id = 0 ) {
+		$ogimg = WPSEO_Meta::get_value( 'opengraph-image', $post_id );
 		if ( $ogimg !== '' ) {
 			$this->add_image( $ogimg );
 
