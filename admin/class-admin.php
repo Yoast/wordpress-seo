@@ -47,7 +47,7 @@ class WPSEO_Admin {
 			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
 		);
 
-		if ( in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ) ) ) {
+		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
 			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
 		}
 

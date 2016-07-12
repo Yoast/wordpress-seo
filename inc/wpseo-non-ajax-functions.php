@@ -33,10 +33,7 @@ function wpseo_admin_bar_menu() {
 	$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 	$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
-	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
-					'post.php',
-					'post-new.php',
-				), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
+	if ( ( is_singular() || ( is_admin() && WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
