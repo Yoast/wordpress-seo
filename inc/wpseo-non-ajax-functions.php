@@ -166,9 +166,9 @@ function wpseo_admin_bar_menu() {
 			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-analysis',
-				'id'     => 'wpseo-richsnippets',
-				'title'  => __( 'Check Rich Snippets', 'wordpress-seo' ),
-				'href'   => '//www.google.com/webmasters/tools/richsnippets?q=' . urlencode( $url ),
+				'id'     => 'wpseo-structureddata',
+				'title'  => __( 'Google Structured Data Test', 'wordpress-seo' ),
+				'href'   => 'https://search.google.com/structured-data/testing-tool#url=' . urlencode( $url ),
 				'meta'   => array( 'target' => '_blank' ),
 			) );
 			$wp_admin_bar->add_menu( array(
