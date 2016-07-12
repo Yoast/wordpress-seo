@@ -1156,7 +1156,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 
 	document.body.appendChild( spanHolder );
 
-	this.element.measurers.metaHeight = spanHolder.childNodes[ 1 ];
+	this.element.measurers.metaHeight = spanHolder.childNodes[ 0 ];
 };
 
 /**
