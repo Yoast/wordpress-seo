@@ -317,7 +317,7 @@ function return_tax_adminbar_seo_score() {
 	$rating = 0;
 
 	if ( is_tax() || is_category() || is_tag() ) {
-		$rating = WPSEO_Taxonomy_Meta::get_term_meta( WPSEO_Taxonomy::get_current_term_id(), get_queried_object()->taxonomy, 'linkdex' );
+		$rating = WPSEO_Taxonomy_Meta::get_meta_without_term( 'linkdex' );
 	}
 
 	return return_adminbar_score( $rating );
@@ -332,7 +332,7 @@ function return_tax_adminbar_content_score() {
 	$rating = 0;
 
 	if ( is_tax() || is_category() || is_tag() ) {
-		$rating = WPSEO_Taxonomy_Meta::get_term_meta( WPSEO_Taxonomy::get_current_term_id(), get_queried_object()->taxonomy, 'content_score' );
+		$rating = WPSEO_Taxonomy_Meta::get_meta_without_term( 'content_score' );
 	}
 	return return_adminbar_score( $rating );
 }
