@@ -1,6 +1,7 @@
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 
@@ -313,6 +314,8 @@ module.exports = function( paper ) {
 
 	// Get subsentences for each sentence.
 	forEach( sentences, function( sentence ) {
+		sentence = stripHTMLTags( sentence );
+
 		var subSentences = getSubsentences( sentence );
 
 		var passive = false;
