@@ -1,5 +1,6 @@
 import React from 'react';
 import AlgoliaSearch from 'algoliasearch';
+import A11ySpeak from 'a11y-speak';
 
 class AlgoliaSearcher extends React.Component {
 
@@ -133,11 +134,11 @@ class AlgoliaSearcher extends React.Component {
                                      showDetail={this.showDetail.bind( this, arrayIndex )}/>
             } );
 			searchResultContent = <div className="wpseo-kb-search-results">{results}</div>;
-			window.wp.a11y.speak( this.props.foundResultsText.replace( '%d', resultsCount ) );
+			A11ySpeak( this.props.foundResultsText.replace( '%d', resultsCount ) );
 		}
 		else if ( this.state.searchString !== '' ) {
 			searchResultContent = <div className="wpseo-kb-search-no-results">{this.props.noResultsText}</div>;
-			window.wp.a11y.speak( this.props.noResultsText );
+			A11ySpeak( this.props.noResultsText );
 		}
 		return searchResultContent;
 	}
@@ -176,7 +177,7 @@ class AlgoliaSearcher extends React.Component {
      */
     renderError( errorMessage ) {
 		console.error( errorMessage );
-		window.wp.a11y.speak( this.props.errorMessage );
+		A11ySpeak( this.props.errorMessage );
         return (
             <div>
 				{this.props.errorMessage}
