@@ -208,9 +208,9 @@ function wpseo_admin_bar_menu() {
 			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-analysis',
-				'id'     => 'wpseo-modernie',
-				'title'  => __( 'Modern IE Site Scan', 'wordpress-seo' ),
-				'href'   => '//www.modern.ie/en-us/report#' . urlencode( $url ),
+				'id'     => 'wpseo-microsoftedge',
+				'title'  => __( 'Microsoft Edge Site Scan', 'wordpress-seo' ),
+				'href'   => 'https://developer.microsoft.com/en-us/microsoft-edge/tools/staticscan/?url=' . urlencode( $url ),
 				'meta'   => array( 'target' => '_blank' ),
 			) );
 			$wp_admin_bar->add_menu( array(
