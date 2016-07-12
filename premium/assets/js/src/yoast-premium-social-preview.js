@@ -10,6 +10,7 @@ var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescrip
 var clone = require( 'lodash/clone' );
 var forEach = require( 'lodash/forEach' );
 var _has = require( 'lodash/has' );
+var isUndefined = require( 'lodash/isUndefined' );
 
 var Jed = require( 'jed' );
 
@@ -477,6 +478,10 @@ var Jed = require( 'jed' );
 	 * Binds the events for the featured image.
 	 */
 	function bindFeaturedImageEvents() {
+		if ( isUndefined( wp.media ) || isUndefined( wp.media.featuredImage ) ) {
+			return;
+		}
+
 		// When the featured image is being changed
 		var featuredImage = wp.media.featuredImage.frame();
 
