@@ -56,6 +56,6 @@ describe( "A word count assessment", function(){
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 325 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The text contains 325 words. This is more than the recommended minimum of 300 words." );
+		expect( assessment.getText() ).toEqual ( "The text contains 325 words. This is more than or equal to the recommended minimum of 300 words." );
 	} );
 } );

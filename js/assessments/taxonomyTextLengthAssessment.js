@@ -9,7 +9,7 @@ var recommendedMinimum = 150;
  * @returns {object} The resulting score object.
  */
 var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount > 150 ) {
+	if ( wordCount >= 150 ) {
 		return {
 			score: 9,
 			text: i18n.dngettext(
@@ -23,8 +23,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than the recommended minimum of %2$d word.",
-				"This is more than the recommended minimum of %2$d words.",
+				"This is more than or equal to the recommended minimum of %2$d word.",
+				"This is more than or equal to the recommended minimum of %2$d words.",
 				recommendedMinimum
 			)
 		};

@@ -54,6 +54,6 @@ describe( "A word count assessment", function(){
 		var assessment = taxonomyTextLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 175 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( 'The text contains 175 words. This is more than the recommended minimum of 150 words.' );
+		expect( assessment.getText() ).toEqual ( 'The text contains 175 words. This is more than or equal to the recommended minimum of 150 words.' );
 	} );
 } );
