@@ -54,13 +54,17 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="new" class="wpseotab">
 
+		<h2 class="screen-reader-text"><?php esc_html_e( 'Main new features', 'wordpress-seo' ); ?></h2>
+
 		<div class="headline-feature feature-video">
 			<?php // @codingStandardsIgnoreStart ?>
 			<iframe style="width:1050px;height:591px;" src="https://yoa.st/3-3-release-video"
 			        title="<?php esc_attr_e( 'New release video', 'wordpress-seo' ); ?>"
-					frameborder="0" allowfullscreen></iframe>
+					allowfullscreen></iframe>
 			<?php // @codingStandardsIgnoreEnd ?>
 		</div>
+
+		<hr>
 
 		<div class="feature-section two-col">
 			<div class="col">
@@ -123,7 +127,7 @@ function wpseo_display_contributors( $contributors ) {
 				</div>
 				<div class="col">
 					<h3>Change title width</h3>
-					<p>Google updated the width of titles in the search resutls, so we've adapted our snippet preview.
+					<p>Google updated the width of titles in the search results, so we've adapted our snippet preview.
 						We've also removed the bolding
 						of keywords in the title as keywords are never bold anymore.</p>
 				</div>
@@ -188,6 +192,7 @@ function wpseo_display_contributors( $contributors ) {
 	</div>
 
 	<div id="credits" class="wpseotab">
+		<h2 class="screen-reader-text"><?php esc_html_e( 'Team and contributors', 'wordpress-seo' ); ?></h2>
 		<p class="about-description">
 			<?php
 			/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
@@ -220,8 +225,9 @@ function wpseo_display_contributors( $contributors ) {
 
 			wpseo_display_contributors( $people );
 			?>
+		</ul>
 		<h3 class="wp-people-group"><?php _e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
-		<ul class="wp-people-group " id="wp-people-group-project-leaders">
+		<ul class="wp-people-group " id="wp-people-group-development-leaders">
 			<?php
 			$people = array(
 				'omarreiss' => (object) array(
@@ -278,7 +284,7 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '59908788f406037240ee011388db29f8',
 				),
-				'irenestr'      => (object) array(
+				'irenestr2'     => (object) array(
 					'name'     => 'Irene Strikkers',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
@@ -299,7 +305,7 @@ function wpseo_display_contributors( $contributors ) {
 			?>
 		</ul>
 		<h3 class="wp-people-group"><?php _e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
-			<ul class="wp-people-group " id="wp-people-group-project-leaders">
+			<ul class="wp-people-group " id="wp-people-group-qa-testing">
 				<?php
 				$people = array(
 					'tacoverdo' => (object) array(
