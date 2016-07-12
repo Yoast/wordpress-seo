@@ -346,4 +346,12 @@ describe( "detecting passive voice in sentences", function() {
 		} );
 
 	});
+
+	it( "strips HTMLtags", function() {
+		paper = new Paper( "<a href='get lost'>No passive</a>" );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: []
+		} );
+	})
 } );
