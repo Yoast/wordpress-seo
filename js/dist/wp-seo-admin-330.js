@@ -857,10 +857,10 @@ var A11ySpeak = function( message, ariaLive ) {
 	// Clear previous messages to allow repeated strings being read out.
 	clear();
 
-	if ( this.containerAssertive && "assertive" === ariaLive ) {
-		this.containerAssertive.text( message );
-	} else if ( this.containerPolite ) {
-		this.containerPolite.text( message );
+	if ( containerAssertive && "assertive" === ariaLive ) {
+		containerAssertive.textContent = message;
+	} else if ( containerPolite ) {
+		containerPolite.textContent = message;
 	}
 };
 
