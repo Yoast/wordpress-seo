@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @group test
- */
 class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var string
@@ -68,6 +65,25 @@ class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( WPSEO_Redirect_Util::has_fragment_identifier( '/relative#' ) );
 	}
 
+	public function test_has_extension() {
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( 'http://yoast.com' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( 'http://yoast.com/path' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( 'http://yoast.com' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( 'http://yoast.com/?param=val' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( '/relative/?param=val' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( '/relative?param=val' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( '/' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( '' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( '/relative/' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_extension( '/relative' ) );
+
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( 'http://yoast.com/filename.jpg' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( 'http://yoast.com/filename.jpg?param=val' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( 'http://yoast.com/filename.jpg?param=val#hash' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( '/filename.jpg' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( 'filename.jpg' ) );
+	}
+
 	/**
 	 * @covers WPSEO_Redirect_Util::requires_trailing_slash
 	 */
@@ -93,6 +109,11 @@ class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/#hash' ) );
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative#hash' ) );
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative#' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( 'http://yoast.com/filename.jpg' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( 'http://yoast.com/filename.jpg?param=val' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( 'http://yoast.com/filename.jpg?param=val#hash' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( '/filename.jpg' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_extension( 'filename.jpg' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative' ) );

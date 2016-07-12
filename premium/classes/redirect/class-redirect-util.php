@@ -68,6 +68,19 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
+	 * Returns whether or not the given URL has an extension
+	 *
+	 * @param string $url The URL to parse.
+	 *
+	 * @return bool Whether or not the given URL has an extension.
+	 */
+	public static function has_extension( $url ) {
+		$parsed = parse_url( $url, PHP_URL_PATH );
+
+		return false !== strpos( $parsed, '.' );
+	}
+
+	/**
 	 * Returns whether or not a target URL requires a trailing slash
 	 *
 	 * @param string $target_url The target URL to check.
@@ -80,6 +93,7 @@ class WPSEO_Redirect_Util {
 			self::has_permalink_trailing_slash() &&
 			self::is_relative_url( $target_url ) &&
 			! self::has_query_parameters( $target_url ) &&
-			! self::has_fragment_identifier( $target_url );
+			! self::has_fragment_identifier( $target_url ) &&
+			! self::has_extension( $target_url );
 	}
 }
