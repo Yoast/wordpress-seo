@@ -58,7 +58,6 @@ module.exports = function( paper ) {
 	var sentences = getSentences( paper.getText() );
 	var firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 	var sentenceBeginnings = sentences.map( function( sentence ) {
-
 		var words = getWords( stripSpaces( sentence ) );
 		if( words.length === 0 ) {
 			return "";
