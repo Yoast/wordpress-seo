@@ -119,6 +119,7 @@ class WPSEO_Admin_Pages {
 			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
 			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
 			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),
+			'kb_search_results_heading' => __( 'Search results', 'wordpress-seo' ),
 			'kb_error_message' => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
 			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
 			'kb_search' => __( 'search', 'wordpress-seo' ),
