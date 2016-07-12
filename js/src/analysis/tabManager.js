@@ -2,6 +2,7 @@ var defaultsDeep = require( 'lodash/defaultsDeep' );
 
 var getIndicatorForScore = require( './getIndicatorForScore' );
 var KeywordTab = require( './keywordTab' );
+var GenericTab = require( './genericTab' );
 
 var $ = jQuery;
 
@@ -15,7 +16,7 @@ var defaultArguments = {
 };
 
 /**
- * The tab manager is responsible for managing the analysis tabs in the metabox
+ * The tab manager is responsible for managing the analysis tabs in the metabox.
  *
  * @constructor
  */
@@ -34,10 +35,15 @@ function TabManager( arguments ) {
 TabManager.prototype.init = function() {
 	var metaboxTabs = $( '#wpseo-metabox-tabs' );
 
+	// Remove default functionality to prevent scrolling to top.
+	metaboxTabs.on( 'click', '.wpseo_tablink', function( ev ) {
+		ev.preventDefault();
+	});
+
 	this.focusKeywordInput = $( '#yoast_wpseo_focuskw_text_input,#wpseo_focuskw' );
 	this.focusKeywordRow = this.focusKeywordInput.closest( 'tr' );
 	this.contentAnalysis = $( '#yoast-seo-content-analysis' );
-	this.keywordAnalysis = $( '#wpseo-pageanalysis,#wpseo_analysis' );
+	this.keywordAnalysis = $( '#wpseo-pageanalysis, #wpseo_analysis' );
 	this.snippetPreview  = $( '#wpseosnippet' ).closest( 'tr' );
 
 	var initialKeyword   = $( this.arguments.focusKeywordField ).val();
@@ -48,41 +54,36 @@ TabManager.prototype.init = function() {
 	this.focusKeywordRow.hide();
 
 	// Initialize an instance of the keyword tab.
-	this.mainKeywordTab = new KeywordTab(
-		{
-			keyword: initialKeyword,
-			prefix: this.strings.keywordTab,
-			fallback: this.strings.enterFocusKeyword,
-			onActivate: function() {
-				this.showKeywordAnalysis();
-				this.deactivateContentTab();
-
-			}.bind( this ),
-			afterActivate: function() {
-				YoastSEO.app.refresh();
-			}
-		}
-	);
-
-	this.mainKeywordTab.init( metaboxTabs, 'prepend' );
-
-	this.contentTab = new KeywordTab( {
-		active: true,
-		prefix: this.strings.contentTab,
-		showKeyword: false,
-		isKeywordTab: false,
+	this.mainKeywordTab = new KeywordTab( {
+		keyword:    initialKeyword,
+		prefix:     this.strings.keywordTab,
+		fallback:   this.strings.enterFocusKeyword,
 		onActivate: function() {
-			this.showContentAnalysis();
-
-			this.mainKeywordTab.active = false;
+			this.showKeywordAnalysis();
+			this.contentTab.deactivate();
 		}.bind( this ),
 		afterActivate: function() {
 			YoastSEO.app.refresh();
 		}
 	} );
 
-	if ( this.arguments.contentAnalysisActive === '1' ) {
-		this.contentTab.init( metaboxTabs, 'prepend' );
+	this.contentTab = new GenericTab( {
+		label: this.strings.contentTab,
+		onActivate: function() {
+			this.showContentAnalysis();
+			this.mainKeywordTab.deactivate();
+		}.bind( this ),
+		afterActivate: function() {
+			YoastSEO.app.refresh();
+		}
+	} );
+
+	if ( this.arguments.keywordAnalysisActive ) {
+		this.mainKeywordTab.init( metaboxTabs );
+	}
+
+	if ( this.arguments.contentAnalysisActive ) {
+		this.contentTab.init( metaboxTabs );
 	}
 
 	$( '.yoast-seo__remove-tab' ).remove();
@@ -95,7 +96,10 @@ TabManager.prototype.showKeywordAnalysis = function() {
 	this.focusKeywordRow.show();
 	this.keywordAnalysis.show();
 	this.contentAnalysis.hide();
-	this.snippetPreview.show();
+
+	if ( this.arguments.keywordAnalysisActive ) {
+		this.snippetPreview.show();
+	}
 };
 
 /**
@@ -105,14 +109,10 @@ TabManager.prototype.showContentAnalysis = function() {
 	this.focusKeywordRow.hide();
 	this.keywordAnalysis.hide();
 	this.contentAnalysis.show();
-	this.snippetPreview.hide();
-};
 
-/**
- * Deactivates the content tab (this will not re-render the tab.)
- */
-TabManager.prototype.deactivateContentTab = function() {
-	this.contentTab.active = false;
+	if ( this.arguments.keywordAnalysisActive ) {
+		this.snippetPreview.hide();
+	}
 };
 
 /**
@@ -121,9 +121,7 @@ TabManager.prototype.deactivateContentTab = function() {
  * @param {number} score The score that has been calculated.
  */
 TabManager.prototype.updateContentTab = function( score ) {
-	var indicator = getIndicatorForScore( score );
-
-	this.contentTab.update( indicator.className, indicator.screenReaderText );
+	this.contentTab.updateScore( score );
 };
 
 /**
@@ -133,16 +131,7 @@ TabManager.prototype.updateContentTab = function( score ) {
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
 TabManager.prototype.updateKeywordTab = function( score, keyword ) {
-	var indicator = {
-		className: 'na',
-		screenReaderText: YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' )
-	};
-
-	if ( keyword !== '' ) {
-		indicator = getIndicatorForScore( score );
-	}
-
-	this.mainKeywordTab.update( indicator.className, indicator.screenReaderText, keyword );
+	this.mainKeywordTab.updateScore( score, keyword );
 };
 
 /**
@@ -153,7 +142,7 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
  * @returns {boolean}
  */
 TabManager.prototype.isMainKeyword = function( keyword ) {
-	return this.mainKeywordTab.getKeyword() === keyword;
+	return this.mainKeywordTab.getKeywordFromElement() === keyword;
 };
 
 /**

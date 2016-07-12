@@ -1,7 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Assessor = require( "yoastseo/js/assessor.js" );
 
-var fleschReadingEase = require( "yoastseo/js/assessments/fleschReadingEaseAssessment.js" );
 var introductionKeyword = require( "yoastseo/js/assessments/introductionKeywordAssessment.js" );
 var keyphraseLength = require( "yoastseo/js/assessments/keyphraseLengthAssessment.js" );
 var keywordDensity = require( "yoastseo/js/assessments/keywordDensityAssessment.js" );
@@ -24,21 +23,20 @@ var taxonomyTextLength = require( 'yoastseo/js/assessments/taxonomyTextLengthAss
 var TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
-	this._assessments = {
-		fleschReadingEase:      fleschReadingEase,
-		introductionKeyword:    introductionKeyword,
-		keyphraseLength:        keyphraseLength,
-		keywordDensity:         keywordDensity,
-		keywordStopWords:       keywordStopWords,
-		metaDescriptionKeyword: metaDescriptionKeyword,
-		metaDescriptionLength:  metaDescriptionLength,
-		taxonomyTextLength:     taxonomyTextLength,
-		titleKeyword:           titleKeyword,
-		titleLength:            titleLength,
-		urlKeyword:             urlKeyword,
-		urlLength:              urlLength,
-		urlStopWords:           urlStopWords
-	};
+	this._assessments = [
+		introductionKeyword,
+		keyphraseLength,
+		keywordDensity,
+		keywordStopWords,
+		metaDescriptionKeyword,
+		metaDescriptionLength,
+		taxonomyTextLength,
+		titleKeyword,
+		titleLength,
+		urlKeyword,
+		urlLength,
+		urlStopWords
+	];
 };
 
 module.exports = TaxonomyAssessor;
@@ -46,7 +44,7 @@ module.exports = TaxonomyAssessor;
 require( "util" ).inherits( module.exports, Assessor );
 
 
-},{"util":199,"yoastseo/js/assessments/fleschReadingEaseAssessment.js":200,"yoastseo/js/assessments/introductionKeywordAssessment.js":201,"yoastseo/js/assessments/keyphraseLengthAssessment.js":202,"yoastseo/js/assessments/keywordDensityAssessment.js":203,"yoastseo/js/assessments/keywordStopWordsAssessment.js":204,"yoastseo/js/assessments/metaDescriptionKeywordAssessment.js":205,"yoastseo/js/assessments/metaDescriptionLengthAssessment.js":206,"yoastseo/js/assessments/taxonomyTextLengthAssessment":208,"yoastseo/js/assessments/titleKeywordAssessment.js":213,"yoastseo/js/assessments/titleLengthAssessment.js":214,"yoastseo/js/assessments/urlKeywordAssessment.js":215,"yoastseo/js/assessments/urlLengthAssessment.js":216,"yoastseo/js/assessments/urlStopWordsAssessment.js":217,"yoastseo/js/assessor.js":218}],2:[function(require,module,exports){
+},{"util":201,"yoastseo/js/assessments/introductionKeywordAssessment.js":202,"yoastseo/js/assessments/keyphraseLengthAssessment.js":203,"yoastseo/js/assessments/keywordDensityAssessment.js":204,"yoastseo/js/assessments/keywordStopWordsAssessment.js":205,"yoastseo/js/assessments/metaDescriptionKeywordAssessment.js":206,"yoastseo/js/assessments/metaDescriptionLengthAssessment.js":207,"yoastseo/js/assessments/taxonomyTextLengthAssessment":210,"yoastseo/js/assessments/titleKeywordAssessment.js":215,"yoastseo/js/assessments/titleLengthAssessment.js":216,"yoastseo/js/assessments/urlKeywordAssessment.js":217,"yoastseo/js/assessments/urlLengthAssessment.js":218,"yoastseo/js/assessments/urlStopWordsAssessment.js":219,"yoastseo/js/assessor.js":220}],2:[function(require,module,exports){
 /* global wpseoAdminL10n */
 /* global ajaxurl */
 /* global require */
@@ -329,7 +327,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	$(init);
 }(jQuery));
 
-},{"./assessors/taxonomyAssessor":1,"jed":5,"yoastseo/js/SEOAssessor":272,"yoastseo/js/values/Paper":312}],3:[function(require,module,exports){
+},{"./assessors/taxonomyAssessor":1,"jed":5,"yoastseo/js/SEOAssessor":286,"yoastseo/js/values/Paper":326}],3:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1508,7 +1506,7 @@ var DataView = getNative(root, 'DataView');
 
 module.exports = DataView;
 
-},{"./_getNative":96,"./_root":135}],7:[function(require,module,exports){
+},{"./_getNative":94,"./_root":133}],7:[function(require,module,exports){
 var hashClear = require('./_hashClear'),
     hashDelete = require('./_hashDelete'),
     hashGet = require('./_hashGet'),
@@ -1542,7 +1540,7 @@ Hash.prototype.set = hashSet;
 
 module.exports = Hash;
 
-},{"./_hashClear":102,"./_hashDelete":103,"./_hashGet":104,"./_hashHas":105,"./_hashSet":106}],8:[function(require,module,exports){
+},{"./_hashClear":100,"./_hashDelete":101,"./_hashGet":102,"./_hashHas":103,"./_hashSet":104}],8:[function(require,module,exports){
 var listCacheClear = require('./_listCacheClear'),
     listCacheDelete = require('./_listCacheDelete'),
     listCacheGet = require('./_listCacheGet'),
@@ -1576,7 +1574,7 @@ ListCache.prototype.set = listCacheSet;
 
 module.exports = ListCache;
 
-},{"./_listCacheClear":122,"./_listCacheDelete":123,"./_listCacheGet":124,"./_listCacheHas":125,"./_listCacheSet":126}],9:[function(require,module,exports){
+},{"./_listCacheClear":120,"./_listCacheDelete":121,"./_listCacheGet":122,"./_listCacheHas":123,"./_listCacheSet":124}],9:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1585,7 +1583,7 @@ var Map = getNative(root, 'Map');
 
 module.exports = Map;
 
-},{"./_getNative":96,"./_root":135}],10:[function(require,module,exports){
+},{"./_getNative":94,"./_root":133}],10:[function(require,module,exports){
 var mapCacheClear = require('./_mapCacheClear'),
     mapCacheDelete = require('./_mapCacheDelete'),
     mapCacheGet = require('./_mapCacheGet'),
@@ -1619,7 +1617,7 @@ MapCache.prototype.set = mapCacheSet;
 
 module.exports = MapCache;
 
-},{"./_mapCacheClear":127,"./_mapCacheDelete":128,"./_mapCacheGet":129,"./_mapCacheHas":130,"./_mapCacheSet":131}],11:[function(require,module,exports){
+},{"./_mapCacheClear":125,"./_mapCacheDelete":126,"./_mapCacheGet":127,"./_mapCacheHas":128,"./_mapCacheSet":129}],11:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1628,7 +1626,7 @@ var Promise = getNative(root, 'Promise');
 
 module.exports = Promise;
 
-},{"./_getNative":96,"./_root":135}],12:[function(require,module,exports){
+},{"./_getNative":94,"./_root":133}],12:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1636,7 +1634,7 @@ var Reflect = root.Reflect;
 
 module.exports = Reflect;
 
-},{"./_root":135}],13:[function(require,module,exports){
+},{"./_root":133}],13:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1645,7 +1643,7 @@ var Set = getNative(root, 'Set');
 
 module.exports = Set;
 
-},{"./_getNative":96,"./_root":135}],14:[function(require,module,exports){
+},{"./_getNative":94,"./_root":133}],14:[function(require,module,exports){
 var MapCache = require('./_MapCache'),
     setCacheAdd = require('./_setCacheAdd'),
     setCacheHas = require('./_setCacheHas');
@@ -1674,7 +1672,7 @@ SetCache.prototype.has = setCacheHas;
 
 module.exports = SetCache;
 
-},{"./_MapCache":10,"./_setCacheAdd":136,"./_setCacheHas":137}],15:[function(require,module,exports){
+},{"./_MapCache":10,"./_setCacheAdd":134,"./_setCacheHas":135}],15:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     stackClear = require('./_stackClear'),
     stackDelete = require('./_stackDelete'),
@@ -1702,7 +1700,7 @@ Stack.prototype.set = stackSet;
 
 module.exports = Stack;
 
-},{"./_ListCache":8,"./_stackClear":139,"./_stackDelete":140,"./_stackGet":141,"./_stackHas":142,"./_stackSet":143}],16:[function(require,module,exports){
+},{"./_ListCache":8,"./_stackClear":137,"./_stackDelete":138,"./_stackGet":139,"./_stackHas":140,"./_stackSet":141}],16:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1710,7 +1708,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":135}],17:[function(require,module,exports){
+},{"./_root":133}],17:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1718,7 +1716,7 @@ var Uint8Array = root.Uint8Array;
 
 module.exports = Uint8Array;
 
-},{"./_root":135}],18:[function(require,module,exports){
+},{"./_root":133}],18:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1727,7 +1725,7 @@ var WeakMap = getNative(root, 'WeakMap');
 
 module.exports = WeakMap;
 
-},{"./_getNative":96,"./_root":135}],19:[function(require,module,exports){
+},{"./_getNative":94,"./_root":133}],19:[function(require,module,exports){
 /**
  * Adds the key-value `pair` to `map`.
  *
@@ -2005,7 +2003,7 @@ function assignInDefaults(objValue, srcValue, key, object) {
 
 module.exports = assignInDefaults;
 
-},{"./eq":149}],31:[function(require,module,exports){
+},{"./eq":147}],31:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -2026,7 +2024,7 @@ function assignMergeValue(object, key, value) {
 
 module.exports = assignMergeValue;
 
-},{"./eq":149}],32:[function(require,module,exports){
+},{"./eq":147}],32:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -2055,7 +2053,7 @@ function assignValue(object, key, value) {
 
 module.exports = assignValue;
 
-},{"./eq":149}],33:[function(require,module,exports){
+},{"./eq":147}],33:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -2078,7 +2076,7 @@ function assocIndexOf(array, key) {
 
 module.exports = assocIndexOf;
 
-},{"./eq":149}],34:[function(require,module,exports){
+},{"./eq":147}],34:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keys = require('./keys');
 
@@ -2097,7 +2095,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"./_copyObject":81,"./keys":177}],35:[function(require,module,exports){
+},{"./_copyObject":79,"./keys":175}],35:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignValue = require('./_assignValue'),
@@ -2238,7 +2236,7 @@ function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
 
 module.exports = baseClone;
 
-},{"./_Stack":15,"./_arrayEach":22,"./_assignValue":32,"./_baseAssign":34,"./_cloneBuffer":73,"./_copyArray":80,"./_copySymbols":82,"./_getAllKeys":92,"./_getTag":99,"./_initCloneArray":109,"./_initCloneByTag":110,"./_initCloneObject":111,"./_isHostObject":113,"./isArray":161,"./isBuffer":164,"./isObject":170,"./keys":177}],36:[function(require,module,exports){
+},{"./_Stack":15,"./_arrayEach":22,"./_assignValue":32,"./_baseAssign":34,"./_cloneBuffer":71,"./_copyArray":78,"./_copySymbols":80,"./_getAllKeys":90,"./_getTag":97,"./_initCloneArray":107,"./_initCloneByTag":108,"./_initCloneObject":109,"./_isHostObject":111,"./isArray":159,"./isBuffer":162,"./isObject":168,"./keys":175}],36:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** Built-in value references. */
@@ -2258,7 +2256,7 @@ function baseCreate(proto) {
 
 module.exports = baseCreate;
 
-},{"./isObject":170}],37:[function(require,module,exports){
+},{"./isObject":168}],37:[function(require,module,exports){
 var baseForOwn = require('./_baseForOwn'),
     createBaseEach = require('./_createBaseEach');
 
@@ -2274,7 +2272,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./_baseForOwn":42,"./_createBaseEach":85}],38:[function(require,module,exports){
+},{"./_baseForOwn":42,"./_createBaseEach":83}],38:[function(require,module,exports){
 var baseEach = require('./_baseEach');
 
 /**
@@ -2363,7 +2361,7 @@ function baseFlatten(array, depth, predicate, isStrict, result) {
 
 module.exports = baseFlatten;
 
-},{"./_arrayPush":27,"./_isFlattenable":112}],41:[function(require,module,exports){
+},{"./_arrayPush":27,"./_isFlattenable":110}],41:[function(require,module,exports){
 var createBaseFor = require('./_createBaseFor');
 
 /**
@@ -2381,7 +2379,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./_createBaseFor":86}],42:[function(require,module,exports){
+},{"./_createBaseFor":84}],42:[function(require,module,exports){
 var baseFor = require('./_baseFor'),
     keys = require('./keys');
 
@@ -2399,7 +2397,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"./_baseFor":41,"./keys":177}],43:[function(require,module,exports){
+},{"./_baseFor":41,"./keys":175}],43:[function(require,module,exports){
 var castPath = require('./_castPath'),
     isKey = require('./_isKey'),
     toKey = require('./_toKey');
@@ -2426,7 +2424,7 @@ function baseGet(object, path) {
 
 module.exports = baseGet;
 
-},{"./_castPath":70,"./_isKey":116,"./_toKey":145}],44:[function(require,module,exports){
+},{"./_castPath":68,"./_isKey":114,"./_toKey":143}],44:[function(require,module,exports){
 var arrayPush = require('./_arrayPush'),
     isArray = require('./isArray');
 
@@ -2448,7 +2446,7 @@ function baseGetAllKeys(object, keysFunc, symbolsFunc) {
 
 module.exports = baseGetAllKeys;
 
-},{"./_arrayPush":27,"./isArray":161}],45:[function(require,module,exports){
+},{"./_arrayPush":27,"./isArray":159}],45:[function(require,module,exports){
 var getPrototype = require('./_getPrototype');
 
 /** Used for built-in method references. */
@@ -2476,7 +2474,7 @@ function baseHas(object, key) {
 
 module.exports = baseHas;
 
-},{"./_getPrototype":97}],46:[function(require,module,exports){
+},{"./_getPrototype":95}],46:[function(require,module,exports){
 /**
  * The base implementation of `_.hasIn` without support for deep paths.
  *
@@ -2540,7 +2538,7 @@ function baseIndexOf(array, value, fromIndex) {
 
 module.exports = baseIndexOf;
 
-},{"./_indexOfNaN":108}],49:[function(require,module,exports){
+},{"./_indexOfNaN":106}],49:[function(require,module,exports){
 var baseIsEqualDeep = require('./_baseIsEqualDeep'),
     isObject = require('./isObject'),
     isObjectLike = require('./isObjectLike');
@@ -2572,7 +2570,7 @@ function baseIsEqual(value, other, customizer, bitmask, stack) {
 
 module.exports = baseIsEqual;
 
-},{"./_baseIsEqualDeep":50,"./isObject":170,"./isObjectLike":171}],50:[function(require,module,exports){
+},{"./_baseIsEqualDeep":50,"./isObject":168,"./isObjectLike":169}],50:[function(require,module,exports){
 var Stack = require('./_Stack'),
     equalArrays = require('./_equalArrays'),
     equalByTag = require('./_equalByTag'),
@@ -2656,7 +2654,7 @@ function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = baseIsEqualDeep;
 
-},{"./_Stack":15,"./_equalArrays":89,"./_equalByTag":90,"./_equalObjects":91,"./_getTag":99,"./_isHostObject":113,"./isArray":161,"./isTypedArray":175}],51:[function(require,module,exports){
+},{"./_Stack":15,"./_equalArrays":87,"./_equalByTag":88,"./_equalObjects":89,"./_getTag":97,"./_isHostObject":111,"./isArray":159,"./isTypedArray":173}],51:[function(require,module,exports){
 var Stack = require('./_Stack'),
     baseIsEqual = require('./_baseIsEqual');
 
@@ -2769,7 +2767,7 @@ function baseIsNative(value) {
 
 module.exports = baseIsNative;
 
-},{"./_isHostObject":113,"./_isMasked":118,"./_toSource":146,"./isFunction":166,"./isObject":170}],53:[function(require,module,exports){
+},{"./_isHostObject":111,"./_isMasked":116,"./_toSource":144,"./isFunction":164,"./isObject":168}],53:[function(require,module,exports){
 var baseMatches = require('./_baseMatches'),
     baseMatchesProperty = require('./_baseMatchesProperty'),
     identity = require('./identity'),
@@ -2802,7 +2800,7 @@ function baseIteratee(value) {
 
 module.exports = baseIteratee;
 
-},{"./_baseMatches":57,"./_baseMatchesProperty":58,"./identity":157,"./isArray":161,"./property":184}],54:[function(require,module,exports){
+},{"./_baseMatches":57,"./_baseMatchesProperty":58,"./identity":155,"./isArray":159,"./property":182}],54:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = Object.keys;
 
@@ -2858,7 +2856,7 @@ if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
 
 module.exports = baseKeysIn;
 
-},{"./_Reflect":12,"./_iteratorToArray":121}],56:[function(require,module,exports){
+},{"./_Reflect":12,"./_iteratorToArray":119}],56:[function(require,module,exports){
 var baseEach = require('./_baseEach'),
     isArrayLike = require('./isArrayLike');
 
@@ -2882,7 +2880,7 @@ function baseMap(collection, iteratee) {
 
 module.exports = baseMap;
 
-},{"./_baseEach":37,"./isArrayLike":162}],57:[function(require,module,exports){
+},{"./_baseEach":37,"./isArrayLike":160}],57:[function(require,module,exports){
 var baseIsMatch = require('./_baseIsMatch'),
     getMatchData = require('./_getMatchData'),
     matchesStrictComparable = require('./_matchesStrictComparable');
@@ -2906,7 +2904,7 @@ function baseMatches(source) {
 
 module.exports = baseMatches;
 
-},{"./_baseIsMatch":51,"./_getMatchData":95,"./_matchesStrictComparable":133}],58:[function(require,module,exports){
+},{"./_baseIsMatch":51,"./_getMatchData":93,"./_matchesStrictComparable":131}],58:[function(require,module,exports){
 var baseIsEqual = require('./_baseIsEqual'),
     get = require('./get'),
     hasIn = require('./hasIn'),
@@ -2941,7 +2939,7 @@ function baseMatchesProperty(path, srcValue) {
 
 module.exports = baseMatchesProperty;
 
-},{"./_baseIsEqual":49,"./_isKey":116,"./_isStrictComparable":120,"./_matchesStrictComparable":133,"./_toKey":145,"./get":155,"./hasIn":156}],59:[function(require,module,exports){
+},{"./_baseIsEqual":49,"./_isKey":114,"./_isStrictComparable":118,"./_matchesStrictComparable":131,"./_toKey":143,"./get":153,"./hasIn":154}],59:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignMergeValue = require('./_assignMergeValue'),
@@ -2993,7 +2991,7 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
 
 module.exports = baseMerge;
 
-},{"./_Stack":15,"./_arrayEach":22,"./_assignMergeValue":31,"./_baseMergeDeep":60,"./isArray":161,"./isObject":170,"./isTypedArray":175,"./keysIn":178}],60:[function(require,module,exports){
+},{"./_Stack":15,"./_arrayEach":22,"./_assignMergeValue":31,"./_baseMergeDeep":60,"./isArray":159,"./isObject":168,"./isTypedArray":173,"./keysIn":176}],60:[function(require,module,exports){
 var assignMergeValue = require('./_assignMergeValue'),
     baseClone = require('./_baseClone'),
     copyArray = require('./_copyArray'),
@@ -3078,7 +3076,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 
 module.exports = baseMergeDeep;
 
-},{"./_assignMergeValue":31,"./_baseClone":35,"./_copyArray":80,"./isArguments":160,"./isArray":161,"./isArrayLikeObject":163,"./isFunction":166,"./isObject":170,"./isPlainObject":172,"./isTypedArray":175,"./toPlainObject":193}],61:[function(require,module,exports){
+},{"./_assignMergeValue":31,"./_baseClone":35,"./_copyArray":78,"./isArguments":158,"./isArray":159,"./isArrayLikeObject":161,"./isFunction":164,"./isObject":168,"./isPlainObject":170,"./isTypedArray":173,"./toPlainObject":189}],61:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -3114,57 +3112,6 @@ module.exports = basePropertyDeep;
 
 },{"./_baseGet":43}],63:[function(require,module,exports){
 /**
- * The base implementation of `_.reduce` and `_.reduceRight`, without support
- * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {*} accumulator The initial value.
- * @param {boolean} initAccum Specify using the first or last element of
- *  `collection` as the initial value.
- * @param {Function} eachFunc The function to iterate over `collection`.
- * @returns {*} Returns the accumulated value.
- */
-function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
-  eachFunc(collection, function(value, index, collection) {
-    accumulator = initAccum
-      ? (initAccum = false, value)
-      : iteratee(accumulator, value, index, collection);
-  });
-  return accumulator;
-}
-
-module.exports = baseReduce;
-
-},{}],64:[function(require,module,exports){
-/**
- * The base implementation of `_.sum` and `_.sumBy` without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {number} Returns the sum.
- */
-function baseSum(array, iteratee) {
-  var result,
-      index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    var current = iteratee(array[index]);
-    if (current !== undefined) {
-      result = result === undefined ? current : (result + current);
-    }
-  }
-  return result;
-}
-
-module.exports = baseSum;
-
-},{}],65:[function(require,module,exports){
-/**
  * The base implementation of `_.times` without support for iteratee shorthands
  * or max array length checks.
  *
@@ -3185,7 +3132,7 @@ function baseTimes(n, iteratee) {
 
 module.exports = baseTimes;
 
-},{}],66:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     isSymbol = require('./isSymbol');
 
@@ -3218,7 +3165,7 @@ function baseToString(value) {
 
 module.exports = baseToString;
 
-},{"./_Symbol":16,"./isSymbol":174}],67:[function(require,module,exports){
+},{"./_Symbol":16,"./isSymbol":172}],65:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arrayIncludes = require('./_arrayIncludes'),
     arrayIncludesWith = require('./_arrayIncludesWith'),
@@ -3292,7 +3239,7 @@ function baseUniq(array, iteratee, comparator) {
 
 module.exports = baseUniq;
 
-},{"./_SetCache":14,"./_arrayIncludes":24,"./_arrayIncludesWith":25,"./_cacheHas":69,"./_createSet":88,"./_setToArray":138}],68:[function(require,module,exports){
+},{"./_SetCache":14,"./_arrayIncludes":24,"./_arrayIncludesWith":25,"./_cacheHas":67,"./_createSet":86,"./_setToArray":136}],66:[function(require,module,exports){
 var arrayMap = require('./_arrayMap');
 
 /**
@@ -3313,7 +3260,7 @@ function baseValues(object, props) {
 
 module.exports = baseValues;
 
-},{"./_arrayMap":26}],69:[function(require,module,exports){
+},{"./_arrayMap":26}],67:[function(require,module,exports){
 /**
  * Checks if a cache value for `key` exists.
  *
@@ -3328,7 +3275,7 @@ function cacheHas(cache, key) {
 
 module.exports = cacheHas;
 
-},{}],70:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 var isArray = require('./isArray'),
     stringToPath = require('./_stringToPath');
 
@@ -3345,7 +3292,7 @@ function castPath(value) {
 
 module.exports = castPath;
 
-},{"./_stringToPath":144,"./isArray":161}],71:[function(require,module,exports){
+},{"./_stringToPath":142,"./isArray":159}],69:[function(require,module,exports){
 /**
  * Checks if `value` is a global object.
  *
@@ -3359,7 +3306,7 @@ function checkGlobal(value) {
 
 module.exports = checkGlobal;
 
-},{}],72:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 var Uint8Array = require('./_Uint8Array');
 
 /**
@@ -3377,7 +3324,7 @@ function cloneArrayBuffer(arrayBuffer) {
 
 module.exports = cloneArrayBuffer;
 
-},{"./_Uint8Array":17}],73:[function(require,module,exports){
+},{"./_Uint8Array":17}],71:[function(require,module,exports){
 /**
  * Creates a clone of  `buffer`.
  *
@@ -3397,7 +3344,7 @@ function cloneBuffer(buffer, isDeep) {
 
 module.exports = cloneBuffer;
 
-},{}],74:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -3415,7 +3362,7 @@ function cloneDataView(dataView, isDeep) {
 
 module.exports = cloneDataView;
 
-},{"./_cloneArrayBuffer":72}],75:[function(require,module,exports){
+},{"./_cloneArrayBuffer":70}],73:[function(require,module,exports){
 var addMapEntry = require('./_addMapEntry'),
     arrayReduce = require('./_arrayReduce'),
     mapToArray = require('./_mapToArray');
@@ -3436,7 +3383,7 @@ function cloneMap(map, isDeep, cloneFunc) {
 
 module.exports = cloneMap;
 
-},{"./_addMapEntry":19,"./_arrayReduce":28,"./_mapToArray":132}],76:[function(require,module,exports){
+},{"./_addMapEntry":19,"./_arrayReduce":28,"./_mapToArray":130}],74:[function(require,module,exports){
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -3455,7 +3402,7 @@ function cloneRegExp(regexp) {
 
 module.exports = cloneRegExp;
 
-},{}],77:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 var addSetEntry = require('./_addSetEntry'),
     arrayReduce = require('./_arrayReduce'),
     setToArray = require('./_setToArray');
@@ -3476,7 +3423,7 @@ function cloneSet(set, isDeep, cloneFunc) {
 
 module.exports = cloneSet;
 
-},{"./_addSetEntry":20,"./_arrayReduce":28,"./_setToArray":138}],78:[function(require,module,exports){
+},{"./_addSetEntry":20,"./_arrayReduce":28,"./_setToArray":136}],76:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used to convert symbols to primitives and strings. */
@@ -3496,7 +3443,7 @@ function cloneSymbol(symbol) {
 
 module.exports = cloneSymbol;
 
-},{"./_Symbol":16}],79:[function(require,module,exports){
+},{"./_Symbol":16}],77:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -3514,7 +3461,7 @@ function cloneTypedArray(typedArray, isDeep) {
 
 module.exports = cloneTypedArray;
 
-},{"./_cloneArrayBuffer":72}],80:[function(require,module,exports){
+},{"./_cloneArrayBuffer":70}],78:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -3536,7 +3483,7 @@ function copyArray(source, array) {
 
 module.exports = copyArray;
 
-},{}],81:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 var assignValue = require('./_assignValue');
 
 /**
@@ -3569,7 +3516,7 @@ function copyObject(source, props, object, customizer) {
 
 module.exports = copyObject;
 
-},{"./_assignValue":32}],82:[function(require,module,exports){
+},{"./_assignValue":32}],80:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     getSymbols = require('./_getSymbols');
 
@@ -3587,7 +3534,7 @@ function copySymbols(source, object) {
 
 module.exports = copySymbols;
 
-},{"./_copyObject":81,"./_getSymbols":98}],83:[function(require,module,exports){
+},{"./_copyObject":79,"./_getSymbols":96}],81:[function(require,module,exports){
 var root = require('./_root');
 
 /** Used to detect overreaching core-js shims. */
@@ -3595,7 +3542,7 @@ var coreJsData = root['__core-js_shared__'];
 
 module.exports = coreJsData;
 
-},{"./_root":135}],84:[function(require,module,exports){
+},{"./_root":133}],82:[function(require,module,exports){
 var isIterateeCall = require('./_isIterateeCall'),
     rest = require('./rest');
 
@@ -3634,7 +3581,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"./_isIterateeCall":115,"./rest":186}],85:[function(require,module,exports){
+},{"./_isIterateeCall":113,"./rest":183}],83:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike');
 
 /**
@@ -3668,7 +3615,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./isArrayLike":162}],86:[function(require,module,exports){
+},{"./isArrayLike":160}],84:[function(require,module,exports){
 /**
  * Creates a base function for methods like `_.forIn` and `_.forOwn`.
  *
@@ -3695,7 +3642,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{}],87:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 var baseIteratee = require('./_baseIteratee'),
     isArrayLike = require('./isArrayLike'),
     keys = require('./keys');
@@ -3727,7 +3674,7 @@ function createFind(findIndexFunc) {
 
 module.exports = createFind;
 
-},{"./_baseIteratee":53,"./isArrayLike":162,"./keys":177}],88:[function(require,module,exports){
+},{"./_baseIteratee":53,"./isArrayLike":160,"./keys":175}],86:[function(require,module,exports){
 var Set = require('./_Set'),
     noop = require('./noop'),
     setToArray = require('./_setToArray');
@@ -3748,7 +3695,7 @@ var createSet = !(Set && (1 / setToArray(new Set([,-0]))[1]) == INFINITY) ? noop
 
 module.exports = createSet;
 
-},{"./_Set":13,"./_setToArray":138,"./noop":183}],89:[function(require,module,exports){
+},{"./_Set":13,"./_setToArray":136,"./noop":181}],87:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arraySome = require('./_arraySome');
 
@@ -3831,7 +3778,7 @@ function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalArrays;
 
-},{"./_SetCache":14,"./_arraySome":29}],90:[function(require,module,exports){
+},{"./_SetCache":14,"./_arraySome":29}],88:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     Uint8Array = require('./_Uint8Array'),
     equalArrays = require('./_equalArrays'),
@@ -3947,7 +3894,7 @@ function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalByTag;
 
-},{"./_Symbol":16,"./_Uint8Array":17,"./_equalArrays":89,"./_mapToArray":132,"./_setToArray":138}],91:[function(require,module,exports){
+},{"./_Symbol":16,"./_Uint8Array":17,"./_equalArrays":87,"./_mapToArray":130,"./_setToArray":136}],89:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     keys = require('./keys');
 
@@ -4032,7 +3979,7 @@ function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalObjects;
 
-},{"./_baseHas":45,"./keys":177}],92:[function(require,module,exports){
+},{"./_baseHas":45,"./keys":175}],90:[function(require,module,exports){
 var baseGetAllKeys = require('./_baseGetAllKeys'),
     getSymbols = require('./_getSymbols'),
     keys = require('./keys');
@@ -4050,7 +3997,7 @@ function getAllKeys(object) {
 
 module.exports = getAllKeys;
 
-},{"./_baseGetAllKeys":44,"./_getSymbols":98,"./keys":177}],93:[function(require,module,exports){
+},{"./_baseGetAllKeys":44,"./_getSymbols":96,"./keys":175}],91:[function(require,module,exports){
 var baseProperty = require('./_baseProperty');
 
 /**
@@ -4068,7 +4015,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./_baseProperty":61}],94:[function(require,module,exports){
+},{"./_baseProperty":61}],92:[function(require,module,exports){
 var isKeyable = require('./_isKeyable');
 
 /**
@@ -4088,7 +4035,7 @@ function getMapData(map, key) {
 
 module.exports = getMapData;
 
-},{"./_isKeyable":117}],95:[function(require,module,exports){
+},{"./_isKeyable":115}],93:[function(require,module,exports){
 var isStrictComparable = require('./_isStrictComparable'),
     keys = require('./keys');
 
@@ -4114,7 +4061,7 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
-},{"./_isStrictComparable":120,"./keys":177}],96:[function(require,module,exports){
+},{"./_isStrictComparable":118,"./keys":175}],94:[function(require,module,exports){
 var baseIsNative = require('./_baseIsNative'),
     getValue = require('./_getValue');
 
@@ -4133,7 +4080,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"./_baseIsNative":52,"./_getValue":100}],97:[function(require,module,exports){
+},{"./_baseIsNative":52,"./_getValue":98}],95:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetPrototype = Object.getPrototypeOf;
 
@@ -4150,7 +4097,7 @@ function getPrototype(value) {
 
 module.exports = getPrototype;
 
-},{}],98:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 var stubArray = require('./stubArray');
 
 /** Built-in value references. */
@@ -4176,7 +4123,7 @@ if (!getOwnPropertySymbols) {
 
 module.exports = getSymbols;
 
-},{"./stubArray":187}],99:[function(require,module,exports){
+},{"./stubArray":184}],97:[function(require,module,exports){
 var DataView = require('./_DataView'),
     Map = require('./_Map'),
     Promise = require('./_Promise'),
@@ -4248,7 +4195,7 @@ if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
 
 module.exports = getTag;
 
-},{"./_DataView":6,"./_Map":9,"./_Promise":11,"./_Set":13,"./_WeakMap":18,"./_toSource":146}],100:[function(require,module,exports){
+},{"./_DataView":6,"./_Map":9,"./_Promise":11,"./_Set":13,"./_WeakMap":18,"./_toSource":144}],98:[function(require,module,exports){
 /**
  * Gets the value at `key` of `object`.
  *
@@ -4263,7 +4210,7 @@ function getValue(object, key) {
 
 module.exports = getValue;
 
-},{}],101:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 var castPath = require('./_castPath'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -4306,7 +4253,7 @@ function hasPath(object, path, hasFunc) {
 
 module.exports = hasPath;
 
-},{"./_castPath":70,"./_isIndex":114,"./_isKey":116,"./_toKey":145,"./isArguments":160,"./isArray":161,"./isLength":167,"./isString":173}],102:[function(require,module,exports){
+},{"./_castPath":68,"./_isIndex":112,"./_isKey":114,"./_toKey":143,"./isArguments":158,"./isArray":159,"./isLength":165,"./isString":171}],100:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /**
@@ -4322,7 +4269,7 @@ function hashClear() {
 
 module.exports = hashClear;
 
-},{"./_nativeCreate":134}],103:[function(require,module,exports){
+},{"./_nativeCreate":132}],101:[function(require,module,exports){
 /**
  * Removes `key` and its value from the hash.
  *
@@ -4339,7 +4286,7 @@ function hashDelete(key) {
 
 module.exports = hashDelete;
 
-},{}],104:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -4371,7 +4318,7 @@ function hashGet(key) {
 
 module.exports = hashGet;
 
-},{"./_nativeCreate":134}],105:[function(require,module,exports){
+},{"./_nativeCreate":132}],103:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -4396,7 +4343,7 @@ function hashHas(key) {
 
 module.exports = hashHas;
 
-},{"./_nativeCreate":134}],106:[function(require,module,exports){
+},{"./_nativeCreate":132}],104:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -4420,7 +4367,7 @@ function hashSet(key, value) {
 
 module.exports = hashSet;
 
-},{"./_nativeCreate":134}],107:[function(require,module,exports){
+},{"./_nativeCreate":132}],105:[function(require,module,exports){
 var baseTimes = require('./_baseTimes'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -4446,7 +4393,7 @@ function indexKeys(object) {
 
 module.exports = indexKeys;
 
-},{"./_baseTimes":65,"./isArguments":160,"./isArray":161,"./isLength":167,"./isString":173}],108:[function(require,module,exports){
+},{"./_baseTimes":63,"./isArguments":158,"./isArray":159,"./isLength":165,"./isString":171}],106:[function(require,module,exports){
 /**
  * Gets the index at which the first occurrence of `NaN` is found in `array`.
  *
@@ -4471,7 +4418,7 @@ function indexOfNaN(array, fromIndex, fromRight) {
 
 module.exports = indexOfNaN;
 
-},{}],109:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -4499,7 +4446,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],110:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer'),
     cloneDataView = require('./_cloneDataView'),
     cloneMap = require('./_cloneMap'),
@@ -4581,7 +4528,7 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./_cloneArrayBuffer":72,"./_cloneDataView":74,"./_cloneMap":75,"./_cloneRegExp":76,"./_cloneSet":77,"./_cloneSymbol":78,"./_cloneTypedArray":79}],111:[function(require,module,exports){
+},{"./_cloneArrayBuffer":70,"./_cloneDataView":72,"./_cloneMap":73,"./_cloneRegExp":74,"./_cloneSet":75,"./_cloneSymbol":76,"./_cloneTypedArray":77}],109:[function(require,module,exports){
 var baseCreate = require('./_baseCreate'),
     getPrototype = require('./_getPrototype'),
     isPrototype = require('./_isPrototype');
@@ -4601,7 +4548,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{"./_baseCreate":36,"./_getPrototype":97,"./_isPrototype":119}],112:[function(require,module,exports){
+},{"./_baseCreate":36,"./_getPrototype":95,"./_isPrototype":117}],110:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray');
 
@@ -4618,7 +4565,7 @@ function isFlattenable(value) {
 
 module.exports = isFlattenable;
 
-},{"./isArguments":160,"./isArray":161}],113:[function(require,module,exports){
+},{"./isArguments":158,"./isArray":159}],111:[function(require,module,exports){
 /**
  * Checks if `value` is a host object in IE < 9.
  *
@@ -4640,7 +4587,7 @@ function isHostObject(value) {
 
 module.exports = isHostObject;
 
-},{}],114:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -4664,7 +4611,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],115:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 var eq = require('./eq'),
     isArrayLike = require('./isArrayLike'),
     isIndex = require('./_isIndex'),
@@ -4696,7 +4643,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"./_isIndex":114,"./eq":149,"./isArrayLike":162,"./isObject":170}],116:[function(require,module,exports){
+},{"./_isIndex":112,"./eq":147,"./isArrayLike":160,"./isObject":168}],114:[function(require,module,exports){
 var isArray = require('./isArray'),
     isSymbol = require('./isSymbol');
 
@@ -4727,7 +4674,7 @@ function isKey(value, object) {
 
 module.exports = isKey;
 
-},{"./isArray":161,"./isSymbol":174}],117:[function(require,module,exports){
+},{"./isArray":159,"./isSymbol":172}],115:[function(require,module,exports){
 /**
  * Checks if `value` is suitable for use as unique object key.
  *
@@ -4744,7 +4691,7 @@ function isKeyable(value) {
 
 module.exports = isKeyable;
 
-},{}],118:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 var coreJsData = require('./_coreJsData');
 
 /** Used to detect methods masquerading as native. */
@@ -4766,7 +4713,7 @@ function isMasked(func) {
 
 module.exports = isMasked;
 
-},{"./_coreJsData":83}],119:[function(require,module,exports){
+},{"./_coreJsData":81}],117:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -4786,7 +4733,7 @@ function isPrototype(value) {
 
 module.exports = isPrototype;
 
-},{}],120:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /**
@@ -4803,7 +4750,7 @@ function isStrictComparable(value) {
 
 module.exports = isStrictComparable;
 
-},{"./isObject":170}],121:[function(require,module,exports){
+},{"./isObject":168}],119:[function(require,module,exports){
 /**
  * Converts `iterator` to an array.
  *
@@ -4823,7 +4770,7 @@ function iteratorToArray(iterator) {
 
 module.exports = iteratorToArray;
 
-},{}],122:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 /**
  * Removes all key-value entries from the list cache.
  *
@@ -4837,7 +4784,7 @@ function listCacheClear() {
 
 module.exports = listCacheClear;
 
-},{}],123:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /** Used for built-in method references. */
@@ -4873,7 +4820,7 @@ function listCacheDelete(key) {
 
 module.exports = listCacheDelete;
 
-},{"./_assocIndexOf":33}],124:[function(require,module,exports){
+},{"./_assocIndexOf":33}],122:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -4894,7 +4841,7 @@ function listCacheGet(key) {
 
 module.exports = listCacheGet;
 
-},{"./_assocIndexOf":33}],125:[function(require,module,exports){
+},{"./_assocIndexOf":33}],123:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -4912,7 +4859,7 @@ function listCacheHas(key) {
 
 module.exports = listCacheHas;
 
-},{"./_assocIndexOf":33}],126:[function(require,module,exports){
+},{"./_assocIndexOf":33}],124:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -4939,7 +4886,7 @@ function listCacheSet(key, value) {
 
 module.exports = listCacheSet;
 
-},{"./_assocIndexOf":33}],127:[function(require,module,exports){
+},{"./_assocIndexOf":33}],125:[function(require,module,exports){
 var Hash = require('./_Hash'),
     ListCache = require('./_ListCache'),
     Map = require('./_Map');
@@ -4961,7 +4908,7 @@ function mapCacheClear() {
 
 module.exports = mapCacheClear;
 
-},{"./_Hash":7,"./_ListCache":8,"./_Map":9}],128:[function(require,module,exports){
+},{"./_Hash":7,"./_ListCache":8,"./_Map":9}],126:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -4979,7 +4926,7 @@ function mapCacheDelete(key) {
 
 module.exports = mapCacheDelete;
 
-},{"./_getMapData":94}],129:[function(require,module,exports){
+},{"./_getMapData":92}],127:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -4997,7 +4944,7 @@ function mapCacheGet(key) {
 
 module.exports = mapCacheGet;
 
-},{"./_getMapData":94}],130:[function(require,module,exports){
+},{"./_getMapData":92}],128:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -5015,7 +4962,7 @@ function mapCacheHas(key) {
 
 module.exports = mapCacheHas;
 
-},{"./_getMapData":94}],131:[function(require,module,exports){
+},{"./_getMapData":92}],129:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -5035,7 +4982,7 @@ function mapCacheSet(key, value) {
 
 module.exports = mapCacheSet;
 
-},{"./_getMapData":94}],132:[function(require,module,exports){
+},{"./_getMapData":92}],130:[function(require,module,exports){
 /**
  * Converts `map` to its key-value pairs.
  *
@@ -5055,7 +5002,7 @@ function mapToArray(map) {
 
 module.exports = mapToArray;
 
-},{}],133:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 /**
  * A specialized version of `matchesProperty` for source values suitable
  * for strict equality comparisons, i.e. `===`.
@@ -5077,7 +5024,7 @@ function matchesStrictComparable(key, srcValue) {
 
 module.exports = matchesStrictComparable;
 
-},{}],134:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 var getNative = require('./_getNative');
 
 /* Built-in method references that are verified to be native. */
@@ -5085,7 +5032,7 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
-},{"./_getNative":96}],135:[function(require,module,exports){
+},{"./_getNative":94}],133:[function(require,module,exports){
 (function (global){
 var checkGlobal = require('./_checkGlobal');
 
@@ -5104,7 +5051,7 @@ var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_checkGlobal":71}],136:[function(require,module,exports){
+},{"./_checkGlobal":69}],134:[function(require,module,exports){
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
@@ -5125,7 +5072,7 @@ function setCacheAdd(value) {
 
 module.exports = setCacheAdd;
 
-},{}],137:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 /**
  * Checks if `value` is in the array cache.
  *
@@ -5141,7 +5088,7 @@ function setCacheHas(value) {
 
 module.exports = setCacheHas;
 
-},{}],138:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 /**
  * Converts `set` to an array of its values.
  *
@@ -5161,7 +5108,7 @@ function setToArray(set) {
 
 module.exports = setToArray;
 
-},{}],139:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 var ListCache = require('./_ListCache');
 
 /**
@@ -5177,7 +5124,7 @@ function stackClear() {
 
 module.exports = stackClear;
 
-},{"./_ListCache":8}],140:[function(require,module,exports){
+},{"./_ListCache":8}],138:[function(require,module,exports){
 /**
  * Removes `key` and its value from the stack.
  *
@@ -5193,7 +5140,7 @@ function stackDelete(key) {
 
 module.exports = stackDelete;
 
-},{}],141:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 /**
  * Gets the stack value for `key`.
  *
@@ -5209,7 +5156,7 @@ function stackGet(key) {
 
 module.exports = stackGet;
 
-},{}],142:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 /**
  * Checks if a stack value for `key` exists.
  *
@@ -5225,7 +5172,7 @@ function stackHas(key) {
 
 module.exports = stackHas;
 
-},{}],143:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     MapCache = require('./_MapCache');
 
@@ -5253,7 +5200,7 @@ function stackSet(key, value) {
 
 module.exports = stackSet;
 
-},{"./_ListCache":8,"./_MapCache":10}],144:[function(require,module,exports){
+},{"./_ListCache":8,"./_MapCache":10}],142:[function(require,module,exports){
 var memoize = require('./memoize'),
     toString = require('./toString');
 
@@ -5280,7 +5227,7 @@ var stringToPath = memoize(function(string) {
 
 module.exports = stringToPath;
 
-},{"./memoize":180,"./toString":194}],145:[function(require,module,exports){
+},{"./memoize":178,"./toString":190}],143:[function(require,module,exports){
 var isSymbol = require('./isSymbol');
 
 /** Used as references for various `Number` constants. */
@@ -5303,7 +5250,7 @@ function toKey(value) {
 
 module.exports = toKey;
 
-},{"./isSymbol":174}],146:[function(require,module,exports){
+},{"./isSymbol":172}],144:[function(require,module,exports){
 /** Used to resolve the decompiled source of functions. */
 var funcToString = Function.prototype.toString;
 
@@ -5328,7 +5275,7 @@ function toSource(func) {
 
 module.exports = toSource;
 
-},{}],147:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     createAssigner = require('./_createAssigner'),
     keysIn = require('./keysIn');
@@ -5368,7 +5315,7 @@ var assignInWith = createAssigner(function(object, source, srcIndex, customizer)
 
 module.exports = assignInWith;
 
-},{"./_copyObject":81,"./_createAssigner":84,"./keysIn":178}],148:[function(require,module,exports){
+},{"./_copyObject":79,"./_createAssigner":82,"./keysIn":176}],146:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInDefaults = require('./_assignInDefaults'),
     assignInWith = require('./assignInWith'),
@@ -5402,7 +5349,7 @@ var defaults = rest(function(args) {
 
 module.exports = defaults;
 
-},{"./_apply":21,"./_assignInDefaults":30,"./assignInWith":147,"./rest":186}],149:[function(require,module,exports){
+},{"./_apply":21,"./_assignInDefaults":30,"./assignInWith":145,"./rest":183}],147:[function(require,module,exports){
 /**
  * Performs a
  * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
@@ -5441,7 +5388,7 @@ function eq(value, other) {
 
 module.exports = eq;
 
-},{}],150:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 var arrayFilter = require('./_arrayFilter'),
     baseFilter = require('./_baseFilter'),
     baseIteratee = require('./_baseIteratee'),
@@ -5490,7 +5437,7 @@ function filter(collection, predicate) {
 
 module.exports = filter;
 
-},{"./_arrayFilter":23,"./_baseFilter":38,"./_baseIteratee":53,"./isArray":161}],151:[function(require,module,exports){
+},{"./_arrayFilter":23,"./_baseFilter":38,"./_baseIteratee":53,"./isArray":159}],149:[function(require,module,exports){
 var createFind = require('./_createFind'),
     findIndex = require('./findIndex');
 
@@ -5535,7 +5482,7 @@ var find = createFind(findIndex);
 
 module.exports = find;
 
-},{"./_createFind":87,"./findIndex":152}],152:[function(require,module,exports){
+},{"./_createFind":85,"./findIndex":150}],150:[function(require,module,exports){
 var baseFindIndex = require('./_baseFindIndex'),
     baseIteratee = require('./_baseIteratee'),
     toInteger = require('./toInteger');
@@ -5593,7 +5540,7 @@ function findIndex(array, predicate, fromIndex) {
 
 module.exports = findIndex;
 
-},{"./_baseFindIndex":39,"./_baseIteratee":53,"./toInteger":191}],153:[function(require,module,exports){
+},{"./_baseFindIndex":39,"./_baseIteratee":53,"./toInteger":187}],151:[function(require,module,exports){
 var baseFlatten = require('./_baseFlatten'),
     map = require('./map');
 
@@ -5625,7 +5572,7 @@ function flatMap(collection, iteratee) {
 
 module.exports = flatMap;
 
-},{"./_baseFlatten":40,"./map":179}],154:[function(require,module,exports){
+},{"./_baseFlatten":40,"./map":177}],152:[function(require,module,exports){
 var arrayEach = require('./_arrayEach'),
     baseEach = require('./_baseEach'),
     baseIteratee = require('./_baseIteratee'),
@@ -5668,7 +5615,7 @@ function forEach(collection, iteratee) {
 
 module.exports = forEach;
 
-},{"./_arrayEach":22,"./_baseEach":37,"./_baseIteratee":53,"./isArray":161}],155:[function(require,module,exports){
+},{"./_arrayEach":22,"./_baseEach":37,"./_baseIteratee":53,"./isArray":159}],153:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -5703,7 +5650,7 @@ function get(object, path, defaultValue) {
 
 module.exports = get;
 
-},{"./_baseGet":43}],156:[function(require,module,exports){
+},{"./_baseGet":43}],154:[function(require,module,exports){
 var baseHasIn = require('./_baseHasIn'),
     hasPath = require('./_hasPath');
 
@@ -5739,7 +5686,7 @@ function hasIn(object, path) {
 
 module.exports = hasIn;
 
-},{"./_baseHasIn":46,"./_hasPath":101}],157:[function(require,module,exports){
+},{"./_baseHasIn":46,"./_hasPath":99}],155:[function(require,module,exports){
 /**
  * This method returns the first argument given to it.
  *
@@ -5762,7 +5709,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],158:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 var baseInRange = require('./_baseInRange'),
     toNumber = require('./toNumber');
 
@@ -5818,7 +5765,7 @@ function inRange(number, start, end) {
 
 module.exports = inRange;
 
-},{"./_baseInRange":47,"./toNumber":192}],159:[function(require,module,exports){
+},{"./_baseInRange":47,"./toNumber":188}],157:[function(require,module,exports){
 var baseIndexOf = require('./_baseIndexOf'),
     isArrayLike = require('./isArrayLike'),
     isString = require('./isString'),
@@ -5873,7 +5820,7 @@ function includes(collection, value, fromIndex, guard) {
 
 module.exports = includes;
 
-},{"./_baseIndexOf":48,"./isArrayLike":162,"./isString":173,"./toInteger":191,"./values":196}],160:[function(require,module,exports){
+},{"./_baseIndexOf":48,"./isArrayLike":160,"./isString":171,"./toInteger":187,"./values":192}],158:[function(require,module,exports){
 var isArrayLikeObject = require('./isArrayLikeObject');
 
 /** `Object#toString` result references. */
@@ -5921,7 +5868,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"./isArrayLikeObject":163}],161:[function(require,module,exports){
+},{"./isArrayLikeObject":161}],159:[function(require,module,exports){
 /**
  * Checks if `value` is classified as an `Array` object.
  *
@@ -5951,7 +5898,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],162:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 var getLength = require('./_getLength'),
     isFunction = require('./isFunction'),
     isLength = require('./isLength');
@@ -5987,7 +5934,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./_getLength":93,"./isFunction":166,"./isLength":167}],163:[function(require,module,exports){
+},{"./_getLength":91,"./isFunction":164,"./isLength":165}],161:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isObjectLike = require('./isObjectLike');
 
@@ -6022,7 +5969,7 @@ function isArrayLikeObject(value) {
 
 module.exports = isArrayLikeObject;
 
-},{"./isArrayLike":162,"./isObjectLike":171}],164:[function(require,module,exports){
+},{"./isArrayLike":160,"./isObjectLike":169}],162:[function(require,module,exports){
 var root = require('./_root'),
     stubFalse = require('./stubFalse');
 
@@ -6061,7 +6008,7 @@ var isBuffer = !Buffer ? stubFalse : function(value) {
 
 module.exports = isBuffer;
 
-},{"./_root":135,"./stubFalse":188}],165:[function(require,module,exports){
+},{"./_root":133,"./stubFalse":185}],163:[function(require,module,exports){
 var getTag = require('./_getTag'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -6143,7 +6090,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"./_getTag":99,"./isArguments":160,"./isArray":161,"./isArrayLike":162,"./isBuffer":164,"./isFunction":166,"./isObjectLike":171,"./isString":173,"./keys":177}],166:[function(require,module,exports){
+},{"./_getTag":97,"./isArguments":158,"./isArray":159,"./isArrayLike":160,"./isBuffer":162,"./isFunction":164,"./isObjectLike":169,"./isString":171,"./keys":175}],164:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -6188,7 +6135,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":170}],167:[function(require,module,exports){
+},{"./isObject":168}],165:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -6226,7 +6173,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],168:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 var isNumber = require('./isNumber');
 
 /**
@@ -6266,7 +6213,7 @@ function isNaN(value) {
 
 module.exports = isNaN;
 
-},{"./isNumber":169}],169:[function(require,module,exports){
+},{"./isNumber":167}],167:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike');
 
 /** `Object#toString` result references. */
@@ -6316,7 +6263,7 @@ function isNumber(value) {
 
 module.exports = isNumber;
 
-},{"./isObjectLike":171}],170:[function(require,module,exports){
+},{"./isObjectLike":169}],168:[function(require,module,exports){
 /**
  * Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
@@ -6349,7 +6296,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],171:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -6380,7 +6327,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],172:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 var getPrototype = require('./_getPrototype'),
     isHostObject = require('./_isHostObject'),
     isObjectLike = require('./isObjectLike');
@@ -6452,7 +6399,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_getPrototype":97,"./_isHostObject":113,"./isObjectLike":171}],173:[function(require,module,exports){
+},{"./_getPrototype":95,"./_isHostObject":111,"./isObjectLike":169}],171:[function(require,module,exports){
 var isArray = require('./isArray'),
     isObjectLike = require('./isObjectLike');
 
@@ -6494,7 +6441,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"./isArray":161,"./isObjectLike":171}],174:[function(require,module,exports){
+},{"./isArray":159,"./isObjectLike":169}],172:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike');
 
 /** `Object#toString` result references. */
@@ -6535,7 +6482,7 @@ function isSymbol(value) {
 
 module.exports = isSymbol;
 
-},{"./isObjectLike":171}],175:[function(require,module,exports){
+},{"./isObjectLike":169}],173:[function(require,module,exports){
 var isLength = require('./isLength'),
     isObjectLike = require('./isObjectLike');
 
@@ -6617,7 +6564,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"./isLength":167,"./isObjectLike":171}],176:[function(require,module,exports){
+},{"./isLength":165,"./isObjectLike":169}],174:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -6641,7 +6588,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],177:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     baseKeys = require('./_baseKeys'),
     indexKeys = require('./_indexKeys'),
@@ -6699,7 +6646,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{"./_baseHas":45,"./_baseKeys":54,"./_indexKeys":107,"./_isIndex":114,"./_isPrototype":119,"./isArrayLike":162}],178:[function(require,module,exports){
+},{"./_baseHas":45,"./_baseKeys":54,"./_indexKeys":105,"./_isIndex":112,"./_isPrototype":117,"./isArrayLike":160}],176:[function(require,module,exports){
 var baseKeysIn = require('./_baseKeysIn'),
     indexKeys = require('./_indexKeys'),
     isIndex = require('./_isIndex'),
@@ -6756,7 +6703,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"./_baseKeysIn":55,"./_indexKeys":107,"./_isIndex":114,"./_isPrototype":119}],179:[function(require,module,exports){
+},{"./_baseKeysIn":55,"./_indexKeys":105,"./_isIndex":112,"./_isPrototype":117}],177:[function(require,module,exports){
 var arrayMap = require('./_arrayMap'),
     baseIteratee = require('./_baseIteratee'),
     baseMap = require('./_baseMap'),
@@ -6812,7 +6759,7 @@ function map(collection, iteratee) {
 
 module.exports = map;
 
-},{"./_arrayMap":26,"./_baseIteratee":53,"./_baseMap":56,"./isArray":161}],180:[function(require,module,exports){
+},{"./_arrayMap":26,"./_baseIteratee":53,"./_baseMap":56,"./isArray":159}],178:[function(require,module,exports){
 var MapCache = require('./_MapCache');
 
 /** Used as the `TypeError` message for "Functions" methods. */
@@ -6887,7 +6834,7 @@ memoize.Cache = MapCache;
 
 module.exports = memoize;
 
-},{"./_MapCache":10}],181:[function(require,module,exports){
+},{"./_MapCache":10}],179:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     createAssigner = require('./_createAssigner');
 
@@ -6928,7 +6875,7 @@ var merge = createAssigner(function(object, source, srcIndex) {
 
 module.exports = merge;
 
-},{"./_baseMerge":59,"./_createAssigner":84}],182:[function(require,module,exports){
+},{"./_baseMerge":59,"./_createAssigner":82}],180:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -6963,7 +6910,7 @@ function negate(predicate) {
 
 module.exports = negate;
 
-},{}],183:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 /**
  * A method that returns `undefined`.
  *
@@ -6982,7 +6929,7 @@ function noop() {
 
 module.exports = noop;
 
-},{}],184:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 var baseProperty = require('./_baseProperty'),
     basePropertyDeep = require('./_basePropertyDeep'),
     isKey = require('./_isKey'),
@@ -7016,60 +6963,7 @@ function property(path) {
 
 module.exports = property;
 
-},{"./_baseProperty":61,"./_basePropertyDeep":62,"./_isKey":116,"./_toKey":145}],185:[function(require,module,exports){
-var arrayReduce = require('./_arrayReduce'),
-    baseEach = require('./_baseEach'),
-    baseIteratee = require('./_baseIteratee'),
-    baseReduce = require('./_baseReduce'),
-    isArray = require('./isArray');
-
-/**
- * Reduces `collection` to a value which is the accumulated result of running
- * each element in `collection` thru `iteratee`, where each successive
- * invocation is supplied the return value of the previous. If `accumulator`
- * is not given, the first element of `collection` is used as the initial
- * value. The iteratee is invoked with four arguments:
- * (accumulator, value, index|key, collection).
- *
- * Many lodash methods are guarded to work as iteratees for methods like
- * `_.reduce`, `_.reduceRight`, and `_.transform`.
- *
- * The guarded methods are:
- * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `orderBy`,
- * and `sortBy`
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @param {*} [accumulator] The initial value.
- * @returns {*} Returns the accumulated value.
- * @see _.reduceRight
- * @example
- *
- * _.reduce([1, 2], function(sum, n) {
- *   return sum + n;
- * }, 0);
- * // => 3
- *
- * _.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
- *   (result[value] || (result[value] = [])).push(key);
- *   return result;
- * }, {});
- * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
- */
-function reduce(collection, iteratee, accumulator) {
-  var func = isArray(collection) ? arrayReduce : baseReduce,
-      initAccum = arguments.length < 3;
-
-  return func(collection, baseIteratee(iteratee, 4), accumulator, initAccum, baseEach);
-}
-
-module.exports = reduce;
-
-},{"./_arrayReduce":28,"./_baseEach":37,"./_baseIteratee":53,"./_baseReduce":63,"./isArray":161}],186:[function(require,module,exports){
+},{"./_baseProperty":61,"./_basePropertyDeep":62,"./_isKey":114,"./_toKey":143}],183:[function(require,module,exports){
 var apply = require('./_apply'),
     toInteger = require('./toInteger');
 
@@ -7135,7 +7029,7 @@ function rest(func, start) {
 
 module.exports = rest;
 
-},{"./_apply":21,"./toInteger":191}],187:[function(require,module,exports){
+},{"./_apply":21,"./toInteger":187}],184:[function(require,module,exports){
 /**
  * A method that returns a new empty array.
  *
@@ -7160,7 +7054,7 @@ function stubArray() {
 
 module.exports = stubArray;
 
-},{}],188:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 /**
  * A method that returns `false`.
  *
@@ -7180,33 +7074,7 @@ function stubFalse() {
 
 module.exports = stubFalse;
 
-},{}],189:[function(require,module,exports){
-var baseSum = require('./_baseSum'),
-    identity = require('./identity');
-
-/**
- * Computes the sum of the values in `array`.
- *
- * @static
- * @memberOf _
- * @since 3.4.0
- * @category Math
- * @param {Array} array The array to iterate over.
- * @returns {number} Returns the sum.
- * @example
- *
- * _.sum([4, 2, 8, 6]);
- * // => 20
- */
-function sum(array) {
-  return (array && array.length)
-    ? baseSum(array, identity)
-    : 0;
-}
-
-module.exports = sum;
-
-},{"./_baseSum":64,"./identity":157}],190:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -7250,7 +7118,7 @@ function toFinite(value) {
 
 module.exports = toFinite;
 
-},{"./toNumber":192}],191:[function(require,module,exports){
+},{"./toNumber":188}],187:[function(require,module,exports){
 var toFinite = require('./toFinite');
 
 /**
@@ -7288,7 +7156,7 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toFinite":190}],192:[function(require,module,exports){
+},{"./toFinite":186}],188:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
@@ -7357,7 +7225,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isFunction":166,"./isObject":170,"./isSymbol":174}],193:[function(require,module,exports){
+},{"./isFunction":164,"./isObject":168,"./isSymbol":172}],189:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keysIn = require('./keysIn');
 
@@ -7391,7 +7259,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"./_copyObject":81,"./keysIn":178}],194:[function(require,module,exports){
+},{"./_copyObject":79,"./keysIn":176}],190:[function(require,module,exports){
 var baseToString = require('./_baseToString');
 
 /**
@@ -7421,7 +7289,7 @@ function toString(value) {
 
 module.exports = toString;
 
-},{"./_baseToString":66}],195:[function(require,module,exports){
+},{"./_baseToString":64}],191:[function(require,module,exports){
 var baseIteratee = require('./_baseIteratee'),
     baseUniq = require('./_baseUniq');
 
@@ -7455,7 +7323,7 @@ function uniqBy(array, iteratee) {
 
 module.exports = uniqBy;
 
-},{"./_baseIteratee":53,"./_baseUniq":67}],196:[function(require,module,exports){
+},{"./_baseIteratee":53,"./_baseUniq":65}],192:[function(require,module,exports){
 var baseValues = require('./_baseValues'),
     keys = require('./keys');
 
@@ -7491,7 +7359,723 @@ function values(object) {
 
 module.exports = values;
 
-},{"./_baseValues":68,"./keys":177}],197:[function(require,module,exports){
+},{"./_baseValues":66,"./keys":175}],193:[function(require,module,exports){
+(function (global){
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+;(function(root) {
+
+	/** Detect free variables */
+	var freeExports = typeof exports == 'object' && exports &&
+		!exports.nodeType && exports;
+	var freeModule = typeof module == 'object' && module &&
+		!module.nodeType && module;
+	var freeGlobal = typeof global == 'object' && global;
+	if (
+		freeGlobal.global === freeGlobal ||
+		freeGlobal.window === freeGlobal ||
+		freeGlobal.self === freeGlobal
+	) {
+		root = freeGlobal;
+	}
+
+	/**
+	 * The `punycode` object.
+	 * @name punycode
+	 * @type Object
+	 */
+	var punycode,
+
+	/** Highest positive signed 32-bit float value */
+	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
+
+	/** Bootstring parameters */
+	base = 36,
+	tMin = 1,
+	tMax = 26,
+	skew = 38,
+	damp = 700,
+	initialBias = 72,
+	initialN = 128, // 0x80
+	delimiter = '-', // '\x2D'
+
+	/** Regular expressions */
+	regexPunycode = /^xn--/,
+	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
+	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
+
+	/** Error messages */
+	errors = {
+		'overflow': 'Overflow: input needs wider integers to process',
+		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+		'invalid-input': 'Invalid input'
+	},
+
+	/** Convenience shortcuts */
+	baseMinusTMin = base - tMin,
+	floor = Math.floor,
+	stringFromCharCode = String.fromCharCode,
+
+	/** Temporary variable */
+	key;
+
+	/*--------------------------------------------------------------------------*/
+
+	/**
+	 * A generic error utility function.
+	 * @private
+	 * @param {String} type The error type.
+	 * @returns {Error} Throws a `RangeError` with the applicable error message.
+	 */
+	function error(type) {
+		throw new RangeError(errors[type]);
+	}
+
+	/**
+	 * A generic `Array#map` utility function.
+	 * @private
+	 * @param {Array} array The array to iterate over.
+	 * @param {Function} callback The function that gets called for every array
+	 * item.
+	 * @returns {Array} A new array of values returned by the callback function.
+	 */
+	function map(array, fn) {
+		var length = array.length;
+		var result = [];
+		while (length--) {
+			result[length] = fn(array[length]);
+		}
+		return result;
+	}
+
+	/**
+	 * A simple `Array#map`-like wrapper to work with domain name strings or email
+	 * addresses.
+	 * @private
+	 * @param {String} domain The domain name or email address.
+	 * @param {Function} callback The function that gets called for every
+	 * character.
+	 * @returns {Array} A new string of characters returned by the callback
+	 * function.
+	 */
+	function mapDomain(string, fn) {
+		var parts = string.split('@');
+		var result = '';
+		if (parts.length > 1) {
+			// In email addresses, only the domain name should be punycoded. Leave
+			// the local part (i.e. everything up to `@`) intact.
+			result = parts[0] + '@';
+			string = parts[1];
+		}
+		// Avoid `split(regex)` for IE8 compatibility. See #17.
+		string = string.replace(regexSeparators, '\x2E');
+		var labels = string.split('.');
+		var encoded = map(labels, fn).join('.');
+		return result + encoded;
+	}
+
+	/**
+	 * Creates an array containing the numeric code points of each Unicode
+	 * character in the string. While JavaScript uses UCS-2 internally,
+	 * this function will convert a pair of surrogate halves (each of which
+	 * UCS-2 exposes as separate characters) into a single code point,
+	 * matching UTF-16.
+	 * @see `punycode.ucs2.encode`
+	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+	 * @memberOf punycode.ucs2
+	 * @name decode
+	 * @param {String} string The Unicode input string (UCS-2).
+	 * @returns {Array} The new array of code points.
+	 */
+	function ucs2decode(string) {
+		var output = [],
+		    counter = 0,
+		    length = string.length,
+		    value,
+		    extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					// unmatched surrogate; only append this code unit, in case the next
+					// code unit is the high surrogate of a surrogate pair
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+	/**
+	 * Creates a string based on an array of numeric code points.
+	 * @see `punycode.ucs2.decode`
+	 * @memberOf punycode.ucs2
+	 * @name encode
+	 * @param {Array} codePoints The array of numeric code points.
+	 * @returns {String} The new Unicode string (UCS-2).
+	 */
+	function ucs2encode(array) {
+		return map(array, function(value) {
+			var output = '';
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+			return output;
+		}).join('');
+	}
+
+	/**
+	 * Converts a basic code point into a digit/integer.
+	 * @see `digitToBasic()`
+	 * @private
+	 * @param {Number} codePoint The basic numeric code point value.
+	 * @returns {Number} The numeric value of a basic code point (for use in
+	 * representing integers) in the range `0` to `base - 1`, or `base` if
+	 * the code point does not represent a value.
+	 */
+	function basicToDigit(codePoint) {
+		if (codePoint - 48 < 10) {
+			return codePoint - 22;
+		}
+		if (codePoint - 65 < 26) {
+			return codePoint - 65;
+		}
+		if (codePoint - 97 < 26) {
+			return codePoint - 97;
+		}
+		return base;
+	}
+
+	/**
+	 * Converts a digit/integer into a basic code point.
+	 * @see `basicToDigit()`
+	 * @private
+	 * @param {Number} digit The numeric value of a basic code point.
+	 * @returns {Number} The basic code point whose value (when used for
+	 * representing integers) is `digit`, which needs to be in the range
+	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+	 * used; else, the lowercase form is used. The behavior is undefined
+	 * if `flag` is non-zero and `digit` has no uppercase form.
+	 */
+	function digitToBasic(digit, flag) {
+		//  0..25 map to ASCII a..z or A..Z
+		// 26..35 map to ASCII 0..9
+		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
+
+	/**
+	 * Bias adaptation function as per section 3.4 of RFC 3492.
+	 * https://tools.ietf.org/html/rfc3492#section-3.4
+	 * @private
+	 */
+	function adapt(delta, numPoints, firstTime) {
+		var k = 0;
+		delta = firstTime ? floor(delta / damp) : delta >> 1;
+		delta += floor(delta / numPoints);
+		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+			delta = floor(delta / baseMinusTMin);
+		}
+		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
+
+	/**
+	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
+	 * symbols.
+	 * @memberOf punycode
+	 * @param {String} input The Punycode string of ASCII-only symbols.
+	 * @returns {String} The resulting string of Unicode symbols.
+	 */
+	function decode(input) {
+		// Don't use UCS-2
+		var output = [],
+		    inputLength = input.length,
+		    out,
+		    i = 0,
+		    n = initialN,
+		    bias = initialBias,
+		    basic,
+		    j,
+		    index,
+		    oldi,
+		    w,
+		    k,
+		    digit,
+		    t,
+		    /** Cached calculation results */
+		    baseMinusT;
+
+		// Handle the basic code points: let `basic` be the number of input code
+		// points before the last delimiter, or `0` if there is none, then copy
+		// the first basic code points to the output.
+
+		basic = input.lastIndexOf(delimiter);
+		if (basic < 0) {
+			basic = 0;
+		}
+
+		for (j = 0; j < basic; ++j) {
+			// if it's not a basic code point
+			if (input.charCodeAt(j) >= 0x80) {
+				error('not-basic');
+			}
+			output.push(input.charCodeAt(j));
+		}
+
+		// Main decoding loop: start just after the last delimiter if any basic code
+		// points were copied; start at the beginning otherwise.
+
+		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
+
+			// `index` is the index of the next character to be consumed.
+			// Decode a generalized variable-length integer into `delta`,
+			// which gets added to `i`. The overflow checking is easier
+			// if we increase `i` as we go, then subtract off its starting
+			// value at the end to obtain `delta`.
+			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
+
+				if (index >= inputLength) {
+					error('invalid-input');
+				}
+
+				digit = basicToDigit(input.charCodeAt(index++));
+
+				if (digit >= base || digit > floor((maxInt - i) / w)) {
+					error('overflow');
+				}
+
+				i += digit * w;
+				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+
+				if (digit < t) {
+					break;
+				}
+
+				baseMinusT = base - t;
+				if (w > floor(maxInt / baseMinusT)) {
+					error('overflow');
+				}
+
+				w *= baseMinusT;
+
+			}
+
+			out = output.length + 1;
+			bias = adapt(i - oldi, out, oldi == 0);
+
+			// `i` was supposed to wrap around from `out` to `0`,
+			// incrementing `n` each time, so we'll fix that now:
+			if (floor(i / out) > maxInt - n) {
+				error('overflow');
+			}
+
+			n += floor(i / out);
+			i %= out;
+
+			// Insert `n` at position `i` of the output
+			output.splice(i++, 0, n);
+
+		}
+
+		return ucs2encode(output);
+	}
+
+	/**
+	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
+	 * Punycode string of ASCII-only symbols.
+	 * @memberOf punycode
+	 * @param {String} input The string of Unicode symbols.
+	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
+	 */
+	function encode(input) {
+		var n,
+		    delta,
+		    handledCPCount,
+		    basicLength,
+		    bias,
+		    j,
+		    m,
+		    q,
+		    k,
+		    t,
+		    currentValue,
+		    output = [],
+		    /** `inputLength` will hold the number of code points in `input`. */
+		    inputLength,
+		    /** Cached calculation results */
+		    handledCPCountPlusOne,
+		    baseMinusT,
+		    qMinusT;
+
+		// Convert the input in UCS-2 to Unicode
+		input = ucs2decode(input);
+
+		// Cache the length
+		inputLength = input.length;
+
+		// Initialize the state
+		n = initialN;
+		delta = 0;
+		bias = initialBias;
+
+		// Handle the basic code points
+		for (j = 0; j < inputLength; ++j) {
+			currentValue = input[j];
+			if (currentValue < 0x80) {
+				output.push(stringFromCharCode(currentValue));
+			}
+		}
+
+		handledCPCount = basicLength = output.length;
+
+		// `handledCPCount` is the number of code points that have been handled;
+		// `basicLength` is the number of basic code points.
+
+		// Finish the basic string - if it is not empty - with a delimiter
+		if (basicLength) {
+			output.push(delimiter);
+		}
+
+		// Main encoding loop:
+		while (handledCPCount < inputLength) {
+
+			// All non-basic code points < n have been handled already. Find the next
+			// larger one:
+			for (m = maxInt, j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue >= n && currentValue < m) {
+					m = currentValue;
+				}
+			}
+
+			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+			// but guard against overflow
+			handledCPCountPlusOne = handledCPCount + 1;
+			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+				error('overflow');
+			}
+
+			delta += (m - n) * handledCPCountPlusOne;
+			n = m;
+
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+
+				if (currentValue < n && ++delta > maxInt) {
+					error('overflow');
+				}
+
+				if (currentValue == n) {
+					// Represent delta as a generalized variable-length integer
+					for (q = delta, k = base; /* no condition */; k += base) {
+						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+						if (q < t) {
+							break;
+						}
+						qMinusT = q - t;
+						baseMinusT = base - t;
+						output.push(
+							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+						);
+						q = floor(qMinusT / baseMinusT);
+					}
+
+					output.push(stringFromCharCode(digitToBasic(q, 0)));
+					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+					delta = 0;
+					++handledCPCount;
+				}
+			}
+
+			++delta;
+			++n;
+
+		}
+		return output.join('');
+	}
+
+	/**
+	 * Converts a Punycode string representing a domain name or an email address
+	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
+	 * it doesn't matter if you call it on a string that has already been
+	 * converted to Unicode.
+	 * @memberOf punycode
+	 * @param {String} input The Punycoded domain name or email address to
+	 * convert to Unicode.
+	 * @returns {String} The Unicode representation of the given Punycode
+	 * string.
+	 */
+	function toUnicode(input) {
+		return mapDomain(input, function(string) {
+			return regexPunycode.test(string)
+				? decode(string.slice(4).toLowerCase())
+				: string;
+		});
+	}
+
+	/**
+	 * Converts a Unicode string representing a domain name or an email address to
+	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
+	 * i.e. it doesn't matter if you call it with a domain that's already in
+	 * ASCII.
+	 * @memberOf punycode
+	 * @param {String} input The domain name or email address to convert, as a
+	 * Unicode string.
+	 * @returns {String} The Punycode representation of the given domain name or
+	 * email address.
+	 */
+	function toASCII(input) {
+		return mapDomain(input, function(string) {
+			return regexNonASCII.test(string)
+				? 'xn--' + encode(string)
+				: string;
+		});
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	/** Define the public API */
+	punycode = {
+		/**
+		 * A string representing the current Punycode.js version number.
+		 * @memberOf punycode
+		 * @type String
+		 */
+		'version': '1.4.1',
+		/**
+		 * An object of methods to convert from JavaScript's internal character
+		 * representation (UCS-2) to Unicode code points, and back.
+		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+		 * @memberOf punycode
+		 * @type Object
+		 */
+		'ucs2': {
+			'decode': ucs2decode,
+			'encode': ucs2encode
+		},
+		'decode': decode,
+		'encode': encode,
+		'toASCII': toASCII,
+		'toUnicode': toUnicode
+	};
+
+	/** Expose `punycode` */
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		typeof define == 'function' &&
+		typeof define.amd == 'object' &&
+		define.amd
+	) {
+		define('punycode', function() {
+			return punycode;
+		});
+	} else if (freeExports && freeModule) {
+		if (module.exports == freeExports) {
+			// in Node.js, io.js, or RingoJS v0.8.0+
+			freeModule.exports = punycode;
+		} else {
+			// in Narwhal or RingoJS v0.7.0-
+			for (key in punycode) {
+				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+			}
+		}
+	} else {
+		// in Rhino or a web browser
+		root.punycode = punycode;
+	}
+
+}(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],194:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+// If obj.hasOwnProperty has been overridden, then calling
+// obj.hasOwnProperty(prop) will break.
+// See: https://github.com/joyent/node/issues/1707
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+module.exports = function(qs, sep, eq, options) {
+  sep = sep || '&';
+  eq = eq || '=';
+  var obj = {};
+
+  if (typeof qs !== 'string' || qs.length === 0) {
+    return obj;
+  }
+
+  var regexp = /\+/g;
+  qs = qs.split(sep);
+
+  var maxKeys = 1000;
+  if (options && typeof options.maxKeys === 'number') {
+    maxKeys = options.maxKeys;
+  }
+
+  var len = qs.length;
+  // maxKeys <= 0 means that we should not limit keys count
+  if (maxKeys > 0 && len > maxKeys) {
+    len = maxKeys;
+  }
+
+  for (var i = 0; i < len; ++i) {
+    var x = qs[i].replace(regexp, '%20'),
+        idx = x.indexOf(eq),
+        kstr, vstr, k, v;
+
+    if (idx >= 0) {
+      kstr = x.substr(0, idx);
+      vstr = x.substr(idx + 1);
+    } else {
+      kstr = x;
+      vstr = '';
+    }
+
+    k = decodeURIComponent(kstr);
+    v = decodeURIComponent(vstr);
+
+    if (!hasOwnProperty(obj, k)) {
+      obj[k] = v;
+    } else if (isArray(obj[k])) {
+      obj[k].push(v);
+    } else {
+      obj[k] = [obj[k], v];
+    }
+  }
+
+  return obj;
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+},{}],195:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+var stringifyPrimitive = function(v) {
+  switch (typeof v) {
+    case 'string':
+      return v;
+
+    case 'boolean':
+      return v ? 'true' : 'false';
+
+    case 'number':
+      return isFinite(v) ? v : '';
+
+    default:
+      return '';
+  }
+};
+
+module.exports = function(obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+  if (obj === null) {
+    obj = undefined;
+  }
+
+  if (typeof obj === 'object') {
+    return map(objectKeys(obj), function(k) {
+      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+      if (isArray(obj[k])) {
+        return map(obj[k], function(v) {
+          return ks + encodeURIComponent(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+
+  }
+
+  if (!name) return '';
+  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+         encodeURIComponent(stringifyPrimitive(obj));
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+function map (xs, f) {
+  if (xs.map) return xs.map(f);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    res.push(f(xs[i], i));
+  }
+  return res;
+}
+
+var objectKeys = Object.keys || function (obj) {
+  var res = [];
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+  }
+  return res;
+};
+
+},{}],196:[function(require,module,exports){
+'use strict';
+
+exports.decode = exports.parse = require('./decode');
+exports.encode = exports.stringify = require('./encode');
+
+},{"./decode":194,"./encode":195}],197:[function(require,module,exports){
 var findMatchingRule = function(rules, text){
   var i;
   for(i=0; i<rules.length; i++)
@@ -7567,13 +8151,765 @@ module.exports = function(onToken_orig){
 };
 
 },{}],198:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+var punycode = require('punycode');
+var util = require('./util');
+
+exports.parse = urlParse;
+exports.resolve = urlResolve;
+exports.resolveObject = urlResolveObject;
+exports.format = urlFormat;
+
+exports.Url = Url;
+
+function Url() {
+  this.protocol = null;
+  this.slashes = null;
+  this.auth = null;
+  this.host = null;
+  this.port = null;
+  this.hostname = null;
+  this.hash = null;
+  this.search = null;
+  this.query = null;
+  this.pathname = null;
+  this.path = null;
+  this.href = null;
+}
+
+// Reference: RFC 3986, RFC 1808, RFC 2396
+
+// define these here so at least they only have to be
+// compiled once on the first module load.
+var protocolPattern = /^([a-z0-9.+-]+:)/i,
+    portPattern = /:[0-9]*$/,
+
+    // Special case for a simple path URL
+    simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
+
+    // RFC 2396: characters reserved for delimiting URLs.
+    // We actually just auto-escape these.
+    delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
+
+    // RFC 2396: characters not allowed for various reasons.
+    unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
+
+    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
+    autoEscape = ['\''].concat(unwise),
+    // Characters that are never ever allowed in a hostname.
+    // Note that any invalid chars are also handled, but these
+    // are the ones that are *expected* to be seen, so we fast-path
+    // them.
+    nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
+    hostEndingChars = ['/', '?', '#'],
+    hostnameMaxLen = 255,
+    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
+    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
+    // protocols that can allow "unsafe" and "unwise" chars.
+    unsafeProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that never have a hostname.
+    hostlessProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that always contain a // bit.
+    slashedProtocol = {
+      'http': true,
+      'https': true,
+      'ftp': true,
+      'gopher': true,
+      'file': true,
+      'http:': true,
+      'https:': true,
+      'ftp:': true,
+      'gopher:': true,
+      'file:': true
+    },
+    querystring = require('querystring');
+
+function urlParse(url, parseQueryString, slashesDenoteHost) {
+  if (url && util.isObject(url) && url instanceof Url) return url;
+
+  var u = new Url;
+  u.parse(url, parseQueryString, slashesDenoteHost);
+  return u;
+}
+
+Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
+  if (!util.isString(url)) {
+    throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
+  }
+
+  // Copy chrome, IE, opera backslash-handling behavior.
+  // Back slashes before the query string get converted to forward slashes
+  // See: https://code.google.com/p/chromium/issues/detail?id=25916
+  var queryIndex = url.indexOf('?'),
+      splitter =
+          (queryIndex !== -1 && queryIndex < url.indexOf('#')) ? '?' : '#',
+      uSplit = url.split(splitter),
+      slashRegex = /\\/g;
+  uSplit[0] = uSplit[0].replace(slashRegex, '/');
+  url = uSplit.join(splitter);
+
+  var rest = url;
+
+  // trim before proceeding.
+  // This is to support parse stuff like "  http://foo.com  \n"
+  rest = rest.trim();
+
+  if (!slashesDenoteHost && url.split('#').length === 1) {
+    // Try fast path regexp
+    var simplePath = simplePathPattern.exec(rest);
+    if (simplePath) {
+      this.path = rest;
+      this.href = rest;
+      this.pathname = simplePath[1];
+      if (simplePath[2]) {
+        this.search = simplePath[2];
+        if (parseQueryString) {
+          this.query = querystring.parse(this.search.substr(1));
+        } else {
+          this.query = this.search.substr(1);
+        }
+      } else if (parseQueryString) {
+        this.search = '';
+        this.query = {};
+      }
+      return this;
+    }
+  }
+
+  var proto = protocolPattern.exec(rest);
+  if (proto) {
+    proto = proto[0];
+    var lowerProto = proto.toLowerCase();
+    this.protocol = lowerProto;
+    rest = rest.substr(proto.length);
+  }
+
+  // figure out if it's got a host
+  // user@server is *always* interpreted as a hostname, and url
+  // resolution will treat //foo/bar as host=foo,path=bar because that's
+  // how the browser resolves relative URLs.
+  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
+    var slashes = rest.substr(0, 2) === '//';
+    if (slashes && !(proto && hostlessProtocol[proto])) {
+      rest = rest.substr(2);
+      this.slashes = true;
+    }
+  }
+
+  if (!hostlessProtocol[proto] &&
+      (slashes || (proto && !slashedProtocol[proto]))) {
+
+    // there's a hostname.
+    // the first instance of /, ?, ;, or # ends the host.
+    //
+    // If there is an @ in the hostname, then non-host chars *are* allowed
+    // to the left of the last @ sign, unless some host-ending character
+    // comes *before* the @-sign.
+    // URLs are obnoxious.
+    //
+    // ex:
+    // http://a@b@c/ => user:a@b host:c
+    // http://a@b?@c => user:a host:c path:/?@c
+
+    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
+    // Review our test case against browsers more comprehensively.
+
+    // find the first instance of any hostEndingChars
+    var hostEnd = -1;
+    for (var i = 0; i < hostEndingChars.length; i++) {
+      var hec = rest.indexOf(hostEndingChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+        hostEnd = hec;
+    }
+
+    // at this point, either we have an explicit point where the
+    // auth portion cannot go past, or the last @ char is the decider.
+    var auth, atSign;
+    if (hostEnd === -1) {
+      // atSign can be anywhere.
+      atSign = rest.lastIndexOf('@');
+    } else {
+      // atSign must be in auth portion.
+      // http://a@b/c@d => host:b auth:a path:/c@d
+      atSign = rest.lastIndexOf('@', hostEnd);
+    }
+
+    // Now we have a portion which is definitely the auth.
+    // Pull that off.
+    if (atSign !== -1) {
+      auth = rest.slice(0, atSign);
+      rest = rest.slice(atSign + 1);
+      this.auth = decodeURIComponent(auth);
+    }
+
+    // the host is the remaining to the left of the first non-host char
+    hostEnd = -1;
+    for (var i = 0; i < nonHostChars.length; i++) {
+      var hec = rest.indexOf(nonHostChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+        hostEnd = hec;
+    }
+    // if we still have not hit it, then the entire thing is a host.
+    if (hostEnd === -1)
+      hostEnd = rest.length;
+
+    this.host = rest.slice(0, hostEnd);
+    rest = rest.slice(hostEnd);
+
+    // pull out port.
+    this.parseHost();
+
+    // we've indicated that there is a hostname,
+    // so even if it's empty, it has to be present.
+    this.hostname = this.hostname || '';
+
+    // if hostname begins with [ and ends with ]
+    // assume that it's an IPv6 address.
+    var ipv6Hostname = this.hostname[0] === '[' &&
+        this.hostname[this.hostname.length - 1] === ']';
+
+    // validate a little.
+    if (!ipv6Hostname) {
+      var hostparts = this.hostname.split(/\./);
+      for (var i = 0, l = hostparts.length; i < l; i++) {
+        var part = hostparts[i];
+        if (!part) continue;
+        if (!part.match(hostnamePartPattern)) {
+          var newpart = '';
+          for (var j = 0, k = part.length; j < k; j++) {
+            if (part.charCodeAt(j) > 127) {
+              // we replace non-ASCII char with a temporary placeholder
+              // we need this to make sure size of hostname is not
+              // broken by replacing non-ASCII by nothing
+              newpart += 'x';
+            } else {
+              newpart += part[j];
+            }
+          }
+          // we test again with ASCII char only
+          if (!newpart.match(hostnamePartPattern)) {
+            var validParts = hostparts.slice(0, i);
+            var notHost = hostparts.slice(i + 1);
+            var bit = part.match(hostnamePartStart);
+            if (bit) {
+              validParts.push(bit[1]);
+              notHost.unshift(bit[2]);
+            }
+            if (notHost.length) {
+              rest = '/' + notHost.join('.') + rest;
+            }
+            this.hostname = validParts.join('.');
+            break;
+          }
+        }
+      }
+    }
+
+    if (this.hostname.length > hostnameMaxLen) {
+      this.hostname = '';
+    } else {
+      // hostnames are always lower case.
+      this.hostname = this.hostname.toLowerCase();
+    }
+
+    if (!ipv6Hostname) {
+      // IDNA Support: Returns a punycoded representation of "domain".
+      // It only converts parts of the domain name that
+      // have non-ASCII characters, i.e. it doesn't matter if
+      // you call it with a domain that already is ASCII-only.
+      this.hostname = punycode.toASCII(this.hostname);
+    }
+
+    var p = this.port ? ':' + this.port : '';
+    var h = this.hostname || '';
+    this.host = h + p;
+    this.href += this.host;
+
+    // strip [ and ] from the hostname
+    // the host field still retains them, though
+    if (ipv6Hostname) {
+      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
+      if (rest[0] !== '/') {
+        rest = '/' + rest;
+      }
+    }
+  }
+
+  // now rest is set to the post-host stuff.
+  // chop off any delim chars.
+  if (!unsafeProtocol[lowerProto]) {
+
+    // First, make 100% sure that any "autoEscape" chars get
+    // escaped, even if encodeURIComponent doesn't think they
+    // need to be.
+    for (var i = 0, l = autoEscape.length; i < l; i++) {
+      var ae = autoEscape[i];
+      if (rest.indexOf(ae) === -1)
+        continue;
+      var esc = encodeURIComponent(ae);
+      if (esc === ae) {
+        esc = escape(ae);
+      }
+      rest = rest.split(ae).join(esc);
+    }
+  }
+
+
+  // chop off from the tail first.
+  var hash = rest.indexOf('#');
+  if (hash !== -1) {
+    // got a fragment string.
+    this.hash = rest.substr(hash);
+    rest = rest.slice(0, hash);
+  }
+  var qm = rest.indexOf('?');
+  if (qm !== -1) {
+    this.search = rest.substr(qm);
+    this.query = rest.substr(qm + 1);
+    if (parseQueryString) {
+      this.query = querystring.parse(this.query);
+    }
+    rest = rest.slice(0, qm);
+  } else if (parseQueryString) {
+    // no query string, but parseQueryString still requested
+    this.search = '';
+    this.query = {};
+  }
+  if (rest) this.pathname = rest;
+  if (slashedProtocol[lowerProto] &&
+      this.hostname && !this.pathname) {
+    this.pathname = '/';
+  }
+
+  //to support http.request
+  if (this.pathname || this.search) {
+    var p = this.pathname || '';
+    var s = this.search || '';
+    this.path = p + s;
+  }
+
+  // finally, reconstruct the href based on what has been validated.
+  this.href = this.format();
+  return this;
+};
+
+// format a parsed object into a url string
+function urlFormat(obj) {
+  // ensure it's an object, and not a string url.
+  // If it's an obj, this is a no-op.
+  // this way, you can call url_format() on strings
+  // to clean up potentially wonky urls.
+  if (util.isString(obj)) obj = urlParse(obj);
+  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
+  return obj.format();
+}
+
+Url.prototype.format = function() {
+  var auth = this.auth || '';
+  if (auth) {
+    auth = encodeURIComponent(auth);
+    auth = auth.replace(/%3A/i, ':');
+    auth += '@';
+  }
+
+  var protocol = this.protocol || '',
+      pathname = this.pathname || '',
+      hash = this.hash || '',
+      host = false,
+      query = '';
+
+  if (this.host) {
+    host = auth + this.host;
+  } else if (this.hostname) {
+    host = auth + (this.hostname.indexOf(':') === -1 ?
+        this.hostname :
+        '[' + this.hostname + ']');
+    if (this.port) {
+      host += ':' + this.port;
+    }
+  }
+
+  if (this.query &&
+      util.isObject(this.query) &&
+      Object.keys(this.query).length) {
+    query = querystring.stringify(this.query);
+  }
+
+  var search = this.search || (query && ('?' + query)) || '';
+
+  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
+
+  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
+  // unless they had them to begin with.
+  if (this.slashes ||
+      (!protocol || slashedProtocol[protocol]) && host !== false) {
+    host = '//' + (host || '');
+    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
+  } else if (!host) {
+    host = '';
+  }
+
+  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
+  if (search && search.charAt(0) !== '?') search = '?' + search;
+
+  pathname = pathname.replace(/[?#]/g, function(match) {
+    return encodeURIComponent(match);
+  });
+  search = search.replace('#', '%23');
+
+  return protocol + host + pathname + search + hash;
+};
+
+function urlResolve(source, relative) {
+  return urlParse(source, false, true).resolve(relative);
+}
+
+Url.prototype.resolve = function(relative) {
+  return this.resolveObject(urlParse(relative, false, true)).format();
+};
+
+function urlResolveObject(source, relative) {
+  if (!source) return relative;
+  return urlParse(source, false, true).resolveObject(relative);
+}
+
+Url.prototype.resolveObject = function(relative) {
+  if (util.isString(relative)) {
+    var rel = new Url();
+    rel.parse(relative, false, true);
+    relative = rel;
+  }
+
+  var result = new Url();
+  var tkeys = Object.keys(this);
+  for (var tk = 0; tk < tkeys.length; tk++) {
+    var tkey = tkeys[tk];
+    result[tkey] = this[tkey];
+  }
+
+  // hash is always overridden, no matter what.
+  // even href="" will remove it.
+  result.hash = relative.hash;
+
+  // if the relative url is empty, then there's nothing left to do here.
+  if (relative.href === '') {
+    result.href = result.format();
+    return result;
+  }
+
+  // hrefs like //foo/bar always cut to the protocol.
+  if (relative.slashes && !relative.protocol) {
+    // take everything except the protocol from relative
+    var rkeys = Object.keys(relative);
+    for (var rk = 0; rk < rkeys.length; rk++) {
+      var rkey = rkeys[rk];
+      if (rkey !== 'protocol')
+        result[rkey] = relative[rkey];
+    }
+
+    //urlParse appends trailing / to urls like http://www.example.com
+    if (slashedProtocol[result.protocol] &&
+        result.hostname && !result.pathname) {
+      result.path = result.pathname = '/';
+    }
+
+    result.href = result.format();
+    return result;
+  }
+
+  if (relative.protocol && relative.protocol !== result.protocol) {
+    // if it's a known url protocol, then changing
+    // the protocol does weird things
+    // first, if it's not file:, then we MUST have a host,
+    // and if there was a path
+    // to begin with, then we MUST have a path.
+    // if it is file:, then the host is dropped,
+    // because that's known to be hostless.
+    // anything else is assumed to be absolute.
+    if (!slashedProtocol[relative.protocol]) {
+      var keys = Object.keys(relative);
+      for (var v = 0; v < keys.length; v++) {
+        var k = keys[v];
+        result[k] = relative[k];
+      }
+      result.href = result.format();
+      return result;
+    }
+
+    result.protocol = relative.protocol;
+    if (!relative.host && !hostlessProtocol[relative.protocol]) {
+      var relPath = (relative.pathname || '').split('/');
+      while (relPath.length && !(relative.host = relPath.shift()));
+      if (!relative.host) relative.host = '';
+      if (!relative.hostname) relative.hostname = '';
+      if (relPath[0] !== '') relPath.unshift('');
+      if (relPath.length < 2) relPath.unshift('');
+      result.pathname = relPath.join('/');
+    } else {
+      result.pathname = relative.pathname;
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    result.host = relative.host || '';
+    result.auth = relative.auth;
+    result.hostname = relative.hostname || relative.host;
+    result.port = relative.port;
+    // to support http.request
+    if (result.pathname || result.search) {
+      var p = result.pathname || '';
+      var s = result.search || '';
+      result.path = p + s;
+    }
+    result.slashes = result.slashes || relative.slashes;
+    result.href = result.format();
+    return result;
+  }
+
+  var isSourceAbs = (result.pathname && result.pathname.charAt(0) === '/'),
+      isRelAbs = (
+          relative.host ||
+          relative.pathname && relative.pathname.charAt(0) === '/'
+      ),
+      mustEndAbs = (isRelAbs || isSourceAbs ||
+                    (result.host && relative.pathname)),
+      removeAllDots = mustEndAbs,
+      srcPath = result.pathname && result.pathname.split('/') || [],
+      relPath = relative.pathname && relative.pathname.split('/') || [],
+      psychotic = result.protocol && !slashedProtocol[result.protocol];
+
+  // if the url is a non-slashed url, then relative
+  // links like ../.. should be able
+  // to crawl up to the hostname, as well.  This is strange.
+  // result.protocol has already been set by now.
+  // Later on, put the first path part into the host field.
+  if (psychotic) {
+    result.hostname = '';
+    result.port = null;
+    if (result.host) {
+      if (srcPath[0] === '') srcPath[0] = result.host;
+      else srcPath.unshift(result.host);
+    }
+    result.host = '';
+    if (relative.protocol) {
+      relative.hostname = null;
+      relative.port = null;
+      if (relative.host) {
+        if (relPath[0] === '') relPath[0] = relative.host;
+        else relPath.unshift(relative.host);
+      }
+      relative.host = null;
+    }
+    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
+  }
+
+  if (isRelAbs) {
+    // it's absolute.
+    result.host = (relative.host || relative.host === '') ?
+                  relative.host : result.host;
+    result.hostname = (relative.hostname || relative.hostname === '') ?
+                      relative.hostname : result.hostname;
+    result.search = relative.search;
+    result.query = relative.query;
+    srcPath = relPath;
+    // fall through to the dot-handling below.
+  } else if (relPath.length) {
+    // it's relative
+    // throw away the existing file, and take the new path instead.
+    if (!srcPath) srcPath = [];
+    srcPath.pop();
+    srcPath = srcPath.concat(relPath);
+    result.search = relative.search;
+    result.query = relative.query;
+  } else if (!util.isNullOrUndefined(relative.search)) {
+    // just pull out the search.
+    // like href='?foo'.
+    // Put this after the other two cases because it simplifies the booleans
+    if (psychotic) {
+      result.hostname = result.host = srcPath.shift();
+      //occationaly the auth can get stuck only in host
+      //this especially happens in cases like
+      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+      var authInHost = result.host && result.host.indexOf('@') > 0 ?
+                       result.host.split('@') : false;
+      if (authInHost) {
+        result.auth = authInHost.shift();
+        result.host = result.hostname = authInHost.shift();
+      }
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    //to support http.request
+    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+      result.path = (result.pathname ? result.pathname : '') +
+                    (result.search ? result.search : '');
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  if (!srcPath.length) {
+    // no path at all.  easy.
+    // we've already handled the other stuff above.
+    result.pathname = null;
+    //to support http.request
+    if (result.search) {
+      result.path = '/' + result.search;
+    } else {
+      result.path = null;
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  // if a url ENDs in . or .., then it must get a trailing slash.
+  // however, if it ends in anything else non-slashy,
+  // then it must NOT get a trailing slash.
+  var last = srcPath.slice(-1)[0];
+  var hasTrailingSlash = (
+      (result.host || relative.host || srcPath.length > 1) &&
+      (last === '.' || last === '..') || last === '');
+
+  // strip single dots, resolve double dots to parent dir
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = srcPath.length; i >= 0; i--) {
+    last = srcPath[i];
+    if (last === '.') {
+      srcPath.splice(i, 1);
+    } else if (last === '..') {
+      srcPath.splice(i, 1);
+      up++;
+    } else if (up) {
+      srcPath.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (!mustEndAbs && !removeAllDots) {
+    for (; up--; up) {
+      srcPath.unshift('..');
+    }
+  }
+
+  if (mustEndAbs && srcPath[0] !== '' &&
+      (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
+    srcPath.unshift('');
+  }
+
+  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
+    srcPath.push('');
+  }
+
+  var isAbsolute = srcPath[0] === '' ||
+      (srcPath[0] && srcPath[0].charAt(0) === '/');
+
+  // put the host back
+  if (psychotic) {
+    result.hostname = result.host = isAbsolute ? '' :
+                                    srcPath.length ? srcPath.shift() : '';
+    //occationaly the auth can get stuck only in host
+    //this especially happens in cases like
+    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+    var authInHost = result.host && result.host.indexOf('@') > 0 ?
+                     result.host.split('@') : false;
+    if (authInHost) {
+      result.auth = authInHost.shift();
+      result.host = result.hostname = authInHost.shift();
+    }
+  }
+
+  mustEndAbs = mustEndAbs || (result.host && srcPath.length);
+
+  if (mustEndAbs && !isAbsolute) {
+    srcPath.unshift('');
+  }
+
+  if (!srcPath.length) {
+    result.pathname = null;
+    result.path = null;
+  } else {
+    result.pathname = srcPath.join('/');
+  }
+
+  //to support request.http
+  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+    result.path = (result.pathname ? result.pathname : '') +
+                  (result.search ? result.search : '');
+  }
+  result.auth = relative.auth || result.auth;
+  result.slashes = result.slashes || relative.slashes;
+  result.href = result.format();
+  return result;
+};
+
+Url.prototype.parseHost = function() {
+  var host = this.host;
+  var port = portPattern.exec(host);
+  if (port) {
+    port = port[0];
+    if (port !== ':') {
+      this.port = port.substr(1);
+    }
+    host = host.substr(0, host.length - port.length);
+  }
+  if (host) this.hostname = host;
+};
+
+},{"./util":199,"punycode":193,"querystring":196}],199:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  isString: function(arg) {
+    return typeof(arg) === 'string';
+  },
+  isObject: function(arg) {
+    return typeof(arg) === 'object' && arg !== null;
+  },
+  isNull: function(arg) {
+    return arg === null;
+  },
+  isNullOrUndefined: function(arg) {
+    return arg == null;
+  }
+};
+
+},{}],200:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],199:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8163,118 +9499,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":198,"_process":3,"inherits":4}],200:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculates the assessment result based on the fleschReadingScore
- * @param {int} fleschReadingScore The score from the fleschReadingtest
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} object with score, resultText and note
- */
-var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
-	if ( fleschReadingScore > 90 ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 80, 90 ) ) {
-		return {
-			score: 9,
-			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 70, 80 ) ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 60, 70 ) ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 50, 60 ) ) {
-		return {
-			score: 6,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 30, 50 ) ) {
-		return {
-			score: 3,
-			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-
-	if ( fleschReadingScore < 30 ) {
-		return {
-			score: 3,
-			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-};
-
-/**
- * The assessment that runs the FleschReading on the paper.
- *
- * @param {object} paper The paper to run this assessment on
- * @param {object} researcher The researcher used for the assessment
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} an assessmentresult with the score and formatted text.
- */
-var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
-	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
-
-	/* Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
-	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
-	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
-	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
-
-	// scores must be between 0 and 100;
-	if ( fleschReadingScore < 0 ) {
-		fleschReadingScore = 0;
-	}
-	if ( fleschReadingScore > 100 ) {
-		fleschReadingScore = 100;
-	}
-
-	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
-
-	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
-
-	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( fleschReadingResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "fleschReadingEase",
-	getResult: fleschReadingEaseAssessment,
-	isApplicable: function( paper ) {
-		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
-	}
-};
-
-},{"../values/AssessmentResult.js":310,"lodash/inRange":158}],201:[function(require,module,exports){
+},{"./support/isBuffer":200,"_process":3,"inherits":4}],202:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8326,7 +9551,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310}],202:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],203:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8348,7 +9573,7 @@ function keyphraseAssessment( paper, researcher, i18n ) {
 			"If you do not set a focus keyword, no score can be calculated." ) );
 	} else if ( keyphraseLength > 10 ) {
 		assessmentResult.setScore( 0 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "The keyphrase is over 10 words, a keyphrase should be shorter." ) );
 	}
 
 	return assessmentResult;
@@ -8359,12 +9584,15 @@ module.exports = {
 	getResult: keyphraseAssessment
 };
 
-},{"../values/AssessmentResult.js":310}],203:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],204:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
-var inRange = require( "lodash/inRange" );
+var inRange = require( "../helpers/inRange.js" );
+
+var inRangeEndInclusive = inRange.inRangeEndInclusive;
+var inRangeStartInclusive = inRange.inRangeStartInclusive;
 
 /**
  * Returns the scores and text for keyword density
@@ -8377,9 +9605,10 @@ var inRange = require( "lodash/inRange" );
 var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount ) {
 	var score, text, max;
 
-	var keywordDensityPercentage = formatNumber( keywordDensity ) + "%";
+	var roundedKeywordDensity = formatNumber( keywordDensity );
+	var keywordDensityPercentage = roundedKeywordDensity + "%";
 
-	if ( keywordDensity > 3.5 ) {
+	if ( roundedKeywordDensity > 3.5 ) {
 		score = -50;
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
@@ -8393,7 +9622,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
 
-	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
+	if ( inRangeEndInclusive( roundedKeywordDensity, 2.5, 3.5 ) ) {
 		score = -10;
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
@@ -8407,7 +9636,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
 
-	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
+	if ( inRangeEndInclusive( roundedKeywordDensity, 0.5, 2.5 ) ) {
 		score = 9;
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
@@ -8417,11 +9646,11 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
 	}
 
-	if ( inRange( keywordDensity, 0, 0.5 ) ) {
+	if ( inRangeStartInclusive( roundedKeywordDensity, 0, 0.5 ) ) {
 		score = 4;
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is a bit low;" +
+		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is too low;" +
 			" the focus keyword was found %2$d times." );
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
@@ -8463,7 +9692,7 @@ module.exports = {
 	}
 };
 
-},{"../helpers/formatNumber.js":229,"../stringProcessing/countWords.js":278,"../stringProcessing/matchTextWithWord.js":293,"../values/AssessmentResult.js":310,"lodash/inRange":158}],204:[function(require,module,exports){
+},{"../helpers/formatNumber.js":230,"../helpers/inRange.js":235,"../stringProcessing/countWords.js":291,"../stringProcessing/matchTextWithWord.js":306,"../values/AssessmentResult.js":324}],205:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8480,9 +9709,9 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 			text: i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
+				"The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
 				"Read %1$sthis article%2$s for more info.",
-				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
+				"The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
 				"Read %1$sthis article%2$s for more info.",
 				stopWordCount
 			)
@@ -8523,7 +9752,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310}],205:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],206:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8575,7 +9804,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310}],206:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],207:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8641,7 +9870,82 @@ module.exports = {
 	getResult: metaDescriptionLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":310}],207:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],208:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "../helpers/inRange" ).inRangeEndInclusive;
+
+/**
+ * Returns the score and text for the pageTitleLength
+ * @param {number} pageTitleLength The length of the pageTitle.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {object} The result object.
+ */
+var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
+	var minLength = 400;
+	var maxLength = 600;
+
+	if ( inRange( pageTitleLength, 1, 400 ) ) {
+		return {
+			score: 6,
+			text: i18n.dgettext(
+				"js-text-analysis",
+				"The page title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
+			)
+		};
+	}
+
+	if ( inRange( pageTitleLength, minLength, maxLength ) ) {
+		return {
+			score: 9,
+			text: i18n.dgettext(
+				"js-text-analysis",
+				"The page title has a nice length."
+			)
+		};
+	}
+
+	if ( pageTitleLength > maxLength ) {
+		return {
+			score: 6,
+			text: i18n.dgettext(
+				"js-text-analysis",
+				"The page title is wider than the viewable limit."
+			)
+		};
+	}
+
+	return {
+		score: 1,
+		text: i18n.dgettext( "js-text-analysis", "Please create a page title." )
+	};
+};
+
+/**
+ * Runs the pageTitleLength module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var titleWidthAssessment = function( paper, researcher, i18n ) {
+	var pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
+	var pageTitleWidthResult = calculatePageTitleLengthResult( pageTitleWidth, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( pageTitleWidthResult.score );
+	assessmentResult.setText( pageTitleWidthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	identifier: "titleWidth",
+	getResult: titleWidthAssessment
+};
+
+
+},{"../helpers/inRange":235,"../values/AssessmentResult.js":324}],209:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -8655,7 +9959,7 @@ var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
 	if ( subHeadings.matches === 0 ) {
 		return {
 			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
+			text: i18n.dgettext( "js-text-analysis", "You have not used the focus keyword in any subheading (such as an H2) in your copy." )
 		};
 	}
 	if ( subHeadings.matches >= 1 ) {
@@ -8695,7 +9999,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310}],208:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],210:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -8707,7 +10011,7 @@ var recommendedMinimum = 150;
  * @returns {object} The resulting score object.
  */
 var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount > 150 ) {
+	if ( wordCount >= 150 ) {
 		return {
 			score: 9,
 			text: i18n.dngettext(
@@ -8721,8 +10025,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than the recommended minimum of %2$d word.",
-				"This is more than the recommended minimum of %2$d words.",
+				"This is more than or equal to the recommended minimum of %2$d word.",
+				"This is more than or equal to the recommended minimum of %2$d words.",
 				recommendedMinimum
 			)
 		};
@@ -8797,8 +10101,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
+				"This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
+				"This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
 				recommendedMinimum
 			)
 		};
@@ -8828,7 +10132,7 @@ module.exports = {
 	getResult: taxonomyTextLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":310,"lodash/inRange":158}],209:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324,"lodash/inRange":156}],211:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 var Mark = require( "../values/Mark.js" );
@@ -8903,7 +10207,7 @@ module.exports = {
 	getMarks: competingLinkMarker
 };
 
-},{"../markers/addMark.js":233,"../values/AssessmentResult.js":310,"../values/Mark.js":311,"lodash/map":179}],210:[function(require,module,exports){
+},{"../markers/addMark.js":236,"../values/AssessmentResult.js":324,"../values/Mark.js":325,"lodash/map":177}],212:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -8943,7 +10247,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.withAltNonKeyword > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing your focus keyword." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing the focus keyword." )
 		};
 	}
 
@@ -9003,7 +10307,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310,"lodash/isEmpty":165}],211:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324,"lodash/isEmpty":163}],213:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -9015,7 +10319,7 @@ var recommendedMinimum = 300;
  * @returns {object} The resulting score object.
  */
 var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount > 300 ) {
+	if ( wordCount >= 300 ) {
 		return {
 			score: 9,
 			text: i18n.dngettext(
@@ -9027,8 +10331,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than the recommended minimum of %2$d word.",
-				"This is more than the recommended minimum of %2$d words.",
+				"This is more than or equal to the recommended minimum of %2$d word.",
+				"This is more than or equal to the recommended minimum of %2$d words.",
 				recommendedMinimum
 			)
 		};
@@ -9103,8 +10407,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			) + " " + i18n.dngettext(
 				"js-text-analysis",
 				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-				"This is far below the recommended minimum of %2$d word. Increase the word count with content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Increase the word count with content that is relevant for the topic.",
+				"This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
+				"This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
 				recommendedMinimum
 			)
 		};
@@ -9134,7 +10438,7 @@ module.exports = {
 	getResult: textLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":310,"lodash/inRange":158}],212:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324,"lodash/inRange":156}],214:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -9207,7 +10511,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310,"lodash/isEmpty":165}],213:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324,"lodash/isEmpty":163}],215:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9218,6 +10522,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {AssessmentResult} The result of the assessment with text and score
  */
 var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
+
 	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
 	var score, text;
 
@@ -9253,7 +10558,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310}],214:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],216:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -9375,7 +10680,7 @@ module.exports = {
 	getResult: titleLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":310,"lodash/inRange":158}],215:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324,"lodash/inRange":156}],217:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9426,7 +10731,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310}],216:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],218:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9457,7 +10762,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":310}],217:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],219:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9512,7 +10817,7 @@ module.exports = {
 	getResult: urlHasStopWordsAssessment
 };
 
-},{"../values/AssessmentResult.js":310}],218:[function(require,module,exports){
+},{"../values/AssessmentResult.js":324}],220:[function(require,module,exports){
 var Researcher = require( "./researcher.js" );
 var MissingArgument = require( "./errors/missingArgument" );
 var removeDuplicateMarks = require( "./markers/removeDuplicateMarks" );
@@ -9693,7 +10998,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 		result.setScore( 0 );
 		result.setText( this.i18n.sprintf(
 			/* Translators: %1$s expands to the name of the assessment. */
-			this.i18n.dgettext( "js-text-analysis", "An error occured in the '%1$s' assessment" ),
+			this.i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
 			assessment.identifier,
 			assessmentError
 		) );
@@ -9783,7 +11088,7 @@ Assessor.prototype.getAssessment = function( identifier ) {
 
 module.exports = Assessor;
 
-},{"./errors/missingArgument":227,"./helpers/errors.js":228,"./markers/removeDuplicateMarks":234,"./researcher.js":235,"./values/AssessmentResult.js":310,"lodash/filter":150,"lodash/find":151,"lodash/findIndex":152,"lodash/forEach":154,"lodash/isFunction":166,"lodash/isUndefined":176,"lodash/map":179}],219:[function(require,module,exports){
+},{"./errors/missingArgument":228,"./helpers/errors.js":229,"./markers/removeDuplicateMarks":237,"./researcher.js":238,"./values/AssessmentResult.js":324,"lodash/filter":148,"lodash/find":149,"lodash/findIndex":150,"lodash/forEach":152,"lodash/isFunction":164,"lodash/isUndefined":174,"lodash/map":177}],221:[function(require,module,exports){
 /** @module config/diacritics */
 
 /**
@@ -9891,7 +11196,7 @@ module.exports = function() {
 	];
 };
 
-},{}],220:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 /** @module config/removalWords */
 
 /**
@@ -9903,7 +11208,7 @@ module.exports = function() {
 	return [ " a", " in", " an", " on", " for", " the", " and" ];
 };
 
-},{}],221:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 /** @module config/stopwords */
 
 /**
@@ -9915,7 +11220,7 @@ module.exports = function() {
 	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
 };
 
-},{}],222:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 /** @module config/syllables */
 
 /**
@@ -9928,39 +11233,35 @@ module.exports = function() {
  */
 module.exports = function() {
 	return {
-		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
-		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
+		syllableExclusion: {
+			subtractSyllables: {
+				syllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e$", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
+				multiplier: -1
+			},
+			addSyllables: {
+				syllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]le$", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]", "[^ao]ire[ds]", "[^ao]ire$"],
+				multiplier: +1
+			}
+		},
 		exclusionWords: [
 			{ word: "shoreline", syllables: 2 },
-			{ word: "simile", syllables: 3 }
-		]
+			{ word: "simile", syllables: 3 },
+			{ word: "business", syllables: 2 },
+			{ word: "heiress", syllables: 2 },
+			{ word: "coheiress", syllables: 3 },
+			{ word: "unheired", syllables: 2 },
+			// The abbreviation i.e. should be counted as 2 syllables.
+			{ word: "i.e", syllables: 2}
+		],
+		vowels: 'aeiouy'
 	};
 };
 
-},{}],223:[function(require,module,exports){
-/** @module config/transitionWords */
 
-/**
- * Returns an array with transition words to be used by the assessments.
- * @returns {Array} The array filled with transition words.
- */
-module.exports = function() {
-	return [ "above all", "accordingly", "additionally", "after all", "after that", "afterward", "afterwards", "albeit", "all in all", "all of a sudden", "all things considered", "also", "although", "although this may be true", "altogether", "analogous to", "another", "another key point", /*"as",*/ "as a matter of fact", "as a result", "as an illustration", "as can be seen", "as has been noted", "as I have noted", "as I have said", "as I have shown", "as long as", "as much as", "as shown above", "as soon as", "as well as", "at any rate", "at first", "at last", "at least", "at length", "at the present time", "at the same time", "at this instant", "at this point", "at this time", "balanced against", "basically", "be that as it may", "because", "before", "being that", "besides", "but", "by all means", "by and large", "by comparison", "by the same token", "by the time", "certainly", "chiefly", "comparatively", "compared to", "concurrently", "consequently", "contrarily", "conversely", "correspondingly", "coupled with", "despite", "different from", "doubtedly", "due to", "during", "e.g.", "earlier", "emphatically", "equally", "equally important", "especially", "even if", "even more", "even so", "even though", "eventually", "evidently", "explicitly", "finally", /*"first",*/ "first thing to remember", "firstly", "following", "for example", "for fear that", "for instance", "for one thing", "for that reason", "for the most part", "for the purpose of", "for the same reason", "for this purpose", "for this reason", "formerly", "forthwith", /*"fourth",*/ "fourthly", "from time to time", "further", "furthermore", "generally", "given that", "given these points", /*"granted",*/ "hence", "henceforth", "however", "i.e.", "identically", "important to realize", "in a word", "in addition", "in another case", "in any case", "in any event", "in brief", "in case", "in conclusion", "in contrast", "in detail", "in due time", "in effect", "in either case", "in essence", "in fact", "in general", "in light of", "in like fashion", "in like manner", "in order that", "in order to", "in other words", "in particular", "in reality", "in short", "in similar fashion", "in spite of", "in sum", "in summary", "in that case", "in the event that", "in the final analysis", "in the first place", "in the fourth place", "in the hope that", "in the light of", "in the long run", "in the meantime", "in the same fashion", "in the same way", "in the second place", "in the third place", "in this case", "in this situation", "in time", "in truth", "in view of", "inasmuch as", "indeed", "instead", "last", "lastly", "later", "lest", "likewise", "markedly", "meanwhile", "moreover", "most compelling evidence", "most important", "must be remembered", "nevertheless", "nonetheless", "nor", "not to mention",  "notwithstanding", "now that", "obviously", "occasionally", "of course", "on account of", "on balance", "on condition that", "on one hand", "on the condition that", "on the contrary", "on the negative side", "on the other hand", "on the positive side", "on the whole", "on this occasion", "once", "once in a while", "only if", "otherwise", "overall", "owing to", "particularly", "point often overlooked", "presently", "previously", "prior to", "provided that", "rather", "regardless", /*"second",*/ "secondly", "seeing that", "shortly", "significantly", "similarly", "simultaneously", "since", "so", "so as to", "so far", "so long as", "so that", "soon", "sooner or later", "specifically", "still", "straightaway", "subsequently", "such as", "summing up", "surely", "surprisingly", "take the case of", "than", "that is", "that is to say", "then", "then again", "thereafter", "therefore", "thereupon", /*"third",*/ "thirdly", "this time", "though", "thus", "till", "to be sure", "to begin with", "to clarify", "to conclude", "to demonstrate", "to emphasize", "to enumerate", "to explain", "to illustrate", "too", "to list", "to point out", "to put it another way", "to put it differently", "to repeat", "to rephrase it", "to say nothing of", "to sum up", "to summarize", "to that end", "to the end that", "to this end", "together with", "undeniably", "under those circumstances", "undoubtedly", "unless", "unlike", "unquestionably", "until", "until now", "up against", "up to the present time", "vis a vis", "what's more", "when", "whenever", "whereas", "while", "while it may be true", "while this may be true", "with attention to", "with the result that", "with this in mind", "with this intention", "with this purpose in mind", "without a doubt", "without delay", "without doubt", "without reservation" ];
-};
-
-
-},{}],224:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
+var getLanguage = require( "../helpers/getLanguage.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
-/**
- * The function getting the language part of the locale.
- *
- * @param {string} locale The locale.
- * @returns {string} The language part of the locale.
- */
-var getLanguage = function ( locale ) {
-	return locale.split( "_" )[ 0 ];
-};
 
 var transliterations = {
 
@@ -10199,6 +11500,8 @@ var transliterations = {
 	// In text it is transliterated to a character similar to an apostroph: ′.
 	// I recommend omittance in slugs. (https://en.wikipedia.org/wiki/Romanization_of_Russian)
 	ru: [
+		{ letter: /[\u0430]/g, alternative: "a" },
+		{ letter: /[\u0410]/g, alternative: "A" },
 		{ letter: /[\u0431]/g, alternative: "b" },
 		{ letter: /[\u0411]/g, alternative: "B" },
 		{ letter: /[\u0432]/g, alternative: "v" },
@@ -10207,12 +11510,14 @@ var transliterations = {
 		{ letter: /[\u0413]/g, alternative: "G" },
 		{ letter: /[\u0434]/g, alternative: "d" },
 		{ letter: /[\u0414]/g, alternative: "D" },
+		{ letter: /[\u0435]/g, alternative: "e" },
+		{ letter: /[\u0415]/g, alternative: "E" },
 		{ letter: /[\u0436]/g, alternative: "zh" },
 		{ letter: /[\u0416]/g, alternative: "Zh" },
 		{ letter: /[\u0437]/g, alternative: "z" },
 		{ letter: /[\u0417]/g, alternative: "Z" },
-		{ letter: /[\u0438\u0439]/g, alternative: "i" },
-		{ letter: /[\u0418\u0419]/g, alternative: "I" },
+		{ letter: /[\u0456\u0438\u0439]/g, alternative: "i" },
+		{ letter: /[\u0406\u0418\u0419]/g, alternative: "I" },
 		{ letter: /[\u043A]/g, alternative: "k" },
 		{ letter: /[\u041A]/g, alternative: "K" },
 		{ letter: /[\u043B]/g, alternative: "l" },
@@ -10221,8 +11526,10 @@ var transliterations = {
 		{ letter: /[\u041C]/g, alternative: "M" },
 		{ letter: /[\u043D]/g, alternative: "n" },
 		{ letter: /[\u041D]/g, alternative: "N" },
-		{ letter: /[\u0070]/g, alternative: "r" },
-		{ letter: /[\u0050]/g, alternative: "R" },
+		{ letter: /[\u0440]/g, alternative: "r" },
+		{ letter: /[\u0420]/g, alternative: "R" },
+		{ letter: /[\u043E]/g, alternative: "o" },
+		{ letter: /[\u041E]/g, alternative: "O" },
 		{ letter: /[\u043F]/g, alternative: "p" },
 		{ letter: /[\u041F]/g, alternative: "P" },
 		{ letter: /[\u0441]/g, alternative: "s" },
@@ -10505,6 +11812,875 @@ var transliterations = {
 		{ letter: /^[\u042F]/g, alternative: "Ya" },
 		{ letter: /[\s][\u042F]/g, alternative: " Ya" },
 		{ letter: /[\u042F]/g, alternative: "IA" }
+	],
+	// Language: Breton
+	// Source: http://www.omniglot.com/writing/breton.htm
+	br: [
+		{ letter: /\u0063\u0027\u0068/g, alternative: "ch" },
+		{ letter: /\u0043\u0027\u0048/g, alternative: "CH" },
+		{ letter: /[\u00e2]/g, alternative: "a" },
+		{ letter: /[\u00c2]/g, alternative: "A" },
+		{ letter: /[\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00ce]/g, alternative: "I" },
+		{ letter: /[\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d4]/g, alternative: "O" },
+		{ letter: /[\u00fb\u00f9\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00db\u00d9\u00dc]/g, alternative: "U" },
+		{ letter: /[\u00f1]/g, alternative: "n" },
+		{ letter: /[\u00d1]/g, alternative: "N" }
+	],
+	// Language: Chamorro
+	// Source: http://www.omniglot.com/writing/chamorro.htm
+	ch: [
+		{ letter: /[\u0027]/g, alternative: "" },
+		{ letter: /[\u00e5]/g, alternative: "a" },
+		{ letter: /[\u00c5]/g, alternative: "A" },
+		{ letter: /[\u00f1]/g, alternative: "n" },
+		{ letter: /[\u00d1]/g, alternative: "N" }
+	],
+	// Language: Corsican
+	// Sources: http://www.omniglot.com/writing/corsican.htm https://en.wikipedia.org/wiki/Corsican_alphabet
+	co: [
+		{ letter: /[\u00e2\u00e0]/g, alternative: "a" },
+		{ letter: /[\u00c2\u00c0]/g, alternative: "A" },
+		{ letter: /[\u00e6\u04d5]/g, alternative: "ae" },
+		{ letter: /[\u00c6\u04d4]/g, alternative: "Ae" },
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00e9\u00ea\u00e8\u00eb]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00ca\u00c8\u00cb]/g, alternative: "E" },
+		{ letter: /[\u00ec\u00ee\u00ef]/g, alternative: "i" },
+		{ letter: /[\u00cc\u00ce\u00cf]/g, alternative: "I" },
+		{ letter: /[\u00f1]/g, alternative: "n" },
+		{ letter: /[\u00d1]/g, alternative: "N" },
+		{ letter: /[\u00f4\u00f2]/g, alternative: "o" },
+		{ letter: /[\u00d4\u00d2]/g, alternative: "O" },
+		{ letter: /[\u0153]/g, alternative: "oe" },
+		{ letter: /[\u0152]]/g, alternative: "Oe" },
+		{ letter: /[\u00f9\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00d9\u00dc]/g, alternative: "U" },
+		{ letter: /[\u00ff]/g, alternative: "y" },
+		{ letter: /[\u0178]/g, alternative: "Y" }
+	],
+	// Language: Kashubian
+	// Sources: http://www.omniglot.com/writing/kashubian.htm https://en.wikipedia.org/wiki/Kashubian_language
+	csb: [
+		{ letter: /[\u0105\u00e3]/g, alternative: "a" },
+		{ letter: /[\u0104\u00c3]/g, alternative: "A" },
+		{ letter: /[\u00e9\u00eb]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00cb]/g, alternative: "E" },
+		{ letter: /[\u0142]/g, alternative: "l" },
+		{ letter: /[\u0141]/g, alternative: "L" },
+		{ letter: /[\u0144]/g, alternative: "n" },
+		{ letter: /[\u0143]/g, alternative: "N" },
+		{ letter: /[\u00f2\u00f3\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d3\u00d4]/g, alternative: "O" },
+		{ letter: /[\u00f9]/g, alternative: "u" },
+		{ letter: /[\u00d9]/g, alternative: "U" },
+		{ letter: /[\u017c]/g, alternative: "z" },
+		{ letter: /[\u017b]/g, alternative: "Z" }
+	],
+	// Language: Welsh
+	// Sources: http://www.omniglot.com/writing/welsh.htm https://en.wikipedia.org/wiki/Welsh_orthography#Diacritics
+	cy: [
+		{ letter: /[\u00e2]/g, alternative: "a" },
+		{ letter: /[\u00c2]/g, alternative: "A" },
+		{ letter: /[\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00ce]/g, alternative: "I" },
+		{ letter: /[\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d4]/g, alternative: "O" },
+		{ letter: /[\u00fb]/g, alternative: "u" },
+		{ letter: /[\u00db]/g, alternative: "U" },
+		{ letter: /[\u0175]/g, alternative: "w" },
+		{ letter: /[\u0174]/g, alternative: "W" },
+		{ letter: /[\u0177]/g, alternative: "y" },
+		{ letter: /[\u0176]/g, alternative: "Y" }
+	],
+	// Language: Ewe
+	// Sources: http://www.omniglot.com/writing/ewe.htm https://en.wikipedia.org/wiki/Ewe_language#Writing_system
+	ee: [
+		{ letter: /[\u0256]/g, alternative: "d" },
+		{ letter: /[\u0189]/g, alternative: "D" },
+		{ letter: /[\u025b]/g, alternative: "e" },
+		{ letter: /[\u0190]/g, alternative: "E" },
+		{ letter: /[\u0192]/g, alternative: "f" },
+		{ letter: /[\u0191]/g, alternative: "F" },
+		{ letter: /[\u0263]/g, alternative: "g" },
+		{ letter: /[\u0194]/g, alternative: "G" },
+		{ letter: /[\u014b]/g, alternative: "ng" },
+		{ letter: /[\u014a]/g, alternative: "Ng" },
+		{ letter: /[\u0254]/g, alternative: "o" },
+		{ letter: /[\u0186]/g, alternative: "O" },
+		{ letter: /[\u028b]/g, alternative: "w" },
+		{ letter: /[\u01b2]/g, alternative: "W" },
+		{ letter: /\u0061\u0303/g, alternative: "a" },
+		{ letter: /[\u00e1\u00e0\u01ce\u00e2\u00e3]/g, alternative: "a" },
+		{ letter: /\u0041\u0303/g, alternative: "A" },
+		{ letter: /[\u00c1\u00c0\u01cd\u00c2\u00c3]/g, alternative: "A" },
+		{ letter: /[\u00e9\u00e8\u011b\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00c8\u011a\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00f3\u00f2\u01d2\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d2\u01d1\u00d4]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00f9\u01d4\u00fb]/g, alternative: "u" },
+		{ letter: /[\u00da\u00d9\u01d3\u00db]/g, alternative: "U" },
+		{ letter: /[\u00ed\u00ec\u01d0\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00cd\u00cc\u01cf\u00ce]/g, alternative: "I" }
+	],
+	// Language: Estonian
+	// Sources: http://www.omniglot.com/writing/estonian.htm https://en.wikipedia.org/wiki/Estonian_orthography https://en.wikipedia.org/wiki/%C5%BD https://en.wikipedia.org/wiki/%C5%A0
+	et: [
+		{ letter: /[\u0161]/g, alternative: "sh" },
+		{ letter: /[\u0160]/g, alternative: "Sh" },
+		{ letter: /[\u017e]/g, alternative: "zh" },
+		{ letter: /[\u017d]/g, alternative: "Zh" },
+		{ letter: /[\u00f5\u00f6]/g, alternative: "o" },
+		{ letter: /[\u00d6\u00d5]/g, alternative: "O" },
+		{ letter: /[\u00e4]/g, alternative: "a" },
+		{ letter: /[\u00c4]/g, alternative: "A" },
+		{ letter: /[\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00dc]/g, alternative: "U" }
+		],
+	// Language: Basque
+	// Sources: http://www.omniglot.com/writing/basque.htm https://en.wikipedia.org/wiki/Basque_language#Writing_system https://en	.wikipedia.org/wiki/Basque_alphabet
+	eu: [
+		{ letter: /[\u00f1]/g, alternative: "n" },
+		{ letter: /[\u00d1]/g, alternative: "N" },
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00dc]/g, alternative: "U" }
+	],
+	// Language: Fulah
+	// Sources: http://www.omniglot.com/writing/fula.htm https://en.wikipedia.org/wiki/Fula_language#Writing_systems
+	fuc: [
+		{ letter: /[\u0253]/g, alternative: "b" },
+		{ letter: /[\u0181]/g, alternative: "B" },
+		{ letter: /[\u0257]/g, alternative: "d" },
+		{ letter: /[\u018a]/g, alternative: "D" },
+		{ letter: /[\u014b]/g, alternative: "ng" },
+		{ letter: /[\u014a]/g, alternative: "Ng" },
+		{ letter: /[\u0272\u00f1]/g, alternative: "ny" },
+		{ letter: /[\u019d\u00d1]/g, alternative: "Ny" },
+		{ letter: /[\u01b4]/g, alternative: "y" },
+		{ letter: /[\u01b3]/g, alternative: "Y" },
+		{ letter: /[\u0260]/g, alternative: "g" },
+		{ letter: /[\u0193]/g, alternative: "G" }
+	],
+	// Language: Fijian
+	// Source: http://www.omniglot.com/writing/fijian.htm
+	fj: [
+		{ letter: /[\u0101]/g, alternative: "a" },
+		{ letter: /[\u0100]/g, alternative: "A" },
+		{ letter: /[\u0113]/g, alternative: "e" },
+		{ letter: /[\u0112]/g, alternative: "E" },
+		{ letter: /[\u012b]/g, alternative: "i" },
+		{ letter: /[\u012a]/g, alternative: "I" },
+		{ letter: /[\u016b]/g, alternative: "u" },
+		{ letter: /[\u016a]/g, alternative: "U" },
+		{ letter: /[\u014d]/g, alternative: "o" },
+		{ letter: /[\u014c]/g, alternative: "O" }
+	],
+	// Language: Arpitan (Franco-Provençal language)
+	// Source: http://www.omniglot.com/writing/francoprovencal.htm
+	frp: [
+		{ letter: /[\u00e2]/g, alternative: "a" },
+		{ letter: /[\u00c2]/g, alternative: "A" },
+		{ letter: /[\u00ea\u00e8\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00ca\u00c8\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00ce]/g, alternative: "I" },
+		{ letter: /[\u00fb\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00db\u00dc]/g, alternative: "U" },
+		{ letter: /[\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d4]/g, alternative: "O" }
+	],
+	// Language: Friulian
+	// Sources: https://en.wikipedia.org/wiki/Friulian_language https://en.wikipedia.org/wiki/Faggin-Nazzi_alphabet
+	// http://www.omniglot.com/writing/friulian.htm
+	fur: [
+		{ letter: /[\u00E7]/g, alternative: "c" },
+		{ letter: /[\u00C7]/g, alternative: "C" },
+		{ letter: /[\u00e0\u00e2]/g, alternative: "a" },
+		{ letter: /[\u00c0\u00c2]/g, alternative: "A" },
+		{ letter: /[\u00e8\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00c8\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00ec\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00cc\u00ce]/g, alternative: "I" },
+		{ letter: /[\u00f2\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d4]/g, alternative: "O" },
+		{ letter: /[\u00f9\u00fb]/g, alternative: "u" },
+		{ letter: /[\u00d9\u00db]/g, alternative: "U" },
+		{ letter: /[\u010d]/g, alternative: "c" },
+		{ letter: /[\u010c]/g, alternative: "C" },
+		{ letter: /[\u011f]/g, alternative: "g" },
+		{ letter: /[\u011e]/g, alternative: "G" },
+		{ letter: /[\u0161]/g, alternative: "s" },
+		{ letter: /[\u0160]/g, alternative: "S" }
+	],
+	// Language: Frisian
+	// Sources: https://en.wikipedia.org/wiki/West_Frisian_alphabet http://www.omniglot.com/writing/frisian.htm
+	fy: [
+		{ letter: /[\u00e2\u0101\u00e4\u00e5]/g, alternative: "a" },
+		{ letter: /[\u00c2\u0100\u00c4\u00c5]/g, alternative: "A" },
+		{ letter: /[\u00ea\u00e9\u0113]/g, alternative: "e" },
+		{ letter: /[\u00ca\u00c9\u0112]/g, alternative: "E" },
+		{ letter: /[\u00f4\u00f6]/g, alternative: "o" },
+		{ letter: /[\u00d4\u00d6]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00fb\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00da\u00db\u00dc]/g, alternative: "U" },
+		{ letter: /[\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cd]/g, alternative: "I" },
+		{ letter: /[\u0111\u00f0]/g, alternative: "d" },
+		{ letter: /[\u0110\u00d0]/g, alternative: "D" }
+	],
+	// Language: Irish
+	// Source: https://en.wikipedia.org/wiki/Irish_orthography
+	ga: [
+		{ letter: /[\u00e1]/g, alternative: "a" },
+		{ letter: /[\u00c1]/g, alternative: "A" },
+		{ letter: /[\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00f3]/g, alternative: "o" },
+		{ letter: /[\u00d3]/g, alternative: "O" },
+		{ letter: /[\u00fa]/g, alternative: "u" },
+		{ letter: /[\u00da]/g, alternative: "U" },
+		{ letter: /[\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cd]/g, alternative: "I" }
+	],
+	// Language: Scottish Gaelic
+	// Sources: https://en.wikipedia.org/wiki/Scottish_Gaelic_orthography http://www.omniglot.com/writing/gaelic.htm
+	gd: [
+		{ letter: /[\u00e0]/g, alternative: "a" },
+		{ letter: /[\u00c0]/g, alternative: "A" },
+		{ letter: /[\u00e8]/g, alternative: "e" },
+		{ letter: /[\u00c8]/g, alternative: "E" },
+		{ letter: /[\u00f2]/g, alternative: "o" },
+		{ letter: /[\u00d2]/g, alternative: "O" },
+		{ letter: /[\u00f9]/g, alternative: "u" },
+		{ letter: /[\u00d9]/g, alternative: "U" },
+		{ letter: /[\u00ec]/g, alternative: "i" },
+		{ letter: /[\u00cc]/g, alternative: "I" }
+	],
+	// Language: Galician
+	// Sources: https://en.wikipedia.org/wiki/Diacritic https://en.wikipedia.org/wiki/Galician_Alphabet
+	gl: [
+		{ letter: /[\u00e1\u00e0]/g, alternative: "a" },
+		{ letter: /[\u00c1\u00c0]/g, alternative: "A" },
+		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
+		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
+		{ letter: /[\u00f3]/g, alternative: "o" },
+		{ letter: /[\u00d3]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00da\u00dc]/g, alternative: "U" },
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00f1]/g, alternative: "n" },
+		{ letter: /[\u00d1]/g, alternative: "N" }
+	],
+	// Language: Guarani
+	// Sources: https://en.wikipedia.org/wiki/Guarani_alphabet http://www.omniglot.com/writing/guarani.htm
+	gn: [
+		{ letter: /[\u2019]/g, alternative: "" },
+		{ letter: /\u0067\u0303/g, alternative: "g" },
+		{ letter: /\u0047\u0303/g, alternative: "G" },
+		{ letter: /[\u00e3]/g, alternative: "a" },
+		{ letter: /[\u00c3]/g, alternative: "A" },
+		{ letter: /[\u1ebd]/g, alternative: "e" },
+		{ letter: /[\u1ebc]/g, alternative: "E" },
+		{ letter: /[\u0129]/g, alternative: "i" },
+		{ letter: /[\u0128]/g, alternative: "I" },
+		{ letter: /[\u00f5]/g, alternative: "o" },
+		{ letter: /[\u00d5]/g, alternative: "O" },
+		{ letter: /[\u00f1]/g, alternative: "n" },
+		{ letter: /[\u00d1]/g, alternative: "N" },
+		{ letter: /[\u0169]/g, alternative: "u" },
+		{ letter: /[\u0168]/g, alternative: "U" },
+		{ letter: /[\u1ef9]/g, alternative: "y" },
+		{ letter: /[\u1ef8]/g, alternative: "Y" }
+	],
+	// Language: Swiss German
+	// Source: http://www.omniglot.com/writing/swissgerman.htm
+	gsw: [
+		{ letter: /[\u00e4]/g, alternative: "a" },
+		{ letter: /[\u00c4]/g, alternative: "A" },
+		{ letter: /[\u00f6]/g, alternative: "o" },
+		{ letter: /[\u00d6]/g, alternative: "O" },
+		{ letter: /[\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00dc]/g, alternative: "U" }
+	],
+	// Language: Haitian Creole
+	// Sources: https://en.wikipedia.org/wiki/Haitian_Creole http://www.omniglot.com/writing/haitiancreole.htm
+	hat: [
+		{ letter: /[\u00e8]/g, alternative: "e" },
+		{ letter: /[\u00c8]/g, alternative: "E" },
+		{ letter: /[\u00f2]/g, alternative: "o" },
+		{ letter: /[\u00d2]/g, alternative: "O" }
+	],
+	// Language: Hawaiian
+	// Sources: https://en.wikipedia.org/wiki/Hawaiian_language#Macron http://www.omniglot.com/writing/hawaiian.htm
+	haw: [
+		{ letter: /[\u02bb\u0027\u2019]/g, alternative: "" },
+		{ letter: /[\u0101]/g, alternative: "a" },
+		{ letter: /[\u0113]/g, alternative: "e" },
+		{ letter: /[\u012b]/g, alternative: "i" },
+		{ letter: /[\u014d]/g, alternative: "o" },
+		{ letter: /[\u016b]/g, alternative: "u" },
+		{ letter: /[\u0100]/g, alternative: "A" },
+		{ letter: /[\u0112]/g, alternative: "E" },
+		{ letter: /[\u012a]/g, alternative: "I" },
+		{ letter: /[\u014c]/g, alternative: "O" },
+		{ letter: /[\u016a]/g, alternative: "U" }
+	],
+	// Language: Croatian
+	// Sources: https://en.wikipedia.org/wiki/Gaj%27s_Latin_alphabet https://en.wikipedia.org/wiki/D_with_stroke
+	// http://www.omniglot.com/writing/croatian.htm
+	hr: [
+		{ letter: /[\u010d\u0107]/g, alternative: "c" },
+		{ letter: /[\u010c\u0106]/g, alternative: "C" },
+		{ letter: /[\u0111]/g, alternative: "dj" },
+		{ letter: /[\u0110]/g, alternative: "Dj" },
+		{ letter: /[\u0161]/g, alternative: "s" },
+		{ letter: /[\u0160]/g, alternative: "S" },
+		{ letter: /[\u017e]/g, alternative: "z" },
+		{ letter: /[\u017d]/g, alternative: "Z" },
+		{ letter: /[\u01c4]/g, alternative: "DZ" },
+		{ letter: /[\u01c5]/g, alternative: "Dz" },
+		{ letter: /[\u01c6]/g, alternative: "dz" }
+	],
+	// Language: Georgian
+	// The Georgian language does not use capital letters.
+	// Sources: https://en.wikipedia.org/wiki/Romanization_of_Georgian (national system)
+	ka: [
+		{ letter: /[\u10d0]/g, alternative: "a" },
+		{ letter: /[\u10d1]/g, alternative: "b" },
+		{ letter: /[\u10d2]/g, alternative: "g" },
+		{ letter: /[\u10d3]/g, alternative: "d" },
+		{ letter: /[\u10d4]/g, alternative: "e" },
+		{ letter: /[\u10d5]/g, alternative: "v" },
+		{ letter: /[\u10d6]/g, alternative: "z" },
+		{ letter: /[\u10d7]/g, alternative: "t" },
+		{ letter: /[\u10d8]/g, alternative: "i" },
+		{ letter: /[\u10d9]/g, alternative: "k" },
+		{ letter: /[\u10da]/g, alternative: "l" },
+		{ letter: /[\u10db]/g, alternative: "m" },
+		{ letter: /[\u10dc]/g, alternative: "n" },
+		{ letter: /[\u10dd]/g, alternative: "o" },
+		{ letter: /[\u10de]/g, alternative: "p" },
+		{ letter: /[\u10df]/g, alternative: "zh" },
+		{ letter: /[\u10e0]/g, alternative: "r" },
+		{ letter: /[\u10e1]/g, alternative: "s" },
+		{ letter: /[\u10e2]/g, alternative: "t" },
+		{ letter: /[\u10e3]/g, alternative: "u" },
+		{ letter: /[\u10e4]/g, alternative: "p" },
+		{ letter: /[\u10e5]/g, alternative: "k" },
+		{ letter: /[\u10e6]/g, alternative: "gh" },
+		{ letter: /[\u10e7]/g, alternative: "q" },
+		{ letter: /[\u10e8]/g, alternative: "sh" },
+		{ letter: /[\u10e9]/g, alternative: "ch" },
+		{ letter: /[\u10ea]/g, alternative: "ts" },
+		{ letter: /[\u10eb]/g, alternative: "dz" },
+		{ letter: /[\u10ec]/g, alternative: "ts" },
+		{ letter: /[\u10ed]/g, alternative: "ch" },
+		{ letter: /[\u10ee]/g, alternative: "kh" },
+		{ letter: /[\u10ef]/g, alternative: "j" },
+		{ letter: /[\u10f0]/g, alternative: "h" }
+	],
+	// Language: Greenlandic.
+	// Source: https://en.wikipedia.org/wiki/Greenlandic_language#Orthography
+	kal: [
+		{ letter: /[\u00E5]/g, alternative: "aa" },
+		{ letter: /[\u00C5]/g, alternative: "Aa" },
+		{ letter: /[\u00E6\u04D5]/g, alternative: "ae" },
+		{ letter: /[\u00C6\u04D4]/g, alternative: "Ae" },
+		{ letter: /[\u00C4]/g, alternative: "Ae" },
+		{ letter: /[\u00F8]/g, alternative: "oe" },
+		{ letter: /[\u00D8]/g, alternative: "Oe" }
+		],
+	// Language: Kinyarwanda.
+	// Source: https://en.wikipedia.org/wiki/Kinyarwanda
+	kin: [
+		{ letter: /[\u2019\u0027]/g, alternative: "" }
+	],
+	// Language: Luxembourgish.
+	// Source: http://www.omniglot.com/writing/luxembourgish.htm
+	lb: [
+		{ letter: /[\u00e4]/g, alternative: "a" },
+		{ letter: /[\u00c4]/g, alternative: "A" },
+		{ letter: /[\u00eb\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00cb\u00c9]/g, alternative: "E" }
+	],
+	// Language: Limburgish.
+	// Source: http://www.omniglot.com/writing/limburgish.htm
+	li: [
+		{ letter: /[\u00e1\u00e2\u00e0\u00e4]/g, alternative: "a" },
+		{ letter: /[\u00c1\u00c2\u00c0\u00c4]/g, alternative: "A" },
+		{ letter: /[\u00eb\u00e8\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00cb\u00c8\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00f6\u00f3]/g, alternative: "o" },
+		{ letter: /[\u00d6\u00d3]/g, alternative: "O" }
+	],
+	// Language: Lingala.
+	// Sources: https://en.wikipedia.org/wiki/Lingala#Writing_system http://www.omniglot.com/writing/lingala.htm
+	lin: [
+		{ letter: /[\u00e1\u00e2\u01ce]/g, alternative: "a" },
+		{ letter: /[\u00c1\u00c2\u01cd]/g, alternative: "A" },
+		{ letter: /\u025b\u0301/g, alternative: "e" },
+		{ letter: /\u025b\u0302/g, alternative: "e" },
+		{ letter: /\u025b\u030c/g, alternative: "e" },
+		{ letter: /[\u00e9\u00ea\u011b\u025b]/g, alternative: "e" },
+		{ letter: /\u0190\u0301/g, alternative: "E" },
+		{ letter: /\u0190\u0302/g, alternative: "E" },
+		{ letter: /\u0190\u030c/g, alternative: "E" },
+		{ letter: /[\u00c9\u00ca\u011a\u0190]/g, alternative: "E" },
+		{ letter: /[\u00ed\u00ee\u01d0]/g, alternative: "i" },
+		{ letter: /[\u00cd\u00ce\u01cf]/g, alternative: "I" },
+		{ letter: /\u0254\u0301/g, alternative: "o" },
+		{ letter: /\u0254\u0302/g, alternative: "o" },
+		{ letter: /\u0254\u030c/g, alternative: "o" },
+		{ letter: /[\u00f3\u00f4\u01d2\u0254]/g, alternative: "o" },
+		{ letter: /\u0186\u0301/g, alternative: "O" },
+		{ letter: /\u0186\u0302/g, alternative: "O" },
+		{ letter: /\u0186\u030c/g, alternative: "O" },
+		{ letter: /[\u00d3\u00d4\u01d1\u0186]/g, alternative: "O" },
+		{ letter: /[\u00fa]/g, alternative: "u" },
+		{ letter: /[\u00da]/g, alternative: "U" }
+	],
+	// Language: Lithuanian.
+	// Sources: https://en.wikipedia.org/wiki/Lithuanian_orthography http://www.omniglot.com/writing/lithuanian.htm
+	lt: [
+		{ letter: /[\u0105]/g, alternative: "a" },
+		{ letter: /[\u0104]/g, alternative: "A" },
+		{ letter: /[\u010d]/g, alternative: "c" },
+		{ letter: /[\u010c]/g, alternative: "C" },
+		{ letter: /[\u0119\u0117]/g, alternative: "e" },
+		{ letter: /[\u0118\u0116]/g, alternative: "E" },
+		{ letter: /[\u012f]/g, alternative: "i" },
+		{ letter: /[\u012e]/g, alternative: "I" },
+		{ letter: /[\u0161]/g, alternative: "s" },
+		{ letter: /[\u0160]/g, alternative: "S" },
+		{ letter: /[\u0173\u016b]/g, alternative: "u" },
+		{ letter: /[\u0172\u016a]/g, alternative: "U" },
+		{ letter: /[\u017e]/g, alternative: "z" },
+		{ letter: /[\u017d]/g, alternative: "Z" }
+	],
+	// Language: Malagasy.
+	// Source: http://www.omniglot.com/writing/malagasy.htm
+	mg: [
+		{ letter: /[\u00f4]/g, alternative: "ao" },
+		{ letter: /[\u00d4]/g, alternative: "Ao" }
+	],
+	// Language: Macedonian.
+	// Source: http://www.omniglot.com/writing/macedonian.htm
+	mk: [
+		{ letter: /[\u0430]/g, alternative: "a" },
+		{ letter: /[\u0410]/g, alternative: "A" },
+		{ letter: /[\u0431]/g, alternative: "b" },
+		{ letter: /[\u0411]/g, alternative: "B" },
+		{ letter: /[\u0432]/g, alternative: "v" },
+		{ letter: /[\u0412]/g, alternative: "V" },
+		{ letter: /[\u0433]/g, alternative: "g" },
+		{ letter: /[\u0413]/g, alternative: "G" },
+		{ letter: /[\u0434]/g, alternative: "d" },
+		{ letter: /[\u0414]/g, alternative: "D" },
+		{ letter: /[\u0453]/g, alternative: "gj" },
+		{ letter: /[\u0403]/g, alternative: "Gj" },
+		{ letter: /[\u0435]/g, alternative: "e" },
+		{ letter: /[\u0415]/g, alternative: "E" },
+		{ letter: /[\u0436]/g, alternative: "zh" },
+		{ letter: /[\u0416]/g, alternative: "Zh" },
+		{ letter: /[\u0437]/g, alternative: "z" },
+		{ letter: /[\u0417]/g, alternative: "Z" },
+		{ letter: /[\u0455]/g, alternative: "dz" },
+		{ letter: /[\u0405]/g, alternative: "Dz" },
+		{ letter: /[\u0438]/g, alternative: "i" },
+		{ letter: /[\u0418]/g, alternative: "I" },
+		{ letter: /[\u0458]/g, alternative: "j" },
+		{ letter: /[\u0408]/g, alternative: "J" },
+		{ letter: /[\u043A]/g, alternative: "k" },
+		{ letter: /[\u041A]/g, alternative: "K" },
+		{ letter: /[\u043B]/g, alternative: "l" },
+		{ letter: /[\u041B]/g, alternative: "L" },
+		{ letter: /[\u0459]/g, alternative: "lj" },
+		{ letter: /[\u0409]/g, alternative: "Lj" },
+		{ letter: /[\u043C]/g, alternative: "m" },
+		{ letter: /[\u041C]/g, alternative: "M" },
+		{ letter: /[\u043D]/g, alternative: "n" },
+		{ letter: /[\u041D]/g, alternative: "N" },
+		{ letter: /[\u045A]/g, alternative: "nj" },
+		{ letter: /[\u040A]/g, alternative: "Nj" },
+		{ letter: /[\u043E]/g, alternative: "o" },
+		{ letter: /[\u041E]/g, alternative: "O" },
+		{ letter: /[\u0440]/g, alternative: "r" },
+		{ letter: /[\u0420]/g, alternative: "R" },
+		{ letter: /[\u043F]/g, alternative: "p" },
+		{ letter: /[\u041F]/g, alternative: "P" },
+		{ letter: /[\u0441]/g, alternative: "s" },
+		{ letter: /[\u0421]/g, alternative: "S" },
+		{ letter: /[\u0442]/g, alternative: "t" },
+		{ letter: /[\u0422]/g, alternative: "T" },
+		{ letter: /[\u045C]/g, alternative: "kj" },
+		{ letter: /[\u040C]/g, alternative: "Kj" },
+		{ letter: /[\u0443]/g, alternative: "u" },
+		{ letter: /[\u0423]/g, alternative: "U" },
+		{ letter: /[\u0444]/g, alternative: "f" },
+		{ letter: /[\u0424]/g, alternative: "F" },
+		{ letter: /[\u0445]/g, alternative: "h" },
+		{ letter: /[\u0425]/g, alternative: "H" },
+		{ letter: /[\u0446]/g, alternative: "c" },
+		{ letter: /[\u0426]/g, alternative: "C" },
+		{ letter: /[\u0447]/g, alternative: "ch" },
+		{ letter: /[\u0427]/g, alternative: "Ch" },
+		{ letter: /[\u045F]/g, alternative: "dj" },
+		{ letter: /[\u040F]/g, alternative: "Dj" },
+		{ letter: /[\u0448]/g, alternative: "sh" },
+		{ letter: /[\u0428]/g, alternative: "Sh" }
+	],
+	// Language: Maori.
+	// Source: http://www.omniglot.com/writing/maori.htm
+	mri: [
+		{ letter: /[\u0101]/g, alternative: "aa" },
+		{ letter: /[\u0100]/g, alternative: "Aa" },
+		{ letter: /[\u0113]/g, alternative: "ee" },
+		{ letter: /[\u0112]/g, alternative: "Ee" },
+		{ letter: /[\u012b]/g, alternative: "ii" },
+		{ letter: /[\u012a]/g, alternative: "Ii" },
+		{ letter: /[\u014d]/g, alternative: "oo" },
+		{ letter: /[\u014c]/g, alternative: "Oo" },
+		{ letter: /[\u016b]/g, alternative: "uu" },
+		{ letter: /[\u016a]/g, alternative: "Uu" }
+	],
+	// Language: Mirandese.
+	// Source: http://www.omniglot.com/writing/mirandese.htm
+	mwl: [
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00e1]/g, alternative: "a" },
+		{ letter: /[\u00c1]/g, alternative: "A" },
+		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cd]/g, alternative: "I" },
+		{ letter: /[\u00f3\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d4]/g, alternative: "O" },
+		{ letter: /[\u00fa\u0169]/g, alternative: "u" },
+		{ letter: /[\u00da\u0168]/g, alternative: "U" }
+	],
+	// Language: Occitan.
+	// Sources: http://www.omniglot.com/writing/oromo.htm https://en.wikipedia.org/wiki/Occitan_alphabet
+	oci: [
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00e0\u00e1]/g, alternative: "a" },
+		{ letter: /[\u00c0\u00c1]/g, alternative: "A" },
+		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
+		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
+		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00fc]/g, alternative: "u" },
+		{ letter: /[\u00da\u00dc]/g, alternative: "U" },
+		{ letter: /[\u00b7]/g, alternative: "" }
+	],
+	// Language: Oromo.
+	// Source: http://www.omniglot.com/writing/occitan.htm
+	orm: [
+		{ letter: /[\u0027]/g, alternative: "" }
+	],
+	// Language: Portuguese.
+	// Source: https://en.wikipedia.org/wiki/Portuguese_orthography http://www.omniglot.com/writing/portuguese.htm
+	pt: [
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00e1\u00e2\u00e3\u00e0]/g, alternative: "a" },
+		{ letter: /[\u00c1\u00c2\u00c3\u00c0]/g, alternative: "A" },
+		{ letter: /[\u00e9\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cd]/g, alternative: "I" },
+		{ letter: /[\u00f3\u00f4\u00f5]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d4\u00d5]/g, alternative: "O" },
+		{ letter: /[\u00fa]/g, alternative: "u" },
+		{ letter: /[\u00da]/g, alternative: "U" }
+	],
+	// Language: Romansh Vallader.
+	// Source: https://en.wikipedia.org/wiki/Romansh_language#Orthography http://www.omniglot.com/writing/romansh.htm
+	roh: [
+		{ letter: /[\u00e9\u00e8\u00ea]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00c8\u00ca]/g, alternative: "E" },
+		{ letter: /[\u00ef]/g, alternative: "i" },
+		{ letter: /[\u00cf]/g, alternative: "I" },
+		{ letter: /[\u00f6]/g, alternative: "oe" },
+		{ letter: /[\u00d6]/g, alternative: "Oe" },
+		{ letter: /[\u00fc]/g, alternative: "ue" },
+		{ letter: /[\u00dc]/g, alternative: "Ue" },
+		{ letter: /[\u00e4]/g, alternative: "ae" },
+		{ letter: /[\u00c4]/g, alternative: "Ae" }
+	],
+	// Language: Aromanian.
+	// Sources: https://en.wikipedia.org/wiki/Aromanian_alphabet http://www.omniglot.com/writing/aromanian.htm
+	rup: [
+		{ letter: /[\u00e3]/g, alternative: "a" },
+		{ letter: /[\u00c3]/g, alternative: "A" }
+	],
+	// Language: Romanian.
+	// Sources: http://forum.wordreference.com/threads/romanian-transliteration.3193544/#post-16161251
+	// https://en.wikipedia.org/wiki/Romanian_alphabet http://www.omniglot.com/writing/romanian.htm
+	ro: [
+		{ letter: /[\u0103\u00e2]/g, alternative: "a" },
+		{ letter: /[\u0102\u00c2]/g, alternative: "A" },
+		{ letter: /[\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00ce]/g, alternative: "I" },
+		{ letter: /[\u0219\u015f]/g, alternative: "s" },
+		{ letter: /[\u0218\u015e]/g, alternative: "S" },
+		{ letter: /[\u021b\u0163]/g, alternative: "t" },
+		{ letter: /[\u021a\u0162]/g, alternative: "T" }
+	],
+	// Language: Klingon.
+	// Sources: http://www.omniglot.com/conscripts/klingon.htm https://en.wikipedia.org/wiki/Klingon_language#Writing_systems
+	// This translation module only works for Klingon written in Latin characters. KLI PlqaD script is not supported yet.
+	tlh: [
+		{ letter: /[\u2019\u0027]/g, alternative: "" }
+	],
+	// Language: Slovak.
+	// Sources: https://en.wikipedia.org/wiki/Dz_(digraph) https://en.wikipedia.org/wiki/Slovak_orthography
+	// http://www.omniglot.com/writing/slovak.htm
+	sk: [
+		{ letter: /[\u01c4]/g, alternative: "DZ" },
+		{ letter: /[\u01c5]/g, alternative: "Dz" },
+		{ letter: /[\u01c6]/g, alternative: "dz" },
+		{ letter: /[\u00e1\u00e4]/g, alternative: "a" },
+		{ letter: /[\u00c1\u00c4]/g, alternative: "A" },
+		{ letter: /[\u010d]/g, alternative: "c" },
+		{ letter: /[\u010c]/g, alternative: "C" },
+		{ letter: /[\u010f]/g, alternative: "d" },
+		{ letter: /[\u010e]/g, alternative: "D" },
+		{ letter: /[\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cd]/g, alternative: "I" },
+		{ letter: /[\u013e\u013a]/g, alternative: "l" },
+		{ letter: /[\u013d\u0139]/g, alternative: "L" },
+		{ letter: /[\u0148]/g, alternative: "n" },
+		{ letter: /[\u0147]/g, alternative: "N" },
+		{ letter: /[\u00f3\u00f4]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d4]/g, alternative: "O" },
+		{ letter: /[\u0155]/g, alternative: "r" },
+		{ letter: /[\u0154]/g, alternative: "R" },
+		{ letter: /[\u0161]/g, alternative: "s" },
+		{ letter: /[\u0160]/g, alternative: "S" },
+		{ letter: /[\u0165]/g, alternative: "t" },
+		{ letter: /[\u0164]/g, alternative: "T" },
+		{ letter: /[\u00fa]/g, alternative: "u" },
+		{ letter: /[\u00da]/g, alternative: "U" },
+		{ letter: /[\u00fd]/g, alternative: "y" },
+		{ letter: /[\u00dd]/g, alternative: "Y" },
+		{ letter: /[\u017e]/g, alternative: "z" },
+		{ letter: /[\u017d]/g, alternative: "Z" }
+	],
+	// Language: Slovenian.
+	// Sources: https://en.wikipedia.org/wiki/Slovene_alphabet http://www.omniglot.com/writing/slovene.htm
+	sl: [
+		{ letter: /[\u010d\u0107]/g, alternative: "c" },
+		{ letter: /[\u010c\u0106]/g, alternative: "C" },
+		{ letter: /[\u0111]/g, alternative: "d" },
+		{ letter: /[\u0110]/g, alternative: "D" },
+		{ letter: /[\u0161]/g, alternative: "s" },
+		{ letter: /[\u0160]/g, alternative: "S" },
+		{ letter: /[\u017e]/g, alternative: "z" },
+		{ letter: /[\u017d]/g, alternative: "Z" },
+		{ letter: /[\u00e0\u00e1\u0203\u0201]/g, alternative: "a" },
+		{ letter: /[\u00c0\u00c1\u0202\u0200]/g, alternative: "A" },
+		{ letter: /[\u00e8\u00e9\u0207\u0205]/g, alternative: "e" },
+		{ letter: /\u01dd\u0300/g, alternative: "e" },
+		{ letter: /\u01dd\u030f/g, alternative: "e" },
+		{ letter: /\u1eb9\u0301/g, alternative: "e" },
+		{ letter: /\u1eb9\u0311/g, alternative: "e" },
+		{ letter: /[\u00c8\u00c9\u0206\u0204]/g, alternative: "E" },
+		{ letter: /\u018e\u030f/g, alternative: "E" },
+		{ letter: /\u018e\u0300/g, alternative: "E" },
+		{ letter: /\u1eb8\u0311/g, alternative: "E" },
+		{ letter: /\u1eb8\u0301/g, alternative: "E" },
+		{ letter: /[\u00ec\u00ed\u020b\u0209]/g, alternative: "i" },
+		{ letter: /[\u00cc\u00cd\u020a\u0208]/g, alternative: "I" },
+		{ letter: /[\u00f2\u00f3\u020f\u020d]/g, alternative: "o" },
+		{ letter: /\u1ecd\u0311/g, alternative: "o" },
+		{ letter: /\u1ecd\u0301/g, alternative: "o" },
+		{ letter: /\u1ecc\u0311/g, alternative: "O" },
+		{ letter: /\u1ecc\u0301/g, alternative: "O" },
+		{ letter: /[\u00d2\u00d3\u020e\u020c]/g, alternative: "O" },
+		{ letter: /[\u00f9\u00fa\u0217\u0215]/g, alternative: "u" },
+		{ letter: /[\u00d9\u00da\u0216\u0214]/g, alternative: "U" },
+		{ letter: /[\u0155\u0213]/g, alternative: "r" },
+		{ letter: /[\u0154\u0212]/g, alternative: "R" }
+	],
+	// Language: Albanian.
+	// Sources: https://en.wikipedia.org/wiki/Albanian_alphabet http://www.omniglot.com/writing/albanian.htm
+	sq: [
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00eb]/g, alternative: "e" },
+		{ letter: /[\u00cb]/g, alternative: "E" }
+	],
+	// Language: Hungarian.
+	// Sources: http://forum.wordreference.com/threads/hungarian-transliteration.3193022/#post-16166901
+	// http://www.omniglot.com/writing/hungarian.htm
+	hu: [
+		{ letter: /[\u00e1]/g, alternative: "a" },
+		{ letter: /[\u00c1]/g, alternative: "A" },
+		{ letter: /[\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cd]/g, alternative: "I" },
+		{ letter: /[\u00f3\u00f6\u0151]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d6\u0150]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00fc\u0171]/g, alternative: "u" },
+		{ letter: /[\u00da\u00dc\u0170]/g, alternative: "U" }
+	],
+	// Language: Sardinian.
+	// Sources: http://www.omniglot.com/writing/sardinian.htm https://en.wikipedia.org/wiki/Sardinian_language
+	srd: [
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00e0\u00e1]/g, alternative: "a" },
+		{ letter: /[\u00c0\u00c1]/g, alternative: "A" },
+		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00ed\u00ef]/g, alternative: "i" },
+		{ letter: /[\u00cd\u00cf]/g, alternative: "I" },
+		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00f9]/g, alternative: "u" },
+		{ letter: /[\u00da\u00d9]/g, alternative: "U" }
+	],
+	// Language: Silesian.
+	// Source: https://en.wikipedia.org/wiki/Silesian_language#Writing_system
+	szl: [
+		{ letter: /[\u0107]/g, alternative: "c" },
+		{ letter: /[\u0106]/g, alternative: "C" },
+		{ letter: /[\u00e3]/g, alternative: "a" },
+		{ letter: /[\u00c3]/g, alternative: "A" },
+		{ letter: /[\u0142]/g, alternative: "u" },
+		{ letter: /[\u0141]/g, alternative: "U" },
+		{ letter: /[\u006e]/g, alternative: "n" },
+		{ letter: /[\u004e]/g, alternative: "N" },
+		{ letter: /[\u014f\u014d\u00f4\u00f5]/g, alternative: "o" },
+		{ letter: /[\u014e\u014c\u00d4\u00d5]/g, alternative: "O" },
+		{ letter: /[\u015b]/g, alternative: "s" },
+		{ letter: /[\u015a]/g, alternative: "S" },
+		{ letter: /[\u017a\u017c\u017e]/g, alternative: "z" },
+		{ letter: /[\u0179\u017b\u017d]/g, alternative: "Z" },
+		{ letter: /[\u016f]/g, alternative: "u" },
+		{ letter: /[\u016e]/g, alternative: "U" },
+		{ letter: /[\u010d]/g, alternative: "cz" },
+		{ letter: /[\u010c]/g, alternative: "Cz" },
+		{ letter: /[\u0159]/g, alternative: "rz" },
+		{ letter: /[\u0158]/g, alternative: "Rz" },
+		{ letter: /[\u0161]/g, alternative: "sz" },
+		{ letter: /[\u0160]/g, alternative: "Sz" }
+	],
+	// Language: Tahitian.
+	// Sources: https://en.wikipedia.org/wiki/Tahitian_language#Phonology http://www.omniglot.com/writing/tahitian.htm
+	tah: [
+		{ letter: /[\u0101\u00e2\u00e0]/g, alternative: "a" },
+		{ letter: /[\u0100\u00c2\u00c0]/g, alternative: "A" },
+		{ letter: /[\u00ef\u00ee\u00ec]/g, alternative: "i" },
+		{ letter: /[\u00cf\u00ce\u00cc]/g, alternative: "I" },
+		{ letter: /[\u0113\u00ea\u00e9]/g, alternative: "e" },
+		{ letter: /[\u0112\u00ca\u00c9]/g, alternative: "E" },
+		{ letter: /[\u016b\u00fb\u00fa]/g, alternative: "u" },
+		{ letter: /[\u016a\u00db\u00da]/g, alternative: "U" },
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /[\u00f2\u00f4\u014d]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d4\u014c]/g, alternative: "O" },
+		{ letter: /[\u2019\u0027\u2018]/g, alternative: "" }
+	],
+	// Language: Venetian.
+	// Sources: http://www.omniglot.com/writing/venetian.htm https://en.wikipedia.org/wiki/Venetian_language#Spelling_systems
+	// http://www.venipedia.org/wiki/index.php?title=Venetian_Language
+	vec: [
+		{ letter: /\u0073\u002d\u0063/g, alternative: "sc" },
+		{ letter: /\u0053\u002d\u0043/g, alternative: "SC" },
+		{ letter: /\u0073\u0027\u0063/g, alternative: "sc" },
+		{ letter: /\u0053\u0027\u0043/g, alternative: "SC" },
+		{ letter: /\u0073\u2019\u0063/g, alternative: "sc" },
+		{ letter: /\u0053\u2019\u0043/g, alternative: "SC" },
+		{ letter: /\u0073\u2018\u0063/g, alternative: "sc" },
+		{ letter: /\u0053\u2018\u0043/g, alternative: "SC" },
+		{ letter: /\u0053\u002d\u0063/g, alternative: "Sc" },
+		{ letter: /\u0053\u0027\u0063/g, alternative: "Sc" },
+		{ letter: /\u0053\u2019\u0063/g, alternative: "Sc" },
+		{ letter: /\u0053\u2018\u0063/g, alternative: "Sc" },
+		{ letter: /\u0063\u2019/g, alternative: "c" },
+		{ letter: /\u0043\u2019/g, alternative: "C" },
+		{ letter: /\u0063\u2018/g, alternative: "c" },
+		{ letter: /\u0043\u2018/g, alternative: "C" },
+		{ letter: /\u0063\u0027/g, alternative: "c" },
+		{ letter: /\u0043\u0027/g, alternative: "C" },
+		{ letter: /[\u00e0\u00e1\u00e2]/g, alternative: "a" },
+		{ letter: /[\u00c0\u00c1\u00c2]/g, alternative: "A" },
+		{ letter: /[\u00e8\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c8\u00c9]/g, alternative: "E" },
+		{ letter: /[\u00f2\u00f3]/g, alternative: "o" },
+		{ letter: /[\u00d2\u00d3]/g, alternative: "O" },
+		{ letter: /[\u00f9\u00fa]/g, alternative: "u" },
+		{ letter: /[\u00d9\u00da]/g, alternative: "U" },
+		{ letter: /[\u00e7\u010d\u010b]/g, alternative: "c" },
+		{ letter: /[\u00c7\u010c\u010a]/g, alternative: "C" },
+		{ letter: /[\u0142]/g, alternative: "l" },
+		{ letter: /[\u00a3\u0141]/g, alternative: "L" },
+		{ letter: /\ud835\udeff/g, alternative: "dh" },
+		{ letter: /[\u0111\u03b4]/g, alternative: "dh" },
+		{ letter: /[\u0110\u0394]/g, alternative: "Dh" }
+	],
+	// Language: Walloon.
+	// Sources: http://www.omniglot.com/writing/walloon.htm https://en.wikipedia.org/wiki/Walloon_alphabet
+	wa: [
+		{ letter: /[\u00e2\u00e5]/g, alternative: "a" },
+		{ letter: /[\u00c2\u00c5]/g, alternative: "A" },
+		{ letter: /[\u00e7]/g, alternative: "c" },
+		{ letter: /[\u00c7]/g, alternative: "C" },
+		{ letter: /\u0065\u030a/g, alternative: "e" },
+		{ letter: /\u0045\u030a/g, alternative: "E" },
+		{ letter: /[\u00eb\u00ea\u00e8\u00e9]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00c8\u00ca\u00cb]/g, alternative: "E" },
+		{ letter: /[\u00ee]/g, alternative: "i" },
+		{ letter: /[\u00ce]/g, alternative: "I" },
+		{ letter: /[\u00f4\u00f6]/g, alternative: "o" },
+		{ letter: /[\u00d6\u00d4]/g, alternative: "O" },
+		{ letter: /[\u00fb]/g, alternative: "u" },
+		{ letter: /[\u00db]/g, alternative: "U" }
+	],
+	// Language: Yoruba.
+	// Sources: http://www.omniglot.com/writing/yoruba.htm https://en.wikipedia.org/wiki/Yoruba_language
+	yor: [
+		{ letter: /[\u00e1\u00e0]/g, alternative: "a" },
+		{ letter: /[\u00c1\u00c0]/g, alternative: "A" },
+		{ letter: /[\u00ec\u00ed]/g, alternative: "i" },
+		{ letter: /[\u00cc\u00cd]/g, alternative: "I" },
+		{ letter: /\u1ecd\u0301/g, alternative: "o" },
+		{ letter: /\u1ecc\u0301/g, alternative: "O" },
+		{ letter: /\u1ecd\u0300/g, alternative: "o" },
+		{ letter: /\u1ecc\u0300/g, alternative: "O" },
+		{ letter: /[\u00f3\u00f2\u1ecd]/g, alternative: "o" },
+		{ letter: /[\u00d3\u00d2\u1ecc]/g, alternative: "O" },
+		{ letter: /[\u00fa\u00f9]/g, alternative: "u" },
+		{ letter: /[\u00da\u00d9]/g, alternative: "U" },
+		{ letter: /\u1eb9\u0301/g, alternative: "e" },
+		{ letter: /\u1eb8\u0301/g, alternative: "E" },
+		{ letter: /\u1eb9\u0300/g, alternative: "e" },
+		{ letter: /\u1eb8\u0300/g, alternative: "E" },
+		{ letter: /[\u00e9\u00e8\u1eb9]/g, alternative: "e" },
+		{ letter: /[\u00c9\u00c8\u1eb8]/g, alternative: "E" },
+		{ letter: /[\u1e63]/g, alternative: "s" },
+		{ letter: /[\u1e62]/g, alternative: "S" }
 	]
 };
 
@@ -10550,6 +12726,7 @@ module.exports = function( locale ) {
 			return transliterations.eo;
 		case "af":
 			return transliterations.af;
+		case "bal":
 		case "ca":
 			return transliterations.ca;
 		case "ast":
@@ -10570,25 +12747,120 @@ module.exports = function( locale ) {
 			return transliterations.bm;
 		case "uk":
 			return transliterations.uk;
+		case "br":
+			return transliterations.br;
+		case "ch":
+			return transliterations.ch;
+		case "csb":
+			return transliterations.csb;
+		case "cy":
+			return transliterations.cy;
+		case "ee":
+			return transliterations.ee;
+		case "et":
+			return transliterations.et;
+		case "eu":
+			return transliterations.eu;
+		case "fuc":
+			return transliterations.fuc;
+		case "fj":
+			return transliterations.fj;
+		case "frp":
+			return transliterations.frp;
+		case "fur":
+			return transliterations.fur;
+		case "fy":
+			return transliterations.fy;
+		case "ga":
+			return transliterations.ga;
+		case "gd":
+			return transliterations.gd;
+		case "gl":
+			return transliterations.gl;
+		case "gn":
+			return transliterations.gn;
+		case "gsw":
+			return transliterations.gsw;
+		case "hat":
+			return transliterations.hat;
+		case "haw":
+			return transliterations.haw;
+		case "hr":
+			return transliterations.hr;
+		case "ka":
+			return transliterations.ka;
+		case "kal":
+			return transliterations.kal;
+		case "kin":
+			return transliterations.kin;
+		case "lb":
+			return transliterations.lb;
+		case "li":
+			return transliterations.li;
+		case "lin":
+			return transliterations.lin;
+		case "lt":
+			return transliterations.lt;
+		case "mg":
+			return transliterations.mg;
+		case "mk":
+			return transliterations.mk;
+		case "mri":
+			return transliterations.mri;
+		case "mwl":
+			return transliterations.mwl;
+		case "oci":
+			return transliterations.oci;
+		case "orm":
+			return transliterations.orm;
+		case "pt":
+			return transliterations.pt;
+		case "roh":
+			return transliterations.roh;
+		case "rup":
+			return transliterations.rup;
+		case "ro":
+			return transliterations.ro;
+		case "tlh":
+			return transliterations.tlh;
+		case "sk":
+			return transliterations.sk;
+		case "sl":
+			return transliterations.sl;
+		case "sq":
+			return transliterations.sq;
+		case "hu":
+			return transliterations.hu;
+		case "srd":
+			return transliterations.srd;
+		case "szl":
+			return transliterations.szl;
+		case "tah":
+			return transliterations.tah;
+		case "vec":
+			return transliterations.vec;
+		case "wa":
+			return transliterations.wa;
+		case "yor":
+			return transliterations.yor;
 		default:
 			return [];
 	}
 };
 
-},{"lodash/isUndefined":176}],225:[function(require,module,exports){
-/** @module config/twoPartTransitionWords */
-
-/**
- * Returns an array with two-part transition words to be used by the assessments.
- * @returns {Array} The array filled with two-part transition words.
- */
+},{"../helpers/getLanguage.js":232,"lodash/isUndefined":174}],226:[function(require,module,exports){
 module.exports = function() {
-	return [ [ "both", "and" ], [ "if", "then" ], [ "not only", "but also" ], [ "neither", "nor" ], [ "either", "or" ], [ "not", "but" ],
-		[ "whether", "or" ], [ "no sooner", "than" ] ];
+	return [
+		// Whitespace is always a word boundary.
+		" ", "\\n", "\\r", "\\t",
+		// NO-BREAK SPACE.
+		"\u00a0",
+		" ",
+
+		".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">" ];
 };
 
-
-},{}],226:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 /**
  * Throws an invalid type error
  * @param {string} message The message to show when the error is thrown
@@ -10602,7 +12874,7 @@ module.exports = function InvalidTypeError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":199}],227:[function(require,module,exports){
+},{"util":201}],228:[function(require,module,exports){
 module.exports = function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
@@ -10611,7 +12883,7 @@ module.exports = function MissingArgumentError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":199}],228:[function(require,module,exports){
+},{"util":201}],229:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 
 /**
@@ -10636,7 +12908,7 @@ module.exports = {
 	showTrace: showTrace
 };
 
-},{"lodash/isUndefined":176}],229:[function(require,module,exports){
+},{"lodash/isUndefined":174}],230:[function(require,module,exports){
 /**
  * Returns rounded number to fix floating point bug http://floating-point-gui.de
  * @param {number} number The unrounded number
@@ -10651,7 +12923,78 @@ module.exports = function ( number ) {
 	return Math.round( number * 10 ) / 10;
 };
 
-},{}],230:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
+var firstWordExceptionsEnglish = require( "../researches/english/firstWordExceptions.js" );
+var firstWordExceptionsGerman = require( "../researches/german/firstWordExceptions.js" );
+var firstWordExceptionsSpanish = require( "../researches/spanish/firstWordExceptions.js" );
+var firstWordExceptionsFrench = require( "../researches/french/firstWordExceptions.js" );
+
+var getLanguage = require( "./getLanguage.js" );
+
+module.exports = function( locale ) {
+	switch( getLanguage( locale ) ) {
+		case "de":
+			return firstWordExceptionsGerman;
+		case "fr":
+			return firstWordExceptionsFrench;
+		case "es":
+			return firstWordExceptionsSpanish;
+		default:
+		case "en":
+			return firstWordExceptionsEnglish;
+	}
+};
+
+},{"../researches/english/firstWordExceptions.js":243,"../researches/french/firstWordExceptions.js":254,"../researches/german/firstWordExceptions.js":257,"../researches/spanish/firstWordExceptions.js":278,"./getLanguage.js":232}],232:[function(require,module,exports){
+/**
+ * The function getting the language part of the locale.
+ *
+ * @param {string} locale The locale.
+ * @returns {string} The language part of the locale.
+ */
+module.exports = function ( locale ) {
+	return locale.split( "_" )[ 0 ];
+};
+
+},{}],233:[function(require,module,exports){
+var transitionWordsEnglish = require( "../researches/english/transitionWords.js" );
+var twoPartTransitionWordsEnglish = require( "../researches/english/twoPartTransitionWords.js" );
+var transitionWordsGerman = require( "../researches/german/transitionWords.js" );
+var twoPartTransitionWordsGerman = require( "../researches/german/twoPartTransitionWords.js" );
+var transitionWordsFrench = require( "../researches/french/transitionWords.js" );
+var twoPartTransitionWordsFrench = require( "../researches/french/twoPartTransitionWords.js" );
+var transitionWordsSpanish = require( "../researches/spanish/transitionWords.js" );
+var twoPartTransitionWordsSpanish = require( "../researches/spanish/twoPartTransitionWords.js" );
+
+var getLanguage = require( "./getLanguage.js" );
+
+module.exports = function( locale ) {
+	switch( getLanguage( locale ) ) {
+		case "de":
+			return {
+				transitionWords: transitionWordsGerman,
+				twoPartTransitionWords: twoPartTransitionWordsGerman
+			};
+		case "es":
+			return {
+				transitionWords: transitionWordsSpanish,
+				twoPartTransitionWords: twoPartTransitionWordsSpanish
+			};
+		case "fr":
+			return {
+				transitionWords: transitionWordsFrench,
+				twoPartTransitionWords: twoPartTransitionWordsFrench
+			};
+		default:
+		case "en":
+			return {
+				transitionWords: transitionWordsEnglish,
+				twoPartTransitionWords: twoPartTransitionWordsEnglish
+			};
+	}
+};
+
+},{"../researches/english/transitionWords.js":249,"../researches/english/twoPartTransitionWords.js":250,"../researches/french/transitionWords.js":255,"../researches/french/twoPartTransitionWords.js":256,"../researches/german/transitionWords.js":258,"../researches/german/twoPartTransitionWords.js":259,"../researches/spanish/transitionWords.js":279,"../researches/spanish/twoPartTransitionWords.js":280,"./getLanguage.js":232}],234:[function(require,module,exports){
 var blockElements = [ "address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption",
 	"figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav",
 	"noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video" ];
@@ -10819,21 +13162,50 @@ module.exports = {
 	getBlocks: memoize( getBlocks )
 };
 
-},{"lodash/forEach":154,"lodash/memoize":180,"tokenizer2/core":197}],231:[function(require,module,exports){
+},{"lodash/forEach":152,"lodash/memoize":178,"tokenizer2/core":197}],235:[function(require,module,exports){
 /**
- * Returns an array with exceptions for the sentence beginning researcher.
- * @returns {Array} The array filled with exceptions.
+ * Checks if `n` is between `start` and up to, but not including, `start`.
+ *
+ * @param {number} number The number to check.
+ * @param {number} start The start of the range.
+ * @param {number} end The end of the range.
+ * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
  */
-module.exports = function() {
-	return [ "A", "An", "The", "This", "That", "These", "Those", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ];
+function inRangeEndInclusive( number, start, end ) {
+	return number > start && number <= end;
+}
+
+/**
+ * Checks if `n` is between `start` and up to, but not including, `end`.
+ *
+ * @param {number} number The number to check.
+ * @param {number} start The start of the range.
+ * @param {number} end The end of the range.
+ * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
+ */
+function inRangeStartInclusive( number, start, end ) {
+	return number >= start && number < end;
+}
+
+/**
+ * Checks if `n` is between `start` and up to, but not including, `start`.
+ *
+ * @param {number} number The number to check.
+ * @param {number} start The start of the range.
+ * @param {number} end The end of the range.
+ * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
+ */
+function inRange( number, start, end ) {
+	return inRangeEndInclusive( number, start, end );
+}
+
+module.exports = {
+	inRange: inRange,
+	inRangeStartInclusive: inRangeStartInclusive,
+	inRangeEndInclusive: inRangeEndInclusive
 };
 
-},{}],232:[function(require,module,exports){
-module.exports = function() {
-	return [ " ", "\\n", "\\r", "\\t", ".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">" ];
-};
-
-},{}],233:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 /**
  * Marks a text with HTML tags
  *
@@ -10844,7 +13216,7 @@ module.exports = function( text ) {
 	return "<yoastmark class='yoast-text-mark'>" + text + "</yoastmark>";
 };
 
-},{}],234:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 var uniqBy = require( "lodash/uniqBy" );
 
 /**
@@ -10861,7 +13233,7 @@ function removeDuplicateMarks( marks ) {
 
 module.exports = removeDuplicateMarks;
 
-},{"lodash/uniqBy":195}],235:[function(require,module,exports){
+},{"lodash/uniqBy":191}],238:[function(require,module,exports){
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -10886,7 +13258,7 @@ var keyphraseLength = require( "./researches/keyphraseLength" );
 var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
 var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
-var pageTitleLength = require( "./researches/pageTitleLength.js" );
+var pageTitleWidth = require( "./researches/pageTitleWidth.js" );
 var wordComplexity = require( "./researches/getWordComplexity.js" );
 var getParagraphLength = require( "./researches/getParagraphLength.js" );
 var countSentencesFromText = require( "./researches/countSentencesFromText.js" );
@@ -10895,7 +13267,6 @@ var getSubheadingLength = require( "./researches/getSubheadingLength.js" );
 var getSubheadingTextLengths = require( "./researches/getSubheadingTextLengths.js" );
 var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 var findTransitionWords = require( "./researches/findTransitionWords.js" );
-var sentenceVariation = require( "./researches/sentenceVariation.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 
@@ -10926,7 +13297,7 @@ var Researcher = function( paper ) {
 		"keywordCountInUrl": keywordCountInUrl,
 		"firstParagraph": findKeywordInFirstParagraph,
 		"metaDescriptionKeyword": metaDescriptionKeyword,
-		"pageTitleLength": pageTitleLength,
+		"pageTitleWidth": pageTitleWidth,
 		"wordComplexity": wordComplexity,
 		"getParagraphLength": getParagraphLength,
 		"countSentencesFromText": countSentencesFromText,
@@ -10935,7 +13306,6 @@ var Researcher = function( paper ) {
 		"getSubheadingTextLengths": getSubheadingTextLengths,
 		"getSubheadingPresence": getSubheadingPresence,
 		"findTransitionWords": findTransitionWords,
-		"sentenceVariation": sentenceVariation,
 		"passiveVoice": passiveVoice,
 		"getSentenceBeginnings": getSentenceBeginnings
 	};
@@ -11013,12 +13383,10 @@ Researcher.prototype.getResearch = function( name ) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":226,"./errors/missingArgument":227,"./researches/calculateFleschReading.js":236,"./researches/countLinks.js":237,"./researches/countSentencesFromDescription.js":238,"./researches/countSentencesFromText.js":239,"./researches/findKeywordInFirstParagraph.js":240,"./researches/findKeywordInPageTitle.js":241,"./researches/findTransitionWords.js":242,"./researches/getKeywordDensity.js":243,"./researches/getLinkStatistics.js":244,"./researches/getParagraphLength.js":246,"./researches/getPassiveVoice.js":247,"./researches/getSentenceBeginnings.js":248,"./researches/getSubheadingLength.js":249,"./researches/getSubheadingPresence.js":250,"./researches/getSubheadingTextLengths.js":251,"./researches/getWordComplexity.js":252,"./researches/imageAltTags.js":253,"./researches/imageCountInText.js":254,"./researches/keyphraseLength":255,"./researches/keywordCountInUrl":256,"./researches/matchKeywordInSubheadings.js":257,"./researches/metaDescriptionKeyword.js":258,"./researches/metaDescriptionLength.js":259,"./researches/pageTitleLength.js":260,"./researches/sentenceVariation.js":266,"./researches/stopWordsInKeyword":267,"./researches/stopWordsInUrl":269,"./researches/urlIsTooLong.js":270,"./researches/wordCountInText.js":271,"lodash/isEmpty":165,"lodash/isUndefined":176,"lodash/merge":181}],236:[function(require,module,exports){
+},{"./errors/invalidType":227,"./errors/missingArgument":228,"./researches/calculateFleschReading.js":239,"./researches/countLinks.js":240,"./researches/countSentencesFromDescription.js":241,"./researches/countSentencesFromText.js":242,"./researches/findKeywordInFirstParagraph.js":251,"./researches/findKeywordInPageTitle.js":252,"./researches/findTransitionWords.js":253,"./researches/getKeywordDensity.js":260,"./researches/getLinkStatistics.js":261,"./researches/getParagraphLength.js":263,"./researches/getPassiveVoice.js":264,"./researches/getSentenceBeginnings.js":265,"./researches/getSubheadingLength.js":266,"./researches/getSubheadingPresence.js":267,"./researches/getSubheadingTextLengths.js":268,"./researches/getWordComplexity.js":269,"./researches/imageAltTags.js":270,"./researches/imageCountInText.js":271,"./researches/keyphraseLength":272,"./researches/keywordCountInUrl":273,"./researches/matchKeywordInSubheadings.js":274,"./researches/metaDescriptionKeyword.js":275,"./researches/metaDescriptionLength.js":276,"./researches/pageTitleWidth.js":277,"./researches/stopWordsInKeyword":281,"./researches/stopWordsInUrl":283,"./researches/urlIsTooLong.js":284,"./researches/wordCountInText.js":285,"lodash/isEmpty":163,"lodash/isUndefined":174,"lodash/merge":179}],239:[function(require,module,exports){
 /** @module analyses/calculateFleschReading */
 
-var cleanText = require( "../stringProcessing/cleanText.js" );
 var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
 var countSentences = require( "../stringProcessing/countSentences.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
@@ -11038,26 +13406,25 @@ module.exports = function( paper ) {
 		return 0;
 	}
 
-	var sentenceCount = countSentences( text );
+	text = stripNumbers( text );
 
-	text = cleanText( text );
-	text = stripHTMLTags( text );
-	var wordCount = countWords( text );
+	var numberOfSentences = countSentences( text );
+
+	var numberOfWords = countWords( text );
 
 	// Prevent division by zero errors.
-	if ( sentenceCount === 0 || wordCount === 0 ) {
+	if ( numberOfSentences === 0 || numberOfWords === 0 ) {
 		return 0;
 	}
 
-	text = stripNumbers( text );
-	var syllableCount = countSyllables( text );
+	var numberOfSyllables = countSyllables( text );
 
-	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
+	var score = 206.835 - ( 1.015 * ( numberOfWords / numberOfSentences ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
 
 	return formatNumber( score );
 };
 
-},{"../helpers/formatNumber.js":229,"../stringProcessing/cleanText.js":275,"../stringProcessing/countSentences.js":276,"../stringProcessing/countSyllables.js":277,"../stringProcessing/countWords.js":278,"../stringProcessing/stripHTMLTags.js":303,"../stringProcessing/stripNumbers.js":305}],237:[function(require,module,exports){
+},{"../helpers/formatNumber.js":230,"../stringProcessing/countSentences.js":289,"../stringProcessing/countSyllables.js":290,"../stringProcessing/countWords.js":291,"../stringProcessing/stripNumbers.js":318}],240:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks" );
@@ -11075,7 +13442,7 @@ module.exports = function( paper ) {
 	return anchors.length;
 };
 
-},{"./getLinks":245}],238:[function(require,module,exports){
+},{"./getLinks":262}],241:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
@@ -11089,7 +13456,7 @@ module.exports = function( paper ) {
 	return sentencesLength( sentences );
 };
 
-},{"../stringProcessing/getSentences":285,"./../stringProcessing/sentencesLength.js":301}],239:[function(require,module,exports){
+},{"../stringProcessing/getSentences":298,"./../stringProcessing/sentencesLength.js":314}],242:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
@@ -11103,1001 +13470,25 @@ module.exports = function( paper ) {
 	return sentencesLength( sentences );
 };
 
-},{"../stringProcessing/getSentences":285,"./../stringProcessing/sentencesLength.js":301}],240:[function(require,module,exports){
-/** @module analyses/findKeywordInFirstParagraph */
-
-var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-
+},{"../stringProcessing/getSentences":298,"./../stringProcessing/sentencesLength.js":314}],243:[function(require,module,exports){
 /**
- * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
- * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
- * count of the complete text.
- *
- * @param {Paper} paper The text to check for paragraphs.
- * @returns {number} The number of occurences of the keyword in the first paragraph.
+ * Returns an array with exceptions for the sentence beginning researcher.
+ * @returns {Array} The array filled with exceptions.
  */
-module.exports = function( paper ) {
-	var paragraph = matchParagraphs( paper.getText() );
-	return wordMatch( paragraph[ 0 ], paper.getKeyword(), paper.getLocale() );
+module.exports = function() {
+	return [
+		// Definite articles:
+		"the",
+		// Indefinite articles:
+		"a", "an",
+		// Numbers 1-10:
+		"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+		// Demonstrative pronouns:
+		"this", "that", "these", "those"
+	];
 };
 
-},{"../stringProcessing/matchParagraphs.js":290,"../stringProcessing/matchTextWithWord.js":293}],241:[function(require,module,exports){
-/** @module analyses/findKeywordInPageTitle */
-
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
- * and the position of the keyword.
- *
- * @param {object} paper The paper containing title and keyword.
- * @returns {object} result with the matches and position.
- */
-
-module.exports = function( paper ) {
-	var title = paper.getTitle();
-	var keyword = paper.getKeyword();
-	var locale = paper.getLocale();
-	var result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword, locale );
-	result.position = title.toLocaleLowerCase().indexOf( keyword );
-
-	return result;
-};
-
-},{"../stringProcessing/matchTextWithWord.js":293}],242:[function(require,module,exports){
-var transitionWords = require( "../config/transitionWords.js" );
-var twoPartTransitionWords = require( "../config/twoPartTransitionWords.js" );
-var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
-var getSentences = require( "../stringProcessing/getSentences.js" );
-var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
-var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
-
-var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
-
-var twoPartTransitionWordsRegex = createRegexFromDoubleArray( twoPartTransitionWords() );
-
-/**
- * Matches the sentence against two part transition words.
- *
- * @param {string} sentence The sentence to match against.
- * @returns {Array} The found transitional words.
- */
-var matchTwoPartTransitionWords = function( sentence ) {
-	sentence = normalizeSingleQuotes( sentence );
-
-	return sentence.match( twoPartTransitionWordsRegex );
-};
-
-/**
- * Matches the sentence against transition words.
- *
- * @param {string} sentence The sentence to match against.
- * @returns {Array} The found transitional words.
- */
-var matchTransitionWords = function( sentence ) {
-	sentence = normalizeSingleQuotes( sentence );
-
-	var matchedTransitionWords = filter( transitionWords(), function( word ) {
-		return matchWordInSentence( word, sentence );
-	} );
-
-	return matchedTransitionWords;
-};
-
-/**
- * Checks the passed sentences to see if they contain transitional words.
- *
- * @param {Array} sentences The sentences to match against.
- * @returns {Array} Array of sentence objects containing the complete sentence and the transitional words.
- */
-var checkSentencesForTransitionWords = function( sentences ) {
-	var results = [];
-
-	forEach( sentences, function( sentence ) {
-		var twoPartMatches = matchTwoPartTransitionWords( sentence );
-
-		if ( twoPartMatches !== null ) {
-			results.push( {
-				sentence: sentence,
-				transitionWords: twoPartMatches
-			} );
-
-			return;
-		}
-
-		var transitionWordMatches = matchTransitionWords( sentence );
-
-		if ( transitionWordMatches.length !== 0 ) {
-			results.push( {
-				sentence: sentence,
-				transitionWords: transitionWordMatches
-			} );
-
-			return;
-		}
-	} );
-
-	return results;
-};
-
-/**
- * Checks how many sentences from a text contain at least one transition word or two-part transition word
- * that are defined in the transition words config and two part transition words config.
- *
- * @param {Paper} paper The Paper object to get text from.
- * @returns {object} An object with the total number of sentences in the text
- * and the total number of sentences containing one or more transition words.
- */
-module.exports = function( paper ) {
-	var sentences = getSentences( paper.getText() );
-	var sentenceResults = checkSentencesForTransitionWords( sentences );
-
-	return {
-		totalSentences: sentences.length,
-		sentenceResults: sentenceResults,
-		transitionWordSentences: sentenceResults.length
-	};
-};
-
-},{"../config/transitionWords.js":223,"../config/twoPartTransitionWords.js":225,"../stringProcessing/createRegexFromDoubleArray.js":280,"../stringProcessing/getSentences.js":285,"../stringProcessing/matchWordInSentence.js":294,"../stringProcessing/quotes.js":295,"lodash/filter":150,"lodash/forEach":154}],243:[function(require,module,exports){
-/** @module analyses/getKeywordDensity */
-
-var countWords = require( "../stringProcessing/countWords.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Calculates the keyword density .
- *
- * @param {object} paper The paper containing keyword and text.
-  * @returns {number} The keyword density.
- */
-module.exports = function( paper ) {
-	var keyword = paper.getKeyword();
-	var text = paper.getText();
-	var locale = paper.getLocale();
-	var wordCount = countWords( text );
-	if ( wordCount === 0 ) {
-		return 0;
-	}
-	var keywordCount = matchWords( text, keyword, locale );
-	return ( keywordCount / wordCount ) * 100;
-};
-
-},{"../stringProcessing/countWords.js":278,"../stringProcessing/matchTextWithWord.js":293}],244:[function(require,module,exports){
-/** @module analyses/getLinkStatistics */
-
-var getLinks = require( "./getLinks.js" );
-var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
-var getLinkType = require( "../stringProcessing/getLinkType.js" );
-var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
-
-/**
- * Checks whether or not an anchor contains the passed keyword.
- * @param {string} keyword The keyword to look for.
- * @param {string} anchor The anchor to check against.
- * @param {string} locale The locale used for transliteration.
- * @returns {boolean} Whether or not the keyword was found.
- */
-var keywordInAnchor = function( keyword, anchor, locale ) {
-	if ( keyword === "" ) {
-		return false;
-	}
-
-	return findKeywordInUrl( anchor, keyword, locale );
-};
-
-/**
- * Counts the links found in the text.
- *
- * @param {object} paper The paper object containing text, keyword and url.
- * @returns {object} The object containing all linktypes.
- * total: the total number of links found.
- * totalNaKeyword: the total number of links if keyword is not available.
- * keyword: Object containing all the keyword related counts and matches.
- * keyword.totalKeyword: the total number of links with the keyword.
- * keyword.matchedAnchors: Array with the anchors that contain the keyword.
- * internalTotal: the total number of links that are internal.
- * internalDofollow: the internal links without a nofollow attribute.
- * internalNofollow: the internal links with a nofollow attribute.
- * externalTotal: the total number of links that are external.
- * externalDofollow: the external links without a nofollow attribute.
- * externalNofollow: the internal links with a dofollow attribute.
- * otherTotal: all links that are not HTTP or HTTPS.
- * otherDofollow: other links without a nofollow attribute.
- * otherNofollow: other links with a nofollow attribute.
- */
-var countLinkTypes = function( paper ) {
-	var url = paper.getUrl();
-	var keyword = paper.getKeyword();
-	var locale = paper.getLocale();
-	var anchors = getLinks( paper.getText() );
-
-	var linkCount = {
-		total: anchors.length,
-		totalNaKeyword: 0,
-		keyword: {
-			totalKeyword: 0,
-			matchedAnchors: []
-		},
-		internalTotal: 0,
-		internalDofollow: 0,
-		internalNofollow: 0,
-		externalTotal: 0,
-		externalDofollow: 0,
-		externalNofollow: 0,
-		otherTotal: 0,
-		otherDofollow: 0,
-		otherNofollow: 0
-	};
-
-	for ( var i = 0; i < anchors.length; i++ ) {
-		var currentAnchor = anchors[ i ];
-
-		if ( keywordInAnchor( keyword, currentAnchor, locale ) ) {
-
-			linkCount.keyword.totalKeyword++;
-			linkCount.keyword.matchedAnchors.push( currentAnchor );
-		}
-
-		var linkType = getLinkType( currentAnchor, url );
-		var linkFollow = checkNofollow( currentAnchor );
-
-		linkCount[ linkType + "Total" ]++;
-		linkCount[ linkType + linkFollow ]++;
-	}
-
-	return linkCount;
-};
-
-/**
- * Checks a text for anchors and returns an object with all linktypes found.
- *
- * @param {Paper} paper The paper object containing text, keyword and url.
- * @returns {Object} The object containing all linktypes.
- */
-module.exports = function( paper ) {
-	return countLinkTypes( paper );
-};
-
-},{"../stringProcessing/checkNofollow.js":274,"../stringProcessing/findKeywordInUrl.js":281,"../stringProcessing/getLinkType.js":284,"./getLinks.js":245}],245:[function(require,module,exports){
-/** @module analyses/getLinkStatistics */
-
-var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
-
-/**
- * Checks a text for anchors and returns the number found.
- *
- * @param {Object} text The text
- * @returns {Array} An array with the anchors
- */
-module.exports = function( text ) {
-	return getAnchors( text );
-};
-
-},{"../stringProcessing/getAnchorsFromText.js":283}],246:[function(require,module,exports){
-var countWords = require( "../stringProcessing/countWords.js" );
-var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
-var filter = require( "lodash/filter" );
-
-/**
- * Gets all paragraphs and their word counts from the text.
- *
- * @param {Paper} paper The paper object to get the text from.
- * @returns {Array} The array containing an object with the paragraph word count and paragraph text.
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var paragraphs = matchParagraphs( text );
-	var paragraphsLength = [];
-	paragraphs.map( function ( paragraph ) {
-		paragraphsLength.push( {
-			wordCount: countWords( paragraph ),
-			paragraph: paragraph
-		} );
-	} );
-
-	return filter( paragraphsLength, function ( paragraphLength ) {
-		return ( paragraphLength.wordCount > 0 );
-	} );
-};
-
-},{"../stringProcessing/countWords.js":278,"../stringProcessing/matchParagraphs.js":290,"lodash/filter":150}],247:[function(require,module,exports){
-var getSentences = require( "../stringProcessing/getSentences.js" );
-var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
-var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
-
-var nonverbEndingEd = require( "./passivevoice-english/non-verb-ending-ed.js" )();
-var determiners = require( "./passivevoice-english/determiners.js" )();
-
-var auxiliaries = require( "./passivevoice-english/auxiliaries.js" )();
-var irregulars = require( "./passivevoice-english/irregulars.js" )();
-var stopwords = require( "./passivevoice-english/stopwords.js" )();
-
-var filter = require( "lodash/filter" );
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var includes = require( "lodash/includes" );
-
-var auxiliaryRegex = arrayToRegex( auxiliaries );
-var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var regularVerbsRegex = /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-
-var ingExclusionArray = [ "king", "cling", "ring", "being" ];
-var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
-
-/**
- * Matches string with an array, returns the word and the index it was found on.
- *
- * @param {string} sentence The sentence to match the strings from the array to.
- * @param {Array} matches The array with strings to match.
- * @returns {Array} The array with matches, containing the index of the match and the matched string.
- * Returns an empty array if none are found.
- */
-var matchArray = function( sentence, matches ) {
-	var matchedParts = [];
-
-	forEach( matches, function( part ) {
-		part = stripSpaces( part );
-
-		if ( !matchWordInSentence( part, sentence ) ) {
-			return;
-		}
-
-		matchedParts.push( { index: sentence.indexOf( part ), match: part } );
-	} );
-
-	return matchedParts;
-};
-
-/**
- * Sorts the array on the index property of each entry.
- *
- * @param {Array} indices The array with indices.
- * @returns {Array} The sorted array with indices.
- */
-var sortIndices = function( indices ) {
-	return indices.sort( function( a, b ) {
-		return ( a.index > b.index );
-	} );
-};
-
-/**
- * Filters duplicate entries if the indices overlap.
- *
- * @param {Array} indices The array with indices to be filtered.
- * @returns {Array} The filtered array.
- */
-var filterIndices = function( indices ) {
-	indices = sortIndices( indices );
-	for ( var i = 0; i < indices.length; i++ ) {
-
-		// If the next index is within the range of the current index and the length of the word, remove it
-		// This makes sure we don't match combinations twice, like "even though" and "though".
-		if ( !isUndefined( indices[ i + 1 ] ) && indices[ i + 1 ].index < indices[ i ].index + indices[ i ].match.length ) {
-			indices.pop( i + 1 );
-		}
-	}
-	return indices;
-};
-
-/**
- * Gets active verbs (ending in ing) to determine sentence breakers.
- *
- * @param {string} sentence The sentence to get the active verbs from.
- * @returns {Array} The array with valid matches.
- */
-var getVerbsEndingInIng = function( sentence ) {
-
-	// Matches the sentences with words ending in ing
-	var matches = sentence.match( verbEndingInIngRegex ) || [];
-
-	// Filters out words ending in -ing that aren't verbs.
-	return filter( matches, function( match ) {
-		return !includes( ingExclusionArray, stripSpaces( match ) );
-	} );
-};
-
-/**
- * Gets the indexes of sentence breakers (auxiliaries, stopwords and active verbs) to determine subsentences.
- * Stopwords are filtered because they can contain duplicate matches, like "even though" and "though".
- *
- * @param {string} sentence The sentence to check for indices of auxiliaries, stopwords and active verbs.
- * @returns {Array} The array with valid indices to use for determining subsentences.
- */
-var getSentenceBreakers = function( sentence ) {
-	sentence = sentence.toLocaleLowerCase();
-	var auxiliaryIndices = matchArray( sentence, auxiliaries );
-
-	var stopwordIndices = matchArray( sentence, stopwords );
-	stopwordIndices = filterIndices( stopwordIndices );
-
-	var ingVerbs = getVerbsEndingInIng( sentence );
-	var ingVerbsIndices = matchArray( sentence, ingVerbs );
-
-	// Concat all indices arrays and sort them.
-	var indices = [].concat( auxiliaryIndices, stopwordIndices, ingVerbsIndices );
-	return sortIndices( indices );
-};
-
-/**
- * Gets the subsentences from a sentence by determining sentence breakers.
- *
- * @param {string} sentence The sentence to split up in subsentences.
- * @returns {Array} The array with all subsentences of a sentence that have an auxiliary.
- */
-var getSubsentences = function( sentence ) {
-	var subSentences = [];
-
-	sentence = normalizeSingleQuotes( sentence );
-
-	// First check if there is an auxiliary word in the sentence
-	if( sentence.match( auxiliaryRegex ) !== null ) {
-		var indices = getSentenceBreakers( sentence );
-
-		// Get the words after the found auxiliary
-		for ( var i = 0; i < indices.length; i++ ) {
-			var endIndex = sentence.length;
-			if ( !isUndefined( indices[ i + 1 ] ) ) {
-				endIndex = indices[ i + 1 ].index;
-			}
-
-			// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
-			var subSentence = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
-			subSentences.push( subSentence );
-		}
-	}
-
-	// If a subsentence doesn't have an auxiliary, we don't need it, so it can be filtered out.
-	subSentences = filter( subSentences, function( subSentence ) {
-		return subSentence.match( auxiliaryRegex ) !== null;
-	} );
-
-	return subSentences;
-};
-
-/**
- * Gets regular passive verbs.
- *
- * @param {string} subSentence The sub sentence to check for passive verbs.
- * @returns {Array} The array with all matched verbs.
- */
-var getRegularVerbs = function( subSentence ) {
-	// Matches the sentences with words ending in ed
-	var matches = subSentence.match( regularVerbsRegex ) || [];
-
-	// Filters out words ending in -ed that aren't verbs.
-	return filter( matches, function( match ) {
-		return !includes( nonverbEndingEd, stripSpaces( match ) );
-	} );
-};
-
-/**
- * Loops through a list of words and detects if they are present in the sentence.
- *
- * @param {Array} wordList The list of words to filter through.
- * @param {string} sentence The sentence to check for matches.
- * @returns {Array} A list of detected words.
- */
-var filterWordListInSentence = function( wordList, sentence ) {
-	return filter( wordList, function( word ) {
-		return matchWordInSentence( word, sentence );
-	} );
-};
-
-/**
- * Checks whether the sentence contains an excluded verb.
- *
- * @param {string} sentence The sentence to check for excluded verbs.
- * @returns {boolean} Whether or not the sentence contains an excluded verb.
- */
-var hasExcludedIrregularVerb = function( sentence ) {
-	return filterWordListInSentence( irregularExclusionArray, sentence ).length !== 0;
-};
-
-/**
- * Gets irregular passive verbs.
- *
- * @param {string} sentence The sentence to check for passive verbs.
- * @returns {Array} The array with all matched verbs.
- */
-var getIrregularVerbs = function( sentence ) {
-	var irregularVerbs = filterWordListInSentence( irregulars, sentence );
-
-	return filter( irregularVerbs, function( verb ) {
-		// If rid is used with get, gets, getting, got or gotten, remove it.
-		if ( verb.match !== "rid" ) {
-			return true;
-		}
-
-		return hasExcludedIrregularVerb( sentence );
-	} );
-};
-
-/**
- * Matches having with a verb directly following it. If so, it is not passive.
- * @param {string} subSentence The subsentence to check for the word 'having' and a verb
- * @param {Array} verbs The array with verbs to check.
- * @returns {boolean} True if it is an exception, false if it is not.
- */
-var isHavingException = function( subSentence, verbs ) {
-	// Match having with a verb directly following it. If so it is active.
-	var indexOfHaving = subSentence.indexOf( "having" );
-
-	if ( indexOfHaving > -1 ) {
-		var verbIndices = matchArray( subSentence, verbs );
-
-		if ( !isUndefined( verbIndices[ 0 ] ) && !isUndefined( verbIndices[ 0 ].index ) ) {
-			// 7 is the number of characters of the word 'having' including space.
-			return verbIndices[ 0 ].index  <= subSentence.indexOf( "having" ) + 7;
-		}
-	}
-	return false;
-};
-
-/**
- * Match the left. If left is preceeded by `a` or `the`, it isn't a verb.
- * @param {string} subSentence The subsentence to check for the word 'having' and a verb
- * @param {Array} verbs The array with verbs to check.
- * @returns {boolean} True if it is an exception, false if it is not.
- */
-var isLeftException = function ( subSentence, verbs ) {
-
-	// Matches left with the or a preceeding.
-	var matchLeft = subSentence.match( /(the|a)\sleft/ig ) || [];
-	return matchLeft.length > 0 && verbs[ 0 ].match === "left";
-};
-
-/**
- * If the word 'fit' is preceeded by a determiner, it shouldn't be marked as active.
- * @param {string} subSentence The subsentence to check for the word 'having' and a verb
- * @returns {boolean} True if it is an exception, false if it is not.
- */
-var isFitException = function( subSentence ) {
-	var indexOfFit = subSentence.indexOf( "fit" );
-	if ( indexOfFit > -1 ) {
-		var subString = subSentence.substr( 0, indexOfFit );
-		var determinerIndices = filterWordListInSentence( determiners, subString );
-		return determinerIndices.length > 1;
-	}
-	return false;
-};
-
-/**
- * Gets the exceptions. Some combinations shouldn't be marked as passive, so we need to filter them out.
- * @param {string} subSentence The subsentence to check for exceptions.
- * @param {array} verbs The array of verbs, used to determine exceptions.
- * @returns {boolean} Wether there is an exception or not.
- */
-var getExceptions = function( subSentence, verbs ) {
-	if ( isHavingException( subSentence, verbs ) ) {
-		return true;
-	}
-
-	if ( isLeftException( subSentence, verbs ) ) {
-		return true;
-	}
-
-	if ( isFitException( subSentence ) ) {
-		return true;
-	}
-
-	return false;
-};
-
-/**
- * Checks the subsentence for any passive verb.
- * @param {string} subSentence The subsentence to check for passives.
- * @returns {boolean} True if passive is found, false if no passive is found.
- */
-var determinePassives = function( subSentence ) {
-	subSentence = normalizeSingleQuotes( subSentence );
-
-	var regularVerbs = getRegularVerbs( subSentence );
-	var irregularVerbs = getIrregularVerbs( subSentence );
-	var verbs = regularVerbs.concat( irregularVerbs );
-
-	// Checks for exceptions in the found verbs.
-	var exceptions = getExceptions( subSentence, verbs );
-
-	// If there is any exception, this subsentence cannot be passive.
-	return verbs.length > 0 && exceptions === false;
-};
-
-/**
- * Determines the number of passive sentences in the text.
- * @param {Paper} paper The paper object to get the text from.
- * @returns {object} The number of passives found in the text and the passive sentences.
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var sentences = getSentences( text );
-	var passiveSentences = [];
-
-	// Get subsentences for each sentence.
-	forEach( sentences, function( sentence ) {
-		var subSentences = getSubsentences( sentence );
-
-		var passive = false;
-		forEach( subSentences, function( subSentence ) {
-			passive = passive || determinePassives( subSentence );
-		} );
-
-		if ( passive === true ) {
-			passiveSentences.push( sentence );
-		}
-	} );
-
-	return {
-		total: sentences.length,
-		passives: passiveSentences
-	};
-};
-
-},{"../stringProcessing/createRegexFromArray.js":279,"../stringProcessing/getSentences.js":285,"../stringProcessing/matchWordInSentence.js":294,"../stringProcessing/quotes.js":295,"../stringProcessing/stripSpaces.js":306,"./passivevoice-english/auxiliaries.js":261,"./passivevoice-english/determiners.js":262,"./passivevoice-english/irregulars.js":263,"./passivevoice-english/non-verb-ending-ed.js":264,"./passivevoice-english/stopwords.js":265,"lodash/filter":150,"lodash/forEach":154,"lodash/includes":159,"lodash/isUndefined":176}],248:[function(require,module,exports){
-var getSentences = require( "../stringProcessing/getSentences.js" );
-var getWords = require( "../stringProcessing/getWords.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var removeNonWordCharacters = require( "../stringProcessing/removeNonWordCharacters.js" );
-var firstWordExceptions = require ( "../language/en/firstWordExceptions.js" )();
-
-/**
- * Compares the first word of each sentence with the first word of the following sentence.
- * @param {array} sentenceBeginnings The array containing the first word of each sentence.
- * @param {number} i The iterator for the sentenceBeginning array.
- * @returns {boolean} Returns true if sentence beginnings match.
- */
-var matchSentenceBeginnings = function( sentenceBeginnings, i ) {
-	if ( sentenceBeginnings[ i ] === sentenceBeginnings[ i + 1 ] ) {
-		return true;
-	}
-	return false;
-};
-
-/**
- * Counts the number of similar sentence beginnings.
- * @param {array} sentenceBeginnings The array containing the first word of each sentence.
- * @param {array} sentences The array containing all sentences.
- * @returns {array} The array containing the objects containing the first words and the corresponding counts.
- */
-var compareFirstWords = function ( sentenceBeginnings, sentences ) {
-	var counts = [];
-	var foundSentences = [];
-	var count = 1;
-	for ( var i = 0; i < sentenceBeginnings.length; i++ ) {
-		if ( matchSentenceBeginnings( sentenceBeginnings, i ) ) {
-			foundSentences.push( sentences[ i ] );
-			count++;
-		} else {
-			foundSentences.push( sentences[ i ] );
-			counts.push( { word: sentenceBeginnings[ i ], count: count, sentences: foundSentences } );
-			foundSentences = [];
-			count = 1;
-		}
-	}
-	return counts;
-};
-
-/**
- * Gets the first word of each sentence from the text, and returns an object containing the first word of each sentence and the corresponding counts.
- * @param {Paper} paper The Paper object to get the text from.
- * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
- */
-module.exports = function( paper ) {
-	var sentences = getSentences( paper.getText() );
-	var sentenceBeginnings = sentences.map( function( sentence ) {
-		var words = getWords( stripSpaces( sentence ) );
-		if( words.length === 0 ) {
-			return "";
-		}
-		var firstWord = removeNonWordCharacters( words[ 0 ] );
-		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
-			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
-		}
-		return firstWord;
-	} );
-	return compareFirstWords( sentenceBeginnings, sentences );
-};
-
-},{"../language/en/firstWordExceptions.js":231,"../stringProcessing/getSentences.js":285,"../stringProcessing/getWords.js":288,"../stringProcessing/removeNonWordCharacters.js":296,"../stringProcessing/stripSpaces.js":306}],249:[function(require,module,exports){
-var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
-var forEach = require( "lodash/forEach" );
-
-/**
- * Gets the subheadings from the text and returns the length of these subheading in an array.
- * @param {Paper} paper The Paper object to get the text from.
- * @returns {Array} The array with the length of each subheading.
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var matches = getSubheadingContents( text );
-
-	var subHeadings = [];
-	forEach( matches, function( subHeading ) {
-		subHeading = stripTags( subHeading ).length;
-		if ( subHeading > 0 ) {
-			subHeadings.push( subHeading );
-		}
-	} );
-
-	return subHeadings;
-};
-
-},{"../stringProcessing/getSubheadings.js":287,"../stringProcessing/stripHTMLTags.js":303,"lodash/forEach":154}],250:[function(require,module,exports){
-var getSubheadingsContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
-
-/**
- * Checks if there is a subheading present in the text
- * @param {Paper} paper The Paper object to get the text from.
- * @returns {number} Number of headings found.
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var headings = getSubheadingsContents( text ) || [];
-	return headings.length;
-};
-
-},{"../stringProcessing/getSubheadings.js":287}],251:[function(require,module,exports){
-var getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts.js" );
-var countWords = require( "../stringProcessing/countWords.js" );
-var forEach = require( "lodash/forEach" );
-
-/**
- * Gets the subheadings from the text and returns the length of these subheading in an array.
- * @param {Paper} paper The Paper object to get the text from.
- * @returns {Array} The array with the length of each subheading.
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-
-	var matches = getSubheadingTexts( text );
-
-	var subHeadingTexts = [];
-	forEach( matches, function( subHeading ) {
-
-		subHeadingTexts.push( {
-			text: subHeading,
-			wordCount: countWords( subHeading )
-		} );
-	} );
-	return subHeadingTexts;
-};
-
-
-},{"../stringProcessing/countWords.js":278,"../stringProcessing/getSubheadingTexts.js":286,"lodash/forEach":154}],252:[function(require,module,exports){
-var getWords = require( "../stringProcessing/getWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
-var getSentences = require( "../stringProcessing/getSentences.js" );
-
-var map = require( "lodash/map" );
-var forEach = require( "lodash/forEach" );
-
-/**
- * Gets the complexity per word, along with the index for the sentence.
- * @param {string} sentence The sentence to get wordComplexity from.
- * @returns {Array} A list with words, the index and the complexity per word.
- */
-var getWordComplexityForSentence = function( sentence ) {
-	var words = getWords( sentence );
-	var results = [];
-
-	forEach( words, function( word, i ) {
-		results.push( {
-			word: word,
-			wordIndex: i,
-			complexity: countSyllables( word )
-		} );
-	} );
-
-	return results;
-};
-
-/**
- * Calculates the complexity of words in a text, returns each words with their complexity.
- * @param {Paper} paper The Paper object to get the text from.
- * @returns {Object} The words found in the text with the number of syllables.
- */
-module.exports = function( paper ) {
-	var sentences = getSentences( paper.getText() );
-
-	return map( sentences, function( sentence ) {
-		return {
-			sentence: sentence,
-			words: getWordComplexityForSentence( sentence )
-		};
-	} );
-};
-
-
-},{"../stringProcessing/countSyllables.js":277,"../stringProcessing/getSentences.js":285,"../stringProcessing/getWords.js":288,"lodash/forEach":154,"lodash/map":179}],253:[function(require,module,exports){
-/** @module researches/imageAltTags */
-
-var imageInText = require( "../stringProcessing/imageInText" );
-var imageAlttag = require( "../stringProcessing/getAlttagContent" );
-var wordMatch = require( "../stringProcessing/matchTextWithWord" );
-
-/**
- * Matches the alt-tags in the images found in the text.
- * Returns an object with the totals and different alt-tags.
- *
- * @param {Array} imageMatches Array with all the matched images in the text
- * @param {string} keyword the keyword to check for.
- * @param {string} locale The locale used for transliteration.
- * @returns {object} altProperties Object with all alt-tags that were found.
- */
-var matchAltProperties = function( imageMatches, keyword, locale ) {
-	var altProperties = {
-		noAlt: 0,
-		withAlt: 0,
-		withAltKeyword: 0,
-		withAltNonKeyword: 0
-	};
-
-	for ( var i = 0; i < imageMatches.length; i++ ) {
-		var alttag = imageAlttag( imageMatches[ i ] );
-
-		// If no alt-tag is set
-		if ( alttag === "" ) {
-			altProperties.noAlt++;
-			continue;
-		}
-
-		// If no keyword is set, but the alt-tag is
-		if ( keyword === "" && alttag !== "" ) {
-			altProperties.withAlt++;
-			continue;
-		}
-
-		if ( wordMatch( alttag, keyword, locale ) === 0 && alttag !== "" ) {
-
-			// Match for keywords?
-			altProperties.withAltNonKeyword++;
-			continue;
-		}
-
-		if ( wordMatch( alttag, keyword, locale ) > 0 ) {
-			altProperties.withAltKeyword++;
-			continue;
-		}
-	}
-
-	return altProperties;
-};
-
-/**
- * Checks the text for images, checks the type of each image and alttags for containing keywords
- *
- * @param {Paper} paper The paper to check for images
- * @returns {object} Object containing all types of found images
- */
-module.exports = function( paper ) {
-	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword(), paper.getLocale() );
-};
-
-},{"../stringProcessing/getAlttagContent":282,"../stringProcessing/imageInText":289,"../stringProcessing/matchTextWithWord":293}],254:[function(require,module,exports){
-/** @module researches/imageInText */
-
-var imageInText = require( "./../stringProcessing/imageInText" );
-
-/**
- * Checks the amount of images in the text.
- *
- * @param {Paper} paper The paper to check for images
- * @returns {number} The amount of found images
- */
-module.exports = function( paper ) {
-	return imageInText( paper.getText() ).length;
-};
-
-},{"./../stringProcessing/imageInText":289}],255:[function(require,module,exports){
-var countWords = require( "../stringProcessing/countWords" );
-var sanitizeString = require( "../stringProcessing/sanitizeString" );
-
-/**
- * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
- *
- * @param {Paper} paper The paper to research
- * @returns {number} The length of the keyphrase
- */
-function keyphraseLengthResearch( paper ) {
-	var keyphrase = sanitizeString( paper.getKeyword() );
-
-	return countWords( keyphrase );
-}
-
-module.exports = keyphraseLengthResearch;
-
-},{"../stringProcessing/countWords":278,"../stringProcessing/sanitizeString":300}],256:[function(require,module,exports){
-/** @module researches/countKeywordInUrl */
-
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-/**
- * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
- *
- * @param {Paper} paper the Paper object to use in this count.
- * @returns {int} Number of times the keyword is found.
- */
-module.exports = function( paper ) {
-	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
-
-	return wordMatch( paper.getUrl(), keyword, paper.getLocale() );
-};
-
-},{"../stringProcessing/matchTextWithWord.js":293}],257:[function(require,module,exports){
-/* @module analyses/matchKeywordInSubheadings */
-
-var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
-var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
-
-/**
- * Checks if there are any subheadings like h2 in the text
- * and if they have the keyword in them.
- *
- * @param {object} paper The paper object containing the text and keyword.
- * @returns {object} the result object.
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var keyword = paper.getKeyword();
-	var locale = paper.getLocale();
-	var result = { count: 0 };
-	text = stripSomeTags( text );
-	var matches = getSubheadingContents( text );
-
-	if ( 0 !== matches.length ) {
-		result.count = matches.length;
-		result.matches = subheadingMatch( matches, keyword, locale );
-	}
-
-	return result;
-};
-
-
-},{"../stringProcessing/getSubheadings.js":287,"../stringProcessing/stripNonTextTags.js":304,"../stringProcessing/subheadingsMatch.js":307}],258:[function(require,module,exports){
-var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Matches the keyword in the description if a description and keyword are available.
- * default is -1 if no description and/or keyword is specified
- *
- * @param {Paper} paper The paper object containing the description.
- * @returns {number} The number of matches with the keyword
- */
-module.exports = function( paper ) {
-	if ( paper.getDescription() === "" ) {
-		return -1;
-	}
-	return matchTextWithWord( paper.getDescription(), paper.getKeyword(), paper.getLocale() );
-};
-
-
-},{"../stringProcessing/matchTextWithWord.js":293}],259:[function(require,module,exports){
-/**
- * Check the length of the description.
- * @param {Paper} paper The paper object containing the description.
- * @returns {number} The length of the description.
- */
-module.exports = function( paper ) {
-	return paper.getDescription().length;
-};
-
-},{}],260:[function(require,module,exports){
-/**
- * Check the length of the title.
- * @param {Paper} paper The paper object containing the title.
- * @returns {number} The length of the title.
- */
-module.exports = function( paper ) {
-	return paper.getTitle().length;
-};
-
-},{}],261:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"am",
@@ -12130,7 +13521,7 @@ module.exports = function() {
 	];
 };
 
-},{}],262:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"a",
@@ -12174,7 +13565,7 @@ module.exports = function() {
 };
 
 
-},{}],263:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"arisen",
@@ -12527,7 +13918,7 @@ module.exports = function() {
 	];
 };
 
-},{}],264:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"ablebodied",
@@ -15567,7 +16958,7 @@ module.exports = function() {
 	];
 };
 
-},{}],265:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"to",
@@ -15618,53 +17009,1310 @@ module.exports = function() {
 	];
 };
 
-},{}],266:[function(require,module,exports){
-var getSentences = require( "../stringProcessing/getSentences.js" );
-var sentencesLength = require( "../stringProcessing/sentencesLength.js" );
-var formatNumber = require( "../helpers/formatNumber" );
-var sum = require( "lodash/sum" );
-var reduce = require( "lodash/reduce" );
+},{}],249:[function(require,module,exports){
+/** @module config/transitionWords */
 
 /**
- * Calculates the standard deviation of a text
+ * Returns an array with transition words to be used by the assessments.
+ * @returns {Array} The array filled with transition words.
+ */
+module.exports = function() {
+	return [ "above all", "accordingly", "additionally", "after all", "after that", "afterward", "afterwards", "albeit",
+		"all in all", "all of a sudden", "all things considered", "also", "although", "although this may be true", "altogether",
+		"analogous to", "another", "another key point", "as a matter of fact", "as a result", "as an illustration",
+		"as can be seen", "as has been noted", "as I have noted", "as I have said", "as I have shown", "as long as",
+		"as much as", "as shown above", "as soon as", "as well as", "at any rate", "at first", "at last", "at least",
+		"at length", "at the present time", "at the same time", "at this instant", "at this point", "at this time",
+		"balanced against", "basically", "be that as it may", "because", "before", "being that", "besides", "but",
+		"by all means", "by and large", "by comparison", "by the same token", "by the time", "certainly", "chiefly",
+		"comparatively", "compared to", "concurrently", "consequently", "contrarily", "conversely", "correspondingly",
+		"coupled with", "despite", "different from", "doubtedly", "due to", "during", "e.g.", "earlier", "emphatically",
+		"equally", "equally important", "especially", "even if", "even more", "even so", "even though", "eventually",
+		"evidently", "explicitly", "finally", "first thing to remember", "firstly", "following", "for example",
+		"for fear that", "for instance", "for one thing", "for that reason", "for the most part", "for the purpose of",
+		"for the same reason", "for this purpose", "for this reason", "formerly", "forthwith", "fourthly",
+		"from time to time", "further", "furthermore", "generally", "given that", "given these points",
+		"hence", "henceforth", "however", "i.e.", "identically", "important to realize", "in a word", "in addition",
+		"in another case", "in any case", "in any event", "in brief", "in case", "in conclusion", "in contrast",
+		"in detail", "in due time", "in effect", "in either case", "in essence", "in fact", "in general", "in light of",
+		"in like fashion", "in like manner", "in order that", "in order to", "in other words", "in particular", "in reality",
+		"in short", "in similar fashion", "in spite of", "in sum", "in summary", "in that case", "in the event that",
+		"in the final analysis", "in the first place", "in the fourth place", "in the hope that", "in the light of",
+		"in the long run", "in the meantime", "in the same fashion", "in the same way", "in the second place",
+		"in the third place", "in this case", "in this situation", "in time", "in truth", "in view of", "inasmuch as",
+		"indeed", "instead", "last", "lastly", "later", "lest", "likewise", "markedly", "meanwhile", "moreover",
+		"most compelling evidence", "most important", "must be remembered", "nevertheless", "nonetheless", "nor",
+		"not to mention",  "notwithstanding", "now that", "obviously", "occasionally", "of course", "on account of",
+		"on balance", "on condition that", "on one hand", "on the condition that", "on the contrary", "on the negative side",
+		"on the other hand", "on the positive side", "on the whole", "on this occasion", "once", "once in a while",
+		"only if", "otherwise", "overall", "owing to", "particularly", "point often overlooked", "presently",
+		"previously", "prior to", "provided that", "rather", "regardless", "secondly", "seeing that",
+		"shortly", "significantly", "similarly", "simultaneously", "since", "so", "so as to", "so far", "so long as",
+		"so that", "soon", "sooner or later", "specifically", "still", "straightaway", "subsequently", "such as",
+		"summing up", "surely", "surprisingly", "take the case of", "than", "that is", "that is to say", "then",
+		"then again", "thereafter", "therefore", "thereupon", "thirdly", "this time", "though", "thus",
+		"till", "to be sure", "to begin with", "to clarify", "to conclude", "to demonstrate", "to emphasize",
+		"to enumerate", "to explain", "to illustrate", "too", "to list", "to point out", "to put it another way",
+		"to put it differently", "to repeat", "to rephrase it", "to say nothing of", "to sum up", "to summarize",
+		"to that end", "to the end that", "to this end", "together with", "undeniably", "under those circumstances",
+		"undoubtedly", "unless", "unlike", "unquestionably", "until", "until now", "up against", "up to the present time",
+		"vis a vis", "what's more", "when", "whenever", "whereas", "while", "while it may be true", "while this may be true",
+		"with attention to", "with the result that", "with this in mind", "with this intention", "with this purpose in mind",
+		"without a doubt", "without delay", "without doubt", "without reservation" ];
+};
+
+
+},{}],250:[function(require,module,exports){
+/** @module config/twoPartTransitionWords */
+
+/**
+ * Returns an array with two-part transition words to be used by the assessments.
+ * @returns {Array} The array filled with two-part transition words.
+ */
+module.exports = function() {
+	return [ [ "both", "and" ], [ "if", "then" ], [ "not only", "but also" ], [ "neither", "nor" ], [ "either", "or" ], [ "not", "but" ],
+		[ "whether", "or" ], [ "no sooner", "than" ] ];
+};
+
+},{}],251:[function(require,module,exports){
+/** @module analyses/findKeywordInFirstParagraph */
+
+var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
+ * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
+ * count of the complete text.
  *
- * @param {Paper} paper the Paper object to use in this count.
- * @returns {number} The calculated standard deviation
+ * @param {Paper} paper The text to check for paragraphs.
+ * @returns {number} The number of occurences of the keyword in the first paragraph.
+ */
+module.exports = function( paper ) {
+	var paragraph = matchParagraphs( paper.getText() );
+	return wordMatch( paragraph[ 0 ], paper.getKeyword(), paper.getLocale() );
+};
+
+},{"../stringProcessing/matchParagraphs.js":303,"../stringProcessing/matchTextWithWord.js":306}],252:[function(require,module,exports){
+/** @module analyses/findKeywordInPageTitle */
+
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
+ * and the position of the keyword.
+ *
+ * @param {object} paper The paper containing title and keyword.
+ * @returns {object} result with the matches and position.
+ */
+
+module.exports = function( paper ) {
+	var title = paper.getTitle();
+	var keyword = paper.getKeyword();
+	var locale = paper.getLocale();
+	var result = { matches: 0, position: -1 };
+	result.matches = wordMatch( title, keyword, locale );
+	result.position = title.toLocaleLowerCase().indexOf( keyword );
+
+	return result;
+};
+
+},{"../stringProcessing/matchTextWithWord.js":306}],253:[function(require,module,exports){
+var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
+var getSentences = require( "../stringProcessing/getSentences.js" );
+var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
+var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
+var getTransitionWords = require( "../helpers/getTransitionWords.js" );
+
+var forEach = require( "lodash/forEach" );
+var filter = require( "lodash/filter" );
+var memoize = require( "lodash/memoize" );
+
+var createRegexFromDoubleArrayCached = memoize( createRegexFromDoubleArray );
+/**
+ * Matches the sentence against two part transition words.
+ *
+ * @param {string} sentence The sentence to match against.
+ * @param {Array} twoPartTransitionWords The array containing two-part transition words.
+ * @returns {Array} The found transitional words.
+ */
+var matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords ) {
+	sentence = normalizeSingleQuotes( sentence );
+	var twoPartTransitionWordsRegex = createRegexFromDoubleArrayCached( twoPartTransitionWords );
+	return sentence.match( twoPartTransitionWordsRegex );
+};
+
+/**
+ * Matches the sentence against transition words.
+ *
+ * @param {string} sentence The sentence to match against.
+ * @param {Array} transitionWords The array containing transition words.
+ * @returns {Array} The found transitional words.
+ */
+var matchTransitionWords = function( sentence, transitionWords ) {
+	sentence = normalizeSingleQuotes( sentence );
+
+	var matchedTransitionWords = filter( transitionWords, function( word ) {
+		return matchWordInSentence( word, sentence );
+	} );
+
+	return matchedTransitionWords;
+};
+
+/**
+ * Checks the passed sentences to see if they contain transition words.
+ *
+ * @param {Array} sentences The sentences to match against.
+ * @param {Object} transitionWords The object containing both transition words and two part transition words.
+ * @returns {Array} Array of sentence objects containing the complete sentence and the transition words.
+ */
+var checkSentencesForTransitionWords = function( sentences, transitionWords ) {
+	var results = [];
+
+	forEach( sentences, function( sentence ) {
+		var twoPartMatches = matchTwoPartTransitionWords( sentence, transitionWords.twoPartTransitionWords() );
+
+		if ( twoPartMatches !== null ) {
+			results.push( {
+				sentence: sentence,
+				transitionWords: twoPartMatches
+			} );
+
+			return;
+		}
+
+		var transitionWordMatches = matchTransitionWords( sentence, transitionWords.transitionWords() );
+
+		if ( transitionWordMatches.length !== 0 ) {
+			results.push( {
+				sentence: sentence,
+				transitionWords: transitionWordMatches
+			} );
+
+			return;
+		}
+	} );
+
+	return results;
+};
+
+/**
+ * Checks how many sentences from a text contain at least one transition word or two-part transition word
+ * that are defined in the transition words config and two part transition words config.
+ *
+ * @param {Paper} paper The Paper object to get text from.
+ * @returns {object} An object with the total number of sentences in the text
+ * and the total number of sentences containing one or more transition words.
+ */
+module.exports = function( paper ) {
+	var locale = paper.getLocale();
+	var transitionWords = getTransitionWords( locale );
+	var sentences = getSentences( paper.getText() );
+	var sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords );
+
+	return {
+		totalSentences: sentences.length,
+		sentenceResults: sentenceResults,
+		transitionWordSentences: sentenceResults.length
+	};
+};
+
+},{"../helpers/getTransitionWords.js":233,"../stringProcessing/createRegexFromDoubleArray.js":293,"../stringProcessing/getSentences.js":298,"../stringProcessing/matchWordInSentence.js":307,"../stringProcessing/quotes.js":308,"lodash/filter":148,"lodash/forEach":152,"lodash/memoize":178}],254:[function(require,module,exports){
+/**
+ * Returns an array with exceptions for the sentence beginning researcher.
+ * @returns {Array} The array filled with exceptions.
+ */
+module.exports = function() {
+	return [
+		// Definite articles:
+		"le", "la", "les",
+		// Indefinite articles:
+		"un", "une",
+		// Numbers 2-10 ('une' is already included in the indefinite articles):
+		"deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix",
+		// Demonstrative pronouns:
+		"celui", "celle", "ceux", "celles", "celui-ci", "celle-là", "celui-là", "celle-ci"
+	];
+};
+
+
+},{}],255:[function(require,module,exports){
+/** @module config/transitionWords */
+
+/**
+ * Returns an array with transition words to be used by the assessments.
+ * @returns {Array} The array filled with transition words.
+ */
+module.exports = function() {
+	return [
+		"à cause de", "à ce propos", "à ce sujet", "à condition que", "à l'encontre de", "à l'image de", "à l'inverse",
+		"à l'inverse de", "à mesure que", "à moins que", "à première vue", "à savoir", "à seule fin que", "à supposer que",
+		"à vrai dire", "afin que", "ainsi", "ainsi donc", "ainsi que", "alors", "alors que", "apès réflexion", "après cela",
+		"après que", "après réflexion", "après tout", "attendu que", "au cas où", "au contraire", "au fur et à mesure que",
+		"au lieu de", "au même temps", "au moment où", "au point que", "aussi", "aussi bien que", "aussitôt que", "autant que",
+		"autrement dit", "avant que", "avant tout", "ayant fini", "bien que", "c'est à dire que", "c'est ainsi que",
+		"c'est le cas de", "c'est pourquoi", "c'est qu'en effet", "c'est-à-dire", "ça confirme que", "ça montre que",
+		"ça prouve que", "car", "cela dit", "cela étant", "cependant", "cependant que", "comme l'illustre", "comme le souligne",
+		"comme quoi", "comme si", "conséquemment", "contrairement à", "d'abord", "d'ailleurs", "d'après", "d'autant plus que",
+		"d'autant que", "d'autre part", "d'ici là", "d'un autre côté", "d'un côté", "d'une facon générale ''", "dans ce cas",
+		"dans ces conditions", "dans l'ensemble", "dans l'hypothèse où", "dans la mesure où", "dans le cadre de",
+		"dans le cas où", "dans un autre ordre d'idée", "de crainte que", "de façon à ce que", "de façon que", "de fait",
+		"de l'autre côté", "de la même façon que", "de manière que", "de même", "de même qua", "de même que", "de peur que",
+		"de prime abord", "de sorte que", "de surcroît", "de telle manière que", "de telle sorte que", "de toute façon",
+		"depuis que", "dès lors que", "dès qua", "dès que", "désormais", "deuxièmement", "donc", "dorénavant", "du fait que",
+		"du moment que", "du point de vue de", "du reste", "effectivement", "également", "en admettant que", "en attendant que",
+		"en bref", "en cas que", "en ce domaine", "en cela", "en concequence", "en conclusion", "en conséquence",
+		"en d'autres termes", "en définitive", "en dépit de", "en dernier lieu", "en deuxième lieu", "en effet", "en face de",
+		"en fait", "en fin de compte", "en général", "en guise de conclusion", "en même temps que", "en outre", "en particulier",
+		"en plus", "en premier lieu", "en raison de", "en réalité", "en règle générale", "en résumé", "en revanche", "en second lieu",
+		"en somme", "en sorte que", "en supposant que", "en tant que", "en tout cas", "en troisième lieu", "en un mot", "en vue que",
+		"encore que", "enfin", "ensuite", "entre autres", "et puis", "étant donné qua", "étant donné que", "face à", "finalement",
+		"globalement", "grâce à", "il faut dire aussi que", "jusqu'à ce que", "la preuve c'est que", "la-dessus", "loin que", "lorsque",
+		"mais", "malgré", "malgré cela", "malgré tout", "même si", "mis à part le fait que", "néanmoins", "notamment", "nul doute que",
+		"ou bien", "où que", "par ailleurs", "par conséquent", "par contre", "par example", "par exemple", "par la suite",
+		"par rapport à", "par suite", "par suite de", "parce que", "pareillement", "partant", "partant de ce fait", "pas du tout",
+		"pendant que", "pour ainsi dire", "pour ces raisons", "pour cette raison", "pour conclure", "pour peu que", "pour que", "pour résumé",
+		"pourtant", "pourvu que", "premièrement", "probablement", "puis", "puisque", "pur toutes ces raisons", "quand bien même que",
+		"quand même", "quant à", "quant même", "quel que soit", "qui que", "quoi qu'il en soit", "quoi que", "quoiqu'il en soit",
+		"quoique", "sans doute", "selon", "selon que", "semblablement", "si bien que", "si ce n'est que", "sinon", "sitôt que",
+		"somme toute", "sous prétexte que", "suivant", "suivant que", "supposé que", "tandis que", "tant et si bien que", "tant que",
+		"tellement que", "tout bien pesé", "tout compte fait", "tout d'abord", "tout de même", "toutefois", "troisièmement", "vu que"
+	];
+};
+
+},{}],256:[function(require,module,exports){
+/** @module config/twoPartTransitionWords */
+
+/**
+ * Returns an array with two-part transition words to be used by the assessments.
+ * @returns {Array} The array filled with two-part transition words.
+ */
+module.exports = function() {
+	return [
+		[ "à première vue", "mais à bien considérer les choses" ], [ "à première vue", "mais toute réflexion faite" ],
+		[ "aussi", "que" ], [ "certes", "mais" ], [ "d'un côté", "de l'autre côté" ], [ "d'un côté", "de l'autre" ],
+		[ "d'une part", "d'autre part" ], [ "d'une parte", "de l'autre parte" ], [ "non seulement", "mais aussi" ],
+		[ "non seulement", "mais en outre" ], [ "non seulement", "mais encore" ], [ "quelque", "que" ], [ "si", "que" ],
+		[ "soit", "soit" ], [ "tantôt", "tantôt" ], [ "tout d'abord", "ensuite" ], [ "tout", "que" ]
+	];
+};
+
+},{}],257:[function(require,module,exports){
+/**
+ * Returns an array with exceptions for the sentence beginning researcher.
+ * @returns {Array} The array filled with exceptions.
+ */
+module.exports = function() {
+	return [
+		// Definite articles:
+		"das", "dem", "den", "der", "des", "die",
+		// Indefinite articles:
+		"ein", "eine", "einem", "einen", "einer", "eines",
+		// Numbers 1-10:
+		"eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn",
+		// Demonstrative pronouns:
+		"denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses", "jene",
+		"jenem", "jenen", "jener", "jenes"
+	];
+};
+
+
+
+},{}],258:[function(require,module,exports){
+/** @module config/transitionWords */
+
+/**
+ * Returns an array with transition words to be used by the assessments.
+ * @returns {Array} The array filled with transition words.
+ */
+module.exports = function() {
+	return [ "aber", "abgesehen von", "alldieweil", "allerdings", "als dass", "also", "anderenteils",
+		"andererseits", "andernteils", "anders ausgedrückt", "anders ausgedrueckt", "anders formuliert",
+		"anders gefasst", "anders gefragt", "anders gesagt", "anders gesprochen", "anfaenglich", "anfänglich",
+		"anfangs", "angenommen", "anschliessend", "anschließend", "auch wenn", "auf grund", "auf jeden Fall", "aufgrund",
+		"ausgenommen", "aus diesem Grund", "ausser", "außer", "ausser dass", "außer dass", "ausser wenn", "außer wenn",
+		"ausserdem", "außerdem", "beispielsweise", "besser ausgedrückt", "besser ausgedrueckt", "besser formuliert",
+		"besser gesagt", "besser gesprochen", "bevor", "beziehungsweise", "bloss dass", "bloß dass",
+		"bspw.", "bzw.", "d.h.", "da", "dabei", "dadurch", "dafuer", "dafür", "dagegen", "daher", "dahingegen",
+		"danach", "dann", "darauf", "darum", "das heisst", "das heißt", "dass", "davor", "dazu", "dementgegen",
+		"dementsprechend", "demgegenüber", "demgegenueber", "demgemaess", "demgemäß", "demzufolge", "denn", "dennoch",
+		"des Weiteren", "deshalb", "dessen ungeachtet", "desungeachtet", "deswegen", "doch", "dort", "drittens",
+		"ebenfalls", "ebenso wie", "ehe", "einerseits", "einesteils", "entsprechend", "erstens", "falls", "ferner",
+		"folglich", "genauso", "genauso wie", "hierdurch", "hierzu", "hingegen", "im Folgenden", "im Gegensatz dazu",
+		"im Grunde genommen", "immerhin", "indem", "infolge", "infolgedessen", "inzwischen", "je nachdem",
+		"jedenfalls", "jedoch", "kurzum", "m.a.W.", "mit anderen Worten", "nachdem", "nebenher",
+		"nichtsdestotrotz", "nichtsdestoweniger", "ob", "obenrein", "obgleich", "obschon", "obwohl", "obzwar",
+		"schliesslich", "schließlich", "seit", "seitdem", "sobald", "sodass", "sofern", "solange", "somit",
+		"sondern", "sooft", "sowie", "später", "trotz", "trotzdem", "überdies", "überigens", "ueberdies", "ueberigens",
+		"umso mehr, als", "umso weniger, als", "unbeschadet dessen", "und zwar", "unter dem Strich", "vielmehr",
+		"vorausgesetzt", "vorher", "waehrend", "während", "wegen", "weil", "weiter", "weiterhin", "wenn", "wenngleich",
+		"wennschon", "wennzwar", "weshalb", "widrigenfalls", "wiewohl", "wohingegen", "zudem", "zuerst",
+		"zufolge", "zuletzt", "zum beispiel", "zumal", "zuvor", "zwar", "zweitens" ];
+};
+
+},{}],259:[function(require,module,exports){
+/** @module config/twoPartTransitionWords */
+
+/**
+ * Returns an array with two-part transition words to be used by the assessments.
+ * @returns {Array} The array filled with two-part transition words.
+ */
+module.exports = function() {
+	return [ [ "anstatt", "dass" ], [ "bald", "bald" ], [ "dadurch", "dass" ], [ "dessen ungeachtet", "dass" ],
+		[ "entweder", "oder" ], [ "einerseits", "andererseits" ], [ "erst", "wenn" ], [ "je", "desto" ], [ "je", "umsto" ],
+		[ "nicht nur", "sondern auch" ], [ "ob", "oder" ], [ "ohne", "dass" ], [ "so", "dass" ], [ "sowohl", "als auch" ],
+		[ "sowohl", "wie auch" ], [ "unbeschadet dessen", "dass" ], [ "weder", "noch" ], [ "wenn", "auch" ],
+		[ "wenn", "schon" ], [ "nicht weil", "sondern" ]  ];
+};
+
+},{}],260:[function(require,module,exports){
+/** @module analyses/getKeywordDensity */
+
+var countWords = require( "../stringProcessing/countWords.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Calculates the keyword density .
+ *
+ * @param {object} paper The paper containing keyword and text.
+  * @returns {number} The keyword density.
+ */
+module.exports = function( paper ) {
+	var keyword = paper.getKeyword();
+	var text = paper.getText();
+	var locale = paper.getLocale();
+	var wordCount = countWords( text );
+	if ( wordCount === 0 ) {
+		return 0;
+	}
+	var keywordCount = matchWords( text, keyword, locale );
+	return ( keywordCount / wordCount ) * 100;
+};
+
+},{"../stringProcessing/countWords.js":291,"../stringProcessing/matchTextWithWord.js":306}],261:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getLinks = require( "./getLinks.js" );
+var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
+var getLinkType = require( "../stringProcessing/getLinkType.js" );
+var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
+var urlHelper = require( "../stringProcessing/url.js" );
+
+/**
+ * Checks whether or not an anchor contains the passed keyword.
+ * @param {string} keyword The keyword to look for.
+ * @param {string} anchor The anchor to check against.
+ * @param {string} locale The locale used for transliteration.
+ * @returns {boolean} Whether or not the keyword was found.
+ */
+var keywordInAnchor = function( keyword, anchor, locale ) {
+	if ( keyword === "" ) {
+		return false;
+	}
+
+	return findKeywordInUrl( anchor, keyword, locale );
+};
+
+/**
+ * Counts the links found in the text.
+ *
+ * @param {object} paper The paper object containing text, keyword and url.
+ * @returns {object} The object containing all linktypes.
+ * total: the total number of links found.
+ * totalNaKeyword: the total number of links if keyword is not available.
+ * keyword: Object containing all the keyword related counts and matches.
+ * keyword.totalKeyword: the total number of links with the keyword.
+ * keyword.matchedAnchors: Array with the anchors that contain the keyword.
+ * internalTotal: the total number of links that are internal.
+ * internalDofollow: the internal links without a nofollow attribute.
+ * internalNofollow: the internal links with a nofollow attribute.
+ * externalTotal: the total number of links that are external.
+ * externalDofollow: the external links without a nofollow attribute.
+ * externalNofollow: the internal links with a dofollow attribute.
+ * otherTotal: all links that are not HTTP or HTTPS.
+ * otherDofollow: other links without a nofollow attribute.
+ * otherNofollow: other links with a nofollow attribute.
+ */
+var countLinkTypes = function( paper ) {
+	var keyword = paper.getKeyword();
+	var locale = paper.getLocale();
+	var anchors = getLinks( paper.getText() );
+	var permalink = paper.getPermalink();
+
+	var linkCount = {
+		total: anchors.length,
+		totalNaKeyword: 0,
+		keyword: {
+			totalKeyword: 0,
+			matchedAnchors: []
+		},
+		internalTotal: 0,
+		internalDofollow: 0,
+		internalNofollow: 0,
+		externalTotal: 0,
+		externalDofollow: 0,
+		externalNofollow: 0,
+		otherTotal: 0,
+		otherDofollow: 0,
+		otherNofollow: 0
+	};
+
+	for ( var i = 0; i < anchors.length; i++ ) {
+		var currentAnchor = anchors[ i ];
+
+		var anchorLink = urlHelper.getFromAnchorTag( currentAnchor );
+		var linkToSelf = urlHelper.areEqual( anchorLink, permalink );
+
+		if ( keywordInAnchor( keyword, currentAnchor, locale ) && !linkToSelf ) {
+			linkCount.keyword.totalKeyword++;
+			linkCount.keyword.matchedAnchors.push( currentAnchor );
+		}
+
+		var linkType = getLinkType( currentAnchor, permalink );
+		var linkFollow = checkNofollow( currentAnchor );
+
+		linkCount[ linkType + "Total" ]++;
+		linkCount[ linkType + linkFollow ]++;
+	}
+
+	return linkCount;
+};
+
+/**
+ * Checks a text for anchors and returns an object with all linktypes found.
+ *
+ * @param {Paper} paper The paper object containing text, keyword and url.
+ * @returns {Object} The object containing all linktypes.
+ */
+module.exports = function( paper ) {
+	return countLinkTypes( paper );
+};
+
+},{"../stringProcessing/checkNofollow.js":288,"../stringProcessing/findKeywordInUrl.js":294,"../stringProcessing/getLinkType.js":297,"../stringProcessing/url.js":323,"./getLinks.js":262}],262:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
+
+/**
+ * Checks a text for anchors and returns the number found.
+ *
+ * @param {Object} text The text
+ * @returns {Array} An array with the anchors
+ */
+module.exports = function( text ) {
+	return getAnchors( text );
+};
+
+},{"../stringProcessing/getAnchorsFromText.js":296}],263:[function(require,module,exports){
+var countWords = require( "../stringProcessing/countWords.js" );
+var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
+var filter = require( "lodash/filter" );
+
+/**
+ * Gets all paragraphs and their word counts from the text.
+ *
+ * @param {Paper} paper The paper object to get the text from.
+ * @returns {Array} The array containing an object with the paragraph word count and paragraph text.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var paragraphs = matchParagraphs( text );
+	var paragraphsLength = [];
+	paragraphs.map( function ( paragraph ) {
+		paragraphsLength.push( {
+			wordCount: countWords( paragraph ),
+			paragraph: paragraph
+		} );
+	} );
+
+	return filter( paragraphsLength, function ( paragraphLength ) {
+		return ( paragraphLength.wordCount > 0 );
+	} );
+};
+
+},{"../stringProcessing/countWords.js":291,"../stringProcessing/matchParagraphs.js":303,"lodash/filter":148}],264:[function(require,module,exports){
+var getSentences = require( "../stringProcessing/getSentences.js" );
+var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
+var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
+var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
+
+var nonverbEndingEd = require( "./english/passivevoice-english/non-verb-ending-ed.js" )();
+var determiners = require( "./english/passivevoice-english/determiners.js" )();
+
+var auxiliaries = require( "./english/passivevoice-english/auxiliaries.js" )();
+var irregulars = require( "./english/passivevoice-english/irregulars.js" )();
+var stopwords = require( "./english/passivevoice-english/stopwords.js" )();
+
+var filter = require( "lodash/filter" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
+var includes = require( "lodash/includes" );
+
+var auxiliaryRegex = arrayToRegex( auxiliaries );
+var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var regularVerbsRegex = /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+
+var ingExclusionArray = [ "king", "cling", "ring", "being" ];
+var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
+
+/**
+ * Matches string with an array, returns the word and the index it was found on.
+ *
+ * @param {string} sentence The sentence to match the strings from the array to.
+ * @param {Array} matches The array with strings to match.
+ * @returns {Array} The array with matches, containing the index of the match and the matched string.
+ * Returns an empty array if none are found.
+ */
+var matchArray = function( sentence, matches ) {
+	var matchedParts = [];
+
+	forEach( matches, function( part ) {
+		part = stripSpaces( part );
+
+		if ( !matchWordInSentence( part, sentence ) ) {
+			return;
+		}
+
+		matchedParts.push( { index: sentence.indexOf( part ), match: part } );
+	} );
+
+	return matchedParts;
+};
+
+/**
+ * Sorts the array on the index property of each entry.
+ *
+ * @param {Array} indices The array with indices.
+ * @returns {Array} The sorted array with indices.
+ */
+var sortIndices = function( indices ) {
+	return indices.sort( function( a, b ) {
+		return ( a.index > b.index );
+	} );
+};
+
+/**
+ * Filters duplicate entries if the indices overlap.
+ *
+ * @param {Array} indices The array with indices to be filtered.
+ * @returns {Array} The filtered array.
+ */
+var filterIndices = function( indices ) {
+	indices = sortIndices( indices );
+	for ( var i = 0; i < indices.length; i++ ) {
+
+		// If the next index is within the range of the current index and the length of the word, remove it
+		// This makes sure we don't match combinations twice, like "even though" and "though".
+		if ( !isUndefined( indices[ i + 1 ] ) && indices[ i + 1 ].index < indices[ i ].index + indices[ i ].match.length ) {
+			indices.pop( i + 1 );
+		}
+	}
+	return indices;
+};
+
+/**
+ * Gets active verbs (ending in ing) to determine sentence breakers.
+ *
+ * @param {string} sentence The sentence to get the active verbs from.
+ * @returns {Array} The array with valid matches.
+ */
+var getVerbsEndingInIng = function( sentence ) {
+
+	// Matches the sentences with words ending in ing
+	var matches = sentence.match( verbEndingInIngRegex ) || [];
+
+	// Filters out words ending in -ing that aren't verbs.
+	return filter( matches, function( match ) {
+		return !includes( ingExclusionArray, stripSpaces( match ) );
+	} );
+};
+
+/**
+ * Gets the indexes of sentence breakers (auxiliaries, stopwords and active verbs) to determine subsentences.
+ * Stopwords are filtered because they can contain duplicate matches, like "even though" and "though".
+ *
+ * @param {string} sentence The sentence to check for indices of auxiliaries, stopwords and active verbs.
+ * @returns {Array} The array with valid indices to use for determining subsentences.
+ */
+var getSentenceBreakers = function( sentence ) {
+	sentence = sentence.toLocaleLowerCase();
+	var auxiliaryIndices = matchArray( sentence, auxiliaries );
+
+	var stopwordIndices = matchArray( sentence, stopwords );
+	stopwordIndices = filterIndices( stopwordIndices );
+
+	var ingVerbs = getVerbsEndingInIng( sentence );
+	var ingVerbsIndices = matchArray( sentence, ingVerbs );
+
+	// Concat all indices arrays and sort them.
+	var indices = [].concat( auxiliaryIndices, stopwordIndices, ingVerbsIndices );
+	return sortIndices( indices );
+};
+
+/**
+ * Gets the subsentences from a sentence by determining sentence breakers.
+ *
+ * @param {string} sentence The sentence to split up in subsentences.
+ * @returns {Array} The array with all subsentences of a sentence that have an auxiliary.
+ */
+var getSubsentences = function( sentence ) {
+	var subSentences = [];
+
+	sentence = normalizeSingleQuotes( sentence );
+
+	// First check if there is an auxiliary word in the sentence
+	if( sentence.match( auxiliaryRegex ) !== null ) {
+		var indices = getSentenceBreakers( sentence );
+
+		// Get the words after the found auxiliary
+		for ( var i = 0; i < indices.length; i++ ) {
+			var endIndex = sentence.length;
+			if ( !isUndefined( indices[ i + 1 ] ) ) {
+				endIndex = indices[ i + 1 ].index;
+			}
+
+			// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
+			var subSentence = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+			subSentences.push( subSentence );
+		}
+	}
+
+	// If a subsentence doesn't have an auxiliary, we don't need it, so it can be filtered out.
+	subSentences = filter( subSentences, function( subSentence ) {
+		return subSentence.match( auxiliaryRegex ) !== null;
+	} );
+
+	return subSentences;
+};
+
+/**
+ * Gets regular passive verbs.
+ *
+ * @param {string} subSentence The sub sentence to check for passive verbs.
+ * @returns {Array} The array with all matched verbs.
+ */
+var getRegularVerbs = function( subSentence ) {
+	// Matches the sentences with words ending in ed
+	var matches = subSentence.match( regularVerbsRegex ) || [];
+
+	// Filters out words ending in -ed that aren't verbs.
+	return filter( matches, function( match ) {
+		return !includes( nonverbEndingEd, stripSpaces( match ) );
+	} );
+};
+
+/**
+ * Loops through a list of words and detects if they are present in the sentence.
+ *
+ * @param {Array} wordList The list of words to filter through.
+ * @param {string} sentence The sentence to check for matches.
+ * @returns {Array} A list of detected words.
+ */
+var filterWordListInSentence = function( wordList, sentence ) {
+	return filter( wordList, function( word ) {
+		return matchWordInSentence( word, sentence );
+	} );
+};
+
+/**
+ * Checks whether the sentence contains an excluded verb.
+ *
+ * @param {string} sentence The sentence to check for excluded verbs.
+ * @returns {boolean} Whether or not the sentence contains an excluded verb.
+ */
+var hasExcludedIrregularVerb = function( sentence ) {
+	return filterWordListInSentence( irregularExclusionArray, sentence ).length !== 0;
+};
+
+/**
+ * Gets irregular passive verbs.
+ *
+ * @param {string} sentence The sentence to check for passive verbs.
+ * @returns {Array} The array with all matched verbs.
+ */
+var getIrregularVerbs = function( sentence ) {
+	var irregularVerbs = filterWordListInSentence( irregulars, sentence );
+
+	return filter( irregularVerbs, function( verb ) {
+		// If rid is used with get, gets, getting, got or gotten, remove it.
+		if ( verb.match !== "rid" ) {
+			return true;
+		}
+
+		return hasExcludedIrregularVerb( sentence );
+	} );
+};
+
+/**
+ * Matches having with a verb directly following it. If so, it is not passive.
+ * @param {string} subSentence The subsentence to check for the word 'having' and a verb
+ * @param {Array} verbs The array with verbs to check.
+ * @returns {boolean} True if it is an exception, false if it is not.
+ */
+var isHavingException = function( subSentence, verbs ) {
+	// Match having with a verb directly following it. If so it is active.
+	var indexOfHaving = subSentence.indexOf( "having" );
+
+	if ( indexOfHaving > -1 ) {
+		var verbIndices = matchArray( subSentence, verbs );
+
+		if ( !isUndefined( verbIndices[ 0 ] ) && !isUndefined( verbIndices[ 0 ].index ) ) {
+			// 7 is the number of characters of the word 'having' including space.
+			return verbIndices[ 0 ].index  <= subSentence.indexOf( "having" ) + 7;
+		}
+	}
+	return false;
+};
+
+/**
+ * Match the left. If left is preceeded by `a` or `the`, it isn't a verb.
+ * @param {string} subSentence The subsentence to check for the word 'having' and a verb
+ * @param {Array} verbs The array with verbs to check.
+ * @returns {boolean} True if it is an exception, false if it is not.
+ */
+var isLeftException = function ( subSentence, verbs ) {
+
+	// Matches left with the or a preceeding.
+	var matchLeft = subSentence.match( /(the|a)\sleft/ig ) || [];
+	return matchLeft.length > 0 && verbs[ 0 ].match === "left";
+};
+
+/**
+ * If the word 'fit' is preceeded by a determiner, it shouldn't be marked as active.
+ * @param {string} subSentence The subsentence to check for the word 'having' and a verb
+ * @returns {boolean} True if it is an exception, false if it is not.
+ */
+var isFitException = function( subSentence ) {
+	var indexOfFit = subSentence.indexOf( "fit" );
+	if ( indexOfFit > -1 ) {
+		var subString = subSentence.substr( 0, indexOfFit );
+		var determinerIndices = filterWordListInSentence( determiners, subString );
+		return determinerIndices.length > 1;
+	}
+	return false;
+};
+
+/**
+ * Gets the exceptions. Some combinations shouldn't be marked as passive, so we need to filter them out.
+ * @param {string} subSentence The subsentence to check for exceptions.
+ * @param {array} verbs The array of verbs, used to determine exceptions.
+ * @returns {boolean} Wether there is an exception or not.
+ */
+var getExceptions = function( subSentence, verbs ) {
+	if ( isHavingException( subSentence, verbs ) ) {
+		return true;
+	}
+
+	if ( isLeftException( subSentence, verbs ) ) {
+		return true;
+	}
+
+	if ( isFitException( subSentence ) ) {
+		return true;
+	}
+
+	return false;
+};
+
+/**
+ * Checks the subsentence for any passive verb.
+ * @param {string} subSentence The subsentence to check for passives.
+ * @returns {boolean} True if passive is found, false if no passive is found.
+ */
+var determinePassives = function( subSentence ) {
+	subSentence = normalizeSingleQuotes( subSentence );
+
+	var regularVerbs = getRegularVerbs( subSentence );
+	var irregularVerbs = getIrregularVerbs( subSentence );
+	var verbs = regularVerbs.concat( irregularVerbs );
+
+	// Checks for exceptions in the found verbs.
+	var exceptions = getExceptions( subSentence, verbs );
+
+	// If there is any exception, this subsentence cannot be passive.
+	return verbs.length > 0 && exceptions === false;
+};
+
+/**
+ * Determines the number of passive sentences in the text.
+ * @param {Paper} paper The paper object to get the text from.
+ * @returns {object} The number of passives found in the text and the passive sentences.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var sentences = getSentences( text );
+	var passiveSentences = [];
+
+	// Get subsentences for each sentence.
+	forEach( sentences, function( sentence ) {
+		sentence = stripHTMLTags( sentence );
+
+		var subSentences = getSubsentences( sentence );
+
+		var passive = false;
+		forEach( subSentences, function( subSentence ) {
+			passive = passive || determinePassives( subSentence );
+		} );
+
+		if ( passive === true ) {
+			passiveSentences.push( sentence );
+		}
+	} );
+
+	return {
+		total: sentences.length,
+		passives: passiveSentences
+	};
+};
+
+},{"../stringProcessing/createRegexFromArray.js":292,"../stringProcessing/getSentences.js":298,"../stringProcessing/matchWordInSentence.js":307,"../stringProcessing/quotes.js":308,"../stringProcessing/stripHTMLTags.js":316,"../stringProcessing/stripSpaces.js":319,"./english/passivevoice-english/auxiliaries.js":244,"./english/passivevoice-english/determiners.js":245,"./english/passivevoice-english/irregulars.js":246,"./english/passivevoice-english/non-verb-ending-ed.js":247,"./english/passivevoice-english/stopwords.js":248,"lodash/filter":148,"lodash/forEach":152,"lodash/includes":157,"lodash/isUndefined":174}],265:[function(require,module,exports){
+var getSentences = require( "../stringProcessing/getSentences.js" );
+var getWords = require( "../stringProcessing/getWords.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var removeNonWordCharacters = require( "../stringProcessing/removeNonWordCharacters.js" );
+var getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
+
+var isEmpty = require( "lodash/isEmpty" );
+var forEach = require( "lodash/forEach" );
+
+/**
+ * Compares the first word of each sentence with the first word of the following sentence.
+ *
+ * @param {string} currentSentenceBeginning The first word of the current sentence.
+ * @param {string} nextSentenceBeginning The first word of the next sentence.
+ * @returns {boolean} Returns true if sentence beginnings match.
+ */
+var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
+	if ( !isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
+		return true;
+	}
+	return false;
+};
+
+/**
+ * Counts the number of similar sentence beginnings.
+ * @param {array} sentenceBeginnings The array containing the first word of each sentence.
+ * @param {array} sentences The array containing all sentences.
+ * @returns {array} The array containing the objects containing the first words and the corresponding counts.
+ */
+var compareFirstWords = function ( sentenceBeginnings, sentences ) {
+	var consecutiveFirstWords = [];
+	var foundSentences = [];
+	var sameBeginnings = 1;
+
+	forEach( sentenceBeginnings, function( beginning, i ) {
+		var currentSentenceBeginning = beginning;
+		var nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
+		foundSentences.push( sentences[ i ] );
+
+		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
+			sameBeginnings++;
+		} else {
+			consecutiveFirstWords.push( { word: currentSentenceBeginning, count: sameBeginnings, sentences: foundSentences } );
+			sameBeginnings = 1;
+			foundSentences = [];
+		}
+	} );
+
+	return consecutiveFirstWords;
+};
+
+/**
+ * Gets the first word of each sentence from the text, and returns an object containing the first word of each sentence and the corresponding counts.
+ * @param {Paper} paper The Paper object to get the text from.
+ * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
+ */
+module.exports = function( paper ) {
+	var sentences = getSentences( paper.getText() );
+	var firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
+	var sentenceBeginnings = sentences.map( function( sentence ) {
+		var words = getWords( stripSpaces( sentence ) );
+		if( words.length === 0 ) {
+			return "";
+		}
+		var firstWord = removeNonWordCharacters( words[ 0 ] ).toLocaleLowerCase();
+		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
+			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
+		}
+		return firstWord;
+	} );
+	return compareFirstWords( sentenceBeginnings, sentences );
+};
+
+
+
+},{"../helpers/getFirstWordExceptions.js":231,"../stringProcessing/getSentences.js":298,"../stringProcessing/getWords.js":301,"../stringProcessing/removeNonWordCharacters.js":309,"../stringProcessing/stripSpaces.js":319,"lodash/forEach":152,"lodash/isEmpty":163}],266:[function(require,module,exports){
+var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
+var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
+var forEach = require( "lodash/forEach" );
+
+/**
+ * Gets the subheadings from the text and returns the length of these subheading in an array.
+ * @param {Paper} paper The Paper object to get the text from.
+ * @returns {Array} The array with the length of each subheading.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var matches = getSubheadingContents( text );
+
+	var subHeadings = [];
+	forEach( matches, function( subHeading ) {
+		subHeading = stripTags( subHeading ).length;
+		if ( subHeading > 0 ) {
+			subHeadings.push( subHeading );
+		}
+	} );
+
+	return subHeadings;
+};
+
+},{"../stringProcessing/getSubheadings.js":300,"../stringProcessing/stripHTMLTags.js":316,"lodash/forEach":152}],267:[function(require,module,exports){
+var getSubheadingsContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
+
+/**
+ * Checks if there is a subheading present in the text
+ * @param {Paper} paper The Paper object to get the text from.
+ * @returns {number} Number of headings found.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var headings = getSubheadingsContents( text ) || [];
+	return headings.length;
+};
+
+},{"../stringProcessing/getSubheadings.js":300}],268:[function(require,module,exports){
+var getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
+var forEach = require( "lodash/forEach" );
+
+/**
+ * Gets the subheadings from the text and returns the length of these subheading in an array.
+ * @param {Paper} paper The Paper object to get the text from.
+ * @returns {Array} The array with the length of each subheading.
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
 
-	var sentences = getSentences( text );
-	var sentenceLengthResults = sentencesLength( sentences );
-	var totalSentences = sentenceLengthResults.length;
+	var matches = getSubheadingTexts( text );
 
-	var totalWords = reduce( sentenceLengthResults, function( result, sentence ) {
-		return result + sentence.sentenceLength;
-	}, 0 );
+	var subHeadingTexts = [];
+	forEach( matches, function( subHeading ) {
 
-	var average = totalWords / totalSentences;
+		subHeadingTexts.push( {
+			text: subHeading,
+			wordCount: countWords( subHeading )
+		} );
+	} );
+	return subHeadingTexts;
+};
 
-	// Calculate the variations per sentence.
-	var variation;
-	var variations = [];
 
-	sentenceLengthResults.map( function( sentence ) {
-		variation = sentence.sentenceLength - average;
-		variations.push( Math.pow( variation, 2 ) );
+},{"../stringProcessing/countWords.js":291,"../stringProcessing/getSubheadingTexts.js":299,"lodash/forEach":152}],269:[function(require,module,exports){
+var getWords = require( "../stringProcessing/getWords.js" );
+var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var getSentences = require( "../stringProcessing/getSentences.js" );
+
+var map = require( "lodash/map" );
+var forEach = require( "lodash/forEach" );
+
+/**
+ * Gets the complexity per word, along with the index for the sentence.
+ * @param {string} sentence The sentence to get wordComplexity from.
+ * @returns {Array} A list with words, the index and the complexity per word.
+ */
+var getWordComplexityForSentence = function( sentence ) {
+	var words = getWords( sentence );
+	var results = [];
+
+	forEach( words, function( word, i ) {
+		results.push( {
+			word: word,
+			wordIndex: i,
+			complexity: countSyllables( word )
+		} );
 	} );
 
-	var totalOfSquares = sum( variations );
+	return results;
+};
 
-	if ( totalOfSquares > 0 ) {
-		var dividedSquares = totalOfSquares / ( totalSentences - 1 );
+/**
+ * Calculates the complexity of words in a text, returns each words with their complexity.
+ * @param {Paper} paper The Paper object to get the text from.
+ * @returns {Object} The words found in the text with the number of syllables.
+ */
+module.exports = function( paper ) {
+	var sentences = getSentences( paper.getText() );
 
-		return formatNumber( Math.sqrt( dividedSquares ) );
+	return map( sentences, function( sentence ) {
+		return {
+			sentence: sentence,
+			words: getWordComplexityForSentence( sentence )
+		};
+	} );
+};
+
+
+},{"../stringProcessing/countSyllables.js":290,"../stringProcessing/getSentences.js":298,"../stringProcessing/getWords.js":301,"lodash/forEach":152,"lodash/map":177}],270:[function(require,module,exports){
+/** @module researches/imageAltTags */
+
+var imageInText = require( "../stringProcessing/imageInText" );
+var imageAlttag = require( "../stringProcessing/getAlttagContent" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord" );
+
+/**
+ * Matches the alt-tags in the images found in the text.
+ * Returns an object with the totals and different alt-tags.
+ *
+ * @param {Array} imageMatches Array with all the matched images in the text
+ * @param {string} keyword the keyword to check for.
+ * @param {string} locale The locale used for transliteration.
+ * @returns {object} altProperties Object with all alt-tags that were found.
+ */
+var matchAltProperties = function( imageMatches, keyword, locale ) {
+	var altProperties = {
+		noAlt: 0,
+		withAlt: 0,
+		withAltKeyword: 0,
+		withAltNonKeyword: 0
+	};
+
+	for ( var i = 0; i < imageMatches.length; i++ ) {
+		var alttag = imageAlttag( imageMatches[ i ] );
+
+		// If no alt-tag is set
+		if ( alttag === "" ) {
+			altProperties.noAlt++;
+			continue;
+		}
+
+		// If no keyword is set, but the alt-tag is
+		if ( keyword === "" && alttag !== "" ) {
+			altProperties.withAlt++;
+			continue;
+		}
+
+		if ( wordMatch( alttag, keyword, locale ) === 0 && alttag !== "" ) {
+
+			// Match for keywords?
+			altProperties.withAltNonKeyword++;
+			continue;
+		}
+
+		if ( wordMatch( alttag, keyword, locale ) > 0 ) {
+			altProperties.withAltKeyword++;
+			continue;
+		}
 	}
 
+	return altProperties;
+};
+
+/**
+ * Checks the text for images, checks the type of each image and alttags for containing keywords
+ *
+ * @param {Paper} paper The paper to check for images
+ * @returns {object} Object containing all types of found images
+ */
+module.exports = function( paper ) {
+	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword(), paper.getLocale() );
+};
+
+},{"../stringProcessing/getAlttagContent":295,"../stringProcessing/imageInText":302,"../stringProcessing/matchTextWithWord":306}],271:[function(require,module,exports){
+/** @module researches/imageInText */
+
+var imageInText = require( "./../stringProcessing/imageInText" );
+
+/**
+ * Checks the amount of images in the text.
+ *
+ * @param {Paper} paper The paper to check for images
+ * @returns {number} The amount of found images
+ */
+module.exports = function( paper ) {
+	return imageInText( paper.getText() ).length;
+};
+
+},{"./../stringProcessing/imageInText":302}],272:[function(require,module,exports){
+var countWords = require( "../stringProcessing/countWords" );
+var sanitizeString = require( "../stringProcessing/sanitizeString" );
+
+/**
+ * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
+ *
+ * @param {Paper} paper The paper to research
+ * @returns {number} The length of the keyphrase
+ */
+function keyphraseLengthResearch( paper ) {
+	var keyphrase = sanitizeString( paper.getKeyword() );
+
+	return countWords( keyphrase );
+}
+
+module.exports = keyphraseLengthResearch;
+
+},{"../stringProcessing/countWords":291,"../stringProcessing/sanitizeString":313}],273:[function(require,module,exports){
+/** @module researches/countKeywordInUrl */
+
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+/**
+ * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
+ *
+ * @param {Paper} paper the Paper object to use in this count.
+ * @returns {int} Number of times the keyword is found.
+ */
+module.exports = function( paper ) {
+	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
+
+	return wordMatch( paper.getUrl(), keyword, paper.getLocale() );
+};
+
+},{"../stringProcessing/matchTextWithWord.js":306}],274:[function(require,module,exports){
+/* @module analyses/matchKeywordInSubheadings */
+
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
+var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
+
+/**
+ * Checks if there are any subheadings like h2 in the text
+ * and if they have the keyword in them.
+ *
+ * @param {object} paper The paper object containing the text and keyword.
+ * @returns {object} the result object.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var locale = paper.getLocale();
+	var result = { count: 0 };
+	text = stripSomeTags( text );
+	var matches = getSubheadingContents( text );
+
+	if ( 0 !== matches.length ) {
+		result.count = matches.length;
+		result.matches = subheadingMatch( matches, keyword, locale );
+	}
+
+	return result;
+};
+
+
+},{"../stringProcessing/getSubheadings.js":300,"../stringProcessing/stripNonTextTags.js":317,"../stringProcessing/subheadingsMatch.js":320}],275:[function(require,module,exports){
+var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Matches the keyword in the description if a description and keyword are available.
+ * default is -1 if no description and/or keyword is specified
+ *
+ * @param {Paper} paper The paper object containing the description.
+ * @returns {number} The number of matches with the keyword
+ */
+module.exports = function( paper ) {
+	if ( paper.getDescription() === "" ) {
+		return -1;
+	}
+	return matchTextWithWord( paper.getDescription(), paper.getKeyword(), paper.getLocale() );
+};
+
+
+},{"../stringProcessing/matchTextWithWord.js":306}],276:[function(require,module,exports){
+/**
+ * Check the length of the description.
+ * @param {Paper} paper The paper object containing the description.
+ * @returns {number} The length of the description.
+ */
+module.exports = function( paper ) {
+	return paper.getDescription().length;
+};
+
+},{}],277:[function(require,module,exports){
+/**
+ * Check the width of the title in pixels
+ * @param {Paper} paper The paper object containing the title width in pixels.
+ * @returns {number} The width of the title in pixels
+ */
+module.exports = function( paper ) {
+	if( paper.hasTitle() ) {
+		return paper.getTitleWidth();
+	}
 	return 0;
 };
 
-},{"../helpers/formatNumber":229,"../stringProcessing/getSentences.js":285,"../stringProcessing/sentencesLength.js":301,"lodash/reduce":185,"lodash/sum":189}],267:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
+/**
+ * Returns an array with exceptions for the sentence beginning researcher.
+ * @returns {Array} The array filled with exceptions.
+ */
+module.exports = function() {
+	return [
+		// Definite articles:
+		"el", "los", "la", "las",
+		// Indefinite articles:
+		"un", "una", "unas", "unos",
+		// Numbers 1-10:
+		"uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez",
+		// Demonstrative pronouns:
+		"este", "estos", "esta", "estas", "ese", "esos", "esa", "esas", "aquel",
+		"aquellos", "aquella", "aquellas", "esto", "eso", "aquello" ];
+};
+
+
+
+},{}],279:[function(require,module,exports){
+/** @module config/transitionWords */
+
+/**
+ * Returns an array with transition words to be used by the assessments.
+ * @returns {Array} The array filled with transition words.
+ */
+module.exports = function() {
+	return [ "a causa de", "a continuación", "a diferencia de", "a la inversa", "a la misma vez", "a más de", "a más de esto",
+		"a menos que", "a pesar de", "a pesar de eso", "a pesar de todo", "a peser de", "a propósito", "a saber", "a todo esto",
+		"además", "adicional", "al contrario", "al fin y al cabo", "al final", "al inicio", "al mismo tiempo", "al principio",
+		"ante todo", "antes de", "aparte de", "as asií como", "así", "así como", "así mismo", "así que", "asimismo", "aún así",
+		"aunque", "ciertamente", "claro está que", "claro que", "claro que sí", "como", "como caso típico", "como era de esperarse",
+		"como es de esperarse", "como muestra", "como resultado", "como se ha notado", "como sigue", "comparado con", "con que",
+		"con relación a", "con todo", "conque", "cuando", "dado que", "de ahí", "de cierta manera", "de cualquier manera",
+		"de cualquier modo", "de este modo", "de golpe", "de hecho", "de igual manera", "de igual modo", "de igualmanera",
+		"de la manera siguente", "de la misma forma", "de la misma manera", "de manera semejante", "de mismo modo", "de modo que",
+		"de nuevo", "de otra manera", "de otro modo", "de qualquier manera", "de repente", "de todas formas", "de todas maneras",
+		"de todos modos", "de veras", "debido a", "debido a que", "decididamente", "decisivamente", "del mismo modo",
+		"dentro de poco", "desde entonces", "después", "después de", "después de todo", "diferentemente", "dúbitamente",
+		"efectivamente", "ejemplo de esto", "en cambio", "en cierto modo", "en comparación con", "en conclusión", "en concreto",
+		"en conformidad con", "en consecuencia", "en consiguiente", "en contraste con", "en cuanto", "en cuanto a", "en efecto",
+		"en fin", "en fin de cuentas", "en general", "en lugar de", "en otras palabras", "en particular", "en primer lugar",
+		"en primer término", "en primera instancia", "en realidad", "en relación a", "en relación con", "en representación de",
+		"en resumen", "en segundo lugar", "en síntesis", "en suma", "en todo caso", "en último término", "en verdad", "en vez de",
+		"entonces", "entre ellas figura", "entre ellos figura", "es decir", "es más", "especialmente", "específicamente",
+		"esto indica", "eventualmente", "finalmente", "frecuentemente", "generalmente", "generalmente por ejemplo",
+		"hasta cierto punto", "hay que añadir", "igual que", "igualmente", "la mayor parte del tiempo", "la mayoría del tiempo",
+		"lo que es peor", "lógicamente", "luego", "más tarde", "mientras", "mientras tanto", "mirándolo todo", "no faltaría más",
+		"no obstante", "o sea", "otra vez", "otro aspecto", "par ilustrar", "par terminar", "para concluir", "para conclusión",
+		"para continuar", "para empezar", "para mencionar una cosa", "para que", "para resumir", "pero", "por", "por añadidura",
+		"por consiguiente", "por ejemplo", "por el contrario", "por eso", "por esta razón", "por esto", "por fin", "por la mayor parte",
+		"por lo general", "por lo tanto", "por orto lado", "por otra parte", "por otro lado", "por supuesto", "por tanto",
+		"por último", "por un lado", "por una parte", "porque", "posteriormente", "primero", "primero que nada", "principalmente",
+		"pronto", "próximamente", "pues bien", "puesto que", "rara vez", "raramente", "realmente", "resulta que", "seguidamente",
+		"seguidamente entre tanto", "segundo", "semejantemente", "siempre que", "sigue que", "siguiente", "sin duda", "sin embargo",
+		"sino", "sobre todo", "supongamos", "supuesto que", "tal como", "también", "tan pronto como", "tanto como", "tercero",
+		"una vez", "verbigracia", "vice-versa", "ya", "ya que" ];
+};
+
+},{}],280:[function(require,module,exports){
+/** @module config/twoPartTransitionWords */
+
+/**
+ * Returns an array with two-part transition words to be used by the assessments.
+ * @returns {Array} The array filled with two-part transition words.
+ */
+module.exports = function() {
+	return [ [ "de un lado", "de otra parte" ], [ "de un lado", "de otro" ], [ "no", "sino que" ], [ "no", "sino" ],
+		[ "por un lado", "por otro lado" ], [ "por una parte", "por otra parte" ], [ "por una parte", "por otra" ], [ "tanto", "como" ] ];
+};
+
+},{}],281:[function(require,module,exports){
 /** @module researches/stopWordsInKeyword */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -15678,7 +18326,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getKeyword() );
 };
 
-},{"./stopWordsInText.js":268}],268:[function(require,module,exports){
+},{"./stopWordsInText.js":282}],282:[function(require,module,exports){
 var stopwords = require( "../config/stopwords.js" )();
 var toRegex = require( "../stringProcessing/stringToRegex.js" );
 
@@ -15700,7 +18348,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{"../config/stopwords.js":221,"../stringProcessing/stringToRegex.js":302}],269:[function(require,module,exports){
+},{"../config/stopwords.js":223,"../stringProcessing/stringToRegex.js":315}],283:[function(require,module,exports){
 /** @module researches/stopWordsInUrl */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -15714,7 +18362,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
 };
 
-},{"./stopWordsInText.js":268}],270:[function(require,module,exports){
+},{"./stopWordsInText.js":282}],284:[function(require,module,exports){
 /** @module analyses/isUrlTooLong */
 
 /**
@@ -15735,7 +18383,7 @@ module.exports = function( paper ) {
 	return false;
 };
 
-},{}],271:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 var wordCount = require( "../stringProcessing/countWords.js" );
 
 /**
@@ -15747,7 +18395,7 @@ module.exports = function( paper ) {
 	return wordCount( paper.getText() );
 };
 
-},{"../stringProcessing/countWords.js":278}],272:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":291}],286:[function(require,module,exports){
 var Assessor = require( "./assessor.js" );
 
 var introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
@@ -15762,7 +18410,7 @@ var textImages = require( "./assessments/textImagesAssessment.js" );
 var textLength = require( "./assessments/textLengthAssessment.js" );
 var textLinks = require( "./assessments/textLinksAssessment.js" );
 var titleKeyword = require( "./assessments/titleKeywordAssessment.js" );
-var titleLength = require( "./assessments/titleLengthAssessment.js" );
+var titleWidth = require( "./assessments/pageTitleWidthAssessment.js" );
 var urlKeyword = require( "./assessments/urlKeywordAssessment.js" );
 var urlLength = require( "./assessments/urlLengthAssessment.js" );
 var urlStopWords = require( "./assessments/urlStopWordsAssessment.js" );
@@ -15791,7 +18439,7 @@ var SEOAssessor = function( i18n, options ) {
 		textLength,
 		textLinks,
 		titleKeyword,
-		titleLength,
+		titleWidth,
 		urlKeyword,
 		urlLength,
 		urlStopWords
@@ -15803,7 +18451,7 @@ module.exports = SEOAssessor;
 require( "util" ).inherits( module.exports, Assessor );
 
 
-},{"./assessments/introductionKeywordAssessment.js":201,"./assessments/keyphraseLengthAssessment.js":202,"./assessments/keywordDensityAssessment.js":203,"./assessments/keywordStopWordsAssessment.js":204,"./assessments/metaDescriptionKeywordAssessment.js":205,"./assessments/metaDescriptionLengthAssessment.js":206,"./assessments/subheadingsKeywordAssessment.js":207,"./assessments/textCompetingLinksAssessment.js":209,"./assessments/textImagesAssessment.js":210,"./assessments/textLengthAssessment.js":211,"./assessments/textLinksAssessment.js":212,"./assessments/titleKeywordAssessment.js":213,"./assessments/titleLengthAssessment.js":214,"./assessments/urlKeywordAssessment.js":215,"./assessments/urlLengthAssessment.js":216,"./assessments/urlStopWordsAssessment.js":217,"./assessor.js":218,"util":199}],273:[function(require,module,exports){
+},{"./assessments/introductionKeywordAssessment.js":202,"./assessments/keyphraseLengthAssessment.js":203,"./assessments/keywordDensityAssessment.js":204,"./assessments/keywordStopWordsAssessment.js":205,"./assessments/metaDescriptionKeywordAssessment.js":206,"./assessments/metaDescriptionLengthAssessment.js":207,"./assessments/pageTitleWidthAssessment.js":208,"./assessments/subheadingsKeywordAssessment.js":209,"./assessments/textCompetingLinksAssessment.js":211,"./assessments/textImagesAssessment.js":212,"./assessments/textLengthAssessment.js":213,"./assessments/textLinksAssessment.js":214,"./assessments/titleKeywordAssessment.js":215,"./assessments/urlKeywordAssessment.js":217,"./assessments/urlLengthAssessment.js":218,"./assessments/urlStopWordsAssessment.js":219,"./assessor.js":220,"util":201}],287:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -15824,7 +18472,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],274:[function(require,module,exports){
+},{}],288:[function(require,module,exports){
 /** @module stringProcessing/checkNofollow */
 
 /**
@@ -15843,65 +18491,7 @@ module.exports = function( text ) {
 	return linkFollow;
 };
 
-},{}],275:[function(require,module,exports){
-/** @module stringProcessing/cleanText */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
-
-/**
- * Removes words, duplicate spaces and sentence terminators, and words consisting of only digits
- * from the text. This is used for the flesh reading ease test.
- *
- * @param {String} text The cleaned text
- * @returns {String} The text
- */
-module.exports = function( text ) {
-	if ( text === "" ) {
-		return text;
-	}
-
-	text = replaceDiacritics( text );
-	text = text.toLocaleLowerCase();
-
-	text = unifyWhitespace( text );
-
-	// replace comma', hyphens etc with spaces
-	text = text.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
-
-	// remove apostrophe
-	text = text.replace( /[\’]/g, "" );
-
-	// unify all terminators
-	text = text.replace( /[.?!]/g, "." );
-
-	// Remove double spaces
-	text = stripSpaces( text );
-
-	// add period in case it is missing
-	text += ".";
-
-	// replace newlines with spaces
-	text = text.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
-
-	// remove duplicate terminators
-	text = text.replace( /([\.])[\. ]+/g, "$1" );
-
-	// pad sentence terminators
-	text = text.replace( /[ ]*([\.])+/g, "$1 " );
-
-	// Remove double spaces
-	text = stripSpaces( text );
-
-	if ( text === "." ) {
-		return "";
-	}
-
-	return text;
-};
-
-},{"../stringProcessing/replaceDiacritics.js":298,"../stringProcessing/stripSpaces.js":306,"../stringProcessing/unifyWhitespace.js":309}],276:[function(require,module,exports){
+},{}],289:[function(require,module,exports){
 /** @module stringProcessing/countSentences */
 
 var getSentences = require( "../stringProcessing/getSentences.js" );
@@ -15923,142 +18513,109 @@ module.exports = function( text ) {
 	return sentenceCount;
 };
 
-},{"../stringProcessing/getSentences.js":285}],277:[function(require,module,exports){
+},{"../stringProcessing/getSentences.js":298}],290:[function(require,module,exports){
 /** @module stringProcessing/countSyllables */
 
-var cleanText = require( "../stringProcessing/cleanText.js" );
-var syllableArray = require( "../config/syllables.js" );
-var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
+var syllableMatchers = require( "../config/syllables.js" );
 
-var map = require( "lodash/map" );
+var getWords = require( "../stringProcessing/getWords.js" );
+
 var forEach = require( "lodash/forEach" );
+var filter = require( "lodash/filter" );
 
-var exclusionWords = syllableArray().exclusionWords;
-var exclusionWordsRegexes = map( exclusionWords, function( exclusionWord ) {
-	return {
-		regex: new RegExp( exclusionWord.word, "ig" ),
-		syllables: exclusionWord.syllables
-	};
-} );
-var addSyllablesRegex = arrayToRegex( syllableArray().addSyllables, true );
-var subtractSyllablesRegex = arrayToRegex( syllableArray().subtractSyllables, true );
+var exclusionWords = syllableMatchers().exclusionWords;
+
+var vowelRegex = new RegExp( "[^" + syllableMatchers().vowels + "]", "ig" );
+
+var SyllableCountIterator = require( "../values/syllableCountIterator.js" );
+
+var syllableCountIterator = new SyllableCountIterator( syllableMatchers() );
 
 /**
- * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
- * they are incorrectly detected with the syllablecounters based on regexes.
+ * Counts the syllables by splitting on consonants, leaving groups of vowels.
  *
- * @param {string} text The text to look for exclusionwords
- * @returns {number} The number of syllables found in the exclusionwords
+ * @param {string} word A text with words to count syllables.
+ * @returns {number} the syllable count.
  */
-var countExclusionSyllables = function( text ) {
-	var count = 0, matches;
+var countUsingVowels = function( word ) {
+	var numberOfSyllables = 0;
+	var foundVowels = word.split( vowelRegex );
+	var filteredWords = filter( foundVowels, function( vowel ) {
+		return vowel !== "";
+	} );
+	numberOfSyllables += filteredWords.length;
 
-	forEach( exclusionWordsRegexes, function( exclusionWordRegex ) {
-		matches = text.match( exclusionWordRegex.regex );
+	return numberOfSyllables;
+};
 
-		if ( matches !== null ) {
-			count += ( matches.length * exclusionWordRegex.syllables );
+/**
+ * Counts the syllables using vowel exclusions. These are used for groups of vowels that are more or less
+ * then 1 syllable.
+ *
+ * @param {String} word The word to count syllables in.
+ * @returns {number} The number of syllables found in the given word.
+ */
+var countVowelExclusions = function( word ) {
+	return syllableCountIterator.countSyllables( word );
+};
+
+/**
+ * Checks if the word is an exclusion word.
+ *
+ * @param {String} word The word to check against exclusion words.
+ * @returns {number} The number of syllables found.
+ */
+var countSyllablesInExclusions = function( word ) {
+	var syllableCount = 0;
+	forEach( exclusionWords, function( exclusionWordsObject ) {
+		if( exclusionWordsObject.word === word ) {
+			syllableCount = exclusionWordsObject.syllables;
+
+			// If we find an exclusion, we can break out of this forEach.
+			return false;
 		}
 	} );
-
-	return count;
+	return syllableCount;
 };
 
 /**
- * Removes words from the text that are in the exclusion array. These words are counted
- * incorrectly in the syllable counters, so they are removed and checked sperately.
+ * Count the number of syllables in a word, using vowels and exceptions.
  *
- * @param {string} text The text to remove words from
- * @returns {string} The text with the exclusionwords removed
+ * @param {String} word The word to count the number of syllables.
+ * @returns {number} The number of syllables found in a word.
  */
-var removeExclusionWords = function( text ) {
-	forEach( exclusionWordsRegexes, function( exclusionWordRegex ) {
-		text = text.replace( exclusionWordRegex.regex, "" );
-	} );
-
-	return text;
+var countSyllables = function( word ) {
+	var syllableCount = 0;
+	syllableCount += countUsingVowels( word );
+	syllableCount += countVowelExclusions ( word );
+	return syllableCount;
 };
 
 /**
- * Counts the syllables by splitting on consonants.
+ * Counts the number of syllables in a textstring per word based on vowels.
+ * Uses exclusion words for words that cannot be matched with vowel matching.
  *
- * @param {string} text A text with words to count syllables.
- * @returns {number} the syllable count
- */
-var countBasicSyllables = function( text ) {
-	var array = text.split( " " );
-	var i, j, splitWord, count = 0;
-
-	// split textstring to individual words
-	for ( i = 0; i < array.length; i++ ) {
-
-		// split on consonants
-		splitWord = array[ i ].split( /[^aeiouy]/g );
-
-		// if the string isn't empty, a consonant was found, up the counter
-		for ( j = 0; j < splitWord.length; j++ ) {
-			if ( splitWord[ j ] !== "" ) {
-				count++;
-			}
-		}
-	}
-
-	return count;
-};
-
-/**
- * Advanced syllable counter to match texstring with regexes.
- *
- * @param {String} text The text to count the syllables.
- * @param {String} operator The operator to determine which regex to use.
- * @returns {number} the amount of syllables found in string.
- */
-var countAdvancedSyllables = function( text, operator ) {
-	var matches, count = 0, words = text.split( " " );
-	var regex = "";
-	switch ( operator ) {
-		case "add":
-			regex = addSyllablesRegex;
-			break;
-		case "subtract":
-			regex = subtractSyllablesRegex;
-			break;
-		default:
-			break;
-	}
-	for ( var i = 0; i < words.length; i++ ) {
-		matches = words[ i ].match( regex );
-		if ( matches !== null ) {
-			count += matches.length;
-		}
-	}
-	return count;
-};
-
-/**
- * Counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
- * counter and advanced syllable counter.
- *
- * @param {String} text The text to count the syllables from.
- * @returns {int} syllable count
+ * @param {String} text The text to count the syllables in.
+ * @returns {int} The total number of syllables found in the text.
  */
 module.exports = function( text ) {
-	var count = 0;
-	count += countExclusionSyllables( text );
+	var words = getWords( text );
 
-	text = removeExclusionWords( text );
-	text = cleanText( text );
-	text.replace( /[.]/g, " " );
+	var syllableCount = 0;
 
-	count += countBasicSyllables( text );
-	count += countAdvancedSyllables( text, "add" );
-	count -= countAdvancedSyllables( text, "subtract" );
-
-	return count;
+	forEach( words, function( word ) {
+		var exclusions = countSyllablesInExclusions( word );
+		if ( exclusions !== 0 ) {
+			syllableCount += exclusions;
+			return;
+		}
+		syllableCount += countSyllables( word );
+	} );
+	return syllableCount;
 };
 
 
-},{"../config/syllables.js":222,"../stringProcessing/cleanText.js":275,"../stringProcessing/createRegexFromArray.js":279,"lodash/forEach":154,"lodash/map":179}],278:[function(require,module,exports){
+},{"../config/syllables.js":224,"../stringProcessing/getWords.js":301,"../values/syllableCountIterator.js":327,"lodash/filter":148,"lodash/forEach":152}],291:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var getWords = require( "../stringProcessing/getWords.js" );
@@ -16073,7 +18630,7 @@ module.exports = function( text ) {
 	return getWords( text ).length;
 };
 
-},{"../stringProcessing/getWords.js":288}],279:[function(require,module,exports){
+},{"../stringProcessing/getWords.js":301}],292:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -16102,7 +18659,7 @@ module.exports = function( array, disableWordBoundary ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":273,"lodash/map":179}],280:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":287,"lodash/map":177}],293:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromDoubleArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -16132,7 +18689,7 @@ module.exports = function ( array ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":273}],281:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":287}],294:[function(require,module,exports){
 /** @module stringProcessing/findKeywordInUrl */
 
 var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" );
@@ -16152,10 +18709,11 @@ module.exports = function( url, keyword, locale ) {
 		formatUrl = formatUrl[ 0 ].replace( /<.*?>\s?/ig, "" );
 		return matchTextWithTransliteration( formatUrl, keyword, locale ).length > 0;
 	}
+
 	return false;
 };
 
-},{"./matchTextWithTransliteration.js":292}],282:[function(require,module,exports){
+},{"./matchTextWithTransliteration.js":305}],295:[function(require,module,exports){
 /** @module stringProcessing/getAlttagContent */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -16182,7 +18740,7 @@ module.exports = function( text ) {
 	return alt;
 };
 
-},{"../stringProcessing/stripSpaces.js":306}],283:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":319}],296:[function(require,module,exports){
 /** @module stringProcessing/getAnchorsFromText */
 
 /**
@@ -16196,6 +18754,7 @@ module.exports = function( text ) {
 
 	// regex matches everything between <a> and </a>
 	matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
+
 	if ( matches === null ) {
 		matches = [];
 	}
@@ -16203,8 +18762,10 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{}],284:[function(require,module,exports){
+},{}],297:[function(require,module,exports){
 /** @module stringProcess/getLinkType */
+
+var urlHelper = require( "./url" );
 
 /**
  * Determines the type of link.
@@ -16217,18 +18778,21 @@ module.exports = function( text ) {
 module.exports = function( text, url ) {
 	var linkType = "other";
 
+	var anchorUrl = urlHelper.getFromAnchorTag( text );
+
 	// Matches all links that start with http:// and https://, case insensitive and global
-	if ( text.match( /https?:\/\//ig ) !== null ) {
+	if ( anchorUrl.match( /https?:\/\//ig ) !== null ) {
 		linkType = "external";
-		var urlMatch = text.match( url );
-		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
+
+		if ( urlHelper.getHostname( anchorUrl ) === urlHelper.getHostname( url ) ) {
 			linkType = "internal";
 		}
 	}
+
 	return linkType;
 };
 
-},{}],285:[function(require,module,exports){
+},{"./url":323}],298:[function(require,module,exports){
 var map = require( "lodash/map" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
@@ -16243,6 +18807,8 @@ var core = require( "tokenizer2/core" );
 
 var getBlocks = require( "../helpers/html.js" ).getBlocks;
 var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
+
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyNonBreakingSpace;
 
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
@@ -16314,7 +18880,7 @@ function isBreakTag( htmlTag ) {
 /**
  * Returns whether or not a given character is quotation mark.
  *
- * @param {string} character character The character to check.
+ * @param {string} character The character to check.
  * @returns {boolean} Whether or not the given character is a quotation mark.
  */
 function isQuotation( character ) {
@@ -16322,6 +18888,18 @@ function isQuotation( character ) {
 
 	return "'" === character
 		|| "\"" === character;
+}
+
+/**
+ * Returns whether or not a given character is a punctuation mark that can be at the beginning
+ * of a sentence, like ¿ and ¡ used in Spanish.
+ *
+ * @param {string} character The character to check.
+ * @returns {boolean} Whether or not the given character is a punctuation mark.
+ */
+function isPunctuation( character ) {
+	return "¿" === character
+		|| "¡" === character;
 }
 
 /**
@@ -16444,6 +19022,7 @@ function getSentencesFromTokens( tokens ) {
 						isCapitalLetter( nextSentenceStart )
 						|| isNumber( nextSentenceStart ) )
 						|| isQuotation( nextSentenceStart )
+						|| isPunctuation( nextSentenceStart )
 					|| ( !isUndefined( nextToken ) && (
 						"html-start" === nextToken.type
 						|| "html-end" === nextToken.type
@@ -16511,6 +19090,7 @@ var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
  * @returns {Array} Sentences found in the text.
  */
 module.exports = function( text ) {
+	text = unifyWhitespace( text );
 	var sentences, blocks = getBlocks( text );
 
 	// Split each block on newlines.
@@ -16523,7 +19103,7 @@ module.exports = function( text ) {
 	return filter( sentences, negate( isEmpty ) );
 };
 
-},{"../helpers/html.js":230,"../stringProcessing/quotes.js":295,"lodash/filter":150,"lodash/flatMap":153,"lodash/forEach":154,"lodash/isEmpty":165,"lodash/isNaN":168,"lodash/isUndefined":176,"lodash/map":179,"lodash/memoize":180,"lodash/negate":182,"tokenizer2/core":197}],286:[function(require,module,exports){
+},{"../helpers/html.js":234,"../stringProcessing/quotes.js":308,"../stringProcessing/unifyWhitespace.js":322,"lodash/filter":148,"lodash/flatMap":151,"lodash/forEach":152,"lodash/isEmpty":163,"lodash/isNaN":166,"lodash/isUndefined":174,"lodash/map":177,"lodash/memoize":178,"lodash/negate":180,"tokenizer2/core":197}],299:[function(require,module,exports){
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.
@@ -16549,7 +19129,7 @@ module.exports = function( text ) {
 
 
 
-},{}],287:[function(require,module,exports){
+},{}],300:[function(require,module,exports){
 var map = require( "lodash/map" );
 
 /**
@@ -16592,12 +19172,12 @@ module.exports = {
 	getSubheadingContents: getSubheadingContents
 };
 
-},{"lodash/map":179}],288:[function(require,module,exports){
+},{"lodash/map":177}],301:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var stripTags = require( "./stripHTMLTags.js" );
 var stripSpaces = require( "./stripSpaces.js" );
-var removeSentenceTerminators = require( "./removeSentenceTerminators.js" );
+var removeTerminators = require( "./removeTerminators.js" );
 var map = require( "lodash/map" );
 var filter = require( "lodash/filter" );
 
@@ -16613,7 +19193,11 @@ module.exports = function( text ) {
 		return [];
 	}
 
-	var words = map( text.split( /\s/g ), removeSentenceTerminators );
+	var words = text.split( /\s/g );
+
+	words = map( words, function( word ) {
+		return removeTerminators( word );
+	} );
 
 	return filter( words, function( word ) {
 		return word.trim() !== "";
@@ -16621,7 +19205,7 @@ module.exports = function( text ) {
 };
 
 
-},{"./removeSentenceTerminators.js":297,"./stripHTMLTags.js":303,"./stripSpaces.js":306,"lodash/filter":150,"lodash/map":179}],289:[function(require,module,exports){
+},{"./removeTerminators.js":310,"./stripHTMLTags.js":316,"./stripSpaces.js":319,"lodash/filter":148,"lodash/map":177}],302:[function(require,module,exports){
 /** @module stringProcessing/imageInText */
 
 var matchStringWithRegex = require( "./matchStringWithRegex.js" );
@@ -16636,7 +19220,7 @@ module.exports = function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 };
 
-},{"./matchStringWithRegex.js":291}],290:[function(require,module,exports){
+},{"./matchStringWithRegex.js":304}],303:[function(require,module,exports){
 var map = require( "lodash/map" );
 var flatMap = require( "lodash/flatMap" );
 var filter = require( "lodash/filter" );
@@ -16696,7 +19280,7 @@ module.exports = function( text ) {
 	return [ text ];
 };
 
-},{"../helpers/html":230,"lodash/filter":150,"lodash/flatMap":153,"lodash/map":179}],291:[function(require,module,exports){
+},{"../helpers/html":234,"lodash/filter":148,"lodash/flatMap":151,"lodash/map":177}],304:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -16717,7 +19301,7 @@ module.exports = function( text, regexString ) {
 	return matches;
 };
 
-},{}],292:[function(require,module,exports){
+},{}],305:[function(require,module,exports){
 var map = require( "lodash/map" );
 var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
@@ -16758,11 +19342,11 @@ module.exports = function( text, keyword, locale ) {
 
 
 
-},{"./addWordboundary.js":273,"./stripSpaces.js":306,"./transliterate.js":308,"lodash/map":179}],293:[function(require,module,exports){
+},{"./addWordboundary.js":287,"./stripSpaces.js":319,"./transliterate.js":321,"lodash/map":177}],306:[function(require,module,exports){
 /** @module stringProcessing/matchTextWithWord */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyAllSpaces;
 var matchStringWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
 
 /**
@@ -16781,8 +19365,8 @@ module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	return matches.length;
 };
 
-},{"../stringProcessing/matchTextWithTransliteration.js":292,"../stringProcessing/stripNonTextTags.js":304,"../stringProcessing/unifyWhitespace.js":309}],294:[function(require,module,exports){
-var wordBoundaries = require( "../language/wordBoundaries.js" )();
+},{"../stringProcessing/matchTextWithTransliteration.js":305,"../stringProcessing/stripNonTextTags.js":317,"../stringProcessing/unifyWhitespace.js":322}],307:[function(require,module,exports){
+var wordBoundaries = require( "../config/wordBoundaries.js" )();
 var includes = require( "lodash/includes" );
 
 /**
@@ -16822,7 +19406,7 @@ module.exports = function( word, sentence ) {
 	return ( ( previousCharacter ) && ( nextCharacter ) );
 };
 
-},{"../language/wordBoundaries.js":232,"lodash/includes":159}],295:[function(require,module,exports){
+},{"../config/wordBoundaries.js":226,"lodash/includes":157}],308:[function(require,module,exports){
 /**
  * Normalizes single quotes to 'regular' quotes.
  *
@@ -16870,7 +19454,7 @@ module.exports = {
 	normalize: normalizeQuotes
 };
 
-},{}],296:[function(require,module,exports){
+},{}],309:[function(require,module,exports){
 /** @module stringProcessing/removeNonWordCharacters.js */
 
 /**
@@ -16883,22 +19467,24 @@ module.exports = function( string ) {
 	return string.replace( /[\s\n\r\t\.,'\(\)\"\+;!?:\/]/g, "" );
 };
 
-},{}],297:[function(require,module,exports){
-// These are sentence terminators, that never should be in the middle of a word.
-var sentenceTerminators = /[.?!:;,]/g;
+},{}],310:[function(require,module,exports){
+var terminatorRegexString = "[\-()_\\[\\]’“”\"'\/.?!:;,¿¡]";
+var terminatorRegexStart = new RegExp( "^" + terminatorRegexString + "+" );
+var terminatorRegexEnd = new RegExp( terminatorRegexString + "+$" );
 
 /**
- * Replaces sentence terminators from the text.
+ * Removes sentence terminators at the beginning and end of a sentence.
  *
- * @param {String} text The text to remove the terminators from.
- *
- * @returns {String} The sanitized text.
+ * @param {String} word The word to remove terminators from.
+ * @returns {String} The word without terminators.
  */
-module.exports = function( text ) {
-	return text.replace( sentenceTerminators, "" );
+module.exports = function( word ) {
+	word = word.replace( terminatorRegexStart, "" );
+	word = word.replace( terminatorRegexEnd, "" );
+	return word;
 };
 
-},{}],298:[function(require,module,exports){
+},{}],311:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var diacriticsRemovalMap = require( "../config/diacritics.js" );
@@ -16921,7 +19507,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../config/diacritics.js":219}],299:[function(require,module,exports){
+},{"../config/diacritics.js":221}],312:[function(require,module,exports){
 /** @module stringProcessing/replaceString */
 
 /**
@@ -16938,7 +19524,7 @@ module.exports = function( text, stringToReplace, replacement ) {
 	return text;
 };
 
-},{}],300:[function(require,module,exports){
+},{}],313:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -16958,7 +19544,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":303,"../stringProcessing/stripSpaces.js":306}],301:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":316,"../stringProcessing/stripSpaces.js":319}],314:[function(require,module,exports){
 var wordCount = require( "./countWords.js" );
 var forEach = require( "lodash/forEach" );
 var stripHTMLTags = require( "./stripHTMLTags.js" );
@@ -16988,7 +19574,7 @@ module.exports = function( sentences ) {
 	return sentencesWordCount;
 };
 
-},{"./countWords.js":278,"./stripHTMLTags.js":303,"lodash/forEach":154}],302:[function(require,module,exports){
+},{"./countWords.js":291,"./stripHTMLTags.js":316,"lodash/forEach":152}],315:[function(require,module,exports){
 /** @module stringProcessing/stringToRegex */
 var isUndefined = require( "lodash/isUndefined" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
@@ -17019,7 +19605,7 @@ module.exports = memoize( function( string, extraBoundary, doReplaceDiacritics )
 	return new RegExp( string, "ig" );
 } );
 
-},{"../stringProcessing/addWordboundary.js":273,"../stringProcessing/replaceDiacritics.js":298,"../stringProcessing/sanitizeString.js":300,"lodash/isUndefined":176,"lodash/memoize":180}],303:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":287,"../stringProcessing/replaceDiacritics.js":311,"../stringProcessing/sanitizeString.js":313,"lodash/isUndefined":174,"lodash/memoize":178}],316:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -17036,7 +19622,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":306}],304:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":319}],317:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -17053,7 +19639,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":306}],305:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":319}],318:[function(require,module,exports){
 /** @module stringProcessing/stripNumbers */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -17078,7 +19664,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":306}],306:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":319}],319:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -17101,7 +19687,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],307:[function(require,module,exports){
+},{}],320:[function(require,module,exports){
 var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" )();
 var matchTextWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
@@ -17137,7 +19723,7 @@ module.exports = function( matches, keyword, locale ) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":220,"../stringProcessing/matchTextWithTransliteration.js":292,"../stringProcessing/replaceString.js":299}],308:[function(require,module,exports){
+},{"../config/removalWords.js":222,"../stringProcessing/matchTextWithTransliteration.js":305,"../stringProcessing/replaceString.js":312}],321:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var transliterationsMap = require( "../config/transliterations.js" );
@@ -17160,8 +19746,26 @@ module.exports = function( text, locale ) {
 	return text;
 };
 
-},{"../config/transliterations.js":224}],309:[function(require,module,exports){
+},{"../config/transliterations.js":225}],322:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
+
+/**
+ * Replaces a non breaking space with a normal space
+ * @param {string} text The string to replace the non breaking space in.
+ * @returns {string} The text with unified spaces.
+ */
+var unifyNonBreakingSpace = function( text ) {
+	return text.replace( /&nbsp;/g, " " );
+};
+
+/**
+ * Replaces all whitespaces with a normal space
+ * @param {string} text The string to replace the non breaking space in.
+ * @returns {string} The text with unified spaces.
+ */
+var unifyWhiteSpace = function( text ) {
+	return text.replace( /\s/g, " " );
+};
 
 /**
  * Converts all whitespace to spaces.
@@ -17169,20 +19773,112 @@ module.exports = function( text, locale ) {
  * @param {string} text The text to replace spaces.
  * @returns {string} The text with unified spaces.
  */
-
-module.exports = function( text ) {
-
-	// Replace &nbsp with space
-	text = text.replace( "&nbsp;", " " );
-
-	// Replace whitespaces with space
-	text = text.replace( /\s/g, " " );
-
-	return text;
+var unifyAllSpaces = function( text ) {
+	text = unifyNonBreakingSpace( text );
+	return unifyWhiteSpace( text );
 };
 
+module.exports = {
+	unifyNonBreakingSpace: unifyNonBreakingSpace,
+	unifyWhiteSpace: unifyWhiteSpace,
+	unifyAllSpaces: unifyAllSpaces
+};
 
-},{}],310:[function(require,module,exports){
+},{}],323:[function(require,module,exports){
+var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
+var urlMethods = require( "url" );
+
+/**
+ * Removes a hash from a URL, assumes a well formed URL.
+ *
+ * @param {string} url The URL to remove a hash from.
+ * @returns {string} The URL without the hash.
+ */
+function removeHash( url ) {
+	return url.split( "#" )[ 0 ];
+}
+
+/**
+ * Removes all query args from a URL, assumes a well formed URL.
+ *
+ * @param {string} url The URL to remove the query args from.
+ * @returns {string} The URL without the query args.
+ */
+function removeQueryArgs( url ) {
+	return url.split( "?" )[ 0 ];
+}
+
+/**
+ * Removes the trailing slash of a URL.
+ *
+ * @param {string} url The URL to remove the trailing slash from.
+ * @returns {string} A URL without a trailing slash.
+ */
+function removeTrailingSlash( url ) {
+	return url.replace( /\/$/, "" );
+}
+
+/**
+ * Adds a trailing slash to a URL if it is not present.
+ *
+ * @param {string} url The URL to add a trailing slash to.
+ * @returns {string} A URL with a trailing slash.
+ */
+function addTrailingSlash( url ) {
+	return removeTrailingSlash( url ) + "/";
+}
+
+/**
+ * Retrieves the URL from an anchor tag
+ *
+ * @param {string} anchorTag An anchor tag.
+ * @returns {string} The URL in the anchor tag.
+ */
+function getFromAnchorTag( anchorTag ) {
+	var urlMatch = urlFromAnchorRegex.exec( anchorTag );
+
+	return ( urlMatch === null ) ? "" : urlMatch[ 2 ];
+}
+
+/**
+ * Returns whether or not the given URLs are equal
+ *
+ * @param {string} urlA The first URL to compare.
+ * @param {string} urlB The second URL to compare.
+ *
+ * @returns {boolean} Whether or not the given URLs are equal.
+ */
+function areEqual( urlA, urlB ) {
+	// Make sure we are comparing URLs without query arguments and hashes.
+	urlA = removeQueryArgs( removeHash( urlA ) );
+	urlB = removeQueryArgs( removeHash( urlB ) );
+
+	return addTrailingSlash( urlA ) === addTrailingSlash( urlB );
+}
+
+/**
+ * Returns the domain name of a URL
+ *
+ * @param {string} url The URL to retrieve the domain name of.
+ * @returns {string} The domain name of the URL.
+ */
+function getHostname( url ) {
+	url = urlMethods.parse( url );
+
+	return url.hostname;
+}
+
+module.exports = {
+	removeHash: removeHash,
+	removeQueryArgs: removeQueryArgs,
+	removeTrailingSlash: removeTrailingSlash,
+	addTrailingSlash: addTrailingSlash,
+	getFromAnchorTag: getFromAnchorTag,
+	areEqual: areEqual,
+	getHostname: getHostname
+};
+
+},{"url":198}],324:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 var isNumber = require( "lodash/isNumber" );
 
@@ -17198,7 +19894,7 @@ var emptyMarker = function() {
 /**
  * Construct the AssessmentResult value object.
  *
- * @param {Object} values The values for this assessment result.
+ * @param {Object} [values] The values for this assessment result.
  *
  * @constructor
  */
@@ -17317,7 +20013,7 @@ AssessmentResult.prototype.hasMarker = function() {
 };
 
 /**
- * Gets the marker, a pure function that an return the marks for a given Paper
+ * Gets the marker, a pure function that can return the marks for a given Paper
  *
  * @returns {Function} The marker.
  */
@@ -17345,7 +20041,7 @@ AssessmentResult.prototype.hasMarks = function() {
 
 module.exports = AssessmentResult;
 
-},{"lodash/isNumber":169,"lodash/isUndefined":176}],311:[function(require,module,exports){
+},{"lodash/isNumber":167,"lodash/isUndefined":174}],325:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 
 /**
@@ -17394,7 +20090,7 @@ Mark.prototype.applyWithReplace = function( text ) {
 
 module.exports = Mark;
 
-},{"lodash/defaults":148}],312:[function(require,module,exports){
+},{"lodash/defaults":146}],326:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
@@ -17406,8 +20102,10 @@ var defaultAttributes = {
 	keyword: "",
 	description: "",
 	title: "",
+	titleWidth: 0,
 	url: "",
-	locale: "en_US"
+	locale: "en_US",
+	permalink: ""
 };
 
 /**
@@ -17432,6 +20130,9 @@ var Paper = function( text, attributes ) {
 
 	attributes = attributes || {};
 	defaults( attributes, defaultAttributes );
+	if ( attributes.locale === "" ) {
+		attributes.locale = defaultAttributes.locale;
+	}
 	this._attributes = sanitizeAttributes( attributes );
 };
 
@@ -17500,6 +20201,22 @@ Paper.prototype.getTitle = function() {
 };
 
 /**
+ * Check whether an title width in pixels is available
+ * @returns {boolean} Returns true if the Paper has a title.
+ */
+Paper.prototype.hasTitleWidth = function() {
+	return this._attributes.titleWidth !== 0;
+};
+
+/**
+ * Return the title width in pixels, or an empty string of no title width in pixels is available.
+ * @returns {string} Returns the title
+ */
+Paper.prototype.getTitleWidth = function() {
+	return this._attributes.titleWidth;
+};
+
+/**
  * Check whether an url is available
  * @returns {boolean} Returns true if the Paper has an Url.
  */
@@ -17531,6 +20248,144 @@ Paper.prototype.getLocale = function() {
 	return this._attributes.locale;
 };
 
+/**
+ * Check whether a permalink is available
+ * @returns {boolean} Returns true if the Paper has a permalink.
+ */
+Paper.prototype.hasPermalink = function() {
+	return this._attributes.permalink !== "";
+};
+
+/**
+ * Return the permalink, or an empty string of no permalink is available.
+ * @returns {string} Returns the permalink.
+ */
+Paper.prototype.getPermalink = function() {
+	return this._attributes.permalink;
+};
+
 module.exports = Paper;
 
-},{"../stringProcessing/sanitizeString.js":300,"lodash/defaults":148}]},{},[2]);
+},{"../stringProcessing/sanitizeString.js":313,"lodash/defaults":146}],327:[function(require,module,exports){
+var SyllableCountStep = require ( "./syllableCountStep.js" );
+
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require ( "lodash/forEach" );
+
+/**
+ * Creates a syllable count iterator.
+ *
+ * @param {object} config The config object containing an array with syllable exclusions.
+ * @constructor
+ */
+var SyllableCountIterator = function( config ) {
+	this.countSteps = [];
+	if( !isUndefined( config ) ) {
+		this.createSyllableCountSteps( config.syllableExclusion );
+	}
+};
+
+/**
+ * Creates a language syllable regex for each exclusion.
+ *
+ * @param {object} syllableRegexes The object containing all exclusion syllables including the multipliers.
+ */
+SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableRegexes ) {
+	forEach( syllableRegexes, function( syllableRegex ) {
+		this.countSteps.push( new SyllableCountStep( syllableRegex ) );
+	}.bind( this ) );
+};
+
+/**
+ * Returns all available count steps.
+ *
+ * @returns {Array} All available count steps.
+ */
+SyllableCountIterator.prototype.getAvailableSyllableCountSteps = function() {
+	return this.countSteps;
+};
+
+/**
+ * Counts the syllables for all the steps and returns the total syllable count.
+ *
+ * @param {String} word The word to count syllables in.
+ * @returns {number} The number of syllables found based on exclusions.
+ */
+SyllableCountIterator.prototype.countSyllables = function( word ) {
+	var syllableCount = 0;
+	forEach( this.countSteps, function( step ) {
+		syllableCount += step.countSyllables( word );
+	} );
+	return syllableCount;
+};
+
+module.exports = SyllableCountIterator;
+
+},{"./syllableCountStep.js":328,"lodash/forEach":152,"lodash/isUndefined":174}],328:[function(require,module,exports){
+var isUndefined = require( "lodash/isUndefined" );
+
+var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
+
+/**
+ * Constructs a language syllable regex that contains a regex for matching syllable exclusion.
+ *
+ * @param {object} syllableRegex The object containing the syllable exclusions.
+ * @constructor
+ */
+var SyllableCountStep = function( syllableRegex ) {
+	this._hasRegex = false;
+	this._regex = "";
+	this._multiplier = "";
+	this.createRegex( syllableRegex );
+};
+
+/**
+ * Returns if a valid regex has been set.
+ *
+ * @returns {boolean} True if a regex has been set, false if not.
+ */
+SyllableCountStep.prototype.hasRegex = function() {
+	return this._hasRegex;
+};
+
+/**
+ * Creates a regex based on the given syllable exclusions, and sets the multiplier to use.
+ *
+ * @param {object} syllableRegex The object containing the syllable exclusions and multiplier.
+ */
+SyllableCountStep.prototype.createRegex = function( syllableRegex ) {
+	if( !isUndefined( syllableRegex ) && !isUndefined( syllableRegex.syllables ) ) {
+
+		this._hasRegex = true;
+		this._regex = arrayToRegex( syllableRegex.syllables, true );
+		this._multiplier = syllableRegex.multiplier;
+	}
+};
+
+/**
+ * Returns the stored regular expression.
+ *
+ * @returns {RegExp} The stored regular expression.
+ */
+SyllableCountStep.prototype.getRegex = function() {
+	return this._regex;
+};
+
+/**
+ * Matches syllable exclusions in a given word and the returns the number found multiplied with the
+ * given multiplier.
+ *
+ * @param {String} word The word to match for syllable exclusions.
+ * @returns {number} The amount of syllables found.
+ */
+SyllableCountStep.prototype.countSyllables = function( word ) {
+	if( this._hasRegex ) {
+		var match = word.match( this._regex ) || [];
+		return match.length * this._multiplier;
+	}
+	return 0;
+};
+
+module.exports = SyllableCountStep;
+
+},{"../stringProcessing/createRegexFromArray.js":292,"lodash/isUndefined":174}]},{},[2]);

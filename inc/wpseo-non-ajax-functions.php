@@ -30,19 +30,28 @@ function wpseo_admin_bar_menu() {
 	$score   = '';
 	$seo_url = '';
 
+	$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+	$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
 					'post.php',
 					'post-new.php',
 				), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
-		$score      = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+
+		if ( $analysis_readability->is_enabled() || $analysis_seo->is_enabled() ) {
+			$score = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+		}
 
 		$seo_url = get_edit_post_link( $post->ID );
 	}
 
 	if ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
-		$score      = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+		if ( $analysis_readability->is_enabled() || $analysis_seo->is_enabled() ) {
+			$score = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+		}
+
 		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
 	}
 
@@ -92,7 +101,7 @@ function wpseo_admin_bar_menu() {
 		'parent' => 'wpseo-menu',
 		'id'     => 'wpseo-kwresearch',
 		'title'  => __( 'Keyword Research', 'wordpress-seo' ),
-		'#',
+		'meta'   => array( 'tabindex' => '0' ),
 	) );
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wpseo-kwresearch',
@@ -104,8 +113,8 @@ function wpseo_admin_bar_menu() {
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wpseo-kwresearch',
 		'id'     => 'wpseo-googleinsights',
-		'title'  => __( 'Google Insights', 'wordpress-seo' ),
-		'href'   => 'http://www.google.com/insights/search/#q=' . urlencode( $focuskw ) . '&cmpt=q',
+		'title'  => __( 'Google Trends', 'wordpress-seo' ),
+		'href'   => 'https://www.google.com/trends/explore#q=' . urlencode( $focuskw ),
 		'meta'   => array( 'target' => '_blank' ),
 	) );
 	$wp_admin_bar->add_menu( array(
@@ -124,7 +133,7 @@ function wpseo_admin_bar_menu() {
 				'parent' => 'wpseo-menu',
 				'id'     => 'wpseo-analysis',
 				'title'  => __( 'Analyze this page', 'wordpress-seo' ),
-				'#',
+				'meta'   => array( 'tabindex' => '0' ),
 			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-analysis',
@@ -219,11 +228,12 @@ function wpseo_admin_bar_menu() {
 			'parent' => 'wpseo-menu',
 			'id'     => 'wpseo-settings',
 			'title'  => __( 'SEO Settings', 'wordpress-seo' ),
+			'meta'   => array( 'tabindex' => '0' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-general',
-			'title'  => __( 'General', 'wordpress-seo' ),
+			'title'  => __( 'Dashboard', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_dashboard' ),
 		) );
 		$wp_admin_bar->add_menu( array(

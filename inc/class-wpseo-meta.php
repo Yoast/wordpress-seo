@@ -732,6 +732,19 @@ class WPSEO_Meta {
 		return update_post_meta( $post_id, self::$meta_prefix . $key, $meta_value );
 	}
 
+	/**
+	 * Deletes a meta value for a post
+	 *
+	 * @static
+	 *
+	 * @param string $key The internal key of the meta value to change (without prefix).
+	 * @param int    $post_id The ID of the post to change the meta for.
+	 *
+	 * @return bool Whether the value was changed
+	 */
+	public static function delete( $key, $post_id ) {
+		return delete_post_meta( $post_id, self::$meta_prefix . $key );
+	}
 
 	/**
 	 * Used for imports, this functions imports the value of $old_metakey into $new_metakey for those post
