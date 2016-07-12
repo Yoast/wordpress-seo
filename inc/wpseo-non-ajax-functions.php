@@ -182,7 +182,7 @@ function wpseo_admin_bar_menu() {
 				'parent' => 'wpseo-analysis',
 				'id'     => 'wpseo-pinterestvalidator',
 				'title'  => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
-				'href'   => '//developers.pinterest.com/rich_pins/validator/?link=' . urlencode( $url ),
+				'href'   => 'https://developers.pinterest.com/tools/url-debugger/?link=' . urlencode( $url ),
 				'meta'   => array( 'target' => '_blank' ),
 			) );
 			$wp_admin_bar->add_menu( array(
