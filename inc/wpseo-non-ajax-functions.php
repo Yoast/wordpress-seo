@@ -50,7 +50,7 @@ function wpseo_admin_bar_menu() {
 		$seo_url = get_edit_post_link( $post->ID );
 	}
 
-	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && !WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) )  || is_tax() ) {
+	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) )  || is_tax() ) {
 		echo '<script> console.log("After is taxonomy test");</script>';
 		if ( $analysis_seo->is_enabled() ) {
 			$score = return_tax_adminbar_seo_score();
@@ -289,55 +289,62 @@ function wpseo_admin_bar_menu() {
 }
 
 /**
- * Returns the SEO score element in the adminbar.
+ * Returns the SEO score element for the adminbar.
  *
- * @return string $seo_score_adminbar_element
+ * @return string return_adminbar_score
  */
 function return_adminbar_seo_score() {
-	$rating = WPSEO_Meta::get_value( 'linkdex', get_current_term_id() );
+	$rating = WPSEO_Meta::get_value( 'linkdex', get_the_ID() );
 	return return_adminbar_score( $rating );
 }
 
+/**
+ * Returns the content score element for the adminbar.
+ *
+ * @return string return_adminbar_score
+ */
 function return_adminbar_content_score() {
-	$rating = WPSEO_Meta::get_value( 'content_score', get_current_term_id() );
+	$rating = WPSEO_Meta::get_value( 'content_score', get_the_ID() );
 	return return_adminbar_score( $rating );
 }
 
+/**
+ * Returns the SEO score element for the adminbar.
+ *
+ * @return string return_adminbar_score
+ */
 function return_tax_adminbar_seo_score() {
 	$rating = 0;
 
 	if ( is_tax() || is_category() || is_tag() ) {
-		$rating = WPSEO_Taxonomy_Meta::get_term_meta( get_current_term_id(), get_queried_object()->taxonomy, 'linkdex' );
+		$rating = WPSEO_Taxonomy_Meta::get_term_meta( WPSEO_Taxonomy::get_current_term_id(), get_queried_object()->taxonomy, 'linkdex' );
 	}
 
 	return return_adminbar_score( $rating );
 }
 
+/**
+ * Returns the Content score element for the adminbar.
+ *
+ * @return string return_adminbar_score
+ */
 function return_tax_adminbar_content_score() {
 	$rating = 0;
 
 	if ( is_tax() || is_category() || is_tag() ) {
-		$rating = WPSEO_Taxonomy_Meta::get_term_meta( get_current_term_id(), get_queried_object()->taxonomy, 'content_score' );
+		$rating = WPSEO_Taxonomy_Meta::get_term_meta( WPSEO_Taxonomy::get_current_term_id(), get_queried_object()->taxonomy, 'content_score' );
 	}
 	return return_adminbar_score( $rating );
-}
-
-function get_current_term_id() {
-
-	if ( is_tax() || is_category() || is_tag() ) {
-		return get_queried_object()->term_id;
-	}
 }
 
 /**
  * Takes The SEO score and makes the score icon for the adminbar with it.
  *
- * @param $score The 0-100 rating of the score. Can be either SEO score or content score.
+ * @param int $score The 0-100 rating of the score. Can be either SEO score or content score.
  *
  * @return string $score_adminbar_element
  */
 function return_adminbar_score( $score ) {
-	echo '-------------------------------------------------------------------- rating:' . $score . '-------------------------------------------------------------------';
 	$score = WPSEO_Utils::translate_score( $score );
 
 	$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score '. $score .'"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';

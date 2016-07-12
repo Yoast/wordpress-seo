@@ -325,6 +325,18 @@ class WPSEO_Taxonomy {
 		return $cached_replacement_vars;
 	}
 
+	/**
+	 * Returns the term_id if the front-end page is on a term.
+	 *
+	 * @return mixed term_id
+	 */
+	function get_current_term_id() {
+
+		if ( is_tax() || is_category() || is_tag() ) {
+			return get_queried_object()->term_id;
+		}
+	}
+
 
 	/********************** DEPRECATED METHODS **********************/
 
