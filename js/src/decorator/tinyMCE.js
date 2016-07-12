@@ -20,8 +20,8 @@ function removeInvalidMarks( editor, html ) {
 	html = editor.getContent();
 
 	return html
-		.replace( new RegExp( "&lt;yoastmark.+?(?=&gt;)&gt;", "g" ), "" )
-		.replace( new RegExp( "&lt;/yoastmark&gt;", "g" ), "" );
+		.replace( new RegExp( '&lt;yoastmark.+?(?=&gt;)&gt;', 'g' ), '' )
+		.replace( new RegExp( '&lt;/yoastmark&gt;', 'g' ), '' );
 }
 
 /**
