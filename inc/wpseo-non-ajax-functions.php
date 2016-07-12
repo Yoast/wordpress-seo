@@ -97,12 +97,14 @@ function wpseo_admin_bar_menu() {
 		'title' => $title . $score . $counter,
 		'href'  => $seo_url,
 	) );
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wpseo-menu',
-		'id' => 'wpseo-notifications',
-		'title' => __( 'Notifications', 'wordpress-seo' ) . $counter,
-		'href' => $seo_url,
-	) );
+	if ( ! empty( $notification_count ) ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-menu',
+			'id'     => 'wpseo-notifications',
+			'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
+			'href'   => $seo_url,
+		) );
+	}
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wpseo-menu',
 		'id'     => 'wpseo-kwresearch',
