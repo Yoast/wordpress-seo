@@ -46,6 +46,12 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( sentenceBeginnings( mockPaper )[0].count ).toBe( 3 );
 	} );
 
+	it( "returns only an exclusion word, if that is the only word in a sentences (English", function() {
+		var mockPaper = new Paper( "A." );
+		expect( sentenceBeginnings( mockPaper )[0 ].word ).toBe( "a" );
+		expect( sentenceBeginnings( mockPaper )[0 ].count ).toBe( 1 );
+	} );
+
 	it( "returns an object with sentence beginnings and counts based on the default (English) when a non-existing locale is included.", function() {
 		var mockPaper = new Paper( "The boy, hey! The boy. The boy.", { locale: 'xx_yy'} );
 		expect( sentenceBeginnings( mockPaper )[0].word ).toBe( "the boy" );
