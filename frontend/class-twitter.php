@@ -384,6 +384,10 @@ class WPSEO_Twitter {
 		if ( $this->homepage_image_output() ) {
 			return;
 		}
+		elseif ( $this->posts_page_image_output() ) { // Posts page, which won't be caught by is_singular() below.
+			return;
+		}
+
 		if ( is_singular() ) {
 			if ( $this->image_from_meta_values_output() ) {
 				return;
@@ -419,6 +423,30 @@ class WPSEO_Twitter {
 
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Show the posts page image.
+	 *
+	 * @return bool
+	 */
+	private function posts_page_image_output() {
+
+		if ( is_front_page() || ! is_home() ) {
+			return false;
+		}
+
+		$post_id = get_option( 'page_for_posts' );
+
+		if ( $this->image_from_meta_values_output( $post_id ) ) {
+			return true;
+		}
+
+		if ( $this->image_thumbnail_output( $post_id ) ) {
+			return true;
 		}
 
 		return false;
