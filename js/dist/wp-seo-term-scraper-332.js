@@ -25272,10 +25272,11 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
 				YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
 			}
-
-			tinyMCE.on( 'AddEditor' , function( ) {
-				enableMarkerButtons( );
-			} );
+			if( isTinyMCELoaded() ) {
+				tinyMCE.on( 'AddEditor' , function( ) {
+					enableMarkerButtons( );
+				} );
+			}
 		}
 	}
 

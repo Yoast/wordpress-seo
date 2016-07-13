@@ -325,7 +325,6 @@ class WPSEO_Taxonomy {
 		return $cached_replacement_vars;
 	}
 
-
 	/********************** DEPRECATED METHODS **********************/
 
 	/**

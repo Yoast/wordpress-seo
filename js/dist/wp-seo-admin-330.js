@@ -185,8 +185,8 @@ var AlgoliaSearcher = function (_React$Component) {
 						showDetail: _this2.showDetail.bind(_this2, arrayIndex) });
 				});
 				searchResultContent = _react2.default.createElement(
-					'div',
-					{ className: 'wpseo-kb-search-results' },
+					'ul',
+					{ role: 'list', className: 'wpseo-kb-search-results' },
 					results
 				);
 			} else if (this.state.searchString !== '') {
@@ -288,6 +288,11 @@ var AlgoliaSearcher = function (_React$Component) {
 					'div',
 					null,
 					searchBar,
+					this.state.results.length > 0 ? _react2.default.createElement(
+						'h2',
+						{ className: 'screen-reader-text' },
+						this.props.searchResultsHeading
+					) : '',
 					this.renderSearchResults()
 				);
 			} else {
@@ -309,6 +314,7 @@ AlgoliaSearcher.propTypes = {
 	noResultsText: _react2.default.PropTypes.string,
 	headingText: _react2.default.PropTypes.string,
 	searchButtonText: _react2.default.PropTypes.string,
+	searchResultsHeading: _react2.default.PropTypes.string,
 	iframeTitle: _react2.default.PropTypes.string,
 	algoliaApplicationId: _react2.default.PropTypes.string.isRequired,
 	algoliaApiKey: _react2.default.PropTypes.string.isRequired,
@@ -325,6 +331,7 @@ AlgoliaSearcher.defaultProps = {
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
 	searchButtonText: 'Search',
+	searchResultsHeading: 'Search results',
 	iframeTitle: 'Knowledge base article',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
@@ -380,7 +387,7 @@ var SearchResult = function SearchResult(props) {
 	var post = props.post;
 	var description = post.excerpt || post.metadesc;
 	return _react2.default.createElement(
-		'div',
+		'li',
 		null,
 		_react2.default.createElement(
 			'a',
@@ -395,7 +402,7 @@ var SearchResult = function SearchResult(props) {
 					{ className: 'wpseo-kb-search-result-title' },
 					post.post_title
 				),
-				_react2.default.createElement(
+				description && _react2.default.createElement(
 					'p',
 					null,
 					description
@@ -635,53 +642,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		});
 	}
 
-	/**
-  * Shows the "buy Yoast SEO premium" popup.
-  */
-	function showContactPopup() {
-		var $ = jQuery;
-		var $buyButton = $('#wpseo-contact-support-popup'),
-		    title = 'Buy Yoast SEO premium',
-		    $popupWindow,
-		    $closeButton;
-
-		tb_show(title, '#TB_inline?width=650&height=235&inlineId=wpseo-contact-support-popup', 'group');
-
-		// The thicbox popup UI is now available.
-		$popupWindow = $('#TB_window');
-		$closeButton = $('#TB_closeWindowButton');
-
-		// The container window isn't the correct size, rectify this and also the centering.
-		$popupWindow.css({ width: 680, height: 235, 'margin-left': -340 });
-
-		// Accessibility improvements.
-		$popupWindow.attr({
-			role: 'dialog',
-			'aria-labelledby': 'TB_ajaxWindowTitle',
-			'aria-describedby': 'TB_ajaxContent'
-		}).on('keydown', function (event) {
-			var id;
-
-			// Constrain tabbing within the modal.
-			if (9 === event.which) {
-				id = event.target.id;
-
-				if (id === 'wpseo-contact-support-popup-button' && !event.shiftKey) {
-					$closeButton.focus();
-					event.preventDefault();
-				} else if (id === 'TB_closeWindowButton' && event.shiftKey) {
-					$buyButton.focus();
-					event.preventDefault();
-				}
-			}
-		});
-
-		// Move focus back to the element that opened the modal.
-		$('body').on('thickbox:removed', function () {
-			$('.contact-support').focus();
-		});
-	}
-
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
@@ -699,6 +659,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 				noResultsText: wpseoAdminL10n.kb_no_results,
 				headingText: wpseoAdminL10n.kb_heading,
 				searchButtonText: wpseoAdminL10n.kb_search_button_text,
+				searchResultsHeading: wpseoAdminL10n.kb_search_results_heading,
 				errorMessage: wpseoAdminL10n.kb_error_message,
 				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
 				search: wpseoAdminL10n.kb_search,
@@ -726,11 +687,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			});
 			var usedQueries = activeAlgoliaSearcher.state.usedQueries;
 			jQuery(window).trigger('YoastSEO:ContactSupport', { usedQueries: usedQueries });
-		});
-
-		/* Fix banner images overlapping help texts */
-		jQuery('.screen-meta-toggle a').click(function () {
-			jQuery('#sidebar-container').toggle();
 		});
 
 		// events

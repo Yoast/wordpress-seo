@@ -24689,8 +24689,9 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 					leavePostNameUntouched = false;
 					return;
 				}
-
-				document.getElementById( 'post_name' ).value = value;
+				if( document.getElementById( 'post_name' ) !== null ) {
+					document.getElementById( 'post_name' ).value = value;
+				}
 				if (
 					document.getElementById( 'editable-post-name' ) !== null &&
 					document.getElementById( 'editable-post-name-full' ) !== null ) {
@@ -25230,10 +25231,11 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
 				YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
 			}
-
-			tinyMCE.on( 'AddEditor' , function( ) {
-				enableMarkerButtons( );
-			} );
+			if( isTinyMCELoaded() ) {
+				tinyMCE.on( 'AddEditor' , function( ) {
+					enableMarkerButtons( );
+				} );
+			}
 		}
 	}
 
