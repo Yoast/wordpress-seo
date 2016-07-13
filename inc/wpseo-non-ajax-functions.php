@@ -41,10 +41,10 @@ function wpseo_admin_bar_menu() {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
 		if ( $analysis_seo->is_enabled() ) {
-			$score = return_adminbar_seo_score();
+			$score = wpseo_adminbar_seo_score();
 		}
 		elseif ( $analysis_readability->is_enabled() ) {
-			$score = return_adminbar_content_score();
+			$score = wpseo_adminbar_content_score();
 		}
 
 		$seo_url = get_edit_post_link( $post->ID );
@@ -52,10 +52,10 @@ function wpseo_admin_bar_menu() {
 
 	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) )  || is_tax() ) {
 		if ( $analysis_seo->is_enabled() ) {
-			$score = return_tax_adminbar_seo_score();
+			$score = wpseo_tax_adminbar_seo_score();
 		}
 		elseif ( $analysis_readability->is_enabled() ) {
-			$score = return_tax_adminbar_content_score();
+			$score = wpseo_tax_adminbar_content_score();
 		}
 
 		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
@@ -290,50 +290,53 @@ function wpseo_admin_bar_menu() {
 /**
  * Returns the SEO score element for the adminbar.
  *
- * @return string return_adminbar_score
+ * @return string
  */
-function return_adminbar_seo_score() {
+function wpseo_adminbar_seo_score() {
 	$rating = WPSEO_Meta::get_value( 'linkdex', get_the_ID() );
-	return return_adminbar_score( $rating );
+
+	return wpseo_adminbar_score( $rating );
 }
 
 /**
  * Returns the content score element for the adminbar.
  *
- * @return string return_adminbar_score
+ * @return string
  */
-function return_adminbar_content_score() {
+function wpseo_adminbar_content_score() {
 	$rating = WPSEO_Meta::get_value( 'content_score', get_the_ID() );
-	return return_adminbar_score( $rating );
+
+	return wpseo_adminbar_score( $rating );
 }
 
 /**
  * Returns the SEO score element for the adminbar.
  *
- * @return string return_adminbar_score
+ * @return string
  */
-function return_tax_adminbar_seo_score() {
+function wpseo_tax_adminbar_seo_score() {
 	$rating = 0;
 
 	if ( is_tax() || is_category() || is_tag() ) {
 		$rating = WPSEO_Taxonomy_Meta::get_meta_without_term( 'linkdex' );
 	}
 
-	return return_adminbar_score( $rating );
+	return wpseo_adminbar_score( $rating );
 }
 
 /**
  * Returns the Content score element for the adminbar.
  *
- * @return string return_adminbar_score
+ * @return string
  */
-function return_tax_adminbar_content_score() {
+function wpseo_tax_adminbar_content_score() {
 	$rating = 0;
 
 	if ( is_tax() || is_category() || is_tag() ) {
 		$rating = WPSEO_Taxonomy_Meta::get_meta_without_term( 'content_score' );
 	}
-	return return_adminbar_score( $rating );
+
+	return wpseo_adminbar_score( $rating );
 }
 
 /**
@@ -343,7 +346,7 @@ function return_tax_adminbar_content_score() {
  *
  * @return string $score_adminbar_element
  */
-function return_adminbar_score( $score ) {
+function wpseo_adminbar_score( $score ) {
 	$score = WPSEO_Utils::translate_score( $score );
 
 	$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score '. $score .'"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
