@@ -2,13 +2,107 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
-= 3.3.3 =
+= 3.2.5 =
 
-Release Date: June 30th, 2016
+Release date: May 6th, 2016
 
 * Bugfixes:
-	* Fixes a bug where the focus keyword is not shown for posts created while using WordPress SEO 2.x.
-	* Fixes a bug where changing the title in the bulk editor could be used to trigger JavaScript for the current user.
+    * Fixes a bug in the text analysis when there are more images, the alt tags are not analysed as expected.
+    * Fixes a fatal when the BCMath component has been disabled in the host environment.
+    * Fixes a fatal in wp-admin when certain plugins which hide the login are activated.
+    * Fixes a warning in the sitemap index when no post types are shown and a last modified date is being requested.
+    * Adds missing capability checks in AJAX request responses.
+
+= 3.2.4 =
+
+Release date: April 28th, 2016
+
+* Bugfixes:
+	* Fixes a regression where the post URL would be numerical when no post title was set.
+	* Fixes an issue that would cause notifications not to be dismissed even though they should be.
+
+= 3.2.3 =
+
+Release Date: April 21th, 2016
+
+* Bugfixes:
+	* Fixes a bug where the update notification cannot be dismissed
+	* Fixes a bug where the notifications can be shown multiple times
+
+= 3.2.2 =
+
+Release Date: April 21th, 2016
+
+* Bugfix:
+	* Fixes a bug where the text analysis was broken in certain languages in certain cases.
+
+= 3.2.1 =
+
+Release Date: April 20th, 2016
+
+* Bugfix:
+	* Fixes bug where settings of the Advanced tabs "permalinks" and "rss" were no longer saved.
+
+= 3.2.0 =
+
+Release Date: April 20th, 2016
+
+* Features:
+	* Adds an option to disable post format archives.
+	* Adds template function to retrieve the primary term. The functions are yoast_get_primary_term_id and yoast_get_primary_term.
+	* Enables primary term for every taxonomy by default.
+	* Adds a primary category replacement variable: `%%primary_category%%`.
+	* Adds a Yoast help center to every settings page with a screencast explaining that specific page.
+	* Introduces new help buttons in place of qtip, which makes these descriptions much more accessible.
+
+* Enhancements:
+	* Adds pinterest icon to the pinterest settings tab.
+	* Clarifies the text on the pinterest settings tab.
+	* Improves searchability of select inputs by using select2.
+	* Adds filters to customize sitemaps' <urlset>, props [Mark Walker](https://github.com/mnwalker).
+	* Uses `wp_register_script` and `wp_register_style` on init so other plugins can customize our assets.
+	* Changes minimum text length content analysis check for terms to require 150 words instead of 300.
+	* Removes analyses from the term analysis that weren't applicable to terms.
+	* Improves code architecture of sitemaps.
+	* Moves the OnPage.org settings to the webmaster tab.
+	* Improves performance when importing or migrating posts, thanks [sun](https://github.com/sun).
+	* Adds caching to empty sitemaps.
+	* Adds parsing of shortcodes before recalculating all posts.
+	* Improves detection of static xml sitemaps.
+	* Makes sure external links in the metabox open in a new window, props [Borja Abad](https://github.com/mines).
+	* Makes the descriptions on the archives tab of the titles and meta's more clear.
+	* Removes noydir setting since Yahoo! directory doesn't exist anymore.
+	* Removes other tab from the import screen, these plugins have all been deprecated.
+	* Removes all settings to hide specific tags inside the head.
+	* Improves accessibility of add keyword modal.
+	* Improves accessibility of metabox.
+	* Switches all yoa.st links to be HTTPS.
+	* Removes Google+ specific post and term meta fields since Facebook and Google+ metadata were conflicting.
+	* Moves the replace vars help docs to the help center module on the titles and meta's settings page.
+
+* Bugfixes:
+	* Fixes a bug where the breadcrumbs title field was hidden even though the theme supported breadcrumbs.
+	* Fixes a bug where underscores in like queries weren't correctly escaped, thanks [Konstantin Kovshenin](https://github.com/kovshenin) and [Damian Hodgkiss](https://github.com/damianhodgkiss)
+	* Fixes a bug where text inside a [caption] shortcode wouldn't be removed correctly in auto generated meta descriptions, props [Kevin Lisota](https://github.com/kevinlisota)
+	* Fixes a bug where a message to add headings to the text would only be shown if a keyword was set.
+	* Fixes a bug where a message to add links to the text would only be shown if a keyword was set.
+	* Fixes compatibility issues with plugins that included mootools or prototypejs.
+	* Fixes a bug where the 404 page didn't correctly have a noindex and a nofollow set.
+	* Fixes a bug where internal taxonomies would be shown in the sitemap exlusion settings.
+	* Fixes a bug in the activation and deactivation where we would execute our code for every network, props [Felix Arntz](https://github.com/felixarntz).
+	* Fixes a bug where the primary category wasn't taken into account when calling `get_permalink` on the frontend.
+	* Fixes a compatibility issue with MultilingualPress, props [Thorsten Frommen](https://github.com/tfrommen).
+	* Fixes compatibility issues with Easing Slider and WooCommerce Variation Swatches and Photos.
+	* Fixes a bug where a JavaScript template wasn't included when the dependent JavaScript was, props [Darren Ethier](https://github.com/nerrad).
+	* Fixes a bug where the descriptions for removing the stopwords and the ?replytocom were merged.
+	* Fixes a bug where the recommended Facebook image dimensions weren't the same as the Facebook documentation.
+	* Fixes a bug where the dashboard widget wasn't cached correctly, props [Marko Heijnen](https://github.com/markoheijnen)
+	* Fixes a bug where the sitemaps weren't cached correctly on 32 bit systems.
+	* Fixes an issue where multi term archives didn't have a noindex set.
+	* Fixes a bug where we would do an AJAX request on every keystroke in the focus keyword field.
+	* Fixes a bug where we would check for shortcodes on every keystroke in the content field.
+	* Fixes a bug where rewrite rules wouldn't be flushed correctly on plugin activation.
+	* Fixes a bug where the GlotPress banner wouldn't load on HTTPS sites.
 
 = 3.1.2 =
 
