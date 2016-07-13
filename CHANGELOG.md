@@ -5,6 +5,36 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.4: July 19th, 2016
+
+### Changed
+    * Improves feedback texts of assessments.
+    * Improves Russian transliteration.
+    * Determine length of title based on the width in pixels instead of on number of characters.
+    * Words comprised of only digits are no longer counted in the Flesch Reading assessment.
+    * Improves passive voice detection by omitting HTML tags.
+    * Non breaking spaces are replaced with normal spaces in word boundaries.
+### Fixed
+    * Improved keyword density assessment by scoring on the rounded result.
+    * ¿ and ¡ are now accepted as sentence beginnings.
+    * Fix a bug where the text assessment would fail with exactly 300 words.
+    * Fix a bug in the competing links assessment where a link to the same post would be counted as an outbound link.
+### Added
+* Transliterations for the following languages:
+    * Breton, Chamorro, Corsican, Kashubian, Welsh, Ewe
+    * Estonian, Basque, Fulah, Fijian, Arpitan, Friulian
+    * Frisian, Irish, Scottish Gaelic, Galician, Guarani
+    * Swiss German, Haitian Creole, Hawaiian, Croatian
+    * Georgian, Greenlandic, Kinyarwanda, Luxembourgish
+    * Limburgish, Lingala, Lithuanian, Malagasy, Macedonian
+    * Maori, Mirandese, Occitan, Oromo, Portuguese, Romansh Vallader
+    * Aromanian, Romanian, Slovak, Slovenian, Albanian
+    * Klingon (in Latin characters, not KLI PlqaD script yet)
+    * Hungarian, Sardinian, Silesian, Tahitian, Venetian, Walloon
+* Added assessment for consecutive sentences beginning with the same word for the following languages:
+    * English, German, French, Spanish.
+* Added transition words for German, French and Spanish.
+
 ## 1.3.3: June 21st, 2016
 
 ### Changed
