@@ -7,21 +7,19 @@ var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
 var MARK_TAG = 'yoastmark';
 
 /**
- * Saves the content to the editor, then retrieves it to replace any invalid marks where < and > are converted to
- * html entities so these can be filtered out to keep the output text clean.
+ * Cleans the editor of any invalid marks. Invalid marks are marks where < and > are converted to
+ * html entities by tinyMCE so these can be filtered out to keep the output text clean.
  *
  * @param {tinyMCE.Editor} editor The editor to remove invalid marks from.
- * @param {string} html The text to clean invalid marks in.
- * @returns {string} The text with invalid marks removed.
  */
-function removeInvalidMarks( editor, html ) {
-	editor.setContent( html );
+function removeInvalidMarks( editor ) {
+	var html = editor.getContent();
 
-	html = editor.getContent();
-
-	return html
+	html = html
 		.replace( new RegExp( '&lt;yoastmark.+?(?=&gt;)&gt;', 'g' ), '' )
 		.replace( new RegExp( '&lt;/yoastmark&gt;', 'g' ), '' );
+
+	editor.setContent( html );
 }
 
 /**
@@ -41,10 +39,10 @@ function markTinyMCE( editor, paper, marks ) {
 		html = mark.applyWithReplace( html );
 	});
 
-	html = removeInvalidMarks( html );
-
 	// Replace the contents in the editor with the marked HTML.
 	editor.setContent( html );
+
+	removeInvalidMarks( editor );
 
 	var markElements = dom.select( MARK_TAG );
 	/*
