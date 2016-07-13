@@ -131,7 +131,7 @@ class AlgoliaSearcher extends React.Component {
                 return <SearchResult key={result.objectID} post={result}
                                      showDetail={this.showDetail.bind( this, arrayIndex )}/>
             } );
-			searchResultContent = <div className="wpseo-kb-search-results">{results}</div>;
+			searchResultContent = <ul role="list" className="wpseo-kb-search-results">{results}</ul>;
 		}
 		else if ( this.state.searchString !== '' ) {
 			searchResultContent = <p>{this.props.noResultsText}</p>;
@@ -211,6 +211,7 @@ class AlgoliaSearcher extends React.Component {
             content = (
                 <div>
                     {searchBar}
+					{ this.state.results.length > 0 ? <h2 className="screen-reader-text">{this.props.searchResultsHeading}</h2> : '' }
                     {this.renderSearchResults()}
                 </div>
             );
@@ -226,6 +227,7 @@ AlgoliaSearcher.propTypes = {
 	noResultsText: React.PropTypes.string,
 	headingText: React.PropTypes.string,
 	searchButtonText: React.PropTypes.string,
+	searchResultsHeading: React.PropTypes.string,
 	iframeTitle: React.PropTypes.string,
 	algoliaApplicationId: React.PropTypes.string.isRequired,
 	algoliaApiKey: React.PropTypes.string.isRequired,
@@ -242,6 +244,7 @@ AlgoliaSearcher.defaultProps = {
 	noResultsText: 'No results found.',
 	headingText: 'Search the Yoast knowledge base',
 	searchButtonText: 'Search',
+	searchResultsHeading: 'Search results',
 	iframeTitle: 'Knowledge base article',
 	algoliaApplicationId: 'RC8G2UCWJK',
 	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
@@ -285,14 +288,14 @@ const SearchResult = ( props ) => {
 	let post = props.post;
 	let description = post.excerpt || post.metadesc;
 	return (
-		<div>
+		<li>
 			<a href={post.permalink} onClick={ function( evt ) { evt.preventDefault(); props.showDetail() } } className="wpseo-kb-search-result-link">
 				<div className="wpseo-kb-search-result">
 					<h3 className="wpseo-kb-search-result-title">{post.post_title}</h3>
-					<p>{description}</p>
+					{ description && <p>{description}</p> }
 				</div>
 			</a>
-		</div>
+		</li>
 	);
 };
 

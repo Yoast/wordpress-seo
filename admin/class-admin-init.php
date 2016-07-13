@@ -548,7 +548,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function is_blog_public() {
-		return '1' === get_option( 'blog_public' );
+		return '1' == get_option( 'blog_public' );
 	}
 
 	/**
