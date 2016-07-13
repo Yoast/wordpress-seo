@@ -121,6 +121,22 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date: July 19th, 2016
 
 * Enhancements:
+	* Adds readability checks for consecutive sentences beginning with the same word for the following languages:
+		* English, German, French, Spanish.
+	* Adds transition words for readability checks for German, French and Spanish.
+	* Adds transliterations for the following languages:
+		* Breton, Chamorro, Corsican, Kashubian, Welsh, Ewe
+		* Estonian, Basque, Fulah, Fijian, Arpitan, Friulian
+		* Frisian, Irish, Scottish Gaelic, Galician, Guarani
+		* Swiss German, Haitian Creole, Hawaiian, Croatian
+		* Georgian, Greenlandic, Kinyarwanda, Luxembourgish
+		* Limburgish, Lingala, Lithuanian, Malagasy, Macedonian
+		* Maori, Mirandese, Occitan, Oromo, Portuguese, Romansh Vallader
+		* Aromanian, Romanian, Slovak, Slovenian, Albanian
+		* Klingon (in Latin characters, not KLI PlqaD script yet)
+		* Hungarian, Sardinian, Silesian, Tahitian, Venetian, Walloon
+	* Improves the Russian transliteration.
+	* Improves the feedback strings of content checks.
 	* Adds a setting and a user option to disable the SEO analysis.
 	* Adds the readability score to the post and term overview.
 	* Disables the analysis marker buttons when switching from visual to text view in the editor.
@@ -260,7 +276,8 @@ Release Date: June 14th, 2016
 
 * Removed:
 	* Removes the ability to sort on the post score column, because the scores aren't meant to be sorted.
-	* Removes recalculation because there were too many issues with integration missing that can only be added on the actual post edit admin page.
+	* Removes recalculation because there were too many
+	issues with integration missing that can only be added on the actual post edit admin page.
 	* Removes `json_encode` wrapper, it was only necessary for older WordPress versions.
 
 = Earlier versions =
