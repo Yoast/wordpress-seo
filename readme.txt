@@ -121,7 +121,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date: July 19th, 2016
 
 * Enhancements:
-	* Adds the setting and user option to disable the SEO analysis.
+	* Adds a setting and a user option to disable the SEO analysis.
 	* Adds the readability score to the post and term overview.
 	* Disables the analysis marker buttons when switching from visual to text view in the editor.
 	* Accessibility enhancements:
@@ -135,9 +135,9 @@ Release Date: July 19th, 2016
 			* general settings
 		* Improves the headings hierarchy for dashboard alerts.
 		* Improves the debug information headings.
-		* Adds a legend on the titles and metas page.
+		* Adds a legend for the title seperator on the titles and metas page.
 		* Improves the intro text of the social tabs.
-		* Always use the buttons css class for buttons.
+		* Improves consistency of buttons using WordPress styles.
 		* Adds a background to the YoastSEO issue counter to improve readability.
 		* Improves the focus style for the dismiss and restore buttons.
 		* Improves the redirect attachment warnings style by using the native WordPress notices style.
@@ -150,19 +150,18 @@ Release Date: July 19th, 2016
 		* Makes the knowledge base search button translatable.
 		* Improves the semantics of the knowledge base results.
 	* Improves the alignment of the icons in the metabox tab sections.
-	* Don't do a strict check on blog_public
-	* Improve code to comply with WordPress standards, props [danielbachhuber](https://github.com/danielbachhuber).
+	* Improve code to be consistent with WordPress standards, props [danielbachhuber](https://github.com/danielbachhuber).
 
 * Bugfixes:
 	* Fixes a bug where non-ANSI characters would break the sitemap feature.
-	* Fixes a bug where MS Edge would not display the traffic light image in the help centre properly.
+	* Fixes a bug where MS Edge would not display the traffic light image in the help center properly.
 	* Fixes a bug where the style of the 'open article' button was overwritten and made unreadable.
 	* Fixes the link of the FAQ that linked to a non-existing page.
 	* Fixes a typo to make the KB search "Open" link translatable.
 	* Reintroduces the text length check for taxonomies.
 	* Fixes a bug where a 404 could be thrown when there was no locale set.
-	* Fixes a bug where a yoastmark would leave traces in the text, these are now removed.
-	* Shows a colored bullet for the analysis in the preview screen.
+	* Fixes a bug where in certain cases a yoastmark would leave traces in the text, these are now removed.
+	* Fixes a bug where the score bullet wouldn't be shown on the frontend.
 	* Fixes the generation of permalinks for new posts by ignoring the permalink sample and generating the permalink
 	from the posttitle, props [rob006](https://github.com/rob006).
 	* Fixes getting the incorrect primary category when getting the permalink, props [pawawat](https://github.com/pawawat).
