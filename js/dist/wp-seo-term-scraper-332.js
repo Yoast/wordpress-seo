@@ -24509,7 +24509,7 @@ function removeInvalidMarks( editor ) {
 	var html = editor.getContent();
 
 	html = html
-		.replace( new RegExp( '&lt;yoastmark.+?(?=&gt;)&gt;', 'g' ), '' )
+		.replace( new RegExp( '&lt;yoastmark.+?&gt;', 'g' ), '' )
 		.replace( new RegExp( '&lt;/yoastmark&gt;', 'g' ), '' );
 
 	editor.setContent( html );
