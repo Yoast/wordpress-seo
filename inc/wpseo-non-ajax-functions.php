@@ -51,7 +51,6 @@ function wpseo_admin_bar_menu() {
 	}
 
 	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) )  || is_tax() ) {
-		echo '<script> console.log("After is taxonomy test");</script>';
 		if ( $analysis_seo->is_enabled() ) {
 			$score = return_tax_adminbar_seo_score();
 		}
