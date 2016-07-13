@@ -63,7 +63,7 @@ module.exports = function( paper ) {
 			return "";
 		}
 		var firstWord = removeNonWordCharacters( words[ 0 ] ).toLocaleLowerCase();
-		if ( firstWordExceptions.indexOf( firstWord ) > -1 ) {
+		if ( firstWordExceptions.indexOf( firstWord ) > -1 && words.length > 1 ) {
 			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
 		}
 		return firstWord;
