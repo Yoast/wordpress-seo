@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-07 14:49+0200\n"
+"POT-Creation-Date: 2016-07-13 13:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,7 +104,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
-#: js/assessments/keywordDensityAssessment.js:25
+#: js/assessments/keywordDensityAssessment.js:29
 msgid ""
 "The keyword density is %1$s, which is way over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
@@ -112,21 +112,21 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
-#: js/assessments/keywordDensityAssessment.js:39
+#: js/assessments/keywordDensityAssessment.js:43
 msgid ""
 "The keyword density is %1$s, which is over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: js/assessments/keywordDensityAssessment.js:52
+#: js/assessments/keywordDensityAssessment.js:56
 msgid ""
 "The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: js/assessments/keywordDensityAssessment.js:62
+#: js/assessments/keywordDensityAssessment.js:66
 msgid ""
 "The keyword density is %1$s, which is too low; the focus keyword was found "
 "%2$d times."
@@ -406,8 +406,9 @@ msgstr[1] ""
 #. Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words.
 #: js/assessments/taxonomyTextLengthAssessment.js:26
 #: js/assessments/textLengthAssessment.js:24
-msgid "This is more than the recommended minimum of %2$d word."
-msgid_plural "This is more than the recommended minimum of %2$d words."
+msgid "This is more than or equal to the recommended minimum of %2$d word."
+msgid_plural ""
+"This is more than or equal to the recommended minimum of %2$d words."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -505,17 +506,17 @@ msgid ""
 "analysis."
 msgstr ""
 
-#: js/assessments/titleKeywordAssessment.js:16
+#: js/assessments/titleKeywordAssessment.js:17
 msgid "The focus keyword '%1$s' does not appear in the SEO title."
 msgstr ""
 
-#: js/assessments/titleKeywordAssessment.js:21
+#: js/assessments/titleKeywordAssessment.js:22
 msgid ""
 "The SEO title contains the focus keyword, at the beginning which is "
 "considered to improve rankings."
 msgstr ""
 
-#: js/assessments/titleKeywordAssessment.js:27
+#: js/assessments/titleKeywordAssessment.js:28
 msgid ""
 "The SEO title contains the focus keyword, but it does not appear at the "
 "beginning; try and move it to the beginning."
@@ -636,7 +637,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the name of the assessment.
 #: js/assessor.js:181
-msgid "An error occured in the '%1$s' assessment"
+msgid "An error occurred in the '%1$s' assessment"
 msgstr ""
 
 #: js/bundledPlugins/previouslyUsedKeywords.js:65
@@ -744,10 +745,10 @@ msgid ""
 "You can click on each element in the preview to jump to the Snippet Editor."
 msgstr ""
 
-#: js/snippetPreview.js:578
+#: js/snippetPreview.js:577
 msgid "Please provide an SEO title by editing the snippet below."
 msgstr ""
 
-#: js/snippetPreview.js:654
+#: js/snippetPreview.js:653
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
