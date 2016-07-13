@@ -123,7 +123,7 @@ Release Date: July 19th, 2016
 * Enhancements:
 	* Adds readability checks for consecutive sentences beginning with the same word for the following languages:
 		* English, German, French, Spanish.
-	* Adds transition words for readability checks for German, French and Spanish.
+	* Adds transition words check for German, French and Spanish.
 	* Adds transliterations for the following languages:
 		* Breton, Chamorro, Corsican, Kashubian, Welsh, Ewe
 		* Estonian, Basque, Fulah, Fijian, Arpitan, Friulian
