@@ -188,5 +188,4 @@ class Yoast_Dashboard_Widget {
 
 		return $analysis_seo->is_enabled();
 	}
-
 }
