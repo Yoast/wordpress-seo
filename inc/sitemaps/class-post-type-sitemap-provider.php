@@ -359,7 +359,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$needs_archive = true;
 
-		if ( ! $this->get_page_on_front_id() && ( $post_type == 'post' || $post_type == 'page' ) ) {
+		if ( ! $this->get_page_on_front_id() && $post_type == 'page' ) {
 
 			$links[] = array(
 				'loc' => $this->get_home_url(),
@@ -396,7 +396,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link', $archive_url, $post_type );
 
-		if ( $archive_url ) {
+		if ( $archive_url && rtrim( $archive_url, '/' ) !== rtrim( $this->get_home_url(), '/' ) ) {
 			/**
 			 * Filter the priority of the URL Yoast SEO uses in the XML sitemap.
 			 *
@@ -600,7 +600,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$return = 0.8;
 		}
 
-		if ( $post->ID === $this->get_page_on_front_id() || $post->ID === $this->get_page_for_posts_id() ) {
+		if ( (int) $post->ID === $this->get_page_on_front_id() || (int) $post->ID === $this->get_page_for_posts_id() ) {
 			$return = 1.0;
 		}
 
