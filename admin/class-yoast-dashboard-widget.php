@@ -185,9 +185,8 @@ class Yoast_Dashboard_Widget {
 	 */
 	private function show_widget() {
 		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
-		return ( $analysis_seo->is_enabled() || $analysis_readability->is_enabled() );
+		return $analysis_seo->is_enabled();
 	}
-	
+
 }
