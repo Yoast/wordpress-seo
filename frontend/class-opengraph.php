@@ -772,11 +772,12 @@ class WPSEO_OpenGraph_Image {
 	 */
 	public function __construct( $options, $image = false ) {
 		$this->options = $options;
-		$this->set_images();
 
 		if ( ! empty( $image ) ) {
 			$this->add_image( $image );
 		}
+
+		$this->set_images();
 	}
 
 	/**
