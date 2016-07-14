@@ -836,6 +836,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$custom_replace_vars = array();
 
 		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
+
+			if ( is_string( $taxonomy ) ) { // If attachment, see https://core.trac.wordpress.org/ticket/37368 .
+				$taxonomy_name = $taxonomy;
+				$taxonomy      = get_taxonomy( $taxonomy_name );
+			}
+
 			if ( $taxonomy->_builtin && $taxonomy->public ) {
 				continue;
 			}
