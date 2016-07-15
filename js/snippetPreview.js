@@ -1163,7 +1163,9 @@ SnippetPreview.prototype.createMeasurementElements = function() {
  * Copies the title text to the title measure element to calculate the width in pixels.
  */
 SnippetPreview.prototype.measureTitle = function() {
-	this.data.titleWidth = this.element.rendered.title.offsetWidth;
+	if( this.element.rendered.title.offsetWidth !== 0 || this.element.rendered.title.textContent === "" ){
+		this.data.titleWidth = this.element.rendered.title.offsetWidth;
+	}
 };
 
 /**
