@@ -249,11 +249,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$stacked_urls[] = $url['loc'];
 
-				if ( (int) $post->ID === $this->get_page_for_posts_id() || (int) $post->ID === $this->get_page_on_front_id() ) {
-
+				if ( (int) $post->ID === $this->get_page_for_posts_id() ) {
+					continue;
+				}
+				
+				if ( (int) $post->ID === $this->get_page_on_front_id() ) {
 					array_unshift( $links, $url );
 					continue;
 				}
+				
 				$links[] = $url;
 			}
 			unset( $post, $url );
