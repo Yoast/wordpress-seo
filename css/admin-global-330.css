@@ -19,6 +19,13 @@
 	margin: 0;
 }
 
-.select2-results__option {
+.select2-results__option,
+.select2-selection__choice,
+.select2-search--inline {
 	margin-bottom: 0;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+	margin-top: 6px !important;
+	line-height: inherit;
 }
