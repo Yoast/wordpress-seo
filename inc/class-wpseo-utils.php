@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Internals
+ * @package    WPSEO\Internals
  * @since      1.8.0
  */
 
@@ -15,6 +15,9 @@ class WPSEO_Utils {
 	 * @static
 	 */
 	public static $has_filters;
+
+	/** @var array notifications to be shown in the JavaScript console */
+	protected static $console_notifications = array();
 
 	/**
 	 * Check whether the current user is allowed to access the configuration.
@@ -91,6 +94,45 @@ class WPSEO_Utils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Register a notification to be shown in the JavaScript console
+	 *
+	 * @param string $identifier    Notification identifier.
+	 * @param string $message       Message to be shown.
+	 * @param bool   $one_time_only Only show once (if added multiple times).
+	 */
+	public static function javascript_console_notification( $identifier, $message, $one_time_only = false ) {
+		static $registered_hook;
+
+		if ( is_null( $registered_hook ) ) {
+			add_action( 'admin_footer', array( __CLASS__, 'localize_console_notices' ), 999 );
+			$registered_hook = true;
+		}
+
+		$prefix = 'Yoast SEO: ';
+		if ( substr( $message, 0, strlen( $prefix ) ) !== $prefix ) {
+			$message = $prefix . $message;
+		}
+
+		if ( $one_time_only ) {
+			self::$console_notifications[ $identifier ] = $message;
+		}
+		else {
+			self::$console_notifications[] = $message;
+		}
+	}
+
+	/**
+	 * Localize the console notifications to JavaScript
+	 */
+	public static function localize_console_notices() {
+		if ( empty( self::$console_notifications ) ) {
+			return;
+		}
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoConsoleNotifications', array_values( self::$console_notifications ) );
 	}
 
 	/**
@@ -454,19 +496,19 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param mixed  $number1   Scalar (string/int/float/bool).
-	 * @param string $action    Calculation action to execute. Valid input:
+	 * @param mixed  $number1     Scalar (string/int/float/bool).
+	 * @param string $action      Calculation action to execute. Valid input:
 	 *                            '+' or 'add' or 'addition',
 	 *                            '-' or 'sub' or 'subtract',
 	 *                            '*' or 'mul' or 'multiply',
 	 *                            '/' or 'div' or 'divide',
 	 *                            '%' or 'mod' or 'modulus'
 	 *                            '=' or 'comp' or 'compare'.
-	 * @param mixed  $number2   Scalar (string/int/float/bool).
-	 * @param bool   $round     Whether or not to round the result. Defaults to false.
-	 *                          Will be disregarded for a compare operation.
-	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
-	 * @param int    $precision Calculation precision. Defaults to 10.
+	 * @param mixed  $number2     Scalar (string/int/float/bool).
+	 * @param bool   $round       Whether or not to round the result. Defaults to false.
+	 *                            Will be disregarded for a compare operation.
+	 * @param int    $decimals    Decimals for rounding operation. Defaults to 0.
+	 * @param int    $precision   Calculation precision. Defaults to 10.
 	 *
 	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
 	 *                          an invalid operation was passed
@@ -604,8 +646,7 @@ class WPSEO_Utils {
 
 		try {
 			return new DateTime( $datetime ) !== false;
-		}
-		catch ( Exception $exc ) {
+		} catch ( Exception $exc ) {
 			return false;
 		}
 	}
@@ -793,6 +834,39 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Returns a base64 URL for the svg for use in the menu
+	 *
+	 * @param bool $base64 Whether or not to return base64'd output.
+	 *
+	 * @return string
+	 */
+	public static function get_icon_svg( $base64 = true ) {
+		$svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" style="fill:#82878c" viewBox="0 0 512 512"><g><g><g><g><path d="M203.6,395c6.8-17.4,6.8-36.6,0-54l-79.4-204h70.9l47.7,149.4l74.8-207.6H116.4c-41.8,0-76,34.2-76,76V357c0,41.8,34.2,76,76,76H173C189,424.1,197.6,410.3,203.6,395z"/></g><g><path d="M471.6,154.8c0-41.8-34.2-76-76-76h-3L285.7,365c-9.6,26.7-19.4,49.3-30.3,68h216.2V154.8z"/></g></g><path stroke-width="2.974" stroke-miterlimit="10" d="M338,1.3l-93.3,259.1l-42.1-131.9h-89.1l83.8,215.2c6,15.5,6,32.5,0,48c-7.4,19-19,37.3-53,41.9l-7.2,1v76h8.3c81.7,0,118.9-57.2,149.6-142.9L431.6,1.3H338z M279.4,362c-32.9,92-67.6,128.7-125.7,131.8v-45c37.5-7.5,51.3-31,59.1-51.1c7.5-19.3,7.5-40.7,0-60l-75-192.7h52.8l53.3,166.8l105.9-294h58.1L279.4,362z"/></g></g></svg>';
+
+		if ( $base64 ) {
+			return 'data:image/svg+xml;base64,' . base64_encode( $svg );
+		}
+
+		return $svg;
+	}
+
+	/**
+	 * Returns the language part of a given locale, defaults to english when the $locale is empty
+	 *
+	 * @param string $locale The locale to get the language of.
+	 * @returns string The language part of the locale.
+	 */
+	public static function get_language( $locale ) {
+		$language = 'en';
+
+		if ( ! empty( $locale ) && strlen( $locale ) >= 2 ) {
+			$language = substr( $locale, 0, 2 );
+		}
+
+		return $language;
+	}
+
+	/**
 	 * Wrapper for the PHP filter input function.
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
@@ -852,8 +926,8 @@ class WPSEO_Utils {
 	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
 	 *
 	 * @param array $array_to_encode The array which will be encoded.
-	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
-	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
+	 * @param int   $options         Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth           Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
 	 *
 	 * @return false|string
 	 */

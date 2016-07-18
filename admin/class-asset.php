@@ -8,6 +8,9 @@
  */
 class WPSEO_Admin_Asset {
 
+	const TYPE_JS = 'js';
+	const TYPE_CSS = 'css';
+
 	const NAME = 'name';
 	const SRC = 'src';
 	const DEPS = 'deps';
@@ -16,7 +19,7 @@ class WPSEO_Admin_Asset {
 	// Style specific.
 	const MEDIA = 'media';
 
-	// Script specififc.
+	// Script specific.
 	const IN_FOOTER = 'in_footer';
 
 	/**
@@ -76,13 +79,13 @@ class WPSEO_Admin_Asset {
 			'suffix'    => WPSEO_CSSJS_SUFFIX,
 		), $args );
 
-		$this->name = $args['name'];
-		$this->src = $args['src'];
-		$this->deps = $args['deps'];
-		$this->version = $args['version'];
-		$this->media = $args['media'];
+		$this->name      = $args['name'];
+		$this->src       = $args['src'];
+		$this->deps      = $args['deps'];
+		$this->version   = $args['version'];
+		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
-		$this->suffix = $args['suffix'];
+		$this->suffix    = $args['suffix'];
 	}
 
 	/**
@@ -132,5 +135,70 @@ class WPSEO_Admin_Asset {
 	 */
 	public function get_suffix() {
 		return $this->suffix;
+	}
+
+	/**
+	 * Returns the full URL for this asset based on the path to the plugin file.
+	 *
+	 * @param string $type        Type of asset.
+	 * @param string $plugin_file Absolute path to the plugin file.
+	 *
+	 * @return string The full URL to the asset.
+	 */
+	public function get_url( $type, $plugin_file ) {
+
+		$relative_path = $this->get_relative_path( $type );
+		if ( empty( $relative_path ) ) {
+			return '';
+		}
+
+		if ( ! $this->get_suffix() ) {
+
+			$plugin_path = plugin_dir_path( $plugin_file );
+			if ( ! file_exists( $plugin_path . $relative_path ) ) {
+
+				// Give a notice to the user in the console (only once).
+				WPSEO_Utils::javascript_console_notification(
+					'Development Files',
+					sprintf(
+						/* translators: %1$s resolves to https://github.com/Yoast/wordpress-seo */
+						__( 'You are trying to load non-minified files, these are only available in our development package. Check out %1$s to see all the source files.', 'wordpress-seo' ),
+						'https://github.com/Yoast/wordpress-seo'
+					),
+					true
+				);
+
+				// Just load the .min file.
+				$relative_path = $this->get_relative_path( $type, '.min' );
+			}
+		}
+
+		return plugins_url( $relative_path, $plugin_file );
+	}
+
+	/**
+	 * Get the relative file for this asset
+	 *
+	 * @param string $type         Type of this asset.
+	 * @param null   $force_suffix Force use suffix.
+	 *
+	 * @return string
+	 */
+	protected function get_relative_path( $type, $force_suffix = null ) {
+		$relative_path = '';
+
+		$suffix = ( is_null( $force_suffix ) ) ? $this->get_suffix() : $force_suffix;
+
+		switch ( $type ) {
+			case self::TYPE_JS:
+				$relative_path = 'js/dist/' . $this->get_src() . $suffix . '.js';
+				break;
+
+			case self::TYPE_CSS:
+				$relative_path = 'css/' . $this->get_src() . $suffix . '.css';
+				break;
+		}
+
+		return $relative_path;
 	}
 }

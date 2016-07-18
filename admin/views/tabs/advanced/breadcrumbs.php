@@ -9,13 +9,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$tab_video_url = $active_tab->get_video_url();
-if ( ! empty( $tab_video_url ) ) {
-	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
-}
-
-$yform = Yoast_Form::get_instance();
+$yform                = Yoast_Form::get_instance();
 $yform->currentoption = 'wpseo_internallinks';
+
+echo '<h2>' . __( 'Breadcrumbs settings', 'wordpress-seo' ) . '</h2>';
 
 if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
@@ -43,7 +40,7 @@ echo '<br/><br/>';
 
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	echo '<h3>' . __( 'Taxonomy to show in breadcrumbs for post types', 'wordpress-seo' ) . '</h3>';
+	echo '<h2>' . __( 'Taxonomy to show in breadcrumbs for post types', 'wordpress-seo' ) . '</h2>';
 	foreach ( $post_types as $pt ) {
 		$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
@@ -62,7 +59,7 @@ echo '<br/>';
 
 $taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-	echo '<h3>' . __( 'Post type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h3>';
+	echo '<h2>' . __( 'Post type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
 	foreach ( $taxonomies as $tax ) {
 		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 		if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
@@ -86,7 +83,7 @@ unset( $taxonomies, $post_types );
 ?>
 <br class="clear"/>
 </div>
-<h3><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h3>
+<h2><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h2>
 <p>
 	<?php
 	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
