@@ -29,9 +29,9 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 $tabs = new WPSEO_Option_Tabs( 'sitemaps' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps' ) ) );
 
-$all_options = WPSEO_Options::get_all();
+$title_options = WPSEO_Options::get_option( 'wpseo_titles' );
 
-if ( empty( $all_options['disable-author'] ) ) {
+if ( empty( $title_options['disable-author'] ) ) {
 	$tabs->add_tab( new WPSEO_Option_Tab( 'user-sitemap', __( 'User sitemap', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-user-sitemap' ) ) );
 }
 

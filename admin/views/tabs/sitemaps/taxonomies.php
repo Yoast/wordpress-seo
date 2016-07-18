@@ -22,9 +22,9 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			continue;
 		}
 
-		$all_options = WPSEO_Options::get_all();
+		$title_options = WPSEO_Options::get_option( 'wpseo_titles' );
 
-		if ( 'post_format' === $tax->name && ! empty( $all_options['disable-post_format'] ) ) {
+		if ( 'post_format' === $tax->name && ! empty( $title_options['disable-post_format'] ) ) {
 			continue;
 		}
 
