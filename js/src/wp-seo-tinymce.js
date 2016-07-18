@@ -99,6 +99,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			forEach( events, function( eventName ) {
 				editor.on( eventName, callback );
 			} );
+
 		});
 	}
 
@@ -144,6 +145,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
 				YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
 			}
+
 			if( isTinyMCELoaded() ) {
 				tinyMCE.on( 'AddEditor' , function( ) {
 					enableMarkerButtons( );
@@ -162,7 +164,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
 
 		addEventHandler( tmceId, [ 'hide' ], disableMarkerButtons );
-		addEventHandler( tmceId, [ 'show' ], enableMarkerButtons );
+		addEventHandler( tmceId, [ 'init', 'show' ], enableMarkerButtons );
 
 		addEventHandler( 'content', [ 'focus' ], function( evt ) {
 			var editor = evt.target;
