@@ -54,7 +54,7 @@ textarea.textinput,
 select.select,
 input.checkbox {
 	float: left;
-	margin: 5px 3px 10px 0;
+	margin: 0 3px 15px 0;
 	padding: 5px;
 }
 
@@ -62,8 +62,9 @@ select.select {
 	padding: 3px;
 }
 
+input.checkbox,
 input.checkbox.double {
-	margin: 5px 10px 0 0;
+	margin: 6px 10px 0 0;
 }
 
 .textinput.metadesc {
@@ -258,10 +259,6 @@ table.yoast_help tr:hover {
 .fb-buttons .button-primary,
 .fb-buttons .button {
 	margin-right: 8px;
-}
-
-.wpseo_content_wrapper input.wpseo_image_upload_button {
-	margin-top: 5px;
 }
 
 .postbox#donate {

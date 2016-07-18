@@ -9,8 +9,8 @@ p.desc {
 }
 
 p.desc.label {
-	margin-bottom: 20px;
-	padding: 2px 0 10px 200px;
+	margin: 0 0 20px;
+	padding: 0 0 10px 200px;
 }
 
 tr.yst_row {
@@ -37,6 +37,7 @@ label {
 
 label.radio {
 	float: none;
+	margin-right: 20px;
 }
 
 input.textinput,
@@ -51,10 +52,9 @@ input.checkbox + label.checkbox {
 
 input.textinput,
 textarea.textinput,
-select.select,
-input.checkbox {
+select.select {
 	float: left;
-	margin: 5px 3px 10px 0;
+	margin: 0 3px 15px 0;
 	padding: 5px;
 }
 
@@ -62,8 +62,10 @@ select.select {
 	padding: 3px;
 }
 
+input.checkbox,
 input.checkbox.double {
-	margin: 5px 10px 0 0;
+	float: left;
+	margin: 6px 10px 15px 0;
 }
 
 .textinput.metadesc {
@@ -89,10 +91,6 @@ label.checkbox {
 
 table.wpseo th {
 	text-align: left;
-}
-
-label.radio {
-	margin-right: 20px;
 }
 
 .wpseo_content_wrapper {
@@ -173,18 +171,7 @@ textarea.wpseo_variable_warning {
 }
 
 div.yoastbox ul li {
-	font-size: 11px;
-	line-height: 16px;
 	list-style: square;
-}
-
-div.yoastbox a {
-	font-family: sans-serif;
-	font-size: 12px;
-}
-
-div.yoastbox a:hover {
-	text-decoration: underline;
 }
 
 .text {
@@ -260,10 +247,6 @@ table.yoast_help tr:hover {
 	margin-right: 8px;
 }
 
-.wpseo_content_wrapper input.wpseo_image_upload_button {
-	margin-top: 5px;
-}
-
 .postbox#donate {
 	border: 2px green;
 }
@@ -312,10 +295,6 @@ h2 {
 
 h2 code {
 	font-size: 23px;
-}
-
-#wpseo-conf {
-	/*max-width: 600px;*/
 }
 
 #pointer-primary {
