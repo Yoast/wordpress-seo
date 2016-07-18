@@ -773,11 +773,12 @@ class WPSEO_OpenGraph_Image {
 	public function __construct( $options, $image = false ) {
 		$this->options = $options;
 
-		if ( ! empty( $image ) ) {
-			$this->add_image( $image );
+		if ( ! empty( $image ) && $this->add_image( $image ) ) {
+			// Safely assume an image was added so we don't need to automatically determine it anymore.
 		}
-
-		$this->set_images();
+		else {
+			$this->set_images();
+		}
 	}
 
 	/**
