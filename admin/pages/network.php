@@ -115,7 +115,7 @@ else {
 	echo '<p><strong>' . __( 'Take note:', 'wordpress-seo' ) . '</strong> ' . __( 'Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs.', 'wordpress-seo' ) . '</p>';
 
 
-echo '<input type="submit" name="wpseo_submit" class="button-primary" value="' . __( 'Save MultiSite Settings', 'wordpress-seo' ) . '"/>';
+echo '<input type="submit" name="wpseo_submit" class="button button-primary" value="' . __( 'Save MultiSite Settings', 'wordpress-seo' ) . '"/>';
 echo '</form>';
 
 echo '<h2>' . __( 'Restore site to default settings', 'wordpress-seo' ) . '</h2>';

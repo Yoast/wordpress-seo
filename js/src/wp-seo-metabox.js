@@ -5,15 +5,6 @@
 
 	window.wpseo_init_tabs = function() {
 		if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
-			var active_tab = window.location.hash;
-			if ( active_tab === '' || active_tab.search( 'wpseo' ) === -1 ) {
-				active_tab = 'content';
-			}
-			else {
-				active_tab = active_tab.replace( '#wpseo_', '' );
-			}
-			jQuery( '.' + active_tab ).addClass( 'active' );
-
 			jQuery( '.wpseo-metabox-tabs' ).on( 'click', 'a.wpseo_tablink', function( ev ) {
 					ev.preventDefault();
 
@@ -35,16 +26,9 @@
 		}
 
 		if ( jQuery( '.wpseo-meta-section' ).length > 0 ) {
-			var active_page = window.location.hash;
-			if ( active_page === '' || active_page.search( 'wpseo' ) === -1 ) {
-				active_page = 'content';
-			}
-			else {
-				active_page = active_page.replace( '#wpseo-meta-section-', '' );
-			}
-			jQuery( '#wpseo-meta-section-' + active_page ).addClass( 'active' );
+			jQuery( '#wpseo-meta-section-content' ).addClass( 'active' );
 			jQuery( '.wpseo-metabox-sidebar li').filter( function() {
-				return jQuery( this ).find('.wpseo-meta-section-link').attr( 'href' ) === '#wpseo-meta-section-' + active_page;
+				return jQuery( this ).find('.wpseo-meta-section-link').attr( 'href' ) === 'content';
 			} ).addClass('active');
 
 			jQuery( 'a.wpseo-meta-section-link' ).click( function( ev ) {
@@ -65,16 +49,6 @@
 		jQuery( '.wpseo-metabox-tabs' ).show();
 		// End Tabs code
 	};
-
-	/**
-	 * Adds keyword popup if the template for it is found
-	 */
-	function initAddKeywordPopup() {
-		// If add keyword popup exists bind it to the add keyword button
-		if ( 1 === $( '#wpseo-add-keyword-popup' ).length ) {
-			$( '.wpseo-add-keyword' ).on( 'click', addKeywordPopup );
-		}
-	}
 
 	/**
 	 * Adds select2 for selected fields.
@@ -131,6 +105,16 @@
 		$( 'body' ).on( 'thickbox:removed', function() {
 			$( '.wpseo-add-keyword' ).focus();
 		});
+	}
+
+	/**
+	 * Adds keyword popup if the template for it is found
+	 */
+	function initAddKeywordPopup() {
+		// If add keyword popup exists bind it to the add keyword button
+		if ( 1 === $( '#wpseo-add-keyword-popup' ).length ) {
+			$( '.wpseo-add-keyword' ).on( 'click', addKeywordPopup );
+		}
 	}
 
 	jQuery( document ).ready( function() {

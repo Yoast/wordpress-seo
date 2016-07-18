@@ -1,0 +1,181 @@
+.wpseo-kb-search-search-bar {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ccc;
+
+  input[type="text"] {
+	  height: 28px;
+	  min-width: 50%;
+	  margin-right: 3px;
+  }
+}
+
+.wpseo-kb-search-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 500px;
+  overflow: auto;
+}
+
+.help-tab-content .wpseo-kb-search-results li {
+  list-style: none;
+  max-width: none;
+  margin: 0;
+}
+
+.wpseo-kb-search-result {
+  border-bottom: 1px solid #efefef;
+  text-decoration: none;
+  margin: 0;
+  display: block;
+  padding-left: 5px;
+}
+
+.wpseo-kb-search-result p {
+  margin-top: 0;
+  max-width: none;
+}
+
+.wpseo-kb-search-result-link {
+  display: block;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.wpseo-kb-search-result-link:hover,
+.wpseo-kb-search-result-link:focus {
+  background-color: rgba(93, 12, 55, 0.5);
+  text-decoration: underline;
+  box-shadow: none;
+}
+
+.wpseo-kb-search-result .wpseo-kb-search-result-title {
+  margin: 0;
+  padding: 14px 0;
+}
+
+.wpseo-kb-search-ext-link {
+  float: right
+}
+
+.wpseo-kb-search-back-button:before {
+  content: "\f141";
+}
+
+.wpseo-kb-search-ext-link:before {
+  content: "\f504";
+}
+
+.dashicon-button:before {
+  font-family: "dashicons";
+  vertical-align: middle;
+  font-size: 20px;
+  line-height: 1.35em;
+}
+
+.wpseo-kb-search-navigation {
+  z-index: 10;
+  padding: 1em 0;
+}
+
+.kb-search-content-frame {
+  width: 100%;
+  height: 543px;
+}
+
+.kb-search-content-frame {
+  background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="%23ffffff" x="50%" y="50%" font-family="\'Lucida Grande\', sans-serif" font-size="24" text-anchor="middle">Loading article...</text></svg>') 0px 0px no-repeat;
+}
+
+
+
+// LOADING SPINNER - Created by @lukehaas (https://github.com/lukehaas/css-loaders)
+//The MIT License (MIT)
+//
+//Copyright (c) 2014 Luke Haas
+//
+//Permission is hereby granted, free of charge, to any person obtaining a copy of
+//this software and associated documentation files (the "Software"), to deal in
+//the Software without restriction, including without limitation the rights to
+//use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+//the Software, and to permit persons to whom the Software is furnished to do so,
+//subject to the following conditions:
+//
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+//
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+//FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+//COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+//IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+.wpseo-kb-loader:before,
+.wpseo-kb-loader:after,
+.wpseo-kb-loader {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+
+.wpseo-kb-loader {
+  color: #a4286a;
+  font-size: 10px;
+  margin: 80px auto;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+.wpseo-kb-loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.wpseo-kb-loader:after {
+  left: 3.5em;
+}
+
+.wpseo-kb-loader:before,
+.wpseo-kb-loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+.dashicons {
+  text-decoration: none;
+}
+
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+// END LOADING SPINNER

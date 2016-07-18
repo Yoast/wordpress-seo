@@ -84,7 +84,6 @@ class WPSEO_Options {
 		return false;
 	}
 
-
 	/**
 	 * Get a specific default value for an option
 	 *
@@ -104,7 +103,6 @@ class WPSEO_Options {
 		return null;
 	}
 
-
 	/**
 	 * Update a site_option
 	 *
@@ -122,7 +120,6 @@ class WPSEO_Options {
 		}
 	}
 
-
 	/**
 	 * Get the instantiated option instance
 	 *
@@ -137,7 +134,6 @@ class WPSEO_Options {
 
 		return false;
 	}
-
 
 	/**
 	 * Retrieve an array of the options which should be included in get_all() and reset().
@@ -159,7 +155,6 @@ class WPSEO_Options {
 
 		return $option_names;
 	}
-
 
 	/**
 	 * Retrieve all the options for the SEO plugin in one go.
@@ -221,7 +216,6 @@ class WPSEO_Options {
 		return $option;
 	}
 
-
 	/**
 	 * Run the clean up routine for one or all options
 	 *
@@ -270,7 +264,6 @@ class WPSEO_Options {
 		}
 	}
 
-
 	/**
 	 * Correct the inadvertent removal of the fallback to default values from the breadcrumbs
 	 *
@@ -282,7 +275,6 @@ class WPSEO_Options {
 		}
 	}
 
-
 	/**
 	 * Initialize some options on first install/activate/reset
 	 *
@@ -290,21 +282,11 @@ class WPSEO_Options {
 	 * @return void
 	 */
 	public static function initialize() {
-		/*
-		Make sure title_test and description_test function are available even when called
-			   from the isolated activation
-		*/
-		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
-
-		// Commented out? wpseo_title_test(); R.
-		wpseo_description_test();
-
 		/* Force WooThemes to use Yoast SEO data. */
 		if ( function_exists( 'woo_version_init' ) ) {
 			update_option( 'seo_woo_use_third_party_data', 'true' );
 		}
 	}
-
 
 	/**
 	 * Reset all options to their default values and rerun some tests
@@ -331,7 +313,6 @@ class WPSEO_Options {
 		self::initialize();
 	}
 
-
 	/**
 	 * Initialize default values for a new multisite blog
 	 *
@@ -354,7 +335,6 @@ class WPSEO_Options {
 			}
 		}
 	}
-
 
 	/**
 	 * Reset all options for a specific multisite blog to their default values based upon a

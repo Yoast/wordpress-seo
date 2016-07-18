@@ -115,9 +115,6 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 */
 	public static function hook_check_for_plugin_conflicts( $plugin = false ) {
 
-		// Just a return, because we want to temporary disable this notice (#3998).
-		return;
-
 		// The instance of itself.
 		$instance = self::get_instance();
 
@@ -127,22 +124,31 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			$instance->add_active_plugin( $instance->find_plugin_category( $plugin ), $plugin );
 		}
 
-		$plugin_sections = array(
+		$plugin_sections = array();
+
+		// Only check for open graph problems when they are enabled.
+		$social_options = WPSEO_Options::get_option( 'wpseo_social' );
+		if ( $social_options['opengraph'] ) {
 			/* translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output*/
-			'open_graph'   => __( 'Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' )
-				. '<br/><br/>'
-				. '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_social#top#facebook' ) . '">'
-				/* translators: %1$s expands to Yoast SEO */
-				. sprintf( __( 'Configure %1$s\'s OpenGraph settings', 'wordpress-seo' ), 'Yoast SEO' )
-				. '</a>',
+			$plugin_sections['open_graph'] = __( 'Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' )
+			                                 . '<br/><br/>'
+			                                 . '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_social#top#facebook' ) . '">'
+			                                 /* translators: %1$s expands to Yoast SEO */
+			                                 . sprintf( __( 'Configure %1$s\'s OpenGraph settings', 'wordpress-seo' ), 'Yoast SEO' )
+			                                 . '</a>';
+		}
+
+		// Only check for XML conflicts if sitemaps are enabled.
+		$xml_sitemap_options = WPSEO_Options::get_option( 'wpseo_xml' );
+		if ( $xml_sitemap_options['enablexmlsitemap'] ) {
 			/* translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin name of possibly conflicting plugin with regard to the creation of sitemaps*/
-			'xml_sitemaps' => __( 'Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site.', 'wordpress-seo' )
-				. '<br/><br/>'
-				. '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_xml' ) . '">'
-				/* translators: %1$s expands to Yoast SEO */
-				. sprintf( __( 'Configure %1$s\'s XML Sitemap settings', 'wordpress-seo' ), 'Yoast SEO' )
-				. '</a>',
-		);
+			$plugin_sections['xml_sitemaps'] = __( 'Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site.', 'wordpress-seo' )
+			                  . '<br/><br/>'
+			                  . '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_xml' ) . '">'
+			                  /* translators: %1$s expands to Yoast SEO */
+			                  . sprintf( __( 'Configure %1$s\'s XML Sitemap settings', 'wordpress-seo' ), 'Yoast SEO' )
+			                  . '</a>';
+		}
 
 		$instance->check_plugin_conflicts( $plugin_sections );
 	}
