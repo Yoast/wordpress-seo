@@ -70,6 +70,8 @@ class WPSEO_Admin_User_Profile {
 		update_user_meta( $user_id, 'wpseo_metadesc', $this->filter_input_post( 'wpseo_author_metadesc' ) );
 		update_user_meta( $user_id, 'wpseo_metakey', $this->filter_input_post( 'wpseo_author_metakey' ) );
 		update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', $this->filter_input_post( 'wpseo_author_exclude' ) );
+		update_user_meta( $user_id, 'wpseo_content_analysis_disable', $this->filter_input_post( 'wpseo_content_analysis_disable' ) );
+		update_user_meta( $user_id, 'wpseo_keyword_analysis_disable', $this->filter_input_post( 'wpseo_keyword_analysis_disable' ) );
 	}
 
 	/**

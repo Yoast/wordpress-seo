@@ -7,6 +7,24 @@
  * Class Test_Yoast_Notification_Center
  */
 class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
+
+	/** @var int User ID */
+	private $user_id;
+
+	/**
+	 * Create user with proper caps
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->user_id = $this->factory->user->create();
+
+		$user = new WP_User( $this->user_id );
+		$user->add_cap( 'manage_options' );
+
+		wp_set_current_user( $this->user_id );
+	}
+
 	/**
 	 * Remove notifications on tearDown
 	 */
@@ -25,95 +43,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $subject instanceof Yoast_Notification_Center );
 	}
-
-	/**
-	 * Registering a condition
-	 */
-	public function test_register_condition() {
-
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this
-			->getMockBuilder( 'Yoast_Notification_Condition' )
-			->setMethods( array( 'is_met', 'get_notification' ) )
-			->getMock();
-
-		$condition
-			->expects( $this->any() )
-			->method( 'is_met' )
-			->will( $this->returnValue( true ) );
-
-		$condition
-			->expects( $this->any() )
-			->method( 'get_notification' )
-			->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-
-		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
-	}
-
-
-	/**
-	 * Registering a condition
-	 */
-	public function test_register_condition_twice() {
-
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this
-			->getMockBuilder( 'Yoast_Notification_Condition' )
-			->setMethods( array( 'is_met', 'get_notification' ) )
-			->getMock();
-
-		$condition
-			->expects( $this->any() )
-			->method( 'is_met' )
-			->will( $this->returnValue( true ) );
-
-		$condition
-			->expects( $this->any() )
-			->method( 'get_notification' )
-			->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-		$subject->add_notification_condition( $condition );
-
-		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
-	}
-
-
-	/**
-	 * Clear notification after setting
-	 */
-	public function test_clear_notifications() {
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this
-			->getMockBuilder( 'Yoast_Notification_Condition' )
-			->setMethods( array( 'is_met', 'get_notification' ) )
-			->getMock();
-
-		$condition
-			->expects( $this->any() )
-			->method( 'is_met' )
-			->will( $this->returnValue( true ) );
-
-		$condition
-			->expects( $this->any() )
-			->method( 'get_notification' )
-			->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-
-		$subject->deactivate_hook();
-
-		$this->assertEquals( array(), $subject->get_notification_conditions() );
-	}
-
 
 	/**
 	 * Add notification
@@ -164,11 +93,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_notification_dismissed() {
 		$notification_dismissal_key = 'notification_dismissal';
-		$notification = new Yoast_Notification( 'dismiss', array( 'dismissal_key' => $notification_dismissal_key ) );
+		$notification               = new Yoast_Notification( 'dismiss', array( 'dismissal_key' => $notification_dismissal_key ) );
 
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-		update_user_meta( $user_id, $notification_dismissal_key, '1' );
+		update_user_meta( $this->user_id, $notification_dismissal_key, '1' );
 
 		$subject = Yoast_Notification_Center::get();
 		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
@@ -182,10 +109,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$subject = Yoast_Notification_Center::get();
 
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-
-		update_user_meta( $user_id, $notification->get_dismissal_key(), '1' );
+		update_user_meta( $this->user_id, $notification->get_dismissal_key(), '1' );
 
 		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
 
@@ -202,10 +126,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$subject = Yoast_Notification_Center::get();
 
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-
-		update_user_meta( $user_id, $notification->get_dismissal_key(), '1' );
+		update_user_meta( $this->user_id, $notification->get_dismissal_key(), '1' );
 
 		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
 
@@ -226,6 +147,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Saving notifications to storage
 	 */
 	public function test_update_storage() {
+
+		wp_set_current_user( 1 );
+
 		$message = 'b';
 		$options = array( 'id' => 'id' );
 
@@ -239,15 +163,16 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$subject->update_storage();
 
-		$stored_notifications = get_option( Yoast_Notification_Center::STORAGE_KEY );
-		$test                 = wp_json_encode( array( $notification->to_array() ) );
+		$stored_notifications = get_user_option( Yoast_Notification_Center::STORAGE_KEY, get_current_user_id() );
 
-		$this->assertInternalType( 'string', $stored_notifications );
+		$test = array( $notification->to_array() );
+
+		$this->assertInternalType( 'array', $stored_notifications );
 		$this->assertEquals( $test, $stored_notifications );
 	}
 
 	/**
-	 * Not saving non-persistant notifications to storage
+	 * Not saving non-persistent notifications to storage
 	 */
 	public function test_update_storage_non_persistent() {
 		$notification = new Yoast_Notification( 'b' );
@@ -335,6 +260,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Display notification
+	 *
+	 * @covers Yoast_Notification_Center::display_notifications
 	 */
 	public function test_display_notifications() {
 		$message = 'c';
@@ -365,6 +292,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Display notification not for current user
+	 *
+	 * @covers Yoast_Notification_Center::add_notification
+	 * @covers Yoast_Notification_Center::display_notifications
 	 */
 	public function test_display_notifications_not_for_current_user() {
 		$message = 'c';
@@ -395,19 +325,20 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test dismissed notification displaying
+	 *
+	 * @covers Yoast_Notification_Center::add_notification
+	 * @covers Yoast_Notification_Center::display_notifications
 	 */
 	public function test_display_dismissed_notification() {
 		$notification_dismissal_key = 'dismissed';
 
 		$message = 'c';
-		$options = array( 'dismissal_key' => $notification_dismissal_key );
+		$options = array( 'id' => 'my_id', 'dismissal_key' => $notification_dismissal_key );
 
 		$notification = new Yoast_Notification( $message, $options );
 
 		// Dismiss the key for the current user.
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-		update_user_meta( $user_id, $notification_dismissal_key, '1' );
+		update_user_meta( $this->user_id, $notification_dismissal_key, '1' );
 
 		// Add the notification.
 		$subject = Yoast_Notification_Center::get();
@@ -416,5 +347,87 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		// It should not be displayed.
 		$this->expectOutput( '' );
+	}
+
+	/**
+	 * When a notification already exists the list with an outdated nonce it should be updated
+	 *
+	 * @covers Yoast_Notification_Center::add_notification
+	 */
+	public function test_update_nonce_on_re_add_notification() {
+		// Put outdated notification in storage / notification center list.
+		$notification_center = Yoast_Notification_Center::get();
+
+		$old_nonce = 'outdated';
+
+		$outdated = new Yoast_Notification( 'outdated', array( 'nonce' => $old_nonce, 'id' => 'test' ) );
+		$new      = new Yoast_Notification( 'new', array( 'id' => 'test' ) );
+
+		$notification_center->add_notification( $outdated );
+		$notification_center->add_notification( $new );
+
+		$notifications = $notification_center->get_notifications();
+
+		$this->assertInternalType( 'array', $notifications );
+		$this->assertNotEquals( $notifications[0]->get_nonce(), $old_nonce );
+	}
+
+	/**
+	 * Test if the persistent notification is seen as new
+	 */
+	public function test_notification_is_new() {
+		$id = 'my_id';
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		$notification = new Yoast_Notification( 'notification', array( 'id' => $id ) );
+		$notification_center->add_notification( $notification );
+
+		$new = $notification_center->get_new_notifications();
+
+		$this->assertInternalType( 'array', $new );
+		$this->assertContains( $notification, $new );
+	}
+
+	/**
+	 * Test how many resolved notifications we have
+	 *
+	 * @covers Yoast_Notification_Center::get_resolved_notification_count
+	 */
+	public function test_resolved_notifications() {
+
+		$notification_center = Yoast_Notification_Center::get();
+		$count               = $notification_center->get_resolved_notification_count();
+
+		// Apply max for static test problems.
+		$this->assertEquals( 0, max( 0, $count ) );
+	}
+
+	/**
+	 * @covers Yoast_Notification_Center::maybe_dismiss_notification
+	 */
+	public function test_maybe_dismiss_notification() {
+		$a = new Yoast_Notification( 'a' );
+		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( $a ) );
+
+		$b = new Yoast_Notification( 'b', array( 'id' => uniqid( 'id' ) ) );
+		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( $b ) );
+	}
+
+	/**
+	 * Test notification count
+	 *
+	 * @covers Yoast_Notification_Center::get_notification_count
+	 */
+	public function test_get_notification_count() {
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		$this->assertEquals( 0, $notification_center->get_notification_count() );
+
+		$notification_center->add_notification( new Yoast_Notification( 'a', array( 'id' => 'some_id' ) ) );
+
+		$this->assertEquals( 1, $notification_center->get_notification_count() );
+		$this->assertEquals( 1, $notification_center->get_notification_count( true ) );
 	}
 }

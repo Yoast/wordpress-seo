@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4688d2a8cff02521f26d4b4526c7b0ac",
-    "content-hash": "bf77ea2e75c7a7b7f2114afc96a876e0",
+    "hash": "c03aec10b3a682c893504ba6d9170a39",
+    "content-hash": "a86567bb2cf980eea0eef0b09a666479",
     "packages": [
         {
             "name": "composer/installers",
@@ -173,16 +173,16 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "1.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "4648918ccf8bc6da12eadf57e4bece4829af29b3"
+                "reference": "7dddeee1481af3437fe451dc235ceb4a301d7220"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/4648918ccf8bc6da12eadf57e4bece4829af29b3",
-                "reference": "4648918ccf8bc6da12eadf57e4bece4829af29b3",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/7dddeee1481af3437fe451dc235ceb4a301d7220",
+                "reference": "7dddeee1481af3437fe451dc235ceb4a301d7220",
                 "shasum": ""
             },
             "type": "library",
@@ -207,20 +207,20 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-04-22 12:48:39"
+            "time": "2016-04-29 11:09:50"
         },
         {
             "name": "yoast/license-manager",
-            "version": "1.2",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/License-Manager.git",
-                "reference": "8caf52202bf51011686e31c9a43b18731047f1be"
+                "reference": "ad9fca86a07caf0d988bdcd2cb608e5984892431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/8caf52202bf51011686e31c9a43b18731047f1be",
-                "reference": "8caf52202bf51011686e31c9a43b18731047f1be",
+                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/ad9fca86a07caf0d988bdcd2cb608e5984892431",
+                "reference": "ad9fca86a07caf0d988bdcd2cb608e5984892431",
                 "shasum": ""
             },
             "type": "library",
@@ -252,7 +252,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-03-16 11:51:33"
+            "time": "2016-06-13 14:57:57"
         }
     ],
     "packages-dev": [
@@ -266,7 +266,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/3a2d3ebdc1df5acf372458c15041af240a6fc016",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/892163d67e3bd9c190d43655acb69657da765c7b",
                 "reference": "892163d67e3bd9c190d43655acb69657da765c7b",
                 "shasum": ""
             },
@@ -703,7 +703,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/d2d2b288abab05abc1f00a33c61c74ef9441ac61",
+                "url": "https://api.github.com/repos/symfony/config/zipball/58ded81f1f582a87c528ef3dae9a859f78b5f374",
                 "reference": "58ded81f1f582a87c528ef3dae9a859f78b5f374",
                 "shasum": ""
             },
@@ -1092,6 +1092,44 @@
                 "wordpress"
             ],
             "time": "2016-02-01 16:14:59"
+        },
+        {
+            "name": "yoast/php-development-environment",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yoast/php-development-environment.git",
+                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yoast/php-development-environment/zipball/d53b054d96b688a96e47d4c2e4306983375efd75",
+                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "define.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Team Yoast",
+                    "email": "support@yoast.com",
+                    "homepage": "https://yoast.com"
+                }
+            ],
+            "description": "Yoast PHP development environment.",
+            "homepage": "https://github.com/Yoast/php-development-environment",
+            "keywords": [
+                "wordpress"
+            ],
+            "time": "2016-06-16 10:12:26"
         },
         {
             "name": "yoast/yoastcs",
