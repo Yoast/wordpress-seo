@@ -15,6 +15,37 @@ var stripTagParts = function( text ) {
 };
 
 /**
+ * Strip tags at the beginning of the text.
+ * @param text
+ * @returns {*}
+ */
+var stripTagsBegin = function( text ) {
+	return text.replace( /^(<([^>]+)>)+/ig, "" );
+};
+
+/**
+ * Strip tags at the end of the text.
+ * @param text
+ * @returns {*}
+ */
+var stripTagsEnd = function( text ) {
+	return text.replace( /(<([^>]+)>)+$/ig, "" );
+};
+
+/**
+ * Strip tags at the beginning and end of the text. 
+ * @param text
+ * @returns {*}
+ */
+var stripTagsBeginEnd = function( text ) {
+	text = stripTagsBegin( text );
+	text = stripTagsEnd( text );
+	return text;
+};
+
+
+
+/**
  * Strip HTML-tags from text
  *
  * @param {String} text The text to strip the HTML-tags from.
@@ -28,5 +59,9 @@ var stripFullTags = function( text ) {
 
 module.exports = {
 	stripFullTags: stripFullTags,
-	stripTagParts: stripTagParts
+	stripTagParts: stripTagParts,
+	stripTagsBegin: stripTagsBegin,
+	stripTagsEnd: stripTagsEnd,
+	stripTagsBeginEnd: stripTagsBeginEnd
+
 };
