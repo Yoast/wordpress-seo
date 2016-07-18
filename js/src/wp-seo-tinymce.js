@@ -99,7 +99,6 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			forEach( events, function( eventName ) {
 				editor.on( eventName, callback );
 			} );
-
 		});
 	}
 
