@@ -1,7 +1,7 @@
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var getWords = require( "../stringProcessing/getWords.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var stripTagParts = require( "../stringProcessing/stripHTMLTags.js" ).stripTagParts;
+var stripTagParts = require( "../stringProcessing/stripHTMLTags.js" ).stripIncompleteTags;
 var removeNonWordCharacters = require( "../stringProcessing/removeNonWordCharacters.js" );
 var getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
 

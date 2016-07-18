@@ -8,7 +8,7 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  * @param {String} text The text to strip the HTML-tags from at the begin and end.
  * @returns {String} The text without HTML-tags at the begin and end.
  */
-var stripTagParts = function( text ) {
+var stripIncompleteTags = function( text ) {
 	text = text.replace( /^(<\/([^>]+)>)+/i, "" );
 	text = text.replace( /(<([^\/>]+)>)+$/i, "" );
 	return text;
@@ -28,5 +28,5 @@ var stripFullTags = function( text ) {
 
 module.exports = {
 	stripFullTags: stripFullTags,
-	stripTagParts: stripTagParts
+	stripIncompleteTags: stripIncompleteTags
 };
