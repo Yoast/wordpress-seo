@@ -907,6 +907,7 @@ class WPSEO_Frontend {
 			if ( is_search() ) {
 				$search_query = get_search_query();
 
+				// Regex catches case when /search/page/N without search term is itself mistaken for search term. R.
 				if ( ! empty( $search_query ) && ! preg_match( '|^page/\d+$|', $search_query ) ) {
 					$canonical = get_search_link();
 				}
