@@ -68,7 +68,6 @@ module.exports = function( paper ) {
 		if ( firstWordExceptions.indexOf( firstWord ) > -1 && words.length > 1 ) {
 			firstWord += " " + removeNonWordCharacters( words[ 1 ] );
 		}
-		console.log( firstWord );
 		return firstWord;
 	} );
 	return compareFirstWords( sentenceBeginnings, sentences );

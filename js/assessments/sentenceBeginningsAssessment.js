@@ -1,6 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var getLanguage = require( "../helpers/getLanguage.js" );
-var stripTags = require( "../stringProcessing/stripHTMLTags" ).stripTagsBeginEnd;
+var stripTags = require( "../stringProcessing/stripHTMLTags" ).stripTagParts;
 
 var partition = require( "lodash/partition" );
 var sortBy = require( "lodash/sortBy" );
@@ -75,7 +75,6 @@ var sentenceBeginningMarker = function( paper, researcher ) {
 	} );
 	return map( flatten( sentences ), function( sentence ) {
 		sentence = stripTags( sentence );
-		console.log( sentence );
 		var marked = marker( sentence );
 		return new Mark( {
 			original: sentence,

@@ -129,7 +129,7 @@ var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
 var sentenceLengthMarker = function( paper, researcher ) {
 	var sentenceCount = researcher.getResearch( "countSentencesFromText" );
 	var sentenceObjects = tooLongSentences( sentenceCount, recommendedValue );
-
+	sentence = stripTags( sentence );
 	return map( sentenceObjects, function( sentenceObject ) {
 		return new Mark( {
 			original: sentenceObject.sentence,
