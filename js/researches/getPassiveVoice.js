@@ -314,9 +314,9 @@ module.exports = function( paper ) {
 
 	// Get subsentences for each sentence.
 	forEach( sentences, function( sentence ) {
-		sentence = stripHTMLTags( sentence );
+		var strippedSentence = stripHTMLTags( sentence );
 
-		var subSentences = getSubsentences( sentence );
+		var subSentences = getSubsentences( strippedSentence );
 
 		var passive = false;
 		forEach( subSentences, function( subSentence ) {
