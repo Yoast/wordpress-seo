@@ -1,6 +1,6 @@
 /* global wpseoPostScraperL10n, wpseoTermScraperL10n */
 
-var isUndefined = require( 'lodash/isUndefined' );
+var getL10nObject = require( './getL10nObject' );
 
 /**
  * Returns the title placeholder for use in the title forms.
@@ -9,11 +9,10 @@ var isUndefined = require( 'lodash/isUndefined' );
  */
 function getTitlePlaceholder() {
 	var titlePlaceholder = '';
+	var l10nObject = getL10nObject();
 
-	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
-		titlePlaceholder = window.wpseoPostScraperL10n.title_template;
-	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
-		titlePlaceholder = window.wpseoTermScraperL10n.title_template;
+	if ( l10nObject ) {
+		titlePlaceholder = l10nObject.title_template;
 	}
 
 	if ( titlePlaceholder === '' ) {

@@ -23,12 +23,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	$yform->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
 	$yform->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework?', 'wordpress-seo' ) );
 	$yform->checkbox( 'importwpseo', __( 'Import from wpSEO', 'wordpress-seo' ) );
+
+	do_action( 'wpseo_import_other_plugins' );
 	?>
 	<br/>
 	<?php
 	$yform->checkbox( 'deleteolddata', __( 'Delete the old data after import? (recommended)', 'wordpress-seo' ) );
 	?>
 	<br/>
-	<input type="submit" class="button-primary" name="import"
+	<input type="submit" class="button button-primary" name="import"
 	       value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
 </form>

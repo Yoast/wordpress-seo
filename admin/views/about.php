@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$version = '3.3';
+
 /**
  * Display a list of contributors
  *
@@ -17,9 +19,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person" id="wp-person-', $username, '">';
-		echo '<a href="https://github.com/', $username, '"><img	src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="', $dev->name, '"></a>';
-		echo '<a class="web" href="https://github.com/', $username, '">', $dev->name, '</a>';
-		echo '<span class="title">', $dev->role, '</span></li>';
+		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="">', $dev->name, '</a>';
+		echo '<span class="title">', $dev->role, "</span></li>\n";
 	}
 }
 
@@ -33,9 +34,8 @@ function wpseo_display_contributors( $contributors ) {
 		?></h1>
 
 	<p class="about-text">
-		Yoast SEO 3.2 has a ton of accessibility and help changes. We've made our help more accessible and included
-		support videos for every tab. In Premium we've added a new social previews feature. Much like the snippet
-		preview it shows you what your post will look like when shared on Facebook and Twitter.
+		Yoast SEO 3.3 adds a new content tab to the Yoast SEO metabox. In this content tab we'll highlight ways for you
+		to make your content more readable. We've also added knowledge base search and a new notification center.
 	</p>
 
 	<div class="wp-badge"></div>
@@ -44,7 +44,7 @@ function wpseo_display_contributors( $contributors ) {
 		<a class="nav-tab" href="#top#new" id="new-tab">
 			<?php
 			/* translators: %s: '3.2' version number */
-			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), '3.2' );
+			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), $version );
 			?>
 		</a>
 		<a class="nav-tab" href="#top#integrations"
@@ -56,50 +56,58 @@ function wpseo_display_contributors( $contributors ) {
 
 		<div class="headline-feature feature-video">
 			<?php // @codingStandardsIgnoreStart ?>
-			<iframe style="width:1050px;height:591px;" src="https://yoa.st/release-video"
-			        frameborder="0" allowfullscreen></iframe>
+			<iframe style="width:1050px;height:591px;" src="https://yoa.st/3-3-release-video"
+			        title="<?php esc_attr_e( 'New release video', 'wordpress-seo' ); ?>"
+					frameborder="0" allowfullscreen></iframe>
 			<?php // @codingStandardsIgnoreEnd ?>
 		</div>
 
 		<div class="feature-section two-col">
 			<div class="col">
-				<h3>A new help center</h3>
+				<h3>Content checks</h3>
 
-				<p>Every tab now has a help center. In the help center you will find a video explaining the settings on
-					that tab.
-					On some tabs, there's even more info, like template variables on the Titles &amp; Metas tabs.</p>
+				<p>Because the quality of your content becomes more important every day, this release focuses on helping
+					you write more readable copy. We recognize things like passive voice, transition words, sentences
+					and paragraphs that are too long.</p>
 				<div class="media-container">
 					<img style="margin: 0 0 10px 0;"
-					     src="https://yoast-30.s3.amazonaws.com/screenshot-help-center.png" alt="Help Center">
+					     src="https://cdn-images.yoast.com/release/3.3/content-analysis-at-work.png"
+					     alt="New content analysis">
 				</div>
 			</div>
 			<div class="col">
-				<h3>Premium: social previews</h3>
+				<h3>Highlight content checks</h3>
 
-				<p>In Yoast SEO Premium we've added a new social previews feature. Much like the snippet
-					preview it shows you what your post will look like when shared on Facebook and Twitter.</p>
+				<p>Some of the content checks have highlight icons, pressing them highlights the "problem" in your text
+					editor.</p>
 				<div class="media-container">
-					<img style="margin: 0 0 10px 0;" src="https://yoast-30.s3.amazonaws.com/yoast-social-preview.png"
-					     alt="Yoast Social Previews">
+					<img style="margin: 0 0 10px 0;"
+					     src="https://cdn-images.yoast.com/release/3.3/content-highlight.png"
+					     alt="An example of highlighted text">
 				</div>
 			</div>
 		</div>
 		<div class="feature-section two-col">
 			<div class="col">
-				<h3>Improved inline help</h3>
+				<h3>Knowledge base search</h3>
 
-				<p>We've improved our inline help feature everywhere, making it easier to use. In the process we got rid
-					of qTip, a JavaScript library that caused a lot of issues.</p>
+				<p>The help center we added in 3.2 has been expanded with knowledge base search, so you can search our
+					knowledge base straight from the backend.</p>
 				<div class="media-container">
-					<img style="margin: 0 0 10px 0;" src="https://yoast-30.s3.amazonaws.com/improved-help.png"
-					     alt="Improved inline help">
+					<img style="margin: 0 0 10px 0;"
+					     src="https://cdn-images.yoast.com/release/3.3/knowledge-base-search.png"
+					     alt="Knowledge base search">
 				</div>
 			</div>
 			<div class="col">
-				<h3>Google-</h3>
-				<p>We've removed the Google+ functionality from the plugin. Google is slowly deprecating the network. On
-					top of that, its metadata was giving conflicts with Facebook, which caused lots of issues. As
-					Google+ also uses Facebook metadata, optimizing for Facebook should do what you need for Google+ too.</p>
+				<h3>Notifications revamped</h3>
+				<p>Our plugin has to throw notifications sometimes. How we did that was the cause of some frustration
+					and we've now created a new Yoast notification center:</p>
+				<div class="media-container">
+					<img style="margin: 0 0 10px 0;"
+					     src="https://cdn-images.yoast.com/release/3.3/yoast-seo-notifications.png"
+					     alt="Yoast notification center">
+				</div>
 			</div>
 		</div>
 
@@ -107,40 +115,38 @@ function wpseo_display_contributors( $contributors ) {
 
 		<div class="changelog">
 			<h2>Under the hood</h2>
+			<div class="under-the-hood two-col">
+				<div class="col">
+					<h3>Accessible tooltips</h3>
+					<p>We've introduced accessible tooltips which we've used for the highlight mark button but will use
+						in more places.</p>
+				</div>
+				<div class="col">
+					<h3>Change title width</h3>
+					<p>Google updated the width of titles in the search results, so we've adapted our snippet preview.
+						We've also removed the bolding
+						of keywords in the title as keywords are never bold anymore.</p>
+				</div>
+			</div>
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3>Accessibility improvements everywhere</h3>
-					<p>We're not done yet, but we've been busy making all parts of the plugin more accessible. Starting
-						with a more accessible metabox amongst other things.</p>
+					<h3>Transliteration improvements</h3>
+					<p>Transliterated variants of keywords are now also recognised for 25 languages.</p>
 				</div>
 				<div class="col">
 					<h3>XML Sitemap improvements</h3>
-					<p>A ton of work has gone into fixing XML sitemaps related bugs. They should work better on plugin
-					activation now, amongst lots of other changes.</p>
+					<p>We've improved how we deal with XML sitemaps cache and introduced a hard 50,000 URL limit on
+						these sitemaps.</p>
 				</div>
 				<div class="col">
-					<h3><code>NOYDIR</code> removed</h3>
-					<p>The Yahoo! directory has been dead for a year now and we're sure it's not coming back. Because of
-						that we've removed all the <code>NOYDIR</code> options in the plugin.</p>
-				</div>
-			</div>
-			<div class="under-the-hood two-col">
-				<div class="col">
-					<h3>Remove clean up functionality</h3>
-					<p>We've removed the clean up functions we had for the <code>&lt;head&gt;</code>. There simply is
-						no SEO benefit and WordPress kept adding more stuff to the <code>&lt;head&gt;</code> anyway.</p>
-				</div>
-				<div class="col">
-					<h3>Primary term functions</h3>
-					<p>You can now use <code>%%primary_category%%</code> in your title and description templates. We've
-						also added <code>yoast_get_primary_term()</code> and <code>yoast_get_primary_term_id()</code>
-						which you can use in your templates.</p>
+					<h3>Alexa removed</h3>
+					<p>As you can no longer verify your site with Alexa for free, we've removed this functionality.</p>
 				</div>
 			</div>
 		</div>
 
 		<div class="return-to-dashboard">
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) ); ?>"><?php _e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
 		</div>
 
 	</div>
@@ -173,7 +179,8 @@ function wpseo_display_contributors( $contributors ) {
 					plugin</a> and Yoast SEO.
 			</li>
 			<li>
-				<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">Instant Articles for WP</a> - Enable Instant Articles for Facebook on your WordPress site and integrates with Yoast SEO.
+				<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">Instant Articles for WP</a>
+				- Enable Instant Articles for Facebook on your WordPress site and integrates with Yoast SEO.
 			</li>
 		</ol>
 
@@ -190,18 +197,36 @@ function wpseo_display_contributors( $contributors ) {
 			?>
 		</p>
 
-		<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'wordpress-seo' ); ?></h4>
+		<h3 class="wp-people-group"><?php _e( 'Product Management', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-project-leaders">
 			<?php
-			$leaders = array(
+			$people = array(
 				'jdevalk'   => (object) array(
 					'name'     => 'Joost de Valk',
 					'role'     => __( 'Project Lead', 'wordpress-seo' ),
 					'gravatar' => 'f08c3c3253bf14b5616b4db53cea6b78',
 				),
+				'mariekerakt' => (object) array(
+					'name'     => 'Marieke van de Rakt',
+					'role'     => __( 'Head R&D', 'wordpress-seo' ),
+					'gravatar' => '1d83533e299c379140f9fcc2cb0015cb',
+				),
+				'irenestr'      => (object) array(
+					'name'     => 'Irene Strikkers',
+					'role'     => __( 'Linguist', 'wordpress-seo' ),
+					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
+				),
+			);
+
+			wpseo_display_contributors( $people );
+			?>
+		<h3 class="wp-people-group"><?php _e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
+		<ul class="wp-people-group " id="wp-people-group-project-leaders">
+			<?php
+			$people = array(
 				'omarreiss' => (object) array(
 					'name'     => 'Omar Reiss',
-					'role'     => __( 'Lead Architect', 'wordpress-seo' ),
+					'role'     => __( 'CTO', 'wordpress-seo' ),
 					'gravatar' => '86aaa606a1904e7e0cf9857a663c376e',
 				),
 				'atimmer'   => (object) array(
@@ -209,89 +234,98 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Architect', 'wordpress-seo' ),
 					'gravatar' => 'b3acbabfdd208ecbf950d864b86fe968',
 				),
-				'tacoverdo' => (object) array(
-					'name'     => 'Taco Verdonschot',
-					'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
-					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
+				'moorscode' => (object) array(
+					'name'     => 'Jip Moors',
+					'role'     => __( 'Architect', 'wordpress-seo' ),
+					'gravatar' => '1751c5afc377ef4ec07a50791db1bc52',
 				),
 			);
 
-			wpseo_display_contributors( $leaders );
+			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h4 class="wp-people-group"><?php _e( 'Contributing Developers', 'wordpress-seo' ); ?></h4>
+		<h3 class="wp-people-group"><?php _e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
-			$contributors = array(
-				'andizer'       => (object) array(
-					'name'     => 'Andy Meerwaldt',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
-				),
+			$people = array(
 				'andrea'        => (object) array(
 					'name'     => 'Andrea Fercia',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '074af62ea5ff218b6a6eeab89104f616',
-				),
-				'terw-dan'      => (object) array(
-					'name'     => 'Danny Terwindt',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => '20a04b0736e630e80ce2dbefe3f1d62f',
-				),
-				'CarolineGeven' => (object) array(
-					'name'     => 'Caroline Geven',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
-				),
-				'jcomack'       => (object) array(
-					'name'     => 'Jimmy Comack',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
-				),
-				'moorscode'     => (object) array(
-					'name'     => 'Jip Moors',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => '1751c5afc377ef4ec07a50791db1bc52',
 				),
 				'rarst'         => (object) array(
 					'name'     => 'Andrey Savchenko',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'c445c2491f9f55409b2e4dccee357961',
 				),
-				'boblinthorst'  => (object) array(
-					'name'     => 'Bob Linthorst',
-					'role'     => __( 'Tester / Developer', 'wordpress-seo' ),
-					'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
+				'andizer'       => (object) array(
+					'name'     => 'Andy Meerwaldt',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
+				),
+				'CarolineGeven' => (object) array(
+					'name'     => 'Caroline Geven',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
+				),
+				'terw-dan'      => (object) array(
+					'name'     => 'Danny Terwindt',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '20a04b0736e630e80ce2dbefe3f1d62f',
 				),
 				'diedexx'       => (object) array(
 					'name'     => 'Diede Exterkate',
-					'role'     => __( 'Tester / Developer', 'wordpress-seo' ),
+					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '59908788f406037240ee011388db29f8',
+				),
+				'irenestr'      => (object) array(
+					'name'     => 'Irene Strikkers',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
+				),
+				'jcomack'       => (object) array(
+					'name'     => 'Jimmy Comack',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
+				),
+				'rensw90'       => (object) array(
+					'name'     => 'Rens Weerman',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'b0a3b8fed2b5ac66a082f0e915d4ea6f',
 				),
 			);
 
-			wpseo_display_contributors( $contributors );
+			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h4 class="wp-people-group"><?php _e( 'Contributors to this release', 'wordpress-seo' ); ?></h4>
+		<h3 class="wp-people-group"><?php _e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
+			<ul class="wp-people-group " id="wp-people-group-project-leaders">
+				<?php
+				$people = array(
+					'tacoverdo' => (object) array(
+						'name'     => 'Taco Verdonschot',
+						'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
+						'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
+					),
+					'boblinthorst'  => (object) array(
+						'name'     => 'Bob Linthorst',
+						'role'     => __( 'Tester', 'wordpress-seo' ),
+						'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
+					),
+				);
+
+				wpseo_display_contributors( $people );
+				?>
+			</ul>
+		<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
 		<?php
 		$patches_from = array(
-			'Borja Abad'           => 'https://github.com/mines',
-			'sun'                  => 'https://github.com/sun',
-			'Mark Walker'          => 'https://github.com/mnwalker',
-			'Konstantin Kovshenin' => 'https://github.com/kovshenin',
-			'Damian Hodgkiss'      => 'https://github.com/damianhodgkiss',
-			'Kevin Lisota'         => 'https://github.com/kevinlisota',
-			'Felix Arntz'          => 'https://github.com/felixarntz',
-			'Thorsten Frommen'     => 'https://github.com/tfrommen',
-			'Darren Ethier'        => 'https://github.com/nerrad',
-			'Marko Heijnen'        => 'https://github.com/markoheijnen',
-			'Jörn Lund'            => 'https://github.com/mcguffin',
+			'Thorsten Frommen' => 'https://github.com/tfrommen',
+			'Jonny Harris'     => 'https://github.com/spacedmonkey',
+			'Xavi Ivars'       => 'https://github.com/xavivars',
 		);
 		?>
-		<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 3.2, patches from
-			the
-			following people made it in:</p>
+		<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?></p>
 		<ul class="ul-square">
 			<?php
 			foreach ( $patches_from as $patcher => $link ) {

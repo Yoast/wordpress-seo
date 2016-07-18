@@ -113,7 +113,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 			array( 71, true, 'good' ),
 			array( 83, true, 'good' ),
 			array( 100, true, 'good' ),
-			array( 0, false, 'N/A' ),
+			array( 0, false, 'Not available' ),
 			array( 1, false, 'Bad' ),
 			array( 23, false, 'Bad' ),
 			array( 40, false, 'Bad' ),
@@ -158,6 +158,14 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$current_page = 'wpseo_dashboard';
 
 		$this->assertTrue( WPSEO_Utils::is_yoast_seo_free_page( $current_page ) );
+	}
+
+	public function test_get_language() {
+		$this->assertEquals( 'en', WPSEO_Utils::get_language( '' ) );
+		$this->assertEquals( 'en', WPSEO_Utils::get_language( 'a' ) );
+		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl_NL' ) );
+		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl_XX' ) );
+		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl' ) );
 	}
 	
 }
