@@ -21,7 +21,7 @@ var calculateTransitionWordPercentage = function ( sentences ) {
 	}
 
 	return ( sentences.transitionWordSentences / sentences.totalSentences ) * 100;
-}
+};
 
 /**
  * Calculates transition word result
