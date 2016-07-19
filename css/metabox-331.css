@@ -223,6 +223,8 @@
 	margin-top: 5px;
 	border: none;
 
+	-webkit-appearance: none;
+	-moz-appearance: none;
 	appearance: none;
 }
 
@@ -643,6 +645,7 @@ button.yoast-tooltip {
 
 .yoast-tooltip-s::after,
 .yoast-tooltip-n::after {
+	-ms-transform: translateX(50%);
 	transform: translateX(50%);
 }
 
@@ -650,6 +653,7 @@ button.yoast-tooltip {
 	right: 100%;
 	bottom: 50%;
 	margin-right: 5px;
+	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
 
@@ -665,6 +669,7 @@ button.yoast-tooltip {
 	bottom: 50%;
 	left: 100%;
 	margin-left: 5px;
+	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
 
@@ -677,6 +682,8 @@ button.yoast-tooltip {
 }
 
 .yoast-tooltip-multiline::after {
+	width: -webkit-max-content;
+	width: -moz-max-content;
 	width: max-content;
 	max-width: 250px;
 	border-collapse: separate;
@@ -689,6 +696,7 @@ button.yoast-tooltip {
 .yoast-tooltip-multiline.yoast-tooltip-n::after {
 	right: auto;
 	left: 50%;
+	-ms-transform: translateX(-50%);
 	transform: translateX(-50%);
 }
 
@@ -768,6 +776,7 @@ button.yoast-tooltip {
 	background-color: #a4286a;
 	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
 
+	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 }
 
@@ -775,8 +784,11 @@ button.yoast-tooltip {
 	padding: 0;
 
 	flex-basis: 0;
-	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
 	flex-grow: 1;
+	-ms-flex-negative: 1;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-ms-flex-positive: 1;
+	-ms-flex-preferred-size: 0;
 	flex-shrink: 1;
 }
 
@@ -834,6 +846,7 @@ button.yoast-tooltip {
 	color: white;
 	background-color: #a4286a;
 
+	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
 
@@ -853,6 +866,7 @@ button.yoast-tooltip {
 	margin-right: 1em;
 	padding-bottom: 1em;
 
+	-ms-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
 
@@ -866,8 +880,11 @@ button.yoast-tooltip {
 	margin: 0 auto;
 
 	flex-basis: 0;
-	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
 	flex-grow: 1;
+	-ms-flex-negative: 1;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	-ms-flex-positive: 1;
+	-ms-flex-preferred-size: 0;
 	flex-shrink: 1;
 	/* must be less than a text box min width */
 }
@@ -945,7 +962,7 @@ ul.wpseo-metabox-tabs {
 /* Contain floated list items and have overflow visible for the active tab */
 ul.wpseo-metabox-tabs:after {
 	display: table;
-	clear: both;
+	clear: both; 
 	content: "";
 }
 

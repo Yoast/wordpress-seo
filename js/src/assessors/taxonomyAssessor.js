@@ -7,7 +7,7 @@ var keywordStopWords = require( "yoastseo/js/assessments/keywordStopWordsAssessm
 var metaDescriptionKeyword = require ( "yoastseo/js/assessments/metaDescriptionKeywordAssessment.js" );
 var metaDescriptionLength = require( "yoastseo/js/assessments/metaDescriptionLengthAssessment.js" );
 var titleKeyword = require( "yoastseo/js/assessments/titleKeywordAssessment.js" );
-var titleLength = require( "yoastseo/js/assessments/titleLengthAssessment.js" );
+var titleWidth = require( "yoastseo/js/assessments/pageTitleWidthAssessment.js" );
 var urlKeyword = require( "yoastseo/js/assessments/urlKeywordAssessment.js" );
 var urlLength = require( "yoastseo/js/assessments/urlLengthAssessment.js" );
 var urlStopWords = require( "yoastseo/js/assessments/urlStopWordsAssessment.js" );
@@ -31,7 +31,7 @@ var TaxonomyAssessor = function( i18n ) {
 		metaDescriptionLength,
 		taxonomyTextLength,
 		titleKeyword,
-		titleLength,
+		titleWidth,
 		urlKeyword,
 		urlLength,
 		urlStopWords
