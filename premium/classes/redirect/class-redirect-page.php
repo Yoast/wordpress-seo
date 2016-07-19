@@ -51,7 +51,7 @@ class WPSEO_Redirect_Page {
 		wp_enqueue_script(
 			'wp-seo-premium-admin-redirects',
 			plugin_dir_url( WPSEO_PREMIUM_FILE ) .
-			'assets/js/wp-seo-premium-admin-redirects-320' . WPSEO_CSSJS_SUFFIX . '.js',
+			'assets/js/wp-seo-premium-admin-redirects-340' . WPSEO_CSSJS_SUFFIX . '.js',
 			array( 'jquery', 'jquery-ui-dialog', 'wp-util', 'underscore' ),
 			WPSEO_VERSION
 		);
