@@ -7,8 +7,6 @@
  * Test class for testing the subdirectory presence class
  *
  * @covers WPSEO_Redirect_Subdirectory_Validation
- *
- * @group test
  */
 class WPSEO_Redirect_Subdirectory_Validation_Test extends WPSEO_UnitTestCase {
 
@@ -117,7 +115,7 @@ class WPSEO_Redirect_Subdirectory_Validation_Test extends WPSEO_UnitTestCase {
 			$this->class_instance->run( new WPSEO_Redirect( '/subdirectory/redirect', 'redirect', 301 ) )
 		);
 	}
-	
+
 	public function tearDown() {
 		remove_filter( 'home_url', 'override_home_url' );
 	}
