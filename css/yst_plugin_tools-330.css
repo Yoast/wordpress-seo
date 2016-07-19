@@ -83,6 +83,30 @@ label.checkbox {
 	background-color: transparent;
 }
 
+.yoast-select2-label {
+	float: none;
+	margin: 0;
+}
+
+.yoast-label-span {
+	float: left;
+	width: 200px;
+	margin: 0;
+	padding: 1px 0;
+	line-height: 28px;
+}
+
+.select2-container--focus .select2-selection--single,
+.select2-container--focus .select2-selection--multiple {
+	border-color: #5b9dd9;
+	outline: none;
+	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+	border-color: #5b9dd9 !important;
+}
+
 .wp-core-ui .button.wpseo-gsc-save-profile {
 	margin-left: 200px;
 }

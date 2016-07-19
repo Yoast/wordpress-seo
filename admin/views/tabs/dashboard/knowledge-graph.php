@@ -33,7 +33,7 @@ $yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ),
 	''        => __( 'Choose whether you\'re a company or person', 'wordpress-seo' ),
 	'company' => __( 'Company', 'wordpress-seo' ),
 	'person'  => __( 'Person', 'wordpress-seo' ),
-) );
+), array( 'close' => false, 'class' => 'yoast-select2-label' ) );
 ?>
 
 <div id="knowledge-graph-company">
