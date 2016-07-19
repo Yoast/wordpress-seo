@@ -735,7 +735,9 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
  * Disables markers visually in the UI.
  */
 App.prototype.disableMarkers = function() {
-	this.seoAssessorPresenter.disableMarker();
+	if ( !isUndefined( this.seoAssessorPresenter ) ) {
+		this.seoAssessorPresenter.disableMarker();
+	}
 
 	if ( !isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessorPresenter.disableMarker();
