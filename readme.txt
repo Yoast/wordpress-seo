@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.3
-Tested up to: 4.5
-Stable tag: 3.3.4
+Tested up to: 4.6
+Stable tag: 3.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -179,7 +179,7 @@ Release Date: July 19th, 2016
 	* Fixes a bug where in certain cases a yoastmark would leave traces in the text, these are now removed.
 	* Fixes a bug where the score bullet wouldn't be shown on the frontend.
 	* Fixes the generation of permalinks for new posts by ignoring the permalink sample and generating the permalink
-	from the posttitle, props [rob006](https://github.com/rob006).
+	from the posttitle, props [Robert Korulczyk](https://github.com/rob006).
 	* Fixes getting the incorrect primary category when getting the permalink, props [pawawat](https://github.com/pawawat).
 
 = 3.3.4 =

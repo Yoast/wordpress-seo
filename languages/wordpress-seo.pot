@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.3.4\n"
+"Project-Id-Version: Yoast SEO 3.4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-07-13 11:37:00+00:00\n"
+"POT-Creation-Date: 2016-07-19 11:40:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -533,7 +533,7 @@ msgstr ""
 #: admin/class-meta-columns.php:61
 #: admin/formatter/class-metabox-formatter.php:50
 #: admin/formatter/class-metabox-formatter.php:69
-#: admin/taxonomy/class-taxonomy-columns.php:54
+#: admin/taxonomy/class-taxonomy-columns.php:55
 msgid "Readability"
 msgstr ""
 
@@ -1097,28 +1097,28 @@ msgid ""
 msgstr ""
 
 #. translators: %s is the plugin name
-#: admin/class-yoast-dashboard-widget.php:41
+#: admin/class-yoast-dashboard-widget.php:44
 msgid "%s Posts Overview"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:156
+#: admin/class-yoast-dashboard-widget.php:159
 msgid "Posts without focus keyword"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:157
+#: admin/class-yoast-dashboard-widget.php:160
 msgid "Posts with bad SEO score"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:158
+#: admin/class-yoast-dashboard-widget.php:161
 msgid "Posts with OK SEO score"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:159
+#: admin/class-yoast-dashboard-widget.php:162
 msgid "Posts with good SEO score"
 msgstr ""
 
 #. translators: %s expands to <code>noindex</code>
-#: admin/class-yoast-dashboard-widget.php:161
+#: admin/class-yoast-dashboard-widget.php:164
 msgid "Posts that are set to %s"
 msgstr ""
 
@@ -1130,55 +1130,58 @@ msgstr ""
 msgid "Current option:"
 msgstr ""
 
-#: admin/class-yoast-form.php:172 admin/class-yoast-form.php:177
-#: admin/class-yoast-form.php:182
+#: admin/class-yoast-form.php:172
 msgid ""
 "Order a Website Review and we will tell you what to improve to attract more "
 "visitors!"
 msgstr ""
 
-#: admin/class-yoast-form.php:187
+#: admin/class-yoast-form.php:177
+msgid "Let our experts set up your Yoast SEO Premium plugin!"
+msgstr ""
+
+#: admin/class-yoast-form.php:182
 msgid ""
 "Take the online SEO Copywriting Training course and learn how to write "
 "awesome copy that ranks!"
 msgstr ""
 
-#: admin/class-yoast-form.php:192
+#: admin/class-yoast-form.php:187
 msgid ""
 "Take the online Basic SEO Training course and learn the fundamentals of SEO!"
 msgstr ""
 
-#: admin/class-yoast-form.php:197
+#: admin/class-yoast-form.php:192
 msgid ""
 "Take the Yoast SEO for WordPress Training course and become a certified "
 "Yoast SEO for WordPress expert!"
 msgstr ""
 
-#: admin/class-yoast-form.php:205
+#: admin/class-yoast-form.php:200
 msgid ""
 "Buy the Yoast SEO Premium plugin now and get access to extra features and "
 "24/7 support!"
 msgstr ""
 
-#: admin/class-yoast-form.php:213
+#: admin/class-yoast-form.php:208
 msgid ""
 "Buy the Yoast Video SEO plugin now and optimize your videos for video search "
 "results and social media!"
 msgstr ""
 
-#: admin/class-yoast-form.php:221
+#: admin/class-yoast-form.php:216
 msgid ""
 "Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to "
 "improve your product promotion!"
 msgstr ""
 
-#: admin/class-yoast-form.php:229
+#: admin/class-yoast-form.php:224
 msgid ""
 "Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO "
 "and ranking in Google Maps!"
 msgstr ""
 
-#: admin/class-yoast-form.php:237
+#: admin/class-yoast-form.php:232
 msgid ""
 "Buy the Yoast News SEO plugin now and start optimizing to get your site "
 "featured in Google News!"
@@ -2079,94 +2082,90 @@ msgid "Thank you for updating %1$s!"
 msgstr ""
 
 #. translators: %s: '3.2' version number
-#: admin/views/about.php:47
+#: admin/views/about.php:48
 msgid "What’s new in %s"
 msgstr ""
 
-#: admin/views/about.php:51
+#: admin/views/about.php:52
 msgid "Integrations"
 msgstr ""
 
-#: admin/views/about.php:52
+#: admin/views/about.php:53
 msgid "Credits"
 msgstr ""
 
-#: admin/views/about.php:60
-msgid "New release video"
-msgstr ""
-
-#: admin/views/about.php:149
+#: admin/views/about.php:120
 msgid "Go to the General settings page →"
 msgstr ""
 
 #. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
-#: admin/views/about.php:194
+#: admin/views/about.php:165
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "%3$s is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:196
+#: admin/views/about.php:167
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:200
+#: admin/views/about.php:171
 msgid "Product Management"
 msgstr ""
 
-#: admin/views/about.php:206
+#: admin/views/about.php:177
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:211
+#: admin/views/about.php:182
 msgid "Head R&D"
 msgstr ""
 
-#: admin/views/about.php:216
+#: admin/views/about.php:187
 msgid "Linguist"
 msgstr ""
 
-#: admin/views/about.php:223
+#: admin/views/about.php:194
 msgid "Development Leaders"
 msgstr ""
 
-#: admin/views/about.php:229
+#: admin/views/about.php:200
 msgid "CTO"
 msgstr ""
 
-#: admin/views/about.php:234 admin/views/about.php:239
+#: admin/views/about.php:205 admin/views/about.php:210
 msgid "Architect"
 msgstr ""
 
-#: admin/views/about.php:247
+#: admin/views/about.php:218
 msgid "Yoast Developers"
 msgstr ""
 
-#: admin/views/about.php:253 admin/views/about.php:258
-#: admin/views/about.php:263 admin/views/about.php:268
-#: admin/views/about.php:273 admin/views/about.php:278
-#: admin/views/about.php:283 admin/views/about.php:288
-#: admin/views/about.php:293
+#: admin/views/about.php:224 admin/views/about.php:229
+#: admin/views/about.php:234 admin/views/about.php:239
+#: admin/views/about.php:244 admin/views/about.php:249
+#: admin/views/about.php:254 admin/views/about.php:259
+#: admin/views/about.php:264 admin/views/about.php:269
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:301
+#: admin/views/about.php:277
 msgid "Quality Assurance & Testing"
 msgstr ""
 
-#: admin/views/about.php:307
+#: admin/views/about.php:283
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:312
+#: admin/views/about.php:288 admin/views/about.php:293
 msgid "Tester"
 msgstr ""
 
-#: admin/views/about.php:320
+#: admin/views/about.php:301
 msgid "Community contributors"
 msgstr ""
 
-#: admin/views/about.php:328
+#: admin/views/about.php:309
 msgid ""
 "We're always grateful for patches from non-regular contributors, in %1$s "
 "%2$s, patches from the following people made it in:"
@@ -4187,7 +4186,6 @@ msgid "The page title is wider than the viewable limit."
 msgstr ""
 
 #: js/assessments/pageTitleWidthAssessment.js:46
-#: js/assessments/titleLengthAssessment.js:94
 msgid "Please create a page title."
 msgstr ""
 
@@ -4239,7 +4237,7 @@ msgstr[1] ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:50
+#: js/assessments/passiveVoiceAssessment.js:51
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is less than or "
 "equal to the recommended maximum of %4$s."
@@ -4247,7 +4245,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:68
+#: js/assessments/passiveVoiceAssessment.js:69
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is more than the "
 "recommended maximum of %4$s. Try to use their active counterparts."
@@ -4255,7 +4253,7 @@ msgstr ""
 
 #. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
 #. %2$d expands to the number of consecutive sentences starting with the same word.
-#: js/assessments/sentenceBeginningsAssessment.js:50
+#: js/assessments/sentenceBeginningsAssessment.js:51
 msgid ""
 "The text contains %2$d consecutive sentences starting with the same word. "
 "Try to mix things up!"
@@ -4286,7 +4284,7 @@ msgstr[1] ""
 #. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
-#: js/assessments/sentenceLengthInTextAssessment.js:78
+#: js/assessments/sentenceLengthInTextAssessment.js:79
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less "
 "than or equal to the recommended maximum of %5$s."
@@ -4295,10 +4293,10 @@ msgstr ""
 #. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
-#: js/assessments/sentenceLengthInTextAssessment.js:95
+#: js/assessments/sentenceLengthInTextAssessment.js:96
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
-"than the recommended maximum of %5$s.Try to shorten the sentences."
+"than the recommended maximum of %5$s. Try to shorten the sentences."
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
@@ -4517,60 +4515,9 @@ msgid ""
 "beginning; try and move it to the beginning."
 msgstr ""
 
-#. Translators: %1$d expands to the number of characters in the page title
-#: js/assessments/titleLengthAssessment.js:21
-#: js/assessments/titleLengthAssessment.js:45
-#: js/assessments/titleLengthAssessment.js:75
-msgid "The page title contains %1$d character."
-msgid_plural "The page title contains %1$d characters."
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: The preceding sentence is "The page title contains x characters.".
-#. %2$s expands to the recommended minimum number of characters for the title
-#: js/assessments/titleLengthAssessment.js:28
-msgid ""
-"This is less than the recommended minimum of %2$d character. Use the space "
-"to add keyword variations or create compelling call-to-action copy."
-msgid_plural ""
-"This is less than the recommended minimum of %2$d characters. Use the space "
-"to add keyword variations or create compelling call-to-action copy."
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: The preceding sentence is "The page title contains x characters.".
-#. %2$s expands to the recommended minimum number of characters for the title. The following string is
-#. "and the recommended maximum of %3$d characters."
-#: js/assessments/titleLengthAssessment.js:53
-msgid "This is between the recommended minimum of %2$d character"
-msgid_plural "This is between the recommended minimum of %2$d characters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: The preceding string is "This is between the recommended minimum of x characters".
-#. %3$s expands to the recommended minimum number of characters for the title
-#: js/assessments/titleLengthAssessment.js:60
-msgid "and the recommended maximum of %3$d character."
-msgid_plural "and the recommended maximum of %3$d characters."
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: The preceding sentence is "The page title contains x characters.".
-#. %2$s expands to the recommended minimum number of characters for the title. The following string is "and the
-#. recommended maximum of %3$d characters."
-#: js/assessments/titleLengthAssessment.js:83
-msgid ""
-"This is more than the viewable limit of %2$d character. Some words will not "
-"be visible to users in your listing."
-msgid_plural ""
-"This is more than the viewable limit of %2$d characters. Some words will not "
-"be visible to users in your listing."
-msgstr[0] ""
-msgstr[1] ""
-
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/transitionWordsAssessment.js:49
+#: js/assessments/transitionWordsAssessment.js:50
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "less than the recommended minimum of %4$s."
@@ -4578,7 +4525,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
-#: js/assessments/transitionWordsAssessment.js:62
+#: js/assessments/transitionWordsAssessment.js:63
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "great."
@@ -4631,7 +4578,7 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to the name of the assessment.
-#: js/assessor.js:181
+#: js/assessor.js:187
 msgid "An error occurred in the '%1$s' assessment"
 msgstr ""
 
