@@ -187,7 +187,7 @@ class WPSEO_Twitter {
 		$meta_desc = trim( WPSEO_Meta::get_value( 'twitter-description', $post_id ) );
 
 		if ( is_string( $meta_desc ) && '' !== $meta_desc ) {
-			return $meta_desc;
+			return wpseo_replace_vars( $meta_desc, $GLOBALS['wp_query']->get_queried_object() );
 		}
 
 		$meta_desc = $this->fallback_description();
@@ -207,10 +207,11 @@ class WPSEO_Twitter {
 	private function taxonomy_description() {
 		$meta_desc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'twitter-description' );
 
-		if ( ! is_string( $meta_desc ) || $meta_desc === '' ) {
-			$meta_desc = $this->fallback_description();
+		if ( is_string( $meta_desc ) && $meta_desc !== '' ) {
+			return wpseo_replace_vars( $meta_desc, $GLOBALS['wp_query']->get_queried_object() );
 		}
 
+		$meta_desc = $this->fallback_description();
 		if ( is_string( $meta_desc ) || $meta_desc !== '' ) {
 			return $meta_desc;
 		}
@@ -267,11 +268,12 @@ class WPSEO_Twitter {
 	 */
 	private function single_title( $post_id = 0 ) {
 		$title = WPSEO_Meta::get_value( 'twitter-title', $post_id );
+
 		if ( ! is_string( $title ) || $title === '' ) {
 			return $this->fallback_title();
 		}
 
-		return $title;
+		return wpseo_replace_vars( $title, $GLOBALS['wp_query']->get_queried_object() );
 	}
 
 	/**
@@ -286,7 +288,7 @@ class WPSEO_Twitter {
 			return $this->fallback_title();
 		}
 
-		return $title;
+		return wpseo_replace_vars( $title, $GLOBALS['wp_query']->get_queried_object() );
 	}
 
 	/**
