@@ -525,7 +525,7 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.analyzerData = this.modifyData( this.rawData );
-	
+
 	this.snippetPreview.refresh();
 
 	// Create a paper object for the Researcher
