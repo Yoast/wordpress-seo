@@ -72,6 +72,10 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
  * @returns {boolean} Whether or not the assessment has a marker.
  */
 Assessor.prototype.hasMarker = function( assessment ) {
+	if ( !isUndefined( window.yoastHideMarkers ) && window.yoastHideMarkers ) {
+		return false;
+	}
+
 	return isFunction( this._options.marker ) && assessment.hasOwnProperty( "getMarks" );
 };
 
