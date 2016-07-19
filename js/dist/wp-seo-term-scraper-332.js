@@ -12632,6 +12632,8 @@ App.prototype.runAnalyzer = function() {
 
 	this.analyzerData = this.modifyData( this.rawData );
 
+	this.snippetPreview.refresh();
+
 	// Create a paper object for the Researcher
 	this.paper = new Paper( this.analyzerData.text, {
 		keyword:  this.analyzerData.keyword,
@@ -25027,7 +25029,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
  * Copies the title text to the title measure element to calculate the width in pixels.
  */
 SnippetPreview.prototype.measureTitle = function() {
-	if( this.element.rendered.title.offsetWidth !== 0 || this.element.input.title.value === "" ) {
+	if( this.element.rendered.title.offsetWidth !== 0 || this.element.rendered.title.textContent === "" ) {
 		this.data.titleWidth = this.element.rendered.title.offsetWidth;
 	}
 };
