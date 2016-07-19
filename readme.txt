@@ -179,7 +179,7 @@ Release Date: July 19th, 2016
 	* Fixes a bug where in certain cases a yoastmark would leave traces in the text, these are now removed.
 	* Fixes a bug where the score bullet wouldn't be shown on the frontend.
 	* Fixes the generation of permalinks for new posts by ignoring the permalink sample and generating the permalink
-	from the posttitle, props [rob006](https://github.com/rob006).
+	from the posttitle, props [Robert Korulczyk](https://github.com/rob006).
 	* Fixes getting the incorrect primary category when getting the permalink, props [pawawat](https://github.com/pawawat).
 
 = 3.3.4 =
