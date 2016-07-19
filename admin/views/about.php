@@ -114,7 +114,6 @@ function wpseo_display_contributors( $contributors ) {
 					<p>We've added the readability score to the post and term overview.</p>
 				</div>
 			</div>
-			</div>
 		</div>
 
 		<div class="return-to-dashboard">
