@@ -525,6 +525,8 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.analyzerData = this.modifyData( this.rawData );
+	
+	this.snippetPreview.measureTitle();
 
 	// Create a paper object for the Researcher
 	this.paper = new Paper( this.analyzerData.text, {
