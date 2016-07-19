@@ -1,3 +1,10 @@
+### 3.4.0: July 19th, 2016
+* Includes every change in Yoast SEO core 3.4.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Visually improves the redirect dialog by using an overlay.
+* Fixes a bug where a trailing slash was added when redirecting to a file.
+* Fixes a fatal JavaScript error for the featured image on attachment edit pages.
+
+
 ### 3.3.3: June 30th, 2016
 * Includes every change in Yoast SEO core 3.3.3 and 3.3.4, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
