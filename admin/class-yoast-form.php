@@ -282,10 +282,16 @@ class Yoast_Form {
 				'for'   => '',
 			)
 		);
-		echo "<label class='" . $attr['class'] . "' for='" . esc_attr( $attr['for'] ) . "'>$text";
+
 		if ( $attr['close'] ) {
-			echo '</label>';
+			$label_span = '';
+			$label_close = '</label>';
+		} else {
+			$label_span = '<span class="yoast-label-span">';
+			$label_close = '</span>';
 		}
+
+		echo "<label class='" . $attr['class'] . "' for='" . esc_attr( $attr['for'] ) . "'>{$label_span}{$text}{$label_close}";
 	}
 
 	/**
@@ -455,14 +461,22 @@ class Yoast_Form {
 	 * @param string $field_name     The variable within the option to create the select for.
 	 * @param string $label          The label to show for the variable.
 	 * @param array  $select_options The select options to choose from.
+	 * @param array  $label_attr     The label attributes.
 	 */
-	public function select( $field_name, $label, array $select_options ) {
+	public function select( $field_name, $label, array $select_options, array $label_attr = array() ) {
 
 		if ( empty( $select_options ) ) {
 			return;
 		}
 
-		$this->label( $label . ':', array( 'for' => $field_name, 'class' => 'select' ) );
+		$label_attr = wp_parse_args( $label_attr, array(
+				'class' => 'select',
+				'close' => true,
+				'for'   => $field_name,
+			)
+		);
+
+		$this->label( $label . ':', $label_attr );
 
 		$select_name   = esc_attr( $this->option_name ) . '[' . esc_attr( $field_name ) . ']';
 		$active_option = ( isset( $this->options[ $field_name ] ) ) ? $this->options[ $field_name ] : '';
@@ -470,6 +484,10 @@ class Yoast_Form {
 		$select = new Yoast_Input_Select( $field_name, $select_name, $select_options, $active_option );
 		$select->add_attribute( 'class', 'select' );
 		$select->output_html();
+
+		if ( ! $label_attr['close'] ) {
+			echo '</label>';
+		}
 
 		echo '<br class="clear"/>';
 	}
