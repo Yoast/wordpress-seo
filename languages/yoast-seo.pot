@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-13 13:30+0200\n"
+"POT-Creation-Date: 2016-07-19 13:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,7 +192,6 @@ msgid "The page title is wider than the viewable limit."
 msgstr ""
 
 #: js/assessments/pageTitleWidthAssessment.js:46
-#: js/assessments/titleLengthAssessment.js:94
 msgid "Please create a page title."
 msgstr ""
 
@@ -244,7 +243,7 @@ msgstr[1] ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:50
+#: js/assessments/passiveVoiceAssessment.js:51
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is less than or "
 "equal to the recommended maximum of %4$s."
@@ -252,7 +251,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/passiveVoiceAssessment.js:68
+#: js/assessments/passiveVoiceAssessment.js:69
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is more than the "
 "recommended maximum of %4$s. Try to use their active counterparts."
@@ -260,7 +259,7 @@ msgstr ""
 
 #. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
 #. %2$d expands to the number of consecutive sentences starting with the same word.
-#: js/assessments/sentenceBeginningsAssessment.js:50
+#: js/assessments/sentenceBeginningsAssessment.js:51
 msgid ""
 "The text contains %2$d consecutive sentences starting with the same word. "
 "Try to mix things up!"
@@ -291,7 +290,7 @@ msgstr[1] ""
 #. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
-#: js/assessments/sentenceLengthInTextAssessment.js:78
+#: js/assessments/sentenceLengthInTextAssessment.js:79
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less "
 "than or equal to the recommended maximum of %5$s."
@@ -300,10 +299,10 @@ msgstr ""
 #. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
-#: js/assessments/sentenceLengthInTextAssessment.js:95
+#: js/assessments/sentenceLengthInTextAssessment.js:96
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
-"than the recommended maximum of %5$s.Try to shorten the sentences."
+"than the recommended maximum of %5$s. Try to shorten the sentences."
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
@@ -522,60 +521,9 @@ msgid ""
 "beginning; try and move it to the beginning."
 msgstr ""
 
-#. Translators: %1$d expands to the number of characters in the page title
-#: js/assessments/titleLengthAssessment.js:21
-#: js/assessments/titleLengthAssessment.js:45
-#: js/assessments/titleLengthAssessment.js:75
-msgid "The page title contains %1$d character."
-msgid_plural "The page title contains %1$d characters."
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: The preceding sentence is "The page title contains x characters.".
-#. %2$s expands to the recommended minimum number of characters for the title
-#: js/assessments/titleLengthAssessment.js:28
-msgid ""
-"This is less than the recommended minimum of %2$d character. Use the space "
-"to add keyword variations or create compelling call-to-action copy."
-msgid_plural ""
-"This is less than the recommended minimum of %2$d characters. Use the space "
-"to add keyword variations or create compelling call-to-action copy."
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: The preceding sentence is "The page title contains x characters.".
-#. %2$s expands to the recommended minimum number of characters for the title. The following string is
-#. "and the recommended maximum of %3$d characters."
-#: js/assessments/titleLengthAssessment.js:53
-msgid "This is between the recommended minimum of %2$d character"
-msgid_plural "This is between the recommended minimum of %2$d characters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: The preceding string is "This is between the recommended minimum of x characters".
-#. %3$s expands to the recommended minimum number of characters for the title
-#: js/assessments/titleLengthAssessment.js:60
-msgid "and the recommended maximum of %3$d character."
-msgid_plural "and the recommended maximum of %3$d characters."
-msgstr[0] ""
-msgstr[1] ""
-
-#. Translators: The preceding sentence is "The page title contains x characters.".
-#. %2$s expands to the recommended minimum number of characters for the title. The following string is "and the
-#. recommended maximum of %3$d characters."
-#: js/assessments/titleLengthAssessment.js:83
-msgid ""
-"This is more than the viewable limit of %2$d character. Some words will not "
-"be visible to users in your listing."
-msgid_plural ""
-"This is more than the viewable limit of %2$d characters. Some words will not "
-"be visible to users in your listing."
-msgstr[0] ""
-msgstr[1] ""
-
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: js/assessments/transitionWordsAssessment.js:49
+#: js/assessments/transitionWordsAssessment.js:50
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "less than the recommended minimum of %4$s."
@@ -583,7 +531,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
-#: js/assessments/transitionWordsAssessment.js:62
+#: js/assessments/transitionWordsAssessment.js:63
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "great."
@@ -636,7 +584,7 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to the name of the assessment.
-#: js/assessor.js:181
+#: js/assessor.js:187
 msgid "An error occurred in the '%1$s' assessment"
 msgstr ""
 
