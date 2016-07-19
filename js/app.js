@@ -638,8 +638,9 @@ App.prototype.updateLoadingDialog = function( plugins ) {
  */
 App.prototype.removeLoadingDialog = function() {
 	var outputElement = document.getElementById( this.defaultOutputElement );
+	var loadingDialog = document.getElementById( "YoastSEO-plugin-loading" );
 
-	if ( this.defaultOutputElement !== "" && !isEmpty( outputElement ) ) {
+	if ( ( this.defaultOutputElement !== "" && !isEmpty( outputElement ) ) && !isEmpty( loadingDialog ) ) {
 		document.getElementById( this.defaultOutputElement ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 	}
 };
