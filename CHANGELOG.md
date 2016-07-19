@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.4: July 19th, 2016
+## 1.4.0: July 19th, 2016
 
 ### Changed
     * Improves feedback texts of assessments.
