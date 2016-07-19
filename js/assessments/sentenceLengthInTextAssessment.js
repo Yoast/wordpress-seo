@@ -2,6 +2,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
 var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
+var stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
 var Mark = require( "../values/Mark.js" );
 var addMark = require( "../markers/addMark.js" );
@@ -131,9 +132,10 @@ var sentenceLengthMarker = function( paper, researcher ) {
 	var sentenceObjects = tooLongSentences( sentenceCount, recommendedValue );
 
 	return map( sentenceObjects, function( sentenceObject ) {
+		var sentence = stripTags( sentenceObject.sentence );
 		return new Mark( {
-			original: sentenceObject.sentence,
-			marked: addMark( sentenceObject.sentence )
+			original: sentence,
+			marked: addMark( sentence )
 		} );
 	} );
 };

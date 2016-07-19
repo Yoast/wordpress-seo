@@ -1,6 +1,7 @@
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var getWords = require( "../stringProcessing/getWords.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var stripTagParts = require( "../stringProcessing/stripHTMLTags.js" ).stripIncompleteTags;
 var removeNonWordCharacters = require( "../stringProcessing/removeNonWordCharacters.js" );
 var getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
 
@@ -58,6 +59,7 @@ module.exports = function( paper ) {
 	var sentences = getSentences( paper.getText() );
 	var firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 	var sentenceBeginnings = sentences.map( function( sentence ) {
+		sentence = stripTagParts( sentence );
 		var words = getWords( stripSpaces( sentence ) );
 		if( words.length === 0 ) {
 			return "";

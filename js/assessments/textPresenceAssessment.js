@@ -1,4 +1,4 @@
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags" );
+var stripHTMLTags = require( "../stringProcessing/stripHTMLTags" ).stripFullTags;
 var AssessmentResult = require( "../values/AssessmentResult" );
 
 /**
