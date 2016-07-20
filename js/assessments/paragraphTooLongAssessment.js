@@ -98,8 +98,7 @@ var paragraphLengthMarker = function( paper, researcher ) {
 	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
 	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
 	return map( tooLongParagraphs, function( paragraph ) {
-
-		var paragraphText = stripHTMLTags( paragraph.text )
+		var paragraphText = stripHTMLTags( paragraph.text );
 		var marked = marker( paragraphText );
 		return new Mark( {
 			original: paragraphText,
