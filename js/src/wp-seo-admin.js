@@ -1,7 +1,14 @@
-/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale */
+/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale, tb_show */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
+
+/* jshint ignore:start */
+import React from 'react';
+import ReactDom from 'react-dom';
+import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
+/* jshint ignore:end */
+
 (function() {
 	'use strict';
 
@@ -176,28 +183,28 @@
 		var select2Width = '400px';
 
 		// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
-		jQuery('#company_or_person').select2({
+		jQuery( '#company_or_person' ).select2( {
 			width: select2Width,
 			language: wpseoSelect2Locale
-		});
+		} );
 
 		// Select2 for Twitter card meta data in Settings
-		jQuery('#twitter_card_type').select2({
+		jQuery( '#twitter_card_type' ).select2( {
 			width: select2Width,
 			language: wpseoSelect2Locale
-		});
+		} );
 
 		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery('#post_types-post-maintax').select2({
+		jQuery( '#post_types-post-maintax' ).select2( {
 			width: select2Width,
 			language: wpseoSelect2Locale
-		});
+		} );
 
 		// Select2 for profile in Search Console
-		jQuery('#profile').select2({
+		jQuery( '#profile' ).select2( {
 			width: select2Width,
 			language: wpseoSelect2Locale
-		});
+		} );
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
@@ -208,11 +215,44 @@
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
-			/* Fix banner images overlapping help texts */
-			jQuery( '.screen-meta-toggle a' ).click( function() {
-					jQuery( '#sidebar-container' ).toggle();
-				}
-			);
+			// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
+			var mountingPoints = jQuery( '.wpseo-kb-search' );
+			var algoliaSearchers = [];
+			jQuery.each( mountingPoints, function( index, mountingPoint ) {
+				var tabId = jQuery( mountingPoint ).closest( '.wpseotab' ).attr( 'id' );
+				var translations = {
+					noResultsText: wpseoAdminL10n.kb_no_results,
+					headingText: wpseoAdminL10n.kb_heading,
+					searchButtonText: wpseoAdminL10n.kb_search_button_text,
+					searchResultsHeading: wpseoAdminL10n.kb_search_results_heading,
+					errorMessage: wpseoAdminL10n.kb_error_message,
+					loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
+					search: wpseoAdminL10n.kb_search,
+					open: wpseoAdminL10n.kb_open,
+					openLabel: wpseoAdminL10n.kb_open_label,
+					back: wpseoAdminL10n.kb_back,
+					backLabel: wpseoAdminL10n.kb_back_label,
+					iframeTitle: wpseoAdminL10n.kb_iframe_title
+				};
+				algoliaSearchers.push( {
+					tabName: tabId,
+					algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher , translations ), mountingPoint ) //jshint ignore:line
+				} );
+			} );
+
+			// Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
+			jQuery( '.contact-support' ).on( 'click', function( e ) {
+				var activeTabName = jQuery( '.wpseotab.active' ).attr( 'id' );
+				var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher; // 1st by default. (Used for the Advanced settings pages because of how the tabs were set up)
+				jQuery.each( algoliaSearchers, function( key, searcher ) {
+					if ( searcher.tabName === activeTabName ) {
+						activeAlgoliaSearcher = searcher.algoliaSearcher;
+						return false; // returning false breaks the loop.
+					}
+				} );
+				var usedQueries = activeAlgoliaSearcher.state.usedQueries;
+				jQuery( window ).trigger( 'YoastSEO:ContactSupport', { usedQueries: usedQueries } );
+			} );
 
 			// events
 			jQuery( '#enablexmlsitemap' ).change( function() {

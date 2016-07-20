@@ -9,7 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-?><h3><?php _e( 'Website name', 'wordpress-seo' ); ?></h3>
+echo '<h2>' . esc_html__( 'Website name', 'wordpress-seo' ) . '</h2>';
+?>
 <p>
 	<?php
 	_e( 'Google shows your website\'s name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider.', 'wordpress-seo' );
@@ -18,8 +19,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 <?php
 $yform->textinput( 'website_name', __( 'Website name', 'wordpress-seo' ), array( 'placeholder' => get_bloginfo( 'name' ) ) );
 $yform->textinput( 'alternate_website_name', __( 'Alternate name', 'wordpress-seo' ) );
+
+echo '<h2>' . esc_html__( 'Company or person', 'wordpress-seo' ) . '</h2>';
 ?>
-<h3><?php _e( 'Company or person', 'wordpress-seo' ); ?></h3>
 <p>
 	<?php
 	// @todo add KB link - JdV.
@@ -35,7 +37,7 @@ $yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ),
 ?>
 
 <div id="knowledge-graph-company">
-	<h2><?php _e( 'Company', 'wordpress-seo' ); ?></h2>
+	<h3><?php esc_html_e( 'Company', 'wordpress-seo' ); ?></h3>
 	<?php
 	$yform->textinput( 'company_name', __( 'Company Name', 'wordpress-seo' ) );
 	$yform->media_input( 'company_logo', __( 'Company Logo', 'wordpress-seo' ) );
@@ -43,6 +45,6 @@ $yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ),
 </div>
 
 <div id="knowledge-graph-person">
-	<h2><?php _e( 'Person', 'wordpress-seo' ); ?></h2>
+	<h3><?php esc_html_e( 'Person', 'wordpress-seo' ); ?></h3>
 	<?php $yform->textinput( 'person_name', __( 'Your name', 'wordpress-seo' ) ); ?>
 </div>

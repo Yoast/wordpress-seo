@@ -16,6 +16,16 @@ class WPSEO_Taxonomy {
 	private $taxonomy = '';
 
 	/**
+	 * @var WPSEO_Metabox_Analysis_SEO
+	 */
+	private $analysis_seo;
+
+	/**
+	 * @var WPSEO_Metabox_Analysis_Readability
+	 */
+	private $analysis_readability;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -24,11 +34,16 @@ class WPSEO_Taxonomy {
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		// Needs a hook that runs before the description field.
+		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
+
+		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -81,15 +96,12 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'scoring' );
-
-			wp_editor( '', 'description' );
-
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'term-scraper' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( get_locale() ) );
 
 			$asset_manager->enqueue_script( 'admin-media' );
 
@@ -113,11 +125,34 @@ class WPSEO_Taxonomy {
 			if ( $posted_value = filter_input( INPUT_POST, $key ) ) {
 				$new_meta_data[ $key ] = $posted_value;
 			}
+
+			// If analysis is disabled remove that analysis score value from the DB.
+			if ( $this->is_meta_value_disabled( $key ) ) {
+				$new_meta_data[ $key ] = '';
+			}
 		}
 		unset( $key, $default );
 
 		// Saving the values.
 		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
+	}
+
+	/**
+	 * Determines if the given meta value key is disabled
+	 *
+	 * @param string $key The key of the meta value.
+	 * @return bool Whether the given meta value key is disabled.
+	 */
+	public function is_meta_value_disabled( $key ) {
+		if ( 'wpseo_linkdex' === $key && ! $this->analysis_seo->is_enabled() ) {
+			return true;
+		}
+
+		if ( 'wpseo_content_score' === $key && ! $this->analysis_readability->is_enabled() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -135,6 +170,18 @@ class WPSEO_Taxonomy {
 			remove_filter( $filter, 'wp_filter_kses' );
 		}
 		remove_filter( 'term_description', 'wp_kses_data' );
+	}
+
+	/**
+	 * Output the WordPress editor.
+	 */
+	public function custom_category_description_editor() {
+
+		if ( ! $this->show_metabox() ) {
+			return;
+		}
+
+		wp_editor( '', 'description' );
 	}
 
 	/**
@@ -277,7 +324,6 @@ class WPSEO_Taxonomy {
 
 		return $cached_replacement_vars;
 	}
-
 
 	/********************** DEPRECATED METHODS **********************/
 

@@ -2,8 +2,23 @@
 /* global wpseoAdminGlobalL10n */
 /* jshint -W097 */
 /* jshint unused:false */
+
 (function() {
 	'use strict';
+
+	function displayConsoleNotifications() {
+		if ( typeof window.wpseoConsoleNotifications === 'undefined' || typeof console === 'undefined' ) {
+			return;
+		}
+
+		/* jshint ignore:start */
+		for ( var index = 0; index < wpseoConsoleNotifications.length; index++ ) {
+			console.warn( wpseoConsoleNotifications[index] );
+		}
+		/* jshint ignore:end */
+	}
+
+	jQuery( document ).ready( displayConsoleNotifications );
 
 	/**
 	 * Used to dismiss the tagline notice for a specific user.
@@ -107,11 +122,6 @@
 
 	var $ = jQuery;
 
-	$( document ).ready( function() {
-		showAlertPopup();
-		hookDismissRestoreButtons();
-	});
-
 	/**
 	 * Hide popup showing new alerts are present
 	 */
@@ -130,14 +140,51 @@
 	}
 
 	/**
+	 * Handle dismiss and restore AJAX responses
+	 *
+	 * @param {Object} $source Object that triggered the request.
+	 * @param {Object} response AJAX response.
+	 */
+	function handleDismissRestoreResponse( $source, response ) {
+		$( '.yoast-alert-holder' ).off( 'click', '.restore' ).off( 'click', '.dismiss' );
+
+		if ( typeof response.html === 'undefined' ) {
+			return;
+		}
+
+		if ( response.html ) {
+			$source.closest( '.yoast-container' ).html( response.html );
+			/* jshint ignore:start */
+			hookDismissRestoreButtons();
+			/* jshint ignore:end */
+		}
+
+		var $wpseo_menu = $( '#wp-admin-bar-wpseo-menu' );
+		var $issue_counter = $wpseo_menu.find( '.yoast-issue-counter' );
+
+		if ( ! $issue_counter.length ) {
+			$wpseo_menu.find( '> a:first-child' ).append( '<div class="yoast-issue-counter"/>' );
+			$issue_counter = $wpseo_menu.find( '.yoast-issue-counter' );
+		}
+
+		$issue_counter.html( response.total );
+		if ( response.total === 0 ) {
+			$issue_counter.hide();
+		} else {
+			$issue_counter.show();
+		}
+
+		$('#toplevel_page_wpseo_dashboard .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
+		$('#toplevel_page_wpseo_dashboard .plugin-count').html( response.total );
+	}
+
+	/**
 	 * Hook the restore and dismiss buttons
 	 */
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( '.yoast-alert-holder' );
 
-		$dismissible.on( 'click', '.dismiss', function( evt ) {
-			evt.preventDefault();
-
+		$dismissible.on( 'click', '.dismiss', function() {
 			var $this = $( this );
 			var $source = $this.closest( '.yoast-alert-holder' );
 
@@ -159,9 +206,7 @@
 			);
 		} );
 
-		$dismissible.on( 'click', '.restore', function( evt ) {
-			evt.preventDefault();
-
+		$dismissible.on( 'click', '.restore', function() {
 			var $this = $( this );
 			var $source = $this.closest( '.yoast-alert-holder' );
 
@@ -184,42 +229,10 @@
 		} );
 	}
 
-	/**
-	 * Handle dismiss and restore AJAX responses
-	 *
-	 * @param {Object} $source Object that triggered the request.
-	 * @param {Object} response AJAX response.
-	 */
-	function handleDismissRestoreResponse( $source, response ) {
-		$( '.yoast-alert-holder' ).off( 'click', '.restore' ).off( 'click', '.dismiss' );
-
-		if ( typeof response.html === 'undefined' ) {
-			return;
-		}
-
-		if ( response.html ) {
-			$source.closest( '.yoast-container' ).html( response.html );
-			hookDismissRestoreButtons();
-		}
-
-		var $wpseo_menu = $( '#wp-admin-bar-wpseo-menu' );
-		var $issue_counter = $wpseo_menu.find( '.yoast-issue-counter' );
-
-		if ( ! $issue_counter.length ) {
-			$wpseo_menu.find( '> a:first-child' ).append( '<div class="yoast-issue-counter"/>' );
-			$issue_counter = $wpseo_menu.find( '.yoast-issue-counter' );
-		}
-
-		$issue_counter.html( response.total );
-		if ( response.total === 0 ) {
-			$issue_counter.hide();
-		} else {
-			$issue_counter.show();
-		}
-
-		$('#toplevel_page_wpseo_dashboard .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
-		$('#toplevel_page_wpseo_dashboard .plugin-count').html( response.total );
-	}
+	$( document ).ready( function() {
+		showAlertPopup();
+		hookDismissRestoreButtons();
+	});
 })();
 
 (function() {
@@ -227,20 +240,40 @@
 
 	var $ = jQuery;
 
-	$( '.nav-tab' ).click( function() {
-		closeVideoSlideout();
-	} );
+	/**
+	 * Start video if found on the tab
+	 *
+	 * @param {object} $tab Tab that is activated.
+	 */
+	function activateVideo( $tab ) {
+		var $data = $tab.find( '.wpseo-tab-video__data' );
+		if ( $data.length === 0 ) {
+			return;
+		}
 
-	$( '.wpseo-tab-video-container' ).on( 'click', '.wpseo-tab-video-container__handle', function( e ) {
-		var $container = $( e.delegateTarget );
-		var $slideout = $container.find( '.wpseo-tab-video-slideout' );
-		if ( $slideout.is( ':hidden' ) ) {
-			openVideoSlideout( $container );
-		}
-		else {
-			closeVideoSlideout();
-		}
-	} );
+		$data.append( '<iframe width="560" height="315" src="' + $data.data( 'url' ) + '" title="' + wpseoAdminGlobalL10n.help_video_iframe_title + '" frameborder="0" allowfullscreen></iframe>' );
+	}
+
+	/**
+	 * Stop playing any video.
+	 */
+	function stopVideos() {
+		$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
+	}
+
+	/**
+	 * Open tab
+	 *
+	 * @param {object} $container Container that contains the tab.
+	 * @param {object} $tab Tab that is activated.
+	 */
+	function openHelpCenterTab( $container, $tab ) {
+		$container.find('.contextual-help-tabs-wrap div').removeClass('active');
+		$tab.addClass('active');
+
+		stopVideos();
+		activateVideo( $tab );
+	}
 
 	/**
 	 * Open Video Slideout
@@ -253,6 +286,9 @@
 		$container.find( '.wpseo-tab-video-slideout' ).css( 'display', 'flex' );
 
 		var $activeTabLink = $container.find('.wpseo-help-center-item.active > a');
+
+		$( '#wpcontent' ).addClass( 'yoast-help-center-open' );
+
 		if ( $activeTabLink.length > 0 ) {
 			var activeTab = $activeTabLink.attr( 'aria-controls' );
 			activateVideo( $( '#' + activeTab ) );
@@ -275,41 +311,6 @@
 	}
 
 	/**
-	 * Open tab
-	 *
-	 * @param {object} $container Container that contains the tab.
-	 * @param {object} $tab Tab that is activated.
-	 */
-	function openHelpCenterTab( $container, $tab ) {
-		$container.find('.contextual-help-tabs-wrap div').removeClass('active');
-		$tab.addClass('active');
-
-		stopVideos();
-		activateVideo( $tab );
-	}
-
-	/**
-	 * Start video if found on the tab
-	 *
-	 * @param {object} $tab Tab that is activated.
-	 */
-	function activateVideo( $tab ) {
-		var $data = $tab.find( '.wpseo-tab-video__data' );
-		if ( $data.length === 0 ) {
-			return;
-		}
-
-		$data.append( '<iframe width="560" height="315" src="' + $data.data( 'url' ) + '" frameborder="0" allowfullscreen></iframe>' );
-	}
-
-	/**
-	 * Stop playing any video.
-	 */
-	function stopVideos() {
-		$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
-	}
-
-	/**
 	 * Close Video Slideout
 	 */
 	function closeVideoSlideout() {
@@ -320,5 +321,22 @@
 
 		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-arrow-down' );
 		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'false' );
+
+		$( '#wpcontent' ).removeClass( 'yoast-help-center-open' );
 	}
+
+	$( '.nav-tab' ).click( function() {
+		closeVideoSlideout();
+	} );
+
+	$( '.wpseo-tab-video-container' ).on( 'click', '.wpseo-tab-video-container__handle', function( e ) {
+		var $container = $( e.delegateTarget );
+		var $slideout = $container.find( '.wpseo-tab-video-slideout' );
+		if ( $slideout.is( ':hidden' ) ) {
+			openVideoSlideout( $container );
+		}
+		else {
+			closeVideoSlideout();
+		}
+	} );
 })();
