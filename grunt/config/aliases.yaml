@@ -19,6 +19,7 @@ build:
   - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
+  - 'copy'
   - 'browserify:build'
   - 'browserify:buildes6'
   - 'uglify'
@@ -56,6 +57,7 @@ release:
   - 'build:css'
   - 'cssmin'
 'release:js':
+  - 'copy'
   - 'browserify:build'
   - 'browserify:release-es6'
   - 'uglify'
