@@ -13,3 +13,12 @@
 	margin: 1em 0;
 	font-size: 1.3em;
 }
+
+/* Select2 specific fixes for WordPress */
+.select2-search__field {
+	margin: 0;
+}
+
+.select2-results__option {
+	margin-bottom: 0;
+}

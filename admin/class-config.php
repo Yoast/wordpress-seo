@@ -79,7 +79,7 @@ class WPSEO_Admin_Pages {
 
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( get_locale() ) );
 
 		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
 			wp_enqueue_media();
@@ -118,6 +118,8 @@ class WPSEO_Admin_Pages {
 			'locale' => get_locale(),
 			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
 			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
+			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),
+			'kb_search_results_heading' => __( 'Search results', 'wordpress-seo' ),
 			'kb_error_message' => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
 			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
 			'kb_search' => __( 'search', 'wordpress-seo' ),
@@ -125,6 +127,7 @@ class WPSEO_Admin_Pages {
 			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
 			'kb_open' => __( 'Open', 'wordpress-seo' ),
 			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
+			'kb_iframe_title' => __( 'Knowledge base article', 'wordpress-seo' ),
 		);
 	}
 

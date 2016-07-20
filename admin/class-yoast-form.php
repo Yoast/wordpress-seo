@@ -172,14 +172,9 @@ class Yoast_Form {
 				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
 			),
 			array(
-				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
-				'img' => 'banner-website-review.png',
-				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
-				'img' => 'banner-website-review.png',
-				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
+				'url' => 'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner',
+				'img' => 'banner-configuration-service.png',
+				'alt' => __( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' ),
 			),
 			array(
 				'url' => 'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
@@ -245,9 +240,14 @@ class Yoast_Form {
 			<div id="sidebar">
 		<?php
 
-		$service_banner = $service_banners[0];
-
-		echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
+		$i = 0;
+		foreach ( $service_banners as $service_banner ) {
+			if ( $i == 2 ) {
+				break;
+			}
+			echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
+			$i ++;
+		}
 
 		$i = 0;
 		foreach ( $plugin_banners as $banner ) {
