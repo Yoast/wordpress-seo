@@ -20,7 +20,7 @@ var stripIncompleteTags = function( text ) {
 };
 
 /**
- * Removes the block element tags at the beginning and end of a string and returns this string.  
+ * Removes the block element tags at the beginning and end of a string and returns this string.
  *
  * @param {string} text The unformatted string.
  * @returns {string} The text with removed HTML begin and end block elements
