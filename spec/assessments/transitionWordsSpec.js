@@ -52,6 +52,7 @@ describe( "An assessment for transition word percentage", function(){
 			"or phrase, which is great." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
+
 	it( "returns the score for 47% sentences with transition words", function(){
 		mockPaper = new Paper();
 		assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 100,
@@ -61,7 +62,8 @@ describe( "An assessment for transition word percentage", function(){
 			"or phrase, which is great.");
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-		it( "returns the score for 66.7% of the sentences with transition words", function(){
+
+	it( "returns the score for 66.7% of the sentences with transition words", function(){
 		mockPaper = new Paper();
 		assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 3,
 			transitionWordSentences: 2 } ), i18n );
@@ -71,7 +73,8 @@ describe( "An assessment for transition word percentage", function(){
 			"or phrase, which is great." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-		it( "is not applicable for empty papers", function(){
+
+	it( "is not applicable for empty papers", function(){
 		mockPaper = new Paper();
 		assessment = transitionWordsAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );

@@ -9,6 +9,21 @@ var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
 
 /**
+ * Calculates the actual percentage of transition words in the sentences.
+ *
+ * @param {object} sentences The object containing the total number of sentences and the number of sentences containing
+ * a transition word.
+ * @returns {number} The percentage of sentences containing a transition word.
+ */
+var calculateTransitionWordPercentage = function ( sentences ) {
+	if ( sentences.transitionWordSentences === 0 || sentences.totalSentences === 0 ) {
+		return 0;
+	}
+
+	return formatNumber( ( sentences.transitionWordSentences / sentences.totalSentences ) * 100 );
+};
+
+/**
  * Calculates transition word result
  * @param {object} transitionWordSentences The object containing the total number of sentences and the number of sentences containing
  * a transition word.
@@ -17,8 +32,7 @@ var marker = require( "../markers/addMark.js" );
  */
 var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	var score;
-	var percentage = ( transitionWordSentences.transitionWordSentences / transitionWordSentences.totalSentences ) * 100;
-	percentage     = formatNumber( percentage );
+	var percentage = calculateTransitionWordPercentage( transitionWordSentences );
 	var hasMarks   = ( percentage > 0 );
 	var transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
 
