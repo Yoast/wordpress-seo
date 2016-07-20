@@ -32,7 +32,6 @@ var AlgoliaSearcher = function (_React$Component) {
   * @constructor
   * @param {object} props Properties of the AlgoliaSearcher component.
   */
-
 	function AlgoliaSearcher(props) {
 		_classCallCheck(this, AlgoliaSearcher);
 
