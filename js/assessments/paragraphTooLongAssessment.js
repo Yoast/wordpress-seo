@@ -1,13 +1,9 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var stripHTMLTags = require( "../stringProcessing/stripHTMLTags" ).stripBlockTagsAtStartEnd;
 var isParagraphTooLong = require( "../helpers/isValueTooLong" );
 var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
 var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
-
-var blockElements = require( "../helpers/html.js" ).blockElements;
-
-var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>", "i" );
-var blockElementEndRegex = new RegExp( "</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -102,7 +98,8 @@ var paragraphLengthMarker = function( paper, researcher ) {
 	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
 	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
 	return map( tooLongParagraphs, function( paragraph ) {
-		var paragraphText = paragraph.paragraph.replace( blockElementStartRegex, "" ).replace( blockElementEndRegex, "" );
+
+		var paragraphText = stripHTMLTags( paragraph.text )
 		var marked = marker( paragraphText );
 		return new Mark( {
 			original: paragraphText,
