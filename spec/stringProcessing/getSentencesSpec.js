@@ -239,4 +239,12 @@ describe("Get sentences from text", function(){
 
 		testGetSentences( testCases );
 	} );
+	it( "should accept the horizontal ellipsis as sentence terminator", function() {
+		var testCases = [
+			{
+				input: "This is the first sentence… Followed by a second one.",
+				expected: [ "This is the first sentence…", "Followed by a second one." ]
+			}
+		]
+	} );
 });
