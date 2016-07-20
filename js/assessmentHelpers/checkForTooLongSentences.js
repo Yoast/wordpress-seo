@@ -3,7 +3,7 @@ var isSentenceTooLong = require( "../helpers/isValueTooLong" );
 
 /**
  * Checks for too long sentences.
- * @param {array} sentences The array containing sentence lengths.
+ * @param {object} sentences The object containing the text's sentences and their lengths.
  * @param {number} recommendedValue The recommended maximum length of sentence.
  * @returns {array} Array of too long sentences.
  */
