@@ -14,6 +14,8 @@ var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
 var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
 var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
+window.yoastHideMarkers = true;
+
 (function( $ ) {
 	'use strict';
 
@@ -440,6 +442,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			snippetPreview: snippetPreview
 		};
+
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 		}
