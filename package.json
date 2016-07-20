@@ -29,7 +29,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-glotpress": "git+https://github.com/markoheijnen/grunt-glotpress.git#05a38906b357d5a4785bc57e6287fb6479e674b7",
     "grunt-jscs": "^3.0.0",
