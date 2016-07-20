@@ -4,6 +4,11 @@ var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
 var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
 
+var blockElements = require( "../helpers/html.js" ).blockElements;
+
+var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>", "i" );
+var blockElementEndRegex = new RegExp( "</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
+
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
 
@@ -97,9 +102,10 @@ var paragraphLengthMarker = function( paper, researcher ) {
 	var paragraphsLength = researcher.getResearch( "getParagraphLength" );
 	var tooLongParagraphs = getTooLongParagraphs( paragraphsLength );
 	return map( tooLongParagraphs, function( paragraph ) {
-		var marked = marker( paragraph.paragraph );
+		var paragraphText = paragraph.paragraph.replace( blockElementStartRegex, "" ).replace( blockElementEndRegex, "" );
+		var marked = marker( paragraphText );
 		return new Mark( {
-			original: paragraph.paragraph,
+			original: paragraphText,
 			marked: marked
 		} );
 	} );
