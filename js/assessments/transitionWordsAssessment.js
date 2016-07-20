@@ -20,7 +20,7 @@ var calculateTransitionWordPercentage = function ( sentences ) {
 		return 0;
 	}
 
-	return ( sentences.transitionWordSentences / sentences.totalSentences ) * 100;
+	return formatNumber( ( sentences.transitionWordSentences / sentences.totalSentences ) * 100 );
 };
 
 /**
