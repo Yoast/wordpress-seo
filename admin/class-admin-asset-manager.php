@@ -118,7 +118,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-330',
+				'src'  => 'wp-seo-admin-340',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -137,7 +137,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'bulk-editor',
-				'src'  => 'wp-seo-bulk-editor-320',
+				'src'  => 'wp-seo-bulk-editor-340',
 				'deps' => array( 'jquery' ),
 			),
 			array(
@@ -147,12 +147,12 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-332',
+				'src'  => 'wp-seo-admin-global-340',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-330',
+				'src'  => 'wp-seo-metabox-340',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -171,13 +171,13 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'      => 'admin-gsc',
-				'src'       => 'wp-seo-admin-gsc-320',
+				'src'       => 'wp-seo-admin-gsc-340',
 				'deps'      => array(),
 				'in_footer' => false,
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-333',
+				'src'  => 'wp-seo-post-scraper-340',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -186,7 +186,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-332',
+				'src'  => 'wp-seo-term-scraper-340',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
@@ -197,11 +197,11 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'shortcode-plugin',
-				'src'  => 'wp-seo-shortcode-plugin-320',
+				'src'  => 'wp-seo-shortcode-plugin-340',
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-324',
+				'src'  => 'wp-seo-recalculate-340',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -210,7 +210,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'primary-category',
-				'src'  => 'wp-seo-metabox-category-320',
+				'src'  => 'wp-seo-metabox-category-340',
 				'deps' => array(
 					'jquery',
 					'wp-util',
@@ -274,7 +274,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'alerts',
-				'src'  => 'alerts',
+				'src'  => 'alerts-340',
 			),
 			array(
 				'name' => 'edit-page',
@@ -286,7 +286,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-331',
+				'src'  => 'metabox-340',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
@@ -305,7 +305,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'adminbar',
-				'src'  => 'adminbar-330',
+				'src'  => 'adminbar-340',
 			),
 			array(
 				'name' => 'primary-category',
@@ -319,15 +319,15 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'kb-search',
-				'src'  => 'kb-search-331',
+				'src'  => 'kb-search-340',
 			),
 			array(
 				'name' => 'help-center',
-				'src'  => 'help-center-331',
+				'src'  => 'help-center-340',
 			),
 			array(
 				'name' => 'admin-global',
-				'src'  => 'admin-global-330',
+				'src'  => 'admin-global-340',
 			),
 		);
 	}

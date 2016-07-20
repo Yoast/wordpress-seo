@@ -49,10 +49,10 @@ class WPSEO_Taxonomy_Columns {
 
 			if ( $column_name === 'description' && $this->analysis_seo->is_enabled() ) {
 				$new_columns['wpseo_score'] = __( 'SEO', 'wordpress-seo' );
+			}
 
-				if ( $this->analysis_readability->is_enabled() ) {
-					$new_columns['wpseo_score_readability'] = __( 'Readability', 'wordpress-seo' );
-				}
+			if ( $column_name === 'description' && $this->analysis_readability->is_enabled() ) {
+				$new_columns['wpseo_score_readability'] = __( 'Readability', 'wordpress-seo' );
 			}
 		}
 
