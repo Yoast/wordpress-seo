@@ -69,7 +69,7 @@ select.select {
 input.checkbox,
 input.checkbox.double {
 	float: left;
-	margin: 6px 10px 15px 0;
+	margin: 6px 10px 6px 0;
 }
 
 .textinput.metadesc {
