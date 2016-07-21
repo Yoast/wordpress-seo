@@ -679,17 +679,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
+		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
+
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( ! in_array( $pagenow, array(
-					'post-new.php',
-					'post.php',
-					'edit.php',
-				), true ) && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->is_metabox_hidden() === true
+		if ( ( ! $is_editor && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->is_metabox_hidden() === true
 		) {
 			return;
 		}
 
-		if ( $pagenow == 'edit.php' ) {
+		if ( self::is_post_overview( $pagenow ) ) {
 			$asset_manager->enqueue_style( 'edit-page' );
 		}
 		else {
@@ -975,6 +973,25 @@ SVG;
 					<# } #>
 				</li>
 			</script>';
+	}
+
+	/**
+	 * @param string $page The page to check for the post overview page.
+	 *
+	 * @return bool Whether or not the given page is the post overview page.
+	 */
+	public static function is_post_overview( $page ) {
+		return 'edit.php' === $page;
+	}
+
+	/**
+	 * @param string $page The page to check for the post edit page.
+	 *
+	 * @return bool Whether or not the given page is the post edit page.
+	 */
+	public static function is_post_edit( $page ) {
+		return 'post.php' === $page
+			|| 'post-new.php' === $page;
 	}
 
 	/********************** DEPRECATED METHODS **********************/
