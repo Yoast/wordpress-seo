@@ -104,6 +104,7 @@ module.exports = {
 	identifier: "fleschReadingEase",
 	getResult: fleschReadingEaseAssessment,
 	isApplicable: function( paper ) {
-		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
+
+		return ( paper.getLocale().indexOf( "en_" ) > -1 || paper.getLocale().indexOf( "nl_" ) > -1 && paper.hasText() );
 	}
 };

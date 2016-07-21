@@ -16,6 +16,7 @@ var formatNumber = require( "../helpers/formatNumber.js" );
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
+	var locale = paper.getLocale();
 	if ( text === "" ) {
 		return 0;
 	}
@@ -31,7 +32,7 @@ module.exports = function( paper ) {
 		return 0;
 	}
 
-	var numberOfSyllables = countSyllables( text );
+	var numberOfSyllables = countSyllables( text, locale );
 
 	var score = 206.835 - ( 1.015 * ( numberOfWords / numberOfSentences ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
 

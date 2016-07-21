@@ -1,5 +1,10 @@
 /** @module config/syllables */
 
+var getLanguage = require( "../helpers/getLanguage.js" );
+var isUndefined = require( "lodash/isUndefined" );
+
+
+
 /**
  * Returns an array with syllables.
  * Subtractsyllables are counted as two and need to be counted as one.
@@ -8,8 +13,8 @@
  *
  * @returns {object}
  */
-module.exports = function() {
-	return {
+var syllables = {
+	en: {
 		syllableExclusion: {
 			subtractSyllables: {
 				syllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e$", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
@@ -31,6 +36,54 @@ module.exports = function() {
 			{ word: "i.e", syllables: 2}
 		],
 		vowels: 'aeiouy'
-	};
+	},
+	nl: {
+		syllableExclusion: {
+			subtractSyllables: {
+				syllables: [ "ue+$", "ue$", "dge+$", "dge$","[tcp]iënt" ,"ace$", "ace+$", "[br]each", "[ainpr]tiaal", "[io]tiaan", "gua[yc]", "[^i]deal", "^deal", "tive$", "base[^enr]", "base$", "load", "close[^rt]", "close$", "[^e]coke", "^coke", "drive[^r]", "drive$", "[^s]core$", "^core$", "face[^nt]", "face$", "cache[^clntx]", "cache$", "game[^nlr]", "game$" ],
+				multiplier: -1
+			},
+			addSyllables: {
+				syllables: [ "aä", "aeu", "aie", "ao", "ë", "eo", "eú", "ieau", "ea$", "ea+$", "ea[^u]", "ei[ej]", "eu[iu]", "ï", "iei", "ienne", "[^l]ieu[^w]", "[^l]ieu$", "[^l]ieu+$",  "i[auiy]", "stion", "[^cstx]io", "^sion","riè", "oö", "oa", "oeing", "oeyo", "oie", "[eu]ü", "[^q]u[oaeè]", "uie", "[aeolu]y[eéèaoóu]", "[bhnpr]ieel", "[bhnpr]iël" ],
+				multiplier: +1
+			}
+		},
+		exclusionWords: [
+			{ word: "bye", syllables: 1 },
+			{ word: "cure", syllables: 1 },
+			{ word: "dei", syllables: 2 },
+			{ word: "dope", syllables: 1 },
+			{ word: "dude", syllables: 1 },
+			{ word: "fame", syllables: 1 },
+			{ word: "five", syllables: 1 },
+			{ word: "hole", syllables: 1 },
+			{ word: "least", syllables: 1 },
+			{ word: "minute", syllables: 2 },
+			{ word: "move", syllables: 1 },
+			{ word: "nice", syllables: 1 },
+			{ word: "one", syllables: 1 },
+			{ word: "state", syllables: 1 },
+			{ word: "wide", syllables: 1 },
+			{ word: "lone", syllables: 1 },
+			{ word: "surplace", syllables: 2 },
+			{ word: "fake", syllables: 1 },
+			{ word: "take", syllables: 1 },
+			{ word: "intake", syllables: 1 },
+			{ word: "trade", syllables: 1 }
+		],
+		vowels: 'aáäâeéëêiíïîoóöôuúüûy'
+	}
 };
 
+module.exports = function( locale ) {
+	if ( isUndefined( locale ) ) {
+		locale = "en_US"
+	}
+	switch( getLanguage( locale ) ) {
+		case "nl":
+			return syllables.nl;
+		case "en":
+		default:
+			return syllables.en;
+	}
+};
