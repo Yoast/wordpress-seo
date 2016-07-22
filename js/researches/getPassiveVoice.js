@@ -213,7 +213,8 @@ var getIrregularVerbs = function( sentence ) {
 };
 
 /**
- * Matches having with a verb directly following it. If so, it is not passive.
+ * Matches 'having' with a verb directly following it. If so, it is not passive.
+ *
  * @param {string} subSentence The subsentence to check for the word 'having' and a verb
  * @param {Array} verbs The array with verbs to check.
  * @returns {boolean} True if it is an exception, false if it is not.
@@ -234,8 +235,9 @@ var isHavingException = function( subSentence, verbs ) {
 };
 
 /**
- * Match the left. If left is preceeded by `a` or `the`, it isn't a verb.
- * @param {string} subSentence The subsentence to check for the word 'having' and a verb
+ * Match 'left'. If left is preceeded by `a` or `the`, it isn't a verb.
+ *
+ * @param {string} subSentence The subsentence to check for the word 'left'
  * @param {Array} verbs The array with verbs to check.
  * @returns {boolean} True if it is an exception, false if it is not.
  */
@@ -248,7 +250,8 @@ var isLeftException = function ( subSentence, verbs ) {
 
 /**
  * If the word 'fit' is preceeded by a determiner, it shouldn't be marked as active.
- * @param {string} subSentence The subsentence to check for the word 'having' and a verb
+ *
+ * @param {string} subSentence The subsentence to check for the word 'fit'
  * @returns {boolean} True if it is an exception, false if it is not.
  */
 var isFitException = function( subSentence ) {
@@ -263,6 +266,7 @@ var isFitException = function( subSentence ) {
 
 /**
  * Gets the exceptions. Some combinations shouldn't be marked as passive, so we need to filter them out.
+ *
  * @param {string} subSentence The subsentence to check for exceptions.
  * @param {array} verbs The array of verbs, used to determine exceptions.
  * @returns {boolean} Wether there is an exception or not.
@@ -285,6 +289,7 @@ var getExceptions = function( subSentence, verbs ) {
 
 /**
  * Checks the subsentence for any passive verb.
+ *
  * @param {string} subSentence The subsentence to check for passives.
  * @returns {boolean} True if passive is found, false if no passive is found.
  */
@@ -304,6 +309,7 @@ var determinePassives = function( subSentence ) {
 
 /**
  * Determines the number of passive sentences in the text.
+ *
  * @param {Paper} paper The paper object to get the text from.
  * @returns {object} The number of passives found in the text and the passive sentences.
  */
