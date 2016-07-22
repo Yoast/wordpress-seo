@@ -6,10 +6,10 @@ var getWords = require( "../stringProcessing/getWords.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
+var isUndefined = require( "lodash/isUndefined" );
 
-var SyllableCountIterator = require( "../values/syllableCountIterator.js" );
-
-
+var SyllableCountIterator = require( "../helpers/syllableCountIterator.js" );
+var ExclusionCountIterator = require( "../helpers/exclusionCountIterator.js" );
 
 /**
  * Counts the syllables by splitting on consonants, leaving groups of vowels.
@@ -61,6 +61,13 @@ var countSyllablesInExclusions = function( word, locale ) {
 	return syllableCount;
 };
 
+var countSyllablesInPartlyExclusions = function( word, locale ) {
+	if( isUndefined( exclusionCountIterator ) ) {
+		var exclusionCountIterator = new ExclusionCountIterator( syllableMatchers( locale ) );
+	}
+	return exclusionCountIterator.countSyllables( word );
+};
+
 /**
  * Count the number of syllables in a word, using vowels and exceptions.
  *
@@ -82,20 +89,23 @@ var countSyllables = function( word, locale ) {
  * @returns {int} The total number of syllables found in the text.
  */
 module.exports = function( text, locale ) {
+locale = "nl_NL"; //die moet er natuurlijk straks weer uit.
 	var words = getWords( text );
-
 	var syllableCount = 0;
 
 	forEach( words, function( word ) {
 		var exclusions = countSyllablesInExclusions( word, locale );
 		if ( exclusions !== 0 ) {
-			console.log( word, exclusions );
 			syllableCount += exclusions;
 			return;
 		}
+		var partlyExclusions = countSyllablesInPartlyExclusions( word, locale );
+		word = partlyExclusions.word;
+		syllableCount += partlyExclusions.syllableCount;
 		syllableCount += countSyllables( word, locale );
 		console.log( word, countSyllables( word, locale ) );
 	} );
+	console.log( "total", syllableCount );
 	return syllableCount;
 };
 

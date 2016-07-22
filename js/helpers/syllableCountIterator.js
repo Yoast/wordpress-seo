@@ -19,11 +19,11 @@ var SyllableCountIterator = function( config ) {
 /**
  * Creates a language syllable regex for each exclusion.
  *
- * @param {object} syllableRegexes The object containing all exclusion syllables including the multipliers.
+ * @param {object} syllableCountSteps The object containing all exclusion syllables including the multipliers.
  */
-SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableRegexes ) {
-	forEach( syllableRegexes, function( syllableRegex ) {
-		this.countSteps.push( new SyllableCountStep( syllableRegex ) );
+SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableCountSteps ) {
+	forEach( syllableCountSteps, function( syllableCountStep ) {
+		this.countSteps.push( new SyllableCountStep( syllableCountStep ) );
 	}.bind( this ) );
 };
 

@@ -3,8 +3,6 @@
 var getLanguage = require( "../helpers/getLanguage.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
-
-
 /**
  * Returns an array with syllables.
  * Subtractsyllables are counted as two and need to be counted as one.
@@ -13,7 +11,7 @@ var isUndefined = require( "lodash/isUndefined" );
  *
  * @returns {object}
  */
-var syllables = {
+var syllableLanguageConfig = {
 	en: {
 		syllableExclusion: {
 			subtractSyllables: {
@@ -24,6 +22,7 @@ var syllables = {
 				syllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]le$", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]", "[^ao]ire[ds]", "[^ao]ire$"],
 				multiplier: +1
 			}
+
 		},
 		exclusionWords: [
 			{ word: "shoreline", syllables: 2 },
@@ -71,6 +70,40 @@ var syllables = {
 			{ word: "intake", syllables: 1 },
 			{ word: "trade", syllables: 1 }
 		],
+		partlyExclusionWords: {
+			compounds: {
+				exclusionParts: [
+					{ word: "byte", syllables: 1 },
+					{ word: "cake", syllables: 1 },
+					{ word: "care", syllables: 1 },
+					{ word: "coach", syllables: 1 },
+					{ word: "coat", syllables: 1 },
+					{ word: "gate", syllables: 1 },
+					{ word: "earl", syllables: 1 },
+					{ word: "foam", syllables: 1 },
+					{ word: "head", syllables: 1 },
+					{ word: "home", syllables: 1 },
+					{ word: "live", syllables: 1 },
+					{ word: "safe", syllables: 1 },
+					{ word: "site", syllables: 1 },
+					{ word: "soap", syllables: 1 },
+					{ word: "teak", syllables: 1 },
+					{ word: "team", syllables: 1 },
+					{ word: "wave", syllables: 1 }
+				],
+				regexPrefix: "^",
+				regexSuffix: "$"
+			},
+			compoundEnds: {
+				exclusionParts: [
+					{ word: "tea", syllables: 1 },
+					{ word: "time", syllables: 1 },
+					{ word: "force", syllables: 1 }
+				],
+				regexSuffix: "$",
+				regexPrefix: ""
+			}
+		},
 		vowels: 'aáäâeéëêiíïîoóöôuúüûy'
 	}
 };
@@ -81,9 +114,9 @@ module.exports = function( locale ) {
 	}
 	switch( getLanguage( locale ) ) {
 		case "nl":
-			return syllables.nl;
+			return syllableLanguageConfig.nl;
 		case "en":
 		default:
-			return syllables.en;
+			return syllableLanguageConfig.en;
 	}
 };
