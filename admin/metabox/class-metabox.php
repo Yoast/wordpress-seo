@@ -578,7 +578,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$html .= $content;
 
 				if ( isset( $meta_field_def['description'] ) ) {
-					$html .= '<div>' . $meta_field_def['description'] . '</div>';
+					$html .= '<p>' . $meta_field_def['description'] . '</p>';
 				}
 
 				$html .= '
