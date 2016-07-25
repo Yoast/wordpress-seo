@@ -294,7 +294,6 @@ var getExceptions = function( subSentence, verbs ) {
  * @returns {boolean} True if passive is found, false if no passive is found.
  */
 var determinePassives = function( subSentence ) {
-	subSentence = normalizeSingleQuotes( subSentence );
 
 	var regularVerbs = getRegularVerbs( subSentence );
 	var irregularVerbs = getIrregularVerbs( subSentence );
