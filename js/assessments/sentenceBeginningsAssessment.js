@@ -22,18 +22,21 @@ var groupSentenceBeginnings = function( sentenceBeginnings ) {
 	var tooOften = partition( sentenceBeginnings, function ( word ) {
 		return word.count > maximumConsecutiveDuplicates;
 	} );
+
 	if ( tooOften[ 0 ].length === 0 ) {
 		return { total: 0 };
 	}
+
 	var sortedCounts = sortBy( tooOften[ 0 ], function( word ) {
 		return word.count;
 	} );
+
 	return { total: tooOften[ 0 ].length, lowestCount: sortedCounts[ 0 ].count };
 };
 
 /**
  * Calculates the score based on sentence beginnings.
- * @param {Array} groupedSentenceBeginnings The array with grouped sentence beginnings.
+ * @param {object} groupedSentenceBeginnings The object with grouped sentence beginnings.
  * @param {object} i18n The object used for translations.
  * @returns {{score: number, text: string, hasMarks: boolean}} resultobject with score and text.
  */
@@ -70,9 +73,11 @@ var sentenceBeginningMarker = function( paper, researcher ) {
 	sentenceBeginnings = filter( sentenceBeginnings, function( sentenceBeginning ) {
 		return sentenceBeginning.count > maximumConsecutiveDuplicates;
 	} );
+
 	var sentences = map( sentenceBeginnings, function( begin ) {
 		return begin.sentences;
 	} );
+
 	return map( flatten( sentences ), function( sentence ) {
 		sentence = stripTags( sentence );
 		var marked = marker( sentence );
@@ -95,6 +100,7 @@ var sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
 	var groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
 	var sentenceBeginningsResult = calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
 	var assessmentResult = new AssessmentResult();
+
 	assessmentResult.setScore( sentenceBeginningsResult.score );
 	assessmentResult.setText( sentenceBeginningsResult.text );
 	assessmentResult.setHasMarks( sentenceBeginningsResult.hasMarks );
