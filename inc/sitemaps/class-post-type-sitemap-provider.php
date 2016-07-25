@@ -363,8 +363,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$links[] = array(
 				'loc' => $this->get_home_url(),
+
+				// Deprecated, kept for backwards data compat. R.
+				'chf' => 'daily',
 				'pri' => 1,
-				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->get_home_url() ),
 			);
 
 			$needs_archive = false;
@@ -375,8 +377,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$links[] = array(
 				'loc' => $page_for_posts_url,
+
+				// Deprecated, kept for backwards data compat. R.
+				'chf' => 'daily',
 				'pri' => 1,
-				'chf' => WPSEO_Sitemaps::filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
 			);
 
 			$needs_archive = false;
@@ -405,9 +409,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			 */
 			$links[] = array(
 				'loc' => $archive_url,
-				'pri' => apply_filters( 'wpseo_xml_post_type_archive_priority', 0.8, $post_type ),
-				'chf' => WPSEO_Sitemaps::filter_frequency( $post_type . '_archive', 'weekly', $archive_url ),
 				'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
+
+				// Deprecated, kept for backwards data compat. R.
+				'chf' => 'daily',
+				'pri' => 1,
 			);
 		}
 
@@ -548,20 +554,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$url['mod'] = $modified;
 		}
 
-		$frequency_filter  = $post->post_type . '_single';
-		$frequency_default = 'weekly';
-
-		if ( (int) $post->ID === $this->get_page_for_posts_id() ) {
-			$frequency_filter  = 'blogpage';
-			$frequency_default = 'daily';
-		}
-
-		if ( (int) $post->ID === $this->get_page_on_front_id() ) {
-			$frequency_filter  = 'homepage';
-			$frequency_default = 'daily';
-		}
-
-		$url['chf']        = WPSEO_Sitemaps::filter_frequency( $frequency_filter, $frequency_default, $url['loc'] );
+		$url['chf'] = 'daily'; // Deprecated, kept for backwards data compat. R.
 
 		$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
 
@@ -580,7 +573,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$url['loc'] = trailingslashit( $url['loc'] );
 		}
 
-		$url['pri']    = $this->calculate_priority( $post );
+		$url['pri']    = 1; // Deprecated, kept for backwards data compat. R.
 		$url['images'] = $this->get_image_parser()->get_images( $post );
 
 		return $url;
