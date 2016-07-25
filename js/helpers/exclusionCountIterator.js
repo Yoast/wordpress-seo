@@ -6,7 +6,7 @@ var forEach = require ( "lodash/forEach" );
 var ExclusionCountIterator = function( config ) {
 	this.countSteps = [];
 	if( !isUndefined( config ) ) {
-		this.createExclusionSteps( config.partlyExclusionWords );
+		this.createExclusionSteps( config.partialExclusionWords );
 	}
 };
 
@@ -18,8 +18,10 @@ ExclusionCountIterator.prototype.createExclusionSteps = function( exclusionSteps
 
 ExclusionCountIterator.prototype.countSyllables = function( word ) {
 	var syllableCount = 0;
+	//console.log( "steps", this.countSteps );
 	forEach( this.countSteps, function( step ) {
 		var countStepResult = step.countSyllables( word );
+	//	console.log( "result", countStepResult );
 		syllableCount += countStepResult.syllableCount;
 		word = countStepResult.word
 	} );

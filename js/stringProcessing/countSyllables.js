@@ -61,7 +61,7 @@ var countSyllablesInExclusions = function( word, locale ) {
 	return syllableCount;
 };
 
-var countSyllablesInPartlyExclusions = function( word, locale ) {
+var countSyllablesInPartialExclusions = function( word, locale ) {
 	if( isUndefined( exclusionCountIterator ) ) {
 		var exclusionCountIterator = new ExclusionCountIterator( syllableMatchers( locale ) );
 	}
@@ -89,7 +89,8 @@ var countSyllables = function( word, locale ) {
  * @returns {int} The total number of syllables found in the text.
  */
 module.exports = function( text, locale ) {
-locale = "nl_NL"; //die moet er natuurlijk straks weer uit.
+	text = text.toLocaleLowerCase();
+//locale = "nl_NL"; //die moet er natuurlijk straks weer uit.
 	var words = getWords( text );
 	var syllableCount = 0;
 
@@ -99,7 +100,8 @@ locale = "nl_NL"; //die moet er natuurlijk straks weer uit.
 			syllableCount += exclusions;
 			return;
 		}
-		var partlyExclusions = countSyllablesInPartlyExclusions( word, locale );
+		var partlyExclusions = countSyllablesInPartialExclusions( word, locale );
+		console.log( partlyExclusions );
 		word = partlyExclusions.word;
 		syllableCount += partlyExclusions.syllableCount;
 		syllableCount += countSyllables( word, locale );

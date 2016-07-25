@@ -23,3 +23,92 @@ describe( "counting syllables", function() {
 		expect( countSyllableFunction( "strawberry" ) ).toBe( 3 );
 	})
 });
+
+describe("a syllable counter for Dutch textstrings", function(){
+
+
+	it("returns the number of syllables of words affected by the substractSyllables regex", function(){
+		expect( countSyllableFunction("cue, bridge, beachclub", "nl_NL") ).toBe( 4 );
+	});
+
+	it("returns the number of syllables for a sentence with exclusions", function(){
+		expect( countSyllableFunction("keynoter keynote keynotes kite kiter breakdance breakdancer race racer", "nl_NL") ).toBe( 18 );
+	});
+
+	it("returns the number of syllables for a sentence with exclusions", function(){
+		expect( countSyllableFunction("bye hallo verjaardagscake superbarbecuetang hightea computerupgrades invoice", "nl_NL") ).toBe( 22 );
+	});
+	it("returns the number of syllables for a sentence with diacritics words", function(){
+		expect( countSyllableFunction("hé café", "nl_NL") ).toBe( 3 );
+	});
+	it("returns the number of syllables for a sentence with add and substract syllables", function(){
+		expect( countSyllableFunction("face bastion", "nl_NL") ).toBe( 4 );
+	});
+
+	it("returns the number of syllables for a sentence with exclusions", function(){
+		expect( countSyllableFunction("fleece fleecedeken image images imagecontract pluimage style styleboek stylen douche douches office officer", "nl_NL") ).toBe( 29 );
+	});
+
+	it("returns the number of syllables for a sentence with exclusions", function(){
+		expect( countSyllableFunction("bye dei lone", "nl_NL") ).toBe( 4 );
+	});
+
+	it("returns the number of syllables for a sentence with one-syllable words", function(){
+		expect( countSyllableFunction("dit is een huis", "nl_NL") ).toBe( 4 );
+	});
+
+	it("returns the number of syllables for two sentences containing one- and multiple-syllable words", function(){
+		expect( countSyllableFunction("Dit zijn twee zinnen met die ook langere woorden bevatten. Eens kijken of dat ook werkt.", "nl_NL") ).toBe( 23 );
+	});
+
+	it("returns the number of syllables of words containing diacritics", function(){
+		expect( countSyllableFunction("café, ayó", "nl_NL") ).toBe( 4 );
+	});
+
+	it("returns the number of syllables of words affected by the addSyllables regex", function(){
+		expect( countSyllableFunction("Koreaan, bureau, geijl, camaieu, atrium", "nl_NL") ).toBe( 13 );
+	});
+
+	it("returns the number of syllables of more words affected by the addSyllables regex", function(){
+		expect( countSyllableFunction("zionisme, aficionado, Sion, fusion, atrium, duo, player, microbieel", "nl_NL") ).toBe( 24 );
+	});
+
+	it("returns the number of syllables of words affected by the addSyllables regex and containing diacritics", function(){
+		expect( countSyllableFunction("reünie, suède, microbiële", "nl_NL") ).toBe( 11 );
+	});
+
+	it("returns the number of syllables of words affected by the substractSyllables regex:cue", function(){
+		expect( countSyllableFunction("cue", "nl_NL") ).toBe( 1 );
+	});
+
+	it("returns the number of syllables of words from the exclusion word list", function(){
+		expect( countSyllableFunction("airline, fauteuil, lyceum, vibe", "nl_NL") ).toBe( 8 );
+	});
+
+	it("returns the number of syllables of words containing words from the exclusion word list at the beginning", function(){
+		expect( countSyllableFunction("airlineticket, fauteuilleer, muzieklyceum, zomervibe", "nl_NL") ).toBe( 15 );
+	});
+	it("returns the number of syllables of words containing words from the exclusion word list at the end", function(){
+		expect( countSyllableFunction("budgetairline, clubfauteuil, lyceumleerling, vibeje", "nl_NL") ).toBe( 14 );
+	});
+	it("returns the number of syllables of words affected by the substractSyllables regex and containing diacritics", function(){
+		expect( countSyllableFunction("patiënt, recipiënt, deficiënt", "nl_NL") ).toBe( 8 );
+	});
+
+	it("returns the number of syllables of words affected by the exclusionCompound regex", function(){
+		expect( countSyllableFunction("voetbalteam, soap, teaktafel", "nl_NL") ).toBe( 7 );
+	});
+
+	it("returns the number of syllables of words affected by the exclusionCompound regex", function(){
+		expect( countSyllableFunction("teaktafel", "nl_NL") ).toBe( 3 );
+	});
+
+	it("returns the number of syllables of words affected by the exclusionCompound regex", function(){
+		expect( countSyllableFunction("voetbalteam", "nl_NL") ).toBe( 3 );
+	});
+
+	it("returns the number of syllables of a word that should not be affected by the exclusionCompound regex", function(){
+		expect( countSyllableFunction("gemeenteambtenaar, ", "nl_NL") ).toBe( 6 );
+	});
+
+});
