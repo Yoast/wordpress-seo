@@ -589,6 +589,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Calculate the priority of the post.
 	 *
+	 * @deprecated 3.5 Priority data dropped from sitemaps.
+	 *
 	 * @param WP_Post $post Post object.
 	 *
 	 * @return float|mixed
