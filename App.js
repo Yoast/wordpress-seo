@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import Wizard from './js/wizard'
 import Steps from  './js/steps';
@@ -12,4 +12,4 @@ class App extends React.Component {
 	}
 }
 
-export default App
+export default App;

@@ -1,4 +1,10 @@
-extends: yoast
+plugins: [yoast, react]
+extends: ["yoast", "eslint:recommended", "plugin:react/recommended"]
 
 rules:
   complexity: [1, 6]
+
+parserOptions:
+  sourceType: module
+  ecmaFeatures:
+    jsx: true
