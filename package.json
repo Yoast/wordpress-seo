@@ -1,0 +1,42 @@
+{
+  "name": "yoastseo-onboarding-wizard",
+  "description": "Yoast SEO onboarding wizard",
+  "homepage": "https://github.com/Yoast/",
+  "keywords": [
+    "Yoast",
+    "onboarding",
+    "wizard"
+  ],
+  "main": "main.js",
+  "license": "GPL-3.0",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/onboarding-wizard"
+  },
+  "scripts": {
+    "start" : "webpack-dev-server"
+  },
+  "browser": "js/browser.js",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "eslint-config-yoast": "^1.0.0",
+    "eslint-plugin-yoast": "^1.0.0",
+    "grunt": "^0.4.5",
+    "grunt-eslint": "^18.0.0",
+    "load-grunt-config": "^0.19.1",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "bugs": {
+    "url": "https://github.com/Yoast/onboarding-wizard/issues"
+  },
+  "dependencies": {
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
+  }
+}
