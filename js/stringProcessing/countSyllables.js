@@ -6,7 +6,6 @@ var getWords = require( "../stringProcessing/getWords.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
-var isUndefined = require( "lodash/isUndefined" );
 
 var SyllableCountIterator = require( "../helpers/syllableCountIterator.js" );
 var ExclusionCountIterator = require( "../helpers/exclusionCountIterator.js" );
@@ -74,8 +73,7 @@ var countSyllablesInExclusions = function( word, locale ) {
  * @returns {object} The number of syllables found and the modified word.
  */
 var countSyllablesInPartialExclusions = function( word, locale ) {
-	exclusionCountIterator = new ExclusionCountIterator( syllableMatchers( locale ) );
-
+	var exclusionCountIterator = new ExclusionCountIterator( syllableMatchers( locale ) );
 	return exclusionCountIterator.countSyllables( word );
 };
 
