@@ -90,7 +90,6 @@ var countSyllables = function( word, locale ) {
  */
 module.exports = function( text, locale ) {
 	text = text.toLocaleLowerCase();
-//locale = "nl_NL"; //die moet er natuurlijk straks weer uit.
 	var words = getWords( text );
 	var syllableCount = 0;
 
@@ -101,13 +100,10 @@ module.exports = function( text, locale ) {
 			return;
 		}
 		var partlyExclusions = countSyllablesInPartialExclusions( word, locale );
-		console.log( partlyExclusions );
 		word = partlyExclusions.word;
 		syllableCount += partlyExclusions.syllableCount;
 		syllableCount += countSyllables( word, locale );
-		console.log( word, countSyllables( word, locale ) );
 	} );
-	console.log( "total", syllableCount );
 	return syllableCount;
 };
 

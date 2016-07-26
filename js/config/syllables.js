@@ -361,8 +361,7 @@ var syllableLanguageConfig = {
 					{ word: "image", syllables: 2 }
 				],
 				matchBegin: true,
-				regexBeginLetters: [ "[^s]" ],
-				matchEnd: true
+				regexBeginLetters: [ "(?![s])" ]
 			},
 
 			// Exclusion words that should be found anywhere in a string, but not if followed by an 'n'.
@@ -370,7 +369,7 @@ var syllableLanguageConfig = {
 				exclusionParts: [
 					{ word: "style", syllables: 1 }
 				],
-				regexLetters: [ "[^n]" ]
+				regexAnywhereLetters: [ "(?![n])" ]
 			},
 			// Exclusion words that should be found anywhere in a string, but not if followed by an 'n' or 's'.
 			exclusionsNoNS: {
@@ -379,14 +378,14 @@ var syllableLanguageConfig = {
 					{ word: "douche", syllables: 1 },
 					{ word: "striptease", syllables: 2 }
 				],
-				regexLetters: [ "[^ns]" ]
+				regexAnywhereLetters: [ "(?![ns])" ]
 			},
 			// Exclusion words that should be found anywhere in a string, but not if followed by an 'r' or 's'.
 			exclusionsNoRS: {
 				exclusionParts: [
 					{ word: "office", syllables: 2 }
 				],
-				regexLetters: [ "[^rs]" ]
+				regexAnywhereLetters: [ "(?![rs])" ]
 			},
 			// Exclusion words that should be found anywhere in a string, but not if followed by an 'n' or 'r'.
 			exclusionsNoNR: {
@@ -395,7 +394,7 @@ var syllableLanguageConfig = {
 					{ word: "keynote", syllables: 2 },
 					{ word: "mountainbike", syllables: 3 }
 				],
-				regexLetters: [ "[^nr]" ]
+				regexAnywhereLetters: [ "(?![nr])" ]
 			},
 			// Exclusion words that should be found anywhere in a string, but not if followed by an 'n', 'r' or 's'.
 			exclusionsNoNRS: {
@@ -413,7 +412,7 @@ var syllableLanguageConfig = {
 					{ word: "dance", syllables: 1 },
 					{ word: "house", syllables: 1 }
 				],
-				regexLetters: [ "[^nrs]" ]
+				regexAnywhereLetters: [ "(?![nrs])" ]
 			},
 
 			// Exclusion words that should be found at the beginning or end of a string, but not if followed by an 'n' or 'r'.
@@ -423,7 +422,7 @@ var syllableLanguageConfig = {
 					{ word: "skate", syllables: 1 }
 				],
 				matchBegin: true,
-				regexBeginLetters: [ "[^nr]" ],
+				regexBeginLetters: [ "(?![nr])" ],
 				matchEnd: true
 			},
 
@@ -433,8 +432,7 @@ var syllableLanguageConfig = {
 					{ word: "race", syllables: 1 }
 				],
 				matchBegin: true,
-				regexBeginLetters: [ "[^nrs]" ],
-				matchEnd: true
+				regexBeginLetters: [ "(?![nrs])" ]
 			}
 		},
 		vowels: 'aáäâeéëêiíïîoóöôuúüûy'
