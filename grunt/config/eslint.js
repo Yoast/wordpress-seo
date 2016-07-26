@@ -1,3 +1,3 @@
 module.exports = {
-	target: [ "<%= files.js %>", "!js/templates.js" ]
+	target: [ "<%= files.js %>" ]
 };
