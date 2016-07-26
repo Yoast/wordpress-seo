@@ -1,7 +1,7 @@
-var ExclusionCountStep = require ( "./exclusionCountStep.js" );
+var ExclusionCountStep = require( "./exclusionCountStep.js" );
 
 var isUndefined = require( "lodash/isUndefined" );
-var forEach = require ( "lodash/forEach" );
+var forEach = require( "lodash/forEach" );
 
 /**
  * Creates an iterator to count syllables and modify words that match with exclusion parts.
@@ -41,12 +41,12 @@ ExclusionCountIterator.prototype.countSyllables = function( word ) {
 	forEach( this.countSteps, function( step ) {
 		var countStepResult = step.countSyllables( word );
 		syllableCount += countStepResult.syllableCount;
-		word = countStepResult.word
+		word = countStepResult.word;
 	} );
 	return {
 		syllableCount: syllableCount,
 		word: word
-	}
+	};
 };
 
 module.exports = ExclusionCountIterator;

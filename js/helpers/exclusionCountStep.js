@@ -1,4 +1,3 @@
-var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 
 /**
@@ -24,6 +23,10 @@ var ExclusionCountStep = function( config ) {
 ExclusionCountStep.prototype.createRegexBeginLetters = function( word ) {
 	var regexParts = [];
 
+	if( this._regexBeginLetters.length === 0 ) {
+		return regexParts;
+	}
+
 	forEach( this._regexBeginLetters, function( letter ) {
 		if( this._matchBegin ) {
 			regexParts.push( "^" + word + letter );
@@ -41,6 +44,10 @@ ExclusionCountStep.prototype.createRegexBeginLetters = function( word ) {
  */
 ExclusionCountStep.prototype.createRegexEndLetters = function( word ) {
 	var regexParts = [];
+
+	if( this._regexEndLetters.length === 0 ) {
+		return regexParts;
+	}
 
 	forEach( this._regexEndLetters, function( letter ) {
 		if( this._matchEnd ) {
@@ -60,9 +67,13 @@ ExclusionCountStep.prototype.createRegexEndLetters = function( word ) {
 ExclusionCountStep.prototype.createRegexAnywhereLetters = function( word ) {
 	var regexParts = [];
 
+	if( this._regexAnywhereLetters.length === 0 ) {
+		return regexParts;
+	}
+
 	forEach( this._regexAnywhereLetters, function( letter ) {
 		regexParts.push( word + letter );
-	}.bind( this ) );
+	} );
 
 	return regexParts;
 };
@@ -76,17 +87,11 @@ ExclusionCountStep.prototype.createRegexAnywhereLetters = function( word ) {
 ExclusionCountStep.prototype.createRegex = function( word ) {
 	var regexParts = [];
 
-	if( this._regexBeginLetters.length !== 0 ) {
-		regexParts = regexParts.concat( this.createRegexBeginLetters( word ) )
-	}
+	regexParts = regexParts.concat( this.createRegexBeginLetters( word ) );
 
-	if( this._regexEndLetters.length !== 0 ) {
-		regexParts = regexParts.concat( this.createRegexEndLetters( word ) )
-	}
+	regexParts = regexParts.concat( this.createRegexEndLetters( word ) );
 
-	if( this._regexAnywhereLetters.length !== 0 ) {
-		regexParts = regexParts.concat( this.createRegexAnywhereLetters( word ) )
-	}
+	regexParts = regexParts.concat( this.createRegexAnywhereLetters( word ) );
 
 	if( this._matchBegin && this._regexBeginLetters.length === 0 ) {
 		regexParts.push( "^" + word );
@@ -97,15 +102,15 @@ ExclusionCountStep.prototype.createRegex = function( word ) {
 	}
 
 	if( this._regexEndLetters.length !== 0 ) {
-		regexParts.concat( this.createRegexEndLetters( word ) )
+		regexParts.concat( this.createRegexEndLetters( word ) );
 	}
 
-	var regexString = "(" + regexParts.join ( "|" ) + ")";
+	var regexString = "(" + regexParts.join( "|" ) + ")";
 
 	if( regexParts.length !== 0 ) {
 		return new RegExp( regexString );
 	}
-	return new RegExp ( word );
+	return new RegExp( word );
 };
 
 /**
