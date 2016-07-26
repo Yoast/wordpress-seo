@@ -445,8 +445,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$aria_describedby = $description = '';
 		if ( isset( $meta_field_def['description'] ) ) {
-			$aria_describedby = ' aria-describedby="' . esc_attr( $esc_form_key ) . '-desc"';
-			$description = '<p id="' . esc_attr( $esc_form_key ) . '-desc">' . $meta_field_def['description'] . '</p>';
+			$aria_describedby = ' aria-describedby="' . $esc_form_key . '-desc"';
+			$description = '<p id="' . $esc_form_key . '-desc">' . $meta_field_def['description'] . '</p>';
 		}
 
 		switch ( $meta_field_def['type'] ) {
