@@ -26,6 +26,7 @@
     "babel-preset-react": "^6.11.1",
     "eslint-config-yoast": "^1.0.0",
     "eslint-plugin-yoast": "^1.0.0",
+    "eslint-plugin-react": "^5.2.2",
     "grunt": "^0.4.5",
     "grunt-eslint": "^18.0.0",
     "load-grunt-config": "^0.19.1",
