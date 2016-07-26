@@ -1,0 +1,13 @@
+extends: yoast
+
+rules:
+  complexity: [1, 6]
+  "react/jsx-uses-react": error
+  "react/jsx-uses-vars": error
+
+parserOptions:
+  sourceType: module
+  ecmaFeatures:
+    jsx: true
+
+plugins: [yoast, react]
