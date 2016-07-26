@@ -30,41 +30,62 @@ function wpseo_show_notification() {
 	);
 }
 
+function wpseo_get_current_page() {
+	// We want to show a redirect message when the slug is changed using quick edit. Therefore we need to get the current page.
+	return jQuery(location).attr('pathname').split('/').pop();
+}
+
+function wpseo_get_current_slug( post_id ) {
+	var currentPage = wpseo_get_current_page();
+
+	if ( currentPage === 'edit.php' ) {
+		return jQuery('#inline_' + post_id ).find('.post_name').html();
+	}
+
+	if ( currentPage === 'edit-tags.php' ) {
+		return jQuery('#inline_' + post_id).find('.slug').html();
+	}
+
+	return '';
+}
+
+function wpseo_compare_slug( currentSlug ) {
+	var wpseo_new_slug = jQuery('input[name=post_name]').val();
+
+	if ( currentSlug !== wpseo_new_slug) {
+		wpseo_show_notification();
+	}
+}
+
 (jQuery(function() {
-	var wpseo_post_id;
+	var wpseo_current_page = wpseo_get_current_page();
 
-	//We want to show a redirect message when the slug is changed using quick edit. Therefore we need to get the current page.
-	var wpseo_current_page = jQuery(location).attr('pathname').split('/').pop();
-
-	//If current page is edit.php, proceed.
+	// If current page is edit.php, proceed.
 	if (wpseo_current_page === 'edit.php' || wpseo_current_page === 'edit-tags.php') {
-		//When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
+		if ( jQuery(this).attr('id') === 'save-order' ) {
+			return;
+		}
+
+		var tr = jQuery( this ).closest('tr');
+
+		console.log( tr );
+
+		if ( tr.length === 0 ) {
+			return;
+		}
+
+		var wpseo_post_id = tr.attr('id').replace('edit-', '');
+		var wpseo_current_slug = wpseo_get_current_slug( wpseo_post_id );
+
+		$( 'td', '#inline-edit').on( 'keydown', function(e){
+			if ( e.which === 13 && ! $( e.target ).hasClass( 'cancel' ) ) {
+				wpseo_compare_slug( wpseo_current_slug );
+			}
+		});
+
+		// When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
 		jQuery('.button-primary').click(function() {
-			if ( jQuery(this).attr('id') === 'save-order' ) {
-				return;
-			}
-
-			if ( jQuery(this).closest('tr').length > 0 ) {
-				wpseo_post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
-			}
-			else {
-				return;
-			}
-
-			var wpseo_current_slug;
-
-			if (wpseo_current_page === 'edit.php') {
-				wpseo_current_slug = jQuery('#inline_' + wpseo_post_id).find('.post_name').html();
-			}
-			else if (wpseo_current_page === 'edit-tags.php') {
-				wpseo_current_slug = jQuery('#inline_' + wpseo_post_id).find('.slug').html();
-			}
-
-			var wpseo_new_slug = jQuery('input[name=post_name]').val();
-
-			if (wpseo_current_slug !== wpseo_new_slug) {
-				wpseo_show_notification();
-			}
+			wpseo_compare_slug( wpseo_current_slug );
 		});
 	}
 }));
