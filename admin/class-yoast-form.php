@@ -289,6 +289,42 @@ class Yoast_Form {
 	}
 
 	/**
+	 * Output a fieldset element start tag.
+	 *
+	 * Starts catching output buffering to get the wrapped form elements.
+	 *
+	 * @param array  $attr        HTML attributes set for the fieldset.
+	 * @param string $legend      Optional. The legend text to show for the field set, if any.
+	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
+	 */
+	 public function fieldset_start( $attr = array(), $legend = '', $legend_attr = array() ) {
+		$attr = wp_parse_args( $attr, array(
+				'id' => '',
+				'class' => '',
+			)
+		);
+
+		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
+		echo '<fieldset class="yoast-form-fieldset ' . $attr['class'] . '"' . $id . '>';
+
+		if ( '' !== $legend ) {
+			$this->legend( $legend, $legend_attr );
+		}
+
+		ob_start();
+	 }
+
+	/**
+	 * Output a fieldset element closing tag.
+	 *
+	 * Gets, outputs, and cleans output buffering.
+	 */
+	 public function fieldset_end() {
+		 $fields = ob_get_clean();
+		 echo $fields . '</fieldset>';
+	 }
+
+	/**
 	 * Output a legend element.
 	 *
 	 * @param string $text Legend text string.

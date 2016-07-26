@@ -19,10 +19,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 	<?php
 	wp_nonce_field( 'wpseo-import', '_wpnonce', true, true );
+
+	$yform->fieldset_start( array(), __( 'Import data from:', 'wordpress-seo' ), array( 'class' => 'screen-reader-text' ) );
 	$yform->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
 	$yform->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
 	$yform->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework?', 'wordpress-seo' ) );
 	$yform->checkbox( 'importwpseo', __( 'Import from wpSEO', 'wordpress-seo' ) );
+	$yform->fieldset_end();
 
 	do_action( 'wpseo_import_other_plugins' );
 	?>
