@@ -15,13 +15,10 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			js: [
-				"js/**/*.js",
-				"grunt/config/*.js",
-				"!js/config/*.js",
+				"./**/*.js",
+				"!./**/*.min.js",
+				"!./node_modules/**/*",
 				"<%= files.grunt %>"
-			],
-			jsDontLint: [
-				"!js/templates.js"
 			],
 			get config() {
 				return project.paths.config + "*.js";
