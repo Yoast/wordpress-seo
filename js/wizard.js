@@ -3,35 +3,28 @@ import React from 'react';
 import Step from './step';
 
 function parseSteps( steps ) {
-	var previous = null;
-	var next     = null;
 
-	var nextSteps = [];
+	var previous      = null;
+	var stepsReversed = [];
+	for( let step in steps ) {
+		steps[ step ].previous = previous;
 
-	steps.map( function( values, key ) {
-		values.previous = previous;
-
-		previous = key;
-
-		return values;
-	});
+		previous = step;
 
 
+		stepsReversed.unshift( step );
+	}
 
-	steps.map( function( values, key ) {
+	stepsReversed.pop();
 
+	for( let step in steps ) {
+		if ( steps.hasOwnProperty( step ) ) {
+			steps[step].next = stepsReversed.pop();
+		}
 
+	}
 
-		console.log(key, next);
-
-		values.next = next;
-
-		next = key;
-
-		return values;
-	});
-
-	console.log( steps );
+	return steps;
 
 }
 
