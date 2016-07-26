@@ -1,11 +1,7 @@
 /** @module analyses/getKeywordDensity */
 
-var filter = require( "lodash/filter" );
-
 var countWords = require( "../stringProcessing/countWords.js" );
-var transliterate = require ( "../stringProcessing/transliterate.js" );
-
-var getWords = require( "../stringProcessing/getWords.js" );
+var countWordOccurrences = require( "../stringProcessing/countWordOccurrences.js" );
 
 /**
  * Calculates the keyword density .
@@ -21,10 +17,6 @@ module.exports = function( paper ) {
 	if ( wordCount === 0 ) {
 		return 0;
 	}
-	var words = getWords( text );
-	var keywordCount = filter( words, function( word ) {
-		return ( word === keyword || transliterate( word, locale ) === keyword );
-	} );
-
-	return ( keywordCount.length / wordCount ) * 100;
+	var keywordCount = countWordOccurrences( text, keyword, locale );
+	return ( keywordCount / wordCount ) * 100;
 };
