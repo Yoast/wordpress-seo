@@ -1,19 +1,14 @@
-
-
 let Steps = {
-	'1': {
-		id    : '1',
-		title : '1',
+	'intro': {
+		title: 'Intro',
 		fields: []
 	},
-	'2': {
-		id    : '2',
-		title : '2',
+	'environment': {
+		title: 'Environment',
 		fields: []
 	},
-	'3': {
-		id    : '3',
-		title : '3',
+	'siteType': {
+		title: 'Company or person',
 		fields: []
 	}
 };
