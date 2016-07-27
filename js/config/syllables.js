@@ -47,30 +47,31 @@ var syllableLanguageConfig = {
 				multiplier: +1
 			}
 		},
+		// Exclusion words that are loan-words from English.
 		exclusionWords: [
 			{ word: "bye", syllables: 1 },
 			{ word: "cure", syllables: 1 },
 			{ word: "dei", syllables: 2 },
 			{ word: "dope", syllables: 1 },
 			{ word: "dude", syllables: 1 },
+			{ word: "fake", syllables: 1 },
 			{ word: "fame", syllables: 1 },
 			{ word: "five", syllables: 1 },
 			{ word: "hole", syllables: 1 },
 			{ word: "least", syllables: 1 },
+			{ word: "lone", syllables: 1 },
 			{ word: "minute", syllables: 2 },
 			{ word: "move", syllables: 1 },
 			{ word: "nice", syllables: 1 },
 			{ word: "one", syllables: 1 },
 			{ word: "state", syllables: 1 },
-			{ word: "wide", syllables: 1 },
-			{ word: "lone", syllables: 1 },
 			{ word: "surplace", syllables: 2 },
-			{ word: "fake", syllables: 1 },
 			{ word: "take", syllables: 1 },
-			{ word: "trade", syllables: 1 }
+			{ word: "trade", syllables: 1 },
+			{ word: "wide", syllables: 1 }
 		],
 		partialExclusionWords: {
-			// Exclusions that should be found anywhere in a string.
+			// Exclusions that should be found anywhere in a string. Mostly loan-words from English and French.
 			wordParts: {
 				exclusionParts: [
 					{ word: "adieu", syllables: 2 },
@@ -79,6 +80,7 @@ var syllableLanguageConfig = {
 					{ word: "alien", syllables: 3 },
 					{ word: "ambient", syllables: 3 },
 					{ word: "announcement", syllables: 3 },
+					{ word: "appearance", syllables: 3 },
 					{ word: "appeasement", syllables: 3 },
 					{ word: "atheneum", syllables: 4 },
 					{ word: "awesome", syllables: 2 },
@@ -108,6 +110,7 @@ var syllableLanguageConfig = {
 					{ word: "camaieu", syllables: 3 },
 					{ word: "caoutchouc", syllables: 2 },
 					{ word: "carbolineum", syllables: 5 },
+					{ word: "catchphrase", syllables: 1 },
 					{ word: "carrier", syllables: 3 },
 					{ word: "cheat", syllables: 1 },
 					{ word: "cheese", syllables: 1 },
@@ -127,6 +130,7 @@ var syllableLanguageConfig = {
 					{ word: "cruesli", syllables: 2 },
 					{ word: "deadline", syllables: 2 },
 					{ word: "deautoriseren", syllables: 6 },
+					{ word: "deuce", syllables: 1 },
 					{ word: "deum", syllables: 2 },
 					{ word: "dirndl", syllables: 2 },
 					{ word: "dread", syllables: 2 },
@@ -217,6 +221,7 @@ var syllableLanguageConfig = {
 					{ word: "opinion", syllables: 3 },
 					{ word: "paella", syllables: 3 },
 					{ word: "pacemaker", syllables: 3 },
+					{ word: "panache", syllables: 2 },
 					{ word: "papegaaienneus", syllables: 5},
 					{ word: "passe-partout", syllables: 3 },
 					{ word: "peanuts", syllables: 2 },
@@ -237,9 +242,11 @@ var syllableLanguageConfig = {
 					{ word: "reader", syllables: 2 },
 					{ word: "reality", syllables: 3 },
 					{ word: "reallife", syllables: 2 },
+					{ word: "remake", syllables: 2 },
 					{ word: "repeat", syllables: 2 },
 					{ word: "repertoire", syllables: 3 },
 					{ word: "research", syllables: 2 },
+					{ word: "reverence", syllables: 3 },
 					{ word: "ribeye", syllables: 2 },
 					{ word: "ringtone", syllables: 3 },
 					{ word: "road", syllables: 1 },
@@ -284,22 +291,15 @@ var syllableLanguageConfig = {
 					{ word: "wiseguy", syllables: 2 },
 					{ word: "wake-up-call", syllables: 3 },
 					{ word: "webcare", syllables: 2 },
-					{ word: "winegum", syllables: 2 },
-					{ word: "reverence", syllables: 3 },
-					{ word: "deuce", syllables: 1 },
-					{ word: "panache", syllables: 2 },
-					{ word: "catchphrase", syllables: 1 },
-					{ word: "appearance", syllables: 3 },
-					{ word: "remake", syllables: 2 },
-					{ word: "fairtrade", syllables: 2 }
+					{ word: "winegum", syllables: 2 }
 				]
 			},
 			// Word compounds that should only be found at the end.
 			compoundEnds: {
 				exclusionParts: [
+					{ word: "force", syllables: 1 },
 					{ word: "tea", syllables: 1 },
-					{ word: "time", syllables: 1 },
-					{ word: "force", syllables: 1 }
+					{ word: "time", syllables: 1 }
 				],
 				matchEnd: true
 			},
@@ -311,9 +311,9 @@ var syllableLanguageConfig = {
 					{ word: "care", syllables: 1 },
 					{ word: "coach", syllables: 1 },
 					{ word: "coat", syllables: 1 },
-					{ word: "gate", syllables: 1 },
 					{ word: "earl", syllables: 1 },
 					{ word: "foam", syllables: 1 },
+					{ word: "gate", syllables: 1 },
 					{ word: "head", syllables: 1 },
 					{ word: "home", syllables: 1 },
 					{ word: "live", syllables: 1 },
@@ -324,17 +324,17 @@ var syllableLanguageConfig = {
 					{ word: "team", syllables: 1 },
 					{ word: "wave", syllables: 1 }
 				],
-				matchBegin: true,
+				matchBeginning: true,
 				matchEnd: true
 			},
 			// Exclusion words that should be found at the end of the string, including their plurals.
 			exclusionsEndPlural: {
 				exclusionParts: [
-					{ word: "quote", syllables: 1 },
-					{ word: "upgrade", syllables: 2 },
 					{ word: "date", syllables: 1 },
 					{ word: "hype", syllables: 1 },
-					{ word: "tape", syllables: 1 }
+					{ word: "quote", syllables: 1 },
+					{ word: "tape", syllables: 1 },
+					{ word: "upgrade", syllables: 2 }
 				],
 				matchEnd: true,
 				regexEndLetters: [ "", "s" ]
@@ -344,12 +344,12 @@ var syllableLanguageConfig = {
 				exclusionParts: [
 					{ word: "brace", syllables: 1 },
 					{ word: "case", syllables: 1 },
-					{ word: "voice", syllables: 1 },
+					{ word: "fleece", syllables: 1 },
 					{ word: "service", syllables: 2 },
-					{ word: "fleece", syllables: 1 }
+					{ word: "voice", syllables: 1 }
 
 				],
-				matchBegin: true,
+				matchBeginning: true,
 				regexBeginLetters: [ "[^s]" ],
 				matchEnd: true,
 				regexEndLetters: [ "", "[^s]" ]
@@ -360,7 +360,7 @@ var syllableLanguageConfig = {
 				exclusionParts: [
 					{ word: "image", syllables: 2 }
 				],
-				matchBegin: true,
+				matchBeginning: true,
 				regexBeginLetters: [ "(?![s])" ]
 			},
 
@@ -374,8 +374,8 @@ var syllableLanguageConfig = {
 			// Exclusion words that should be found anywhere in a string, but not if followed by an 'n' or 's'.
 			exclusionsNoNS: {
 				exclusionParts: [
-					{ word: "space", syllables: 1 },
 					{ word: "douche", syllables: 1 },
+					{ word: "space", syllables: 1 },
 					{ word: "striptease", syllables: 2 }
 				],
 				regexAnywhereLetters: [ "(?![ns])" ]
@@ -401,6 +401,8 @@ var syllableLanguageConfig = {
 				exclusionParts: [
 					{ word: "challenge", syllables: 2 },
 					{ word: "cruise", syllables: 1 },
+					{ word: "house", syllables: 1 },
+					{ word: "dance", syllables: 1 },
 					{ word: "franchise", syllables: 2 },
 					{ word: "freelance", syllables: 2 },
 					{ word: "lease", syllables: 1 },
@@ -408,9 +410,7 @@ var syllableLanguageConfig = {
 					{ word: "merchandise", syllables: 3 },
 					{ word: "performance", syllables: 3 },
 					{ word: "release", syllables: 2 },
-					{ word: "resource", syllables: 2 },
-					{ word: "dance", syllables: 1 },
-					{ word: "house", syllables: 1 }
+					{ word: "resource", syllables: 2 }
 				],
 				regexAnywhereLetters: [ "(?![nrs])" ]
 			},
@@ -421,7 +421,7 @@ var syllableLanguageConfig = {
 					{ word: "kite", syllables: 1 },
 					{ word: "skate", syllables: 1 }
 				],
-				matchBegin: true,
+				matchBeginning: true,
 				regexBeginLetters: [ "(?![nr])" ],
 				matchEnd: true
 			},
@@ -431,7 +431,7 @@ var syllableLanguageConfig = {
 				exclusionParts: [
 					{ word: "race", syllables: 1 }
 				],
-				matchBegin: true,
+				matchBeginning: true,
 				regexBeginLetters: [ "(?![nrs])" ]
 			}
 		},
