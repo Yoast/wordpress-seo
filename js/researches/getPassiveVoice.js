@@ -25,18 +25,24 @@ var ingExclusionArray = [ "king", "cling", "ring", "being" ];
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 
 /**
- * Returns the indices of a string in a sentence. If it is found multiple times, will return multiple indices.
+ * Returns the indices of a string in a sentence. If it is found multiple times, it will return multiple indices.
  *
  * @param {string} part The part to find in the sentence.
  * @param {string} sentence The sentence to check for parts.
  * @returns {Array} All indices found.
  */
 function getIndicesOf( part, sentence ) {
-	var startIndex = 0, searchStrLen = part.length;
+	var startIndex = 0;
+	var searchStringLength = part.length;
 	var index, indices = [];
 	while ( ( index = sentence.indexOf( part, startIndex ) ) > -1 ) {
-		indices.push( index );
-		startIndex = index + searchStrLen;
+		indices.push(
+			{
+				index: index,
+				match: part
+			}
+		);
+		startIndex = index + searchStringLength;
 	}
 	return indices;
 }
@@ -54,14 +60,10 @@ var matchArray = function( sentence, matches ) {
 
 	forEach( matches, function( part ) {
 		part = stripSpaces( part );
-		var indices = getIndicesOf( part, sentence );
-
 		if ( !matchWordInSentence( part, sentence ) ) {
 			return;
 		}
-		forEach( indices, function( index ) {
-			matchedParts.push( { index: index, match: part } );
-		} );
+		matchedParts = matchedParts.concat( getIndicesOf( part, sentence ) );
 	} );
 
 	return matchedParts;
