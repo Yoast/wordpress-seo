@@ -8,6 +8,9 @@ var marker = require( "../markers/addMark.js" );
 
 var map = require( "lodash/map" );
 
+var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+var availableLanguages = [ "en" ];
+
 /**
  * Calculates the result based on the number of sentences and passives.
  * @param {object} passiveVoice The object containing the number of sentences and passives
@@ -121,7 +124,8 @@ module.exports = {
 	identifier: "passiveVoice",
 	getResult: paragraphLengthAssessment,
 	isApplicable: function( paper ) {
-		return ( paper.getLocale().indexOf( "en_" ) > -1 && paper.hasText() );
+		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		return ( isLanguageAvailable && paper.hasText() );
 	},
 	getMarks: passiveVoiceMarker
 };
