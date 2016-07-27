@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Step from './step';
 /**
  * The onboarding Wizard class.

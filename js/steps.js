@@ -1,15 +1,24 @@
 let Steps = {
 	'intro': {
 		title: 'Intro',
-		fields: []
+		fields: {}
 	},
 	'environment': {
 		title: 'Environment',
-		fields: []
+		fields: {}
 	},
 	'siteType': {
 		title: 'Company or person',
-		fields: []
+		fields: {
+			'test': {
+				label: 'Label',
+				screendReaderText: 'srt'
+			},
+			'test2': {
+				label: 'Label2',
+				screendReaderText: 'srt'
+			}
+		}
 	}
 };
 
