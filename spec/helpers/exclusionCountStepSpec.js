@@ -9,7 +9,7 @@ describe( "Creates a syllable counter for an exclusion", function() {
 					syllables: 1
 				}
 			],
-			matchBegin: true,
+			matchBeginning: true,
 			matchEnd: true
 		};
 
@@ -27,13 +27,14 @@ describe( "Creates a syllable counter for an exclusion", function() {
 					syllables: 1
 				}
 			],
-			matchBegin: true,
+			matchBeginning: true,
 			regexBeginLetters: [ "s", "t", "n" ]
 		};
 		var step = new ExclusionCountStep( mockConfig );
 
 		expect( step.createRegex( "foo" ) ).toEqual( /(^foos|^foot|^foon)/ );
 		expect( step.countSyllables( "foobar" ).syllableCount ).toBe( 0 );
+		expect( step.countSyllables( "foonbar" ).syllableCount ).toBe( 1 );
 	} );
 
 	it( "returns a syllable count step with default regex", function() {
