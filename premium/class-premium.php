@@ -118,9 +118,6 @@ class WPSEO_Premium {
 			// Settings.
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-			// Enqueue Post and Term overview script.
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_overview_script' ) );
-
 			// Licensing part.
 			$license_manager = WPSEO_Premium::get_license_manager();
 
@@ -296,25 +293,6 @@ class WPSEO_Premium {
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
 			deactivate_plugins( 'wordpress-seo/wp-seo.php' );
 		}
-	}
-
-	/**
-	 * Enqueue post en term overview script
-	 *
-	 * @param string $hook The current opened page.
-	 */
-	public function enqueue_overview_script( $hook ) {
-		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
-			self::enqueue();
-		}
-	}
-
-	/**
-	 * Enqueues the do / undo redirect scripts
-	 */
-	public static function enqueue() {
-		wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-admin-overview-330' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-		wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 	}
 
 	/**

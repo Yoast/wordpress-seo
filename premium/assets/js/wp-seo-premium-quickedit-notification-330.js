@@ -1,4 +1,5 @@
 /* global ajaxurl */
+/* global wpseo_undo_redirect */
 /* jshint -W097 */
 'use strict';
 
@@ -26,7 +27,7 @@ function wpseo_show_notification() {
 
 			if ( wpseo_notification_counter < 20 && response === '' ) {
 				wpseo_notification_counter++;
-				setTimeout( wpseo_show_notification, 100 );
+				setTimeout( wpseo_show_notification, 500 );
 			}
 		}
 	);
@@ -80,7 +81,7 @@ function wpseo_slug_changed() {
  * @returns {Object} The editor that is currently active.
  */
 function wpseo_get_active_editor() {
-	return jQuery( 'tr.inline-edit-post.inline-editor' );
+	return jQuery( 'tr.inline-editor' );
 }
 
 /**
@@ -105,15 +106,10 @@ function wpseo_get_item_id() {
  * @param ev {Event} The event currently being executed.
  */
 function wpseo_handle_key_events( ev ) {
-	if ( ev.which !== 13 ) {
-		return;
-	}
-
-	if ( wpseo_slug_changed() ) {
+	if ( ev.which === 13 && wpseo_slug_changed() ) {
 		wpseo_show_notification();
 	}
 }
-
 
 /**
  * Handles the button-based events in the quick edit editor.
@@ -121,28 +117,49 @@ function wpseo_handle_key_events( ev ) {
  * @param ev {Event} The event currently being executed.
  */
 function wpseo_handle_button_events( ev ) {
-	if ( jQuery( ev.target ).attr('id') === 'save-order' ) {
-		return;
-	}
-
-	if ( wpseo_slug_changed() ) {
+	if ( jQuery( ev.target ).attr('id') !== 'save-order' && wpseo_slug_changed() ) {
 		wpseo_show_notification();
 	}
+}
+
+/**
+ * Undoes a redirect
+ *
+ * @param {string} origin
+ * @param {string} target
+ * @param {string} type
+ * @param {string} nonce
+ * @param {object} source
+ */
+function wpseo_undo_redirect( origin, target, type, nonce, source ) {
+	jQuery.post(
+		ajaxurl,
+		{
+			action: 'wpseo_delete_redirect_plain',
+			ajax_nonce: nonce,
+			redirect: {
+				origin: origin,
+				target: target,
+				type:   type
+			}
+		},
+		function() {
+			jQuery( source ).closest( '.yoast-alert' ).fadeOut( 'slow' );
+		}
+	);
 }
 
 (jQuery(function() {
 	var wpseo_current_page = wpseo_get_current_page();
 
-	// If current page isn't edit.php, stop execution.
-	if ( wpseo_current_page !== 'edit.php' && wpseo_current_page !== 'edit-tags.php' ) {
-		return;
+	// If current page is edit*.php, continue execution.
+	if ( wpseo_current_page === 'edit.php' || wpseo_current_page === 'edit-tags.php' ) {
+		jQuery( '#inline-edit input' ).on( 'keydown', function( ev ) {
+			wpseo_handle_key_events( ev );
+		});
+
+		jQuery( '.button-primary' ).click(function( ev ) {
+			wpseo_handle_button_events( ev );
+		});
 	}
-
-	jQuery( 'td', '#inline-edit').on( 'keydown', function( ev ){
-		wpseo_handle_key_events( ev );
-	});
-
-	jQuery( '.button-primary' ).click(function( ev ) {
-		wpseo_handle_button_events( ev );
-	});
 }));
