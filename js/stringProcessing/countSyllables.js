@@ -54,7 +54,7 @@ var countSyllablesInExclusions = function( word, locale ) {
 	var exclusionWords = syllableMatchers( locale ).exclusionWords;
 	var syllableCount = 0;
 	forEach( exclusionWords, function( exclusionWordsObject ) {
-		if( exclusionWordsObject.word === word ) {
+		if ( exclusionWordsObject.word === word ) {
 			syllableCount = exclusionWordsObject.syllables;
 
 			// If we find an exclusion, we can break out of this forEach.

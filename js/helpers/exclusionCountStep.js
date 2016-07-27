@@ -23,12 +23,12 @@ var ExclusionCountStep = function( config ) {
 ExclusionCountStep.prototype.createRegexBeginLetters = function( word ) {
 	var regexParts = [];
 
-	if( this._regexBeginLetters.length === 0 ) {
+	if ( this._regexBeginLetters.length === 0 ) {
 		return regexParts;
 	}
 
 	forEach( this._regexBeginLetters, function( letter ) {
-		if( this._matchBegin ) {
+		if ( this._matchBegin ) {
 			regexParts.push( "^" + word + letter );
 		}
 	}.bind( this ) );
@@ -45,12 +45,12 @@ ExclusionCountStep.prototype.createRegexBeginLetters = function( word ) {
 ExclusionCountStep.prototype.createRegexEndLetters = function( word ) {
 	var regexParts = [];
 
-	if( this._regexEndLetters.length === 0 ) {
+	if ( this._regexEndLetters.length === 0 ) {
 		return regexParts;
 	}
 
 	forEach( this._regexEndLetters, function( letter ) {
-		if( this._matchEnd ) {
+		if ( this._matchEnd ) {
 			regexParts.push( word + letter + "$" );
 		}
 	}.bind( this ) );
@@ -67,7 +67,7 @@ ExclusionCountStep.prototype.createRegexEndLetters = function( word ) {
 ExclusionCountStep.prototype.createRegexAnywhereLetters = function( word ) {
 	var regexParts = [];
 
-	if( this._regexAnywhereLetters.length === 0 ) {
+	if ( this._regexAnywhereLetters.length === 0 ) {
 		return regexParts;
 	}
 
@@ -93,21 +93,21 @@ ExclusionCountStep.prototype.createRegex = function( word ) {
 
 	regexParts = regexParts.concat( this.createRegexAnywhereLetters( word ) );
 
-	if( this._matchBegin && this._regexBeginLetters.length === 0 ) {
+	if ( this._matchBegin && this._regexBeginLetters.length === 0 ) {
 		regexParts.push( "^" + word );
 	}
 
-	if( this._matchEnd && this._regexEndLetters.length === 0 ) {
+	if ( this._matchEnd && this._regexEndLetters.length === 0 ) {
 		regexParts.push(  word + "$" );
 	}
 
-	if( this._regexEndLetters.length !== 0 ) {
+	if ( this._regexEndLetters.length !== 0 ) {
 		regexParts.concat( this.createRegexEndLetters( word ) );
 	}
 
 	var regexString = "(" + regexParts.join( "|" ) + ")";
 
-	if( regexParts.length !== 0 ) {
+	if ( regexParts.length !== 0 ) {
 		return new RegExp( regexString );
 	}
 	return new RegExp( word );
@@ -145,7 +145,7 @@ ExclusionCountStep.prototype.isValidExclusion = function( word, exclusion ) {
 ExclusionCountStep.prototype.findWord = function( word ) {
 	var foundExclusionPart = "";
 	forEach( this._exclusionParts, function( exclusionPart ) {
-		if( word.indexOf( exclusionPart.word ) > -1 && this.isValidExclusion( word, exclusionPart.word ) ) {
+		if ( word.indexOf( exclusionPart.word ) > -1 && this.isValidExclusion( word, exclusionPart.word ) ) {
 			foundExclusionPart = exclusionPart;
 		}
 	}.bind( this ) );
@@ -186,7 +186,7 @@ ExclusionCountStep.prototype.countSyllables = function ( word ) {
 	var syllableCount = 0;
 	var exclusionPart = this.findWord( word );
 
-	if( exclusionPart !== "" ) {
+	if ( exclusionPart !== "" ) {
 		syllableCount = this.getSyllables( exclusionPart );
 		word = this.modifyWord( word, exclusionPart );
 	}

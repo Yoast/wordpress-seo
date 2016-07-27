@@ -30,7 +30,7 @@ SyllableCountStep.prototype.hasRegex = function() {
  * @param {object} syllableRegex The object containing the syllable exclusions and multiplier.
  */
 SyllableCountStep.prototype.createRegex = function( syllableRegex ) {
-	if( !isUndefined( syllableRegex ) && !isUndefined( syllableRegex.syllables ) ) {
+	if ( !isUndefined( syllableRegex ) && !isUndefined( syllableRegex.syllables ) ) {
 
 		this._hasRegex = true;
 		this._regex = arrayToRegex( syllableRegex.syllables, true );
@@ -55,7 +55,7 @@ SyllableCountStep.prototype.getRegex = function() {
  * @returns {number} The amount of syllables found.
  */
 SyllableCountStep.prototype.countSyllables = function( word ) {
-	if( this._hasRegex ) {
+	if ( this._hasRegex ) {
 		var match = word.match( this._regex ) || [];
 		return match.length * this._multiplier;
 	}

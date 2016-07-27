@@ -11,7 +11,7 @@ var forEach = require ( "lodash/forEach" );
  */
 var SyllableCountIterator = function( config ) {
 	this.countSteps = [];
-	if( !isUndefined( config ) ) {
+	if ( !isUndefined( config ) ) {
 		this.createSyllableCountSteps( config.syllableExclusion );
 	}
 };
