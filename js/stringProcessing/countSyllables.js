@@ -65,8 +65,8 @@ var countSyllablesInExclusions = function( word, locale ) {
 };
 
 /**
- * Counts syllables in partial exclusions. If these are found, the number of syllables are found, and the modified word, as to not do
- * multiple checks on the same word.
+ * Counts syllables in partial exclusions. If these are found, returns the number of syllables  found, and the modified word.
+ * The word is modified so the excluded part isn't counted by the normal syllable counter.
  *
  * @param {String} word The word to count syllables in.
  * @param {String} locale The locale to use for counting syllables.
@@ -110,9 +110,9 @@ module.exports = function( text, locale ) {
 			syllableCount += exclusions;
 			return;
 		}
-		var partlyExclusions = countSyllablesInPartialExclusions( word, locale );
-		word = partlyExclusions.word;
-		syllableCount += partlyExclusions.syllableCount;
+		var partialExclusions = countSyllablesInPartialExclusions( word, locale );
+		word = partialExclusions.word;
+		syllableCount += partialExclusions.syllableCount;
 		syllableCount += countSyllables( word, locale );
 	} );
 	return syllableCount;

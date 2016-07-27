@@ -17,12 +17,12 @@ var SyllableCountIterator = function( config ) {
 };
 
 /**
- * Creates a language syllable regex for each exclusion.
+ * Creates a syllable count step object for each exclusion.
  *
- * @param {object} syllableCountSteps The object containing all exclusion syllables including the multipliers.
+ * @param {object} syllableCounts The object containing all exclusion syllables including the multipliers.
  */
-SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableCountSteps ) {
-	forEach( syllableCountSteps, function( syllableCountStep ) {
+SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableCounts ) {
+	forEach( syllableCounts, function( syllableCountStep ) {
 		this.countSteps.push( new SyllableCountStep( syllableCountStep ) );
 	}.bind( this ) );
 };

@@ -9,7 +9,7 @@ var ExclusionCountStep = function( config ) {
 	this._regexBeginLetters = config.regexBeginLetters || [];
 	this._regexEndLetters = config.regexEndLetters || [];
 	this._regexAnywhereLetters = config.regexAnywhereLetters || [];
-	this._matchBegin = config.matchBegin || false;
+	this._matchBegin = config.matchBeginning || false;
 	this._matchEnd = config.matchEnd || false;
 	this._exclusionParts = config.exclusionParts;
 };
