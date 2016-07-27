@@ -244,6 +244,19 @@ table.yoast_help tr:hover {
 	color: #000;
 }
 
+.yoast-notice-blocking-files code {
+	color: #000;
+	line-height: 2;
+}
+
+.yoast-notice-blocking-files .button {
+	margin: 0.5em 0;
+}
+
+.wpseo_content_wrapper .yoast-blocking-files-error p {
+	max-width: none;
+}
+
 .button.fixit {
 	float: right;
 	margin: 0 5px;

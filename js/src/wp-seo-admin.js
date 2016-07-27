@@ -104,15 +104,20 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 		jQuery.post( ajaxurl, {
 				action: 'wpseo_kill_blocking_files',
 				_ajax_nonce: nonce
-			}, function( data ) {
-				if ( data === 'success' ) {
-					jQuery( '#blocking_files' ).hide();
+			}).done( function( response ) {
+				var noticeContainer = jQuery( '.yoast-notice-blocking-files' ),
+					noticeParagraph = jQuery( '#blocking_files' );
+
+				noticeParagraph.html( response.data.message );
+				// Make the notice focusable and move focue on it so screen readers will read out its content.
+				noticeContainer.attr( 'tabindex', '-1' ).focus();
+
+				if ( response.success ) {
+					noticeContainer.removeClass( 'notice-error' ).addClass( 'notice-success' );
+				} else {
+					noticeContainer.addClass( 'yoast-blocking-files-error' );
 				}
-				else {
-					jQuery( '#blocking_files' ).html( data );
-				}
-			}
-		);
+			});
 	}
 
 	/**
@@ -313,6 +318,11 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 					wpseoDetectWrongVariables( jQuery( this ) );
 				}
 			).change();
+
+			// XML sitemaps "Fix it" button.
+			jQuery( '#blocking_files .button' ).on( 'click', function() {
+				wpseoKillBlockingFiles( jQuery( this ).data( 'nonce' ) );
+			});
 
 			// init
 			var activeTab = window.location.hash.replace( '#top#', '' );
