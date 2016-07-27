@@ -39,7 +39,7 @@ function wpseo_show_notification() {
  * @returns {string} The current page.
  */
 function wpseo_get_current_page() {
-	return jQuery(location).attr('pathname').split('/').pop();
+	return jQuery( location ).attr( 'pathname' ).split( '/' ).pop();
 }
 
 /**
@@ -52,11 +52,11 @@ function wpseo_get_current_slug() {
 	var currentPage = wpseo_get_current_page();
 
 	if ( currentPage === 'edit.php' ) {
-		return jQuery( '#inline_' + currentPost ).find('.post_name').html();
+		return jQuery( '#inline_' + currentPost ).find( '.post_name' ).html();
 	}
 
 	if ( currentPage === 'edit-tags.php' ) {
-		return jQuery( '#inline_' + currentPost ).find('.slug').html();
+		return jQuery( '#inline_' + currentPost ).find( '.slug' ).html();
 	}
 
 	return '';
@@ -106,6 +106,7 @@ function wpseo_get_item_id() {
  * @param ev {Event} The event currently being executed.
  */
 function wpseo_handle_key_events( ev ) {
+	// 13 refers to the enter key.
 	if ( ev.which === 13 && wpseo_slug_changed() ) {
 		wpseo_show_notification();
 	}
@@ -117,19 +118,19 @@ function wpseo_handle_key_events( ev ) {
  * @param ev {Event} The event currently being executed.
  */
 function wpseo_handle_button_events( ev ) {
-	if ( jQuery( ev.target ).attr('id') !== 'save-order' && wpseo_slug_changed() ) {
+	if ( jQuery( ev.target ).attr( 'id' ) !== 'save-order' && wpseo_slug_changed() ) {
 		wpseo_show_notification();
 	}
 }
 
 /**
- * Undoes a redirect
+ * Undoes a redirect.
  *
- * @param {string} origin
- * @param {string} target
- * @param {string} type
- * @param {string} nonce
- * @param {object} source
+ * @param {string} origin The redirect's origin.
+ * @param {string} target The redirect's target.
+ * @param {string} type The type of redirect.
+ * @param {string} nonce The nonce being used to validate the current AJAX request.
+ * @param {object} source The DOMElement containing the alerts.
  */
 function wpseo_undo_redirect( origin, target, type, nonce, source ) {
 	jQuery.post(
