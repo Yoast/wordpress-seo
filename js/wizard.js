@@ -1,7 +1,9 @@
 import React from 'react';
 
 import Step from './step';
-
+/**
+ * The onboarding Wizard class.
+ */
 class Wizard extends React.Component {
 
 	constructor() {
@@ -9,10 +11,13 @@ class Wizard extends React.Component {
 
 		this.state = {
 			steps: {},
-			currentStepId: '',
+			currentStepId: ''
 		};
 	}
 
+	/**
+	 * Initialize the steps and set the current stepId to the first step in the array
+	 */
 	componentWillMount() {
 		this.setState( {
 			steps: this.parseSteps( this.props.steps ),
@@ -21,6 +26,11 @@ class Wizard extends React.Component {
 		} );
 	}
 
+	/**
+	 * Sets the previous and next stepId for each step.
+	 * @param steps {Object} The object containing the steps.
+	 * @return {Object} The steps with added previous and next step.
+	 */
 	parseSteps( steps ) {
 
 		var previous = null;
@@ -31,9 +41,7 @@ class Wizard extends React.Component {
 			}
 
 			steps[step].previous = previous;
-
 			previous = step;
-
 			stepsReversed.unshift( step );
 		}
 
@@ -51,10 +59,18 @@ class Wizard extends React.Component {
 
 	}
 
+	/**
+	 * Gets the first step from the step object.
+	 * @param steps {Object} The object containing the steps.
+	 * @return {Object}  The first step object
+	 */
 	getFirstStep( steps ) {
 		return Object.getOwnPropertyNames( steps )[0];
 	}
 
+	/**
+	 * Updates the state to the next stepId in the wizard.
+	 */
 	next() {
 		let nextStep = this.getCurrentStep( this.state.steps ).next;
 
@@ -67,6 +83,9 @@ class Wizard extends React.Component {
 		} );
 	}
 
+	/**
+	 * Updates the state to the previous stepId in the wizard.
+	 */
 	previous() {
 		let previousStep = this.getCurrentStep( this.state.steps ).previous;
 
@@ -78,10 +97,17 @@ class Wizard extends React.Component {
 		} );
 	}
 
+	/**
+	 * Gets the current stepId from the steps
+	 */
 	getCurrentStep( steps ) {
 		return steps[this.state.currentStepId];
 	}
 
+	/**
+	 * Renders the wizard.
+	 * @return {XML} The rendered step in the wizard.
+	 */
 	render() {
 		let step = this.getCurrentStep( this.state.steps );
 		let hideNextButton = !step.next;
@@ -101,6 +127,11 @@ class Wizard extends React.Component {
 			</div>
 		);
 	}
+}
+
+Wizard.propTypes = {
+	steps: React.PropTypes.object,
+	currentStepId: React.PropTypes.string
 }
 
 Wizard.defaultProps = {
