@@ -1,16 +1,11 @@
 import React from 'react';
 
-class Choice extends React.Component {
-	constructor() {
-		super();
-	}
+import Field from './field';
 
-	/**
-	 * Sets the current state
-	 */
-	componentWillMount() {
-		this.setState( this.props );
-	}
+/**
+ * Represents a choice component
+ */
+class Choice extends Field {
 
 	/**
 	 * Renders the choice component with a label and its radio buttons.

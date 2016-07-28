@@ -1,23 +1,22 @@
 import React from 'react';
+import Field from './field';
 
-class Input extends React.Component {
-	constructor() {
-		super();
-	}
+/**
+ * Represents the component for HTML.
+ */
+class HTML extends Field {
 
 	/**
-	 * Sets the current state
+	 * Gets the html as an object.
+	 *
+	 * @returns {{__html: (string|*|string|null|string|string)}}
 	 */
-	componentWillMount() {
-		this.setState( this.props );
-	}
-
 	getHTML() {
 		return { __html: this.state.html} ;
-
 	}
 
 	/**
+	 * Returns the rendered html
 	 *
 	 * @returns {XML}
 	 */
@@ -28,12 +27,12 @@ class Input extends React.Component {
 	}
 }
 
-Input.propTypes = {
+HTML.propTypes = {
 	html: React.PropTypes.string
 };
 
-Input.defaultProps = {
+HTML.defaultProps = {
 	html: ''
 };
 
-export default Input;
+export default HTML;
