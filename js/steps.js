@@ -2,6 +2,15 @@ let Steps = {
 	'intro': {
 		title: 'Intro',
 		fields: {
+			"intro" : {
+				"component" : "HTML",
+				"html" : "<p>Good Job! You've finished setting up Yoast SEO. Thereby you've covered the technical part of <br />your site's SEO. Now it's time to focus on optimizing your content for onpage SEO. You can use our content analysis for that:</p>"
+			}
+		}
+	},
+	'environment': {
+		title: 'Environment',
+		fields: {
 			"profileUrlFacebook": {
 				"component": "Input",
 				"properties": {
@@ -9,14 +18,7 @@ let Steps = {
 					"pattern": "^https:\/\/www\.facebook\.com\/([^/]+)\/$"
 				},
 				"data": "{profile_url_facebook}"
-			}
-
-
-		}
-	},
-	'environment': {
-		title: 'Environment',
-		fields: {
+			},
 			"environment": {
 				"component": "Choice",
 				"properties": {
