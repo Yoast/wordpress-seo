@@ -23,6 +23,7 @@ module.exports = function() {
 		exclusionWords: [
 			{ word: "business", syllables: 2 },
 			{ word: "coheiress", syllables: 3 },
+			{ word: "colonel", syllables: 2 },
 			{ word: "heiress", syllables: 2 },
 			// The abbreviation i.e. should be counted as 2 syllables.
 			{ word: "i.e", syllables: 2},
