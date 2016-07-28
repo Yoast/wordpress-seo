@@ -40,13 +40,12 @@ module.exports = function( paper ) {
 	switch( language ) {
 		case "nl":
 			var syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
-
 			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( numberOfWords / numberOfSentences ) );
-		break;
+			break;
 		case "en":
 		default:
 			score = 206.835 - ( 1.015 * ( numberOfWords / numberOfSentences ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
-		break;
+			break;
 	}
 
 
