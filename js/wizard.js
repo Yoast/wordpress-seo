@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Step from './step';
+
 /**
  * The onboarding Wizard class.
  */
@@ -28,7 +29,9 @@ class Wizard extends React.Component {
 
 	/**
 	 * Sets the previous and next stepId for each step.
-	 * @param steps {Object} The object containing the steps.
+	 *
+	 * @param {Object} steps The object containing the steps.
+	 *
 	 * @return {Object} The steps with added previous and next step.
 	 */
 	parseSteps( steps ) {
@@ -61,7 +64,9 @@ class Wizard extends React.Component {
 
 	/**
 	 * Gets the first step from the step object.
-	 * @param steps {Object} The object containing the steps.
+	 *
+	 * @param {Object} steps The object containing the steps.
+	 *
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
@@ -92,6 +97,7 @@ class Wizard extends React.Component {
 		if ( !previousStep ) {
 			return;
 		}
+
 		this.setState( {
 			currentStepId: previousStep
 		} );
@@ -106,6 +112,7 @@ class Wizard extends React.Component {
 
 	/**
 	 * Renders the wizard.
+	 *
 	 * @return {XML} The rendered step in the wizard.
 	 */
 	render() {
@@ -132,7 +139,7 @@ class Wizard extends React.Component {
 Wizard.propTypes = {
 	steps: React.PropTypes.object,
 	currentStepId: React.PropTypes.string
-}
+};
 
 Wizard.defaultProps = {
 	steps: new Map()
