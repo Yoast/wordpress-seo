@@ -15,7 +15,7 @@ module.exports = function( paper ) {
 	paragraphs.map( function ( paragraph ) {
 		paragraphsLength.push( {
 			wordCount: countWords( paragraph ),
-			paragraph: paragraph
+			text: paragraph
 		} );
 	} );
 
