@@ -133,7 +133,7 @@ var AlgoliaSearcher = function (_React$Component) {
 			results: [], // The search results found.
 			errorMessage: '', // A description of a search error, if any.
 			showDetail: false, // Shows the search results if is set to false. Otherwhise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
-			searching: false // Used to display a loading spinnr while searching.
+			searching: false // Used to display a loading spinner while searching.
 		};
 		_this.props = props;
 		_this.initAlgoliaClient();
@@ -211,7 +211,6 @@ var AlgoliaSearcher = function (_React$Component) {
    * information was passed in the AlgoliaSearcher's props.
    *
    * @param {string} searchString The words or sentence to get the results for.
-   *
    * @returns {Promise} The promise that is performing the search.
    */
 
@@ -338,7 +337,6 @@ var AlgoliaSearcher = function (_React$Component) {
    * Log any occuring error and render a search error warning.
    *
    * @param {string} errorMessage The message to display.
-   *
    * @returns {JSX} A div with a warning that the search was not completed.
       */
 
@@ -451,7 +449,6 @@ AlgoliaSearcher.defaultProps = {
  * Create the JSX to render the searchbar.
  *
  * @param {object} props The React props.
- *
  * @returns {JSX} A div with the searchbar.
  * @constructor
  */
@@ -484,7 +481,6 @@ var SearchBar = function SearchBar(props) {
  * Create the JSX to render a single searchresult.
  *
  * @param {object} props The React props.
- *
  * @returns {JSX} A div with a single search result.
  * @constructor
  */
@@ -521,7 +517,6 @@ var SearchResult = function SearchResult(props) {
  * Create the JSX to render the content of the selected article.
  *
  * @param {object} props The React props.
- *
  * @returns {JSX} A div with the content of the selected article.
  * @constructor
  */
@@ -534,7 +529,6 @@ var ArticleContent = function ArticleContent(props) {
  * Create the JSX to render a loading indicator.
  *
  * @param {object} props The React props.
- *
  * @returns {JSX} A div with a loading indicator.
  * @constructor
  */

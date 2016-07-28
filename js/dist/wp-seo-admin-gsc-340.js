@@ -12,7 +12,7 @@ jQuery( function() {
 	jQuery('#gsc_auth_code').click(
 		function() {
 			var auth_url = jQuery('#gsc_auth_url').val(),
-			    w = 600,
+				w = 600,
 				h = 500,
 				left = (screen.width / 2) - (w / 2),
 				top = (screen.height / 2) - (h / 2);

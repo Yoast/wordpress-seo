@@ -33,23 +33,26 @@ function wpseo_admin_bar_menu() {
 	$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 	$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
-	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
-					'post.php',
-					'post-new.php',
-				), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
+	if ( ( is_singular() || ( is_admin() && WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
-		if ( $analysis_readability->is_enabled() || $analysis_seo->is_enabled() ) {
-			$score = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+		if ( $analysis_seo->is_enabled() ) {
+			$score = wpseo_adminbar_seo_score();
+		}
+		elseif ( $analysis_readability->is_enabled() ) {
+			$score = wpseo_adminbar_content_score();
 		}
 
 		$seo_url = get_edit_post_link( $post->ID );
 	}
 
-	if ( WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
-		if ( $analysis_readability->is_enabled() || $analysis_seo->is_enabled() ) {
-			$score = '<div class="wpseo-score-icon adminbar-seo-score"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) )  || is_tax() ) {
+		if ( $analysis_seo->is_enabled() ) {
+			$score = wpseo_tax_adminbar_seo_score();
+		}
+		elseif ( $analysis_readability->is_enabled() ) {
+			$score = wpseo_tax_adminbar_content_score();
 		}
 
 		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
@@ -97,6 +100,14 @@ function wpseo_admin_bar_menu() {
 		'title' => $title . $score . $counter,
 		'href'  => $seo_url,
 	) );
+	if ( ! empty( $notification_count ) ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-menu',
+			'id'     => 'wpseo-notifications',
+			'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
+			'href'   => $seo_url,
+		) );
+	}
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'wpseo-menu',
 		'id'     => 'wpseo-kwresearch',
@@ -280,6 +291,72 @@ function wpseo_admin_bar_menu() {
 		) );
 	}
 
+}
+
+/**
+ * Returns the SEO score element for the adminbar.
+ *
+ * @return string
+ */
+function wpseo_adminbar_seo_score() {
+	$rating = WPSEO_Meta::get_value( 'linkdex', get_the_ID() );
+
+	return wpseo_adminbar_score( $rating );
+}
+
+/**
+ * Returns the content score element for the adminbar.
+ *
+ * @return string
+ */
+function wpseo_adminbar_content_score() {
+	$rating = WPSEO_Meta::get_value( 'content_score', get_the_ID() );
+
+	return wpseo_adminbar_score( $rating );
+}
+
+/**
+ * Returns the SEO score element for the adminbar.
+ *
+ * @return string
+ */
+function wpseo_tax_adminbar_seo_score() {
+	$rating = 0;
+
+	if ( is_tax() || is_category() || is_tag() ) {
+		$rating = WPSEO_Taxonomy_Meta::get_meta_without_term( 'linkdex' );
+	}
+
+	return wpseo_adminbar_score( $rating );
+}
+
+/**
+ * Returns the Content score element for the adminbar.
+ *
+ * @return string
+ */
+function wpseo_tax_adminbar_content_score() {
+	$rating = 0;
+
+	if ( is_tax() || is_category() || is_tag() ) {
+		$rating = WPSEO_Taxonomy_Meta::get_meta_without_term( 'content_score' );
+	}
+
+	return wpseo_adminbar_score( $rating );
+}
+
+/**
+ * Takes The SEO score and makes the score icon for the adminbar with it.
+ *
+ * @param int $score The 0-100 rating of the score. Can be either SEO score or content score.
+ *
+ * @return string $score_adminbar_element
+ */
+function wpseo_adminbar_score( $score ) {
+	$score = WPSEO_Utils::translate_score( $score );
+
+	$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score '. $score .'"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+	return $score_adminbar_element;
 }
 
 add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );

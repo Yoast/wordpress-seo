@@ -19,6 +19,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 ?>
 <select <?php echo $attributes; ?>name="<?php esc_attr_e( $name ); ?>" id="<?php esc_attr_e( $id ); ?>">
 	<?php foreach ( $options as $option_attribute_value => $option_html_value ) : ?>
-	<option value="<?php esc_attr_e( $option_attribute_value ); ?>"<?php echo selected( $selected, $option_attribute_value, false ); ?>><?php esc_html_e( $option_html_value ); ?></option>
+	<option value="<?php echo esc_attr( $option_attribute_value ); ?>"<?php echo selected( $selected, $option_attribute_value, false ); ?>><?php echo esc_html( $option_html_value ); ?></option>
 	<?php endforeach; ?>
 </select>
