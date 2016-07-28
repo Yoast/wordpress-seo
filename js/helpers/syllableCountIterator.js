@@ -11,19 +11,19 @@ var forEach = require ( "lodash/forEach" );
  */
 var SyllableCountIterator = function( config ) {
 	this.countSteps = [];
-	if( !isUndefined( config ) ) {
+	if ( !isUndefined( config ) ) {
 		this.createSyllableCountSteps( config.syllableExclusion );
 	}
 };
 
 /**
- * Creates a language syllable regex for each exclusion.
+ * Creates a syllable count step object for each exclusion.
  *
- * @param {object} syllableRegexes The object containing all exclusion syllables including the multipliers.
+ * @param {object} syllableCounts The object containing all exclusion syllables including the multipliers.
  */
-SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableRegexes ) {
-	forEach( syllableRegexes, function( syllableRegex ) {
-		this.countSteps.push( new SyllableCountStep( syllableRegex ) );
+SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableCounts ) {
+	forEach( syllableCounts, function( syllableCountStep ) {
+		this.countSteps.push( new SyllableCountStep( syllableCountStep ) );
 	}.bind( this ) );
 };
 
