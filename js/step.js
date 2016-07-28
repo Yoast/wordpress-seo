@@ -32,7 +32,8 @@ class Step extends React.Component {
 				<h1>{this.props.title}</h1>
 				{fieldKeys.length > 0 && fieldKeys.map( function ( configName, index ) {
 					let config = fields[configName];
-					config.key = index;
+					config.key       = index;
+					config.fieldName = configName;
 					return React.createElement( Components[config.component], config );
 				} )}
 			</div>
