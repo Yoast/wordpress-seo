@@ -21,8 +21,7 @@ class Wizard extends React.Component {
 		this.setState( {
 			steps: this.parseSteps( this.props.steps ),
 			// Set the current step to the first step in the array.
-			currentStepId: this.getFirstStep( this.props.steps ),
-			currentStep: this.props.steps[this.getFirstStep( this.props.steps )]
+			currentStepId: this.getFirstStep( this.props.steps )
 		} );
 	}
 
@@ -68,10 +67,6 @@ class Wizard extends React.Component {
 		return Object.getOwnPropertyNames( steps )[0];
 	}
 
-	update() {
-
-	}
-
 	/**
 	 * Updates the state to the next stepId in the wizard.
 	 */
@@ -83,8 +78,7 @@ class Wizard extends React.Component {
 		}
 
 		this.setState( {
-			currentStepId: nextStep,
-			currentStep: this.state.steps[nextStep]
+			currentStepId: nextStep
 		} );
 	}
 
@@ -98,8 +92,7 @@ class Wizard extends React.Component {
 			return;
 		}
 		this.setState( {
-			currentStepId: previousStep,
-			currentStep: this.state.steps[previousStep]
+			currentStepId: previousStep
 		} );
 	}
 
@@ -118,8 +111,6 @@ class Wizard extends React.Component {
 		let step = this.getCurrentStep( this.state.steps );
 		let hideNextButton = !step.next;
 		let hidePreviousButton = !step.previous;
-
-		console.log( this.state.currentStep );
 
 		return (
 			<div>
@@ -140,7 +131,7 @@ class Wizard extends React.Component {
 Wizard.propTypes = {
 	steps: React.PropTypes.object,
 	currentStepId: React.PropTypes.string
-}
+};
 
 Wizard.defaultProps = {
 	steps: new Map()
@@ -150,4 +141,3 @@ Wizard.defaultProps.steps.values();
 
 
 export default Wizard
-

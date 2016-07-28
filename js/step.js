@@ -1,25 +1,28 @@
 import React from 'react';
-import GenericComponent from './components/genericComponent';
-import TextInput from './components/input';
-import Choice from './components/choice';
 
+import Components from './components';
 
-let Components = {
-	'Choice': Choice
-};
-
+/**
+ * Represents a step.
+ */
 class Step extends React.Component {
 
+	/**
+	 * Initializes the step component.
+	 *
+	 * @param props
+	 */
 	constructor( props ) {
 		super();
 
 		this.props = props;
 	}
 
-	componentWillUnmount() {
-//		React.unmountComponentAtNode( document.getElementsByClassName( 'form-row' ) );
-	}
-
+	/**
+	 * Renders the current step.
+	 *
+	 * @returns {XML}
+	 */
 	render() {
 		let fields = this.props.fields;
 		let fieldKeys = Object.keys( fields );
