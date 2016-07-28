@@ -79,4 +79,16 @@ describe( "An assessment for transition word percentage", function(){
 		assessment = transitionWordsAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
 	} );
+
+	it( "is applicable for supported locales, en_US in this case", function(){
+		mockPaper = new Paper( "This is a string", { locale: "en_US" } );
+		assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		expect( assessment ).toBe( true );
+	} );
+
+	it( "is not applicable for unsupported locales, nl_NL in this case", function(){
+		mockPaper = new Paper( "This is a string", { locale: "nl_NL" } );
+		assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		expect( assessment ).toBe( false );
+	} );
 } );

@@ -1,5 +1,4 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var getLanguage = require( "../helpers/getLanguage.js" );
 var stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
 var partition = require( "lodash/partition" );
@@ -12,6 +11,9 @@ var Mark = require( "../values/Mark.js" );
 var marker = require( "../markers/addMark.js" );
 
 var maximumConsecutiveDuplicates = 2;
+
+var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+var availableLanguages = [ "en", "de", "es", "fr" ];
 
 /**
  * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.
@@ -111,9 +113,9 @@ module.exports = {
 	identifier: "sentenceBeginnings",
 	getResult: sentenceBeginningsAssessment,
 	isApplicable: function( paper ) {
-		var locale = getLanguage( paper.getLocale() );
-		var validLocale = locale === "en" || locale === "de" || locale === "fr" || locale === "es";
-		return ( validLocale && paper.hasText() );
+
+		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		return ( isLanguageAvailable && paper.hasText() );
 	},
 	getMarks: sentenceBeginningMarker
 };
