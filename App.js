@@ -1,13 +1,13 @@
 import React from "react";
 
 import Wizard from './js/wizard'
-import Steps from  './js/steps';
+import Config from './js/config';
 
 class App extends React.Component {
 
 	render() {
 		return (
-			<Wizard steps={Steps} />
+			<Wizard {...Config} />
 		)
 	}
 }

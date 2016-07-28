@@ -14,13 +14,13 @@ class Choice extends Field {
 	 * @returns {XML}
 	 */
 	render() {
-		let choices = this.state.properties.choices;
+		let choices = this.props.properties.choices;
 		let fieldKeys = Object.keys( choices );
-		let fieldName = this.state.fieldName;
+		let fieldName = this.props.fieldName;
 
 		return (
 			<div>
-				<h2>{this.state.properties.label}</h2>
+				<h2>{this.props.properties.label}</h2>
 				{fieldKeys.map( function ( choiceName, index ) {
 					let choice   = choices[choiceName];
 					let choiceId = choiceName + '-' + index;

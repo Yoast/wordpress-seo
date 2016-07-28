@@ -1,23 +1,30 @@
 import React from 'react';
 import Step from './step';
+
 /**
  * The onboarding Wizard class.
  */
 class Wizard extends React.Component {
 
-	constructor() {
+	constructor(props) {
 		super();
 
 		this.state = {
 			steps: {},
 			currentStepId: ''
 		};
+
+		// this.props = props;
+
+
+		// console.log(this.props);
 	}
 
 	/**
 	 * Initialize the steps and set the current stepId to the first step in the array
 	 */
 	componentWillMount() {
+
 		this.setState( {
 			steps: this.parseSteps( this.props.steps ),
 			// Set the current step to the first step in the array.
@@ -39,6 +46,8 @@ class Wizard extends React.Component {
 				continue;
 			}
 
+			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
+
 			steps[step].previous = previous;
 			previous = step;
 			stepsReversed.unshift( step );
@@ -55,8 +64,30 @@ class Wizard extends React.Component {
 		}
 
 		return steps;
-
 	}
+
+	/**
+	 * Gets the fields from the props.
+	 *
+	 * @param {Array} fieldsToGet
+	 *
+	 * @returns {Object}
+	 */
+	parseFields( fieldsToGet ) {
+		let fields = {};
+
+		fieldsToGet.forEach(
+			function( fieldName ) {
+				if( this.props.fields[fieldName]  ) {
+					fields[ fieldName ] =  this.props.fields[fieldName];
+				}
+			}
+			.bind( this )
+		);
+
+		return fields;
+	}
+
 
 	/**
 	 * Gets the first step from the step object.
@@ -134,7 +165,7 @@ Wizard.propTypes = {
 };
 
 Wizard.defaultProps = {
-	steps: new Map()
+	steps: []
 };
 
 Wizard.defaultProps.steps.values();
