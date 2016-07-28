@@ -1,7 +1,18 @@
 let Steps = {
 	'intro': {
 		title: 'Intro',
-		fields: {}
+		fields: {
+			"profileUrlFacebook": {
+				"component": "Input",
+				"properties": {
+					"label": "Facebook page url",
+					"pattern": "^https:\/\/www\.facebook\.com\/([^/]+)\/$"
+				},
+				"data": "{profile_url_facebook}"
+			}
+
+
+		}
 	},
 	'environment': {
 		title: 'Environment',
