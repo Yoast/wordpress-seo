@@ -6,24 +6,28 @@ import Choice from './components/choice';
 
 let Components = {
 	'Choice': Choice
-}
-
+};
 
 class Step extends React.Component {
 
 	constructor( props ) {
 		super();
-		this.state = props;
+
+		this.props = props;
 	}
 
+	componentWillUnmount() {
+//		React.unmountComponentAtNode( document.getElementsByClassName( 'form-row' ) );
+	}
 
 	render() {
-		let fields = this.state.fields;
+		let fields = this.props.fields;
 		let fieldKeys = Object.keys( fields );
 
 		return (
 			<div>
-				{fieldKeys.map( function ( configName, index ) {
+				<h1>{this.props.title}</h1>
+				{fieldKeys.length > 0 && fieldKeys.map( function ( configName, index ) {
 					let config = fields[configName];
 					config.key = index;
 					return React.createElement( Components[config.component], config );
