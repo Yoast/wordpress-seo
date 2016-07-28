@@ -2,7 +2,8 @@ import React from 'react';
 import Field from './field';
 
 /**
- * Represents an input element.
+ * Represents a text input interface, like a regular input field or a text area. Initially it should render a
+ * normal text input. We might add other representations later on.
  */
 class Input extends Field {
 

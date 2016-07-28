@@ -3,7 +3,8 @@ import React from 'react';
 import Field from './field';
 
 /**
- * Represents a choice component
+ * Represents a choice interface, like a group of radio buttons or a select button. Initially it should render a
+ * group of radio buttons. We might add other representations later on.
  */
 class Choice extends Field {
 

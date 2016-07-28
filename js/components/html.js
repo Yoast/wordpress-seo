@@ -2,7 +2,8 @@ import React from 'react';
 import Field from './field';
 
 /**
- * Represents the component for HTML.
+ *  Represents a piece of HTML. This can be useful on the opening and closing screen of the wizard, to add some
+ *  introduction text, a success message or CTA towards the end.
  */
 class HTML extends Field {
 
