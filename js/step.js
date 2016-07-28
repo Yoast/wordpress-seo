@@ -1,7 +1,13 @@
 import React from 'react';
-import GenericComponent from './genericComponent';
-import TextInput from './input';
-import Choice from './choice';
+import GenericComponent from './components/genericComponent';
+import TextInput from './components/input';
+import Choice from './components/choice';
+
+
+let Components = {
+	'Choice': Choice
+}
+
 
 class Step extends React.Component {
 
@@ -10,23 +16,18 @@ class Step extends React.Component {
 		this.state = props;
 	}
 
+
 	render() {
-		let options = {
-			'test': {
-				label: 'Label',
-				screendReaderText: 'srt'
-			},
-			'test2': {
-				label: 'Label2',
-				screendReaderText: 'srt'
-			}
-		}
+		let fields = this.state.fields;
+		let fieldKeys = Object.keys( fields );
 
 		return (
 			<div>
-				<GenericComponent>{this.props.title}</GenericComponent>
-				<TextInput label="Test input" name="test" placeholder="vul dit in"/>
-				<Choice options={options}/>
+				{fieldKeys.map( function ( configName, index ) {
+					let config = fields[configName];
+					config.key = index;
+					return React.createElement( Components[config.component], config );
+				} )}
 			</div>
 		)
 	}
@@ -35,13 +36,13 @@ class Step extends React.Component {
 Step.propTypes = {
 	id: React.PropTypes.string,
 	title: React.PropTypes.string,
-	field: React.PropTypes.array
+	fields: React.PropTypes.object
 };
 
 Step.defaultProps = {
 	id: '',
 	title: '',
-	fields: []
+	fields: {}
 };
 
 export default Step;

@@ -118,7 +118,7 @@ class Wizard extends React.Component {
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.previous.bind( this )}>Previous
 				</button>
-				<Step id={step.id} title={step.title}/>
+				<Step id={step.id} title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.next.bind( this )}>Next
