@@ -1,6 +1,10 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
+var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+
+var availableLanguages = [ "en" ];
+
 /**
  * Calculates the assessment result based on the fleschReadingScore
  * @param {int} fleschReadingScore The score from the fleschReadingtest
@@ -104,7 +108,7 @@ module.exports = {
 	identifier: "fleschReadingEase",
 	getResult: fleschReadingEaseAssessment,
 	isApplicable: function( paper ) {
-
-		return ( paper.getLocale().indexOf( "en_" ) > -1 || paper.getLocale().indexOf( "nl_" ) > -1 && paper.hasText() );
+		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		return ( isLanguageAvailable && paper.hasText() );
 	}
 };
