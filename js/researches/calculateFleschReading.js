@@ -6,6 +6,8 @@ var countWords = require( "../stringProcessing/countWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 
+var getLanguage = require( "../helpers/getLanguage.js" );
+
 /**
  * This calculates the fleschreadingscore for a given text
  * The formula used:
@@ -15,8 +17,10 @@ var formatNumber = require( "../helpers/formatNumber.js" );
  * @returns {number} the score of the fleschreading test
  */
 module.exports = function( paper ) {
+	var score;
 	var text = paper.getText();
 	var locale = paper.getLocale();
+	var language = getLanguage( locale );
 	if ( text === "" ) {
 		return 0;
 	}
@@ -33,8 +37,18 @@ module.exports = function( paper ) {
 	}
 
 	var numberOfSyllables = countSyllables( text, locale );
+	switch( language ) {
+		case "nl":
+			var syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
 
-	var score = 206.835 - ( 1.015 * ( numberOfWords / numberOfSentences ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
+			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( numberOfWords / numberOfSentences ) );
+		break;
+		case "en":
+		default:
+			score = 206.835 - ( 1.015 * ( numberOfWords / numberOfSentences ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
+		break;
+	}
+
 
 	return formatNumber( score );
 };

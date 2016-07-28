@@ -21,3 +21,15 @@ describe( "A test to check the filtere of digits", function() {
 		expect( fleschFunction( mockPaper ) ).toBe( fleschFunction( mockPaperWithDigits ) );
 	});
 });
+
+describe( "A test that uses the Dutch Flesch Reading", function() {
+	it( "returns a score", function() {
+		var mockPaper = new Paper( "Een kort stukje tekst in het Nederlands om te testen.", { locale: "nl_NL" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 89.7 );
+	} );
+
+	it( "returns a score", function() {
+		var mockPaper = new Paper( "Dit is wat meer tekst om te testen. Het bestaat uit meerdere zinnen waardoor we een andere score moeten krijgen.", { locale: "nl_NL" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 78.2 );
+	} );
+} );
