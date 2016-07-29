@@ -1,18 +1,18 @@
 // Replace all other punctuation chars at the beginning or at the end of a word.
-var punctuationRegexString = "[\-()_\\[\\]’“”\"'\/]";
+var punctuationRegexString = "[\\-\\(\\)_\\[\\]’“”\"'.?!:;,¿¡«»]+";
 var punctuationRegexStart = new RegExp( "^" + punctuationRegexString );
 var punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
 
 /**
- * Replaces punctuation chars from the given text string.
+ * Replaces punctuation chars from the given word string.
  *
- * @param {String} text The text to remove the punctuation chars for.
+ * @param {String} word The word to remove the punctuation chars for.
  *
- * @returns {String} The sanitized text.
+ * @returns {String} The sanitized word.
  */
-module.exports = function( text ) {
-	text = text.replace( punctuationRegexStart, "" );
-	text = text.replace( punctuationRegexEnd, "" );
+module.exports = function( word ) {
+	word = word.replace( punctuationRegexStart, "" );
+	word = word.replace( punctuationRegexEnd, "" );
 
-	return text;
+	return word;
 };
