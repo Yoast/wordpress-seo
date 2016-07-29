@@ -6,18 +6,13 @@ import Step from './step';
  */
 class Wizard extends React.Component {
 
-	constructor(props) {
+	constructor() {
 		super();
 
 		this.state = {
 			steps: {},
 			currentStepId: ''
 		};
-
-		// this.props = props;
-
-
-		// console.log(this.props);
 	}
 
 	/**
