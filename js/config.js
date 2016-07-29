@@ -1,8 +1,12 @@
+
+import MailchimpSignup from './custom_components/MailchimpSignup';
+
+
 let configuration = {
 	"endpoint": "http://local.wordpress.dev/wp-admin/yoast/onboarding?wp_nonce=nonce",
-	"customComponents": [
-
-	],
+	"customComponents": {
+		MailchimpSignup
+	},
 	"fields": {
 		"upsellConfigurationService": {
 			"component": "HTML",
@@ -45,7 +49,7 @@ let configuration = {
 					"development": {
 						"label": "Development - locally running site used for development purposes."
 					}
-				},
+				}
 			},
 			"data": "",
 			"default": "production"
