@@ -1,11 +1,12 @@
 
 import MailchimpSignup from './custom_components/MailchimpSignup';
+import PublishingEntity from "./custom_components/PublishingEntity"
 
 
 let configuration = {
 	"endpoint": "http://local.wordpress.dev/wp-admin/yoast/onboarding?wp_nonce=nonce",
 	"customComponents": {
-		MailchimpSignup
+		MailchimpSignup, PublishingEntity
 	},
 	"fields": {
 		"upsellConfigurationService": {
