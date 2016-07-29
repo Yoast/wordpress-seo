@@ -46,18 +46,33 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_sitemap() {
 
-		$loc     = 'http://example.com/';
-		$lastmod = date( 'c' );
-		$links   = array(
+		$loc   = 'http://example.com/';
+		$mod   = date( 'c' );
+		$src   = 'http://example.com/image.jpg';
+		$title = 'Image title.';
+		$alt   = 'Image alt.';
+		$links = array(
 			array(
-				'loc'     => $loc,
-				'lastmod' => $lastmod,
+				'loc'    => $loc,
+				'mod'    => $mod,
+				'chf'    => 'daily',
+				'pri'    => 1,
+				'images' => array(
+					array(
+						'src'   => $src,
+						'title' => $title,
+						'alt'   => $alt,
+					),
+				),
 			),
 		);
 
-		$index = self::$class_instance->get_index( $links );
+		$index = self::$class_instance->get_sitemap( $links, 'post', 0 );
 		$this->assertContains( "<loc>{$loc}</loc>", $index );
-		$this->assertContains( "<lastmod>{$lastmod}</lastmod>", $index );
+		$this->assertContains( "<lastmod>{$mod}</lastmod>", $index );
+		$this->assertContains( "<image:loc>{$src}</image:loc>", $index );
+		$this->assertContains( "<image:title><![CDATA[{$title}]]></image:title>", $index );
+		$this->assertContains( "<image:caption><![CDATA[{$alt}]]></image:caption>", $index );
 	}
 }
 
