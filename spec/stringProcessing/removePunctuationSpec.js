@@ -33,6 +33,7 @@ describe( "Removing terminators at the begin and end of a word", function(){
 		expect( removePunctuation( "¡¡word" ) ).toBe( "word" );
 		expect( removePunctuation( "'word'" ) ).toBe( "word" );
 		expect( removePunctuation( "'word'!!!???!!!!" ) ).toBe( "word" );
+		expect( removePunctuation( "'word–" ) ).toBe( "word" );
 
 	} );
 } );

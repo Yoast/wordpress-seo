@@ -1,5 +1,5 @@
 // Replace all other punctuation chars at the beginning or at the end of a word.
-var punctuationRegexString = "[\\-\\(\\)_\\[\\]’“”\"'.?!:;,¿¡«»]+";
+var punctuationRegexString = "[\\–\\-\\(\\)_\\[\\]’“”\"'.?!:;,¿¡«»]+";
 var punctuationRegexStart = new RegExp( "^" + punctuationRegexString );
 var punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
 
