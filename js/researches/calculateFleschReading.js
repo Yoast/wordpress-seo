@@ -13,10 +13,10 @@ var getLanguage = require( "../helpers/getLanguage.js" );
  *
  * @param {number} numberOfWords The number of words.
  * @param {number} numberOfSentences The number of sentences.
- * @returns {number} The average number of words in sentences. 
+ * @returns {number} The average number of words in sentences.
  */
 var getAverageWords = function( numberOfWords, numberOfSentences ) {
-	return numberOfWords / numberOfSentences
+	return numberOfWords / numberOfSentences;
 };
 
 /**
