@@ -105,7 +105,6 @@ module.exports = function( text, locale ) {
 	var syllableCount = 0;
 
 	forEach( words, function( word ) {
-	console.log( word );
 		var exclusions = countSyllablesInExclusions( word, locale );
 		if ( exclusions !== 0 ) {
 			syllableCount += exclusions;
