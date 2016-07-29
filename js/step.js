@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Components from './components';
-
 /**
  * Represents a step in the wizard process
  */
@@ -30,16 +28,18 @@ class Step extends React.Component {
 		return (
 			<div>
 				<h1>{this.props.title}</h1>
-				{fieldKeys.map( function ( configName, index ) {
-					let config = fields[configName];
+				{fieldKeys.map(
+					function ( configName, index ) {
+						let config = fields[configName];
 
-					if( Components[config.component] ) {
-						config.key       = index;
-						config.fieldName = configName;
+						if( this.props.components[config.component] ) {
+							config.key       = index;
+							config.fieldName = configName;
 
-						return React.createElement( Components[config.component], config );
-					}
-				} )}
+							return React.createElement( this.props.components[config.component], config );
+						}
+					}.bind(this)
+				)}
 			</div>
 		)
 	}

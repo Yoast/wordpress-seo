@@ -1,18 +1,25 @@
 import React from 'react';
 import Step from './step';
 
+import Components from './components';
+
 /**
  * The onboarding Wizard class.
  */
 class Wizard extends React.Component {
 
-	constructor() {
+	constructor(props) {
 		super();
 
 		this.state = {
 			steps: {},
 			currentStepId: ''
 		};
+
+		Object.assign( props.components, Components );
+		Object.assign( props.components, props.customComponents);
+
+		this.props = props;
 	}
 
 	/**
@@ -150,7 +157,7 @@ class Wizard extends React.Component {
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.previous.bind( this )}>Previous
 				</button>
-				<Step id={step.id} title={step.title} fields={step.fields}/>
+				<Step components={this.props.components} id={step.id} title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.next.bind( this )}>Next
@@ -162,11 +169,15 @@ class Wizard extends React.Component {
 
 Wizard.propTypes = {
 	steps: React.PropTypes.object,
-	currentStepId: React.PropTypes.string
+	currentStepId: React.PropTypes.string,
+	components: React.PropTypes.object,
+	customComponents: React.PropTypes.object
 };
 
 Wizard.defaultProps = {
-	steps: []
+	steps           : [],
+	customComponents: {},
+	components: {}
 };
 
 Wizard.defaultProps.steps.values();
