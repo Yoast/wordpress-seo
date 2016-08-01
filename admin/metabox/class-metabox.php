@@ -88,9 +88,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( '0' == get_option( 'blog_public' ) ) {
 			self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
 		}
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for post type, currently: %s', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = 'index';
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = 'noindex';
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for this post type, currently: %s', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = 'Index';
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = 'Noindex';
 
 		self::$meta_fields['advanced']['meta-robots-nofollow']['title']        = __( 'Meta Robots Follow', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = 'follow';
