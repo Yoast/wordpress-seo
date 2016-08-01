@@ -3,29 +3,20 @@ import React from 'react';
 
 /**
  * Represents a mailchimg signup interface.
+ *
+ * @param {Object} props The properties for the object.
+ * @returns {JSX}
+ * @constructor
  */
-class PublishingEntity extends React.Component {
+const PublishingEntity = ( props ) => {
 
-	constructor() {
-		super();
-	}
+	let data = props.data;
 
-	/**
-	 * Renders the choice component with a label and its radio buttons.
-	 *
-	 * @returns {XML}
-	 */
-	render() {
-		let data = this.props.data;
-
-		return (
-			<div>
-				<h2>{data.publishingEntityType}</h2>
-
-
-			</div>
-	)
-	}
+	return (
+		<div>
+			<h2>{data.publishingEntityType}</h2>
+		</div>
+	);
 }
 
 PublishingEntity.propTypes = {

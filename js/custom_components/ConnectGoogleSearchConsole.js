@@ -3,30 +3,21 @@ import React from 'react';
 
 /**
  * Represents a mailchimg signup interface.
+ *
+ * @param {Object} props The properties for the object.
+ * @returns {JSX}
+ * @constructor
  */
-class ConnectGoogleSearchConsole extends React.Component {
+const ConnectGoogleSearchConsole = ( props ) => {
+	let data = props.data;
 
-	constructor() {
-		super();
-	}
-
-	/**
-	 * Renders the choice component with a label and its radio buttons.
-	 *
-	 * @returns {XML}
-	 */
-	render() {
-		let data = this.props.data;
-
-		return (
-			<div>
-				<h2>{data.token}</h2>
-				<div>{data.profile}</div>
-
-			</div>
-		)
-	}
-}
+	return (
+		<div>
+			<h2>{data.token}</h2>
+			<div>{data.profile}</div>
+		</div>
+	);
+};
 
 ConnectGoogleSearchConsole.propTypes = {
 	component: React.PropTypes.string,

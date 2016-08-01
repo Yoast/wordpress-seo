@@ -2,27 +2,19 @@ import React from 'react';
 
 /**
  * Represents a posttype visibility component.
+ *
+ * @param {Object} props The properties for the object.
+ * @returns {JSX}
+ * @constructor
  */
-class PostTypeVisibility extends React.Component {
+const PostTypeVisibility = ( props ) => {
+	return (
+		<div>
+			<h2>{props.properties.label}</h2>
 
-	constructor() {
-		super();
-	}
-
-	/**
-	 * Renders the choice component with a label and its radio buttons.
-	 *
-	 * @returns {XML}
-	 */
-	render() {
-		return (
-			<div>
-				<h2>{this.props.properties.label}</h2>
-
-			</div>
-		)
-	}
-}
+		</div>
+	);
+};
 
 PostTypeVisibility.propTypes = {
 	component: React.PropTypes.string,

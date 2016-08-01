@@ -2,45 +2,32 @@ import React from 'react';
 
 /**
  * Represents a mailchimg signup interface.
+ *
+ * @param {Object} props The properties for the object.
+ * @returns {JSX}
+ * @constructor
  */
-class MailchimpSignup extends React.Component {
+const MailchimpSignup = ( props ) => {
 
-	constructor() {
-		super();
-	}
-
-	/**
-	 * Sets the current state
-	 */
-	componentWillMount() {
-		this.setState( this.props );
-	}
-
-	/**
-	 * Renders the choice component with a label and its radio buttons.
-	 *
-	 * @returns {XML}
-	 */
-	render() {
-		return (
-			<div>
-				<h2>{this.props.properties.label}</h2>
-				<p>{this.props.properties.mailchimpActionUrl}</p>
-				<input type="text" name={this.props.name}  defaultValue={this.props.properties.currentUserEmail} />
-
-			</div>
-		)
-	}
+	return (
+		<div>
+			<h2>{props.properties.label}</h2>
+			<p>{props.properties.mailchimpActionUrl}</p>
+			<input type="text" name={props.name}  defaultValue={props.properties.currentUserEmail} />
+		</div>
+	)
 }
 
 MailchimpSignup.propTypes = {
 	component: React.PropTypes.string,
+	name: React.PropTypes.string.isRequired,
 	properties: React.PropTypes.object,
 	data: React.PropTypes.string
 };
 
 MailchimpSignup.defaultProps = {
 	component: '',
+	name: '',
 	properties: {},
 	data: ''
 };
