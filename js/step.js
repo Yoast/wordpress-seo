@@ -36,13 +36,16 @@ const Step = ( props ) => {
 Step.propTypes = {
 	id: React.PropTypes.string,
 	title: React.PropTypes.string.isRequired,
-	fields: React.PropTypes.object
+	fields: React.PropTypes.object,
+	components: React.PropTypes.object
 };
 
 Step.defaultProps = {
 	id: '',
 	title: '',
-	fields: {}
+	fields: {},
+	components: {}
+
 };
 
 export default Step;

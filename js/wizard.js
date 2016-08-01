@@ -23,10 +23,8 @@ class Wizard extends React.Component {
 			currentStepId: this.getFirstStep( props.steps )
 		};
 
-		Object.assign( props.components, Components );
-		Object.assign( props.components, props.customComponents);
-
-		this.props = props;
+		Object.assign( this.props.components, Components );
+		Object.assign( this.props.components, props.customComponents);
 	}
 
 	/**
@@ -185,7 +183,8 @@ Wizard.propTypes = {
 	steps: React.PropTypes.object,
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
-	customComponents: React.PropTypes.object
+	customComponents: React.PropTypes.object,
+	fields: React.PropTypes.object
 };
 
 Wizard.defaultProps = {

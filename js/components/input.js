@@ -25,7 +25,13 @@ Input.propTypes = {
 	placeholder: React.PropTypes.string,
 	type: React.PropTypes.string.isRequired,
 	name: React.PropTypes.string.isRequired,
-	value: React.PropTypes.string
+	value: React.PropTypes.string,
+	properties: React.PropTypes.shape(
+		{
+			label: React.PropTypes.string.isRequired
+		}
+	),
+	data: React.PropTypes.string
 };
 
 Input.defaultProps = {
