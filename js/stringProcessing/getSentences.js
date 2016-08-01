@@ -155,23 +155,33 @@ function getNextTwoCharacters( nextTokens ) {
 	return next;
 }
 
-function isValidSentenceBeginning( sentence ) {
-
+/**
+ * Checks if the sentenceBeginning beginning is a valid beginning.
+ *
+ * @param {string} sentenceBeginning The beginning of the sentence to validate.
+ * @returns {boolean} Returns true if it is a valid beginning, false if it is not.
+ */
+function isValidSentenceBeginning( sentenceBeginning ) {
 	return (
-		isCapitalLetter( sentence )
-		|| isNumber( sentence )
-		|| isQuotation( sentence )
-		|| isPunctuation( sentence )
-	)
+		isCapitalLetter( sentenceBeginning )
+		|| isNumber( sentenceBeginning )
+		|| isQuotation( sentenceBeginning )
+		|| isPunctuation( sentenceBeginning )
+	);
 }
 
+/**
+ * Checks if the token is a valid sentence ending.
+ *
+ * @param {object} token The token to validate.
+ * @returns {boolean} Returns true if the token is valid ending, false if it is not.
+ */
 function isValidToken( token ) {
 	return ( !isUndefined( token ) && (
 		"html-start" === token.type
 		|| "html-end" === token.type
 		|| "block-start" === token.type
-		//|| "block-end" === nextToken.type
-	) )
+	) );
 }
 
 /**
@@ -181,7 +191,7 @@ function isValidToken( token ) {
  * @returns {Array<string>} A list of sentences.
  */
 function getSentencesFromTokens( tokens ) {
-	var tokenSentences = [], currentSentence = "", nextSentenceStart, previousToken;
+	var tokenSentences = [], currentSentence = "", nextSentenceStart;
 
 	var sliced;
 
@@ -202,6 +212,7 @@ function getSentencesFromTokens( tokens ) {
 		var hasNextSentence;
 		var nextToken = tokens[ i + 1 ];
 		var secondToNextToken = tokens[ i + 2 ];
+		var nextCharacters;
 
 		switch ( token.type ) {
 
@@ -231,7 +242,7 @@ function getSentencesFromTokens( tokens ) {
 			case "full-stop":
 				currentSentence += token.src;
 
-				var nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+				nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
 
 				// For a new sentence we need to check the next two characters.
 				hasNextSentence = nextCharacters.length >= 2;
@@ -260,7 +271,7 @@ function getSentencesFromTokens( tokens ) {
 			case "block-end":
 				currentSentence += token.src;
 
-				var nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+				nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
 
 				// For a new sentence we need to check the next two characters.
 				hasNextSentence = nextCharacters.length >= 2;
@@ -276,8 +287,6 @@ function getSentencesFromTokens( tokens ) {
 				}
 				break;
 		}
-
-		previousToken = token;
 	} );
 
 	if ( "" !== currentSentence ) {
