@@ -207,6 +207,31 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 		} );
 	}
 
+	/**
+	 * Set the initial active tab in the settings pages.
+	 */
+	function setInitialActiveTab() {
+		var activeTabId = window.location.hash.replace( '#top#', '' );
+		/*
+		 * WordPress uses fragment identifiers for its own in-page links, e.g.
+		 * `#wpbody-content` and other plugins may do that as well. Also, facebook
+		 * adds a `#_=_` see PR 506. In these cases and when it's empty, default
+		 * to the first tab.
+		 */
+		if ( activeTabId === '' || '#' === activeTabId.charAt( 0 ) ) {
+			/*
+			 * jQuery attr() gets the attribute value for only the first element
+			 * in the matched set so this will always be the first tab id.
+			 */
+			activeTabId = jQuery( '.wpseotab' ).attr( 'id' );
+		}
+
+		jQuery( '#' + activeTabId ).addClass( 'active' );
+		jQuery( '#' + activeTabId + '-tab' ).addClass( 'nav-tab-active' );
+
+		jQuery( '.nav-tab-active' ).click();
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
@@ -314,18 +339,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				}
 			).change();
 
-			// init
-			var activeTab = window.location.hash.replace( '#top#', '' );
-
-			// default to first tab
-			if ( activeTab === '' || activeTab === '#_=_' ) {
-				activeTab = jQuery( '.wpseotab' ).attr( 'id' );
-			}
-
-			jQuery( '#' + activeTab ).addClass( 'active' );
-			jQuery( '#' + activeTab + '-tab' ).addClass( 'nav-tab-active' );
-
-			jQuery( '.nav-tab-active' ).click();
+			setInitialActiveTab();
 			initSelect2();
 		}
 	);
