@@ -4,15 +4,15 @@ var punctuationRegexStart = new RegExp( "^" + punctuationRegexString );
 var punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
 
 /**
- * Replaces punctuation characters from the given word string.
+ * Replaces punctuation characters from the given text string.
  *
- * @param {String} word The word to remove the punctuation characters for.
+ * @param {String} text The text to remove the punctuation characters for.
  *
- * @returns {String} The sanitized word.
+ * @returns {String} The sanitized text.
  */
-module.exports = function( word ) {
-	word = word.replace( punctuationRegexStart, "" );
-	word = word.replace( punctuationRegexEnd, "" );
+module.exports = function( text ) {
+	text = text.replace( punctuationRegexStart, "" );
+	text = text.replace( punctuationRegexEnd, "" );
 
-	return word;
+	return text;
 };
