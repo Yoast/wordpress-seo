@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Step from './step';
 
 /**
@@ -14,6 +13,8 @@ class Wizard extends React.Component {
 	 */
 	constructor( props ) {
 		super();
+
+		this.props = props;
 
 		this.state = {
 			steps: this.parseSteps( props.steps ),
@@ -50,6 +51,8 @@ class Wizard extends React.Component {
 				continue;
 			}
 
+			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
+
 			steps[step].previous = previous;
 
 			// Sets the previous var with current step.
@@ -72,8 +75,31 @@ class Wizard extends React.Component {
 		}
 
 		return steps;
-
 	}
+
+	/**
+	 * Gets the fields from the props.
+	 *
+	 * @param {Array} fieldsToGet
+	 *
+	 * @returns {Object}
+	 */
+	parseFields( fieldsToGet ) {
+		let fields = {};
+
+
+		fieldsToGet.forEach(
+			function( fieldName ) {
+				if( this.props.fields[fieldName]  ) {
+					fields[ fieldName ] =  this.props.fields[fieldName];
+				}
+			}
+			.bind( this )
+		);
+
+		return fields;
+	}
+
 
 	/**
 	 * Gets the first step from the step object.
@@ -126,7 +152,7 @@ class Wizard extends React.Component {
 	/**
 	 * Renders the wizard.
 	 *
-	 * @return {XML} The rendered step in the wizard.
+	 * @return {JSX} The rendered step in the wizard.
 	 */
 	render() {
 		let step = this.getCurrentStep();
@@ -139,7 +165,7 @@ class Wizard extends React.Component {
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
-				<Step id={step.id} title={step.title}/>
+				<Step id={step.id} title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
@@ -151,12 +177,13 @@ class Wizard extends React.Component {
 
 Wizard.propTypes = {
 	steps: React.PropTypes.object,
-	currentStepId: React.PropTypes.string
+	currentStepId: React.PropTypes.string,
+	fields: React.PropTypes.object
 };
 
 Wizard.defaultProps = {
-	steps: {}
+	steps: {},
+	fields: {}
 };
 
 export default Wizard
-
