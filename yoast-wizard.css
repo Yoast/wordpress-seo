@@ -1,0 +1,16 @@
+body {
+	width: 100%;
+	text-align: center;
+	background: #f8f8f8;
+}
+
+
+.wizard {
+	border: 1px solid #CCC;
+	width: 80%;
+	text-align: left;
+	min-height: 20px;
+	margin: 0 auto;
+	background: #FFF;
+
+}
