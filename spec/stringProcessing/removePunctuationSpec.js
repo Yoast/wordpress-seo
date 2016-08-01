@@ -14,7 +14,7 @@ describe("a test removing punctuation from a string", function(){
 		expect( removePunctuation("te-st") ).toBe( "te-st" );
 	});
 
-	it("returns string without punction around the word", function(){
+	it("returns string without punctuation around the word", function(){
 		expect( removePunctuation("'test'") ).toBe( "test" );
 	});
 
@@ -25,7 +25,7 @@ describe("a test removing punctuation from a string", function(){
 });
 
 describe( "Removing punctuation at the begin and end of a word", function(){
-	it( "returns a word without punctuations.", function() {
+	it( "returns a word without punctuation.", function() {
 		expect( removePunctuation( "word." ) ).toBe( "word" );
 		expect( removePunctuation( "10.000" ) ).toBe( "10.000" );
 		expect( removePunctuation( "¿que?" ) ).toBe( "que" );
