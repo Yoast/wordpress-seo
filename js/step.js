@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Components from './components';
-
 /**
  * Renders a step in the wizard process
  *
@@ -22,11 +20,11 @@ const Step = ( props ) => {
 					function ( configName, index ) {
 						let config = fields[configName];
 
-						if( Components[config.component] ) {
+						if( props.components[config.component] ) {
 							config.key       = index;
 							config.fieldName = configName;
 
-							return React.createElement( Components[config.component], config );
+							return React.createElement( props.components[config.component], config );
 						}
 					}
 				)
@@ -38,13 +36,16 @@ const Step = ( props ) => {
 Step.propTypes = {
 	id: React.PropTypes.string,
 	title: React.PropTypes.string.isRequired,
-	fields: React.PropTypes.object
+	fields: React.PropTypes.object,
+	components: React.PropTypes.object
 };
 
 Step.defaultProps = {
 	id: '',
 	title: '',
-	fields: {}
+	fields: {},
+	components: {}
+
 };
 
 export default Step;
