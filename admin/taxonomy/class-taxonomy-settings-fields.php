@@ -47,14 +47,14 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 				$this->get_noindex_options()
 			),
 			'sitemap_include' => $this->get_field_config(
-				esc_html__( 'Include in sitemap?', 'wordpress-seo' ),
+				esc_html__( 'Include in Sitemap?', 'wordpress-seo' ),
 				'',
 				'select',
 				$this->sitemap_include_options
 			),
 			'bctitle'         => $this->get_field_config(
-				__( 'Breadcrumbs title', 'wordpress-seo' ),
-				esc_html__( 'The Breadcrumbs title is used in the breadcrumbs where this taxonomy appears.', 'wordpress-seo' ),
+				__( 'Breadcrumbs Title', 'wordpress-seo' ),
+				esc_html__( 'The Breadcrumbs Title is used in the breadcrumbs where this taxonomy appears.', 'wordpress-seo' ),
 				'text',
 				'',
 				$this->options['breadcrumbs-enable'] !== true
