@@ -245,6 +245,34 @@ describe("Get sentences from text", function(){
 				input: "This is the first sentence… Followed by a second one.",
 				expected: [ "This is the first sentence…", "Followed by a second one." ]
 			}
-		]
+		];
+
+		testGetSentences( testCases );
+	} );
+	it( "", function() {
+		var testCases = [
+			{
+				input: "This is a sentence (with blockends.) and is still one sentence.",
+				expected: [ "This is a sentence (with blockends.) and is still one sentence." ]
+			},
+			{
+				input: "This is a sentence (with blockends.). This is a second sentence.",
+				expected: [ "This is a sentence (with blockends.).", "This is a second sentence." ]
+			},
+			{
+				input: "This is a sentence (with blockends.) This is a second sentence.",
+				expected: [ "This is a sentence (with blockends.)", "This is a second sentence." ]
+			},
+			{
+				input: "This is a sentence (with blockends) This is a second sentence.",
+				expected: [ "This is a sentence (with blockends)", "This is a second sentence." ]
+			},
+			{
+				input: "This is a sentence (with blockends.). this is a second sentence.",
+				expected: [ "This is a sentence (with blockends.). this is a second sentence." ]
+			}
+		];
+
+		testGetSentences( testCases );
 	} );
 });

@@ -155,6 +155,25 @@ function getNextTwoCharacters( nextTokens ) {
 	return next;
 }
 
+function isValidSentenceBeginning( sentence ) {
+
+	return (
+		isCapitalLetter( sentence )
+		|| isNumber( sentence )
+		|| isQuotation( sentence )
+		|| isPunctuation( sentence )
+	)
+}
+
+function isValidToken( token ) {
+	return ( !isUndefined( token ) && (
+		"html-start" === token.type
+		|| "html-end" === token.type
+		|| "block-start" === token.type
+		//|| "block-end" === nextToken.type
+	) )
+}
+
 /**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
@@ -203,8 +222,10 @@ function getSentencesFromTokens( tokens ) {
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
-				tokenSentences.push( currentSentence );
-				currentSentence = "";
+				if ( !isUndefined( nextToken ) && "block-end" !== nextToken.type ) {
+					tokenSentences.push( currentSentence );
+					currentSentence = "";
+				}
 				break;
 
 			case "full-stop":
@@ -215,27 +236,13 @@ function getSentencesFromTokens( tokens ) {
 				// For a new sentence we need to check the next two characters.
 				hasNextSentence = nextCharacters.length >= 2;
 				nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
-
 				// If the next character is a number, never split. For example: IPv4-numbers.
 				if ( hasNextSentence && isNumber( nextCharacters[ 0 ] ) ) {
 					break;
 				}
 
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
-				if (
-					( hasNextSentence && (
-						isCapitalLetter( nextSentenceStart )
-						|| isNumber( nextSentenceStart ) )
-						|| isQuotation( nextSentenceStart )
-						|| isPunctuation( nextSentenceStart )
-					|| ( !isUndefined( nextToken ) && (
-						"html-start" === nextToken.type
-						|| "html-end" === nextToken.type
-						|| "block-start" === nextToken.type
-						|| "block-end" === nextToken.type
-						) )
-					)
-				) {
+				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isValidToken( nextToken ) ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}
@@ -251,11 +258,21 @@ function getSentencesFromTokens( tokens ) {
 				break;
 
 			case "block-end":
-				// When a block ends after a sentence delimiter make sure to add the block end to the sentence.
-				if ( !isUndefined( previousToken ) && ( previousToken.type === "sentence-delimiter" || previousToken.type === "full-stop" ) ) {
-					tokenSentences[ tokenSentences.length - 1 ] += token.src;
-				} else {
-					currentSentence += token.src;
+				currentSentence += token.src;
+
+				var nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+				// For a new sentence we need to check the next two characters.
+				hasNextSentence = nextCharacters.length >= 2;
+				nextSentenceStart = hasNextSentence ? nextCharacters[ 0 ] : "";
+				// If the next character is a number, never split. For example: IPv4-numbers.
+				if ( hasNextSentence && isNumber( nextCharacters[ 0 ] ) ) {
+					break;
+				}
+
+				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isValidToken( nextToken ) ) {
+					tokenSentences.push( currentSentence );
+					currentSentence = "";
 				}
 				break;
 		}
