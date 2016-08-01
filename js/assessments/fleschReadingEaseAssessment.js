@@ -3,7 +3,7 @@ var inRange = require( "lodash/inRange" );
 
 var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
 
-var availableLanguages = [ "en" ];
+var availableLanguages = [ "en", "nl" ];
 
 /**
  * Calculates the assessment result based on the fleschReadingScore
