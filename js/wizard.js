@@ -153,17 +153,29 @@ class Wizard extends React.Component {
 		return this.state.steps[ this.state.currentStepId ];
 	}
 
+	/**
+	 * Gets the current step and the total number of steps to determine the current progress trough the wizard.
+	 *
+	 * @return {{totalSteps: Number, currentStepNumber: (int|string)}}
+	 * Returns an object containing the total number of steps in the wizard and the current step nummber in the process.
+	 */
 	getProgress() {
 		return {
 			totalSteps: Object.keys( this.state.steps ).length,
-			currentStepNumber: this.getCurrentStepNumber( this.state.currentStepId )
+			currentStepNumber: this.getCurrentStepNumber()
 		}
 	}
 
-	getCurrentStepNumber( currentStep ) {
-		var steps = Object.keys( this.state.steps );
+	/**
+	 * Gets the index number for a step from the array with step objects.
+	 *
+	 * @return {int|string} The step number when found, or '?' when the step is not found.
+	 */
+	getCurrentStepNumber() {
+		let currentStep = this.state.currentStepId;
+		let steps = Object.keys( this.state.steps );
 
-		var stepNumber = steps.indexOf( currentStep );
+		let stepNumber = steps.indexOf( currentStep );
 
 		if ( stepNumber > - 1 ) {
 			return stepNumber + 1;
