@@ -1,6 +1,6 @@
 import React from 'react';
 import Step from './step';
-
+import ProgressIndicator from './progressIndicator';
 import Components from './components';
 
 /**
@@ -24,7 +24,7 @@ class Wizard extends React.Component {
 		};
 
 		Object.assign( this.props.components, Components );
-		Object.assign( this.props.components, props.customComponents);
+		Object.assign( this.props.components, props.customComponents );
 	}
 
 	/**
@@ -55,9 +55,9 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
+			steps[ step ][ 'fields' ] = this.parseFields( steps[ step ][ 'fields' ] );
 
-			steps[step].previous = previous;
+			steps[ step ].previous = previous;
 
 			// Sets the previous var with current step.
 			previous = step;
@@ -75,7 +75,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[step].next = stepsReversed.pop();
+			steps[ step ].next = stepsReversed.pop();
 		}
 
 		return steps;
@@ -93,12 +93,12 @@ class Wizard extends React.Component {
 
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
-				if( this.props.fields[fieldName]  ) {
-					fields[ fieldName ] =  this.props.fields[fieldName];
+			function ( fieldName ) {
+				if ( this.props.fields[ fieldName ] ) {
+					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
-			.bind( this )
+				.bind( this )
 		);
 
 		return fields;
@@ -113,7 +113,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Wizard extends React.Component {
 	setNextStep() {
 		let nextStep = this.getCurrentStep().next;
 
-		if ( !nextStep ) {
+		if ( ! nextStep ) {
 			return;
 		}
 
@@ -137,7 +137,7 @@ class Wizard extends React.Component {
 	setPreviousStep() {
 		let previousStep = this.getCurrentStep().previous;
 
-		if ( !previousStep ) {
+		if ( ! previousStep ) {
 			return;
 		}
 
@@ -153,6 +153,25 @@ class Wizard extends React.Component {
 		return this.state.steps[ this.state.currentStepId ];
 	}
 
+	getProgress() {
+		return {
+			totalSteps: Object.keys( this.state.steps ).length,
+			currentStepNumber: this.getCurrentStepNumber( this.state.currentStepId )
+		}
+	}
+
+	getCurrentStepNumber( currentStep ) {
+		var steps = Object.keys( this.state.steps );
+
+		var stepNumber = steps.indexOf( currentStep );
+
+		if ( stepNumber > - 1 ) {
+			return stepNumber + 1;
+		}
+
+		return '?';
+	}
+
 	/**
 	 * Renders the wizard.
 	 *
@@ -160,8 +179,8 @@ class Wizard extends React.Component {
 	 */
 	render() {
 		let step = this.getCurrentStep();
-		let hideNextButton = !step.next;
-		let hidePreviousButton = !step.previous;
+		let hideNextButton = ! step.next;
+		let hidePreviousButton = ! step.previous;
 
 		return (
 			<div>
@@ -169,6 +188,7 @@ class Wizard extends React.Component {
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
+				<ProgressIndicator {...this.getProgress()} />
 				<Step components={this.props.components} id={step.id} title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
@@ -188,7 +208,7 @@ Wizard.propTypes = {
 };
 
 Wizard.defaultProps = {
-	steps           : [],
+	steps: [],
 	customComponents: {},
 	components: {},
 	fields: React.PropTypes.object
