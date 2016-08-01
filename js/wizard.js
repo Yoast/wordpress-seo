@@ -106,13 +106,21 @@ class Wizard extends React.Component {
 
 	/**
 	 * Sends the options for the current step via POST request to the back-end.
+	 *
+	 * @param {string} targetStep The step id to switch to.
 	 */
-	saveOptions() {
+	saveOptions( targetStep ) {
 
 		this.setSaveState( 'Saving..' );
 
 		$.post( "http://0.0.0.0:8882/onboarding", $( "#stepContainer" ).serialize() )
 		 .done( function ( data ) {
+			 this.setSaveState( '' );
+			 this.setState( {
+				 currentStepId: targetStep
+			 } );
+		 }.bind( this ) )
+		 .fail( function ( data ) {
 			 this.setSaveState( '' );
 		 }.bind( this ) );
 	}
@@ -154,11 +162,8 @@ class Wizard extends React.Component {
 		if ( ! nextStep ) {
 			return;
 		}
-		this.saveOptions();
 
-		this.setState( {
-			currentStepId: nextStep
-		} );
+		this.saveOptions( nextStep );
 	}
 
 	/**
@@ -172,11 +177,7 @@ class Wizard extends React.Component {
 			return;
 		}
 
-		this.saveOptions();
-
-		this.setState( {
-			currentStepId: previousStep
-		} );
+		this.saveOptions( previousStep );
 	}
 
 	/**

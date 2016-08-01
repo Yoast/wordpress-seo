@@ -3,7 +3,7 @@
       method: [GET, POST]
    response:
     - status: 200
-      latency: 5000
+      latency: 2000
       body: "Loaded with delay"
-    - status: 200
-      body: "Sucess!"
+    - status: 403
+      body: "Forbidden!"
