@@ -1,12 +1,13 @@
 
 import MailchimpSignup from './custom_components/MailchimpSignup';
 import PublishingEntity from "./custom_components/PublishingEntity"
+import PostTypeVisibility from "./custom_components/PostTypeVisibility"
 
 
 let configuration = {
 	"endpoint": "http://local.wordpress.dev/wp-admin/yoast/onboarding?wp_nonce=nonce",
 	"customComponents": {
-		MailchimpSignup, PublishingEntity
+		MailchimpSignup, PublishingEntity, PostTypeVisibility
 	},
 	"fields": {
 		"upsellConfigurationService": {
@@ -293,7 +294,7 @@ let configuration = {
 		},
 		"environment": {
 			"title": "Environment",
-			"fields": ["environment"]
+			"fields": ["environment", "siteType"]
 		},
 		"siteType": {
 			"title": "Site type",
