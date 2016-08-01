@@ -4,7 +4,7 @@ var punctuationRegexStart = new RegExp( "^" + punctuationRegexString );
 var punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
 
 /**
- * Replaces punctuation chars from the given word string.
+ * Replaces punctuation characters from the given word string.
  *
  * @param {String} word The word to remove the punctuation chars for.
  *

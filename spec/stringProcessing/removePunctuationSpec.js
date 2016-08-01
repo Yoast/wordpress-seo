@@ -24,7 +24,7 @@ describe("a test removing punctuation from a string", function(){
 
 });
 
-describe( "Removing terminators at the begin and end of a word", function(){
+describe( "Removing punctuation at the begin and end of a word", function(){
 	it( "returns a word without a terminator.", function() {
 		expect( removePunctuation( "word." ) ).toBe( "word" );
 		expect( removePunctuation( "10.000" ) ).toBe( "10.000" );
