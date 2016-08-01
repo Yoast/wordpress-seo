@@ -1,35 +1,23 @@
 import React from 'react';
 
 /**
- * Represents a step in the wizard process
+ * Renders a step in the wizard process
+ *
+ * @param {Object} props The props used for rendering the steps.
+ * @returns {JSX}
+ * @constructor
  */
-class Step extends React.Component {
+const Step = ( props ) => {
 
-	/**
-	 * Constructor
-	 *
-	 * @param {Object} props
-	 */
-	constructor( props ) {
-		super();
-		this.props = props
-	}
+	return (
+		<h1>Step: {props.title}</h1>
+	);
 
-	/**
-	 * Renders the HTML.
-	 *
-	 * @returns {XML}
-	 */
-	render() {
-		return (
-			<h1>Stap: {this.props.title}</h1>
-		)
-	}
-}
+};
 
 Step.propTypes = {
 	id: React.PropTypes.string,
-	title: React.PropTypes.string,
+	title: React.PropTypes.string.isRequired,
 	fields: React.PropTypes.array
 };
 

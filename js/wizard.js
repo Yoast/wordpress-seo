@@ -14,6 +14,7 @@ class Wizard extends React.Component {
 			steps: {},
 			currentStepId: ''
 		};
+
 	}
 
 	/**
@@ -36,22 +37,41 @@ class Wizard extends React.Component {
 	 */
 	parseSteps( steps ) {
 
-		var previous = null;
+		/**
+		 * We are using this var, because we need to set a next step for each step. We are adding the value at the
+		 * beginning of the array. Results in an array like [ step 3, step 2, step 1 ].
+		 *
+		 * The next step will be set by popping the last value of the array and set it as the next one for the step
+		 * we are looping through.
+		 *
+		 * @type {Array}
+		 */
 		var stepsReversed = [];
+
+		var previous = null;
+
+		// Loop through the steps to set each previous step.
 		for ( let step in steps ) {
-			if ( !steps.hasOwnProperty( step ) ) {
+			if ( ! steps.hasOwnProperty( step ) ) {
 				continue;
 			}
 
+			//
 			steps[step].previous = previous;
+
+			// Sets the previous var with current step.
 			previous = step;
+
+			// Adds the step to the reversed array.
 			stepsReversed.unshift( step );
 		}
 
+		// We don't need 'first step'.
 		stepsReversed.pop();
 
+		// Loop through the steps to set each next step.
 		for ( let step in steps ) {
-			if ( !steps.hasOwnProperty( step ) ) {
+			if ( ! steps.hasOwnProperty( step ) ) {
 				continue;
 			}
 
@@ -76,8 +96,8 @@ class Wizard extends React.Component {
 	/**
 	 * Updates the state to the next stepId in the wizard.
 	 */
-	next() {
-		let nextStep = this.getCurrentStep( this.state.steps ).next;
+	setNextStep() {
+		let nextStep = this.getCurrentStep().next;
 
 		if ( !nextStep ) {
 			return;
@@ -91,8 +111,8 @@ class Wizard extends React.Component {
 	/**
 	 * Updates the state to the previous stepId in the wizard.
 	 */
-	previous() {
-		let previousStep = this.getCurrentStep( this.state.steps ).previous;
+	setPreviousStep() {
+		let previousStep = this.getCurrentStep().previous;
 
 		if ( !previousStep ) {
 			return;
@@ -106,8 +126,8 @@ class Wizard extends React.Component {
 	/**
 	 * Gets the current stepId from the steps
 	 */
-	getCurrentStep( steps ) {
-		return steps[this.state.currentStepId];
+	getCurrentStep() {
+		return this.state.steps[ this.state.currentStepId ];
 	}
 
 	/**
@@ -116,7 +136,7 @@ class Wizard extends React.Component {
 	 * @return {XML} The rendered step in the wizard.
 	 */
 	render() {
-		let step = this.getCurrentStep( this.state.steps );
+		let step = this.getCurrentStep();
 		let hideNextButton = !step.next;
 		let hidePreviousButton = !step.previous;
 
@@ -124,12 +144,12 @@ class Wizard extends React.Component {
 			<div>
 				<button hidden={(
 					hidePreviousButton
-				) ? "hidden" : ""} onClick={this.previous.bind( this )}>Previous
+				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
 				<Step id={step.id} title={step.title}/>
 				<button hidden={(
 					hideNextButton
-				) ? "hidden" : ""} onClick={this.next.bind( this )}>Next
+				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
 				</button>
 			</div>
 		);
@@ -144,9 +164,6 @@ Wizard.propTypes = {
 Wizard.defaultProps = {
 	steps: new Map()
 };
-
-Wizard.defaultProps.steps.values();
-
 
 export default Wizard
 
