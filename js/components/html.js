@@ -13,7 +13,7 @@ class HTML extends Field {
 	 * @returns {{__html: (string|*|string|null|string|string)}}
 	 */
 	getHTML() {
-		return { __html: this.state.html} ;
+		return { __html: this.props.html} ;
 	}
 
 	/**

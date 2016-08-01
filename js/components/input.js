@@ -10,9 +10,9 @@ class Input extends Field {
 	render() {
 		return (
 			<div>
-				<h2>{this.state.properties.label}</h2>
-				<label htmlFor={this.props.name}>{this.state.label}</label>
-				<input type={this.state.type} id={this.state.name} name={this.state.name} defaultValue={this.state.data} placeholder={this.state.placeholder} />
+				<h2>{this.props.properties.label}</h2>
+				<label htmlFor={this.props.name}>{this.props.label}</label>
+				<input type={this.props.type} id={this.props.name} name={this.props.name} defaultValue={this.props.data} placeholder={this.props.placeholder} />
 			</div>
 		)
 	}
