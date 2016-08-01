@@ -25,7 +25,7 @@ class Wizard extends React.Component {
 		};
 
 		Object.assign( this.props.components, Components );
-		Object.assign( this.props.components, props.customComponents);
+		Object.assign( this.props.components, props.customComponents );
 	}
 
 	/**
@@ -56,9 +56,9 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
+			steps[ step ][ 'fields' ] = this.parseFields( steps[ step ][ 'fields' ] );
 
-			steps[step].previous = previous;
+			steps[ step ].previous = previous;
 
 			// Sets the previous var with current step.
 			previous = step;
@@ -76,7 +76,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[step].next = stepsReversed.pop();
+			steps[ step ].next = stepsReversed.pop();
 		}
 
 		return steps;
@@ -93,28 +93,44 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
-				if( this.props.fields[fieldName]  ) {
-					fields[ fieldName ] =  this.props.fields[fieldName];
+			function ( fieldName ) {
+				if ( this.props.fields[ fieldName ] ) {
+					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
-			.bind( this )
+				.bind( this )
 		);
 
 		return fields;
 	}
 
+	/**
+	 * Sends the options for the current step via POST request to the back-end.
+	 */
 	saveOptions() {
-		let curStep = this.getCurrentStep( this.props.steps );
-		console.log( curStep.fields );
 
-		let jsonFields = JSON.stringify( curStep.fields );
+		this.setSaveState( 'Saving..' );
 
-		$.post( "http://0.0.0.0:8882/onboarding", { jsonFields } )
+		$.post( "http://0.0.0.0:8882/onboarding", $( "#stepContainer" ).serialize() )
 		 .done( function ( data ) {
-			 alert( "Data Loaded: " + data );
-		 } );
+			 this.setSaveState( '' );
+		 }.bind( this ) );
+	}
 
+	/**
+	 * Shows/hides the saving status when performing a request.
+	 *
+	 * @param {string} state The status text to show.
+	 */
+	setSaveState( state ) {
+		var $saveState = $( "#saveState" );
+		$saveState.html( state );
+
+		if ( state === '' ) {
+			$saveState.hide();
+			return;
+		}
+		$saveState.show();
 	}
 
 	/**
@@ -125,16 +141,17 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
 	 * Updates the state to the next stepId in the wizard.
 	 */
 	setNextStep() {
-		let nextStep = this.getCurrentStep().next;
+		let currentStep = this.getCurrentStep();
+		let nextStep = currentStep.next;
 
-		if ( !nextStep ) {
+		if ( ! nextStep ) {
 			return;
 		}
 		this.saveOptions();
@@ -148,9 +165,10 @@ class Wizard extends React.Component {
 	 * Updates the state to the previous stepId in the wizard.
 	 */
 	setPreviousStep() {
-		let previousStep = this.getCurrentStep().previous;
+		let currentStep = this.getCurrentStep();
+		let previousStep = currentStep.previous;
 
-		if ( !previousStep ) {
+		if ( ! previousStep ) {
 			return;
 		}
 
@@ -175,11 +193,12 @@ class Wizard extends React.Component {
 	 */
 	render() {
 		let step = this.getCurrentStep();
-		let hideNextButton = !step.next;
-		let hidePreviousButton = !step.previous;
+		let hideNextButton = ! step.next;
+		let hidePreviousButton = ! step.previous;
 
 		return (
 			<div>
+				<div id="saveState" hidden="hidden"></div>
 				<button hidden={(
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
@@ -203,7 +222,7 @@ Wizard.propTypes = {
 };
 
 Wizard.defaultProps = {
-	steps           : [],
+	steps: [],
 	customComponents: {},
 	components: {},
 	fields: React.PropTypes.object
