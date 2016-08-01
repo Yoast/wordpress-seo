@@ -1,12 +1,12 @@
-# Summary
+## Summary
 
 This PR can be summarized in the following changelog entry:
 
-# Relevant technical choices:
+## Relevant technical choices:
 
 *
 
-# Test instructions
+## Test instructions
 
 This PR can be tested by following these steps:
 
