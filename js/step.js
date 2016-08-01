@@ -1,63 +1,51 @@
 import React from 'react';
 
-import Components from './components';
-
 /**
- * Represents a step.
+ * Renders a step in the wizard process
+ *
+ * @param {Object} props The props used for rendering the steps.
+ * @returns {JSX}
+ * @constructor
  */
-class Step extends React.Component {
+const Step = ( props ) => {
 
-	/**
-	 * Initializes the step component.
-	 *
-	 * @param props
-	 */
-	constructor( props ) {
-		super();
+	let fields = props.fields;
+	let fieldKeys = Object.keys( fields );
 
-		this.props = props;
-	}
+	return (
+		<div>
+			<h1>Step: {props.title}</h1>
+			{
+				fieldKeys.map(
+					function ( configName, index ) {
+						let config = fields[configName];
 
-	/**
-	 * Renders the current step.
-	 *
-	 * @returns {XML}
-	 */
-	render() {
-		let fields = this.props.fields;
-		let fieldKeys = Object.keys( fields );
+						if( props.components[config.component] ) {
+							config.key       = index;
+							config.fieldName = configName;
 
-
-		console.log( fields );
-
-		return (
-			<div>
-				<h1>{this.props.title}</h1>
-				{fieldKeys.map( function ( configName, index ) {
-					let config = fields[configName];
-
-					if( Components[config.component] ) {
-						config.key       = index;
-						config.fieldName = configName;
-						
-						return React.createElement( Components[config.component], config );
+							return React.createElement( props.components[config.component], config );
+						}
 					}
-				} )}
-			</div>
-		)
-	}
-}
+				)
+			}
+		</div>
+	)
+};
 
 Step.propTypes = {
 	id: React.PropTypes.string,
-	title: React.PropTypes.string,
-	fields: React.PropTypes.object
+	title: React.PropTypes.string.isRequired,
+	fields: React.PropTypes.object,
+	components: React.PropTypes.object
 };
 
 Step.defaultProps = {
 	id: '',
 	title: '',
-	fields: {}
+	fields: {},
+	components: {}
+
 };
 
 export default Step;

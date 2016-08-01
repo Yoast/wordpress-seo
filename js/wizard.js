@@ -2,62 +2,77 @@ import React from 'react';
 import Step from './step';
 import $ from "jquery";
 
+import Components from './components';
+
 /**
  * The onboarding Wizard class.
  */
 class Wizard extends React.Component {
 
+	/**
+	 * Initialize the steps and set the current stepId to the first step in the array
+	 *
+	 * @param {Object} props The values to work with.
+	 */
 	constructor( props ) {
 		super();
 
+		this.props = props;
+
 		this.state = {
-			steps: {},
-			currentStepId: ''
+			steps: this.parseSteps( props.steps ),
+			currentStepId: this.getFirstStep( props.steps )
 		};
 
-		// this.props = props;
-
-
-		// console.log(this.props);
-	}
-
-	/**
-	 * Initialize the steps and set the current stepId to the first step in the array
-	 */
-	componentWillMount() {
-
-		this.setState( {
-			steps: this.parseSteps( this.props.steps ),
-			// Set the current step to the first step in the array.
-			currentStepId: this.getFirstStep( this.props.steps )
-		} );
+		Object.assign( this.props.components, Components );
+		Object.assign( this.props.components, props.customComponents);
 	}
 
 	/**
 	 * Sets the previous and next stepId for each step.
-	 * @param steps {Object} The object containing the steps.
+	 *
+	 * @param {Object} steps The object containing the steps.
+	 *
 	 * @return {Object} The steps with added previous and next step.
 	 */
 	parseSteps( steps ) {
 
-		var previous = null;
+		/**
+		 * We are using this var because we need to set a next step for each step. We are adding the value at the
+		 * beginning of the array. Results in an array like [ step 3, step 2, step 1 ].
+		 *
+		 * The next step will be set by popping the last value of the array and set it as the next one for the step
+		 * we are looping through.
+		 *
+		 * @type {Array}
+		 */
 		var stepsReversed = [];
+
+		var previous = null;
+
+		// Loop through the steps to set each previous step.
 		for ( let step in steps ) {
-			if ( !steps.hasOwnProperty( step ) ) {
+			if ( ! steps.hasOwnProperty( step ) ) {
 				continue;
 			}
 
-			steps[step]['fields'] = this.parseFields( steps[step]['fields'] );
+			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
 
 			steps[step].previous = previous;
+
+			// Sets the previous var with current step.
 			previous = step;
+
+			// Adds the step to the reversed array.
 			stepsReversed.unshift( step );
 		}
 
+		// We don't need 'first step'.
 		stepsReversed.pop();
 
+		// Loop through the steps to set each next step.
 		for ( let step in steps ) {
-			if ( !steps.hasOwnProperty( step ) ) {
+			if ( ! steps.hasOwnProperty( step ) ) {
 				continue;
 			}
 
@@ -78,11 +93,12 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function ( fieldName ) {
-				if ( this.props.fields[fieldName] ) {
-					fields[fieldName] = this.props.fields[fieldName];
+			function( fieldName ) {
+				if( this.props.fields[fieldName]  ) {
+					fields[ fieldName ] =  this.props.fields[fieldName];
 				}
-			}.bind( this )
+			}
+			.bind( this )
 		);
 
 		return fields;
@@ -103,7 +119,9 @@ class Wizard extends React.Component {
 
 	/**
 	 * Gets the first step from the step object.
-	 * @param steps {Object} The object containing the steps.
+	 *
+	 * @param {Object} steps The object containing the steps.
+	 *
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
@@ -113,8 +131,8 @@ class Wizard extends React.Component {
 	/**
 	 * Updates the state to the next stepId in the wizard.
 	 */
-	next() {
-		let nextStep = this.getCurrentStep( this.state.steps ).next;
+	setNextStep() {
+		let nextStep = this.getCurrentStep().next;
 
 		if ( !nextStep ) {
 			return;
@@ -129,8 +147,8 @@ class Wizard extends React.Component {
 	/**
 	 * Updates the state to the previous stepId in the wizard.
 	 */
-	previous() {
-		let previousStep = this.getCurrentStep( this.state.steps ).previous;
+	setPreviousStep() {
+		let previousStep = this.getCurrentStep().previous;
 
 		if ( !previousStep ) {
 			return;
@@ -146,16 +164,17 @@ class Wizard extends React.Component {
 	/**
 	 * Gets the current stepId from the steps
 	 */
-	getCurrentStep( steps ) {
-		return steps[this.state.currentStepId];
+	getCurrentStep() {
+		return this.state.steps[ this.state.currentStepId ];
 	}
 
 	/**
 	 * Renders the wizard.
-	 * @return {XML} The rendered step in the wizard.
+	 *
+	 * @return {JSX} The rendered step in the wizard.
 	 */
 	render() {
-		let step = this.getCurrentStep( this.state.steps );
+		let step = this.getCurrentStep();
 		let hideNextButton = !step.next;
 		let hidePreviousButton = !step.previous;
 
@@ -163,12 +182,12 @@ class Wizard extends React.Component {
 			<div>
 				<button hidden={(
 					hidePreviousButton
-				) ? "hidden" : ""} onClick={this.previous.bind( this )}>Previous
+				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
-				<Step id={step.id} title={step.title} fields={step.fields}/>
+				<Step components={this.props.components} id={step.id} title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
-				) ? "hidden" : ""} onClick={this.next.bind( this )}>Next
+				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
 				</button>
 			</div>
 		);
@@ -177,11 +196,17 @@ class Wizard extends React.Component {
 
 Wizard.propTypes = {
 	steps: React.PropTypes.object,
-	currentStepId: React.PropTypes.string
+	currentStepId: React.PropTypes.string,
+	components: React.PropTypes.object,
+	customComponents: React.PropTypes.object,
+	fields: React.PropTypes.object
 };
 
 Wizard.defaultProps = {
-	steps: []
+	steps           : [],
+	customComponents: {},
+	components: {},
+	fields: React.PropTypes.object
 };
 
 export default Wizard
