@@ -152,7 +152,7 @@ class Wizard extends React.Component {
 	/**
 	 * Renders the wizard.
 	 *
-	 * @return {XML} The rendered step in the wizard.
+	 * @return {JSX} The rendered step in the wizard.
 	 */
 	render() {
 		let step = this.getCurrentStep();

@@ -5,7 +5,7 @@ import React from 'react';
  * group of radio buttons. We might add other representations later on.
  *
  * @param {Object} props The properties.
- * @returns {XML}
+ * @returns {JSX}
  * @constructor
  */
 const Choice = ( props ) => {
