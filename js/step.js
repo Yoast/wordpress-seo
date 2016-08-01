@@ -1,53 +1,41 @@
 import React from 'react';
 
 /**
- * Represents a step in the wizard process
+ * Renders a step in the wizard process
+ *
+ * @param {Object} props The props used for rendering the steps.
+ * @returns {JSX}
+ * @constructor
  */
-class Step extends React.Component {
+const Step = ( props ) => {
 
-	/**
-	 * Initializes the step component.
-	 *
-	 * @param {Object} props
-	 */
-	constructor( props ) {
-		super();
+	let fields = props.fields;
+	let fieldKeys = Object.keys( fields );
 
-		this.props = props;
-	}
-
-	/**
-	 * Renders the current step.
-	 *
-	 * @returns {XML}
-	 */
-	render() {
-		let fields = this.props.fields;
-		let fieldKeys = Object.keys( fields );
-
-		return (
-			<div>
-				<h1>{this.props.title}</h1>
-				{fieldKeys.map(
+	return (
+		<div>
+			<h1>Step: {props.title}</h1>
+			{
+				fieldKeys.map(
 					function ( configName, index ) {
 						let config = fields[configName];
 
-						if( this.props.components[config.component] ) {
+						if( props.components[config.component] ) {
 							config.key       = index;
 							config.fieldName = configName;
 
-							return React.createElement( this.props.components[config.component], config );
+							return React.createElement( props.components[config.component], config );
 						}
-					}.bind(this)
-				)}
-			</div>
-		)
-	}
-}
+					}
+				)
+			}
+		</div>
+	)
+};
 
 Step.propTypes = {
 	id: React.PropTypes.string,
-	title: React.PropTypes.string,
+	title: React.PropTypes.string.isRequired,
 	fields: React.PropTypes.object
 };
 
