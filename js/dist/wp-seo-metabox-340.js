@@ -28,9 +28,9 @@
 
 		if ( jQuery( '.wpseo-meta-section' ).length > 0 ) {
 			jQuery( '#wpseo-meta-section-content' ).addClass( 'active' );
-			jQuery( '.wpseo-metabox-sidebar li').filter( function() {
-				return jQuery( this ).find('.wpseo-meta-section-link').attr( 'href' ) === 'content';
-			} ).addClass('active');
+			jQuery( '.wpseo-metabox-sidebar li' ).filter( function() {
+				return jQuery( this ).find( '.wpseo-meta-section-link' ).attr( 'href' ) === '#wpseo-meta-section-content';
+			} ).addClass( 'active' );
 
 			jQuery( 'a.wpseo-meta-section-link' ).click( function( ev ) {
 					ev.preventDefault();
