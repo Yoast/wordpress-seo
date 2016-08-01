@@ -662,9 +662,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		}
 
 		jQuery('#' + activeTabId).addClass('active');
-		jQuery('#' + activeTabId + '-tab').addClass('nav-tab-active');
-
-		jQuery('.nav-tab-active').click();
+		jQuery('#' + activeTabId + '-tab').addClass('nav-tab-active').click();
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;

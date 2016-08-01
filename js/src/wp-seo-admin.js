@@ -227,9 +227,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 		}
 
 		jQuery( '#' + activeTabId ).addClass( 'active' );
-		jQuery( '#' + activeTabId + '-tab' ).addClass( 'nav-tab-active' );
-
-		jQuery( '.nav-tab-active' ).click();
+		jQuery( '#' + activeTabId + '-tab' ).addClass( 'nav-tab-active' ).click();
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
