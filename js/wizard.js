@@ -7,25 +7,19 @@ import Step from './step';
  */
 class Wizard extends React.Component {
 
-	constructor() {
+	/**
+	 * Initialize the steps and set the current stepId to the first step in the array
+	 *
+	 * @param {Object} props The values to work with.
+	 */
+	constructor( props ) {
 		super();
 
 		this.state = {
-			steps: {},
-			currentStepId: ''
+			steps: this.parseSteps( props.steps ),
+			currentStepId: this.getFirstStep( props.steps )
 		};
 
-	}
-
-	/**
-	 * Initialize the steps and set the current stepId to the first step in the array
-	 */
-	componentWillMount() {
-		this.setState( {
-			steps: this.parseSteps( this.props.steps ),
-			// Set the current step to the first step in the array.
-			currentStepId: this.getFirstStep( this.props.steps )
-		} );
 	}
 
 	/**
@@ -162,7 +156,7 @@ Wizard.propTypes = {
 };
 
 Wizard.defaultProps = {
-	steps: new Map()
+	steps: {}
 };
 
 export default Wizard
