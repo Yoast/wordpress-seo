@@ -32,7 +32,7 @@ class Wizard extends React.Component {
 	parseSteps( steps ) {
 
 		/**
-		 * We are using this var, because we need to set a next step for each step. We are adding the value at the
+		 * We are using this var because we need to set a next step for each step. We are adding the value at the
 		 * beginning of the array. Results in an array like [ step 3, step 2, step 1 ].
 		 *
 		 * The next step will be set by popping the last value of the array and set it as the next one for the step
@@ -50,7 +50,6 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			//
 			steps[step].previous = previous;
 
 			// Sets the previous var with current step.
