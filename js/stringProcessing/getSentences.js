@@ -17,6 +17,7 @@ var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyN
 
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
+// The \u2026 character is an ellipsis
 var sentenceDelimiters = "?!;\u2026";
 var newLines = "\n\r|\n|\r";
 
