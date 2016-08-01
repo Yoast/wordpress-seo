@@ -1,12 +1,13 @@
 import React from 'react';
 import Step from './step';
+import $ from "jquery";
 
 /**
  * The onboarding Wizard class.
  */
 class Wizard extends React.Component {
 
-	constructor(props) {
+	constructor( props ) {
 		super();
 
 		this.state = {
@@ -46,7 +47,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
+			steps[step]['fields'] = this.parseFields( steps[step]['fields'] );
 
 			steps[step].previous = previous;
 			previous = step;
@@ -77,17 +78,28 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
-				if( this.props.fields[fieldName]  ) {
-					fields[ fieldName ] =  this.props.fields[fieldName];
+			function ( fieldName ) {
+				if ( this.props.fields[fieldName] ) {
+					fields[fieldName] = this.props.fields[fieldName];
 				}
-			}
-			.bind( this )
+			}.bind( this )
 		);
 
 		return fields;
 	}
 
+	saveOptions() {
+		let curStep = this.getCurrentStep( this.props.steps );
+		console.log( curStep.fields );
+
+		let jsonFields = JSON.stringify( curStep.fields );
+
+		$.post( "http://0.0.0.0:8882/onboarding", { jsonFields } )
+		 .done( function ( data ) {
+			 alert( "Data Loaded: " + data );
+		 } );
+
+	}
 
 	/**
 	 * Gets the first step from the step object.
@@ -107,6 +119,7 @@ class Wizard extends React.Component {
 		if ( !nextStep ) {
 			return;
 		}
+		this.saveOptions();
 
 		this.setState( {
 			currentStepId: nextStep
@@ -122,6 +135,9 @@ class Wizard extends React.Component {
 		if ( !previousStep ) {
 			return;
 		}
+
+		this.saveOptions();
+
 		this.setState( {
 			currentStepId: previousStep
 		} );
@@ -167,8 +183,5 @@ Wizard.propTypes = {
 Wizard.defaultProps = {
 	steps: []
 };
-
-Wizard.defaultProps.steps.values();
-
 
 export default Wizard
