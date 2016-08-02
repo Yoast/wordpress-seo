@@ -29,8 +29,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 */
 	public function html( array $fields ) {
 		$content = '';
-		foreach ( $fields as $field_name => $field_options ) {
-			$content .= $this->form_row( 'wpseo_' . $field_name, $field_options );
+		foreach ( $fields as $field_name => $field_configuration ) {
+			$content .= $this->form_row( 'wpseo_' . $field_name, $field_configuration );
 		}
 		return $content;
 	}
@@ -38,16 +38,17 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Create a row in the form table.
 	 *
-	 * @param string $field_name    Variable the row controls.
-	 * @param array  $field_options Array with the field configuration.
+	 * @param string $field_name          Variable the row controls.
+	 * @param array  $field_configuration Array with the field configuration.
 	 */
-	private function form_row( $field_name, array $field_options ) {
+	private function form_row( $field_name, array $field_configuration ) {
 		$esc_field_name = esc_attr( $field_name );
 
-		$label            = $this->get_label( $field_options['label'], $esc_field_name );
-		$field            = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ) , (array) $field_options['options'] );
-		$help_button_text = isset( $field_options['options']['help-button'] ) ? $field_options['options']['help-button'] : '';
-		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $field_options['description'] );
+		$label            = $this->get_label( $field_configuration['label'], $esc_field_name );
+		$field            = $this->get_field( $field_configuration['type'], $esc_field_name, $this->get_field_value( $field_name ), $field_configuration['description'], (array) $field_configuration['options'] );
+		$help_content     = isset( $field_configuration['options']['help'] ) ? $field_configuration['options']['help'] : '';
+		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
+		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
 		return $this->parse_row( $label, $help, $field );
 	}
@@ -55,42 +56,48 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Generates the html for the given field config.
 	 *
-	 * @param string $field_type  The fieldtype, e.g: text, checkbox, etc.
-	 * @param string $field_name  The name of the field.
-	 * @param string $field_value The value of the field.
-	 * @param array  $options     Array with additional options.
+	 * @param string $field_type        The fieldtype, e.g: text, checkbox, etc.
+	 * @param string $field_name        The name of the field.
+	 * @param string $field_value       The value of the field.
+	 * @param string $field_description Optional. The description of the field.
+	 * @param array  $options           Array with additional options.
 	 *
 	 * @return string
 	 */
-	private function get_field( $field_type, $field_name, $field_value, array $options ) {
+	private function get_field( $field_type, $field_name, $field_value, $field_description = '', array $options ) {
 
 		$class = $this->get_class( $options );
-		$field = '';
+		$field = $description = $aria_describedby = '';
+
+		if ( '' !== $field_description ) {
+			$aria_describedby = ' aria-describedby="' . $field_name . '-desc"';
+			$description = '<p id="' . $field_name . '-desc">' . $field_description . '</p>';
+		}
 
 		switch ( $field_type ) {
 			case 'div' :
-				$field .= '<div id="' . $field_name . '"></div>';
+				$field .= '<div id="' . $field_name . '"' . $aria_describedby . '></div>';
 				break;
 			case 'text' :
-				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"/>';
+				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"' . $aria_describedby . '/>';
 				break;
 			case 'checkbox' :
-				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" type="checkbox" ' . checked( $field_value ) . '/>';
+				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" type="checkbox" ' . checked( $field_value ) . $aria_describedby . '/>';
 				break;
 			case 'textarea' :
 				$rows = 3;
 				if ( ! empty( $options['rows'] ) ) {
 					$rows = $options['rows'];
 				}
-				$field .= '<textarea class="large-text" rows="' . esc_attr( $rows ) . '" id="' . $field_name . '" name="' . $field_name . '">' . esc_textarea( $field_value ) . '</textarea>';
+				$field .= '<textarea class="large-text" rows="' . esc_attr( $rows ) . '" id="' . $field_name . '" name="' . $field_name . '"' . $aria_describedby . '>' . esc_textarea( $field_value ) . '</textarea>';
 				break;
 			case 'upload' :
-				$field .= '<input id="' . $field_name . '" type="text" size="36" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '" />';
+				$field .= '<input id="' . $field_name . '" type="text" size="36" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '"' . $aria_describedby . ' />';
 				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="' . __( 'Upload Image', 'wordpress-seo' ) . '" />';
 				break;
 			case 'select' :
 				if ( is_array( $options ) && $options !== array() ) {
-					$field .= '<select name="' . $field_name . '" id="' . $field_name . '">';
+					$field .= '<select name="' . $field_name . '" id="' . $field_name . '"' . $aria_describedby . '>';
 
 					$select_options = ( array_key_exists( 'options', $options ) ) ? $options['options'] : $options;
 
@@ -108,11 +115,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				break;
 		}
 
-		if ( $field !== '' && ( ! empty( $options['description'] ) && is_string( $options['description'] ) ) ) {
-			$field .= '<p class="description">' . $options['description'] . '</p>';
-		}
-
-		return $field;
+		return $field . $description;
 	}
 
 	/**
