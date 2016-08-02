@@ -15,7 +15,7 @@ var syllableLanguageConfig = {
 	en: {
 		syllableExclusion: {
 			subtractSyllables: {
-				syllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e$", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
+				syllables: [ "cial", "tia", "cius", "giu", "ion", "iou", "sia$", "[^aeiuot]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e$", "[a-z]ely$", "[cgy]ed$", "rved$", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeouy]rse$" ],
 				multiplier: -1
 			},
 			addSyllables: {

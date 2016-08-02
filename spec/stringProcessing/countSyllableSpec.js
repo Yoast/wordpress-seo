@@ -1,20 +1,152 @@
 var countSyllableFunction = require( "../../js/stringProcessing/countSyllables.js" );
 
-describe( "a syllable counter for textstrings", function () {
+describe( "a syllable counter for English text strings", function () {
 	it( "returns the number of syllables", function () {
 		expect( countSyllableFunction( "this is a text string" ) ).toBe( 5 );
+
 		expect( countSyllableFunction( "human beings" ) ).toBe( 4 );
+
 		expect( countSyllableFunction( "along the shoreline" ) ).toBe( 5 );
+
 		expect( countSyllableFunction( "A piece of text to calculate scores" ) ).toBe( 9 );
 
 		expect( countSyllableFunction( "This is the year that Yoast turns 5 years old. A natural time to reflect upon how the company is doing and what it should and should not be doing and what we want for the future. Today we’re proud to announce that we’ve been acquired by CrowdFavorite" ) ).toBe( 63 );
+
 		expect( countSyllableFunction( "One question we get quite often in our website reviews is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble." ) ).toBe( 65 );
+
 		expect( countSyllableFunction( "Bridger Pass is a mountain pass in Carbon County, Wyoming on the Continental Divide near the south Great Divide Basin bifurcation point, i.e., the point at which the divide appears to split and envelop the basin." ) ).toBe( 57 );
+
 		expect( countSyllableFunction( "A test based on exclusion words for syllable count" ) ).toBe( 13 );
+	} );
+
+	it( "returns the number of syllables of words containing addSyllables", function () {
+		// cial
+		expect( countSyllableFunction( "special" ) ).toBe( 2 );
+
+		// tia
+		expect( countSyllableFunction( "potential" ) ).toBe( 3 );
+
+		// cius
+		expect( countSyllableFunction( "Lucius" ) ).toBe( 2 );
+
+		// giu
+		expect( countSyllableFunction( "linguist" ) ).toBe( 2 );
+
+		// ion
+		expect( countSyllableFunction( "region" ) ).toBe( 2 );
+
+		// iou
+		expect( countSyllableFunction( "delicious" ) ).toBe( 3 );
+
+		// sia$
+		expect( countSyllableFunction( "Malaysia" ) ).toBe( 3 );
+
+		// [^aeiuot]{2,}ed$
+		expect( countSyllableFunction( "pyjamaed" ) ).toBe( 3 );
+		expect( countSyllableFunction( "greed" ) ).toBe( 1 );
+		expect( countSyllableFunction( "applied" ) ).toBe( 2 );
+		expect( countSyllableFunction( "argued" ) ).toBe( 2 );
+		expect( countSyllableFunction( "tangoed" ) ).toBe( 2 );
+		expect( countSyllableFunction( "skirted" ) ).toBe( 2 );
+		expect( countSyllableFunction( "inched" ) ).toBe( 1 );
+		expect( countSyllableFunction( "coughed" ) ).toBe( 1 );
+
+		// [aeiouy][^aeiuoyts]{1,}e$ --> but why t and s? State? phase????????????????????
+		expect( countSyllableFunction( "snake" ) ).toBe( 1 );
+		expect( countSyllableFunction( "scene" ) ).toBe( 1 );
+		expect( countSyllableFunction( "file" ) ).toBe( 1 );
+		expect( countSyllableFunction( "home" ) ).toBe( 1 );
+		expect( countSyllableFunction( "nuke" ) ).toBe( 1 );
+		expect( countSyllableFunction( "style" ) ).toBe( 1 );
+
+		// [a-z]ely$
+		expect( countSyllableFunction( "definitely" ) ).toBe( 4 );
+
+		// [cgy]ed$
+		expect( countSyllableFunction( "aced" ) ).toBe( 1 );
+		expect( countSyllableFunction( "caged" ) ).toBe( 1 );
+		expect( countSyllableFunction( "enjoyed" ) ).toBe( 2 );
+
+		// rved$
+		expect( countSyllableFunction( "carved" ) ).toBe( 1 );
+
+		// [aeiouy][dt]es?$
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		// [aeiouy][^aeiouydt]e[sd]?$
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		// ^[dr]e[aeiou][^aeiou]+$
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		// [aeouy]rse$
+		expect( countSyllableFunction( "hearse" ) ).toBe( 1 );
+		expect( countSyllableFunction( "universe" ) ).toBe( 3 );
+		expect( countSyllableFunction( "horse" ) ).toBe( 1 );
+		expect( countSyllableFunction( "purse" ) ).toBe( 1 );
+		expect( countSyllableFunction( "thyrse" ) ).toBe( 1 );
+
+	} );
+
+	it( "returns the number of syllables of words containing subtractSyllables", function () {
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
 	} );
 } );
 
-describe( "a syllable counter for Dutch textstrings", function () {
+describe( "a syllable counter for Dutch text strings", function () {
 
 
 	it( "returns the number of syllables of words affected by the substractSyllables regex", function () {
@@ -101,6 +233,119 @@ describe( "a syllable counter for Dutch textstrings", function () {
 		expect( countSyllableFunction( "gemeenteambtenaar, ", "nl_NL" ) ).toBe( 6 );
 	} );
 
+	it( "returns the number of syllables of words containing addSyllables", function () {
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+	} );
+
+	it( "returns the number of syllables of words containing subtractSyllables", function () {
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+		//
+		expect( countSyllableFunction( "" ) ).toBe(  );
+
+	} );
 
 } );
 
