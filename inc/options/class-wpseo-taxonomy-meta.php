@@ -316,7 +316,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					}
 
 					if ( 'wpseo_focuskw' === $key ) {
-						$clean = str_replace( array(
+						$clean[ $key ] = str_replace( array(
 							'&lt;',
 							'&gt;',
 							'&quot',
@@ -327,7 +327,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 							'"',
 							'\'',
 							'`',
-						), '', $clean );
+						), '', $clean[ $key ] );
 					}
 					break;
 			}
