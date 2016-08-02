@@ -295,7 +295,7 @@ let configuration = {
 		},
 		"environment": {
 			"title": "Environment",
-			"fields": ["environment", "siteType"]
+			"fields": ["environment"]
 		},
 		"siteType": {
 			"title": "Site type",

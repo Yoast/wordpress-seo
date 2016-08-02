@@ -129,12 +129,12 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Returns the fiels as an object.
+	 * Returns the fields as an object.
 	 *
 	 * @returns {Object}
 	 */
 	getFieldsAsObject() {
-		return {};
+		return JSON.stringify( this.refs.step.state.fieldValues[ this.state.currentStepId ] );
 	}
 
 	/**
@@ -143,14 +143,14 @@ class Wizard extends React.Component {
 	 * @param {string} state The status text to show.
 	 */
 	setSaveState( state ) {
-		var $saveState = $( "#saveState" );
-		$saveState.html( state );
+		var $saveState = document.getElementById( "saveState" );
+		$saveState.innerHTML = state;
 
 		if ( state === '' ) {
-			$saveState.hide();
+			$saveState.style.display = 'none';
 			return;
 		}
-		$saveState.show();
+		$saveState.style.display = 'block';
 	}
 
 	/**
@@ -216,7 +216,7 @@ class Wizard extends React.Component {
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
-				<Step components={this.props.components} id={step.id} title={step.title} fields={step.fields}/>
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id} title={step.title} fields={step.fields} />
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next

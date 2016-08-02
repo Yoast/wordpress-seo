@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 
 let postJSONRequest = null;
 
-if( typeof jQuery === typeof undefined && typeof jQuery.ajax === typeof null) {
+if( typeof jQuery === typeof undefined ) {
 
 	/**
 	 * Wrapper method when fetch should be used.
@@ -40,6 +40,7 @@ else {
 	 * @param {function} error   Callback for When the request is failed.
 	 */
 	postJSONRequest = ( url, data, success, error ) => {
+
 		let contentType = "application/json";
 		let method = "POST";
 

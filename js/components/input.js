@@ -9,12 +9,12 @@ import React from 'react';
  * @constructor
  */
 const Input = ( props ) => {
-
+	
 	return (
 		<div>
 			<h2>{props.properties.label}</h2>
 			<label htmlFor={props.name}>{props.label}</label>
-			<input type={props.type} id={props.name} name={props.name} defaultValue={props.data} placeholder={props.placeholder} />
+			<input onChange={props.onChange} type={props.type} id={props.name} name={props.name} defaultValue={props.data} placeholder={props.placeholder} />
 		</div>
 	)
 
@@ -31,7 +31,8 @@ Input.propTypes = {
 			label: React.PropTypes.string.isRequired
 		}
 	),
-	data: React.PropTypes.string
+	data: React.PropTypes.string,
+	onChange: React.PropTypes.func
 };
 
 Input.defaultProps = {
