@@ -15,7 +15,7 @@
     "url": "https://github.com/Yoast/onboarding-wizard"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server"
   },
   "browser": "js/browser.js",
   "devDependencies": {

@@ -97,8 +97,7 @@ class Wizard extends React.Component {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
-			}
-				.bind( this )
+			}.bind( this )
 		);
 
 		return fields;
@@ -113,7 +112,7 @@ class Wizard extends React.Component {
 
 		this.setSaveState( 'Saving..' );
 
-		$.post( "http://0.0.0.0:8882/onboarding", $( "#stepContainer" ).serialize() )
+		$.post( this.props.endpoint, $( "#stepContainer" ).serialize() )
 		 .done( function ( data ) {
 			 this.setSaveState( '' );
 			 this.setState( {
