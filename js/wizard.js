@@ -1,8 +1,9 @@
 import React from 'react';
 import Step from './step';
-import $ from "jquery";
 
 import Components from './components';
+
+import PostJSONRequest from './helpers/postJSONRequest';
 
 /**
  * The onboarding Wizard class.
@@ -112,16 +113,28 @@ class Wizard extends React.Component {
 
 		this.setSaveState( 'Saving..' );
 
-		$.post( this.props.endpoint, $( "#stepContainer" ).serialize() )
-		 .done( function ( data ) {
-			 this.setSaveState( '' );
-			 this.setState( {
-				 currentStepId: targetStep
-			 } );
-		 }.bind( this ) )
-		 .fail( function ( data ) {
-			 this.setSaveState( '' );
-		 }.bind( this ) );
+		PostJSONRequest(
+			this.props.endpoint,
+			this.getFieldsAsObject(),
+			function() {
+				this.setSaveState( '' );
+				this.setState( {
+					currentStepId: targetStep
+				} );
+			} .bind( this ),
+			function() {
+				this.setSaveState( '' );
+			}.bind( this )
+		);
+	}
+
+	/**
+	 * Returns the fiels as an object.
+	 *
+	 * @returns {Object}
+	 */
+	getFieldsAsObject() {
+		return {};
 	}
 
 	/**
