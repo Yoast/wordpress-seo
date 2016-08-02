@@ -10,13 +10,13 @@ import React from 'react';
  */
 const ProgressIndicator = ( props ) => {
 
-	if ( props.currentStepNumber === 0 || ! props.totalSteps ) {
+	if ( props.currentStepNumber === 0 ) {
 		return (
 			<div>
-				<p>Unknown progress</p>
+				<p>Unknown step progress</p>
 			</div>
 		)
-	}
+		
 	return (
 		<div>
 			<p>Step {props.currentStepNumber} of {props.totalSteps}</p>
