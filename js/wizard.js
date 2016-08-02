@@ -94,7 +94,7 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function ( fieldName ) {
+			function( fieldName ) {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
@@ -161,7 +161,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[ 0 ];
+		return Object.getOwnPropertyNames( steps )[0];
 	}
 
 	/**
