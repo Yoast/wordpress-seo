@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 
 let postJSONRequest = null;
 
-if( typeof jQuery === typeof undefined  ) {
+if( typeof jQuery === typeof undefined && typeof jQuery.ajax === typeof null) {
 
 	/**
 	 * Wrapper method when fetch should be used.
