@@ -91,7 +91,6 @@ class Wizard extends React.Component {
 	parseFields( fieldsToGet ) {
 		let fields = {};
 
-
 		fieldsToGet.forEach(
 			function ( fieldName ) {
 				if ( this.props.fields[ fieldName ] ) {
@@ -103,8 +102,7 @@ class Wizard extends React.Component {
 
 		return fields;
 	}
-
-
+	
 	/**
 	 * Gets the first step from the step object.
 	 *
@@ -169,7 +167,7 @@ class Wizard extends React.Component {
 	/**
 	 * Gets the index number for a step from the array with step objects.
 	 *
-	 * @return {int|string} The step number when found, or '?' when the step is not found.
+	 * @return {int} The step number when found, or 0 when the step is not found.
 	 */
 	getCurrentStepNumber() {
 		let currentStep = this.state.currentStepId;
@@ -181,7 +179,7 @@ class Wizard extends React.Component {
 			return stepNumber + 1;
 		}
 
-		return '?';
+		return 0;
 	}
 
 	/**
