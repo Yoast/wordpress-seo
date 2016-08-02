@@ -93,11 +93,11 @@ class Wizard extends React.Component {
 
 		fieldsToGet.forEach(
 			function( fieldName ) {
-				if ( this.props.fields[fieldName] ) {
-					fields[ fieldName ] = this.props.fields[fieldName];
+				if ( this.props.fields[fieldName]  ) {
+					fields[ fieldName ] =  this.props.fields[fieldName];
 				}
 			}
-				.bind( this )
+			.bind( this )
 		);
 
 		return fields;
