@@ -24,7 +24,7 @@ class Wizard extends React.Component {
 		};
 
 		Object.assign( this.props.components, Components );
-		Object.assign( this.props.components, props.customComponents );
+		Object.assign( this.props.components, props.customComponents);
 	}
 
 	/**
@@ -55,9 +55,9 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ][ 'fields' ] = this.parseFields( steps[ step ][ 'fields' ] );
+			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
 
-			steps[ step ].previous = previous;
+			steps[step].previous = previous;
 
 			// Sets the previous var with current step.
 			previous = step;
@@ -75,7 +75,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ].next = stepsReversed.pop();
+			steps[step].next = stepsReversed.pop();
 		}
 
 		return steps;
@@ -92,9 +92,9 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function ( fieldName ) {
-				if ( this.props.fields[ fieldName ] ) {
-					fields[ fieldName ] = this.props.fields[ fieldName ];
+			function( fieldName ) {
+				if ( this.props.fields[fieldName] ) {
+					fields[ fieldName ] = this.props.fields[fieldName];
 				}
 			}
 				.bind( this )
@@ -102,7 +102,7 @@ class Wizard extends React.Component {
 
 		return fields;
 	}
-	
+
 	/**
 	 * Gets the first step from the step object.
 	 *
@@ -111,7 +111,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[ 0 ];
+		return Object.getOwnPropertyNames( steps )[0];
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Wizard extends React.Component {
 	setNextStep() {
 		let nextStep = this.getCurrentStep().next;
 
-		if ( ! nextStep ) {
+		if ( !nextStep ) {
 			return;
 		}
 
@@ -135,7 +135,7 @@ class Wizard extends React.Component {
 	setPreviousStep() {
 		let previousStep = this.getCurrentStep().previous;
 
-		if ( ! previousStep ) {
+		if ( !previousStep ) {
 			return;
 		}
 
@@ -189,8 +189,8 @@ class Wizard extends React.Component {
 	 */
 	render() {
 		let step = this.getCurrentStep();
-		let hideNextButton = ! step.next;
-		let hidePreviousButton = ! step.previous;
+		let hideNextButton = !step.next;
+		let hidePreviousButton = !step.previous;
 
 		return (
 			<div>

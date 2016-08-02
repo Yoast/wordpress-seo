@@ -16,7 +16,8 @@ const ProgressIndicator = ( props ) => {
 				<p>Unknown step progress</p>
 			</div>
 		)
-		
+	}
+
 	return (
 		<div>
 			<p>Step {props.currentStepNumber} of {props.totalSteps}</p>
