@@ -22,13 +22,13 @@ const PublishingEntity = ( props ) => {
 PublishingEntity.propTypes = {
 	component: React.PropTypes.string,
 	defaults: React.PropTypes.object,
-	data: React.PropTypes.object
+	data: React.PropTypes.string
 };
 
 PublishingEntity.defaultProps = {
 	component: '',
 	defaults: {},
-	data: {}
+	data: ''
 };
 
 export default PublishingEntity;

@@ -21,12 +21,12 @@ const ConnectGoogleSearchConsole = ( props ) => {
 
 ConnectGoogleSearchConsole.propTypes = {
 	component: React.PropTypes.string,
-	data: React.PropTypes.object
+	data: React.PropTypes.string
 };
 
 ConnectGoogleSearchConsole.defaultProps = {
 	component: '',
-	data: {}
+	data: ''
 };
 
 export default ConnectGoogleSearchConsole;

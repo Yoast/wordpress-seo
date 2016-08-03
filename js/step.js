@@ -44,20 +44,20 @@ class Step extends React.Component {
 	 */
 	setFieldValues( fields, currentStep ) {
 
-		let fieldNames  = Object.keys( fields );
+		let fieldNames = Object.keys( fields );
 		let fieldValues = this.state.fieldValues;
 
-		if( typeof fieldValues[ currentStep ] === typeof undefined ) {
+		if ( typeof fieldValues[ currentStep ] === typeof undefined ) {
 			fieldValues[ currentStep ] = {};
 		}
 
 		fieldNames.forEach(
-			function( fieldName ) {
-				if( typeof fieldValues[ currentStep ][ fieldName ] === typeof undefined ) {
+			function ( fieldName ) {
+				if ( typeof fieldValues[ currentStep ][ fieldName ] === typeof undefined ) {
 					fieldValues[ currentStep ][ fieldName ] = "";
 				}
 
-			}.bind(this)
+			}.bind( this )
 		);
 
 		this.setState( {
@@ -73,13 +73,11 @@ class Step extends React.Component {
 	 */
 	onChange( evt ) {
 
-
 		let fieldValues = this.state.fieldValues;
+		let fieldName = evt.target.name;
 
-		// input fields have no name.
-		let fieldName   = evt.target.name;
-
-		if( typeof fieldValues[ this.state.currentStep ][ fieldName ] !== typeof undefined ) {
+		// If the field value is undefined, add the fields to the field values.
+		if ( typeof fieldValues[ this.state.currentStep ][ fieldName ] !== typeof undefined ) {
 			fieldValues[ this.state.currentStep ][ fieldName ] = evt.target.value;
 		}
 
@@ -101,10 +99,9 @@ class Step extends React.Component {
 		if ( this.props.components[ config.component ] ) {
 			config.key = index;
 			config.fieldName = configName;
-			config.onChange = this.onChange.bind(this);
-
-			console.log(config);
-
+			config.onChange = this.onChange.bind( this );
+			config.data = this.state.fieldValues[ this.state.currentStep ][ configName ];
+			
 			return React.createElement( this.props.components[ config.component ], config );
 		}
 
@@ -129,8 +126,8 @@ class Step extends React.Component {
 			</div>
 		)
 	}
-
-};
+}
+;
 
 Step.propTypes = {
 	id: React.PropTypes.string,
