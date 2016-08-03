@@ -15,7 +15,8 @@
     "url": "https://github.com/Yoast/onboarding-wizard"
   },
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "test": "jest"
   },
   "browser": "js/browser.js",
   "devDependencies": {
@@ -25,11 +26,13 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "eslint-config-yoast": "^1.0.0",
-    "eslint-plugin-yoast": "^1.0.0",
     "eslint-plugin-react": "^5.2.2",
+    "eslint-plugin-yoast": "^1.0.0",
     "grunt": "^0.4.5",
     "grunt-eslint": "^18.0.0",
+    "jest-cli": "^14.1.0",
     "load-grunt-config": "^0.19.1",
+    "react-test-renderer": "^15.3.0",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
   },
