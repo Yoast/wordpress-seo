@@ -28,7 +28,7 @@ class Step extends React.Component {
 	}
 
 	/**
-	 * Sets the field values for the nextstep.
+	 * Sets the field values for the next step.
 	 *
 	 * @param {Object} nextProps
 	 */
@@ -37,7 +37,7 @@ class Step extends React.Component {
 	}
 
 	/**
-	 * Sets all the fieldvalues for the given step, when it isn't set.
+	 * Store the field values for the given step, when they aren't set yet.
 	 *
 	 * @param {Object} fields       The fields for the step.
 	 * @param {string}  currentStep The name for the current step.
@@ -72,8 +72,13 @@ class Step extends React.Component {
 	 * @param {Object} evt The event data.
 	 */
 	onChange( evt ) {
+
+
 		let fieldValues = this.state.fieldValues;
+
+		// input fields have no name.
 		let fieldName   = evt.target.name;
+
 		if( typeof fieldValues[ this.state.currentStep ][ fieldName ] !== typeof undefined ) {
 			fieldValues[ this.state.currentStep ][ fieldName ] = evt.target.value;
 		}
@@ -98,6 +103,8 @@ class Step extends React.Component {
 			config.fieldName = configName;
 			config.onChange = this.onChange.bind(this);
 
+			console.log(config);
+
 			return React.createElement( this.props.components[ config.component ], config );
 		}
 
@@ -114,17 +121,14 @@ class Step extends React.Component {
 		let fieldKeys = Object.keys( fields );
 
 		return (
-			<form id="stepContainer">
+			<div id="stepContainer">
 				<h1>Step: {this.props.title}</h1>
 				{
 					fieldKeys.map( this.renderField.bind( this ) )
 				}
-			</form>
+			</div>
 		)
 	}
-
-
-
 
 };
 
