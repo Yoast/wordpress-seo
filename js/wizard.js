@@ -59,7 +59,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ][ 'fields' ] = this.parseFields( steps[ step ][ 'fields' ] );
+			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
 
 			steps[ step ].previous = previous;
 
