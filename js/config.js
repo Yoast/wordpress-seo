@@ -6,7 +6,7 @@ import ConnectGoogleSearchConsole from "./custom_components/ConnectGoogleSearchC
 
 
 let configuration = {
-	"endpoint": "http://0.0.0.0:8882/onboarding?wp_nonce=nonce",
+	"endpoint": "http://127.0.0.1:8882/onboarding?wp_nonce=nonce",
 	"customComponents": {
 		MailchimpSignup, PublishingEntity, PostTypeVisibility, ConnectGoogleSearchConsole
 	},

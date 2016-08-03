@@ -1,10 +1,10 @@
-
 import 'whatwg-fetch';
 
 let postJSONRequest = null;
 
-if( typeof jQuery === typeof undefined && typeof jQuery.ajax === typeof null) {
+//TODO jQuery method shows works differently than whatwg-fetch library. For example whatwg-fetch doesn't throw an error when the endpoints repsonse is forbidden, jquery does.
 
+if ( typeof jQuery == 'undefined' || ! jQuery || ! jQuery.ajax ) {
 	/**
 	 * Wrapper method when fetch should be used.
 	 *
@@ -13,8 +13,8 @@ if( typeof jQuery === typeof undefined && typeof jQuery.ajax === typeof null) {
 	 * @param {function} success Callback for When the request is successful.
 	 * @param {function} error   Callback for When the request is failed.
 	 */
-	postJSONRequest = ( url, data, success, error ) => {
-		fetch(
+	postJSONRequest = ( url, data = {} ) => {
+		return fetch(
 			url,
 			{
 				method: 'POST',
@@ -22,15 +22,12 @@ if( typeof jQuery === typeof undefined && typeof jQuery.ajax === typeof null) {
 					'Accept': 'application/json',
 					'Content-Type': 'application/json'
 				},
-				body: data
+				body: JSON.stringify( data )
 			}
 		)
-		.then( success )
-		.catch( error )
 	};
 }
 else {
-
 	/**
 	 * Wrapper method for doing request when jQuery is active.
 	 *
@@ -39,11 +36,13 @@ else {
 	 * @param {function} success Callback for When the request is successful.
 	 * @param {function} error   Callback for When the request is failed.
 	 */
-	postJSONRequest = ( url, data, success, error ) => {
-		let contentType = "application/json";
-		let method = "POST";
+	postJSONRequest = ( url, data = {} ) => {
+		let method = 'POST';
+		let accepts = 'application/json';
 
-		jQuery.ajax( { url, data, success, error, contentType, method } );
+		let jsonData = JSON.stringify( data );
+
+		return jQuery.ajax( { url, accepts, jsonData, method } );
 	}
 
 }

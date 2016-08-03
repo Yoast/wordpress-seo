@@ -5,6 +5,8 @@ import Components from './components';
 
 import PostJSONRequest from './helpers/postJSONRequest';
 
+var jQuery = require( 'jQuery' );
+
 /**
  * The onboarding Wizard class.
  */
@@ -57,7 +59,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
+			steps[ step ][ 'fields' ] = this.parseFields( steps[ step ][ 'fields' ] );
 
 			steps[ step ].previous = previous;
 
@@ -94,7 +96,7 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
+			function ( fieldName ) {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
@@ -105,7 +107,7 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Sends the options for the current step via POST request to the back-end.
+	 * Sends the options for the current step via POST request to the back-end and sets the state to the target step when successful.
 	 *
 	 * @param {string} targetStep The step id to switch to.
 	 */
@@ -115,38 +117,33 @@ class Wizard extends React.Component {
 
 		PostJSONRequest(
 			this.props.endpoint,
-			this.getFieldsAsObject(),
-			function() {
-				this.setSaveState( '' );
-				this.setState( {
-					currentStepId: targetStep
-				} );
-			} .bind( this ),
-			function() {
-				this.setSaveState( '' );
-			}.bind( this )
-		);
-	}
-
-	/**
-	 * Returns the fiels as an object.
-	 *
-	 * @returns {Object}
-	 */
-	getFieldsAsObject() {
-		return {};
+			{ "test": "test-data" }
+		)
+			.then( function () {
+					this.setSaveState( '' );
+					this.setState( {
+						currentStepId: targetStep
+					} );
+				}.bind( this )
+			)
+			.catch(
+				function () {
+					console.log( 'catch' );
+					this.setSaveState( '' );
+				}.bind( this )
+			)
 	}
 
 	/**
 	 * Shows/hides the saving status when performing a request.
 	 *
-	 * @param {string} state The status text to show.
+	 * @param {string} text The status text to show.
 	 */
-	setSaveState( state ) {
-		var $saveState = $( "#saveState" );
-		$saveState.html( state );
+	setSaveState( text ) {
+		var $saveState = jQuery( "#saveState" );
+		$saveState.html( text );
 
-		if ( state === '' ) {
+		if ( text === '' ) {
 			$saveState.hide();
 			return;
 		}
@@ -161,7 +158,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
