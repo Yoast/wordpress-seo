@@ -4,9 +4,9 @@
  */
 
 /**
- * Class for generating a form fieldset for logically grouped form controls.
+ * Generate the HTML for a form fieldset to wrap grouped form elements.
  */
-class Yoast_Form_Fieldset {
+class Yoast_Form_Fieldset implements Yoast_Form_Element {
 
 	/**
 	 * @var string
@@ -24,12 +24,12 @@ class Yoast_Form_Fieldset {
 	private $legend_attributes = array();
 
 	/**
-	 * @var string The fieldset legend content.
+	 * @var string A translatable string for the fieldset legend content.
 	 */
 	private $legend_content;
 
 	/**
-	 * @var string The grouped form controls for the fieldset.
+	 * @var string The grouped form elements for the fieldset.
 	 */
 	private $fieldset_content;
 
@@ -37,8 +37,8 @@ class Yoast_Form_Fieldset {
 	 * Constructor.
 	 *
 	 * @param string $fieldset_id      ID for the fieldset.
-	 * @param string $legend_content   The legend text.
-	 * @param string $fieldset_content The grouped form controls for the fieldset.
+	 * @param string $legend_content   The translatable legend text.
+	 * @param string $fieldset_content The grouped form elements for the fieldset.
 	 */
 	public function __construct( $fieldset_id, $legend_content, $fieldset_content ) {
 		$this->fieldset_id      = $fieldset_id;
@@ -47,13 +47,30 @@ class Yoast_Form_Fieldset {
 	}
 
 	/**
-	 * Print the rendered view.
+	 * Render the view.
 	 */
 	public function render_view() {
-		// Extract it, because we want each value accessible via a variable instead of accessing it as an array.
+		/*
+		 * Extract because we want values accessible via variables for later use
+		 * in the view instead of accessing them as an array.
+		 */
 		extract( $this->get_fieldset_parts() );
 
 		require( dirname( WPSEO_FILE ) . '/admin/views/form/fieldset.php' );
+	}
+
+	/**
+	 * Start output buffering to catch the form elements to wrap in the fieldset.
+	 */
+	public function start() {
+		ob_start();
+	}
+
+	/**
+	 * Return output buffering with the form elements to wrap in the fieldset.
+	 */
+	public function end() {
+		$this->fieldset_content = ob_get_clean();
 	}
 
 	/**
@@ -62,14 +79,14 @@ class Yoast_Form_Fieldset {
 	 * @return string
 	 */
 	public function get_html() {
-		ob_start();
+		return $this->render_view();
+	}
 
-		$this->render_view();
-
-		$rendered_output = ob_get_contents();
-		ob_end_clean();
-
-		return $rendered_output;
+	/**
+	 * Output the rendered view.
+	 */
+	public function html() {
+		echo $this->get_html();
 	}
 
 	/**
@@ -118,14 +135,15 @@ class Yoast_Form_Fieldset {
 		if ( ! empty( $attributes ) ) {
 			array_walk( $attributes, array( $this, 'parse_attribute' ) );
 
-			return implode( ' ', $attributes ) . ' ';
+			// Use an initial space as `implode()` adds a space only between array elements.
+			return ' ' . implode( ' ', $attributes );
 		}
 
 		return '';
 	}
 
 	/**
-	 * Get an attribute from the attributes.
+	 * Get an attribute from the attributes and escape it.
 	 *
 	 * @param string $value     The value of the attribute.
 	 * @param string $attribute The attribute to look for.

@@ -17,7 +17,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @var string $content             The fieldset content, i.e. a set of logically grouped form controls.
  */
 ?>
-<fieldset id="<?php esc_attr_e( $id ); ?>" <?php echo $fieldset_attributes; ?>>
-	<legend id="<?php esc_attr_e( $id ); ?>-legend" <?php echo $legend_attributes; ?>><?php esc_html_e( $legend_content ); ?></legend>
-	<?php echo $content ?>
+
+<fieldset id="<?php echo esc_attr( $id ); ?>"<?php echo $fieldset_attributes; ?>>
+	<legend id="<?php echo esc_attr( $id ); ?>-legend"<?php echo $legend_attributes; ?>><?php echo esc_html( $legend_content ); ?></legend>
+	<?php echo $content . "\n"; ?>
 </fieldset>
