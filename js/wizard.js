@@ -109,29 +109,37 @@ class Wizard extends React.Component {
 	/**
 	 * Sends the options for the current step via POST request to the back-end and sets the state to the target step when successful.
 	 *
-	 * @param {string} targetStep The step id to switch to.
+	 * @return {Promise}
 	 */
-	saveOptions( targetStep ) {
+	saveOptions() {
 
 		this.setSaveState( 'Saving..' );
 
-		PostJSONRequest(
+		return PostJSONRequest(
 			this.props.endpoint,
 			{ "test": "test-data" }
 		)
-			.then( function () {
-					this.setSaveState( '' );
-					this.setState( {
-						currentStepId: targetStep
-					} );
-				}.bind( this )
-			)
-			.catch(
-				function () {
-					console.log( 'catch' );
-					this.setSaveState( '' );
-				}.bind( this )
-			)
+	}
+
+	/**
+	 * Send a AJAX request to the options server to store.
+	 * The save state shows a saving status in the step window.
+	 * When successful this updates the current state with the target step and the wizard renders the new step.
+	 * @param targetStep The step to render after the current state is stored.
+	 */
+	saveAndUpdateState( targetStep ) {
+		this.saveOptions().then( function () {
+				this.setSaveState( '' );
+				this.setState( {
+					currentStepId: targetStep
+				} );
+			}.bind( this )
+		)
+		    .catch(
+			    function () {
+				    this.setSaveState( '' );
+			    }.bind( this )
+		    )
 	}
 
 	/**
@@ -161,18 +169,29 @@ class Wizard extends React.Component {
 		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
+
+	/**
+	 * Sets the wizard to another step and saves the current status.
+	 * If the step doesn't exist, nothing happens.
+	 * @param step The step to render in the wizard.
+	 */
+	setStep( step ) {
+		if ( ! step ) {
+			return;
+		}
+
+		//Save the options for this step and update the state to the next step.
+		this.saveAndUpdateState( step );
+	}
+
+
 	/**
 	 * Updates the state to the next stepId in the wizard.
 	 */
 	setNextStep() {
 		let currentStep = this.getCurrentStep();
-		let nextStep = currentStep.next;
 
-		if ( ! nextStep ) {
-			return;
-		}
-
-		this.saveOptions( nextStep );
+		this.setStep( currentStep.next );
 	}
 
 	/**
@@ -180,13 +199,8 @@ class Wizard extends React.Component {
 	 */
 	setPreviousStep() {
 		let currentStep = this.getCurrentStep();
-		let previousStep = currentStep.previous;
 
-		if ( ! previousStep ) {
-			return;
-		}
-
-		this.saveOptions( previousStep );
+		this.setStep( currentStep.previous );
 	}
 
 	/**
