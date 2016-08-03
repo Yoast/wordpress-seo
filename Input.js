@@ -12,21 +12,27 @@ const inputTypes = [
 	'textarea'
 ];
 
-const Input = { props }=> {
+const Input = ( props ) => {
 	if( props.type === "textarea" ) {
 		return (
-			<textarea id={props.name} name={props.name} placeholder={props.placeholder} value={props.value} ></textarea>
+			<textarea id={props.name} name={props.name} placeholder={props.placeholder}>value={props.value}</textarea>
 		)
 	}
 	return (
 		<input type={props.type} id={props.name} name={props.name} placeholder={props.placeholder} value={props.value} />
 	)
-}
+};
 
 Input.propTypes = {
-	type: React.PropTypes.string.isRequired.oneOf( [ 'text', 'checkbox', 'password', 'button', 'slider', 'number', 'submit', 'radio' ] ),
+	type: React.PropTypes.oneOf( inputTypes ).isRequired,
 	name: React.PropTypes.string.isRequired,
 	placeholder: React.PropTypes.string,
 	value: React.PropTypes.string
 };
 
+Input.defaultProps = {
+	type: 'text',
+	name: 'input'
+};
+
+export default Input;
