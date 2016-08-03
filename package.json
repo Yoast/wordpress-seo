@@ -18,6 +18,11 @@
     "start": "webpack-dev-server",
     "test": "jest"
   },
+  "jest": {
+    "unmockedModulePathPatterns": [
+      "react"
+    ]
+  },
   "browser": "js/browser.js",
   "devDependencies": {
     "babel": "^6.5.2",
@@ -34,6 +39,7 @@
     "grunt-eslint": "^18.0.0",
     "jest-cli": "^14.1.0",
     "load-grunt-config": "^0.19.1",
+    "react-addons-test-utils": "^15.3.0",
     "react-test-renderer": "^15.3.0",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
