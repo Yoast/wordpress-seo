@@ -14,9 +14,11 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	private $id;
 
 	/**
-	 * @var array The fieldset HTML attributes.
+	 * @var array The fieldset HTML default attributes.
 	 */
-	private $attributes = array();
+	private $attributes = array(
+		'class' => 'yoast-form-fieldset',
+	);
 
 	/**
 	 * @var string The grouped form elements for the fieldset.
@@ -24,9 +26,11 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	private $content;
 
 	/**
-	 * @var array The legend HTML attributes.
+	 * @var array The fieldset legend HTML default attributes.
 	 */
-	private $legend_attributes = array();
+	private $legend_attributes = array(
+		'class' => 'yoast-form-legend',
+	);
 
 	/**
 	 * @var string A translatable string for the fieldset legend content.
@@ -92,23 +96,31 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	}
 
 	/**
-	 * Add an attribute to the fieldset attributes property.
+	 * Add attributes to the fieldset default attributes.
 	 *
-	 * @param string $attribute The name of the attribute to add.
-	 * @param string $value     The value of the attribute.
+	 * @param array $attributes Array of attributes names and values to merge with the defaults.
 	 */
-	public function add_attribute( $attribute, $value ) {
-		$this->attributes[ $attribute ] = $value;
+	public function add_attributes( $attributes ) {
+		$this->attributes = wp_parse_args( $attributes, $this->attributes );
 	}
 
 	/**
-	 * Add an attribute to the legend attributes property.
+	 * Add attributes to the fieldset legend default attributes.
 	 *
-	 * @param string $attribute The name of the attribute to add.
-	 * @param string $value     The value of the attribute.
+	 * @param array $attributes Array of attributes names and values to merge with the defaults.
 	 */
-	public function legend_add_attribute( $attribute, $value ) {
-		$this->legend_attributes[ $attribute ] = $value;
+	public function legend_add_attributes( $attributes ) {
+		$this->legend_attributes = wp_parse_args( $attributes, $this->legend_attributes );
+	}
+
+	/**
+	 * Visually hide the fieldset legend but keep it available to assistive technologies.
+	 */
+	public function legend_hide() {
+		$this->legend_attributes = wp_parse_args(
+			array( 'class' => 'screen-reader-text' ),
+			$this->legend_attributes
+		);
 	}
 
 	/**
@@ -118,11 +130,11 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 */
 	private function get_parts() {
 		return array(
-			'id'                  => $this->id,
-			'attributes'          => $this->get_attributes_html( $this->attributes ),
-			'legend_content'      => $this->legend_content,
-			'legend_attributes'   => $this->get_attributes_html( $this->legend_attributes ),
-			'content'             => $this->content,
+			'id'                => $this->id,
+			'attributes'        => $this->get_attributes_html( $this->attributes ),
+			'legend_content'    => $this->legend_content,
+			'legend_attributes' => $this->get_attributes_html( $this->legend_attributes ),
+			'content'           => $this->content,
 		);
 	}
 
@@ -145,7 +157,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	}
 
 	/**
-	 * Escapes and format an attribute as an HTML attribute.
+	 * Escape and format an attribute as an HTML attribute.
 	 *
 	 * @param string $value     The value of the attribute.
 	 * @param string $attribute The attribute to look for.
