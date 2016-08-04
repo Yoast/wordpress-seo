@@ -1,6 +1,6 @@
 import React from 'react';
 import Step from './step';
-
+import ProgressIndicator from './progressIndicator';
 import Components from './components';
 
 import PostJSON from './helpers/postJSON';
@@ -98,7 +98,8 @@ class Wizard extends React.Component {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
-			}.bind( this )
+			}
+			.bind( this )
 		);
 
 		return fields;
@@ -134,13 +135,14 @@ class Wizard extends React.Component {
 	 */
 	setSaveState( text ) {
 		var $saveState = document.getElementById( "saveState" );
-		$saveState.html( text );
+		$saveState.innerHTML =text;
 
 		if ( text === '' ) {
-			$saveState.hide();
+			$saveState.style.display = 'none';
 			return;
 		}
-		$saveState.show();
+		
+		$saveState.style.display = 'block';
 	}
 
 	/**
@@ -199,6 +201,37 @@ class Wizard extends React.Component {
 	}
 
 	/**
+	 * Gets the current step and the total number of steps to determine the current progress trough the wizard.
+	 *
+	 * @return {{totalSteps: Number, currentStepNumber: (int|string)}}
+	 * Returns an object containing the total number of steps in the wizard and the current step nummber in the process.
+	 */
+	getProgress() {
+		return {
+			totalSteps: Object.keys( this.state.steps ).length,
+			currentStepNumber: this.getCurrentStepNumber()
+		}
+	}
+
+	/**
+	 * Gets the index number for a step from the array with step objects.
+	 *
+	 * @return {int} The step number when found, or 0 when the step is not found.
+	 */
+	getCurrentStepNumber() {
+		let currentStep = this.state.currentStepId;
+		let steps = Object.keys( this.state.steps );
+
+		let stepNumber = steps.indexOf( currentStep );
+
+		if ( stepNumber > - 1 ) {
+			return stepNumber + 1;
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Renders the wizard.
 	 *
 	 * @return {JSX} The rendered step in the wizard.
@@ -215,6 +248,7 @@ class Wizard extends React.Component {
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
+				<ProgressIndicator {...this.getProgress()} />
 				<Step components={this.props.components} id={step.id} title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
