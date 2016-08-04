@@ -13,23 +13,23 @@ const Step = ( props ) => {
 	let fieldKeys = Object.keys( fields );
 
 	return (
-		<div>
+		<form id="stepContainer">
 			<h1>Step: {props.title}</h1>
 			{
 				fieldKeys.map(
 					function ( configName, index ) {
-						let config = fields[configName];
+						let config = fields[ configName ];
 
-						if( props.components[config.component] ) {
-							config.key       = index;
+						if ( props.components[ config.component ] ) {
+							config.key = index;
 							config.fieldName = configName;
 
-							return React.createElement( props.components[config.component], config );
+							return React.createElement( props.components[ config.component ], config );
 						}
 					}
 				)
 			}
-		</div>
+		</form>
 	)
 };
 

@@ -3,6 +3,8 @@ import Step from './step';
 import ProgressIndicator from './progressIndicator';
 import Components from './components';
 
+import PostJSON from './helpers/postJSON';
+
 /**
  * The onboarding Wizard class.
  */
@@ -24,7 +26,7 @@ class Wizard extends React.Component {
 		};
 
 		Object.assign( this.props.components, Components );
-		Object.assign( this.props.components, props.customComponents);
+		Object.assign( this.props.components, props.customComponents );
 	}
 
 	/**
@@ -57,7 +59,7 @@ class Wizard extends React.Component {
 
 			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
 
-			steps[step].previous = previous;
+			steps[ step ].previous = previous;
 
 			// Sets the previous var with current step.
 			previous = step;
@@ -75,7 +77,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[step].next = stepsReversed.pop();
+			steps[ step ].next = stepsReversed.pop();
 		}
 
 		return steps;
@@ -92,15 +94,55 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
-				if ( this.props.fields[fieldName]  ) {
-					fields[ fieldName ] =  this.props.fields[fieldName];
+			function ( fieldName ) {
+				if ( this.props.fields[ fieldName ] ) {
+					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
 			.bind( this )
 		);
 
 		return fields;
+	}
+
+	/**
+	 * Sends the options for the current step via POST request to the back-end and sets the state to the target step
+	 * when successful.
+	 *
+	 * @param {step} step The step to render after the current state is stored.
+	 *
+	 * @return {Promise}
+	 */
+	postStep( step ) {
+		if ( ! step ) {
+			return;
+		}
+
+		this.setSaveState( 'Saving..' );
+
+		PostJSON(
+			this.props.endpoint,
+			{ "test": "test-data" }
+		)
+		.then( this.handleSuccessful.bind( this, step ) )
+		.catch( this.handleFailure.bind( this ) );
+	}
+
+	/**
+	 * Shows/hides the saving status when performing a request.
+	 *
+	 * @param {string} text The status text to show.
+	 */
+	setSaveState( text ) {
+		var $saveState = document.getElementById( "saveState" );
+		$saveState.innerHTML =text;
+
+		if ( text === '' ) {
+			$saveState.style.display = 'none';
+			return;
+		}
+		
+		$saveState.style.display = 'block';
 	}
 
 	/**
@@ -115,33 +157,40 @@ class Wizard extends React.Component {
 	}
 
 	/**
+	 * When the request is handled successfully.
+	 *
+	 * @param {string} step The next step to render.
+	 */
+	handleSuccessful( step ) {
+		this.setSaveState( '' );
+		this.setState( {
+			currentStepId: step
+		} );
+	}
+
+	/**
+	 * When the request is handled incorrect.
+	 */
+	handleFailure() {
+		this.setSaveState( '' );
+	}
+
+	/**
 	 * Updates the state to the next stepId in the wizard.
 	 */
 	setNextStep() {
-		let nextStep = this.getCurrentStep().next;
+		let currentStep = this.getCurrentStep();
 
-		if ( !nextStep ) {
-			return;
-		}
-
-		this.setState( {
-			currentStepId: nextStep
-		} );
+		this.postStep( currentStep.next );
 	}
 
 	/**
 	 * Updates the state to the previous stepId in the wizard.
 	 */
 	setPreviousStep() {
-		let previousStep = this.getCurrentStep().previous;
+		let currentStep = this.getCurrentStep();
 
-		if ( !previousStep ) {
-			return;
-		}
-
-		this.setState( {
-			currentStepId: previousStep
-		} );
+		this.postStep( currentStep.previous );
 	}
 
 	/**
@@ -189,11 +238,12 @@ class Wizard extends React.Component {
 	 */
 	render() {
 		let step = this.getCurrentStep();
-		let hideNextButton = !step.next;
-		let hidePreviousButton = !step.previous;
+		let hideNextButton = ! step.next;
+		let hidePreviousButton = ! step.previous;
 
 		return (
 			<div>
+				<div id="saveState" hidden="hidden"></div>
 				<button hidden={(
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
@@ -210,6 +260,7 @@ class Wizard extends React.Component {
 }
 
 Wizard.propTypes = {
+	endpoint: React.PropTypes.string.isRequired,
 	steps: React.PropTypes.object,
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
