@@ -1,9 +1,8 @@
-jest.unmock('../Input');
+jest.unmock('../forms/Input');
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import Input from '../Input';
+import Input from '../forms/Input';
 
 describe( 'Input', () => {
 	it( 'generates an input, based on the props', () => {
@@ -20,8 +19,6 @@ describe( 'Input', () => {
 		renderer.render( <Input name="testinput" /> );
 
 		let result = renderer.getRenderOutput();
-
-		console.log( result );
 
 		expect( result.props.type ).toBe( "text" );
 	} );
