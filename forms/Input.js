@@ -1,7 +1,9 @@
 import React from 'react';
 
 /**
- * Lists the supported input types.
+ * Lists the supported input types.Input.extractOptionalAttributes = ( optionalAttributes ) => {
+
+}
  *
  * @type {string[]}
  */
@@ -10,10 +12,10 @@ const inputTypes = [
 	'checkbox',
 	'number',
 	'password',
+	'progress',
 	'radio',
 	'submit',
-	'text',
-	'textarea'
+	'text'
 ];
 
 /**
@@ -24,35 +26,23 @@ const inputTypes = [
  * @constructor
  */
 const Input = ( props ) => {
-	if ( props.type === "textarea" ) {
-		return (
-			<textarea
-				id={props.name}
-			    name={props.name}
-			    placeholder={props.placeholder}>{props.value}</textarea>
-		)
-	}
-
 	return (
-		<input
-			type={props.type}
-		    id={props.name}
-		    name={props.name}
-		    placeholder={props.placeholder}
-		    value={props.value} />
+		<input type={props.type} id={props.name} name={props.name} value={props.value} onChange={props.onChange} {...props.optionalAttributes} />
 	)
 };
 
 /**
  * Adds validation for the properties.
  *
- * @type {{type: string, name: string, placeholder: string, value: string}}
+ * @type {{type: string, name: string, placeholder: string, value: string, onChange: function, optionalAttributes:object}}
  */
 Input.propTypes = {
-	type: React.PropTypes.oneOf( inputTypes ).isRequired,
 	name: React.PropTypes.string.isRequired,
-	placeholder: React.PropTypes.string,
-	value: React.PropTypes.string
+	type: React.PropTypes.oneOf( inputTypes ).isRequired,
+	value: React.PropTypes.any.isRequired,
+	onChange: React.PropTypes.func.isRequired,
+
+	optionalAttributes: React.PropTypes.object,
 };
 
 /**
@@ -61,8 +51,9 @@ Input.propTypes = {
  * @type {{type: string, name: string}}
  */
 Input.defaultProps = {
-	type: 'text',
-	name: 'input'
+	name: "input",
+	type: "text",
+	value: "",
 };
 
 export default Input;
