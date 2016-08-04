@@ -10,10 +10,9 @@ import React from 'react';
  */
 const HTML = ( props ) => {
 	return (
-		<div dangerouslySetInnerHTML={{__html: props.properties.html}}></div>
+		<div dangerouslySetInnerHTML={{ __html: props.properties.html }}></div>
 	);
 };
-
 
 HTML.propTypes = {
 	properties: React.PropTypes.object.isRequired

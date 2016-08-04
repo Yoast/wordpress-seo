@@ -11,10 +11,10 @@ import React from 'react';
 const Input = ( props ) => {
 
 	return (
-		<div>
+	<div>
 			<h2>{props.properties.label}</h2>
 			<label htmlFor={props.name}>{props.label}</label>
-			<input type={props.type} id={props.name} name={props.name} defaultValue={props.data} placeholder={props.placeholder} />
+			<input onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName} defaultValue={props.data} placeholder={props.placeholder} />
 		</div>
 	)
 
@@ -31,7 +31,9 @@ Input.propTypes = {
 			label: React.PropTypes.string.isRequired
 		}
 	),
-	data: React.PropTypes.string
+	data: React.PropTypes.string,
+	onChange: React.PropTypes.func,
+	fieldName: React.PropTypes.string.isRequired
 };
 
 Input.defaultProps = {
@@ -39,7 +41,8 @@ Input.defaultProps = {
 	placeholder: 'enter text..',
 	type: 'text',
 	name: 'input',
-	data: ''
+	data: '',
+	fieldName : ''
 };
 
 export default Input;

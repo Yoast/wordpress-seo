@@ -94,7 +94,7 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function ( fieldName ) {
+			function( fieldName ) {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
@@ -122,10 +122,22 @@ class Wizard extends React.Component {
 
 		PostJSON(
 			this.props.endpoint,
-			{ "test": "test-data" }
+			this.getFieldsAsObject()
 		)
 		.then( this.handleSuccessful.bind( this, step ) )
 		.catch( this.handleFailure.bind( this ) );
+	}
+
+	/**
+	 * Returns the fiels as an object.
+	 *
+	 * @returns {Object}
+	 */
+	getFieldsAsObject() {
+		return JSON.stringify(
+			this.refs.step.state.fieldValues[ this.state.currentStepId ]
+		);
+
 	}
 
 	/**
@@ -135,13 +147,13 @@ class Wizard extends React.Component {
 	 */
 	setSaveState( text ) {
 		var $saveState = document.getElementById( "saveState" );
-		$saveState.innerHTML =text;
+		$saveState.innerHTML = text;
 
 		if ( text === '' ) {
 			$saveState.style.display = 'none';
 			return;
 		}
-		
+
 		$saveState.style.display = 'block';
 	}
 
@@ -162,6 +174,7 @@ class Wizard extends React.Component {
 	 * @param {string} step The next step to render.
 	 */
 	handleSuccessful( step ) {
+		console.log( step );
 		this.setSaveState( '' );
 		this.setState( {
 			currentStepId: step
@@ -249,7 +262,7 @@ class Wizard extends React.Component {
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
 				<ProgressIndicator {...this.getProgress()} />
-				<Step components={this.props.components} id={step.id} title={step.title} fields={step.fields}/>
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id} title={step.title} fields={step.fields} />
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
