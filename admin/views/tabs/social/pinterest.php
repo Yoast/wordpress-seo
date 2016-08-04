@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+echo '<h2>' . esc_html__( 'Pinterest settings', 'wordpress-seo' ) . '</h2>';
+
 printf( '<p>%s</p>', __( 'Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest.', 'wordpress-seo' ) );
 printf( '<p>%s</p>', __( 'If you have already confirmed your website with Pinterest, you can skip the step below.', 'wordpress-seo' ) );
 

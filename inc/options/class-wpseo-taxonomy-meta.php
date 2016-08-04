@@ -49,6 +49,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_sitemap_include' => '-',
 		'wpseo_focuskw'         => '',
 		'wpseo_linkdex'         => '',
+		'wpseo_content_score'   => '',
 
 		// Social fields.
 		'wpseo_opengraph-title'         => '',

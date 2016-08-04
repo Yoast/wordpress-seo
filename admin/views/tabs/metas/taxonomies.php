@@ -17,7 +17,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			continue;
 		}
 
-		echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ) . '</h4>';
+		echo '<h2>' . esc_html( ucfirst( $tax->labels->name ) ) . '</h2>';
 		if ( $tax->name === 'post_format' ) {
 			$yform->light_switch(
 				'disable-post_format',
