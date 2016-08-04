@@ -1,9 +1,9 @@
 import React from 'react';
 import Step from './step';
-
+import ProgressIndicator from './progressIndicator';
 import Components from './components';
 
-import PostJSONRequest from './helpers/postJSONRequest';
+import PostJSON from './helpers/postJSON';
 
 /**
  * The onboarding Wizard class.
@@ -98,58 +98,62 @@ class Wizard extends React.Component {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
-			}.bind( this )
+			}
+			.bind( this )
 		);
 
 		return fields;
 	}
 
 	/**
-	 * Sends the options for the current step via POST request to the back-end.
+	 * Sends the options for the current step via POST request to the back-end and sets the state to the target step
+	 * when successful.
 	 *
-	 * @param {string} targetStep The step id to switch to.
+	 * @param {step} step The step to render after the current state is stored.
+	 *
+	 * @return {Promise}
 	 */
-	saveOptions( targetStep ) {
+	postStep( step ) {
+		if ( ! step ) {
+			return;
+		}
 
 		this.setSaveState( 'Saving..' );
 
-		PostJSONRequest(
+		PostJSON(
 			this.props.endpoint,
-			this.getFieldsAsObject(),
-			function() {
-				this.setSaveState( '' );
-				this.setState( {
-					currentStepId: targetStep
-				} );
-			} .bind( this ),
-			function() {
-				this.setSaveState( '' );
-			}.bind( this )
-		);
+			this.getFieldsAsObject()
+		)
+		.then( this.handleSuccessful.bind( this, step ) )
+		.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
-	 * Returns the fields as an object.
+	 * Returns the fiels as an object.
 	 *
 	 * @returns {Object}
 	 */
 	getFieldsAsObject() {
-		return JSON.stringify( this.refs.step.state.fieldValues[ this.state.currentStepId ] );
+		return JSON.stringify(
+			this.refs.step.state.fieldValues[ this.state.currentStepId ]
+		);
+
 	}
 
 	/**
 	 * Shows/hides the saving status when performing a request.
 	 *
-	 * @param {string} state The status text to show.
+	 * @param {string} text The status text to show.
 	 */
-	setSaveState( state ) {
+	setSaveState( text ) {
 		var $saveState = document.getElementById( "saveState" );
-		$saveState.innerHTML = state;
+		$saveState.innerHTML = text;
 
-		if ( state === '' ) {
+		if ( text === '' ) {
 			$saveState.style.display = 'none';
 			return;
 		}
+
 		$saveState.style.display = 'block';
 	}
 
@@ -165,17 +169,32 @@ class Wizard extends React.Component {
 	}
 
 	/**
+	 * When the request is handled successfully.
+	 *
+	 * @param {string} step The next step to render.
+	 */
+	handleSuccessful( step ) {
+		console.log( step );
+		this.setSaveState( '' );
+		this.setState( {
+			currentStepId: step
+		} );
+	}
+
+	/**
+	 * When the request is handled incorrect.
+	 */
+	handleFailure() {
+		this.setSaveState( '' );
+	}
+
+	/**
 	 * Updates the state to the next stepId in the wizard.
 	 */
 	setNextStep() {
 		let currentStep = this.getCurrentStep();
-		let nextStep = currentStep.next;
 
-		if ( ! nextStep ) {
-			return;
-		}
-
-		this.saveOptions( nextStep );
+		this.postStep( currentStep.next );
 	}
 
 	/**
@@ -183,13 +202,8 @@ class Wizard extends React.Component {
 	 */
 	setPreviousStep() {
 		let currentStep = this.getCurrentStep();
-		let previousStep = currentStep.previous;
 
-		if ( ! previousStep ) {
-			return;
-		}
-
-		this.saveOptions( previousStep );
+		this.postStep( currentStep.previous );
 	}
 
 	/**
@@ -197,6 +211,37 @@ class Wizard extends React.Component {
 	 */
 	getCurrentStep() {
 		return this.state.steps[ this.state.currentStepId ];
+	}
+
+	/**
+	 * Gets the current step and the total number of steps to determine the current progress trough the wizard.
+	 *
+	 * @return {{totalSteps: Number, currentStepNumber: (int|string)}}
+	 * Returns an object containing the total number of steps in the wizard and the current step nummber in the process.
+	 */
+	getProgress() {
+		return {
+			totalSteps: Object.keys( this.state.steps ).length,
+			currentStepNumber: this.getCurrentStepNumber()
+		}
+	}
+
+	/**
+	 * Gets the index number for a step from the array with step objects.
+	 *
+	 * @return {int} The step number when found, or 0 when the step is not found.
+	 */
+	getCurrentStepNumber() {
+		let currentStep = this.state.currentStepId;
+		let steps = Object.keys( this.state.steps );
+
+		let stepNumber = steps.indexOf( currentStep );
+
+		if ( stepNumber > - 1 ) {
+			return stepNumber + 1;
+		}
+
+		return 0;
 	}
 
 	/**
@@ -216,6 +261,7 @@ class Wizard extends React.Component {
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
+				<ProgressIndicator {...this.getProgress()} />
 				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id} title={step.title} fields={step.fields} />
 				<button hidden={(
 					hideNextButton
@@ -227,6 +273,7 @@ class Wizard extends React.Component {
 }
 
 Wizard.propTypes = {
+	endpoint: React.PropTypes.string.isRequired,
 	steps: React.PropTypes.object,
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
