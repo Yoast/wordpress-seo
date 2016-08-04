@@ -1,0 +1,9 @@
+-  request:
+      url: ^/onboarding
+      method: [GET, POST]
+   response:
+    - status: 200
+      latency: 2000
+      body: "Loaded with delay"
+    - status: 403
+      body: "Forbidden!"
