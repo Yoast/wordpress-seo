@@ -3,9 +3,7 @@ import Step from './step';
 
 import Components from './components';
 
-import PostJSONRequest from './helpers/postJSONRequest';
-
-var jQuery = require( 'jQuery' );
+import PostJSON from './helpers/postJSON';
 
 /**
  * The onboarding Wizard class.
@@ -107,39 +105,26 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Sends the options for the current step via POST request to the back-end and sets the state to the target step when successful.
+	 * Sends the options for the current step via POST request to the back-end and sets the state to the target step
+	 * when successful.
+	 *
+	 * @param {step} step The step to render after the current state is stored.
 	 *
 	 * @return {Promise}
 	 */
-	saveOptions() {
+	postStep( step ) {
+		if ( ! step ) {
+			return;
+		}
 
 		this.setSaveState( 'Saving..' );
 
-		return PostJSONRequest(
+		PostJSON(
 			this.props.endpoint,
 			{ "test": "test-data" }
 		)
-	}
-
-	/**
-	 * Send a AJAX request to the options server to store.
-	 * The save state shows a saving status in the step window.
-	 * When successful this updates the current state with the target step and the wizard renders the new step.
-	 * @param targetStep The step to render after the current state is stored.
-	 */
-	saveAndUpdateState( targetStep ) {
-		this.saveOptions().then( function () {
-				this.setSaveState( '' );
-				this.setState( {
-					currentStepId: targetStep
-				} );
-			}.bind( this )
-		)
-		    .catch(
-			    function () {
-				    this.setSaveState( '' );
-			    }.bind( this )
-		    )
+		.then( this.handleSuccessful.bind( this, step ) )
+		.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
@@ -148,7 +133,7 @@ class Wizard extends React.Component {
 	 * @param {string} text The status text to show.
 	 */
 	setSaveState( text ) {
-		var $saveState = jQuery( "#saveState" );
+		var $saveState = document.getElementById( "saveState" );
 		$saveState.html( text );
 
 		if ( text === '' ) {
@@ -166,24 +151,27 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[ 0 ];
+		return Object.getOwnPropertyNames( steps )[0];
 	}
-
 
 	/**
-	 * Sets the wizard to another step and saves the current status.
-	 * If the step doesn't exist, nothing happens.
-	 * @param step The step to render in the wizard.
+	 * When the request is handled successfully.
+	 *
+	 * @param {string} step The next step to render.
 	 */
-	setStep( step ) {
-		if ( ! step ) {
-			return;
-		}
-
-		//Save the options for this step and update the state to the next step.
-		this.saveAndUpdateState( step );
+	handleSuccessful( step ) {
+		this.setSaveState( '' );
+		this.setState( {
+			currentStepId: step
+		} );
 	}
 
+	/**
+	 * When the request is handled incorrect.
+	 */
+	handleFailure() {
+		this.setSaveState( '' );
+	}
 
 	/**
 	 * Updates the state to the next stepId in the wizard.
@@ -191,7 +179,7 @@ class Wizard extends React.Component {
 	setNextStep() {
 		let currentStep = this.getCurrentStep();
 
-		this.setStep( currentStep.next );
+		this.postStep( currentStep.next );
 	}
 
 	/**
@@ -200,7 +188,7 @@ class Wizard extends React.Component {
 	setPreviousStep() {
 		let currentStep = this.getCurrentStep();
 
-		this.setStep( currentStep.previous );
+		this.postStep( currentStep.previous );
 	}
 
 	/**
@@ -238,6 +226,7 @@ class Wizard extends React.Component {
 }
 
 Wizard.propTypes = {
+	endpoint: React.PropTypes.string.isRequired,
 	steps: React.PropTypes.object,
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
