@@ -20,11 +20,12 @@ describe( 'input-object-test', () => {
 			}
 		}
 
-		const checkbox = TestUtils.renderIntoDocument(
-			<Input {...inputProps} />
-		);
+		let renderer = TestUtils.createRenderer();
+		renderer.render( <Input {...inputProps} /> );
 
-		const inputNode = ReactDOM.findDOMNode( checkbox );
+		let result = renderer.getRenderOutput();
+
+		console.log( result.props );
 
 		expect( true );
 	} )
