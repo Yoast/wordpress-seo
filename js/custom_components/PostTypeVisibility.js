@@ -18,13 +18,13 @@ const PostTypeVisibility = ( props ) => {
 PostTypeVisibility.propTypes = {
 	component: React.PropTypes.string,
 	properties: React.PropTypes.object,
-	data: React.PropTypes.object
+	data: React.PropTypes.string
 };
 
 PostTypeVisibility.defaultProps = {
 	component: '',
 	properties: {},
-	data: {}
+	data: ''
 };
 
 export default PostTypeVisibility;

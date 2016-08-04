@@ -13,7 +13,7 @@ const MailchimpSignup = ( props ) => {
 		<div>
 			<h2>{props.properties.label}</h2>
 			<p>{props.properties.mailchimpActionUrl}</p>
-			<input type="text" name={props.name}  defaultValue={props.properties.currentUserEmail} />
+			<input onChange={props.onChange} type="text" name={props.name}  defaultValue={props.properties.currentUserEmail} />
 		</div>
 	)
 }
@@ -22,7 +22,8 @@ MailchimpSignup.propTypes = {
 	component: React.PropTypes.string,
 	name: React.PropTypes.string.isRequired,
 	properties: React.PropTypes.object,
-	data: React.PropTypes.string
+	data: React.PropTypes.string,
+	onChange: React.PropTypes.func
 };
 
 MailchimpSignup.defaultProps = {
