@@ -9,14 +9,19 @@
 class Yoast_Form_Fieldset implements Yoast_Form_Element {
 
 	/**
-	 * @var string
+	 * @var string The fieldset ID.
 	 */
-	private $fieldset_id;
+	private $id;
 
 	/**
 	 * @var array The fieldset HTML attributes.
 	 */
-	private $fieldset_attributes = array();
+	private $attributes = array();
+
+	/**
+	 * @var string The grouped form elements for the fieldset.
+	 */
+	private $content;
 
 	/**
 	 * @var array The legend HTML attributes.
@@ -29,21 +34,16 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	private $legend_content;
 
 	/**
-	 * @var string The grouped form elements for the fieldset.
-	 */
-	private $fieldset_content;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param string $fieldset_id      ID for the fieldset.
-	 * @param string $legend_content   The translatable legend text.
-	 * @param string $fieldset_content The grouped form elements for the fieldset.
+	 * @param string $id             ID for the fieldset.
+	 * @param string $legend_content The translatable legend text.
+	 * @param string $content        The grouped form elements for the fieldset.
 	 */
-	public function __construct( $fieldset_id, $legend_content, $fieldset_content ) {
-		$this->fieldset_id      = $fieldset_id;
-		$this->legend_content   = $legend_content;
-		$this->fieldset_content = $fieldset_content;
+	public function __construct( $id, $legend_content, $content ) {
+		$this->id             = $id;
+		$this->legend_content = $legend_content;
+		$this->content        = $content;
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 		 * Extract because we want values accessible via variables for later use
 		 * in the view instead of accessing them as an array.
 		 */
-		extract( $this->get_fieldset_parts() );
+		extract( $this->get_parts() );
 
 		require( dirname( WPSEO_FILE ) . '/admin/views/form/fieldset.php' );
 	}
@@ -70,7 +70,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 * Return output buffering with the form elements to wrap in the fieldset.
 	 */
 	public function end() {
-		$this->fieldset_content = ob_get_clean();
+		$this->content = ob_get_clean();
 	}
 
 	/**
@@ -79,7 +79,9 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 * @return string
 	 */
 	public function get_html() {
-		return $this->render_view();
+		ob_start();
+		$this->render_view();
+		return ob_get_clean();
 	}
 
 	/**
@@ -95,8 +97,8 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 * @param string $attribute The name of the attribute to add.
 	 * @param string $value     The value of the attribute.
 	 */
-	public function fieldset_add_attribute( $attribute, $value ) {
-		$this->fieldset_attributes[ $attribute ] = $value;
+	public function add_attribute( $attribute, $value ) {
+		$this->attributes[ $attribute ] = $value;
 	}
 
 	/**
@@ -114,24 +116,24 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 *
 	 * @return array
 	 */
-	private function get_fieldset_parts() {
+	private function get_parts() {
 		return array(
-			'id'                  => $this->fieldset_id,
-			'fieldset_attributes' => $this->get_attributes( $this->fieldset_attributes ),
+			'id'                  => $this->id,
+			'attributes'          => $this->get_attributes_html( $this->attributes ),
 			'legend_content'      => $this->legend_content,
-			'legend_attributes'   => $this->get_attributes( $this->legend_attributes ),
-			'content'             => $this->fieldset_content,
+			'legend_attributes'   => $this->get_attributes_html( $this->legend_attributes ),
+			'content'             => $this->content,
 		);
 	}
 
 	/**
-	 * Return HTML attributes as a string, when there are attributes set.
+	 * Return HTML formatted attributes as a string, when there are attributes set.
 	 *
 	 * @param array $attributes Fieldset or legend attributes.
 	 *
-	 * @return string A space separated list of HTML attributes or empty string.
+	 * @return string A space separated list of HTML formatted attributes or empty string.
 	 */
-	private function get_attributes( $attributes ) {
+	private function get_attributes_html( $attributes ) {
 		if ( ! empty( $attributes ) ) {
 			array_walk( $attributes, array( $this, 'parse_attribute' ) );
 
@@ -143,7 +145,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	}
 
 	/**
-	 * Get an attribute from the attributes and escape it.
+	 * Escapes and format an attribute as an HTML attribute.
 	 *
 	 * @param string $value     The value of the attribute.
 	 * @param string $attribute The attribute to look for.
