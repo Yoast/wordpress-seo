@@ -1,15 +1,10 @@
 import 'whatwg-fetch';
 
-let postJSON = null;
-
-/*
- *  The jQuery method shows works differently than whatwg-fetch library. For example whatwg-fetch doesn't throw an error
- *  when the endpoints response is forbidden, jQuery does.
- *
- *  @todo: Change the handling of the response for fetch and for jQuery.
- */
-
 /**
+ * Handles json request the fetch way.
+ *
+ * @param {string} url  The endpoint to send the data to.
+ * @param {Object} data The JSON object to send to the server.
  *
  * @return {Promise}
  */
@@ -19,7 +14,6 @@ let postJSONFetch = ( url, data ) => {
 	 * @todo: It might be possible fetch is sending an OPTIONS request, we should check how wordpress handles this.
 	 *
 	 * Possible cause: maybe its the stubby server, something with cross-domain requests.
-	 *
 	 */
 	let fetchPromise = fetch(
 		url,
@@ -35,7 +29,6 @@ let postJSONFetch = ( url, data ) => {
 
 	return new Promise(
 		function( resolve, reject ) {
-
 			fetchPromise
 				.then(
 					function( response ) {
@@ -57,10 +50,14 @@ let postJSONFetch = ( url, data ) => {
 };
 
 /**
+ * Handles json request the jQuery way.
+ *
+ * @param {string} url  The endpoint to send the data to.
+ * @param {Object} data The JSON object to send to the server.
+ *
  * @return {Promise}
  */
 let postJSONjQuery = ( url, data ) => {
-
 	let jQueryPromise = jQuery.post( { url, dataType : 'json', data } )
 		.done(
 			function ( response ) {
@@ -90,9 +87,6 @@ let postJSONjQuery = ( url, data ) => {
 	);
 };
 
-
-
-
 /**
  * Wrapper method when fetch should be used.
  *
@@ -101,7 +95,7 @@ let postJSONjQuery = ( url, data ) => {
  *
  * @return {Promise}
  */
-postJSON = ( url, data = {} ) => {
+let postJSON = ( url, data = {} ) => {
 	data = JSON.stringify( data );
 
 	//
