@@ -1,5 +1,3 @@
-/* jshint browser: true */
-
 var forEach = require( "lodash/forEach" );
 var isNumber = require( "lodash/isNumber" );
 var isObject = require( "lodash/isObject" );
@@ -61,7 +59,7 @@ AssessorPresenter.prototype.getIndicator = function( rating ) {
 	return {
 		className: this.getIndicatorColorClass( rating ),
 		screenReaderText: this.getIndicatorScreenReaderText( rating ),
-		fullText: this.getIndicatorFullText( rating )
+		fullText: this.getIndicatorFullText( rating ),
 	};
 };
 
@@ -306,10 +304,10 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 		i18n: {
 			disabledMarkText: this.i18n.dgettext( "js-text-analysis", "Marks are disabled in current view" ),
 			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
-			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" )
+			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" ),
 		},
 		activeMarker: this._activeMarker,
-		markerButtonsDisabled: this._disableMarkerButtons
+		markerButtonsDisabled: this._disableMarkerButtons,
 	} );
 
 	this.bindMarkButtons( scores );

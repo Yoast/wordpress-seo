@@ -1,5 +1,3 @@
-/* global console: true */
-/* global setTimeout: true */
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var reduce = require( "lodash/reduce" );
@@ -157,7 +155,7 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 	var callableObject = {
 		callable: callable,
 		origin: pluginName,
-		priority: prio
+		priority: prio,
 	};
 
 	// Make sure modification is defined on modifications object
@@ -327,12 +325,12 @@ Pluggable.prototype._addPluginTests = function( analyzer ) {
 Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
 	analyzer.addAnalysis( {
 		"name": pluginTest.name,
-		"callable": pluginTest.analysis
+		"callable": pluginTest.analysis,
 	} );
 
 	analyzer.analyzeScorer.addScoring( {
 		"name": pluginTest.name,
-		"scoring": pluginTest.scoring
+		"scoring": pluginTest.scoring,
 	} );
 };
 

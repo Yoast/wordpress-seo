@@ -1,4 +1,4 @@
-// https://github.com/sindresorhus/grunt-shell
+// See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
 	"use strict";
 
@@ -21,7 +21,7 @@ module.exports = function( grunt ) {
 					" --add-comments=\"translators: \"" +
 					" --add-comments=\"Translators: \"" +
 					" " + files.join( " " );
-			}
-		}
+			},
+		},
 	};
 };

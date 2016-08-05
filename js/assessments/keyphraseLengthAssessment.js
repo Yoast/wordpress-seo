@@ -27,5 +27,5 @@ function keyphraseAssessment( paper, researcher, i18n ) {
 
 module.exports = {
 	identifier: "keyphraseLength",
-	getResult: keyphraseAssessment
+	getResult: keyphraseAssessment,
 };

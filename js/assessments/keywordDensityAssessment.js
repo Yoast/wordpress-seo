@@ -71,7 +71,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 
 	return {
 		score: score,
-		text: text
+		text: text,
 	};
 };
 
@@ -102,5 +102,5 @@ module.exports = {
 	getResult: keywordDensityAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
-	}
+	},
 };

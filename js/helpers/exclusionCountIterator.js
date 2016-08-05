@@ -45,7 +45,7 @@ ExclusionCountIterator.prototype.countSyllables = function( word ) {
 	} );
 	return {
 		syllableCount: syllableCount,
-		word: word
+		word: word,
 	};
 };
 

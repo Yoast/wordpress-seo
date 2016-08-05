@@ -1,17 +1,18 @@
+// See https://github.com/jmreidy/grunt-browserify
 module.exports = {
 	build: {
 		files: {
-			"dist/yoast-seo.js": [ "js/bc/back-compat.js" ]
-		}
+			"dist/yoast-seo.js": [ "js/bc/back-compat.js" ],
+		},
 	},
 	example: {
 		files: {
-			"examples/browserified/example-browserified.js": [ "examples/browserified/example.js" ]
+			"examples/browserified/example-browserified.js": [ "examples/browserified/example.js" ],
 		},
 		options: {
 			browserifyOptions: {
-				debug: true
-			}
-		}
-	}
+				debug: true,
+			},
+		},
+	},
 };

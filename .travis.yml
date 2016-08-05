@@ -1,4 +1,6 @@
-language: js
+language: node_js
+node_js:
+  - node
 
 sudo: false
 
@@ -14,7 +16,7 @@ before_script:
 script:
 - grunt build:jst
 - npm test --coverage
-- if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; else COVERAGE="1" fi
+- if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; else COVERAGE="1"; fi
 - if [[ "$COVERAGE" == "1" ]]; then codeclimate-test-reporter < coverage/lcov.info; fi
 - grunt check
 

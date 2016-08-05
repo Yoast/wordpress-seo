@@ -162,5 +162,5 @@ module.exports = {
 	inlineElements: inlineElements,
 	isBlockElement: isBlockElement,
 	isInlineElement: isInlineElement,
-	getBlocks: memoize( getBlocks )
+	getBlocks: memoize( getBlocks ),
 };

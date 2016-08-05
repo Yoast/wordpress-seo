@@ -46,5 +46,5 @@ var stripFullTags = function( text ) {
 module.exports = {
 	stripFullTags: stripFullTags,
 	stripIncompleteTags: stripIncompleteTags,
-	stripBlockTagsAtStartEnd: stripBlockTagsAtStartEnd
+	stripBlockTagsAtStartEnd: stripBlockTagsAtStartEnd,
 };
