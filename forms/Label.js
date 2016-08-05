@@ -21,7 +21,8 @@ const Label = ( props ) => {
 Label.propTypes = {
 	for: React.PropTypes.string.isRequired,
 	text: React.PropTypes.string.isRequired,
-	onClick: React.PropTypes.func.isRequired,
+
+	onClick: React.PropTypes.func,
 };
 
 /**
@@ -30,8 +31,8 @@ Label.propTypes = {
  * @type {{for: string, text: string}}
  */
 Label.defaultProps = {
-	for: '',
-	text: ''
+	for: "",
+	text: "",
 };
 
 export default Label;

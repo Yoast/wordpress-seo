@@ -13,7 +13,7 @@ const inputTypes = [
 	'progress',
 	'radio',
 	'submit',
-	'text'
+	'text',
 ];
 
 /**
@@ -25,7 +25,7 @@ const inputTypes = [
  */
 const Input = ( props ) => {
 	return (
-		<input type={props.type} id={props.name} name={props.name} value={props.value} onChange={props.onChange} {...props.optionalAttributes} />
+		<input type={props.type} id={props.id} name={props.name} onChange={props.onChange} {...props.optionalAttributes} />
 	)
 };
 
@@ -37,9 +37,8 @@ const Input = ( props ) => {
 Input.propTypes = {
 	name: React.PropTypes.string.isRequired,
 	type: React.PropTypes.oneOf( inputTypes ).isRequired,
-	value: React.PropTypes.any.isRequired,
-	onChange: React.PropTypes.func.isRequired,
 
+	onChange: React.PropTypes.func,
 	optionalAttributes: React.PropTypes.object,
 };
 

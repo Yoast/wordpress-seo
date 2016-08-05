@@ -20,7 +20,9 @@ const Textarea = ( props ) => {
  */
 Textarea.propTypes = {
 	name: React.PropTypes.string.isRequired,
+
 	optionalAttributes: React.PropTypes.object,
+	onChange: React.PropTypes.func,
 };
 
 /**
@@ -31,8 +33,10 @@ Textarea.propTypes = {
 Textarea.defaultProps = {
 	name: "",
 	value: "",
-	className: "",
-	placeholder: "",
+	optionalAttributes: {
+		className: "",
+		placeholder: "",
+	},
 };
 
 export default Textarea;
