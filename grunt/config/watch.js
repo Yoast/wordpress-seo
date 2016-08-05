@@ -1,4 +1,4 @@
-// https://github.com/gruntjs/grunt-contrib-watch
+// See https://github.com/gruntjs/grunt-contrib-watch
 module.exports = {
 	compile: {
 		files: "<%= files.js %>",

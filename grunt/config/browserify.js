@@ -1,3 +1,4 @@
+// See https://github.com/jmreidy/grunt-browserify
 module.exports = {
 	build: {
 		files: {

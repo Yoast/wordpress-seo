@@ -95,7 +95,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 		)[ 0 ];
 	}
 
-	// floatingPointFix because of js rounding errors
+	// formatNumber because of js rounding errors
 	lowestScore = formatNumber( lowestScore );
 
 	var subheadingsLengthResult = subheadingsLengthScore( lowestScore, tooLong, recommendedValue, i18n );

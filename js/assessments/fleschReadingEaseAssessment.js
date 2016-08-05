@@ -85,7 +85,7 @@ var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
 	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
 	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
 
-	// scores must be between 0 and 100;
+	// Scores must be between 0 and 100;
 	if ( fleschReadingScore < 0 ) {
 		fleschReadingScore = 0;
 	}

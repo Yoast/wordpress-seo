@@ -1,5 +1,3 @@
-/* jshint browser: true */
-
 var forEach = require( "lodash/forEach" );
 var isNumber = require( "lodash/isNumber" );
 var isObject = require( "lodash/isObject" );

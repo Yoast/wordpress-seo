@@ -1,4 +1,4 @@
-// https://github.com/gruntjs/grunt-contrib-uglify
+// See https://github.com/gruntjs/grunt-contrib-uglify
 module.exports = {
 	"js-text-analysis": {
 		options: {

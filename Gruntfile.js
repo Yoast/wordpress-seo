@@ -4,8 +4,6 @@ var loadGruntConfig = require( "load-grunt-config" );
 module.exports = function( grunt ) {
 	"use strict";
 
-	// require('time-grunt')(grunt);
-
 	// Define project configuration
 	var project = {
 		paths: {

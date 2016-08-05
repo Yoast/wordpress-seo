@@ -1,4 +1,4 @@
-// https://github.com/rockykitamura/grunt-po2json
+// See https://github.com/rockykitamura/grunt-po2json
 module.exports = {
 	all: {
 		options: {

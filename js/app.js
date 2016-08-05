@@ -1,5 +1,3 @@
-/* jshint browser: true */
-
 require( "./config/config.js" );
 var SnippetPreview = require( "./snippetPreview.js" );
 

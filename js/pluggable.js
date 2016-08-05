@@ -1,5 +1,3 @@
-/* global console: true */
-/* global setTimeout: true */
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var reduce = require( "lodash/reduce" );

@@ -1,3 +1,4 @@
+// See https://github.com/gruntjs/grunt-contrib-copy
 module.exports = {
 	css: {
 		files: [ {

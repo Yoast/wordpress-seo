@@ -1,5 +1,3 @@
-/* jshint browser: true */
-
 var isEmpty = require( "lodash/isEmpty" );
 var isElement = require( "lodash/isElement" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -1206,7 +1204,6 @@ SnippetPreview.prototype.hasPluggable = function() {
 	return !isUndefined( this.refObj ) && !isUndefined( this.refObj.pluggable );
 };
 
-/* jshint ignore:start */
 /* eslint-disable */
 
 /**
@@ -1252,6 +1249,5 @@ SnippetPreview.prototype.hideEditIcon = function() {};
  * @param ev
  */
 SnippetPreview.prototype.setFocus = function( ev ) {};
-/* jshint ignore:end */
 /* eslint-disable */
 module.exports = SnippetPreview;
