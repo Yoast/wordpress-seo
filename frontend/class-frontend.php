@@ -1516,7 +1516,7 @@ class WPSEO_Frontend {
 	 * @return boolean
 	 */
 	public function clean_permalink() {
-		if ( is_robots() || get_query_var( 'sitemap' ) ) {
+		if ( is_robots() || get_query_var( 'sitemap' ) || empty( $_GET ) ) {
 			return false;
 		}
 
