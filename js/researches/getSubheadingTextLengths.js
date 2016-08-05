@@ -17,7 +17,7 @@ module.exports = function( paper ) {
 
 		subHeadingTexts.push( {
 			text: subHeading,
-			wordCount: countWords( subHeading )
+			wordCount: countWords( subHeading ),
 		} );
 	} );
 	return subHeadingTexts;

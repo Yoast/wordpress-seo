@@ -11,14 +11,14 @@ var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
 	if ( keywordsResult > 0 ) {
 		return {
 			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." ),
 		};
 	}
 
 	return {
 		score: 6,
 		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
-		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
+		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" ),
 	};
 };
 
@@ -45,5 +45,5 @@ module.exports = {
 	getResult: urlHasKeywordAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasKeyword() && paper.hasUrl();
-	}
+	},
 };

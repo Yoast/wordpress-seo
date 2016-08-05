@@ -21,7 +21,7 @@ module.exports = function( grunt ) {
 					" --add-comments=\"translators: \"" +
 					" --add-comments=\"Translators: \"" +
 					" " + files.join( " " );
-			}
-		}
+			},
+		},
 	};
 };

@@ -3,15 +3,15 @@ module.exports = {
 	"js-text-analysis": {
 		options: {
 			comments: "some",
-			report: "gzip"
+			report: "gzip",
 		},
 		files: {
 			"dist/yoast-seo.min.js": [
-				"dist/yoast-seo.js"
+				"dist/yoast-seo.js",
 			],
 			"examples/standalone/example-scraper.min.js": [
-				"examples/standalone/example-scraper.js"
-			]
-		}
-	}
+				"examples/standalone/example-scraper.js",
+			],
+		},
+	},
 };

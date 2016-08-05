@@ -41,5 +41,5 @@ module.exports = {
 	getResult: titleHasKeywordAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();
-	}
+	},
 };

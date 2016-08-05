@@ -19,7 +19,7 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 				"The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
 				"Read %1$sthis article%2$s for more info.",
 				stopWordCount
-			)
+			),
 		};
 	}
 
@@ -54,5 +54,5 @@ module.exports = {
 	getResult: keywordHasStopWordsAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();
-	}
+	},
 };

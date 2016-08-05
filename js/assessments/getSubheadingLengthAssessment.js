@@ -32,7 +32,7 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 					// Translators: %1$d expands to the recommended maximum number of characters.
 					"The length of all subheadings is less than or equal to the recommended maximum of %1$d characters, which is great."
 				), recommendedValue
-			)
+			),
 		};
 	}
 
@@ -47,7 +47,7 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 				"You have %1$d subheadings containing more than the recommended maximum of %2$d characters.",
 				tooLongHeaders
 			), tooLongHeaders, recommendedValue
-		)
+		),
 	};
 };
 
@@ -130,7 +130,7 @@ function subheadingLengthMarker( paper ) {
 
 		return new Mark( {
 			original: outerText,
-			marked: marked
+			marked: marked,
 		} );
 	} );
 }
@@ -141,5 +141,5 @@ module.exports = {
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	},
-	getMarks: subheadingLengthMarker
+	getMarks: subheadingLengthMarker,
 };

@@ -63,7 +63,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 					// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 					"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
 					"which is less than or equal to the recommended maximum of %5$s." ),
-				percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  )
+				percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  ),
 		};
 	}
 
@@ -79,7 +79,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 				// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 				"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
 				"which is more than the recommended maximum of %5$s." ),
-			percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  )
+			percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  ),
 	};
 };
 
@@ -149,7 +149,7 @@ var wordComplexityMarker = function( paper, researcher ) {
 
 		return new Mark( {
 			original: sentence,
-			marked: markedSentence
+			marked: markedSentence,
 		} );
 	} );
 };
@@ -182,5 +182,5 @@ module.exports = {
 	isApplicable: function ( paper ) {
 		return paper.hasText();
 	},
-	getMarks: wordComplexityMarker
+	getMarks: wordComplexityMarker,
 };

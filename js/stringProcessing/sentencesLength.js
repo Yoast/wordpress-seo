@@ -21,7 +21,7 @@ module.exports = function( sentences ) {
 
 		sentencesWordCount.push( {
 			sentence: sentence,
-			sentenceLength: wordCount( sentence )
+			sentenceLength: wordCount( sentence ),
 		} );
 	} );
 	return sentencesWordCount;

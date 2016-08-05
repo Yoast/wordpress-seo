@@ -19,13 +19,13 @@ var calculateSubheadingPresenceResult = function( subheadingPresence, i18n ) {
 					"The text contains %1$d subheadings, which is great.",
 					subheadingPresence
 				), subheadingPresence
-			)
+			),
 		};
 	}
 
 	return {
 		score: 3,
-		text: i18n.dgettext( "js-text-analysis", "The text does not contain any subheadings. Add at least one subheading." )
+		text: i18n.dgettext( "js-text-analysis", "The text does not contain any subheadings. Add at least one subheading." ),
 	};
 };
 
@@ -53,5 +53,5 @@ module.exports = {
 	getResult: getSubheadingPresence,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
 };

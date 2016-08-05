@@ -10,13 +10,13 @@ var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
 	if ( keywordMatches > 0 ) {
 		return {
 			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
+			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." ),
 		};
 	}
 	if ( keywordMatches === 0 ) {
 		return {
 			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
+			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." ),
 		};
 	}
 	return {};
@@ -46,5 +46,5 @@ module.exports = {
 	getResult: metaDescriptionHasKeywordAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();
-	}
+	},
 };

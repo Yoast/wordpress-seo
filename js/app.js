@@ -34,7 +34,7 @@ var defaults = {
 		bindElementEvents: function( ) { },
 		updateSnippetValues: function( ) { },
 		saveScores: function( ) { },
-		saveContentScore: function( ) { }
+		saveContentScore: function( ) { },
 	},
 	sampleText: {
 		baseUrl: "example.org/",
@@ -42,7 +42,7 @@ var defaults = {
 		title: "This is an example title - edit by clicking here",
 		keyword: "Choose a focus keyword",
 		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
+		text: "Start writing your text!",
 	},
 	queue: [ "wordCount",
 		"keywordDensity",
@@ -67,16 +67,16 @@ var defaults = {
 		"domain": "js-text-analysis",
 		"locale_data": {
 			"js-text-analysis": {
-				"": {}
-			}
-		}
+				"": {},
+			},
+		},
 	},
 	replaceTarget: [],
 	resetTarget: [],
 	elementTarget: [],
 	marker: function() {},
 	keywordAnalysisActive: true,
-	contentAnalysisActive: true
+	contentAnalysisActive: true,
 };
 
 /**
@@ -94,8 +94,8 @@ function createDefaultSnippetPreview() {
 		analyzerApp: this,
 		targetElement: targetElement,
 		callbacks: {
-			saveSnippetData: this.config.callbacks.saveSnippetData
-		}
+			saveSnippetData: this.config.callbacks.saveSnippetData,
+		},
 	} );
 }
 
@@ -364,9 +364,9 @@ App.prototype.constructI18n = function( translations ) {
 		"domain": "js-text-analysis",
 		"locale_data": {
 			"js-text-analysis": {
-				"": {}
-			}
-		}
+				"": {},
+			},
+		},
 	};
 
 	// Use default object to prevent Jed from erroring out.
@@ -449,10 +449,10 @@ App.prototype.initAssessorPresenters = function() {
 	if ( !isUndefined( this.config.targets.output ) ) {
 		this.seoAssessorPresenter = new AssessorPresenter( {
 			targets: {
-				output: this.config.targets.output
+				output: this.config.targets.output,
 			},
 			assessor: this.seoAssessor,
-			i18n: this.i18n
+			i18n: this.i18n,
 		} );
 	}
 
@@ -460,10 +460,10 @@ App.prototype.initAssessorPresenters = function() {
 		// Pass the assessor result through to the formatter
 		this.contentAssessorPresenter = new AssessorPresenter( {
 			targets: {
-				output: this.config.targets.contentOutput
+				output: this.config.targets.contentOutput,
 			},
 			assessor: this.contentAssessor,
-			i18n: this.i18n
+			i18n: this.i18n,
 		} );
 	}
 };
@@ -536,7 +536,7 @@ App.prototype.runAnalyzer = function() {
 		title: this.analyzerData.metaTitle,
 		titleWidth: this.snippetPreview.getTitleWidth(),
 		locale: this.config.locale,
-		permalink: this.analyzerData.permalink
+		permalink: this.analyzerData.permalink,
 	} );
 
 	// The new researcher

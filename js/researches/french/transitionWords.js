@@ -37,6 +37,6 @@ module.exports = function() {
 		"quand même", "quant à", "quant même", "quel que soit", "qui que", "quoi qu'il en soit", "quoi que", "quoiqu'il en soit",
 		"quoique", "sans doute", "selon", "selon que", "semblablement", "si bien que", "si ce n'est que", "sinon", "sitôt que",
 		"somme toute", "sous prétexte que", "suivant", "suivant que", "supposé que", "tandis que", "tant et si bien que", "tant que",
-		"tellement que", "tout bien pesé", "tout compte fait", "tout d'abord", "tout de même", "toutefois", "troisièmement", "vu que"
+		"tellement que", "tout bien pesé", "tout compte fait", "tout d'abord", "tout de même", "toutefois", "troisièmement", "vu que",
 	];
 };

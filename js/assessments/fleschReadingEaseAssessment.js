@@ -16,7 +16,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 		return {
 			score: 9,
 			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
-			note: ""
+			note: "",
 		};
 	}
 
@@ -24,7 +24,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 		return {
 			score: 9,
 			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
-			note: ""
+			note: "",
 		};
 	}
 
@@ -32,7 +32,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 		return {
 			score: 9,
 			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
-			note: ""
+			note: "",
 		};
 	}
 
@@ -40,7 +40,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 		return {
 			score: 9,
 			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
-			note: ""
+			note: "",
 		};
 	}
 
@@ -48,7 +48,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 		return {
 			score: 6,
 			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." ),
 		};
 	}
 
@@ -56,7 +56,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 		return {
 			score: 3,
 			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." ),
 		};
 	}
 
@@ -64,7 +64,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 		return {
 			score: 3,
 			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." ),
 		};
 	}
 };
@@ -110,5 +110,5 @@ module.exports = {
 	isApplicable: function( paper ) {
 		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
-	}
+	},
 };

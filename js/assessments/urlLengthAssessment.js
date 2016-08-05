@@ -25,5 +25,5 @@ module.exports = {
 	getResult: urlLengthAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasUrl();
-	}
+	},
 };

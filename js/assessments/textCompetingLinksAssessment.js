@@ -18,7 +18,7 @@ var calculateLinkCountResult = function( linkStatistics, i18n ) {
 			score: 2,
 			hasMarks: true,
 			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank." )
+				"Consider changing that if you truly want this page to rank." ),
 		};
 	}
 	return {};
@@ -58,7 +58,7 @@ var competingLinkMarker = function( paper, researcher ) {
 	return map( competingLinks.keyword.matchedAnchors, function( matchedAnchor ) {
 		return new Mark( {
 			original: matchedAnchor,
-			marked: addMark( matchedAnchor )
+			marked: addMark( matchedAnchor ),
 		} );
 	} );
 };
@@ -69,5 +69,5 @@ module.exports = {
 	isApplicable: function ( paper ) {
 		return paper.hasText() && paper.hasKeyword();
 	},
-	getMarks: competingLinkMarker
+	getMarks: competingLinkMarker,
 };

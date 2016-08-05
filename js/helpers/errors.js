@@ -19,5 +19,5 @@ function showTrace( errorMessage ) {
 }
 
 module.exports = {
-	showTrace: showTrace
+	showTrace: showTrace,
 };

@@ -42,7 +42,7 @@ var ContentAssessor = function ( i18n, options ) {
 		transitionWords,
 		passiveVoice,
 		textPresence,
-		sentenceBeginnings
+		sentenceBeginnings,
 		// sentenceVariation,
 		// wordComplexity,
 		// subheadingDistributionTooShort,

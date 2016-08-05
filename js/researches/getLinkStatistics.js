@@ -52,7 +52,7 @@ var countLinkTypes = function( paper ) {
 		totalNaKeyword: 0,
 		keyword: {
 			totalKeyword: 0,
-			matchedAnchors: []
+			matchedAnchors: [],
 		},
 		internalTotal: 0,
 		internalDofollow: 0,
@@ -62,7 +62,7 @@ var countLinkTypes = function( paper ) {
 		externalNofollow: 0,
 		otherTotal: 0,
 		otherDofollow: 0,
-		otherNofollow: 0
+		otherNofollow: 0,
 	};
 
 	for ( var i = 0; i < anchors.length; i++ ) {

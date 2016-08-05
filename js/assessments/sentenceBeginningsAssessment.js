@@ -58,7 +58,7 @@ var calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
 					"Try to mix things up!",
 					groupedSentenceBeginnings.total
 				),
-				groupedSentenceBeginnings.total, groupedSentenceBeginnings.lowestCount )
+				groupedSentenceBeginnings.total, groupedSentenceBeginnings.lowestCount ),
 		};
 	}
 	return {};
@@ -85,7 +85,7 @@ var sentenceBeginningMarker = function( paper, researcher ) {
 		var marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
-			marked: marked
+			marked: marked,
 		} );
 	} );
 };
@@ -117,6 +117,6 @@ module.exports = {
 		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
-	getMarks: sentenceBeginningMarker
+	getMarks: sentenceBeginningMarker,
 };
 

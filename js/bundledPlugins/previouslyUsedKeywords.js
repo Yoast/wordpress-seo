@@ -19,7 +19,7 @@ var PreviouslyUsedKeyword = function( app, args ) {
 		args = {
 			usedKeywords: {},
 			searchUrl: "",
-			postUrl: ""
+			postUrl: "",
 		};
 	}
 
@@ -37,7 +37,7 @@ PreviouslyUsedKeyword.prototype.registerPlugin = function() {
 		getResult: this.assess.bind( this ),
 		isApplicable: function( paper ) {
 			return paper.hasKeyword();
-		}
+		},
 	}, "previouslyUsedKeywords" );
 };
 
@@ -63,7 +63,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if( count === 0 ) {
 		return {
 			text: i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
-			score: 9
+			score: 9,
 		};
 	}
 	if( count === 1 ) {
@@ -72,7 +72,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			/* Translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
 			text:  i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s, " +
 				"be sure to make very clear which URL on your site is the most important for this keyword." ), url, "</a>" ),
-			score: 6
+			score: 6,
 		};
 	}
 	if ( count > 1 ) {
@@ -83,7 +83,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			text:  i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s, " +
 				"it's probably a good idea to read %4$sthis post on cornerstone content%5$s and improve your keyword strategy." ),
 				url, count, "</a>", "<a href='https://yoast.com/cornerstone-content-rank/' target='_blank'>", "</a>" ),
-			score: 1
+			score: 1,
 		};
 	}
 };
@@ -106,7 +106,7 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 
 	return {
 		id: id,
-		count: count
+		count: count,
 	};
 };
 

@@ -28,23 +28,23 @@ var defaults = {
 		metaDesc: "",
 		urlPath: "",
 		titleWidth: 0,
-		metaHeight: 0
+		metaHeight: 0,
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
 		metaDesc: "Modify your meta description by editing it right here",
-		urlPath:  "example-post/"
+		urlPath:  "example-post/",
 	},
 	defaultValue: {
 		title: "",
-		metaDesc: ""
+		metaDesc: "",
 	},
 	baseURL: "http://example.com/",
 	callbacks: {
-		saveSnippetData: function() {}
+		saveSnippetData: function() {},
 	},
 	addTrailingSlash: true,
-	metaDescriptionDate: ""
+	metaDescriptionDate: "",
 };
 
 var titleMaxLength = 600;
@@ -52,16 +52,16 @@ var titleMaxLength = 600;
 var inputPreviewBindings = [
 	{
 		"preview": "title_container",
-		"inputField": "title"
+		"inputField": "title",
 	},
 	{
 		"preview": "url_container",
-		"inputField": "urlPath"
+		"inputField": "urlPath",
 	},
 	{
 		"preview": "meta_container",
-		"inputField": "metaDesc"
-	}
+		"inputField": "metaDesc",
+	},
 ];
 
 /**
@@ -210,7 +210,7 @@ function updateProgressBar( element, value, maximum, rating ) {
 		allClasses = [
 			"snippet-editor__progress--bad",
 			"snippet-editor__progress--ok",
-			"snippet-editor__progress--good"
+			"snippet-editor__progress--good",
 		];
 
 	element.value = value;
@@ -306,7 +306,7 @@ var SnippetPreview = function( opts ) {
 		this.data = {
 			title: this.refObj.rawData.snippetTitle || "",
 			urlPath: this.refObj.rawData.snippetCite || "",
-			metaDesc: this.refObj.rawData.snippetMeta || ""
+			metaDesc: this.refObj.rawData.snippetMeta || "",
 		};
 
 		// For backwards compatibility set the metaTitle as placeholder.
@@ -331,15 +331,15 @@ var SnippetPreview = function( opts ) {
 	this.unformattedText = {};
 	Object.defineProperty( this.unformattedText, "snippet_cite", {
 		get: retrieveUnformattedText.bind( this, "urlPath" ),
-		set: updateUnformattedText.bind( this, "urlPath" )
+		set: updateUnformattedText.bind( this, "urlPath" ),
 	} );
 	Object.defineProperty( this.unformattedText, "snippet_meta", {
 		get: retrieveUnformattedText.bind( this, "metaDesc" ),
-		set: updateUnformattedText.bind( this, "metaDesc" )
+		set: updateUnformattedText.bind( this, "metaDesc" ),
 	} );
 	Object.defineProperty( this.unformattedText, "snippet_title", {
 		get: retrieveUnformattedText.bind( this, "title" ),
-		set: updateUnformattedText.bind( this, "title" )
+		set: updateUnformattedText.bind( this, "title" ),
 	} );
 };
 
@@ -354,13 +354,13 @@ SnippetPreview.prototype.renderTemplate = function() {
 		raw: {
 			title: this.data.title,
 			snippetCite: this.data.urlPath,
-			meta: this.data.metaDesc
+			meta: this.data.metaDesc,
 		},
 		rendered: {
 			title: this.formatTitle(),
 			baseUrl: this.formatUrl(),
 			snippetCite: this.formatCite(),
-			meta: this.formatMeta()
+			meta: this.formatMeta(),
 		},
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
@@ -377,46 +377,46 @@ SnippetPreview.prototype.renderTemplate = function() {
 			snippetPreviewDescription: this.i18n.dgettext(
 				"js-text-analysis",
 				"You can click on each element in the preview to jump to the Snippet Editor."
-			)
-		}
+			),
+		},
 	} );
 
 	this.element = {
 		measurers: {
-			metaHeight: null
+			metaHeight: null,
 		},
 		rendered: {
 			title: document.getElementById( "snippet_title" ),
 			urlBase: document.getElementById( "snippet_citeBase" ),
 			urlPath: document.getElementById( "snippet_cite" ),
-			metaDesc: document.getElementById( "snippet_meta" )
+			metaDesc: document.getElementById( "snippet_meta" ),
 		},
 		input: {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[ 0 ],
 			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[ 0 ],
-			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[ 0 ]
+			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[ 0 ],
 		},
 		progress: {
 			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[ 0 ],
-			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[ 0 ]
+			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[ 0 ],
 		},
 		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[ 0 ],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[ 0 ],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[ 0 ],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 	};
 
 	this.element.label = {
 		title: this.element.input.title.parentNode,
 		urlPath: this.element.input.urlPath.parentNode,
-		metaDesc: this.element.input.metaDesc.parentNode
+		metaDesc: this.element.input.metaDesc.parentNode,
 	};
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
 		urlPath: this.element.rendered.urlPath.parentNode,
-		metaDesc: this.element.rendered.metaDesc.parentNode
+		metaDesc: this.element.rendered.metaDesc.parentNode,
 	};
 
 	this.hasProgressSupport = hasProgressSupport();
@@ -505,7 +505,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    getAnalyzerTitle.call( this ),
 		url:      this.data.urlPath,
-		metaDesc: getAnalyzerMetaDesc.call( this )
+		metaDesc: getAnalyzerMetaDesc.call( this ),
 	};
 };
 
@@ -1146,7 +1146,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 	metaDescriptionElement = hiddenElement(
 		{
 			width: document.getElementById( "meta_container" ).offsetWidth + "px",
-			whiteSpace: ""
+			whiteSpace: "",
 		}
 	);
 

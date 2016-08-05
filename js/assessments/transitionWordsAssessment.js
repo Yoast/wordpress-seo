@@ -65,7 +65,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 					// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 					"%1$s of the sentences contain a %2$stransition word%3$s or phrase, " +
 					"which is less than the recommended minimum of %4$s."
-				), percentage + "%", transitionWordsURL, "</a>", recommendedMinimum + "%" )
+				), percentage + "%", transitionWordsURL, "</a>", recommendedMinimum + "%" ),
 		};
 	}
 
@@ -78,7 +78,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 			// %3$s expands to the anchor end tag.
 			"%1$s of the sentences contain a %2$stransition word%3$s or phrase, " +
 			"which is great."
-		), percentage + "%", transitionWordsURL, "</a>" )
+		), percentage + "%", transitionWordsURL, "</a>" ),
 	};
 };
 
@@ -115,7 +115,7 @@ var transitionWordsMarker = function( paper, researcher ) {
 		sentence = stripTags( sentence );
 		return new Mark( {
 			original: sentence,
-			marked: marker( sentence )
+			marked: marker( sentence ),
 		} );
 	} );
 };
@@ -127,5 +127,5 @@ module.exports = {
 		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
-	getMarks: transitionWordsMarker
+	getMarks: transitionWordsMarker,
 };

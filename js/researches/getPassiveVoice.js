@@ -39,7 +39,7 @@ function getIndicesOf( part, sentence ) {
 		indices.push(
 			{
 				index: index,
-				match: part
+				match: part,
 			}
 		);
 		startIndex = index + searchStringLength;
@@ -356,6 +356,6 @@ module.exports = function( paper ) {
 
 	return {
 		total: sentences.length,
-		passives: passiveSentences
+		passives: passiveSentences,
 	};
 };

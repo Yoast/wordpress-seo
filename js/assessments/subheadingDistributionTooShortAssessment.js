@@ -46,7 +46,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n
 						"js-text-analysis",
 						"The number of words following each of the subheadings exceeds the recommended minimum of %1$d words, which is great."
 				), recommendedValue
-			)
+			),
 		};
 	}
 	return {
@@ -74,7 +74,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n
 			),
 			tooShortTexts,
 			recommendedValue
-		)
+		),
 	};
 };
 
@@ -92,7 +92,7 @@ var subheadingsMarker = function( paper, researcher ) {
 		var marked = marker( tooShortText.text );
 		return new Mark( {
 			original: tooShortText.text,
-			marked: marked
+			marked: marked,
 		} );
 	} );
 };
@@ -130,5 +130,5 @@ module.exports = {
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	},
-	getMarks: subheadingsMarker
+	getMarks: subheadingsMarker,
 };

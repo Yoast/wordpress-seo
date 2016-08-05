@@ -88,5 +88,5 @@ module.exports = {
 	addTrailingSlash: addTrailingSlash,
 	getFromAnchorTag: getFromAnchorTag,
 	areEqual: areEqual,
-	getHostname: getHostname
+	getHostname: getHostname,
 };

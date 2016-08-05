@@ -71,7 +71,7 @@ var Researcher = function( paper ) {
 		"getSubheadingPresence": getSubheadingPresence,
 		"findTransitionWords": findTransitionWords,
 		"passiveVoice": passiveVoice,
-		"getSentenceBeginnings": getSentenceBeginnings
+		"getSentenceBeginnings": getSentenceBeginnings,
 	};
 
 	this.customResearches = {};
