@@ -4,7 +4,7 @@ import React from "react";
  * Represents the label HTML tag.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX}
+ * @returns {JSX} A representation of the label HTML element based on the passed props.
  * @constructor
  */
 const Label = ( props ) => {

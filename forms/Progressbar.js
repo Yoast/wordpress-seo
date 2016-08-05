@@ -4,7 +4,7 @@ import React from "react";
  * Represents the progress HTML tag.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX}
+ * @returns {JSX} A representation of the progress HTML element based on the passed props.
  * @constructor
  */
 const Progressbar = ( props ) => {

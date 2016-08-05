@@ -4,12 +4,12 @@ import React from "react";
  * Represents the textarea HTML element.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX}
+ * @returns {JSX} A representation of the textarea HTML element based on the passed props.
  * @constructor
  */
 const Textarea = ( props ) => {
 	return (
-		<textarea id={props.name} name={props.name} onChange={props.onChange} {...props.optionalAttributes}>{props.value}</textarea>
+		<textarea name={props.name} onChange={props.onChange} {...props.optionalAttributes}>{props.value}</textarea>
 	);
 };
 
@@ -22,6 +22,7 @@ Textarea.propTypes = {
 	name: React.PropTypes.string.isRequired,
 
 	optionalAttributes: React.PropTypes.object,
+	value: React.string,
 	onChange: React.PropTypes.func,
 };
 

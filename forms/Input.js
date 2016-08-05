@@ -20,12 +20,12 @@ const inputTypes = [
  * Represents the input HTML element.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX}
+ * @returns {JSX} A representation of the input HTML element based on the passed props.
  * @constructor
  */
 const Input = ( props ) => {
 	return (
-		<input type={props.type} id={props.id} name={props.name} onChange={props.onChange} {...props.optionalAttributes} />
+		<input type={props.type} name={props.name} value={props.value} onChange={props.onChange} {...props.optionalAttributes} />
 	);
 };
 
@@ -38,6 +38,7 @@ Input.propTypes = {
 	name: React.PropTypes.string.isRequired,
 	type: React.PropTypes.oneOf( inputTypes ).isRequired,
 
+	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,
 	optionalAttributes: React.PropTypes.object,
 };
