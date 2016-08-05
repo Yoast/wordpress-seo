@@ -27,17 +27,11 @@ var removeFunctionWords = function ( text ) {
 			occurrence = 1;
 		}
 	} );
-	/*
-	return filter( words, function ( word ) {
-		return !includes( exclusions, word );
-	} );
-	*/
 
 	var filteredWords = filter( sortedWords, function ( word ) {
 		return !includes( exclusions, word.word );
 	} );
 	filteredWords = orderBy( filteredWords, [ "occurrence" ], [ "desc" ] );
-	filteredWords = JSON.stringify( filteredWords );
 	return filteredWords;
 
 };
