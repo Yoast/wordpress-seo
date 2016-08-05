@@ -262,7 +262,7 @@ class Wizard extends React.Component {
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
 				<ProgressIndicator {...this.getProgress()} />
-				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id} title={step.title} fields={step.fields} />
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} title={step.title} fields={step.fields} />
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next

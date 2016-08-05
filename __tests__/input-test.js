@@ -25,8 +25,6 @@ describe( 'input-object-test', () => {
 
 		let result = renderer.getRenderOutput();
 
-		console.log( result.props );
-
 		expect( true );
 	} )
 
