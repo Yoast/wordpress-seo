@@ -50,7 +50,7 @@ class WPSEO_Primary_Term_Admin {
 	public function enqueue_assets() {
 		global $pagenow;
 
-		if ( $pagenow !== 'post.php' && $pagenow !== 'post-new.php' ) {
+		if ( ! WPSEO_Metabox::is_post_edit( $pagenow ) ) {
 			return;
 		}
 
