@@ -5,7 +5,7 @@
     <title>Yoast SEO Content Analysis</title>
     <link rel='stylesheet' id='source-sans-pro-css'
           href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&amp;subset=latin'/>
-    <link rel="stylesheet" href="../standalone/style.min.css">
+    <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="../../dist/yoast-seo.min.css">
 
     <script type="text/javascript" src="example-browserified.js"></script>
@@ -19,6 +19,9 @@
             <div class="content-sidebar-wrap">
                 <div id="input" class="form-container">
                     <div id="inputForm" class="inputForm">
+                        <button type="button" id="refresh-analysis">Refresh!</button>
+                        <label for="locale">Locale</label>
+                        <input type="text" id="locale" name="locale" placeholder="en_US" />
                         <label for="content">Text</label>
                         <textarea id="content" name="content" placeholder="Start writing your text!"></textarea>
                         <label for="focusKeyword">Focus keyword</label>
@@ -32,19 +35,23 @@
                     </form>
                 </div>
                 <div id="output-container" class="output-container">
-                    <p>This is what your page might look like on a Google search result page.</p>
+                    <p>This is what the page might look like on a Google search result page.</p>
 
-                    <p>Edit your SEO title and meta description by clicking the title and meta description!</p>
-
+                    <p>Edit the SEO title and meta description by clicking the title and meta description!</p>
+                    <h2>SEO assessments</h2>
                     <div id="output" class="output">
+
+                    </div>
+                    <h2>Content assessments</h2>
+                    <div id="contentOutput" class="output">
 
                     </div>
                 </div>
 
                 <div class="overallScore-container">
-                    <h2>Your SEO score</h2>
+                    <h2>The SEO score</h2>
 
-                    <p>This is the overall score for your text and snippet preview.</p>
+                    <p>This is the overall score for the text and snippet preview.</p>
 
                     <div id="overallScore" class="overallScore">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="200" height="200">
@@ -73,6 +80,11 @@
                 </g>
                 </svg>
 
+                        <h2>Marked text</h2>
+                        <div class="marked-text"></div>
+                        <hr />
+                        <h2>Raw marked text</h2>
+                        <pre class="marked-text-raw"></pre>
                     </div>
 
                 </div>

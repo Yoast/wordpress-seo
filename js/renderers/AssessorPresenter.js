@@ -17,8 +17,9 @@ var createConfig = require( "../config/presenter.js" );
  * @param {string} args.targets.output The HTML element to render the individual ratings out to.
  * @param {string} args.targets.overall The HTML element to render the overall rating out to.
  * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
- * @param {Assessor} args.assessor The Assessor object to retrieve assessment results from.
+ * @param {SEOAssessor} args.assessor The Assessor object to retrieve assessment results from.
  * @param {Jed} args.i18n The translation object.
+ *
  * @constructor
  */
 var AssessorPresenter = function( args ) {
@@ -28,6 +29,18 @@ var AssessorPresenter = function( args ) {
 	this.output = args.targets.output;
 	this.overall = args.targets.overall || "overallScore";
 	this.presenterConfig = createConfig( args.i18n );
+
+	this._disableMarkerButtons = false;
+
+	this._activeMarker = false;
+};
+
+/**
+ * Sets the keyword
+ * @param {string} keyword The keyword to use.
+ */
+AssessorPresenter.prototype.setKeyword = function( keyword ) {
+	this.keyword = keyword;
 };
 
 /**
@@ -42,12 +55,13 @@ AssessorPresenter.prototype.configHasProperty = function( property ) {
 /**
  * Gets a fully formatted indicator object that can be used.
  * @param {string} rating The rating to use.
- * @returns {Object} An object containing the class and screen reader text.
+ * @returns {Object} An object containing the class, the screen reader text, and the full text.
  */
 AssessorPresenter.prototype.getIndicator = function( rating ) {
 	return {
 		className: this.getIndicatorColorClass( rating ),
-		screenReaderText: this.getIndicatorScreenReaderText( rating )
+		screenReaderText: this.getIndicatorScreenReaderText( rating ),
+		fullText: this.getIndicatorFullText( rating )
 	};
 };
 
@@ -75,6 +89,19 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
 	}
 
 	return this.presenterConfig[ rating ].screenReaderText;
+};
+
+/**
+ * Get the indicator full text from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} Translated string containing the full text to be used.
+ */
+AssessorPresenter.prototype.getIndicatorFullText = function( rating ) {
+	if ( !this.configHasProperty( rating ) ) {
+		return "";
+	}
+
+	return this.presenterConfig[ rating ].fullText;
 };
 
 /**
@@ -147,12 +174,17 @@ AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
 
 /**
  * Creates a rating object based on the item that is being passed.
- * @param {Object} item The item to check and create a rating object from.
+ * @param {AssessmentResult} item The item to check and create a rating object from.
  * @returns {Object} Object containing a parsed item, including a colored indicator.
  */
 AssessorPresenter.prototype.addRating = function( item ) {
 	var indicator = this.getIndicator( item.rating );
 	indicator.text = item.text;
+	indicator.identifier = item.getIdentifier();
+
+	if ( item.hasMarker() ) {
+		indicator.marker = item.getMarker();
+	}
 
 	return indicator;
 };
@@ -177,6 +209,61 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
 };
 
 /**
+ * Mark with a given marker. This will set the active marker to the correct value.
+ *
+ * @param {string} identifier The identifier for the assessment/marker.
+ * @param {Function} marker The marker function.
+ */
+AssessorPresenter.prototype.markAssessment = function( identifier, marker ) {
+	if ( this._activeMarker === identifier ) {
+		this.removeAllMarks();
+		this._activeMarker = false;
+	} else {
+		marker();
+		this._activeMarker = identifier;
+	}
+
+	this.render();
+};
+
+/**
+ * Disables the currently active marker in the UI.
+ */
+AssessorPresenter.prototype.disableMarker = function() {
+	this._activeMarker = false;
+	this.render();
+};
+
+/**
+ * Disables the marker buttons.
+ */
+AssessorPresenter.prototype.disableMarkerButtons = function() {
+	this._disableMarkerButtons = true;
+	this.render();
+};
+
+/**
+ * Enables the marker buttons.
+ */
+AssessorPresenter.prototype.enableMarkerButtons = function() {
+	this._disableMarkerButtons = false;
+	this.render();
+};
+
+/**
+ * Adds an event listener for the marker button
+ *
+ * @param {string} identifier The identifier for the assessment the marker belongs to.
+ * @param {Function} marker The marker function that can mark the assessment in the text.
+ */
+AssessorPresenter.prototype.addMarkerEventHandler = function( identifier, marker ) {
+	var container = document.getElementById( this.output );
+	var markButton = container.getElementsByClassName( "js-assessment-results__mark-" + identifier )[ 0 ];
+
+	markButton.addEventListener( "click", this.markAssessment.bind( this, identifier, marker ) );
+};
+
+/**
  * Renders out both the individual and the overall ratings.
  */
 AssessorPresenter.prototype.render = function() {
@@ -185,14 +272,47 @@ AssessorPresenter.prototype.render = function() {
 };
 
 /**
+ * Adds event handlers to the mark buttons
+ *
+ * @param {Array} scores The list of rendered scores.
+ */
+AssessorPresenter.prototype.bindMarkButtons = function( scores ) {
+	// Make sure the button works for every score with a marker.
+	forEach( scores, function ( score ) {
+		if ( score.hasOwnProperty( "marker" ) ) {
+			this.addMarkerEventHandler( score.identifier, score.marker );
+		}
+	}.bind( this ) );
+};
+
+/**
+ * Removes all marks currently on the text
+ */
+AssessorPresenter.prototype.removeAllMarks = function() {
+	var marker = this.assessor.getSpecificMarker();
+
+	marker( this.assessor.getPaper(), [] );
+};
+
+/**
  * Renders out the individual ratings.
  */
 AssessorPresenter.prototype.renderIndividualRatings = function() {
 	var outputTarget = document.getElementById( this.output );
+	var scores = this.getIndividualRatings();
 
 	outputTarget.innerHTML = template( {
-		scores: this.getIndividualRatings()
+		scores: scores,
+		i18n: {
+			disabledMarkText: this.i18n.dgettext( "js-text-analysis", "Marks are disabled in current view" ),
+			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
+			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" )
+		},
+		activeMarker: this._activeMarker,
+		markerButtonsDisabled: this._disableMarkerButtons
 	} );
+
+	this.bindMarkButtons( scores );
 };
 
 /**

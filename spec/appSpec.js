@@ -1,7 +1,3 @@
-require("../js/config/config.js");
-require("../js/config/scoring.js");
-require("../js/app.js");
-
 var MissingArgument = require( "../js/errors/missingArgument.js" );
 var SnippetPreview = require( "../js/snippetPreview.js" );
 
@@ -82,17 +78,15 @@ describe( "Creating an App", function(){
 		});
 	});
 
-	it( "throws on a missing output element ID", function() {
-		expect( function() {
-			new App({
-				targets: {
-					snippet: "snippetID"
-				},
-				callbacks: {
-					getData: function() { return {} }
-				}
-			} )
-		} ).toThrowError( MissingArgument );
+	it( "should work without an output ID", function() {
+		var app = new App({
+			targets: {
+				snippet: "snippetID"
+			},
+			callbacks: {
+				getData: function() { return {} }
+			}
+		});
 	});
 
 	it( "works with correct arguments", function() {

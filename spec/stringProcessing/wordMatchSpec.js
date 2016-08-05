@@ -7,7 +7,7 @@ describe("Counts the occurences of a word in a string", function(){
 		//this fails now because the regex isn't working properly for wordboundaries.
 		//expect(wordMatch("this is a test test test", "test")).toBe(3);
 		expect(wordMatch("test with maïs", "maïs")).toBe(1);
-		expect(wordMatch("test with mais", "maïs")).toBe(1);
+		expect(wordMatch("test with mais", "maïs", "nl_NL")).toBe(1);
 	});
 
 	it( "should not match in HTML tags", function() {

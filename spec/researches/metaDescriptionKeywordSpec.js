@@ -26,4 +26,10 @@ describe( "the metadescription keyword match research", function() {
 		expect( result ).toBe( -1 );
 	});
 
+	it( "returns the number ( 1 ) of keywords found", function() {
+		var paper = new Paper( "", { keyword: "keywörd", description: "a description with a keyword", locale: "en_US" } );
+		var result = metaDescriptionKeyword( paper );
+		expect( result ).toBe( 1 );
+	});
+
 });

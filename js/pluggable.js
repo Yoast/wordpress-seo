@@ -71,8 +71,8 @@ Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 		return false;
 	}
 
-	this.plugins[pluginName] = options;
-	this.app.updateLoadingDialog( this.plugins );
+	this.plugins[ pluginName ] = options;
+
 	return true;
 };
 
@@ -88,13 +88,13 @@ Pluggable.prototype._ready = function( pluginName ) {
 		return false;
 	}
 
-	if ( isUndefined( this.plugins[pluginName] ) ) {
+	if ( isUndefined( this.plugins[ pluginName ] ) ) {
 		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
 		return false;
 	}
 
-	this.plugins[pluginName].status = "ready";
-	this.app.updateLoadingDialog( this.plugins );
+	this.plugins[ pluginName ].status = "ready";
+
 	return true;
 };
 
@@ -110,12 +110,12 @@ Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	if ( isUndefined( this.plugins[pluginName] ) ) {
+	if ( isUndefined( this.plugins[ pluginName ] ) ) {
 		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
 		return false;
 	}
 
-	this.app.analyzeTimer();
+	this.app.refresh();
 	return true;
 };
 
@@ -161,11 +161,11 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 	};
 
 	// Make sure modification is defined on modifications object
-	if ( isUndefined( this.modifications[modification] ) ) {
-		this.modifications[modification] = [];
+	if ( isUndefined( this.modifications[ modification ] ) ) {
+		this.modifications[ modification ] = [];
 	}
 
-	this.modifications[modification].push( callableObject );
+	this.modifications[ modification ].push( callableObject );
 
 	return true;
 };
@@ -176,7 +176,7 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
  * @deprecated
  */
 Pluggable.prototype._registerTest = function() {
-	console.error ( "This function is deprecated, please use _registerAssessment" );
+	console.error( "This function is deprecated, please use _registerAssessment" );
 };
 
 /**
@@ -255,10 +255,10 @@ Pluggable.prototype._allReady = function() {
  * @private
  */
 Pluggable.prototype._pollTimeExceeded = function() {
-	forEach ( this.plugins, function( plugin, pluginName ) {
+	forEach( this.plugins, function( plugin, pluginName ) {
 		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
 			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
-			delete this.plugins[pluginName];
+			delete this.plugins[ pluginName ];
 		}
 	} );
 	this.loaded = true;
@@ -275,7 +275,7 @@ Pluggable.prototype._pollTimeExceeded = function() {
  * @private
  */
 Pluggable.prototype._applyModifications = function( modification, data, context ) {
-	var callChain = this.modifications[modification];
+	var callChain = this.modifications[ modification ];
 
 	if ( callChain instanceof Array && callChain.length > 0 ) {
 		callChain = this._stripIllegalModifications( callChain );
@@ -344,9 +344,9 @@ Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
  * @private
  */
 Pluggable.prototype._stripIllegalModifications = function( callChain ) {
-	forEach ( callChain, function( callableObject, index ) {
+	forEach( callChain, function( callableObject, index ) {
 		if ( this._validateOrigin( callableObject.origin ) === false ) {
-			delete callChain[index];
+			delete callChain[ index ];
 		}
 	}.bind( this ) );
 
@@ -361,7 +361,7 @@ Pluggable.prototype._stripIllegalModifications = function( callChain ) {
  * @private
  */
 Pluggable.prototype._validateOrigin = function( pluginName ) {
-	if ( this.plugins[pluginName].status !== "ready" ) {
+	if ( this.plugins[ pluginName ].status !== "ready" ) {
 		return false;
 	}
 	return true;
@@ -375,7 +375,7 @@ Pluggable.prototype._validateOrigin = function( pluginName ) {
  * @private
  */
 Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( !isUndefined( this.plugins[pluginName] ) ) {
+	if ( !isUndefined( this.plugins[ pluginName ] ) ) {
 		return false;
 	}
 	return true;

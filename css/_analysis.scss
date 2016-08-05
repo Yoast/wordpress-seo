@@ -1,20 +1,25 @@
 /* css for analyzer */
+@import "colors";
+@import "icons";
 
 .wpseoanalysis {
 	padding-right: 0px;
 }
 .wpseo-score-text {
-	display: inline-block;
-	width: 90%;
+	float: left;
+	width: 86%;
+	/* make room for score and mark icons, consider to use a better layout model */
+	width: calc( 100% - 56px );
 }
-.wpseo-score-icon {
-	display: inline-block;
+
+/* needs higher specificity than other score icons */
+.assessment-results .wpseo-score-icon {
+	float: left;
 	width: 12px;
 	height: 12px;
-	margin: 3px 10px 0 3px;
+	margin: 3px 10px 0 0;
 	border-radius: 50%;
 	background: #888;
-	vertical-align: top;
 }
 
 .wpseo-score-icon.good {
@@ -39,6 +44,13 @@
 
 li.score {
 	list-style-type: none !important;
+	margin-bottom: 6px;
+}
+
+li.score:after {
+	content: "";
+	display: table;
+	clear: both;
 }
 
 .screen-reader-text {
@@ -81,4 +93,79 @@ li.score {
 
 #overallScore.bad #score_circle_shadow {
 	fill: #ed261f;
+}
+
+.assessment-results {
+	clear: both;
+
+	&__mark {
+		&.icon-eye {
+			&-inactive, &-active, &-disabled {
+				float: left;
+				border: 0;
+				width: 28px;
+				height: 28px;
+				margin: -5px 3px 0 3px;
+				padding: 4px;
+				border-radius: 100%;
+				outline: none;
+				background: no-repeat center;
+				background-size: 16px;
+				cursor: pointer;
+			}
+
+			&-inactive {
+				background-image: url(svg-icon-eye($color_marker_inactive));
+			}
+
+			&-active {
+				background-image: url(svg-icon-eye($color_marker_active));
+				background-color: #a4286a;
+
+				&.yoast-tooltip::before,
+				&.yoast-tooltip::after {
+					display: none;
+				}
+			}
+
+			&-disabled {
+				background-image: url(svg-icon-eye($color_marker_disabled));
+			}
+
+		}
+
+		&:focus {
+			border-radius: 100%;
+			box-shadow: 0 0 0 1px #5b9dd9,
+			0 0 2px 1px rgba(30, 140, 190, 0.8);
+		}
+	}
+
+	&__remove-marks {
+		border: 1px solid $color_button_border;
+		height: 36px;
+		padding: 8px 10px 8px 28px;
+		border-radius: 4px;
+		outline: none;
+		background: $color_button url(svg-icon-eye-slash($color_marker_inactive)) no-repeat 6px center;
+		background-size: 16px;
+		cursor: pointer;
+		margin-top: 0px;
+		margin-left: 3px;
+		margin-bottom: 15px;
+		font-size: 0.8rem;
+		color: $color_buttons;
+
+		&:focus {
+			box-shadow: 0 0 0 1px #5b9dd9,
+			0 0 2px 1px rgba(30, 140, 190, 0.8);
+		}
+	}
+
+	&__mark-container {
+		display: inline-block;
+		float: left;
+		width: 33px;
+		min-height: 1px;
+	}
 }

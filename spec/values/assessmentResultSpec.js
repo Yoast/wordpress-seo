@@ -1,5 +1,17 @@
 var AssessmentResult = require("../../js/values/AssessmentResult.js");
 
+describe( "a result of an assessment", function() {
+	it( "should receive a text and a score in the constructor", function() {
+		var assessmentResult = new AssessmentResult({
+			score: 9,
+			text: "The text"
+		});
+
+		expect( assessmentResult.getScore() ).toBe( 9 );
+		expect( assessmentResult.getText() ).toBe( "The text" );
+	});
+});
+
 describe( "creating a new empty assessmentResult", function() {
 	it( "returns an assessmentResult", function(){
 		var assessmentResult = new AssessmentResult();

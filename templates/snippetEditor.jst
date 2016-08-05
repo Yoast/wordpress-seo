@@ -1,14 +1,19 @@
 <div id="snippet_preview">
-    <h3 class="snippet-editor__heading snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h3>
-
     <section class="snippet-editor__preview">
+		<h3 class="snippet-editor__heading snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h3>
+    <p class="screen-reader-text"><%- i18n.snippetPreviewDescription %></p>
+
         <div class="snippet_container snippet-editor__container" id="title_container">
-            <span class="title" id="snippet_title">
-                <%- rendered.title %>
+            <span class="screen-reader-text"><%- i18n.titleLabel %></span>
+            <span class="title" id="render_title_container">
+                <span id="snippet_title">
+                    <%- rendered.title %>
+                </span>
             </span>
             <span class="title" id="snippet_sitename"></span>
         </div>
         <div class="snippet_container snippet-editor__container" id="url_container">
+            <span class="screen-reader-text"><%- i18n.slugLabel %></span>
             <cite class="url urlBase" id="snippet_citeBase">
                 <%- rendered.baseUrl %>
             </cite>
@@ -17,6 +22,7 @@
             </cite>
         </div>
         <div class="snippet_container snippet-editor__container" id="meta_container">
+            <span class="screen-reader-text"><%- i18n.metaDescriptionLabel %></span>
             <% if ( "" !== metaDescriptionDate ) { %>
                 <span class="snippet-editor__date">
                     <%- metaDescriptionDate %> -
@@ -36,10 +42,10 @@
         <label for="snippet-editor-title" class="snippet-editor__label">
             <%- i18n.title %>
             <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="<%- raw.title %>" placeholder="<%- placeholder.title %>" />
-            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">
-                <div class="snippet-editor__progress-bar"></div>
-            </progress>
         </label>
+        <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title" aria-hidden="true">
+            <div class="snippet-editor__progress-bar"></div>
+        </progress>
         <label for="snippet-editor-slug" class="snippet-editor__label">
             <%- i18n.slug %>
             <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="<%- raw.snippetCite %>" placeholder="<%- placeholder.urlPath %>" />
@@ -47,10 +53,10 @@
         <label for="snippet-editor-meta-description" class="snippet-editor__label">
             <%- i18n.metaDescription %>
             <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="<%- placeholder.metaDesc %>"><%- raw.meta %></textarea>
-            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">
-                <div class="snippet-editor__progress-bar"></div>
-            </progress>
         </label>
+        <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description" aria-hidden="true">
+            <div class="snippet-editor__progress-bar"></div>
+        </progress>
 
         <button class="snippet-editor__submit snippet-editor__button" type="button"><%- i18n.save %></button>
     </div>
