@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Lists the supported input types.
@@ -6,14 +6,14 @@ import React from 'react';
  * @type {string[]}
  */
 const inputTypes = [
-	'button',
-	'checkbox',
-	'number',
-	'password',
-	'progress',
-	'radio',
-	'submit',
-	'text',
+	"button",
+	"checkbox",
+	"number",
+	"password",
+	"progress",
+	"radio",
+	"submit",
+	"text",
 ];
 
 /**
@@ -26,7 +26,7 @@ const inputTypes = [
 const Input = ( props ) => {
 	return (
 		<input type={props.type} id={props.id} name={props.name} onChange={props.onChange} {...props.optionalAttributes} />
-	)
+	);
 };
 
 /**

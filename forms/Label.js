@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Represents the label HTML tag.
@@ -11,7 +11,7 @@ const Label = ( props ) => {
 	return (
 		<label htmlFor={props.for} onClick={props.onClick}>{props.text}</label>
 	);
-}
+};
 
 /**
  * Adds validation for the properties.

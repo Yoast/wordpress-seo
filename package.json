@@ -29,7 +29,7 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
-    "eslint-config-yoast": "^1.2.0",
+    "eslint-config-yoast": "^1.3.0",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-yoast": "^1.0.0",
     "grunt": "^1.0.1",

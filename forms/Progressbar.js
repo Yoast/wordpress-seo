@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Represents the progress HTML tag.
@@ -11,7 +11,7 @@ const Progressbar = ( props ) => {
 	return (
 		<progress defaultValue={props.value} min={props.min} max={props.max} {...props.optionalAttributes} />
 	);
-}
+};
 
 /**
  * Adds validation for the properties.
