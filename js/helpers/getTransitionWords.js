@@ -1,10 +1,10 @@
-var transitionWordsEnglish = require( "../researches/english/transitionWords.js" );
+var transitionWordsEnglish = require( "../researches/english/transitionWords.js" )().allWords;
 var twoPartTransitionWordsEnglish = require( "../researches/english/twoPartTransitionWords.js" );
-var transitionWordsGerman = require( "../researches/german/transitionWords.js" );
+var transitionWordsGerman = require( "../researches/german/transitionWords.js" )();
 var twoPartTransitionWordsGerman = require( "../researches/german/twoPartTransitionWords.js" );
-var transitionWordsFrench = require( "../researches/french/transitionWords.js" );
+var transitionWordsFrench = require( "../researches/french/transitionWords.js" )();
 var twoPartTransitionWordsFrench = require( "../researches/french/twoPartTransitionWords.js" );
-var transitionWordsSpanish = require( "../researches/spanish/transitionWords.js" );
+var transitionWordsSpanish = require( "../researches/spanish/transitionWords.js" )();
 var twoPartTransitionWordsSpanish = require( "../researches/spanish/twoPartTransitionWords.js" );
 
 var getLanguage = require( "./getLanguage.js" );
