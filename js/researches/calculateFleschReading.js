@@ -9,14 +9,14 @@ var formatNumber = require( "../helpers/formatNumber.js" );
 var getLanguage = require( "../helpers/getLanguage.js" );
 
 /**
- * Calculates the average number of words per sentence.
+ * Calculates an average from a total and an amount
  *
- * @param {number} numberOfWords The number of words.
- * @param {number} numberOfSentences The number of sentences.
- * @returns {number} The average number of words in sentences.
+ * @param {number} total The total.
+ * @param {number} amount The amount.
+ * @returns {number} The average from the total and the amount.
  */
-var getAverageWords = function( numberOfWords, numberOfSentences ) {
-	return numberOfWords / numberOfSentences;
+var getAverage = function( total, amount ) {
+	return total / amount;
 };
 
 /**
@@ -48,7 +48,7 @@ module.exports = function( paper ) {
 	}
 
 	var numberOfSyllables = countSyllables( text, locale );
-	var averageWordsPerSentence = getAverageWords( numberOfWords, numberOfSentences );
+	var averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
 	switch( language ) {
 		case "nl":
 			var syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
