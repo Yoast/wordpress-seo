@@ -177,6 +177,7 @@ class WPSEO_Pointers {
 		$opt_arr  = array(
 			'content'  => $content,
 			'position' => array( 'edge' => 'bottom', 'align' => 'center' ),
+			'pointerClass' => 'wp-pointer yoast yoast-pointer',
 		);
 
 		$this->button_array['button2']['text']     = __( 'Start Tour', 'wordpress-seo' );
@@ -202,6 +203,7 @@ class WPSEO_Pointers {
 				'align' => ( is_rtl() ) ? 'left' : 'right',
 			),
 			'pointerWidth' => 450,
+			'pointerClass' => 'wp-pointer yoast yoast-pointer',
 		);
 		if ( isset( $pointer['next_page'] ) ) {
 			$this->button_array['button2'] = array(

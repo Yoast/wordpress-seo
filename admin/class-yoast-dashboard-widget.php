@@ -38,12 +38,21 @@ class Yoast_Dashboard_Widget {
 	 * Adds dashboard widget to WordPress
 	 */
 	public function add_dashboard_widget() {
+		add_filter( 'postbox_classes_dashboard_wpseo-dashboard-overview', array( $this, 'wpseo_dashboard_overview_class' ) );
 		wp_add_dashboard_widget(
 			'wpseo-dashboard-overview',
 			/* translators: %s is the plugin name */
 			sprintf( __( '%s Posts Overview', 'wordpress-seo' ), 'Yoast SEO' ),
 			array( $this, 'display_dashboard_widget' )
 		);
+	}
+
+	/**
+	 * Adds CSS classes to the dashboard widget.
+	 */
+	public function wpseo_dashboard_overview_class( $classes ) {
+		$classes[] = 'yoast wpseo-dashboard-overview';
+		return $classes;
 	}
 
 	/**

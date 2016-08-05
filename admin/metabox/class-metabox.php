@@ -183,7 +183,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Adds the Yoast SEO meta box to the edit boxes in the edit post / page  / cpt pages.
+	 * Adds the Yoast SEO meta box to the edit boxes in the edit post, page,
+	 * attachment, and custom post types pages.
 	 */
 	public function add_meta_box() {
 		$post_types = get_post_types( array( 'public' => true ) );
@@ -196,6 +197,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$product_title .= ' Premium';
 					}
 
+					$screen_id = get_current_screen()->id;
+					add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+
 					add_meta_box( 'wpseo_meta', $product_title, array(
 						$this,
 						'meta_box',
@@ -203,6 +207,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Adds CSS classes to the meta box.
+	 */
+	public function wpseo_metabox_class( $classes ) {
+		$classes[] = 'yoast wpseo-metabox';
+		return $classes;
 	}
 
 	/**

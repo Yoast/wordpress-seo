@@ -66,7 +66,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 
 ?>
 
-<div class="wrap wpseo_table_page">
+<div class="wrap yoast wpseo_table_page">
 
 	<h1 id="wpseo-title"><?php
 		/* translators: %1$s expands to Yoast SEO */
