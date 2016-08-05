@@ -5,3 +5,24 @@ rules:
   quotes: 1
   react/prop-types: 1
   wrap-iife: 1
+  camelcase: 1
+  space-in-parens: 1
+  array-bracket-spacing: 1
+  brace-style: 1
+  max-len: 1
+  semi: 1
+  space-before-blocks: 1
+  no-inline-comments: 1
+  indent: 1
+  spaced-comment: 1
+  comma-spacing: 1
+  new-cap: 1
+  no-undefined: 1
+  max-statements: 1
+  global-require: 1
+  callback-return: 1
+  no-unused-vars: 1
+  no-undef: 1
+  require-jsdoc: 1
+  no-alert: 1
+  no-use-before-define: 1
