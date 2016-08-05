@@ -1,9 +1,7 @@
 import React from 'react';
 
 /**
- * Lists the supported input types.Input.extractOptionalAttributes = ( optionalAttributes ) => {
-
-}
+ * Lists the supported input types.
  *
  * @type {string[]}
  */
