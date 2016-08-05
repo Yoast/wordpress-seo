@@ -1,4 +1,6 @@
-language: js
+language: node_js
+node_js:
+  - node
 
 sudo: false
 
