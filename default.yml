@@ -1,6 +1,12 @@
-ecmaFeatures:
-  modules: true
-  jsx: true
+extends:
+  - "eslint:recommended"
+  - "plugin:react/recommended"
+
+parserOptions:
+  ecmaVersion: 6
+  ecmaFeatures:
+    jsx: true
+  sourceType: "module"
 
 env:
   amd: true
@@ -9,7 +15,7 @@ env:
   jquery: true
   node: true
 
-plugins: [yoast]
+plugins: [yoast, react]
 
 # http://eslint.org/docs/rules/
 rules:
@@ -189,35 +195,12 @@ rules:
   semi-spacing: 2
   semi: [2, always]
   sort-vars: 0
-  space-after-keywords: 0
   space-before-blocks: 2
   space-before-function-paren: 0
-  space-before-keywords: 0
   space-in-parens: [2, "always"]
   space-infix-ops: 0
-  space-return-throw-case: 0
   space-unary-ops: [2, {}]
   spaced-comment: [2, "always"]
   wrap-regex: 0
-
-  # ECMAScript 6
-  arrow-body-style: 0
-  arrow-parens: 0
-  arrow-spacing: 0
-  constructor-super: 0
-  generator-star-spacing: 0
-  no-arrow-condition: 0
-  no-class-assign: 0
-  no-const-assign: 0
-  no-dupe-class-members: 0
-  no-this-before-super: 0
-  no-var: 0
-  object-shorthand: 0
-  prefer-arrow-callback: 0
-  prefer-const: 0
-  prefer-reflect: 0
-  prefer-spread: 0
-  prefer-template: 0
-  require-yield: 0
 
   yoast/comment-starting-capital: 1
