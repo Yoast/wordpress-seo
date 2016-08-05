@@ -71,7 +71,7 @@ function sanitizeSentence( sentence ) {
  * @param {Array} firstWordExceptions Exceptions to match against.
  * @returns {string} The first word of the sentence.
  */
-function getFirstWord( sentence, firstWordExceptions ) {
+function getSentenceBeginning( sentence, firstWordExceptions ) {
 	sentence = sanitizeSentence( sentence );
 
 	var words = getWords( stripSpaces( sentence ) );
@@ -99,7 +99,7 @@ module.exports = function( paper ) {
 	var firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 
 	var sentenceBeginnings = sentences.map( function( sentence ) {
-		return getFirstWord( sentence, firstWordExceptions );
+		return getSentenceBeginning( sentence, firstWordExceptions );
 	} );
 
 	return compareFirstWords( sentenceBeginnings, sentences );
