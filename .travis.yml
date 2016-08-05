@@ -14,7 +14,8 @@ before_script:
 script:
 - grunt build:jst
 - npm test --coverage
-- codeclimate-test-reporter < coverage/lcov.info
+- if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; else COVERAGE="1" fi
+- if [[ "$COVERAGE" == "1" ]]; then codeclimate-test-reporter < coverage/lcov.info; fi
 - grunt check
 
 notifications:
