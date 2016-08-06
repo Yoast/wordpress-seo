@@ -29,10 +29,10 @@ var inputDebounceDelay = 400;
  */
 var defaults = {
 	callbacks: {
-		bindElementEvents: function( ) { },
-		updateSnippetValues: function( ) { },
-		saveScores: function( ) { },
-		saveContentScore: function( ) { },
+		bindElementEvents: function() {},
+		updateSnippetValues: function() {},
+		saveScores: function() {},
+		saveContentScore: function() {},
 	},
 	sampleText: {
 		baseUrl: "example.org/",
