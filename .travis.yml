@@ -8,17 +8,20 @@ cache:
   directories:
     - node_modules
 
-before_script:
+install:
 - npm install -g grunt-cli
-- npm install -g codeclimate-test-reporter
 - npm install
 
-script:
+before_script:
 - grunt build:jst
+
+script:
 - npm test --coverage
-- if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; else COVERAGE="1"; fi
-- if [[ "$COVERAGE" == "1" ]]; then codeclimate-test-reporter < coverage/lcov.info; fi
 - grunt check
+
+after_success:
+- npm install -g codeclimate-test-reporter
+- codeclimate-test-reporter < coverage/lcov.info
 
 notifications:
   slack:
