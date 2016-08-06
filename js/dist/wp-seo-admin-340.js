@@ -1628,7 +1628,6 @@ AlgoliaSearchCore.prototype._jsonRequest = function(initialOpts) {
         httpResponse.statusCode, status, httpResponse.headers);
 
       var httpResponseOk = Math.floor(status / 100) === 2;
-      var shouldRetry = Math.floor(status / 100) !== 4 && Math.floor(status / 100) !== 2;
 
       var endTime = new Date();
       debugData.push({
@@ -1641,7 +1640,8 @@ AlgoliaSearchCore.prototype._jsonRequest = function(initialOpts) {
         url: reqOpts.url,
         startTime: startTime,
         endTime: endTime,
-        duration: endTime - startTime
+        duration: endTime - startTime,
+        statusCode: status
       });
 
       if (httpResponseOk) {
@@ -1652,6 +1652,8 @@ AlgoliaSearchCore.prototype._jsonRequest = function(initialOpts) {
         return httpResponse.body;
       }
 
+      var shouldRetry = Math.floor(status / 100) !== 4;
+
       if (shouldRetry) {
         tries += 1;
         return retryRequest();
@@ -1661,7 +1663,7 @@ AlgoliaSearchCore.prototype._jsonRequest = function(initialOpts) {
 
       // no success and no retry => fail
       var unrecoverableError = new errors.AlgoliaSearchError(
-        httpResponse.body && httpResponse.body.message, {debugData: debugData}
+        httpResponse.body && httpResponse.body.message, {debugData: debugData, statusCode: status}
       );
 
       return client._promise.reject(unrecoverableError);
@@ -2089,88 +2091,6 @@ Index.prototype.addObjects = function(objects, callback) {
     url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/batch',
     body: postObj,
     hostType: 'write',
-    callback: callback
-  });
-};
-
-/*
-* Get an object from this index
-*
-* @param objectID the unique identifier of the object to retrieve
-* @param attrs (optional) if set, contains the array of attribute names to retrieve
-* @param callback (optional) the result callback called with two arguments
-*  error: null or Error('message')
-*  content: the object to retrieve or the error message if a failure occured
-*/
-Index.prototype.getObject = function(objectID, attrs, callback) {
-  var indexObj = this;
-
-  if (arguments.length === 1 || typeof attrs === 'function') {
-    callback = attrs;
-    attrs = undefined;
-  }
-
-  var params = '';
-  if (attrs !== undefined) {
-    params = '?attributes=';
-    for (var i = 0; i < attrs.length; ++i) {
-      if (i !== 0) {
-        params += ',';
-      }
-      params += attrs[i];
-    }
-  }
-
-  return this.as._jsonRequest({
-    method: 'GET',
-    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(objectID) + params,
-    hostType: 'read',
-    callback: callback
-  });
-};
-
-/*
-* Get several objects from this index
-*
-* @param objectIDs the array of unique identifier of objects to retrieve
-*/
-Index.prototype.getObjects = function(objectIDs, attributesToRetrieve, callback) {
-  var isArray = require('isarray');
-  var map = require('./map.js');
-
-  var usage = 'Usage: index.getObjects(arrayOfObjectIDs[, callback])';
-
-  if (!isArray(objectIDs)) {
-    throw new Error(usage);
-  }
-
-  var indexObj = this;
-
-  if (arguments.length === 1 || typeof attributesToRetrieve === 'function') {
-    callback = attributesToRetrieve;
-    attributesToRetrieve = undefined;
-  }
-
-  var body = {
-    requests: map(objectIDs, function prepareRequest(objectID) {
-      var request = {
-        indexName: indexObj.indexName,
-        objectID: objectID
-      };
-
-      if (attributesToRetrieve) {
-        request.attributesToRetrieve = attributesToRetrieve.join(',');
-      }
-
-      return request;
-    })
-  };
-
-  return this.as._jsonRequest({
-    method: 'POST',
-    url: '/1/indexes/*/objects',
-    hostType: 'read',
-    body: body,
     callback: callback
   });
 };
@@ -2840,11 +2760,19 @@ Index.prototype.batchSynonyms = function(synonyms, opts, callback) {
 *  error: null or Error('message')
 *  content: the server answer or the error message if a failure occured
 */
-Index.prototype.setSettings = function(settings, callback) {
+Index.prototype.setSettings = function(settings, opts, callback) {
+  if (arguments.length === 1 || typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  }
+
+  var forwardToSlaves = opts.forwardToSlaves || false;
+
   var indexObj = this;
   return this.as._jsonRequest({
     method: 'PUT',
-    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/settings?forwardToSlaves='
+      + (forwardToSlaves ? 'true' : 'false'),
     hostType: 'write',
     body: settings,
     callback: callback
@@ -3352,12 +3280,94 @@ IndexCore.prototype._search = function(params, url, callback) {
   });
 };
 
+/*
+* Get an object from this index
+*
+* @param objectID the unique identifier of the object to retrieve
+* @param attrs (optional) if set, contains the array of attribute names to retrieve
+* @param callback (optional) the result callback called with two arguments
+*  error: null or Error('message')
+*  content: the object to retrieve or the error message if a failure occured
+*/
+IndexCore.prototype.getObject = function(objectID, attrs, callback) {
+  var indexObj = this;
+
+  if (arguments.length === 1 || typeof attrs === 'function') {
+    callback = attrs;
+    attrs = undefined;
+  }
+
+  var params = '';
+  if (attrs !== undefined) {
+    params = '?attributes=';
+    for (var i = 0; i < attrs.length; ++i) {
+      if (i !== 0) {
+        params += ',';
+      }
+      params += attrs[i];
+    }
+  }
+
+  return this.as._jsonRequest({
+    method: 'GET',
+    url: '/1/indexes/' + encodeURIComponent(indexObj.indexName) + '/' + encodeURIComponent(objectID) + params,
+    hostType: 'read',
+    callback: callback
+  });
+};
+
+/*
+* Get several objects from this index
+*
+* @param objectIDs the array of unique identifier of objects to retrieve
+*/
+IndexCore.prototype.getObjects = function(objectIDs, attributesToRetrieve, callback) {
+  var isArray = require('isarray');
+  var map = require('./map.js');
+
+  var usage = 'Usage: index.getObjects(arrayOfObjectIDs[, callback])';
+
+  if (!isArray(objectIDs)) {
+    throw new Error(usage);
+  }
+
+  var indexObj = this;
+
+  if (arguments.length === 1 || typeof attributesToRetrieve === 'function') {
+    callback = attributesToRetrieve;
+    attributesToRetrieve = undefined;
+  }
+
+  var body = {
+    requests: map(objectIDs, function prepareRequest(objectID) {
+      var request = {
+        indexName: indexObj.indexName,
+        objectID: objectID
+      };
+
+      if (attributesToRetrieve) {
+        request.attributesToRetrieve = attributesToRetrieve.join(',');
+      }
+
+      return request;
+    })
+  };
+
+  return this.as._jsonRequest({
+    method: 'POST',
+    url: '/1/indexes/*/objects',
+    hostType: 'read',
+    body: body,
+    callback: callback
+  });
+};
+
 IndexCore.prototype.as = null;
 IndexCore.prototype.indexName = null;
 IndexCore.prototype.typeAheadArgs = null;
 IndexCore.prototype.typeAheadValueOption = null;
 
-},{"./buildSearchMethod.js":14,"./merge.js":21}],9:[function(require,module,exports){
+},{"./buildSearchMethod.js":14,"./map.js":20,"./merge.js":21,"isarray":58}],9:[function(require,module,exports){
 'use strict';
 
 var AlgoliaSearch = require('../../AlgoliaSearch.js');
@@ -3383,7 +3393,7 @@ module.exports = function createAlgoliasearch(AlgoliaSearch, uaSuffix) {
   var places = require('../places.js');
   uaSuffix = uaSuffix || '';
 
-  if (process.env.APP_ENV === 'development') {
+  if (process.env.NODE_ENV === 'debug') {
     require('debug').enable('algoliasearch*');
   }
 
@@ -3983,7 +3993,7 @@ function createPlacesClient(algoliasearch) {
 },{"./buildSearchMethod.js":14,"./clone.js":15}],23:[function(require,module,exports){
 'use strict';
 
-module.exports = '3.15.1';
+module.exports = '3.18.0';
 
 },{}],24:[function(require,module,exports){
 // shim for using process in browser

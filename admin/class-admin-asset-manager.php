@@ -177,7 +177,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-340',
+				'src'  => 'wp-seo-post-scraper-341',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -186,7 +186,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-340',
+				'src'  => 'wp-seo-term-scraper-341',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),

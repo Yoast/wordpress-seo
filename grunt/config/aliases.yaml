@@ -37,6 +37,7 @@ check:
   - 'check:php'
   - 'check:i18n'
 'check:js':
+  - 'eslint'
   - 'jshint'
   - 'jsonlint'
   - 'jsvalidate'
