@@ -35,12 +35,16 @@ cache:
 before_install:
 - nvm install $TRAVIS_NODE_VERSION
 
-before_script:
+install:
 - phpenv local 5.6
 - composer selfupdate 1.0.0 --no-interaction
 - composer install --no-interaction
 - composer config-yoastcs
 - phpenv local --unset
+- if [[ "$CHECKJS" == "1" ]]; then npm install -g grunt-cli; fi
+- if [[ "$CHECKJS" == "1" ]]; then npm install --no-optional; fi
+
+before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
@@ -58,7 +62,7 @@ before_script:
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
 - if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v; fi
-- if [[ "$CHECKJS" == "1" ]]; then npm install -g grunt-cli && npm install --no-optional && grunt check:js; fi
+- if [[ "$CHECKJS" == "1" ]]; then grunt check:js; fi
 - if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
 - if [[ "$COVERAGE" == "1" ]]; then vendor/bin/test-reporter; fi
