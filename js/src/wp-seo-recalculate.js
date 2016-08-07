@@ -6,6 +6,7 @@ var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
 var SEOAssessor = require( 'yoastseo/js/SEOAssessor' );
 var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
+var isUndefined = require( 'lodash/isUndefined' );
 
 ( function($) {
 	'use strict';
@@ -165,7 +166,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	 */
 	YoastRecalculateScore.prototype.parseResponse = function( response ) {
 		if ( response !== '' && response !== null ) {
-			if ( response.total_items !== undefined ) {
+			if ( ! isUndefined( response.total_items ) ) {
 				var scores = this.calculateScores( response.total_items, response.items );
 
 				this.sendScores(scores);
@@ -173,7 +174,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 				this.updateProgressBar( response.total_items );
 			}
 
-			if ( response.next_page !== undefined ) {
+			if ( ! isUndefined( response.next_page ) ) {
 				this.getItemsToRecalculate( response.next_page );
 			}
 			else {
@@ -255,7 +256,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	function init() {
 		var recalculate_link = jQuery('#wpseo_recalculate_link');
 
-		if (recalculate_link !== undefined) {
+		if ( ! isUndefined( recalculate_link ) ) {
 			recalculate_link.click(
 				function() {
 					// Reset the count element and the progressbar
