@@ -1,4 +1,4 @@
-/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale, tb_show */
+/* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
@@ -244,7 +244,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 			} );
 
 			// Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
-			jQuery( '.contact-support' ).on( 'click', function( e ) {
+			jQuery( '.contact-support' ).on( 'click', function() {
 				var activeTabName = jQuery( '.wpseotab.active' ).attr( 'id' );
 				var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher; // 1st by default. (Used for the Advanced settings pages because of how the tabs were set up)
 				jQuery.each( algoliaSearchers, function( key, searcher ) {

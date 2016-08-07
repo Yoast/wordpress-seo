@@ -137,6 +137,7 @@
 	});
 }( jQuery ));
 
+/* eslint-disable */
 /* jshint ignore:start */
 /**
  * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
@@ -187,3 +188,4 @@ window.removeThumb = removeThumb;
 window.yst_overrideElemFunction = yst_overrideElemFunction;
 window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
 /* jshint ignore:end */
+/* eslint-enable */

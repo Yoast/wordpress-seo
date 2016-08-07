@@ -129,6 +129,7 @@
 	});
 }( jQuery ));
 
+/* eslint-disable */
 /* jshint ignore:start */
 /**
  * Cleans up a string, removing script tags etc.
@@ -342,3 +343,4 @@ window.ystBoldKeywords = ystBoldKeywords;
 window.ystUpdateSnippet = ystUpdateSnippet;
 window.ystEscapeFocusKw = ystEscapeFocusKw;
 /* jshint ignore:end */
+/* eslint-enable */
