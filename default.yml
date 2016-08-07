@@ -20,7 +20,7 @@ plugins: [yoast, react]
 # http://eslint.org/docs/rules/
 rules:
   # Possible Errors
-  comma-dangle: [1, always-multiline]
+  comma-dangle: [2, always-multiline]
   no-cond-assign: 2
   no-console: 0
   no-constant-condition: 2
@@ -46,7 +46,7 @@ rules:
   no-unexpected-multiline: 2
   no-unreachable: 2
   use-isnan: 2
-  valid-jsdoc: [ 1, {
+  valid-jsdoc: [ 2, {
     "prefer": {
       "return": "returns"
     }
@@ -61,7 +61,7 @@ rules:
   curly: 2
   default-case: 0
   dot-location: 0
-  dot-notation: 1
+  dot-notation: 2
   eqeqeq: 2
   guard-for-in: 2
   no-alert: 2
@@ -85,7 +85,7 @@ rules:
   no-loop-func: 2
   no-magic-number: 0
   no-multi-spaces: 0
-  no-multi-str: 1
+  no-multi-str: 2
   no-native-reassign: 2
   no-new-func: 2
   no-new-wrappers: 2
@@ -111,7 +111,7 @@ rules:
   yoda: 0
 
   # Strict
-  strict: 1
+  strict: 2
 
   # Variables
   init-declarations: 0
@@ -130,7 +130,7 @@ rules:
   callback-return: 2
   global-require: 2
   handle-callback-err: 2
-  no-mixed-requires: 1
+  no-mixed-requires: 2
   no-new-require: 0
   no-path-concat: 2
   no-process-exit: 2
@@ -144,8 +144,8 @@ rules:
   camelcase: 2
   comma-spacing: 2
   comma-style: 2
-  computed-property-spacing: [1, always]
-  consistent-this: [1, "that"]
+  computed-property-spacing: [2, always]
+  consistent-this: [2, "that"]
   eol-last: 2
   func-names: 0
   func-style: 0
@@ -170,9 +170,9 @@ rules:
   no-continue: 0
   no-inline-comments: 2
   no-lonely-if: 0
-  no-mixed-spaces-and-tabs: 1
+  no-mixed-spaces-and-tabs: 2
   no-multiple-empty-lines: 2
-  no-negated-condition: 1
+  no-negated-condition: 2
   no-nested-ternary: 2
   no-new-object: 2
   no-plusplus: 0
@@ -186,19 +186,19 @@ rules:
   object-curly-spacing: [2, "always"]
   one-var: 0
   operator-assignment: 0
-  operator-linebreak: 1
-  padded-blocks: [1, "never"]
-  quote-props: [1, "as-needed", {"keywords": true}]
+  operator-linebreak: 2
+  padded-blocks: [2, "never"]
+  quote-props: [2, "as-needed", {"keywords": true}]
   quotes: [2, double, avoid-escape]
   require-jsdoc: 2
   semi-spacing: 2
   semi: [2, always]
   sort-vars: 0
   space-before-blocks: 2
-  space-before-function-paren: [1, "never"]
+  space-before-function-paren: [2, "never"]
   space-in-parens: [2, "always", {"exceptions": ["empty"]}]
   space-infix-ops: 1
-  space-unary-ops: [1, {"words": false, "nonwords": false, "overrides": { "!": true }}]
+  space-unary-ops: [2, {"words": false, "nonwords": false, "overrides": { "!": true }}]
   spaced-comment: [2, "always"]
   wrap-regex: 0
 
