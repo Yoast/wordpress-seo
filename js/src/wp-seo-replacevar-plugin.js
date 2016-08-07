@@ -1,11 +1,11 @@
 /* global wpseoReplaceVarsL10n, require, YoastSEO */
+var forEach = require( 'lodash/forEach' );
+var filter = require( 'lodash/filter' );
+var isUndefined = require( 'lodash/isUndefined' );
+var ReplaceVar = require( './values/replaceVar' );
+
 (function() {
 	'use strict';
-
-	var forEach = require( 'lodash/forEach' );
-	var filter = require( 'lodash/filter' );
-	var isUndefined = require( 'lodash/isUndefined' );
-	var ReplaceVar = require( './values/replaceVar' );
 
 	var modifiableFields = [
 		'content',

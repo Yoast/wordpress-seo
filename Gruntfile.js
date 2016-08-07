@@ -1,8 +1,12 @@
 /* global require, process */
+var timeGrunt = require('time-grunt');
+var path = require( 'path' );
+var loadGruntConfig = require( 'load-grunt-config' );
+
 module.exports = function(grunt) {
 	'use strict';
 
-	require('time-grunt')(grunt);
+	timeGrunt(grunt);
 
 	// Define project configuration
 	var project = {
@@ -46,8 +50,8 @@ module.exports = function(grunt) {
 	};
 
 	// Load Grunt configurations and tasks
-	require( 'load-grunt-config' )(grunt, {
-		configPath: require( 'path' ).join( process.cwd(), project.paths.config ),
+	loadGruntConfig(grunt, {
+		configPath: path.join( process.cwd(), project.paths.config ),
 		data: project,
 		jitGrunt: {
 			staticMappings: {
