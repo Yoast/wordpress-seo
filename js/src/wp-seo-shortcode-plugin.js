@@ -136,7 +136,7 @@
 	 */
 	YoastShortcodePlugin.prototype.getUnparsedShortcodes = function( shortcodes ) {
 		if ( typeof shortcodes !== 'object') {
-			console.error( 'Failed to get unparsed shortcodes. Expected parameter to be an array, instead received ' + typeof shortcodes ); // jshint ignore:line
+			console.error( 'Failed to get unparsed shortcodes. Expected parameter to be an array, instead received ' + typeof shortcodes );
 			return false;
 		}
 
@@ -178,7 +178,9 @@
 	 */
 	YoastShortcodePlugin.prototype.getShortcodes = function( text ) {
 		if ( typeof text !== 'string') {
-			console.error( 'Failed to get shortcodes. Expected parameter to be a string, instead received' + typeof text ); // jshint ignore:line
+			/* jshint ignore:start */
+			console.error( 'Failed to get shortcodes. Expected parameter to be a string, instead received' + typeof text );
+			/* jshint ignore:end*/
 			return false;
 		}
 
@@ -236,7 +238,9 @@
 	 */
 	YoastShortcodePlugin.prototype.parseShortcodes = function( shortcodes, callback ) {
 		if ( typeof callback !== 'function' ) {
-			console.error( 'Failed to parse shortcodes. Expected parameter to be a function, instead received ' + typeof callback ); // jshint ignore:line
+			/* jshint ignore:start */
+			console.error( 'Failed to parse shortcodes. Expected parameter to be a function, instead received ' + typeof callback );
+			/* jshint ignore:end */
 			return false;
 		}
 

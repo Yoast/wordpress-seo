@@ -12,5 +12,4 @@ rules:
   max-len: 1
   semi: 1
   space-before-blocks: 1
-  no-inline-comments: 1
   max-statements: 1

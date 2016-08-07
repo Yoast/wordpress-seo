@@ -13,11 +13,20 @@ class AlgoliaSearcher extends React.Component {
 	constructor( props ) {
 		super();
 		this.state = {
-			searchString: '',	// The by the user given search input
-			usedQueries: {}, 	// An object containing the read articles by the user per used search string.
-			results: [],		// The found results.
-			errorMessage: '',	// An description of the error if one occurs while executing the search.
-			showDetail: false,	//  Shows the search results if this is set to false. Otherwhise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
+			// The by the user given search input
+			searchString: '',
+
+			// An object containing the read articles by the user per used search string.
+			usedQueries: {},
+
+			// The found results.
+			results: [],
+
+			// An description of the error if one occurs while executing the search.
+			errorMessage: '',
+
+			// Shows the search results if this is set to false. Otherwhise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
+			showDetail: false,
 			searching: false
 		};
 		this.props = props;
@@ -50,7 +59,8 @@ class AlgoliaSearcher extends React.Component {
 			this.setState( {
 				searchString: searchString,
 				usedQueries: usedQueries
-			}, function() { // After the state was set.
+			}, function() {
+				// After the state was set.
 				this.updateSearchResults();
 			} );
 		}
@@ -192,7 +202,9 @@ class AlgoliaSearcher extends React.Component {
 		var content = '';
 		var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
 								   searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
-		if ( this.state.errorMessage ) { // Show an error message.
+
+		// Show an error message.
+		if ( this.state.errorMessage ) {
 			content = (
 				<div>
 					{searchBar}
@@ -200,7 +212,9 @@ class AlgoliaSearcher extends React.Component {
 				</div>
 			);
 		}
-		else if ( this.state.searching ) { // Show a loading indicator.
+
+		// Show a loading indicator.
+		else if ( this.state.searching ) {
 			content = (
 				<div>
 					{searchBar}
@@ -208,7 +222,9 @@ class AlgoliaSearcher extends React.Component {
 				</div>
 			);
 		}
-		else if ( this.state.showDetail === false ) { // Show the list of search results if the postId for the detail view isn't set.
+
+		// Show the list of search results if the postId for the detail view isn't set.
+		else if ( this.state.showDetail === false ) {
 			content = (
 				<div>
 					{searchBar}
@@ -217,7 +233,9 @@ class AlgoliaSearcher extends React.Component {
 				</div>
 			);
 		}
-		else { // Else show the article content/detail view.
+
+		// Else show the article content/detail view.
+		else {
 			content = this.renderDetail();
 		}
 		return <div className="wpseo-kb-search-container">{content}</div>

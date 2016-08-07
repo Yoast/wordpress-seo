@@ -218,7 +218,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
-			// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
+		// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
 		var mountingPoints = jQuery( '.wpseo-kb-search' );
 		var algoliaSearchers = [];
 		jQuery.each( mountingPoints, function( index, mountingPoint ) {
@@ -238,52 +238,54 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				iframeTitle: wpseoAdminL10n.kb_iframe_title
 			};
 			algoliaSearchers.push( {
+				/* jshint ignore:start */
 				tabName: tabId,
-				algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher, translations ), mountingPoint ) // jshint ignore:line
+				algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher, translations ), mountingPoint )
+				/* jshint ignore:end */
 			} );
 		} );
 
-			// Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
+		// Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
 		jQuery( '.contact-support' ).on( 'click', function() {
 			var activeTabName = jQuery( '.wpseotab.active' ).attr( 'id' );
-			var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher; // 1st by default. (Used for the Advanced settings pages because of how the tabs were set up)
+
+			// 1st by default. (Used for the Advanced settings pages because of how the tabs were set up)
+			var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher;
+
 			jQuery.each( algoliaSearchers, function( key, searcher ) {
 				if ( searcher.tabName === activeTabName ) {
 					activeAlgoliaSearcher = searcher.algoliaSearcher;
-					return false; // returning false breaks the loop.
+
+					// returning false breaks the loop.
+					return false;
 				}
 			} );
 			var usedQueries = activeAlgoliaSearcher.state.usedQueries;
 			jQuery( window ).trigger( 'YoastSEO:ContactSupport', { usedQueries: usedQueries } );
 		} );
 
-			// events
+		// events
 		jQuery( '#enablexmlsitemap' ).change( function() {
 			jQuery( '#sitemapinfo' ).toggle( jQuery( this ).is( ':checked' ) );
-		}
-			).change();
+		} ).change();
 
 		jQuery( '#disable-post_format' ).change( function() {
 			jQuery( '#post_format-titles-metas' ).toggle( jQuery( this ).is( ':not(:checked)' ) );
-		}
-			).change();
+		} ).change();
 
 		jQuery( '#breadcrumbs-enable' ).change( function() {
 			jQuery( '#breadcrumbsinfo' ).toggle( jQuery( this ).is( ':checked' ) );
-		}
-			).change();
+		} ).change();
 
 		jQuery( '#disable_author_sitemap' ).find( 'input:radio' ).change( function() {
 			if ( jQuery( this ).is( ':checked' ) ) {
 				jQuery( '#xml_user_block' ).toggle( jQuery( this ).val() === 'off' );
 			}
-		}
-			).change();
+		} ).change();
 
 		jQuery( '#cleanpermalinks' ).change( function() {
 			jQuery( '#cleanpermalinksdiv' ).toggle( jQuery( this ).is( ':checked' ) );
-		}
-			).change();
+		} ).change();
 
 		jQuery( '#wpseo-tabs' ).find( 'a' ).click( function() {
 			jQuery( '#wpseo-tabs' ).find( 'a' ).removeClass( 'nav-tab-active' );
@@ -292,8 +294,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 			var id = jQuery( this ).attr( 'id' ).replace( '-tab', '' );
 			jQuery( '#' + id ).addClass( 'active' );
 			jQuery( this ).addClass( 'nav-tab-active' );
-		}
-			);
+		} );
 
 		jQuery( '#company_or_person' ).change( function() {
 			var companyOrPerson = jQuery( this ).val();
@@ -305,22 +306,20 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				jQuery( '#knowledge-graph-company' ).hide();
 				jQuery( '#knowledge-graph-person' ).show();
 			}
-					else {
+			else {
 				jQuery( '#knowledge-graph-company' ).hide();
 				jQuery( '#knowledge-graph-person' ).hide();
 			}
-		}
-			).change();
+		} ).change();
 
 		jQuery( '.template' ).change( function() {
 			wpseoDetectWrongVariables( jQuery( this ) );
-		}
-			).change();
+		} ).change();
 
-			// init
+		// init
 		var activeTab = window.location.hash.replace( '#top#', '' );
 
-			// default to first tab
+		// default to first tab
 		if ( activeTab === '' || activeTab === '#_=_' ) {
 			activeTab = jQuery( '.wpseotab' ).attr( 'id' );
 		}
