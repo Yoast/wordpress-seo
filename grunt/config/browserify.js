@@ -33,7 +33,8 @@ module.exports = {
 
 				// This is here to make a production build of React.
 				['envify', {
-					global: true, // This makes sure we also transform the React files.
+					// This makes sure we also transform the React files.
+					global: true,
 					NODE_ENV: 'production'
 				} ]
 			]
