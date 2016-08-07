@@ -23,7 +23,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
 	if ( inRange( fleschReadingScore, 80, 90 ) ) {
 		return {
 			score: 9,
-			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
+			resultText: i18n.dgettext( "js-text-analysis", "easy" ),
 			note: "",
 		};
 	}

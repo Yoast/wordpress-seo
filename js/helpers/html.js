@@ -104,7 +104,7 @@ function getBlocks( text ) {
 			case "other-element-start":
 			case "other-element-end":
 			case "greater than sign":
-				if ( !nextToken || ( depth === 0 && ( nextToken.type === "block-start" || nextToken.type === "block-end" ) ) ) {
+				if ( ! nextToken || ( depth === 0 && ( nextToken.type === "block-start" || nextToken.type === "block-end" ) ) ) {
 					currentBlock += token.src;
 
 					blocks.push( currentBlock );

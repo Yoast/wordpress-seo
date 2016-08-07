@@ -11,8 +11,8 @@ function showTrace( errorMessage ) {
 	}
 
 	if (
-		!isUndefined( console ) &&
-		!isUndefined( console.trace )
+		! isUndefined( console ) &&
+		! isUndefined( console.trace )
 	) {
 		console.trace( errorMessage );
 	}

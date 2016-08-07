@@ -71,7 +71,7 @@ var countLinkTypes = function( paper ) {
 		var anchorLink = urlHelper.getFromAnchorTag( currentAnchor );
 		var linkToSelf = urlHelper.areEqual( anchorLink, permalink );
 
-		if ( keywordInAnchor( keyword, currentAnchor, locale ) && !linkToSelf ) {
+		if ( keywordInAnchor( keyword, currentAnchor, locale ) && ! linkToSelf ) {
 			linkCount.keyword.totalKeyword++;
 			linkCount.keyword.matchedAnchors.push( currentAnchor );
 		}

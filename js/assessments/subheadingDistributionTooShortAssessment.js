@@ -28,7 +28,6 @@ var getTooShortSubheadingTexts = function( subheadingTextsLength ) {
  * @returns {object} the resultobject containing a score and text if subheadings are present
  */
 var subheadingsTextLength = function( subheadingTextsLength, tooShortTexts, i18n ) {
-
 	// Return empty result if there are no subheadings
 	if ( subheadingTextsLength.length === 0 ) {
 		return {};

@@ -56,7 +56,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 var textHasLinksAssessment = function( paper, researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var assessmentResult = new AssessmentResult();
-	if ( !isEmpty( linkStatistics ) ) {
+	if ( ! isEmpty( linkStatistics ) ) {
 		var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 		assessmentResult.setScore( linkStatisticsResult.score );
 		assessmentResult.setText( linkStatisticsResult.text );
@@ -67,7 +67,7 @@ var textHasLinksAssessment = function( paper, researcher, i18n ) {
 module.exports = {
 	identifier: "textLinks",
 	getResult: textHasLinksAssessment,
-	isApplicable: function ( paper ) {
+	isApplicable: function( paper ) {
 		return paper.hasText();
 	},
 };

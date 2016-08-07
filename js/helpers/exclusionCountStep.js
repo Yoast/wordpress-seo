@@ -182,7 +182,7 @@ ExclusionCountStep.prototype.getSyllables = function( exclusionPart ) {
  * @param {string} word The word to count the syllables in.
  * @returns {object} The number of syllables found and the word after modification.
  */
-ExclusionCountStep.prototype.countSyllables = function ( word ) {
+ExclusionCountStep.prototype.countSyllables = function( word ) {
 	var syllableCount = 0;
 	var exclusionPart = this.findWord( word );
 

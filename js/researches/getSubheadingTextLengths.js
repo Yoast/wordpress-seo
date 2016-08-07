@@ -14,7 +14,6 @@ module.exports = function( paper ) {
 
 	var subHeadingTexts = [];
 	forEach( matches, function( subHeading ) {
-
 		subHeadingTexts.push( {
 			text: subHeading,
 			wordCount: countWords( subHeading ),

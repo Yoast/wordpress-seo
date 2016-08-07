@@ -72,7 +72,7 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
  * @returns {boolean} Whether or not the assessment has a marker.
  */
 Assessor.prototype.hasMarker = function( assessment ) {
-	if ( !isUndefined( window ) && !isUndefined( window.yoastHideMarkers ) && window.yoastHideMarkers ) {
+	if ( ! isUndefined( window ) && ! isUndefined( window.yoastHideMarkers ) && window.yoastHideMarkers ) {
 		return false;
 	}
 
@@ -221,7 +221,6 @@ Assessor.prototype.calculateOverallScore  = function() {
 
 	forEach( results, function( assessmentResult ) {
 		totalScore += assessmentResult.getScore();
-
 	} );
 
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 ) || 0;
@@ -236,7 +235,7 @@ Assessor.prototype.calculateOverallScore  = function() {
  * @private
  */
 Assessor.prototype.addAssessment = function( name, assessment ) {
-	if ( !assessment.hasOwnProperty( "identifier" ) ) {
+	if ( ! assessment.hasOwnProperty( "identifier" ) ) {
 		assessment.identifier = name;
 	}
 

@@ -17,7 +17,7 @@ var availableLanguages = [ "en", "de", "es", "fr" ];
  * a transition word.
  * @returns {number} The percentage of sentences containing a transition word.
  */
-var calculateTransitionWordPercentage = function ( sentences ) {
+var calculateTransitionWordPercentage = function( sentences ) {
 	if ( sentences.transitionWordSentences === 0 || sentences.totalSentences === 0 ) {
 		return 0;
 	}

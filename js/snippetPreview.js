@@ -29,9 +29,9 @@ var defaults = {
 		metaHeight: 0,
 	},
 	placeholder: {
-		title:    "This is an example title - edit by clicking here",
+		title: "This is an example title - edit by clicking here",
 		metaDesc: "Modify your meta description by editing it right here",
-		urlPath:  "example-post/",
+		urlPath: "example-post/",
 	},
 	defaultValue: {
 		title: "",
@@ -78,7 +78,7 @@ var getBaseURL = function() {
 	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
 	 * URL is static so we can just pass it to the snippet editor.
 	 */
-	if ( this.hasApp() && !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
+	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
 		baseURL = this.refObj.rawData.baseUrl;
 	}
 
@@ -134,7 +134,7 @@ function hasTrailingSlash( url ) {
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
 
-	return !isUndefined( progressElement.max );
+	return ! isUndefined( progressElement.max );
 }
 
 /**
@@ -215,7 +215,7 @@ function updateProgressBar( element, value, maximum, rating ) {
 	domManipulation.removeClasses( element, allClasses );
 	domManipulation.addClass( element, "snippet-editor__progress--" + rating );
 
-	if ( !this.hasProgressSupport ) {
+	if ( ! this.hasProgressSupport ) {
 		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
 		progress = ( value / maximum ) * 100;
 
@@ -297,7 +297,7 @@ var SnippetPreview = function( opts ) {
 
 	this.data = opts.data;
 
-	if ( !isUndefined( opts.analyzerApp ) ) {
+	if ( ! isUndefined( opts.analyzerApp ) ) {
 		this.refObj = opts.analyzerApp;
 		this.i18n = this.refObj.i18n;
 
@@ -308,16 +308,16 @@ var SnippetPreview = function( opts ) {
 		};
 
 		// For backwards compatibility set the metaTitle as placeholder.
-		if ( !isEmpty( this.refObj.rawData.metaTitle ) ) {
+		if ( ! isEmpty( this.refObj.rawData.metaTitle ) ) {
 			opts.placeholder.title = this.refObj.rawData.metaTitle;
 		}
 	}
 
-	if ( !isUndefined( opts.i18n ) ) {
+	if ( ! isUndefined( opts.i18n ) ) {
 		this.i18n = opts.i18n;
 	}
 
-	if ( !isElement( opts.targetElement ) ) {
+	if ( ! isElement( opts.targetElement ) ) {
 		throw new Error( "The snippet preview requires a valid target element" );
 	}
 
@@ -365,7 +365,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
-			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
+			slug: this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
 			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
@@ -487,7 +487,7 @@ var getAnalyzerMetaDesc = function() {
 		metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
 	}
 
-	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
+	if ( ! isEmpty( this.opts.metaDescriptionDate ) && ! isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
@@ -501,8 +501,8 @@ var getAnalyzerMetaDesc = function() {
  */
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
-		title:    getAnalyzerTitle.call( this ),
-		url:      this.data.urlPath,
+		title: getAnalyzerTitle.call( this ),
+		url: this.data.urlPath,
 		metaDesc: getAnalyzerMetaDesc.call( this ),
 	};
 };
@@ -605,11 +605,11 @@ SnippetPreview.prototype.formatCite = function() {
 		cite = this.opts.placeholder.urlPath;
 	}
 
-	if ( this.hasApp() && !isEmpty( this.refObj.rawData.keyword ) ) {
+	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.keyword ) ) {
 		cite = this.formatKeywordUrl( cite );
 	}
 
-	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
+	if ( this.opts.addTrailingSlash && ! hasTrailingSlash( cite ) ) {
 		cite = cite + "/";
 	}
 
@@ -642,7 +642,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, analyzerConfig.maxMeta );
 
-	if ( this.hasApp() && !isEmpty( this.refObj.rawData.keyword ) ) {
+	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
 	}
 
@@ -664,11 +664,11 @@ SnippetPreview.prototype.formatMeta = function() {
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText = this.opts.defaultValue.metaDesc;
 
-	if ( this.hasApp() && !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
+	if ( this.hasApp() && ! isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
 	}
 
-	if ( this.hasApp() && !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
+	if ( this.hasApp() && ! isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.text;
 
 		if ( this.hasPluggable() && this.refObj.pluggable.loaded ) {
@@ -831,7 +831,6 @@ SnippetPreview.prototype.checkTextLength = function( event ) {
 					0,
 					analyzerConfig.maxMeta
 				);
-
 			}
 			break;
 		case "snippet_title":
@@ -978,7 +977,6 @@ SnippetPreview.prototype.bindEvents = function() {
 
 			this._updateHoverCarets();
 		}.bind( this ) );
-
 	}.bind( this ) );
 };
 
@@ -1016,7 +1014,6 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * @returns {void}
  */
 SnippetPreview.prototype.openEditor = function() {
-
 	this.element.editToggle.setAttribute( "aria-expanded", "true" );
 
 	// Show these elements.
@@ -1030,7 +1027,6 @@ SnippetPreview.prototype.openEditor = function() {
  * @returns {void}
  */
 SnippetPreview.prototype.closeEditor = function() {
-
 	// Hide these elements.
 	domManipulation.addClass( this.element.formContainer,     "snippet-editor--hidden" );
 
@@ -1192,7 +1188,7 @@ SnippetPreview.prototype.getTitleWidth = function() {
  * @returns {boolean} Whether or not there is an App object present.
  */
 SnippetPreview.prototype.hasApp = function() {
-	return !isUndefined( this.refObj );
+	return ! isUndefined( this.refObj );
 };
 
 /**
@@ -1201,7 +1197,7 @@ SnippetPreview.prototype.hasApp = function() {
  * @returns {boolean} Whether or not there is a Pluggable object present.
  */
 SnippetPreview.prototype.hasPluggable = function() {
-	return !isUndefined( this.refObj ) && !isUndefined( this.refObj.pluggable );
+	return ! isUndefined( this.refObj ) && ! isUndefined( this.refObj.pluggable );
 };
 
 /* eslint-disable */

@@ -12,7 +12,7 @@ var forEach = require( "lodash/forEach" );
  */
 var ExclusionCountIterator = function( config ) {
 	this.countSteps = [];
-	if( !isUndefined( config ) ) {
+	if( ! isUndefined( config ) ) {
 		this.createExclusionSteps( config.partialExclusionWords );
 	}
 };

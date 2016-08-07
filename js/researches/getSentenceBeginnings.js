@@ -15,7 +15,7 @@ var forEach = require( "lodash/forEach" );
  * @returns {boolean} Returns true if sentence beginnings match.
  */
 var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
-	if ( !isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
+	if ( ! isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
 		return true;
 	}
 
@@ -29,7 +29,7 @@ var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginni
  * @param {Array} sentences The array containing all sentences.
  * @returns {Array} The array containing the objects containing the first words and the corresponding counts.
  */
-var compareFirstWords = function ( sentenceBeginnings, sentences ) {
+var compareFirstWords = function( sentenceBeginnings, sentences ) {
 	var consecutiveFirstWords = [];
 	var foundSentences = [];
 	var sameBeginnings = 1;

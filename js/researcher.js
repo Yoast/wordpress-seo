@@ -100,7 +100,7 @@ Researcher.prototype.addResearch = function( name, research ) {
 		throw new MissingArgument( "Research name cannot be empty" );
 	}
 
-	if ( !( research instanceof Function ) ) {
+	if ( ! ( research instanceof Function ) ) {
 		throw new InvalidTypeError( "The research requires a Function callback." );
 	}
 
@@ -138,7 +138,7 @@ Researcher.prototype.getResearch = function( name ) {
 		throw new MissingArgument( "Research name cannot be empty" );
 	}
 
-	if ( !this.hasResearch( name ) ) {
+	if ( ! this.hasResearch( name ) ) {
 		return false;
 	}
 

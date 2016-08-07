@@ -44,7 +44,7 @@ var metaDescriptionHasKeywordAssessment = function( paper, researcher, i18n ) {
 module.exports = {
 	identifier: "metaDescriptionKeyword",
 	getResult: metaDescriptionHasKeywordAssessment,
-	isApplicable: function ( paper ) {
+	isApplicable: function( paper ) {
 		return paper.hasKeyword();
 	},
 };

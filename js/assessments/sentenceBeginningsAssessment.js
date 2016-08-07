@@ -21,7 +21,7 @@ var availableLanguages = [ "en", "de", "es", "fr" ];
  * @returns {object} The object containing the total number of too often used beginnings and the lowest count within those.
  */
 var groupSentenceBeginnings = function( sentenceBeginnings ) {
-	var tooOften = partition( sentenceBeginnings, function ( word ) {
+	var tooOften = partition( sentenceBeginnings, function( word ) {
 		return word.count > maximumConsecutiveDuplicates;
 	} );
 
@@ -113,7 +113,6 @@ module.exports = {
 	identifier: "sentenceBeginnings",
 	getResult: sentenceBeginningsAssessment,
 	isApplicable: function( paper ) {
-
 		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},

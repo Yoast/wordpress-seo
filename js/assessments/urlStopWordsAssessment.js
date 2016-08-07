@@ -7,7 +7,6 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {object} The resulting score object.
  */
 var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
-
 	if ( stopWordCount > 0 ) {
 		return {
 			score: 5,

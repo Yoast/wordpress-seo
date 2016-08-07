@@ -66,7 +66,7 @@ var competingLinkMarker = function( paper, researcher ) {
 module.exports = {
 	identifier: "textCompetingLinks",
 	getResult: textHasCompetingLinksAssessment,
-	isApplicable: function ( paper ) {
+	isApplicable: function( paper ) {
 		return paper.hasText() && paper.hasKeyword();
 	},
 	getMarks: competingLinkMarker,

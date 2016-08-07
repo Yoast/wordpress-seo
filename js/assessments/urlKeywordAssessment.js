@@ -7,7 +7,6 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {object} The resulting score object.
  */
 var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
-
 	if ( keywordsResult > 0 ) {
 		return {
 			score: 9,

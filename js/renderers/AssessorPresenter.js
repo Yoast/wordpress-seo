@@ -69,7 +69,7 @@ AssessorPresenter.prototype.getIndicator = function( rating ) {
  * @returns {string} String containing the CSS class to be used.
  */
 AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
-	if ( !this.configHasProperty( rating ) ) {
+	if ( ! this.configHasProperty( rating ) ) {
 		return "";
 	}
 
@@ -82,7 +82,7 @@ AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
  * @returns {string} Translated string containing the screen reader text to be used.
  */
 AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
-	if ( !this.configHasProperty( rating ) ) {
+	if ( ! this.configHasProperty( rating ) ) {
 		return "";
 	}
 
@@ -95,7 +95,7 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
  * @returns {string} Translated string containing the full text to be used.
  */
 AssessorPresenter.prototype.getIndicatorFullText = function( rating ) {
-	if ( !this.configHasProperty( rating ) ) {
+	if ( ! this.configHasProperty( rating ) ) {
 		return "";
 	}
 
@@ -108,7 +108,7 @@ AssessorPresenter.prototype.getIndicatorFullText = function( rating ) {
  * @returns {Object} The Assessment result object with the rating added.
  */
 AssessorPresenter.prototype.resultToRating = function( result ) {
-	if ( !isObject( result ) ) {
+	if ( ! isObject( result ) ) {
 		return "";
 	}
 
@@ -148,7 +148,7 @@ AssessorPresenter.prototype.excludeFromResults = function( results, exclude ) {
  * @param {Array} results Array containing the results that need to be sorted.
  * @returns {Array} Array containing the sorted results.
  */
-AssessorPresenter.prototype.sort = function ( results ) {
+AssessorPresenter.prototype.sort = function( results ) {
 	var unsortables = this.getUndefinedScores( results );
 	var sortables = this.excludeFromResults( results, unsortables );
 
@@ -164,7 +164,7 @@ AssessorPresenter.prototype.sort = function ( results ) {
  * @param {Array} results The results to filter through.
  * @returns {Array} A subset of results containing items with an undefined score or where the score is zero.
  */
-AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
+AssessorPresenter.prototype.getUndefinedScores = function( results ) {
 	return results.filter( function( result ) {
 		return isUndefined( result.score ) || result.score === 0;
 	} );
@@ -276,7 +276,7 @@ AssessorPresenter.prototype.render = function() {
  */
 AssessorPresenter.prototype.bindMarkButtons = function( scores ) {
 	// Make sure the button works for every score with a marker.
-	forEach( scores, function ( score ) {
+	forEach( scores, function( score ) {
 		if ( score.hasOwnProperty( "marker" ) ) {
 			this.addMarkerEventHandler( score.identifier, score.marker );
 		}
@@ -320,7 +320,7 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 	var overallRating = this.getOverallRating( this.assessor.calculateOverallScore() );
 	var overallRatingElement = document.getElementById( this.overall );
 
-	if ( !overallRatingElement ) {
+	if ( ! overallRatingElement ) {
 		return;
 	}
 

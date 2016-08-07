@@ -84,7 +84,6 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
  * @returns {object} the Assessmentresult
  */
 var keywordDensityAssessment = function( paper, researcher, i18n ) {
-
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
 	var keywordCount = countWordOccurrences( paper.getText(), paper.getKeyword(), paper.getLocale() );
 
