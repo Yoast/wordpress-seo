@@ -89,7 +89,7 @@
 		if ( unparsedShortcodes.length > 0 ) {
 			this.parseShortcodes( unparsedShortcodes, callback );
 		} else {
-			callback();
+			return callback();
 		}
 	};
 
@@ -252,7 +252,7 @@
 			);
 		}
 		else {
-			callback();
+			return callback();
 		}
 	};
 
