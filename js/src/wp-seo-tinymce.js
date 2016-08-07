@@ -186,4 +186,4 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		enableMarkerButtons: enableMarkerButtons,
 		wpTextViewOnInitCheck: wpTextViewOnInitCheck
 	};
-} )( jQuery );
+}( jQuery ) );
