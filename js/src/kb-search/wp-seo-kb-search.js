@@ -1,5 +1,5 @@
 import React from 'react';
-import AlgoliaSearch from 'algoliasearch';
+import initAlgoliaSearch from 'algoliasearch';
 import isUndefined from 'lodash/isUndefined';
 
 class AlgoliaSearcher extends React.Component {
@@ -31,7 +31,7 @@ class AlgoliaSearcher extends React.Component {
 	 * Initializes the algolia client and index variables.
 	 */
 	initAlgoliaClient() {
-        this.client = AlgoliaSearch( this.props.algoliaApplicationId, this.props.algoliaApiKey );
+        this.client = initAlgoliaSearch( this.props.algoliaApplicationId, this.props.algoliaApiKey );
         this.index = this.client.initIndex( this.props.algoliaIndexName );
 	}
 

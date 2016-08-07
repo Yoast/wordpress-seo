@@ -16,5 +16,4 @@ rules:
   indent: 1
   spaced-comment: 1
   comma-spacing: 1
-  new-cap: 1
   max-statements: 1
