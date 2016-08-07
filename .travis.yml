@@ -31,6 +31,7 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
+    - node_modules
 
 before_install:
 - nvm install $TRAVIS_NODE_VERSION
