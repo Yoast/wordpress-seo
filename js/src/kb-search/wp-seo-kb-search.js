@@ -1,5 +1,6 @@
 import React from 'react';
 import AlgoliaSearch from 'algoliasearch';
+import isUndefined from 'lodash/isUndefined';
 
 class AlgoliaSearcher extends React.Component {
 
@@ -43,7 +44,7 @@ class AlgoliaSearcher extends React.Component {
         let searchString = evt.target.getElementsByTagName( 'input' )[ 0 ].value;
 		if ( searchString !== '' ) {
 			let usedQueries = this.state.usedQueries;
-			if ( usedQueries[ searchString ] === undefined ) {
+			if ( isUndefined( usedQueries[ searchString ] ) ) {
 				usedQueries[ searchString ] = {};
 			}
 			this.setState( {

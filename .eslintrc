@@ -17,5 +17,4 @@ rules:
   spaced-comment: 1
   comma-spacing: 1
   new-cap: 1
-  no-undefined: 1
   max-statements: 1
