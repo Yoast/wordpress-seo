@@ -19,4 +19,3 @@ rules:
   new-cap: 1
   no-undefined: 1
   max-statements: 1
-  global-require: 1

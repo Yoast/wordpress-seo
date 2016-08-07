@@ -14,16 +14,16 @@ var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
 var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
 var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
+var App = require( 'yoastseo' ).App;
+var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
+var UsedKeywords = require( './analysis/usedKeywords' );
+
 window.yoastHideMarkers = true;
 
 (function( $ ) {
 	'use strict';
 
 	var snippetContainer;
-	var App = require( 'yoastseo' ).App;
-
-	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
-	var UsedKeywords = require( './analysis/usedKeywords' );
 
 	var app, snippetPreview;
 

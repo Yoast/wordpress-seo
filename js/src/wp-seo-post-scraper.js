@@ -19,14 +19,13 @@ var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
 var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
 var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 
+var App = require( 'yoastseo' ).App;
+var UsedKeywords = require( './analysis/usedKeywords' );
+
 (function( $ ) {
 	'use strict';
 
 	var snippetContainer;
-
-	var App = require( 'yoastseo' ).App;
-
-	var UsedKeywords = require( './analysis/usedKeywords' );
 
 	var currentKeyword = '';
 
