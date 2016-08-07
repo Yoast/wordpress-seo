@@ -21,9 +21,9 @@ jQuery(document).ready(
 			});
 
 			wpseo_custom_uploader.on( 'select', function() {
-					var attachment = wpseo_custom_uploader.state().get( 'selection' ).first().toJSON();
-					$( '#' + wpseo_target_id ).val( attachment.url );
-				}
+				var attachment = wpseo_custom_uploader.state().get( 'selection' ).first().toJSON();
+				$( '#' + wpseo_target_id ).val( attachment.url );
+			}
 			);
 
 			$(element).click( function( e ) {

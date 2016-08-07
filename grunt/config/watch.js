@@ -24,7 +24,7 @@ module.exports = {
 		tasks: [
 			'phplint',
 			'phpcs',
-            'checktextdomain'
+			'checktextdomain'
 		]
 	},
 	js: {

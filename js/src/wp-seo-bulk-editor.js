@@ -74,21 +74,21 @@
 				data.existing_items = {};
 
 				jQuery( options.new_class ).each( function() {
-						var id = jQuery( this ).data( 'id' );
-						var value = jQuery( this ).val();
-						var existing_value = jQuery( options.existing_id + id ).html();
+					var id = jQuery( this ).data( 'id' );
+					var value = jQuery( this ).val();
+					var existing_value = jQuery( options.existing_id + id ).html();
 
-						if ( value !== '' ) {
-							if ( value === existing_value ) {
-								jQuery( options.new_id + id ).val( '' ).focus();
-							}
-							else {
-								data.send = true;
-								data.items[ id ] = value;
-								data.existing_items[ id ] = existing_value;
-							}
+					if ( value !== '' ) {
+						if ( value === existing_value ) {
+							jQuery( options.new_id + id ).val( '' ).focus();
+						}
+						else {
+							data.send = true;
+							data.items[ id ] = value;
+							data.existing_items[ id ] = existing_value;
 						}
 					}
+				}
 				);
 
 				if ( data.send ) {
@@ -108,8 +108,8 @@
 
 				if ( resp instanceof Array ) {
 					jQuery.each( resp, function() {
-							instance.handle_response( this, status );
-						}
+						instance.handle_response( this, status );
+					}
 					);
 				}
 				else {
@@ -125,16 +125,16 @@
 			handle_responses: function( responses, status ) {
 				var resps = jQuery.parseJSON( responses );
 				jQuery.each( resps, function() {
-						instance.handle_response( this, status );
-					}
+					instance.handle_response( this, status );
+				}
 				);
 			},
 
 			set_events: function() {
 				current_table.find( '.wpseo-save' ).click( function() {
-						var id = jQuery( this ).data( 'id' );
-						instance.submit_new( id, this );
-					}
+					var id = jQuery( this ).data( 'id' );
+					instance.submit_new( id, this );
+				}
 				);
 
 				current_table.find( '.wpseo-save-all' ).click( instance.submit_all );
@@ -156,8 +156,8 @@
 	window.bulk_editor = bulk_editor;
 
 	jQuery( document ).ready( function() {
-			var parent_tables = jQuery( 'table[class*="wpseo_bulk"]' );
-			parent_tables.each(
+		var parent_tables = jQuery( 'table[class*="wpseo_bulk"]' );
+		parent_tables.each(
 				function( number, parent_table ) {
 					var current_table = jQuery( parent_table );
 					var bulk_edit = bulk_editor( current_table );
@@ -165,6 +165,6 @@
 					bulk_edit.set_events();
 				}
 			);
-		}
+	}
 	);
 }());

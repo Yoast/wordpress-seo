@@ -242,10 +242,10 @@
 
 		if ( typeof shortcodes === 'object' && shortcodes.length > 0 ) {
 			jQuery.post( ajaxurl, {
-					action: 'wpseo_filter_shortcodes',
-					_wpnonce: wpseoShortcodePluginL10n.wpseo_filter_shortcodes_nonce,
-					data: shortcodes
-				},
+				action: 'wpseo_filter_shortcodes',
+				_wpnonce: wpseoShortcodePluginL10n.wpseo_filter_shortcodes_nonce,
+				data: shortcodes
+			},
 				function( shortcodeResults ) {
 					this.saveParsedShortcodes( shortcodeResults, callback );
 				}.bind( this )

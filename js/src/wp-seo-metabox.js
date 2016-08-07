@@ -6,22 +6,22 @@
 	window.wpseo_init_tabs = function() {
 		if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
 			jQuery( '.wpseo-metabox-tabs' ).on( 'click', 'a.wpseo_tablink', function( ev ) {
-					ev.preventDefault();
+				ev.preventDefault();
 
-					jQuery( '.wpseo-meta-section.active .wpseo-metabox-tabs li' ).removeClass( 'active' );
-					jQuery( '.wpseo-meta-section.active .wpseotab' ).removeClass( 'active' );
+				jQuery( '.wpseo-meta-section.active .wpseo-metabox-tabs li' ).removeClass( 'active' );
+				jQuery( '.wpseo-meta-section.active .wpseotab' ).removeClass( 'active' );
 
-					var targetElem = jQuery( jQuery( this ).attr( 'href' ) );
-					targetElem.addClass( 'active' );
-					jQuery( this ).parent( 'li' ).addClass( 'active' );
+				var targetElem = jQuery( jQuery( this ).attr( 'href' ) );
+				targetElem.addClass( 'active' );
+				jQuery( this ).parent( 'li' ).addClass( 'active' );
 
-					if ( jQuery( this ).hasClass( 'scroll' ) ) {
-						jQuery( 'html, body' ).animate( {
-								scrollTop: jQuery( targetElem ).offset().top
-							}, 500
+				if ( jQuery( this ).hasClass( 'scroll' ) ) {
+					jQuery( 'html, body' ).animate( {
+						scrollTop: jQuery( targetElem ).offset().top
+					}, 500
 						);
-					}
 				}
+			}
 			);
 		}
 
@@ -32,16 +32,16 @@
 			} ).addClass('active');
 
 			jQuery( 'a.wpseo-meta-section-link' ).click( function( ev ) {
-					ev.preventDefault();
+				ev.preventDefault();
 
-					jQuery( '.wpseo-metabox-sidebar li' ).removeClass( 'active' );
-					jQuery( '.wpseo-meta-section' ).removeClass( 'active' );
+				jQuery( '.wpseo-metabox-sidebar li' ).removeClass( 'active' );
+				jQuery( '.wpseo-meta-section' ).removeClass( 'active' );
 
-					var targetElem = jQuery( jQuery( this ).attr( 'href' ) );
-					targetElem.addClass( 'active' );
+				var targetElem = jQuery( jQuery( this ).attr( 'href' ) );
+				targetElem.addClass( 'active' );
 
-					jQuery( this ).parent( 'li' ).addClass( 'active' );
-				}
+				jQuery( this ).parent( 'li' ).addClass( 'active' );
+			}
 			);
 		}
 

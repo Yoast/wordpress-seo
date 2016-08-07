@@ -23,16 +23,16 @@ class AlgoliaSearcher extends React.Component {
 		this.props = props;
 		this.initAlgoliaClient();
 
-        this.searchButtonClicked = this.searchButtonClicked.bind( this );
-        this.hideDetail = this.hideDetail.bind( this );
+		this.searchButtonClicked = this.searchButtonClicked.bind( this );
+		this.hideDetail = this.hideDetail.bind( this );
 	}
 
 	/**
 	 * Initializes the algolia client and index variables.
 	 */
 	initAlgoliaClient() {
-        this.client = initAlgoliaSearch( this.props.algoliaApplicationId, this.props.algoliaApiKey );
-        this.index = this.client.initIndex( this.props.algoliaIndexName );
+		this.client = initAlgoliaSearch( this.props.algoliaApplicationId, this.props.algoliaApiKey );
+		this.index = this.client.initIndex( this.props.algoliaIndexName );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class AlgoliaSearcher extends React.Component {
 	 * @param {object} evt The event.
 	 */
 	searchButtonClicked( evt ) {
-        let searchString = evt.target.getElementsByTagName( 'input' )[ 0 ].value;
+		let searchString = evt.target.getElementsByTagName( 'input' )[ 0 ].value;
 		if ( searchString !== '' ) {
 			let usedQueries = this.state.usedQueries;
 			if ( isUndefined( usedQueries[ searchString ] ) ) {
@@ -128,10 +128,10 @@ class AlgoliaSearcher extends React.Component {
 	renderSearchResults() {
 		var searchResultContent;
 		if ( this.state.results.length > 0 ) {
-            var results = this.state.results.map( ( result, arrayIndex ) => {
-                return <SearchResult key={result.objectID} post={result}
-                                     showDetail={this.showDetail.bind( this, arrayIndex )}/>
-            } );
+			var results = this.state.results.map( ( result, arrayIndex ) => {
+				return <SearchResult key={result.objectID} post={result}
+									 showDetail={this.showDetail.bind( this, arrayIndex )}/>
+			} );
 			searchResultContent = <ul role="list" className="wpseo-kb-search-results">{results}</ul>;
 		}
 		else if ( this.state.searchString !== '' ) {
@@ -145,11 +145,11 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @returns {JSX} A div with navigation buttons an the content of the selected acticle.
 	 */
-    renderDetail() {
-        let detailIndex = this.state.showDetail;
-        let post = this.state.results[ detailIndex ];
-        return (
-            <div className="wpseo-kb-search-detail">
+	renderDetail() {
+		let detailIndex = this.state.showDetail;
+		let post = this.state.results[ detailIndex ];
+		return (
+			<div className="wpseo-kb-search-detail">
 				<div className="wpseo-kb-search-navigation">
 					<button className="button dashicon-button wpseo-kb-search-back-button"
 						aria-label={this.props.backLabel}
@@ -163,65 +163,65 @@ class AlgoliaSearcher extends React.Component {
 						{this.props.open}
 					</a>
 				</div>
-                <ArticleContent post={post} iframeTitle={this.props.iframeTitle}/>
-            </div>
-        );
-    }
+				<ArticleContent post={post} iframeTitle={this.props.iframeTitle}/>
+			</div>
+		);
+	}
 
 	/**
 	 * Logs any occuring error and renders a warning that the search was not completed successfully.
 	 *
 	 * @param String errorMessage The message to display.
 	 * @returns {JSX} A div with a warning that the search was not completed.
-     */
-    renderError( errorMessage ) {
+	 */
+	renderError( errorMessage ) {
 		console.error( errorMessage );
-        return (
-            <p>
+		return (
+			<p>
 				{this.props.errorMessage}
-            </p>
-        );
-    }
+			</p>
+		);
+	}
 
-    /**
+	/**
 	 * Is called upon state change. It determines what view to render and renders it.
 	 *
 	 * @returns {JSX} The content of the component.
 	 */
 	render() {
-        var content = '';
-        var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
-                                   searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
-        if ( this.state.errorMessage ) { // Show an error message.
-            content = (
-                <div>
-                    {searchBar}
-                    {this.renderError( this.state.errorMessage )}
-                </div>
-            );
-        }
-        else if ( this.state.searching ) { // Show a loading indicator.
-            content = (
-                <div>
-                    {searchBar}
-                    <Loading loadingPlaceholder={this.props.loadingPlaceholder}/>
-                </div>
-            );
-        }
-        else if ( this.state.showDetail === false ) { // Show the list of search results if the postId for the detail view isn't set.
-            content = (
-                <div>
-                    {searchBar}
+		var content = '';
+		var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
+								   searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
+		if ( this.state.errorMessage ) { // Show an error message.
+			content = (
+				<div>
+					{searchBar}
+					{this.renderError( this.state.errorMessage )}
+				</div>
+			);
+		}
+		else if ( this.state.searching ) { // Show a loading indicator.
+			content = (
+				<div>
+					{searchBar}
+					<Loading loadingPlaceholder={this.props.loadingPlaceholder}/>
+				</div>
+			);
+		}
+		else if ( this.state.showDetail === false ) { // Show the list of search results if the postId for the detail view isn't set.
+			content = (
+				<div>
+					{searchBar}
 					{ this.state.results.length > 0 ? <h2 className="screen-reader-text">{this.props.searchResultsHeading}</h2> : '' }
-                    {this.renderSearchResults()}
-                </div>
-            );
-        }
-        else { // Else show the article content/detail view.
-            content = this.renderDetail();
-        }
-        return <div className="wpseo-kb-search-container">{content}</div>
-    }
+					{this.renderSearchResults()}
+				</div>
+			);
+		}
+		else { // Else show the article content/detail view.
+			content = this.renderDetail();
+		}
+		return <div className="wpseo-kb-search-container">{content}</div>
+	}
 }
 
 AlgoliaSearcher.propTypes = {
