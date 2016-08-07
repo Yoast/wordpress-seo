@@ -44,7 +44,6 @@ install:
 - phpenv local --unset
 - if [[ "$CHECKJS" == "1" ]]; then npm install -g grunt-cli; fi
 - if [[ "$CHECKJS" == "1" ]]; then npm install --no-optional; fi
-- if [[ "$CHECKJS" == "1" ]]; then npm list; fi
 
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
