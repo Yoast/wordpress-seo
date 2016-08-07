@@ -28,8 +28,7 @@ module.exports = function( grunt ) {
 				"!css/*.min.css",
 			],
 			js: [
-				"js/src/*.js",
-				"js/src/kb-search/*.js",
+				"js/src/**/*.js",
 			],
 			php: [
 				"*.php",

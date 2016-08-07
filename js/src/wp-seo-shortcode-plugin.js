@@ -210,7 +210,7 @@
 
 		// Fetch the capturing shortcodes and strip them from the text so we can easily match the non capturing shortcodes.
 		for ( var i = 0; i < captureKeywords.length; i++ ) {
-			var captureKeyword = captureKeywords[i];
+			var captureKeyword = captureKeywords[ i ];
 			var captureRegex = "\\[" + captureKeyword + "[^\\]]*?\\].*?\\[\\/" + captureKeyword + "\\]";
 			var matches = text.match( new RegExp( captureRegex, "g" ) ) || [];
 

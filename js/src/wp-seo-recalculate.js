@@ -106,7 +106,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	YoastRecalculateScore.prototype.calculateScores = function( total_items, items ) {
 		var scores = [];
 		for ( var i = 0; i < total_items; i++ ) {
-			scores.push( this.getScore( items[i] ) );
+			scores.push( this.getScore( items[ i ] ) );
 		}
 
 		return scores;
@@ -135,7 +135,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	YoastRecalculateScore.prototype.getItemID = function( item ) {
 		this.items_to_fetch--;
 
-		return item[this.id_field];
+		return item[ this.id_field ];
 	};
 
 	/**

@@ -1,13 +1,12 @@
 /* global require */
-(function() {
-	'use strict';
+var isEmpty = require( "lodash/isEmpty" );
+var indexOf = require( "lodash/indexOf" );
+var defaults = require( "lodash/defaults" );
 
-	var isUndefined = require( 'lodash/isUndefined' );
-	var isEmpty = require( 'lodash/isEmpty' );
-	var indexOf = require( 'lodash/indexOf' );
-	var defaults = require( 'lodash/defaults' );
+( function() {
+	"use strict";
 
-	var defaultOptions = { source: 'wpseoReplaceVarsL10n', scope: [], aliases: [] };
+	var defaultOptions = { source: "wpseoReplaceVarsL10n", scope: [], aliases: [] };
 
 	/**
 	 * Constructs the replace var.
@@ -33,7 +32,7 @@
 		includeAliases = includeAliases || false;
 
 		if ( includeAliases && this.hasAlias() ) {
-			return this.placeholder + '|' + this.getAliases().join('|');
+			return this.placeholder + "|" + this.getAliases().join( "|" );
 		}
 
 		return this.placeholder;
@@ -116,4 +115,4 @@
 	};
 
 	module.exports = ReplaceVar;
-}());
+}() );
