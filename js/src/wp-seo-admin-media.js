@@ -1,5 +1,4 @@
 /* global wpseoMediaL10n */
-/* global ajaxurl */
 /* global wp */
 /* jshint -W097 */
 /* jshint -W003 */

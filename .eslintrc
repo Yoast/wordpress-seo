@@ -21,4 +21,3 @@ rules:
   max-statements: 1
   global-require: 1
   callback-return: 1
-  no-unused-vars: 1
