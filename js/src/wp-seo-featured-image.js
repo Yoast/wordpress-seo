@@ -81,7 +81,7 @@
 		var attachment = featuredImage.state().get( 'selection' ).first().toJSON();
 
 		if ( attachment.width < 200 || attachment.height < 200 ) {
-			//Show warning to user and do not add image to OG
+			// Show warning to user and do not add image to OG
 			if ( 0 === $( '#yst_opengraph_image_warning' ).length ) {
 				var $postImageDiv = $( '#postimagediv' );
 				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + '</p></div>' ).insertBefore( $postImageDiv );
