@@ -13,5 +13,4 @@ rules:
   semi: 1
   space-before-blocks: 1
   no-inline-comments: 1
-  indent: 1
   max-statements: 1
