@@ -34,7 +34,7 @@ cache:
     - node_modules
 
 before_install:
-- if [[ "$CHECKJS" == "1" ]]; nvm install $TRAVIS_NODE_VERSION; fi
+- if [[ "$CHECKJS" == "1" ]]; then nvm install $TRAVIS_NODE_VERSION; fi
 
 install:
 - phpenv local 5.6
