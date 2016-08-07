@@ -240,7 +240,7 @@
 		showAlertPopup();
 		hookDismissRestoreButtons();
 	} );
-} )();
+}() );
 
 ( function() {
 	'use strict';
@@ -346,4 +346,4 @@
 			closeVideoSlideout();
 		}
 	} );
-} )();
+}() );
