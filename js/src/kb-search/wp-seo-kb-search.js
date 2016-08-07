@@ -140,7 +140,7 @@ class AlgoliaSearcher extends React.Component {
 		if ( this.state.results.length > 0 ) {
 			var results = this.state.results.map( ( result, arrayIndex ) => {
 				return <SearchResult key={result.objectID} post={result}
-									 showDetail={this.showDetail.bind( this, arrayIndex )}/>
+									 showDetail={this.showDetail.bind( this, arrayIndex )}/>;
 			} );
 			searchResultContent = <ul role="list" className="wpseo-kb-search-results">{results}</ul>;
 		}
@@ -238,7 +238,7 @@ class AlgoliaSearcher extends React.Component {
 		else {
 			content = this.renderDetail();
 		}
-		return <div className="wpseo-kb-search-container">{content}</div>
+		return <div className="wpseo-kb-search-container">{content}</div>;
 	}
 }
 
@@ -287,13 +287,13 @@ const SearchBar = ( props ) => {
 	return (
 		<div className="wpseo-kb-search-search-bar">
 			<h2 id="wpseo-kb-search-heading">{props.headingText}</h2>
-			<form onSubmit={function( evt ) { evt.preventDefault(); props.submitAction( evt ) } }>
+			<form onSubmit={function( evt ) { evt.preventDefault(); props.submitAction( evt ); } }>
 				<input type="text" aria-labelledby="wpseo-kb-search-heading"
 					   defaultValue={props.searchString}/>
 				<button type="submit" className="button wpseo-kb-search-search-button">{props.searchButtonText}</button>
 			</form>
 		</div>
-	)
+	);
 };
 
 /**
@@ -308,7 +308,7 @@ const SearchResult = ( props ) => {
 	let description = post.excerpt || post.metadesc;
 	return (
 		<li>
-			<a href={post.permalink} onClick={ function( evt ) { evt.preventDefault(); props.showDetail() } } className="wpseo-kb-search-result-link">
+			<a href={post.permalink} onClick={ function( evt ) { evt.preventDefault(); props.showDetail(); } } className="wpseo-kb-search-result-link">
 				<div className="wpseo-kb-search-result">
 					<h3 className="wpseo-kb-search-result-title">{post.post_title}</h3>
 					{ description && <p>{description}</p> }
