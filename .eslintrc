@@ -2,7 +2,6 @@ extends: yoast
 
 rules:
   complexity: [1, 6]
-  quotes: 1
   react/prop-types: 1
   camelcase: 1
   brace-style: 1

@@ -1,6 +1,6 @@
-import React from 'react';
-import initAlgoliaSearch from 'algoliasearch';
-import isUndefined from 'lodash/isUndefined';
+import React from "react";
+import initAlgoliaSearch from "algoliasearch";
+import isUndefined from "lodash/isUndefined";
 
 class AlgoliaSearcher extends React.Component {
 
@@ -14,7 +14,7 @@ class AlgoliaSearcher extends React.Component {
 		super();
 		this.state = {
 			// The by the user given search input
-			searchString: '',
+			searchString: "",
 
 			// An object containing the read articles by the user per used search string.
 			usedQueries: {},
@@ -23,7 +23,7 @@ class AlgoliaSearcher extends React.Component {
 			results: [],
 
 			// An description of the error if one occurs while executing the search.
-			errorMessage: '',
+			errorMessage: "",
 
 			// Shows the search results if this is set to false. Otherwhise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
 			showDetail: false,
@@ -50,8 +50,8 @@ class AlgoliaSearcher extends React.Component {
 	 * @param {object} evt The event.
 	 */
 	searchButtonClicked( evt ) {
-		let searchString = evt.target.getElementsByTagName( 'input' )[ 0 ].value;
-		if ( searchString !== '' ) {
+		let searchString = evt.target.getElementsByTagName( "input" )[ 0 ].value;
+		if ( searchString !== "" ) {
 			let usedQueries = this.state.usedQueries;
 			if ( isUndefined( usedQueries[ searchString ] ) ) {
 				usedQueries[ searchString ] = {};
@@ -76,7 +76,7 @@ class AlgoliaSearcher extends React.Component {
 		this.getSearchResults( this.state.searchString ).then( function( searchResults ) {
 			this.setState( {
 				results: searchResults,
-				errorMessage: '',
+				errorMessage: "",
 				searching: false
 			} );
 		}.bind( this ) ).catch( function( error ) {
@@ -144,7 +144,7 @@ class AlgoliaSearcher extends React.Component {
 			} );
 			searchResultContent = <ul role="list" className="wpseo-kb-search-results">{results}</ul>;
 		}
-		else if ( this.state.searchString !== '' ) {
+		else if ( this.state.searchString !== "" ) {
 			searchResultContent = <p>{this.props.noResultsText}</p>;
 		}
 		return searchResultContent;
@@ -199,7 +199,7 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {JSX} The content of the component.
 	 */
 	render() {
-		var content = '';
+		var content = "";
 		var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
 								   searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
 
@@ -228,7 +228,7 @@ class AlgoliaSearcher extends React.Component {
 			content = (
 				<div>
 					{searchBar}
-					{ this.state.results.length > 0 ? <h2 className="screen-reader-text">{this.props.searchResultsHeading}</h2> : '' }
+					{ this.state.results.length > 0 ? <h2 className="screen-reader-text">{this.props.searchResultsHeading}</h2> : "" }
 					{this.renderSearchResults()}
 				</div>
 			);
@@ -260,20 +260,20 @@ AlgoliaSearcher.propTypes = {
 };
 
 AlgoliaSearcher.defaultProps = {
-	noResultsText: 'No results found.',
-	headingText: 'Search the Yoast knowledge base',
-	searchButtonText: 'Search',
-	searchResultsHeading: 'Search results',
-	iframeTitle: 'Knowledge base article',
-	algoliaApplicationId: 'RC8G2UCWJK',
-	algoliaApiKey: '459903434a7963f83e7d4cd9bfe89c0d',
-	algoliaIndexName: 'knowledge_base_all',
-	errorMessage: 'Something went wrong. Please try again later.',
-	loadingPlaceholder: 'Loading...',
-	back: 'Back',
-	backLabel: 'Back to search results',
-	open: 'Open',
-	openLabel: 'Open the knowledge base article in a new window or read it in the iframe below'
+	noResultsText: "No results found.",
+	headingText: "Search the Yoast knowledge base",
+	searchButtonText: "Search",
+	searchResultsHeading: "Search results",
+	iframeTitle: "Knowledge base article",
+	algoliaApplicationId: "RC8G2UCWJK",
+	algoliaApiKey: "459903434a7963f83e7d4cd9bfe89c0d",
+	algoliaIndexName: "knowledge_base_all",
+	errorMessage: "Something went wrong. Please try again later.",
+	loadingPlaceholder: "Loading...",
+	back: "Back",
+	backLabel: "Back to search results",
+	open: "Open",
+	openLabel: "Open the knowledge base article in a new window or read it in the iframe below"
 };
 
 /**
@@ -326,7 +326,7 @@ const SearchResult = ( props ) => {
  * @constructor
  */
 const ArticleContent = ( props ) => {
-	let url = props.post.permalink + 'amp?source=wpseo-kb-search';
+	let url = props.post.permalink + "amp?source=wpseo-kb-search";
 	return (
 		<iframe src={url} className="kb-search-content-frame" title={props.iframeTitle}/>
 	);

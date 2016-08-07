@@ -1,33 +1,33 @@
 /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
-var isUndefined = require( 'lodash/isUndefined' );
+var isUndefined = require( "lodash/isUndefined" );
 
-var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
-var TabManager = require( './analysis/tabManager' );
+var getIndicatorForScore = require( "./analysis/getIndicatorForScore" );
+var TabManager = require( "./analysis/tabManager" );
 
-var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
-var tmceHelper = require( './wp-seo-tinymce' );
+var removeMarks = require( "yoastseo/js/markers/removeMarks" );
+var tmceHelper = require( "./wp-seo-tinymce" );
 
-var tinyMCEDecorator = require( './decorator/tinyMCE' ).tinyMCEDecorator;
-var publishBox = require( './ui/publishBox' );
+var tinyMCEDecorator = require( "./decorator/tinyMCE" ).tinyMCEDecorator;
+var publishBox = require( "./ui/publishBox" );
 
-var updateTrafficLight = require( './ui/trafficLight' ).update;
-var updateAdminBar = require( './ui/adminBar' ).update;
+var updateTrafficLight = require( "./ui/trafficLight" ).update;
+var updateAdminBar = require( "./ui/adminBar" ).update;
 
-var getTranslations = require( './analysis/getTranslations' );
-var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
-var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
-var snippetPreviewHelpers = require( './analysis/snippetPreview' );
+var getTranslations = require( "./analysis/getTranslations" );
+var isKeywordAnalysisActive = require( "./analysis/isKeywordAnalysisActive" );
+var isContentAnalysisActive = require( "./analysis/isContentAnalysisActive" );
+var snippetPreviewHelpers = require( "./analysis/snippetPreview" );
 
-var App = require( 'yoastseo' ).App;
-var UsedKeywords = require( './analysis/usedKeywords' );
+var App = require( "yoastseo" ).App;
+var UsedKeywords = require( "./analysis/usedKeywords" );
 
 ( function( $ ) {
-	'use strict';
+	"use strict";
 
 	var snippetContainer;
 
-	var currentKeyword = '';
+	var currentKeyword = "";
 
 	var titleElement;
 
@@ -43,14 +43,14 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * The HTML 'id' attribute for the TinyMCE editor.
 	 * @type {string}
 	 */
-	var tmceId = 'content';
+	var tmceId = "content";
 
 	/**
 	 * Show warning in console when the unsupported CkEditor is used
 	 */
 	var PostScraper = function() {
-		if ( typeof CKEDITOR === 'object' ) {
-			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		if ( typeof CKEDITOR === "object" ) {
+			console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 		}
 	};
 
@@ -60,7 +60,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 */
 	PostScraper.prototype.getData = function() {
 		return {
-			keyword: isKeywordAnalysisActive() ? this.getKeyword() : '',
+			keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 			meta: this.getMeta(),
 			text: this.getText(),
 			title: this.getTitle(),
@@ -82,7 +82,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {string} The keyword.
 	 */
 	PostScraper.prototype.getKeyword = function() {
-		var val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
+		var val = document.getElementById( "yoast_wpseo_focuskw_text_input" ) && document.getElementById( "yoast_wpseo_focuskw_text_input" ).value || "";
 		currentKeyword = val;
 
 		return val;
@@ -94,7 +94,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {string} The meta description.
 	 */
 	PostScraper.prototype.getMeta = function() {
-		return document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
+		return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 	};
 
 	/**
@@ -112,7 +112,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {string} The title.
 	 */
 	PostScraper.prototype.getTitle = function() {
-		return document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
+		return document.getElementById( "title" ) && document.getElementById( "title" ).value || "";
 	};
 
 	/**
@@ -121,14 +121,14 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {string} The url.
 	 */
 	PostScraper.prototype.getUrl = function() {
-		var url = '';
+		var url = "";
 
-		var newPostSlug = $( '#new-post-slug' );
+		var newPostSlug = $( "#new-post-slug" );
 		if ( 0 < newPostSlug.length ) {
 			url = newPostSlug.val();
 		}
-		else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
-			url = document.getElementById( 'editable-post-name-full' ).textContent;
+		else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
+			url = document.getElementById( "editable-post-name-full" ).textContent;
 		}
 
 		return url;
@@ -140,10 +140,10 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {string} The excerpt.
 	 */
 	PostScraper.prototype.getExcerpt = function() {
-		var val = '';
+		var val = "";
 
-		if ( document.getElementById( 'excerpt' ) !== null ) {
-			val = document.getElementById( 'excerpt' ) && document.getElementById( 'excerpt' ).value || '';
+		if ( document.getElementById( "excerpt" ) !== null ) {
+			val = document.getElementById( "excerpt" ) && document.getElementById( "excerpt" ).value || "";
 		}
 
 		return val;
@@ -155,7 +155,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {string} The snippet title.
 	 */
 	PostScraper.prototype.getSnippetTitle = function() {
-		return document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
+		return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
 	};
 
 	/**
@@ -164,7 +164,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {string} The snippet meta.
 	 */
 	PostScraper.prototype.getSnippetMeta = function() {
-		return document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
+		return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 	};
 
 	/**
@@ -182,11 +182,11 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {string} The primary category.
 	 */
 	PostScraper.prototype.getPrimaryCategory = function() {
-		var val = '';
-		var categoryBase = $( '#category-all' ).find( 'ul.categorychecklist' );
+		var val = "";
+		var categoryBase = $( "#category-all" ).find( "ul.categorychecklist" );
 
 		// If only one is visible than that item is the primary category.
-		var checked = categoryBase.find( 'li input:checked' );
+		var checked = categoryBase.find( "li input:checked" );
 
 		if ( checked.length === 1 ) {
 			val = this.getCategoryName( checked.parent() );
@@ -194,7 +194,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 			return val;
 		}
 
-		var primaryTerm = categoryBase.find( '.wpseo-primary-term > label' );
+		var primaryTerm = categoryBase.find( ".wpseo-primary-term > label" );
 
 		if ( primaryTerm.length ) {
 			val = this.getCategoryName( primaryTerm );
@@ -252,10 +252,10 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 */
 	PostScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
-			case 'snippet_meta':
-				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
+			case "snippet_meta":
+				document.getElementById( "yoast_wpseo_metadesc" ).value = value;
 				break;
-			case 'snippet_cite':
+			case "snippet_cite":
 
 				/*
 				 * WordPress leaves the post name empty to signify that it should be generated from the title once the
@@ -266,18 +266,18 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 					leavePostNameUntouched = false;
 					return;
 				}
-				if( document.getElementById( 'post_name' ) !== null ) {
-					document.getElementById( 'post_name' ).value = value;
+				if( document.getElementById( "post_name" ) !== null ) {
+					document.getElementById( "post_name" ).value = value;
 				}
 				if (
-					document.getElementById( 'editable-post-name' ) !== null &&
-					document.getElementById( 'editable-post-name-full' ) !== null ) {
-					document.getElementById( 'editable-post-name' ).textContent = value;
-					document.getElementById( 'editable-post-name-full' ).textContent = value;
+					document.getElementById( "editable-post-name" ) !== null &&
+					document.getElementById( "editable-post-name-full" ) !== null ) {
+					document.getElementById( "editable-post-name" ).textContent = value;
+					document.getElementById( "editable-post-name-full" ).textContent = value;
 				}
 				break;
-			case 'snippet_title':
-				document.getElementById( 'yoast_wpseo_title' ).value = value;
+			case "snippet_title":
+				document.getElementById( "yoast_wpseo_title" ).value = value;
 				break;
 			default:
 				break;
@@ -293,9 +293,9 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @param {string} data.metaDesc
 	 */
 	PostScraper.prototype.saveSnippetData = function( data ) {
-		this.setDataFromSnippet( data.title, 'snippet_title' );
-		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
-		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+		this.setDataFromSnippet( data.title, "snippet_title" );
+		this.setDataFromSnippet( data.urlPath, "snippet_cite" );
+		this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
 	};
 
 	/**
@@ -310,9 +310,9 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * Binds the reanalyze timer on change of dom element.
      */
 	PostScraper.prototype.changeElementEventBinder = function( app ) {
-		var elems = [ '#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]' ];
+		var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
 		for( var i = 0; i < elems.length; i++ ) {
-			$( elems[i] ).on( 'change', app.refresh.bind( app ) );
+			$( elems[i] ).on( "change", app.refresh.bind( app ) );
 		}
 	};
 
@@ -320,24 +320,24 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * Binds the renewData function on the change of input elements.
 	 */
 	PostScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
+		var elems = [ "excerpt", "content", "yoast_wpseo_focuskw_text_input", "title" ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.refresh.bind( app ) );
+				document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 			}
 		}
 
 		tmceHelper.tinyMceEventBinder( app, tmceId );
 
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
+		document.getElementById( "yoast_wpseo_focuskw_text_input" ).addEventListener( "blur", this.resetQueue );
 	};
 
 	/**
 	 * Resets the current queue if focus keyword is changed and not empty.
 	 */
 	PostScraper.prototype.resetQueue = function() {
-		if ( app.rawData.keyword !== '' ) {
+		if ( app.rawData.keyword !== "" ) {
 			app.runAnalyzer( this.rawData );
 		}
 	};
@@ -354,19 +354,19 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 		// If multi keyword isn't available we need to update the first tab (content).
 		if ( ! YoastSEO.multiKeyword ) {
 			tabManager.updateKeywordTab( score, currentKeyword );
-			publishBox.updateScore( 'content', indicator.className );
+			publishBox.updateScore( "content", indicator.className );
 
 			// Updates the input with the currentKeyword value.
-			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
+			$( "#yoast_wpseo_focuskw" ).val( currentKeyword );
 		}
 
 		if ( tabManager.isMainKeyword( currentKeyword ) ) {
-			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+			document.getElementById( "yoast_wpseo_linkdex" ).value = score;
 
-			if ( '' === currentKeyword ) {
-				indicator.className = 'na';
-				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
-				indicator.fullText = app.i18n.dgettext( 'js-text-analysis', 'Content optimization: Enter a focus keyword to calculate the SEO score' );
+			if ( "" === currentKeyword ) {
+				indicator.className = "na";
+				indicator.screenReaderText = app.i18n.dgettext( "js-text-analysis", "Enter a focus keyword to calculate the SEO score" );
+				indicator.fullText = app.i18n.dgettext( "js-text-analysis", "Content optimization: Enter a focus keyword to calculate the SEO score" );
 			}
 
 			tabManager.updateKeywordTab( score, currentKeyword );
@@ -374,10 +374,10 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 			updateTrafficLight( indicator );
 			updateAdminBar( indicator );
 
-			publishBox.updateScore( 'keyword', indicator.className );
+			publishBox.updateScore( "keyword", indicator.className );
 		}
 
-		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+		jQuery( window ).trigger( "YoastSEO:numericScore", score );
 	};
 
 	/**
@@ -388,14 +388,14 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	PostScraper.prototype.saveContentScore = function( score ) {
 		tabManager.updateContentTab( score );
 		var indicator = getIndicatorForScore( score );
-		publishBox.updateScore( 'content', indicator.className );
+		publishBox.updateScore( "content", indicator.className );
 
 		if ( ! isKeywordAnalysisActive() ) {
 			updateTrafficLight( indicator );
 			updateAdminBar( indicator );
 		}
 
-		$( '#yoast_wpseo_content_score' ).val( score );
+		$( "#yoast_wpseo_content_score" ).val( score );
 	};
 
 	/**
@@ -407,8 +407,8 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 			return;
 		}
 
-		var keyword = $( '#yoast_wpseo_focuskw' ).val();
-		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
+		var keyword = $( "#yoast_wpseo_focuskw" ).val();
+		$( "#yoast_wpseo_focuskw_text_input" ).val( keyword );
 	};
 
 	/**
@@ -417,12 +417,12 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {String}
 	 */
 	function getUrlPathFromResponse( response ) {
-		if ( response.responseText === '' ) {
+		if ( response.responseText === "" ) {
 			return titleElement.val();
 		}
 		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
-		return jQuery( '<div>' + response.responseText + '</div>' )
-			.find( '#editable-post-name-full' )
+		return jQuery( "<div>" + response.responseText + "</div>" )
+			.find( "#editable-post-name-full" )
 			.text();
 	}
 
@@ -430,13 +430,13 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * Binds to the WordPress jQuery function to put the permalink on the page.
 	 * If the response matches with permalink string, the snippet can be rendered.
 	 */
-	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
-		var ajax_end_point = '/admin-ajax.php';
+	jQuery( document ).on( "ajaxComplete", function( ev, response, ajaxOptions ) {
+		var ajax_end_point = "/admin-ajax.php";
 		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
 			return;
 		}
 
-		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
+		if ( "string" === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( "action=sample-permalink" ) ) {
 			/*
 			 * WordPress do not update post name for auto-generated slug, so we should leave this field untouched.
 			 */
@@ -465,7 +465,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @returns {boolean}
 	 */
 	function displayMarkers() {
-		return wpseoPostScraperL10n.show_markers === '1';
+		return wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
@@ -476,7 +476,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	function getMarker() {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if ( typeof tinyMCE === 'undefined' || ! displayMarkers() ) {
+		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
 			return false;
 		}
 
@@ -499,8 +499,8 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @param {Object} publishBox The publish box object.
 	 */
 	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
-		var savedKeywordScore = $( '#yoast_wpseo_linkdex' ).val();
-		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
+		var savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
+		var usedKeywords = new UsedKeywords( "#yoast_wpseo_focuskw_text_input", "get_focus_keyword_usage", wpseoPostScraperL10n, app );
 
 		usedKeywords.init();
 		postScraper.initKeywordTabTemplate();
@@ -510,7 +510,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 
-		publishBox.updateScore( 'keyword', indicator.className );
+		publishBox.updateScore( "keyword", indicator.className );
 	}
 
 	/**
@@ -519,13 +519,13 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * @param {Object} publishBox The publish box object.
 	 */
 	function initializeContentAnalysis( publishBox ) {
-		var savedContentScore = $( '#yoast_wpseo_content_score' ).val();
+		var savedContentScore = $( "#yoast_wpseo_content_score" ).val();
 
 		var indicator = getIndicatorForScore( savedContentScore );
 
 		updateAdminBar( indicator );
 
-		publishBox.updateScore( 'content', indicator.className );
+		publishBox.updateScore( "content", indicator.className );
 	}
 
 	/**
@@ -538,8 +538,8 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
 			 * onsubmit event that is copying the focus keyword, this should be solved.
 			 */
-			$( '#post' ).on( 'submit', function() {
-				var hiddenKeyword       = $( '#yoast_wpseo_focuskw' );
+			$( "#post" ).on( "submit", function() {
+				var hiddenKeyword       = $( "#yoast_wpseo_focuskw" );
 				var hiddenKeywordValue  = hiddenKeyword.val();
 				var visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
 
@@ -559,11 +559,11 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 		var targets = {};
 
 		if ( isKeywordAnalysisActive() ) {
-			targets.output = 'wpseo-pageanalysis';
+			targets.output = "wpseo-pageanalysis";
 		}
 
 		if ( isContentAnalysisActive() ) {
-			targets.contentOutput = 'yoast-seo-content-analysis';
+			targets.contentOutput = "yoast-seo-content-analysis";
 		}
 
 		return targets;
@@ -573,11 +573,11 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	 * Hides the add keyword button.
 	 */
 	function hideAddKeywordButton() {
-		$( '.wpseo-tab-add-keyword' ).hide();
+		$( ".wpseo-tab-add-keyword" ).hide();
 	}
 
 	jQuery( document ).ready( function() {
-		snippetContainer = $( '#wpseosnippet' );
+		snippetContainer = $( "#wpseosnippet" );
 
 		var postScraper = new PostScraper();
 		publishBox.initalise();
@@ -594,7 +594,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 
 		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+			elementTarget: [ tmceId, "yoast_wpseo_focuskw_text_input", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper )
@@ -614,7 +614,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 			args.callbacks.saveContentScore = postScraper.saveContentScore.bind( postScraper );
 		}
 
-		titleElement = $( '#title' );
+		titleElement = $( "#title" );
 
 		var translations = getTranslations();
 		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
@@ -650,7 +650,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 			tabManager.getContentTab().activate();
 		}
 
-		jQuery( window ).trigger( 'YoastSEO:ready' );
+		jQuery( window ).trigger( "YoastSEO:ready" );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = args;
