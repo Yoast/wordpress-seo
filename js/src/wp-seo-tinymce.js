@@ -37,14 +37,14 @@ var editorRemoveMarks = require( "./decorator/tinyMCE" ).editorRemoveMarks;
 	 * @param {string} editorID The ID of the tinyMCE editor.
 	 */
 	function isTinyMCEAvailable( editorID ) {
-		if ( !isTinyMCELoaded() ) {
+		if ( ! isTinyMCELoaded() ) {
 			return false;
 		}
 
 		var editor = tinyMCE.get( editorID );
 
 		return (
-			editor !== null && !editor.isHidden()
+			editor !== null && ! editor.isHidden()
 		);
 	}
 

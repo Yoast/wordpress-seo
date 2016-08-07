@@ -312,7 +312,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	PostScraper.prototype.changeElementEventBinder = function( app ) {
 		var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
 		for( var i = 0; i < elems.length; i++ ) {
-			$( elems[i] ).on( "change", app.refresh.bind( app ) );
+			$( elems[ i ] ).on( "change", app.refresh.bind( app ) );
 		}
 	};
 

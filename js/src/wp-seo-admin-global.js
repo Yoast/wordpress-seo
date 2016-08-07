@@ -18,7 +18,7 @@
 
 		/* jshint ignore:start */
 		for ( var index = 0; index < wpseoConsoleNotifications.length; index++ ) {
-			console.warn( wpseoConsoleNotifications[index] );
+			console.warn( wpseoConsoleNotifications[ index ] );
 		}
 		/* jshint ignore:end */
 	}
