@@ -4,7 +4,7 @@
 /* global _ */
 /* global JSON */
 /* global console */
-(function() {
+( function() {
 	'use strict';
 
 	/**
@@ -22,12 +22,12 @@
 		this._app.registerPlugin( 'YoastShortcodePlugin', { status: 'loading' } );
 		this.bindElementEvents();
 
-		var keywordRegexString = '(' + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join('|') + ')';
+		var keywordRegexString = '(' + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join( '|' ) + ')';
 
 		// The regex for matching shortcodes based on the available shortcode keywords.
-		this.keywordRegex = new RegExp( keywordRegexString, 'g');
+		this.keywordRegex = new RegExp( keywordRegexString, 'g' );
 		this.closingTagRegex = new RegExp( '\\[\\/' + keywordRegexString + '\\]', 'g' );
-		this.nonCaptureRegex = new RegExp('\\[' + keywordRegexString + '[^\\]]*?\\]', 'g');
+		this.nonCaptureRegex = new RegExp( '\\[' + keywordRegexString + '[^\\]]*?\\]', 'g' );
 
 		this.parsedShortcodes = [];
 
@@ -100,7 +100,7 @@
 		var contentElement = document.getElementById( 'content' ) || false;
 		var callback =  _.debounce(	this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 500 );
 
-		if (contentElement) {
+		if ( contentElement ) {
 			contentElement.addEventListener( 'keyup', callback );
 			contentElement.addEventListener( 'change', callback );
 		}
@@ -109,7 +109,7 @@
 			tinyMCE.on( 'addEditor', function( e ) {
 				e.editor.on( 'change', callback );
 				e.editor.on( 'keyup', callback );
-			});
+			} );
 		}
 	};
 
@@ -135,7 +135,7 @@
 	 * @returns {Array}
 	 */
 	YoastShortcodePlugin.prototype.getUnparsedShortcodes = function( shortcodes ) {
-		if ( typeof shortcodes !== 'object') {
+		if ( typeof shortcodes !== 'object' ) {
 			console.error( 'Failed to get unparsed shortcodes. Expected parameter to be an array, instead received ' + typeof shortcodes );
 			return false;
 		}
@@ -177,7 +177,7 @@
 	 * @returns {array} The matched shortcodes
 	 */
 	YoastShortcodePlugin.prototype.getShortcodes = function( text ) {
-		if ( typeof text !== 'string') {
+		if ( typeof text !== 'string' ) {
 			/* jshint ignore:start */
 			console.error( 'Failed to get shortcodes. Expected parameter to be a string, instead received' + typeof text );
 			/* jshint ignore:end*/
@@ -188,7 +188,7 @@
 
 		// Remove the capturing shortcodes from the text before trying to match the capturing shortcodes.
 		for ( var i = 0; i < captures.length; i++ ) {
-			text = text.replace(captures[ i ], '');
+			text = text.replace( captures[ i ], '' );
 		}
 
 		var nonCaptures = this.matchNonCapturingShortcodes( text );
@@ -206,13 +206,13 @@
 		var captures = [];
 
 		// First identify which tags are being used in a capturing shortcode by looking for closing tags.
-		var captureKeywords = ( text.match( this.closingTagRegex ) || [] ).join(' ').match( this.keywordRegex ) || [];
+		var captureKeywords = ( text.match( this.closingTagRegex ) || [] ).join( ' ' ).match( this.keywordRegex ) || [];
 
 		// Fetch the capturing shortcodes and strip them from the text so we can easily match the non capturing shortcodes.
 		for ( var i = 0; i < captureKeywords.length; i++ ) {
 			var captureKeyword = captureKeywords[i];
 			var captureRegex = '\\[' + captureKeyword + '[^\\]]*?\\].*?\\[\\/' + captureKeyword + '\\]';
-			var matches = text.match( new RegExp(captureRegex, 'g') ) || [];
+			var matches = text.match( new RegExp( captureRegex, 'g' ) ) || [];
 
 			captures = captures.concat( matches );
 		}
@@ -267,7 +267,7 @@
 	 * @param {function} callback
 	 */
 	YoastShortcodePlugin.prototype.saveParsedShortcodes = function( shortcodeResults, callback ) {
-		shortcodeResults = JSON.parse( shortcodeResults);
+		shortcodeResults = JSON.parse( shortcodeResults );
 		for ( var i = 0; i < shortcodeResults.length; i++ ) {
 			this.parsedShortcodes.push( shortcodeResults[ i ] );
 		}
@@ -276,4 +276,4 @@
 	};
 
 	window.YoastShortcodePlugin = YoastShortcodePlugin;
-}());
+}() );

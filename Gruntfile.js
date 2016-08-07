@@ -1,12 +1,12 @@
 /* global require, process */
-var timeGrunt = require('time-grunt');
+var timeGrunt = require( 'time-grunt' );
 var path = require( 'path' );
 var loadGruntConfig = require( 'load-grunt-config' );
 
-module.exports = function(grunt) {
+module.exports = function( grunt ) {
 	'use strict';
 
-	timeGrunt(grunt);
+	timeGrunt( grunt );
 
 	// Define project configuration
 	var project = {
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
 	};
 
 	// Load Grunt configurations and tasks
-	loadGruntConfig(grunt, {
+	loadGruntConfig( grunt, {
 		configPath: path.join( process.cwd(), project.paths.config ),
 		data: project,
 		jitGrunt: {
@@ -62,5 +62,5 @@ module.exports = function(grunt) {
 			},
 			customTasksDir: 'grunt/custom'
 		}
-	});
+	} );
 };

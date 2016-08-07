@@ -8,7 +8,7 @@ var SEOAssessor = require( 'yoastseo/js/SEOAssessor' );
 var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 var isUndefined = require( 'lodash/isUndefined' );
 
-( function($) {
+( function( $ ) {
 	'use strict';
 
 	var i18n = new Jed( {
@@ -81,7 +81,7 @@ var isUndefined = require( 'lodash/isUndefined' );
 	YoastRecalculateScore.prototype.updateProgressBar = function( total_posts ) {
 		var current_value = jQuery( '#wpseo_count' ).text();
 		var new_value = parseInt( current_value, 10 ) + total_posts;
-		var new_width = new_value * (100 / this.total_count);
+		var new_width = new_value * ( 100 / this.total_count );
 
 		jQuery( '#wpseo_progressbar' ).progressbar( 'value', new_width );
 
@@ -121,7 +121,7 @@ var isUndefined = require( 'lodash/isUndefined' );
 	YoastRecalculateScore.prototype.getScore = function( item ) {
 		return {
 			item_id: this.getItemID( item ),
-			taxonomy: (item.taxonomy) ? item.taxonomy : '',
+			taxonomy: ( item.taxonomy ) ? item.taxonomy : '',
 			score: this.calculateItemScore( item )
 		};
 	};
@@ -169,7 +169,7 @@ var isUndefined = require( 'lodash/isUndefined' );
 			if ( ! isUndefined( response.total_items ) ) {
 				var scores = this.calculateScores( response.total_items, response.items );
 
-				this.sendScores(scores);
+				this.sendScores( scores );
 
 				this.updateProgressBar( response.total_items );
 			}
@@ -203,7 +203,7 @@ var isUndefined = require( 'lodash/isUndefined' );
 	 *
 	 * @param {array} scores
 	 */
-	YoastRecalculateScore.prototype.sendScores = function(scores) {
+	YoastRecalculateScore.prototype.sendScores = function( scores ) {
 		jQuery.post(
 			ajaxurl,
 			{
@@ -229,7 +229,7 @@ var isUndefined = require( 'lodash/isUndefined' );
 				paged: current_page,
 				type: this.fetch_type
 			},
-			this.parseResponse.bind(this),
+			this.parseResponse.bind( this ),
 			'json'
 		);
 	};
@@ -245,16 +245,16 @@ var isUndefined = require( 'lodash/isUndefined' );
 
 		var RecalculateScore = new YoastRecalculateScore( PostsToFetch + TermsToFetch );
 
-		RecalculateScore.start(PostsToFetch, 'post', 'post_id', function() {
-			RecalculateScore.start(TermsToFetch, 'term', 'term_id', false );
-		});
+		RecalculateScore.start( PostsToFetch, 'post', 'post_id', function() {
+			RecalculateScore.start( TermsToFetch, 'term', 'term_id', false );
+		} );
 	}
 
 	/**
 	 * Initializes the event handler for the recalculate button.
 	 */
 	function init() {
-		var recalculate_link = jQuery('#wpseo_recalculate_link');
+		var recalculate_link = jQuery( '#wpseo_recalculate_link' );
 
 		if ( ! isUndefined( recalculate_link ) ) {
 			recalculate_link.click(
@@ -274,11 +274,11 @@ var isUndefined = require( 'lodash/isUndefined' );
 				}
 			);
 
-			if (recalculate_link.data('open')) {
-				recalculate_link.trigger('click');
+			if ( recalculate_link.data( 'open' ) ) {
+				recalculate_link.trigger( 'click' );
 			}
 		}
 	}
 
-	$(init);
-}(jQuery));
+	$( init );
+}( jQuery ) );

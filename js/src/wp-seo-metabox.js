@@ -1,6 +1,6 @@
 /* browser:true */
 /* global tb_show, wpseoSelect2Locale */
-(function( $ ) {
+( function( $ ) {
 	'use strict';
 
 	window.wpseo_init_tabs = function() {
@@ -27,9 +27,9 @@
 
 		if ( jQuery( '.wpseo-meta-section' ).length > 0 ) {
 			jQuery( '#wpseo-meta-section-content' ).addClass( 'active' );
-			jQuery( '.wpseo-metabox-sidebar li').filter( function() {
-				return jQuery( this ).find('.wpseo-meta-section-link').attr( 'href' ) === 'content';
-			} ).addClass('active');
+			jQuery( '.wpseo-metabox-sidebar li' ).filter( function() {
+				return jQuery( this ).find( '.wpseo-meta-section-link' ).attr( 'href' ) === 'content';
+			} ).addClass( 'active' );
 
 			jQuery( 'a.wpseo-meta-section-link' ).click( function( ev ) {
 				ev.preventDefault();
@@ -75,15 +75,15 @@
 		$closeButton = $( '#TB_closeWindowButton' );
 
 		// The container window isn't the correct size, rectify this and also the centering.
-		$popupWindow.css({ width: 680, height: 235, 'margin-left': -340 });
+		$popupWindow.css( { width: 680, height: 235, 'margin-left': -340 } );
 
 		// Accessibility improvements.
 		$popupWindow
-			.attr({
+			.attr( {
 				role: 'dialog',
 				'aria-labelledby': 'TB_ajaxWindowTitle',
 				'aria-describedby': 'TB_ajaxContent'
-			})
+			} )
 			.on( 'keydown', function( event ) {
 				var id;
 
@@ -99,12 +99,12 @@
 						event.preventDefault();
 					}
 				}
-			});
+			} );
 
 		// Move focus back to the element that opened the modal.
 		$( 'body' ).on( 'thickbox:removed', function() {
 			$( '.wpseo-add-keyword' ).focus();
-		});
+		} );
 	}
 
 	/**
@@ -118,16 +118,16 @@
 	}
 
 	jQuery( document ).ready( function() {
-		jQuery( '.wpseo-meta-section').each( function( _, el ) {
+		jQuery( '.wpseo-meta-section' ).each( function( _, el ) {
 			jQuery( el ).find( '.wpseo-metabox-tabs li:first' ).addClass( 'active' );
 			jQuery( el ).find( '.wpseotab:first' ).addClass( 'active' );
-		});
+		} );
 		window.wpseo_init_tabs();
 
 		initAddKeywordPopup();
 		initSelect2();
-	});
-}( jQuery ));
+	} );
+}( jQuery ) );
 
 /* eslint-disable */
 /* jshint ignore:start */

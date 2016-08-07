@@ -4,7 +4,7 @@
 /* jshint -W097 */
 /* jshint -W003 */
 
-(function( $ ) {
+( function( $ ) {
 	'use strict';
 	var featuredImagePlugin;
 	var featuredImageElement;
@@ -70,7 +70,7 @@
 	 */
 	function removeOpengraphWarning() {
 		$( '#yst_opengraph_image_warning' ).remove();
-		$( '#postimagediv').css( 'border', 'none' );
+		$( '#postimagediv' ).css( 'border', 'none' );
 	}
 
 	/**
@@ -123,19 +123,19 @@
 				'"/>';
 
 			featuredImagePlugin.setFeaturedImage( selectedImageHTML );
-		});
+		} );
 
 		$( '#postimagediv' ).on( 'click', '#remove-post-thumbnail', function() {
 			featuredImagePlugin.removeFeaturedImage();
 			removeOpengraphWarning();
-		});
+		} );
 
 		featuredImageElement = $( '#set-post-thumbnail > img' );
 		if ( 'undefined' !== typeof featuredImageElement.prop( 'src' ) ) {
 			featuredImagePlugin.setFeaturedImage( $( '#set-post-thumbnail ' ).html() );
 		}
-	});
-}( jQuery ));
+	} );
+}( jQuery ) );
 
 /* eslint-disable */
 /* jshint ignore:start */

@@ -9,7 +9,7 @@ import ReactDom from 'react-dom';
 import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 /* jshint ignore:end */
 
-(function() {
+( function() {
 	'use strict';
 
 	/**
@@ -331,4 +331,4 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 		initSelect2();
 	}
 	);
-}());
+}() );

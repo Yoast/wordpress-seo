@@ -1,5 +1,5 @@
 /* global wp, _, wpseoPrimaryCategoryL10n */
-(function( $ ) {
+( function( $ ) {
 	'use strict';
 
 	var primaryTermInputTemplate, primaryTermUITemplate, primaryTermScreenReaderTemplate;
@@ -53,10 +53,10 @@
 
 		label = $( checkbox ).closest( 'label' );
 
-		html = primaryTermUITemplate({
+		html = primaryTermUITemplate( {
 			taxonomy: taxonomies[ taxonomyName ],
 			term: label.text()
-		});
+		} );
 
 		label.after( html );
 	}
@@ -87,7 +87,7 @@
 			return;
 		}
 
-		checkedTerms.each(function( i, term ) {
+		checkedTerms.each( function( i, term ) {
 			term = $( term );
 			listItem = term.closest( 'li' );
 
@@ -101,9 +101,9 @@
 
 				label = term.closest( 'label' );
 				label.find( '.wpseo-primary-category-label' ).remove();
-				label.append( primaryTermScreenReaderTemplate({
+				label.append( primaryTermScreenReaderTemplate( {
 					taxonomy: taxonomies[ taxonomyName ]
-				}) );
+				} ) );
 			}
 			else {
 				listItem.addClass( 'wpseo-non-primary-term' );
@@ -131,9 +131,9 @@
 	 *
 	 * @param {string} taxonomyName
 	 */
-	function ensurePrimaryTerm(taxonomyName) {
-		if ('' === getPrimaryTerm(taxonomyName)) {
-			makeFirstTermPrimary(taxonomyName);
+	function ensurePrimaryTerm( taxonomyName ) {
+		if ( '' === getPrimaryTerm( taxonomyName ) ) {
+			makeFirstTermPrimary( taxonomyName );
 		}
 	}
 
@@ -150,7 +150,7 @@
 				makeFirstTermPrimary( taxonomyName );
 			}
 
-			ensurePrimaryTerm(taxonomyName);
+			ensurePrimaryTerm( taxonomyName );
 
 			updatePrimaryTermSelectors( taxonomyName );
 		};
@@ -164,7 +164,7 @@
 	 */
 	function termListAddHandler( taxonomyName ) {
 		return function() {
-			ensurePrimaryTerm(taxonomyName);
+			ensurePrimaryTerm( taxonomyName );
 			updatePrimaryTermSelectors( taxonomyName );
 		};
 	}
@@ -192,14 +192,14 @@
 	}
 
 	$.fn.initYstSEOPrimaryCategory = function() {
-		return this.each(function( i, taxonomy ) {
+		return this.each( function( i, taxonomy ) {
 			var metaboxTaxonomy, html;
 
 			metaboxTaxonomy = $( '#' + taxonomy.name + 'div' );
 
-			html = primaryTermInputTemplate({
+			html = primaryTermInputTemplate( {
 				taxonomy: taxonomy
-			});
+			} );
 
 			metaboxTaxonomy.append( html );
 
@@ -211,7 +211,7 @@
 			metaboxTaxonomy.on( 'wpListAddEnd', '#' + taxonomy.name + 'checklist', termListAddHandler( taxonomy.name ) );
 
 			metaboxTaxonomy.on( 'click', '.wpseo-make-primary-term', makePrimaryHandler( taxonomy.name ) );
-		});
+		} );
 	};
 
 	$( function() {
@@ -221,5 +221,5 @@
 		primaryTermScreenReaderTemplate = wp.template( 'primary-term-screen-reader' );
 
 		$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
-	});
-}( jQuery ));
+	} );
+}( jQuery ) );

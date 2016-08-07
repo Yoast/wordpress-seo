@@ -20,7 +20,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 
 window.yoastHideMarkers = true;
 
-(function( $ ) {
+( function( $ ) {
 	'use strict';
 
 	var snippetContainer;
@@ -295,7 +295,7 @@ window.yoastHideMarkers = true;
 		// Remove default functionality to prevent scrolling to top.
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
 			ev.preventDefault();
-		});
+		} );
 	};
 
 	/**
@@ -409,7 +409,7 @@ window.yoastHideMarkers = true;
 		updateAdminBar( indicator );
 	}
 
-	jQuery( document ).ready(function() {
+	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
 		snippetContainer = $( '#wpseo_snippet' );
@@ -418,12 +418,12 @@ window.yoastHideMarkers = true;
 
 		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
 
-		tabManager = new TabManager({
+		tabManager = new TabManager( {
 			strings: wpseoTermScraperL10n,
 			focusKeywordField: '#wpseo_focuskw',
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive()
-		});
+		} );
 
 		tabManager.init();
 
@@ -493,4 +493,4 @@ window.yoastHideMarkers = true;
 
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 	} );
-}( jQuery ));
+}( jQuery ) );
