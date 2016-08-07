@@ -66,6 +66,14 @@
 	};
 
 	/**
+	 * Remove opengraph warning frame and borders
+	 */
+	function removeOpengraphWarning() {
+		$( '#yst_opengraph_image_warning' ).remove();
+		$( '#postimagediv').css( 'border', 'none' );
+	}
+
+	/**
 	 * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
 	 * @param {object} featuredImage
 	 */
@@ -86,14 +94,6 @@
 			// Force reset warning
 			removeOpengraphWarning();
 		}
-	}
-
-	/**
-	 * Remove opengraph warning frame and borders
-	 */
-	function removeOpengraphWarning() {
-		$( '#yst_opengraph_image_warning' ).remove();
-		$( '#postimagediv').css( 'border', 'none' );
 	}
 
 	$( document ).ready( function() {

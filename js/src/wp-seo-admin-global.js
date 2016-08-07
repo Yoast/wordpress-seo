@@ -155,8 +155,10 @@
 		if ( response.html ) {
 			$source.closest( '.yoast-container' ).html( response.html );
 			/* jshint ignore:start */
+			/* eslint-disable */
 			hookDismissRestoreButtons();
 			/* jshint ignore:end */
+			/* eslint-enable */
 		}
 
 		var $wpseo_menu = $( '#wp-admin-bar-wpseo-menu' );
