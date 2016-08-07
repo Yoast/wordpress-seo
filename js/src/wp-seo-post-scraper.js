@@ -72,7 +72,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			primaryCategory: this.getPrimaryCategory(),
 			searchUrl: this.getSearchUrl(),
 			postUrl: this.getPostUrl(),
-			permalink: this.getPermalink()
+			permalink: this.getPermalink(),
 		};
 	};
 
@@ -456,7 +456,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		return snippetPreviewHelpers.create( snippetContainer, {
 			title: postScraper.getSnippetTitle(),
 			urlPath: postScraper.getSnippetCite(),
-			metaDesc: postScraper.getSnippetMeta()
+			metaDesc: postScraper.getSnippetMeta(),
 		}, postScraper.saveSnippetData.bind( postScraper ) );
 	}
 	/**
@@ -585,7 +585,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		tabManager = new TabManager( {
 			strings: wpseoPostScraperL10n,
 			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive()
+			keywordAnalysisActive: isKeywordAnalysisActive(),
 		} );
 
 		tabManager.init();
@@ -597,13 +597,13 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			elementTarget: [ tmceId, "yoast_wpseo_focuskw_text_input", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
-				getData: postScraper.getData.bind( postScraper )
+				getData: postScraper.getData.bind( postScraper ),
 			},
 			locale: wpseoPostScraperL10n.locale,
 			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview
+			snippetPreview: snippetPreview,
 		};
 
 		if ( isKeywordAnalysisActive() ) {

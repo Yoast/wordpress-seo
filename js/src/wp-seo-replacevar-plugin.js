@@ -14,7 +14,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		"snippet_meta",
 		"primary_category",
 		"data_page_title",
-		"data_meta_desc"
+		"data_meta_desc",
 	];
 
 	var placeholders = {};
@@ -55,37 +55,37 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 		this.addReplacement( new ReplaceVar( "%%focuskw%%", "keyword", {
 			source: "app",
-			aliases: [ "%%keyword%%" ]
+			aliases: [ "%%keyword%%" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%term_description%%", "text", {
 			source: "app",
 			scope: [ "term", "category", "tag" ],
-			aliases: [ "%%tag_description%%", "%%category_description%%" ]
+			aliases: [ "%%tag_description%%", "%%category_description%%" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%term_title%%", "term_title", {
-			scope: [ "post", "term" ]
+			scope: [ "post", "term" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%title%%", "title", {
 			source: "app",
-			scope: [ "post", "term", "page" ]
+			scope: [ "post", "term", "page" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%parent_title%%", "title", {
 			source: "app",
-			scope: [ "page", "category" ]
+			scope: [ "page", "category" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%excerpt%%", "excerpt", {
 			source: "app",
 			scope: [ "post" ],
-			aliases: [ "%%excerpt_only%%" ]
+			aliases: [ "%%excerpt_only%%" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%primary_category%%", "primaryCategory", {
-			source: "app", scope: [ "post" ]
+			source: "app", scope: [ "post" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%sep%%(\\s*%%sep%%)*", "sep" ) );
@@ -256,7 +256,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 			taxonomyElements[ taxonomyName ][ taxonomyID ] = {
 				label: this.getCategoryName( checkbox ),
-				checked: checkbox.prop( "checked" )
+				checked: checkbox.prop( "checked" ),
 			};
 		}.bind( this ) );
 	};

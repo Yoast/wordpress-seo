@@ -18,7 +18,7 @@
 		var options = {
 			new_class: "." + new_class,
 			new_id: new_id,
-			existing_id: existing_id
+			existing_id: existing_id,
 		};
 
 		var instance = {
@@ -54,7 +54,7 @@
 						_ajax_nonce: wpseo_bulk_editor_nonce,
 						wpseo_post_id: id,
 						new_value: new_value,
-						existing_value: current_value
+						existing_value: current_value,
 					};
 
 					jQuery.post( ajaxurl, data, instance.handle_response );
@@ -66,7 +66,7 @@
 
 				var data = {
 					action: save_all_method,
-					_ajax_nonce: wpseo_bulk_editor_nonce
+					_ajax_nonce: wpseo_bulk_editor_nonce,
 				};
 
 				data.send = false;
@@ -148,7 +148,7 @@
 						}
 					}
 				);
-			}
+			},
 		};
 
 		return instance;

@@ -33,7 +33,7 @@
 	function wpseoDismissTaglineNotice( nonce ) {
 		jQuery.post( ajaxurl, {
 			action: "wpseo_dismiss_tagline_notice",
-			_wpnonce: nonce
+			_wpnonce: nonce,
 		}
 		);
 	}
@@ -49,7 +49,7 @@
 		jQuery.post( ajaxurl, {
 			action: "wpseo_set_ignore",
 			option: option,
-			_wpnonce: nonce
+			_wpnonce: nonce,
 		}, function( data ) {
 			if ( data ) {
 				jQuery( "#" + hide ).hide();
@@ -84,7 +84,7 @@
 				{
 					action: $parentDiv.attr( "id" ).replace( /-/g, "_" ),
 					_wpnonce: $parentDiv.data( "nonce" ),
-					data: $parentDiv.data( "json" )
+					data: $parentDiv.data( "json" ),
 				}
 			);
 
@@ -94,7 +94,7 @@
 					action: "yoast_dismiss_notification",
 					notification: $parentDiv.attr( "id" ),
 					nonce: $parentDiv.data( "nonce" ),
-					data: $parentDiv.data( "json" )
+					data: $parentDiv.data( "json" ),
 				}
 			);
 
@@ -206,7 +206,7 @@
 					action: "yoast_dismiss_alert",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" )
+					data: $source.data( "json" ),
 				},
 				handleDismissRestoreResponse.bind( this, $source ),
 				"json"
@@ -228,7 +228,7 @@
 					action: "yoast_restore_alert",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" )
+					data: $source.data( "json" ),
 				},
 				handleDismissRestoreResponse.bind( this, $source ),
 				"json"

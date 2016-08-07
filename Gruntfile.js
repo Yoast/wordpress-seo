@@ -19,23 +19,23 @@ module.exports = function( grunt ) {
 			images: "images/",
 			js: "js/src/",
 			languages: "languages/",
-			logs: "logs/"
+			logs: "logs/",
 		},
 		files: {
 			sass: [ "css/src/*.scss" ],
 			css: [
 				"css/*.css",
-				"!css/*.min.css"
+				"!css/*.min.css",
 			],
 			js: [
 				"js/src/*.js",
-				"js/src/kb-search/*.js"
+				"js/src/kb-search/*.js",
 			],
 			php: [
 				"*.php",
 				"admin/**/*.php",
 				"frontend/**/*.php",
-				"inc/**/*.php"
+				"inc/**/*.php",
 			],
 			phptests: "tests/**/*.php",
 			get config() {
@@ -44,9 +44,9 @@ module.exports = function( grunt ) {
 			get changelog() {
 				return project.paths.theme + "changelog.txt";
 			},
-			grunt: "Gruntfile.js"
+			grunt: "Gruntfile.js",
 		},
-		pkg: grunt.file.readJSON( "package.json" )
+		pkg: grunt.file.readJSON( "package.json" ),
 	};
 
 	// Load Grunt configurations and tasks
@@ -58,9 +58,9 @@ module.exports = function( grunt ) {
 				addtextdomain: "grunt-wp-i18n",
 				makepot: "grunt-wp-i18n",
 				glotpress_download: "grunt-glotpress",
-				wpcss: "grunt-wp-css"
+				wpcss: "grunt-wp-css",
 			},
-			customTasksDir: "grunt/custom"
-		}
+			customTasksDir: "grunt/custom",
+		},
 	} );
 };

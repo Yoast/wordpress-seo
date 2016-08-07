@@ -55,7 +55,7 @@
 
 		html = primaryTermUITemplate( {
 			taxonomy: taxonomies[ taxonomyName ],
-			term: label.text()
+			term: label.text(),
 		} );
 
 		label.after( html );
@@ -102,7 +102,7 @@
 				label = term.closest( "label" );
 				label.find( ".wpseo-primary-category-label" ).remove();
 				label.append( primaryTermScreenReaderTemplate( {
-					taxonomy: taxonomies[ taxonomyName ]
+					taxonomy: taxonomies[ taxonomyName ],
 				} ) );
 			}
 			else {
@@ -198,7 +198,7 @@
 			metaboxTaxonomy = $( "#" + taxonomy.name + "div" );
 
 			html = primaryTermInputTemplate( {
-				taxonomy: taxonomy
+				taxonomy: taxonomy,
 			} );
 
 			metaboxTaxonomy.append( html );

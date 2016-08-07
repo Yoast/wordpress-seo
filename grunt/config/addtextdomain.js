@@ -1,7 +1,7 @@
 // https://github.com/blazersix/grunt-wp-i18n
 module.exports = {
 	options: {
-		textdomain: "<%= pkg.plugin.textdomain %>"
+		textdomain: "<%= pkg.plugin.textdomain %>",
 	},
 	plugin: {
 		files: {
@@ -9,8 +9,8 @@ module.exports = {
 				"<%= files.php %>",
 				"!admin/license-manager/**",
 				"!admin/i18n-module/**",
-				"!premium/**"
-			]
-		}
-	}
+				"!premium/**",
+			],
+		},
+	},
 };

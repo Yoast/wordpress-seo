@@ -8,7 +8,7 @@ module.exports = {
 			cwd: "<%= paths.images %>",
 			src: [ "*.*" ],
 			dest: "<%= paths.images %>",
-			isFile: true
-		} ]
-	}
+			isFile: true,
+		} ],
+	},
 };

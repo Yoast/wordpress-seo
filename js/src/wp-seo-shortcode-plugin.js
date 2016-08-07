@@ -248,7 +248,7 @@
 			jQuery.post( ajaxurl, {
 				action: "wpseo_filter_shortcodes",
 				_wpnonce: wpseoShortcodePluginL10n.wpseo_filter_shortcodes_nonce,
-				data: shortcodes
+				data: shortcodes,
 			},
 				function( shortcodeResults ) {
 					this.saveParsedShortcodes( shortcodeResults, callback );

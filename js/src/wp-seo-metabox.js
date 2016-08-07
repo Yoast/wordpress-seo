@@ -17,7 +17,7 @@
 
 				if ( jQuery( this ).hasClass( "scroll" ) ) {
 					jQuery( "html, body" ).animate( {
-						scrollTop: jQuery( targetElem ).offset().top
+						scrollTop: jQuery( targetElem ).offset().top,
 					}, 500
 						);
 				}
@@ -82,7 +82,7 @@
 			.attr( {
 				role: "dialog",
 				"aria-labelledby": "TB_ajaxWindowTitle",
-				"aria-describedby": "TB_ajaxContent"
+				"aria-describedby": "TB_ajaxContent",
 			} )
 			.on( "keydown", function( event ) {
 				var id;

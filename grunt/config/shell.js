@@ -6,7 +6,7 @@ module.exports = function( grunt ) {
 		"combine-pot-files": {
 			fromFiles: [
 				"languages/<%= pkg.plugin.textdomain %>-temp.pot",
-				"node_modules/yoastseo/languages/yoast-seo.pot"
+				"node_modules/yoastseo/languages/yoast-seo.pot",
 			],
 			toFile: "languages/<%= pkg.plugin.textdomain %>.pot",
 			command: function() {
@@ -19,7 +19,7 @@ module.exports = function( grunt ) {
 					" --use-first" +
 					" " + files.join( " " ) +
 					" > " + toFile;
-			}
-		}
+			},
+		},
 	};
 };

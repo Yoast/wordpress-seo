@@ -52,7 +52,7 @@ jQuery( function() {
 			$modal.attr( {
 				role: "dialog",
 				"aria-labelledby": "TB_ajaxWindowTitle",
-				"aria-describedby": "TB_ajaxContent"
+				"aria-describedby": "TB_ajaxContent",
 			} )
 			.on( "keydown", function( event ) {
 				var id;
@@ -104,7 +104,7 @@ function wpseo_gsc_post_redirect() {
 			mark_as_fixed: is_checked,
 			platform: jQuery( "#field_platform" ).val(),
 			category: jQuery( "#field_category" ).val(),
-			type: "301"
+			type: "301",
 		},
 		function() {
 			if( is_checked === true ) {
@@ -152,7 +152,7 @@ function wpseo_mark_as_fixed( url ) {
 			ajax_nonce: jQuery( ".wpseo-gsc-ajax-security" ).val(),
 			platform: jQuery( "#field_platform" ).val(),
 			category: jQuery( "#field_category" ).val(),
-			url: url
+			url: url,
 		},
 		function( response ) {
 			if ( "true" === response ) {

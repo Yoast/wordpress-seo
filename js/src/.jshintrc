@@ -5,7 +5,7 @@
   "eqeqeq": true,
   "eqnull": true,
   "immed": true,
-  "es3": true,
+  "es5": true,
   "latedef": true,
   "newcap": true,
   "noarg": true,
