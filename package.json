@@ -15,7 +15,8 @@
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
-    "test": "istanbul test jasmine"
+    "test": "istanbul test jasmine",
+    "check-coverage": "istanbul check-coverage --statements 82.23 --branches 72.62 --functions 72.62 --lines 82.23"
   },
   "browser": "js/browser.js",
   "devDependencies": {

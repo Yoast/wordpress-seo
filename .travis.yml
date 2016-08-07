@@ -18,6 +18,7 @@ before_script:
 script:
 - npm test --coverage
 - grunt check
+- npm run check-coverage
 
 after_success:
 - npm install -g codeclimate-test-reporter
