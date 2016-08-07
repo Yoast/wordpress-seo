@@ -24,4 +24,3 @@ rules:
   no-unused-vars: 1
   no-undef: 1
   require-jsdoc: 1
-  no-alert: 1

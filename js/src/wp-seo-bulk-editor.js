@@ -41,7 +41,9 @@
 					jQuery( new_target ).val( '' ).focus();
 				}
 				else {
+					/* eslint-disable no-alert */
 					if ( ( new_value === '' ) && !window.confirm( 'Are you sure you want to remove the existing ' + column_value + '?' ) ) {
+						/* eslint-enable no-alert */
 						jQuery( new_target ).focus();
 						jQuery( new_target ).val( '' ).focus();
 						return;
