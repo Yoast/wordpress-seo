@@ -6,7 +6,6 @@ rules:
   react/prop-types: 1
   wrap-iife: 1
   camelcase: 1
-  space-in-parens: 1
   brace-style: 1
   max-len: 1
   max-statements: 1

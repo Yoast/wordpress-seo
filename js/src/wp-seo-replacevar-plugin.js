@@ -4,7 +4,7 @@ var filter = require( 'lodash/filter' );
 var isUndefined = require( 'lodash/isUndefined' );
 var ReplaceVar = require( './values/replaceVar' );
 
-(function() {
+( function() {
 	'use strict';
 
 	var modifiableFields = [
@@ -451,7 +451,7 @@ var ReplaceVar = require( './values/replaceVar' );
 	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
 		var term_title = this._app.rawData.name;
 
-		data = data.replace( /%%term_title%%/g, term_title);
+		data = data.replace( /%%term_title%%/g, term_title );
 
 		return data;
 	};
@@ -498,4 +498,4 @@ var ReplaceVar = require( './values/replaceVar' );
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
-}());
+}() );

@@ -2,7 +2,7 @@
 /* global JSON */
 /* global wpseo_bulk_editor_nonce */
 /* jshint -W097 */
-(function() {
+( function() {
 	'use strict';
 	var bulk_editor = function( current_table ) {
 		var new_class = current_table.find( '[class^=wpseo-new]' ).first().attr( 'class' );
@@ -167,4 +167,4 @@
 			);
 	}
 	);
-}());
+}() );

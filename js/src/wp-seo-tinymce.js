@@ -5,7 +5,7 @@ var isUndefined = require( 'lodash/isUndefined' );
 var editorHasMarks = require( './decorator/tinyMCE' ).editorHasMarks;
 var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 
-(function() {
+( function() {
 	'use strict';
 
 	/**
@@ -55,8 +55,8 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 */
 	function convertHtmlEntities( text ) {
 		// Create regular expression, this searches for the html entity '&amp;', the 'g' param is for searching the whole text.
-		var regularExpression = new RegExp('&amp;', 'g');
-		return text.replace(regularExpression, '&');
+		var regularExpression = new RegExp( '&amp;', 'g' );
+		return text.replace( regularExpression, '&' );
 	}
 
 	/**
@@ -99,7 +99,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			forEach( events, function( eventName ) {
 				editor.on( eventName, callback );
 			} );
-		});
+		} );
 	}
 
 	/**
@@ -146,8 +146,8 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			}
 
 			if( isTinyMCELoaded() ) {
-				tinyMCE.on( 'AddEditor', function( ) {
-					enableMarkerButtons( );
+				tinyMCE.on( 'AddEditor', function() {
+					enableMarkerButtons();
 				} );
 			}
 		}
@@ -186,4 +186,4 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 		enableMarkerButtons: enableMarkerButtons,
 		wpTextViewOnInitCheck: wpTextViewOnInitCheck
 	};
-})(jQuery);
+} )( jQuery );

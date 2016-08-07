@@ -22,7 +22,7 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 var App = require( 'yoastseo' ).App;
 var UsedKeywords = require( './analysis/usedKeywords' );
 
-(function( $ ) {
+( function( $ ) {
 	'use strict';
 
 	var snippetContainer;
@@ -242,7 +242,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	PostScraper.prototype.getCategoryName = function( li ) {
 		var clone = li.clone();
 		clone.children().remove();
-		return $.trim(clone.text());
+		return $.trim( clone.text() );
 	};
 
 	/**
@@ -312,7 +312,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 	PostScraper.prototype.changeElementEventBinder = function( app ) {
 		var elems = [ '#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]' ];
 		for( var i = 0; i < elems.length; i++ ) {
-			$( elems[i] ).on('change', app.refresh.bind( app ) );
+			$( elems[i] ).on( 'change', app.refresh.bind( app ) );
 		}
 	};
 
@@ -328,7 +328,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 			}
 		}
 
-		tmceHelper.tinyMceEventBinder(app, tmceId);
+		tmceHelper.tinyMceEventBinder( app, tmceId );
 
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
 	};
@@ -662,4 +662,4 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
 	} );
-}( jQuery ));
+}( jQuery ) );

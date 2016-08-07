@@ -3,7 +3,7 @@
 /* jshint -W097 */
 /* jshint unused:false */
 
-(function() {
+( function() {
 	'use strict';
 
 	/**
@@ -101,8 +101,8 @@
 			$parentDiv.fadeTo( 100, 0, function() {
 				$parentDiv.slideUp( 100, function() {
 					$parentDiv.remove();
-				});
-			});
+				} );
+			} );
 
 			return false;
 		} );
@@ -114,15 +114,15 @@
 
 			jQuery( helpPanel ).slideToggle( 200, function() {
 				$button.attr( 'aria-expanded', ! isPanelVisible );
-			});
-		});
-	});
+			} );
+		} );
+	} );
 	window.wpseoDismissTaglineNotice = wpseoDismissTaglineNotice;
 	window.wpseoSetIgnore = wpseoSetIgnore;
 	window.wpseoDismissLink = wpseoDismissLink;
-}());
+}() );
 
-(function() {
+( function() {
 	'use strict';
 
 	var $ = jQuery;
@@ -181,8 +181,8 @@
 			$issue_counter.show();
 		}
 
-		$('#toplevel_page_wpseo_dashboard .update-plugins').removeClass().addClass('update-plugins count-' + response.total );
-		$('#toplevel_page_wpseo_dashboard .plugin-count').html( response.total );
+		$( '#toplevel_page_wpseo_dashboard .update-plugins' ).removeClass().addClass( 'update-plugins count-' + response.total );
+		$( '#toplevel_page_wpseo_dashboard .plugin-count' ).html( response.total );
 	}
 
 	/**
@@ -196,7 +196,7 @@
 			var $source = $this.closest( '.yoast-alert-holder' );
 
 			var $container = $this.closest( '.yoast-container' );
-			$container.append('<div class="yoast-container-disabled"/>');
+			$container.append( '<div class="yoast-container-disabled"/>' );
 
 			$this.find( 'span' ).removeClass( 'dashicons-no-alt' ).addClass( 'dashicons-randomize' );
 
@@ -218,7 +218,7 @@
 			var $source = $this.closest( '.yoast-alert-holder' );
 
 			var $container = $this.closest( '.yoast-container' );
-			$container.append('<div class="yoast-container-disabled"/>');
+			$container.append( '<div class="yoast-container-disabled"/>' );
 
 			$this.find( 'span' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-randomize' );
 
@@ -239,10 +239,10 @@
 	$( document ).ready( function() {
 		showAlertPopup();
 		hookDismissRestoreButtons();
-	});
-})();
+	} );
+} )();
 
-(function() {
+( function() {
 	'use strict';
 
 	var $ = jQuery;
@@ -275,8 +275,8 @@
 	 * @param {object} $tab Tab that is activated.
 	 */
 	function openHelpCenterTab( $container, $tab ) {
-		$container.find('.contextual-help-tabs-wrap div').removeClass('active');
-		$tab.addClass('active');
+		$container.find( '.contextual-help-tabs-wrap div' ).removeClass( 'active' );
+		$tab.addClass( 'active' );
 
 		stopVideos();
 		activateVideo( $tab );
@@ -292,7 +292,7 @@
 		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'true' );
 		$container.find( '.wpseo-tab-video-slideout' ).css( 'display', 'flex' );
 
-		var $activeTabLink = $container.find('.wpseo-help-center-item.active > a');
+		var $activeTabLink = $container.find( '.wpseo-help-center-item.active > a' );
 
 		$( '#wpcontent' ).addClass( 'yoast-help-center-open' );
 
@@ -346,4 +346,4 @@
 			closeVideoSlideout();
 		}
 	} );
-})();
+} )();
