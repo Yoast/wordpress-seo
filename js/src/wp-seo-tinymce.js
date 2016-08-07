@@ -66,7 +66,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 * @returns {String} Content from the TinyMCE editor.
 	 */
 	function getContentTinyMce( content_id ) {
-		//if no TinyMce object available
+		// if no TinyMce object available
 		var content = '';
 		if ( isTinyMCEAvailable( content_id ) === false ) {
 			content = tinyMCEElementContent( content_id );
