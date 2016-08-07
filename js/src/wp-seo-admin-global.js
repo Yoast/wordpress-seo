@@ -1,5 +1,5 @@
 /* global ajaxurl */
-/* global wpseoAdminGlobalL10n */
+/* global wpseoAdminGlobalL10n, wpseoConsoleNotifications */
 /* jshint -W097 */
 /* jshint unused:false */
 
