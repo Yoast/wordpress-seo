@@ -98,7 +98,7 @@
 				}
 			);
 
-			$parentDiv.fadeTo( 100 , 0, function() {
+			$parentDiv.fadeTo( 100, 0, function() {
 				$parentDiv.slideUp( 100, function() {
 					$parentDiv.remove();
 				});

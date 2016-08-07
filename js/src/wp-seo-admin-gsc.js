@@ -129,7 +129,7 @@ function wpseo_update_category_count(category) {
 	'use strict';
 
 	var count_element = jQuery('#gsc_count_' + category + '');
-	var new_count     = parseInt( count_element.text() , 10) - 1;
+	var new_count     = parseInt( count_element.text(), 10) - 1;
 	if(new_count < 0) {
 		new_count = 0;
 	}

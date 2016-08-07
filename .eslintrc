@@ -15,5 +15,4 @@ rules:
   no-inline-comments: 1
   indent: 1
   spaced-comment: 1
-  comma-spacing: 1
   max-statements: 1
