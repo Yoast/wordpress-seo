@@ -25,4 +25,3 @@ rules:
   no-undef: 1
   require-jsdoc: 1
   no-alert: 1
-  no-use-before-define: 1
