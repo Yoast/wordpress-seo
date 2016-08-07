@@ -82,6 +82,11 @@ jQuery( function() {
 	});
 });
 
+/**
+ * Adds a redirect from the google search console overview.
+ *
+ * @returns {boolean} Always returns false to cancel the default event handler.
+ */
 function wpseo_gsc_post_redirect() {
 	'use strict';
 
@@ -115,6 +120,11 @@ function wpseo_gsc_post_redirect() {
 	return false;
 }
 
+/**
+ * Decrement current category count by one.
+ *
+ * @param {string} category The category count to update.
+ */
 function wpseo_update_category_count(category) {
 	'use strict';
 
@@ -127,6 +137,11 @@ function wpseo_update_category_count(category) {
 	count_element.text(new_count);
 }
 
+/**
+ * Marks a search console crawl issue as fixed.
+ *
+ * @param {string} url The URL that has been fixed.
+ */
 function wpseo_mark_as_fixed(url) {
 	'use strict';
 

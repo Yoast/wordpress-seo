@@ -249,7 +249,9 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 		});
 	}
 
-	// Initialize the recalculate.
+	/**
+	 * Initializes the event handler for the recalculate button.
+	 */
 	function init() {
 		var recalculate_link = jQuery('#wpseo_recalculate_link');
 
