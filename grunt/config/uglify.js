@@ -5,7 +5,7 @@ module.exports = {
 			preserveComments: /^!|@preserve|@license|@cc_on/,
 			report: 'gzip'
 		},
-		files: [{
+		files: [ {
 			expand: true,
 			cwd: 'js/dist',
 			src: [
@@ -16,6 +16,6 @@ module.exports = {
 			ext: '.min.js',
 			extDot: 'first',
 			isFile: true
-		}]
+		} ]
 	}
 };

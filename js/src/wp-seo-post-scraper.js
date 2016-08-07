@@ -594,7 +594,7 @@ var UsedKeywords = require( './analysis/usedKeywords' );
 
 		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			elementTarget: [ tmceId, 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
 			targets: retrieveTargets(),
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper )

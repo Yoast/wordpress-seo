@@ -9,7 +9,7 @@ module.exports = {
 			'css/alerts-340.css': [ 'css/src/alerts.scss' ],
 			'css/dashboard-330.css': [ 'css/src/dashboard.scss' ],
 			'css/edit-page-330.css': [ 'css/src/edit-page.scss' ],
-			'css/featured-image-330.css': [' css/src/featured-image.scss' ],
+			'css/featured-image-330.css': [ ' css/src/featured-image.scss' ],
 			'css/help-center-340.css': [ 'css/src/help-center.scss' ],
 			'css/inside-editor-331.css': [ 'css/src/inside-editor.scss' ],
 			'css/kb-search-340.css': [ 'css/src/kb-search.scss' ],

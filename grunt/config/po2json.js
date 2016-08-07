@@ -5,7 +5,7 @@ module.exports = {
 			format: 'jed1.x',
 			domain: 'wordpress-seo'
 		},
-		src: ['languages/*.po'],
+		src: [ 'languages/*.po' ],
 		dest: 'languages'
 	},
 	js: {
@@ -13,7 +13,7 @@ module.exports = {
 			format: 'jed1.x',
 			domain: 'wordpress-seo'
 		},
-		src: ['node_modules/yoastseo/languages/yoast-seo.pot'],
+		src: [ 'node_modules/yoastseo/languages/yoast-seo.pot' ],
 		dest: 'languages'
 	}
 };
