@@ -53,7 +53,10 @@
 	"disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~"],
 	"disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
 	"disallowMultipleLineStrings": true,
-	"validateQuoteMarks": "'",
+	"validateQuoteMarks": {
+		"escape": true,
+		"mark": "\""
+	},
 	"validateIndentation": "\t",
 	"requireLineFeedAtFileEnd": true,
 	"requireDotNotation": true,
