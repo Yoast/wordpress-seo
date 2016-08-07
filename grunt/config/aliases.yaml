@@ -38,10 +38,6 @@ check:
   - 'check:i18n'
 'check:js':
   - 'eslint'
-  - 'jshint'
-  - 'jsonlint'
-  - 'jsvalidate'
-  - 'jscs'
 'check:php':
   - 'phplint'
   - 'phpcs'
