@@ -239,7 +239,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 				};
 				algoliaSearchers.push( {
 					tabName: tabId,
-					algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher , translations ), mountingPoint ) //jshint ignore:line
+					algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher, translations ), mountingPoint ) //jshint ignore:line
 				} );
 			} );
 

@@ -55,7 +55,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	 */
 	function convertHtmlEntities( text ) {
 		// Create regular expression, this searches for the html entity '&amp;', the 'g' param is for searching the whole text.
-		var regularExpression = new RegExp('&amp;','g');
+		var regularExpression = new RegExp('&amp;', 'g');
 		return text.replace(regularExpression, '&');
 	}
 
@@ -146,7 +146,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 			}
 
 			if( isTinyMCELoaded() ) {
-				tinyMCE.on( 'AddEditor' , function( ) {
+				tinyMCE.on( 'AddEditor', function( ) {
 					enableMarkerButtons( );
 				} );
 			}
