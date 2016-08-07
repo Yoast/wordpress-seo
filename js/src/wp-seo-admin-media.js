@@ -17,7 +17,7 @@ jQuery( document ).ready(
 			var wpseo_custom_uploader = wp.media.frames.file_frame = wp.media( {
 				title: wpseoMediaL10n.choose_image,
 				button: { text: wpseoMediaL10n.choose_image },
-				multiple: false
+				multiple: false,
 			} );
 
 			wpseo_custom_uploader.on( "select", function() {

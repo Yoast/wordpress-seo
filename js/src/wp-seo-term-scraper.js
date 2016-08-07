@@ -60,7 +60,7 @@ window.yoastHideMarkers = true;
 			snippetMeta: this.getSnippetMeta(),
 			name: this.getName(),
 			baseUrl: this.getBaseUrl(),
-			pageTitle: this.getPageTitle()
+			pageTitle: this.getPageTitle(),
 		};
 	};
 
@@ -340,7 +340,7 @@ window.yoastHideMarkers = true;
 		return snippetPreviewHelpers.create( snippetContainer, {
 			title: termScraper.getSnippetTitle(),
 			urlPath: termScraper.getSnippetCite(),
-			metaDesc: termScraper.getSnippetMeta()
+			metaDesc: termScraper.getSnippetMeta(),
 		}, termScraper.saveSnippetData.bind( termScraper ) );
 	}
 
@@ -422,7 +422,7 @@ window.yoastHideMarkers = true;
 			strings: wpseoTermScraperL10n,
 			focusKeywordField: "#wpseo_focuskw",
 			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive()
+			keywordAnalysisActive: isKeywordAnalysisActive(),
 		} );
 
 		tabManager.init();
@@ -435,12 +435,12 @@ window.yoastHideMarkers = true;
 			elementTarget: [ tmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
-				getData: termScraper.getData.bind( termScraper )
+				getData: termScraper.getData.bind( termScraper ),
 			},
 			locale: wpseoTermScraperL10n.locale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview
+			snippetPreview: snippetPreview,
 		};
 
 		if ( isKeywordAnalysisActive() ) {

@@ -3,17 +3,17 @@ module.exports = {
 	all: {
 		options: {
 			format: "jed1.x",
-			domain: "wordpress-seo"
+			domain: "wordpress-seo",
 		},
 		src: [ "languages/*.po" ],
-		dest: "languages"
+		dest: "languages",
 	},
 	js: {
 		options: {
 			format: "jed1.x",
-			domain: "wordpress-seo"
+			domain: "wordpress-seo",
 		},
 		src: [ "node_modules/yoastseo/languages/yoast-seo.pot" ],
-		dest: "languages"
-	}
+		dest: "languages",
+	},
 };

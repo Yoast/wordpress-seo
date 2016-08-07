@@ -27,7 +27,7 @@ class AlgoliaSearcher extends React.Component {
 
 			// Shows the search results if this is set to false. Otherwhise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
 			showDetail: false,
-			searching: false
+			searching: false,
 		};
 		this.props = props;
 		this.initAlgoliaClient();
@@ -58,7 +58,7 @@ class AlgoliaSearcher extends React.Component {
 			}
 			this.setState( {
 				searchString: searchString,
-				usedQueries: usedQueries
+				usedQueries: usedQueries,
 			}, function() {
 				// After the state was set.
 				this.updateSearchResults();
@@ -71,18 +71,18 @@ class AlgoliaSearcher extends React.Component {
 	 */
 	updateSearchResults() {
 		this.setState( {
-			searching: true
+			searching: true,
 		} );
 		this.getSearchResults( this.state.searchString ).then( function( searchResults ) {
 			this.setState( {
 				results: searchResults,
 				errorMessage: "",
-				searching: false
+				searching: false,
 			} );
 		}.bind( this ) ).catch( function( error ) {
 			this.setState( {
 				errorMessage: error.message,
-				searching: false
+				searching: false,
 			} );
 		}.bind( this ) );
 	}
@@ -119,7 +119,7 @@ class AlgoliaSearcher extends React.Component {
 		usedQueries[ this.state.searchString ][ postId ] = { title: articleTitle, link: articleLink };
 		this.setState( {
 			showDetail: resultArrayIndex,
-			usedQueries: usedQueries
+			usedQueries: usedQueries,
 		} );
 	}
 
@@ -273,7 +273,7 @@ AlgoliaSearcher.defaultProps = {
 	back: "Back",
 	backLabel: "Back to search results",
 	open: "Open",
-	openLabel: "Open the knowledge base article in a new window or read it in the iframe below"
+	openLabel: "Open the knowledge base article in a new window or read it in the iframe below",
 };
 
 /**

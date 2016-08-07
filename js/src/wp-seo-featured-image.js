@@ -87,7 +87,7 @@
 				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + "</p></div>" ).insertBefore( $postImageDiv );
 				$postImageDiv.css( {
 					border: "solid #dd3d36",
-					borderWidth: "3px 4px 4px 4px"
+					borderWidth: "3px 4px 4px 4px",
 				} );
 			}
 		} else {

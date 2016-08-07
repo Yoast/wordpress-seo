@@ -86,7 +86,7 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 			action: "wpseo_set_option",
 			option: option,
 			newval: newval,
-			_wpnonce: nonce
+			_wpnonce: nonce,
 		}, function( data ) {
 			if ( data ) {
 				jQuery( "#" + hide ).hide();
@@ -103,7 +103,7 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 	function wpseoKillBlockingFiles( nonce ) {
 		jQuery.post( ajaxurl, {
 			action: "wpseo_kill_blocking_files",
-			_ajax_nonce: nonce
+			_ajax_nonce: nonce,
 		}, function( data ) {
 			if ( data === "success" ) {
 				jQuery( "#blocking_files" ).hide();
@@ -155,7 +155,7 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 				_wpnonce: target_form.find( "input[name=fb_admin_nonce]" ).val(),
 				admin_name: target_form.find( "input[name=fb_admin_name]" ).val(),
 				admin_id: target_form.find( "input[name=fb_admin_id]" ).val(),
-				action: "wpseo_add_fb_admin"
+				action: "wpseo_add_fb_admin",
 			},
 			function( response ) {
 				var resp = jQuery.parseJSON( response );
@@ -188,25 +188,25 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 		// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
 		jQuery( "#company_or_person" ).select2( {
 			width: select2Width,
-			language: wpseoSelect2Locale
+			language: wpseoSelect2Locale,
 		} );
 
 		// Select2 for Twitter card meta data in Settings
 		jQuery( "#twitter_card_type" ).select2( {
 			width: select2Width,
-			language: wpseoSelect2Locale
+			language: wpseoSelect2Locale,
 		} );
 
 		// Select2 for taxonomy breadcrumbs in Advanced
 		jQuery( "#post_types-post-maintax" ).select2( {
 			width: select2Width,
-			language: wpseoSelect2Locale
+			language: wpseoSelect2Locale,
 		} );
 
 		// Select2 for profile in Search Console
 		jQuery( "#profile" ).select2( {
 			width: select2Width,
-			language: wpseoSelect2Locale
+			language: wpseoSelect2Locale,
 		} );
 	}
 
@@ -235,12 +235,12 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 				openLabel: wpseoAdminL10n.kb_open_label,
 				back: wpseoAdminL10n.kb_back,
 				backLabel: wpseoAdminL10n.kb_back_label,
-				iframeTitle: wpseoAdminL10n.kb_iframe_title
+				iframeTitle: wpseoAdminL10n.kb_iframe_title,
 			};
 			algoliaSearchers.push( {
 				/* jshint ignore:start */
 				tabName: tabId,
-				algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher, translations ), mountingPoint )
+				algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher, translations ), mountingPoint ),
 				/* jshint ignore:end */
 			} );
 		} );

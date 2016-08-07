@@ -11,8 +11,8 @@ module.exports = {
 			filter: {
 				translation_sets: false,
 				minimum_percentage: 50,
-				waiting_strings: false
-			}
-		}
-	}
+				waiting_strings: false,
+			},
+		},
+	},
 };

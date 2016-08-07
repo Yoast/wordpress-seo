@@ -2,20 +2,20 @@
 module.exports = {
 	plugin: {
 		options: {
-			jshintrc: "<%= paths.js %>.jshintrc"
+			jshintrc: "<%= paths.js %>.jshintrc",
 		},
 		src: [
 			"<%= files.js %>",
-			"!js/src/kb-search/*.js"
-		]
+			"!js/src/kb-search/*.js",
+		],
 	},
 	grunt: {
 		options: {
-			jshintrc: ".jshintrc"
+			jshintrc: ".jshintrc",
 		},
 		src: [
 			"<%= files.grunt %>",
-			"<%= files.config %>"
-		]
-	}
+			"<%= files.config %>",
+		],
+	},
 };

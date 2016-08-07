@@ -61,7 +61,9 @@
 	"requireLineFeedAtFileEnd": true,
 	"requireDotNotation": true,
 
-	"disallowTrailingComma": true,
+	"requireTrailingComma": {
+		"ignoreSingleLine": true
+	},
 	"disallowPaddingNewlinesInBlocks": true,
 	"disallowEmptyBlocks": true,
 	"disallowQuotedKeysInObjects": "allButReserved",

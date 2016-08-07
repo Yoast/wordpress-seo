@@ -15,9 +15,9 @@ var isUndefined = require( "lodash/isUndefined" );
 		domain: "js-text-analysis",
 		locale_data: {
 			"js-text-analysis": {
-				"": {}
-			}
-		}
+				"": {},
+			},
+		},
 	} );
 
 	/**
@@ -46,7 +46,7 @@ var isUndefined = require( "lodash/isUndefined" );
 
 		this.validAssessors = {
 			post: postAssessor,
-			term: taxonomyAssessor
+			term: taxonomyAssessor,
 		};
 	};
 
@@ -122,7 +122,7 @@ var isUndefined = require( "lodash/isUndefined" );
 		return {
 			item_id: this.getItemID( item ),
 			taxonomy: ( item.taxonomy ) ? item.taxonomy : "",
-			score: this.calculateItemScore( item )
+			score: this.calculateItemScore( item ),
 		};
 	};
 
@@ -149,7 +149,7 @@ var isUndefined = require( "lodash/isUndefined" );
 			url: item.url,
 			locale: wpseoAdminL10n.locale,
 			description: item.meta,
-			title: item.pageTitle
+			title: item.pageTitle,
 		} );
 
 		var tempAssessor = this.assessor;
@@ -210,7 +210,7 @@ var isUndefined = require( "lodash/isUndefined" );
 				action: "wpseo_update_score",
 				nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
 				scores: scores,
-				type: this.fetch_type
+				type: this.fetch_type,
 			}
 		);
 	};
@@ -227,7 +227,7 @@ var isUndefined = require( "lodash/isUndefined" );
 				action: "wpseo_recalculate_scores",
 				nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
 				paged: current_page,
-				type: this.fetch_type
+				type: this.fetch_type,
 			},
 			this.parseResponse.bind( this ),
 			"json"
@@ -266,7 +266,7 @@ var isUndefined = require( "lodash/isUndefined" );
 						ajaxurl,
 						{
 							action: "wpseo_recalculate_total",
-							nonce: jQuery( "#wpseo_recalculate_nonce" ).val()
+							nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
 						},
 						start_recalculate,
 						"json"

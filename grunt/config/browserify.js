@@ -13,18 +13,18 @@ module.exports = {
 			"js/dist/wp-seo-recalculate-340.js": [ "js/src/wp-seo-recalculate.js" ],
 			"js/dist/wp-seo-replacevar-plugin-330.js": [ "js/src/wp-seo-replacevar-plugin.js" ],
 			"js/dist/wp-seo-shortcode-plugin-340.js": [ "js/src/wp-seo-shortcode-plugin.js" ],
-			"js/dist/wp-seo-term-scraper-341.js": [ "js/src/wp-seo-term-scraper.js" ]
-		}
+			"js/dist/wp-seo-term-scraper-341.js": [ "js/src/wp-seo-term-scraper.js" ],
+		},
 	},
 	buildes6: {
 		options: {
 			transform: [
-				[ "babelify", { presets: [ "es2015" ] } ]
-			]
+				[ "babelify", { presets: [ "es2015" ] } ],
+			],
 		},
 		files: {
-			"js/dist/wp-seo-admin-340.js": [ "js/src/wp-seo-admin.js" ]
-		}
+			"js/dist/wp-seo-admin-340.js": [ "js/src/wp-seo-admin.js" ],
+		},
 	},
 	"release-es6": {
 		options: {
@@ -35,10 +35,10 @@ module.exports = {
 				[ "envify", {
 					// This makes sure we also transform the React files.
 					global: true,
-					NODE_ENV: "production"
-				} ]
-			]
+					NODE_ENV: "production",
+				} ],
+			],
 		},
-		files: "<%= browserify.buildes6.files %>"
-	}
+		files: "<%= browserify.buildes6.files %>",
+	},
 };

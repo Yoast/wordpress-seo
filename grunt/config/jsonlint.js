@@ -6,7 +6,7 @@ module.exports = {
 			".jscsrc",
 			"js/.jshintrc",
 			"composer.json",
-			"package.json"
-		]
-	}
+			"package.json",
+		],
+	},
 };

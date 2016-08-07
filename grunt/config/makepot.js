@@ -8,10 +8,10 @@ module.exports = {
 				poedit: true,
 				"report-msgid-bugs-to": "<%= pkg.pot.reportmsgidbugsto %>",
 				"language-team": "<%= pkg.pot.languageteam %>",
-				"last-translator": "<%= pkg.pot.lasttranslator %>"
+				"last-translator": "<%= pkg.pot.lasttranslator %>",
 			},
 			type: "wp-plugin",
-			exclude: [ "premium/.*" ]
-		}
-	}
+			exclude: [ "premium/.*" ],
+		},
+	},
 };
