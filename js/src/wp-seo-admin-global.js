@@ -6,6 +6,11 @@
 (function() {
 	'use strict';
 
+	/**
+	 * Displays console notifications.
+	 *
+	 * Looks at a global variable to display all notifications in there.
+	 */
 	function displayConsoleNotifications() {
 		if ( typeof window.wpseoConsoleNotifications === 'undefined' || typeof console === 'undefined' ) {
 			return;

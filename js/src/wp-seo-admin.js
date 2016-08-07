@@ -143,6 +143,9 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 	 */
 	jQuery( document ).on( 'ready', wpseoSetTabHash );
 
+	/**
+	 * Add a Facebook admin for via AJAX.
+	 */
 	function wpseo_add_fb_admin() {
 		var target_form = jQuery( '#TB_ajaxContent' );
 

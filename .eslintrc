@@ -23,4 +23,3 @@ rules:
   callback-return: 1
   no-unused-vars: 1
   no-undef: 1
-  require-jsdoc: 1

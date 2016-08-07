@@ -529,6 +529,9 @@ var snippetPreviewHelpers = require( './analysis/snippetPreview' );
 		publishBox.updateScore( 'content', indicator.className );
 	}
 
+	/**
+	 * Makes sure the hidden focus keyword field is filled with the correct keyword.
+	 */
 	function keywordElementSubmitHandler() {
 		if ( isKeywordAnalysisActive() && ! YoastSEO.multiKeyword ) {
 			/*
