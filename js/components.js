@@ -7,7 +7,7 @@ import HTML from './components/html';
 let Components = {
 	'Choice': Choice,
 	'Input': Input,
-	'HTML': HTML
+	'HTML': HTML,
 };
 
 export default Components;

@@ -16,7 +16,7 @@ class Step extends React.Component {
 		super();
 
 		this.state = {
-			fieldValues: {}
+			fieldValues: {},
 		};
 	}
 
@@ -61,7 +61,7 @@ class Step extends React.Component {
 		);
 
 		this.setState( {
-			currentStep, fieldValues
+			currentStep, fieldValues,
 		} );
 
 	}
@@ -82,7 +82,7 @@ class Step extends React.Component {
 		}
 
 		this.setState( {
-			fieldValues
+			fieldValues,
 		} );
 	}
 
@@ -127,14 +127,14 @@ class Step extends React.Component {
 		)
 	}
 }
-;
+
 
 Step.propTypes = {
 	id: React.PropTypes.string,
 	title: React.PropTypes.string.isRequired,
 	fields: React.PropTypes.object,
 	components: React.PropTypes.object,
-	currentStep: React.PropTypes.string
+	currentStep: React.PropTypes.string,
 };
 
 Step.defaultProps = {
@@ -142,7 +142,7 @@ Step.defaultProps = {
 	title: '',
 	fields: {},
 	components: {},
-	currentStep: ''
+	currentStep: '',
 };
 
 export default Step;

@@ -39,7 +39,7 @@ Choice.propTypes = {
 	properties: React.PropTypes.object,
 	default: React.PropTypes.string,
 	fieldName: React.PropTypes.string.isRequired,
-	onChange: React.PropTypes.func
+	onChange: React.PropTypes.func,
 };
 
 Choice.defaultProps = {
@@ -47,10 +47,10 @@ Choice.defaultProps = {
 	data: '',
 	properties: {
 		label: '',
-		choices: {}
+		choices: {},
 	},
 	default: '',
-	fieldName: ''
+	fieldName: '',
 };
 
 export default Choice;

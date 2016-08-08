@@ -21,9 +21,9 @@ let postJSONFetch = ( url, data ) => {
 			method: 'POST',
 			headers: {
 				'Accepts': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
-			body: data
+			body: data,
 		}
 	);
 

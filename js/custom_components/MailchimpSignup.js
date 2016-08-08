@@ -23,14 +23,14 @@ MailchimpSignup.propTypes = {
 	name: React.PropTypes.string.isRequired,
 	properties: React.PropTypes.object,
 	data: React.PropTypes.string,
-	onChange: React.PropTypes.func
+	onChange: React.PropTypes.func,
 };
 
 MailchimpSignup.defaultProps = {
 	component: '',
 	name: '',
 	properties: {},
-	data: ''
+	data: '',
 };
 
 export default MailchimpSignup;
