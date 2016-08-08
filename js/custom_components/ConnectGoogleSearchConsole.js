@@ -2,7 +2,7 @@
 import React from 'react';
 
 /**
- * Represents a mailchimg signup interface.
+ * Represents a mailchimp signup interface.
  *
  * @param {Object} props The properties for the object.
  * @returns {JSX}
