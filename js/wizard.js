@@ -174,7 +174,6 @@ class Wizard extends React.Component {
 	 * @param {string} step The next step to render.
 	 */
 	handleSuccessful( step ) {
-		console.log( step );
 		this.setSaveState( '' );
 		this.setState( {
 			currentStepId: step,
