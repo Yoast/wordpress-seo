@@ -15,7 +15,7 @@
     "url": "https://github.com/Yoast/onboarding-wizard"
   },
   "scripts": {
-    "start": "stubby -d stubby/endpoints.yaml & webpack-dev-server"
+    "start": "stubby -d stubby/endpoints.yaml & webpack-dev-server",
     "test": "jest"
   },
   "jest": {
