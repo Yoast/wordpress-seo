@@ -4,7 +4,7 @@ import React from "react";
  * Represents the label HTML tag.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX}
+ * @returns {JSX} A representation of the label HTML element based on the passed props.
  * @constructor
  */
 const Label = ( props ) => {
@@ -19,9 +19,9 @@ const Label = ( props ) => {
  * @type {{for: string, text: string, onClick: function}}
  */
 Label.propTypes = {
-	for: React.PropTypes.string.isRequired,
 	text: React.PropTypes.string.isRequired,
 
+	for: React.PropTypes.string,
 	onClick: React.PropTypes.func,
 };
 
@@ -32,7 +32,6 @@ Label.propTypes = {
  */
 Label.defaultProps = {
 	for: "",
-	text: "",
 };
 
 export default Label;
