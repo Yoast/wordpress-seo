@@ -42,11 +42,7 @@ Input.defaultProps = {
 	type: 'text',
 	name: 'input',
 	data: '',
-<<<<<<< HEAD
-	fieldName: ''
-=======
 	fieldName : '',
->>>>>>> master
 };
 
 export default Input;
