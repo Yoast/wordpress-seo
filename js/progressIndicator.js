@@ -31,13 +31,9 @@ ProgressIndicator.propTypes = {
 	totalSteps: React.PropTypes.number.isRequired,
 };
 
-<<<<<<< HEAD
-export default ProgressIndicator;
-=======
 ProgressIndicator.defaultProps = {
 	currentStepNumber: 1,
 	totalSteps: 1,
 };
 
 export default ProgressIndicator;
->>>>>>> master
