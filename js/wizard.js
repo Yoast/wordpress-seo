@@ -21,6 +21,7 @@ class Wizard extends React.Component {
 		this.props = props;
 
 		this.state = {
+			//todo throw error when steps are not found.
 			steps: this.parseSteps( props.steps ),
 			currentStepId: this.getFirstStep( props.steps )
 		};
@@ -94,12 +95,12 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
+			function ( fieldName ) {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
-			.bind( this )
+				.bind( this )
 		);
 
 		return fields;
@@ -124,8 +125,8 @@ class Wizard extends React.Component {
 			this.props.endpoint,
 			this.getFieldsAsObject()
 		)
-		.then( this.handleSuccessful.bind( this, step ) )
-		.catch( this.handleFailure.bind( this ) );
+			.then( this.handleSuccessful.bind( this, step ) )
+			.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
@@ -165,7 +166,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
@@ -174,7 +175,6 @@ class Wizard extends React.Component {
 	 * @param {string} step The next step to render.
 	 */
 	handleSuccessful( step ) {
-		console.log( step );
 		this.setSaveState( '' );
 		this.setState( {
 			currentStepId: step
@@ -262,7 +262,8 @@ class Wizard extends React.Component {
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
 				<ProgressIndicator {...this.getProgress()} />
-				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} title={step.title} fields={step.fields} />
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components}
+				      title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
@@ -274,7 +275,7 @@ class Wizard extends React.Component {
 
 Wizard.propTypes = {
 	endpoint: React.PropTypes.string.isRequired,
-	steps: React.PropTypes.object,
+	steps: React.PropTypes.object.isRequired,
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
 	customComponents: React.PropTypes.object,
@@ -282,7 +283,6 @@ Wizard.propTypes = {
 };
 
 Wizard.defaultProps = {
-	steps: [],
 	customComponents: {},
 	components: {},
 	fields: React.PropTypes.object
