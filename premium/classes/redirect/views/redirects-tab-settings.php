@@ -7,22 +7,24 @@ if ( ! empty( $redirect_file ) ) {
 	switch ( $redirect_file ) {
 		case 'apache_include_file' :
 			?>
-			<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">
-				<p><?php _e( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo-premium' ); ?></p>
-				<pre>Include <?php echo $file_path; ?></pre>
+			<div class="notice notice-warning inline">
+				<p>
+					<?php _e( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo-premium' ); ?>
+					<br><code>Include <?php echo $file_path; ?></code>
+				</p>
 			</div>
 			<?php
 			break;
 		case 'cannot_write_htaccess' :
 			?>
-			<div class='error'>
+			<div class='notice notice-error inline'>
 				<p>
-					<strong>
-						<?php
-						/* translators: %s: '.htaccess' file name */
-						printf( __( 'We\'re unable to save the redirects to your %s file. Please make the file writable.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
-						?>
-					</strong>
+					<?php
+					/* translators: %s: '.htaccess' file name. */
+					printf( __( "We're unable to save the redirects to your %s file. Please make the file writable.", 'wordpress-seo-premium' ),
+						'<code>.htaccess</code>'
+					);
+					?>
 				</p>
 			</div>
 
@@ -30,22 +32,24 @@ if ( ! empty( $redirect_file ) ) {
 			break;
 		case 'nginx_include_file' :
 			?>
-			<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">
-				<p><?php _e( 'As you\'re on Nginx, you should add the following include to the NGINX config file:', 'wordpress-seo-premium' ); ?></p>
-				<pre>include <?php echo $file_path; ?></pre>
+			<div class="notice notice-warning inline">
+				<p>
+					<?php _e( "As you're on Nginx, you should add the following include to the Nginx config file:", 'wordpress-seo-premium' ); ?>
+					<br><code>include <?php echo $file_path; ?></code>
+				</p>
 			</div>
 			<?php
 			break;
 		case 'cannot_write_file' :
 			?>
-			<div class='error'>
+			<div class='notice notice-error inline'>
 				<p>
-					<strong>
-						<?php
-							/* translators: %s expands to the folder location where the redirects fill will be saved. */
-							printf( __( "We're unable to save the redirect file to %s", 'wordpress-seo-premium' ), $file_path );
-						?>
-					</strong>
+					<?php
+					/* translators: %s expands to the folder location where the redirects fill will be saved. */
+					printf( __( "We're unable to save the redirect file to %s", 'wordpress-seo-premium' ),
+						$file_path
+					);
+					?>
 				</p>
 			</div>
 			<?php

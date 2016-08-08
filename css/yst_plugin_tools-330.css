@@ -105,6 +105,15 @@ label.radio {
 	max-width: 600px;
 }
 
+.wpseo_content_wrapper .notice p {
+	max-width: none;
+}
+
+/* Notices below Settings pages tabs. */
+#wpseo-tabs + .notice {
+	margin-top: 1.5em;
+}
+
 .wpseo_content_cell {
 	display: table-cell;
 	height: 500px;
