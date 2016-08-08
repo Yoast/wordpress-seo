@@ -4,7 +4,7 @@ import React from "react";
 import TestUtils from "react-addons-test-utils";
 import Progressbar from "../forms/Progressbar";
 
-describe( "Progressbar", () => {
+describe( "A Progressbar component", () => {
 	var renderer = TestUtils.createRenderer();
 
 	it( "generates a Progressbar based on the props", () => {
@@ -44,6 +44,20 @@ describe( "Progressbar", () => {
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[0][0] )
 			.toContain( "Warning: Failed prop type: Invalid prop `onChange` of type `number` supplied to `Progressbar`, expected `function`." );
+	} );
+
+	it( "generates a progressbar based on the defaults and additional, optional attributes", () => {
+		let optionalAttributes = {
+			className: "custom-progress-class",
+			id: "custom-progress-identifier",
+		};
+
+		renderer.render( <Progressbar name="customProgressbar" optionalAttributes={optionalAttributes} /> );
+
+		let result = renderer.getRenderOutput();
+
+		expect( result.props.className ).toBe( "custom-progress-class" );
+		expect( result.props.id ).toBe( "custom-progress-identifier" );
 	} );
 
 } );

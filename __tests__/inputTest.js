@@ -38,7 +38,7 @@ describe( "Input", () => {
 
 	it( "generates a warning when a faulty input type is passed", () => {
 		console.error = jest.genMockFn();
-		renderer.render( <Input type="invalidType"/> );
+		renderer.render( <Input type="invalidType" /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[0][0] )

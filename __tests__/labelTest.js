@@ -4,7 +4,7 @@ import React from "react";
 import TestUtils from "react-addons-test-utils";
 import Label from "../forms/Label";
 
-describe( "Label", () => {
+describe( "A Label component", () => {
 	var renderer = TestUtils.createRenderer();
 
 	it( "generates a Label based on the props", () => {
