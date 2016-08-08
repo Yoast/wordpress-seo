@@ -4,7 +4,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Step from '../js/step';
 
-describe( 'step component', () => {
+describe( 'a step component', () => {
 
 	let inputProps = {
 		id: '',
@@ -59,7 +59,7 @@ describe( 'step component', () => {
 			            " expected `object`." );
 	} );
 
-	it( 'throws an error property title is not a string', () => {
+	it( 'throws an error when property title is not a string', () => {
 		console.error = jest.genMockFn();
 
 		let inputProps = {

@@ -21,18 +21,21 @@ describe( 'step component', () => {
 
 	let wizard = renderer.getRenderOutput();
 
+	//TODO add real test.
 	it( ' fails on missing required parameters ', () => {
 		//todo required params: steps, endpoint, fields
-		return false;
+		expect(true);
 	} );
 
+	//TODO add real test.
 	it( 'fails on incorrect parameter types', () => {
-		return false;
+		expect(true);
 	} );
 
+	//TODO add real test.
 	it( 'fails on empty required values', () => {
 		//todo throw error when steps(array) is empty.
-		return false;
+		expect(true);
 	} );
 
 } )

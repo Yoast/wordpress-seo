@@ -14,7 +14,7 @@ const Input = ( props ) => {
 		<div>
 			<h2>{props.properties.label}</h2>
 			<label htmlFor={props.name}>{props.label}</label>
-			<input onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName}
+			<input onChange={props.onChange} type={props.type} name={props.fieldName}
 			       defaultValue={props.data} placeholder={props.placeholder}/>
 		</div>
 	)
