@@ -69,7 +69,7 @@ describe( "Input", () => {
 		expect( typeof result.props.onChange ).toBe( "function" );
 	} );
 
-	it( "generates an input based on the defaults and an onChange event binding", () => {
+	it( "generates a warning when a faulty onChange callback is passed", () => {
 		console.error = jest.genMockFn();
 
 		renderer.render( <Input name="textInput" onChange={0} /> );

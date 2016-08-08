@@ -9,35 +9,31 @@ import React from "react";
  */
 const Textarea = ( props ) => {
 	return (
-		<textarea name={props.name} onChange={props.onChange} {...props.optionalAttributes}>{props.value}</textarea>
+		<textarea name={props.name} value={props.value} onChange={props.onChange} {...props.optionalAttributes}></textarea>
 	);
 };
 
 /**
  * Adds validation for the properties.
  *
- * @type {{type: string, name: string, placeholder: string, value: string, optionalAttributes: object}}
+ * @type {{name: string, value: string, onChange:function, optionalAttributes: object}}
  */
 Textarea.propTypes = {
 	name: React.PropTypes.string.isRequired,
 
-	optionalAttributes: React.PropTypes.object,
-	value: React.string,
+	value: React.PropTypes.string,
 	onChange: React.PropTypes.func,
+	optionalAttributes: React.PropTypes.object,
 };
 
 /**
  * Defines the default values for the properties.
  *
- * @type {{type: string, name: string}}
+ * @type {{name: string, value: string, optionalAttributes: object}}
  */
 Textarea.defaultProps = {
-	name: "",
+	name: "textarea",
 	value: "",
-	optionalAttributes: {
-		className: "",
-		placeholder: "",
-	},
 };
 
 export default Textarea;

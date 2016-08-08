@@ -9,7 +9,7 @@ import React from "react";
  */
 const Progressbar = ( props ) => {
 	return (
-		<progress defaultValue={props.value} min={props.min} max={props.max} {...props.optionalAttributes} />
+		<progress name={props.name} value={props.value} min={props.min} max={props.max} {...props.optionalAttributes} />
 	);
 };
 
@@ -19,6 +19,7 @@ const Progressbar = ( props ) => {
  * @type {{min: number, max: number, value: number, optionalAttributes:object}}
  */
 Progressbar.propTypes = {
+	name: React.PropTypes.string.isRequired,
 	value: React.PropTypes.number.isRequired,
 
 	onChange: React.PropTypes.func,
