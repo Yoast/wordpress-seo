@@ -170,7 +170,7 @@ rules:
   no-continue: 0
   no-inline-comments: 2
   no-lonely-if: 0
-  no-mixed-spaces-and-tabs: 2
+  no-mixed-spaces-and-tabs: [2, "smart-tabs"]
   no-multiple-empty-lines: 2
   no-negated-condition: 2
   no-nested-ternary: 2
