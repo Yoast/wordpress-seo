@@ -15,13 +15,13 @@ const HTML = ( props ) => {
 };
 
 HTML.propTypes = {
-	properties: React.PropTypes.object.isRequired
+	properties: React.PropTypes.object.isRequired,
 };
 
 HTML.defaultProps = {
 	properties: {
-		html: ''
-	}
+		html: '',
+	},
 };
 
 export default HTML;

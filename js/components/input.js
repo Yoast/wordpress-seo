@@ -28,12 +28,12 @@ Input.propTypes = {
 	value: React.PropTypes.string,
 	properties: React.PropTypes.shape(
 		{
-			label: React.PropTypes.string.isRequired
+			label: React.PropTypes.string.isRequired,
 		}
 	),
 	data: React.PropTypes.string,
 	onChange: React.PropTypes.func,
-	fieldName: React.PropTypes.string.isRequired
+	fieldName: React.PropTypes.string.isRequired,
 };
 
 Input.defaultProps = {
@@ -42,7 +42,11 @@ Input.defaultProps = {
 	type: 'text',
 	name: 'input',
 	data: '',
+<<<<<<< HEAD
 	fieldName: ''
+=======
+	fieldName : '',
+>>>>>>> master
 };
 
 export default Input;

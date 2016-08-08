@@ -11,26 +11,26 @@ module.exports = function( grunt ) {
 			js: "js/",
 			get config() {
 				return this.grunt + "config/";
-			}
+			},
 		},
 		files: {
 			js: [
 				"./**/*.js",
 				"!./**/*.min.js",
 				"!./node_modules/**/*",
-				"<%= files.grunt %>"
+				"<%= files.grunt %>",
 			],
 			get config() {
 				return project.paths.config + "*.js";
 			},
-			grunt: "Gruntfile.js"
+			grunt: "Gruntfile.js",
 		},
-		pkg: grunt.file.readJSON( "package.json" )
+		pkg: grunt.file.readJSON( "package.json" ),
 	};
 
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {
 		configPath: path.join( process.cwd(), project.paths.config ),
-		data: project
+		data: project,
 	} );
 };

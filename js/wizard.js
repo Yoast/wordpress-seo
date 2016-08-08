@@ -23,7 +23,7 @@ class Wizard extends React.Component {
 		this.state = {
 			//todo throw error when steps are not found.
 			steps: this.parseSteps( props.steps ),
-			currentStepId: this.getFirstStep( props.steps )
+			currentStepId: this.getFirstStep( props.steps ),
 		};
 
 		Object.assign( this.props.components, Components );
@@ -177,7 +177,7 @@ class Wizard extends React.Component {
 	handleSuccessful( step ) {
 		this.setSaveState( '' );
 		this.setState( {
-			currentStepId: step
+			currentStepId: step,
 		} );
 	}
 
@@ -222,7 +222,7 @@ class Wizard extends React.Component {
 	getProgress() {
 		return {
 			totalSteps: Object.keys( this.state.steps ).length,
-			currentStepNumber: this.getCurrentStepNumber()
+			currentStepNumber: this.getCurrentStepNumber(),
 		}
 	}
 
@@ -279,13 +279,13 @@ Wizard.propTypes = {
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
 	customComponents: React.PropTypes.object,
-	fields: React.PropTypes.object
+	fields: React.PropTypes.object,
 };
 
 Wizard.defaultProps = {
 	customComponents: {},
 	components: {},
-	fields: React.PropTypes.object
+	fields: React.PropTypes.object,
 };
 
 export default Wizard

@@ -28,7 +28,16 @@ const ProgressIndicator = ( props ) => {
 
 ProgressIndicator.propTypes = {
 	currentStepNumber: React.PropTypes.number.isRequired,
-	totalSteps: React.PropTypes.number.isRequired
+	totalSteps: React.PropTypes.number.isRequired,
+};
+
+<<<<<<< HEAD
+export default ProgressIndicator;
+=======
+ProgressIndicator.defaultProps = {
+	currentStepNumber: 1,
+	totalSteps: 1,
 };
 
 export default ProgressIndicator;
+>>>>>>> master
