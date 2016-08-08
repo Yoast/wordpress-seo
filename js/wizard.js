@@ -1,9 +1,9 @@
-import React from 'react';
-import Step from './step';
-import ProgressIndicator from './progressIndicator';
-import Components from './components';
+import React from "react";
+import Step from "./step";
+import ProgressIndicator from "./progressIndicator";
+import Components from "./components";
 
-import PostJSON from './helpers/postJSON';
+import PostJSON from "./helpers/postJSON";
 
 /**
  * The onboarding Wizard class.

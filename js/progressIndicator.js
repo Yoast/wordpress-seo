@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Renders a progress indicator for the wizard based on the total number of steps and the current step number.

@@ -1,11 +1,11 @@
-jest.unmock( '../js/step' );
+jest.unmock( "../js/step" );
 
-import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import Wizard from '../js/wizard';
-import Config from '../js/config';
+import React from "react";
+import TestUtils from "react-addons-test-utils";
+import Wizard from "../js/wizard";
+import Config from "../js/config";
 
-describe( 'step component', () => {
+describe( "step component", () => {
 
 	let inputProps = {
 		endpoint: "",
@@ -24,18 +24,18 @@ describe( 'step component', () => {
 	//TODO add real test.
 	it( ' fails on missing required parameters ', () => {
 		//todo required params: steps, endpoint, fields
-		expect(true);
+		expect( true );
 	} );
 
 	//TODO add real test.
 	it( 'fails on incorrect parameter types', () => {
-		expect(true);
+		expect( true );
 	} );
 
 	//TODO add real test.
 	it( 'fails on empty required values', () => {
 		//todo throw error when steps(array) is empty.
-		expect(true);
+		expect( true );
 	} );
 
 } )
