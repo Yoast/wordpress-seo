@@ -1,7 +1,6 @@
 jest.unmock( '../js/step' );
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import Step from '../js/step';
 
