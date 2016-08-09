@@ -1,0 +1,88 @@
+@import "../../css/colors";
+@import "../../css/mixins";
+@import "../../css/icons";
+
+$snippet_width: 600px;
+$prefix: 'yoast-';
+
+@mixin svg-caret-before($color) {
+  background-image: url(svg-icon-caret-right($color));
+  background-size: 25px;
+  content: '';
+  display: block;
+  height: 24px;
+  left: -22px;
+  position: absolute;
+  top: -3px;
+  width: 24px;
+}
+
+/* css for snippet */
+.#{$prefix}snippet-preview {
+  padding: 0 20px 15px;
+  background-color: #fff;
+  border: 1px solid $color_border;
+  border-radius: 20px;
+  position: relative;
+  width: $snippet_width + 40;
+  font-family: Arial, sans-serif;
+
+  &__heading {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    margin: 0 -20px 15px;
+    border-bottom: 1px solid #f7f7f7;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    color: #555;
+  }
+
+  &__field {
+    @include clearfix;
+    position: relative;
+    cursor: pointer;
+  }
+
+  &__title {
+    color: #1e0fbe;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: normal;
+    margin: 0;
+
+    width: $snippet_width;
+  }
+
+  &__url {
+    display: block;
+    font-size: 14px;
+    line-height: 16px;
+    color: #006621;
+    font-style: normal;
+  }
+
+  &__description {
+    color: #777;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+
+.#{$prefix}icon {
+  padding-left: 45px;
+
+  &__eye {
+    @extend .#{$prefix}icon;
+    background: url(svg-icon-eye($color_headings)) no-repeat 20px center / 16px 16px;
+  }
+
+  &__edit {
+    @extend .#{$prefix}icon;
+    background: url(svg-icon-edit($color_headings)) no-repeat 20px center / 16px 16px;
+  }
+}
