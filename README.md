@@ -42,6 +42,14 @@ grunt check
 
 Every component should have its own folder named lowercase with the relevant files inside of it. Every component must contain a JavaScript with the component definition in it and exported using `export default [Component]`. Any component can contain a SCSS file for relevant CSS and a README.md explaining how the component works.
 
+### Translation
+
+We use [i18n-calypso](https://github.com/Automattic/i18n-calypso) to localize all components. Refer to their documentation about how to use `translate`, `moment` and `numberFormat`. We don't use the mixin provided. Only use the higher order component to wrap components when they are exported, like so:
+
+```js
+export default localize( Component );
+```
+
 ## Security
 
 If you discover any security related issues, please email security [at] yoast.com instead of using the issue tracker.
