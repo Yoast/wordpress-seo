@@ -47,6 +47,8 @@ Every component should have its own folder named lowercase with the relevant fil
 We use [i18n-calypso](https://github.com/Automattic/i18n-calypso) to localize all components. Refer to their documentation about how to use `translate`, `moment` and `numberFormat`. We don't use the mixin provided. Only use the higher order component to wrap components when they are exported, like so:
 
 ```js
+import { localize } from 'i18n-calypso'
+
 export default localize( Component );
 ```
 
