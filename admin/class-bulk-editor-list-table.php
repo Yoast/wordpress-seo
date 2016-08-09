@@ -683,7 +683,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$records = $this->items;
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		if ( ( is_array( $records ) && $records !== array() ) && ( is_array( $columns ) && $columns !== array() ) ) {
 
@@ -693,7 +693,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				foreach ( $columns as $column_name => $column_display_name ) {
 
-					$attributes = $this->column_attributes( $column_name, $hidden );
+					$classes = '';
+					if ( $primary === $column_name ) {
+						$classes .= ' has-row-actions column-primary';
+					}
+
+					$attributes = $this->column_attributes( $column_name, $hidden, $classes );
 
 					$column_value = $this->parse_column( $column_name, $rec );
 
@@ -716,12 +721,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @param string $column_name Column name string.
 	 * @param array  $hidden      Set of hidden columns.
+	 * @param string $classes     Additional CSS classes.
 	 *
 	 * @return string
 	 */
-	protected function column_attributes( $column_name, $hidden ) {
+	protected function column_attributes( $column_name, $hidden, $classes ) {
 
-		$class = sprintf( 'class="%1$s column-%1$s"', $column_name );
+		$class = sprintf( 'class="%1$s column-%1$s%2$s"', $column_name, $classes );
 		$style = '';
 
 		if ( in_array( $column_name, $hidden ) ) {
