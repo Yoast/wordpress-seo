@@ -118,7 +118,7 @@ class Wizard extends React.Component {
 			return;
 		}
 
-		this.setState( { isLoading: 'Saving..' } );
+		this.setState( { isLoading: true } );
 
 		PostJSON(
 			this.props.endpoint,
@@ -158,7 +158,7 @@ class Wizard extends React.Component {
 	 */
 	handleSuccessful( step ) {
 		this.setState( {
-			isLoading: '',
+			isLoading: false,
 			currentStepId: step,
 		} );
 	}
@@ -168,7 +168,7 @@ class Wizard extends React.Component {
 	 */
 	handleFailure() {
 		this.setState( {
-			isLoading: '',
+			isLoading: false,
 		} );
 	}
 
