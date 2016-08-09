@@ -37,7 +37,6 @@ describe( 'a processIndicator component', () => {
 	} );
 
 	it( 'shows unknown progress with total steps lower than the current step', () => {
-		console.error = jest.genMockFn();
 		let currentStepNumber = 2;
 
 		let processIndicator = new ProgressIndicator(
@@ -48,11 +47,6 @@ describe( 'a processIndicator component', () => {
 		);
 
 		let children = processIndicator.props.children;
-
-		expect( console.error ).toBeCalled();
-
-		let errors = console.error.mock.calls;
-		expect( errors[ 0 ][ 0 ] ).toContain( "Invalid totalSteps number in ProgressIndicator" );
 
 		expect( children[ 0 ] ).toEqual( 'Step ' );
 		expect( children[ 1 ] ).toEqual( currentStepNumber );

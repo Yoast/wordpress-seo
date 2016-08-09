@@ -1,10 +1,10 @@
-jest.unmock( '../js/step' );
+jest.unmock( "../js/step" );
 
-import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import Step from '../js/step';
+import React from "react";
+import TestUtils from "react-addons-test-utils";
+import Step from "../js/step";
 
-describe( 'a step component', () => {
+describe( "a step component", () => {
 
 	let inputProps = {
 		id: '',

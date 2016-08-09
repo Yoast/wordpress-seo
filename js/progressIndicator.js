@@ -17,7 +17,6 @@ const ProgressIndicator = ( props ) => {
 	}
 
 	if ( props.totalSteps < props.currentStepNumber ) {
-		console.error( 'Invalid totalSteps number in ProgressIndicator' );
 		return <p>Step {props.currentStepNumber}</p>
 	}
 
@@ -32,8 +31,6 @@ ProgressIndicator.propTypes = {
 };
 
 ProgressIndicator.defaultProps = {
-	currentStepNumber: 1,
-	totalSteps: 1,
 };
 
 export default ProgressIndicator;
