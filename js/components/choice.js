@@ -16,15 +16,17 @@ const Choice = ( props ) => {
 	return (
 		<div>
 			<h2>{props.properties.label}</h2>
+
 			{fieldKeys.map( function ( choiceName, index ) {
+
 				let choice = choices[ choiceName ];
 				let choiceId = choiceName + '-' + index;
 				let isChecked = (props.data == choiceName) ? "checked" : "";
 
 				return (
 					<div key={index}>
-						<input onChange={props.onChange} id={choiceId} type="radio" name={fieldName}
-						       value={choiceName} checked={isChecked} />
+						<input onChange={props.onChange} id={choiceId} type="radio" name={fieldName} value={choiceName}
+						       checked={isChecked}/>
 						<label htmlFor={choiceId}>{choice.label}</label>
 					</div>
 				);
@@ -39,7 +41,7 @@ Choice.propTypes = {
 	properties: React.PropTypes.object,
 	default: React.PropTypes.string,
 	fieldName: React.PropTypes.string.isRequired,
-	onChange: React.PropTypes.func
+	onChange: React.PropTypes.func,
 };
 
 Choice.defaultProps = {
@@ -47,10 +49,10 @@ Choice.defaultProps = {
 	data: '',
 	properties: {
 		label: '',
-		choices: {}
+		choices: {},
 	},
 	default: '',
-	fieldName: ''
+	fieldName: '',
 };
 
 export default Choice;

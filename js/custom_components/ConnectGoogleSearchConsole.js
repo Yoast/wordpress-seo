@@ -2,7 +2,7 @@
 import React from 'react';
 
 /**
- * Represents a mailchimg signup interface.
+ * Represents a mailchimp signup interface.
  *
  * @param {Object} props The properties for the object.
  * @returns {JSX}
@@ -21,12 +21,12 @@ const ConnectGoogleSearchConsole = ( props ) => {
 
 ConnectGoogleSearchConsole.propTypes = {
 	component: React.PropTypes.string,
-	data: React.PropTypes.string
+	data: React.PropTypes.string,
 };
 
 ConnectGoogleSearchConsole.defaultProps = {
 	component: '',
-	data: ''
+	data: '',
 };
 
 export default ConnectGoogleSearchConsole;

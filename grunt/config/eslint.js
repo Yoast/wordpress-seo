@@ -1,3 +1,3 @@
 module.exports = {
-	target: [ "<%= files.js %>" ]
+	target: [ "<%= files.js %>" ],
 };
