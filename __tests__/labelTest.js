@@ -36,14 +36,14 @@ describe( "A Label component", () => {
 			.toContain( "Warning: Failed prop type: Invalid prop `text` of type `number` supplied to `Label`, expected `string`." );
 	} );
 
-	it( "generates a warning when a faulty for prop is passed", () => {
+	it( "generates a warning when a faulty htmlFor prop is passed", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Label for={0} /> );
+		renderer.render( <Label htmlFor={0} /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[0][0] )
-			.toContain( "Warning: Failed prop type: Invalid prop `for` of type `number` supplied to `Label`, expected `string`." );
+			.toContain( "Warning: Failed prop type: Invalid prop `htmlFor` of type `number` supplied to `Label`, expected `string`." );
 	} );
 
 	it( "generates a warning when a faulty onChange callback is passed", () => {
