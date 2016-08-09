@@ -218,23 +218,23 @@ let configuration = {
 				"label": "Separator",
 				"choices": {
 					"dash": {
-						"label": "&dash;",
+						"label": "‐",
 						"screenReaderText": "Dash",
 					},
 					"ndash": {
-						"label": "&ndash;",
+						"label": "–",
 						"screenReaderText": "En dash",
 					},
 					"mdash": {
-						"label": "&mdash;",
+						"label": "—",
 						"screenReaderText": "Em dash",
 					},
 					"middot": {
-						"label": "&middot;",
+						"label": "·",
 						"screenReaderText": "Middle dot",
 					},
 					"bull": {
-						"label": "&bull;",
+						"label": "•",
 						"screenReaderText": "Bullet",
 					},
 					"asterisk": {
@@ -242,7 +242,7 @@ let configuration = {
 						"screenReaderText": "Asterisk",
 					},
 					"lowast": {
-						"label": "&#8270;",
+						"label": "⁎",
 						"screenReaderText": "Low asterisk",
 					},
 					"pipe": {
@@ -254,11 +254,11 @@ let configuration = {
 						"screenReaderText": "Small tilde",
 					},
 					"laquo": {
-						"label": "&laquo;",
+						"label": "«",
 						"screenReaderText": "Left angle quotation mark",
 					},
 					"raquo": {
-						"label": "&raquo;",
+						"label": "»",
 						"screenReaderText": "Right angle quotation mark",
 					},
 					"lt": {
@@ -270,19 +270,6 @@ let configuration = {
 						"screenReaderText": "Greater than sign",
 					},
 				},
-				"dash": "&dash;",
-				"ndash": "&ndash;",
-				"mdash": "&mdash;",
-				"middot": "&middot;",
-				"bull": "&bull;",
-				"asterisk": "*",
-				"lowast": "&#8270;",
-				"pipe": "|",
-				"tilde": "~",
-				"laquo": "&laquo;",
-				"raquo": "&raquo;",
-				"lt": "<",
-				"gt": ">",
 			},
 		},
 		"data": "{separator}",

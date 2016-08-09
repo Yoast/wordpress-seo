@@ -13,18 +13,22 @@ const Choice = ( props ) => {
 	let fieldKeys = Object.keys( choices );
 	let fieldName = props.fieldName;
 
+
+	//TODO find a better solution for displaying the choice.
 	return (
 		<div>
 			<h2>{props.properties.label}</h2>
+
 			{fieldKeys.map( function ( choiceName, index ) {
+
 				let choice = choices[ choiceName ];
 				let choiceId = choiceName + '-' + index;
 				let isChecked = (props.data == choiceName) ? "checked" : "";
 
 				return (
 					<div key={index}>
-						<input onChange={props.onChange} id={choiceId} type="radio" name={fieldName}
-						       value={choiceName} checked={isChecked} />
+						<input onChange={props.onChange} id={choiceId} type="radio" name={fieldName} value={choiceName}
+						       checked={isChecked}/>
 						<label htmlFor={choiceId}>{choice.label}</label>
 					</div>
 				);
