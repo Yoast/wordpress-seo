@@ -57,7 +57,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ][ 'fields' ] = this.parseFields( steps[ step ][ 'fields' ] );
+			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
 
 			steps[ step ].previous = previous;
 
@@ -148,7 +148,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[ 0 ];
+		return Object.getOwnPropertyNames( steps )[0];
 	}
 
 	/**
