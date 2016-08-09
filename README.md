@@ -12,8 +12,11 @@ npm install https://github.com/Yoast/yoast-components#develop
 
 ## Usage
 
-```
+```js
 import 'Input' from 'yoast-components/forms/Input'
+
+// Then you can Input in your React components
+```
 
 ## Documentation
 
