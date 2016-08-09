@@ -31,8 +31,6 @@ ProgressIndicator.propTypes = {
 };
 
 ProgressIndicator.defaultProps = {
-	currentStepNumber: 1,
-	totalSteps: 1,
 };
 
 export default ProgressIndicator;
