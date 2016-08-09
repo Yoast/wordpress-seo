@@ -21,7 +21,6 @@ class Wizard extends React.Component {
 		this.props = props;
 
 		this.state = {
-			//todo throw error when steps are not found.
 			steps: this.parseSteps( props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
 		};

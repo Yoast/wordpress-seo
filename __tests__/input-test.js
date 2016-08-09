@@ -16,7 +16,7 @@ describe( "a input component", () => {
 			name: "text_input",
 			data: "test data",
 			properties: {
-				label: "title"
+				label: "title",
 			}
 		}
 
