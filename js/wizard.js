@@ -20,6 +20,7 @@ class Wizard extends React.Component {
 		this.props = props;
 
 		this.state = {
+			isLoading: false,
 			steps: this.parseSteps( props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
 		};
@@ -56,7 +57,7 @@ class Wizard extends React.Component {
 				continue;
 			}
 
-			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
+			steps[ step ][ 'fields' ] = this.parseFields( steps[ step ][ 'fields' ] );
 
 			steps[ step ].previous = previous;
 
@@ -117,7 +118,7 @@ class Wizard extends React.Component {
 			return;
 		}
 
-		this.setState( { savingIndicator: 'Saving..' } );
+		this.setState( { isLoading: 'Saving..' } );
 
 		PostJSON(
 			this.props.endpoint,
@@ -147,7 +148,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
@@ -157,7 +158,7 @@ class Wizard extends React.Component {
 	 */
 	handleSuccessful( step ) {
 		this.setState( {
-			savingIndicator: '',
+			isLoading: '',
 			currentStepId: step,
 		} );
 	}
@@ -167,7 +168,7 @@ class Wizard extends React.Component {
 	 */
 	handleFailure() {
 		this.setState( {
-			savingIndicator: '',
+			isLoading: '',
 		} );
 	}
 
@@ -239,7 +240,7 @@ class Wizard extends React.Component {
 
 		return (
 			<div>
-				<div>{this.state.savingIndicator}</div>
+				<div>{this.getLoadingText()}</div>
 
 				<button hidden={(
 					hidePreviousButton
@@ -257,6 +258,20 @@ class Wizard extends React.Component {
 				</button>
 			</div>
 		);
+	}
+
+	/**
+	 * Gets the text to display when loading a next step in the wizard.
+	 *
+	 * @returns {string} Returns the loading text for the wizard or an empty string when the wizard is not loading.
+	 */
+	getLoadingText() {
+		let loadingText = "Saving..";
+
+		if ( ! this.state.isLoading ) {
+			return "";
+		}
+		return loadingText;
 	}
 }
 
