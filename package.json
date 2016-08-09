@@ -16,6 +16,7 @@
   },
   "scripts": {
     "start": "stubby -d stubby/endpoints.yaml & webpack-dev-server"
+    "test": "",
   },
   "browser": "js/browser.js",
   "devDependencies": {

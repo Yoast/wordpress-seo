@@ -1,8 +1,7 @@
-import React from 'react';
-import Step from './step';
-import ProgressIndicator from './progressIndicator';
-import Components from './components';
-
+import React from "react";
+import Step from "./step";
+import ProgressIndicator from "./progressIndicator";
+import Components from "./components";
 import PostJSON from './helpers/postJSON';
 
 /**
@@ -94,12 +93,12 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
+			function ( fieldName ) {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
-			.bind( this )
+				.bind( this )
 		);
 
 		return fields;
@@ -118,14 +117,14 @@ class Wizard extends React.Component {
 			return;
 		}
 
-		this.setSaveState( 'Saving..' );
+		this.setState( { savingIndicator: 'Saving..' } );
 
 		PostJSON(
 			this.props.endpoint,
 			this.getFieldsAsObject()
 		)
-		.then( this.handleSuccessful.bind( this, step ) )
-		.catch( this.handleFailure.bind( this ) );
+			.then( this.handleSuccessful.bind( this, step ) )
+			.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
@@ -138,23 +137,6 @@ class Wizard extends React.Component {
 			this.refs.step.state.fieldValues[ this.state.currentStepId ]
 		);
 
-	}
-
-	/**
-	 * Shows/hides the saving status when performing a request.
-	 *
-	 * @param {string} text The status text to show.
-	 */
-	setSaveState( text ) {
-		var $saveState = document.getElementById( "saveState" );
-		$saveState.innerHTML = text;
-
-		if ( text === '' ) {
-			$saveState.style.display = 'none';
-			return;
-		}
-
-		$saveState.style.display = 'block';
 	}
 
 	/**
@@ -174,8 +156,8 @@ class Wizard extends React.Component {
 	 * @param {string} step The next step to render.
 	 */
 	handleSuccessful( step ) {
-		this.setSaveState( '' );
 		this.setState( {
+			savingIndicator: '',
 			currentStepId: step,
 		} );
 	}
@@ -184,7 +166,9 @@ class Wizard extends React.Component {
 	 * When the request is handled incorrect.
 	 */
 	handleFailure() {
-		this.setSaveState( '' );
+		this.setState( {
+			savingIndicator: '',
+		} );
 	}
 
 	/**
@@ -255,13 +239,18 @@ class Wizard extends React.Component {
 
 		return (
 			<div>
-				<div id="saveState" hidden="hidden"></div>
+				<div>{this.state.savingIndicator}</div>
+
 				<button hidden={(
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
+
 				<ProgressIndicator {...this.getProgress()} />
-				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id} title={step.title} fields={step.fields} />
+
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id}
+				      title={step.title} fields={step.fields}/>
+
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
