@@ -1,4 +1,3 @@
-
 import MailchimpSignup from './custom_components/MailchimpSignup';
 import PublishingEntity from "./custom_components/PublishingEntity"
 import PostTypeVisibility from "./custom_components/PostTypeVisibility"
@@ -219,23 +218,23 @@ let configuration = {
 				"label": "Separator",
 				"choices": {
 					"dash": {
-						"label": "&dash;",
+						"label": "‐",
 						"screenReaderText": "Dash",
 					},
 					"ndash": {
-						"label": "&ndash;",
+						"label": "–",
 						"screenReaderText": "En dash",
 					},
 					"mdash": {
-						"label": "&mdash;",
+						"label": "—",
 						"screenReaderText": "Em dash",
 					},
 					"middot": {
-						"label": "&middot;",
+						"label": "·",
 						"screenReaderText": "Middle dot",
 					},
 					"bull": {
-						"label": "&bull;",
+						"label": "•",
 						"screenReaderText": "Bullet",
 					},
 					"asterisk": {
@@ -243,7 +242,7 @@ let configuration = {
 						"screenReaderText": "Asterisk",
 					},
 					"lowast": {
-						"label": "&#8270;",
+						"label": "⁎",
 						"screenReaderText": "Low asterisk",
 					},
 					"pipe": {
@@ -255,11 +254,11 @@ let configuration = {
 						"screenReaderText": "Small tilde",
 					},
 					"laquo": {
-						"label": "&laquo;",
+						"label": "«",
 						"screenReaderText": "Left angle quotation mark",
 					},
 					"raquo": {
-						"label": "&raquo;",
+						"label": "»",
 						"screenReaderText": "Right angle quotation mark",
 					},
 					"lt": {
@@ -272,8 +271,8 @@ let configuration = {
 					},
 				},
 			},
-			"data": "{separator}",
 		},
+		"data": "{separator}",
 	},
 	"steps": {
 		"intro": {
@@ -290,11 +289,11 @@ let configuration = {
 		},
 		"publishingEntity": {
 			"title": "Company or person",
-			"fields" : ["publishingEntity"],
+			"fields": ["publishingEntity"],
 		},
 		"profileUrls": {
 			"title": "Social profiles",
-			"fields" : [
+			"fields": [
 				"profileUrlFacebook",
 				"profileUrlTwitter",
 				"profileUrlInstagram",
@@ -319,7 +318,7 @@ let configuration = {
 		},
 		"titleTemplate": {
 			"title": "Title settings",
-			"fields": ["siteName","separator"],
+			"fields": ["siteName", "separator"],
 		},
 		"tagLine": {
 			"title": "Tagline",
