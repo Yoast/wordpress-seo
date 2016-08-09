@@ -1,27 +1,81 @@
-jest.unmock('../forms/Input');
+jest.unmock("../forms/Input");
 
-import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import Input from '../forms/Input';
+import React from "react";
+import TestUtils from "react-addons-test-utils";
+import Input from "../forms/Input";
 
-describe( 'Input', () => {
-	it( 'generates an input, based on the props', () => {
-		let renderer = TestUtils.createRenderer();
-		renderer.render( <Input type="text" name="testinput" /> );
+describe( "Input", () => {
+	var renderer = TestUtils.createRenderer();
+
+	it( "generates an input based on the props", () => {
+		renderer.render( <Input type="text" name="textInput" /> );
 
 		let result = renderer.getRenderOutput();
 
-		expect( result.props.name ).toBe( "testinput" );
+		expect( result.props.name ).toBe( "textInput" );
+		expect( result.props.value ).toBe( "" );
 	} );
 
-	it( 'generates an input, based on the props', () => {
-		let renderer = TestUtils.createRenderer();
-		renderer.render( <Input name="testinput" /> );
+	it( "generates an input based on the defaults if required props are missing", () => {
+		renderer.render( <Input /> );
 
 		let result = renderer.getRenderOutput();
 
+		expect( result.props.name ).toBe( "input" );
 		expect( result.props.type ).toBe( "text" );
+		expect( result.props.value ).toBe( "" );
+	} );
+
+	it( "generates an input based on the defaults if required props are partially missing", () => {
+		renderer.render( <Input name="textInput" /> );
+
+		let result = renderer.getRenderOutput();
+
+		expect( result.props.name ).toBe( "textInput" );
+		expect( result.props.type ).toBe( "text" );
+		expect( result.props.value ).toBe( "" );
+	} );
+
+	it( "generates a warning when a faulty input type is passed", () => {
+		console.error = jest.genMockFn();
+		renderer.render( <Input type="invalidType" /> );
+
+		expect( console.error ).toBeCalled();
+		expect( console.error.mock.calls[0][0] )
+			.toContain( "Warning: Failed prop type: Invalid prop `type` of value `invalidType` supplied to `Input`" );
+	} );
+
+	it( "generates an input based on the defaults and additional, optional attributes", () => {
+		let optionalAttributes = {
+			className: "custom-input-class",
+			id: "custom-input-identifier",
+		};
+
+		renderer.render( <Input name="textInput" optionalAttributes={optionalAttributes} /> );
+
+		let result = renderer.getRenderOutput();
+
+		expect( result.props.className ).toBe( "custom-input-class" );
+		expect( result.props.id ).toBe( "custom-input-identifier" );
+	} );
+
+	it( "generates an input based on the defaults and an onChange event binding", () => {
+
+		renderer.render( <Input name="textInput" onChange={ () => {} } /> );
+
+		let result = renderer.getRenderOutput();
+
+		expect( result.props.onChange ).toBeDefined();
+		expect( typeof result.props.onChange ).toBe( "function" );
+	} );
+
+	it( "generates a warning when a faulty onChange callback is passed", () => {
+		console.error = jest.genMockFn();
+
+		renderer.render( <Input name="textInput" onChange={0} /> );
+
+		expect( console.error ).toBeCalled();
+		expect( console.error.mock.calls[0][0] )
+			.toContain( "Warning: Failed prop type: Invalid prop `onChange` of type `number` supplied to `Input`, expected `function`." );
 	} );
 } );
-
-
