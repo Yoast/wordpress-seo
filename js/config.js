@@ -277,19 +277,19 @@ let configuration = {
 	"steps": {
 		"intro": {
 			"title": "Intro",
-			"fields": [ "upsellConfigurationService", "mailchimpSignup" ],
+			"fields": ["upsellConfigurationService", "mailchimpSignup"],
 		},
 		"environment": {
 			"title": "Environment",
-			"fields": [ "environment" ],
+			"fields": ["environment"],
 		},
 		"siteType": {
 			"title": "Site type",
-			"fields": [ "siteType" ],
+			"fields": ["siteType"],
 		},
 		"publishingEntity": {
 			"title": "Company or person",
-			"fields": [ "publishingEntity" ],
+			"fields": ["publishingEntity"],
 		},
 		"profileUrls": {
 			"title": "Social profiles",
@@ -306,27 +306,27 @@ let configuration = {
 		},
 		"postTypeVisibility": {
 			"title": "Post type visibility",
-			"fields": [ "postTypeVisibility" ],
+			"fields": ["postTypeVisibility"],
 		},
 		"multipleAuthors": {
 			"title": "Multiple authors",
-			"fields": [ "multipleAuthors" ],
+			"fields": ["multipleAuthors"],
 		},
 		"connectGoogleSearchConsole": {
 			"title": "Google Search Console",
-			"fields": [ "connectGoogleSearchConsole" ],
+			"fields": ["connectGoogleSearchConsole"],
 		},
 		"titleTemplate": {
 			"title": "Title settings",
-			"fields": [ "siteName", "separator" ],
+			"fields": ["siteName", "separator"],
 		},
 		"tagLine": {
 			"title": "Tagline",
-			"fields": [ "tagLine" ],
+			"fields": ["tagLine"],
 		},
 		"success": {
 			"title": "Success!",
-			"fields": [ "successMessage", "upsellSiteReview", "mailchimpSignup" ],
+			"fields": ["successMessage", "upsellSiteReview", "mailchimpSignup"],
 		},
 	},
 };
