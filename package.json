@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "test": "jest"
+    "test": "jest",
+    "test-coverage": "jest --coverage"
   },
   "jest": {
     "unmockedModulePathPatterns": [
       "react"
     ],
-    "automock": false
+    "coverageDirectory": "coverage"
   },
   "author": "Yoast",
   "license": "GPL-3.0",
