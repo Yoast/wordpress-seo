@@ -133,8 +133,16 @@ class WPSEO_Admin {
 
 		// Add main page.
 		/* translators: %s: number of notifications */
-		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
-		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count" aria-hidden="true">%1$d</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $counter_screen_reader_text );
+		$counter_screen_reader_text = esc_attr( sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) ) );
+		/*
+		 * Must use only empty HTML tags, otherwise the page hooks will be polluted by the tags content.
+		 * Empty tags will be stripped out later by `sanitize_title()`.
+		 */
+		$counter = sprintf(
+			'<span class="update-plugins yoast-notifications-count count-%1$d"><span class="plugin-count" data-yoast-notifications-count="%1$d" aria-label="%2$s"></span></span>',
+			$notification_count,
+			$counter_screen_reader_text
+		);
 
 		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, self::PAGE_IDENTIFIER, array(
 			$this,
