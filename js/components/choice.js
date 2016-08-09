@@ -13,8 +13,6 @@ const Choice = ( props ) => {
 	let fieldKeys = Object.keys( choices );
 	let fieldName = props.fieldName;
 
-
-	//TODO find a better solution for displaying the choice.
 	return (
 		<div>
 			<h2>{props.properties.label}</h2>
