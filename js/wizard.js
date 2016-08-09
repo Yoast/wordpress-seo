@@ -240,7 +240,7 @@ class Wizard extends React.Component {
 
 		return (
 			<div>
-				<div>{this.getLoadingText()}</div>
+				<div>{(this.state.isLoading) ? "Saving.." : ""}</div>
 
 				<button hidden={(
 					hidePreviousButton
@@ -258,20 +258,6 @@ class Wizard extends React.Component {
 				</button>
 			</div>
 		);
-	}
-
-	/**
-	 * Gets the text to display when loading a next step in the wizard.
-	 *
-	 * @returns {string} Returns the loading text for the wizard or an empty string when the wizard is not loading.
-	 */
-	getLoadingText() {
-		let loadingText = "Saving..";
-
-		if ( ! this.state.isLoading ) {
-			return "";
-		}
-		return loadingText;
 	}
 }
 
