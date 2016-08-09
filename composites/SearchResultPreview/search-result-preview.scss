@@ -66,7 +66,7 @@ $prefix: 'yoast-';
     font-style: normal;
   }
 
-  &__description {
+  &__description, &__date {
     color: #777;
     font-size: 13px;
     line-height: 1.4;
@@ -80,9 +80,24 @@ $prefix: 'yoast-';
     @extend .#{$prefix}icon;
     background: url(svg-icon-eye($color_headings)) no-repeat 20px center / 16px 16px;
   }
+}
+
+.#{$prefix}button {
+  background: #f7f7f7;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  color: #555;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
 
   &__edit {
-    @extend .#{$prefix}icon;
-    background: url(svg-icon-edit($color_headings)) no-repeat 20px center / 16px 16px;
+    @extend .#{$prefix}button;
+
+    background: #f7f7f7 url(svg-icon-edit($color_headings)) no-repeat 8px center / 16px 16px;
+    background-size: 16px;
+    padding-left: 32px;
+    display: block;
+    margin-top: 1em;
   }
 }

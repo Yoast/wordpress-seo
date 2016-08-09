@@ -1,4 +1,6 @@
 import React from "react";
+import {localize} from "i18n-calypso";
+
 import Section from "../../forms/Section";
 import Button from "../../forms/Button";
 
@@ -29,26 +31,30 @@ class SearchResultPreview extends React.Component {
 		return ( <span className="yoast-snippet-preview__date">{ this.props.date } - </span> );
 	}
 
+	renderEditButton() {
+		if ( ! this.props.onEditButtonClick ) {
+			return "";
+		}
+
+		return ( <Button text={ this.props.translate( "Edit snippet" ) } className="yoast-button__edit" onClick={ this.props.onEditButtonClick } optionalAttributes={ { "aria-expanded": false } } /> );
+	}
+
 	/**
 	 * Represents the SearchResultPreview composite component.
 	 *
 	 * @returns {JSX} A representation of the SearchResultPreview component.
 	 */
 	render() {
-		let editButton = "";
+		let previewTitle = this.props.translate( "Search Result Preview" );
+		let previewDescription = this.props.translate( "You can click on each element in the preview to jump to the Snippet Editor." );
 
-		let previewTitle = this.props.previewTitle;
-		let previewDescription = this.props.previewDescription;
+		let titleLabel = this.props.translate( "SEO title preview: " );
+		let title = this.props.title || this.props.translate( "This is an example title - edit by clicking here" );
 
-		let titleLabel = this.props.titleLabel;
-		let urlLabel = this.props.urlLabel;
-		let metaDescriptionLabel = this.props.metaDescriptionLabel;
+		let urlLabel = this.props.translate( "Slug preview: " );
 
-		let editText = this.props.editText;
-
-		if ( this.props.onEditButtonClick ) {
-			editButton = <Button text={editText} className="yoast-edit-button" onClick={this.props.onEditButtonClick} optionalAttributes={ { "aria-expanded": false } } />;
-		}
+		let metaDescriptionLabel = this.props.translate( "Meta description preview: " );
+		let metaDescription = this.props.metaDescription || this.props.translate( "Please provide a meta description by editing the snippet below." );
 
 		return (
 			<Section level={3} headingText={previewTitle} headingClassName="yoast-snippet-preview__heading yoast-icon__eye" className="yoast-snippet-preview">
@@ -56,7 +62,7 @@ class SearchResultPreview extends React.Component {
 
 				<div className="yoast-snippet-preview__field">
 					<span className="screen-reader-text">{titleLabel}</span>
-                    <span className="yoast-snippet-preview__title">{this.props.title}</span>
+                    <span className="yoast-snippet-preview__title">{title}</span>
 				</div>
 
 				<div className="yoast-snippet-preview__field">
@@ -67,10 +73,10 @@ class SearchResultPreview extends React.Component {
 				<div className="yoast-snippet-preview__field">
 					<span className="screen-reader-text">{metaDescriptionLabel}</span>
 					{ this.renderDate() }
-					<span className="yoast-snippet-preview__description">{this.props.metaDescription}</span>
+					<span className="yoast-snippet-preview__description">{metaDescription}</span>
 				</div>
 
-				{editButton}
+				{ this.renderEditButton() }
 			</Section>
 		);
 	}
@@ -79,16 +85,9 @@ class SearchResultPreview extends React.Component {
 /**
  * Adds validation for the properties.
  *
- * @type {{editText: string, metaDescriptionLabel: string, previewDescription: string, previewTitle: string, titleLabel: string, urlLabel: string, date: string, metaDescription: string, title: string, url: string}}
+ * @type {{date: string, metaDescription: string, title: string, url: string}}
  */
 SearchResultPreview.propTypes = {
-	editText:React.PropTypes.string,
-	metaDescriptionLabel: React.PropTypes.string,
-	previewDescription: React.PropTypes.string,
-	previewTitle: React.PropTypes.string,
-	titleLabel: React.PropTypes.string,
-	urlLabel: React.PropTypes.string,
-
 	date: React.PropTypes.string,
 	metaDescription: React.PropTypes.string,
 	title: React.PropTypes.string,
@@ -98,21 +97,13 @@ SearchResultPreview.propTypes = {
 /**
  * Defines the default values for the properties.
  *
- * @type {{editText: string, metaDescriptionLabel: string, previewDescription: string, previewTitle: string, titleLabel: string, urlLabel: string, date: string, metaDescription: string, title: string, url: string}}
+ * @type {{date: string, metaDescription: string, url: string}}
  */
 SearchResultPreview.defaultProps = {
-	editText: "Edit",
-	metaDescriptionLabel: "",
-	previewDescription: "Description",
-	previewTitle: "Title",
-	titleLabel: "",
-	urlLabel: "",
-
-	date: "",
-	metaDescription: "Please provide a meta description",
-	title: "Please enter a title...",
-	url: "example.com",
+	date: "Dec 12, 2014",
+	url: "example.com/example-slug",
+	onEditButtonClick: () => {}
 };
 
-export default SearchResultPreview;
+export default localize( SearchResultPreview );
 
