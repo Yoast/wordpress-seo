@@ -1,7 +1,6 @@
 import React from 'react';
 import Step from './step';
 import ProgressIndicator from './progressIndicator';
-import Components from './components';
 
 import PostJSON from './helpers/postJSON';
 
@@ -16,17 +15,12 @@ class Wizard extends React.Component {
 	 * @param {Object} props The values to work with.
 	 */
 	constructor( props ) {
-		super();
-
-		this.props = props;
+		super( props );
 
 		this.state = {
 			steps: this.parseSteps( props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
 		};
-
-		Object.assign( this.props.components, Components );
-		Object.assign( this.props.components, props.customComponents );
 	}
 
 	/**
@@ -93,13 +87,11 @@ class Wizard extends React.Component {
 	parseFields( fieldsToGet ) {
 		let fields = {};
 
-		fieldsToGet.forEach(
-			function( fieldName ) {
+		fieldsToGet.forEach( ( fieldName ) => {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
-			.bind( this )
 		);
 
 		return fields;
@@ -261,7 +253,9 @@ class Wizard extends React.Component {
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
 				<ProgressIndicator {...this.getProgress()} />
-				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id} title={step.title} fields={step.fields} />
+				<Step ref="step" currentStep={this.state.currentStepId} id={step.id}
+				      title={step.title} fields={step.fields}>
+				</Step>
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
@@ -275,15 +269,11 @@ Wizard.propTypes = {
 	endpoint: React.PropTypes.string.isRequired,
 	steps: React.PropTypes.object,
 	currentStepId: React.PropTypes.string,
-	components: React.PropTypes.object,
-	customComponents: React.PropTypes.object,
 	fields: React.PropTypes.object,
 };
 
 Wizard.defaultProps = {
 	steps: [],
-	customComponents: {},
-	components: {},
 	fields: React.PropTypes.object,
 };
 

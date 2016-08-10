@@ -1,4 +1,5 @@
 import React from 'react';
+import Components from "./components";
 
 /**
  * Renders a step in the wizard process
@@ -93,19 +94,27 @@ class Step extends React.Component {
 	 * @param {string} index      The index of the config value in the fields.
 	 * @returns {Element}
 	 */
-	renderField( configName, index ) {
-		let config = this.props.fields[ configName ];
+	renderFields( fields ) {
+		let keys = Object.keys( fields );
 
-		if ( this.props.components[ config.component ] ) {
-			config.key = index;
-			config.fieldName = configName;
-			config.onChange = this.onChange.bind( this );
-			config.data = this.state.fieldValues[ this.state.currentStep ][ configName ];
-			
-			return React.createElement( this.props.components[ config.component ], config );
-		}
+		return keys.map( ( fieldName, key ) => {
+			let currentField = fields[fieldName];
 
-		return null;
+			if ( Components[ currentField.component ] === undefined ) {
+				return;
+			}
+
+			let props = {
+				key,
+				fieldName,
+				onChange: this.onChange.bind(this),
+				properties: currentField.properties,
+				data: this.state.fieldValues[ this.state.currentStep ][ fieldName ]
+
+			};
+
+			return React.createElement( Components[ currentField.component ], props );
+		} );
 	}
 
 	/**
@@ -114,15 +123,10 @@ class Step extends React.Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		let fields = this.props.fields;
-		let fieldKeys = Object.keys( fields );
-
 		return (
 			<div id="stepContainer">
 				<h1>Step: {this.props.title}</h1>
-				{
-					fieldKeys.map( this.renderField.bind( this ) )
-				}
+				{ this.renderFields( this.props.fields ) }
 			</div>
 		)
 	}
