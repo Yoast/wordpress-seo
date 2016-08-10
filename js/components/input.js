@@ -13,8 +13,8 @@ const Input = ( props ) => {
 	return (
 		<div>
 			<h2>{props.properties.label}</h2>
-			<label htmlFor={props.name}>{props.label}</label>
-			<input onChange={props.onChange} type={props.type} name={props.fieldName}
+			<label htmlFor={props.fieldName}>{props.label}</label>
+			<input onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName}
 			       defaultValue={props.data} placeholder={props.placeholder}/>
 		</div>
 	)
@@ -42,7 +42,7 @@ Input.defaultProps = {
 	type: 'text',
 	name: 'input',
 	data: '',
-	fieldName : '',
+	fieldName: '',
 };
 
 export default Input;
