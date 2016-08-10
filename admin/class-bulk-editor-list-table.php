@@ -353,6 +353,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		if ( 'top' === $which ) {
 			$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ) );
 
+			$instance_type = esc_attr( $this->page_type );
+
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				global $wpdb;
 
@@ -388,7 +390,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					}
 				}
 
-				echo sprintf( '<select name="post_type_filter">%1$s</select>', $options );
+				printf(
+					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
+					'post-type-filter-' . $instance_type,
+					__( 'Filter by post type', 'wordpress-seo' )
+				);
+				echo sprintf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, $instance_type );
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
