@@ -2,8 +2,7 @@ import React from "react";
 import Step from "./step";
 import ProgressIndicator from "./progressIndicator";
 import Components from "./components";
-
-import PostJSON from "./helpers/postJSON";
+import PostJSON from './helpers/postJSON';
 
 /**
  * The onboarding Wizard class.
@@ -21,6 +20,7 @@ class Wizard extends React.Component {
 		this.props = props;
 		this.stepCount = Object.keys(this.props.steps).length;
 		this.state = {
+			isLoading: false,
 			steps: this.parseSteps( props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
 		};
@@ -99,7 +99,7 @@ class Wizard extends React.Component {
 			return;
 		}
 
-		this.setSaveState( 'Saving..' );
+		this.setState( { isLoading: true } );
 
 		PostJSON(
 			this.props.endpoint,
@@ -122,23 +122,6 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Shows/hides the saving status when performing a request.
-	 *
-	 * @param {string} text The status text to show.
-	 */
-	setSaveState( text ) {
-		var $saveState = document.getElementById( "saveState" );
-		$saveState.innerHTML = text;
-
-		if ( text === '' ) {
-			$saveState.style.display = 'none';
-			return;
-		}
-
-		$saveState.style.display = 'block';
-	}
-
-	/**
 	 * Gets the first step from the step object.
 	 *
 	 * @param {Object} steps The object containing the steps.
@@ -155,8 +138,8 @@ class Wizard extends React.Component {
 	 * @param {string} step The next step to render.
 	 */
 	handleSuccessful( step ) {
-		this.setSaveState( '' );
 		this.setState( {
+			isLoading: false,
 			currentStepId: step,
 		} );
 	}
@@ -165,7 +148,9 @@ class Wizard extends React.Component {
 	 * When the request is handled incorrect.
 	 */
 	handleFailure() {
-		this.setSaveState( '' );
+		this.setState( {
+			isLoading: false,
+		} );
 	}
 
 	/**
@@ -233,7 +218,7 @@ class Wizard extends React.Component {
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
 				</button>
-				<div id="saveState" hidden="hidden"></div>
+				<div>{(this.state.isLoading) ? "Saving.." : ""}</div>
 			</div>
 		);
 	}
