@@ -1,8 +1,8 @@
-jest.unmock("../forms/Progressbar");
+jest.unmock("../Progressbar");
 
 import React from "react";
 import TestUtils from "react-addons-test-utils";
-import Progressbar from "../forms/Progressbar";
+import Progressbar from "../Progressbar";
 
 describe( "A Progressbar component", () => {
 	var renderer = TestUtils.createRenderer();
