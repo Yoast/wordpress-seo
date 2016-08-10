@@ -18,7 +18,7 @@ class Wizard extends React.Component {
 		super();
 
 		this.props = props;
-
+		this.stepCount = Object.keys(this.props.steps).length;
 		this.state = {
 			isLoading: false,
 			steps: this.parseSteps( props.steps ),
@@ -129,7 +129,7 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Returns the fiels as an object.
+	 * Returns the fields as an object.
 	 *
 	 * @returns {Object}
 	 */
@@ -148,7 +148,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
@@ -248,10 +248,8 @@ class Wizard extends React.Component {
 				</button>
 
 				<ProgressIndicator {...this.getProgress()} />
-
-				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id}
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components}
 				      title={step.title} fields={step.fields}/>
-
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
@@ -263,7 +261,7 @@ class Wizard extends React.Component {
 
 Wizard.propTypes = {
 	endpoint: React.PropTypes.string.isRequired,
-	steps: React.PropTypes.object,
+	steps: React.PropTypes.object.isRequired,
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
 	customComponents: React.PropTypes.object,
@@ -271,7 +269,6 @@ Wizard.propTypes = {
 };
 
 Wizard.defaultProps = {
-	steps: [],
 	customComponents: {},
 	components: {},
 	fields: React.PropTypes.object,
