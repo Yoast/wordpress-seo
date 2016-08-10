@@ -819,7 +819,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				break;
 
 			case 'col_row_action':
-				$column_value = sprintf( '<a href="#" class="wpseo-save" data-id="%1$s">Save</a> | <a href="#" class="wpseo-save-all">Save All</a>', $rec->ID );
+				$column_value = sprintf( '<a href="#" role="button" class="wpseo-save" data-id="%1$s">Save</a> <span aria-hidden="true">|</span> <a href="#" role="button" class="wpseo-save-all">Save All</a>', $rec->ID );
 				break;
 		}
 
