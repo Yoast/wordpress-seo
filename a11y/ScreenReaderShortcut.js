@@ -40,7 +40,7 @@ class ScreenReaderShortcut extends React.Component {
 	}
 
 	/**
-	 * Sets the focused state to true.
+	 * Gets the styles of the ScreenReaderShortcut depending on the state.
 	 *
 	 * @returns {Object} Styles The styles for the ScreenReaderShortcut
 	 */
