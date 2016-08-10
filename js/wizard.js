@@ -37,47 +37,28 @@ class Wizard extends React.Component {
 	 * @return {Object} The steps with added previous and next step.
 	 */
 	parseSteps( steps ) {
+		let stepKeys = Object.keys( steps );
 
-		/**
-		 * We are using this var because we need to set a next step for each step. We are adding the value at the
-		 * beginning of the array. Results in an array like [ step 3, step 2, step 1 ].
-		 *
-		 * The next step will be set by popping the last value of the array and set it as the next one for the step
-		 * we are looping through.
-		 *
-		 * @type {Array}
-		 */
-		var stepsReversed = [];
-
-		var previous = null;
-
-		// Loop through the steps to set each previous step.
-		for ( let step in steps ) {
-			if ( ! steps.hasOwnProperty( step ) ) {
-				continue;
-			}
-
-			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
-
-			steps[ step ].previous = previous;
-
-			// Sets the previous var with current step.
-			previous = step;
-
-			// Adds the step to the reversed array.
-			stepsReversed.unshift( step );
+		// Only add previous and next if there is more than one step.
+		if ( stepKeys.length < 2 ) {
+			return steps;
 		}
 
-		// We don't need 'first step'.
-		stepsReversed.pop();
+		let indexOfLastStep = stepKeys.length - 1;
 
-		// Loop through the steps to set each next step.
-		for ( let step in steps ) {
-			if ( ! steps.hasOwnProperty( step ) ) {
-				continue;
+		// Loop through the steps to set each previous step.
+		for ( let stepKey in steps ) {
+			let stepIndex = stepKeys.indexOf( stepKey );
+
+			if ( stepIndex > 0 ){
+				steps[ stepKey ].previous = stepKeys[stepIndex - 1];
 			}
 
-			steps[ step ].next = stepsReversed.pop();
+			if ( stepIndex > -1 && stepIndex < indexOfLastStep ){
+				steps[ stepKey ].next = stepKeys[stepIndex + 1];
+			}
+
+			steps[ stepKey ]['fields'] =  this.parseFields( steps[ stepKey ]["fields"] )
 		}
 
 		return steps;
@@ -198,19 +179,6 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Gets the current step and the total number of steps to determine the current progress trough the wizard.
-	 *
-	 * @return {{totalSteps: Number, currentStepNumber: (int|string)}}
-	 * Returns an object containing the total number of steps in the wizard and the current step nummber in the process.
-	 */
-	getProgress() {
-		return {
-			totalSteps: Object.keys( this.state.steps ).length,
-			currentStepNumber: this.getCurrentStepNumber(),
-		}
-	}
-
-	/**
 	 * Gets the index number for a step from the array with step objects.
 	 *
 	 * @return {int} The step number when found, or 0 when the step is not found.
@@ -240,20 +208,17 @@ class Wizard extends React.Component {
 
 		return (
 			<div>
-				<div>{(this.state.isLoading) ? "Saving.." : ""}</div>
-
+				<ProgressIndicator totalSteps={this.stepCount} currentStepNumber={this.getCurrentStepNumber()} />
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} title={step.title} fields={step.fields} />
 				<button hidden={(
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
-
-				<ProgressIndicator {...this.getProgress()} />
-				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components}
-				      title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
 				</button>
+				<div>{(this.state.isLoading) ? "Saving.." : ""}</div>
 			</div>
 		);
 	}
