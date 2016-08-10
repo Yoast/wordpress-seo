@@ -134,7 +134,6 @@ class Step extends React.Component {
 
 
 Step.propTypes = {
-	id: React.PropTypes.string,
 	title: React.PropTypes.string.isRequired,
 	fields: React.PropTypes.object,
 	components: React.PropTypes.object,
@@ -142,8 +141,6 @@ Step.propTypes = {
 };
 
 Step.defaultProps = {
-	id: '',
-	title: '',
 	fields: {},
 	components: {},
 	currentStep: '',

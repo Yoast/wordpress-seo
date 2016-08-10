@@ -8,3 +8,8 @@ parserOptions:
   sourceType: module
   ecmaFeatures:
     jsx: true
+
+env:
+  browser: true
+  node: true
+  jest: true
