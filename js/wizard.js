@@ -19,7 +19,7 @@ class Wizard extends React.Component {
 		super();
 
 		this.props = props;
-
+		this.stepCount = Object.keys(this.props.steps).length;
 		this.state = {
 			steps: this.parseSteps( props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
@@ -129,7 +129,7 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Returns the fiels as an object.
+	 * Returns the fields as an object.
 	 *
 	 * @returns {Object}
 	 */
