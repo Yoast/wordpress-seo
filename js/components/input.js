@@ -11,14 +11,14 @@ import React from 'react';
 const Input = ( props ) => {
 
 	return (
-	<div>
+		<div>
 			<h2>{props.properties.label}</h2>
-			<label htmlFor={props.name}>{props.label}</label>
-			<input onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName} defaultValue={props.data} placeholder={props.placeholder} />
+			<label htmlFor={props.fieldName}>{props.label}</label>
+			<input onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName}
+			       defaultValue={props.data} placeholder={props.placeholder}/>
 		</div>
 	)
-
-}
+};
 
 Input.propTypes = {
 	label: React.PropTypes.string.isRequired,
@@ -42,7 +42,7 @@ Input.defaultProps = {
 	type: 'text',
 	name: 'input',
 	data: '',
-	fieldName : '',
+	fieldName: '',
 };
 
 export default Input;

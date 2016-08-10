@@ -1,9 +1,9 @@
-import React from 'react';
-import Step from './step';
-import ProgressIndicator from './progressIndicator';
-import Components from './components';
+import React from "react";
+import Step from "./step";
+import ProgressIndicator from "./progressIndicator";
+import Components from "./components";
 
-import PostJSON from './helpers/postJSON';
+import PostJSON from "./helpers/postJSON";
 
 /**
  * The onboarding Wizard class.
@@ -37,47 +37,28 @@ class Wizard extends React.Component {
 	 * @return {Object} The steps with added previous and next step.
 	 */
 	parseSteps( steps ) {
+		let stepKeys = Object.keys( steps );
 
-		/**
-		 * We are using this var because we need to set a next step for each step. We are adding the value at the
-		 * beginning of the array. Results in an array like [ step 3, step 2, step 1 ].
-		 *
-		 * The next step will be set by popping the last value of the array and set it as the next one for the step
-		 * we are looping through.
-		 *
-		 * @type {Array}
-		 */
-		var stepsReversed = [];
-
-		var previous = null;
-
-		// Loop through the steps to set each previous step.
-		for ( let step in steps ) {
-			if ( ! steps.hasOwnProperty( step ) ) {
-				continue;
-			}
-
-			steps[ step ]['fields'] = this.parseFields( steps[ step ]['fields'] );
-
-			steps[ step ].previous = previous;
-
-			// Sets the previous var with current step.
-			previous = step;
-
-			// Adds the step to the reversed array.
-			stepsReversed.unshift( step );
+		// Only add previous and next if there is more than one step.
+		if ( stepKeys.length < 2 ) {
+			return steps;
 		}
 
-		// We don't need 'first step'.
-		stepsReversed.pop();
+		let indexOfLastStep = stepKeys.length - 1;
 
-		// Loop through the steps to set each next step.
-		for ( let step in steps ) {
-			if ( ! steps.hasOwnProperty( step ) ) {
-				continue;
+		// Loop through the steps to set each previous step.
+		for ( let stepKey in steps ) {
+			let stepIndex = stepKeys.indexOf( stepKey );
+
+			if ( stepIndex > 0 ){
+				steps[ stepKey ].previous = stepKeys[stepIndex - 1];
 			}
 
-			steps[ step ].next = stepsReversed.pop();
+			if ( stepIndex > -1 && stepIndex < indexOfLastStep ){
+				steps[ stepKey ].next = stepKeys[stepIndex + 1];
+			}
+
+			steps[ stepKey ]['fields'] =  this.parseFields( steps[ stepKey ]["fields"] )
 		}
 
 		return steps;
@@ -94,12 +75,12 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
+			function ( fieldName ) {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
-			.bind( this )
+				.bind( this )
 		);
 
 		return fields;
@@ -124,8 +105,8 @@ class Wizard extends React.Component {
 			this.props.endpoint,
 			this.getFieldsAsObject()
 		)
-		.then( this.handleSuccessful.bind( this, step ) )
-		.catch( this.handleFailure.bind( this ) );
+			.then( this.handleSuccessful.bind( this, step ) )
+			.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
@@ -165,7 +146,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
@@ -243,7 +224,7 @@ class Wizard extends React.Component {
 		return (
 			<div>
 				<ProgressIndicator totalSteps={this.stepCount} currentStepNumber={this.getCurrentStepNumber()} />
-				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id} title={step.title} fields={step.fields} />
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} title={step.title} fields={step.fields} />
 				<button hidden={(
 					hidePreviousButton
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
@@ -260,7 +241,7 @@ class Wizard extends React.Component {
 
 Wizard.propTypes = {
 	endpoint: React.PropTypes.string.isRequired,
-	steps: React.PropTypes.object,
+	steps: React.PropTypes.object.isRequired,
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
 	customComponents: React.PropTypes.object,
@@ -268,7 +249,6 @@ Wizard.propTypes = {
 };
 
 Wizard.defaultProps = {
-	steps: [],
 	customComponents: {},
 	components: {},
 	fields: React.PropTypes.object,
