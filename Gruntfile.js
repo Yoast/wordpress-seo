@@ -19,6 +19,7 @@ module.exports = function( grunt ) {
 				"!./**/*.min.js",
 				"!./node_modules/**/*",
 				"<%= files.grunt %>",
+				"!./__tests__/**",
 			],
 			get config() {
 				return project.paths.config + "*.js";
