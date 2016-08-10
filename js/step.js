@@ -101,7 +101,7 @@ class Step extends React.Component {
 			config.fieldName = configName;
 			config.onChange = this.onChange.bind( this );
 			config.data = this.state.fieldValues[ this.state.currentStep ][ configName ];
-			
+
 			return React.createElement( this.props.components[ config.component ], config );
 		}
 
@@ -130,7 +130,6 @@ class Step extends React.Component {
 
 
 Step.propTypes = {
-	id: React.PropTypes.string,
 	title: React.PropTypes.string.isRequired,
 	fields: React.PropTypes.object,
 	components: React.PropTypes.object,
@@ -138,8 +137,6 @@ Step.propTypes = {
 };
 
 Step.defaultProps = {
-	id: '',
-	title: '',
 	fields: {},
 	components: {},
 	currentStep: '',

@@ -18,7 +18,6 @@ const Input = ( props ) => {
 			       defaultValue={props.data} placeholder={props.placeholder}/>
 		</div>
 	)
-
 };
 
 Input.propTypes = {

@@ -1,9 +1,9 @@
-import React from 'react';
-import Step from './step';
-import ProgressIndicator from './progressIndicator';
-import Components from './components';
+import React from "react";
+import Step from "./step";
+import ProgressIndicator from "./progressIndicator";
+import Components from "./components";
 
-import PostJSON from './helpers/postJSON';
+import PostJSON from "./helpers/postJSON";
 
 /**
  * The onboarding Wizard class.
@@ -19,7 +19,7 @@ class Wizard extends React.Component {
 		super();
 
 		this.props = props;
-
+		this.stepCount = Object.keys(this.props.steps).length;
 		this.state = {
 			steps: this.parseSteps( props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
@@ -94,12 +94,12 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach(
-			function( fieldName ) {
+			function ( fieldName ) {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
-			.bind( this )
+				.bind( this )
 		);
 
 		return fields;
@@ -124,12 +124,12 @@ class Wizard extends React.Component {
 			this.props.endpoint,
 			this.getFieldsAsObject()
 		)
-		.then( this.handleSuccessful.bind( this, step ) )
-		.catch( this.handleFailure.bind( this ) );
+			.then( this.handleSuccessful.bind( this, step ) )
+			.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
-	 * Returns the fiels as an object.
+	 * Returns the fields as an object.
 	 *
 	 * @returns {Object}
 	 */
@@ -165,7 +165,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
@@ -261,7 +261,8 @@ class Wizard extends React.Component {
 				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
 				</button>
 				<ProgressIndicator {...this.getProgress()} />
-				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components} id={step.id} title={step.title} fields={step.fields} />
+				<Step ref='step' currentStep={this.state.currentStepId} components={this.props.components}
+				      title={step.title} fields={step.fields}/>
 				<button hidden={(
 					hideNextButton
 				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
@@ -273,7 +274,7 @@ class Wizard extends React.Component {
 
 Wizard.propTypes = {
 	endpoint: React.PropTypes.string.isRequired,
-	steps: React.PropTypes.object,
+	steps: React.PropTypes.object.isRequired,
 	currentStepId: React.PropTypes.string,
 	components: React.PropTypes.object,
 	customComponents: React.PropTypes.object,
@@ -281,7 +282,6 @@ Wizard.propTypes = {
 };
 
 Wizard.defaultProps = {
-	steps: [],
 	customComponents: {},
 	components: {},
 	fields: React.PropTypes.object,
