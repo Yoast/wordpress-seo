@@ -16,4 +16,4 @@ ratings:
 exclude_paths:
 - grunt/**/*
 - Gruntfile.js
-- *Test.js
+- "*Test.js"
