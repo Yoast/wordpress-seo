@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Input from  'input';
+import Input from  './forms/Input';
 
 class App extends React.Component {
 	render() {
