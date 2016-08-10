@@ -9,9 +9,10 @@
   },
   "jest": {
     "unmockedModulePathPatterns": [
-      "react"
+      "react",
+      "enzyme"
     ],
-		"testRegex": ".*Test.js$",
+    "testRegex": ".*Test.js$",
     "coverageDirectory": "coverage"
   },
   "author": "Yoast",
@@ -36,6 +37,7 @@
     "eslint-plugin-yoast": "^1.0.0",
     "grunt": "^1.0.1",
     "grunt-eslint": "^19.0.0",
+    "enzyme": "^2.4.1",
     "jest": "^14.1.0",
     "jest-cli": "^14.1.0",
     "json-loader": "^0.5.4",
