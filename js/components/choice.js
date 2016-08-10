@@ -25,10 +25,10 @@ const Choice = ( props ) => {
 
 				return (
 					<div key={index}>
+						<input onChange={props.onChange} id={choiceId} type="radio" name={fieldName}
+						       value={choiceName}
+						       checked={isChecked}/>
 						<label htmlFor={choiceId}>
-							<input onChange={props.onChange} id={choiceId} type="radio" name={fieldName}
-							       value={choiceName}
-							       checked={isChecked}/>
 							{choice.label}
 						</label>
 					</div>
