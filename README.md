@@ -4,7 +4,7 @@ React components for use within different Yoast React projects.
 
 ## Installation
 
-You can install YoastSEO.js using npm:
+You can install yoast-components using npm:
 
 ```bash
 npm install https://github.com/Yoast/yoast-components#develop
@@ -17,10 +17,6 @@ import 'Input' from 'yoast-components/forms/Input'
 
 // Then you can Input in your React components
 ```
-
-## Documentation
-
-The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
 
 ## Testing
 
