@@ -11,9 +11,9 @@ import Styles from "./Styles";
  */
 const ScreenReaderText = ( props ) => {
 	return (
-		<div className="screen-reader-text" style={ Styles.ScreenReaderText.default }>
+		<span className="screen-reader-text" style={ Styles.ScreenReaderText.default }>
 			{ props.children }
-		</div>
+		</span>
 	);
 };
 

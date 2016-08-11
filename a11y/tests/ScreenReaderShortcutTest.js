@@ -14,6 +14,7 @@ describe( "ScreenReaderShortcut", () => {
 
 		let result = renderer.getRenderOutput();
 
+		expect( result.type ).toBe( "a" );
 		expect( result.props.children ).toBe( "example text" );
 		expect( result.props.style).toBe( Styles.ScreenReaderText.default );
 		expect( result.props.href ).toBe( "#example" );
