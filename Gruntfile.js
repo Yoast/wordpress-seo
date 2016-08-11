@@ -13,7 +13,7 @@ module.exports = function( grunt ) {
 			}
 		},
 		files: {
-			components: "forms/*.js",
+			components: ["forms/*.js", "a11y/*.js"],
 			get config() {
 				return project.paths.config + "*.js";
 			},
