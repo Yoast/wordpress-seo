@@ -134,6 +134,7 @@ class WPSEO_Admin {
 		// Add main page.
 		/* translators: %s: number of notifications */
 		$counter_screen_reader_text = esc_attr( sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) ) );
+
 		/*
 		 * Must use only empty HTML tags, otherwise the page hooks will be polluted by the tags content.
 		 * Empty tags will be stripped out later by `sanitize_title()`.
