@@ -3,7 +3,7 @@
 var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
 var countSentences = require( "../stringProcessing/countSentences.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var countSyllables = require( "../stringProcessing/syllables/count.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 
 var getLanguage = require( "../helpers/getLanguage.js" );

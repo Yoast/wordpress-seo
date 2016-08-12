@@ -1,8 +1,8 @@
 /** @module stringProcessing/countSyllables */
 
-var syllableMatchers = require( "../config/syllables.js" );
+var syllableMatchers = require( "../../config/syllables.js" );
 
-var getWords = require( "../stringProcessing/getWords.js" );
+var getWords = require( "../getWords.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
@@ -11,8 +11,8 @@ var isUndefined = require( "lodash/isUndefined" );
 var map = require( "lodash/map" );
 var sum = require( "lodash/sum" );
 
-var SyllableCountIterator = require( "../helpers/syllableCountIterator.js" );
-var ExclusionCountIterator = require( "../helpers/exclusionCountIterator.js" );
+var SyllableCountIterator = require( "../../helpers/syllableCountIterator.js" );
+var ExclusionCountIterator = require( "../../helpers/exclusionCountIterator.js" );
 
 /**
  * Counts vowel groups inside a word.
