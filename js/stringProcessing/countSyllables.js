@@ -6,10 +6,11 @@ var getWords = require( "../stringProcessing/getWords.js" );
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
+var find = require( "lodash/find" );
+var isUndefined = require( "lodash/isUndefined" );
 
 var SyllableCountIterator = require( "../helpers/syllableCountIterator.js" );
 var ExclusionCountIterator = require( "../helpers/exclusionCountIterator.js" );
-
 
 /**
  * Counts the syllables by splitting on consonants, leaving groups of vowels.
@@ -44,24 +45,24 @@ var countVowelExclusions = function( word, locale ) {
 };
 
 /**
- * Checks if the word is an exclusion word.
+ * Returns the number of syllables for the word if it is in the list of full word deviations.
  *
- * @param {String} word The word to check against exclusion words.
+ * @param {String} word The word to retrieve the syllables for.
  * @param {String} locale The locale to use for counting syllables.
  * @returns {number} The number of syllables found.
  */
-var countSyllablesInExclusions = function( word, locale ) {
-	var exclusionWords = syllableMatchers( locale ).exclusionWords;
-	var syllableCount = 0;
-	forEach( exclusionWords, function( exclusionWordsObject ) {
-		if ( exclusionWordsObject.word === word ) {
-			syllableCount = exclusionWordsObject.syllables;
+var countFullWordDeviations = function( word, locale ) {
+	var fullWordDeviations = syllableMatchers( locale ).deviations.words.full;
 
-			// If we find an exclusion, we can break out of this forEach.
-			return false;
-		}
+	var deviation = find( fullWordDeviations, function( fullWordDeviation ) {
+		return fullWordDeviation.word === word;
 	} );
-	return syllableCount;
+
+	if ( ! isUndefined( deviation ) ) {
+		return deviation.syllables;
+	}
+
+	return 0;
 };
 
 /**
@@ -105,7 +106,7 @@ module.exports = function( text, locale ) {
 	var syllableCount = 0;
 
 	forEach( words, function( word ) {
-		var exclusions = countSyllablesInExclusions( word, locale );
+		var exclusions = countFullWordDeviations( word, locale );
 		if ( exclusions !== 0 ) {
 			syllableCount += exclusions;
 			return;
