@@ -3,8 +3,8 @@
 var getLanguage = require( "../helpers/getLanguage.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
-var en = require( './syllables/en.js' );
-var nl = require( './syllables/nl.js' );
+var en = require( './syllables/en.json' );
+var nl = require( './syllables/nl.json' );
 
 module.exports = function( locale ) {
 	if ( isUndefined( locale ) ) {

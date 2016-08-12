@@ -24,6 +24,8 @@ function DeviationFragment( options ) {
 
 /**
  * Creates a regex that matches this fragment inside a word.
+ *
+ * @returns {void}
  */
 DeviationFragment.prototype.createRegex = function() {
 	var regexString = "";
@@ -92,7 +94,6 @@ DeviationFragment.prototype.occursIn = function( word ) {
  * @returns {string} The modified word.
  */
 DeviationFragment.prototype.removeFrom = function( word ) {
-
 	// Replace by a space to keep the remaining parts separated.
 	return word.replace( this._fragment, " " );
 };

@@ -1,4 +1,4 @@
-module.exports = {
+{
 	"vowels": "aáäâeéëêiíïîoóöôuúüûy",
 	"deviations": {
 		"vowels": [
@@ -330,4 +330,4 @@ module.exports = {
 			}
 		}
 	}
-};
+}

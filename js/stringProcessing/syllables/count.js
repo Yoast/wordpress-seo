@@ -82,7 +82,6 @@ function createDeviationFragments( syllableConfig ) {
 
 	if ( ! isUndefined( deviations.words ) && ! isUndefined( deviations.words.fragments ) ) {
 		deviationFragments = flatMap( deviations.words.fragments, function( fragments, fragmentLocation ) {
-
 			return map( fragments, function( fragment ) {
 				fragment.location = fragmentLocation;
 
@@ -140,6 +139,7 @@ var countUsingVowels = function( word, locale ) {
  *
  * @param {string} word The word to count syllables in.
  * @param {string} locale The locale of the word.
+ * @returns {number} The syllable count for the word.
  */
 var countSyllablesInWord = function( word, locale ) {
 	var syllableCount = 0;
