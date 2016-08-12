@@ -15,13 +15,13 @@ var SyllableCountIterator = require( "../helpers/syllableCountIterator.js" );
 var ExclusionCountIterator = require( "../helpers/exclusionCountIterator.js" );
 
 /**
- * Counts the syllables by splitting on consonants, leaving groups of vowels.
+ * Counts vowel groups inside a word.
  *
  * @param {string} word A text with words to count syllables.
  * @param {String} locale The locale to use for counting syllables.
  * @returns {number} the syllable count.
  */
-var countUsingVowels = function( word, locale ) {
+var countVowelGroups = function( word, locale ) {
 	var numberOfSyllables = 0;
 	var vowelRegex = new RegExp( "[^" + syllableMatchers( locale ).vowels + "]", "ig" );
 	var foundVowels = word.split( vowelRegex );
@@ -41,7 +41,7 @@ var countUsingVowels = function( word, locale ) {
  * @param {String} locale The locale to use for counting syllables.
  * @returns {number} The number of syllables found in the given word.
  */
-var countVowelExclusions = function( word, locale ) {
+var countVowelDeviations = function( word, locale ) {
 	var syllableCountIterator = new SyllableCountIterator( syllableMatchers( locale ) );
 	return syllableCountIterator.countSyllables( word );
 };
@@ -75,7 +75,7 @@ var countFullWordDeviations = function( word, locale ) {
  * @param {String} locale The locale to use for counting syllables.
  * @returns {object} The number of syllables found and the modified word.
  */
-var countSyllablesInPartialExclusions = function( word, locale ) {
+var countPartialWordDeviations = function( word, locale ) {
 	var exclusionCountIterator = new ExclusionCountIterator( syllableMatchers( locale ) );
 	return exclusionCountIterator.countSyllables( word );
 };
@@ -87,10 +87,12 @@ var countSyllablesInPartialExclusions = function( word, locale ) {
  * @param {String} locale The locale to use for counting syllables.
  * @returns {number} The number of syllables found in a word.
  */
-var countSyllables = function( word, locale ) {
+var countUsingVowels = function( word, locale ) {
 	var syllableCount = 0;
-	syllableCount += countUsingVowels( word, locale );
-	syllableCount += countVowelExclusions( word, locale );
+
+	syllableCount += countVowelGroups( word, locale );
+	syllableCount += countVowelDeviations( word, locale );
+
 	return syllableCount;
 };
 
@@ -108,10 +110,10 @@ var countSyllablesInWord = function( word, locale ) {
 		return fullWordExclusion;
 	}
 
-	var partialExclusions = countSyllablesInPartialExclusions( word, locale );
+	var partialExclusions = countPartialWordDeviations( word, locale );
 	word = partialExclusions.word;
 	syllableCount += partialExclusions.syllableCount;
-	syllableCount += countSyllables( word, locale );
+	syllableCount += countUsingVowels( word, locale );
 
 	return syllableCount;
 };
