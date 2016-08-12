@@ -32,7 +32,7 @@ DeviationFragment.prototype.createRegex = function() {
 	var fragment = this._fragment;
 
 	if ( ! isUndefined( options.notFollowedBy ) ) {
-		fragment += "[^" + options.notFollowedBy.join( "" ) + "]";
+		fragment += "(?![" + options.notFollowedBy.join( "" ) + "])";
 	}
 
 	if ( ! isUndefined( options.alsoFollowedBy ) ) {

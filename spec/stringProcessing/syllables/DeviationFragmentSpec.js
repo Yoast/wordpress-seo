@@ -52,7 +52,7 @@ describe( "DeviationFragment", function() {
 				word: "fragment",
 				notFollowedBy: [ "a", "s" ],
 			});
-			var expected = /fragment[^as]/;
+			var expected = /fragment(?![as])/;
 
 			var result = deviationFragment.getRegex();
 
