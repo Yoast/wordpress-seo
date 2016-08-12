@@ -33,7 +33,19 @@ describe( "a syllable counter for Dutch textstrings", function () {
 	} );
 
 	it( "returns the number of syllables for a sentence with exclusions", function () {
-		expect( countSyllableFunction( "keynoter keynote keynotes kite kiter breakdance breakdancer race racer", "nl_NL" ) ).toBe( 18 );
+		var testCases = {
+			"keynoter": 3,
+			"keynote": 2,
+			"keynotes": 2,
+			"kite": 1,
+			"kiter": 2,
+			"breakdance": 2,
+			"breakdancer": 3,
+			"race": 1,
+			"racer": 2,
+		};
+
+		testCountSyllables( testCases, "nl_NL" );
 	} );
 
 	it( "returns the number of syllables for a sentence with exclusions", function () {
