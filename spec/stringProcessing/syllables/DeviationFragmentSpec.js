@@ -8,7 +8,7 @@ describe( "DeviationFragment", function() {
 				word: "fragment",
 			});
 
-			expect( deviationFragment.getRegex() ).toEqual( /fragment/g );
+			expect( deviationFragment.getRegex() ).toEqual( /fragment/ );
 		});
 
 		it( "should create a regex for at the start of a word", function() {
@@ -16,7 +16,7 @@ describe( "DeviationFragment", function() {
 				location: "atBeginning",
 				word: "fragment",
 			});
-			var expected = /^fragment/g;
+			var expected = /^fragment/;
 
 			var result = deviationFragment.getRegex();
 
@@ -28,7 +28,7 @@ describe( "DeviationFragment", function() {
 				location: "atEnd",
 				word: "fragment",
 			});
-			var expected = /fragment$/g;
+			var expected = /fragment$/;
 
 			var result = deviationFragment.getRegex();
 
@@ -40,7 +40,7 @@ describe( "DeviationFragment", function() {
 				location: "atBeginningOrEnd",
 				word: "fragment",
 			});
-			var expected = /(^fragment)|(fragment$)/g;
+			var expected = /(^fragment)|(fragment$)/;
 
 			var result = deviationFragment.getRegex();
 
@@ -52,7 +52,7 @@ describe( "DeviationFragment", function() {
 				word: "fragment",
 				notFollowedBy: [ "a", "s" ],
 			});
-			var expected = /fragment[^as]/g;
+			var expected = /fragment[^as]/;
 
 			var result = deviationFragment.getRegex();
 
@@ -64,7 +64,7 @@ describe( "DeviationFragment", function() {
 				word: "fragment",
 				alsoFollowedBy: [ "a", "s" ],
 			});
-			var expected = /fragment[as]?/g;
+			var expected = /fragment[as]?/;
 
 			var result = deviationFragment.getRegex();
 

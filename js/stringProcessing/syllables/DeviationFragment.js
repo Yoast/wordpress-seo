@@ -1,4 +1,5 @@
 var isUndefined = require( "lodash/isUndefined" );
+var pick = require( "lodash/pick" );
 
 /**
  * Represents a partial deviation when counting syllables
@@ -18,11 +19,7 @@ function DeviationFragment( options ) {
 	this._syllables = options.syllables;
 	this._regex = null;
 
-	delete options.location;
-	delete options.word;
-	delete options.syllables;
-
-	this._options = options || {};
+	this._options = pick( options, [ "notFollowedBy", "alsoFollowedBy" ] );
 }
 
 /**
@@ -60,7 +57,7 @@ DeviationFragment.prototype.createRegex = function() {
 			break;
 	}
 
-	this._regex = new RegExp( regexString, "g" );
+	this._regex = new RegExp( regexString );
 };
 
 /**
