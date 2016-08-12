@@ -8,6 +8,8 @@ var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var find = require( "lodash/find" );
 var isUndefined = require( "lodash/isUndefined" );
+var map = require( "lodash/map" );
+var sum = require( "lodash/sum" );
 
 var SyllableCountIterator = require( "../helpers/syllableCountIterator.js" );
 var ExclusionCountIterator = require( "../helpers/exclusionCountIterator.js" );
@@ -93,6 +95,28 @@ var countSyllables = function( word, locale ) {
 };
 
 /**
+ * Counts the number of syllables in a word
+ *
+ * @param {string} locale The locale of the word.
+ * @param {string} word The word to count syllables in.
+ */
+var countSyllablesInWord = function( locale, word ) {
+	var syllableCount = 0;
+
+	var exclusions = countFullWordDeviations( word, locale );
+	if ( exclusions !== 0 ) {
+		syllableCount += exclusions;
+		return syllableCount;
+	}
+	var partialExclusions = countSyllablesInPartialExclusions( word, locale );
+	word = partialExclusions.word;
+	syllableCount += partialExclusions.syllableCount;
+	syllableCount += countSyllables( word, locale );
+
+	return syllableCount;
+};
+
+/**
  * Counts the number of syllables in a textstring per word based on vowels.
  * Uses exclusion words for words that cannot be matched with vowel matching.
  *
@@ -103,19 +127,9 @@ var countSyllables = function( word, locale ) {
 module.exports = function( text, locale ) {
 	text = text.toLocaleLowerCase();
 	var words = getWords( text );
-	var syllableCount = 0;
 
-	forEach( words, function( word ) {
-		var exclusions = countFullWordDeviations( word, locale );
-		if ( exclusions !== 0 ) {
-			syllableCount += exclusions;
-			return;
-		}
-		var partialExclusions = countSyllablesInPartialExclusions( word, locale );
-		word = partialExclusions.word;
-		syllableCount += partialExclusions.syllableCount;
-		syllableCount += countSyllables( word, locale );
-	} );
-	return syllableCount;
+	var syllableCounts = map( words, countSyllablesInWord.bind( null, locale ) );
+
+	return sum( syllableCounts );
 };
 
