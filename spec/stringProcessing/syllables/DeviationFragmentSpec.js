@@ -5,10 +5,10 @@ describe( "DeviationFragment", function() {
 	describe( "getRegex", function() {
 		it( "should create a simple global regex", function() {
 			var deviationFragment = new DeviationFragment({
-				word: "word",
+				word: "fragment",
 			});
 
-			expect( deviationFragment.getRegex() ).toEqual( /word/g );
+			expect( deviationFragment.getRegex() ).toEqual( /fragment/g );
 		});
 
 		it( "should create a regex for at the start of a word", function() {
@@ -40,7 +40,31 @@ describe( "DeviationFragment", function() {
 				location: "atBeginningOrEnd",
 				word: "fragment",
 			});
-			var expected = /(^fragment)|(fragment)/g;
+			var expected = /(^fragment)|(fragment$)/g;
+
+			var result = deviationFragment.getRegex();
+
+			expect( result ).toEqual( expected );
+		});
+
+		it( "supports notFollowedBy", function() {
+			var deviationFragment = new DeviationFragment({
+				word: "fragment",
+				notFollowedBy: [ "a", "s" ],
+			});
+			var expected = /fragment[^as]/g;
+
+			var result = deviationFragment.getRegex();
+
+			expect( result ).toEqual( expected );
+		});
+
+		it( "supports alsoFollowedBy", function() {
+			var deviationFragment = new DeviationFragment({
+				word: "fragment",
+				alsoFollowedBy: [ "a", "s" ],
+			});
+			var expected = /fragment[as]?/g;
 
 			var result = deviationFragment.getRegex();
 

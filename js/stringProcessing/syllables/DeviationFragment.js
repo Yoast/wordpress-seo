@@ -1,3 +1,5 @@
+var isUndefined = require( "lodash/isUndefined" );
+
 /**
  * Represents a partial deviation when counting syllables
  *
@@ -28,22 +30,33 @@ function DeviationFragment( options ) {
  */
 DeviationFragment.prototype.createRegex = function() {
 	var regexString = "";
+	var options = this._options;
+
+	var fragment = this._fragment;
+
+	if ( ! isUndefined( options.notFollowedBy ) ) {
+		fragment += "[^" + options.notFollowedBy.join( "" ) + "]";
+	}
+
+	if ( ! isUndefined( options.alsoFollowedBy ) ) {
+		fragment += "[" + options.alsoFollowedBy.join( "" ) + "]?";
+	}
 
 	switch ( this._location ) {
 		case "atBeginning":
-			regexString = "^" + this._fragment;
+			regexString = "^" + fragment;
 			break;
 
 		case "atEnd":
-			regexString = this._fragment + "$";
+			regexString = fragment + "$";
 			break;
 
 		case "atBeginningOrEnd":
-			regexString = "(^" + this._fragment + ")|(" + this._fragment + ")";
+			regexString = "(^" + fragment + ")|(" + fragment + "$)";
 			break;
 
 		default:
-			regexString = this._fragment;
+			regexString = fragment;
 			break;
 	}
 
