@@ -94,7 +94,7 @@ function createDeviationFragments( syllableConfig ) {
 	return deviationFragments;
 }
 
-createDeviationFragments = memoize( createDeviationFragments );
+var createDeviationFragmentsMemoized = memoize( createDeviationFragments );
 
 /**
  * Counts syllables in partial exclusions. If these are found, returns the number of syllables  found, and the modified word.
@@ -105,7 +105,7 @@ createDeviationFragments = memoize( createDeviationFragments );
  * @returns {object} The number of syllables found and the modified word.
  */
 var countPartialWordDeviations = function( word, locale ) {
-	var deviationFragments = createDeviationFragments( syllableMatchers( locale ) );
+	var deviationFragments = createDeviationFragmentsMemoized( syllableMatchers( locale ) );
 	var remainingParts = word;
 	var syllableCount = 0;
 
@@ -114,7 +114,7 @@ var countPartialWordDeviations = function( word, locale ) {
 			remainingParts = deviationFragment.removeFrom( remainingParts );
 			syllableCount += deviationFragment.getSyllables();
 		}
-	});
+	} );
 
 	return { word: remainingParts, syllableCount: syllableCount };
 };
