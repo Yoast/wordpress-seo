@@ -110,8 +110,8 @@ var countPartialWordDeviations = function( word, locale ) {
 	var syllableCount = 0;
 
 	forEach( deviationFragments, function( deviationFragment ) {
-		if ( deviationFragment.occursIn( word ) ) {
-			remainingParts = deviationFragment.removeFrom( word );
+		if ( deviationFragment.occursIn( remainingParts ) ) {
+			remainingParts = deviationFragment.removeFrom( remainingParts );
 			syllableCount += deviationFragment.getSyllables();
 		}
 	});
