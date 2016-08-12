@@ -10,9 +10,11 @@ var find = require( "lodash/find" );
 var isUndefined = require( "lodash/isUndefined" );
 var map = require( "lodash/map" );
 var sum = require( "lodash/sum" );
+var memoize = require( "lodash/memoize" );
+var flatMap = require( "lodash/flatMap" );
 
 var SyllableCountIterator = require( "../../helpers/syllableCountIterator.js" );
-var ExclusionCountIterator = require( "../../helpers/exclusionCountIterator.js" );
+var DeviationFragment = require( "./DeviationFragment" );
 
 /**
  * Counts vowel groups inside a word.
@@ -68,6 +70,33 @@ var countFullWordDeviations = function( word, locale ) {
 };
 
 /**
+ * Creates an array of deviation fragments for a certain locale.
+ *
+ * @param {Object} syllableConfig Syllable config for a certain locale.
+ * @returns {DeviationFragment[]} A list of deviation fragments
+ */
+function createDeviationFragments( syllableConfig ) {
+	var deviationFragments = [];
+
+	var deviations = syllableConfig.deviations;
+
+	if ( ! isUndefined( deviations.words ) && ! isUndefined( deviations.words.fragments ) ) {
+		deviationFragments = flatMap( deviations.words.fragments, function( fragments, fragmentLocation ) {
+
+			return map( fragments, function( fragment ) {
+				fragment.location = fragmentLocation;
+
+				return new DeviationFragment( fragment );
+			} );
+		} );
+	}
+
+	return deviationFragments;
+}
+
+createDeviationFragments = memoize( createDeviationFragments );
+
+/**
  * Counts syllables in partial exclusions. If these are found, returns the number of syllables  found, and the modified word.
  * The word is modified so the excluded part isn't counted by the normal syllable counter.
  *
@@ -76,8 +105,18 @@ var countFullWordDeviations = function( word, locale ) {
  * @returns {object} The number of syllables found and the modified word.
  */
 var countPartialWordDeviations = function( word, locale ) {
-	var exclusionCountIterator = new ExclusionCountIterator( syllableMatchers( locale ) );
-	return exclusionCountIterator.countSyllables( word );
+	var deviationFragments = createDeviationFragments( syllableMatchers( locale ) );
+	var remainingParts = word;
+	var syllableCount = 0;
+
+	forEach( deviationFragments, function( deviationFragment ) {
+		if ( deviationFragment.occursIn( word ) ) {
+			remainingParts = deviationFragment.removeFrom( word );
+			syllableCount += deviationFragment.getSyllables();
+		}
+	});
+
+	return { word: remainingParts, syllableCount: syllableCount };
 };
 
 /**
