@@ -97,17 +97,17 @@ var countSyllables = function( word, locale ) {
 /**
  * Counts the number of syllables in a word
  *
- * @param {string} locale The locale of the word.
  * @param {string} word The word to count syllables in.
+ * @param {string} locale The locale of the word.
  */
-var countSyllablesInWord = function( locale, word ) {
+var countSyllablesInWord = function( word, locale ) {
 	var syllableCount = 0;
 
-	var exclusions = countFullWordDeviations( word, locale );
-	if ( exclusions !== 0 ) {
-		syllableCount += exclusions;
-		return syllableCount;
+	var fullWordExclusion = countFullWordDeviations( word, locale );
+	if ( fullWordExclusion !== 0 ) {
+		return fullWordExclusion;
 	}
+
 	var partialExclusions = countSyllablesInPartialExclusions( word, locale );
 	word = partialExclusions.word;
 	syllableCount += partialExclusions.syllableCount;
@@ -117,19 +117,22 @@ var countSyllablesInWord = function( locale, word ) {
 };
 
 /**
- * Counts the number of syllables in a textstring per word based on vowels.
+ * Counts the number of syllables in a text per word based on vowels.
  * Uses exclusion words for words that cannot be matched with vowel matching.
  *
  * @param {String} text The text to count the syllables in.
  * @param {String} locale The locale to use for counting syllables.
  * @returns {int} The total number of syllables found in the text.
  */
-module.exports = function( text, locale ) {
+var countSyllablesInText = function( text, locale ) {
 	text = text.toLocaleLowerCase();
 	var words = getWords( text );
 
-	var syllableCounts = map( words, countSyllablesInWord.bind( null, locale ) );
+	var syllableCounts = map( words,  function( word ) {
+		return countSyllablesInWord( word, locale );
+	} );
 
 	return sum( syllableCounts );
 };
 
+module.exports = countSyllablesInText;
