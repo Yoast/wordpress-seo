@@ -4,6 +4,11 @@ module.exports = {
 		files: {
 			"dist/yoast-seo.js": [ "js/bc/back-compat.js" ],
 		},
+		options: {
+			browserifyOptions: {
+				debug: true,
+			},
+		},
 	},
 	example: {
 		files: {
