@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "istanbul test jasmine",
-    "check-coverage": "istanbul check-coverage --statements 82.23 --branches 72.62 --functions 72.62 --lines 82.23"
+    "check-coverage": "istanbul check-coverage --statements 82.49 --branches 73.09 --functions 73.5 --lines 82.49"
   },
   "browser": "js/browser.js",
   "devDependencies": {

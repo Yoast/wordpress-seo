@@ -8,8 +8,8 @@ describe( "A test for creating a language syllable regex", function() {
 
 	it( "creates an language syllable regex with a +1 multiplier", function() {
 		var mockSyllables = {
-				syllables: [ "a" ],
-				multiplier: +1
+				fragments: [ "a" ],
+				countModifier: +1
 		};
 		var languageSyllableRegex = new LanguageSyllableRegex( mockSyllables );
 		expect( languageSyllableRegex.countSyllables( "a" ) ).toBe( 1 );
@@ -20,8 +20,8 @@ describe( "A test for creating a language syllable regex", function() {
 
 	it( "creates an language syllable regex with a +1 multiplier", function() {
 		var mockSyllables = {
-			syllables: [ "ee" ],
-			multiplier: -2
+			fragments: [ "ee" ],
+			countModifier: -2
 		};
 		var languageSyllableRegex = new LanguageSyllableRegex( mockSyllables );
 		expect( languageSyllableRegex.countSyllables( "been seen" ) ).toBe( -4 );

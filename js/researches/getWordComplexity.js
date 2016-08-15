@@ -1,5 +1,5 @@
 var getWords = require( "../stringProcessing/getWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var countSyllables = require( "../stringProcessing/syllables/count.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
 
 var map = require( "lodash/map" );

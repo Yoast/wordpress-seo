@@ -1,4 +1,4 @@
-var countSyllableFunction = require( "../../js/stringProcessing/countSyllables.js" );
+var countSyllableFunction = require( "../../../js/stringProcessing/syllables/count.js" );
 var forEach = require( "lodash/forEach" );
 
 function testCountSyllables( testCases, locale ) {
