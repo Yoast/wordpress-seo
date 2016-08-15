@@ -37,9 +37,9 @@ var countVowelGroups = function( word, locale ) {
 
 /**
  * Counts the syllables using vowel exclusions. These are used for groups of vowels that are more or less
- * then 1 syllable.
+ * than 1 syllable.
  *
- * @param {String} word The word to count syllables in.
+ * @param {String} word The word to count syllables of.
  * @param {String} locale The locale to use for counting syllables.
  * @returns {number} The number of syllables found in the given word.
  */
@@ -99,7 +99,7 @@ var createDeviationFragmentsMemoized = memoize( createDeviationFragments );
  * Counts syllables in partial exclusions. If these are found, returns the number of syllables  found, and the modified word.
  * The word is modified so the excluded part isn't counted by the normal syllable counter.
  *
- * @param {String} word The word to count syllables in.
+ * @param {String} word The word to count syllables of.
  * @param {String} locale The locale to use for counting syllables.
  * @returns {object} The number of syllables found and the modified word.
  */
@@ -121,7 +121,7 @@ var countPartialWordDeviations = function( word, locale ) {
 /**
  * Count the number of syllables in a word, using vowels and exceptions.
  *
- * @param {String} word The word to count the number of syllables.
+ * @param {String} word The word to count the number of syllables of.
  * @param {String} locale The locale to use for counting syllables.
  * @returns {number} The number of syllables found in a word.
  */
@@ -135,9 +135,9 @@ var countUsingVowels = function( word, locale ) {
 };
 
 /**
- * Counts the number of syllables in a word
+ * Counts the number of syllables in a word.
  *
- * @param {string} word The word to count syllables in.
+ * @param {string} word The word to count syllables of.
  * @param {string} locale The locale of the word.
  * @returns {number} The syllable count for the word.
  */
@@ -161,7 +161,7 @@ var countSyllablesInWord = function( word, locale ) {
  * Counts the number of syllables in a text per word based on vowels.
  * Uses exclusion words for words that cannot be matched with vowel matching.
  *
- * @param {String} text The text to count the syllables in.
+ * @param {String} text The text to count the syllables of.
  * @param {String} locale The locale to use for counting syllables.
  * @returns {int} The total number of syllables found in the text.
  */
