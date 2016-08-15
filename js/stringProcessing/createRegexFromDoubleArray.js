@@ -19,7 +19,7 @@ var wordCombinationToRegexString = function( array ) {
  * @param {array} array The array containing arrays.
  * @returns {RegExp} The regex created from the array.
  */
-module.exports = function ( array ) {
+module.exports = function( array ) {
 	array = array.map( function( wordCombination ) {
 		return wordCombinationToRegexString( wordCombination );
 	} );

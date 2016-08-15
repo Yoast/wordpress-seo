@@ -12,14 +12,14 @@ module.exports = function( paper ) {
 	var text = paper.getText();
 	var paragraphs = matchParagraphs( text );
 	var paragraphsLength = [];
-	paragraphs.map( function ( paragraph ) {
+	paragraphs.map( function( paragraph ) {
 		paragraphsLength.push( {
 			wordCount: countWords( paragraph ),
-			text: paragraph
+			text: paragraph,
 		} );
 	} );
 
-	return filter( paragraphsLength, function ( paragraphLength ) {
+	return filter( paragraphsLength, function( paragraphLength ) {
 		return ( paragraphLength.wordCount > 0 );
 	} );
 };

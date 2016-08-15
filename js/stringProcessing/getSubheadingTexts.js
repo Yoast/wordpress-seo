@@ -5,7 +5,7 @@
  */
 module.exports = function( text ) {
 	/*
-	 matching this in a regex is pretty hard, since we need to find a way for matching the text after a heading, and before the end of the text.
+	 Matching this in a regex is pretty hard, since we need to find a way for matching the text after a heading, and before the end of the text.
 	 The hard thing capturing this is with a capture, it captures the next subheading as well, so it skips the next part of the text,
 	 since the subheading is already matched.
 	 For now we use this method to be sure we capture the right blocks of text. We remove all | 's from text,
@@ -15,8 +15,10 @@ module.exports = function( text ) {
 	text = text.replace( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig, "|" );
 	var subheadings =  text.split( "|" );
 
-	// we never need the first entry, if the text starts with a subheading it will be empty, and if the text doesn't start with a subheading, the
-	// text doesnt't belong to a subheading, so it can be removed
+	/*
+	 * We never need the first entry, if the text starts with a subheading it will be empty, and if the text doesn't start with a subheading,
+	 * the text doesnt't belong to a subheading, so it can be removed
+	 */
 	subheadings.shift();
 	return subheadings;
 };

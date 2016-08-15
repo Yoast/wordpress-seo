@@ -70,7 +70,7 @@ function isCapitalLetter( character ) {
  * @returns {boolean} Whether or not the character is a capital letter.
  */
 function isNumber( character ) {
-	return !isNaN( parseInt( character, 10 ) );
+	return ! isNaN( parseInt( character, 10 ) );
 }
 
 /**
@@ -115,7 +115,6 @@ function isPunctuation( character ) {
  * @returns {Array} An array of tokens.
  */
 function tokenizeSentences( text ) {
-
 	createTokenizer();
 	sentenceTokenizer.onText( text );
 
@@ -143,11 +142,11 @@ function removeDuplicateWhitespace( text ) {
 function getNextTwoCharacters( nextTokens ) {
 	var next = "";
 
-	if ( !isUndefined( nextTokens[ 0 ] ) ) {
+	if ( ! isUndefined( nextTokens[ 0 ] ) ) {
 		next += nextTokens[ 0 ].src;
 	}
 
-	if ( !isUndefined( nextTokens[ 1 ] ) ) {
+	if ( ! isUndefined( nextTokens[ 1 ] ) ) {
 		next += nextTokens[ 1 ].src;
 	}
 
@@ -229,7 +228,7 @@ function getSentencesFromTokens( tokens ) {
 						|| isNumber( nextSentenceStart ) )
 						|| isQuotation( nextSentenceStart )
 						|| isPunctuation( nextSentenceStart )
-					|| ( !isUndefined( nextToken ) && (
+					|| ( ! isUndefined( nextToken ) && (
 						"html-start" === nextToken.type
 						|| "html-end" === nextToken.type
 						|| "block-start" === nextToken.type
@@ -253,7 +252,7 @@ function getSentencesFromTokens( tokens ) {
 
 			case "block-end":
 				// When a block ends after a sentence delimiter make sure to add the block end to the sentence.
-				if ( !isUndefined( previousToken ) && ( previousToken.type === "sentence-delimiter" || previousToken.type === "full-stop" ) ) {
+				if ( ! isUndefined( previousToken ) && ( previousToken.type === "sentence-delimiter" || previousToken.type === "full-stop" ) ) {
 					tokenSentences[ tokenSentences.length - 1 ] += token.src;
 				} else {
 					currentSentence += token.src;

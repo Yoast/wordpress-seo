@@ -9,15 +9,17 @@ describe( "creating a language syllable regex master", function() {
 
 	it( "returns an empty language syllable regex master", function() {
 		var mockConfig = {
-			syllableExclusion: {
-				subtractSyllables: {
-					syllables: [ "a" ],
-					multiplier: -1
-				},
-				addSyllables: {
-					syllables: [ "b"],
-					multiplier: +1
-				}
+			deviations: {
+				vowels: [
+					{
+						fragments: [ "a" ],
+						countModifier: -1
+					},
+					{
+						fragments: [ "b" ],
+						countModifier: +1
+					}
+				]
 			}
 		};
 		var mockMaster = new syllableCountIterator( mockConfig );

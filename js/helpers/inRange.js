@@ -37,5 +37,5 @@ function inRange( number, start, end ) {
 module.exports = {
 	inRange: inRange,
 	inRangeStartInclusive: inRangeStartInclusive,
-	inRangeEndInclusive: inRangeEndInclusive
+	inRangeEndInclusive: inRangeEndInclusive,
 };

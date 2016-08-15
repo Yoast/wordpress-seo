@@ -61,5 +61,5 @@ module.exports = {
 	hasClass: hasClass,
 	addClass: addClass,
 	removeClass: removeClass,
-	removeClasses: removeClasses
+	removeClasses: removeClasses,
 };

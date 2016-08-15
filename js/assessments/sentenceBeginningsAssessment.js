@@ -21,7 +21,7 @@ var availableLanguages = [ "en", "de", "es", "fr" ];
  * @returns {object} The object containing the total number of too often used beginnings and the lowest count within those.
  */
 var groupSentenceBeginnings = function( sentenceBeginnings ) {
-	var tooOften = partition( sentenceBeginnings, function ( word ) {
+	var tooOften = partition( sentenceBeginnings, function( word ) {
 		return word.count > maximumConsecutiveDuplicates;
 	} );
 
@@ -58,7 +58,7 @@ var calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
 					"Try to mix things up!",
 					groupedSentenceBeginnings.total
 				),
-				groupedSentenceBeginnings.total, groupedSentenceBeginnings.lowestCount )
+				groupedSentenceBeginnings.total, groupedSentenceBeginnings.lowestCount ),
 		};
 	}
 	return {};
@@ -85,7 +85,7 @@ var sentenceBeginningMarker = function( paper, researcher ) {
 		var marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
-			marked: marked
+			marked: marked,
 		} );
 	} );
 };
@@ -113,10 +113,9 @@ module.exports = {
 	identifier: "sentenceBeginnings",
 	getResult: sentenceBeginningsAssessment,
 	isApplicable: function( paper ) {
-
 		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
-	getMarks: sentenceBeginningMarker
+	getMarks: sentenceBeginningMarker,
 };
 

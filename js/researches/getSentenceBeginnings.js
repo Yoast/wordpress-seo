@@ -15,7 +15,7 @@ var forEach = require( "lodash/forEach" );
  * @returns {boolean} Returns true if sentence beginnings match.
  */
 var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
-	if ( !isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
+	if ( ! isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
 		return true;
 	}
 
@@ -29,7 +29,7 @@ var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginni
  * @param {Array} sentences The array containing all sentences.
  * @returns {Array} The array containing the objects containing the first words and the corresponding counts.
  */
-var compareFirstWords = function ( sentenceBeginnings, sentences ) {
+var compareFirstWords = function( sentenceBeginnings, sentences ) {
 	var consecutiveFirstWords = [];
 	var foundSentences = [];
 	var sameBeginnings = 1;
@@ -71,7 +71,7 @@ function sanitizeSentence( sentence ) {
  * @param {Array} firstWordExceptions Exceptions to match against.
  * @returns {string} The first word of the sentence.
  */
-function getFirstWord( sentence, firstWordExceptions ) {
+function getSentenceBeginning( sentence, firstWordExceptions ) {
 	sentence = sanitizeSentence( sentence );
 
 	var words = getWords( stripSpaces( sentence ) );
@@ -99,7 +99,7 @@ module.exports = function( paper ) {
 	var firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 
 	var sentenceBeginnings = sentences.map( function( sentence ) {
-		return getFirstWord( sentence, firstWordExceptions );
+		return getSentenceBeginning( sentence, firstWordExceptions );
 	} );
 
 	return compareFirstWords( sentenceBeginnings, sentences );

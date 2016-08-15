@@ -1,5 +1,3 @@
-/* jshint browser: true */
-
 require( "./config/config.js" );
 var SnippetPreview = require( "./snippetPreview.js" );
 
@@ -31,10 +29,10 @@ var inputDebounceDelay = 400;
  */
 var defaults = {
 	callbacks: {
-		bindElementEvents: function( ) { },
-		updateSnippetValues: function( ) { },
-		saveScores: function( ) { },
-		saveContentScore: function( ) { }
+		bindElementEvents: function() {},
+		updateSnippetValues: function() {},
+		saveScores: function() {},
+		saveContentScore: function() {},
 	},
 	sampleText: {
 		baseUrl: "example.org/",
@@ -42,7 +40,7 @@ var defaults = {
 		title: "This is an example title - edit by clicking here",
 		keyword: "Choose a focus keyword",
 		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
+		text: "Start writing your text!",
 	},
 	queue: [ "wordCount",
 		"keywordDensity",
@@ -67,16 +65,16 @@ var defaults = {
 		"domain": "js-text-analysis",
 		"locale_data": {
 			"js-text-analysis": {
-				"": {}
-			}
-		}
+				"": {},
+			},
+		},
 	},
 	replaceTarget: [],
 	resetTarget: [],
 	elementTarget: [],
 	marker: function() {},
 	keywordAnalysisActive: true,
-	contentAnalysisActive: true
+	contentAnalysisActive: true,
 };
 
 /**
@@ -94,8 +92,8 @@ function createDefaultSnippetPreview() {
 		analyzerApp: this,
 		targetElement: targetElement,
 		callbacks: {
-			saveSnippetData: this.config.callbacks.saveSnippetData
-		}
+			saveSnippetData: this.config.callbacks.saveSnippetData,
+		},
 	} );
 }
 
@@ -106,7 +104,7 @@ function createDefaultSnippetPreview() {
  * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
  */
 function isValidSnippetPreview( snippetPreview ) {
-	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
+	return ! isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
 }
 
 /**
@@ -117,17 +115,16 @@ function isValidSnippetPreview( snippetPreview ) {
  * @returns {void}
  */
 function verifyArguments( args ) {
-
-	if ( !isObject( args.callbacks.getData ) ) {
+	if ( ! isObject( args.callbacks.getData ) ) {
 		throw new MissingArgument( "The app requires an object with a getdata callback." );
 	}
 
-	if ( !isObject( args.targets ) ) {
+	if ( ! isObject( args.targets ) ) {
 		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
 	}
 
 	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
-	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
+	if ( ! isValidSnippetPreview( args.snippetPreview ) && ! isString( args.targets.snippet ) ) {
 		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
 			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
 	}
@@ -209,8 +206,7 @@ function verifyArguments( args ) {
  * @constructor
  */
 var App = function( args ) {
-
-	if ( !isObject( args ) ) {
+	if ( ! isObject( args ) ) {
 		args = {};
 	}
 
@@ -364,9 +360,9 @@ App.prototype.constructI18n = function( translations ) {
 		"domain": "js-text-analysis",
 		"locale_data": {
 			"js-text-analysis": {
-				"": {}
-			}
-		}
+				"": {},
+			},
+		},
 	};
 
 	// Use default object to prevent Jed from erroring out.
@@ -382,8 +378,7 @@ App.prototype.constructI18n = function( translations ) {
 App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 
-	if ( !isUndefined( this.snippetPreview ) ) {
-
+	if ( ! isUndefined( this.snippetPreview ) ) {
 		// Gets the data FOR the analyzer
 		var data = this.snippetPreview.getAnalyzerData();
 
@@ -444,26 +439,25 @@ App.prototype.initSnippetPreview = function() {
  * Initializes the assessorpresenters for content and SEO.
  */
 App.prototype.initAssessorPresenters = function() {
-
 	// Pass the assessor result through to the formatter
-	if ( !isUndefined( this.config.targets.output ) ) {
+	if ( ! isUndefined( this.config.targets.output ) ) {
 		this.seoAssessorPresenter = new AssessorPresenter( {
 			targets: {
-				output: this.config.targets.output
+				output: this.config.targets.output,
 			},
 			assessor: this.seoAssessor,
-			i18n: this.i18n
+			i18n: this.i18n,
 		} );
 	}
 
-	if ( !isUndefined( this.config.targets.contentOutput ) ) {
+	if ( ! isUndefined( this.config.targets.contentOutput ) ) {
 		// Pass the assessor result through to the formatter
 		this.contentAssessorPresenter = new AssessorPresenter( {
 			targets: {
-				output: this.config.targets.contentOutput
+				output: this.config.targets.contentOutput,
 			},
 			assessor: this.contentAssessor,
-			i18n: this.i18n
+			i18n: this.i18n,
 		} );
 	}
 };
@@ -530,13 +524,13 @@ App.prototype.runAnalyzer = function() {
 
 	// Create a paper object for the Researcher
 	this.paper = new Paper( this.analyzerData.text, {
-		keyword:  this.analyzerData.keyword,
+		keyword: this.analyzerData.keyword,
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
 		title: this.analyzerData.metaTitle,
 		titleWidth: this.snippetPreview.getTitleWidth(),
 		locale: this.config.locale,
-		permalink: this.analyzerData.permalink
+		permalink: this.analyzerData.permalink,
 	} );
 
 	// The new researcher
@@ -546,7 +540,7 @@ App.prototype.runAnalyzer = function() {
 		this.researcher.setPaper( this.paper );
 	}
 
-	if ( this.config.keywordAnalysisActive && !isUndefined( this.seoAssessorPresenter ) ) {
+	if ( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
 		this.seoAssessor.assess( this.paper );
 
 		this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
@@ -555,7 +549,7 @@ App.prototype.runAnalyzer = function() {
 		this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.seoAssessorPresenter );
 	}
 
-	if ( this.config.contentAnalysisActive && !isUndefined( this.contentAssessorPresenter ) ) {
+	if ( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessor.assess( this.paper );
 
 		this.contentAssessorPresenter.renderIndividualRatings();
@@ -575,7 +569,6 @@ App.prototype.runAnalyzer = function() {
  * @returns {Object}            The data with the applied modifications.
  */
 App.prototype.modifyData = function( data ) {
-
 	// Copy rawdata to lose object reference.
 	data = JSON.parse( JSON.stringify( data ) );
 
@@ -603,7 +596,7 @@ App.prototype.pluginsLoaded = function() {
 App.prototype.showLoadingDialog = function() {
 	var outputElement = document.getElementById( this.defaultOutputElement );
 
-	if ( this.defaultOutputElement !== "" && !isEmpty( outputElement ) ) {
+	if ( this.defaultOutputElement !== "" && ! isEmpty( outputElement ) ) {
 		var dialogDiv = document.createElement( "div" );
 		dialogDiv.className = "YoastSEO_msg";
 		dialogDiv.id = "YoastSEO-plugin-loading";
@@ -642,7 +635,7 @@ App.prototype.removeLoadingDialog = function() {
 	var outputElement = document.getElementById( this.defaultOutputElement );
 	var loadingDialog = document.getElementById( "YoastSEO-plugin-loading" );
 
-	if ( ( this.defaultOutputElement !== "" && !isEmpty( outputElement ) ) && !isEmpty( loadingDialog ) ) {
+	if ( ( this.defaultOutputElement !== "" && ! isEmpty( outputElement ) ) && ! isEmpty( loadingDialog ) ) {
 		document.getElementById( this.defaultOutputElement ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 	}
 };
@@ -729,7 +722,7 @@ App.prototype.registerTest = function() {
  * @returns {boolean} Whether or not the test was successfully registered.
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	if ( !isUndefined( this.seoAssessor ) ) {
+	if ( ! isUndefined( this.seoAssessor ) ) {
 		return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
 	}
 };
@@ -738,11 +731,11 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
  * Disables markers visually in the UI.
  */
 App.prototype.disableMarkers = function() {
-	if ( !isUndefined( this.seoAssessorPresenter ) ) {
+	if ( ! isUndefined( this.seoAssessorPresenter ) ) {
 		this.seoAssessorPresenter.disableMarker();
 	}
 
-	if ( !isUndefined( this.contentAssessorPresenter ) ) {
+	if ( ! isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessorPresenter.disableMarker();
 	}
 };

@@ -12,7 +12,7 @@ var defaultAttributes = {
 	titleWidth: 0,
 	url: "",
 	locale: "en_US",
-	permalink: ""
+	permalink: "",
 };
 
 /**

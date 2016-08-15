@@ -12,7 +12,7 @@ module.exports = function() {
 		"eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn",
 		// Demonstrative pronouns:
 		"denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses", "jene",
-		"jenem", "jenen", "jener", "jenes"
+		"jenem", "jenen", "jener", "jenes",
 	];
 };
 
