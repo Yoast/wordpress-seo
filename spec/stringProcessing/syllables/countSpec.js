@@ -164,7 +164,9 @@ describe( "a syllable counter for Dutch textstrings", function () {
 		expect( countSyllableFunction( "gemeenteambtenaar, ", "nl_NL" ) ).toBe( 6 );
 	} );
 
-
+	it( "works for german", function() {
+		expect( countSyllableFunction( "jupe", "de_DE" ) ).toBe( 1 );
+	});
 } );
 
 describe( "counting syllables", function () {
