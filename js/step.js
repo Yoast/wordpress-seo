@@ -109,8 +109,7 @@ class Step extends React.Component {
 				fieldName,
 				onChange: this.onChange.bind(this),
 				properties: currentField.properties,
-				data: this.state.fieldValues[ this.state.currentStep ][ fieldName ]
-
+				data: this.state.fieldValues[ this.state.currentStep ][ fieldName ],
 			};
 
 			return React.createElement( Components[ currentField.component ], props );
