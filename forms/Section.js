@@ -15,7 +15,7 @@ const Section = ( props ) => {
 			<Heading className={props.headingClassName}>{props.headingText}</Heading>
 			{props.children}
 		</section>
-	)
+	);
 };
 
 /**

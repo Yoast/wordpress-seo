@@ -37,7 +37,7 @@ Progressbar.propTypes = {
 	min: React.PropTypes.number,
 	max: React.PropTypes.number,
 	optionalAttributes: React.PropTypes.shape( {
-		className: React.PropTypes.string
+		className: React.PropTypes.string,
 	} ),
 };
 
