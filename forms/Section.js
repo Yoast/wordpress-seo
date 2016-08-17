@@ -25,7 +25,7 @@ const Section = ( props ) => {
  */
 Section.propTypes = {
 	level: React.PropTypes.number.isRequired,
-	headingText: React.PropTypes.string.isRequired,
+	headingText: React.PropTypes.string,
 	headingClassName: React.PropTypes.string,
 };
 

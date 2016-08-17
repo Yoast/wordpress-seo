@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import SearchResultPreview from './composites/SearchResultPreview/SearchResultPreview';
+import SearchResultEditor from "./composites/SearchResultEditor/SearchResultEditor";
 
 class App extends React.Component {
 	constructor() {
@@ -12,9 +12,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<SearchResultPreview />
-			</div>
+			<SearchResultEditor />
 		)
 	}
 };

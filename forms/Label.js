@@ -9,7 +9,7 @@ import React from "react";
  */
 const Label = ( props ) => {
 	return (
-		<label htmlFor={props.for} onClick={props.onClick}>{props.text}</label>
+		<label htmlFor={props.for} {...props.optionalAttributes}>{props.children}</label>
 	);
 };
 
@@ -19,10 +19,11 @@ const Label = ( props ) => {
  * @type {{for: string, text: string, onClick: function}}
  */
 Label.propTypes = {
-	text: React.PropTypes.string.isRequired,
-
-	for: React.PropTypes.string,
-	onClick: React.PropTypes.func,
+	for: React.PropTypes.string.isRequired,
+	optionalAttributes: React.PropTypes.shape( {
+		onClick: React.PropTypes.func,
+		className: React.PropTypes.string,
+	} ),
 };
 
 /**

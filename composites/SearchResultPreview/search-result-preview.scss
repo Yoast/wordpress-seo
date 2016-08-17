@@ -18,13 +18,8 @@ $prefix: 'yoast-';
 }
 
 /* css for snippet */
-.#{$prefix}snippet-preview {
-  padding: 0 20px 15px;
+.#{$prefix}search-result-preview {
   background-color: #fff;
-  border: 1px solid $color_border;
-  border-radius: 20px;
-  position: relative;
-  width: $snippet_width + 40;
   font-family: Arial, sans-serif;
 
   &__heading {
@@ -41,11 +36,12 @@ $prefix: 'yoast-';
     @include clearfix;
     position: relative;
     cursor: pointer;
+    width: $snippet_width;
+    overflow: hidden;
   }
 
   &__title {
     color: #1e0fbe;
-    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     text-decoration: none;
@@ -54,12 +50,9 @@ $prefix: 'yoast-';
     line-height: 1.2;
     font-weight: normal;
     margin: 0;
-
-    width: $snippet_width;
   }
 
   &__url {
-    display: block;
     font-size: 14px;
     line-height: 16px;
     color: #006621;
