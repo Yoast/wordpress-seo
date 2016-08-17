@@ -33,6 +33,7 @@
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
+    "autoprefixer": "^6.4.0",
     "babel-jest": "^14.1.0",
     "babel-core": "^6.11.4",
     "babel-polyfill": "^6.9.1",
@@ -45,6 +46,8 @@
     "eslint-plugin-yoast": "^1.0.0",
     "grunt": "^1.0.1",
     "grunt-eslint": "^19.0.0",
+    "grunt-postcss": "^0.8.0",
+    "grunt-sass": "^1.2.0",
     "enzyme": "^2.4.1",
     "jest": "^14.1.0",
     "jest-cli": "^14.1.0",
@@ -53,6 +56,7 @@
     "react-addons-test-utils": "^15.3.0",
     "react-test-renderer": "^15.3.0",
     "react-dom": "^15.3.0",
+    "sassdash": "^0.8.2",
     "stubby": "^0.3.1",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
