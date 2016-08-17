@@ -27,6 +27,8 @@ Section.propTypes = {
 	level: React.PropTypes.number.isRequired,
 	headingText: React.PropTypes.string,
 	headingClassName: React.PropTypes.string,
+	className: React.PropTypes.string,
+	children: React.PropTypes.any,
 };
 
 /**
@@ -37,6 +39,7 @@ Section.propTypes = {
 Section.defaultProps = {
 	level: 1,
 	headingClassName: "",
+	className: "",
 };
 
 export default Section;

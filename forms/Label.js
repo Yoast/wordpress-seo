@@ -16,14 +16,15 @@ const Label = ( props ) => {
 /**
  * Adds validation for the properties.
  *
- * @type {{for: string, text: string, onClick: function}}
+ * @type {{for: string, optionalAttributes.onClick: function, optionalAttributes.className: string, children: * }}
  */
 Label.propTypes = {
-	for: React.PropTypes.string.isRequired,
+	"for": React.PropTypes.string.isRequired,
 	optionalAttributes: React.PropTypes.shape( {
 		onClick: React.PropTypes.func,
 		className: React.PropTypes.string,
 	} ),
+	children: React.PropTypes.any,
 };
 
 /**

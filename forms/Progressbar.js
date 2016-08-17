@@ -24,8 +24,6 @@ const Progressbar = ( props ) => {
 	);
 };
 
-
-
 /**
  * Adds validation for the properties.
  *
@@ -38,10 +36,9 @@ Progressbar.propTypes = {
 	onChange: React.PropTypes.func,
 	min: React.PropTypes.number,
 	max: React.PropTypes.number,
-	optionalAttributes: React.PropTypes.shape({
+	optionalAttributes: React.PropTypes.shape( {
 		className: React.PropTypes.string
-	})
-
+	} ),
 };
 
 /**
@@ -55,7 +52,7 @@ Progressbar.defaultProps = {
 	value: 0,
 	className: "",
 	optionalAttributes: {
-		className: ""
+		className: "",
 	},
 };
 
