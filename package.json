@@ -5,7 +5,7 @@
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "stubby -d stubby/endpoints.yaml & webpack-dev-server",
     "test": "jest"
   },
   "jest": {
