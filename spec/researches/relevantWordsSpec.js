@@ -1,5 +1,5 @@
 var WordCombination = require( "../../js/values/WordCombination" );
-var relevantWords = require( "../../js/researches/relevantWords" );
+var relevantWords = require( "../../js/stringProcessing/relevantWords" );
 var getRelevantWords = relevantWords.getRelevantWords;
 var getWordCombinations = relevantWords.getWordCombinations;
 var calculateOccurrences = relevantWords.calculateOccurrences;
