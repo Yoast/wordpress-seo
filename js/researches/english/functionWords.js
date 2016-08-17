@@ -116,6 +116,12 @@ var vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likeliho
 // 'No' is already included in the quantifier list.
 var miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "%" ];
 
+// Words that we found to rank highly but weren't actually words you would want to rank on.
+var fromTesting = [
+	// General adjective?
+	"great",
+];
+
 module.exports = function() {
 	return articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
 		personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, indefinitePronounsPossessive,
@@ -123,5 +129,5 @@ module.exports = function() {
 		adverbialGenitives, prepositionalAdverbs, passiveAuxiliaries, otherAuxiliaries, copula, prepositions,
 		coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords,
 		additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs,
-		recipeWords, vagueNouns, miscellaneous );
+		recipeWords, vagueNouns, miscellaneous, fromTesting );
 };
