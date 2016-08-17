@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import SearchResultEditor from "./composites/SearchResultEditor/SearchResultEditor";
 
@@ -10,9 +11,7 @@ class App extends React.Component {
 	}
 
 	render() {
-		return (
-			<SearchResultEditor />
-		)
+		return ( <SearchResultEditor />	);
 	}
 };
 
