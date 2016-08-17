@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Represents a text input interface, like a regular input field or a text area. Initially it should render a
@@ -9,7 +9,6 @@ import React from 'react';
  * @constructor
  */
 const Input = ( props ) => {
-
 	return (
 		<div>
 			<h2>{props.properties.label}</h2>
@@ -17,7 +16,7 @@ const Input = ( props ) => {
 			<input onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName}
 			       defaultValue={props.data} placeholder={props.placeholder}/>
 		</div>
-	)
+	);
 };
 
 Input.propTypes = {
@@ -37,12 +36,12 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
-	label: 'input field: ',
-	placeholder: 'enter text..',
-	type: 'text',
-	name: 'input',
-	data: '',
-	fieldName: '',
+	label: "input field: ",
+	placeholder: "enter text..",
+	type: "text",
+	name: "input",
+	data: "",
+	fieldName: "",
 };
 
 export default Input;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Represents a mailchimg signup interface.
@@ -8,15 +8,14 @@ import React from 'react';
  * @constructor
  */
 const MailchimpSignup = ( props ) => {
-
 	return (
 		<div>
 			<h2>{props.properties.label}</h2>
 			<p>{props.properties.mailchimpActionUrl}</p>
 			<input onChange={props.onChange} type="text" name={props.name}  defaultValue={props.properties.currentUserEmail} />
 		</div>
-	)
-}
+	);
+};
 
 MailchimpSignup.propTypes = {
 	component: React.PropTypes.string,
@@ -27,10 +26,10 @@ MailchimpSignup.propTypes = {
 };
 
 MailchimpSignup.defaultProps = {
-	component: '',
-	name: '',
+	component: "",
+	name: "",
 	properties: {},
-	data: '',
+	data: "",
 };
 
 export default MailchimpSignup;

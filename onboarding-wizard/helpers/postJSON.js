@@ -1,4 +1,4 @@
-import 'whatwg-fetch';
+import "whatwg-fetch";
 
 /**
  * Handles json request the fetch way.
@@ -9,7 +9,6 @@ import 'whatwg-fetch';
  * @return {Promise}
  */
 let postJSONFetch = ( url, data ) => {
-
 	/*
 	 * @todo: It might be possible fetch is sending an OPTIONS request, we should check how wordpress handles this.
 	 *
@@ -18,10 +17,10 @@ let postJSONFetch = ( url, data ) => {
 	let fetchPromise = fetch(
 		url,
 		{
-			method: 'POST',
+			method: "POST",
 			headers: {
-				'Accepts': 'application/json',
-				'Content-Type': 'application/json',
+				"Accepts": "application/json",
+				"Content-Type": "application/json",
 			},
 			body: data,
 		}
@@ -41,12 +40,11 @@ let postJSONFetch = ( url, data ) => {
 				)
 				.catch(
 					function() {
-						return reject( 'Wrong request' );
+						return reject( "Wrong request" );
 					}
 				);
 		}
 	);
-
 };
 
 /**
@@ -58,15 +56,15 @@ let postJSONFetch = ( url, data ) => {
  * @return {Promise}
  */
 let postJSONjQuery = ( url, data ) => {
-	let jQueryPromise = jQuery.post( { url, dataType : 'json', data } )
+	let jQueryPromise = jQuery.post( { url, dataType: "json", data } )
 		.done(
-			function ( response ) {
+			function( response ) {
 				return response;
 			}
 		)
 		.fail(
 			function() {
-				return 'Wrong request';
+				return "Wrong request";
 			}
 		);
 
@@ -80,7 +78,7 @@ let postJSONjQuery = ( url, data ) => {
 				)
 				.catch(
 					function() {
-						return reject( 'Wrong request' );
+						return reject( "Wrong request" );
 					}
 				);
 		}
@@ -99,7 +97,7 @@ let postJSON = ( url, data = {} ) => {
 	data = JSON.stringify( data );
 
 	//
-	if ( typeof jQuery == 'undefined' || ! jQuery || ! jQuery.ajax ) {
+	if ( typeof jQuery == "undefined" || ! jQuery || ! jQuery.ajax ) {
 		return postJSONFetch( url, data );
 	}
 

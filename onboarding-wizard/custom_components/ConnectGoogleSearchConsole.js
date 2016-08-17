@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React from "react";
 
 /**
  * Represents a mailchimp signup interface.
@@ -25,8 +25,8 @@ ConnectGoogleSearchConsole.propTypes = {
 };
 
 ConnectGoogleSearchConsole.defaultProps = {
-	component: '',
-	data: '',
+	component: "",
+	data: "",
 };
 
 export default ConnectGoogleSearchConsole;
