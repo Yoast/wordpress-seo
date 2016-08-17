@@ -16,7 +16,7 @@ jest.dontMock('../node_modules/es6-promise');
 
 import React from "react";
 import Wizard from "../js/wizard";
-import Config from "../config/config";
+import Config from "../config/test-configuration";
 import mount from 'enzyme';
 import cloneDeep from 'lodash/cloneDeep';
 
