@@ -12,9 +12,7 @@ module.exports = {
 			"<%= files.config %>",
 		],
 		tasks: [
-			"jshint:grunt",
-			"jsvalidate:grunt",
-			"jscs:grunt",
+			"eslint:grunt",
 		],
 	},
 	php: {
@@ -34,9 +32,7 @@ module.exports = {
 		],
 		tasks: [
 			"build:js",
-			"jshint:plugin",
-			"jsvalidate:plugin",
-			"jscs:plugin",
+			"eslint:plugin",
 		],
 	},
 	css: {
