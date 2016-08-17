@@ -1,4 +1,5 @@
 require( "console.table" );
+
 var Paper = require( "../../js/values/Paper" );
 var relevantWords = require( "../../js/researches/relevantWords" )
 var getRelevantWords = relevantWords.getRelevantWords;
@@ -28,15 +29,6 @@ if ( ! filepath ) {
 }
 var text = fs.readFileSync( filepath, { "encoding": "utf-8" } );
 
-// var combinations = getWordCombinations( text, 1 );
-// var occurrences = calculateOccurrences( combinations );
-// var sortedOccurrences = getRelevantCombinations( occurrences );
-
-// console.log( getRelevantWords( text ) );
-// console.log( combinations );
-// console.log( occurrences );
-
-
 var relevantWordss = map( getRelevantWords( text ), function( word ) {
    var words = getWords( text );
 
@@ -61,8 +53,3 @@ var relevantWordss = map( getRelevantWords( text ), function( word ) {
 });
 
 console.table( relevantWordss );
-//
-// forEach( getRelevantWords( text ), function( word ) {
-//    console.log( word.getCombination(), word.getRelevance(), word.getWordRelevance(), word.getLengthRelevance( word.getWordRelevance() ) );
-// });
-
