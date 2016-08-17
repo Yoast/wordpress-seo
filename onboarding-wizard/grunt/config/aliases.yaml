@@ -1,0 +1,8 @@
+# Grunt aliases
+---
+# Check health of the project
+check:
+  - 'eslint'
+# Default task
+default:
+  - check
