@@ -1,0 +1,63 @@
+$prefix : "yoast-";
+
+body {
+  width: 100%;
+  text-align: center;
+  background: #f8f8f8;
+  font-family: "Open Sans", sans-serif;
+}
+
+.#{$prefix}wizard-container {
+  border: 1px solid #CCC;
+  width: 80%;
+  text-align: left;
+  min-height: 20px;
+  margin: 0 auto;
+  position: relative;
+}
+.#{$prefix}wizard-overlay, .#{$prefix}wizard {
+  width: 100%;
+}
+
+.#{$prefix}wizard {
+  text-align: left;
+  min-height: 20px;
+  background: #FFF;
+  padding: 1em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.#{$prefix}wizard-overlay {
+  z-index:    10;
+  opacity: 0.2;
+  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  color: #ffffff;
+  text-align: center;
+  //display: inline-table;
+  //vertical-align: middle;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+button{
+  color: #23282d;
+  background: #fafafa;
+  border-radius: 4px;
+  font-size: 1.25em;
+  padding: .5em 1em;
+  line-height: 1em;
+  margin-right: .5em;
+  margin-bottom: 2px;
+  margin-top: .5em;
+  height: auto;
+}
+
+

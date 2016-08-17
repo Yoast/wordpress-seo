@@ -200,18 +200,22 @@ class Wizard extends React.Component {
 		let hidePreviousButton = ! step.previous;
 
 		return (
-			<div className="yoast-wizard">
-				<ProgressIndicator totalSteps={this.stepCount} currentStepNumber={this.getCurrentStepNumber()} />
-				<Step ref='step' currentStep={this.state.currentStepId} title={step.title} fields={step.fields} />
-				<button hidden={(
-					hidePreviousButton
-				) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
-				</button>
-				<button hidden={(
-					hideNextButton
-				) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
-				</button>
-				<div>{(this.state.isLoading) ? "Saving.." : ""}</div>
+			<div className="yoast-wizard-container">
+				<div className="yoast-wizard">
+					<ProgressIndicator totalSteps={this.stepCount} currentStepNumber={this.getCurrentStepNumber()}/>
+					<Step ref='step' currentStep={this.state.currentStepId} title={step.title} fields={step.fields}/>
+					<button hidden={(
+						hidePreviousButton
+					) ? "hidden" : ""} onClick={this.setPreviousStep.bind( this )}>Previous
+					</button>
+					<button hidden={(
+						hideNextButton
+					) ? "hidden" : ""} onClick={this.setNextStep.bind( this )}>Next
+					</button>
+				</div>
+				<div className={(this.state.isLoading) ? "yoast-wizard-overlay" : ""}>
+					{(this.state.isLoading) ? "Saving.." : ""}
+				</div>
 			</div>
 		);
 	}
