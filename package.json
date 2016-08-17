@@ -22,12 +22,9 @@
     "automock": false,
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react/",
-      "<rootDir>/node_modules/react-dom/",
-      "<rootDir>/node_modules/react-test-renderer/",
-      "<rootDir>/node_modules/react-addons-test-utils/",
-      "node_modules/react/",
-      "node_modules/enzyme/",
+      "react",
+      "react-dom",
+      "react-addons-test-utils",
       "enzyme"
     ]
   },

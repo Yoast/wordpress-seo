@@ -1,14 +1,24 @@
 jest.unmock( "../js/wizard" );
 
-import React from "react";
-import TestUtils from "react-addons-test-utils";
-import Wizard from "../js/wizard";
-import Config from "../js/config";
-import ProgressIndicator from "../js/progressIndicator";
-import Step from "../js/step";
-import { shallow, mount, render } from 'enzyme';
+jest.mock( '../js/helpers/postJSON', () => {
 
-//jest.dontMock( "../js/wizard" );
+	let postJSON = ( url, data ) => {
+		return new Promise( ( resolve, reject ) => {
+			resolve( "test" );
+		} );
+	};
+
+	return postJSON;
+} );
+
+require('../node_modules/es6-promise').polyfill();
+jest.dontMock('../node_modules/es6-promise');
+
+import React from "react";
+import Wizard from "../js/wizard";
+import Config from "../config/config";
+import mount from 'enzyme';
+import cloneDeep from 'lodash/cloneDeep';
 
 /**
  *
@@ -19,52 +29,70 @@ import { shallow, mount, render } from 'enzyme';
  *
  */
 describe( "a wizard component", () => {
+	let renderedWizard = undefined;
+	let config = undefined;
 
-	it( "receives the props", () => {
-		const wrapper = shallow(<Wizard {...Config} />);
-		expect(wrapper.find('button').length).toBe(2);
-
-		let nextButton = wrapper.find('button').last().simulate('click');
-
-//		console.log(nextButton);
-		nextButton.simulate('click');
-		console.log(wrapper.find('button').first());
-		let previousButton = wrapper.find('button').nodes[0];
-
-		expect(nextButton)
+	beforeEach( () => {
+		config = cloneDeep( Config );
+		renderedWizard = mount( <Wizard {...config} /> );
 	} );
-	/*	it( "has correct initial state", () => {
 
-	 } );
-	 it( "contains a step object", () => {
+	it( "renders a wizard component based on the config", () => {
+		const buttons = renderedWizard.find( 'button' );
+		expect( buttons.length ).toBe( 2 );
 
-	 } );
-	 it( "goes to the next step", () => {
+		// The previous button must be hidden and the next button enabled on loading the first step.
+		expect( renderedWizard.find( 'button' ).first().props().hidden ).toEqual( "hidden" );
+		expect( renderedWizard.find( 'button' ).last().props().hidden ).toEqual( "" );
+	} );
 
-	 } );
-	 it( "goes to the previous step", () => {
+	it( "loads props from config correctly", () => {
+		// Compare the properties from the config with the properties in the properties.
+		expect( renderedWizard.props().endpoint ).toEqual( config.endpoint );
+		expect( renderedWizard.props().steps.count ).toEqual( config.steps.count );
+		expect( renderedWizard.props().fields.count ).toEqual( config.fields.count );
+		expect( renderedWizard.props().customComponents ).toEqual( config.customComponents );
+	} );
 
-	 } );
-	 it( "saves the current step, when moving to another step", () => {
+	it( "has correct initial state", () => {
+		expect( renderedWizard.state().isLoading ).toBeFalsy();
 
-	 } );
-	 it( "does not go to another step, when saving the current progress fails", () => {
+		// Check if the current step is the same as the first step in the config.
+		const StepNames = Object.keys( config.steps );
+		expect( renderedWizard.state().currentStepId ).toEqual( StepNames[ 0 ] );
 
-	 } );
-	 it( "does not go to the next step, when saving the progress fails", () => {
+		// Check if the steps are parsed correctly
+		const steps = renderedWizard.state().steps;
+		expect( steps.intro.next ).toBe( StepNames[ 1 ] );
+		expect( steps.intro.previous ).toBeUndefined();
+		expect( steps[ StepNames[ 1 ] ].previous ).toBe( StepNames[ 0 ] );
 
-	 } );*/
+		// Test step count.
+		expect( renderedWizard.node.stepCount ).toEqual( Object.keys( steps ).length );
+	} );
 
+	it( "goes to the next step", () => {
+		renderedWizard.find( 'button' ).last().simulate( "click" );
+		expect( renderedWizard.node.state.isLoading ).toBeTruthy();
+	} );
 
-	//TODO test the step parser (parseSteps)
+	it( "goes to the previous step", () => {
 
-	//TODO test parseFields
+	} );
 
-	//TODO test postStep (saving the fields)
+	it( "renders the step correctly", () => {
 
-	//TODO test get current step number
+	} );
 
-	//TODO test progress
+	it( "saves the current step, when moving to another step", () => {
 
-	//TODO test render output contains <div><button><ProgressIndicator><Step><Button>
+	} );
+
+	it( "does not go to another step, when saving the current progress fails", () => {
+
+	} );
+
+	it( "does not go to the next step, when saving the progress fails", () => {
+
+	} );
 } );
