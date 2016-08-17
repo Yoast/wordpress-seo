@@ -8,16 +8,23 @@ module.exports = function( grunt ) {
 	var project = {
 		paths: {
 			grunt: "grunt/",
+			js: "js/",
 			get config() {
 				return this.grunt + "config/";
-			}
+			},
 		},
 		files: {
-			components: ["forms/*.js", "a11y/*.js"],
+			js: [
+				"./**/*.js",
+				"!./**/*.min.js",
+				"!./node_modules/**/*",
+				"<%= files.grunt %>",
+				"!./__tests__/**",
+			],
 			get config() {
 				return project.paths.config + "*.js";
 			},
-			grunt: "Gruntfile.js"
+			grunt: "Gruntfile.js",
 		},
 		pkg: grunt.file.readJSON( "package.json" ),
 	};

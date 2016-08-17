@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import SearchResultEditor from "./composites/SearchResultEditor/SearchResultEditor";
 

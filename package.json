@@ -9,9 +9,11 @@
   },
   "jest": {
     "unmockedModulePathPatterns": [
-      "react"
+      "react",
+      "enzyme"
     ],
-    "automock": false
+    "testRegex": ".*Test.js$",
+    "coverageDirectory": "coverage"
   },
   "author": "Yoast",
   "license": "GPL-3.0",

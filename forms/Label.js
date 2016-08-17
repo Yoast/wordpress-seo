@@ -32,7 +32,7 @@ Label.propTypes = {
  * @type {{for: string, text: string}}
  */
 Label.defaultProps = {
-	for: "",
+	htmlFor: "",
 };
 
 export default Label;

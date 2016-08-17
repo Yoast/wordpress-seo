@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+  - node
+
+sudo: false
+
+cache:
+  directories:
+    - node_modules
+
+install:
+- npm install -g grunt-cli
+- npm install
+
+script:
+- grunt check
+- ./node_modules/jest/bin/jest.js --coverage
+
+after_success:
+- npm install -g codeclimate-test-reporter
+- codeclimate-test-reporter < coverage/lcov.info
+
+notifications:
+  slack:
+    secure: W3StABr+AdcdQawTObK4nbsnn5nLrTTtZfVpD/GEN6gvSOQcykbGEC5+ceYg0jn5b4StDyCiTo5blEsrpVICFpYKc44+ogah+qaGRUfVRS/rpOvn4AueXTWn4JxhZzuxqKMiTmyW+MQG0uYM7sk7Q5S+15jj6ilkj4QATaBVNbY=
