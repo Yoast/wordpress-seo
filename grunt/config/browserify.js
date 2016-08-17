@@ -1,6 +1,12 @@
 module.exports = {
 	build: {
+		options: {
+			transform: [
+				[ "babelify", { presets: [ "es2015" ] } ],
+			],
+		},
 		files: {
+			"js/dist/wp-seo-admin-340.js": [ "js/src/wp-seo-admin.js" ],
 			"js/dist/wp-seo-admin-global-340.js": [ "js/src/wp-seo-admin-global.js" ],
 			"js/dist/wp-seo-admin-gsc-340.js": [ "js/src/wp-seo-admin-gsc.js" ],
 			"js/dist/wp-seo-admin-media-320.js": [ "js/src/wp-seo-admin-media.js" ],
@@ -16,16 +22,6 @@ module.exports = {
 			"js/dist/wp-seo-term-scraper-341.js": [ "js/src/wp-seo-term-scraper.js" ],
 		},
 	},
-	buildes6: {
-		options: {
-			transform: [
-				[ "babelify", { presets: [ "es2015" ] } ],
-			],
-		},
-		files: {
-			"js/dist/wp-seo-admin-340.js": [ "js/src/wp-seo-admin.js" ],
-		},
-	},
 	"release-es6": {
 		options: {
 			transform: [
@@ -39,6 +35,6 @@ module.exports = {
 				} ],
 			],
 		},
-		files: "<%= browserify.buildes6.files %>",
+		files: "<%= browserify.build.files %>",
 	},
 };
