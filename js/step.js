@@ -94,7 +94,7 @@ class Step extends React.Component {
 	 * @param {string} index      The index of the config value in the fields.
 	 * @returns {Element}
 	 */
-	renderFields( fields ) {
+	getFieldComponents( fields ) {
 		let keys = Object.keys( fields );
 
 		return keys.map( ( fieldName, key ) => {
@@ -125,7 +125,7 @@ class Step extends React.Component {
 		return (
 			<div id="stepContainer">
 				<h1>Step: {this.props.title}</h1>
-				{ this.renderFields( this.props.fields ) }
+				{ this.getFieldComponents( this.props.fields ) }
 			</div>
 		)
 	}
@@ -135,13 +135,11 @@ class Step extends React.Component {
 Step.propTypes = {
 	title: React.PropTypes.string.isRequired,
 	fields: React.PropTypes.object,
-	components: React.PropTypes.object,
 	currentStep: React.PropTypes.string,
 };
 
 Step.defaultProps = {
 	fields: {},
-	components: {},
 	currentStep: '',
 };
 

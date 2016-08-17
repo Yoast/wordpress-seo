@@ -19,7 +19,7 @@ class Wizard extends React.Component {
 		this.stepCount = Object.keys(this.props.steps).length;
 		this.state = {
 			isLoading: false,
-			steps: this.parseSteps( props.steps ),
+			steps: this.parseSteps( this.props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
 		};
 	}
