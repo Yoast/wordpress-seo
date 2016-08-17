@@ -1,8 +1,8 @@
-jest.unmock( "../js/step" );
+jest.unmock( "../step" );
 
 import React from "react";
 import TestUtils from "react-addons-test-utils";
-import Step from "../js/step";
+import Step from "../step";
 
 describe( "a step component", () => {
 
@@ -72,22 +72,6 @@ describe( "a step component", () => {
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `title` of type `number` supplied to `Step`, expected `string`." );
-	} );
-
-	it( 'throws an error when property components is not an object', () => {
-		console.error = jest.genMockFn();
-
-		let inputProps = {
-			title: 'Title',
-			components: []
-		};
-
-		renderer.render( <Step {...inputProps} /> );
-		renderer.getRenderOutput();
-
-		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `components` of type `array` supplied to `Step`, expected `object`." );
 	} );
 
 	it( 'throws an error when property currentStep is not a string', () => {

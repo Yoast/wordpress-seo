@@ -200,7 +200,7 @@ class Wizard extends React.Component {
 		let hidePreviousButton = ! step.previous;
 
 		return (
-			<div>
+			<div className="yoast-wizard">
 				<ProgressIndicator totalSteps={this.stepCount} currentStepNumber={this.getCurrentStepNumber()} />
 				<Step ref='step' currentStep={this.state.currentStepId} title={step.title} fields={step.fields} />
 				<button hidden={(
