@@ -27,10 +27,10 @@ function WordCombination( words, occurrences ) {
 }
 
 WordCombination.lengthBonus = {
-	"2": 2,
-	"3": 4,
-	"4": 6,
-	"5": 8
+	2: 2,
+	3: 4,
+	4: 6,
+	5: 8,
 };
 
 /**
@@ -66,6 +66,8 @@ WordCombination.prototype.getOccurrences = function() {
 
 /**
  * Increments the occurrences.
+ *
+ * @returns {void}
  */
 WordCombination.prototype.incrementOccurrences = function() {
 	this._occurrences += 1;
@@ -82,11 +84,13 @@ WordCombination.prototype.getMultiplier = function( relevantWordPercentage ) {
 
 	// The relevance scales linearly from the relevance of one word to the maximum.
 	return 1 + relevantWordPercentage * lengthBonus;
-
 };
 
 /**
  * Returns if the given word is a relevant word based on the given word relevance.
+ *
+ * @param {string} word The word to check if it is relevant.
+ * @returns {boolean} Whether or not it is relevant.
  */
 WordCombination.prototype.isRelevantWord = function( word ) {
 	return has( this._relevantWords, word );
@@ -94,12 +98,14 @@ WordCombination.prototype.isRelevantWord = function( word ) {
 
 /**
  * Returns the relevance of the words within this combination.
+ *
+ * @returns {number} The percentage of relevant words inside this combination.
  */
 WordCombination.prototype.getRelevantWordPercentage = function() {
 	var relevantWordCount = 0, wordRelevance = 1;
 
 	if ( this._length > 1 ) {
-		forEach( this._words, function ( word ) {
+		forEach( this._words, function( word ) {
 			if ( this.isRelevantWord( word ) ) {
 				relevantWordCount += 1;
 			}
@@ -113,10 +119,10 @@ WordCombination.prototype.getRelevantWordPercentage = function() {
 
 /**
  * Returns the relevance for this word combination.
+ *
+ * @returns {number} The relevance of this word combination.
  */
 WordCombination.prototype.getRelevance = function() {
-	var relevance = 0;
-
 	if ( this._words.length === 1 && isFunctionWord( this._words[ 0 ] ) ) {
 		return 0;
 	}
@@ -126,15 +132,14 @@ WordCombination.prototype.getRelevance = function() {
 		return 0;
 	}
 
-	relevance = this.getMultiplier( wordRelevance ) * this._occurrences;
-
-	return relevance;
+	return this.getMultiplier( wordRelevance ) * this._occurrences;
 };
 
 /**
  * Sets the relevance of single words
  *
  * @param {Object} relevantWords A mapping from a word to a relevance.
+ * @returns {void}
  */
 WordCombination.prototype.setRelevantWords = function( relevantWords ) {
 	this._relevantWords = relevantWords;

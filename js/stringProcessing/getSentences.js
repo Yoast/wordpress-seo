@@ -223,17 +223,22 @@ function getSentencesFromTokens( tokens ) {
 
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 				if (
-					( hasNextSentence && (
-						isCapitalLetter( nextSentenceStart )
-						|| isNumber( nextSentenceStart ) )
-						|| isQuotation( nextSentenceStart )
-						|| isPunctuation( nextSentenceStart )
-					|| ( ! isUndefined( nextToken ) && (
-						"html-start" === nextToken.type
-						|| "html-end" === nextToken.type
-						|| "block-start" === nextToken.type
-						|| "block-end" === nextToken.type
-						) )
+					( hasNextSentence &&
+						(
+							isCapitalLetter( nextSentenceStart ) ||
+							isNumber( nextSentenceStart )
+						) ||
+						isQuotation( nextSentenceStart ) ||
+						isPunctuation( nextSentenceStart ) ||
+						(
+							! isUndefined( nextToken ) &&
+							(
+								"html-start" === nextToken.type ||
+								"html-end" === nextToken.type ||
+								"block-start" === nextToken.type ||
+								"block-end" === nextToken.type
+							)
+						)
 					)
 				) {
 					tokenSentences.push( currentSentence );
