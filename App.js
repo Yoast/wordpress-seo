@@ -1,7 +1,7 @@
 import React from "react";
 
 import Wizard from "./js/wizard";
-import Config from "./js/config";
+import Config from "./config/config";
 
 class App extends React.Component {
 
