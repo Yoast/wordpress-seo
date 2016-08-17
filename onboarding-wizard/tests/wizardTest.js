@@ -71,8 +71,6 @@ describe( "a wizard component", () => {
 	} );
 
 	it( "goes to the next step", () => {
-//		renderedWizard.find( 'button' ).last().simulate( "click" );
-//		expect( renderedWizard.node.state.isLoading ).toBeTruthy();
 	} );
 
 	it( "goes to the previous step", () => {
