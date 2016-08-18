@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Renders a progress indicator for the wizard based on the total number of steps and the current step number.
@@ -6,23 +6,22 @@ import React from 'react';
  * @param {{totalSteps: Number, currentStepNumber: (int|string)}} props
  * Should contain the total number of steps and the current step number.
  *
- * @return {JSX}
+ * @returns {JSX} A ProgressIndicator component.
  */
 const ProgressIndicator = ( props ) => {
-
 	if ( props.currentStepNumber === 0 ) {
 		return (
 			<p>Unknown step progress</p>
-		)
+		);
 	}
 
 	if ( props.totalSteps < props.currentStepNumber ) {
-		return <p>Step {props.currentStepNumber}</p>
+		return <p>Step {props.currentStepNumber}</p>;
 	}
 
 	return (
 		<p>Step {props.currentStepNumber} of {props.totalSteps}</p>
-	)
+	);
 };
 
 ProgressIndicator.propTypes = {

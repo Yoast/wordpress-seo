@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
 import SearchResultEditor from "./composites/SearchResultEditor/SearchResultEditor";
 
@@ -13,7 +13,7 @@ class App extends React.Component {
 	render() {
 		return ( <SearchResultEditor />	);
 	}
-};
+}
 
 ReactDOM.render( <App />, document.getElementById( 'container' ) );
 

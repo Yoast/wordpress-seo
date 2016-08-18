@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 /**
  *  Represents a piece of HTML. This can be useful on the opening and closing screen of the wizard, to add some
  *  introduction text, a success message or CTA towards the end.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX}
+ * @returns {JSX} The HTML component.
  * @constructor
  */
 const HTML = ( props ) => {
@@ -20,7 +20,7 @@ HTML.propTypes = {
 
 HTML.defaultProps = {
 	properties: {
-		html: '',
+		html: "",
 	},
 };
 

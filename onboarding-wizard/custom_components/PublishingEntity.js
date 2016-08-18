@@ -1,15 +1,14 @@
 
-import React from 'react';
+import React from "react";
 
 /**
- * Represents a mailchimg signup interface.
+ * Represents a publishing entity interface.
  *
  * @param {Object} props The properties for the object.
- * @returns {JSX}
+ * @returns {JSX} The publishing entity component.
  * @constructor
  */
 const PublishingEntity = ( props ) => {
-
 	let data = props.data;
 
 	return (
@@ -17,7 +16,7 @@ const PublishingEntity = ( props ) => {
 			<h2>{data.publishingEntityType}</h2>
 		</div>
 	);
-}
+};
 
 PublishingEntity.propTypes = {
 	component: React.PropTypes.string,
@@ -26,9 +25,9 @@ PublishingEntity.propTypes = {
 };
 
 PublishingEntity.defaultProps = {
-	component: '',
+	component: "",
 	defaults: {},
-	data: '',
+	data: "",
 };
 
 export default PublishingEntity;

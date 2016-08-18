@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 /**
- * Represents a posttype visibility component.
+ * Represents a post type visibility component.
  *
  * @param {Object} props The properties for the object.
- * @returns {JSX}
+ * @returns {JSX} The post type visibility component.
  * @constructor
  */
 const PostTypeVisibility = ( props ) => {
@@ -22,9 +22,9 @@ PostTypeVisibility.propTypes = {
 };
 
 PostTypeVisibility.defaultProps = {
-	component: '',
+	component: "",
 	properties: {},
-	data: '',
+	data: "",
 };
 
 export default PostTypeVisibility;

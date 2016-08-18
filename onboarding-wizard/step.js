@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import Components from "./components";
 
 /**
  * Renders a step in the wizard process
  *
  * @param {Object} props The props used for rendering the steps.
- * @returns {JSX}
+ * @returns {JSX} A Step component.
  * @constructor
  */
 class Step extends React.Component {
@@ -23,18 +23,22 @@ class Step extends React.Component {
 
 	/**
 	 * Sets the field values for the given step.
+	 *
+	 * @returns {void}
 	 */
 	componentWillMount() {
 		this.setFieldValues( this.props.fields, this.props.currentStep );
 	}
 
 	/**
-	 * Sets the field values for the next step.
+	 * Sets the field values for the following step.
 	 *
-	 * @param {Object} nextProps
+	 * @param {Object} props The new properties the Step component receives.
+	 *
+	 * @returns {void}
 	 */
-	componentWillReceiveProps( nextProps ) {
-		this.setFieldValues( nextProps.fields, nextProps.currentStep );
+	componentWillReceiveProps( props ) {
+		this.setFieldValues( props.fields, props.currentStep );
 	}
 
 	/**
@@ -42,43 +46,43 @@ class Step extends React.Component {
 	 *
 	 * @param {Object} fields       The fields for the step.
 	 * @param {string}  currentStep The name for the current step.
+	 *
+	 * @returns {void}
 	 */
 	setFieldValues( fields, currentStep ) {
-
 		let fieldNames = Object.keys( fields );
 		let fieldValues = this.state.fieldValues;
 
-		if ( typeof fieldValues[ currentStep ] === typeof undefined ) {
+		if ( typeof fieldValues[ currentStep ] === "undefined" ) {
 			fieldValues[ currentStep ] = {};
 		}
 
 		fieldNames.forEach(
-			function ( fieldName ) {
-				if ( typeof fieldValues[ currentStep ][ fieldName ] === typeof undefined ) {
+			function( fieldName ) {
+				if ( typeof fieldValues[ currentStep ][ fieldName ] === "undefined" ) {
 					fieldValues[ currentStep ][ fieldName ] = "";
 				}
-
-			}.bind( this )
+			}
 		);
 
 		this.setState( {
 			currentStep, fieldValues,
 		} );
-
 	}
 
 	/**
 	 * Runs the onchange event by update the value in the state.
 	 *
 	 * @param {Object} evt The event data.
+	 *
+	 * @returns {void}
 	 */
 	onChange( evt ) {
-
 		let fieldValues = this.state.fieldValues;
 		let fieldName = evt.target.name;
 
 		// If the field value is undefined, add the fields to the field values.
-		if ( typeof fieldValues[ this.state.currentStep ][ fieldName ] !== typeof undefined ) {
+		if ( typeof fieldValues[ this.state.currentStep ][ fieldName ] !== "undefined" ) {
 			fieldValues[ this.state.currentStep ][ fieldName ] = evt.target.value;
 		}
 
@@ -90,24 +94,24 @@ class Step extends React.Component {
 	/**
 	 * Renders a field for the current step.
 	 *
-	 * @param {string} configName The name of the config.
-	 * @param {string} index      The index of the config value in the fields.
-	 * @returns {Element}
+	 * @param {Object} fields The form fields to be created.
+	 *
+	 * @returns {JSX.Element} The form component containing its form field components.
 	 */
 	getFieldComponents( fields ) {
 		let keys = Object.keys( fields );
 
 		return keys.map( ( fieldName, key ) => {
-			let currentField = fields[fieldName];
+			let currentField = fields[ fieldName ];
 
-			if ( Components[ currentField.component ] === undefined ) {
+			if ( Components[ currentField.component ] === "undefined" ) {
 				return;
 			}
 
 			let props = {
 				key,
 				fieldName,
-				onChange: this.onChange.bind(this),
+				onChange: this.onChange.bind( this ),
 				properties: currentField.properties,
 				data: this.state.fieldValues[ this.state.currentStep ][ fieldName ],
 			};
@@ -119,7 +123,7 @@ class Step extends React.Component {
 	/**
 	 * Renders the step.
 	 *
-	 * @returns {JSX}
+	 * @returns {JSX} Rendered Step component.
 	 */
 	render() {
 		return (
@@ -127,7 +131,7 @@ class Step extends React.Component {
 				<h1>Step: {this.props.title}</h1>
 				{ this.getFieldComponents( this.props.fields ) }
 			</div>
-		)
+		);
 	}
 }
 
@@ -140,7 +144,7 @@ Step.propTypes = {
 
 Step.defaultProps = {
 	fields: {},
-	currentStep: '',
+	currentStep: "",
 };
 
 export default Step;
