@@ -10,9 +10,9 @@ import React from "react";
  */
 const Input = ( props ) => {
 	return (
-		<div>
-			<label htmlFor={props.fieldName}>{props.properties.label}: </label>
-			<input onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName}
+		<div className="yoast-wizard-text-input">
+			<label className="yoast-wizard-text-input-label" htmlFor={props.fieldName}>{props.properties.label}: </label>
+			<input className="yoast-wizard-text-input-box" onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName}
 			       defaultValue={props.data} placeholder={props.placeholder}/>
 		</div>
 	);

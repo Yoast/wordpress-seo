@@ -1,5 +1,4 @@
-$prefix : "yoast-";
-
+$prefix: "yoast-wizard";
 body {
   width: 100%;
   text-align: center;
@@ -7,7 +6,7 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-.#{$prefix}wizard-container {
+.#{$prefix}-container {
   border: 1px solid #CCC;
   width: 80%;
   text-align: left;
@@ -15,11 +14,12 @@ body {
   margin: 0 auto;
   position: relative;
 }
-.#{$prefix}wizard-overlay, .#{$prefix}wizard {
+
+.#{$prefix}-overlay, .#{$prefix} {
   width: 100%;
 }
 
-.#{$prefix}wizard {
+.#{$prefix} {
   text-align: left;
   min-height: 20px;
   background: #FFF;
@@ -29,7 +29,7 @@ body {
   box-sizing: border-box;
 }
 
-.#{$prefix}wizard-overlay {
+.#{$prefix}-overlay {
   z-index:    10;
   opacity: 0.2;
   background-color: black;
@@ -39,8 +39,6 @@ body {
   height: 100%;
   color: #ffffff;
   text-align: center;
-  //display: inline-table;
-  //vertical-align: middle;
 }
 
 h1 {
@@ -58,6 +56,15 @@ button{
   margin-bottom: 2px;
   margin-top: .5em;
   height: auto;
+}
+
+.#{$prefix}-text-input{
+
+  &-label{
+    display: inline-block;
+    width: 100%;
+    max-width: 200px;
+  }
 }
 
 
