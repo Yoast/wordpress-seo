@@ -1,7 +1,7 @@
 import React from "react";
 import Step from "./step";
 import ProgressIndicator from "./progressIndicator";
-import PostJSON from "./helpers/postJSON";
+import postJSON from "./helpers/postJSON";
 
 /**
  * The onboarding Wizard class.
@@ -29,44 +29,44 @@ class Wizard extends React.Component {
 	 *
 	 * @param {Object} steps The object containing the steps.
 	 *
-	 * @return {Object} The steps with added previous and next step.
+	 * @returns {Object} The steps with added previous and next step.
 	 */
 	parseSteps( steps ) {
-		let stepKeys = Object.keys( steps );
+		let stepKeyNames = Object.keys( steps );
 
 		// Only add previous and next if there is more than one step.
-		if ( stepKeys.length < 2 ) {
+		if ( stepKeyNames.length < 2 ) {
 			return steps;
 		}
 
-		let indexOfLastStep = stepKeys.length - 1;
+		let stepKeyNamesLength = stepKeyNames.length;
 
-		// Loop through the steps to set each previous step.
-		for ( let stepKey in steps ) {
-			let stepIndex = stepKeys.indexOf( stepKey );
+		// Loop through the steps to set each next and/or previous step.
+		for ( let stepIndex = 0; stepIndex < stepKeyNamesLength; stepIndex++ ) {
+			let stepKeyName = stepKeyNames[ stepIndex ];
 
 			if ( stepIndex > 0 ) {
-				steps[ stepKey ].previous = stepKeys[ stepIndex - 1 ];
+				steps[ stepKeyName ].previous = stepKeyNames[ stepIndex - 1 ];
 			}
 
-			if ( stepIndex > -1 && stepIndex < indexOfLastStep ) {
-				steps[ stepKey ].next = stepKeys[ stepIndex + 1 ];
+			if ( stepIndex > -1 && stepIndex < stepKeyNamesLength - 1 ) {
+				steps[ stepKeyName ].next = stepKeyNames[ stepIndex + 1 ];
 			}
 
-			steps[ stepKey ][ "fields" ] =  this.parseFields( steps[ stepKey ][ "fields" ] );
+			steps[ stepKeyName ].fields = this.getFields( steps[ stepKeyName ].fields );
 		}
 
 		return steps;
 	}
 
 	/**
-	 * Gets the fields from the props.
+	 * Gets fields from the properties.
 	 *
-	 * @param {Array} fieldsToGet
+	 * @param {Array} fieldsToGet The array with the fields to get from the properties.
 	 *
-	 * @returns {Object}
+	 * @returns {Object} The fields from the properties, based on the array passed in the arguments.
 	 */
-	parseFields( fieldsToGet ) {
+	getFields( fieldsToGet = [] ) {
 		let fields = {};
 
 		fieldsToGet.forEach( ( fieldName ) => {
@@ -85,7 +85,7 @@ class Wizard extends React.Component {
 	 *
 	 * @param {step} step The step to render after the current state is stored.
 	 *
-	 * @return {Promise}
+	 * @returns {void}
 	 */
 	postStep( step ) {
 		if ( ! step ) {
@@ -94,7 +94,7 @@ class Wizard extends React.Component {
 
 		this.setState( { isLoading: true } );
 
-		PostJSON(
+		postJSON(
 			this.props.endpoint,
 			this.getFieldsAsObject()
 		)
@@ -103,9 +103,9 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Returns the fields as an object.
+	 * Returns the fields as an JSON object.
 	 *
-	 * @returns {Object}
+	 * @returns {Object} JSON fields object.
 	 */
 	getFieldsAsObject() {
 		return JSON.stringify(
@@ -118,7 +118,7 @@ class Wizard extends React.Component {
 	 *
 	 * @param {Object} steps The object containing the steps.
 	 *
-	 * @return {Object}  The first step object
+	 * @returns {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
 		return Object.getOwnPropertyNames( steps )[ 0 ];
@@ -128,6 +128,8 @@ class Wizard extends React.Component {
 	 * When the request is handled successfully.
 	 *
 	 * @param {string} step The next step to render.
+	 *
+	 * @returns {void}
 	 */
 	handleSuccessful( step ) {
 		this.setState( {
@@ -138,6 +140,8 @@ class Wizard extends React.Component {
 
 	/**
 	 * When the request is handled incorrect.
+	 *
+	 * @returns {void}
 	 */
 	handleFailure() {
 		this.setState( {
@@ -147,6 +151,8 @@ class Wizard extends React.Component {
 
 	/**
 	 * Updates the state to the next stepId in the wizard.
+	 *
+	 * @returns {void}
 	 */
 	setNextStep() {
 		let currentStep = this.getCurrentStep();
@@ -156,6 +162,8 @@ class Wizard extends React.Component {
 
 	/**
 	 * Updates the state to the previous stepId in the wizard.
+	 *
+	 * @returns {void}
 	 */
 	setPreviousStep() {
 		let currentStep = this.getCurrentStep();
@@ -164,7 +172,9 @@ class Wizard extends React.Component {
 	}
 
 	/**
-	 * Gets the current stepId from the steps
+	 * Gets the current step from the steps.
+	 *
+	 * @returns {Object} The current step.
 	 */
 	getCurrentStep() {
 		return this.state.steps[ this.state.currentStepId ];
@@ -173,7 +183,7 @@ class Wizard extends React.Component {
 	/**
 	 * Gets the index number for a step from the array with step objects.
 	 *
-	 * @return {int} The step number when found, or 0 when the step is not found.
+	 * @returns {int} The step number when found, or 0 when the step is not found.
 	 */
 	getCurrentStepNumber() {
 		let currentStep = this.state.currentStepId;
@@ -191,7 +201,7 @@ class Wizard extends React.Component {
 	/**
 	 * Renders the wizard.
 	 *
-	 * @return {JSX} The rendered step in the wizard.
+	 * @returns {JSX} The rendered step in the wizard.
 	 */
 	render() {
 		let step = this.getCurrentStep();
