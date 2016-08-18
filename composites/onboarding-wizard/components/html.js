@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  *  Represents a piece of HTML. This can be useful on the opening and closing screen of the wizard, to add some
@@ -20,7 +20,7 @@ HTML.propTypes = {
 
 HTML.defaultProps = {
 	properties: {
-		html: '',
+		html: "",
 	},
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Represents a posttype visibility component.
@@ -22,9 +22,9 @@ PostTypeVisibility.propTypes = {
 };
 
 PostTypeVisibility.defaultProps = {
-	component: '',
+	component: "",
 	properties: {},
-	data: '',
+	data: "",
 };
 
 export default PostTypeVisibility;

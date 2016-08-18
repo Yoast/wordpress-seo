@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Represents a choice interface, like a group of radio buttons or a select button. Initially it should render a
@@ -17,11 +17,10 @@ const Choice = ( props ) => {
 		<div>
 			<h2>{props.properties.label}</h2>
 
-			{fieldKeys.map( function ( choiceName, index ) {
-
+			{fieldKeys.map( function( choiceName, index ) {
 				let choice = choices[ choiceName ];
-				let choiceId = choiceName + '-' + index;
-				let isChecked = (props.data == choiceName) ? "checked" : "";
+				let choiceId = choiceName + "-" + index;
+				let isChecked = ( props.data == choiceName ) ? "checked" : "";
 
 				return (
 					<div key={index}>
@@ -48,14 +47,14 @@ Choice.propTypes = {
 };
 
 Choice.defaultProps = {
-	component: '',
-	data: '',
+	component: "",
+	data: "",
 	properties: {
-		label: '',
+		label: "",
 		choices: {},
 	},
-	default: '',
-	fieldName: '',
+	default: "",
+	fieldName: "",
 };
 
 export default Choice;

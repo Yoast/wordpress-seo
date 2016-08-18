@@ -16,7 +16,7 @@ class Wizard extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.stepCount = Object.keys(this.props.steps).length;
+		this.stepCount = Object.keys( this.props.steps ).length;
 		this.state = {
 			isLoading: false,
 			steps: this.parseSteps( this.props.steps ),
@@ -49,11 +49,11 @@ class Wizard extends React.Component {
 				steps[ stepKey ].previous = stepKeys[stepIndex - 1];
 			}
 
-			if ( stepIndex > -1 && stepIndex < indexOfLastStep ){
-				steps[ stepKey ].next = stepKeys[stepIndex + 1];
+			if ( stepIndex > -1 && stepIndex < indexOfLastStep ) {
+				steps[ stepKey ].next = stepKeys[ stepIndex + 1 ];
 			}
 
-			steps[ stepKey ]['fields'] =  this.parseFields( steps[ stepKey ]["fields"] )
+			steps[ stepKey ][ "fields" ] =  this.parseFields( steps[ stepKey ][ "fields" ] );
 		}
 
 		return steps;
@@ -70,10 +70,10 @@ class Wizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach( ( fieldName ) => {
-				if ( this.props.fields[ fieldName ] ) {
-					fields[ fieldName ] = this.props.fields[ fieldName ];
-				}
+			if ( this.props.fields[ fieldName ] ) {
+				fields[ fieldName ] = this.props.fields[ fieldName ];
 			}
+		}
 		);
 
 		return fields;
@@ -111,7 +111,6 @@ class Wizard extends React.Component {
 		return JSON.stringify(
 			this.refs.step.state.fieldValues[ this.state.currentStepId ]
 		);
-
 	}
 
 	/**
@@ -122,7 +121,7 @@ class Wizard extends React.Component {
 	 * @return {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		return Object.getOwnPropertyNames( steps )[0];
+		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
 	/**
@@ -182,7 +181,7 @@ class Wizard extends React.Component {
 
 		let stepNumber = steps.indexOf( currentStep );
 
-		if ( stepNumber > - 1 ) {
+		if ( stepNumber > -1 ) {
 			return stepNumber + 1;
 		}
 
@@ -233,4 +232,4 @@ Wizard.defaultProps = {
 	fields: React.PropTypes.object,
 };
 
-export default Wizard
+export default Wizard;

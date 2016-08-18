@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Components from "./components";
 
 /**
@@ -44,7 +44,6 @@ class Step extends React.Component {
 	 * @param {string}  currentStep The name for the current step.
 	 */
 	setFieldValues( fields, currentStep ) {
-
 		let fieldNames = Object.keys( fields );
 		let fieldValues = this.state.fieldValues;
 
@@ -53,18 +52,16 @@ class Step extends React.Component {
 		}
 
 		fieldNames.forEach(
-			function ( fieldName ) {
+			function( fieldName ) {
 				if ( typeof fieldValues[ currentStep ][ fieldName ] === typeof undefined ) {
 					fieldValues[ currentStep ][ fieldName ] = "";
 				}
-
 			}.bind( this )
 		);
 
 		this.setState( {
 			currentStep, fieldValues,
 		} );
-
 	}
 
 	/**
@@ -73,7 +70,6 @@ class Step extends React.Component {
 	 * @param {Object} evt The event data.
 	 */
 	onChange( evt ) {
-
 		let fieldValues = this.state.fieldValues;
 		let fieldName = evt.target.name;
 
@@ -98,7 +94,7 @@ class Step extends React.Component {
 		let keys = Object.keys( fields );
 
 		return keys.map( ( fieldName, key ) => {
-			let currentField = fields[fieldName];
+			let currentField = fields[ fieldName ];
 
 			if ( Components[ currentField.component ] === undefined ) {
 				return;
@@ -107,7 +103,7 @@ class Step extends React.Component {
 			let props = {
 				key,
 				fieldName,
-				onChange: this.onChange.bind(this),
+				onChange: this.onChange.bind( this ),
 				properties: currentField.properties,
 				data: this.state.fieldValues[ this.state.currentStep ][ fieldName ],
 			};
@@ -127,7 +123,7 @@ class Step extends React.Component {
 				<h1>Step: {this.props.title}</h1>
 				{ this.getFieldComponents( this.props.fields ) }
 			</div>
-		)
+		);
 	}
 }
 
@@ -140,7 +136,7 @@ Step.propTypes = {
 
 Step.defaultProps = {
 	fields: {},
-	currentStep: '',
+	currentStep: "",
 };
 
 export default Step;
