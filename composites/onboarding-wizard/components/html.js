@@ -5,7 +5,7 @@ import React from "react";
  *  introduction text, a success message or CTA towards the end.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX}
+ * @returns {JSX} The HTML component.
  * @constructor
  */
 const HTML = ( props ) => {
