@@ -4,24 +4,38 @@ import React from "react";
  * Represents the progress HTML tag.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX} A representation of the progress HTML element based on the passed props.
+ * @returns {JSX} A representation of the progress HTML element based on the passed this.props.
  * @constructor
  */
-const Progressbar = ( props ) => {
-	if ( typeof document.createElement( "progress" ) === "undefined" ) {
+class Progressbar extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	fallback( value, max ) {
+		let progress = ( value / max ) * 100;
+
+		this.props.optionalAttributes.className = this.props.optionalAttributes.className + "--fallback"
+
 		return (
-			<div {...props.optionalAttributes}></div>
+			<div {...this.props.optionalAttributes} style={ { width: progress + "%" } }></div>
 		);
 	}
 
-	return (
-		<progress name={props.name}
-		          value={props.value}
-		          min={props.min}
-		          max={props.max}
-		          {...props.optionalAttributes}
-		/>
-	);
+	render() {
+		if ( typeof document.createElement( "progress" ) === "undefined" ) {
+			return this.fallback( this.props.value, this.props.max );
+		}
+
+		return (
+			<progress name={this.props.name}
+			          value={this.props.value}
+			          min={this.props.min}
+			          max={this.props.max}
+			          {...this.props.optionalAttributes}
+			/>
+		);
+	}
 };
 
 /**

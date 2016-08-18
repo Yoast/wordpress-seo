@@ -54,7 +54,7 @@ $prefix: 'yoast-';
     height: 8px;
     width: 100%;
 
-    &::-webkit-progress-bar {
+    &::-webkit-progress-bar  {
       background-color: $color_progress_background;
       border: 1px solid $color_input_border;
     }

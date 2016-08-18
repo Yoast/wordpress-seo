@@ -11,7 +11,7 @@
 }
 
 @mixin progress-bar-color ($class, $color) {
-	#{$class}[value] {
+	#{$class} {
 		color: $color;
 
 		&::-webkit-progress-value {
@@ -21,6 +21,12 @@
 
 		&::-moz-progress-bar {
 			background-color: $color;
+		}
+
+		&--fallback {
+			background-color: $color;
+			overflow: hidden;
+			max-width: 100%;
 		}
 	}
 }
