@@ -183,7 +183,8 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {JSX} A div with a warning that the search was not completed.
      */
     renderError( errorMessage ) {
-		A11ySpeak( this.props.errorMessage );
+		console.error( this.props.errorMessage );
+    	A11ySpeak( this.props.errorMessage );
         return (
             <p>
 				{this.props.errorMessage}
