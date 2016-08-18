@@ -22,8 +22,8 @@ body {
     height: auto;
   }
 
-  input[type="radio"]{
-      margin-right: 1em;
+  input[type="radio"] {
+    margin-right: 1em;
   }
 }
 
@@ -58,6 +58,10 @@ body {
     min-height: 20px;
     margin: 0 auto;
     position: relative;
+
+    fieldset {
+      border: 0;
+    }
   }
 
   &-text-input {
