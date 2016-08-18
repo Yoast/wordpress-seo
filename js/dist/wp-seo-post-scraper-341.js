@@ -1,90 +1,92 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict";
+
 /* global wp, jQuery */
 
-var isUndefined = require( 'lodash/isUndefined' );
-var defaultsDeep = require( 'lodash/defaultsDeep' );
-var getIndicatorForScore = require( './getIndicatorForScore' );
+var defaultsDeep = require("lodash/defaultsDeep");
+var getIndicatorForScore = require("./getIndicatorForScore");
 
 var $ = jQuery;
 
 var defaultArguments = {
-	label: '',
+	label: "",
 	active: false,
 	hideable: false,
 
-	classes: [ 'wpseo_tab', 'wpseo_generic_tab' ],
+	classes: ["wpseo_tab", "wpseo_generic_tab"],
 
-	onActivate: function ( ) { },
-	afterActivate: function ( ) { },
+	onActivate: function onActivate() {},
+	afterActivate: function afterActivate() {}
 };
 
-module.exports = (function() {
-	'use strict';
+module.exports = function () {
+	"use strict";
 
 	/**
-	 * Constructor for a generic tab object
-	 * @param {Object} args
-	 * @constructor
-	 */
-	function GenericTab( args ) {
-		defaultsDeep( args, defaultArguments );
+  * Constructor for a generic tab object
+  * @param {Object} args
+  * @constructor
+  */
 
-		this.label          = args.label;
-		this.active         = args.active;
-		this.hideable       = args.hideable;
-		this.classes        = args.classes;
+	function GenericTab(args) {
+		defaultsDeep(args, defaultArguments);
 
-		this.onActivate     = args.onActivate;
-		this.afterActivate  = args.afterActivate;
+		this.label = args.label;
+		this.active = args.active;
+		this.hideable = args.hideable;
+		this.classes = args.classes;
+
+		this.onActivate = args.onActivate;
+		this.afterActivate = args.afterActivate;
 	}
 
 	/**
-	 * Initialize a keyword tab.
-	 *
-	 * @param {HTMLElement} container The container element to add the tab to.
-	 * @param {string} [position] Either prepend or append for the position in the container.
-	 */
-	GenericTab.prototype.init = function( container, position ) {
-		position = position || 'prepend';
+  * Initialize a keyword tab.
+  *
+  * @param {HTMLElement} container The container element to add the tab to.
+  * @param {string} [position] Either prepend or append for the position in the container.
+  */
+	GenericTab.prototype.init = function (container, position) {
+		position = position || "prepend";
 
-		this.setElement( this.render() );
-		this.addToContainer( container, position );
+		this.setElement(this.render());
+		this.addToContainer(container, position);
 	};
 
 	/**
-	 * Adds the current tab to the container element.
-	 *
-	 * @param {string|Object} container The container element to add the tab to. jQuery object or selector.
-	 * @param {string} [position] Either prepend or append for the position in the container.
-	 */
-	GenericTab.prototype.addToContainer = function ( container, position ) {
-		var $container = $( container );
+  * Adds the current tab to the container element.
+  *
+  * @param {string|Object} container The container element to add the tab to. jQuery object or selector.
+  * @param {string} [position] Either prepend or append for the position in the container.
+  */
+	GenericTab.prototype.addToContainer = function (container, position) {
+		var $container = $(container);
 
-		if ( 'prepend' === position ) {
-			$container.prepend( this.element );
+		if ("prepend" === position) {
+			$container.prepend(this.element);
 			return;
 		}
 
-		$container.append( this.element );
+		$container.append(this.element);
 	};
 
 	/**
-	 * Gets the indicator object based on the passed score.
-	 *
-	 * @param {int} score The score to be used to determine the indicator.
-	 * @returns {Object} The indicator.
-	 */
-	GenericTab.prototype.getIndicator = function( score ) {
-		return getIndicatorForScore( score );
+  * Gets the indicator object based on the passed score.
+  *
+  * @param {int} score The score to be used to determine the indicator.
+  * @returns {Object} The indicator.
+  */
+	GenericTab.prototype.getIndicator = function (score) {
+		return getIndicatorForScore(score);
 	};
 
 	/**
-	 * Updates the keyword tabs with new values.
-	 *
-	 * @param {int} indicator
-	 */
-	GenericTab.prototype.updateScore = function( score ) {
-		var indicator = this.getIndicator( score );
+  * Updates the keyword tabs with new values.
+  *
+  * @param {int} indicator
+  */
+	GenericTab.prototype.updateScore = function (score) {
+		var indicator = this.getIndicator(score);
 
 		this.score = indicator.className;
 		this.scoreText = indicator.screenReaderText;
@@ -93,31 +95,31 @@ module.exports = (function() {
 	};
 
 	/**
-	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
-	 */
-	GenericTab.prototype.refresh = function() {
+  * Renders a new keyword tab with the current values and replaces the old tab with this one.
+  */
+	GenericTab.prototype.refresh = function () {
 		var replacement = this.render();
 
-		this.element.replaceWith( replacement );
-		this.setElement( replacement );
+		this.element.replaceWith(replacement);
+		this.setElement(replacement);
 	};
 
 	/**
-	 * Adds additional CSS classes based on the classes field.
-	 *
-	 * @returns {string} The classes to add.
-	 */
-	GenericTab.prototype.addAdditionalClasses = function() {
-		return this.classes.join( ' ' );
+  * Adds additional CSS classes based on the classes field.
+  *
+  * @returns {string} The classes to add.
+  */
+	GenericTab.prototype.addAdditionalClasses = function () {
+		return this.classes.join(" ");
 	};
 
 	/**
-	 * Renders this keyword tab as a jQuery HTML object.
-	 *
-	 * @returns {HTMLElement} jQuery HTML object.
-	 */
-	GenericTab.prototype.render = function() {
-		var html = wp.template( 'generic_tab' )( {
+  * Renders this keyword tab as a jQuery HTML object.
+  *
+  * @returns {HTMLElement} jQuery HTML object.
+  */
+	GenericTab.prototype.render = function () {
+		var html = wp.template("generic_tab")({
 			label: this.label,
 
 			active: this.active,
@@ -127,33 +129,33 @@ module.exports = (function() {
 			scoreText: this.scoreText,
 
 			classes: this.addAdditionalClasses()
-		} );
+		});
 
-		return jQuery( html );
+		return jQuery(html);
 	};
 
 	/**
-	 * Sets the current element
-	 *
-	 * @param {HTMLElement} element
-	 */
-	GenericTab.prototype.setElement = function( element ) {
-		this.element = jQuery( element );
+  * Sets the current element
+  *
+  * @param {HTMLElement} element
+  */
+	GenericTab.prototype.setElement = function (element) {
+		this.element = jQuery(element);
 
 		this.addEventHandler();
 	};
 
 	/**
-	 * Adds event handler to tab
-	 */
-	GenericTab.prototype.addEventHandler = function() {
-		$( this.element ).on( 'click', this.onClick.bind( this ) );
+  * Adds event handler to tab
+  */
+	GenericTab.prototype.addEventHandler = function () {
+		$(this.element).on("click", this.onClick.bind(this));
 	};
 
 	/**
-	 * Activates the tab
-	 */
-	GenericTab.prototype.activate = function() {
+  * Activates the tab
+  */
+	GenericTab.prototype.activate = function () {
 		this.onActivate();
 
 		this.deactivate();
@@ -166,40 +168,42 @@ module.exports = (function() {
 	};
 
 	/**
-	 * Removes active state class from all tabs.
-	 */
-	GenericTab.prototype.deactivate = function() {
+  * Removes active state class from all tabs.
+  */
+	GenericTab.prototype.deactivate = function () {
 		this.active = false;
-		$( '.wpseo_tab' ).removeClass( 'active' );
+		$(".wpseo_tab").removeClass("active");
 	};
 
 	/**
-	 * Handles clicking the tab.
-	 *
-	 * @param {UIEvent} ev The event fired by the browser.
-	 */
-	GenericTab.prototype.onClick = function( ev ) {
+  * Handles clicking the tab.
+  *
+  * @param {UIEvent} ev The event fired by the browser.
+  */
+	GenericTab.prototype.onClick = function (ev) {
 		ev.preventDefault();
 
 		this.activate();
 	};
 
 	return GenericTab;
-} )();
+}();
 
-},{"./getIndicatorForScore":4,"lodash/defaultsDeep":184,"lodash/isUndefined":217}],2:[function(require,module,exports){
-var getL10nObject = require( './getL10nObject' );
+},{"./getIndicatorForScore":4,"lodash/defaultsDeep":184}],2:[function(require,module,exports){
+"use strict";
+
+var getL10nObject = require("./getL10nObject");
 
 /**
  * Returns the description placeholder for use in the description forms.
  *
  * @returns {string}
  */
-function getDescriptionPlaceholder( l10n ) {
-	var descriptionPlaceholder = '';
+function getDescriptionPlaceholder() {
+	var descriptionPlaceholder = "";
 	var l10nObject = getL10nObject();
 
-	if ( l10nObject ) {
+	if (l10nObject) {
 		descriptionPlaceholder = l10nObject.metadesc_template;
 	}
 
@@ -209,9 +213,11 @@ function getDescriptionPlaceholder( l10n ) {
 module.exports = getDescriptionPlaceholder;
 
 },{"./getL10nObject":5}],3:[function(require,module,exports){
-var getTranslations = require( './getTranslations' );
-var isEmpty = require( 'lodash/isEmpty' );
-var Jed = require( 'jed' );
+"use strict";
+
+var getTranslations = require("./getTranslations");
+var isEmpty = require("lodash/isEmpty");
+var Jed = require("jed");
 
 /**
  * Returns a Jed object usable in YoastSEO.js
@@ -222,17 +228,17 @@ function getI18n() {
 	"use strict";
 
 	var translations = getTranslations();
-	var i18n = new Jed( translations );
+	var i18n = new Jed(translations);
 
-	if ( isEmpty( translations ) ) {
-		i18n = new Jed( {
+	if (isEmpty(translations)) {
+		i18n = new Jed({
 			"domain": "js-text-analysis",
 			"locale_data": {
 				"js-text-analysis": {
 					"": {}
 				}
 			}
-		} );
+		});
 	}
 
 	return i18n;
@@ -241,18 +247,22 @@ function getI18n() {
 module.exports = getI18n;
 
 },{"./getTranslations":7,"jed":22,"lodash/isEmpty":206}],4:[function(require,module,exports){
-var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
-var isUndefined = require( 'lodash/isUndefined' );
+"use strict";
+
+/* global YoastSEO */
+
+var scoreToRating = require("yoastseo").helpers.scoreToRating;
+var isUndefined = require("lodash/isUndefined");
 
 /**
  * Returns whether or not the current page has presenters.
  *
  * @returns {boolean} Whether or not the page has presenters.
  */
-var hasPresenter = function() {
+var hasPresenter = function hasPresenter() {
 	var app = YoastSEO.app;
 
-	return ( ! isUndefined( app.seoAssessorPresenter ) || ! isUndefined( app.contentAssessorPresenter ) );
+	return !isUndefined(app.seoAssessorPresenter) || !isUndefined(app.contentAssessorPresenter);
 };
 
 /**
@@ -260,14 +270,14 @@ var hasPresenter = function() {
  *
  * @returns {AssessorPresenter} An active assessor presenter.
  */
-var getPresenter = function() {
+var getPresenter = function getPresenter() {
 	var app = YoastSEO.app;
 
-	if ( ! isUndefined( app.seoAssessorPresenter ) ) {
+	if (!isUndefined(app.seoAssessorPresenter)) {
 		return app.seoAssessorPresenter;
 	}
 
-	if ( ! isUndefined( app.contentAssessorPresenter ) ) {
+	if (!isUndefined(app.contentAssessorPresenter)) {
 		return app.contentAssessorPresenter;
 	}
 };
@@ -278,32 +288,31 @@ var getPresenter = function() {
  * @param {number} score The score from 0 to 100.
  * @returns {Object} The indicator for the given score.
  */
-function getIndicatorForScore( score ) {
+function getIndicatorForScore(score) {
 	// Scale because scoreToRating works from 0 to 10.
 	score /= 10;
 
-
 	var indicator = {
-		className: '',
-		screenReaderText: '',
-		fullText: ''
+		className: "",
+		screenReaderText: "",
+		fullText: ""
 	};
 
 	var presenter = getPresenter();
 
-	if ( ! hasPresenter() ) {
+	if (!hasPresenter()) {
 		return indicator;
 	}
 
-	return presenter.getIndicator( scoreToRating( score ) );
+	return presenter.getIndicator(scoreToRating(score));
 }
 
 module.exports = getIndicatorForScore;
 
 },{"lodash/isUndefined":217,"yoastseo":251}],5:[function(require,module,exports){
-/* global wpseoPostScraperL10n */
+"use strict";
 
-var isUndefined = require( 'lodash/isUndefined' );
+var isUndefined = require("lodash/isUndefined");
 
 /**
  * Returns the l10n object for the current page, either term or post.
@@ -313,9 +322,9 @@ var isUndefined = require( 'lodash/isUndefined' );
 function getL10nObject() {
 	var l10nObject = null;
 
-	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
+	if (!isUndefined(window.wpseoPostScraperL10n)) {
 		l10nObject = window.wpseoPostScraperL10n;
-	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
+	} else if (!isUndefined(window.wpseoTermScraperL10n)) {
 		l10nObject = window.wpseoTermScraperL10n;
 	}
 
@@ -325,9 +334,9 @@ function getL10nObject() {
 module.exports = getL10nObject;
 
 },{"lodash/isUndefined":217}],6:[function(require,module,exports){
-/* global wpseoPostScraperL10n, wpseoTermScraperL10n */
+"use strict";
 
-var getL10nObject = require( './getL10nObject' );
+var getL10nObject = require("./getL10nObject");
 
 /**
  * Returns the title placeholder for use in the title forms.
@@ -335,15 +344,15 @@ var getL10nObject = require( './getL10nObject' );
  * @returns {string}
  */
 function getTitlePlaceholder() {
-	var titlePlaceholder = '';
+	var titlePlaceholder = "";
 	var l10nObject = getL10nObject();
 
-	if ( l10nObject ) {
+	if (l10nObject) {
 		titlePlaceholder = l10nObject.title_template;
 	}
 
-	if ( titlePlaceholder === '' ) {
-		titlePlaceholder = '%%title%% - %%sitename%%';
+	if (titlePlaceholder === "") {
+		titlePlaceholder = "%%title%% - %%sitename%%";
 	}
 
 	return titlePlaceholder;
@@ -352,9 +361,11 @@ function getTitlePlaceholder() {
 module.exports = getTitlePlaceholder;
 
 },{"./getL10nObject":5}],7:[function(require,module,exports){
-var getL10nObject = require( './getL10nObject' );
+"use strict";
 
-var isUndefined = require( 'lodash/isUndefined' );
+var getL10nObject = require("./getL10nObject");
+
+var isUndefined = require("lodash/isUndefined");
 
 /**
  * Retrieves translations for YoastSEO.js for the current page, either term or post.
@@ -367,10 +378,10 @@ function getTranslations() {
 	var l10nObject = getL10nObject();
 	var translations = l10nObject.translations;
 
-	if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-		translations.domain = 'js-text-analysis';
-		translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-		delete( translations.locale_data['wordpress-seo'] );
+	if (!isUndefined(translations) && !isUndefined(translations.domain)) {
+		translations.domain = "js-text-analysis";
+		translations.locale_data["js-text-analysis"] = translations.locale_data["wordpress-seo"];
+		delete translations.locale_data["wordpress-seo"];
 	}
 
 	return translations;
@@ -379,9 +390,11 @@ function getTranslations() {
 module.exports = getTranslations;
 
 },{"./getL10nObject":5,"lodash/isUndefined":217}],8:[function(require,module,exports){
-var getL10nObject = require( './getL10nObject' );
+"use strict";
 
-var isUndefined = require( 'lodash/isUndefined' );
+var getL10nObject = require("./getL10nObject");
+
+var isUndefined = require("lodash/isUndefined");
 
 /**
  * Returns whether or not the content analysis is active
@@ -389,137 +402,144 @@ var isUndefined = require( 'lodash/isUndefined' );
  * @returns {boolean} Whether or not the content analysis is active.
  */
 function isContentAnalysisActive() {
-	var l10nObject = getL10nObject();
+  var l10nObject = getL10nObject();
 
-	return ! isUndefined( l10nObject ) && l10nObject.contentAnalysisActive === '1'
+  return !isUndefined(l10nObject) && l10nObject.contentAnalysisActive === "1";
 }
 
 module.exports = isContentAnalysisActive;
 
 },{"./getL10nObject":5,"lodash/isUndefined":217}],9:[function(require,module,exports){
-var getL10nObject = require( './getL10nObject' );
+"use strict";
 
-var isUndefined = require( 'lodash/isUndefined' );
+var getL10nObject = require("./getL10nObject");
+
+var isUndefined = require("lodash/isUndefined");
 
 /**
  * Returns whether or not the content analysis is active
  */
 function isKeywordAnalysisActive() {
-	var l10nObject = getL10nObject();
+  var l10nObject = getL10nObject();
 
-	return ! isUndefined( l10nObject ) && l10nObject.keywordAnalysisActive === '1'
+  return !isUndefined(l10nObject) && l10nObject.keywordAnalysisActive === "1";
 }
 
 module.exports = isKeywordAnalysisActive;
 
 },{"./getL10nObject":5,"lodash/isUndefined":217}],10:[function(require,module,exports){
-/* global wp, jQuery */
-var isUndefined = require( 'lodash/isUndefined' );
-var defaultsDeep = require( 'lodash/defaultsDeep' );
+"use strict";
 
-var GenericTab = require( './genericTab' );
+/* global wp, jQuery, YoastSEO */
+var isUndefined = require("lodash/isUndefined");
+var defaultsDeep = require("lodash/defaultsDeep");
+
+var GenericTab = require("./genericTab");
 
 var defaultArguments = {
-	keyword: '',
-	placeholder: '',
+	keyword: "",
+	placeholder: "",
 
 	active: false,
 	hideable: false,
-	prefix: '',
+	prefix: "",
 
-	classes: [ 'wpseo_tab', 'wpseo_keyword_tab' ],
+	classes: ["wpseo_tab", "wpseo_keyword_tab"],
 
-	onActivate: function ( ) { },
-	afterActivate: function ( ) { }
+	onActivate: function onActivate() {},
+	afterActivate: function afterActivate() {}
 };
 
-module.exports = (function() {
-	'use strict';
+module.exports = function () {
+	"use strict";
 
+	/* eslint-disable no-use-before-define */
 	// Extending all the things.
-	KeywordTab.prototype = Object.create( GenericTab.prototype );
+
+	KeywordTab.prototype = Object.create(GenericTab.prototype);
+	/* eslint-enable no-use-before-define */
 
 	/**
-	 * Constructor for a keyword tab object
-	 * @param {Object} args
-	 * @constructor
-	 */
-	function KeywordTab( args ) {
-		defaultsDeep( args, defaultArguments );
-		this.fallback       = args.fallback;
-		this.keyword        = args.keyword;
-		this.placeholder    = args.placeholder;
-		this.prefix         = args.prefix;
+  * Constructor for a keyword tab object
+  * @param {Object} args
+  * @constructor
+  */
+	function KeywordTab(args) {
+		defaultsDeep(args, defaultArguments);
+		this.fallback = args.fallback;
+		this.keyword = args.keyword;
+		this.placeholder = args.placeholder;
+		this.prefix = args.prefix;
 
-		this.classes        = args.classes;
+		this.classes = args.classes;
 
-		this.onActivate     = args.onActivate;
-		this.afterActivate  = args.afterActivate;
+		this.onActivate = args.onActivate;
+		this.afterActivate = args.afterActivate;
 	}
 
 	/**
-	 * Updates the keyword tabs with new values.
-	 *
-	 * @param {string} scoreClass
-	 * @param {string} scoreText
-	 * @param {string} [keyword]
-	 */
-	KeywordTab.prototype.updateScore = function( score, keyword ) {
-		if ( ! isUndefined( keyword ) ) {
+  * Updates the keyword tabs with new values.
+  *
+  * @param {string} scoreClass
+  * @param {string} scoreText
+  * @param {string} [keyword]
+  */
+	KeywordTab.prototype.updateScore = function (score, keyword) {
+		if (!isUndefined(keyword)) {
 			this.keyword = keyword;
 		}
 
-		if ( keyword === '' ) {
-			this.score = 'na';
-			this.scoreText = YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
+		if (keyword === "") {
+			this.score = "na";
+			this.scoreText = YoastSEO.app.i18n.dgettext("js-text-analysis", "Enter a focus keyword to calculate the SEO score");
 			this.refresh();
 
 			return;
 		}
 
-		var indicator   = this.getIndicator( score );
+		var indicator = this.getIndicator(score);
 
-		this.score      = indicator.className;
-		this.scoreText  = indicator.screenReaderText;
+		this.score = indicator.className;
+		this.scoreText = indicator.screenReaderText;
 
 		this.refresh();
 	};
 
-	KeywordTab.prototype.hasKeyword = function() {
-		return this.keyword !== '';
+	KeywordTab.prototype.hasKeyword = function () {
+		return this.keyword !== "";
 	};
 
-	KeywordTab.prototype.getKeyWord = function() {
+	KeywordTab.prototype.getKeyWord = function () {
 		return this.keyword;
 	};
 
-	KeywordTab.prototype.hasFallback = function() {
-		return this.fallback !== '';
+	KeywordTab.prototype.hasFallback = function () {
+		return this.fallback !== "";
 	};
 
-	KeywordTab.prototype.determinePrefix = function() {
-		if ( ! this.hasKeyword() && this.hasFallback() ) {
-			return '';
+	KeywordTab.prototype.determinePrefix = function () {
+		if (!this.hasKeyword() && this.hasFallback()) {
+			return "";
 		}
 
 		return this.prefix;
 	};
 
-	KeywordTab.prototype.determineLabel = function() {
-		if ( ! this.hasKeyword() && this.hasFallback() ) {
+	KeywordTab.prototype.determineLabel = function () {
+		if (!this.hasKeyword() && this.hasFallback()) {
 			return this.fallback;
 		}
 
-		return this.hasKeyword() ? this.getKeyWord() : '...';
+		return this.hasKeyword() ? this.getKeyWord() : "...";
 	};
 
 	/**
-	 * Renders this keyword tab as a jQuery HTML object
-	 *
-	 * @returns {HTMLElement} jQuery HTML object.
-	 */
-	KeywordTab.prototype.render = function() {
-		var html = wp.template( 'keyword_tab' )({
+  * Renders this keyword tab as a jQuery HTML object
+  *
+  * @returns {HTMLElement} jQuery HTML object.
+  */
+	KeywordTab.prototype.render = function () {
+		var html = wp.template("keyword_tab")({
 			label: this.determineLabel(),
 			keyword: this.getKeyWord(),
 
@@ -534,45 +554,45 @@ module.exports = (function() {
 			classes: this.addAdditionalClasses()
 		});
 
-		return jQuery( html );
+		return jQuery(html);
 	};
 
 	/**
-	 * Returns the keyword for this keyword tab
-	 */
-	KeywordTab.prototype.getKeywordFromElement = function() {
-		return this.element.find( '.wpseo_tablink' ).data( 'keyword' );
+  * Returns the keyword for this keyword tab
+  */
+	KeywordTab.prototype.getKeywordFromElement = function () {
+		return this.element.find(".wpseo_tablink").data("keyword");
 	};
 
 	return KeywordTab;
-})();
+}();
 
 },{"./genericTab":1,"lodash/defaultsDeep":184,"lodash/isUndefined":217}],11:[function(require,module,exports){
 /* global jQuery */
 
 "use strict";
 
-var getL10nObject = require( './getL10nObject' );
-var getI18n = require( './getI18n' );
-var getTitlePlaceholder = require( './getTitlePlaceholder' );
-var getDescriptionPlaceholder = require( './getDescriptionPlaceholder' );
+var getL10nObject = require("./getL10nObject");
+var getI18n = require("./getI18n");
+var getTitlePlaceholder = require("./getTitlePlaceholder");
+var getDescriptionPlaceholder = require("./getDescriptionPlaceholder");
 
-var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+var SnippetPreview = require("yoastseo").SnippetPreview;
 
 /**
  * Removes all analysis objects from the DOM except the snippet preview
  *
  * @param {Object} snippetContainer A jQuery object with the snippet container element.
  */
-function isolate( snippetContainer ) {
-	snippetContainer = jQuery( snippetContainer );
+function isolate(snippetContainer) {
+	snippetContainer = jQuery(snippetContainer);
 
 	// Remove all other table rows except the snippet preview one.
-	var tr = snippetContainer.closest( 'tr' );
+	var tr = snippetContainer.closest("tr");
 	tr.siblings().hide();
 
 	// Remove the tab navigation.
-	jQuery( '#wpseo-metabox-tabs' ).hide();
+	jQuery("#wpseo-metabox-tabs").hide();
 }
 
 /**
@@ -589,10 +609,10 @@ function isolate( snippetContainer ) {
  *
  * @return {Object} An object with all the arguments required to create a snippet preview object
  */
-function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
+function getSnippetPreviewArgs(snippetContainer, data, saveCallback) {
 	var l10nObject = getL10nObject();
 
-	snippetContainer = jQuery( snippetContainer ).get( 0 );
+	snippetContainer = jQuery(snippetContainer).get(0);
 
 	var titlePlaceholder = getTitlePlaceholder();
 	var descriptionPlaceholder = getDescriptionPlaceholder();
@@ -601,7 +621,7 @@ function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
 		targetElement: snippetContainer,
 		placeholder: {
 			title: titlePlaceholder,
-			urlPath: ''
+			urlPath: ""
 		},
 		defaultValue: {
 			title: titlePlaceholder
@@ -615,7 +635,7 @@ function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
 
 	};
 
-	if ( descriptionPlaceholder !== '' ) {
+	if (descriptionPlaceholder !== "") {
 		snippetPreviewArgs.placeholder.metaDesc = descriptionPlaceholder;
 		snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
 	}
@@ -636,10 +656,10 @@ function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
  *
  * @return {SnippetPreview} The newly created snippet preview object.
  */
-function create( snippetContainer, data, saveCallback ) {
-	var args = getSnippetPreviewArgs( snippetContainer, data, saveCallback );
+function create(snippetContainer, data, saveCallback) {
+	var args = getSnippetPreviewArgs(snippetContainer, data, saveCallback);
 
-	return new SnippetPreview( args );
+	return new SnippetPreview(args);
 }
 
 /**
@@ -656,13 +676,13 @@ function create( snippetContainer, data, saveCallback ) {
  *
  * @returns {SnippetPreview} The newly created snippet preview object.
  */
-function createStandalone( snippetContainer, data, saveCallback ) {
+function createStandalone(snippetContainer, data, saveCallback) {
 	var args;
 
-	args = getSnippetPreviewArgs( snippetContainer, data, saveCallback );
+	args = getSnippetPreviewArgs(snippetContainer, data, saveCallback);
 	args.i18n = getI18n();
 
-	var snippetPreview = new SnippetPreview( args );
+	var snippetPreview = new SnippetPreview(args);
 	snippetPreview.renderTemplate();
 	snippetPreview.callRegisteredEventBinder();
 	snippetPreview.bindEvents();
@@ -678,21 +698,24 @@ module.exports = {
 };
 
 },{"./getDescriptionPlaceholder":2,"./getI18n":3,"./getL10nObject":5,"./getTitlePlaceholder":6,"yoastseo":251}],12:[function(require,module,exports){
-var defaultsDeep = require( 'lodash/defaultsDeep' );
+"use strict";
 
-var getIndicatorForScore = require( './getIndicatorForScore' );
-var KeywordTab = require( './keywordTab' );
-var GenericTab = require( './genericTab' );
+/* global YoastSEO */
+
+var defaultsDeep = require("lodash/defaultsDeep");
+
+var KeywordTab = require("./keywordTab");
+var GenericTab = require("./genericTab");
 
 var $ = jQuery;
 
 var defaultArguments = {
 	strings: {
-		keywordTab: '',
-		contentTab: ''
+		keywordTab: "",
+		contentTab: ""
 	},
-	focusKeywordField: '#yoast_wpseo_focuskw',
-	contentAnalysisActive: '1'
+	focusKeywordField: "#yoast_wpseo_focuskw",
+	contentAnalysisActive: "1"
 };
 
 /**
@@ -700,33 +723,33 @@ var defaultArguments = {
  *
  * @constructor
  */
-function TabManager( arguments ) {
-	arguments = arguments || {};
+function TabManager(args) {
+	args = args || {};
 
-	defaultsDeep( arguments, defaultArguments );
+	defaultsDeep(args, defaultArguments);
 
-	this.arguments = arguments;
-	this.strings = arguments.strings;
+	this.arguments = args;
+	this.strings = args.strings;
 }
 
 /**
  * Initializes the two tabs.
  */
-TabManager.prototype.init = function() {
-	var metaboxTabs = $( '#wpseo-metabox-tabs' );
+TabManager.prototype.init = function () {
+	var metaboxTabs = $("#wpseo-metabox-tabs");
 
 	// Remove default functionality to prevent scrolling to top.
-	metaboxTabs.on( 'click', '.wpseo_tablink', function( ev ) {
+	metaboxTabs.on("click", ".wpseo_tablink", function (ev) {
 		ev.preventDefault();
 	});
 
-	this.focusKeywordInput = $( '#yoast_wpseo_focuskw_text_input,#wpseo_focuskw' );
-	this.focusKeywordRow = this.focusKeywordInput.closest( 'tr' );
-	this.contentAnalysis = $( '#yoast-seo-content-analysis' );
-	this.keywordAnalysis = $( '#wpseo-pageanalysis, #wpseo_analysis' );
-	this.snippetPreview  = $( '#wpseosnippet' ).closest( 'tr' );
+	this.focusKeywordInput = $("#yoast_wpseo_focuskw_text_input,#wpseo_focuskw");
+	this.focusKeywordRow = this.focusKeywordInput.closest("tr");
+	this.contentAnalysis = $("#yoast-seo-content-analysis");
+	this.keywordAnalysis = $("#wpseo-pageanalysis, #wpseo_analysis");
+	this.snippetPreview = $("#wpseosnippet").closest("tr");
 
-	var initialKeyword   = $( this.arguments.focusKeywordField ).val();
+	var initialKeyword = $(this.arguments.focusKeywordField).val();
 
 	// We start on the content analysis 'tab'.
 	this.contentAnalysis.show();
@@ -734,50 +757,50 @@ TabManager.prototype.init = function() {
 	this.focusKeywordRow.hide();
 
 	// Initialize an instance of the keyword tab.
-	this.mainKeywordTab = new KeywordTab( {
-		keyword:    initialKeyword,
-		prefix:     this.strings.keywordTab,
-		fallback:   this.strings.enterFocusKeyword,
-		onActivate: function() {
+	this.mainKeywordTab = new KeywordTab({
+		keyword: initialKeyword,
+		prefix: this.strings.keywordTab,
+		fallback: this.strings.enterFocusKeyword,
+		onActivate: function () {
 			this.showKeywordAnalysis();
 			this.contentTab.deactivate();
-		}.bind( this ),
-		afterActivate: function() {
+		}.bind(this),
+		afterActivate: function afterActivate() {
 			YoastSEO.app.refresh();
 		}
-	} );
+	});
 
-	this.contentTab = new GenericTab( {
+	this.contentTab = new GenericTab({
 		label: this.strings.contentTab,
-		onActivate: function() {
+		onActivate: function () {
 			this.showContentAnalysis();
 			this.mainKeywordTab.deactivate();
-		}.bind( this ),
-		afterActivate: function() {
+		}.bind(this),
+		afterActivate: function afterActivate() {
 			YoastSEO.app.refresh();
 		}
-	} );
+	});
 
-	if ( this.arguments.keywordAnalysisActive ) {
-		this.mainKeywordTab.init( metaboxTabs );
+	if (this.arguments.keywordAnalysisActive) {
+		this.mainKeywordTab.init(metaboxTabs);
 	}
 
-	if ( this.arguments.contentAnalysisActive ) {
-		this.contentTab.init( metaboxTabs );
+	if (this.arguments.contentAnalysisActive) {
+		this.contentTab.init(metaboxTabs);
 	}
 
-	$( '.yoast-seo__remove-tab' ).remove();
+	$(".yoast-seo__remove-tab").remove();
 };
 
 /**
  * Shows the keyword analysis elements.
  */
-TabManager.prototype.showKeywordAnalysis = function() {
+TabManager.prototype.showKeywordAnalysis = function () {
 	this.focusKeywordRow.show();
 	this.keywordAnalysis.show();
 	this.contentAnalysis.hide();
 
-	if ( this.arguments.keywordAnalysisActive ) {
+	if (this.arguments.keywordAnalysisActive) {
 		this.snippetPreview.show();
 	}
 };
@@ -785,12 +808,12 @@ TabManager.prototype.showKeywordAnalysis = function() {
 /**
  * Shows the content analysis elements.
  */
-TabManager.prototype.showContentAnalysis = function() {
+TabManager.prototype.showContentAnalysis = function () {
 	this.focusKeywordRow.hide();
 	this.keywordAnalysis.hide();
 	this.contentAnalysis.show();
 
-	if ( this.arguments.keywordAnalysisActive ) {
+	if (this.arguments.keywordAnalysisActive) {
 		this.snippetPreview.hide();
 	}
 };
@@ -800,8 +823,8 @@ TabManager.prototype.showContentAnalysis = function() {
  *
  * @param {number} score The score that has been calculated.
  */
-TabManager.prototype.updateContentTab = function( score ) {
-	this.contentTab.updateScore( score );
+TabManager.prototype.updateContentTab = function (score) {
+	this.contentTab.updateScore(score);
 };
 
 /**
@@ -810,8 +833,8 @@ TabManager.prototype.updateContentTab = function( score ) {
  * @param {number} score The score that has been calculated.
  * @param {string} keyword The keyword that has been used to calculate the score.
  */
-TabManager.prototype.updateKeywordTab = function( score, keyword ) {
-	this.mainKeywordTab.updateScore( score, keyword );
+TabManager.prototype.updateKeywordTab = function (score, keyword) {
+	this.mainKeywordTab.updateScore(score, keyword);
 };
 
 /**
@@ -821,7 +844,7 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
  *
  * @returns {boolean}
  */
-TabManager.prototype.isMainKeyword = function( keyword ) {
+TabManager.prototype.isMainKeyword = function (keyword) {
 	return this.mainKeywordTab.getKeywordFromElement() === keyword;
 };
 
@@ -830,7 +853,7 @@ TabManager.prototype.isMainKeyword = function( keyword ) {
  *
  * @returns {KeywordTab} The keyword tab object.
  */
-TabManager.prototype.getKeywordTab = function() {
+TabManager.prototype.getKeywordTab = function () {
 	return this.mainKeywordTab;
 };
 
@@ -839,19 +862,21 @@ TabManager.prototype.getKeywordTab = function() {
  *
  * @returns {KeywordTab} The content tab object.
  */
-TabManager.prototype.getContentTab = function() {
+TabManager.prototype.getContentTab = function () {
 	return this.contentTab;
 };
 
 module.exports = TabManager;
 
-},{"./genericTab":1,"./getIndicatorForScore":4,"./keywordTab":10,"lodash/defaultsDeep":184}],13:[function(require,module,exports){
+},{"./genericTab":1,"./keywordTab":10,"lodash/defaultsDeep":184}],13:[function(require,module,exports){
+"use strict";
+
 /* global jQuery, ajaxurl */
 
-var UsedKeywordsPlugin = require( 'yoastseo' ).bundledPlugins.usedKeywords;
-var _has = require( 'lodash/has' );
-var _debounce = require( 'lodash/debounce' );
-var _isArray = require( 'lodash/isArray' );
+var UsedKeywordsPlugin = require("yoastseo").bundledPlugins.usedKeywords;
+var _has = require("lodash/has");
+var _debounce = require("lodash/debounce");
+var _isArray = require("lodash/isArray");
 var $ = jQuery;
 
 /**
@@ -866,18 +891,18 @@ var $ = jQuery;
  * @param {Object} options.post_edit_url The URL to link the user to if the keyword has been used a single time.
  * @param {App} app The app for which to keep track of the used keywords.
  */
-function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
+function UsedKeywords(focusKeywordElement, ajaxAction, options, app) {
 	this._keywordUsage = options.keyword_usage;
-	this._focusKeywordElement = $( focusKeywordElement );
+	this._focusKeywordElement = $(focusKeywordElement);
 
-	this._plugin = new UsedKeywordsPlugin( app, {
+	this._plugin = new UsedKeywordsPlugin(app, {
 		usedKeywords: options.keyword_usage,
 		searchUrl: options.search_url,
 		postUrl: options.post_edit_url
-	}, app.i18n );
+	}, app.i18n);
 
-	this._postID = $( '#post_ID, [name=tag_ID]' ).val();
-	this._taxonomy = $( '[name=taxonomy]' ).val() || "";
+	this._postID = $("#post_ID, [name=tag_ID]").val();
+	this._taxonomy = $("[name=taxonomy]").val() || "";
 	this._ajaxAction = ajaxAction;
 	this._app = app;
 }
@@ -885,21 +910,21 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 /**
  * Initializes everything necessary for used keywords
  */
-UsedKeywords.prototype.init = function() {
-	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
+UsedKeywords.prototype.init = function () {
+	var eventHandler = _debounce(this.keywordChangeHandler.bind(this), 500);
 
 	this._plugin.registerPlugin();
-	this._focusKeywordElement.on( 'keyup', eventHandler );
+	this._focusKeywordElement.on("keyup", eventHandler);
 };
 
 /**
  * Handles an event of the keyword input field
  */
-UsedKeywords.prototype.keywordChangeHandler = function() {
+UsedKeywords.prototype.keywordChangeHandler = function () {
 	var keyword = this._focusKeywordElement.val();
 
-	if ( ! _has( this._keywordUsage, keyword ) ) {
-		this.requestKeywordUsage( keyword );
+	if (!_has(this._keywordUsage, keyword)) {
+		this.requestKeywordUsage(keyword);
 	}
 };
 
@@ -908,13 +933,13 @@ UsedKeywords.prototype.keywordChangeHandler = function() {
  *
  * @param {string} keyword The keyword to request the usage for.
  */
-UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
-	$.post( ajaxurl, {
+UsedKeywords.prototype.requestKeywordUsage = function (keyword) {
+	$.post(ajaxurl, {
 		action: this._ajaxAction,
 		post_id: this._postID,
 		keyword: keyword,
 		taxonomy: this._taxonomy
-	}, this.updateKeywordUsage.bind( this, keyword ), 'json' );
+	}, this.updateKeywordUsage.bind(this, keyword), "json");
 };
 
 /**
@@ -923,10 +948,10 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  * @param {string} keyword The keyword for which the usage was requested.
  * @param {*} response The response retrieved from the server.
  */
-UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
-	if ( response && _isArray( response ) ) {
-		this._keywordUsage[ keyword ] = response;
-		this._plugin.updateKeywordUsage( this._keywordUsage );
+UsedKeywords.prototype.updateKeywordUsage = function (keyword, response) {
+	if (response && _isArray(response)) {
+		this._keywordUsage[keyword] = response;
+		this._plugin.updateKeywordUsage(this._keywordUsage);
 		this._app.analyzeTimer();
 	}
 };
@@ -934,59 +959,13 @@ UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 module.exports = UsedKeywords;
 
 },{"lodash/debounce":182,"lodash/has":195,"lodash/isArray":201,"yoastseo":251}],14:[function(require,module,exports){
-var Assessor = require( "yoastseo/js/assessor.js" );
+"use strict";
 
-var introductionKeyword = require( "yoastseo/js/assessments/introductionKeywordAssessment.js" );
-var keyphraseLength = require( "yoastseo/js/assessments/keyphraseLengthAssessment.js" );
-var keywordDensity = require( "yoastseo/js/assessments/keywordDensityAssessment.js" );
-var keywordStopWords = require( "yoastseo/js/assessments/keywordStopWordsAssessment.js" );
-var metaDescriptionKeyword = require ( "yoastseo/js/assessments/metaDescriptionKeywordAssessment.js" );
-var metaDescriptionLength = require( "yoastseo/js/assessments/metaDescriptionLengthAssessment.js" );
-var titleKeyword = require( "yoastseo/js/assessments/titleKeywordAssessment.js" );
-var titleWidth = require( "yoastseo/js/assessments/pageTitleWidthAssessment.js" );
-var urlKeyword = require( "yoastseo/js/assessments/urlKeywordAssessment.js" );
-var urlLength = require( "yoastseo/js/assessments/urlLengthAssessment.js" );
-var urlStopWords = require( "yoastseo/js/assessments/urlStopWordsAssessment.js" );
-var taxonomyTextLength = require( 'yoastseo/js/assessments/taxonomyTextLengthAssessment' );
+var _forEach = require("lodash/foreach");
 
-/**
- * Creates the Assessor
- *
- * @param {object} i18n The i18n object used for translations.
- * @constructor
- */
-var TaxonomyAssessor = function( i18n ) {
-	Assessor.call( this, i18n );
+var removeMarks = require("yoastseo/js/markers/removeMarks");
 
-	this._assessments = [
-		introductionKeyword,
-		keyphraseLength,
-		keywordDensity,
-		keywordStopWords,
-		metaDescriptionKeyword,
-		metaDescriptionLength,
-		taxonomyTextLength,
-		titleKeyword,
-		titleWidth,
-		urlKeyword,
-		urlLength,
-		urlStopWords
-	];
-};
-
-module.exports = TaxonomyAssessor;
-
-require( "util" ).inherits( module.exports, Assessor );
-
-
-},{"util":250,"yoastseo/js/assessments/introductionKeywordAssessment.js":255,"yoastseo/js/assessments/keyphraseLengthAssessment.js":256,"yoastseo/js/assessments/keywordDensityAssessment.js":257,"yoastseo/js/assessments/keywordStopWordsAssessment.js":258,"yoastseo/js/assessments/metaDescriptionKeywordAssessment.js":259,"yoastseo/js/assessments/metaDescriptionLengthAssessment.js":260,"yoastseo/js/assessments/pageTitleWidthAssessment.js":261,"yoastseo/js/assessments/taxonomyTextLengthAssessment":268,"yoastseo/js/assessments/titleKeywordAssessment.js":274,"yoastseo/js/assessments/urlKeywordAssessment.js":276,"yoastseo/js/assessments/urlLengthAssessment.js":277,"yoastseo/js/assessments/urlStopWordsAssessment.js":278,"yoastseo/js/assessor.js":279}],15:[function(require,module,exports){
-var $ = jQuery;
-
-var _forEach = require( 'lodash/foreach' );
-
-var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
-
-var MARK_TAG = 'yoastmark';
+var MARK_TAG = "yoastmark";
 
 /**
  * Cleans the editor of any invalid marks. Invalid marks are marks where < and > are converted to
@@ -994,14 +973,12 @@ var MARK_TAG = 'yoastmark';
  *
  * @param {tinyMCE.Editor} editor The editor to remove invalid marks from.
  */
-function removeInvalidMarks( editor ) {
+function removeInvalidMarks(editor) {
 	var html = editor.getContent();
 
-	html = html
-		.replace( new RegExp( '&lt;yoastmark.+?&gt;', 'g' ), '' )
-		.replace( new RegExp( '&lt;/yoastmark&gt;', 'g' ), '' );
+	html = html.replace(new RegExp("&lt;yoastmark.+?&gt;", "g"), "").replace(new RegExp("&lt;/yoastmark&gt;", "g"), "");
 
-	editor.setContent( html );
+	editor.setContent(html);
 }
 
 /**
@@ -1011,29 +988,29 @@ function removeInvalidMarks( editor ) {
  * @param {Paper} paper The paper for which the marks have been generated.
  * @param {Array.<Mark>} marks The marks to show in the editor.
  */
-function markTinyMCE( editor, paper, marks ) {
+function markTinyMCE(editor, paper, marks) {
 	var dom = editor.dom;
 	var html = editor.getContent();
-	html = removeMarks( html );
+	html = removeMarks(html);
 
 	// Generate marked HTML.
-	_forEach( marks, function( mark ) {
-		html = mark.applyWithReplace( html );
+	_forEach(marks, function (mark) {
+		html = mark.applyWithReplace(html);
 	});
 
 	// Replace the contents in the editor with the marked HTML.
-	editor.setContent( html );
+	editor.setContent(html);
 
-	removeInvalidMarks( editor );
+	removeInvalidMarks(editor);
 
-	var markElements = dom.select( MARK_TAG );
+	var markElements = dom.select(MARK_TAG);
 	/*
-	 * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
-	 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
-	 */
-	_forEach( markElements, function( markElement ) {
-		markElement.setAttribute( 'data-mce-bogus', '1' );
-	} );
+  * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
+  * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
+  */
+	_forEach(markElements, function (markElement) {
+		markElement.setAttribute("data-mce-bogus", "1");
+	});
 }
 
 /**
@@ -1042,10 +1019,10 @@ function markTinyMCE( editor, paper, marks ) {
  * @param {tinyMCE.Editor} editor The editor to return a function for.
  * @returns {Function} The function that can be called to decorate the editor.
  */
-function tinyMCEDecorator( editor ) {
+function tinyMCEDecorator(editor) {
 	window.test = editor;
 
-	return markTinyMCE.bind( null, editor );
+	return markTinyMCE.bind(null, editor);
 }
 
 /**
@@ -1054,10 +1031,10 @@ function tinyMCEDecorator( editor ) {
  * @param {tinyMCE.Editor} editor The editor.
  * @returns {boolean} Whether or not there are marks inside the editor.
  */
-function editorHasMarks( editor ) {
-	var content = editor.getContent({ format: 'raw' });
+function editorHasMarks(editor) {
+	var content = editor.getContent({ format: "raw" });
 
-	return -1 !== content.indexOf( '<' + MARK_TAG );
+	return -1 !== content.indexOf("<" + MARK_TAG);
 }
 
 /**
@@ -1065,12 +1042,12 @@ function editorHasMarks( editor ) {
  *
  * @param {tinyMCE.Editor} editor The editor to remove all marks for.
  */
-function editorRemoveMarks( editor ) {
+function editorRemoveMarks(editor) {
 	// Create a decorator with the given editor.
-	var decorator = tinyMCEDecorator( editor );
+	var decorator = tinyMCEDecorator(editor);
 
 	// Calling the decorator with an empty array of marks will clear the editor of marks.
-	decorator( null, [] );
+	decorator(null, []);
 }
 
 module.exports = {
@@ -1080,39 +1057,135 @@ module.exports = {
 	editorRemoveMarks: editorRemoveMarks
 };
 
-},{"lodash/foreach":193,"yoastseo/js/markers/removeMarks":304}],16:[function(require,module,exports){
+},{"lodash/foreach":193,"yoastseo/js/markers/removeMarks":303}],15:[function(require,module,exports){
+"use strict";
+
 /**
  * Updates the traffic light present on the page
  *
  * @param {Object} indicator The indicator for the keyword score.
  */
-function updateAdminBar( indicator ) {
-	jQuery( '.adminbar-seo-score' )
-		.attr( 'class', 'wpseo-score-icon adminbar-seo-score ' + indicator.className )
-		.find( '.adminbar-seo-score-text' ).text( indicator.screenReaderText );
+function updateAdminBar(indicator) {
+  jQuery(".adminbar-seo-score").attr("class", "wpseo-score-icon adminbar-seo-score " + indicator.className).find(".adminbar-seo-score-text").text(indicator.screenReaderText);
 }
 
 module.exports = {
-	update: updateAdminBar
+  update: updateAdminBar
 };
 
+},{}],16:[function(require,module,exports){
+"use strict";
+
+/* global wpseoPostScraperL10n */
+
+var scoreDescriptionClass = "score-text";
+var imageScoreClass = "image yoast-logo svg";
+
+(function ($) {
+	"use strict";
+	/* eslint-disable no-extend-native */
+	/**
+  * Converts the first letter to uppercase in a string.
+  *
+  * @returns {string} The string with the first letter uppercased.
+  */
+
+	String.prototype.ucfirst = function () {
+		return this.charAt(0).toUpperCase() + this.substr(1);
+	};
+	/* eslint-enable no-extend-native */
+
+	/**
+  * Creates a text with the label and description for a seo score.
+  *
+  * @param {String} scoreType The type of score, this is used for the label.
+  * @param {String} status The status for the score, this is the descriptive status text.
+  * @returns {String} A string with label and description with correct text decoration.
+  */
+	function createSEOScoreLabel(scoreType, status) {
+		var label = wpseoPostScraperL10n.publish_box.labels[scoreType] || "";
+		status = wpseoPostScraperL10n.publish_box.statuses[status] || "";
+
+		return label + ": <strong>" + status + "</strong>";
+	}
+
+	/**
+  * Updates a score type in the publish box.
+  *
+  * @param {String} type The score type to update (content or seo).
+  * @param {String} status The status is the class name that is used to update the image.
+  */
+	function updateScoreInPublishBox(type, status) {
+		var publishSection = $("#" + type + "-score");
+
+		var imageClass = imageScoreClass + " " + status;
+		publishSection.children(".image").attr("class", imageClass);
+
+		var text = createSEOScoreLabel(type, status);
+		publishSection.children("." + scoreDescriptionClass).html(text);
+	}
+
+	/**
+  * Creates a new item in the publish box for an yoast-seo score.
+  *
+  * @param {String} type The score type, for example content score or keyword score.
+  * @param {String} status The status for the score initialisation.
+  */
+	function createScoresInPublishBox(type, status) {
+		var publishSection = $("<div />", {
+			"class": "misc-pub-section yoast-seo-score " + type + "-score",
+			"id": type + "-score"
+		});
+
+		var spanElem = $("<span />", {
+			"class": scoreDescriptionClass,
+			"html": createSEOScoreLabel(type, status)
+		});
+
+		var imgElem = $("<span>").attr("class", imageScoreClass + " na");
+
+		publishSection.append(imgElem).append(spanElem);
+		$("#misc-publishing-actions").append(publishSection);
+	}
+
+	/**
+  * Initializes the publish box score indicators.
+  */
+	function initialise() {
+		var notAvailableStatus = "na";
+
+		if (wpseoPostScraperL10n.contentAnalysisActive === "1") {
+			createScoresInPublishBox("content", notAvailableStatus);
+		}
+
+		if (wpseoPostScraperL10n.keywordAnalysisActive === "1") {
+			createScoresInPublishBox("keyword", notAvailableStatus);
+		}
+	}
+
+	module.exports = {
+		initalise: initialise,
+		updateScore: updateScoreInPublishBox
+	};
+})(jQuery);
+
 },{}],17:[function(require,module,exports){
+"use strict";
+
 /**
  * Updates the traffic light present on the page
  *
  * @param {Object} indicator The indicator for the keyword score.
  */
-function updateTrafficLight( indicator ) {
-	var trafficLight = jQuery( '.yst-traffic-light' );
-	var trafficLightLink = trafficLight.closest( '.wpseo-meta-section-link' );
+function updateTrafficLight(indicator) {
+	var trafficLight = jQuery(".yst-traffic-light");
+	var trafficLightLink = trafficLight.closest(".wpseo-meta-section-link");
 
 	// Update the traffic light image.
-	trafficLight
-		.attr( 'class', 'yst-traffic-light ' + indicator.className )
-		.attr( 'alt', '' );
+	trafficLight.attr("class", "yst-traffic-light " + indicator.className).attr("alt", "");
 
 	// Update the traffic light link.
-	trafficLightLink.attr( 'title', indicator.fullText );
+	trafficLightLink.attr("title", indicator.fullText);
 }
 
 module.exports = {
@@ -1120,220 +1193,287 @@ module.exports = {
 };
 
 },{}],18:[function(require,module,exports){
-/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+"use strict";
 
-var isUndefined = require( 'lodash/isUndefined' );
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
-var TabManager = require( './analysis/tabManager' );
-var tmceHelper = require( './wp-seo-tinymce' );
+/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
-var updateTrafficLight = require( './ui/trafficLight' ).update;
-var updateAdminBar = require( './ui/adminBar' ).update;
+var isUndefined = require("lodash/isUndefined");
 
-var getTranslations = require( './analysis/getTranslations' );
-var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
-var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
-var snippetPreviewHelpers = require( './analysis/snippetPreview' );
+var getIndicatorForScore = require("./analysis/getIndicatorForScore");
+var TabManager = require("./analysis/tabManager");
 
-window.yoastHideMarkers = true;
+var removeMarks = require("yoastseo/js/markers/removeMarks");
+var tmceHelper = require("./wp-seo-tinymce");
 
-(function( $ ) {
-	'use strict';
+var tinyMCEDecorator = require("./decorator/tinyMCE").tinyMCEDecorator;
+var publishBox = require("./ui/publishBox");
+
+var updateTrafficLight = require("./ui/trafficLight").update;
+var updateAdminBar = require("./ui/adminBar").update;
+
+var getTranslations = require("./analysis/getTranslations");
+var isKeywordAnalysisActive = require("./analysis/isKeywordAnalysisActive");
+var isContentAnalysisActive = require("./analysis/isContentAnalysisActive");
+var snippetPreviewHelpers = require("./analysis/snippetPreview");
+
+var App = require("yoastseo").App;
+var UsedKeywords = require("./analysis/usedKeywords");
+
+(function ($) {
+	"use strict";
 
 	var snippetContainer;
-	var App = require( 'yoastseo' ).App;
 
-	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
-	var UsedKeywords = require( './analysis/usedKeywords' );
+	var currentKeyword = "";
+
+	var titleElement;
+
+	var leavePostNameUntouched = false;
 
 	var app, snippetPreview;
 
-	var termSlugInput;
+	var decorator = null;
 
 	var tabManager;
 
 	/**
-	 * The HTML 'id' attribute for the TinyMCE editor.
-	 * @type {String}
-	 */
-	var tmceId = 'description';
+  * The HTML 'id' attribute for the TinyMCE editor.
+  * @type {string}
+  */
+	var tmceId = "content";
 
-	var TermScraper = function() {
-		if ( typeof CKEDITOR === 'object' ) {
-			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+	/**
+  * Show warning in console when the unsupported CkEditor is used
+  */
+	var PostScraper = function PostScraper() {
+		if ((typeof CKEDITOR === "undefined" ? "undefined" : _typeof(CKEDITOR)) === "object") {
+			console.warn("YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.");
 		}
 	};
 
 	/**
-	 * Returns data fetched from input fields.
-	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
-	 */
-	TermScraper.prototype.getData = function() {
+  * Get data from input fields and store them in an analyzerData object. This object will be used to fill
+  * the analyzer and the snippet preview.
+  */
+	PostScraper.prototype.getData = function () {
 		return {
-			title: this.getTitle(),
-			keyword: isKeywordAnalysisActive() ? this.getKeyword() : '',
-			text: this.getText(),
+			keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 			meta: this.getMeta(),
+			text: this.getText(),
+			title: this.getTitle(),
 			url: this.getUrl(),
-			permalink: this.getPermalink(),
-			snippetCite: this.getSnippetCite(),
+			excerpt: this.getExcerpt(),
 			snippetTitle: this.getSnippetTitle(),
 			snippetMeta: this.getSnippetMeta(),
-			name: this.getName(),
-			baseUrl: this.getBaseUrl(),
-			pageTitle: this.getPageTitle()
+			snippetCite: this.getSnippetCite(),
+			primaryCategory: this.getPrimaryCategory(),
+			searchUrl: this.getSearchUrl(),
+			postUrl: this.getPostUrl(),
+			permalink: this.getPermalink()
 		};
 	};
 
 	/**
-	 * Returns the title from the DOM.
-	 *
-	 * @returns {string} The title.
-	 */
-	TermScraper.prototype.getTitle = function() {
-		return document.getElementById( 'hidden_wpseo_title' ).value;
+  * Returns the keyword from the DOM.
+  *
+  * @returns {string} The keyword.
+  */
+	PostScraper.prototype.getKeyword = function () {
+		var val = document.getElementById("yoast_wpseo_focuskw_text_input") && document.getElementById("yoast_wpseo_focuskw_text_input").value || "";
+		currentKeyword = val;
+
+		return val;
 	};
 
 	/**
-	 * Returns the keyword from the DOM.
-	 *
-	 * @returns {string} The keyword.
-	 */
-	TermScraper.prototype.getKeyword = function() {
-		var elem, val;
+  * Returns the Meta from the DOM.
+  *
+  * @returns {string} The meta description.
+  */
+	PostScraper.prototype.getMeta = function () {
+		return document.getElementById("yoast_wpseo_metadesc") && document.getElementById("yoast_wpseo_metadesc").value || "";
+	};
 
-		elem = document.getElementById( 'wpseo_focuskw' );
-		val = elem.value;
-		if ( val === '' ) {
-			val = document.getElementById( 'name' ).value;
-			elem.placeholder = val;
+	/**
+  * Returns the Text from the DOM.
+  *
+  * @returns {string} The text.
+  */
+	PostScraper.prototype.getText = function () {
+		return removeMarks(tmceHelper.getContentTinyMce(tmceId));
+	};
+
+	/**
+  * Returns the Title from the DOM.
+  *
+  * @returns {string} The title.
+  */
+	PostScraper.prototype.getTitle = function () {
+		return document.getElementById("title") && document.getElementById("title").value || "";
+	};
+
+	/**
+  * Returns the Url from the DOM.
+  *
+  * @returns {string} The url.
+  */
+	PostScraper.prototype.getUrl = function () {
+		var url = "";
+
+		var newPostSlug = $("#new-post-slug");
+		if (0 < newPostSlug.length) {
+			url = newPostSlug.val();
+		} else if (document.getElementById("editable-post-name-full") !== null) {
+			url = document.getElementById("editable-post-name-full").textContent;
+		}
+
+		return url;
+	};
+
+	/**
+  * Returns the Excerpt from the DOM.
+  *
+  * @returns {string} The excerpt.
+  */
+	PostScraper.prototype.getExcerpt = function () {
+		var val = "";
+
+		if (document.getElementById("excerpt") !== null) {
+			val = document.getElementById("excerpt") && document.getElementById("excerpt").value || "";
 		}
 
 		return val;
 	};
 
 	/**
-	 * Returns the text from the DOM.
-	 *
-	 * @returns {string} The text.
-	 */
-	TermScraper.prototype.getText = function() {
-		return tmceHelper.getContentTinyMce( tmceId );
+  * Returns the SnippetTitle from the DOM.
+  *
+  * @returns {string} The snippet title.
+  */
+	PostScraper.prototype.getSnippetTitle = function () {
+		return document.getElementById("yoast_wpseo_title") && document.getElementById("yoast_wpseo_title").value || "";
 	};
 
 	/**
-	 * Returns the meta description from the DOM.
-	 *
-	 * @returns {string} The meta.
-	 */
-	TermScraper.prototype.getMeta = function() {
-		var  val = '';
-
-		var elem = document.getElementById( 'hidden_wpseo_desc' );
-		if ( elem !== null ) {
-			val = elem.value;
-		}
-
-		return val;
+  * Returns the SnippetMeta from the DOM.
+  *
+  * @returns {string} The snippet meta.
+  */
+	PostScraper.prototype.getSnippetMeta = function () {
+		return document.getElementById("yoast_wpseo_metadesc") && document.getElementById("yoast_wpseo_metadesc").value || "";
 	};
 
 	/**
-	 * Returns the url from the DOM.
-	 *
-	 * @returns {string} The url.
-	 */
-	TermScraper.prototype.getUrl = function() {
-		return document.getElementById( 'slug' ).value;
-	};
-
-	/**
-	 * Returns the permalink from the DOM.
-	 *
-	 * @returns {string} The permalink.
-	 */
-	TermScraper.prototype.getPermalink = function() {
-		var url = this.getUrl();
-
-		return this.getBaseUrl() + url + '/';
-	};
-
-	/**
-	 * Returns the snippet cite from the DOM.
-	 *
-	 * @returns {string} The snippet cite.
-	 */
-	TermScraper.prototype.getSnippetCite = function() {
+  * Returns the SnippetCite from the DOM.
+  *
+  * @returns {string} The snippet cite.
+  */
+	PostScraper.prototype.getSnippetCite = function () {
 		return this.getUrl();
 	};
 
 	/**
-	 * Returns the snippet title from the DOM.
-	 *
-	 * @returns {string} The snippet title.
-	 */
-	TermScraper.prototype.getSnippetTitle = function() {
-		return document.getElementById( 'hidden_wpseo_title' ).value;
-	};
+  * Returns the PrimaryCategory from the DOM.
+  *
+  * @returns {string} The primary category.
+  */
+	PostScraper.prototype.getPrimaryCategory = function () {
+		var val = "";
+		var categoryBase = $("#category-all").find("ul.categorychecklist");
 
-	/**
-	 * Returns the snippet meta from the DOM.
-	 *
-	 * @returns {string} The snippet meta.
-	 */
-	TermScraper.prototype.getSnippetMeta = function() {
-		var val = '';
+		// If only one is visible than that item is the primary category.
+		var checked = categoryBase.find("li input:checked");
 
-		var elem = document.getElementById( 'hidden_wpseo_desc' );
-		if ( elem !== null ) {
-			val = elem.value;
+		if (checked.length === 1) {
+			val = this.getCategoryName(checked.parent());
+
+			return val;
+		}
+
+		var primaryTerm = categoryBase.find(".wpseo-primary-term > label");
+
+		if (primaryTerm.length) {
+			val = this.getCategoryName(primaryTerm);
+
+			return val;
 		}
 
 		return val;
 	};
 
 	/**
-	 * Returns the name from the DOM.
-	 *
-	 * @returns {string} The name.
-	 */
-	TermScraper.prototype.getName = function() {
-		return document.getElementById( 'name' ).value;
+  * Returns the SearchUrl from the DOM.
+  *
+  * @returns {string} The search url.
+  */
+	PostScraper.prototype.getSearchUrl = function () {
+		return wpseoPostScraperL10n.search_url;
 	};
 
 	/**
-	 * Returns the base url from the DOM.
-	 *
-	 * @returns {string} The base url.
-	 */
-	TermScraper.prototype.getBaseUrl = function() {
-		return wpseoTermScraperL10n.base_url;
+  * Returns the PostUrl from the DOM.
+  *
+  * @returns {string} The post url.
+  */
+	PostScraper.prototype.getPostUrl = function () {
+		return wpseoPostScraperL10n.post_edit_url;
 	};
 
 	/**
-	 * Returns the page title from the DOM.
-	 *
-	 * @returns {string} The page title.
-	 */
-	TermScraper.prototype.getPageTitle = function() {
-		return document.getElementById( 'hidden_wpseo_title' ).value;
+  * Returns the Permalink from the DOM.
+  *
+  * @returns {string} The permalink.
+  */
+	PostScraper.prototype.getPermalink = function () {
+		var url = this.getUrl();
+
+		return wpseoPostScraperL10n.base_url + url;
 	};
 
 	/**
-	 * When the snippet is updated, update the (hidden) fields on the page.
-	 * @param {Object} value Value for the data to set.
-	 * @param {String} type The field(type) that the data is set for.
-	 */
-	TermScraper.prototype.setDataFromSnippet = function( value, type ) {
-		switch ( type ) {
-			case 'snippet_meta':
-				document.getElementById( 'hidden_wpseo_desc' ).value = value;
+  * Get the category name from the list item.
+  * @param {jQuery Object} li Item which contains the category
+  * @returns {String} Name of the category
+     */
+	PostScraper.prototype.getCategoryName = function (li) {
+		var clone = li.clone();
+		clone.children().remove();
+		return $.trim(clone.text());
+	};
+
+	/**
+  * When the snippet is updated, update the (hidden) fields on the page.
+  * @param {Object} value
+  * @param {String} type
+  */
+	PostScraper.prototype.setDataFromSnippet = function (value, type) {
+		switch (type) {
+			case "snippet_meta":
+				document.getElementById("yoast_wpseo_metadesc").value = value;
 				break;
-			case 'snippet_cite':
-				document.getElementById( 'slug' ).value = value;
+			case "snippet_cite":
+
+				/*
+     * WordPress leaves the post name empty to signify that it should be generated from the title once the
+     * post is saved. So when we receive an auto generated slug from WordPress we should be
+     * able to not save this to the UI. This conditional makes that possible.
+     */
+				if (leavePostNameUntouched) {
+					leavePostNameUntouched = false;
+					return;
+				}
+				if (document.getElementById("post_name") !== null) {
+					document.getElementById("post_name").value = value;
+				}
+				if (document.getElementById("editable-post-name") !== null && document.getElementById("editable-post-name-full") !== null) {
+					document.getElementById("editable-post-name").textContent = value;
+					document.getElementById("editable-post-name-full").textContent = value;
+				}
 				break;
-			case 'snippet_title':
-				document.getElementById( 'hidden_wpseo_title' ).value = value;
+			case "snippet_title":
+				document.getElementById("yoast_wpseo_title").value = value;
 				break;
 			default:
 				break;
@@ -1341,459 +1481,556 @@ window.yoastHideMarkers = true;
 	};
 
 	/**
-	 * The data passed from the snippet editor.
-	 *
-	 * @param {Object} data
-	 * @param {string} data.title
-	 * @param {string} data.urlPath
-	 * @param {string} data.metaDesc
-	 */
-	TermScraper.prototype.saveSnippetData = function( data ) {
-		this.setDataFromSnippet( data.title, 'snippet_title' );
-		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
-		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+  * The data passed from the snippet editor.
+  *
+  * @param {Object} data
+  * @param {string} data.title
+  * @param {string} data.urlPath
+  * @param {string} data.metaDesc
+  */
+	PostScraper.prototype.saveSnippetData = function (data) {
+		this.setDataFromSnippet(data.title, "snippet_title");
+		this.setDataFromSnippet(data.urlPath, "snippet_cite");
+		this.setDataFromSnippet(data.metaDesc, "snippet_meta");
 	};
 
 	/**
-	 * binds elements
-	 */
-	TermScraper.prototype.bindElementEvents = function( app ) {
-		this.inputElementEventBinder( app );
+  * Calls the event binders.
+  */
+	PostScraper.prototype.bindElementEvents = function (app) {
+		this.inputElementEventBinder(app);
+		this.changeElementEventBinder(app);
 	};
 
 	/**
-	 * binds the renewData function on the change of inputelements.
-	 */
-	TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'name', tmceId, 'slug', 'wpseo_focuskw' ];
-		for ( var i = 0; i < elems.length; i++ ) {
-			var elem = document.getElementById( elems[ i ] );
-			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.refresh.bind( app ) );
+  * Binds the reanalyze timer on change of dom element.
+     */
+	PostScraper.prototype.changeElementEventBinder = function (app) {
+		var elems = ["#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]'];
+		for (var i = 0; i < elems.length; i++) {
+			$(elems[i]).on("change", app.refresh.bind(app));
+		}
+	};
+
+	/**
+  * Binds the renewData function on the change of input elements.
+  */
+	PostScraper.prototype.inputElementEventBinder = function (app) {
+		var elems = ["excerpt", "content", "yoast_wpseo_focuskw_text_input", "title"];
+		for (var i = 0; i < elems.length; i++) {
+			var elem = document.getElementById(elems[i]);
+			if (elem !== null) {
+				document.getElementById(elems[i]).addEventListener("input", app.refresh.bind(app));
 			}
 		}
-		tmceHelper.tinyMceEventBinder( app, tmceId );
+
+		tmceHelper.tinyMceEventBinder(app, tmceId);
+
+		document.getElementById("yoast_wpseo_focuskw_text_input").addEventListener("blur", this.resetQueue);
 	};
 
 	/**
-	 * Creates SVG for the overall score.
-	 *
-	 * @param {number} score Score to save.
-	 */
-	TermScraper.prototype.saveScores = function( score ) {
-		var indicator = getIndicatorForScore( score );
-		var keyword = this.getKeyword();
-
-		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
-		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
-
-		tabManager.updateKeywordTab( score, keyword );
-
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
+  * Resets the current queue if focus keyword is changed and not empty.
+  */
+	PostScraper.prototype.resetQueue = function () {
+		if (app.rawData.keyword !== "") {
+			app.runAnalyzer(this.rawData);
+		}
 	};
+
 	/**
-	 * Saves the content score to a hidden field.
-	 *
-	 * @param {number} score The score calculated by the content assessor.
-	 */
-	TermScraper.prototype.saveContentScore = function( score ) {
-		var indicator = getIndicatorForScore( score );
+  * Saves the score to the linkdex.
+  * Outputs the score in the overall target.
+  *
+  * @param {string} score
+  */
+	PostScraper.prototype.saveScores = function (score) {
+		var indicator = getIndicatorForScore(score);
 
-		tabManager.updateContentTab( score );
+		// If multi keyword isn't available we need to update the first tab (content).
+		if (!YoastSEO.multiKeyword) {
+			tabManager.updateKeywordTab(score, currentKeyword);
+			publishBox.updateScore("content", indicator.className);
 
-		if ( ! isKeywordAnalysisActive() ) {
-			updateTrafficLight( indicator );
-			updateAdminBar( indicator );
+			// Updates the input with the currentKeyword value.
+			$("#yoast_wpseo_focuskw").val(currentKeyword);
 		}
 
-		$( '#hidden_wpseo_content_score' ).val( score );
+		if (tabManager.isMainKeyword(currentKeyword)) {
+			document.getElementById("yoast_wpseo_linkdex").value = score;
+
+			if ("" === currentKeyword) {
+				indicator.className = "na";
+				indicator.screenReaderText = app.i18n.dgettext("js-text-analysis", "Enter a focus keyword to calculate the SEO score");
+				indicator.fullText = app.i18n.dgettext("js-text-analysis", "Content optimization: Enter a focus keyword to calculate the SEO score");
+			}
+
+			tabManager.updateKeywordTab(score, currentKeyword);
+
+			updateTrafficLight(indicator);
+			updateAdminBar(indicator);
+
+			publishBox.updateScore("keyword", indicator.className);
+		}
+
+		jQuery(window).trigger("YoastSEO:numericScore", score);
 	};
 
 	/**
-	 * Initializes keyword tab with the correct template.
-	 */
-	TermScraper.prototype.initKeywordTabTemplate = function() {
-		// Remove default functionality to prevent scrolling to top.
-		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
-			ev.preventDefault();
-		});
+  * Saves the content score to a hidden field.
+  *
+  * @param {number} score
+  */
+	PostScraper.prototype.saveContentScore = function (score) {
+		tabManager.updateContentTab(score);
+		var indicator = getIndicatorForScore(score);
+		publishBox.updateScore("content", indicator.className);
+
+		if (!isKeywordAnalysisActive()) {
+			updateTrafficLight(indicator);
+			updateAdminBar(indicator);
+		}
+
+		$("#yoast_wpseo_content_score").val(score);
 	};
 
 	/**
-	 * Get the editor created via wp_editor() and append it to the term-description-wrap
-	 * table cell. This way we can use the wp tinyMCE editor on the description field.
-	 */
-	var insertTinyMCE = function() {
-		// Get the table cell that contains the description textarea.
-		var descriptionTd = jQuery( '.term-description-wrap' ).find( 'td' );
+  * Initializes keyword tab with the correct template if multi keyword isn't available.
+  */
+	PostScraper.prototype.initKeywordTabTemplate = function () {
+		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
+		if (YoastSEO.multiKeyword) {
+			return;
+		}
 
-		// Get the textNode from the original textarea.
-		var textNode = descriptionTd.find( 'textarea' ).val();
-
-		// Get the editor container.
-		var newEditor = document.getElementById( 'wp-description-wrap' );
-
-		// Get the description help text below the textarea.
-		var text = descriptionTd.find( 'p' );
-
-		// Empty the TD with the old description textarea.
-		descriptionTd.html( '' );
-
-		/*
-		 * The editor is printed out via PHP as child of the form and initially
-		 * hidden with a child `>` CSS selector. We now move the editor and the
-		 * help text in a new position so the previous CSS rule won't apply any
-		 * longer and the editor will be visible.
-		 */
-		descriptionTd.append( newEditor ).append( text );
-
-		// Populate the editor textarea with the original content,
-		document.getElementById( 'description' ).value = textNode;
+		var keyword = $("#yoast_wpseo_focuskw").val();
+		$("#yoast_wpseo_focuskw_text_input").val(keyword);
 	};
 
 	/**
-	 * Initializes the snippet preview.
-	 *
-	 * @param {TermScraper} termScraper
-	 * @returns {SnippetPreview}
-	 */
-	function initSnippetPreview( termScraper ) {
-		return snippetPreviewHelpers.create( snippetContainer, {
-			title: termScraper.getSnippetTitle(),
-			urlPath: termScraper.getSnippetCite(),
-			metaDesc: termScraper.getSnippetMeta()
-		}, termScraper.saveSnippetData.bind( termScraper ) );
+  * Retrieves either a generated slug or the page title as slug for the preview.
+  * @param {Object} response The AJAX response object.
+  * @returns {String}
+  */
+	function getUrlPathFromResponse(response) {
+		if (response.responseText === "") {
+			return titleElement.val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery("<div>" + response.responseText + "</div>").find("#editable-post-name-full").text();
 	}
 
 	/**
-	 * Function to handle when the user updates the term slug
-	 */
-	function updatedTermSlug() {
-		snippetPreview.setUrlPath( termSlugInput.val() );
+  * Binds to the WordPress jQuery function to put the permalink on the page.
+  * If the response matches with permalink string, the snippet can be rendered.
+  */
+	jQuery(document).on("ajaxComplete", function (ev, response, ajaxOptions) {
+		var ajax_end_point = "/admin-ajax.php";
+		if (ajax_end_point !== ajaxOptions.url.substr(0 - ajax_end_point.length)) {
+			return;
+		}
+
+		if ("string" === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf("action=sample-permalink")) {
+			/*
+    * WordPress do not update post name for auto-generated slug, so we should leave this field untouched.
+    */
+			leavePostNameUntouched = true;
+
+			app.snippetPreview.setUrlPath(getUrlPathFromResponse(response));
+		}
+	});
+
+	/**
+  * Initializes the snippet preview.
+  *
+  * @param {PostScraper} postScraper
+  * @returns {SnippetPreview}
+  */
+	function initSnippetPreview(postScraper) {
+		return snippetPreviewHelpers.create(snippetContainer, {
+			title: postScraper.getSnippetTitle(),
+			urlPath: postScraper.getSnippetCite(),
+			metaDesc: postScraper.getSnippetMeta()
+		}, postScraper.saveSnippetData.bind(postScraper));
+	}
+	/**
+  * Determines if markers should be shown.
+  *
+  * @returns {boolean}
+  */
+	function displayMarkers() {
+		return wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
-	 * Adds a watcher on the term slug input field
-	 */
-	function initTermSlugWatcher() {
-		termSlugInput = $( '#slug' );
-		termSlugInput.on( 'change', updatedTermSlug );
+  * Returns the marker callback method for the assessor.
+  *
+  * @returns {*|bool}
+  */
+	function getMarker() {
+		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
+		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
+		if (typeof tinyMCE === "undefined" || !displayMarkers()) {
+			return false;
+		}
+
+		return function (paper, marks) {
+			if (tmceHelper.isTinyMCEAvailable(tmceId)) {
+				if (null === decorator) {
+					decorator = tinyMCEDecorator(tinyMCE.get(tmceId));
+				}
+
+				decorator(paper, marks);
+			}
+		};
 	}
 
 	/**
-	 * Retrieves the target to be passed to the App.
-	 *
-	 * @returns {Object} The targets object for the App.
-	 */
+  * Initializes keyword analysis.
+  *
+  * @param {App} app The App object.
+  * @param {PostScraper} postScraper The post scraper object.
+  * @param {Object} publishBox The publish box object.
+  */
+	function initializeKeywordAnalysis(app, postScraper, publishBox) {
+		var savedKeywordScore = $("#yoast_wpseo_linkdex").val();
+		var usedKeywords = new UsedKeywords("#yoast_wpseo_focuskw_text_input", "get_focus_keyword_usage", wpseoPostScraperL10n, app);
+
+		usedKeywords.init();
+		postScraper.initKeywordTabTemplate();
+
+		var indicator = getIndicatorForScore(savedKeywordScore);
+
+		updateTrafficLight(indicator);
+		updateAdminBar(indicator);
+
+		publishBox.updateScore("keyword", indicator.className);
+	}
+
+	/**
+  * Initializes content analysis
+  *
+  * @param {Object} publishBox The publish box object.
+  */
+	function initializeContentAnalysis(publishBox) {
+		var savedContentScore = $("#yoast_wpseo_content_score").val();
+
+		var indicator = getIndicatorForScore(savedContentScore);
+
+		updateAdminBar(indicator);
+
+		publishBox.updateScore("content", indicator.className);
+	}
+
+	/**
+  * Makes sure the hidden focus keyword field is filled with the correct keyword.
+  */
+	function keywordElementSubmitHandler() {
+		if (isKeywordAnalysisActive() && !YoastSEO.multiKeyword) {
+			/*
+    * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
+    * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
+    * onsubmit event that is copying the focus keyword, this should be solved.
+    */
+			$("#post").on("submit", function () {
+				var hiddenKeyword = $("#yoast_wpseo_focuskw");
+				var hiddenKeywordValue = hiddenKeyword.val();
+				var visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
+
+				if (hiddenKeywordValue !== visibleKeywordValue) {
+					hiddenKeyword.val(visibleKeywordValue);
+				}
+			});
+		}
+	}
+
+	/**
+  * Retrieves the target to be passed to the App.
+  *
+  * @returns {Object} The targets object for the App.
+  */
 	function retrieveTargets() {
 		var targets = {};
 
-		if ( isKeywordAnalysisActive() ) {
-			targets.output = 'wpseo_analysis';
+		if (isKeywordAnalysisActive()) {
+			targets.output = "wpseo-pageanalysis";
 		}
 
-		if ( isContentAnalysisActive() ) {
-			targets.contentOutput = 'yoast-seo-content-analysis';
+		if (isContentAnalysisActive()) {
+			targets.contentOutput = "yoast-seo-content-analysis";
 		}
 
 		return targets;
 	}
 
 	/**
-	 * Initializes keyword analysis.
-	 *
-	 * @param {App} app The App object.
-	 * @param {TermScraper} termScraper The post scraper object.
-	 */
-	function initializeKeywordAnalysis( app, termScraper ) {
-		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
-		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
-
-		usedKeywords.init();
-		termScraper.initKeywordTabTemplate();
-
-		var indicator = getIndicatorForScore( savedKeywordScore );
-
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
+  * Hides the add keyword button.
+  */
+	function hideAddKeywordButton() {
+		$(".wpseo-tab-add-keyword").hide();
 	}
 
-	/**
-	 * Initializes content analysis
-	 */
-	function initializeContentAnalysis() {
-		var savedContentScore = $( '#hidden_wpseo_content_score' ).val();
+	jQuery(document).ready(function () {
+		snippetContainer = $("#wpseosnippet");
 
-		var indicator = getIndicatorForScore( savedContentScore );
-
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
-	}
-
-	jQuery( document ).ready(function() {
-		var args, termScraper, translations;
-
-		snippetContainer = $( '#wpseo_snippet' );
-
-		insertTinyMCE();
-
-		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
+		var postScraper = new PostScraper();
+		publishBox.initalise();
 
 		tabManager = new TabManager({
-			strings: wpseoTermScraperL10n,
-			focusKeywordField: '#wpseo_focuskw',
+			strings: wpseoPostScraperL10n,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive()
 		});
 
 		tabManager.init();
 
-		termScraper = new TermScraper();
-		snippetPreview = initSnippetPreview( termScraper );
+		snippetPreview = initSnippetPreview(postScraper);
 
-		args = {
+		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+			elementTarget: [tmceId, "yoast_wpseo_focuskw_text_input", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full"],
 			targets: retrieveTargets(),
 			callbacks: {
-				getData: termScraper.getData.bind( termScraper )
+				getData: postScraper.getData.bind(postScraper)
 			},
-			locale: wpseoTermScraperL10n.locale,
+			locale: wpseoPostScraperL10n.locale,
+			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			snippetPreview: snippetPreview
 		};
 
-		if ( isKeywordAnalysisActive() ) {
-			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
+		if (isKeywordAnalysisActive()) {
+			args.callbacks.saveScores = postScraper.saveScores.bind(postScraper);
 		}
 
-		if ( isContentAnalysisActive() ) {
-			args.callbacks.saveContentScore = termScraper.saveContentScore.bind( termScraper );
+		if (isContentAnalysisActive()) {
+			args.callbacks.saveContentScore = postScraper.saveContentScore.bind(postScraper);
 		}
 
-		translations = getTranslations();
-		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
+		titleElement = $("#title");
+
+		var translations = getTranslations();
+		if (!isUndefined(translations) && !isUndefined(translations.domain)) {
 			args.translations = translations;
 		}
 
-		app = new App( args );
-
-		if ( isKeywordAnalysisActive() ) {
-			app.seoAssessor = new TaxonomyAssessor( app.i18n );
-			app.seoAssessorPresenter.assessor = app.seoAssessor;
-		}
+		app = new App(args);
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
-		termScraper.initKeywordTabTemplate();
+		tmceHelper.wpTextViewOnInitCheck();
 
 		// Init Plugins.
 		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin(app);
+		YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin(app);
 
-		// For backwards compatibility.
+		window.YoastSEO.wp._tabManager = tabManager;
+
+		if (isKeywordAnalysisActive()) {
+			initializeKeywordAnalysis(app, postScraper, publishBox);
+			tabManager.getKeywordTab().activate();
+		} else {
+			hideAddKeywordButton();
+		}
+
+		if (isContentAnalysisActive()) {
+			initializeContentAnalysis(publishBox);
+		}
+
+		if (!isKeywordAnalysisActive() && isContentAnalysisActive()) {
+			tabManager.getContentTab().activate();
+		}
+
+		jQuery(window).trigger("YoastSEO:ready");
+
+		// Backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
-		initTermSlugWatcher();
-		termScraper.bindElementEvents( app );
+		keywordElementSubmitHandler();
+		postScraper.bindElementEvents(app);
 
-		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, termScraper );
-			tabManager.getKeywordTab().activate();
-		} else if ( isContentAnalysisActive() ) {
-			tabManager.getContentTab().activate();
-		} else {
-			snippetPreviewHelpers.isolate( snippetContainer );
+		if (!isKeywordAnalysisActive() && !isContentAnalysisActive()) {
+			snippetPreviewHelpers.isolate(snippetContainer);
 		}
+	});
+})(jQuery);
 
-		if ( isContentAnalysisActive() ) {
-			initializeContentAnalysis();
-		}
+},{"./analysis/getIndicatorForScore":4,"./analysis/getTranslations":7,"./analysis/isContentAnalysisActive":8,"./analysis/isKeywordAnalysisActive":9,"./analysis/snippetPreview":11,"./analysis/tabManager":12,"./analysis/usedKeywords":13,"./decorator/tinyMCE":14,"./ui/adminBar":15,"./ui/publishBox":16,"./ui/trafficLight":17,"./wp-seo-tinymce":19,"lodash/isUndefined":217,"yoastseo":251,"yoastseo/js/markers/removeMarks":303}],19:[function(require,module,exports){
+"use strict";
 
-		jQuery( window ).trigger( 'YoastSEO:ready' );
-	} );
-}( jQuery ));
-
-},{"./analysis/getIndicatorForScore":4,"./analysis/getTranslations":7,"./analysis/isContentAnalysisActive":8,"./analysis/isKeywordAnalysisActive":9,"./analysis/snippetPreview":11,"./analysis/tabManager":12,"./analysis/usedKeywords":13,"./assessors/taxonomyAssessor":14,"./ui/adminBar":16,"./ui/trafficLight":17,"./wp-seo-tinymce":19,"lodash/isUndefined":217,"yoastseo":251}],19:[function(require,module,exports){
 /* global tinyMCE, require, YoastSEO */
 
-var forEach = require( 'lodash/forEach' );
-var isUndefined = require( 'lodash/isUndefined' );
-var editorHasMarks = require( './decorator/tinyMCE' ).editorHasMarks;
-var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
+var forEach = require("lodash/forEach");
+var isUndefined = require("lodash/isUndefined");
+var editorHasMarks = require("./decorator/tinyMCE").editorHasMarks;
+var editorRemoveMarks = require("./decorator/tinyMCE").editorRemoveMarks;
 
-(function() {
-	'use strict';
+(function () {
+	"use strict";
 
 	/**
-	 * Gets content from the content field by element id.
-	 *
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
-	 * @returns {String}
-	 */
-	function tinyMCEElementContent( content_id ) {
-		return document.getElementById( content_id ) && document.getElementById( content_id ).value || '';
+  * Gets content from the content field by element id.
+  *
+  * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
+  * @returns {String}
+  */
+
+	function tinyMCEElementContent(content_id) {
+		return document.getElementById(content_id) && document.getElementById(content_id).value || "";
 	}
 
 	/**
-	 * Returns whether or not the tinyMCE script is available on the page.
-	 *
-	 * @returns {boolean}
-	 */
+  * Returns whether or not the tinyMCE script is available on the page.
+  *
+  * @returns {boolean}
+  */
 	function isTinyMCELoaded() {
-		return (
-			typeof tinyMCE !== 'undefined' &&
-			typeof tinyMCE.editors !== 'undefined' &&
-			tinyMCE.editors.length !== 0
-		);
+		return typeof tinyMCE !== "undefined" && typeof tinyMCE.editors !== "undefined" && tinyMCE.editors.length !== 0;
 	}
 
 	/**
-	 * Returns whether or not a tinyMCE editor with the given ID is available.
-	 *
-	 * @param {string} editorID The ID of the tinyMCE editor.
-	 */
-	function isTinyMCEAvailable( editorID ) {
-		if ( !isTinyMCELoaded() ) {
+  * Returns whether or not a tinyMCE editor with the given ID is available.
+  *
+  * @param {string} editorID The ID of the tinyMCE editor.
+  */
+	function isTinyMCEAvailable(editorID) {
+		if (!isTinyMCELoaded()) {
 			return false;
 		}
 
-		var editor = tinyMCE.get( editorID );
+		var editor = tinyMCE.get(editorID);
 
-		return (
-			editor !== null && !editor.isHidden()
-		);
+		return editor !== null && !editor.isHidden();
 	}
 
 	/**
-	 * Converts the html entities for symbols back to the original symbol. For now this only converts the & symbol.
-	 * @param {String} text The text to replace the '&amp;' entities.
-	 * @returns {String} text Text with html entities replaced by the symbol.
-	 */
-	function convertHtmlEntities( text ) {
+  * Converts the html entities for symbols back to the original symbol. For now this only converts the & symbol.
+  * @param {String} text The text to replace the '&amp;' entities.
+  * @returns {String} text Text with html entities replaced by the symbol.
+  */
+	function convertHtmlEntities(text) {
 		// Create regular expression, this searches for the html entity '&amp;', the 'g' param is for searching the whole text.
-		var regularExpression = new RegExp('&amp;','g');
-		return text.replace(regularExpression, '&');
+		var regularExpression = new RegExp("&amp;", "g");
+		return text.replace(regularExpression, "&");
 	}
 
 	/**
-	 * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
-	 * Also converts 'amp;' to & in the content.
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
-	 * @returns {String} Content from the TinyMCE editor.
-	 */
-	function getContentTinyMce( content_id ) {
-		//if no TinyMce object available
-		var content = '';
-		if ( isTinyMCEAvailable( content_id ) === false ) {
-			content = tinyMCEElementContent( content_id );
-		}
-		else {
-			content = tinyMCE.get( content_id ).getContent();
+  * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
+  * Also converts 'amp;' to & in the content.
+  * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
+  * @returns {String} Content from the TinyMCE editor.
+  */
+	function getContentTinyMce(content_id) {
+		// if no TinyMce object available
+		var content = "";
+		if (isTinyMCEAvailable(content_id) === false) {
+			content = tinyMCEElementContent(content_id);
+		} else {
+			content = tinyMCE.get(content_id).getContent();
 		}
 
-		return convertHtmlEntities( content );
+		return convertHtmlEntities(content);
 	}
 	/**
-	 * Adds an event handler to certain tinyMCE events
-	 *
-	 * @param {string} editorId The ID for the tinyMCE editor.
-	 * @param {Array<string>} events The events to bind to.
-	 * @param {Function} callback The function to call when an event occurs.
-	 */
-	function addEventHandler( editorId, events, callback ) {
-		if ( typeof tinyMCE === 'undefined' || typeof tinyMCE.on !== 'function' ) {
+  * Adds an event handler to certain tinyMCE events
+  *
+  * @param {string} editorId The ID for the tinyMCE editor.
+  * @param {Array<string>} events The events to bind to.
+  * @param {Function} callback The function to call when an event occurs.
+  */
+	function addEventHandler(editorId, events, callback) {
+		if (typeof tinyMCE === "undefined" || typeof tinyMCE.on !== "function") {
 			return;
 		}
 
-		tinyMCE.on( 'addEditor', function( evt ) {
+		tinyMCE.on("addEditor", function (evt) {
 			var editor = evt.editor;
 
-			if ( editor.id !== editorId ) {
+			if (editor.id !== editorId) {
 				return;
 			}
 
-			forEach( events, function( eventName ) {
-				editor.on( eventName, callback );
-			} );
+			forEach(events, function (eventName) {
+				editor.on(eventName, callback);
+			});
 		});
 	}
 
 	/**
-	 * Calls the function in the YoastSEO.js app that disables the marker (eye)icons.
-	 */
+  * Calls the function in the YoastSEO.js app that disables the marker (eye)icons.
+  */
 	function disableMarkerButtons() {
-		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
+		if (!isUndefined(YoastSEO.app.contentAssessorPresenter)) {
 			YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
 		}
 
-		if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
+		if (!isUndefined(YoastSEO.app.seoAssessorPresenter)) {
 			YoastSEO.app.seoAssessorPresenter.disableMarkerButtons();
 		}
 	}
 
 	/**
-	 * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
-	 */
+  * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
+  */
 	function enableMarkerButtons() {
-		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
+		if (!isUndefined(YoastSEO.app.contentAssessorPresenter)) {
 			YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
 		}
 
-		if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
+		if (!isUndefined(YoastSEO.app.seoAssessorPresenter)) {
 			YoastSEO.app.seoAssessorPresenter.enableMarkerButtons();
 		}
 	}
 
 	/**
-	 * Check if the TinyMCE editor is created in the DOM. If it doesn't exist yet an on create event created.
-	 * This enables the marker buttons, when TinyMCE is created.
-	 */
+  * Check if the TinyMCE editor is created in the DOM. If it doesn't exist yet an on create event created.
+  * This enables the marker buttons, when TinyMCE is created.
+  */
 	function wpTextViewOnInitCheck() {
 		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
 		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
-		if ( jQuery( '#wp-content-wrap' ).hasClass( 'html-active' ) ) {
+		if (jQuery("#wp-content-wrap").hasClass("html-active")) {
 			// The enable/disable marker functions are not called here,
 			// because the render function(in yoastseo lib) doesn't have to be called.
-			if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
+			if (!isUndefined(YoastSEO.app.contentAssessorPresenter)) {
 				YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
 			}
-			if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
+			if (!isUndefined(YoastSEO.app.seoAssessorPresenter)) {
 				YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
 			}
 
-			if( isTinyMCELoaded() ) {
-				tinyMCE.on( 'AddEditor' , function( ) {
-					enableMarkerButtons( );
-				} );
+			if (isTinyMCELoaded()) {
+				tinyMCE.on("AddEditor", function () {
+					enableMarkerButtons();
+				});
 			}
 		}
 	}
 
 	/**
-	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
-	 *
-	 * @param {App} app YoastSeo application.
-	 * @param {String} tmceId The ID of the tinyMCE editor.
-	 */
-	function tinyMceEventBinder( app, tmceId ) {
-		addEventHandler( tmceId, [ 'input', 'change', 'cut', 'paste' ], app.refresh.bind( app ) );
+  * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
+  *
+  * @param {App} app YoastSeo application.
+  * @param {String} tmceId The ID of the tinyMCE editor.
+  */
+	function tinyMceEventBinder(app, tmceId) {
+		addEventHandler(tmceId, ["input", "change", "cut", "paste"], app.refresh.bind(app));
 
-		addEventHandler( tmceId, [ 'hide' ], disableMarkerButtons );
-		addEventHandler( tmceId, [ 'init', 'show' ], enableMarkerButtons );
+		addEventHandler(tmceId, ["hide"], disableMarkerButtons);
+		addEventHandler(tmceId, ["init", "show"], enableMarkerButtons);
 
-		addEventHandler( 'content', [ 'focus' ], function( evt ) {
+		addEventHandler("content", ["focus"], function (evt) {
 			var editor = evt.target;
 
-			if ( editorHasMarks( editor ) ) {
-				editorRemoveMarks( editor );
+			if (editorHasMarks(editor)) {
+				editorRemoveMarks(editor);
 
 				YoastSEO.app.disableMarkers();
 			}
-		} );
+		});
 	}
 
 	module.exports = {
@@ -1808,7 +2045,7 @@ var editorRemoveMarks = require( './decorator/tinyMCE' ).editorRemoveMarks;
 	};
 })(jQuery);
 
-},{"./decorator/tinyMCE":15,"lodash/forEach":193,"lodash/isUndefined":217}],20:[function(require,module,exports){
+},{"./decorator/tinyMCE":14,"lodash/forEach":193,"lodash/isUndefined":217}],20:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -12217,7 +12454,7 @@ module.exports = {
 	helpers: helpers
 };
 
-},{"./js/app":252,"./js/assessor":279,"./js/bundledPlugins/previouslyUsedKeywords":280,"./js/contentAssessor":289,"./js/interpreters/scoreToRating":301,"./js/pluggable":305,"./js/researcher":307,"./js/seoAssessor":355,"./js/snippetPreview.js":356,"./js/values/AssessmentResult":395,"./js/values/Paper":397}],252:[function(require,module,exports){
+},{"./js/app":252,"./js/assessor":278,"./js/bundledPlugins/previouslyUsedKeywords":279,"./js/contentAssessor":288,"./js/interpreters/scoreToRating":300,"./js/pluggable":304,"./js/researcher":306,"./js/seoAssessor":354,"./js/snippetPreview.js":355,"./js/values/AssessmentResult":394,"./js/values/Paper":396}],252:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -12984,7 +13221,7 @@ App.prototype.analyzeTimer = function() {
 
 module.exports = App;
 
-},{"./config/config.js":281,"./contentAssessor.js":289,"./errors/missingArgument":291,"./pluggable.js":305,"./renderers/AssessorPresenter.js":306,"./researcher.js":307,"./seoAssessor.js":355,"./snippetPreview.js":356,"./values/Paper.js":397,"jed":22,"lodash/debounce":182,"lodash/defaultsDeep":184,"lodash/forEach":193,"lodash/isEmpty":206,"lodash/isObject":211,"lodash/isString":214,"lodash/isUndefined":217,"lodash/throttle":234}],253:[function(require,module,exports){
+},{"./config/config.js":280,"./contentAssessor.js":288,"./errors/missingArgument":290,"./pluggable.js":304,"./renderers/AssessorPresenter.js":305,"./researcher.js":306,"./seoAssessor.js":354,"./snippetPreview.js":355,"./values/Paper.js":396,"jed":22,"lodash/debounce":182,"lodash/defaultsDeep":184,"lodash/forEach":193,"lodash/isEmpty":206,"lodash/isObject":211,"lodash/isString":214,"lodash/isUndefined":217,"lodash/throttle":234}],253:[function(require,module,exports){
 var filter = require( "lodash/filter" );
 var isSentenceTooLong = require( "../helpers/isValueTooLong" );
 
@@ -13002,7 +13239,7 @@ module.exports = function( sentences, recommendedValue ) {
 	return tooLongSentences;
 };
 
-},{"../helpers/isValueTooLong":300,"lodash/filter":188}],254:[function(require,module,exports){
+},{"../helpers/isValueTooLong":299,"lodash/filter":188}],254:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -13113,7 +13350,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395,"lodash/inRange":198}],255:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394,"lodash/inRange":198}],255:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -13165,7 +13402,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395}],256:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],256:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -13198,7 +13435,7 @@ module.exports = {
 	getResult: keyphraseAssessment
 };
 
-},{"../values/AssessmentResult.js":395}],257:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],257:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -13306,7 +13543,7 @@ module.exports = {
 	}
 };
 
-},{"../helpers/formatNumber.js":294,"../helpers/inRange.js":299,"../stringProcessing/countWords.js":361,"../stringProcessing/matchTextWithWord.js":376,"../values/AssessmentResult.js":395}],258:[function(require,module,exports){
+},{"../helpers/formatNumber.js":293,"../helpers/inRange.js":298,"../stringProcessing/countWords.js":360,"../stringProcessing/matchTextWithWord.js":375,"../values/AssessmentResult.js":394}],258:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -13366,7 +13603,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395}],259:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],259:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -13418,7 +13655,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395}],260:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],260:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -13484,7 +13721,7 @@ module.exports = {
 	getResult: metaDescriptionLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":395}],261:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],261:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "../helpers/inRange" ).inRangeEndInclusive;
 
@@ -13559,7 +13796,7 @@ module.exports = {
 };
 
 
-},{"../helpers/inRange":299,"../values/AssessmentResult.js":395}],262:[function(require,module,exports){
+},{"../helpers/inRange":298,"../values/AssessmentResult.js":394}],262:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isParagraphTooLong = require( "../helpers/isValueTooLong" );
 var Mark = require( "../values/Mark.js" );
@@ -13699,7 +13936,7 @@ module.exports = {
 	getMarks: paragraphLengthMarker
 };
 
-},{"../helpers/inRange.js":299,"../helpers/isValueTooLong":300,"../markers/addMark.js":302,"../values/AssessmentResult.js":395,"../values/Mark.js":396,"lodash/filter":188,"lodash/map":220}],263:[function(require,module,exports){
+},{"../helpers/inRange.js":298,"../helpers/isValueTooLong":299,"../markers/addMark.js":301,"../values/AssessmentResult.js":394,"../values/Mark.js":395,"lodash/filter":188,"lodash/map":220}],263:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
@@ -13828,7 +14065,7 @@ module.exports = {
 	getMarks: passiveVoiceMarker
 };
 
-},{"../helpers/formatNumber.js":294,"../helpers/inRange.js":299,"../markers/addMark.js":302,"../stringProcessing/stripHTMLTags":386,"../values/AssessmentResult.js":395,"../values/Mark.js":396,"lodash/map":220}],264:[function(require,module,exports){
+},{"../helpers/formatNumber.js":293,"../helpers/inRange.js":298,"../markers/addMark.js":301,"../stringProcessing/stripHTMLTags":385,"../values/AssessmentResult.js":394,"../values/Mark.js":395,"lodash/map":220}],264:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var getLanguage = require( "../helpers/getLanguage.js" );
 var stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
@@ -13944,7 +14181,7 @@ module.exports = {
 };
 
 
-},{"../helpers/getLanguage.js":296,"../markers/addMark.js":302,"../stringProcessing/stripHTMLTags":386,"../values/AssessmentResult.js":395,"../values/Mark.js":396,"lodash/filter":188,"lodash/flatten":192,"lodash/map":220,"lodash/partition":227,"lodash/sortBy":230}],265:[function(require,module,exports){
+},{"../helpers/getLanguage.js":295,"../markers/addMark.js":301,"../stringProcessing/stripHTMLTags":385,"../values/AssessmentResult.js":394,"../values/Mark.js":395,"lodash/filter":188,"lodash/flatten":192,"lodash/map":220,"lodash/partition":227,"lodash/sortBy":230}],265:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
@@ -14096,7 +14333,7 @@ module.exports = {
 	getMarks: sentenceLengthMarker
 };
 
-},{"../helpers/formatNumber.js":294,"../helpers/inRange.js":299,"../markers/addMark.js":302,"../stringProcessing/stripHTMLTags":386,"../values/AssessmentResult.js":395,"../values/Mark.js":396,"./../assessmentHelpers/checkForTooLongSentences.js":253,"lodash/map":220}],266:[function(require,module,exports){
+},{"../helpers/formatNumber.js":293,"../helpers/inRange.js":298,"../markers/addMark.js":301,"../stringProcessing/stripHTMLTags":385,"../values/AssessmentResult.js":394,"../values/Mark.js":395,"./../assessmentHelpers/checkForTooLongSentences.js":253,"lodash/map":220}],266:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isTextTooLong = require( "../helpers/isValueTooLong" );
 var filter = require( "lodash/filter" );
@@ -14240,7 +14477,7 @@ module.exports = {
 	getMarks: subheadingsMarker
 };
 
-},{"../helpers/inRange.js":299,"../helpers/isValueTooLong":300,"../markers/addMark.js":302,"../values/AssessmentResult.js":395,"../values/Mark.js":396,"lodash/filter":188,"lodash/map":220}],267:[function(require,module,exports){
+},{"../helpers/inRange.js":298,"../helpers/isValueTooLong":299,"../markers/addMark.js":301,"../values/AssessmentResult.js":394,"../values/Mark.js":395,"lodash/filter":188,"lodash/map":220}],267:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -14294,140 +14531,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395}],268:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-var recommendedMinimum = 150;
-/**
- * Calculate the score based on the current word count.
- * @param {number} wordCount The amount of words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount >= 150 ) {
-		return {
-			score: 9,
-			text: i18n.dngettext(
-
-
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is more than or equal to the recommended minimum of %2$d word.",
-				"This is more than or equal to the recommended minimum of %2$d words.",
-				recommendedMinimum
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 125, 150 ) ) {
-		return {
-			score: 7,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
-				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
-				recommendedMinimum
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 100, 125 ) ) {
-		return {
-			score: 5,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 50, 100 ) ) {
-		return {
-			score: -10,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 0, 50 ) ) {
-		return {
-			score: -20,
-			text: i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: %1$d expands to the number of words in the text. */
-				"The text contains %1$d word.",
-				"The text contains %1$d words.",
-				wordCount
-			) + " " + i18n.dngettext(
-				"js-text-analysis",
-				/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-				"This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
-				"This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
-				recommendedMinimum
-			)
-		};
-	}
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
-	var wordCount = researcher.getResearch( "wordCountInText" );
-	var wordCountResult = calculateWordCountResult( wordCount, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, recommendedMinimum ) );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "taxonomyTextLength",
-	getResult: taxonomyTextLengthAssessment
-};
-
-},{"../values/AssessmentResult.js":395,"lodash/inRange":198}],269:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],268:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 var Mark = require( "../values/Mark.js" );
@@ -14502,7 +14606,7 @@ module.exports = {
 	getMarks: competingLinkMarker
 };
 
-},{"../markers/addMark.js":302,"../values/AssessmentResult.js":395,"../values/Mark.js":396,"lodash/map":220}],270:[function(require,module,exports){
+},{"../markers/addMark.js":301,"../values/AssessmentResult.js":394,"../values/Mark.js":395,"lodash/map":220}],269:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -14602,7 +14706,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395,"lodash/isEmpty":206}],271:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394,"lodash/isEmpty":206}],270:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -14733,7 +14837,7 @@ module.exports = {
 	getResult: textLengthAssessment
 };
 
-},{"../values/AssessmentResult.js":395,"lodash/inRange":198}],272:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394,"lodash/inRange":198}],271:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isEmpty = require( "lodash/isEmpty" );
 
@@ -14808,7 +14912,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395,"lodash/isEmpty":206}],273:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394,"lodash/isEmpty":206}],272:[function(require,module,exports){
 var stripHTMLTags = require( "../stringProcessing/stripHTMLTags" ).stripFullTags;
 var AssessmentResult = require( "../values/AssessmentResult" );
 
@@ -14840,7 +14944,7 @@ module.exports = {
 	getResult: textPresenceAssessment
 };
 
-},{"../stringProcessing/stripHTMLTags":386,"../values/AssessmentResult":395}],274:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags":385,"../values/AssessmentResult":394}],273:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var escape = require( "lodash/escape" );
 
@@ -14889,7 +14993,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395,"lodash/escape":187}],275:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394,"lodash/escape":187}],274:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 var map = require( "lodash/map" );
@@ -15007,7 +15111,7 @@ module.exports = {
 	getMarks: transitionWordsMarker
 };
 
-},{"../helpers/formatNumber.js":294,"../helpers/getLanguage.js":296,"../helpers/inRange.js":299,"../markers/addMark.js":302,"../stringProcessing/stripHTMLTags":386,"../values/AssessmentResult.js":395,"../values/Mark.js":396,"lodash/map":220}],276:[function(require,module,exports){
+},{"../helpers/formatNumber.js":293,"../helpers/getLanguage.js":295,"../helpers/inRange.js":298,"../markers/addMark.js":301,"../stringProcessing/stripHTMLTags":385,"../values/AssessmentResult.js":394,"../values/Mark.js":395,"lodash/map":220}],275:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -15058,7 +15162,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395}],277:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],276:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -15089,7 +15193,7 @@ module.exports = {
 	}
 };
 
-},{"../values/AssessmentResult.js":395}],278:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],277:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -15144,7 +15248,7 @@ module.exports = {
 	getResult: urlHasStopWordsAssessment
 };
 
-},{"../values/AssessmentResult.js":395}],279:[function(require,module,exports){
+},{"../values/AssessmentResult.js":394}],278:[function(require,module,exports){
 /* global window */
 
 var Researcher = require( "./researcher.js" );
@@ -15421,7 +15525,7 @@ Assessor.prototype.getAssessment = function( identifier ) {
 
 module.exports = Assessor;
 
-},{"./errors/missingArgument":291,"./helpers/errors.js":293,"./markers/removeDuplicateMarks":303,"./researcher.js":307,"./values/AssessmentResult.js":395,"lodash/filter":188,"lodash/find":189,"lodash/findIndex":190,"lodash/forEach":193,"lodash/isFunction":207,"lodash/isUndefined":217,"lodash/map":220}],280:[function(require,module,exports){
+},{"./errors/missingArgument":290,"./helpers/errors.js":292,"./markers/removeDuplicateMarks":302,"./researcher.js":306,"./values/AssessmentResult.js":394,"lodash/filter":188,"lodash/find":189,"lodash/findIndex":190,"lodash/forEach":193,"lodash/isFunction":207,"lodash/isUndefined":217,"lodash/map":220}],279:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
@@ -15555,7 +15659,7 @@ PreviouslyUsedKeyword.prototype.assess = function( paper, researcher, i18n ) {
 
 module.exports = PreviouslyUsedKeyword;
 
-},{"../../js/errors/missingArgument":291,"../values/AssessmentResult.js":395,"lodash/isUndefined":217}],281:[function(require,module,exports){
+},{"../../js/errors/missingArgument":290,"../values/AssessmentResult.js":394,"lodash/isUndefined":217}],280:[function(require,module,exports){
 var analyzerConfig = {
 	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
@@ -15567,7 +15671,7 @@ var analyzerConfig = {
 
 module.exports = analyzerConfig;
 
-},{}],282:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 /** @module config/diacritics */
 
 /**
@@ -15675,7 +15779,7 @@ module.exports = function() {
 	];
 };
 
-},{}],283:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 /**
  * Returns the configuration used for score ratings and the AssessorPresenter.
  * @param {Jed} i18n The translator object.
@@ -15706,7 +15810,7 @@ module.exports = function ( i18n ) {
 	};
 };
 
-},{}],284:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 /** @module config/removalWords */
 
 /**
@@ -15718,7 +15822,7 @@ module.exports = function() {
 	return [ " a", " in", " an", " on", " for", " the", " and" ];
 };
 
-},{}],285:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 /** @module config/stopwords */
 
 /**
@@ -15730,7 +15834,7 @@ module.exports = function() {
 	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
 };
 
-},{}],286:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 /** @module config/syllables */
 
 /**
@@ -15768,7 +15872,7 @@ module.exports = function() {
 };
 
 
-},{}],287:[function(require,module,exports){
+},{}],286:[function(require,module,exports){
 var getLanguage = require( "../helpers/getLanguage.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
@@ -17358,7 +17462,7 @@ module.exports = function( locale ) {
 	}
 };
 
-},{"../helpers/getLanguage.js":296,"lodash/isUndefined":217}],288:[function(require,module,exports){
+},{"../helpers/getLanguage.js":295,"lodash/isUndefined":217}],287:[function(require,module,exports){
 module.exports = function() {
 	return [
 		// Whitespace is always a word boundary.
@@ -17370,7 +17474,7 @@ module.exports = function() {
 		".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">" ];
 };
 
-},{}],289:[function(require,module,exports){
+},{}],288:[function(require,module,exports){
 var Assessor = require( "./assessor.js" );
 
 var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
@@ -17544,7 +17648,7 @@ ContentAssessor.prototype.calculateOverallScore = function () {
 module.exports = ContentAssessor;
 
 
-},{"./assessments/fleschReadingEaseAssessment.js":254,"./assessments/paragraphTooLongAssessment.js":262,"./assessments/passiveVoiceAssessment.js":263,"./assessments/sentenceBeginningsAssessment.js":264,"./assessments/sentenceLengthInTextAssessment.js":265,"./assessments/subheadingDistributionTooLongAssessment.js":266,"./assessments/textPresenceAssessment.js":273,"./assessments/transitionWordsAssessment.js":275,"./assessor.js":279,"./interpreters/scoreToRating":301,"lodash/map":220,"lodash/sum":233,"util":250}],290:[function(require,module,exports){
+},{"./assessments/fleschReadingEaseAssessment.js":254,"./assessments/paragraphTooLongAssessment.js":262,"./assessments/passiveVoiceAssessment.js":263,"./assessments/sentenceBeginningsAssessment.js":264,"./assessments/sentenceLengthInTextAssessment.js":265,"./assessments/subheadingDistributionTooLongAssessment.js":266,"./assessments/textPresenceAssessment.js":272,"./assessments/transitionWordsAssessment.js":274,"./assessor.js":278,"./interpreters/scoreToRating":300,"lodash/map":220,"lodash/sum":233,"util":250}],289:[function(require,module,exports){
 /**
  * Throws an invalid type error
  * @param {string} message The message to show when the error is thrown
@@ -17558,7 +17662,7 @@ module.exports = function InvalidTypeError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":250}],291:[function(require,module,exports){
+},{"util":250}],290:[function(require,module,exports){
 module.exports = function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
@@ -17567,7 +17671,7 @@ module.exports = function MissingArgumentError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":250}],292:[function(require,module,exports){
+},{"util":250}],291:[function(require,module,exports){
 var forEach = require( "lodash/forEach" );
 
 /**
@@ -17634,7 +17738,7 @@ module.exports = {
 	removeClasses: removeClasses
 };
 
-},{"lodash/forEach":193}],293:[function(require,module,exports){
+},{"lodash/forEach":193}],292:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 
 /**
@@ -17659,7 +17763,7 @@ module.exports = {
 	showTrace: showTrace
 };
 
-},{"lodash/isUndefined":217}],294:[function(require,module,exports){
+},{"lodash/isUndefined":217}],293:[function(require,module,exports){
 /**
  * Returns rounded number to fix floating point bug http://floating-point-gui.de
  * @param {number} number The unrounded number
@@ -17674,7 +17778,7 @@ module.exports = function ( number ) {
 	return Math.round( number * 10 ) / 10;
 };
 
-},{}],295:[function(require,module,exports){
+},{}],294:[function(require,module,exports){
 var firstWordExceptionsEnglish = require( "../researches/english/firstWordExceptions.js" );
 var firstWordExceptionsGerman = require( "../researches/german/firstWordExceptions.js" );
 var firstWordExceptionsSpanish = require( "../researches/spanish/firstWordExceptions.js" );
@@ -17696,7 +17800,7 @@ module.exports = function( locale ) {
 	}
 };
 
-},{"../researches/english/firstWordExceptions.js":312,"../researches/french/firstWordExceptions.js":323,"../researches/german/firstWordExceptions.js":326,"../researches/spanish/firstWordExceptions.js":347,"./getLanguage.js":296}],296:[function(require,module,exports){
+},{"../researches/english/firstWordExceptions.js":311,"../researches/french/firstWordExceptions.js":322,"../researches/german/firstWordExceptions.js":325,"../researches/spanish/firstWordExceptions.js":346,"./getLanguage.js":295}],295:[function(require,module,exports){
 /**
  * The function getting the language part of the locale.
  *
@@ -17707,7 +17811,7 @@ module.exports = function ( locale ) {
 	return locale.split( "_" )[ 0 ];
 };
 
-},{}],297:[function(require,module,exports){
+},{}],296:[function(require,module,exports){
 var transitionWordsEnglish = require( "../researches/english/transitionWords.js" );
 var twoPartTransitionWordsEnglish = require( "../researches/english/twoPartTransitionWords.js" );
 var transitionWordsGerman = require( "../researches/german/transitionWords.js" );
@@ -17745,7 +17849,7 @@ module.exports = function( locale ) {
 	}
 };
 
-},{"../researches/english/transitionWords.js":318,"../researches/english/twoPartTransitionWords.js":319,"../researches/french/transitionWords.js":324,"../researches/french/twoPartTransitionWords.js":325,"../researches/german/transitionWords.js":327,"../researches/german/twoPartTransitionWords.js":328,"../researches/spanish/transitionWords.js":348,"../researches/spanish/twoPartTransitionWords.js":349,"./getLanguage.js":296}],298:[function(require,module,exports){
+},{"../researches/english/transitionWords.js":317,"../researches/english/twoPartTransitionWords.js":318,"../researches/french/transitionWords.js":323,"../researches/french/twoPartTransitionWords.js":324,"../researches/german/transitionWords.js":326,"../researches/german/twoPartTransitionWords.js":327,"../researches/spanish/transitionWords.js":347,"../researches/spanish/twoPartTransitionWords.js":348,"./getLanguage.js":295}],297:[function(require,module,exports){
 var blockElements = [ "address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption",
 	"figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav",
 	"noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video" ];
@@ -17913,7 +18017,7 @@ module.exports = {
 	getBlocks: memoize( getBlocks )
 };
 
-},{"lodash/forEach":193,"lodash/memoize":221,"tokenizer2/core":246}],299:[function(require,module,exports){
+},{"lodash/forEach":193,"lodash/memoize":221,"tokenizer2/core":246}],298:[function(require,module,exports){
 /**
  * Checks if `n` is between `start` and up to, but not including, `start`.
  *
@@ -17956,7 +18060,7 @@ module.exports = {
 	inRangeEndInclusive: inRangeEndInclusive
 };
 
-},{}],300:[function(require,module,exports){
+},{}],299:[function(require,module,exports){
 /**
  * Returns true or false, based on the length of the value text and the recommended value.
  *
@@ -17968,7 +18072,7 @@ module.exports = function( recommendedValue, valueLength ) {
 	return valueLength > recommendedValue;
 };
 
-},{}],301:[function(require,module,exports){
+},{}],300:[function(require,module,exports){
 /**
  * Interpreters a score and gives it a particular rating.
  *
@@ -17998,7 +18102,7 @@ var ScoreToRating = function( score ) {
 
 module.exports = ScoreToRating;
 
-},{}],302:[function(require,module,exports){
+},{}],301:[function(require,module,exports){
 /**
  * Marks a text with HTML tags
  *
@@ -18009,7 +18113,7 @@ module.exports = function( text ) {
 	return "<yoastmark class='yoast-text-mark'>" + text + "</yoastmark>";
 };
 
-},{}],303:[function(require,module,exports){
+},{}],302:[function(require,module,exports){
 var uniqBy = require( "lodash/uniqBy" );
 
 /**
@@ -18026,7 +18130,7 @@ function removeDuplicateMarks( marks ) {
 
 module.exports = removeDuplicateMarks;
 
-},{"lodash/uniqBy":240}],304:[function(require,module,exports){
+},{"lodash/uniqBy":240}],303:[function(require,module,exports){
 /**
  * Removes all marks from a text
  *
@@ -18039,7 +18143,7 @@ module.exports = function( text ) {
 		.replace( new RegExp( "</yoastmark>", "g" ), "" );
 };
 
-},{}],305:[function(require,module,exports){
+},{}],304:[function(require,module,exports){
 /* global console: true */
 /* global setTimeout: true */
 var isUndefined = require( "lodash/isUndefined" );
@@ -18425,7 +18529,7 @@ Pluggable.prototype._validateUniqueness = function( pluginName ) {
 
 module.exports = Pluggable;
 
-},{"./errors/invalidType":290,"lodash/forEach":193,"lodash/isObject":211,"lodash/isString":214,"lodash/isUndefined":217,"lodash/reduce":229}],306:[function(require,module,exports){
+},{"./errors/invalidType":289,"lodash/forEach":193,"lodash/isObject":211,"lodash/isString":214,"lodash/isUndefined":217,"lodash/reduce":229}],305:[function(require,module,exports){
 /* jshint browser: true */
 
 var forEach = require( "lodash/forEach" );
@@ -18759,7 +18863,7 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 
 module.exports = AssessorPresenter;
 
-},{"../config/presenter.js":283,"../interpreters/scoreToRating.js":301,"../templates.js":394,"lodash/difference":185,"lodash/forEach":193,"lodash/isNumber":210,"lodash/isObject":211,"lodash/isUndefined":217}],307:[function(require,module,exports){
+},{"../config/presenter.js":282,"../interpreters/scoreToRating.js":300,"../templates.js":393,"lodash/difference":185,"lodash/forEach":193,"lodash/isNumber":210,"lodash/isObject":211,"lodash/isUndefined":217}],306:[function(require,module,exports){
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -18909,7 +19013,7 @@ Researcher.prototype.getResearch = function( name ) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":290,"./errors/missingArgument":291,"./researches/calculateFleschReading.js":308,"./researches/countLinks.js":309,"./researches/countSentencesFromDescription.js":310,"./researches/countSentencesFromText.js":311,"./researches/findKeywordInFirstParagraph.js":320,"./researches/findKeywordInPageTitle.js":321,"./researches/findTransitionWords.js":322,"./researches/getKeywordDensity.js":329,"./researches/getLinkStatistics.js":330,"./researches/getParagraphLength.js":332,"./researches/getPassiveVoice.js":333,"./researches/getSentenceBeginnings.js":334,"./researches/getSubheadingLength.js":335,"./researches/getSubheadingPresence.js":336,"./researches/getSubheadingTextLengths.js":337,"./researches/getWordComplexity.js":338,"./researches/imageAltTags.js":339,"./researches/imageCountInText.js":340,"./researches/keyphraseLength":341,"./researches/keywordCountInUrl":342,"./researches/matchKeywordInSubheadings.js":343,"./researches/metaDescriptionKeyword.js":344,"./researches/metaDescriptionLength.js":345,"./researches/pageTitleWidth.js":346,"./researches/stopWordsInKeyword":350,"./researches/stopWordsInUrl":352,"./researches/urlIsTooLong.js":353,"./researches/wordCountInText.js":354,"lodash/isEmpty":206,"lodash/isUndefined":217,"lodash/merge":222}],308:[function(require,module,exports){
+},{"./errors/invalidType":289,"./errors/missingArgument":290,"./researches/calculateFleschReading.js":307,"./researches/countLinks.js":308,"./researches/countSentencesFromDescription.js":309,"./researches/countSentencesFromText.js":310,"./researches/findKeywordInFirstParagraph.js":319,"./researches/findKeywordInPageTitle.js":320,"./researches/findTransitionWords.js":321,"./researches/getKeywordDensity.js":328,"./researches/getLinkStatistics.js":329,"./researches/getParagraphLength.js":331,"./researches/getPassiveVoice.js":332,"./researches/getSentenceBeginnings.js":333,"./researches/getSubheadingLength.js":334,"./researches/getSubheadingPresence.js":335,"./researches/getSubheadingTextLengths.js":336,"./researches/getWordComplexity.js":337,"./researches/imageAltTags.js":338,"./researches/imageCountInText.js":339,"./researches/keyphraseLength":340,"./researches/keywordCountInUrl":341,"./researches/matchKeywordInSubheadings.js":342,"./researches/metaDescriptionKeyword.js":343,"./researches/metaDescriptionLength.js":344,"./researches/pageTitleWidth.js":345,"./researches/stopWordsInKeyword":349,"./researches/stopWordsInUrl":351,"./researches/urlIsTooLong.js":352,"./researches/wordCountInText.js":353,"lodash/isEmpty":206,"lodash/isUndefined":217,"lodash/merge":222}],307:[function(require,module,exports){
 /** @module analyses/calculateFleschReading */
 
 var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
@@ -18950,7 +19054,7 @@ module.exports = function( paper ) {
 	return formatNumber( score );
 };
 
-},{"../helpers/formatNumber.js":294,"../stringProcessing/countSentences.js":359,"../stringProcessing/countSyllables.js":360,"../stringProcessing/countWords.js":361,"../stringProcessing/stripNumbers.js":388}],309:[function(require,module,exports){
+},{"../helpers/formatNumber.js":293,"../stringProcessing/countSentences.js":358,"../stringProcessing/countSyllables.js":359,"../stringProcessing/countWords.js":360,"../stringProcessing/stripNumbers.js":387}],308:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks" );
@@ -18968,7 +19072,7 @@ module.exports = function( paper ) {
 	return anchors.length;
 };
 
-},{"./getLinks":331}],310:[function(require,module,exports){
+},{"./getLinks":330}],309:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
@@ -18982,7 +19086,7 @@ module.exports = function( paper ) {
 	return sentencesLength( sentences );
 };
 
-},{"../stringProcessing/getSentences":368,"./../stringProcessing/sentencesLength.js":384}],311:[function(require,module,exports){
+},{"../stringProcessing/getSentences":367,"./../stringProcessing/sentencesLength.js":383}],310:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./../stringProcessing/sentencesLength.js" );
 
@@ -18996,7 +19100,7 @@ module.exports = function( paper ) {
 	return sentencesLength( sentences );
 };
 
-},{"../stringProcessing/getSentences":368,"./../stringProcessing/sentencesLength.js":384}],312:[function(require,module,exports){
+},{"../stringProcessing/getSentences":367,"./../stringProcessing/sentencesLength.js":383}],311:[function(require,module,exports){
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
@@ -19014,7 +19118,7 @@ module.exports = function() {
 	];
 };
 
-},{}],313:[function(require,module,exports){
+},{}],312:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"am",
@@ -19047,7 +19151,7 @@ module.exports = function() {
 	];
 };
 
-},{}],314:[function(require,module,exports){
+},{}],313:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"a",
@@ -19091,7 +19195,7 @@ module.exports = function() {
 };
 
 
-},{}],315:[function(require,module,exports){
+},{}],314:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"arisen",
@@ -19444,7 +19548,7 @@ module.exports = function() {
 	];
 };
 
-},{}],316:[function(require,module,exports){
+},{}],315:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"ablebodied",
@@ -22484,7 +22588,7 @@ module.exports = function() {
 	];
 };
 
-},{}],317:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 module.exports = function() {
 	return [
 		"to",
@@ -22535,7 +22639,7 @@ module.exports = function() {
 	];
 };
 
-},{}],318:[function(require,module,exports){
+},{}],317:[function(require,module,exports){
 /** @module config/transitionWords */
 
 /**
@@ -22588,7 +22692,7 @@ module.exports = function() {
 };
 
 
-},{}],319:[function(require,module,exports){
+},{}],318:[function(require,module,exports){
 /** @module config/twoPartTransitionWords */
 
 /**
@@ -22600,7 +22704,7 @@ module.exports = function() {
 		[ "whether", "or" ], [ "no sooner", "than" ] ];
 };
 
-},{}],320:[function(require,module,exports){
+},{}],319:[function(require,module,exports){
 /** @module analyses/findKeywordInFirstParagraph */
 
 var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
@@ -22619,7 +22723,7 @@ module.exports = function( paper ) {
 	return wordMatch( paragraph[ 0 ], paper.getKeyword(), paper.getLocale() );
 };
 
-},{"../stringProcessing/matchParagraphs.js":373,"../stringProcessing/matchTextWithWord.js":376}],321:[function(require,module,exports){
+},{"../stringProcessing/matchParagraphs.js":372,"../stringProcessing/matchTextWithWord.js":375}],320:[function(require,module,exports){
 /** @module analyses/findKeywordInPageTitle */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -22643,7 +22747,7 @@ module.exports = function( paper ) {
 	return result;
 };
 
-},{"../stringProcessing/matchTextWithWord.js":376}],322:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":375}],321:[function(require,module,exports){
 var createRegexFromDoubleArray = require( "../stringProcessing/createRegexFromDoubleArray.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" );
@@ -22743,7 +22847,7 @@ module.exports = function( paper ) {
 	};
 };
 
-},{"../helpers/getTransitionWords.js":297,"../stringProcessing/createRegexFromDoubleArray.js":363,"../stringProcessing/getSentences.js":368,"../stringProcessing/matchWordInSentence.js":377,"../stringProcessing/quotes.js":378,"lodash/filter":188,"lodash/forEach":193,"lodash/memoize":221}],323:[function(require,module,exports){
+},{"../helpers/getTransitionWords.js":296,"../stringProcessing/createRegexFromDoubleArray.js":362,"../stringProcessing/getSentences.js":367,"../stringProcessing/matchWordInSentence.js":376,"../stringProcessing/quotes.js":377,"lodash/filter":188,"lodash/forEach":193,"lodash/memoize":221}],322:[function(require,module,exports){
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
@@ -22762,7 +22866,7 @@ module.exports = function() {
 };
 
 
-},{}],324:[function(require,module,exports){
+},{}],323:[function(require,module,exports){
 /** @module config/transitionWords */
 
 /**
@@ -22806,7 +22910,7 @@ module.exports = function() {
 	];
 };
 
-},{}],325:[function(require,module,exports){
+},{}],324:[function(require,module,exports){
 /** @module config/twoPartTransitionWords */
 
 /**
@@ -22823,7 +22927,7 @@ module.exports = function() {
 	];
 };
 
-},{}],326:[function(require,module,exports){
+},{}],325:[function(require,module,exports){
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
@@ -22844,7 +22948,7 @@ module.exports = function() {
 
 
 
-},{}],327:[function(require,module,exports){
+},{}],326:[function(require,module,exports){
 /** @module config/transitionWords */
 
 /**
@@ -22876,7 +22980,7 @@ module.exports = function() {
 		"zufolge", "zuletzt", "zum beispiel", "zumal", "zuvor", "zwar", "zweitens" ];
 };
 
-},{}],328:[function(require,module,exports){
+},{}],327:[function(require,module,exports){
 /** @module config/twoPartTransitionWords */
 
 /**
@@ -22891,7 +22995,7 @@ module.exports = function() {
 		[ "wenn", "schon" ], [ "nicht weil", "sondern" ]  ];
 };
 
-},{}],329:[function(require,module,exports){
+},{}],328:[function(require,module,exports){
 /** @module analyses/getKeywordDensity */
 
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -22915,7 +23019,7 @@ module.exports = function( paper ) {
 	return ( keywordCount / wordCount ) * 100;
 };
 
-},{"../stringProcessing/countWords.js":361,"../stringProcessing/matchTextWithWord.js":376}],330:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":360,"../stringProcessing/matchTextWithWord.js":375}],329:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks.js" );
@@ -23014,7 +23118,7 @@ module.exports = function( paper ) {
 	return countLinkTypes( paper );
 };
 
-},{"../stringProcessing/checkNofollow.js":358,"../stringProcessing/findKeywordInUrl.js":364,"../stringProcessing/getLinkType.js":367,"../stringProcessing/url.js":393,"./getLinks.js":331}],331:[function(require,module,exports){
+},{"../stringProcessing/checkNofollow.js":357,"../stringProcessing/findKeywordInUrl.js":363,"../stringProcessing/getLinkType.js":366,"../stringProcessing/url.js":392,"./getLinks.js":330}],330:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
@@ -23029,7 +23133,7 @@ module.exports = function( text ) {
 	return getAnchors( text );
 };
 
-},{"../stringProcessing/getAnchorsFromText.js":366}],332:[function(require,module,exports){
+},{"../stringProcessing/getAnchorsFromText.js":365}],331:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords.js" );
 var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
 var filter = require( "lodash/filter" );
@@ -23056,7 +23160,7 @@ module.exports = function( paper ) {
 	} );
 };
 
-},{"../stringProcessing/countWords.js":361,"../stringProcessing/matchParagraphs.js":373,"lodash/filter":188}],333:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":360,"../stringProcessing/matchParagraphs.js":372,"lodash/filter":188}],332:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -23393,7 +23497,7 @@ module.exports = function( paper ) {
 	};
 };
 
-},{"../stringProcessing/createRegexFromArray.js":362,"../stringProcessing/getSentences.js":368,"../stringProcessing/matchWordInSentence.js":377,"../stringProcessing/quotes.js":378,"../stringProcessing/stripHTMLTags.js":386,"../stringProcessing/stripSpaces.js":389,"./english/passivevoice-english/auxiliaries.js":313,"./english/passivevoice-english/determiners.js":314,"./english/passivevoice-english/irregulars.js":315,"./english/passivevoice-english/non-verb-ending-ed.js":316,"./english/passivevoice-english/stopwords.js":317,"lodash/filter":188,"lodash/forEach":193,"lodash/includes":199,"lodash/isUndefined":217}],334:[function(require,module,exports){
+},{"../stringProcessing/createRegexFromArray.js":361,"../stringProcessing/getSentences.js":367,"../stringProcessing/matchWordInSentence.js":376,"../stringProcessing/quotes.js":377,"../stringProcessing/stripHTMLTags.js":385,"../stringProcessing/stripSpaces.js":388,"./english/passivevoice-english/auxiliaries.js":312,"./english/passivevoice-english/determiners.js":313,"./english/passivevoice-english/irregulars.js":314,"./english/passivevoice-english/non-verb-ending-ed.js":315,"./english/passivevoice-english/stopwords.js":316,"lodash/filter":188,"lodash/forEach":193,"lodash/includes":199,"lodash/isUndefined":217}],333:[function(require,module,exports){
 var getSentences = require( "../stringProcessing/getSentences.js" );
 var getWords = require( "../stringProcessing/getWords.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -23471,7 +23575,7 @@ module.exports = function( paper ) {
 
 
 
-},{"../helpers/getFirstWordExceptions.js":295,"../stringProcessing/getSentences.js":368,"../stringProcessing/getWords.js":371,"../stringProcessing/removeNonWordCharacters.js":379,"../stringProcessing/stripHTMLTags.js":386,"../stringProcessing/stripSpaces.js":389,"lodash/forEach":193,"lodash/isEmpty":206}],335:[function(require,module,exports){
+},{"../helpers/getFirstWordExceptions.js":294,"../stringProcessing/getSentences.js":367,"../stringProcessing/getWords.js":370,"../stringProcessing/removeNonWordCharacters.js":378,"../stringProcessing/stripHTMLTags.js":385,"../stringProcessing/stripSpaces.js":388,"lodash/forEach":193,"lodash/isEmpty":206}],334:[function(require,module,exports){
 var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
 var forEach = require( "lodash/forEach" );
@@ -23496,7 +23600,7 @@ module.exports = function( paper ) {
 	return subHeadings;
 };
 
-},{"../stringProcessing/getSubheadings.js":370,"../stringProcessing/stripHTMLTags.js":386,"lodash/forEach":193}],336:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":369,"../stringProcessing/stripHTMLTags.js":385,"lodash/forEach":193}],335:[function(require,module,exports){
 var getSubheadingsContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 
 /**
@@ -23510,7 +23614,7 @@ module.exports = function( paper ) {
 	return headings.length;
 };
 
-},{"../stringProcessing/getSubheadings.js":370}],337:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":369}],336:[function(require,module,exports){
 var getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var forEach = require( "lodash/forEach" );
@@ -23537,7 +23641,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/countWords.js":361,"../stringProcessing/getSubheadingTexts.js":369,"lodash/forEach":193}],338:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":360,"../stringProcessing/getSubheadingTexts.js":368,"lodash/forEach":193}],337:[function(require,module,exports){
 var getWords = require( "../stringProcessing/getWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
@@ -23582,7 +23686,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/countSyllables.js":360,"../stringProcessing/getSentences.js":368,"../stringProcessing/getWords.js":371,"lodash/forEach":193,"lodash/map":220}],339:[function(require,module,exports){
+},{"../stringProcessing/countSyllables.js":359,"../stringProcessing/getSentences.js":367,"../stringProcessing/getWords.js":370,"lodash/forEach":193,"lodash/map":220}],338:[function(require,module,exports){
 /** @module researches/imageAltTags */
 
 var imageInText = require( "../stringProcessing/imageInText" );
@@ -23647,7 +23751,7 @@ module.exports = function( paper ) {
 	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword(), paper.getLocale() );
 };
 
-},{"../stringProcessing/getAlttagContent":365,"../stringProcessing/imageInText":372,"../stringProcessing/matchTextWithWord":376}],340:[function(require,module,exports){
+},{"../stringProcessing/getAlttagContent":364,"../stringProcessing/imageInText":371,"../stringProcessing/matchTextWithWord":375}],339:[function(require,module,exports){
 /** @module researches/imageInText */
 
 var imageInText = require( "./../stringProcessing/imageInText" );
@@ -23662,7 +23766,7 @@ module.exports = function( paper ) {
 	return imageInText( paper.getText() ).length;
 };
 
-},{"./../stringProcessing/imageInText":372}],341:[function(require,module,exports){
+},{"./../stringProcessing/imageInText":371}],340:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords" );
 var sanitizeString = require( "../stringProcessing/sanitizeString" );
 
@@ -23680,7 +23784,7 @@ function keyphraseLengthResearch( paper ) {
 
 module.exports = keyphraseLengthResearch;
 
-},{"../stringProcessing/countWords":361,"../stringProcessing/sanitizeString":383}],342:[function(require,module,exports){
+},{"../stringProcessing/countWords":360,"../stringProcessing/sanitizeString":382}],341:[function(require,module,exports){
 /** @module researches/countKeywordInUrl */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -23696,7 +23800,7 @@ module.exports = function( paper ) {
 	return wordMatch( paper.getUrl(), keyword, paper.getLocale() );
 };
 
-},{"../stringProcessing/matchTextWithWord.js":376}],343:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":375}],342:[function(require,module,exports){
 /* @module analyses/matchKeywordInSubheadings */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
@@ -23727,7 +23831,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/getSubheadings.js":370,"../stringProcessing/stripNonTextTags.js":387,"../stringProcessing/subheadingsMatch.js":390}],344:[function(require,module,exports){
+},{"../stringProcessing/getSubheadings.js":369,"../stringProcessing/stripNonTextTags.js":386,"../stringProcessing/subheadingsMatch.js":389}],343:[function(require,module,exports){
 var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
@@ -23745,7 +23849,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/matchTextWithWord.js":376}],345:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":375}],344:[function(require,module,exports){
 /**
  * Check the length of the description.
  * @param {Paper} paper The paper object containing the description.
@@ -23755,7 +23859,7 @@ module.exports = function( paper ) {
 	return paper.getDescription().length;
 };
 
-},{}],346:[function(require,module,exports){
+},{}],345:[function(require,module,exports){
 /**
  * Check the width of the title in pixels
  * @param {Paper} paper The paper object containing the title width in pixels.
@@ -23768,7 +23872,7 @@ module.exports = function( paper ) {
 	return 0;
 };
 
-},{}],347:[function(require,module,exports){
+},{}],346:[function(require,module,exports){
 /**
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
@@ -23788,7 +23892,7 @@ module.exports = function() {
 
 
 
-},{}],348:[function(require,module,exports){
+},{}],347:[function(require,module,exports){
 /** @module config/transitionWords */
 
 /**
@@ -23828,7 +23932,7 @@ module.exports = function() {
 		"una vez", "verbigracia", "vice-versa", "ya", "ya que" ];
 };
 
-},{}],349:[function(require,module,exports){
+},{}],348:[function(require,module,exports){
 /** @module config/twoPartTransitionWords */
 
 /**
@@ -23840,7 +23944,7 @@ module.exports = function() {
 		[ "por un lado", "por otro lado" ], [ "por una parte", "por otra parte" ], [ "por una parte", "por otra" ], [ "tanto", "como" ] ];
 };
 
-},{}],350:[function(require,module,exports){
+},{}],349:[function(require,module,exports){
 /** @module researches/stopWordsInKeyword */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -23854,7 +23958,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getKeyword() );
 };
 
-},{"./stopWordsInText.js":351}],351:[function(require,module,exports){
+},{"./stopWordsInText.js":350}],350:[function(require,module,exports){
 var stopwords = require( "../config/stopwords.js" )();
 var toRegex = require( "../stringProcessing/stringToRegex.js" );
 
@@ -23876,7 +23980,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{"../config/stopwords.js":285,"../stringProcessing/stringToRegex.js":385}],352:[function(require,module,exports){
+},{"../config/stopwords.js":284,"../stringProcessing/stringToRegex.js":384}],351:[function(require,module,exports){
 /** @module researches/stopWordsInUrl */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -23890,7 +23994,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
 };
 
-},{"./stopWordsInText.js":351}],353:[function(require,module,exports){
+},{"./stopWordsInText.js":350}],352:[function(require,module,exports){
 /** @module analyses/isUrlTooLong */
 
 /**
@@ -23911,7 +24015,7 @@ module.exports = function( paper ) {
 	return false;
 };
 
-},{}],354:[function(require,module,exports){
+},{}],353:[function(require,module,exports){
 var wordCount = require( "../stringProcessing/countWords.js" );
 
 /**
@@ -23923,7 +24027,7 @@ module.exports = function( paper ) {
 	return wordCount( paper.getText() );
 };
 
-},{"../stringProcessing/countWords.js":361}],355:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":360}],354:[function(require,module,exports){
 var Assessor = require( "./assessor.js" );
 
 var introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
@@ -23979,7 +24083,7 @@ module.exports = SEOAssessor;
 require( "util" ).inherits( module.exports, Assessor );
 
 
-},{"./assessments/introductionKeywordAssessment.js":255,"./assessments/keyphraseLengthAssessment.js":256,"./assessments/keywordDensityAssessment.js":257,"./assessments/keywordStopWordsAssessment.js":258,"./assessments/metaDescriptionKeywordAssessment.js":259,"./assessments/metaDescriptionLengthAssessment.js":260,"./assessments/pageTitleWidthAssessment.js":261,"./assessments/subheadingsKeywordAssessment.js":267,"./assessments/textCompetingLinksAssessment.js":269,"./assessments/textImagesAssessment.js":270,"./assessments/textLengthAssessment.js":271,"./assessments/textLinksAssessment.js":272,"./assessments/titleKeywordAssessment.js":274,"./assessments/urlKeywordAssessment.js":276,"./assessments/urlLengthAssessment.js":277,"./assessments/urlStopWordsAssessment.js":278,"./assessor.js":279,"util":250}],356:[function(require,module,exports){
+},{"./assessments/introductionKeywordAssessment.js":255,"./assessments/keyphraseLengthAssessment.js":256,"./assessments/keywordDensityAssessment.js":257,"./assessments/keywordStopWordsAssessment.js":258,"./assessments/metaDescriptionKeywordAssessment.js":259,"./assessments/metaDescriptionLengthAssessment.js":260,"./assessments/pageTitleWidthAssessment.js":261,"./assessments/subheadingsKeywordAssessment.js":267,"./assessments/textCompetingLinksAssessment.js":268,"./assessments/textImagesAssessment.js":269,"./assessments/textLengthAssessment.js":270,"./assessments/textLinksAssessment.js":271,"./assessments/titleKeywordAssessment.js":273,"./assessments/urlKeywordAssessment.js":275,"./assessments/urlLengthAssessment.js":276,"./assessments/urlStopWordsAssessment.js":277,"./assessor.js":278,"util":250}],355:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/isEmpty" );
@@ -25238,7 +25342,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {};
 /* eslint-disable */
 module.exports = SnippetPreview;
 
-},{"../js/stringProcessing/replaceDiacritics.js":381,"../js/stringProcessing/sanitizeString.js":383,"../js/stringProcessing/stringToRegex.js":385,"../js/stringProcessing/stripHTMLTags.js":386,"../js/stringProcessing/stripSpaces.js":389,"../js/stringProcessing/transliterate.js":391,"./config/config.js":281,"./helpers/domManipulation.js":292,"./templates.js":394,"lodash/clone":181,"lodash/debounce":182,"lodash/defaultsDeep":184,"lodash/forEach":193,"lodash/isElement":205,"lodash/isEmpty":206,"lodash/isUndefined":217}],357:[function(require,module,exports){
+},{"../js/stringProcessing/replaceDiacritics.js":380,"../js/stringProcessing/sanitizeString.js":382,"../js/stringProcessing/stringToRegex.js":384,"../js/stringProcessing/stripHTMLTags.js":385,"../js/stringProcessing/stripSpaces.js":388,"../js/stringProcessing/transliterate.js":390,"./config/config.js":280,"./helpers/domManipulation.js":291,"./templates.js":393,"lodash/clone":181,"lodash/debounce":182,"lodash/defaultsDeep":184,"lodash/forEach":193,"lodash/isElement":205,"lodash/isEmpty":206,"lodash/isUndefined":217}],356:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -25259,7 +25363,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],358:[function(require,module,exports){
+},{}],357:[function(require,module,exports){
 /** @module stringProcessing/checkNofollow */
 
 /**
@@ -25278,7 +25382,7 @@ module.exports = function( text ) {
 	return linkFollow;
 };
 
-},{}],359:[function(require,module,exports){
+},{}],358:[function(require,module,exports){
 /** @module stringProcessing/countSentences */
 
 var getSentences = require( "../stringProcessing/getSentences.js" );
@@ -25300,7 +25404,7 @@ module.exports = function( text ) {
 	return sentenceCount;
 };
 
-},{"../stringProcessing/getSentences.js":368}],360:[function(require,module,exports){
+},{"../stringProcessing/getSentences.js":367}],359:[function(require,module,exports){
 /** @module stringProcessing/countSyllables */
 
 var syllableMatchers = require( "../config/syllables.js" );
@@ -25402,7 +25506,7 @@ module.exports = function( text ) {
 };
 
 
-},{"../config/syllables.js":286,"../stringProcessing/getWords.js":371,"../values/syllableCountIterator.js":398,"lodash/filter":188,"lodash/forEach":193}],361:[function(require,module,exports){
+},{"../config/syllables.js":285,"../stringProcessing/getWords.js":370,"../values/syllableCountIterator.js":397,"lodash/filter":188,"lodash/forEach":193}],360:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var getWords = require( "../stringProcessing/getWords.js" );
@@ -25417,7 +25521,7 @@ module.exports = function( text ) {
 	return getWords( text ).length;
 };
 
-},{"../stringProcessing/getWords.js":371}],362:[function(require,module,exports){
+},{"../stringProcessing/getWords.js":370}],361:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -25446,7 +25550,7 @@ module.exports = function( array, disableWordBoundary ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":357,"lodash/map":220}],363:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":356,"lodash/map":220}],362:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromDoubleArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -25476,7 +25580,7 @@ module.exports = function ( array ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":357}],364:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":356}],363:[function(require,module,exports){
 /** @module stringProcessing/findKeywordInUrl */
 
 var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" );
@@ -25500,7 +25604,7 @@ module.exports = function( url, keyword, locale ) {
 	return false;
 };
 
-},{"./matchTextWithTransliteration.js":375}],365:[function(require,module,exports){
+},{"./matchTextWithTransliteration.js":374}],364:[function(require,module,exports){
 /** @module stringProcessing/getAlttagContent */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -25527,7 +25631,7 @@ module.exports = function( text ) {
 	return alt;
 };
 
-},{"../stringProcessing/stripSpaces.js":389}],366:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":388}],365:[function(require,module,exports){
 /** @module stringProcessing/getAnchorsFromText */
 
 /**
@@ -25549,7 +25653,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{}],367:[function(require,module,exports){
+},{}],366:[function(require,module,exports){
 /** @module stringProcess/getLinkType */
 
 var urlHelper = require( "./url" );
@@ -25579,7 +25683,7 @@ module.exports = function( text, url ) {
 	return linkType;
 };
 
-},{"./url":393}],368:[function(require,module,exports){
+},{"./url":392}],367:[function(require,module,exports){
 var map = require( "lodash/map" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
@@ -25890,7 +25994,7 @@ module.exports = function( text ) {
 	return filter( sentences, negate( isEmpty ) );
 };
 
-},{"../helpers/html.js":298,"../stringProcessing/quotes.js":378,"../stringProcessing/unifyWhitespace.js":392,"lodash/filter":188,"lodash/flatMap":191,"lodash/forEach":193,"lodash/isEmpty":206,"lodash/isNaN":209,"lodash/isUndefined":217,"lodash/map":220,"lodash/memoize":221,"lodash/negate":224,"tokenizer2/core":246}],369:[function(require,module,exports){
+},{"../helpers/html.js":297,"../stringProcessing/quotes.js":377,"../stringProcessing/unifyWhitespace.js":391,"lodash/filter":188,"lodash/flatMap":191,"lodash/forEach":193,"lodash/isEmpty":206,"lodash/isNaN":209,"lodash/isUndefined":217,"lodash/map":220,"lodash/memoize":221,"lodash/negate":224,"tokenizer2/core":246}],368:[function(require,module,exports){
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.
@@ -25916,7 +26020,7 @@ module.exports = function( text ) {
 
 
 
-},{}],370:[function(require,module,exports){
+},{}],369:[function(require,module,exports){
 var map = require( "lodash/map" );
 
 /**
@@ -25959,7 +26063,7 @@ module.exports = {
 	getSubheadingContents: getSubheadingContents
 };
 
-},{"lodash/map":220}],371:[function(require,module,exports){
+},{"lodash/map":220}],370:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var stripTags = require( "./stripHTMLTags.js" ).stripFullTags;
@@ -25992,7 +26096,7 @@ module.exports = function( text ) {
 };
 
 
-},{"./removeTerminators.js":380,"./stripHTMLTags.js":386,"./stripSpaces.js":389,"lodash/filter":188,"lodash/map":220}],372:[function(require,module,exports){
+},{"./removeTerminators.js":379,"./stripHTMLTags.js":385,"./stripSpaces.js":388,"lodash/filter":188,"lodash/map":220}],371:[function(require,module,exports){
 /** @module stringProcessing/imageInText */
 
 var matchStringWithRegex = require( "./matchStringWithRegex.js" );
@@ -26007,7 +26111,7 @@ module.exports = function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 };
 
-},{"./matchStringWithRegex.js":374}],373:[function(require,module,exports){
+},{"./matchStringWithRegex.js":373}],372:[function(require,module,exports){
 var map = require( "lodash/map" );
 var flatMap = require( "lodash/flatMap" );
 var filter = require( "lodash/filter" );
@@ -26067,7 +26171,7 @@ module.exports = function( text ) {
 	return [ text ];
 };
 
-},{"../helpers/html":298,"lodash/filter":188,"lodash/flatMap":191,"lodash/map":220}],374:[function(require,module,exports){
+},{"../helpers/html":297,"lodash/filter":188,"lodash/flatMap":191,"lodash/map":220}],373:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -26088,7 +26192,7 @@ module.exports = function( text, regexString ) {
 	return matches;
 };
 
-},{}],375:[function(require,module,exports){
+},{}],374:[function(require,module,exports){
 var map = require( "lodash/map" );
 var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
@@ -26129,7 +26233,7 @@ module.exports = function( text, keyword, locale ) {
 
 
 
-},{"./addWordboundary.js":357,"./stripSpaces.js":389,"./transliterate.js":391,"lodash/map":220}],376:[function(require,module,exports){
+},{"./addWordboundary.js":356,"./stripSpaces.js":388,"./transliterate.js":390,"lodash/map":220}],375:[function(require,module,exports){
 /** @module stringProcessing/matchTextWithWord */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
@@ -26152,7 +26256,7 @@ module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	return matches.length;
 };
 
-},{"../stringProcessing/matchTextWithTransliteration.js":375,"../stringProcessing/stripNonTextTags.js":387,"../stringProcessing/unifyWhitespace.js":392}],377:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithTransliteration.js":374,"../stringProcessing/stripNonTextTags.js":386,"../stringProcessing/unifyWhitespace.js":391}],376:[function(require,module,exports){
 var wordBoundaries = require( "../config/wordBoundaries.js" )();
 var includes = require( "lodash/includes" );
 
@@ -26193,7 +26297,7 @@ module.exports = function( word, sentence ) {
 	return ( ( previousCharacter ) && ( nextCharacter ) );
 };
 
-},{"../config/wordBoundaries.js":288,"lodash/includes":199}],378:[function(require,module,exports){
+},{"../config/wordBoundaries.js":287,"lodash/includes":199}],377:[function(require,module,exports){
 /**
  * Normalizes single quotes to 'regular' quotes.
  *
@@ -26241,7 +26345,7 @@ module.exports = {
 	normalize: normalizeQuotes
 };
 
-},{}],379:[function(require,module,exports){
+},{}],378:[function(require,module,exports){
 /** @module stringProcessing/removeNonWordCharacters.js */
 
 /**
@@ -26254,7 +26358,7 @@ module.exports = function( string ) {
 	return string.replace( /[\s\n\r\t\.,'\(\)\"\+;!?:\/]/g, "" );
 };
 
-},{}],380:[function(require,module,exports){
+},{}],379:[function(require,module,exports){
 var terminatorRegexString = "[\-()_\\[\\]’“”\"'\/.?!:;,¿¡]";
 var terminatorRegexStart = new RegExp( "^" + terminatorRegexString + "+" );
 var terminatorRegexEnd = new RegExp( terminatorRegexString + "+$" );
@@ -26271,7 +26375,7 @@ module.exports = function( word ) {
 	return word;
 };
 
-},{}],381:[function(require,module,exports){
+},{}],380:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var diacriticsRemovalMap = require( "../config/diacritics.js" );
@@ -26294,7 +26398,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../config/diacritics.js":282}],382:[function(require,module,exports){
+},{"../config/diacritics.js":281}],381:[function(require,module,exports){
 /** @module stringProcessing/replaceString */
 
 /**
@@ -26311,7 +26415,7 @@ module.exports = function( text, stringToReplace, replacement ) {
 	return text;
 };
 
-},{}],383:[function(require,module,exports){
+},{}],382:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
@@ -26331,7 +26435,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":386,"../stringProcessing/stripSpaces.js":389}],384:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":385,"../stringProcessing/stripSpaces.js":388}],383:[function(require,module,exports){
 var wordCount = require( "./countWords.js" );
 var forEach = require( "lodash/forEach" );
 var stripHTMLTags = require( "./stripHTMLTags.js" ).stripFullTags;
@@ -26361,7 +26465,7 @@ module.exports = function( sentences ) {
 	return sentencesWordCount;
 };
 
-},{"./countWords.js":361,"./stripHTMLTags.js":386,"lodash/forEach":193}],385:[function(require,module,exports){
+},{"./countWords.js":360,"./stripHTMLTags.js":385,"lodash/forEach":193}],384:[function(require,module,exports){
 /** @module stringProcessing/stringToRegex */
 var isUndefined = require( "lodash/isUndefined" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
@@ -26392,7 +26496,7 @@ module.exports = memoize( function( string, extraBoundary, doReplaceDiacritics )
 	return new RegExp( string, "ig" );
 } );
 
-},{"../stringProcessing/addWordboundary.js":357,"../stringProcessing/replaceDiacritics.js":381,"../stringProcessing/sanitizeString.js":383,"lodash/isUndefined":217,"lodash/memoize":221}],386:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":356,"../stringProcessing/replaceDiacritics.js":380,"../stringProcessing/sanitizeString.js":382,"lodash/isUndefined":217,"lodash/memoize":221}],385:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -26426,7 +26530,7 @@ module.exports = {
 	stripIncompleteTags: stripIncompleteTags
 };
 
-},{"../stringProcessing/stripSpaces.js":389}],387:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":388}],386:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -26443,7 +26547,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":389}],388:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":388}],387:[function(require,module,exports){
 /** @module stringProcessing/stripNumbers */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -26468,7 +26572,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":389}],389:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":388}],388:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -26491,7 +26595,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],390:[function(require,module,exports){
+},{}],389:[function(require,module,exports){
 var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" )();
 var matchTextWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
@@ -26527,7 +26631,7 @@ module.exports = function( matches, keyword, locale ) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":284,"../stringProcessing/matchTextWithTransliteration.js":375,"../stringProcessing/replaceString.js":382}],391:[function(require,module,exports){
+},{"../config/removalWords.js":283,"../stringProcessing/matchTextWithTransliteration.js":374,"../stringProcessing/replaceString.js":381}],390:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var transliterationsMap = require( "../config/transliterations.js" );
@@ -26550,7 +26654,7 @@ module.exports = function( text, locale ) {
 	return text;
 };
 
-},{"../config/transliterations.js":287}],392:[function(require,module,exports){
+},{"../config/transliterations.js":286}],391:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
 
 /**
@@ -26588,7 +26692,7 @@ module.exports = {
 	unifyAllSpaces: unifyAllSpaces
 };
 
-},{}],393:[function(require,module,exports){
+},{}],392:[function(require,module,exports){
 var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
 var urlMethods = require( "url" );
 
@@ -26682,7 +26786,7 @@ module.exports = {
 	getHostname: getHostname
 };
 
-},{"url":247}],394:[function(require,module,exports){
+},{"url":247}],393:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -27095,7 +27199,7 @@ module.exports = {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],395:[function(require,module,exports){
+},{}],394:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 var isNumber = require( "lodash/isNumber" );
 
@@ -27258,7 +27362,7 @@ AssessmentResult.prototype.hasMarks = function() {
 
 module.exports = AssessmentResult;
 
-},{"lodash/isNumber":210,"lodash/isUndefined":217}],396:[function(require,module,exports){
+},{"lodash/isNumber":210,"lodash/isUndefined":217}],395:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 
 /**
@@ -27307,7 +27411,7 @@ Mark.prototype.applyWithReplace = function( text ) {
 
 module.exports = Mark;
 
-},{"lodash/defaults":183}],397:[function(require,module,exports){
+},{"lodash/defaults":183}],396:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
@@ -27483,7 +27587,7 @@ Paper.prototype.getPermalink = function() {
 
 module.exports = Paper;
 
-},{"../stringProcessing/sanitizeString.js":383,"lodash/defaults":183}],398:[function(require,module,exports){
+},{"../stringProcessing/sanitizeString.js":382,"lodash/defaults":183}],397:[function(require,module,exports){
 var SyllableCountStep = require ( "./syllableCountStep.js" );
 
 var isUndefined = require( "lodash/isUndefined" );
@@ -27538,7 +27642,7 @@ SyllableCountIterator.prototype.countSyllables = function( word ) {
 
 module.exports = SyllableCountIterator;
 
-},{"./syllableCountStep.js":399,"lodash/forEach":193,"lodash/isUndefined":217}],399:[function(require,module,exports){
+},{"./syllableCountStep.js":398,"lodash/forEach":193,"lodash/isUndefined":217}],398:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
@@ -27605,4 +27709,4 @@ SyllableCountStep.prototype.countSyllables = function( word ) {
 
 module.exports = SyllableCountStep;
 
-},{"../stringProcessing/createRegexFromArray.js":362,"lodash/isUndefined":217}]},{},[18]);
+},{"../stringProcessing/createRegexFromArray.js":361,"lodash/isUndefined":217}]},{},[18]);

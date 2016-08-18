@@ -1,29 +1,29 @@
 /* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
-var isUndefined = require( 'lodash/isUndefined' );
+var isUndefined = require( "lodash/isUndefined" );
 
-var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
-var TabManager = require( './analysis/tabManager' );
-var tmceHelper = require( './wp-seo-tinymce' );
+var getIndicatorForScore = require( "./analysis/getIndicatorForScore" );
+var TabManager = require( "./analysis/tabManager" );
+var tmceHelper = require( "./wp-seo-tinymce" );
 
-var updateTrafficLight = require( './ui/trafficLight' ).update;
-var updateAdminBar = require( './ui/adminBar' ).update;
+var updateTrafficLight = require( "./ui/trafficLight" ).update;
+var updateAdminBar = require( "./ui/adminBar" ).update;
 
-var getTranslations = require( './analysis/getTranslations' );
-var isKeywordAnalysisActive = require( './analysis/isKeywordAnalysisActive' );
-var isContentAnalysisActive = require( './analysis/isContentAnalysisActive' );
-var snippetPreviewHelpers = require( './analysis/snippetPreview' );
+var getTranslations = require( "./analysis/getTranslations" );
+var isKeywordAnalysisActive = require( "./analysis/isKeywordAnalysisActive" );
+var isContentAnalysisActive = require( "./analysis/isContentAnalysisActive" );
+var snippetPreviewHelpers = require( "./analysis/snippetPreview" );
+
+var App = require( "yoastseo" ).App;
+var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
+var UsedKeywords = require( "./analysis/usedKeywords" );
 
 window.yoastHideMarkers = true;
 
-(function( $ ) {
-	'use strict';
+( function( $ ) {
+	"use strict";
 
 	var snippetContainer;
-	var App = require( 'yoastseo' ).App;
-
-	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
-	var UsedKeywords = require( './analysis/usedKeywords' );
 
 	var app, snippetPreview;
 
@@ -35,11 +35,11 @@ window.yoastHideMarkers = true;
 	 * The HTML 'id' attribute for the TinyMCE editor.
 	 * @type {String}
 	 */
-	var tmceId = 'description';
+	var tmceId = "description";
 
 	var TermScraper = function() {
-		if ( typeof CKEDITOR === 'object' ) {
-			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		if ( typeof CKEDITOR === "object" ) {
+			console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 		}
 	};
 
@@ -50,7 +50,7 @@ window.yoastHideMarkers = true;
 	TermScraper.prototype.getData = function() {
 		return {
 			title: this.getTitle(),
-			keyword: isKeywordAnalysisActive() ? this.getKeyword() : '',
+			keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 			text: this.getText(),
 			meta: this.getMeta(),
 			url: this.getUrl(),
@@ -60,7 +60,7 @@ window.yoastHideMarkers = true;
 			snippetMeta: this.getSnippetMeta(),
 			name: this.getName(),
 			baseUrl: this.getBaseUrl(),
-			pageTitle: this.getPageTitle()
+			pageTitle: this.getPageTitle(),
 		};
 	};
 
@@ -70,7 +70,7 @@ window.yoastHideMarkers = true;
 	 * @returns {string} The title.
 	 */
 	TermScraper.prototype.getTitle = function() {
-		return document.getElementById( 'hidden_wpseo_title' ).value;
+		return document.getElementById( "hidden_wpseo_title" ).value;
 	};
 
 	/**
@@ -81,10 +81,10 @@ window.yoastHideMarkers = true;
 	TermScraper.prototype.getKeyword = function() {
 		var elem, val;
 
-		elem = document.getElementById( 'wpseo_focuskw' );
+		elem = document.getElementById( "wpseo_focuskw" );
 		val = elem.value;
-		if ( val === '' ) {
-			val = document.getElementById( 'name' ).value;
+		if ( val === "" ) {
+			val = document.getElementById( "name" ).value;
 			elem.placeholder = val;
 		}
 
@@ -106,9 +106,9 @@ window.yoastHideMarkers = true;
 	 * @returns {string} The meta.
 	 */
 	TermScraper.prototype.getMeta = function() {
-		var  val = '';
+		var  val = "";
 
-		var elem = document.getElementById( 'hidden_wpseo_desc' );
+		var elem = document.getElementById( "hidden_wpseo_desc" );
 		if ( elem !== null ) {
 			val = elem.value;
 		}
@@ -122,7 +122,7 @@ window.yoastHideMarkers = true;
 	 * @returns {string} The url.
 	 */
 	TermScraper.prototype.getUrl = function() {
-		return document.getElementById( 'slug' ).value;
+		return document.getElementById( "slug" ).value;
 	};
 
 	/**
@@ -133,7 +133,7 @@ window.yoastHideMarkers = true;
 	TermScraper.prototype.getPermalink = function() {
 		var url = this.getUrl();
 
-		return this.getBaseUrl() + url + '/';
+		return this.getBaseUrl() + url + "/";
 	};
 
 	/**
@@ -151,7 +151,7 @@ window.yoastHideMarkers = true;
 	 * @returns {string} The snippet title.
 	 */
 	TermScraper.prototype.getSnippetTitle = function() {
-		return document.getElementById( 'hidden_wpseo_title' ).value;
+		return document.getElementById( "hidden_wpseo_title" ).value;
 	};
 
 	/**
@@ -160,9 +160,9 @@ window.yoastHideMarkers = true;
 	 * @returns {string} The snippet meta.
 	 */
 	TermScraper.prototype.getSnippetMeta = function() {
-		var val = '';
+		var val = "";
 
-		var elem = document.getElementById( 'hidden_wpseo_desc' );
+		var elem = document.getElementById( "hidden_wpseo_desc" );
 		if ( elem !== null ) {
 			val = elem.value;
 		}
@@ -176,7 +176,7 @@ window.yoastHideMarkers = true;
 	 * @returns {string} The name.
 	 */
 	TermScraper.prototype.getName = function() {
-		return document.getElementById( 'name' ).value;
+		return document.getElementById( "name" ).value;
 	};
 
 	/**
@@ -194,7 +194,7 @@ window.yoastHideMarkers = true;
 	 * @returns {string} The page title.
 	 */
 	TermScraper.prototype.getPageTitle = function() {
-		return document.getElementById( 'hidden_wpseo_title' ).value;
+		return document.getElementById( "hidden_wpseo_title" ).value;
 	};
 
 	/**
@@ -204,14 +204,14 @@ window.yoastHideMarkers = true;
 	 */
 	TermScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
-			case 'snippet_meta':
-				document.getElementById( 'hidden_wpseo_desc' ).value = value;
+			case "snippet_meta":
+				document.getElementById( "hidden_wpseo_desc" ).value = value;
 				break;
-			case 'snippet_cite':
-				document.getElementById( 'slug' ).value = value;
+			case "snippet_cite":
+				document.getElementById( "slug" ).value = value;
 				break;
-			case 'snippet_title':
-				document.getElementById( 'hidden_wpseo_title' ).value = value;
+			case "snippet_title":
+				document.getElementById( "hidden_wpseo_title" ).value = value;
 				break;
 			default:
 				break;
@@ -227,9 +227,9 @@ window.yoastHideMarkers = true;
 	 * @param {string} data.metaDesc
 	 */
 	TermScraper.prototype.saveSnippetData = function( data ) {
-		this.setDataFromSnippet( data.title, 'snippet_title' );
-		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
-		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+		this.setDataFromSnippet( data.title, "snippet_title" );
+		this.setDataFromSnippet( data.urlPath, "snippet_cite" );
+		this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
 	};
 
 	/**
@@ -243,11 +243,11 @@ window.yoastHideMarkers = true;
 	 * binds the renewData function on the change of inputelements.
 	 */
 	TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'name', tmceId, 'slug', 'wpseo_focuskw' ];
+		var elems = [ "name", tmceId, "slug", "wpseo_focuskw" ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.refresh.bind( app ) );
+				document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 			}
 		}
 		tmceHelper.tinyMceEventBinder( app, tmceId );
@@ -262,8 +262,8 @@ window.yoastHideMarkers = true;
 		var indicator = getIndicatorForScore( score );
 		var keyword = this.getKeyword();
 
-		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
-		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+		document.getElementById( "hidden_wpseo_linkdex" ).value = score;
+		jQuery( window ).trigger( "YoastSEO:numericScore", score );
 
 		tabManager.updateKeywordTab( score, keyword );
 
@@ -285,7 +285,7 @@ window.yoastHideMarkers = true;
 			updateAdminBar( indicator );
 		}
 
-		$( '#hidden_wpseo_content_score' ).val( score );
+		$( "#hidden_wpseo_content_score" ).val( score );
 	};
 
 	/**
@@ -293,9 +293,9 @@ window.yoastHideMarkers = true;
 	 */
 	TermScraper.prototype.initKeywordTabTemplate = function() {
 		// Remove default functionality to prevent scrolling to top.
-		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
+		$( ".wpseo-metabox-tabs" ).on( "click", ".wpseo_tablink", function( ev ) {
 			ev.preventDefault();
-		});
+		} );
 	};
 
 	/**
@@ -304,19 +304,19 @@ window.yoastHideMarkers = true;
 	 */
 	var insertTinyMCE = function() {
 		// Get the table cell that contains the description textarea.
-		var descriptionTd = jQuery( '.term-description-wrap' ).find( 'td' );
+		var descriptionTd = jQuery( ".term-description-wrap" ).find( "td" );
 
 		// Get the textNode from the original textarea.
-		var textNode = descriptionTd.find( 'textarea' ).val();
+		var textNode = descriptionTd.find( "textarea" ).val();
 
 		// Get the editor container.
-		var newEditor = document.getElementById( 'wp-description-wrap' );
+		var newEditor = document.getElementById( "wp-description-wrap" );
 
 		// Get the description help text below the textarea.
-		var text = descriptionTd.find( 'p' );
+		var text = descriptionTd.find( "p" );
 
 		// Empty the TD with the old description textarea.
-		descriptionTd.html( '' );
+		descriptionTd.html( "" );
 
 		/*
 		 * The editor is printed out via PHP as child of the form and initially
@@ -327,7 +327,7 @@ window.yoastHideMarkers = true;
 		descriptionTd.append( newEditor ).append( text );
 
 		// Populate the editor textarea with the original content,
-		document.getElementById( 'description' ).value = textNode;
+		document.getElementById( "description" ).value = textNode;
 	};
 
 	/**
@@ -340,7 +340,7 @@ window.yoastHideMarkers = true;
 		return snippetPreviewHelpers.create( snippetContainer, {
 			title: termScraper.getSnippetTitle(),
 			urlPath: termScraper.getSnippetCite(),
-			metaDesc: termScraper.getSnippetMeta()
+			metaDesc: termScraper.getSnippetMeta(),
 		}, termScraper.saveSnippetData.bind( termScraper ) );
 	}
 
@@ -355,8 +355,8 @@ window.yoastHideMarkers = true;
 	 * Adds a watcher on the term slug input field
 	 */
 	function initTermSlugWatcher() {
-		termSlugInput = $( '#slug' );
-		termSlugInput.on( 'change', updatedTermSlug );
+		termSlugInput = $( "#slug" );
+		termSlugInput.on( "change", updatedTermSlug );
 	}
 
 	/**
@@ -368,11 +368,11 @@ window.yoastHideMarkers = true;
 		var targets = {};
 
 		if ( isKeywordAnalysisActive() ) {
-			targets.output = 'wpseo_analysis';
+			targets.output = "wpseo_analysis";
 		}
 
 		if ( isContentAnalysisActive() ) {
-			targets.contentOutput = 'yoast-seo-content-analysis';
+			targets.contentOutput = "yoast-seo-content-analysis";
 		}
 
 		return targets;
@@ -385,8 +385,8 @@ window.yoastHideMarkers = true;
 	 * @param {TermScraper} termScraper The post scraper object.
 	 */
 	function initializeKeywordAnalysis( app, termScraper ) {
-		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
-		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
+		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
+		var usedKeywords = new UsedKeywords( "#wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
 
 		usedKeywords.init();
 		termScraper.initKeywordTabTemplate();
@@ -401,7 +401,7 @@ window.yoastHideMarkers = true;
 	 * Initializes content analysis
 	 */
 	function initializeContentAnalysis() {
-		var savedContentScore = $( '#hidden_wpseo_content_score' ).val();
+		var savedContentScore = $( "#hidden_wpseo_content_score" ).val();
 
 		var indicator = getIndicatorForScore( savedContentScore );
 
@@ -409,21 +409,21 @@ window.yoastHideMarkers = true;
 		updateAdminBar( indicator );
 	}
 
-	jQuery( document ).ready(function() {
+	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
-		snippetContainer = $( '#wpseo_snippet' );
+		snippetContainer = $( "#wpseo_snippet" );
 
 		insertTinyMCE();
 
-		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
+		$( "#wpseo_analysis" ).after( '<div id="yoast-seo-content-analysis"></div>' );
 
-		tabManager = new TabManager({
+		tabManager = new TabManager( {
 			strings: wpseoTermScraperL10n,
-			focusKeywordField: '#wpseo_focuskw',
+			focusKeywordField: "#wpseo_focuskw",
 			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive()
-		});
+			keywordAnalysisActive: isKeywordAnalysisActive(),
+		} );
 
 		tabManager.init();
 
@@ -432,15 +432,15 @@ window.yoastHideMarkers = true;
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+			elementTarget: [ tmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
-				getData: termScraper.getData.bind( termScraper )
+				getData: termScraper.getData.bind( termScraper ),
 			},
 			locale: wpseoTermScraperL10n.locale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview
+			snippetPreview: snippetPreview,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -491,6 +491,6 @@ window.yoastHideMarkers = true;
 			initializeContentAnalysis();
 		}
 
-		jQuery( window ).trigger( 'YoastSEO:ready' );
+		jQuery( window ).trigger( "YoastSEO:ready" );
 	} );
-}( jQuery ));
+}( jQuery ) );

@@ -1,12 +1,12 @@
-var getL10nObject = require( './getL10nObject' );
+var getL10nObject = require( "./getL10nObject" );
 
 /**
  * Returns the description placeholder for use in the description forms.
  *
  * @returns {string}
  */
-function getDescriptionPlaceholder( l10n ) {
-	var descriptionPlaceholder = '';
+function getDescriptionPlaceholder() {
+	var descriptionPlaceholder = "";
 	var l10nObject = getL10nObject();
 
 	if ( l10nObject ) {
