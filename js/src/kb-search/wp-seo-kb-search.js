@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import initAlgoliaSearch from "algoliasearch";
 import isUndefined from "lodash/isUndefined";
-import A11ySpeak from 'a11y-speak';
+import a11ySpeak from "a11y-speak";
 
 class AlgoliaSearcher extends React.Component {
 
@@ -150,16 +150,16 @@ class AlgoliaSearcher extends React.Component {
 		var searchResultContent;
 		var resultsCount = this.state.results.length;
 		if ( resultsCount > 0 ) {
-            var results = this.state.results.map( ( result, arrayIndex ) => {
-                return <SearchResult key={result.objectID} post={result}
+			var results = this.state.results.map( ( result, arrayIndex ) => {
+				return <SearchResult key={result.objectID} post={result}
                                      showDetail={this.showDetail.bind( this, arrayIndex )}/>;
-            } );
+			} );
 			searchResultContent = <ul role="list" className="wpseo-kb-search-results">{results}</ul>;
-			A11ySpeak( this.props.foundResultsText.replace( '%d', resultsCount ) );
+			a11ySpeak( this.props.foundResultsText.replace( "%d", resultsCount ) );
 		}
 		else if ( this.state.searchString !== "" ) {
 			searchResultContent = <p>{this.props.noResultsText}</p>;
-			A11ySpeak( this.props.noResultsText );
+			a11ySpeak( this.props.noResultsText );
 		}
 		return searchResultContent;
 	}
@@ -200,7 +200,7 @@ class AlgoliaSearcher extends React.Component {
      */
 	renderError( errorMessage ) {
 		console.error( errorMessage );
-		A11ySpeak( this.props.errorMessage );
+		a11ySpeak( this.props.errorMessage );
 
 		return (
 			<p>

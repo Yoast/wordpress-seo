@@ -216,7 +216,7 @@ var AlgoliaSearcher = function (_React$Component) {
 					{ role: "list", className: "wpseo-kb-search-results" },
 					results
 				);
-				(0, _a11ySpeak2.default)(this.props.foundResultsText.replace('%d', resultsCount));
+				(0, _a11ySpeak2.default)(this.props.foundResultsText.replace("%d", resultsCount));
 			} else if (this.state.searchString !== "") {
 				searchResultContent = _react2.default.createElement(
 					"p",
