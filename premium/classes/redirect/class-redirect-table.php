@@ -209,10 +209,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			case 'old':
 				$classes = '';
 				if ( $is_regex === true ) {
-					$classes = 'remove-slashes';
+					$classes = ' remove-slashes';
 				}
 
-				return "<div class='val " . $classes . "'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
+				return "<div class='val" . $classes . "'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
 				break;
 			case 'type';
 				return '<div class="val type">' . esc_html( $item['type'] ) .'</div>' . $row_actions;
