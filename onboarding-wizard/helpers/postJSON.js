@@ -6,7 +6,7 @@ import "whatwg-fetch";
  * @param {string} url  The endpoint to send the data to.
  * @param {Object} data The JSON object to send to the server.
  *
- * @return {Promise}
+ * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
 let postJSONFetch = ( url, data ) => {
 	/*
@@ -19,7 +19,7 @@ let postJSONFetch = ( url, data ) => {
 		{
 			method: "POST",
 			headers: {
-				"Accepts": "application/json",
+				Accepts: "application/json",
 				"Content-Type": "application/json",
 			},
 			body: data,
@@ -31,7 +31,7 @@ let postJSONFetch = ( url, data ) => {
 			fetchPromise
 				.then(
 					function( response ) {
-						if( response.status === 200 ) {
+						if ( response.status === 200 ) {
 							return resolve( response.json() );
 						}
 
@@ -48,12 +48,12 @@ let postJSONFetch = ( url, data ) => {
 };
 
 /**
- * Handles json request the jQuery way.
+ * Handles JSON request the jQuery way.
  *
  * @param {string} url  The endpoint to send the data to.
  * @param {Object} data The JSON object to send to the server.
  *
- * @return {Promise}
+ * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
 let postJSONjQuery = ( url, data ) => {
 	let jQueryPromise = jQuery.post( { url, dataType: "json", data } )
@@ -91,13 +91,12 @@ let postJSONjQuery = ( url, data ) => {
  * @param {string} url  The endpoint to send the data to.
  * @param {Object} data The JSON object to send to the server.
  *
- * @return {Promise}
+ * @returns {Promise} Returns a wrapped promise.
  */
 let postJSON = ( url, data = {} ) => {
 	data = JSON.stringify( data );
 
-	//
-	if ( typeof jQuery == "undefined" || ! jQuery || ! jQuery.ajax ) {
+	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
 		return postJSONFetch( url, data );
 	}
 

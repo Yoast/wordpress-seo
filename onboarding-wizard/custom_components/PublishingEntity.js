@@ -2,10 +2,10 @@
 import React from "react";
 
 /**
- * Represents a mailchimg signup interface.
+ * Represents a publishing entity interface.
  *
  * @param {Object} props The properties for the object.
- * @returns {JSX}
+ * @returns {JSX} The publishing entity component.
  * @constructor
  */
 const PublishingEntity = ( props ) => {

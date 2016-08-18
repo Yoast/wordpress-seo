@@ -5,7 +5,7 @@ import React from "react";
  * normal text input. We might add other representations later on.
  *
  * @param {Object} props The properties to use.
- * @returns {JSX}
+ * @returns {JSX} The input component.
  * @constructor
  */
 const Input = ( props ) => {

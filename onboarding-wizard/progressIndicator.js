@@ -6,7 +6,7 @@ import React from "react";
  * @param {{totalSteps: Number, currentStepNumber: (int|string)}} props
  * Should contain the total number of steps and the current step number.
  *
- * @return {JSX}
+ * @returns {JSX} A ProgressIndicator component.
  */
 const ProgressIndicator = ( props ) => {
 	if ( props.currentStepNumber === 0 ) {

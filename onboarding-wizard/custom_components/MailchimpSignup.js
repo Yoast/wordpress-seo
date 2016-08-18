@@ -4,7 +4,7 @@ import React from "react";
  * Represents a mailchimg signup interface.
  *
  * @param {Object} props The properties for the object.
- * @returns {JSX}
+ * @returns {JSX} The mailchimg signup component.
  * @constructor
  */
 const MailchimpSignup = ( props ) => {

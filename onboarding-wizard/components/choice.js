@@ -5,7 +5,7 @@ import React from "react";
  * group of radio buttons. We might add other representations later on.
  *
  * @param {Object} props The properties.
- * @returns {JSX}
+ * @returns {JSX} The choice component.
  * @constructor
  */
 const Choice = ( props ) => {
@@ -20,7 +20,7 @@ const Choice = ( props ) => {
 			{fieldKeys.map( function( choiceName, index ) {
 				let choice = choices[ choiceName ];
 				let choiceId = choiceName + "-" + index;
-				let isChecked = ( props.data == choiceName ) ? "checked" : "";
+				let isChecked = ( props.data === choiceName ) ? "checked" : "";
 
 				return (
 					<div key={index}>
@@ -41,7 +41,7 @@ Choice.propTypes = {
 	component: React.PropTypes.string,
 	data: React.PropTypes.string,
 	properties: React.PropTypes.object,
-	default: React.PropTypes.string,
+	"default": React.PropTypes.string,
 	fieldName: React.PropTypes.string.isRequired,
 	onChange: React.PropTypes.func,
 };
@@ -53,8 +53,7 @@ Choice.defaultProps = {
 		label: "",
 		choices: {},
 	},
-	default: "",
-	fieldName: "",
+	"default": "",
 };
 
 export default Choice;
