@@ -1,5 +1,13 @@
 # Grunt aliases
 ---
+# Build everything
+build:
+  - 'build:css'
+# Build CSS
+'build:css':
+  - 'sass:build'
+  - 'postcss:build'
+
 # Check health of the project
 check:
   - 'eslint'

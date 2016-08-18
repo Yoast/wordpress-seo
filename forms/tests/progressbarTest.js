@@ -8,7 +8,7 @@ describe( "A Progressbar component", () => {
 	var renderer = TestUtils.createRenderer();
 
 	it( "generates a Progressbar based on the props", () => {
-		renderer.render( <Progressbar name="customProgressbar" /> );
+		renderer.render( <Progressbar name="customProgressbar" value={0} /> );
 
 		let result = renderer.getRenderOutput();
 
@@ -23,7 +23,7 @@ describe( "A Progressbar component", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[0][0] )
-			.toContain( "Warning: Failed prop type: Required prop `name` was not specified" );
+			.toContain( "Warning: Failed prop type: Required prop `value` was not specified" );
 	} );
 
 	it( "generates a warning when a faulty value is passed", () => {

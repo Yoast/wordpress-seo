@@ -1,0 +1,96 @@
+@import "../../css/colors";
+@import "../../css/mixins";
+@import "../../css/icons";
+
+$snippet_width: 600px;
+$prefix: 'yoast-';
+
+@mixin svg-caret-before($color) {
+  background-image: url(svg-icon-caret-right($color));
+  background-size: 25px;
+  content: '';
+  display: block;
+  height: 24px;
+  left: -22px;
+  position: absolute;
+  top: -3px;
+  width: 24px;
+}
+
+/* css for snippet */
+.#{$prefix}search-result-preview {
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+
+  &__heading {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    margin: 0 -20px 15px;
+    border-bottom: 1px solid #f7f7f7;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    color: #555;
+  }
+
+  &__field {
+    @include clearfix;
+    position: relative;
+    cursor: pointer;
+    width: $snippet_width;
+    overflow: hidden;
+  }
+
+  &__title {
+    color: #1e0fbe;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: normal;
+    margin: 0;
+  }
+
+  &__url {
+    font-size: 14px;
+    line-height: 16px;
+    color: #006621;
+    font-style: normal;
+  }
+
+  &__description, &__date {
+    color: #777;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+
+.#{$prefix}icon {
+  padding-left: 45px;
+
+  &__eye {
+    @extend .#{$prefix}icon;
+    background: url(svg-icon-eye($color_headings)) no-repeat 20px center / 16px 16px;
+  }
+}
+
+.#{$prefix}button {
+  background: #f7f7f7;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  color: #555;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+
+  &__edit {
+    @extend .#{$prefix}button;
+
+    background: #f7f7f7 url(svg-icon-edit($color_headings)) no-repeat 8px center / 16px 16px;
+    background-size: 16px;
+    padding-left: 32px;
+    display: block;
+    margin-top: 1em;
+  }
+}

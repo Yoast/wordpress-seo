@@ -9,20 +9,22 @@ import React from "react";
  */
 const Label = ( props ) => {
 	return (
-		<label htmlFor={props.htmlFor} onClick={props.onClick}>{props.text}</label>
+		<label htmlFor={props.for} {...props.optionalAttributes}>{props.children}</label>
 	);
 };
 
 /**
  * Adds validation for the properties.
  *
- * @type {{for: string, text: string, onClick: function}}
+ * @type {{for: string, optionalAttributes.onClick: function, optionalAttributes.className: string, children: * }}
  */
 Label.propTypes = {
-	text: React.PropTypes.string.isRequired,
-
-	htmlFor: React.PropTypes.string,
-	onClick: React.PropTypes.func,
+	"for": React.PropTypes.string.isRequired,
+	optionalAttributes: React.PropTypes.shape( {
+		onClick: React.PropTypes.func,
+		className: React.PropTypes.string,
+	} ),
+	children: React.PropTypes.any.isRequired,
 };
 
 /**

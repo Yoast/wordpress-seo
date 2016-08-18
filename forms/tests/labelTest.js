@@ -8,7 +8,7 @@ describe( "A Label component", () => {
 	var renderer = TestUtils.createRenderer();
 
 	it( "generates a Label based on the props", () => {
-		renderer.render( <Label text="customLabel" /> );
+		renderer.render( <Label for="">customLabel</Label> );
 
 		let result = renderer.getRenderOutput();
 
@@ -16,44 +16,35 @@ describe( "A Label component", () => {
 		expect( result.props.htmlFor ).toBe( "" );
 	} );
 
-	it( "generates a warning when a required prop is missing", () => {
+	it( "generates a warning when a required prop `for` is missing", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Label /> );
+		renderer.render( <Label></Label> );
 
 		expect( console.error ).toBeCalled();
+
 		expect( console.error.mock.calls[0][0] )
-			.toContain( "Warning: Failed prop type: Required prop `text` was not specified" );
-	} );
-
-	it( "generates a warning when a faulty value is passed", () => {
-		console.error = jest.genMockFn();
-
-		renderer.render( <Label text={0} /> );
-
-		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
-			.toContain( "Warning: Failed prop type: Invalid prop `text` of type `number` supplied to `Label`, expected `string`." );
+			.toContain( "Warning: Failed prop type: Required prop `for` was not specified" );
 	} );
 
 	it( "generates a warning when a faulty htmlFor prop is passed", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Label htmlFor={0} /> );
+		renderer.render( <Label for={0} /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[0][0] )
-			.toContain( "Warning: Failed prop type: Invalid prop `htmlFor` of type `number` supplied to `Label`, expected `string`." );
+			.toContain( "Warning: Failed prop type: Invalid prop `for` of type `number` supplied to `Label`, expected `string`." );
 	} );
 
 	it( "generates a warning when a faulty onChange callback is passed", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Label name="customLabel" onClick={0} /> );
+		renderer.render( <Label name="customLabel" optionalAttributes={ { onClick: 0 } } /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[0][0] )
-			.toContain( "Warning: Failed prop type: Invalid prop `onClick` of type `number` supplied to `Label`, expected `function`." );
+			.toContain( "Warning: Failed prop type: Invalid prop `optionalAttributes.onClick` of type `number` supplied to `Label`, expected `function`." );
 	} );
 
 } );

@@ -1,0 +1,6 @@
+// Requires Sass Dash
+@import "../node_modules/sassdash/scss/sassdash";
+
+@function inline-svg($svg) {
+	@return 'data:image/svg+xml;charset=utf8,#{_encode( $svg )}';
+}
