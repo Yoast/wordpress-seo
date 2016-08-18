@@ -4,23 +4,27 @@ body {
   text-align: center;
   background: #f8f8f8;
   font-family: "Open Sans", sans-serif;
-}
 
-h1 {
-  font-size: 24px;
-}
+  h1 {
+    font-size: 24px;
+  }
 
-button {
-  color: #23282d;
-  background: #fafafa;
-  border-radius: 4px;
-  font-size: 1.25em;
-  padding: .5em 1em;
-  line-height: 1em;
-  margin-right: .5em;
-  margin-bottom: 2px;
-  margin-top: .5em;
-  height: auto;
+  button {
+    color: #23282d;
+    background: #fafafa;
+    border-radius: 4px;
+    font-size: 1.25em;
+    padding: .5em 1em;
+    line-height: 1em;
+    margin-right: .5em;
+    margin-bottom: 2px;
+    margin-top: .5em;
+    height: auto;
+  }
+
+  input[type="radio"]{
+      margin-right: 1em;
+  }
 }
 
 .#{$prefix} {
