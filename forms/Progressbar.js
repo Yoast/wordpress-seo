@@ -42,10 +42,10 @@ class Progressbar extends React.Component {
 
 		return (
 			<progress name={this.props.name}
-			          value={this.props.value}
-			          min={this.props.min}
-			          max={this.props.max}
-			          {...this.props.optionalAttributes}
+					  value={this.props.value}
+					  min={this.props.min}
+					  max={this.props.max}
+					  {...this.props.optionalAttributes}
 			/>
 		);
 	}
