@@ -1,0 +1,16 @@
+@import "../../css/colors";
+@import "../SearchResultPreview/search-result-preview";
+@import "../SearchResultForm/search-result-Form";
+
+$snippet_width: 600px;
+$prefix: "yoast-";
+
+.#{$prefix}search-result-editor {
+  padding: 0 20px 20px;
+  background-color: #fff;
+  border: 1px solid $color_border;
+  border-radius: 20px;
+  position: relative;
+  width: $snippet_width + 40;
+  font-family: Arial, sans-serif;
+}

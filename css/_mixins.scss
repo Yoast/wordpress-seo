@@ -1,0 +1,32 @@
+@mixin clearfix() {
+	&:before,
+	&:after {
+		content: ' ';
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin progress-bar-color ($class, $color) {
+	#{$class} {
+		color: $color;
+
+		&::-webkit-progress-value {
+			background-color: $color;
+			transition: width 250ms;
+		}
+
+		&::-moz-progress-bar {
+			background-color: $color;
+		}
+
+		&--fallback {
+			background-color: $color;
+			overflow: hidden;
+			max-width: 100%;
+		}
+	}
+}
