@@ -9,7 +9,7 @@ import React from "react";
  */
 const Label = ( props ) => {
 	return (
-		<label htmlFor={props.for} value={props.value} {...props.optionalAttributes}>{props.children}</label>
+		<label htmlFor={props.for} {...props.optionalAttributes}>{props.children}</label>
 	);
 };
 

@@ -8,20 +8,33 @@ import React from "react";
  * @constructor
  */
 class Progressbar extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor( props ) {
+		super( props );
 	}
 
+	/**
+	 * Creates a fallback progress bar based on a div.
+	 *
+	 * @param {number} value The current value to be displayed.
+	 * @param {number} max The maximum value allowed to be reached.
+	 * @returns {JSX.Element} The rendered fallback progress bar.
+	 */
 	fallback( value, max ) {
 		let progress = ( value / max ) * 100;
 
-		this.props.optionalAttributes.className = this.props.optionalAttributes.className + "--fallback"
+		this.props.optionalAttributes.className = this.props.optionalAttributes.className + "--fallback";
 
 		return (
 			<div {...this.props.optionalAttributes} style={ { width: progress + "%" } }></div>
 		);
 	}
 
+	/**
+	 * Renders the progress bar component.
+	 * Has a fallback for browersers that don't support the <progress> element.
+	 *
+	 * @returns {JSX.element} The rendered progress bar.
+	 */
 	render() {
 		if ( typeof document.createElement( "progress" ) === "undefined" ) {
 			return this.fallback( this.props.value, this.props.max );
@@ -36,7 +49,7 @@ class Progressbar extends React.Component {
 			/>
 		);
 	}
-};
+}
 
 /**
  * Adds validation for the properties.
