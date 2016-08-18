@@ -15,7 +15,7 @@ const Choice = ( props ) => {
 
 	return (
 		<div>
-			<h2>{props.properties.label}</h2>
+			<p id={"yoast-label-"+fieldName} className="yoast-input-label">{props.properties.label}</p>
 
 			{fieldKeys.map( function( choiceName, index ) {
 				let choice = choices[ choiceName ];
