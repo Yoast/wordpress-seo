@@ -33,7 +33,7 @@ class Progressbar extends React.Component {
 	 * Renders the progress bar component.
 	 * Has a fallback for browersers that don't support the <progress> element.
 	 *
-	 * @returns {JSX.element} The rendered progress bar.
+	 * @returns {JSX.Element} The rendered progress bar.
 	 */
 	render() {
 		if ( typeof document.createElement( "progress" ) === "undefined" ) {

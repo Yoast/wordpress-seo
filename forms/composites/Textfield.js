@@ -1,16 +1,31 @@
 import React from "react";
+
 import Label from "../Label";
 import Input from "../Input";
 import Textarea from "../Textarea";
 
+/**
+ * Represents the Textfield composite component.
+ */
 class Textfield extends React.Component {
 
+	/**
+	 * Instantiates a new instance of the TextField and sets its default props.
+	 * Also adds some method binding and scoping.
+	 *
+	 * @param {Object} props The properties to use within the editor.
+	 */
 	constructor( props ) {
 		super( props );
 
 		this.optionalAttributes = this.parseOptionalAttributes();
 	}
 
+	/**
+	 * Renders the TextField component.
+	 *
+	 * @returns {JSX.Element} A representation of the TextField component.
+	 */
 	render() {
 		return (
 			<div>
@@ -20,6 +35,11 @@ class Textfield extends React.Component {
 		);
 	}
 
+	/**
+	 * Determines whether a text input or a textarea should be rendered.
+	 *
+	 * @returns {JSX.Element} A representation of either the Textarea or Input component.
+	 */
 	determineFieldType() {
 		if ( this.props.multiline === true ) {
 			return (
@@ -40,6 +60,11 @@ class Textfield extends React.Component {
 		                optionalAttributes={this.optionalAttributes.field} /> );
 	}
 
+	/**
+	 * Parses the optional attributes and splits them up into individual categories.
+	 *
+	 * @returns {{label: {}, field: {id: string}}}
+	 */
 	parseOptionalAttributes() {
 		let labelConfiguration = {};
 		let fieldConfiguration = { id: this.props.name,	};
