@@ -15,24 +15,28 @@ const Choice = ( props ) => {
 
 	return (
 		<div>
-			<p id={"yoast-label-"+fieldName} className="yoast-input-label">{props.properties.label}</p>
+			<p id={"yoast-label-" + fieldName} className="yoast-input-label">{props.properties.label}</p>
+			<fieldset className={"yoast-wizard-input-" + fieldName}>
+				{fieldKeys.map( function ( choiceName, index ) {
+					let choice = choices[ choiceName ];
+					let choiceId = choiceName + "-" + index;
+					let isChecked = (
+					props.data == choiceName
+					) ? "checked" : "";
 
-			{fieldKeys.map( function( choiceName, index ) {
-				let choice = choices[ choiceName ];
-				let choiceId = choiceName + "-" + index;
-				let isChecked = ( props.data == choiceName ) ? "checked" : "";
-
-				return (
-					<div key={index}>
-						<input onChange={props.onChange} id={choiceId} type="radio" name={fieldName}
-						       value={choiceName}
-						       checked={isChecked}/>
-						<label htmlFor={choiceId}>
-							{choice.label}
-						</label>
-					</div>
-				);
-			} )}
+					return (
+						<div key={index}>
+							<input className={fieldName} onChange={props.onChange} id={choiceId} type="radio"
+							       name={fieldName}
+							       value={choiceName}
+							       checked={isChecked}/>
+							<label htmlFor={choiceId}>
+								{choice.label}
+							</label>
+						</div>
+					);
+				} )}
+			</fieldset>
 		</div>
 	);
 };
