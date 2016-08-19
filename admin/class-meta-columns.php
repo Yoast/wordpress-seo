@@ -264,14 +264,16 @@ class WPSEO_Meta_Columns {
 					'compare' => 'BETWEEN',
 				),
 				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => 'needs-a-value-anyway',
-					'compare' => 'NOT EXISTS',
-				),
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => '1',
-					'compare' => '!=',
+					'relation' => 'OR',
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+						'compare' => 'NOT EXISTS',
+					),
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+						'value'   => '1',
+						'compare' => '!=',
+					),
 				),
 			),
 		);
