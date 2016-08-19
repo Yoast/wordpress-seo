@@ -1,11 +1,11 @@
 import React from "react";
-import Components from "./components";
+import Components from "./components/components";
 
 /**
  * Renders a step in the wizard process
  *
  * @param {Object} props The props used for rendering the steps.
- * @returns {JSX} A Step component.
+ * @returns {JSX.Element} A Step component.
  * @constructor
  */
 class Step extends React.Component {
@@ -101,24 +101,57 @@ class Step extends React.Component {
 	getFieldComponents( fields ) {
 		let keys = Object.keys( fields );
 
-		return keys.map( ( fieldName, key ) => {
-			let currentField = fields[ fieldName ];
+		return keys.map( ( name, key ) => {
+			let currentField = fields[ name ];
 
 			if ( Components[ currentField.component ] === "undefined" ) {
 				return;
 			}
+			let fieldProps = this.getFieldProps( currentField.component, key, name, currentField );
 
-			let props = {
-				key,
-				fieldName,
-				onChange: this.onChange.bind( this ),
-				properties: currentField.properties,
-				value: this.state.fieldValues[ this.state.currentStep ][ fieldName ],
-			};
-
-			return React.createElement( Components[ currentField.component ], props );
+			return React.createElement( Components[ currentField.component ], fieldProps );
 		} );
 	}
+
+	/**
+	 * Gets the properties for a specific field type.
+	 *
+	 * @param componentType The field component type, for example: Input or Choice.
+	 * @param key The unique id key for this element.
+	 * @param name The name for the field.
+	 * @param {Object} currentField The current field with its settings.
+	 *
+	 * @returns {Object} The initialized properties for the element.
+	 */
+	getFieldProps( componentType, key, name, currentField ) {
+		let props = {
+			key,
+			name,
+			onChange: this.onChange.bind( this ),
+			properties: currentField.properties,
+			value: this.state.fieldValues[ this.state.currentStep ][ name ],
+		};
+
+		if ( componentType === "Input" ) {
+			Object.assign( props, {
+				label: currentField.properties.label,
+				"label-className": "yoast-wizard-text-input-label",
+				"input-className": "yoast-wizard-text-input-box",
+				optionalAttributes: {
+					"class": "yoast-wizard-text-input",
+				}
+			} );
+		}
+		if ( componentType === "Choice" ) {
+			Object.assign( props, {
+				"className": "yoast-wizard-input-radio",
+				"optionClassName": "yoast-wizard-input-radio-option",
+			} );
+		}
+
+		return props;
+	}
+
 
 	/**
 	 * Renders the step.
@@ -127,8 +160,8 @@ class Step extends React.Component {
 	 */
 	render() {
 		return (
-			<div id="yoast-wizard-step-container">
-				<h1>Step: {this.props.title}</h1>
+			<div className="yoast-wizard-step-container">
+				<h1>{this.props.title}</h1>
 				{ this.getFieldComponents( this.props.fields ) }
 			</div>
 		);

@@ -1,7 +1,7 @@
-jest.unmock( "../wizard" );
+jest.unmock( "../OnboardingWizard" );
 jest.unmock( "lodash/cloneDeep" );
-jest.unmock( "../progressIndicator" );
-jest.unmock( "../config/config" );
+jest.unmock( "../ProgressIndicator" );
+jest.unmock( "../config/production-config" );
 jest.mock( '../helpers/postJSON', () => {
 
 	let postJSON = ( url, data ) => {
@@ -14,8 +14,8 @@ jest.mock( '../helpers/postJSON', () => {
 } );
 
 import React from "react";
-import Wizard from "../wizard";
-import Config from "../config/config";
+import Wizard from "../OnboardingWizard";
+import Config from "../config/production-config";
 import {shallow, render, mount} from "enzyme";
 import cloneDeep from "lodash/cloneDeep";
 

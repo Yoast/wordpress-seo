@@ -1,4 +1,6 @@
 import React from "react";
+import Input from '../../../forms/Input';
+import Label from '../../../forms/Label';
 
 /**
  * Represents a choice interface, like a group of radio buttons or a select button. Initially it should render a
@@ -11,27 +13,27 @@ import React from "react";
 const Choice = ( props ) => {
 	let choices = props.properties.choices;
 	let fieldKeys = Object.keys( choices );
-	let fieldName = props.fieldName;
+	let fieldName = props.name;
 
 	return (
-		<div>
+
+		<div className={props.className}>
 			<p className="yoast-wizard-field-description">{props.properties.label}</p>
-			<fieldset className={"yoast-wizard-input-" + fieldName}>
+			<fieldset className={"yoast-wizard-input-radio-" + fieldName}>
 				{fieldKeys.map( ( choiceName, index ) => {
 					let choice = choices[ choiceName ];
-					let choiceId = `${choiceName} - ${index}`;
+					let id = `${choiceName} - ${index}`;
 					// If the value for the choice field equals the name for this choice, the choice is checked.
 					let checked = (props.value === choiceName);
 
 					return (
-						<div key={index}>
-							<input className={fieldName} onChange={props.onChange} id={choiceId} type="radio"
-							       name={fieldName}
-							       value={choiceName}
-							       checked={checked}/>
-							<label htmlFor={choiceId}>
-								{choice.label}
-							</label>
+						<div className={props.optionClassName + " " + choiceName} key={index}>
+							<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
+							       value={choiceName} optionalAttributes={{
+								id,
+								checked
+							}}/>
+							<Label for={id}>{choice.label}</Label>
 						</div>
 					);
 				} )}
@@ -45,8 +47,10 @@ Choice.propTypes = {
 	value: React.PropTypes.string,
 	properties: React.PropTypes.object,
 	"default": React.PropTypes.string,
-	fieldName: React.PropTypes.string.isRequired,
+	name: React.PropTypes.string.isRequired,
 	onChange: React.PropTypes.func,
+	className: React.PropTypes.string,
+	optionClassName: React.PropTypes.string,
 };
 
 Choice.defaultProps = {
