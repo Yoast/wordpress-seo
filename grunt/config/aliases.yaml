@@ -13,4 +13,4 @@ check:
   - 'eslint'
 # Default task
 default:
-  - check
+- check

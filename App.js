@@ -1,20 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import SearchResultEditor from "./composites/SearchResultEditor/SearchResultEditor";
+import Wizard from "./composites/onboarding-wizard/wizard";
+import Config from "./composites/onboarding-wizard/config/config";
 
 class App extends React.Component {
-	constructor() {
-		super();
-
-		this.state = {};
-	}
 
 	render() {
-		return ( <SearchResultEditor />	);
+		return (
+			<Wizard {...Config} />
+		);
 	}
 }
 
 ReactDOM.render( <App />, document.getElementById( 'container' ) );
-
-export default App;

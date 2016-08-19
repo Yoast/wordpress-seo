@@ -21,7 +21,7 @@ describe( "a step component", () => {
 
 	it( 'has div container with correct id', () => {
 		expect( stepComponent.type ).toEqual( 'div' );
-		expect( stepComponent.props.id ).toEqual( 'stepContainer' );
+		expect( stepComponent.props.id ).toEqual( 'yoast-wizard-step-container' );
 	} );
 
 	it( 'has a h1 header title', () => {
