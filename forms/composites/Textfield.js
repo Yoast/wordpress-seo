@@ -28,7 +28,7 @@ class Textfield extends React.Component {
 	 */
 	render() {
 		return (
-			<div>
+			<div className={this.props.optionalAttributes.class}>
 				<Label for={this.props.name} optionalAttributes={this.optionalAttributes.label}>{this.props.label}</Label>
 				{this.determineFieldType()}
 			</div>

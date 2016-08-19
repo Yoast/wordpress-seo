@@ -16,9 +16,10 @@ const Choice = ( props ) => {
 	let fieldName = props.name;
 
 	return (
-		<div>
+
+		<div className={props.className}>
 			<p className="yoast-wizard-field-description">{props.properties.label}</p>
-			<fieldset className={"yoast-wizard-input-" + fieldName}>
+			<fieldset className={"yoast-wizard-input-radio-" + fieldName}>
 				{fieldKeys.map( ( choiceName, index ) => {
 					let choice = choices[ choiceName ];
 					let id = `${choiceName} - ${index}`;
@@ -26,7 +27,7 @@ const Choice = ( props ) => {
 					let checked = (props.value === choiceName);
 
 					return (
-						<div key={index}>
+						<div className={props.optionClassName + " " + choiceName} key={index}>
 							<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
 							       value={choiceName} optionalAttributes={{
 								id,
@@ -48,6 +49,8 @@ Choice.propTypes = {
 	"default": React.PropTypes.string,
 	name: React.PropTypes.string.isRequired,
 	onChange: React.PropTypes.func,
+	className: React.PropTypes.string,
+	optionClassName: React.PropTypes.string,
 };
 
 Choice.defaultProps = {

@@ -5,7 +5,7 @@ import Components from "./components/components";
  * Renders a step in the wizard process
  *
  * @param {Object} props The props used for rendering the steps.
- * @returns {JSX} A Step component.
+ * @returns {JSX.Element} A Step component.
  * @constructor
  */
 class Step extends React.Component {
@@ -107,19 +107,51 @@ class Step extends React.Component {
 			if ( Components[ currentField.component ] === "undefined" ) {
 				return;
 			}
+			let fieldProps = this.getFieldProps( currentField.component, key, name, currentField );
 
-			let props = {
-				key,
-				name,
-				onChange: this.onChange.bind( this ),
-				properties: currentField.properties,
-				value: this.state.fieldValues[ this.state.currentStep ][ name ],
-				label: (currentField.properties && currentField.properties.label) ? currentField.properties.label : "",
-			};
-
-			return React.createElement( Components[ currentField.component ], props );
+			return React.createElement( Components[ currentField.component ], fieldProps );
 		} );
 	}
+
+	/**
+	 * Gets the properties for a specific field type.
+	 *
+	 * @param componentType The field component type, for example: Input or Choice.
+	 * @param key The unique id key for this element.
+	 * @param name The name for the field.
+	 * @param {Object} currentField The current field with its settings.
+	 *
+	 * @returns {Object} The initialized properties for the element.
+	 */
+	getFieldProps( componentType, key, name, currentField ) {
+		let props = {
+			key,
+			name,
+			onChange: this.onChange.bind( this ),
+			properties: currentField.properties,
+			value: this.state.fieldValues[ this.state.currentStep ][ name ],
+		};
+
+		if ( componentType === "Input" ) {
+			Object.assign( props, {
+				label: currentField.properties.label,
+				"label-className": "yoast-wizard-text-input-label",
+				"input-className": "yoast-wizard-text-input-box",
+				optionalAttributes: {
+					"class": "yoast-wizard-text-input",
+				}
+			} );
+		}
+		if ( componentType === "Choice" ) {
+			Object.assign( props, {
+				"className": "yoast-wizard-input-radio",
+				"optionClassName": "yoast-wizard-input-radio-option",
+			} );
+		}
+
+		return props;
+	}
+
 
 	/**
 	 * Renders the step.
