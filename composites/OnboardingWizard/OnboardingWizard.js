@@ -1,12 +1,12 @@
 import React from "react";
-import Step from "./step";
-import ProgressIndicator from "./progressIndicator";
+import Step from "./Step";
+import ProgressIndicator from "./ProgressIndicator";
 import postJSON from "./helpers/postJSON";
 
 /**
- * The onboarding Wizard class.
+ * The onboarding OnboardingWizard class.
  */
-class Wizard extends React.Component {
+class OnboardingWizard extends React.Component {
 
 	/**
 	 * Initialize the steps and set the current stepId to the first step in the array
@@ -222,16 +222,16 @@ class Wizard extends React.Component {
 	}
 }
 
-Wizard.propTypes = {
+OnboardingWizard.propTypes = {
 	endpoint: React.PropTypes.string.isRequired,
 	steps: React.PropTypes.object.isRequired,
 	currentStepId: React.PropTypes.string,
 	fields: React.PropTypes.object,
 };
 
-Wizard.defaultProps = {
+OnboardingWizard.defaultProps = {
 	steps: [],
 	fields: React.PropTypes.object,
 };
 
-export default Wizard;
+export default OnboardingWizard;
