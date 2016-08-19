@@ -15,21 +15,20 @@ const Choice = ( props ) => {
 
 	return (
 		<div>
-			<p id={"yoast-label-" + fieldName} className="yoast-input-label">{props.properties.label}</p>
+			<p className="yoast-wizard-field-description">{props.properties.label}</p>
 			<fieldset className={"yoast-wizard-input-" + fieldName}>
-				{fieldKeys.map( function ( choiceName, index ) {
+				{fieldKeys.map( ( choiceName, index ) => {
 					let choice = choices[ choiceName ];
-					let choiceId = choiceName + "-" + index;
-					let isChecked = (
-						props.data === choiceName
-					) ? "checked" : "";
+					let choiceId = `${choiceName} - ${index}`;
+					// If the value for the choice field equals the name for this choice, the choice is checked.
+					let checked = (props.value === choiceName);
 
 					return (
 						<div key={index}>
 							<input className={fieldName} onChange={props.onChange} id={choiceId} type="radio"
 							       name={fieldName}
 							       value={choiceName}
-							       checked={isChecked}/>
+							       checked={checked}/>
 							<label htmlFor={choiceId}>
 								{choice.label}
 							</label>
@@ -43,7 +42,7 @@ const Choice = ( props ) => {
 
 Choice.propTypes = {
 	component: React.PropTypes.string,
-	data: React.PropTypes.string,
+	value: React.PropTypes.string,
 	properties: React.PropTypes.object,
 	"default": React.PropTypes.string,
 	fieldName: React.PropTypes.string.isRequired,
@@ -52,7 +51,7 @@ Choice.propTypes = {
 
 Choice.defaultProps = {
 	component: "",
-	data: "",
+	value: "",
 	properties: {
 		label: "",
 		choices: {},

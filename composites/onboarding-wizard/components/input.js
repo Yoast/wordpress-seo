@@ -13,7 +13,7 @@ const Input = ( props ) => {
 		<div className="yoast-wizard-text-input">
 			<label className="yoast-wizard-text-input-label" htmlFor={props.fieldName}>{props.properties.label}: </label>
 			<input className="yoast-wizard-text-input-box" onChange={props.onChange} type={props.type} id={props.fieldName} name={props.fieldName}
-			       defaultValue={props.data} placeholder={props.placeholder}/>
+			       defaultValue={props.value} placeholder={props.placeholder}/>
 		</div>
 	);
 };
@@ -29,7 +29,6 @@ Input.propTypes = {
 			label: React.PropTypes.string.isRequired,
 		}
 	),
-	data: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 	fieldName: React.PropTypes.string.isRequired,
 };
@@ -39,7 +38,7 @@ Input.defaultProps = {
 	placeholder: "enter text..",
 	type: "text",
 	name: "input",
-	data: "",
+	value: "",
 	fieldName: "",
 };
 
