@@ -101,8 +101,8 @@ class Step extends React.Component {
 	getFieldComponents( fields ) {
 		let keys = Object.keys( fields );
 
-		return keys.map( ( fieldName, key ) => {
-			let currentField = fields[ fieldName ];
+		return keys.map( ( name, key ) => {
+			let currentField = fields[ name ];
 
 			if ( Components[ currentField.component ] === "undefined" ) {
 				return;
@@ -110,10 +110,11 @@ class Step extends React.Component {
 
 			let props = {
 				key,
-				fieldName,
+				name,
 				onChange: this.onChange.bind( this ),
 				properties: currentField.properties,
-				value: this.state.fieldValues[ this.state.currentStep ][ fieldName ],
+				value: this.state.fieldValues[ this.state.currentStep ][ name ],
+				label: (currentField.properties && currentField.properties.label) ? currentField.properties.label : "",
 			};
 
 			return React.createElement( Components[ currentField.component ], props );

@@ -4,7 +4,7 @@ import ProgressIndicator from "./ProgressIndicator";
 import postJSON from "./helpers/postJSON";
 
 /**
- * The onboarding OnboardingWizard class.
+ * The OnboardingWizard class.
  */
 class OnboardingWizard extends React.Component {
 

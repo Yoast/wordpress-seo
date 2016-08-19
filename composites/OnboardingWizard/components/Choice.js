@@ -13,7 +13,7 @@ import Label from '../../../forms/Label';
 const Choice = ( props ) => {
 	let choices = props.properties.choices;
 	let fieldKeys = Object.keys( choices );
-	let fieldName = props.fieldName;
+	let fieldName = props.name;
 
 	return (
 		<div>
@@ -46,7 +46,7 @@ Choice.propTypes = {
 	value: React.PropTypes.string,
 	properties: React.PropTypes.object,
 	"default": React.PropTypes.string,
-	fieldName: React.PropTypes.string.isRequired,
+	name: React.PropTypes.string.isRequired,
 	onChange: React.PropTypes.func,
 };
 
