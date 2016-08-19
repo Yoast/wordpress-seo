@@ -1,4 +1,6 @@
 import React from "react";
+import Input from '../../../forms/Input';
+import Label from '../../../forms/Label';
 
 /**
  * Represents a choice interface, like a group of radio buttons or a select button. Initially it should render a
@@ -19,19 +21,18 @@ const Choice = ( props ) => {
 			<fieldset className={"yoast-wizard-input-" + fieldName}>
 				{fieldKeys.map( ( choiceName, index ) => {
 					let choice = choices[ choiceName ];
-					let choiceId = `${choiceName} - ${index}`;
+					let id = `${choiceName} - ${index}`;
 					// If the value for the choice field equals the name for this choice, the choice is checked.
 					let checked = (props.value === choiceName);
 
 					return (
 						<div key={index}>
-							<input className={fieldName} onChange={props.onChange} id={choiceId} type="radio"
-							       name={fieldName}
-							       value={choiceName}
-							       checked={checked}/>
-							<label htmlFor={choiceId}>
-								{choice.label}
-							</label>
+							<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
+							       value={choiceName} optionalAttributes={{
+								id,
+								checked
+							}}/>
+							<Label for={id}>{choice.label}</Label>
 						</div>
 					);
 				} )}
