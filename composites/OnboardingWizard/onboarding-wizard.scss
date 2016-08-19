@@ -24,10 +24,18 @@ body {
     font-size: 1.25em;
     padding: .5em 1em;
     line-height: 1em;
-    margin-right: .5em;
+
+    margin-right: .4em;
     margin-bottom: 2px;
-    margin-top: .5em;
+    margin-top: .4em;
+
     height: auto;
+    cursor: pointer;
+    cursor: hand;
+
+    &:hover{
+      background: #d1d1d1;
+    }
   }
 
   &-step-container {
@@ -63,7 +71,10 @@ body {
   }
 
   &-text-input {
+
     &-label {
+      cursor: pointer;
+      cursor: hand;
       display: inline-block;
       width: 100%;
       max-width: 200px;
@@ -72,6 +83,12 @@ body {
 
   input {
     margin: 1.5em 0 1em 1em;
+    padding: 5px;
+  }
+
+  label {
+    cursor: pointer;
+    cursor: hand;
   }
 
   &-input-radio {
@@ -81,6 +98,7 @@ body {
     }
 
     &-separator {
+
       input {
         /* visually hide the radio buttons but keep them accessible */
         position: absolute;
