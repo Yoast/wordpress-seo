@@ -22,3 +22,8 @@
 .select2-results__option {
 	margin-bottom: 0;
 }
+
+/* Admin menu notifications count bubble. */
+.yoast-notifications-count .plugin-count:before {
+	content: attr(data-yoast-notifications-count);
+}
