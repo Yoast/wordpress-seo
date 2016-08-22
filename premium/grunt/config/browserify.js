@@ -1,5 +1,10 @@
 module.exports = {
 	build: {
+		options: {
+			transform: [
+				['babelify', { presets: ['es2015']}]
+			]
+		},
 		files: {
 			'assets/js/yoast-premium-social-preview-340.js': [ 'assets/js/src/yoast-premium-social-preview.js' ],
 			'assets/js/wp-seo-premium-multi-keyword-341.js': [ 'assets/js/src/multi-keyword.js' ],

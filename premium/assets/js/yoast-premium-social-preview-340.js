@@ -1,16 +1,18 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var getL10nObject = require( './getL10nObject' );
+"use strict";
+
+var getL10nObject = require("./getL10nObject");
 
 /**
  * Returns the description placeholder for use in the description forms.
  *
  * @returns {string}
  */
-function getDescriptionPlaceholder( l10n ) {
-	var descriptionPlaceholder = '';
+function getDescriptionPlaceholder() {
+	var descriptionPlaceholder = "";
 	var l10nObject = getL10nObject();
 
-	if ( l10nObject ) {
+	if (l10nObject) {
 		descriptionPlaceholder = l10nObject.metadesc_template;
 	}
 
@@ -20,9 +22,9 @@ function getDescriptionPlaceholder( l10n ) {
 module.exports = getDescriptionPlaceholder;
 
 },{"./getL10nObject":2}],2:[function(require,module,exports){
-/* global wpseoPostScraperL10n */
+"use strict";
 
-var isUndefined = require( 'lodash/isUndefined' );
+var isUndefined = require("lodash/isUndefined");
 
 /**
  * Returns the l10n object for the current page, either term or post.
@@ -32,9 +34,9 @@ var isUndefined = require( 'lodash/isUndefined' );
 function getL10nObject() {
 	var l10nObject = null;
 
-	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
+	if (!isUndefined(window.wpseoPostScraperL10n)) {
 		l10nObject = window.wpseoPostScraperL10n;
-	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
+	} else if (!isUndefined(window.wpseoTermScraperL10n)) {
 		l10nObject = window.wpseoTermScraperL10n;
 	}
 
@@ -44,9 +46,9 @@ function getL10nObject() {
 module.exports = getL10nObject;
 
 },{"lodash/isUndefined":4}],3:[function(require,module,exports){
-/* global wpseoPostScraperL10n, wpseoTermScraperL10n */
+"use strict";
 
-var getL10nObject = require( './getL10nObject' );
+var getL10nObject = require("./getL10nObject");
 
 /**
  * Returns the title placeholder for use in the title forms.
@@ -54,15 +56,15 @@ var getL10nObject = require( './getL10nObject' );
  * @returns {string}
  */
 function getTitlePlaceholder() {
-	var titlePlaceholder = '';
+	var titlePlaceholder = "";
 	var l10nObject = getL10nObject();
 
-	if ( l10nObject ) {
+	if (l10nObject) {
 		titlePlaceholder = l10nObject.title_template;
 	}
 
-	if ( titlePlaceholder === '' ) {
-		titlePlaceholder = '%%title%% - %%sitename%%';
+	if (titlePlaceholder === "") {
+		titlePlaceholder = "%%title%% - %%sitename%%";
 	}
 
 	return titlePlaceholder;
@@ -105,8 +107,9 @@ module.exports = isUndefined;
  * @param {string} text The text to put in the button.
  * @param {string} controls The HTML ID of the element this button controls.
  */
-function helpButton( text, controls ) {
-	return '<button type="button" class="yoast_help yoast-help-button dashicons" aria-expanded="false" aria-controls="' + controls + '"><span class="screen-reader-text">' + text + '</span></button>';
+
+function helpButton(text, controls) {
+  return '<button type="button" class="yoast_help yoast-help-button dashicons" aria-expanded="false" aria-controls="' + controls + '"><span class="screen-reader-text">' + text + '</span></button>';
 }
 
 /**
@@ -115,13 +118,13 @@ function helpButton( text, controls ) {
  * @param {string} text The text to put in the button.
  * @param {string} id The HTML ID to give this button.
  */
-function helpText( text, id ) {
-	return '<p id="' + id + '" class="yoast-help-panel">' + text + '</p>';
+function helpText(text, id) {
+  return '<p id="' + id + '" class="yoast-help-panel">' + text + '</p>';
 }
 
 module.exports = {
-	helpButton: helpButton,
-	helpText: helpText
+  helpButton: helpButton,
+  helpText: helpText
 };
 
 },{}],6:[function(require,module,exports){
@@ -129,23 +132,23 @@ module.exports = {
 /* jshint -W097 */
 'use strict';
 
-var getImages = require( 'yoastseo/js/stringProcessing/imageInText' );
-var helpPanel = require( './helpPanel' );
-var getTitlePlaceholder = require( '../../../../js/src/analysis/getTitlePlaceholder' );
-var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescriptionPlaceholder' );
+var getImages = require('yoastseo/js/stringProcessing/imageInText');
+var helpPanel = require('./helpPanel');
+var getTitlePlaceholder = require('../../../../js/src/analysis/getTitlePlaceholder');
+var getDescriptionPlaceholder = require('../../../../js/src/analysis/getDescriptionPlaceholder');
 
-var clone = require( 'lodash/clone' );
-var forEach = require( 'lodash/forEach' );
-var _has = require( 'lodash/has' );
-var isUndefined = require( 'lodash/isUndefined' );
+var clone = require('lodash/clone');
+var forEach = require('lodash/forEach');
+var _has = require('lodash/has');
+var isUndefined = require('lodash/isUndefined');
 
-var Jed = require( 'jed' );
+var Jed = require('jed');
 
-(function($) {
+(function ($) {
 	/**
-	 * We want to store the fallbacks in an object, to have directly access to them.
-	 * @type {{content: string, featured: string}}
-	 */
+  * We want to store the fallbacks in an object, to have directly access to them.
+  * @type {{content: string, featured: string}}
+  */
 	var imageFallBack = {
 		content: '',
 		featured: ''
@@ -153,7 +156,7 @@ var Jed = require( 'jed' );
 
 	var canReadFeaturedImage = true;
 
-	var socialPreviews = require( 'yoast-social-previews' );
+	var socialPreviews = require('yoast-social-previews');
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
 
@@ -161,111 +164,105 @@ var Jed = require( 'jed' );
 
 	var translations = yoastSocialPreview.i18n;
 
-	var i18n = new Jed( addLibraryTranslations( translations.library ) );
+	var i18n = new Jed(addLibraryTranslations(translations.library));
 	var biggerImages = {};
 
 	/**
-	 * Sets the events for opening the WP media library when pressing the button.
-	 *
-	 * @param {Object} imageUrl The image URL object.
-	 * @param {string} imageButton ID name for the image button.
-	 * @param {string} removeButton ID name for the remove button.
-	 * @param {function} onMediaSelect The event that will be ran when image is chosen.
-	 * @param {Object} imagePreviewElement The image preview element that can be clicked to update as well.
-	 */
-	function bindUploadButtonEvents( imageUrl, imageButton, removeButton, onMediaSelect, imagePreviewElement ) {
-		var social_preview_uploader = wp.media.frames.file_frame = wp.media( {
+  * Sets the events for opening the WP media library when pressing the button.
+  *
+  * @param {Object} imageUrl The image URL object.
+  * @param {string} imageButton ID name for the image button.
+  * @param {string} removeButton ID name for the remove button.
+  * @param {function} onMediaSelect The event that will be ran when image is chosen.
+  * @param {Object} imagePreviewElement The image preview element that can be clicked to update as well.
+  */
+	function bindUploadButtonEvents(imageUrl, imageButton, removeButton, onMediaSelect, imagePreviewElement) {
+		var social_preview_uploader = wp.media.frames.file_frame = wp.media({
 			title: yoastSocialPreview.choose_image,
 			button: { text: yoastSocialPreview.choose_image },
 			multiple: false
-		} );
+		});
 
-		social_preview_uploader.on( 'select', function() {
-			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
+		social_preview_uploader.on('select', function () {
+			var attachment = social_preview_uploader.state().get('selection').first().toJSON();
 
 			// Set the image URL.
-			imageUrl.val( attachment.url );
+			imageUrl.val(attachment.url);
 
 			onMediaSelect();
 
-			$( removeButton ).show();
+			$(removeButton).show();
 		});
 
-		$( removeButton ).click( function( evt ) {
+		$(removeButton).click(function (evt) {
 			evt.preventDefault();
 
 			// Clear the image URL
-			imageUrl.val( '' );
+			imageUrl.val('');
 
 			onMediaSelect();
 
-			$( removeButton ).hide();
-		} );
+			$(removeButton).hide();
+		});
 
-		$( imageButton ).click( function( evt ) {
+		$(imageButton).click(function (evt) {
 			evt.preventDefault();
 			social_preview_uploader.open();
-		} );
+		});
 
-		$( imagePreviewElement ).on( 'click', function( eventObject ) {
+		$(imagePreviewElement).on('click', function (eventObject) {
 			social_preview_uploader.open();
-		} );
+		});
 	}
 
 	/**
-	 * Adds the choose image button and hides the input field.
-	 *
-	 * @param {Object} preview The preview to add the upload button to.
-	 */
-	function addUploadButton( preview ) {
-		if ( typeof wp.media === 'undefined' ) {
+  * Adds the choose image button and hides the input field.
+  *
+  * @param {Object} preview The preview to add the upload button to.
+  */
+	function addUploadButton(preview) {
+		if (typeof wp.media === 'undefined') {
 			return;
 		}
 
-		var imageUrl = $( preview.element.formContainer ).find( '.js-snippet-editor-imageUrl' );
+		var imageUrl = $(preview.element.formContainer).find('.js-snippet-editor-imageUrl');
 
-		var buttonDiv = $( '<div></div>' );
-		buttonDiv.insertAfter( imageUrl );
+		var buttonDiv = $('<div></div>');
+		buttonDiv.insertAfter(imageUrl);
 
-		var uploadButtonText = getUploadButtonText( preview );
+		var uploadButtonText = getUploadButtonText(preview);
 
-		var imageFieldId    = jQuery( imageUrl ).attr( 'id' );
-		var imageButtonId   = imageFieldId + '_button';
+		var imageFieldId = jQuery(imageUrl).attr('id');
+		var imageButtonId = imageFieldId + '_button';
 		var imageButtonHtml = '<button id="' + imageButtonId + '" class="button button-primary wpseo_preview_image_upload_button" type="button">' + uploadButtonText + '</button>';
 
-		var removeButtonId   = imageFieldId + '_remove_button';
+		var removeButtonId = imageFieldId + '_remove_button';
 		var removeButtonHtml = '<button id="' + removeButtonId + '" type="button" class="button wpseo_preview_image_upload_button">' + yoastSocialPreview.removeImageButton + '</button>';
 
-		$( buttonDiv ).append( imageButtonHtml );
-		$( buttonDiv ).append( removeButtonHtml );
+		$(buttonDiv).append(imageButtonHtml);
+		$(buttonDiv).append(removeButtonHtml);
 
 		imageUrl.hide();
-		if ( imageUrl.val() === '' ) {
-			$( '#' + removeButtonId ).hide();
+		if (imageUrl.val() === '') {
+			$('#' + removeButtonId).hide();
 		}
 
-		bindUploadButtonEvents(
-			imageUrl,
-			'#' + imageButtonId,
-			'#' + removeButtonId,
-			preview.updatePreview.bind( preview ),
-			$( preview.element.container ).find( '.editable-preview__image' )
-		);
+		bindUploadButtonEvents(imageUrl, '#' + imageButtonId, '#' + removeButtonId, preview.updatePreview.bind(preview), $(preview.element.container).find('.editable-preview__image'));
 	}
 
 	/**
-	 * Returns the type of the current page: post or term.
-	 *
-	 * @returns {string}
-	 */
+  * Returns the type of the current page: post or term.
+  *
+  * @returns {string}
+  */
 	function getCurrentType() {
 		// When this field exists, it is a post.
-		if ( $( '#post_ID').length > 0 ) {
+		if ($('#post_ID').length > 0) {
 			return 'post';
 		}
 
 		// When this field is found, it is a term.
-		if ( $( 'input[name=tag_ID]').length > 0 ) {
+		if ($('input[name=tag_ID]').length > 0) {
 			return 'term';
 		}
 
@@ -273,60 +270,60 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Returns the prefix for the fields, because of the fields for the post do have an othere prefix than the ones for
-	 * a taxonomy.
-	 *
-	 * @returns {*}
-	 */
+  * Returns the prefix for the fields, because of the fields for the post do have an othere prefix than the ones for
+  * a taxonomy.
+  *
+  * @returns {*}
+  */
 	function fieldPrefix() {
-		switch( getCurrentType() ) {
-			case 'post' :
+		switch (getCurrentType()) {
+			case 'post':
 				return 'yoast_wpseo';
-			case 'term' :
+			case 'term':
 				return 'wpseo';
-			default :
+			default:
 				return '';
 		}
 	}
 
 	/**
-	 * Returns the name of the tinymce and textarea fields.
-	 *
-	 * @returns {string}
-	 */
+  * Returns the name of the tinymce and textarea fields.
+  *
+  * @returns {string}
+  */
 	function contentTextName() {
-		switch ( getCurrentType() ) {
-			case 'post' :
+		switch (getCurrentType()) {
+			case 'post':
 				return 'content';
-			case 'term' :
+			case 'term':
 				return 'description';
-			default :
+			default:
 				return '';
 		}
 	}
 
 	/**
-	 * Creates the social preview container and hides the old form table, to replace it.
-	 *
-	 * @param {Object} socialPreviewholder The holder element where the container will be append to.
-	 * @param {string} containerId The id the container will get
-	 */
-	function createSocialPreviewContainer( socialPreviewholder, containerId ) {
-		socialPreviewholder.append( '<div id="' + containerId + '"></div>' );
-		socialPreviewholder.find( '.form-table' ).hide();
+  * Creates the social preview container and hides the old form table, to replace it.
+  *
+  * @param {Object} socialPreviewholder The holder element where the container will be append to.
+  * @param {string} containerId The id the container will get
+  */
+	function createSocialPreviewContainer(socialPreviewholder, containerId) {
+		socialPreviewholder.append('<div id="' + containerId + '"></div>');
+		socialPreviewholder.find('.form-table').hide();
 	}
 
 	/**
-	 * Gets the meta description from the snippet editor
-	 */
+  * Gets the meta description from the snippet editor
+  */
 	function getMetaDescription() {
-		return $( '#yoast_wpseo_metadesc' ).val();
+		return $('#yoast_wpseo_metadesc').val();
 	}
 
 	function getSocialDescriptionPlaceholder() {
 		var description = getMetaDescription();
 
-		if ( '' === description ) {
+		if ('' === description) {
 			description = getDescriptionPlaceholder();
 		}
 
@@ -334,73 +331,72 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Returns the arguments for the social preview prototypes.
-	 *
-	 * @param {string} targetElement The element where the preview is loaded.
-	 * @param {string} fieldPrefix The prefix each form element has.
-	 *
-	 * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
-	 */
-	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
+  * Returns the arguments for the social preview prototypes.
+  *
+  * @param {string} targetElement The element where the preview is loaded.
+  * @param {string} fieldPrefix The prefix each form element has.
+  *
+  * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
+  */
+	function getSocialPreviewArgs(targetElement, fieldPrefix) {
 		var titlePlaceholder = getTitlePlaceholder();
 		var descriptionPlaceholder = getSocialDescriptionPlaceholder();
 
 		var args = {
-			targetElement: $( targetElement ).get(0),
+			targetElement: $(targetElement).get(0),
 			data: {
-				title: $( '#' + fieldPrefix + '-title' ).val(),
-				description: $( '#' + fieldPrefix + '-description' ).val(),
-				imageUrl: $( '#' + fieldPrefix + '-image' ).val()
+				title: $('#' + fieldPrefix + '-title').val(),
+				description: $('#' + fieldPrefix + '-description').val(),
+				imageUrl: $('#' + fieldPrefix + '-image').val()
 			},
 			baseURL: yoastSocialPreview.website,
 			callbacks: {
-				updateSocialPreview: function( data ) {
-					$( '#' + fieldPrefix + '-title' ).val( data.title );
-					$( '#' + fieldPrefix + '-description' ).val( data.description );
-					$( '#' + fieldPrefix + '-image' ).val( data.imageUrl );
+				updateSocialPreview: function updateSocialPreview(data) {
+					$('#' + fieldPrefix + '-title').val(data.title);
+					$('#' + fieldPrefix + '-description').val(data.description);
+					$('#' + fieldPrefix + '-image').val(data.imageUrl);
 
 					// Make sure Twitter is updated if a Facebook image is set
-					$( '.editable-preview' ).trigger( 'imageUpdate' );
+					$('.editable-preview').trigger('imageUpdate');
 
-					if ( data.imageUrl !== '' ) {
-						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
-						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
+					if (data.imageUrl !== '') {
+						var buttonPrefix = targetElement.attr('id').replace('Preview', '');
+						setUploadButtonValue(buttonPrefix, yoastSocialPreview.useOtherImage);
 					}
 
-					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'titleUpdate' );
-					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'descriptionUpdate' );
-
+					jQuery(targetElement).find('.editable-preview').trigger('titleUpdate');
+					jQuery(targetElement).find('.editable-preview').trigger('descriptionUpdate');
 				},
-				modifyImageUrl: function( imageUrl ) {
+				modifyImageUrl: function modifyImageUrl(imageUrl) {
 					if (imageUrl === '') {
-						imageUrl = getFallbackImage( '' );
+						imageUrl = getFallbackImage('');
 					}
 
 					return imageUrl;
 				},
-				modifyTitle: function( title ) {
-					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
-						if ( title === $( '#twitter-editor-title' ).attr( 'placeholder' ) ) {
-							var facebookTitle = $( '#facebook-editor-title' ).val();
-							if ( facebookTitle !== '' ) {
+				modifyTitle: function modifyTitle(title) {
+					if (fieldPrefix.indexOf('twitter') > -1) {
+						if (title === $('#twitter-editor-title').attr('placeholder')) {
+							var facebookTitle = $('#facebook-editor-title').val();
+							if (facebookTitle !== '') {
 								title = facebookTitle;
 							}
 						}
 					}
 
-					return YoastSEO.wp.replaceVarsPlugin.replaceVariables( title );
+					return YoastSEO.wp.replaceVarsPlugin.replaceVariables(title);
 				},
-				modifyDescription: function( description ) {
-					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
-						if ( description === $( '#twitter-editor-description' ).attr( 'placeholder' ) ) {
-							var facebookDescription = $( '#facebook-editor-description' ).val();
-							if ( facebookDescription !== '' ) {
+				modifyDescription: function modifyDescription(description) {
+					if (fieldPrefix.indexOf('twitter') > -1) {
+						if (description === $('#twitter-editor-description').attr('placeholder')) {
+							var facebookDescription = $('#facebook-editor-description').val();
+							if (facebookDescription !== '') {
 								description = facebookDescription;
 							}
 						}
 					}
 
-					return YoastSEO.wp.replaceVarsPlugin.replaceVariables( description );
+					return YoastSEO.wp.replaceVarsPlugin.replaceVariables(description);
 				}
 			},
 			placeholder: {
@@ -411,7 +407,7 @@ var Jed = require( 'jed' );
 			}
 		};
 
-		if ( '' !== descriptionPlaceholder ) {
+		if ('' !== descriptionPlaceholder) {
 			args.placeholder.description = descriptionPlaceholder;
 			args.defaultValue.description = descriptionPlaceholder;
 		}
@@ -420,171 +416,143 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Try to get the Facebook author name via AJAX and put it to the Facebook preview.
-	 *
-	 * @param {FacebookPreview} facebookPreview The Facebook preview object
-	 */
-	function getFacebookAuthor( facebookPreview ) {
-		$.get(
-			ajaxurl,
-			{
-				action: 'wpseo_get_facebook_name',
-				_ajax_nonce: yoastSocialPreview.facebookNonce,
-				user_id: $( '#post_author_override' ).val()
-			},
-			function( author ) {
-				if ( author !== 0 ) {
-					facebookPreview.setAuthor( author );
-				}
+  * Try to get the Facebook author name via AJAX and put it to the Facebook preview.
+  *
+  * @param {FacebookPreview} facebookPreview The Facebook preview object
+  */
+	function getFacebookAuthor(facebookPreview) {
+		$.get(ajaxurl, {
+			action: 'wpseo_get_facebook_name',
+			_ajax_nonce: yoastSocialPreview.facebookNonce,
+			user_id: $('#post_author_override').val()
+		}, function (author) {
+			if (author !== 0) {
+				facebookPreview.setAuthor(author);
 			}
-		);
+		});
 	}
 
-
 	/**
-	 * Initialize the Facebook preview.
-	 *
-	 * @param {Object} facebookHolder Target element for adding the Facebook preview.
-	 */
-	function initFacebook( facebookHolder ) {
-		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
+  * Initialize the Facebook preview.
+  *
+  * @param {Object} facebookHolder Target element for adding the Facebook preview.
+  */
+	function initFacebook(facebookHolder) {
+		createSocialPreviewContainer(facebookHolder, 'facebookPreview');
 
-		var facebookPreviewContainer = $( '#facebookPreview' );
-		facebookPreview = new FacebookPreview(
-			getSocialPreviewArgs( facebookPreviewContainer, fieldPrefix() + '_opengraph' ),
-			i18n
-		);
+		var facebookPreviewContainer = $('#facebookPreview');
+		facebookPreview = new FacebookPreview(getSocialPreviewArgs(facebookPreviewContainer, fieldPrefix() + '_opengraph'), i18n);
 
-		facebookPreviewContainer.on(
-			'imageUpdate',
-			'.editable-preview',
-			function() {
-				setUploadButtonValue( 'facebook', getUploadButtonText( facebookPreview ) );
-				setFallbackImage( facebookPreview );
-			}
-		);
+		facebookPreviewContainer.on('imageUpdate', '.editable-preview', function () {
+			setUploadButtonValue('facebook', getUploadButtonText(facebookPreview));
+			setFallbackImage(facebookPreview);
+		});
 
 		facebookPreview.init();
 
-		addUploadButton( facebookPreview );
+		addUploadButton(facebookPreview);
 
-		var postAuthorDropdown = $( '#post_author_override' );
-		if( postAuthorDropdown.length > 0 ) {
-			postAuthorDropdown.on( 'change', getFacebookAuthor.bind( this, facebookPreview ) );
-			postAuthorDropdown.trigger( 'change' );
+		var postAuthorDropdown = $('#post_author_override');
+		if (postAuthorDropdown.length > 0) {
+			postAuthorDropdown.on('change', getFacebookAuthor.bind(this, facebookPreview));
+			postAuthorDropdown.trigger('change');
 		}
-
 	}
 
 	/**
-	 * Initialize the twitter preview.
-	 *
-	 * @param {Object} twitterHolder Target element for adding the twitter preview.
-	 */
-	function initTwitter( twitterHolder ) {
-		createSocialPreviewContainer( twitterHolder, 'twitterPreview' );
+  * Initialize the twitter preview.
+  *
+  * @param {Object} twitterHolder Target element for adding the twitter preview.
+  */
+	function initTwitter(twitterHolder) {
+		createSocialPreviewContainer(twitterHolder, 'twitterPreview');
 
-		var twitterPreviewContainer = $( '#twitterPreview' );
-		twitterPreview = new TwitterPreview(
-			getSocialPreviewArgs( twitterPreviewContainer, fieldPrefix() + '_twitter' ),
-			i18n
-		);
+		var twitterPreviewContainer = $('#twitterPreview');
+		twitterPreview = new TwitterPreview(getSocialPreviewArgs(twitterPreviewContainer, fieldPrefix() + '_twitter'), i18n);
 
-		twitterPreviewContainer.on(
-			'imageUpdate',
-			'.editable-preview',
-			function() {
-				setUploadButtonValue( 'twitter', getUploadButtonText( twitterPreview ) );
-				setFallbackImage( twitterPreview );
-			}
-		);
+		twitterPreviewContainer.on('imageUpdate', '.editable-preview', function () {
+			setUploadButtonValue('twitter', getUploadButtonText(twitterPreview));
+			setFallbackImage(twitterPreview);
+		});
 
-		var facebookPreviewContainer = $( '#facebookPreview' );
-		facebookPreviewContainer.on(
-			'titleUpdate',
-			'.editable-preview',
-			twitterTitleFallback.bind( this, twitterPreview )
-		);
+		var facebookPreviewContainer = $('#facebookPreview');
+		facebookPreviewContainer.on('titleUpdate', '.editable-preview', twitterTitleFallback.bind(this, twitterPreview));
 
-		facebookPreviewContainer.on(
-			'descriptionUpdate',
-			'.editable-preview',
-			twitterDescriptionFallback.bind( this, twitterPreview )
-		);
+		facebookPreviewContainer.on('descriptionUpdate', '.editable-preview', twitterDescriptionFallback.bind(this, twitterPreview));
 
 		twitterPreview.init();
 
-		addUploadButton( twitterPreview );
-		twitterTitleFallback( twitterPreview );
-		twitterDescriptionFallback( twitterPreview );
+		addUploadButton(twitterPreview);
+		twitterTitleFallback(twitterPreview);
+		twitterDescriptionFallback(twitterPreview);
 	}
 
 	/**
-	 * When twitter title is empty, use the Facebook title
-	 *
-	 * @param {TwitterPreview} twitterPreview The twitter preview object
-	 */
-	function twitterTitleFallback( twitterPreview ) {
-		var $twitterTitle = $( '#twitter-editor-title' );
+  * When twitter title is empty, use the Facebook title
+  *
+  * @param {TwitterPreview} twitterPreview The twitter preview object
+  */
+	function twitterTitleFallback(twitterPreview) {
+		var $twitterTitle = $('#twitter-editor-title');
 		var twitterTitle = $twitterTitle.val();
-		if( twitterTitle !== '' ) {
+		if (twitterTitle !== '') {
 			return;
 		}
 
-		var facebookTitle = $( '#facebook-editor-title' ).val();
-		if ( facebookTitle !== '' ) {
-			twitterPreview.setTitle( facebookTitle );
+		var facebookTitle = $('#facebook-editor-title').val();
+		if (facebookTitle !== '') {
+			twitterPreview.setTitle(facebookTitle);
 		} else {
-			twitterPreview.setTitle( $twitterTitle.attr( 'placeholder' ) );
+			twitterPreview.setTitle($twitterTitle.attr('placeholder'));
 		}
 	}
 
 	/**
-	 * When twitter description is empty, use the description title
-	 *
-	 * @param {TwitterPreview} twitterPreview The twitter preview object
-	 */
-	function twitterDescriptionFallback( twitterPreview ) {
-		var $twitterDescription = $( '#twitter-editor-description' );
+  * When twitter description is empty, use the description title
+  *
+  * @param {TwitterPreview} twitterPreview The twitter preview object
+  */
+	function twitterDescriptionFallback(twitterPreview) {
+		var $twitterDescription = $('#twitter-editor-description');
 		var twitterDescription = $twitterDescription.val();
-		if( twitterDescription !== '' ) {
+		if (twitterDescription !== '') {
 			return;
 		}
 
-		var facebookDescription = $( '#facebook-editor-description' ).val();
-		if ( facebookDescription !== '' ) {
-			twitterPreview.setDescription( facebookDescription );
+		var facebookDescription = $('#facebook-editor-description').val();
+		if (facebookDescription !== '') {
+			twitterPreview.setDescription(facebookDescription);
 		} else {
-			twitterPreview.setDescription( $twitterDescription.attr( 'placeholder' ) );
+			twitterPreview.setDescription($twitterDescription.attr('placeholder'));
 		}
 	}
 
 	/**
-	 * Set the fallback image for the preview if no image has been set
-	 *
-	 * @param {Object} preview Preview to set fallback image on.
+  * Set the fallback image for the preview if no image has been set
+  *
+  * @param {Object} preview Preview to set fallback image on.
      */
-	function setFallbackImage( preview ) {
-		if ( preview.data.imageUrl === '' ) {
-			preview.setImage( getFallbackImage( '' ) );
+	function setFallbackImage(preview) {
+		if (preview.data.imageUrl === '') {
+			preview.setImage(getFallbackImage(''));
 		}
 	}
 
 	/**
-	 * Changes the upload button value when there are fallback images present.
-	 *
-	 * @param {string} buttonPrefix The value before the id name.
-	 * @param {string} text The text on the button.
-	 */
-	function setUploadButtonValue( buttonPrefix, text ) {
-		$( '#'  + buttonPrefix + '-editor-imageUrl_button' ).html( text );
+  * Changes the upload button value when there are fallback images present.
+  *
+  * @param {string} buttonPrefix The value before the id name.
+  * @param {string} text The text on the button.
+  */
+	function setUploadButtonValue(buttonPrefix, text) {
+		$('#' + buttonPrefix + '-editor-imageUrl_button').html(text);
 	}
 
 	/**
-	 * Bind the image events to set the fallback and rendering the preview.
-	 */
+  * Bind the image events to set the fallback and rendering the preview.
+  */
 	function bindImageEvents() {
-		if ( getCurrentType() === 'post' ) {
+		if (getCurrentType() === 'post') {
 			bindFeaturedImageEvents();
 		}
 
@@ -592,217 +560,217 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Get the text that the upload button needs to display
-	 *
-	 * @param {Object} preview Preview to read image from.
-	 * @returns {*}
+  * Get the text that the upload button needs to display
+  *
+  * @param {Object} preview Preview to read image from.
+  * @returns {*}
      */
-	function getUploadButtonText( preview ) {
+	function getUploadButtonText(preview) {
 		return preview.data.imageUrl === '' ? yoastSocialPreview.uploadImage : yoastSocialPreview.useOtherImage;
 	}
 
 	/**
-	 * Binds the events for the featured image.
-	 */
+  * Binds the events for the featured image.
+  */
 	function bindFeaturedImageEvents() {
-		if ( isUndefined( wp.media ) || isUndefined( wp.media.featuredImage ) ) {
+		if (isUndefined(wp.media) || isUndefined(wp.media.featuredImage)) {
 			return;
 		}
 
 		// When the featured image is being changed
 		var featuredImage = wp.media.featuredImage.frame();
 
-		featuredImage.on( 'select', function() {
-			var imageDetails = featuredImage.state().get( 'selection' ).first().attributes;
+		featuredImage.on('select', function () {
+			var imageDetails = featuredImage.state().get('selection').first().attributes;
 
 			canReadFeaturedImage = true;
 
-			setFeaturedImage( imageDetails.url );
-		} );
+			setFeaturedImage(imageDetails.url);
+		});
 
-		$( '#postimagediv' ).on( 'click', '#remove-post-thumbnail', function() {
+		$('#postimagediv').on('click', '#remove-post-thumbnail', function () {
 			canReadFeaturedImage = false;
 
 			clearFeaturedImage();
-		} );
+		});
 	}
 
 	/**
-	 * Bind the events for the content.
-	 */
+  * Bind the events for the content.
+  */
 	function bindContentEvents() {
 		// Bind the event when something changed in the text editor.
-		var contentElement = $( '#' + contentTextName() );
-		if ( contentElement.length > 0 ) {
-			contentElement.on( 'input', detectImageFallback );
+		var contentElement = $('#' + contentTextName());
+		if (contentElement.length > 0) {
+			contentElement.on('input', detectImageFallback);
 		}
 
 		//Bind the events when something changed in the tinyMCE editor.
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
-			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function( e ) {
-				for ( var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], detectImageFallback );
+		if (typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function') {
+			var events = ['input', 'change', 'cut', 'paste'];
+			tinyMCE.on('addEditor', function (e) {
+				for (var i = 0; i < events.length; i++) {
+					e.editor.on(events[i], detectImageFallback);
 				}
 			});
 		}
 	}
 
 	/**
-	 * Sets the featured image fallback value as an empty value and runs the fallback method.
-	 */
+  * Sets the featured image fallback value as an empty value and runs the fallback method.
+  */
 	function clearFeaturedImage() {
-		setFeaturedImage( '' );
-		detectImageFallback( );
+		setFeaturedImage('');
+		detectImageFallback();
 	}
 
 	/**
-	 * Sets the image fallbacks like the featured image (in case of a post) and the content image.
-	 */
+  * Sets the image fallbacks like the featured image (in case of a post) and the content image.
+  */
 	function detectImageFallback() {
 		// In case of a post: we want to have the featured image.
-		if ( getCurrentType() === 'post' ) {
+		if (getCurrentType() === 'post') {
 			var featuredImage = getFeaturedImage();
-			setFeaturedImage( featuredImage );
+			setFeaturedImage(featuredImage);
 
-			if ( featuredImage !== '' ) {
+			if (featuredImage !== '') {
 				return;
 			}
 		}
 
-		setContentImage( getContentImage( function( image ) {
-			setContentImage( image );
-		} ) );
+		setContentImage(getContentImage(function (image) {
+			setContentImage(image);
+		}));
 	}
 
 	/**
-	 * Sets the featured image based on the given image URL.
-	 *
-	 * @param {string} featuredImage The image we want to set.
-	 */
-	function setFeaturedImage( featuredImage ) {
-		if ( imageFallBack.featured !== featuredImage ) {
+  * Sets the featured image based on the given image URL.
+  *
+  * @param {string} featuredImage The image we want to set.
+  */
+	function setFeaturedImage(featuredImage) {
+		if (imageFallBack.featured !== featuredImage) {
 			imageFallBack.featured = featuredImage;
 
 			// Just refresh the image URL
-			$( '.editable-preview' ).trigger( 'imageUpdate' );
+			$('.editable-preview').trigger('imageUpdate');
 		}
 	}
 
 	/**
-	 * Sets the content image base on the given image URL
-	 *
-	 * @param {string} contentImage The image we want to set.
-	 */
-	function setContentImage( contentImage ) {
-		if ( imageFallBack.content !== contentImage ) {
+  * Sets the content image base on the given image URL
+  *
+  * @param {string} contentImage The image we want to set.
+  */
+	function setContentImage(contentImage) {
+		if (imageFallBack.content !== contentImage) {
 			imageFallBack.content = contentImage;
 
 			// Just refresh the image URL
-			$( '.editable-preview' ).trigger( 'imageUpdate' );
+			$('.editable-preview').trigger('imageUpdate');
 		}
 	}
 
 	/**
-	 * Gets the featured image source from the DOM.
-	 *
-	 * @returns {string}
-	 */
+  * Gets the featured image source from the DOM.
+  *
+  * @returns {string}
+  */
 	function getFeaturedImage() {
-		if ( canReadFeaturedImage === false ) {
+		if (canReadFeaturedImage === false) {
 			return '';
 		}
 
-		var postThumbnail = $( '.attachment-post-thumbnail' );
+		var postThumbnail = $('.attachment-post-thumbnail');
 		if (postThumbnail.length > 0) {
-			return $( postThumbnail.get( 0 ) ).attr( 'src' );
+			return $(postThumbnail.get(0)).attr('src');
 		}
 
 		return '';
 	}
 
 	/**
-	 * Returns the image from the content.
-	 *
-	 * @param {Function} callback function to call if a bigger size is available.
-	 *
-	 * @returns {string}
-	 */
-	function getContentImage( callback ) {
+  * Returns the image from the content.
+  *
+  * @param {Function} callback function to call if a bigger size is available.
+  *
+  * @returns {string}
+  */
+	function getContentImage(callback) {
 		var content = getContent();
 
-		var images = getImages( content );
-		var image  = '';
+		var images = getImages(content);
+		var image = '';
 
-		if ( images.length === 0 ) {
+		if (images.length === 0) {
 			return image;
 		}
 
 		do {
 			var currentImage = images.shift();
-			currentImage = $( currentImage );
+			currentImage = $(currentImage);
 
-			var imageSource = currentImage.prop( 'src' );
+			var imageSource = currentImage.prop('src');
 
-			if ( imageSource ) {
+			if (imageSource) {
 				image = imageSource;
 			}
-		} while ( '' === image && images.length > 0 );
+		} while ('' === image && images.length > 0);
 
-		image = getBiggerImage( image, callback );
+		image = getBiggerImage(image, callback);
 
 		return image;
 	}
 
 	/**
-	 * Try to retrieve a bigger image for a certain image found in the content.
-	 *
-	 * @param url
-	 * @param {Function} callback The callback to call if there is a bigger image.
-	 */
-	function getBiggerImage( url, callback ) {
-		if ( _has( biggerImages, url ) ) {
-			return biggerImages[ url ];
+  * Try to retrieve a bigger image for a certain image found in the content.
+  *
+  * @param url
+  * @param {Function} callback The callback to call if there is a bigger image.
+  */
+	function getBiggerImage(url, callback) {
+		if (_has(biggerImages, url)) {
+			return biggerImages[url];
 		}
 
-		retrieveImageDataFromURL( url, function( imageUrl ) {
-			biggerImages[ url ] = imageUrl;
+		retrieveImageDataFromURL(url, function (imageUrl) {
+			biggerImages[url] = imageUrl;
 
-			callback( imageUrl );
-		} );
+			callback(imageUrl);
+		});
 
 		return url;
 	}
 
 	/**
-	 * Retrieves the image metadata from an image url and saves it to the image manager afterwards
-	 *
-	 * @param {string} url The image URL to retrieve the metadata from.
-	 * @param {Function} callback Callback to call with the image URL result.
-	 */
-	function retrieveImageDataFromURL( url, callback ) {
-		$.getJSON( ajaxurl, {
+  * Retrieves the image metadata from an image url and saves it to the image manager afterwards
+  *
+  * @param {string} url The image URL to retrieve the metadata from.
+  * @param {Function} callback Callback to call with the image URL result.
+  */
+	function retrieveImageDataFromURL(url, callback) {
+		$.getJSON(ajaxurl, {
 			action: 'retrieve_image_data_from_url',
 			imageURL: url
-		}, function( response ) {
-			if ( 'success' === response.status ) {
-				callback( response.result );
+		}, function (response) {
+			if ('success' === response.status) {
+				callback(response.result);
 			}
 		});
 	}
 
 	/**
-	 * Returns the content from current visible content editor
-	 *
-	 * @returns {string}
-	 */
+  * Returns the content from current visible content editor
+  *
+  * @returns {string}
+  */
 	function getContent() {
-		if ( isTinyMCEAvailable() ) {
-			return tinyMCE.get( contentTextName() ).getContent();
+		if (isTinyMCEAvailable()) {
+			return tinyMCE.get(contentTextName()).getContent();
 		}
 
-		var contentElement = $( '#' + contentTextName() );
-		if ( contentElement.length > 0 ) {
+		var contentElement = $('#' + contentTextName());
+		if (contentElement.length > 0) {
 			return contentElement.val();
 		}
 
@@ -810,17 +778,13 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Check if tinymce is active on the current page.
-	 *
-	 * @returns {boolean}
-	 * @private
-	 */
+  * Check if tinymce is active on the current page.
+  *
+  * @returns {boolean}
+  * @private
+  */
 	function isTinyMCEAvailable() {
-		if ( typeof tinyMCE === 'undefined' ||
-			typeof tinyMCE.editors === 'undefined' ||
-			tinyMCE.editors.length === 0 ||
-			tinyMCE.get( contentTextName() ) === null ||
-			tinyMCE.get( contentTextName()  ).isHidden() ) {
+		if (typeof tinyMCE === 'undefined' || typeof tinyMCE.editors === 'undefined' || tinyMCE.editors.length === 0 || tinyMCE.get(contentTextName()) === null || tinyMCE.get(contentTextName()).isHidden()) {
 			return false;
 		}
 
@@ -828,30 +792,30 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Check if there is a fallback image like the featured image or the first image in the content.
-	 *
-	 * @param {string} defaultImage The default image when nothing has been found.
-	 * @returns {string}
-	 */
-	function getFallbackImage( defaultImage ) {
+  * Check if there is a fallback image like the featured image or the first image in the content.
+  *
+  * @param {string} defaultImage The default image when nothing has been found.
+  * @returns {string}
+  */
+	function getFallbackImage(defaultImage) {
 		// Twitter always first falls back to Facebook
-		if ( facebookPreview.data.imageUrl !== '' ) {
+		if (facebookPreview.data.imageUrl !== '') {
 			return facebookPreview.data.imageUrl;
 		}
 
 		// In case of an post: we want to have the featured image.
-		if ( getCurrentType() === 'post' ) {
-			if ( imageFallBack.featured !== '' ) {
+		if (getCurrentType() === 'post') {
+			if (imageFallBack.featured !== '') {
 				return imageFallBack.featured;
 			}
 		}
 
 		// When the featured image is empty, try an image in the content
-		if ( imageFallBack.content !== '') {
+		if (imageFallBack.content !== '') {
 			return imageFallBack.content;
 		}
 
-		if ( defaultImage !== undefined ) {
+		if (defaultImage !== undefined) {
 			return defaultImage;
 		}
 
@@ -859,78 +823,68 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Adds the help panels to the social previews
-	 */
+  * Adds the help panels to the social previews
+  */
 	function addHelpPanels() {
-		var panels = [
-			{
-				beforeElement: '#facebook-editor-imageUrl',
-				buttonText: translations.helpButton.facebookImage,
-				descriptionText: translations.help.facebookImage,
-				id: 'facebook-editor-image-help'
-			},
-			{
-				beforeElement: '#facebook-editor-title',
-				buttonText: translations.helpButton.facebookTitle,
-				descriptionText: translations.help.facebookTitle,
-				id: 'facebook-editor-title-help'
-			},
-			{
-				beforeElement: '#facebook-editor-description',
-				buttonText: translations.helpButton.facebookDescription,
-				descriptionText: translations.help.facebookDescription,
-				id: 'facebook-editor-description-help'
-			},
-			{
-				beforeElement: '#twitter-editor-imageUrl',
-				buttonText: translations.helpButton.twitterImage,
-				descriptionText: translations.help.twitterImage,
-				id: 'twitter-editor-image-help'
-			},
-			{
-				beforeElement: '#twitter-editor-title',
-				buttonText: translations.helpButton.twitterTitle,
-				descriptionText: translations.help.twitterTitle,
-				id: 'twitter-editor-title-help'
-			},
-			{
-				beforeElement: '#twitter-editor-description',
-				buttonText: translations.helpButton.twitterDescription,
-				descriptionText: translations.help.twitterDescription,
-				id: 'twitter-editor-description-help'
-			}
-		];
+		var panels = [{
+			beforeElement: '#facebook-editor-imageUrl',
+			buttonText: translations.helpButton.facebookImage,
+			descriptionText: translations.help.facebookImage,
+			id: 'facebook-editor-image-help'
+		}, {
+			beforeElement: '#facebook-editor-title',
+			buttonText: translations.helpButton.facebookTitle,
+			descriptionText: translations.help.facebookTitle,
+			id: 'facebook-editor-title-help'
+		}, {
+			beforeElement: '#facebook-editor-description',
+			buttonText: translations.helpButton.facebookDescription,
+			descriptionText: translations.help.facebookDescription,
+			id: 'facebook-editor-description-help'
+		}, {
+			beforeElement: '#twitter-editor-imageUrl',
+			buttonText: translations.helpButton.twitterImage,
+			descriptionText: translations.help.twitterImage,
+			id: 'twitter-editor-image-help'
+		}, {
+			beforeElement: '#twitter-editor-title',
+			buttonText: translations.helpButton.twitterTitle,
+			descriptionText: translations.help.twitterTitle,
+			id: 'twitter-editor-title-help'
+		}, {
+			beforeElement: '#twitter-editor-description',
+			buttonText: translations.helpButton.twitterDescription,
+			descriptionText: translations.help.twitterDescription,
+			id: 'twitter-editor-description-help'
+		}];
 
-		forEach( panels, function( panel ) {
-			$( panel.beforeElement ).before(
-				helpPanel.helpButton( panel.buttonText, panel.id ) +
-				helpPanel.helpText( panel.descriptionText, panel.id )
-			);
+		forEach(panels, function (panel) {
+			$(panel.beforeElement).before(helpPanel.helpButton(panel.buttonText, panel.id) + helpPanel.helpText(panel.descriptionText, panel.id));
 		});
 
-		$( '.snippet-editor__form').on('click', '.yoast-help-button', function() {
-			var $button = $( this ),
-				helpPanel = $( '#' + $button.attr( 'aria-controls' ) ),
-				isPanelVisible = helpPanel.is( ':visible' );
+		$('.snippet-editor__form').on('click', '.yoast-help-button', function () {
+			var $button = $(this),
+			    helpPanel = $('#' + $button.attr('aria-controls')),
+			    isPanelVisible = helpPanel.is(':visible');
 
-			$( helpPanel ).slideToggle( 200, function() {
-				$button.attr( 'aria-expanded', ! isPanelVisible );
+			$(helpPanel).slideToggle(200, function () {
+				$button.attr('aria-expanded', !isPanelVisible);
 			});
 		});
 	}
 
 	/**
-	 * Adds library translations
-	 * @param {Object} translations The translations to use.
-	 * @returns {Object} translations mapped to the proper domain.
-	 */
-	function addLibraryTranslations( translations ) {
+  * Adds library translations
+  * @param {Object} translations The translations to use.
+  * @returns {Object} translations mapped to the proper domain.
+  */
+	function addLibraryTranslations(translations) {
 
-		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
+		if (typeof translations !== 'undefined' && typeof translations.domain !== 'undefined') {
 			translations.domain = 'yoast-social-previews';
-			translations.locale_data[ 'yoast-social-previews' ] = clone( translations.locale_data[ 'wordpress-seo-premium' ] );
+			translations.locale_data['yoast-social-previews'] = clone(translations.locale_data['wordpress-seo-premium']);
 
-			delete( translations.locale_data[ 'wordpress-seo-premium' ] );
+			delete translations.locale_data['wordpress-seo-premium'];
 
 			return translations;
 		}
@@ -946,32 +900,32 @@ var Jed = require( 'jed' );
 	}
 
 	/**
-	 * Initialize the social previews.
-	 */
+  * Initialize the social previews.
+  */
 	function initYoastSocialPreviews() {
-		var facebookHolder = $( '#wpseo_facebook' );
-		var twitterHolder = $( '#wpseo_twitter' );
+		var facebookHolder = $('#wpseo_facebook');
+		var twitterHolder = $('#wpseo_twitter');
 
-		if ( facebookHolder.length > 0 || twitterHolder.length > 0 ) {
-			jQuery( window ).on( 'YoastSEO:ready', function() {
+		if (facebookHolder.length > 0 || twitterHolder.length > 0) {
+			jQuery(window).on('YoastSEO:ready', function () {
 				detectImageFallback();
 
 				if (facebookHolder.length > 0) {
-					initFacebook( facebookHolder );
+					initFacebook(facebookHolder);
 				}
 
 				if (twitterHolder.length > 0) {
-					initTwitter( twitterHolder );
+					initTwitter(twitterHolder);
 				}
 
 				addHelpPanels();
 				bindImageEvents();
-			} );
+			});
 		}
 	}
 
-	$( initYoastSocialPreviews );
-}( jQuery ) );
+	$(initYoastSocialPreviews);
+})(jQuery);
 
 },{"../../../../js/src/analysis/getDescriptionPlaceholder":1,"../../../../js/src/analysis/getTitlePlaceholder":3,"./helpPanel":5,"jed":7,"lodash/clone":125,"lodash/forEach":127,"lodash/has":129,"lodash/isUndefined":144,"yoast-social-previews":151,"yoastseo/js/stringProcessing/imageInText":228}],7:[function(require,module,exports){
 /**
