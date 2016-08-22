@@ -28,8 +28,10 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "i18n-calypso": "^1.6.2",
+    "material-ui": "^0.15.4",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
+    "react-tap-event-plugin": "^1.0.0",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
