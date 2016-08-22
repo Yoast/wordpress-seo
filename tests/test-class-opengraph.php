@@ -235,7 +235,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_HAS_front_page_image() {
-		$stub = $this->getMock( 'WPSEO_OpenGraph', array( 'og_tag') );
+
+		$stub =
+			$this
+				->getMockBuilder( 'WPSEO_OpenGraph' )
+				->setMethods( array( 'og_tag' ) )
+				->getMock();
 
 		$stub->options = array(
 			'og_frontpage_image' => get_site_url() . '/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg',
@@ -254,7 +259,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_HAS_NO_image() {
-		$stub = $this->getMock( 'WPSEO_OpenGraph', array( 'og_tag') );
+
+		$stub =
+			$this
+				->getMockBuilder( 'WPSEO_OpenGraph' )
+				->setMethods( array( 'og_tag' ) )
+				->getMock();
 
 		$stub
 			->expects( $this->never() )

@@ -2,6 +2,6 @@
 module.exports = {
 	css: {
 		expand: true,
-		src: '<%= files.css %>'
-	}
+		src: "<%= files.css %>",
+	},
 };

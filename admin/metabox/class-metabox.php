@@ -542,7 +542,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			case 'upload':
 				$content .= '<input id="' . $esc_form_key . '" type="text" size="36" class="' . $class . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"' . $aria_describedby . ' />';
-				$content .= '<input id="' . $esc_form_key . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
+				$content .= '<input id="' . $esc_form_key . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
 				break;
 		}
 
@@ -836,6 +836,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$custom_replace_vars = array();
 
 		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
+
+			if ( is_string( $taxonomy ) ) { // If attachment, see https://core.trac.wordpress.org/ticket/37368 .
+				$taxonomy_name = $taxonomy;
+				$taxonomy      = get_taxonomy( $taxonomy_name );
+			}
+
 			if ( $taxonomy->_builtin && $taxonomy->public ) {
 				continue;
 			}

@@ -118,7 +118,9 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 		$class_instance =
 			$this
-				->getMock( 'WPSEO_OnPage_Double', array( 'notify_admins' ) );
+				->getMockBuilder( 'WPSEO_OnPage_Double' )
+				->setMethods( array( 'notify_admins' ) )
+				->getMock();
 
 		$class_instance
 			->expects( $this->once() )
