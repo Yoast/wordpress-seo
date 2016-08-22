@@ -1,6 +1,6 @@
 import React from "react";
 import CustomStepButton from "./StepButton";
-import {Step, StepButton, Stepper, StepLabel,} from 'material-ui/Stepper';
+import Stepper from 'material-ui/Stepper';
 
 /**
  * The step indicator displays a horizontal progress indicator.

@@ -3,7 +3,6 @@ import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
 import postJSON from "./helpers/postJSON";
-import Paper from 'material-ui/Paper';
 
 /**
  * The OnboardingWizard class.
@@ -44,14 +43,14 @@ class OnboardingWizard extends React.Component {
 		let stepKeyNamesLength = stepKeyNames.length;
 
 		// Loop through the steps to set each next and/or previous step.
-		for ( let stepIndex = 0; stepIndex < stepKeyNamesLength; stepIndex++ ) {
+		for ( let stepIndex = 0; stepIndex < stepKeyNamesLength; stepIndex ++ ) {
 			let stepKeyName = stepKeyNames[ stepIndex ];
 
 			if ( stepIndex > 0 ) {
 				steps[ stepKeyName ].previous = stepKeyNames[ stepIndex - 1 ];
 			}
 
-			if ( stepIndex > -1 && stepIndex < stepKeyNamesLength - 1 ) {
+			if ( stepIndex > - 1 && stepIndex < stepKeyNamesLength - 1 ) {
 				steps[ stepKeyName ].next = stepKeyNames[ stepIndex + 1 ];
 			}
 
@@ -72,10 +71,10 @@ class OnboardingWizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach( ( fieldName ) => {
-			if ( this.props.fields[ fieldName ] ) {
-				fields[ fieldName ] = this.props.fields[ fieldName ];
+				if ( this.props.fields[ fieldName ] ) {
+					fields[ fieldName ] = this.props.fields[ fieldName ];
+				}
 			}
-		}
 		);
 
 		return fields;
@@ -100,8 +99,8 @@ class OnboardingWizard extends React.Component {
 			this.props.endpoint,
 			this.getFieldsAsObject()
 		)
-		.then( this.handleSuccessful.bind( this, step ) )
-		.catch( this.handleFailure.bind( this ) );
+			.then( this.handleSuccessful.bind( this, step ) )
+			.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
@@ -173,8 +172,8 @@ class OnboardingWizard extends React.Component {
 		this.postStep( currentStep.previous );
 	}
 
-	setCurrentStep(stepNumber){
-		this.postStep(stepNumber);
+	setCurrentStep( stepNumber ) {
+		this.postStep( stepNumber );
 	}
 
 	/**
@@ -197,7 +196,7 @@ class OnboardingWizard extends React.Component {
 
 		let stepNumber = steps.indexOf( currentStep );
 
-		if ( stepNumber > -1 ) {
+		if ( stepNumber > - 1 ) {
 			return stepNumber + 1;
 		}
 
@@ -215,24 +214,25 @@ class OnboardingWizard extends React.Component {
 		let hidePreviousButton = ! step.previous;
 
 		return (
-			<Paper zDepth={3} className="yoast-wizard-container">
-				<div className="yoast-wizard">
-					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
-					               onClick={( stepNumber ) => this.setCurrentStep( stepNumber )}/>
-					<Step ref="step" currentStep={this.state.currentStepId} title={step.title} fields={step.fields}/>
+				<div className="yoast-wizard-container">
+					<div className="yoast-wizard">
+						<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
+						               onClick={( stepNumber ) => this.setCurrentStep( stepNumber )}/>
+						<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
+						      fields={step.fields}/>
+						{(
+							! hidePreviousButton
+						) ? <button className="yoast-wizard-button" onClick={this.setPreviousStep.bind( this )}>
+							Previous</button> : ""}
+						{(
+							! hideNextButton
+						) ? <button className="yoast-wizard-button" onClick={this.setNextStep.bind( this )}>
+							Next</button> : ""}
+					</div>
 					{(
-						! hidePreviousButton
-					) ? <button className="yoast-wizard-button" onClick={this.setPreviousStep.bind( this )}>
-						Previous</button> : ""}
-					{(
-						! hideNextButton
-					) ? <button className="yoast-wizard-button" onClick={this.setNextStep.bind( this )}>
-						Next</button> : ""}
+						this.state.isLoading
+					) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
 				</div>
-				{(
-					this.state.isLoading
-				) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
-			</Paper>
 		);
 	}
 }
