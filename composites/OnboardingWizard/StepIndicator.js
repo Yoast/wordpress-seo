@@ -36,46 +36,32 @@ class StepIndicator extends React.Component {
 
 		return keys.map( ( name, key ) => {
 			var currentField = this.props.steps[ name ];
-			console.log(currentField)
+			let button = {};
+
 			if ( key === this.state.stepIndex ) {
-				var button = React.createElement( StepButton, {
+				button = React.createElement( StepButton, {
 					key: "step-indicator-" + key,
+					color: "#a4286a",
 				}, currentField.title );
-			}else{
-//				var button = React.createElement( StepButton, {
-//					key: "step-indicator-" + key,
-//				});
-				var button = new CustomStepButton( {
+			}
+			// Return a custom step button, without a label for non-active steps.
+			else {
+				button = new CustomStepButton( {
 					index: key.valueOf() + 1,
 					tooltip: currentField.title,
+					onClick: () => {
+						this.props.onClick(name)
+					}
 				} );
 			}
-			let step = React.createElement( Step, { key: "step-indicator-" + key }, button );
-			return step;
+			return React.createElement( Step, { key: "step-indicator-" + key }, button );
 		} );
-	}
-
-	getIcon(key){
-		return (
-			<SvgIcon >
-				<circle cx="12" cy="12" r="10"/>
-				<text
-					x="12"
-					y="16"
-					textAnchor="middle"
-					fontSize="12"
-					fill="#fff"
-				>
-					{key}
-				</text>
-			</SvgIcon>
-		)
 	}
 
 	render() {
 		return (
 			<div style={{ width: '100%', margin: 'auto' }}>
-				<Stepper activeStep={this.state.stepIndex}>
+				<Stepper linear={false} activeStep={this.state.stepIndex}>
 					{this.getStepComponents()}
 				</Stepper>
 			</div>

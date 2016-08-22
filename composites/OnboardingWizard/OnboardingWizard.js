@@ -2,8 +2,8 @@ import React from "react";
 import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
-import ProgressIndicator from "./ProgressIndicator";
 import postJSON from "./helpers/postJSON";
+import Paper from 'material-ui/Paper';
 
 /**
  * The OnboardingWizard class.
@@ -173,6 +173,10 @@ class OnboardingWizard extends React.Component {
 		this.postStep( currentStep.previous );
 	}
 
+	setCurrentStep(stepNumber){
+		this.postStep(stepNumber);
+	}
+
 	/**
 	 * Gets the current step from the steps.
 	 *
@@ -211,15 +215,24 @@ class OnboardingWizard extends React.Component {
 		let hidePreviousButton = ! step.previous;
 
 		return (
-			<div className="yoast-wizard-container">
+			<Paper zDepth={3} className="yoast-wizard-container">
 				<div className="yoast-wizard">
-					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber()- 1} />
+					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
+					               onClick={( stepNumber ) => this.setCurrentStep( stepNumber )}/>
 					<Step ref="step" currentStep={this.state.currentStepId} title={step.title} fields={step.fields}/>
-					{(!hidePreviousButton)? <button className="yoast-wizard-button" onClick={this.setPreviousStep.bind( this )}>Previous</button> :""}
-					{(!hideNextButton)? <button className="yoast-wizard-button" onClick={this.setNextStep.bind( this )}>Next</button> : ""}
+					{(
+						! hidePreviousButton
+					) ? <button className="yoast-wizard-button" onClick={this.setPreviousStep.bind( this )}>
+						Previous</button> : ""}
+					{(
+						! hideNextButton
+					) ? <button className="yoast-wizard-button" onClick={this.setNextStep.bind( this )}>
+						Next</button> : ""}
 				</div>
-				{(this.state.isLoading) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
-			</div>
+				{(
+					this.state.isLoading
+				) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
+			</Paper>
 		);
 	}
 }

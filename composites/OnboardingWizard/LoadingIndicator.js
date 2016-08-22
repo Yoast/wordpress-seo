@@ -21,7 +21,6 @@ const LoadingIndicator = () => (
 			style={style.refresh}
 			justify-content= "center"
 		    z-index={10}
-
 		/>
 	</div>
 );
