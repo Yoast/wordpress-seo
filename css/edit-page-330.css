@@ -32,7 +32,7 @@ th#wpseo-score {
 	width: 63px;
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.column-wpseo-title,
 	.column-wpseo-score,
 	.column-wpseo-metadesc,

@@ -21,5 +21,5 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	       accept="application/x-zip,application/x-zip-compressed,application/zip"/>
 	<input type="hidden" name="action" value="wp_handle_upload"/><br/>
 	<br/>
-	<input type="submit" class="button-primary" value="<?php _e( 'Import settings', 'wordpress-seo' ); ?>"/>
+	<input type="submit" class="button button-primary" value="<?php _e( 'Import settings', 'wordpress-seo' ); ?>"/>
 </form>

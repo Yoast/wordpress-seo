@@ -1,10 +1,24 @@
-var $ = jQuery;
+var _forEach = require( "lodash/foreach" );
 
-var _forEach = require( 'lodash/foreach' );
+var removeMarks = require( "yoastseo/js/markers/removeMarks" );
 
-var removeMarks = require( 'yoastseo/js/markers/removeMarks' );
+var MARK_TAG = "yoastmark";
 
-var MARK_TAG = 'yoastmark';
+/**
+ * Cleans the editor of any invalid marks. Invalid marks are marks where < and > are converted to
+ * html entities by tinyMCE so these can be filtered out to keep the output text clean.
+ *
+ * @param {tinyMCE.Editor} editor The editor to remove invalid marks from.
+ */
+function removeInvalidMarks( editor ) {
+	var html = editor.getContent();
+
+	html = html
+		.replace( new RegExp( "&lt;yoastmark.+?&gt;", "g" ), "" )
+		.replace( new RegExp( "&lt;/yoastmark&gt;", "g" ), "" );
+
+	editor.setContent( html );
+}
 
 /**
  * Puts a list of marks into the given tinyMCE editor
@@ -21,10 +35,12 @@ function markTinyMCE( editor, paper, marks ) {
 	// Generate marked HTML.
 	_forEach( marks, function( mark ) {
 		html = mark.applyWithReplace( html );
-	});
+	} );
 
 	// Replace the contents in the editor with the marked HTML.
 	editor.setContent( html );
+
+	removeInvalidMarks( editor );
 
 	var markElements = dom.select( MARK_TAG );
 	/*
@@ -32,7 +48,7 @@ function markTinyMCE( editor, paper, marks ) {
 	 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
 	 */
 	_forEach( markElements, function( markElement ) {
-		markElement.setAttribute( 'data-mce-bogus', '1' );
+		markElement.setAttribute( "data-mce-bogus", "1" );
 	} );
 }
 
@@ -55,9 +71,9 @@ function tinyMCEDecorator( editor ) {
  * @returns {boolean} Whether or not there are marks inside the editor.
  */
 function editorHasMarks( editor ) {
-	var content = editor.getContent({ format: 'raw' });
+	var content = editor.getContent( { format: "raw" } );
 
-	return -1 !== content.indexOf( '<' + MARK_TAG );
+	return -1 !== content.indexOf( "<" + MARK_TAG );
 }
 
 /**
@@ -77,5 +93,5 @@ module.exports = {
 	tinyMCEDecorator: tinyMCEDecorator,
 
 	editorHasMarks: editorHasMarks,
-	editorRemoveMarks: editorRemoveMarks
+	editorRemoveMarks: editorRemoveMarks,
 };

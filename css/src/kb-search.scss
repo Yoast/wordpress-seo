@@ -10,26 +10,36 @@
 }
 
 .wpseo-kb-search-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   height: 500px;
   overflow: auto;
 }
 
-.wpseo-kb-search-no-results {
-  margin-top: 10px;
+.help-tab-content .wpseo-kb-search-results li {
+  list-style: none;
+  max-width: none;
+  margin: 0;
 }
 
 .wpseo-kb-search-result {
   border-bottom: 1px solid #efefef;
   text-decoration: none;
-  color: #000;
   margin: 0;
   display: block;
   padding-left: 5px;
 }
 
+.wpseo-kb-search-result p {
+  margin-top: 0;
+  max-width: none;
+}
+
 .wpseo-kb-search-result-link {
   display: block;
   text-decoration: none;
+  outline: none;
   cursor: pointer;
 }
 
@@ -37,11 +47,12 @@
 .wpseo-kb-search-result-link:focus {
   background-color: rgba(93, 12, 55, 0.5);
   text-decoration: underline;
+  box-shadow: none;
 }
 
 .wpseo-kb-search-result .wpseo-kb-search-result-title {
   margin: 0;
-  padding-top: 15px;
+  padding: 14px 0;
 }
 
 .wpseo-kb-search-ext-link {

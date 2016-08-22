@@ -1,22 +1,29 @@
 /* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
-var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
-var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
-var getIndicatorForScore = require( './analysis/getIndicatorForScore' );
-var TabManager = require( './analysis/tabManager' );
-var tmceHelper = require( './wp-seo-tinymce' );
+var isUndefined = require( "lodash/isUndefined" );
 
-var updateTrafficLight = require( './ui/trafficLight' ).update;
-var updateAdminBar = require( './ui/adminBar' ).update;
+var getIndicatorForScore = require( "./analysis/getIndicatorForScore" );
+var TabManager = require( "./analysis/tabManager" );
+var tmceHelper = require( "./wp-seo-tinymce" );
 
-(function( $ ) {
-	'use strict';
+var updateTrafficLight = require( "./ui/trafficLight" ).update;
+var updateAdminBar = require( "./ui/adminBar" ).update;
 
-	var App = require( 'yoastseo' ).App;
-	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+var getTranslations = require( "./analysis/getTranslations" );
+var isKeywordAnalysisActive = require( "./analysis/isKeywordAnalysisActive" );
+var isContentAnalysisActive = require( "./analysis/isContentAnalysisActive" );
+var snippetPreviewHelpers = require( "./analysis/snippetPreview" );
 
-	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
-	var UsedKeywords = require( './analysis/usedKeywords' );
+var App = require( "yoastseo" ).App;
+var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
+var UsedKeywords = require( "./analysis/usedKeywords" );
+
+window.yoastHideMarkers = true;
+
+( function( $ ) {
+	"use strict";
+
+	var snippetContainer;
 
 	var app, snippetPreview;
 
@@ -28,11 +35,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * The HTML 'id' attribute for the TinyMCE editor.
 	 * @type {String}
 	 */
-	var tmceId = 'description';
+	var tmceId = "description";
 
 	var TermScraper = function() {
-		if ( typeof CKEDITOR === 'object' ) {
-			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		if ( typeof CKEDITOR === "object" ) {
+			console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 		}
 	};
 
@@ -42,69 +49,152 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	TermScraper.prototype.getData = function() {
 		return {
-			name: this.getDataFromInput( 'name' ),
-			title: this.getDataFromInput( 'title' ),
-			keyword: this.getDataFromInput( 'keyword' ),
-			text: this.getDataFromInput( 'text' ),
-			pageTitle: this.getDataFromInput( 'pageTitle' ),
-			url: this.getDataFromInput( 'url' ),
-			baseUrl: this.getDataFromInput( 'baseUrl' ),
-			snippetTitle: this.getDataFromInput( 'title' ),
-			meta: this.getDataFromInput( 'meta' ),
-			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' )
+			title: this.getTitle(),
+			keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
+			text: this.getText(),
+			meta: this.getMeta(),
+			url: this.getUrl(),
+			permalink: this.getPermalink(),
+			snippetCite: this.getSnippetCite(),
+			snippetTitle: this.getSnippetTitle(),
+			snippetMeta: this.getSnippetMeta(),
+			name: this.getName(),
+			baseUrl: this.getBaseUrl(),
+			pageTitle: this.getPageTitle(),
 		};
 	};
 
 	/**
-	 * Gets the data from a input fields in the term editor page.
-	 * @param {String} inputType The input type for the field to get the data from.
+	 * Returns the title from the DOM.
+	 *
+	 * @returns {string} The title.
 	 */
-	TermScraper.prototype.getDataFromInput = function( inputType ) {
-		var val = '';
-		var elem;
-		switch( inputType ) {
-			case 'keyword':
-				elem = document.getElementById( 'wpseo_focuskw' );
-				val = elem.value;
-				if ( val === '' ) {
-					val = document.getElementById( 'name' ).value;
-					elem.placeholder = val;
-				}
-				break;
-			case 'name':
-				val = document.getElementById( 'name' ).value;
-				break;
-			case 'meta':
-				elem = document.getElementById( 'hidden_wpseo_desc' );
-				if ( elem !== null ) {
-					val = elem.value;
-				}
-				break;
-			case 'snippetMeta':
-				elem = document.getElementById( 'hidden_wpseo_desc' );
-				if ( elem !== null ) {
-					val = elem.value;
-				}
-				break;
-			case 'text':
-				val = tmceHelper.getContentTinyMce( tmceId );
-				break;
-			case 'pageTitle':
-				val = document.getElementById( 'hidden_wpseo_title' ).value;
-				break;
-			case 'title':
-				val = document.getElementById( 'hidden_wpseo_title' ).value;
-				break;
-			case 'url':
-			case 'cite':
-				val = document.getElementById( 'slug' ).value;
-				break;
-			case 'baseUrl':
-				val = wpseoTermScraperL10n.base_url;
-				break;
+	TermScraper.prototype.getTitle = function() {
+		return document.getElementById( "hidden_wpseo_title" ).value;
+	};
+
+	/**
+	 * Returns the keyword from the DOM.
+	 *
+	 * @returns {string} The keyword.
+	 */
+	TermScraper.prototype.getKeyword = function() {
+		var elem, val;
+
+		elem = document.getElementById( "wpseo_focuskw" );
+		val = elem.value;
+		if ( val === "" ) {
+			val = document.getElementById( "name" ).value;
+			elem.placeholder = val;
 		}
+
 		return val;
+	};
+
+	/**
+	 * Returns the text from the DOM.
+	 *
+	 * @returns {string} The text.
+	 */
+	TermScraper.prototype.getText = function() {
+		return tmceHelper.getContentTinyMce( tmceId );
+	};
+
+	/**
+	 * Returns the meta description from the DOM.
+	 *
+	 * @returns {string} The meta.
+	 */
+	TermScraper.prototype.getMeta = function() {
+		var  val = "";
+
+		var elem = document.getElementById( "hidden_wpseo_desc" );
+		if ( elem !== null ) {
+			val = elem.value;
+		}
+
+		return val;
+	};
+
+	/**
+	 * Returns the url from the DOM.
+	 *
+	 * @returns {string} The url.
+	 */
+	TermScraper.prototype.getUrl = function() {
+		return document.getElementById( "slug" ).value;
+	};
+
+	/**
+	 * Returns the permalink from the DOM.
+	 *
+	 * @returns {string} The permalink.
+	 */
+	TermScraper.prototype.getPermalink = function() {
+		var url = this.getUrl();
+
+		return this.getBaseUrl() + url + "/";
+	};
+
+	/**
+	 * Returns the snippet cite from the DOM.
+	 *
+	 * @returns {string} The snippet cite.
+	 */
+	TermScraper.prototype.getSnippetCite = function() {
+		return this.getUrl();
+	};
+
+	/**
+	 * Returns the snippet title from the DOM.
+	 *
+	 * @returns {string} The snippet title.
+	 */
+	TermScraper.prototype.getSnippetTitle = function() {
+		return document.getElementById( "hidden_wpseo_title" ).value;
+	};
+
+	/**
+	 * Returns the snippet meta from the DOM.
+	 *
+	 * @returns {string} The snippet meta.
+	 */
+	TermScraper.prototype.getSnippetMeta = function() {
+		var val = "";
+
+		var elem = document.getElementById( "hidden_wpseo_desc" );
+		if ( elem !== null ) {
+			val = elem.value;
+		}
+
+		return val;
+	};
+
+	/**
+	 * Returns the name from the DOM.
+	 *
+	 * @returns {string} The name.
+	 */
+	TermScraper.prototype.getName = function() {
+		return document.getElementById( "name" ).value;
+	};
+
+	/**
+	 * Returns the base url from the DOM.
+	 *
+	 * @returns {string} The base url.
+	 */
+	TermScraper.prototype.getBaseUrl = function() {
+		return wpseoTermScraperL10n.base_url;
+	};
+
+	/**
+	 * Returns the page title from the DOM.
+	 *
+	 * @returns {string} The page title.
+	 */
+	TermScraper.prototype.getPageTitle = function() {
+		return document.getElementById( "hidden_wpseo_title" ).value;
 	};
 
 	/**
@@ -114,14 +204,14 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	TermScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
-			case 'snippet_meta':
-				document.getElementById( 'hidden_wpseo_desc' ).value = value;
+			case "snippet_meta":
+				document.getElementById( "hidden_wpseo_desc" ).value = value;
 				break;
-			case 'snippet_cite':
-				document.getElementById( 'slug' ).value = value;
+			case "snippet_cite":
+				document.getElementById( "slug" ).value = value;
 				break;
-			case 'snippet_title':
-				document.getElementById( 'hidden_wpseo_title' ).value = value;
+			case "snippet_title":
+				document.getElementById( "hidden_wpseo_title" ).value = value;
 				break;
 			default:
 				break;
@@ -137,9 +227,9 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * @param {string} data.metaDesc
 	 */
 	TermScraper.prototype.saveSnippetData = function( data ) {
-		this.setDataFromSnippet( data.title, 'snippet_title' );
-		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
-		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+		this.setDataFromSnippet( data.title, "snippet_title" );
+		this.setDataFromSnippet( data.urlPath, "snippet_cite" );
+		this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
 	};
 
 	/**
@@ -153,11 +243,11 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * binds the renewData function on the change of inputelements.
 	 */
 	TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'name', tmceId, 'slug', 'wpseo_focuskw' ];
+		var elems = [ "name", tmceId, "slug", "wpseo_focuskw" ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+				document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 			}
 		}
 		tmceHelper.tinyMceEventBinder( app, tmceId );
@@ -170,10 +260,10 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	TermScraper.prototype.saveScores = function( score ) {
 		var indicator = getIndicatorForScore( score );
-		var keyword = this.getDataFromInput( 'keyword' );
+		var keyword = this.getKeyword();
 
-		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
-		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+		document.getElementById( "hidden_wpseo_linkdex" ).value = score;
+		jQuery( window ).trigger( "YoastSEO:numericScore", score );
 
 		tabManager.updateKeywordTab( score, keyword );
 
@@ -186,9 +276,16 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 * @param {number} score The score calculated by the content assessor.
 	 */
 	TermScraper.prototype.saveContentScore = function( score ) {
+		var indicator = getIndicatorForScore( score );
+
 		tabManager.updateContentTab( score );
 
-		$( '#hidden_wpseo_content_score' ).val( score );
+		if ( ! isKeywordAnalysisActive() ) {
+			updateTrafficLight( indicator );
+			updateAdminBar( indicator );
+		}
+
+		$( "#hidden_wpseo_content_score" ).val( score );
 	};
 
 	/**
@@ -196,9 +293,9 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	TermScraper.prototype.initKeywordTabTemplate = function() {
 		// Remove default functionality to prevent scrolling to top.
-		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
+		$( ".wpseo-metabox-tabs" ).on( "click", ".wpseo_tablink", function( ev ) {
 			ev.preventDefault();
-		});
+		} );
 	};
 
 	/**
@@ -207,19 +304,19 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 	 */
 	var insertTinyMCE = function() {
 		// Get the table cell that contains the description textarea.
-		var descriptionTd = jQuery( '.term-description-wrap' ).find( 'td' );
+		var descriptionTd = jQuery( ".term-description-wrap" ).find( "td" );
 
 		// Get the textNode from the original textarea.
-		var textNode = descriptionTd.find( 'textarea' ).val();
+		var textNode = descriptionTd.find( "textarea" ).val();
 
 		// Get the editor container.
-		var newEditor = document.getElementById( 'wp-description-wrap' );
+		var newEditor = document.getElementById( "wp-description-wrap" );
 
 		// Get the description help text below the textarea.
-		var text = descriptionTd.find( 'p' );
+		var text = descriptionTd.find( "p" );
 
 		// Empty the TD with the old description textarea.
-		descriptionTd.html( '' );
+		descriptionTd.html( "" );
 
 		/*
 		 * The editor is printed out via PHP as child of the form and initially
@@ -230,58 +327,21 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		descriptionTd.append( newEditor ).append( text );
 
 		// Populate the editor textarea with the original content,
-		document.getElementById( 'description' ).value = textNode;
+		document.getElementById( "description" ).value = textNode;
 	};
 
 	/**
 	 * Initializes the snippet preview.
 	 *
 	 * @param {TermScraper} termScraper
-	 * @returns {YoastSEO.SnippetPreview}
+	 * @returns {SnippetPreview}
 	 */
 	function initSnippetPreview( termScraper ) {
-		var data = termScraper.getData();
-
-		var titlePlaceholder = getTitlePlaceholder();
-		var descriptionPlaceholder = getDescriptionPlaceholder();
-
-		var snippetPreviewArgs = {
-			targetElement: document.getElementById( 'wpseo_snippet' ),
-			placeholder: {
-				title: titlePlaceholder,
-				urlPath: ''
-			},
-			defaultValue: {
-				title: titlePlaceholder
-			},
-			baseURL: wpseoTermScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
-			},
-			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		};
-
-		var metaPlaceholder = descriptionPlaceholder;
-
-		if ( metaPlaceholder !== '' ) {
-			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
-			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
-		}
-
-		return new SnippetPreview( snippetPreviewArgs );
-	}
-
-	/**
-	 * Adds a watcher on the term slug input field
-	 */
-	function initTermSlugWatcher() {
-		termSlugInput = $( '#slug' );
-		termSlugInput.on( 'change', updatedTermSlug );
+		return snippetPreviewHelpers.create( snippetContainer, {
+			title: termScraper.getSnippetTitle(),
+			urlPath: termScraper.getSnippetCite(),
+			metaDesc: termScraper.getSnippetMeta(),
+		}, termScraper.saveSnippetData.bind( termScraper ) );
 	}
 
 	/**
@@ -291,58 +351,117 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		snippetPreview.setUrlPath( termSlugInput.val() );
 	}
 
-	jQuery( document ).ready(function() {
+	/**
+	 * Adds a watcher on the term slug input field
+	 */
+	function initTermSlugWatcher() {
+		termSlugInput = $( "#slug" );
+		termSlugInput.on( "change", updatedTermSlug );
+	}
+
+	/**
+	 * Retrieves the target to be passed to the App.
+	 *
+	 * @returns {Object} The targets object for the App.
+	 */
+	function retrieveTargets() {
+		var targets = {};
+
+		if ( isKeywordAnalysisActive() ) {
+			targets.output = "wpseo_analysis";
+		}
+
+		if ( isContentAnalysisActive() ) {
+			targets.contentOutput = "yoast-seo-content-analysis";
+		}
+
+		return targets;
+	}
+
+	/**
+	 * Initializes keyword analysis.
+	 *
+	 * @param {App} app The App object.
+	 * @param {TermScraper} termScraper The post scraper object.
+	 */
+	function initializeKeywordAnalysis( app, termScraper ) {
+		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
+		var usedKeywords = new UsedKeywords( "#wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
+
+		usedKeywords.init();
+		termScraper.initKeywordTabTemplate();
+
+		var indicator = getIndicatorForScore( savedKeywordScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	/**
+	 * Initializes content analysis
+	 */
+	function initializeContentAnalysis() {
+		var savedContentScore = $( "#hidden_wpseo_content_score" ).val();
+
+		var indicator = getIndicatorForScore( savedContentScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
-		var savedKeywordScore = $( '#hidden_wpseo_linkdex' ).val();
+		snippetContainer = $( "#wpseo_snippet" );
 
 		insertTinyMCE();
 
-		$( '#wpseo_analysis' ).after( '<div id="yoast-seo-content-analysis"></div>' );
+		$( "#wpseo_analysis" ).after( '<div id="yoast-seo-content-analysis"></div>' );
 
-		tabManager = new TabManager({
+		tabManager = new TabManager( {
 			strings: wpseoTermScraperL10n,
-			focusKeywordField: '#wpseo_focuskw'
-		});
+			focusKeywordField: "#wpseo_focuskw",
+			contentAnalysisActive: isContentAnalysisActive(),
+			keywordAnalysisActive: isKeywordAnalysisActive(),
+		} );
 
 		tabManager.init();
 
 		termScraper = new TermScraper();
+		snippetPreview = initSnippetPreview( termScraper );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
-			targets: {
-				output: 'wpseo_analysis',
-				contentOutput: 'yoast-seo-content-analysis',
-				snippet: 'wpseo_snippet'
-			},
+			elementTarget: [ tmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
+			targets: retrieveTargets(),
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
-				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
-				saveScores: termScraper.saveScores.bind( termScraper ),
-				saveContentScore: termScraper.saveContentScore.bind( termScraper ),
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
 			},
-			locale: wpseoTermScraperL10n.locale
+			locale: wpseoTermScraperL10n.locale,
+			contentAnalysisActive: isContentAnalysisActive(),
+			keywordAnalysisActive: isKeywordAnalysisActive(),
+			snippetPreview: snippetPreview,
 		};
 
-		translations = wpseoTermScraperL10n.translations;
+		if ( isKeywordAnalysisActive() ) {
+			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
+		}
 
-		if ( translations.length > 0 ) {
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-			delete( translations.locale_data['wordpress-seo'] );
+		if ( isContentAnalysisActive() ) {
+			args.callbacks.saveContentScore = termScraper.saveContentScore.bind( termScraper );
+		}
 
+		translations = getTranslations();
+		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
 			args.translations = translations;
 		}
 
-		snippetPreview = initSnippetPreview( termScraper );
-		args.snippetPreview = snippetPreview;
-
 		app = new App( args );
 
-		app.assessor = new TaxonomyAssessor( app.i18n );
+		if ( isKeywordAnalysisActive() ) {
+			app.seoAssessor = new TaxonomyAssessor( app.i18n );
+			app.seoAssessorPresenter.assessor = app.seoAssessor;
+		}
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
@@ -353,20 +472,25 @@ var updateAdminBar = require( './ui/adminBar' ).update;
 		YoastSEO.wp = {};
 		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 
-		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
-		usedKeywords.init();
-
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
 		initTermSlugWatcher();
+		termScraper.bindElementEvents( app );
 
-		var indicator = getIndicatorForScore( savedKeywordScore );
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
+		if ( isKeywordAnalysisActive() ) {
+			initializeKeywordAnalysis( app, termScraper );
+			tabManager.getKeywordTab().activate();
+		} else if ( isContentAnalysisActive() ) {
+			tabManager.getContentTab().activate();
+		} else {
+			snippetPreviewHelpers.isolate( snippetContainer );
+		}
 
-		tabManager.getKeywordTab().activate();
+		if ( isContentAnalysisActive() ) {
+			initializeContentAnalysis();
+		}
 
-		jQuery( window ).trigger( 'YoastSEO:ready' );
+		jQuery( window ).trigger( "YoastSEO:ready" );
 	} );
-}( jQuery ));
+}( jQuery ) );

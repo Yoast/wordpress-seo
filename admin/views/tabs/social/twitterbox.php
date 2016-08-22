@@ -9,6 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+echo '<h2>' . esc_html__( 'Twitter settings', 'wordpress-seo' ) . '</h2>';
+
 $yform->light_switch( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) );
 
 /* translators: %s expands to <code>&lt;head&gt;</code> */

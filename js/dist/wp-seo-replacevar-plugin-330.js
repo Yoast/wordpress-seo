@@ -1,153 +1,148 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict";
+
 /* global require */
-(function() {
-	'use strict';
+var isEmpty = require("lodash/isEmpty");
+var indexOf = require("lodash/indexOf");
+var defaults = require("lodash/defaults");
 
-	var isUndefined = require( 'lodash/isUndefined' );
-	var isEmpty = require( 'lodash/isEmpty' );
-	var indexOf = require( 'lodash/indexOf' );
-	var defaults = require( 'lodash/defaults' );
+(function () {
+	"use strict";
 
-	var defaultOptions = { source: 'wpseoReplaceVarsL10n', scope: [], aliases: [] };
+	var defaultOptions = { source: "wpseoReplaceVarsL10n", scope: [], aliases: [] };
 
 	/**
-	 * Constructs the replace var.
-	 *
-	 * @param {string} placeholder The placeholder to search for.
-	 * @param {string} replacement The name of the property to search for as an replacement.
-	 * @param {object} [options] The options to be used to determine things as scope, source and search for aliases.
-	 * @constructor
-	 */
-	var ReplaceVar = function( placeholder, replacement, options ) {
+  * Constructs the replace var.
+  *
+  * @param {string} placeholder The placeholder to search for.
+  * @param {string} replacement The name of the property to search for as an replacement.
+  * @param {object} [options] The options to be used to determine things as scope, source and search for aliases.
+  * @constructor
+  */
+	var ReplaceVar = function ReplaceVar(placeholder, replacement, options) {
 		this.placeholder = placeholder;
 		this.replacement = replacement;
-		this.options = defaults( options, defaultOptions );
+		this.options = defaults(options, defaultOptions);
 	};
 
 	/**
-	 * Gets the placeholder for the current replace var.
-	 *
-	 * @param {bool} [includeAliases] Whether or not to include aliases when getting the placeholder.
-	 * @returns {string} The placeholder.
-	 */
-	ReplaceVar.prototype.getPlaceholder = function( includeAliases ) {
+  * Gets the placeholder for the current replace var.
+  *
+  * @param {bool} [includeAliases] Whether or not to include aliases when getting the placeholder.
+  * @returns {string} The placeholder.
+  */
+	ReplaceVar.prototype.getPlaceholder = function (includeAliases) {
 		includeAliases = includeAliases || false;
 
-		if ( includeAliases && this.hasAlias() ) {
-			return this.placeholder + '|' + this.getAliases().join('|');
+		if (includeAliases && this.hasAlias()) {
+			return this.placeholder + "|" + this.getAliases().join("|");
 		}
 
 		return this.placeholder;
 	};
 
 	/**
-	 * Override the source of the replacement.
-	 *
-	 * @param {string} source The source to use.
-	 */
-	ReplaceVar.prototype.setSource = function( source ) {
+  * Override the source of the replacement.
+  *
+  * @param {string} source The source to use.
+  */
+	ReplaceVar.prototype.setSource = function (source) {
 		this.options.source = source;
 	};
 
 	/**
-	 * Determines whether or not the replace var has a scope defined.
-	 *
-	 * @returns {boolean} Returns true if a scope is defined and not empty.
-	 */
-	ReplaceVar.prototype.hasScope = function() {
-		return ! isEmpty( this.options.scope );
+  * Determines whether or not the replace var has a scope defined.
+  *
+  * @returns {boolean} Returns true if a scope is defined and not empty.
+  */
+	ReplaceVar.prototype.hasScope = function () {
+		return !isEmpty(this.options.scope);
 	};
 
 	/**
-	 * Adds a scope to the replace var.
-	 *
-	 * @param {string} scope The scope to add.
-	 */
-	ReplaceVar.prototype.addScope = function( scope ) {
-		if ( ! this.hasScope() ) {
+  * Adds a scope to the replace var.
+  *
+  * @param {string} scope The scope to add.
+  */
+	ReplaceVar.prototype.addScope = function (scope) {
+		if (!this.hasScope()) {
 			this.options.scope = [];
 		}
 
-		this.options.scope.push( scope );
+		this.options.scope.push(scope);
 	};
 
 	/**
-	 * Determines whether the passed scope is defined in the replace var.
-	 *
-	 * @param {string} scope The scope to check for.
-	 * @returns {boolean} Whether or not the passed scope is present in the replace var.
-	 */
-	ReplaceVar.prototype.inScope = function( scope ) {
-		if ( ! this.hasScope() ) {
+  * Determines whether the passed scope is defined in the replace var.
+  *
+  * @param {string} scope The scope to check for.
+  * @returns {boolean} Whether or not the passed scope is present in the replace var.
+  */
+	ReplaceVar.prototype.inScope = function (scope) {
+		if (!this.hasScope()) {
 			return true;
 		}
 
-		return indexOf( this.options.scope, scope ) > -1;
+		return indexOf(this.options.scope, scope) > -1;
 	};
 
 	/**
-	 * Determines whether or not the current replace var has an alias.
-	 *
-	 * @returns {boolean} Whether or not the current replace var has one or more aliases.
-	 */
-	ReplaceVar.prototype.hasAlias = function() {
-		return ! isEmpty( this.options.aliases );
+  * Determines whether or not the current replace var has an alias.
+  *
+  * @returns {boolean} Whether or not the current replace var has one or more aliases.
+  */
+	ReplaceVar.prototype.hasAlias = function () {
+		return !isEmpty(this.options.aliases);
 	};
 
 	/**
-	 * Adds an alias to the replace var.
-	 *
-	 * @param {string} alias The alias to add.
-	 */
-	ReplaceVar.prototype.addAlias = function( alias ) {
-		if ( ! this.hasAlias() ) {
+  * Adds an alias to the replace var.
+  *
+  * @param {string} alias The alias to add.
+  */
+	ReplaceVar.prototype.addAlias = function (alias) {
+		if (!this.hasAlias()) {
 			this.options.aliases = [];
 		}
 
-		this.options.aliases.push( alias );
+		this.options.aliases.push(alias);
 	};
 
 	/**
-	 * Gets the aliases for the current replace var.
-	 *
-	 * @returns {array} The aliases available to the replace var.
-	 */
-	ReplaceVar.prototype.getAliases = function() {
+  * Gets the aliases for the current replace var.
+  *
+  * @returns {array} The aliases available to the replace var.
+  */
+	ReplaceVar.prototype.getAliases = function () {
 		return this.options.aliases;
 	};
 
 	module.exports = ReplaceVar;
-}());
+})();
 
-},{"lodash/defaults":104,"lodash/indexOf":111,"lodash/isEmpty":117,"lodash/isUndefined":125}],2:[function(require,module,exports){
+},{"lodash/defaults":108,"lodash/indexOf":115,"lodash/isEmpty":121}],2:[function(require,module,exports){
+"use strict";
+
 /* global wpseoReplaceVarsL10n, require, YoastSEO */
-(function() {
-	'use strict';
+var forEach = require("lodash/forEach");
+var filter = require("lodash/filter");
+var isUndefined = require("lodash/isUndefined");
+var ReplaceVar = require("./values/replaceVar");
 
-	var forEach = require( 'lodash/forEach' );
-	var filter = require( 'lodash/filter' );
-	var isUndefined = require( 'lodash/isUndefined' );
-	var ReplaceVar = require( './values/replaceVar' );
+(function () {
+	"use strict";
 
-	var modifiableFields = [
-		'content',
-		'title',
-		'snippet_title',
-		'snippet_meta',
-		'primary_category',
-		'data_page_title',
-		'data_meta_desc'
-	];
+	var modifiableFields = ["content", "title", "snippet_title", "snippet_meta", "primary_category", "data_page_title", "data_meta_desc"];
 
 	var placeholders = {};
 	var taxonomyElements = {};
 
 	/**
-	 * Variable replacement plugin for WordPress.
-	 */
-	var YoastReplaceVarPlugin = function( app ) {
+  * Variable replacement plugin for WordPress.
+  */
+	var YoastReplaceVarPlugin = function YoastReplaceVarPlugin(app) {
 		this._app = app;
-		this._app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
+		this._app.registerPlugin("replaceVariablePlugin", { status: "ready" });
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -155,204 +150,202 @@
 	};
 
 	/**
-	 * GENERIC
-	 */
+  * GENERIC
+  */
 
 	/**
-	 * Registers all the placeholders and their replacements.
-	 */
-	YoastReplaceVarPlugin.prototype.registerReplacements = function() {
-		this.addReplacement( new ReplaceVar( '%%currentdate%%',     'currentdate' ) );
-		this.addReplacement( new ReplaceVar( '%%currentday%%',      'currentday' ) );
-		this.addReplacement( new ReplaceVar( '%%currentmonth%%',    'currentmonth' ) );
-		this.addReplacement( new ReplaceVar( '%%currenttime%%',     'currenttime' ) );
-		this.addReplacement( new ReplaceVar( '%%currentyear%%',     'currentyear' ) );
-		this.addReplacement( new ReplaceVar( '%%date%%',            'date' ) );
-		this.addReplacement( new ReplaceVar( '%%id%%',              'id' ) );
-		this.addReplacement( new ReplaceVar( '%%page%%',            'page' ) );
-		this.addReplacement( new ReplaceVar( '%%searchphrase%%',    'searchphrase' ) );
-		this.addReplacement( new ReplaceVar( '%%sitedesc%%',        'sitedesc' ) );
-		this.addReplacement( new ReplaceVar( '%%sitename%%',        'sitename' ) );
-		this.addReplacement( new ReplaceVar( '%%category%%',        'category' ) );
+  * Registers all the placeholders and their replacements.
+  */
+	YoastReplaceVarPlugin.prototype.registerReplacements = function () {
+		this.addReplacement(new ReplaceVar("%%currentdate%%", "currentdate"));
+		this.addReplacement(new ReplaceVar("%%currentday%%", "currentday"));
+		this.addReplacement(new ReplaceVar("%%currentmonth%%", "currentmonth"));
+		this.addReplacement(new ReplaceVar("%%currenttime%%", "currenttime"));
+		this.addReplacement(new ReplaceVar("%%currentyear%%", "currentyear"));
+		this.addReplacement(new ReplaceVar("%%date%%", "date"));
+		this.addReplacement(new ReplaceVar("%%id%%", "id"));
+		this.addReplacement(new ReplaceVar("%%page%%", "page"));
+		this.addReplacement(new ReplaceVar("%%searchphrase%%", "searchphrase"));
+		this.addReplacement(new ReplaceVar("%%sitedesc%%", "sitedesc"));
+		this.addReplacement(new ReplaceVar("%%sitename%%", "sitename"));
+		this.addReplacement(new ReplaceVar("%%category%%", "category"));
 
-		this.addReplacement( new ReplaceVar( '%%focuskw%%', 'keyword', {
-			source: 'app',
-			aliases: [ '%%keyword%%' ]
-		} ) );
+		this.addReplacement(new ReplaceVar("%%focuskw%%", "keyword", {
+			source: "app",
+			aliases: ["%%keyword%%"]
+		}));
 
-		this.addReplacement( new ReplaceVar( '%%term_description%%', 'text', {
-			source: 'app',
-			scope: [ 'term', 'category', 'tag' ],
-			aliases: [ '%%tag_description%%', '%%category_description%%' ]
-		} ) );
+		this.addReplacement(new ReplaceVar("%%term_description%%", "text", {
+			source: "app",
+			scope: ["term", "category", "tag"],
+			aliases: ["%%tag_description%%", "%%category_description%%"]
+		}));
 
-		this.addReplacement( new ReplaceVar( '%%term_title%%', 'term_title', {
-			scope: [ 'post', 'term' ]
-		} ) );
+		this.addReplacement(new ReplaceVar("%%term_title%%", "term_title", {
+			scope: ["post", "term"]
+		}));
 
-		this.addReplacement( new ReplaceVar( '%%title%%', 'title', {
-			source: 'app',
-			scope: [ 'post', 'term', 'page' ]
-		} ) );
+		this.addReplacement(new ReplaceVar("%%title%%", "title", {
+			source: "app",
+			scope: ["post", "term", "page"]
+		}));
 
-		this.addReplacement( new ReplaceVar( '%%parent_title%%', 'title', {
-			source: 'app',
-			scope: [ 'page', 'category' ]
-		} ) );
+		this.addReplacement(new ReplaceVar("%%parent_title%%", "title", {
+			source: "app",
+			scope: ["page", "category"]
+		}));
 
-		this.addReplacement( new ReplaceVar( '%%excerpt%%', 'excerpt', {
-			source: 'app',
-			scope: [ 'post' ],
-			aliases: [ '%%excerpt_only%%' ]
-		} ) );
+		this.addReplacement(new ReplaceVar("%%excerpt%%", "excerpt", {
+			source: "app",
+			scope: ["post"],
+			aliases: ["%%excerpt_only%%"]
+		}));
 
-		this.addReplacement( new ReplaceVar( '%%primary_category%%', 'primaryCategory', {
-			source: 'app', scope: [ 'post' ]
-		} ) );
+		this.addReplacement(new ReplaceVar("%%primary_category%%", "primaryCategory", {
+			source: "app", scope: ["post"]
+		}));
 
-		this.addReplacement( new ReplaceVar( '%%sep%%(\\s*%%sep%%)*', 'sep' ) );
+		this.addReplacement(new ReplaceVar("%%sep%%(\\s*%%sep%%)*", "sep"));
 	};
 
 	/**
-	 * Register all the necessary events to live replace, placeholders.
-	 */
-	YoastReplaceVarPlugin.prototype.registerEvents = function() {
+  * Register all the necessary events to live replace, placeholders.
+  */
+	YoastReplaceVarPlugin.prototype.registerEvents = function () {
 		var currentScope = wpseoReplaceVarsL10n.scope;
 
-		if ( currentScope === 'post' ) {
+		if (currentScope === "post") {
 			// Set events for each taxonomy box.
-			jQuery( '.categorydiv' ).each( this.bindTaxonomyEvents.bind( this ) );
+			jQuery(".categorydiv").each(this.bindTaxonomyEvents.bind(this));
 		}
 
-		if ( currentScope === 'post' || currentScope === 'page' ) {
+		if (currentScope === "post" || currentScope === "page") {
 			// Add support for custom fields as well.
-			jQuery( '#postcustomstuff > #list-table' ).each( this.bindFieldEvents.bind( this ) );
+			jQuery("#postcustomstuff > #list-table").each(this.bindFieldEvents.bind(this));
 		}
 	};
 
 	/**
-	 * Add a replacement object to be used when replacing placeholders.
-	 *
-	 * @param {ReplaceVar} replacement The replacement to add to the placeholders.
-	 */
-	YoastReplaceVarPlugin.prototype.addReplacement = function( replacement ) {
-		placeholders[ replacement.placeholder ] = replacement;
+  * Add a replacement object to be used when replacing placeholders.
+  *
+  * @param {ReplaceVar} replacement The replacement to add to the placeholders.
+  */
+	YoastReplaceVarPlugin.prototype.addReplacement = function (replacement) {
+		placeholders[replacement.placeholder] = replacement;
 	};
 
 	/**
-	 * Removes a replacement if it exists.
-	 *
-	 * @param {ReplaceVar} replacement The replacement to remove.
-	 */
-	YoastReplaceVarPlugin.prototype.removeReplacement = function( replacement ) {
-		delete placeholders[ replacement.getPlaceholder() ];
+  * Removes a replacement if it exists.
+  *
+  * @param {ReplaceVar} replacement The replacement to remove.
+  */
+	YoastReplaceVarPlugin.prototype.removeReplacement = function (replacement) {
+		delete placeholders[replacement.getPlaceholder()];
 	};
 
 	/**
-	 * Registers the modifications for the plugin on initial load.
-	 */
-	YoastReplaceVarPlugin.prototype.registerModifications = function() {
-		var callback = this.replaceVariables.bind( this );
+  * Registers the modifications for the plugin on initial load.
+  */
+	YoastReplaceVarPlugin.prototype.registerModifications = function () {
+		var callback = this.replaceVariables.bind(this);
 
-		forEach( modifiableFields, function( field ) {
-			this._app.registerModification( field, callback, 'replaceVariablePlugin', 10 );
-		}.bind( this ) );
+		forEach(modifiableFields, function (field) {
+			this._app.registerModification(field, callback, "replaceVariablePlugin", 10);
+		}.bind(this));
 	};
 
 	/**
-	 * Runs the different replacements on the data-string.
-	 *
-	 * @param {string} data The data that needs its placeholders replaced.
-	 * @returns {string} The data with all its placeholders replaced by actual values.
-	 */
-	YoastReplaceVarPlugin.prototype.replaceVariables = function( data ) {
-		if ( ! isUndefined( data ) ) {
-			data = this.termtitleReplace( data );
+  * Runs the different replacements on the data-string.
+  *
+  * @param {string} data The data that needs its placeholders replaced.
+  * @returns {string} The data with all its placeholders replaced by actual values.
+  */
+	YoastReplaceVarPlugin.prototype.replaceVariables = function (data) {
+		if (!isUndefined(data)) {
+			data = this.termtitleReplace(data);
 
 			// This order currently needs to be maintained until we can figure out a nicer way to replace this.
-			data = this.parentReplace( data );
-			data = this.replaceCustomTaxonomy( data );
-			data = this.replacePlaceholders( data );
+			data = this.parentReplace(data);
+			data = this.replaceCustomTaxonomy(data);
+			data = this.replacePlaceholders(data);
 		}
 
 		return data;
 	};
 
 	/**
-	 * Retrieves the object containing the replacements for the placeholders. Defaults to wpseoReplaceVarsL10n.
-	 *
-	 * @param {Object} placeholderOptions Placeholder options object containing a replacement and source.
-	 * @returns {Object} The replacement object to use.
-	 */
-	YoastReplaceVarPlugin.prototype.getReplacementSource = function( placeholderOptions ) {
-		if ( placeholderOptions.source === 'app' ) {
+  * Retrieves the object containing the replacements for the placeholders. Defaults to wpseoReplaceVarsL10n.
+  *
+  * @param {Object} placeholderOptions Placeholder options object containing a replacement and source.
+  * @returns {Object} The replacement object to use.
+  */
+	YoastReplaceVarPlugin.prototype.getReplacementSource = function (placeholderOptions) {
+		if (placeholderOptions.source === "app") {
 			return this._app.rawData;
 		}
 
-		if ( placeholderOptions.source === 'direct' ) {
-			return 'direct';
+		if (placeholderOptions.source === "direct") {
+			return "direct";
 		}
 
 		return wpseoReplaceVarsL10n.replace_vars;
 	};
 
 	/**
-	 * Gets the proper replacement variable.
-	 *
-	 * @param {ReplaceVar} replaceVar The replacevar object to use for its source, scope and replacement property.
-	 * @returns {string} The replacement for the placeholder.
-	 */
-	YoastReplaceVarPlugin.prototype.getReplacement = function( replaceVar ) {
-		var replacementSource = this.getReplacementSource( replaceVar.options );
+  * Gets the proper replacement variable.
+  *
+  * @param {ReplaceVar} replaceVar The replacevar object to use for its source, scope and replacement property.
+  * @returns {string} The replacement for the placeholder.
+  */
+	YoastReplaceVarPlugin.prototype.getReplacement = function (replaceVar) {
+		var replacementSource = this.getReplacementSource(replaceVar.options);
 
-		if ( replaceVar.inScope( wpseoReplaceVarsL10n.scope ) === false ) {
-			return '';
+		if (replaceVar.inScope(wpseoReplaceVarsL10n.scope) === false) {
+			return "";
 		}
 
-		if ( replacementSource === 'direct' ) {
+		if (replacementSource === "direct") {
 			return replaceVar.replacement;
 		}
 
-		return replacementSource[ replaceVar.replacement ] || '';
+		return replacementSource[replaceVar.replacement] || "";
 	};
 
 	/**
-	 * Replaces placeholder variables with their replacement value.
-	 *
-	 * @param {string} text The text to have its placeholders replaced.
-	 * @return {string} The text in which the placeholders have been replaced.
-	 */
-	YoastReplaceVarPlugin.prototype.replacePlaceholders = function( text ) {
-		forEach( placeholders, function( replaceVar ) {
-			text = text.replace(
-				new RegExp( replaceVar.getPlaceholder( true ), 'g' ), this.getReplacement( replaceVar )
-			);
-		}.bind( this ) );
+  * Replaces placeholder variables with their replacement value.
+  *
+  * @param {string} text The text to have its placeholders replaced.
+  * @return {string} The text in which the placeholders have been replaced.
+  */
+	YoastReplaceVarPlugin.prototype.replacePlaceholders = function (text) {
+		forEach(placeholders, function (replaceVar) {
+			text = text.replace(new RegExp(replaceVar.getPlaceholder(true), "g"), this.getReplacement(replaceVar));
+		}.bind(this));
 
 		return text;
 	};
 
 	/**
-	 * Declares reloaded with YoastSEO.
-	 */
-	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
-		YoastSEO.app.pluginReloaded( 'replaceVariablePlugin' );
+  * Declares reloaded with YoastSEO.
+  */
+	YoastReplaceVarPlugin.prototype.declareReloaded = function () {
+		YoastSEO.app.pluginReloaded("replaceVariablePlugin");
 	};
 
 	/**
-	 * TAXONOMIES
-	 */
+  * TAXONOMIES
+  */
 
 	/**
-	 * Gets the taxonomy name from categories.
-	 * The logic of this function is inspired by: http://viralpatel.net/blogs/jquery-get-text-element-without-child-element/
-	 *
-	 * @param {Object} checkbox The checkbox to parse to retrieve the label.
-	 * @returns {string} The category name.
-	 */
-	YoastReplaceVarPlugin.prototype.getCategoryName = function( checkbox ) {
+  * Gets the taxonomy name from categories.
+  * The logic of this function is inspired by: http://viralpatel.net/blogs/jquery-get-text-element-without-child-element/
+  *
+  * @param {Object} checkbox The checkbox to parse to retrieve the label.
+  * @returns {string} The category name.
+  */
+	YoastReplaceVarPlugin.prototype.getCategoryName = function (checkbox) {
 		// Take the parent of checkbox with type label and clone it.
-		var clonedLabel = checkbox.parent( 'label' ).clone();
+		var clonedLabel = checkbox.parent("label").clone();
 
 		// Finds child elements and removes them so we only get the label's text left.
 		clonedLabel.children().remove();
@@ -362,267 +355,264 @@
 	};
 
 	/**
-	 * Gets the checkbox-based taxonomies that are available on the current page and based on their checked state.
-	 *
-	 * @param {Object} checkboxes The checkboxes to check.
-	 * @param {string} taxonomyName The taxonomy name to use as a reference.
-	 */
-	YoastReplaceVarPlugin.prototype.parseTaxonomies = function( checkboxes, taxonomyName ) {
-		if ( isUndefined( taxonomyElements[ taxonomyName ] ) ) {
-			taxonomyElements[ taxonomyName ] = {};
+  * Gets the checkbox-based taxonomies that are available on the current page and based on their checked state.
+  *
+  * @param {Object} checkboxes The checkboxes to check.
+  * @param {string} taxonomyName The taxonomy name to use as a reference.
+  */
+	YoastReplaceVarPlugin.prototype.parseTaxonomies = function (checkboxes, taxonomyName) {
+		if (isUndefined(taxonomyElements[taxonomyName])) {
+			taxonomyElements[taxonomyName] = {};
 		}
 
-		forEach( checkboxes, function( checkbox ) {
-			checkbox = jQuery( checkbox );
+		forEach(checkboxes, function (checkbox) {
+			checkbox = jQuery(checkbox);
 			var taxonomyID = checkbox.val();
 
-			taxonomyElements[ taxonomyName ][ taxonomyID ] = {
-				label: this.getCategoryName( checkbox ),
-				checked: checkbox.prop( 'checked' )
+			taxonomyElements[taxonomyName][taxonomyID] = {
+				label: this.getCategoryName(checkbox),
+				checked: checkbox.prop("checked")
 			};
-		}.bind( this ) );
+		}.bind(this));
 	};
 
 	/**
-	 * Get the taxonomies that are available on the current page.
-	 *
-	 * @param {Object} targetMetaBox The HTML element to use as a source for the taxonomies.
-	 * @returns {void}
-	 */
-	YoastReplaceVarPlugin.prototype.getAvailableTaxonomies = function( targetMetaBox ) {
-		var checkboxes = jQuery( targetMetaBox ).find( 'input[type=checkbox]' );
-		var taxonomyName = jQuery( targetMetaBox ).attr( 'id' ).replace( 'taxonomy-', '' );
+  * Get the taxonomies that are available on the current page.
+  *
+  * @param {Object} targetMetaBox The HTML element to use as a source for the taxonomies.
+  * @returns {void}
+  */
+	YoastReplaceVarPlugin.prototype.getAvailableTaxonomies = function (targetMetaBox) {
+		var checkboxes = jQuery(targetMetaBox).find("input[type=checkbox]");
+		var taxonomyName = jQuery(targetMetaBox).attr("id").replace("taxonomy-", "");
 
-		if ( checkboxes.length > 0 ) {
-			this.parseTaxonomies( checkboxes, taxonomyName );
+		if (checkboxes.length > 0) {
+			this.parseTaxonomies(checkboxes, taxonomyName);
 		}
 
 		this.declareReloaded();
 	};
 
 	/**
-	 * Binding events for each taxonomy metabox element.
-	 *
-	 * @param {int} index The index of the element.
-	 * @param {Object} taxonomyElement The element to bind the events to.
-	 */
-	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function( index, taxonomyElement ) {
-		taxonomyElement = jQuery( taxonomyElement );
+  * Binding events for each taxonomy metabox element.
+  *
+  * @param {int} index The index of the element.
+  * @param {Object} taxonomyElement The element to bind the events to.
+  */
+	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function (index, taxonomyElement) {
+		taxonomyElement = jQuery(taxonomyElement);
 
 		// Set the events.
-		taxonomyElement.on( 'wpListAddEnd', '.categorychecklist', this.getAvailableTaxonomies.bind( this, taxonomyElement ) );
-		taxonomyElement.on( 'change', 'input[type=checkbox]', this.getAvailableTaxonomies.bind( this, taxonomyElement ) );
+		taxonomyElement.on("wpListAddEnd", ".categorychecklist", this.getAvailableTaxonomies.bind(this, taxonomyElement));
+		taxonomyElement.on("change", "input[type=checkbox]", this.getAvailableTaxonomies.bind(this, taxonomyElement));
 
 		// Get the available taxonomies upon loading the plugin.
-		this.getAvailableTaxonomies( taxonomyElement );
+		this.getAvailableTaxonomies(taxonomyElement);
 	};
 
 	/**
-	 * Replace the custom taxonomies.
-	 *
-	 * @param {string} text The text to have its custom taxonomy placeholders replaced.
-	 * @return {string} The text in which the custom taxonomy placeholders have been replaced.
-	 */
-	YoastReplaceVarPlugin.prototype.replaceCustomTaxonomy = function( text ) {
-		forEach( taxonomyElements, function( taxonomy, taxonomyName ) {
-			var generatedPlaceholder = '%%ct_' + taxonomyName  + '%%';
+  * Replace the custom taxonomies.
+  *
+  * @param {string} text The text to have its custom taxonomy placeholders replaced.
+  * @return {string} The text in which the custom taxonomy placeholders have been replaced.
+  */
+	YoastReplaceVarPlugin.prototype.replaceCustomTaxonomy = function (text) {
+		forEach(taxonomyElements, function (taxonomy, taxonomyName) {
+			var generatedPlaceholder = "%%ct_" + taxonomyName + "%%";
 
-			if ( taxonomyName === 'category' ) {
-				generatedPlaceholder = '%%' + taxonomyName + '%%';
+			if (taxonomyName === "category") {
+				generatedPlaceholder = "%%" + taxonomyName + "%%";
 			}
 
-			text = text.replace( generatedPlaceholder, this.getTaxonomyReplaceVar( taxonomyName ) );
-		}.bind( this ) );
+			text = text.replace(generatedPlaceholder, this.getTaxonomyReplaceVar(taxonomyName));
+		}.bind(this));
 
 		return text;
 	};
 
 	/**
-	 * Returns the string to replace the category taxonomy placeholders.
-	 *
-	 * @param {string} taxonomyName The name of the taxonomy needed for the lookup.
-	 * @returns {string} The categories as a comma separated list.
-	 */
-	YoastReplaceVarPlugin.prototype.getTaxonomyReplaceVar = function( taxonomyName ) {
+  * Returns the string to replace the category taxonomy placeholders.
+  *
+  * @param {string} taxonomyName The name of the taxonomy needed for the lookup.
+  * @returns {string} The categories as a comma separated list.
+  */
+	YoastReplaceVarPlugin.prototype.getTaxonomyReplaceVar = function (taxonomyName) {
 		var filtered = [];
-		var toReplaceTaxonomy = taxonomyElements[ taxonomyName ];
+		var toReplaceTaxonomy = taxonomyElements[taxonomyName];
 
 		// If no replacement is available, return an empty string.
-		if ( isUndefined( toReplaceTaxonomy ) === true ) {
-			return '';
+		if (isUndefined(toReplaceTaxonomy) === true) {
+			return "";
 		}
 
-		forEach( toReplaceTaxonomy, function( item ) {
-			if ( item.checked === false ) {
+		forEach(toReplaceTaxonomy, function (item) {
+			if (item.checked === false) {
 				return;
 			}
 
-			filtered.push( item.label );
-		} );
+			filtered.push(item.label);
+		});
 
-		return jQuery.unique( filtered ).join( ', ' );
+		return jQuery.unique(filtered).join(", ");
 	};
 
 	/**
-	 * CUSTOM FIELDS
-	 */
+  * CUSTOM FIELDS
+  */
 
 	/**
-	 * Get the custom fields that are available on the current page and adds them to the placeholders.
-	 *
-	 * @param {Object} customFields The custom fields to parse and add.
-	 */
-	YoastReplaceVarPlugin.prototype.parseFields = function( customFields ) {
-		jQuery( customFields ).each( function( i, customField ) {
-			var customFieldName = jQuery( '#' + customField.id + '-key' ).val();
-			var customValue = jQuery( '#' + customField.id + '-value' ).val();
+  * Get the custom fields that are available on the current page and adds them to the placeholders.
+  *
+  * @param {Object} customFields The custom fields to parse and add.
+  */
+	YoastReplaceVarPlugin.prototype.parseFields = function (customFields) {
+		jQuery(customFields).each(function (i, customField) {
+			var customFieldName = jQuery("#" + customField.id + "-key").val();
+			var customValue = jQuery("#" + customField.id + "-value").val();
 
 			// Register these as new replacevars. The replacement text will be a literal string.
-			this.addReplacement( new ReplaceVar( '%%cf_' + this.sanitizeCustomFieldNames( customFieldName ) + '%%',
-				customValue,
-				{ source: 'direct' }
-			) );
-		}.bind( this ) );
+			this.addReplacement(new ReplaceVar("%%cf_" + this.sanitizeCustomFieldNames(customFieldName) + "%%", customValue, { source: "direct" }));
+		}.bind(this));
 	};
 
 	/**
-	 * Removes the custom fields from the placeholders.
-	 *
-	 * @param {Object} customFields The fields to parse and remove.
-	 */
-	YoastReplaceVarPlugin.prototype.removeFields = function( customFields ) {
-		jQuery( customFields ).each( function( i, customField ) {
-			var customFieldName = jQuery( '#' + customField.id + '-key' ).val();
+  * Removes the custom fields from the placeholders.
+  *
+  * @param {Object} customFields The fields to parse and remove.
+  */
+	YoastReplaceVarPlugin.prototype.removeFields = function (customFields) {
+		jQuery(customFields).each(function (i, customField) {
+			var customFieldName = jQuery("#" + customField.id + "-key").val();
 
 			// Register these as new replacevars
-			this.removeReplacement( '%%cf_' + this.sanitizeCustomFieldNames( customFieldName ) + '%%' );
-		}.bind( this ) );
+			this.removeReplacement("%%cf_" + this.sanitizeCustomFieldNames(customFieldName) + "%%");
+		}.bind(this));
 	};
 
 	/**
-	 * Sanitizes the custom field's name by replacing spaces with underscores for easier matching.
-	 *
-	 * @param {string} customFieldName The field name to sanitize.
-	 * @returns {string} The sanitized field name.
-	 */
-	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function( customFieldName ) {
-		return customFieldName.replace( ' ', '_' );
+  * Sanitizes the custom field's name by replacing spaces with underscores for easier matching.
+  *
+  * @param {string} customFieldName The field name to sanitize.
+  * @returns {string} The sanitized field name.
+  */
+	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function (customFieldName) {
+		return customFieldName.replace(" ", "_");
 	};
 
 	/**
-	 * Get the custom fields that are available on the current page.
-	 *
-	 * @param {object} targetMetaBox The HTML element to use as a source for the taxonomies.
-	 * @returns {void}
-	 */
-	YoastReplaceVarPlugin.prototype.getAvailableFields = function( targetMetaBox ) {
+  * Get the custom fields that are available on the current page.
+  *
+  * @param {object} targetMetaBox The HTML element to use as a source for the taxonomies.
+  * @returns {void}
+  */
+	YoastReplaceVarPlugin.prototype.getAvailableFields = function (targetMetaBox) {
 		// Remove all the custom fields prior. This ensures that deleted fields don't show up anymore.
 		this.removeCustomFields();
 
-		var textFields = jQuery( targetMetaBox ).find( '#the-list > tr:visible' );
+		var textFields = jQuery(targetMetaBox).find("#the-list > tr:visible");
 
-		if ( textFields.length > 0 ) {
-			this.parseFields( textFields );
+		if (textFields.length > 0) {
+			this.parseFields(textFields);
 		}
 
 		this.declareReloaded();
 	};
 
 	/**
-	 * Binding events for each custom field element.
-	 *
-	 * @param {int} index The index of the element.
-	 * @param {Object} customFieldElement The element to bind the events to.
-	 */
-	YoastReplaceVarPlugin.prototype.bindFieldEvents = function( index, customFieldElement ) {
-		customFieldElement = jQuery( customFieldElement );
-		var customFieldElementList = customFieldElement.find( '#the-list' );
+  * Binding events for each custom field element.
+  *
+  * @param {int} index The index of the element.
+  * @param {Object} customFieldElement The element to bind the events to.
+  */
+	YoastReplaceVarPlugin.prototype.bindFieldEvents = function (index, customFieldElement) {
+		customFieldElement = jQuery(customFieldElement);
+		var customFieldElementList = customFieldElement.find("#the-list");
 
-		customFieldElementList.on( 'wpListDelEnd.wpseoCustomFields', this.getAvailableFields.bind( this, customFieldElement ) );
-		customFieldElementList.on( 'wpListAddEnd.wpseoCustomFields', this.getAvailableFields.bind( this, customFieldElement ) );
-		customFieldElementList.on( 'input.wpseoCustomFields', '.textarea', this.getAvailableFields.bind( this, customFieldElement ) );
-		customFieldElementList.on( 'click.wpseoCustomFields', '.button + .updatemeta', this.getAvailableFields.bind( this, customFieldElement ) );
+		customFieldElementList.on("wpListDelEnd.wpseoCustomFields", this.getAvailableFields.bind(this, customFieldElement));
+		customFieldElementList.on("wpListAddEnd.wpseoCustomFields", this.getAvailableFields.bind(this, customFieldElement));
+		customFieldElementList.on("input.wpseoCustomFields", ".textarea", this.getAvailableFields.bind(this, customFieldElement));
+		customFieldElementList.on("click.wpseoCustomFields", ".button + .updatemeta", this.getAvailableFields.bind(this, customFieldElement));
 
 		// Get the available fields upon loading the plugin.
-		this.getAvailableFields( customFieldElement );
+		this.getAvailableFields(customFieldElement);
 	};
 
 	/**
-	 * Looks for custom fields in the list of placeholders and deletes them.
-	 */
-	YoastReplaceVarPlugin.prototype.removeCustomFields = function() {
-		var customFields = filter( placeholders, function( item, key ) {
-			return key.indexOf( '%%cf_' ) > -1;
-		} );
+  * Looks for custom fields in the list of placeholders and deletes them.
+  */
+	YoastReplaceVarPlugin.prototype.removeCustomFields = function () {
+		var customFields = filter(placeholders, function (item, key) {
+			return key.indexOf("%%cf_") > -1;
+		});
 
-		forEach( customFields, function( item ) {
-			this.removeReplacement( item );
-		}.bind( this ) );
+		forEach(customFields, function (item) {
+			this.removeReplacement(item);
+		}.bind(this));
 	};
 
 	/**
-	 * SPECIALIZED REPLACES
-	 */
+  * SPECIALIZED REPLACES
+  */
 
 	/**
-	 * Replaces %%term_title%% with the title of the term.
-	 *
-	 * @param {string} data The data that needs its placeholders replaced.
-	 * @returns {string} The data with all its placeholders replaced by actual values.
-	 */
-	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
+  * Replaces %%term_title%% with the title of the term.
+  *
+  * @param {string} data The data that needs its placeholders replaced.
+  * @returns {string} The data with all its placeholders replaced by actual values.
+  */
+	YoastReplaceVarPlugin.prototype.termtitleReplace = function (data) {
 		var term_title = this._app.rawData.name;
 
-		data = data.replace( /%%term_title%%/g, term_title);
+		data = data.replace(/%%term_title%%/g, term_title);
 
 		return data;
 	};
 
 	/**
-	 * Replaces %%parent_title%% with the selected value from selectbox (if available on pages only).
-	 *
-	 * @param {string} data The data that needs its placeholders replaced.
-	 * @returns {string} The data with all its placeholders replaced by actual values.
-	 */
-	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		var parent = jQuery( '#parent_id, #parent' ).eq( 0 );
+  * Replaces %%parent_title%% with the selected value from selectbox (if available on pages only).
+  *
+  * @param {string} data The data that needs its placeholders replaced.
+  * @returns {string} The data with all its placeholders replaced by actual values.
+  */
+	YoastReplaceVarPlugin.prototype.parentReplace = function (data) {
+		var parent = jQuery("#parent_id, #parent").eq(0);
 
-		if ( this.hasParentTitle( parent ) ) {
-			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );
+		if (this.hasParentTitle(parent)) {
+			data = data.replace(/%%parent_title%%/, this.getParentTitleReplacement(parent));
 		}
 
 		return data;
 	};
 
 	/**
-	 * Checks whether or not there's a parent title available.
-	 *
-	 * @returns {boolean} Whether or not there is a parent title present.
-	 */
-	YoastReplaceVarPlugin.prototype.hasParentTitle = function( parent ) {
-		return ( ! isUndefined( parent ) && ! isUndefined( parent.prop( 'options' ) ) );
+  * Checks whether or not there's a parent title available.
+  *
+  * @returns {boolean} Whether or not there is a parent title present.
+  */
+	YoastReplaceVarPlugin.prototype.hasParentTitle = function (parent) {
+		return !isUndefined(parent) && !isUndefined(parent.prop("options"));
 	};
 
 	/**
-	 * Gets the replacement for the parent title.
-	 *
-	 * @param {Object} parent The parent object to use to look for the selected option.
-	 * @returns {string} The string to replace the placeholder with.
-	 */
-	YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parent ) {
-		var parentText = parent.find( 'option:selected' ).text();
+  * Gets the replacement for the parent title.
+  *
+  * @param {Object} parent The parent object to use to look for the selected option.
+  * @returns {string} The string to replace the placeholder with.
+  */
+	YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function (parent) {
+		var parentText = parent.find("option:selected").text();
 
-		if ( parentText === wpseoReplaceVarsL10n.no_parent_text ) {
-			return '';
+		if (parentText === wpseoReplaceVarsL10n.no_parent_text) {
+			return "";
 		}
 
 		return parentText;
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
-}());
+})();
 
-},{"./values/replaceVar":1,"lodash/filter":106,"lodash/forEach":107,"lodash/isUndefined":125}],3:[function(require,module,exports){
+},{"./values/replaceVar":1,"lodash/filter":110,"lodash/forEach":111,"lodash/isUndefined":128}],3:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -631,7 +621,7 @@ var DataView = getNative(root, 'DataView');
 
 module.exports = DataView;
 
-},{"./_getNative":57,"./_root":91}],4:[function(require,module,exports){
+},{"./_getNative":61,"./_root":95}],4:[function(require,module,exports){
 var hashClear = require('./_hashClear'),
     hashDelete = require('./_hashDelete'),
     hashGet = require('./_hashGet'),
@@ -665,7 +655,7 @@ Hash.prototype.set = hashSet;
 
 module.exports = Hash;
 
-},{"./_hashClear":62,"./_hashDelete":63,"./_hashGet":64,"./_hashHas":65,"./_hashSet":66}],5:[function(require,module,exports){
+},{"./_hashClear":65,"./_hashDelete":66,"./_hashGet":67,"./_hashHas":68,"./_hashSet":69}],5:[function(require,module,exports){
 var listCacheClear = require('./_listCacheClear'),
     listCacheDelete = require('./_listCacheDelete'),
     listCacheGet = require('./_listCacheGet'),
@@ -708,7 +698,7 @@ var Map = getNative(root, 'Map');
 
 module.exports = Map;
 
-},{"./_getNative":57,"./_root":91}],7:[function(require,module,exports){
+},{"./_getNative":61,"./_root":95}],7:[function(require,module,exports){
 var mapCacheClear = require('./_mapCacheClear'),
     mapCacheDelete = require('./_mapCacheDelete'),
     mapCacheGet = require('./_mapCacheGet'),
@@ -751,15 +741,7 @@ var Promise = getNative(root, 'Promise');
 
 module.exports = Promise;
 
-},{"./_getNative":57,"./_root":91}],9:[function(require,module,exports){
-var root = require('./_root');
-
-/** Built-in value references. */
-var Reflect = root.Reflect;
-
-module.exports = Reflect;
-
-},{"./_root":91}],10:[function(require,module,exports){
+},{"./_getNative":61,"./_root":95}],9:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -768,7 +750,7 @@ var Set = getNative(root, 'Set');
 
 module.exports = Set;
 
-},{"./_getNative":57,"./_root":91}],11:[function(require,module,exports){
+},{"./_getNative":61,"./_root":95}],10:[function(require,module,exports){
 var MapCache = require('./_MapCache'),
     setCacheAdd = require('./_setCacheAdd'),
     setCacheHas = require('./_setCacheHas');
@@ -797,7 +779,7 @@ SetCache.prototype.has = setCacheHas;
 
 module.exports = SetCache;
 
-},{"./_MapCache":7,"./_setCacheAdd":92,"./_setCacheHas":93}],12:[function(require,module,exports){
+},{"./_MapCache":7,"./_setCacheAdd":96,"./_setCacheHas":97}],11:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     stackClear = require('./_stackClear'),
     stackDelete = require('./_stackDelete'),
@@ -825,7 +807,7 @@ Stack.prototype.set = stackSet;
 
 module.exports = Stack;
 
-},{"./_ListCache":5,"./_stackClear":95,"./_stackDelete":96,"./_stackGet":97,"./_stackHas":98,"./_stackSet":99}],13:[function(require,module,exports){
+},{"./_ListCache":5,"./_stackClear":99,"./_stackDelete":100,"./_stackGet":101,"./_stackHas":102,"./_stackSet":103}],12:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -833,7 +815,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":91}],14:[function(require,module,exports){
+},{"./_root":95}],13:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -841,7 +823,7 @@ var Uint8Array = root.Uint8Array;
 
 module.exports = Uint8Array;
 
-},{"./_root":91}],15:[function(require,module,exports){
+},{"./_root":95}],14:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -850,7 +832,7 @@ var WeakMap = getNative(root, 'WeakMap');
 
 module.exports = WeakMap;
 
-},{"./_getNative":57,"./_root":91}],16:[function(require,module,exports){
+},{"./_getNative":61,"./_root":95}],15:[function(require,module,exports){
 /**
  * A faster alternative to `Function#apply`, this function invokes `func`
  * with the `this` binding of `thisArg` and the arguments of `args`.
@@ -862,8 +844,7 @@ module.exports = WeakMap;
  * @returns {*} Returns the result of `func`.
  */
 function apply(func, thisArg, args) {
-  var length = args.length;
-  switch (length) {
+  switch (args.length) {
     case 0: return func.call(thisArg);
     case 1: return func.call(thisArg, args[0]);
     case 2: return func.call(thisArg, args[0], args[1]);
@@ -874,7 +855,7 @@ function apply(func, thisArg, args) {
 
 module.exports = apply;
 
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for
  * iteratee shorthands.
@@ -898,7 +879,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * A specialized version of `_.filter` for arrays without support for
  * iteratee shorthands.
@@ -925,7 +906,48 @@ function arrayFilter(array, predicate) {
 
 module.exports = arrayFilter;
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
+var baseTimes = require('./_baseTimes'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isIndex = require('./_isIndex');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Creates an array of the enumerable property names of the array-like `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @param {boolean} inherited Specify returning inherited property names.
+ * @returns {Array} Returns the array of property names.
+ */
+function arrayLikeKeys(value, inherited) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  // Safari 9 makes `arguments.length` enumerable in strict mode.
+  var result = (isArray(value) || isArguments(value))
+    ? baseTimes(value.length, String)
+    : [];
+
+  var length = result.length,
+      skipIndexes = !!length;
+
+  for (var key in value) {
+    if ((inherited || hasOwnProperty.call(value, key)) &&
+        !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = arrayLikeKeys;
+
+},{"./_baseTimes":46,"./_isIndex":71,"./isArguments":116,"./isArray":117}],19:[function(require,module,exports){
 /**
  * A specialized version of `_.some` for arrays without support for iteratee
  * shorthands.
@@ -979,7 +1001,7 @@ function assignInDefaults(objValue, srcValue, key, object) {
 
 module.exports = assignInDefaults;
 
-},{"./eq":105}],21:[function(require,module,exports){
+},{"./eq":109}],21:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -990,7 +1012,7 @@ var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
  * Assigns `value` to `key` of `object` if the existing value is not equivalent
- * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
  * for equality comparisons.
  *
  * @private
@@ -1008,14 +1030,14 @@ function assignValue(object, key, value) {
 
 module.exports = assignValue;
 
-},{"./eq":105}],22:[function(require,module,exports){
+},{"./eq":109}],22:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
  * Gets the index at which the `key` is found in `array` of key-value pairs.
  *
  * @private
- * @param {Array} array The array to search.
+ * @param {Array} array The array to inspect.
  * @param {*} key The key to search for.
  * @returns {number} Returns the index of the matched value, else `-1`.
  */
@@ -1031,7 +1053,7 @@ function assocIndexOf(array, key) {
 
 module.exports = assocIndexOf;
 
-},{"./eq":105}],23:[function(require,module,exports){
+},{"./eq":109}],23:[function(require,module,exports){
 var baseForOwn = require('./_baseForOwn'),
     createBaseEach = require('./_createBaseEach');
 
@@ -1047,7 +1069,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./_baseForOwn":26,"./_createBaseEach":49}],24:[function(require,module,exports){
+},{"./_baseForOwn":27,"./_createBaseEach":53}],24:[function(require,module,exports){
 var baseEach = require('./_baseEach');
 
 /**
@@ -1071,6 +1093,32 @@ function baseFilter(collection, predicate) {
 module.exports = baseFilter;
 
 },{"./_baseEach":23}],25:[function(require,module,exports){
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseFindIndex;
+
+},{}],26:[function(require,module,exports){
 var createBaseFor = require('./_createBaseFor');
 
 /**
@@ -1088,7 +1136,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./_createBaseFor":50}],26:[function(require,module,exports){
+},{"./_createBaseFor":54}],27:[function(require,module,exports){
 var baseFor = require('./_baseFor'),
     keys = require('./keys');
 
@@ -1106,7 +1154,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"./_baseFor":25,"./keys":126}],27:[function(require,module,exports){
+},{"./_baseFor":26,"./keys":129}],28:[function(require,module,exports){
 var castPath = require('./_castPath'),
     isKey = require('./_isKey'),
     toKey = require('./_toKey');
@@ -1133,35 +1181,31 @@ function baseGet(object, path) {
 
 module.exports = baseGet;
 
-},{"./_castPath":44,"./_isKey":72,"./_toKey":101}],28:[function(require,module,exports){
-var getPrototype = require('./_getPrototype');
-
+},{"./_castPath":49,"./_isKey":73,"./_toKey":105}],29:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
 
 /**
- * The base implementation of `_.has` without support for deep paths.
+ * The base implementation of `getTag`.
  *
  * @private
- * @param {Object} [object] The object to query.
- * @param {Array|string} key The key to check.
- * @returns {boolean} Returns `true` if `key` exists, else `false`.
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
  */
-function baseHas(object, key) {
-  // Avoid a bug in IE 10-11 where objects with a [[Prototype]] of `null`,
-  // that are composed entirely of index properties, return `false` for
-  // `hasOwnProperty` checks of them.
-  return object != null &&
-    (hasOwnProperty.call(object, key) ||
-      (typeof object == 'object' && key in object && getPrototype(object) === null));
+function baseGetTag(value) {
+  return objectToString.call(value);
 }
 
-module.exports = baseHas;
+module.exports = baseGetTag;
 
-},{"./_getPrototype":58}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * The base implementation of `_.hasIn` without support for deep paths.
  *
@@ -1176,21 +1220,22 @@ function baseHasIn(object, key) {
 
 module.exports = baseHasIn;
 
-},{}],30:[function(require,module,exports){
-var indexOfNaN = require('./_indexOfNaN');
+},{}],31:[function(require,module,exports){
+var baseFindIndex = require('./_baseFindIndex'),
+    baseIsNaN = require('./_baseIsNaN');
 
 /**
  * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
  *
  * @private
- * @param {Array} array The array to search.
+ * @param {Array} array The array to inspect.
  * @param {*} value The value to search for.
  * @param {number} fromIndex The index to search from.
  * @returns {number} Returns the index of the matched value, else `-1`.
  */
 function baseIndexOf(array, value, fromIndex) {
   if (value !== value) {
-    return indexOfNaN(array, fromIndex);
+    return baseFindIndex(array, baseIsNaN, fromIndex);
   }
   var index = fromIndex - 1,
       length = array.length;
@@ -1205,7 +1250,7 @@ function baseIndexOf(array, value, fromIndex) {
 
 module.exports = baseIndexOf;
 
-},{"./_indexOfNaN":68}],31:[function(require,module,exports){
+},{"./_baseFindIndex":25,"./_baseIsNaN":35}],32:[function(require,module,exports){
 var baseIsEqualDeep = require('./_baseIsEqualDeep'),
     isObject = require('./isObject'),
     isObjectLike = require('./isObjectLike');
@@ -1237,7 +1282,7 @@ function baseIsEqual(value, other, customizer, bitmask, stack) {
 
 module.exports = baseIsEqual;
 
-},{"./_baseIsEqualDeep":32,"./isObject":120,"./isObjectLike":121}],32:[function(require,module,exports){
+},{"./_baseIsEqualDeep":33,"./isObject":124,"./isObjectLike":125}],33:[function(require,module,exports){
 var Stack = require('./_Stack'),
     equalArrays = require('./_equalArrays'),
     equalByTag = require('./_equalByTag'),
@@ -1321,7 +1366,7 @@ function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = baseIsEqualDeep;
 
-},{"./_Stack":12,"./_equalArrays":51,"./_equalByTag":52,"./_equalObjects":53,"./_getTag":59,"./_isHostObject":69,"./isArray":113,"./isTypedArray":124}],33:[function(require,module,exports){
+},{"./_Stack":11,"./_equalArrays":55,"./_equalByTag":56,"./_equalObjects":57,"./_getTag":62,"./_isHostObject":70,"./isArray":117,"./isTypedArray":127}],34:[function(require,module,exports){
 var Stack = require('./_Stack'),
     baseIsEqual = require('./_baseIsEqual');
 
@@ -1385,7 +1430,21 @@ function baseIsMatch(object, source, matchData, customizer) {
 
 module.exports = baseIsMatch;
 
-},{"./_Stack":12,"./_baseIsEqual":31}],34:[function(require,module,exports){
+},{"./_Stack":11,"./_baseIsEqual":32}],35:[function(require,module,exports){
+/**
+ * The base implementation of `_.isNaN` without support for number objects.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ */
+function baseIsNaN(value) {
+  return value !== value;
+}
+
+module.exports = baseIsNaN;
+
+},{}],36:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isHostObject = require('./_isHostObject'),
     isMasked = require('./_isMasked'),
@@ -1394,7 +1453,7 @@ var isFunction = require('./isFunction'),
 
 /**
  * Used to match `RegExp`
- * [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns).
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
  */
 var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 
@@ -1402,10 +1461,11 @@ var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
 
 /** Used for built-in method references. */
-var objectProto = Object.prototype;
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
 
 /** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
+var funcToString = funcProto.toString;
 
 /** Used to check objects for own properties. */
 var hasOwnProperty = objectProto.hasOwnProperty;
@@ -1434,7 +1494,78 @@ function baseIsNative(value) {
 
 module.exports = baseIsNative;
 
-},{"./_isHostObject":69,"./_isMasked":74,"./_toSource":102,"./isFunction":118,"./isObject":120}],35:[function(require,module,exports){
+},{"./_isHostObject":70,"./_isMasked":75,"./_toSource":106,"./isFunction":122,"./isObject":124}],37:[function(require,module,exports){
+var isLength = require('./isLength'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+typedArrayTags[setTag] = typedArrayTags[stringTag] =
+typedArrayTags[weakMapTag] = false;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * The base implementation of `_.isTypedArray` without Node.js optimizations.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ */
+function baseIsTypedArray(value) {
+  return isObjectLike(value) &&
+    isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
+}
+
+module.exports = baseIsTypedArray;
+
+},{"./isLength":123,"./isObjectLike":125}],38:[function(require,module,exports){
 var baseMatches = require('./_baseMatches'),
     baseMatchesProperty = require('./_baseMatchesProperty'),
     identity = require('./identity'),
@@ -1467,63 +1598,74 @@ function baseIteratee(value) {
 
 module.exports = baseIteratee;
 
-},{"./_baseMatches":38,"./_baseMatchesProperty":39,"./identity":110,"./isArray":113,"./property":129}],36:[function(require,module,exports){
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeKeys = Object.keys;
+},{"./_baseMatches":41,"./_baseMatchesProperty":42,"./identity":114,"./isArray":117,"./property":132}],39:[function(require,module,exports){
+var isPrototype = require('./_isPrototype'),
+    nativeKeys = require('./_nativeKeys');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
- * The base implementation of `_.keys` which doesn't skip the constructor
- * property of prototypes or treat sparse arrays as dense.
+ * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
  *
  * @private
  * @param {Object} object The object to query.
  * @returns {Array} Returns the array of property names.
  */
 function baseKeys(object) {
-  return nativeKeys(Object(object));
+  if (!isPrototype(object)) {
+    return nativeKeys(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (hasOwnProperty.call(object, key) && key != 'constructor') {
+      result.push(key);
+    }
+  }
+  return result;
 }
 
 module.exports = baseKeys;
 
-},{}],37:[function(require,module,exports){
-var Reflect = require('./_Reflect'),
-    iteratorToArray = require('./_iteratorToArray');
+},{"./_isPrototype":76,"./_nativeKeys":91}],40:[function(require,module,exports){
+var isObject = require('./isObject'),
+    isPrototype = require('./_isPrototype'),
+    nativeKeysIn = require('./_nativeKeysIn');
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
-/** Built-in value references. */
-var enumerate = Reflect ? Reflect.enumerate : undefined,
-    propertyIsEnumerable = objectProto.propertyIsEnumerable;
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
- * The base implementation of `_.keysIn` which doesn't skip the constructor
- * property of prototypes or treat sparse arrays as dense.
+ * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
  *
  * @private
  * @param {Object} object The object to query.
  * @returns {Array} Returns the array of property names.
  */
 function baseKeysIn(object) {
-  object = object == null ? object : Object(object);
+  if (!isObject(object)) {
+    return nativeKeysIn(object);
+  }
+  var isProto = isPrototype(object),
+      result = [];
 
-  var result = [];
   for (var key in object) {
-    result.push(key);
+    if (!(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
   }
   return result;
 }
 
-// Fallback for IE < 9 with es6-shim.
-if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
-  baseKeysIn = function(object) {
-    return iteratorToArray(enumerate(object));
-  };
-}
-
 module.exports = baseKeysIn;
 
-},{"./_Reflect":9,"./_iteratorToArray":77}],38:[function(require,module,exports){
+},{"./_isPrototype":76,"./_nativeKeysIn":92,"./isObject":124}],41:[function(require,module,exports){
 var baseIsMatch = require('./_baseIsMatch'),
     getMatchData = require('./_getMatchData'),
     matchesStrictComparable = require('./_matchesStrictComparable');
@@ -1547,7 +1689,7 @@ function baseMatches(source) {
 
 module.exports = baseMatches;
 
-},{"./_baseIsMatch":33,"./_getMatchData":56,"./_matchesStrictComparable":89}],39:[function(require,module,exports){
+},{"./_baseIsMatch":34,"./_getMatchData":60,"./_matchesStrictComparable":89}],42:[function(require,module,exports){
 var baseIsEqual = require('./_baseIsEqual'),
     get = require('./get'),
     hasIn = require('./hasIn'),
@@ -1582,7 +1724,7 @@ function baseMatchesProperty(path, srcValue) {
 
 module.exports = baseMatchesProperty;
 
-},{"./_baseIsEqual":31,"./_isKey":72,"./_isStrictComparable":76,"./_matchesStrictComparable":89,"./_toKey":101,"./get":108,"./hasIn":109}],40:[function(require,module,exports){
+},{"./_baseIsEqual":32,"./_isKey":73,"./_isStrictComparable":77,"./_matchesStrictComparable":89,"./_toKey":105,"./get":112,"./hasIn":113}],43:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -1598,7 +1740,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],41:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -1616,7 +1758,44 @@ function basePropertyDeep(path) {
 
 module.exports = basePropertyDeep;
 
-},{"./_baseGet":27}],42:[function(require,module,exports){
+},{"./_baseGet":28}],45:[function(require,module,exports){
+var apply = require('./_apply');
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
+ */
+function baseRest(func, start) {
+  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        array = Array(length);
+
+    while (++index < length) {
+      array[index] = args[start + index];
+    }
+    index = -1;
+    var otherArgs = Array(start + 1);
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = array;
+    return apply(func, this, otherArgs);
+  };
+}
+
+module.exports = baseRest;
+
+},{"./_apply":15}],46:[function(require,module,exports){
 /**
  * The base implementation of `_.times` without support for iteratee shorthands
  * or max array length checks.
@@ -1638,7 +1817,7 @@ function baseTimes(n, iteratee) {
 
 module.exports = baseTimes;
 
-},{}],43:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     isSymbol = require('./isSymbol');
 
@@ -1671,7 +1850,23 @@ function baseToString(value) {
 
 module.exports = baseToString;
 
-},{"./_Symbol":13,"./isSymbol":123}],44:[function(require,module,exports){
+},{"./_Symbol":12,"./isSymbol":126}],48:[function(require,module,exports){
+/**
+ * The base implementation of `_.unary` without support for storing metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+module.exports = baseUnary;
+
+},{}],49:[function(require,module,exports){
 var isArray = require('./isArray'),
     stringToPath = require('./_stringToPath');
 
@@ -1688,21 +1883,7 @@ function castPath(value) {
 
 module.exports = castPath;
 
-},{"./_stringToPath":100,"./isArray":113}],45:[function(require,module,exports){
-/**
- * Checks if `value` is a global object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {null|Object} Returns `value` if it's a global object, else `null`.
- */
-function checkGlobal(value) {
-  return (value && value.Object === Object) ? value : null;
-}
-
-module.exports = checkGlobal;
-
-},{}],46:[function(require,module,exports){
+},{"./_stringToPath":104,"./isArray":117}],50:[function(require,module,exports){
 var assignValue = require('./_assignValue');
 
 /**
@@ -1726,16 +1907,16 @@ function copyObject(source, props, object, customizer) {
 
     var newValue = customizer
       ? customizer(object[key], source[key], key, object, source)
-      : source[key];
+      : undefined;
 
-    assignValue(object, key, newValue);
+    assignValue(object, key, newValue === undefined ? source[key] : newValue);
   }
   return object;
 }
 
 module.exports = copyObject;
 
-},{"./_assignValue":21}],47:[function(require,module,exports){
+},{"./_assignValue":21}],51:[function(require,module,exports){
 var root = require('./_root');
 
 /** Used to detect overreaching core-js shims. */
@@ -1743,9 +1924,9 @@ var coreJsData = root['__core-js_shared__'];
 
 module.exports = coreJsData;
 
-},{"./_root":91}],48:[function(require,module,exports){
-var isIterateeCall = require('./_isIterateeCall'),
-    rest = require('./rest');
+},{"./_root":95}],52:[function(require,module,exports){
+var baseRest = require('./_baseRest'),
+    isIterateeCall = require('./_isIterateeCall');
 
 /**
  * Creates a function like `_.assign`.
@@ -1755,7 +1936,7 @@ var isIterateeCall = require('./_isIterateeCall'),
  * @returns {Function} Returns the new assigner function.
  */
 function createAssigner(assigner) {
-  return rest(function(object, sources) {
+  return baseRest(function(object, sources) {
     var index = -1,
         length = sources.length,
         customizer = length > 1 ? sources[length - 1] : undefined,
@@ -1782,7 +1963,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"./_isIterateeCall":71,"./rest":130}],49:[function(require,module,exports){
+},{"./_baseRest":45,"./_isIterateeCall":72}],53:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike');
 
 /**
@@ -1816,7 +1997,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./isArrayLike":114}],50:[function(require,module,exports){
+},{"./isArrayLike":118}],54:[function(require,module,exports){
 /**
  * Creates a base function for methods like `_.forIn` and `_.forOwn`.
  *
@@ -1843,7 +2024,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{}],51:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arraySome = require('./_arraySome');
 
@@ -1875,7 +2056,7 @@ function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
   }
   // Assume cyclic values are equal.
   var stacked = stack.get(array);
-  if (stacked) {
+  if (stacked && stack.get(other)) {
     return stacked == other;
   }
   var index = -1,
@@ -1883,6 +2064,7 @@ function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
       seen = (bitmask & UNORDERED_COMPARE_FLAG) ? new SetCache : undefined;
 
   stack.set(array, other);
+  stack.set(other, array);
 
   // Ignore non-index properties.
   while (++index < arrLength) {
@@ -1921,14 +2103,16 @@ function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
     }
   }
   stack['delete'](array);
+  stack['delete'](other);
   return result;
 }
 
 module.exports = equalArrays;
 
-},{"./_SetCache":11,"./_arraySome":19}],52:[function(require,module,exports){
+},{"./_SetCache":10,"./_arraySome":19}],56:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     Uint8Array = require('./_Uint8Array'),
+    eq = require('./eq'),
     equalArrays = require('./_equalArrays'),
     mapToArray = require('./_mapToArray'),
     setToArray = require('./_setToArray');
@@ -1992,22 +2176,18 @@ function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
 
     case boolTag:
     case dateTag:
-      // Coerce dates and booleans to numbers, dates to milliseconds and
-      // booleans to `1` or `0` treating invalid dates coerced to `NaN` as
-      // not equal.
-      return +object == +other;
+    case numberTag:
+      // Coerce booleans to `1` or `0` and dates to milliseconds.
+      // Invalid dates are coerced to `NaN`.
+      return eq(+object, +other);
 
     case errorTag:
       return object.name == other.name && object.message == other.message;
 
-    case numberTag:
-      // Treat `NaN` vs. `NaN` as equal.
-      return (object != +object) ? other != +other : object == +other;
-
     case regexpTag:
     case stringTag:
       // Coerce regexes to strings and treat strings, primitives and objects,
-      // as equal. See http://www.ecma-international.org/ecma-262/6.0/#sec-regexp.prototype.tostring
+      // as equal. See http://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
       // for more details.
       return object == (other + '');
 
@@ -2027,10 +2207,12 @@ function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
         return stacked == other;
       }
       bitmask |= UNORDERED_COMPARE_FLAG;
-      stack.set(object, other);
 
       // Recursively compare objects (susceptible to call stack limits).
-      return equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask, stack);
+      stack.set(object, other);
+      var result = equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask, stack);
+      stack['delete'](object);
+      return result;
 
     case symbolTag:
       if (symbolValueOf) {
@@ -2042,12 +2224,17 @@ function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalByTag;
 
-},{"./_Symbol":13,"./_Uint8Array":14,"./_equalArrays":51,"./_mapToArray":88,"./_setToArray":94}],53:[function(require,module,exports){
-var baseHas = require('./_baseHas'),
-    keys = require('./keys');
+},{"./_Symbol":12,"./_Uint8Array":13,"./_equalArrays":55,"./_mapToArray":88,"./_setToArray":98,"./eq":109}],57:[function(require,module,exports){
+var keys = require('./keys');
 
 /** Used to compose bitmasks for comparison styles. */
 var PARTIAL_COMPARE_FLAG = 2;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
  * A specialized version of `baseIsEqualDeep` for objects with support for
@@ -2076,17 +2263,18 @@ function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
   var index = objLength;
   while (index--) {
     var key = objProps[index];
-    if (!(isPartial ? key in other : baseHas(other, key))) {
+    if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
       return false;
     }
   }
   // Assume cyclic values are equal.
   var stacked = stack.get(object);
-  if (stacked) {
+  if (stacked && stack.get(other)) {
     return stacked == other;
   }
   var result = true;
   stack.set(object, other);
+  stack.set(other, object);
 
   var skipCtor = isPartial;
   while (++index < objLength) {
@@ -2122,30 +2310,21 @@ function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
     }
   }
   stack['delete'](object);
+  stack['delete'](other);
   return result;
 }
 
 module.exports = equalObjects;
 
-},{"./_baseHas":28,"./keys":126}],54:[function(require,module,exports){
-var baseProperty = require('./_baseProperty');
+},{"./keys":129}],58:[function(require,module,exports){
+(function (global){
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
 
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a
- * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
- * Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
+module.exports = freeGlobal;
 
-module.exports = getLength;
-
-},{"./_baseProperty":40}],55:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],59:[function(require,module,exports){
 var isKeyable = require('./_isKeyable');
 
 /**
@@ -2165,7 +2344,7 @@ function getMapData(map, key) {
 
 module.exports = getMapData;
 
-},{"./_isKeyable":73}],56:[function(require,module,exports){
+},{"./_isKeyable":74}],60:[function(require,module,exports){
 var isStrictComparable = require('./_isStrictComparable'),
     keys = require('./keys');
 
@@ -2191,7 +2370,7 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
-},{"./_isStrictComparable":76,"./keys":126}],57:[function(require,module,exports){
+},{"./_isStrictComparable":77,"./keys":129}],61:[function(require,module,exports){
 var baseIsNative = require('./_baseIsNative'),
     getValue = require('./_getValue');
 
@@ -2210,29 +2389,13 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"./_baseIsNative":34,"./_getValue":60}],58:[function(require,module,exports){
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeGetPrototype = Object.getPrototypeOf;
-
-/**
- * Gets the `[[Prototype]]` of `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {null|Object} Returns the `[[Prototype]]`.
- */
-function getPrototype(value) {
-  return nativeGetPrototype(Object(value));
-}
-
-module.exports = getPrototype;
-
-},{}],59:[function(require,module,exports){
+},{"./_baseIsNative":36,"./_getValue":63}],62:[function(require,module,exports){
 var DataView = require('./_DataView'),
     Map = require('./_Map'),
     Promise = require('./_Promise'),
     Set = require('./_Set'),
     WeakMap = require('./_WeakMap'),
+    baseGetTag = require('./_baseGetTag'),
     toSource = require('./_toSource');
 
 /** `Object#toString` result references. */
@@ -2249,7 +2412,7 @@ var objectProto = Object.prototype;
 
 /**
  * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
@@ -2268,12 +2431,10 @@ var dataViewCtorString = toSource(DataView),
  * @param {*} value The value to query.
  * @returns {string} Returns the `toStringTag`.
  */
-function getTag(value) {
-  return objectToString.call(value);
-}
+var getTag = baseGetTag;
 
 // Fallback for data views, maps, sets, and weak maps in IE 11,
-// for data views in Edge, and promises in Node.js.
+// for data views in Edge < 14, and promises in Node.js.
 if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
     (Map && getTag(new Map) != mapTag) ||
     (Promise && getTag(Promise.resolve()) != promiseTag) ||
@@ -2299,7 +2460,7 @@ if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
 
 module.exports = getTag;
 
-},{"./_DataView":3,"./_Map":6,"./_Promise":8,"./_Set":10,"./_WeakMap":15,"./_toSource":102}],60:[function(require,module,exports){
+},{"./_DataView":3,"./_Map":6,"./_Promise":8,"./_Set":9,"./_WeakMap":14,"./_baseGetTag":29,"./_toSource":106}],63:[function(require,module,exports){
 /**
  * Gets the value at `key` of `object`.
  *
@@ -2314,14 +2475,13 @@ function getValue(object, key) {
 
 module.exports = getValue;
 
-},{}],61:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 var castPath = require('./_castPath'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isIndex = require('./_isIndex'),
     isKey = require('./_isKey'),
     isLength = require('./isLength'),
-    isString = require('./isString'),
     toKey = require('./_toKey');
 
 /**
@@ -2352,12 +2512,12 @@ function hasPath(object, path, hasFunc) {
   }
   var length = object ? object.length : 0;
   return !!length && isLength(length) && isIndex(key, length) &&
-    (isArray(object) || isString(object) || isArguments(object));
+    (isArray(object) || isArguments(object));
 }
 
 module.exports = hasPath;
 
-},{"./_castPath":44,"./_isIndex":70,"./_isKey":72,"./_toKey":101,"./isArguments":112,"./isArray":113,"./isLength":119,"./isString":122}],62:[function(require,module,exports){
+},{"./_castPath":49,"./_isIndex":71,"./_isKey":73,"./_toKey":105,"./isArguments":116,"./isArray":117,"./isLength":123}],65:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /**
@@ -2373,7 +2533,7 @@ function hashClear() {
 
 module.exports = hashClear;
 
-},{"./_nativeCreate":90}],63:[function(require,module,exports){
+},{"./_nativeCreate":90}],66:[function(require,module,exports){
 /**
  * Removes `key` and its value from the hash.
  *
@@ -2390,7 +2550,7 @@ function hashDelete(key) {
 
 module.exports = hashDelete;
 
-},{}],64:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -2422,7 +2582,7 @@ function hashGet(key) {
 
 module.exports = hashGet;
 
-},{"./_nativeCreate":90}],65:[function(require,module,exports){
+},{"./_nativeCreate":90}],68:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -2447,7 +2607,7 @@ function hashHas(key) {
 
 module.exports = hashHas;
 
-},{"./_nativeCreate":90}],66:[function(require,module,exports){
+},{"./_nativeCreate":90}],69:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -2471,58 +2631,7 @@ function hashSet(key, value) {
 
 module.exports = hashSet;
 
-},{"./_nativeCreate":90}],67:[function(require,module,exports){
-var baseTimes = require('./_baseTimes'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isLength = require('./isLength'),
-    isString = require('./isString');
-
-/**
- * Creates an array of index keys for `object` values of arrays,
- * `arguments` objects, and strings, otherwise `null` is returned.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array|null} Returns index keys, else `null`.
- */
-function indexKeys(object) {
-  var length = object ? object.length : undefined;
-  if (isLength(length) &&
-      (isArray(object) || isString(object) || isArguments(object))) {
-    return baseTimes(length, String);
-  }
-  return null;
-}
-
-module.exports = indexKeys;
-
-},{"./_baseTimes":42,"./isArguments":112,"./isArray":113,"./isLength":119,"./isString":122}],68:[function(require,module,exports){
-/**
- * Gets the index at which the first occurrence of `NaN` is found in `array`.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched `NaN`, else `-1`.
- */
-function indexOfNaN(array, fromIndex, fromRight) {
-  var length = array.length,
-      index = fromIndex + (fromRight ? 1 : -1);
-
-  while ((fromRight ? index-- : ++index < length)) {
-    var other = array[index];
-    if (other !== other) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = indexOfNaN;
-
-},{}],69:[function(require,module,exports){
+},{"./_nativeCreate":90}],70:[function(require,module,exports){
 /**
  * Checks if `value` is a host object in IE < 9.
  *
@@ -2544,7 +2653,7 @@ function isHostObject(value) {
 
 module.exports = isHostObject;
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -2568,7 +2677,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 var eq = require('./eq'),
     isArrayLike = require('./isArrayLike'),
     isIndex = require('./_isIndex'),
@@ -2600,7 +2709,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"./_isIndex":70,"./eq":105,"./isArrayLike":114,"./isObject":120}],72:[function(require,module,exports){
+},{"./_isIndex":71,"./eq":109,"./isArrayLike":118,"./isObject":124}],73:[function(require,module,exports){
 var isArray = require('./isArray'),
     isSymbol = require('./isSymbol');
 
@@ -2631,7 +2740,7 @@ function isKey(value, object) {
 
 module.exports = isKey;
 
-},{"./isArray":113,"./isSymbol":123}],73:[function(require,module,exports){
+},{"./isArray":117,"./isSymbol":126}],74:[function(require,module,exports){
 /**
  * Checks if `value` is suitable for use as unique object key.
  *
@@ -2648,7 +2757,7 @@ function isKeyable(value) {
 
 module.exports = isKeyable;
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 var coreJsData = require('./_coreJsData');
 
 /** Used to detect methods masquerading as native. */
@@ -2670,7 +2779,7 @@ function isMasked(func) {
 
 module.exports = isMasked;
 
-},{"./_coreJsData":47}],75:[function(require,module,exports){
+},{"./_coreJsData":51}],76:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -2690,7 +2799,7 @@ function isPrototype(value) {
 
 module.exports = isPrototype;
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /**
@@ -2707,27 +2816,7 @@ function isStrictComparable(value) {
 
 module.exports = isStrictComparable;
 
-},{"./isObject":120}],77:[function(require,module,exports){
-/**
- * Converts `iterator` to an array.
- *
- * @private
- * @param {Object} iterator The iterator to convert.
- * @returns {Array} Returns the converted array.
- */
-function iteratorToArray(iterator) {
-  var data,
-      result = [];
-
-  while (!(data = iterator.next()).done) {
-    result.push(data.value);
-  }
-  return result;
-}
-
-module.exports = iteratorToArray;
-
-},{}],78:[function(require,module,exports){
+},{"./isObject":124}],78:[function(require,module,exports){
 /**
  * Removes all key-value entries from the list cache.
  *
@@ -2883,7 +2972,7 @@ function mapCacheDelete(key) {
 
 module.exports = mapCacheDelete;
 
-},{"./_getMapData":55}],85:[function(require,module,exports){
+},{"./_getMapData":59}],85:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -2901,7 +2990,7 @@ function mapCacheGet(key) {
 
 module.exports = mapCacheGet;
 
-},{"./_getMapData":55}],86:[function(require,module,exports){
+},{"./_getMapData":59}],86:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -2919,7 +3008,7 @@ function mapCacheHas(key) {
 
 module.exports = mapCacheHas;
 
-},{"./_getMapData":55}],87:[function(require,module,exports){
+},{"./_getMapData":59}],87:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -2939,7 +3028,7 @@ function mapCacheSet(key, value) {
 
 module.exports = mapCacheSet;
 
-},{"./_getMapData":55}],88:[function(require,module,exports){
+},{"./_getMapData":59}],88:[function(require,module,exports){
 /**
  * Converts `map` to its key-value pairs.
  *
@@ -2989,26 +3078,89 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
-},{"./_getNative":57}],91:[function(require,module,exports){
-(function (global){
-var checkGlobal = require('./_checkGlobal');
+},{"./_getNative":61}],91:[function(require,module,exports){
+var overArg = require('./_overArg');
 
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = checkGlobal(typeof global == 'object' && global);
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeKeys = overArg(Object.keys, Object);
+
+module.exports = nativeKeys;
+
+},{"./_overArg":94}],92:[function(require,module,exports){
+/**
+ * This function is like
+ * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+ * except that it includes inherited enumerable properties.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function nativeKeysIn(object) {
+  var result = [];
+  if (object != null) {
+    for (var key in Object(object)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = nativeKeysIn;
+
+},{}],93:[function(require,module,exports){
+var freeGlobal = require('./_freeGlobal');
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Detect free variable `process` from Node.js. */
+var freeProcess = moduleExports && freeGlobal.process;
+
+/** Used to access faster Node.js helpers. */
+var nodeUtil = (function() {
+  try {
+    return freeProcess && freeProcess.binding('util');
+  } catch (e) {}
+}());
+
+module.exports = nodeUtil;
+
+},{"./_freeGlobal":58}],94:[function(require,module,exports){
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+module.exports = overArg;
+
+},{}],95:[function(require,module,exports){
+var freeGlobal = require('./_freeGlobal');
 
 /** Detect free variable `self`. */
-var freeSelf = checkGlobal(typeof self == 'object' && self);
-
-/** Detect `this` as the global object. */
-var thisGlobal = checkGlobal(typeof this == 'object' && this);
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
 
 /** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
+var root = freeGlobal || freeSelf || Function('return this')();
 
 module.exports = root;
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_checkGlobal":45}],92:[function(require,module,exports){
+},{"./_freeGlobal":58}],96:[function(require,module,exports){
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
@@ -3029,7 +3181,7 @@ function setCacheAdd(value) {
 
 module.exports = setCacheAdd;
 
-},{}],93:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 /**
  * Checks if `value` is in the array cache.
  *
@@ -3045,7 +3197,7 @@ function setCacheHas(value) {
 
 module.exports = setCacheHas;
 
-},{}],94:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 /**
  * Converts `set` to an array of its values.
  *
@@ -3065,7 +3217,7 @@ function setToArray(set) {
 
 module.exports = setToArray;
 
-},{}],95:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 var ListCache = require('./_ListCache');
 
 /**
@@ -3081,7 +3233,7 @@ function stackClear() {
 
 module.exports = stackClear;
 
-},{"./_ListCache":5}],96:[function(require,module,exports){
+},{"./_ListCache":5}],100:[function(require,module,exports){
 /**
  * Removes `key` and its value from the stack.
  *
@@ -3097,7 +3249,7 @@ function stackDelete(key) {
 
 module.exports = stackDelete;
 
-},{}],97:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 /**
  * Gets the stack value for `key`.
  *
@@ -3113,7 +3265,7 @@ function stackGet(key) {
 
 module.exports = stackGet;
 
-},{}],98:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 /**
  * Checks if a stack value for `key` exists.
  *
@@ -3129,8 +3281,9 @@ function stackHas(key) {
 
 module.exports = stackHas;
 
-},{}],99:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
+    Map = require('./_Map'),
     MapCache = require('./_MapCache');
 
 /** Used as the size to enable large array optimizations. */
@@ -3148,8 +3301,13 @@ var LARGE_ARRAY_SIZE = 200;
  */
 function stackSet(key, value) {
   var cache = this.__data__;
-  if (cache instanceof ListCache && cache.__data__.length == LARGE_ARRAY_SIZE) {
-    cache = this.__data__ = new MapCache(cache.__data__);
+  if (cache instanceof ListCache) {
+    var pairs = cache.__data__;
+    if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+      pairs.push([key, value]);
+      return this;
+    }
+    cache = this.__data__ = new MapCache(pairs);
   }
   cache.set(key, value);
   return this;
@@ -3157,12 +3315,13 @@ function stackSet(key, value) {
 
 module.exports = stackSet;
 
-},{"./_ListCache":5,"./_MapCache":7}],100:[function(require,module,exports){
+},{"./_ListCache":5,"./_Map":6,"./_MapCache":7}],104:[function(require,module,exports){
 var memoize = require('./memoize'),
     toString = require('./toString');
 
 /** Used to match property names within property paths. */
-var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(\.|\[\])(?:\4|$))/g;
+var reLeadingDot = /^\./,
+    rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
 
 /** Used to match backslashes in property paths. */
 var reEscapeChar = /\\(\\)?/g;
@@ -3175,8 +3334,13 @@ var reEscapeChar = /\\(\\)?/g;
  * @returns {Array} Returns the property path array.
  */
 var stringToPath = memoize(function(string) {
+  string = toString(string);
+
   var result = [];
-  toString(string).replace(rePropName, function(match, number, quote, string) {
+  if (reLeadingDot.test(string)) {
+    result.push('');
+  }
+  string.replace(rePropName, function(match, number, quote, string) {
     result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
   });
   return result;
@@ -3184,7 +3348,7 @@ var stringToPath = memoize(function(string) {
 
 module.exports = stringToPath;
 
-},{"./memoize":128,"./toString":135}],101:[function(require,module,exports){
+},{"./memoize":131,"./toString":137}],105:[function(require,module,exports){
 var isSymbol = require('./isSymbol');
 
 /** Used as references for various `Number` constants. */
@@ -3207,9 +3371,12 @@ function toKey(value) {
 
 module.exports = toKey;
 
-},{"./isSymbol":123}],102:[function(require,module,exports){
+},{"./isSymbol":126}],106:[function(require,module,exports){
+/** Used for built-in method references. */
+var funcProto = Function.prototype;
+
 /** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
+var funcToString = funcProto.toString;
 
 /**
  * Converts `func` to its source code.
@@ -3232,7 +3399,7 @@ function toSource(func) {
 
 module.exports = toSource;
 
-},{}],103:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     createAssigner = require('./_createAssigner'),
     keysIn = require('./keysIn');
@@ -3272,11 +3439,11 @@ var assignInWith = createAssigner(function(object, source, srcIndex, customizer)
 
 module.exports = assignInWith;
 
-},{"./_copyObject":46,"./_createAssigner":48,"./keysIn":127}],104:[function(require,module,exports){
+},{"./_copyObject":50,"./_createAssigner":52,"./keysIn":130}],108:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInDefaults = require('./_assignInDefaults'),
     assignInWith = require('./assignInWith'),
-    rest = require('./rest');
+    baseRest = require('./_baseRest');
 
 /**
  * Assigns own and inherited enumerable string keyed properties of source
@@ -3296,20 +3463,20 @@ var apply = require('./_apply'),
  * @see _.defaultsDeep
  * @example
  *
- * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
- * // => { 'user': 'barney', 'age': 36 }
+ * _.defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
+ * // => { 'a': 1, 'b': 2 }
  */
-var defaults = rest(function(args) {
+var defaults = baseRest(function(args) {
   args.push(undefined, assignInDefaults);
   return apply(assignInWith, undefined, args);
 });
 
 module.exports = defaults;
 
-},{"./_apply":16,"./_assignInDefaults":20,"./assignInWith":103,"./rest":130}],105:[function(require,module,exports){
+},{"./_apply":15,"./_assignInDefaults":20,"./_baseRest":45,"./assignInWith":107}],109:[function(require,module,exports){
 /**
  * Performs a
- * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
  * comparison between two values to determine if they are equivalent.
  *
  * @static
@@ -3321,8 +3488,8 @@ module.exports = defaults;
  * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
  * @example
  *
- * var object = { 'user': 'fred' };
- * var other = { 'user': 'fred' };
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
  *
  * _.eq(object, object);
  * // => true
@@ -3345,7 +3512,7 @@ function eq(value, other) {
 
 module.exports = eq;
 
-},{}],106:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 var arrayFilter = require('./_arrayFilter'),
     baseFilter = require('./_baseFilter'),
     baseIteratee = require('./_baseIteratee'),
@@ -3356,12 +3523,14 @@ var arrayFilter = require('./_arrayFilter'),
  * `predicate` returns truthy for. The predicate is invoked with three
  * arguments: (value, index|key, collection).
  *
+ * **Note:** Unlike `_.remove`, this method returns a new array.
+ *
  * @static
  * @memberOf _
  * @since 0.1.0
  * @category Collection
  * @param {Array|Object} collection The collection to iterate over.
- * @param {Array|Function|Object|string} [predicate=_.identity]
+ * @param {Function} [predicate=_.identity]
  *  The function invoked per iteration.
  * @returns {Array} Returns the new filtered array.
  * @see _.reject
@@ -3394,7 +3563,7 @@ function filter(collection, predicate) {
 
 module.exports = filter;
 
-},{"./_arrayFilter":18,"./_baseFilter":24,"./_baseIteratee":35,"./isArray":113}],107:[function(require,module,exports){
+},{"./_arrayFilter":17,"./_baseFilter":24,"./_baseIteratee":38,"./isArray":117}],111:[function(require,module,exports){
 var arrayEach = require('./_arrayEach'),
     baseEach = require('./_baseEach'),
     baseIteratee = require('./_baseIteratee'),
@@ -3437,12 +3606,12 @@ function forEach(collection, iteratee) {
 
 module.exports = forEach;
 
-},{"./_arrayEach":17,"./_baseEach":23,"./_baseIteratee":35,"./isArray":113}],108:[function(require,module,exports){
+},{"./_arrayEach":16,"./_baseEach":23,"./_baseIteratee":38,"./isArray":117}],112:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
  * Gets the value at `path` of `object`. If the resolved value is
- * `undefined`, the `defaultValue` is used in its place.
+ * `undefined`, the `defaultValue` is returned in its place.
  *
  * @static
  * @memberOf _
@@ -3472,7 +3641,7 @@ function get(object, path, defaultValue) {
 
 module.exports = get;
 
-},{"./_baseGet":27}],109:[function(require,module,exports){
+},{"./_baseGet":28}],113:[function(require,module,exports){
 var baseHasIn = require('./_baseHasIn'),
     hasPath = require('./_hasPath');
 
@@ -3508,9 +3677,9 @@ function hasIn(object, path) {
 
 module.exports = hasIn;
 
-},{"./_baseHasIn":29,"./_hasPath":61}],110:[function(require,module,exports){
+},{"./_baseHasIn":30,"./_hasPath":64}],114:[function(require,module,exports){
 /**
- * This method returns the first argument given to it.
+ * This method returns the first argument it receives.
  *
  * @static
  * @since 0.1.0
@@ -3520,7 +3689,7 @@ module.exports = hasIn;
  * @returns {*} Returns `value`.
  * @example
  *
- * var object = { 'user': 'fred' };
+ * var object = { 'a': 1 };
  *
  * console.log(_.identity(object) === object);
  * // => true
@@ -3531,7 +3700,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],111:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 var baseIndexOf = require('./_baseIndexOf'),
     toInteger = require('./toInteger');
 
@@ -3540,7 +3709,7 @@ var nativeMax = Math.max;
 
 /**
  * Gets the index at which the first occurrence of `value` is found in `array`
- * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
  * for equality comparisons. If `fromIndex` is negative, it's used as the
  * offset from the end of `array`.
  *
@@ -3548,7 +3717,7 @@ var nativeMax = Math.max;
  * @memberOf _
  * @since 0.1.0
  * @category Array
- * @param {Array} array The array to search.
+ * @param {Array} array The array to inspect.
  * @param {*} value The value to search for.
  * @param {number} [fromIndex=0] The index to search from.
  * @returns {number} Returns the index of the matched value, else `-1`.
@@ -3575,7 +3744,7 @@ function indexOf(array, value, fromIndex) {
 
 module.exports = indexOf;
 
-},{"./_baseIndexOf":30,"./toInteger":133}],112:[function(require,module,exports){
+},{"./_baseIndexOf":31,"./toInteger":135}],116:[function(require,module,exports){
 var isArrayLikeObject = require('./isArrayLikeObject');
 
 /** `Object#toString` result references. */
@@ -3589,7 +3758,7 @@ var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
  * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
@@ -3605,7 +3774,7 @@ var propertyIsEnumerable = objectProto.propertyIsEnumerable;
  * @since 0.1.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
  *  else `false`.
  * @example
  *
@@ -3616,25 +3785,23 @@ var propertyIsEnumerable = objectProto.propertyIsEnumerable;
  * // => false
  */
 function isArguments(value) {
-  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
   return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
     (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
 }
 
 module.exports = isArguments;
 
-},{"./isArrayLikeObject":115}],113:[function(require,module,exports){
+},{"./isArrayLikeObject":119}],117:[function(require,module,exports){
 /**
  * Checks if `value` is classified as an `Array` object.
  *
  * @static
  * @memberOf _
  * @since 0.1.0
- * @type {Function}
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
  * @example
  *
  * _.isArray([1, 2, 3]);
@@ -3653,9 +3820,8 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],114:[function(require,module,exports){
-var getLength = require('./_getLength'),
-    isFunction = require('./isFunction'),
+},{}],118:[function(require,module,exports){
+var isFunction = require('./isFunction'),
     isLength = require('./isLength');
 
 /**
@@ -3684,12 +3850,12 @@ var getLength = require('./_getLength'),
  * // => false
  */
 function isArrayLike(value) {
-  return value != null && isLength(getLength(value)) && !isFunction(value);
+  return value != null && isLength(value.length) && !isFunction(value);
 }
 
 module.exports = isArrayLike;
 
-},{"./_getLength":54,"./isFunction":118,"./isLength":119}],115:[function(require,module,exports){
+},{"./isFunction":122,"./isLength":123}],119:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isObjectLike = require('./isObjectLike');
 
@@ -3724,21 +3890,24 @@ function isArrayLikeObject(value) {
 
 module.exports = isArrayLikeObject;
 
-},{"./isArrayLike":114,"./isObjectLike":121}],116:[function(require,module,exports){
+},{"./isArrayLike":118,"./isObjectLike":125}],120:[function(require,module,exports){
 var root = require('./_root'),
     stubFalse = require('./stubFalse');
 
 /** Detect free variable `exports`. */
-var freeExports = typeof exports == 'object' && exports;
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
 
 /** Detect free variable `module`. */
-var freeModule = freeExports && typeof module == 'object' && module;
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
 
 /** Detect the popular CommonJS extension `module.exports`. */
 var moduleExports = freeModule && freeModule.exports === freeExports;
 
 /** Built-in value references. */
 var Buffer = moduleExports ? root.Buffer : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
 
 /**
  * Checks if `value` is a buffer.
@@ -3757,22 +3926,18 @@ var Buffer = moduleExports ? root.Buffer : undefined;
  * _.isBuffer(new Uint8Array(2));
  * // => false
  */
-var isBuffer = !Buffer ? stubFalse : function(value) {
-  return value instanceof Buffer;
-};
+var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-},{"./_root":91,"./stubFalse":131}],117:[function(require,module,exports){
+},{"./_root":95,"./stubFalse":133}],121:[function(require,module,exports){
 var getTag = require('./_getTag'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('./isArrayLike'),
     isBuffer = require('./isBuffer'),
-    isFunction = require('./isFunction'),
-    isObjectLike = require('./isObjectLike'),
-    isString = require('./isString'),
-    keys = require('./keys');
+    isPrototype = require('./_isPrototype'),
+    nativeKeys = require('./_nativeKeys');
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -3825,27 +3990,28 @@ var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
  */
 function isEmpty(value) {
   if (isArrayLike(value) &&
-      (isArray(value) || isString(value) || isFunction(value.splice) ||
-        isArguments(value) || isBuffer(value))) {
+      (isArray(value) || typeof value == 'string' ||
+        typeof value.splice == 'function' || isBuffer(value) || isArguments(value))) {
     return !value.length;
   }
-  if (isObjectLike(value)) {
-    var tag = getTag(value);
-    if (tag == mapTag || tag == setTag) {
-      return !value.size;
-    }
+  var tag = getTag(value);
+  if (tag == mapTag || tag == setTag) {
+    return !value.size;
+  }
+  if (nonEnumShadows || isPrototype(value)) {
+    return !nativeKeys(value).length;
   }
   for (var key in value) {
     if (hasOwnProperty.call(value, key)) {
       return false;
     }
   }
-  return !(nonEnumShadows && keys(value).length);
+  return true;
 }
 
 module.exports = isEmpty;
 
-},{"./_getTag":59,"./isArguments":112,"./isArray":113,"./isArrayLike":114,"./isBuffer":116,"./isFunction":118,"./isObjectLike":121,"./isString":122,"./keys":126}],118:[function(require,module,exports){
+},{"./_getTag":62,"./_isPrototype":76,"./_nativeKeys":91,"./isArguments":116,"./isArray":117,"./isArrayLike":118,"./isBuffer":120}],122:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -3857,7 +4023,7 @@ var objectProto = Object.prototype;
 
 /**
  * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
@@ -3870,8 +4036,7 @@ var objectToString = objectProto.toString;
  * @since 0.1.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
  * @example
  *
  * _.isFunction(_);
@@ -3882,31 +4047,29 @@ var objectToString = objectProto.toString;
  */
 function isFunction(value) {
   // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array and weak map constructors,
-  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
   var tag = isObject(value) ? objectToString.call(value) : '';
   return tag == funcTag || tag == genTag;
 }
 
 module.exports = isFunction;
 
-},{"./isObject":120}],119:[function(require,module,exports){
+},{"./isObject":124}],123:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
 /**
  * Checks if `value` is a valid array-like length.
  *
- * **Note:** This function is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
  *
  * @static
  * @memberOf _
  * @since 4.0.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length,
- *  else `false`.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
  * @example
  *
  * _.isLength(3);
@@ -3928,10 +4091,10 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],120:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 /**
  * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
  * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
  *
  * @static
@@ -3961,7 +4124,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],121:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -3992,49 +4155,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],122:[function(require,module,exports){
-var isArray = require('./isArray'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var stringTag = '[object String]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `String` primitive or object.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isString('abc');
- * // => true
- *
- * _.isString(1);
- * // => false
- */
-function isString(value) {
-  return typeof value == 'string' ||
-    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
-}
-
-module.exports = isString;
-
-},{"./isArray":113,"./isObjectLike":121}],123:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike');
 
 /** `Object#toString` result references. */
@@ -4045,7 +4166,7 @@ var objectProto = Object.prototype;
 
 /**
  * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
@@ -4058,8 +4179,7 @@ var objectToString = objectProto.toString;
  * @since 4.0.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
  * @example
  *
  * _.isSymbol(Symbol.iterator);
@@ -4075,62 +4195,13 @@ function isSymbol(value) {
 
 module.exports = isSymbol;
 
-},{"./isObjectLike":121}],124:[function(require,module,exports){
-var isLength = require('./isLength'),
-    isObjectLike = require('./isObjectLike');
+},{"./isObjectLike":125}],127:[function(require,module,exports){
+var baseIsTypedArray = require('./_baseIsTypedArray'),
+    baseUnary = require('./_baseUnary'),
+    nodeUtil = require('./_nodeUtil');
 
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    funcTag = '[object Function]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    objectTag = '[object Object]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    weakMapTag = '[object WeakMap]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    dataViewTag = '[object DataView]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-/** Used to identify `toStringTag` values of typed arrays. */
-var typedArrayTags = {};
-typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
-typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
-typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
-typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
-typedArrayTags[uint32Tag] = true;
-typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
-typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
-typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
-typedArrayTags[errorTag] = typedArrayTags[funcTag] =
-typedArrayTags[mapTag] = typedArrayTags[numberTag] =
-typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
-typedArrayTags[setTag] = typedArrayTags[stringTag] =
-typedArrayTags[weakMapTag] = false;
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
+/* Node.js helper references. */
+var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
 
 /**
  * Checks if `value` is classified as a typed array.
@@ -4140,8 +4211,7 @@ var objectToString = objectProto.toString;
  * @since 3.0.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
  * @example
  *
  * _.isTypedArray(new Uint8Array);
@@ -4150,14 +4220,11 @@ var objectToString = objectProto.toString;
  * _.isTypedArray([]);
  * // => false
  */
-function isTypedArray(value) {
-  return isObjectLike(value) &&
-    isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
-}
+var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
 
 module.exports = isTypedArray;
 
-},{"./isLength":119,"./isObjectLike":121}],125:[function(require,module,exports){
+},{"./_baseIsTypedArray":37,"./_baseUnary":48,"./_nodeUtil":93}],128:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -4181,19 +4248,16 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],126:[function(require,module,exports){
-var baseHas = require('./_baseHas'),
+},{}],129:[function(require,module,exports){
+var arrayLikeKeys = require('./_arrayLikeKeys'),
     baseKeys = require('./_baseKeys'),
-    indexKeys = require('./_indexKeys'),
-    isArrayLike = require('./isArrayLike'),
-    isIndex = require('./_isIndex'),
-    isPrototype = require('./_isPrototype');
+    isArrayLike = require('./isArrayLike');
 
 /**
  * Creates an array of the own enumerable property names of `object`.
  *
  * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+ * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
  * for more details.
  *
  * @static
@@ -4218,38 +4282,15 @@ var baseHas = require('./_baseHas'),
  * // => ['0', '1']
  */
 function keys(object) {
-  var isProto = isPrototype(object);
-  if (!(isProto || isArrayLike(object))) {
-    return baseKeys(object);
-  }
-  var indexes = indexKeys(object),
-      skipIndexes = !!indexes,
-      result = indexes || [],
-      length = result.length;
-
-  for (var key in object) {
-    if (baseHas(object, key) &&
-        !(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-        !(isProto && key == 'constructor')) {
-      result.push(key);
-    }
-  }
-  return result;
+  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
 }
 
 module.exports = keys;
 
-},{"./_baseHas":28,"./_baseKeys":36,"./_indexKeys":67,"./_isIndex":70,"./_isPrototype":75,"./isArrayLike":114}],127:[function(require,module,exports){
-var baseKeysIn = require('./_baseKeysIn'),
-    indexKeys = require('./_indexKeys'),
-    isIndex = require('./_isIndex'),
-    isPrototype = require('./_isPrototype');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
+},{"./_arrayLikeKeys":18,"./_baseKeys":39,"./isArrayLike":118}],130:[function(require,module,exports){
+var arrayLikeKeys = require('./_arrayLikeKeys'),
+    baseKeysIn = require('./_baseKeysIn'),
+    isArrayLike = require('./isArrayLike');
 
 /**
  * Creates an array of the own and inherited enumerable property names of `object`.
@@ -4275,28 +4316,12 @@ var hasOwnProperty = objectProto.hasOwnProperty;
  * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
  */
 function keysIn(object) {
-  var index = -1,
-      isProto = isPrototype(object),
-      props = baseKeysIn(object),
-      propsLength = props.length,
-      indexes = indexKeys(object),
-      skipIndexes = !!indexes,
-      result = indexes || [],
-      length = result.length;
-
-  while (++index < propsLength) {
-    var key = props[index];
-    if (!(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
+  return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
 }
 
 module.exports = keysIn;
 
-},{"./_baseKeysIn":37,"./_indexKeys":67,"./_isIndex":70,"./_isPrototype":75}],128:[function(require,module,exports){
+},{"./_arrayLikeKeys":18,"./_baseKeysIn":40,"./isArrayLike":118}],131:[function(require,module,exports){
 var MapCache = require('./_MapCache');
 
 /** Used as the `TypeError` message for "Functions" methods. */
@@ -4312,7 +4337,7 @@ var FUNC_ERROR_TEXT = 'Expected a function';
  * **Note:** The cache is exposed as the `cache` property on the memoized
  * function. Its creation may be customized by replacing the `_.memoize.Cache`
  * constructor with one whose instances implement the
- * [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
+ * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
  * method interface of `delete`, `get`, `has`, and `set`.
  *
  * @static
@@ -4371,7 +4396,7 @@ memoize.Cache = MapCache;
 
 module.exports = memoize;
 
-},{"./_MapCache":7}],129:[function(require,module,exports){
+},{"./_MapCache":7}],132:[function(require,module,exports){
 var baseProperty = require('./_baseProperty'),
     basePropertyDeep = require('./_basePropertyDeep'),
     isKey = require('./_isKey'),
@@ -4405,75 +4430,9 @@ function property(path) {
 
 module.exports = property;
 
-},{"./_baseProperty":40,"./_basePropertyDeep":41,"./_isKey":72,"./_toKey":101}],130:[function(require,module,exports){
-var apply = require('./_apply'),
-    toInteger = require('./toInteger');
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
+},{"./_baseProperty":43,"./_basePropertyDeep":44,"./_isKey":73,"./_toKey":105}],133:[function(require,module,exports){
 /**
- * Creates a function that invokes `func` with the `this` binding of the
- * created function and arguments from `start` and beyond provided as
- * an array.
- *
- * **Note:** This method is based on the
- * [rest parameter](https://mdn.io/rest_parameters).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Function
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var say = _.rest(function(what, names) {
- *   return what + ' ' + _.initial(names).join(', ') +
- *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
- * });
- *
- * say('hello', 'fred', 'barney', 'pebbles');
- * // => 'hello fred, barney, & pebbles'
- */
-function rest(func, start) {
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  start = nativeMax(start === undefined ? (func.length - 1) : toInteger(start), 0);
-  return function() {
-    var args = arguments,
-        index = -1,
-        length = nativeMax(args.length - start, 0),
-        array = Array(length);
-
-    while (++index < length) {
-      array[index] = args[start + index];
-    }
-    switch (start) {
-      case 0: return func.call(this, array);
-      case 1: return func.call(this, args[0], array);
-      case 2: return func.call(this, args[0], args[1], array);
-    }
-    var otherArgs = Array(start + 1);
-    index = -1;
-    while (++index < start) {
-      otherArgs[index] = args[index];
-    }
-    otherArgs[start] = array;
-    return apply(func, this, otherArgs);
-  };
-}
-
-module.exports = rest;
-
-},{"./_apply":16,"./toInteger":133}],131:[function(require,module,exports){
-/**
- * A method that returns `false`.
+ * This method returns `false`.
  *
  * @static
  * @memberOf _
@@ -4491,7 +4450,7 @@ function stubFalse() {
 
 module.exports = stubFalse;
 
-},{}],132:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -4535,14 +4494,14 @@ function toFinite(value) {
 
 module.exports = toFinite;
 
-},{"./toNumber":134}],133:[function(require,module,exports){
+},{"./toNumber":136}],135:[function(require,module,exports){
 var toFinite = require('./toFinite');
 
 /**
  * Converts `value` to an integer.
  *
  * **Note:** This method is loosely based on
- * [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
+ * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
  *
  * @static
  * @memberOf _
@@ -4573,9 +4532,8 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toFinite":132}],134:[function(require,module,exports){
-var isFunction = require('./isFunction'),
-    isObject = require('./isObject'),
+},{"./toFinite":134}],136:[function(require,module,exports){
+var isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
 
 /** Used as references for various `Number` constants. */
@@ -4627,7 +4585,7 @@ function toNumber(value) {
     return NAN;
   }
   if (isObject(value)) {
-    var other = isFunction(value.valueOf) ? value.valueOf() : value;
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
     value = isObject(other) ? (other + '') : other;
   }
   if (typeof value != 'string') {
@@ -4642,7 +4600,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isFunction":118,"./isObject":120,"./isSymbol":123}],135:[function(require,module,exports){
+},{"./isObject":124,"./isSymbol":126}],137:[function(require,module,exports){
 var baseToString = require('./_baseToString');
 
 /**
@@ -4672,4 +4630,4 @@ function toString(value) {
 
 module.exports = toString;
 
-},{"./_baseToString":43}]},{},[2]);
+},{"./_baseToString":47}]},{},[2]);

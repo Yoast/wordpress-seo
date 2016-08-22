@@ -26,9 +26,12 @@ class Yoast_Dashboard_Widget {
 		$this->statistics = $statistics;
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_stylesheet' ) );
-		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
 		add_action( 'wp_insert_post', array( $this, 'clear_cache' ) );
 		add_action( 'delete_post', array( $this, 'clear_cache' ) );
+
+		if ( $this->show_widget() ) {
+			add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
+		}
 	}
 
 	/**
@@ -173,5 +176,16 @@ class Yoast_Dashboard_Widget {
 	 */
 	private function filter_items( $item ) {
 		return 0 !== $item['count'];
+	}
+
+	/**
+	 * Returns true when the dashboard widget should be shown.
+	 *
+	 * @return bool
+	 */
+	private function show_widget() {
+		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+
+		return $analysis_seo->is_enabled();
 	}
 }

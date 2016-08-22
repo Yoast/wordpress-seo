@@ -40,11 +40,14 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_defaults() {
+		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+
 		return array(
 			'search_url'        => '',
 			'post_edit_url'     => '',
 			'base_url'          => '',
-			'contentTab'        => __( 'Content', 'wordpress-seo' ),
+			'contentTab'        => __( 'Readability', 'wordpress-seo' ),
 			'keywordTab'        => __( 'Keyword:', 'wordpress-seo' ),
 			'enterFocusKeyword' => __( 'Enter your focus keyword', 'wordpress-seo' ),
 			'locale'            => get_locale(),
@@ -52,6 +55,8 @@ class WPSEO_Metabox_Formatter {
 			'keyword_usage'     => array(),
 			'title_template'    => '',
 			'metadesc_template' => '',
+			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
+			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -61,12 +66,12 @@ class WPSEO_Metabox_Formatter {
 			'show_markers'      => apply_filters( 'wpseo_enable_assessment_markers', true ),
 			'publish_box'       => array(
 				'labels'   => array(
-					'content' => __( 'Content', 'wordpress-seo' ),
+					'content' => __( 'Readability', 'wordpress-seo' ),
 					'keyword' => __( 'SEO', 'wordpress-seo' ),
 				),
 				'statuses' => array(
 					'na'   => __( 'Not available', 'wordpress-seo' ),
-					'bad'  => __( 'Bad', 'wordpress-seo' ),
+					'bad'  => __( 'Needs improvement', 'wordpress-seo' ),
 					'ok'   => __( 'OK', 'wordpress-seo' ),
 					'good' => __( 'Good', 'wordpress-seo' ),
 				),
