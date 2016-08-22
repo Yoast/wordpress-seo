@@ -45,7 +45,7 @@ class App extends React.Component {
 
 	getMenu() {
 		return (
-			<nav style={{margin: '0 0 2rem 0'}}>
+			<nav style={{margin: '0 0 2rem 0', textAlign: 'center'}}>
 				<button type="button" onClick={this.navigate.bind( this, "wizard" )}>Wizard</button>
 				<button type="button" onClick={this.navigate.bind( this, "search-results-editor" )}>Search results editor</button>
 			</nav>
@@ -54,7 +54,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div style={{ width: '80%', margin: '0 auto' }}>
+			<div>
 				{this.getMenu()}
 				{this.getContent()}
 			</div>
