@@ -29,7 +29,7 @@ class WPSEO_Redirect_Table_Presenter_Test extends WPSEO_UnitTestCase {
 		$output = ob_get_clean();
 
 		$this->assertContains( '<div id="table-regex" class="tab-url redirect-table-tab">', $output );
-		$this->assertContains( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.<br />', $output );
+		$this->assertContains( 'Regular Expressions (regex) Redirects are extremely powerful redirects. You should only use them if you know what you are doing.', $output );
 		$this->assertContains( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served.', $output );
 		$this->assertContains( 'Regular Expression', $output );
 		$this->assertContains( '</form>', $output );

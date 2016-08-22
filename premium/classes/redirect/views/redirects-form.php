@@ -26,11 +26,15 @@
 
 <p class="label desc description wpseo-redirect-clear">
 	<?php
-	printf( __( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\' target=\'_blank\'>this page</a> for more info.', 'wordpress-seo-premium' ), 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' );
+	printf(
+		/* translators: 1: opens a link to a related knowledge base article. 2: closes the link. */
+		__( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served. %1$sLearn more about redirect types%2$s.', 'wordpress-seo-premium' ),
+		'<a href="http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types" target="_blank">',
+		'</a>'
+	);
 	?>
 </p>
 
-<br class='clear'/>
 <div class='redirect_form_row' id="row-wpseo_redirects_origin">
 	<label class='textinput' for='wpseo_redirects_origin<?php echo $input_suffix; ?>'>
 		<span class="title"><?php echo $origin_label_value; ?></span>

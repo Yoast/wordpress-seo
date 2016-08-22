@@ -15,8 +15,12 @@
 <?php echo '<h2>' . esc_html( 'Regular Expressions redirects', 'wordpress-seo' ) . '</h2>'; ?>
 	<p>
 		<?php
-		/* translators: %1$s contains a line break tag. %2$s links to our knowledge base, %3$s closes the link. */
-		printf( __( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.%1$sIf you don\'t know what Regular Expressions (regex) are, please refer to %2$sour knowledge base%3$s.', 'wordpress-seo-premium' ), '<br />', '<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">', '</a>' )
+		printf(
+			/* translators: 1: opens a link to a related knowledge base article. 2: closes the link. */
+			__( 'Regular Expressions (regex) Redirects are extremely powerful redirects. You should only use them if you know what you are doing. %1$sRead more about regex redirects on our knowledge base%2$s.', 'wordpress-seo-premium' ),
+			'<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">',
+			'</a>'
+			)
 		?>
 	</p>
 
