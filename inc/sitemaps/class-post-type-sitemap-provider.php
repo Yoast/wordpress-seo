@@ -283,8 +283,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function is_valid_post_type( $post_type ) {
 
-		global $wp_post_types;
-
 		$options = $this->get_options();
 
 		if ( ! empty( $options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
@@ -295,7 +293,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( empty( $wp_post_types[ $post_type ]->public ) ) {
+		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ) ) ) ) {
 			return false;
 		}
 
