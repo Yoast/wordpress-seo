@@ -17,7 +17,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @var string $selected   The current set options.
  */
 ?>
-<select <?php echo $attributes; ?>name="<?php esc_attr_e( $name ); ?>" id="<?php esc_attr_e( $id ); ?>">
+<select <?php echo $attributes; ?>name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>">
 	<?php foreach ( $options as $option_attribute_value => $option_html_value ) : ?>
 	<option value="<?php echo esc_attr( $option_attribute_value ); ?>"<?php echo selected( $selected, $option_attribute_value, false ); ?>><?php echo esc_html( $option_html_value ); ?></option>
 	<?php endforeach; ?>
