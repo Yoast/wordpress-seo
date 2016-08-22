@@ -1,15 +1,11 @@
 import React from "react";
 import CustomStepButton from "./StepButton";
+import {Step, StepButton, Stepper, StepLabel,} from 'material-ui/Stepper';
 
-import {
-	Step,
-	StepButton,
-	Stepper,
-	StepLabel,
-	SvgIcon,
-} from 'material-ui/Stepper';
-
-
+/**
+ * The step indicator displays a horizontal progress indicator.
+ * The number of steps and the current step that is active is displayed.
+ */
 class StepIndicator extends React.Component {
 
 	constructor( props ) {
@@ -20,18 +16,21 @@ class StepIndicator extends React.Component {
 		};
 	}
 
+	/**
+	 * Updates the state and re-renders the indicator when new properties are set.
+	 *
+	 * @param props The properties for the StepIndicator.
+	 */
 	componentWillReceiveProps( props ) {
 		this.setState( props );
 	}
 
 	/**
-	 * Renders a field for the current step.
-	 *
-	 * @param {Object} steps The form steps to be created.
-	 *
-	 * @returns {JSX.Element} The form component containing its form field components.
+	 * Renders the step buttons in the StepIndicator(Stepper).
+	 **
+	 * @returns {JSX.Element} The button components.
 	 */
-	getStepComponents() {
+	getStepButtonComponents() {
 		let keys = Object.keys( this.props.steps );
 
 		return keys.map( ( name, key ) => {
@@ -41,7 +40,7 @@ class StepIndicator extends React.Component {
 			if ( key === this.state.stepIndex ) {
 				button = React.createElement( StepButton, {
 					key: "step-indicator-" + key,
-					color: "#a4286a",
+					className: "yoast-wizard-stepper-step-active",
 				}, currentField.title );
 			}
 			// Return a custom step button, without a label for non-active steps.
@@ -49,9 +48,8 @@ class StepIndicator extends React.Component {
 				button = new CustomStepButton( {
 					index: key.valueOf() + 1,
 					tooltip: currentField.title,
-					onClick: () => {
-						this.props.onClick(name)
-					}
+					className: "yoast-wizard-stepper-step",
+					onClick: () => {this.props.onClick(name)},
 				} );
 			}
 			return React.createElement( Step, { key: "step-indicator-" + key }, button );
@@ -60,9 +58,9 @@ class StepIndicator extends React.Component {
 
 	render() {
 		return (
-			<div style={{ width: '100%', margin: 'auto' }}>
+			<div className="yoast-wizard-stepper" style={{ width: '100%', margin: 'auto' }}>
 				<Stepper linear={false} activeStep={this.state.stepIndex}>
-					{this.getStepComponents()}
+					{this.getStepButtonComponents()}
 				</Stepper>
 			</div>
 		);
