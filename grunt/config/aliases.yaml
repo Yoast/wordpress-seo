@@ -21,7 +21,6 @@ build:
 'build:js':
   - 'copy'
   - 'browserify:build'
-  - 'browserify:buildes6'
   - 'uglify'
 # Build internationalisation features
 'build:i18n':
@@ -37,10 +36,7 @@ check:
   - 'check:php'
   - 'check:i18n'
 'check:js':
-  - 'jshint'
-  - 'jsonlint'
-  - 'jsvalidate'
-  - 'jscs'
+  - 'eslint'
 'check:php':
   - 'phplint'
   - 'phpcs'

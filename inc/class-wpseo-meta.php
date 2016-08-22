@@ -1057,6 +1057,11 @@ class WPSEO_Meta {
 	 * @return array
 	 */
 	public static function keyword_usage( $keyword, $post_id ) {
+
+		if ( empty( $keyword ) ) {
+			return array();
+		}
+
 		$get_posts = new WP_Query(
 			array(
 				'meta_key'       => '_yoast_wpseo_focuskw',

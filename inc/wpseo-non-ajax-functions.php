@@ -76,7 +76,7 @@ function wpseo_admin_bar_menu() {
 			if ( $notification_count > 0 ) {
 				// Always show Alerts page when clicking on the main link.
 				/* translators: %s: number of notifications */
-				$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count ), number_format_i18n( $notification_count ) );
+				$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
 				$counter = sprintf( ' <div class="wp-core-ui wp-ui-notification yoast-issue-counter"><span aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>', $notification_count, $counter_screen_reader_text );
 			}
 
@@ -365,7 +365,8 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
-	if ( ! is_user_logged_in() ) {
+
+	if ( ! is_admin_bar_showing() ) {
 		return;
 	}
 

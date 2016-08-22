@@ -1,0 +1,9 @@
+extends: yoast
+
+rules:
+  complexity: [1, 6]
+  react/prop-types: 1
+  camelcase: 1
+  brace-style: 1
+  max-len: 1
+  max-statements: 1
