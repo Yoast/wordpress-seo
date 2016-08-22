@@ -20,22 +20,26 @@ function wpseo_admin_bar_menu() {
 
 	global $wp_admin_bar, $post;
 
-	$admin_menu = current_user_can( 'manage_options' );
-	if ( ! $admin_menu && is_multisite() ) {
+	// Determine is user is admin or network admin.
+	$user_is_admin_or_networkadmin = current_user_can( 'manage_options' );
+	if ( ! $user_is_admin_or_networkadmin && is_multisite() ) {
 		$options    = get_site_option( 'wpseo_ms' );
-		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
+		$user_is_admin_or_networkadmin = ( $options['access'] === 'superadmin' && is_super_admin() );
 	}
 
 	$focuskw = '';
 	$score   = '';
+	// By default, the top level menu item has no link.
 	$seo_url = '';
+	// By default, make the no-link top level menu item focusable.
+	$top_level_link_tabindex = '0';
 
 	$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 	$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 	if ( ( is_singular() || ( is_admin() && WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
-		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
+		$focuskw = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
 		if ( $analysis_seo->is_enabled() ) {
 			$score = wpseo_adminbar_seo_score();
@@ -43,8 +47,6 @@ function wpseo_admin_bar_menu() {
 		elseif ( $analysis_readability->is_enabled() ) {
 			$score = wpseo_adminbar_content_score();
 		}
-
-		$seo_url = get_edit_post_link( $post->ID );
 	}
 
 	if ( is_category() || is_tag() || (WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) && ! WPSEO_Taxonomy::is_term_overview( $GLOBALS['pagenow'] ) )  || is_tax() ) {
@@ -54,16 +56,18 @@ function wpseo_admin_bar_menu() {
 		elseif ( $analysis_readability->is_enabled() ) {
 			$score = wpseo_tax_adminbar_content_score();
 		}
-
-		$seo_url    = get_edit_tag_link( filter_input( INPUT_GET, 'tag_ID' ), 'category' );
 	}
 
 	// Never display notifications for network admin.
 	$counter = '';
 
-	if ( $admin_menu ) {
+	// Set the top level menu item content for admins and network admins.
+	if ( $user_is_admin_or_networkadmin ) {
 
+		// Link the top level menu item to the Yoast Dashboard page.
 		$seo_url = get_admin_url( null, 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
+		// Since admins will get a real link, there's no need for a tabindex attribute.
+		$top_level_link_tabindex = false;
 
 		if ( '' === $score ) {
 
@@ -99,6 +103,7 @@ function wpseo_admin_bar_menu() {
 		'id'    => 'wpseo-menu',
 		'title' => $title . $score . $counter,
 		'href'  => $seo_url,
+		'meta'   => array( 'tabindex' => $top_level_link_tabindex ),
 	) );
 	if ( ! empty( $notification_count ) ) {
 		$wp_admin_bar->add_menu( array(
@@ -106,6 +111,7 @@ function wpseo_admin_bar_menu() {
 			'id'     => 'wpseo-notifications',
 			'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
 			'href'   => $seo_url,
+			'meta'   => array( 'tabindex' => $top_level_link_tabindex ),
 		) );
 	}
 	$wp_admin_bar->add_menu( array(
@@ -234,7 +240,7 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// @todo: add links to bulk title and bulk description edit pages.
-	if ( $admin_menu ) {
+	if ( $user_is_admin_or_networkadmin ) {
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-menu',
 			'id'     => 'wpseo-settings',
