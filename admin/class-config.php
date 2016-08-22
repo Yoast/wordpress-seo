@@ -116,6 +116,8 @@ class WPSEO_Admin_Pages {
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
 			'locale' => get_locale(),
+			/* translators: %d: number of knowledge base search results found. */
+			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
 			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
 			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
 			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),

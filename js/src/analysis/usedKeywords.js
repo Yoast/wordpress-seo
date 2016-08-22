@@ -1,9 +1,9 @@
 /* global jQuery, ajaxurl */
 
-var UsedKeywordsPlugin = require( 'yoastseo' ).bundledPlugins.usedKeywords;
-var _has = require( 'lodash/has' );
-var _debounce = require( 'lodash/debounce' );
-var _isArray = require( 'lodash/isArray' );
+var UsedKeywordsPlugin = require( "yoastseo" ).bundledPlugins.usedKeywords;
+var _has = require( "lodash/has" );
+var _debounce = require( "lodash/debounce" );
+var _isArray = require( "lodash/isArray" );
 var $ = jQuery;
 
 /**
@@ -25,11 +25,11 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 	this._plugin = new UsedKeywordsPlugin( app, {
 		usedKeywords: options.keyword_usage,
 		searchUrl: options.search_url,
-		postUrl: options.post_edit_url
+		postUrl: options.post_edit_url,
 	}, app.i18n );
 
-	this._postID = $( '#post_ID, [name=tag_ID]' ).val();
-	this._taxonomy = $( '[name=taxonomy]' ).val() || "";
+	this._postID = $( "#post_ID, [name=tag_ID]" ).val();
+	this._taxonomy = $( "[name=taxonomy]" ).val() || "";
 	this._ajaxAction = ajaxAction;
 	this._app = app;
 }
@@ -41,7 +41,7 @@ UsedKeywords.prototype.init = function() {
 	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
 
 	this._plugin.registerPlugin();
-	this._focusKeywordElement.on( 'keyup', eventHandler );
+	this._focusKeywordElement.on( "keyup", eventHandler );
 };
 
 /**
@@ -65,8 +65,8 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
 		action: this._ajaxAction,
 		post_id: this._postID,
 		keyword: keyword,
-		taxonomy: this._taxonomy
-	}, this.updateKeywordUsage.bind( this, keyword ), 'json' );
+		taxonomy: this._taxonomy,
+	}, this.updateKeywordUsage.bind( this, keyword ), "json" );
 };
 
 /**
