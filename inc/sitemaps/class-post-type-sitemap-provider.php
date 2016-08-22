@@ -230,7 +230,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$url = $this->get_url( $post );
 
-				if ( ! isset( $url['loc'] ) || in_array( $url['loc'], $stacked_urls ) ) {
+				if ( ! isset( $url['loc'] ) ) {
 					continue;
 				}
 
@@ -256,6 +256,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 				$links[] = $url;
 			}
+
 			unset( $post, $url );
 		}
 
@@ -471,13 +472,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
 
+		$post_ids = array();
+
 		foreach ( $posts as $post ) {
 			$post->post_type   = $post_type;
 			$post->post_status = 'publish';
 			$post->filter      = 'sample';
+			$post_ids[]        = $post->ID;
 		}
 
-		$post_ids = wp_list_pluck( $posts, 'ID' );
 		update_meta_cache( 'post', $post_ids );
 
 		return $posts;
