@@ -21,7 +21,10 @@ module.exports = function(grunt) {
 			js: [
 				'assets/js/**/*.js',
 				'!assets/js/**/*.min.js',
-				'!assets/js/yoast-premium-social-preview-340.js'
+				'!assets/js/yoast-premium-social-preview-340.js',
+				'!assets/js/wpseo-premium-contact-support.js',
+				'!assets/js/wpseo-premium-yoast-overlay',
+				'!assets/js/wp-seo-premium-multi-keyword-341.js',
 			],
 			css: [
 				'assets/css/*.css',
