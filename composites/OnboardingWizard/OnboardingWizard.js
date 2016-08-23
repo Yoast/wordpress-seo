@@ -3,7 +3,6 @@ import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
 import postJSON from "./helpers/postJSON";
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from './YoastLogo';
 
@@ -47,14 +46,14 @@ class OnboardingWizard extends React.Component {
 
 		// Loop through the steps to set each next and/or previous step.
 		for ( let stepIndex = 0; stepIndex < stepKeyNamesLength; stepIndex ++ ) {
-			let stepKeyName = stepKeyNames[stepIndex];
+			let stepKeyName = stepKeyNames[ stepIndex ];
 
 			if ( stepIndex > 0 ) {
 				steps[stepKeyName].previous = stepKeyNames[stepIndex - 1];
 			}
 
 			if ( stepIndex > - 1 && stepIndex < stepKeyNamesLength - 1 ) {
-				steps[stepKeyName].next = stepKeyNames[stepIndex + 1];
+				steps[ stepKeyName ].next = stepKeyNames[ stepIndex + 1 ];
 			}
 
 			steps[stepKeyName].fields = this.getFields( steps[stepKeyName].fields );
@@ -74,8 +73,8 @@ class OnboardingWizard extends React.Component {
 		let fields = {};
 
 		fieldsToGet.forEach( ( fieldName ) => {
-				if ( this.props.fields[fieldName] ) {
-					fields[fieldName] = this.props.fields[fieldName];
+				if ( this.props.fields[ fieldName ] ) {
+					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
 			}
 		);
@@ -247,7 +246,6 @@ class OnboardingWizard extends React.Component {
 		);
 	}
 }
-
 
 OnboardingWizard.propTypes = {
 	endpoint: React.PropTypes.string.isRequired,
