@@ -23,6 +23,16 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
 }
 
+if ( is_network_admin() ) {
+
+	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+	// Not active on network, but getting loaded by main site.
+	if ( ! is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
+		return;
+	}
+}
+
 /* ***************************** CLASS AUTOLOADING *************************** */
 
 /**
