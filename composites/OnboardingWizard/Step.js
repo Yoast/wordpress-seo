@@ -161,7 +161,7 @@ class Step extends React.Component {
 	render() {
 		return (
 			<div className="yoast-wizard--step--container">
-				<h1>{this.props.title.toString()}</h1>
+				<h1>{this.props.title}</h1>
 				{ this.getFieldComponents( this.props.fields ) }
 			</div>
 		);
