@@ -78,7 +78,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 				// %5$s expands to the recommended maximum percentage.
 				"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less than or equal to the recommended maximum of %5$s."
 				), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
-			)
+			),
 		};
 	}
 
@@ -96,7 +96,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s. " +
 			"Try to shorten the sentences."
 			), percentage + "%", sentenceLengthURL, recommendedValue, "</a>", maximumPercentage + "%"
-		)
+		),
 	};
 };
 
@@ -135,7 +135,7 @@ var sentenceLengthMarker = function( paper, researcher ) {
 		var sentence = stripTags( sentenceObject.sentence );
 		return new Mark( {
 			original: sentence,
-			marked: addMark( sentence )
+			marked: addMark( sentence ),
 		} );
 	} );
 };
@@ -146,5 +146,5 @@ module.exports = {
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	},
-	getMarks: sentenceLengthMarker
+	getMarks: sentenceLengthMarker,
 };

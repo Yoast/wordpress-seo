@@ -14,23 +14,23 @@ module.exports = function( locale ) {
 		case "de":
 			return {
 				transitionWords: transitionWordsGerman,
-				twoPartTransitionWords: twoPartTransitionWordsGerman
+				twoPartTransitionWords: twoPartTransitionWordsGerman,
 			};
 		case "es":
 			return {
 				transitionWords: transitionWordsSpanish,
-				twoPartTransitionWords: twoPartTransitionWordsSpanish
+				twoPartTransitionWords: twoPartTransitionWordsSpanish,
 			};
 		case "fr":
 			return {
 				transitionWords: transitionWordsFrench,
-				twoPartTransitionWords: twoPartTransitionWordsFrench
+				twoPartTransitionWords: twoPartTransitionWordsFrench,
 			};
 		default:
 		case "en":
 			return {
 				transitionWords: transitionWordsEnglish,
-				twoPartTransitionWords: twoPartTransitionWordsEnglish
+				twoPartTransitionWords: twoPartTransitionWordsEnglish,
 			};
 	}
 };

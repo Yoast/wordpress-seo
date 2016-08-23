@@ -57,7 +57,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 		return {
 			score: score,
 			hasMarks: false,
-			text: i18n.dgettext( "js-text-analysis", "None of the paragraphs are too long, which is great." )
+			text: i18n.dgettext( "js-text-analysis", "None of the paragraphs are too long, which is great." ),
 		};
 	}
 	return {
@@ -69,7 +69,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 			"of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?",
 			"%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of" +
 			" these paragraphs is about the same topic, and therefore belongs in a single paragraph?", tooLongParagraphs.length ),
-			tooLongParagraphs.length, recommendedValue )
+			tooLongParagraphs.length, recommendedValue ),
 	};
 };
 
@@ -102,7 +102,7 @@ var paragraphLengthMarker = function( paper, researcher ) {
 		var marked = marker( paragraphText );
 		return new Mark( {
 			original: paragraphText,
-			marked: marked
+			marked: marked,
 		} );
 	} );
 };
@@ -136,5 +136,5 @@ module.exports = {
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	},
-	getMarks: paragraphLengthMarker
+	getMarks: paragraphLengthMarker,
 };

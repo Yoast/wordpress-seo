@@ -55,7 +55,7 @@ var checkSentencesForTransitionWords = function( sentences, transitionWords ) {
 		if ( twoPartMatches !== null ) {
 			results.push( {
 				sentence: sentence,
-				transitionWords: twoPartMatches
+				transitionWords: twoPartMatches,
 			} );
 
 			return;
@@ -66,7 +66,7 @@ var checkSentencesForTransitionWords = function( sentences, transitionWords ) {
 		if ( transitionWordMatches.length !== 0 ) {
 			results.push( {
 				sentence: sentence,
-				transitionWords: transitionWordMatches
+				transitionWords: transitionWordMatches,
 			} );
 
 			return;
@@ -93,6 +93,6 @@ module.exports = function( paper ) {
 	return {
 		totalSentences: sentences.length,
 		sentenceResults: sentenceResults,
-		transitionWordSentences: sentenceResults.length
+		transitionWordSentences: sentenceResults.length,
 	};
 };

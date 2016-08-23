@@ -52,7 +52,7 @@ var countLinkTypes = function( paper ) {
 		totalNaKeyword: 0,
 		keyword: {
 			totalKeyword: 0,
-			matchedAnchors: []
+			matchedAnchors: [],
 		},
 		internalTotal: 0,
 		internalDofollow: 0,
@@ -62,7 +62,7 @@ var countLinkTypes = function( paper ) {
 		externalNofollow: 0,
 		otherTotal: 0,
 		otherDofollow: 0,
-		otherNofollow: 0
+		otherNofollow: 0,
 	};
 
 	for ( var i = 0; i < anchors.length; i++ ) {
@@ -71,7 +71,7 @@ var countLinkTypes = function( paper ) {
 		var anchorLink = urlHelper.getFromAnchorTag( currentAnchor );
 		var linkToSelf = urlHelper.areEqual( anchorLink, permalink );
 
-		if ( keywordInAnchor( keyword, currentAnchor, locale ) && !linkToSelf ) {
+		if ( keywordInAnchor( keyword, currentAnchor, locale ) && ! linkToSelf ) {
 			linkCount.keyword.totalKeyword++;
 			linkCount.keyword.matchedAnchors.push( currentAnchor );
 		}

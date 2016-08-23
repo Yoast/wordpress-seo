@@ -9,7 +9,7 @@ var getBlocks = require( "../helpers/html" ).getBlocks;
  * @param {string} text The text to match paragraph in.
  * @returns {array} An array containing all paragraphs texts.
  */
-var getParagraphsInTags = function ( text ) {
+var getParagraphsInTags = function( text ) {
 	var paragraphs = [];
 	// Matches everything between the <p> and </p> tags.
 	var regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;

@@ -1,5 +1,3 @@
-/* global console: true */
-/* global setTimeout: true */
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var reduce = require( "lodash/reduce" );
@@ -61,7 +59,7 @@ Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 		return false;
 	}
 
-	if ( !isUndefined( options ) && typeof options !== "object" ) {
+	if ( ! isUndefined( options ) && typeof options !== "object" ) {
 		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a object." );
 		return false;
 	}
@@ -157,7 +155,7 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 	var callableObject = {
 		callable: callable,
 		origin: pluginName,
-		priority: prio
+		priority: prio,
 	};
 
 	// Make sure modification is defined on modifications object
@@ -190,16 +188,16 @@ Pluggable.prototype._registerTest = function() {
  * @private
  */
 Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
-	if ( !isString( name ) ) {
+	if ( ! isString( name ) ) {
 		throw new InvalidTypeError( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 	}
 
-	if ( !isObject( assessment ) ) {
+	if ( ! isObject( assessment ) ) {
 		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
 			". Expected parameter `assessment` to be a function." );
 	}
 
-	if ( !isString( pluginName ) ) {
+	if ( ! isString( pluginName ) ) {
 		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
 			". Expected parameter `pluginName` to be a string." );
 	}
@@ -256,7 +254,7 @@ Pluggable.prototype._allReady = function() {
  */
 Pluggable.prototype._pollTimeExceeded = function() {
 	forEach( this.plugins, function( plugin, pluginName ) {
-		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
+		if ( ! isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
 			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
 			delete this.plugins[ pluginName ];
 		}
@@ -296,7 +294,6 @@ Pluggable.prototype._applyModifications = function( modification, data, context 
 		} );
 	}
 	return data;
-
 };
 
 /**
@@ -327,12 +324,12 @@ Pluggable.prototype._addPluginTests = function( analyzer ) {
 Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
 	analyzer.addAnalysis( {
 		"name": pluginTest.name,
-		"callable": pluginTest.analysis
+		"callable": pluginTest.analysis,
 	} );
 
 	analyzer.analyzeScorer.addScoring( {
 		"name": pluginTest.name,
-		"scoring": pluginTest.scoring
+		"scoring": pluginTest.scoring,
 	} );
 };
 
@@ -375,7 +372,7 @@ Pluggable.prototype._validateOrigin = function( pluginName ) {
  * @private
  */
 Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( !isUndefined( this.plugins[ pluginName ] ) ) {
+	if ( ! isUndefined( this.plugins[ pluginName ] ) ) {
 		return false;
 	}
 	return true;

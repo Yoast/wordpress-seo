@@ -13,7 +13,7 @@ function keyphraseAssessment( paper, researcher, i18n ) {
 
 	var assessmentResult = new AssessmentResult();
 
-	if ( !paper.hasKeyword() ) {
+	if ( ! paper.hasKeyword() ) {
 		assessmentResult.setScore( -999 );
 		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
 			"If you do not set a focus keyword, no score can be calculated." ) );
@@ -27,5 +27,5 @@ function keyphraseAssessment( paper, researcher, i18n ) {
 
 module.exports = {
 	identifier: "keyphraseLength",
-	getResult: keyphraseAssessment
+	getResult: keyphraseAssessment,
 };

@@ -1,7 +1,7 @@
-var SyllableCountStep = require ( "./syllableCountStep.js" );
+var SyllableCountStep = require( "./syllableCountStep.js" );
 
 var isUndefined = require( "lodash/isUndefined" );
-var forEach = require ( "lodash/forEach" );
+var forEach = require( "lodash/forEach" );
 
 /**
  * Creates a syllable count iterator.
@@ -11,8 +11,8 @@ var forEach = require ( "lodash/forEach" );
  */
 var SyllableCountIterator = function( config ) {
 	this.countSteps = [];
-	if ( !isUndefined( config ) ) {
-		this.createSyllableCountSteps( config.syllableExclusion );
+	if ( ! isUndefined( config ) ) {
+		this.createSyllableCountSteps( config.deviations.vowels );
 	}
 };
 

@@ -7,7 +7,6 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {object} The resulting score object.
  */
 var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
-
 	if ( stopWordCount > 0 ) {
 		return {
 			score: 5,
@@ -17,7 +16,7 @@ var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
 				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
 				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
 				stopWordCount
-			)
+			),
 		};
 	}
 
@@ -49,5 +48,5 @@ var urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
 
 module.exports = {
 	identifier: "urlStopWords",
-	getResult: urlHasStopWordsAssessment
+	getResult: urlHasStopWordsAssessment,
 };

@@ -24,7 +24,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 				// %3$s expands to the anchor end tag.
 				"The meta description contains no sentences %1$sover %2$s words%3$s."
 			), sentenceLengthURL, recommendedValue, "</a>"
-			)
+			),
 		};
 	}
 	return {
@@ -36,7 +36,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 			"The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to shorten this sentence.",
 			"The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to shorten these sentences.",
 			tooLong ), tooLong, sentenceLengthURL, recommendedValue, "</a>"
-		)
+		),
 	};
 };
 
@@ -64,5 +64,5 @@ module.exports = {
 	getResult: sentenceLengthInDescriptionAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasDescription();
-	}
+	},
 };

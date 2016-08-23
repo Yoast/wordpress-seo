@@ -26,5 +26,5 @@ function textPresenceAssessment( paper, researcher, i18n ) {
 
 module.exports = {
 	identifier: "textPresence",
-	getResult: textPresenceAssessment
+	getResult: textPresenceAssessment,
 };
