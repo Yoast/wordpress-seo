@@ -1,26 +1,15 @@
 @import "../../css/colors";
-@import "../../css/mixins";
 @import "../../css/icons";
+@import "../../css/mixins";
 
 $snippet_width: 600px;
 $prefix: 'yoast-';
-
-@mixin svg-caret-before($color) {
-  background-image: url(svg-icon-caret-right($color));
-  background-size: 25px;
-  content: '';
-  display: block;
-  height: 24px;
-  left: -22px;
-  position: absolute;
-  top: -3px;
-  width: 24px;
-}
 
 /* css for snippet */
 .#{$prefix}search-result-preview {
   background-color: #fff;
   font-family: Arial, sans-serif;
+  overflow: hidden;
 
   &__heading {
     padding: 8px 20px;
@@ -38,6 +27,19 @@ $prefix: 'yoast-';
     cursor: pointer;
     width: $snippet_width;
     overflow: hidden;
+
+    &--hover {
+      &:before {
+        @include svg-caret-before($color_caret_hover);
+      }
+    }
+
+    &--focus {
+      &:before {
+        @include svg-caret-before($color_caret_focus)
+      }
+    }
+
   }
 
   &__title {

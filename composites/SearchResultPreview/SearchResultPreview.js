@@ -12,12 +12,17 @@ class SearchResultPreview extends React.Component {
 	/**
 	 * Constructs the SearchResultPreview.
 	 *
-	 * @param {object} props The props to be used by the SearchResultPreview.
+	 * @param {Object} props The props to be used by the SearchResultPreview.
 	 */
 	constructor( props ) {
 		super( props );
 	}
 
+	/**
+	 * Retrieves the various translations to be used within the component.
+	 * 
+	 * @returns {Object} An object containing the various translations.
+	 */
 	getTranslations() {
 		return {
 			previewTitle:       this.props.translate( "Search Result Preview" ),
@@ -59,11 +64,24 @@ class SearchResultPreview extends React.Component {
 		                 optionalAttributes={ { "aria-expanded": false } } /> );
 	}
 
+	/**
+	 * Measures the title and description length the first time the component is mounted.
+	 *
+	 * @returns {void}
+	 */
 	componentDidMount() {
 		this.props.measureTitle( this.getFieldWidthByReference("previewTitle") );
 		this.props.measureDescription( this.props.description.length );
 	}
 
+	/**
+	 * Determines whether or not the compenent was updated and if so, updates the input values.
+	 *
+	 * @param {Object} prevProps The previous value of the props, before being updated.
+	 * @param {Object} prevState The previous state of the component, before being updated.
+	 *
+	 * @returns {void}
+	 */
 	componentDidUpdate(prevProps, prevState) {
 		if ( this.props.title !== prevProps.title ) {
 			// Recalculate width
@@ -76,8 +94,49 @@ class SearchResultPreview extends React.Component {
 		}
 	}
 
+	/**
+	 * Gets the width of a specific, referred element.
+	 *
+	 * @param {string} reference The reference to look up an element by.
+	 * @returns {number} The width of the referenced element or 0 if nothing was found.
+	 */
 	getFieldWidthByReference(reference) {
 		return this.refs[reference].getBoundingClientRect().width || 0;
+	}
+
+	/**
+	 * Sets the appropiate class name for a specific field, based on its state.
+	 *
+	 * @param {string} field The field to look up the class name for.
+	 * @returns {string} The class name of the field.
+	 */
+	setClassNameForField(field) {
+		if (this.props.focusedField === field) {
+			return this.props.classNames.focused;
+		}
+
+		if ( this.props.hoveredField === field) {
+			return this.props.classNames.hovered;
+		}
+
+		return this.props.classNames.default;
+	}
+
+	/**
+	 * Defines the various event handlers.
+	 *
+	 * @param {string} previewField The preview field that is possibly effected by the event.
+	 * @param {string} formField The form field that is possibly effected by the event.
+	 * @returns {Object} A list of the various event handlers.
+	 */
+	mouseEventHandlers(previewField, formField) {
+		let handlers = {
+			onMouseEnter: this.props.eventHandler.bind(this, previewField, formField),
+			onMouseLeave: this.props.eventHandler.bind(this, previewField, formField),
+			onClick: this.props.eventHandler.bind(this, previewField, formField),
+		};
+
+		return handlers;
 	}
 
 	/**
@@ -92,20 +151,23 @@ class SearchResultPreview extends React.Component {
 			<Section level={3} headingText={translations.previewTitle} headingClassName="yoast-search-result-preview__heading yoast-icon__eye" className="yoast-search-result-preview">
 				<p className="screen-reader-text">{translations.previewDescription}</p>
 
-				<div className="yoast-search-result-preview__field">
+				<div ref="previewTitleContainer" className={this.setClassNameForField("previewTitleContainer")} {...this.mouseEventHandlers("previewTitleContainer", "formTitle")}>
 					<span className="screen-reader-text">{translations.titleLabel}</span>
-                    <span ref="previewTitle" className="yoast-search-result-preview__title">{translations.title}</span>
+                    <span ref="previewTitle"
+                          className="yoast-search-result-preview__title">{translations.title}</span>
 				</div>
 
-				<div className="yoast-search-result-preview__field">
+				<div ref="previewUrlContainer" className={this.setClassNameForField("previewUrlContainer")} {...this.mouseEventHandlers("previewUrlContainer", "formSlug")}>
 					<span className="screen-reader-text">{translations.urlLabel}</span>
-					<span ref="previewUrl" className="yoast-search-result-preview__url">{this.props.url}</span>
+					<span ref="previewUrl"
+					      className="yoast-search-result-preview__url">{this.props.url}</span>
 				</div>
 
-				<div className="yoast-search-result-preview__field">
+				<div ref="previewDescriptionContainer" className={this.setClassNameForField("previewDescriptionContainer")}  {...this.mouseEventHandlers("previewDescriptionContainer", "formDescription")}>
 					<span className="screen-reader-text">{translations.descriptionLabel}</span>
 					{ this.renderDate() }
-					<span ref="previewDescription" className="yoast-search-result-preview__description">{translations.description.substr( 0, 156 )}</span>
+					<span ref="previewDescription"
+					      className="yoast-search-result-preview__description">{translations.description.substr( 0, 156 )}</span>
 				</div>
 
 				{ this.renderEditButton() }
@@ -125,6 +187,8 @@ SearchResultPreview.propTypes = {
 	title: React.PropTypes.string,
 	url: React.PropTypes.string,
 	onEditButtonClick: React.PropTypes.func,
+	classNames: React.PropTypes.object,
+	eventHandler: React.PropTypes.func,
 };
 
 /**
@@ -133,7 +197,7 @@ SearchResultPreview.propTypes = {
  * @type {{date: string, description: string, url: string}}
  */
 SearchResultPreview.defaultProps = {
-	date: "Dec 12, 2014",
+	date: "",
 	url: "example.com/example-url",
 	onEditButtonClick: () => {},
 };

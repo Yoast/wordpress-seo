@@ -1,4 +1,5 @@
 @import "../../css/colors";
+@import "../../css/icons";
 @import "../../css/mixins";
 
 $prefix: 'yoast-';
@@ -6,6 +7,7 @@ $prefix: 'yoast-';
 .#{$prefix}search-result-form {
   background-color: #fff;
   font-family: Arial, sans-serif;
+  overflow: hidden;
 
   &__heading {
     padding: 8px 20px;
@@ -15,6 +17,22 @@ $prefix: 'yoast-';
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
     color: #555;
+  }
+
+  &__container {
+    &--hover {
+      &:before {
+        @include svg-caret-before($color_caret_hover);
+        margin-top:15px;
+      }
+    }
+
+    &--focus {
+      &:before {
+        @include svg-caret-before($color_caret_focus);
+        margin-top:15px;
+      }
+    }
   }
 
   &__label {

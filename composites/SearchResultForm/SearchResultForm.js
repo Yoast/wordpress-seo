@@ -19,6 +19,15 @@ class SearchResultForm extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
+
+		this.classNames = {
+			label: "yoast-search-result-form__label",
+			field: "yoast-search-result-form__field",
+			progress: "yoast-search-result-form__progress",
+			progressState: "yoast-search-result-form__progress--",
+			descriptionField: "yoast-search-result-form__description",
+			button: "yoast-button yoast-search-result-form__close-button",
+		};
 	}
 
 	/**
@@ -62,6 +71,34 @@ class SearchResultForm extends React.Component {
 	}
 
 	/**
+	 * Sets the appropiate class name for a specific field, based on its state.
+	 *
+	 * @param {string} field The field to look up the class name for.
+	 * @returns {string} The class name of the field.
+	 */
+	setClassNameForField(field) {
+		if (this.props.focusedField === field) {
+			return this.props.classNames.focused;
+		}
+
+		if ( this.props.hoveredField === field) {
+			return this.props.classNames.hovered;
+		}
+
+		return this.props.classNames.default;
+	}
+
+	/**
+	 * Sets an appropiate class name for the progress bar based on its current textual score.
+	 *
+	 * @param {string} score The score to use for the class name (bad, ok or good).
+	 * @returns {string} The class name to be used by the progress bar.
+	 */
+	setClassNameForProgressBar(score) {
+		return `${this.classNames.progress} ${this.classNames.progressState}${score}`;
+	}
+
+	/**
 	 * Renders the SearchResultForm.
 	 *
 	 * @returns {JSX.Element} A representation of the SearchResultForm.
@@ -76,11 +113,17 @@ class SearchResultForm extends React.Component {
 
 				<Textfield
 					name="title"
+					ref="formTitle"
 					label="SEO Title"
-					onChange={ this.props.onTitleChange }
 					value={this.props.title}
-					label-className="yoast-search-result-form__label"
-					field-className="yoast-search-result-form__field"
+					onChange={ this.props.onTitleChange }
+
+					hasFocus={this.props.focusedField === "formTitle"}
+
+					container-className={this.setClassNameForField("formTitle")}
+					label-className={this.classNames.label}
+					field-onFocus={this.props.eventHandler.bind( this, "previewTitleContainer", "formTitle" )}
+					field-className={this.classNames.field}
 					field-placeholder={translations.title} />
 
 				<Progressbar
@@ -88,25 +131,37 @@ class SearchResultForm extends React.Component {
 					min={0}
 					max={600}
 					optionalAttributes={ {
-						className: "yoast-search-result-form__progress yoast-search-result-form__progress--" + this.props.titleRating
+						className: this.setClassNameForProgressBar(this.props.titleRating),
 					} } />
 
 				<Textfield
-					name="url"
+					name="slug"
+					ref="formSlug"
 					label="Slug"
-					onChange={ this.props.onUrlChange }
 					value={slug}
-					label-className="yoast-search-result-form__label"
-					field-className="yoast-search-result-form__field" />
+					onChange={ this.props.onSlugChange }
+
+					hasFocus={this.props.focusedField === "formSlug"}
+
+					container-className={this.setClassNameForField("formSlug")}
+					label-className={this.classNames.label}
+					field-onFocus={this.props.eventHandler.bind( this, "previewUrlContainer", "formSlug" )}
+					field-className={this.classNames.field} />
 
 				<Textfield
 					name="description"
+					ref="formDescription"
 					label="Description"
-					onChange={ this.props.onDescriptionChange }
 					value={this.props.description}
+					onChange={ this.props.onDescriptionChange }
+
+					hasFocus={this.props.focusedField === "formDescription"}
+
 					multiline={true}
-					label-className="yoast-search-result-form__label"
-					field-className="yoast-search-result-form__description"
+					container-className={this.setClassNameForField("formDescription")}
+					label-className={this.classNames.label}
+					field-onFocus={this.props.eventHandler.bind( this, "previewDescriptionContainer", "formDescription" )}
+					field-className={this.classNames.descriptionField}
 					field-placeholder={translations.description} />
 
 				<Progressbar
@@ -114,7 +169,7 @@ class SearchResultForm extends React.Component {
 					min={0}
 					max={156}
 					optionalAttributes={ {
-						className: "yoast-search-result-form__progress yoast-search-result-form__progress--" + this.props.descriptionRating
+						className: this.setClassNameForProgressBar(this.props.descriptionRating),
 					} } />
 
 				{ this.renderCloseButton() }
@@ -136,8 +191,10 @@ SearchResultForm.propTypes = {
 	baseUrl: React.PropTypes.string,
 	onCloseButtonClick: React.PropTypes.func,
 	onTitleChange: React.PropTypes.func,
-	onUrlChange: React.PropTypes.func,
+	onSlugChange: React.PropTypes.func,
 	onDescriptionChange: React.PropTypes.func,
+	focusedField: React.PropTypes.string,
+	hoveredField: React.PropTypes.string,
 };
 
 /**
@@ -146,11 +203,15 @@ SearchResultForm.propTypes = {
  * @type {{date: string, description: string, url: string}}
  */
 SearchResultForm.defaultProps = {
-	date: "Dec 12, 2014",
+	date: "",
 	slug: "example.com/example-post/",
+
+	focusedField: "",
+	hoveredField: "",
+
 	onCloseButtonClick: () => {},
 	onTitleChange: () => {},
-	onUrlChange: () => {},
+	onSlugChange: () => {},
 	onDescriptionChange: () => {},
 };
 

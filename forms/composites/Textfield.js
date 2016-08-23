@@ -17,8 +17,6 @@ class Textfield extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
-
-		this.optionalAttributes = this.parseOptionalAttributes();
 	}
 
 	/**
@@ -27,8 +25,10 @@ class Textfield extends React.Component {
 	 * @returns {JSX.Element} A representation of the TextField component.
 	 */
 	render() {
+		this.optionalAttributes = this.parseOptionalAttributes();
+
 		return (
-			<div>
+			<div {...this.optionalAttributes.container}>
 				<Label for={this.props.name} optionalAttributes={this.optionalAttributes.label}>{this.props.label}</Label>
 				{this.determineFieldType()}
 			</div>
@@ -47,7 +47,8 @@ class Textfield extends React.Component {
 			              id={this.props.name}
 			              onChange={this.props.onChange}
 			              optionalAttributes={this.optionalAttributes.field}
-			              value={this.props.value}
+			              hasFocus={this.props.hasFocus}
+				          value={this.props.value}
 				/>
 			);
 		}
@@ -57,6 +58,7 @@ class Textfield extends React.Component {
 		                type="text"
 		                onChange={this.props.onChange}
 		                value={this.props.value}
+		                hasFocus={this.props.hasFocus}
 		                optionalAttributes={this.optionalAttributes.field} /> );
 	}
 
@@ -66,6 +68,7 @@ class Textfield extends React.Component {
 	 * @returns {{label: {}, field: {id: string}}}
 	 */
 	parseOptionalAttributes() {
+		let containerConfiguration = {};
 		let labelConfiguration = {};
 		let fieldConfiguration = { id: this.props.name,	};
 		let props = Object.keys(this.props);
@@ -79,10 +82,14 @@ class Textfield extends React.Component {
 				fieldConfiguration[propKey.split("-").pop()] = this.props[propKey];
 			}
 
+			if ( propKey.startsWith( "container-" ) ) {
+				containerConfiguration[propKey.split("-").pop()] = this.props[propKey];
+			}
+
 			return;
 		}.bind(this) );
 
-		return { label: labelConfiguration, field: fieldConfiguration, };
+		return { label: labelConfiguration, field: fieldConfiguration, container: containerConfiguration, };
 	}
 }
 
@@ -97,6 +104,11 @@ Textfield.propTypes = {
 	onChange: React.PropTypes.func.isRequired,
 	optionalAttributes: React.PropTypes.object,
 	multiline: React.PropTypes.bool,
+	hasFocus: React.PropTypes.bool,
 };
+
+Textfield.defaultProps = {
+	hasFocus: false,
+}
 
 export default Textfield;
