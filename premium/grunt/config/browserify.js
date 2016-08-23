@@ -12,7 +12,8 @@ module.exports = {
 			"assets/js/dist/wp-seo-premium-admin-redirects-340.js": [ "assets/js/src/admin-redirects.js" ],
 			"assets/js/dist/wp-seo-premium-custom-fields-plugin.js": [ "assets/js/src/custom-fields-plugin.js" ],
 			"assets/js/dist/wp-seo-premium-quickedit-notification-330.js": [ "assets/js/src/quickedit-notification.js" ],
-			"assets/js/dist/wpseo-premium-yoast-overlay.js": [ "assets/js/src/yoast-overlay.js" ]
+			"assets/js/dist/wpseo-premium-yoast-overlay.js": [ "assets/js/src/yoast-overlay.js" ],
+			"assets/js/dist/wp-seo-premium-metabox-360.js": [ "assets/js/src/metabox.js" ]
 		},
 	},
 };

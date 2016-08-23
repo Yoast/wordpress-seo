@@ -165,6 +165,9 @@ class WPSEO_Premium {
 		// Only initialize the AJAX for all tabs except settings.
 		$facebook_name = new WPSEO_Facebook_Profile();
 		$facebook_name->set_hooks();
+
+		$premium_metabox = new WPSEO_Premium_Metabox();
+		$premium_metabox->register_hooks();
 	}
 
 	/**
@@ -234,13 +237,9 @@ class WPSEO_Premium {
 	 */
 	public function enqueue_multi_keyword() {
 		global $pagenow;
-		if ( in_array( $pagenow, array(
-				'post-new.php',
-			'post.php',
-			'edit.php',
-			), true ) ) {
-			new WPSEO_Multi_Keyword();
 
+		if ( WPSEO_Metabox::is_post_edit( $pagenow ) ) {
+			new WPSEO_Multi_Keyword();
 		}
 	}
 
