@@ -5,6 +5,8 @@ import LoadingIndicator from "./LoadingIndicator";
 import postJSON from "./helpers/postJSON";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from './YoastLogo';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 /**
  * The OnboardingWizard class.
@@ -216,33 +218,37 @@ class OnboardingWizard extends React.Component {
 		let hidePreviousButton = ! step.previous;
 
 		return (
-			<div className="yoast-wizard-body">
-				<YoastLogo/>
-				<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
-				               onClick={( stepNumber ) => this.setCurrentStep( stepNumber )}/>
-				<div className="yoast-wizard-container">
-					<div className="yoast-wizard">
+			<MuiThemeProvider>
+				<div className="yoast-wizard-body">
+					<YoastLogo/>
+					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
+					               onClick={( stepNumber ) => this.setCurrentStep( stepNumber )}/>
+					<div className="yoast-wizard-container">
+						<div className="yoast-wizard">
 
-						<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
-						      fields={step.fields}/>
+							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
+							      fields={step.fields}/>
 
-						<div className="yoast-wizard--navigation">
-						{(
-							! hidePreviousButton
-						) ? <RaisedButton className="yoast-wizard--button yoast-wizard--button__back" onClick={this.setPreviousStep.bind( this )} label="Previous" />
-							 : ""}
-						{(
-							! hideNextButton
-						) ?	<RaisedButton className="yoast-wizard--button yoast-wizard--button__next" onClick={this.setNextStep.bind( this )} label="Next" primary={true} />
-							: ""}
+							<div className="yoast-wizard--navigation">
+								{(
+									! hidePreviousButton
+								) ? <RaisedButton className="yoast-wizard--button yoast-wizard--button__back"
+								                  onClick={this.setPreviousStep.bind( this )} label="Previous"/>
+									: ""}
+								{(
+									! hideNextButton
+								) ? <RaisedButton className="yoast-wizard--button yoast-wizard--button__next"
+								                  onClick={this.setNextStep.bind( this )} label="Next" primary={true}/>
+									: ""}
+							</div>
+
 						</div>
-
+						{(
+							this.state.isLoading
+						) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
 					</div>
-					{(
-						this.state.isLoading
-					) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
 				</div>
-			</div>
+			</MuiThemeProvider>
 		);
 	}
 }
