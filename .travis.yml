@@ -66,7 +66,8 @@ before_script:
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
 - if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v; fi
-- if [[ "$CHECKJS" == "1" ]]; then cd premium && grunt check && cd ..; fi
+- if [[ "$CHECKJS" == "1" ]]; then cd premium && grunt check; fi
+- if [[ "$CHECKJS" == "1" ]]; then cd ..; fi
 - if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
 

@@ -101,8 +101,6 @@ window.YoastSEO = 'undefined' === typeof window.YoastSEO ? {} : window.YoastSEO;
 (function ($) {
 	'use strict';
 
-	var _this = this;
-
 	var maxKeywords = 5;
 	var keywordTabTemplate;
 
@@ -122,16 +120,16 @@ window.YoastSEO = 'undefined' === typeof window.YoastSEO ? {} : window.YoastSEO;
 
 		indicators = indicatorsFactory(YoastSEO.app.i18n);
 
-		_this.setTextInput();
-		_this.insertElements();
+		this.setTextInput();
+		this.insertElements();
 
-		_this.bindKeywordField();
-		_this.bindKeywordAdd();
-		_this.bindScore();
-		_this.bindKeywordTab();
-		_this.bindKeywordRemove();
+		this.bindKeywordField();
+		this.bindKeywordAdd();
+		this.bindScore();
+		this.bindKeywordTab();
+		this.bindKeywordRemove();
 
-		_this.updateInactiveKeywords();
+		this.updateInactiveKeywords();
 	};
 
 	/**
