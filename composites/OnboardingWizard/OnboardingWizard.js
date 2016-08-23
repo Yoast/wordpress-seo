@@ -220,7 +220,7 @@ class OnboardingWizard extends React.Component {
 				<YoastLogo/>
 				<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 				               onClick={( stepNumber ) => this.setCurrentStep( stepNumber )}/>
-				<Paper zDepth={3} className="yoast-wizard-container">
+				<div className="yoast-wizard-container">
 					<div className="yoast-wizard">
 
 						<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
@@ -241,7 +241,7 @@ class OnboardingWizard extends React.Component {
 					{(
 						this.state.isLoading
 					) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
-				</Paper>
+				</div>
 			</div>
 		);
 	}
