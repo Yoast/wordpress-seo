@@ -1,5 +1,3 @@
-var OnboardingWizard = require( "./composites/OnboardingWizard/OnboardingWizard" );
+import OnboardingWizard from "./composites/OnboardingWizard/OnboardingWizard";
 
-module.exports = {
-	OnboardingWizard: OnboardingWizard,
-};
+export {OnboardingWizard};
