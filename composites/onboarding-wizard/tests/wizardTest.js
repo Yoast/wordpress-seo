@@ -38,11 +38,12 @@ describe( "a wizard component", () => {
 
 	it( "renders a wizard component based on the config", () => {
 		const buttons = renderedWizard.find( 'button' );
-		expect( buttons.length ).toBe( 2 );
+
+		// Only the next button has to be rendered because on initialisation there is no previous step.
+		expect( buttons.length ).toBe( 1 );
 
 		// The previous button must be hidden and the next button enabled on loading the first step.
-		expect( renderedWizard.find( 'button' ).first().props().hidden ).toEqual( "hidden" );
-		expect( renderedWizard.find( 'button' ).last().props().hidden ).toEqual( "" );
+		expect( renderedWizard.find( 'button' ).first().props().children ).toEqual( "Next" );
 	} );
 
 	it( "loads props from config correctly", () => {
@@ -71,9 +72,15 @@ describe( "a wizard component", () => {
 	} );
 
 	it( "goes to the next step", () => {
+		// check for isLoading
+		// check for previous button rendered
 	} );
 
 	it( "goes to the previous step", () => {
+
+	} );
+
+	it( "does not render the next button when on the last step", () => {
 
 	} );
 

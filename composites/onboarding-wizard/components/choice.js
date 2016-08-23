@@ -15,31 +15,34 @@ const Choice = ( props ) => {
 
 	return (
 		<div>
-			<h2>{props.properties.label}</h2>
+			<p className="yoast-wizard-field-description">{props.properties.label}</p>
+			<fieldset className={"yoast-wizard-input-" + fieldName}>
+				{fieldKeys.map( ( choiceName, index ) => {
+					let choice = choices[ choiceName ];
+					let choiceId = `${choiceName} - ${index}`;
+					// If the value for the choice field equals the name for this choice, the choice is checked.
+					let checked = (props.value === choiceName);
 
-			{fieldKeys.map( function( choiceName, index ) {
-				let choice = choices[ choiceName ];
-				let choiceId = choiceName + "-" + index;
-				let isChecked = ( props.data === choiceName ) ? "checked" : "";
-
-				return (
-					<div key={index}>
-						<input onChange={props.onChange} id={choiceId} type="radio" name={fieldName}
-						       value={choiceName}
-						       checked={isChecked}/>
-						<label htmlFor={choiceId}>
-							{choice.label}
-						</label>
-					</div>
-				);
-			} )}
+					return (
+						<div key={index}>
+							<input className={fieldName} onChange={props.onChange} id={choiceId} type="radio"
+							       name={fieldName}
+							       value={choiceName}
+							       checked={checked}/>
+							<label htmlFor={choiceId}>
+								{choice.label}
+							</label>
+						</div>
+					);
+				} )}
+			</fieldset>
 		</div>
 	);
 };
 
 Choice.propTypes = {
 	component: React.PropTypes.string,
-	data: React.PropTypes.string,
+	value: React.PropTypes.string,
 	properties: React.PropTypes.object,
 	"default": React.PropTypes.string,
 	fieldName: React.PropTypes.string.isRequired,
@@ -48,7 +51,7 @@ Choice.propTypes = {
 
 Choice.defaultProps = {
 	component: "",
-	data: "",
+	value: "",
 	properties: {
 		label: "",
 		choices: {},
