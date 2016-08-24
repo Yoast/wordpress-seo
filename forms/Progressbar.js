@@ -63,6 +63,7 @@ Progressbar.propTypes = {
 	onChange: React.PropTypes.func,
 	min: React.PropTypes.number,
 	max: React.PropTypes.number,
+	forceFallback: React.PropTypes.bool,
 	optionalAttributes: React.PropTypes.shape( {
 		className: React.PropTypes.string,
 	} ),

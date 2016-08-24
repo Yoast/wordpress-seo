@@ -27,6 +27,8 @@ class Input extends React.Component {
 
 	/**
 	 * Determines whether or not the component updated and sets its focus accordingly.
+	 *
+	 * @returns {void}
 	 */
 	componentDidUpdate() {
 		if ( this.props.hasFocus ) {
@@ -36,7 +38,9 @@ class Input extends React.Component {
 
 	/**
 	 * Sets a reference to the current component.
+	 *
 	 * @param {Object} ref The reference to set.
+	 * @returns {void}
 	 */
 	setReference( ref ) {
 		this.ref = ref;
