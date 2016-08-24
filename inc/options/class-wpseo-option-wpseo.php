@@ -166,11 +166,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'site_type':
+					$clean[ $key ] = '';
 					if ( in_array( $dirty[ $key ], $this->site_types, true ) ) {
 						$clean[ $key ] = $dirty[ $key ];
-					}
-					else {
-						$clean[ $key ] = '';
 					}
 					break;
 
