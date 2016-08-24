@@ -17,7 +17,6 @@ class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 		// @todo apply i18n
 		$this->set_property( 'label', 'Separator' );
 
-		// Todo: see if we can apply the prefix in a nice way.
 		$this->add_choice( 'sc-dash', '-', 'Dash' );
 		$this->add_choice( 'sc-ndash', '&ndash;', 'En dash' );
 		$this->add_choice( 'sc-mdash', '&mdash;', 'Em dash' );
