@@ -17,6 +17,7 @@ var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyN
 
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
+// The \u2026 character is an ellipsis
 var sentenceDelimiters = "?!;\u2026";
 var newLines = "\n\r|\n|\r";
 
@@ -69,7 +70,7 @@ function isCapitalLetter( character ) {
  * @returns {boolean} Whether or not the character is a capital letter.
  */
 function isNumber( character ) {
-	return !isNaN( parseInt( character, 10 ) );
+	return ! isNaN( parseInt( character, 10 ) );
 }
 
 /**
@@ -114,7 +115,6 @@ function isPunctuation( character ) {
  * @returns {Array} An array of tokens.
  */
 function tokenizeSentences( text ) {
-
 	createTokenizer();
 	sentenceTokenizer.onText( text );
 
@@ -142,11 +142,11 @@ function removeDuplicateWhitespace( text ) {
 function getNextTwoCharacters( nextTokens ) {
 	var next = "";
 
-	if ( !isUndefined( nextTokens[ 0 ] ) ) {
+	if ( ! isUndefined( nextTokens[ 0 ] ) ) {
 		next += nextTokens[ 0 ].src;
 	}
 
-	if ( !isUndefined( nextTokens[ 1 ] ) ) {
+	if ( ! isUndefined( nextTokens[ 1 ] ) ) {
 		next += nextTokens[ 1 ].src;
 	}
 
@@ -254,6 +254,7 @@ function getSentencesFromTokens( tokens ) {
 
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
+
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}

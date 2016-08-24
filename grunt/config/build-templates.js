@@ -1,4 +1,4 @@
 // Custom task
 module.exports = {
-	all: {}
+	all: {},
 };

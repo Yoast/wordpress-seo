@@ -1,5 +1,5 @@
 var getWords = require( "../stringProcessing/getWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var countSyllables = require( "../stringProcessing/syllables/count.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
 
 var map = require( "lodash/map" );
@@ -18,7 +18,7 @@ var getWordComplexityForSentence = function( sentence ) {
 		results.push( {
 			word: word,
 			wordIndex: i,
-			complexity: countSyllables( word )
+			complexity: countSyllables( word ),
 		} );
 	} );
 
@@ -36,7 +36,7 @@ module.exports = function( paper ) {
 	return map( sentences, function( sentence ) {
 		return {
 			sentence: sentence,
-			words: getWordComplexityForSentence( sentence )
+			words: getWordComplexityForSentence( sentence ),
 		};
 	} );
 };

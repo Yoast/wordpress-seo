@@ -24,7 +24,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 				"This is more than or equal to the recommended minimum of %2$d word.",
 				"This is more than or equal to the recommended minimum of %2$d words.",
 				recommendedMinimum
-			)
+			),
 		};
 	}
 
@@ -43,7 +43,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 				"This is slightly below the recommended minimum of %2$d word. Add a bit more copy.",
 				"This is slightly below the recommended minimum of %2$d words. Add a bit more copy.",
 				recommendedMinimum
-			)
+			),
 		};
 	}
 
@@ -62,7 +62,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
 				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
 				recommendedMinimum
-			)
+			),
 		};
 	}
 
@@ -81,7 +81,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 				"This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
 				"This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
 				recommendedMinimum
-			)
+			),
 		};
 	}
 
@@ -100,7 +100,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 				"This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.",
 				"This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.",
 				recommendedMinimum
-			)
+			),
 		};
 	}
 };
@@ -125,5 +125,5 @@ var textLengthAssessment = function( paper, researcher, i18n ) {
 
 module.exports = {
 	identifier: "textLength",
-	getResult: textLengthAssessment
+	getResult: textLengthAssessment,
 };

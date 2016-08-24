@@ -30,8 +30,7 @@ var sum = require( "lodash/sum" );
  *
  * @constructor
  */
-var ContentAssessor = function ( i18n, options ) {
-
+var ContentAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
@@ -42,7 +41,7 @@ var ContentAssessor = function ( i18n, options ) {
 		transitionWords,
 		passiveVoice,
 		textPresence,
-		sentenceBeginnings
+		sentenceBeginnings,
 		// sentenceVariation,
 		// wordComplexity,
 		// subheadingDistributionTooShort,
@@ -94,10 +93,10 @@ ContentAssessor.prototype.calculatePenaltyPointsNonEnglish = function( rating ) 
  *
  * @returns {number} The total penalty points for the results.
  */
-ContentAssessor.prototype.calculatePenaltyPoints = function () {
+ContentAssessor.prototype.calculatePenaltyPoints = function() {
 	var results = this.getValidResults();
 
-	var penaltyPoints = map( results, function ( result ) {
+	var penaltyPoints = map( results, function( result ) {
 		var rating = scoreToRating( result.getScore() );
 
 		if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
@@ -118,7 +117,7 @@ ContentAssessor.prototype.calculatePenaltyPoints = function () {
  *
  * @private
  */
-ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
+ContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
 	if ( this.getValidResults().length === 1 ) {
 		// If we have only 1 result, we only have a "no content" result
 		return 30;
@@ -155,7 +154,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function ( totalPenaltyPoints ) {
  *
  * @returns {number} The overall score.
  */
-ContentAssessor.prototype.calculateOverallScore = function () {
+ContentAssessor.prototype.calculateOverallScore = function() {
 	var results = this.getValidResults();
 
 	// If you have no content, you have a red indicator.

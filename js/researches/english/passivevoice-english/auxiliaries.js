@@ -26,6 +26,6 @@ module.exports = function() {
 		"weren't",
 		"wasn't",
 		"that's",
-		"aren't"
+		"aren't",
 	];
 };

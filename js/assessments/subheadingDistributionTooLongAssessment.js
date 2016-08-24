@@ -38,7 +38,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, i18n 
 			text: i18n.dgettext(
 				"js-text-analysis",
 				"The text does not contain any subheadings. Add at least one subheading."
-			)
+			),
 		};
 	}
 
@@ -66,7 +66,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, i18n 
 				i18n.dgettext(
 					"js-text-analysis",
 					"The amount of words following each of the subheadings doesn't exceed the recommended maximum of %1$d words, which is great."
-				), recommendedValue )
+				), recommendedValue ),
 		};
 	}
 
@@ -82,7 +82,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, i18n 
 				"%1$d of the subheadings are followed by more than the recommended maximum of %2$d words. Try to insert additional subheadings.",
 				tooLongTexts ),
 			tooLongTexts, recommendedValue
-		)
+		),
 	};
 };
 
@@ -100,7 +100,7 @@ var subheadingsMarker = function( paper, researcher ) {
 		var marked = marker( tooLongText.text );
 		return new Mark( {
 			original: tooLongText.text,
-			marked: marked
+			marked: marked,
 		} );
 	} );
 };
@@ -127,7 +127,6 @@ var getSubheadingsTextLength = function( paper, researcher, i18n ) {
 
 	assessmentResult.setScore( subheadingsTextLengthresult.score );
 	assessmentResult.setText( subheadingsTextLengthresult.text );
-	// assessmentResult.setHasMarks( subheadingsTextLengthresult.hasMarks );
 
 	return assessmentResult;
 };
@@ -138,5 +137,5 @@ module.exports = {
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	},
-	getMarks: subheadingsMarker
+	getMarks: subheadingsMarker,
 };

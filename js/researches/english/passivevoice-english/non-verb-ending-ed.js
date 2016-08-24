@@ -3033,6 +3033,6 @@ module.exports = function() {
 		"zincified",
 		"zinckified",
 		"zinkified",
-		"zombified"
+		"zombified",
 	];
 };

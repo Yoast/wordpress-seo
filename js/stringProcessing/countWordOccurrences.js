@@ -1,6 +1,6 @@
 var filter = require( "lodash/filter" );
 
-var transliterate = require ( "./transliterate.js" );
+var transliterate = require( "./transliterate.js" );
 var getWords = require( "./getWords.js" );
 
 /**

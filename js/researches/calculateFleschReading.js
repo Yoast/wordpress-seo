@@ -3,8 +3,21 @@
 var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
 var countSentences = require( "../stringProcessing/countSentences.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var countSyllables = require( "../stringProcessing/syllables/count.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
+
+var getLanguage = require( "../helpers/getLanguage.js" );
+
+/**
+ * Calculates an average from a total and an amount
+ *
+ * @param {number} total The total.
+ * @param {number} amount The amount.
+ * @returns {number} The average from the total and the amount.
+ */
+var getAverage = function( total, amount ) {
+	return total / amount;
+};
 
 /**
  * This calculates the fleschreadingscore for a given text
@@ -15,8 +28,10 @@ var formatNumber = require( "../helpers/formatNumber.js" );
  * @returns {number} the score of the fleschreading test
  */
 module.exports = function( paper ) {
+	var score;
 	var text = paper.getText();
 	var locale = paper.getLocale();
+	var language = getLanguage( locale );
 	if ( text === "" ) {
 		return 0;
 	}
@@ -33,8 +48,18 @@ module.exports = function( paper ) {
 	}
 
 	var numberOfSyllables = countSyllables( text, locale );
+	var averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
+	switch( language ) {
+		case "nl":
+			var syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
+			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( averageWordsPerSentence  ) );
+			break;
+		case "en":
+		default:
+			score = 206.835 - ( 1.015 * ( averageWordsPerSentence ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
+			break;
+	}
 
-	var score = 206.835 - ( 1.015 * ( numberOfWords / numberOfSentences ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
 
 	return formatNumber( score );
 };

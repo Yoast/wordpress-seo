@@ -32,5 +32,5 @@ var unifyAllSpaces = function( text ) {
 module.exports = {
 	unifyNonBreakingSpace: unifyNonBreakingSpace,
 	unifyWhiteSpace: unifyWhiteSpace,
-	unifyAllSpaces: unifyAllSpaces
+	unifyAllSpaces: unifyAllSpaces,
 };

@@ -5,11 +5,7 @@
  * @returns {string} The normalized text.
  */
 function normalizeSingleQuotes( text ) {
-	return text
-		.replace( "‘", "'" )
-		.replace( "’", "'" )
-		.replace( "‛", "'" )
-		.replace( "`", "'" );
+	return text.replace( /[‘’‛`]/g, "'" );
 }
 
 /**
@@ -19,14 +15,7 @@ function normalizeSingleQuotes( text ) {
  * @returns {string} The normalized text.
  */
 function normalizeDoubleQuotes( text ) {
-	return text
-		.replace( "“", "\"" )
-		.replace( "”", "\"" )
-		.replace( "〝", "\"" )
-		.replace( "〞", "\"" )
-		.replace( "〟", "\"" )
-		.replace( "‟", "\"" )
-		.replace( "„", "\"" );
+	return text.replace( /[“”〝〞〟‟„]/g, "\"" );
 }
 
 /**
@@ -42,5 +31,5 @@ function normalizeQuotes( text ) {
 module.exports = {
 	normalizeSingle: normalizeSingleQuotes,
 	normalizeDouble: normalizeDoubleQuotes,
-	normalize: normalizeQuotes
+	normalize: normalizeQuotes,
 };
