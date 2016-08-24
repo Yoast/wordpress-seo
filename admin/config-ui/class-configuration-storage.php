@@ -9,11 +9,9 @@ class WPSEO_Configuration_Storage {
 	private $fields = array();
 
 	/**
-	 * WPSEO_Configuration_Storage constructor.
-	 *
-	 * Construct internal fields
+	 * Add default fields
 	 */
-	public function __construct() {
+	public function add_default_fields() {
 		$this->add_field( new WPSEO_Config_Field_Upsell_Configuration_Service() );
 		$this->add_field( new WPSEO_Config_Field_Upsell_Site_Review() );
 		$this->add_field( new WPSEO_Config_Field_Success_Message() );

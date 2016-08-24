@@ -24,10 +24,14 @@ class WPSEO_Configuration_Options_Adapter {
 	 * Register default/internal lookups.
 	 */
 	public function __construct() {
+
 		$this->add_wordpress_lookup( 'WPSEO_Config_Field_Tag_Line', 'blogdescription' );
 		$this->add_wordpress_lookup( 'WPSEO_Config_Field_Site_Name', 'blogname' );
 
 		$this->add_yoast_lookup( 'WPSEO_Config_Field_Separator', 'wpseo_titles', 'separator' );
+
+		$this->add_yoast_lookup( 'WPSEO_Config_Field_Site_Type', 'wpseo', 'site_type' );
+		$this->add_yoast_lookup( 'WPSEO_Config_Field_Multiple_Authors', 'wpseo', 'has_multiple_authors' );
 
 		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_Facebook', 'wpseo_social', 'facebook_site' );
 		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_Twitter', 'wpseo_social', 'twitter_site' );
