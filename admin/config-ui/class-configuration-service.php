@@ -29,13 +29,16 @@ class WPSEO_Configuration_Service {
 			return;
 		}
 
-		$this->storage   = new WPSEO_Configuration_Storage();
-		$this->endpoint  = new WPSEO_Configuration_Endpoint();
-		$this->adapter   = new WPSEO_Configuration_Options_Adapter();
-		$this->structure = new WPSEO_Configuration_Structure();
+		$this->storage    = new WPSEO_Configuration_Storage();
+		$this->endpoint   = new WPSEO_Configuration_Endpoint();
+		$this->adapter    = new WPSEO_Configuration_Options_Adapter();
+		$this->structure  = new WPSEO_Configuration_Structure();
 		$this->components = new WPSEO_Configuration_Components();
 	}
 
+	/**
+	 * Hook into the REST API
+	 */
 	public function register_hooks() {
 		add_action( 'rest_api_init', array( $this, 'initialize' ) );
 	}
@@ -56,7 +59,7 @@ class WPSEO_Configuration_Service {
 	/**
 	 * Set storage handler
 	 *
-	 * @param WPSEO_Configuration_Storage $storage
+	 * @param WPSEO_Configuration_Storage $storage Storage handler to use.
 	 */
 	public function set_storage( WPSEO_Configuration_Storage $storage ) {
 		$this->storage = $storage;
@@ -65,12 +68,17 @@ class WPSEO_Configuration_Service {
 	/**
 	 * Set endpoint handler
 	 *
-	 * @param WPSEO_Configuration_Endpoint $endpoint
+	 * @param WPSEO_Configuration_Endpoint $endpoint Endpoint implementation to use.
 	 */
 	public function set_endpoint( WPSEO_Configuration_Endpoint $endpoint ) {
 		$this->endpoint = $endpoint;
 	}
 
+	/**
+	 * Set the options adapter
+	 *
+	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to use.
+	 */
 	public function set_options_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 		$this->adapter = $adapter;
 	}
@@ -81,13 +89,12 @@ class WPSEO_Configuration_Service {
 	 * @return array List of settings.
 	 */
 	public function get_configuration() {
-		$fields            = $this->storage->retrieve();
-		$steps             = $this->structure->retrieve();
+		$fields = $this->storage->retrieve();
+		$steps  = $this->structure->retrieve();
 
-		// Custom Components?
 		return array(
-			'fields'           => $fields,
-			'steps'            => $steps
+			'fields' => $fields,
+			'steps'  => $steps,
 		);
 	}
 
@@ -101,5 +108,4 @@ class WPSEO_Configuration_Service {
 	public function set_configuration( $data ) {
 		return $this->storage->store( $data );
 	}
-
 }

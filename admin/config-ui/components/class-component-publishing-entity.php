@@ -1,15 +1,19 @@
 <?php
-
 /**
  * @package WPSEO\Admin\ConfigurationUI
  */
+
+/**
+ * Class WPSEO_Config_Component_Publishing_Entity
+ */
 class WPSEO_Config_Component_Publishing_Entity implements WPSEO_Config_Component {
 
+	/** @var array Mapping option keys to api keys */
 	private $mapping = array(
 		'company_or_person' => 'publishingEntityType',
 		'person_name'       => 'publishingEntityPersonName',
 		'company_name'      => 'publishingEntityCompanyName',
-		'company_logo'      => 'publishingEntityCompanyLogo'
+		'company_logo'      => 'publishingEntityCompanyLogo',
 	);
 
 	/**
@@ -27,6 +31,8 @@ class WPSEO_Config_Component_Publishing_Entity implements WPSEO_Config_Component
 	}
 
 	/**
+	 * Get the current data for this component
+	 *
 	 * @return array
 	 */
 	public function get_data() {
@@ -42,7 +48,9 @@ class WPSEO_Config_Component_Publishing_Entity implements WPSEO_Config_Component
 	}
 
 	/**
-	 * @param array $data
+	 * Save changes
+	 *
+	 * @param array $data Data provided containing the changes.
 	 *
 	 * @return mixed
 	 */
@@ -63,7 +71,8 @@ class WPSEO_Config_Component_Publishing_Entity implements WPSEO_Config_Component
 			// Save changes.
 			update_option( 'wpseo', $yoast_option );
 			$saved_option = WPSEO_Options::get_option( 'wpseo' );
-		} else {
+		}
+		else {
 			$saved_option = $yoast_option;
 		}
 

@@ -3,9 +3,15 @@
  * @package WPSEO\Admin\ConfigurationUI
  */
 
+/**
+ * Class WPSEO_Config_Field_Environment
+ */
 class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
+	/**
+	 * WPSEO_Config_Field_Environment constructor.
+	 */
 	public function __construct() {
-		parent::__construct( "environment" );
+		parent::__construct( 'environment' );
 
 		// @todo apply i18n
 		$this->set_property( 'label', sprintf( 'Please specify the environment %1$s is running in.', get_home_url() ) );

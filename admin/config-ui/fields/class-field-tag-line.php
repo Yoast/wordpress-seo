@@ -3,7 +3,13 @@
  * @package WPSEO\Admin\ConfigurationUI
  */
 
+/**
+ * Class WPSEO_Config_Field_Tag_Line
+ */
 class WPSEO_Config_Field_Tag_Line extends WPSEO_Config_Field {
+	/**
+	 * WPSEO_Config_Field_Tag_Line constructor.
+	 */
 	public function __construct() {
 		parent::__construct( 'tagLine', 'Input' );
 

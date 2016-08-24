@@ -8,6 +8,9 @@
  */
 class WPSEO_Config_Field_Profile_URL_Instagram extends WPSEO_Config_Field {
 
+	/**
+	 * WPSEO_Config_Field_Profile_URL_Instagram constructor.
+	 */
 	public function __construct() {
 		parent::__construct( 'profileUrlInstagram', 'input' );
 

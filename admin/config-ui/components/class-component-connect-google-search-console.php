@@ -1,14 +1,18 @@
 <?php
-
 /**
  * @package WPSEO\Admin\ConfigurationUI
  */
+
+/**
+ * Class WPSEO_Config_Component_Connect_Google_Search_Console
+ */
 class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Config_Component {
 
+	/** @var array Map option keys to api keys */
 	private $mapping = array(
 		'refresh_token' => 'refreshToken',
 		'access_token'  => 'accessToken',
-		'expires'       => 'accessTokenExpires'
+		'expires'       => 'accessTokenExpires',
 	);
 
 	/**
@@ -35,12 +39,12 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 			array(
 				'refresh_token' => '',
 				'access_token'  => '',
-				'expires'       => 0
+				'expires'       => 0,
 			)
 		);
 
 		$data = array(
-			'profile' => WPSEO_GSC_Settings::get_profile()
+			'profile' => WPSEO_GSC_Settings::get_profile(),
 		);
 
 		foreach ( $this->mapping as $option_key => $api_key ) {
@@ -51,7 +55,9 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	}
 
 	/**
-	 * @param $data
+	 * Save data
+	 *
+	 * @param array $data Data containing changes.
 	 *
 	 * @return mixed
 	 */
@@ -68,7 +74,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 			array(
 				'refresh_token' => $data['refreshToken'],
 				'access_token'  => $data['accessToken'],
-				'expires'       => $data['accessTokenExpires']
+				'expires'       => $data['accessTokenExpires'],
 			)
 		);
 
@@ -77,7 +83,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 			array(
 				'refresh_token' => '',
 				'access_token'  => '',
-				'expires'       => 0
+				'expires'       => 0,
 			)
 		);
 

@@ -58,7 +58,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'news',
 		'smallBusiness',
 		'corporateOther',
-		'personalOther'
+		'personalOther',
 	);
 
 	/**
@@ -166,8 +166,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'site_type':
-					if ( in_array( $dirty[$key], $this->site_types, true ) ) {
-						$clean[ $key ] = $dirty[$key];
+					if ( in_array( $dirty[ $key ], $this->site_types, true ) ) {
+						$clean[ $key ] = $dirty[ $key ];
 					}
 					else {
 						$clean[ $key ] = '';

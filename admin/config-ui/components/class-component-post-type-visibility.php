@@ -8,9 +8,12 @@
  */
 class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Component {
 
+	/** @var array Option containing the data */
 	private $option;
 
 	/**
+	 * Get the identifier
+	 *
 	 * @return string
 	 */
 	public function get_identifier() {
@@ -18,6 +21,8 @@ class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Compon
 	}
 
 	/**
+	 * Get the field to use
+	 *
 	 * @return WPSEO_Config_Field
 	 */
 	public function get_field() {
@@ -42,14 +47,11 @@ class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Compon
 	/**
 	 * Save the data provided
 	 *
-	 * @param $input
+	 * @param array $data Data provided containing changes.
 	 *
 	 * @return mixed
 	 */
-	public function set_data( $input ) {
-
-		$field = $this->get_field();
-		$data  = $input[ $field->get_identifier() ]['data'];
+	public function set_data( $data ) {
 
 		$option = WPSEO_Options::get_option( 'wpseo_xml' );
 

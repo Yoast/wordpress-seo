@@ -16,6 +16,7 @@ class WPSEO_Configuration_Options_Adapter {
 	const OPTION_TYPE_YOAST = 'yoast';
 	const OPTION_TYPE_CUSTOM = 'custom';
 
+	/** @var array List of registered lookups */
 	protected $lookup = array();
 
 	/**
@@ -46,12 +47,16 @@ class WPSEO_Configuration_Options_Adapter {
 	/**
 	 * Add a lookup for a WordPress native option
 	 *
-	 * @param $class_name
-	 * @param $option
+	 * @param string $class_name Class to bind to an option.
+	 * @param string $option     Option name to use.
 	 *
-	 * @throws Exception
+	 * @throws Exception Thrown when invalid input is provided.
 	 */
 	public function add_wordpress_lookup( $class_name, $option ) {
+		if ( ! class_exists( $class_name ) ) {
+			throw new Exception( 'Class must exist.' );
+		}
+
 		if ( ! is_string( $option ) ) {
 			throw new Exception( 'WordPress option must be a string.' );
 		}
@@ -62,24 +67,34 @@ class WPSEO_Configuration_Options_Adapter {
 	/**
 	 * Add a lookup for a Yoast option
 	 *
-	 * @param $class_name
-	 * @param $option
-	 * @param $key
+	 * @param string $class_name Class to bind to the lookup.
+	 * @param string $option     Option group to use.
+	 * @param string $key        Key in the option group to bind to.
+	 *
+	 * @throws Exception Thrown when invalid input is provided.
 	 */
 	public function add_yoast_lookup( $class_name, $option, $key ) {
+		if ( ! class_exists( $class_name ) ) {
+			throw new Exception( 'Class must exist.' );
+		}
+
 		$this->add_lookup( $class_name, self::OPTION_TYPE_YOAST, array( $option, $key ) );
 	}
 
 	/**
 	 * Add a lookup for a custom implementation
 	 *
-	 * @param string   $class_name
-	 * @param callable $callback_get
-	 * @param callable $callback_set
+	 * @param string   $class_name   Class to bind to the lookup.
+	 * @param callable $callback_get Callback to retrieve data.
+	 * @param callable $callback_set Callback to save data.
 	 *
-	 * @throws Exception
+	 * @throws Exception Thrown when invalid input is provided.
 	 */
 	public function add_custom_lookup( $class_name, $callback_get, $callback_set ) {
+		if ( ! class_exists( $class_name ) ) {
+			throw new Exception( 'Class must exist.' );
+		}
+
 		if ( ! is_callable( $callback_get ) || ! is_callable( $callback_set ) ) {
 			throw new Exception( 'Custom option must be callable.' );
 		}
@@ -94,12 +109,12 @@ class WPSEO_Configuration_Options_Adapter {
 	 * @param string       $type       Type of lookup.
 	 * @param string|array $option     Implementation of the lookup.
 	 *
-	 * @throws Exception
+	 * @throws Exception Thrown when invalid input is provided.
 	 */
 	protected function add_lookup( $class_name, $type, $option ) {
 		$this->lookup[ $class_name ] = array(
 			'type'   => $type,
-			'option' => $option
+			'option' => $option,
 		);
 	}
 
@@ -113,7 +128,7 @@ class WPSEO_Configuration_Options_Adapter {
 	public function get( WPSEO_Config_Field $field ) {
 		$class_name = get_class( $field );
 
-		// lookup option and retrieve value.
+		// Lookup option and retrieve value.
 		$type   = $this->get_option_type( $class_name );
 		$option = $this->get_option( $class_name );
 
@@ -136,15 +151,15 @@ class WPSEO_Configuration_Options_Adapter {
 	/**
 	 * Save data from a field
 	 *
-	 * @param WPSEO_Config_Field $field
-	 * @param mixed              $value
+	 * @param WPSEO_Config_Field $field Field to use for lookup.
+	 * @param mixed              $value Value to save to the lookup of the field.
 	 *
 	 * @return bool
 	 */
 	public function set( WPSEO_Config_Field $field, $value ) {
 		$class_name = get_class( $field );
 
-		// lookup option and retrieve value.
+		// Lookup option and retrieve value.
 		$type   = $this->get_option_type( $class_name );
 		$option = $this->get_option( $class_name );
 
@@ -203,5 +218,4 @@ class WPSEO_Configuration_Options_Adapter {
 
 		return $this->lookup[ $class_name ]['option'];
 	}
-
 }

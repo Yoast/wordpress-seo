@@ -385,9 +385,11 @@ add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 // Loading OnPage integration.
 new WPSEO_OnPage();
 
-
+/**
+ * Register the configuration service on load.
+ */
 function yoast_register_configuration_service() {
-	// Boot up REST API endpoints
+	// Boot up REST API endpoints.
 	$configuration_service = new WPSEO_Configuration_Service();
 	$configuration_service->register_hooks();
 }

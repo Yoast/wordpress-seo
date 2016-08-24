@@ -3,16 +3,21 @@
  * @package WPSEO\Admin\ConfigurationUI
  */
 
+/**
+ * Class WPSEO_Config_Field_Separator
+ */
 class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
+
+	/**
+	 * WPSEO_Config_Field_Separator constructor.
+	 */
 	public function __construct() {
 		parent::__construct( 'separator' );
 
 		// @todo apply i18n
-
 		$this->set_property( 'label', 'Separator' );
 
-		// todo: see if we can apply the prefix in a nice way
-
+		// Todo: see if we can apply the prefix in a nice way.
 		$this->add_choice( 'sc-dash', '-', 'Dash' );
 		$this->add_choice( 'sc-ndash', '&ndash;', 'En dash' );
 		$this->add_choice( 'sc-mdash', '&mdash;', 'Em dash' );

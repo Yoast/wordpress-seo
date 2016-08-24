@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 
+/**
+ * Class WPSEO_Configuration_Storage
+ */
 class WPSEO_Configuration_Storage {
 
 	/** @var WPSEO_Configuration_Options_Adapter */
@@ -36,14 +42,16 @@ class WPSEO_Configuration_Storage {
 	/**
 	 * Allow for field injections
 	 *
-	 * @param WPSEO_Config_Field $field Field to add to the stack
+	 * @param WPSEO_Config_Field $field Field to add to the stack.
 	 */
 	public function add_field( WPSEO_Config_Field $field ) {
 		$this->fields[] = $field;
 	}
 
 	/**
-	 * @param WPSEO_Configuration_Options_Adapter $adapter
+	 * Set the adapter to use
+	 *
+	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to use.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 		$this->adapter = $adapter;
@@ -69,7 +77,7 @@ class WPSEO_Configuration_Storage {
 		/** @var WPSEO_Config_Field $field */
 		foreach ( $this->fields as $field ) {
 			$build = array(
-				'component' => $field->get_component()
+				'component' => $field->get_component(),
 			);
 
 			$properties = $field->get_properties();
@@ -92,7 +100,7 @@ class WPSEO_Configuration_Storage {
 	/**
 	 * Save the data
 	 *
-	 * @param array $data
+	 * @param array $data Data provided by the API which needs to be processed for saving.
 	 *
 	 * @return string Results
 	 */
@@ -123,7 +131,7 @@ class WPSEO_Configuration_Storage {
 	/**
 	 * Filter out null input values
 	 *
-	 * @param mixed $input
+	 * @param mixed $input Input to test against.
 	 *
 	 * @return bool
 	 */
@@ -132,7 +140,9 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * @param $field
+	 * Get data from a specific field
+	 *
+	 * @param WPSEO_Config_Field $field Field to get data for.
 	 *
 	 * @return array|mixed
 	 */
@@ -158,5 +168,4 @@ class WPSEO_Configuration_Storage {
 
 		return $data;
 	}
-
 }

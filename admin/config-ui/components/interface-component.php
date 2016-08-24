@@ -15,7 +15,9 @@ interface WPSEO_Config_Component {
 	public function get_data();
 
 	/**
-	 * @param $data
+	 * Save changes
+	 *
+	 * @param array $data Data provided by the API.
 	 *
 	 * @return mixed
 	 */

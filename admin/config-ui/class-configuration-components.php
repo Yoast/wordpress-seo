@@ -8,6 +8,7 @@
  */
 class WPSEO_Configuration_Components {
 
+	/** @var array List of registered components */
 	private $components = array();
 
 	/**
@@ -20,7 +21,7 @@ class WPSEO_Configuration_Components {
 	}
 
 	/**
-	 * @param WPSEO_Configuration_Storage $storage
+	 * @param WPSEO_Configuration_Storage $storage Storage to use.
 	 */
 	public function set_storage( WPSEO_Configuration_Storage $storage ) {
 		$this->set_adapter( $storage->get_adapter() );
@@ -31,7 +32,7 @@ class WPSEO_Configuration_Components {
 	}
 
 	/**
-	 * @param WPSEO_Configuration_Options_Adapter $adapter
+	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to use.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 		$this->adapter = $adapter;
@@ -42,11 +43,11 @@ class WPSEO_Configuration_Components {
 				get_class( $component->get_field() ),
 				array(
 					$component,
-					'get_data'
+					'get_data',
 				),
 				array(
 					$component,
-					'set_data'
+					'set_data',
 				)
 			);
 		}
