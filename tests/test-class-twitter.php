@@ -232,6 +232,11 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
 		self::$class_instance->description();
 		$this->expectOutput( $this->metatag( 'description', 'Twitter description' ) );
+
+		$image_url = 'https://example.com/image.png';
+		WPSEO_Meta::set_value( 'twitter-image', $image_url, $post_id );
+		self::$class_instance->image();
+		$this->expectOutput( $this->metatag( 'image', $image_url ) );
 	}
 
 	/**

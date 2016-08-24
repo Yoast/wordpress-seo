@@ -115,6 +115,18 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return array scripts that need to be registered.
 	 */
 	private function scripts_to_be_registered() {
+
+		$select2_language = 'en';
+		$locale           = get_locale();
+		$language         = WPSEO_Utils::get_language( $locale );
+
+		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$locale}.js" ) ) {
+			$select2_language = $locale; // Chinese and some others use full locale.
+		}
+		elseif ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$language}.js" ) ) {
+			$select2_language = $language;
+		}
+
 		return array(
 			array(
 				'name' => 'admin-script',
@@ -227,7 +239,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'select2-translations',
-				'src'  => 'select2/i18n/' . WPSEO_Utils::get_language( get_locale() ),
+				'src'  => 'select2/i18n/' . $select2_language,
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'select2',

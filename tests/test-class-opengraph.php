@@ -484,6 +484,13 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
 		$description = self::$class_instance->description( false );
 		$this->assertEquals( 'OG description', $description );
+
+		$image_url       = 'https://example.com/image.png';
+		$expected_output = '<meta property="og:image" content="' . $image_url . '" />';
+		WPSEO_Meta::set_value( 'opengraph-image', $image_url, $post_id );
+		ob_start();
+		self::$class_instance->image( false );
+		$this->assertEquals( $expected_output, trim( ob_get_clean() ) );
 	}
 
 	/**
