@@ -57,7 +57,7 @@ class WPSEO_Configuration_Endpoint {
 	public function get_configuration() {
 		$configuration             = $this->service->get_configuration();
 		$configuration['endpoint'] = $this->get_route( 'set-config' );
-		$configuration['nonce']    = wp_create_nonce( 'yoast-config' );
+		$configuration['nonce']    = wp_create_nonce( 'wp_rest' );
 
 		return $configuration;
 	}
