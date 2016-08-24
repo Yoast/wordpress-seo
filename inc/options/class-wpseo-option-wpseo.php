@@ -37,7 +37,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'alternate_website_name'          => '',
 		'yandexverify'                    => '',
 		'site_type'                       => '', // List of options.
-		'has_multiple_authors'            => true,
+		'has_multiple_authors'            => '',
 	);
 
 	/**
