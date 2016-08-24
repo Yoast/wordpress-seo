@@ -123,6 +123,8 @@ class WPSEO_Admin {
 			return;
 		}
 
+		global $admin_page_hooks;
+
 		// Base 64 encoded SVG image.
 		$icon_svg = WPSEO_Utils::get_icon_svg();
 
@@ -140,6 +142,8 @@ class WPSEO_Admin {
 			$this,
 			'load_page',
 		), $icon_svg, '99.31337' );
+
+		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // Wipe notification bits from hooks. R.
 
 		// Sub menu pages.
 		$submenu_pages = array(
