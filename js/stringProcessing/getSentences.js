@@ -173,10 +173,10 @@ function isValidSentenceBeginning( sentenceBeginning ) {
 /**
  * Checks if the token is a valid sentence ending.
  *
- * @param {object} token The token to validate.
+ * @param {Object} token The token to validate.
  * @returns {boolean} Returns true if the token is valid ending, false if it is not.
  */
-function isValidToken( token ) {
+function isSentenceStart( token ) {
 	return ( !isUndefined( token ) && (
 		"html-start" === token.type
 		|| "html-end" === token.type
@@ -253,7 +253,7 @@ function getSentencesFromTokens( tokens ) {
 				}
 
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
-				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isValidToken( nextToken ) ) {
+				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}
@@ -281,7 +281,7 @@ function getSentencesFromTokens( tokens ) {
 					break;
 				}
 
-				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isValidToken( nextToken ) ) {
+				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}

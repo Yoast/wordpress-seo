@@ -270,6 +270,10 @@ describe("Get sentences from text", function(){
 			{
 				input: "This is a sentence (with blockends.). this is a second sentence.",
 				expected: [ "This is a sentence (with blockends.). this is a second sentence." ]
+			},
+			{
+				input: "This is a sentence (with blockends.). 1 this is a second sentence.",
+				expected: [ "This is a sentence (with blockends.).", "1 this is a second sentence." ]
 			}
 		];
 
