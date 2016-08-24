@@ -40,6 +40,8 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
+	 * Add a lookup for a WordPress native option
+	 *
 	 * @param $class_name
 	 * @param $option
 	 *
@@ -54,6 +56,8 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
+	 * Add a lookup for a Yoast option
+	 *
 	 * @param $class_name
 	 * @param $option
 	 * @param $key
@@ -63,17 +67,20 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
-	 * @param $class_name
-	 * @param $callback
+	 * Add a lookup for a custom implementation
+	 *
+	 * @param string   $class_name
+	 * @param callable $callback_get
+	 * @param callable $callback_set
 	 *
 	 * @throws Exception
 	 */
-	public function add_custom_lookup( $class_name, $callback ) {
-		if ( ! is_callable( $callback ) ) {
+	public function add_custom_lookup( $class_name, $callback_get, $callback_set ) {
+		if ( ! is_callable( $callback_get ) || ! is_callable( $callback_set ) ) {
 			throw new Exception( 'Custom option must be callable.' );
 		}
 
-		$this->add_lookup( $class_name, self::OPTION_TYPE_CUSTOM, $callback );
+		$this->add_lookup( $class_name, self::OPTION_TYPE_CUSTOM, array( $callback_get, $callback_set ) );
 	}
 
 	/**
@@ -116,10 +123,51 @@ class WPSEO_Configuration_Options_Adapter {
 				return $group[ $option[1] ];
 
 			case self::OPTION_TYPE_CUSTOM:
-				return call_user_func( $option );
+				return call_user_func( $option[0] );
 		}
 
 		return null;
+	}
+
+	/**
+	 * Save data from a field
+	 *
+	 * @param WPSEO_Config_Field $field
+	 * @param mixed              $value
+	 *
+	 * @return bool
+	 */
+	public function set( WPSEO_Config_Field $field, $value ) {
+		$class_name = get_class( $field );
+
+		// lookup option and retrieve value.
+		$type   = $this->get_option_type( $class_name );
+		$option = $this->get_option( $class_name );
+
+		switch ( $type ) {
+			case self::OPTION_TYPE_WORDPRESS:
+				return update_option( $option, $value );
+
+			case self::OPTION_TYPE_YOAST:
+				$group = WPSEO_Options::get_option( $option[0] );
+
+				$before = $group[ $option[1] ];
+				if ( $before === $value ) {
+					return true;
+				}
+
+				$group[ $option[1] ] = $value;
+				update_option( $option[0], $group );
+
+				$saved = WPSEO_Options::get_option( $option[0] );
+
+				return $saved[ $option[1] ] !== $before;
+
+			case self::OPTION_TYPE_CUSTOM:
+				return call_user_func( $option[1] );
+		}
+
+		return false;
 	}
 
 	/**

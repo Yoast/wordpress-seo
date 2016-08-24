@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 
 class WPSEO_Config_Field_Connect_Google_Search_Console extends WPSEO_Config_Field {
 	public function __construct() {

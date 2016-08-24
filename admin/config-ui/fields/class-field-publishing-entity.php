@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 
 class WPSEO_Config_Field_Publishing_Entity extends WPSEO_Config_Field {
 	public function __construct() {

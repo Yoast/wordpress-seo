@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 
 interface WPSEO_Config_Component {
 	/**

@@ -1,8 +1,13 @@
 <?php
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 
 class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 	public function __construct() {
 		parent::__construct( 'separator' );
+
+		// @todo apply i18n
 
 		$this->set_property( 'label', 'Separator' );
 

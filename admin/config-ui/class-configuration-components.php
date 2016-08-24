@@ -43,6 +43,10 @@ class WPSEO_Configuration_Components {
 				array(
 					$component,
 					'get_data'
+				),
+				array(
+					$component,
+					'set_data'
 				)
 			);
 		}

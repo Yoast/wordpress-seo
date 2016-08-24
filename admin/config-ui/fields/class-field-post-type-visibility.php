@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 
 class WPSEO_Config_Field_Post_Type_Visibility extends WPSEO_Config_Field {
 
@@ -9,6 +12,7 @@ class WPSEO_Config_Field_Post_Type_Visibility extends WPSEO_Config_Field {
 
 		$post_types = $this->get_post_types();
 
+		// @todo apply i18n
 		$this->set_property( 'label', 'Please specify if which of the following public post types you would like Google to see' );
 		$this->set_property( 'postTypes', $post_types );
 	}

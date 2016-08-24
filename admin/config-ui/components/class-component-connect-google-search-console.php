@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Config_Component {
 
 	/**
@@ -7,6 +10,13 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	 */
 	public function get_identifier() {
 		return 'connectGoogleSearchConsole';
+	}
+
+	/**
+	 * @return WPSEO_Config_Field
+	 */
+	public function get_field() {
+		return new WPSEO_Config_Field_Connect_Google_Search_Console();
 	}
 
 	/**
@@ -38,12 +48,5 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	 */
 	public function set_data( $data ) {
 		// TODO: Implement set_data() method.
-	}
-
-	/**
-	 * @return WPSEO_Config_Field
-	 */
-	public function get_field() {
-		return new WPSEO_Config_Field_Connect_Google_Search_Console();
 	}
 }

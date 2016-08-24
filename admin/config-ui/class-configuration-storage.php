@@ -79,22 +79,7 @@ class WPSEO_Configuration_Storage {
 				$build['properties'] = $properties;
 			}
 
-			$data = $this->adapter->get( $field );
-
-			if ( is_array( $data ) ) {
-				$defaults = $field->get_data();
-
-				// Remove 'null' values from input.
-				$data = array_filter( $data, array( $this, 'is_not_null' ) );
-
-				// Merge defaults with data.
-				$data = array_merge( $defaults, $data );
-			}
-
-			if ( is_null( $data ) ) {
-				// Get default if no data was set.
-				$data = $field->get_data();
-			}
+			$data = $this->get_field_data( $field );
 
 			if ( ! is_null( $data ) ) {
 				$build['data'] = $data;
@@ -114,7 +99,27 @@ class WPSEO_Configuration_Storage {
 	 * @return string Results
 	 */
 	public function store( $data ) {
-		return 'cool';
+		$output = array();
+
+		/** @var WPSEO_Config_Field $field */
+		foreach ( $this->fields as $field ) {
+
+			$result = $this->adapter->set( $field, $data[ $field->get_identifier() ]['data'] );
+
+			$build = array(
+				'result' => $result,
+			);
+
+			// Set current data to object to be displayed.
+			$data = $this->get_field_data( $field );
+			if ( ! is_null( $data ) ) {
+				$build['data'] = $data;
+			}
+
+			$output[ $field->get_identifier() ] = $build;
+		}
+
+		return $output;
 	}
 
 	/**
@@ -126,6 +131,34 @@ class WPSEO_Configuration_Storage {
 	 */
 	protected function is_not_null( $input ) {
 		return ! is_null( $input );
+	}
+
+	/**
+	 * @param $field
+	 *
+	 * @return array|mixed
+	 */
+	protected function get_field_data( WPSEO_Config_Field $field ) {
+		$data = $this->adapter->get( $field );
+
+		if ( is_array( $data ) ) {
+			$defaults = $field->get_data();
+
+			// Remove 'null' values from input.
+			$data = array_filter( $data, array( $this, 'is_not_null' ) );
+
+			// Merge defaults with data.
+			$data = array_merge( $defaults, $data );
+		}
+
+		if ( is_null( $data ) ) {
+			// Get default if no data was set.
+			$data = $field->get_data();
+
+			return $data;
+		}
+
+		return $data;
 	}
 
 }

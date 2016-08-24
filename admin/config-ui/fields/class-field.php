@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 
 class WPSEO_Config_Field {
 	protected $field;

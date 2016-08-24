@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Admin\ConfigurationUI
+ */
 
+/**
+ * Class WPSEO_Config_Component_Post_Type_Visibility
+ */
 class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Component {
 
 	private $option;
@@ -12,40 +18,71 @@ class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Compon
 	}
 
 	/**
+	 * @return WPSEO_Config_Field
+	 */
+	public function get_field() {
+		return new WPSEO_Config_Field_Post_Type_Visibility();
+	}
+
+	/**
+	 * Fetch the data
+	 *
 	 * @return mixed
 	 */
 	public function get_data() {
 
-		$post_types = get_post_types( array(
-			'public' => true
-		), 'names' );
-
 		$this->option = WPSEO_Options::get_option( 'wpseo_xml' );
 
+		$post_types = get_post_types( array( 'public' => true ), 'names' );
 		array_walk( $post_types, array( $this, 'get_option_value' ) );
 
 		return $post_types;
 	}
 
 	/**
-	 * @param $data
+	 * Save the data provided
+	 *
+	 * @param $input
 	 *
 	 * @return mixed
 	 */
-	public function set_data( $data ) {
+	public function set_data( $input ) {
 
+		$field = $this->get_field();
+		$data  = $input[ $field->get_identifier() ]['data'];
 
-	}
+		$option = WPSEO_Options::get_option( 'wpseo_xml' );
 
-	protected function get_option_value( & $value, $post_type ) {
-		$key = 'post_types-' . $post_type . '-not_in_sitemap';
-		$value = ( ! isset( $this->option[ $key ] ) || false === $this->option[ $key ] );
+		foreach ( $data as $post_type => $in_sitemap ) {
+			if ( $in_sitemap ) {
+				unset( $option[ 'post_types-' . $post_type . '-not_in_sitemap' ] );
+			}
+
+			if ( ! $in_sitemap ) {
+				$option[ 'post_types-' . $post_type . '-not_in_sitemap' ] = true;
+			}
+		}
+
+		update_option( 'wpseo_xml', $option );
+
+		$saved_option = WPSEO_Options::get_option( 'wpseo_xml' );
+
+		$output = array();
+		foreach ( $data as $post_type => $in_sitemap ) {
+			$output[ $post_type ] = ( ! $in_sitemap && $saved_option[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true );
+		}
+
+		return $output;
 	}
 
 	/**
-	 * @return WPSEO_Config_Field
+	 * Array helper function to get visibility as boolean
+	 *
+	 * @param bool   $value     Array element.
+	 * @param string $post_type Post type to check.
 	 */
-	public function get_field() {
-		return new WPSEO_Config_Field_Post_Type_Visibility();
+	protected function get_option_value( & $value, $post_type ) {
+		$key   = 'post_types-' . $post_type . '-not_in_sitemap';
+		$value = ( ! isset( $this->option[ $key ] ) || false === $this->option[ $key ] );
 	}
 }
