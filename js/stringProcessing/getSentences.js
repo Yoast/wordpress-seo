@@ -36,6 +36,8 @@ var sentenceTokenizer;
 
 /**
  * Creates a tokenizer to create tokens from a sentence.
+ *
+ * @returns {void}
  */
 function createTokenizer() {
 	tokens = [];
@@ -163,10 +165,10 @@ function getNextTwoCharacters( nextTokens ) {
  */
 function isValidSentenceBeginning( sentenceBeginning ) {
 	return (
-		isCapitalLetter( sentenceBeginning )
-		|| isNumber( sentenceBeginning )
-		|| isQuotation( sentenceBeginning )
-		|| isPunctuation( sentenceBeginning )
+		isCapitalLetter( sentenceBeginning ) ||
+		isNumber( sentenceBeginning ) ||
+		isQuotation( sentenceBeginning ) ||
+		isPunctuation( sentenceBeginning )
 	);
 }
 
@@ -178,9 +180,9 @@ function isValidSentenceBeginning( sentenceBeginning ) {
  */
 function isSentenceStart( token ) {
 	return ( !isUndefined( token ) && (
-		"html-start" === token.type
-		|| "html-end" === token.type
-		|| "block-start" === token.type
+		"html-start" === token.type ||
+		"html-end" === token.type ||
+		"block-start" === token.type
 	) );
 }
 
@@ -233,7 +235,7 @@ function getSentencesFromTokens( tokens ) {
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
-				if ( !isUndefined( nextToken ) && "block-end" !== nextToken.type ) {
+				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}
@@ -251,7 +253,6 @@ function getSentencesFromTokens( tokens ) {
 				if ( hasNextSentence && isNumber( nextCharacters[ 0 ] ) ) {
 					break;
 				}
-
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
 
