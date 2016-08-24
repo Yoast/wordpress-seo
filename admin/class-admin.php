@@ -83,6 +83,8 @@ class WPSEO_Admin {
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
 			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
 		}
+
+		new WPSEO_Configuration_Interface();
 	}
 
 	/**
@@ -214,7 +216,6 @@ class WPSEO_Admin {
 				array( $this, 'load_page' ),
 				null,
 			),
-
 		);
 
 		// Allow submenu pages manipulation.
@@ -338,6 +339,8 @@ class WPSEO_Admin {
 	 */
 	function load_page() {
 		$page = filter_input( INPUT_GET, 'page' );
+		var_dump($page);
+		exit;
 
 		switch ( $page ) {
 			case 'wpseo_advanced':

@@ -6,6 +6,7 @@ module.exports = {
 			],
 		},
 		files: {
+			"js/dist/configuration-wizard-350.js": [ "js/src/configuration-wizard.js" ],
 			"js/dist/wp-seo-admin-340.js": [ "js/src/wp-seo-admin.js" ],
 			"js/dist/wp-seo-admin-global-340.js": [ "js/src/wp-seo-admin-global.js" ],
 			"js/dist/wp-seo-admin-gsc-340.js": [ "js/src/wp-seo-admin-gsc.js" ],
