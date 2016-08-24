@@ -60,4 +60,13 @@ describe( "A Progressbar component", () => {
 		expect( result.props.id ).toBe( "custom-progress-identifier" );
 	} );
 
+	it( "generates a fallback progressbar", () => {
+		renderer.render( <Progressbar value={10} max={100} forceFallback={true} name="customProgressbar" /> );
+
+		let result = renderer.getRenderOutput();
+
+		expect(result.type).toBe("div");
+		expect(result.props.style.width).toBe("10%");
+	} );
+
 } );

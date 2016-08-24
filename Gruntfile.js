@@ -15,7 +15,8 @@ module.exports = function( grunt ) {
 		files: {
 			components: [
 				"forms/*.js",
-				"a11y/*.js", 
+				"a11y/*.js",
+				"composites/*.js",
 				"onboarding-wizard/**/*.js",
 				"!onboarding-wizard/tests/**/*.js",
 				"!onboarding-wizard/config/**/*.js"

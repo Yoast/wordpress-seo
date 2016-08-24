@@ -45,4 +45,8 @@ describe( "A Textarea component", () => {
 			.toContain( "Warning: Failed prop type: Invalid prop `onChange` of type `number` supplied to `Textarea`, expected `function`." );
 	} );
 
+	it( "receives focus when it's focus property is set", () => {
+		// Cannot seem to simulate clicking / cannot read the focus property.
+	} );
+
 } );

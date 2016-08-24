@@ -38,7 +38,7 @@ class Textfield extends React.Component {
 	/**
 	 * Determines whether a text input or a textarea should be rendered.
 	 *
-	 * @returns {JSX.Element} A representation of either the Textarea or Input component.
+	 * @returns {JSX.Element} A representation of either the Textfield or Input component.
 	 */
 	determineFieldType() {
 		if ( this.props.multiline === true ) {
@@ -53,13 +53,16 @@ class Textfield extends React.Component {
 			);
 		}
 
-		return ( <Input name={this.props.name}
-		                id={this.props.name}
-		                type="text"
-		                onChange={this.props.onChange}
-		                value={this.props.value}
-		                hasFocus={this.props.hasFocus}
-		                optionalAttributes={this.optionalAttributes.field} /> );
+		return (
+			<Input name={this.props.name}
+			       id={this.props.name}
+			       type="text"
+			       onChange={this.props.onChange}
+			       value={this.props.value}
+			       hasFocus={this.props.hasFocus}
+			       optionalAttributes={this.optionalAttributes.field}
+			/>
+		);
 	}
 
 	/**
@@ -102,6 +105,7 @@ Textfield.propTypes = {
 	label: React.PropTypes.string.isRequired,
 	name: React.PropTypes.string.isRequired,
 	onChange: React.PropTypes.func.isRequired,
+	value: React.PropTypes.string,
 	optionalAttributes: React.PropTypes.object,
 	multiline: React.PropTypes.bool,
 	hasFocus: React.PropTypes.bool,
