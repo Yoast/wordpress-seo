@@ -76,7 +76,10 @@ if ( isset( $import ) ) {
 	}
 
 	if ( $msg != '' ) {
-		echo '<div id="message" class="message updated" style="width:94%;"><p>', $msg, '</p></div>';
+
+		$status = ( $import->success ) ? 'updated' : 'error';
+
+		echo '<div id="message" class="message ', $status, '" style="width:94%;"><p>', $msg, '</p></div>';
 	}
 }
 
@@ -102,7 +105,7 @@ $tabs = array(
 		<?php foreach ( $tabs as $identifier => $tab ) : ?>
 		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
 		<?php endforeach; ?>
-		
+
 		<?php
 		/**
 		 * Allow adding a custom import tab header
@@ -112,7 +115,6 @@ $tabs = array(
 	</h2>
 
 <?php
-
 foreach ( $tabs as $identifier => $tab ) {
 
 	printf( '<div id="%s" class="wpseotab">', $identifier );

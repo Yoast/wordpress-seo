@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Internals
+ * @package    WPSEO\Internals
  * @since      1.8.0
  */
 
@@ -15,6 +15,9 @@ class WPSEO_Utils {
 	 * @static
 	 */
 	public static $has_filters;
+
+	/** @var array notifications to be shown in the JavaScript console */
+	protected static $console_notifications = array();
 
 	/**
 	 * Check whether the current user is allowed to access the configuration.
@@ -91,6 +94,45 @@ class WPSEO_Utils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Register a notification to be shown in the JavaScript console
+	 *
+	 * @param string $identifier    Notification identifier.
+	 * @param string $message       Message to be shown.
+	 * @param bool   $one_time_only Only show once (if added multiple times).
+	 */
+	public static function javascript_console_notification( $identifier, $message, $one_time_only = false ) {
+		static $registered_hook;
+
+		if ( is_null( $registered_hook ) ) {
+			add_action( 'admin_footer', array( __CLASS__, 'localize_console_notices' ), 999 );
+			$registered_hook = true;
+		}
+
+		$prefix = 'Yoast SEO: ';
+		if ( substr( $message, 0, strlen( $prefix ) ) !== $prefix ) {
+			$message = $prefix . $message;
+		}
+
+		if ( $one_time_only ) {
+			self::$console_notifications[ $identifier ] = $message;
+		}
+		else {
+			self::$console_notifications[] = $message;
+		}
+	}
+
+	/**
+	 * Localize the console notifications to JavaScript
+	 */
+	public static function localize_console_notices() {
+		if ( empty( self::$console_notifications ) ) {
+			return;
+		}
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoConsoleNotifications', array_values( self::$console_notifications ) );
 	}
 
 	/**
@@ -454,19 +496,19 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param mixed  $number1   Scalar (string/int/float/bool).
-	 * @param string $action    Calculation action to execute. Valid input:
+	 * @param mixed  $number1     Scalar (string/int/float/bool).
+	 * @param string $action      Calculation action to execute. Valid input:
 	 *                            '+' or 'add' or 'addition',
 	 *                            '-' or 'sub' or 'subtract',
 	 *                            '*' or 'mul' or 'multiply',
 	 *                            '/' or 'div' or 'divide',
 	 *                            '%' or 'mod' or 'modulus'
 	 *                            '=' or 'comp' or 'compare'.
-	 * @param mixed  $number2   Scalar (string/int/float/bool).
-	 * @param bool   $round     Whether or not to round the result. Defaults to false.
-	 *                          Will be disregarded for a compare operation.
-	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
-	 * @param int    $precision Calculation precision. Defaults to 10.
+	 * @param mixed  $number2     Scalar (string/int/float/bool).
+	 * @param bool   $round       Whether or not to round the result. Defaults to false.
+	 *                            Will be disregarded for a compare operation.
+	 * @param int    $decimals    Decimals for rounding operation. Defaults to 0.
+	 * @param int    $precision   Calculation precision. Defaults to 10.
 	 *
 	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
 	 *                          an invalid operation was passed
@@ -604,8 +646,7 @@ class WPSEO_Utils {
 
 		try {
 			return new DateTime( $datetime ) !== false;
-		}
-		catch ( Exception $exc ) {
+		} catch ( Exception $exc ) {
 			return false;
 		}
 	}
@@ -810,6 +851,22 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Returns the language part of a given locale, defaults to english when the $locale is empty
+	 *
+	 * @param string $locale The locale to get the language of.
+	 * @returns string The language part of the locale.
+	 */
+	public static function get_language( $locale ) {
+		$language = 'en';
+
+		if ( ! empty( $locale ) && strlen( $locale ) >= 2 ) {
+			$language = substr( $locale, 0, 2 );
+		}
+
+		return $language;
+	}
+
+	/**
 	 * Wrapper for the PHP filter input function.
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
@@ -869,8 +926,8 @@ class WPSEO_Utils {
 	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
 	 *
 	 * @param array $array_to_encode The array which will be encoded.
-	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
-	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
+	 * @param int   $options         Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth           Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
 	 *
 	 * @return false|string
 	 */

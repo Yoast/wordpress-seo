@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "789d2d96927b03d97c10534ebac41d42",
-    "content-hash": "24f17d31e6cd5aa9e124cecf90074d3f",
+    "hash": "c03aec10b3a682c893504ba6d9170a39",
+    "content-hash": "a86567bb2cf980eea0eef0b09a666479",
     "packages": [
         {
             "name": "composer/installers",
@@ -1092,6 +1092,44 @@
                 "wordpress"
             ],
             "time": "2016-02-01 16:14:59"
+        },
+        {
+            "name": "yoast/php-development-environment",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yoast/php-development-environment.git",
+                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yoast/php-development-environment/zipball/d53b054d96b688a96e47d4c2e4306983375efd75",
+                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "define.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Team Yoast",
+                    "email": "support@yoast.com",
+                    "homepage": "https://yoast.com"
+                }
+            ],
+            "description": "Yoast PHP development environment.",
+            "homepage": "https://github.com/Yoast/php-development-environment",
+            "keywords": [
+                "wordpress"
+            ],
+            "time": "2016-06-16 10:12:26"
         },
         {
             "name": "yoast/yoastcs",

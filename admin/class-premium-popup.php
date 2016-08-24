@@ -78,7 +78,7 @@ class WPSEO_Premium_Popup {
 	<img class="alignright" style="margin: 10px;" src="{$assets_uri}images/Yoast_SEO_Icon.svg" width="150" height="150" alt="Yoast SEO"/>
 	<{$this->heading_level} id="wpseo-contact-support-popup-title" class="wpseo-premium-popup-title">{$this->title}</{$this->heading_level}>
 	<p>{$this->content}</p>
-	<a id="wpseo-{$this->identifier}-popup-button" class="button-primary" href="{$premium_uri}">{$cta_text}</a>
+	<a id="wpseo-{$this->identifier}-popup-button" class="button button-primary" href="{$premium_uri}">{$cta_text}</a>
 </div>
 EO_POPUP;
 

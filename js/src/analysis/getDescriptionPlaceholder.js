@@ -1,19 +1,16 @@
-/* global wpseoPostScraperL10n */
-
-var isUndefined = require( 'lodash/isUndefined' );
+var getL10nObject = require( "./getL10nObject" );
 
 /**
  * Returns the description placeholder for use in the description forms.
  *
  * @returns {string}
  */
-function getDescriptionPlaceholder( l10n ) {
-	var descriptionPlaceholder = '';
+function getDescriptionPlaceholder() {
+	var descriptionPlaceholder = "";
+	var l10nObject = getL10nObject();
 
-	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
-		descriptionPlaceholder = window.wpseoPostScraperL10n.metadesc_template;
-	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
-		descriptionPlaceholder = window.wpseoTermScraperL10n.metadesc_template;
+	if ( l10nObject ) {
+		descriptionPlaceholder = l10nObject.metadesc_template;
 	}
 
 	return descriptionPlaceholder;

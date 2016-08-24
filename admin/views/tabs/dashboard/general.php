@@ -17,7 +17,7 @@ if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) :
 		<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>
 	</p>
 	<p>
-		<a class="button-secondary"
+		<a class="button button-secondary"
 		   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&wpseo_restart_tour=1' ) ); ?>"><?php _e( 'Start Tour', 'wordpress-seo' ); ?></a>
 	</p>
 
@@ -35,7 +35,7 @@ echo '<h2>' . esc_html__( 'Latest changes', 'wordpress-seo' ) . '</h2>';
 </p>
 
 <p>
-	<a class="button-secondary"
+	<a class="button button-secondary"
 	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php _e( 'View Changes', 'wordpress-seo' ); ?></a>
 </p>
 

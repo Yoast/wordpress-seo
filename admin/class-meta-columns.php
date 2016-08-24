@@ -9,12 +9,25 @@
 class WPSEO_Meta_Columns {
 
 	/**
+	 * @var WPSEO_Metabox_Analysis_SEO
+	 */
+	private $analysis_seo;
+
+	/**
+	 * @var WPSEO_Metabox_Analysis_Readability
+	 */
+	private $analysis_readability;
+
+	/**
 	 * When page analysis is enabled, just initialize the hooks
 	 */
 	public function __construct() {
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 			add_action( 'admin_init', array( $this, 'setup_hooks' ) );
 		}
+
+		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -23,7 +36,12 @@ class WPSEO_Meta_Columns {
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
 
-		add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+		if ( ! empty( $options['keyword-analysis-active'] ) ) {
+			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
+		}
+
 		add_filter( 'request', array( $this, 'column_sort_orderby' ) );
 	}
 
@@ -39,12 +57,22 @@ class WPSEO_Meta_Columns {
 			return $columns;
 		}
 
-		return array_merge( $columns, array(
-			'wpseo-score'    => __( 'SEO', 'wordpress-seo' ),
-			'wpseo-title'    => __( 'SEO Title', 'wordpress-seo' ),
-			'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ),
-			'wpseo-focuskw'  => __( 'Focus KW', 'wordpress-seo' ),
-		) );
+		$added_columns = array();
+
+		if ( $this->analysis_seo->is_enabled() ) {
+			$added_columns['wpseo-score'] = __( 'SEO', 'wordpress-seo' );
+		}
+		if ( $this->analysis_readability->is_enabled() ) {
+			$added_columns['wpseo-score-readability'] = __( 'Readability', 'wordpress-seo' );
+		}
+		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );
+		$added_columns['wpseo-metadesc'] = __( 'Meta Desc.', 'wordpress-seo' );
+
+		if ( $this->analysis_seo->is_enabled() ) {
+			$added_columns['wpseo-focuskw']  = __( 'Focus KW', 'wordpress-seo' );
+		}
+
+		return array_merge( $columns, $added_columns );
 	}
 
 	/**
@@ -61,6 +89,9 @@ class WPSEO_Meta_Columns {
 		switch ( $column_name ) {
 			case 'wpseo-score' :
 				echo $this->parse_column_score( $post_id );
+				break;
+			case 'wpseo-score-readability':
+				echo $this->parse_column_score_readability( $post_id );
 				break;
 			case 'wpseo-title' :
 				echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
@@ -91,7 +122,10 @@ class WPSEO_Meta_Columns {
 		}
 
 		$columns['wpseo-metadesc'] = 'wpseo-metadesc';
-		$columns['wpseo-focuskw']  = 'wpseo-focuskw';
+
+		if ( $this->analysis_seo->is_enabled() ) {
+			$columns['wpseo-focuskw'] = 'wpseo-focuskw';
+		}
 
 		return $columns;
 	}
@@ -115,7 +149,11 @@ class WPSEO_Meta_Columns {
 				$result = array();
 			}
 
-			array_push( $result, 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+			array_push( $result, 'wpseo-title', 'wpseo-metadesc' );
+
+			if ( $this->analysis_seo->is_enabled() ) {
+				array_push( $result, 'wpseo-focuskw' );
+			}
 		}
 
 		return $result;
@@ -148,30 +186,6 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
-	 * meta key clauses and not a combination - which is what we need.
-	 *
-	 * @param    string $where Where clause.
-	 *
-	 * @return    string
-	 */
-	public function seo_score_posts_where( $where ) {
-		global $wpdb;
-
-		/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
-		$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . WPSEO_Meta::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
-
-		$replace = '$1( $2OR$3 )';
-
-		$new_where = preg_replace( $find, $replace, $where );
-
-		if ( $new_where ) {
-			return $new_where;
-		}
-		return $where;
-	}
-
-	/**
 	 * Modify the query based on the seo_filter variable in $_GET
 	 *
 	 * @param array $vars Query variables.
@@ -187,8 +201,6 @@ class WPSEO_Meta_Columns {
 			}
 			else {
 				$vars = array_merge( $vars, $this->filter_scored( $rank->get_starting_score(), $rank->get_end_score() ) );
-
-				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
 			}
 		}
 
@@ -231,14 +243,16 @@ class WPSEO_Meta_Columns {
 					'compare' => 'BETWEEN',
 				),
 				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => 'needs-a-value-anyway',
-					'compare' => 'NOT EXISTS',
-				),
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => '1',
-					'compare' => '!=',
+					'relation' => 'OR',
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+						'compare' => 'NOT EXISTS',
+					),
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+						'value'   => '1',
+						'compare' => '!=',
+					),
 				),
 			),
 		);
@@ -324,7 +338,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param integer $post_id The ID of the post for which to show the score.
 	 *
-	 * @return string
+	 * @return string The HTML for the SEO score indicator.
 	 */
 	private function parse_column_score( $post_id ) {
 		if ( '1' === WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) ) {
@@ -342,8 +356,21 @@ class WPSEO_Meta_Columns {
 			$title = $rank->get_label();
 		}
 
-		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
+		return $this->render_score_indicator( $rank, $title );
+	}
 
+	/**
+	 * Parsing the readability score column.
+	 *
+	 * @param int $post_id The ID of the post for which to show the readability score.
+	 *
+	 * @return string The HTML for the readability score indicator.
+	 */
+	private function parse_column_score_readability( $post_id ) {
+		$score = (int) WPSEO_Meta::get_value( 'content_score', $post_id );
+		$rank = WPSEO_Rank::from_numeric_score( $score );
+
+		return $this->render_score_indicator( $rank );
 	}
 
 	/**
@@ -427,5 +454,48 @@ class WPSEO_Meta_Columns {
 		}
 
 		return wpseo_replace_vars( '%%title%%', $post );
+	}
+
+	/**
+	 * @param WPSEO_Rank $rank The rank this indicator should have.
+	 * @param string     $title Optional. The title for this rank, defaults to the title of the rank.
+	 *
+	 * @return string The HTML for a score indicator.
+	 */
+	private function render_score_indicator( $rank, $title = '' ) {
+		if ( empty( $title ) ) {
+			$title = $rank->get_label();
+		}
+
+		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
+	}
+
+	/**
+	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
+	 * meta key clauses and not a combination - which is what we need.
+	 *
+	 * @deprecated 3.5 Unnecessary with nested meta queries in core.
+	 *
+	 * @param    string $where Where clause.
+	 *
+	 * @return    string
+	 */
+	public function seo_score_posts_where( $where ) {
+
+		_deprecated_function( 'WPSEO_Metabox_Columns::seo_score_posts_where', '3.5' );
+
+		global $wpdb;
+
+		/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
+		$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . WPSEO_Meta::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
+
+		$replace = '$1( $2OR$3 )';
+
+		$new_where = preg_replace( $find, $replace, $where );
+
+		if ( $new_where ) {
+			return $new_where;
+		}
+		return $where;
 	}
 }
