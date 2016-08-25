@@ -1,6 +1,6 @@
 /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
-import PostScraper from "./analysis/PostDataCollector";
+import PostDataCollector from "./analysis/PostDataCollector";
 import { tmceId } from "./wp-seo-tinymce";
 
 var isUndefined = require( "lodash/isUndefined" );
@@ -35,7 +35,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 	var decorator = null;
 
-	var tabManager, postScraper;
+	var tabManager, postDataCollector;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -66,7 +66,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			/*
 			 * WordPress do not update post name for auto-generated slug, so we should leave this field untouched.
 			 */
-			postScraper.leavePostNameUntouched = true;
+			postDataCollector.leavePostNameUntouched = true;
 
 			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
 		}
@@ -75,7 +75,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {PostScraper} postScraper
+	 * @param {PostDataCollector} postScraper
 	 * @returns {SnippetPreview}
 	 */
 	function initSnippetPreview( postScraper ) {
@@ -121,7 +121,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	 * Initializes keyword analysis.
 	 *
 	 * @param {App} app The App object.
-	 * @param {PostScraper} postScraper The post scraper object.
+	 * @param {PostDataCollector} postScraper The post scraper object.
 	 * @param {Object} publishBox The publish box object.
 	 */
 	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
@@ -211,22 +211,22 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 		} );
 
-		postScraper = new PostScraper( {
+		postDataCollector = new PostDataCollector( {
 			tabManager,
 		} );
-		postScraper.leavePostNameUntouched = false;
+		postDataCollector.leavePostNameUntouched = false;
 		publishBox.initalise();
 
 		tabManager.init();
 
-		snippetPreview = initSnippetPreview( postScraper );
+		snippetPreview = initSnippetPreview( postDataCollector );
 
 		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [ tmceId, "yoast_wpseo_focuskw_text_input", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
-				getData: postScraper.getData.bind( postScraper ),
+				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
 			locale: wpseoPostScraperL10n.locale,
 			marker: getMarker(),
@@ -236,11 +236,11 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			args.callbacks.saveScores = postScraper.saveScores.bind( postScraper );
+			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 		}
 
 		if ( isContentAnalysisActive() ) {
-			args.callbacks.saveContentScore = postScraper.saveContentScore.bind( postScraper );
+			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
 		}
 
 		titleElement = $( "#title" );
@@ -252,7 +252,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 		app = new App( args );
 
-		postScraper.app = app;
+		postDataCollector.app = app;
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
@@ -267,7 +267,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		window.YoastSEO.wp._tabManager = tabManager;
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, postScraper, publishBox );
+			initializeKeywordAnalysis( app, postDataCollector, publishBox );
 			tabManager.getKeywordTab().activate();
 		} else {
 			hideAddKeywordButton();
@@ -287,7 +287,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		YoastSEO.analyzerArgs = args;
 
 		keywordElementSubmitHandler();
-		postScraper.bindElementEvents( app );
+		postDataCollector.bindElementEvents( app );
 
 		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
 			snippetPreviewHelpers.isolate( snippetContainer );

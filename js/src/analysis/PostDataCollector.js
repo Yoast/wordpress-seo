@@ -22,7 +22,7 @@ let currentKeyword = "";
  *
  * @constructor
  */
-let PostScraper = function( args ) {
+let PostDataCollector = function( args ) {
 	if ( typeof CKEDITOR === "object" ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
@@ -34,7 +34,7 @@ let PostScraper = function( args ) {
  * Get data from input fields and store them in an analyzerData object. This object will be used to fill
  * the analyzer and the snippet preview.
  */
-PostScraper.prototype.getData = function() {
+PostDataCollector.prototype.getData = function() {
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
@@ -57,7 +57,7 @@ PostScraper.prototype.getData = function() {
  *
  * @returns {string} The keyword.
  */
-PostScraper.prototype.getKeyword = function() {
+PostDataCollector.prototype.getKeyword = function() {
 	var val = document.getElementById( "yoast_wpseo_focuskw_text_input" ) && document.getElementById( "yoast_wpseo_focuskw_text_input" ).value || "";
 	currentKeyword = val;
 
@@ -69,7 +69,7 @@ PostScraper.prototype.getKeyword = function() {
  *
  * @returns {string} The meta description.
  */
-PostScraper.prototype.getMeta = function() {
+PostDataCollector.prototype.getMeta = function() {
 	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 };
 
@@ -78,7 +78,7 @@ PostScraper.prototype.getMeta = function() {
  *
  * @returns {string} The text.
  */
-PostScraper.prototype.getText = function() {
+PostDataCollector.prototype.getText = function() {
 	return removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 };
 
@@ -87,7 +87,7 @@ PostScraper.prototype.getText = function() {
  *
  * @returns {string} The title.
  */
-PostScraper.prototype.getTitle = function() {
+PostDataCollector.prototype.getTitle = function() {
 	return document.getElementById( "title" ) && document.getElementById( "title" ).value || "";
 };
 
@@ -96,7 +96,7 @@ PostScraper.prototype.getTitle = function() {
  *
  * @returns {string} The url.
  */
-PostScraper.prototype.getUrl = function() {
+PostDataCollector.prototype.getUrl = function() {
 	var url = "";
 
 	var newPostSlug = $( "#new-post-slug" );
@@ -115,7 +115,7 @@ PostScraper.prototype.getUrl = function() {
  *
  * @returns {string} The excerpt.
  */
-PostScraper.prototype.getExcerpt = function() {
+PostDataCollector.prototype.getExcerpt = function() {
 	var val = "";
 
 	if ( document.getElementById( "excerpt" ) !== null ) {
@@ -130,7 +130,7 @@ PostScraper.prototype.getExcerpt = function() {
  *
  * @returns {string} The snippet title.
  */
-PostScraper.prototype.getSnippetTitle = function() {
+PostDataCollector.prototype.getSnippetTitle = function() {
 	return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
 };
 
@@ -139,7 +139,7 @@ PostScraper.prototype.getSnippetTitle = function() {
  *
  * @returns {string} The snippet meta.
  */
-PostScraper.prototype.getSnippetMeta = function() {
+PostDataCollector.prototype.getSnippetMeta = function() {
 	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 };
 
@@ -148,7 +148,7 @@ PostScraper.prototype.getSnippetMeta = function() {
  *
  * @returns {string} The snippet cite.
  */
-PostScraper.prototype.getSnippetCite = function() {
+PostDataCollector.prototype.getSnippetCite = function() {
 	return this.getUrl();
 };
 
@@ -157,7 +157,7 @@ PostScraper.prototype.getSnippetCite = function() {
  *
  * @returns {string} The primary category.
  */
-PostScraper.prototype.getPrimaryCategory = function() {
+PostDataCollector.prototype.getPrimaryCategory = function() {
 	var val = "";
 	var categoryBase = $( "#category-all" ).find( "ul.categorychecklist" );
 
@@ -186,7 +186,7 @@ PostScraper.prototype.getPrimaryCategory = function() {
  *
  * @returns {string} The search url.
  */
-PostScraper.prototype.getSearchUrl = function() {
+PostDataCollector.prototype.getSearchUrl = function() {
 	return wpseoPostScraperL10n.search_url;
 };
 
@@ -195,7 +195,7 @@ PostScraper.prototype.getSearchUrl = function() {
  *
  * @returns {string} The post url.
  */
-PostScraper.prototype.getPostUrl = function() {
+PostDataCollector.prototype.getPostUrl = function() {
 	return wpseoPostScraperL10n.post_edit_url;
 };
 
@@ -204,7 +204,7 @@ PostScraper.prototype.getPostUrl = function() {
  *
  * @returns {string} The permalink.
  */
-PostScraper.prototype.getPermalink = function() {
+PostDataCollector.prototype.getPermalink = function() {
 	var url = this.getUrl();
 
 	return wpseoPostScraperL10n.base_url + url;
@@ -215,7 +215,7 @@ PostScraper.prototype.getPermalink = function() {
  * @param {jQuery Object} li Item which contains the category
  * @returns {String} Name of the category
  */
-PostScraper.prototype.getCategoryName = function( li ) {
+PostDataCollector.prototype.getCategoryName = function( li ) {
 	var clone = li.clone();
 	clone.children().remove();
 	return $.trim( clone.text() );
@@ -226,7 +226,7 @@ PostScraper.prototype.getCategoryName = function( li ) {
  * @param {Object} value
  * @param {String} type
  */
-PostScraper.prototype.setDataFromSnippet = function( value, type ) {
+PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
 		case "snippet_meta":
 			document.getElementById( "yoast_wpseo_metadesc" ).value = value;
@@ -268,7 +268,7 @@ PostScraper.prototype.setDataFromSnippet = function( value, type ) {
  * @param {string} data.urlPath
  * @param {string} data.metaDesc
  */
-PostScraper.prototype.saveSnippetData = function( data ) {
+PostDataCollector.prototype.saveSnippetData = function( data ) {
 	this.setDataFromSnippet( data.title, "snippet_title" );
 	this.setDataFromSnippet( data.urlPath, "snippet_cite" );
 	this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
@@ -277,7 +277,7 @@ PostScraper.prototype.saveSnippetData = function( data ) {
 /**
  * Calls the event binders.
  */
-PostScraper.prototype.bindElementEvents = function( app ) {
+PostDataCollector.prototype.bindElementEvents = function( app ) {
 	this.inputElementEventBinder( app );
 	this.changeElementEventBinder( app );
 };
@@ -285,7 +285,7 @@ PostScraper.prototype.bindElementEvents = function( app ) {
 /**
  * Binds the reanalyze timer on change of dom element.
  */
-PostScraper.prototype.changeElementEventBinder = function( app ) {
+PostDataCollector.prototype.changeElementEventBinder = function( app ) {
 	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
 	for( var i = 0; i < elems.length; i++ ) {
 		$( elems[ i ] ).on( "change", app.refresh.bind( app ) );
@@ -295,7 +295,7 @@ PostScraper.prototype.changeElementEventBinder = function( app ) {
 /**
  * Binds the renewData function on the change of input elements.
  */
-PostScraper.prototype.inputElementEventBinder = function( app ) {
+PostDataCollector.prototype.inputElementEventBinder = function( app ) {
 	var elems = [ "excerpt", "content", "yoast_wpseo_focuskw_text_input", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
@@ -312,7 +312,7 @@ PostScraper.prototype.inputElementEventBinder = function( app ) {
 /**
  * Resets the current queue if focus keyword is changed and not empty.
  */
-PostScraper.prototype.resetQueue = function() {
+PostDataCollector.prototype.resetQueue = function() {
 	if ( this.app.rawData.keyword !== "" ) {
 		this.app.runAnalyzer( this.rawData );
 	}
@@ -324,7 +324,7 @@ PostScraper.prototype.resetQueue = function() {
  *
  * @param {string} score
  */
-PostScraper.prototype.saveScores = function( score ) {
+PostDataCollector.prototype.saveScores = function( score ) {
 	var indicator = getIndicatorForScore( score );
 
 	// If multi keyword isn't available we need to update the first tab (content).
@@ -361,7 +361,7 @@ PostScraper.prototype.saveScores = function( score ) {
  *
  * @param {number} score
  */
-PostScraper.prototype.saveContentScore = function( score ) {
+PostDataCollector.prototype.saveContentScore = function( score ) {
 	this._tabManager.updateContentTab( score );
 	var indicator = getIndicatorForScore( score );
 	publishBox.updateScore( "content", indicator.className );
@@ -377,7 +377,7 @@ PostScraper.prototype.saveContentScore = function( score ) {
 /**
  * Initializes keyword tab with the correct template if multi keyword isn't available.
  */
-PostScraper.prototype.initKeywordTabTemplate = function() {
+PostDataCollector.prototype.initKeywordTabTemplate = function() {
 	// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 	if ( YoastSEO.multiKeyword ) {
 		return;
@@ -387,4 +387,4 @@ PostScraper.prototype.initKeywordTabTemplate = function() {
 	$( "#yoast_wpseo_focuskw_text_input" ).val( keyword );
 };
 
-export default PostScraper;
+export default PostDataCollector;
