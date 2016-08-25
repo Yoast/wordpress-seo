@@ -93,7 +93,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 		$fields_before = $this->class_instance->get();
 
 		$this->assertEquals(
-			'Use ' . $this->term->taxonomy . ' default (Currently: noindex)',
+			'Default for this taxonomy type, currently: noindex',
 			$fields_before['noindex']['options']['options']['default']
 		);
 
@@ -102,7 +102,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 		$fields_after = $this->class_instance->get();
 		$this->assertEquals(
-			'Use ' . $this->term->taxonomy . ' default (Currently: index)',
+			'Default for this taxonomy type, currently: index',
 			$fields_after['noindex']['options']['options']['default']
 		);
 	}

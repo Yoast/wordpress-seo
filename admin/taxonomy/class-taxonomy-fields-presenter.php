@@ -44,8 +44,14 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	private function form_row( $field_name, array $field_options ) {
 		$esc_field_name = esc_attr( $field_name );
 
+		$options = (array) $field_options['options'];
+
+		if ( ! empty( $field_options['description'] ) ) {
+			$options['description'] = $field_options['description'];
+		}
+
 		$label            = $this->get_label( $field_options['label'], $esc_field_name );
-		$field            = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ) , (array) $field_options['options'] );
+		$field            = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ), $options );
 		$help_button_text = isset( $field_options['options']['help-button'] ) ? $field_options['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $field_options['description'] );
 
@@ -86,7 +92,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				break;
 			case 'upload' :
 				$field .= '<input id="' . $field_name . '" type="text" size="36" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '" />';
-				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="' . __( 'Upload Image', 'wordpress-seo' ) . '" />';
+				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
 				break;
 			case 'select' :
 				if ( is_array( $options ) && $options !== array() ) {
