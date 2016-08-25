@@ -186,6 +186,6 @@ class Yoast_Dashboard_Widget {
 	private function show_widget() {
 		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 
-		return $analysis_seo->is_enabled();
+		return $analysis_seo->is_enabled() && current_user_can( 'edit_posts' );
 	}
 }

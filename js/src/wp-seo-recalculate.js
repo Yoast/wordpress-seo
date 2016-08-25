@@ -2,21 +2,22 @@
 /* global ajaxurl */
 /* global require */
 
-var Jed = require( 'jed' );
-var Paper = require( 'yoastseo/js/values/Paper' );
-var SEOAssessor = require( 'yoastseo/js/SEOAssessor' );
-var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
+var Jed = require( "jed" );
+var Paper = require( "yoastseo/js/values/Paper" );
+var SEOAssessor = require( "yoastseo/js/SEOAssessor" );
+var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
+var isUndefined = require( "lodash/isUndefined" );
 
-( function($) {
-	'use strict';
+( function( $ ) {
+	"use strict";
 
 	var i18n = new Jed( {
-		domain: 'js-text-analysis',
+		domain: "js-text-analysis",
 		locale_data: {
-			'js-text-analysis': {
-				'': {}
-			}
-		}
+			"js-text-analysis": {
+				"": {},
+			},
+		},
 	} );
 
 	/**
@@ -31,9 +32,9 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 
 		this.setupAssessors();
 
-		$( '#wpseo_count_total' ).html( total_count );
+		$( "#wpseo_count_total" ).html( total_count );
 
-		jQuery( '#wpseo_progressbar' ).progressbar( { value: 0 } );
+		jQuery( "#wpseo_progressbar" ).progressbar( { value: 0 } );
 	};
 
 	/**
@@ -45,7 +46,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 
 		this.validAssessors = {
 			post: postAssessor,
-			term: taxonomyAssessor
+			term: taxonomyAssessor,
 		};
 	};
 
@@ -59,7 +60,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	 */
 	YoastRecalculateScore.prototype.start = function( items_to_fetch, fetch_type, id_field, callback ) {
 		if ( ! this.validAssessors.hasOwnProperty( fetch_type ) ) {
-			throw new Error( 'Unknown fetch type of ' + fetch_type + ' given.' );
+			throw new Error( "Unknown fetch type of " + fetch_type + " given." );
 		}
 
 		this.fetch_type     = fetch_type;
@@ -78,11 +79,11 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	 * @param {int} total_posts
 	 */
 	YoastRecalculateScore.prototype.updateProgressBar = function( total_posts ) {
-		var current_value = jQuery( '#wpseo_count' ).text();
+		var current_value = jQuery( "#wpseo_count" ).text();
 		var new_value = parseInt( current_value, 10 ) + total_posts;
-		var new_width = new_value * (100 / this.total_count);
+		var new_width = new_value * ( 100 / this.total_count );
 
-		jQuery( '#wpseo_progressbar' ).progressbar( 'value', new_width );
+		jQuery( "#wpseo_progressbar" ).progressbar( "value", new_width );
 
 		this.updateCountElement( new_value );
 	};
@@ -93,7 +94,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	 * @param {int} new_value
 	 */
 	YoastRecalculateScore.prototype.updateCountElement = function( new_value ) {
-		jQuery( '#wpseo_count' ).html( new_value );
+		jQuery( "#wpseo_count" ).html( new_value );
 	};
 
 	/**
@@ -105,7 +106,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	YoastRecalculateScore.prototype.calculateScores = function( total_items, items ) {
 		var scores = [];
 		for ( var i = 0; i < total_items; i++ ) {
-			scores.push( this.getScore( items[i] ) );
+			scores.push( this.getScore( items[ i ] ) );
 		}
 
 		return scores;
@@ -120,8 +121,8 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	YoastRecalculateScore.prototype.getScore = function( item ) {
 		return {
 			item_id: this.getItemID( item ),
-			taxonomy: (item.taxonomy) ? item.taxonomy : '',
-			score: this.calculateItemScore( item )
+			taxonomy: ( item.taxonomy ) ? item.taxonomy : "",
+			score: this.calculateItemScore( item ),
 		};
 	};
 
@@ -134,7 +135,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	YoastRecalculateScore.prototype.getItemID = function( item ) {
 		this.items_to_fetch--;
 
-		return item[this.id_field];
+		return item[ this.id_field ];
 	};
 
 	/**
@@ -148,7 +149,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 			url: item.url,
 			locale: wpseoAdminL10n.locale,
 			description: item.meta,
-			title: item.pageTitle
+			title: item.pageTitle,
 		} );
 
 		var tempAssessor = this.assessor;
@@ -164,16 +165,16 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	 * @param {Object} response
 	 */
 	YoastRecalculateScore.prototype.parseResponse = function( response ) {
-		if ( response !== '' && response !== null ) {
-			if ( response.total_items !== undefined ) {
+		if ( response !== "" && response !== null ) {
+			if ( ! isUndefined( response.total_items ) ) {
 				var scores = this.calculateScores( response.total_items, response.items );
 
-				this.sendScores(scores);
+				this.sendScores( scores );
 
 				this.updateProgressBar( response.total_items );
 			}
 
-			if ( response.next_page !== undefined ) {
+			if ( ! isUndefined( response.next_page ) ) {
 				this.getItemsToRecalculate( response.next_page );
 			}
 			else {
@@ -202,14 +203,14 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	 *
 	 * @param {array} scores
 	 */
-	YoastRecalculateScore.prototype.sendScores = function(scores) {
+	YoastRecalculateScore.prototype.sendScores = function( scores ) {
 		jQuery.post(
 			ajaxurl,
 			{
-				action: 'wpseo_update_score',
-				nonce: jQuery( '#wpseo_recalculate_nonce' ).val(),
+				action: "wpseo_update_score",
+				nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
 				scores: scores,
-				type: this.fetch_type
+				type: this.fetch_type,
 			}
 		);
 	};
@@ -223,13 +224,13 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 		jQuery.post(
 			ajaxurl,
 			{
-				action: 'wpseo_recalculate_scores',
-				nonce: jQuery( '#wpseo_recalculate_nonce' ).val(),
+				action: "wpseo_recalculate_scores",
+				nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
 				paged: current_page,
-				type: this.fetch_type
+				type: this.fetch_type,
 			},
-			this.parseResponse.bind(this),
-			'json'
+			this.parseResponse.bind( this ),
+			"json"
 		);
 	};
 
@@ -244,38 +245,40 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 
 		var RecalculateScore = new YoastRecalculateScore( PostsToFetch + TermsToFetch );
 
-		RecalculateScore.start(PostsToFetch, 'post', 'post_id', function() {
-			RecalculateScore.start(TermsToFetch, 'term', 'term_id', false );
-		});
+		RecalculateScore.start( PostsToFetch, "post", "post_id", function() {
+			RecalculateScore.start( TermsToFetch, "term", "term_id", false );
+		} );
 	}
 
-	// Initialize the recalculate.
+	/**
+	 * Initializes the event handler for the recalculate button.
+	 */
 	function init() {
-		var recalculate_link = jQuery('#wpseo_recalculate_link');
+		var recalculate_link = jQuery( "#wpseo_recalculate_link" );
 
-		if (recalculate_link !== undefined) {
+		if ( ! isUndefined( recalculate_link ) ) {
 			recalculate_link.click(
 				function() {
 					// Reset the count element and the progressbar
-					jQuery( '#wpseo_count' ).text( 0 );
+					jQuery( "#wpseo_count" ).text( 0 );
 
 					$.post(
 						ajaxurl,
 						{
-							action: 'wpseo_recalculate_total',
-							nonce: jQuery( '#wpseo_recalculate_nonce' ).val()
+							action: "wpseo_recalculate_total",
+							nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
 						},
 						start_recalculate,
-						'json'
+						"json"
 					);
 				}
 			);
 
-			if (recalculate_link.data('open')) {
-				recalculate_link.trigger('click');
+			if ( recalculate_link.data( "open" ) ) {
+				recalculate_link.trigger( "click" );
 			}
 		}
 	}
 
-	$(init);
-}(jQuery));
+	$( init );
+}( jQuery ) );

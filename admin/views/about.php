@@ -55,6 +55,8 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="new" class="wpseotab">
 
+		<h2 class="screen-reader-text"><?php esc_html_e( 'Main new features', 'wordpress-seo' ); ?></h2>
+
 		<div class="feature-section two-col">
 			<div class="col">
 				<h3>Disable SEO &amp; Content analysis</h3>
@@ -159,6 +161,7 @@ function wpseo_display_contributors( $contributors ) {
 	</div>
 
 	<div id="credits" class="wpseotab">
+		<h2 class="screen-reader-text"><?php esc_html_e( 'Team and contributors', 'wordpress-seo' ); ?></h2>
 		<p class="about-description">
 			<?php
 			/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
@@ -191,128 +194,129 @@ function wpseo_display_contributors( $contributors ) {
 
 			wpseo_display_contributors( $people );
 			?>
-			<h3 class="wp-people-group"><?php _e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
-			<ul class="wp-people-group " id="wp-people-group-project-leaders">
-				<?php
-				$people = array(
-					'omarreiss' => (object) array(
-						'name'     => 'Omar Reiss',
-						'role'     => __( 'CTO', 'wordpress-seo' ),
-						'gravatar' => '86aaa606a1904e7e0cf9857a663c376e',
-					),
-					'atimmer'   => (object) array(
-						'name'     => 'Anton Timmermans',
-						'role'     => __( 'Architect', 'wordpress-seo' ),
-						'gravatar' => 'b3acbabfdd208ecbf950d864b86fe968',
-					),
-					'moorscode' => (object) array(
-						'name'     => 'Jip Moors',
-						'role'     => __( 'Architect', 'wordpress-seo' ),
-						'gravatar' => '1751c5afc377ef4ec07a50791db1bc52',
-					),
-				);
-
-				wpseo_display_contributors( $people );
-				?>
-			</ul>
-			<h3 class="wp-people-group"><?php _e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
-			<ul class="wp-people-group " id="wp-people-group-core-developers">
-				<?php
-				$people = array(
-					'andrea'        => (object) array(
-						'name'     => 'Andrea Fercia',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => '074af62ea5ff218b6a6eeab89104f616',
-					),
-					'rarst'         => (object) array(
-						'name'     => 'Andrey Savchenko',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => 'c445c2491f9f55409b2e4dccee357961',
-					),
-					'andizer'       => (object) array(
-						'name'     => 'Andy Meerwaldt',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
-					),
-					'boblinthorst'  => (object) array(
-						'name'     => 'Bob Linthorst',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
-					),
-					'CarolineGeven' => (object) array(
-						'name'     => 'Caroline Geven',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => 'f2596a568c3974e35f051266a63d791f',
-					),
-					'terw-dan'      => (object) array(
-						'name'     => 'Danny Terwindt',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => '20a04b0736e630e80ce2dbefe3f1d62f',
-					),
-					'diedexx'       => (object) array(
-						'name'     => 'Diede Exterkate',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => '59908788f406037240ee011388db29f8',
-					),
-					'irenestr'      => (object) array(
-						'name'     => 'Irene Strikkers',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
-					),
-					'jcomack'       => (object) array(
-						'name'     => 'Jimmy Comack',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
-					),
-					'rensw90'       => (object) array(
-						'name'     => 'Rens Weerman',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => 'b0a3b8fed2b5ac66a082f0e915d4ea6f',
-					),
-				);
-
-				wpseo_display_contributors( $people );
-				?>
-			</ul>
-			<h3 class="wp-people-group"><?php _e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
-			<ul class="wp-people-group " id="wp-people-group-project-leaders">
-				<?php
-				$people = array(
-					'tacoverdo'    => (object) array(
-						'name'     => 'Taco Verdonschot',
-						'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
-						'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
-					),
-					'monbauza'     => (object) array(
-						'name'     => 'Ramon Bauza',
-						'role'     => __( 'Tester', 'wordpress-seo' ),
-						'gravatar' => 'de09b8491ab1d927e770f7519219cfc9',
-					),
-					'boblinthorst' => (object) array(
-						'name'     => 'Bob Linthorst',
-						'role'     => __( 'Tester', 'wordpress-seo' ),
-						'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
-					),
-				);
-
-				wpseo_display_contributors( $people );
-				?>
-			</ul>
-			<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
+		</ul>
+		<h3 class="wp-people-group"><?php _e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
+		<ul class="wp-people-group " id="wp-people-group-development-leaders">
 			<?php
-			$patches_from = array(
-				'Daniel Bachhuber' => 'https://github.com/tfrommen',
-				'Robert Korulczyk' => 'https://github.com/rob006',
-				'pawawat'          => 'https://github.com/pawawat',
+			$people = array(
+				'omarreiss' => (object) array(
+					'name'     => 'Omar Reiss',
+					'role'     => __( 'CTO', 'wordpress-seo' ),
+					'gravatar' => '86aaa606a1904e7e0cf9857a663c376e',
+				),
+				'atimmer'   => (object) array(
+					'name'     => 'Anton Timmermans',
+					'role'     => __( 'Architect', 'wordpress-seo' ),
+					'gravatar' => 'b3acbabfdd208ecbf950d864b86fe968',
+				),
+				'moorscode' => (object) array(
+					'name'     => 'Jip Moors',
+					'role'     => __( 'Architect', 'wordpress-seo' ),
+					'gravatar' => '1751c5afc377ef4ec07a50791db1bc52',
+				),
 			);
+
+			wpseo_display_contributors( $people );
 			?>
-			<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?></p>
-			<ul class="ul-square">
-				<?php
-				foreach ( $patches_from as $patcher => $link ) {
-					echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
-				}
-				?>
-			</ul>
+		</ul>
+		<h3 class="wp-people-group"><?php _e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
+		<ul class="wp-people-group " id="wp-people-group-core-developers">
+			<?php
+			$people = array(
+				'andrea'        => (object) array(
+					'name'     => 'Andrea Fercia',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '074af62ea5ff218b6a6eeab89104f616',
+				),
+				'rarst'         => (object) array(
+					'name'     => 'Andrey Savchenko',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'c445c2491f9f55409b2e4dccee357961',
+				),
+				'andizer'       => (object) array(
+					'name'     => 'Andy Meerwaldt',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
+				),
+				'boblinthorst'  => (object) array(
+					'name'     => 'Bob Linthorst',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
+				),
+				'CarolineGeven' => (object) array(
+					'name'     => 'Caroline Geven',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
+				),
+				'terw-dan'      => (object) array(
+					'name'     => 'Danny Terwindt',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '20a04b0736e630e80ce2dbefe3f1d62f',
+				),
+				'diedexx'       => (object) array(
+					'name'     => 'Diede Exterkate',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '59908788f406037240ee011388db29f8',
+				),
+				'irenestr2'      => (object) array(
+					'name'     => 'Irene Strikkers',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '074d67179d52561e36e57e8e9ea8f8cf',
+				),
+				'jcomack'       => (object) array(
+					'name'     => 'Jimmy Comack',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
+				),
+				'rensw90'       => (object) array(
+					'name'     => 'Rens Weerman',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'b0a3b8fed2b5ac66a082f0e915d4ea6f',
+				),
+			);
+
+			wpseo_display_contributors( $people );
+			?>
+		</ul>
+		<h3 class="wp-people-group"><?php _e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
+		<ul class="wp-people-group " id="wp-people-group-qa-testing">
+			<?php
+			$people = array(
+				'tacoverdo'    => (object) array(
+					'name'     => 'Taco Verdonschot',
+					'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
+					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
+				),
+				'monbauza'     => (object) array(
+					'name'     => 'Ramon Bauza',
+					'role'     => __( 'Tester', 'wordpress-seo' ),
+					'gravatar' => 'de09b8491ab1d927e770f7519219cfc9',
+				),
+				'boblinthorst2' => (object) array(
+					'name'     => 'Bob Linthorst',
+					'role'     => __( 'Tester', 'wordpress-seo' ),
+					'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
+				),
+			);
+
+			wpseo_display_contributors( $people );
+			?>
+		</ul>
+		<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
+		<?php
+		$patches_from = array(
+			'Daniel Bachhuber' => 'https://github.com/tfrommen',
+			'Robert Korulczyk' => 'https://github.com/rob006',
+			'pawawat'          => 'https://github.com/pawawat',
+		);
+		?>
+		<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?></p>
+		<ul class="ul-square">
+			<?php
+			foreach ( $patches_from as $patcher => $link ) {
+				echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
+			}
+			?>
+		</ul>
 	</div>
 </div>

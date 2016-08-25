@@ -2,12 +2,12 @@
 
 "use strict";
 
-var getL10nObject = require( './getL10nObject' );
-var getI18n = require( './getI18n' );
-var getTitlePlaceholder = require( './getTitlePlaceholder' );
-var getDescriptionPlaceholder = require( './getDescriptionPlaceholder' );
+var getL10nObject = require( "./getL10nObject" );
+var getI18n = require( "./getI18n" );
+var getTitlePlaceholder = require( "./getTitlePlaceholder" );
+var getDescriptionPlaceholder = require( "./getDescriptionPlaceholder" );
 
-var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+var SnippetPreview = require( "yoastseo" ).SnippetPreview;
 
 /**
  * Removes all analysis objects from the DOM except the snippet preview
@@ -18,11 +18,11 @@ function isolate( snippetContainer ) {
 	snippetContainer = jQuery( snippetContainer );
 
 	// Remove all other table rows except the snippet preview one.
-	var tr = snippetContainer.closest( 'tr' );
+	var tr = snippetContainer.closest( "tr" );
 	tr.siblings().hide();
 
 	// Remove the tab navigation.
-	jQuery( '#wpseo-metabox-tabs' ).hide();
+	jQuery( "#wpseo-metabox-tabs" ).hide();
 }
 
 /**
@@ -51,21 +51,21 @@ function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
 		targetElement: snippetContainer,
 		placeholder: {
 			title: titlePlaceholder,
-			urlPath: ''
+			urlPath: "",
 		},
 		defaultValue: {
-			title: titlePlaceholder
+			title: titlePlaceholder,
 		},
 		baseURL: l10nObject.base_url,
 		callbacks: {
-			saveSnippetData: saveCallback
+			saveSnippetData: saveCallback,
 		},
 		metaDescriptionDate: l10nObject.metaDescriptionDate,
-		data: data
+		data: data,
 
 	};
 
-	if ( descriptionPlaceholder !== '' ) {
+	if ( descriptionPlaceholder !== "" ) {
 		snippetPreviewArgs.placeholder.metaDesc = descriptionPlaceholder;
 		snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
 	}
@@ -124,5 +124,5 @@ function createStandalone( snippetContainer, data, saveCallback ) {
 module.exports = {
 	isolate: isolate,
 	create: create,
-	createStandalone: createStandalone
+	createStandalone: createStandalone,
 };

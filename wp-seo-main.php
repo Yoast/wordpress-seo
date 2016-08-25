@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.4' );
+define( 'WPSEO_VERSION', '3.4.1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -21,6 +21,16 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
+}
+
+if ( is_network_admin() ) {
+
+	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+	// Not active on network, but getting loaded by main site.
+	if ( ! is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
+		return;
+	}
 }
 
 /* ***************************** CLASS AUTOLOADING *************************** */

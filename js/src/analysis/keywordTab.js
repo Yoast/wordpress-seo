@@ -1,28 +1,30 @@
-/* global wp, jQuery */
-var isUndefined = require( 'lodash/isUndefined' );
-var defaultsDeep = require( 'lodash/defaultsDeep' );
+/* global wp, jQuery, YoastSEO */
+var isUndefined = require( "lodash/isUndefined" );
+var defaultsDeep = require( "lodash/defaultsDeep" );
 
-var GenericTab = require( './genericTab' );
+var GenericTab = require( "./genericTab" );
 
 var defaultArguments = {
-	keyword: '',
-	placeholder: '',
+	keyword: "",
+	placeholder: "",
 
 	active: false,
 	hideable: false,
-	prefix: '',
+	prefix: "",
 
-	classes: [ 'wpseo_tab', 'wpseo_keyword_tab' ],
+	classes: [ "wpseo_tab", "wpseo_keyword_tab" ],
 
-	onActivate: function ( ) { },
-	afterActivate: function ( ) { }
+	onActivate: function() { },
+	afterActivate: function() { },
 };
 
-module.exports = (function() {
-	'use strict';
+module.exports = ( function() {
+	"use strict";
 
+	/* eslint-disable no-use-before-define */
 	// Extending all the things.
 	KeywordTab.prototype = Object.create( GenericTab.prototype );
+	/* eslint-enable no-use-before-define */
 
 	/**
 	 * Constructor for a keyword tab object
@@ -54,9 +56,9 @@ module.exports = (function() {
 			this.keyword = keyword;
 		}
 
-		if ( keyword === '' ) {
-			this.score = 'na';
-			this.scoreText = YoastSEO.app.i18n.dgettext( 'js-text-analysis', 'Enter a focus keyword to calculate the SEO score' );
+		if ( keyword === "" ) {
+			this.score = "na";
+			this.scoreText = YoastSEO.app.i18n.dgettext( "js-text-analysis", "Enter a focus keyword to calculate the SEO score" );
 			this.refresh();
 
 			return;
@@ -71,7 +73,7 @@ module.exports = (function() {
 	};
 
 	KeywordTab.prototype.hasKeyword = function() {
-		return this.keyword !== '';
+		return this.keyword !== "";
 	};
 
 	KeywordTab.prototype.getKeyWord = function() {
@@ -79,12 +81,12 @@ module.exports = (function() {
 	};
 
 	KeywordTab.prototype.hasFallback = function() {
-		return this.fallback !== '';
+		return this.fallback !== "";
 	};
 
 	KeywordTab.prototype.determinePrefix = function() {
 		if ( ! this.hasKeyword() && this.hasFallback() ) {
-			return '';
+			return "";
 		}
 
 		return this.prefix;
@@ -95,7 +97,7 @@ module.exports = (function() {
 			return this.fallback;
 		}
 
-		return this.hasKeyword() ? this.getKeyWord() : '...';
+		return this.hasKeyword() ? this.getKeyWord() : "...";
 	};
 
 	/**
@@ -104,7 +106,7 @@ module.exports = (function() {
 	 * @returns {HTMLElement} jQuery HTML object.
 	 */
 	KeywordTab.prototype.render = function() {
-		var html = wp.template( 'keyword_tab' )({
+		var html = wp.template( "keyword_tab" )( {
 			label: this.determineLabel(),
 			keyword: this.getKeyWord(),
 
@@ -116,8 +118,8 @@ module.exports = (function() {
 			score: this.score,
 			scoreText: this.scoreText,
 
-			classes: this.addAdditionalClasses()
-		});
+			classes: this.addAdditionalClasses(),
+		} );
 
 		return jQuery( html );
 	};
@@ -126,8 +128,8 @@ module.exports = (function() {
 	 * Returns the keyword for this keyword tab
 	 */
 	KeywordTab.prototype.getKeywordFromElement = function() {
-		return this.element.find( '.wpseo_tablink' ).data( 'keyword' );
+		return this.element.find( ".wpseo_tablink" ).data( "keyword" );
 	};
 
 	return KeywordTab;
-})();
+}() );

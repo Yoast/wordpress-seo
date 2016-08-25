@@ -45,7 +45,7 @@ switch ( $platform_tabs->current_tab() ) {
 
 			echo '<p id="gsc-enter-code-label">' . __( 'Enter your Google Authorization Code and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
 			echo "<form action='" . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . "' method='post'>\n";
-			echo "<input type='text' name='gsc[authorization_code]' value='' class='regular-text' aria-labelledby='gsc-enter-code-label' />";
+			echo "<input type='text' name='gsc[authorization_code]' value='' class='textinput' aria-labelledby='gsc-enter-code-label' />";
 			echo "<input type='hidden' name='gsc[gsc_nonce]' value='" . wp_create_nonce( 'wpseo-gsc_nonce' ) . "' />";
 			echo "<input type='submit' name='gsc[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button button-primary' />";
 			echo "</form>\n";
@@ -94,6 +94,13 @@ switch ( $platform_tabs->current_tab() ) {
 
 	default :
 		$form_action_url = add_query_arg( 'page', esc_attr( filter_input( INPUT_GET, 'page' ) ) );
+
+		get_current_screen()->set_screen_reader_content( array(
+			// There are no views links in this screen, so no need for the views heading.
+			'heading_views'      => null,
+			'heading_pagination' => __( 'Crawl issues list navigation' ),
+			'heading_list'       => __( 'Crawl issues list' ),
+		) );
 
 		// Open <form>.
 		echo "<form id='wpseo-crawl-issues-table-form' action='" . $form_action_url . "' method='post'>\n";
