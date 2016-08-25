@@ -1,7 +1,7 @@
 import React from "react";
 
-import SearchResultPreview from '../SearchResultPreview/SearchResultPreview';
-import SearchResultForm from '../SearchResultForm/SearchResultForm';
+import SearchResultPreview from "../SearchResultPreview/SearchResultPreview";
+import SearchResultForm from "../SearchResultForm/SearchResultForm";
 
 /**
  * Represents a SearchResultEditor, allowing for a search result (as shown by Google), to be previewed and altered, if necessary.
@@ -15,17 +15,17 @@ class SearchResultEditor extends React.Component {
 	 * @param {Object} props The properties to use within the editor.
 	 * @constructor
 	 */
-	constructor(props) {
-		super(props);
+	constructor( props ) {
+		super( props );
 
 		this.classNames = {
 			form: {
-				default: "yoast-search-result-form__container",
+				"default": "yoast-search-result-form__container",
 				hovered: "yoast-search-result-form__container--hover",
 				focused: "yoast-search-result-form__container--focus",
 			},
 			preview: {
-				default: "yoast-search-result-preview__field",
+				"default": "yoast-search-result-preview__field",
 				hovered: "yoast-search-result-preview__field--hover",
 				focused: "yoast-search-result-preview__field--focus",
 			},
@@ -49,19 +49,19 @@ class SearchResultEditor extends React.Component {
 
 		this.eventHandlers = {
 			form: {
-				onTitleChange: this.onInputChangeHandler.bind(this, 'formTitle'),
-				onSlugChange: this.onInputChangeHandler.bind(this, 'formSlug'),
-				onDescriptionChange: this.onInputChangeHandler.bind(this, 'formDescription'),
-				onCloseButtonClick: this.onEditButtonClick.bind(this),
+				onTitleChange: this.onInputChangeHandler.bind( this, "formTitle" ),
+				onSlugChange: this.onInputChangeHandler.bind( this, "formSlug" ),
+				onDescriptionChange: this.onInputChangeHandler.bind( this, "formDescription" ),
+				onCloseButtonClick: this.onEditButtonClick.bind( this ),
 
-				eventHandler: this.handleEvents.bind(this),
+				eventHandler: this.handleEvents.bind( this ),
 			},
 			preview: {
-				onEditButtonClick: this.onEditButtonClick.bind(this),
+				onEditButtonClick: this.onEditButtonClick.bind( this ),
 
-				eventHandler: this.handleEvents.bind(this),
+				eventHandler: this.handleEvents.bind( this ),
 			},
-		}
+		};
 	}
 
 	/**
@@ -102,7 +102,7 @@ class SearchResultEditor extends React.Component {
 	 * @returns {void}
 	 */
 	onEditButtonClick() {
-		this.setState( { displayForm: !this.state.displayForm, } );
+		this.setState( { displayForm: ! this.state.displayForm } );
 	}
 
 	/**
@@ -113,11 +113,11 @@ class SearchResultEditor extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	onInputChangeHandler(stateProperty, event) {
+	onInputChangeHandler( stateProperty, event ) {
 		let newValue = event.target.value;
 		let state = {};
 
-		state[stateProperty] = newValue;
+		state[ stateProperty ] = newValue;
 
 		this.setState( state );
 	}
@@ -193,6 +193,7 @@ class SearchResultEditor extends React.Component {
 	 * Rates the title length based on its length in pixels on screen.
 	 *
 	 * @param {number} length The width of the title, in pixels.
+	 * @returns {void}
 	 */
 	rateTitleLength( length ) {
 		let rating = "bad";
@@ -205,13 +206,14 @@ class SearchResultEditor extends React.Component {
 			rating = "good";
 		}
 
-		this.setState( { titleLengthRating: rating, titleLengthInPixels: length } )
+		this.setState( { titleLengthRating: rating, titleLengthInPixels: length } );
 	}
 
 	/**
 	 * Rates the description length based the amount of characters.
 	 *
 	 * @param {number} length The length of the description, in characters.
+	 * @returns {void}
 	 */
 	rateDescriptionLength( length ) {
 		let rating = "bad";
@@ -224,7 +226,7 @@ class SearchResultEditor extends React.Component {
 			rating = "good";
 		}
 
-		this.setState( { descriptionLengthRating: rating, descriptionLength: length } )
+		this.setState( { descriptionLengthRating: rating, descriptionLength: length } );
 	}
 
 	/**
@@ -233,9 +235,10 @@ class SearchResultEditor extends React.Component {
 	 * @param {string} previewField The preview field that is possibly effected by the event.
 	 * @param {string} formField The form field that is possibly effected by the event.
 	 * @param {Proxy} event The event that's being triggered.
+ 	 * @returns {void}
 	 */
-	handleEvents(previewField, formField, event) {
-		switch(event.type) {
+	handleEvents( previewField, formField, event ) {
+		switch( event.type ) {
 			case "click":
 			case "focus":
 				this.setState( {
@@ -267,7 +270,7 @@ class SearchResultEditor extends React.Component {
 	 * @returns {void}
 	 */
 	resetFocusedField() {
-		this.setState({focusedFormField: "", focusedPreviewField: ""});
+		this.setState( { focusedFormField: "", focusedPreviewField: "" } );
 	}
 
 	/**
@@ -277,7 +280,7 @@ class SearchResultEditor extends React.Component {
 	 */
 	render() {
 		return (
-			<div className="yoast-search-result-editor" onBlur={this.resetFocusedField.bind(this)}>
+			<div className="yoast-search-result-editor" onBlur={this.resetFocusedField.bind( this )}>
 				{this.getSearchPreviewForm()}
 				{this.getSearchResultForm()}
 			</div>
@@ -300,7 +303,7 @@ SearchResultEditor.propTypes = {
  * @type {{baseUrl: string}}
  */
 SearchResultEditor.defaultProps = {
-	baseUrl: "example.com/"
+	baseUrl: "example.com/",
 };
 
 export default SearchResultEditor;

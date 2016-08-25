@@ -1,5 +1,5 @@
 import React from "react";
-import {localize} from "i18n-calypso";
+import { localize } from "i18n-calypso";
 
 import Section from "../../forms/Section";
 import Button from "../../forms/Button";
@@ -16,22 +16,33 @@ class SearchResultPreview extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
+
+		this.classNames = {
+			section: "yoast-search-result-preview",
+			sectionHeading: "yoast-search-result-preview__heading yoast-icon__eye",
+			screenReaderText: "screen-reader-text",
+			title: "yoast-search-result-preview__title",
+			description: "yoast-search-result-preview__description",
+			url: "yoast-search-result-preview__url",
+			edit: "yoast-button__edit",
+			date: "yoast-search-result-preview__date",
+		};
 	}
 
 	/**
 	 * Retrieves the various translations to be used within the component.
-	 * 
+	 *
 	 * @returns {Object} An object containing the various translations.
 	 */
 	getTranslations() {
 		return {
-			previewTitle:       this.props.translate( "Search Result Preview" ),
+			previewTitle: this.props.translate( "Search Result Preview" ),
 			previewDescription: this.props.translate( "You can click on each element in the preview to jump to the Snippet Editor." ),
-			titleLabel:         this.props.translate( "SEO title preview: " ),
-			title:              this.props.title || this.props.translate( "This is an example title - edit by clicking here" ),
-			urlLabel:           this.props.translate( "URL preview: " ),
-			descriptionLabel:   this.props.translate( "Meta description preview: " ),
-			description:        this.props.description || this.props.translate( "Please provide a meta description by editing the snippet below." ),
+			titleLabel: this.props.translate( "SEO title preview: " ),
+			title: this.props.title || this.props.translate( "This is an example title - edit by clicking here" ),
+			urlLabel: this.props.translate( "URL preview: " ),
+			descriptionLabel: this.props.translate( "Meta description preview: " ),
+			description: this.props.description || this.props.translate( "Please provide a meta description by editing the snippet below." ),
 		};
 	}
 
@@ -45,7 +56,7 @@ class SearchResultPreview extends React.Component {
 			return "";
 		}
 
-		return ( <span className="yoast-search-result-preview__date">{ this.props.date } - </span> );
+		return ( <span className={this.classNames.date}>{ this.props.date } - </span> );
 	}
 
 	/**
@@ -59,7 +70,7 @@ class SearchResultPreview extends React.Component {
 		}
 
 		return ( <Button text={ this.props.translate( "Edit snippet" ) }
-		                 className="yoast-button__edit"
+		                 className={this.classNames.edit}
 		                 onClick={ this.props.onEditButtonClick }
 		                 optionalAttributes={ { "aria-expanded": false } } /> );
 	}
@@ -70,7 +81,7 @@ class SearchResultPreview extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		this.props.measureTitle( this.getFieldWidthByReference("previewTitle") );
+		this.props.measureTitle( this.getFieldWidthByReference( "previewTitle" ) );
 		this.props.measureDescription( this.props.description.length );
 	}
 
@@ -78,14 +89,13 @@ class SearchResultPreview extends React.Component {
 	 * Determines whether or not the compenent was updated and if so, updates the input values.
 	 *
 	 * @param {Object} prevProps The previous value of the props, before being updated.
-	 * @param {Object} prevState The previous state of the component, before being updated.
 	 *
 	 * @returns {void}
 	 */
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate( prevProps ) {
 		if ( this.props.title !== prevProps.title ) {
 			// Recalculate width
-			this.props.measureTitle( this.getFieldWidthByReference("previewTitle") );
+			this.props.measureTitle( this.getFieldWidthByReference( "previewTitle" ) );
 		}
 
 		if ( this.props.description !== prevProps.description ) {
@@ -100,8 +110,8 @@ class SearchResultPreview extends React.Component {
 	 * @param {string} reference The reference to look up an element by.
 	 * @returns {number} The width of the referenced element or 0 if nothing was found.
 	 */
-	getFieldWidthByReference(reference) {
-		return this.refs[reference].getBoundingClientRect().width || 0;
+	getFieldWidthByReference( reference ) {
+		return this.refs[ reference ].getBoundingClientRect().width || 0;
 	}
 
 	/**
@@ -110,12 +120,12 @@ class SearchResultPreview extends React.Component {
 	 * @param {string} field The field to look up the class name for.
 	 * @returns {string} The class name of the field.
 	 */
-	setClassNameForField(field) {
-		if (this.props.focusedField === field) {
+	setClassNameForField( field ) {
+		if ( this.props.focusedField === field ) {
 			return this.props.classNames.focused;
 		}
 
-		if ( this.props.hoveredField === field) {
+		if ( this.props.hoveredField === field ) {
 			return this.props.classNames.hovered;
 		}
 
@@ -129,11 +139,11 @@ class SearchResultPreview extends React.Component {
 	 * @param {string} formField The form field that is possibly effected by the event.
 	 * @returns {Object} A list of the various event handlers.
 	 */
-	mouseEventHandlers(previewField, formField) {
+	mouseEventHandlers( previewField, formField ) {
 		let handlers = {
-			onMouseEnter: this.props.eventHandler.bind(this, previewField, formField),
-			onMouseLeave: this.props.eventHandler.bind(this, previewField, formField),
-			onClick: this.props.eventHandler.bind(this, previewField, formField),
+			onMouseEnter: this.props.eventHandler.bind( this, previewField, formField ),
+			onMouseLeave: this.props.eventHandler.bind( this, previewField, formField ),
+			onClick: this.props.eventHandler.bind( this, previewField, formField ),
 		};
 
 		return handlers;
@@ -148,26 +158,33 @@ class SearchResultPreview extends React.Component {
 		let translations = this.getTranslations();
 
 		return (
-			<Section level={3} headingText={translations.previewTitle} headingClassName="yoast-search-result-preview__heading yoast-icon__eye" className="yoast-search-result-preview">
-				<p className="screen-reader-text">{translations.previewDescription}</p>
+			<Section level={3}
+			         headingText={translations.previewTitle}
+			         headingClassName={this.classNames.sectionHeading}
+			         className={this.classNames.section}>
+				<p className={this.classNames.screenReaderText}>{translations.previewDescription}</p>
 
-				<div ref="previewTitleContainer" className={this.setClassNameForField("previewTitleContainer")} {...this.mouseEventHandlers("previewTitleContainer", "formTitle")}>
-					<span className="screen-reader-text">{translations.titleLabel}</span>
-                    <span ref="previewTitle"
-                          className="yoast-search-result-preview__title">{translations.title}</span>
+				<div ref="previewTitleContainer"
+				     className={this.setClassNameForField( "previewTitleContainer" )}
+				     {...this.mouseEventHandlers( "previewTitleContainer", "formTitle" )}>
+					<span className={this.classNames.screenReaderText}>{translations.titleLabel}</span>
+                    <span ref="previewTitle" className={this.classNames.title}>{translations.title}</span>
 				</div>
 
-				<div ref="previewUrlContainer" className={this.setClassNameForField("previewUrlContainer")} {...this.mouseEventHandlers("previewUrlContainer", "formSlug")}>
-					<span className="screen-reader-text">{translations.urlLabel}</span>
-					<span ref="previewUrl"
-					      className="yoast-search-result-preview__url">{this.props.url}</span>
+				<div ref="previewUrlContainer"
+	                 className={this.setClassNameForField( "previewUrlContainer" )}
+	                 {...this.mouseEventHandlers( "previewUrlContainer", "formSlug" )}>
+					<span className={this.classNames.screenReaderText}>{translations.urlLabel}</span>
+					<span ref="previewUrl" className={this.classNames.url}>{this.props.url}</span>
 				</div>
 
-				<div ref="previewDescriptionContainer" className={this.setClassNameForField("previewDescriptionContainer")}  {...this.mouseEventHandlers("previewDescriptionContainer", "formDescription")}>
-					<span className="screen-reader-text">{translations.descriptionLabel}</span>
+				<div ref="previewDescriptionContainer"
+	                 className={this.setClassNameForField( "previewDescriptionContainer" )}
+	                 {...this.mouseEventHandlers( "previewDescriptionContainer", "formDescription" )}>
+					<span className={this.classNames.screenReaderText}>{translations.descriptionLabel}</span>
 					{ this.renderDate() }
 					<span ref="previewDescription"
-					      className="yoast-search-result-preview__description">{translations.description.substr( 0, 156 )}</span>
+					      className={this.classNames.description}>{translations.description.substr( 0, 156 )}</span>
 				</div>
 
 				{ this.renderEditButton() }
@@ -189,6 +206,11 @@ SearchResultPreview.propTypes = {
 	onEditButtonClick: React.PropTypes.func,
 	classNames: React.PropTypes.object,
 	eventHandler: React.PropTypes.func,
+	translate: React.PropTypes.func.isRequired,
+	measureTitle: React.PropTypes.func,
+	measureDescription: React.PropTypes.func,
+	focusedField: React.PropTypes.string,
+	hoveredField: React.PropTypes.string,
 };
 
 /**

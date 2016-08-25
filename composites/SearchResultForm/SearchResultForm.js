@@ -1,5 +1,5 @@
 import React from "react";
-import {localize} from "i18n-calypso";
+import { localize } from "i18n-calypso";
 
 import Section from "../../forms/Section";
 import Button from "../../forms/Button";
@@ -32,18 +32,18 @@ class SearchResultForm extends React.Component {
 
 	/**
 	 * Retrieves translatable strings to be used throughout the component.
-	 * 
-	 * @returns {{formTitle: string, formDescription: string, titleLabel: string, title: string, urlLabel: string, descriptionLabel: string, description: string}}
+	 *
+	 * @returns {object} An object containing all the possible translations.
 	 */
 	getTranslations() {
 		return {
-			formTitle:          this.props.translate( "Search Result Form" ),
-			formDescription:    this.props.translate( "You can click on each element in the preview to jump to the Snippet Editor." ),
-			titleLabel:         this.props.translate( "SEO title preview: " ),
-			title:              this.props.title || this.props.translate( "This is an example title - edit by clicking here" ),
-			urlLabel:           this.props.translate( "Slug preview: " ),
-			descriptionLabel:   this.props.translate( "Meta description preview: " ),
-			description:        this.props.description || this.props.translate( "Please provide a meta description by editing it here." ),
+			formTitle: this.props.translate( "Search Result Form" ),
+			formDescription: this.props.translate( "You can click on each element in the preview to jump to the Snippet Editor." ),
+			titleLabel: this.props.translate( "SEO title preview: " ),
+			title: this.props.title || this.props.translate( "This is an example title - edit by clicking here" ),
+			urlLabel: this.props.translate( "Slug preview: " ),
+			descriptionLabel: this.props.translate( "Meta description preview: " ),
+			description: this.props.description || this.props.translate( "Please provide a meta description by editing it here." ),
 		};
 	}
 
@@ -55,7 +55,7 @@ class SearchResultForm extends React.Component {
 	prepareSlug() {
 		let baseUrl = "example.com/";
 
-		return this.props.slug.replace(baseUrl, "");
+		return this.props.slug.replace( baseUrl, "" );
 	}
 
 	/**
@@ -76,12 +76,12 @@ class SearchResultForm extends React.Component {
 	 * @param {string} field The field to look up the class name for.
 	 * @returns {string} The class name of the field.
 	 */
-	setClassNameForField(field) {
-		if (this.props.focusedField === field) {
+	setClassNameForField( field ) {
+		if ( this.props.focusedField === field ) {
 			return this.props.classNames.focused;
 		}
 
-		if ( this.props.hoveredField === field) {
+		if ( this.props.hoveredField === field ) {
 			return this.props.classNames.hovered;
 		}
 
@@ -94,7 +94,7 @@ class SearchResultForm extends React.Component {
 	 * @param {string} score The score to use for the class name (bad, ok or good).
 	 * @returns {string} The class name to be used by the progress bar.
 	 */
-	setClassNameForProgressBar(score) {
+	setClassNameForProgressBar( score ) {
 		return `${this.classNames.progress} ${this.classNames.progressState}${score}`;
 	}
 
@@ -120,7 +120,7 @@ class SearchResultForm extends React.Component {
 
 					hasFocus={this.props.focusedField === "formTitle"}
 
-					container-className={this.setClassNameForField("formTitle")}
+					container-className={this.setClassNameForField( "formTitle" )}
 					label-className={this.classNames.label}
 					field-onFocus={this.props.eventHandler.bind( this, "previewTitleContainer", "formTitle" )}
 					field-className={this.classNames.field}
@@ -131,7 +131,7 @@ class SearchResultForm extends React.Component {
 					min={0}
 					max={600}
 					optionalAttributes={ {
-						className: this.setClassNameForProgressBar(this.props.titleRating),
+						className: this.setClassNameForProgressBar( this.props.titleRating ),
 					} } />
 
 				<Textfield
@@ -143,7 +143,7 @@ class SearchResultForm extends React.Component {
 
 					hasFocus={this.props.focusedField === "formSlug"}
 
-					container-className={this.setClassNameForField("formSlug")}
+					container-className={this.setClassNameForField( "formSlug" )}
 					label-className={this.classNames.label}
 					field-onFocus={this.props.eventHandler.bind( this, "previewUrlContainer", "formSlug" )}
 					field-className={this.classNames.field} />
@@ -158,7 +158,7 @@ class SearchResultForm extends React.Component {
 					hasFocus={this.props.focusedField === "formDescription"}
 
 					multiline={true}
-					container-className={this.setClassNameForField("formDescription")}
+					container-className={this.setClassNameForField( "formDescription" )}
 					label-className={this.classNames.label}
 					field-onFocus={this.props.eventHandler.bind( this, "previewDescriptionContainer", "formDescription" )}
 					field-className={this.classNames.descriptionField}
@@ -169,7 +169,7 @@ class SearchResultForm extends React.Component {
 					min={0}
 					max={156}
 					optionalAttributes={ {
-						className: this.setClassNameForProgressBar(this.props.descriptionRating),
+						className: this.setClassNameForProgressBar( this.props.descriptionRating ),
 					} } />
 
 				{ this.renderCloseButton() }
@@ -195,6 +195,13 @@ SearchResultForm.propTypes = {
 	onDescriptionChange: React.PropTypes.func,
 	focusedField: React.PropTypes.string,
 	hoveredField: React.PropTypes.string,
+	translate: React.PropTypes.func.isRequired,
+	classNames: React.PropTypes.object,
+	eventHandler: React.PropTypes.func.isRequired,
+	titleLengthInPixels: React.PropTypes.number,
+	titleRating: React.PropTypes.string,
+	descriptionLength: React.PropTypes.number,
+	descriptionRating: React.PropTypes.string,
 };
 
 /**

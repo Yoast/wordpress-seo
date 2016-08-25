@@ -2,8 +2,7 @@ jest.unmock( "../wizard" );
 jest.unmock( "lodash/cloneDeep" );
 jest.unmock( "../progressIndicator" );
 jest.unmock( "../config/config" );
-jest.mock( '../helpers/postJSON', () => {
-
+jest.mock( "../helpers/postJSON", () => {
 	let postJSON = ( url, data ) => {
 		return new Promise( ( resolve, reject ) => {
 			resolve( "test" );
@@ -16,7 +15,7 @@ jest.mock( '../helpers/postJSON', () => {
 import React from "react";
 import Wizard from "../wizard";
 import Config from "../config/config";
-import {shallow, render, mount} from "enzyme";
+import { shallow, render, mount } from "enzyme";
 import cloneDeep from "lodash/cloneDeep";
 
 /**
@@ -37,13 +36,13 @@ describe( "a wizard component", () => {
 	} );
 
 	it( "renders a wizard component based on the config", () => {
-		const buttons = renderedWizard.find( 'button' );
+		const buttons = renderedWizard.find( "button" );
 
 		// Only the next button has to be rendered because on initialisation there is no previous step.
 		expect( buttons.length ).toBe( 1 );
 
 		// The previous button must be hidden and the next button enabled on loading the first step.
-		expect( renderedWizard.find( 'button' ).first().props().children ).toEqual( "Next" );
+		expect( renderedWizard.find( "button" ).first().props().children ).toEqual( "Next" );
 	} );
 
 	it( "loads props from config correctly", () => {

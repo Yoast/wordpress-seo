@@ -21,7 +21,7 @@ const Choice = ( props ) => {
 					let choice = choices[ choiceName ];
 					let choiceId = `${choiceName} - ${index}`;
 					// If the value for the choice field equals the name for this choice, the choice is checked.
-					let checked = (props.value === choiceName);
+					let checked = ( props.value === choiceName );
 
 					return (
 						<div key={index}>

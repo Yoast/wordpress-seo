@@ -68,31 +68,31 @@ class Textfield extends React.Component {
 	/**
 	 * Parses the optional attributes and splits them up into individual categories.
 	 *
-	 * @returns {{label: {}, field: {id: string}}}
+	 * @returns {object} A categorized collection of attributes.
 	 */
 	parseOptionalAttributes() {
 		let containerConfiguration = {};
 		let labelConfiguration = {};
-		let fieldConfiguration = { id: this.props.name,	};
-		let props = Object.keys(this.props);
+		let fieldConfiguration = { id: this.props.name	};
+		let props = Object.keys( this.props );
 
 		props.forEach( function( propKey ) {
 			if ( propKey.startsWith( "label-" ) ) {
-				labelConfiguration[propKey.split("-").pop()] = this.props[propKey];
+				labelConfiguration[ propKey.split( "-" ).pop() ] = this.props[ propKey ];
 			}
 
 			if ( propKey.startsWith( "field-" ) ) {
-				fieldConfiguration[propKey.split("-").pop()] = this.props[propKey];
+				fieldConfiguration[ propKey.split( "-" ).pop() ] = this.props[ propKey ];
 			}
 
 			if ( propKey.startsWith( "container-" ) ) {
-				containerConfiguration[propKey.split("-").pop()] = this.props[propKey];
+				containerConfiguration[ propKey.split( "-" ).pop() ] = this.props[ propKey ];
 			}
 
 			return;
-		}.bind(this) );
+		}.bind( this ) );
 
-		return { label: labelConfiguration, field: fieldConfiguration, container: containerConfiguration, };
+		return { label: labelConfiguration, field: fieldConfiguration, container: containerConfiguration };
 	}
 }
 
@@ -113,6 +113,6 @@ Textfield.propTypes = {
 
 Textfield.defaultProps = {
 	hasFocus: false,
-}
+};
 
 export default Textfield;

@@ -14,12 +14,11 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			components: [
-				"forms/*.js",
-				"a11y/*.js",
-				"composites/*.js",
-				"onboarding-wizard/**/*.js",
-				"!onboarding-wizard/tests/**/*.js",
-				"!onboarding-wizard/config/**/*.js"
+				"forms/**/*.js",
+				"a11y/**/*.js",
+				"composites/**/*.js",
+				"!composites/onboarding-wizard/tests/**/*.js",
+				"!composites/onboarding-wizard/config/**/*.js"
 			],
 			get config() {
 				return project.paths.config + "*.js";

@@ -1,4 +1,4 @@
-jest.unmock("../Label");
+jest.unmock( "../Label" );
 
 import React from "react";
 import TestUtils from "react-addons-test-utils";
@@ -23,7 +23,7 @@ describe( "A Label component", () => {
 
 		expect( console.error ).toBeCalled();
 
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Required prop `for` was not specified" );
 	} );
 
@@ -33,7 +33,7 @@ describe( "A Label component", () => {
 		renderer.render( <Label for={0} /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `for` of type `number` supplied to `Label`, expected `string`." );
 	} );
 
@@ -43,8 +43,8 @@ describe( "A Label component", () => {
 		renderer.render( <Label name="customLabel" optionalAttributes={ { onClick: 0 } } /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
-			.toContain( "Warning: Failed prop type: Invalid prop `optionalAttributes.onClick` of type `number` supplied to `Label`, expected `function`." );
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
+			.toContain( "Warning: Failed prop type: Invalid prop `optionalAttributes.onClick` of type `number` supplied to `Label`" +
+			            ", expected `function`." );
 	} );
-
 } );

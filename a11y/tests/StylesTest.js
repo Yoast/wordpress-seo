@@ -25,6 +25,5 @@ describe( "Styles", () => {
 				padding: "10px",
 			}
 		);
-
 	} );
 } );

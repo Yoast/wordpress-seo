@@ -1,4 +1,4 @@
-jest.unmock("../Progressbar");
+jest.unmock( "../Progressbar" );
 
 import React from "react";
 import TestUtils from "react-addons-test-utils";
@@ -22,7 +22,7 @@ describe( "A Progressbar component", () => {
 		renderer.render( <Progressbar /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Required prop `value` was not specified" );
 	} );
 
@@ -32,7 +32,7 @@ describe( "A Progressbar component", () => {
 		renderer.render( <Progressbar value="0" /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `value` of type `string` supplied to `Progressbar`, expected `number`." );
 	} );
 
@@ -42,7 +42,7 @@ describe( "A Progressbar component", () => {
 		renderer.render( <Progressbar name="customProgressbar" onChange={0} /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `onChange` of type `number` supplied to `Progressbar`, expected `function`." );
 	} );
 
@@ -65,8 +65,7 @@ describe( "A Progressbar component", () => {
 
 		let result = renderer.getRenderOutput();
 
-		expect(result.type).toBe("div");
-		expect(result.props.style.width).toBe("10%");
+		expect( result.type ).toBe( "div" );
+		expect( result.props.style.width ).toBe( "10%" );
 	} );
-
 } );

@@ -1,3 +1,6 @@
 module.exports = {
-	target: [ "<%= files.components %>" ]
+	target: [ "<%= files.components %>" ],
+	options: {
+		fix: true,
+	}
 };
