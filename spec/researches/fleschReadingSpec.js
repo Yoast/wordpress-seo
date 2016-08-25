@@ -33,3 +33,10 @@ describe( "A test that uses the Dutch Flesch Reading", function() {
 		expect( fleschFunction( mockPaper ) ).toBe( 78.2 );
 	} );
 } );
+
+describe( "A test that returns 0 after sentence formatting", function() {
+	it( "returns a score of 0", function() {
+		var mockPaper = new Paper( "()" );
+		expect( fleschFunction( mockPaper ) ).toBe( 0 );
+	} )
+} );

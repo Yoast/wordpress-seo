@@ -320,6 +320,12 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
+	it( "returns the passive sentences with ", function() {
+		//
+		paper = new Paper( "Even though the house is cleaned" );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	});
+
 	it( "supports different types of quotes", function() {
 		paper = new Paper( "you're done." );
 		expect( passiveVoice( paper ) ).toEqual( {
