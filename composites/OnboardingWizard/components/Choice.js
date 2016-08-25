@@ -24,15 +24,14 @@ const Choice = ( props ) => {
 					let choice = choices[ choiceName ];
 					let id = `${choiceName} - ${index}`;
 					// If the value for the choice field equals the name for this choice, the choice is checked.
-					let checked = (props.value === choiceName);
+					let checked = ( props.value === choiceName );
 
 					return (
 						<div className={props.optionClassName + " " + choiceName} key={index}>
 							<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
-							       value={choiceName} optionalAttributes={{
-								id,
-								checked
-							}}/>
+							       value={choiceName}
+							       optionalAttributes={{ id, checked }}
+							/>
 							<Label for={id}>{choice.label}</Label>
 						</div>
 					);

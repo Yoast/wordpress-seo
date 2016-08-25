@@ -7,7 +7,11 @@ import {Stepper, Step, StepButton} from 'material-ui/Stepper';
  * The number of steps and the current step that is active is displayed.
  */
 class StepIndicator extends React.Component {
-
+	/**
+	 * Initialises the stepIndex(current step number) for the StepIndicator, based on the properties.
+	 *
+	 * @param props The properties for the StepIndicator.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -27,15 +31,17 @@ class StepIndicator extends React.Component {
 
 	/**
 	 * Renders the step buttons in the StepIndicator(Stepper).
-	 **
+	 *
 	 * @returns {JSX.Element} The button components.
 	 */
 	getStepButtonComponents() {
 		let keys = Object.keys( this.props.steps );
 
+		let button = {};
+
+
 		return keys.map( ( name, key ) => {
 			var currentField = this.props.steps[ name ];
-			let button = {};
 
 			if ( key === this.state.stepIndex ) {
 				button = React.createElement( StepButton, {
@@ -58,7 +64,7 @@ class StepIndicator extends React.Component {
 
 	render() {
 		return (
-			<div className="yoast-wizard-stepper" style={{ width: '100%', margin: 'auto' }}>
+			<div className="yoast-wizard--stepper">
 				<Stepper linear={false} activeStep={this.state.stepIndex}>
 					{this.getStepButtonComponents()}
 				</Stepper>

@@ -52,6 +52,11 @@ body {
     }
   }
 
+  &--stepper{
+    width: 100%;
+    margin: auto;
+  }
+
   &-overlay {
     z-index: 10;
     opacity: 0.2;
@@ -63,6 +68,10 @@ body {
     color: #ffffff;
     text-align: center;
     width: 100%;
+
+    &-loader{
+      position: relative;
+    }
   }
 
   &-container {

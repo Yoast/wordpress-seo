@@ -4,7 +4,7 @@ import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
 import postJSON from "./helpers/postJSON";
 import RaisedButton from 'material-ui/RaisedButton';
-import YoastLogo from './YoastLogo';
+import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -176,10 +176,6 @@ class OnboardingWizard extends React.Component {
 		this.postStep( currentStep.previous );
 	}
 
-	setCurrentStep( stepNumber ) {
-		this.postStep( stepNumber );
-	}
-
 	/**
 	 * Gets the current step from the steps.
 	 *
@@ -208,44 +204,64 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
+	 * Creates a next or previous button to navigate throug the steps.
+	 *
+	 * @param type A next or previous button.
+	 * @param attributes The attributes for the button component.
+	 * @param currentStep The current step object in the wizard.
+	 *
+	 * @returns {RaisedButton || ""} Returns a RaisedButton component depending on an existing previous/next step.
+	 */
+	getNavigationbutton(type, attributes, currentStep){
+		let showButton = false;
+		if(type === "next" && !currentStep.next){
+			showButton = true;
+		}
+		else if(type === "previous" && !currentStep.previous){
+			showButton = true;
+		}
+
+		return ( ! showButton )
+			? <RaisedButton className="yoast-wizard--button yoast-wizard--button__next"
+			                {...attributes} />
+			: "";
+	}
+
+	/**
 	 * Renders the wizard.
 	 *
 	 * @returns {JSX} The rendered step in the wizard.
 	 */
 	render() {
 		let step = this.getCurrentStep();
-		let hideNextButton = ! step.next;
-		let hidePreviousButton = ! step.previous;
+
+		let previousButton = this.getNavigationbutton("previous", {
+			label: "Previous",
+			onClick: this.setPreviousStep.bind( this ),
+		}, step);
+
+		let nextButton = this.getNavigationbutton("next", {
+			label: "Next",
+			primary: true,
+			onClick: this.setNextStep.bind( this ),
+		}, step);
 
 		return (
 			<MuiThemeProvider>
 				<div className="yoast-wizard-body">
-					<YoastLogo/>
+					<YoastLogo height={93} width={200}/>
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
-					               onClick={( stepNumber ) => this.setCurrentStep( stepNumber )}/>
+					               onClick={( stepNumber ) => this.postStep( stepNumber )}/>
 					<div className="yoast-wizard-container">
 						<div className="yoast-wizard">
-
 							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
 							      fields={step.fields}/>
-
 							<div className="yoast-wizard--navigation">
-								{(
-									! hidePreviousButton
-								) ? <RaisedButton className="yoast-wizard--button yoast-wizard--button__back"
-								                  onClick={this.setPreviousStep.bind( this )} label="Previous"/>
-									: ""}
-								{(
-									! hideNextButton
-								) ? <RaisedButton className="yoast-wizard--button yoast-wizard--button__next"
-								                  onClick={this.setNextStep.bind( this )} label="Next" primary={true}/>
-									: ""}
+								{previousButton}
+								{nextButton}
 							</div>
-
 						</div>
-						{(
-							this.state.isLoading
-						) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
+						{(this.state.isLoading) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
 					</div>
 				</div>
 			</MuiThemeProvider>
