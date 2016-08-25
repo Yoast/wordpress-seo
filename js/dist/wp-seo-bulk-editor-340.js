@@ -41,13 +41,12 @@
 				var current_value = jQuery(existing_target).html();
 
 				if (new_value === current_value) {
-					jQuery(new_target).val("").focus();
+					jQuery(new_target).val("");
 				} else {
 					/* eslint-disable no-alert */
 					if (new_value === "" && !window.confirm("Are you sure you want to remove the existing " + column_value + "?")) {
 						/* eslint-enable no-alert */
-						jQuery(new_target).focus();
-						jQuery(new_target).val("").focus();
+						jQuery(new_target).val("");
 						return;
 					}
 
@@ -82,7 +81,7 @@
 
 					if (value !== "") {
 						if (value === existing_value) {
-							jQuery(options.new_id + id).val("").focus();
+							jQuery(options.new_id + id).val("");
 						} else {
 							data.send = true;
 							data.items[id] = value;
@@ -115,7 +114,7 @@
 						var new_value = resp["new_" + bulk_type];
 
 						jQuery(options.existing_id + resp.post_id).html(new_value.replace(/\\(?!\\)/g, ""));
-						jQuery(options.new_id + resp.post_id).val("").focus();
+						jQuery(options.new_id + resp.post_id).val("");
 					}
 				}
 			},
@@ -128,14 +127,19 @@
 			},
 
 			set_events: function set_events() {
-				current_table.find(".wpseo-save").click(function () {
+				// Save link.
+				current_table.find(".wpseo-save").click(function (event) {
 					var id = jQuery(this).data("id");
+
+					event.preventDefault();
 					instance.submit_new(id, this);
 				});
 
+				// Save all link.
 				current_table.find(".wpseo-save-all").click(instance.submit_all);
 
-				current_table.find(options.new_class).keypress(function (ev) {
+				// Save title and meta description when pressing Enter on respective field and textarea.
+				current_table.find(options.new_class).keydown(function (ev) {
 					if (ev.which === 13) {
 						ev.preventDefault();
 						var id = jQuery(this).data("id");
