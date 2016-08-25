@@ -52,7 +52,6 @@ class SearchResultEditor extends React.Component {
 				onTitleChange: this.onInputChangeHandler.bind(this, 'formTitle'),
 				onSlugChange: this.onInputChangeHandler.bind(this, 'formSlug'),
 				onDescriptionChange: this.onInputChangeHandler.bind(this, 'formDescription'),
-
 				onCloseButtonClick: this.onEditButtonClick.bind(this),
 
 				eventHandler: this.handleEvents.bind(this),
