@@ -20,9 +20,16 @@ $taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomi
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	foreach ( $taxonomies as $tax ) {
 		// Explicitly hide all the core taxonomies we never want in our sitemap.
-		if ( in_array( $tax->name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+		if ( in_array( $tax->name, array( 'link_category', 'nav_menu' ) ) ) {
 			continue;
 		}
+
+		$title_options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+		if ( 'post_format' === $tax->name && ! empty( $title_options['disable-post_format'] ) ) {
+			continue;
+		}
+
 		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 			$yform->toggle_switch(
 				'taxonomies-' . $tax->name . '-not_in_sitemap',
