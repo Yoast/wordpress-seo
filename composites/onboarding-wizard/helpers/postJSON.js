@@ -81,7 +81,7 @@ let postJSONjQuery = ( url, data ) => {
 let postJSON = ( url, data = {} ) => {
 	data = JSON.stringify( data );
 
-	if ( jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
+	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
 		return postJSONFetch( url, data );
 	}
 
