@@ -30,17 +30,17 @@ class Textfield extends React.Component {
 		return (
 			<div className={this.props.optionalAttributes.class}>
 				<Label for={this.props.name} optionalAttributes={this.optionalAttributes.label}>{this.props.label}</Label>
-				{this.determineFieldType()}
+				{this.getTextField()}
 			</div>
 		);
 	}
 
 	/**
-	 * Determines whether a text input or a textarea should be rendered.
+	 * Get TextInput or a TextArea component based on the multiline property.
 	 *
 	 * @returns {JSX.Element} A representation of either the Textarea or Input component.
 	 */
-	determineFieldType() {
+	getTextField() {
 		if ( this.props.multiline === true ) {
 			return (
 				<Textarea name={this.props.name}
