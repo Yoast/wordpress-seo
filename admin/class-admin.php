@@ -84,7 +84,7 @@ class WPSEO_Admin {
 			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
 		}
 
-		new WPSEO_Configuration_Interface();
+		new WPSEO_Configuration_Page();
 	}
 
 	/**
@@ -339,8 +339,6 @@ class WPSEO_Admin {
 	 */
 	function load_page() {
 		$page = filter_input( INPUT_GET, 'page' );
-		var_dump($page);
-		exit;
 
 		switch ( $page ) {
 			case 'wpseo_advanced':
@@ -373,6 +371,10 @@ class WPSEO_Admin {
 
 			case 'wpseo_tutorial_videos':
 				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
+				break;
+
+			case 'wpseo_configurator':
+				require_once( WPSEO_PATH . 'admin/config-ui/class-configuration-page.php' );
 				break;
 
 			case self::PAGE_IDENTIFIER:

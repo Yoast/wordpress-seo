@@ -6,13 +6,16 @@
 /**
  * @class WPSEO_Configuration_Wizard Loads the Yoast onboarding wizard.
  */
-class WPSEO_Configuration_Interface {
+class WPSEO_Configuration_Page {
 	/**
 	 * WPSEO_Configuration_Wizard constructor.
 	 */
 	function __construct() {
-		// Register the page for the wizard.
 		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
+		if ( empty( $_GET['page'] ) || 'wpseo_configurator' !== $_GET['page'] ) {
+			return;
+		}
+		// Register the page for the wizard.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_init', array( $this, 'render_wizard_page' ) );
 	}
@@ -21,7 +24,7 @@ class WPSEO_Configuration_Interface {
 	 *  Registers the page for the wizard.
 	 */
 	function add_wizard_page() {
-		add_dashboard_page( '', '', 'manage_options', 'wpseo-wizard', '' );
+		add_dashboard_page( '', '', 'manage_options', 'wpseo_configurator', '' );
 	}
 
 	function render_wizard_page() {
