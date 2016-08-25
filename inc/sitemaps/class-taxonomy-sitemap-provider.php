@@ -221,19 +221,12 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 			}
 
-			if ( $term->count > 10 ) {
-				$url['pri'] = 0.6;
-			}
-			elseif ( $term->count > 3 ) {
-				$url['pri'] = 0.4;
-			}
-			else {
-				$url['pri'] = 0.2;
-			}
-
 			$url['mod']    = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
-			$url['chf']    = WPSEO_Sitemaps::filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
 			$url['images'] = $this->get_image_parser()->get_term_images( $term );
+
+			// Deprecated, kept for backwards data compat. R.
+			$url['chf'] = 'daily';
+			$url['pri'] = 1;
 
 			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
 			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
