@@ -290,7 +290,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( in_array( $post_type, array( 'revision', 'nav_menu_item' ) ) ) {
+		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ) ) ) ) {
 			return false;
 		}
 
