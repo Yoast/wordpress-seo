@@ -37,7 +37,8 @@
 		</tr>
 	<?php endforeach; ?>
 </table>
-<?php if ( ! empty( $onpage ) && WPSEO_Utils::grant_access() ) : ?>
+<?php $can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
+if ( ! empty( $onpage ) && $can_access ) : ?>
 <div class="onpage">
 	<h3 class="hide-if-no-js"><?php
 		printf(

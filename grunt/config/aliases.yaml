@@ -21,7 +21,6 @@ build:
 'build:js':
   - 'copy'
   - 'browserify:build'
-  - 'browserify:buildes6'
   - 'uglify'
 # Build internationalisation features
 'build:i18n':

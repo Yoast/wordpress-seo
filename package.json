@@ -31,14 +31,10 @@
     "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^1.0.1",
-    "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "grunt-glotpress": "git+https://github.com/markoheijnen/grunt-glotpress.git#05a38906b357d5a4785bc57e6287fb6479e674b7",
-    "grunt-jscs": "^3.0.0",
-    "grunt-jsonlint": "^1.1.0",
-    "grunt-jsvalidate": "^0.2.2",
     "grunt-phpcs": "^0.4.0",
     "grunt-phplint": "0.0.8",
     "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
@@ -60,6 +56,7 @@
   "dependencies": {
     "lodash": "^4.7.0",
     "select2": "^4.0.1",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master",
+    "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master"
   }
 }
