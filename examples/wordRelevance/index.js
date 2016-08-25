@@ -1,7 +1,7 @@
 require( "console.table" );
 
 var Paper = require( "../../js/values/Paper" );
-var relevantWords = require( "../../js/researches/relevantWords" )
+var relevantWords = require( "../../js/stringProcessing/relevantWords" )
 var getRelevantWords = relevantWords.getRelevantWords;
 var getWordCombinations = relevantWords.getWordCombinations;
 var calculateOccurrences = relevantWords.calculateOccurrences;
