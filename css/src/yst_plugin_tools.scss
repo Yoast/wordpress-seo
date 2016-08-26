@@ -107,6 +107,15 @@ table.wpseo th {
 	max-width: 600px;
 }
 
+.wpseo_content_wrapper .notice p {
+	max-width: none;
+}
+
+/* Notices below Settings pages tabs. */
+#wpseo-tabs + .notice {
+	margin-top: 1.5em;
+}
+
 .wpseo_content_cell {
 	display: table-cell;
 	height: 500px;
@@ -233,6 +242,19 @@ table.yoast_help tr:hover {
 .wrong code {
 	padding: 3px 8px;
 	color: #000;
+}
+
+.yoast-notice-blocking-files code {
+	line-height: 2;
+	color: #000;
+}
+
+.yoast-notice-blocking-files .button {
+	margin: 0.5em 0;
+}
+
+.wpseo_content_wrapper .yoast-blocking-files-error p {
+	max-width: none;
 }
 
 .button.fixit {
