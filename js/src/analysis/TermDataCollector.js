@@ -17,7 +17,7 @@ let $ = jQuery;
  *
  * @constructor
  */
-var TermScraper = function( args ) {
+var TermDataCollector = function( args ) {
 	if ( typeof CKEDITOR === "object" ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
@@ -29,7 +29,7 @@ var TermScraper = function( args ) {
  * Returns data fetched from input fields.
  * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
  */
-TermScraper.prototype.getData = function() {
+TermDataCollector.prototype.getData = function() {
 	return {
 		title: this.getTitle(),
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
@@ -51,7 +51,7 @@ TermScraper.prototype.getData = function() {
  *
  * @returns {string} The title.
  */
-TermScraper.prototype.getTitle = function() {
+TermDataCollector.prototype.getTitle = function() {
 	return document.getElementById( "hidden_wpseo_title" ).value;
 };
 
@@ -60,7 +60,7 @@ TermScraper.prototype.getTitle = function() {
  *
  * @returns {string} The keyword.
  */
-TermScraper.prototype.getKeyword = function() {
+TermDataCollector.prototype.getKeyword = function() {
 	var elem, val;
 
 	elem = document.getElementById( "wpseo_focuskw" );
@@ -78,7 +78,7 @@ TermScraper.prototype.getKeyword = function() {
  *
  * @returns {string} The text.
  */
-TermScraper.prototype.getText = function() {
+TermDataCollector.prototype.getText = function() {
 	return tmceHelper.getContentTinyMce( tmceId );
 };
 
@@ -87,7 +87,7 @@ TermScraper.prototype.getText = function() {
  *
  * @returns {string} The meta.
  */
-TermScraper.prototype.getMeta = function() {
+TermDataCollector.prototype.getMeta = function() {
 	var  val = "";
 
 	var elem = document.getElementById( "hidden_wpseo_desc" );
@@ -103,7 +103,7 @@ TermScraper.prototype.getMeta = function() {
  *
  * @returns {string} The url.
  */
-TermScraper.prototype.getUrl = function() {
+TermDataCollector.prototype.getUrl = function() {
 	return document.getElementById( "slug" ).value;
 };
 
@@ -112,7 +112,7 @@ TermScraper.prototype.getUrl = function() {
  *
  * @returns {string} The permalink.
  */
-TermScraper.prototype.getPermalink = function() {
+TermDataCollector.prototype.getPermalink = function() {
 	var url = this.getUrl();
 
 	return this.getBaseUrl() + url + "/";
@@ -123,7 +123,7 @@ TermScraper.prototype.getPermalink = function() {
  *
  * @returns {string} The snippet cite.
  */
-TermScraper.prototype.getSnippetCite = function() {
+TermDataCollector.prototype.getSnippetCite = function() {
 	return this.getUrl();
 };
 
@@ -132,7 +132,7 @@ TermScraper.prototype.getSnippetCite = function() {
  *
  * @returns {string} The snippet title.
  */
-TermScraper.prototype.getSnippetTitle = function() {
+TermDataCollector.prototype.getSnippetTitle = function() {
 	return document.getElementById( "hidden_wpseo_title" ).value;
 };
 
@@ -141,7 +141,7 @@ TermScraper.prototype.getSnippetTitle = function() {
  *
  * @returns {string} The snippet meta.
  */
-TermScraper.prototype.getSnippetMeta = function() {
+TermDataCollector.prototype.getSnippetMeta = function() {
 	var val = "";
 
 	var elem = document.getElementById( "hidden_wpseo_desc" );
@@ -157,7 +157,7 @@ TermScraper.prototype.getSnippetMeta = function() {
  *
  * @returns {string} The name.
  */
-TermScraper.prototype.getName = function() {
+TermDataCollector.prototype.getName = function() {
 	return document.getElementById( "name" ).value;
 };
 
@@ -166,7 +166,7 @@ TermScraper.prototype.getName = function() {
  *
  * @returns {string} The base url.
  */
-TermScraper.prototype.getBaseUrl = function() {
+TermDataCollector.prototype.getBaseUrl = function() {
 	return wpseoTermScraperL10n.base_url;
 };
 
@@ -175,7 +175,7 @@ TermScraper.prototype.getBaseUrl = function() {
  *
  * @returns {string} The page title.
  */
-TermScraper.prototype.getPageTitle = function() {
+TermDataCollector.prototype.getPageTitle = function() {
 	return document.getElementById( "hidden_wpseo_title" ).value;
 };
 
@@ -184,7 +184,7 @@ TermScraper.prototype.getPageTitle = function() {
  * @param {Object} value Value for the data to set.
  * @param {String} type The field(type) that the data is set for.
  */
-TermScraper.prototype.setDataFromSnippet = function( value, type ) {
+TermDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
 		case "snippet_meta":
 			document.getElementById( "hidden_wpseo_desc" ).value = value;
@@ -208,7 +208,7 @@ TermScraper.prototype.setDataFromSnippet = function( value, type ) {
  * @param {string} data.urlPath
  * @param {string} data.metaDesc
  */
-TermScraper.prototype.saveSnippetData = function( data ) {
+TermDataCollector.prototype.saveSnippetData = function( data ) {
 	this.setDataFromSnippet( data.title, "snippet_title" );
 	this.setDataFromSnippet( data.urlPath, "snippet_cite" );
 	this.setDataFromSnippet( data.metaDesc, "snippet_meta" );
@@ -217,14 +217,14 @@ TermScraper.prototype.saveSnippetData = function( data ) {
 /**
  * binds elements
  */
-TermScraper.prototype.bindElementEvents = function( app ) {
+TermDataCollector.prototype.bindElementEvents = function( app ) {
 	this.inputElementEventBinder( app );
 };
 
 /**
  * binds the renewData function on the change of inputelements.
  */
-TermScraper.prototype.inputElementEventBinder = function( app ) {
+TermDataCollector.prototype.inputElementEventBinder = function( app ) {
 	var elems = [ "name", tmceId, "slug", "wpseo_focuskw" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
@@ -240,7 +240,7 @@ TermScraper.prototype.inputElementEventBinder = function( app ) {
  *
  * @param {number} score Score to save.
  */
-TermScraper.prototype.saveScores = function( score ) {
+TermDataCollector.prototype.saveScores = function( score ) {
 	var indicator = getIndicatorForScore( score );
 	var keyword = this.getKeyword();
 
@@ -258,7 +258,7 @@ TermScraper.prototype.saveScores = function( score ) {
  *
  * @param {number} score The score calculated by the content assessor.
  */
-TermScraper.prototype.saveContentScore = function( score ) {
+TermDataCollector.prototype.saveContentScore = function( score ) {
 	var indicator = getIndicatorForScore( score );
 
 	this._tabManager.updateContentTab( score );
@@ -274,11 +274,11 @@ TermScraper.prototype.saveContentScore = function( score ) {
 /**
  * Initializes keyword tab with the correct template.
  */
-TermScraper.prototype.initKeywordTabTemplate = function() {
+TermDataCollector.prototype.initKeywordTabTemplate = function() {
 	// Remove default functionality to prevent scrolling to top.
 	$( ".wpseo-metabox-tabs" ).on( "click", ".wpseo_tablink", function( ev ) {
 		ev.preventDefault();
 	} );
 };
 
-export default TermScraper;
+export default TermDataCollector;

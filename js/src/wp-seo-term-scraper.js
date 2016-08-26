@@ -17,7 +17,7 @@ var App = require( "yoastseo" ).App;
 var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
 var UsedKeywords = require( "./analysis/usedKeywords" );
 
-import TermScraper from "./analysis/TermDataCollector";
+import TermDataCollector from "./analysis/TermDataCollector";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 
 window.yoastHideMarkers = true;
@@ -68,7 +68,7 @@ window.yoastHideMarkers = true;
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {TermScraper} termScraper
+	 * @param {TermDataCollector} termScraper
 	 * @returns {SnippetPreview}
 	 */
 	function initSnippetPreview( termScraper ) {
@@ -117,7 +117,7 @@ window.yoastHideMarkers = true;
 	 * Initializes keyword analysis.
 	 *
 	 * @param {App} app The App object.
-	 * @param {TermScraper} termScraper The post scraper object.
+	 * @param {TermDataCollector} termScraper The post scraper object.
 	 */
 	function initializeKeywordAnalysis( app, termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
@@ -162,7 +162,7 @@ window.yoastHideMarkers = true;
 
 		tabManager.init();
 
-		termScraper = new TermScraper( { tabManager } );
+		termScraper = new TermDataCollector( { tabManager } );
 		snippetPreview = initSnippetPreview( termScraper );
 
 		args = {
