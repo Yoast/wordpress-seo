@@ -202,28 +202,52 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		$( ".wpseo-tab-add-keyword" ).hide();
 	}
 
-	jQuery( document ).ready( function() {
-		snippetContainer = $( "#wpseosnippet" );
-
-		tabManager = new TabManager( {
+	/**
+	 * Initializes tab manager.
+	 *
+	 * @returns {TabManager} The initialized tab manager.
+	 */
+	function initializeTabManager() {
+		let tabManager = new TabManager( {
 			strings: wpseoPostScraperL10n,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 		} );
+		tabManager.init();
 
-		postDataCollector = new PostDataCollector( {
+		return tabManager;
+	}
+
+	/**
+	 * Initializes post data collector.
+	 *
+	 * @returns {PostDataCollector} The initialized post data collector.
+	 */
+	function initializePostDataCollector() {
+		let postDataCollector = new PostDataCollector( {
 			tabManager,
 		} );
 		postDataCollector.leavePostNameUntouched = false;
-		publishBox.initalise();
 
-		tabManager.init();
+		return postDataCollector;
+	}
 
-		snippetPreview = initSnippetPreview( postDataCollector );
-
+	/**
+	 * Returns the arguments necessary to initialize the app.
+	 *
+	 * @returns {Object} The arguments to initialize the app
+	 */
+	function getAppArgs() {
 		var args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, "yoast_wpseo_focuskw_text_input", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
+			elementTarget: [
+				tmceId,
+				"yoast_wpseo_focuskw_text_input",
+				"yoast_wpseo_metadesc",
+				"excerpt",
+				"editable-post-name",
+				"editable-post-name-full",
+			],
 			targets: retrieveTargets(),
 			callbacks: {
 				getData: postDataCollector.getData.bind( postDataCollector ),
@@ -249,23 +273,37 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
 			args.translations = translations;
 		}
+		return args;
+	}
 
-		app = new App( args );
-
-		postDataCollector.app = app;
-
+	/**
+	 * Exposes globals necessary for functionality of plugins integrating.
+	 *
+	 * @param {App} app The app to expose globally.
+	 * @param {TabManager} tabManager The tab manager to expose globally.
+	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
+	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+	 * @returns {void}
+	 */
+	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
-		tmceHelper.wpTextViewOnInitCheck();
-
 		// Init Plugins.
 		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
-		YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( app );
+		YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
+		YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
 		window.YoastSEO.wp._tabManager = tabManager;
+	}
 
+	/**
+	 * Actives the correct analysis and tab based on which analyses are enabled.
+	 *
+	 * @param {TabManager} tabManager The tab manager to use to activate tabs.
+	 * @returns {void}
+	 */
+	function activateEnabledAnalysis( tabManager ) {
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( app, postDataCollector, publishBox );
 			tabManager.getKeywordTab().activate();
@@ -280,11 +318,38 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		if ( ! isKeywordAnalysisActive() && isContentAnalysisActive() ) {
 			tabManager.getContentTab().activate();
 		}
+	}
+
+	/**
+	 * Initializes analysis for the post edit screen.
+	 *
+	 * @returns {void}
+	 */
+	function initializePostAnalysis() {
+		snippetContainer = $( "#wpseosnippet" );
+
+		tabManager = initializeTabManager();
+		postDataCollector = initializePostDataCollector();
+		publishBox.initalise();
+		snippetPreview = initSnippetPreview( postDataCollector );
+
+		let appArgs = getAppArgs();
+		app = new App( appArgs );
+
+		postDataCollector.app = app;
+
+		tmceHelper.wpTextViewOnInitCheck();
+
+		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		let shortcodePlugin = new YoastShortcodePlugin( app );
+
+		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
+		activateEnabledAnalysis( tabManager );
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
 
 		// Backwards compatibility.
-		YoastSEO.analyzerArgs = args;
+		YoastSEO.analyzerArgs = appArgs;
 
 		keywordElementSubmitHandler();
 		postDataCollector.bindElementEvents( app );
@@ -292,5 +357,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
-	} );
+	}
+
+	jQuery( document ).ready( initializePostAnalysis );
 }( jQuery ) );
