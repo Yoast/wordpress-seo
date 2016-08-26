@@ -401,8 +401,8 @@ class WPSEO_Admin_Pages {
 
 		?>
 			<div id="<?php echo esc_attr( $id ); ?>" class="yoastbox">
-				<h1><?php echo $title; ?></h1>
-				<?php echo $content; ?>
+				<h1><?php echo esc_html( $title ); ?></h1>
+				<?php echo esc_html( $content ); ?>
 			</div>
 		<?php
 	}
