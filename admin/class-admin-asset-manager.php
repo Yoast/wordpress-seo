@@ -235,7 +235,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps'   => array(
 					'jquery',
 				),
-				'version' => '4.0.1',
+				'version' => '4.0.3',
 			),
 			array(
 				'name' => 'select2-translations',
@@ -244,7 +244,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					self::PREFIX . 'select2',
 				),
-				'version' => '4.0.1',
+				'version' => '4.0.3',
 				'suffix' => '',
 			),
 		);
