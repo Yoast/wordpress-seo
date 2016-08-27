@@ -389,8 +389,14 @@ new WPSEO_OnPage();
  * Register the configuration service on load.
  */
 function yoast_register_configuration_service() {
+	// We can't do anything when requirements are not met.
+	if ( ! defined( 'REST_API_VERSION' ) || version_compare( REST_API_VERSION, '2.0', '<' ) ) {
+		return;
+	}
+
 	// Boot up REST API endpoints.
 	$configuration_service = new WPSEO_Configuration_Service();
+	$configuration_service->set_default_providers();
 	$configuration_service->register_hooks();
 }
 yoast_register_configuration_service();

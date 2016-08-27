@@ -1,0 +1,254 @@
+<?php
+
+/**
+ * @package WPSEO\Unittests
+ */
+class WPSEO_Configuration_Service_Mock extends WPSEO_Configuration_Service {
+	/**
+	 * @param $item
+	 *
+	 * @return null|mixed
+	 */
+	public function __get( $item ) {
+		if ( isset( $this->{$item} ) ) {
+			return $this->{$item};
+		}
+
+		return null;
+	}
+}
+
+/**
+ * Class WPSEO_Configuration_Service_Test
+ */
+class WPSEO_Configuration_Service_Test extends WPSEO_UnitTestCase {
+
+	/** @var WPSEO_Configuration_Service instance */
+	protected $configuration_service;
+
+	/**
+	 * Preparation
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->configuration_service = new WPSEO_Configuration_Service();
+	}
+
+	/**
+	 * Cleaning
+	 */
+	public function tearDown() {
+		parent::tearDown();
+
+		remove_action( 'rest_api_init', array(
+			$this->configuration_service,
+			'initialize',
+		) );
+	}
+
+	/**
+	 * Make sure the REST API init is hooked on
+	 *
+	 * @covers WPSEO_Configuration_Service::register_hooks()
+	 */
+	public function test_rest_api_init_hooked() {
+		$this->configuration_service->register_hooks();
+
+		$this->assertEquals( 10, has_action( 'rest_api_init', array(
+			$this->configuration_service,
+			'initialize',
+		) ) );
+	}
+
+	/**
+	 * Test set storage
+	 *
+	 * @covers WPSEO_Configuration_Service::set_storage()
+	 */
+	public function test_set_storage() {
+		$service = new WPSEO_Configuration_Service_Mock();
+		$storage = $this->getMockBuilder( WPSEO_Configuration_Storage::class )->getMock();
+
+		$this->assertNull( $service->set_storage( $storage ) );
+		$this->assertEquals( $storage, $service->storage );
+	}
+
+	/**
+	 * Test set endpoint
+	 *
+	 * @covers WPSEO_Configuration_Service::set_endpoint()
+	 */
+	public function test_set_endpoint() {
+		$service  = new WPSEO_Configuration_Service_Mock();
+		$endpoint = $this->getMockBuilder( WPSEO_Configuration_Endpoint::class )->getMock();
+
+		$this->assertNull( $service->set_endpoint( $endpoint ) );
+		$this->assertEquals( $endpoint, $service->endpoint );
+	}
+
+	/**
+	 * Test set options adapter
+	 *
+	 * @covers WPSEO_Configuration_Service::set_options_adapter()
+	 */
+	public function test_set_options_adapter() {
+		$service = new WPSEO_Configuration_Service_Mock();
+		$adapter = $this->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )->getMock();
+
+		$this->assertNull( $service->set_options_adapter( $adapter ) );
+		$this->assertEquals( $adapter, $service->adapter );
+	}
+
+	/**
+	 * Test set components
+	 *
+	 * @covers WPSEO_Configuration_Service::set_components()
+	 */
+	public function test_set_components() {
+		$service    = new WPSEO_Configuration_Service_Mock();
+		$components = $this->getMockBuilder( WPSEO_Configuration_Components::class )->getMock();
+
+		$this->assertNull( $service->set_components( $components ) );
+		$this->assertEquals( $components, $service->components );
+	}
+
+	/**
+	 * Test set structure
+	 *
+	 * @covers WPSEO_Configuration_Service::set_structure()
+	 */
+	public function test_set_structure() {
+		$service   = new WPSEO_Configuration_Service_Mock();
+		$structure = $this->getMockBuilder( WPSEO_Configuration_Structure::class )->getMock();
+
+		$this->assertNull( $service->set_structure( $structure ) );
+		$this->assertEquals( $structure, $service->structure );
+	}
+
+	/**
+	 * @covers WPSEO_Configuration_Service::initialize()
+	 */
+	public function test_initialize_functions() {
+		$adapter = $this
+			->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )
+			->getMock();
+
+		$endpoint = $this
+			->getMockBuilder( WPSEO_Configuration_Endpoint::class )
+			->setMethods( array( 'register' ) )
+			->getMock();
+
+		$endpoint
+			->expects( $this->once() )
+			->method( 'register' );
+
+		$storage = $this
+			->getMockBuilder( WPSEO_Configuration_Storage::class )
+			->setMethods( array( 'add_default_fields', 'set_adapter' ) )
+			->getMock();
+
+		$storage
+			->expects( $this->once() )
+			->method( 'add_default_fields' );
+
+		$storage
+			->expects( $this->once() )
+			->method( 'set_adapter' )
+			->with( $adapter );
+
+		$components = $this
+			->getMockBuilder( WPSEO_Configuration_Components::class )
+			->setMethods( array( 'set_storage' ) )
+			->getMock();
+
+		$components
+			->expects( $this->once() )
+			->method( 'set_storage' )
+			->with( $storage );
+
+		$this->configuration_service->set_storage( $storage );
+		$this->configuration_service->set_endpoint( $endpoint );
+		$this->configuration_service->set_options_adapter( $adapter );
+		$this->configuration_service->set_components( $components );
+
+		$this->configuration_service->initialize();
+
+	}
+
+	/**
+	 * Test retrieving configuration
+	 *
+	 * @covers WPSEO_Configuration_Service::get_configuration()
+	 */
+	public function test_get_configuration() {
+		$storage   = $this->getMockBuilder( WPSEO_Configuration_Storage::class )->setMethods( array( 'retrieve' ) )->getMock();
+		$structure = $this->getMockBuilder( WPSEO_Configuration_Structure::class )->setMethods( array( 'retrieve' ) )->getMock();
+
+		$storage
+			->expects( $this->once() )
+			->method( 'retrieve' )
+			->will( $this->returnValue( array() ) );
+
+		$structure
+			->expects( $this->once() )
+			->method( 'retrieve' )
+			->will( $this->returnValue( array() ) );
+
+		$this->configuration_service->set_storage( $storage );
+		$this->configuration_service->set_structure( $structure );
+
+		$result = $this->configuration_service->get_configuration();
+
+		$this->assertInternalType( 'array', $result );
+
+		$this->assertEquals(
+			array(
+				'fields' => array(),
+				'steps'  => array(),
+			),
+			$result
+		);
+	}
+
+	/**
+	 * Test saving configuration function calls
+	 *
+	 * @covers WPSEO_Configuration_Service::set_configuration()
+	 */
+	public function test_set_configuration() {
+		$storage = $this->getMockBuilder( WPSEO_Configuration_Storage::class )->setMethods( array( 'store' ) )->getMock();
+
+		$data = array( 'some_data' );
+
+		$storage
+			->expects( $this->once() )
+			->method( 'store' )
+			->with( $data );
+
+		$this->configuration_service->set_storage( $storage );
+		$this->configuration_service->set_configuration( $data );
+	}
+
+	/**
+	 * Make sure all providers are set with default providers call
+	 *
+	 * @covers WPSEO_Configuration_Service::set_default_providers()
+	 */
+	public function test_set_default_providers() {
+		$configuration_service = new WPSEO_Configuration_Service_Mock();
+		$configuration_service->set_default_providers();
+
+		$properties = array(
+			'storage',
+			'adapter',
+			'structure',
+			'endpoint',
+			'components'
+		);
+
+		foreach ( $properties as $property ) {
+			$this->assertNotNull( $configuration_service->{$property} );
+		}
+	}
+}

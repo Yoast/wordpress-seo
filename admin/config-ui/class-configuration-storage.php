@@ -9,10 +9,10 @@
 class WPSEO_Configuration_Storage {
 
 	/** @var WPSEO_Configuration_Options_Adapter */
-	private $adapter;
+	protected $adapter;
 
 	/** @var array WPSEO_Config_Field */
-	private $fields = array();
+	protected $fields = array();
 
 	/**
 	 * Add default fields
@@ -86,7 +86,6 @@ class WPSEO_Configuration_Storage {
 			}
 
 			$data = $this->get_field_data( $field );
-
 			if ( ! is_null( $data ) ) {
 				$build['data'] = $data;
 			}

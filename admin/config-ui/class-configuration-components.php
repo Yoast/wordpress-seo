@@ -9,15 +9,24 @@
 class WPSEO_Configuration_Components {
 
 	/** @var array List of registered components */
-	private $components = array();
+	protected $components = array();
 
 	/**
 	 * WPSEO_Configuration_Components constructor.
 	 */
 	public function __construct() {
-		$this->components[] = new WPSEO_Config_Component_Publishing_Entity();
-		$this->components[] = new WPSEO_Config_Component_Connect_Google_Search_Console();
-		$this->components[] = new WPSEO_Config_Component_Post_Type_Visibility();
+		$this->add_component( new WPSEO_Config_Component_Publishing_Entity() );
+		$this->add_component( new WPSEO_Config_Component_Connect_Google_Search_Console() );
+		$this->add_component( new WPSEO_Config_Component_Post_Type_Visibility() );
+	}
+
+	/**
+	 * Add a component
+	 *
+	 * @param WPSEO_Config_Component $component Component to add.
+	 */
+	public function add_component( WPSEO_Config_Component $component ) {
+		$this->components[] = $component;
 	}
 
 	/**

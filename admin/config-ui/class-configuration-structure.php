@@ -9,7 +9,7 @@
 class WPSEO_Configuration_Structure {
 
 	/** @var array Registered steps */
-	private $steps = array();
+	protected $steps = array();
 
 	/**
 	 * WPSEO_Configuration_Structure constructor.

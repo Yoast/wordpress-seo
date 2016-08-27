@@ -8,33 +8,20 @@
  */
 class WPSEO_Configuration_Service {
 
+	/** @var WPSEO_Configuration_Structure */
+	protected $structure;
+
+	/** @var WPSEO_Configuration_Components */
+	protected $components;
+
 	/** @var WPSEO_Configuration_Storage */
-	private $storage;
+	protected $storage;
 
 	/** @var WPSEO_Configuration_Endpoint */
-	private $endpoint;
+	protected $endpoint;
 
 	/** @var WPSEO_Configuration_Options_Adapter */
-	private $adapter;
-
-	/**
-	 * WPSEO_Configuration_Service constructor.
-	 *
-	 * Set default handlers
-	 */
-	public function __construct() {
-
-		// We can't do anything when requirements are not met.
-		if ( ! defined( 'REST_API_VERSION' ) || version_compare( REST_API_VERSION, '2.0', '<' ) ) {
-			return;
-		}
-
-		$this->storage    = new WPSEO_Configuration_Storage();
-		$this->endpoint   = new WPSEO_Configuration_Endpoint();
-		$this->adapter    = new WPSEO_Configuration_Options_Adapter();
-		$this->structure  = new WPSEO_Configuration_Structure();
-		$this->components = new WPSEO_Configuration_Components();
-	}
+	protected $adapter;
 
 	/**
 	 * Hook into the REST API
@@ -47,13 +34,23 @@ class WPSEO_Configuration_Service {
 	 * Register the service and boot handlers
 	 */
 	public function initialize() {
-		$this->endpoint->set_service( $this );
-		$this->endpoint->register();
-
 		$this->storage->set_adapter( $this->adapter );
+		$this->storage->add_default_fields();
+
 		$this->components->set_storage( $this->storage );
 
-		$this->storage->add_default_fields();
+		$this->endpoint->register();
+	}
+
+	/**
+	 * Set default handlers
+	 */
+	public function set_default_providers() {
+		$this->set_storage( new WPSEO_Configuration_Storage() );
+		$this->set_options_adapter( new WPSEO_Configuration_Options_Adapter() );
+		$this->set_components( new WPSEO_Configuration_Components() );
+		$this->set_endpoint( new WPSEO_Configuration_Endpoint() );
+		$this->set_structure( new WPSEO_Configuration_Structure() );
 	}
 
 	/**
@@ -72,6 +69,7 @@ class WPSEO_Configuration_Service {
 	 */
 	public function set_endpoint( WPSEO_Configuration_Endpoint $endpoint ) {
 		$this->endpoint = $endpoint;
+		$this->endpoint->set_service( $this );
 	}
 
 	/**
@@ -81,6 +79,24 @@ class WPSEO_Configuration_Service {
 	 */
 	public function set_options_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 		$this->adapter = $adapter;
+	}
+
+	/**
+	 * Set components provider
+	 *
+	 * @param WPSEO_Configuration_Components $components Component provider to use.
+	 */
+	public function set_components( WPSEO_Configuration_Components $components ) {
+		$this->components = $components;
+	}
+
+	/**
+	 * Set structure provider
+	 *
+	 * @param WPSEO_Configuration_Structure $structure Structure provider to use.
+	 */
+	public function set_structure( WPSEO_Configuration_Structure $structure ) {
+		$this->structure = $structure;
 	}
 
 	/**

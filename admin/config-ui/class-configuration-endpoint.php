@@ -9,9 +9,11 @@
 class WPSEO_Configuration_Endpoint {
 
 	const REST_NAMESPACE = 'yoast/v1';
+	const ENDPOINT_RETRIEVE = 'get-config';
+	const ENDPOINT_STORE = 'set-config';
 
 	/** @var WPSEO_Configuration_Service Service to use */
-	private $service;
+	protected $service;
 
 	/**
 	 * @param WPSEO_Configuration_Service $service Service to use.
@@ -25,7 +27,7 @@ class WPSEO_Configuration_Endpoint {
 	 */
 	public function register() {
 		// Register fetch config.
-		register_rest_route( self::REST_NAMESPACE, 'get-config', array(
+		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_RETRIEVE, array(
 			'methods'  => 'GET',
 			'callback' => array(
 				$this,
@@ -38,7 +40,7 @@ class WPSEO_Configuration_Endpoint {
 		) );
 
 		// Register save changes.
-		register_rest_route( self::REST_NAMESPACE, 'set-config', array(
+		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_STORE, array(
 			'methods'  => 'POST',
 			'callback' => array(
 				$this->service,
@@ -56,7 +58,7 @@ class WPSEO_Configuration_Endpoint {
 	 */
 	public function get_configuration() {
 		$configuration             = $this->service->get_configuration();
-		$configuration['endpoint'] = $this->get_route( 'set-config' );
+		$configuration['endpoint'] = $this->get_route( self::ENDPOINT_STORE );
 		$configuration['nonce']    = wp_create_nonce( 'wp_rest' );
 
 		return $configuration;
@@ -69,8 +71,8 @@ class WPSEO_Configuration_Endpoint {
 	 *
 	 * @return string
 	 */
-	private function get_route( $route ) {
-		return sprintf( '/%s/%s/', self::REST_NAMESPACE, $route );
+	protected function get_route( $route ) {
+		return sprintf( '/%s/%s', self::REST_NAMESPACE, $route );
 	}
 
 	/**
@@ -79,8 +81,6 @@ class WPSEO_Configuration_Endpoint {
 	 * @return bool
 	 */
 	public function can_retrieve_data() {
-		// Todo: remove 'true' return value when cookie authentication is applied correctly.
-		return true;
 		return current_user_can( 'manage_options' );
 	}
 
@@ -90,8 +90,6 @@ class WPSEO_Configuration_Endpoint {
 	 * @return bool
 	 */
 	public function can_save_data() {
-		// Todo: remove 'true' return value when cookie authentication is applied correctly.
-		return true;
 		return current_user_can( 'manage_options' );
 	}
 }
