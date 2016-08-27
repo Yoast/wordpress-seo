@@ -287,7 +287,10 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Options_Adapter::get()
 	 */
 	public function test_get_unknown_type() {
-		$class = new WPSEO_Config_Field( 'field', 'component' );
+		$class = $this
+			->getMockBuilder( WPSEO_Config_Field::class )
+			->setConstructorArgs( array( 'field', 'component' ) )
+			->getMock();
 
 		$this->adapter->add_lookup( get_class( $class ), 'some_type', 'some_option' );
 		$this->assertEquals( null, $this->adapter->get( $class, 'value' ) );
@@ -367,7 +370,10 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Options_Adapter::set()
 	 */
 	public function test_set_option_unknown_type() {
-		$class = new WPSEO_Config_Field( 'field', 'component' );
+		$class = $this
+			->getMockBuilder( WPSEO_Config_Field::class )
+			->setConstructorArgs( array( 'field', 'component' ) )
+			->getMock();
 
 		$this->adapter->add_lookup( get_class( $class ), 'some_type', 'some_option' );
 		$this->assertEquals( false, $this->adapter->set( $class, 'value' ) );

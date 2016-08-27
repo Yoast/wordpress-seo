@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Config_Field_Choice
  */
-class WPSEO_Config_Field_Choice extends WPSEO_Config_Field {
+abstract class WPSEO_Config_Field_Choice extends WPSEO_Config_Field {
 
 	/**
 	 * WPSEO_Config_Field_Choice constructor.

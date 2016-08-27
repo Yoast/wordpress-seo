@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Config_Field
  */
-class WPSEO_Config_Field {
+abstract class WPSEO_Config_Field {
 	/** @var string Field name */
 	protected $field;
 
