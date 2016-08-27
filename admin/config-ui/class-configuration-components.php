@@ -8,8 +8,11 @@
  */
 class WPSEO_Configuration_Components {
 
-	/** @var array List of registered components */
+	/** @var array [WPSEO_Config_Component] List of registered components */
 	protected $components = array();
+
+	/** @var WPSEO_Configuration_Options_Adapter Adapter */
+	protected $adapter;
 
 	/**
 	 * WPSEO_Configuration_Components constructor.
@@ -46,7 +49,6 @@ class WPSEO_Configuration_Components {
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 		$this->adapter = $adapter;
 
-		/** @var WPSEO_Config_Component $component */
 		foreach ( $this->components as $component ) {
 			$adapter->add_custom_lookup(
 				get_class( $component->get_field() ),

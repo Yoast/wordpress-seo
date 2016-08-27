@@ -1,15 +1,18 @@
 <?php
-
 /**
  * @package WPSEO\Unittests
  */
+
+/**
+ * Class WPSEO_Configuration_Service_Mock
+ */
 class WPSEO_Configuration_Service_Mock extends WPSEO_Configuration_Service {
 	/**
-	 * @param $item
+	 * @param string $item Property to get.
 	 *
 	 * @return null|mixed
 	 */
-	public function __get( $item ) {
+	public function get( $item ) {
 		if ( isset( $this->{$item} ) ) {
 			return $this->{$item};
 		}
@@ -71,7 +74,7 @@ class WPSEO_Configuration_Service_Test extends WPSEO_UnitTestCase {
 		$storage = $this->getMockBuilder( WPSEO_Configuration_Storage::class )->getMock();
 
 		$this->assertNull( $service->set_storage( $storage ) );
-		$this->assertEquals( $storage, $service->storage );
+		$this->assertEquals( $storage, $service->get( 'storage' ) );
 	}
 
 	/**
@@ -84,7 +87,7 @@ class WPSEO_Configuration_Service_Test extends WPSEO_UnitTestCase {
 		$endpoint = $this->getMockBuilder( WPSEO_Configuration_Endpoint::class )->getMock();
 
 		$this->assertNull( $service->set_endpoint( $endpoint ) );
-		$this->assertEquals( $endpoint, $service->endpoint );
+		$this->assertEquals( $endpoint, $service->get( 'endpoint' ) );
 	}
 
 	/**
@@ -97,7 +100,7 @@ class WPSEO_Configuration_Service_Test extends WPSEO_UnitTestCase {
 		$adapter = $this->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )->getMock();
 
 		$this->assertNull( $service->set_options_adapter( $adapter ) );
-		$this->assertEquals( $adapter, $service->adapter );
+		$this->assertEquals( $adapter, $service->get( 'adapter' ) );
 	}
 
 	/**
@@ -110,7 +113,7 @@ class WPSEO_Configuration_Service_Test extends WPSEO_UnitTestCase {
 		$components = $this->getMockBuilder( WPSEO_Configuration_Components::class )->getMock();
 
 		$this->assertNull( $service->set_components( $components ) );
-		$this->assertEquals( $components, $service->components );
+		$this->assertEquals( $components, $service->get( 'components' ) );
 	}
 
 	/**
@@ -123,7 +126,7 @@ class WPSEO_Configuration_Service_Test extends WPSEO_UnitTestCase {
 		$structure = $this->getMockBuilder( WPSEO_Configuration_Structure::class )->getMock();
 
 		$this->assertNull( $service->set_structure( $structure ) );
-		$this->assertEquals( $structure, $service->structure );
+		$this->assertEquals( $structure, $service->get( 'structure' ) );
 	}
 
 	/**
@@ -244,11 +247,11 @@ class WPSEO_Configuration_Service_Test extends WPSEO_UnitTestCase {
 			'adapter',
 			'structure',
 			'endpoint',
-			'components'
+			'components',
 		);
 
 		foreach ( $properties as $property ) {
-			$this->assertNotNull( $configuration_service->{$property} );
+			$this->assertNotNull( $configuration_service->get( $property ) );
 		}
 	}
 }
