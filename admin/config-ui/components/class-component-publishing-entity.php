@@ -9,7 +9,7 @@
 class WPSEO_Config_Component_Publishing_Entity implements WPSEO_Config_Component {
 
 	/** @var array Mapping option keys to api keys */
-	private $mapping = array(
+	protected $mapping = array(
 		'company_or_person' => 'publishingEntityType',
 		'person_name'       => 'publishingEntityPersonName',
 		'company_name'      => 'publishingEntityCompanyName',

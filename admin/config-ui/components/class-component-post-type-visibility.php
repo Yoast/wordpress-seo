@@ -9,7 +9,7 @@
 class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Component {
 
 	/** @var array Option containing the data */
-	private $option;
+	protected $option;
 
 	/**
 	 * Get the identifier
@@ -17,7 +17,7 @@ class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Compon
 	 * @return string
 	 */
 	public function get_identifier() {
-		return 'postTypeVisibility';
+		return 'PostTypeVisibility';
 	}
 
 	/**
@@ -67,6 +67,7 @@ class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Compon
 
 		update_option( 'wpseo_xml', $option );
 
+		// Check if everything got saved properly.
 		$saved_option = WPSEO_Options::get_option( 'wpseo_xml' );
 
 		$output = array();
