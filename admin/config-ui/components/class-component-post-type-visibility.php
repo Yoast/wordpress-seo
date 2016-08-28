@@ -56,13 +56,7 @@ class WPSEO_Config_Component_Post_Type_Visibility implements WPSEO_Config_Compon
 		$option = WPSEO_Options::get_option( 'wpseo_xml' );
 
 		foreach ( $data as $post_type => $in_sitemap ) {
-			if ( $in_sitemap ) {
-				unset( $option[ 'post_types-' . $post_type . '-not_in_sitemap' ] );
-			}
-
-			if ( ! $in_sitemap ) {
-				$option[ 'post_types-' . $post_type . '-not_in_sitemap' ] = true;
-			}
+			$option[ 'post_types-' . $post_type . '-not_in_sitemap' ] = ( ! $in_sitemap );
 		}
 
 		update_option( 'wpseo_xml', $option );
