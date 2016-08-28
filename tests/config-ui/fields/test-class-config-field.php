@@ -23,6 +23,8 @@ class WPSEO_Config_Field_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Config_Field::__construct()
+	 * @covers WPSEO_Config_Field::get_identifier()
+	 * @covers WPSEO_Config_Field::get_component()
 	 */
 	public function test_constructor() {
 

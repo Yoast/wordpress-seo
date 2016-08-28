@@ -80,7 +80,7 @@ class WPSEO_Config_Component_Publishing_Entity implements WPSEO_Config_Component
 		$saved = array();
 
 		foreach ( $this->mapping as $option_key => $api_key ) {
-			$saved[ $api_key ] = ( $saved_option[ $option_key ] !== $data[ $api_key ] );
+			$saved[ $api_key ] = ( $saved_option[ $option_key ] === $data[ $api_key ] );
 		}
 
 		return $saved;

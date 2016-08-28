@@ -86,6 +86,13 @@ class WPSEO_GSC_Settings_Stub extends WPSEO_GSC_Settings {
 	public static function clear_data( WPSEO_GSC_Service $service ) {
 		self::$test->stub_call_register( 'clear_data' );
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function get_profile() {
+		return 'c';
+	}
 }
 
 /**
@@ -138,14 +145,86 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends WPSEO_Un
 	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::get_data()
 	 */
 	public function test_get_data() {
-		// @todo implement
+		$expected = array(
+			'refreshToken'       => 'a',
+			'accessToken'        => 'b',
+			'accessTokenExpires' => 1,
+			'profile'            => 'c',
+		);
+
+		update_option(
+			WPSEO_Config_Component_Connect_Google_Search_Console::OPTION_ACCESS_TOKEN,
+			array(
+				'refresh_token' => 'a',
+				'access_token'  => 'b',
+				'expires'       => 1,
+			)
+		);
+
+		// Stub get_profile to return 'c'.
+		$this->component->set_gsc_settings( 'WPSEO_GSC_Settings_Stub' );
+
+		$result = $this->component->get_data();
+
+		$this->assertEquals( $expected, $result );
 	}
 
 	/**
 	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::set_data()
 	 */
 	public function test_set_data() {
-		// @todo implement
+
+		$data = array(
+			'profile'            => 'profile',
+			'accessToken'        => 'token_a',
+			'refreshToken'       => 'token_r',
+			'accessTokenExpires' => 5,
+		);
+
+		$expected = array(
+			'profile'            => true,
+			'accessToken'        => true,
+			'refreshToken'       => true,
+			'accessTokenExpires' => true,
+		);
+
+		$result = $this->component->set_data( $data );
+
+		$this->assertEquals( $expected, $result );
+	}
+
+	/**
+	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::set_data()
+	 */
+	public function test_set_data_empty_token() {
+
+		$data = array(
+			'profile'            => '',
+			'accessToken'        => '',
+			'refreshToken'       => '',
+			'accessTokenExpires' => 0,
+		);
+
+		$expected = array(
+			'profile'            => true,
+			'accessToken'        => true,
+			'refreshToken'       => true,
+			'accessTokenExpires' => true,
+		);
+
+		$result = $this->component->set_data( $data );
+
+		$this->assertEquals( $expected, $result );
+
+		$this->assertEquals(
+			'default',
+			get_option( WPSEO_Config_Component_Connect_Google_Search_Console::OPTION_ACCESS_TOKEN, 'default' )
+		);
+
+		$this->assertEquals(
+			'default',
+			get_option( WPSEO_Config_Component_Connect_Google_Search_Console::OPTION_REFRESH_TOKEN, 'default' )
+		);
 	}
 
 	/**

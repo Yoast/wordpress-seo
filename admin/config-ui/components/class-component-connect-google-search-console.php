@@ -145,7 +145,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 
 		// Get the saved state.
 		$saved_option = get_option(
-			self::OPTION_REFRESH_TOKEN,
+			self::OPTION_ACCESS_TOKEN,
 			array(
 				'refresh_token' => '',
 				'access_token'  => '',
