@@ -1,7 +1,10 @@
 <?php
-
 /**
  * @package WPSEO\UnitTests
+ */
+
+/**
+ * Class WPSEO_Configuration_Storage_Mock
  */
 class WPSEO_Configuration_Storage_Mock extends WPSEO_Configuration_Storage {
 	public function get_fields() {

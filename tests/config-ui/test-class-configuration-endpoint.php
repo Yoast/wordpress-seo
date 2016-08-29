@@ -1,7 +1,10 @@
 <?php
-
 /**
  * @package WPSEO\UnitTests
+ */
+
+/**
+ * Class WPSEO_Configuration_Endpoint_Mock
  */
 class WPSEO_Configuration_Endpoint_Mock extends WPSEO_Configuration_Endpoint {
 	public function get_service() {
@@ -14,7 +17,13 @@ class WPSEO_Configuration_Endpoint_Mock extends WPSEO_Configuration_Endpoint {
 }
 
 if ( class_exists( 'WP_REST_Server' ) ):
+	/**
+	 * Class WPSEO_WP_REST_Server_Mock
+	 */
 	class WPSEO_WP_REST_Server_Mock extends WP_REST_Server {
+		/**
+		 * @return array
+		 */
 		public function get_endpoints() {
 			return $this->endpoints;
 		}
