@@ -8,7 +8,7 @@
  */
 class WPSEO_Configuration_Components {
 
-	/** @var array [WPSEO_Config_Component] List of registered components */
+	/** @var WPSEO_Config_Component[] List of registered components */
 	protected $components = array();
 
 	/** @var WPSEO_Configuration_Options_Adapter Adapter */

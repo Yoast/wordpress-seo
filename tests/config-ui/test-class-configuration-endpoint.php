@@ -77,8 +77,13 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 		$expected = array_merge(
 			$base_config,
 			array(
-				'endpoint' => $endpoint,
-				'nonce'    => $nonce,
+				'endpoint' => array(
+					'url'       => $endpoint,
+					'type'      => 'wordpress',
+					'arguments' => array(
+						'nonce' => $nonce,
+					),
+				),
 			)
 		);
 
