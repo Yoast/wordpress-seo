@@ -34,6 +34,18 @@ describe( "A test that uses the Dutch Flesch Reading", function() {
 	} );
 } );
 
+describe( "A test that uses the German Flesch Reading", function() {
+	it( "returns a score", function () {
+		var mockPaper = new Paper( "Zero Hour ist eine nach kanadischer Idee in Großbritannien produzierte dokumentarische Fernsehreihe die auf dem History Channel in Kanada.", { locale: "de_DE" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 25.5 );
+	} );
+
+	it( "returns a score", function () {
+		var mockPaper = new Paper( "Unterhalb der Szene, die aus plastischen Figuren besteht, erkennt man wieder Fruchtornament.", { locale: "de_DE" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 46.1 );
+	} );
+} );
+
 describe( "A test that returns 0 after sentence formatting", function() {
 	it( "returns a score of 0", function() {
 		var mockPaper = new Paper( "()" );
