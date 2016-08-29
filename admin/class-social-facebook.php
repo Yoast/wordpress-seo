@@ -160,7 +160,7 @@ class Yoast_Social_Facebook {
 		unset( $admin_id );
 
 		// Clean up the referrer url for later use.
-		if ( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) {
+		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
 			$this->cleanup_referrer_url( 'nonce', 'delfbadmin' );
 		}
 	}
@@ -178,7 +178,7 @@ class Yoast_Social_Facebook {
 		$this->success_notice( __( 'Successfully cleared all Facebook Data', 'wordpress-seo' ) );
 
 		// Clean up the referrer url for later use.
-		if ( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) {
+		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
 			$this->cleanup_referrer_url( 'nonce', 'fbclearall' );
 		}
 	}
@@ -189,9 +189,7 @@ class Yoast_Social_Facebook {
 	private function cleanup_referrer_url() {
 		$_SERVER['REQUEST_URI'] = remove_query_arg(
 			func_get_args(),
-			filter_input(
-				INPUT_SERVER, 'REQUEST_URI', FILTER_CALLBACK, array( 'options' => 'sanitize_text_field' )
-			)
+			sanitize_text_field( $_SERVER['REQUEST_URI'] )
 		);
 	}
 
