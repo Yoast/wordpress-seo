@@ -19,7 +19,7 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "A test based on exclusion words for syllable count" ) ).toBe( 13 );
 	} );
 
-	it( "returns the number of syllables of words containing addSyllables", function () {
+	it( "returns the number of syllables of words containing subtractSyllables", function () {
 		// cial
 		expect( countSyllableFunction( "special" ) ).toBe( 2 );
 
@@ -51,7 +51,7 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "inched" ) ).toBe( 1 );
 		expect( countSyllableFunction( "coughed" ) ).toBe( 1 );
 
-		// [aeiouy][^aeiuoyts]{1,}e$ --> but why t and s? State? phase????????????????????
+		// [aeiouy][^aeiuoyts]{1,}e$ --> but why t and s? State? Phase?
 		expect( countSyllableFunction( "snake" ) ).toBe( 1 );
 		expect( countSyllableFunction( "scene" ) ).toBe( 1 );
 		expect( countSyllableFunction( "file" ) ).toBe( 1 );
@@ -71,10 +71,50 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "carved" ) ).toBe( 1 );
 
 		// [aeiouy][dt]es?$
-		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "states" ) ).toBe( 1 );
+		expect( countSyllableFunction( "state" ) ).toBe( 1 );
+		expect( countSyllableFunction( "athletes" ) ).toBe( 2 );
+		expect( countSyllableFunction( "althlete" ) ).toBe( 2 );
+		expect( countSyllableFunction( "bites" ) ).toBe( 1 );
+		expect( countSyllableFunction( "bite" ) ).toBe( 1 );
+		expect( countSyllableFunction( "notes" ) ).toBe( 1 );
+		expect( countSyllableFunction( "note" ) ).toBe( 1 );
+		expect( countSyllableFunction( "minutes" ) ).toBe( 2 );
+		expect( countSyllableFunction( "minute" ) ).toBe( 2 );
+		expect( countSyllableFunction( "bytes" ) ).toBe( 1 );
+		expect( countSyllableFunction( "byte" ) ).toBe( 1 );
+		expect( countSyllableFunction( "grades" ) ).toBe( 1 );
+		expect( countSyllableFunction( "grade" ) ).toBe( 1 );
+		expect( countSyllableFunction( "Swede" ) ).toBe( 1 );
+		expect( countSyllableFunction( "Swedes" ) ).toBe( 1 );
+		expect( countSyllableFunction( "guides" ) ).toBe( 1 );
+		expect( countSyllableFunction( "guide" ) ).toBe( 1 );
+		expect( countSyllableFunction( "episodes" ) ).toBe( 3 );
+		expect( countSyllableFunction( "episode" ) ).toBe( 3 );
+		expect( countSyllableFunction( "dudes" ) ).toBe( 1 );
+		expect( countSyllableFunction( "dude" ) ).toBe( 1 );
+		expect( countSyllableFunction( "formaldehydes" ) ).toBe( 4 );
+		expect( countSyllableFunction( "formaldehyde" ) ).toBe( 4 );
 
-		// [aeiouy][^aeiouydt]e[sd]?$
-		expect( countSyllableFunction( "" ) ).toBe(  );
+		// [aeiouy][^aeiouydt]e[sd]?$ --> overlaps quite a bit with [aeiouy][^aeiuoyts]{1,}e$ because of ? after [sd].
+		expect( countSyllableFunction( "caves" ) ).toBe( 1 );
+		expect( countSyllableFunction( "caved" ) ).toBe( 1 );
+		expect( countSyllableFunction( "cave" ) ).toBe( 1 );
+		expect( countSyllableFunction( "believes" ) ).toBe( 2 );
+		expect( countSyllableFunction( "believed" ) ).toBe( 2 );
+		expect( countSyllableFunction( "believe" ) ).toBe( 2 );
+		expect( countSyllableFunction( "lines" ) ).toBe( 1 );
+		expect( countSyllableFunction( "lined" ) ).toBe( 1 );
+		expect( countSyllableFunction( "line" ) ).toBe( 1 );
+		expect( countSyllableFunction( "bores" ) ).toBe( 1 );
+		expect( countSyllableFunction( "bored" ) ).toBe( 1 );
+		expect( countSyllableFunction( "bore" ) ).toBe( 1 );
+		expect( countSyllableFunction( "rebukes" ) ).toBe( 2 );
+		expect( countSyllableFunction( "rebuked" ) ).toBe( 2 );
+		expect( countSyllableFunction( "rebuke" ) ).toBe( 2 );
+		expect( countSyllableFunction( "hypes" ) ).toBe( 1 );
+		expect( countSyllableFunction( "hyped" ) ).toBe( 1 );
+		expect( countSyllableFunction( "hype" ) ).toBe( 1 );
 
 		// ^[dr]e[aeiou][^aeiou]+$
 		expect( countSyllableFunction( "" ) ).toBe(  );
@@ -85,62 +125,93 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "horse" ) ).toBe( 1 );
 		expect( countSyllableFunction( "purse" ) ).toBe( 1 );
 		expect( countSyllableFunction( "thyrse" ) ).toBe( 1 );
-
 	} );
 
-	it( "returns the number of syllables of words containing subtractSyllables", function () {
-		//
+	it( "returns the number of syllables of words containing addSyllables", function () {
+		// ia
+		expect( countSyllableFunction( "liar" ) ).toBe( 2 );
+
+		// riet
+		expect( countSyllableFunction( "variety" ) ).toBe( 4 );
+
+		// dien
+		expect( countSyllableFunction( "audience" ) ).toBe( 3 );
+
+		// iu
+		expect( countSyllableFunction( "delirium" ) ).toBe( 4 );
+
+		// io
+		expect( countSyllableFunction( "interior" ) ).toBe( 4 );
+
+		// ii
+		expect( countSyllableFunction( "Hawaii" ) ).toBe( 3 );
+
+		// [aeiouym][bdp]le$  <--------------------------------------------------------
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// [aeiou]{3}
+		expect( countSyllableFunction( "Saeed" ) ).toBe( 2 );
+		expect( countSyllableFunction( "Hawaii" ) ).toBe( 3 );
+		expect( countSyllableFunction( "Galilaei" ) ).toBe( 4 );
+		expect( countSyllableFunction( "spiraea" ) ).toBe( 3 );
+		expect( countSyllableFunction( "archaeology" ) ).toBe( 5 );
+		expect( countSyllableFunction( "athenaeum" ) ).toBe( 4 );
+		expect( countSyllableFunction( "Gaia" ) ).toBe( 2 );
+		expect( countSyllableFunction( "aioli" ) ).toBe( 3 );
+		expect( countSyllableFunction( "Gaius" ) ).toBe( 2 );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
+		expect( countSyllableFunction( "" ) ).toBe(  );
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// ^mc Only Scottish surnames?
+		expect( countSyllableFunction( "McKenzie" ) ).toBe( 3 );
+
+		// ism$
+		expect( countSyllableFunction( "socialism" ) ).toBe( 4 );
+
+		// ([^aeiouy])\1l$
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// [^l]lien
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// ^coa[dglx].
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// [^gq]ua[^auieo]
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// dnt$
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// uity$
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// ie(r|st)
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// [aeiouy]ing
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// [aeiouw]y[aeiou]
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
+		// [^ao]ire[ds]
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
-		//
-		expect( countSyllableFunction( "" ) ).toBe(  );
-
-		//
-		expect( countSyllableFunction( "" ) ).toBe(  );
-
-		//
-		expect( countSyllableFunction( "" ) ).toBe(  );
-
-		//
-		expect( countSyllableFunction( "" ) ).toBe(  );
-
-		//
-		expect( countSyllableFunction( "" ) ).toBe(  );
-
-		//
+		// [^ao]ire$
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
 	} );
