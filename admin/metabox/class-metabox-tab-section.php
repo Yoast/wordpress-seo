@@ -54,7 +54,7 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 				'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link"%2$s>%3$s</a></li>',
 				esc_attr( $this->name ),
 				( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
-				$this->link_content
+				esc_html( $this->link_content )
 			);
 		}
 	}
@@ -69,6 +69,7 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 			$html .= '<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">%2$s</ul>%3$s';
 			$html .= '</div></div>';
 
+			// TODO escaping? Sniff goes mad. R.
 			printf( $html, esc_attr( $this->name ), $this->tab_links(), $this->tab_content() );
 		}
 	}
