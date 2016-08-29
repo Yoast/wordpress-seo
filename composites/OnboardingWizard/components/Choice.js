@@ -26,7 +26,7 @@ const Choice = ( props ) => {
 				return (
 					<div className={props.optionClassName + " " + choiceName} key={index}>
 						<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
-						       value={choiceName} optionalAttributes={{ id,	checked, }}
+						       value={choiceName} optionalAttributes={{ id, checked }}
 						/>
 						<Label for={id}>{choice.label}</Label>
 					</div>

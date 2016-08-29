@@ -8,9 +8,9 @@ import {Stepper, Step, StepButton} from 'material-ui/Stepper';
  */
 class StepIndicator extends React.Component {
 	/**
-	 * Initialises the stepIndex(current step number) for the StepIndicator, based on the properties.
+	 * Initializes the stepIndex(current step number) for the StepIndicator, based on the properties.
 	 *
-	 * @param props The properties for the StepIndicator.
+	 * @param {object} props The properties for the StepIndicator.
 	 */
 	constructor( props ) {
 		super( props );
@@ -23,7 +23,7 @@ class StepIndicator extends React.Component {
 	/**
 	 * Updates the state and re-renders the indicator when new properties are set.
 	 *
-	 * @param props The properties for the StepIndicator.
+	 * @param {object} props The properties for the StepIndicator.
 	 */
 	componentWillReceiveProps( props ) {
 		this.setState( props );
@@ -38,7 +38,6 @@ class StepIndicator extends React.Component {
 		let keys = Object.keys( this.props.steps );
 
 		let button = {};
-
 
 		return keys.map( ( name, key ) => {
 			var currentField = this.props.steps[ name ];

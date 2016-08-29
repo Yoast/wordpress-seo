@@ -47,15 +47,15 @@ class OnboardingWizard extends React.Component {
 		let stepKeyNamesLength = stepKeyNames.length;
 
 		// Loop through the steps to set each next and/or previous step.
-		for ( let stepIndex = 0; stepIndex < stepKeyNamesLength; stepIndex ++ ) {
+		for ( let stepIndex = 0; stepIndex < stepKeyNamesLength; stepIndex++ ) {
 			let stepKeyName = stepKeyNames[ stepIndex ];
 
 			if ( stepIndex > 0 ) {
-				steps[stepKeyName].previous = stepKeyNames[stepIndex - 1];
+				steps[ stepKeyName ].previous = stepKeyNames[stepIndex -1];
 			}
 
-			if ( stepIndex > - 1 && stepIndex < stepKeyNamesLength - 1 ) {
-				steps[ stepKeyName ].next = stepKeyNames[ stepIndex + 1 ];
+			if ( stepIndex > - 1 && stepIndex < stepKeyNamesLength -1 ) {
+				steps[ stepKeyName ].next = stepKeyNames[ stepIndex +1 ];
 			}
 
 			steps[stepKeyName].fields = this.getFields( steps[stepKeyName].fields );
@@ -97,14 +97,14 @@ class OnboardingWizard extends React.Component {
 			return;
 		}
 
-		this.setState( {isLoading: true} );
+		this.setState( { isLoading: true } );
 
 		postJSON(
 			this.props.endpoint,
 			this.getFieldsAsObject()
 		)
-			.then( this.handleSuccessful.bind( this, step ) )
-			.catch( this.handleFailure.bind( this ) );
+		.then( this.handleSuccessful.bind( this, step ) )
+		.catch( this.handleFailure.bind( this ) );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class OnboardingWizard extends React.Component {
 	 */
 	getFieldsAsObject() {
 		return JSON.stringify(
-			this.refs.step.state.fieldValues[this.state.currentStepId]
+			this.refs.step.state.fieldValues[ this.state.currentStepId ]
 		);
 	}
 
@@ -182,7 +182,7 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object} The current step.
 	 */
 	getCurrentStep() {
-		return this.state.steps[this.state.currentStepId];
+		return this.state.steps[ this.state.currentStepId ];
 	}
 
 	/**
@@ -196,8 +196,8 @@ class OnboardingWizard extends React.Component {
 
 		let stepNumber = steps.indexOf( currentStep );
 
-		if ( stepNumber > - 1 ) {
-			return stepNumber + 1;
+		if ( stepNumber > -1 ) {
+			return stepNumber +1;
 		}
 
 		return 0;
