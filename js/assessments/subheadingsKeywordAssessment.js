@@ -11,14 +11,14 @@ var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
 	if ( subHeadings.matches === 0 ) {
 		return {
 			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "You have not used the focus keyword in any subheading (such as an H2) in your copy." )
+			text: i18n.dgettext( "js-text-analysis", "You have not used the focus keyword in any subheading (such as an H2) in your copy." ),
 		};
 	}
 	if ( subHeadings.matches >= 1 ) {
 		return {
 			score: 9,
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
-				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
+				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches ),
 		};
 	}
 	return {};
@@ -48,5 +48,5 @@ module.exports = {
 	getResult: subheadingsHaveKeywordAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText() && paper.hasKeyword();
-	}
+	},
 };

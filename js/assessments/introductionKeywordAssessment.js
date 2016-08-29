@@ -11,14 +11,14 @@ var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
 	if ( firstParagraphMatches > 0 ) {
 		return {
 			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." ),
 		};
 	}
 
 	return {
 		score: 3,
 		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
-			"Make sure the topic is clear immediately." )
+			"Make sure the topic is clear immediately." ),
 	};
 };
 
@@ -46,5 +46,5 @@ module.exports = {
 	getResult: introductionHasKeywordAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasKeyword();
-	}
+	},
 };

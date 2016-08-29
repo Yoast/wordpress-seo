@@ -7,7 +7,6 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {object} The resulting score object.
  */
 var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
-
 	if ( stopWordCount > 0 ) {
 		return {
 			score: 0,
@@ -19,7 +18,7 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 				"The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
 				"Read %1$sthis article%2$s for more info.",
 				stopWordCount
-			)
+			),
 		};
 	}
 
@@ -52,7 +51,7 @@ var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 module.exports = {
 	identifier: "keywordStopWords",
 	getResult: keywordHasStopWordsAssessment,
-	isApplicable: function ( paper ) {
+	isApplicable: function( paper ) {
 		return paper.hasKeyword();
-	}
+	},
 };

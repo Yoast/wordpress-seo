@@ -43,7 +43,7 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 					"which is more than or equal to the recommended minimum of %4$d. " +
 					"The text contains a nice combination of long and short sentences."
 				), sentenceVariationURL, "</a>", standardDeviation, recommendedMinimumDeviation
-			)
+			),
 		};
 	}
 
@@ -58,7 +58,7 @@ var getStandardDeviationResult = function( standardDeviation, i18n ) {
 				"which is less than the recommended minimum of %4$d. " +
 				"Try to alternate more between long and short sentences."
 			), sentenceVariationURL, "</a>", standardDeviation, recommendedMinimumDeviation
-		)
+		),
 	};
 };
 
@@ -88,6 +88,6 @@ module.exports = {
 	isApplicable: function( paper ) {
 		var numberOfSentences = getSentences( paper.getText() ).length;
 		return paper.hasText() && numberOfSentences > 1;
-	}
+	},
 };
 

@@ -15,20 +15,23 @@
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
-    "test": "istanbul test jasmine"
+    "test": "istanbul test jasmine",
+    "check-coverage": "istanbul check-coverage --statements 83.21 --branches 73.67 --functions 74.58 --lines 83.21"
   },
   "browser": "js/browser.js",
   "devDependencies": {
-    "autoprefixer": "^6.3.1",
-    "eslint-config-yoast": "^1.0.0",
-    "eslint-plugin-yoast": "^1.0.0",
+    "autoprefixer": "^6.4.0",
+    "eslint-config-yoast": "^1.3.1",
+    "eslint-plugin-react": "^6.0.0",
+    "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^18.0.0",
+    "grunt-eslint": "^19.0.0",
+    "grunt-exorcise": "^2.1.1",
     "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^1.1.0",
@@ -36,7 +39,7 @@
     "istanbul": "^0.4.0",
     "jasmine": "~2.4.1",
     "load-grunt-config": "^0.19.1",
-    "lodash-cli": "^4.6.1",
+    "lodash-cli": "^4.14.1",
     "sassdash": "^0.8.1"
   },
   "bugs": {
@@ -44,7 +47,7 @@
   },
   "dependencies": {
     "jed": "^1.1.0",
-    "lodash": "^4.6.1",
+    "lodash": "^4.14.1",
     "tokenizer2": "^2.0.0"
   }
 }

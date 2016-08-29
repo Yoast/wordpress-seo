@@ -4,8 +4,6 @@ var loadGruntConfig = require( "load-grunt-config" );
 module.exports = function( grunt ) {
 	"use strict";
 
-	// require('time-grunt')(grunt);
-
 	// Define project configuration
 	var project = {
 		paths: {
@@ -14,17 +12,17 @@ module.exports = function( grunt ) {
 			css: "css/",
 			get config() {
 				return this.grunt + "config/";
-			}
+			},
 		},
 		files: {
 			js: [
 				"js/**/*.js",
 				"grunt/config/*.js",
 				"!js/config/*.js",
-				"<%= files.grunt %>"
+				"<%= files.grunt %>",
 			],
 			jsDontLint: [
-				"!js/templates.js"
+				"!js/templates.js",
 			],
 			scss: "css/*.scss",
 			templates: "templates/*.jst",
@@ -32,9 +30,9 @@ module.exports = function( grunt ) {
 			get config() {
 				return project.paths.config + "*.js";
 			},
-			grunt: "Gruntfile.js"
+			grunt: "Gruntfile.js",
 		},
-		pkg: grunt.file.readJSON( "package.json" )
+		pkg: grunt.file.readJSON( "package.json" ),
 	};
 
 	// Load Grunt configurations and tasks
@@ -42,7 +40,7 @@ module.exports = function( grunt ) {
 		configPath: path.join( process.cwd(), project.paths.config ),
 		data: project,
 		jitGrunt: {
-			customTasksDir: "grunt/custom"
-		}
+			customTasksDir: "grunt/custom",
+		},
 	} );
 };

@@ -1,5 +1,5 @@
 var passiveAuxiliaries = require( "./passivevoice-english/auxiliaries.js" )();
-// transitionWords.multipleWords should also be filtered (but is currently not possible because we are filtering per word).
+// Multiple words (transitionWords.multipleWords) should also be filtered (but is currently not possible because we are filtering per word).
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 // Idea: filter out all 1-character 'words' in order to exclude #, %, &, -, …, ½ etc.
 
@@ -100,7 +100,7 @@ var generalAdjectivesAdverbs = [ "new", "newer", "newest", "old", "older", "olde
 	"short", "shorter", "shortest", "main", "actual", "nice", "nicer", "nicest", "real", "same", "able", "certain", "usual",
 	"so-called", "mainly", "mostly", "recent", "anymore", "complete", "lately", "possible", "commonly", "constantly",
 	"continually", "directly", "easily", "nearly", "slightly", "somewhere", "estimated", "latest", "different", "similar",
-	"widely", "bad", "worse", "worst" ];
+	"widely", "bad", "worse", "worst", "great" ];
 
 var interjections = [ "oh", "wow", "tut-tut", "tsk-tsk", "ugh", "whew", "phew", "yeah", "yea", "shh", "oops", "ouch", "aha",
 	"yikes" ];

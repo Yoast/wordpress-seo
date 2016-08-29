@@ -17,7 +17,7 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.dgettext(
 				"js-text-analysis",
 				"The page title is too short. Use the space to add keyword variations or create compelling call-to-action copy."
-			)
+			),
 		};
 	}
 
@@ -27,7 +27,7 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.dgettext(
 				"js-text-analysis",
 				"The page title has a nice length."
-			)
+			),
 		};
 	}
 
@@ -37,13 +37,13 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 			text: i18n.dgettext(
 				"js-text-analysis",
 				"The page title is wider than the viewable limit."
-			)
+			),
 		};
 	}
 
 	return {
 		score: 1,
-		text: i18n.dgettext( "js-text-analysis", "Please create a page title." )
+		text: i18n.dgettext( "js-text-analysis", "Please create a page title." ),
 	};
 };
 
@@ -68,6 +68,6 @@ var titleWidthAssessment = function( paper, researcher, i18n ) {
 
 module.exports = {
 	identifier: "titleWidth",
-	getResult: titleWidthAssessment
+	getResult: titleWidthAssessment,
 };
 

@@ -10,7 +10,6 @@ var stripHTMLTags = require( "./stripHTMLTags.js" ).stripFullTags;
 module.exports = function( sentences ) {
 	var sentencesWordCount = [];
 	forEach( sentences, function( sentence ) {
-
 		// For counting words we want to omit the HTMLtags.
 		var strippedSentence = stripHTMLTags( sentence );
 		var length = wordCount( strippedSentence );
@@ -21,7 +20,7 @@ module.exports = function( sentences ) {
 
 		sentencesWordCount.push( {
 			sentence: sentence,
-			sentenceLength: wordCount( sentence )
+			sentenceLength: wordCount( sentence ),
 		} );
 	} );
 	return sentencesWordCount;

@@ -31,5 +31,5 @@ function normalizeQuotes( text ) {
 module.exports = {
 	normalizeSingle: normalizeSingleQuotes,
 	normalizeDouble: normalizeDoubleQuotes,
-	normalize: normalizeQuotes
+	normalize: normalizeQuotes,
 };

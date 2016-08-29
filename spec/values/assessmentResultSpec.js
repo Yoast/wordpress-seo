@@ -33,3 +33,41 @@ describe( "creating a new empty assessmentResult", function() {
 		expect( assessmentResult.getText()).toBe( "this is text" );
 	})
 });
+
+describe( "AssessmentResult", function() {
+
+	describe( "getIdentifier", function() {
+		it( "defaults to an empty string", function() {
+			var result = new AssessmentResult();
+
+			expect( result.getIdentifier() ).toBe( "" );
+		});
+
+		it( "returns the previously set identifier", function() {
+			var result = new AssessmentResult();
+
+			result.setIdentifier( "identifier" );
+
+			expect( result.getIdentifier() ).toBe( "identifier" );
+		})
+	});
+
+	describe( "getMarker", function() {
+		it( "default to an empty function", function() {
+			var result = new AssessmentResult();
+
+			expect( result.getMarker() ).toBeDefined();
+			expect( result.getMarker()() ).toEqual( [] );
+		});
+
+		it( "returns the previously set marker", function() {
+			var result = new AssessmentResult();
+			var marker = function() {};
+
+			result.setMarker( marker );
+
+			expect( result.getMarker() ).toBe( marker );
+
+		})
+	});
+});

@@ -12,7 +12,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 	if ( linkStatistics.total === 0 ) {
 		return {
 			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No links appear in this page, consider adding some as appropriate." )
+			text: i18n.dgettext( "js-text-analysis", "No links appear in this page, consider adding some as appropriate." ),
 		};
 	}
 
@@ -21,7 +21,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 			score: 7,
 			/* Translators: %1$s expands the number of outbound links */
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
-				linkStatistics.externalNofollow )
+				linkStatistics.externalNofollow ),
 		};
 	}
 
@@ -30,7 +30,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 			score: 8,
 			/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
-				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
+				linkStatistics.externalNofollow, linkStatistics.externalDofollow ),
 		};
 	}
 
@@ -38,7 +38,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 9,
 			/* Translators: %1$s expands to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal ),
 		};
 	}
 
@@ -56,7 +56,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 var textHasLinksAssessment = function( paper, researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var assessmentResult = new AssessmentResult();
-	if ( !isEmpty( linkStatistics ) ) {
+	if ( ! isEmpty( linkStatistics ) ) {
 		var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 		assessmentResult.setScore( linkStatisticsResult.score );
 		assessmentResult.setText( linkStatisticsResult.text );
@@ -67,7 +67,7 @@ var textHasLinksAssessment = function( paper, researcher, i18n ) {
 module.exports = {
 	identifier: "textLinks",
 	getResult: textHasLinksAssessment,
-	isApplicable: function ( paper ) {
+	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
 };

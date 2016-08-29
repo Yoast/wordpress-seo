@@ -57,7 +57,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 					passiveVoiceURL,
 					"</a>",
 					recommendedValue + "%"
-			)
+			),
 		};
 	}
 	return {
@@ -76,7 +76,7 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 			passiveVoiceURL,
 			"</a>",
 			recommendedValue + "%"
-		)
+		),
 	};
 };
 
@@ -94,7 +94,7 @@ var passiveVoiceMarker = function( paper, researcher ) {
 		var marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
-			marked: marked
+			marked: marked,
 		} );
 	} );
 };
@@ -127,5 +127,5 @@ module.exports = {
 		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
-	getMarks: passiveVoiceMarker
+	getMarks: passiveVoiceMarker,
 };

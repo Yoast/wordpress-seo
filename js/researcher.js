@@ -33,6 +33,7 @@ var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
+var relevantWords = require( "./researches/relevantWords" );
 
 /**
  * This contains all possible, default researches.
@@ -44,34 +45,35 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"urlLength": urlLength,
-		"wordCountInText": wordCountInText,
-		"findKeywordInPageTitle": findKeywordInPageTitle,
-		"calculateFleschReading": calculateFleschReading,
-		"getLinkStatistics": getLinkStatistics,
-		"linkCount": linkCount,
-		"imageCount": imageCount,
-		"altTagCount": altTagCount,
-		"matchKeywordInSubheadings": matchKeywordInSubheadings,
-		"getKeywordDensity": getKeywordDensity,
-		"stopWordsInKeyword": stopWordsInKeyword,
-		"stopWordsInUrl": stopWordsInUrl,
-		"metaDescriptionLength": metaDescriptionLength,
-		"keyphraseLength": keyphraseLength,
-		"keywordCountInUrl": keywordCountInUrl,
-		"firstParagraph": findKeywordInFirstParagraph,
-		"metaDescriptionKeyword": metaDescriptionKeyword,
-		"pageTitleWidth": pageTitleWidth,
-		"wordComplexity": wordComplexity,
-		"getParagraphLength": getParagraphLength,
-		"countSentencesFromText": countSentencesFromText,
-		"countSentencesFromDescription": countSentencesFromDescription,
-		"getSubheadingLength": getSubheadingLength,
-		"getSubheadingTextLengths": getSubheadingTextLengths,
-		"getSubheadingPresence": getSubheadingPresence,
-		"findTransitionWords": findTransitionWords,
-		"passiveVoice": passiveVoice,
-		"getSentenceBeginnings": getSentenceBeginnings
+		urlLength: urlLength,
+		wordCountInText: wordCountInText,
+		findKeywordInPageTitle: findKeywordInPageTitle,
+		calculateFleschReading: calculateFleschReading,
+		getLinkStatistics: getLinkStatistics,
+		linkCount: linkCount,
+		imageCount: imageCount,
+		altTagCount: altTagCount,
+		matchKeywordInSubheadings: matchKeywordInSubheadings,
+		getKeywordDensity: getKeywordDensity,
+		stopWordsInKeyword: stopWordsInKeyword,
+		stopWordsInUrl: stopWordsInUrl,
+		metaDescriptionLength: metaDescriptionLength,
+		keyphraseLength: keyphraseLength,
+		keywordCountInUrl: keywordCountInUrl,
+		firstParagraph: findKeywordInFirstParagraph,
+		metaDescriptionKeyword: metaDescriptionKeyword,
+		pageTitleWidth: pageTitleWidth,
+		wordComplexity: wordComplexity,
+		getParagraphLength: getParagraphLength,
+		countSentencesFromText: countSentencesFromText,
+		countSentencesFromDescription: countSentencesFromDescription,
+		getSubheadingLength: getSubheadingLength,
+		getSubheadingTextLengths: getSubheadingTextLengths,
+		getSubheadingPresence: getSubheadingPresence,
+		findTransitionWords: findTransitionWords,
+		passiveVoice: passiveVoice,
+		getSentenceBeginnings: getSentenceBeginnings,
+		relevantWords: relevantWords,
 	};
 
 	this.customResearches = {};
@@ -100,7 +102,7 @@ Researcher.prototype.addResearch = function( name, research ) {
 		throw new MissingArgument( "Research name cannot be empty" );
 	}
 
-	if ( !( research instanceof Function ) ) {
+	if ( ! ( research instanceof Function ) ) {
 		throw new InvalidTypeError( "The research requires a Function callback." );
 	}
 
@@ -138,7 +140,7 @@ Researcher.prototype.getResearch = function( name ) {
 		throw new MissingArgument( "Research name cannot be empty" );
 	}
 
-	if ( !this.hasResearch( name ) ) {
+	if ( ! this.hasResearch( name ) ) {
 		return false;
 	}
 

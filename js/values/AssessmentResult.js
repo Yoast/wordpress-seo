@@ -29,11 +29,11 @@ var AssessmentResult = function( values ) {
 		values = {};
 	}
 
-	if ( !isUndefined( values.score ) ) {
+	if ( ! isUndefined( values.score ) ) {
 		this.setScore( values.score );
 	}
 
-	if ( !isUndefined( values.text ) ) {
+	if ( ! isUndefined( values.text ) ) {
 		this.setText( values.text );
 	}
 };
