@@ -1,7 +1,7 @@
-import MailchimpSignup from '../custom_components/MailchimpSignup';
-import PublishingEntity from "../custom_components/PublishingEntity";
-import PostTypeVisibility from "../custom_components/PostTypeVisibility";
-import ConnectGoogleSearchConsole from "../custom_components/ConnectGoogleSearchConsole";
+import MailchimpSignup from '../components/custom_components/MailchimpSignup';
+import PublishingEntity from "../components/custom_components/PublishingEntity";
+import PostTypeVisibility from "../components/custom_components/PostTypeVisibility";
+import ConnectGoogleSearchConsole from "../components/custom_components/ConnectGoogleSearchConsole";
 
 let configuration = {
 	"endpoint": "http://127.0.0.1:8882/onboarding?wp_nonce=nonce",
@@ -10,20 +10,20 @@ let configuration = {
 	},
 	"fields": {
 		"upsellConfigurationService": {
-			"component": "HTML",
+			"componentName": "HTML",
 			"properties": {
 				"html": "You can now have Yoast configure Yoast SEO for you.",
 			},
 		},
 		"mailchimpSignup": {
-			"component": "MailchimpSignup",
+			"componentName": "MailchimpSignup",
 			"properties": {
 				"label": "If you would like us to keep you up-to-date regarding Yoast SEO and other plugins by Yoast, subscribe to our newsletter:",
 			},
 			"data": "",
 		},
 		"environment": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "Please specify the environment {site_url} is running in.",
 				"choices": {
@@ -36,7 +36,7 @@ let configuration = {
 			"default": "production",
 		},
 		"siteType": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "What type of site is {site_url}?",
 				"choices": {
@@ -63,7 +63,7 @@ let configuration = {
 			"data": "",
 		},
 		"publishingEntity": {
-			"component": "PublishingEntity",
+			"componentName": "PublishingEntity",
 			"data": {
 				"publishingEntityType": "{publishing_entity_type}",
 			},

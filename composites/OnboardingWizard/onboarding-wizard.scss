@@ -1,0 +1,120 @@
+$prefix: "yoast-wizard";
+body {
+  width: 100%;
+  text-align: center;
+  background: #f8f8f8;
+  font-family: "Open Sans", sans-serif;
+}
+
+.#{$prefix} {
+  text-align: left;
+  min-height: 20px;
+  background: #FFF;
+  padding: 1em;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+
+  button {
+    color: #23282d;
+    background: #fafafa;
+    border-radius: 4px;
+    font-size: 1.25em;
+    padding: .5em 1em;
+    line-height: 1em;
+    margin-right: .5em;
+    margin-bottom: 2px;
+    margin-top: .5em;
+    height: auto;
+  }
+
+  &-step-container {
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+  &-overlay {
+    z-index: 10;
+    opacity: 0.2;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    color: #ffffff;
+    text-align: center;
+    width: 100%;
+  }
+
+  &-container {
+    border: 1px solid #CCC;
+    width: 80%;
+    text-align: left;
+    min-height: 20px;
+    margin: 0 auto;
+    position: relative;
+
+    fieldset {
+      border: 0;
+    }
+  }
+
+  &-text-input {
+    &-label {
+      display: inline-block;
+      width: 100%;
+      max-width: 200px;
+    }
+  }
+
+  input {
+    margin: 1.5em 0 1em 1em;
+  }
+
+  input[type="radio"] {
+    margin-right: 1em;
+  }
+
+  &-input-radio {
+
+    &-separator {
+      input {
+        /* visually hide the radio buttons but keep them accessible */
+        position: absolute;
+        left: -9999em;
+        width: 1px;
+        height: 1px;
+
+        & + label {
+          float: left;
+          width: 30px !important;
+          margin: 0 5px 5px 0 !important;
+          padding: 9px 6px;
+          border: 1px solid #ccc;
+          /* Don't change: these mimic Google's font and font size for titles */
+          font-family: Arial, Helvetica, sans-serif !important;
+          font-size: 18px !important;
+          line-height: 24px;
+          text-align: center;
+          cursor: pointer;
+        }
+        &:checked + label {
+          border: 1px solid #a4286a;
+          background-color: #fff;
+          box-shadow: inset 0 0 0 2px #a4286a;
+        }
+        &:focus + label {
+          border-radius: 10px;
+          border-bottom-right-radius: 0;
+        }
+      }
+    }
+  }
+}
+
+
+
+

@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Wizard from "./composites/onboarding-wizard/wizard";
-import Config from "./composites/onboarding-wizard/config/config";
+import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
+import Config from "./composites/OnboardingWizard/config/production-config";
 
 function cloneDeep( object ) {
 	return JSON.parse( JSON.stringify( object ) );
