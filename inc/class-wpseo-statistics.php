@@ -23,7 +23,7 @@ class WPSEO_Statistics {
 				'meta_query' => array(
 					'relation' => 'OR',
 					array(
-						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+						'key'     => WPSEO_Meta::$meta_prefix . 'focuskw',
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
 					)

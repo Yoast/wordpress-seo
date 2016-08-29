@@ -19,8 +19,8 @@ build:
   - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
+  - 'copy'
   - 'browserify:build'
-  - 'browserify:buildes6'
   - 'uglify'
 # Build internationalisation features
 'build:i18n':
@@ -36,10 +36,7 @@ check:
   - 'check:php'
   - 'check:i18n'
 'check:js':
-  - 'jshint'
-  - 'jsonlint'
-  - 'jsvalidate'
-  - 'jscs'
+  - 'eslint'
 'check:php':
   - 'phplint'
   - 'phpcs'
@@ -56,6 +53,7 @@ release:
   - 'build:css'
   - 'cssmin'
 'release:js':
+  - 'copy'
   - 'browserify:build'
   - 'browserify:release-es6'
   - 'uglify'

@@ -4,8 +4,8 @@
 /* jshint -W097 */
 /* jshint -W003 */
 
-(function( $ ) {
-	'use strict';
+( function( $ ) {
+	"use strict";
 	var featuredImagePlugin;
 	var featuredImageElement;
 
@@ -13,7 +13,7 @@
 		this._app = app;
 
 		this.featuredImage = null;
-		this.pluginName = 'addFeaturedImagePlugin';
+		this.pluginName = "addFeaturedImagePlugin";
 
 		this.registerPlugin();
 		this.registerModifications();
@@ -41,14 +41,14 @@
 	 * Registers this plugin to YoastSEO
 	 */
 	FeaturedImagePlugin.prototype.registerPlugin = function() {
-		this._app.registerPlugin( this.pluginName, { status: 'ready' } );
+		this._app.registerPlugin( this.pluginName, { status: "ready" } );
 	};
 
 	/**
 	 * Registers modifications to YoastSEO
 	 */
 	FeaturedImagePlugin.prototype.registerModifications = function() {
-		this._app.registerModification( 'content', this.addImageToContent.bind( this ), this.pluginName, 10 );
+		this._app.registerModification( "content", this.addImageToContent.bind( this ), this.pluginName, 10 );
 	};
 
 	/**
@@ -66,20 +66,28 @@
 	};
 
 	/**
+	 * Remove opengraph warning frame and borders
+	 */
+	function removeOpengraphWarning() {
+		$( "#yst_opengraph_image_warning" ).remove();
+		$( "#postimagediv" ).css( "border", "none" );
+	}
+
+	/**
 	 * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
 	 * @param {object} featuredImage
 	 */
 	function checkFeaturedImage( featuredImage ) {
-		var attachment = featuredImage.state().get( 'selection' ).first().toJSON();
+		var attachment = featuredImage.state().get( "selection" ).first().toJSON();
 
 		if ( attachment.width < 200 || attachment.height < 200 ) {
-			//Show warning to user and do not add image to OG
-			if ( 0 === $( '#yst_opengraph_image_warning' ).length ) {
-				var $postImageDiv = $( '#postimagediv' );
-				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + '</p></div>' ).insertBefore( $postImageDiv );
+			// Show warning to user and do not add image to OG
+			if ( 0 === $( "#yst_opengraph_image_warning" ).length ) {
+				var $postImageDiv = $( "#postimagediv" );
+				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + "</p></div>" ).insertBefore( $postImageDiv );
 				$postImageDiv.css( {
-					border: 'solid #dd3d36',
-					borderWidth: '3px 4px 4px 4px'
+					border: "solid #dd3d36",
+					borderWidth: "3px 4px 4px 4px",
 				} );
 			}
 		} else {
@@ -88,55 +96,48 @@
 		}
 	}
 
-	/**
-	 * Remove opengraph warning frame and borders
-	 */
-	function removeOpengraphWarning() {
-		$( '#yst_opengraph_image_warning' ).remove();
-		$( '#postimagediv').css( 'border', 'none' );
-	}
-
 	$( document ).ready( function() {
 		var featuredImage = wp.media.featuredImage.frame();
 
 		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
 
-		featuredImage.on( 'select', function() {
+		featuredImage.on( "select", function() {
 			var selectedImageHTML, selectedImage, alt;
 
 			checkFeaturedImage( featuredImage );
 
-			selectedImage = featuredImage.state().get( 'selection' ).first();
+			selectedImage = featuredImage.state().get( "selection" ).first();
 
 			// WordPress falls back to the title for the alt attribute if no alt is present.
-			alt = selectedImage.get( 'alt' );
+			alt = selectedImage.get( "alt" );
 
-			if ( '' === alt ) {
-				alt = selectedImage.get( 'title' );
+			if ( "" === alt ) {
+				alt = selectedImage.get( "title" );
 			}
 
-			selectedImageHTML = '<img' +
-				' src="' + selectedImage.get( 'url' ) + '"' +
-				' width="' + selectedImage.get( 'width' ) + '"' +
-				' height="' + selectedImage.get( 'height' ) + '"' +
+			selectedImageHTML = "<img" +
+				' src="' + selectedImage.get( "url" ) + '"' +
+				' width="' + selectedImage.get( "width" ) + '"' +
+				' height="' + selectedImage.get( "height" ) + '"' +
 				' alt="' + alt +
 				'"/>';
 
 			featuredImagePlugin.setFeaturedImage( selectedImageHTML );
-		});
+		} );
 
-		$( '#postimagediv' ).on( 'click', '#remove-post-thumbnail', function() {
+		$( "#postimagediv" ).on( "click", "#remove-post-thumbnail", function() {
 			featuredImagePlugin.removeFeaturedImage();
 			removeOpengraphWarning();
-		});
+		} );
 
-		featuredImageElement = $( '#set-post-thumbnail > img' );
-		if ( 'undefined' !== typeof featuredImageElement.prop( 'src' ) ) {
-			featuredImagePlugin.setFeaturedImage( $( '#set-post-thumbnail ' ).html() );
+		featuredImageElement = $( "#set-post-thumbnail > img" );
+		if ( "undefined" !== typeof featuredImageElement.prop( "src" ) ) {
+			featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
 		}
-	});
-}( jQuery ));
+	} );
+}( jQuery ) );
 
+/* eslint-disable */
 /* jshint ignore:start */
 /**
  * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
@@ -187,3 +188,4 @@ window.removeThumb = removeThumb;
 window.yst_overrideElemFunction = yst_overrideElemFunction;
 window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
 /* jshint ignore:end */
+/* eslint-enable */

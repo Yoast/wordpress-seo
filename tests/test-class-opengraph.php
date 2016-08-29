@@ -235,7 +235,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_HAS_front_page_image() {
-		$stub = $this->getMock( 'WPSEO_OpenGraph', array( 'og_tag') );
+
+		$stub =
+			$this
+				->getMockBuilder( 'WPSEO_OpenGraph' )
+				->setMethods( array( 'og_tag' ) )
+				->getMock();
 
 		$stub->options = array(
 			'og_frontpage_image' => get_site_url() . '/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg',
@@ -254,7 +259,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_HAS_NO_image() {
-		$stub = $this->getMock( 'WPSEO_OpenGraph', array( 'og_tag') );
+
+		$stub =
+			$this
+				->getMockBuilder( 'WPSEO_OpenGraph' )
+				->setMethods( array( 'og_tag' ) )
+				->getMock();
 
 		$stub
 			->expects( $this->never() )
@@ -474,6 +484,13 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
 		$description = self::$class_instance->description( false );
 		$this->assertEquals( 'OG description', $description );
+
+		$image_url       = 'https://example.com/image.png';
+		$expected_output = '<meta property="og:image" content="' . $image_url . '" />';
+		WPSEO_Meta::set_value( 'opengraph-image', $image_url, $post_id );
+		ob_start();
+		self::$class_instance->image( false );
+		$this->assertEquals( $expected_output, trim( ob_get_clean() ) );
 	}
 
 	/**
