@@ -51,14 +51,14 @@ class OnboardingWizard extends React.Component {
 			let stepKeyName = stepKeyNames[ stepIndex ];
 
 			if ( stepIndex > 0 ) {
-				steps[ stepKeyName ].previous = stepKeyNames[stepIndex -1];
+				steps[ stepKeyName ].previous = stepKeyNames[ stepIndex - 1 ];
 			}
 
-			if ( stepIndex > - 1 && stepIndex < stepKeyNamesLength -1 ) {
-				steps[ stepKeyName ].next = stepKeyNames[ stepIndex +1 ];
+			if ( stepIndex > -1 && stepIndex < stepKeyNamesLength - 1 ) {
+				steps[ stepKeyName ].next = stepKeyNames[ stepIndex + 1 ];
 			}
 
-			steps[stepKeyName].fields = this.getFields( steps[stepKeyName].fields );
+			steps[ stepKeyName ].fields = this.getFields( steps[ stepKeyName ].fields );
 		}
 
 		return steps;
@@ -74,7 +74,8 @@ class OnboardingWizard extends React.Component {
 	getFields( fieldsToGet = [] ) {
 		let fields = {};
 
-		fieldsToGet.forEach( ( fieldName ) => {
+		fieldsToGet.forEach(
+			( fieldName ) => {
 				if ( this.props.fields[ fieldName ] ) {
 					fields[ fieldName ] = this.props.fields[ fieldName ];
 				}
@@ -197,7 +198,7 @@ class OnboardingWizard extends React.Component {
 		let stepNumber = steps.indexOf( currentStep );
 
 		if ( stepNumber > -1 ) {
-			return stepNumber +1;
+			return stepNumber + 1;
 		}
 
 		return 0;

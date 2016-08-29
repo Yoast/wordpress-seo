@@ -5,12 +5,12 @@ import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 
+// Required to make Material UI work with touch screens.
+import injectTapEventPlugin from "react-tap-event-plugin";
+
 function cloneDeep( object ) {
 	return JSON.parse( JSON.stringify( object ) );
 }
-
-// Required to make Material UI work with touch screens.
-var injectTapEventPlugin = require("react-tap-event-plugin");
 
 class App extends React.Component {
 
