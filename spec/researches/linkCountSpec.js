@@ -251,4 +251,35 @@ describe("Tests a string for anchors and analyzes these", function() {
 		} );
 
 	});
+
+	it( "should match without a keyword", function() {
+		var attributes = {
+			keyword: "",
+			url: "http://example.org/keyword#top",
+			permalink: "http://example.org/keyword#top"
+		};
+
+		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>keyword</a>", attributes );
+
+		foundLinks = linkCount( mockPaper );
+
+		expect( foundLinks ).toEqual( {
+			total: 1,
+			totalNaKeyword: 0,
+			keyword: {
+				totalKeyword: 0,
+				matchedAnchors: []
+			},
+			internalTotal: 0,
+			internalDofollow: 0,
+			internalNofollow: 0,
+			externalTotal: 1,
+			externalDofollow: 1,
+			externalNofollow: 0,
+			otherTotal: 0,
+			otherDofollow: 0,
+			otherNofollow: 0
+		} );
+	});
+
 });
