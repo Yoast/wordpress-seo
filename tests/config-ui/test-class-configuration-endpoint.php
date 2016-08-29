@@ -41,7 +41,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Endpoint::set_service()
 	 */
 	public function test_set_service() {
-		$service = $this->getMockBuilder( WPSEO_Configuration_Service::class )->getMock();
+		$service = $this->getMockBuilder( 'WPSEO_Configuration_Service' )->getMock();
 
 		$this->assertNull( $this->endpoint->set_service( $service ) );
 		$this->assertEquals( $service, $this->endpoint->get_service() );

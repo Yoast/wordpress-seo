@@ -299,7 +299,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends WPSEO_Un
 	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::set_gsc_service()
 	 */
 	public function test_set_gsc_service() {
-		$service = $this->getMockBuilder( WPSEO_GSC_Service::class )->getMock();
+		$service = $this->getMockBuilder( 'WPSEO_GSC_Service' )->getMock();
 
 		$this->component->set_gsc_service( $service );
 

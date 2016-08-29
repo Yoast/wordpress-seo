@@ -70,7 +70,7 @@ class WPSEO_Configuration_Components_Tests extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Components::add_component()
 	 */
 	public function test_add_component() {
-		$component = $this->getMockBuilder( WPSEO_Config_Component::class )->getMock();
+		$component = $this->getMockBuilder( 'WPSEO_Config_Component' )->getMock();
 
 		$this->assertNull( $this->components->add_component( $component ) );
 
