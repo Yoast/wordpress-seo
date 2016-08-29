@@ -218,7 +218,7 @@ import AlgoliaSearcher from './kb-search/wp-seo-kb-search.js';
 		 * adds a `#_=_` see PR 506. In these cases and when it's empty, default
 		 * to the first tab.
 		 */
-		if ( activeTabId === '' || '#' === activeTabId.charAt( 0 ) ) {
+		if ( '' === activeTabId || '#' === activeTabId.charAt( 0 ) ) {
 			/*
 			 * jQuery attr() gets the attribute value for only the first element
 			 * in the matched set so this will always be the first tab id.
