@@ -231,7 +231,7 @@ class OnboardingWizard extends React.Component {
 	/**
 	 * Renders the wizard.
 	 *
-	 * @returns {JSX} The rendered step in the wizard.
+	 * @returns {JSX.Element} The rendered step in the wizard.
 	 */
 	render() {
 		let step = this.getCurrentStep();

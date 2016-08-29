@@ -61,6 +61,11 @@ class StepIndicator extends React.Component {
 		} );
 	}
 
+	/**
+	 * Renders the StepIndicator
+	 *
+	 * @returns {JSX.Element} The rendered step indicator.
+	 */
 	render() {
 		return (
 			<div className="yoast-wizard--stepper">
