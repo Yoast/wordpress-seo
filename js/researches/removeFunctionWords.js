@@ -14,12 +14,12 @@ var orderBy = require( "lodash/orderBy" );
  * @param {string} text The text to remove all function words from
  * @returns {Array} The array containing all remaining words from the text.
  */
-var removeFunctionWords = function ( text ) {
+var removeFunctionWords = function( text ) {
 	var words = getWords( text );
 	words.sort();
 	var sortedWords = [];
 	var occurrence = 1;
-	forEach( words, function ( word, index ) {
+	forEach( words, function( word, index ) {
 		if ( word === words[ index + 1 ] ) {
 			occurrence++;
 		} else {
@@ -28,12 +28,11 @@ var removeFunctionWords = function ( text ) {
 		}
 	} );
 
-	var filteredWords = filter( sortedWords, function ( word ) {
-		return !includes( exclusions, word.word );
+	var filteredWords = filter( sortedWords, function( word ) {
+		return ! includes( exclusions, word.word );
 	} );
 	filteredWords = orderBy( filteredWords, [ "occurrence" ], [ "desc" ] );
 	return filteredWords;
-
 };
 
 module.exports = function( paper ) {
