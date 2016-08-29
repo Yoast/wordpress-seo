@@ -36,6 +36,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'website_name'                    => '',
 		'alternate_website_name'          => '',
 		'yandexverify'                    => '',
+		'site_type'                       => '', // List of options.
+		'has_multiple_authors'            => '',
 	);
 
 	/**
@@ -49,6 +51,15 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'yandexverify',
 	);
 
+	/** @var array Array of possible values for the site_type option */
+	protected $site_types = array(
+		'',
+		'blog',
+		'news',
+		'smallBusiness',
+		'corporateOther',
+		'personalOther',
+	);
 
 	/**
 	 * Add the actions and filters for the option
@@ -154,6 +165,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
+				case 'site_type':
+					$clean[ $key ] = '';
+					if ( in_array( $dirty[ $key ], $this->site_types, true ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
 
 				/*
 				Boolean (checkbox) fields
