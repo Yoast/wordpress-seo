@@ -93,9 +93,9 @@ let postJSON = ( url, headers = {}, data = {} ) => {
 	data = JSON.stringify( data );
 
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
-		return postJSONFetch( endpoint.url, data );
+		return postJSONFetch( url, data );
 	}
-
+	console.log("POST settings");
 	return postJSONjQuery( url, data, headers );
 };
 
