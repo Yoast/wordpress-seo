@@ -18,9 +18,9 @@ $version = '3.4';
  */
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
-		echo '<li class="wp-person" id="wp-person-', $username, '">';
-		echo '<a href="https://github.com/', $username, '" class="web"><img src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="">', $dev->name, '</a>';
-		echo '<span class="title">', $dev->role, "</span></li>\n";
+		echo '<li class="wp-person" id="wp-person-', esc_attr( $username ), '">';
+		echo '<a href="', esc_url( 'https://github.com/' . $username ), '" class="web"><img src="', esc_url( '//gravatar.com/avatar/' . $dev->gravatar ), '?s=60" class="gravatar" alt="">', esc_html( $dev->name ), '</a>';
+		echo '<span class="title">', esc_html( $dev->role ), "</span></li>\n";
 	}
 }
 
@@ -30,7 +30,7 @@ function wpseo_display_contributors( $contributors ) {
 
 	<h1><?php
 		/* translators: %1$s expands to Yoast SEO */
-		printf( __( 'Thank you for updating %1$s!', 'wordpress-seo' ), 'Yoast SEO' );
+		printf( esc_html__( 'Thank you for updating %1$s!', 'wordpress-seo' ), 'Yoast SEO' );
 		?></h1>
 
 	<p class="about-text">
@@ -45,12 +45,12 @@ function wpseo_display_contributors( $contributors ) {
 		<a class="nav-tab" href="#top#new" id="new-tab">
 			<?php
 			/* translators: %s: '3.2' version number */
-			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), $version );
+			echo sprintf( esc_html__( 'What’s new in %s', 'wordpress-seo' ), esc_html( $version ) );
 			?>
 		</a>
 		<a class="nav-tab" href="#top#integrations"
-		   id="integrations-tab"><?php _e( 'Integrations', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
+		   id="integrations-tab"><?php esc_html_e( 'Integrations', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div id="new" class="wpseotab">
@@ -119,7 +119,7 @@ function wpseo_display_contributors( $contributors ) {
 		</div>
 
 		<div class="return-to-dashboard">
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) ); ?>"><?php _e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) ); ?>"><?php esc_html_e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
 		</div>
 
 	</div>
@@ -165,13 +165,13 @@ function wpseo_display_contributors( $contributors ) {
 		<p class="about-description">
 			<?php
 			/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
-			printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
+			printf( esc_html__( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
 			echo ' ';
-			printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/wpseocontributionguidelines">', '</a>' );
+			printf( esc_html__( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/wpseocontributionguidelines">', '</a>' );
 			?>
 		</p>
 
-		<h3 class="wp-people-group"><?php _e( 'Product Management', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Product Management', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-project-leaders">
 			<?php
 			$people = array(
@@ -195,7 +195,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Development Leaders', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-development-leaders">
 			<?php
 			$people = array(
@@ -219,7 +219,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Yoast Developers', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$people = array(
@@ -278,7 +278,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Quality Assurance & Testing', 'wordpress-seo' ); ?></h3>
 		<ul class="wp-people-group " id="wp-people-group-qa-testing">
 			<?php
 			$people = array(
@@ -302,19 +302,19 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
+		<h3 class="wp-people-group"><?php esc_html_e( 'Community contributors', 'wordpress-seo' ); ?></h3>
 		<?php
 		$patches_from = array(
-			'Daniel Bachhuber' => 'https://github.com/tfrommen',
+			'Daniel Bachhuber' => 'https://github.com/tfrommen', // TODO either name is wrong or account. R.
 			'Robert Korulczyk' => 'https://github.com/rob006',
 			'pawawat'          => 'https://github.com/pawawat',
 		);
 		?>
-		<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?></p>
+		<p><?php printf( esc_html__( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', esc_html( $version ) ); ?></p>
 		<ul class="ul-square">
 			<?php
 			foreach ( $patches_from as $patcher => $link ) {
-				echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
+				echo '<li><a href="', esc_url( $link ), '">', esc_html( $patcher ), '</a></li>';
 			}
 			?>
 		</ul>

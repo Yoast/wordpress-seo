@@ -70,12 +70,12 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 
 	<h1 id="wpseo-title"><?php
 		/* translators: %1$s expands to Yoast SEO */
-		printf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
+		printf( esc_html__( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
 		?></h1>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" id="extensions-tab" href="#top#extensions"><?php _e( 'Extensions', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="licenses-tab" href="#top#licenses"><?php _e( 'Licenses', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="extensions-tab" href="#top#extensions"><?php esc_html_e( 'Extensions', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="licenses-tab" href="#top#licenses"><?php esc_html_e( 'Licenses', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div class="tabwrapper">
@@ -96,7 +96,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 							<button class="button button-primary installed">Installed</button>
 						<?php else : ?>
 							<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button button-primary">
-								<?php _e( 'Get this extension', 'wordpress-seo' ); ?>
+								<?php esc_html_e( 'Get this extension', 'wordpress-seo' ); ?>
 							</a>
 						<?php endif; ?>
 					</p>
@@ -114,7 +114,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 			 */
 			settings_errors();
 			if ( ! has_action( 'wpseo_licenses_forms' ) ) {
-				echo '<div class="msg"><p>', __( 'This is where you would enter the license keys for one of our premium plugins, should you activate one.', 'wordpress-seo' ), '</p></div>';
+				echo '<div class="msg"><p>', esc_html__( 'This is where you would enter the license keys for one of our premium plugins, should you activate one.', 'wordpress-seo' ), '</p></div>';
 			}
 			else {
 				do_action( 'wpseo_licenses_forms' );

@@ -49,7 +49,7 @@ if ( '' === $tool_page ) {
 	*/
 
 	/* translators: %1$s expands to Yoast SEO */
-	echo '<p>', sprintf( __( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
+	echo '<p>', sprintf( esc_html__( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
 
 	asort( $tools );
 
@@ -62,17 +62,18 @@ if ( '' === $tool_page ) {
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';
+		// TODO escaping, attribute? Can description contain HTML? R.
 		echo '<strong><a href="' , esc_attr( $href ) , '" ' , $attr , '>', esc_html( $tool['title'] ), '</a></strong><br/>';
 		echo $tool['desc'];
 		echo '</li>';
 	}
 	echo '</ul>';
 
-	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . wp_create_nonce( 'wpseo_recalculate' ) . '" />';
+	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_recalculate' ) ) . '" />';
 
 }
 else {
-	echo '<a href="', admin_url( 'admin.php?page=wpseo_tools' ), '">', __( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
+	echo '<a href="', esc_url( admin_url( 'admin.php?page=wpseo_tools' ) ), '">', esc_html__( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
 
 	$tool_pages = array( 'bulk-editor', 'import-export' );
 

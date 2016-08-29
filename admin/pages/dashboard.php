@@ -40,15 +40,15 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 	if ( $xml_sitemap_options['enablexmlsitemap'] ) {
 
 		echo '<p id="blocking_files" class="wrong">';
-		echo '<a href="javascript:wpseoKillBlockingFiles(\'', esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ), '\')" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
-		echo __( 'The following file(s) is/are blocking your XML sitemaps from working properly:', 'wordpress-seo' ), '<br/>';
+		echo '<a href="javascript:wpseoKillBlockingFiles(\'', esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ), '\')" class="button fixit">', esc_html__( 'Fix it.', 'wordpress-seo' ), '</a>';
+		echo esc_html__( 'The following file(s) is/are blocking your XML sitemaps from working properly:', 'wordpress-seo' ), '<br/>';
 		foreach ( $options['blocking_files'] as $file ) {
 			echo esc_html( $file ), '<br/>';
 		}
 		unset( $file );
 
 		/* translators: %1$s expands to Yoast SEO */
-		echo sprintf( __( 'Either delete them (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
+		echo sprintf( esc_html__( 'Either delete them (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
 	}
 }
 
