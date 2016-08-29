@@ -1,6 +1,7 @@
 var getWords = require( "../stringProcessing/getWords" );
 var getSentences = require( "../stringProcessing/getSentences" );
 var WordCombination = require( "../values/WordCombination" );
+var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -28,6 +29,7 @@ function getWordCombinations( text, combinationSize ) {
 
 	return flatMap( sentences, function( sentence ) {
 		sentence = sentence.toLocaleLowerCase();
+		sentence = normalizeSingleQuotes( sentence );
 		words = getWords( sentence );
 
 		return filter( map( words, function( word, i ) {
