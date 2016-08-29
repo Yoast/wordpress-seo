@@ -10,7 +10,7 @@ import { termsTmceId as tmceId } from "../wp-seo-tinymce";
 let $ = jQuery;
 
 /**
- * Show warning in console when the unsupported CkEditor is used
+ * Show warning in console when the unsupported CkEditor is used.
  *
  * @param {Object} args The arguments for the post scraper.
  * @param {TabManager} args.tabManager The tab manager for this post.
@@ -27,6 +27,7 @@ var TermDataCollector = function( args ) {
 
 /**
  * Returns data fetched from input fields.
+ *
  * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
  */
 TermDataCollector.prototype.getData = function() {
@@ -181,6 +182,7 @@ TermDataCollector.prototype.getPageTitle = function() {
 
 /**
  * When the snippet is updated, update the (hidden) fields on the page.
+ *
  * @param {Object} value Value for the data to set.
  * @param {String} type The field(type) that the data is set for.
  */
@@ -215,14 +217,14 @@ TermDataCollector.prototype.saveSnippetData = function( data ) {
 };
 
 /**
- * binds elements
+ * Binds TermDataCollector events to elements.
  */
 TermDataCollector.prototype.bindElementEvents = function( app ) {
 	this.inputElementEventBinder( app );
 };
 
 /**
- * binds the renewData function on the change of inputelements.
+ * Binds the renewData function on the change of inputelements.
  */
 TermDataCollector.prototype.inputElementEventBinder = function( app ) {
 	var elems = [ "name", tmceId, "slug", "wpseo_focuskw" ];
