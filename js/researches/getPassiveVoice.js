@@ -223,11 +223,11 @@ var getIrregularVerbs = function( sentence ) {
 
 	return filter( irregularVerbs, function( verb ) {
 		// If rid is used with get, gets, getting, got or gotten, remove it.
-		if ( verb.match !== "rid" ) {
+		if ( verb !== "rid" ) {
 			return true;
 		}
 
-		return hasExcludedIrregularVerb( sentence );
+		return !hasExcludedIrregularVerb( sentence );
 	} );
 };
 

@@ -361,4 +361,13 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	});
 
+	it( "returns no passive sentence when there is an exception with 'rid'", function () {
+		// Passive: no passive, auxiliary: got
+		paper = new Paper( "He got rid of it" );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: []
+		} );
+	});
+
 } );
