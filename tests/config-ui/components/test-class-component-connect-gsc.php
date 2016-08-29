@@ -136,7 +136,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends WPSEO_Un
 	 */
 	public function test_get_field() {
 		$this->assertEquals(
-			WPSEO_Config_Field_Connect_Google_Search_Console::class,
+			'WPSEO_Config_Field_Connect_Google_Search_Console',
 			get_class( $this->component->get_field() )
 		);
 	}

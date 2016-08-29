@@ -13,11 +13,13 @@ class WPSEO_Configuration_Endpoint_Mock extends WPSEO_Configuration_Endpoint {
 	}
 }
 
-class WPSEO_WP_REST_Server_Mock extends WP_REST_Server {
-	public function get_endpoints() {
-		return $this->endpoints;
+if ( class_exists( 'WP_REST_Server' ) ):
+	class WPSEO_WP_REST_Server_Mock extends WP_REST_Server {
+		public function get_endpoints() {
+			return $this->endpoints;
+		}
 	}
-}
+endif;
 
 /**
  * Class WPSEO_Configuration_Endpoint_Test
@@ -134,8 +136,16 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Configuration_Endpoint::register()
+	 *
 	 */
 	public function test_register() {
+
+		if ( ! class_exists( 'WP_REST_Server' ) ) {
+			$this->markTestSkipped( 'WordPress version too low to test with WP_REST_Server.' );
+
+			return;
+		}
+
 		global $wp_rest_server;
 		$wp_rest_server = new WPSEO_WP_REST_Server_Mock();
 
