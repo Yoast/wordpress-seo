@@ -12,7 +12,10 @@ class WPSEO_Configuration_Options_Adapter_Mock extends WPSEO_Configuration_Optio
 	 *
 	 * Removes default registrations
 	 */
-	public function __construct() {
+	public function __construct( $execute_default_constructor = false ) {
+		if ( $execute_default_constructor ) {
+			parent::__construct();
+		}
 	}
 
 	public function get_lookups() {
@@ -47,6 +50,17 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 
 		$this->adapter = new WPSEO_Configuration_Options_Adapter_Mock();
+	}
+
+	/**
+	 * @covers WPSEO_Configuration_Options_Adapter::__construct()
+	 */
+	public function test_constructor() {
+
+		$adapter = new WPSEO_Configuration_Options_Adapter_Mock( true );
+		$lookups = $adapter->get_lookups();
+
+		$this->assertEquals( 13, count( $lookups ) );
 	}
 
 	/**

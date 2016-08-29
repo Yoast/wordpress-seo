@@ -37,6 +37,29 @@ class WPSEO_Configuration_Structure_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Configuration_Structure::__construct()
+	 */
+	public function test_constructor() {
+		$steps = $this->structure->retrieve();
+
+		$expected = array(
+			'intro',
+			'environment',
+			'siteType',
+			'publishingEntity',
+			'profileUrls',
+			'postTypeVisibility',
+			'multipleAuthors',
+			'connectGoogleSearchConsole',
+			'titleTemplate',
+			'tagLine',
+			'success',
+		);
+
+		$this->assertEquals( $expected, array_keys( $steps ) );
+	}
+
+	/**
 	 * @covers WPSEO_Configuration_Structure::add_step()
 	 */
 	public function test_add_step() {

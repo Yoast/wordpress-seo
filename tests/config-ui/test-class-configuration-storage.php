@@ -34,6 +34,16 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Configuration_Storage::add_default_fields()
+	 */
+	public function test_constructor() {
+		$this->storage->add_default_fields();
+		$fields = $this->storage->get_fields();
+
+		$this->assertEquals( 18, count( $fields ) );
+	}
+
+	/**
 	 * @covers WPSEO_Configuration_Storage::add_field()
 	 */
 	public function test_add_field() {
