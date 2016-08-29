@@ -74,11 +74,11 @@ body {
     margin: 1.5em 0 1em 1em;
   }
 
-  &-input-radio {
+  input[type="radio"] {
+    margin-right: 1em;
+  }
 
-    input[type="radio"] {
-      margin-right: 1em;
-    }
+  &-input-radio {
 
     &-separator {
       input {
