@@ -37,6 +37,16 @@ class WPSEO_Configuration_Page {
 		$assetManager->register_assets();
 		$assetManager->enqueue_script( 'configuration-wizard' );
 		$assetManager->enqueue_style( 'yoast-components' );
+
+		$config = array(
+			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
+			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
+			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
+			'nonce'             => wp_create_nonce( 'wp_rest' ),
+			'root' => esc_url_raw( rest_url() ),
+		);
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'configuration-wizard', 'yoastWizardConfig', $config );
 	}
 
 	/**
