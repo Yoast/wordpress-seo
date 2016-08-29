@@ -273,13 +273,11 @@ class OnboardingWizard extends React.Component {
 OnboardingWizard.propTypes = {
 	endpoint: React.PropTypes.string.isRequired,
 	steps: React.PropTypes.object.isRequired,
+	fields: React.PropTypes.object.isRequired,
 	currentStepId: React.PropTypes.string,
-	fields: React.PropTypes.object,
 };
 
 OnboardingWizard.defaultProps = {
-	steps: [],
-	fields: React.PropTypes.object,
 };
 
 export default OnboardingWizard;
