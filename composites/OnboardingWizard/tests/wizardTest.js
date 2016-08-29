@@ -27,7 +27,7 @@ import cloneDeep from "lodash/cloneDeep";
  * Re-run tests on file changes
  *
  */
-describe( "a wizard component", () => {
+describe( "a wizard componentName", () => {
 	let renderedWizard = undefined;
 	let config = undefined;
 
@@ -36,7 +36,7 @@ describe( "a wizard component", () => {
 		renderedWizard = mount( <Wizard {...config} /> );
 	} );
 
-	it( "renders a wizard component based on the config", () => {
+	it( "renders a wizard componentName based on the config", () => {
 		const buttons = renderedWizard.find( 'button' );
 
 		// Only the next button has to be rendered because on initialisation there is no previous step.
