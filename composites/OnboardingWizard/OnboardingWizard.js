@@ -271,7 +271,7 @@ class OnboardingWizard extends React.Component {
 }
 
 OnboardingWizard.propTypes = {
-	endpoint: React.PropTypes.string.isRequired,
+	endpoint: React.PropTypes.object.isRequired,
 	steps: React.PropTypes.object.isRequired,
 	fields: React.PropTypes.object.isRequired,
 	currentStepId: React.PropTypes.string,

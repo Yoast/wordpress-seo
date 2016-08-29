@@ -46,6 +46,7 @@ let postJSONFetch = ( url, data ) => {
 		}
 	);
 };
+
 /**
  * Handles JSON request the jQuery way.
  *
@@ -54,19 +55,26 @@ let postJSONFetch = ( url, data ) => {
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let postJSONjQuery = ( url, data ) => {
+let postJSONjQuery = ( url, data, headers ) => {
 	let promise = new Promise( ( resolve, reject )=> {
-		jQuery.post( { url, dataType: "json", data } )
-		      .done(
-			      ( response ) => {
-				      resolve( response );
-			      }
-		      )
-		      .fail(
-			      () => {
-				      reject( "Wrong request" );
-			      }
-		      );
+		jQuery.post( {
+			url,
+			dataType: "json",
+			beforeSend: function ( xhr ) {
+				jQuery.each( headers, xhr.setRequestHeader );
+			},
+			data
+		} )
+	      .done(
+		      ( response ) => {
+			      resolve( response );
+		      }
+	      )
+	      .fail(
+		      () => {
+			      reject( "Wrong request" );
+		      }
+	      );
 	} );
 	return promise;
 };
@@ -78,14 +86,14 @@ let postJSONjQuery = ( url, data ) => {
  *
  * @returns {Promise} Returns a wrapped promise.
  */
-let postJSON = ( url, data = {} ) => {
+let postJSON = ( endpoint, data = {}, headers = {} ) => {
 	data = JSON.stringify( data );
 
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
 		return postJSONFetch( url, data );
 	}
 
-	return postJSONjQuery( url, data );
+	return postJSONjQuery( url, data, headers );
 };
 
 export default postJSON;
