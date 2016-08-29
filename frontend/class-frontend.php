@@ -915,7 +915,13 @@ class WPSEO_Frontend {
 				$canonical = WPSEO_Utils::home_url();
 			}
 			elseif ( $this->is_posts_page() ) {
-				$canonical = get_permalink( get_option( 'page_for_posts' ) );
+
+				$posts_page_id = get_option( 'page_for_posts' );
+				$canonical     = WPSEO_Meta::get_value( 'canonical', $posts_page_id );
+
+				if ( empty( $canonical ) ) {
+					$canonical = get_permalink( $posts_page_id );
+				}
 			}
 			elseif ( is_tax() || is_tag() || is_category() ) {
 
@@ -1517,7 +1523,7 @@ class WPSEO_Frontend {
 	 * @return boolean
 	 */
 	public function clean_permalink() {
-		if ( is_robots() || get_query_var( 'sitemap' ) ) {
+		if ( is_robots() || get_query_var( 'sitemap' ) || empty( $_GET ) ) {
 			return false;
 		}
 

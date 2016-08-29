@@ -14,6 +14,11 @@
 	font-size: 1.3em;
 }
 
+.edit-tags-php .column-description img {
+	max-width: 100%;
+	height: auto;
+}
+
 /* Select2 specific fixes for WordPress */
 .select2-search__field {
 	margin: 0;
