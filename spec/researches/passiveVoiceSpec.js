@@ -320,8 +320,7 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
-	it( "returns the passive sentences with ", function() {
-		//
+	it( "returns the passive sentences with an -ed word", function() {
 		paper = new Paper( "Even though the house is cleaned" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});

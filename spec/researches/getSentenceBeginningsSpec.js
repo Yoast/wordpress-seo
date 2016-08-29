@@ -147,12 +147,12 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
 	} );
 
-	it( "returns an empty string if there is no sentence", function() {
+	it( "returns an empty array if there is no sentence", function() {
 		var mockPaper = new Paper( "", { locale: 'en_US'} );
 		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
 	} );
 
-	it( "returns an empty string if there is a sentence with only whitespaces", function() {
+	it( "returns an empty array if there is a sentence with only whitespaces", function() {
 		var mockPaper = new Paper( "&nbsp;", { locale: 'en_US'} );
 		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
 	} );
