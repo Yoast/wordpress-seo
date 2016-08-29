@@ -75,12 +75,13 @@ class WPSEO_Configuration_Options_Adapter {
 	 */
 	public function add_yoast_lookup( $class_name, $option, $key ) {
 		if ( ! class_exists( $class_name ) ) {
-			throw new InvalidArgumentException( 'Class must exist.' );
+			throw new InvalidArgumentException( __( 'Class must exist.', 'wordpress-seo' ) );
 		}
 
 		$test = WPSEO_Options::get_option( $option );
 		if ( is_null( $test ) ) {
-			throw new InvalidArgumentException( 'Yoast option ' . $option . ' not found.' );
+			/* translators: %1$s resolves to the option name passed to the lookup registration */
+			throw new InvalidArgumentException( sprintf( __( 'Yoast option %1$s not found.', 'wordpress-seo' ), $option ) );
 		}
 
 		$this->add_lookup( $class_name, self::OPTION_TYPE_YOAST, array(
@@ -100,11 +101,11 @@ class WPSEO_Configuration_Options_Adapter {
 	 */
 	public function add_custom_lookup( $class_name, $callback_get, $callback_set ) {
 		if ( ! class_exists( $class_name ) ) {
-			throw new InvalidArgumentException( 'Class must exist.' );
+			throw new InvalidArgumentException( __( 'Class must exist.', 'wordpress-seo' ) );
 		}
 
 		if ( ! is_callable( $callback_get ) || ! is_callable( $callback_set ) ) {
-			throw new InvalidArgumentException( 'Custom option must be callable.' );
+			throw new InvalidArgumentException( __( 'Custom option must be callable.', 'wordpress-seo' ) );
 		}
 
 		$this->add_lookup( $class_name, self::OPTION_TYPE_CUSTOM, array(
@@ -181,17 +182,12 @@ class WPSEO_Configuration_Options_Adapter {
 			case self::OPTION_TYPE_YOAST:
 				$group = WPSEO_Options::get_option( $option[0] );
 
-				$before = $group[ $option[1] ];
-				if ( $before === $value ) {
-					return true;
-				}
-
 				$group[ $option[1] ] = $value;
 				update_option( $option[0], $group );
 
 				$saved = WPSEO_Options::get_option( $option[0] );
 
-				return $saved[ $option[1] ] !== $before;
+				return $saved[ $option[1] ] === $value;
 
 			case self::OPTION_TYPE_CUSTOM:
 				return call_user_func( $option[1] );

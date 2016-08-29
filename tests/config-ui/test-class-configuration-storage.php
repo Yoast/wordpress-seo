@@ -283,7 +283,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$config_field
-			->expects( $this->exactly( 2 ) )
+			->expects( $this->exactly( 1 ) )
 			->method( 'get_identifier' )
 			->will( $this->returnValue( $field ) );
 

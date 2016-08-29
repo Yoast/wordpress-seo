@@ -109,7 +109,15 @@ class WPSEO_Configuration_Storage {
 		/** @var WPSEO_Config_Field $field */
 		foreach ( $this->fields as $field ) {
 
-			$result = $this->adapter->set( $field, $data[ $field->get_identifier() ]['data'] );
+			$field_identifier = $field->get_identifier();
+
+			$field_data = array();
+
+			if ( isset( $data[ $field_identifier ]['data'] ) ) {
+				$field_data = $data[ $field_identifier ]['data'];
+			}
+
+			$result = $this->adapter->set( $field, $field_data );
 
 			$build = array(
 				'result' => $result,
@@ -121,7 +129,7 @@ class WPSEO_Configuration_Storage {
 				$build['data'] = $data;
 			}
 
-			$output[ $field->get_identifier() ] = $build;
+			$output[ $field_identifier ] = $build;
 		}
 
 		return $output;

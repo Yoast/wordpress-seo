@@ -21,21 +21,14 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	/** @var WPSEO_GSC_Service Service to use */
 	protected $gsc_service;
 
-	/** @var string Settings class to get data from */
-	protected $gsc_settings = 'WPSEO_GSC_Settings';
-
 	/**
 	 * WPSEO_Config_Component_Connect_Google_Search_Console constructor.
 	 */
 	public function __construct() {
-		$this->gsc_service = new WPSEO_GSC_Service(
-			call_user_func(
-				array(
-					$this->gsc_settings,
-					'get_profile',
-				)
-			)
-		);
+
+		$profile = $this->get_profile();
+
+		$this->gsc_service = new WPSEO_GSC_Service( $profile );
 	}
 
 	/**
@@ -43,19 +36,6 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	 */
 	public function set_gsc_service( WPSEO_GSC_Service $service ) {
 		$this->gsc_service = $service;
-	}
-
-	/**
-	 * @param string $settings_class Class to get settings from.
-	 *
-	 * @throws InvalidArgumentException String provided must be an existing class.
-	 */
-	public function set_gsc_settings( $settings_class ) {
-		if ( ! class_exists( $settings_class ) ) {
-			throw new InvalidArgumentException( 'Class must exist.' );
-		}
-
-		$this->gsc_settings = $settings_class;
 	}
 
 	/**
@@ -88,14 +68,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 			)
 		);
 
-		$data = array(
-			'profile' => call_user_func(
-				array(
-					$this->gsc_settings,
-					'get_profile',
-				)
-			),
-		);
+		$data = array( 'profile' => $this->get_profile() );
 
 		foreach ( $this->mapping as $option_key => $api_key ) {
 			$data[ $api_key ] = $access_token_data[ $option_key ];
@@ -182,10 +155,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 			return;
 		}
 
-		call_user_func_array( array(
-			$this->gsc_settings,
-			'clear_data',
-		), array( $this->gsc_service ) );
+		$this->clear_gsc_data();
 	}
 
 	/**
@@ -200,6 +170,29 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 			return;
 		}
 
-		call_user_func( array( $this->gsc_settings, 'reload_issues' ) );
+		$this->reload_issues();
+	}
+
+	/**
+	 * Get the current GSC profile
+	 *
+	 * @return string
+	 */
+	protected function get_profile() {
+		return WPSEO_GSC_Settings::get_profile();
+	}
+
+	/**
+	 * Clear the GSC data
+	 */
+	protected function clear_gsc_data() {
+		WPSEO_GSC_Settings::clear_data( $this->gsc_service );
+	}
+
+	/**
+	 * Reload GSC issues
+	 */
+	protected function reload_issues() {
+		WPSEO_GSC_Settings::reload_issues();
 	}
 }
