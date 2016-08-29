@@ -19,7 +19,7 @@ class WPSEO_Config_Field_ extends WPSEO_Config_Field {
 /**
  * Class WPSEO_Config_Field_Test
  */
-class WPSEO_Config_Field_Test extends WPSEO_UnitTestCase {
+class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers WPSEO_Config_Field::__construct()

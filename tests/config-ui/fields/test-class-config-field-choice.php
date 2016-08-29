@@ -12,7 +12,7 @@ class WPSEO_Config_Field_Choice_ extends WPSEO_Config_Field_Choice {
 /**
  * Class WPSEO_Config_Field_Choice_Test
  */
-class WPSEO_Config_Field_Choice_Test extends WPSEO_UnitTestCase {
+class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers WPSEO_Config_Field_Choice::__construct

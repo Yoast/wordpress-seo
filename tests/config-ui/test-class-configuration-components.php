@@ -42,7 +42,7 @@ class WPSEO_Configuration_Components_Mock extends WPSEO_Configuration_Components
 /**
  * Class WPSEO_Configuration_Components_Tests
  */
-class WPSEO_Configuration_Components_Tests extends WPSEO_UnitTestCase {
+class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Components_Mock */
 	protected $components;

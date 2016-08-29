@@ -24,7 +24,7 @@ class WPSEO_Configuration_Service_Mock extends WPSEO_Configuration_Service {
 /**
  * Class WPSEO_Configuration_Service_Test
  */
-class WPSEO_Configuration_Service_Test extends WPSEO_UnitTestCase {
+class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Service instance */
 	protected $configuration_service;

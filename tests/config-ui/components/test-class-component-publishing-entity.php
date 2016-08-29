@@ -20,7 +20,7 @@ class WPSEO_Config_Component_Publishing_Entity_Mock extends WPSEO_Config_Compone
 /**
  * Class WPSEO_Config_Component_Publishing_Entity_Test
  */
-class WPSEO_Config_Component_Publishing_Entity_Test extends WPSEO_UnitTestCase {
+class WPSEO_Config_Component_Publishing_Entity_Test extends PHPUnit_Framework_TestCase {
 	/** @var WPSEO_Config_Component_Publishing_Entity_Mock */
 	protected $component;
 
