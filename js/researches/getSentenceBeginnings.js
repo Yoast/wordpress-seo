@@ -76,10 +76,6 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
 
 	var words = getWords( stripSpaces( sentence ) );
 
-	if ( words.length === 0 ) {
-		return "";
-	}
-
 	var firstWord = words[ 0 ].toLocaleLowerCase();
 
 	if ( firstWordExceptions.indexOf( firstWord ) > -1 && words.length > 1 ) {
