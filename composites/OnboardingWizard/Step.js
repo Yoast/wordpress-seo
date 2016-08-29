@@ -104,12 +104,12 @@ class Step extends React.Component {
 		return keys.map( ( name, key ) => {
 			let currentField = fields[ name ];
 
-			if ( Components[ currentField.componentName ] === "undefined" ) {
+			if ( Components[ currentField.component ] === "undefined" ) {
 				return;
 			}
-			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
+			let fieldProps = this.getFieldProps( currentField.component, key, name, currentField );
 
-			return React.createElement( Components[ currentField.componentName ], fieldProps );
+			return React.createElement( Components[ currentField.component ], fieldProps );
 		} );
 	}
 

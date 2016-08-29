@@ -10,20 +10,20 @@ let configuration = {
 	},
 	"fields": {
 		"upsellConfigurationService": {
-			"componentName": "HTML",
+			"component": "HTML",
 			"properties": {
 				"html": "You can now have Yoast configure Yoast SEO for you.",
 			},
 		},
 		"mailchimpSignup": {
-			"componentName": "MailchimpSignup",
+			"component": "MailchimpSignup",
 			"properties": {
 				"label": "If you would like us to keep you up-to-date regarding Yoast SEO and other plugins by Yoast, subscribe to our newsletter:",
 			},
 			"data": "",
 		},
 		"environment": {
-			"componentName": "Choice",
+			"component": "Choice",
 			"properties": {
 				"label": "Please specify the environment {site_url} is running in.",
 				"choices": {
@@ -36,7 +36,7 @@ let configuration = {
 			"default": "production",
 		},
 		"siteType": {
-			"componentName": "Choice",
+			"component": "Choice",
 			"properties": {
 				"label": "What type of site is {site_url}?",
 				"choices": {
@@ -63,7 +63,7 @@ let configuration = {
 			"data": "",
 		},
 		"publishingEntity": {
-			"componentName": "PublishingEntity",
+			"component": "PublishingEntity",
 			"data": {
 				"publishingEntityType": "{publishing_entity_type}",
 			},
