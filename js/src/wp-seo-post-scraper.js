@@ -298,7 +298,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	}
 
 	/**
-	 * Actives the correct analysis and tab based on which analyses are enabled.
+	 * Activates the correct analysis and tab based on which analyses are enabled.
 	 *
 	 * @param {TabManager} tabManager The tab manager to use to activate tabs.
 	 * @returns {void}
