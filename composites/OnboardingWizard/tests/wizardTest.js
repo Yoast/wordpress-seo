@@ -27,7 +27,7 @@ import cloneDeep from "lodash/cloneDeep";
  * Re-run tests on file changes
  *
  */
-describe( "a wizard component", () => {
+describe( "a wizard componentName", () => {
 	let renderedWizard = undefined;
 	let config = undefined;
 

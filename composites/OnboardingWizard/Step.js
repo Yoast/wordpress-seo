@@ -1,5 +1,5 @@
 import React from "react";
-import Components from "./components/components";
+import Components from "./components/StepComponents";
 
 /**
  * Renders a step in the wizard process
@@ -104,12 +104,12 @@ class Step extends React.Component {
 		return keys.map( ( name, key ) => {
 			let currentField = fields[ name ];
 
-			if ( Components[ currentField.component ] === "undefined" ) {
+			if ( Components[ currentField.componentName ] === "undefined" ) {
 				return;
 			}
-			let fieldProps = this.getFieldProps( currentField.component, key, name, currentField );
+			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
 
-			return React.createElement( Components[ currentField.component ], fieldProps );
+			return React.createElement( Components[ currentField.componentName ], fieldProps );
 		} );
 	}
 
@@ -133,25 +133,29 @@ class Step extends React.Component {
 		};
 
 		if ( componentType === "Input" ) {
-			Object.assign( props, {
+			let inputFieldProperties = {
 				label: currentField.properties.label,
-				"label-className": "yoast-wizard-text-input-label",
-				"input-className": "yoast-wizard-text-input-box",
+				"label-className": `${this.props.classPrefix}-text-input-label`,
+				"input-className": `${this.props.classPrefix}-text-input-box`,
 				optionalAttributes: {
-					"class": "yoast-wizard-text-input",
+					"class": `${this.props.classPrefix}-text-input`,
 				}
-			} );
+			};
+
+			Object.assign( props, inputFieldProperties )
 		}
+
 		if ( componentType === "Choice" ) {
-			Object.assign( props, {
-				"className": "yoast-wizard-input-radio",
-				"optionClassName": "yoast-wizard-input-radio-option",
-			} );
+			let choiceFieldProperties = {
+				"className": `${this.props.classPrefix}-input-radio`,
+				"optionClassName": `${this.props.classPrefix}-input-radio-option`,
+			};
+
+			Object.assign( props, choiceFieldProperties );
 		}
 
 		return props;
 	}
-
 
 	/**
 	 * Renders the step.
@@ -160,7 +164,7 @@ class Step extends React.Component {
 	 */
 	render() {
 		return (
-			<div className="yoast-wizard--step--container">
+			<div className={`${this.props.classPrefix}-step-container`}>
 				<h1>{this.props.title}</h1>
 				{ this.getFieldComponents( this.props.fields ) }
 			</div>
@@ -173,11 +177,13 @@ Step.propTypes = {
 	title: React.PropTypes.string.isRequired,
 	fields: React.PropTypes.object,
 	currentStep: React.PropTypes.string,
+	classPrefix: React.PropTypes.string,
 };
 
 Step.defaultProps = {
 	fields: {},
 	currentStep: "",
+	classPrefix: "yoast-wizard",
 };
 
 export default Step;

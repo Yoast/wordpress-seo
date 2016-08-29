@@ -112,11 +112,11 @@ body {
     cursor: pointer;
   }
 
-  &-input-radio {
+  input[type="radio"] {
+    margin-right: 1em;
+  }
 
-    input[type="radio"] {
-      margin-right: 1em;
-    }
+  &-input-radio {
 
     &-separator {
 

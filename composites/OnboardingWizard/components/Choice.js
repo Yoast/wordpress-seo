@@ -15,28 +15,30 @@ const Choice = ( props ) => {
 	let fieldKeys = Object.keys( choices );
 	let fieldName = props.name;
 
-	return (
+	let fieldSet  = () => {
+		return <fieldset className={"yoast-wizard-input-radio-" + fieldName}>
+			{fieldKeys.map( ( choiceName, index ) => {
+				let choice = choices[ choiceName ];
+				let id = `${choiceName}-${index}`;
+				// If the value for the choice field equals the name for this choice, the choice is checked.
+				let checked = (props.value === choiceName);
 
+				return (
+					<div className={props.optionClassName + " " + choiceName} key={index}>
+						<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
+						       value={choiceName} optionalAttributes={{ id,	checked, }}
+						/>
+						<Label for={id}>{choice.label}</Label>
+					</div>
+				);
+			} )}
+		</fieldset>
+	};
+
+	return (
 		<div className={props.className}>
 			<p className="yoast-wizard-field-description">{props.properties.label}</p>
-			<fieldset className={"yoast-wizard-input-radio-" + fieldName}>
-				{fieldKeys.map( ( choiceName, index ) => {
-					let choice = choices[ choiceName ];
-					let id = `${choiceName} - ${index}`;
-					// If the value for the choice field equals the name for this choice, the choice is checked.
-					let checked = ( props.value === choiceName );
-
-					return (
-						<div className={props.optionClassName + " " + choiceName} key={index}>
-							<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
-							       value={choiceName}
-							       optionalAttributes={{ id, checked }}
-							/>
-							<Label for={id}>{choice.label}</Label>
-						</div>
-					);
-				} )}
-			</fieldset>
+			{fieldSet()}
 		</div>
 	);
 };
