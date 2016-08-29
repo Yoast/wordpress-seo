@@ -205,7 +205,7 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
-	 * Creates a next or previous button to navigate throug the steps.
+	 * Creates a next or previous button to navigate through the steps.
 	 *
 	 * @param type A next or previous button.
 	 * @param attributes The attributes for the button component.
@@ -214,15 +214,15 @@ class OnboardingWizard extends React.Component {
 	 * @returns {RaisedButton || ""} Returns a RaisedButton component depending on an existing previous/next step.
 	 */
 	getNavigationbutton(type, attributes, currentStep){
-		let showButton = false;
-		if(type === "next" && !currentStep.next){
-			showButton = true;
-		}
-		else if(type === "previous" && !currentStep.previous){
-			showButton = true;
+		let hideButton = false;
+
+		if ( (type === "next" && ! currentStep.next) ||
+		     (type === "previous" && ! currentStep.previous)
+		) {
+			hideButton = true;
 		}
 
-		return ( ! showButton )
+		return ( ! hideButton )
 			? <RaisedButton className="yoast-wizard--button yoast-wizard--button__next"
 			                {...attributes} />
 			: "";
