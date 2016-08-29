@@ -48,7 +48,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_field() {
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -85,12 +85,12 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$data = null;
 
 		$adapter = $this
-			->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )
+			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
 			->setMethods( array( 'get' ) )
 			->getMock();
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'type' ) )
 			->getMock();
 
@@ -115,12 +115,12 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$default = 'default';
 
 		$adapter = $this
-			->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )
+			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
 			->setMethods( array( 'get' ) )
 			->getMock();
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'type' ) )
 			->getMock();
 
@@ -149,12 +149,12 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$data = 'data';
 
 		$adapter = $this
-			->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )
+			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
 			->setMethods( array( 'get' ) )
 			->getMock();
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'type' ) )
 			->getMock();
 
@@ -179,12 +179,12 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$default = array( 'a' => '2', 'b' => '2' );
 
 		$adapter = $this
-			->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )
+			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
 			->setMethods( array( 'get' ) )
 			->getMock();
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'type' ) )
 			->getMock();
 
@@ -228,7 +228,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		);
 
 		$config_field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setMethods( array( 'get_identifier', 'get_properties' ) )
 			->setConstructorArgs( array( $field, $component ) )
 			->getMock();
@@ -244,7 +244,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 			->willReturn( array( $property => $property_value ) );
 
 		$adapter = $this
-			->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )
+			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
 			->setMethods( array( 'get' ) )
 			->getMock();
 
@@ -274,7 +274,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$return    = 'r';
 
 		$config_field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setMethods( array( 'get_identifier' ) )
 			->setConstructorArgs( array( $field, $component ) )
 			->getMock();
@@ -285,7 +285,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 			->willReturn( $field );
 
 		$adapter = $this
-			->getMockBuilder( WPSEO_Configuration_Options_Adapter::class )
+			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
 			->setMethods( array( 'set', 'get' ) )
 			->getMock();
 

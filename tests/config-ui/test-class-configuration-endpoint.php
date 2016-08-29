@@ -74,7 +74,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 		);
 
 		$service = $this
-			->getMockBuilder( WPSEO_Configuration_Service::class )
+			->getMockBuilder( 'WPSEO_Configuration_Service' )
 			->setMethods( array( 'get_configuration' ) )
 			->getMock();
 

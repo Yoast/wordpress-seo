@@ -244,7 +244,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 		$expected = get_option( $option );
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -266,7 +266,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 		$expected = $wpseo[ $key ];
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -286,7 +286,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 		$expected = call_user_func( $get );
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -302,7 +302,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_unknown_type() {
 		$class = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -319,7 +319,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 		$value  = uniqid( 'v' );
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -343,7 +343,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 		$value = uniqid( 'v' );
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -368,7 +368,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 		update_option( $option, $wpseo );
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -385,7 +385,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_set_option_unknown_type() {
 		$class = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
@@ -408,7 +408,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 			->willReturn( true );
 
 		$field = $this
-			->getMockBuilder( WPSEO_Config_Field::class )
+			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( array( 'field', 'component' ) )
 			->getMock();
 
