@@ -7,7 +7,11 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
     public function setUp() {
         parent::setUp();
 
-        $this->class_instance = $this->getMock( 'WPSEO_Primary_Term_Admin', array( 'get_primary_term_taxonomies', 'include_js_templates', 'save_primary_term', 'get_primary_term' ) );
+	    $this->class_instance =
+		    $this
+			    ->getMockBuilder( 'WPSEO_Primary_Term_Admin' )
+			    ->setMethods( array( 'get_primary_term_taxonomies', 'include_js_templates', 'save_primary_term', 'get_primary_term' ) )
+			    ->getMock();
     }
 
     /**

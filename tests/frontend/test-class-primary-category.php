@@ -13,10 +13,11 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->subject = $this->getMock( 'WPSEO_Frontend_Primary_Category', array(
-			'get_category',
-			'get_primary_category',
-		) );
+		$this->subject =
+			$this
+				->getMockBuilder( 'WPSEO_Frontend_Primary_Category' )
+				->setMethods( array( 'get_category', 'get_primary_category', ) )
+				->getMock();
 	}
 
 	/**

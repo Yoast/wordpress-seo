@@ -329,41 +329,6 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Function to dynamically filter the change frequency.
-	 *
-	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for
-	 *                        numerous specific URLs.
-	 * @param string $default The default value for the frequency.
-	 * @param string $url     The URL of the current entry.
-	 *
-	 * @return mixed|void
-	 */
-	static public function filter_frequency( $filter, $default, $url ) {
-		/**
-		 * Filter the specific change frequency
-		 *
-		 * @param string $default The default change frequency.
-		 * @param string $url     URL to filter frequency for.
-		 */
-		$change_freq = apply_filters( 'wpseo_sitemap_' . $filter . '_change_freq', $default, $url );
-
-		if ( ! in_array( $change_freq, array(
-			'always',
-			'hourly',
-			'daily',
-			'weekly',
-			'monthly',
-			'yearly',
-			'never',
-		) )
-		) {
-			$change_freq = $default;
-		}
-
-		return $change_freq;
-	}
-
-	/**
 	 * Spits out the XSL for the XML sitemap.
 	 *
 	 * @param string $type Type to output.
@@ -524,5 +489,42 @@ class WPSEO_Sitemaps {
 	 */
 	public function set_stylesheet( $stylesheet ) {
 		$this->renderer->set_stylesheet( $stylesheet );
+	}
+
+	/**
+	 * Function to dynamically filter the change frequency.
+	 *
+	 * @deprecated 3.5 Change frequency data dropped from sitemaps.
+	 *
+	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for
+	 *                        numerous specific URLs.
+	 * @param string $default The default value for the frequency.
+	 * @param string $url     The URL of the current entry.
+	 *
+	 * @return mixed|void
+	 */
+	static public function filter_frequency( $filter, $default, $url ) {
+		/**
+		 * Filter the specific change frequency
+		 *
+		 * @param string $default The default change frequency.
+		 * @param string $url     URL to filter frequency for.
+		 */
+		$change_freq = apply_filters( 'wpseo_sitemap_' . $filter . '_change_freq', $default, $url );
+
+		if ( ! in_array( $change_freq, array(
+			'always',
+			'hourly',
+			'daily',
+			'weekly',
+			'monthly',
+			'yearly',
+			'never',
+		) )
+		) {
+			$change_freq = $default;
+		}
+
+		return $change_freq;
 	}
 }

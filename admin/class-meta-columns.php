@@ -36,7 +36,12 @@ class WPSEO_Meta_Columns {
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
 
-		add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+
+		if ( ! empty( $options['keyword-analysis-active'] ) ) {
+			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
+		}
+
 		add_filter( 'request', array( $this, 'column_sort_orderby' ) );
 	}
 
@@ -181,30 +186,6 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
-	 * meta key clauses and not a combination - which is what we need.
-	 *
-	 * @param    string $where Where clause.
-	 *
-	 * @return    string
-	 */
-	public function seo_score_posts_where( $where ) {
-		global $wpdb;
-
-		/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
-		$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . WPSEO_Meta::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
-
-		$replace = '$1( $2OR$3 )';
-
-		$new_where = preg_replace( $find, $replace, $where );
-
-		if ( $new_where ) {
-			return $new_where;
-		}
-		return $where;
-	}
-
-	/**
 	 * Modify the query based on the seo_filter variable in $_GET
 	 *
 	 * @param array $vars Query variables.
@@ -220,8 +201,6 @@ class WPSEO_Meta_Columns {
 			}
 			else {
 				$vars = array_merge( $vars, $this->filter_scored( $rank->get_starting_score(), $rank->get_end_score() ) );
-
-				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
 			}
 		}
 
@@ -264,14 +243,16 @@ class WPSEO_Meta_Columns {
 					'compare' => 'BETWEEN',
 				),
 				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => 'needs-a-value-anyway',
-					'compare' => 'NOT EXISTS',
-				),
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => '1',
-					'compare' => '!=',
+					'relation' => 'OR',
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+						'compare' => 'NOT EXISTS',
+					),
+					array(
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+						'value'   => '1',
+						'compare' => '!=',
+					),
 				),
 			),
 		);
@@ -487,5 +468,34 @@ class WPSEO_Meta_Columns {
 		}
 
 		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
+	}
+
+	/**
+	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
+	 * meta key clauses and not a combination - which is what we need.
+	 *
+	 * @deprecated 3.5 Unnecessary with nested meta queries in core.
+	 *
+	 * @param    string $where Where clause.
+	 *
+	 * @return    string
+	 */
+	public function seo_score_posts_where( $where ) {
+
+		_deprecated_function( 'WPSEO_Metabox_Columns::seo_score_posts_where', '3.5' );
+
+		global $wpdb;
+
+		/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
+		$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . WPSEO_Meta::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
+
+		$replace = '$1( $2OR$3 )';
+
+		$new_where = preg_replace( $find, $replace, $where );
+
+		if ( $new_where ) {
+			return $new_where;
+		}
+		return $where;
 	}
 }
