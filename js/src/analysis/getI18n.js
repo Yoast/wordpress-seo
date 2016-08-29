@@ -1,6 +1,6 @@
-var getTranslations = require( './getTranslations' );
-var isEmpty = require( 'lodash/isEmpty' );
-var Jed = require( 'jed' );
+var getTranslations = require( "./getTranslations" );
+var isEmpty = require( "lodash/isEmpty" );
+var Jed = require( "jed" );
 
 /**
  * Returns a Jed object usable in YoastSEO.js
@@ -18,9 +18,9 @@ function getI18n() {
 			"domain": "js-text-analysis",
 			"locale_data": {
 				"js-text-analysis": {
-					"": {}
-				}
-			}
+					"": {},
+				},
+			},
 		} );
 	}
 

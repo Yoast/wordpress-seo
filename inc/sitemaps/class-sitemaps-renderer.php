@@ -220,8 +220,6 @@ class WPSEO_Sitemaps_Renderer {
 		$output = "\t<url>\n";
 		$output .= "\t\t<loc>" . $this->encode_url_rfc3986( $url['loc'] ) . "</loc>\n";
 		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date ) . "</lastmod>\n";
-		$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
-		$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
 
 		if ( empty( $url['images'] ) ) {
 			$url['images'] = array();
