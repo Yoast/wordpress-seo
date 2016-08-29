@@ -101,7 +101,8 @@ class OnboardingWizard extends React.Component {
 		this.setState( { isLoading: true } );
 
 		postJSON(
-			this.props.endpoint,
+			this.props.endpoint.url,
+			this.props.endpoint.headers,
 			this.getFieldsAsObject()
 		)
 		.then( this.handleSuccessful.bind( this, step ) )

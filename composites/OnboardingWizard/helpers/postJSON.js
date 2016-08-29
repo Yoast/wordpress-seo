@@ -51,11 +51,12 @@ let postJSONFetch = ( url, data ) => {
  * Handles JSON request the jQuery way.
  *
  * @param {string} url  The endpoint to send the data to.
+ * @param {object} headers Object containing the headers for the request.
  * @param {Object} data The JSON object to send to the server.
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let postJSONjQuery = ( url, data, headers ) => {
+let postJSONjQuery = ( url, headers, data ) => {
 	let promise = new Promise( ( resolve, reject )=> {
 		jQuery.post( {
 			url,
@@ -78,19 +79,21 @@ let postJSONjQuery = ( url, data, headers ) => {
 	} );
 	return promise;
 };
+
 /**
  * Wrapper method when fetch should be used.
  *
  * @param {string} url  The endpoint to send the data to.
+ * @param {object} headers Object containing the headers for the request.
  * @param {Object} data The JSON object to send to the server.
  *
  * @returns {Promise} Returns a wrapped promise.
  */
-let postJSON = ( endpoint, data = {}, headers = {} ) => {
+let postJSON = ( url, headers = {}, data = {} ) => {
 	data = JSON.stringify( data );
 
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
-		return postJSONFetch( url, data );
+		return postJSONFetch( endpoint.url, data );
 	}
 
 	return postJSONjQuery( url, data, headers );
