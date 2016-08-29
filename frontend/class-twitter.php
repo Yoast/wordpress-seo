@@ -384,6 +384,10 @@ class WPSEO_Twitter {
 		if ( $this->homepage_image_output() ) {
 			return;
 		}
+		elseif ( $this->posts_page_image_output() ) { // Posts page, which won't be caught by is_singular() below.
+			return;
+		}
+
 		if ( is_singular() ) {
 			if ( $this->image_from_meta_values_output() ) {
 				return;
@@ -419,6 +423,30 @@ class WPSEO_Twitter {
 
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Show the posts page image.
+	 *
+	 * @return bool
+	 */
+	private function posts_page_image_output() {
+
+		if ( is_front_page() || ! is_home() ) {
+			return false;
+		}
+
+		$post_id = get_option( 'page_for_posts' );
+
+		if ( $this->image_from_meta_values_output( $post_id ) ) {
+			return true;
+		}
+
+		if ( $this->image_thumbnail_output( $post_id ) ) {
+			return true;
 		}
 
 		return false;
@@ -464,11 +492,13 @@ class WPSEO_Twitter {
 	/**
 	 * Retrieve images from the post meta values
 	 *
+	 * @param int $post_id Optional post ID to use.
+	 *
 	 * @return bool
 	 */
-	private function image_from_meta_values_output() {
+	private function image_from_meta_values_output( $post_id = 0 ) {
 		foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
-			$img = WPSEO_Meta::get_value( $tag );
+			$img = WPSEO_Meta::get_value( $tag, $post_id );
 			if ( $img !== '' ) {
 				$this->image_output( $img );
 
@@ -504,16 +534,23 @@ class WPSEO_Twitter {
 	/**
 	 * Retrieve the featured image
 	 *
+	 * @param int $post_id Optional post ID to use.
+	 *
 	 * @return bool
 	 */
-	private function image_thumbnail_output() {
-		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( get_the_ID() ) ) {
+	private function image_thumbnail_output( $post_id = 0 ) {
+
+		if ( empty( $post_id ) ) {
+			$post_id = get_the_ID();
+		}
+
+		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
 			/**
 			 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
 			 *
 			 * @api string $featured_img Image size string
 			 */
-			$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), apply_filters( 'wpseo_twitter_image_size', 'full' ) );
+			$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), apply_filters( 'wpseo_twitter_image_size', 'full' ) );
 
 			if ( $featured_img ) {
 				$this->image_output( $featured_img[0] );

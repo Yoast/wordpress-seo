@@ -588,11 +588,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		jQuery.post(ajaxurl, {
 			action: "wpseo_kill_blocking_files",
 			_ajax_nonce: nonce
-		}, function (data) {
-			if (data === "success") {
-				jQuery("#blocking_files").hide();
+		}).done(function (response) {
+			var noticeContainer = jQuery(".yoast-notice-blocking-files"),
+			    noticeParagraph = jQuery("#blocking_files");
+
+			noticeParagraph.html(response.data.message);
+			// Make the notice focusable and move focue on it so screen readers will read out its content.
+			noticeContainer.attr("tabindex", "-1").focus();
+
+			if (response.success) {
+				noticeContainer.removeClass("notice-error").addClass("notice-success");
 			} else {
-				jQuery("#blocking_files").html(data);
+				noticeContainer.addClass("yoast-blocking-files-error");
 			}
 		});
 	}
@@ -790,6 +797,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		jQuery(".template").change(function () {
 			wpseoDetectWrongVariables(jQuery(this));
 		}).change();
+
+		// XML sitemaps "Fix it" button.
+		jQuery("#blocking_files .button").on("click", function () {
+			wpseoKillBlockingFiles(jQuery(this).data("nonce"));
+		});
 
 		// init
 		var activeTab = window.location.hash.replace("#top#", "");
@@ -4162,45 +4174,17 @@ var cachedClearTimeout;
 } ())
 function runTimeout(fun) {
     if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
         return setTimeout(fun, 0);
+    } else {
+        return cachedSetTimeout.call(null, fun, 0);
     }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
 }
 function runClearTimeout(marker) {
     if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
+        clearTimeout(marker);
+    } else {
+        cachedClearTimeout.call(null, marker);
     }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
 }
 var queue = [];
 var draining = false;
