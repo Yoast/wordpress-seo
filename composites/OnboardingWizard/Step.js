@@ -164,8 +164,8 @@ class Step extends React.Component {
 	 */
 	render() {
 		return (
-			<div id={`${this.props.classPrefix}-step-container`}>
-				<h1>Step: {this.props.title}</h1>
+			<div className={`${this.props.classPrefix}--step--container`}>
+				<h1>{this.props.title}</h1>
 				{ this.getFieldComponents( this.props.fields ) }
 			</div>
 		);

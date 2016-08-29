@@ -2,8 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
-import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import Config from "./composites/OnboardingWizard/config/production-config";
+import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
+
+// Required to make Material UI work with touch screens.
+import injectTapEventPlugin from "react-tap-event-plugin";
 
 function cloneDeep( object ) {
 	return JSON.parse( JSON.stringify( object ) );
@@ -13,6 +16,8 @@ class App extends React.Component {
 
 	constructor() {
 		super();
+
+		injectTapEventPlugin();
 
 		this.state = {
 			activeComponent: "wizard"

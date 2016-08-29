@@ -15,7 +15,9 @@
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils",
-      "<rootDir>/node_modules/enzyme"
+      "<rootDir>/node_modules/enzyme",
+      "<rootDir>/node_modules/recompose",
+      "<rootDir>/node_modules/lodash"
     ],
     "testRegex": ".*Test.js$",
     "coverageDirectory": "coverage"
@@ -24,8 +26,10 @@
   "license": "GPL-3.0",
   "dependencies": {
     "i18n-calypso": "^1.6.2",
+    "material-ui": "^0.15.2",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
+    "react-tap-event-plugin": "^1.0.0",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -55,5 +59,10 @@
     "stubby": "^0.3.1",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
   }
 }
