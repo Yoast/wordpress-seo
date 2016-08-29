@@ -98,7 +98,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'get' )
 			->with( $field )
-			->willReturn( $data );
+			->will( $this->returnValue( $data ) );
 
 		$this->storage->set_adapter( $adapter );
 
@@ -127,13 +127,13 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$field
 			->expects( $this->once() )
 			->method( 'get_data' )
-			->willReturn( $default );
+			->will( $this->returnValue( $default ) );
 
 		$adapter
 			->expects( $this->once() )
 			->method( 'get' )
 			->with( $field )
-			->willReturn( $data );
+			->will( $this->returnValue( $data ) );
 
 		$this->storage->set_adapter( $adapter );
 
@@ -162,7 +162,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'get' )
 			->with( $field )
-			->willReturn( $data );
+			->will( $this->returnValue( $data ) );
 
 		$this->storage->set_adapter( $adapter );
 
@@ -192,12 +192,12 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'get' )
 			->with( $field )
-			->willReturn( $data );
+			->will( $this->returnValue( $data ) );
 
 		$field
 			->expects( $this->once() )
 			->method( 'get_data' )
-			->willReturn( $default );
+			->will( $this->returnValue( $default ) );
 
 		$this->storage->set_adapter( $adapter );
 
@@ -236,12 +236,12 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$config_field
 			->expects( $this->once() )
 			->method( 'get_identifier' )
-			->willReturn( $field );
+			->will( $this->returnValue( $field ) );
 
 		$config_field
 			->expects( $this->once() )
 			->method( 'get_properties' )
-			->willReturn( array( $property => $property_value ) );
+			->will( $this->returnValue( array( $property => $property_value ) ) );
 
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
@@ -251,7 +251,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$adapter
 			->expects( $this->once() )
 			->method( 'get' )
-			->willReturn( $data );
+			->will( $this->returnValue( $data ) );
 
 		$this->storage->set_adapter( $adapter );
 		$this->storage->add_field( $config_field );
@@ -282,7 +282,7 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$config_field
 			->expects( $this->exactly( 2 ) )
 			->method( 'get_identifier' )
-			->willReturn( $field );
+			->will( $this->returnValue( $field ) );
 
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
@@ -292,12 +292,12 @@ class WPSEO_Configuration_Storage_Test extends WPSEO_UnitTestCase {
 		$adapter
 			->expects( $this->once() )
 			->method( 'set' )
-			->willReturn( true );
+			->will( $this->returnValue( true ) );
 
 		$adapter
 			->expects( $this->once() )
 			->method( 'get' )
-			->willReturn( $return );
+			->will( $this->returnValue( $return ) );
 
 		$this->storage->set_adapter( $adapter );
 		$this->storage->add_field( $config_field );

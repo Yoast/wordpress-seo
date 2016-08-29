@@ -405,7 +405,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
 		$catcher
 			->expects( $this->once() )
 			->method( 'set' )
-			->willReturn( true );
+			->will( $this->returnValue( true ) );
 
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )

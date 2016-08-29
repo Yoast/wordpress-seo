@@ -81,7 +81,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 		$service
 			->expects( $this->once() )
 			->method( 'get_configuration' )
-			->willReturn( $base_config );
+			->will( $this->returnValue( $base_config ) );
 
 
 		$this->endpoint->set_service( $service );
