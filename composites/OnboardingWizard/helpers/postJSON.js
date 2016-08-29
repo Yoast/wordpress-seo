@@ -30,7 +30,7 @@ let postJSONFetch = ( url, data ) => {
 		function( resolve, reject ) {
 			fetchPromise
 				.then(
-					function( response ) {
+					( response ) => {
 						if ( response.status === 200 ) {
 							return resolve( response.json() );
 						}
@@ -39,14 +39,13 @@ let postJSONFetch = ( url, data ) => {
 					}
 				)
 				.catch(
-					function() {
+					() => {
 						return reject( "Wrong request" );
 					}
 				);
 		}
 	);
 };
-
 /**
  * Handles JSON request the jQuery way.
  *
@@ -56,35 +55,21 @@ let postJSONFetch = ( url, data ) => {
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
 let postJSONjQuery = ( url, data ) => {
-	let jQueryPromise = jQuery.post( { url, dataType: "json", data } )
-		.done(
-			function( response ) {
-				return response;
-			}
-		)
-		.fail(
-			function() {
-				return "Wrong request";
-			}
-		);
-
-	return new Promise(
-		function( resolve, reject ) {
-			jQueryPromise
-				.then(
-					function( response ) {
-						return resolve( response );
-					}
-				)
-				.catch(
-					function() {
-						return reject( "Wrong request" );
-					}
-				);
-		}
-	);
+	let promise = new Promise( ( resolve, reject )=> {
+		jQuery.post( { url, dataType: "json", data } )
+		      .done(
+			      ( response ) => {
+				      resolve( response );
+			      }
+		      )
+		      .fail(
+			      () => {
+				      reject( "Wrong request" );
+			      }
+		      );
+	} );
+	return promise;
 };
-
 /**
  * Wrapper method when fetch should be used.
  *
