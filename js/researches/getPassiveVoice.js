@@ -227,7 +227,7 @@ var getIrregularVerbs = function( sentence ) {
 			return true;
 		}
 
-		return !hasExcludedIrregularVerb( sentence );
+		return ! hasExcludedIrregularVerb( sentence );
 	} );
 };
 
