@@ -38,6 +38,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'yandexverify'                    => '',
 		'site_type'                       => '', // List of options.
 		'has_multiple_authors'            => '',
+		'environment_type'                => '',
 	);
 
 	/**
@@ -59,6 +60,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'smallBusiness',
 		'corporateOther',
 		'personalOther',
+	);
+
+	protected $environment_types = array(
+		'',
+		'production',
+		'staging',
+		'development',
 	);
 
 	/**
@@ -171,7 +179,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
-
+				case 'environment_type':
+					$clean[ $key ] = '';
+					if ( in_array( $dirty[ $key ], $this->environment_types, true ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
 				/*
 				Boolean (checkbox) fields
 				*/

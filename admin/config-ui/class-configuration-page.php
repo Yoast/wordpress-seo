@@ -43,7 +43,7 @@ class WPSEO_Configuration_Page {
 			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
 			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
 			'nonce'             => wp_create_nonce( 'wp_rest' ),
-			'root' => esc_url_raw( rest_url() ),
+			'root'              => esc_url_raw( rest_url() ),
 		);
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'configuration-wizard', 'yoastWizardConfig', $config );

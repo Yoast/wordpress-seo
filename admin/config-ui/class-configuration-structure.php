@@ -20,7 +20,7 @@ class WPSEO_Configuration_Structure {
 			'upsellConfigurationService',
 			'mailchimpSignup',
 		) );
-		$this->add_step( 'environment', 'Environment', array( 'environment' ) );
+		$this->add_step( 'environment_type', 'Environment', array( 'environment_type' ) );
 		$this->add_step( 'siteType', 'Site type', array( 'siteType' ) );
 		$this->add_step( 'publishingEntity', 'Company or person', array(
 			'publishingEntity',

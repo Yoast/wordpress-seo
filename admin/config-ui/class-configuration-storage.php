@@ -115,7 +115,7 @@ class WPSEO_Configuration_Storage {
 	 *
 	 * @return string Results
 	 */
-	public function store( $data ) {
+	public function store( $data_to_store ) {
 		$output = array();
 
 		/** @var WPSEO_Config_Field $field */
@@ -123,9 +123,13 @@ class WPSEO_Configuration_Storage {
 
 			$field_identifier = $field->get_identifier();
 
+			if( ! array_key_exists( $field_identifier, $data_to_store ) ) {
+				continue;
+			}
+
 			$field_data = array();
-			if ( isset( $data[ $field_identifier ] ) ) {
-				$field_data = $data[ $field_identifier ];
+			if ( isset( $data_to_store[ $field_identifier ] ) ) {
+				$field_data = $data_to_store[ $field_identifier ];
 			}
 
 			$result = $this->adapter->set( $field, $field_data );
