@@ -115,9 +115,7 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object} JSON fields object.
 	 */
 	getFieldsAsObject() {
-		return JSON.stringify(
-			this.refs.step.state.fieldValues[ this.state.currentStepId ]
-		);
+		return this.refs.step.state.fieldValues[ this.state.currentStepId ];
 	}
 
 	/**

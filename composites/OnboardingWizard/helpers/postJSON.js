@@ -9,15 +9,12 @@ import "whatwg-fetch";
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
 let postJSONFetch = ( url, data ) => {
-	/*
-	 * @todo: It might be possible fetch is sending an OPTIONS request, we should check how wordpress handles this.
-	 *
-	 * Possible cause: maybe its the stubby server, something with cross-domain requests.
-	 */
+	data = JSON.stringify( data );
+
 	let fetchPromise = fetch(
 		url,
 		{
-			method: "POST",
+			method: "PUT",
 			headers: {
 				Accepts: "application/json",
 				"Content-Type": "application/json",
@@ -57,7 +54,7 @@ let postJSONFetch = ( url, data ) => {
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
 let postJSONjQuery = ( url, headers, data ) => {
-	let promise = new Promise( ( resolve, reject )=> {
+	return new Promise( ( resolve, reject )=> {
 		jQuery.ajax( {
 			method: "PUT",
 			url,
@@ -80,7 +77,6 @@ let postJSONjQuery = ( url, headers, data ) => {
 		      }
 	      );
 	} );
-	return promise;
 };
 
 /**
@@ -93,11 +89,10 @@ let postJSONjQuery = ( url, headers, data ) => {
  * @returns {Promise} Returns a wrapped promise.
  */
 let postJSON = ( url, headers = {}, data = {} ) => {
-	data = JSON.stringify( data );
-
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
 		return postJSONFetch( url, data );
 	}
+
 	return postJSONjQuery( url, headers, data );
 };
 
