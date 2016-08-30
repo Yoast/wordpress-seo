@@ -111,7 +111,7 @@ class WPSEO_Configuration_Storage {
 	/**
 	 * Save the data
 	 *
-	 * @param array $data Data provided by the API which needs to be processed for saving.
+	 * @param array $data_to_store Data provided by the API which needs to be processed for saving.
 	 *
 	 * @return string Results
 	 */
