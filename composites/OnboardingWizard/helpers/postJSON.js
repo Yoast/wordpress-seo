@@ -58,7 +58,8 @@ let postJSONFetch = ( url, data ) => {
  */
 let postJSONjQuery = ( url, headers, data ) => {
 	let promise = new Promise( ( resolve, reject )=> {
-		jQuery.post( {
+		jQuery.ajax( {
+			method: "PUT",
 			url,
 			dataType: "json",
 			beforeSend: function ( xhr ) {
