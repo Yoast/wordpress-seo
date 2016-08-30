@@ -4,6 +4,9 @@ module.exports = {
 			transform: [
 				[ "babelify", { presets: [ "es2015" ] } ],
 			],
+			browserifyOptions: {
+				debug: true,
+			},
 		},
 		files: {
 			"js/dist/wp-seo-admin-340.js": [ "js/src/wp-seo-admin.js" ],
