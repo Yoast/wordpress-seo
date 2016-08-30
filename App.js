@@ -35,6 +35,14 @@ class App extends React.Component {
 			case "wizard":
 			default:
 				let config = cloneDeep( Config );
+				let endpoint = {
+					url: "http://127.0.0.1:8882/onboarding",
+					headers: {
+						"X-WP-Nonce": "test1234",
+					},
+				};
+
+				config.endpoint = endpoint;
 				content = <Wizard {...config} />;
 				break;
 		}

@@ -62,7 +62,9 @@ let postJSONjQuery = ( url, headers, data ) => {
 			url,
 			dataType: "json",
 			beforeSend: function ( xhr ) {
-				jQuery.each( headers, xhr.setRequestHeader );
+				jQuery.each( headers, (headerName, headerValue) => {
+					xhr.setRequestHeader(headerName, headerValue);
+				});
 			},
 			data
 		} )
@@ -95,8 +97,7 @@ let postJSON = ( url, headers = {}, data = {} ) => {
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
 		return postJSONFetch( url, data );
 	}
-	console.log("POST settings");
-	return postJSONjQuery( url, data, headers );
+	return postJSONjQuery( url, headers, data );
 };
 
 export default postJSON;
