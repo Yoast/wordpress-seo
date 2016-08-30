@@ -83,7 +83,6 @@ class WPSEO_Configuration_Endpoint {
 	 * @return bool
 	 */
 	public function can_retrieve_data() {
-		return true;
 		return current_user_can( self::CAPABILITY_RETRIEVE );
 	}
 
@@ -93,7 +92,6 @@ class WPSEO_Configuration_Endpoint {
 	 * @return bool
 	 */
 	public function can_save_data() {
-		return true;
 		return current_user_can( self::CAPABILITY_STORE );
 	}
 }
