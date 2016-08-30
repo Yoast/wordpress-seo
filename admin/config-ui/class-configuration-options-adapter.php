@@ -156,7 +156,7 @@ class WPSEO_Configuration_Options_Adapter {
 				return $saved[ $option[1] ] === $value;
 
 			case self::OPTION_TYPE_CUSTOM:
-				return call_user_func( $option[1] );
+				return call_user_func( $option[1], $value );
 		}
 
 		return false;
