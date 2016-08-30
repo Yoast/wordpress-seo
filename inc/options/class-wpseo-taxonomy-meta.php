@@ -320,12 +320,10 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 							'&lt;',
 							'&gt;',
 							'&quot',
-							'&#39',
 							'&#96',
 							'<',
 							'>',
 							'"',
-							'\'',
 							'`',
 						), '', $clean[ $key ] );
 					}

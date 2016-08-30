@@ -1,3 +1,6 @@
+### 3.4.2: August 8th, 2016
+* Includes every change in Yoast SEO core 3.4.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.4.1: August 2nd, 2016
 * Security hotfix: Includes every change in Yoast SEO core 3.4.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
