@@ -1,27 +1,45 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {OnboardingWizard} from "yoast-components";
 
 // Required to make Material UI work with touch screens.
-var injectTapEventPlugin = require("react-tap-event-plugin");
+import injectTapEventPlugin from "react-tap-event-plugin";
+import {OnboardingWizard} from "yoast-components";
 
 injectTapEventPlugin();
 
 class App extends React.Component {
 
-	render(){
-		let config = "";
+	getEndpoint() {
+		return {
+			url : `${yoastWizardConfig.root}${yoastWizardConfig.namespace}/${yoastWizardConfig.endpoint_retrieve}`,
+			headers : {
+				'X-WP-Nonce' : yoastWizardConfig.nonce,
+			}
+		};
+	}
+
+	getConfig() {
+		let config = {};
+		let endpoint = this.getEndpoint();
 
 		jQuery.ajax( {
-			url: `${yoastWizardConfig.root}${yoastWizardConfig.namespace}/${yoastWizardConfig.endpoint_retrieve}`,
+			url: endpoint.url,
 			method: 'GET',
 			async: false,
 			beforeSend: function ( xhr ) {
-				xhr.setRequestHeader( 'X-WP-Nonce', yoastWizardConfig.nonce );
+				jQuery.each( endpoint.headers, xhr.setRequestHeader );
 			},
 		} ).done( function ( response ) {
 			config = response;
 		} );
+
+		config.endpoint = endpoint;
+
+		return config;
+	}
+
+	render(){
+		let config = this.getConfig();
 
 		return(
 			<div>
