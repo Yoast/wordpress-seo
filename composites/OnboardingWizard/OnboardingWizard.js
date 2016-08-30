@@ -102,7 +102,7 @@ class OnboardingWizard extends React.Component {
 
 		postJSON(
 			this.props.endpoint,
-			this.getFieldsAsObject()
+			this.refs.step.state.fieldValues[ this.state.currentStepId ]
 		)
 		.then( this.handleSuccessful.bind( this, step ) )
 		.catch( this.handleFailure.bind( this ) );

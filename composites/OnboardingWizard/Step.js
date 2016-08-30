@@ -154,13 +154,28 @@ class Step extends React.Component {
 			Object.assign( props, choiceFieldProperties );
 		}
 
+		if ( componentType === "ConditionalTextField" ) {
+			let fieldValues = this.state.fieldValues;
+			let requiredFieldValue = fieldValues[this.props.currentStep][currentField.requires.field];
+			Object.assign( props, {
+				requires: currentField.requires,
+				requiredFieldValue,
+				label: currentField.properties.label,
+				"label-className": `${this.props.classPrefix}-text-input-label`,
+				"input-className": `${this.props.classPrefix}-text-input-box`,
+				optionalAttributes: {
+					"class": `${this.props.classPrefix}-text-input`,
+				}
+			});
+		}
+
 		return props;
 	}
 
 	/**
 	 * Renders the step.
 	 *
-	 * @returns {JSX} Rendered Step component.
+	 * @returns {JSX.Element} Rendered Step component.
 	 */
 	render() {
 		return (

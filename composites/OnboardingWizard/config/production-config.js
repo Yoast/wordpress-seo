@@ -84,19 +84,41 @@ let configuration = {
 			"data": "",
 		},
 		"publishingEntity": {
-			"componentName": "PublishingEntity",
-			"data": {
-				"publishingEntityType": "{publishing_entity_type}",
-				"publishingEntityPersonName": "{publishing_entity_person_name}",
-				"publishingEntityCompanyName": "{publishing_entity_company_name}",
-				"publishingEntityCompanyLogo": "{publishing_entity_company_logo}",
+			"componentName": "Choice",
+			"properties": {
+				"label": "Is this a personal site or is it for a company?",
+				"choices": {
+					"person": {
+						"label": "Personal website",
+					},
+					"company": {
+						"label": "Company website",
+					},
+				},
 			},
-			"defaults": {
-				"publishingEntityType": "",
-				"publishingEntityPersonName": "{currentuser.name}",
-				"publishingEntityCompanyName": "",
-				"publishingEntityCompanyLogo": "",
+			"data": "",
+		},
+		"personPublishingEntity": {
+			"componentName": "ConditionalTextField",
+			"properties": {
+				"label": "Your name:",
+				"pattern": "*",
 			},
+			"requires": {
+				"field": "publishingEntity",
+				"value": "person",
+			}
+		},
+		"businessPublishingEntity": {
+			"componentName": "ConditionalTextField",
+			"properties": {
+				"label": "The company name:",
+				"pattern": "*",
+			},
+			"requires": {
+				"field": "publishingEntity",
+				"value": "company",
+			}
 		},
 		"profileUrlFacebook": {
 			"componentName": "Input",
@@ -289,7 +311,11 @@ let configuration = {
 		},
 		"publishingEntity": {
 			"title": "Company or person",
-			"fields": ["publishingEntity"],
+			"fields": [
+				"publishingEntity",
+				"personPublishingEntity",
+				"businessPublishingEntity",
+			],
 		},
 		"profileUrls": {
 			"title": "Social profiles",
