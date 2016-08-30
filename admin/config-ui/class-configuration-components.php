@@ -20,7 +20,6 @@ class WPSEO_Configuration_Components {
 	public function __construct() {
 		$this->add_component( new WPSEO_Config_Component_Publishing_Entity() );
 		$this->add_component( new WPSEO_Config_Component_Connect_Google_Search_Console() );
-		$this->add_component( new WPSEO_Config_Component_Post_Type_Visibility() );
 	}
 
 	/**
@@ -51,7 +50,7 @@ class WPSEO_Configuration_Components {
 
 		foreach ( $this->components as $component ) {
 			$adapter->add_custom_lookup(
-				get_class( $component->get_field() ),
+				$component->get_field()->get_identifier(),
 				array(
 					$component,
 					'get_data',

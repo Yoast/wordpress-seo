@@ -20,31 +20,6 @@ class WPSEO_Configuration_Options_Adapter {
 	protected $lookup = array();
 
 	/**
-	 * WPSEO_Configuration_Options_Adapter constructor.
-	 *
-	 * Register default/internal lookups.
-	 */
-	public function __construct() {
-
-		$this->add_wordpress_lookup( 'WPSEO_Config_Field_Tag_Line', 'blogdescription' );
-		$this->add_wordpress_lookup( 'WPSEO_Config_Field_Site_Name', 'blogname' );
-
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Separator', 'wpseo_titles', 'separator' );
-
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Site_Type', 'wpseo', 'site_type' );
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Multiple_Authors', 'wpseo', 'has_multiple_authors' );
-
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_Facebook', 'wpseo_social', 'facebook_site' );
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_Twitter', 'wpseo_social', 'twitter_site' );
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_Instagram', 'wpseo_social', 'instagram_url' );
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_LinkedIn', 'wpseo_social', 'linkedin_url' );
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_MySpace', 'wpseo_social', 'myspace_url' );
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_Pinterest', 'wpseo_social', 'pinterest_url' );
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_YouTube', 'wpseo_social', 'youtube_url' );
-		$this->add_yoast_lookup( 'WPSEO_Config_Field_Profile_URL_GooglePlus', 'wpseo_social', 'google_plus_url' );
-	}
-
-	/**
 	 * Add a lookup for a WordPress native option
 	 *
 	 * @param string $class_name Class to bind to an option.
@@ -53,9 +28,6 @@ class WPSEO_Configuration_Options_Adapter {
 	 * @throws InvalidArgumentException Thrown when invalid input is provided.
 	 */
 	public function add_wordpress_lookup( $class_name, $option ) {
-		if ( ! class_exists( $class_name ) ) {
-			throw new InvalidArgumentException( 'Class must exist.' );
-		}
 
 		if ( ! is_string( $option ) ) {
 			throw new InvalidArgumentException( 'WordPress option must be a string.' );
@@ -74,9 +46,6 @@ class WPSEO_Configuration_Options_Adapter {
 	 * @throws InvalidArgumentException Thrown when invalid input is provided.
 	 */
 	public function add_yoast_lookup( $class_name, $option, $key ) {
-		if ( ! class_exists( $class_name ) ) {
-			throw new InvalidArgumentException( __( 'Class must exist.', 'wordpress-seo' ) );
-		}
 
 		$test = WPSEO_Options::get_option( $option );
 		if ( is_null( $test ) ) {
@@ -100,9 +69,6 @@ class WPSEO_Configuration_Options_Adapter {
 	 * @throws InvalidArgumentException Thrown when invalid input is provided.
 	 */
 	public function add_custom_lookup( $class_name, $callback_get, $callback_set ) {
-		if ( ! class_exists( $class_name ) ) {
-			throw new InvalidArgumentException( __( 'Class must exist.', 'wordpress-seo' ) );
-		}
 
 		if ( ! is_callable( $callback_get ) || ! is_callable( $callback_set ) ) {
 			throw new InvalidArgumentException( __( 'Custom option must be callable.', 'wordpress-seo' ) );
@@ -138,11 +104,11 @@ class WPSEO_Configuration_Options_Adapter {
 	 * @return mixed
 	 */
 	public function get( WPSEO_Config_Field $field ) {
-		$class_name = get_class( $field );
+		$identifier = $field->get_identifier();
 
 		// Lookup option and retrieve value.
-		$type   = $this->get_option_type( $class_name );
-		$option = $this->get_option( $class_name );
+		$type   = $this->get_option_type( $identifier );
+		$option = $this->get_option( $identifier );
 
 		switch ( $type ) {
 			case self::OPTION_TYPE_WORDPRESS:
@@ -169,11 +135,11 @@ class WPSEO_Configuration_Options_Adapter {
 	 * @return bool
 	 */
 	public function set( WPSEO_Config_Field $field, $value ) {
-		$class_name = get_class( $field );
+		$identifier = $field->get_identifier();
 
 		// Lookup option and retrieve value.
-		$type   = $this->get_option_type( $class_name );
-		$option = $this->get_option( $class_name );
+		$type   = $this->get_option_type( $identifier );
+		$option = $this->get_option( $identifier );
 
 		switch ( $type ) {
 			case self::OPTION_TYPE_WORDPRESS:

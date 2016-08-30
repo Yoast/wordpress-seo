@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Config_Field
  */
-abstract class WPSEO_Config_Field {
+class WPSEO_Config_Field {
 	/** @var string Field name */
 	protected $field;
 
@@ -74,5 +74,31 @@ abstract class WPSEO_Config_Field {
 	 */
 	public function get_data() {
 		return $this->data;
+	}
+
+	/**
+	 * Array representation of this object.
+	 *
+	 * @return array
+	 */
+	public function to_array() {
+		$output = array(
+			'component' => $this->get_component(),
+		);
+
+		$properties = $this->get_properties();
+		if ( $properties ) {
+			$output['properties'] = $properties;
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Set the adapter to use
+	 *
+	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
+	 */
+	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 	}
 }

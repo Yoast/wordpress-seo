@@ -63,7 +63,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 		$components = new WPSEO_Configuration_Components_Mock( true );
 		$list       = $components->get_components();
 
-		$this->assertEquals( 3, count( $list ) );
+		$this->assertEquals( 2, count( $list ) );
 	}
 
 	/**
@@ -90,7 +90,18 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 			->expects( $this->exactly( 1 ) )
 			->method( 'add_custom_lookup' );
 
-		$component = $this->getMockBuilder( 'WPSEO_Config_Component' )->getMock();
+		$component = $this
+			->getMockBuilder( 'WPSEO_Config_Component' )
+			->setMethods( array( 'get_field', 'get_identifier', 'get_data', 'set_data' ) )
+			->getMock();
+
+		$field = new WPSEO_Config_Field( 'a', 'b' );
+
+		$component
+			->expects( $this->once() )
+			->method( 'get_field' )
+			->will( $this->returnValue( $field ) );
+
 		$this->components->add_component( $component );
 
 		$this->components->set_adapter( $adapter );

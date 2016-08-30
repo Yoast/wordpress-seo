@@ -37,6 +37,11 @@ class WPSEO_Configuration_Storage {
 		$this->add_field( new WPSEO_Config_Field_Profile_URL_Pinterest() );
 		$this->add_field( new WPSEO_Config_Field_Profile_URL_YouTube() );
 		$this->add_field( new WPSEO_Config_Field_Profile_URL_GooglePlus() );
+
+		$post_type_factory = new WPSEO_Config_Factory_Post_Type();
+		foreach ( $post_type_factory->get_fields() as $field ) {
+			$this->add_field( $field );
+		}
 	}
 
 	/**
@@ -46,6 +51,10 @@ class WPSEO_Configuration_Storage {
 	 */
 	public function add_field( WPSEO_Config_Field $field ) {
 		$this->fields[] = $field;
+
+		if ( isset( $this->adapter ) ) {
+			$field->set_adapter( $this->adapter );
+		}
 	}
 
 	/**
@@ -55,6 +64,10 @@ class WPSEO_Configuration_Storage {
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 		$this->adapter = $adapter;
+
+		foreach ( $this->fields as $field ) {
+			$field->set_adapter( $this->adapter );
+		}
 	}
 
 	/**
@@ -76,14 +89,8 @@ class WPSEO_Configuration_Storage {
 
 		/** @var WPSEO_Config_Field $field */
 		foreach ( $this->fields as $field ) {
-			$build = array(
-				'component' => $field->get_component(),
-			);
 
-			$properties = $field->get_properties();
-			if ( $properties ) {
-				$build['properties'] = $properties;
-			}
+			$build = $field->to_array();
 
 			$data = $this->get_field_data( $field );
 			if ( ! is_null( $data ) ) {

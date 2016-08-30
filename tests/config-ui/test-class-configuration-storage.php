@@ -43,7 +43,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 		$this->storage->add_default_fields();
 		$fields = $this->storage->get_fields();
 
-		$this->assertEquals( 18, count( $fields ) );
+		$this->assertEquals( 21, count( $fields ) );
 	}
 
 	/**
