@@ -212,9 +212,8 @@ class WPSEO_Taxonomy_Columns {
 	 * @return int
 	 */
 	private function get_taxonomy_input_type() {
-		$request_type = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
 
-		if ( $request_type === 'POST' ) {
+		if ( ! empty( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 			return INPUT_POST;
 		}
 

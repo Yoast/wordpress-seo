@@ -43,7 +43,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$expected = '<tr><th scope="row"><label for="wpseo_fieldname">test field</label></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>';
+		$expected = '<tr><th scope="row"><label for="wpseo_fieldname">test field</label></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/><p class="description">this is a test field</p></td></tr>';
 		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
 
 		$this->assertEquals( $expected, $output );
@@ -66,7 +66,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$expected = '<tr><th scope="row"></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>';
+		$expected = '<tr><th scope="row"></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/><p class="description">this is a test field</p></td></tr>';
 		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
 
 		$this->assertEquals( $expected, $output );

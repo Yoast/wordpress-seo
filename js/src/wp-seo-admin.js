@@ -104,15 +104,20 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 		jQuery.post( ajaxurl, {
 			action: "wpseo_kill_blocking_files",
 			_ajax_nonce: nonce,
-		}, function( data ) {
-			if ( data === "success" ) {
-				jQuery( "#blocking_files" ).hide();
+		} ).done( function( response ) {
+			var noticeContainer = jQuery( ".yoast-notice-blocking-files" ),
+				noticeParagraph = jQuery( "#blocking_files" );
+
+			noticeParagraph.html( response.data.message );
+			// Make the notice focusable and move focue on it so screen readers will read out its content.
+			noticeContainer.attr( "tabindex", "-1" ).focus();
+
+			if ( response.success ) {
+				noticeContainer.removeClass( "notice-error" ).addClass( "notice-success" );
+			} else {
+				noticeContainer.addClass( "yoast-blocking-files-error" );
 			}
-			else {
-				jQuery( "#blocking_files" ).html( data );
-			}
-		}
-		);
+		} );
 	}
 
 	/**
@@ -208,6 +213,29 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 			width: select2Width,
 			language: wpseoSelect2Locale,
 		} );
+	}
+
+	/**
+	 * Set the initial active tab in the settings pages.
+	 */
+	function setInitialActiveTab() {
+		var activeTabId = window.location.hash.replace( "#top#", "" );
+		/*
+		 * WordPress uses fragment identifiers for its own in-page links, e.g.
+		 * `#wpbody-content` and other plugins may do that as well. Also, facebook
+		 * adds a `#_=_` see PR 506. In these cases and when it's empty, default
+		 * to the first tab.
+		 */
+		if ( "" === activeTabId || "#" === activeTabId.charAt( 0 ) ) {
+			/*
+			 * Reminder: jQuery attr() gets the attribute value for only the first
+			 * element in the matched set so this will always be the first tab id.
+			 */
+			activeTabId = jQuery( ".wpseotab" ).attr( "id" );
+		}
+
+		jQuery( "#" + activeTabId ).addClass( "active" );
+		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
@@ -316,19 +344,12 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 			wpseoDetectWrongVariables( jQuery( this ) );
 		} ).change();
 
-		// init
-		var activeTab = window.location.hash.replace( "#top#", "" );
+		// XML sitemaps "Fix it" button.
+		jQuery( "#blocking_files .button" ).on( "click", function() {
+			wpseoKillBlockingFiles( jQuery( this ).data( "nonce" ) );
+		} );
 
-		// default to first tab
-		if ( activeTab === "" || activeTab === "#_=_" ) {
-			activeTab = jQuery( ".wpseotab" ).attr( "id" );
-		}
-
-		jQuery( "#" + activeTab ).addClass( "active" );
-		jQuery( "#" + activeTab + "-tab" ).addClass( "nav-tab-active" );
-
-		jQuery( ".nav-tab-active" ).click();
+		setInitialActiveTab();
 		initSelect2();
-	}
-	);
+	} );
 }() );

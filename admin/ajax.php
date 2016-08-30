@@ -106,18 +106,20 @@ function wpseo_kill_blocking_files() {
 		foreach ( $options['blocking_files'] as $file ) {
 			if ( is_file( $file ) ) {
 				if ( ! @unlink( $file ) ) {
-					$errors[] = __(
-						sprintf( 'The file "%s" could not be removed. Please remove it via FTP.', $file ),
-						'wordpress-seo'
+					$errors[] = sprintf(
+						/* translators: %s expands to the file path and name. */
+						__( 'The file %s could not be removed. Please remove it via FTP.', 'wordpress-seo' ),
+						'<code>' . $file . '</code>'
 					);
 				}
 			}
 
 			if ( is_dir( $file ) ) {
 				if ( ! @ rmdir( $file ) ) {
-					$errors[] = __(
-						sprintf( 'The directory "%s" could not be removed. Please remove it via FTP.', $file ),
-						'wordpress-seo'
+					$errors[] = sprintf(
+						/* translators: %s expands to the directory path and name. */
+						__( 'The directory %s could not be removed. Please remove it via FTP.', 'wordpress-seo' ),
+						'<code>' . $file . '</code>'
 					);
 				}
 			}
@@ -126,9 +128,12 @@ function wpseo_kill_blocking_files() {
 
 	if ( $errors ) {
 		$message = implode( '<br />', $errors );
+		wp_send_json_error( array( 'message' => $message ) );
 	}
-
-	die( $message );
+	else {
+		$message = __( 'Files successfully removed.', 'wordpress-seo' );
+		wp_send_json_success( array( 'message' => $message ) );
+	}
 }
 
 add_action( 'wp_ajax_wpseo_kill_blocking_files', 'wpseo_kill_blocking_files' );
