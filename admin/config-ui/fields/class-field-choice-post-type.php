@@ -42,12 +42,21 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
+	 * Get the post type of this field.
+	 *
+	 * @return string Post type.
+	 */
+	public function get_post_type() {
+		return $this->post_type;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function get_data() {
 		$option = WPSEO_Options::get_option( 'wpseo_xml' );
 
-		$key = 'post_types-' . $this->post_type . '-not_in_sitemap';
+		$key = 'post_types-' . $this->get_post_type() . '-not_in_sitemap';
 
 		return ( ! isset( $option[ $key ] ) || false === $option[ $key ] );
 	}
@@ -60,7 +69,7 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	 * @return bool
 	 */
 	public function set_data( $visible ) {
-		$post_type = $this->post_type;
+		$post_type = $this->get_post_type();
 
 		$option = WPSEO_Options::get_option( 'wpseo_xml' );
 

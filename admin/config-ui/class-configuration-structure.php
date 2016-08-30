@@ -22,7 +22,13 @@ class WPSEO_Configuration_Structure {
 		) );
 		$this->add_step( 'environment', 'Environment', array( 'environment' ) );
 		$this->add_step( 'siteType', 'Site type', array( 'siteType' ) );
-		$this->add_step( 'publishingEntity', 'Company or person', array( 'publishingEntity' ) );
+		$this->add_step( 'publishingEntity', 'Company or person', array(
+			'publishingEntity',
+			'publishingEntityType',
+			'publishingEntityCompanyName',
+			'publishingEntityCompanyLogo',
+			'publishingEntityPersonName',
+		) );
 		$this->add_step( 'profileUrls', 'Social profiles', array(
 			'profileUrlFacebook',
 			'profileUrlTwitter',

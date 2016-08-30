@@ -220,14 +220,19 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_configuration()
 	 */
 	public function test_set_configuration() {
+		$expected = array( 'some_data' );
+
 		$storage = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( array( 'store' ) )->getMock();
 
-		$data = array( 'some_data' );
+		$data = new WP_REST_Request();
+		$data->set_header( 'content-type', 'application/json' );
+
+		$data->set_body( json_encode( $expected ) );
 
 		$storage
 			->expects( $this->once() )
 			->method( 'store' )
-			->with( $data );
+			->with( $expected );
 
 		$this->configuration_service->set_storage( $storage );
 		$this->configuration_service->set_configuration( $data );

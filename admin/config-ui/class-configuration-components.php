@@ -18,7 +18,6 @@ class WPSEO_Configuration_Components {
 	 * WPSEO_Configuration_Components constructor.
 	 */
 	public function __construct() {
-		$this->add_component( new WPSEO_Config_Component_Publishing_Entity() );
 		$this->add_component( new WPSEO_Config_Component_Connect_Google_Search_Console() );
 	}
 

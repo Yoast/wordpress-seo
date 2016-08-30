@@ -16,6 +16,9 @@ class WPSEO_Config_Field {
 	/** @var array Properties of this field */
 	protected $properties = array();
 
+	/** @var array Field requirements */
+	protected $requires = array();
+
 	/** @var array|mixed Value of this field */
 	protected $data;
 
@@ -91,6 +94,11 @@ class WPSEO_Config_Field {
 			$output['properties'] = $properties;
 		}
 
+		$requires = $this->get_requires();
+		if ( ! empty( $requires ) ) {
+			$output['requires'] = $requires;
+		}
+
 		return $output;
 	}
 
@@ -100,5 +108,27 @@ class WPSEO_Config_Field {
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
+	}
+
+	/**
+	 * Requires another field to have a certain value.
+	 *
+	 * @param string $field Field to check for a certain value.
+	 * @param mixed  $value Value of the field.
+	 */
+	public function set_requires( $field, $value ) {
+		$this->requires = array(
+			'field' => $field,
+			'value' => $value,
+		);
+	}
+
+	/**
+	 * Get the required field settings (if present)
+	 *
+	 * @return array
+	 */
+	public function get_requires() {
+		return $this->requires;
 	}
 }

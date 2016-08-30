@@ -9,7 +9,7 @@
 class WPSEO_Config_Factory_Post_Type {
 
 	/** @var WPSEO_Config_Field_Choice_Post_Type[] List of fields */
-	static $fields = array();
+	protected static $fields = array();
 
 	/**
 	 * @return WPSEO_Config_Field_Choice_Post_Type[] List of fields.

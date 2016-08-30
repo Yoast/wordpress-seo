@@ -117,11 +117,11 @@ class WPSEO_Configuration_Service {
 	/**
 	 * Used by endpoint to store changes
 	 *
-	 * @param array $data List of settings.
+	 * @param WP_REST_Request $request Request from the REST API.
 	 *
 	 * @return array List of feedback per option if saving succeeded.
 	 */
-	public function set_configuration( $data ) {
-		return $this->storage->store( $data );
+	public function set_configuration( WP_REST_Request $request ) {
+		return $this->storage->store( $request->get_json_params() );
 	}
 }
