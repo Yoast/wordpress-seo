@@ -9299,6 +9299,7 @@ var getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
 
 var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
+var filter = require( "lodash/filter" );
 
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
@@ -9369,6 +9370,10 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
 
 	var words = getWords( stripSpaces( sentence ) );
 
+	if ( words.length === 0 ) {
+		return "";
+	}
+
 	var firstWord = words[ 0 ].toLocaleLowerCase();
 
 	if ( firstWordExceptions.indexOf( firstWord ) > -1 && words.length > 1 ) {
@@ -9391,12 +9396,14 @@ module.exports = function( paper ) {
 		return getSentenceBeginning( sentence, firstWordExceptions );
 	} );
 
+	sentenceBeginnings = filter( sentenceBeginnings );
+
 	return compareFirstWords( sentenceBeginnings, sentences );
 };
 
 
 
-},{"../helpers/getFirstWordExceptions.js":33,"../stringProcessing/getSentences.js":101,"../stringProcessing/getWords.js":104,"../stringProcessing/stripHTMLTags.js":118,"../stringProcessing/stripSpaces.js":121,"lodash/forEach":284,"lodash/isEmpty":295}],70:[function(require,module,exports){
+},{"../helpers/getFirstWordExceptions.js":33,"../stringProcessing/getSentences.js":101,"../stringProcessing/getWords.js":104,"../stringProcessing/stripHTMLTags.js":118,"../stringProcessing/stripSpaces.js":121,"lodash/filter":280,"lodash/forEach":284,"lodash/isEmpty":295}],70:[function(require,module,exports){
 var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
 var forEach = require( "lodash/forEach" );
