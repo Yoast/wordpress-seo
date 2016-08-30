@@ -61,14 +61,7 @@ class WPSEO_Configuration_Endpoint {
 	 * @return array
 	 */
 	public function get_configuration() {
-		$configuration             = $this->service->get_configuration();
-		$configuration['endpoint'] = array(
-			'url'       => $this->get_route( self::ENDPOINT_STORE ),
-			'type'      => 'wordpress',
-			'arguments' => array(
-				'nonce' => wp_create_nonce( 'wp_rest' ),
-			),
-		);
+		$configuration = $this->service->get_configuration();
 
 		return $configuration;
 	}

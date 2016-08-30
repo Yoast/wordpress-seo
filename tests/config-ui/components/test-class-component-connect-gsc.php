@@ -85,7 +85,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Co
 /**
  * Class WPSEO_Config_Component_Connect_Google_Search_Console_Test
  */
-class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends WPSEO_UnitTestCase {
+class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Config_Component_Connect_Google_Search_Console_Mock */
 	protected $component;

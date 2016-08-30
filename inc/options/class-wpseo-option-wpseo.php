@@ -41,7 +41,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+	 * @var array Sub-options which should not be overloaded with multi-site defaults
 	 */
 	public $ms_exclude = array(
 		/* privacy */
@@ -51,7 +51,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'yandexverify',
 	);
 
-	/** @var array Array of possible values for the site_type option */
+	/** @var array Possible values for the site_type option */
 	protected $site_types = array(
 		'',
 		'blog',

@@ -38,7 +38,7 @@ class WPSEO_Configuration_Options_Adapter_Mock extends WPSEO_Configuration_Optio
 /**
  * Class WPSEO_Configuration_Options_Adapter_Test
  */
-class WPSEO_Configuration_Options_Adapter_Test extends WPSEO_UnitTestCase {
+class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Options_Adapter_Mock */
 	protected $adapter;

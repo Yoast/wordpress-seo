@@ -30,7 +30,7 @@ class WPSEO_Config_Component_Post_Type_Visibility_Mock extends WPSEO_Config_Comp
 /**
  * Class WPSEO_Config_Component_Post_Type_Visibility_Test
  */
-class WPSEO_Config_Component_Post_Type_Visibility_Test extends WPSEO_UnitTestCase {
+class WPSEO_Config_Component_Post_Type_Visibility_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Config_Component_Post_Type_Visibility_Mock */
 	protected $component;

@@ -70,22 +70,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Endpoint::get_configuration()
 	 */
 	public function test_get_configuration() {
-		$nonce       = wp_create_nonce( 'wp_rest' );
-		$endpoint    = $this->endpoint->get_route( WPSEO_Configuration_Endpoint::ENDPOINT_STORE );
-		$base_config = array( 'test' => 'config' );
-
-		$expected = array_merge(
-			$base_config,
-			array(
-				'endpoint' => array(
-					'url'       => $endpoint,
-					'type'      => 'wordpress',
-					'arguments' => array(
-						'nonce' => $nonce,
-					),
-				),
-			)
-		);
+		$expected = array( 'test' => 'config' );
 
 		$service = $this
 			->getMockBuilder( 'WPSEO_Configuration_Service' )
@@ -95,8 +80,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 		$service
 			->expects( $this->once() )
 			->method( 'get_configuration' )
-			->will( $this->returnValue( $base_config ) );
-
+			->will( $this->returnValue( $expected ) );
 
 		$this->endpoint->set_service( $service );
 

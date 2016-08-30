@@ -22,7 +22,7 @@ class WPSEO_Configuration_Structure_Mock extends WPSEO_Configuration_Structure {
 /**
  * Class WPSEO_Configuration_Structure_Test
  */
-class WPSEO_Configuration_Structure_Test extends WPSEO_UnitTestCase {
+class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Service_Mock Mock holder */
 	protected $structure;
