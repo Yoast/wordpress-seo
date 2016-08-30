@@ -124,9 +124,8 @@ class WPSEO_Configuration_Storage {
 			$field_identifier = $field->get_identifier();
 
 			$field_data = array();
-
-			if ( isset( $data[ $field_identifier ]['data'] ) ) {
-				$field_data = $data[ $field_identifier ]['data'];
+			if ( isset( $data[ $field_identifier ] ) ) {
+				$field_data = $data[ $field_identifier ];
 			}
 
 			$result = $this->adapter->set( $field, $field_data );
