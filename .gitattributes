@@ -18,6 +18,7 @@ Gruntfile.js export-ignore
 package.json export-ignore
 phpunit.xml export-ignore
 phpcs.xml export-ignore
+phpmd.xml export-ignore
 CONTRIBUTING.md export-ignore
 README.md export-ignore
 ISSUE_TEMPLATE.md export-ignore

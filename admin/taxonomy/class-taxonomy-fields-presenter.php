@@ -44,8 +44,14 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	private function form_row( $field_name, array $field_configuration ) {
 		$esc_field_name = esc_attr( $field_name );
 
+		$options = (array) $field_configuration['options'];
+
+		if ( ! empty( $field_configuration['description'] ) ) {
+			$options['description'] = $field_configuration['description'];
+		}
+
 		$label            = $this->get_label( $field_configuration['label'], $esc_field_name );
-		$field            = $this->get_field( $field_configuration['type'], $esc_field_name, $this->get_field_value( $field_name ), $field_configuration['description'], (array) $field_configuration['options'] );
+		$field            = $this->get_field( $field_configuration['type'], $esc_field_name, $this->get_field_value( $field_name ), $options );
 		$help_content     = isset( $field_configuration['options']['help'] ) ? $field_configuration['options']['help'] : '';
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
@@ -56,22 +62,21 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Generates the html for the given field config.
 	 *
-	 * @param string $field_type        The fieldtype, e.g: text, checkbox, etc.
-	 * @param string $field_name        The name of the field.
-	 * @param string $field_value       The value of the field.
-	 * @param string $field_description Optional. The description of the field.
-	 * @param array  $options           Array with additional options.
+	 * @param string $field_type  The fieldtype, e.g: text, checkbox, etc.
+	 * @param string $field_name  The name of the field.
+	 * @param string $field_value The value of the field.
+	 * @param array  $options     Array with additional options.
 	 *
 	 * @return string
 	 */
-	private function get_field( $field_type, $field_name, $field_value, $field_description = '', array $options ) {
+	private function get_field( $field_type, $field_name, $field_value, array $options ) {
 
 		$class = $this->get_class( $options );
 		$field = $description = $aria_describedby = '';
 
-		if ( '' !== $field_description ) {
+		if ( ! empty( $options['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $field_name . '-desc"';
-			$description = '<p id="' . $field_name . '-desc">' . $field_description . '</p>';
+			$description = '<p id="' . $field_name . '-desc">' . $options['description'] . '</p>';
 		}
 
 		switch ( $field_type ) {
@@ -93,7 +98,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				break;
 			case 'upload' :
 				$field .= '<input id="' . $field_name . '" type="text" size="36" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '"' . $aria_describedby . ' />';
-				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="' . __( 'Upload Image', 'wordpress-seo' ) . '" />';
+				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
 				break;
 			case 'select' :
 				if ( is_array( $options ) && $options !== array() ) {

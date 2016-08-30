@@ -92,7 +92,7 @@ class Yoast_Dashboard_Widget {
 		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
 		$user_id   = get_current_user_id();
 
-		if ( isset( $transient[ $user_id ][1] ) ) {
+		if ( isset( $transient[ $user_id ] ) ) {
 			return $transient[ $user_id ];
 		}
 
@@ -186,6 +186,6 @@ class Yoast_Dashboard_Widget {
 	private function show_widget() {
 		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 
-		return $analysis_seo->is_enabled();
+		return $analysis_seo->is_enabled() && current_user_can( 'edit_posts' );
 	}
 }

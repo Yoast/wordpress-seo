@@ -1,6 +1,4 @@
-/* global wpseoPostScraperL10n */
-
-var isUndefined = require( 'lodash/isUndefined' );
+var isUndefined = require( "lodash/isUndefined" );
 
 /**
  * Returns the l10n object for the current page, either term or post.
