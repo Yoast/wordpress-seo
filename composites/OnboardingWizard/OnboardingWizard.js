@@ -86,8 +86,8 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
-	 * Sends the options for the current step via POST request to the back-end and sets the state to the target step
-	 * when successful.
+	 * Sends the options for the current step via POST request to the back-end
+	 * and sets the state to the target step when successful.
 	 *
 	 * @param {step} step The step to render after the current state is stored.
 	 *
@@ -103,19 +103,11 @@ class OnboardingWizard extends React.Component {
 		postJSON(
 			this.props.endpoint.url,
 			this.props.endpoint.headers,
-			this.getFieldsAsObject()
+			// The stored data for the steps.
+			this.refs.step.state.fieldValues[ this.state.currentStepId ]
 		)
 		.then( this.handleSuccessful.bind( this, step ) )
 		.catch( this.handleFailure.bind( this ) );
-	}
-
-	/**
-	 * Returns the fields as an JSON object.
-	 *
-	 * @returns {Object} JSON fields object.
-	 */
-	getFieldsAsObject() {
-		return this.refs.step.state.fieldValues[ this.state.currentStepId ];
 	}
 
 	/**
