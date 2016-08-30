@@ -12,9 +12,9 @@ class WPSEO_Config_Field_Person_Name extends WPSEO_Config_Field {
 	 * WPSEO_Config_Field_Company_Or_Person constructor.
 	 */
 	public function __construct() {
-		parent::__construct( 'publishingEntityPersonName', 'Input' );
+		parent::__construct( 'publishingEntityPersonName', 'ConditionalInput' );
 
-		// @todo add label
+		$this->set_property( 'label', __( 'The name of the person', 'wordpress-seo' ) );
 
 		$this->set_requires( 'publishingEntityType', 'person' );
 	}

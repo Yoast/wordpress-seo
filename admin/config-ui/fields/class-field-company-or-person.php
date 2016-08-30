@@ -14,7 +14,7 @@ class WPSEO_Config_Field_Company_Or_Person extends WPSEO_Config_Field_Choice {
 	public function __construct() {
 		parent::__construct( 'publishingEntityType' );
 
-		// @todo add label
+		$this->set_property( 'label', __( 'Type of publisher', 'wordpress-seo' ) );
 
 		$this->add_choice( 'company', __( 'Company' ) );
 		$this->add_choice( 'person', __( 'Person' ) );
