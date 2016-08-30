@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Config_Field
  */
-abstract class WPSEO_Config_Field {
+class WPSEO_Config_Field {
 	/** @var string Field name */
 	protected $field;
 
@@ -15,6 +15,9 @@ abstract class WPSEO_Config_Field {
 
 	/** @var array Properties of this field */
 	protected $properties = array();
+
+	/** @var array Field requirements */
+	protected $requires = array();
 
 	/** @var array|mixed Value of this field */
 	protected $data;
@@ -74,5 +77,58 @@ abstract class WPSEO_Config_Field {
 	 */
 	public function get_data() {
 		return $this->data;
+	}
+
+	/**
+	 * Array representation of this object.
+	 *
+	 * @return array
+	 */
+	public function to_array() {
+		$output = array(
+			'component' => $this->get_component(),
+		);
+
+		$properties = $this->get_properties();
+		if ( $properties ) {
+			$output['properties'] = $properties;
+		}
+
+		$requires = $this->get_requires();
+		if ( ! empty( $requires ) ) {
+			$output['requires'] = $requires;
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Set the adapter to use
+	 *
+	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
+	 */
+	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
+	}
+
+	/**
+	 * Requires another field to have a certain value.
+	 *
+	 * @param string $field Field to check for a certain value.
+	 * @param mixed  $value Value of the field.
+	 */
+	public function set_requires( $field, $value ) {
+		$this->requires = array(
+			'field' => $field,
+			'value' => $value,
+		);
+	}
+
+	/**
+	 * Get the required field settings (if present)
+	 *
+	 * @return array
+	 */
+	public function get_requires() {
+		return $this->requires;
 	}
 }

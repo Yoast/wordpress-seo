@@ -67,4 +67,68 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals( $data, $field->get_data() );
 	}
+
+	/**
+	 * @covers WPSEO_Config_Field::set_requires()
+	 * @covers WPSEO_Config_Field::get_requires()
+	 */
+	public function test_set_requires() {
+		$field_b = 'field_b';
+		$value = 'value';
+
+		$expected = array(
+			'field' => $field_b,
+			'value' => $value,
+		);
+
+		$field = new WPSEO_Config_Field( 'field_a', 'component' );
+		$field->set_requires( $field_b, $value );
+
+		$result = $field->get_requires();
+
+		$this->assertEquals( $expected, $result );
+	}
+
+	/**
+	 * @covers WPSEO_Config_Field::to_array()
+	 */
+	public function test_to_array() {
+		$field = new WPSEO_Config_Field( 'a', 'b' );
+
+		$result = $field->to_array();
+
+		$this->assertInternalType( 'array', $result );
+		$this->assertArrayHasKey( 'component', $result );
+	}
+
+	/**
+	 * @covers WPSEO_Config_Field::to_array()
+	 */
+	public function test_to_array_requires() {
+		$field = new WPSEO_Config_Field( 'a', 'b' );
+		$field->set_requires( 'b', 'c' );
+
+		$result = $field->to_array();
+
+		$this->assertArrayHasKey( 'requires', $result );
+		$this->assertEquals( 'b', $result['requires']['field'] );
+		$this->assertEquals( 'c', $result['requires']['value'] );
+	}
+
+	/**
+	 * @covers WPSEO_Config_Field::to_array()
+	 */
+	public function test_to_array_properties() {
+		$property = 'p';
+		$property_value = 'pv';
+
+		$field = new WPSEO_Config_Field( 'a', 'b' );
+		$field->set_property( $property, $property_value );
+
+		$result = $field->to_array();
+
+		$this->assertArrayHasKey( 'properties', $result );
+		$this->assertArrayHasKey( $property, $result['properties'] );
+		$this->assertEquals( $property_value, $result['properties'][$property] );
+	}
 }

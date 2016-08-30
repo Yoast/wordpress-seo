@@ -7,17 +7,6 @@
  * Class WPSEO_Configuration_Options_Adapter_Mock
  */
 class WPSEO_Configuration_Options_Adapter_Mock extends WPSEO_Configuration_Options_Adapter {
-	/**
-	 * WPSEO_Configuration_Options_Adapter_Mock constructor.
-	 *
-	 * Removes default registrations
-	 */
-	public function __construct( $execute_default_constructor = false ) {
-		if ( $execute_default_constructor ) {
-			parent::__construct();
-		}
-	}
-
 	public function get_lookups() {
 		return $this->lookup;
 	}
@@ -50,17 +39,6 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		parent::setUp();
 
 		$this->adapter = new WPSEO_Configuration_Options_Adapter_Mock();
-	}
-
-	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::__construct()
-	 */
-	public function test_constructor() {
-
-		$adapter = new WPSEO_Configuration_Options_Adapter_Mock( true );
-		$lookups = $adapter->get_lookups();
-
-		$this->assertEquals( 13, count( $lookups ) );
 	}
 
 	/**
@@ -108,16 +86,6 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers                   WPSEO_Configuration_Options_Adapter::add_custom_lookup()
 	 *
 	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage Class must exist.
-	 */
-	public function test_add_custom_lookup_invalid_class() {
-		$this->adapter->add_custom_lookup( 'non_existing_class', '', '' );
-	}
-
-	/**
-	 * @covers                   WPSEO_Configuration_Options_Adapter::add_custom_lookup()
-	 *
-	 * @expectedException InvalidArgumentException
 	 * @expectedExceptionMessage Custom option must be callable.
 	 */
 	public function test_add_custom_lookup_not_a_callback_get() {
@@ -158,14 +126,6 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 	/**
 	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage Class must exist.
-	 */
-	public function test_add_yoast_lookup_invalid_class() {
-		$this->adapter->add_yoast_lookup( 'non_existing_class', '', '' );
-	}
-
-	/**
-	 * @expectedException InvalidArgumentException
 	 * @expectedExceptionMessage Yoast option non_existing_option not found.
 	 */
 	public function test_add_yoast_lookup_invalid_option() {
@@ -188,16 +148,6 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$this->assertNull( $this->adapter->add_wordpress_lookup( $class_name, $option ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
-	}
-
-	/**
-	 * @covers                   WPSEO_Configuration_Options_Adapter::add_wordpress_lookup()
-	 *
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage Class must exist.
-	 */
-	public function test_add_wordpress_lookup_invalid_class() {
-		$this->adapter->add_wordpress_lookup( 'non_existing_class', '' );
 	}
 
 	/**
@@ -243,12 +193,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$option   = 'blogname';
 		$expected = get_option( $option );
 
-		$field = $this
-			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
-			->getMock();
+		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_wordpress_lookup( get_class( $field ), $option );
+		$this->adapter->add_wordpress_lookup( $field->get_identifier(), $option );
 
 		$result = $this->adapter->get( $field );
 
@@ -265,12 +212,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$wpseo    = WPSEO_Options::get_option( $option );
 		$expected = $wpseo[ $key ];
 
-		$field = $this
-			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
-			->getMock();
+		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_yoast_lookup( get_class( $field ), $option, $key );
+		$this->adapter->add_yoast_lookup( $field->get_identifier(), $option, $key );
 
 		$result = $this->adapter->get( $field );
 
@@ -285,12 +229,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$expected = call_user_func( $get );
 
-		$field = $this
-			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
-			->getMock();
+		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_custom_lookup( get_class( $field ), $get, '__return_true' );
+		$this->adapter->add_custom_lookup( $field->get_identifier(), $get, '__return_true' );
 
 		$result = $this->adapter->get( $field );
 
@@ -301,12 +242,15 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::get()
 	 */
 	public function test_get_unknown_type() {
+
+		$field_name = 'field';
+
 		$class = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
+			->setConstructorArgs( array( $field_name, 'component' ) )
 			->getMock();
 
-		$this->adapter->add_lookup( get_class( $class ), 'some_type', 'some_option' );
+		$this->adapter->add_lookup( $field_name, 'some_type', 'some_option' );
 		$this->assertEquals( null, $this->adapter->get( $class, 'value' ) );
 
 	}
@@ -318,12 +262,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$option = uniqid( 'ut' );
 		$value  = uniqid( 'v' );
 
-		$field = $this
-			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
-			->getMock();
+		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_wordpress_lookup( get_class( $field ), $option );
+		$this->adapter->add_wordpress_lookup( $field->get_identifier(), $option );
 
 		$this->assertTrue( $this->adapter->set( $field, $value ) );
 		$this->assertEquals( $value, get_option( $option ) );
@@ -342,12 +283,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$value = uniqid( 'v' );
 
-		$field = $this
-			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
-			->getMock();
+		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_yoast_lookup( get_class( $field ), $option, $key );
+		$this->adapter->add_yoast_lookup( $field->get_identifier(), $option, $key );
 
 		$this->assertEquals( true, $this->adapter->set( $field, $value ) );
 
@@ -367,12 +305,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$wpseo[ $key ] = $value;
 		update_option( $option, $wpseo );
 
-		$field = $this
-			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
-			->getMock();
+		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_yoast_lookup( get_class( $field ), $option, $key );
+		$this->adapter->add_yoast_lookup( $field->get_identifier(), $option, $key );
 
 		$this->assertEquals( true, $this->adapter->set( $field, $value ) );
 
@@ -384,13 +319,10 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::set()
 	 */
 	public function test_set_option_unknown_type() {
-		$class = $this
-			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
-			->getMock();
+		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_lookup( get_class( $class ), 'some_type', 'some_option' );
-		$this->assertEquals( false, $this->adapter->set( $class, 'value' ) );
+		$this->adapter->add_lookup( $field->get_identifier(), 'some_type', 'some_option' );
+		$this->assertEquals( false, $this->adapter->set( $field, 'value' ) );
 	}
 
 	/**
@@ -407,12 +339,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 			->method( 'set' )
 			->will( $this->returnValue( true ) );
 
-		$field = $this
-			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
-			->getMock();
+		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_custom_lookup( get_class( $field ), '__return_true', array(
+		$this->adapter->add_custom_lookup( $field->get_identifier(), '__return_true', array(
 			$catcher,
 			'set',
 		) );

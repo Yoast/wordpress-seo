@@ -25,10 +25,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	 * WPSEO_Config_Component_Connect_Google_Search_Console constructor.
 	 */
 	public function __construct() {
-
-		$profile = $this->get_profile();
-
-		$this->gsc_service = new WPSEO_GSC_Service( $profile );
+		$this->gsc_service = new WPSEO_GSC_Service( $this->get_profile() );
 	}
 
 	/**
