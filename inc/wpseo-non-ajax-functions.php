@@ -163,7 +163,8 @@ function wpseo_admin_bar_menu() {
 				'parent' => 'wpseo-analysis',
 				'id'     => 'wpseo-kwdensity',
 				'title'  => __( 'Check Keyword Density', 'wordpress-seo' ),
-				'href'   => '//www.zippy.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focuskw ),
+				// HTTPS not available.
+				'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focuskw ),
 				'meta'   => array( 'target' => '_blank' ),
 			) );
 			$wp_admin_bar->add_menu( array(
@@ -182,9 +183,9 @@ function wpseo_admin_bar_menu() {
 			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-analysis',
-				'id'     => 'wpseo-richsnippets',
-				'title'  => __( 'Check Rich Snippets', 'wordpress-seo' ),
-				'href'   => '//www.google.com/webmasters/tools/richsnippets?q=' . urlencode( $url ),
+				'id'     => 'wpseo-structureddata',
+				'title'  => __( 'Google Structured Data Test', 'wordpress-seo' ),
+				'href'   => 'https://search.google.com/structured-data/testing-tool#url=' . urlencode( $url ),
 				'meta'   => array( 'target' => '_blank' ),
 			) );
 			$wp_admin_bar->add_menu( array(
@@ -198,7 +199,7 @@ function wpseo_admin_bar_menu() {
 				'parent' => 'wpseo-analysis',
 				'id'     => 'wpseo-pinterestvalidator',
 				'title'  => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
-				'href'   => '//developers.pinterest.com/rich_pins/validator/?link=' . urlencode( $url ),
+				'href'   => 'https://developers.pinterest.com/tools/url-debugger/?link=' . urlencode( $url ),
 				'meta'   => array( 'target' => '_blank' ),
 			) );
 			$wp_admin_bar->add_menu( array(
@@ -224,9 +225,9 @@ function wpseo_admin_bar_menu() {
 			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-analysis',
-				'id'     => 'wpseo-modernie',
-				'title'  => __( 'Modern IE Site Scan', 'wordpress-seo' ),
-				'href'   => '//www.modern.ie/en-us/report#' . urlencode( $url ),
+				'id'     => 'wpseo-microsoftedge',
+				'title'  => __( 'Microsoft Edge Site Scan', 'wordpress-seo' ),
+				'href'   => 'https://developer.microsoft.com/en-us/microsoft-edge/tools/staticscan/?url=' . urlencode( $url ),
 				'meta'   => array( 'target' => '_blank' ),
 			) );
 			$wp_admin_bar->add_menu( array(

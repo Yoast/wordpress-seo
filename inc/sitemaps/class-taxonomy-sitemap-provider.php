@@ -52,8 +52,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 
-		global $wpdb;
-
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 
 		if ( empty( $taxonomies ) ) {
@@ -70,19 +68,21 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param boolean $exclude        Defaults to true.
 		 * @param array   $taxonomy_names Array of names for the taxonomies being processed.
 		 */
-		$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
-		$sql                = "
-			SELECT taxonomy, term_id
-			FROM $wpdb->term_taxonomy
-			WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');
-		";
-		$all_taxonomy_terms = $wpdb->get_results( $sql );
-		$all_taxonomies     = array();
+		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names );
 
-		foreach ( $all_taxonomy_terms as $obj ) {
-			$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
+		$all_taxonomies = array();
+
+		foreach ( $taxonomy_names as $taxonomy_name ) {
+
+			$taxonomy_terms = get_terms( $taxonomy_name, array(
+				'hide_empty' => $hide_empty,
+				'fields'     => 'ids',
+			) );
+
+			if ( count( $taxonomy_terms ) > 0 ) {
+				$all_taxonomies[ $taxonomy_name ] = $taxonomy_terms;
+			}
 		}
-		unset( $hide_empty, $sql, $all_taxonomy_terms, $obj );
 
 		$index = array();
 
@@ -221,19 +221,12 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 			}
 
-			if ( $term->count > 10 ) {
-				$url['pri'] = 0.6;
-			}
-			elseif ( $term->count > 3 ) {
-				$url['pri'] = 0.4;
-			}
-			else {
-				$url['pri'] = 0.2;
-			}
-
 			$url['mod']    = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
-			$url['chf']    = WPSEO_Sitemaps::filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
 			$url['images'] = $this->get_image_parser()->get_term_images( $term );
+
+			// Deprecated, kept for backwards data compat. R.
+			$url['chf'] = 'daily';
+			$url['pri'] = 1;
 
 			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
 			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
@@ -260,7 +253,11 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu' ) ) ) {
+			return false;
+		}
+
+		if ( 'post_format' === $taxonomy_name && ! empty( $this->options['disable-post_format'] ) ) {
 			return false;
 		}
 

@@ -11,6 +11,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 echo '<h2>' . esc_html__( 'Post types sitemap settings', 'wordpress-seo' ) . '</h2>';
 
+$switch_values = array(
+	'off' => __( 'In sitemap', 'wordpress-seo' ),
+	'on'  => __( 'Not in sitemap', 'wordpress-seo' ),
+);
+
 /**
  * Filter the post types to present in interface for exclusion.
  *

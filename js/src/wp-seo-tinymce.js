@@ -5,6 +5,12 @@ var isUndefined = require( "lodash/isUndefined" );
 var editorHasMarks = require( "./decorator/tinyMCE" ).editorHasMarks;
 var editorRemoveMarks = require( "./decorator/tinyMCE" ).editorRemoveMarks;
 
+/**
+ * The HTML 'id' attribute for the TinyMCE editor.
+ * @type {string}
+ */
+var tmceId = "content";
+
 ( function() {
 	"use strict";
 
@@ -185,5 +191,6 @@ var editorRemoveMarks = require( "./decorator/tinyMCE" ).editorRemoveMarks;
 		disableMarkerButtons: disableMarkerButtons,
 		enableMarkerButtons: enableMarkerButtons,
 		wpTextViewOnInitCheck: wpTextViewOnInitCheck,
+		tmceId,
 	};
 }( jQuery ) );

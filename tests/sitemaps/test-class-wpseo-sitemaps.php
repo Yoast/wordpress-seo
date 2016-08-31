@@ -40,13 +40,10 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
+	 * Test the nested sitemap generation.
 	 */
 	public function test_post_sitemap() {
 		self::$class_instance->reset();
-
-		$post_id   = $this->factory->post->create();
-		$permalink = get_permalink( $post_id );
 
 		set_query_var( 'sitemap', 'post' );
 
@@ -55,7 +52,6 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		$this->expectOutputContains( array(
 			'<?xml',
 			'<urlset ',
-			'<loc>' . $permalink . '</loc>',
 		) );
 	}
 
