@@ -16,7 +16,10 @@ class ConditionalTextfield extends TextField {
 	}
 
 	/**
-	 * Renders the ConditionalTextField component.
+	 * @summary Renders the ConditionalTextField component.
+	 *
+	 * The ConditionalTextField component only renders the TextField
+	 * if the required field has the required value.
 	 *
 	 * @returns {JSX.Element} A representation of the TextField component.
 	 */
@@ -38,6 +41,9 @@ class ConditionalTextfield extends TextField {
 	}
 }
 
+/**
+ * @type {{requires: {object}, requiredFieldValue: string}}
+ */
 ConditionalTextfield.propTypes = {
 	requires: React.PropTypes.shape( {
 		field: React.PropTypes.string.required,
@@ -46,6 +52,9 @@ ConditionalTextfield.propTypes = {
 	requiredFieldValue: React.PropTypes.string,
 };
 
+/**
+ * @type {{requiredFieldValue: string}}
+ */
 ConditionalTextfield.defaultProps = {
 	requiredFieldValue: "",
 };
