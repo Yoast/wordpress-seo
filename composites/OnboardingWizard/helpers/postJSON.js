@@ -8,7 +8,7 @@ import "whatwg-fetch";
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let postJSONFetch = ( url, data ) => {
+let putJSONFetch = ( url, data ) => {
 	let fetchPromise = fetch(
 		url,
 		{
@@ -51,7 +51,7 @@ let postJSONFetch = ( url, data ) => {
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let postJSONjQuery = ( url, headers, data ) => {
+let putJSONjQuery = ( url, headers, data ) => {
 	return new Promise( ( resolve, reject )=> {
 		jQuery.ajax( {
 			method: "PUT",
@@ -87,14 +87,14 @@ let postJSONjQuery = ( url, headers, data ) => {
  *
  * @returns {Promise} Returns a wrapped promise.
  */
-let postJSON = ( url, headers = {}, data = {} ) => {
+let putJSON = ( url, data = {}, headers = {} ) => {
 	data = JSON.stringify( data );
 
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
-		return postJSONFetch( url, data );
+		return putJSONFetch( url, data );
 	}
 
-	return postJSONjQuery( url, headers, data );
+	return putJSONjQuery( url, headers, data );
 };
 
-export default postJSON;
+export default putJSON;

@@ -2,7 +2,7 @@ import React from "react";
 import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
-import postJSON from "./helpers/postJSON";
+import sendStep from "./helpers/postJSON";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -100,11 +100,11 @@ class OnboardingWizard extends React.Component {
 
 		this.setState( { isLoading: true } );
 
-		postJSON(
+		sendStep(
 			this.props.endpoint.url,
-			this.props.endpoint.headers,
 			// The stored data for the steps.
-			this.refs.step.state.fieldValues[ this.state.currentStepId ]
+			this.refs.step.state.fieldValues[ this.state.currentStepId ],
+			this.props.endpoint.headers
 		)
 		.then( this.handleSuccessful.bind( this, step ) )
 		.catch( this.handleFailure.bind( this ) );
@@ -265,7 +265,6 @@ OnboardingWizard.propTypes = {
 	endpoint: React.PropTypes.object.isRequired,
 	steps: React.PropTypes.object.isRequired,
 	fields: React.PropTypes.object.isRequired,
-	currentStepId: React.PropTypes.string,
 };
 
 OnboardingWizard.defaultProps = {
