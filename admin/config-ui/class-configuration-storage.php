@@ -146,7 +146,6 @@ class WPSEO_Configuration_Storage {
 
 			$output[ $field_identifier ] = $build;
 		}
-
 		return $output;
 	}
 

@@ -1,20 +1,24 @@
+/* global yoastWizardConfig */
 import React from "react";
 import ReactDOM from "react-dom";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
-import {OnboardingWizard} from "yoast-components";
+import { OnboardingWizard } from "yoast-components";
 
 injectTapEventPlugin();
 
 class App extends React.Component {
 
 	getEndpoint() {
+		let config = yoastWizardConfig;
+
 		return {
-			url : `${yoastWizardConfig.root}${yoastWizardConfig.namespace}/${yoastWizardConfig.endpoint_retrieve}`,
-			headers : {
-				'X-WP-Nonce' : yoastWizardConfig.nonce,
-			}
+			url: `${config.root}${config.namespace}
+			/${config.endpoint_retrieve}`,
+			headers: {
+				"X-WP-Nonce": config.nonce,
+			},
 		};
 	}
 
@@ -24,12 +28,12 @@ class App extends React.Component {
 
 		jQuery.ajax( {
 			url: endpoint.url,
-			method: 'GET',
+			method: "GET",
 			async: false,
-			beforeSend: function ( xhr ) {
+			beforeSend: ( xhr ) => {
 				jQuery.each( endpoint.headers, xhr.setRequestHeader );
 			},
-		} ).done( function ( response ) {
+		} ).done( ( response ) => {
 			config = response;
 		} );
 
@@ -38,15 +42,15 @@ class App extends React.Component {
 		return config;
 	}
 
-	render(){
+	render() {
 		let config = this.getConfig();
 
-		return(
+		return (
 			<div>
-				<OnboardingWizard {...config}/>
+				<OnboardingWizard { ...config }/>
 			</div>
-		)
+		);
 	}
 }
 
-ReactDOM.render(<App/>, document.getElementById('wizard'));
+ReactDOM.render( <App/>, document.getElementById( "wizard" ) );
