@@ -23,7 +23,14 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 					break;
 			}
 
-			printf( '<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification, $button );
+			printf(
+				'<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
+				esc_attr( $notification->get_id() ),
+				esc_attr( $notification->get_nonce() ),
+				$notification->get_json(),
+				$notification,
+				$button
+			);
 		}
 	}
 }
@@ -33,14 +40,14 @@ if ( ! $active ) {
 }
 
 ?>
-<h3><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title ?> (<?php echo $active_total ?>)</h3>
+<h3><span class="dashicons dashicons-<?php echo esc_attr( $dashicon ); ?>"></span> <?php echo $i18n_title ?> (<?php echo absint( $active_total ) ?>)</h3>
 
-<div id="yoast-<?php echo $type ?>">
+<div id="yoast-<?php echo esc_attr( $type ) ?>">
 
 	<?php if ( $total ) : ?>
 		<p><?php echo ( ! $active ) ? $i18n_no_issues : $i18n_issues; ?></p>
 
-		<div class="container" id="yoast-<?php echo $type ?>-active">
+		<div class="container" id="yoast-<?php echo esc_attr( $type ) ?>-active">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>
 		</div>
 
@@ -48,7 +55,7 @@ if ( ! $active ) {
 			<div class="separator"></div>
 		<?php endif; ?>
 
-		<div class="container" id="yoast-<?php echo $type ?>-dismissed">
+		<div class="container" id="yoast-<?php echo esc_attr( $type ) ?>-dismissed">
 			<?php _yoast_display_alerts( $dismissed, 'dismissed' ); ?>
 		</div>
 
