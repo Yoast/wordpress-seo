@@ -35,7 +35,7 @@ let configuration = {
 				"mailchimpActionUrl": "{http://yoast.us1.list-manage1.com/subscribe/post?u=ffa93edfe21752c921f860358&amp;id=972f1c9122}",
 				"currentUserEmail": "{current_user_email:String}",
 			},
-			"data": "",
+			"data": "false",
 		},
 		"environment": {
 			"component": "Choice",
@@ -53,7 +53,7 @@ let configuration = {
 					},
 				},
 			},
-			"data": "",
+			"data": "development",
 			"default": "production",
 		},
 		"siteType": {
@@ -81,7 +81,7 @@ let configuration = {
 					},
 				},
 			},
-			"data": "",
+			"data": "blog",
 		},
 		"publishingEntity": {
 			"component": "PublishingEntity",
@@ -175,7 +175,7 @@ let configuration = {
 					},
 				},
 			},
-			"data": "",
+			"data": "yes",
 		},
 		"tagLine": {
 			"component": "Input",

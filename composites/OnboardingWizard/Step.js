@@ -58,7 +58,7 @@ class Step extends React.Component {
 		}
 
 		fieldNames.forEach(
-			function( fieldName ) {
+			( fieldName ) => {
 				if ( typeof fieldValues[ currentStep ][ fieldName ] === "undefined" ) {
 					fieldValues[ currentStep ][ fieldName ] = "";
 				}
@@ -114,6 +114,29 @@ class Step extends React.Component {
 	}
 
 	/**
+	 * @summary Get the value for the field.
+	 *
+	 * Gets the value for the field, if the value is already set in the state, this value is returned.
+	 * If not the value from the config is set.
+	 *
+	 * @param {string} name The key name for the field.
+	 * @param {object} field The field object.
+	 * @returns {string} The field value
+	 */
+	getFieldValue( name, field ) {
+		let storedFieldValue = this.state.fieldValues[ this.state.currentStep ][ name ];
+		let configFieldValue = field.data;
+
+		// The field values are only stored when the step is filled in by the user.
+		if ( storedFieldValue !== "" ) {
+			return storedFieldValue;
+		}
+
+		// Return the value from the settings if the user has not changed it yet.
+		return configFieldValue;
+	}
+
+	/**
 	 * Gets the properties for a specific field type.
 	 *
 	 * @param componentType The field component type, for example: Input or Choice.
@@ -129,7 +152,7 @@ class Step extends React.Component {
 			name,
 			onChange: this.onChange.bind( this ),
 			properties: currentField.properties,
-			value: this.state.fieldValues[ this.state.currentStep ][ name ],
+			value: this.getFieldValue( name, currentField ),
 		};
 
 		if ( componentType === "Input" ) {
