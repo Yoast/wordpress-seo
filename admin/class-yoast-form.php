@@ -283,7 +283,7 @@ class Yoast_Form {
 			)
 		);
 		// TODO escaping, can label text contain HTML? R.
-		echo "<label class='" . esc_attr( $attr['class']  ). "' for='" . esc_attr( $attr['for'] ) . "'>$text";
+		echo "<label class='" . esc_attr( $attr['class'] ). "' for='" . esc_attr( $attr['for'] ) . "'>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
