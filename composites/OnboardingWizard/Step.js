@@ -38,6 +38,7 @@ class Step extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( props ) {
+		this.key
 		this.setFieldValues( props.fields, props.currentStep );
 	}
 
@@ -104,8 +105,9 @@ class Step extends React.Component {
 		return keys.map( ( name, key ) => {
 			let currentField = fields[ name ];
 
-			if ( Components[ currentField.componentName ] === "undefined" ) {
-				return;
+			if ( typeof Components[ currentField.componentName ] === "undefined"
+			     | !Components[ currentField.componentName ] ) {
+				return null;
 			}
 			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
 
