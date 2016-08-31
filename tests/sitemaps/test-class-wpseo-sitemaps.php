@@ -29,14 +29,18 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_last_modified() {
 
-		// create and go to post
-		$post_id = $this->factory->post->create();
+		$timestamp = time();
+		$date      = date( 'c', $timestamp );
+		$modified  = date( 'Y-m-d H:m:s', $timestamp );
+
+		$post_id = $this->factory->post->create( array(
+			'post_modified_gmt' => $modified,
+		) );
 		$this->go_to( get_permalink( $post_id ) );
 
-		$date = self::$class_instance->get_last_modified( array( 'post' ) );
-		$post = get_post( $post_id );
+		$last_modified = self::$class_instance->get_last_modified( array( 'post' ) );
 
-		$this->assertEquals( $date, date( 'c', strtotime( $post->post_modified_gmt ) ) );
+		$this->assertEquals( $last_modified, $date );
 	}
 
 	/**
