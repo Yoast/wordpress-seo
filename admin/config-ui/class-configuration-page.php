@@ -27,11 +27,17 @@ class WPSEO_Configuration_Page {
 		add_dashboard_page( '', '', 'manage_options', 'wpseo_configurator', '' );
 	}
 
+	/**
+	 * Renders the wizard page and exits to prevent the wordpress UI from loading.
+	 */
 	function render_wizard_page() {
 		$this->setup_wizard();
 		exit;
 	}
 
+	/**
+	 * Enqueues the assets needed for the wizard.
+	 */
 	function enqueue_assets() {
 		$assetManager = new WPSEO_Admin_Asset_Manager();
 		$assetManager->register_assets();

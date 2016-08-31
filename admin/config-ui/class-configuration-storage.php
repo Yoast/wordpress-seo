@@ -123,7 +123,7 @@ class WPSEO_Configuration_Storage {
 
 			$field_identifier = $field->get_identifier();
 
-			if( ! array_key_exists( $field_identifier, $data_to_store ) ) {
+			if ( ! array_key_exists( $field_identifier, $data_to_store ) ) {
 				continue;
 			}
 
@@ -146,6 +146,7 @@ class WPSEO_Configuration_Storage {
 
 			$output[ $field_identifier ] = $build;
 		}
+
 		return $output;
 	}
 

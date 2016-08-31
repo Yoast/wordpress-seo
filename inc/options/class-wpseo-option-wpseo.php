@@ -62,6 +62,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'personalOther',
 	);
 
+	/** @var array Possible environment types. */
 	protected $environment_types = array(
 		'',
 		'production',
@@ -185,6 +186,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
+
 				/*
 				Boolean (checkbox) fields
 				*/
