@@ -14,7 +14,6 @@ class WPSEO_Config_Field_Publishing_Entity extends WPSEO_Config_Field {
 	public function __construct() {
 		parent::__construct( 'publishingEntity', 'HTML' );
 
-		// @todo label.
-		$this->set_property( 'html', 'Description about the company or person fields.' );
+		$this->set_property( 'html', __( 'Set the type of publisher of this website.', 'wordpress-seo' ) );
 	}
 }
