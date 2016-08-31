@@ -107,7 +107,7 @@ class Step extends React.Component {
 
 			if ( typeof Components[ currentField.componentName ] === "undefined"
 			     | !Components[ currentField.componentName ] ) {
-				console.error(`Trying to load non-existing component ${currentField.componentName}`);
+				console.error(`Trying to load non-existing component: ${currentField.componentName}`);
 				return null;
 			}
 			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
