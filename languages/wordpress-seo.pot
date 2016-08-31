@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-08-31 08:23:56+00:00\n"
+"POT-Creation-Date: 2016-08-31 12:39:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1272,6 +1272,18 @@ msgstr ""
 msgid "Yoast SEO &rsaquo; Setup Wizard"
 msgstr ""
 
+#: admin/config-ui/fields/class-field-company-logo.php:17
+msgid "Provide an image of the company logo"
+msgstr ""
+
+#: admin/config-ui/fields/class-field-company-name.php:17
+msgid "The name of the company"
+msgstr ""
+
+#: admin/config-ui/fields/class-field-company-or-person.php:17
+msgid "Type of publisher"
+msgstr ""
+
 #: admin/config-ui/fields/class-field-company-or-person.php:19
 #: admin/views/tabs/dashboard/knowledge-graph.php:34
 #: admin/views/tabs/dashboard/knowledge-graph.php:40
@@ -1319,6 +1331,10 @@ msgstr ""
 msgid "No"
 msgstr ""
 
+#: admin/config-ui/fields/class-field-person-name.php:17
+msgid "The name of the person"
+msgstr ""
+
 #: admin/config-ui/fields/class-field-post-type-visibility.php:17
 msgid ""
 "Please specify if which of the following public post types you would like "
@@ -1361,6 +1377,10 @@ msgstr ""
 #: admin/config-ui/fields/class-field-profile-url-youtube.php:17
 #: admin/views/tabs/social/accounts.php:24
 msgid "YouTube URL"
+msgstr ""
+
+#: admin/config-ui/fields/class-field-publishing-entity.php:17
+msgid "Set the type of publisher of this website."
 msgstr ""
 
 #: admin/config-ui/fields/class-field-separator.php:17
