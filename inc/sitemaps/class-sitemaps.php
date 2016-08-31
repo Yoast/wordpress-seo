@@ -387,38 +387,53 @@ class WPSEO_Sitemaps {
 	 * Get the GMT modification date for the last modified post in the post type.
 	 *
 	 * @param string|array $post_types Post type or array of types.
+	 * @param bool         $return_all Flag to return array of values.
 	 *
-	 * @return string|false
+	 * @return string|array|false
 	 */
-	static public function get_last_modified_gmt( $post_types ) {
+	static public function get_last_modified_gmt( $post_types, $return_all = false ) {
 
 		global $wpdb;
 
-		$post_type_dates = array();
+		static $post_type_dates = null;
 
 		if ( ! is_array( $post_types ) ) {
 			$post_types = array( $post_types );
 		}
 
-
-		$sql = "
-			SELECT post_type, MAX(post_modified_gmt) AS date
-			FROM $wpdb->posts
-			WHERE post_status IN ('publish','inherit')
-				AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
-			GROUP BY post_type
-			ORDER BY post_modified_gmt DESC
-		";
-
-		$results = $wpdb->get_results( $sql );
-		foreach ( $results as $obj ) {
-			$post_type_dates[ $obj->post_type ] = $obj->date;
+		foreach ( $post_types as $post_type ) {
+			if ( ! isset( $post_type_dates[ $post_type ] ) ) { // If we hadn't seen post type before. R.
+				$post_type_dates = null;
+				break;
+			}
 		}
-		unset( $sql, $results, $obj );
+
+		if ( is_null( $post_type_dates ) ) {
+
+			$sql = "
+				SELECT post_type, MAX(post_modified_gmt) AS date
+				FROM $wpdb->posts
+				WHERE post_status IN ('publish','inherit')
+					AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
+				GROUP BY post_type
+				ORDER BY post_modified_gmt DESC
+			";
+
+			$post_type_dates = array();
+
+			foreach ( $wpdb->get_results( $sql ) as $obj ) {
+				$post_type_dates[ $obj->post_type ] = $obj->date;
+			}
+		}
 
 		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
 
 		if ( count( $dates ) > 0 ) {
+
+			if ( $return_all ) {
+				return $dates;
+			}
+
 			return max( $dates );
 		}
 
