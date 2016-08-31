@@ -4,6 +4,9 @@ module.exports = {
 			transform: [
 				[ "babelify", { presets: [ "es2015" ] } ],
 			],
+			browserifyOptions: {
+				debug: true,
+			},
 		},
 		files: {
 			"js/dist/configuration-wizard-350.js": [ "js/src/configuration-wizard.js" ],
