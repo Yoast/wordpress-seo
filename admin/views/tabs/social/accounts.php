@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 echo '<h2>' . esc_html__( 'Your social profiles', 'wordpress-seo' ) . '</h2>';
 
 echo '<p>';
-_e( 'To let search engines know which social profiles are associated to this site, enter them below:', 'wordpress-seo' );
+esc_html_e( 'To let search engines know which social profiles are associated to this site, enter them below:', 'wordpress-seo' );
 echo '</p>';
 
 $yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );

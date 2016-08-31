@@ -10,9 +10,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 ?>
-<p><?php _e( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ); ?></p>
+<p><?php esc_html_e( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ); ?></p>
 
-<p><?php printf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="https://wordpress.org/plugins/seo-data-transporter/">', '</a>' ); ?></p>
+<p><?php printf( esc_html__( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="https://wordpress.org/plugins/seo-data-transporter/">', '</a>' ); ?></p>
 
 <form
 	action="<?php echo esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
@@ -32,5 +32,5 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	?>
 	<br/>
 	<input type="submit" class="button button-primary" name="import"
-	       value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
+	       value="<?php esc_html_e( 'Import', 'wordpress-seo' ); ?>"/>
 </form>
