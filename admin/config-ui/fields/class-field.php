@@ -86,7 +86,7 @@ class WPSEO_Config_Field {
 	 */
 	public function to_array() {
 		$output = array(
-			'component' => $this->get_component(),
+			'componentName' => $this->get_component(),
 		);
 
 		$properties = $this->get_properties();
