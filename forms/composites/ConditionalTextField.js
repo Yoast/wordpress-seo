@@ -7,12 +7,11 @@ import TextField from "./Textfield";
  *
  * This component only renders the TextField component if a required field
  * has the required value.
- *
  */
 class ConditionalTextfield extends TextField {
 
-	constructor( props ){
-		super(props);
+	constructor( props ) {
+		super( props );
 	}
 
 	/**
@@ -37,6 +36,7 @@ class ConditionalTextfield extends TextField {
 				</div>
 			);
 		}
+
 		return null;
 	}
 }
