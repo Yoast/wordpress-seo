@@ -277,10 +277,6 @@ class WPSEO_Admin_Asset_Manager {
 				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
 			),
 			array(
-				'name' => 'rtl',
-				'src'  => 'wpseo-rtl',
-			),
-			array(
 				'name' => 'dismissible',
 				'src'  => 'wpseo-dismissible-330',
 			),
