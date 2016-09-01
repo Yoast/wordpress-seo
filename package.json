@@ -56,7 +56,7 @@
     "select2": "^4.0.3",
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components#RWAM/implement-new-endpoint-specification",
+    "yoast-components": "git+https://github.com/Yoast/yoast-components#master",
     "react": "^15.3.0",
     "react-dom": "^15.3.0"
   }
