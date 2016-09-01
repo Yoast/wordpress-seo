@@ -17,7 +17,6 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
     * Yoast marks are no longer placed around block level elements.
     * Prevents division by zero in transition word assessment result text.
     * Passive voice detects exceptions with the word 'rid' correctly.
-    * Allow apostrophes in focus keyword. 
 ### Added
     * Flesch Reading for Dutch
     * Flesch Reading for German
