@@ -31,9 +31,10 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		$timestamp = time();
 		$date      = date( 'c', $timestamp );
-		$modified  = date( 'Y-m-d H:m:s', $timestamp );
+		$modified  = date( 'Y-m-d H:i:s', $timestamp );
 
 		$post_id = $this->factory->post->create( array(
+			'post_date_gmt'     => $modified,
 			'post_modified_gmt' => $modified,
 		) );
 		$this->go_to( get_permalink( $post_id ) );
