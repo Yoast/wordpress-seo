@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
+import apiConfig from "./composites/OnboardingWizard/config/api-config";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -35,6 +36,7 @@ class App extends React.Component {
 			case "wizard":
 			default:
 				let config = cloneDeep( Config );
+				config.endpoint = apiConfig;
 				content = <Wizard {...config} />;
 				break;
 		}

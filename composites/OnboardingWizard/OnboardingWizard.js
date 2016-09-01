@@ -2,7 +2,7 @@ import React from "react";
 import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
-import postJSON from "./helpers/postJSON";
+import sendStep from "./helpers/postJSON";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -86,8 +86,8 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
-	 * Sends the options for the current step via POST request to the back-end and sets the state to the target step
-	 * when successful.
+	 * Sends the options for the current step via POST request to the back-end
+	 * and sets the state to the target step when successful.
 	 *
 	 * @param {step} step The step to render after the current state is stored.
 	 *
@@ -100,23 +100,14 @@ class OnboardingWizard extends React.Component {
 
 		this.setState( { isLoading: true } );
 
-		postJSON(
-			this.props.endpoint,
-			this.refs.step.state.fieldValues[ this.state.currentStepId ]
+		sendStep(
+			this.props.endpoint.url,
+			// The stored data for the steps.
+			this.refs.step.state.fieldValues[ this.state.currentStepId ],
+			this.props.endpoint.headers
 		)
 		.then( this.handleSuccessful.bind( this, step ) )
 		.catch( this.handleFailure.bind( this ) );
-	}
-
-	/**
-	 * Returns the fields as an JSON object.
-	 *
-	 * @returns {Object} JSON fields object.
-	 */
-	getFieldsAsObject() {
-		return JSON.stringify(
-			this.refs.step.state.fieldValues[ this.state.currentStepId ]
-		);
 	}
 
 	/**
@@ -271,15 +262,12 @@ class OnboardingWizard extends React.Component {
 }
 
 OnboardingWizard.propTypes = {
-	endpoint: React.PropTypes.string.isRequired,
+	endpoint: React.PropTypes.object.isRequired,
 	steps: React.PropTypes.object.isRequired,
-	currentStepId: React.PropTypes.string,
-	fields: React.PropTypes.object,
+	fields: React.PropTypes.object.isRequired,
 };
 
 OnboardingWizard.defaultProps = {
-	steps: [],
-	fields: React.PropTypes.object,
 };
 
 export default OnboardingWizard;
