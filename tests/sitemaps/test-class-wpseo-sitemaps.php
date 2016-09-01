@@ -25,26 +25,6 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Sitemaps::get_last_modified
-	 */
-	public function test_get_last_modified() {
-
-		$timestamp = ( time() + 5 );
-		$date      = date( 'c', $timestamp );
-		$modified  = date( 'Y-m-d H:i:s', $timestamp );
-
-		$post_id = $this->factory->post->create( array(
-			'post_date_gmt'     => $modified,
-			'post_modified_gmt' => $modified,
-		) );
-		$this->go_to( get_permalink( $post_id ) );
-
-		$last_modified = self::$class_instance->get_last_modified( array( 'post' ) );
-
-		$this->assertEquals( $last_modified, $date );
-	}
-
-	/**
 	 * Test the nested sitemap generation.
 	 */
 	public function test_post_sitemap() {
@@ -92,7 +72,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		) );
 	}
 
-	/**d
+	/**
 	 * Test for last modified date
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
