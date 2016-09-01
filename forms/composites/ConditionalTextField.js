@@ -10,6 +10,11 @@ import TextField from "./Textfield";
  */
 class ConditionalTextfield extends TextField {
 
+	/**
+	 * Sets the properties for the ConditionalTextField.
+	 *
+	 * @param props The properties.
+	 */
 	constructor( props ) {
 		super( props );
 	}
