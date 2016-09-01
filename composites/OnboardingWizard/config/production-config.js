@@ -11,25 +11,25 @@ let configuration = {
 	},
 	"fields": {
 		"upsellConfigurationService": {
-			"component": "HTML",
+			"componentName": "HTML",
 			"properties": {
 				"html": "You can now have Yoast configure Yoast SEO for you.",
 			},
 		},
 		"upsellSiteReview": {
-			"component": "HTML",
+			"componentName": "HTML",
 			"properties": {
 				"html": "Get more visitors! Our SEO website review will tell you what to improve!",
 			},
 		},
 		"successMessage": {
-			"component": "HTML",
+			"componentName": "HTML",
 			"properties": {
 				"html": "Good Job! You've finished setting up Yoast SEO. Thereby you've covered the technical part of your site's SEO. Now it's time to focus on optimizing your content for onpage SEO. You can use our content analysis for that: <br>{gif_showing_content_analysis}",
 			},
 		},
 		"mailchimpSignup": {
-			"component": "MailchimpSignup",
+			"componentName": "MailchimpSignup",
 			"properties": {
 				"label": "If you would like us to keep you up-to-date regarding Yoast SEO and other plugins by Yoast, subscribe to our newsletter:",
 				"mailchimpActionUrl": "{http://yoast.us1.list-manage1.com/subscribe/post?u=ffa93edfe21752c921f860358&amp;id=972f1c9122}",
@@ -38,7 +38,7 @@ let configuration = {
 			"data": "false",
 		},
 		"environment": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "Please specify the environment {site_url} is running in.",
 				"choices": {
@@ -57,7 +57,7 @@ let configuration = {
 			"default": "production",
 		},
 		"siteType": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "What type of site is {site_url}?",
 				"choices": {
@@ -84,7 +84,7 @@ let configuration = {
 			"data": "blog",
 		},
 		"publishingEntity": {
-			"component": "PublishingEntity",
+			"componentName": "PublishingEntity",
 			"data": {
 				"publishingEntityType": "{publishing_entity_type}",
 				"publishingEntityPersonName": "{publishing_entity_person_name}",
@@ -99,7 +99,7 @@ let configuration = {
 			},
 		},
 		"profileUrlFacebook": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Facebook page url",
 				"pattern": "^https:\/\/www\.facebook\.com\/([^/]+)\/$",
@@ -107,7 +107,7 @@ let configuration = {
 			"data": "{profile_url_facebook}",
 		},
 		"profileUrlTwitter": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Twitter url",
 				"pattern": "^https:\/\/twitter\.com\/([^/]+)$",
@@ -115,7 +115,7 @@ let configuration = {
 			"data": "{profile_url_twitter}",
 		},
 		"profileUrlInstagram": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Instagram url",
 				"pattern": "^https:\/\/www\.instagram\.com\/([^/]+)\/$",
@@ -123,7 +123,7 @@ let configuration = {
 			"data": "{profile_url_instagram}",
 		},
 		"profileUrlLinkedIn": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "LinkedIn url",
 				"pattern": "^https:\/\/www\.linkedin\.com\/in\/([^/]+)$",
@@ -131,7 +131,7 @@ let configuration = {
 			"data": "{profile_url_linkedin}",
 		},
 		"profileUrlMySpace": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "MySpace url",
 				"pattern": "^https:\/\/myspace\.com\/([^/]+)\/$",
@@ -139,7 +139,7 @@ let configuration = {
 			"data": "{profile_url_myspace}",
 		},
 		"profileUrlPinterest": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Pinterest url",
 				"pattern": "^https:\/\/www\.pinterest\.com\/([^/]+)\/$",
@@ -147,7 +147,7 @@ let configuration = {
 			"data": "{profile_url_pinterest}",
 		},
 		"profileUrlYouTube": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "YouTube url",
 				"pattern": "^https:\/\/www\.youtube\.com\/([^/]+)$",
@@ -155,7 +155,7 @@ let configuration = {
 			"data": "{profile_url_youtube}",
 		},
 		"profileUrlGooglePlus": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Google+ URL",
 				"pattern": "^https:\/\/plus\.google\.com\/([^/]+)$",
@@ -163,7 +163,7 @@ let configuration = {
 			"data": "{profile_url_google_plus}",
 		},
 		"multipleAuthors": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "Does your site have multiple authors?",
 				"choices": {
@@ -178,14 +178,14 @@ let configuration = {
 			"data": "yes",
 		},
 		"tagLine": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "You still have the default WordPress tagline, even an empty one is probably better. Please clear it or replace it with something unique.",
 			},
 			"data": "{wp_tagline}",
 		},
 		"postTypeVisibility": {
-			"component": "PostTypeVisibility",
+			"componentName": "PostTypeVisibility",
 			"properties": {
 				"label": "Please specify if which of the following public post types you would like Google to see",
 				"postTypes": {
@@ -199,21 +199,21 @@ let configuration = {
 			},
 		},
 		"connectGoogleSearchConsole": {
-			"component": "ConnectGoogleSearchConsole",
+			"componentName": "ConnectGoogleSearchConsole",
 			"data": {
 				"token": "{gsc_token}",
 				"profile": "{gsc_profile}",
 			},
 		},
 		"siteName": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Sitename",
 			},
 			"data": "{sitename}",
 		},
 		"separator": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "Separator",
 				"choices": {
