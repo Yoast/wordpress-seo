@@ -262,6 +262,11 @@ body {
 	font-size: 24px;
 }
 
+.yoast-wizard--stepper {
+	width: 100%;
+	margin: auto;
+}
+
 .yoast-wizard-overlay {
 	position: absolute;
 	z-index: 10;
@@ -273,6 +278,10 @@ body {
 	color: #fff;
 	background-color: black;
 	text-align: center;
+}
+
+.yoast-wizard-overlay-loader {
+	position: relative;
 }
 
 .yoast-wizard-container {
@@ -311,7 +320,7 @@ body {
 	cursor: pointer;
 }
 
-.yoast-wizard-input-radio input[type="radio"] {
+.yoast-wizard input[type="radio"] {
 	margin-right: 1em;
 }
 

@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,gBAAiB;EAChB,gBAAgB,EAAE,OAAO;;AAG1B,2BAA4B;EAC3B,gBAAgB,EAAE,OAAO;EACzB,KAAK,EAAE,KAAK",
-"sources": ["../../node_modules/yoastseo/css/_marks.scss"],
-"names": [],
-"file": "inside-editor.css"
-}

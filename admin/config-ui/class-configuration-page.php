@@ -10,9 +10,9 @@ class WPSEO_Configuration_Page {
 	/**
 	 * WPSEO_Configuration_Wizard constructor.
 	 */
-	function __construct() {
+	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
-		if ( empty( $_GET['page'] ) || 'wpseo_configurator' !== $_GET['page'] ) {
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_configurator' ) {
 			return;
 		}
 		// Register the page for the wizard.
@@ -23,14 +23,14 @@ class WPSEO_Configuration_Page {
 	/**
 	 *  Registers the page for the wizard.
 	 */
-	function add_wizard_page() {
+	public function add_wizard_page() {
 		add_dashboard_page( '', '', 'manage_options', 'wpseo_configurator', '' );
 	}
 
 	/**
 	 * Renders the wizard page and exits to prevent the wordpress UI from loading.
 	 */
-	function render_wizard_page() {
+	public function render_wizard_page() {
 		$this->setup_wizard();
 		exit;
 	}
@@ -38,7 +38,7 @@ class WPSEO_Configuration_Page {
 	/**
 	 * Enqueues the assets needed for the wizard.
 	 */
-	function enqueue_assets() {
+	public function enqueue_assets() {
 		$assetManager = new WPSEO_Admin_Asset_Manager();
 		$assetManager->register_assets();
 		$assetManager->enqueue_script( 'configuration-wizard' );
