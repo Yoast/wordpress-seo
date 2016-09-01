@@ -6,6 +6,7 @@ module.exports = {
 	build: {
 		files: {
 			"dist/yoast-components.min.css": "css/all.scss",
+			"dist/yoast-components-standalone.min.css": "css/standalone.scss",
 		},
 	},
 	example: {

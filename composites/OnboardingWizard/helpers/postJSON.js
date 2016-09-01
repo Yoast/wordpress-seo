@@ -8,16 +8,11 @@ import "whatwg-fetch";
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let postJSONFetch = ( url, data ) => {
-	/*
-	 * @todo: It might be possible fetch is sending an OPTIONS request, we should check how wordpress handles this.
-	 *
-	 * Possible cause: maybe its the stubby server, something with cross-domain requests.
-	 */
+let putJSONFetch = ( url, data ) => {
 	let fetchPromise = fetch(
 		url,
 		{
-			method: "POST",
+			method: "PUT",
 			headers: {
 				Accepts: "application/json",
 				"Content-Type": "application/json",
@@ -46,46 +41,60 @@ let postJSONFetch = ( url, data ) => {
 		}
 	);
 };
+
 /**
  * Handles JSON request the jQuery way.
  *
  * @param {string} url  The endpoint to send the data to.
+ * @param {object} headers Object containing the headers for the request.
  * @param {Object} data The JSON object to send to the server.
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let postJSONjQuery = ( url, data ) => {
-	let promise = new Promise( ( resolve, reject )=> {
-		jQuery.post( { url, dataType: "json", data } )
-		      .done(
-			      ( response ) => {
-				      resolve( response );
-			      }
-		      )
-		      .fail(
-			      () => {
-				      reject( "Wrong request" );
-			      }
-		      );
+let putJSONjQuery = ( url, headers, data ) => {
+	return new Promise( ( resolve, reject )=> {
+		jQuery.ajax( {
+			method: "PUT",
+			url,
+			dataType: "json",
+			contentType : 'application/json',
+			beforeSend: function ( xhr ) {
+				jQuery.each( headers, (headerName, headerValue) => {
+					xhr.setRequestHeader(headerName, headerValue);
+				});
+			},
+			data
+		} )
+	      .done(
+		      ( response ) => {
+			      resolve( response );
+		      }
+	      )
+	      .fail(
+		      () => {
+			      reject( "Wrong request" );
+		      }
+	      );
 	} );
-	return promise;
 };
+
 /**
  * Wrapper method when fetch should be used.
  *
  * @param {string} url  The endpoint to send the data to.
+ * @param {object} headers Object containing the headers for the request.
  * @param {Object} data The JSON object to send to the server.
  *
  * @returns {Promise} Returns a wrapped promise.
  */
-let postJSON = ( url, data = {} ) => {
+let putJSON = ( url, data = {}, headers = {} ) => {
 	data = JSON.stringify( data );
 
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
-		return postJSONFetch( url, data );
+		return putJSONFetch( url, data );
 	}
 
-	return postJSONjQuery( url, data );
+	return putJSONjQuery( url, headers, data );
 };
 
-export default postJSON;
+export default putJSON;
