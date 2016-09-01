@@ -12,7 +12,7 @@ class WPSEO_Configuration_Page {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_configurator' ) {
+		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_configurator' ) {
 			return;
 		}
 		// Register the page for the wizard.
