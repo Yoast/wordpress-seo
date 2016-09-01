@@ -7,9 +7,8 @@ module.exports = {
 		expand: true,
 		cwd: "<%= paths.css %>",
 		src: [
-			"*.css",
-			"dist/*.css",
-			"!*.min.css",
+			"**/*.css",
+			"!**/*.min.css",
 		],
 		dest: "<%= paths.css %>",
 		ext: ".min.css",

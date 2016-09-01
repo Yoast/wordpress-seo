@@ -264,12 +264,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'yst_plugin_tools-330',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
-			// TODO minify toggle styles. R.
 			array(
 				'name'    => 'toggle-switch-lib',
 				'src'     => 'toggle-switch/toggle-switch',
 				'version' => '4.0.2',
-				'suffix'  => '',
 			),
 			array(
 				'name'   => 'toggle-switch',
