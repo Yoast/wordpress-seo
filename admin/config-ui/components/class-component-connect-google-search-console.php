@@ -29,6 +29,8 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	}
 
 	/**
+	 * Set the Google Search Console service.
+	 *
 	 * @param WPSEO_GSC_Service $service Set service to use.
 	 */
 	public function set_gsc_service( WPSEO_GSC_Service $service ) {
@@ -36,6 +38,8 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	}
 
 	/**
+	 * Gets the component identifier.
+	 *
 	 * @return string
 	 */
 	public function get_identifier() {
@@ -43,6 +47,8 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	}
 
 	/**
+	 * Gets the field.
+	 *
 	 * @return WPSEO_Config_Field
 	 */
 	public function get_field() {

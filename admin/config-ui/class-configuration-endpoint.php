@@ -15,11 +15,12 @@ class WPSEO_Configuration_Endpoint {
 	const CAPABILITY_RETRIEVE = 'manage_options';
 	const CAPABILITY_STORE = 'manage_options';
 
-
 	/** @var WPSEO_Configuration_Service Service to use */
 	protected $service;
 
 	/**
+	 * Sets the service to use.
+	 *
 	 * @param WPSEO_Configuration_Service $service Service to use.
 	 */
 	public function set_service( WPSEO_Configuration_Service $service ) {
@@ -34,7 +35,7 @@ class WPSEO_Configuration_Endpoint {
 		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_RETRIEVE, array(
 			'methods'             => 'GET',
 			'callback'            => array(
-				$this,
+				$this->service,
 				'get_configuration',
 			),
 			'permission_callback' => array(
@@ -55,26 +56,6 @@ class WPSEO_Configuration_Endpoint {
 				'can_save_data',
 			),
 		) );
-	}
-
-	/**
-	 * @return array
-	 */
-	public function get_configuration() {
-		$configuration = $this->service->get_configuration();
-
-		return $configuration;
-	}
-
-	/**
-	 * Get the full route path for an endpoint
-	 *
-	 * @param string $route Route to retrieve full path of.
-	 *
-	 * @return string
-	 */
-	protected function get_route( $route ) {
-		return sprintf( '/%s/%s', self::REST_NAMESPACE, $route );
 	}
 
 	/**

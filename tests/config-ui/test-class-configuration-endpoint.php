@@ -10,10 +10,6 @@ class WPSEO_Configuration_Endpoint_Mock extends WPSEO_Configuration_Endpoint {
 	public function get_service() {
 		return $this->service;
 	}
-
-	public function get_route( $route ) {
-		return parent::get_route( $route );
-	}
 }
 
 if ( class_exists( 'WP_REST_Server' ) ):
@@ -54,38 +50,6 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 
 		$this->assertNull( $this->endpoint->set_service( $service ) );
 		$this->assertEquals( $service, $this->endpoint->get_service() );
-	}
-
-	/**
-	 * @covers WPSEO_Configuration_Endpoint::get_route()
-	 */
-	public function test_get_route() {
-		$expected = '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE . '/' . WPSEO_Configuration_Endpoint::ENDPOINT_STORE;
-		$result   = $this->endpoint->get_route( WPSEO_Configuration_Endpoint::ENDPOINT_STORE );
-
-		$this->assertEquals( $expected, $result );
-	}
-
-	/**
-	 * @covers WPSEO_Configuration_Endpoint::get_configuration()
-	 */
-	public function test_get_configuration() {
-		$expected = array( 'test' => 'config' );
-
-		$service = $this
-			->getMockBuilder( 'WPSEO_Configuration_Service' )
-			->setMethods( array( 'get_configuration' ) )
-			->getMock();
-
-		$service
-			->expects( $this->once() )
-			->method( 'get_configuration' )
-			->will( $this->returnValue( $expected ) );
-
-		$this->endpoint->set_service( $service );
-
-		$result = $this->endpoint->get_configuration();
-		$this->assertEquals( $expected, $result );
 	}
 
 	/**
@@ -150,9 +114,9 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 		$this->endpoint->register();
 
 		$endpoints = $wp_rest_server->get_endpoints();
-
+		
 		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE ] ) );
-		$this->assertTrue( isset( $endpoints[ $this->endpoint->get_route( WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE ) ] ) );
-		$this->assertTrue( isset( $endpoints[ $this->endpoint->get_route( WPSEO_Configuration_Endpoint::ENDPOINT_STORE ) ] ) );
+		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE . '/' . WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE ] ) );
+		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE . '/' . WPSEO_Configuration_Endpoint::ENDPOINT_STORE ] ) );
 	}
 }
