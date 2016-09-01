@@ -276,6 +276,14 @@ function wpseo_init() {
 
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
+
+	// We can't do anything when requirements are not met.
+	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) {
+		// Boot up REST API endpoints.
+		$configuration_service = new WPSEO_Configuration_Service();
+		$configuration_service->set_default_providers();
+		$configuration_service->register_hooks();
+	}
 }
 
 /**
@@ -384,6 +392,7 @@ add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
 // Loading OnPage integration.
 new WPSEO_OnPage();
+
 
 /**
  * Wraps for notifications center class.
