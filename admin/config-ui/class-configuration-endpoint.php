@@ -15,11 +15,12 @@ class WPSEO_Configuration_Endpoint {
 	const CAPABILITY_RETRIEVE = 'manage_options';
 	const CAPABILITY_STORE = 'manage_options';
 
-
 	/** @var WPSEO_Configuration_Service Service to use */
 	protected $service;
 
 	/**
+	 * Sets the service to use.
+	 *
 	 * @param WPSEO_Configuration_Service $service Service to use.
 	 */
 	public function set_service( WPSEO_Configuration_Service $service ) {
@@ -58,6 +59,8 @@ class WPSEO_Configuration_Endpoint {
 	}
 
 	/**
+	 * Returns the configuration.
+	 *
 	 * @return array
 	 */
 	public function get_configuration() {
