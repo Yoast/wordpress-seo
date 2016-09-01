@@ -29,7 +29,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_last_modified() {
 
-		$timestamp = time();
+		$timestamp = ( time() - 5 );
 		$date      = date( 'c', $timestamp );
 		$modified  = date( 'Y-m-d H:i:s', $timestamp );
 
