@@ -18,6 +18,7 @@ import Wizard from "../OnboardingWizard";
 import Config from "../config/production-config";
 import {mount, shallow, render} from "enzyme";
 import cloneDeep from "lodash/cloneDeep";
+import ApiConfig from "../config/api-config";
 
 /**
  *
@@ -27,12 +28,13 @@ import cloneDeep from "lodash/cloneDeep";
  * Re-run tests on file changes
  *
  */
-describe( "a wizard componentName", () => {
+describe( "a wizard component", () => {
 	let renderedWizard = undefined;
 	let config = undefined;
 
 	beforeEach( () => {
 		config = cloneDeep( Config );
+		config.endpoint = ApiConfig;
 		renderedWizard = mount( <Wizard {...config} /> );
 	} );
 
