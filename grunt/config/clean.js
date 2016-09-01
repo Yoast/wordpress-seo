@@ -9,7 +9,7 @@ module.exports = {
 	"before-rtlcss": [
 		"css/dist/*.css",
 		"css/dist/toggle-switch/*.css",
-		"!css/dist/*.min.css",
+		"!css/dist/select2/*.min.css",
 	],
 	"release-js": [
 		"js/src/**",
