@@ -36,7 +36,7 @@ module.exports = function() {
 		"no obstante", "o sea", "otra vez", "otro aspecto", "par ilustrar", "para concluir", "para conclusión",
 		"para continuar", "para empezar", "para finalizar", "para mencionar una cosa", "para que", "para resumir",
 		"para terminar", "pero", "pongamos por caso", "por", "por añadidura", "por cierto", "por consiguiente",
-		"por ejemplo", "por el consiguiente.", "por el contrario", "por el hecho que", "por eso", "por esta razón", "por esto",
+		"por ejemplo", "por el consiguiente", "por el contrario", "por el hecho que", "por eso", "por esta razón", "por esto",
 		"por fin", "por la mayor parte", "por lo general", "por lo que", "por lo tanto", "por otro lado", "por otra parte",
 		"por otro lado", "por supuesto", "por tanto", "por último", "por un lado", "por una parte", "porque", "posteriormente",
 		"primero", "primero que nada", "primero que todo", "principalmente", "pronto", "próximamente", "pues", "pues bien",
