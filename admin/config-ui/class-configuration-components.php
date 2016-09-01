@@ -45,6 +45,7 @@ class WPSEO_Configuration_Components {
 
 	/**
 	 * Sets the adapter to use.
+	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to use.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
