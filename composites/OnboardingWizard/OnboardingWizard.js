@@ -247,7 +247,7 @@ class OnboardingWizard extends React.Component {
 					<div className="yoast-wizard-container">
 						<div className="yoast-wizard">
 							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
-							      fields={step.fields}/>
+							      fields={step.fields} customComponents={this.props.customComponents} />
 							<div className="yoast-wizard--navigation">
 								{previousButton}
 								{nextButton}
@@ -265,9 +265,11 @@ OnboardingWizard.propTypes = {
 	endpoint: React.PropTypes.object.isRequired,
 	steps: React.PropTypes.object.isRequired,
 	fields: React.PropTypes.object.isRequired,
+	customComponents: React.PropTypes.object,
 };
 
 OnboardingWizard.defaultProps = {
+	customComponents: {},
 };
 
 export default OnboardingWizard;

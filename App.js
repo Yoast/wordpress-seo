@@ -36,7 +36,11 @@ class App extends React.Component {
 			case "wizard":
 			default:
 				let config = cloneDeep( Config );
+
+				// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
+				config.customComponents = Config.customComponents;
 				config.endpoint = apiConfig;
+
 				content = <Wizard {...config} />;
 				break;
 		}

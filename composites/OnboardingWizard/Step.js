@@ -12,9 +12,14 @@ class Step extends React.Component {
 
 	/**
 	 * Sets the default state.
+	 *
+	 * @param {Object} props The properties to use.
 	 */
-	constructor() {
+	constructor( props ) {
 		super();
+
+		// Make the components available.
+		this.components = Object.assign( Components, props.customComponents );
 
 		this.state = {
 			fieldValues: {},
@@ -106,14 +111,14 @@ class Step extends React.Component {
 		return keys.map( ( name, key ) => {
 			let currentField = fields[ name ];
 
-			if ( typeof Components[ currentField.componentName ] === "undefined"
-			     || ! Components[ currentField.componentName ] ) {
+			if ( typeof this.components[ currentField.componentName ] === "undefined"
+			     || ! this.components[ currentField.componentName ] ) {
 				console.error(`Trying to load non-existing component: ${currentField.componentName}`);
 				return null;
 			}
 			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
 
-			return React.createElement( Components[ currentField.componentName ], fieldProps );
+			return React.createElement( this.components[ currentField.componentName ], fieldProps );
 		} );
 	}
 
