@@ -1,6 +1,7 @@
 import React from "react";
-import Input from '../../../forms/Input';
-import Label from '../../../forms/Label';
+import Input from "../../../forms/Input";
+import Label from "../../../forms/Label";
+import htmlDecoder from "../helpers/htmlDecoder";
 
 /**
  * Represents a choice interface, like a group of radio buttons or a select button. Initially it should render a
@@ -28,7 +29,7 @@ const Choice = ( props ) => {
 						<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
 						       value={choiceName} optionalAttributes={{ id, checked }}
 						/>
-						<Label for={id}>{choice.label}</Label>
+						<Label for={id}>{htmlDecoder(choice.label)}</Label>
 					</div>
 				);
 			} )}
