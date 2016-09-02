@@ -147,7 +147,7 @@ li.score:after {
 		padding: 8px 10px 8px 28px;
 		border-radius: 4px;
 		outline: none;
-		background: $color_button url(svg-icon-eye-slash($color_marker_inactive)) no-repeat 6px center;
+		background: $color_button url(svg-icon-eye-slash($color_marker_inactive)) no-repeat left 6px top 50%;
 		background-size: 16px;
 		cursor: pointer;
 		margin-top: 0px;
