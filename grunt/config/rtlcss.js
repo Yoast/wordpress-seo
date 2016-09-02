@@ -1,38 +1,44 @@
 // https://github.com/MohammadYounes/grunt-rtlcss
 module.exports = {
 	options: {
-	    clean: true,
+		clean: true,
 		plugins: [
 			{
-				name: 'swap-dashicons-left-right-arrows',
+				name: "swap-dashicons-left-right-arrows",
 				priority: 10,
 				directives: {
 					control: {},
-					value: []
+					value: [],
 				},
 				processors: [
 					{
 						expr: /content/im,
 						action: function( prop, value ) {
-							if ( value === '"\\f141"' ) { // dashicons-arrow-left
+							// For dashicons-arrow-left.
+							if ( value === '"\\f141"' ) {
 								value = '"\\f139"';
-							} else if ( value === '"\\f340"' ) { // dashicons-arrow-left-alt
+							// For dashicons-arrow-left-alt.
+							} else if ( value === '"\\f340"' ) {
 								value = '"\\f344"';
-							} else if ( value === '"\\f341"' ) { // dashicons-arrow-left-alt2
+							// For dashicons-arrow-left-alt2.
+							} else if ( value === '"\\f341"' ) {
 								value = '"\\f345"';
-							} else if ( value === '"\\f139"' ) { // dashicons-arrow-right
+							// For dashicons-arrow-right.
+							} else if ( value === '"\\f139"' ) {
 								value = '"\\f141"';
-							} else if ( value === '"\\f344"' ) { // dashicons-arrow-right-alt
+							// For dashicons-arrow-right-alt.
+							} else if ( value === '"\\f344"' ) {
 								value = '"\\f340"';
-							} else if ( value === '"\\f345"' ) { // dashicons-arrow-right-alt2
+							// For dashicons-arrow-right-alt2.
+							} else if ( value === '"\\f345"' ) {
 								value = '"\\f341"';
 							}
 							return { prop: prop, value: value };
-						}
-					}
-				]
-			}
-		]
+						},
+					},
+				],
+			},
+		],
 	},
 	plugin: {
 		expand: true,
