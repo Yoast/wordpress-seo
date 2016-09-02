@@ -121,18 +121,18 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date:
 
 * Enhancements:
-    * Adds Flesch Reading tests for Dutch and German
-    * Added info about author archives links in theme to disable setting.
+    * Adds Flesch Reading tests for Dutch and German.
+    * Added info about author links in theme to disable setting on archives settings page.
     * Explicitly checks for public post type status when creating sitemap.
-    * Removes frequency and priority from sitemap.
+    * Removes frequency and priority from sitemap, see release post for clarification.
     * Improves sitemap "blocking files" notification.
     * Improves sitemap generation for posts when dealing with a large number of posts.
     * Improves reliability in some PHP configurations.
     * Improves styling for notices below tabs.
-    * Adds @id fields to JSON LD output
+    * Adds @id fields to JSON LD output.
     * Adds table headings and labels to the bulk editor.
     * Improves the accessibility of the bulk editor.
-    * Improves plugin loading for network.
+    * Prevented loading the network admin when not network active.
     * Don't show keyword filter in post list when keyword analysis is disabled.
     * Improves message for settings import.
     * Adds translations for notification counts.
@@ -146,14 +146,14 @@ Release Date:
     * Fixes a bug that would break rich term descriptions with large images.
     * Fixes cache check in dashboard widget, which could cause unnecessary queries.
     * No longer load toolbar styles when toolbar is disabled.
-    * Adds check to buffer clean, prevents notice on no buffer, which can break export process.
-    * Fixes a bug to improve passive voice recognition
+    * Fixes a bug to prevent "cannot modify headers" notice on export.
+    * Fixes a bug to improve passive voice recognition.
     * Fixes a bug where consecutive keywords where not recognized.
     * Fixes a bug to improve sentence detection.
     * Fixes a bug that prevented the markings from working correctly.
     * Fixes a bug where select2 would generate a 404 on a non-supported language.
     * Fixes a bug where HTML attributes could be translated.
-    * Fixes a bug where the og:image tag would be omitted.
+    * Fixes a bug where the <code>og:image</code> tag would be omitted.
     * Fixes a bug for canonicals for search pages with empty search queries.
 = 3.4.2 =
 
