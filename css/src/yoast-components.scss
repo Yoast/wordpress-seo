@@ -1,2 +1,9 @@
 @import "../../node_modules/sassdash/scss/sassdash";
 @import "../../node_modules/yoast-components/css/all.scss";
+
+#yoast-wizard-return-link {
+  color: #b5b5b5;
+  margin: 1em 0;
+  display: block;
+  text-align: center;
+}
