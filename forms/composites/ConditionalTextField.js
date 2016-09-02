@@ -53,7 +53,7 @@ ConditionalTextfield.propTypes = {
 	requires: React.PropTypes.shape( {
 		field: React.PropTypes.string.required,
 		value: React.PropTypes.string.required,
-	} ),
+	} ).required,
 	requiredFieldValue: React.PropTypes.string,
 };
 

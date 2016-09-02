@@ -99,7 +99,7 @@ let configuration = {
 			"data": "",
 		},
 		"personPublishingEntity": {
-			"componentName": "ConditionalTextField",
+			"componentName": "ConditionalInput",
 			"properties": {
 				"label": "Your name:",
 				"pattern": "*",
@@ -110,7 +110,7 @@ let configuration = {
 			}
 		},
 		"businessPublishingEntity": {
-			"componentName": "ConditionalTextField",
+			"componentName": "ConditionalInput",
 			"properties": {
 				"label": "The company name:",
 				"pattern": "*",

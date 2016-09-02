@@ -181,7 +181,7 @@ class Step extends React.Component {
 			Object.assign( props, choiceFieldProperties );
 		}
 
-		if ( componentType === "ConditionalTextField" ) {
+		if ( componentType === "ConditionalInput" ) {
 			let fieldValues = this.state.fieldValues;
 			let requiredFieldValue = fieldValues[ this.props.currentStep ][ currentField.requires.field ];
 			Object.assign( props, {
