@@ -7,7 +7,6 @@
  * @returns {String} The text without double spaces
  */
 module.exports = function( text ) {
-
 	// Replace multiple spaces with single space
 	text = text.replace( /\s{2,}/g, " " );
 

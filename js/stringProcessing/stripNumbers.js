@@ -10,7 +10,6 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  */
 
 module.exports = function( text ) {
-
 	// Remove "words" comprised only of numbers
 	text = text.replace( /\b[0-9]+\b/g, "" );
 

@@ -7,8 +7,6 @@ engines:
     config:
       languages:
       - javascript
-  eslint:
-    enabled: true
   fixme:
     enabled: true
 ratings:

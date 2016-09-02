@@ -1,4 +1,13 @@
-var countSyllableFunction = require( "../../js/stringProcessing/countSyllables.js" );
+var countSyllableFunction = require( "../../../js/stringProcessing/syllables/count.js" );
+var forEach = require( "lodash/forEach" );
+
+function testCountSyllables( testCases, locale ) {
+	forEach( testCases, function( expected, input ) {
+		var actual = countSyllableFunction( input, locale );
+
+		expect( actual ).toBe( expected );
+	});
+}
 
 describe( "a syllable counter for English text strings", function () {
 	it( "returns the number of syllables", function () {
@@ -225,7 +234,19 @@ describe( "a syllable counter for Dutch text strings", function () {
 	} );
 
 	it( "returns the number of syllables for a sentence with exclusions", function () {
-		expect( countSyllableFunction( "keynoter keynote keynotes kite kiter breakdance breakdancer race racer", "nl_NL" ) ).toBe( 18 );
+		var testCases = {
+			"keynoter": 3,
+			"keynote": 2,
+			"keynotes": 2,
+			"kite": 1,
+			"kiter": 2,
+			"breakdance": 2,
+			"breakdancer": 3,
+			"race": 1,
+			"racer": 2,
+		};
+
+		testCountSyllables( testCases, "nl_NL" );
 	} );
 
 	it( "returns the number of syllables for a sentence with exclusions", function () {
@@ -239,11 +260,33 @@ describe( "a syllable counter for Dutch text strings", function () {
 	} );
 
 	it( "returns the number of syllables for a sentence with exclusions", function () {
-		expect( countSyllableFunction( "fleece fleecedeken image images imagecontract pluimage style styleboek stylen douche douches office officer", "nl_NL" ) ).toBe( 29 );
+		var testCases = {
+			"fleece": 1,
+			"fleecedeken": 3,
+			"image": 2,
+			"images": 3,
+			"imagecontract": 4,
+			"pluimage": 3,
+			"style": 1,
+			"styleboek": 2,
+			"stylen": 2,
+			"douche": 1,
+			"douches": 2,
+			"office": 2,
+			"officer": 3,
+		};
+
+		testCountSyllables( testCases, "nl_NL" );
 	} );
 
 	it( "returns the number of syllables for a sentence with exclusions", function () {
-		expect( countSyllableFunction( "bye dei lone", "nl_NL" ) ).toBe( 4 );
+		var testCases = {
+			"bye": 1,
+			"dei": 2,
+			"lone": 1,
+		};
+
+		testCountSyllables( testCases, "nl_NL" );
 	} );
 
 	it( "returns the number of syllables for a sentence with one-syllable words", function () {
@@ -251,7 +294,25 @@ describe( "a syllable counter for Dutch text strings", function () {
 	} );
 
 	it( "returns the number of syllables for two sentences containing one- and multiple-syllable words", function () {
-		expect( countSyllableFunction( "Dit zijn twee zinnen met die ook langere woorden bevatten. Eens kijken of dat ook werkt.", "nl_NL" ) ).toBe( 23 );
+		var testCases = {
+			"dit": 1,
+			"zijn": 1,
+			"twee": 1,
+			"zinnen": 2,
+			"met": 1,
+			"die": 1,
+			"ook": 1,
+			"langere": 3,
+			"woorden": 2,
+			"bevatten": 3,
+			"eens": 1,
+			"kijken": 2,
+			"of": 1,
+			"dat": 1,
+			"werkt": 1,
+		};
+
+		testCountSyllables( testCases, "nl_NL" );
 	} );
 
 	it( "returns the number of syllables of words containing diacritics", function () {
@@ -417,6 +478,10 @@ describe( "a syllable counter for Dutch text strings", function () {
 		expect( countSyllableFunction( "" ) ).toBe(  );
 
 	} );
+
+	it( "works for german", function() {
+		expect( countSyllableFunction( "jupe", "de_DE" ) ).toBe( 1 );
+	});
 
 } );
 

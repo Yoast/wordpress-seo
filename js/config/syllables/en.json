@@ -1,0 +1,36 @@
+{
+	"vowels": "aeiouy",
+	"deviations": {
+		"vowels": [
+			{
+				"fragments": [ "cial", "tia", "cius", "giu", "ion",
+					"iou", "sia$", "[^aeiuot]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e$",
+					"[a-z]ely$", "[cgy]ed$", "rved$", "[aeiouy][dt]es?$",
+					"[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$",
+					"[aeouy]rse$" ],
+				"countModifier": -1
+			},
+			{
+				"fragments": [ "ia", "riet", "dien", "iu", "io", "ii",
+					"[aeiouym][bdp]le$", "[aeiou]{3}", "^mc", "ism$",
+					"([^aeiouy])\\1l$", "[^l]lien", "^coa[dglx].",
+					"[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)",
+					"[aeiouy]ing", "[aeiouw]y[aeiou]", "[^ao]ire[ds]", "[^ao]ire$" ],
+				"countModifier": 1
+			}
+		],
+		"words": {
+			"full": [
+				{ "word": "business", "syllables": 2 },
+				{ "word": "coheiress", "syllables": 3 },
+				{ "word": "colonel", "syllables": 2 },
+				{ "word": "heiress", "syllables": 2 },
+				{ "word": "i.e", "syllables": 2 },
+				{ "word": "shoreline", "syllables": 2 },
+				{ "word": "simile", "syllables": 3 },
+				{ "word": "unheired", "syllables": 2 },
+				{ "word": "wednesday", "syllables": 2 }
+			]
+		}
+	}
+}

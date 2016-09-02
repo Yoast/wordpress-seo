@@ -1,5 +1,3 @@
-/* jshint browser: true */
-
 var isEmpty = require( "lodash/isEmpty" );
 var isElement = require( "lodash/isElement" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -28,23 +26,23 @@ var defaults = {
 		metaDesc: "",
 		urlPath: "",
 		titleWidth: 0,
-		metaHeight: 0
+		metaHeight: 0,
 	},
 	placeholder: {
-		title:    "This is an example title - edit by clicking here",
+		title: "This is an example title - edit by clicking here",
 		metaDesc: "Modify your meta description by editing it right here",
-		urlPath:  "example-post/"
+		urlPath: "example-post/",
 	},
 	defaultValue: {
 		title: "",
-		metaDesc: ""
+		metaDesc: "",
 	},
 	baseURL: "http://example.com/",
 	callbacks: {
-		saveSnippetData: function() {}
+		saveSnippetData: function() {},
 	},
 	addTrailingSlash: true,
-	metaDescriptionDate: ""
+	metaDescriptionDate: "",
 };
 
 var titleMaxLength = 600;
@@ -52,16 +50,16 @@ var titleMaxLength = 600;
 var inputPreviewBindings = [
 	{
 		"preview": "title_container",
-		"inputField": "title"
+		"inputField": "title",
 	},
 	{
 		"preview": "url_container",
-		"inputField": "urlPath"
+		"inputField": "urlPath",
 	},
 	{
 		"preview": "meta_container",
-		"inputField": "metaDesc"
-	}
+		"inputField": "metaDesc",
+	},
 ];
 
 /**
@@ -80,7 +78,7 @@ var getBaseURL = function() {
 	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
 	 * URL is static so we can just pass it to the snippet editor.
 	 */
-	if ( this.hasApp() && !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
+	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
 		baseURL = this.refObj.rawData.baseUrl;
 	}
 
@@ -136,7 +134,7 @@ function hasTrailingSlash( url ) {
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
 
-	return !isUndefined( progressElement.max );
+	return ! isUndefined( progressElement.max );
 }
 
 /**
@@ -210,14 +208,14 @@ function updateProgressBar( element, value, maximum, rating ) {
 		allClasses = [
 			"snippet-editor__progress--bad",
 			"snippet-editor__progress--ok",
-			"snippet-editor__progress--good"
+			"snippet-editor__progress--good",
 		];
 
 	element.value = value;
 	domManipulation.removeClasses( element, allClasses );
 	domManipulation.addClass( element, "snippet-editor__progress--" + rating );
 
-	if ( !this.hasProgressSupport ) {
+	if ( ! this.hasProgressSupport ) {
 		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
 		progress = ( value / maximum ) * 100;
 
@@ -299,27 +297,27 @@ var SnippetPreview = function( opts ) {
 
 	this.data = opts.data;
 
-	if ( !isUndefined( opts.analyzerApp ) ) {
+	if ( ! isUndefined( opts.analyzerApp ) ) {
 		this.refObj = opts.analyzerApp;
 		this.i18n = this.refObj.i18n;
 
 		this.data = {
 			title: this.refObj.rawData.snippetTitle || "",
 			urlPath: this.refObj.rawData.snippetCite || "",
-			metaDesc: this.refObj.rawData.snippetMeta || ""
+			metaDesc: this.refObj.rawData.snippetMeta || "",
 		};
 
 		// For backwards compatibility set the metaTitle as placeholder.
-		if ( !isEmpty( this.refObj.rawData.metaTitle ) ) {
+		if ( ! isEmpty( this.refObj.rawData.metaTitle ) ) {
 			opts.placeholder.title = this.refObj.rawData.metaTitle;
 		}
 	}
 
-	if ( !isUndefined( opts.i18n ) ) {
+	if ( ! isUndefined( opts.i18n ) ) {
 		this.i18n = opts.i18n;
 	}
 
-	if ( !isElement( opts.targetElement ) ) {
+	if ( ! isElement( opts.targetElement ) ) {
 		throw new Error( "The snippet preview requires a valid target element" );
 	}
 
@@ -331,15 +329,15 @@ var SnippetPreview = function( opts ) {
 	this.unformattedText = {};
 	Object.defineProperty( this.unformattedText, "snippet_cite", {
 		get: retrieveUnformattedText.bind( this, "urlPath" ),
-		set: updateUnformattedText.bind( this, "urlPath" )
+		set: updateUnformattedText.bind( this, "urlPath" ),
 	} );
 	Object.defineProperty( this.unformattedText, "snippet_meta", {
 		get: retrieveUnformattedText.bind( this, "metaDesc" ),
-		set: updateUnformattedText.bind( this, "metaDesc" )
+		set: updateUnformattedText.bind( this, "metaDesc" ),
 	} );
 	Object.defineProperty( this.unformattedText, "snippet_title", {
 		get: retrieveUnformattedText.bind( this, "title" ),
-		set: updateUnformattedText.bind( this, "title" )
+		set: updateUnformattedText.bind( this, "title" ),
 	} );
 };
 
@@ -354,20 +352,20 @@ SnippetPreview.prototype.renderTemplate = function() {
 		raw: {
 			title: this.data.title,
 			snippetCite: this.data.urlPath,
-			meta: this.data.metaDesc
+			meta: this.data.metaDesc,
 		},
 		rendered: {
 			title: this.formatTitle(),
 			baseUrl: this.formatUrl(),
 			snippetCite: this.formatCite(),
-			meta: this.formatMeta()
+			meta: this.formatMeta(),
 		},
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
-			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
+			slug: this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
 			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
@@ -377,46 +375,46 @@ SnippetPreview.prototype.renderTemplate = function() {
 			snippetPreviewDescription: this.i18n.dgettext(
 				"js-text-analysis",
 				"You can click on each element in the preview to jump to the Snippet Editor."
-			)
-		}
+			),
+		},
 	} );
 
 	this.element = {
 		measurers: {
-			metaHeight: null
+			metaHeight: null,
 		},
 		rendered: {
 			title: document.getElementById( "snippet_title" ),
 			urlBase: document.getElementById( "snippet_citeBase" ),
 			urlPath: document.getElementById( "snippet_cite" ),
-			metaDesc: document.getElementById( "snippet_meta" )
+			metaDesc: document.getElementById( "snippet_meta" ),
 		},
 		input: {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[ 0 ],
 			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[ 0 ],
-			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[ 0 ]
+			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[ 0 ],
 		},
 		progress: {
 			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[ 0 ],
-			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[ 0 ]
+			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[ 0 ],
 		},
 		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[ 0 ],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[ 0 ],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[ 0 ],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 	};
 
 	this.element.label = {
 		title: this.element.input.title.parentNode,
 		urlPath: this.element.input.urlPath.parentNode,
-		metaDesc: this.element.input.metaDesc.parentNode
+		metaDesc: this.element.input.metaDesc.parentNode,
 	};
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
 		urlPath: this.element.rendered.urlPath.parentNode,
-		metaDesc: this.element.rendered.metaDesc.parentNode
+		metaDesc: this.element.rendered.metaDesc.parentNode,
 	};
 
 	this.hasProgressSupport = hasProgressSupport();
@@ -489,7 +487,7 @@ var getAnalyzerMetaDesc = function() {
 		metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
 	}
 
-	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
+	if ( ! isEmpty( this.opts.metaDescriptionDate ) && ! isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
@@ -503,9 +501,9 @@ var getAnalyzerMetaDesc = function() {
  */
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
-		title:    getAnalyzerTitle.call( this ),
-		url:      this.data.urlPath,
-		metaDesc: getAnalyzerMetaDesc.call( this )
+		title: getAnalyzerTitle.call( this ),
+		url: this.data.urlPath,
+		metaDesc: getAnalyzerMetaDesc.call( this ),
 	};
 };
 
@@ -607,11 +605,11 @@ SnippetPreview.prototype.formatCite = function() {
 		cite = this.opts.placeholder.urlPath;
 	}
 
-	if ( this.hasApp() && !isEmpty( this.refObj.rawData.keyword ) ) {
+	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.keyword ) ) {
 		cite = this.formatKeywordUrl( cite );
 	}
 
-	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
+	if ( this.opts.addTrailingSlash && ! hasTrailingSlash( cite ) ) {
 		cite = cite + "/";
 	}
 
@@ -644,7 +642,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, analyzerConfig.maxMeta );
 
-	if ( this.hasApp() && !isEmpty( this.refObj.rawData.keyword ) ) {
+	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
 	}
 
@@ -666,11 +664,11 @@ SnippetPreview.prototype.formatMeta = function() {
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText = this.opts.defaultValue.metaDesc;
 
-	if ( this.hasApp() && !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
+	if ( this.hasApp() && ! isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
 	}
 
-	if ( this.hasApp() && !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
+	if ( this.hasApp() && ! isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.text;
 
 		if ( this.hasPluggable() && this.refObj.pluggable.loaded ) {
@@ -833,7 +831,6 @@ SnippetPreview.prototype.checkTextLength = function( event ) {
 					0,
 					analyzerConfig.maxMeta
 				);
-
 			}
 			break;
 		case "snippet_title":
@@ -980,7 +977,6 @@ SnippetPreview.prototype.bindEvents = function() {
 
 			this._updateHoverCarets();
 		}.bind( this ) );
-
 	}.bind( this ) );
 };
 
@@ -1018,7 +1014,6 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * @returns {void}
  */
 SnippetPreview.prototype.openEditor = function() {
-
 	this.element.editToggle.setAttribute( "aria-expanded", "true" );
 
 	// Show these elements.
@@ -1032,7 +1027,6 @@ SnippetPreview.prototype.openEditor = function() {
  * @returns {void}
  */
 SnippetPreview.prototype.closeEditor = function() {
-
 	// Hide these elements.
 	domManipulation.addClass( this.element.formContainer,     "snippet-editor--hidden" );
 
@@ -1146,7 +1140,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 	metaDescriptionElement = hiddenElement(
 		{
 			width: document.getElementById( "meta_container" ).offsetWidth + "px",
-			whiteSpace: ""
+			whiteSpace: "",
 		}
 	);
 
@@ -1194,7 +1188,7 @@ SnippetPreview.prototype.getTitleWidth = function() {
  * @returns {boolean} Whether or not there is an App object present.
  */
 SnippetPreview.prototype.hasApp = function() {
-	return !isUndefined( this.refObj );
+	return ! isUndefined( this.refObj );
 };
 
 /**
@@ -1203,10 +1197,9 @@ SnippetPreview.prototype.hasApp = function() {
  * @returns {boolean} Whether or not there is a Pluggable object present.
  */
 SnippetPreview.prototype.hasPluggable = function() {
-	return !isUndefined( this.refObj ) && !isUndefined( this.refObj.pluggable );
+	return ! isUndefined( this.refObj ) && ! isUndefined( this.refObj.pluggable );
 };
 
-/* jshint ignore:start */
 /* eslint-disable */
 
 /**
@@ -1252,6 +1245,5 @@ SnippetPreview.prototype.hideEditIcon = function() {};
  * @param ev
  */
 SnippetPreview.prototype.setFocus = function( ev ) {};
-/* jshint ignore:end */
 /* eslint-disable */
 module.exports = SnippetPreview;

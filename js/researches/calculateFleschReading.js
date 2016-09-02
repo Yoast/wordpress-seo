@@ -3,20 +3,20 @@
 var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
 var countSentences = require( "../stringProcessing/countSentences.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var countSyllables = require( "../stringProcessing/syllables/count.js" );
 var formatNumber = require( "../helpers/formatNumber.js" );
 
 var getLanguage = require( "../helpers/getLanguage.js" );
 
 /**
- * Calculates the average number of words per sentence.
+ * Calculates an average from a total and an amount
  *
- * @param {number} numberOfWords The number of words.
- * @param {number} numberOfSentences The number of sentences.
- * @returns {number} The average number of words in sentences.
+ * @param {number} total The total.
+ * @param {number} amount The amount.
+ * @returns {number} The average from the total and the amount.
  */
-var getAverageWords = function( numberOfWords, numberOfSentences ) {
-	return numberOfWords / numberOfSentences;
+var getAverage = function( total, amount ) {
+	return total / amount;
 };
 
 /**
@@ -48,11 +48,14 @@ module.exports = function( paper ) {
 	}
 
 	var numberOfSyllables = countSyllables( text, locale );
-	var averageWordsPerSentence = getAverageWords( numberOfWords, numberOfSentences );
+	var averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
 	switch( language ) {
 		case "nl":
 			var syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
 			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( averageWordsPerSentence  ) );
+			break;
+		case "de":
+			score = 180 - averageWordsPerSentence - ( 58.5 * numberOfSyllables / numberOfWords );
 			break;
 		case "en":
 		default:

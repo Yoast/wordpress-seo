@@ -4,7 +4,7 @@ var introductionKeyword = require( "./assessments/introductionKeywordAssessment.
 var keyphraseLength = require( "./assessments/keyphraseLengthAssessment.js" );
 var keywordDensity = require( "./assessments/keywordDensityAssessment.js" );
 var keywordStopWords = require( "./assessments/keywordStopWordsAssessment.js" );
-var metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeywordAssessment.js" );
+var metaDescriptionKeyword = require( "./assessments/metaDescriptionKeywordAssessment.js" );
 var metaDescriptionLength = require( "./assessments/metaDescriptionLengthAssessment.js" );
 var subheadingsKeyword = require( "./assessments/subheadingsKeywordAssessment.js" );
 var textCompetingLinks = require( "./assessments/textCompetingLinksAssessment.js" );
@@ -44,7 +44,7 @@ var SEOAssessor = function( i18n, options ) {
 		titleWidth,
 		urlKeyword,
 		urlLength,
-		urlStopWords
+		urlStopWords,
 	];
 };
 

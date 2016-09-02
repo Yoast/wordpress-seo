@@ -37,7 +37,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 	if ( score >= 7 ) {
 		return {
 			score: score,
-			text: i18n.dgettext( "js-text-analysis", "None of the paragraphs are too short, which is great." )
+			text: i18n.dgettext( "js-text-analysis", "None of the paragraphs are too short, which is great." ),
 		};
 	}
 	return {
@@ -66,7 +66,7 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooShortParagra
 			),
 			tooShortParagraphs.length,
 			recommendedValue
-		)
+		),
 	};
 };
 
@@ -99,5 +99,5 @@ module.exports = {
 	getResult: paragraphLengthAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
-	}
+	},
 };

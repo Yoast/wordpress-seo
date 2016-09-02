@@ -1,4 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var escape = require( "lodash/escape" );
 
 /**
  * Executes the pagetitle keyword assessment and returns an assessment result.
@@ -8,13 +9,13 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @returns {AssessmentResult} The result of the assessment with text and score
  */
 var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
-
 	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
 	var score, text;
 
 	if ( keywordMatches.matches === 0 ) {
 		score = 2;
-		text = i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the SEO title." ), paper.getKeyword() );
+		text = i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does " +
+			"not appear in the SEO title." ), escape( paper.getKeyword() ) );
 	}
 
 	if ( keywordMatches.matches > 0 && keywordMatches.position === 0 ) {
@@ -39,7 +40,7 @@ var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
 module.exports = {
 	identifier: "titleKeyword",
 	getResult: titleHasKeywordAssessment,
-	isApplicable: function ( paper ) {
+	isApplicable: function( paper ) {
 		return paper.hasKeyword();
-	}
+	},
 };

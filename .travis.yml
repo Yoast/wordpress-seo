@@ -1,4 +1,6 @@
-language: js
+language: node_js
+node_js:
+  - node
 
 sudo: false
 
@@ -6,16 +8,21 @@ cache:
   directories:
     - node_modules
 
-before_script:
+install:
 - npm install -g grunt-cli
-- npm install -g codeclimate-test-reporter
 - npm install
 
-script:
+before_script:
 - grunt build:jst
+
+script:
 - npm test --coverage
-- codeclimate-test-reporter < coverage/lcov.info
 - grunt check
+- npm run check-coverage --silent
+
+after_success:
+- npm install -g codeclimate-test-reporter
+- codeclimate-test-reporter < coverage/lcov.info
 
 notifications:
   slack:

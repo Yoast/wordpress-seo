@@ -39,7 +39,7 @@ function getIndicesOf( part, sentence ) {
 		indices.push(
 			{
 				index: index,
-				match: part
+				match: part,
 			}
 		);
 		startIndex = index + searchStringLength;
@@ -60,7 +60,7 @@ var matchArray = function( sentence, matches ) {
 
 	forEach( matches, function( part ) {
 		part = stripSpaces( part );
-		if ( !matchWordInSentence( part, sentence ) ) {
+		if ( ! matchWordInSentence( part, sentence ) ) {
 			return;
 		}
 		matchedParts = matchedParts.concat( getIndicesOf( part, sentence ) );
@@ -90,10 +90,9 @@ var sortIndices = function( indices ) {
 var filterIndices = function( indices ) {
 	indices = sortIndices( indices );
 	for ( var i = 0; i < indices.length; i++ ) {
-
 		// If the next index is within the range of the current index and the length of the word, remove it
 		// This makes sure we don't match combinations twice, like "even though" and "though".
-		if ( !isUndefined( indices[ i + 1 ] ) && indices[ i + 1 ].index < indices[ i ].index + indices[ i ].match.length ) {
+		if ( ! isUndefined( indices[ i + 1 ] ) && indices[ i + 1 ].index < indices[ i ].index + indices[ i ].match.length ) {
 			indices.pop( i + 1 );
 		}
 	}
@@ -107,13 +106,12 @@ var filterIndices = function( indices ) {
  * @returns {Array} The array with valid matches.
  */
 var getVerbsEndingInIng = function( sentence ) {
-
 	// Matches the sentences with words ending in ing
 	var matches = sentence.match( verbEndingInIngRegex ) || [];
 
 	// Filters out words ending in -ing that aren't verbs.
 	return filter( matches, function( match ) {
-		return !includes( ingExclusionArray, stripSpaces( match ) );
+		return ! includes( ingExclusionArray, stripSpaces( match ) );
 	} );
 };
 
@@ -157,7 +155,7 @@ var getSubsentences = function( sentence ) {
 		// Get the words after the found auxiliary
 		for ( var i = 0; i < indices.length; i++ ) {
 			var endIndex = sentence.length;
-			if ( !isUndefined( indices[ i + 1 ] ) ) {
+			if ( ! isUndefined( indices[ i + 1 ] ) ) {
 				endIndex = indices[ i + 1 ].index;
 			}
 
@@ -187,7 +185,7 @@ var getRegularVerbs = function( subSentence ) {
 
 	// Filters out words ending in -ed that aren't verbs.
 	return filter( matches, function( match ) {
-		return !includes( nonverbEndingEd, stripSpaces( match ) );
+		return ! includes( nonverbEndingEd, stripSpaces( match ) );
 	} );
 };
 
@@ -225,11 +223,11 @@ var getIrregularVerbs = function( sentence ) {
 
 	return filter( irregularVerbs, function( verb ) {
 		// If rid is used with get, gets, getting, got or gotten, remove it.
-		if ( verb.match !== "rid" ) {
+		if ( verb !== "rid" ) {
 			return true;
 		}
 
-		return hasExcludedIrregularVerb( sentence );
+		return ! hasExcludedIrregularVerb( sentence );
 	} );
 };
 
@@ -247,7 +245,7 @@ var isHavingException = function( subSentence, verbs ) {
 	if ( indexOfHaving > -1 ) {
 		var verbIndices = matchArray( subSentence, verbs );
 
-		if ( !isUndefined( verbIndices[ 0 ] ) && !isUndefined( verbIndices[ 0 ].index ) ) {
+		if ( ! isUndefined( verbIndices[ 0 ] ) && ! isUndefined( verbIndices[ 0 ].index ) ) {
 			// 7 is the number of characters of the word 'having' including space.
 			return verbIndices[ 0 ].index  <= subSentence.indexOf( "having" ) + 7;
 		}
@@ -262,8 +260,7 @@ var isHavingException = function( subSentence, verbs ) {
  * @param {Array} verbs The array with verbs to check.
  * @returns {boolean} True if it is an exception, false if it is not.
  */
-var isLeftException = function ( subSentence, verbs ) {
-
+var isLeftException = function( subSentence, verbs ) {
 	// Matches left with the or a preceeding.
 	var matchLeft = subSentence.match( /(the|a)\sleft/ig ) || [];
 	return matchLeft.length > 0 && verbs[ 0 ].match === "left";
@@ -315,7 +312,6 @@ var getExceptions = function( subSentence, verbs ) {
  * @returns {boolean} True if passive is found, false if no passive is found.
  */
 var determinePassives = function( subSentence ) {
-
 	var regularVerbs = getRegularVerbs( subSentence );
 	var irregularVerbs = getIrregularVerbs( subSentence );
 	var verbs = regularVerbs.concat( irregularVerbs );
@@ -356,6 +352,6 @@ module.exports = function( paper ) {
 
 	return {
 		total: sentences.length,
-		passives: passiveSentences
+		passives: passiveSentences,
 	};
 };

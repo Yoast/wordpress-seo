@@ -18,7 +18,7 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
 		noAlt: 0,
 		withAlt: 0,
 		withAltKeyword: 0,
-		withAltNonKeyword: 0
+		withAltNonKeyword: 0,
 	};
 
 	for ( var i = 0; i < imageMatches.length; i++ ) {
@@ -37,7 +37,6 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
 		}
 
 		if ( wordMatch( alttag, keyword, locale ) === 0 && alttag !== "" ) {
-
 			// Match for keywords?
 			altProperties.withAltNonKeyword++;
 			continue;
