@@ -136,7 +136,7 @@ class WPSEO_Admin {
 		$counter_screen_reader_text = sprintf( _n( '%s notification', '%s notifications', $notification_count, 'wordpress-seo' ), number_format_i18n( $notification_count ) );
 		$counter = sprintf( '<span class="update-plugins count-%1$d"><span class="plugin-count" aria-hidden="true">%1$d</span><span class="screen-reader-text">%2$s</span></span>', $notification_count, $counter_screen_reader_text );
 
-		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, self::PAGE_IDENTIFIER, array(
+		$admin_page        = add_menu_page( 'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ) . ' ' . $counter, $manage_options_cap, self::PAGE_IDENTIFIER, array(
 			$this,
 			'load_page',
 		), $icon_svg, '99.31337' );
@@ -208,7 +208,7 @@ class WPSEO_Admin {
 			array(
 				self::PAGE_IDENTIFIER,
 				'',
-				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
+				__( 'Premium', 'wordpress-seo' ) . $this->get_premium_indicator(),
 				$manage_options_cap,
 				'wpseo_licenses',
 				array( $this, 'load_page' ),
@@ -628,6 +628,36 @@ class WPSEO_Admin {
 		);
 
 		return esc_url( add_query_arg( $arr_params ) );
+	}
+
+	/**
+	 * @return string
+	 */
+	private function get_premium_indicator() {
+		/**
+		 * The class that will be applied to the premium indicator.
+		 *
+		 * @type array Classes that will be applied tot the premium indicator.
+		 */
+		$classes = apply_filters( 'wpseo_premium_indicator_classes', array(
+			'wpseo-premium-indicator',
+			'wpseo-premium-indicator--no',
+		) );
+
+		/**
+		 * The text to put inside the premium indicator.
+		 *
+		 * @type string The text to read to screen readers.
+		 */
+		$text = apply_filters( 'wpseo_premium_indicator_text', __( 'Disabled', 'wordpress-seo' ) );
+
+		$premium_indicator = sprintf(
+			"<span class='%s'><span class='screen-reader-text'>%s</span></span>",
+			esc_attr( implode( ' ', $classes ) ),
+			esc_html( $text )
+		);
+
+		return $premium_indicator;
 	}
 
 
