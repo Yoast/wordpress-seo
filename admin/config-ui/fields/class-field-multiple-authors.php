@@ -20,7 +20,7 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * @summary Set adapter.
+	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
@@ -33,7 +33,7 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * @summary Get the data from the stored options.
+	 * Get the data from the stored options.
 	 *
 	 * @return null|string
 	 */
@@ -58,7 +58,7 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * @summary Set the data in the options.
+	 * Set the data in the options.
 	 *
 	 * @param {string} $data The data to set for the field.
 	 *
