@@ -3,7 +3,6 @@ import PublishingEntity from "../components/custom_components/PublishingEntity"
 import PostTypeVisibility from "../components/custom_components/PostTypeVisibility"
 import ConnectGoogleSearchConsole from "../components/custom_components/ConnectGoogleSearchConsole"
 
-
 let configuration = {
 	"endpoint": "http://127.0.0.1:8882/onboarding?wp_nonce=nonce",
 	"customComponents": {
