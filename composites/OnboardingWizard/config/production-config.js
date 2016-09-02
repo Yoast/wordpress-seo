@@ -280,15 +280,15 @@ let configuration = {
 						"screenReaderText": "Left angle quotation mark",
 					},
 					"raquo": {
-						"label": "»",
+						"label": "&raquo;",
 						"screenReaderText": "Right angle quotation mark",
 					},
 					"lt": {
-						"label": "<",
+						"label": "&lt;",
 						"screenReaderText": "Less than sign",
 					},
 					"gt": {
-						"label": ">",
+						"label": "&gt;",
 						"screenReaderText": "Greater than sign",
 					},
 				},
