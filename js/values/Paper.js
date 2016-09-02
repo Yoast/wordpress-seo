@@ -1,5 +1,5 @@
 var defaults = require( "lodash/defaults" );
-var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+var escapeRegExp = require( "lodash/escapeRegExp" );
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
@@ -21,7 +21,7 @@ var defaultAttributes = {
  * @returns {object} The attributes passed to the Paper.
  */
 var sanitizeAttributes = function( attributes ) {
-	attributes.keyword = sanitizeString( attributes.keyword );
+	attributes.keyword = escapeRegExp( attributes.keyword );
 
 	return attributes;
 };
