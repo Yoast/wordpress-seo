@@ -5,6 +5,7 @@ var getWordCombinations = relevantWords.getWordCombinations;
 var calculateOccurrences = relevantWords.calculateOccurrences;
 var getRelevantCombinations = relevantWords.getRelevantCombinations;
 var sortCombinations = relevantWords.sortCombinations;
+var filterArticlesAtBeginning = relevantWords.filterArticlesAtBeginning;
 
 describe( "getWordCombinations", function() {
 	it( "should split a sentence on words", function() {
@@ -147,6 +148,24 @@ describe( "sortCombinations", function() {
 		expect( output ).toEqual( reversed );
 	});
 });
+
+describe( "filterArticlesAtBeginning", function() {
+	it ( "filters word combinations beginning with articles", function() {
+		var input = [
+			new WordCombination ( [ "a", "book" ] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+			];
+		var expected = [
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+
+		var combinations  = filterArticlesAtBeginning( input );
+
+		expect( combinations ).toEqual ( expected );
+	})
+} );
 
 describe( "getWordCombinations", function() {
 	it( "returns word combinations", function() {

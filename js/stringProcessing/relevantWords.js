@@ -98,6 +98,16 @@ function sortCombinations( wordCombinations ) {
 }
 
 /**
+ * Filters word combinations beginning with an article.
+ *
+ * @param {WordCombination[]} combinations The word combinations to filter.
+ * @returns {WordCombination[]} Filtered word combinations.
+ */
+function filterArticlesAtBeginning ( combinations ) {
+
+}
+
+/**
  * Returns the relevant words in a given text.
  *
  * @param {string} text The text to retrieve the relevant words of.
@@ -131,6 +141,10 @@ function getRelevantWords( text ) {
 		fourWordCombinations,
 		fiveWordCombinations
 	);
+
+	combinations = filterArticlesAtBeginning( combinations );
+
+
 	forEach( combinations, function( combination ) {
 		combination.setRelevantWords( oneWordRelevanceMap );
 	} );
@@ -147,4 +161,5 @@ module.exports = {
 	calculateOccurrences: calculateOccurrences,
 	getRelevantCombinations: getRelevantCombinations,
 	sortCombinations: sortCombinations,
+	filterArticlesAtBeginning: filterArticlesAtBeginning,
 };
