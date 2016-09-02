@@ -7,9 +7,17 @@ var editorRemoveMarks = require( "./decorator/tinyMCE" ).editorRemoveMarks;
 
 /**
  * The HTML 'id' attribute for the TinyMCE editor.
+ *
  * @type {string}
  */
 var tmceId = "content";
+
+/**
+ * The HTML 'id' attribute for the tinyMCE editor on the edit term page.
+ *
+ * @type {string}
+ */
+var termsTmceId = "description";
 
 ( function() {
 	"use strict";
@@ -192,5 +200,6 @@ var tmceId = "content";
 		enableMarkerButtons: enableMarkerButtons,
 		wpTextViewOnInitCheck: wpTextViewOnInitCheck,
 		tmceId,
+		termsTmceId,
 	};
 }( jQuery ) );
