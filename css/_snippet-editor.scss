@@ -60,15 +60,6 @@ $snippet_width: 600px;
 
 			padding-left: 45px;
 		}
-
-		&-icon-edit {
-			background: url(svg-icon-edit($color_headings)) no-repeat;
-			/* rtlcss needs this as separate property */
-			background-position: left 20px top 50%;
-			background-size: 16px;
-
-			padding-left: 45px;
-		}
 	}
 
 	&__container {
