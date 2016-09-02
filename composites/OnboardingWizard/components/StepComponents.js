@@ -5,7 +5,6 @@ import HTML from "./Html";
 import MailchimpSignup from "./custom_components/MailchimpSignup";
 import PublishingEntity from "./custom_components/PublishingEntity";
 import PostTypeVisibility from "./custom_components/PostTypeVisibility";
-import ConnectGoogleSearchConsole from "./custom_components/ConnectGoogleSearchConsole";
 
 /**
  * Contains the components that are rendered in the steps for the onboarding wizard.
@@ -29,7 +28,6 @@ let Components = {
 	HTML,
 	MailchimpSignup,
 	PostTypeVisibility,
-	ConnectGoogleSearchConsole,
 	PublishingEntity,
 };
 
