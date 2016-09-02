@@ -38,7 +38,9 @@ class Step extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( props ) {
-		this.setFieldValues( props.fields, props.currentStep );
+		if( props.currentStep !== this.props.currentStep ) {
+			this.setFieldValues( props.fields, props.currentStep );
+		}
 	}
 
 	/**
@@ -60,7 +62,7 @@ class Step extends React.Component {
 		fieldNames.forEach(
 			( fieldName ) => {
 				if ( typeof fieldValues[ currentStep ][ fieldName ] === "undefined" ) {
-					fieldValues[ currentStep ][ fieldName ] = "";
+					fieldValues[ currentStep ][ fieldName ] = fields[fieldName].data;
 				}
 			}
 		);

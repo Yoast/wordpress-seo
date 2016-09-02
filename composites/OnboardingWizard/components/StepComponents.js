@@ -1,6 +1,6 @@
 import Choice from "./Choice";
-import TextField from "../../../forms/composites/Textfield";
-import ConditionalTextField from "../../../forms/composites/ConditionalTextField";
+import Input from "../../../forms/composites/Textfield";
+import ConditionalInput from "../../../forms/composites/ConditionalTextField";
 import HTML from "./Html";
 import MailchimpSignup from "./custom_components/MailchimpSignup";
 import PublishingEntity from "./custom_components/PublishingEntity";
@@ -24,8 +24,8 @@ import ConnectGoogleSearchConsole from "./custom_components/ConnectGoogleSearchC
  */
 let Components = {
 	Choice,
-	"Input": TextField,
-	ConditionalTextField,
+	Input,
+	ConditionalInput,
 	HTML,
 	MailchimpSignup,
 	PostTypeVisibility,
