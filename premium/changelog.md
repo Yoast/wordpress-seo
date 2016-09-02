@@ -3,8 +3,6 @@
 * Fixes the slug change and redirects in the quick edit for posts and terms.
 * Fixes title on the redirect settings page.
 
-
-
 ### 3.4.2: August 8th, 2016
 * Includes every change in Yoast SEO core 3.4.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
