@@ -189,7 +189,8 @@ class WPSEO_Admin_Asset {
 
 		$suffix = ( is_null( $force_suffix ) ) ? $this->get_suffix() : $force_suffix;
 
-		if ( function_exists( 'is_rtl' ) && is_rtl() ) {
+		// Paths for RTL stylesheets, except Select2 which handles RTL internally.
+		if ( function_exists( 'is_rtl' ) && is_rtl() && 'select2' !== $this->get_name() ) {
 			$rtl_path = 'dist/';
 			$rtl_suffix = '-rtl';
 		}
