@@ -55,6 +55,7 @@ class WPSEO_Configuration_Page {
 	 */
 	public function show_wizard() {
 		$this->enqueue_assets();
+		$dashboard_url = admin_url( '/admin.php?page=wpseo_dashboard' );
 		?>
 		<!DOCTYPE html>
 		<head>
@@ -68,6 +69,8 @@ class WPSEO_Configuration_Page {
 		</head>
 		<body>
 		<div id="wizard"></div>
+		<a id="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">Go back to the Yoast SEO
+			dashboard.</a>
 		<footer>
 			<?php wp_print_scripts( 'yoast-seo-configuration-wizard' ); ?>
 		</footer>
