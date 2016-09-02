@@ -7,6 +7,7 @@
  * @class WPSEO_Configuration_Wizard Loads the Yoast onboarding wizard.
  */
 class WPSEO_Configuration_Page {
+
 	/**
 	 * WPSEO_Configuration_Wizard constructor.
 	 */
@@ -31,7 +32,7 @@ class WPSEO_Configuration_Page {
 	 * Renders the wizard page and exits to prevent the wordpress UI from loading.
 	 */
 	public function render_wizard_page() {
-		$this->setup_wizard();
+		$this->show_wizard();
 		exit;
 	}
 
@@ -44,13 +45,7 @@ class WPSEO_Configuration_Page {
 		$assetManager->enqueue_script( 'configuration-wizard' );
 		$assetManager->enqueue_style( 'yoast-components' );
 
-		$config = array(
-			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
-			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
-			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
-			'nonce'             => wp_create_nonce( 'wp_rest' ),
-			'root'              => esc_url_raw( rest_url() ),
-		);
+		$config = $this->getConfig();
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'configuration-wizard', 'yoastWizardConfig', $config );
 	}
@@ -58,7 +53,7 @@ class WPSEO_Configuration_Page {
 	/**
 	 * Setup Wizard Header.
 	 */
-	public function setup_wizard() {
+	public function show_wizard() {
 		$this->enqueue_assets();
 		?>
 		<!DOCTYPE html>
@@ -71,7 +66,7 @@ class WPSEO_Configuration_Page {
 				do_action( 'admin_head' );
 			?>
 		</head>
-		<body class="wc-setup wp-core-ui">
+		<body>
 		<div id="wizard"></div>
 		<footer>
 			<?php wp_print_scripts( 'yoast-seo-configuration-wizard' ); ?>
@@ -79,5 +74,22 @@ class WPSEO_Configuration_Page {
 		</body>
 		<?php
 
+	}
+
+	/**
+	 * Get the API config for the wizard.
+	 *
+	 * @return array The API endpoint config.
+	 */
+	public function getConfig() {
+		$config = array(
+			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
+			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
+			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
+			'nonce'             => wp_create_nonce( 'wp_rest' ),
+			'root'              => esc_url_raw( rest_url() ),
+		);
+
+		return $config;
 	}
 }
