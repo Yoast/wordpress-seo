@@ -53,14 +53,9 @@ $snippet_width: 600px;
 		}
 
 		&-icon-eye {
-			background: url(svg-icon-eye($color_headings)) no-repeat 20px center;
-			background-size: 16px;
-
-			padding-left: 45px;
-		}
-
-		&-icon-edit {
-			background: url(svg-icon-edit($color_headings)) no-repeat 20px center;
+			background: url(svg-icon-eye($color_headings)) no-repeat;
+			/* rtlcss needs this as separate property */
+			background-position: left 20px top 50%;
 			background-size: 16px;
 
 			padding-left: 45px;
@@ -100,7 +95,9 @@ $snippet_width: 600px;
 	}
 
 	&__edit-button {
-		background: $color_button url(svg-icon-edit($color_buttons)) no-repeat 8px center;
+		background: $color_button url(svg-icon-edit($color_buttons)) no-repeat;
+		/* rtlcss needs this as separate property */
+		background-position: left 8px top 50%;
 		background-size: 16px;
 		padding-left: 32px;
 
@@ -283,4 +280,3 @@ $snippet_width: 600px;
 @include progress-bar-color(".snippet-editor__progress--bad", $color_bad);
 @include progress-bar-color(".snippet-editor__progress--ok", $color_ok);
 @include progress-bar-color(".snippet-editor__progress--good", $color_good);
-

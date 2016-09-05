@@ -141,27 +141,6 @@ li.score:after {
 		}
 	}
 
-	&__remove-marks {
-		border: 1px solid $color_button_border;
-		height: 36px;
-		padding: 8px 10px 8px 28px;
-		border-radius: 4px;
-		outline: none;
-		background: $color_button url(svg-icon-eye-slash($color_marker_inactive)) no-repeat 6px center;
-		background-size: 16px;
-		cursor: pointer;
-		margin-top: 0px;
-		margin-left: 3px;
-		margin-bottom: 15px;
-		font-size: 0.8rem;
-		color: $color_buttons;
-
-		&:focus {
-			box-shadow: 0 0 0 1px #5b9dd9,
-			0 0 2px 1px rgba(30, 140, 190, 0.8);
-		}
-	}
-
 	&__mark-container {
 		display: inline-block;
 		float: left;
