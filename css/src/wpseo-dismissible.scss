@@ -24,11 +24,6 @@
 	cursor: pointer;
 }
 
-body.rtl .yoast-notice-dismiss {
-	right: auto !important;
-	left: 1px !important;
-}
-
 .yoast-notice-dismiss:before {
 	position: relative;
 	top: 0;

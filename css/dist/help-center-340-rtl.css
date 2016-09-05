@@ -17,7 +17,7 @@
 	color: #a4286a;
 	background: none;
 	line-height: 19px;
-	text-align: left;
+	text-align: right;
 	cursor: pointer;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .wpseo-tab-video-container__handle .dashicons-before:before {
-	margin-right: 5px;
+	margin-left: 5px;
 }
 
 .wpseotab .wpseo-tab-video-container {
@@ -90,17 +90,17 @@
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
-	float: left;
+	float: right;
 	/* min-width to make two boxes always have the same min width */
 	min-width: 234px;
 	/* max-width to make two boxes take the same space of the video above: 560px */
 	max-width: 242px;
-	margin: 0 12px 1em 0;
+	margin: 0 0 1em 12px;
 	padding: 15px 15px 5px;
 	border: 1px solid;
 	border-color: white;
 	border-radius: 30px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 	color: white;
 	background-color: #a4286a;
 }
@@ -118,7 +118,7 @@
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
 	width: 180px;
-	padding: 0 1em 1em 0;
+	padding: 0 0 1em 1em;
 	color: white;
 	background-color: #a4286a;
 
@@ -139,8 +139,8 @@
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
 	/* In the settings pages is not a children of the flexbox container. */
-	float: left;
-	margin-right: 1em;
+	float: right;
+	margin-left: 1em;
 	padding-bottom: 1em;
 
 	-webkit-flex: 0 0 auto;
@@ -171,7 +171,7 @@
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
-	margin-right: 0;
+	margin-left: 0;
 }
 
 /* When it's inside the metabox (posts, terms, media ). */
@@ -206,7 +206,7 @@
 }
 
 .wpseo-help-center-item a.dashicons-before:before {
-	margin-right: 3px;
+	margin-left: 3px;
 	text-decoration: none;
 }
 
