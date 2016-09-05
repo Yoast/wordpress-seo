@@ -73,6 +73,7 @@ $extensions = array(
 			/* %1$s expands to Yoast SEO, %2$s expands to WooCommerce */
 			sprintf( __( 'A seamless integration between %1$s and %2$s', 'wordpress-seo' ), 'Yoast SEO', 'WooCommerce' ),
 		),
+		'buy_button' => 'WooCommerce SEO',
 	),
 );
 
@@ -95,7 +96,8 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 	$extensions['woocommerce-seo']->installed = true;
 }
 
-$utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners';
+$utm_buy = '#utm_source=wordpress-seo-config&utm_medium=button-buy&utm_campaign=extension-page-banners';
+$utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaign=extension-page-banners';
 
 ?>
 
@@ -116,12 +118,11 @@ $utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extensio
 			<section class="yoast-seo-premium-extension">
 				<?php
 					$extension = $extensions['seo-premium'];
-					$url = $extension->url . $utm;
-
+					$url = $extension->url;
 				?>
 				<h2><?php
 					/* translators: %1$s expands to Yoast SEO Premium */
-					printf( __( 'Keep your site in top SEO shape with %1$s', 'wordpress-seo' ), '<span class="yoast-heading-highlight">' . $extension->title . '</span>' );
+					printf( __( '%1$s, take your optimization to the next level!', 'wordpress-seo' ), '<span class="yoast-heading-highlight">' . $extension->title . '</span>' );
 					?></h2>
 
 				<img width="342" height="184" class="yoast-seo-premium-banner" alt="" src="<?php echo esc_attr( $extension->image ); ?>" />
@@ -129,7 +130,7 @@ $utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extensio
 				<ul class="yoast-seo-premium-benefits yoast-list--usp">
 					<li class="yoast-seo-premium-benefits__item">
 						<span class="yoast-seo-premium-benefits__title"><?php _e( 'Redirect manager', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php _e( 'create and manager redirects from within your WordPress install', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php _e( 'create and manage redirects from within your WordPress install', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
 						<span class="yoast-seo-premium-benefits__title"><?php _e( 'Multiple focus keywords', 'wordpress-seo' ); ?></span>
@@ -141,23 +142,21 @@ $utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extensio
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
 						<span class="yoast-seo-premium-benefits__title"><?php _e( 'Premium support', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php _e( 'gives you access to our support team', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php _e( 'gain access to our support team', 'wordpress-seo' ); ?></span>
 					</li>
 				</ul>
 
-				<p><?php _e( 'Take your optimization to the next level! and get your own license today!', 'wordpress-seo' ); ?></p>
-
-				<a href="<?php echo esc_url( $url ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
+				<a href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
 					/* translators: $1$s expands to Yoast SEO Premium */
 					printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title );
 					?></a>
 
-				<a href="<?php echo esc_url( $url ); ?>" class="yoast-link--more-info"><?php
+				<a href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
 					/* translators: %1$s expands to Yoast SEO Premium */
 					printf( __( 'More about %1$s', 'wordpress-seo' ), $extension->title );
 					?></a>
 
-				<p><small class="yoast-money-back-guarantee"><?php _e( 'Stay happy with our 30 day money back guarantee', 'wordpress-seo' ); ?></small></p>
+				<p><small class="yoast-money-back-guarantee"><?php _e( 'Stay happy with our 30-day money back guarantee', 'wordpress-seo' ); ?></small></p>
 			</section>
 
 			<hr class="yoast-hr" />
@@ -176,8 +175,7 @@ $utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extensio
 				<?php unset( $extensions['seo-premium'] ); ?>
 
 				<?php foreach ( $extensions as $id => $extension ) : ?>
-					<?php $utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners'; ?>
-					<?php $url = $extension->url . $utm; ?>
+					<?php $url = $extension->url; ?>
 
 					<section class="yoast-promoblock secondary yoast-promo-extension">
 						<img alt="" width="280" height="147" src="<?php echo esc_attr( $extension->image ); ?>" />
@@ -189,12 +187,13 @@ $utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extensio
 							<?php endforeach; ?>
 						</ul>
 
-						<a target="_blank" class="yoast-button default yoast-button--noarrow academy--secondary yoast-button-go-to" href="<?php echo esc_url( $url ); ?>">
+						<a target="_blank" class="yoast-button default yoast-button--noarrow academy--secondary yoast-button-go-to" href="<?php echo esc_url( $url . $utm_buy ); ?>">
+							<?php $product_name = isset( $extension->buy_button ) ? $extension->buy_button : $extension->title; ?>
 							<?php /* translators: %1$s expands to the product name */ ?>
-							<?php printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title ); ?>
+							<?php printf( __( 'Buy %1$s', 'wordpress-seo' ), $product_name ); ?>
 						</a>
 
-						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $url ); ?>">
+						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $url . $utm_info ); ?>">
 							<?php /* translators: %1$s expands to the product name */ ?>
 							<?php printf( __( 'More about %1$s', 'wordpress-seo' ), $extension->title ); ?>
 						</a>

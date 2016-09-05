@@ -101,7 +101,9 @@
 		}
 
 		img {
-			max-width: 100%;
+			width: 100%;
+			height: auto;
+			margin-bottom: 0.8rem;
 
 			@media screen and (max-width: 900px) {
 				display: none;
@@ -130,7 +132,6 @@
 
 		&-premium-banner {
 			float: right;
-			width: 330px;
 
 			@media screen and (max-width: 900px) {
 				display: none;
@@ -154,7 +155,7 @@
 		padding-left: calc( 1em + 5px );
 		background-size: 1em;
 		background-repeat: no-repeat;
-		background-position: left center;
+		background-position: left 0.2em;
 
 		&:after {
 			content: " \00BB";
@@ -163,6 +164,7 @@
 		.yoast-promo-extension & {
 			display: block;
 			margin: 1em 0 0 0;
+			background-position: left 0.4em;
 		}
 	}
 
@@ -173,6 +175,6 @@
 
 	&-money-back-guarantee {
 		font-style: italic;
-		font-size: 0.9em;
+		font-size: 1.1em;
 	}
 }
