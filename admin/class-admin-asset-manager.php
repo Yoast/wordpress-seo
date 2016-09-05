@@ -318,10 +318,11 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'metabox-primary-category',
 			),
 			array(
-				'name' => 'select2',
-				'src'  => 'dist/select2/select2',
-				'suffix' => '.min',
+				'name'    => 'select2',
+				'src'     => 'dist/select2/select2',
+				'suffix'  => '.min',
 				'version' => '4.0.1',
+				'rtl'     => false,
 			),
 			array(
 				'name' => 'kb-search',
