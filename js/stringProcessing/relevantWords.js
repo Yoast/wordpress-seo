@@ -2,6 +2,7 @@ var getWords = require( "../stringProcessing/getWords" );
 var getSentences = require( "../stringProcessing/getSentences" );
 var WordCombination = require( "../values/WordCombination" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
+var functionWords = require( "../researches/english/functionWords.js" );
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -10,6 +11,7 @@ var has = require( "lodash/has" );
 var flatMap = require( "lodash/flatMap" );
 var values = require( "lodash/values" );
 var take = require( "lodash/take" );
+var includes = require( "lodash/includes" );
 
 var densityLowerLimit = 0;
 var densityUpperLimit = 0.03;
@@ -81,7 +83,6 @@ function getRelevantCombinations( wordCombinations, wordCount ) {
 			combination.getDensity( wordCount ) >= densityLowerLimit &&
 			combination.getDensity( wordCount ) < densityUpperLimit;
 	} );
-
 	return wordCombinations;
 }
 
@@ -98,13 +99,44 @@ function sortCombinations( wordCombinations ) {
 }
 
 /**
- * Filters word combinations beginning with an article.
+ * Filters word combinations beginning with certain function words.
  *
- * @param {WordCombination[]} combinations The word combinations to filter.
+ * @param {WordCombination[]} wordCombinations The word combinations to filter.
+ * @param {array} functionWords The list of function words.
  * @returns {WordCombination[]} Filtered word combinations.
  */
-function filterArticlesAtBeginning ( combinations ) {
+function filterFunctionWordsAtBeginning( wordCombinations, functionWords ) {
+	return wordCombinations.filter( function( combination ) {
+		return ! includes( functionWords, combination.getWords()[ 0 ] );
+	} );
+}
 
+/**
+ * Filters word combinations ending with certain function words.
+ *
+ * @param {WordCombination[]} wordCombinations The word combinations to filter.
+ * @param {array} functionWords The list of function words.
+ * @returns {WordCombination[]} Filtered word combinations.
+ */
+function filterFunctionWordsAtEnding( wordCombinations, functionWords ) {
+	return wordCombinations.filter( function( combination ) {
+		var words = combination.getWords();
+		var lastWordIndex = words.length - 1;
+		return ! includes( functionWords, words[ lastWordIndex ] );
+	} );
+}
+
+/**
+ * Filters word combinations beginning and ending with certain function words.
+ *
+ * @param {WordCombination[]} wordCombinations The word combinations to filter.
+ * @param {array} functionWords The list of function words.
+ * @returns {WordCombination[]} Filtered word combinations.
+ */
+function filterFunctionWords( wordCombinations, functionWords ) {
+	wordCombinations = filterFunctionWordsAtBeginning( wordCombinations, functionWords );
+	wordCombinations = filterFunctionWordsAtEnding( wordCombinations, functionWords );
+	return wordCombinations;
 }
 
 /**
@@ -142,7 +174,11 @@ function getRelevantWords( text ) {
 		fiveWordCombinations
 	);
 
-	combinations = filterArticlesAtBeginning( combinations );
+	combinations = filterFunctionWords( combinations, functionWords().articles );
+	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
+	combinations = filterFunctionWords( combinations, functionWords().prepositions );
+	combinations = filterFunctionWords( combinations, functionWords().conjunctions );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 
 
 	forEach( combinations, function( combination ) {
@@ -161,5 +197,6 @@ module.exports = {
 	calculateOccurrences: calculateOccurrences,
 	getRelevantCombinations: getRelevantCombinations,
 	sortCombinations: sortCombinations,
-	filterArticlesAtBeginning: filterArticlesAtBeginning,
+	filterFunctionWordsAtBeginning: filterFunctionWordsAtBeginning,
+	filterFunctionWords: filterFunctionWords,
 };

@@ -60,8 +60,7 @@ var prepositions = [ "in", "from", "with", "under", "throughout", "atop", "for",
 // Many prepositional adverbs are already listed as preposition.
 var prepositionalAdverbs = [ "back", "within", "forward", "backward", "ahead" ];
 
-// 'For' is already included in the preposition list
-var coordinatingConjunctions = [ "so", "and", "nor", "but", "or", "yet" ];
+var coordinatingConjunctions = [ "so", "and", "nor", "but", "or", "yet", "for" ];
 
 // 'Rather' is part of 'rather...than', 'sooner' is part of 'no sooner...than', 'just' is part of 'just as...so',
 // 'Only' is part of 'not only...but also'.
@@ -117,11 +116,18 @@ var vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likeliho
 var miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "%" ];
 
 module.exports = function() {
-	return articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
-		personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, indefinitePronounsPossessive,
-		interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs, pronominalAdverbs, locativeAdverbs,
-		adverbialGenitives, prepositionalAdverbs, passiveAuxiliaries, otherAuxiliaries, copula, prepositions,
-		coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords,
-		additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs,
-		recipeWords, vagueNouns, miscellaneous );
+	return {
+		articles: articles,
+		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
+		prepositions: prepositions,
+		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
+		verbs: passiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
+		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
+			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns,
+			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
+			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, passiveAuxiliaries, otherAuxiliaries,
+			copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
+			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs,
+			recipeWords, vagueNouns, miscellaneous ),
+	};
 };

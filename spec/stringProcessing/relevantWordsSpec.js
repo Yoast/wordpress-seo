@@ -5,7 +5,8 @@ var getWordCombinations = relevantWords.getWordCombinations;
 var calculateOccurrences = relevantWords.calculateOccurrences;
 var getRelevantCombinations = relevantWords.getRelevantCombinations;
 var sortCombinations = relevantWords.sortCombinations;
-var filterArticlesAtBeginning = relevantWords.filterArticlesAtBeginning;
+var filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
+var filterFunctionWords = relevantWords.filterFunctionWords;
 
 describe( "getWordCombinations", function() {
 	it( "should split a sentence on words", function() {
@@ -149,24 +150,74 @@ describe( "sortCombinations", function() {
 	});
 });
 
-describe( "filterArticlesAtBeginning", function() {
-	it ( "filters word combinations beginning with articles", function() {
+describe( "filter articles at beginning", function() {
+	it ( "filters word combinations beginning with an article", function() {
 		var input = [
 			new WordCombination ( [ "a", "book" ] ),
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
-			];
+		];
 		var expected = [
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
 
-		var combinations  = filterArticlesAtBeginning( input );
+		var combinations  = filterFunctionWordsAtBeginning( input, [ "the", "an", "a" ] );
 
-		expect( combinations ).toEqual ( expected );
-	})
+		expect( combinations ).toEqual( expected );
+	});
+	it ( "does not filter word combinations ending with an article", function() {
+		var input = [
+			new WordCombination ( [ "book", "a" ] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+		var expected = [
+			new WordCombination ( [ "book", "a" ] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+
+		var combinations  = filterFunctionWordsAtBeginning( input, [ "the", "an", "a" ] );
+
+		expect( combinations ).toEqual( expected );
+	});
 } );
 
+describe( "filter articles at beginning and end", function() {
+	it ( "filters word combinations beginning and ending with an article", function() {
+		var input = [
+			new WordCombination ( [ "a", "book" ] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "a"] )
+		];
+		var expected = [
+			new WordCombination ( [ "book" ] ),
+		];
+
+		var combinations  = filterFunctionWords( input, [ "the", "an", "a" ] );
+
+		expect( combinations ).toEqual( expected );
+	});
+} );
+
+describe( "filter articles at end", function() {
+	it ( "filters word combinations ending with an article", function() {
+		var input = [
+			new WordCombination ( [ "book", "a" ] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+		var expected = [
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+
+		var combinations  = filterFunctionWords( input, [ "the", "an", "a" ] );
+
+		expect( combinations ).toEqual( expected );
+	});
+} );
 describe( "getWordCombinations", function() {
 	it( "returns word combinations", function() {
 		var input = "Here are a ton of words. Words are very important. I think the word combinations are even more important. Word combinations for the win!";
@@ -190,3 +241,4 @@ describe( "getWordCombinations", function() {
 		expect( words ).toEqual( expected );
 	});
 });
+
