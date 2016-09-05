@@ -147,7 +147,7 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 				</ul>
 
 				<?php if ( $extension->installed ) : ?>
-					<div class="yoast-button default yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
+					<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 				<?php else : ?>
 					<a href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
 						/* translators: $1$s expands to Yoast SEO Premium */
