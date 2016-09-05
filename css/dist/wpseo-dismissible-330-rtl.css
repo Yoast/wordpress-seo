@@ -15,7 +15,7 @@
 .yoast-notice-dismiss {
 	position: absolute;
 	top: 0;
-	right: 1px;
+	left: 1px;
 	margin: 0;
 	padding: 9px;
 	border: none;
@@ -27,7 +27,7 @@
 .yoast-notice-dismiss:before {
 	position: relative;
 	top: 0;
-	left: 0;
+	right: 0;
 	line-height: 20px;
 }
 

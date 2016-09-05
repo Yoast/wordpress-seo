@@ -1,6 +1,6 @@
 .yoast-alert {
 	padding: 0 12px;
-	border-left: 4px solid #fff;
+	border-right: 4px solid #fff;
 	background: #fff;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
@@ -14,19 +14,19 @@
 }
 
 .yoast-container__alert .yoast-alert {
-	border-left-color: #dc3232;
+	border-right-color: #dc3232;
 }
 
 #yoast-alerts-dismissed .yoast-alert {
-	border-left-color: #d93f69;
+	border-right-color: #d93f69;
 }
 
 .yoast-container__warning .yoast-alert {
-	border-left-color: #5d237a;
+	border-right-color: #5d237a;
 }
 
 #yoast-warnings-dismissed .yoast-alert {
-	border-left-color: #0075b3;
+	border-right-color: #0075b3;
 }
 
 .yoast-container {
@@ -48,7 +48,7 @@
 	padding: 1em;
 	border-bottom: 1px solid #ccc;
 	background-color: #dfdfdf;
-	text-shadow: 1px 1px 0 #eee;
+	text-shadow: -1px 1px 0 #eee;
 	font-size: 1.6em;
 }
 
@@ -114,14 +114,14 @@ h3 .dashicons-warning {
 	display: table-cell;
 	position: absolute;
 	top: 0;
-	right: 0;
-	bottom: 0;
 	left: 0;
+	bottom: 0;
+	right: 0;
 	border-radius: 4px;
 	background-color: rgba(232, 232, 232, 0.7);
 }
 
 .yoast-no-issues {
-	padding: 1em 1em 1em 16px;
+	padding: 1em 16px 1em 1em;
 	color: #666;
 }
