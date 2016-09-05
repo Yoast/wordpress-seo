@@ -50,7 +50,10 @@ class ConditionalTextfield extends TextField {
  * @type {{requires: {object}, requiredFieldValue: string}}
  */
 ConditionalTextfield.propTypes = {
-	requires: React.PropTypes.requires,
+	requires: React.PropTypes.shape( {
+		field: React.PropTypes.string.required,
+		value: React.PropTypes.string.required,
+	} ).required,
 	requiredFieldValue: React.PropTypes.string,
 };
 
