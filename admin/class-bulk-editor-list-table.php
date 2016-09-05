@@ -392,7 +392,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				printf(
 					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
-					'post-type-filter-' . esc_attr( $instance_type ),
+					esc_attr( 'post-type-filter-' . $instance_type ),
 					esc_html__( 'Filter by post type', 'wordpress-seo' )
 				);
 				echo sprintf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, esc_attr( $instance_type ) );
