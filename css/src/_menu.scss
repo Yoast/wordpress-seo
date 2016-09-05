@@ -22,5 +22,9 @@
 }
 
 .wpseo-premium-indicator--yes {
-	background-image: url(svg-icon-info("#9fda4f"));
+	background-image: url(svg-icon-info("#b4b9be"));
+
+	.current & {
+		background-image: url(svg-icon-info("#ffffff"));
+	}
 }
