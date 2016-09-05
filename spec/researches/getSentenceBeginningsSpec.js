@@ -146,4 +146,19 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		var mockPaper = new Paper( "   \n</div>", { locale: 'en_US'} );
 		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
 	} );
+
+	it( "returns an empty array if there is no sentence", function() {
+		var mockPaper = new Paper( "", { locale: 'en_US'} );
+		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
+	} );
+
+	it( "returns an empty array if there is a sentence with only whitespaces", function() {
+		var mockPaper = new Paper( "&nbsp;", { locale: 'en_US'} );
+		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
+	} );
+
+	it( "returns an empty array if the sentence is empty after removing HTML tags.", function() {
+		var mockPaper = new Paper( '<img class="alignnone wp-image-514079 size-full" src="https://yoast-mercury.s3.amazonaws.com/uploads/2015/10/Twitter_analytics_FI.png" alt="" width="1200" height="628" />' );
+		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
+	} );
 } );

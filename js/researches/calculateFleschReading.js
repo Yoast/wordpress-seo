@@ -54,6 +54,9 @@ module.exports = function( paper ) {
 			var syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
 			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( averageWordsPerSentence  ) );
 			break;
+		case "de":
+			score = 180 - averageWordsPerSentence - ( 58.5 * numberOfSyllables / numberOfWords );
+			break;
 		case "en":
 		default:
 			score = 206.835 - ( 1.015 * ( averageWordsPerSentence ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );

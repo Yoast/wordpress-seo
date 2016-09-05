@@ -320,6 +320,11 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	});
 
+	it( "returns the passive sentences with an -ed word", function() {
+		paper = new Paper( "Even though the house is cleaned" );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	});
+
 	it( "supports different types of quotes", function() {
 		paper = new Paper( "you're done." );
 		expect( passiveVoice( paper ) ).toEqual( {
@@ -359,6 +364,15 @@ describe( "detecting passive voice in sentences", function() {
 		// Passive: no passive, auxiliary: was
 		paper = new Paper( "He thought she was the one who knew about the six buried in his back yard, but he was wrong." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	});
+
+	it( "returns no passive sentence when there is an exception with 'rid'", function () {
+		// Passive: no passive, auxiliary: got
+		paper = new Paper( "He got rid of it" );
+		expect( passiveVoice( paper ) ).toEqual( {
+			total: 1,
+			passives: []
+		} );
 	});
 
 } );

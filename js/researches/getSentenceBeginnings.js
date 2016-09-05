@@ -6,6 +6,7 @@ var getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
 
 var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
+var filter = require( "lodash/filter" );
 
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
@@ -101,6 +102,8 @@ module.exports = function( paper ) {
 	var sentenceBeginnings = sentences.map( function( sentence ) {
 		return getSentenceBeginning( sentence, firstWordExceptions );
 	} );
+
+	sentenceBeginnings = filter( sentenceBeginnings );
 
 	return compareFirstWords( sentenceBeginnings, sentences );
 };
