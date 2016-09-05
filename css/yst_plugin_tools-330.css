@@ -1271,27 +1271,6 @@ textarea.wpseo-new-metadesc {
 	cursor: default;
 }
 
-.wpseotab .seo-premium h3 {
-	background-image: url(../images/Premium_130x100.png);
-}
-
-.wpseotab .video-seo h3 {
-	background-image: url(../images/Video_130x100.png);
-}
-
-.wpseotab .local-seo h3 {
-	background-image: url(../images/Local_130x100.png);
-}
-
-.wpseotab .woocommerce-seo h3 {
-	background-image: url(../images/Woo_130x100.png);
-}
-
-.wpseotab .news-seo h3 {
-	background-image: url(../images/News_SEO.png);
-	background-size: 115px 100px;
-}
-
 #separator {
 	margin: 1.5em 0 1em;
 }

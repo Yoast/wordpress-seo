@@ -124,7 +124,7 @@ $utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extensio
 					printf( __( 'Keep your site in top SEO shape with %1$s', 'wordpress-seo' ), '<span class="yoast-heading-highlight">' . $extension->title . '</span>' );
 					?></h2>
 
-				<img width="50%" class="yoast-seo-premium-banner" alt="" src="<?php echo esc_attr( $extension->image ); ?>" />
+				<img width="342" height="184" class="yoast-seo-premium-banner" alt="" src="<?php echo esc_attr( $extension->image ); ?>" />
 
 				<ul class="yoast-seo-premium-benefits yoast-list--usp">
 					<li class="yoast-seo-premium-benefits__item">
@@ -180,7 +180,7 @@ $utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extensio
 					<?php $url = $extension->url . $utm; ?>
 
 					<section class="yoast-promoblock secondary yoast-promo-extension">
-						<img alt="" src="<?php echo esc_attr( $extension->image ); ?>" />
+						<img alt="" width="280" height="147" src="<?php echo esc_attr( $extension->image ); ?>" />
 						<h3><?php echo esc_html( $extension->title ); ?></h3>
 
 						<ul class="yoast-list--usp">
