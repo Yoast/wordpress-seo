@@ -25,5 +25,7 @@ describe("Test for counting the keyword density in a text", function(){
 		expect( keywordDensity( mockPaper ) ).toBe( 7.6923076923076925 );
 		mockPaper = new Paper( "<img src='http://image.com/image.png'>", {keyword: "key&word"} );
 		expect( keywordDensity( mockPaper ) ).toBe( 0 );
+		mockPaper = new Paper( "This is a nice string with a keyword keyword keyword.", {keyword: "keyword"} );
+		expect( keywordDensity( mockPaper ) ).toBe( 30 );
 	});
 });
