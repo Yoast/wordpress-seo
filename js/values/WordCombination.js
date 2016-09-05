@@ -1,4 +1,4 @@
-var functionWords = require( "../researches/english/functionWords" )();
+var functionWords = require( "../researches/english/functionWords" )().all;
 var forEach = require( "lodash/forEach" );
 var has = require( "lodash/has" );
 
@@ -44,6 +44,15 @@ WordCombination.prototype.getLengthBonus = function() {
 	}
 
 	return 0;
+};
+
+/**
+ * Returns the list with words.
+ *
+ * @returns {array} The list with words.
+ */
+WordCombination.prototype.getWords = function() {
+	return this._words;
 };
 
 /**

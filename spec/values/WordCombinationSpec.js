@@ -158,4 +158,11 @@ describe( "WordCombination", function() {
 			expect( combination.getDensity( 6 ) ).toBe( 0.5 );
 		} );
 	});
+
+	describe( "getWords", function() {
+		it ( "returns a list of words", function() {
+			var combination = new WordCombination( [ "hello", "how", "are", "you" ] );
+			expect ( combination.getWords( ) ).toEqual( [ "hello", "how", "are", "you" ] );
+		} )
+	} );
 });
