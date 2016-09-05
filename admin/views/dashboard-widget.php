@@ -13,22 +13,22 @@
  */
 
 ?>
-<p><?php _e( 'Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!', 'wordpress-seo' ); ?></p>
+<p><?php esc_html_e( 'Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!', 'wordpress-seo' ); ?></p>
 <table>
 	<?php foreach ( $statistics as $statistic ) :
 		if ( current_user_can( 'edit_others_posts' ) === false ) {
-			$url = esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] . '&author=' . get_current_user_id() ) );
+			$url = admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] . '&author=' . get_current_user_id() );
 		}
 		else {
-			$url = esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] ) );
+			$url = admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] );
 		}
 		?>
 		<tr>
 			<th>
 				<div class="wpseo-score-icon <?php echo sanitize_html_class( $statistic['icon_class'] ); ?>"></div>
-				<a href="<?php echo $url; ?>"
+				<a href="<?php echo esc_url( $url ); ?>"
 				   class="wpseo-glance <?php echo esc_attr( $statistic['class'] ); ?>">
-					<?php printf( $statistic['title'], intval( $statistic['count'] ) ); ?>
+					<?php printf( $statistic['title'], intval( $statistic['count'] ) ); // TODO escaping, what's in title? R. ?>
 				</a>
 			</th>
 			<td class="post-count">
@@ -43,7 +43,7 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 	<h3 class="hide-if-no-js"><?php
 		printf(
 			/* translators: 1: expands to OnPage.org */
-			__( 'Indexability check by %1$s', 'wordpress-seo' ),
+			esc_html__( 'Indexability check by %1$s', 'wordpress-seo' ),
 			'OnPage.org'
 		);
 	?></h3>
@@ -56,14 +56,14 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 		switch ( $onpage['indexable'] ) :
 			case WPSEO_OnPage_Option::IS_INDEXABLE :
 				echo '<div class="wpseo-score-icon good"></div>';
-				_e( 'Your homepage can be indexed by search engines.', 'wordpress-seo' );
+				esc_html_e( 'Your homepage can be indexed by search engines.', 'wordpress-seo' );
 
 				break;
 			case WPSEO_OnPage_Option::IS_NOT_INDEXABLE :
 				echo '<div class="wpseo-score-icon bad"></div>';
 				printf(
 					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-					__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
+					esc_html__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
 					'<a href="https://yoa.st/onpageindexerror" target="_blank">',
 					'</a>'
 				);
@@ -72,7 +72,7 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 				echo '<div class="wpseo-score-icon na"></div>';
 				printf(
 					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-					__( 'Yoast SEO has %1$snot been able to fetch your site’s indexability status%2$s from OnPage.org', 'wordpress-seo' ),
+					esc_html__( 'Yoast SEO has %1$snot been able to fetch your site’s indexability status%2$s from OnPage.org', 'wordpress-seo' ),
 					'<a href="https://yoa.st/onpagerequestfailed" target="_blank">',
 					'</a>'
 				);
@@ -81,7 +81,7 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 				echo '<div class="wpseo-score-icon na"></div>';
 				printf(
 					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-					__( 'Yoast SEO has %1$snot fetched your site’s indexability status%2$s yet from OnPage.org', 'wordpress-seo' ),
+					esc_html__( 'Yoast SEO has %1$snot fetched your site’s indexability status%2$s yet from OnPage.org', 'wordpress-seo' ),
 					'<a href="https://yoa.st/onpagerequestfailed" target="_blank">',
 					'</a>'
 				);
@@ -91,11 +91,11 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 		echo '<br />';
 
 		if ( $onpage['indexable'] !== WPSEO_OnPage_Option::IS_INDEXABLE && $onpage['can_fetch'] ) :
-			echo '<a class="fetch-status button" href="' . esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '">' . __( 'Fetch the current status', 'wordpress-seo' ) . ' </a> ';
+			echo '<a class="fetch-status button" href="' . esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '">' . esc_html__( 'Fetch the current status', 'wordpress-seo' ) . ' </a> ';
 		endif;
 
 
-		echo '<a class="landing-page button" href="https://onpage.org/yoast-indexability/" target="_blank">' . __( 'Analyze entire site', 'wordpress-seo' ) . ' </a>';
+		echo '<a class="landing-page button" href="https://onpage.org/yoast-indexability/" target="_blank">' . esc_html__( 'Analyze entire site', 'wordpress-seo' ) . ' </a>';
 		?>
 	</div>
 </div>

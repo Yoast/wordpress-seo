@@ -14,7 +14,7 @@ $submit_button_value = sprintf( __( 'Export your %1$s settings', 'wordpress-seo'
 
 ?><p><?php
 	/* translators: %1$s expands to Yoast SEO */
-	printf( __( 'Export your %1$s settings here, to import them again later or to import them on another site.', 'wordpress-seo' ), 'Yoast SEO' );
+	printf( esc_html__( 'Export your %1$s settings here, to import them again later or to import them on another site.', 'wordpress-seo' ), 'Yoast SEO' );
 	?></p>
 <form
 	action="<?php echo esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-export' ) ); ?>"

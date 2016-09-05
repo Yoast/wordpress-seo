@@ -173,13 +173,12 @@ class WPSEO_Meta_Columns {
 		$current_seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
 		echo '
-			<label class="screen-reader-text" for="wpseo-filter">' . __( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>
+			<label class="screen-reader-text" for="wpseo-filter">' . esc_html__( 'Filter by SEO Score', 'wordpress-seo' ) . '</label>
 			<select name="seo_filter" id="wpseo-filter">
-				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
+				<option value="">', esc_html__( 'All SEO Scores', 'wordpress-seo' ), '</option>';
 		foreach ( $ranks as $rank ) {
-			$sel = selected( $current_seo_filter, $rank->get_rank(), false );
-			echo '
-				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label(), '</option>';
+			echo '<option ', selected( $current_seo_filter, $rank->get_rank(), false ),
+			'value="', esc_attr( $rank->get_rank() ), '">', esc_html( $rank->get_drop_down_label() ), '</option>';
 		}
 		echo '
 			</select>';

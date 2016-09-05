@@ -116,13 +116,13 @@ class WPSEO_Help_Center {
 		$id = sprintf( 'tab-help-center-%s-%s', $this->group_name, $this->tab->get_name() );
 		?>
 		<div class="wpseo-tab-video-container">
-			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo $id ?>"
+			<button type="button" class="wpseo-tab-video-container__handle" aria-controls="<?php echo esc_attr( $id ) ?>"
 			        aria-expanded="false">
 					<span
-						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
+						class="dashicons-before dashicons-editor-help"><?php esc_html_e( 'Help center', 'wordpress-seo' ) ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 			</button>
-			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout">
+			<div id="<?php echo esc_attr( $id ) ?>" class="wpseo-tab-video-slideout">
 				<div class="yoast-help-center-tabs">
 					<ul>
 						<?php
@@ -138,9 +138,9 @@ class WPSEO_Help_Center {
 							$panel_id = "tab-panel-{$this->group_name}_{$this->tab->get_name()}__{$id}";
 							?>
 
-							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo $class; ?>">
+							<li id="<?php echo esc_attr( $link_id ); ?>" class="<?php echo esc_attr( $class ); ?>">
 								<a href="<?php echo esc_url( "#$panel_id" ); ?>"
-								   class="<?php echo $id . ' ' . $dashicon?>"
+								   class="<?php echo esc_attr( $id . ' ' . $dashicon ) ?>"
 								   aria-controls="<?php echo esc_attr( $panel_id ); ?>"><?php echo esc_html( $help_center_item->get_label() ); ?></a>
 							</li>
 							<?php
@@ -157,7 +157,7 @@ class WPSEO_Help_Center {
 
 						$panel_id = "tab-panel-{$this->group_name}_{$this->tab->get_name()}__{$id}";
 						?>
-						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes; ?>">
+						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
 							<?php echo $help_center_item->get_content(); ?>
 						</div>
 						<?php

@@ -79,7 +79,7 @@ if ( isset( $import ) ) {
 
 		$status = ( $import->success ) ? 'updated' : 'error';
 
-		echo '<div id="message" class="message ', $status, '" style="width:94%;"><p>', $msg, '</p></div>';
+		echo '<div id="message" class="message ', esc_attr( $status ), '" style="width:94%;"><p>', esc_html( $msg ), '</p></div>';
 	}
 }
 
@@ -103,7 +103,7 @@ $tabs = array(
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<?php foreach ( $tabs as $identifier => $tab ) : ?>
-		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+		<a class="nav-tab" id="<?php echo esc_attr( $identifier ); ?>-tab" href="#top#<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $tab['label'] ); ?></a>
 		<?php endforeach; ?>
 
 		<?php
@@ -117,7 +117,7 @@ $tabs = array(
 <?php
 foreach ( $tabs as $identifier => $tab ) {
 
-	printf( '<div id="%s" class="wpseotab">', $identifier );
+	printf( '<div id="%s" class="wpseotab">', esc_attr( $identifier ) );
 
 	if ( ! empty( $tab['screencast_video_url'] ) ) {
 		$tab_video_url = $tab['screencast_video_url'];

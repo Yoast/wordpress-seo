@@ -49,7 +49,7 @@ class Yoast_Form {
 			$option_long_name = WPSEO_Options::get_group_name( $option );
 		}
 		?>
-		<div class="wrap wpseo-admin-page page-<?php echo $option; ?>">
+		<div class="wrap wpseo-admin-page page-<?php echo esc_attr( $option ); ?>">
 		<?php
 		/**
 		 * Display the updated/error messages
@@ -64,8 +64,8 @@ class Yoast_Form {
 		<div class="wpseo_content_cell" id="wpseo_content_top">
 		<?php
 		if ( $form === true ) {
-			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			$enctype = ( $contains_files ) ? 'multipart/form-data' : '';
+			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf" enctype="' . esc_attr( $enctype ) . '" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 			settings_fields( $option_long_name );
 		}
 		$this->set_option( $option );
@@ -136,7 +136,7 @@ class Yoast_Form {
 			<div id="poststuff">
 			<div id="wpseo-debug-info" class="postbox">
 
-				<h2 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h2>
+				<h2 class="hndle"><span>' . esc_html__( 'Debug Information', 'wordpress-seo' ) . '</span></h2>
 				<div class="inside">
 					<h3 class="wpseo-debug-heading">' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h3>
 					' . ( ( $xdebug ) ? '' : '<pre>' );
@@ -245,7 +245,7 @@ class Yoast_Form {
 			if ( $i == 2 ) {
 				break;
 			}
-			echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
+			echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . esc_url( plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
 			$i ++;
 		}
 
@@ -254,15 +254,15 @@ class Yoast_Form {
 			if ( $i == 2 ) {
 				break;
 			}
-			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="152" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="152" src="' . esc_url( plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 			$i ++;
 		}
 		?>
 				<p class="wpseo-remove-ads">
-				<strong><?php _e( 'Remove these ads?', 'wordpress-seo' ); ?></strong><br/>
+				<strong><?php esc_html_e( 'Remove these ads?', 'wordpress-seo' ); ?></strong><br/>
 				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&amp;utm_medium=textlink&amp;utm_campaign=remove-ads-link"><?php
 				 /* translators: %1$s expands to Yoast SEO Premium */
-				printf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
+				printf( esc_html__( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
 			</p>
 			</div>
 		</div>
@@ -282,7 +282,8 @@ class Yoast_Form {
 				'for'   => '',
 			)
 		);
-		echo "<label class='" . $attr['class'] . "' for='" . esc_attr( $attr['for'] ) . "'>$text";
+		// TODO escaping, can label text contain HTML? R.
+		echo "<label class='" . esc_attr( $attr['class'] ). "' for='" . esc_attr( $attr['for'] ) . "'>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
@@ -300,8 +301,9 @@ class Yoast_Form {
 				'class' => '',
 			)
 		);
-		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
-		echo '<legend class="yoast-form-legend ' . $attr['class'] . '"' . $id . '>' . $text . '</legend>';
+
+		// TODO escaping, can text contain HTML? R.
+		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $attr['id'] ) . '">' . $text . '</legend>';
 	}
 
 	/**
@@ -359,7 +361,7 @@ class Yoast_Form {
 		}
 
 		$class = 'switch-light switch-candy switch-yoast-seo';
-		$aria_labelledby = esc_attr( $var ) . '-label';
+		$aria_labelledby = $var . '-label';
 
 		if ( $reverse ) {
 			$class .= ' switch-yoast-seo-reverse';
@@ -373,8 +375,8 @@ class Yoast_Form {
 
 		echo '<div class="switch-container">',
 		'<label class="', esc_attr( $class ), '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
-		'<input type="checkbox" aria-labelledby="', $aria_labelledby, '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
-		"<b class='label-text' id='{$aria_labelledby}'>{$label}</b>",
+		'<input type="checkbox" aria-labelledby="', esc_attr( $aria_labelledby ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
+		"<b class='label-text' id='", esc_attr( $aria_labelledby ),"'>{$label}</b>", // TODO escaping, can label contain HTML? R.
 		'<span aria-hidden="true">
 			<span>', esc_html( $off_button ) ,'</span>
 			<span>', esc_html( $on_button ) ,'</span>
@@ -486,9 +488,8 @@ class Yoast_Form {
 			$val = $this->options[ $var ]['url'];
 		}
 
-		$var_esc = esc_attr( $var );
 		$this->label( $label . ':', array( 'for' => $var, 'class' => 'select' ) );
-		echo '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
+		echo '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']" id="' . esc_attr( $var ) . '"/>';
 
 		// Need to save separate array items in hidden inputs, because empty file inputs type will be deleted by settings API.
 		if ( ! empty( $this->options[ $var ] ) ) {
@@ -511,11 +512,9 @@ class Yoast_Form {
 			$val = $this->options[ $var ];
 		}
 
-		$var_esc = esc_attr( $var );
-
 		$this->label( $label . ':', array( 'for' => 'wpseo_' . $var, 'class' => 'select' ) );
-		echo '<input class="textinput" id="wpseo_', $var_esc, '" type="text" size="36" name="', esc_attr( $this->option_name ), '[', $var_esc, ']" value="', esc_attr( $val ), '" />';
-		echo '<input id="wpseo_', $var_esc, '_button" class="wpseo_image_upload_button button" type="button" value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '" />';
+		echo '<input class="textinput" id="wpseo_', esc_attr( $var ), '" type="text" size="36" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '" />';
+		echo '<input id="wpseo_', esc_attr( $var ), '_button" class="wpseo_image_upload_button button" type="button" value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '" />';
 		echo '<br class="clear"/>';
 	}
 
@@ -535,9 +534,7 @@ class Yoast_Form {
 			$this->options[ $var ] = false;
 		}
 
-		$var_esc = esc_attr( $var );
-
-		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
+		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . esc_attr( $var ) . '">';
 
 		if ( is_string( $legend ) && '' !== $legend ) {
 
@@ -551,8 +548,8 @@ class Yoast_Form {
 
 		foreach ( $values as $key => $value ) {
 			$key_esc = esc_attr( $key );
-			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />';
-			$this->label( $value, array( 'for' => $var_esc . '-' . $key_esc, 'class' => 'radio' ) );
+			echo '<input type="radio" class="radio" id="' . esc_attr( $var . '-' . $key_esc ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $key_esc ) . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />';
+			$this->label( $value, array( 'for' => esc_attr( $var ) . '-' . $key_esc, 'class' => 'radio' ) );
 		}
 		echo '</fieldset>';
 	}
@@ -579,17 +576,15 @@ class Yoast_Form {
 			$this->options[ $var ] = 'off';
 		}
 
-		$var_esc = esc_attr( $var );
-
 		echo '<div class="switch-container">';
-		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>
+		// TODO escaping, can label contain HTML? R.
+		echo '<fieldset id="', esc_attr( $var ), '" class="fieldset-switch-toggle"><legend>', $label, '</legend>
 		<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
-			$key_esc = esc_attr( $key );
-			$for     = $var_esc . '-' . $key_esc;
-			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />',
-			'<label for="', $for, '">', $value, '</label>';
+			// TODO escaping, can label contain HTML? R.
+			echo '<input type="radio" id="' . esc_attr( $var . '-' . esc_attr( $key ) ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $key ) . '" ' . checked( $this->options[ $var ], esc_attr( $key ), false ) . ' />',
+			'<label for="', esc_attr( $var . '-' . $key ), '">', $value, '</label>';
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";

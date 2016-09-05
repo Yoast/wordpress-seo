@@ -27,7 +27,7 @@ class WPSEO_Option_Tabs_Formatter {
 
 		echo '<h2 class="nav-tab-wrapper" id="wpseo-tabs">';
 		foreach ( $option_tabs->get_tabs() as $tab ) {
-			printf( '<a class="nav-tab" id="%1$s-tab" href="#top#%1$s">%2$s</a>', $tab->get_name(), $tab->get_label() );
+			printf( '<a class="nav-tab" id="%1$s-tab" href="#top#%1$s">%2$s</a>', esc_attr( $tab->get_name() ), esc_html( $tab->get_label() ) );
 		}
 		echo '</h2>';
 
@@ -36,7 +36,7 @@ class WPSEO_Option_Tabs_Formatter {
 			$help_center = new WPSEO_Help_Center( $option_tabs->get_base(), $tab );
 
 			$identifier = $tab->get_name();
-			printf( '<div id="%s" class="wpseotab">', $identifier );
+			printf( '<div id="%s" class="wpseotab">', esc_attr( $identifier ) );
 
 			// Output the help center.
 			$help_center->output_help_center();

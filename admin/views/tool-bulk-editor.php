@@ -30,15 +30,15 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 }
 ?>
 <script>
-	var wpseo_bulk_editor_nonce = '<?php echo wp_create_nonce( 'wpseo-bulk-editor' ); ?>';
+	var wpseo_bulk_editor_nonce = '<?php echo esc_js( wp_create_nonce( 'wpseo-bulk-editor' ) ); ?>';
 </script>
 
 <div class="wrap wpseo_table_page">
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="title-tab" href="#top#title"><?php esc_html_e( 'Title', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="description-tab"
-		   href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
+		   href="#top#description"><?php esc_html_e( 'Description', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div class="tabwrapper">

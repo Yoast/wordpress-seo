@@ -13,7 +13,7 @@ echo '<h2>' . esc_html__( 'Website name', 'wordpress-seo' ) . '</h2>';
 ?>
 <p>
 	<?php
-	_e( 'Google shows your website\'s name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider.', 'wordpress-seo' );
+	esc_html_e( 'Google shows your website\'s name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider.', 'wordpress-seo' );
 	?>
 </p>
 <?php
@@ -25,7 +25,7 @@ echo '<h2>' . esc_html__( 'Company or person', 'wordpress-seo' ) . '</h2>';
 <p>
 	<?php
 	// @todo add KB link - JdV.
-	_e( 'This data is shown as metadata in your site. It is intended to appear in Google\'s Knowledge Graph. You can be either a company, or a person, choose either:', 'wordpress-seo' );
+	esc_html_e( 'This data is shown as metadata in your site. It is intended to appear in Google\'s Knowledge Graph. You can be either a company, or a person, choose either:', 'wordpress-seo' );
 	?>
 </p>
 <?php

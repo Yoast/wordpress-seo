@@ -212,7 +212,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 			<?php if ( 'top' === $which ) { ?>
 			<form id="posts-filter" action="" method="get">
-				<input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>"/>
+				<input type="hidden" name="nonce" value="<?php echo esc_attr( $this->nonce ); ?>"/>
 				<input type="hidden" name="page" value="wpseo_tools"/>
 				<input type="hidden" name="tool" value="bulk-editor"/>
 				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>"/>
@@ -392,10 +392,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				printf(
 					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
-					'post-type-filter-' . $instance_type,
-					__( 'Filter by post type', 'wordpress-seo' )
+					esc_attr( 'post-type-filter-' . $instance_type ),
+					esc_html__( 'Filter by post type', 'wordpress-seo' )
 				);
-				echo sprintf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, $instance_type );
+				echo sprintf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, esc_attr( $instance_type ) );
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
@@ -696,7 +696,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 			foreach ( $records as $rec ) {
 
-				echo '<tr id="record_', $rec->ID, '">';
+				echo '<tr id="record_', esc_attr( $rec->ID ), '">';
 
 				foreach ( $columns as $column_name => $column_display_name ) {
 

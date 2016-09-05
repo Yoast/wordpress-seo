@@ -295,7 +295,7 @@ class Yoast_Social_Facebook_Form {
 		);
 		echo ' ';
 		/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
-		printf( __( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
+		printf( esc_html__( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
 		echo '</p>';
 
 		return $this;
@@ -312,23 +312,23 @@ class Yoast_Social_Facebook_Form {
 		echo "<div class='form-wrap wpseo_content_wrapper'>";
 		echo '<p>';
 		/* translators: %1$s and %2$s expand to a link to Facebook Insights */
-		printf( __( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a target="_blank" href="https://www.facebook.com/insights">', '</a>' );
+		printf( esc_html__( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a target="_blank" href="https://www.facebook.com/insights">', '</a>' );
 		echo '</p>';
 		echo '<p>';
 		/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
-		printf( __( 'If you don\'t know where to find the needed ID, see %1$sthis knowledge base article%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
+		printf( esc_html__( 'If you don\'t know where to find the needed ID, see %1$sthis knowledge base article%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
 		echo '</p>';
 		echo '<div class="form-field form-required">';
-		echo '<label for="fb_admin_name">' . __( 'Admin\'s name:', 'wordpress-seo' ) . '</label>';
+		echo '<label for="fb_admin_name">' . esc_html__( 'Admin\'s name:', 'wordpress-seo' ) . '</label>';
 		echo '<input type="text" id="fb_admin_name" name="fb_admin_name" value="" maxlength="255" />';
 		echo '</div>';
 		echo '<div class="form-field form-required">';
-		echo '<label for="fb_admin_id">' . __( 'Admin\'s Facebook user ID:', 'wordpress-seo' ) . '</label>';
+		echo '<label for="fb_admin_id">' . esc_html__( 'Admin\'s Facebook user ID:', 'wordpress-seo' ) . '</label>';
 		echo '<input type="text" id="fb_admin_id" name="fb_admin_id" value="" maxlength="255"  />';
 		echo '</div>';
 		echo "<p class='submit'>";
-		echo '<input type="hidden" name="fb_admin_nonce" value="' . wp_create_nonce( 'wpseo_fb_admin_nonce' ) . '" />';
-		echo '<input type="submit" value="' . __( 'Add Facebook admin', 'wordpress-seo' ) . '" class="button button-primary" onclick="javascript:wpseo_add_fb_admin();" />';
+		echo '<input type="hidden" name="fb_admin_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_fb_admin_nonce' ) ) . '" />';
+		echo '<input type="submit" value="' . esc_html__( 'Add Facebook admin', 'wordpress-seo' ) . '" class="button button-primary" onclick="javascript:wpseo_add_fb_admin();" />';
 		echo '</p>';
 		echo '</div>';
 		echo '</div>';
@@ -344,7 +344,7 @@ class Yoast_Social_Facebook_Form {
 	private function manage_user_admin() {
 		$button_text = __( 'Add Facebook admin', 'wordpress-seo' );
 		$nonce       = false;
-		$style       = 'style="display:none"';
+		$style       = 'display:none';
 
 		if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$nonce       = $this->get_delete_nonce();
@@ -352,8 +352,8 @@ class Yoast_Social_Facebook_Form {
 			$style       = '';
 		}
 
-		echo "<div id='connected_fb_admins' {$style}>";
-		echo '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
+		echo '<div id="connected_fb_admins" style="', esc_attr( $style ), '">';
+		echo '<p>' . esc_html__( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
 		echo '<ul id="user_admin">';
 		$this->show_user_admins( $nonce );
 		echo '</ul>';

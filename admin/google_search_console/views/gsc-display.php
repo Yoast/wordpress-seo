@@ -11,9 +11,9 @@
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) {
 	?>
 		<form action="" method="post">
-			<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />
+			<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo esc_attr( wp_create_nonce( 'reload-crawl-issues' ) ); ?>' />
 			<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button button-primary"
-				   style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
+				   style="float: right;" value="<?php esc_html_e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
 		</form>
 <?php } ?>
 		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs; ?>
@@ -38,33 +38,33 @@ switch ( $platform_tabs->current_tab() ) {
 			// Print auth screen.
 			echo '<p>';
 			/* Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search Console. */
-			echo sprintf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
+			echo sprintf( esc_html__( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
 			echo "</p>\n";
-			echo '<input type="hidden" id="gsc_auth_url" value="', $this->service->get_client()->createAuthUrl() , '" />';
-			echo "<button type='button' id='gsc_auth_code' class='button button-secondary'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
+			echo '<input type="hidden" id="gsc_auth_url" value="', esc_attr( $this->service->get_client()->createAuthUrl() ) , '" />';
+			echo "<button type='button' id='gsc_auth_code' class='button button-secondary'>" , esc_html__( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
 
-			echo '<p id="gsc-enter-code-label">' . __( 'Enter your Google Authorization Code and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
-			echo "<form action='" . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . "' method='post'>\n";
+			echo '<p id="gsc-enter-code-label">' . esc_html__( 'Enter your Google Authorization Code and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
+			echo "<form action='" . esc_url( admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) ) . "' method='post'>\n";
 			echo "<input type='text' name='gsc[authorization_code]' value='' class='textinput' aria-labelledby='gsc-enter-code-label' />";
-			echo "<input type='hidden' name='gsc[gsc_nonce]' value='" . wp_create_nonce( 'wpseo-gsc_nonce' ) . "' />";
-			echo "<input type='submit' name='gsc[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button button-primary' />";
+			echo "<input type='hidden' name='gsc[gsc_nonce]' value='" . esc_attr( wp_create_nonce( 'wpseo-gsc_nonce' ) ) . "' />";
+			echo "<input type='submit' name='gsc[Submit]' value='" . esc_html__( 'Authenticate', 'wordpress-seo' ) . "' class='button button-primary' />";
 			echo "</form>\n";
 		}
 		else {
 			$reset_button = '<a class="button button-secondary" href="' . add_query_arg( 'gsc_reset', 1 ) . '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
-			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
+			echo '<h3>',  esc_html__( 'Current profile', 'wordpress-seo' ), '</h3>';
 			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
 				echo '<p>';
-				echo $profile;
+				echo $profile; // TODO escaping, can this contain HTML? R.
 				echo '</p>';
 
 				echo '<p>';
-				echo $reset_button;
+				echo $reset_button; // TODO escaping, HTML reuse? R.
 				echo '</p>';
 
 			}
 			else {
-				echo "<form action='" . admin_url( 'options.php' ) . "' method='post'>";
+				echo "<form action='" . esc_url( admin_url( 'options.php' ) ) . "' method='post'>";
 
 				settings_fields( 'yoast_wpseo_gsc_options' );
 				Yoast_Form::get_instance()->set_option( 'wpseo-gsc' );
@@ -72,20 +72,20 @@ switch ( $platform_tabs->current_tab() ) {
 				echo '<p>';
 				if ( $profiles = $this->service->get_sites() ) {
 					$show_save = true;
-					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles );
+					echo Yoast_Form::get_instance()->select( 'profile', esc_html__( 'Profile', 'wordpress-seo' ), $profiles );
 				}
 				else {
 					$show_save = false;
-					echo __( 'There were no profiles found', 'wordpress-seo' );
+					echo esc_html__( 'There were no profiles found', 'wordpress-seo' );
 				}
 				echo '</p>';
 
 				echo '<p>';
 
 				if ( $show_save ) {
-					echo '<input type="submit" name="submit" id="submit" class="button button-primary wpseo-gsc-save-profile" value="' . __( 'Save Profile', 'wordpress-seo' ) . '" /> ' . __( 'or', 'wordpress-seo' ) , ' ';
+					echo '<input type="submit" name="submit" id="submit" class="button button-primary wpseo-gsc-save-profile" value="' . esc_attr__( 'Save Profile', 'wordpress-seo' ) . '" /> ' . esc_html__( 'or', 'wordpress-seo' ) , ' ';
 				}
-				echo $reset_button;
+				echo $reset_button; // TODO escaping, HTML reuse? R.
 				echo '</p>';
 				echo '</form>';
 			}
@@ -103,10 +103,10 @@ switch ( $platform_tabs->current_tab() ) {
 		) );
 
 		// Open <form>.
-		echo "<form id='wpseo-crawl-issues-table-form' action='" . $form_action_url . "' method='post'>\n";
+		echo "<form id='wpseo-crawl-issues-table-form' action='" . esc_url( $form_action_url ) . "' method='post'>\n";
 
 		// AJAX nonce.
-		echo "<input type='hidden' class='wpseo-gsc-ajax-security' value='" . wp_create_nonce( 'wpseo-gsc-ajax-security' ) . "' />\n";
+		echo "<input type='hidden' class='wpseo-gsc-ajax-security' value='" . esc_attr( wp_create_nonce( 'wpseo-gsc-ajax-security' ) ) . "' />\n";
 
 		$this->display_table();
 
