@@ -814,6 +814,7 @@ a.promoblock:hover {
 
 .yoast-promo-extension .yoast-button {
 	width: 100%;
+	max-height: none;
 }
 
 .yoast-promo-extension h3 {
