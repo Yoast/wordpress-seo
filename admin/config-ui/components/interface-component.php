@@ -3,6 +3,9 @@
  * @package WPSEO\Admin\ConfigurationUI
  */
 
+/**
+ * Interface WPSEO_Config_Component
+ */
 interface WPSEO_Config_Component {
 	/**
 	 * @return string
