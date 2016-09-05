@@ -584,7 +584,7 @@ class Yoast_Form {
 		foreach ( $values as $key => $value ) {
 			// TODO escaping, can label contain HTML? R.
 			echo '<input type="radio" id="' . esc_attr( $var . '-' . esc_attr( $key ) ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $key ) . '" ' . checked( $this->options[ $var ], esc_attr( $key ), false ) . ' />',
-			'<label for="', esc_attr( $var . '-' . esc_attr( $key ) ), '">', $value, '</label>';
+			'<label for="', esc_attr( $var . '-' . $key ), '">', $value, '</label>';
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
