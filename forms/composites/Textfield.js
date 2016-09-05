@@ -99,4 +99,9 @@ Textfield.propTypes = {
 	multiline: React.PropTypes.bool,
 };
 
+Textfield.defaultProps = {
+	optionalAttributes: {},
+	multiline: false,
+};
+
 export default Textfield;
