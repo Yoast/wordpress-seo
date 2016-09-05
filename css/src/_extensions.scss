@@ -79,6 +79,17 @@
 		}
 	}
 
+	&-button--installed {
+		background-color: $color-green;
+		cursor: default;
+		color: $color-white;
+
+		&:hover {
+			background-color: $color-green;
+			text-decoration: none;
+		}
+	}
+
 	&-promo-extensions {
 		display: flex;
 		flex-wrap: wrap;

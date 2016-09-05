@@ -786,6 +786,17 @@ a.promoblock:hover {
 	content: " \00BB";
 }
 
+.yoast-button--installed {
+	color: #fff;
+	background-color: #77b227;
+	cursor: default;
+}
+
+.yoast-button--installed:hover {
+	background-color: #77b227;
+	text-decoration: none;
+}
+
 .yoast-promo-extensions {
 	display: -ms-flexbox;
 	display: flex;

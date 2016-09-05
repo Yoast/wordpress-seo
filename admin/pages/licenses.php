@@ -146,10 +146,14 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 					</li>
 				</ul>
 
-				<a href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
-					/* translators: $1$s expands to Yoast SEO Premium */
-					printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title );
-					?></a>
+				<?php if ( $extension->installed ) : ?>
+					<div class="yoast-button default yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
+				<?php else : ?>
+					<a href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
+						/* translators: $1$s expands to Yoast SEO Premium */
+						printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title );
+						?></a>
+				<?php endif; ?>
 
 				<a href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
 					/* translators: %1$s expands to Yoast SEO Premium */
@@ -187,11 +191,16 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 							<?php endforeach; ?>
 						</ul>
 
-						<a target="_blank" class="yoast-button default yoast-button--noarrow academy--secondary yoast-button-go-to" href="<?php echo esc_url( $url . $utm_buy ); ?>">
-							<?php $product_name = isset( $extension->buy_button ) ? $extension->buy_button : $extension->title; ?>
-							<?php /* translators: %1$s expands to the product name */ ?>
-							<?php printf( __( 'Buy %1$s', 'wordpress-seo' ), $product_name ); ?>
-						</a>
+
+						<?php if ( $extension->installed ) : ?>
+							<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
+						<?php else : ?>
+							<a target="_blank" class="yoast-button default yoast-button--noarrow academy--secondary yoast-button-go-to" href="<?php echo esc_url( $url . $utm_buy ); ?>">
+								<?php $product_name = isset( $extension->buy_button ) ? $extension->buy_button : $extension->title; ?>
+								<?php /* translators: %s expands to the product name */ ?>
+								<?php printf( __( 'Buy %s', 'wordpress-seo' ), $product_name ); ?>
+							</a>
+						<?php endif; ?>
 
 						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $url . $utm_info ); ?>">
 							<?php /* translators: %1$s expands to the product name */ ?>
