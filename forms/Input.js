@@ -25,7 +25,7 @@ const inputTypes = [
  */
 const Input = ( props ) => {
 	return (
-		<input type={props.type} name={props.name} value={props.value} onChange={props.onChange} {...props.optionalAttributes} />
+		<input type={props.type} name={props.name} value={props.value} defaultValue={props.defaultValue} onChange={props.onChange} {...props.optionalAttributes} />
 	);
 };
 
