@@ -18,6 +18,10 @@ $snippet_width: 600px;
 	background-size: 25px;
 }
 
+@mixin svg-caret-before-rtl($color) {
+	background-image: url(svg-icon-caret-left($color));
+}
+
 /* css for snippet */
 #snippet_preview {
 	border: 1px solid $color_border;
@@ -146,6 +150,39 @@ $snippet_width: 600px;
 		&:focus {
 			border: 1px solid $color_input_border_focus;
 			outline: none;
+		}
+	}
+}
+
+/* Swap icons for RTL. */
+.rtl .snippet-editor {
+	&__container {
+
+		&:hover {
+			&:before {
+				@include svg-caret-before-rtl($color_caret_hover);
+			}
+		}
+
+		&--focus {
+			&:hover:before,
+			&:before {
+				@include svg-caret-before-rtl($color_caret);
+			}
+		}
+	}
+
+	&__label {
+		&--hover {
+			&:before {
+				@include svg_caret-before-rtl($color_caret_hover);
+			}
+		}
+
+		&--focus {
+			&:before {
+				@include svg_caret_before-rtl($color_caret_focus);
+			}
 		}
 	}
 }
