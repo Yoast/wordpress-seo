@@ -162,6 +162,9 @@ class WPSEO_Premium {
 		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
 		add_action( 'admin_init', array( $this, 'enqueue_social_previews' ) );
 
+		add_action( 'wpseo_premium_indicator_classes', array( $this, 'change_premium_indicator' ) );
+		add_action( 'wpseo_premium_indicator_text', array( $this, 'change_premium_indicator_text' ) );
+
 		// Only initialize the AJAX for all tabs except settings.
 		$facebook_name = new WPSEO_Facebook_Profile();
 		$facebook_name->set_hooks();
@@ -374,6 +377,34 @@ class WPSEO_Premium {
 		);
 
 		return $submenu_pages;
+	}
+
+	/**
+	 * Change premium indicator to green when premium is enabled
+	 *
+	 * @param string[] $classes The current classes for the indicator.
+	 * @returns string[] The new classes for the indicator.
+	 */
+	public function change_premium_indicator( $classes ) {
+		$class_no = array_search( 'wpseo-premium-indicator--no', $classes );
+
+		if ( false !== $class_no ) {
+			unset( $classes[ $class_no ] );
+
+			$classes[] = 'wpseo-premium-indicator--yes';
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Replaces the screen reader text for the premium indicator.
+	 *
+	 * @param string $text The original text.
+	 * @return string The new text.
+	 */
+	public function change_premium_indicator_text( $text ) {
+		return __( 'Enabled', 'wordpress-seo-premium' );
 	}
 
 	/**
