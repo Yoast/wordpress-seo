@@ -45,7 +45,8 @@ class Textfield extends React.Component {
 			return (
 				<Textarea name={this.props.name}
 			              id={this.props.name}
-			              onChange={this.props.onChange}
+			              defaultValue={this.props.defaultValue}
+				          onChange={this.props.onChange}
 			              optionalAttributes={this.optionalAttributes.field}
 			              value={this.props.value}
 				/>
@@ -55,6 +56,7 @@ class Textfield extends React.Component {
 		return ( <Input name={this.props.name}
 		                id={this.props.name}
 		                type="text"
+		                defaultValue={this.props.defaultValue}
 		                onChange={this.props.onChange}
 		                value={this.props.value}
 		                optionalAttributes={this.optionalAttributes.field} /> );
