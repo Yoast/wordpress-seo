@@ -52,6 +52,17 @@
 		}
 	}
 
+	&-list--usp {
+		li:before {
+			content: "";
+			background: url(svg-icon-check($color-green)) no-repeat;
+			background-size: contain;
+			width: 1em;
+			height: 100%;
+			background-position: left 0.4em;
+		}
+	}
+
 	&-button--purple {
 		background-color: $color-purple;
 	}
