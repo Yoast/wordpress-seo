@@ -264,21 +264,15 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'yst_plugin_tools-330',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
-			// TODO minify toggle styles. R.
 			array(
 				'name'    => 'toggle-switch-lib',
 				'src'     => 'toggle-switch/toggle-switch',
 				'version' => '4.0.2',
-				'suffix'  => '',
 			),
 			array(
 				'name'   => 'toggle-switch',
 				'src'    => 'toggle-switch-330',
 				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
-			),
-			array(
-				'name' => 'rtl',
-				'src'  => 'wpseo-rtl',
 			),
 			array(
 				'name' => 'dismissible',
@@ -324,10 +318,11 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'metabox-primary-category',
 			),
 			array(
-				'name' => 'select2',
-				'src'  => 'dist/select2/select2',
-				'suffix' => '.min',
+				'name'    => 'select2',
+				'src'     => 'dist/select2/select2',
+				'suffix'  => '.min',
 				'version' => '4.0.1',
+				'rtl'     => false,
 			),
 			array(
 				'name' => 'kb-search',

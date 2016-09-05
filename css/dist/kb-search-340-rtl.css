@@ -6,7 +6,7 @@
 .wpseo-kb-search-search-bar input[type="text"] {
 	min-width: 50%;
 	height: 28px;
-	margin-right: 3px;
+	margin-left: 3px;
 }
 
 .wpseo-kb-search-results {
@@ -26,7 +26,7 @@
 .wpseo-kb-search-result {
 	display: block;
 	margin: 0;
-	padding-left: 5px;
+	padding-right: 5px;
 	border-bottom: 1px solid #efefef;
 	text-decoration: none;
 }
@@ -56,11 +56,11 @@
 }
 
 .wpseo-kb-search-ext-link {
-	float: right;
+	float: left;
 }
 
 .wpseo-kb-search-back-button:before {
-	content: "\f141";
+	content: "\f139";
 }
 
 .wpseo-kb-search-ext-link:before {
@@ -116,13 +116,13 @@
 }
 
 .wpseo-kb-loader:before {
-	left: -3.5em;
+	right: -3.5em;
 	-webkit-animation-delay: -0.32s;
 	animation-delay: -0.32s;
 }
 
 .wpseo-kb-loader:after {
-	left: 3.5em;
+	right: 3.5em;
 }
 
 .wpseo-kb-loader:before,
