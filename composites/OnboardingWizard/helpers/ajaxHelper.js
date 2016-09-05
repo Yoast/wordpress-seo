@@ -5,14 +5,15 @@ import "whatwg-fetch";
  *
  * @param {string} url  The endpoint to send the data to.
  * @param {Object} data The JSON object to send to the server.
+ * @param {string} method The method to use for the request for example GET, POST or PUT.
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let putJSONFetch = ( url, data ) => {
+let sendFetchRequest = ( url, data, method ) => {
 	let fetchPromise = fetch(
 		url,
 		{
-			method: "PUT",
+			method,
 			headers: {
 				Accepts: "application/json",
 				"Content-Type": "application/json",
@@ -48,15 +49,17 @@ let putJSONFetch = ( url, data ) => {
  * @param {string} url  The endpoint to send the data to.
  * @param {object} headers Object containing the headers for the request.
  * @param {Object} data The JSON object to send to the server.
+ * @param {string} dataType The format the data is send in.
+ * @param {string} method The method to use for the request for example GET, POST or PUT.
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let putJSONjQuery = ( url, headers, data ) => {
+let sendJQueryRequest = ( url, headers, data, dataType, method ) => {
 	return new Promise( ( resolve, reject )=> {
 		jQuery.ajax( {
-			method: "PUT",
+			method,
 			url,
-			dataType: "json",
+			dataType,
 			contentType : 'application/json',
 			beforeSend: function ( xhr ) {
 				jQuery.each( headers, (headerName, headerValue) => {
@@ -84,17 +87,21 @@ let putJSONjQuery = ( url, headers, data ) => {
  * @param {string} url  The endpoint to send the data to.
  * @param {object} headers Object containing the headers for the request.
  * @param {Object} data The JSON object to send to the server.
+ * @param {string} dataType The format the data is send in.
+ * @param {string} method The method to use for the request for example GET, POST or PUT.
  *
  * @returns {Promise} Returns a wrapped promise.
  */
-let putJSON = ( url, data = {}, headers = {} ) => {
-	data = JSON.stringify( data );
-
-	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
-		return putJSONFetch( url, data );
+let sendRequest = ( url, data = {}, headers = {} , dataType = "json", method = "PUT") => {
+	if(dataType === "json"){
+		data = JSON.stringify( data );
 	}
 
-	return putJSONjQuery( url, headers, data );
+	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
+		return sendFetchRequest( url, data , method );
+	}
+
+	return sendJQueryRequest( url, headers, data, dataType, method );
 };
 
-export default putJSON;
+export default sendRequest;
