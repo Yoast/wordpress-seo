@@ -156,8 +156,13 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 				<?php endif; ?>
 
 				<a href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
-					/* translators: %1$s expands to Yoast SEO Premium */
-					printf( __( 'More about %1$s', 'wordpress-seo' ), $extension->title );
+					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+					printf(
+						__( 'More information %1$sabout %3$s%2$s' ),
+						'<span class="screen-reader-text">',
+						'</span>',
+						$extension->title
+					);
 					?></a>
 
 				<p><small class="yoast-money-back-guarantee"><?php _e( 'Stay happy with our 30-day money back guarantee', 'wordpress-seo' ); ?></small></p>
@@ -202,10 +207,15 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 							</a>
 						<?php endif; ?>
 
-						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $url . $utm_info ); ?>">
-							<?php /* translators: %1$s expands to the product name */ ?>
-							<?php printf( __( 'More about %1$s', 'wordpress-seo' ), $extension->title ); ?>
-						</a>
+						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $url . $utm_info ); ?>"><?php
+							/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+							printf(
+								__( 'More information %1$sabout %3$s%2$s' ),
+								'<span class="screen-reader-text">',
+								'</span>',
+								$extension->title
+							);
+							?></a>
 					</section>
 				<?php endforeach; ?>
 			</section>
