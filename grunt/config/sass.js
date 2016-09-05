@@ -19,7 +19,6 @@ module.exports = {
 			"css/taxonomy-meta.css": [ "css/src/taxonomy-meta.scss" ],
 			"css/toggle-switch-330.css": [ "css/src/toggle-switch.scss" ],
 			"css/wpseo-dismissible-330.css": [ "css/src/wpseo-dismissible.scss" ],
-			"css/wpseo-rtl.css": [ "css/src/wpseo-rtl.scss" ],
 			"css/yst_plugin_tools-330.css": [ "css/src/yst_plugin_tools.scss" ],
 			"css/yst_seo_score-330.css": [ "css/src/yst_seo_score.scss" ],
 		},
