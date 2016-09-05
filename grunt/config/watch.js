@@ -45,7 +45,7 @@ module.exports = {
 		],
 	},
 	sass: {
-		files: "<%= files.sass %>",
+		files: "<%= paths.sass %>**/*.scss",
 		tasks: [
 			"build:sass",
 		],
