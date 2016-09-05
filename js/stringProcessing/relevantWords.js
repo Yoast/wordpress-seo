@@ -12,10 +12,15 @@ var flatMap = require( "lodash/flatMap" );
 var values = require( "lodash/values" );
 var take = require( "lodash/take" );
 var includes = require( "lodash/includes" );
+var intersection = require( "lodash/intersection" );
+var isEmpty = require( "lodash/isEmpty" );
 
 var densityLowerLimit = 0;
 var densityUpperLimit = 0.03;
 var relevantWordLimit = 100;
+
+// En dash, em dash and hyphen-minus.
+var specialCharacters = [ "–", "—", "-" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
@@ -140,6 +145,21 @@ function filterFunctionWords( wordCombinations, functionWords ) {
 }
 
 /**
+ * Filters word combinations containing a special character.
+ *
+ * @param {WordCombination[]} wordCombinations The word combinations to filter.
+ * @param {array} specialCharacters The list of special characters.
+ * @returns {WordCombination[]} Filtered word combinations.
+ */
+function filterSpecialCharacters( wordCombinations, specialCharacters ) {
+	return wordCombinations.filter( function( combination ) {
+		return isEmpty(
+			intersection( specialCharacters, combination.getWords() )
+		);
+	} );
+}
+
+/**
  * Returns the relevant words in a given text.
  *
  * @param {string} text The text to retrieve the relevant words of.
@@ -174,6 +194,7 @@ function getRelevantWords( text ) {
 		fiveWordCombinations
 	);
 
+	combinations = filterFunctionWords( combinations, specialCharacters );
 	combinations = filterFunctionWords( combinations, functionWords().articles );
 	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
 	combinations = filterFunctionWords( combinations, functionWords().prepositions );
@@ -199,4 +220,5 @@ module.exports = {
 	sortCombinations: sortCombinations,
 	filterFunctionWordsAtBeginning: filterFunctionWordsAtBeginning,
 	filterFunctionWords: filterFunctionWords,
+	filterSpecialCharacters: filterSpecialCharacters,
 };

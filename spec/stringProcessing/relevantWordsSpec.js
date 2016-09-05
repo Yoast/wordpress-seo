@@ -7,6 +7,7 @@ var getRelevantCombinations = relevantWords.getRelevantCombinations;
 var sortCombinations = relevantWords.sortCombinations;
 var filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
 var filterFunctionWords = relevantWords.filterFunctionWords;
+var filterSpecialCharacters = relevantWords.filterSpecialCharacters;
 
 describe( "getWordCombinations", function() {
 	it( "should split a sentence on words", function() {
@@ -218,6 +219,27 @@ describe( "filter articles at end", function() {
 		expect( combinations ).toEqual( expected );
 	});
 } );
+
+describe( "filter special characters in word combinations", function() {
+	it ( "filters word combinations containing special characters", function() {
+		var input = [
+			new WordCombination ( [ "book", "a", "-" ] ),
+			new WordCombination ( [ "—", "book" ] ),
+			new WordCombination ( [ "book", "–", "club"] ),
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+		var expected = [
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "book", "club"] )
+		];
+
+		var combinations  = filterSpecialCharacters( input, [ "–", "—", "-" ] );
+
+		expect( combinations ).toEqual( expected );
+	});
+} );
+
 describe( "getWordCombinations", function() {
 	it( "returns word combinations", function() {
 		var input = "Here are a ton of words. Words are very important. I think the word combinations are even more important. Word combinations for the win!";

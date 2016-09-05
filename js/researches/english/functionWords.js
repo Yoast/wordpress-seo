@@ -110,7 +110,8 @@ var recipeWords = [ "tbs", "tbsp", "spk", "lb", "qt", "pk", "bu", "oz", "pt", "m
 
 // 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 var vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likelihood", "ones", "piece", "pieces", "stuff", "times",
-	"part", "parts", "percent", "instance", "instances", "aspect", "aspects", "item", "items" ];
+	"part", "parts", "percent", "instance", "instances", "aspect", "aspects", "item", "items", "people", "idea", "theme",
+	"person" ];
 
 // 'No' is already included in the quantifier list.
 var miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "%" ];
