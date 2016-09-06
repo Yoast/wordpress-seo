@@ -147,13 +147,13 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 				<?php if ( $extension->installed ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 				<?php else : ?>
-					<a href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
+					<a target="_blank" href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
 						/* translators: $1$s expands to Yoast SEO Premium */
 						printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title );
 						?></a>
 				<?php endif; ?>
 
-				<a href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
+				<a target="_blank" href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
 					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 					printf(
 						__( 'More information %1$sabout %3$s%2$s' ),
