@@ -1,5 +1,4 @@
 import React from "react";
-import TextField from "yoast-components/forms/composites/Textfield";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -15,6 +14,11 @@ class MailchimpSignup extends React.Component {
 	constructor(props){
 		// Change the URL to work with json-p.
 		super(props);
+
+		this.state = {
+			message: this.props.message,
+		};
+
 		// Test mailing list.
 		this.props.properties.mailchimpActionUrl = "http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
 
@@ -27,16 +31,39 @@ class MailchimpSignup extends React.Component {
 		let data = `EMAIL=${email}`;
 		let headers = {};
 
-		let result = sendRequest(this.props.properties.mailchimpActionUrl, data, headers, "jsonp", "POST");
+		this.setState({
+			isLoading : true,
+			succesfulSignup : false,
+		});
+
+		let result = sendRequest(
+			this.props.properties.mailchimpActionUrl,
+			{
+				data,
+				headers,
+				dataType: "jsonp",
+				jsonp: "c", // trigger MailChimp to return a JSONP response
+				method: "POST"
+			}
+		);
 
 		result
 			.then(
 				( response ) => {
 					if ( response.result === "error" ) {
 						console.log( "MailChimp signup warning:" + response.msg );
+						this.setState({
+							isLoading : false,
+							succesfulSignup : false,
+							message: response.msg,
+						});
 					}
 					else {
-						this.handleSuccesfulRequest( response );
+						this.setState({
+							isLoading : false,
+							succesfulSignup : true,
+							message: response.msg,
+						});
 					}
 				} )
 			.catch( (response)=> {
@@ -44,19 +71,23 @@ class MailchimpSignup extends React.Component {
 			} );
 	}
 
-	handleSuccesfulRequest(response){
-		console.log(response);
-	}
-
 	render() {
+		let input = <input ref="emailInput" type="text" name={this.props.name}
+		                   label="email"
+		                   defaultValue={this.props.properties.currentUserEmail}/>;
+		let button = <RaisedButton label='Sign Up!'
+		                           onClick={this.signup.bind( this )}/>;
+		let message = (this.state.succesfulSignup
+		               && typeof this.state.email !== "undefined") ?
+			<p className="yoast-wizard-mailchimp-message-error">{this.state.message}</p> :
+			<p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p>;
+
 		return (
 			<div>
-				<h2>{this.props.properties.label}</h2>
-				<input ref="emailInput" type="text" name={this.props.name} label="email"
-				           defaultValue={this.props.properties.currentUserEmail}
-				           />
-				<RaisedButton label='Sign Up!'
-				              onClick={this.signup.bind(this)}/>
+				<h4>{this.props.properties.label}</h4>
+				{message}
+				{input}
+				{button}
 			</div>
 		);
 	}
@@ -67,12 +98,12 @@ MailchimpSignup.propTypes = {
 	name: React.PropTypes.string.isRequired,
 	properties: React.PropTypes.object,
 	data: React.PropTypes.string,
-	email: React.PropTypes.string,
+	message: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 };
 
 MailchimpSignup.defaultProps = {
-	email: "",
+	message: "",
 	component: "",
 	name: "",
 	properties: {},
