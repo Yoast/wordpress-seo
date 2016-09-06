@@ -27,6 +27,12 @@ endif;
 
 echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>
+<p>
+	<?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( 'Take a look at the people that create %1$s.', 'wordpress-seo' ), 'Yoast SEO' );
+	?>
+</p>
 
 <p>
 	<a class="button button-secondary"
