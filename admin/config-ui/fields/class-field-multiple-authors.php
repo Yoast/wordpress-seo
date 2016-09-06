@@ -40,8 +40,8 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 	public function get_data() {
 
 		$option = WPSEO_Options::get_option( 'wpseo' );
-		if ( isset( $option[ 'has_multiple_authors' ] ) ) {
-			$value = $option[ 'has_multiple_authors' ];
+		if ( isset( $option['has_multiple_authors'] ) ) {
+			$value = $option['has_multiple_authors'];
 		}
 
 		if ( ! isset( $value ) || is_null( $value ) ) {
@@ -68,13 +68,13 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 		$value = ( $data === 'yes' );
 
 		$option                           = WPSEO_Options::get_option( 'wpseo' );
-		$option[ 'has_multiple_authors' ] = $value;
+		$option['has_multiple_authors'] = $value;
 
 		update_option( 'wpseo', $option );
 
 		// Check if everything got saved properly.
 		$saved_option = WPSEO_Options::get_option( 'wpseo' );
 
-		return ( $saved_option[ 'has_multiple_authors' ] === $option[ 'has_multiple_authors' ] );
+		return ( $saved_option['has_multiple_authors'] === $option['has_multiple_authors'] );
 	}
 }

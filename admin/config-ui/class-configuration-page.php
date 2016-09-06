@@ -45,7 +45,7 @@ class WPSEO_Configuration_Page {
 		$assetManager->enqueue_script( 'configuration-wizard' );
 		$assetManager->enqueue_style( 'yoast-components' );
 
-		$config = $this->getConfig();
+		$config = $this->get_config();
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'configuration-wizard', 'yoastWizardConfig', $config );
 	}
@@ -84,7 +84,7 @@ class WPSEO_Configuration_Page {
 	 *
 	 * @return array The API endpoint config.
 	 */
-	public function getConfig() {
+	public function get_config() {
 		$config = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
 			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
