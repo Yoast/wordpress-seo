@@ -44,7 +44,7 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 	 * @return void
 	 */
 	public function translate_defaults() {
-		$this->defaults['rssafter'] = sprintf( __( 'The post %s appeared first on %s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' );
+		$this->defaults['rssafter'] = sprintf( __( 'The post %1$s appeared first on %2$s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' );
 	}
 
 
