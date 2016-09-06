@@ -13,11 +13,31 @@
     <arg value="nsp" />
 
     <rule ref="Yoast">
-        <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" /><!-- TODO audit and fix nonces -->
-        <exclude name="WordPress.WP.PreparedSQL.NotPrepared" /><!-- TODO audit raw queries -->
+		<exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" /><!-- TODO audit and fix nonces -->
+		<exclude name="WordPress.WP.PreparedSQL.NotPrepared" /><!-- TODO audit raw queries -->
+		<exclude name="WordPress.VIP.RestrictedFunctions.error_log" /><!-- Data dumped for debug purposes in several places. -->
+		<exclude name="WordPress.Functions.DontExtract.extract" /><!-- Used for templating in several places. -->
+	</rule>
+
+	<!-- Disables error reporting. -->
+    <rule ref="WordPress.VIP.RestrictedFunctions.runtime_configuration">
+        <exclude-pattern>admin/views/tool-file-editor.php</exclude-pattern>
+    </rule>
+	<rule ref="WordPress.VIP.RestrictedFunctions.prevent_path_disclosure">
+        <exclude-pattern>admin/views/tool-file-editor.php</exclude-pattern>
     </rule>
 
-    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
+	<!-- Detects placeholder wrong, see https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/681 -->
+    <rule ref="WordPress.WP.I18n.UnorderedPlaceholders">
+        <exclude-pattern>inc/class-wpseo-replace-vars.php</exclude-pattern>
+    </rule>
+
+	<!-- Seems to be intended string form, placeholder explained in translator comment. -->
+    <rule ref="WordPress.WP.I18n.MissingSingularPlaceholder">
+        <exclude-pattern>inc/wpseo-non-ajax-functions.php</exclude-pattern>
+    </rule>
+
+	<rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
         <exclude-pattern>css/xml-sitemap-xsl.php</exclude-pattern>
     </rule>
 </ruleset>
