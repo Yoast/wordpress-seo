@@ -40,13 +40,12 @@
 <?php $can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
 if ( ! empty( $onpage ) && $can_access ) : ?>
 <div class="onpage">
-	<h3 class="hide-if-no-js"><?php
-		printf(
-			/* translators: 1: expands to OnPage.org */
+	<h3 class="hide-if-no-js">
+		<?php printf(
+		/* translators: 1: expands to OnPage.org */
 			__( 'Indexability check by %1$s', 'wordpress-seo' ),
 			'OnPage.org'
-		);
-	?></h3>
+		); ?></h3>
 
 	<div>
 		<?php
