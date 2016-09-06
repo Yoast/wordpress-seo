@@ -125,37 +125,35 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 					printf( __( '%1$s, take your optimization to the next level!', 'wordpress-seo' ), '<span class="yoast-heading-highlight">' . $extension->title . '</span>' );
 					?></h2>
 
-				<img width="342" height="184" class="yoast-seo-premium-banner" alt="" src="<?php echo esc_attr( $extension->image ); ?>" />
-
 				<ul class="yoast-seo-premium-benefits yoast-list--usp">
 					<li class="yoast-seo-premium-benefits__item">
 						<span class="yoast-seo-premium-benefits__title"><?php _e( 'Redirect manager', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php _e( 'create and manage redirects from within your WordPress install', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php _e( 'create and manage redirects from within your WordPress install.', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
 						<span class="yoast-seo-premium-benefits__title"><?php _e( 'Multiple focus keywords', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php _e( 'optimize a single post for up to 5 keywords', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php _e( 'optimize a single post for up to 5 keywords.', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php _e( 'Social preview', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php _e( 'check what your Facebook or Twitter post will look like', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__title"><?php _e( 'Social previews', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php _e( 'check what your Facebook or Twitter post will look like.', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
 						<span class="yoast-seo-premium-benefits__title"><?php _e( 'Premium support', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php _e( 'gain access to our support team', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php _e( 'gain access to our 24/7 support team.', 'wordpress-seo' ); ?></span>
 					</li>
 				</ul>
 
 				<?php if ( $extension->installed ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 				<?php else : ?>
-					<a href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
+					<a target="_blank" href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
 						/* translators: $1$s expands to Yoast SEO Premium */
 						printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title );
 						?></a>
 				<?php endif; ?>
 
-				<a href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
+				<a target="_blank" href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
 					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 					printf(
 						__( 'More information %1$sabout %3$s%2$s' ),
@@ -165,10 +163,10 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 					);
 					?></a>
 
-				<p><small class="yoast-money-back-guarantee"><?php _e( 'Stay happy with our 30-day money back guarantee', 'wordpress-seo' ); ?></small></p>
+				<p><small class="yoast-money-back-guarantee"><?php _e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
 			</section>
 
-			<hr class="yoast-hr" />
+			<hr class="yoast-hr" aria-hidden="true" />
 
 			<section class="yoast-promo-extensions">
 				<h2><?php
