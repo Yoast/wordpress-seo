@@ -71,7 +71,10 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 			)
 		);
 
-		$data = array( 'profile' => $this->get_profile() );
+		$data = array(
+			'profiles' => $this->gsc_service->get_sites(),
+			'profile'  => $this->get_profile()
+		);
 
 		foreach ( $this->mapping as $option_key => $api_key ) {
 			$data[ $api_key ] = $access_token_data[ $option_key ];
