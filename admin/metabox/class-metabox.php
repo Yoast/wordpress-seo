@@ -619,7 +619,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 * Determine we're not accidentally updating a different post.
 		 * We can't use filter_input here as the ID isn't available at this point, other than in the $_POST data.
 		 */
-		if ($post_id !== $_POST['ID'] ) {
+		if ( $post_id !== $_POST['ID'] ) {
 			return false;
 		}
 
