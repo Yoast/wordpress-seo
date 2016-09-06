@@ -228,7 +228,7 @@ class WPSEO_Admin {
 
 				// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
 				if ( 'wpseo_licenses' === $submenu_page[4] ) {
-					$page_title = __( 'Premium', 'wordpress-seo' );
+					$page_title = __( 'Premium', 'wordpress-seo' ) . ' - Yoast SEO';
 				}
 
 				// Add submenu page.
