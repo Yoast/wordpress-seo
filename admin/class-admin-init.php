@@ -42,7 +42,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
-		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'blog_public_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
@@ -68,46 +67,6 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );
-	}
-
-	/**
-	 * Redirect first time or just upgraded users to the about screen.
-	 */
-	public function after_update_notice() {
-
-		$notification        = $this->get_update_notification();
-		$notification_center = Yoast_Notification_Center::get();
-
-		if ( $this->has_ignored_tour() && ! $this->seen_about() ) {
-			$notification_center->add_notification( $notification );
-		}
-		else {
-			$notification_center->remove_notification( $notification );
-		}
-	}
-
-	/**
-	 * Build the update notification
-	 *
-	 * @return Yoast_Notification
-	 */
-	private function get_update_notification() {
-		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page */
-		$info_message = sprintf(
-			__( '%1$s has been updated to version %2$s. %3$sFind out what\'s new!%4$s', 'wordpress-seo' ),
-			'Yoast SEO',
-			WPSEO_VERSION,
-			'<a href="' . admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) . '">',
-			'</a>'
-		);
-
-		$notification_options = array(
-			'type'         => Yoast_Notification::UPDATED,
-			'id'           => 'wpseo-dismiss-about',
-			'capabilities' => 'manage_options',
-		);
-
-		return new Yoast_Notification( $info_message, $notification_options );
 	}
 
 	/**
@@ -611,5 +570,14 @@ class WPSEO_Admin_Init {
 	 */
 	private function has_postname_in_permalink() {
 		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+	}
+
+	/**
+	 * Redirect first time or just upgraded users to the about screen.
+	 *
+	 * @deprecated 3.5
+	 */
+	public function after_update_notice() {
+		_deprecated_function( 'WPSEO_Admin_Init::after_update_notice', 'WPSEO 3.5' );
 	}
 }
