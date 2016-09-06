@@ -148,7 +148,6 @@ Release Date:
     * No longer load toolbar styles when toolbar is disabled.
     * Fixes a bug to prevent "cannot modify headers" notice on export.
     * Fixes a bug to improve passive voice recognition.
-    * Fixes a bug where consecutive keywords where not recognized.
     * Fixes a bug to improve sentence detection.
     * Fixes a bug that prevented the markings from working correctly.
     * Fixes a bug where select2 would generate a 404 on a non-supported language.
