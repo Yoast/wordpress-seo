@@ -25,18 +25,18 @@ if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) :
 <?php
 endif;
 
-echo '<h2>' . esc_html__( 'Latest changes', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>
 <p>
 	<?php
-	/* translators: %s expands to Yoast SEO */
-	printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'Yoast SEO' );
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( 'Take a look at the people that create %1$s.', 'wordpress-seo' ), 'Yoast SEO' );
 	?>
 </p>
 
 <p>
 	<a class="button button-secondary"
-	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php _e( 'View Changes', 'wordpress-seo' ); ?></a>
+	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php _e( 'View Credits', 'wordpress-seo' ); ?></a>
 </p>
 
 <br/>
