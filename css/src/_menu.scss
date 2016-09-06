@@ -10,17 +10,19 @@
 }
 
 .wpseo-premium-indicator {
-	width: 20px;
-	height: 20px;
+	width: 1px;
+	height: 1px;
 	display: inline-block;
-	border-radius: 50%;
-	background-image: url(svg-icon-info("#ffb81e"));
-	background-size: cover;
 
-	// The negative margins prevent icon from increasing line height of menu item.
-	margin: -2px 0 -6px 4px;
-}
+	#adminmenu & {
+		// The negative margins prevent icon from increasing line height of menu item.
+		margin: -2px 0 -3px 2px;
+		color: inherit;
+	}
 
-.wpseo-premium-indicator--yes {
-	background-image: url(svg-icon-info("#9fda4f"));
+	svg {
+		height: 100%;
+		width: auto;
+		display: none;
+	}
 }
