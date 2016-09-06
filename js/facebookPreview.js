@@ -1,7 +1,6 @@
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
-var isObject = require( "lodash/lang/isObject" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -173,7 +172,7 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 			}
 		}
 	};
-	
+
 	translations = translations || {};
 
 	defaultsDeep( translations, defaultTranslations );
@@ -461,12 +460,14 @@ FacebookPreview.prototype.imageTooSmall = function() {
 	var message;
 	this.removeImageClasses();
 
-	if ( this.data.imageUrl === '' ) {
+	if ( this.data.imageUrl === "" ) {
 		message = this.i18n.sprintf(
 			/* translators: %1$s expands to Facebook */
-			this.i18n.dgettext( "yoast-social-previews", "We are unable to detect an image in your post that is large enough to be displayed on Facebook. We advise you to select a %1$s image that fits the recommended image size." ),
+			this.i18n.dgettext( "yoast-social-previews", "We are unable to detect an image " +
+				"in your post that is large enough to be displayed on Facebook. We advise you " +
+				"to select a %1$s image that fits the recommended image size." ),
 			"Facebook"
-		)
+		);
 	} else {
 		message = this.i18n.sprintf(
 			/* translators: %1$s expands to Facebook */
