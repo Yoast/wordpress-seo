@@ -102,9 +102,10 @@ class OnboardingWizard extends React.Component {
 
 		sendStep(
 			this.props.endpoint.url,
-			// The stored data for the steps.
-			this.refs.step.state.fieldValues[ this.state.currentStepId ],
-			this.props.endpoint.headers
+			{
+				data: this.refs.step.state.fieldValues[ this.state.currentStepId ],
+				headers: this.props.endpoint.headers,
+			}
 		)
 		.then( this.handleSuccessful.bind( this, step ) )
 		.catch( this.handleFailure.bind( this ) );
