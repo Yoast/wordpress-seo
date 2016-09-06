@@ -224,8 +224,15 @@ class WPSEO_Admin {
 		if ( count( $submenu_pages ) ) {
 			foreach ( $submenu_pages as $submenu_page ) {
 
+				$page_title = $submenu_page[2] . ' - Yoast SEO';
+
+				// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
+				if ( 'wpseo_licenses' === $submenu_page[4] ) {
+					$page_title = __( 'Premium', 'wordpress-seo' ) . ' - Yoast SEO';
+				}
+
 				// Add submenu page.
-				$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[2] . ' - Yoast SEO', $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
+				$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
 
 				// Check if we need to hook.
 				if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
