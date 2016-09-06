@@ -864,16 +864,6 @@ a.promoblock:hover {
 	clear: both;
 }
 
-.yoast-seo-premium-banner {
-	float: right;
-}
-
-@media screen and (max-width: 900px) {
-	.yoast-seo-premium-banner {
-		display: none;
-	}
-}
-
 .yoast-seo-premium-benefits__title {
 	font-weight: 600;
 }

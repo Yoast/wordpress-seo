@@ -145,14 +145,6 @@
 			@include clearfix;
 		}
 
-		&-premium-banner {
-			float: right;
-
-			@media screen and (max-width: 900px) {
-				display: none;
-			}
-		}
-
 		&-premium-benefits {
 			&__title {
 				font-weight: 600;
