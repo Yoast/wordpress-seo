@@ -168,7 +168,7 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 				<p><small class="yoast-money-back-guarantee"><?php _e( 'Stay happy with our 30-day money back guarantee', 'wordpress-seo' ); ?></small></p>
 			</section>
 
-			<hr class="yoast-hr" />
+			<hr class="yoast-hr" aria-hidden="true" />
 
 			<section class="yoast-promo-extensions">
 				<h2><?php
