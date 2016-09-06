@@ -94,7 +94,7 @@ class Textfield extends React.Component {
 Textfield.propTypes = {
 	label: React.PropTypes.string.isRequired,
 	name: React.PropTypes.string.isRequired,
-	onChange: React.PropTypes.func,
+	onChange: React.PropTypes.func.isRequired,
 	optionalAttributes: React.PropTypes.object,
 	multiline: React.PropTypes.bool,
 };
