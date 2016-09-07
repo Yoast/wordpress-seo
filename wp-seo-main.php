@@ -23,16 +23,6 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
 }
 
-if ( is_network_admin() ) {
-
-	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-	// Not active on network, but getting loaded by main site.
-	if ( ! is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
-		return;
-	}
-}
-
 /* ***************************** CLASS AUTOLOADING *************************** */
 
 /**
@@ -248,6 +238,15 @@ add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
  * On plugins_loaded: load the minimum amount of essential files for this plugin
  */
 function wpseo_init() {
+	if ( is_network_admin() ) {
+		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+		// Not active on network, but getting loaded by main site.
+		if ( ! is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
+			return;
+		}
+	}
+
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 	require_once( WPSEO_PATH . 'inc/wpseo-functions-deprecated.php' );
 
