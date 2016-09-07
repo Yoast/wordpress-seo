@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.5.0: September 1st, 2016
+## 1.5.0: September 7th, 2016
 
 ### Changed
     * Improves sentence beginning check by matching only alphanumeric characters.
