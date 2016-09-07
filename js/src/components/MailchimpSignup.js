@@ -3,14 +3,15 @@ import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/aj
 import RaisedButton from 'material-ui/RaisedButton';
 
 /**
- * Represents a mailchimg signup interface.
- *
- * @param {Object} props The properties for the object.
- * @returns {JSX} The mailchimg signup component.
- * @constructor
+ * @summary Mailchimp signup component.
  */
 class MailchimpSignup extends React.Component {
 
+	/**
+	 * @summary Constructs the Mailchimp signup component.
+	 *
+	 * @param props The properties.
+	 */
 	constructor(props){
 		// Change the URL to work with json-p.
 		super(props);
@@ -29,6 +30,11 @@ class MailchimpSignup extends React.Component {
 		// this.props.properties.mailchimpActionUrl = "http://yoast.us1.list-manage1.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122";
 	}
 
+	/**
+	 * @summary Execute a Mailchimp signup request.
+	 *
+	 * @returns {void}
+	 */
 	signup(){
 		let email = this.refs.emailInput.value;
 		let data = `EMAIL=${email}`;
@@ -47,6 +53,13 @@ class MailchimpSignup extends React.Component {
 		this.handleResultSignup( result );
 	}
 
+	/**
+	 * @summary Handles the result from a MailChimp signup.
+	 *
+	 * @param {Promise} result The promise from the signup request.
+	 *
+	 * @returns {void}
+	 */
 	handleResultSignup( result ) {
 		result
 			.then(
@@ -55,7 +68,7 @@ class MailchimpSignup extends React.Component {
 						this.setState( {
 							isLoading: false,
 							succesfulSignup: false,
-							message: this.stripString(response.msg),
+							message: this.stripMessage(response.msg),
 						} );
 						this.sendChangeEvent();
 					}
@@ -73,13 +86,26 @@ class MailchimpSignup extends React.Component {
 			} );
 	}
 
-	stripString(string){
+	/**
+	 * @summary Strips "0 - " from the message string when present.
+	 *
+	 * @param {string} string The string to strip.
+	 *
+	 * @returns {string} String with the text.
+	 */
+	stripMessage(string){
 		if(string.endsWith('0 - ', 4)){
 			return string.slice(4);
 		}
 		return string;
 	}
 
+	/**
+	 * @summary Triggers the onChange function in the Step component
+	 *          to store the Mailchimp signup status.
+	 *
+	 * @returns {void}
+	 */
 	sendChangeEvent(){
 		let evt = {
 			target:{
@@ -90,6 +116,11 @@ class MailchimpSignup extends React.Component {
 		this.onChange(evt);
 	}
 
+	/**
+	 * @summary Renders the MailChimp component.
+	 *
+	 * @returns {JSX.Element}
+	 */
 	render() {
 		this.onChange = this.props.onChange;
 
