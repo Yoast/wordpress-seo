@@ -56,6 +56,15 @@ WordCombination.prototype.getWords = function() {
 };
 
 /**
+ * Returns the word combination length.
+ *
+ * @returns {number} The word combination length.
+ */
+WordCombination.prototype.getLength = function() {
+	return this._length;
+};
+
+/**
  * Returns the combination as it occurs in the text.
  *
  * @returns {string} The combination.
