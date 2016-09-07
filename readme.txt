@@ -118,7 +118,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 3.5.0 =
 
-Release Date:
+Release Date: September 7th, 2016
 
 * Enhancements:
     * Adds Flesch Reading tests for Dutch and German.
@@ -154,6 +154,7 @@ Release Date:
     * Fixes a bug where HTML attributes could be translated.
     * Fixes a bug where the <code>og:image</code> tag would be omitted.
     * Fixes a bug for canonicals for search pages with empty search queries.
+
 = 3.4.2 =
 
 Release Date: August 8th, 2016
