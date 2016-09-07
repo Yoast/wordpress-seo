@@ -20,6 +20,8 @@ class WPSEO_Upgrade {
 	 * Class constructor
 	 */
 	public function __construct() {
+		$this->clean_environment();
+
 		$this->options = WPSEO_Options::get_option( 'wpseo' );
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
@@ -201,8 +203,22 @@ class WPSEO_Upgrade {
 		update_option( 'wpseo', $this->options );                           // This also ensures the DB version is equal to WPSEO_VERSION.
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.
-		WPSEO_Sitemaps_Cache::clear();                                 // Flush the sitemap cache.
+		WPSEO_Sitemaps_Cache::clear();                                      // Flush the sitemap cache.
 
 		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245.
+	}
+
+	/**
+	 * Do all we can do to make sure OPCode cache is cleared for the new code we introduce
+	 */
+	private function clean_environment() {
+		if ( function_exists( 'apc_clear_cache' ) ) {
+			apc_clear_cache();
+			apc_clear_cache( 'opcode' );
+		}
+
+		if ( function_exists( 'opcache_reset' ) ) {
+			opcache_reset();
+		}
 	}
 }
