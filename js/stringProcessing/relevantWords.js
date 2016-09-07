@@ -212,8 +212,11 @@ function getRelevantWords( text ) {
 	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
 	combinations = filterFunctionWords( combinations, functionWords().prepositions );
 	combinations = filterFunctionWords( combinations, functionWords().conjunctions );
+	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
+	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
+	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().filteredPassiveAuxiliaries);
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
-	combinations = filterOnSyllableCount( combinations, 1 );
+	combinations = filterOnSyllableCount( combinations, 2 );
 
 	forEach( combinations, function( combination ) {
 		combination.setRelevantWords( oneWordRelevanceMap );

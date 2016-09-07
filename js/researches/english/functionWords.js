@@ -1,4 +1,5 @@
-var passiveAuxiliaries = require( "./passivevoice-english/auxiliaries.js" )();
+var filteredPassiveAuxiliaries = require( "./passivevoice-english/auxiliaries.js" )().filteredAuxiliaries;
+var notFilteredPassiveAuxiliaries = require( "./passivevoice-english/auxiliaries.js" )().notFilteredAuxiliaries;
 // Multiple words (transitionWords.multipleWords) should also be filtered (but is currently not possible because we are filtering per word).
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 // Idea: filter out all 1-character 'words' in order to exclude #, %, &, -, …, ½ etc.
@@ -32,7 +33,7 @@ var indefinitePronounsPossessive  = [ "one's", "nobody's", "everyone's", "everyb
 var relativePronouns = [];
 var interrogativeDeterminers = [ "which", "what", "whose" ];
 var interrogativePronouns = [ "who", "whom" ];
-var interrogativeProAdverbs = [ "where", "whither", "whence", "when", "how", "why", "whether", "wherever", "whomever", "whenever",
+var interrogativeProAdverbs = [ "where", "whither", "whence", "how", "why", "whether", "wherever", "whomever", "whenever",
 	"however", "whyever", "whoever", "whatever", "wheresoever", "whomsoever", "whensoever", "howsoever", "whysoever", "whosoever",
 	"whatsoever", "whereso", "whomso", "whenso", "howso", "whyso", "whoso", "whatso" ];
 var pronominalAdverbs = [ "therefor", "therein", "hereby", "hereto", "wherein", "therewith", "herewith", "wherewith", "thereby" ];
@@ -65,7 +66,7 @@ var coordinatingConjunctions = [ "so", "and", "nor", "but", "or", "yet", "for" ]
 // 'Rather' is part of 'rather...than', 'sooner' is part of 'no sooner...than', 'just' is part of 'just as...so',
 // 'Only' is part of 'not only...but also'.
 var correlativeConjunctions = [ "rather", "sooner", "just", "only" ];
-var subordinatingConjunctions = [ "after", "although", "as", "if", "though", "because", "before", "even", "since", "unless",
+var subordinatingConjunctions = [ "after", "although", "when", "as", "if", "though", "because", "before", "even", "since", "unless",
 	"whereas", "while" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
@@ -121,13 +122,16 @@ module.exports = function() {
 		articles: articles,
 		personalPronouns: personalPronounsNominative.concat( personalPronounsAccusative, possessivePronouns ),
 		prepositions: prepositions,
+		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
-		verbs: passiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
+		verbs: filteredPassiveAuxiliaries.concat( notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
+		quantifiers: quantifiers,
+		filteredPassiveAuxiliaries: filteredPassiveAuxiliaries,
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns,
 			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
-			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, passiveAuxiliaries, otherAuxiliaries,
-			copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
+			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
+			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs,
 			recipeWords, vagueNouns, miscellaneous ),
 	};

@@ -36,6 +36,7 @@ var notFilteredAuxiliaries = [
 module.exports = function() {
 	return {
 		filteredAuxiliaries: filteredAuxiliaries,
+		notFilteredAuxiliaries: notFilteredAuxiliaries,
 		all: filteredAuxiliaries.concat( notFilteredAuxiliaries ),
 	};
 };
