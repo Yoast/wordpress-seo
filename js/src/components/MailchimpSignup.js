@@ -42,9 +42,7 @@ class MailchimpSignup extends React.Component {
 		if(name !== ""){
 			data = data + `&MERGE7=${encodeURIComponent(name)}`;
 		}
-
-		console.log(data);
-
+		
 		let headers = {};
 
 		let result = sendRequest(
