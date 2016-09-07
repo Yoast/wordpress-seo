@@ -25,12 +25,8 @@ class MailchimpSignup extends React.Component {
 			succesfulSignup: this.props.value,
 		};
 
-		// Test mailing list.
+		// Set test mailing list.
 		this.props.properties.mailchimpActionUrl = "http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
-
-		// Live yoast mailing list.
-		// this.props.properties.mailchimpActionUrl =
-		// "http://yoast.us1.list-manage1.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122";
 	}
 
 	/**
@@ -41,6 +37,14 @@ class MailchimpSignup extends React.Component {
 	signup() {
 		let email = this.refs.emailInput.value;
 		let data = `EMAIL=${email}`;
+		let name = this.props.properties.userName.trim();
+
+		if(name !== ""){
+			data = data + `&MERGE7=${encodeURIComponent(name)}`;
+		}
+
+		console.log(data);
+
 		let headers = {};
 
 		let result = sendRequest(
@@ -154,6 +158,7 @@ MailchimpSignup.propTypes = {
 	data: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 	value: React.PropTypes.bool,
+
 };
 
 MailchimpSignup.defaultProps = {
