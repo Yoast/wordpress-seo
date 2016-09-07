@@ -67,7 +67,9 @@ class Step extends React.Component {
 		fieldNames.forEach(
 			( fieldName ) => {
 				if ( typeof fieldValues[ currentStep ][ fieldName ] === "undefined" ) {
-					fieldValues[ currentStep ][ fieldName ] = fields[fieldName].data;
+					fieldValues[ currentStep ][ fieldName ] =
+						(typeof fields[fieldName].data !== "undefined")
+							? fields[fieldName].data : "";
 				}
 			}
 		);
