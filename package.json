@@ -40,6 +40,7 @@
     "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
     "grunt-postcss": "^0.8.0",
     "grunt-replace": "^1.0.1",
+    "grunt-rtlcss": "^2.0.1",
     "grunt-sass": "^1.1.0",
     "grunt-shell": "^1.1.2",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
@@ -56,7 +57,7 @@
   "dependencies": {
     "lodash": "^4.7.0",
     "select2": "^4.0.3",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master",
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release/1.5",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master"
   }
 }
