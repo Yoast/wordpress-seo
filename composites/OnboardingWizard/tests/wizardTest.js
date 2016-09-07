@@ -2,15 +2,15 @@ jest.unmock( "../OnboardingWizard" );
 jest.unmock( "lodash/cloneDeep" );
 jest.unmock( "../config/production-config" );
 jest.unmock( "material-ui/utils/withWidth" );
-jest.mock( '../helpers/postJSON', () => {
+jest.mock( '../helpers/ajaxHelper', () => {
 
-	let postJSON = ( url, data ) => {
+	let ajaxHelper = ( url, data ) => {
 		return new Promise( ( resolve, reject ) => {
 			resolve( "test" );
 		} );
 	};
 
-	return postJSON;
+	return ajaxHelper;
 } );
 
 import React from "react";

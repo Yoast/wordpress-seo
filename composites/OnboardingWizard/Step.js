@@ -109,13 +109,24 @@ class Step extends React.Component {
 		let keys = Object.keys( fields );
 
 		return keys.map( ( name, key ) => {
+
 			let currentField = fields[ name ];
 
 			if ( typeof this.components[ currentField.componentName ] === "undefined"
 			     || ! this.components[ currentField.componentName ] ) {
-				console.error(`Trying to load non-existing component: ${currentField.componentName}`);
+				console.error( `Trying to load non-existing component: ${currentField.componentName}` );
 				return null;
 			}
+
+			/* The last Mailchimp signup does not have to be rendered,
+			 * if it is completed in the first signup component.
+			 */
+			if ( currentField.componentName === "MailchimpSignup" && this.props.currentStep === "success" ) {
+				if ( this.state.fieldValues[ "intro" ][ "mailchimpSignup" ] === true ) {
+					return;
+				}
+			}
+
 			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
