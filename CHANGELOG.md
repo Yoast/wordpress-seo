@@ -3,11 +3,17 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.3.0: September 7th, 2016
+
+### Changes
+
+* Update YoastSEO.js dependency to 1.5.0
+
 ## 1.2.0: July 19th, 2016
 
 ### Changes
 
-* Updated YoastSEO.js dependency to 1.4.0
+* Update YoastSEO.js dependency to 1.4.0
 
 ## 1.1.0: June 14th, 2016
 
