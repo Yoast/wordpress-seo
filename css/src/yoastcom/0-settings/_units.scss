@@ -1,0 +1,13 @@
+$page-width-full-unitless:	63.25;
+
+$page-width-full:			$page-width-full-unitless + rem; // 980px
+$page-width-full-padded:	65.25rem; // $page-width-full-unitless + 2em
+$page-width-medium-plus:	56rem;
+$page-width-medium:			50rem;
+$page-width-small:			30rem;
+$page-width-xsmall:			20rem;
+
+$spacing: 					$line-height-default * 1rem;
+$spacing-quarter: 			$line-height-default * 0.25rem;
+$spacing-half: 				$line-height-default * 0.5rem;
+$spacing-double: 			$line-height-default * 2rem;
