@@ -150,6 +150,22 @@ describe( "sortCombinations", function() {
 		sortCombinations( output );
 		expect( output ).toEqual( reversed );
 	});
+	it( "sorts based on length if the relevance is tied", function() {
+		spyOn( WordCombination.prototype, "getRelevance" ).and.callFake( function() {
+			return this._occurrences;
+		});
+
+		var combination1 = new WordCombination( [ "word1", "word3" ], 2 );
+		var combination2 = new WordCombination( [ "word2" ], 2 );
+		var combination3 = new WordCombination( [ "word4" ], 3 );
+
+		var output = [ combination1, combination2, combination3 ];
+		var sorted = [ combination3, combination1, combination2 ];
+
+		sortCombinations( output );
+
+		expect( output ).toEqual( sorted );
+	});
 });
 
 describe( "filter articles at beginning", function() {

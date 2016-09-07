@@ -93,14 +93,20 @@ function getRelevantCombinations( wordCombinations, wordCount ) {
 }
 
 /**
- * Sorts combinations based on their relevance.
+ * Sorts combinations based on their relevance and length.
  *
  * @param {WordCombination[]} wordCombinations The combinations to sort.
  * @returns {void}
  */
 function sortCombinations( wordCombinations ) {
 	wordCombinations.sort( function( combinationA, combinationB ) {
-		return combinationB.getRelevance() - combinationA.getRelevance();
+		var difference = combinationB.getRelevance() - combinationA.getRelevance();
+		// The combination with the highest relevance comes first.
+		if ( difference !== 0) {
+			return difference;
+		}
+		// In case of a tie on relevance, the longest combination comes first.
+		return combinationB.getLength() - combinationA.getLength()
 	} );
 }
 
