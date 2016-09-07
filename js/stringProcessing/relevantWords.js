@@ -3,6 +3,7 @@ var getSentences = require( "../stringProcessing/getSentences" );
 var WordCombination = require( "../values/WordCombination" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 var functionWords = require( "../researches/english/functionWords.js" );
+var countSyllables = require( "../stringProcessing/syllables/count.js" );
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -158,6 +159,18 @@ function filterSpecialCharacters( wordCombinations, specialCharacters ) {
 		);
 	} );
 }
+/**
+ * Filters word combinations with a length of one and a given syllable count.
+ *
+ * @param {WordCombination[]} wordCombinations The word combinations to filter.
+ * @param {number} syllableCount The number of syllables to use for filtering.
+ * @returns {WordCombination[]} Filtered word combinations.
+ */
+ function filterOnSyllableCount( wordCombinations, syllableCount ) {
+	return wordCombinations.filter( function( combination )  {
+		return ! ( combination.getLength() === 1 && countSyllables( combination.getWords()[ 0 ], "en_US" ) <= syllableCount );
+	} );
+ }
 
 /**
  * Returns the relevant words in a given text.
@@ -200,7 +213,7 @@ function getRelevantWords( text ) {
 	combinations = filterFunctionWords( combinations, functionWords().prepositions );
 	combinations = filterFunctionWords( combinations, functionWords().conjunctions );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
-
+	combinations = filterOnSyllableCount( combinations, 1 );
 
 	forEach( combinations, function( combination ) {
 		combination.setRelevantWords( oneWordRelevanceMap );
@@ -221,4 +234,5 @@ module.exports = {
 	filterFunctionWordsAtBeginning: filterFunctionWordsAtBeginning,
 	filterFunctionWords: filterFunctionWords,
 	filterSpecialCharacters: filterSpecialCharacters,
+	filterOnSyllableCount: filterOnSyllableCount,
 };

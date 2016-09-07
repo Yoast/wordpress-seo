@@ -8,6 +8,7 @@ var sortCombinations = relevantWords.sortCombinations;
 var filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
 var filterFunctionWords = relevantWords.filterFunctionWords;
 var filterSpecialCharacters = relevantWords.filterSpecialCharacters;
+var filterOnSyllableCount = relevantWords.filterOnSyllableCount;
 
 describe( "getWordCombinations", function() {
 	it( "should split a sentence on words", function() {
@@ -166,7 +167,7 @@ describe( "filter articles at beginning", function() {
 		var combinations  = filterFunctionWordsAtBeginning( input, [ "the", "an", "a" ] );
 
 		expect( combinations ).toEqual( expected );
-	});
+	} );
 	it ( "does not filter word combinations ending with an article", function() {
 		var input = [
 			new WordCombination ( [ "book", "a" ] ),
@@ -182,7 +183,7 @@ describe( "filter articles at beginning", function() {
 		var combinations  = filterFunctionWordsAtBeginning( input, [ "the", "an", "a" ] );
 
 		expect( combinations ).toEqual( expected );
-	});
+	} );
 } );
 
 describe( "filter articles at beginning and end", function() {
@@ -199,7 +200,7 @@ describe( "filter articles at beginning and end", function() {
 		var combinations  = filterFunctionWords( input, [ "the", "an", "a" ] );
 
 		expect( combinations ).toEqual( expected );
-	});
+	} );
 } );
 
 describe( "filter articles at end", function() {
@@ -240,14 +241,32 @@ describe( "filter special characters in word combinations", function() {
 	});
 } );
 
+describe( "filter single words based on syllable count", function() {
+	it ( "filters one-syllable single words", function() {
+		var input = [
+			new WordCombination ( [ "book" ] ),
+			new WordCombination ( [ "a", "book" ] ),
+			new WordCombination ( [ "book", "club"] ),
+		];
+		var expected = [
+			new WordCombination ( [ "a", "book" ] ),
+			new WordCombination ( [ "book", "club"] ),
+		];
+
+		var combinations  = filterOnSyllableCount( input, 1 );
+
+		expect( combinations ).toEqual( expected );
+	});
+} );
+
 describe( "getWordCombinations", function() {
 	it( "returns word combinations", function() {
-		var input = "Here are a ton of words. Words are very important. I think the word combinations are even more important. Word combinations for the win!";
+		var input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win!";
 		var expected = [
-			new WordCombination( [ "word", "combinations" ], 2 ),
-			new WordCombination( [ "words" ], 2 ),
+			new WordCombination( [ "syllable", "combinations" ], 2 ),
+			new WordCombination( [ "syllables" ], 2 ),
 			new WordCombination( [ "important" ], 2 ),
-			new WordCombination( [ "word" ], 2 ),
+			new WordCombination( [ "syllable" ], 2 ),
 			new WordCombination( [ "combinations" ], 2 ),
 		];
 
