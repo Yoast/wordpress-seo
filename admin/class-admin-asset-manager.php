@@ -261,7 +261,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-330',
+				'src'  => 'yst_plugin_tools-350',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			array(
@@ -276,7 +276,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wpseo-dismissible-330',
+				'src'  => 'wpseo-dismissible-350',
 			),
 			array(
 				'name' => 'alerts',
@@ -292,7 +292,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-340',
+				'src'  => 'metabox-350',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
@@ -326,7 +326,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'kb-search',
-				'src'  => 'kb-search-340',
+				'src'  => 'kb-search-350',
 			),
 			array(
 				'name' => 'help-center',
@@ -334,7 +334,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'admin-global',
-				'src'  => 'admin-global-340',
+				'src'  => 'admin-global-350',
 			),
 		);
 	}
