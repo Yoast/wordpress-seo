@@ -1,3 +1,6 @@
+### 3.5.1: September 7th, 2016
+* Fixes a fatal error when network activating.
+
 ### 3.5.0: September 7th, 2016
 * Includes every change in Yoast SEO core 3.5.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 * Fixes the slug change and redirects in the quick edit for posts and terms.
