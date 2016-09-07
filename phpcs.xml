@@ -32,11 +32,6 @@
         <exclude-pattern>inc/class-wpseo-replace-vars.php</exclude-pattern>
     </rule>
 
-	<!-- Seems to be intended string form, placeholder explained in translator comment. -->
-    <rule ref="WordPress.WP.I18n.MissingSingularPlaceholder">
-        <exclude-pattern>inc/wpseo-non-ajax-functions.php</exclude-pattern>
-    </rule>
-
 	<rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
         <exclude-pattern>css/xml-sitemap-xsl.php</exclude-pattern>
     </rule>

@@ -87,7 +87,7 @@ function wpseo_admin_bar_menu() {
 			if ( $new_notifications_count ) {
 				$notification = sprintf(
 					/* translators: %d resolves to the number of alerts being added. */
-					_n( 'You have a new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
+					_n( 'You have a %d new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
 					$new_notifications_count
 				);
 				$counter .= '<div class="yoast-issue-added">' . $notification . '</div>';
