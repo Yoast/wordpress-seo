@@ -5,6 +5,21 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.5.0: September 1st, 2016
+
+### Changed
+    * Improves sentence beginning check by matching only alphanumeric characters.
+    * Adds horizontal ellipses as sentence terminator.
+### Fixed
+    * Improves detecting sentence endings with block ends.
+    * Passive voice detects multiple uses of the same auxiliary.
+    * Yoast marks are no longer placed around block level elements.
+    * Prevents division by zero in transition word assessment result text.
+    * Passive voice detects exceptions with the word 'rid' correctly.
+### Added
+    * Flesch Reading for Dutch
+    * Flesch Reading for German
+
 ## 1.4.1: August 2nd, 2016
 
 ### Fixed
