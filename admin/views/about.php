@@ -183,22 +183,18 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-		<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
-		<?php
-		$patches_from = array(
-			'Daniel Bachhuber' => 'https://github.com/tfrommen',
-			'Robert Korulczyk' => 'https://github.com/rob006',
-			'pawawat'          => 'https://github.com/pawawat',
-		);
-		?>
-		<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?></p>
-		<ul class="ul-square">
-			<?php
-			foreach ( $patches_from as $patcher => $link ) {
-				echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
-			}
-			?>
-		</ul>
+<!--		<h3 class="wp-people-group">--><?php //_e( 'Community contributors', 'wordpress-seo' ); ?><!--</h3>-->
+<!--		--><?php
+//		$patches_from = array();
+//		?>
+<!--		<p>--><?php //printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?><!--</p>-->
+<!--		<ul class="ul-square">-->
+<!--			--><?php
+//			foreach ( $patches_from as $patcher => $link ) {
+//				echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
+//			}
+//			?>
+<!--		</ul>-->
 	</div>
 
 	<div id="integrations" class="wpseotab">
