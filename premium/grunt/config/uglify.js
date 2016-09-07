@@ -9,7 +9,7 @@ module.exports = {
 					expand: true,
 					src: [
 						'<%= paths.js %>dist/*.js',
-						'<%= paths.js %>dist/*.min.js',
+						'!<%= paths.js %>dist/*.min.js',
 					],
 					ext: '.min.js',
 					extDot: 'first',
