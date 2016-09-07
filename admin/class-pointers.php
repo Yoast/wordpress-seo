@@ -108,7 +108,7 @@ class WPSEO_Pointers {
 
 				wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 					buttons: function (event, t) {
-						var button = jQuery('<a href="<?php echo $this->get_ignore_url(); ?>" id="pointer-close" style="margin:0 5px;" class="button button-secondary">' + '<?php _e( 'Close', 'wordpress-seo' ) ?>' + '</a>');
+						var button = jQuery('<a href="<?php echo $this->get_ignore_url(); ?>" id="pointer-close" style="margin:0 5px;" class="button">' + '<?php _e( 'Close', 'wordpress-seo' ) ?>' + '</a>');
 						button.bind('click.pointer', function () {
 							t.element.pointer('close');
 						});
@@ -158,7 +158,7 @@ class WPSEO_Pointers {
 	private function button3() {
 		if ( $this->button_array['button3']['text'] ) {
 			?>
-			lastOpenedPointer.find('#pointer-primary').after('<a id="pointer-ternary" style="float: left;" class="button button-secondary">' +
+			lastOpenedPointer.find('#pointer-primary').after('<a id="pointer-ternary" style="float: left;" class="button">' +
 				'<?php echo $this->button_array['button3']['text']; ?>' + '</a>');
 			lastOpenedPointer.find('#pointer-ternary').click(function () {
 			<?php echo $this->button_array['button3']['function']; ?>
