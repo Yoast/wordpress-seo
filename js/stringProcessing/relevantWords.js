@@ -102,11 +102,11 @@ function sortCombinations( wordCombinations ) {
 	wordCombinations.sort( function( combinationA, combinationB ) {
 		var difference = combinationB.getRelevance() - combinationA.getRelevance();
 		// The combination with the highest relevance comes first.
-		if ( difference !== 0) {
+		if ( difference !== 0 ) {
 			return difference;
 		}
 		// In case of a tie on relevance, the longest combination comes first.
-		return combinationB.getLength() - combinationA.getLength()
+		return combinationB.getLength() - combinationA.getLength();
 	} );
 }
 
