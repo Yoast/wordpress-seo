@@ -83,6 +83,8 @@ class WPSEO_Admin {
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
 			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
 		}
+
+		new WPSEO_Configuration_Page();
 	}
 
 	/**
@@ -214,7 +216,6 @@ class WPSEO_Admin {
 				array( $this, 'load_page' ),
 				null,
 			),
-
 		);
 
 		// Allow submenu pages manipulation.
@@ -370,6 +371,10 @@ class WPSEO_Admin {
 
 			case 'wpseo_tutorial_videos':
 				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
+				break;
+
+			case 'wpseo_configurator':
+				require_once( WPSEO_PATH . 'admin/config-ui/class-configuration-page.php' );
 				break;
 
 			case self::PAGE_IDENTIFIER:
