@@ -25,7 +25,7 @@ class MailchimpSignup extends React.Component {
 		// Test mailing list.
 		this.props.properties.mailchimpActionUrl = "http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
 
-		// Live yoast mailing list
+		// Live yoast mailing list.
 		// this.props.properties.mailchimpActionUrl = "http://yoast.us1.list-manage1.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122";
 	}
 
@@ -52,11 +52,10 @@ class MailchimpSignup extends React.Component {
 			.then(
 				( response ) => {
 					if ( response.result === "error" ) {
-						console.log( "MailChimp signup warning: " + response.msg );
 						this.setState( {
 							isLoading: false,
 							succesfulSignup: false,
-							message: response.msg,
+							message: this.stripString(response.msg),
 						} );
 						this.sendChangeEvent();
 					}
@@ -72,6 +71,13 @@ class MailchimpSignup extends React.Component {
 			.catch( ( response )=> {
 				console.error( "MailChimp signup failed:", response );
 			} );
+	}
+
+	stripString(string){
+		if(string.endsWith('0 - ', 4)){
+			return string.slice(4);
+		}
+		return string;
 	}
 
 	sendChangeEvent(){
