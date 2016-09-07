@@ -1,6 +1,6 @@
 import React from "react";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from "material-ui/RaisedButton";
 
 /**
  * @summary Mailchimp signup component.
@@ -10,13 +10,15 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * @summary Constructs the Mailchimp signup component.
 	 *
-	 * @param props The properties.
+	 * @param {object} props The properties.
 	 */
-	constructor(props){
+	constructor( props ) {
 		// Change the URL to work with json-p.
-		super(props);
+		super( props );
 		let alreadySignedUpMessage = "You've already signed up for our newsletter, thank you!";
-		let message = (this.props.value) ? alreadySignedUpMessage : "";
+		let message = (
+			this.props.value
+		) ? alreadySignedUpMessage : "";
 
 		this.state = {
 			message,
@@ -27,7 +29,8 @@ class MailchimpSignup extends React.Component {
 		this.props.properties.mailchimpActionUrl = "http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
 
 		// Live yoast mailing list.
-		// this.props.properties.mailchimpActionUrl = "http://yoast.us1.list-manage1.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122";
+		// this.props.properties.mailchimpActionUrl =
+		// "http://yoast.us1.list-manage1.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122";
 	}
 
 	/**
@@ -35,7 +38,7 @@ class MailchimpSignup extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	signup(){
+	signup() {
 		let email = this.refs.emailInput.value;
 		let data = `EMAIL=${email}`;
 		let headers = {};
@@ -46,8 +49,8 @@ class MailchimpSignup extends React.Component {
 				data,
 				headers,
 				dataType: "jsonp",
-				jsonp: "c", // trigger MailChimp to return a JSONP response
-				method: "POST"
+				jsonp: "c",
+				method: "POST",
 			}
 		);
 		this.handleResultSignup( result );
@@ -68,7 +71,7 @@ class MailchimpSignup extends React.Component {
 						this.setState( {
 							isLoading: false,
 							succesfulSignup: false,
-							message: this.stripMessage(response.msg),
+							message: this.stripMessage( response.msg ),
 						} );
 						this.sendChangeEvent();
 					}
@@ -93,9 +96,9 @@ class MailchimpSignup extends React.Component {
 	 *
 	 * @returns {string} String with the text.
 	 */
-	stripMessage(string){
-		if(string.endsWith('0 - ', 4)){
-			return string.slice(4);
+	stripMessage( string ) {
+		if ( string.endsWith( "0 - ", 4 ) ) {
+			return string.slice( 4 );
 		}
 		return string;
 	}
@@ -106,20 +109,21 @@ class MailchimpSignup extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	sendChangeEvent(){
+	sendChangeEvent() {
 		let evt = {
-			target:{
+			target: {
 				name: "mailchimpSignup",
 				value: this.state.succesfulSignup,
-			}
+			},
 		};
-		this.onChange(evt);
+
+		this.onChange( evt );
 	}
 
 	/**
 	 * @summary Renders the MailChimp component.
 	 *
-	 * @returns {JSX.Element}
+	 * @returns {JSX.Element} Rendered Mailchimp Component.
 	 */
 	render() {
 		this.onChange = this.props.onChange;
@@ -129,9 +133,9 @@ class MailchimpSignup extends React.Component {
 		                   defaultValue={this.props.properties.currentUserEmail}/>;
 		let button = <RaisedButton label='Sign Up!'
 		                           onClick={this.signup.bind( this )}/>;
-		let message = (this.state.succesfulSignup) ?
-			<p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p> :
-			<p className="yoast-wizard-mailchimp-message-error">{this.state.message}</p>;
+		let message = ( this.state.succesfulSignup )
+			? <p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p>
+			: <p className="yoast-wizard-mailchimp-message-error">{this.state.message}</p>;
 		return (
 			<div>
 				<h4>{this.props.properties.label}</h4>
