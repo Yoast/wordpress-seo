@@ -14,27 +14,25 @@ class MailchimpSignup extends React.Component {
 	constructor(props){
 		// Change the URL to work with json-p.
 		super(props);
+		let alreadySignedUpMessage = "You've already signed up for our newsletter, thank you!";
+		let message = (this.props.value) ? alreadySignedUpMessage : "";
 
 		this.state = {
-			message: this.props.message,
+			message,
+			succesfulSignup: this.props.value,
 		};
 
 		// Test mailing list.
 		this.props.properties.mailchimpActionUrl = "http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
 
-// Live yoast mailing list
-//		this.props.properties.mailchimpActionUrl = "http://yoast.us1.list-manage1.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122";
+		// Live yoast mailing list
+		// this.props.properties.mailchimpActionUrl = "http://yoast.us1.list-manage1.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122";
 	}
 
 	signup(){
 		let email = this.refs.emailInput.value;
 		let data = `EMAIL=${email}`;
 		let headers = {};
-
-		this.setState({
-			isLoading : true,
-			succesfulSignup : false,
-		});
 
 		let result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
@@ -46,42 +44,57 @@ class MailchimpSignup extends React.Component {
 				method: "POST"
 			}
 		);
+		this.handleResultSignup( result );
+	}
 
+	handleResultSignup( result ) {
 		result
 			.then(
 				( response ) => {
 					if ( response.result === "error" ) {
-						console.log( "MailChimp signup warning:" + response.msg );
-						this.setState({
-							isLoading : false,
-							succesfulSignup : false,
+						console.log( "MailChimp signup warning: " + response.msg );
+						this.setState( {
+							isLoading: false,
+							succesfulSignup: false,
 							message: response.msg,
-						});
+						} );
+						this.sendChangeEvent();
 					}
 					else {
-						this.setState({
-							isLoading : false,
-							succesfulSignup : true,
+						this.setState( {
+							isLoading: false,
+							succesfulSignup: true,
 							message: response.msg,
-						});
+						} );
+						this.sendChangeEvent();
 					}
 				} )
-			.catch( (response)=> {
-					console.error("MailChimp signup failed:", response);
+			.catch( ( response )=> {
+				console.error( "MailChimp signup failed:", response );
 			} );
 	}
 
+	sendChangeEvent(){
+		let evt = {
+			target:{
+				name: "mailchimpSignup",
+				value: this.state.succesfulSignup,
+			}
+		};
+		this.onChange(evt);
+	}
+
 	render() {
+		this.onChange = this.props.onChange;
+
 		let input = <input ref="emailInput" type="text" name={this.props.name}
 		                   label="email"
 		                   defaultValue={this.props.properties.currentUserEmail}/>;
 		let button = <RaisedButton label='Sign Up!'
 		                           onClick={this.signup.bind( this )}/>;
-		let message = (this.state.succesfulSignup
-		               && typeof this.state.email !== "undefined") ?
-			<p className="yoast-wizard-mailchimp-message-error">{this.state.message}</p> :
-			<p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p>;
-
+		let message = (this.state.succesfulSignup) ?
+			<p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p> :
+			<p className="yoast-wizard-mailchimp-message-error">{this.state.message}</p>;
 		return (
 			<div>
 				<h4>{this.props.properties.label}</h4>
@@ -98,16 +111,15 @@ MailchimpSignup.propTypes = {
 	name: React.PropTypes.string.isRequired,
 	properties: React.PropTypes.object,
 	data: React.PropTypes.string,
-	message: React.PropTypes.string,
 	onChange: React.PropTypes.func,
+	value: React.PropTypes.bool,
 };
 
 MailchimpSignup.defaultProps = {
-	message: "",
 	component: "",
-	name: "",
 	properties: {},
 	data: "",
+	value: false,
 };
 
 export default MailchimpSignup;
