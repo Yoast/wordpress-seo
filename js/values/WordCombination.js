@@ -27,10 +27,10 @@ function WordCombination( words, occurrences ) {
 }
 
 WordCombination.lengthBonus = {
-	2: 2,
-	3: 4,
-	4: 6,
-	5: 8,
+	2: 3,
+	3: 6,
+	4: 9,
+	5: 12,
 };
 
 /**
