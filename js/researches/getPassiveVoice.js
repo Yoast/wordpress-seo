@@ -8,7 +8,7 @@ var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalize
 var nonverbEndingEd = require( "./english/passivevoice-english/non-verb-ending-ed.js" )();
 var determiners = require( "./english/passivevoice-english/determiners.js" )();
 
-var auxiliaries = require( "./english/passivevoice-english/auxiliaries.js" )();
+var auxiliaries = require( "./english/passivevoice-english/auxiliaries.js" )().all;
 var irregulars = require( "./english/passivevoice-english/irregulars.js" )();
 var stopwords = require( "./english/passivevoice-english/stopwords.js" )();
 
