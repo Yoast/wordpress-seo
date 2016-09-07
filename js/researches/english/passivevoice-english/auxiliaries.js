@@ -22,7 +22,7 @@ var filteredAuxiliaries =  [
 	"weren't",
 	"wasn't",
 	"that's",
-	"aren't"
+	"aren't",
 ];
 
 // These auxiliaries are not filtered from the beginning of word combinations in the keyword suggestions.
@@ -30,7 +30,7 @@ var notFilteredAuxiliaries = [
 	"being",
 	"getting",
 	"having",
-	"what's"
+	"what's",
 ];
 
 module.exports = function() {

@@ -214,7 +214,7 @@ function getRelevantWords( text ) {
 	combinations = filterFunctionWords( combinations, functionWords().conjunctions );
 	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
-	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().filteredPassiveAuxiliaries);
+	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().filteredPassiveAuxiliaries );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 	combinations = filterOnSyllableCount( combinations, 2 );
 
