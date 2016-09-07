@@ -15,6 +15,9 @@ class WPSEO_GSC_Ajax {
 		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue',  array( $this, 'ajax_mark_as_fixed' ) );
 		add_action( 'wp_ajax_wpseo_gsc_create_redirect_url', array( $this, 'ajax_create_redirect' ) );
 		add_action( 'wp_ajax_wpseo_dismiss_gsc', array( $this, 'dismiss_notice' ) );
+		add_action( 'wp_ajax_wpseo_save_auth_code', array( $this, 'save_auth_code' ) );
+		add_action( 'wp_ajax_wpseo_clear_auth_code', array( $this, 'clear_auth_code' ) );
+		add_action( 'wp_ajax_wpseo_get_profiles', array( $this, 'get_profiles' ) );
 	}
 
 	/**
@@ -68,6 +71,45 @@ class WPSEO_GSC_Ajax {
 	}
 
 	/**
+	 * Saves the authorization code.
+	 *
+	 * @return bool
+	 */
+	public function save_auth_code() {
+		if( ! $this->valid_nonce() ) {
+			wp_die( '0' );
+		}
+
+		// Validate the authorization.
+		$service                = $this->get_service();
+		$authorization_code     = filter_input( INPUT_POST, 'authorization' );
+		$is_authorization_valid = WPSEO_GSC_Settings::validate_authorization( $authorization_code, $service->get_client() );
+		if( ! $is_authorization_valid ) {
+			wp_die( '0' );
+		}
+
+		$this->get_profiles( $service );
+	}
+
+	/**
+	 * Clears all authorization data.
+	 */
+	public function clear_auth_code() {
+
+		// Verify the nonce ....
+		if( ! $this->valid_nonce() ) {
+			wp_die( '0' );
+		}
+
+		$service = $this->get_service();
+
+		WPSEO_GSC_Settings::clear_data( $service );
+
+		$this->get_profiles( $service );
+
+	}
+
+	/**
 	 * Check if posted nonce is valid and return true if it is
 	 *
 	 * @return mixed
@@ -75,4 +117,30 @@ class WPSEO_GSC_Ajax {
 	private function valid_nonce() {
 		return wp_verify_nonce( filter_input( INPUT_POST, 'ajax_nonce' ), 'wpseo-gsc-ajax-security' );
 	}
+
+	/**
+	 * Returns an instance of the Google Search Console service.
+	 *
+	 * @return WPSEO_GSC_Service
+	 */
+	private function get_service() {
+		return new WPSEO_GSC_Service();
+	}
+
+	/**
+	 * Prints a JSON encoded string with the current profile config.
+	 *
+	 * @param WPSEO_GSC_Service $service
+	 */
+	private function get_profiles( WPSEO_GSC_Service $service ) {
+		wp_die(
+			wp_json_encode(
+				array(
+					'profile'  => WPSEO_GSC_Settings::get_profile(),
+					'profiles' => $service->get_sites(),
+				)
+			)
+		);
+	}
+
 }
