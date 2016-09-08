@@ -210,7 +210,7 @@ class WPSEO_Admin {
 			array(
 				self::PAGE_IDENTIFIER,
 				'',
-				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
+				__( 'Go Premium', 'wordpress-seo' ) . ' ' . $this->get_premium_indicator(),
 				$manage_options_cap,
 				'wpseo_licenses',
 				array( $this, 'load_page' ),
@@ -225,8 +225,15 @@ class WPSEO_Admin {
 		if ( count( $submenu_pages ) ) {
 			foreach ( $submenu_pages as $submenu_page ) {
 
+				$page_title = $submenu_page[2] . ' - Yoast SEO';
+
+				// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
+				if ( 'wpseo_licenses' === $submenu_page[4] ) {
+					$page_title = __( 'Premium', 'wordpress-seo' ) . ' - Yoast SEO';
+				}
+
 				// Add submenu page.
-				$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[2] . ' - Yoast SEO', $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
+				$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
 
 				// Check if we need to hook.
 				if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
@@ -633,6 +640,38 @@ class WPSEO_Admin {
 		);
 
 		return esc_url( add_query_arg( $arr_params ) );
+	}
+
+	/**
+	 * @return string
+	 */
+	private function get_premium_indicator() {
+		/**
+		 * The class that will be applied to the premium indicator.
+		 *
+		 * @type array Classes that will be applied tot the premium indicator.
+		 */
+		$classes = apply_filters( 'wpseo_premium_indicator_classes', array(
+			'wpseo-premium-indicator',
+			'wpseo-premium-indicator--no',
+			'wpseo-js-premium-indicator',
+			'update-plugins',
+		) );
+
+		/**
+		 * The text to put inside the premium indicator.
+		 *
+		 * @type string The text to read to screen readers.
+		 */
+		$text = apply_filters( 'wpseo_premium_indicator_text', __( 'Disabled', 'wordpress-seo' ) );
+
+		$premium_indicator = sprintf(
+			"<span class='%s'><svg alt=\"\" width=\"1792\" height=\"1792\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"currentColor\" d=\"M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z\"/></svg><span class='screen-reader-text'>%s</span></span>",
+			esc_attr( implode( ' ', $classes ) ),
+			esc_html( $text )
+		);
+
+		return $premium_indicator;
 	}
 
 

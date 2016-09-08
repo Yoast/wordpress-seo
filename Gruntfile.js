@@ -15,6 +15,7 @@ module.exports = function( grunt ) {
 				return this.grunt + "config/";
 			},
 			css: "css/",
+			sass: "css/src/",
 			grunt: "grunt/",
 			images: "images/",
 			js: "js/src/",
@@ -22,7 +23,7 @@ module.exports = function( grunt ) {
 			logs: "logs/",
 		},
 		files: {
-			sass: [ "css/src/*.scss" ],
+			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
 				"css/*.css",
 				"!css/*.min.css",
