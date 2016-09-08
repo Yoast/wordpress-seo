@@ -59,7 +59,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 		$data = array(
 			'profileList'    => $this->get_profilelist(),
 			'profile'        => $this->get_profile(),
-			'hasAccessToken' => $this->hasAccessToken()
+			'hasAccessToken' => $this->hasAccessToken(),
 		);
 
 		return $data;
