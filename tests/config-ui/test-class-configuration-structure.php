@@ -44,7 +44,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 		$expected = array(
 			'intro',
-			'environment',
+			'environment_type',
 			'siteType',
 			'publishingEntity',
 			'profileUrls',
