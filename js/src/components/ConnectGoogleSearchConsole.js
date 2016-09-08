@@ -1,16 +1,13 @@
+/* global yoastWizardConfig */
 
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from 'material-ui/SelectField';
+import RaisedButton from "material-ui/RaisedButton";
 
 /**
  * Represents a Google search console interface.
- *
- * @param {Object} props The properties for the object.
- * @returns {JSX} The ConnectGoogleSearchConsole component.
- * @constructor
  */
 class ConnectGoogleSearchConsole extends React.Component {
+
 	/**
 	 * Sets the default state.
 	 *
@@ -20,29 +17,36 @@ class ConnectGoogleSearchConsole extends React.Component {
 		super();
 
 		this.state = {
-			profileList: props.value.profiles,
+			profileList: props.value.profileList,
 			profile: props.value.profile,
-			error: null
-		}
+			error: null,
+		};
 	}
 
 	/**
 	 * Opens a dialog to get the Google Authentication code.
 	 *
-	 * @returns {Window}
+	 * @returns {Window} Returns instance of the created window.
 	 */
 	openGoogleAuthDialog() {
-		var auth_url = yoastWizardConfig.gscAuthURL,
+		var authUrl = yoastWizardConfig.gscAuthURL,
 			w = 600,
 			h = 500,
 			left = ( screen.width / 2 ) - ( w / 2 ),
 			top = ( screen.height / 2 ) - ( h / 2 );
 
-		return window.open( auth_url, "wpseogscauthcode", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left );
+		return window.open(
+			authUrl,
+			"wpseogscauthcode",
+			"toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, " +
+			"copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left
+		);
 	}
 
 	/**
 	 * Saves the authorization code.
+	 *
+	 * @returns {void}
 	 */
 	saveAuthCode() {
 		jQuery.post(
@@ -50,27 +54,35 @@ class ConnectGoogleSearchConsole extends React.Component {
 			{
 				action: "wpseo_save_auth_code",
 				ajax_nonce: yoastWizardConfig.gscNonce,
-				authorization: jQuery( "#gsc_authorization_code" ).val()
+				authorization: jQuery( "#gsc_authorization_code" ).val(),
 			},
 			this.setProfileList.bind( this ),
-			'json'
-		)
+			"json"
+		);
 	}
 
+	/**
+	 * Clears the authorization code.
+	 *
+	 * @returns {void}
+	 */
 	clearAuthCode() {
-
 		jQuery.post(
 			yoastWizardConfig.ajaxurl,
 			{
 				action: "wpseo_clear_auth_code",
-				ajax_nonce: yoastWizardConfig.gscNonce
+				ajax_nonce: yoastWizardConfig.gscNonce,
 			},
 			this.clear.bind( this ),
-			'json'
+			"json"
 		);
 	}
 
-
+	/**
+	 * Sends the data to the step component.
+	 *
+	 * @returns {void}
+	 */
 	sendChangeEvent() {
 		let changeEvent = {
 			target: {
@@ -78,70 +90,77 @@ class ConnectGoogleSearchConsole extends React.Component {
 				value: {
 					profileList: this.state.profileList,
 					profile: this.state.profile,
-					error: this.state.error
-				}
-			}
+					error: this.state.error,
+				},
+			},
 		};
 
-		this.onChange(changeEvent);
+		this.onChange( changeEvent );
 	}
 
+	/**
+	 * Clears the state.
+	 *
+	 * @returns {void}
+	 */
 	clear() {
 		// Sets the profiles.
 		this.setState( {
 			profileList: null,
 			profile: null,
-			error: null
+			error: null,
 		} );
 
 		this.sendChangeEvent();
 	}
 
 	/**
+	 * Sets the profile list.
 	 *
-	 * @param {Object|string} response
-	 * @param {Object}        response.profiles
-	 * @param {string}        response.profile
+	 * @param {Object|string} response			   The response object.
+	 * @param {Object}        response.profileList List with all available profiles.
+	 *
+	 * @returns {void}
 	 */
 	setProfileList( response ) {
-		if( response === '0' ) {
+		if( response === "0" ) {
 			return;
 		}
 
 		// Sets the profiles.
 		this.setState( {
-			profileList: response.profiles,
+			profileList: response.profileList,
 		} );
 
 		this.sendChangeEvent();
 	}
 
 	/**
+	 * Sets the profile.
 	 *
-	 * @param {Object|string} response
-	 * @param {Object}        response.profiles
-	 * @param {string}        response.profile
+	 * @param {Event} evt The event object.
+	 *
+	 * @returns {void}
 	 */
-	setProfile( ev ) {
-		// Sets the profiles.
-		console.log("yolo", ev.target.value)
+	setProfile( evt ) {
 		this.setState( {
-			profile: ev.target.value
+			profile: evt.target.value,
 		} );
 
 		this.sendChangeEvent();
 	}
 
 	/**
+	 * Sets the error message.
 	 *
-	 * @param {Object|string} response
-	 * @param {Object}        response.profiles
-	 * @param {string}        response.profile
+	 * @param {string} errorMessage The error message.
+	 *
+	 * @returns {void}
 	 */
 	setError( errorMessage ) {
 		// Sets the profiles.
 		this.setState( {
-			error: errorMessage
+			error: errorMessage,
 		} );
 
 		this.sendChangeEvent();
@@ -149,10 +168,11 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 	/**
 	 * Checks if there are any profiles available.
-	 * @returns {boolean}
+	 *
+	 * @returns {boolean} Returns true when there are profiles and false if not.
 	 */
 	hasProfiles() {
-		if( typeof this.state.profileList === "object" ) {
+		if( this.state.profileList !== null && typeof this.state.profileList === "object" ) {
 			var totalProfiles = Object.keys( this.state.profileList ).length;
 
 			return ( totalProfiles !== 0 );
@@ -164,7 +184,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	/**
 	 * Renders the Google Search Console component.
 	 *
-	 * @returns {XML}
+	 * @returns {XML} The HTML of the rendered component.
 	 */
 	render() {
 		this.onChange = this.props.onChange;
@@ -177,11 +197,11 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 			return (
 				<div>
-					<select onChange={this.setProfile.bind(this)} name={this.props.name}>
+					<select onChange={this.setProfile.bind( this )} name={this.name}>
 						<option value="">Choose a profile</option>
 						{ profileKeys.map(
 							( profileKey, index ) => {
-								let isChecked = ( profile === profileKey ) ? 'true' : 'false';
+								let isChecked = ( profile === profileKey ) ? "true" : "false";
 
 								return (
 									<option checked={isChecked} value={profileKey} key={index}>
@@ -192,7 +212,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 						) }
 					</select>
 
-					<RaisedButton label='Reauthenticate with Google' onClick={this.clearAuthCode.bind(this)} />
+					<RaisedButton label='Reauthenticate with Google' onClick={this.clearAuthCode.bind( this )} />
 				</div>
 			);
 		}
@@ -212,24 +232,25 @@ class ConnectGoogleSearchConsole extends React.Component {
 						Enter your Google Authorization Code and press the Authenticate button.
 					</p>
 
-					<input type="text" id="gsc_authorization_code" name="gsc[authorization_code]" defaultValue="" placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
-					<RaisedButton label='Authenticate' onClick={this.saveAuthCode.bind(this)} />
+					<input type="text" id="gsc_authorization_code" name="gsc_authorization_code" defaultValue=""
+						placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
+					<RaisedButton label='Authenticate' onClick={this.saveAuthCode.bind( this )} />
 				</div>
 			</div>
 		);
 	}
 
-	renderSelectOption( index, value ) {
-
-
-
-		return '';
-	}
 }
 
 ConnectGoogleSearchConsole.propTypes = {
 	component: React.PropTypes.string,
 	data: React.PropTypes.string,
+	value: React.PropTypes.shape( {
+		profileList: React.PropTypes.object,
+		profile: React.PropTypes.string,
+	} ),
+	onChange: React.PropTypes.func,
+	name: React.PropTypes.string,
 };
 
 ConnectGoogleSearchConsole.defaultProps = {

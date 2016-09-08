@@ -136,8 +136,8 @@ class WPSEO_GSC_Ajax {
 		wp_die(
 			wp_json_encode(
 				array(
-					'profile'  => WPSEO_GSC_Settings::get_profile(),
-					'profiles' => $service->get_sites(),
+					'profile'     => WPSEO_GSC_Settings::get_profile(),
+					'profileList' => $service->get_sites(),
 				)
 			)
 		);
