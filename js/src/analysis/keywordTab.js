@@ -50,6 +50,8 @@ module.exports = ( function() {
 	 * @param {string} scoreClass
 	 * @param {string} scoreText
 	 * @param {string} [keyword]
+	 *
+	 * @returns {void}
 	 */
 	KeywordTab.prototype.updateScore = function( score, keyword ) {
 		if ( ! isUndefined( keyword ) ) {

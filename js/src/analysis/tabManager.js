@@ -32,6 +32,8 @@ function TabManager( args ) {
 
 /**
  * Initializes the two tabs.
+ *
+ * @returns {void}
  */
 TabManager.prototype.init = function() {
 	var metaboxTabs = $( "#wpseo-metabox-tabs" );
@@ -92,6 +94,8 @@ TabManager.prototype.init = function() {
 
 /**
  * Shows the keyword analysis elements.
+ *
+ * @returns {void}
  */
 TabManager.prototype.showKeywordAnalysis = function() {
 	this.focusKeywordRow.show();
@@ -105,6 +109,8 @@ TabManager.prototype.showKeywordAnalysis = function() {
 
 /**
  * Shows the content analysis elements.
+ *
+ * @returns {void}
  */
 TabManager.prototype.showContentAnalysis = function() {
 	this.focusKeywordRow.hide();
@@ -120,6 +126,8 @@ TabManager.prototype.showContentAnalysis = function() {
  * Updates the content tab with the calculated score
  *
  * @param {number} score The score that has been calculated.
+ *
+ * @returns {void}
  */
 TabManager.prototype.updateContentTab = function( score ) {
 	this.contentTab.updateScore( score );
@@ -130,6 +138,8 @@ TabManager.prototype.updateContentTab = function( score ) {
  *
  * @param {number} score The score that has been calculated.
  * @param {string} keyword The keyword that has been used to calculate the score.
+ *
+ * @returns {void}
  */
 TabManager.prototype.updateKeywordTab = function( score, keyword ) {
 	this.mainKeywordTab.updateScore( score, keyword );

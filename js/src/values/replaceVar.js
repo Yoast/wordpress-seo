@@ -42,6 +42,8 @@ var defaults = require( "lodash/defaults" );
 	 * Override the source of the replacement.
 	 *
 	 * @param {string} source The source to use.
+	 *
+	 * @returns {void}
 	 */
 	ReplaceVar.prototype.setSource = function( source ) {
 		this.options.source = source;
@@ -60,6 +62,8 @@ var defaults = require( "lodash/defaults" );
 	 * Adds a scope to the replace var.
 	 *
 	 * @param {string} scope The scope to add.
+	 *
+	 * @returns {void}
 	 */
 	ReplaceVar.prototype.addScope = function( scope ) {
 		if ( ! this.hasScope() ) {
@@ -96,6 +100,8 @@ var defaults = require( "lodash/defaults" );
 	 * Adds an alias to the replace var.
 	 *
 	 * @param {string} alias The alias to add.
+	 *
+	 * @returns {void}
 	 */
 	ReplaceVar.prototype.addAlias = function( alias ) {
 		if ( ! this.hasAlias() ) {

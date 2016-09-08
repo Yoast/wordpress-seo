@@ -13,6 +13,8 @@ var SnippetPreview = require( "yoastseo" ).SnippetPreview;
  * Removes all analysis objects from the DOM except the snippet preview
  *
  * @param {Object} snippetContainer A jQuery object with the snippet container element.
+ *
+ * @returns {void}
  */
 function isolate( snippetContainer ) {
 	snippetContainer = jQuery( snippetContainer );
@@ -37,7 +39,7 @@ function isolate( snippetContainer ) {
  *
  * @param {Function} saveCallback A callback that is called when the snippet editor fields should be saved.
  *
- * @return {Object} An object with all the arguments required to create a snippet preview object
+ * @returns {Object} An object with all the arguments required to create a snippet preview object
  */
 function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
 	var l10nObject = getL10nObject();
@@ -84,7 +86,7 @@ function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
  *
  * @param {Function} saveCallback A callback that is called when the snippet editor fields should be saved.
  *
- * @return {SnippetPreview} The newly created snippet preview object.
+ * @returns {SnippetPreview} The newly created snippet preview object.
  */
 function create( snippetContainer, data, saveCallback ) {
 	var args = getSnippetPreviewArgs( snippetContainer, data, saveCallback );

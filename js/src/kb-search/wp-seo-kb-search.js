@@ -10,6 +10,8 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @constructor
 	 * @param {object} props Properties of the AlgoliaSearcher component.
+	 *
+	 * @returns {void}
 	 */
 	constructor( props ) {
 		super();
@@ -41,6 +43,8 @@ class AlgoliaSearcher extends React.Component {
 
 	/**
 	 * Initializes the algolia client and index variables.
+	 *
+	 * @returns {void}
 	 */
 	initAlgoliaClient() {
 		this.client = initAlgoliaSearch( this.props.algoliaApplicationId, this.props.algoliaApiKey );
@@ -51,6 +55,8 @@ class AlgoliaSearcher extends React.Component {
 	 * Handles the form submit event. Stores the search string and performs a search.
 	 *
 	 * @param {object} evt The React SyntheticEvent.
+	 *
+	 * @returns {void}
 	 */
 	searchButtonClicked( evt ) {
 		let searchString = evt.target.getElementsByTagName( "input" )[ 0 ].value;
@@ -74,6 +80,8 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Performs a search with the searchstring saved in the state and sets the
 	 * results property of the state to the results found.
+	 *
+	 * @returns {void}
 	 */
 	updateSearchResults() {
 		this.setState( {
@@ -135,6 +143,8 @@ class AlgoliaSearcher extends React.Component {
 
 	/**
 	 * Hide the details page and return to the results page.
+	 *
+	 * @returns {void}
 	 */
 	hideDetail() {
 		this.setState( { showDetail: false } );

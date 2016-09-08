@@ -9,6 +9,8 @@ var MARK_TAG = "yoastmark";
  * html entities by tinyMCE so these can be filtered out to keep the output text clean.
  *
  * @param {tinyMCE.Editor} editor The editor to remove invalid marks from.
+ *
+ * @returns {void}
  */
 function removeInvalidMarks( editor ) {
 	var html = editor.getContent();
@@ -26,6 +28,8 @@ function removeInvalidMarks( editor ) {
  * @param {tinyMCE.Editor} editor The editor to apply the marks to.
  * @param {Paper} paper The paper for which the marks have been generated.
  * @param {Array.<Mark>} marks The marks to show in the editor.
+ *
+ * @returns {void}
  */
 function markTinyMCE( editor, paper, marks ) {
 	var dom = editor.dom;
@@ -80,6 +84,8 @@ function editorHasMarks( editor ) {
  * Removes marks currently in the given editor
  *
  * @param {tinyMCE.Editor} editor The editor to remove all marks for.
+ *
+ * @returns {void}
  */
 function editorRemoveMarks( editor ) {
 	// Create a decorator with the given editor.
