@@ -35,8 +35,11 @@ body {
   }
 
   &--button {
-    margin-left: 1em;
     margin-top: 1em;
+
+    &__next {
+      margin-left: 1em;
+    }
   }
 
   &--step__active {
@@ -90,20 +93,17 @@ body {
   }
 
   &-text-input {
-    display: inline-block;
-    min-width: 300px;
-    width:100%;
 
     &-label {
       cursor: pointer;
       display: block;
       margin: 1em 0 0;
-      padding-right: 1em;
     }
 
     &-field {
       width: 100%;
-      max-width: 400px;
+      max-width: 300px;
+      box-sizing: border-box;
     }
   }
 
