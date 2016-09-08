@@ -15,7 +15,8 @@ class MailchimpSignup extends React.Component {
 	constructor( props ) {
 		// Change the URL to work with json-p.
 		super( props );
-		let alreadySignedUpMessage = "You've already signed up for our newsletter, thank you!";
+		let alreadySignedUpMessage = "You've already signed up for our newsletter, thank you! " +
+		                             "If you'd like you can sign up with another email adress.";
 		let message = (
 			this.props.value
 		) ? alreadySignedUpMessage : "";
@@ -26,7 +27,8 @@ class MailchimpSignup extends React.Component {
 		};
 
 		// Set test mailing list.
-		this.props.properties.mailchimpActionUrl = "http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
+		this.props.properties.mailchimpActionUrl =
+			"http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
 	}
 
 	/**
@@ -37,12 +39,13 @@ class MailchimpSignup extends React.Component {
 	signup() {
 		let email = this.refs.emailInput.value;
 		let data = `EMAIL=${email}`;
-		let name = this.props.properties.userName.trim();
+		let name = this.refs.nameInput.value.trim();
 
 		if(name !== ""){
+			// MERGE7 = the name field in the Yoast newsletter signup form.
 			data = data + `&MERGE7=${encodeURIComponent(name)}`;
 		}
-		
+
 		let headers = {};
 
 		let result = sendRequest(
@@ -130,9 +133,13 @@ class MailchimpSignup extends React.Component {
 	render() {
 		this.onChange = this.props.onChange;
 
-		let input = <input ref="emailInput" type="text" name={this.props.name}
+		let input = <input id="mailchimpEmail"
+		                   ref="emailInput"
+		                   type="text"
+		                   name={this.props.name}
 		                   label="email"
-		                   defaultValue={this.props.properties.currentUserEmail}/>;
+		                   defaultValue={this.props.properties.currentUserEmail}
+		/>;
 		let button = <RaisedButton label='Sign Up!'
 		                           onClick={this.signup.bind( this )}/>;
 		let message = ( this.state.succesfulSignup )
@@ -141,9 +148,26 @@ class MailchimpSignup extends React.Component {
 		return (
 			<div>
 				<h4>{this.props.properties.label}</h4>
-				{message}
+				<div className="yoast-wizard-text-input">
+					<label htmlFor="mailchimpName"
+					       className="yoast-wizard-text-input-label">
+						Name
+					</label>
+					<input id="mailchimpName"
+					       ref="nameInput"
+					       type="text"
+					       name="name"
+					       label="name"
+					       defaultValue={this.props.properties.userName}/>
+				</div>
+				<div className="yoast-wizard-text-input">
+				<label htmlFor="mailchimpEmail"
+				       className="yoast-wizard-text-input-label"
+				>Email</label>
 				{input}
+				</div>
 				{button}
+				{message}
 			</div>
 		);
 	}
