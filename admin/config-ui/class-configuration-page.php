@@ -94,12 +94,6 @@ class WPSEO_Configuration_Page {
 			'nonce'             => wp_create_nonce( 'wp_rest' ),
 			'root'              => esc_url_raw( rest_url() ),
 			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-
-			'gsc'               => array(
-				
-			),
-
-
 			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
 			'gscProfiles'       => $service->get_sites(),
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),

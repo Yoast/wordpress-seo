@@ -72,11 +72,9 @@ class WPSEO_GSC_Ajax {
 
 	/**
 	 * Saves the authorization code.
-	 *
-	 * @return bool
 	 */
 	public function save_auth_code() {
-		if( ! $this->valid_nonce() ) {
+		if ( ! $this->valid_nonce() ) {
 			wp_die( '0' );
 		}
 
@@ -84,7 +82,7 @@ class WPSEO_GSC_Ajax {
 		$service                = $this->get_service();
 		$authorization_code     = filter_input( INPUT_POST, 'authorization' );
 		$is_authorization_valid = WPSEO_GSC_Settings::validate_authorization( $authorization_code, $service->get_client() );
-		if( ! $is_authorization_valid ) {
+		if ( ! $is_authorization_valid ) {
 			wp_die( '0' );
 		}
 
@@ -95,9 +93,7 @@ class WPSEO_GSC_Ajax {
 	 * Clears all authorization data.
 	 */
 	public function clear_auth_code() {
-
-		// Verify the nonce ....
-		if( ! $this->valid_nonce() ) {
+		if ( ! $this->valid_nonce() ) {
 			wp_die( '0' );
 		}
 
@@ -106,7 +102,6 @@ class WPSEO_GSC_Ajax {
 		WPSEO_GSC_Settings::clear_data( $service );
 
 		$this->get_profiles( $service );
-
 	}
 
 	/**
@@ -130,7 +125,7 @@ class WPSEO_GSC_Ajax {
 	/**
 	 * Prints a JSON encoded string with the current profile config.
 	 *
-	 * @param WPSEO_GSC_Service $service
+	 * @param WPSEO_GSC_Service $service The service to use.
 	 */
 	private function get_profiles( WPSEO_GSC_Service $service ) {
 		wp_die(
@@ -142,5 +137,4 @@ class WPSEO_GSC_Ajax {
 			)
 		);
 	}
-
 }
