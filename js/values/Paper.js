@@ -16,17 +16,6 @@ var defaultAttributes = {
 };
 
 /**
- * Sanitize attributes before they are assigned to the Paper.
- * @param {object} attributes The attributes that need sanitizing.
- * @returns {object} The attributes passed to the Paper.
- */
-var sanitizeAttributes = function( attributes ) {
-	attributes.keyword = escapeRegExp( attributes.keyword );
-
-	return attributes;
-};
-
-/**
  * Construct the Paper object and set the keyword property.
  * @param {string} text The text to use in the analysis.
  * @param {object} attributes The object containing all attributes.
