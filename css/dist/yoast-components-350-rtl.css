@@ -67,7 +67,7 @@
 
 .yoast-icon,
 .yoast-icon__eye {
-	padding-left: 45px;
+	padding-right: 45px;
 }
 
 .yoast-icon__eye {
@@ -88,7 +88,7 @@
 .yoast-button__edit {
 	display: block;
 	margin-top: 1em;
-	padding-left: 32px;
+	padding-right: 32px;
 	background: #f7f7f7 url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M491%201536l91%2D91%2D235%2D235%2D91%2091v107h128v128h107zm523%2D928q0%2D22%2D22%2D22%2D10%200%2D17%207l%2D542%20542q%2D7%207%2D7%2017%200%2022%2022%2022%2010%200%2017%2D7l542%2D542q7%2D7%207%2D17zm%2D54%2D192l416%20416%2D832%20832h%2D416v%2D416zm683%2096q0%2053%2D37%2090l%2D166%20166%2D416%2D416%20166%2D165q36%2D38%2090%2D38%2053%200%2091%2038l235%20234q37%2039%2037%2091z%22%20%2F%3E%3C%2Fsvg%3E") no-repeat 8px center/16px 16px;
 	background-size: 16px;
 }
@@ -239,17 +239,17 @@ body {
 	min-height: 20px;
 	padding: 1em;
 	background: #fff;
-	text-align: left;
+	text-align: right;
 }
 
 .yoast-wizard--navigation {
 	width: 100%;
-	text-align: right;
+	text-align: left;
 }
 
 .yoast-wizard--button {
 	margin-top: 1em;
-	margin-left: 1em;
+	margin-right: 1em;
 }
 
 .yoast-wizard--step__active svg {
@@ -271,7 +271,7 @@ body {
 	position: absolute;
 	z-index: 10;
 	top: 0;
-	left: 0;
+	right: 0;
 	width: 100%;
 	height: 100%;
 	opacity: 0.2;
@@ -289,7 +289,7 @@ body {
 	min-height: 20px;
 	border: 1px solid #ccc;
 	box-shadow: rgba(0, 0, 0, 0.156863) 0 3px 10px, rgba(0, 0, 0, 0.227451) 0 3px 10px;
-	text-align: left;
+	text-align: right;
 }
 
 .yoast-wizard-container fieldset {
@@ -306,7 +306,7 @@ body {
 	width: 100%;
 	max-width: 200px;
 	margin: 1em 0 0;
-	padding-right: 1em;
+	padding-left: 1em;
 	cursor: pointer;
 }
 
@@ -321,7 +321,7 @@ body {
 }
 
 .yoast-wizard input[type="radio"] {
-	margin-right: 1em;
+	margin-left: 1em;
 }
 
 .yoast-wizard-input-radio-separator {
@@ -331,15 +331,15 @@ body {
 .yoast-wizard-input-radio-separator input {
 	/* visually hide the radio buttons but keep them accessible */
 	position: absolute;
-	left: -9999em;
+	right: -9999em;
 	width: 1px;
 	height: 1px;
 }
 
 .yoast-wizard-input-radio-separator input + label {
-	float: left;
+	float: right;
 	width: 30px !important;
-	margin: 0 5px 5px 0 !important;
+	margin: 0 0 5px 5px !important;
 	padding: 9px 6px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
@@ -359,7 +359,7 @@ body {
 .yoast-wizard-input-radio-separator input:checked + label,
 .yoast-wizard-input-radio-separator input:focus + label {
 	border-radius: 10px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 #yoast-wizard-return-link {
