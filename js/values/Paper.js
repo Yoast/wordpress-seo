@@ -1,5 +1,4 @@
 var defaults = require( "lodash/defaults" );
-var escapeRegExp = require( "lodash/escapeRegExp" );
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
