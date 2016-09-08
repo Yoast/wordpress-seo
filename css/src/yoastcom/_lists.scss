@@ -1,0 +1,23 @@
+.yoast-list {
+	&--usp {
+		padding: 0;
+		margin-bottom: 1em;
+		font-family: $font-stack-default;
+
+		li {
+			list-style: none !important;
+			position: relative;
+			padding-left: $spacing / 1.5;
+
+			&::before {
+				content: '\f00c\0020';
+				position: absolute;
+				left: 0;
+				top: 0;
+				font-family: $font-stack-icon;
+				color: $color-green;
+
+			}
+		}
+	}
+}

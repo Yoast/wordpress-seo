@@ -6,6 +6,11 @@ module.exports = {
 		"css/*.css",
 		"!css/*.min.css",
 	],
+	"before-rtlcss": [
+		"css/dist/*.css",
+		"css/dist/toggle-switch/*.css",
+		"!css/dist/select2/*.min.css",
+	],
 	"release-js": [
 		"js/src/**",
 		"js/dist/*.js",
