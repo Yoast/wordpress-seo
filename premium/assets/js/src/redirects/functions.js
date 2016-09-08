@@ -25,8 +25,6 @@ function wpseo_undo_redirect( origin, target, type, nonce, source ) {
 	);
 }
 
-
-
 /**
  * Creates a redirect
  *
