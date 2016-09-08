@@ -7,6 +7,7 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 import { OnboardingWizard } from "yoast-components";
 
 import MailchimpSignup from "./components/MailchimpSignup";
+import ConditionalMailchimpSignup from "./components/ConditionalMailchimpSignup";
 import PublishingEntity from "./components/PublishingEntity";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 
@@ -42,7 +43,7 @@ class App extends React.Component {
 		} );
 
 		config.endpoint = endpoint;
-		config.customComponents = { MailchimpSignup, PublishingEntity, ConnectGoogleSearchConsole };
+		config.customComponents = { MailchimpSignup, ConditionalMailchimpSignup ,PublishingEntity, ConnectGoogleSearchConsole };
 
 		return config;
 	}
