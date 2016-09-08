@@ -4,6 +4,7 @@ var WordCombination = require( "../values/WordCombination" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 var functionWords = require( "../researches/english/functionWords.js" );
 var countSyllables = require( "../stringProcessing/syllables/count.js" );
+var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -19,6 +20,7 @@ var isEmpty = require( "lodash/isEmpty" );
 var densityLowerLimit = 0;
 var densityUpperLimit = 0.03;
 var relevantWordLimit = 100;
+var wordCountLowerLimit = 200;
 
 // En dash, em dash and hyphen-minus.
 var specialCharacters = [ "–", "—", "-" ];
@@ -75,19 +77,34 @@ function calculateOccurrences( wordCombinations ) {
 }
 
 /**
+ * Calculates heading bonus for a list of word combinations.
+ *
+ * @param {WordCombination[]} wordCombinations The word combinations to calculate heading bonus for.
+ * @param {string} text The text to retrieve subheadings for.
+ * @returns {void}
+ */
+function calculateHeadingBonus( wordCombinations, text ) {
+	var subheadings = getSubheadingContents( text );
+	forEach( wordCombinations, function( combination ) {
+		forEach( subheadings, function( subheading ) {
+			if( subheading.indexOf( combination.getCombination() ) !== -1 ) {
+				combination.incrementHeadingOccurrences();
+			}
+		} );
+	} );
+}
+
+/**
  * Returns only the relevant combinations from a list of word combinations. Assumes
  * occurrences have already been calculated.
  *
  * @param {WordCombination[]} wordCombinations A list of word combinations.
- * @param {number} wordCount The number of words in the total text.
  * @returns {WordCombination[]} Only relevant word combinations.
  */
-function getRelevantCombinations( wordCombinations, wordCount ) {
+function getRelevantCombinations( wordCombinations ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
 		return combination.getOccurrences() !== 1 &&
-			combination.getRelevance() !== 0 &&
-			combination.getDensity( wordCount ) >= densityLowerLimit &&
-			combination.getDensity( wordCount ) < densityUpperLimit;
+			combination.getRelevance() !== 0;
 	} );
 	return wordCombinations;
 }
@@ -179,6 +196,22 @@ function filterSpecialCharacters( wordCombinations, specialCharacters ) {
  }
 
 /**
+ * Filters word combinations based on keyword density if the word count is 200 or over.
+ *
+ * @param {WordCombination[]} wordCombinations The word combinations to filter.
+ * @param {number} wordCount The number of words in the total text.
+ * @param {number} densityLowerLimit The lower limit of keyword density.
+ * @param {number} densityUpperLimit The upper limit of keyword density.
+ * @returns {WordCombination[]} Filtered word combinations.
+ */
+function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densityUpperLimit ) {
+	return wordCombinations.filter( function( combination ) {
+		return ( combination.getDensity( wordCount ) >= densityLowerLimit && combination.getDensity( wordCount ) < densityUpperLimit
+		);
+	} );
+}
+
+/**
  * Returns the relevant words in a given text.
  *
  * @param {string} text The text to retrieve the relevant words of.
@@ -222,14 +255,22 @@ function getRelevantWords( text ) {
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
 	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().filteredPassiveAuxiliaries );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
-	combinations = filterOnSyllableCount( combinations, 2 );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );
+	combinations = filterOnSyllableCount( combinations, 1 );
+
 
 	forEach( combinations, function( combination ) {
 		combination.setRelevantWords( oneWordRelevanceMap );
 	} );
 
+	calculateHeadingBonus( combinations, text );
+
 	combinations = getRelevantCombinations( combinations, wordCount );
 	sortCombinations( combinations );
+
+	if ( wordCount >= wordCountLowerLimit ) {
+		combinations = filterOnDensity( combinations, wordCount, densityLowerLimit, densityUpperLimit );
+	}
 
 	return take( combinations, relevantWordLimit );
 }
@@ -244,4 +285,6 @@ module.exports = {
 	filterFunctionWords: filterFunctionWords,
 	filterSpecialCharacters: filterSpecialCharacters,
 	filterOnSyllableCount: filterOnSyllableCount,
+	calculateHeadingBonus: calculateHeadingBonus,
+	filterOnDensity: filterOnDensity,
 };

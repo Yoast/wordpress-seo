@@ -34,11 +34,17 @@ var relevantWordss = map( getRelevantWords( text ), function( word ) {
 
    var output = {
       "Word": word.getCombination(),
+      "Relevance": formatNumber( word.getRelevance() ),
       "Length": word._length,
       "Occurrences": word.getOccurrences(),
-      "Relevance": formatNumber( word.getRelevance() ),
       "Multiplier":  formatNumber( word.getMultiplier( word.getRelevantWordPercentage() ) ),
-      "Relevant word percentage": formatNumber( word.getRelevantWordPercentage() )
+      "Relevant word percentage": formatNumber( word.getRelevantWordPercentage() ),
+   };
+
+   if ( word.getHeadingOccurrences() === 0 ) {
+      output[ "Heading Bonus" ] = "";
+   } else {
+      output[ "Heading Bonus" ] = word.getHeadingOccurrences();
    }
 
    if ( word._length === 1 ) {

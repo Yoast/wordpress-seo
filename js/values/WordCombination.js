@@ -19,11 +19,13 @@ function isFunctionWord( word ) {
  *
  * @param {string[]} words The list of words that this combination consists of.
  * @param {number} [occurrences] The number of occurrences, defaults to 0.
+ * @param {number} [headingOccurrences] The number of occurrences in headings, defaults to 0.
  */
-function WordCombination( words, occurrences ) {
+function WordCombination( words, occurrences, headingOccurrences ) {
 	this._words = words;
 	this._length = words.length;
 	this._occurrences = occurrences || 0;
+	this._headingOccurrences = headingOccurrences || 0;
 }
 
 WordCombination.lengthBonus = {
@@ -92,6 +94,24 @@ WordCombination.prototype.incrementOccurrences = function() {
 };
 
 /**
+ * Returns the amount of occurrences in headings of this word combination.
+ *
+ * @returns {number} The amount of occurrences in headings.
+ */
+ WordCombination.prototype.getHeadingOccurrences = function() {
+	return this._headingOccurrences;
+};
+
+/**
+ * Increments the heading occurrences.
+ *
+ * @returns {void}
+ */
+WordCombination.prototype.incrementHeadingOccurrences = function() {
+	this._headingOccurrences += 1;
+};
+
+/**
  * Returns the relevance of the length.
  *
  * @param {number} relevantWordPercentage The relevance of the words within the combination.
@@ -99,9 +119,10 @@ WordCombination.prototype.incrementOccurrences = function() {
  */
 WordCombination.prototype.getMultiplier = function( relevantWordPercentage ) {
 	var lengthBonus = this.getLengthBonus();
+	var headingOccurrences = this.getHeadingOccurrences();
 
 	// The relevance scales linearly from the relevance of one word to the maximum.
-	return 1 + relevantWordPercentage * lengthBonus;
+	return 1 + relevantWordPercentage * lengthBonus + headingOccurrences;
 };
 
 /**

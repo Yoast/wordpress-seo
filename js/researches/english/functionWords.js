@@ -126,6 +126,7 @@ module.exports = function() {
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
 		verbs: filteredPassiveAuxiliaries.concat( notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
 		quantifiers: quantifiers,
+		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
 		filteredPassiveAuxiliaries: filteredPassiveAuxiliaries,
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns,

@@ -9,6 +9,8 @@ var filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginnin
 var filterFunctionWords = relevantWords.filterFunctionWords;
 var filterSpecialCharacters = relevantWords.filterSpecialCharacters;
 var filterOnSyllableCount = relevantWords.filterOnSyllableCount;
+var calculateHeadingBonus = relevantWords.calculateHeadingBonus;
+var filterOnDensity = relevantWords.filterOnDensity;
 
 describe( "getWordCombinations", function() {
 	it( "should split a sentence on words", function() {
@@ -106,20 +108,21 @@ describe( "getRelevantCombinations", function() {
 			return density;
 		};
 
-		expect( getRelevantCombinations( input, 0 ) ).toEqual( input );
+		expect( filterOnDensity( input, 200, 0, 0.03 ) ).toEqual( input );
 
 		density = 0.03;
-		expect( getRelevantCombinations( input, 0 ) ).toEqual( [] );
+		expect( filterOnDensity( input, 400, 0, 0.03 ) ).toEqual( [] );
 
 		density = 0.0299;
-		expect( getRelevantCombinations( input, 0 ) ).toEqual( input );
+		expect( filterOnDensity( input, 300, 0, 0.03 ) ).toEqual( input );
 
 		density = 0.01;
-		expect( getRelevantCombinations( input, 0 ) ).toEqual( input );
+		expect( filterOnDensity( input, 400, 0, 0.03 ) ).toEqual( input );
 
 		density = 0.09;
-		expect( getRelevantCombinations( input, 0 ) ).toEqual( [] );
-	})
+		expect( filterOnDensity( input, 200, 0, 0.03 ) ).toEqual( [] );
+	});
+
 });
 
 describe( "sortCombinations", function() {
@@ -275,15 +278,45 @@ describe( "filter single words based on syllable count", function() {
 	});
 } );
 
+describe ( "calculates heading bonus", function() {
+	it ( "calculates the heading bonus", function() {
+		var wordCombination = [ new WordCombination ( [ "comments", "on", "your", "blog" ] ) ];
+		var text =  "<h1>How to handle comments on your blog</h1> <p>When blogging regularly, people will start responding to what you write. Maybe not right away," +
+			" but as your blog is growing, you’ll have to deal with comments on your blog. Especially when you write about your worldview or opinions, some people will" +
+			" disagree with you. You’ll therefore have to deal with the responses and opinions of your readers. But how?</p>";
+		calculateHeadingBonus( wordCombination, text );
+		}
+	)
+} );
+
 describe( "getWordCombinations", function() {
 	it( "returns word combinations", function() {
-		var input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win!";
+		var input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win! " +
+			"This text needs to contain 200 words, because one filter will only work if a text is long enough. 200 words is really, really long. I will just start talking" +
+			"about the weather. The weather is nice today, don't you think? It is sunny outside. It has been a while since it has rained. Let me think of something else to" +
+			"talk about. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore" +
+			" veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur" +
+			" magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non" +
+			" numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis" +
+			" suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur," +
+			" vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
 		var expected = [
+			new WordCombination( [ "qui", "dolorem" ], 2 ),
+			new WordCombination( [ "sed", "quia" ], 2 ),
+			new WordCombination( [ "200", "words" ], 2 ),
 			new WordCombination( [ "syllable", "combinations" ], 2 ),
+			new WordCombination( [ "voluptatem" ], 4 ),
+			new WordCombination( [ "quia" ], 4 ),
 			new WordCombination( [ "syllables" ], 2 ),
-			new WordCombination( [ "important" ], 2 ),
-			new WordCombination( [ "syllable" ], 2 ),
+			new WordCombination( [ "enim" ], 2 ),
 			new WordCombination( [ "combinations" ], 2 ),
+			new WordCombination( [ "dolorem" ], 2 ),
+			new WordCombination( [ "velit" ], 2 ),
+			new WordCombination( [ "consequatur" ], 2 ),
+			new WordCombination( [ "syllable" ], 2 ),
+			new WordCombination( [ "important" ], 2 ),
+			new WordCombination( [ "weather" ], 2 ),
+			new WordCombination( [ "voluptas" ], 2 ),
 		];
 
 		// Make sure our words aren't filtered by density.
