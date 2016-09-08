@@ -97,9 +97,13 @@ body {
     &-label {
       cursor: pointer;
       display: block;
-      width: 100%;
       margin: 1em 0 0;
       padding-right: 1em;
+    }
+
+    &-field {
+      width: 100%;
+      max-width: 400px;
     }
   }
 
