@@ -1,7 +1,5 @@
 /* global jQuery */
 
-"use strict";
-
 var getL10nObject = require( "./getL10nObject" );
 var getI18n = require( "./getI18n" );
 var getTitlePlaceholder = require( "./getTitlePlaceholder" );

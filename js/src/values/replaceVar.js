@@ -4,8 +4,6 @@ var indexOf = require( "lodash/indexOf" );
 var defaults = require( "lodash/defaults" );
 
 ( function() {
-	"use strict";
-
 	var defaultOptions = { source: "wpseoReplaceVarsL10n", scope: [], aliases: [] };
 
 	/**

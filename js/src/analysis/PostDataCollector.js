@@ -336,7 +336,7 @@ PostDataCollector.prototype.resetQueue = function() {
  * Saves the score to the linkdex.
  * Outputs the score in the overall target.
  *
- * @param {string} score
+ * @param {string} score The score to save.
  *
  * @returns {void}
  */
@@ -375,7 +375,7 @@ PostDataCollector.prototype.saveScores = function( score ) {
 /**
  * Saves the content score to a hidden field.
  *
- * @param {number} score
+ * @param {number} score The score to save.
  *
  * @returns {void}
  */

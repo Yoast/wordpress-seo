@@ -81,7 +81,7 @@ module.exports = ( function() {
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
-	 * @param {int} score
+	 * @param {int} score The score for the indicator.
 	 *
 	 * @returns {void}
 	 */
@@ -141,7 +141,7 @@ module.exports = ( function() {
 	/**
 	 * Sets the current element
 	 *
-	 * @param {HTMLElement} element
+	 * @param {HTMLElement} element The element to set.
 	 *
 	 * @returns {void}
 	 */

@@ -19,6 +19,8 @@ var defaultArguments = {
 /**
  * The tab manager is responsible for managing the analysis tabs in the metabox.
  *
+ * @param {Object} args The arguments to use.
+ *
  * @constructor
  */
 function TabManager( args ) {
@@ -150,7 +152,7 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
  *
  * @param {string} keyword The keyword to check
  *
- * @returns {boolean}
+ * @returns {boolean} True when keyword is the main keyword.
  */
 TabManager.prototype.isMainKeyword = function( keyword ) {
 	return this.mainKeywordTab.getKeywordFromElement() === keyword;

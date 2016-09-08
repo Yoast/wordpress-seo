@@ -28,7 +28,7 @@ class AlgoliaSearcher extends React.Component {
 			// A description of a search error, if any.
 			errorMessage: "",
 
-			// Shows Shows the search results if is set to false. Otherwhise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
+			// Shows the search results if is set to false. Otherwise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
 			showDetail: false,
 
 			// Used to display a loading spinner while searching.
@@ -69,7 +69,7 @@ class AlgoliaSearcher extends React.Component {
 			this.setState( {
 				searchString: searchString,
 				usedQueries: usedQueries,
-				searching: true
+				searching: true,
 			}, function() {
 				// After the state was set.
 				this.updateSearchResults();
@@ -127,6 +127,7 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @param {number} resultArrayIndex The index of the article you want to
 	 *                                  show in the state.results array.
+	 * @returns {void}
 	 */
 	showDetail( resultArrayIndex ) {
 		let usedQueries = this.state.usedQueries;
@@ -229,7 +230,7 @@ class AlgoliaSearcher extends React.Component {
 	render() {
 		var content = "";
 		var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
-								   searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
+								searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
 
 		// Show an error message.
 		if ( this.state.errorMessage ) {

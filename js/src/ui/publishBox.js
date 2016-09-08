@@ -4,7 +4,6 @@ var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
 
 ( function( $ ) {
-	"use strict";
 	/* eslint-disable no-extend-native */
 	/**
 	 * Converts the first letter to uppercase in a string.
