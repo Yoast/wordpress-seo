@@ -225,7 +225,7 @@ body {
 .yoast-wizard-body {
 	box-sizing: border-box;
 	width: 80%;
-	margin: 6rem auto 4rem;
+	margin: 1rem auto 4rem;
 }
 
 #YoastLogo {
@@ -360,4 +360,11 @@ body {
 .yoast-wizard-input-radio-separator input:focus + label {
 	border-radius: 10px;
 	border-bottom-right-radius: 0;
+}
+
+#yoast-wizard-return-link {
+	display: block;
+	margin: 1em 0;
+	color: #b5b5b5;
+	text-align: center;
 }

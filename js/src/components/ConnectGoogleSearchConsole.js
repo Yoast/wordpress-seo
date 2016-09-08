@@ -199,20 +199,17 @@ class ConnectGoogleSearchConsole extends React.Component {
 		this.name = this.props.name;
 
 		if( this.hasProfiles() ) {
-			let profile     = this.state.profile;
 			let profiles    = this.state.profileList;
 			let profileKeys = Object.keys( profiles );
 
 			return (
 				<div>
-					<select onChange={this.setProfile.bind( this )} name={this.name}>
+					<select onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
 						<option value="">Choose a profile</option>
 						{ profileKeys.map(
 							( profileKey, index ) => {
-								let isChecked = ( profile === profileKey ) ? "true" : "false";
-
 								return (
-									<option checked={isChecked} value={profileKey} key={index}>
+									<option value={profileKey} key={index}>
 										{ profiles[ profileKey ] }
 									</option>
 								);

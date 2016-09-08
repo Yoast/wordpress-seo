@@ -128,6 +128,12 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	 * @return array
 	 */
 	protected function get_profilelist() {
-		return $this->gsc_service->get_sites();
+		$profiles = array();
+		$sites    = $this->gsc_service->get_sites();
+		foreach( $sites as $siteKey => $siteValue ) {
+			$profiles[ untrailingslashit( $siteKey )  ] = untrailingslashit( $siteValue );
+		}
+
+		return $profiles;
 	}
 }

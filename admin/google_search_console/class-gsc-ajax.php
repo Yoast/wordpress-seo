@@ -86,7 +86,7 @@ class WPSEO_GSC_Ajax {
 			wp_die( '0' );
 		}
 
-		$this->get_profiles( $service );
+		$this->get_profiles();
 	}
 
 	/**
@@ -101,7 +101,7 @@ class WPSEO_GSC_Ajax {
 
 		WPSEO_GSC_Settings::clear_data( $service );
 
-		$this->get_profiles( $service );
+		$this->get_profiles();
 	}
 
 	/**
@@ -124,17 +124,10 @@ class WPSEO_GSC_Ajax {
 
 	/**
 	 * Prints a JSON encoded string with the current profile config.
-	 *
-	 * @param WPSEO_GSC_Service $service The service to use.
 	 */
-	private function get_profiles( WPSEO_GSC_Service $service ) {
-		wp_die(
-			wp_json_encode(
-				array(
-					'profile'     => WPSEO_GSC_Settings::get_profile(),
-					'profileList' => $service->get_sites(),
-				)
-			)
-		);
+	private function get_profiles() {
+		$component = new WPSEO_Config_Component_Connect_Google_Search_Console();
+
+		wp_die( wp_json_encode( $component->get_data() ) );
 	}
 }
