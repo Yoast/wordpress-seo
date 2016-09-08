@@ -90,13 +90,14 @@ body {
   }
 
   &-text-input {
+    display: inline-block;
     min-width: 300px;
+    width:100%;
 
     &-label {
       cursor: pointer;
-      display: inline-block;
+      display: block;
       width: 100%;
-      max-width: 200px;
       margin: 1em 0 0;
       padding-right: 1em;
     }
