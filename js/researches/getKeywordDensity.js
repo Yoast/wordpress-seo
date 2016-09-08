@@ -3,6 +3,8 @@
 var countWords = require( "../stringProcessing/countWords.js" );
 var countWordOccurrences = require( "../stringProcessing/countWordOccurrences.js" );
 
+var escapeRegExp = require( "lodash/escapeRegExp" );
+
 /**
  * Calculates the keyword density .
  *

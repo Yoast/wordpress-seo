@@ -95,9 +95,9 @@ describe( "Paper", function() {
 	});
 
 	describe( "Create a paper with keyword with dollar sign", function() {
-		it( "Should return keyword with dollar sign escaped", function(){
+		it( "Should return keyword with dollar sign", function(){
 			var paper = new Paper( "", { keyword: "$keyword" } );
-			expect( paper.getKeyword() ).toBe( "\\$keyword" );
+			expect( paper.getKeyword() ).toBe( "$keyword" );
 		});
 	} );
 });

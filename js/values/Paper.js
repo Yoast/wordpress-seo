@@ -40,7 +40,7 @@ var Paper = function( text, attributes ) {
 	if ( attributes.locale === "" ) {
 		attributes.locale = defaultAttributes.locale;
 	}
-	this._attributes = sanitizeAttributes( attributes );
+	this._attributes = attributes;
 };
 
 /**
