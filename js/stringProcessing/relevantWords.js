@@ -84,7 +84,7 @@ function calculateOccurrences( wordCombinations ) {
  * @returns {void}
  */
 function calculateHeadingBonus( wordCombinations, text ) {
-	var subheadings = getSubheadingContents( text );
+	var subheadings = getSubheadingContents( text.toLocaleLowerCase() );
 	forEach( wordCombinations, function( combination ) {
 		forEach( subheadings, function( subheading ) {
 			if( subheading.indexOf( combination.getCombination() ) !== -1 ) {
