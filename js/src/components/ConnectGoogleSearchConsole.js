@@ -24,6 +24,22 @@ class ConnectGoogleSearchConsole extends React.Component {
 	}
 
 	/**
+	 * When the component is rendered and something has been changed, just send the renewed data to the step object.
+	 *
+	 * @param {Object} prevProps The previous props. Unused.
+	 * @param {Object} prevState The previous state.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( prevProps, prevState ) {
+		let profileListIsChanged = prevState.profileList !== this.state.profileList;
+		let profileIsChanged = prevState.profile !== this.state.profile;
+		if( profileListIsChanged || profileIsChanged  ) {
+			this.sendChangeEvent();
+		}
+	}
+
+	/**
 	 * Opens a dialog to get the Google Authentication code.
 	 *
 	 * @returns {Window} Returns instance of the created window.
@@ -110,8 +126,6 @@ class ConnectGoogleSearchConsole extends React.Component {
 			profile: null,
 			error: null,
 		} );
-
-		this.sendChangeEvent();
 	}
 
 	/**
@@ -131,8 +145,6 @@ class ConnectGoogleSearchConsole extends React.Component {
 		this.setState( {
 			profileList: response.profileList,
 		} );
-
-		this.sendChangeEvent();
 	}
 
 	/**
@@ -146,8 +158,6 @@ class ConnectGoogleSearchConsole extends React.Component {
 		this.setState( {
 			profile: evt.target.value,
 		} );
-
-		this.sendChangeEvent();
 	}
 
 	/**
@@ -162,8 +172,6 @@ class ConnectGoogleSearchConsole extends React.Component {
 		this.setState( {
 			error: errorMessage,
 		} );
-
-		this.sendChangeEvent();
 	}
 
 	/**
