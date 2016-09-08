@@ -1,0 +1,71 @@
+/**
+ * Create vendor-prefixed CSS in one go, e.g.
+ * 
+   `@include vendor(border-radius, 4px);`
+ * 
+ */
+@mixin vendor($property, $value) {
+    -webkit-#{$property}: $value;
+       -moz-#{$property}: $value;
+        -ms-#{$property}: $value;
+         -o-#{$property}: $value;
+            #{$property}: $value;
+}
+
+@mixin display-flex {
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	-ms-flex-pack: justify; // for IE10
+
+	.old-ie & {
+		text-align: justify; // for IE9
+
+		&::after {
+			content: '';
+			display: inline-block;
+			width: 100%;
+		}
+
+		> * { // for IE9
+			display: inline-block;
+			text-align: left;
+		}
+	}
+
+}
+
+@mixin rounded--small {
+	border: 1px solid;
+	border-radius: 10px;
+	border-bottom-right-radius: 0;
+}
+
+@mixin rounded--large {
+	border: 1px solid;
+	border-radius: 30px;
+	border-bottom-right-radius: 0;
+}
+
+@mixin rounded--nakedsmall {
+	border-radius: 10px;
+	border-bottom-right-radius: 0;
+}
+
+@mixin rounded--nakedlarge {
+	border-radius: 30px;
+	border-bottom-right-radius: 0;
+}
+
+@mixin clearfix {
+	&:before, &:after {
+		content: '';
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}

@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.3
 Tested up to: 4.6
-Stable tag: 3.4.2
+Stable tag: 3.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -116,6 +116,45 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.5.0 =
+
+Release Date: September 7th, 2016
+
+* Enhancements:
+    * Adds Flesch Reading tests for Dutch and German.
+    * Added info about author links in theme to disable setting on archives settings page.
+    * Explicitly checks for public post type status when creating sitemap.
+    * Removes frequency and priority from sitemap, see release post for clarification.
+    * Improves sitemap "blocking files" notification.
+    * Improves sitemap generation for posts when dealing with a large number of posts.
+    * Improves reliability in some PHP configurations.
+    * Improves styling for notices below tabs.
+    * Adds @id fields to JSON LD output.
+    * Adds table headings and labels to the bulk editor.
+    * Improves the accessibility of the bulk editor.
+    * Prevented loading the network admin when not network active.
+    * Don't show keyword filter in post list when keyword analysis is disabled.
+    * Improves message for settings import.
+    * Adds translations for notification counts.
+    * Makes upload image buttons translatable.
+    * Improves alignment of form fields.
+    * Adds descriptions for breadcrumb and canonicals on category pages.
+    * Improves accessibility on plugin conflict notification links.
+
+* Bugfixes:
+    * Fixes a bug where a new post with focus keyword would show up as a post without a keyword on the dashboard.
+    * Fixes a bug that would break rich term descriptions with large images.
+    * Fixes cache check in dashboard widget, which could cause unnecessary queries.
+    * No longer load toolbar styles when toolbar is disabled.
+    * Fixes a bug to prevent "cannot modify headers" notice on export.
+    * Fixes a bug to improve passive voice recognition.
+    * Fixes a bug to improve sentence detection.
+    * Fixes a bug that prevented the markings from working correctly.
+    * Fixes a bug where select2 would generate a 404 on a non-supported language.
+    * Fixes a bug where HTML attributes could be translated.
+    * Fixes a bug where the <code>og:image</code> tag would be omitted.
+    * Fixes a bug for canonicals for search pages with empty search queries.
+
 = 3.4.2 =
 
 Release Date: August 8th, 2016
@@ -195,104 +234,6 @@ Release Date: July 19th, 2016
 	* Fixes the generation of permalinks for new posts by ignoring the permalink sample and generating the permalink
 	from the posttitle, props [Robert Korulczyk](https://github.com/rob006).
 	* Fixes getting the incorrect primary category when getting the permalink, props [pawawat](https://github.com/pawawat).
-
-= 3.3.4 =
-
-Release Date: June 30th, 2016
-
-* Fixed a bug in the 3.3.3 release that caused the release folder to not have a fix.
-
-= 3.3.3 =
-
-Release Date: June 30th, 2016
-
-* Bugfixes:
-	* Fixes a bug where the focus keyword is not shown for posts created using WordPress SEO 2.x.
-	* Fixes a bug where changing the title in the bulk editor could be used to trigger JavaScript for the current user.
-
-= 3.3.2 =
-
-Release Date: June 21st, 2016
-
-* Enhancements:
-	* Removes non-minified files. This makes the download a lot smaller which will result in less cases of an incomplete or failed download.
-	* Add setting and user option to disable the content analysis; The SEO analysis will still be present.
-	* Change the overall content analysis bullet to be more lenient in non-English languages. This means it will be easier to get a green bullet for non-English languages.
-
-* Bugfixes:
-	* Fix issue where the settings export zip file could be read from the uploads folder after doing an export.
-
-= 3.3.1 =
-
-Release Date: June 15th, 2016
-
-* Enhancements:
-	* Adds help center to google search console page when not connected to google search console.
-	* Adds video to the Yoast SEO dashboard to explain it.
-	* Ships the production version of React instead of the development version.
-
-* Bugfixes
-	* Fixes a bug where the primary category wouldn't be in the permalink if `get_permalink` was called outside the loop.
-	* Fixes a compatibility issue where we set `$` to `jQuery`.
-	* Fixes a bug with redirects on a subsite in a multisite installation, props [nicholas-eden](https://github.com/nicholas-eden).
-	* Fixes a bug where invalid HTML would throw a warning.
-	* Fixes a bug where reading server variables using `filter_input` returns an empty result.
-	* Fixes a bug where the passive voice and transition words would be shown on non-english language
-
-= 3.3.0 =
-
-Release Date: June 14th, 2016
-
-* Features:
-	* Added a dashboard under the SEO menu item and moved all persistent notifications to this dashboard.
-	* Added an indicator to the menu and admin bar about pending notifications and SEO problems.
-	* Splits the analysis into content and keyword analysis.
-	* Adds a ton of content feedback about the following properties:
-		* The length of subheadings.
-		* The length of text following a subheading.
-		* The length of paragraphs.
-		* The length of sentences.
-		* The presence of transition words.
-		* The presence of the passive voice.
-	* Adds a marker button for specific properties to mark these in the editor:
-		* The length of paragraphs.
-		* The length of sentences.
-		* The presence of passive voice.
-		* The presence of transition words.
-		* The presence of links with the focus keyword as link text.
-	* Adds slug transliteration for the following languages, this means that we now match with both the non-transliterated keyword and the transliterated keyword:
-		* Spanish, Polish, German, Nynorsk, Bokmål, Swedish, Finnish,
-		* Danish, Turkish, Latvian, Icelandic, Faroese, Czech, Russian,
-		* Esperanto, Afrikaans, Catalan, Asturian, Aragonese, Aymara,
-		* English, French, Italian, Dutch, Bambara.
-	* Adds a search box in the help center to search in the [Yoast knowledge base](https://kb.yoast.com).
-
-* Enhancements:
-	* Adds missing alt tags to banners.
-	* Adds a 50.000 URL hard limit to the sitemaps, this is what google recommends.
-	* Moves social tab above settings tab in the metabox.
-	* Adds live updating to the score indicator in the admin bar on the post edit page.
-	* Optimize multiple sitemap cache clears by waiting until the end of the pageload to actual clear the cache.
-	* Improved title separator radio buttons accessibility.
-	* Removed Alexa verification from the plugin as it no longer works.
-
-* Bugfixes:
-	* Fixes a bug where a quote inside an attribute in the XML sitemaps would cause to create invalid XML.
-	* Fixes a bug where using a custom posts table would not result in correct output in the XML sitemaps.
-	* Fixes an issue where canonical URLs didn't always correctly have a trailing slash, thanks you for your input [MatthewMi11er](https://github.com/MatthewMi11er).
-	* Fixes a bug where we didn't match a focus keyword correctly if it contained a slash.
-	* Fixes a bug where the content analysis would be executed too many times when typing in the snippet preview.
-	* Fixes a bug where the `wpseo_title` filter couldn't change the opengraph and twitter titles, props [Xavi Ivars](https://github.com/xavivars).
-	* Fixes a bug where the focus keyword wouldn't be saved when saving the post instantly after changing the focus keyword.
-	* Fixes a bug where retrieving terms in the breadcrumbs wouldn't be cached, props [Jonny Harris](https://github.com/spacedmonkey)
-	* Fixes a bug where the help center wasn't properly styled in Safari.
-	* Fixes an XSS issue, props [Hristo Pandjarov](https://twitter.com/pandjarov).
-
-* Removed:
-	* Removes the ability to sort on the post score column, because the scores aren't meant to be sorted.
-	* Removes recalculation because there were too many
-	issues with integration missing that can only be added on the actual post edit admin page.
-	* Removes `json_encode` wrapper, it was only necessary for older WordPress versions.
 
 = Earlier versions =
 
