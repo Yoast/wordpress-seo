@@ -5,7 +5,7 @@ import React from "react";
  * Represents a publishing entity interface.
  *
  * @param {Object} props The properties for the object.
- * @returns {JSX} The publishing entity component.
+ * @returns {JSX.Element} The publishing entity component.
  * @constructor
  */
 const PublishingEntity = ( props ) => {
