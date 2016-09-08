@@ -57,8 +57,9 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	public function get_data() {
 
 		$data = array(
-			'profileList' => $this->get_profilelist(),
-			'profile'     => $this->get_profile(),
+			'profileList'    => $this->get_profilelist(),
+			'profile'        => $this->get_profile(),
+			'hasAccessToken' => $this->hasAccessToken()
 		);
 
 		return $data;
@@ -135,5 +136,14 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 		}
 
 		return $profiles;
+	}
+
+	/**
+	 * Checks if there is an access token. If so, there is a connection.
+	 *
+	 * @return bool
+	 */
+	private function hasAccessToken() {
+		return ( null !== $this->gsc_service->get_client()->getAccessToken() );
 	}
 }

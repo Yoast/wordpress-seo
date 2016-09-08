@@ -20,6 +20,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			profileList: props.value.profileList,
 			profile: props.value.profile,
 			error: null,
+			hasAccessToken: props.value.hasAccessToken,
 		};
 	}
 
@@ -125,14 +126,16 @@ class ConnectGoogleSearchConsole extends React.Component {
 			profileList: null,
 			profile: null,
 			error: null,
+			hasAccessToken: false
 		} );
 	}
 
 	/**
 	 * Sets the profile list.
 	 *
-	 * @param {Object|string} response			   The response object.
-	 * @param {Object}        response.profileList List with all available profiles.
+	 * @param {Object|string} response			       The response object.
+	 * @param {Object}        response.profileList     List with all available profiles.
+	 * @param {bool}          response.hasAccessToken  Is there an access token?
 	 *
 	 * @returns {void}
 	 */
@@ -144,6 +147,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 		// Sets the profiles.
 		this.setState( {
 			profileList: response.profileList,
+			hasAccessToken: response.hasAccessToken,
 		} );
 	}
 
@@ -173,7 +177,6 @@ class ConnectGoogleSearchConsole extends React.Component {
 			error: errorMessage,
 		} );
 	}
-
 	/**
 	 * Checks if there are any profiles available.
 	 *
@@ -198,28 +201,42 @@ class ConnectGoogleSearchConsole extends React.Component {
 		this.onChange = this.props.onChange;
 		this.name = this.props.name;
 
-		if( this.hasProfiles() ) {
-			let profiles    = this.state.profileList;
-			let profileKeys = Object.keys( profiles );
+		if( this.state.hasAccessToken ) {
+
+			if( this.hasProfiles() ) {
+				let profiles    = this.state.profileList;
+				let profileKeys = Object.keys( profiles );
+
+				return (
+					<div>
+						<div>
+							<select onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
+								<option value="">Choose a profile</option>
+								{ profileKeys.map(
+									( profileKey, index ) => {
+										return (
+											<option value={profileKey} key={index}>
+												{ profiles[ profileKey ] }
+											</option>
+										);
+									}
+								) }
+							</select>
+						</div>
+
+						<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
+					</div>
+				);
+			}
 
 			return (
 				<div>
-					<select onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
-						<option value="">Choose a profile</option>
-						{ profileKeys.map(
-							( profileKey, index ) => {
-								return (
-									<option value={profileKey} key={index}>
-										{ profiles[ profileKey ] }
-									</option>
-								);
-							}
-						) }
-					</select>
+					<div>There were no profiles found</div>
 
-					<RaisedButton label='Reauthenticate with Google' onClick={this.clearAuthCode.bind( this )} />
+					<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
 				</div>
 			);
+
 		}
 
 		return (
@@ -229,7 +246,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 					Authorization Code. Clicking the button below will open a new window.
 				</p>
 				<div>
-					<RaisedButton label='Get Google Authorization Code' primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
+					<RaisedButton label="Get Google Authorization Code" primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
 				</div>
 
 				<div>
@@ -239,7 +256,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 					<input type="text" id="gsc_authorization_code" name="gsc_authorization_code" defaultValue=""
 						placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
-					<RaisedButton label='Authenticate' onClick={this.saveAuthCode.bind( this )} />
+					<RaisedButton label="Authenticate" onClick={this.saveAuthCode.bind( this )} />
 				</div>
 			</div>
 		);
@@ -253,6 +270,7 @@ ConnectGoogleSearchConsole.propTypes = {
 	value: React.PropTypes.shape( {
 		profileList: React.PropTypes.object,
 		profile: React.PropTypes.string,
+		hasAccessToken: React.PropTypes.bool,
 	} ),
 	onChange: React.PropTypes.func,
 	name: React.PropTypes.string,
