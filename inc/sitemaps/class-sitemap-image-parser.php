@@ -387,6 +387,10 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function get_absolute_url( $src ) {
 
+		if ( empty( $src ) || ! is_string( $src ) ) {
+			return $src;
+		}
+
 		if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
 
 			if ( $src[0] !== '/' ) {
