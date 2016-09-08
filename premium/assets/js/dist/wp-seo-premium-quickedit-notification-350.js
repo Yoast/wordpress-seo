@@ -1,15 +1,18 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* global ajaxurl */
 /* global wpseo_undo_redirect */
+/* global wpseo_create_redirect */
+/* global wpseo_premium_strings */
 /* jshint -W097 */
 'use strict';
+
+var redirectFunctions = require("./redirects/functions");
 
 /**
  * Use notification counter so we can count how many times the function wpseo_show_notification is called.
  *
  * @type {number}
  */
-
 var wpseo_notification_counter = 0;
 
 /**
@@ -137,6 +140,27 @@ function wpseo_handle_button_events(ev) {
 
 window.wpseo_handle_button_events = wpseo_handle_button_events;
 
+window.wpseo_undo_redirect = redirectFunctions.wpseo_undo_redirect;
+window.wpseo_create_redirect = redirectFunctions.wpseo_create_redirect;
+
+jQuery(function () {
+	var wpseo_current_page = wpseo_get_current_page();
+
+	// If current page is edit*.php, continue execution.
+	if (wpseo_current_page === 'edit.php' || wpseo_current_page === 'edit-tags.php') {
+		jQuery('#inline-edit input').on('keydown', function (ev) {
+			wpseo_handle_key_events(ev);
+		});
+
+		jQuery('.button-primary').click(function (ev) {
+			wpseo_handle_button_events(ev);
+		});
+	}
+});
+
+},{"./redirects/functions":2}],2:[function(require,module,exports){
+'use strict';
+
 /**
  * Undoes a redirect.
  *
@@ -160,21 +184,67 @@ function wpseo_undo_redirect(origin, target, type, nonce, source) {
 	});
 }
 
-window.wpseo_undo_redirect = wpseo_undo_redirect;
+/**
+ * Creates a redirect
+ *
+ * @param {string} origin
+ * @param {string} type
+ * @param {string} nonce
+ * @param {object} source
+ */
+function wpseo_create_redirect(origin, type, nonce, source) {
+	var target = '';
 
-jQuery(function () {
-	var wpseo_current_page = wpseo_get_current_page();
+	if (parseInt(type, 10) !== 410) {
+		target = window.prompt(wpseo_premium_strings.enter_new_url.replace('%s', origin));
 
-	// If current page is edit*.php, continue execution.
-	if (wpseo_current_page === 'edit.php' || wpseo_current_page === 'edit-tags.php') {
-		jQuery('#inline-edit input').on('keydown', function (ev) {
-			wpseo_handle_key_events(ev);
-		});
-
-		jQuery('.button-primary').click(function (ev) {
-			wpseo_handle_button_events(ev);
-		});
+		if (target === '') {
+			window.alert(wpseo_premium_strings.error_new_url);
+			return;
+		}
 	}
-});
+
+	jQuery.post(ajaxurl, {
+		action: 'wpseo_add_redirect_plain',
+		ajax_nonce: nonce,
+		redirect: {
+			origin: origin,
+			target: target,
+			type: type
+		}
+	}, function (response) {
+		var notice = jQuery(source).closest('.yoast-alert');
+		// Remove the classes first.
+		jQuery(notice).removeClass('updated').removeClass('error');
+
+		// Remove possibly added redirect errors
+		jQuery(notice).find('.redirect_error').remove();
+
+		if (response.error) {
+			// Add paragraph on top of the notice with actions and set class to error.
+			jQuery(notice).addClass('error').prepend('<p class="redirect_error">' + response.error.message + '</p>');
+
+			return;
+		}
+
+		// Parse the success message
+		var success_message = '';
+		if (parseInt(type, 10) === 410) {
+			success_message = wpseo_premium_strings.redirect_saved_no_target;
+		} else {
+			success_message = wpseo_premium_strings.redirect_saved.replace('%2$s', '<code>' + response.target + '</code>');
+		}
+
+		success_message = success_message.replace('%1$s', '<code>' + response.origin + '</code>');
+
+		// Set class to updated and replace html with the success message
+		jQuery(notice).addClass('updated').html('<p>' + success_message + '</p>');
+	}, 'json');
+}
+
+module.exports = {
+	wpseo_create_redirect: wpseo_create_redirect,
+	wpseo_undo_redirect: wpseo_undo_redirect
+};
 
 },{}]},{},[1]);
