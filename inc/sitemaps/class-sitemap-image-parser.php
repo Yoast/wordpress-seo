@@ -89,6 +89,13 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = $this->get_image_item( $post, $src, $post->post_title, $alt );
 		}
 
+		foreach ( $images as $key => $image ) {
+
+			if ( empty( $image['src'] ) ) {
+				unset( $images[ $key ] );
+			}
+		}
+
 		/**
 		 * Filter images to be included for the post in XML sitemap.
 		 *
