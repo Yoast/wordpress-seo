@@ -5,7 +5,7 @@
 /* jshint -W097 */
 'use strict';
 
-var redirectFunctions = require("./redirects/functions");
+var redirectFunctions = require( "./redirects/functions" );
 
 /**
  * Use notification counter so we can count how many times the function wpseo_show_notification is called.
