@@ -1,7 +1,11 @@
 /* global ajaxurl */
 /* global wpseo_undo_redirect */
+/* global wpseo_create_redirect */
+/* global wpseo_premium_strings */
 /* jshint -W097 */
 'use strict';
+
+var redirectFunctions = require( "./redirects/functions" );
 
 /**
  * Use notification counter so we can count how many times the function wpseo_show_notification is called.
@@ -139,34 +143,8 @@ function wpseo_handle_button_events( ev ) {
 
 window.wpseo_handle_button_events = wpseo_handle_button_events;
 
-/**
- * Undoes a redirect.
- *
- * @param {string} origin The redirect's origin.
- * @param {string} target The redirect's target.
- * @param {string} type The type of redirect.
- * @param {string} nonce The nonce being used to validate the current AJAX request.
- * @param {object} source The DOMElement containing the alerts.
- */
-function wpseo_undo_redirect( origin, target, type, nonce, source ) {
-	jQuery.post(
-		ajaxurl,
-		{
-			action: 'wpseo_delete_redirect_plain',
-			ajax_nonce: nonce,
-			redirect: {
-				origin: origin,
-				target: target,
-				type:   type
-			}
-		},
-		function() {
-			jQuery( source ).closest( '.yoast-alert' ).fadeOut( 'slow' );
-		}
-	);
-}
-
-window.wpseo_undo_redirect = wpseo_undo_redirect;
+window.wpseo_undo_redirect = redirectFunctions.wpseo_undo_redirect;
+window.wpseo_create_redirect = redirectFunctions.wpseo_create_redirect;
 
 (jQuery(function() {
 	var wpseo_current_page = wpseo_get_current_page();
