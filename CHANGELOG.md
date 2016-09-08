@@ -5,6 +5,26 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.5.0: September 7th, 2016
+
+### Changed
+
+* Improves sentence beginning check by matching only alphanumeric characters.
+* Adds horizontal ellipses as sentence terminator.
+
+### Fixed
+
+* Improves detecting sentence endings with block ends.
+* Passive voice detects multiple uses of the same auxiliary.
+* Yoast marks are no longer placed around block level elements.
+* Prevents division by zero in transition word assessment result text.
+* Passive voice detects exceptions with the word 'rid' correctly.
+
+### Added
+
+* Flesch Reading for Dutch
+* Flesch Reading for German
+
 ## 1.4.1: August 2nd, 2016
 
 ### Fixed
@@ -14,18 +34,23 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ## 1.4.0: July 19th, 2016
 
 ### Changed
-    * Improves feedback texts of assessments.
-    * Improves Russian transliteration.
-    * Determine length of title based on the width in pixels instead of on number of characters.
-    * Words comprised of only digits are no longer counted in the Flesch Reading assessment.
-    * Improves passive voice detection by omitting HTML tags.
-    * Non breaking spaces are replaced with normal spaces in word boundaries.
+
+* Improves feedback texts of assessments.
+* Improves Russian transliteration.
+* Determine length of title based on the width in pixels instead of on number of characters.
+* Words comprised of only digits are no longer counted in the Flesch Reading assessment.
+* Improves passive voice detection by omitting HTML tags.
+* Non breaking spaces are replaced with normal spaces in word boundaries.
+
 ### Fixed
-    * Improved keyword density assessment by scoring on the rounded result.
-    * ¿ and ¡ are now accepted as sentence beginnings.
-    * Fix a bug where the text assessment would fail with exactly 300 words.
-    * Fix a bug in the competing links assessment where a link to the same post would be counted as an outbound link.
+
+* Improved keyword density assessment by scoring on the rounded result.
+* ¿ and ¡ are now accepted as sentence beginnings.
+* Fix a bug where the text assessment would fail with exactly 300 words.
+* Fix a bug in the competing links assessment where a link to the same post would be counted as an outbound link.
+
 ### Added
+
 * Transliterations for the following languages:
     * Breton, Chamorro, Corsican, Kashubian, Welsh, Ewe
     * Estonian, Basque, Fulah, Fijian, Arpitan, Friulian
