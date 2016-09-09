@@ -6,7 +6,16 @@ import sendStep from "./helpers/ajaxHelper";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
+/**
+ * Custom colors palette.
+ */
+const muiTheme = getMuiTheme({
+	palette: {
+		primary1Color: "#a4286a",
+	},
+});
 
 /**
  * The OnboardingWizard class.
@@ -240,7 +249,7 @@ class OnboardingWizard extends React.Component {
 		}, step);
 
 		return (
-			<MuiThemeProvider>
+			<MuiThemeProvider muiTheme={muiTheme}>
 				<div className="yoast-wizard-body">
 					<YoastLogo height={93} width={200}/>
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
