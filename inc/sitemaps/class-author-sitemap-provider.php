@@ -112,7 +112,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key'     => $wpdb->get_blog_prefix() .'user_level',
+					'key'     => $wpdb->get_blog_prefix() . 'user_level',
 					'value'   => '0',
 					'compare' => '!=',
 				),

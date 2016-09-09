@@ -3,6 +3,9 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+/**
+ * Describes interface to provide index and page sitemap entries for type handled.
+ */
 interface WPSEO_Sitemap_Provider {
 
 	/**

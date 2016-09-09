@@ -6,7 +6,7 @@
 /**
  * Represents the SEO analysis
  */
-class WPSEO_Metabox_Analysis_SEO implements WPSEO_Metabox_Analysis{
+class WPSEO_Metabox_Analysis_SEO implements WPSEO_Metabox_Analysis {
 
 	/**
 	 * Whether this analysis is enabled.
