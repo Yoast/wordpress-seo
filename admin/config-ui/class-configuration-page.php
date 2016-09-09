@@ -58,6 +58,7 @@ class WPSEO_Configuration_Page {
 		$dashboard_url = admin_url( '/admin.php?page=wpseo_dashboard' );
 		?>
 		<!DOCTYPE html>
+		<html <?php language_attributes(); ?>>
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -69,12 +70,14 @@ class WPSEO_Configuration_Page {
 		</head>
 		<body>
 		<div id="wizard"></div>
-		<a id="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">Go back to the Yoast SEO
-			dashboard.</a>
+		<a id="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+			<?php _e( 'Go back to the Yoast SEO dashboard.', 'wordpress-seo' ); ?>
+		</a>
 		<footer>
 			<?php wp_print_scripts( 'yoast-seo-configuration-wizard' ); ?>
 		</footer>
 		</body>
+		</html>
 		<?php
 
 	}
