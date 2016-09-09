@@ -2,7 +2,7 @@ import React from "react";
 import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
-import sendStep from "./helpers/postJSON";
+import sendStep from "./helpers/ajaxHelper";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -102,9 +102,10 @@ class OnboardingWizard extends React.Component {
 
 		sendStep(
 			this.props.endpoint.url,
-			// The stored data for the steps.
-			this.refs.step.state.fieldValues[ this.state.currentStepId ],
-			this.props.endpoint.headers
+			{
+				data: this.refs.step.state.fieldValues[ this.state.currentStepId ],
+				headers: this.props.endpoint.headers,
+			}
 		)
 		.then( this.handleSuccessful.bind( this, step ) )
 		.catch( this.handleFailure.bind( this ) );

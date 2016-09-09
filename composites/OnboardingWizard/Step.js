@@ -67,7 +67,9 @@ class Step extends React.Component {
 		fieldNames.forEach(
 			( fieldName ) => {
 				if ( typeof fieldValues[ currentStep ][ fieldName ] === "undefined" ) {
-					fieldValues[ currentStep ][ fieldName ] = fields[fieldName].data;
+					fieldValues[ currentStep ][ fieldName ] =
+						(typeof fields[fieldName].data !== "undefined")
+							? fields[fieldName].data : "";
 				}
 			}
 		);
@@ -109,13 +111,15 @@ class Step extends React.Component {
 		let keys = Object.keys( fields );
 
 		return keys.map( ( name, key ) => {
+
 			let currentField = fields[ name ];
 
 			if ( typeof this.components[ currentField.componentName ] === "undefined"
 			     || ! this.components[ currentField.componentName ] ) {
-				console.error(`Trying to load non-existing component: ${currentField.componentName}`);
+				console.error( `Trying to load non-existing component: ${currentField.componentName}` );
 				return null;
 			}
+
 			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
