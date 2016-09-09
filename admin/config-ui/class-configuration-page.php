@@ -70,7 +70,7 @@ class WPSEO_Configuration_Page {
 		</head>
 		<body>
 		<div id="wizard"></div>
-		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">Go back to the Yoast SEO
+		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url; ?>">Go back to the Yoast SEO
 			dashboard.</a>
 		<footer>
 			<?php wp_print_scripts( 'yoast-seo-configuration-wizard' ); ?>
@@ -86,23 +86,12 @@ class WPSEO_Configuration_Page {
 	 * @return array The API endpoint config.
 	 */
 	public function get_config() {
-		$service = new WPSEO_GSC_Service();
 		$config  = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
 			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
 			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
 			'nonce'             => wp_create_nonce( 'wp_rest' ),
 			'root'              => esc_url_raw( rest_url() ),
-			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-
-			'gsc'               => array(
-				
-			),
-
-
-			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
-			'gscProfiles'       => $service->get_sites(),
-			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),
 		);
 
 		return $config;
