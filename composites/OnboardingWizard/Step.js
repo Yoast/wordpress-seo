@@ -120,15 +120,6 @@ class Step extends React.Component {
 				return null;
 			}
 
-			/* The last Mailchimp signup does not have to be rendered,
-			 * if it is completed in the first signup component.
-			 */
-			if ( currentField.componentName === "MailchimpSignup" && this.props.currentStep === "success" ) {
-				if ( this.state.fieldValues[ "intro" ][ "mailchimpSignup" ] === true ) {
-					return;
-				}
-			}
-
 			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
