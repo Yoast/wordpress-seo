@@ -58,7 +58,7 @@ class WPSEO_Configuration_Structure {
 		$this->add_step( 'success', 'Success!', array(
 			'successMessage',
 			'upsellSiteReview',
-			'conditionalMailchimpSignup',
+			'mailchimpSignup',
 		) );
 	}
 

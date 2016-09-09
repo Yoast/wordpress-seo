@@ -15,20 +15,52 @@ class MailchimpSignup extends React.Component {
 	constructor( props ) {
 		// Change the URL to work with json-p.
 		super( props );
-		let alreadySignedUpMessage = "You've already signed up for our newsletter, thank you! " +
-		                             "If you'd like you can sign up with another email adress.";
-		let message = (
-			this.props.value
-		) ? alreadySignedUpMessage : "";
 
 		this.state = {
-			message,
-			succesfulSignup: this.props.value,
+			message: this.getMessage(),
+			successfulSignup: this.props.value,
 		};
 
 		// Set test mailing list.
 		this.props.properties.mailchimpActionUrl =
 			"http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
+	}
+
+	/**
+	 * Sends the change event, because the component is updated.
+	 *
+	 * @param {Object} prevProps
+	 * @param {Object} prevState
+	 */
+	componentDidUpdate( prevProps, prevState ) {
+		let successfulSignup = this.state.successfulSignup !== prevState.successfulSignup;
+
+		if( successfulSignup ) {
+			this.sendChangeEvent();
+		}
+	}
+
+	/**
+	 * Gets a message when the user has subscribed to the newsletter before.
+	 *
+	 * @returns {string} The message if applicable otherwise an empty string.
+	 */
+	getMessage() {
+		if( this.hasSubscription() ) {
+			return "You've already signed up for our newsletter, thank you! If you'd like you can sign up with " +
+				"another email address.";
+		}
+
+		return "";
+	}
+
+	/**
+	 * Checks if current component has a subscription already.
+	 *
+	 * @returns {boolean}
+	 */
+	hasSubscription() {
+		return this.props.value.hasSignup;
 	}
 
 	/**
@@ -46,13 +78,11 @@ class MailchimpSignup extends React.Component {
 			data = data + `&MERGE7=${encodeURIComponent(name)}`;
 		}
 
-		let headers = {};
-
 		let result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
 			{
 				data,
-				headers,
+				headers : {},
 				dataType: "jsonp",
 				jsonp: "c",
 				method: "POST",
@@ -75,19 +105,20 @@ class MailchimpSignup extends React.Component {
 					if ( response.result === "error" ) {
 						this.setState( {
 							isLoading: false,
-							succesfulSignup: false,
+							successfulSignup: false,
 							message: this.stripMessage( response.msg ),
 						} );
-						this.sendChangeEvent();
+
+						this.setSubscription();
+
+						return;
 					}
-					else {
-						this.setState( {
-							isLoading: false,
-							succesfulSignup: true,
-							message: response.msg,
-						} );
-						this.sendChangeEvent();
-					}
+
+					this.setState( {
+						isLoading: false,
+						successfulSignup: true,
+						message: response.msg,
+					} );
 				} )
 			.catch( ( response )=> {
 				console.error( "MailChimp signup failed:", response );
@@ -118,7 +149,9 @@ class MailchimpSignup extends React.Component {
 		let evt = {
 			target: {
 				name: "mailchimpSignup",
-				value: this.state.succesfulSignup,
+				value: {
+					hasSignup: this.state.successfulSignup,
+				},
 			},
 		};
 
@@ -131,6 +164,10 @@ class MailchimpSignup extends React.Component {
 	 * @returns {JSX.Element} Rendered Mailchimp Component.
 	 */
 	render() {
+		if( this.skipRendering() ) {
+			return null;
+		}
+
 		this.onChange = this.props.onChange;
 
 		let input = <input id="mailchimpEmail"
@@ -140,11 +177,9 @@ class MailchimpSignup extends React.Component {
 		                   label="email"
 		                   defaultValue={this.props.properties.currentUserEmail}
 		/>;
-		let button = <RaisedButton label='Sign Up!'
-		                           onClick={this.signup.bind( this )}/>;
-		let message = ( this.state.succesfulSignup )
-			? <p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p>
-			: <p className="yoast-wizard-mailchimp-message-error">{this.state.message}</p>;
+		let button = <RaisedButton label='Sign Up!' onClick={this.signup.bind( this )}/>;
+		let message = this.getSignupMessage();
+
 		return (
 			<div>
 				<h4>{this.props.properties.label}</h4>
@@ -161,15 +196,39 @@ class MailchimpSignup extends React.Component {
 					       defaultValue={this.props.properties.userName}/>
 				</div>
 				<div className="yoast-wizard-text-input">
-				<label htmlFor="mailchimpEmail"
-				       className="yoast-wizard-text-input-label"
-				>Email</label>
-				{input}
+					<label htmlFor="mailchimpEmail" className="yoast-wizard-text-input-label">Email</label>
+					{input}
 				</div>
 				{button}
 				{message}
 			</div>
 		);
+	}
+
+	/**
+	 * When the last step is success and the user has already give his email address.
+	 *
+	 * @returns {boolean}
+	 */
+	skipRendering() {
+		let stepState            = this.props.stepState;
+		let isCurrentStepSuccess = ( stepState.currentStep === 'success' );
+		let hasMailchimpSignup   = ( stepState.fieldValues.intro.mailchimpSignup.hasSignup === true );
+
+		return ( isCurrentStepSuccess && hasMailchimpSignup );
+	}
+
+	/**
+	 * Renders the message after signup.
+	 *
+	 * @returns {XML}
+	 */
+	getSignupMessage() {
+		if( this.state.successfulSignup ) {
+			return <p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p>;
+		}
+
+		return <p className="yoast-wizard-mailchimp-message-error">{this.state.message}</p>;
 	}
 }
 
@@ -179,15 +238,21 @@ MailchimpSignup.propTypes = {
 	properties: React.PropTypes.object,
 	data: React.PropTypes.string,
 	onChange: React.PropTypes.func,
-	value: React.PropTypes.bool,
-
+	value: React.PropTypes.shape(
+		{
+			hasSignup : React.PropTypes.bool
+		}
+	),
+	stepState: React.PropTypes.object
 };
 
 MailchimpSignup.defaultProps = {
 	component: "",
 	properties: {},
 	data: "",
-	value: false,
+	value: {
+		hasSignup: false,
+	},
 };
 
 export default MailchimpSignup;

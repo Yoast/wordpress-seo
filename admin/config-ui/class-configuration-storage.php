@@ -43,8 +43,6 @@ class WPSEO_Configuration_Storage {
 		$this->add_field( new WPSEO_Config_Field_Company_Logo() );
 		$this->add_field( new WPSEO_Config_Field_Person_Name() );
 
-		$this->add_field( new WPSEO_Config_Field_Conditional_Mailchimp_Signup() );
-
 		$post_type_factory = new WPSEO_Config_Factory_Post_Type();
 		foreach ( $post_type_factory->get_fields() as $field ) {
 			$this->add_field( $field );
