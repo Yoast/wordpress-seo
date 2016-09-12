@@ -11,6 +11,8 @@ class MailchimpSignup extends React.Component {
 	 * @summary Constructs the Mailchimp signup component.
 	 *
 	 * @param {object} props The properties.
+	 *
+	 * @returns {void}
 	 */
 	constructor( props ) {
 		// Change the URL to work with json-p.
@@ -20,10 +22,6 @@ class MailchimpSignup extends React.Component {
 			message: this.getMessage(),
 			successfulSignup: this.props.value,
 		};
-
-		// Set test mailing list.
-		this.props.properties.mailchimpActionUrl =
-			"http://yoast.us14.list-manage.com/subscribe/post-json?u=aa73c7380d2fd1a62d2c49aba&id=5b5b5f3b34";
 	}
 
 	/**
@@ -31,6 +29,8 @@ class MailchimpSignup extends React.Component {
 	 *
 	 * @param {Object} prevProps
 	 * @param {Object} prevState
+	 *
+	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps, prevState ) {
 		let successfulSignup = this.state.successfulSignup !== prevState.successfulSignup;
