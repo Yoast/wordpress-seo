@@ -4,7 +4,6 @@ var WordCombination = require( "../values/WordCombination" );
 var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
 var functionWords = require( "../researches/english/functionWords.js" );
 var countSyllables = require( "../stringProcessing/syllables/count.js" );
-var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -74,24 +73,6 @@ function calculateOccurrences( wordCombinations ) {
 	} );
 
 	return values( occurrences );
-}
-
-/**
- * Calculates heading bonus for a list of word combinations.
- *
- * @param {WordCombination[]} wordCombinations The word combinations to calculate heading bonus for.
- * @param {string} text The text to retrieve subheadings for.
- * @returns {void}
- */
-function calculateHeadingBonus( wordCombinations, text ) {
-	var subheadings = getSubheadingContents( text.toLocaleLowerCase() );
-	forEach( wordCombinations, function( combination ) {
-		forEach( subheadings, function( subheading ) {
-			if( subheading.indexOf( combination.getCombination() ) !== -1 ) {
-				combination.incrementHeadingOccurrences();
-			}
-		} );
-	} );
 }
 
 /**
@@ -263,8 +244,6 @@ function getRelevantWords( text ) {
 		combination.setRelevantWords( oneWordRelevanceMap );
 	} );
 
-	calculateHeadingBonus( combinations, text );
-
 	combinations = getRelevantCombinations( combinations, wordCount );
 	sortCombinations( combinations );
 
@@ -285,6 +264,5 @@ module.exports = {
 	filterFunctionWords: filterFunctionWords,
 	filterSpecialCharacters: filterSpecialCharacters,
 	filterOnSyllableCount: filterOnSyllableCount,
-	calculateHeadingBonus: calculateHeadingBonus,
 	filterOnDensity: filterOnDensity,
 };

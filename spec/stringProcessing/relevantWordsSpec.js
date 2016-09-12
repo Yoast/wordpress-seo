@@ -9,7 +9,6 @@ var filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginnin
 var filterFunctionWords = relevantWords.filterFunctionWords;
 var filterSpecialCharacters = relevantWords.filterSpecialCharacters;
 var filterOnSyllableCount = relevantWords.filterOnSyllableCount;
-var calculateHeadingBonus = relevantWords.calculateHeadingBonus;
 var filterOnDensity = relevantWords.filterOnDensity;
 
 describe( "getWordCombinations", function() {
@@ -276,17 +275,6 @@ describe( "filter single words based on syllable count", function() {
 
 		expect( combinations ).toEqual( expected );
 	});
-} );
-
-describe ( "calculates heading bonus", function() {
-	it ( "calculates the heading bonus", function() {
-		var wordCombination = [ new WordCombination ( [ "comments", "on", "your", "blog" ] ) ];
-		var text =  "<h1>How to handle comments on your blog</h1> <p>When blogging regularly, people will start responding to what you write. Maybe not right away," +
-			" but as your blog is growing, you’ll have to deal with comments on your blog. Especially when you write about your worldview or opinions, some people will" +
-			" disagree with you. You’ll therefore have to deal with the responses and opinions of your readers. But how?</p>";
-		calculateHeadingBonus( wordCombination, text );
-		}
-	)
 } );
 
 describe( "getWordCombinations", function() {
