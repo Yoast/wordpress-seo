@@ -21,10 +21,8 @@ class WPSEO_Config_Field_Connect_Google_Search_Console extends WPSEO_Config_Fiel
 	 */
 	public function get_data() {
 		return array(
-			'profile'            => '',
-			'refreshToken'       => '',
-			'accessToken'        => '',
-			'accessTokenExpires' => 0,
+			'profile'     => '',
+			'profileList' => '',
 		);
 	}
 }
