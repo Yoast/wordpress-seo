@@ -28,10 +28,6 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "A test based on exclusion words for syllable count" ) ).toBe( 13 );
 	} );
 
-	it( "returns the number of syllables for the word 'reenact'", function () {
-		expect( countSyllableFunction( "reenact" ) ).toBe( 3 );
-	} );
-
 	it( "returns the number of syllables of words containing the subtract syllable cial", function () {
 
 		expect( countSyllableFunction( "special" ) ).toBe( 2 );
@@ -54,8 +50,14 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "region" ) ).toBe( 2 );
 	} );
 
-	it( "returns the number of syllables of words containing the subtract syllable iou", function () {
+	it( "returns the number of syllables of words containing the subtract syllable [^bdnprv]iou", function () {
 		expect( countSyllableFunction( "delicious" ) ).toBe( 3 );
+		expect( countSyllableFunction( "dubious" ) ).toBe( 3 );
+		expect( countSyllableFunction( "odious" ) ).toBe( 3 );
+		expect( countSyllableFunction( "parsimonious" ) ).toBe( 5 );
+		expect( countSyllableFunction( "pious" ) ).toBe( 2 );
+		expect( countSyllableFunction( "spurious" ) ).toBe( 3 );
+		expect( countSyllableFunction( "obvious" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the subtract syllable sia$", function () {
@@ -167,45 +169,24 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "thyrse" ) ).toBe( 1 );
 	} );
 
+	it( "returns the number of syllables of words containing the add syllable ^eye", function () {
+		expect( countSyllableFunction( "eye" ) ).toBe( 1 );
+	} );
+
 	it( "returns the number of syllables of words containing the add syllable ia", function () {
 		expect( countSyllableFunction( "liar" ) ).toBe( 2 );
 	} );
 
-	it( "returns the number of syllables of words containing the add syllable riet", function () {
-		expect( countSyllableFunction( "variety" ) ).toBe( 4 );
-	} );
-
-	it( "returns the number of syllables of words containing the add syllable dien", function () {
-		expect( countSyllableFunction( "audience" ) ).toBe( 3 );
-	} );
 	it( "returns the number of syllables of words containing the add syllable iu", function () {
 		expect( countSyllableFunction( "delirium" ) ).toBe( 4 );
 	} );
+
 	it( "returns the number of syllables of words containing the add syllable io", function () {
 		expect( countSyllableFunction( "interior" ) ).toBe( 4 );
 	} );
+
 	it( "returns the number of syllables of words containing the add syllable ii", function () {
 		expect( countSyllableFunction( "Hawaii" ) ).toBe( 3 );
-	} );
-
-	it( "returns the number of syllables of words containing the add syllable [aeiouym][bdp]le$", function () {
-		expect( countSyllableFunction( "able" ) ).toBe( 2 );
-		expect( countSyllableFunction( "cradle" ) ).toBe( 2 );
-		expect( countSyllableFunction( "staple" ) ).toBe( 2 );
-		expect( countSyllableFunction( "feeble" ) ).toBe( 2 );
-		expect( countSyllableFunction( "needle" ) ).toBe( 2 );
-		expect( countSyllableFunction( "steeple" ) ).toBe( 2 );
-		expect( countSyllableFunction( "mandible" ) ).toBe( 3 );
-		expect( countSyllableFunction( "idle" ) ).toBe( 2 );
-		expect( countSyllableFunction( "multiple" ) ).toBe( 3 );
-		expect( countSyllableFunction( "noble" ) ).toBe( 2 );
-		expect( countSyllableFunction( "poodle" ) ).toBe( 2 );
-		expect( countSyllableFunction( "people" ) ).toBe( 2 );
-		expect( countSyllableFunction( "double" ) ).toBe( 2 );
-		expect( countSyllableFunction( "caudle" ) ).toBe( 2 );
-		expect( countSyllableFunction( "couple" ) ).toBe( 2 );
-		expect( countSyllableFunction( "ensemble" ) ).toBe( 3 );
-		expect( countSyllableFunction( "simple" ) ).toBe( 2 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable [aeio][aeiou]{2}", function () {
@@ -221,7 +202,7 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "Gaius" ) ).toBe( 2 );
 		expect( countSyllableFunction( "Curaçaoan" ) ).toBe( 4 );
 		expect( countSyllableFunction( "logaoedic" ) ).toBe( 4 );
-		expect( countSyllableFunction( "Maoist" ) ).toBe( 3 );
+		expect( countSyllableFunction( "Maoist" ) ).toBe( 2 );
 		expect( countSyllableFunction( "lauan" ) ).toBe( 2 );
 		expect( countSyllableFunction( "sauerkraut" ) ).toBe( 3 );
 		expect( countSyllableFunction( "maui" ) ).toBe( 2 );
@@ -246,7 +227,7 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "opioid" ) ).toBe( 3 );
 		expect( countSyllableFunction( "bioorganic" ) ).toBe( 5 );
 		expect( countSyllableFunction( "glorious" ) ).toBe( 3 );
-		expect( countSyllableFunction( "hypoaesthesia" ) ).toBe( 6 );
+		expect( countSyllableFunction( "hypoaesthesia" ) ).toBe( 5 );
 		expect( countSyllableFunction( "autoaim" ) ).toBe( 3 );
 		expect( countSyllableFunction( "coauthor" ) ).toBe( 3 );
 		expect( countSyllableFunction( "apnoea" ) ).toBe( 3 );
@@ -262,12 +243,72 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "louisiana" ) ).toBe( 5 );
 	} );
 
+	it( "returns the number of syllables of words containing the add syllable [aeiou]ing", function () {
+		expect( countSyllableFunction( "subpoenaing" ) ).toBe( 4 );
+		expect( countSyllableFunction( "being" ) ).toBe( 2 );
+		expect( countSyllableFunction( "skiing" ) ).toBe( 2 );
+		expect( countSyllableFunction( "doing" ) ).toBe( 2 );
+		expect( countSyllableFunction( "continuing" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [^aeiou]ying", function () {
+		expect( countSyllableFunction( "flying" ) ).toBe( 2 );
+	} );
+
 	it( "returns the number of syllables of words containing the add syllable ui[aeou]", function () {
 		expect( countSyllableFunction( "colloquial" ) ).toBe( 4 );
 		expect( countSyllableFunction( "quiet" ) ).toBe( 2 );
-		expect( countSyllableFunction( "sesquioxide" ) ).toBe( 5 );
+		expect( countSyllableFunction( "sesquioxide" ) ).toBe( 4 );
 		expect( countSyllableFunction( "colloquium" ) ).toBe( 4 );
 	} );
+
+	it( "returns the number of syllables of words containing the add syllable ^ree[jmnpqrsx]", function () {
+		expect( countSyllableFunction( "reeject" ) ).toBe( 3 );
+		expect( countSyllableFunction( "reemit" ) ).toBe( 3 );
+		expect( countSyllableFunction( "reenact" ) ).toBe( 3 );
+		expect( countSyllableFunction( "reepithelialization" ) ).toBe( 9 );
+		expect( countSyllableFunction( "reequipe" ) ).toBe( 3 );
+		expect( countSyllableFunction( "reerect" ) ).toBe( 3 );
+		expect( countSyllableFunction( "reescalate" ) ).toBe( 4 );
+		expect( countSyllableFunction( "reexamine" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ^reele", function () {
+		expect( countSyllableFunction( "reelect" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ^reeva", function () {
+		expect( countSyllableFunction( "reevaluate" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable riet", function () {
+		expect( countSyllableFunction( "variety" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable dien", function () {
+		expect( countSyllableFunction( "audience" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [aeiouym][bdp]le$", function () {
+		expect( countSyllableFunction( "able" ) ).toBe( 2 );
+		expect( countSyllableFunction( "cradle" ) ).toBe( 2 );
+		expect( countSyllableFunction( "staple" ) ).toBe( 2 );
+		expect( countSyllableFunction( "feeble" ) ).toBe( 2 );
+		expect( countSyllableFunction( "needle" ) ).toBe( 2 );
+		expect( countSyllableFunction( "steeple" ) ).toBe( 2 );
+		expect( countSyllableFunction( "mandible" ) ).toBe( 3 );
+		expect( countSyllableFunction( "idle" ) ).toBe( 2 );
+		expect( countSyllableFunction( "multiple" ) ).toBe( 3 );
+		expect( countSyllableFunction( "noble" ) ).toBe( 2 );
+		expect( countSyllableFunction( "poodle" ) ).toBe( 2 );
+		expect( countSyllableFunction( "people" ) ).toBe( 2 );
+		expect( countSyllableFunction( "double" ) ).toBe( 2 );
+		expect( countSyllableFunction( "caudle" ) ).toBe( 2 );
+		expect( countSyllableFunction( "couple" ) ).toBe( 2 );
+		expect( countSyllableFunction( "ensemble" ) ).toBe( 3 );
+		expect( countSyllableFunction( "simple" ) ).toBe( 2 );
+	} );
+
 
 	it( "returns the number of syllables of words containing the add syllable uei", function () {
 		expect( countSyllableFunction( "blueish" ) ).toBe( 2 );
@@ -296,7 +337,7 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "coaxial" ) ).toBe( 4 );
 	} );
 
-	it( "returns the number of syllables of words containing the add syllable [^gq]ua[^auieo]", function () {
+	it( "returns the number of syllables of words containing the add syllable [^gqauieo]ua[^auieo]", function () {
 		expect( countSyllableFunction( "dual" ) ).toBe( 2 );
 	} );
 
@@ -313,33 +354,16 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "happiest" ) ).toBe( 3 );
 	} );
 
-	it( "returns the number of syllables of words containing the add syllable [aeiouy]ing", function () {
-		expect( countSyllableFunction( "subpoenaing" ) ).toBe( 4 );
-		expect( countSyllableFunction( "being" ) ).toBe( 2 );
-		expect( countSyllableFunction( "skiing" ) ).toBe( 2 );
-		expect( countSyllableFunction( "doing" ) ).toBe( 2 );
-		expect( countSyllableFunction( "continuing" ) ).toBe( 4 );
-		expect( countSyllableFunction( "flying" ) ).toBe( 2 );
-	} );
-
 	it( "returns the number of syllables of words containing the add syllable [aeiouw]y[aeiou]", function () {
 		expect( countSyllableFunction( "papaya" ) ).toBe( 3 );
 		expect( countSyllableFunction( "abeyance" ) ).toBe( 3 );
-		// maar:
-		expect( countSyllableFunction( "graveyard" ) ).toBe( 2 );
 		expect( countSyllableFunction( "teriyaki" ) ).toBe( 4 );
 		expect( countSyllableFunction( "loyal" ) ).toBe( 2 );
 		expect( countSyllableFunction( "guyana" ) ).toBe( 3 );
 		expect( countSyllableFunction( "wyandot" ) ).toBe( 3 );
 		expect( countSyllableFunction( "prayer" ) ).toBe( 2 );
-		// maar
-		expect( countSyllableFunction( "eye" ) ).toBe( 1 );
 		expect( countSyllableFunction( "foyer" ) ).toBe( 2 );
-		// maar
-		expect( countSyllableFunction( "annoyed" ) ).toBe( 2 );
 		expect( countSyllableFunction( "buyer" ) ).toBe( 2 );
-		// maar:
-		expect( countSyllableFunction( "lawyer" ) ).toBe( 2 );
 		expect( countSyllableFunction( "saying" ) ).toBe( 2 );
 		expect( countSyllableFunction( "obeying" ) ).toBe( 3 );
 		expect( countSyllableFunction( "tiyin" ) ).toBe( 2 );
@@ -363,7 +387,7 @@ describe( "a syllable counter for English text strings", function () {
 		expect( countSyllableFunction( "tire" ) ).toBe( 2 );
 	} );
 
-	it( "returns the number of syllables of words containing the add syllable aeo", function () {
+	it( "returns the number of syllables of words containing the add syllable eoa", function () {
 		expect( countSyllableFunction( "paleoanthropology" ) ).toBe( 8 );
 	} );
 
@@ -521,19 +545,6 @@ describe( "a syllable counter for Dutch text strings", function () {
 
 	it( "returns the number of syllables of a word that should not be affected by the exclusionCompound regex", function () {
 		expect( countSyllableFunction( "gemeenteambtenaar, ", "nl_NL" ) ).toBe( 6 );
-	} );
-
-	it( "returns the number of syllables of words containing addSyllables", function () {
-		//
-		expect( countSyllableFunction( "" ) ).toBe(  );
-
-
-	} );
-
-	it( "returns the number of syllables of words containing subtractSyllables", function () {
-		//
-		expect( countSyllableFunction( "" ) ).toBe(  );
-
 	} );
 
 	it( "works for german", function() {
