@@ -17,11 +17,9 @@ var defaultArguments = {
 };
 
 module.exports = ( function() {
-	"use strict";
-
 	/**
 	 * Constructor for a generic tab object
-	 * @param {Object} args
+	 * @param {Object} args The arguments for the tab.
 	 * @constructor
 	 */
 	function GenericTab( args ) {
@@ -41,6 +39,8 @@ module.exports = ( function() {
 	 *
 	 * @param {HTMLElement} container The container element to add the tab to.
 	 * @param {string} [position] Either prepend or append for the position in the container.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.init = function( container, position ) {
 		position = position || "prepend";
@@ -53,7 +53,9 @@ module.exports = ( function() {
 	 * Adds the current tab to the container element.
 	 *
 	 * @param {string|Object} container The container element to add the tab to. jQuery object or selector.
-	 * @param {string} [position] Either prepend or append for the position in the container.
+	 * @param {string} [position] Either prepend or append for the position in the
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.addToContainer = function( container, position ) {
 		var $container = $( container );
@@ -79,7 +81,9 @@ module.exports = ( function() {
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
-	 * @param {int} indicator
+	 * @param {int} score The score for the indicator.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.updateScore = function( score ) {
 		var indicator = this.getIndicator( score );
@@ -92,6 +96,8 @@ module.exports = ( function() {
 
 	/**
 	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.refresh = function() {
 		var replacement = this.render();
@@ -104,6 +110,8 @@ module.exports = ( function() {
 	 * Adds additional CSS classes based on the classes field.
 	 *
 	 * @returns {string} The classes to add.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.addAdditionalClasses = function() {
 		return this.classes.join( " " );
@@ -133,7 +141,9 @@ module.exports = ( function() {
 	/**
 	 * Sets the current element
 	 *
-	 * @param {HTMLElement} element
+	 * @param {HTMLElement} element The element to set.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.setElement = function( element ) {
 		this.element = jQuery( element );
@@ -143,6 +153,8 @@ module.exports = ( function() {
 
 	/**
 	 * Adds event handler to tab
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.addEventHandler = function() {
 		$( this.element ).on( "click", this.onClick.bind( this ) );
@@ -150,6 +162,8 @@ module.exports = ( function() {
 
 	/**
 	 * Activates the tab
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.activate = function() {
 		this.onActivate();
@@ -165,6 +179,8 @@ module.exports = ( function() {
 
 	/**
 	 * Removes active state class from all tabs.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.deactivate = function() {
 		this.active = false;
@@ -175,6 +191,8 @@ module.exports = ( function() {
 	 * Handles clicking the tab.
 	 *
 	 * @param {UIEvent} ev The event fired by the browser.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.onClick = function( ev ) {
 		ev.preventDefault();
