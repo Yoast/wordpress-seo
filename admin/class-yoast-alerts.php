@@ -49,6 +49,7 @@ class Yoast_Alerts {
 		add_action( 'admin_init', array( __CLASS__, 'collect_alerts' ), 99 );
 
 		// Add AJAX hooks.
+		add_action( 'wp_ajax_yoast_dismiss_alerts', array( $this, 'ajax_dismiss_alerts' ) );
 		add_action( 'wp_ajax_yoast_dismiss_alert', array( $this, 'ajax_dismiss_alert' ) );
 		add_action( 'wp_ajax_yoast_restore_alert', array( $this, 'ajax_restore_alert' ) );
 	}
@@ -79,6 +80,33 @@ class Yoast_Alerts {
 	}
 
 	/**
+	 * Handle ajax request to dismiss all alerts
+	 */
+	public function ajax_dismiss_alerts() {
+
+		$notifications = json_decode(filter_input( INPUT_POST, 'data' ), true);
+
+		if ( count( $notifications !== 0 ) ) {
+			$responses = [];
+			$notification_center = Yoast_Notification_Center::get();
+
+			foreach( $notifications as $notification) {
+				$nonce = $notification['nonce'];
+
+				$notification = $notification_center->get_notification_by_id( $notification['id'] );
+				$notification_center->maybe_dismiss_notification( $notification, 'seen', $notification->get_id(), $nonce );
+
+				$responses[] = $notification;
+			}
+
+			// Only return the last response
+			$this->output_ajax_responses( array_unique( $responses ) );
+		}
+
+		wp_die();
+	}
+
+	/**
 	 * Handle ajax request to restore an alert
 	 */
 	public function ajax_restore_alert() {
@@ -91,6 +119,43 @@ class Yoast_Alerts {
 		}
 
 		wp_die();
+	}
+
+	/**
+	 * Create AJAX response data
+	 *
+	 * @param array $responses Responses to parse.
+	 */
+	private function output_ajax_responses( $responses ) {
+		$html = [];
+
+		foreach( $responses as $response ) {
+			$type = $response->get_type();
+
+			if ( $type === 'updated' ) {
+				$type = 'warning';
+			}
+
+			$html[ $type ] = array(
+				'html' => $this->get_view_html( $response->get_type() ),
+				'container' => '.' . $this->determine_container( $type ),
+			);
+		}
+
+		echo wp_json_encode(
+			array(
+				'html'  => $html,
+				'total' => self::get_active_alert_count(),
+			)
+		);
+	}
+
+	private function determine_container( $type ) {
+		if ( $type === 'error' ) {
+			return 'yoast-container__alert';
+		}
+
+		return 'yoast-container__warning';
 	}
 
 	/**

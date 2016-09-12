@@ -82,6 +82,31 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Determines if the notification will be dismissed by matching the notification's ID's.
+	 *
+	 * @param Yoast_Notification $notification The notification to check to see if it will be dismissed.
+	 * @param string $notification_key The notification key to check for to see if dismissal is possible.
+	 *
+	 * @return bool Returns whether or not the notification is dismissing
+	 */
+	public static function is_notification_dismissing( Yoast_Notification $notification, $notification_key ) {
+		$dismissal_key = $notification->get_dismissal_key();
+
+		$is_dismissing = ( $dismissal_key === $notification_key );
+
+		if ( ! $is_dismissing ) {
+			$is_dismissing = ( $notification_key === $notification->get_id() );
+		}
+
+		// Fallback to ?dismissal_key=1&nonce=bla when JavaScript fails.
+		if ( ! $is_dismissing ) {
+			$is_dismissing = ( $notification_key === '1' );
+		}
+
+		return $is_dismissing;
+	}
+
+	/**
 	 * Check if the user has dismissed a notification
 	 *
 	 * @param Yoast_Notification $notification The notification to check for dismissal.
@@ -99,15 +124,22 @@ class Yoast_Notification_Center {
 		return ! empty( $current_value );
 	}
 
+	public static function verify_nonce( $nonce, $notification ) {
+		if ( false === wp_verify_nonce( $nonce, $notification ) ) {
+			return false;
+		}
+	}
+
 	/**
 	 * Check if the nofitication is being dismissed
 	 *
 	 * @param string|Yoast_Notification $notification Notification to check dismissal of.
 	 * @param string                    $meta_value   Value to set the meta value to if dismissed.
+	 * @param string                    $notification_key   The notification key to match again.
 	 *
 	 * @return bool True if dismissed.
 	 */
-	public static function maybe_dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
+	public static function maybe_dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen', $notification_key = '', $user_nonce = '') {
 
 		// Only persistent notifications are dismissible.
 		if ( ! $notification->is_persistent() ) {
@@ -119,24 +151,24 @@ class Yoast_Notification_Center {
 			return true;
 		}
 
-		$dismissal_key   = $notification->get_dismissal_key();
 		$notification_id = $notification->get_id();
 
-		$is_dismissing = ( $dismissal_key === self::get_user_input( 'notification' ) );
-		if ( ! $is_dismissing ) {
-			$is_dismissing = ( $notification_id === self::get_user_input( 'notification' ) );
+		// Notification key
+		if ( $notification_key === '' ) {
+			$notification_key = self::get_user_input( 'notification' );
 		}
 
-		// Fallback to ?dismissal_key=1&nonce=bla when JavaScript fails.
-		if ( ! $is_dismissing ) {
-			$is_dismissing = ( '1' === self::get_user_input( $dismissal_key ) );
-		}
+//		var_dump(self::is_notification_dismissing( $notification, $notification_key ));die;
 
-		if ( ! $is_dismissing ) {
+		if ( ! self::is_notification_dismissing( $notification, $notification_key ) ) {
 			return false;
 		}
 
-		$user_nonce = self::get_user_input( 'nonce' );
+		if ( $user_nonce === '' ) {
+			$user_nonce = self::get_user_input( 'nonce' );
+		}
+
+
 		if ( false === wp_verify_nonce( $user_nonce, $notification_id ) ) {
 			return false;
 		}

@@ -144,6 +144,34 @@
 		setTimeout( hideAlertPopup, 3000 );
 	}
 
+
+	/**
+	 * Updates the notification counter based on the amount of notifications passed.
+	 *
+	 * @param {number} total The amount of notifications that are currently available.
+	 */
+	function updateNotificationCounter( total ) {
+		var $wpseo_menu = $( "#wp-admin-bar-wpseo-menu" );
+		var $issue_counter = $wpseo_menu.find( ".yoast-issue-counter" );
+
+		if ( ! $issue_counter.length ) {
+			$wpseo_menu.find( "> a:first-child" ).append( '<div class="yoast-issue-counter"/>' );
+			$issue_counter = $wpseo_menu.find( ".yoast-issue-counter" );
+		}
+
+		$issue_counter.html( total );
+
+		if ( total === 0 ) {
+			$issue_counter.hide();
+		}
+
+		if ( total !== 0 ) {
+			$issue_counter.show();
+		}
+
+		$( "#toplevel_page_wpseo_dashboard .update-plugins" ).removeClass().addClass( "update-plugins count-" + total );
+	}
+
 	/**
 	 * Handle dismiss and restore AJAX responses
 	 *
@@ -158,7 +186,7 @@
 		}
 
 		if ( response.html ) {
-			$source.closest( ".yoast-container" ).html( response.html );
+			$source.html( response.html );
 			/* jshint ignore:start */
 			/* eslint-disable */
 			hookDismissRestoreButtons();
@@ -166,23 +194,33 @@
 			/* eslint-enable */
 		}
 
-		var $wpseo_menu = $( "#wp-admin-bar-wpseo-menu" );
-		var $issue_counter = $wpseo_menu.find( ".yoast-issue-counter" );
+		updateNotificationCounter( response.total );
+	}
 
-		if ( ! $issue_counter.length ) {
-			$wpseo_menu.find( "> a:first-child" ).append( '<div class="yoast-issue-counter"/>' );
-			$issue_counter = $wpseo_menu.find( ".yoast-issue-counter" );
-		}
+	function sendRequest( action, notificationId, nonce, data, responseTarget ) {
+		$.post(
+			ajaxurl,
+			{
+				action: action,
+				notification: notificationId,
+				nonce: nonce,
+				data: data,
+			},
+			handleDismissRestoreResponse.bind( this, responseTarget ),
+			"json"
+		);
+	}
 
-		$issue_counter.html( response.total );
-		if ( response.total === 0 ) {
-			$issue_counter.hide();
-		} else {
-			$issue_counter.show();
-		}
+	function restore( notificationId, nonce, data, responseTarget ) {
+		sendRequest( "yoast_restore_alert", notificationId, nonce, data, responseTarget );
+	}
 
-		$( "#toplevel_page_wpseo_dashboard .update-plugins" ).removeClass().addClass( "update-plugins count-" + response.total );
-		$( "#toplevel_page_wpseo_dashboard .plugin-count" ).html( response.total );
+	function dismiss( notificationId, nonce, data, responseTarget ) {
+		sendRequest( "yoast_dismiss_alert", notificationId, nonce, data, responseTarget );
+	}
+
+	function disableContainer( container ) {
+		container.append( '<div class="yoast-container-disabled"/>' );
 	}
 
 	/**
@@ -195,42 +233,56 @@
 			var $this = $( this );
 			var $source = $this.closest( ".yoast-alert-holder" );
 
-			var $container = $this.closest( ".yoast-container" );
-			$container.append( '<div class="yoast-container-disabled"/>' );
-
+			disableContainer( $this.closest( ".yoast-container" ) );
 			$this.find( "span" ).removeClass( "dashicons-no-alt" ).addClass( "dashicons-randomize" );
 
-			$.post(
-				ajaxurl,
-				{
-					action: "yoast_dismiss_alert",
-					notification: $source.attr( "id" ),
-					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" ),
-				},
-				handleDismissRestoreResponse.bind( this, $source ),
-				"json"
-			);
+			dismiss( $source.attr( "id" ), $source.data( "nonce" ), $source.data( "json" ), $source.closest( ".yoast-container" ) );
+
 		} );
 
 		$dismissible.on( "click", ".restore", function() {
 			var $this = $( this );
 			var $source = $this.closest( ".yoast-alert-holder" );
 
-			var $container = $this.closest( ".yoast-container" );
-			$container.append( '<div class="yoast-container-disabled"/>' );
+			disableContainer( $this.closest( ".yoast-container" ) );
 
 			$this.find( "span" ).removeClass( "dashicons-arrow-up" ).addClass( "dashicons-randomize" );
+
+			restore( $source.attr( "id" ), $source.data( "nonce" ), $source.data( "json" ), $source.closest( ".yoast-container" ) );
+		} );
+	}
+
+	function hookDismissAllButton() {
+		$( document ).on( "click", ".yoast-dismiss-all", function( ev ) {
+			ev.preventDefault();
+
+			var alerts = [];
+			var holders = $( ".yoast-alert-holder" );
+
+			disableContainer( $( ".yoast-container" ) );
+
+			holders.each( function() {
+				var $this = $( this );
+
+				alerts.push( {
+					id: $this.attr( "id" ),
+					nonce: $this.data( "nonce" ),
+					data: $this.data( "json" ),
+					target: $this,
+				} );
+			} );
 
 			$.post(
 				ajaxurl,
 				{
-					action: "yoast_restore_alert",
-					notification: $source.attr( "id" ),
-					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" ),
+					action: "yoast_dismiss_alerts",
+					data: JSON.stringify( alerts )
 				},
-				handleDismissRestoreResponse.bind( this, $source ),
+				function( data, response ) {
+					$.each( $( data.html )[0], function( key, item ) {
+						handleDismissRestoreResponse( $( item.container ), {html: item.html} );
+					});
+				},
 				"json"
 			);
 		} );
@@ -238,6 +290,7 @@
 
 	$( document ).ready( function() {
 		showAlertPopup();
+		hookDismissAllButton();
 		hookDismissRestoreButtons();
 	} );
 }() );
