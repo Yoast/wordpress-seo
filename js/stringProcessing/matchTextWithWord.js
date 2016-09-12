@@ -4,6 +4,8 @@ var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
 var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyAllSpaces;
 var matchStringWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
 
+var escapeRegExp = require( "lodash/escapeRegExp" );
+
 /**
  * Returns the number of matches in a given string
  *
@@ -16,6 +18,8 @@ var matchStringWithTransliteration = require( "../stringProcessing/matchTextWith
 module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
+	text = text.toLocaleLowerCase();
+	wordToMatch = escapeRegExp( wordToMatch.toLocaleLowerCase() );
 	var matches = matchStringWithTransliteration( text, wordToMatch, locale, extraBoundary );
 	return matches.length;
 };

@@ -54,12 +54,12 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
 };
 
 /**
- * Checks the text for images, checks the type of each image and alttags for containing keywords
+ * Checks the text for images, checks the type of each image and alt attributes for containing keywords
  *
  * @param {Paper} paper The paper to check for images
  * @returns {object} Object containing all types of found images
  */
 module.exports = function( paper ) {
-	var keyword = escapeRegExp( paper.getKeyword() );
+	var keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
 	return matchAltProperties( imageInText( paper.getText() ), keyword, paper.getLocale() );
 };
