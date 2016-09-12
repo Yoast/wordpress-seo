@@ -16,3 +16,11 @@ describe("a test for matching subheadings", function(){
 		expect( result.count ).toBe(3);
 	});
 });
+
+describe( "A test for matching keywords in subheadings", function(){
+	it( "returns the number of matches in a subheading", function(){
+		var mockPaper = new Paper( "<h2>Lorem ipsum $keyword</h2>", {keyword: "$keyword" } );
+		var result = subheadingFunction( mockPaper );
+		expect( result.matches ).toBe(1);
+	})
+} );

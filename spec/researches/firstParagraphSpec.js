@@ -19,5 +19,6 @@ describe( "checks for the keyword in the first paragraph", function(){
 		expect( firstParagraph( new Paper( "<p>this is a key-word</p>", {keyword:"key_word"} ) ) ).toBe( 0 );
 		expect( firstParagraph( new Paper( "<p>this is a key_word</p>", {keyword:"key_word"} ) ) ).toBe( 1 );
 		expect( firstParagraph( new Paper( "<p>this is a key_word</p>", {keyword:"key word"} ) ) ).toBe( 0 );
+		expect( firstParagraph( new Paper( "<p>this is a $keyword with an extra char</p>", {keyword:"$keyword"} ) ) ).toBe( 1 );
 	});
 });

@@ -32,4 +32,10 @@ describe( "the metadescription keyword match research", function() {
 		expect( result ).toBe( 1 );
 	});
 
+	it( "returns the number ( 1 ) of keywords found", function() {
+		var paper = new Paper( "", { keyword: "$keyword", description: "a description with a $keyword" } );
+		var result = metaDescriptionKeyword( paper );
+		expect( result ).toBe( 1 );
+	});
+
 });

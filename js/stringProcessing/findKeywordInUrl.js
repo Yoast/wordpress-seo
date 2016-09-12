@@ -2,6 +2,8 @@
 
 var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" );
 
+var escapeRegExp = require( "lodash/escapeRegExp" );
+
 /**
  * Matches the keyword in the URL.
  *
@@ -12,7 +14,7 @@ var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" 
  */
 module.exports = function( url, keyword, locale ) {
 	var formatUrl = url.match( />(.*)/ig );
-
+	keyword = escapeRegExp( keyword );
 	if ( formatUrl !== null ) {
 		formatUrl = formatUrl[ 0 ].replace( /<.*?>\s?/ig, "" );
 		return matchTextWithTransliteration( formatUrl, keyword, locale ).length > 0;

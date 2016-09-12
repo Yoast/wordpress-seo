@@ -4,6 +4,8 @@ var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
 var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
 var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 
+var escapeRegExp = require( "lodash/escapeRegExp" );
+
 /**
  * Checks if there are any subheadings like h2 in the text
  * and if they have the keyword in them.
@@ -13,7 +15,7 @@ var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).g
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
-	var keyword = paper.getKeyword();
+	var keyword = escapeRegExp( paper.getKeyword() );
 	var locale = paper.getLocale();
 	var result = { count: 0 };
 	text = stripSomeTags( text );

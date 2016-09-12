@@ -2,6 +2,8 @@
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 
+var escapeRegExp = require( "lodash/escapeRegExp" );
+
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
  * and the position of the keyword.
@@ -12,7 +14,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 
 module.exports = function( paper ) {
 	var title = paper.getTitle();
-	var keyword = paper.getKeyword();
+	var keyword = escapeRegExp( paper.getKeyword() );
 	var locale = paper.getLocale();
 	var result = { matches: 0, position: -1 };
 	result.matches = wordMatch( title, keyword, locale );

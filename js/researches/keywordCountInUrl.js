@@ -1,6 +1,8 @@
 /** @module researches/countKeywordInUrl */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+var escapeRegExp = require( "lodash/escapeRegExp" );
+
 /**
  * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
  *
@@ -9,6 +11,6 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  */
 module.exports = function( paper ) {
 	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
-
+	keyword = escapeRegExp( keyword );
 	return wordMatch( paper.getUrl(), keyword, paper.getLocale() );
 };
