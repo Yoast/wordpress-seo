@@ -24,16 +24,6 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Co
 	 * @param array $current_data
 	 * @param array $data
 	 */
-	public function handle_access_token_clear( $current_data, $data ) {
-		return parent::handle_access_token_clear( $current_data, $data );
-	}
-
-	/**
-	 * Make function public
-	 *
-	 * @param array $current_data
-	 * @param array $data
-	 */
 	public function handle_profile_change( $current_data, $data ) {
 		return parent::handle_profile_change( $current_data, $data );
 	}
@@ -133,19 +123,9 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	 */
 	public function test_get_data() {
 		$expected = array(
-			'refreshToken'       => 'a',
-			'accessToken'        => 'b',
-			'accessTokenExpires' => 1,
-			'profile'            => 'c',
-		);
-
-		update_option(
-			WPSEO_Config_Component_Connect_Google_Search_Console::OPTION_ACCESS_TOKEN,
-			array(
-				'refresh_token' => 'a',
-				'access_token'  => 'b',
-				'expires'       => 1,
-			)
+			'profile'        => 'c',
+			'profileList'    => array(),
+			'hasAccessToken' => false
 		);
 
 		$this->component->set_profile('c');
@@ -161,17 +141,11 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	public function test_set_data() {
 
 		$data = array(
-			'profile'            => 'profile',
-			'accessToken'        => 'token_a',
-			'refreshToken'       => 'token_r',
-			'accessTokenExpires' => 5,
+			'profile' => 'profile',
 		);
 
 		$expected = array(
-			'profile'            => true,
-			'accessToken'        => true,
-			'refreshToken'       => true,
-			'accessTokenExpires' => true,
+			'profile' => true,
 		);
 
 		$result = $this->component->set_data( $data );
@@ -185,17 +159,11 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	public function test_set_data_empty_token() {
 
 		$data = array(
-			'profile'            => '',
-			'accessToken'        => '',
-			'refreshToken'       => '',
-			'accessTokenExpires' => 0,
+			'profile' => '',
 		);
 
 		$expected = array(
-			'profile'            => true,
-			'accessToken'        => true,
-			'refreshToken'       => true,
-			'accessTokenExpires' => true,
+			'profile' => true,
 		);
 
 		$result = $this->component->set_data( $data );
@@ -211,45 +179,6 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 			'default',
 			get_option( WPSEO_Config_Component_Connect_Google_Search_Console::OPTION_REFRESH_TOKEN, 'default' )
 		);
-	}
-
-	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::handle_access_token_clear()
-	 */
-	public function test_handle_access_token_clear() {
-		$current = array( 'accessToken' => 'a' );
-		$new     = array( 'accessToken' => 'b' );
-
-		$this->component->handle_access_token_clear( $current, $new );
-
-		// The accessToken is not empty, so should not be called.
-		$this->assertFalse( $this->stub_called( 'clear_data' ) );
-	}
-
-	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::handle_access_token_clear()
-	 */
-	public function test_handle_access_token_clear_no_changes() {
-		$current = array( 'accessToken' => 'a' );
-		$new     = array( 'accessToken' => 'a' );
-
-		$this->component->handle_access_token_clear( $current, $new );
-
-		// No changes, so should not be called.
-		$this->assertFalse( $this->stub_called( 'clear_data' ) );
-	}
-
-	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::handle_access_token_clear()
-	 */
-	public function test_handle_access_token_clear_clear() {
-		$current = array( 'accessToken' => 'a' );
-		$new     = array( 'accessToken' => '' );
-
-		$this->component->handle_access_token_clear( $current, $new );
-
-		// The accessToken is empty but wasn't before, should be cleared.
-		$this->assertTrue( $this->stub_called( 'clear_data' ) );
 	}
 
 	/**
