@@ -53,7 +53,7 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 		$has_saved = false;
 		if( ! empty( $data['hasSignup'] ) ) {
 			// Saves the user meta
-			update_user_meta( get_current_user_id(), self::META_NAME, $data['hasSignup'] );
+			update_user_meta( get_current_user_id(), self::META_NAME, true );
 
 			$has_saved = ( $data['hasSignup'] === $this->has_mailchimp_signup() );
 		}
