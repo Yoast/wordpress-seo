@@ -26,7 +26,7 @@ function isolate( snippetContainer ) {
 }
 
 /**
- * Returns all the arguments required to create a snippet preview object
+ * Returns all the arguments required to create a snippet preview object.
  *
  * @param {Object} snippetContainer A jQuery object with the snippet container element.
  *
@@ -37,7 +37,7 @@ function isolate( snippetContainer ) {
  *
  * @param {Function} saveCallback A callback that is called when the snippet editor fields should be saved.
  *
- * @returns {Object} An object with all the arguments required to create a snippet preview object
+ * @returns {Object} An object with all the arguments required to create a snippet preview object.
  */
 function getSnippetPreviewArgs( snippetContainer, data, saveCallback ) {
 	var l10nObject = getL10nObject();
