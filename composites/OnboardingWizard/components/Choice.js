@@ -20,7 +20,7 @@ const Choice = ( props ) => {
 		return <fieldset className={"yoast-wizard-input-radio-" + fieldName}>
 			{fieldKeys.map( ( choiceName, index ) => {
 				let choice = choices[ choiceName ];
-				let id = `${choiceName}-${index}`;
+				let id = `${fieldName}-${index}`;
 				// If the value for the choice field equals the name for this choice, the choice is checked.
 				let checked = (props.value === choiceName);
 
