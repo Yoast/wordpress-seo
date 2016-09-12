@@ -222,7 +222,7 @@ function getRelevantWords( text ) {
 	var wordCount = words.length;
 
 	var oneWordCombinations = getRelevantCombinations(
-		calculateOccurrences( words ), wordCount
+		calculateOccurrences( words )
 	);
 
 	sortCombinations( oneWordCombinations );
