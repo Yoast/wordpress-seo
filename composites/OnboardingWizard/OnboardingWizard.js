@@ -240,12 +240,16 @@ class OnboardingWizard extends React.Component {
 		let previousButton = this.getNavigationbutton("previous", {
 			label: "Previous",
 			onClick: this.setPreviousStep.bind( this ),
+			disableFocusRipple: true,
+			disableTouchRipple: true,
 		}, step);
 
 		let nextButton = this.getNavigationbutton("next", {
 			label: "Next",
 			primary: true,
 			onClick: this.setNextStep.bind( this ),
+			disableFocusRipple: true,
+			disableTouchRipple: true,
 		}, step);
 
 		return (
