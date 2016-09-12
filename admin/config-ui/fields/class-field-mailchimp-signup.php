@@ -22,4 +22,26 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 		$this->set_property( 'currentUserEmail', $user_email );
 		$this->set_property( 'userName', $current_user->user_firstname . ' ' . $current_user->user_lastname );
 	}
+
+	/**
+	 * Get the data
+	 *
+	 * @return array
+	 */
+	public function get_data() {
+		return array(
+			'hasSignup' => $this->has_mailchimp_signup()
+		);
+
+	}
+
+	/**
+	 * Checks if the user has entered his email for mailchimp already.
+	 *
+	 * @return bool
+	 */
+	protected function has_mailchimp_signup() {
+		$user_meta = get_user_meta( get_current_user_id(), WPSEO_Config_Component_Mailchimp_Signup::META_NAME, true );
+		return ( ! empty( $user_meta ) );
+	}
 }

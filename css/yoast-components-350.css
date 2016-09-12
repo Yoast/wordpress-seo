@@ -362,9 +362,17 @@ body {
 	border-bottom-right-radius: 0;
 }
 
-#yoast-wizard-return-link {
+.yoast-wizard-return-link {
 	display: block;
 	margin: 1em 0;
 	color: #b5b5b5;
 	text-align: center;
+}
+
+.yoast-wizard-mailchimp-message-error {
+	color: red;
+}
+
+.yoast-wizard-mailchimp-message-success {
+	color: #00a000;
 }
