@@ -14,7 +14,12 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @param {Object} props The properties to use.
 	 */
 	constructor( props ) {
-		super();
+		// Make sure the props is an object and not an empty array.
+		if( typeof props.value.profileList !== "object" ) {
+			props.value.profileList = {};
+		}
+
+		super( props );
 
 		this.state = {
 			profileList: props.value.profileList,
@@ -268,7 +273,11 @@ ConnectGoogleSearchConsole.propTypes = {
 	component: React.PropTypes.string,
 	data: React.PropTypes.string,
 	value: React.PropTypes.shape( {
-		profileList: React.PropTypes.object,
+		profileList: React.PropTypes.oneOfType( [
+			React.PropTypes.object,
+			React.PropTypes.array
+		] ),
+
 		profile: React.PropTypes.string,
 		hasAccessToken: React.PropTypes.bool,
 	} ),
