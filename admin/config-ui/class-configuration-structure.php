@@ -30,6 +30,7 @@ class WPSEO_Configuration_Structure {
 			'publishingEntityPersonName',
 		) );
 		$this->add_step( 'profileUrls', __( 'Social profiles', 'wordpress-seo' ), array(
+			'socialProfilesIntro',
 			'profileUrlFacebook',
 			'profileUrlTwitter',
 			'profileUrlInstagram',

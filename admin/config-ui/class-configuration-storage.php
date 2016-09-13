@@ -29,6 +29,7 @@ class WPSEO_Configuration_Storage {
 		$this->add_field( new WPSEO_Config_Field_Site_Name() );
 		$this->add_field( new WPSEO_Config_Field_Separator() );
 
+		$this->add_field( new WPSEO_Config_Field_Social_Profiles_Intro() );
 		$this->add_field( new WPSEO_Config_Field_Profile_URL_Facebook() );
 		$this->add_field( new WPSEO_Config_Field_Profile_URL_Twitter() );
 		$this->add_field( new WPSEO_Config_Field_Profile_URL_Instagram() );
