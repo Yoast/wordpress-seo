@@ -19,8 +19,6 @@ var defaultArguments = {
 };
 
 module.exports = ( function() {
-	"use strict";
-
 	/* eslint-disable no-use-before-define */
 	// Extending all the things.
 	KeywordTab.prototype = Object.create( GenericTab.prototype );
@@ -50,6 +48,8 @@ module.exports = ( function() {
 	 * @param {string} scoreClass
 	 * @param {string} scoreText
 	 * @param {string} [keyword]
+	 *
+	 * @returns {void}
 	 */
 	KeywordTab.prototype.updateScore = function( score, keyword ) {
 		if ( ! isUndefined( keyword ) ) {
@@ -126,6 +126,8 @@ module.exports = ( function() {
 
 	/**
 	 * Returns the keyword for this keyword tab
+	 *
+	 * @returns {void}
 	 */
 	KeywordTab.prototype.getKeywordFromElement = function() {
 		return this.element.find( ".wpseo_tablink" ).data( "keyword" );

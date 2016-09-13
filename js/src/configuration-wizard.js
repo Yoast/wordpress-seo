@@ -6,6 +6,9 @@ import ReactDOM from "react-dom";
 import injectTapEventPlugin from "react-tap-event-plugin";
 import { OnboardingWizard } from "yoast-components";
 
+import MailchimpSignup from "./components/MailchimpSignup";
+import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
+
 injectTapEventPlugin();
 
 class App extends React.Component {
@@ -38,6 +41,7 @@ class App extends React.Component {
 		} );
 
 		config.endpoint = endpoint;
+		config.customComponents = { MailchimpSignup, ConnectGoogleSearchConsole };
 
 		return config;
 	}
