@@ -9,6 +9,10 @@ import { OnboardingWizard } from "yoast-components";
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 
+import { setTranslations } from "yoast-components/utils/i18n";
+
+setTranslations( yoastWizardConfig.translations );
+
 injectTapEventPlugin();
 
 class App extends React.Component {

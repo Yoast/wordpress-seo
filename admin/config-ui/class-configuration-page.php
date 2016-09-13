@@ -88,6 +88,7 @@ class WPSEO_Configuration_Page {
 	 * @return array The API endpoint config.
 	 */
 	public function get_config() {
+		$translations = $this->get_translations();
 		$service = new WPSEO_GSC_Service();
 		$config  = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
@@ -99,9 +100,24 @@ class WPSEO_Configuration_Page {
 			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
 			'gscProfiles'       => $service->get_sites(),
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),
+			'translations'      => $translations,
 		);
 
 		return $config;
+	}
+
+	/**
+	 * Returns the translations necessary for the configuration wizard.
+	 *
+	 * @returns array The translations for the configuration wizard.
+	 */
+	public function get_translations() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/yoast-components-' . get_locale() . '.json';
+		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
+			return json_decode( $file, true );
+		}
+
+		return array();
 	}
 
 	/**
