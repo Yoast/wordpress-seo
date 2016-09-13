@@ -35,7 +35,7 @@ echo '<h2>' . esc_html__( 'Onboarding wizard', 'wordpress-seo' ) . '</h2>';
 	</p>
 <p>
 	<a class="button"
-	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER  ) ); ?>"><?php _e( 'Open the onboarding wizard', 'wordpress-seo' ); ?></a>
+	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ); ?>"><?php _e( 'Open the onboarding wizard', 'wordpress-seo' ); ?></a>
 </p>
 
 	<br/>

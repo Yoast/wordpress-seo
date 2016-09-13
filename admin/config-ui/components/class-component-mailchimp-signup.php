@@ -35,7 +35,7 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 	 */
 	public function get_data() {
 		$data = array(
-			'hasSignup' => $this->has_mailchimp_signup()
+			'hasSignup' => $this->has_mailchimp_signup(),
 		);
 
 		return $data;
@@ -51,8 +51,8 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 	public function set_data( $data ) {
 
 		$has_saved = false;
-		if( ! empty( $data['hasSignup'] ) ) {
-			// Saves the user meta
+		if ( ! empty( $data['hasSignup'] ) ) {
+			// Saves the user meta.
 			update_user_meta( get_current_user_id(), self::META_NAME, true );
 
 			$has_saved = ( $data['hasSignup'] === $this->has_mailchimp_signup() );
@@ -76,6 +76,4 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 
 		return ( ! empty( $user_meta ) );
 	}
-
-
 }
