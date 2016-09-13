@@ -12,7 +12,7 @@ class WPSEO_Config_Field_Company_Logo extends WPSEO_Config_Field {
 	 * WPSEO_Config_Field_Company_Logo constructor.
 	 */
 	public function __construct() {
-		parent::__construct( 'publishingEntityCompanyLogo', 'ConditionalInput' );
+		parent::__construct( 'publishingEntityCompanyLogo', 'Input' );
 
 		$this->set_property( 'label', __( 'Provide an image of the company logo', 'wordpress-seo' ) );
 
