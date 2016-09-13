@@ -6,7 +6,7 @@ import sendStep from "./helpers/ajaxHelper";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import { localize } from "../../utils/i18n";
 
 /**
  * The OnboardingWizard class.
@@ -229,12 +229,12 @@ class OnboardingWizard extends React.Component {
 		let step = this.getCurrentStep();
 
 		let previousButton = this.getNavigationbutton("previous", {
-			label: "Previous",
+			label: this.props.translate( "Previous" ),
 			onClick: this.setPreviousStep.bind( this ),
 		}, step, "yoast-wizard--button yoast-wizard--button__previous");
 
 		let nextButton = this.getNavigationbutton("next", {
-			label: "Next",
+			label: this.props.translate( "Next" ),
 			primary: true,
 			onClick: this.setNextStep.bind( this ),
 		}, step, "yoast-wizard--button yoast-wizard--button__next");
@@ -273,4 +273,4 @@ OnboardingWizard.defaultProps = {
 	customComponents: {},
 };
 
-export default OnboardingWizard;
+export default localize( OnboardingWizard );
