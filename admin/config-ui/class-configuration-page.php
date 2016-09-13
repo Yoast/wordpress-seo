@@ -43,6 +43,8 @@ class WPSEO_Configuration_Page {
 	 * Enqueues the assets needed for the wizard.
 	 */
 	public function enqueue_assets() {
+		wp_enqueue_media();
+
 		$assetManager = new WPSEO_Admin_Asset_Manager();
 		$assetManager->register_assets();
 		$assetManager->enqueue_script( 'configuration-wizard' );
@@ -67,6 +69,7 @@ class WPSEO_Configuration_Page {
 			<title><?php _e( 'Yoast SEO &rsaquo; Setup Wizard', 'wordpress-seo' ); ?></title>
 			<?php
 				do_action( 'admin_print_styles' );
+				do_action( 'admin_print_scripts' );
 				do_action( 'admin_head' );
 			?>
 		</head>
@@ -75,7 +78,11 @@ class WPSEO_Configuration_Page {
 		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url; ?>">Go back to the Yoast SEO
 			dashboard.</a>
 		<footer>
-			<?php wp_print_scripts( 'yoast-seo-configuration-wizard' ); ?>
+			<?php
+			do_action( 'admin_print_footer_scripts' );
+			do_action( 'admin_footer' );
+			wp_print_scripts( 'yoast-seo-configuration-wizard' );
+			?>
 		</footer>
 		</body>
 		<?php
