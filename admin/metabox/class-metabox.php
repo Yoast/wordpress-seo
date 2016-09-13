@@ -615,6 +615,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$post_id = wp_is_post_revision( $post_id );
 		}
 
+		/**
+		 * Determine we're not accidentally updating a different post.
+		 * We can't use filter_input here as the ID isn't available at this point, other than in the $_POST data.
+		 */
+		if ( ! isset( $_POST['ID'] ) || $post_id !== (int) $_POST['ID'] ) {
+			return false;
+		}
+
 		clean_post_cache( $post_id );
 		$post = get_post( $post_id );
 

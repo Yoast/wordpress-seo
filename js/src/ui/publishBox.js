@@ -4,7 +4,6 @@ var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
 
 ( function( $ ) {
-	"use strict";
 	/* eslint-disable no-extend-native */
 	/**
 	 * Converts the first letter to uppercase in a string.
@@ -35,6 +34,8 @@ var imageScoreClass = "image yoast-logo svg";
 	 *
 	 * @param {String} type The score type to update (content or seo).
 	 * @param {String} status The status is the class name that is used to update the image.
+	 *
+	 * @returns {void}
 	 */
 	function updateScoreInPublishBox( type, status ) {
 		var publishSection = $( "#" + type + "-score" );
@@ -51,6 +52,8 @@ var imageScoreClass = "image yoast-logo svg";
 	 *
 	 * @param {String} type The score type, for example content score or keyword score.
 	 * @param {String} status The status for the score initialisation.
+	 *
+	 * @returns {void}
 	 */
 	function createScoresInPublishBox( type, status ) {
 		var publishSection = $( "<div />", {
@@ -72,6 +75,8 @@ var imageScoreClass = "image yoast-logo svg";
 
 	/**
 	 * Initializes the publish box score indicators.
+	 *
+	 * @returns {void}
 	 */
 	function initialise() {
 		var notAvailableStatus = "na";
