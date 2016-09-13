@@ -101,4 +101,27 @@ class WPSEO_Configuration_Page {
 
 		return $config;
 	}
+
+	public static function add_notification() {
+
+		$message = sprintf(
+			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
+			'Yoast SEO',
+			'<a href="'.admin_url( '?page=' . self::PAGE_IDENTIFIER ) .'">',
+	        '</a>'
+		);
+
+		$notification = new Yoast_Notification(
+			$message,
+			array(
+				'type'         => Yoast_Notification::WARNING,
+				'id'           => 'wpseo-dismiss-onboarding-notice',
+				'capabilities' => 'manage_options',
+				'priority'     => 0.8,
+			)
+		);
+
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->add_notification( $notification );
+	}
 }
