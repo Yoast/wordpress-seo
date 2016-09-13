@@ -406,13 +406,230 @@ describe( "a syllable counter for English text strings", function () {
 	it( "returns the number of syllables of words containing the add syllable ioo", function () {
 		expect( countSyllableFunction( "bioorganic" ) ).toBe( 5 );
 	} );
+
+	it( "returns the number of syllables in an exclusion word", function () {
+		expect( countSyllableFunction( "shoreline" ) ).toBe( 2 );
+		expect( countSyllableFunction( "business" ) ).toBe( 2 );
+	} );
 } );
 
 describe( "a syllable counter for Dutch text strings", function () {
+	it( "returns the number of syllables of words containing the subtract syllable ue$", function () {
+		expect( countSyllableFunction( "cue", "nl_NL" ) ).toBe( 1 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable dge+$", function () {
+		expect( countSyllableFunction( "bridge", "nl_NL" ) ).toBe( 1 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable [tcp]iënt", function () {
+		expect( countSyllableFunction( "patiënt", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "recipiënt", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "efficiënt", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable ace$", function () {
+		expect( countSyllableFunction( "interface", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable [br]each", function () {
+		expect( countSyllableFunction( "beachboy", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "reachtruck", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable [ainpr]tiaal", function () {
+		expect( countSyllableFunction( "spatiaal", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "initiaal", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "potentiaal", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "nuptiaal", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "martiaal", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable [io]tiaan$", function () {
+		expect( countSyllableFunction( "Mauritiaan", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "Laotiaan", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable gua[yc]", function () {
+		expect( countSyllableFunction( "Paraguayaan", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "guacamole", "nl_NL" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable [^i]deal", function () {
+		expect( countSyllableFunction( "autodealer", "nl_NL" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable tive$", function () {
+		expect( countSyllableFunction( "detective", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable load", function () {
+		expect( countSyllableFunction( "download", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable [^e]coke", function () {
+		expect( countSyllableFunction( "parelcokes", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the subtract syllable [^s]core$", function () {
+		expect( countSyllableFunction( "hardcore", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable aä", function () {
+		expect( countSyllableFunction( "Kanaäniet", "nl_NL" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable aeu", function () {
+		expect( countSyllableFunction( "linnaeusklokje", "nl_NL" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable aie", function () {
+		expect( countSyllableFunction( "aaien", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ao", function () {
+		expect( countSyllableFunction( "aorta", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ë", function () {
+		expect( countSyllableFunction( "Indiër", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable eo", function () {
+		expect( countSyllableFunction( "deodorant", "nl_NL" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable eú", function () {
+		expect( countSyllableFunction( "seúfeest", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ieau", function () {
+		expect( countSyllableFunction( "politieauto", "nl_NL" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ea$", function () {
+		expect( countSyllableFunction( "alinea", "nl_NL" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ea[^u]", function () {
+		expect( countSyllableFunction( "Koreaan", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "bureau", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ei[ej]", function () {
+		expect( countSyllableFunction( "bemoeien", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "geijkt", "nl_NL" ) ).toBe( 2 );
+	} );
+	it( "returns the number of syllables of words containing the add syllable eu[iu]", function () {
+		expect( countSyllableFunction( "geuit", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "geboorteuur", "nl_NL" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ï", function () {
+		expect( countSyllableFunction( "atheïst", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable iei", function () {
+		expect( countSyllableFunction( "persieing", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ienne", function () {
+		expect( countSyllableFunction( "julienne", "nl_NL" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [^l]ieu[^w]", function () {
+		expect( countSyllableFunction( "copieus", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "milieubeheer", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "nieuw", "nl_NL" ) ).toBe( 1 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [^l]ieu$", function () {
+		expect( countSyllableFunction( "camaieu", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "milieu", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable i[auiy]", function () {
+		expect( countSyllableFunction( "Keniaan", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "atrium", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "eiig", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "riyal", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable stion", function () {
+		expect( countSyllableFunction( "bastion", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [^cstx]io", function () {
+		expect( countSyllableFunction( "zionisme", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "aficionado", "nl_NL" ) ).toBe( 5 );
+		expect( countSyllableFunction( "pensioen", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "station", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "annexionisme", "nl_NL" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable ^sion", function () {
+		expect( countSyllableFunction( "Sion", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "fusion", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable riè", function () {
+		expect( countSyllableFunction( "carrière", "nl_NL" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable oö", function () {
+		expect( countSyllableFunction( "coördinatie", "nl_NL" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable oa", function () {
+		expect( countSyllableFunction( "arboarts", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable oeing", function () {
+		expect( countSyllableFunction( "boeing", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable oeyo", function () {
+		expect( countSyllableFunction( "foeyonghai", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable oie", function () {
+		expect( countSyllableFunction( "dooien", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [eu]ü", function () {
+		expect( countSyllableFunction( "reünie", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "vacuüm", "nl_NL" ) ).toBe( 3 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [^q]u[aeèo]", function () {
+		expect( countSyllableFunction( "duaal", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "actueel", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "suède", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "duo", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "qua", "nl_NL" ) ).toBe( 1 );
+		expect( countSyllableFunction( "bouquet", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "quorn", "nl_NL" ) ).toBe( 1 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable uie", function () {
+		expect( countSyllableFunction( "buien", "nl_NL" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [bhnpr]ieel", function () {
+		expect( countSyllableFunction( "microbieel", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "parochieel", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "ceremonieel", "nl_NL" ) ).toBe( 5 );
+		expect( countSyllableFunction( "principieel", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "prieel", "nl_NL" ) ).toBe( 2 );
+	} );
 
 
-	it( "returns the number of syllables of words affected by the substractSyllables regex", function () {
-		expect( countSyllableFunction( "cue, bridge, beachclub", "nl_NL" ) ).toBe( 4 );
+	it( "returns the number of syllables of words containing the add syllable [bhnpr]iël", function () {
+		expect( countSyllableFunction( "microbiële", "nl_NL" ) ).toBe( 5 );
+		expect( countSyllableFunction( "parochiële", "nl_NL" ) ).toBe( 5 );
+		expect( countSyllableFunction( "ceremoniële", "nl_NL" ) ).toBe( 6 );
+		expect( countSyllableFunction( "principiële", "nl_NL" ) ).toBe( 5 );
+		expect( countSyllableFunction( "notariële", "nl_NL" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables for a sentence with exclusions", function () {
@@ -481,7 +698,6 @@ describe( "a syllable counter for Dutch text strings", function () {
 			"zijn": 1,
 			"twee": 1,
 			"zinnen": 2,
-			"met": 1,
 			"die": 1,
 			"ook": 1,
 			"langere": 3,
@@ -501,22 +717,6 @@ describe( "a syllable counter for Dutch text strings", function () {
 		expect( countSyllableFunction( "café, ayó", "nl_NL" ) ).toBe( 4 );
 	} );
 
-	it( "returns the number of syllables of words affected by the addSyllables regex", function () {
-		expect( countSyllableFunction( "Koreaan, bureau, geijl, camaieu, atrium", "nl_NL" ) ).toBe( 13 );
-	} );
-
-	it( "returns the number of syllables of more words affected by the addSyllables regex", function () {
-		expect( countSyllableFunction( "zionisme, aficionado, Sion, fusion, atrium, duo, player, microbieel", "nl_NL" ) ).toBe( 24 );
-	} );
-
-	it( "returns the number of syllables of words affected by the addSyllables regex and containing diacritics", function () {
-		expect( countSyllableFunction( "reünie, suède, microbiële", "nl_NL" ) ).toBe( 11 );
-	} );
-
-	it( "returns the number of syllables of words affected by the substractSyllables regex:cue", function () {
-		expect( countSyllableFunction( "cue", "nl_NL" ) ).toBe( 1 );
-	} );
-
 	it( "returns the number of syllables of words from the exclusion word list", function () {
 		expect( countSyllableFunction( "airline, fauteuil, lyceum, vibe", "nl_NL" ) ).toBe( 8 );
 	} );
@@ -524,9 +724,11 @@ describe( "a syllable counter for Dutch text strings", function () {
 	it( "returns the number of syllables of words containing words from the exclusion word list at the beginning", function () {
 		expect( countSyllableFunction( "airlineticket, fauteuilleer, muzieklyceum, zomervibe", "nl_NL" ) ).toBe( 15 );
 	} );
+
 	it( "returns the number of syllables of words containing words from the exclusion word list at the end", function () {
 		expect( countSyllableFunction( "budgetairline, clubfauteuil, lyceumleerling, vibeje", "nl_NL" ) ).toBe( 14 );
 	} );
+
 	it( "returns the number of syllables of words affected by the substractSyllables regex and containing diacritics", function () {
 		expect( countSyllableFunction( "patiënt, recipiënt, deficiënt", "nl_NL" ) ).toBe( 8 );
 	} );
@@ -551,14 +753,4 @@ describe( "a syllable counter for Dutch text strings", function () {
 		expect( countSyllableFunction( "jupe", "de_DE" ) ).toBe( 1 );
 	});
 
-} );
-
-describe( "counting syllables", function () {
-	it( "returns the number of syllables in an exclusion word", function () {
-		expect( countSyllableFunction( "shoreline" ) ).toBe( 2 );
-		expect( countSyllableFunction( "business" ) ).toBe( 2 );
-	} );
-	it( "returns the number of syllables in normal word", function () {
-		expect( countSyllableFunction( "strawberry" ) ).toBe( 3 );
-	} )
 } );
