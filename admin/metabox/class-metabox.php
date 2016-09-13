@@ -323,7 +323,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
-		$content_sections[] = $this->get_buy_premium_section();
+		if ( ! file_exists( WPSEO_PATH . 'premium/' ) ) {
+			$content_sections[] = $this->get_buy_premium_section();
+		}
 
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
