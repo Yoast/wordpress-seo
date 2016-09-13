@@ -6,16 +6,7 @@ import sendStep from "./helpers/ajaxHelper";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
-/**
- * Custom colors palette.
- */
-const muiTheme = getMuiTheme({
-	palette: {
-		primary1Color: "#a4286a",
-	},
-});
+import muiTheme from './config/yoast-theme';
 
 /**
  * The OnboardingWizard class.
