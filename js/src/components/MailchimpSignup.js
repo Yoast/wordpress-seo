@@ -73,9 +73,9 @@ class MailchimpSignup extends React.Component {
 		let data = `EMAIL=${email}`;
 		let name = this.refs.nameInput.value.trim();
 
-		if(name !== ""){
+		if ( name !== "" ) {
 			// MERGE7 = the name field in the Yoast newsletter signup form.
-			data = data + `&MERGE7=${encodeURIComponent(name)}`;
+			data = data + `&MERGE7=${encodeURIComponent( name )}`;
 		}
 
 		let result = sendRequest(
@@ -212,7 +212,7 @@ class MailchimpSignup extends React.Component {
 	 */
 	skipRendering() {
 		let stepState            = this.props.stepState;
-		let isCurrentStepSuccess = ( stepState.currentStep === 'success' );
+		let isCurrentStepSuccess = ( stepState.currentStep === "success" );
 		let hasMailchimpSignup   = ( stepState.fieldValues.intro.mailchimpSignup.hasSignup === true );
 
 		return ( isCurrentStepSuccess && hasMailchimpSignup );

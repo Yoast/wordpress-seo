@@ -8,12 +8,14 @@
  */
 class WPSEO_Configuration_Page {
 
+	const PAGE_IDENTIFIER = 'wpseo_configurator';
+
 	/**
 	 * WPSEO_Configuration_Wizard constructor.
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
-		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_configurator' ) {
+		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER ) {
 			return;
 		}
 
@@ -26,7 +28,7 @@ class WPSEO_Configuration_Page {
 	 *  Registers the page for the wizard.
 	 */
 	public function add_wizard_page() {
-		add_dashboard_page( '', '', 'manage_options', 'wpseo_configurator', '' );
+		add_dashboard_page( '', '', 'manage_options', self::PAGE_IDENTIFIER, '' );
 	}
 
 	/**
