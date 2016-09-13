@@ -61,7 +61,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "peerDependencies": {
-    "react-tap-event-plugin": "^1.0.0"
+    "react-tap-event-plugin": "^1.0.0",
+    "material-ui": "^0.15.4"
   },
   "browserify": {
     "transform": [
