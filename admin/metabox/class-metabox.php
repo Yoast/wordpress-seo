@@ -390,7 +390,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns the metabox section for the advanced settings.
+	 * Returns the metabox section for the Premium section.
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
