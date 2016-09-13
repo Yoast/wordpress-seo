@@ -274,7 +274,7 @@ function wpseo_init() {
 }
 
 /**
- * Loads the rest api endpoinrts.
+ * Loads the rest api endpoints.
  */
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
