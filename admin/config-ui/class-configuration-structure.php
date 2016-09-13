@@ -55,7 +55,6 @@ class WPSEO_Configuration_Structure {
 			'siteName',
 			'separator',
 		) );
-		$this->add_step( 'tagLine', __( 'Tagline', 'wordpress-seo' ), array( 'tagLine' ) );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',
 			'upsellSiteReview',

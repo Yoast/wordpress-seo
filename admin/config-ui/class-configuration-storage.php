@@ -25,7 +25,6 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Mailchimp_Signup(),
 			new WPSEO_Config_Field_Environment(),
 			new WPSEO_Config_Field_Site_Type(),
-			new WPSEO_Config_Field_Tag_Line(),
 			new WPSEO_Config_Field_Multiple_Authors(),
 			new WPSEO_Config_Field_Site_Name(),
 			new WPSEO_Config_Field_Separator(),
