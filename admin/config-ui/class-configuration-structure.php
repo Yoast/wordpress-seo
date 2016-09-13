@@ -16,20 +16,20 @@ class WPSEO_Configuration_Structure {
 	 */
 	public function __construct() {
 
-		$this->add_step( 'intro', 'Intro', array(
+		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), array(
 			'upsellConfigurationService',
 			'mailchimpSignup',
 		) );
-		$this->add_step( 'environment_type', 'Environment', array( 'environment_type' ) );
-		$this->add_step( 'siteType', 'Site type', array( 'siteType' ) );
-		$this->add_step( 'publishingEntity', 'Company or person', array(
+		$this->add_step( 'environment_type', __( 'Environment', 'wordpress-seo' ), array( 'environment_type' ) );
+		$this->add_step( 'siteType', __( 'Site type', 'wordpress-seo' ), array( 'siteType' ) );
+		$this->add_step( 'publishingEntity', __( 'Company or person', 'wordpress-seo' ), array(
 			'publishingEntity',
 			'publishingEntityType',
 			'publishingEntityCompanyName',
 			'publishingEntityCompanyLogo',
 			'publishingEntityPersonName',
 		) );
-		$this->add_step( 'profileUrls', 'Social profiles', array(
+		$this->add_step( 'profileUrls', __( 'Social profiles', 'wordpress-seo' ), array(
 			'profileUrlFacebook',
 			'profileUrlTwitter',
 			'profileUrlInstagram',
@@ -46,16 +46,16 @@ class WPSEO_Configuration_Structure {
 		foreach ( $post_type_factory->get_fields() as $post_type_field ) {
 			$fields[] = $post_type_field->get_identifier();
 		}
-		$this->add_step( 'postTypeVisibility', 'Post type visibility', $fields );
+		$this->add_step( 'postTypeVisibility', __( 'Post type visibility', 'wordpress-seo' ), $fields );
 
-		$this->add_step( 'multipleAuthors', 'Multiple authors', array( 'multipleAuthors' ) );
-		$this->add_step( 'connectGoogleSearchConsole', 'Google Search Console', array( 'connectGoogleSearchConsole' ) );
-		$this->add_step( 'titleTemplate', 'Title settings', array(
+		$this->add_step( 'multipleAuthors', __( 'Multiple authors', 'wordpress-seo' ), array( 'multipleAuthors' ) );
+		$this->add_step( 'connectGoogleSearchConsole', __( 'Google Search Console', 'wordpress-seo' ), array( 'connectGoogleSearchConsole' ) );
+		$this->add_step( 'titleTemplate', __( 'Title settings', 'wordpress-seo' ), array(
 			'siteName',
 			'separator',
 		) );
-		$this->add_step( 'tagLine', 'Tagline', array( 'tagLine' ) );
-		$this->add_step( 'success', 'Success!', array(
+		$this->add_step( 'tagLine', __( 'Tagline', 'wordpress-seo' ), array( 'tagLine' ) );
+		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',
 			'upsellSiteReview',
 			'mailchimpSignup',
