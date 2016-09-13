@@ -86,7 +86,7 @@ class MediaUpload extends React.Component {
 		return (
 			<div>
 				<Label for={this.props.name}>{this.props.properties.label}</Label>
-				<Input type="text" name={this.props.name} onChange={ this.props.onChange.bind( this ) } value={this.state.currentUpload} />
+				<span>{this.state.currentUpload}</span>
 				<button onClick={ this.chooseUpload.bind( this ) } className="button button-primary" type="button">Choose image</button>
 				{removeButton}
 			</div>
