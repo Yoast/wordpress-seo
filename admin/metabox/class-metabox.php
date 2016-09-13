@@ -323,9 +323,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
+		$content_sections[] = $this->get_buy_premium_section();
+
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
+
 		return $content_sections;
 	}
 
@@ -380,6 +383,70 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			array( $tab ),
 			array(
 				'link_title' => __( 'Advanced', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	/**
+	 * Returns the metabox section for the advanced settings.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_buy_premium_section() {
+
+		$upsell_url = 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=metabox-upsell-button&utm_campaign=metabox-upsell-section';
+		$more_information_url = 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=link-info&utm_campaign=metabox-upsell-section';
+
+		$content = sprintf( "<div class='wpseo-metabox-premium-description'>
+			%s
+			<ul class='wpseo-metabox-premium-advantages'>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+			</ul>
+			
+			<a id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
+				%s
+			</a>
+			
+			<p><a class='wpseo-metabox-go-to' href='%s'>%s</a></p>
+		</div>",
+			__( "You're not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:", "wordpress-seo" ),
+			__( "Redirect manager", "wordpress-seo" ),
+			__( "Create and manage redirects within your WordPress install.", "wordpress-seo" ),
+			__( "Multiple focus keywords", "wordpress-seo" ),
+			__( "Optimize a single post for up to 5 keywords.", "wordpress-seo" ),
+			__( "Social Previews", "wordpress-seo" ),
+			__( "Check what your Facebook or Twitter post will look like.", "wordpress-seo" ),
+			__( "Premium support", "wordpress-seo" ),
+			__( "Gain access to our 24/7 support team.", "wordpress-seo" ),
+			$upsell_url,
+			__( "Get Yoast SEO Premium now!", "wordpress-seo" ),
+			$more_information_url,
+			__( "More info", "wordpress-seo" )
+			);
+
+		$tab = new WPSEO_Metabox_Form_Tab(
+			'premium',
+			$content,
+			__( 'Yoast SEO Premium', 'wordpress-seo' )
+		);
+
+		return new WPSEO_Metabox_Tab_Section(
+			'premium',
+			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
+			array( $tab ),
+			array(
+				'link_title' => __( 'Yoast SEO Premium', 'wordpress-seo' ),
 			)
 		);
 	}
