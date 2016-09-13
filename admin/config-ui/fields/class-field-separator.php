@@ -14,7 +14,7 @@ class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 	public function __construct() {
 		parent::__construct( 'separator' );
 
-		$this->set_property( 'label', __( 'Separator', 'wordpress-seo' ) );
+		$this->set_property( 'label', __( 'Title Separator', 'wordpress-seo' ) );
 
 		$this->add_choice( 'sc-dash', '-', __( 'Dash', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-ndash', '&ndash;', __( 'En dash', 'wordpress-seo' ) );
