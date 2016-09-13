@@ -36,7 +36,7 @@ class StepIndicator extends React.Component {
 	 */
 	getStepButtonComponents() {
 		let keys = Object.keys( this.props.steps );
-
+		let amountOfSteps = keys.length;
 		let button = {};
 
 		return keys.map( ( name, key ) => {
@@ -50,11 +50,15 @@ class StepIndicator extends React.Component {
 			}
 			// Return a custom step button, without a label for non-active steps.
 			else {
+				let className = this.getStepButtonClass( key, amountOfSteps );
+
 				button = new CustomStepButton( {
 					index: key.valueOf() + 1,
 					tooltip: currentField.title,
-					className: "yoast-wizard--step",
-					onClick: () => {this.props.onClick(name)},
+					className,
+					onClick: () => {
+						this.props.onClick( name )
+					},
 				} );
 			}
 			return React.createElement( Step, { key: "step-indicator-" + key }, button );
@@ -74,6 +78,24 @@ class StepIndicator extends React.Component {
 				</Stepper>
 			</div>
 		);
+	}
+
+	/**
+	 * Determines the class names the step button should get, based on current stepkey and the total amount of steps.
+	 * @param {int} stepKey       The current step key/
+	 * @param {int} amountOfSteps The total amount of steps.
+	 * @returns {string} The classname for the step.
+	 */
+	getStepButtonClass( stepKey, amountOfSteps ) {
+		if ( stepKey === 0 ) {
+			return "yoast-wizard--step yoast-wizard--step__first";
+		}
+
+		if ( stepKey === amountOfSteps - 1 ) {
+			return "yoast-wizard--step yoast-wizard--step__last";
+		}
+
+		return "yoast-wizard--step yoast-wizard--step__inactive";
 	}
 }
 

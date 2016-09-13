@@ -35,14 +35,31 @@ body {
   }
 
   &--button {
-    margin-left: 1em;
     margin-top: 1em;
+
+    &__next {
+      margin-left: 1em;
+    }
   }
 
-  &--step__active {
-    svg {
-      color: #5D237A;
-      fill: #5D237A;
+  &--step {
+    &__active {
+      @media (max-width: 768px) {
+        text-indent: -9999px;
+        div > span > span {
+          padding-right: 0 !important;
+        }
+      }
+
+      svg {
+        color: #5D237A;
+        fill: #5D237A;
+      }
+    }
+    &__inactive {
+      @media (max-width: 768px) {
+        display: none !important;
+      }
     }
   }
 
@@ -90,15 +107,17 @@ body {
   }
 
   &-text-input {
-    min-width: 300px;
 
     &-label {
       cursor: pointer;
-      display: inline-block;
-      width: 100%;
-      max-width: 200px;
+      display: block;
       margin: 1em 0 0;
-      padding-right: 1em;
+    }
+
+    &-field {
+      width: 100%;
+      max-width: 300px;
+      box-sizing: border-box;
     }
   }
 
@@ -155,4 +174,5 @@ body {
       }
     }
   }
+
 }

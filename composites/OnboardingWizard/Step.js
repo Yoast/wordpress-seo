@@ -165,6 +165,7 @@ class Step extends React.Component {
 			name,
 			onChange: this.onChange.bind( this ),
 			properties: currentField.properties,
+			stepState: this.state,
 			value: this.getFieldValue( name, currentField ),
 		};
 
@@ -172,7 +173,7 @@ class Step extends React.Component {
 			let inputFieldProperties = {
 				label: currentField.properties.label,
 				"label-className": `${this.props.classPrefix}-text-input-label`,
-				"input-className": `${this.props.classPrefix}-text-input-box`,
+				"field-className": `${this.props.classPrefix}-text-input-field`,
 				optionalAttributes: {
 					"class": `${this.props.classPrefix}-text-input`,
 				}
@@ -198,7 +199,7 @@ class Step extends React.Component {
 				requiredFieldValue,
 				label: currentField.properties.label,
 				"label-className": `${this.props.classPrefix}-text-input-label`,
-				"input-className": `${this.props.classPrefix}-text-input-box`,
+				"field-className": `${this.props.classPrefix}-text-input-field`,
 				optionalAttributes: {
 					"class": `${this.props.classPrefix}-text-input`,
 				}

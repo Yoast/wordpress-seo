@@ -205,7 +205,7 @@ class OnboardingWizard extends React.Component {
 	 *
 	 * @returns {RaisedButton || ""} Returns a RaisedButton component depending on an existing previous/next step.
 	 */
-	getNavigationbutton(type, attributes, currentStep){
+	getNavigationbutton(type, attributes, currentStep, className){
 		let hideButton = false;
 
 		if ( (type === "next" && ! currentStep.next) ||
@@ -215,7 +215,7 @@ class OnboardingWizard extends React.Component {
 		}
 
 		return ( ! hideButton )
-			? <RaisedButton className="yoast-wizard--button yoast-wizard--button__next"
+			? <RaisedButton className={className}
 			                {...attributes} />
 			: "";
 	}
@@ -233,7 +233,7 @@ class OnboardingWizard extends React.Component {
 			onClick: this.setPreviousStep.bind( this ),
 			disableFocusRipple: true,
 			disableTouchRipple: true,
-		}, step);
+		}, step, "yoast-wizard--button yoast-wizard--button__previous");
 
 		let nextButton = this.getNavigationbutton("next", {
 			label: "Next",
@@ -241,7 +241,7 @@ class OnboardingWizard extends React.Component {
 			onClick: this.setNextStep.bind( this ),
 			disableFocusRipple: true,
 			disableTouchRipple: true,
-		}, step);
+		}, step, "yoast-wizard--button yoast-wizard--button__next");
 
 		return (
 			<MuiThemeProvider muiTheme={muiTheme}>
