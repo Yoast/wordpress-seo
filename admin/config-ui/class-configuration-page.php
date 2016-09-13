@@ -112,7 +112,7 @@ class WPSEO_Configuration_Page {
 		$message = sprintf(
 			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
 			'Yoast SEO',
-			'<a href="' . admin_url( '?page=wpseo_configurator' ) . '">',
+			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
 			'</a>'
 		);
 
