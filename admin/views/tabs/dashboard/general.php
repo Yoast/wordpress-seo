@@ -9,6 +9,22 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+echo '<h2>' . esc_html__( 'Onboarding wizard', 'wordpress-seo' ) . '</h2>';
+?>
+	<p>
+		<?php
+			/* translators: %1$s expands to Yoast SEO */
+			printf( __( 'Configure %1$s step-by-step.', 'wordpress-seo' ), 'Yoast SEO' );
+		?>
+	</p>
+<p>
+	<a class="button"
+	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ); ?>"><?php _e( 'Open the onboarding wizard', 'wordpress-seo' ); ?></a>
+</p>
+
+	<br/>
+<?php
+
 echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>
 <p>

@@ -20,7 +20,6 @@ var tmceId = "content";
 var termsTmceId = "description";
 
 ( function() {
-	"use strict";
 
 	/**
 	 * Gets content from the content field by element id.
@@ -49,6 +48,8 @@ var termsTmceId = "description";
 	 * Returns whether or not a tinyMCE editor with the given ID is available.
 	 *
 	 * @param {string} editorID The ID of the tinyMCE editor.
+	 *
+	 * @returns {void}
 	 */
 	function isTinyMCEAvailable( editorID ) {
 		if ( ! isTinyMCELoaded() ) {
@@ -97,6 +98,8 @@ var termsTmceId = "description";
 	 * @param {string} editorId The ID for the tinyMCE editor.
 	 * @param {Array<string>} events The events to bind to.
 	 * @param {Function} callback The function to call when an event occurs.
+	 *
+	 * @returns {void}
 	 */
 	function addEventHandler( editorId, events, callback ) {
 		if ( typeof tinyMCE === "undefined" || typeof tinyMCE.on !== "function" ) {
@@ -118,6 +121,8 @@ var termsTmceId = "description";
 
 	/**
 	 * Calls the function in the YoastSEO.js app that disables the marker (eye)icons.
+	 *
+	 * @returns {void}
 	 */
 	function disableMarkerButtons() {
 		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
@@ -131,6 +136,8 @@ var termsTmceId = "description";
 
 	/**
 	 * Calls the function in the YoastSEO.js app that enables the marker (eye)icons.
+	 *
+	 * @returns {void}
 	 */
 	function enableMarkerButtons() {
 		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
@@ -145,6 +152,8 @@ var termsTmceId = "description";
 	/**
 	 * Check if the TinyMCE editor is created in the DOM. If it doesn't exist yet an on create event created.
 	 * This enables the marker buttons, when TinyMCE is created.
+	 *
+	 * @returns {void}
 	 */
 	function wpTextViewOnInitCheck() {
 		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
@@ -172,6 +181,8 @@ var termsTmceId = "description";
 	 *
 	 * @param {App} app YoastSeo application.
 	 * @param {String} tmceId The ID of the tinyMCE editor.
+	 *
+	 * @returns {void}
 	 */
 	function tinyMceEventBinder( app, tmceId ) {
 		addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], app.refresh.bind( app ) );
