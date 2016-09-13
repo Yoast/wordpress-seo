@@ -91,13 +91,29 @@ class Step extends React.Component {
 		let fieldName = evt.target.name;
 
 		// If the field value is undefined, add the fields to the field values.
-		if ( typeof fieldValues[ this.state.currentStep ][ fieldName ] !== "undefined" ) {
+		if ( this.hasFieldValue( this.state.currentStep, fieldName ) ) {
 			fieldValues[ this.state.currentStep ][ fieldName ] = evt.target.value;
 		}
 
 		this.setState( {
 			fieldValues,
 		} );
+	}
+
+	/**
+	 * Checks if there is a value for the given step and field name.
+	 *
+	 * @param {string} stepName  The required step name.
+	 * @param {string} fieldName The needed field name.
+	 * @returns {boolean} True if there is a value.
+	 */
+	hasFieldValue( stepName, fieldName ) {
+
+		if ( this.state.fieldValues.hasOwnProperty( stepName ) ) {
+			return ( typeof this.state.fieldValues[ stepName ][ fieldName ] !== "undefined" );
+		}
+
+		return false;
 	}
 
 	/**
@@ -109,6 +125,8 @@ class Step extends React.Component {
 	 */
 	getFieldComponents( fields ) {
 		let keys = Object.keys( fields );
+
+		keys = this.filterConditonalFields( keys, fields );
 
 		return keys.map( ( name, key ) => {
 
@@ -123,7 +141,43 @@ class Step extends React.Component {
 			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
+
 		} );
+	}
+
+	/**
+	 * Checks if a field has to be rendered based on a required field value.
+	 *
+	 * @param {Array}  fieldKeys The keys to filter.
+	 * @param {Object} fields    The fields to check.
+	 *
+	 * @returns {Array} Returns the filtered keys.
+	 */
+	filterConditonalFields( fieldKeys, fields ) {
+		return fieldKeys.filter( ( name ) => {
+			if( fields[ name ].hasOwnProperty( 'requires' ) ) {
+				return this.showConditionalField( fields[ name ].requires );
+			}
+
+			return true;
+		} );
+	}
+
+	/**
+	 * Checks if the condition for the field is met.
+	 *
+	 * @param {Object} condition       The conditions for the field.
+	 * @param {string} condition.field The field name to compare the value with.
+	 * @param {string} condition.value The required value for showing the field.
+	 *
+	 * @returns {boolean} True when the field matches the condition.
+	 */
+	showConditionalField( condition ) {
+		if( ! this.hasFieldValue( this.state.currentStep, condition.field ) ) {
+			return false;
+		}
+
+		return ( condition.value === this.state.fieldValues[ this.state.currentStep ][ condition.field ] );
 	}
 
 	/**
@@ -189,21 +243,6 @@ class Step extends React.Component {
 			};
 
 			Object.assign( props, choiceFieldProperties );
-		}
-
-		if ( componentType === "ConditionalInput" ) {
-			let fieldValues = this.state.fieldValues;
-			let requiredFieldValue = fieldValues[ this.props.currentStep ][ currentField.requires.field ];
-			Object.assign( props, {
-				requires: currentField.requires,
-				requiredFieldValue,
-				label: currentField.properties.label,
-				"label-className": `${this.props.classPrefix}-text-input-label`,
-				"field-className": `${this.props.classPrefix}-text-input-field`,
-				optionalAttributes: {
-					"class": `${this.props.classPrefix}-text-input`,
-				}
-			});
 		}
 
 		return props;
