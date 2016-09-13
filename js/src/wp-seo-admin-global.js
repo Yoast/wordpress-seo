@@ -4,12 +4,12 @@
 /* jshint unused:false */
 
 ( function() {
-	"use strict";
-
 	/**
 	 * Displays console notifications.
 	 *
 	 * Looks at a global variable to display all notifications in there.
+	 *
+	 * @returns {void}
 	 */
 	function displayConsoleNotifications() {
 		if ( typeof window.wpseoConsoleNotifications === "undefined" || typeof console === "undefined" ) {
@@ -29,6 +29,8 @@
 	 * Used to dismiss the tagline notice for a specific user.
 	 *
 	 * @param {string} nonce
+	 *
+	 * @returns {void}
 	 */
 	function wpseoDismissTaglineNotice( nonce ) {
 		jQuery.post( ajaxurl, {
@@ -44,6 +46,8 @@
 	 * @param {string} option
 	 * @param {string} hide
 	 * @param {string} nonce
+	 *
+	 * @returns {void}
 	 */
 	function wpseoSetIgnore( option, hide, nonce ) {
 		jQuery.post( ajaxurl, {
@@ -129,6 +133,8 @@
 
 	/**
 	 * Hide popup showing new alerts are present
+	 *
+	 * @returns {void}
 	 */
 	function hideAlertPopup() {
 		$( "#wp-admin-bar-root-default > li" ).off( "hover", hideAlertPopup );
@@ -137,6 +143,8 @@
 
 	/**
 	 * Show popup with new alerts message
+	 *
+	 * @returns {void}
 	 */
 	function showAlertPopup() {
 		$( ".yoast-issue-added" ).hover( hideAlertPopup ).fadeIn();
@@ -149,6 +157,8 @@
 	 *
 	 * @param {Object} $source Object that triggered the request.
 	 * @param {Object} response AJAX response.
+	 *
+	 * @returns {void}
 	 */
 	function handleDismissRestoreResponse( $source, response ) {
 		$( ".yoast-alert-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
@@ -187,6 +197,8 @@
 
 	/**
 	 * Hook the restore and dismiss buttons
+	 *
+	 * @returns {void}
 	 */
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( ".yoast-alert-holder" );
@@ -236,9 +248,36 @@
 		} );
 	}
 
+	/**
+	 * Sets the color of the svg for the premium indicator based on the color of the color scheme.
+	 *
+	 * @returns {void}
+	 */
+	function setPremiumIndicatorColor() {
+		let $premiumIndicator = jQuery( ".wpseo-js-premium-indicator" );
+		let $svg = $premiumIndicator.find( "svg" );
+
+		// Don't change the color to stand out when premium is actually enabled.
+		if ( $premiumIndicator.hasClass( "wpseo-premium-indicator--no" ) ) {
+			let $svgPath = $svg.find( "path" );
+
+			let backgroundColor = $premiumIndicator.css( "backgroundColor" );
+
+			$svgPath.css( "fill", backgroundColor );
+		}
+
+		$svg.css( "display", "block" );
+		$premiumIndicator.css( {
+			backgroundColor: "transparent",
+			width: "20px",
+			height: "20px",
+		} );
+	}
+
 	$( document ).ready( function() {
 		showAlertPopup();
 		hookDismissRestoreButtons();
+		setPremiumIndicatorColor();
 	} );
 }() );
 
@@ -251,6 +290,8 @@
 	 * Start video if found on the tab
 	 *
 	 * @param {object} $tab Tab that is activated.
+	 *
+	 * @returns {void}
 	 */
 	function activateVideo( $tab ) {
 		var $data = $tab.find( ".wpseo-tab-video__data" );
@@ -263,6 +304,8 @@
 
 	/**
 	 * Stop playing any video.
+	 *
+	 * @returns {void}
 	 */
 	function stopVideos() {
 		$( "#wpbody-content" ).find( ".wpseo-tab-video__data" ).children().remove();
@@ -273,6 +316,8 @@
 	 *
 	 * @param {object} $container Container that contains the tab.
 	 * @param {object} $tab Tab that is activated.
+	 *
+	 * @returns {void}
 	 */
 	function openHelpCenterTab( $container, $tab ) {
 		$container.find( ".contextual-help-tabs-wrap div" ).removeClass( "active" );
@@ -286,6 +331,8 @@
 	 * Open Video Slideout
 	 *
 	 * @param {object} $container Tab to open video slider of.
+	 *
+	 * @returns {void}
 	 */
 	function openVideoSlideout( $container ) {
 		$container.find( ".toggle__arrow" ).removeClass( "dashicons-arrow-down" ).addClass( "dashicons-arrow-up" );
@@ -319,6 +366,8 @@
 
 	/**
 	 * Close Video Slideout
+	 *
+	 * @returns {void}
 	 */
 	function closeVideoSlideout() {
 		var $container = $( "#wpbody-content" ).find( ".wpseo-tab-video-container" );

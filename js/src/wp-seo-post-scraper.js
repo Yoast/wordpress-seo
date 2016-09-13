@@ -123,6 +123,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	 * @param {App} app The App object.
 	 * @param {PostDataCollector} postScraper The post scraper object.
 	 * @param {Object} publishBox The publish box object.
+	 *
+	 * @returns {void}
 	 */
 	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
 		var savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
@@ -143,6 +145,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	 * Initializes content analysis
 	 *
 	 * @param {Object} publishBox The publish box object.
+	 *
+	 * @returns {void}
 	 */
 	function initializeContentAnalysis( publishBox ) {
 		var savedContentScore = $( "#yoast_wpseo_content_score" ).val();
@@ -156,6 +160,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 	/**
 	 * Makes sure the hidden focus keyword field is filled with the correct keyword.
+	 *
+	 * @returns {void}
 	 */
 	function keywordElementSubmitHandler() {
 		if ( isKeywordAnalysisActive() && ! YoastSEO.multiKeyword ) {
@@ -197,6 +203,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 	/**
 	 * Hides the add keyword button.
+	 *
+	 * @returns {void}
 	 */
 	function hideAddKeywordButton() {
 		$( ".wpseo-tab-add-keyword" ).hide();
