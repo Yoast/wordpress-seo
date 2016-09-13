@@ -21,15 +21,13 @@ class WPSEO_Config_Field_Upsell_Configuration_Service extends WPSEO_Config_Field
 		/* Translators: %1$s opens the link, %2$s closes the link. */
 		$call_to_action = sprintf(
 			__( 'Order %1$sYoast SEO Premium with our configuration service%2$s here!', 'wordpress-seo' ),
-			"<a href='https://yoa.st/configuration-package'>",
-			"</a>"
+			'<a href="https://yoa.st/configuration-package">',
+			'</a>'
 		);
 
-		$html = "";
-
-		$html .= "<p>" . $intro_text . "</p>";
-		$html .= "<p><em>" . $upsell_text . "</em></p>";
-		$html .= "<p><em>" . $call_to_action . "</em></p>";
+		$html = '<p>' . $intro_text . '</p>';
+		$html .= '<p><em>' . $upsell_text . '</em></p>';
+		$html .= '<p><em>' . $call_to_action . '</em></p>';
 
 
 		$this->set_property( 'html', $html );
