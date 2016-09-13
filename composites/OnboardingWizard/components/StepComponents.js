@@ -1,6 +1,5 @@
 import Choice from "./Choice";
 import Input from "../../../forms/composites/Textfield";
-import ConditionalInput from "../../../forms/composites/ConditionalTextField";
 import HTML from "./Html";
 
 /**
@@ -10,14 +9,12 @@ import HTML from "./Html";
  * @type {{
  *          Choice: ((p1:Object)),
  *          Input: Textfield,
- *          ConditionalTextField,
  *          HTML: ((p1:Object))
  * }}
  */
 let Components = {
 	Choice,
 	Input,
-	ConditionalInput,
 	HTML
 };
 
