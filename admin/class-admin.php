@@ -83,6 +83,8 @@ class WPSEO_Admin {
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
 			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
 		}
+
+		new WPSEO_Configuration_Page();
 	}
 
 	/**
@@ -214,7 +216,6 @@ class WPSEO_Admin {
 				array( $this, 'load_page' ),
 				null,
 			),
-
 		);
 
 		// Allow submenu pages manipulation.
@@ -377,6 +378,10 @@ class WPSEO_Admin {
 
 			case 'wpseo_tutorial_videos':
 				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
+				break;
+
+			case 'wpseo_configurator':
+				require_once( WPSEO_PATH . 'admin/config-ui/class-configuration-page.php' );
 				break;
 
 			case self::PAGE_IDENTIFIER:
@@ -622,7 +627,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Extending the current page URL with two params to be able to ignore the tour.
+	 * Extending the current page URL with two params to be able to ignore the notice.
 	 *
 	 * @param string $dismiss_param The param used to dismiss the notification.
 	 *

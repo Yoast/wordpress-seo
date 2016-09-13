@@ -3,7 +3,7 @@ var getL10nObject = require( "./getL10nObject" );
 /**
  * Returns the title placeholder for use in the title forms.
  *
- * @returns {string}
+ * @returns {string} The title placeholder.
  */
 function getTitlePlaceholder() {
 	var titlePlaceholder = "";

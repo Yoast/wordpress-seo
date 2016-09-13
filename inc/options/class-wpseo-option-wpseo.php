@@ -36,10 +36,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'website_name'                    => '',
 		'alternate_website_name'          => '',
 		'yandexverify'                    => '',
+		'site_type'                       => '', // List of options.
+		'has_multiple_authors'            => '',
+		'environment_type'                => '',
 	);
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+	 * @var array Sub-options which should not be overloaded with multi-site defaults
 	 */
 	public $ms_exclude = array(
 		/* privacy */
@@ -49,6 +52,23 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'yandexverify',
 	);
 
+	/** @var array Possible values for the site_type option */
+	protected $site_types = array(
+		'',
+		'blog',
+		'news',
+		'smallBusiness',
+		'corporateOther',
+		'personalOther',
+	);
+
+	/** @var array Possible environment types. */
+	protected $environment_types = array(
+		'',
+		'production',
+		'staging',
+		'development',
+	);
 
 	/**
 	 * Add the actions and filters for the option
@@ -154,6 +174,18 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
+				case 'site_type':
+					$clean[ $key ] = '';
+					if ( in_array( $dirty[ $key ], $this->site_types, true ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
+				case 'environment_type':
+					$clean[ $key ] = '';
+					if ( in_array( $dirty[ $key ], $this->environment_types, true ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
 
 				/*
 				Boolean (checkbox) fields

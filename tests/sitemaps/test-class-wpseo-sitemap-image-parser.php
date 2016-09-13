@@ -23,7 +23,7 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Sitemap_Image_Parser_Test::get_images
+	 * @covers WPSEO_Sitemap_Image_Parser::get_images
 	 */
 	public function test_get_images() {
 

@@ -4,6 +4,8 @@ var isUndefined = require( "lodash/isUndefined" );
 
 /**
  * Returns whether or not the content analysis is active
+ *
+ * @returns {void}
  */
 function isKeywordAnalysisActive() {
 	var l10nObject = getL10nObject();
