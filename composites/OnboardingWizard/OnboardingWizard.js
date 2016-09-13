@@ -209,7 +209,10 @@ class OnboardingWizard extends React.Component {
 		let hideButton = false;
 
 		if ( type === "next" && ! currentStep.next ) {
-			attributes.label = "Close"
+			attributes.label = "Close";
+			attributes.onClick = () => {
+				history.go(-1);
+			}
 		}
 		if ( type === "previous" && ! currentStep.previous ) {
 			hideButton = true;
