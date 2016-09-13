@@ -14,7 +14,8 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 	public function __construct() {
 		parent::__construct( 'siteName', 'Input' );
 
-		$this->set_property( 'label', __( 'Sitename', 'wordpress-seo' ) );
+		$this->set_property( 'label', __( 'Website name', 'wordpress-seo' ) );
+		$this->set_property( 'explanation', __( 'Google shows your website\'s name in the search results, we will default to your site name but you can adapt it here.', 'wordpress-seo' ) );
 	}
 
 	/**
