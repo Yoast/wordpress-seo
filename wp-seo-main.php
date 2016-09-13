@@ -271,7 +271,12 @@ function wpseo_init() {
 
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
+}
 
+/**
+ * Loads the rest api endpoints.
+ */
+function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
 	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) {
 		// Boot up REST API endpoints.
@@ -350,6 +355,7 @@ if ( ! function_exists( 'wp_installing' ) ) {
 
 if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
+	add_action( 'init', 'wpseo_init_rest_api' );
 
 	if ( is_admin() ) {
 
