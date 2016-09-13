@@ -422,19 +422,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			
 			<p><a class='wpseo-metabox-go-to' href='%s'>%s</a></p>
 		</div>",
-			__( "You're not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:", "wordpress-seo" ),
-			__( "Redirect manager", "wordpress-seo" ),
-			__( "Create and manage redirects within your WordPress install.", "wordpress-seo" ),
-			__( "Multiple focus keywords", "wordpress-seo" ),
-			__( "Optimize a single post for up to 5 keywords.", "wordpress-seo" ),
-			__( "Social Previews", "wordpress-seo" ),
-			__( "Check what your Facebook or Twitter post will look like.", "wordpress-seo" ),
-			__( "Premium support", "wordpress-seo" ),
-			__( "Gain access to our 24/7 support team.", "wordpress-seo" ),
+			__( 'You\'re not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:', 'wordpress-seo' ),
+			__( 'Redirect manager', 'wordpress-seo' ),
+			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
+			__( 'Multiple focus keywords', 'wordpress-seo' ),
+			__( 'Optimize a single post for up to 5 keywords.', 'wordpress-seo' ),
+			__( 'Social Previews', 'wordpress-seo' ),
+			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
+			__( 'Premium support', 'wordpress-seo' ),
+			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
 			$upsell_url,
-			__( "Get Yoast SEO Premium now!", "wordpress-seo" ),
+			__( 'Get Yoast SEO Premium now!', 'wordpress-seo' ),
 			$more_information_url,
-			__( "More info", "wordpress-seo" )
+			__( 'More info', 'wordpress-seo' )
 			);
 
 		$tab = new WPSEO_Metabox_Form_Tab(
