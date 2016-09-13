@@ -138,7 +138,8 @@ class Step extends React.Component {
 				return null;
 			}
 
-			let fieldProps = this.getFieldProps( currentField.componentName, key, name, currentField );
+			let fieldKey = `${this.state.currentStep}-${key}`;
+			let fieldProps = this.getFieldProps( currentField.componentName, fieldKey, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
 
