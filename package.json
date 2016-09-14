@@ -28,8 +28,8 @@
     "i18n-calypso": "^1.6.2",
     "jed": "^1.1.1",
     "material-ui": "^0.15.2",
-    "react": "15.3.0",
-    "react-dom": "15.3.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
     "react-tap-event-plugin": "^1.0.0",
     "whatwg-fetch": "^1.0.0"
   },
@@ -60,6 +60,10 @@
     "stubby": "^0.3.1",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
+  },
+  "peerDependencies": {
+    "react-tap-event-plugin": "^1.0.0",
+    "material-ui": "^0.15.4"
   },
   "browserify": {
     "transform": [

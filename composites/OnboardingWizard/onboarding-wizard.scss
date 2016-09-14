@@ -11,6 +11,7 @@ body {
   box-sizing: border-box;
   width: 80%;
   margin: 1rem auto 4rem;
+
 }
 
 #YoastLogo {
@@ -21,7 +22,7 @@ body {
 .#{$prefix} {
   text-align: left;
   min-height: 20px;
-  background: #FFF;
+  background: #fff;
   padding: 1em;
 
   -webkit-box-sizing: border-box;
@@ -65,7 +66,13 @@ body {
 
   &--step--container {
     h1 {
-      font-size: 24px;
+      color: #a4286a;
+      margin-top: 0;
+      margin-bottom: 0.1em;
+      font-size: 2.75em;
+      letter-spacing: normal;
+      line-height: 3.68rem;
+      font-weight: 300;
     }
   }
 
@@ -107,11 +114,14 @@ body {
   }
 
   &-text-input {
+    font-size: 14px;
+    padding-bottom: 0.5em;
 
     &-label {
       cursor: pointer;
       display: block;
-      margin: 1em 0 0;
+      margin: 0.5em 0 0;
+      font-weight: bold;
     }
 
     &-field {
@@ -121,10 +131,15 @@ body {
     }
   }
 
+  &-field-description {
+    font-weight: bold;
+  }
+
   input {
-    margin: 1em 0;
+    line-height: 140%;
+    font-size: 14px;
+    margin: 0.5em 0;
     padding: 5px;
-    font-size: 16px;
   }
 
   label {
@@ -132,10 +147,19 @@ body {
   }
 
   input[type="radio"] {
-    margin-right: 1em;
+    margin-right: 0.7em;
+    margin-top: 1px;
+    vertical-align: middle;
   }
 
   &-input-radio {
+    font-size: 14px;
+
+    &-option {
+      label{
+        padding-top:2px;
+      }
+    }
 
     &-separator {
 
@@ -176,7 +200,3 @@ body {
   }
 
 }
-
-
-
-
