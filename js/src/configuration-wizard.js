@@ -8,6 +8,7 @@ import { OnboardingWizard } from "yoast-components";
 
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
+import MediaUpload from "./components/MediaUpload";
 
 import { setTranslations } from "yoast-components/utils/i18n";
 
@@ -45,7 +46,7 @@ class App extends React.Component {
 		} );
 
 		config.endpoint = endpoint;
-		config.customComponents = { MailchimpSignup, ConnectGoogleSearchConsole };
+		config.customComponents = { MailchimpSignup, MediaUpload, ConnectGoogleSearchConsole };
 
 		return config;
 	}

@@ -12,7 +12,7 @@ class WPSEO_Config_Field_Company_Name extends WPSEO_Config_Field {
 	 * WPSEO_Config_Field_Company_Name constructor.
 	 */
 	public function __construct() {
-		parent::__construct( 'publishingEntityCompanyName', 'ConditionalInput' );
+		parent::__construct( 'publishingEntityCompanyName', 'Input' );
 
 		$this->set_property( 'label', __( 'The name of the company', 'wordpress-seo' ) );
 
