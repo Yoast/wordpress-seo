@@ -208,9 +208,13 @@ class OnboardingWizard extends React.Component {
 	getNavigationbutton(type, attributes, currentStep, className){
 		let hideButton = false;
 
-		if ( (type === "next" && ! currentStep.next) ||
-		     (type === "previous" && ! currentStep.previous)
-		) {
+		if ( type === "next" && ! currentStep.next ) {
+			attributes.label = "Close";
+			attributes.onClick = () => {
+				history.go(-1);
+			}
+		}
+		if ( type === "previous" && ! currentStep.previous ) {
 			hideButton = true;
 		}
 
@@ -236,7 +240,7 @@ class OnboardingWizard extends React.Component {
 		}, step, "yoast-wizard--button yoast-wizard--button__previous");
 
 		let nextButton = this.getNavigationbutton("next", {
-			label: "Next",
+			label: "Continue",
 			primary: true,
 			onClick: this.setNextStep.bind( this ),
 			disableFocusRipple: true,
