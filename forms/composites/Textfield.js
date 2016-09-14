@@ -17,7 +17,6 @@ class Textfield extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
-
 		this.optionalAttributes = this.parseOptionalAttributes();
 	}
 
@@ -36,28 +35,53 @@ class Textfield extends React.Component {
 	}
 
 	/**
+	 * Gets the explanation from the properties.
+	 *
+	 * @returns {JSX.Element|null} Returns a paragraph element containing the explanation
+	 *                               text if present.
+	 */
+	getExplanation() {
+		if ( typeof this.props.properties.explanation !== "undefined"
+		     && this.props.properties.explanation !== "" ) {
+			return <p className="yoast-wizard-input__explanation">
+				{this.props.properties.explanation}
+			</p>
+		}
+	};
+
+	/**
 	 * Get TextInput or a TextArea component based on the multiline property.
 	 *
 	 * @returns {JSX.Element} A representation of either the Textarea or Input component.
 	 */
 	getTextField() {
+		let explanation = this.getExplanation();
+
 		if ( this.props.multiline === true ) {
 			return (
-				<Textarea name={this.props.name}
-			              id={this.props.name}
-			              onChange={this.props.onChange}
-			              optionalAttributes={this.optionalAttributes.field}
-			              value={this.props.value}
-				/>
+				<div>
+					<Textarea name={this.props.name}
+				              id={this.props.name}
+				              onChange={this.props.onChange}
+				              optionalAttributes={this.optionalAttributes.field}
+				              value={this.props.value}
+					/>
+					{explanation}
+				</div>
 			);
 		}
 
-		return ( <Input name={this.props.name}
-		                id={this.props.name}
-		                type="text"
-		                onChange={this.props.onChange}
-		                value={this.props.value}
-		                optionalAttributes={this.optionalAttributes.field} /> );
+		return (
+			<div>
+				<Input name={this.props.name}
+				       id={this.props.name}
+				       type="text"
+				       onChange={this.props.onChange}
+				       value={this.props.value}
+				       optionalAttributes={this.optionalAttributes.field}/>
+				{explanation}
+			</div>
+				);
 	}
 
 	/**
