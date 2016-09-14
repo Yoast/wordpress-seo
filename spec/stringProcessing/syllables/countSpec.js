@@ -38,7 +38,6 @@ describe( "a syllable counter for English text strings", function () {
 	} );
 
 	it( "returns the number of syllables of words containing the subtract syllable cius", function () {
-		// cius
 		expect( countSyllableFunction( "Lucius" ) ).toBe( 2 );
 	} );
 
@@ -588,10 +587,6 @@ describe( "a syllable counter for Dutch text strings", function () {
 		expect( countSyllableFunction( "boeing", "nl_NL" ) ).toBe( 2 );
 	} );
 
-	it( "returns the number of syllables of words containing the add syllable oeyo", function () {
-		expect( countSyllableFunction( "foeyonghai", "nl_NL" ) ).toBe( 3 );
-	} );
-
 	it( "returns the number of syllables of words containing the add syllable oie", function () {
 		expect( countSyllableFunction( "dooien", "nl_NL" ) ).toBe( 2 );
 	} );
@@ -630,6 +625,31 @@ describe( "a syllable counter for Dutch text strings", function () {
 		expect( countSyllableFunction( "ceremoniële", "nl_NL" ) ).toBe( 6 );
 		expect( countSyllableFunction( "principiële", "nl_NL" ) ).toBe( 5 );
 		expect( countSyllableFunction( "notariële", "nl_NL" ) ).toBe( 5 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable [aeolu]y[aeéèoóu]", function () {
+		expect( countSyllableFunction( "papaya", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "cayenne", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "mayonaise", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "ayó", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "ayurveda", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "hockeyacademie", "nl_NL" ) ).toBe( 6 );
+		expect( countSyllableFunction( "erlenmeyer", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "foeyonghai", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "reclameyup", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "chatoyant", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "foyer", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "employé", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "coyote", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "shoyu", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "polyacetyleen", "nl_NL" ) ).toBe( 6 );
+		expect( countSyllableFunction( "flyer", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "lyofiel", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "polyurethaan", "nl_NL" ) ).toBe( 5 );
+		expect( countSyllableFunction( "bruyant", "nl_NL" ) ).toBe( 2 );
+		expect( countSyllableFunction( "appuyeren", "nl_NL" ) ).toBe( 4 );
+		expect( countSyllableFunction( "gruyère", "nl_NL" ) ).toBe( 3 );
+		expect( countSyllableFunction( "golauyoek", "nl_NL" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables for a sentence with exclusions", function () {
@@ -755,10 +775,12 @@ describe( "a syllable counter for German text strings", function () {
 		expect( countSyllableFunction( "bouillon", "de_DE" ) ).toBe( 2 );
 	} );
 
+	// Compensates for "e[äaoö]" in add syllables
 	it( "returns the number of syllables of words containing the subtract syllable deaux", function () {
 		expect( countSyllableFunction( "bordeauxfarben", "de_DE" ) ).toBe( 4 );
 	} );
 
+	// Compensates for "e[äaoö]" in add syllables
 	it( "returns the number of syllables of words containing the subtract syllable deau$", function () {
 		expect( countSyllableFunction( "bordeau", "de_DE" ) ).toBe( 2 );
 	} );
@@ -775,10 +797,12 @@ describe( "a syllable counter for German text strings", function () {
 		expect( countSyllableFunction( "fauteuil", "de_DE" ) ).toBe( 2 );
 	} );
 
+	// Compensates for "e[äaoö]" in add syllables
 	it( "returns the number of syllables of words containing the subtract syllable veau", function () {
 		expect( countSyllableFunction( "niveau", "de_DE" ) ).toBe( 2 );
 	} );
 
+	// Compensates for "e[äaoö]" in add syllables
 	it( "returns the number of syllables of words containing the subtract syllable eau$", function () {
 		expect( countSyllableFunction( "bandeau", "de_DE" ) ).toBe( 2 );
 	} );
