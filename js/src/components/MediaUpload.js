@@ -1,5 +1,6 @@
+/* global wp */
+
 import React from "react";
-import Input from "yoast-components/forms/Input";
 import Label from "yoast-components/forms/Label";
 
 /**
@@ -14,13 +15,15 @@ class MediaUpload extends React.Component {
 		this.state = {
 			currentUpload: props.value,
 			media_upload : wp.media( {
-				title: 'Choose an image', // Translate this
-				button: { text: 'Choose an image' },  // Translate this.
+				// Todo add translation.
+				title: "Choose an image",
+				// Todo add translation.
+				button: { text: "Choose an image" },
 				multiple: false
 			} ),
-		}
+		};
 
-		this.state.media_upload.on( 'select', this.selectUpload.bind( this ) );
+		this.state.media_upload.on( "select", this.selectUpload.bind( this ) );
 	}
 	/**
 	 * Sends the change event, because the component is updated.
@@ -53,12 +56,11 @@ class MediaUpload extends React.Component {
 	 * Selects the image and put the value of it to the state.
 	 */
 	selectUpload() {
-		var attachment = this.state.media_upload.state().get( 'selection' ).first().toJSON();
+		var attachment = this.state.media_upload.state().get( "selection" ).first().toJSON();
 
 		this.setState( {
-			'currentUpload': attachment.url
-		} )
-
+			"currentUpload": attachment.url,
+		} );
 	}
 
 	/**
@@ -66,8 +68,8 @@ class MediaUpload extends React.Component {
 	 */
 	removeUpload() {
 		this.setState( {
-			'currentUpload' : ''
-		} )
+			"currentUpload" : "",
+		} );
 	}
 
 	/**
@@ -76,21 +78,27 @@ class MediaUpload extends React.Component {
 	 * @returns {JSX.Element}
 	 */
 	render() {
-		let removeButton = '';
-		if( this.state.currentUpload !== '' ) {
-			removeButton = ( <button onClick={ this.removeUpload.bind( this ) } className="button button-primary" type="button">
+		let removeButton = "";
+		if( this.state.currentUpload !== "" ) {
+			removeButton = ( <button onClick={ this.removeUpload.bind( this ) }
+			                         className="button button-primary"
+			                         type="button">
 				Remove the image
-			</button> )
+			</button> );
 		}
 
 		return (
 			<div>
 				<Label for={this.props.name}>{this.props.properties.label}</Label>
 				<span>{this.state.currentUpload}</span>
-				<button onClick={ this.chooseUpload.bind( this ) } className="button button-primary" type="button">Choose image</button>
+				<button onClick={ this.chooseUpload.bind( this ) }
+				        className="button button-primary"
+				        type="button">
+					Choose image
+				</button>
 				{removeButton}
 			</div>
-		)
+		);
 	}
 
 	/**
