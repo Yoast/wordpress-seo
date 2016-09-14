@@ -214,11 +214,11 @@ class WPSEO_Taxonomy_Metabox {
 				</li>
 			</ul>
 			
-			<a id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
+			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
 				%s
 			</a>
 			
-			<p><a class='wpseo-metabox-go-to' href='%s'>%s</a></p>
+			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
 		</div>",
 			__( 'You\'re not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:', 'wordpress-seo' ),
 			__( 'Redirect manager', 'wordpress-seo' ),
