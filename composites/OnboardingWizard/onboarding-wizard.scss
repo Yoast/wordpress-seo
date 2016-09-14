@@ -114,7 +114,6 @@ body {
   }
 
   &-text-input {
-    font-size: 14px;
     padding-bottom: 0.5em;
 
     &-label {
@@ -136,6 +135,7 @@ body {
   }
 
   input {
+    font-size: 14px;
     margin: 0.5em 0;
     padding: 5px;
   }
@@ -154,8 +154,8 @@ body {
     font-size: 14px;
 
     &-option {
-      label{
-        padding-top:2px;
+      label {
+        padding-top: 2px;
       }
     }
 
