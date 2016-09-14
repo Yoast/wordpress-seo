@@ -2,6 +2,8 @@
 
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 /**
  * Represents a Google search console interface.
@@ -215,18 +217,22 @@ class ConnectGoogleSearchConsole extends React.Component {
 				return (
 					<div>
 						<div>
-							<select onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
-								<option value="">Choose a profile</option>
+							<SelectField onChange={this.setProfile.bind( this )}
+							             name={this.name}
+							             value={this.state.profile}>
+								<MenuItem value=""
+								          primaryText="Choose a profile"/>
 								{ profileKeys.map(
 									( profileKey, index ) => {
 										return (
-											<option value={profileKey} key={index}>
-												{ profiles[ profileKey ] }
-											</option>
+											<MenuItem value={profileKey}
+											          key={index}
+											          primaryText={ profiles[ profileKey ] }
+											/>
 										);
 									}
 								) }
-							</select>
+							</SelectField>
 						</div>
 
 						<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
@@ -236,7 +242,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 			return (
 				<div>
-					<div>There were no profiles found</div>
+					<p>There were no profiles found</p>
 
 					<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
 				</div>
