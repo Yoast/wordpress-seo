@@ -36,6 +36,8 @@ window.yoastHideMarkers = true;
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
 	 * table cell. This way we can use the wp tinyMCE editor on the description field.
+	 *
+	 * @returns {void}
 	 */
 	var insertTinyMCE = function() {
 		// Get the table cell that contains the description textarea.
@@ -81,6 +83,8 @@ window.yoastHideMarkers = true;
 
 	/**
 	 * Function to handle when the user updates the term slug
+	 *
+	 * @returns {void}
 	 */
 	function updatedTermSlug() {
 		snippetPreview.setUrlPath( termSlugInput.val() );
@@ -88,6 +92,8 @@ window.yoastHideMarkers = true;
 
 	/**
 	 * Adds a watcher on the term slug input field
+	 *
+	 * @returns {void}
 	 */
 	function initTermSlugWatcher() {
 		termSlugInput = $( "#slug" );
@@ -118,6 +124,8 @@ window.yoastHideMarkers = true;
 	 *
 	 * @param {App} app The App object.
 	 * @param {TermDataCollector} termScraper The post scraper object.
+	 *
+	 * @returns {void}
 	 */
 	function initializeKeywordAnalysis( app, termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
@@ -134,6 +142,8 @@ window.yoastHideMarkers = true;
 
 	/**
 	 * Initializes content analysis
+	 *
+	 * @returns {void}
 	 */
 	function initializeContentAnalysis() {
 		var savedContentScore = $( "#hidden_wpseo_content_score" ).val();

@@ -47,8 +47,8 @@
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
     "grunt-wp-i18n": "^0.5.4",
     "load-grunt-config": "^0.19.2",
-    "react": "15.3.0",
-    "react-dom": "15.3.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
     "sassdash": "^0.8.1",
     "time-grunt": "^1.0.0"
   },
@@ -60,8 +60,6 @@
     "select2": "^4.0.3",
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components#master",
-    "react": "15.3.0",
-    "react-dom": "15.3.0"
+    "yoast-components": "git+https://github.com/Yoast/yoast-components#master"
   }
 }
