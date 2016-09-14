@@ -22,10 +22,11 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 
 		$this->post_type = $post_type;
 
-		$this->set_property( 'label', $label );
+		/* Translators: %1$s expands to the name of the post type. The options given to the user are "visible" and "hidden" */
+		$this->set_property( 'label', sprintf( __( 'The post type "%1$s" should be', 'wordpress-seo' ), $label ) );
 
-		$this->add_choice( 'true', 'Visible' );
-		$this->add_choice( 'false', 'Hidden' );
+		$this->add_choice( 'true', __( 'Visible', 'wordpress-seo' ) );
+		$this->add_choice( 'false', __( 'Hidden', 'wordpress-seo' ) );
 	}
 
 	/**
