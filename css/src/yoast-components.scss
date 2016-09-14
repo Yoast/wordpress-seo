@@ -4,7 +4,8 @@
 .yoast-wizard {
 
   &-return-link {
-    color: #b5b5b5;
+	/* lighter #555d66 */
+	color: #646d78;
     margin: 1em 0;
     display: block;
     text-align: center;
@@ -13,10 +14,10 @@
   &-mailchimp {
     &-message {
       &-error {
-        color: red;
+        color: #dc3232;
       }
       &-success{
-        color: #00a000;
+        color: #008a00;
       }
     }
   }
