@@ -1,7 +1,7 @@
 /* global wp */
 
 import React from "react";
-import Label from "yoast-components/forms/Label";
+import RaisedButton from 'material-ui/RaisedButton';
 
 /**
  * @summary Media upload component.
@@ -15,9 +15,7 @@ class MediaUpload extends React.Component {
 		this.state = {
 			currentUpload: props.value,
 			media_upload : wp.media( {
-				// Todo add translation.
 				title: "Choose an image",
-				// Todo add translation.
 				button: { text: "Choose an image" },
 				multiple: false
 			} ),
@@ -78,25 +76,33 @@ class MediaUpload extends React.Component {
 	 * @returns {JSX.Element}
 	 */
 	render() {
-		let removeButton = "";
+		let removeButton;
+		let image;
 		if( this.state.currentUpload !== "" ) {
-			removeButton = ( <button onClick={ this.removeUpload.bind( this ) }
-			                         className="button button-primary"
-			                         type="button">
-				Remove the image
-			</button> );
+			removeButton = <RaisedButton
+				label="Remove the image"
+				onClick={ this.removeUpload.bind( this ) }
+				className="yoast-wizard-image-upload-container-buttons__remove"
+				type="button"/>
+			image = <img className="yoast-wizard-image-upload-container__image"
+			             ref="companyImage"
+			             src={this.state.currentUpload}
+			             alt="company logo image preview"/>
 		}
 
 		return (
-			<div>
-				<Label for={this.props.name}>{this.props.properties.label}</Label>
-				<span>{this.state.currentUpload}</span>
-				<button onClick={ this.chooseUpload.bind( this ) }
-				        className="button button-primary"
-				        type="button">
-					Choose image
-				</button>
-				{removeButton}
+			<div className="yoast-wizard-image-upload-container">
+				<p className="yoast-wizard-image-upload-container-description">
+					{this.props.properties.label}
+				</p>
+				{image}
+				<div className="yoast-wizard-image-upload-container-buttons">
+					<RaisedButton label="Choose image"
+					              onClick={ this.chooseUpload.bind( this ) }
+					              type="button"
+					              className="yoast-wizard-image-upload-container-buttons__choose"/>
+					{removeButton}
+				</div>
 			</div>
 		);
 	}
