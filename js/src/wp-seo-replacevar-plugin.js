@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, require, YoastSEO */
+/* global wpseoReplaceVarsL10n, require */
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -228,7 +228,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
-		YoastSEO.app.pluginReloaded( "replaceVariablePlugin" );
+		this._app.pluginReloaded( "replaceVariablePlugin" );
 	};
 
 	/**
