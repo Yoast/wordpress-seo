@@ -6,7 +6,7 @@ import sendStep from "./helpers/ajaxHelper";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import muiTheme from './config/yoast-theme';
 
 /**
  * The OnboardingWizard class.
@@ -231,16 +231,20 @@ class OnboardingWizard extends React.Component {
 		let previousButton = this.getNavigationbutton("previous", {
 			label: "Previous",
 			onClick: this.setPreviousStep.bind( this ),
+			disableFocusRipple: true,
+			disableTouchRipple: true,
 		}, step, "yoast-wizard--button yoast-wizard--button__previous");
 
 		let nextButton = this.getNavigationbutton("next", {
 			label: "Next",
 			primary: true,
 			onClick: this.setNextStep.bind( this ),
+			disableFocusRipple: true,
+			disableTouchRipple: true,
 		}, step, "yoast-wizard--button yoast-wizard--button__next");
 
 		return (
-			<MuiThemeProvider>
+			<MuiThemeProvider muiTheme={muiTheme}>
 				<div className="yoast-wizard-body">
 					<YoastLogo height={93} width={200}/>
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
