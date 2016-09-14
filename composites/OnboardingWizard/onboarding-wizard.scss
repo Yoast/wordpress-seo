@@ -114,7 +114,6 @@ body {
   }
 
   &-text-input {
-    font-size: 14px;
     padding-bottom: 0.5em;
 
     &-label {
@@ -136,6 +135,8 @@ body {
   }
 
   input {
+    line-height: 140%;
+    font-size: 14px;
     margin: 0.5em 0;
     padding: 5px;
   }
