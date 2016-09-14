@@ -197,10 +197,6 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_buy_premium_section() {
-
-		$upsell_url = 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=metabox-upsell-button&utm_campaign=metabox-upsell-section';
-		$more_information_url = 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=link-info&utm_campaign=metabox-upsell-section';
-
 		$content = sprintf( "<div class='wpseo-metabox-premium-description'>
 			%s
 			<ul class='wpseo-metabox-premium-advantages'>
@@ -233,9 +229,9 @@ class WPSEO_Taxonomy_Metabox {
 			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
 			__( 'Premium support', 'wordpress-seo' ),
 			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
-			$upsell_url,
+			'https://yoa.st/pe-buy-premium',
 			__( 'Get Yoast SEO Premium now!', 'wordpress-seo' ),
-			$more_information_url,
+			'https://yoa.st/pe-premium-page',
 			__( 'More info', 'wordpress-seo' )
 		);
 
