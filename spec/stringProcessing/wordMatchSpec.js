@@ -55,5 +55,9 @@ describe("Counts the occurences of a word in a string", function(){
 		expect( wordMatch( "Sed «keyword> dictum", "keyword" ) ).toBe( 1 );
 		expect( wordMatch( "Sed ‹keyword› dictum", "keyword" ) ).toBe( 1 );
 		expect( wordMatch( "", "keyword" ) ).toBe( 0 );
-	})
+	});
+
+	it( "should match keyphrases comprised of multiple words. ", function() {
+		expect( wordMatch( "text key word text", "key word" ) ).toBe( 1 );
+	});
 });

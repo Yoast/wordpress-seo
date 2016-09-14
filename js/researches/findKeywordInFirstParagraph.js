@@ -15,6 +15,6 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
  */
 module.exports = function( paper ) {
 	var paragraph = matchParagraphs( paper.getText() );
-	var keyword = escapeRegExp( paper.getKeyword() );
+	var keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
 	return wordMatch( paragraph[ 0 ], keyword, paper.getLocale() );
 };
