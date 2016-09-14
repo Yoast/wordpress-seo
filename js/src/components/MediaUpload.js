@@ -1,7 +1,7 @@
 /* global wp */
 
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from "material-ui/RaisedButton";
 
 /**
  * @summary Media upload component.
@@ -83,11 +83,11 @@ class MediaUpload extends React.Component {
 				label="Remove the image"
 				onClick={ this.removeUpload.bind( this ) }
 				className="yoast-wizard-image-upload-container-buttons__remove"
-				type="button"/>
+				type="button"/>;
 			image = <img className="yoast-wizard-image-upload-container__image"
 			             ref="companyImage"
 			             src={this.state.currentUpload}
-			             alt="company logo image preview"/>
+			             alt="company logo image preview"/>;
 		}
 
 		return (
