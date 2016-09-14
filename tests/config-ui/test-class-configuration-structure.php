@@ -52,7 +52,6 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			'multipleAuthors',
 			'connectGoogleSearchConsole',
 			'titleTemplate',
-			'tagLine',
 			'success',
 		);
 
