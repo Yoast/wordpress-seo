@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
@@ -134,6 +135,9 @@ class OnboardingWizard extends React.Component {
 			isLoading: false,
 			currentStepId: step,
 		} );
+
+		// Set focus on the active step button.
+		ReactDOM.findDOMNode(this.refs.stepIndicator.refs.stepButtonActive).focus();
 	}
 
 	/**
@@ -233,6 +237,7 @@ class OnboardingWizard extends React.Component {
 			onClick: this.setPreviousStep.bind( this ),
 			disableFocusRipple: true,
 			disableTouchRipple: true,
+			disableKeyboardFocus: true,
 		}, step, "yoast-wizard--button yoast-wizard--button__previous");
 
 		let nextButton = this.getNavigationbutton("next", {
@@ -241,13 +246,14 @@ class OnboardingWizard extends React.Component {
 			onClick: this.setNextStep.bind( this ),
 			disableFocusRipple: true,
 			disableTouchRipple: true,
+			disableKeyboardFocus: true,
 		}, step, "yoast-wizard--button yoast-wizard--button__next");
 
 		return (
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<div className="yoast-wizard-body">
 					<YoastLogo height={93} width={200}/>
-					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
+					<StepIndicator ref="stepIndicator" steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 					               onClick={( stepNumber ) => this.postStep( stepNumber )}/>
 					<div className="yoast-wizard-container">
 						<div className="yoast-wizard">
