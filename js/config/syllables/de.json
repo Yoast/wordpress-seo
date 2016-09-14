@@ -9,16 +9,16 @@
 				"countModifier": -1
 			},
 			{
-				"fragments": [ "aau", "a[äöüo]", "äue", "äeu", "aei", "aue", "aeu", "ael", "ayo", "ai[aeo]", "saik", "aismus", "ä[aeoi]", "auä", "éa",
+				"fragments": [ "aau", "a[äöüo]", "äue", "äeu", "aei", "aue", "aeu", "ael", "ai[aeo]", "saik", "aismus", "ä[aeoi]", "auä", "éa",
 					"e[äaoö]", "ei[eo]", "ee[aeiou]", "eu[aäe]", "eum$", "eü", "o[aäöü]", "poet", "oo[eo]", "oie", "oei[^l]", "oeu[^f]", "öa", "[fgrz]ieu",
-					"mieun", "tieur", "ieum", "i[aiuü]", "[^l]iä", "[^s]chien", "io[bcdfhjkmpqtuvwx]]", "[bdhmprv]ion", "[lr]ior",
-					"[^g]io[gs]", "[dr]ioz", "elioz", "zioni", "bio[lnrz]", "iö[^s]", "ie[ei]", "rier$", "öi[eg]", "[^r]öisch",
-					"[^gqv]u[aeéioöuü]", "quie$", "quie[^s]", "uäu", "^us-", "^it-", "üe", "naiv", "aisch$", "aische$", "[lst]ien", "dien$", "gois", "[^g]rient",
-					"[aeiou]y[aeiou]", "byi", "yä", "[a-z]y[ao]", "yau", "yie", "koor", "scient", "eriel", "[bdg]oing" ],
+					"mieun", "tieur", "ieum", "i[aiuü]", "[^l]iä", "[^s]chien", "io[bcdfhjkmpqtuvwx]", "[bdhmprv]ion", "[lr]ior",
+					"[^g]io[gs]", "[dr]ioz", "elioz", "zioni", "bio[lnorz]", "iö[^s]", "ie[ei]", "rier$", "öi[eg]", "[^r]öisch",
+					"[^gqv]u[aeéioöuü]", "quie$", "quie[^s]", "uäu", "^us-", "^it-", "üe", "naiv", "aisch$", "aische$", "aische[nrs]$", "[lst]ien",
+					"dien$", "gois", "[^g]rient", "[aeiou]y[aeiou]", "byi", "yä", "[a-z]y[ao]", "yau", "koor", "scient", "eriel", "[dg]oing" ],
 				"countModifier": 1
 			},
 			{
-				"fragments": [ "ioi", "ioo", "ioa", "eio", "iii", "oai", "eueu" ],
+				"fragments": [ "eauü", "ioi", "ioo", "ioa", "iii", "oai", "eueu" ],
 				"countModifier": 1
 			}
 		],

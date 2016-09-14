@@ -130,7 +130,6 @@ var countUsingVowels = function( word, locale ) {
 
 	syllableCount += countVowelGroups( word, locale );
 	syllableCount += countVowelDeviations( word, locale );
-
 	return syllableCount;
 };
 

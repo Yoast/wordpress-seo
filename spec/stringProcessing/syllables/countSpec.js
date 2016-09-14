@@ -932,10 +932,6 @@ describe( "a syllable counter for German text strings", function () {
 		expect( countSyllableFunction( "ismael", "de_DE" ) ).toBe( 3 );
 	} );
 
-	it( "returns the number of syllables of words containing the add syllable ayo", function () {
-		expect( countSyllableFunction( "krayon", "de_DE" ) ).toBe( 2 );
-	} );
-
 	it( "returns the number of syllables of words containing the add syllable ai[aeo]", function () {
 		expect( countSyllableFunction( "kaianlage", "de_DE" ) ).toBe( 4 );
 		expect( countSyllableFunction( "dubaier", "de_DE" ) ).toBe( 3 );
@@ -974,7 +970,7 @@ describe( "a syllable counter for German text strings", function () {
 
 	it( "returns the number of syllables of words containing the add syllable ei[eo]", function () {
 		expect( countSyllableFunction( "abfeiern", "de_DE" ) ).toBe( 3 );
-		expect( countSyllableFunction( "Beiordnen", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "beiordnen", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable ee[aeiou]", function () {
@@ -1020,7 +1016,7 @@ describe( "a syllable counter for German text strings", function () {
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable oei[^l]", function () {
-		expect( countSyllableFunction( "nettoinkommen", "de_DE" ) ).toBe( 5 );
+		expect( countSyllableFunction( "nettoeinkommen", "de_DE" ) ).toBe( 5 );
 		expect( countSyllableFunction( "oeil", "de_DE" ) ).toBe( 1 );
 	} );
 
@@ -1123,9 +1119,10 @@ describe( "a syllable counter for German text strings", function () {
 		expect( countSyllableFunction( "antizionist", "de_DE" ) ).toBe( 5 );
 	} );
 
-	it( "returns the number of syllables of words containing the add syllable bio[lnrz]", function () {
+	it( "returns the number of syllables of words containing the add syllable bio[lnorz]", function () {
 		expect( countSyllableFunction( "biologie", "de_DE" ) ).toBe( 4 );
 		expect( countSyllableFunction( "bionik", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "biooptik", "de_DE" ) ).toBe( 4 );
 		expect( countSyllableFunction( "bioreaktor", "de_DE" ) ).toBe( 5 );
 		expect( countSyllableFunction( "biozid", "de_DE" ) ).toBe( 3 );
 	} );
@@ -1162,7 +1159,7 @@ describe( "a syllable counter for German text strings", function () {
 		expect( countSyllableFunction( "abbauort", "de_DE" ) ).toBe( 3 );
 		expect( countSyllableFunction( "affektuös", "de_DE" ) ).toBe( 4 );
 		expect( countSyllableFunction( "andauung", "de_DE" ) ).toBe( 3 );
-		expect( countSyllableFunction( "niveauübergang", "de_DE" ) ).toBe( 5 );
+		expect( countSyllableFunction( "neuübergang", "de_DE" ) ).toBe( 4 );
 		expect( countSyllableFunction( "bilinguisch", "de_DE" ) ).toBe( 3 );
 		expect( countSyllableFunction( "aalquappe", "de_DE" ) ).toBe( 3 );
 		expect( countSyllableFunction( "vuota", "de_DE" ) ).toBe( 2 );
@@ -1173,118 +1170,141 @@ describe( "a syllable counter for German text strings", function () {
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable quie[^s]", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "requiem", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "quieszieren", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable uäu", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "blauäugig", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable ^us-", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "us-senat", "de_DE" ) ).toBe( 4 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable ^it-", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "it-experte", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable üe", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "grüezi", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable naiv", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "naivität", "de_DE" ) ).toBe( 4 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable aisch$", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "fuldaisch", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable aische$", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "inkaische", "de_DE" ) ).toBe( 4 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable aische[nrs]$", function () {
+		expect( countSyllableFunction( "inkaischen", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "inkaischer", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "inkaisches", "de_DE" ) ).toBe( 4 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable [lst]ien", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "familien", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "asien", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "aktien", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable dien$", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "indien", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable gois", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "egoist", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable [^g]rient", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "abiturient", "de_DE" ) ).toBe( 5 );
+		expect( countSyllableFunction( "gegrient", "de_DE" ) ).toBe( 2 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable [aeiou]y[aeiou]", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "ayatollah", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "bayer", "de_DE" ) ).toBe( 2 );
+		expect( countSyllableFunction( "essayistin", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "bayonne", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "ayurveda", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "hochseeyacht", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "erlenmeyer", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "kaffeeyoghurt", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "riyal", "de_DE" ) ).toBe( 2 );
+		expect( countSyllableFunction( "flamboyant", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "foyer", "de_DE" ) ).toBe( 2 );
+		expect( countSyllableFunction( "employiert", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "caloyos", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "guyana", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "ennuyieren", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "guyot", "de_DE" ) ).toBe( 2 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable byi", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "hobbyist", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable yä", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "polyäthylen", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable [a-z]y[ao]", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "polyacryl", "de_DE" ) ).toBe( 4 );
+		expect( countSyllableFunction( "amphiktyonisch", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable yau", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
-	} );
-
-	it( "returns the number of syllables of words containing the add syllable yie", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "fantasyautor", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable koor", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "koordinate", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable scient", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "scientologin", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable eriel", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "bakteriell", "de_DE" ) ).toBe( 4 );
 	} );
 
-	it( "returns the number of syllables of words containing the add syllable [bdg]oing", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+	it( "returns the number of syllables of words containing the add syllable [dg]oing", function () {
+		expect( countSyllableFunction( "doing", "de_DE" ) ).toBe( 2 );
+		expect( countSyllableFunction( "going", "de_DE" ) ).toBe( 2 );
+	} );
+
+	it( "returns the number of syllables of words containing the add syllable eauü", function () {
+		expect( countSyllableFunction( "niveauübergang", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable ioi", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "radioindikator", "de_DE" ) ).toBe( 7 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable ioo", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "varioobjektiv", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable ioa", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
-	} );
-
-	it( "returns the number of syllables of words containing the add syllable eio", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "radioaktiv", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable iii", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "hawaiiinsel", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable oai", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "samoainseln", "de_DE" ) ).toBe( 5 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable eueu", function () {
-		expect( countSyllableFunction( "", "de_DE" ) ).toBe(  );
+		expect( countSyllableFunction( "treueurlaub", "de_DE" ) ).toBe( 4 );
 	} );
 } );
