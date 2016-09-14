@@ -85,7 +85,7 @@ class WPSEO_Taxonomy_Metabox {
 			$this->get_settings_meta_section(),
 		);
 
-		if ( ! file_exists( WPSEO_PATH . 'premium/' ) ) {
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			$content_sections[] = $this->get_buy_premium_section();
 		}
 
