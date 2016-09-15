@@ -8,6 +8,7 @@ import { OnboardingWizard } from "yoast-components";
 
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
+import MediaUpload from "./components/MediaUpload";
 
 injectTapEventPlugin();
 
@@ -41,7 +42,7 @@ class App extends React.Component {
 		} );
 
 		config.endpoint = endpoint;
-		config.customComponents = { MailchimpSignup, ConnectGoogleSearchConsole };
+		config.customComponents = { MailchimpSignup, MediaUpload, ConnectGoogleSearchConsole };
 
 		return config;
 	}

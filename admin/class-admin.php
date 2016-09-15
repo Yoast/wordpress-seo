@@ -627,7 +627,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Extending the current page URL with two params to be able to ignore the tour.
+	 * Extending the current page URL with two params to be able to ignore the notice.
 	 *
 	 * @param string $dismiss_param The param used to dismiss the notification.
 	 *
