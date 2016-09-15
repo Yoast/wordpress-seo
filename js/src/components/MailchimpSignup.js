@@ -87,15 +87,15 @@ class MailchimpSignup extends React.Component {
 			.then(
 				( response ) => {
 					if ( response.result === "error" ) {
+
 						this.setState( {
 							isLoading: false,
 							successfulSignup: false,
-							message: this.stripMessage( response.msg ),
+							message: this.stripMessage( this.stripLinkFromMessage(response.msg) ),
 						} );
 
 						return;
 					}
-
 					this.setState( {
 						isLoading: false,
 						successfulSignup: true,
@@ -105,6 +105,17 @@ class MailchimpSignup extends React.Component {
 			.catch( ( response )=> {
 				console.error( "MailChimp signup failed:", response );
 			} );
+	}
+
+	/**
+	 * Strips an HTML link element from the message string.
+	 *
+	 * @param {string} message The message string.
+	 *
+	 * @returns {string} The message string without a link element.
+	 */
+	stripLinkFromMessage(message) {
+		return message.replace( /<a.*?<\/a>/, "" );
 	}
 
 	/**
