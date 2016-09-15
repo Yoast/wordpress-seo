@@ -63,6 +63,10 @@ class StepIndicator extends React.Component {
 					tooltip: currentField.title,
 					ariaLabel: ariaLabel,
 					className,
+					// See github.com/Yoast/wordpress-seo/issues/5530.
+					tooltipStyles: {
+						userSelect: "auto",
+					},
 					onClick: () => {
 						this.props.onClick( name )
 					},
