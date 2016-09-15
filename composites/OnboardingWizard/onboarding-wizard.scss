@@ -1,8 +1,16 @@
 $prefix: "yoast-wizard";
 
 body {
+  margin: 0;
+  padding: 0;
   background: #f0f0f0;
-  font-family: "Open Sans", sans-serif;
+  font-family: sans-serif;
+  line-height: 1.375; /* 22px based on default browser font size 16px. */
+}
+
+#container {
+	max-width: 1660px;
+	margin: 0 auto;
 }
 
 .#{$prefix}-body {
@@ -11,6 +19,10 @@ body {
   box-sizing: border-box;
   width: 80%;
   margin: 1rem auto 4rem;
+  @media screen and (max-width: 768px) {
+	width: auto;
+	margin: 0;
+  }
 
 }
 
@@ -23,7 +35,10 @@ body {
   text-align: left;
   min-height: 20px;
   background: #fff;
-  padding: 1em;
+  padding: 3em;
+  @media screen and (max-width: 768px) {
+	padding: 1em 1em 2em;
+  }
 
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -45,7 +60,7 @@ body {
 
   &--step {
     &__active {
-      @media (max-width: 768px) {
+      @media screen and (max-width: 768px) {
         text-indent: -9999px;
         div > span > span {
           padding-right: 0 !important;
@@ -58,7 +73,7 @@ body {
       }
     }
     &__inactive {
-      @media (max-width: 768px) {
+      @media screen and (max-width: 768px) {
         display: none !important;
       }
     }
@@ -68,11 +83,22 @@ body {
     h1 {
       color: #a4286a;
       margin-top: 0;
-      margin-bottom: 0.1em;
+	  margin-bottom: 16px;
+      margin-bottom: 1rem;
       font-size: 2.75em;
       letter-spacing: normal;
       line-height: 3.68rem;
       font-weight: 300;
+	  @media screen and (max-width: 768px) {
+		font-size: 2em;
+		line-height: 1.25;
+	  }
+    }
+
+    h2 {
+      color: #a4286a;
+	  font-size: 1.375em;
+      font-weight: 400;
     }
   }
 
@@ -106,6 +132,10 @@ body {
     position: relative;
 
     box-shadow: rgba(0, 0, 0, 0.156863) 0 3px 10px, rgba(0, 0, 0, 0.227451) 0 3px 10px;
+
+	@media screen and (max-width: 768px) {
+	  box-shadow: none;
+	}
 
     fieldset {
       border: 0;
