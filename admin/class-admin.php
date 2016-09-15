@@ -400,18 +400,18 @@ class WPSEO_Admin {
 	 */
 	private function catch_configuration_request() {
 
-		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER && filter_input( INPUT_GET, 'configuration' ) !== 'finished' ) {
-			return;
+		$is_dashboard_page = ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
+		$is_configuration_finished = ( filter_input( INPUT_GET, 'configuration' ) === 'finished' );
+		if ( $is_dashboard_page && $is_configuration_finished ) {
+			$options = get_option( 'wpseo' );
+
+			$options['enable_setting_pages'] = false;
+
+			update_option( 'wpseo', $options );
+
+			wp_redirect( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) );
+			exit;
 		}
-
-		$options = get_option( 'wpseo' );
-
-		$options['enable_setting_pages'] = false;
-
-		update_option( 'wpseo', $options );
-
-		wp_redirect( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) );
-		exit;
 	}
 
 	/**
