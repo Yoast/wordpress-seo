@@ -10,7 +10,7 @@ var jed = null;
  * @returns {Jed} The new Jed object.
  */
 function createJed() {
-	return new Jed();
+	return new Jed( {} );
 }
 
 /**
