@@ -4,6 +4,7 @@ import PostTypeVisibility from "../components/custom_components/PostTypeVisibili
 import ConnectGoogleSearchConsole from "../components/custom_components/ConnectGoogleSearchConsole"
 
 let configuration = {
+	'finishUrl' : '',
 	"endpoint": "http://127.0.0.1:8882/onboarding?wp_nonce=nonce",
 	"customComponents": {
 		MailchimpSignup, PublishingEntity, PostTypeVisibility, ConnectGoogleSearchConsole,
