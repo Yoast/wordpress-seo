@@ -3,6 +3,7 @@ import React from "react";
 import Label from "../Label";
 import Input from "../Input";
 import Textarea from "../Textarea";
+import Explanation from "../../composites/OnboardingWizard/components/Explanation";
 
 /**
  * Represents the Textfield composite component.
@@ -35,28 +36,11 @@ class Textfield extends React.Component {
 	}
 
 	/**
-	 * Gets the explanation from the properties.
-	 *
-	 * @returns {JSX.Element|null} Returns a paragraph element containing the explanation
-	 *                               text if present.
-	 */
-	getExplanation() {
-		if ( typeof this.props.properties.explanation !== "undefined"
-		     && this.props.properties.explanation !== "" ) {
-			return <p className="yoast-wizard-input__explanation">
-				{this.props.properties.explanation}
-			</p>
-		}
-	};
-
-	/**
 	 * Get TextInput or a TextArea component based on the multiline property.
 	 *
 	 * @returns {JSX.Element} A representation of either the Textarea or Input component.
 	 */
 	getTextField() {
-		let explanation = this.getExplanation();
-
 		if ( this.props.multiline === true ) {
 			return (
 				<div>
@@ -66,7 +50,7 @@ class Textfield extends React.Component {
 				              optionalAttributes={this.optionalAttributes.field}
 				              value={this.props.value}
 					/>
-					{explanation}
+					<Explanation text={this.props.properties.explanation}/>
 				</div>
 			);
 		}
@@ -79,7 +63,7 @@ class Textfield extends React.Component {
 				       onChange={this.props.onChange}
 				       value={this.props.value}
 				       optionalAttributes={this.optionalAttributes.field}/>
-				{explanation}
+				<Explanation text={this.props.properties.explanation}/>
 			</div>
 				);
 	}

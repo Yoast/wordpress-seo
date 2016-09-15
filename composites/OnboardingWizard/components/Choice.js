@@ -2,23 +2,7 @@ import React from "react";
 import Input from "../../../forms/Input";
 import Label from "../../../forms/Label";
 import htmlDecoder from "../helpers/htmlDecoder";
-
-/**
- * Gets the explanation from the properties.
- *
- * @param {string} explanation The explanation text.
- *
- * @returns {JSX.Element|null} Returns a paragraph element containing the explanation
- *                              text if present.
- */
-var getExplanation = function (explanation) {
-	if ( typeof explanation !== "undefined"
-	     && explanation !== "" ) {
-		return <p className="yoast-wizard-input__explanation">
-			{explanation}
-		</p>
-	}
-};
+import Explanation from "./Explanation";
 
 /**
  * Represents a choice interface, like a group of radio buttons or a select button. Initially it should render a
@@ -53,14 +37,11 @@ const Choice = ( props ) => {
 		</fieldset>
 	};
 
-	let explanation = getExplanation( props.properties.explanation);
-
 	return (
-
 		<div className={props.className}>
 			<p className="yoast-wizard-field-description">{props.properties.label}</p>
 			{fieldSet()}
-			{explanation}
+			<Explanation text={props.properties.explanation}/>
 		</div>
 	);
 };
