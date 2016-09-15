@@ -400,7 +400,7 @@ class WPSEO_Admin {
 	 */
 	private function catch_configuration_request() {
 
-		if ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER && filter_input( INPUT_GET, 'configuration' ) !== 'finished' ) {
+		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER && filter_input( INPUT_GET, 'configuration' ) !== 'finished' ) {
 			return;
 		}
 
