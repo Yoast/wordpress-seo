@@ -26,6 +26,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "i18n-calypso": "^1.6.2",
+    "jed": "^1.1.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
