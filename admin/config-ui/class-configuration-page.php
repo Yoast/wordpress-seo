@@ -76,7 +76,7 @@ class WPSEO_Configuration_Page {
 		</head>
 		<body>
 		<div id="wizard"></div>
-		<a id="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
 			<?php _e( 'Go back to the Yoast SEO dashboard.', 'wordpress-seo' ); ?>
 		</a>
 		<footer>
