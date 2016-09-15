@@ -19,7 +19,6 @@ class MailchimpSignup extends React.Component {
 		super( props );
 
 		this.state = {
-			message: "",
 			successfulSignup: this.props.value,
 		};
 	}
@@ -60,7 +59,6 @@ class MailchimpSignup extends React.Component {
 		let name = this.refs.nameInput.value.trim();
 
 		if ( name !== "" ) {
-			// MERGE7 = the name field in the Yoast newsletter signup form.
 			data = data + `&NAME=${encodeURIComponent( name )}`;
 		}
 
@@ -94,8 +92,6 @@ class MailchimpSignup extends React.Component {
 							successfulSignup: false,
 							message: this.stripMessage( response.msg ),
 						} );
-
-						this.setSubscription();
 
 						return;
 					}
@@ -211,7 +207,7 @@ class MailchimpSignup extends React.Component {
 	 * @returns {XML}
 	 */
 	getSignupMessage() {
-		if( !this.state.successfulSignup ) {
+		if( this.state.successfulSignup ) {
 			return <p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p>;
 		}
 
