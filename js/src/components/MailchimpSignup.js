@@ -91,7 +91,7 @@ class MailchimpSignup extends React.Component {
 						this.setState( {
 							isLoading: false,
 							successfulSignup: false,
-							message: this.stripMessage( this.stripLinkFromMessage(response.msg) ),
+							message: this.stripMessage( this.stripLinkFromMessage( response.msg ) ),
 						} );
 
 						return;
@@ -114,7 +114,7 @@ class MailchimpSignup extends React.Component {
 	 *
 	 * @returns {string} The message string without a link element.
 	 */
-	stripLinkFromMessage(message) {
+	stripLinkFromMessage( message ) {
 		return message.replace( /<a.*?<\/a>/, "" );
 	}
 
