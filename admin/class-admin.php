@@ -572,11 +572,11 @@ class WPSEO_Admin {
 
 		$pages_to_hide = array( 'wpseo_titles', 'wpseo_social', 'wpseo_xml', 'wpseo_advanced', 'wpseo_tools' );
 
-		foreach( $pages as $page_key => $page ) {
-			$page_name = $page[ 4 ];
+		foreach ( $pages as $page_key => $page ) {
+			$page_name = $page[4];
 
-			if( in_array( $page_name, $pages_to_hide ) ) {
-				unset( $pages[ $page_key ]  );
+			if ( in_array( $page_name, $pages_to_hide ) ) {
+				unset( $pages[ $page_key ] );
 			}
 		}
 
