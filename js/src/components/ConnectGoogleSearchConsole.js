@@ -165,9 +165,12 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	setProfile( evt ) {
+	setProfile( evt, index, value ) {
+		if(value === "Choose a profile"){
+			return;
+		}
 		this.setState( {
-			profile: evt.target.value,
+			profile: value,
 		} );
 	}
 
@@ -217,12 +220,14 @@ class ConnectGoogleSearchConsole extends React.Component {
 				return (
 					<div>
 						<div>
-							<SelectField onChange={this.setProfile.bind( this )}
+							<SelectField onChange={this.setProfile.bind(this)}
 							             name={this.name}
 							             value={this.state.profile}>
-								<MenuItem value=""
+
+								<MenuItem value={""}
 								          primaryText="Choose a profile"/>
-								{ profileKeys.map(
+
+								{profileKeys.map(
 									( profileKey, index ) => {
 										return (
 											<MenuItem value={profileKey}
@@ -231,7 +236,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 											/>
 										);
 									}
-								) }
+								)}
 							</SelectField>
 						</div>
 
