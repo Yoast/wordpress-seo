@@ -26,10 +26,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "i18n-calypso": "^1.6.2",
-    "material-ui": "^0.15.2",
-    "react": "^15.3.1",
-    "react-dom": "^15.3.1",
-    "react-tap-event-plugin": "^1.0.0",
+    "jed": "^1.1.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -53,7 +50,11 @@
     "jest-cli": "^14.1.0",
     "json-loader": "^0.5.4",
     "load-grunt-config": "^0.19.2",
+    "material-ui": "^0.15.2",
+    "react": "^15.3.1",
     "react-addons-test-utils": "^15.3.0",
+    "react-dom": "^15.3.1",
+    "react-tap-event-plugin": "^1.0.0",
     "react-test-renderer": "^15.3.0",
     "sassdash": "^0.8.2",
     "stubby": "^0.3.1",
@@ -62,7 +63,9 @@
   },
   "peerDependencies": {
     "react-tap-event-plugin": "^1.0.0",
-    "material-ui": "^0.15.4"
+    "material-ui": "^0.15.4",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
   },
   "browserify": {
     "transform": [

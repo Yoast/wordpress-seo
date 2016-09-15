@@ -6,6 +6,7 @@ import sendStep from "./helpers/ajaxHelper";
 import RaisedButton from 'material-ui/RaisedButton';
 import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { localize } from "../../utils/i18n";
 import muiTheme from './config/yoast-theme';
 
 /**
@@ -211,6 +212,12 @@ class OnboardingWizard extends React.Component {
 		if ( type === "next" && ! currentStep.next ) {
 			attributes.label = "Close";
 			attributes.onClick = () => {
+				if( this.props.finishUrl !== '' ) {
+					window.location.href = this.props.finishUrl;
+
+					return;
+				}
+
 				history.go(-1);
 			}
 		}
@@ -233,14 +240,14 @@ class OnboardingWizard extends React.Component {
 		let step = this.getCurrentStep();
 
 		let previousButton = this.getNavigationbutton("previous", {
-			label: "Previous",
+			label: this.props.translate( "Previous" ),
 			onClick: this.setPreviousStep.bind( this ),
 			disableFocusRipple: true,
 			disableTouchRipple: true,
 		}, step, "yoast-wizard--button yoast-wizard--button__previous");
 
 		let nextButton = this.getNavigationbutton("next", {
-			label: "Continue",
+			label: this.props.translate( "Next" ),
 			primary: true,
 			onClick: this.setNextStep.bind( this ),
 			disableFocusRipple: true,
@@ -275,10 +282,12 @@ OnboardingWizard.propTypes = {
 	steps: React.PropTypes.object.isRequired,
 	fields: React.PropTypes.object.isRequired,
 	customComponents: React.PropTypes.object,
+	finishUrl: React.PropTypes.string,
 };
 
 OnboardingWizard.defaultProps = {
 	customComponents: {},
+	finishUrl: ''
 };
 
-export default OnboardingWizard;
+export default localize( OnboardingWizard );
