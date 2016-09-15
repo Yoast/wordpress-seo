@@ -3,6 +3,7 @@ import React from "react";
 import Label from "../Label";
 import Input from "../Input";
 import Textarea from "../Textarea";
+import Explanation from "../../composites/OnboardingWizard/components/Explanation";
 
 /**
  * Represents the Textfield composite component.
@@ -17,7 +18,6 @@ class Textfield extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
-
 		this.optionalAttributes = this.parseOptionalAttributes();
 	}
 
@@ -43,21 +43,29 @@ class Textfield extends React.Component {
 	getTextField() {
 		if ( this.props.multiline === true ) {
 			return (
-				<Textarea name={this.props.name}
-			              id={this.props.name}
-			              onChange={this.props.onChange}
-			              optionalAttributes={this.optionalAttributes.field}
-			              value={this.props.value}
-				/>
+				<div>
+					<Textarea name={this.props.name}
+				              id={this.props.name}
+				              onChange={this.props.onChange}
+				              optionalAttributes={this.optionalAttributes.field}
+				              value={this.props.value}
+					/>
+					<Explanation text={this.props.properties.explanation}/>
+				</div>
 			);
 		}
 
-		return ( <Input name={this.props.name}
-		                id={this.props.name}
-		                type="text"
-		                onChange={this.props.onChange}
-		                value={this.props.value}
-		                optionalAttributes={this.optionalAttributes.field} /> );
+		return (
+			<div>
+				<Input name={this.props.name}
+				       id={this.props.name}
+				       type="text"
+				       onChange={this.props.onChange}
+				       value={this.props.value}
+				       optionalAttributes={this.optionalAttributes.field}/>
+				<Explanation text={this.props.properties.explanation}/>
+			</div>
+				);
 	}
 
 	/**

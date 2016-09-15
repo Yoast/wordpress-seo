@@ -13,7 +13,7 @@ let configuration = {
 		"upsellConfigurationService": {
 			"componentName": "HTML",
 			"properties": {
-				"html": "You can now have Yoast configure Yoast SEO for you.",
+				"html": "You can now have Yoast configure Yoast SEO for you!",
 			},
 		},
 		"upsellSiteReview": {
@@ -232,13 +232,19 @@ let configuration = {
 			"componentName": "Input",
 			"properties": {
 				"label": "Sitename",
+				"explanation" : "Google shows your website's name in the search results, " +
+				                "we will default to your site name but you can adapt it here.",
 			},
 			"data": "{sitename}",
 		},
 		"separator": {
 			"componentName": "Choice",
+
 			"properties": {
 				"label": "Separator",
+				"explanation" : "Choose the symbol to use as your title separator. " +
+				                "This will display, for instance, between your post title and site name. " +
+				                "Symbols are shown in the size they'll appear in the search results.",
 				"choices": {
 					"dash": {
 						"label": "‐",
