@@ -46,7 +46,6 @@ class StepIndicator extends React.Component {
 				button = React.createElement( StepButton, {
 					key: "step-indicator-" + key,
 					className: "yoast-wizard--step yoast-wizard--step__active",
-					ref: "stepButtonActive",
 				}, currentField.title );
 			}
 			// Return a custom step button, without a label for non-active steps.

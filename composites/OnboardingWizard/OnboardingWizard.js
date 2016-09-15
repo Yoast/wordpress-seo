@@ -137,8 +137,8 @@ class OnboardingWizard extends React.Component {
 			currentStepId: step,
 		} );
 
-		// Set focus on the active step button.
-		ReactDOM.findDOMNode(this.refs.stepIndicator.refs.stepButtonActive).focus();
+		// Set focus on the main content.
+		ReactDOM.findDOMNode(this.refs.step.refs.stepContainer).focus();
 	}
 
 	/**
@@ -214,7 +214,8 @@ class OnboardingWizard extends React.Component {
 		let hideButton = false;
 
 		if ( type === "next" && ! currentStep.next ) {
-			attributes.label = "Close";
+			attributes.label = this.props.translate( "Close" );
+			attributes['aria-label'] = this.props.translate( "Close the Wizard" );
 			attributes.onClick = () => {
 				if( this.props.finishUrl !== '' ) {
 					window.location.href = this.props.finishUrl;
@@ -245,6 +246,7 @@ class OnboardingWizard extends React.Component {
 
 		let previousButton = this.getNavigationbutton("previous", {
 			label: this.props.translate( "Previous" ),
+			"aria-label": this.props.translate( "Previous step" ),
 			onClick: this.setPreviousStep.bind( this ),
 			disableFocusRipple: true,
 			disableTouchRipple: true,
@@ -253,6 +255,7 @@ class OnboardingWizard extends React.Component {
 
 		let nextButton = this.getNavigationbutton("next", {
 			label: this.props.translate( "Next" ),
+			"aria-label": this.props.translate( "Next step" ),
 			primary: true,
 			onClick: this.setNextStep.bind( this ),
 			disableFocusRipple: true,
@@ -264,7 +267,7 @@ class OnboardingWizard extends React.Component {
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<div className="yoast-wizard-body">
 					<YoastLogo height={93} width={200}/>
-					<StepIndicator ref="stepIndicator" steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
+					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 					               onClick={( stepNumber ) => this.postStep( stepNumber )}/>
 					<div className="yoast-wizard-container">
 						<div className="yoast-wizard">
