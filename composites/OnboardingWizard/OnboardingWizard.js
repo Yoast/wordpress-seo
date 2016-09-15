@@ -211,6 +211,12 @@ class OnboardingWizard extends React.Component {
 		if ( type === "next" && ! currentStep.next ) {
 			attributes.label = "Close";
 			attributes.onClick = () => {
+				if( this.props.finishUrl !== '' ) {
+					window.location.href = this.props.finishUrl;
+
+					return;
+				}
+
 				history.go(-1);
 			}
 		}
@@ -275,10 +281,12 @@ OnboardingWizard.propTypes = {
 	steps: React.PropTypes.object.isRequired,
 	fields: React.PropTypes.object.isRequired,
 	customComponents: React.PropTypes.object,
+	finishUrl: React.PropTypes.string,
 };
 
 OnboardingWizard.defaultProps = {
 	customComponents: {},
+	finishUrl: ''
 };
 
 export default OnboardingWizard;
