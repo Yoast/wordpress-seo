@@ -11,8 +11,11 @@ import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole"
 import MediaUpload from "./components/MediaUpload";
 
 import { setTranslations } from "yoast-components/utils/i18n";
+import isUndefined from "lodash/isUndefined";
 
-setTranslations( yoastWizardConfig.translations );
+if ( ! isUndefined( yoastWizardConfig.translations ) ) {
+	setTranslations( yoastWizardConfig.translations );
+}
 
 injectTapEventPlugin();
 
