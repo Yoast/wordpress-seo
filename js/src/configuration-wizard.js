@@ -48,6 +48,7 @@ class App extends React.Component {
 			config = response;
 		} );
 
+		config.finishUrl = yoastWizardConfig.finishUrl;
 		config.endpoint = endpoint;
 		config.customComponents = { MailchimpSignup, MediaUpload, ConnectGoogleSearchConsole };
 

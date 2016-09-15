@@ -87,6 +87,8 @@ class WPSEO_Admin {
 		}
 
 		new WPSEO_Configuration_Page();
+
+		$this->catch_configuration_request();
 	}
 
 	/**
@@ -393,6 +395,24 @@ class WPSEO_Admin {
 		}
 	}
 
+	/**
+	 * Check if the configuration is finished and store this to hide the admin settings pages.
+	 */
+	private function catch_configuration_request() {
+
+		$is_dashboard_page = ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
+		$is_configuration_finished = ( filter_input( INPUT_GET, 'configuration' ) === 'finished' );
+		if ( $is_dashboard_page && $is_configuration_finished ) {
+			$options = get_option( 'wpseo' );
+
+			$options['enable_setting_pages'] = false;
+
+			update_option( 'wpseo', $options );
+
+			wp_redirect( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) );
+			exit;
+		}
+	}
 
 	/**
 	 * Loads the form for the network configuration page.
