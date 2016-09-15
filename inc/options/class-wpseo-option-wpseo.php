@@ -39,6 +39,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'site_type'                       => '', // List of options.
 		'has_multiple_authors'            => '',
 		'environment_type'                => '',
+		'enable_setting_pages'            => true,
 	);
 
 	/**

@@ -78,6 +78,8 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
+		add_filter( 'wpseo_submenu_pages', array( $this, 'filter_settings_pages' ) );
+
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
@@ -556,6 +558,32 @@ class WPSEO_Admin {
 	}
 
 	/**
+	 * Filters all advanced settings pages from the given pages.
+	 *
+	 * @param array $pages The pages to filter.
+	 *
+	 * @return array
+	 */
+	public function filter_settings_pages( array $pages ) {
+
+		if ( $this->options['enable_setting_pages'] ) {
+			return $pages;
+		}
+
+		$pages_to_hide = array( 'wpseo_titles', 'wpseo_social', 'wpseo_xml', 'wpseo_advanced', 'wpseo_tools' );
+
+		foreach( $pages as $page_key => $page ) {
+			$page_name = $page[ 4 ];
+
+			if( in_array( $page_name, $pages_to_hide ) ) {
+				unset( $pages[ $page_key ]  );
+			}
+		}
+
+		return $pages;
+	}
+
+	/**
 	 * Returns the stopwords for the current language
 	 *
 	 * @since 1.1.7
@@ -673,7 +701,6 @@ class WPSEO_Admin {
 
 		return $premium_indicator;
 	}
-
 
 	/********************** DEPRECATED METHODS **********************/
 
