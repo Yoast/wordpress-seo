@@ -78,6 +78,8 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
+		add_filter( 'wpseo_submenu_pages', array( $this, 'filter_settings_pages' ) );
+
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
@@ -85,6 +87,8 @@ class WPSEO_Admin {
 		}
 
 		new WPSEO_Configuration_Page();
+
+		$this->catch_configuration_request();
 	}
 
 	/**
@@ -391,6 +395,24 @@ class WPSEO_Admin {
 		}
 	}
 
+	/**
+	 * Check if the configuration is finished and store this to hide the admin settings pages.
+	 */
+	private function catch_configuration_request() {
+
+		$is_dashboard_page = ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
+		$is_configuration_finished = ( filter_input( INPUT_GET, 'configuration' ) === 'finished' );
+		if ( $is_dashboard_page && $is_configuration_finished ) {
+			$options = get_option( 'wpseo' );
+
+			$options['enable_setting_pages'] = false;
+
+			update_option( 'wpseo', $options );
+
+			wp_redirect( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) );
+			exit;
+		}
+	}
 
 	/**
 	 * Loads the form for the network configuration page.
@@ -556,6 +578,32 @@ class WPSEO_Admin {
 	}
 
 	/**
+	 * Filters all advanced settings pages from the given pages.
+	 *
+	 * @param array $pages The pages to filter.
+	 *
+	 * @return array
+	 */
+	public function filter_settings_pages( array $pages ) {
+
+		if ( $this->options['enable_setting_pages'] ) {
+			return $pages;
+		}
+
+		$pages_to_hide = array( 'wpseo_titles', 'wpseo_social', 'wpseo_xml', 'wpseo_advanced', 'wpseo_tools' );
+
+		foreach ( $pages as $page_key => $page ) {
+			$page_name = $page[4];
+
+			if ( in_array( $page_name, $pages_to_hide ) ) {
+				unset( $pages[ $page_key ] );
+			}
+		}
+
+		return $pages;
+	}
+
+	/**
 	 * Returns the stopwords for the current language
 	 *
 	 * @since 1.1.7
@@ -673,7 +721,6 @@ class WPSEO_Admin {
 
 		return $premium_indicator;
 	}
-
 
 	/********************** DEPRECATED METHODS **********************/
 

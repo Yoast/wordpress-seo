@@ -10,6 +10,13 @@ import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 
+import { setTranslations } from "yoast-components/utils/i18n";
+import isUndefined from "lodash/isUndefined";
+
+if ( ! isUndefined( yoastWizardConfig.translations ) ) {
+	setTranslations( yoastWizardConfig.translations );
+}
+
 injectTapEventPlugin();
 
 class App extends React.Component {
@@ -41,6 +48,7 @@ class App extends React.Component {
 			config = response;
 		} );
 
+		config.finishUrl = yoastWizardConfig.finishUrl;
 		config.endpoint = endpoint;
 		config.customComponents = { MailchimpSignup, MediaUpload, ConnectGoogleSearchConsole };
 

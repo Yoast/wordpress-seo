@@ -79,7 +79,7 @@ class WPSEO_Configuration_Page {
 		</head>
 		<body class="wp-admin">
 		<div id="wizard"></div>
-		<a id="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
 			<?php _e( 'Go back to the Yoast SEO dashboard.', 'wordpress-seo' ); ?>
 		</a>
 		<footer>
@@ -101,6 +101,7 @@ class WPSEO_Configuration_Page {
 	 * @return array The API endpoint config.
 	 */
 	public function get_config() {
+		$translations = $this->get_translations();
 		$service = new WPSEO_GSC_Service();
 		$config  = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
@@ -109,12 +110,28 @@ class WPSEO_Configuration_Page {
 			'nonce'             => wp_create_nonce( 'wp_rest' ),
 			'root'              => esc_url_raw( rest_url() ),
 			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+			'finishUrl'         => admin_url( 'admin.php?page=wpseo_dashboard&configuration=finished' ),
 			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
 			'gscProfiles'       => $service->get_sites(),
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),
+			'translations'      => $translations,
 		);
 
 		return $config;
+	}
+
+	/**
+	 * Returns the translations necessary for the configuration wizard.
+	 *
+	 * @returns array The translations for the configuration wizard.
+	 */
+	public function get_translations() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/yoast-components-' . get_locale() . '.json';
+		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
+			return json_decode( $file, true );
+		}
+
+		return array();
 	}
 
 	/**
