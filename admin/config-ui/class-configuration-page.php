@@ -43,6 +43,7 @@ class WPSEO_Configuration_Page {
 	 * Enqueues the assets needed for the wizard.
 	 */
 	public function enqueue_assets() {
+		wp_enqueue_media();
 		/*
 		 * Print the `forms.css` WP stylesheet before any Yoast style, this way
 		 * it's easier to override selectors with the same specificity later.
