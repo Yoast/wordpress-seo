@@ -56,10 +56,12 @@
     "grunt-contrib-imagemin": "^1.0.0"
   },
   "dependencies": {
-    "lodash": "^4.7.0",
-    "select2": "^4.0.3",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components#master"
+    "lodash": "^4.7.0",
+    "material-ui": "^0.15.4",
+    "react-tap-event-plugin": "^1.0.0",
+    "select2": "^4.0.3",
+    "yoast-components": "git+https://github.com/Yoast/yoast-components#master",
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
   }
 }
