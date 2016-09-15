@@ -42,40 +42,37 @@ export function getGlobalJed() {
  * @param {string} singleForm The single form to translate.
  * @param {string} pluralForm The plural form to translate.
  * @param {number} number The number on which to base the single/plural form.
- * @return {string} The translated string.
+ * @returns {string} The translated string.
  */
 function translate( singleForm, pluralForm = "", number = 0 ) {
 	let jed = getGlobalJed();
 
 	if ( pluralForm === "" ) {
 		return jed.gettext( singleForm );
-	} else {
-		return jed.ngettext( singleForm, pluralForm, number );
 	}
+
+	return jed.ngettext( singleForm, pluralForm, number );
 }
 
 /**
  * A higher order component to add a translate function.
  *
  * @param {Object} ComposedComponent The original React component.
+ * @returns {React.Component} The new localized component.
  */
 export function localize( ComposedComponent ) {
-	let componentName = ComposedComponent.displayName || ComposedComponent.name || '';
+	let componentName = ComposedComponent.displayName || ComposedComponent.name || "";
 	let i18nProps = {
 		translate: translate,
 	};
 
 	return React.createClass( {
-		displayName: 'Localized' + componentName,
+		displayName: "Localized" + componentName,
 
 		render: function() {
 			var props = assign( {}, this.props, i18nProps );
 
 			return React.createElement( ComposedComponent, props );
-		}
-	});
-}
-
-export function getTranslateFunction() {
-	return translate;
+		},
+	} );
 }

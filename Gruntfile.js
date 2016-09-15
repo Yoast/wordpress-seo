@@ -18,7 +18,8 @@ module.exports = function( grunt ) {
 				"a11y/*.js", 
 				"onboarding-wizard/**/*.js",
 				"!onboarding-wizard/tests/**/*.js",
-				"!onboarding-wizard/config/**/*.js"
+				"!onboarding-wizard/config/**/*.js",
+				"utils/**/*.js",
 			],
 			get config() {
 				return project.paths.config + "*.js";
