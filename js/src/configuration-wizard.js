@@ -10,6 +10,10 @@ import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 
+import { setTranslations } from "yoast-components/utils/i18n";
+
+setTranslations( yoastWizardConfig.translations );
+
 injectTapEventPlugin();
 
 class App extends React.Component {
