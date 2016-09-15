@@ -2,6 +2,7 @@ import React from "react";
 import Input from "../../../forms/Input";
 import Label from "../../../forms/Label";
 import htmlDecoder from "../helpers/htmlDecoder";
+import Explanation from "./Explanation";
 
 /**
  * Represents a choice interface, like a group of radio buttons or a select button. Initially it should render a
@@ -40,6 +41,7 @@ const Choice = ( props ) => {
 		<div className={props.className}>
 			<p className="yoast-wizard-field-description">{props.properties.label}</p>
 			{fieldSet()}
+			<Explanation text={props.properties.explanation}/>
 		</div>
 	);
 };

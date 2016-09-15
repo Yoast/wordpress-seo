@@ -1,8 +1,16 @@
 $prefix: "yoast-wizard";
 
 body {
+  margin: 0;
+  padding: 0;
   background: #f0f0f0;
-  font-family: "Open Sans", sans-serif;
+  font-family: sans-serif;
+  line-height: 1.375; /* 22px based on default browser font size 16px. */
+}
+
+#container {
+	max-width: 1660px;
+	margin: 0 auto;
 }
 
 .#{$prefix}-body {
@@ -11,6 +19,11 @@ body {
   box-sizing: border-box;
   width: 80%;
   margin: 1rem auto 4rem;
+  @media screen and (max-width: 768px) {
+	width: auto;
+	margin: 0;
+  }
+
 }
 
 #YoastLogo {
@@ -22,7 +35,10 @@ body {
   text-align: left;
   min-height: 20px;
   background: #fff;
-  padding: 1em;
+  padding: 3em;
+  @media screen and (max-width: 768px) {
+	padding: 1em 1em 2em;
+  }
 
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -44,7 +60,7 @@ body {
 
   &--step {
     &__active {
-      @media (max-width: 768px) {
+      @media screen and (max-width: 768px) {
         text-indent: -9999px;
         div > span > span {
           padding-right: 0 !important;
@@ -57,7 +73,7 @@ body {
       }
     }
     &__inactive {
-      @media (max-width: 768px) {
+      @media screen and (max-width: 768px) {
         display: none !important;
       }
     }
@@ -65,7 +81,24 @@ body {
 
   &--step--container {
     h1 {
-      font-size: 24px;
+      color: #a4286a;
+      margin-top: 0;
+	  margin-bottom: 16px;
+      margin-bottom: 1rem;
+      font-size: 2.75em;
+      letter-spacing: normal;
+      line-height: 3.68rem;
+      font-weight: 300;
+	  @media screen and (max-width: 768px) {
+		font-size: 2em;
+		line-height: 1.25;
+	  }
+    }
+
+    h2 {
+      color: #a4286a;
+	  font-size: 1.375em;
+      font-weight: 400;
     }
   }
 
@@ -100,6 +133,10 @@ body {
 
     box-shadow: rgba(0, 0, 0, 0.156863) 0 3px 10px, rgba(0, 0, 0, 0.227451) 0 3px 10px;
 
+	@media screen and (max-width: 768px) {
+	  box-shadow: none;
+	}
+
     fieldset {
       border: 0;
       margin: 1em 0;
@@ -107,11 +144,14 @@ body {
   }
 
   &-text-input {
+    font-size: 14px;
+    padding-bottom: 0.5em;
 
     &-label {
       cursor: pointer;
       display: block;
-      margin: 1em 0 0;
+      margin: 0.5em 0 0;
+      font-weight: bold;
     }
 
     &-field {
@@ -121,10 +161,15 @@ body {
     }
   }
 
+  &-field-description {
+    font-weight: bold;
+  }
+
   input {
-    margin: 1em 0;
+    line-height: 140%;
+    font-size: 14px;
+    margin: 0.5em 0;
     padding: 5px;
-    font-size: 16px;
   }
 
   label {
@@ -132,44 +177,60 @@ body {
   }
 
   input[type="radio"] {
-    margin-right: 1em;
+    margin-right: 0.7em;
+    margin-top: 1px;
+    vertical-align: middle;
   }
 
-  &-input-radio {
+  &-input {
+    &__explanation {
+      color: #555555;
+      margin-top: 0;
+      font-style: italic;
+    }
 
-    &-separator {
+    &-radio {
+      font-size: 14px;
 
-      padding: 0;
-
-      input {
-        /* visually hide the radio buttons but keep them accessible */
-        position: absolute;
-        left: -9999em;
-        width: 1px;
-        height: 1px;
-
-        & + label {
-          float: left;
-          width: 30px !important;
-          margin: 0 5px 5px 0 !important;
-          padding: 9px 6px;
-          border: 1px solid #ccc;
-          /* Don't change: these mimic Google's font and font size for titles */
-          font-family: Arial, Helvetica, sans-serif !important;
-          font-size: 18px !important;
-          line-height: 24px;
-          text-align: center;
-          cursor: pointer;
+      &-option {
+        label {
+          padding-top: 2px;
         }
-        &:checked + label {
-          border: 1px solid #a4286a;
-          background-color: #fff;
-          box-shadow: inset 0 0 0 2px #a4286a;
-        }
-        &:checked + label,
-        &:focus + label {
-          border-radius: 10px;
-          border-bottom-right-radius: 0;
+      }
+
+      &-separator {
+        padding: 0;
+
+        input {
+          /* visually hide the radio buttons but keep them accessible */
+          position: absolute;
+          left: -9999em;
+          width: 1px;
+          height: 1px;
+
+          & + label {
+            float: left;
+            width: 30px !important;
+            margin: 0 5px 5px 0 !important;
+            padding: 9px 6px;
+            border: 1px solid #ccc;
+            /* Don't change: these mimic Google's font and font size for titles */
+            font-family: Arial, Helvetica, sans-serif !important;
+            font-size: 18px !important;
+            line-height: 24px;
+            text-align: center;
+            cursor: pointer;
+          }
+          &:checked + label {
+            border: 1px solid #a4286a;
+            background-color: #fff;
+            box-shadow: inset 0 0 0 2px #a4286a;
+          }
+          &:checked + label,
+          &:focus + label {
+            border-radius: 10px;
+            border-bottom-right-radius: 0;
+          }
         }
       }
     }
