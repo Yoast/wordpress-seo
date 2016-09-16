@@ -247,6 +247,13 @@ class WPSEO_Admin_Asset_Manager {
 				'version' => '4.0.3',
 				'suffix' => '',
 			),
+			array(
+				'name' => 'configuration-wizard',
+				'src'  => 'configuration-wizard-350',
+				'deps' => array(
+					'jquery',
+				),
+			),
 		);
 	}
 
@@ -335,6 +342,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'admin-global',
 				'src'  => 'admin-global-350',
+			),
+			array(
+				'name' => 'yoast-components',
+				'src'  => 'yoast-components-350',
 			),
 		);
 	}

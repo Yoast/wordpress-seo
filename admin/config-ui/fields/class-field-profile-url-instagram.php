@@ -12,7 +12,7 @@ class WPSEO_Config_Field_Profile_URL_Instagram extends WPSEO_Config_Field {
 	 * WPSEO_Config_Field_Profile_URL_Instagram constructor.
 	 */
 	public function __construct() {
-		parent::__construct( 'profileUrlInstagram', 'input' );
+		parent::__construct( 'profileUrlInstagram', 'Input' );
 
 		$this->set_property( 'label', __( 'Instagram URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/www\.instagram\.com\/([^/]+)\/$' );

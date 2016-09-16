@@ -14,7 +14,14 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 	public function __construct() {
 		parent::__construct( 'successMessage', 'HTML' );
 
-		// @todo: replace {gif_showing_content_analysis}
-		$this->set_property( 'html', __( "Good Job! You've finished setting up Yoast SEO. Thereby you've covered the technical part of your site's SEO. Now it's time to focus on optimizing your content for onpage SEO. You can use our content analysis for that: <br>{gif_showing_content_analysis}", 'wordpress-seo' ) );
+		$success_message = __( 'You’ve done it! You&#039;ve set up Yoast SEO, and Yoast SEO will now take care of all the needed technical optimization of your site. To really improve your site&#039;s performance in the search results, it&#039;s important to start creating content that ranks well for keywords you care about.', 'wordpress-seo' );
+		$onpage_seo = __( 'Check out the video below in which we explain how to use the Yoast SEO metabox when you edit posts or pages', 'wordpress-seo' );
+		$content_analysis_video = '<iframe width="560" height="315" src="https://yoa.st/metabox-screencast" frameborder="0" allowfullscreen></iframe>';
+
+		$html = '<p>' . $success_message . '</p>';
+		$html .= '<p>' . $onpage_seo . '</p>';
+		$html .= '<p>' . $content_analysis_video . '</p>';
+
+		$this->set_property( 'html', $html );
 	}
 }

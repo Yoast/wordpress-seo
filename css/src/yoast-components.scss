@@ -1,0 +1,45 @@
+@import "../../node_modules/sassdash/scss/sassdash";
+@import "../../node_modules/yoast-components/css/all.scss";
+
+.yoast-wizard {
+
+  &-return-link {
+    /* lighter #555d66 */
+    color: #646d78;
+    margin: 1em 0;
+    display: block;
+    text-align: center;
+  }
+
+  &-mailchimp {
+
+    &-message {
+
+      &-error {
+        color: #dc3232;
+      }
+
+      &-success {
+        color: #008a00;
+      }
+    }
+  }
+
+  &-image-upload-container {
+
+    &__image{
+      max-width: 151px;
+    }
+
+    &-buttons {
+      margin-top: 1em;
+
+      &__remove {
+        margin-left: 1em;
+      }
+    }
+    &-description {
+      display: block;
+    }
+  }
+}
