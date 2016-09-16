@@ -55,7 +55,19 @@ body {
 
     &__next {
       margin-left: 1em;
+
+	  button:hover {
+		background-color: #832055 !important;
+
+		div {
+		  background-color: transparent !important;
+		}
+	  }
     }
+
+	&__previous button:hover > div > span {
+	  color: #000 !important;
+	}
   }
 
   &--step {
@@ -80,6 +92,10 @@ body {
   }
 
   &--step--container {
+	&:focus {
+	  outline: none;
+	}
+
     h1 {
       color: #a4286a;
       margin-top: 0;
