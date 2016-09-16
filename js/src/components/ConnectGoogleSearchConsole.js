@@ -85,9 +85,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			this.setProfileList.bind( this ),
 			"json"
 		).done( (response) => {
-				console.log( 'Response done..',response );
 				newState = this.getLoadingState( false );
-				console.log( newState );
 				this.setState(
 					newState
 				)
@@ -278,7 +276,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	/**
 	 * @summary Renders the Google Search Console component.
 	 *
-	 * @returns {XML} The HTML of the rendered component.
+	 * @returns {JSX.Element} The rendered Google Search Console component.
 	 */
 	render() {
 		this.onChange = this.props.onChange;
@@ -286,9 +284,6 @@ class ConnectGoogleSearchConsole extends React.Component {
 		let profiles = (this.hasProfiles())
 			? this.getProfileSelectBox()
 			: <p>There were no profiles found</p>;
-
-
-		console.log("rendering gsc.. ", this.state);
 
 		if( this.state.hasAccessToken ) {
 			return (
@@ -307,7 +302,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 					Authorization Code. Clicking the button below will open a new window.
 				</p>
 				<RaisedButton label="Get Google Authorization Code" primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
-				{this.getGoogleAuthCodeInput}
+				{this.getGoogleAuthCodeInput()}
 				{(this.state.isLoading) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : null}
 			</div>
 		);
