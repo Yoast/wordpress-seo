@@ -403,7 +403,7 @@
 					{ "word": "score", "syllables": 1, "notFollowedBy": ["n", "r"] },
 					{ "word": "skyline", "syllables": 2, "notFollowedBy": ["n", "r"] },
 					{ "word": "slackline", "syllables": 2, "notFollowedBy": ["n", "r"] },
-					{ "word": "slice", "syllables": 1, "notFollowedBy": ["n", "r"] },
+					{ "word": "slice", "syllables": 1, "notFollowedBy": ["n", "r", "s"] },
 					{ "word": "snooze", "syllables": 1, "notFollowedBy": ["n", "r"] },
 					{ "word": "storyline", "syllables": 3, "notFollowedBy": ["n", "r"] },
 					{ "word": "office", "syllables": 2, "notFollowedBy": ["s", "r"] },

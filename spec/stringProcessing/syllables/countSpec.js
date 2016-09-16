@@ -978,7 +978,7 @@ describe( "a syllable counter for German text strings", function () {
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable auä", function () {
-		expect( countSyllableFunction( "blauäugig", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "stauänderung", "de_DE" ) ).toBe( 4 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable éa", function () {
@@ -1199,7 +1199,7 @@ describe( "a syllable counter for German text strings", function () {
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable uäu", function () {
-		expect( countSyllableFunction( "blauäugig", "de_DE" ) ).toBe( 3 );
+		expect( countSyllableFunction( "zuäußerst", "de_DE" ) ).toBe( 3 );
 	} );
 
 	it( "returns the number of syllables of words containing the add syllable ^us-", function () {
