@@ -51,7 +51,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 *
 	 * @returns {Window} Returns instance of the created window.
 	 */
-	openGoogleAuthDialog() {
+	openGoogleAuthDialog = () => {
 		var authUrl = yoastWizardConfig.gscAuthURL,
 			w = 600,
 			h = 500,
@@ -64,7 +64,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			"toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, " +
 			"copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left
 		);
-	}
+	};
 
 	/**
 	 * Saves the authorization code.
@@ -84,6 +84,16 @@ class ConnectGoogleSearchConsole extends React.Component {
 		this.sendJQueryAJAXrequest( url, config, callback, dataType );
 	}
 
+	/**
+	 * @summary Sends a jQuery AJAX post request.
+	 *
+	 * @param {string} url The URL to post to.
+	 * @param {object} config The parameters to send with the request.
+	 * @param {function} callback The function to call after executing the request.
+	 * @param {string} dataType The dataType for the params.
+	 *
+	 * @returns {void}
+	 */
 	sendJQueryAJAXrequest( url, config, callback, dataType ) {
 		let newState = this.getLoadingState( true );
 		this.setState( newState );
@@ -266,6 +276,12 @@ class ConnectGoogleSearchConsole extends React.Component {
 		</div>;
 	}
 
+	/**
+	 * Gets the input field option for the google authentication code.
+	 *
+	 * @returns {JSX.Element} Div element containing a description,
+	 *                        input field and submit button.
+	 */
 	getGoogleAuthCodeInput() {
 		return <div>
 			<p>
