@@ -72,30 +72,36 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @returns {void}
 	 */
 	saveAuthCode() {
-		let newState = this.getLoadingState(true);
-		this.setState(newState);
+		let url = yoastWizardConfig.ajaxurl;
+		let config = {
+			action: "wpseo_save_auth_code",
+			ajax_nonce: yoastWizardConfig.gscNonce,
+			authorization: jQuery( "#gsc_authorization_code" ).val(),
+		};
+		let callback = this.setProfileList.bind( this );
+		let dataType = "json";
 
-		jQuery.post(
-			yoastWizardConfig.ajaxurl,
-			{
-				action: "wpseo_save_auth_code",
-				ajax_nonce: yoastWizardConfig.gscNonce,
-				authorization: jQuery( "#gsc_authorization_code" ).val(),
-			},
-			this.setProfileList.bind( this ),
-			"json"
-		).done( (response) => {
-				newState = this.getLoadingState( false );
-				this.setState(
-					newState
-				)
-			}
-		)
-        .fail( (response) => {
-        	console.log( response )
-	      }
-        );
+		this.sendJQueryAJAXrequest( url, config, callback, dataType );
 	}
+
+	sendJQueryAJAXrequest( url, config, callback, dataType ) {
+		let newState = this.getLoadingState( true );
+		this.setState( newState );
+
+		jQuery.post( url, config, callback, dataType )
+		   .done( ( response ) => {
+			    newState = this.getLoadingState( false );
+			    this.setState(
+				    newState
+			    );
+			    return response;
+		     }
+		      )
+		      .fail( ( response ) => {
+			    console.log( response );
+		     } );
+	}
+
 
 	/**
 	 * Gets a new state object with the loading state added to it.
@@ -104,10 +110,10 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 *
 	 * @returns {object} Returns the current state object with the isLoading variable added.
 	 */
-	getLoadingState(isLoading) {
+	getLoadingState( isLoading ) {
 		let currentState = this.state;
 
-		if( currentState.isLoading === true && isLoading === false){
+		if( currentState.isLoading === true && isLoading === false ) {
 			currentState.isLoading = false;
 			return currentState;
 		}
@@ -126,15 +132,15 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @returns {void}
 	 */
 	clearAuthCode() {
-		return jQuery.post(
-			yoastWizardConfig.ajaxurl,
-			{
-				action: "wpseo_clear_auth_code",
-				ajax_nonce: yoastWizardConfig.gscNonce,
-			},
-			this.clear.bind( this ),
-			"json"
-		);
+		let url = yoastWizardConfig.ajaxurl;
+		let config = {
+			action: "wpseo_clear_auth_code",
+			ajax_nonce: yoastWizardConfig.gscNonce,
+		};
+		let callback = this.clear.bind( this );
+		let dataType = "json";
+
+		this.sendJQueryAJAXrequest( url, config, callback, dataType );
 	}
 
 	/**
@@ -240,7 +246,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 *
 	 * @returns {JSX.Element} Profile select box wrapped in a div element.
 	 */
-	getProfileSelectBox(){
+	getProfileSelectBox() {
 		let profiles    = this.state.profileList;
 		let profileKeys = Object.keys( profiles );
 
@@ -257,11 +263,10 @@ class ConnectGoogleSearchConsole extends React.Component {
 					}
 				) }
 			</select>
-		</div>
-
+		</div>;
 	}
 
-	getGoogleAuthCodeInput(){
+	getGoogleAuthCodeInput() {
 		return <div>
 			<p>
 				Enter your Google Authorization Code and press the Authenticate button.
@@ -270,7 +275,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			<input type="text" id="gsc_authorization_code" name="gsc_authorization_code" defaultValue=""
 			       placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
 			<RaisedButton label="Authenticate" onClick={this.saveAuthCode.bind( this )} />
-		</div>
+		</div>;
 	}
 
 	/**
@@ -281,7 +286,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	render() {
 		this.onChange = this.props.onChange;
 		this.name = this.props.name;
-		let profiles = (this.hasProfiles())
+		let profiles = ( this.hasProfiles() )
 			? this.getProfileSelectBox()
 			: <p>There were no profiles found</p>;
 
@@ -290,7 +295,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 				<div>
 					{profiles}
 					<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
-					{(this.state.isLoading) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : null}
+					{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : null}
 				</div>
 			);
 		}
@@ -303,7 +308,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 				</p>
 				<RaisedButton label="Get Google Authorization Code" primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
 				{this.getGoogleAuthCodeInput()}
-				{(this.state.isLoading) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : null}
+				{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : null}
 			</div>
 		);
 	}
