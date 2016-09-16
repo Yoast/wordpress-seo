@@ -51,8 +51,8 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 *
 	 * @returns {Window} Returns instance of the created window.
 	 */
-	openGoogleAuthDialog = () => {
-		var authUrl = yoastWizardConfig.gscAuthURL,
+	openGoogleAuthDialog() {
+		let authUrl = yoastWizardConfig.gscAuthURL,
 			w = 600,
 			h = 500,
 			left = ( screen.width / 2 ) - ( w / 2 ),
@@ -305,13 +305,15 @@ class ConnectGoogleSearchConsole extends React.Component {
 		let profiles = ( this.hasProfiles() )
 			? this.getProfileSelectBox()
 			: <p>There were no profiles found</p>;
+		let loader = ( this.state.isLoading ) ? <div className="yoast-wizard-overlay">
+			<LoadingIndicator/></div> : null;
 
 		if( this.state.hasAccessToken ) {
 			return (
 				<div>
 					{profiles}
 					<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
-					{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : null}
+					{loader}
 				</div>
 			);
 		}
@@ -324,7 +326,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 				</p>
 				<RaisedButton label="Get Google Authorization Code" primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
 				{this.getGoogleAuthCodeInput()}
-				{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : null}
+				{loader}
 			</div>
 		);
 	}
