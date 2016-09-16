@@ -88,9 +88,18 @@ a:focus {
   &--step {
     &__active {
       @media screen and (max-width: 768px) {
-        text-indent: -9999px;
+		width: 38px;
+		overflow: hidden;
+
+        div {
+		  display: inline-block !important;
+		  vertical-align: middle;
+        }
+
         div > span > span {
-          padding-right: 0 !important;
+          display: block !important;
+          margin-left: -7px;
+          padding-right: 99px !important;
         }
       }
 
