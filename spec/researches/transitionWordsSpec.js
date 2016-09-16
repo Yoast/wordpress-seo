@@ -145,6 +145,14 @@ describe("a test for finding transition words from a string", function() {
 		expect(result.transitionWordSentences).toBe(1);
 	});
 
+	it("returns 1 when a transition abbreviation is found in a sentence (German)", function () {
+		// Transition word: z.b.
+		mockPaper = new Paper("Ich werde z.b. versuchen zu verstehen, warum er so denkt.", { locale: 'de_DE'} );
+		result = transitionWordsResearch(mockPaper);
+		expect(result.totalSentences).toBe(1);
+		expect(result.transitionWordSentences).toBe(1);
+	});
+
 	it("returns 1 when a two-part transition word is found in a sentence (German)", function () {
 		// Transition word: nicht nur...sondern.
 		mockPaper = new Paper("Man soll nicht nur in seinen Liebesbeziehungen, sondern in sämtlichen Lebensbereichen um das Glück kämpfen.", { locale: 'de_DE'} );
@@ -192,7 +200,7 @@ describe("a test for finding transition words from a string", function() {
 	});
 
 	it("returns 1 when a transition word is found in a sentence (Spanish)", function () {
-		// Transition word: pr el contrario.
+		// Transition word: por el contrario.
 		mockPaper = new Paper("Por el contrario, desea que se inicien cambios beneficiosos en Europa.", { locale: 'es_ES'} );
 		result = transitionWordsResearch(mockPaper);
 		expect(result.totalSentences).toBe(1);
