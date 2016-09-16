@@ -83,7 +83,7 @@ var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
 	/* Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
 	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
 	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
-	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
+	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='_blank'>Flesch Reading Ease</a>";
 
 	// Scores must be between 0 and 100;
 	if ( fleschReadingScore < 0 ) {

@@ -40,7 +40,7 @@ var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	assessmentResult.setScore( stopWordsResult.score );
 	assessmentResult.setText( i18n.sprintf(
 		stopWordsResult.text,
-		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
+		"<a href='https://yoast.com/handling-stopwords/' target='_blank'>",
 		"</a>",
 		stopWords.length
 	) );
