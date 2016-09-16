@@ -8,7 +8,6 @@ import React from "react";
  * @constructor
  */
 const Label = ( props ) => {
-	console.log(props);
 	return (
 		<label htmlFor={props.for} {...props.optionalAttributes}>{props.children}</label>
 	);
@@ -22,7 +21,7 @@ const Label = ( props ) => {
 Label.propTypes = {
 	"for": React.PropTypes.string.isRequired,
 	optionalAttributes: React.PropTypes.shape( {
-		"aria-label" : React.PropTypes.string,
+		"aria-label": React.PropTypes.string,
 		onClick: React.PropTypes.func,
 		className: React.PropTypes.string,
 	} ),
