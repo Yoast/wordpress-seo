@@ -56,8 +56,8 @@ class StepIndicator extends React.Component {
 					index: key.valueOf() + 1,
 					tooltip: currentField.title,
 					className,
-					onClick: () => {
-						this.props.onClick( name )
+					onClick: ( evt ) => {
+						this.props.onClick( name, evt )
 					},
 				} );
 			}

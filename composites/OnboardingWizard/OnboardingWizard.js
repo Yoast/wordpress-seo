@@ -24,6 +24,7 @@ class OnboardingWizard extends React.Component {
 		super( props );
 
 		this.stepCount = Object.keys( this.props.steps ).length;
+		this.clickedButton = {};
 		this.state = {
 			isLoading: false,
 			steps: this.parseSteps( this.props.steps ),
@@ -95,12 +96,13 @@ class OnboardingWizard extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	postStep( step ) {
+	postStep( step, evt ) {
 		if ( ! step ) {
 			return;
 		}
 
 		this.setState( { isLoading: true } );
+		this.clickedButton = evt.currentTarget;
 
 		sendStep(
 			this.props.endpoint.url,
@@ -137,8 +139,10 @@ class OnboardingWizard extends React.Component {
 			currentStepId: step,
 		} );
 
-		// Set focus on the main content.
-		ReactDOM.findDOMNode(this.refs.step.refs.stepContainer).focus();
+		// Set focus on the main content but not when clicking the step buttons.
+		if ( -1 === this.clickedButton.className.indexOf( "step" ) ) {
+			ReactDOM.findDOMNode(this.refs.step.refs.stepContainer).focus();
+		}
 	}
 
 	/**
@@ -157,10 +161,10 @@ class OnboardingWizard extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	setNextStep() {
+	setNextStep( evt ) {
 		let currentStep = this.getCurrentStep();
 
-		this.postStep( currentStep.next );
+		this.postStep( currentStep.next, evt );
 	}
 
 	/**
@@ -168,10 +172,10 @@ class OnboardingWizard extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	setPreviousStep() {
+	setPreviousStep( evt ) {
 		let currentStep = this.getCurrentStep();
 
-		this.postStep( currentStep.previous );
+		this.postStep( currentStep.previous, evt );
 	}
 
 	/**
@@ -268,7 +272,7 @@ class OnboardingWizard extends React.Component {
 				<div className="yoast-wizard-body">
 					<YoastLogo height={93} width={200}/>
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
-					               onClick={( stepNumber ) => this.postStep( stepNumber )}/>
+					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
 					<div className="yoast-wizard-container">
 						<div className="yoast-wizard">
 							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
