@@ -25,8 +25,11 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
 //		$adapter->add_yoast_lookup( $this->get_identifier(), 'wpseo', 'website_name' );
-		$adapter->add_custom_lookup( $this, 'get_data', 'set_data' );
-	}
+		$adapter->add_custom_lookup(
+			$this->get_identifier(),
+			array( $this, 'get_data' ),
+			array( $this, 'set_data' )
+		);	}
 
 	/**
 	 * Get the data from the stored options.
@@ -34,8 +37,22 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 	 * @return null|string
 	 */
 	public function get_data() {
-		return array(
-			'sitename' => get_bloginfo( 'name' ),
-		);
+		$option = WPSEO_Options::get_option( 'wpseo' );
+		if ( ! empty( $option['website_name'] ) ) {
+			return $option['website_name'];
+		}
+
+		return get_bloginfo( 'name' );
+	}
+
+	/**
+	 * Set the data in the options.
+	 *
+	 * @param {string} $data The data to set for the field.
+	 *
+	 * @return bool Returns true or false for successful storing the data.
+	 */
+	public function set_data( $data ) {
+
 	}
 }
