@@ -24,6 +24,18 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
-		$adapter->add_yoast_lookup( $this->get_identifier(), 'wpseo', 'website_name' );
+//		$adapter->add_yoast_lookup( $this->get_identifier(), 'wpseo', 'website_name' );
+		$adapter->add_custom_lookup( $this, 'get_data', 'set_data' );
+	}
+
+	/**
+	 * Get the data from the stored options.
+	 *
+	 * @return null|string
+	 */
+	public function get_data() {
+		return array(
+			'sitename' => get_bloginfo( 'name' ),
+		);
 	}
 }
