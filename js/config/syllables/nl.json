@@ -285,6 +285,7 @@
 					{ "word": "franchise", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "freelance", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "lease", "syllables": 1, "notFollowedBy": [ "n", "r", "s" ] },
+					{ "word": "linedance", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "lounge", "syllables": 1, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "merchandise", "syllables": 3, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "performance", "syllables": 3, "notFollowedBy": [ "n", "r", "s" ] },
