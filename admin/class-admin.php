@@ -83,7 +83,7 @@ class WPSEO_Admin {
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
-			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		}
 
 		new WPSEO_Configuration_Page();
