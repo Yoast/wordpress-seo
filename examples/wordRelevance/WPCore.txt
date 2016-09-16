@@ -1,0 +1,29 @@
+<h1>WordPress core contributions</h1>
+All our plugins, including our Yoast SEO plugin, are open source. In the true meaning of open source, we don’t just open the source code, other people actively contribute to its betterment. We actively work on getting other people’s patches in and reserve time on every release to make sure we can handle community patches. We love doing that, but we also love contributing to other open source projects, most notably, WordPress. I thought I’d do a write up of the WordPress core contributions we’ve done over the last 9 (!!) years.
+
+<h2>WordPress core contributions by team Yoast</h2>
+Articles like this article on WPTavern about WordPress 4.4 and who worked on it (and the pie chart I nicked from it shown below) make me proud. We pride ourselves in contributing to WordPress core and enabling some people to do a lot of WordPress core work. I’ve been a core contributor to WordPress myself since version 2.3. That’s almost 9 years ago, and I have contributed to almost every major version since, missing only 4, marking 16 releases so far.
+
+This pie chart shows the percentage of commits to WordPress 4.4, done by committers, grouped by their employer.
+
+So, while I started before Sergey did, Sergey has since surpassed me completely. He was the deputy release lead on 4.4, and responsible for tons and tons of work on both core and Meta (the wordpress.org site and infrastructure). We will gladly pay for his time to work on WordPress core and meta for years to come.
+
+Several other members of our team have been contributing for quite a while. Andrey (aka Rarst), who regularly writes on our Dev blog now and mostly spends his time working on Yoast SEO, has been a core contributor since 3.4. Of our Dutch team, Anton is probably most notable, having contributed to 5 releases, with Jip a close second with 3 releases. Taco does quite a bit of work in the i18n community and was noted as a contributor on two releases so far. Both Anton and Taco were at the most recent WordPress community summit. Caroline got her first patch in on WordPress 4.4 and 4.5 will have Andy‘s first patch.
+
+We’re actively looking to hire more experienced WordPress developers, so if you like working on core and would like to work on some of the most popular plugins for WordPress as well, be sure to check out our jobs section. While most of our team is in the Netherlands, we’re willing to make an exception for seriously experienced developers. In fact, we’re looking to hire a full time WordPress core developer, who can, in part work on some projects we have in mind. Let me outline those projects below:
+
+<h2>Specific WordPress core projects</h2>
+Next to all the work we’re already doing, we’re looking at how we can sponsor people for a few specific projects. We’ve got three particular projects in mind that we’d gladly pay someone to do. We’d like to hire a core developer and let him / her do this, or we’ll hire someone for the individual projects. Let me run through the three things we’d like to see happen most right now:
+
+<h3>JavaScript hooks</h3>
+While developing our new snippet preview functionality, we (once again) found that the WordPress admin is notoriously low on methods for plugins to hook into JavaScript actions in a reliable way. One of the reasons WordPress is as successful as it is, is the filters and actions in PHP that make writing a WordPress plugin relatively easy. As more and more of WordPress moves to JavaScript, we need, as a community, to make this possible for JavaScript too.
+We’ve got some ideas around this which we’ll write up on our dev blog in the coming month. The current practices lead to tons of conflicts, something we’d like to fix in a more consistent way.
+
+<h3>XML Sitemaps in WP Core</h3>
+We’d like to bring XML sitemaps to WordPress core. This is a project near and dear to my heart. When Jetpack recently added an XML sitemap module, some people on Twitter were saying “Joost/Yoast won’t like that”. Well, Joost actually does like that. XML sitemaps are now truly a commodity. Thus, they should just be in core. Our own XML sitemaps module in Yoast SEO is too tightly integrated with our own code right now to easily be moved into core, but we’ve got some very good ideas on building a module that would work, for everyone, on top of the new REST API.
+
+<h3>JED: gettext Javascript translations in core</h3>
+For Yoast SEO, we’ve started using JED. JED is a gettext implementation for JavaScript, which basically means it deals with translations the same way WordPress deals with translations in PHP. This makes it very easy to use and basically something core should adopt as soon as possible. Automattic’s Calypso uses JED too, so we know more people in the community know of this awesome tool.
+
+Think these ideas are cool? Want to work on them? Well get yourself to our jobs section! Have other remarks? Leave them in the comments!
+

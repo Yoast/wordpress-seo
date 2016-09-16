@@ -7,10 +7,17 @@ var getWordCombinations = relevantWords.getWordCombinations;
 var calculateOccurrences = relevantWords.calculateOccurrences;
 var getRelevantCombinations = relevantWords.getRelevantCombinations;
 var WordCombination = require( "../../js/values/WordCombination" );
+
+/**
+ * Rounds number to four decimals.
+ *
+ * @param {number} number The number to be rounded.
+ * @returns {number} The rounded number.
+ */
 var formatNumber = function ( number ) {
 
    if ( Math.round( number ) === number ) {
-      return Math.round( number );
+      return number;
    }
 
    return Math.round( number * 10000 ) / 10000;

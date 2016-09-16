@@ -1,0 +1,54 @@
+<h1>What I Learned at #SearchFest 2016 Will Make Me a Better Marketer</h1>
+Over the past 9 years, I’ve probably attended hundreds of marketing conferences. In the early days, I was an attendee there to learn all the things. Then after I started at Moz, I attended them as “press” and I would write about the conference on the Moz blog and live-tweet and such. At some point along the way I began to speak at different events: first about SEO, then social media, now community, and all the marketing in between.
+
+At every conference I attend, no matter what my role is, I try to walk away with one tactic, one idea, one thing I can take back to my team and test, or implement, or even just understand better. After so many events, though, it can be difficult. Certainly not because I know all the things, and not because the speakers aren’t giving out excellent advice — but because after so many events, it all starts to sound the same. It’s not the same, of course (except for those few times I’ve attended the same conference two years in a row and saw the exact same presentation from a couple folks. Yikes!).
+
+As I mature as a marketer, I’m finding myself walking away from excellent events, not with one specific tactic or idea, but with an entire theme. And that the theme, the group of ideas and discussions, are what I really get out of the event.
+
+For example, at MozCon 2015, the theme for me was “disruption.” Now, this wasn’t the actual theme of the conference, but the part that stuck out to me from many of the talks was the idea that you can disrupt your industry and, sometimes more importantly, yourself. Since then, the idea of disruption has constantly been top-of-mind. Asking things like how will this shake things up, how will this make a difference, why would we do this? Ronell Smith recently wrote about how brands can find their disruptive opportunity.
+<h2>The theme of SearchFest for me</h2>
+Today, a few days out of SearchFest 2016, I find myself excited about the theme of “continuous improvement” or “kaizen.” In fact, one of the sessions specifically called kaizen out, which was when it hit me like a ton of bricks. After the session, I had a discussion with Sha Menz, one of the speakers on the topic, and I realized then that this was my theme.
+
+While kaizen began as a Japanese business philosophy of making continuous improvement, it’s now used often in production systems as a way of making positive changes on a regular basis, as to improve productivity.
+
+It’s the idea that in order to get better, you need everyone working on a project to help make suggestions and improve the process all the time. Imagine doing this with your marketing and your team.
+<h2>#1 is simply not enough</h2>
+Our own Dr. Pete was the morning keynote at SearchFest this year. He dug into Google SERPs and helped us understand the importance and opportunities of index-generated answers. Pete made it very clear to everyone that if you want to jump the organic queue, you have to rank #0. Yea, that’s right. Being #1 simply isn’t good enough anymore.
+
+But how do you even do that? Pete gave some specific tactics on how to find out which pages to optimize and what things to care about. Here are three ways Pete talked about getting incrementally better at ranking the ultimate #0:
+
+Check to see if you have a featured snippet for a “who is,” “what is,” “how is” type of terms, then make sure it’s optimized the way you want it to show up. Below is my snippet, and although my Moz profile and personal blog rank #1 and #2, you can see that my Huffington Post author profile is pulling in #0. And it’s wrong! Yikes. I need to get in there and fix it. Then my next incremental step will be to get my Moz profile to rank #0 instead. :D
+
+Once you’ve cleaned up the content that’s already showing up in the snippets, find phrases that you’d like to bump yourself up to #0 for. For example, in this scenario, I searched for “what is mozcon” and our Eventbrite page gets the #0 spot, while we’re in the low, low spot of #1. Obviously this one is “okay,” but definitely not ideal. We want folks to get the full MozCon experience by coming to our site. We’ll start working on making incremental changes to the actual MozCon page in order to take over that top spot. 
+
+This one goes along with #2 above, but Pete gives you another easy way to determine which page on your site Google thinks is the best fit for a snippet. Use “site: + question.” For example:
+
+To get the most out of Dr. Pete’s talk, be sure to check out his full presentation:
+<h2>The Internet of things</h2>
+Cindy Krum, one of my favorite mobile experts, piqued my interest when she started talking about “the Internet of things” and how that really was the same thing as “The SEO of things.” She was talking about how on mobile devices, you don’t just optimize for Google search, then boom you’re done. No, you have to think about Mobile SEO, Google Now, Google Local, App stores, iTunes, Google Play... and the list went on and on.
+
+She hit this point home by not stressing about DOING ALL THE THINGS, but that by focusing on continuous incremental changes, it would lead to exponential growth (usually when you least expect it).
+
+During the same session, Justin Briggs talked about some specific tactics you could do to enhance your mobile rankings and experience for visitors. Here are a few that he covered:
+Figure out the traffic you’ve lost because of poor UX for mobile. Knowing which pages are losing the most traffic because of a mobile experience can help you figure out what to work on first.
+I also really liked the idea of calculating the differences between mobile landing pages:
+Thumbnails are super important when it comes to keeping engagement high on mobile. He offered these tips:
+Increase saturation in thumbnails 20–30% to attract clicks
+Slightly over-sharpen thumbnails to improve visual experience on small thumbnails
+Repeat text elements from image/video title
+Use faces and emotion to connect to visitors & entice clicks
+Want more of Justin’s tips? Check out his full deck:
+<h2>Kaizen-style marketing</h2>
+Although Sha Menz and Jon Cooper specifically talked about kaizen-style link building, it really hit me at this point in the day that this is what we should all be striving for. I loved the idea of making continuous, incremental improvements to how you do marketing, including everyone on your team, and perhaps even the entire company.
+
+Take a peek at Sha's presentation, and take special notice at how she talks about striving to do better in everything we do, every time we do it.
+
+Jon Cooper pulls a lot of this together in his deck, even though it's focused on link building. You can picture how to make this work in all Marketing. Plus, I love his tip about using the "X..Y" search operator (slide 37).
+
+Imagine a world where your SEO, Social, Content, Branding, PPC, and PR teams worked together like a well-oiled machine. Because each and every person on the team was working toward the making continuous improvements of the greater goals, and not just their own small individual goals. And I know this exactly what I hope for within the Moz marketing team.
+<h2>Bringing it all together</h2>
+As I mentioned on Twitter during the conference last week, the biggest issue I have with multi-track events is that I have to miss some of the talks. I’m sure I missed a lot of really great information from some excellent speakers.
+
+At the very end of the event, it was announced that SearchFest would be changing their name. Since the conference has expanded to be beyond just search, the new name, beginning in 2017, will be Engage.
+
+I seriously had one of those “aha!” experiences when this was announced. It wasn’t because the word “engage” meant a lot to me — it was the idea of improving. It seemed to perfectly tie together my personal takeaway theme from SearchFest. And it has inspired me to be a better leader and marketer by working to continuously improve.

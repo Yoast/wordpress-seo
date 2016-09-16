@@ -1,0 +1,29 @@
+<h1>How to handle comments on your blog</h1>
+<p>When blogging regularly, people will start responding to what you write. Maybe not right away, but as your blog is growing, you’ll have to deal with comments on your blog. Especially when you write about your worldview or opinions, some people will disagree with you. You’ll therefore have to deal with the responses and opinions of your readers. But how?</p>
+
+<h2>Are comments on your blog important for SEO?</h2>
+<p>Comments add content to your blog post. And Google indexes all content on your website, including every comment in every blog post. Do not get excited just yet, because Google will instantly recognize comments as being just comments. Their value for the search engine will be much lower than the original content of the blog post. Responding to comments on your blog will therefore not instantly improve your SEO, but it will result in higher percentages of returning visitors.</p>
+
+<h2>Four types of comments</h2>
+<p>The comments people leave on blogs can be divided into four types:</p>
+<h3>Positive feedback</h3>
+<p>First, the positive feedback. Some people just want to say that they like you, your company, or your blog post. That’s always nice to hear. Make sure to reply to some of these (even if it’s just a quick “thanks!”) or express general gratitude in an upcoming post, so the person giving the compliment feels appreciated.</p>
+
+<h3>Questions</h3>
+<p>The second type of comment are the questions your audience has after they’ve read your post. Perhaps something remained unclear or something you wrote triggered someone to ask you about your post or about your brand.</p>
+
+<p>Responding to questions shouldn’t be that hard. If the answer to the question is short (and you actually know the answer!) you can just leave a direct reply. If a question is harder to answer, or needs some more explanation, you could decide to write a new post about it.</p>
+
+<p>If you don’t know the answer to a question, we would advise you to still reply to that comment on your blog. You could simply admit that you do not know the answer, or you could state that you’ll dive into the matter and come back with an answer later (and don’t forget to!).</p>
+
+<h3>Negative feedback</h3>
+<p>The third type of comment is negative feedback. Sometimes, people disagree with what you wrote and sometimes people are unsatisfied with your product or service. Sometimes people are just plain mean about it. These kind of comments are the hardest to handle.</p>
+
+<p>If comments on your blog are really hurtful and indecent (e.g. violent or racist) I would advise you to delete them altogether. Name calling doesn’t have a place on your blog. But, I wouldn’t delete comments from dissatisfied customers or readers. Not responding to these comments or deleting them could seriously backfire; if people are dissatisfied enough, they’ll complain about you through other channels, and you’ll look like you’re censoring their concerns. So, however hard it might be, you should try to respond to their comments and try to find the source of their dissatisfaction. If commenters are dissatisfied with your product or service, ask them to get in touch by phone or email to solve their problem.</p>
+
+<p>Don’t be afraid of some discussion on your blog. A nice discussion in which there is room for several points of view can be a good thing. It gives you the opportunity to really show your audience your expertise and opinion about a certain topic. As long as a discussion is polite and respectful, it will attract readers and make them return to your blog.</p>
+<h3>Spam</h3>
+<p>And finally, some comments are just spam. People try to trick your readers into clicking on a link, often to something unrelated, or they just write nonsense. If your spam filter doesn’t filter these comments out already, you should delete and optionally block them as soon as you see them. WordPress by default comes with the plugin Akismet, which is made for this purpose.</p>
+
+<h2>Reserve some time for handling comments</h2>
+<p>Answering questions and providing correct responses in a discussion can take a lot of time. Make sure you’ve got the time to monitor and respond to the comments you receive on your blog. You don’t have to respond to a comment within the hour, but make sure to respond within a day or two. This shows your readers you’re involved and you care about their responses.</p>

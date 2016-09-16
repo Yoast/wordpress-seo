@@ -1,0 +1,46 @@
+<h1>Easy-to-use accessibility tools</h1>
+Is your website ready for people with visual impairments? Have you ever tried to navigate your own site without a mouse? Just some of the questions I asked you in my article Accessibility matters. In Joost’s recent article on the Google Webmaster Guidelines update, he explains that these new guidelines also focus more on accessibility. Accessibility does matter, and clearly for Google as well. In this article, I’ll show you some easy tools you can use to make your website accessible for more visitors.
+
+<h2>WordPress accessibility</h2>
+If you’re using WordPress, there’s a complete team working on making WordPress more accessible for everyone. From what I can see, this team is working very hard to both make a case for accessibility and improving WordPress accordingly.
+
+I’ve had several conversations with a number of members of this team, for instance during WordCamps (see you in Vienna?) and via Slack. One thing is always a part of those conversations: making a case for accessibility. Accessibility, in my opinion, will too many times be considered as a possible ‘extra’, where roughly 10% of your website visitors will experience some kind of accessibility issue, like contrast or fonts that are too small. If you follow accessibility guidelines, your overall website will improve for all your visitors.
+
+<h2>Accessibility tools</h2>
+We obviously spend time in our reviews testing (a number of aspects of) accessibility as well. Obvious things that are tested are use of headings, contrast and descriptive links. In this article, I’d like to go over these very easy-to-use accessibility tools and show you how you can use these yourself for your website.
+
+<h3>Use of headings</h3>
+Headings and SEO value? It’s up for much debate. Although some people already claim the SEO value of headings is zero to none these days, we’re just not sure yet. But when it comes to accessibility, headings are very important:
+Headings add structure and meaning to pages by labeling each content part and indicating the relative importance of those parts.
+
+Of course, this is very much UX related, not just to accessibility. Not just for people with a disability of some kind, by for every visitor of your website. Make sure your headings are descriptive and nested the right way. Don’t just use headings as a design element (“it’s the only way I know how to enlarge my text”) or to impact SEO (“I use all H1 headings, that makes it all very important to Google”). The first one is a plain lazy solution –  and the second one just doesn’t hold that much truth anymore, like mentioned above.
+
+Easy-to-use accessibility tool to test heading structure on your website: Quix. This tool is like the Swiss Army knife of our site reviews. You can test all kind of things by using a variety of commands, but the ones we use most are seo, h and seocss. That last one will show you all the headings on a web page:
+
+Even on pages where we don’t actually can read what’s on there, this little accessibility tool will allow us to check heading structure. As you can see, the content part of this website is structured right, but the sidebar on the left is using a reversed structure. (first H2 than H1).
+
+<h3>Contrast</h3>
+There is a number of ways to test the contrast of a website. By contrast we mean the way the color of a text is readable on its background. When using black on white, you’re obviously safe. But a lot of websites change these colors for sidebars or specific sections or use text on images, for instance in a slider.
+
+When I was building websites myself back in the old days, I often used this handy github page by Lea Verou:
+
+It gives you a contrast ratio score based upon the W3C contrast guidelines, which considers 4.5:1 to be OK. Black text on white background gives a ratio of 21:1, by the way.
+The test tool by Lea Verou just tests contrast. If you want to play around with contrast to find how this affects visits by for instance people that are colorblind, you might want to check the Color Contrast Analyzer (Windows/Mac) that checks foreground/background contrast levels and allows you to preview designs as they might be seen by colorblind users. If you’re using a Mac, this little contrast tool by Michel Fortin is also great: Sim Daltonism. Like the Color Contrast Analyzer, it allows you to hover a website and test a number of colorblindness variations:
+
+Easy-to-use and fast, I have Sim Daltonism installed on my Mac.
+Another accessibility tool I’d like mention here is simply called SEE. It’s a rather confronting Chrome extension, which allows you to view a site as viewed by visitors with variations of colorblindness, but also as people suffering from for instance glaucoma or cataract. Be sure to try that one for yourself as well.
+
+<h3>Descriptive links</h3>
+The last accessibility tool I’d like to mention is right in your computer. Both Mac and PC have ways to read out the text on the screen for you. The text that is read, can be identified and that will show you if a link is set up in a descriptive way. For Windows users, the application that reads text to for instance a blind visitor is called Narrator. As I am using a Mac, let me show you how to identify inaccessible links using VoiceOver. I assume Narrator has pretty similar features. Correct me if I am wrong, Windows user.
+
+There are a lot of keyboard shortcuts that can be used when it comes to accessibility. In our reviews, we do the following:
+Press CMD+F5 to turn on VoiceOver
+Press Ctrl+Alt+U to bring up the Content Chooser
+See if f.i. the read more links say more than just ‘read more’
+
+Here’s the result of that on a blog that did not optimize for accessibility:
+
+You can clearly see that Treebeard is the nick or name of the author, but a blind visitor just sees Treebeard. And where we know that the read more is related to Part Deux of the Dumping Dumps article, a blind visitor just sees ‘read more’. About what? Don’t get me wrong: we’re not doing everything right ourselves, but we try to improve the accessibility of our site and plugins as well. Last year, Rian Rietveld wrote an article on how to use a .screen-reader-text class to make your read more links more accessible. Go read. Implement.
+
+<h2>One more thing</h2>
+The people at WAVE Web Accessibility created a nice tool to quickly identify a lot more rights and wrongs on your website. This is done completely automatically and will need a human to see what really are realistic improvements and what not. I don’t consider this a replacement for the accessibility tools mentioned above, but it is definitely worth looking into!

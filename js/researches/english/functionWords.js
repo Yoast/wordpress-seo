@@ -1,8 +1,6 @@
 var filteredPassiveAuxiliaries = require( "./passivevoice-english/auxiliaries.js" )().filteredAuxiliaries;
 var notFilteredPassiveAuxiliaries = require( "./passivevoice-english/auxiliaries.js" )().notFilteredAuxiliaries;
-// Multiple words (transitionWords.multipleWords) should also be filtered (but is currently not possible because we are filtering per word).
 var transitionWords = require( "./transitionWords.js" )().singleWords;
-// Idea: filter out all 1-character 'words' in order to exclude #, %, &, -, …, ½ etc.
 
 /**
  * Returns an array with exceptions for the keyword suggestion researcher.

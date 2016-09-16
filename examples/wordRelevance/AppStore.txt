@@ -1,0 +1,104 @@
+<h1>The App Store Optimization Checklist: Top 10 Tips</h1>
+App Store Optimization, or ASO, is a way of ensuring your app meets app store ranking criteria and rises to the top of a search results page. But how does a marketer optimize for better discoverability in an app store?
+
+To help you boost your app marketing strategy (along with your app store ranking!), I’ve put together a list of 10 favorite ASO tips, many of which have their roots in well-known SEO strategies marketers know and love.
+
+Let’s dive in!
+<h2>1. Understand your customer and your competition</h2>
+How well do you know your customers and your competition? A well-formed ASO strategy hinges on understanding how your customers use your app, along with a deep view of your competitive landscape. To start, ask yourself the following:
+What language do my customers naturally use?
+How would they describe my app?
+What are their top reasons for downloading and using my app?
+What is my competitive advantage?
+What keywords do my competitors target?
+How easily can I compete against these apps on the same keywords?
+Should I target the obvious keywords or the less obvious (and less trafficked) keywords that better speak to my unique offering and points of differentiation?
+
+Your ASO strategy begins with putting yourself in your customer’s shoes. Your goal is to improve discovery in app store searches and target those keywords that drive the most traffic. The best way to identify these optimal keywords is consumer research — finding out exactly what search queries brought your customers to your app and the natural language they use to describe it.
+
+It’s equally important to survey your competition to identify which keywords are being targeted by apps similar to yours. You can then determine whether or not it makes sense to target these same keywords or a separate set of keywords unique to your individual value proposition. Similarly, you’ll have to decide if it makes more sense to rank in the top 10 for a few highly competitive keywords or to rank in the top spot for keywords with a lesser search volume.
+<h2>2. Choose the right app name</h2>
+Coming up with a unique name for your app isn’t just a matter of branding. For best results with ASO, include relevant keywords within your title, as this text heavily factors into app store search results. In fact, our friends at TUNE recently conducted a study of the top 25 ranking positions and found that apps with a relevant keyword in their title ranked, on average, 10.3% higher than apps without a title keyword.
+
+Titles in the App Store can be up to 255 characters, allowing for plenty of keywords or keyword phrases. However, don’t take this as an opportunity to stuff every keyword you can think of into your title; after all, your app’s name is, first and foremost, your first impression to a potential mobile customer. Longer titles, however, will be truncated on a search results or top chart page. Titles are typically truncated after the 23rd character (including spaces) in the App Store and the 30th character in Google Play. App titles for installed apps in a device’s navigation menu or home screen are truncated after 11 and 14 characters, respectively.
+
+To ensure that your app can be clearly identified, keep the actual name short and sweet. You can augment this short title with nonessential keywords after the name, typically preceded by a dash or vertical bar, to associate your app with select keywords.
+
+It’s also important to use only URL-friendly characters in your title, particularly in the App Store. Special characters or symbols will detract from your ASO strategy and cause iTunes to refer to your app’s numeric ID, rather than its name, to scan for relevant keywords.
+<h2>3. Maximize your keywords</h2>
+While many of these strategies apply across the board when it comes to the different app stores, the App Store and the Google Play Store have two very different approaches when it comes to ASO keywords.
+<h3>The App Store</h3>
+The App Store has a 100-character keyword field. It exclusively uses title and whatever keywords or keyword phrases you include in these 100 characters to determine which search strings your app will show up for. With this in mind, it’s important to use all of the allotted characters and carefully research your keywords to maximize your organic traffic.
+<h3>Google Play</h3>
+On the other hand, the Google Play Store takes an approach more similar to modern SEO. Google does away with the specified tags and scans your app’s description to extract relevant keywords. In this scenario, you’re given 4,000 characters to describe it in natural, customer-facing language. Without trying to jam as many keywords into this text as possible at the expense of your messaging strategy, try to sprinkle relevant keywords where they logically make sense. A recent Sensor Tower study showed that the optimal number of times to repeat a keyword in an app store product page is five, at which point you will maximize the likelihood of ranking prominently for that keyword. Additional mentions have little to no effect on ASO and may even turn off potential customers if your description appears intentionally repetitive.
+
+With this in mind, everything consumer-facing in your app’s product page should be designed not for an algorithm but for the customer. If its description is a hodgepodge of contextually irrelevant keywords, that coveted rank will become meaningless, as your wordy description will struggle to entice customers to take the next step and download it. For best results, write for the customer first, and make small edits for keywords next — remember that the ranking algorithms take both keywords and conversion metrics into account.
+<h2>4. Create a compelling description</h2>
+With the exception of a few of the aforementioned strategically placed keywords, your app’s description should be targeted toward your customer base, rather than a search engine index. Your description should be viewed as a call-to-action for potential customers. Describe what it does in simple and concise language, list the unique benefits it offers, and compel the reader to download it. You’ve already convinced the app store that your app is relevant to a specific list of keywords, and now it’s time to convince your potential customers that it meets their needs.
+
+We recommend focusing the bulk of your energy on the first three lines of your description to immediately grab your reader’s attention. Given the ever-growing number of apps in the marketplace, customers are sure to have a few — if not several — alternatives to consider when evaluating yours. Make their decision easy by immediately communicating what it does and why they should use it.
+
+Your app’s description, as well as the rest of your product page, should be treated as a living document. As it changes with each new update, so should your description. Each time you submit an update, take the time to reflect the changes in your product page’s description and screenshots to call out new features and accurately portray it.
+<h2>5. Stand out with a unique icon</h2>
+As your potential customers browse a nearly endless list of apps, your visual icon is the first impression they’ll have of yours. It’s important to make it count!
+
+When approaching your icon design, it’s important to note that the App Store and Google Play vary in their approach to, and rendering of, app icons. Both stores have preset standards for the ideal size, geometry, and color scheme of app icons, designed to match the rest of the OS.
+
+For iOS icons, the most important thing to note is that icons should be sized to at least 1024×1024 pixels, the dimensions required by the App Store. From here, the Apple OS will resize your icon for any other applications, including app icons (180×180), navigation icons (66×66), and tab bar icons (75×75). Your image must therefore be designed with the meticulous detail of a 1024×1024 icon and the simplicity necessary to still look good scaled down to the smallest size.
+
+When designing an Android icon, the only difference is that Google Play requires a 512×512 icon, rather than 1024×1024. While not required, Google recommends designing app icons in accordance with its material design guidelines, which details everything from icon anatomy to lighting and shading.
+
+Regardless of which OS you’re designing for, you need an icon capable of breaking through the clutter. Icons should be clear enough that they immediately convey what your app does, even in its scaled-down form within the apps menu. As such, don’t overcomplicate your icon with unnecessary words or logos that demand extra time from your customers.
+
+To get an idea of what works historically, simply browse the top-rated apps in your category or Google/Apple’s top picks. Across the board, you’ll see a trend toward bright colors, unique shapes, and simple imagery. Few icons use words, and some will incorporate a border or drop shadow to make them pop, regardless of their background. And once again, it’s important to do a little competitive research to ensure that your icon is different enough to avoid having your app confused with a competitor’s.
+<h2>6. Include screenshots and videos</h2>
+Like icons, screenshots in your description may not have a direct effect on search rankings, but they do drive downloads. Images convey more about what it actually is and bring your descriptive text to life, allowing potential customers to visualize using your app before they make the download.
+While you can upload up to five screenshots for an iOS app and up to eight for an Android app, only your first 2–3 screenshots will show in the gallery on page load. Take special care in ensuring that these screenshots speak to your biggest customer benefits and are strong enough to convince the reader to browse your additional screenshots or download it.
+
+While the app stores prefer images that are representative of the customer’s experience in your app, you can technically upload any graphic into the screenshot field — including concept or character art. Commonly, publishers will blend graphic design with their screenshots to incorporate a text overlay describing key elements or new features. For example, Candy Crush Saga adds a graphic overlay to its screenshots to promote its new update.
+
+Whatever your approach, your screenshots should show off your app’s most pivotal features, latest updates, and the pages on which your customers will spend most of their time. Skip the pretty splash pages and show the customer what they can expect during everyday use. For best results, A/B test different screenshot sets to determine which screenshots drive the most downloads.
+<h2>7. Localize your app listing</h2>
+When it comes to global marketing, a “one-size-fits-all” approach simply won’t cut it. Today, only 31% of app revenue is generated by North American consumers. And of those consumers outside the English-speaking world, 72% prefer to use their native language when shopping, even if they’re fluent in English. These two statistics speak to the massive opportunity available to app publishers. That is, those app publishers who are able to tap into this market by catering to the unique preferences of its customer segments.
+
+In other words, if your audience goes beyond the English-speaking world, consider adapting your brand communication and language to the wants and needs of each audience segment.
+
+At the most basic level, speak to your customers in the language they use at home. There are myriad solutions for low-cost translation or localization services that can translate your app’s title, keywords, description, and screenshots to the languages of your largest segments.
+
+Both the iTunes App Store and the Google Play Store allow you to localize your listing to make both discoverability and readability easier for customers in different countries. By doing so, you can increase both adoption and conversion, as more customers find your app using keywords in their language and as more customer download it after seeing a welcoming product page in their language. Together, these two effects can add up to as much as a 767% increase in downloads.
+
+For example, Clash of Clans publisher Supercell translated its app description and screenshots to capture the Chinese market:
+<h2>8. Increase traffic with outside promotion</h2>
+At the end of the day, it’s important to remember that on-page optimization is just one tool in your mobile marketing kit. And this is where your SEO knowledge really comes in. It is widely believed that both Google and Apple factor in your app’s total page visits and product page backlinks when determining your search and overall ranks.
+
+Simply put, the more traffic you drive to your listing, the higher it will rank in search results. To drive traffic, build an online presence around your app with social media and content, soliciting press and reviews, and investing in online advertising.
+
+For many publishers, app indexing has proven the most effective strategy for driving traffic to an app’s product page. A relatively new concept, app indexing is the process of making Android or iOS app content searchable and linkable from a web or mobile web search. Customers who see you indexed in a search result can click on your link and be deep-linked to either it's product page (if they don't have it installed) or to the page in your app from which that content is indexed (if they have it installed). Indexing, therefore, helps with both re-engagement and acquisition by promoting your content in new channels.
+
+App indexing allows you to drive downloads and app store traffic directly from a search engine results page.
+
+App indexing has quickly shaken up the world of search, with 40% of searches now returning app indexed results. The world is going mobile, and those apps ahead of the curve in ASO and app indexing trends will be those that nab market share from traditionally web-dominated search results. (For more ways to move beyond the app store with your marketing strategy, check out our guide The 2016 Guide to App Marketing Channels.)
+<h2>9. Update frequently</h2>
+Mobile customers are looking for apps that are constantly improving, with regular updates based on customer feedback. Apps that are frequently updated are seen, by both the app store and the customer, to be of a higher value and more customer-centric. Consequently, app updates highly correspond to better reviews as each new and improved version of the app should naturally receive higher ratings than the version before.
+
+Of course, releasing the update is only half the battle. The next step is to encourage existing customers to download the update. To help sell your next update, try these three strategies:
+
+Entice customers within your app (such as a note prompted at login, a push notification, or an update link prominently displayed in the main navigation) notifying them of the new update and what improvements they have to look forward to.
+
+Update the app description and the “What’s New” field in your app store product page to outline new/improved features with a compelling call-to-action.
+
+Maintain a large volume of five-star reviews for your app, and especially its latest version. Our 2015 Consumer Survey revealed that one-third of existing customers check an app’s ratings before downloading an update. Maintain a positive rating for an easy win.
+
+To come up with a general recommendation for update frequency, we scoured the 500 top-ranked apps and found that the average update frequency was between 30 and 40 days. Keep in mind, however, that each time you update an iOS app, your ratings reset — and with that, your rank temporarily plummets. As a result, frequently updated iOS apps experience slightly higher app store rank volatility, while frequently updated Android apps experience reduced volatility.
+<h2>10. Encourage ratings and feedback</h2>
+Last but certainly not least, a consistent flow of positive reviews serves as the highest possible validation of your app’s quality and one of the highest determinants of rank. In our analysis of the 500 top-ranked apps posted last year on the Moz blog, we found the highest correlation between ratings (both average rating and rating count) and ranks than any of the other factors we tested. Across the board, apps with a large volume of positive ratings dominate the top charts.
+
+We also found that rating volume almost always trumps rating sentiment when it comes to determining rank. The app stores are looking to recognize apps that have the largest fan community — and the best proxy for determining that is the rating count.
+
+The apps with the highest rating counts are those that keep their customers engaged and proactively solicit customer feedback to shape their product roadmap and future updates. It’s important to keep in mind, however, that app store ratings provide just a myopic view of customer satisfaction. Typically, only your vocal minority — those who either love or hate your app — will take the time to write a review. In reality, most of your customers lie somewhere between these two extremes and require that extra engagement or prompt to give their feedback. With intelligent rating prompts, you can boost your rating — and ultimately, your rank — by prompting only those customers most likely to give you a 5-star review.
+<h2>Wrapping it up</h2>
+Backed by an understanding of the data and science behind app store ranking algorithms and these top tips for App Store Optimization, you’re well on your way to a bullet-proof ASO strategy. With careful measurement and a little trial and error, you’ll soon catapult past your competitors in the app store top charts.
+
+Of course, App Store Optimization is an ongoing process, thanks both to the continually evolving ranking algorithms and to the competitive nature of the app stores. A successful ASO strategy requires a keen eye, a penchant for analytics, and regular check-ins. Manage this, and your investment will pay off many times over.
+
+See you on the top charts!
