@@ -60,7 +60,6 @@ class WPSEO_Configuration_Service {
 	 */
 	public function set_storage( WPSEO_Configuration_Storage $storage ) {
 		$this->storage = $storage;
-		$this->storage->hook_custom_field_properties();
 	}
 
 	/**
