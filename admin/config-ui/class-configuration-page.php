@@ -135,24 +135,7 @@ class WPSEO_Configuration_Page {
 	 * Adds a notification to the notification center.
 	 */
 	public static function add_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->add_notification( self::get_notification() );
-	}
 
-	/**
-	 * Removes the notificaiton from the notication center.
-	 */
-	public static function remove_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification( self::get_notification() );
-	}
-
-	/**
-	 * Gets the notification.
-	 *
-	 * @return Yoast_Notification
-	 */
-	private static function get_notification() {
 		$message = sprintf(
 			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
 			'Yoast SEO',
@@ -170,6 +153,7 @@ class WPSEO_Configuration_Page {
 			)
 		);
 
-		return $notification;
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->add_notification( $notification );
 	}
 }
