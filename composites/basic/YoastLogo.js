@@ -3,7 +3,7 @@ import React from 'react';
 const YoastLogo = (props) => {
 
 	return (
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 240" className="yoast-wizard__YoastLogo" style={{ width: props.width, height: props.height }} >
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 240" className="yoast-wizard__logo" style={{ width: props.width, height: props.height }} >
 			<linearGradient id="a" gradientUnits="userSpaceOnUse" x1="476.05" y1="194.48" x2="476.05" y2="36.513">
 				<stop offset="0" style={{ stopColor: "#570732" }} />
 				<stop offset=".038" style={{ stopColor: "#610b39" }} />
