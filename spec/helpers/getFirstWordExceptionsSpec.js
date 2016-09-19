@@ -11,7 +11,7 @@ describe("a test for getting the correct first word exception array", function()
 		expect(firstWordExceptions("es_ES")()).toEqual([ 'el', 'los', 'la', 'las', 'un', 'una', 'unas', 'unos', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez', 'este', 'estos', 'esta', 'estas', 'ese', 'esos', 'esa', 'esas', 'aquel', 'aquellos', 'aquella', 'aquellas', 'esto', 'eso', 'aquello' ]);
 	});
 	it("returns the English first word exception array in case of de_DE locale", function () {
-		expect(firstWordExceptions("de_DE")()).toEqual([ 'das', 'dem', 'den', 'der', 'des', 'die', 'ein', 'eine', 'einem', 'einen', 'einer', 'eines', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun', 'zehn', 'denen', 'deren', 'derer', 'dessen', 'diese', 'diesem', 'diesen', 'dieser', 'dieses', 'jene', 'jenem', 'jenen', 'jener', 'jenes' ]);
+		expect(firstWordExceptions("de_DE")()).toEqual([ 'das', 'dem', 'den', 'der', 'des', 'die', 'ein', 'eine', 'einem', 'einen', 'einer', 'eines', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun', 'zehn', 'denen', 'deren', 'derer', 'dessen', 'diese', 'diesem', 'diesen', 'dieser', 'dieses', 'jene', 'jenem', 'jenen', 'jener', 'jenes', 'welch', 'welcher', 'welches' ]);
 	});
 	it("returns the English first word exception array in case of empty locale", function () {
 		expect(firstWordExceptions("")()).toEqual([ 'the', 'a', 'an', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'this', 'that', 'these', 'those' ]);
