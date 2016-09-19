@@ -21,6 +21,7 @@ const Label = ( props ) => {
 Label.propTypes = {
 	"for": React.PropTypes.string.isRequired,
 	optionalAttributes: React.PropTypes.shape( {
+		"aria-label": React.PropTypes.string,
 		onClick: React.PropTypes.func,
 		className: React.PropTypes.string,
 	} ),

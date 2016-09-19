@@ -30,7 +30,7 @@ const Choice = ( props ) => {
 						<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
 						       value={choiceName} optionalAttributes={{ id, checked }}
 						/>
-						<Label for={id}>{htmlDecoder(choice.label)}</Label>
+						<Label for={id} optionalAttributes={{"aria-label" : choice.screenReaderText}}>{htmlDecoder(choice.label)} </Label>
 					</div>
 				);
 			} )}
