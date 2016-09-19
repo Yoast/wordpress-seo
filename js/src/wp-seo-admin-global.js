@@ -4,8 +4,6 @@
 /* jshint unused:false */
 
 ( function() {
-	"use strict";
-
 	/**
 	 * Displays console notifications.
 	 *
@@ -266,6 +264,7 @@
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Adds a disabled overlay to the specified container element.
 	 *
 	 * @param {Object} container The container object to append the overlay to.
@@ -356,10 +355,37 @@
 		} );
 	}
 
+	/**
+	 * Sets the color of the svg for the premium indicator based on the color of the color scheme.
+	 *
+	 * @returns {void}
+	 */
+	function setPremiumIndicatorColor() {
+		let $premiumIndicator = jQuery( ".wpseo-js-premium-indicator" );
+		let $svg = $premiumIndicator.find( "svg" );
+
+		// Don't change the color to stand out when premium is actually enabled.
+		if ( $premiumIndicator.hasClass( "wpseo-premium-indicator--no" ) ) {
+			let $svgPath = $svg.find( "path" );
+
+			let backgroundColor = $premiumIndicator.css( "backgroundColor" );
+
+			$svgPath.css( "fill", backgroundColor );
+		}
+
+		$svg.css( "display", "block" );
+		$premiumIndicator.css( {
+			backgroundColor: "transparent",
+			width: "20px",
+			height: "20px",
+		} );
+	}
+
 	$( document ).ready( function() {
 		showAlertPopup();
 		hookDismissAllButton();
 		hookDismissRestoreButtons();
+		setPremiumIndicatorColor();
 	} );
 }() );
 

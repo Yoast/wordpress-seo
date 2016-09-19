@@ -9,34 +9,48 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) :
-
-	echo '<h2>' . esc_html__( 'Introduction tour', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
 ?>
 	<p>
-		<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>
+		<?php
+			/* translators: %1$s expands to Yoast SEO */
+			printf( __( 'Configure %1$s step-by-step.', 'wordpress-seo' ), 'Yoast SEO' );
+		?>
 	</p>
-	<p>
-		<a class="button"
-		   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&wpseo_restart_tour=1' ) ); ?>"><?php _e( 'Start Tour', 'wordpress-seo' ); ?></a>
-	</p>
+<p>
+	<a class="button"
+	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ); ?>"><?php _e( 'Open the installation wizard', 'wordpress-seo' ); ?></a>
+</p>
 
 	<br/>
 <?php
-endif;
 
-echo '<h2>' . esc_html__( 'Latest changes', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>
 <p>
 	<?php
-	/* translators: %s expands to Yoast SEO */
-	printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'Yoast SEO' );
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( 'Take a look at the people that create %1$s.', 'wordpress-seo' ), 'Yoast SEO' );
 	?>
 </p>
 
 <p>
 	<a class="button"
-	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php _e( 'View Changes', 'wordpress-seo' ); ?></a>
+	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php _e( 'View Credits', 'wordpress-seo' ); ?></a>
+</p>
+<br />
+<?php
+
+echo '<h2>' . esc_html__( 'Enable settings pages', 'wordpress-seo' ) . '</h2>';
+?>
+<p>
+	<?php
+	$yform->toggle_switch(
+		'enable_setting_pages',
+		array( 'on' => __( 'Yes', 'wordpress-seo' ), 'off' => __( 'No', 'wordpress-seo' ) ),
+		__( 'Enable the settings pages', 'wordpress-seo' )
+	);
+	?>
 </p>
 
 <br/>

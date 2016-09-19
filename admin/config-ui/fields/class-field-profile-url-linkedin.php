@@ -12,7 +12,7 @@ class WPSEO_Config_Field_Profile_URL_LinkedIn extends WPSEO_Config_Field {
 	 * WPSEO_Config_Field_Profile_URL_LinkedIn constructor.
 	 */
 	public function __construct() {
-		parent::__construct( 'profileUrlLinkedIn', 'input' );
+		parent::__construct( 'profileUrlLinkedIn', 'Input' );
 
 		$this->set_property( 'label', __( 'LinkedIn URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/www\.linkedin\.com\/in\/([^/]+)$' );

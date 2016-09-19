@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.4\n"
+"Project-Id-Version: Yoast SEO 3.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-08-02 14:28:36+00:00\n"
+"POT-Creation-Date: 2016-09-06 15:01:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,51 +24,59 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: admin/ajax.php:218
+#. translators: %s expands to the file path and name.
+#: admin/ajax.php:111
+msgid "The file %s could not be removed. Please remove it via FTP."
+msgstr ""
+
+#. translators: %s expands to the directory path and name.
+#: admin/ajax.php:121
+msgid "The directory %s could not be removed. Please remove it via FTP."
+msgstr ""
+
+#: admin/ajax.php:134
+msgid "Files successfully removed."
+msgstr ""
+
+#: admin/ajax.php:223
 msgid "Post doesn't exist."
 msgstr ""
 
-#: admin/ajax.php:227
+#: admin/ajax.php:232
 msgid "Post has an invalid Post Type: %s."
 msgstr ""
 
-#: admin/ajax.php:235
+#: admin/ajax.php:240
 msgid "You can't edit %s."
 msgstr ""
 
-#: admin/ajax.php:243
+#: admin/ajax.php:248
 msgid "You can't edit %s that aren't yours."
 msgstr ""
 
-#: admin/ajax.php:251
+#: admin/ajax.php:256
 msgid "You have used HTML in your value which is not allowed."
 msgstr ""
 
-#. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
-#. %4$s to anchor tags with link to intro page
-#: admin/class-admin-init.php:97
-msgid "%1$s has been updated to version %2$s. %3$sFind out what's new!%4$s"
-msgstr ""
-
-#: admin/class-admin-init.php:137
+#: admin/class-admin-init.php:96
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:164
+#: admin/class-admin-init.php:123
 msgid "Huge SEO Issue: You're blocking access to robots."
 msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the reading
 #. settings, %1$s resolves to the closing tag for the link
-#: admin/class-admin-init.php:167
+#: admin/class-admin-init.php:126
 msgid ""
 "You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search "
 "Engine Visibility."
 msgstr ""
 
-#: admin/class-admin-init.php:195
+#: admin/class-admin-init.php:154
 msgid ""
 "Paging comments is enabled, this is not needed in 999 out of 1000 cases, we "
 "recommend to disable it."
@@ -76,13 +84,13 @@ msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the comment
 #. setting page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:200
+#: admin/class-admin-init.php:159
 msgid ""
 "Simply uncheck the box before \"Break comments into pages...\" on the "
 "%1$sComment settings page%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:238
+#: admin/class-admin-init.php:197
 msgid ""
 "You do not have your postname in the URL of your posts and pages, it is "
 "highly recommended that you do. Consider setting your permalink structure to "
@@ -91,7 +99,7 @@ msgstr ""
 
 #. translators: %1$s resolves to the starting tag of the link to the permalink
 #. settings page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:242
+#: admin/class-admin-init.php:201
 msgid "You can fix this on the %1$sPermalink settings page%2$s."
 msgstr ""
 
@@ -99,7 +107,7 @@ msgstr ""
 #. to Google Analytics by Yoast
 #. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
 #. %3$s expands to the plugin name
-#: admin/class-admin-init.php:299 admin/class-admin-init.php:348
+#: admin/class-admin-init.php:258 admin/class-admin-init.php:307
 msgid ""
 "%1$s detected you are using version %2$s of %3$s, please update to the "
 "latest version to prevent compatibility issues."
@@ -107,159 +115,175 @@ msgstr ""
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:381
+#: admin/class-admin-init.php:340
 msgid ""
 "We've updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s "
 "for all posts and pages."
 msgstr ""
 
-#: admin/class-admin-init.php:582
+#: admin/class-admin-init.php:537
 msgid "%s filter/action"
 msgstr ""
 
 #. translators: %s: number of notifications
-#: admin/class-admin.php:136 inc/wpseo-non-ajax-functions.php:82
+#: admin/class-admin.php:136 inc/wpseo-non-ajax-functions.php:83
 msgid "%s notification"
 msgid_plural "%s notifications"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/class-admin.php:139 admin/class-admin.php:241
-#: admin/pages/dashboard.php:56 inc/wpseo-non-ajax-functions.php:250
+#: admin/class-admin.php:139 admin/class-admin.php:248
+#: admin/pages/dashboard.php:58 inc/wpseo-non-ajax-functions.php:254
 msgid "Dashboard"
 msgstr ""
 
-#: admin/class-admin.php:139 admin/class-admin.php:315
-#: admin/class-meta-columns.php:58
+#: admin/class-admin.php:139 admin/class-admin.php:322
+#: admin/class-meta-columns.php:63
 #: admin/formatter/class-metabox-formatter.php:70
 #: admin/taxonomy/class-taxonomy-columns.php:51
-#: inc/wpseo-non-ajax-functions.php:99
+#: inc/wpseo-non-ajax-functions.php:100
 msgid "SEO"
 msgstr ""
 
-#: admin/class-admin.php:149 admin/pages/dashboard.php:57
+#: admin/class-admin.php:149 admin/pages/dashboard.php:59
 #: admin/pages/metas.php:20 admin/pages/xml-sitemaps.php:30
 msgid "General"
 msgstr ""
 
-#: admin/class-admin.php:158 inc/wpseo-non-ajax-functions.php:256
+#: admin/class-admin.php:158 inc/wpseo-non-ajax-functions.php:260
 msgid "Titles &amp; Metas"
 msgstr ""
 
 #: admin/class-admin.php:166 admin/class-social-admin.php:106
 #: admin/taxonomy/class-taxonomy-metabox.php:185
-#: inc/wpseo-non-ajax-functions.php:262
+#: inc/wpseo-non-ajax-functions.php:266
 msgid "Social"
 msgstr ""
 
 #: admin/class-admin.php:175 admin/class-pointers.php:300
-#: inc/wpseo-non-ajax-functions.php:268
+#: inc/wpseo-non-ajax-functions.php:272
 msgid "XML Sitemaps"
 msgstr ""
 
 #: admin/class-admin.php:184 admin/metabox/class-metabox.php:374
-#: admin/metabox/class-metabox.php:382 inc/wpseo-non-ajax-functions.php:274
+#: admin/metabox/class-metabox.php:382 inc/wpseo-non-ajax-functions.php:278
 msgid "Advanced"
 msgstr ""
 
-#: admin/class-admin.php:193 inc/wpseo-non-ajax-functions.php:280
+#: admin/class-admin.php:193 inc/wpseo-non-ajax-functions.php:284
 msgid "Tools"
 msgstr ""
 
-#: admin/class-admin.php:202 inc/wpseo-non-ajax-functions.php:286
+#: admin/class-admin.php:202 inc/wpseo-non-ajax-functions.php:290
 msgid "Search Console"
 msgstr ""
 
-#: admin/class-admin.php:211 admin/class-admin.php:328
-#: admin/class-pointers.php:331 admin/pages/licenses.php:77
-#: inc/wpseo-non-ajax-functions.php:292
-msgid "Extensions"
+#: admin/class-admin.php:211
+msgid "Go Premium"
 msgstr ""
 
-#: admin/class-admin.php:276
+#: admin/class-admin.php:231
+msgid "Premium"
+msgstr ""
+
+#: admin/class-admin.php:283
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:277
+#: admin/class-admin.php:284
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:278
+#: admin/class-admin.php:285
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:284 admin/pages/metas.php:40
+#: admin/class-admin.php:291 admin/pages/metas.php:40
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-admin.php:286 admin/pages/metas.php:42
+#: admin/class-admin.php:293 admin/pages/metas.php:42
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:286 admin/pages/metas.php:42
+#: admin/class-admin.php:293 admin/pages/metas.php:42
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:293 admin/class-admin.php:294 admin/pages/metas.php:48
+#: admin/class-admin.php:300 admin/class-admin.php:301 admin/pages/metas.php:48
 #: admin/pages/metas.php:50
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:301 admin/class-admin.php:302 admin/pages/metas.php:56
+#: admin/class-admin.php:308 admin/class-admin.php:309 admin/pages/metas.php:56
 #: admin/pages/metas.php:58
 msgid "Advanced Variables"
 msgstr ""
 
-#: admin/class-admin.php:315 admin/pages/network.php:86
+#: admin/class-admin.php:322 admin/pages/network.php:93
 msgid "MultiSite Settings"
 msgstr ""
 
-#: admin/class-admin.php:321
+#: admin/class-admin.php:328
 msgid "Edit Files"
 msgstr ""
 
-#: admin/class-admin.php:398
+#: admin/class-admin.php:335 admin/class-pointers.php:331
+#: admin/pages/licenses.php:112 inc/wpseo-non-ajax-functions.php:296
+msgid "Extensions"
+msgstr ""
+
+#: admin/class-admin.php:405
 msgid "Posts"
 msgstr ""
 
-#: admin/class-admin.php:434
+#: admin/class-admin.php:441
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
 #: admin/taxonomy/class-taxonomy-metabox.php:131
 #: admin/taxonomy/class-taxonomy-metabox.php:139
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:446
+#: admin/class-admin.php:453
 msgid "Premium Support"
 msgstr ""
 
-#: admin/class-admin.php:450
+#: admin/class-admin.php:457
 msgid "FAQ"
 msgstr ""
 
-#: admin/class-admin.php:487 admin/class-pointers.php:287
+#: admin/class-admin.php:494 admin/class-pointers.php:287
 #: admin/pages/social.php:20
 msgid "Google+"
 msgstr ""
 
-#: admin/class-admin.php:489
+#: admin/class-admin.php:496
 msgid "Twitter username (without @)"
 msgstr ""
 
-#: admin/class-admin.php:491
+#: admin/class-admin.php:498
 msgid "Facebook profile URL"
 msgstr ""
 
-#: admin/class-admin.php:613
+#: admin/class-admin.php:620
 msgid "Yoast SEO video tutorial"
 msgstr ""
 
+#: admin/class-admin.php:661 admin/class-yoast-form.php:369
+#: admin/views/tabs/dashboard/security.php:16
+#: admin/views/tabs/metas/archives.php:21
+#: admin/views/tabs/metas/archives.php:43
+#: admin/views/tabs/metas/taxonomies.php:25
+#: admin/views/tabs/sitemaps/user-sitemap.php:16
+msgid "Disabled"
+msgstr ""
+
 #. translators: %1$s resolves to https:github.com/Yoast/wordpress-seo
-#: admin/class-asset.php:165
+#: admin/class-asset.php:180
 msgid ""
 "You are trying to load non-minified files, these are only available in our "
 "development package. Check out %1$s to see all the source files."
@@ -277,56 +301,67 @@ msgstr ""
 msgid "You are not allowed to access this page."
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:392
+#: admin/class-bulk-editor-list-table.php:384
+msgid "Show All Post Types"
+msgstr ""
+
+#: admin/class-bulk-editor-list-table.php:396
+msgid "Filter by post type"
+msgstr ""
+
+#: admin/class-bulk-editor-list-table.php:399
 msgid "Filter"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:753
-msgid "Edit this item"
+#. translators: %s: post title
+#: admin/class-bulk-editor-list-table.php:770
+msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:753
+#: admin/class-bulk-editor-list-table.php:771
 msgid "Edit"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:759
+#. translators: %s: post title
+#: admin/class-bulk-editor-list-table.php:782
 msgid "Preview &#8220;%s&#8221;"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:759
+#: admin/class-bulk-editor-list-table.php:783
 msgid "Preview"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:763
+#. translators: %s: post title
+#: admin/class-bulk-editor-list-table.php:792
 msgid "View &#8220;%s&#8221;"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:763
+#: admin/class-bulk-editor-list-table.php:793
 #: admin/google_search_console/class-gsc-table.php:209
 msgid "View"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:925
+#: admin/class-bulk-editor-list-table.php:956
 msgid "WP Page Title"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:926
+#: admin/class-bulk-editor-list-table.php:957
 msgid "Post Type"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:927
+#: admin/class-bulk-editor-list-table.php:958
 msgid "Post Status"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:928
+#: admin/class-bulk-editor-list-table.php:959
 msgid "Publication date"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:929
+#: admin/class-bulk-editor-list-table.php:960
 msgid "Page URL/Slug"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:934
+#: admin/class-bulk-editor-list-table.php:965
 msgid "Action"
 msgstr ""
 
@@ -340,68 +375,73 @@ msgstr ""
 msgid "New %1$s Title"
 msgstr ""
 
-#: admin/class-config.php:103 admin/metabox/class-metabox.php:740
+#: admin/class-config.php:114 admin/metabox/class-metabox.php:748
 #: admin/taxonomy/class-taxonomy.php:109
 msgid "Use Image"
 msgstr ""
 
 #. translators: %s: '%%term_title%%' variable used in titles and meta's
 #. template that's not compatible with the given template
-#: admin/class-config.php:117
+#: admin/class-config.php:128
 msgid "Warning: the variable %s cannot be used in this template."
 msgstr ""
 
-#: admin/class-config.php:117
+#: admin/class-config.php:128
 msgid "See the help tab for more info."
 msgstr ""
 
-#: admin/class-config.php:119
+#. translators: %d: number of knowledge base search results found.
+#: admin/class-config.php:131
+msgid "Number of search results: %d"
+msgstr ""
+
+#: admin/class-config.php:132
 msgid "No results found."
 msgstr ""
 
-#: admin/class-config.php:120
+#: admin/class-config.php:133
 msgid "Search the Yoast knowledge base"
 msgstr ""
 
-#: admin/class-config.php:121 admin/google_search_console/class-gsc.php:132
+#: admin/class-config.php:134 admin/google_search_console/class-gsc.php:132
 msgid "Search"
 msgstr ""
 
-#: admin/class-config.php:122
+#: admin/class-config.php:135
 msgid "Search results"
 msgstr ""
 
-#: admin/class-config.php:123
+#: admin/class-config.php:136
 msgid "Something went wrong. Please try again later."
 msgstr ""
 
-#: admin/class-config.php:124
+#: admin/class-config.php:137
 msgid "Loading..."
 msgstr ""
 
-#: admin/class-config.php:125
+#: admin/class-config.php:138
 msgid "search"
 msgstr ""
 
-#: admin/class-config.php:126
+#: admin/class-config.php:139
 msgid "Back"
 msgstr ""
 
-#: admin/class-config.php:127
+#: admin/class-config.php:140
 msgid "Back to search results"
 msgstr ""
 
-#: admin/class-config.php:128
+#: admin/class-config.php:141
 msgid "Open"
 msgstr ""
 
-#: admin/class-config.php:129
+#: admin/class-config.php:142
 msgid ""
 "Open the knowledge base article in a new window or read it in the iframe "
 "below"
 msgstr ""
 
-#: admin/class-config.php:130
+#: admin/class-config.php:143
 msgid "Knowledge base article"
 msgstr ""
 
@@ -500,73 +540,73 @@ msgstr ""
 msgid "WooThemes SEO framework settings &amp; data successfully imported."
 msgstr ""
 
-#: admin/class-import.php:76 admin/class-import.php:82
-#: admin/class-import.php:88 admin/class-import.php:120
-#: admin/class-import.php:127 admin/class-import.php:151
+#: admin/class-import.php:79 admin/class-import.php:85
+#: admin/class-import.php:91 admin/class-import.php:123
+#: admin/class-import.php:130 admin/class-import.php:155
 msgid "Settings could not be imported:"
 msgstr ""
 
-#: admin/class-import.php:88
+#: admin/class-import.php:91
 msgid "Upload failed."
 msgstr ""
 
-#: admin/class-import.php:120
+#: admin/class-import.php:123
 msgid "Unzipping failed with error \"%s\"."
 msgstr ""
 
-#: admin/class-import.php:127
+#: admin/class-import.php:130
 msgid "Unzipping failed - file settings.ini not found."
 msgstr ""
 
-#: admin/class-import.php:148
+#: admin/class-import.php:151
 msgid "Settings successfully imported."
 msgstr ""
 
-#: admin/class-import.php:151
+#: admin/class-import.php:155
 msgid "No settings found in file."
 msgstr ""
 
-#: admin/class-import.php:173
+#: admin/class-import.php:177
 msgid "Setting \"%s\" is no longer used and has been discarded."
 msgstr ""
 
-#: admin/class-meta-columns.php:61
+#: admin/class-meta-columns.php:66
 #: admin/formatter/class-metabox-formatter.php:50
 #: admin/formatter/class-metabox-formatter.php:69
 #: admin/taxonomy/class-taxonomy-columns.php:55
 msgid "Readability"
 msgstr ""
 
-#: admin/class-meta-columns.php:63 admin/metabox/class-metabox.php:79
+#: admin/class-meta-columns.php:68 admin/metabox/class-metabox.php:79
 msgid "SEO Title"
 msgstr ""
 
-#: admin/class-meta-columns.php:64
+#: admin/class-meta-columns.php:69
 msgid "Meta Desc."
 msgstr ""
 
-#: admin/class-meta-columns.php:67
+#: admin/class-meta-columns.php:72
 msgid "Focus KW"
 msgstr ""
 
-#: admin/class-meta-columns.php:96
+#: admin/class-meta-columns.php:101
 msgid "Meta description not set."
 msgstr ""
 
-#: admin/class-meta-columns.php:101 admin/class-meta-columns.php:370
+#: admin/class-meta-columns.php:106 admin/class-meta-columns.php:351
 #: admin/taxonomy/class-taxonomy-columns.php:130
 msgid "Focus keyword not set."
 msgstr ""
 
-#: admin/class-meta-columns.php:171
+#: admin/class-meta-columns.php:176
 msgid "Filter by SEO Score"
 msgstr ""
 
-#: admin/class-meta-columns.php:173
+#: admin/class-meta-columns.php:178
 msgid "All SEO Scores"
 msgstr ""
 
-#: admin/class-meta-columns.php:365 admin/metabox/class-metabox.php:165
+#: admin/class-meta-columns.php:346 admin/metabox/class-metabox.php:165
 msgid "Post is set to noindex."
 msgstr ""
 
@@ -575,23 +615,23 @@ msgstr ""
 msgid "The premium version of %1$s with more features & support."
 msgstr ""
 
-#: admin/class-plugin-availability.php:41 admin/pages/licenses.php:24
+#: admin/class-plugin-availability.php:41 admin/pages/licenses.php:26
 msgid ""
 "Optimize your videos to show them off in search results and get more clicks!"
 msgstr ""
 
-#: admin/class-plugin-availability.php:49 admin/pages/licenses.php:30
+#: admin/class-plugin-availability.php:49 admin/pages/licenses.php:38
 msgid ""
 "Are you in Google News? Increase your traffic from Google News by optimizing "
 "for it!"
 msgstr ""
 
-#: admin/class-plugin-availability.php:57 admin/pages/licenses.php:36
+#: admin/class-plugin-availability.php:57 admin/pages/licenses.php:50
 msgid "Rank better locally and in Google Maps, without breaking a sweat!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-plugin-availability.php:66 admin/pages/licenses.php:43
+#: admin/class-plugin-availability.php:66 admin/pages/licenses.php:63
 msgid "Seamlessly integrate WooCommerce with %1$s and get extra features!"
 msgstr ""
 
@@ -896,7 +936,7 @@ msgid ""
 "%3$shere%4$s."
 msgstr ""
 
-#: admin/class-pointers.php:335 admin/pages/licenses.php:78
+#: admin/class-pointers.php:335 admin/pages/licenses.php:113
 msgid "Licenses"
 msgstr ""
 
@@ -926,7 +966,8 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to Yoast SEO Premium
-#: admin/class-premium-popup.php:70
+#. translators: %s expands to the product name
+#: admin/class-premium-popup.php:70 admin/pages/licenses.php:204
 msgid "Buy %s"
 msgstr ""
 
@@ -1020,12 +1061,12 @@ msgstr ""
 msgid "Successfully cleared all Facebook Data"
 msgstr ""
 
-#: admin/class-social-facebook.php:291
+#: admin/class-social-facebook.php:289
 msgid "Facebook Insights and Admins"
 msgstr ""
 
 #. translators: %1$s and %2$s expand to a link to Facebook Insights
-#: admin/class-social-facebook.php:294
+#: admin/class-social-facebook.php:292
 msgid ""
 "To be able to access %1$sFacebook Insights%2$s for your site, you need to "
 "specify a Facebook Admin. This can be a user. If you have an app for your "
@@ -1033,49 +1074,49 @@ msgid ""
 msgstr ""
 
 #. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
-#: admin/class-social-facebook.php:300
+#: admin/class-social-facebook.php:298
 msgid "More info can be found %1$son our knowledge base%2$s."
 msgstr ""
 
 #. translators: %1$s and %2$s expand to a link to Facebook Insights
-#: admin/class-social-facebook.php:317
+#: admin/class-social-facebook.php:315
 msgid ""
 "To be able to access %1$sFacebook Insights%2$s, you need to add a user here. "
 "The name is used for reference only, the ID is used for verification."
 msgstr ""
 
 #. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
-#: admin/class-social-facebook.php:321
+#: admin/class-social-facebook.php:319
 msgid ""
 "If you don't know where to find the needed ID, see %1$sthis knowledge base "
 "article%2$s."
 msgstr ""
 
-#: admin/class-social-facebook.php:324
+#: admin/class-social-facebook.php:322
 msgid "Admin's name:"
 msgstr ""
 
-#: admin/class-social-facebook.php:328
+#: admin/class-social-facebook.php:326
 msgid "Admin's Facebook user ID:"
 msgstr ""
 
-#: admin/class-social-facebook.php:333 admin/class-social-facebook.php:347
+#: admin/class-social-facebook.php:331 admin/class-social-facebook.php:345
 msgid "Add Facebook admin"
 msgstr ""
 
-#: admin/class-social-facebook.php:353
+#: admin/class-social-facebook.php:351
 msgid "Add Another Facebook Admin"
 msgstr ""
 
-#: admin/class-social-facebook.php:358
+#: admin/class-social-facebook.php:356
 msgid "Currently connected Facebook admins:"
 msgstr ""
 
-#: admin/class-social-facebook.php:385
+#: admin/class-social-facebook.php:383
 msgid "Facebook App ID"
 msgstr ""
 
-#: admin/class-social-facebook.php:453
+#: admin/class-social-facebook.php:451
 msgid "Clear all Facebook Data"
 msgstr ""
 
@@ -1197,23 +1238,15 @@ msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
 #: admin/class-yoast-form.php:369 admin/views/tabs/dashboard/security.php:16
-#: admin/views/tabs/metas/archives.php:21
-#: admin/views/tabs/metas/archives.php:41
-#: admin/views/tabs/metas/taxonomies.php:25
-#: admin/views/tabs/sitemaps/user-sitemap.php:16
-msgid "Disabled"
-msgstr ""
-
-#: admin/class-yoast-form.php:369 admin/views/tabs/dashboard/security.php:16
 #: admin/views/tabs/metas/archives.php:20
-#: admin/views/tabs/metas/archives.php:40
+#: admin/views/tabs/metas/archives.php:42
 #: admin/views/tabs/metas/taxonomies.php:25
 #: admin/views/tabs/sitemaps/user-sitemap.php:16
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:518
-#: admin/taxonomy/class-taxonomy-fields-presenter.php:89
+#: admin/class-yoast-form.php:518 admin/metabox/class-metabox.php:545
+#: admin/taxonomy/class-taxonomy-fields-presenter.php:95
 msgid "Upload Image"
 msgstr ""
 
@@ -1538,6 +1571,14 @@ msgstr ""
 msgid "or"
 msgstr ""
 
+#: admin/google_search_console/views/gsc-display.php:101
+msgid "Crawl issues list navigation"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:102
+msgid "Crawl issues list"
+msgstr ""
+
 #: admin/import/class-import-aioseo-hooks.php:28
 msgid ""
 "The plugin All-In-One-SEO has been detected. Do you want to %simport its "
@@ -1639,11 +1680,12 @@ msgid ""
 msgstr ""
 
 #: admin/metabox/class-metabox.php:87
+#: admin/taxonomy/class-taxonomy-settings-fields.php:44
 msgid "Meta Robots Index"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:89
-#: admin/taxonomy/class-taxonomy-settings-fields.php:105
+#: admin/taxonomy/class-taxonomy-settings-fields.php:101
 msgid ""
 "Warning: even though you can set the meta robots setting here, the entire "
 "site is set to noindex in the sitewide privacy settings, so these settings "
@@ -1651,7 +1693,7 @@ msgid ""
 msgstr ""
 
 #: admin/metabox/class-metabox.php:91
-msgid "Default for post type, currently: %s"
+msgid "Default for this post type, currently: %s"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:95
@@ -1670,7 +1712,7 @@ msgstr ""
 msgid "Site-wide default: %s"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:102 admin/pages/network.php:53
+#: admin/metabox/class-metabox.php:102 admin/pages/network.php:60
 #: admin/views/tabs/advanced/breadcrumbs.php:47
 #: admin/views/tabs/advanced/breadcrumbs.php:64 inc/class-wpseo-meta.php:416
 msgid "None"
@@ -1693,6 +1735,7 @@ msgid "No Snippet"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:108
+#: admin/taxonomy/class-taxonomy-settings-fields.php:56
 msgid "Breadcrumbs Title"
 msgstr ""
 
@@ -1701,7 +1744,7 @@ msgid "Title to use for this page in breadcrumb paths"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:111
-#: admin/taxonomy/class-taxonomy-settings-fields.php:44
+#: admin/taxonomy/class-taxonomy-settings-fields.php:63
 msgid "Canonical URL"
 msgstr ""
 
@@ -1736,7 +1779,7 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:727
+#: admin/metabox/class-metabox.php:735
 msgid ""
 "The featured image should be at least 200x200 pixels to be picked up by "
 "Facebook and other social media sites."
@@ -1748,7 +1791,7 @@ msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link
-#: admin/onpage/class-onpage.php:116 admin/views/dashboard-widget.php:65
+#: admin/onpage/class-onpage.php:116 admin/views/dashboard-widget.php:66
 msgid ""
 "%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad "
 "for SEO and should be fixed."
@@ -1766,49 +1809,158 @@ msgstr ""
 msgid "RSS"
 msgstr ""
 
-#: admin/pages/dashboard.php:43
-msgid "Fix it."
-msgstr ""
-
-#: admin/pages/dashboard.php:44
-msgid ""
-"The following file(s) is/are blocking your XML sitemaps from working "
-"properly:"
-msgstr ""
-
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/dashboard.php:51
+#: admin/pages/dashboard.php:45
 msgid ""
+"The following file is blocking your XML sitemaps from working properly. "
+"Either delete it (this can be done with the \"Fix it\" button) or disable "
+"%1$s XML sitemaps."
+msgid_plural ""
+"The following files are blocking your XML sitemaps from working properly. "
 "Either delete them (this can be done with the \"Fix it\" button) or disable "
 "%1$s XML sitemaps."
-msgstr ""
+msgstr[0] ""
+msgstr[1] ""
 
-#: admin/pages/dashboard.php:58
-msgid "Company Info"
-msgstr ""
-
-#: admin/pages/dashboard.php:58
-msgid "Your Info"
+#: admin/pages/dashboard.php:52
+msgid "Fix it"
 msgstr ""
 
 #: admin/pages/dashboard.php:60
+msgid "Company Info"
+msgstr ""
+
+#: admin/pages/dashboard.php:60
+msgid "Your Info"
+msgstr ""
+
+#: admin/pages/dashboard.php:62
 msgid "Webmaster Tools"
 msgstr ""
 
-#: admin/pages/dashboard.php:61
+#: admin/pages/dashboard.php:63
 msgid "Security"
 msgstr ""
 
+#: admin/pages/licenses.php:30
+msgid "Show your videos in Google Videos"
+msgstr ""
+
+#: admin/pages/licenses.php:31
+msgid "Enhance the experience of sharing posts with videos"
+msgstr ""
+
+#: admin/pages/licenses.php:32
+msgid "Make videos responsive through enabling fitvids.js"
+msgstr ""
+
+#: admin/pages/licenses.php:42
+msgid "Optimize your site for Google News"
+msgstr ""
+
+#: admin/pages/licenses.php:43
+msgid "Immediately pings Google on the publication of a new post"
+msgstr ""
+
+#: admin/pages/licenses.php:44
+msgid "Creates XML News Sitemaps"
+msgstr ""
+
+#: admin/pages/licenses.php:54
+msgid "Get found by potential clients"
+msgstr ""
+
+#: admin/pages/licenses.php:55
+msgid "Easily insert Google Maps, a store locator, opening hours and more"
+msgstr ""
+
+#: admin/pages/licenses.php:56
+msgid "Improve the usability of your contact page"
+msgstr ""
+
+#: admin/pages/licenses.php:68
+msgid "Improve sharing on Pinterest"
+msgstr ""
+
+#: admin/pages/licenses.php:71
+msgid "Use %1$s breadcrumbs instead of %2$s ones"
+msgstr ""
+
+#: admin/pages/licenses.php:74
+msgid "A seamless integration between %1$s and %2$s"
+msgstr ""
+
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/licenses.php:73
+#: admin/pages/licenses.php:108
 msgid "%1$s Extensions"
 msgstr ""
 
-#: admin/pages/licenses.php:99
-msgid "Get this extension"
+#. translators: %1$s expands to Yoast SEO Premium
+#: admin/pages/licenses.php:125
+msgid "%1$s, take your optimization to the next level!"
 msgstr ""
 
-#: admin/pages/licenses.php:117
+#: admin/pages/licenses.php:130
+msgid "Redirect manager"
+msgstr ""
+
+#: admin/pages/licenses.php:131
+msgid "create and manage redirects from within your WordPress install."
+msgstr ""
+
+#: admin/pages/licenses.php:134
+msgid "Multiple focus keywords"
+msgstr ""
+
+#: admin/pages/licenses.php:135
+msgid "optimize a single post for up to 5 keywords."
+msgstr ""
+
+#: admin/pages/licenses.php:138
+msgid "Social previews"
+msgstr ""
+
+#: admin/pages/licenses.php:139
+msgid "check what your Facebook or Twitter post will look like."
+msgstr ""
+
+#: admin/pages/licenses.php:142
+msgid "Premium support"
+msgstr ""
+
+#: admin/pages/licenses.php:143
+msgid "gain access to our 24/7 support team."
+msgstr ""
+
+#: admin/pages/licenses.php:148 admin/pages/licenses.php:199
+msgid "Installed"
+msgstr ""
+
+#. translators: $1$s expands to Yoast SEO Premium
+#: admin/pages/licenses.php:152
+msgid "Buy %1$s"
+msgstr ""
+
+#. translators: Text between %1$s and %2$s will only be shown to screen
+#. readers. %3$s expands to the product name.
+#: admin/pages/licenses.php:159 admin/pages/licenses.php:211
+msgid "More information %1$sabout %3$s%2$s"
+msgstr ""
+
+#: admin/pages/licenses.php:166
+msgid "Comes with our 30-day no questions asked money back guarantee"
+msgstr ""
+
+#: admin/pages/licenses.php:174
+msgid "%1$s extensions"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO extensions
+#: admin/pages/licenses.php:179
+msgid "%1$s to optimize your site even further"
+msgstr ""
+
+#: admin/pages/licenses.php:230
 msgid ""
 "This is where you would enter the license keys for one of our premium "
 "plugins, should you activate one."
@@ -1818,11 +1970,11 @@ msgstr ""
 msgid "Homepage"
 msgstr ""
 
-#: admin/pages/metas.php:22 admin/pages/xml-sitemaps.php:32
+#: admin/pages/metas.php:22 admin/pages/xml-sitemaps.php:38
 msgid "Post Types"
 msgstr ""
 
-#: admin/pages/metas.php:23 admin/pages/xml-sitemaps.php:34
+#: admin/pages/metas.php:23 admin/pages/xml-sitemaps.php:40
 msgid "Taxonomies"
 msgstr ""
 
@@ -1838,84 +1990,84 @@ msgstr ""
 msgid "Blog %s not found."
 msgstr ""
 
-#: admin/pages/network.php:61
+#: admin/pages/network.php:68
 msgid "public"
 msgstr ""
 
-#: admin/pages/network.php:64
+#: admin/pages/network.php:71
 msgid "archived"
 msgstr ""
 
-#: admin/pages/network.php:67
+#: admin/pages/network.php:74
 msgid "mature"
 msgstr ""
 
-#: admin/pages/network.php:70
+#: admin/pages/network.php:77
 msgid "spam"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/network.php:94
+#: admin/pages/network.php:101
 msgid "Who should have access to the %1$s settings"
 msgstr ""
 
-#: admin/pages/network.php:96
+#: admin/pages/network.php:103
 msgid "Site Admins (default)"
 msgstr ""
 
-#: admin/pages/network.php:97
+#: admin/pages/network.php:104
 msgid "Super Admins only"
 msgstr ""
 
-#: admin/pages/network.php:105 admin/pages/network.php:112
+#: admin/pages/network.php:112 admin/pages/network.php:119
 msgid "New sites in the network inherit their SEO settings from this site"
 msgstr ""
 
-#: admin/pages/network.php:109
+#: admin/pages/network.php:116
 msgid ""
 "Choose the site whose settings you want to use as default for all sites that "
 "are added to your network. If you choose 'None', the normal plugin defaults "
 "will be used."
 msgstr ""
 
-#: admin/pages/network.php:113
+#: admin/pages/network.php:120
 msgid ""
 "Enter the %sSite ID%s for the site whose settings you want to use as default "
 "for all sites that are added to your network. Leave empty for none (i.e. the "
 "normal plugin defaults will be used)."
 msgstr ""
 
-#: admin/pages/network.php:115
+#: admin/pages/network.php:122
 msgid "Take note:"
 msgstr ""
 
-#: admin/pages/network.php:115
+#: admin/pages/network.php:122
 msgid ""
 "Privacy sensitive (FB admins and such), theme specific (title rewrite) and a "
 "few very site specific settings will not be imported to new blogs."
 msgstr ""
 
-#: admin/pages/network.php:118
+#: admin/pages/network.php:125
 msgid "Save MultiSite Settings"
 msgstr ""
 
-#: admin/pages/network.php:121
+#: admin/pages/network.php:128
 msgid "Restore site to default settings"
 msgstr ""
 
-#: admin/pages/network.php:124
+#: admin/pages/network.php:131
 msgid "Using this form you can reset a site to the default SEO settings."
 msgstr ""
 
-#: admin/pages/network.php:130
+#: admin/pages/network.php:137
 msgid "Site ID"
 msgstr ""
 
-#: admin/pages/network.php:136
+#: admin/pages/network.php:143
 msgid "Blog ID"
 msgstr ""
 
-#: admin/pages/network.php:139
+#: admin/pages/network.php:146
 msgid "Restore site to defaults"
 msgstr ""
 
@@ -1966,11 +2118,11 @@ msgstr ""
 msgid "XML sitemap functionality"
 msgstr ""
 
-#: admin/pages/xml-sitemaps.php:31
+#: admin/pages/xml-sitemaps.php:35
 msgid "User sitemap"
 msgstr ""
 
-#: admin/pages/xml-sitemaps.php:33
+#: admin/pages/xml-sitemaps.php:39
 msgid "Excluded Posts"
 msgstr ""
 
@@ -1999,59 +2151,46 @@ msgid "Meta keywords used on the archive page for this term."
 msgstr ""
 
 #: admin/taxonomy/class-taxonomy-settings-fields.php:45
+msgid ""
+"This taxonomy follows the indexation rules set under Metas and Titles, you "
+"can override it here."
+msgstr ""
+
+#: admin/taxonomy/class-taxonomy-settings-fields.php:50
+msgid "Include in Sitemap?"
+msgstr ""
+
+#: admin/taxonomy/class-taxonomy-settings-fields.php:57
+msgid ""
+"The Breadcrumbs Title is used in the breadcrumbs where this taxonomy appears."
+msgstr ""
+
+#: admin/taxonomy/class-taxonomy-settings-fields.php:64
 msgid "The canonical link is shown on the archive page for this term."
 msgstr ""
 
-#: admin/taxonomy/class-taxonomy-settings-fields.php:48
-#: admin/views/tabs/metas/post-types.php:72
-msgid "Breadcrumbs title"
+#. translators: %s expands to the current taxonomy index value
+#: admin/taxonomy/class-taxonomy-settings-fields.php:82
+msgid "Default for this taxonomy type, currently: %s"
 msgstr ""
 
-#. translators: %s expands to the taxonomy name
-#: admin/taxonomy/class-taxonomy-settings-fields.php:50
-msgid "The Breadcrumbs title is used in the breadcrumbs where this %s appears."
+#: admin/taxonomy/class-taxonomy-settings-fields.php:83
+msgid "Index"
 msgstr ""
 
-#. translators: %s expands to taxonomy name
-#: admin/taxonomy/class-taxonomy-settings-fields.php:57
-msgid "Noindex this %s"
+#: admin/taxonomy/class-taxonomy-settings-fields.php:84
+msgid "Noindex"
 msgstr ""
 
-#. translators: %s expands to taxonomy name
-#: admin/taxonomy/class-taxonomy-settings-fields.php:59
-msgid ""
-"This %s follows the indexation rules set under Metas and Titles, you can "
-"override it here."
-msgstr ""
-
-#. translators: %1$s expands to the taxonomy name
-#: admin/taxonomy/class-taxonomy-settings-fields.php:65
-msgid "Include %1$s in sitemap?"
-msgstr ""
-
-#. translators: %s$s expands to the taxonomy name and %2$s to the current index
-#. value
 #: admin/taxonomy/class-taxonomy-settings-fields.php:86
-msgid "Use %1$s default (Currently: %2$s)"
-msgstr ""
-
-#: admin/taxonomy/class-taxonomy-settings-fields.php:87
-msgid "Always index"
-msgstr ""
-
-#: admin/taxonomy/class-taxonomy-settings-fields.php:88
-msgid "Always noindex"
-msgstr ""
-
-#: admin/taxonomy/class-taxonomy-settings-fields.php:90
 msgid "Auto detect"
 msgstr ""
 
-#: admin/taxonomy/class-taxonomy-settings-fields.php:91
+#: admin/taxonomy/class-taxonomy-settings-fields.php:87
 msgid "Always include"
 msgstr ""
 
-#: admin/taxonomy/class-taxonomy-settings-fields.php:92
+#: admin/taxonomy/class-taxonomy-settings-fields.php:88
 msgid "Never include"
 msgstr ""
 
@@ -2081,91 +2220,86 @@ msgstr ""
 msgid "Thank you for updating %1$s!"
 msgstr ""
 
-#. translators: %s: '3.2' version number
-#: admin/views/about.php:48
-msgid "What’s new in %s"
-msgstr ""
-
-#: admin/views/about.php:52
-msgid "Integrations"
-msgstr ""
-
-#: admin/views/about.php:53
-msgid "Credits"
-msgstr ""
-
-#: admin/views/about.php:120
-msgid "Go to the General settings page →"
-msgstr ""
-
 #. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
-#: admin/views/about.php:165
+#: admin/views/about.php:39
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "%3$s is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:167
+#: admin/views/about.php:41
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:171
+#: admin/views/about.php:48 admin/views/tabs/dashboard/general.php:28
+msgid "Credits"
+msgstr ""
+
+#: admin/views/about.php:49
+msgid "Integrations"
+msgstr ""
+
+#: admin/views/about.php:53
+msgid "Team and contributors"
+msgstr ""
+
+#: admin/views/about.php:55
 msgid "Product Management"
 msgstr ""
 
-#: admin/views/about.php:177
+#: admin/views/about.php:61
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:182
+#: admin/views/about.php:66
 msgid "Head R&D"
 msgstr ""
 
-#: admin/views/about.php:187
+#: admin/views/about.php:71
 msgid "Linguist"
 msgstr ""
 
-#: admin/views/about.php:194
+#: admin/views/about.php:79
 msgid "Development Leaders"
 msgstr ""
 
-#: admin/views/about.php:200
+#: admin/views/about.php:85
 msgid "CTO"
 msgstr ""
 
-#: admin/views/about.php:205 admin/views/about.php:210
+#: admin/views/about.php:90 admin/views/about.php:95
 msgid "Architect"
 msgstr ""
 
-#: admin/views/about.php:218
+#: admin/views/about.php:103
 msgid "Yoast Developers"
 msgstr ""
 
-#: admin/views/about.php:224 admin/views/about.php:229
-#: admin/views/about.php:234 admin/views/about.php:239
-#: admin/views/about.php:244 admin/views/about.php:249
-#: admin/views/about.php:254 admin/views/about.php:259
-#: admin/views/about.php:264 admin/views/about.php:269
+#: admin/views/about.php:109 admin/views/about.php:114
+#: admin/views/about.php:119 admin/views/about.php:124
+#: admin/views/about.php:129 admin/views/about.php:134
+#: admin/views/about.php:139 admin/views/about.php:144
+#: admin/views/about.php:149 admin/views/about.php:154
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:277
+#: admin/views/about.php:162
 msgid "Quality Assurance & Testing"
 msgstr ""
 
-#: admin/views/about.php:283
+#: admin/views/about.php:168
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:288 admin/views/about.php:293
+#: admin/views/about.php:173 admin/views/about.php:178
 msgid "Tester"
 msgstr ""
 
-#: admin/views/about.php:301
+#: admin/views/about.php:186
 msgid "Community contributors"
 msgstr ""
 
-#: admin/views/about.php:309
+#: admin/views/about.php:194
 msgid ""
 "We're always grateful for patches from non-regular contributors, in %1$s "
 "%2$s, patches from the following people made it in:"
@@ -2178,17 +2312,17 @@ msgid ""
 msgstr ""
 
 #. translators: 1: expands to OnPage.org
-#: admin/views/dashboard-widget.php:45
+#: admin/views/dashboard-widget.php:46
 msgid "Indexability check by %1$s"
 msgstr ""
 
-#: admin/views/dashboard-widget.php:58
+#: admin/views/dashboard-widget.php:59
 msgid "Your homepage can be indexed by search engines."
 msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link
-#: admin/views/dashboard-widget.php:74
+#: admin/views/dashboard-widget.php:75
 msgid ""
 "Yoast SEO has %1$snot been able to fetch your site’s indexability status%2$s "
 "from OnPage.org"
@@ -2196,17 +2330,17 @@ msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link
-#: admin/views/dashboard-widget.php:83
+#: admin/views/dashboard-widget.php:84
 msgid ""
 "Yoast SEO has %1$snot fetched your site’s indexability status%2$s yet from "
 "OnPage.org"
 msgstr ""
 
-#: admin/views/dashboard-widget.php:93
+#: admin/views/dashboard-widget.php:94
 msgid "Fetch the current status"
 msgstr ""
 
-#: admin/views/dashboard-widget.php:97
+#: admin/views/dashboard-widget.php:98
 msgid "Analyze entire site"
 msgstr ""
 
@@ -2566,17 +2700,13 @@ msgstr ""
 msgid "Take this tour to quickly learn about the use of this plugin."
 msgstr ""
 
-#: admin/views/tabs/dashboard/general.php:28
-msgid "Latest changes"
-msgstr ""
-
-#. translators: %s expands to Yoast SEO
+#. translators: %1$s expands to Yoast SEO
 #: admin/views/tabs/dashboard/general.php:33
-msgid "We've summarized the most recent changes in %s."
+msgid "Take a look at the people that create %1$s."
 msgstr ""
 
 #: admin/views/tabs/dashboard/general.php:39
-msgid "View Changes"
+msgid "View Credits"
 msgstr ""
 
 #: admin/views/tabs/dashboard/general.php:44
@@ -2699,16 +2829,16 @@ msgid "Author archives"
 msgstr ""
 
 #: admin/views/tabs/metas/archives.php:14
-#: admin/views/tabs/metas/archives.php:37
-#: admin/views/tabs/metas/archives.php:56
-#: admin/views/tabs/metas/archives.php:59 admin/views/tabs/metas/home.php:15
+#: admin/views/tabs/metas/archives.php:39
+#: admin/views/tabs/metas/archives.php:58
+#: admin/views/tabs/metas/archives.php:61 admin/views/tabs/metas/home.php:15
 #: admin/views/tabs/metas/post-types.php:30
 #: admin/views/tabs/metas/taxonomies.php:30
 msgid "Title template"
 msgstr ""
 
 #: admin/views/tabs/metas/archives.php:15
-#: admin/views/tabs/metas/archives.php:38 admin/views/tabs/metas/home.php:16
+#: admin/views/tabs/metas/archives.php:40 admin/views/tabs/metas/home.php:16
 #: admin/views/tabs/metas/post-types.php:31
 #: admin/views/tabs/metas/taxonomies.php:31
 msgid "Meta description template"
@@ -2721,7 +2851,7 @@ msgid "Meta keywords template"
 msgstr ""
 
 #: admin/views/tabs/metas/archives.php:23
-#: admin/views/tabs/metas/archives.php:43
+#: admin/views/tabs/metas/archives.php:45
 #: admin/views/tabs/metas/post-types.php:35
 #: admin/views/tabs/metas/post-types.php:74
 #: admin/views/tabs/metas/taxonomies.php:35
@@ -2745,35 +2875,41 @@ msgid ""
 "in the search results."
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:36
+#: admin/views/tabs/metas/archives.php:31
+msgid ""
+"Note that links to archives might be still output by your theme and you "
+"would need to remove them separately."
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:38
 msgid "Date archives"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:42
+#: admin/views/tabs/metas/archives.php:44
 msgid "Date-based archives"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:45
+#: admin/views/tabs/metas/archives.php:47
 msgid ""
 "Date-based archives could in some cases also be seen as duplicate content."
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:52
+#: admin/views/tabs/metas/archives.php:54
 msgid "Special Pages"
 msgstr ""
 
 #. translators: %s expands to <code>noindex, follow</code>
-#: admin/views/tabs/metas/archives.php:54
+#: admin/views/tabs/metas/archives.php:56
 msgid ""
 "These pages will be %s by default, so they will never show up in search "
 "results."
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:55
+#: admin/views/tabs/metas/archives.php:57
 msgid "Search pages"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:58
+#: admin/views/tabs/metas/archives.php:60
 msgid "404 pages"
 msgstr ""
 
@@ -2914,8 +3050,12 @@ msgid ""
 msgstr ""
 
 #: admin/views/tabs/metas/post-types.php:66
-#: admin/views/tabs/social/facebook.php:30 admin/views/tool-bulk-editor.php:33
+#: admin/views/tabs/social/facebook.php:30 admin/views/tool-bulk-editor.php:39
 msgid "Title"
+msgstr ""
+
+#: admin/views/tabs/metas/post-types.php:72
+msgid "Breadcrumbs title"
 msgstr ""
 
 #: admin/views/tabs/metas/taxonomies.php:24
@@ -2973,6 +3113,16 @@ msgstr ""
 msgid "Post types sitemap settings"
 msgstr ""
 
+#: admin/views/tabs/sitemaps/post-types.php:15
+#: admin/views/tabs/sitemaps/user-sitemap.php:25
+msgid "In sitemap"
+msgstr ""
+
+#: admin/views/tabs/sitemaps/post-types.php:16
+#: admin/views/tabs/sitemaps/user-sitemap.php:26
+msgid "Not in sitemap"
+msgstr ""
+
 #: admin/views/tabs/sitemaps/taxonomies.php:12
 msgid "Taxonomies sitemap settings"
 msgstr ""
@@ -2989,14 +3139,6 @@ msgstr ""
 msgid ""
 "The user sitemap contains the author archive URLs for every user on your "
 "site."
-msgstr ""
-
-#: admin/views/tabs/sitemaps/user-sitemap.php:25
-msgid "In sitemap"
-msgstr ""
-
-#: admin/views/tabs/sitemaps/user-sitemap.php:26
-msgid "Not in sitemap"
 msgstr ""
 
 #: admin/views/tabs/sitemaps/user-sitemap.php:28
@@ -3083,7 +3225,7 @@ msgstr ""
 msgid "Image URL"
 msgstr ""
 
-#: admin/views/tabs/social/facebook.php:31 admin/views/tool-bulk-editor.php:35
+#: admin/views/tabs/social/facebook.php:31 admin/views/tool-bulk-editor.php:41
 msgid "Description"
 msgstr ""
 
@@ -3192,7 +3334,7 @@ msgid "Delete the old data after import? (recommended)"
 msgstr ""
 
 #: admin/views/tabs/tool/import-seo.php:35
-#: admin/views/tool-import-export.php:85
+#: admin/views/tool-import-export.php:88
 msgid "Import"
 msgstr ""
 
@@ -3220,6 +3362,18 @@ msgstr ""
 
 #: admin/views/tabs/tool/wpseo-import.php:24
 msgid "Import settings"
+msgstr ""
+
+#: admin/views/tool-bulk-editor.php:19
+msgid "Filter posts list"
+msgstr ""
+
+#: admin/views/tool-bulk-editor.php:20
+msgid "Posts list navigation"
+msgstr ""
+
+#: admin/views/tool-bulk-editor.php:21
+msgid "Posts list"
 msgstr ""
 
 #: admin/views/tool-file-editor.php:17
@@ -3293,11 +3447,11 @@ msgstr ""
 msgid "The old data of the imported plugin was deleted successfully."
 msgstr ""
 
-#: admin/views/tool-import-export.php:89
+#: admin/views/tool-import-export.php:92
 msgid "Export"
 msgstr ""
 
-#: admin/views/tool-import-export.php:93
+#: admin/views/tool-import-export.php:96
 msgid "Import from other SEO plugins"
 msgstr ""
 
@@ -3351,7 +3505,7 @@ msgstr ""
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1245
+#: frontend/class-frontend.php:1252
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -3674,85 +3828,85 @@ msgid "Expected an integer as input."
 msgstr ""
 
 #. translators: %d resolves to the number of alerts being added.
-#: inc/wpseo-non-ajax-functions.php:89
+#: inc/wpseo-non-ajax-functions.php:90
 msgid "You have a new issue concerning your SEO!"
 msgid_plural "You have %d new issues concerning your SEO!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/wpseo-non-ajax-functions.php:110
+#: inc/wpseo-non-ajax-functions.php:112
 msgid "Notifications"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:117
+#: inc/wpseo-non-ajax-functions.php:120
 msgid "Keyword Research"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:123
+#: inc/wpseo-non-ajax-functions.php:126
 msgid "AdWords External"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:130
+#: inc/wpseo-non-ajax-functions.php:133
 msgid "Google Trends"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:137
+#: inc/wpseo-non-ajax-functions.php:140
 msgid "SEO Book"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:149
+#: inc/wpseo-non-ajax-functions.php:152
 msgid "Analyze this page"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:155
+#: inc/wpseo-non-ajax-functions.php:158
 msgid "Check Inlinks (OSE)"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:162
+#: inc/wpseo-non-ajax-functions.php:165
 msgid "Check Keyword Density"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:169
+#: inc/wpseo-non-ajax-functions.php:173
 msgid "Check Google Cache"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:176
+#: inc/wpseo-non-ajax-functions.php:180
 msgid "Check Headers"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:183
-msgid "Check Rich Snippets"
+#: inc/wpseo-non-ajax-functions.php:187
+msgid "Google Structured Data Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:190
+#: inc/wpseo-non-ajax-functions.php:194
 msgid "Facebook Debugger"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:197
+#: inc/wpseo-non-ajax-functions.php:201
 msgid "Pinterest Rich Pins Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:204
+#: inc/wpseo-non-ajax-functions.php:208
 msgid "HTML Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:211
+#: inc/wpseo-non-ajax-functions.php:215
 msgid "CSS Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:218
+#: inc/wpseo-non-ajax-functions.php:222
 msgid "Google Page Speed Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:225
-msgid "Modern IE Site Scan"
+#: inc/wpseo-non-ajax-functions.php:229
+msgid "Microsoft Edge Site Scan"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:232
+#: inc/wpseo-non-ajax-functions.php:236
 msgid "Mobile-Friendly Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:244
+#: inc/wpseo-non-ajax-functions.php:248
 msgid "SEO Settings"
 msgstr ""
 
@@ -3949,7 +4103,7 @@ msgstr ""
 msgid "%sRenew your license now%s."
 msgstr ""
 
-#: wp-seo-main.php:406
+#: wp-seo-main.php:416
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
 "your web host to enable it."
@@ -3958,19 +4112,19 @@ msgstr ""
 #. translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the
 #. installation manual in the Readme for the Yoast SEO code repository on
 #. GitHub
-#: wp-seo-main.php:428
+#: wp-seo-main.php:438
 msgid ""
 "The %1$s plugin installation is incomplete. Please refer to %2$sinstallation "
 "instructions%3$s."
 msgstr ""
 
-#: wp-seo-main.php:452
+#: wp-seo-main.php:462
 msgid ""
 "The filter extension seem to be unavailable. Please ask your web host to "
 "enable it."
 msgstr ""
 
-#: wp-seo-main.php:462
+#: wp-seo-main.php:472
 msgid "Activation failed:"
 msgstr ""
 

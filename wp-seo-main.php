@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.4.2' );
+define( 'WPSEO_VERSION', '3.5' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -21,16 +21,6 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
-}
-
-if ( is_network_admin() ) {
-
-	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-	// Not active on network, but getting loaded by main site.
-	if ( ! is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
-		return;
-	}
 }
 
 /* ***************************** CLASS AUTOLOADING *************************** */
@@ -154,6 +144,11 @@ function _wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
 	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults.
+
+	if ( show_onboarding_wizard_notice() ) {
+		WPSEO_Configuration_Page::add_notification();
+	}
+
 	WPSEO_Options::get_instance();
 	if ( ! is_multisite() ) {
 		WPSEO_Options::initialize();
@@ -276,7 +271,12 @@ function wpseo_init() {
 
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
+}
 
+/**
+ * Loads the rest api endpoints.
+ */
+function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
 	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) {
 		// Boot up REST API endpoints.
@@ -355,6 +355,7 @@ if ( ! function_exists( 'wp_installing' ) ) {
 
 if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
+	add_action( 'init', 'wpseo_init_rest_api' );
 
 	if ( is_admin() ) {
 
@@ -362,9 +363,6 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
-
-			// Crawl Issue Manager AJAX hooks.
-			new WPSEO_GSC_Ajax();
 
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
@@ -496,4 +494,17 @@ function yoast_wpseo_self_deactivate() {
 	}
 }
 
+/**
+ * Checks if the onboarding wizard notice should be shown. This is the case when the WPSEO option doesn't exists.
+ *
+ * @return bool
+ */
+function show_onboarding_wizard_notice() {
+	// When the site is not multisite and the options does not exists.
+	$is_multisite = is_multisite();
+	if ( ! $is_multisite || ( $is_multisite && ms_is_switched() ) ) {
+		return ( get_option( 'wpseo' ) === false );
+	}
 
+	return false;
+}

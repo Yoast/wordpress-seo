@@ -160,8 +160,8 @@ class Yoast_Dashboard_Widget {
 			WPSEO_Rank::BAD      => __( 'Posts with bad SEO score', 'wordpress-seo' ),
 			WPSEO_Rank::OK       => __( 'Posts with OK SEO score', 'wordpress-seo' ),
 			WPSEO_Rank::GOOD     => __( 'Posts with good SEO score', 'wordpress-seo' ),
-			/* translators: %s expands to <code>noindex</code> */
-			WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to %s', 'wordpress-seo' ), '<code>noindex</code>' ),
+			/* translators: %s expands to <span lang="en">noindex</span> */
+			WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to &#8220;%s&#8221;', 'wordpress-seo' ), '<span lang="en">noindex</span>' ),
 		);
 
 		return $labels[ $rank->get_rank() ];
