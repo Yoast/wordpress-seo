@@ -1,6 +1,7 @@
 import React from "react";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
+import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
 
 /**
  * @summary Mailchimp signup component.
@@ -20,6 +21,7 @@ class MailchimpSignup extends React.Component {
 
 		this.state = {
 			successfulSignup: this.props.value,
+			isLoading: false,
 		};
 	}
 
@@ -61,7 +63,9 @@ class MailchimpSignup extends React.Component {
 		if ( name !== "" ) {
 			data = data + `&NAME=${encodeURIComponent( name )}`;
 		}
-
+		this.setState({
+			isLoading: true,
+		});
 		let result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
 			{
@@ -152,6 +156,19 @@ class MailchimpSignup extends React.Component {
 	}
 
 	/**
+	 * Gets the loading indicator.
+	 *
+	 * @returns {null|JSX.Element} The loading indicator.
+	 */
+	getLoadingIndicator() {
+		if ( ! this.state.isLoading ) {
+			return null;
+		}
+
+		return ( <div className="yoast-wizard-overlay"><LoadingIndicator/></div> );
+	}
+
+	/**
 	 * @summary Renders the MailChimp component.
 	 *
 	 * @returns {JSX.Element} Rendered Mailchimp Component.
@@ -172,6 +189,7 @@ class MailchimpSignup extends React.Component {
 		/>;
 		let button = <RaisedButton label='Sign Up!' onClick={this.signup.bind( this )}/>;
 		let message = this.getSignupMessage();
+		let loader = this.getLoadingIndicator();
 
 		return (
 			<div>
@@ -195,6 +213,7 @@ class MailchimpSignup extends React.Component {
 				</div>
 				{button}
 				{message}
+				{loader}
 			</div>
 		);
 	}
