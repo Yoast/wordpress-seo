@@ -22,22 +22,6 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * Add custom properties to dynamic fields
-	 */
-	public function hook_custom_field_properties() {
-		add_action( 'wpseo_configurator_field-postTypeAttachment', array( $this, 'add_post_type_media_explanation' ) );
-	}
-
-	/**
-	 * Add explanation to the Media post type for sitemap visibility
-	 *
-	 * @param WPSEO_Config_Field $field Field to add property to.
-	 */
-	public function add_post_type_media_explanation( WPSEO_Config_Field $field ) {
-		$field->set_property( 'explanation', __( 'WordPress automatically generates an URL for each media item in the library. Enabling this will allow for google to index the generated URL.', 'wordpress-seo' ) );
-	}
-
-	/**
 	 * Add default fields
 	 */
 	public function add_default_fields() {
