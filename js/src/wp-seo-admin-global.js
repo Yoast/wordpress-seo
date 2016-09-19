@@ -10,17 +10,21 @@
 	 * Displays console notifications.
 	 *
 	 * Looks at a global variable to display all notifications in there.
+	 *
+	 * @returns {void}
 	 */
 	function displayConsoleNotifications() {
 		if ( typeof window.wpseoConsoleNotifications === "undefined" || typeof console === "undefined" ) {
 			return;
 		}
 
+		/* eslint-disable */
 		/* jshint ignore:start */
 		for ( var index = 0; index < wpseoConsoleNotifications.length; index++ ) {
 			console.warn( wpseoConsoleNotifications[ index ] );
 		}
 		/* jshint ignore:end */
+		/* eslint-enable */
 	}
 
 	jQuery( document ).ready( displayConsoleNotifications );
@@ -29,6 +33,8 @@
 	 * Used to dismiss the tagline notice for a specific user.
 	 *
 	 * @param {string} nonce
+	 *
+	 * @returns {void}
 	 */
 	function wpseoDismissTaglineNotice( nonce ) {
 		jQuery.post( ajaxurl, {
@@ -44,6 +50,8 @@
 	 * @param {string} option
 	 * @param {string} hide
 	 * @param {string} nonce
+	 *
+	 * @returns {void}
 	 */
 	function wpseoSetIgnore( option, hide, nonce ) {
 		jQuery.post( ajaxurl, {
@@ -128,7 +136,9 @@
 	var $ = jQuery;
 
 	/**
-	 * Hide popup showing new alerts are present
+	 * Hide popup showing new alerts are present.
+	 *
+	 * @returns {void}
 	 */
 	function hideAlertPopup() {
 		$( "#wp-admin-bar-root-default > li" ).off( "hover", hideAlertPopup );
@@ -136,7 +146,9 @@
 	}
 
 	/**
-	 * Show popup with new alerts message
+	 * Show popup with new alerts message.
+	 *
+	 * @returns {void}
 	 */
 	function showAlertPopup() {
 		$( ".yoast-issue-added" ).hover( hideAlertPopup ).fadeIn();
@@ -144,11 +156,12 @@
 		setTimeout( hideAlertPopup, 3000 );
 	}
 
-
 	/**
 	 * Updates the notification counter based on the amount of notifications passed.
 	 *
 	 * @param {number} total The amount of notifications that are currently available.
+	 *
+	 * @returns {void}
 	 */
 	function updateNotificationCounter( total ) {
 		var $wpseo_menu = $( "#wp-admin-bar-wpseo-menu" );
@@ -173,10 +186,12 @@
 	}
 
 	/**
-	 * Handle dismiss and restore AJAX responses
+	 * Handle dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
 	 * @param {Object} response AJAX response.
+	 *
+	 * @returns {void}
 	 */
 	function handleDismissRestoreResponse( $source, response ) {
 		$( ".yoast-alert-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
@@ -201,6 +216,17 @@
 		updateNotificationCounter( response.total );
 	}
 
+	/**
+	 * Sends a request to the backend to handle the dismissal or restoration of a notification.
+	 *
+	 * @param {string} action The function to call in the backend to process the request.
+	 * @param {string} notificationId The notification ID that needs to be dismissed.
+	 * @param {string} nonce The nonce used by the notification to validate the current request.
+	 * @param {Object} data Extra data to send to the backend.
+	 * @param {Object} responseTarget The targeted object to output the response to.
+	 *
+	 * @returns {void}
+	 */
 	function sendRequest( action, notificationId, nonce, data, responseTarget ) {
 		$.post(
 			ajaxurl,
@@ -215,20 +241,45 @@
 		);
 	}
 
+	/**
+	 * Restores a particular notification.
+	 *
+	 * @param {Object} source The data source to use for the AJAX request to the backend.
+	 * @param {Object} responseTarget The target element to return the response to.
+	 *
+	 * @returns {void}
+	 */
 	function restore( source, responseTarget ) {
 		sendRequest( "yoast_restore_alert", source.attr( "id" ), source.data( "nonce" ), source.data( "json" ), responseTarget );
 	}
 
+	/**
+	 * Dismisses a particular notification.
+	 *
+	 * @param {Object} source The data source to use for the AJAX request to the backend.
+	 * @param {Object} responseTarget The target element to return the response to.
+	 *
+	 * @returns {void}
+	 */
 	function dismiss( source, responseTarget ) {
 		sendRequest( "yoast_dismiss_alert", source.attr( "id" ), source.data( "nonce" ), source.data( "json" ), responseTarget );
 	}
 
+	/**
+	 * Adds a disabled overlay to the specified container element.
+	 *
+	 * @param {Object} container The container object to append the overlay to.
+	 *
+	 * @returns {void}
+	 */
 	function disableContainer( container ) {
 		container.append( '<div class="yoast-container-disabled"/>' );
 	}
 
 	/**
-	 * Hook the restore and dismiss buttons
+	 * Hook the restore and dismiss buttons.
+	 *
+	 * @returns {void}
 	 */
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( ".yoast-alert-holder" );
@@ -252,6 +303,13 @@
 		} );
 	}
 
+	/**
+	 * Extracts the necessary data from the notifications for bulk dismissal.
+	 *
+	 * @param {Object} holders The holder elements for the notifications.
+	 *
+	 * @returns {Array} A filtered list of the notifications to be used for mass dismissal.
+	 */
 	function extractHolderData( holders ) {
 		var data = [];
 
@@ -270,7 +328,9 @@
 	}
 
 	/**
+	 * Hooks the dismiss all button and sends the necessary requests to the backend.
 	 *
+	 * @returns {void}
 	 */
 	function hookDismissAllButton() {
 		$( document ).on( "click", ".yoast-dismiss-all", function( ev ) {
@@ -289,7 +349,7 @@
 				function( data ) {
 					$.each( $( data.html )[0], function( key, item ) {
 						handleDismissRestoreResponse( $( item.container ), { html: item.html, total: 0 } );
-					});
+					} );
 				},
 				"json"
 			);
@@ -312,6 +372,8 @@
 	 * Start video if found on the tab
 	 *
 	 * @param {object} $tab Tab that is activated.
+	 *
+	 * @returns {void}
 	 */
 	function activateVideo( $tab ) {
 		var $data = $tab.find( ".wpseo-tab-video__data" );
@@ -324,16 +386,20 @@
 
 	/**
 	 * Stop playing any video.
+	 *
+	 * @returns {void}
 	 */
 	function stopVideos() {
 		$( "#wpbody-content" ).find( ".wpseo-tab-video__data" ).children().remove();
 	}
 
 	/**
-	 * Open tab
+	 * Open tab.
 	 *
 	 * @param {object} $container Container that contains the tab.
 	 * @param {object} $tab Tab that is activated.
+	 *
+	 * @returns {void}
 	 */
 	function openHelpCenterTab( $container, $tab ) {
 		$container.find( ".contextual-help-tabs-wrap div" ).removeClass( "active" );
@@ -344,9 +410,11 @@
 	}
 
 	/**
-	 * Open Video Slideout
+	 * Open Video Slideout.
 	 *
 	 * @param {object} $container Tab to open video slider of.
+	 *
+	 * @returns {void}
 	 */
 	function openVideoSlideout( $container ) {
 		$container.find( ".toggle__arrow" ).removeClass( "dashicons-arrow-down" ).addClass( "dashicons-arrow-up" );
@@ -379,7 +447,9 @@
 	}
 
 	/**
-	 * Close Video Slideout
+	 * Close Video Slideout.
+	 *
+	 * @returns {void}
 	 */
 	function closeVideoSlideout() {
 		var $container = $( "#wpbody-content" ).find( ".wpseo-tab-video-container" );
