@@ -65,7 +65,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			"toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, " +
 			"copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left
 		);
-	};
+	}
 
 	/**
 	 * Saves the authorization code.
@@ -96,22 +96,24 @@ class ConnectGoogleSearchConsole extends React.Component {
 	postJSON( url, config, callback ) {
 		this.startLoading();
 
-		jQuery.post( url, config, callback, "json" )
-		   .done( ( response ) => {
-		   	    this.endLoading();
+		jQuery
+			.post( url, config, callback, "json" )
+			.done( ( response ) => {
+				this.endLoading();
 
-			    return response;
-		     }
-		      )
-		      .fail( ( response ) => {
-		      	this.endLoading();
+				return response;
+			} )
+			.fail( ( response ) => {
+				this.endLoading();
 
-			    console.error( "There is an error with the request.", response );
-		     } );
+				console.error( "There is an error with the request.", response );
+			} );
 	}
 
 	/**
 	 * Sets the isLoading state to true.
+	 *
+	 * @returns {void}
 	 */
 	startLoading() {
 		this.setState( {
@@ -121,6 +123,8 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 	/**
 	 * Sets the isLoading state to false.
+	 *
+	 * @returns {void}
 	 */
 	endLoading() {
 		this.setState( {
@@ -175,7 +179,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			profileList: null,
 			profile: null,
 			error: null,
-			hasAccessToken: false
+			hasAccessToken: false,
 		} );
 	}
 
@@ -242,17 +246,14 @@ class ConnectGoogleSearchConsole extends React.Component {
 	}
 
 	/**
-	 * @summary Creates a select box for selecting a Google Analytics Profile
-	 * that is needed for the Google search console.
+	 * @summary Creates a select box for selecting a Google Search Console Profile.
 	 *
 	 * @returns {JSX.Element} Profile select box wrapped in a div element.
 	 */
 	getProfileSelectBox() {
-
 		if( ! this.hasProfiles() ) {
 			return ( <p>There were no profiles found</p> );
 		}
-
 
 		let profiles    = this.state.profileList;
 		let profileKeys = Object.keys( profiles );
@@ -286,7 +287,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			</p>
 
 			<input type="text" id="gsc_authorization_code" name="gsc_authorization_code" defaultValue=""
-			       placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
+				placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
 			<RaisedButton label="Authenticate" onClick={this.saveAuthCode.bind( this )} />
 		</div> );
 	}
@@ -330,11 +331,11 @@ class ConnectGoogleSearchConsole extends React.Component {
 	/**
 	 * Gets the loading indicator.
 	 *
-	 * @returns {null|JSX.Element}
+	 * @returns {null|JSX.Element} The loading indicator.
 	 */
 	getLoadingIndicator() {
 		if ( ! this.state.isLoading ) {
-			return null
+			return null;
 		}
 
 		return ( <div className="yoast-wizard-overlay"><LoadingIndicator/></div> );
@@ -348,7 +349,7 @@ ConnectGoogleSearchConsole.propTypes = {
 	value: React.PropTypes.shape( {
 		profileList: React.PropTypes.oneOfType( [
 			React.PropTypes.object,
-			React.PropTypes.array
+			React.PropTypes.array,
 		] ),
 
 		profile: React.PropTypes.string,
