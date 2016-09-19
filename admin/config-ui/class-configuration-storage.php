@@ -15,13 +15,6 @@ class WPSEO_Configuration_Storage {
 	protected $fields = array();
 
 	/**
-	 * Initialize storage
-	 */
-	public function initialize() {
-		$this->add_default_fields();
-	}
-
-	/**
 	 * Add default fields
 	 */
 	public function add_default_fields() {
