@@ -31,8 +31,6 @@ class WPSEO_Config_Field {
 	public function __construct( $field, $component ) {
 		$this->field     = $field;
 		$this->component = $component;
-
-		do_action( 'wpseo_configurator_field-' . $field, $this );
 	}
 
 	/**
