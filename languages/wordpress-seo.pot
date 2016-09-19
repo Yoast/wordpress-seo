@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-09-15 12:40:25+00:00\n"
+"POT-Creation-Date: 2016-09-16 12:48:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1095,12 +1095,13 @@ msgstr ""
 
 #: admin/config-ui/fields/class-field-mailchimp-signup.php:21
 msgid ""
-"If you would like us to keep you up-to-date regarding Yoast SEO and other "
-"plugins by Yoast, subscribe to our newsletter:"
+"If you would like us to keep you up-to-date regarding Yoast SEO, other "
+"plugins by Yoast and major news in the world of SEO, subscribe to our "
+"newsletter:"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-multiple-authors.php:16
-msgid "Does your site have multiple authors?"
+msgid "Does your or will your site have multiple authors?"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-multiple-authors.php:18
@@ -1235,8 +1236,8 @@ msgstr ""
 
 #: admin/config-ui/fields/class-field-site-name.php:18
 msgid ""
-"Google shows your website's name in the search results, we will default to "
-"your site name but you can adapt it here."
+"Google shows your website's name in the search results, if you want to "
+"change it, you can do that here."
 msgstr ""
 
 #. translators: %1$s resolves to the home_url of the blog.
@@ -1270,22 +1271,24 @@ msgid "Other personal site"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-social-profiles-intro.php:17
-#: admin/views/tabs/social/accounts.php:15
 msgid ""
-"To let search engines know which social profiles are associated to this "
-"site, enter them below:"
+"Please add all your relevant social profiles. We use these to let search "
+"engines know about them, and to enhance your social metadata:"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-success-message.php:17
 msgid ""
-"You've finished setting up Yoast SEO. Thereby you've covered the technical "
-"part of your site's SEO."
+"You’ve done it! You&#039;ve set up Yoast SEO, and Yoast SEO will now take "
+"care of all the needed technical optimization of your site. To really "
+"improve your site&#039;s performance in the search results, it&#039;s "
+"important to start creating content that ranks well for keywords you care "
+"about."
 msgstr ""
 
 #: admin/config-ui/fields/class-field-success-message.php:18
 msgid ""
-"Now it's time to start optimizing your content! Check out the getting "
-"started video below in which Joost explains how to do this!"
+"Check out the video below in which we explain how to use the Yoast SEO "
+"metabox when you edit posts or pages"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-upsell-configuration-service.php:17
@@ -1294,25 +1297,23 @@ msgid ""
 "help you configure your SEO settings to match your website's needs!"
 msgstr ""
 
-#: admin/config-ui/fields/class-field-upsell-configuration-service.php:19
-msgid ""
-"As a service to our Premium customers, we offer the Yoast SEO configuration "
-"service. Setting up Yoast SEO Premium can be a daunting task if you’re not "
-"into the ins and outs of SEO. Although we try to make it as simple as "
-"possible, we do realize that it might not be “for you”. For this reason we "
-"offer the Yoast SEO configuration service. We’ll set up Yoast SEO Premium "
-"for you and make sure it has the correct settings for your site!"
-msgstr ""
-
 #. Translators: %1$s opens the link, %2$s closes the link.
-#: admin/config-ui/fields/class-field-upsell-configuration-service.php:23
-msgid "Order %1$sYoast SEO Premium with our configuration service%2$s here!"
+#: admin/config-ui/fields/class-field-upsell-configuration-service.php:21
+msgid ""
+"While we strive to make setting up Yoast SEO as easy as possible, we "
+"understand it can be daunting. If you’d rather have us set up Yoast SEO for "
+"you (and get a copy of Yoast SEO Premium in the process), order our "
+"%1$sYoast SEO configuration service%2$s here!"
 msgstr ""
 
-#: admin/config-ui/fields/class-field-upsell-site-review.php:18
+#. translators: Text between %1$s and %2$s will be a link to a review
+#. explanation page. Text between %3$s and %4$s will be a link to an SEO
+#. copywriting course page.
+#: admin/config-ui/fields/class-field-upsell-site-review.php:19
 msgid ""
-"Get more visitors! Our %1$sSEO website review%2$s will tell you what to "
-"improve!"
+"If you want more help creating awesome content, check out our %3$sSEO "
+"copywriting course%4$s. We can also %1$sreview your site%2$s if you’d like "
+"some more in-depth help!"
 msgstr ""
 
 #: admin/formatter/class-metabox-formatter.php:51
@@ -3257,6 +3258,12 @@ msgstr ""
 
 #: admin/views/tabs/social/accounts.php:12
 msgid "Your social profiles"
+msgstr ""
+
+#: admin/views/tabs/social/accounts.php:15
+msgid ""
+"To let search engines know which social profiles are associated to this "
+"site, enter them below:"
 msgstr ""
 
 #: admin/views/tabs/social/facebook.php:12
