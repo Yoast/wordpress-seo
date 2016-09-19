@@ -61,7 +61,7 @@ var checkSentencesForTransitionWords = function( sentences, transitionWords ) {
 			return;
 		}
 
-		var transitionWordMatches = matchTransitionWords( sentence, transitionWords.transitionWords() );
+		var transitionWordMatches = matchTransitionWords( sentence, transitionWords.transitionWords );
 
 		if ( transitionWordMatches.length !== 0 ) {
 			results.push( {

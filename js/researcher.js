@@ -33,6 +33,7 @@ var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
+var relevantWords = require( "./researches/relevantWords" );
 
 /**
  * This contains all possible, default researches.
@@ -72,6 +73,7 @@ var Researcher = function( paper ) {
 		findTransitionWords: findTransitionWords,
 		passiveVoice: passiveVoice,
 		getSentenceBeginnings: getSentenceBeginnings,
+		relevantWords: relevantWords,
 	};
 
 	this.customResearches = {};

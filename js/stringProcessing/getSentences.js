@@ -94,8 +94,8 @@ function isBreakTag( htmlTag ) {
 function isQuotation( character ) {
 	character = normalizeQuotes( character );
 
-	return "'" === character
-		|| "\"" === character;
+	return "'" === character ||
+		"\"" === character;
 }
 
 /**
@@ -106,8 +106,8 @@ function isQuotation( character ) {
  * @returns {boolean} Whether or not the given character is a punctuation mark.
  */
 function isPunctuation( character ) {
-	return "¿" === character
-		|| "¡" === character;
+	return "¿" === character ||
+		"¡" === character;
 }
 
 /**
@@ -179,7 +179,7 @@ function isValidSentenceBeginning( sentenceBeginning ) {
  * @returns {boolean} Returns true if the token is valid ending, false if it is not.
  */
 function isSentenceStart( token ) {
-	return ( !isUndefined( token ) && (
+	return ( ! isUndefined( token ) && (
 		"html-start" === token.type ||
 		"html-end" === token.type ||
 		"block-start" === token.type
@@ -254,8 +254,8 @@ function getSentencesFromTokens( tokens ) {
 					break;
 				}
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
-				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
 
+				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}
