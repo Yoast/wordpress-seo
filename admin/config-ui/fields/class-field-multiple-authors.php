@@ -13,7 +13,7 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 	public function __construct() {
 		parent::__construct( 'multipleAuthors' );
 
-		$this->set_property( 'label', __( 'Does your or will your site have multiple authors?', 'wordpress-seo' ) );
+		$this->set_property( 'label', __( 'Does your site have multiple authors?', 'wordpress-seo' ) );
 
 		$this->add_choice( 'yes', __( 'Yes', 'wordpress-seo' ) );
 		$this->add_choice( 'no', __( 'No', 'wordpress-seo' ) );

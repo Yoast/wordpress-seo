@@ -19,6 +19,7 @@ class MailchimpSignup extends React.Component {
 		super( props );
 
 		this.state = {
+			message: this.getMessage(),
 			successfulSignup: this.props.value,
 		};
 	}
@@ -37,6 +38,20 @@ class MailchimpSignup extends React.Component {
 		if( successfulSignup ) {
 			this.sendChangeEvent();
 		}
+	}
+
+	/**
+	 * Gets a message when the user has subscribed to the newsletter before.
+	 *
+	 * @returns {string} The message if applicable otherwise an empty string.
+	 */
+	getMessage() {
+		if( this.hasSubscription() ) {
+			return "You've already signed up for our newsletter, thank you! If you'd like you can sign up with " +
+				"another email address.";
+		}
+
+		return "";
 	}
 
 	/**
@@ -59,7 +74,8 @@ class MailchimpSignup extends React.Component {
 		let name = this.refs.nameInput.value.trim();
 
 		if ( name !== "" ) {
-			data = data + `&NAME=${encodeURIComponent( name )}`;
+			// MERGE7 = the name field in the Yoast newsletter signup form.
+			data = data + `&MERGE7=${encodeURIComponent( name )}`;
 		}
 
 		let result = sendRequest(
@@ -87,15 +103,17 @@ class MailchimpSignup extends React.Component {
 			.then(
 				( response ) => {
 					if ( response.result === "error" ) {
-
 						this.setState( {
 							isLoading: false,
 							successfulSignup: false,
-							message: this.stripMessage( this.stripLinkFromMessage( response.msg ) ),
+							message: this.stripMessage( response.msg ),
 						} );
+
+						this.setSubscription();
 
 						return;
 					}
+
 					this.setState( {
 						isLoading: false,
 						successfulSignup: true,
@@ -105,17 +123,6 @@ class MailchimpSignup extends React.Component {
 			.catch( ( response )=> {
 				console.error( "MailChimp signup failed:", response );
 			} );
-	}
-
-	/**
-	 * Strips an HTML link element from the message string.
-	 *
-	 * @param {string} message The message string.
-	 *
-	 * @returns {string} The message string without a link element.
-	 */
-	stripLinkFromMessage( message ) {
-		return message.replace( /<a.*?<\/a>/, "" );
 	}
 
 	/**
@@ -175,8 +182,7 @@ class MailchimpSignup extends React.Component {
 
 		return (
 			<div>
-				<h2>{this.props.properties.title}</h2>
-				<p>{this.props.properties.label}</p>
+				<h4>{this.props.properties.label}</h4>
 				<div className="yoast-wizard-text-input">
 					<label htmlFor="mailchimpName"
 					       className="yoast-wizard-text-input-label">
@@ -227,7 +233,6 @@ class MailchimpSignup extends React.Component {
 }
 
 MailchimpSignup.propTypes = {
-	title: React.PropTypes.string,
 	component: React.PropTypes.string,
 	name: React.PropTypes.string.isRequired,
 	properties: React.PropTypes.object,
@@ -235,14 +240,13 @@ MailchimpSignup.propTypes = {
 	onChange: React.PropTypes.func,
 	value: React.PropTypes.shape(
 		{
-			hasSignup : React.PropTypes.bool,
+			hasSignup : React.PropTypes.bool
 		}
 	),
 	stepState: React.PropTypes.object
 };
 
 MailchimpSignup.defaultProps = {
-	title: "Mailchimp signup",
 	component: "",
 	properties: {},
 	data: "",

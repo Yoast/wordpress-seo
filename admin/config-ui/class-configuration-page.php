@@ -76,7 +76,7 @@ class WPSEO_Configuration_Page {
 		</head>
 		<body>
 		<div id="wizard"></div>
-		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
+		<a id="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
 			<?php _e( 'Go back to the Yoast SEO dashboard.', 'wordpress-seo' ); ?>
 		</a>
 		<footer>
@@ -107,7 +107,6 @@ class WPSEO_Configuration_Page {
 			'nonce'             => wp_create_nonce( 'wp_rest' ),
 			'root'              => esc_url_raw( rest_url() ),
 			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-			'finishUrl'         => admin_url( 'admin.php?page=wpseo_dashboard&configuration=finished' ),
 			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
 			'gscProfiles'       => $service->get_sites(),
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),

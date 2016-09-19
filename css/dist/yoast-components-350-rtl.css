@@ -218,30 +218,14 @@
 }
 
 body {
-	margin: 0;
-	padding: 0;
 	background: #f0f0f0;
-	font-family: sans-serif;
-	line-height: 1.375;
-	/* 22px based on default browser font size 16px. */
-}
-
-#container {
-	max-width: 1660px;
-	margin: 0 auto;
+	font-family: "Open Sans", sans-serif;
 }
 
 .yoast-wizard-body {
 	box-sizing: border-box;
 	width: 80%;
 	margin: 1rem auto 4rem;
-}
-
-@media screen and (max-width: 768px) {
-	.yoast-wizard-body {
-		width: auto;
-		margin: 0;
-	}
 }
 
 #YoastLogo {
@@ -253,15 +237,9 @@ body {
 	box-sizing: border-box;
 	width: 100%;
 	min-height: 20px;
-	padding: 3em;
+	padding: 1em;
 	background: #fff;
 	text-align: right;
-}
-
-@media screen and (max-width: 768px) {
-	.yoast-wizard {
-		padding: 1em 1em 2em;
-	}
 }
 
 .yoast-wizard--navigation {
@@ -271,20 +249,7 @@ body {
 
 .yoast-wizard--button {
 	margin-top: 1em;
-}
-
-.yoast-wizard--button__next {
 	margin-right: 1em;
-}
-
-@media screen and (max-width: 768px) {
-	.yoast-wizard--step__active {
-		text-indent: -9999px;
-	}
-
-	.yoast-wizard--step__active div > span > span {
-		padding-left: 0 !important;
-	}
 }
 
 .yoast-wizard--step__active svg {
@@ -293,34 +258,8 @@ body {
 	fill: #5d237a;
 }
 
-@media screen and (max-width: 768px) {
-	.yoast-wizard--step__inactive {
-		display: none !important;
-	}
-}
-
 .yoast-wizard--step--container h1 {
-	margin-top: 0;
-	margin-bottom: 16px;
-	margin-bottom: 1rem;
-	color: #a4286a;
-	font-size: 2.75em;
-	font-weight: 300;
-	line-height: 3.68rem;
-	letter-spacing: normal;
-}
-
-@media screen and (max-width: 768px) {
-	.yoast-wizard--step--container h1 {
-		font-size: 2em;
-		line-height: 1.25;
-	}
-}
-
-.yoast-wizard--step--container h2 {
-	color: #a4286a;
-	font-size: 1.375em;
-	font-weight: 400;
+	font-size: 24px;
 }
 
 .yoast-wizard--stepper {
@@ -353,44 +292,28 @@ body {
 	text-align: right;
 }
 
-@media screen and (max-width: 768px) {
-	.yoast-wizard-container {
-		box-shadow: none;
-	}
-}
-
 .yoast-wizard-container fieldset {
 	margin: 1em 0;
 	border: 0;
 }
 
 .yoast-wizard-text-input {
-	padding-bottom: 0.5em;
-	font-size: 14px;
+	min-width: 300px;
 }
 
 .yoast-wizard-text-input-label {
-	display: block;
-	margin: 0.5em 0 0;
-	font-weight: bold;
+	display: inline-block;
+	width: 100%;
+	max-width: 200px;
+	margin: 1em 0 0;
+	padding-left: 1em;
 	cursor: pointer;
 }
 
-.yoast-wizard-text-input-field {
-	box-sizing: border-box;
-	width: 100%;
-	max-width: 300px;
-}
-
-.yoast-wizard-field-description {
-	font-weight: bold;
-}
-
 .yoast-wizard input {
-	margin: 0.5em 0;
+	margin: 1em 0;
 	padding: 5px;
-	font-size: 14px;
-	line-height: 140%;
+	font-size: 16px;
 }
 
 .yoast-wizard label {
@@ -398,23 +321,7 @@ body {
 }
 
 .yoast-wizard input[type="radio"] {
-	margin-top: 1px;
-	margin-left: 0.7em;
-	vertical-align: middle;
-}
-
-.yoast-wizard-input__explanation {
-	margin-top: 0;
-	color: #555;
-	font-style: italic;
-}
-
-.yoast-wizard-input-radio {
-	font-size: 14px;
-}
-
-.yoast-wizard-input-radio-option label {
-	padding-top: 2px;
+	margin-left: 1em;
 }
 
 .yoast-wizard-input-radio-separator {
@@ -458,31 +365,14 @@ body {
 .yoast-wizard-return-link {
 	display: block;
 	margin: 1em 0;
-	/* lighter #555d66 */
-	color: #646d78;
+	color: #b5b5b5;
 	text-align: center;
 }
 
 .yoast-wizard-mailchimp-message-error {
-	color: #dc3232;
+	color: red;
 }
 
 .yoast-wizard-mailchimp-message-success {
-	color: #008a00;
-}
-
-.yoast-wizard-image-upload-container__image {
-	max-width: 151px;
-}
-
-.yoast-wizard-image-upload-container-buttons {
-	margin-top: 1em;
-}
-
-.yoast-wizard-image-upload-container-buttons__remove {
-	margin-right: 1em;
-}
-
-.yoast-wizard-image-upload-container-description {
-	display: block;
+	color: #00a000;
 }
