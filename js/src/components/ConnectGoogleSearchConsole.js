@@ -261,8 +261,13 @@ class ConnectGoogleSearchConsole extends React.Component {
 		return (
 			<div>
 				<div className="yoast-wizard-input">
-					<label className="yoast-wizard-text-input-label" htmlFor="yoast-wizard-gsc-select-profile">Select profile</label>
-					<select className="yoast-wizard-input__select" id="yoast-wizard-gsc-select-profile" onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
+					<label className="yoast-wizard-text-input-label"
+					       htmlFor="yoast-wizard-gsc-select-profile">Select
+						profile</label>
+					<select className="yoast-wizard-input__select"
+					        id="yoast-wizard-gsc-select-profile"
+					        onChange={this.setProfile.bind( this )}
+					        name={this.name} value={this.state.profile}>
 						<option value="">Choose a profile</option>
 						{ profileKeys.map(
 							( profileKey, index ) => {
@@ -274,7 +279,8 @@ class ConnectGoogleSearchConsole extends React.Component {
 							}
 						) }
 					</select>
-				</div>);
+				</div>
+			</div>);
 	}
 
 	/**
@@ -284,7 +290,8 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 *                        input field and submit button.
 	 */
 	getGoogleAuthCodeInput() {
-		return ( <div>
+
+		return (<div>
 			<p>
 				Enter your Google Authorization Code and press the Authenticate button.
 			</p>
