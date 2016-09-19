@@ -164,6 +164,7 @@ class MailchimpSignup extends React.Component {
 		this.onChange = this.props.onChange;
 
 		let input = <input id="mailchimpEmail"
+		                   className="yoast-wizard-text-input-field"
 		                   ref="emailInput"
 		                   type="text"
 		                   name={this.props.name}
@@ -183,6 +184,7 @@ class MailchimpSignup extends React.Component {
 						Name
 					</label>
 					<input id="mailchimpName"
+					       className="yoast-wizard-text-input-field"
 					       ref="nameInput"
 					       type="text"
 					       name="name"
