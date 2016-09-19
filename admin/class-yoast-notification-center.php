@@ -158,8 +158,6 @@ class Yoast_Notification_Center {
 			$notification_key = self::get_user_input( 'notification' );
 		}
 
-//		var_dump(self::is_notification_dismissing( $notification, $notification_key ));die;
-
 		if ( ! self::is_notification_dismissing( $notification, $notification_key ) ) {
 			return false;
 		}
@@ -167,7 +165,6 @@ class Yoast_Notification_Center {
 		if ( $user_nonce === '' ) {
 			$user_nonce = self::get_user_input( 'nonce' );
 		}
-
 
 		if ( false === wp_verify_nonce( $user_nonce, $notification_id ) ) {
 			return false;

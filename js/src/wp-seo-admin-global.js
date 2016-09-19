@@ -185,6 +185,10 @@
 			return;
 		}
 
+		if ( typeof response.total === "undefined" ) {
+			response.total = 0;
+		}
+
 		if ( response.html ) {
 			$source.html( response.html );
 			/* jshint ignore:start */
@@ -211,12 +215,12 @@
 		);
 	}
 
-	function restore( notificationId, nonce, data, responseTarget ) {
-		sendRequest( "yoast_restore_alert", notificationId, nonce, data, responseTarget );
+	function restore( source, responseTarget ) {
+		sendRequest( "yoast_restore_alert", source.attr( "id" ), source.data( "nonce" ), source.data( "json" ), responseTarget );
 	}
 
-	function dismiss( notificationId, nonce, data, responseTarget ) {
-		sendRequest( "yoast_dismiss_alert", notificationId, nonce, data, responseTarget );
+	function dismiss( source, responseTarget ) {
+		sendRequest( "yoast_dismiss_alert", source.attr( "id" ), source.data( "nonce" ), source.data( "json" ), responseTarget );
 	}
 
 	function disableContainer( container ) {
@@ -229,48 +233,52 @@
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( ".yoast-alert-holder" );
 
-		$dismissible.on( "click", ".dismiss", function() {
+		$dismissible.on( "click", ".restore, .dismiss", function() {
 			var $this = $( this );
-			var $source = $this.closest( ".yoast-alert-holder" );
+			var holder = $this.closest( ".yoast-alert-holder" );
+			var container = holder.closest( ".yoast-container" );
 
-			disableContainer( $this.closest( ".yoast-container" ) );
-			$this.find( "span" ).removeClass( "dashicons-no-alt" ).addClass( "dashicons-randomize" );
+			disableContainer( container );
 
-			dismiss( $source.attr( "id" ), $source.data( "nonce" ), $source.data( "json" ), $source.closest( ".yoast-container" ) );
+			if ( $this.hasClass( "restore" ) ) {
+				$this.find( "span" ).removeClass( "dashicons-arrow-up" ).addClass( "dashicons-randomize" );
+				restore( holder, container );
+			}
 
-		} );
-
-		$dismissible.on( "click", ".restore", function() {
-			var $this = $( this );
-			var $source = $this.closest( ".yoast-alert-holder" );
-
-			disableContainer( $this.closest( ".yoast-container" ) );
-
-			$this.find( "span" ).removeClass( "dashicons-arrow-up" ).addClass( "dashicons-randomize" );
-
-			restore( $source.attr( "id" ), $source.data( "nonce" ), $source.data( "json" ), $source.closest( ".yoast-container" ) );
+			if ( $this.hasClass( "dismiss" ) ) {
+				$this.find( "span" ).removeClass( "dashicons-no-alt" ).addClass( "dashicons-randomize" );
+				dismiss( holder, container );
+			}
 		} );
 	}
 
+	function extractHolderData( holders ) {
+		var data = [];
+
+		holders.each( function() {
+			var $this = $( this );
+
+			data.push( {
+				id: $this.attr( "id" ),
+				nonce: $this.data( "nonce" ),
+				data: $this.data( "json" ),
+				target: $this,
+			} );
+		} );
+
+		return data;
+	}
+
+	/**
+	 *
+	 */
 	function hookDismissAllButton() {
 		$( document ).on( "click", ".yoast-dismiss-all", function( ev ) {
 			ev.preventDefault();
 
-			var alerts = [];
-			var holders = $( ".yoast-alert-holder" );
+			var alerts = extractHolderData( $( ".yoast-alert-holder" ) );
 
 			disableContainer( $( ".yoast-container" ) );
-
-			holders.each( function() {
-				var $this = $( this );
-
-				alerts.push( {
-					id: $this.attr( "id" ),
-					nonce: $this.data( "nonce" ),
-					data: $this.data( "json" ),
-					target: $this,
-				} );
-			} );
 
 			$.post(
 				ajaxurl,
@@ -278,9 +286,9 @@
 					action: "yoast_dismiss_alerts",
 					data: JSON.stringify( alerts )
 				},
-				function( data, response ) {
+				function( data ) {
 					$.each( $( data.html )[0], function( key, item ) {
-						handleDismissRestoreResponse( $( item.container ), {html: item.html} );
+						handleDismissRestoreResponse( $( item.container ), { html: item.html, total: 0 } );
 					});
 				},
 				"json"

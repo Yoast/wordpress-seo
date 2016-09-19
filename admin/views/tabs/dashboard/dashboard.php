@@ -14,7 +14,7 @@ $alerts_data = Yoast_Alerts::get_template_variables();
 		printf( __( '%1$s Dashboard', 'wordpress-seo' ), 'Yoast SEO' );
 		?></h2>
 
-	<button class="button button-primary yoast-dismiss-all">Dismiss all!</button>
+	<button class="button button-primary yoast-dismiss-all"><?php _e( 'Dismiss All Notices', 'wordpress-seo' ) ?></button>
 
 	<div class="yoast-container yoast-container__alert">
 		<?php include WPSEO_PATH . 'admin/views/partial-alerts-errors.php'; ?>
