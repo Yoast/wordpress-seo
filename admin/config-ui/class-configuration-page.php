@@ -2,11 +2,14 @@
 /**
  * @package WPSEO\Admin
  */
+
 /**
  * @class WPSEO_Configuration_Wizard Loads the Yoast onboarding wizard.
  */
 class WPSEO_Configuration_Page {
+
 	const PAGE_IDENTIFIER = 'wpseo_configurator';
+
 	/**
 	 * WPSEO_Configuration_Wizard constructor.
 	 */
@@ -15,16 +18,19 @@ class WPSEO_Configuration_Page {
 		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER ) {
 			return;
 		}
+
 		// Register the page for the wizard.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_init', array( $this, 'render_wizard_page' ) );
 	}
+
 	/**
 	 *  Registers the page for the wizard.
 	 */
 	public function add_wizard_page() {
 		add_dashboard_page( '', '', 'manage_options', self::PAGE_IDENTIFIER, '' );
 	}
+
 	/**
 	 * Renders the wizard page and exits to prevent the wordpress UI from loading.
 	 */
@@ -32,18 +38,23 @@ class WPSEO_Configuration_Page {
 		$this->show_wizard();
 		exit;
 	}
+
 	/**
 	 * Enqueues the assets needed for the wizard.
 	 */
 	public function enqueue_assets() {
 		wp_enqueue_media();
+
 		$assetManager = new WPSEO_Admin_Asset_Manager();
 		$assetManager->register_assets();
 		$assetManager->enqueue_script( 'configuration-wizard' );
 		$assetManager->enqueue_style( 'yoast-components' );
+
 		$config = $this->get_config();
+
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'configuration-wizard', 'yoastWizardConfig', $config );
 	}
+
 	/**
 	 * Setup Wizard Header.
 	 */
@@ -70,15 +81,17 @@ class WPSEO_Configuration_Page {
 		</a>
 		<footer>
 			<?php
-			do_action( 'admin_print_footer_scripts' );
-			do_action( 'admin_footer' );
-			wp_print_scripts( 'yoast-seo-configuration-wizard' );
+				do_action( 'admin_print_footer_scripts' );
+				do_action( 'admin_footer' );
+				wp_print_scripts( 'yoast-seo-configuration-wizard' );
 			?>
 		</footer>
 		</body>
 		</html>
 		<?php
+
 	}
+
 	/**
 	 * Get the API config for the wizard.
 	 *
@@ -100,8 +113,10 @@ class WPSEO_Configuration_Page {
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),
 			'translations'      => $translations,
 		);
+
 		return $config;
 	}
+
 	/**
 	 * Returns the translations necessary for the configuration wizard.
 	 *
@@ -112,8 +127,10 @@ class WPSEO_Configuration_Page {
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}
+
 		return array();
 	}
+
 	/**
 	 * Adds a notification to the notification center.
 	 */
@@ -121,6 +138,7 @@ class WPSEO_Configuration_Page {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->add_notification( self::get_notification() );
 	}
+
 	/**
 	 * Removes the notification from the notification center.
 	 */
@@ -128,6 +146,7 @@ class WPSEO_Configuration_Page {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->remove_notification( self::get_notification() );
 	}
+
 	/**
 	 * Gets the notification.
 	 *
@@ -140,6 +159,7 @@ class WPSEO_Configuration_Page {
 			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
 			'</a>'
 		);
+
 		$notification = new Yoast_Notification(
 			$message,
 			array(
@@ -149,6 +169,7 @@ class WPSEO_Configuration_Page {
 				'priority'     => 0.8,
 			)
 		);
+
 		return $notification;
 	}
 }
