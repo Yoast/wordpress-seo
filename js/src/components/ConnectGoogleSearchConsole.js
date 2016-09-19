@@ -2,8 +2,6 @@
 
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 
 /**
  * Represents a Google search console interface.
@@ -216,23 +214,20 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 				return (
 					<div>
-						<div>
-							<SelectField onChange={this.setProfile.bind( this )}
-							             name={this.name}
-							             value={this.state.profile}>
-								<MenuItem value=""
-								          primaryText="Choose a profile"/>
+						<div className="yoast-wizard-input">
+							<label className="yoast-wizard-text-input-label" htmlFor="yoast-wizard-gsc-select-profile"> Select profile</label>
+							<select className="yoast-wizard-input__select" id="yoast-wizard-gsc-select-profile" onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
+								<option value="">Choose a profile</option>
 								{ profileKeys.map(
 									( profileKey, index ) => {
 										return (
-											<MenuItem value={profileKey}
-											          key={index}
-											          primaryText={ profiles[ profileKey ] }
-											/>
+											<option value={profileKey} key={index}>
+												{ profiles[ profileKey ] }
+											</option>
 										);
 									}
 								) }
-							</SelectField>
+							</select>
 						</div>
 
 						<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
