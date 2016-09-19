@@ -23,10 +23,10 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '3.4.2';
+	const PLUGIN_VERSION_NAME = '3.5.2';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
-	const EDD_STORE_URL = 'http://yoast.com';
+	const EDD_STORE_URL = 'http://my.yoast.com';
 	const EDD_PLUGIN_NAME = 'Yoast SEO Premium';
 
 	/**
@@ -161,6 +161,9 @@ class WPSEO_Premium {
 
 		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
 		add_action( 'admin_init', array( $this, 'enqueue_social_previews' ) );
+
+		add_action( 'wpseo_premium_indicator_classes', array( $this, 'change_premium_indicator' ) );
+		add_action( 'wpseo_premium_indicator_text', array( $this, 'change_premium_indicator_text' ) );
 
 		// Only initialize the AJAX for all tabs except settings.
 		$facebook_name = new WPSEO_Facebook_Profile();
@@ -377,6 +380,34 @@ class WPSEO_Premium {
 	}
 
 	/**
+	 * Change premium indicator to green when premium is enabled
+	 *
+	 * @param string[] $classes The current classes for the indicator.
+	 * @returns string[] The new classes for the indicator.
+	 */
+	public function change_premium_indicator( $classes ) {
+		$class_no = array_search( 'wpseo-premium-indicator--no', $classes );
+
+		if ( false !== $class_no ) {
+			unset( $classes[ $class_no ] );
+
+			$classes[] = 'wpseo-premium-indicator--yes';
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Replaces the screen reader text for the premium indicator.
+	 *
+	 * @param string $text The original text.
+	 * @return string The new text.
+	 */
+	public function change_premium_indicator_text( $text ) {
+		return __( 'Enabled', 'wordpress-seo-premium' );
+	}
+
+	/**
 	 * Add redirects to admin pages so the Yoast scripts are loaded
 	 *
 	 * @param array $admin_pages Array with the admin pages.
@@ -459,6 +490,6 @@ class WPSEO_Premium {
 	 * Add the Yoast contact support assets
 	 */
 	public function enqueue_contact_support() {
-		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-contact-support' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-contact-support-350' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 	}
 }

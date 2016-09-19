@@ -1,7 +1,11 @@
 /* global ajaxurl */
 /* global wpseo_undo_redirect */
+/* global wpseo_create_redirect */
+/* global wpseo_premium_strings */
 /* jshint -W097 */
 'use strict';
+
+var redirectFunctions = require( "./redirects/functions" );
 
 /**
  * Use notification counter so we can count how many times the function wpseo_show_notification is called.
@@ -33,6 +37,8 @@ function wpseo_show_notification() {
 	);
 }
 
+window.wpseo_show_notification = wpseo_show_notification;
+
 /**
  * Gets the current page based on the current URL.
  *
@@ -41,6 +47,8 @@ function wpseo_show_notification() {
 function wpseo_get_current_page() {
 	return jQuery( location ).attr( 'pathname' ).split( '/' ).pop();
 }
+
+window.wpseo_get_current_page = wpseo_get_current_page;
 
 /**
  * Gets the current slug of a post based on the current page and post or term being edited.
@@ -62,6 +70,8 @@ function wpseo_get_current_slug() {
 	return '';
 }
 
+window.wpseo_get_current_slug = wpseo_get_current_slug;
+
 /**
  * Checks whether or not the slug has changed.
  *
@@ -75,6 +85,8 @@ function wpseo_slug_changed() {
 	return currentSlug !== wpseo_new_slug;
 }
 
+window.wpseo_slug_changed = wpseo_slug_changed;
+
 /**
  * Gets the currently active editor used in quick edit.
  *
@@ -83,6 +95,8 @@ function wpseo_slug_changed() {
 function wpseo_get_active_editor() {
 	return jQuery( 'tr.inline-editor' );
 }
+
+window.wpseo_get_active_editor = wpseo_get_active_editor;
 
 /**
  * Gets the current post or term id.
@@ -100,6 +114,8 @@ function wpseo_get_item_id() {
 	return editor.attr( 'id' ).replace( 'edit-', '' );
 }
 
+window.wpseo_get_item_id = wpseo_get_item_id;
+
 /**
  * Handles the key-based events in the quick edit editor.
  *
@@ -112,6 +128,8 @@ function wpseo_handle_key_events( ev ) {
 	}
 }
 
+window.wpseo_handle_key_events = wpseo_handle_key_events;
+
 /**
  * Handles the button-based events in the quick edit editor.
  *
@@ -123,32 +141,10 @@ function wpseo_handle_button_events( ev ) {
 	}
 }
 
-/**
- * Undoes a redirect.
- *
- * @param {string} origin The redirect's origin.
- * @param {string} target The redirect's target.
- * @param {string} type The type of redirect.
- * @param {string} nonce The nonce being used to validate the current AJAX request.
- * @param {object} source The DOMElement containing the alerts.
- */
-function wpseo_undo_redirect( origin, target, type, nonce, source ) {
-	jQuery.post(
-		ajaxurl,
-		{
-			action: 'wpseo_delete_redirect_plain',
-			ajax_nonce: nonce,
-			redirect: {
-				origin: origin,
-				target: target,
-				type:   type
-			}
-		},
-		function() {
-			jQuery( source ).closest( '.yoast-alert' ).fadeOut( 'slow' );
-		}
-	);
-}
+window.wpseo_handle_button_events = wpseo_handle_button_events;
+
+window.wpseo_undo_redirect = redirectFunctions.wpseo_undo_redirect;
+window.wpseo_create_redirect = redirectFunctions.wpseo_create_redirect;
 
 (jQuery(function() {
 	var wpseo_current_page = wpseo_get_current_page();

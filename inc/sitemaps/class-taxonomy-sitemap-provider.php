@@ -52,8 +52,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 
-		global $wpdb;
-
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 
 		if ( empty( $taxonomies ) ) {
@@ -70,19 +68,21 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param boolean $exclude        Defaults to true.
 		 * @param array   $taxonomy_names Array of names for the taxonomies being processed.
 		 */
-		$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
-		$sql                = "
-			SELECT taxonomy, term_id
-			FROM $wpdb->term_taxonomy
-			WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');
-		";
-		$all_taxonomy_terms = $wpdb->get_results( $sql );
-		$all_taxonomies     = array();
+		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names );
 
-		foreach ( $all_taxonomy_terms as $obj ) {
-			$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
+		$all_taxonomies = array();
+
+		foreach ( $taxonomy_names as $taxonomy_name ) {
+
+			$taxonomy_terms = get_terms( $taxonomy_name, array(
+				'hide_empty' => $hide_empty,
+				'fields'     => 'ids',
+			) );
+
+			if ( count( $taxonomy_terms ) > 0 ) {
+				$all_taxonomies[ $taxonomy_name ] = $taxonomy_terms;
+			}
 		}
-		unset( $hide_empty, $sql, $all_taxonomy_terms, $obj );
 
 		$index = array();
 
@@ -92,52 +92,52 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$steps = $max_entries;
-			$count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
-			$n     = ( $count > $max_entries ) ? (int) ceil( $count / $max_entries ) : 1;
+			$total_count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
+			$max_pages   = 1;
 
-			for ( $i = 0; $i < $n; $i++ ) {
+			if ( $total_count > $max_entries ) {
+				$max_pages = (int) ceil( $total_count / $max_entries );
+			}
 
-				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
+			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
+
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
+
+				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 
 				if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
 					continue;
 				}
 
-				if ( ( empty( $count ) || $count == $n ) ) {
-					$date = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
+				$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $max_entries );
+
+				if ( ! $terms ) {
+					continue;
+				}
+
+				$args  = array(
+					'post_type'      => $tax->object_type,
+					'tax_query'      => array(
+						array(
+							'taxonomy' => $tax_name,
+							'terms'    => $terms,
+						),
+					),
+					'orderby'        => 'modified',
+					'order'          => 'DESC',
+					'posts_per_page' => 1,
+				);
+				$query = new WP_Query( $args );
+
+				if ( $query->have_posts() ) {
+					$date = $query->posts[0]->post_modified_gmt;
 				}
 				else {
-					$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
-
-					if ( ! $terms ) {
-						continue;
-					}
-
-					$args  = array(
-						'post_type' => $tax->object_type,
-						'tax_query' => array(
-							array(
-								'taxonomy' => $tax_name,
-								'terms'    => $terms,
-							),
-						),
-						'orderby'   => 'modified',
-						'order'     => 'DESC',
-					);
-					$query = new WP_Query( $args );
-
-					if ( $query->have_posts() ) {
-						$date = $query->posts[0]->post_modified_gmt;
-					}
-					else {
-						$date = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
-					}
-					unset( $terms, $args, $query );
+					$date = $last_modified_gmt;
 				}
 
 				$index[] = array(
-					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $tax_name . '-sitemap' . $count . '.xml' ),
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $tax_name . '-sitemap' . $current_page . '.xml' ),
 					'lastmod' => $date,
 				);
 			}

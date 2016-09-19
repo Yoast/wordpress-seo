@@ -1,3 +1,14 @@
+### 3.5.2: September 8th, 2016
+* Fixes a JavaScript error that was thrown from redirect notifications when attempting to edit the redirect destination. These notifications are thrown whenever a slug is edited or when a post or term is deleted.
+
+### 3.5.1: September 7th, 2016
+* Fixes a fatal error when network activating.
+
+### 3.5.0: September 7th, 2016
+* Includes every change in Yoast SEO core 3.5.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Fixes the slug change and redirects in the quick edit for posts and terms.
+* Fixes title on the redirect settings page.
+
 ### 3.4.2: August 8th, 2016
 * Includes every change in Yoast SEO core 3.4.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 

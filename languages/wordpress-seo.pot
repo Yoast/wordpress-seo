@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-09-05 14:12:11+00:00\n"
+"POT-Creation-Date: 2016-09-06 15:01:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -58,31 +58,25 @@ msgstr ""
 msgid "You have used HTML in your value which is not allowed."
 msgstr ""
 
-#. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
-#. %4$s to anchor tags with link to intro page
-#: admin/class-admin-init.php:97
-msgid "%1$s has been updated to version %2$s. %3$sFind out what's new!%4$s"
-msgstr ""
-
-#: admin/class-admin-init.php:137
+#: admin/class-admin-init.php:96
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:164
+#: admin/class-admin-init.php:123
 msgid "Huge SEO Issue: You're blocking access to robots."
 msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the reading
 #. settings, %1$s resolves to the closing tag for the link
-#: admin/class-admin-init.php:167
+#: admin/class-admin-init.php:126
 msgid ""
 "You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search "
 "Engine Visibility."
 msgstr ""
 
-#: admin/class-admin-init.php:195
+#: admin/class-admin-init.php:154
 msgid ""
 "Paging comments is enabled, this is not needed in 999 out of 1000 cases, we "
 "recommend to disable it."
@@ -90,13 +84,13 @@ msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the comment
 #. setting page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:200
+#: admin/class-admin-init.php:159
 msgid ""
 "Simply uncheck the box before \"Break comments into pages...\" on the "
 "%1$sComment settings page%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:238
+#: admin/class-admin-init.php:197
 msgid ""
 "You do not have your postname in the URL of your posts and pages, it is "
 "highly recommended that you do. Consider setting your permalink structure to "
@@ -105,7 +99,7 @@ msgstr ""
 
 #. translators: %1$s resolves to the starting tag of the link to the permalink
 #. settings page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:242
+#: admin/class-admin-init.php:201
 msgid "You can fix this on the %1$sPermalink settings page%2$s."
 msgstr ""
 
@@ -113,7 +107,7 @@ msgstr ""
 #. to Google Analytics by Yoast
 #. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
 #. %3$s expands to the plugin name
-#: admin/class-admin-init.php:299 admin/class-admin-init.php:348
+#: admin/class-admin-init.php:258 admin/class-admin-init.php:307
 msgid ""
 "%1$s detected you are using version %2$s of %3$s, please update to the "
 "latest version to prevent compatibility issues."
@@ -121,13 +115,13 @@ msgstr ""
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:381
+#: admin/class-admin-init.php:340
 msgid ""
 "We've updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s "
 "for all posts and pages."
 msgstr ""
 
-#: admin/class-admin-init.php:578
+#: admin/class-admin-init.php:537
 msgid "%s filter/action"
 msgstr ""
 
@@ -138,12 +132,12 @@ msgid_plural "%s notifications"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/class-admin.php:139 admin/class-admin.php:241
+#: admin/class-admin.php:139 admin/class-admin.php:248
 #: admin/pages/dashboard.php:58 inc/wpseo-non-ajax-functions.php:254
 msgid "Dashboard"
 msgstr ""
 
-#: admin/class-admin.php:139 admin/class-admin.php:315
+#: admin/class-admin.php:139 admin/class-admin.php:322
 #: admin/class-meta-columns.php:63
 #: admin/formatter/class-metabox-formatter.php:70
 #: admin/taxonomy/class-taxonomy-columns.php:51
@@ -185,97 +179,101 @@ msgid "Search Console"
 msgstr ""
 
 #: admin/class-admin.php:211
+msgid "Go Premium"
+msgstr ""
+
+#: admin/class-admin.php:231
 msgid "Premium"
 msgstr ""
 
-#: admin/class-admin.php:276
+#: admin/class-admin.php:283
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:277
+#: admin/class-admin.php:284
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:278
+#: admin/class-admin.php:285
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:284 admin/pages/metas.php:40
+#: admin/class-admin.php:291 admin/pages/metas.php:40
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-admin.php:286 admin/pages/metas.php:42
+#: admin/class-admin.php:293 admin/pages/metas.php:42
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:286 admin/pages/metas.php:42
+#: admin/class-admin.php:293 admin/pages/metas.php:42
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:293 admin/class-admin.php:294 admin/pages/metas.php:48
+#: admin/class-admin.php:300 admin/class-admin.php:301 admin/pages/metas.php:48
 #: admin/pages/metas.php:50
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:301 admin/class-admin.php:302 admin/pages/metas.php:56
+#: admin/class-admin.php:308 admin/class-admin.php:309 admin/pages/metas.php:56
 #: admin/pages/metas.php:58
 msgid "Advanced Variables"
 msgstr ""
 
-#: admin/class-admin.php:315 admin/pages/network.php:93
+#: admin/class-admin.php:322 admin/pages/network.php:93
 msgid "MultiSite Settings"
 msgstr ""
 
-#: admin/class-admin.php:321
+#: admin/class-admin.php:328
 msgid "Edit Files"
 msgstr ""
 
-#: admin/class-admin.php:328 admin/class-pointers.php:331
+#: admin/class-admin.php:335 admin/class-pointers.php:331
 #: admin/pages/licenses.php:112 inc/wpseo-non-ajax-functions.php:296
 msgid "Extensions"
 msgstr ""
 
-#: admin/class-admin.php:398
+#: admin/class-admin.php:405
 msgid "Posts"
 msgstr ""
 
-#: admin/class-admin.php:434
+#: admin/class-admin.php:441
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
 #: admin/taxonomy/class-taxonomy-metabox.php:131
 #: admin/taxonomy/class-taxonomy-metabox.php:139
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:446
+#: admin/class-admin.php:453
 msgid "Premium Support"
 msgstr ""
 
-#: admin/class-admin.php:450
+#: admin/class-admin.php:457
 msgid "FAQ"
 msgstr ""
 
-#: admin/class-admin.php:487 admin/class-pointers.php:287
+#: admin/class-admin.php:494 admin/class-pointers.php:287
 #: admin/pages/social.php:20
 msgid "Google+"
 msgstr ""
 
-#: admin/class-admin.php:489
+#: admin/class-admin.php:496
 msgid "Twitter username (without @)"
 msgstr ""
 
-#: admin/class-admin.php:491
+#: admin/class-admin.php:498
 msgid "Facebook profile URL"
 msgstr ""
 
-#: admin/class-admin.php:613
+#: admin/class-admin.php:620
 msgid "Yoast SEO video tutorial"
 msgstr ""
 
-#: admin/class-admin.php:652 admin/class-yoast-form.php:369
+#: admin/class-admin.php:661 admin/class-yoast-form.php:369
 #: admin/views/tabs/dashboard/security.php:16
 #: admin/views/tabs/metas/archives.php:21
 #: admin/views/tabs/metas/archives.php:43
@@ -285,7 +283,7 @@ msgid "Disabled"
 msgstr ""
 
 #. translators: %1$s resolves to https:github.com/Yoast/wordpress-seo
-#: admin/class-asset.php:165
+#: admin/class-asset.php:180
 msgid ""
 "You are trying to load non-minified files, these are only available in our "
 "development package. Check out %1$s to see all the source files."
@@ -377,73 +375,73 @@ msgstr ""
 msgid "New %1$s Title"
 msgstr ""
 
-#: admin/class-config.php:118 admin/metabox/class-metabox.php:740
+#: admin/class-config.php:114 admin/metabox/class-metabox.php:748
 #: admin/taxonomy/class-taxonomy.php:109
 msgid "Use Image"
 msgstr ""
 
 #. translators: %s: '%%term_title%%' variable used in titles and meta's
 #. template that's not compatible with the given template
-#: admin/class-config.php:132
+#: admin/class-config.php:128
 msgid "Warning: the variable %s cannot be used in this template."
 msgstr ""
 
-#: admin/class-config.php:132
+#: admin/class-config.php:128
 msgid "See the help tab for more info."
 msgstr ""
 
 #. translators: %d: number of knowledge base search results found.
-#: admin/class-config.php:135
+#: admin/class-config.php:131
 msgid "Number of search results: %d"
 msgstr ""
 
-#: admin/class-config.php:136
+#: admin/class-config.php:132
 msgid "No results found."
 msgstr ""
 
-#: admin/class-config.php:137
+#: admin/class-config.php:133
 msgid "Search the Yoast knowledge base"
 msgstr ""
 
-#: admin/class-config.php:138 admin/google_search_console/class-gsc.php:132
+#: admin/class-config.php:134 admin/google_search_console/class-gsc.php:132
 msgid "Search"
 msgstr ""
 
-#: admin/class-config.php:139
+#: admin/class-config.php:135
 msgid "Search results"
 msgstr ""
 
-#: admin/class-config.php:140
+#: admin/class-config.php:136
 msgid "Something went wrong. Please try again later."
 msgstr ""
 
-#: admin/class-config.php:141
+#: admin/class-config.php:137
 msgid "Loading..."
 msgstr ""
 
-#: admin/class-config.php:142
+#: admin/class-config.php:138
 msgid "search"
 msgstr ""
 
-#: admin/class-config.php:143
+#: admin/class-config.php:139
 msgid "Back"
 msgstr ""
 
-#: admin/class-config.php:144
+#: admin/class-config.php:140
 msgid "Back to search results"
 msgstr ""
 
-#: admin/class-config.php:145
+#: admin/class-config.php:141
 msgid "Open"
 msgstr ""
 
-#: admin/class-config.php:146
+#: admin/class-config.php:142
 msgid ""
 "Open the knowledge base article in a new window or read it in the iframe "
 "below"
 msgstr ""
 
-#: admin/class-config.php:147
+#: admin/class-config.php:143
 msgid "Knowledge base article"
 msgstr ""
 
@@ -969,7 +967,7 @@ msgstr ""
 
 #. translators: %s expands to Yoast SEO Premium
 #. translators: %s expands to the product name
-#: admin/class-premium-popup.php:70 admin/pages/licenses.php:206
+#: admin/class-premium-popup.php:70 admin/pages/licenses.php:204
 msgid "Buy %s"
 msgstr ""
 
@@ -1781,7 +1779,7 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:727
+#: admin/metabox/class-metabox.php:735
 msgid ""
 "The featured image should be at least 200x200 pixels to be picked up by "
 "Facebook and other social media sites."
@@ -1902,67 +1900,67 @@ msgstr ""
 msgid "%1$s, take your optimization to the next level!"
 msgstr ""
 
-#: admin/pages/licenses.php:132
+#: admin/pages/licenses.php:130
 msgid "Redirect manager"
 msgstr ""
 
-#: admin/pages/licenses.php:133
-msgid "create and manage redirects from within your WordPress install"
+#: admin/pages/licenses.php:131
+msgid "create and manage redirects from within your WordPress install."
 msgstr ""
 
-#: admin/pages/licenses.php:136
+#: admin/pages/licenses.php:134
 msgid "Multiple focus keywords"
 msgstr ""
 
-#: admin/pages/licenses.php:137
-msgid "optimize a single post for up to 5 keywords"
+#: admin/pages/licenses.php:135
+msgid "optimize a single post for up to 5 keywords."
 msgstr ""
 
-#: admin/pages/licenses.php:140
-msgid "Social preview"
+#: admin/pages/licenses.php:138
+msgid "Social previews"
 msgstr ""
 
-#: admin/pages/licenses.php:141
-msgid "check what your Facebook or Twitter post will look like"
+#: admin/pages/licenses.php:139
+msgid "check what your Facebook or Twitter post will look like."
 msgstr ""
 
-#: admin/pages/licenses.php:144
+#: admin/pages/licenses.php:142
 msgid "Premium support"
 msgstr ""
 
-#: admin/pages/licenses.php:145
-msgid "gain access to our support team"
+#: admin/pages/licenses.php:143
+msgid "gain access to our 24/7 support team."
 msgstr ""
 
-#: admin/pages/licenses.php:150 admin/pages/licenses.php:201
+#: admin/pages/licenses.php:148 admin/pages/licenses.php:199
 msgid "Installed"
 msgstr ""
 
 #. translators: $1$s expands to Yoast SEO Premium
-#: admin/pages/licenses.php:154
+#: admin/pages/licenses.php:152
 msgid "Buy %1$s"
 msgstr ""
 
 #. translators: Text between %1$s and %2$s will only be shown to screen
 #. readers. %3$s expands to the product name.
-#: admin/pages/licenses.php:161 admin/pages/licenses.php:213
+#: admin/pages/licenses.php:159 admin/pages/licenses.php:211
 msgid "More information %1$sabout %3$s%2$s"
 msgstr ""
 
-#: admin/pages/licenses.php:168
-msgid "Stay happy with our 30-day money back guarantee"
+#: admin/pages/licenses.php:166
+msgid "Comes with our 30-day no questions asked money back guarantee"
 msgstr ""
 
-#: admin/pages/licenses.php:176
+#: admin/pages/licenses.php:174
 msgid "%1$s extensions"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO extensions
-#: admin/pages/licenses.php:181
+#: admin/pages/licenses.php:179
 msgid "%1$s to optimize your site even further"
 msgstr ""
 
-#: admin/pages/licenses.php:232
+#: admin/pages/licenses.php:230
 msgid ""
 "This is where you would enter the license keys for one of our premium "
 "plugins, should you activate one."
@@ -2222,99 +2220,86 @@ msgstr ""
 msgid "Thank you for updating %1$s!"
 msgstr ""
 
-#. translators: %s: '3.2' version number
-#: admin/views/about.php:48
-msgid "What’s new in %s"
-msgstr ""
-
-#: admin/views/about.php:52
-msgid "Integrations"
-msgstr ""
-
-#: admin/views/about.php:53
-msgid "Credits"
-msgstr ""
-
-#: admin/views/about.php:58
-msgid "Main new features"
-msgstr ""
-
-#: admin/views/about.php:122
-msgid "Go to the General settings page →"
-msgstr ""
-
-#: admin/views/about.php:164
-msgid "Team and contributors"
-msgstr ""
-
 #. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
-#: admin/views/about.php:168
+#: admin/views/about.php:39
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "%3$s is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:170
+#: admin/views/about.php:41
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:174
+#: admin/views/about.php:48 admin/views/tabs/dashboard/general.php:28
+msgid "Credits"
+msgstr ""
+
+#: admin/views/about.php:49
+msgid "Integrations"
+msgstr ""
+
+#: admin/views/about.php:53
+msgid "Team and contributors"
+msgstr ""
+
+#: admin/views/about.php:55
 msgid "Product Management"
 msgstr ""
 
-#: admin/views/about.php:180
+#: admin/views/about.php:61
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:185
+#: admin/views/about.php:66
 msgid "Head R&D"
 msgstr ""
 
-#: admin/views/about.php:190
+#: admin/views/about.php:71
 msgid "Linguist"
 msgstr ""
 
-#: admin/views/about.php:198
+#: admin/views/about.php:79
 msgid "Development Leaders"
 msgstr ""
 
-#: admin/views/about.php:204
+#: admin/views/about.php:85
 msgid "CTO"
 msgstr ""
 
-#: admin/views/about.php:209 admin/views/about.php:214
+#: admin/views/about.php:90 admin/views/about.php:95
 msgid "Architect"
 msgstr ""
 
-#: admin/views/about.php:222
+#: admin/views/about.php:103
 msgid "Yoast Developers"
 msgstr ""
 
-#: admin/views/about.php:228 admin/views/about.php:233
-#: admin/views/about.php:238 admin/views/about.php:243
-#: admin/views/about.php:248 admin/views/about.php:253
-#: admin/views/about.php:258 admin/views/about.php:263
-#: admin/views/about.php:268 admin/views/about.php:273
+#: admin/views/about.php:109 admin/views/about.php:114
+#: admin/views/about.php:119 admin/views/about.php:124
+#: admin/views/about.php:129 admin/views/about.php:134
+#: admin/views/about.php:139 admin/views/about.php:144
+#: admin/views/about.php:149 admin/views/about.php:154
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:281
+#: admin/views/about.php:162
 msgid "Quality Assurance & Testing"
 msgstr ""
 
-#: admin/views/about.php:287
+#: admin/views/about.php:168
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:292 admin/views/about.php:297
+#: admin/views/about.php:173 admin/views/about.php:178
 msgid "Tester"
 msgstr ""
 
-#: admin/views/about.php:305
+#: admin/views/about.php:186
 msgid "Community contributors"
 msgstr ""
 
-#: admin/views/about.php:313
+#: admin/views/about.php:194
 msgid ""
 "We're always grateful for patches from non-regular contributors, in %1$s "
 "%2$s, patches from the following people made it in:"
@@ -2715,17 +2700,13 @@ msgstr ""
 msgid "Take this tour to quickly learn about the use of this plugin."
 msgstr ""
 
-#: admin/views/tabs/dashboard/general.php:28
-msgid "Latest changes"
-msgstr ""
-
-#. translators: %s expands to Yoast SEO
+#. translators: %1$s expands to Yoast SEO
 #: admin/views/tabs/dashboard/general.php:33
-msgid "We've summarized the most recent changes in %s."
+msgid "Take a look at the people that create %1$s."
 msgstr ""
 
 #: admin/views/tabs/dashboard/general.php:39
-msgid "View Changes"
+msgid "View Credits"
 msgstr ""
 
 #: admin/views/tabs/dashboard/general.php:44

@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.4.2' );
+define( 'WPSEO_VERSION', '3.5.2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -21,16 +21,6 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
-}
-
-if ( is_network_admin() ) {
-
-	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-	// Not active on network, but getting loaded by main site.
-	if ( ! is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
-		return;
-	}
 }
 
 /* ***************************** CLASS AUTOLOADING *************************** */
@@ -248,6 +238,7 @@ add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
  * On plugins_loaded: load the minimum amount of essential files for this plugin
  */
 function wpseo_init() {
+
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 	require_once( WPSEO_PATH . 'inc/wpseo-functions-deprecated.php' );
 
@@ -276,6 +267,14 @@ function wpseo_init() {
 
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
+
+	// We can't do anything when requirements are not met.
+	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) {
+		// Boot up REST API endpoints.
+		$configuration_service = new WPSEO_Configuration_Service();
+		$configuration_service->set_default_providers();
+		$configuration_service->register_hooks();
+	}
 }
 
 /**
@@ -384,6 +383,7 @@ add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
 // Loading OnPage integration.
 new WPSEO_OnPage();
+
 
 /**
  * Wraps for notifications center class.
