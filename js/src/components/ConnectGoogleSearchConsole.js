@@ -259,28 +259,27 @@ class ConnectGoogleSearchConsole extends React.Component {
 		let profileKeys = Object.keys( profiles );
 
 		return (
-			<div>
-				<div className="yoast-wizard-input">
-					<label className="yoast-wizard-text-input-label"
-					       htmlFor="yoast-wizard-gsc-select-profile">Select
-						profile</label>
-					<select className="yoast-wizard-input__select"
-					        id="yoast-wizard-gsc-select-profile"
-					        onChange={this.setProfile.bind( this )}
-					        name={this.name} value={this.state.profile}>
-						<option value="">Choose a profile</option>
-						{ profileKeys.map(
-							( profileKey, index ) => {
-								return (
-									<option value={profileKey} key={index}>
-										{ profiles[ profileKey ] }
-									</option>
-								);
-							}
-						) }
-					</select>
-				</div>
-			</div>);
+			<div className="yoast-wizard-input">
+				<label className="yoast-wizard-text-input-label"
+				       htmlFor="yoast-wizard-gsc-select-profile">Select
+					profile</label>
+				<select className="yoast-wizard-input__select"
+				        id="yoast-wizard-gsc-select-profile"
+				        onChange={this.setProfile.bind( this )}
+				        name={this.name} value={this.state.profile}>
+					<option value="">Choose a profile</option>
+					{ profileKeys.map(
+						( profileKey, index ) => {
+							return (
+								<option value={profileKey} key={index}>
+									{ profiles[ profileKey ] }
+								</option>
+							);
+						}
+					) }
+				</select>
+			</div>
+		);
 	}
 
 	/**
