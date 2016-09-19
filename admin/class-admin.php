@@ -405,7 +405,7 @@ class WPSEO_Admin {
 		if ( $is_dashboard_page && $is_configuration_finished ) {
 			// Remove the notification, because the wizard has been completed.
 			WPSEO_Configuration_Page::remove_notification();
-			
+
 			$options = get_option( 'wpseo' );
 
 			$options['enable_setting_pages'] = false;
