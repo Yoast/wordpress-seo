@@ -25,9 +25,17 @@
     }
   }
 
+  &-input {
+    padding-bottom: 0.5em;
+
+    &__select {
+      font-size: 14px;
+    }
+  }
+
   &-image-upload-container {
 
-    &__image{
+    &__image {
       max-width: 151px;
     }
 
@@ -42,4 +50,5 @@
       display: block;
     }
   }
+
 }
