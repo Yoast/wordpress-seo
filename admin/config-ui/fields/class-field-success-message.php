@@ -20,7 +20,7 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 
 		$html = '<p>' . $success_message . '</p>';
 		$html .= '<p>' . $onpage_seo . '</p>';
-		$html .= '<p>' . $content_analysis_video . '</p>';
+		$html .= '<div class="yoast-video-container-max-width"><div class="yoast-video-container">' . $content_analysis_video . '</div></div>';
 
 		$this->set_property( 'html', $html );
 	}
