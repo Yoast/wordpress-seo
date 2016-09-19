@@ -35,7 +35,7 @@ class WPSEO_Configuration_Service {
 	 */
 	public function initialize() {
 		$this->storage->set_adapter( $this->adapter );
-		$this->storage->initialize();
+		$this->storage->add_default_fields();
 
 		$this->components->set_storage( $this->storage );
 
