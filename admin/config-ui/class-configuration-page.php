@@ -14,12 +14,14 @@ class WPSEO_Configuration_Page {
 	 * WPSEO_Configuration_Wizard constructor.
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
+
+
 		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER ) {
 			return;
 		}
 
 		// Register the page for the wizard.
+		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_init', array( $this, 'render_wizard_page' ) );
 	}
