@@ -502,7 +502,8 @@ function yoast_wpseo_self_deactivate() {
 function show_onboarding_wizard_notice() {
 	// When the site is not multisite and the options does not exists.
 	$is_multisite = is_multisite();
-	if ( ! $is_multisite || ( $is_multisite && ms_is_switched() ) ) {
+
+	if ( ! $is_multisite || ( $is_multisite && ms_is_switched() && ! is_network_admin()  ) ) {
 		return ( get_option( 'wpseo' ) === false );
 	}
 
