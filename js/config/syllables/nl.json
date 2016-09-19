@@ -3,29 +3,31 @@
 	"deviations": {
 		"vowels": [
 			{
-				"fragments": [ "ue+$", "ue$", "dge+$", "dge$", "[tcp]iënt",
-					"ace$", "ace+$", "[br]each", "[ainpr]tiaal", "[io]tiaan",
-					"gua[yc]", "[^i]deal", "^deal", "tive$", "base[^enr]",
-					"base$", "load", "close[^rt]", "close$", "[^e]coke",
-					"^coke", "drive[^r]", "drive$", "[^s]core$", "^core$",
-					"face[^nt]", "face$", "cache[^clntx]", "cache$",
-					"game[^nlr]", "game$" ],
+				"fragments": [ "ue$", "dge$", "[tcp]iënt",
+					"ace$", "[br]each", "[ainpr]tiaal", "[io]tiaan",
+					"gua[yc]", "[^i]deal", "tive$", "load", "[^e]coke",
+					"[^s]core$" ],
 				"countModifier": -1
 			},
 			{
 				"fragments": [ "aä", "aeu", "aie", "ao", "ë", "eo",
-					"eú", "ieau", "ea$", "ea+$", "ea[^u]", "ei[ej]",
+					"eú", "ieau", "ea$", "ea[^u]", "ei[ej]",
 					"eu[iu]", "ï", "iei", "ienne", "[^l]ieu[^w]",
-					"[^l]ieu$", "[^l]ieu+$", "i[auiy]", "stion",
+					"[^l]ieu$", "i[auiy]", "stion",
 					"[^cstx]io", "^sion", "riè", "oö", "oa", "oeing",
-					"oeyo", "oie", "[eu]ü", "[^q]u[oaeè]", "uie",
-					"[aeolu]y[eéèaoóu]", "[bhnpr]ieel", "[bhnpr]iël" ],
+					"oie", "[eu]ü", "[^q]u[aeèo]", "uie",
+					"[bhnpr]ieel", "[bhnpr]iël" ],
+				"countModifier": 1
+			},
+			{
+				"fragments": [ "[aeolu]y[aeéèoóu]" ],
 				"countModifier": 1
 			}
 		],
 		"words": {
 			"full": [
 				{ "word": "bye", "syllables": 1 },
+				{ "word": "core", "syllables": 1 },
 				{ "word": "cure", "syllables": 1 },
 				{ "word": "dei", "syllables": 2 },
 				{ "word": "dope", "syllables": 1 },
@@ -266,14 +268,16 @@
 					{ "word": "wake-up-call", "syllables": 3 },
 					{ "word": "webcare", "syllables": 2 },
 					{ "word": "winegum", "syllables": 2 },
+					{ "word": "base", "syllables": 1, "notFollowedBy": [ "e", "n", "r" ] },
+					{ "word": "game", "syllables": 1, "notFollowedBy": [ "n", "l", "r" ] },
 					{ "word": "style", "syllables": 1, "notFollowedBy": [ "n", "s" ] },
 					{ "word": "douche", "syllables": 1, "notFollowedBy": [ "n", "s" ] },
 					{ "word": "space", "syllables": 1, "notFollowedBy": [ "n", "s" ] },
 					{ "word": "striptease", "syllables": 2, "notFollowedBy": [ "n", "s" ] },
-					{ "word": "office", "syllables": 2, "notFollowedBy": [ "r", "s" ] },
 					{ "word": "jive", "syllables": 1, "notFollowedBy": [ "n", "r" ] },
 					{ "word": "keynote", "syllables": 2, "notFollowedBy": [ "n", "r" ] },
 					{ "word": "mountainbike", "syllables": 3, "notFollowedBy": [ "n", "r" ] },
+					{ "word": "face", "syllables": 1, "notFollowedBy": [ "n", "t" ] },
 					{ "word": "challenge", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "cruise", "syllables": 1, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "house", "syllables": 1, "notFollowedBy": [ "n", "r", "s" ] },
@@ -281,11 +285,15 @@
 					{ "word": "franchise", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "freelance", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "lease", "syllables": 1, "notFollowedBy": [ "n", "r", "s" ] },
+					{ "word": "linedance", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "lounge", "syllables": 1, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "merchandise", "syllables": 3, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "performance", "syllables": 3, "notFollowedBy": [ "n", "r", "s" ] },
 					{ "word": "release", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
-					{ "word": "resource", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] }
+					{ "word": "resource", "syllables": 2, "notFollowedBy": [ "n", "r", "s" ] },
+					{ "word": "cache", "syllables": 1, "notFollowedBy": [ "c", "l", "n", "t", "x" ] },
+					{ "word": "office", "syllables": 2, "notFollowedBy": [ "r", "s" ] },
+					{ "word": "close", "syllables": 1, "notFollowedBy": [ "r", "t" ] }
 				],
 				"atBeginningOrEnd": [
 					{ "word": "byte", "syllables": 1 },
@@ -315,6 +323,8 @@
 					{ "word": "race", "syllables": 1, "notFollowedBy": [ "n", "r", "s" ] }
 				],
 				"atBeginning": [
+					{ "word": "coke", "syllables": 1 },
+					{ "word": "deal", "syllables": 1 },
 					{ "word": "image", "syllables": 2, "notFollowedBy": [ "s" ] }
 				],
 				"atEnd": [
