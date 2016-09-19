@@ -289,8 +289,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 *                        input field and submit button.
 	 */
 	getGoogleAuthCodeInput() {
-
-		return (<div>
+		return ( <div>
 			<p>
 				Enter your Google Authorization Code and press the Authenticate button.
 			</p>
