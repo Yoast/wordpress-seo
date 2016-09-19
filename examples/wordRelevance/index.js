@@ -48,12 +48,6 @@ var relevantWordss = map( getRelevantWords( text ), function( word ) {
       "Relevant word percentage": formatNumber( word.getRelevantWordPercentage() ),
    };
 
-   if ( word.getHeadingOccurrences() === 0 ) {
-      output[ "Heading Bonus" ] = "";
-   } else {
-      output[ "Heading Bonus" ] = word.getHeadingOccurrences();
-   }
-
    if ( word._length === 1 ) {
       output[ "Length Bonus" ] = "";
    } else {
