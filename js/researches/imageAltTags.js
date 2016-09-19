@@ -4,6 +4,8 @@ var imageInText = require( "../stringProcessing/imageInText" );
 var imageAlttag = require( "../stringProcessing/getAlttagContent" );
 var wordMatch = require( "../stringProcessing/matchTextWithWord" );
 
+var escapeRegExp = require( "lodash/escapeRegExp" );
+
 /**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
@@ -52,11 +54,12 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
 };
 
 /**
- * Checks the text for images, checks the type of each image and alttags for containing keywords
+ * Checks the text for images, checks the type of each image and alt attributes for containing keywords
  *
  * @param {Paper} paper The paper to check for images
  * @returns {object} Object containing all types of found images
  */
 module.exports = function( paper ) {
-	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword(), paper.getLocale() );
+	var keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
+	return matchAltProperties( imageInText( paper.getText() ), keyword, paper.getLocale() );
 };

@@ -6,6 +6,8 @@ var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
 var urlHelper = require( "../stringProcessing/url.js" );
 
+var escapeRegExp = require( "lodash/escapeRegExp" );
+
 /**
  * Checks whether or not an anchor contains the passed keyword.
  * @param {string} keyword The keyword to look for.
@@ -42,7 +44,7 @@ var keywordInAnchor = function( keyword, anchor, locale ) {
  * otherNofollow: other links with a nofollow attribute.
  */
 var countLinkTypes = function( paper ) {
-	var keyword = paper.getKeyword();
+	var keyword = escapeRegExp( paper.getKeyword() );
 	var locale = paper.getLocale();
 	var anchors = getLinks( paper.getText() );
 	var permalink = paper.getPermalink();

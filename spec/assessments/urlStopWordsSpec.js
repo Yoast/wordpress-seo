@@ -21,7 +21,7 @@ describe( "A stop word in url assessment", function() {
 
 		var assessment = stopWordsInUrlAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ "about" ] ), i18n );
 		expect( assessment.getScore() ).toEqual( 5 );
-		expect( assessment.getText() ).toEqual ( "The slug for this page contains a <a href='http://en.wikipedia.org/wiki/Stop_words' target='new'>stop word</a>, consider removing it." );
+		expect( assessment.getText() ).toEqual ( "The slug for this page contains a <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop word</a>, consider removing it." );
 	} );
 
 	it( "assesses multiple stop words in the url", function(){
@@ -31,6 +31,6 @@ describe( "A stop word in url assessment", function() {
 
 		var assessment = stopWordsInUrlAssessment.getResult( mockPaper, Factory.buildMockResearcher( ["about", "before"] ), i18n );
 		expect( assessment.getScore() ).toEqual( 5 );
-		expect( assessment.getText() ).toEqual ( "The slug for this page contains <a href='http://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>, consider removing them." );
+		expect( assessment.getText() ).toEqual ( "The slug for this page contains <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop words</a>, consider removing them." );
 	} );
 } );

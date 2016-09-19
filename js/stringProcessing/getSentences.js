@@ -36,6 +36,8 @@ var sentenceTokenizer;
 
 /**
  * Creates a tokenizer to create tokens from a sentence.
+ *
+ * @returns {void}
  */
 function createTokenizer() {
 	tokens = [];
@@ -156,13 +158,42 @@ function getNextTwoCharacters( nextTokens ) {
 }
 
 /**
+ * Checks if the sentenceBeginning beginning is a valid beginning.
+ *
+ * @param {string} sentenceBeginning The beginning of the sentence to validate.
+ * @returns {boolean} Returns true if it is a valid beginning, false if it is not.
+ */
+function isValidSentenceBeginning( sentenceBeginning ) {
+	return (
+		isCapitalLetter( sentenceBeginning ) ||
+		isNumber( sentenceBeginning ) ||
+		isQuotation( sentenceBeginning ) ||
+		isPunctuation( sentenceBeginning )
+	);
+}
+
+/**
+ * Checks if the token is a valid sentence ending.
+ *
+ * @param {Object} token The token to validate.
+ * @returns {boolean} Returns true if the token is valid ending, false if it is not.
+ */
+function isSentenceStart( token ) {
+	return ( !isUndefined( token ) && (
+		"html-start" === token.type ||
+		"html-end" === token.type ||
+		"block-start" === token.type
+	) );
+}
+
+/**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
  * @param {Array} tokens The tokens from the sentence tokenizer.
  * @returns {Array<string>} A list of sentences.
  */
 function getSentencesFromTokens( tokens ) {
-	var tokenSentences = [], currentSentence = "", nextSentenceStart, previousToken;
+	var tokenSentences = [], currentSentence = "", nextSentenceStart;
 
 	var sliced;
 
@@ -183,6 +214,7 @@ function getSentencesFromTokens( tokens ) {
 		var hasNextSentence;
 		var nextToken = tokens[ i + 1 ];
 		var secondToNextToken = tokens[ i + 2 ];
+		var nextCharacters;
 
 		switch ( token.type ) {
 
@@ -203,44 +235,27 @@ function getSentencesFromTokens( tokens ) {
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
-				tokenSentences.push( currentSentence );
-				currentSentence = "";
+				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type ) {
+					tokenSentences.push( currentSentence );
+					currentSentence = "";
+				}
 				break;
 
 			case "full-stop":
 				currentSentence += token.src;
 
-				var nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+				nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
 
 				// For a new sentence we need to check the next two characters.
 				hasNextSentence = nextCharacters.length >= 2;
 				nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
-
 				// If the next character is a number, never split. For example: IPv4-numbers.
 				if ( hasNextSentence && isNumber( nextCharacters[ 0 ] ) ) {
 					break;
 				}
-
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
-				if (
-					( hasNextSentence &&
-						(
-							isCapitalLetter( nextSentenceStart ) ||
-							isNumber( nextSentenceStart )
-						) ||
-						isQuotation( nextSentenceStart ) ||
-						isPunctuation( nextSentenceStart ) ||
-						(
-							! isUndefined( nextToken ) &&
-							(
-								"html-start" === nextToken.type ||
-								"html-end" === nextToken.type ||
-								"block-start" === nextToken.type ||
-								"block-end" === nextToken.type
-							)
-						)
-					)
-				) {
+
+				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}
@@ -256,16 +271,24 @@ function getSentencesFromTokens( tokens ) {
 				break;
 
 			case "block-end":
-				// When a block ends after a sentence delimiter make sure to add the block end to the sentence.
-				if ( ! isUndefined( previousToken ) && ( previousToken.type === "sentence-delimiter" || previousToken.type === "full-stop" ) ) {
-					tokenSentences[ tokenSentences.length - 1 ] += token.src;
-				} else {
-					currentSentence += token.src;
+				currentSentence += token.src;
+
+				nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+				// For a new sentence we need to check the next two characters.
+				hasNextSentence = nextCharacters.length >= 2;
+				nextSentenceStart = hasNextSentence ? nextCharacters[ 0 ] : "";
+				// If the next character is a number, never split. For example: IPv4-numbers.
+				if ( hasNextSentence && isNumber( nextCharacters[ 0 ] ) ) {
+					break;
+				}
+
+				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
+					tokenSentences.push( currentSentence );
+					currentSentence = "";
 				}
 				break;
 		}
-
-		previousToken = token;
 	} );
 
 	if ( "" !== currentSentence ) {

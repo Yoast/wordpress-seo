@@ -31,6 +31,10 @@ describe("Match keywords in string", function(){
 		var mockPaper = new Paper( "", { keyword: "focus keyword", title: "focus-keyword" } );
 		result = pageTitleKeyword( mockPaper );
 		expect( result.matches ).toBe( 0 );
+
+		var mockPaper = new Paper( "", { keyword: "$keyword", title: "A title with a $keyword" } );
+		result = pageTitleKeyword( mockPaper );
+		expect( result.matches ).toBe( 1 );
 	});
 });
 

@@ -75,5 +75,15 @@ describe( "Counts images in an text", function(){
 		expect( stringToCheck.withAlt ).toBe( 0 );
 		expect( stringToCheck.withAltKeyword ).toBe( 1 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
-	})
+	});
+	it( "returns object with the withAltKeyword as 1 when the keyword is set and present and has a $", function() {
+		var stringToCheck = altTagCountFunction(
+			new Paper( "string <img src='http://img' alt='$keyword' />", { keyword: "$keyword"})
+		);
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	});
 });
