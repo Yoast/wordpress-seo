@@ -26,7 +26,7 @@ body {
 
 }
 
-#YoastLogo {
+.#{$prefix}__logo {
   margin: 0 auto;
   display: block;
 }
