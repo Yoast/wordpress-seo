@@ -248,7 +248,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	/**
 	 * @summary Creates a select box for selecting a Google Search Console Profile.
 	 *
-	 * @returns {JSX.Element} Profile select box wrapped in a div element.
+	 * @returns {XML} Profile select box wrapped in a div element.
 	 */
 	getProfileSelectBox() {
 		if( ! this.hasProfiles() ) {
@@ -258,8 +258,9 @@ class ConnectGoogleSearchConsole extends React.Component {
 		let profiles    = this.state.profileList;
 		let profileKeys = Object.keys( profiles );
 
-		return ( <div>
-			<select onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
+		return ( <div className="yoast-wizard-input">
+			<label className="yoast-wizard-text-input-label" htmlFor="yoast-wizard-gsc-select-profile">Select profile</label>
+			<select className="yoast-wizard-input__select" id="yoast-wizard-gsc-select-profile" onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
 				<option value="">Choose a profile</option>
 				{ profileKeys.map(
 					( profileKey, index ) => {
