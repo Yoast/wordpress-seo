@@ -69,9 +69,9 @@ class WPSEO_Configuration_Page {
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 			<title><?php _e( 'Yoast SEO &rsaquo; Setup Wizard', 'wordpress-seo' ); ?></title>
 			<?php
-			do_action( 'admin_print_styles' );
-			do_action( 'admin_print_scripts' );
-			do_action( 'admin_head' );
+				do_action( 'admin_print_styles' );
+				do_action( 'admin_print_scripts' );
+				do_action( 'admin_head' );
 			?>
 		</head>
 		<body>
@@ -81,9 +81,9 @@ class WPSEO_Configuration_Page {
 		</a>
 		<footer>
 			<?php
-				do_action( 'admin_print_footer_scripts' );
-				do_action( 'admin_footer' );
-				wp_print_scripts( 'yoast-seo-configuration-wizard' );
+			do_action( 'admin_print_footer_scripts' );
+			do_action( 'admin_footer' );
+			wp_print_scripts( 'yoast-seo-configuration-wizard' );
 			?>
 		</footer>
 		</body>
