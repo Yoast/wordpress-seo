@@ -1,8 +1,8 @@
 # Onboarding wizard
 The onboarding wizard is a generic library that can be used to dynamically generate an installation wizard. The wizard and all of its underlying components should be built with React in ES2015, using Babel to transpile the code to ES5. For consistency we will use browserify to manage JS modules
 
-## Getting Started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## Installing
+A step by step series of examples that tell you have to get a development env running
 
 ### Prerequisities
 What things you need to install the software and how to install them
@@ -12,11 +12,19 @@ What things you need to install the software and how to install them
 - React
 - Material UI
 
-### Installing
+### React tap event plugin
+Some components use [react-tap-event-plugin](https://github.com/zilverline/react-tap-event-plugin) to listen for touch events because onClick is not fast enough This dependency is temporary and will eventually go away. Until then, be sure to inject this plugin at the start of your app.
 
-A step by step series of examples that tell you have to get a development env running
+```
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-#### 1. Loading the wizard onto your page.
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+```
+
+
+### Loading the wizard onto your page.
 Install the yoast-components into your project.
 ```
 npm install Yoast/yoast-components
@@ -30,6 +38,10 @@ Render the wizard into a `div` element on your page.
 import React from "react";
 import ReactDOM from "react-dom";
 import { OnboardingWizard } from "yoast-components";
+// Required to make the wizard work with touch screens.
+import injectTapEventPlugin from "react-tap-event-plugin";
+
+injectTapEventPlugin();
 
 class App extends React.Component {
 	render() {
@@ -39,33 +51,27 @@ class App extends React.Component {
 
 ReactDOM.render( <App/>, document.getElementById( "wizard" ) );
 ```
-#### 2. Specifying the config for the wizard.
+## Configure the wizard
+
+### General config
 The config is build up out of the following elements.
 
-```
-{
-  endPoint: "http://the-endpoint-url",
-  finishUrl: "http://redirect-on-finishing-and-closing-wizard",
-  customComponents: {
-    CustomComponent1,
-    CustomComponent2,
-  },
-  fields{}
-  steps{}
-}
-```
-#### 3... The REST-API config
+  - Required:
+    - `endPoint`, _string_, endpoint for the REST-API endpoint for the wizard to send the results for the steps to.
+    - `finishUrl`, _string_, finish URL for the wizard to redirect the user to after completing/closing the wizard. 
+    - `fields`, _array_, fields to be included in the steps.
+    - `steps`, _array_, steps referencing which fields belong to them.
+    - `endpoint`, _string_, used to save the data which is submitted by the user.
+  - Optional:
+    - `customComponents`, _array_, used for rendering custom components.
+
+### Custom components
+
+### Translations
+
+## Set-up an REST-API endpoint
 
 ```
 until finished
 ```
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* Dropwizard - Bla bla bla
-* Maven - Maybe
-* Atom - ergaerga
