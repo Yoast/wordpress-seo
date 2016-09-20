@@ -260,13 +260,13 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 		return (
 			<div className="yoast-wizard-input">
-				<label className="yoast-wizard-text-input-label"
-				       htmlFor="yoast-wizard-gsc-select-profile">Select
-					profile</label>
+				<label className="yoast-wizard-text-input-label" htmlFor="yoast-wizard-gsc-select-profile">
+					Select profile
+				</label>
 				<select className="yoast-wizard-input__select"
-				        id="yoast-wizard-gsc-select-profile"
-				        onChange={this.setProfile.bind( this )}
-				        name={this.name} value={this.state.profile}>
+					id="yoast-wizard-gsc-select-profile"
+					onChange={this.setProfile.bind( this )}
+					name={this.name} value={this.state.profile}>
 					<option value="">Choose a profile</option>
 					{ profileKeys.map(
 						( profileKey, index ) => {

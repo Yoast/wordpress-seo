@@ -14,12 +14,14 @@ class WPSEO_Configuration_Page {
 	 * WPSEO_Configuration_Wizard constructor.
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
+
+
 		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER ) {
 			return;
 		}
 
 		// Register the page for the wizard.
+		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_init', array( $this, 'render_wizard_page' ) );
 	}
@@ -135,7 +137,24 @@ class WPSEO_Configuration_Page {
 	 * Adds a notification to the notification center.
 	 */
 	public static function add_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->add_notification( self::get_notification() );
+	}
 
+	/**
+	 * Removes the notification from the notification center.
+	 */
+	public static function remove_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification( self::get_notification() );
+	}
+
+	/**
+	 * Gets the notification.
+	 *
+	 * @return Yoast_Notification
+	 */
+	private static function get_notification() {
 		$message = sprintf(
 			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
 			'Yoast SEO',
@@ -153,7 +172,6 @@ class WPSEO_Configuration_Page {
 			)
 		);
 
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->add_notification( $notification );
+		return $notification;
 	}
 }
