@@ -14,7 +14,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ## Fixed
 
 * Keywords with special characters are now matched.
-* Adds sassdash as a regular dependency.
+* Changes sassdash from a dev dependency to a regular dependency.
 
 ## 1.5.0: September 7th, 2016
 
