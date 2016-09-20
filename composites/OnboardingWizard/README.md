@@ -73,12 +73,83 @@ The wizard renders a couple of steps the user can go through to configure it's s
   - `title`, _string_, the title of the step.
   - `fields`, _array_, list of strings referencing fields by key. 
 
+```
+"steps": {
+    "publishingEntity": {
+      "title": "Company or person",
+      "fields" : ["publishingEntity"]
+    },
+    "profileUrls": {
+      "title": "Social profiles",
+      "fields" : [
+        "profileUrlFacebook",
+      ]
+    },
+    "environment": {
+      "title": "Environment",
+      "fields": ["environment"]
+    },
+```
+
 ### Fields
 This is the information for the different elements that the wizard can render in the steps:
 - A `field` has the following attributes:
   - `component`, _string_, references the component that should be used to render the field in the component tree.
   - `properties`, _object_, contains all the metadata needed to render the component and configure its behavior. The properties are passed to the components. For example this can be a label or explanation.
+  - `requires`, _object_, The name of another field that is required to have a certain value for this field to be rendered.
+  	- `field`, _string_, The field name for the other field.
+  	- `value`, _string_, The value this field has to have.
   - `data`, _mixed_, the value of the field. This used to store the values for the different fields and this value is also send via the REST-API for storing the information.
+
+Some examples for how to define fields:
+```
+  "fields": {
+    "upsellConfigurationService": {
+      "component": "HTML",
+      "properties": {
+        "html": "You can now have Yoast configure Yoast SEO for you."
+      }
+    },
+    "environment": {
+      "component": "Choice",
+      "properties": {
+        "label": "Please specify the environment {site_url} is running in.",
+        "choices": {
+          "production": {
+            "label": "Production - live site."
+          },
+          "staging": {
+            "label": "Staging - copy of live site used for testing purposes only."
+          },
+          "development": {
+            "label": "Development - locally running site used for development purposes."
+          }
+        },
+      },
+      "data": "",
+      "default": "production"
+    },
+    "profileUrlFacebook": {
+      "component": "Input",
+      "properties": {
+        "label": "Facebook page url",
+        "pattern": "^https:\/\/www\.facebook\.com\/([^/]+)\/$"
+      },
+      "data": "{profile_url_facebook}"
+    },
+    "businessPublishingEntity": {
+      "componentName": "Input",
+      "conditionalType": "TextField",
+      "properties": {
+        "label": "The company name:",
+        "pattern": "*",
+      },
+      "requires": {
+        "field": "publishingEntity",
+        "value": "company",
+      }
+},
+```
  
 ### Generic components
 Right now the wizard contains three different elements that can be used. A HTML element that renders an HTML element containing some text, a Choice element that for example renders radio buttons or an Input element for text input by the user.
