@@ -73,6 +73,9 @@ body {
       }
     }
     &__inactive {
+	  div {
+		pointer-events: none;
+	  }
       @media screen and (max-width: 768px) {
         display: none !important;
       }
