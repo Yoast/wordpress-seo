@@ -75,26 +75,28 @@ The wizard renders a couple of steps the user can go through to configure it's s
   - `fields`, _array_, list of strings referencing fields by key. 
 
 ### Fields
-This is the information for the different fields that the wizard can render:
+This is the information for the different elements that the wizard can render in the steps:
 - A `field` has the following attributes:
   - `component`, _string_, references the component that should be used to render the field in the component tree.
   - `properties`, _object_, contains all the metadata needed to render the component and configure its behavior. The properties are passed to the components. For example this can be a label or explanation.
   - `data`, _mixed_, the value of the field. This used to store the values for the different fields and this value is also send via the REST-API for storing the information.
  
 ### Generic components
+Right now the wizard contains three different elements that can be used. A HTML element that renders an HTML element containing some text, a Choice element that for example renders radio buttons or an Input element for text input by the user.
   - `HTML`
-    - __Description__: The `HTML` component takes a piece of HTML and renders it. This can be useful on the opening and closing screen of the wizard, to add some introduction text, a success message or CTA towards the end.
+    - __Description__: The `HTML` component takes a piece of HTML and renders it. This should be used to render some paragraph of text in the steps.
     - __Properties__:
       - `html`: The html to be rendered.
   - `Choice`
-    - __Description__: The `Choice` component renders a choice interface, like a group of radio buttons or a select button. Initially it should render a group of radio buttons. We might add other representations later on.
+    - __Description__: The `Choice` component renders a choice interface, like a group of radio buttons or a select button.
     - __Properties__:
       - `label`: The label for the input element to be rendered.
       - `choices`: a JSON string with choices where the key represents the `value` and the value is an object with `choice` properties:
         - `label`, _string_, The label of the choice.
-        - `screenReaderText`, _string_, (optional) extra context for people using screenreaders.
+        - `explanation`, _string_, (optional) An extra explanation that is shown underneath the choice field.
+        - `screenReaderText`, _string_, (optional) Extra context for people using screenreaders.
   - `Input`
-    - __Description__: The `Input` component renders a text input interface, like a regular input field or a textarea. Initially it should render a normal text input. We might add other representations later on.
+    - __Description__: The `Input` component renders a text input interface, like a regular input field or a textarea.
     - __Properties__:
       - `label`: The label for the input element to be rendered.
       - `placeholder`: placeholder text.
