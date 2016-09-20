@@ -28,8 +28,8 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Sends the change event, because the component is updated.
 	 *
-	 * @param {Object} prevProps
-	 * @param {Object} prevState
+	 * @param {Object} prevProps Previous properties.
+	 * @param {Object} prevState Previous state.
 	 *
 	 * @returns {void}
 	 */
@@ -63,14 +63,14 @@ class MailchimpSignup extends React.Component {
 		if ( name !== "" ) {
 			data = data + `&NAME=${encodeURIComponent( name )}`;
 		}
-		this.setState({
+		this.setState( {
 			isLoading: true,
-		});
+		} );
 		let result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
 			{
 				data,
-				headers : {},
+				headers: {},
 				dataType: "jsonp",
 				jsonp: "c",
 				method: "POST",
@@ -91,7 +91,6 @@ class MailchimpSignup extends React.Component {
 			.then(
 				( response ) => {
 					if ( response.result === "error" ) {
-
 						this.setState( {
 							isLoading: false,
 							successfulSignup: false,
@@ -180,12 +179,13 @@ class MailchimpSignup extends React.Component {
 
 		this.onChange = this.props.onChange;
 
-		let input = <input id="mailchimpEmail"
-		                   ref="emailInput"
-		                   type="text"
-		                   name={this.props.name}
-		                   label="email"
-		                   defaultValue={this.props.properties.currentUserEmail}
+		let input = <input
+			id="mailchimpEmail"
+			ref="emailInput"
+			type="text"
+			name={this.props.name}
+			label="email"
+			defaultValue={this.props.properties.currentUserEmail}
 		/>;
 		let button = <RaisedButton label='Sign Up!' onClick={this.signup.bind( this )}/>;
 		let message = this.getSignupMessage();
@@ -200,12 +200,13 @@ class MailchimpSignup extends React.Component {
 					       className="yoast-wizard-text-input-label">
 						Name
 					</label>
-					<input id="mailchimpName"
-					       ref="nameInput"
-					       type="text"
-					       name="name"
-					       label="name"
-					       defaultValue={this.props.properties.userName}/>
+					<input
+						id="mailchimpName"
+						ref="nameInput"
+						type="text"
+						name="name"
+						label="name"
+						defaultValue={this.props.properties.userName}/>
 				</div>
 				<div className="yoast-wizard-text-input">
 					<label htmlFor="mailchimpEmail" className="yoast-wizard-text-input-label">Email</label>
