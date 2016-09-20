@@ -47,6 +47,11 @@ class WPSEO_Configuration_Page {
 	public function enqueue_assets() {
 		wp_enqueue_media();
 
+		/*
+		 * Print the `forms.css` WP stylesheet before any Yoast style, this way
+		 * it's easier to override selectors with the same specificity later.
+		 */
+		wp_enqueue_style( 'forms' );
 		$assetManager = new WPSEO_Admin_Asset_Manager();
 		$assetManager->register_assets();
 		$assetManager->enqueue_script( 'configuration-wizard' );
@@ -76,7 +81,7 @@ class WPSEO_Configuration_Page {
 				do_action( 'admin_head' );
 			?>
 		</head>
-		<body>
+		<body class="wp-admin">
 		<div id="wizard"></div>
 		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
 			<?php _e( 'Go back to the Yoast SEO dashboard.', 'wordpress-seo' ); ?>
