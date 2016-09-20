@@ -2,6 +2,7 @@
 
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
+import { localize } from "yoast-components/utils/i18n";
 
 /**
  * Represents a Google search console interface.
@@ -75,7 +76,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			yoastWizardConfig.ajaxurl,
 			{
 				action: "wpseo_save_auth_code",
-				ajax_nonce: yoastWizardConfig.gscNonce,
+				ajaxNonce: yoastWizardConfig.gscNonce,
 				authorization: jQuery( "#gsc_authorization_code" ).val(),
 			},
 			this.setProfileList.bind( this ),
@@ -93,7 +94,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			yoastWizardConfig.ajaxurl,
 			{
 				action: "wpseo_clear_auth_code",
-				ajax_nonce: yoastWizardConfig.gscNonce,
+				ajaxNonce: yoastWizardConfig.gscNonce,
 			},
 			this.clear.bind( this ),
 			"json"
@@ -214,9 +215,17 @@ class ConnectGoogleSearchConsole extends React.Component {
 				return (
 					<div>
 						<div className="yoast-wizard-input">
-							<label className="yoast-wizard-text-input-label" htmlFor="yoast-wizard-gsc-select-profile"> Select profile</label>
-							<select className="yoast-wizard-input__select" id="yoast-wizard-gsc-select-profile"
-									onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
+							<label
+								className="yoast-wizard-text-input-label"
+								htmlFor="yoast-wizard-gsc-select-profile">
+								Select profile
+							</label>
+							<select
+								className="yoast-wizard-input__select"
+								id="yoast-wizard-gsc-select-profile"
+								onChange={this.setProfile.bind( this )}
+								name={this.name}
+								value={this.state.profile}>
 								<option value="">Choose a profile</option>
 								{ profileKeys.map(
 									( profileKey, index ) => {
@@ -230,7 +239,9 @@ class ConnectGoogleSearchConsole extends React.Component {
 							</select>
 						</div>
 
-						<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
+						<RaisedButton
+							label={this.props.translate( "Reauthenticate with Google" )}
+							onClick={this.clearAuthCode.bind( this )} />
 					</div>
 				);
 			}
@@ -239,7 +250,9 @@ class ConnectGoogleSearchConsole extends React.Component {
 				<div>
 					<p>There were no profiles found</p>
 
-					<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
+					<RaisedButton
+						label={this.props.translate( "Reauthenticate with Google" )}
+						onClick={this.clearAuthCode.bind( this )} />
 				</div>
 			);
 		}
@@ -251,7 +264,10 @@ class ConnectGoogleSearchConsole extends React.Component {
 					Authorization Code. Clicking the button below will open a new window.
 				</p>
 				<div>
-					<RaisedButton label="Get Google Authorization Code" primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
+					<RaisedButton
+						label={this.props.translate( "Get Google Authorization Code" )}
+						primary={true}
+						onClick={this.openGoogleAuthDialog.bind( this )} />
 				</div>
 
 				<div>
@@ -259,9 +275,15 @@ class ConnectGoogleSearchConsole extends React.Component {
 						Enter your Google Authorization Code and press the Authenticate button.
 					</p>
 
-					<input type="text" id="gsc_authorization_code" name="gsc_authorization_code" defaultValue=""
-						placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
-					<RaisedButton label="Authenticate" onClick={this.saveAuthCode.bind( this )} />
+					<input
+						type="text" id="gsc_authorization_code"
+						name="gsc_authorization_code"
+						defaultValue=""
+						placeholder={this.props.translate( "Authorization code" )}
+						aria-labelledby="gsc-enter-code-label" />
+					<RaisedButton
+						label={this.props.translate( "Authenticate" )}
+						onClick={this.saveAuthCode.bind( this )} />
 				</div>
 			</div>
 		);
@@ -270,6 +292,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 }
 
 ConnectGoogleSearchConsole.propTypes = {
+	translate: React.PropTypes.func.required,
 	component: React.PropTypes.string,
 	data: React.PropTypes.string,
 	value: React.PropTypes.shape( {
@@ -290,4 +313,4 @@ ConnectGoogleSearchConsole.defaultProps = {
 	data: "",
 };
 
-export default ConnectGoogleSearchConsole;
+export default localize( ConnectGoogleSearchConsole );
