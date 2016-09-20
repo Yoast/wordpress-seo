@@ -2,6 +2,7 @@ import React from "react";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components/utils/i18n";
+import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
 
 /**
  * @summary Mailchimp signup component.
@@ -23,6 +24,7 @@ class MailchimpSignup extends React.Component {
 
 		this.state = {
 			successfulSignup: this.props.value,
+			isLoading: false,
 		};
 	}
 
@@ -45,7 +47,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Checks if current component has a subscription already.
 	 *
-	 * @returns {boolean} Returns if the user is already signed-up.
+	 * @returns {boolean} Returns true if the user is already signed-up.
 	 */
 	hasSubscription() {
 		return this.props.value.hasSignup;
@@ -64,7 +66,9 @@ class MailchimpSignup extends React.Component {
 		if ( name !== "" ) {
 			data = data + `&NAME=${encodeURIComponent( name )}`;
 		}
-
+		this.setState( {
+			isLoading: true,
+		} );
 		let result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
 			{
@@ -153,6 +157,19 @@ class MailchimpSignup extends React.Component {
 	}
 
 	/**
+	 * Gets the loading indicator.
+	 *
+	 * @returns {null|JSX.Element} The loading indicator.
+	 */
+	getLoadingIndicator() {
+		if ( ! this.state.isLoading ) {
+			return null;
+		}
+
+		return ( <div className="yoast-wizard-overlay"><LoadingIndicator/></div> );
+	}
+
+	/**
 	 * @summary Renders the Mailchimp component.
 	 *
 	 * @returns {JSX.Element} Rendered Mailchimp Component.
@@ -177,6 +194,7 @@ class MailchimpSignup extends React.Component {
 			label={this.props.translate( "Sign Up!" )}
 			onClick={this.signup.bind( this )}/>;
 		let message = this.getSignupMessage();
+		let loader = this.getLoadingIndicator();
 
 		return (
 			<div>
@@ -207,6 +225,7 @@ class MailchimpSignup extends React.Component {
 				</div>
 				{button}
 				{message}
+				{loader}
 			</div>
 		);
 	}
@@ -256,7 +275,7 @@ MailchimpSignup.propTypes = {
 };
 
 MailchimpSignup.defaultProps = {
-	title: "",
+	title: "Mailchimp signup",
 	component: "",
 	properties: {},
 	data: "",
