@@ -2,7 +2,7 @@
 The onboarding wizard is a generic library that can be used to dynamically generate an installation wizard. The wizard and all of its underlying components should be built with React in ES2015, using Babel to transpile the code to ES5. For consistency we will use browserify to manage JS modules
 
 ## Installing
-A step by step series of examples that tell you have to get a development env running
+This chapter tells what you have to do to get a working version of the onboarding wizard running.
 
 ### Prerequisities
 What things you need to install the software and how to install them
@@ -22,7 +22,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 ```
-
 
 ### Loading the wizard onto your page.
 Install the yoast-components into your project.
@@ -84,11 +83,11 @@ This is the information for the different elements that the wizard can render in
 ### Generic components
 Right now the wizard contains three different elements that can be used. A HTML element that renders an HTML element containing some text, a Choice element that for example renders radio buttons or an Input element for text input by the user.
   - `HTML`
-    - __Description__: The `HTML` component takes a piece of HTML and renders it. This should be used to render some paragraph of text in the steps.
+    The `HTML` component takes a piece of HTML and renders it. This should be used to render some paragraph of text in the steps.
     - __Properties__:
       - `html`: The html to be rendered.
   - `Choice`
-    - __Description__: The `Choice` component renders a choice interface, like a group of radio buttons or a select button.
+    The `Choice` component renders a choice interface, like a group of radio buttons or a select button.
     - __Properties__:
       - `label`: The label for the input element to be rendered.
       - `choices`: a JSON string with choices where the key represents the `value` and the value is an object with `choice` properties:
@@ -96,7 +95,7 @@ Right now the wizard contains three different elements that can be used. A HTML 
         - `explanation`, _string_, (optional) An extra explanation that is shown underneath the choice field.
         - `screenReaderText`, _string_, (optional) Extra context for people using screenreaders.
   - `Input`
-    - __Description__: The `Input` component renders a text input interface, like a regular input field or a textarea.
+    The `Input` component renders a textarea.
     - __Properties__:
       - `label`: The label for the input element to be rendered.
       - `placeholder`: placeholder text.
