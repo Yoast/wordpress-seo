@@ -50,6 +50,7 @@ echo '<h2>' . esc_html__( 'Enable settings pages', 'wordpress-seo' ) . '</h2>';
 		array( 'on' => __( 'Yes', 'wordpress-seo' ), 'off' => __( 'No', 'wordpress-seo' ) ),
 		__( 'Enable the settings pages', 'wordpress-seo' )
 	);
+	$yform->hidden( 'show_onboarding_notice', 'wpseo_show_onboarding_notice' );
 	?>
 </p>
 

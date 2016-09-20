@@ -22,18 +22,12 @@ class WPSEO_Installation {
 	}
 
 	/**
-	 * When the option doesn't exists, it should be a new install.
+	 * When the option doesn't exist, it should be a new install.
 	 *
 	 * @return bool
 	 */
 	private function is_first_install() {
-		// When the site is not multisite and the options does not exists.
-		$is_multisite = is_multisite();
-		if ( ! $is_multisite || ( $is_multisite && ms_is_switched() ) ) {
-			return ( get_option( 'wpseo' ) === false );
-		}
-
-		return false;
+		return ( get_option( 'wpseo' ) === false );
 	}
 
 	/**
