@@ -15,6 +15,9 @@ class WPSEO_Configuration_Page {
 	 */
 	public function __construct() {
 
+		if ( WPSEO_Installation::get_first_install() ) {
+			$this->add_notification();
+		}
 
 		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER ) {
 			return;
