@@ -259,7 +259,7 @@ class MailchimpSignup extends React.Component {
 }
 
 MailchimpSignup.propTypes = {
-	translate: React.PropTypes.func.required,
+	translate: React.PropTypes.func.isRequired,
 	title: React.PropTypes.string,
 	component: React.PropTypes.string,
 	name: React.PropTypes.string.isRequired,

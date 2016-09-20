@@ -135,7 +135,7 @@ class MediaUpload extends React.Component {
  * Adds validation for the properties.
  */
 MediaUpload.propTypes = {
-	translate: React.PropTypes.func.required,
+	translate: React.PropTypes.func.isRequired,
 	name: React.PropTypes.string.isRequired,
 	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,

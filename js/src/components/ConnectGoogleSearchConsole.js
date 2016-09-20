@@ -261,7 +261,9 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 		return (
 			<div className="yoast-wizard-input">
-				<label className="yoast-wizard-text-input-label" htmlFor="yoast-wizard-gsc-select-profile">
+				<label
+					className="yoast-wizard-text-input-label"
+					htmlFor="yoast-wizard-gsc-select-profile">
 					{this.props.translate( "Select profile" ) }
 				</label>
 				<select className="yoast-wizard-input__select"
@@ -292,12 +294,22 @@ class ConnectGoogleSearchConsole extends React.Component {
 	getGoogleAuthCodeInput() {
 		return ( <div>
 			<p>
-				{this.props.translate("Enter your Google Authorization Code and press the Authenticate button.")}
+				{this.props.translate(
+					"Enter your Google Authorization Code " +
+					"and press the Authenticate button."
+				)}
 			</p>
 
-			<input type="text" id="gsc_authorization_code" name="gsc_authorization_code" defaultValue=""
-				placeholder={this.props.translate( "Authorization code" )} aria-labelledby="gsc-enter-code-label" />
-			<RaisedButton label={this.props.translate( "Authenticate" )} onClick={this.saveAuthCode.bind( this )} />
+			<input
+				type="text"
+				id="gsc_authorization_code"
+				name="gsc_authorization_code"
+				defaultValue=""
+				placeholder={this.props.translate( "Authorization code" )}
+				aria-labelledby="gsc-enter-code-label" />
+			<RaisedButton
+				label={this.props.translate( "Authenticate" )}
+				onClick={this.saveAuthCode.bind( this )} />
 		</div> );
 	}
 
@@ -318,12 +330,14 @@ class ConnectGoogleSearchConsole extends React.Component {
 			return (
 				<div>
 					{profileSelectBox}
-					<RaisedButton label={this.props.translate( "Reauthenticate with Google" )} onClick={this.clearAuthCode.bind( this )} />
+					<RaisedButton
+						label={this.props.translate( "Reauthenticate with Google" )}
+						onClick={this.clearAuthCode.bind( this )} />
 					{loader}
 				</div>
 			);
 		}
-		/* translators: %s expands to Yoast SEO  */
+		/* Translators: %s expands to Yoast SEO  */
 		return (
 			<div>
 				<p>{this.props.translate(
@@ -335,7 +349,10 @@ class ConnectGoogleSearchConsole extends React.Component {
 					}
 				)}
 				</p>
-				<RaisedButton label={this.props.translate( "Get Google Authorization Code")} primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
+				<RaisedButton
+					label={this.props.translate( "Get Google Authorization Code" )}
+					primary={true}
+					onClick={this.openGoogleAuthDialog.bind( this )} />
 				{this.getGoogleAuthCodeInput()}
 				{loader}
 			</div>
@@ -358,7 +375,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 }
 
 ConnectGoogleSearchConsole.propTypes = {
-	translate: React.PropTypes.func.required,
+	translate: React.PropTypes.func.isRequired,
 	component: React.PropTypes.string,
 	data: React.PropTypes.string,
 	value: React.PropTypes.shape( {
