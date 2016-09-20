@@ -39,8 +39,7 @@
     "istanbul": "^0.4.0",
     "jasmine": "~2.5.1",
     "load-grunt-config": "^0.19.1",
-    "lodash-cli": "^4.14.1",
-    "sassdash": "^0.8.1"
+    "lodash-cli": "^4.14.1"
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"
@@ -48,6 +47,7 @@
   "dependencies": {
     "jed": "^1.1.0",
     "lodash": "^4.14.1",
+    "sassdash": "^0.8.1",
     "tokenizer2": "^2.0.0"
   }
 }
