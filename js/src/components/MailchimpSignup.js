@@ -44,7 +44,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Checks if current component has a subscription already.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True, when hasSignup is true.
 	 */
 	hasSubscription() {
 		return this.props.value.hasSignup;
@@ -196,8 +196,7 @@ class MailchimpSignup extends React.Component {
 				<h2>{this.props.properties.title}</h2>
 				<p>{this.props.properties.label}</p>
 				<div className="yoast-wizard-text-input">
-					<label htmlFor="mailchimpName"
-					       className="yoast-wizard-text-input-label">
+					<label htmlFor="mailchimpName" className="yoast-wizard-text-input-label">
 						Name
 					</label>
 					<input
@@ -222,7 +221,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * When the last step is success and the user has already give his email address.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} When the rendering should be skipped.
 	 */
 	skipRendering() {
 		let stepState            = this.props.stepState;
@@ -235,7 +234,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Renders the message after signup.
 	 *
-	 * @returns {XML}
+	 * @returns {XML} Returns the message.
 	 */
 	getSignupMessage() {
 		if( this.state.successfulSignup ) {
@@ -255,10 +254,10 @@ MailchimpSignup.propTypes = {
 	onChange: React.PropTypes.func,
 	value: React.PropTypes.shape(
 		{
-			hasSignup : React.PropTypes.bool,
+			hasSignup: React.PropTypes.bool,
 		}
 	),
-	stepState: React.PropTypes.object
+	stepState: React.PropTypes.object,
 };
 
 MailchimpSignup.defaultProps = {
