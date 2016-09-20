@@ -14,6 +14,11 @@ class WPSEO_Installation {
 	 */
 	public function __construct() {
 		self::$is_first_install = $this->is_first_install();
+
+		if ( self::$is_first_install ) {
+			add_action( 'wpseo_activate', array( $this, 'disable_settings_pages' ) );
+		}
+
 	}
 
 	/**
@@ -38,6 +43,17 @@ class WPSEO_Installation {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Disables the settings pages.
+	 */
+	public function disable_settings_pages() {
+		$options = get_option( 'wpseo' );
+
+		$options['enable_setting_pages'] = false;
+
+		update_option( 'wpseo', $options );
 	}
 
 }

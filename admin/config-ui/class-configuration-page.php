@@ -33,7 +33,7 @@ class WPSEO_Configuration_Page {
 	 * Check if the configuration is finished. If so, just remove the notification.
 	 */
 	public function catch_configuration_request() {
-		if ( ! filter_input( INPUT_GET, 'configuration' ) === 'finished' ) {
+		if ( filter_input( INPUT_GET, 'configuration' ) !== 'finished' ) {
 			return;
 		}
 
