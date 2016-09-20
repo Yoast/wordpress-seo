@@ -1,6 +1,7 @@
 import React from "react";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
+import { localize } from "yoast-components/utils/i18n";
 
 /**
  * @summary Mailchimp signup component.
@@ -26,8 +27,8 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Sends the change event, because the component is updated.
 	 *
-	 * @param {Object} prevProps
-	 * @param {Object} prevState
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
 	 *
 	 * @returns {void}
 	 */
@@ -42,7 +43,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Checks if current component has a subscription already.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} Returns if the user is already signed-up.
 	 */
 	hasSubscription() {
 		return this.props.value.hasSignup;
@@ -66,7 +67,7 @@ class MailchimpSignup extends React.Component {
 			this.props.properties.mailchimpActionUrl,
 			{
 				data,
-				headers : {},
+				headers: {},
 				dataType: "jsonp",
 				jsonp: "c",
 				method: "POST",
@@ -163,13 +164,14 @@ class MailchimpSignup extends React.Component {
 
 		this.onChange = this.props.onChange;
 
-		let input = <input id="mailchimpEmail"
-		                   className="yoast-wizard-text-input-field"
-		                   ref="emailInput"
-		                   type="text"
-		                   name={this.props.name}
-		                   label="email"
-		                   defaultValue={this.props.properties.currentUserEmail}
+		let input = <input
+			id="mailchimpEmail"
+			className="yoast-wizard-text-input-field"
+			ref="emailInput"
+			type="text"
+			name={this.props.name}
+			label="email"
+			defaultValue={this.props.properties.currentUserEmail}
 		/>;
 		let button = <RaisedButton label='Sign Up!' onClick={this.signup.bind( this )}/>;
 		let message = this.getSignupMessage();
@@ -183,13 +185,14 @@ class MailchimpSignup extends React.Component {
 					       className="yoast-wizard-text-input-label">
 						Name
 					</label>
-					<input id="mailchimpName"
-					       className="yoast-wizard-text-input-field"
-					       ref="nameInput"
-					       type="text"
-					       name="name"
-					       label="name"
-					       defaultValue={this.props.properties.userName}/>
+					<input
+						id="mailchimpName"
+						className="yoast-wizard-text-input-field"
+						ref="nameInput"
+						type="text"
+						name="name"
+						label="name"
+						defaultValue={this.props.properties.userName}/>
 				</div>
 				<div className="yoast-wizard-text-input">
 					<label htmlFor="mailchimpEmail" className="yoast-wizard-text-input-label">Email</label>
@@ -253,4 +256,4 @@ MailchimpSignup.defaultProps = {
 	},
 };
 
-export default MailchimpSignup;
+export default localize( MailchimpSignup );
