@@ -2,6 +2,7 @@
 
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
+import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
 
 /**
  * Represents a Google search console interface.
@@ -22,6 +23,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 		super( props );
 
 		this.state = {
+			isLoading: false,
 			profileList: props.value.profileList,
 			profile: props.value.profile,
 			error: null,
@@ -51,7 +53,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @returns {Window} Returns instance of the created window.
 	 */
 	openGoogleAuthDialog() {
-		var authUrl = yoastWizardConfig.gscAuthURL,
+		let authUrl = yoastWizardConfig.gscAuthURL,
 			w = 600,
 			h = 500,
 			left = ( screen.width / 2 ) - ( w / 2 ),
@@ -71,37 +73,83 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @returns {void}
 	 */
 	saveAuthCode() {
-		jQuery.post(
+		this.postJSON(
 			yoastWizardConfig.ajaxurl,
 			{
 				action: "wpseo_save_auth_code",
 				ajax_nonce: yoastWizardConfig.gscNonce,
 				authorization: jQuery( "#gsc_authorization_code" ).val(),
 			},
-			this.setProfileList.bind( this ),
-			"json"
+			this.setProfileList.bind( this )
 		);
 	}
 
 	/**
-	 * Clears the authorization code.
+	 * @summary Sends a jQuery AJAX post request.
+	 *
+	 * @param {string}   url      The URL to post to.
+	 * @param {object}   config   The parameters to send with the request.
+	 * @param {function} callback The function to call after executing the request.
+	 *
+	 * @returns {void}
+	 */
+	postJSON( url, config, callback ) {
+		this.startLoading();
+
+		jQuery
+			.post( url, config, callback, "json" )
+			.done( ( response ) => {
+				this.endLoading();
+
+				return response;
+			} )
+			.fail( ( response ) => {
+				this.endLoading();
+
+				console.error( "There is an error with the request.", response );
+			} );
+	}
+
+	/**
+	 * Sets the isLoading state to true.
+	 *
+	 * @returns {void}
+	 */
+	startLoading() {
+		this.setState( {
+			isLoading: true,
+		} );
+	}
+
+	/**
+	 * Sets the isLoading state to false.
+	 *
+	 * @returns {void}
+	 */
+	endLoading() {
+		this.setState( {
+			isLoading: false,
+		} );
+	}
+
+	/**
+	 * @summary Clears the authorization code.
 	 *
 	 * @returns {void}
 	 */
 	clearAuthCode() {
-		jQuery.post(
+		this.postJSON(
 			yoastWizardConfig.ajaxurl,
 			{
 				action: "wpseo_clear_auth_code",
 				ajax_nonce: yoastWizardConfig.gscNonce,
 			},
-			this.clear.bind( this ),
-			"json"
+			this.clear.bind( this )
 		);
 	}
 
 	/**
-	 * Sends the data to the step component.
+	 * @summary Sends the data to the step component.
 	 *
 	 * @returns {void}
 	 */
@@ -121,7 +169,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	}
 
 	/**
-	 * Clears the state.
+	 * @summary Clears the state.
 	 *
 	 * @returns {void}
 	 */
@@ -136,7 +184,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	}
 
 	/**
-	 * Sets the profile list.
+	 * @summary Sets the profile list.
 	 *
 	 * @param {Object|string} response			       The response object.
 	 * @param {Object}        response.profileList     List with all available profiles.
@@ -157,7 +205,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	}
 
 	/**
-	 * Sets the profile.
+	 * @summary Sets the profile.
 	 *
 	 * @param {Event} evt The event object.
 	 *
@@ -183,7 +231,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 		} );
 	}
 	/**
-	 * Checks if there are any profiles available.
+	 * @summary Checks if there are any profiles available.
 	 *
 	 * @returns {boolean} Returns true when there are profiles and false if not.
 	 */
@@ -198,48 +246,79 @@ class ConnectGoogleSearchConsole extends React.Component {
 	}
 
 	/**
-	 * Renders the Google Search Console component.
+	 * @summary Creates a select box for selecting a Google Search Console Profile.
 	 *
-	 * @returns {XML} The HTML of the rendered component.
+	 * @returns {JSX.Element} Profile select box wrapped in a div element.
+	 */
+	getProfileSelectBox() {
+		if( ! this.hasProfiles() ) {
+			return ( <p>There were no profiles found</p> );
+		}
+
+		let profiles    = this.state.profileList;
+		let profileKeys = Object.keys( profiles );
+
+		return (
+			<div className="yoast-wizard-input">
+				<label className="yoast-wizard-text-input-label" htmlFor="yoast-wizard-gsc-select-profile">
+					Select profile
+				</label>
+				<select className="yoast-wizard-input__select"
+					id="yoast-wizard-gsc-select-profile"
+					onChange={this.setProfile.bind( this )}
+					name={this.name} value={this.state.profile}>
+					<option value="">Choose a profile</option>
+					{ profileKeys.map(
+						( profileKey, index ) => {
+							return (
+								<option value={profileKey} key={index}>
+									{ profiles[ profileKey ] }
+								</option>
+							);
+						}
+					) }
+				</select>
+			</div>
+		);
+	}
+
+	/**
+	 * Gets the input field option for the google authentication code.
+	 *
+	 * @returns {JSX.Element} Div element containing a description,
+	 *                        input field and submit button.
+	 */
+	getGoogleAuthCodeInput() {
+		return ( <div>
+			<p>
+				Enter your Google Authorization Code and press the Authenticate button.
+			</p>
+
+			<input type="text" id="gsc_authorization_code" name="gsc_authorization_code" defaultValue=""
+				placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
+			<RaisedButton label="Authenticate" onClick={this.saveAuthCode.bind( this )} />
+		</div> );
+	}
+
+	/**
+	 * @summary Renders the Google Search Console component.
+	 *
+	 * @returns {JSX.Element} The rendered Google Search Console component.
 	 */
 	render() {
 		this.onChange = this.props.onChange;
 		this.name = this.props.name;
 
+		let loader = this.getLoadingIndicator();
+
 		if( this.state.hasAccessToken ) {
-			if( this.hasProfiles() ) {
-				let profiles    = this.state.profileList;
-				let profileKeys = Object.keys( profiles );
-
-				return (
-					<div>
-						<div className="yoast-wizard-input">
-							<label className="yoast-wizard-text-input-label" htmlFor="yoast-wizard-gsc-select-profile"> Select profile</label>
-							<select className="yoast-wizard-input__select" id="yoast-wizard-gsc-select-profile"
-									onChange={this.setProfile.bind( this )} name={this.name} value={this.state.profile}>
-								<option value="">Choose a profile</option>
-								{ profileKeys.map(
-									( profileKey, index ) => {
-										return (
-											<option value={profileKey} key={index}>
-												{ profiles[ profileKey ] }
-											</option>
-										);
-									}
-								) }
-							</select>
-						</div>
-
-						<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
-					</div>
-				);
-			}
+			let profileSelectBox = this.getProfileSelectBox();
 
 			return (
 				<div>
-					<p>There were no profiles found</p>
-
+					{profileSelectBox}
 					<RaisedButton label="Reauthenticate with Google" onClick={this.clearAuthCode.bind( this )} />
+					{loader}
 				</div>
 			);
 		}
@@ -250,21 +329,24 @@ class ConnectGoogleSearchConsole extends React.Component {
 					To allow Yoast SEO to fetch your Google Search Console information, please enter your Google
 					Authorization Code. Clicking the button below will open a new window.
 				</p>
-				<div>
-					<RaisedButton label="Get Google Authorization Code" primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
-				</div>
-
-				<div>
-					<p>
-						Enter your Google Authorization Code and press the Authenticate button.
-					</p>
-
-					<input type="text" id="gsc_authorization_code" name="gsc_authorization_code" defaultValue=""
-						placeholder="Authorization code" aria-labelledby="gsc-enter-code-label" />
-					<RaisedButton label="Authenticate" onClick={this.saveAuthCode.bind( this )} />
-				</div>
+				<RaisedButton label="Get Google Authorization Code" primary={true} onClick={this.openGoogleAuthDialog.bind( this )} />
+				{this.getGoogleAuthCodeInput()}
+				{loader}
 			</div>
 		);
+	}
+
+	/**
+	 * Gets the loading indicator.
+	 *
+	 * @returns {null|JSX.Element} The loading indicator.
+	 */
+	getLoadingIndicator() {
+		if ( ! this.state.isLoading ) {
+			return null;
+		}
+
+		return ( <div className="yoast-wizard-overlay"><LoadingIndicator/></div> );
 	}
 
 }
@@ -288,6 +370,7 @@ ConnectGoogleSearchConsole.propTypes = {
 ConnectGoogleSearchConsole.defaultProps = {
 	component: "",
 	data: "",
+	value: "",
 };
 
 export default ConnectGoogleSearchConsole;
