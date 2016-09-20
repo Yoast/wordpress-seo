@@ -88,10 +88,9 @@ class WPSEO_Admin {
 
 		$configuration = new WPSEO_Configuration_Page();
 
-		if( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER ) {
+		if ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER ) {
 			$configuration->catch_configuration_request();
 		}
-
 	}
 
 	/**

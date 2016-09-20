@@ -211,17 +211,17 @@ class WPSEO_Configuration_Page {
 	private function remove_notification_option() {
 		$options = $this->get_options();
 
-		$options[ 'show_onboarding_notice' ] = false;
+		$options['show_onboarding_notice'] = false;
 
 		update_option( 'wpseo', $options );
 	}
 
 	/**
 	 * Returns the set options
+	 *
 	 * @return mixed|void
 	 */
 	private function get_options() {
 		return get_option( 'wpseo' );
 	}
-
 }

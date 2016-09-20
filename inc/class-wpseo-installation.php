@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package WPSEO\Internals
+ * @since   3.6
+ */
 
 /**
  * This class checks if the wpseo option doesn't exists. In the case it doesn't it will set a property that is
@@ -43,5 +47,4 @@ class WPSEO_Installation {
 
 		update_option( 'wpseo', $options );
 	}
-
 }
