@@ -78,7 +78,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			yoastWizardConfig.ajaxurl,
 			{
 				action: "wpseo_save_auth_code",
-				ajaxNonce: yoastWizardConfig.gscNonce,
+				ajax_nonce: yoastWizardConfig.gscNonce,
 				authorization: jQuery( "#gsc_authorization_code" ).val(),
 			},
 			this.setProfileList.bind( this )
@@ -143,7 +143,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 			yoastWizardConfig.ajaxurl,
 			{
 				action: "wpseo_clear_auth_code",
-				ajaxNonce: yoastWizardConfig.gscNonce,
+				ajax_nonce: yoastWizardConfig.gscNonce,
 			},
 			this.clear.bind( this )
 		);
