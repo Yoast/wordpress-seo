@@ -6,28 +6,15 @@
  */
 class WPSEO_Installation {
 
-	/** @var bool */
-	private static $is_first_install = false;
-
 	/**
 	 * Checks if Yoast SEO is installed for the first time.
 	 */
 	public function __construct() {
-		self::$is_first_install = $this->is_first_install();
+		$is_first_install = $this->is_first_install();
 
-		if ( self::$is_first_install ) {
-			add_action( 'wpseo_activate', array( $this, 'disable_settings_pages' ) );
+		if ( $is_first_install ) {
+			add_action( 'wpseo_activate', array( $this, 'set_first_install_options' ) );
 		}
-
-	}
-
-	/**
-	 * Returns the value of $is_first_install.
-	 *
-	 * @return bool
-	 */
-	public static function get_first_install(  ) {
-		return self::$is_first_install;
 	}
 
 	/**
@@ -46,12 +33,13 @@ class WPSEO_Installation {
 	}
 
 	/**
-	 * Disables the settings pages.
+	 * Sets the options on first install for showing the installation notice and disabling of the settings pages.
 	 */
-	public function disable_settings_pages() {
+	public function set_first_install_options() {
 		$options = get_option( 'wpseo' );
 
-		$options['enable_setting_pages'] = false;
+		$options['enable_setting_pages']   = false;
+		$options['show_onboarding_notice'] = true;
 
 		update_option( 'wpseo', $options );
 	}

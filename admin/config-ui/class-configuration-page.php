@@ -15,7 +15,7 @@ class WPSEO_Configuration_Page {
 	 */
 	public function __construct() {
 
-		if ( WPSEO_Installation::get_first_install() ) {
+		if ( $this->should_add_notification() ) {
 			$this->add_notification();
 		}
 
@@ -38,6 +38,7 @@ class WPSEO_Configuration_Page {
 		}
 
 		$this->remove_notification();
+		$this->remove_notification_option();
 
 		wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
 		exit;
@@ -192,4 +193,35 @@ class WPSEO_Configuration_Page {
 
 		return $notification;
 	}
+
+	/**
+	 * When the notice should be shown.
+	 *
+	 * @return bool
+	 */
+	private function should_add_notification() {
+		$options = $this->get_options();
+
+		return $options['show_onboarding_notice'] === true;
+	}
+
+	/**
+	 * Remove the options that triggers the notice for the onboarding wizard.
+	 */
+	private function remove_notification_option() {
+		$options = $this->get_options();
+
+		$options[ 'show_onboarding_notice' ] = false;
+
+		update_option( 'wpseo', $options );
+	}
+
+	/**
+	 * Returns the set options
+	 * @return mixed|void
+	 */
+	private function get_options() {
+		return get_option( 'wpseo' );
+	}
+
 }
