@@ -52,22 +52,81 @@ class App extends React.Component {
 ReactDOM.render( <App/>, document.getElementById( "wizard" ) );
 ```
 ## Configure the wizard
+The config determines the steps that are rendered by the wizard. This chapter explains what elements the config can or has to contain in order to work.
 
 ### General config
-The config is build up out of the following elements.
+The basic elements that the wizard needs in to render a wizard are described in this section.
 
   - Required:
-    - `endPoint`, _string_, endpoint for the REST-API endpoint for the wizard to send the results for the steps to.
-    - `finishUrl`, _string_, finish URL for the wizard to redirect the user to after completing/closing the wizard. 
-    - `fields`, _array_, fields to be included in the steps.
-    - `steps`, _array_, steps referencing which fields belong to them.
-    - `endpoint`, _string_, used to save the data which is submitted by the user.
+    - `endPoint`, _string_, The REST-API endpoint for the wizard to send the results for the steps to.
+    - `finishUrl`, _string_, The finish URL for the wizard to redirect the user to after completing/closing the wizard. 
+    - `fields`, _object_, The fields that can or will be included in the steps.
+    - `steps`, _object_, The steps are build out of fields.
+    - `endpoint`, _string_, The URL endpoint used to save the data which is submitted by the user.
   - Optional:
-    - `customComponents`, _array_, used for rendering custom components.
+    - `customComponents`, _object_, Custom components are used for adding your own (environment specific) components to the wizard.
+
+### Steps
+The wizard renders a couple of steps the user can go through to configure it's settings based on questions. Each step contains a number of fields. The fields are for example Choice, Input or HTML components, but can also be custom components.
+
+- A `Step` has the following attributes:
+  - `id`, _string_, identifier
+  - `title`, _string_, the title of the step.
+  - `fields`, _array_, list of strings referencing fields by key. 
+
+### Fields
+This is the information for the different fields that the wizard can render:
+- A `field` has the following attributes:
+  - `component`, _string_, references the component that should be used to render the field in the component tree.
+  - `properties`, _object_, contains all the metadata needed to render the component and configure its behavior. The properties are passed to the components. For example this can be a label or explanation.
+  - `data`, _mixed_, the value of the field. This used to store the values for the different fields and this value is also send via the REST-API for storing the information.
+ 
+### Generic components
+  - `HTML`
+    - __Description__: The `HTML` component takes a piece of HTML and renders it. This can be useful on the opening and closing screen of the wizard, to add some introduction text, a success message or CTA towards the end.
+    - __Properties__:
+      - `html`: The html to be rendered.
+  - `Choice`
+    - __Description__: The `Choice` component renders a choice interface, like a group of radio buttons or a select button. Initially it should render a group of radio buttons. We might add other representations later on.
+    - __Properties__:
+      - `label`: The label for the input element to be rendered.
+      - `choices`: a JSON string with choices where the key represents the `value` and the value is an object with `choice` properties:
+        - `label`, _string_, The label of the choice.
+        - `screenReaderText`, _string_, (optional) extra context for people using screenreaders.
+  - `Input`
+    - __Description__: The `Input` component renders a text input interface, like a regular input field or a textarea. Initially it should render a normal text input. We might add other representations later on.
+    - __Properties__:
+      - `label`: The label for the input element to be rendered.
+      - `placeholder`: placeholder text.
+      - `pattern`: a regular expression that can be used to validate the string format. (not MVP)
 
 ### Custom components
+It is possible to inject custom component modules into the `Wizard`. The custom components have to be React elements that can be rendered by the Wizard. They should be implemented by yourself, required and injected when instantiating the Wizard. Below is an example for how to add your custom components to the wizard's config.
+
+```
+import CustomComponent1 form "/exmpample/path/CustomComponent1"
+import CustomComponent2 form "/exmpample/path/CustomComponent2"
+
+"customComponents": {
+    CustomComponent1,
+    CustomComponent2
+  }
+  
+yoastWizardConfig.customComponents = customComponents;
+```
 
 ### Translations
+The text for the different elements in the wizard can be tanslated. For you have to add the translations to the config that the wizard uses.
+
+Example:
+```
+import { setTranslations } from "yoast-components/utils/i18n";
+import isUndefined from "lodash/isUndefined";
+
+if ( ! isUndefined( yoastWizardConfig.translations ) ) {
+	setTranslations( yoastWizardConfig.translations );
+}
+```
 
 ## Set-up an REST-API endpoint
 
