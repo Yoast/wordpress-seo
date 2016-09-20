@@ -201,6 +201,18 @@ if ( ! isUndefined( yoastWizardConfig.translations ) ) {
 ```
 
 ## Set-up an REST-API endpoint
+The wizard uses a API requests to send it's data to the endpoint that is set via the config that is provided to the wizard. Every time the user goes to another step, current user data is send. This is done via a PUT request that contains the json data for each field in the current step.
+
+```
+{
+  postTypeVisibility: "", 
+  postTypePost: "false", 
+  postTypePage: "false", 
+  postTypeAttachment: "false"
+}
+```
+
+## Accesibility
 
 ```
 until finished
