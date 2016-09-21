@@ -1,8 +1,6 @@
 import React from "react";
 import Components from "./components/StepComponents";
 
-import "babel-polyfill";
-
 /**
  * Renders a step in the wizard process
  *

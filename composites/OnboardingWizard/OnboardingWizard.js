@@ -9,6 +9,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { localize } from "../../utils/i18n";
 import muiTheme from './config/yoast-theme';
 
+import "babel-polyfill";
+
 /**
  * The OnboardingWizard class.
  */
