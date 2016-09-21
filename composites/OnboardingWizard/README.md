@@ -8,7 +8,7 @@ This chapter tells what you have to do to get a working version of the onboardin
 The wizard depends on a few other modules/libraries. Before you start the following software has to be installed on your system:
 - Node
 - NPM
-- SASS (used to build the scss files)
+- SASS
 
 
 #### React tap event plugin
