@@ -282,9 +282,9 @@ The wizard will send a request containing the following parameters to the config
 
 ```JSON
 {
-  nameField: "John", 
-  lastnameField: "Doe", 
-  adressField: "Silicon valley 1", 
+  "nameField": "John", 
+  "lastnameField": "Doe", 
+  "adressField": "Silicon valley 1", 
 }
 ```
 The configured endpoint has to process this request to store the field values.
