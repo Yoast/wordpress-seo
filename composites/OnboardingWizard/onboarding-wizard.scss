@@ -4,8 +4,35 @@ body {
   margin: 0;
   padding: 0;
   background: #f0f0f0;
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   line-height: 1.375; /* 22px based on default browser font size 16px. */
+}
+
+/* Default WordPress links styling. */
+a {
+	color: #0073aa;
+	outline: 0;
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+}
+
+a:hover,
+a:active {
+	color: #00a0d2;
+}
+
+a:focus {
+	color: #124964;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 #container {
@@ -143,6 +170,7 @@ body {
     fieldset {
       border: 0;
       margin: 1em 0;
+	  padding-left: 0.5em;
     }
   }
 
@@ -180,8 +208,7 @@ body {
   }
 
   input[type="radio"] {
-    margin-right: 0.7em;
-    margin-top: 1px;
+    margin: 0.3em 0.7em 0.3em 0;
     vertical-align: middle;
   }
 
