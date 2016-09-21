@@ -74,6 +74,8 @@ The following config attributes can / should be specified:
 
 ### Fields
 
+#### Specification
+
 Fields have the following attributes:
 
 - `name`, _string_, the name of the field.
@@ -84,13 +86,13 @@ Fields have the following attributes:
   	- `value`, _string_, the value this field has to have.
   - `data`, _mixed_, the value of the field. This can be used to set the initial state of the field.
 
-### Available components
+#### Available components
 
 Currently we've implemented three different field components from which you can choose:
 
 - `Choice`
   Renders a choice interface, like a group of radio buttons or a select button. Currently only radio buttons have been implemented.
-  - __Properties__:
+  - `Properties`:
     - `label`: The label for the input element to be rendered.
     - `explanation`, _string_, (optional) An extra explanation that is shown underneath the choice field.
     - `choices`: a JSON string with choices where the key represents the `value` and the value is an object with `choice` properties:
@@ -98,14 +100,14 @@ Currently we've implemented three different field components from which you can 
       - `screenReaderText`, _string_, (optional) can be used to provide a little extra context per choice for people using screenreaders.
 - `Input`
   Renders a textarea.
-  - __Properties__:
+  - `properties`:
     - `label`: The label for the input element to be rendered.
     - `placeholder`: placeholder text.
     - `pattern`: a regular expression that can be used to validate the string format. (not MVP)
     - `explanation`, _string_, (optional) An extra explanation that is shown underneath the input field.
 - `HTML`
   Takes a piece of HTML and renders it. This can be used to render some paragraph of text in the steps. Purely meant for adding copy to the wizard in a generic way, not functionality.
-  - __Properties__:
+  - `properties`:
     - `html`: The html to be rendered.
 
 ### Custom components
@@ -133,7 +135,7 @@ class App extends React.Component {
 };
 ```
 
-### Example fields definition:
+#### Example fields definition:
 
 ```JSON
   "fields": {
@@ -143,59 +145,74 @@ class App extends React.Component {
         "html": "<p>Welcome to the onboarding wizard!</p>"
       }
     },
-    "gender": {
+    "favoriteColor": {
       "component": "Choice",
       "properties": {
-        "label": "What is your gender?",
+        "label": "What is your favorite color?",
         "choices": {
-          "male": {
-            "label": "Male"
+          "green": {
+            "label": "Green"
           },
-          "female": {
-            "label": "Female"
+          "purple": {
+            "label": "Purple"
           },
         },
       },
       "data": "",
-      "default": "male"
+      "default": "purple"
     },
-    "profileUrlFacebook": {
+    "lastName": {
       "component": "Input",
       "properties": {
-        "label": "Facebook profile URL",
+        "label": "What is your last name?",
       },
-      "data": "{profile_url_facebook}"
+      "data": "{last_name}"
     },
-    "businessPublishingEntity": {
-      "componentName": "Input",
-      "conditionalType": "TextField",
+    "shadesOfGreen": {
+      "componentName": "Choice",
       "properties": {
-        "label": "The company name:",
-        "pattern": "*",
+        "label": "What is your favorite color?",
+        "choices": {
+          "darkGreen": {
+            "label": "Dark green"
+          },
+          "lightGreen": {
+            "label": "Light green"
+          },
+        },
       },
       "requires": {
-        "field": "publishingEntity",
-        "value": "company",
-      }
+        "field": "favoriteColor",
+        "value": "green",
+      },
+      "data": "",
+      "default": "darkGreen"
 },
 ```
 
 ### Steps
-The wizard renders a couple of steps the user can go through to configure it's settings based on questions. The steps display the different fields that ask in information from or give information to the user. A Step has the following attributes:
-  - `id`, _string_, identifier
-      - `title`, _string_, the title of the step.
-      - `fields`, _array_, list of strings referencing fields by key. 
 
-As an example I'll use the fields from the previous chapter. In the config you could define the steps like this:
-```
+#### Specification
+
+A Step has the following attributes:
+
+- `id`, _string_, identifier
+  - `title`, _string_, the title of the step.
+  - `fields`, _array_, list of strings referencing fields by key. 
+
+As an example let's use the fields specified above. In the config you could define the steps like this:
+
+#### Example steps definition
+
+```JSON
 "steps": {
-    "intro": {
-      "title": "Introduction",
-      "fields" : ["introduction", "publishingEntity"]
+    "credentials": {
+      "title": "Credentials",
+      "fields" : ["lastName"]
     },
-    "personalData": {
-      "title": "Personal data",
-      "fields" : ["gender", "profileUrlFacebook"]
+    "personalPreferences": {
+      "title": "Personal preferences",
+      "fields" : ["favoriteColor", "shadesOfGreen"]
     },
 ```
 
