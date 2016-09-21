@@ -13,10 +13,10 @@ The onboarding wizard is a generic library that can be used to dynamically gener
 		- [Specification](#specification)
 		- [Available components](#available-components)
 		- [Custom components](#custom-components)
-		- [Example fields definition:](#example-fields-definition)
+		- [Fields definition example](#fields-definition-example)
 	- [Steps](#steps)
 		- [Specification](#specification)
-		- [Example steps definition](#example-steps-definition)
+		- [Steps definition example](#steps-definition-example)
 	- [Translations](#translations)
 	- [Accesibility](#accesibility)
 - [Persisting the data](#persisting-the-data)
@@ -159,7 +159,7 @@ class App extends React.Component {
 };
 ```
 
-#### Example fields definition:
+#### Fields definition example
 
 ```JSON
 "fields": {
@@ -227,7 +227,7 @@ A Step has the following attributes:
 
 As an example let's use the fields specified above. In the config you could define the steps like this:
 
-#### Example steps definition
+#### Steps definition example
 
 ```JSON
 "steps": {
