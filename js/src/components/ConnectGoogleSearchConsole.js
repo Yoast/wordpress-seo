@@ -337,10 +337,11 @@ class ConnectGoogleSearchConsole extends React.Component {
 				</div>
 			);
 		}
-		/* Translators: %s expands to Yoast SEO  */
 		return (
 			<div>
-				<p>{this.props.translate(
+				<p>{
+					/* Translators: %s expands to Yoast SEO  */
+					this.props.translate(
 					"To allow %s to fetch your Google Search Console information, " +
 					"please enter your Google Authorization Code. " +
 					"Clicking the button below will open a new window.",
