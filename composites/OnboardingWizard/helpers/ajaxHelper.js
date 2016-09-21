@@ -1,4 +1,5 @@
 import "whatwg-fetch";
+import "babel-polyfill";
 
 /**
  * Handles json request the fetch way.
