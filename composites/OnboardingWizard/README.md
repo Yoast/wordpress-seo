@@ -3,25 +3,25 @@ The onboarding wizard is a generic library that can be used to dynamically gener
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Installing](#installing)
-	- [Prerequisities](#prerequisities)
-		- [React tap event plugin](#react-tap-event-plugin)
-	- [Loading the wizard onto your page.](#loading-the-wizard-onto-your-page)
-- [Configuring the wizard](#configuring-the-wizard)
-	- [General configuration](#general-configuration)
-	- [Fields](#fields)
-		- [Specification](#specification)
-		- [Available components](#available-components)
-		- [Custom components](#custom-components)
-		- [Fields definition example](#fields-definition-example)
-	- [Steps](#steps)
-		- [Specification](#specification)
-		- [Steps definition example](#steps-definition-example)
-	- [Translations](#translations)
-	- [Accesibility](#accesibility)
-- [Persisting the data](#persisting-the-data)
-	- [Setting the initial field data](#setting-the-initial-field-data)
-	- [Persisting the options](#persisting-the-options)
+- [Onboarding wizard](#onboarding-wizard)
+	- [Installing](#installing)
+		- [Prerequisities](#prerequisities)
+			- [React tap event plugin](#react-tap-event-plugin)
+		- [Loading the wizard onto your page.](#loading-the-wizard-onto-your-page)
+	- [Configuring the wizard](#configuring-the-wizard)
+		- [General configuration](#general-configuration)
+		- [Fields](#fields)
+			- [Specification](#specification)
+			- [Available components](#available-components)
+			- [Custom components](#custom-components)
+			- [Fields definition example](#fields-definition-example)
+			- [Setting the initial field data](#setting-the-initial-field-data)
+		- [Steps](#steps)
+			- [Specification](#specification)
+			- [Steps definition example](#steps-definition-example)
+		- [Translations](#translations)
+		- [Persisting data](#persisting-data)
+	- [Accessibility](#accessibility)
 
 <!-- /TOC -->
 
@@ -215,6 +215,9 @@ class App extends React.Component {
 }
 ```
 
+#### Setting the initial field data
+The wizard loads the data for each field from it's config. The `data` attribute for each field contains the intial state for that field. When the value for the field is changed, it's stored in the wizard's state and saved to the server when the user switches steps.
+
 ### Steps
 
 #### Specification
@@ -243,32 +246,29 @@ As an example let's use the fields specified above. In the config you could defi
 ```
 
 ### Translations
-The text for the different elements in the wizard can be tanslated. The wizard uses the same priciple as [i18n calipso - localize](https://github.com/Automattic/i18n-calypso#localize) uses. 
+The wizard doesn't have a lot of copy of its own, but the strings in it are translatable. This is done in a similar way to [i18n Calypso - localize](https://github.com/Automattic/i18n-calypso#localize). 
 
-The translations have to be added to the config that the wizard uses:
+The translations can be added to the config in the following way:
 
 ```JS
 import { setTranslations } from "yoast-components/utils/i18n";
-import isUndefined from "lodash/isUndefined";
 
-if ( ! isUndefined( yoastWizardConfig.translations ) ) {
-	setTranslations( yoastWizardConfig.translations );
+let translations = {
+  "domain": "your-textdomain",
+  "locale_data": {
+    "your-textdomain": {
+      "Next": ["Volgende"],
+      "Previous": ["Vorige"],
+      "Close": ["Sluiten"]
+    }
+  }
 }
+
+setTranslations( translations );
 ```
 
-### Accesibility
-The wizard is setup with accesibility in mind. The wizard can be used with a keyboard and a screenreader. All input fields in the forms have labels that are linked to them. Choice elements also have an extra screen reader text that you can add. This adds an aria-label to the options, the screenreader will read this label instead of the label that is visible on the page. This way you can add a better description for people who use a screenreader.
-
-## Persisting the data
-The wizard uses a API requests to send it's data to the endpoint that is set via the config that is provided to the wizard. The wizard uses [jQuery](http://api.jquery.com/jquery.ajax/) for sending it's requests, but if it is not available a module called [fetch](https://github.com/github/fetch) is used.
-
-### Setting the initial field data
-The wizard loads the data for each field from it's config. The `data` attribute for each field contains the that is set for the field on it's initial load. This `data` attribute has to contain the data that is set for that field in your options. When the value for the field is changed, it's stored in the wizard's state and it will remember that data when you switch the steps. 
-
-To make the wizard load te data for the options that are already set in the back-end, you have to fill the data attributes for each field with it's current value in the options. If you do not do this the wizard will not show the actual data from the options and will not remeber the values after a refresh.
-
-### Persisting the options
-When the user goes to a another step the data for every field in the current step is send to the endpoint. The endpoint is responsible for persisting the data that is set for the fields. This is done via a PUT request that contains the json data for each field in the current step. The JSON is contains the field names and the data for each field. 
+### Persisting data
+The wizard uses API requests to send its data to the endpoint that is set via the config that is provided to the wizard. The wizard uses [jQuery](http://api.jquery.com/jquery.ajax/) for sending it's requests, but if it is not available a module called [fetch](https://github.com/github/fetch) is used.
 
 Let's say you have a step that is build up like this:
 
@@ -288,5 +288,7 @@ The wizard will send a request containing the following parameters to the config
   adressField: "Silicon valley 1", 
 }
 ```
-
 The configured endpoint has to process this request to store the field values.
+
+## Accessibility
+The wizard is built with accessibility in mind. We trying to uphold a baseline level of a11y making sure it's mobile, keyboard and a screenreader accessible out of the box. All input fields in the forms have labels that are linked to them. Choice elements also have an extra screen reader text that you can add. This adds an aria-label to the options, the screenreader will read this label instead of the label that is visible on the page. This way you can add a better description for people who use a screenreader.
