@@ -1,6 +1,30 @@
 # Onboarding wizard
 The onboarding wizard is a generic library that can be used to dynamically generate an installation wizard. The wizard and all of its underlying components are built with React in ES2015.
 
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Installing](#installing)
+	- [Prerequisities](#prerequisities)
+		- [React tap event plugin](#react-tap-event-plugin)
+	- [Loading the wizard onto your page.](#loading-the-wizard-onto-your-page)
+- [Configuring the wizard](#configuring-the-wizard)
+	- [General configuration](#general-configuration)
+	- [Fields](#fields)
+		- [Specification](#specification)
+		- [Available components](#available-components)
+	- [Custom components](#custom-components)
+		- [Example fields definition:](#example-fields-definition)
+	- [Steps](#steps)
+		- [Specification](#specification)
+		- [Example steps definition](#example-steps-definition)
+	- [Translations](#translations)
+	- [Accesibility](#accesibility)
+- [Persisting the data](#persisting-the-data)
+	- [Setting the initial field data](#setting-the-initial-field-data)
+	- [Persisting the options](#persisting-the-options)
+
+<!-- /TOC -->
+
 ## Installing
 
 ### Prerequisities
@@ -138,56 +162,57 @@ class App extends React.Component {
 #### Example fields definition:
 
 ```JSON
-  "fields": {
-    "introduction": {
-      "component": "HTML",
-      "properties": {
-        "html": "<p>Welcome to the onboarding wizard!</p>"
-      }
-    },
-    "favoriteColor": {
-      "component": "Choice",
-      "properties": {
-        "label": "What is your favorite color?",
-        "choices": {
-          "green": {
-            "label": "Green"
-          },
-          "purple": {
-            "label": "Purple"
-          },
+"fields": {
+  "introduction": {
+    "component": "HTML",
+    "properties": {
+      "html": "<p>Welcome to the onboarding wizard!</p>"
+    }
+  },
+  "favoriteColor": {
+    "component": "Choice",
+    "properties": {
+      "label": "What is your favorite color?",
+      "choices": {
+        "green": {
+          "label": "Green"
+        },
+        "purple": {
+          "label": "Purple"
         },
       },
-      "data": "",
-      "default": "purple"
     },
-    "lastName": {
-      "component": "Input",
-      "properties": {
-        "label": "What is your last name?",
-      },
-      "data": "{last_name}"
+    "data": "",
+    "default": "purple"
+  },
+  "lastName": {
+    "component": "Input",
+    "properties": {
+      "label": "What is your last name?",
     },
-    "shadesOfGreen": {
-      "componentName": "Choice",
-      "properties": {
-        "label": "What is your favorite color?",
-        "choices": {
-          "darkGreen": {
-            "label": "Dark green"
-          },
-          "lightGreen": {
-            "label": "Light green"
-          },
+    "data": "{last_name}"
+  },
+  "shadesOfGreen": {
+    "componentName": "Choice",
+    "properties": {
+      "label": "What is your favorite color?",
+      "choices": {
+        "darkGreen": {
+          "label": "Dark green"
+        },
+        "lightGreen": {
+          "label": "Light green"
         },
       },
-      "requires": {
-        "field": "favoriteColor",
-        "value": "green",
-      },
-      "data": "",
-      "default": "darkGreen"
-},
+    },
+    "requires": {
+      "field": "favoriteColor",
+      "value": "green",
+    },
+    "data": "",
+    "default": "darkGreen"
+	}
+}
 ```
 
 ### Steps
@@ -206,21 +231,23 @@ As an example let's use the fields specified above. In the config you could defi
 
 ```JSON
 "steps": {
-    "credentials": {
-      "title": "Credentials",
-      "fields" : ["lastName"]
-    },
-    "personalPreferences": {
-      "title": "Personal preferences",
-      "fields" : ["favoriteColor", "shadesOfGreen"]
-    },
+  "credentials": {
+    "title": "Credentials",
+    "fields" : ["lastName"]
+  },
+  "personalPreferences": {
+    "title": "Personal preferences",
+    "fields" : ["favoriteColor", "shadesOfGreen"]
+  }
+}
 ```
 
 ### Translations
 The text for the different elements in the wizard can be tanslated. The wizard uses the same priciple as [i18n calipso - localize](https://github.com/Automattic/i18n-calypso#localize) uses. 
 
 The translations have to be added to the config that the wizard uses:
-```
+
+```JS
 import { setTranslations } from "yoast-components/utils/i18n";
 import isUndefined from "lodash/isUndefined";
 
@@ -228,6 +255,7 @@ if ( ! isUndefined( yoastWizardConfig.translations ) ) {
 	setTranslations( yoastWizardConfig.translations );
 }
 ```
+
 ### Accesibility
 The wizard is setup with accesibility in mind. The wizard can be used with a keyboard and a screenreader. All input fields in the forms have labels that are linked to them. Choice elements also have an extra screen reader text that you can add. This adds an aria-label to the options, the screenreader will read this label instead of the label that is visible on the page. This way you can add a better description for people who use a screenreader.
 
@@ -244,18 +272,21 @@ When the user goes to a another step the data for every field in the current ste
 
 Let's say you have a step that is build up like this:
 
-```
+```JSON
 "publishingEntity": {
-      "title": "Personal Data",
-      "fields" : ["nameField", "lastnameField", "adressField"]
-    },
+  "title": "Personal Data",
+  "fields" : ["nameField", "lastnameField", "adressField"]
+}
 ```
+
 The wizard will send a request containing the following parameters to the configured endpoint:
-```
+
+```JSON
 {
   nameField: "John", 
   lastnameField: "Doe", 
   adressField: "Silicon valley 1", 
 }
 ```
+
 The configured endpoint has to process this request to store the field values.
