@@ -9,11 +9,10 @@ The wizard depends on a few other modules/libraries. Before you start the follow
 - NPM
 - Sass
 
-
 #### React tap event plugin
 Some components use [react-tap-event-plugin](https://github.com/zilverline/react-tap-event-plugin) to listen for touch events because onClick is not fast enough. This dependency is temporary and will eventually go away. Until then, be sure to inject this plugin at the start of your app.
 
-```
+```JS
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Needed for onTouchTap
@@ -31,10 +30,13 @@ The following modules have to be installed and added to your package.json:
 - `Yoast/yoast-components`
 
 Add the following line into a scss file that you load on the page.
-```
+
+```CSS
 @import "../../node_modules/yoast-components/css/all.scss";
 ```
+
 Render the wizard into a `div` element on your page.
+
 ```JS
 import React from "react";
 import ReactDOM from "react-dom";
@@ -53,54 +55,58 @@ class App extends React.Component {
 
 ReactDOM.render( <App/>, document.getElementById( "wizard" ) );
 ```
+
 ## Configuring the wizard
 
 A wizard has a variable amount of steps. Each step can contain a set of predefined fields, through which the user can configure settings. A user can traverse through these steps by using the available navigation controls (a stepper and buttons). Whenever a user switches steps, the fields in the current step are saved to the server.
 
 ### General configuration
+
 The following config attributes can / should be specified:
 
-  - Required attributes:
-    - `fields`, _object_, The field definitions.
-    - `steps`, _object_, The step definitions.
-    - `endpoint`, _string_, The endpoint URL used to save the data submitted by the user.
-    - `finishUrl`, _string_, The finish URL for the wizard to redirect the user to after completing/closing the wizard. 
-  - Optional attributes:
-    - `customComponents`, _object_, Here you can inject custom components (fields) to be used within steps.
+- Required attributes:
+  - `fields`, _object_, The field definitions.
+  - `steps`, _object_, The step definitions.
+  - `endpoint`, _string_, The endpoint URL used to save the data submitted by the user.
+  - `finishUrl`, _string_, The finish URL for the wizard to redirect the user to after completing/closing the wizard. 
+- Optional attributes:
+  - `customComponents`, _object_, Here you can inject custom components (fields) to be used within steps.
 
 ### Fields
+
 Fields have the following attributes:
- - `name`, _string_, the name of the field.
-      - `component`, _string_, references the component that should be used to render the field in the component tree.
-      - `properties`, _object_, contains properties that will be passed to the component when it's rendered. This is specific for the component that is used.
-      - `requires`, _object_, (optional) can be used to make sure a field is only rendered when another field has a certain value.
-      	- `field`, _string_, the field name for the other field.
-      	- `value`, _string_, the value this field has to have.
-      - `data`, _mixed_, the value of the field. This can be used to set the initial state of the field.
+
+- `name`, _string_, the name of the field.
+  - `component`, _string_, references the component that should be used to render the field in the component tree.
+  - `properties`, _object_, contains properties that will be passed to the component when it's rendered. This is specific for the component that is used.
+  - `requires`, _object_, (optional) can be used to make sure a field is only rendered when another field has a certain value.
+  	- `field`, _string_, the field name for the other field.
+  	- `value`, _string_, the value this field has to have.
+  - `data`, _mixed_, the value of the field. This can be used to set the initial state of the field.
 
 ### Available components
 
 Currently we've implemented three different field components from which you can choose:
 
-  - `Choice`
-    Renders a choice interface, like a group of radio buttons or a select button. Currently only radio buttons have been implemented.
-    - __Properties__:
-      - `label`: The label for the input element to be rendered.
-      - `explanation`, _string_, (optional) An extra explanation that is shown underneath the choice field.
-      - `choices`: a JSON string with choices where the key represents the `value` and the value is an object with `choice` properties:
-        - `label`, _string_, The label of the choice.
-        - `screenReaderText`, _string_, (optional) can be used to provide a little extra context per choice for people using screenreaders.
-  - `Input`
-    Renders a textarea.
-    - __Properties__:
-      - `label`: The label for the input element to be rendered.
-      - `placeholder`: placeholder text.
-      - `pattern`: a regular expression that can be used to validate the string format. (not MVP)
-      - `explanation`, _string_, (optional) An extra explanation that is shown underneath the input field.
-  - `HTML`
-    Takes a piece of HTML and renders it. This can be used to render some paragraph of text in the steps. Purely meant for adding copy to the wizard in a generic way, not functionality.
-    - __Properties__:
-      - `html`: The html to be rendered.
+- `Choice`
+  Renders a choice interface, like a group of radio buttons or a select button. Currently only radio buttons have been implemented.
+  - __Properties__:
+    - `label`: The label for the input element to be rendered.
+    - `explanation`, _string_, (optional) An extra explanation that is shown underneath the choice field.
+    - `choices`: a JSON string with choices where the key represents the `value` and the value is an object with `choice` properties:
+      - `label`, _string_, The label of the choice.
+      - `screenReaderText`, _string_, (optional) can be used to provide a little extra context per choice for people using screenreaders.
+- `Input`
+  Renders a textarea.
+  - __Properties__:
+    - `label`: The label for the input element to be rendered.
+    - `placeholder`: placeholder text.
+    - `pattern`: a regular expression that can be used to validate the string format. (not MVP)
+    - `explanation`, _string_, (optional) An extra explanation that is shown underneath the input field.
+- `HTML`
+  Takes a piece of HTML and renders it. This can be used to render some paragraph of text in the steps. Purely meant for adding copy to the wizard in a generic way, not functionality.
+  - __Properties__:
+    - `html`: The html to be rendered.
 
 ### Custom components
 It is possible to inject custom component fields into the `Wizard`. The custom components have to be React elements that can be rendered by the wizard. They should be implemented beforehand and they can be required and injected when instantiating the Wizard. Below is an example of how to add your custom components to the wizard's config.
@@ -127,9 +133,9 @@ class App extends React.Component {
 };
 ```
 
-After defining the different fields you can reference them while defining your steps. Below are some examples on how to define fields in the wizard's config:
+### Example fields definition:
 
-```
+```JSON
   "fields": {
     "introduction": {
       "component": "HTML",
