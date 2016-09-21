@@ -26,7 +26,7 @@ body {
 
 }
 
-#YoastLogo {
+.#{$prefix}__logo {
   margin: 0 auto;
   display: block;
 }
@@ -172,7 +172,7 @@ body {
 
     &-field {
       width: 100%;
-      max-width: 300px;
+      max-width: 450px;
       box-sizing: border-box;
     }
   }
@@ -252,4 +252,25 @@ body {
     }
   }
 
+}
+
+/* Responsive videos. */
+/* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
+.yoast-video-container-max-width {
+	max-width: 560px;
+}
+
+.yoast-video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.yoast-video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
