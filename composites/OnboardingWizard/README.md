@@ -12,7 +12,7 @@ The onboarding wizard is a generic library that can be used to dynamically gener
 	- [Fields](#fields)
 		- [Specification](#specification)
 		- [Available components](#available-components)
-	- [Custom components](#custom-components)
+		- [Custom components](#custom-components)
 		- [Example fields definition:](#example-fields-definition)
 	- [Steps](#steps)
 		- [Specification](#specification)
@@ -134,7 +134,7 @@ Currently we've implemented three different field components from which you can 
   - `properties`:
     - `html`: The html to be rendered.
 
-### Custom components
+#### Custom components
 It is possible to inject custom component fields into the `Wizard`. The custom components have to be React elements that can be rendered by the wizard. They should be implemented beforehand and they can be required and injected when instantiating the Wizard. Below is an example of how to add your custom components to the wizard's config.
 
 ```JS
