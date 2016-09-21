@@ -75,7 +75,7 @@ The fields are the components that contain the information in the steps. They ar
       - `requires`, _object_, (optional) the name of another field that is required to have a certain value for this field to be rendered.
       	- `field`, _string_, the field name for the other field.
       	- `value`, _string_, the value this field has to have.
-      - `data`, _mixed_, the value of the field. This used to store the values for the different fields and this value is also send via the REST-API for storing the information.
+      - `data`, _mixed_, the value of the field. This used for the intial values for the different field and contains the actual data from the server.
 
 After defining the different fields you can add the fields to the steps. This is described in the next chapter about 'Steps'. Below are some examples for how to define fields in the wizard's config:
 ```
