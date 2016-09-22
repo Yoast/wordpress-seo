@@ -1,3 +1,6 @@
+// Required for browser compatibility.
+import "babel-polyfill"
+
 /* global yoastWizardConfig */
 import React from "react";
 import ReactDOM from "react-dom";
