@@ -56,7 +56,8 @@ body {
     &__next {
       margin-left: 1em;
 
-	  button:hover {
+	  button:hover,
+	  button:focus {
 		background-color: #832055 !important;
 
 		div {
@@ -65,9 +66,19 @@ body {
 	  }
     }
 
-	&__previous button:hover > div > span {
-	  color: #000 !important;
+	&__previous {
+	  button:focus {
+  		background: #ebebeb !important;
+	  }
+	  button:focus:active {
+  		background: transparent !important;
+	  }
+	  button:hover > div > span,
+	  button:focus > div > span {
+	    color: #000 !important;
+	  }
 	}
+
   }
 
   &--step {
