@@ -82,7 +82,30 @@ a:focus {
 
     &__next {
       margin-left: 1em;
+
+	  button:hover,
+	  button:focus {
+		background-color: #832055 !important;
+
+		div {
+		  background-color: transparent !important;
+		}
+	  }
     }
+
+	&__previous {
+	  button:focus {
+  		background: #ebebeb !important;
+	  }
+	  button:focus:active {
+  		background: transparent !important;
+	  }
+	  button:hover > div > span,
+	  button:focus > div > span {
+	    color: #000 !important;
+	  }
+	}
+
   }
 
   &--step {
@@ -119,6 +142,10 @@ a:focus {
   }
 
   &--step--container {
+	&:focus {
+	  outline: none;
+	}
+
     h1 {
       color: #a4286a;
       margin-top: 0;

@@ -70,8 +70,8 @@ class StepIndicator extends React.Component {
 					tooltipStyles: {
 						userSelect: "auto",
 					},
-					onClick: () => {
-						this.props.onClick( name )
+					onClick: ( evt ) => {
+						this.props.onClick( name, evt )
 					},
 				} );
 			}
