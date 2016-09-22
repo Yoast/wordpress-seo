@@ -1,1 +1,2 @@
-import App from './App'; 
+import "babel-polyfill";
+import App from './App';

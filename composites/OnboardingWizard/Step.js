@@ -16,7 +16,7 @@ class Step extends React.Component {
 	 * @param {Object} props The properties to use.
 	 */
 	constructor( props ) {
-		super();
+		super( props );
 
 		// Make the components available.
 		this.components = Object.assign( Components, props.customComponents );
