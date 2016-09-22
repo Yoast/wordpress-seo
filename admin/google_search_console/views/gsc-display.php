@@ -98,8 +98,8 @@ switch ( $platform_tabs->current_tab() ) {
 		get_current_screen()->set_screen_reader_content( array(
 			// There are no views links in this screen, so no need for the views heading.
 			'heading_views'      => null,
-			'heading_pagination' => __( 'Crawl issues list navigation' ),
-			'heading_list'       => __( 'Crawl issues list' ),
+			'heading_pagination' => __( 'Crawl issues list navigation', 'wordpress-seo' ),
+			'heading_list'       => __( 'Crawl issues list', 'wordpress-seo' ),
 		) );
 
 		// Open <form>.
