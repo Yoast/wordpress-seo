@@ -52,6 +52,9 @@ class StepIndicator extends React.Component {
 					key: "step-indicator-" + key,
 					className: "yoast-wizard--step yoast-wizard--step__active",
 					"aria-label": ariaLabel,
+					style: {
+						verticalAlign: "middle",
+					},
 				}, currentField.title );
 			}
 			// Return a custom step button, without a label for non-active steps.
