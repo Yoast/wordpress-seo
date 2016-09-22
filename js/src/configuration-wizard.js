@@ -1,5 +1,5 @@
 // Required for browser compatibility.
-import "babel-polyfill"
+import "babel-polyfill";
 
 /* global yoastWizardConfig */
 import React from "react";
