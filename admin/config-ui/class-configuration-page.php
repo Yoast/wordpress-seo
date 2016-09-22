@@ -89,7 +89,12 @@ class WPSEO_Configuration_Page {
 		$dashboard_url = admin_url( '/admin.php?page=wpseo_dashboard' );
 		?>
 		<!DOCTYPE html>
+		<!--[if IE 9]>
+		<html class="ie9" <?php language_attributes(); ?> >
+		<![endif]-->
+		<!--[if !(IE 9) ]><!-->
 		<html <?php language_attributes(); ?>>
+		<!--<![endif]-->
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
