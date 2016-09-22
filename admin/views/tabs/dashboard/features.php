@@ -53,3 +53,8 @@ $features = array(
 <br />
 
 <?php endforeach; ?>
+
+<?php
+	// Required to prevent our settings framework from saving the default because the field isn't explicitly set when saving the Dashboard page.
+	$yform->hidden( 'show_onboarding_notice', 'wpseo_show_onboarding_notice' );
+?>

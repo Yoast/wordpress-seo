@@ -41,6 +41,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'environment_type'                => '',
 		'enable_setting_pages'            => true,
 		'enable_admin_bar_menu'			  => true,
+		'show_onboarding_notice'          => false,
 	);
 
 	/**

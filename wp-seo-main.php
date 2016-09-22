@@ -142,12 +142,11 @@ function wpseo_network_activate_deactivate( $activate = true ) {
  */
 function _wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
+	require_once( WPSEO_PATH . 'inc/class-wpseo-installation.php' );
 
 	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults.
 
-	if ( show_onboarding_wizard_notice() ) {
-		WPSEO_Configuration_Page::add_notification();
-	}
+	new WPSEO_Installation();
 
 	WPSEO_Options::get_instance();
 	if ( ! is_multisite() ) {
@@ -492,19 +491,4 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
-}
-
-/**
- * Checks if the onboarding wizard notice should be shown. This is the case when the WPSEO option doesn't exists.
- *
- * @return bool
- */
-function show_onboarding_wizard_notice() {
-	// When the site is not multisite and the options does not exists.
-	$is_multisite = is_multisite();
-	if ( ! $is_multisite || ( $is_multisite && ms_is_switched() ) ) {
-		return ( get_option( 'wpseo' ) === false );
-	}
-
-	return false;
 }

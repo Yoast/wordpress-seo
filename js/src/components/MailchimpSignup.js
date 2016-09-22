@@ -1,6 +1,7 @@
 import React from "react";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
+import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
 
 /**
  * @summary Mailchimp signup component.
@@ -20,14 +21,15 @@ class MailchimpSignup extends React.Component {
 
 		this.state = {
 			successfulSignup: this.props.value,
+			isLoading: false,
 		};
 	}
 
 	/**
 	 * Sends the change event, because the component is updated.
 	 *
-	 * @param {Object} prevProps
-	 * @param {Object} prevState
+	 * @param {Object} prevProps Previous properties.
+	 * @param {Object} prevState Previous state.
 	 *
 	 * @returns {void}
 	 */
@@ -42,7 +44,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Checks if current component has a subscription already.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True, when hasSignup is true.
 	 */
 	hasSubscription() {
 		return this.props.value.hasSignup;
@@ -61,12 +63,14 @@ class MailchimpSignup extends React.Component {
 		if ( name !== "" ) {
 			data = data + `&NAME=${encodeURIComponent( name )}`;
 		}
-
+		this.setState( {
+			isLoading: true,
+		} );
 		let result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
 			{
 				data,
-				headers : {},
+				headers: {},
 				dataType: "jsonp",
 				jsonp: "c",
 				method: "POST",
@@ -87,7 +91,6 @@ class MailchimpSignup extends React.Component {
 			.then(
 				( response ) => {
 					if ( response.result === "error" ) {
-
 						this.setState( {
 							isLoading: false,
 							successfulSignup: false,
@@ -152,6 +155,19 @@ class MailchimpSignup extends React.Component {
 	}
 
 	/**
+	 * Gets the loading indicator.
+	 *
+	 * @returns {null|JSX.Element} The loading indicator.
+	 */
+	getLoadingIndicator() {
+		if ( ! this.state.isLoading ) {
+			return null;
+		}
+
+		return ( <div className="yoast-wizard-overlay"><LoadingIndicator/></div> );
+	}
+
+	/**
 	 * @summary Renders the MailChimp component.
 	 *
 	 * @returns {JSX.Element} Rendered Mailchimp Component.
@@ -163,31 +179,33 @@ class MailchimpSignup extends React.Component {
 
 		this.onChange = this.props.onChange;
 
-		let input = <input id="mailchimpEmail"
-		                   ref="emailInput"
-		                   type="text"
-		                   name={this.props.name}
-		                   label="email"
-		                   defaultValue={this.props.properties.currentUserEmail}
+		let input = <input
+			id="mailchimpEmail"
+			ref="emailInput"
+			type="text"
+			name={this.props.name}
+			label="email"
+			defaultValue={this.props.properties.currentUserEmail}
 		/>;
 		let button = <RaisedButton label='Sign Up!' onClick={this.signup.bind( this )}/>;
 		let message = this.getSignupMessage();
+		let loader = this.getLoadingIndicator();
 
 		return (
 			<div>
 				<h2>{this.props.properties.title}</h2>
 				<p>{this.props.properties.label}</p>
 				<div className="yoast-wizard-text-input">
-					<label htmlFor="mailchimpName"
-					       className="yoast-wizard-text-input-label">
+					<label htmlFor="mailchimpName" className="yoast-wizard-text-input-label">
 						Name
 					</label>
-					<input id="mailchimpName"
-					       ref="nameInput"
-					       type="text"
-					       name="name"
-					       label="name"
-					       defaultValue={this.props.properties.userName}/>
+					<input
+						id="mailchimpName"
+						ref="nameInput"
+						type="text"
+						name="name"
+						label="name"
+						defaultValue={this.props.properties.userName}/>
 				</div>
 				<div className="yoast-wizard-text-input">
 					<label htmlFor="mailchimpEmail" className="yoast-wizard-text-input-label">Email</label>
@@ -195,6 +213,7 @@ class MailchimpSignup extends React.Component {
 				</div>
 				{button}
 				{message}
+				{loader}
 			</div>
 		);
 	}
@@ -202,7 +221,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * When the last step is success and the user has already give his email address.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} When the rendering should be skipped.
 	 */
 	skipRendering() {
 		let stepState            = this.props.stepState;
@@ -215,7 +234,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Renders the message after signup.
 	 *
-	 * @returns {XML}
+	 * @returns {XML} Returns the message.
 	 */
 	getSignupMessage() {
 		if( this.state.successfulSignup ) {
@@ -235,10 +254,10 @@ MailchimpSignup.propTypes = {
 	onChange: React.PropTypes.func,
 	value: React.PropTypes.shape(
 		{
-			hasSignup : React.PropTypes.bool,
+			hasSignup: React.PropTypes.bool,
 		}
 	),
-	stepState: React.PropTypes.object
+	stepState: React.PropTypes.object,
 };
 
 MailchimpSignup.defaultProps = {
