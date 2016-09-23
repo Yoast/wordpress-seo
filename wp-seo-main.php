@@ -277,7 +277,7 @@ function wpseo_init() {
  */
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
-	if ( wp_rest_api_available() ) {
+	if ( wpseo_api_available() ) {
 		// Boot up REST API endpoints.
 		$configuration_service = new WPSEO_Configuration_Service();
 		$configuration_service->set_default_providers();
