@@ -26,6 +26,13 @@ class App extends React.Component {
 
 	getEndpoint() {
 		let config = yoastWizardConfig;
+		this.props = {
+			config: this.getConfig(),
+		};
+
+		this.state = {
+			isLoading: true,
+		};
 
 		return {
 			url: `${config.root}${config.namespace}
@@ -39,33 +46,54 @@ class App extends React.Component {
 	getConfig() {
 		let config = {};
 		let endpoint = this.getEndpoint();
+//		this.setState( {
+//			isLoading: true,
+//		} );
+		jQuery
+			.ajax( {
+				url: endpoint.url,
+				method: "GET",
+				async: true,
+				beforeSend: ( xhr ) => {
+					jQuery.each( endpoint.headers, xhr.setRequestHeader );
+				},
+			} )
+			.done( ( response ) => {
+				console.log("done");
+				this.setState( {
+					isLoading: false,
+				} );
 
-		jQuery.ajax( {
-			url: endpoint.url,
-			method: "GET",
-			async: false,
-			beforeSend: ( xhr ) => {
-				jQuery.each( endpoint.headers, xhr.setRequestHeader );
-			},
-		} ).done( ( response ) => {
-			config = response;
+				config = response;
+				config.finishUrl = yoastWizardConfig.finishUrl;
+				config.endpoint = endpoint;
+				config.customComponents = {
+					MailchimpSignup,
+					MediaUpload,
+					ConnectGoogleSearchConsole
+				};
+
+				return config;
+			} ).fail( ()=> {
+			this.setState( {
+				isLoading: false,
+			} );
+			return {};
 		} );
-
-		config.finishUrl = yoastWizardConfig.finishUrl;
-		config.endpoint = endpoint;
-		config.customComponents = { MailchimpSignup, MediaUpload, ConnectGoogleSearchConsole };
-
-		return config;
 	}
 
 	render() {
-		let config = this.getConfig();
+//		let config = this.getConfig();
+		console.log( this.state );
 
-		return (
-			<div>
-				<OnboardingWizard { ...config }/>
-			</div>
-		);
+		if ( this.state.isLoading === true ) {
+			return (
+				<div>
+					<OnboardingWizard { ...config }/>
+				</div>
+			);
+		}
+		return null;
 	}
 }
 
