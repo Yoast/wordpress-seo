@@ -24,15 +24,28 @@ injectTapEventPlugin();
 
 class App extends React.Component {
 
-	getEndpoint() {
-		let config = yoastWizardConfig;
-		this.props = {
-			config: this.getConfig(),
-		};
+	/**
+	 * Constructs the App component.
+	 *
+	 * @param {object} props The properties.
+	 */
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			isLoading: true,
 		};
+
+		this.getConfig();
+	}
+
+	/**
+	 * @summay Gets the endpoint configuration from the global yoastWizardConfig.
+	 *
+	 * @returns {{url: string, headers: {X-WP-Nonce: *}}} Returns the endpoint configuration.
+	 */
+	getEndpoint() {
+		let config = yoastWizardConfig;
 
 		return {
 			url: `${config.root}${config.namespace}
@@ -43,13 +56,43 @@ class App extends React.Component {
 		};
 	}
 
-	getConfig() {
-		let config = {};
+	/**
+	 * Parses the response containing the config and sets it in the state.
+	 *
+	 * @param response The response from AJAX request in the getConfig function.
+	 *
+	 * @returns {void} Returns nothing.
+	 */
+	setConfig( response ) {
+		let config = response;
 		let endpoint = this.getEndpoint();
-//		this.setState( {
-//			isLoading: true,
-//		} );
-		jQuery
+
+		Object.assign( config, {
+			finishUrl: yoastWizardConfig.finishUrl,
+			endpoint: endpoint,
+			customComponents: {
+				MailchimpSignup,
+				MediaUpload,
+				ConnectGoogleSearchConsole,
+			},
+		} );
+
+		this.setState( {
+			isLoading: false,
+			config,
+		} );
+	}
+
+	/**
+	 * Sends a get request to the configured endpoint
+	 * to retrieve the wizard's configuration settings.
+	 *
+	 * @returns {void} Calls the setConfig function when the request is successful.
+	 */
+	getConfig() {
+		let endpoint = this.getEndpoint();
+
+		return jQuery
 			.ajax( {
 				url: endpoint.url,
 				method: "GET",
@@ -57,39 +100,27 @@ class App extends React.Component {
 				beforeSend: ( xhr ) => {
 					jQuery.each( endpoint.headers, xhr.setRequestHeader );
 				},
-			} )
-			.done( ( response ) => {
-				console.log("done");
+			} ).done(
+				this.setConfig.bind( this )
+			).fail( ()=> {
 				this.setState( {
 					isLoading: false,
 				} );
-
-				config = response;
-				config.finishUrl = yoastWizardConfig.finishUrl;
-				config.endpoint = endpoint;
-				config.customComponents = {
-					MailchimpSignup,
-					MediaUpload,
-					ConnectGoogleSearchConsole
-				};
-
-				return config;
-			} ).fail( ()=> {
-			this.setState( {
-				isLoading: false,
 			} );
-			return {};
-		} );
 	}
 
+	/**
+	 * Renders the App componetn.
+	 *
+	 * @returns {JSX.Element|null} The rendered app component.
+	 */
 	render() {
-//		let config = this.getConfig();
-		console.log( this.state );
 
-		if ( this.state.isLoading === true ) {
+		if ( this.state.isLoading === false && this.state.config !== {} ) {
+
 			return (
 				<div>
-					<OnboardingWizard { ...config }/>
+					<OnboardingWizard { ...this.state.config }/>
 				</div>
 			);
 		}
