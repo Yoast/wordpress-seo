@@ -9,6 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) :
 echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
 ?>
 	<p>
@@ -24,6 +25,7 @@ echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
 
 	<br/>
 <?php
+endif;
 
 echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>
