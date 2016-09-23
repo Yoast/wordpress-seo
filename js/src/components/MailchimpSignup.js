@@ -219,6 +219,7 @@ class MailchimpSignup extends React.Component {
 					<label
 						htmlFor="mailchimpEmail"
 						className="yoast-wizard-text-input-label">
+						{this.props.translate( "Email" )}
 						Email
 					</label>
 					{input}
