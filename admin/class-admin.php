@@ -86,7 +86,7 @@ class WPSEO_Admin {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		}
 
-		if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) {
+		if ( wp_rest_api_available() ) {
 			$configuration = new WPSEO_Configuration_Page();
 
 			if ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER ) {

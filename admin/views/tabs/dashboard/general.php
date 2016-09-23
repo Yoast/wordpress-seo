@@ -9,9 +9,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) :
-echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
-?>
+if ( wp_rest_api_available() ) :
+	echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
+	?>
 	<p>
 		<?php
 			/* translators: %1$s expands to Yoast SEO */
