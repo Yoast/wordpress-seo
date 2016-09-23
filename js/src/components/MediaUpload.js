@@ -2,6 +2,7 @@
 
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
+import { localize } from "yoast-components/utils/i18n";
 
 /**
  * @summary Media upload component.
@@ -14,8 +15,8 @@ class MediaUpload extends React.Component {
 		this.state = {
 			currentUpload: props.value,
 			mediaUpload: wp.media( {
-				title: "Choose an image",
-				button: { text: "Choose an image" },
+				title: this.props.translate( "Choose an image" ),
+				button: { text: this.props.translate( "Choose an image" ) },
 				multiple: false,
 			} ),
 		};
@@ -85,14 +86,14 @@ class MediaUpload extends React.Component {
 		let image;
 		if( this.state.currentUpload !== "" ) {
 			removeButton = <RaisedButton
-				label="Remove the image"
+				label={this.props.translate( "Remove the image" )}
 				onClick={ this.removeUpload.bind( this ) }
 				className="yoast-wizard-image-upload-container-buttons__remove"
 				type="button"/>;
 			image = <img className="yoast-wizard-image-upload-container__image"
 						ref="companyImage"
 						src={this.state.currentUpload}
-						alt="company logo image preview"/>;
+						alt={this.props.translate( "company logo image preview" )}/>;
 		}
 
 		return (
@@ -102,7 +103,7 @@ class MediaUpload extends React.Component {
 				</p>
 				{image}
 				<div className="yoast-wizard-image-upload-container-buttons">
-					<RaisedButton label="Choose image"
+					<RaisedButton label={this.props.translate( "Choose image" )}
 						onClick={ this.chooseUpload.bind( this ) }
 						type="button"
 						className="yoast-wizard-image-upload-container-buttons__choose"/>
@@ -134,6 +135,7 @@ class MediaUpload extends React.Component {
  * Adds validation for the properties.
  */
 MediaUpload.propTypes = {
+	translate: React.PropTypes.func.isRequired,
 	name: React.PropTypes.string.isRequired,
 	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,
@@ -142,4 +144,4 @@ MediaUpload.propTypes = {
 	} ),
 };
 
-export default MediaUpload;
+export default localize( MediaUpload );
