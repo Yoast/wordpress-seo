@@ -337,6 +337,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 				</div>
 			);
 		}
+
 		return (
 			<div>
 				<p>{
@@ -344,10 +345,8 @@ class ConnectGoogleSearchConsole extends React.Component {
 					this.props.translate(
 						"To allow %s to fetch your Google Search Console information, " +
 						"please enter your Google Authorization Code. " +
-						"Clicking the button below will open a new window.", {
-							args: "Yoast SEO",
-						}
-				)}
+						"Clicking the button below will open a new window."
+				).replace( "%s", "Yoast SEO" )}
 				</p>
 				<RaisedButton
 					label={this.props.translate( "Get Google Authorization Code" )}
