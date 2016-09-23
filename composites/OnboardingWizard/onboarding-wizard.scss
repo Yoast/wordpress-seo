@@ -221,7 +221,7 @@ a:focus {
       font-weight: bold;
     }
 
-    &-field {
+    [type="text"] {
       width: 100%;
       max-width: 450px;
       box-sizing: border-box;
