@@ -43,7 +43,7 @@
     "grunt-replace": "^1.0.1",
     "grunt-rtlcss": "^2.0.1",
     "grunt-sass": "^1.1.0",
-    "grunt-shell": "^1.1.2",
+    "grunt-shell": "^2.0.0",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
     "grunt-wp-i18n": "^0.5.4",
     "i18n-calypso": "^1.6.3",
