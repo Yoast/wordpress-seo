@@ -23,7 +23,7 @@ class WPSEO_Config_Factory_Post_Type {
 			$post_types = get_post_types( array( 'public' => true ), 'objects' );
 			if ( ! empty( $post_types ) ) {
 				foreach ( $post_types as $post_type => $post_type_object ) {
-					$label = str_replace( '&#39;', '’', $post_type_object->label );
+					$label = WPSEO_Utils::decode_html_entities( $post_type_object->label );
 					$field = new WPSEO_Config_Field_Choice_Post_Type( $post_type, $label );
 
 					$this->add_custom_properties( $post_type, $field );
@@ -33,7 +33,6 @@ class WPSEO_Config_Factory_Post_Type {
 			}
 
 			self::$fields = $fields;
-
 		}
 
 		return self::$fields;
