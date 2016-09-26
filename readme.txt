@@ -121,8 +121,8 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date:
 
 * Enhancements:
-    * Introduces the onboarding wizard that enables an easy way of setting up Yoast SEO. The onboard wizard enables:
-        - News letter signup.
+    * Introduces the installation wizard that enables an easy way of setting up Yoast SEO. The installation wizard enables you to:
+        - Newsletter signup.
         - Specify the environment in which a site is running.
         - Specify the type of a site.
         - Specify a company or person for the metadata used in Google's Knowledge Graph.
@@ -131,9 +131,9 @@ Release Date:
         - Specify if you have multiple authors.
         - Setup Google Search Console.
         - Setup the title settings.
-    * The onboard wizard replaces the tour and hides the settings page after the wizard is run.
+    * The installation wizard replaces the tour.
     * Adds a notification to the Yoast notification center to start the onboarding wizard.
-    * Adds a button to the settings page to start the onboarding wizard.
+    * Adds a button on the general settings page to start the onboarding wizard.
     * Adds a premium tab to the metabox.
 	* Introduces a feature toggles tab on the Yoast SEO dashboard where users can enable/disable certain features.
 		* New: Enable/disable the advanced settings pages.
