@@ -190,7 +190,7 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
-		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . 'options WHERE option_name LIKE "wpseo_sitemap_%" AND autoload = "yes"' );
+		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%" AND autoload = "yes"' );
 	}
 
 	/**
