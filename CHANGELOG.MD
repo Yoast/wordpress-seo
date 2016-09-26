@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 * Implements SearchResultPreview.
-* Adds ScreenReaderText and ScreenReaderShortcut.
+* Adds ScreenReaderText and ScreenReaderShortcut components.
 * Adds onboarding wizard.
 * Adds stepper component.
 * Adds localization for the onboarding wizard.
@@ -23,4 +23,6 @@ All notable changes to this project will be documented in this file.
 * Adds stepstate to the fields in the onboarding wizard.
 * Adds default props for the textfield.
 * Improves the check for non-existing field components.
-* Fixes Promises in jQuery requests. 
+* Fixes Promises in jQuery requests.
+* Improves styling for onboarding wizard.
+* Improves accessibility for onboarding wizard.
