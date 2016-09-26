@@ -8,11 +8,15 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+* Implements HTML component.
+* Implements Choice component.
+* Implements Input component
 * Implements SearchResultPreview.
-* Adds ScreenReaderText and ScreenReaderShortcut components.
-* Adds onboarding wizard.
-* Adds stepper component.
-* Adds localization for the onboarding wizard.
+* Implements Wizard component.
+* Implements ScreenReaderText component.
+* Implements ScreenReaderShortcut component.
+* Implements stepper component.
+* Adds localization for the Wizard.
 
 ## Fixed
 * Converts HTML entities for choice and textarea inputfields.
