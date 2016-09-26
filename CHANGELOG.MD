@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## 1.0: September 2016
 
-### Changed
+### Added
 
 * Implements HTML component.
 * Implements Choice component.
@@ -15,18 +15,23 @@ All notable changes to this project will be documented in this file.
 * Implements Wizard component.
 * Implements ScreenReaderText component.
 * Implements ScreenReaderShortcut component.
-* Implements stepper component.
-* Adds localization for the wizard.
-
-## Fixed
-* Converts HTML entities for choice and textarea inputfields.
-* Adds babel polyfill for Internet Explorer compatibility.
-* Updates SVG logo to work with Internet Explorer.
-* Improves navigation buttons behaviour on click.
-* Makes conditional fields generic in the wizard.
-* Adds stepstate to the fields in the wizard.
-* Adds default props for the textfield.
-* Improves the check for non-existing field components.
+* Implements Stepper and StepButton component.
+* Implements MailChimpSignup component.
+* [Choice & Input] Converts HTML entities.
+* [Choice & Input] Adds explanations.
+* [Choice & Input] Adds explanations.
+* [Choice] Adds screenreader text.
+* [Input] Adds default props for the textfield.
+* [Input] Adds default props for the textfield.
+* [StepButton] Improves accessibility.
+* [Wizard] Adds babel polyfill for Internet Explorer compatibility.
+* [Wizard] Updates SVG logo to work with Internet Explorer.
+* [Wizard] Improves navigation buttons behaviour on click.
+* [Wizard] Makes conditional fields generic.
+* [Wizard] Adds stepstate to the fields.
+* [Wizard] Improves the check for non-existing field components.
+* [Wizard] Adds localization.
+* [Wizard] Improves styling.
+* [Wizard] Improves accessibility.
 * Fixes Promises in jQuery requests.
-* Improves styling for wizard.
-* Improves accessibility for wizard.
+
