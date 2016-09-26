@@ -65,8 +65,7 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 
 		$saved_environment_option = WPSEO_Options::get_option( 'wpseo' );
 
-		return ( $saved_environment_option['environment_type']
-		         === $option['environment_type'] );
+		return ( $saved_environment_option['environment_type'] === $option['environment_type'] );
 	}
 
 	/**
