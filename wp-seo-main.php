@@ -277,7 +277,7 @@ function wpseo_init() {
  */
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
-	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) {
+	if ( WPSEO_Utils::is_api_available() ) {
 		// Boot up REST API endpoints.
 		$configuration_service = new WPSEO_Configuration_Service();
 		$configuration_service->set_default_providers();

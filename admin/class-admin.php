@@ -86,10 +86,12 @@ class WPSEO_Admin {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		}
 
-		$configuration = new WPSEO_Configuration_Page();
+		if ( WPSEO_Utils::is_api_available() ) {
+			$configuration = new WPSEO_Configuration_Page();
 
-		if ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER ) {
-			$configuration->catch_configuration_request();
+			if ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER ) {
+				$configuration->catch_configuration_request();
+			}
 		}
 	}
 
