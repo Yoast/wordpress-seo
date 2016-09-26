@@ -9,8 +9,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
-?>
+if ( WPSEO_Utils::is_api_available() ) :
+	echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
+	?>
 	<p>
 		<?php
 			/* translators: %1$s expands to Yoast SEO */
@@ -24,6 +25,7 @@ echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
 
 	<br/>
 <?php
+endif;
 
 echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>

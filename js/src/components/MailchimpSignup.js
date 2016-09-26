@@ -39,7 +39,7 @@ class MailchimpSignup extends React.Component {
 	componentDidUpdate( prevProps, prevState ) {
 		let successfulSignup = this.state.successfulSignup !== prevState.successfulSignup;
 
-		if( successfulSignup ) {
+		if ( successfulSignup ) {
 			this.sendChangeEvent();
 		}
 	}
@@ -93,7 +93,7 @@ class MailchimpSignup extends React.Component {
 		result
 			.then(
 				( response ) => {
-					if( response.result === "error" ) {
+					if ( response.result === "error" ) {
 						this.setState( {
 							isLoading: false,
 							successfulSignup: false,
@@ -175,7 +175,7 @@ class MailchimpSignup extends React.Component {
 	 * @returns {JSX.Element} Rendered Mailchimp Component.
 	 */
 	render() {
-		if( this.skipRendering() ) {
+		if ( this.skipRendering() ) {
 			return null;
 		}
 
@@ -187,7 +187,6 @@ class MailchimpSignup extends React.Component {
 			ref="emailInput"
 			type="text"
 			name={this.props.name}
-			label="email"
 			defaultValue={this.props.properties.currentUserEmail}
 		/>;
 		let button = <RaisedButton
@@ -204,7 +203,7 @@ class MailchimpSignup extends React.Component {
 					<label
 						htmlFor="mailchimpName"
 						className="yoast-wizard-text-input-label">
-						Name
+						{this.props.translate( "Name" )}
 					</label>
 					<input
 						id="mailchimpName"
@@ -212,7 +211,6 @@ class MailchimpSignup extends React.Component {
 						ref="nameInput"
 						type="text"
 						name="name"
-						label="name"
 						defaultValue={this.props.properties.userName}/>
 				</div>
 				<div className="yoast-wizard-text-input">
@@ -220,7 +218,6 @@ class MailchimpSignup extends React.Component {
 						htmlFor="mailchimpEmail"
 						className="yoast-wizard-text-input-label">
 						{this.props.translate( "Email" )}
-						Email
 					</label>
 					{input}
 				</div>
@@ -251,11 +248,11 @@ class MailchimpSignup extends React.Component {
 	 * @returns {JSX.Element} A HTML paragraph element containing the Mailchimp response.
 	 */
 	getSignupMessage() {
-		if( this.state.successfulSignup ) {
-			return <p className="yoast-wizard-mailchimp-message-success">{this.state.message}</p>;
+		if ( this.state.successfulSignup ) {
+			return <p className="yoast-wizard-mailchimp-message-success" aria-live="assertive">{this.state.message}</p>;
 		}
 
-		return <p className="yoast-wizard-mailchimp-message-error">{this.state.message}</p>;
+		return <p className="yoast-wizard-mailchimp-message-error" aria-live="assertive">{this.state.message}</p>;
 	}
 }
 
