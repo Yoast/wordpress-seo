@@ -53,19 +53,20 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 	 * @return bool Returns whether the value is successfully set.
 	 */
 	public function set_data( $environment_type ) {
-		$set_wp_indexation_successful = false;
-		$option                       = WPSEO_Options::get_option( 'wpseo' );
+		$option = WPSEO_Options::get_option( 'wpseo' );
 
 		if ( $option['environment_type'] !== $environment_type ) {
 			$option['environment_type'] = $environment_type;
 			update_option( 'wpseo', $option );
-			$set_wp_indexation_successful = $this->set_indexation( $environment_type );
+			if ( ! $this->set_indexation( $environment_type ) ) {
+				return false;
+			}
 		}
 
 		$saved_environment_option = WPSEO_Options::get_option( 'wpseo' );
 
-		return ( $saved_environment_option['environment_type'] === $option['environment_type']
-		         && $set_wp_indexation_successful );
+		return ( $saved_environment_option['environment_type']
+		         === $option['environment_type'] );
 	}
 
 	/**
