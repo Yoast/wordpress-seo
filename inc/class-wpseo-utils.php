@@ -946,5 +946,4 @@ class WPSEO_Utils {
 	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
 		return wp_json_encode( $array_to_encode, $options, $depth );
 	}
-
 }
