@@ -139,6 +139,7 @@ Release Date:
 		* New: Enable/disable the advanced settings pages.
 		* New: Enable/disable the Yoast SEO admin bar menu. Added after receiving feedback from multiple users who wanted this option.
 		* Moved: Enable/disable The OnPage.org integration.
+	* Removes the tour. With the help center available on every Yoast SEO page or section and the new installation wizard, there was no real usecase for the tour anymore.
 
 * Bugfixes:
     * Fixes sorting the table in sitemaps.
