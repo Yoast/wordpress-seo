@@ -9,20 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! function_exists( 'wp_rest_api_available' ) ) {
-	/**
-	 * Checks if the WP-REST-API with at least version 2.0 is available.
-	 *
-	 * @return bool
-	 */
-	function wp_rest_api_available() {
-		if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) {
-			return true;
-		}
-		return false;
-	}
-}
-
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	/**
 	 * Wraps frontend class.

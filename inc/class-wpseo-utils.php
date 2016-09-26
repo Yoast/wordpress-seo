@@ -867,6 +867,18 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Checks if the WP-REST-API with at least version 2.0 is available.
+	 *
+	 * @since 3.6
+	 *
+	 * @return bool
+	 */
+	public static function is_api_available() {
+		return ( defined( 'REST_API_VERSION' )
+		         && version_compare( REST_API_VERSION, '2.0', '>=' ) );
+	}
+
+	/**
 	 * Wrapper for the PHP filter input function.
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
@@ -934,4 +946,5 @@ class WPSEO_Utils {
 	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
 		return wp_json_encode( $array_to_encode, $options, $depth );
 	}
+
 }

@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( wpseo_api_available() ) :
+if ( WPSEO_Utils::is_api_available() ) :
 	echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
 	?>
 	<p>
