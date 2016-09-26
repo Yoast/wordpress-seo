@@ -52,8 +52,8 @@ class WPSEO_Upgrade {
 			$this->upgrade_33();
 		}
 
-		if ( version_compare( $this->options['version'], '3.4', '<' ) ) {
-			$this->upgrade_34();
+		if ( version_compare( $this->options['version'], '3.6', '<' ) ) {
+			$this->upgrade_36();
 		}
 
 		/**
@@ -184,9 +184,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.4
+	 * Performs upgrade functions to Yoast SEO 3.6
 	 */
-	private function upgrade_34() {
+	private function upgrade_36() {
 		global $wpdb;
 
 		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
