@@ -135,6 +135,10 @@ Release Date:
     * Adds a notification to the Yoast notification center to start the onboarding wizard.
     * Adds a button to the settings page to start the onboarding wizard.
     * Adds a premium tab to the metabox.
+	* Introduces a feature toggles tab on the Yoast SEO dashboard where users can enable/disable certain features.
+		* New: Enable/disable the advanced settings pages.
+		* New: Enable/disable the Yoast SEO admin bar menu. Added after receiving feedback from multiple users who wanted this option.
+		* Moved: Enable/disable The OnPage.org integration.
 
 * Bugfixes:
     * Fixes sorting the table in sitemaps.
