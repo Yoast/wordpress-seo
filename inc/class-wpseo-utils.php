@@ -867,20 +867,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Replaces the HTML entity with it's actual symbol.
-	 *
-	 * Because we do not not know what consequences it will have if we convert every HTML entity,
-	 * we will only replace the characters that we have known problems with in text's.
-	 *
-	 * @param string $text The text to decode.
-	 *
-	 * @return string String with decoded HTML entities.
-	 */
-	public static function decode_html_entities( $text ) {
-		return str_replace( '&#39;', '’', $text );
-	}
-
-	/**
 	 * Wrapper for the PHP filter input function.
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
