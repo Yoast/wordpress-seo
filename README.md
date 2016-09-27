@@ -7,7 +7,7 @@ React components for use within different Yoast React projects.
 You can install yoast-components using npm:
 
 ```bash
-npm install https://github.com/Yoast/yoast-components#develop
+npm install yoast-components
 ```
 
 ## Usage
