@@ -9,8 +9,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
-?>
+if ( WPSEO_Utils::is_api_available() ) :
+	echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
+	?>
 	<p>
 		<?php
 			/* translators: %1$s expands to Yoast SEO */
@@ -24,6 +25,7 @@ echo '<h2>' . esc_html__( 'Installation wizard', 'wordpress-seo' ) . '</h2>';
 
 	<br/>
 <?php
+endif;
 
 echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 ?>
@@ -38,21 +40,6 @@ echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 	<a class="button"
 	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php _e( 'View Credits', 'wordpress-seo' ); ?></a>
 </p>
-<br />
-<?php
-
-echo '<h2>' . esc_html__( 'Enable settings pages', 'wordpress-seo' ) . '</h2>';
-?>
-<p>
-	<?php
-	$yform->toggle_switch(
-		'enable_setting_pages',
-		array( 'on' => __( 'Yes', 'wordpress-seo' ), 'off' => __( 'No', 'wordpress-seo' ) ),
-		__( 'Enable the settings pages', 'wordpress-seo' )
-	);
-	?>
-</p>
-
 <br/>
 <?php
 echo '<h2>' . esc_html__( 'Restore default settings', 'wordpress-seo' ) . '</h2>';

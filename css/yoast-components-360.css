@@ -218,8 +218,36 @@
 }
 
 body {
+	margin: 0;
+	padding: 0;
 	background: #f0f0f0;
-	font-family: "Open Sans", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	line-height: 1.375;
+	/* 22px based on default browser font size 16px. */
+}
+
+/* Default WordPress links styling. */
+a {
+	outline: 0;
+	color: #0073aa;
+	transition-timing-function: ease-in-out;
+	transition-duration: 0.05s;
+	transition-property: border, background, color;
+}
+
+a:hover,
+a:active {
+	color: #00a0d2;
+}
+
+a:focus {
+	color: #124964;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+#container {
+	max-width: 1660px;
+	margin: 0 auto;
 }
 
 .yoast-wizard-body {
@@ -228,7 +256,14 @@ body {
 	margin: 1rem auto 4rem;
 }
 
-#YoastLogo {
+@media screen and (max-width: 768px) {
+	.yoast-wizard-body {
+		width: auto;
+		margin: 0;
+	}
+}
+
+.yoast-wizard__logo {
 	display: block;
 	margin: 0 auto;
 }
@@ -237,9 +272,15 @@ body {
 	box-sizing: border-box;
 	width: 100%;
 	min-height: 20px;
-	padding: 1em;
+	padding: 3em;
 	background: #fff;
 	text-align: left;
+}
+
+@media screen and (max-width: 768px) {
+	.yoast-wizard {
+		padding: 1em 1em 2em;
+	}
 }
 
 .yoast-wizard--navigation {
@@ -249,7 +290,51 @@ body {
 
 .yoast-wizard--button {
 	margin-top: 1em;
+}
+
+.yoast-wizard--button__next {
 	margin-left: 1em;
+}
+
+.yoast-wizard--button__next button:hover,
+.yoast-wizard--button__next button:focus {
+	background-color: #832055 !important;
+}
+
+.yoast-wizard--button__next button:hover div,
+.yoast-wizard--button__next button:focus div {
+	background-color: transparent !important;
+}
+
+.yoast-wizard--button__previous button:focus {
+	background: #ebebeb !important;
+}
+
+.yoast-wizard--button__previous button:focus:active {
+	background: transparent !important;
+}
+
+.yoast-wizard--button__previous button:hover > div > span,
+.yoast-wizard--button__previous button:focus > div > span {
+	color: #000 !important;
+}
+
+@media screen and (max-width: 768px) {
+	.yoast-wizard--step__active {
+		overflow: hidden;
+		width: 38px;
+	}
+
+	.yoast-wizard--step__active div {
+		display: inline-block !important;
+		vertical-align: middle;
+	}
+
+	.yoast-wizard--step__active div > span > span {
+		display: block !important;
+		margin-left: -7px;
+		padding-right: 99px !important;
+	}
 }
 
 .yoast-wizard--step__active svg {
@@ -258,8 +343,42 @@ body {
 	fill: #5d237a;
 }
 
+.yoast-wizard--step__inactive div {
+	pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+	.yoast-wizard--step__inactive {
+		display: none !important;
+	}
+}
+
+.yoast-wizard--step--container:focus {
+	outline: none;
+}
+
 .yoast-wizard--step--container h1 {
-	font-size: 24px;
+	margin-top: 0;
+	margin-bottom: 16px;
+	margin-bottom: 1rem;
+	color: #a4286a;
+	font-size: 2.75em;
+	font-weight: 300;
+	line-height: 3.68rem;
+	letter-spacing: normal;
+}
+
+@media screen and (max-width: 768px) {
+	.yoast-wizard--step--container h1 {
+		font-size: 2em;
+		line-height: 1.25;
+	}
+}
+
+.yoast-wizard--step--container h2 {
+	color: #a4286a;
+	font-size: 1.375em;
+	font-weight: 400;
 }
 
 .yoast-wizard--stepper {
@@ -292,28 +411,45 @@ body {
 	text-align: left;
 }
 
+@media screen and (max-width: 768px) {
+	.yoast-wizard-container {
+		box-shadow: none;
+	}
+}
+
 .yoast-wizard-container fieldset {
 	margin: 1em 0;
+	padding-left: 0.5em;
 	border: 0;
 }
 
 .yoast-wizard-text-input {
-	min-width: 300px;
+	padding-bottom: 0.5em;
+	font-size: 14px;
 }
 
 .yoast-wizard-text-input-label {
-	display: inline-block;
-	width: 100%;
-	max-width: 200px;
-	margin: 1em 0 0;
-	padding-right: 1em;
+	display: block;
+	margin: 0.5em 0 0;
+	font-weight: bold;
 	cursor: pointer;
 }
 
+.yoast-wizard-text-input [type="text"] {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 450px;
+}
+
+.yoast-wizard-field-description {
+	font-weight: bold;
+}
+
 .yoast-wizard input {
-	margin: 1em 0;
+	margin: 0.5em 0;
 	padding: 5px;
-	font-size: 16px;
+	font-size: 14px;
+	line-height: 140%;
 }
 
 .yoast-wizard label {
@@ -321,7 +457,22 @@ body {
 }
 
 .yoast-wizard input[type="radio"] {
-	margin-right: 1em;
+	margin: 0.3em 0.7em 0.3em 0;
+	vertical-align: middle;
+}
+
+.yoast-wizard-input__explanation {
+	margin-top: 0;
+	color: #555;
+	font-style: italic;
+}
+
+.yoast-wizard-input-radio {
+	font-size: 14px;
+}
+
+.yoast-wizard-input-radio-option label {
+	padding-top: 2px;
 }
 
 .yoast-wizard-input-radio-separator {
@@ -362,17 +513,69 @@ body {
 	border-bottom-right-radius: 0;
 }
 
+/* Responsive videos. */
+/* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
+.yoast-video-container-max-width {
+	max-width: 560px;
+}
+
+.yoast-video-container {
+	overflow: hidden;
+	position: relative;
+	/* 16:9 */
+	height: 0;
+	padding-bottom: 56.25%;
+}
+
+.yoast-video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 .yoast-wizard-return-link {
 	display: block;
 	margin: 1em 0;
-	color: #b5b5b5;
+	/* lighter #555d66 */
+	color: #646d78;
 	text-align: center;
 }
 
 .yoast-wizard-mailchimp-message-error {
-	color: red;
+	color: #dc3232;
 }
 
 .yoast-wizard-mailchimp-message-success {
-	color: #00a000;
+	color: #008a00;
+}
+
+.yoast-wizard-input {
+	padding-bottom: 0.5em;
+}
+
+.yoast-wizard-input__select {
+	margin: 1em 0;
+	font-size: 14px;
+}
+
+.yoast-wizard-image-upload-container__image {
+	max-width: 151px;
+}
+
+.yoast-wizard-image-upload-container-buttons {
+	margin-top: 1em;
+}
+
+.yoast-wizard-image-upload-container-buttons__remove {
+	margin-left: 1em;
+}
+
+.yoast-wizard-image-upload-container-description {
+	display: block;
+}
+
+.ie9 .yoast-wizard--stepper {
+	display: none;
 }

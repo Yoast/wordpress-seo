@@ -67,7 +67,11 @@ ul.wpseo-metabox-tabs li.active {
 	border-radius: 3px;
 
 	&.wpseo-buy-premium {
-		color: #FCA701;
+		color: #a4286a;
+
+		&:hover {
+			color: #832055;
+		}
 	}
 }
 
@@ -76,8 +80,13 @@ ul.wpseo-metabox-tabs li.active {
 	color: #333;
 
 	&.wpseo-buy-premium {
-		color: #FCA701;
-		border-color: #FCA701;
+		color: #a4286a;
+		border-color: #a4286a;
+
+		&:hover {
+			color: #832055;
+			border-color: #832055;
+		}
 	}
 }
 
