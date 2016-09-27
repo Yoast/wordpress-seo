@@ -299,14 +299,14 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-350',
+				'src'  => 'metabox-360',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
 			),
 			array(
 				'name' => 'wp-dashboard',
-				'src'  => 'dashboard-330',
+				'src'  => 'dashboard-360',
 			),
 			array(
 				'name' => 'scoring',
@@ -345,7 +345,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'yoast-components',
-				'src'  => 'yoast-components-350',
+				'src'  => 'yoast-components-360',
 			),
 		);
 	}
