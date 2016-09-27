@@ -49,3 +49,7 @@ a.remove-keyword:focus span {
 .wpseo_keyword_tab.active a[data-score="na"] .wpseo-keyword {
 	max-width: none;
 }
+
+.wpseo-metabox-tabs .wpseo_keyword_tab_hideable .wpseo_tablink {
+	padding-right: 0;
+}
