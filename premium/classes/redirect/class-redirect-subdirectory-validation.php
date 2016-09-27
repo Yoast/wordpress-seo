@@ -4,7 +4,7 @@
  */
 
 /**
- * Validates if the origin start with the subdirectory where the WordPress installation is in.
+ * Validates if the origin starts with the subdirectory where the WordPress installation is in.
  */
 class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validation {
 
@@ -18,7 +18,7 @@ class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validatio
 	 *
 	 * @param WPSEO_Redirect $redirect     The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
-	 * @param array          $redirects    Array with redirect to validate against.
+	 * @param array          $redirects    Array with redirects to validate against.
 	 *
 	 * @return bool
 	 */
@@ -27,12 +27,12 @@ class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validatio
 		$subdirectory = $this->get_subdirectory();
 
 		// When there is no subdirectory, there is nothing to validate.
-		if ( ! $subdirectory ) {
+		if ( $subdirectory === '' ) {
 			return true;
 		}
 
 		// When the origin starts with subdirectory, it is okay.
-		if ( $this->origin_start_with_subdirectory( $subdirectory, $redirect->get_origin() ) ) {
+		if ( $this->origin_starts_with_subdirectory( $subdirectory, $redirect->get_origin() ) ) {
 			return true;
 		}
 
@@ -63,13 +63,13 @@ class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validatio
 	 * Calculates the difference between the home and site url. It strips of the site_url from the home_url and returns
 	 * the part that remains.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	protected function get_subdirectory() {
 		$home_url = untrailingslashit( home_url() );
 		$site_url = untrailingslashit( site_url() );
 		if ( $home_url === $site_url ) {
-			return null;
+			return '';
 		}
 
 		// Strips the site_url from the home_url. substr is used because we want it from the start.
@@ -77,19 +77,19 @@ class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validatio
 	}
 
 	/**
-	 * Checks for subdirectory presence in the origin. If so, the origin must start with the subdirectory.
+	 * Checks if the origin starts with the given subdirectory. If so, the origin must start with the subdirectory.
 	 *
 	 * @param string $subdirectory The subdirectory that should be present.
 	 * @param string $origin       The origin to check for.
 	 *
 	 * @return bool
 	 */
-	protected function origin_start_with_subdirectory( $subdirectory, $origin ) {
+	protected function origin_starts_with_subdirectory( $subdirectory, $origin ) {
 		// Strip slashes at the beginning because the origin doesn't start with a slash.
 		$subdirectory = ltrim( $subdirectory, '/' );
 
-		if ( mb_strstr( $origin, $subdirectory ) ) {
-			return mb_substr( $origin, 0, mb_strlen( $subdirectory ) ) === $subdirectory;
+		if ( strstr( $origin, $subdirectory ) ) {
+			return substr( $origin, 0, strlen( $subdirectory ) ) === $subdirectory;
 		}
 
 		return false;
