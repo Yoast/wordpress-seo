@@ -4,8 +4,35 @@ body {
   margin: 0;
   padding: 0;
   background: #f0f0f0;
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   line-height: 1.375; /* 22px based on default browser font size 16px. */
+}
+
+/* Default WordPress links styling. */
+a {
+	color: #0073aa;
+	outline: 0;
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+}
+
+a:hover,
+a:active {
+	color: #00a0d2;
+}
+
+a:focus {
+	color: #124964;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 #container {
@@ -26,7 +53,7 @@ body {
 
 }
 
-#YoastLogo {
+.#{$prefix}__logo {
   margin: 0 auto;
   display: block;
 }
@@ -55,15 +82,47 @@ body {
 
     &__next {
       margin-left: 1em;
+
+	  button:hover,
+	  button:focus {
+		background-color: #832055 !important;
+
+		div {
+		  background-color: transparent !important;
+		}
+	  }
     }
+
+	&__previous {
+	  button:focus {
+  		background: #ebebeb !important;
+	  }
+	  button:focus:active {
+  		background: transparent !important;
+	  }
+	  button:hover > div > span,
+	  button:focus > div > span {
+	    color: #000 !important;
+	  }
+	}
+
   }
 
   &--step {
     &__active {
       @media screen and (max-width: 768px) {
-        text-indent: -9999px;
+		width: 38px;
+		overflow: hidden;
+
+        div {
+		  display: inline-block !important;
+		  vertical-align: middle;
+        }
+
         div > span > span {
-          padding-right: 0 !important;
+          display: block !important;
+          margin-left: -7px;
+          padding-right: 99px !important;
         }
       }
 
@@ -73,6 +132,9 @@ body {
       }
     }
     &__inactive {
+	  div {
+		pointer-events: none;
+	  }
       @media screen and (max-width: 768px) {
         display: none !important;
       }
@@ -80,6 +142,10 @@ body {
   }
 
   &--step--container {
+	&:focus {
+	  outline: none;
+	}
+
     h1 {
       color: #a4286a;
       margin-top: 0;
@@ -140,6 +206,7 @@ body {
     fieldset {
       border: 0;
       margin: 1em 0;
+	  padding-left: 0.5em;
     }
   }
 
@@ -154,9 +221,9 @@ body {
       font-weight: bold;
     }
 
-    &-field {
+    [type="text"] {
       width: 100%;
-      max-width: 300px;
+      max-width: 450px;
       box-sizing: border-box;
     }
   }
@@ -177,8 +244,7 @@ body {
   }
 
   input[type="radio"] {
-    margin-right: 0.7em;
-    margin-top: 1px;
+    margin: 0.3em 0.7em 0.3em 0;
     vertical-align: middle;
   }
 

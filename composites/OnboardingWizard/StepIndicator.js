@@ -1,6 +1,7 @@
 import React from "react";
 import CustomStepButton from "./StepButton";
 import {Stepper, Step, StepButton} from 'material-ui/Stepper';
+import { localize } from "../../utils/i18n";
 
 /**
  * The step indicator displays a horizontal progress indicator.
@@ -41,11 +42,19 @@ class StepIndicator extends React.Component {
 
 		return keys.map( ( name, key ) => {
 			var currentField = this.props.steps[ name ];
+			let stepNumber = key.valueOf() + 1;
+			/* %1$d expands to the number of the step, %2$s expands to the name of the step */
+			let ariaLabel = this.props.translate( 'Step %1$d: %2$s' );
+			ariaLabel = ariaLabel.replace( '%1$d', stepNumber ).replace( '%2$s', currentField.title );
 
 			if ( key === this.state.stepIndex ) {
 				button = React.createElement( StepButton, {
 					key: "step-indicator-" + key,
 					className: "yoast-wizard--step yoast-wizard--step__active",
+					"aria-label": ariaLabel,
+					style: {
+						verticalAlign: "middle",
+					},
 				}, currentField.title );
 			}
 			// Return a custom step button, without a label for non-active steps.
@@ -53,11 +62,16 @@ class StepIndicator extends React.Component {
 				let className = this.getStepButtonClass( key, amountOfSteps );
 
 				button = new CustomStepButton( {
-					index: key.valueOf() + 1,
+					index: stepNumber,
 					tooltip: currentField.title,
+					ariaLabel: ariaLabel,
 					className,
-					onClick: () => {
-						this.props.onClick( name )
+					// See github.com/Yoast/wordpress-seo/issues/5530.
+					tooltipStyles: {
+						userSelect: "auto",
+					},
+					onClick: ( evt ) => {
+						this.props.onClick( name, evt )
 					},
 				} );
 			}
@@ -108,4 +122,4 @@ StepIndicator.defaultProps = {
 	stepIndex: 0,
 };
 
-export default StepIndicator;
+export default localize( StepIndicator );
