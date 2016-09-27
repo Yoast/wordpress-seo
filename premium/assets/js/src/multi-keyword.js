@@ -226,12 +226,13 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 			label: label,
 			score: score,
 			isKeywordTab: true,
-			classes: 'wpseo_tab wpseo_keyword_tab',
+			classes: 'wpseo_tab wpseo_keyword_tab wpseo_keyword_tab_hideable',
 			hideable: true
 		};
 
 		if ( 0 === $( '.wpseo_keyword_tab' ).length ) {
 			templateArgs.hideable = false;
+			templateArgs.classes = 'wpseo_tab wpseo_keyword_tab';
 		}
 
 		html = keywordTabTemplate( templateArgs );
@@ -352,7 +353,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 			label: label,
 			score: indicators.className,
 			isKeywordTab: true,
-			classes: 'wpseo_tab wpseo_keyword_tab',
+			classes: 'wpseo_tab wpseo_keyword_tab wpseo_keyword_tab_hideable',
 			hideable: true
 		};
 
@@ -362,6 +363,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		// The first keyword tab isn't deletable, this first keyword tab is the second tab because of the content tab.
 		if ( firstKeywordTabIndex === tabElement.index() ) {
 			templateArgs.hideable = false;
+			templateArgs.classes = 'wpseo_tab wpseo_keyword_tab';
 		}
 
 		if ( true === active ) {
