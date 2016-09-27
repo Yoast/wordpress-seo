@@ -252,7 +252,6 @@ var Jed = require( 'jed' );
 					return imageUrl;
 				},
 				modifyTitle: function( title ) {
-
 					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
 						if ( title === $( '#twitter-editor-title' ).attr( 'placeholder' ) ) {
 							var facebookTitle = $( '#facebook-editor-title' ).val();
