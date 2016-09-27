@@ -8,8 +8,6 @@ var Jed = require( "jed" );
  * @returns {Jed} A usable i18n translations object.
  */
 function getI18n() {
-	"use strict";
-
 	var translations = getTranslations();
 	var i18n = new Jed( translations );
 

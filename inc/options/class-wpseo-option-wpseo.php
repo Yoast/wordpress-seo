@@ -38,6 +38,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'yandexverify'                    => '',
 		'site_type'                       => '', // List of options.
 		'has_multiple_authors'            => '',
+		'environment_type'                => '',
+		'enable_setting_pages'            => true,
+		'enable_admin_bar_menu'			  => true,
+		'show_onboarding_notice'          => false,
 	);
 
 	/**
@@ -59,6 +63,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'smallBusiness',
 		'corporateOther',
 		'personalOther',
+	);
+
+	/** @var array Possible environment types. */
+	protected $environment_types = array(
+		'',
+		'production',
+		'staging',
+		'development',
 	);
 
 	/**
@@ -167,7 +179,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'site_type':
 					$clean[ $key ] = '';
-					if ( in_array( $dirty[ $key ], $this->site_types, true ) ) {
+					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], $this->site_types, true ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
+				case 'environment_type':
+					$clean[ $key ] = '';
+					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], $this->environment_types, true ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;

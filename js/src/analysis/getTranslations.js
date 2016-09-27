@@ -8,8 +8,6 @@ var isUndefined = require( "lodash/isUndefined" );
  * @returns {Object} The translations object for the current page.
  */
 function getTranslations() {
-	"use strict";
-
 	var l10nObject = getL10nObject();
 	var translations = l10nObject.translations;
 

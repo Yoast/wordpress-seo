@@ -24,14 +24,23 @@ build:
   - 'copy'
   - 'browserify:build'
   - 'uglify'
+
 # Build internationalisation features
 'build:i18n':
+  - 'build:i18n:potFiles'
+  - 'build:i18n:translations'
+# Create the relevant POT files
+'build:i18n:potFiles':
   - 'makepot'
+  - 'shell:makepot-yoast-components'
   - 'shell:combine-pot-files'
+# Download and build the latest translations
+'build:i18n:translations':
   - 'glotpress_download'
   - 'po2json'
   - 'i18n-clean-json'
   - 'clean:po-files'
+
 # Check health of the project
 check:
   - 'check:js'
