@@ -376,7 +376,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'advanced',
 			$content,
-			__( 'Advanced', 'wordpress-seo' )
+			__( 'Advanced', 'wordpress-seo' ),
+			array(
+				'single' => true,
+			)
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -411,11 +414,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					<strong>%s</strong> - %s
 				</li>
 			</ul>
-			
+
 			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
 				%s
 			</a>
-			
+
 			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
 		</div>",
 			__( 'You\'re not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:', 'wordpress-seo' ),
@@ -436,7 +439,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'premium',
 			$content,
-			__( 'Yoast SEO Premium', 'wordpress-seo' )
+			__( 'Yoast SEO Premium', 'wordpress-seo' ),
+			array(
+				'single' => true,
+			)
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
