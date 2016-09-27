@@ -118,7 +118,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 3.6.0 =
 
-Release Date:
+Release Date: September 27th, 2016
 
 * Enhancements:
     * Introduces the installation wizard that enables an easy way of setting up Yoast SEO. The installation wizard enables you to:
