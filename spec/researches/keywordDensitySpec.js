@@ -34,5 +34,8 @@ describe("Test for counting the keyword density in a text", function(){
 		expect( keywordDensity( mockPaper ) ).toBe( 7.6923076923076925 );
 		mockPaper = new Paper( "a string of text with the Key word in it, density should be 7.14%", {keyword: "key word"} );
 		expect( keywordDensity( mockPaper ) ).toBe( 7.142857142857142 );
+
+		mockPaper = new Paper( "a string with quotes to match the key'word, even if the quotes differ", {keyword: "key’word"} );
+		expect( keywordDensity( mockPaper ) ).toBe( 7.6923076923076925 );
 	});
 });

@@ -2,6 +2,7 @@
 
 var countWords = require( "../stringProcessing/countWords.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+var normalizeQuotes = require ( "../stringProcessing/quotes.js" ).normalize;
 
 var escapeRegExp = require( "lodash/escapeRegExp" );
 
@@ -12,8 +13,8 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
   * @returns {number} The keyword density.
  */
 module.exports = function( paper ) {
-	var keyword = escapeRegExp( paper.getKeyword() );
-	var text = paper.getText();
+	var keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ) );
+	var text = normalizeQuotes( paper.getText() );
 	var locale = paper.getLocale();
 	var wordCount = countWords( text );
 	if ( wordCount === 0 ) {
