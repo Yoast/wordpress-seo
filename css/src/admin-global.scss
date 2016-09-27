@@ -1,3 +1,5 @@
+@import "menu";
+
 #TB_window .wpseo_content_wrapper p {
 	font-size: 14px;
 	font-style: normal;
@@ -14,11 +16,23 @@
 	font-size: 1.3em;
 }
 
+.edit-tags-php .column-description img {
+	max-width: 100%;
+	height: auto;
+}
+
 /* Select2 specific fixes for WordPress */
 .select2-search__field {
 	margin: 0;
 }
 
-.select2-results__option {
+.select2-results__option,
+.select2-selection__choice,
+.select2-search--inline {
 	margin-bottom: 0;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+	margin-top: 6px !important;
+	line-height: inherit;
 }

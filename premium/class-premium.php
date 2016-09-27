@@ -23,10 +23,10 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '3.3.2';
+	const PLUGIN_VERSION_NAME = '3.6';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
-	const EDD_STORE_URL = 'http://yoast.com';
+	const EDD_STORE_URL = 'http://my.yoast.com';
 	const EDD_PLUGIN_NAME = 'Yoast SEO Premium';
 
 	/**
@@ -118,9 +118,6 @@ class WPSEO_Premium {
 			// Settings.
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-			// Enqueue Post and Term overview script.
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_overview_script' ) );
-
 			// Licensing part.
 			$license_manager = WPSEO_Premium::get_license_manager();
 
@@ -164,6 +161,9 @@ class WPSEO_Premium {
 
 		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
 		add_action( 'admin_init', array( $this, 'enqueue_social_previews' ) );
+
+		add_action( 'wpseo_premium_indicator_classes', array( $this, 'change_premium_indicator' ) );
+		add_action( 'wpseo_premium_indicator_text', array( $this, 'change_premium_indicator_text' ) );
 
 		// Only initialize the AJAX for all tabs except settings.
 		$facebook_name = new WPSEO_Facebook_Profile();
@@ -299,25 +299,6 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Enqueue post en term overview script
-	 *
-	 * @param string $hook The current opened page.
-	 */
-	public function enqueue_overview_script( $hook ) {
-		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
-			self::enqueue();
-		}
-	}
-
-	/**
-	 * Enqueues the do / undo redirect scripts
-	 */
-	public static function enqueue() {
-		wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-admin-overview-330' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-		wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
-	}
-
-	/**
 	 * Add 'Create Redirect' option to admin bar menu on 404 pages
 	 */
 	public function admin_bar_menu() {
@@ -396,6 +377,34 @@ class WPSEO_Premium {
 		);
 
 		return $submenu_pages;
+	}
+
+	/**
+	 * Change premium indicator to green when premium is enabled
+	 *
+	 * @param string[] $classes The current classes for the indicator.
+	 * @returns string[] The new classes for the indicator.
+	 */
+	public function change_premium_indicator( $classes ) {
+		$class_no = array_search( 'wpseo-premium-indicator--no', $classes );
+
+		if ( false !== $class_no ) {
+			unset( $classes[ $class_no ] );
+
+			$classes[] = 'wpseo-premium-indicator--yes';
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Replaces the screen reader text for the premium indicator.
+	 *
+	 * @param string $text The original text.
+	 * @return string The new text.
+	 */
+	public function change_premium_indicator_text( $text ) {
+		return __( 'Enabled', 'wordpress-seo-premium' );
 	}
 
 	/**
@@ -481,6 +490,6 @@ class WPSEO_Premium {
 	 * Add the Yoast contact support assets
 	 */
 	public function enqueue_contact_support() {
-		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-contact-support' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-contact-support-350' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 	}
 }

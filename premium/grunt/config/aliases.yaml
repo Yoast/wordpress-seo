@@ -26,10 +26,7 @@ build:
   - 'clean:po-files'
 # Check health of the project
 check:
-  - 'jshint'
-  - 'jsonlint'
-  - 'jsvalidate'
-  - 'jscs'
+  - 'eslint'
   - 'phplint'
   - 'phpcs'
   - 'checktextdomain'

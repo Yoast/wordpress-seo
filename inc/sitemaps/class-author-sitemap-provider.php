@@ -229,9 +229,11 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$url = array(
 				'loc' => $author_link,
-				'pri' => 0.8,
-				'chf' => WPSEO_Sitemaps::filter_frequency( 'author_archive', 'daily', $author_link ),
 				'mod' => date( DATE_W3C, $mod ),
+
+				// Deprecated, kept for backwards data compat. R.
+				'chf' => 'daily',
+				'pri' => 1,
 			);
 
 			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */

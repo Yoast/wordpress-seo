@@ -1,22 +1,20 @@
-/* global wpseoPostScraperL10n, wpseoTermScraperL10n */
-
-var getL10nObject = require( './getL10nObject' );
+var getL10nObject = require( "./getL10nObject" );
 
 /**
  * Returns the title placeholder for use in the title forms.
  *
- * @returns {string}
+ * @returns {string} The title placeholder.
  */
 function getTitlePlaceholder() {
-	var titlePlaceholder = '';
+	var titlePlaceholder = "";
 	var l10nObject = getL10nObject();
 
 	if ( l10nObject ) {
 		titlePlaceholder = l10nObject.title_template;
 	}
 
-	if ( titlePlaceholder === '' ) {
-		titlePlaceholder = '%%title%% - %%sitename%%';
+	if ( titlePlaceholder === "" ) {
+		titlePlaceholder = "%%title%% - %%sitename%%";
 	}
 
 	return titlePlaceholder;

@@ -1,50 +1,55 @@
-var defaultsDeep = require( 'lodash/defaultsDeep' );
+/* global YoastSEO */
 
-var getIndicatorForScore = require( './getIndicatorForScore' );
-var KeywordTab = require( './keywordTab' );
-var GenericTab = require( './genericTab' );
+var defaultsDeep = require( "lodash/defaultsDeep" );
+
+var KeywordTab = require( "./keywordTab" );
+var GenericTab = require( "./genericTab" );
 
 var $ = jQuery;
 
 var defaultArguments = {
 	strings: {
-		keywordTab: '',
-		contentTab: ''
+		keywordTab: "",
+		contentTab: "",
 	},
-	focusKeywordField: '#yoast_wpseo_focuskw',
-	contentAnalysisActive: '1'
+	focusKeywordField: "#yoast_wpseo_focuskw",
+	contentAnalysisActive: "1",
 };
 
 /**
  * The tab manager is responsible for managing the analysis tabs in the metabox.
  *
+ * @param {Object} args The arguments to use.
+ *
  * @constructor
  */
-function TabManager( arguments ) {
-	arguments = arguments || {};
+function TabManager( args ) {
+	args = args || {};
 
-	defaultsDeep( arguments, defaultArguments );
+	defaultsDeep( args, defaultArguments );
 
-	this.arguments = arguments;
-	this.strings = arguments.strings;
+	this.arguments = args;
+	this.strings = args.strings;
 }
 
 /**
  * Initializes the two tabs.
+ *
+ * @returns {void}
  */
 TabManager.prototype.init = function() {
-	var metaboxTabs = $( '#wpseo-metabox-tabs' );
+	var metaboxTabs = $( "#wpseo-metabox-tabs" );
 
 	// Remove default functionality to prevent scrolling to top.
-	metaboxTabs.on( 'click', '.wpseo_tablink', function( ev ) {
+	metaboxTabs.on( "click", ".wpseo_tablink", function( ev ) {
 		ev.preventDefault();
-	});
+	} );
 
-	this.focusKeywordInput = $( '#yoast_wpseo_focuskw_text_input,#wpseo_focuskw' );
-	this.focusKeywordRow = this.focusKeywordInput.closest( 'tr' );
-	this.contentAnalysis = $( '#yoast-seo-content-analysis' );
-	this.keywordAnalysis = $( '#wpseo-pageanalysis, #wpseo_analysis' );
-	this.snippetPreview  = $( '#wpseosnippet' ).closest( 'tr' );
+	this.focusKeywordInput = $( "#yoast_wpseo_focuskw_text_input,#wpseo_focuskw" );
+	this.focusKeywordRow = this.focusKeywordInput.closest( "tr" );
+	this.contentAnalysis = $( "#yoast-seo-content-analysis" );
+	this.keywordAnalysis = $( "#wpseo-pageanalysis, #wpseo_analysis" );
+	this.snippetPreview  = $( "#wpseosnippet" ).closest( "tr" );
 
 	var initialKeyword   = $( this.arguments.focusKeywordField ).val();
 
@@ -55,16 +60,16 @@ TabManager.prototype.init = function() {
 
 	// Initialize an instance of the keyword tab.
 	this.mainKeywordTab = new KeywordTab( {
-		keyword:    initialKeyword,
-		prefix:     this.strings.keywordTab,
-		fallback:   this.strings.enterFocusKeyword,
+		keyword: initialKeyword,
+		prefix: this.strings.keywordTab,
+		fallback: this.strings.enterFocusKeyword,
 		onActivate: function() {
 			this.showKeywordAnalysis();
 			this.contentTab.deactivate();
 		}.bind( this ),
 		afterActivate: function() {
 			YoastSEO.app.refresh();
-		}
+		},
 	} );
 
 	this.contentTab = new GenericTab( {
@@ -75,7 +80,7 @@ TabManager.prototype.init = function() {
 		}.bind( this ),
 		afterActivate: function() {
 			YoastSEO.app.refresh();
-		}
+		},
 	} );
 
 	if ( this.arguments.keywordAnalysisActive ) {
@@ -86,11 +91,13 @@ TabManager.prototype.init = function() {
 		this.contentTab.init( metaboxTabs );
 	}
 
-	$( '.yoast-seo__remove-tab' ).remove();
+	$( ".yoast-seo__remove-tab" ).remove();
 };
 
 /**
  * Shows the keyword analysis elements.
+ *
+ * @returns {void}
  */
 TabManager.prototype.showKeywordAnalysis = function() {
 	this.focusKeywordRow.show();
@@ -104,6 +111,8 @@ TabManager.prototype.showKeywordAnalysis = function() {
 
 /**
  * Shows the content analysis elements.
+ *
+ * @returns {void}
  */
 TabManager.prototype.showContentAnalysis = function() {
 	this.focusKeywordRow.hide();
@@ -119,6 +128,8 @@ TabManager.prototype.showContentAnalysis = function() {
  * Updates the content tab with the calculated score
  *
  * @param {number} score The score that has been calculated.
+ *
+ * @returns {void}
  */
 TabManager.prototype.updateContentTab = function( score ) {
 	this.contentTab.updateScore( score );
@@ -129,6 +140,8 @@ TabManager.prototype.updateContentTab = function( score ) {
  *
  * @param {number} score The score that has been calculated.
  * @param {string} keyword The keyword that has been used to calculate the score.
+ *
+ * @returns {void}
  */
 TabManager.prototype.updateKeywordTab = function( score, keyword ) {
 	this.mainKeywordTab.updateScore( score, keyword );
@@ -139,7 +152,7 @@ TabManager.prototype.updateKeywordTab = function( score, keyword ) {
  *
  * @param {string} keyword The keyword to check
  *
- * @returns {boolean}
+ * @returns {boolean} True when keyword is the main keyword.
  */
 TabManager.prototype.isMainKeyword = function( keyword ) {
 	return this.mainKeywordTab.getKeywordFromElement() === keyword;

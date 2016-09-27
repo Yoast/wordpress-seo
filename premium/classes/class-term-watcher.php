@@ -32,6 +32,23 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
+	 * Load needed js file
+	 *
+	 * @param string $current_page The page that is opened at the moment.
+	 */
+	public function page_scripts( $current_page ) {
+		if ( $current_page === 'edit-tags.php' ) {
+			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-352' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+			wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+		}
+
+		if ( $current_page === 'term.php' ) {
+			wp_enqueue_script( 'wp-seo-premium-redirect-notifications', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-redirect-notifications-352' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+			wp_localize_script( 'wp-seo-premium-redirect-notifications', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+		}
+	}
+
+	/**
 	 * Add an extra field to term edit screen
 	 *
 	 * @param string $tag      The current tag name.
@@ -58,10 +75,10 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
 	 * @param integer  $term_id  The term id.
-	 * @param integer  $tt_id    Unused.
+	 * @param integer  $tt_id    The term taxonomy id.
 	 * @param stdClass $taxonomy Object with the values of the taxonomy.
 	 *
-	 * @return bool|void
+	 * @return bool
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
 		/**
@@ -76,7 +93,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		$old_url = $this->get_old_url();
 
 		if ( ! $old_url ) {
-			return;
+			return false;
 		}
 
 		// Get the new URL.
@@ -144,10 +161,12 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	protected function get_old_url() {
 		$wpseo_old_term_url = filter_input( INPUT_POST, 'wpseo_old_term_url' );
+
 		if ( empty( $wpseo_old_term_url ) ) {
 			if ( ! empty( $this->old_url ) ) {
 				return $this->old_url;
 			}
+
 			return false;
 		}
 		return $wpseo_old_term_url;
@@ -157,6 +176,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Setting the hooks for the term watcher
 	 */
 	protected function set_hooks() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+
 		// Get all taxonomies.
 		$taxonomies = get_taxonomies();
 
@@ -183,9 +204,9 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return string
 	 */
 	protected function get_undo_slug_notification() {
-		/* translators: %1$s: Yoast SEO Premium, %2$s: <a href='{admin_redirect_url}'>, %3$s: <a href='{undo_redirect_url}'> and %4$s: </a> */
+		/* translators: %1$s: Yoast SEO Premium, %2$s and %3$s expand to a link to the admin page, %4$s: Old slug of the term, %5$s: New slug of the term, the text surrounded by %6$s and %7$s is placed in a button that can undo the created redirect */
 		return __(
-			'%1$s created a %2$sredirect%3$s from the old term URL to the new term URL. %4$sClick here to undo this%5$s',
+			'%1$s created a %2$sredirect%3$s from the old term URL to the new term URL. %6$sClick here to undo this%7$s  <br> Old URL: %4$s <br> New URL: %5$s',
 			'wordpress-seo-premium'
 		);
 	}

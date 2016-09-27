@@ -1,28 +1,25 @@
 /* global wp, jQuery */
 
-var isUndefined = require( 'lodash/isUndefined' );
-var defaultsDeep = require( 'lodash/defaultsDeep' );
-var getIndicatorForScore = require( './getIndicatorForScore' );
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var getIndicatorForScore = require( "./getIndicatorForScore" );
 
 var $ = jQuery;
 
 var defaultArguments = {
-	label: '',
+	label: "",
 	active: false,
 	hideable: false,
 
-	classes: [ 'wpseo_tab', 'wpseo_generic_tab' ],
+	classes: [ "wpseo_tab", "wpseo_generic_tab" ],
 
-	onActivate: function ( ) { },
-	afterActivate: function ( ) { },
+	onActivate: function() { },
+	afterActivate: function() { },
 };
 
-module.exports = (function() {
-	'use strict';
-
+module.exports = ( function() {
 	/**
 	 * Constructor for a generic tab object
-	 * @param {Object} args
+	 * @param {Object} args The arguments for the tab.
 	 * @constructor
 	 */
 	function GenericTab( args ) {
@@ -42,9 +39,11 @@ module.exports = (function() {
 	 *
 	 * @param {HTMLElement} container The container element to add the tab to.
 	 * @param {string} [position] Either prepend or append for the position in the container.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.init = function( container, position ) {
-		position = position || 'prepend';
+		position = position || "prepend";
 
 		this.setElement( this.render() );
 		this.addToContainer( container, position );
@@ -54,12 +53,14 @@ module.exports = (function() {
 	 * Adds the current tab to the container element.
 	 *
 	 * @param {string|Object} container The container element to add the tab to. jQuery object or selector.
-	 * @param {string} [position] Either prepend or append for the position in the container.
+	 * @param {string} [position] Either prepend or append for the position in the
+	 *
+	 * @returns {void}
 	 */
-	GenericTab.prototype.addToContainer = function ( container, position ) {
+	GenericTab.prototype.addToContainer = function( container, position ) {
 		var $container = $( container );
 
-		if ( 'prepend' === position ) {
+		if ( "prepend" === position ) {
 			$container.prepend( this.element );
 			return;
 		}
@@ -80,7 +81,9 @@ module.exports = (function() {
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
-	 * @param {int} indicator
+	 * @param {int} score The score for the indicator.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.updateScore = function( score ) {
 		var indicator = this.getIndicator( score );
@@ -93,6 +96,8 @@ module.exports = (function() {
 
 	/**
 	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.refresh = function() {
 		var replacement = this.render();
@@ -105,9 +110,11 @@ module.exports = (function() {
 	 * Adds additional CSS classes based on the classes field.
 	 *
 	 * @returns {string} The classes to add.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.addAdditionalClasses = function() {
-		return this.classes.join( ' ' );
+		return this.classes.join( " " );
 	};
 
 	/**
@@ -116,7 +123,7 @@ module.exports = (function() {
 	 * @returns {HTMLElement} jQuery HTML object.
 	 */
 	GenericTab.prototype.render = function() {
-		var html = wp.template( 'generic_tab' )( {
+		var html = wp.template( "generic_tab" )( {
 			label: this.label,
 
 			active: this.active,
@@ -125,7 +132,7 @@ module.exports = (function() {
 			score: this.score,
 			scoreText: this.scoreText,
 
-			classes: this.addAdditionalClasses()
+			classes: this.addAdditionalClasses(),
 		} );
 
 		return jQuery( html );
@@ -134,7 +141,9 @@ module.exports = (function() {
 	/**
 	 * Sets the current element
 	 *
-	 * @param {HTMLElement} element
+	 * @param {HTMLElement} element The element to set.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.setElement = function( element ) {
 		this.element = jQuery( element );
@@ -144,13 +153,17 @@ module.exports = (function() {
 
 	/**
 	 * Adds event handler to tab
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.addEventHandler = function() {
-		$( this.element ).on( 'click', this.onClick.bind( this ) );
+		$( this.element ).on( "click", this.onClick.bind( this ) );
 	};
 
 	/**
 	 * Activates the tab
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.activate = function() {
 		this.onActivate();
@@ -166,16 +179,20 @@ module.exports = (function() {
 
 	/**
 	 * Removes active state class from all tabs.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.deactivate = function() {
 		this.active = false;
-		$( '.wpseo_tab' ).removeClass( 'active' );
+		$( ".wpseo_tab" ).removeClass( "active" );
 	};
 
 	/**
 	 * Handles clicking the tab.
 	 *
 	 * @param {UIEvent} ev The event fired by the browser.
+	 *
+	 * @returns {void}
 	 */
 	GenericTab.prototype.onClick = function( ev ) {
 		ev.preventDefault();
@@ -184,4 +201,4 @@ module.exports = (function() {
 	};
 
 	return GenericTab;
-} )();
+}() );

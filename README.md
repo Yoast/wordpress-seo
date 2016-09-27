@@ -45,7 +45,7 @@ It may help us a lot if you can provide a backtrace of the error encountered. Yo
 Contributions
 -------------
 Anyone is welcome to contribute to Yoast SEO. Please
-[read the guidelines](https://github.com/yoast/wordpress-seo/blob/master/CONTRIBUTING.md) for contributing to this
+[read the guidelines](.github/CONTRIBUTING.md) for contributing to this
 repository.
 
 There are various ways you can contribute:

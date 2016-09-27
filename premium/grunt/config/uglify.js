@@ -8,9 +8,8 @@ module.exports = {
 		files: [ {
 					expand: true,
 					src: [
-						'<%= files.js %>',
-						'!assets/js/src/**/*.js',
-						'assets/js/yoast-premium-social-preview-330.js'
+						'<%= paths.js %>dist/*.js',
+						'!<%= paths.js %>dist/*.min.js',
 					],
 					ext: '.min.js',
 					extDot: 'first',

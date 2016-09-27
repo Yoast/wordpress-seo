@@ -40,32 +40,28 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 				'',
 				$this->options['usemetakeywords'] !== true
 			),
-			'canonical'       => $this->get_field_config(
-				__( 'Canonical URL', 'wordpress-seo' ),
-				esc_html__( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' )
-			),
-			'bctitle'         => $this->get_field_config(
-				__( 'Breadcrumbs title', 'wordpress-seo' ),
-				/* translators: %s expands to the taxonomy name  */
-				sprintf( esc_html__( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $this->term->taxonomy ),
-				'text',
-				'',
-				$this->options['breadcrumbs-enable'] !== true
-			),
 			'noindex'         => $this->get_field_config(
-				/* translators: %s expands to taxonomy name  */
-				sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $this->term->taxonomy ),
-				/* translators: %s expands to taxonomy name  */
-				sprintf( esc_html__( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $this->term->taxonomy ),
+				esc_html__( 'Meta Robots Index', 'wordpress-seo' ),
+				esc_html__( 'This taxonomy follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ),
 				'select',
 				$this->get_noindex_options()
 			),
 			'sitemap_include' => $this->get_field_config(
-				/* translators: %1$s expands to the taxonomy name  */
-				sprintf( __( 'Include %1$s in sitemap?', 'wordpress-seo' ), $this->term->taxonomy ),
+				esc_html__( 'Include in Sitemap?', 'wordpress-seo' ),
 				'',
 				'select',
 				$this->sitemap_include_options
+			),
+			'bctitle'         => $this->get_field_config(
+				__( 'Breadcrumbs Title', 'wordpress-seo' ),
+				esc_html__( 'The Breadcrumbs Title is used in the breadcrumbs where this taxonomy appears.', 'wordpress-seo' ),
+				'text',
+				'',
+				$this->options['breadcrumbs-enable'] !== true
+			),
+			'canonical'       => $this->get_field_config(
+				__( 'Canonical URL', 'wordpress-seo' ),
+				esc_html__( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' )
 			),
 		);
 
@@ -82,10 +78,10 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 		$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
 		$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
 
-		/* translators: %s$s expands to the taxonomy name and %2$s to the current index value */
-		$this->no_index_options['default'] = __( 'Use %1$s default (Currently: %2$s)', 'wordpress-seo' );
-		$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
-		$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
+		/* translators: %s expands to the current taxonomy index value */
+		$this->no_index_options['default'] = __( 'Default for this taxonomy type, currently: %s', 'wordpress-seo' );
+		$this->no_index_options['index']   = __( 'Index', 'wordpress-seo' );
+		$this->no_index_options['noindex'] = __( 'Noindex', 'wordpress-seo' );
 
 		$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
 		$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
@@ -99,7 +95,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	private function get_noindex_options() {
 		$noindex_options['options']            = $this->no_index_options;
-		$noindex_options['options']['default'] = sprintf( $noindex_options['options']['default'], $this->term->taxonomy, $this->get_robot_index() );
+			$noindex_options['options']['default'] = sprintf( $noindex_options['options']['default'], $this->get_robot_index() );
 
 		if ( get_option( 'blog_public' ) === '0' ) {
 			$noindex_options['description'] = '<br /><span class="error-message">' . esc_html__( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';

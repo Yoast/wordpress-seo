@@ -42,8 +42,23 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( WPSEO_Utils::grant_access() ) {
+			add_action( 'admin_init', array( $this, 'admin_init' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
+		}
+	}
+
+	/**
+	 * Run admin-specific actions.
+	 */
+	public function admin_init() {
+
+		$page         = filter_input( INPUT_GET, 'page' );
+		$tool         = filter_input( INPUT_GET, 'tool' );
+		$export_nonce = filter_input( INPUT_POST, WPSEO_Export::NONCE_NAME );
+
+		if ( 'wpseo_tools' === $page && 'import-export' === $tool && $export_nonce !== null ) {
+			$this->do_yoast_export();
 		}
 	}
 
@@ -60,10 +75,6 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_style( 'admin-css' );
 
 		$this->asset_manager->enqueue_style( 'kb-search' );
-
-		if ( is_rtl() ) {
-			$this->asset_manager->enqueue_style( 'rtl' );
-		}
 	}
 
 	/**
@@ -116,6 +127,8 @@ class WPSEO_Admin_Pages {
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
 			'locale' => get_locale(),
+			/* translators: %d: number of knowledge base search results found. */
+			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
 			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
 			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
 			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),
@@ -143,10 +156,6 @@ class WPSEO_Admin_Pages {
 
 		if ( 'bulk-editor' === $tool ) {
 			$this->asset_manager->enqueue_script( 'bulk-editor' );
-		}
-
-		if ( 'import-export' === $tool && filter_input( INPUT_POST, WPSEO_Export::NONCE_NAME ) !== null ) {
-			$this->do_yoast_export();
 		}
 	}
 

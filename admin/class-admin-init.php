@@ -42,7 +42,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
-		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'blog_public_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
@@ -50,8 +49,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
-		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
-		add_action( 'admin_init', array( $this, 'load_tour' ) );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
@@ -68,46 +65,6 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );
-	}
-
-	/**
-	 * Redirect first time or just upgraded users to the about screen.
-	 */
-	public function after_update_notice() {
-
-		$notification        = $this->get_update_notification();
-		$notification_center = Yoast_Notification_Center::get();
-
-		if ( $this->has_ignored_tour() && ! $this->seen_about() ) {
-			$notification_center->add_notification( $notification );
-		}
-		else {
-			$notification_center->remove_notification( $notification );
-		}
-	}
-
-	/**
-	 * Build the update notification
-	 *
-	 * @return Yoast_Notification
-	 */
-	private function get_update_notification() {
-		/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page */
-		$info_message = sprintf(
-			__( '%1$s has been updated to version %2$s. %3$sFind out what\'s new!%4$s', 'wordpress-seo' ),
-			'Yoast SEO',
-			WPSEO_VERSION,
-			'<a href="' . admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) . '">',
-			'</a>'
-		);
-
-		$notification_options = array(
-			'type'         => Yoast_Notification::UPDATED,
-			'id'           => 'wpseo-dismiss-about',
-			'capabilities' => 'manage_options',
-		);
-
-		return new Yoast_Notification( $info_message, $notification_options );
 	}
 
 	/**
@@ -417,7 +374,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function load_meta_boxes() {
 
-		$is_editor      = in_array( $this->pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) );
+		$is_editor      = WPSEO_Metabox::is_post_overview( $this->pagenow ) || WPSEO_Metabox::is_post_edit( $this->pagenow );
 		$is_inline_save = filter_input( INPUT_POST, 'action' ) === 'inline-save';
 
 		/**
@@ -427,11 +384,7 @@ class WPSEO_Admin_Init {
 		 *
 		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
 		 */
-		if ( $is_editor || $is_inline_save || in_array( $this->pagenow, array(
-				'edit.php',
-				'post.php',
-				'post-new.php',
-			) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
+		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
 		) {
 			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox;
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
@@ -500,45 +453,11 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * See if we should start our tour.
-	 */
-	public function load_tour() {
-		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
-		if ( $restart_tour ) {
-			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
-		}
-
-		if ( ! $this->has_ignored_tour() ) {
-			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
-		}
-	}
-
-	/**
 	 * See if we should start our XML Sitemaps Admin class
 	 */
 	private function load_xml_sitemaps_admin() {
 		if ( $this->options['enablexmlsitemap'] === true ) {
 			new WPSEO_Sitemaps_Admin;
-		}
-	}
-
-	/**
-	 * Returns the value of the ignore tour.
-	 *
-	 * @return bool
-	 */
-	private function has_ignored_tour() {
-		$user_meta = get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
-
-		return ! empty( $user_meta );
-	}
-
-	/**
-	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true.
-	 */
-	public function ignore_tour() {
-		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
-			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
 	}
 
@@ -615,5 +534,14 @@ class WPSEO_Admin_Init {
 	 */
 	private function has_postname_in_permalink() {
 		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+	}
+
+	/**
+	 * Redirect first time or just upgraded users to the about screen.
+	 *
+	 * @deprecated 3.5
+	 */
+	public function after_update_notice() {
+		_deprecated_function( 'WPSEO_Admin_Init::after_update_notice', 'WPSEO 3.5' );
 	}
 }

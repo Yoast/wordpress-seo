@@ -1,3 +1,5 @@
+@import "extensions";
+
 h4 {
 	clear: both;
 	margin: 1.2em 0 0.5em 0;
@@ -9,8 +11,8 @@ p.desc {
 }
 
 p.desc.label {
-	margin-bottom: 20px;
-	padding: 2px 0 10px 200px;
+	margin: 0 0 20px;
+	padding: 0 0 10px 200px;
 }
 
 tr.yst_row {
@@ -37,6 +39,7 @@ label {
 
 label.radio {
 	float: none;
+	margin-right: 20px;
 }
 
 input.textinput,
@@ -51,19 +54,24 @@ input.checkbox + label.checkbox {
 
 input.textinput,
 textarea.textinput,
-select.select,
-input.checkbox {
+select.select {
 	float: left;
-	margin: 5px 3px 10px 0;
+	margin: 0 3px 15px 0;
 	padding: 5px;
+}
+
+textarea.textinput {
+	padding: 3px 6px;
 }
 
 select.select {
 	padding: 3px;
 }
 
+input.checkbox,
 input.checkbox.double {
-	margin: 5px 10px 0 0;
+	float: left;
+	margin: 6px 10px 6px 0;
 }
 
 .textinput.metadesc {
@@ -91,10 +99,6 @@ table.wpseo th {
 	text-align: left;
 }
 
-label.radio {
-	margin-right: 20px;
-}
-
 .wpseo_content_wrapper {
 	display: table;
 	width: 100%;
@@ -103,6 +107,15 @@ label.radio {
 .wpseo_content_wrapper p,
 .wpseo_content_wrapper li {
 	max-width: 600px;
+}
+
+.wpseo_content_wrapper .notice p {
+	max-width: none;
+}
+
+/* Notices below Settings pages tabs. */
+#wpseo-tabs + .notice {
+	margin-top: 1.5em;
 }
 
 .wpseo_content_cell {
@@ -173,18 +186,7 @@ textarea.wpseo_variable_warning {
 }
 
 div.yoastbox ul li {
-	font-size: 11px;
-	line-height: 16px;
 	list-style: square;
-}
-
-div.yoastbox a {
-	font-family: sans-serif;
-	font-size: 12px;
-}
-
-div.yoastbox a:hover {
-	text-decoration: underline;
 }
 
 .text {
@@ -244,6 +246,19 @@ table.yoast_help tr:hover {
 	color: #000;
 }
 
+.yoast-notice-blocking-files code {
+	line-height: 2;
+	color: #000;
+}
+
+.yoast-notice-blocking-files .button {
+	margin: 0.5em 0;
+}
+
+.wpseo_content_wrapper .yoast-blocking-files-error p {
+	max-width: none;
+}
+
 .button.fixit {
 	float: right;
 	margin: 0 5px;
@@ -258,10 +273,6 @@ table.yoast_help tr:hover {
 .fb-buttons .button-primary,
 .fb-buttons .button {
 	margin-right: 8px;
-}
-
-.wpseo_content_wrapper input.wpseo_image_upload_button {
-	margin-top: 5px;
 }
 
 .postbox#donate {
@@ -312,10 +323,6 @@ h2 {
 
 h2 code {
 	font-size: 23px;
-}
-
-#wpseo-conf {
-	/*max-width: 600px;*/
 }
 
 #pointer-primary {
@@ -378,27 +385,6 @@ textarea.wpseo-new-metadesc {
 	border-color: #00a000;
 	background-color: #00a000;
 	cursor: default;
-}
-
-.wpseotab .seo-premium h3 {
-	background-image: url(../images/Premium_130x100.png);
-}
-
-.wpseotab .video-seo h3 {
-	background-image: url(../images/Video_130x100.png);
-}
-
-.wpseotab .local-seo h3 {
-	background-image: url(../images/Local_130x100.png);
-}
-
-.wpseotab .woocommerce-seo h3 {
-	background-image: url(../images/Woo_130x100.png);
-}
-
-.wpseotab .news-seo h3 {
-	background-image: url(../images/News_SEO.png);
-	background-size: 115px 100px;
 }
 
 #separator {

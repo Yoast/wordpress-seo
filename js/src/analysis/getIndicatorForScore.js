@@ -1,5 +1,7 @@
-var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
-var isUndefined = require( 'lodash/isUndefined' );
+/* global YoastSEO */
+
+var scoreToRating = require( "yoastseo" ).helpers.scoreToRating;
+var isUndefined = require( "lodash/isUndefined" );
 
 /**
  * Returns whether or not the current page has presenters.
@@ -41,9 +43,9 @@ function getIndicatorForScore( score ) {
 
 
 	var indicator = {
-		className: '',
-		screenReaderText: '',
-		fullText: ''
+		className: "",
+		screenReaderText: "",
+		fullText: "",
 	};
 
 	var presenter = getPresenter();
