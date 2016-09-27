@@ -996,7 +996,10 @@ ul.wpseo-metabox-tabs li.active {
 	border-radius: 3px;
 }
 .wpseo-metabox-sidebar li span.wpseo-buy-premium {
-	color: #fca701;
+	color: #a4286a;
+}
+.wpseo-metabox-sidebar li span.wpseo-buy-premium:hover {
+	color: #832055;
 }
 
 .wpseo-metabox-sidebar li.active span {
@@ -1004,8 +1007,12 @@ ul.wpseo-metabox-tabs li.active {
 	color: #333;
 }
 .wpseo-metabox-sidebar li.active span.wpseo-buy-premium {
-	border-color: #fca701; 
-	color: #fca701;
+	border-color: #a4286a; 
+	color: #a4286a;
+}
+.wpseo-metabox-sidebar li.active span.wpseo-buy-premium:hover {
+	border-color: #832055; 
+	color: #832055;
 }
 
 /* Floated to reset white space between list items */

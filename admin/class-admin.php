@@ -86,9 +86,13 @@ class WPSEO_Admin {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		}
 
-		new WPSEO_Configuration_Page();
+		if ( WPSEO_Utils::is_api_available() ) {
+			$configuration = new WPSEO_Configuration_Page();
 
-		$this->catch_configuration_request();
+			if ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER ) {
+				$configuration->catch_configuration_request();
+			}
+		}
 	}
 
 	/**
@@ -129,6 +133,8 @@ class WPSEO_Admin {
 			return;
 		}
 
+		global $admin_page_hooks;
+
 		// Base 64 encoded SVG image.
 		$icon_svg = WPSEO_Utils::get_icon_svg();
 
@@ -146,6 +152,8 @@ class WPSEO_Admin {
 			$this,
 			'load_page',
 		), $icon_svg, '99.31337' );
+
+		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // Wipe notification bits from hooks. R.
 
 		// Sub menu pages.
 		$submenu_pages = array(
@@ -392,28 +400,6 @@ class WPSEO_Admin {
 			default:
 				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
 				break;
-		}
-	}
-
-	/**
-	 * Check if the configuration is finished and store this to hide the admin settings pages.
-	 */
-	private function catch_configuration_request() {
-
-		$is_dashboard_page = ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
-		$is_configuration_finished = ( filter_input( INPUT_GET, 'configuration' ) === 'finished' );
-		if ( $is_dashboard_page && $is_configuration_finished ) {
-			// Remove the notification, because the wizard has been completed.
-			WPSEO_Configuration_Page::remove_notification();
-
-			$options = get_option( 'wpseo' );
-
-			$options['enable_setting_pages'] = false;
-
-			update_option( 'wpseo', $options );
-
-			wp_redirect( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) );
-			exit;
 		}
 	}
 

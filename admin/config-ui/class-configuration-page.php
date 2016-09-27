@@ -15,6 +15,9 @@ class WPSEO_Configuration_Page {
 	 */
 	public function __construct() {
 
+		if ( $this->should_add_notification() ) {
+			$this->add_notification();
+		}
 
 		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER ) {
 			return;
@@ -25,6 +28,22 @@ class WPSEO_Configuration_Page {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_init', array( $this, 'render_wizard_page' ) );
 	}
+
+	/**
+	 * Check if the configuration is finished. If so, just remove the notification.
+	 */
+	public function catch_configuration_request() {
+		if ( filter_input( INPUT_GET, 'configuration' ) !== 'finished' ) {
+			return;
+		}
+
+		$this->remove_notification();
+		$this->remove_notification_option();
+
+		wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
+		exit;
+	}
+
 
 	/**
 	 *  Registers the page for the wizard.
@@ -47,6 +66,11 @@ class WPSEO_Configuration_Page {
 	public function enqueue_assets() {
 		wp_enqueue_media();
 
+		/*
+		 * Print the `forms.css` WP stylesheet before any Yoast style, this way
+		 * it's easier to override selectors with the same specificity later.
+		 */
+		wp_enqueue_style( 'forms' );
 		$assetManager = new WPSEO_Admin_Asset_Manager();
 		$assetManager->register_assets();
 		$assetManager->enqueue_script( 'configuration-wizard' );
@@ -65,7 +89,12 @@ class WPSEO_Configuration_Page {
 		$dashboard_url = admin_url( '/admin.php?page=wpseo_dashboard' );
 		?>
 		<!DOCTYPE html>
+		<!--[if IE 9]>
+		<html class="ie9" <?php language_attributes(); ?> >
+		<![endif]-->
+		<!--[if !(IE 9) ]><!-->
 		<html <?php language_attributes(); ?>>
+		<!--<![endif]-->
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -76,7 +105,7 @@ class WPSEO_Configuration_Page {
 				do_action( 'admin_head' );
 			?>
 		</head>
-		<body>
+		<body class="wp-admin">
 		<div id="wizard"></div>
 		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
 			<?php _e( 'Go back to the Yoast SEO dashboard.', 'wordpress-seo' ); ?>
@@ -136,7 +165,7 @@ class WPSEO_Configuration_Page {
 	/**
 	 * Adds a notification to the notification center.
 	 */
-	public static function add_notification() {
+	private function add_notification() {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->add_notification( self::get_notification() );
 	}
@@ -144,7 +173,7 @@ class WPSEO_Configuration_Page {
 	/**
 	 * Removes the notification from the notification center.
 	 */
-	public static function remove_notification() {
+	private function remove_notification() {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->remove_notification( self::get_notification() );
 	}
@@ -154,7 +183,7 @@ class WPSEO_Configuration_Page {
 	 *
 	 * @return Yoast_Notification
 	 */
-	private static function get_notification() {
+	private function get_notification() {
 		$message = sprintf(
 			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
 			'Yoast SEO',
@@ -173,5 +202,36 @@ class WPSEO_Configuration_Page {
 		);
 
 		return $notification;
+	}
+
+	/**
+	 * When the notice should be shown.
+	 *
+	 * @return bool
+	 */
+	private function should_add_notification() {
+		$options = $this->get_options();
+
+		return $options['show_onboarding_notice'] === true;
+	}
+
+	/**
+	 * Remove the options that triggers the notice for the onboarding wizard.
+	 */
+	private function remove_notification_option() {
+		$options = $this->get_options();
+
+		$options['show_onboarding_notice'] = false;
+
+		update_option( 'wpseo', $options );
+	}
+
+	/**
+	 * Returns the set options
+	 *
+	 * @return mixed|void
+	 */
+	private function get_options() {
+		return get_option( 'wpseo' );
 	}
 }

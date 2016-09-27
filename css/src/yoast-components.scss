@@ -29,7 +29,8 @@
     padding-bottom: 0.5em;
 
     &__select {
-      font-size: 14px;
+	  margin: 1em 0;
+	  font-size: 14px;
     }
   }
 
@@ -51,4 +52,7 @@
     }
   }
 
+}
+.ie9 .yoast-wizard--stepper {
+  display: none;
 }

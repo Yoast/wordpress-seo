@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.5.2' );
+define( 'WPSEO_VERSION', '3.6' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -142,12 +142,11 @@ function wpseo_network_activate_deactivate( $activate = true ) {
  */
 function _wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
+	require_once( WPSEO_PATH . 'inc/class-wpseo-installation.php' );
 
 	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults.
 
-	if ( show_onboarding_wizard_notice() ) {
-		WPSEO_Configuration_Page::add_notification();
-	}
+	new WPSEO_Installation();
 
 	WPSEO_Options::get_instance();
 	if ( ! is_multisite() ) {
@@ -279,7 +278,7 @@ function wpseo_init() {
  */
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
-	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0', '>=' ) ) {
+	if ( WPSEO_Utils::is_api_available() ) {
 		// Boot up REST API endpoints.
 		$configuration_service = new WPSEO_Configuration_Service();
 		$configuration_service->set_default_providers();
@@ -493,19 +492,4 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
-}
-
-/**
- * Checks if the onboarding wizard notice should be shown. This is the case when the WPSEO option doesn't exists.
- *
- * @return bool
- */
-function show_onboarding_wizard_notice() {
-	// When the site is not multisite and the options does not exists.
-	$is_multisite = is_multisite();
-	if ( ! $is_multisite || ( $is_multisite && ms_is_switched() ) ) {
-		return ( get_option( 'wpseo' ) === false );
-	}
-
-	return false;
 }
