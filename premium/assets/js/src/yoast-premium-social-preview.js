@@ -252,15 +252,18 @@ var Jed = require( 'jed' );
 					return imageUrl;
 				},
 				modifyTitle: function( title ) {
+
 					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
 						if ( title === $( '#twitter-editor-title' ).attr( 'placeholder' ) ) {
 							var facebookTitle = $( '#facebook-editor-title' ).val();
-							if ( facebookTitle !== '' ) {
+							if ( ! isUndefined( facebookTitle ) && facebookTitle !== '' ) {
 								title = facebookTitle;
 							}
 						}
+						if ( isUndefined( title ) ){
+							title = $( '#twitter-editor-title' ).attr( 'placeholder' );
+						}
 					}
-
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariables( title );
 				},
 				modifyDescription: function( description ) {
@@ -270,6 +273,9 @@ var Jed = require( 'jed' );
 							if ( facebookDescription !== '' ) {
 								description = facebookDescription;
 							}
+						}
+						if ( isUndefined( description ) ){
+							description = $( '#twitter-editor-description' ).attr( 'placeholder' );
 						}
 					}
 
@@ -708,7 +714,7 @@ var Jed = require( 'jed' );
 	 */
 	function getFallbackImage( defaultImage ) {
 		// Twitter always first falls back to Facebook
-		if ( facebookPreview.data.imageUrl !== '' ) {
+		if ( ! isUndefined( facebookPreview ) && facebookPreview.data.imageUrl !== '' ) {
 			return facebookPreview.data.imageUrl;
 		}
 
