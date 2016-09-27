@@ -221,9 +221,28 @@ body {
 	margin: 0;
 	padding: 0;
 	background: #f0f0f0;
-	font-family: sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	line-height: 1.375;
 	/* 22px based on default browser font size 16px. */
+}
+
+/* Default WordPress links styling. */
+a {
+	outline: 0;
+	color: #0073aa;
+	transition-timing-function: ease-in-out;
+	transition-duration: 0.05s;
+	transition-property: border, background, color;
+}
+
+a:hover,
+a:active {
+	color: #00a0d2;
+}
+
+a:focus {
+	color: #124964;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 #container {
@@ -244,7 +263,7 @@ body {
 	}
 }
 
-#YoastLogo {
+.yoast-wizard__logo {
 	display: block;
 	margin: 0 auto;
 }
@@ -277,13 +296,44 @@ body {
 	margin-left: 1em;
 }
 
+.yoast-wizard--button__next button:hover,
+.yoast-wizard--button__next button:focus {
+	background-color: #832055 !important;
+}
+
+.yoast-wizard--button__next button:hover div,
+.yoast-wizard--button__next button:focus div {
+	background-color: transparent !important;
+}
+
+.yoast-wizard--button__previous button:focus {
+	background: #ebebeb !important;
+}
+
+.yoast-wizard--button__previous button:focus:active {
+	background: transparent !important;
+}
+
+.yoast-wizard--button__previous button:hover > div > span,
+.yoast-wizard--button__previous button:focus > div > span {
+	color: #000 !important;
+}
+
 @media screen and (max-width: 768px) {
 	.yoast-wizard--step__active {
-		text-indent: -9999px;
+		overflow: hidden;
+		width: 38px;
+	}
+
+	.yoast-wizard--step__active div {
+		display: inline-block !important;
+		vertical-align: middle;
 	}
 
 	.yoast-wizard--step__active div > span > span {
-		padding-right: 0 !important;
+		display: block !important;
+		margin-left: -7px;
+		padding-right: 99px !important;
 	}
 }
 
@@ -293,10 +343,18 @@ body {
 	fill: #5d237a;
 }
 
+.yoast-wizard--step__inactive div {
+	pointer-events: none;
+}
+
 @media screen and (max-width: 768px) {
 	.yoast-wizard--step__inactive {
 		display: none !important;
 	}
+}
+
+.yoast-wizard--step--container:focus {
+	outline: none;
 }
 
 .yoast-wizard--step--container h1 {
@@ -361,6 +419,7 @@ body {
 
 .yoast-wizard-container fieldset {
 	margin: 1em 0;
+	padding-left: 0.5em;
 	border: 0;
 }
 
@@ -376,10 +435,10 @@ body {
 	cursor: pointer;
 }
 
-.yoast-wizard-text-input-field {
+.yoast-wizard-text-input [type="text"] {
 	box-sizing: border-box;
 	width: 100%;
-	max-width: 300px;
+	max-width: 450px;
 }
 
 .yoast-wizard-field-description {
@@ -398,8 +457,7 @@ body {
 }
 
 .yoast-wizard input[type="radio"] {
-	margin-top: 1px;
-	margin-right: 0.7em;
+	margin: 0.3em 0.7em 0.3em 0;
 	vertical-align: middle;
 }
 
@@ -455,6 +513,28 @@ body {
 	border-bottom-right-radius: 0;
 }
 
+/* Responsive videos. */
+/* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
+.yoast-video-container-max-width {
+	max-width: 560px;
+}
+
+.yoast-video-container {
+	overflow: hidden;
+	position: relative;
+	/* 16:9 */
+	height: 0;
+	padding-bottom: 56.25%;
+}
+
+.yoast-video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 .yoast-wizard-return-link {
 	display: block;
 	margin: 1em 0;
@@ -471,6 +551,15 @@ body {
 	color: #008a00;
 }
 
+.yoast-wizard-input {
+	padding-bottom: 0.5em;
+}
+
+.yoast-wizard-input__select {
+	margin: 1em 0;
+	font-size: 14px;
+}
+
 .yoast-wizard-image-upload-container__image {
 	max-width: 151px;
 }
@@ -485,4 +574,8 @@ body {
 
 .yoast-wizard-image-upload-container-description {
 	display: block;
+}
+
+.ie9 .yoast-wizard--stepper {
+	display: none;
 }
