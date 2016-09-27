@@ -224,6 +224,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		templateArgs = {
 			keyword: keyword,
 			label: label,
+			removeLabel: wpseoPostScraperL10n.removeKeyword,
 			score: score,
 			isKeywordTab: true,
 			classes: 'wpseo_tab wpseo_keyword_tab',
@@ -350,6 +351,7 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		templateArgs = {
 			keyword: keyword,
 			label: label,
+			removeLabel: wpseoPostScraperL10n.removeKeyword,
 			score: indicators.className,
 			isKeywordTab: true,
 			classes: 'wpseo_tab wpseo_keyword_tab',

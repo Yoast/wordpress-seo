@@ -1,10 +1,14 @@
-a.remove-keyword {
+.remove-keyword {
 	display: inline-block;
-	margin-left: -3px;
+	margin: 0 0 0 -3px;
 	padding: 5px 6px 6px;
+	border: none;
+	outline: none;
+	background: transparent;
+	cursor: pointer;
 }
 
-a.remove-keyword span {
+.remove-keyword span {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
@@ -19,8 +23,12 @@ a.remove-keyword span {
 	vertical-align: top;
 }
 
-a.remove-keyword:hover span,
-a.remove-keyword:focus span {
+.remove-keyword:focus {
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.remove-keyword:hover span,
+.remove-keyword:focus span {
 	color: white;
 	background-color: #dc3232;
 }
