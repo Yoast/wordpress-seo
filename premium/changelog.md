@@ -1,3 +1,6 @@
+### 3.6: September 27th, 2016
+* Includes every change in Yoast SEO core 3.6.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/). 
+
 ### 3.5.2: September 8th, 2016
 * Fixes a JavaScript error that was thrown from redirect notifications when attempting to edit the redirect destination. These notifications are thrown whenever a slug is edited or when a post or term is deleted.
 
