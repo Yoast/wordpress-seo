@@ -5,6 +5,17 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.6.0:
+
+## Changed
+
+* Improves carets used in the snippet preview to support RTL.
+
+## Fixed
+
+* Keywords with special characters are now matched.
+* Changes sassdash from a dev dependency to a regular dependency.
+
 ## 1.5.0: September 7th, 2016
 
 ### Changed
