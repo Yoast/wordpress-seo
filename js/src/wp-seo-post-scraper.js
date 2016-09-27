@@ -25,8 +25,6 @@ var App = require( "yoastseo" ).App;
 var UsedKeywords = require( "./analysis/usedKeywords" );
 
 ( function( $ ) {
-	"use strict";
-
 	var snippetContainer;
 
 	var titleElement;
@@ -40,7 +38,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
 	 * @param {Object} response The AJAX response object.
-	 * @returns {String}
+	 * @returns {String} The url path from the response.
 	 */
 	function getUrlPathFromResponse( response ) {
 		if ( response.responseText === "" ) {
@@ -57,8 +55,8 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 	 * If the response matches with permalink string, the snippet can be rendered.
 	 */
 	jQuery( document ).on( "ajaxComplete", function( ev, response, ajaxOptions ) {
-		var ajax_end_point = "/admin-ajax.php";
-		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+		var ajaxEndPoint = "/admin-ajax.php";
+		if ( ajaxEndPoint !== ajaxOptions.url.substr( 0 - ajaxEndPoint.length ) ) {
 			return;
 		}
 

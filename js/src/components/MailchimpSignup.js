@@ -26,8 +26,8 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Sends the change event, because the component is updated.
 	 *
-	 * @param {Object} prevProps
-	 * @param {Object} prevState
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
 	 *
 	 * @returns {void}
 	 */
@@ -42,7 +42,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Checks if current component has a subscription already.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} Truw when signup has been done.
 	 */
 	hasSubscription() {
 		return this.props.value.hasSignup;
@@ -66,7 +66,7 @@ class MailchimpSignup extends React.Component {
 			this.props.properties.mailchimpActionUrl,
 			{
 				data,
-				headers : {},
+				headers: {},
 				dataType: "jsonp",
 				jsonp: "c",
 				method: "POST",
@@ -87,7 +87,6 @@ class MailchimpSignup extends React.Component {
 			.then(
 				( response ) => {
 					if ( response.result === "error" ) {
-
 						this.setState( {
 							isLoading: false,
 							successfulSignup: false,
@@ -164,11 +163,11 @@ class MailchimpSignup extends React.Component {
 		this.onChange = this.props.onChange;
 
 		let input = <input id="mailchimpEmail"
-		                   ref="emailInput"
-		                   type="text"
-		                   name={this.props.name}
-		                   label="email"
-		                   defaultValue={this.props.properties.currentUserEmail}
+			ref="emailInput"
+			type="text"
+			name={this.props.name}
+			label="email"
+			defaultValue={this.props.properties.currentUserEmail}
 		/>;
 		let button = <RaisedButton label='Sign Up!' onClick={this.signup.bind( this )}/>;
 		let message = this.getSignupMessage();
@@ -178,16 +177,15 @@ class MailchimpSignup extends React.Component {
 				<h2>{this.props.properties.title}</h2>
 				<p>{this.props.properties.label}</p>
 				<div className="yoast-wizard-text-input">
-					<label htmlFor="mailchimpName"
-					       className="yoast-wizard-text-input-label">
+					<label htmlFor="mailchimpName" className="yoast-wizard-text-input-label">
 						Name
 					</label>
 					<input id="mailchimpName"
-					       ref="nameInput"
-					       type="text"
-					       name="name"
-					       label="name"
-					       defaultValue={this.props.properties.userName}/>
+						ref="nameInput"
+						type="text"
+						name="name"
+						label="name"
+						defaultValue={this.props.properties.userName}/>
 				</div>
 				<div className="yoast-wizard-text-input">
 					<label htmlFor="mailchimpEmail" className="yoast-wizard-text-input-label">Email</label>
@@ -202,7 +200,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * When the last step is success and the user has already give his email address.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True when rendering should be skipped.
 	 */
 	skipRendering() {
 		let stepState            = this.props.stepState;
@@ -215,7 +213,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * Renders the message after signup.
 	 *
-	 * @returns {XML}
+	 * @returns {XML} The rendered XML.
 	 */
 	getSignupMessage() {
 		if( this.state.successfulSignup ) {
@@ -235,10 +233,10 @@ MailchimpSignup.propTypes = {
 	onChange: React.PropTypes.func,
 	value: React.PropTypes.shape(
 		{
-			hasSignup : React.PropTypes.bool,
+			hasSignup: React.PropTypes.bool,
 		}
 	),
-	stepState: React.PropTypes.object
+	stepState: React.PropTypes.object,
 };
 
 MailchimpSignup.defaultProps = {

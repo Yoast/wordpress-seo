@@ -23,8 +23,6 @@ import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 window.yoastHideMarkers = true;
 
 ( function( $ ) {
-	"use strict";
-
 	var snippetContainer;
 
 	var app, snippetPreview;
@@ -70,8 +68,8 @@ window.yoastHideMarkers = true;
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {TermDataCollector} termScraper
-	 * @returns {SnippetPreview}
+	 * @param {TermDataCollector} termScraper The term scraper.
+	 * @returns {SnippetPreview} The initialized snippet preview.
 	 */
 	function initSnippetPreview( termScraper ) {
 		return snippetPreviewHelpers.create( snippetContainer, {

@@ -20,21 +20,20 @@ var tmceId = "content";
 var termsTmceId = "description";
 
 ( function() {
-
 	/**
 	 * Gets content from the content field by element id.
 	 *
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
-	 * @returns {String}
+	 * @param {String} contentId The (HTML) id attribute for the TinyMCE field.
+	 * @returns {String} The value of the tinyMCE box.
 	 */
-	function tinyMCEElementContent( content_id ) {
-		return document.getElementById( content_id ) && document.getElementById( content_id ).value || "";
+	function tinyMCEElementContent( contentId ) {
+		return document.getElementById( contentId ) && document.getElementById( contentId ).value || "";
 	}
 
 	/**
 	 * Returns whether or not the tinyMCE script is available on the page.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True when tinyMCE is loaded.
 	 */
 	function isTinyMCELoaded() {
 		return (
@@ -77,17 +76,16 @@ var termsTmceId = "description";
 	/**
 	 * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
 	 * Also converts 'amp;' to & in the content.
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
+	 * @param {String} contentId The (HTML) id attribute for the TinyMCE field.
 	 * @returns {String} Content from the TinyMCE editor.
 	 */
-	function getContentTinyMce( content_id ) {
-		// if no TinyMce object available
+	function getContentTinyMce( contentId ) {
+		// If no TinyMce object available.
 		var content = "";
-		if ( isTinyMCEAvailable( content_id ) === false ) {
-			content = tinyMCEElementContent( content_id );
-		}
-		else {
-			content = tinyMCE.get( content_id ).getContent();
+		if ( isTinyMCEAvailable( contentId ) === false ) {
+			content = tinyMCEElementContent( contentId );
+		} else {
+			content = tinyMCE.get( contentId ).getContent();
 		}
 
 		return convertHtmlEntities( content );
@@ -160,7 +158,7 @@ var termsTmceId = "description";
 		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
 		if ( jQuery( "#wp-content-wrap" ).hasClass( "html-active" ) ) {
 			// The enable/disable marker functions are not called here,
-			// because the render function(in yoastseo lib) doesn't have to be called.
+			// Because the render function(in yoastseo lib) doesn't have to be called.
 			if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
 				YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
 			}

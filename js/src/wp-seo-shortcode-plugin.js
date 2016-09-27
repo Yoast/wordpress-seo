@@ -5,10 +5,9 @@
 /* global JSON */
 /* global console */
 ( function() {
-	"use strict";
-
 	/**
-	 * The Yoast Shortcode plugin parses the shortcodes in a given piece of text. It analyzes multiple input fields for shortcodes which it will preload using AJAX.
+	 * The Yoast Shortcode plugin parses the shortcodes in a given piece of text. It analyzes multiple input fields
+	 * for shortcodes which it will preload using AJAX.
 	 *
 	 * @constructor
 	 * @property {RegExp} keywordRegex Used to match a given string for valid shortcode keywords.
@@ -124,7 +123,9 @@
 	};
 
 	/**
-	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from
+	 * tinyMCE.
+	 *
 	 * @returns {String}
 	 */
 	YoastShortcodePlugin.prototype.getContentTinyMCE = function() {
@@ -142,7 +143,7 @@
 	 * Returns the unparsed shortcodes out of a collection of shortcodes.
 	 *
 	 * @param {Array} shortcodes
-	 * @returns {Array}
+	 * @returns {Array} Array with unparsed shortcodes.
 	 */
 	YoastShortcodePlugin.prototype.getUnparsedShortcodes = function( shortcodes ) {
 		if ( typeof shortcodes !== "object" ) {
@@ -233,8 +234,8 @@
 	/**
 	 * Matches the non capturing shortcodes from a given piece of text.
 	 *
-	 * @param {string} text
-	 * @returns {Array}
+	 * @param {string} text The text to match.
+	 * @returns {Array} Result with matched shortedcodes.
 	 */
 	YoastShortcodePlugin.prototype.matchNonCapturingShortcodes = function( text ) {
 		return text.match( this.nonCaptureRegex ) || [];
@@ -243,8 +244,8 @@
 	/**
 	 * Parses the unparsed shortcodes through AJAX and clears them.
 	 *
-	 * @param {Array} shortcodes shortcodes to be parsed.
-	 * @param {function} callback function to be called in the context of the AJAX callback.
+	 * @param {Array} shortcodes  Shortcodes to be parsed.
+	 * @param {function} callback Function to be called in the context of the AJAX callback.
 	 *
 	 * @returns {void}
 	 */
@@ -266,8 +267,7 @@
 					this.saveParsedShortcodes( shortcodeResults, callback );
 				}.bind( this )
 			);
-		}
-		else {
+		} else {
 			return callback();
 		}
 	};
@@ -275,8 +275,8 @@
 	/**
 	 * Saves the shortcodes that were parsed with AJAX to `this.parsedShortcodes`
 	 *
-	 * @param {Array} shortcodeResults
-	 * @param {function} callback
+	 * @param {Array}    shortcodeResults The shortCodes to save.
+	 * @param {function} callback		  Callback to run when saving has been completed.
 	 *
 	 * @returns {void}
 	 */

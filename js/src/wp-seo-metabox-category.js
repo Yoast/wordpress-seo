@@ -1,16 +1,14 @@
 /* global wp, _, wpseoPrimaryCategoryL10n */
 ( function( $ ) {
-	"use strict";
-
 	var primaryTermInputTemplate, primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
 	/**
 	 * Checks if the elements to make a term the primary term and the display for a primary term exist
 	 *
-	 * @param {Object} checkbox
+	 * @param {Object} checkbox Checkbox to check.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} When checkbox has children.
 	 */
 	function hasPrimaryTermElements( checkbox ) {
 		return 1 === $( checkbox ).closest( "li" ).children( ".wpseo-make-primary-term" ).length;
@@ -19,8 +17,8 @@
 	/**
 	 * Retrieves the primary term for a taxonomy
 	 *
-	 * @param {string} taxonomyName
-	 * @returns {string}
+	 * @param {string} taxonomyName The taxonomy name.
+	 * @returns {string} The value of the taxonomy.
 	 */
 	function getPrimaryTerm( taxonomyName ) {
 		var primaryTermInput;
@@ -32,8 +30,8 @@
 	/**
 	 * Sets the primary term for a taxonomy
 	 *
-	 * @param {string} taxonomyName
-	 * @param {string} termId
+	 * @param {string} taxonomyName  The taxonomy name.
+	 * @param {string} termId        The term id.
 	 *
 	 * @returns {void}
 	 */
@@ -47,8 +45,8 @@
 	/**
 	 * Creates the elements necessary to show something is a primary term or to make it the primary term
 	 *
-	 * @param {string} taxonomyName
-	 * @param {Object} checkbox
+	 * @param {string} taxonomyName  The taxonomy name.
+	 * @param {Object} checkbox      Checkbox belonging to taxonomy.
 	 *
 	 * @returns {void}
 	 */
@@ -68,7 +66,7 @@
 	/**
 	 * Updates the primary term selectors/indicators for a certain taxonomy
 	 *
-	 * @param {string} taxonomyName
+	 * @param {string} taxonomyName The taxonomy name.
 	 *
 	 * @returns {void}
 	 */
@@ -123,7 +121,7 @@
 	/**
 	 * Makes the first term primary for a certain taxonomy
 	 *
-	 * @param {string} taxonomyName
+	 * @param {string} taxonomyName The taxonomy name.
 	 *
 	 * @returns {void}
 	 */
@@ -137,7 +135,7 @@
 	/**
 	 * If we check a term while there is no primary term we make that one the primary term.
 	 *
-	 * @param {string} taxonomyName
+	 * @param {string} taxonomyName Taxonomy name.
 	 *
 	 * @returns {void}
 	 */
@@ -150,8 +148,8 @@
 	/**
 	 * Returns the term checkbox handler for a certain taxonomy name
 	 *
-	 * @param {string} taxonomyName
-	 * @returns {Function}
+	 * @param {string} taxonomyName The taxonomy name.
+	 * @returns {Function} Callback function.
 	 */
 	function termCheckboxHandler( taxonomyName ) {
 		return function() {
@@ -169,8 +167,8 @@
 	/**
 	 * Returns the term list add handler for a certain taxonomy name
 	 *
-	 * @param {string} taxonomyName
-	 * @returns {Function}
+	 * @param {string} taxonomyName The taxonomy name.
+	 * @returns {Function} Callback function.
 	 */
 	function termListAddHandler( taxonomyName ) {
 		return function() {
@@ -182,8 +180,8 @@
 	/**
 	 * Returns the make primary event handler for a certain taxonomy name
 	 *
-	 * @param {string} taxonomyName
-	 * @returns {Function}
+	 * @param {string} taxonomyName The taxonomy to make primary.
+	 * @returns {Function} Callback function.
 	 */
 	function makePrimaryHandler( taxonomyName ) {
 		return function( e ) {
