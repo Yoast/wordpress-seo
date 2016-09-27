@@ -1,27 +1,21 @@
 ;(function() {
   var undefined;
 
-  var freeExports = typeof exports == 'object' && exports;
+  var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
 
-  var freeModule = freeExports && typeof module == 'object' && module;
+  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
 
-  var freeGlobal = checkGlobal(typeof global == 'object' && global);
+  var root = freeGlobal || freeSelf || Function('return this')();
 
-  var freeSelf = checkGlobal(typeof self == 'object' && self);
+  var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
 
-  var thisGlobal = checkGlobal(typeof this == 'object' && this);
-
-  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
-
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
-  }
+  var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
 
   /** Used as a safe reference for `undefined` in pre-ES5 environments. */
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.13.1';
+  var VERSION = '4.14.2';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -44,28 +38,27 @@
   };
 
   /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(typeof global == 'object' && global);
+  var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
 
   /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(typeof self == 'object' && self);
-
-  /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(typeof this == 'object' && this);
+  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
 
   /** Used as a reference to the global object. */
-  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
+  var root = freeGlobal || freeSelf || Function('return this')();
 
   /*--------------------------------------------------------------------------*/
 
   /**
-   * Checks if `value` is a global object.
+   * The base implementation of `_.propertyOf` without support for deep paths.
    *
    * @private
-   * @param {*} value The value to check.
-   * @returns {null|Object} Returns `value` if it's a global object, else `null`.
+   * @param {Object} object The object to query.
+   * @returns {Function} Returns the new accessor function.
    */
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
+  function basePropertyOf(object) {
+    return function(key) {
+      return object == null ? undefined : object[key];
+    };
   }
 
   /**
@@ -75,9 +68,7 @@
    * @param {string} chr The matched character to escape.
    * @returns {string} Returns the escaped character.
    */
-  function escapeHtmlChar(chr) {
-    return htmlEscapes[chr];
-  }
+  var escapeHtmlChar = basePropertyOf(htmlEscapes);
 
   /*--------------------------------------------------------------------------*/
 
@@ -86,7 +77,7 @@
 
   /**
    * Used to resolve the
-   * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
    * of values.
    */
   var objectToString = objectProto.toString;
@@ -161,8 +152,7 @@
    * @since 4.0.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified,
-   *  else `false`.
+   * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
    * @example
    *
    * _.isSymbol(Symbol.iterator);
