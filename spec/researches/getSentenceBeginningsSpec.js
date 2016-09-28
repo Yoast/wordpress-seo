@@ -161,4 +161,9 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		var mockPaper = new Paper( '<img class="alignnone wp-image-514079 size-full" src="https://yoast-mercury.s3.amazonaws.com/uploads/2015/10/Twitter_analytics_FI.png" alt="" width="1200" height="628" />' );
 		expect( sentenceBeginnings( mockPaper ) ).toEqual( [] );
 	} );
+
+	it( "returns matching sentences if there is an 'empty' sentence", function() {
+		var mockPaper = new Paper( "\"A sentence with multiple terminators!\"). Test one. Test two. Test three." );
+		expect( sentenceBeginnings( mockPaper ) ).toContain( { word: 'test', count: 3, sentences: [ "Test one.", "Test two.", "Test three."] } );
+	} );
 } );

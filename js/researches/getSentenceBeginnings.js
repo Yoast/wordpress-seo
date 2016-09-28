@@ -103,6 +103,9 @@ module.exports = function( paper ) {
 		return getSentenceBeginning( sentence, firstWordExceptions );
 	} );
 
+	sentences = sentences.filter( function( sentence ) {
+		return getWords( stripSpaces( sentence ) ).length > 0;
+	} );
 	sentenceBeginnings = filter( sentenceBeginnings );
 
 	return compareFirstWords( sentenceBeginnings, sentences );
