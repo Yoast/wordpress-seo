@@ -23,13 +23,15 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 
 // Video explains about the options when connected only.
 if ( null !== $this->service->get_client()->getAccessToken() ) {
-	$tab_video_url = 'https://yoa.st/screencast-search-console';
-	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+	$video_url = 'https://yoa.st/screencast-search-console';
 }
 else {
-	$tab_video_url = 'https://yoa.st/screencast-connect-search-console';
-	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+	$video_url = 'https://yoa.st/screencast-connect-search-console';
 }
+
+$tab = new WPSEO_Option_Tab( 'GSC', 'Google Search Console', array( 'video_url' => $video_url ) );
+$GSCHelpCenter = new WPSEO_Help_Center( 'google-search-console', $tab );
+$GSCHelpCenter->output_help_center();
 
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
