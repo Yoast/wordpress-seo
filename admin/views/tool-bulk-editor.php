@@ -31,6 +31,8 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 
 /**
  * Outputs a help center.
+ *
+ * @param string $id The id for the tab.
  */
 function render_help_center( $id ) {
 	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, 'Bulk editor',
