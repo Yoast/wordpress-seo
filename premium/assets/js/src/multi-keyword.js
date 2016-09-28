@@ -143,7 +143,6 @@ window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.Yoast
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.remove-keyword', function( ev ) {
 			var previousTab, currentTab;
 
-			ev.preventDefault();
 			currentTab = $( ev.currentTarget ).parent( 'li' );
 			previousTab = currentTab.prev();
 			currentTab.remove();
