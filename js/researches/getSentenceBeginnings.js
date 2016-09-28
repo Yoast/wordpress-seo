@@ -104,7 +104,7 @@ module.exports = function( paper ) {
 	} );
 
 	sentences = sentences.filter( function( sentence ) {
-		return getWords( stripSpaces( sentence ) ).length > 0
+		return getWords( stripSpaces( sentence ) ).length > 0;
 	} );
 	sentenceBeginnings = filter( sentenceBeginnings );
 
