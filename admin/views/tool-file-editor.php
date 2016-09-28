@@ -75,10 +75,11 @@ else {
 }
 
 echo '<br><br>';
+$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-editor', 'Bulk editor',
+	array( 'video_url' => 'https://yoa.st/screencast-tools-file-editor' ) );
 
-$tab_video_url = 'https://yoa.st/screencast-tools-file-editor';
-include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
-
+$helpcenter = new WPSEO_Help_Center( 'bulk-editor', $helpcenter_tab );
+$helpcenter->output_help_center();
 
 echo '<h2>', __( 'Robots.txt', 'wordpress-seo' ), '</h2>';
 

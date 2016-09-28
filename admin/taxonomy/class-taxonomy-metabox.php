@@ -54,9 +54,13 @@ class WPSEO_Taxonomy_Metabox {
 
 		// Add Help Center to the taxonomy metabox see #4701.
 		echo '<div class="inside">';
-		$tab_video_url = 'https://yoa.st/metabox-taxonomy-screencast';
 		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 
+		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', 'Meta box',
+			array( 'video_url' => 'https://yoa.st/metabox-taxonomy-screencast' ) );
+
+		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
+		$helpcenter->output_help_center();
 
 		echo '<div id="taxonomy_overall"></div>';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
