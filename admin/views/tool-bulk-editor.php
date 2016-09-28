@@ -32,11 +32,11 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 /**
  * Outputs a help center.
  */
-function render_help_center() {
-	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-editor', 'Bulk editor',
+function render_help_center( $id ) {
+	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, 'Bulk editor',
 		array( 'video_url' => 'https://yoa.st/screencast-tools-bulk-editor' ) );
 
-	$helpcenter = new WPSEO_Help_Center( 'bulk-editor', $helpcenter_tab );
+	$helpcenter = new WPSEO_Help_Center( 'bulk-editor' . $id, $helpcenter_tab );
 	$helpcenter->output_help_center();
 }
 
@@ -50,7 +50,7 @@ function get_rendered_tab( $table, $id ) {
 	?>
 	<div id="<?php echo $id ?>" class="wpseotab">
 		<?php
-		render_help_center();
+		render_help_center( $id );
 		$table->show_page();
 		?>
 	</div>
