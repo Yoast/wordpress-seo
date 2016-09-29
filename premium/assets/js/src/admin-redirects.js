@@ -131,7 +131,7 @@
 	var ValidateRedirect = function( form, type ) {
 		this.form = form;
 		this.type = type;
-		this.validation_error = "";
+		this.validationError = "";
 	};
 
 	/**
@@ -145,7 +145,7 @@
 		this.form.removeRowHighlights();
 
 		if( this.runValidation( this.form.getOriginField(), this.form.getTargetField(), this.form.getTypeField() ) === false ) {
-			this.addValidationError( this.validation_error );
+			this.addValidationError( this.validationError );
 
 			return false;
 		}
@@ -204,7 +204,7 @@
 	 * @returns {boolean} False, because there is an error.
 	 */
 	ValidateRedirect.prototype.setError = function( error ) {
-		this.validation_error = error;
+		this.validationError = error;
 		return false;
 	};
 
@@ -250,20 +250,20 @@
 	 */
 	var RedirectQuickEdit = function() {
 		this.row = null;
-		this.quick_edit_row = null;
+		this.quickEditRow = null;
 	};
 
 	/**
 	 * Setting upt the quick edit for a row, with the given row values.
-	 * 
+	 *
 	 * @param {element} row     The form row object.
 	 * @param {object} rowCells The form row cells.
 	 *
 	 * @returns {void}
 	 */
 	RedirectQuickEdit.prototype.setup = function( row, rowCells ) {
-		this.row            = row;
-		this.quick_edit_row = $(
+		this.row          = row;
+		this.quickEditRow = $(
 			templateQuickEdit( {
 				origin: _.unescape( rowCells.origin.html() ),
 				target: _.unescape( rowCells.target.html() ),
@@ -288,7 +288,7 @@
 	 * @returns {element} The form object.
 	 */
 	RedirectQuickEdit.prototype.getForm = function() {
-		return this.quick_edit_row;
+		return this.quickEditRow;
 	};
 
 	/**
@@ -298,7 +298,7 @@
 	 */
 	RedirectQuickEdit.prototype.show = function() {
 		this.row.addClass( "hidden" );
-		this.quick_edit_row.insertAfter( this.row ).show();
+		this.quickEditRow.insertAfter( this.row ).show();
 	};
 
 	/**
@@ -308,7 +308,7 @@
 	 */
 	RedirectQuickEdit.prototype.remove = function() {
 		this.row.removeClass( "hidden" );
-		this.quick_edit_row.remove();
+		this.quickEditRow.remove();
 	};
 
 	// Instantiate the quick edit form.
@@ -333,26 +333,28 @@
 	/**
 	 * Extending the elements with a wpseo_redirects object
 	 *
-	 * @param {string} arg_type The redirect table.
+	 * @param {string} argType The redirect table.
 	 *
 	 * @returns {void}
 	 */
-	$.fn.wpseo_redirects = function( arg_type ) {
+	$.fn.wpseo_redirects = function( argType ) {
 		var that   = this;
-		var type   = arg_type.replace( "table-", "" );
+		var type   = argType.replace( "table-", "" );
 		var ignore = false;
 
 		var lastAction;
 
 		/**
 		 * Resets the ignore and lastAction.
+		 *
+		 * @returns {void}
 		 */
-		var reset_ignore = function() {
+		var resetIgnore = function() {
 			ignore      = false;
 			lastAction = null;
 		};
 
-		this.get_buttons = function( type ) {
+		this.getButtons = function( type ) {
 			if ( type === "default" ) {
 				return [
 					{
@@ -368,7 +370,7 @@
 				{
 					text: wpseo_premium_strings.button_cancel,
 					click: function() {
-						reset_ignore();
+						resetIgnore();
 						$( this ).dialog( "close" );
 					},
 				},
@@ -383,7 +385,7 @@
 
 						$( this ).dialog( "close" );
 
-						reset_ignore();
+						resetIgnore();
 					},
 				},
 			];
@@ -395,7 +397,7 @@
 		 * @param {Object} row The row object.
 		 * @returns {{origin: *, target: *, type: *}} The values of the fields in the row.
 		 */
-		this.row_cells = function(row ) {
+		this.rowCells = function( row ) {
 			var rowValues = row.find( ".val" );
 
 			return {
@@ -419,7 +421,7 @@
 				type = "default";
 			}
 
-			var buttons = this.get_buttons( type );
+			var buttons = this.getButtons( type );
 
 			$( "#YoastRedirectDialogText" ).html( text );
 			$( "#YoastRedirectDialog" ).dialog(
@@ -446,7 +448,7 @@
 		 *
 		 * @returns {void}
 		 */
-		this.open_dialog = function( successMessage ) {
+		this.openDialog = function( successMessage ) {
 			this.dialog( successMessage.title, successMessage.message );
 		};
 
@@ -469,7 +471,7 @@
 		 *
 		 * @returns {void}
 		 */
-		this.edit_row = function( row ) {
+		this.editRow = function( row ) {
 			// Just show a dialog when there is already a quick edit form opened.
 			if( $( "#the-list" ).find( "#inline-edit" ).length > 0 ) {
 				this.dialog(
@@ -481,28 +483,28 @@
 			}
 
 			// Running the setup and show the quick edit form.
-			redirectsQuickEdit.setup( row, this.row_cells( row ) );
+			redirectsQuickEdit.setup( row, this.rowCells( row ) );
 			redirectsQuickEdit.show();
 
-			new RedirectForm( redirectsQuickEdit.quick_edit_row ).getTypeField().trigger( "change" );
+			new RedirectForm( redirectsQuickEdit.quickEditRow ).getTypeField().trigger( "change" );
 		};
 
 		/**
 		 * Create a table row element with the new added redirect data
 		 *
-		 * @param {string} old_url       The old url.
-		 * @param {string} new_url       The new url.
-		 * @param {string} redirect_type The type of the redirect (regex or plain).
+		 * @param {string} oldUrl       The old url.
+		 * @param {string} newUrl       The new url.
+		 * @param {string} redirectType The type of the redirect (regex or plain).
 		 * @param {Object} redirectInfo  Object with details about the redirect.
 		 * @returns {void|*|jQuery} The generated row.
 		 */
-		this.create_redirect_row = function( old_url, new_url, redirect_type, redirectInfo ) {
+		this.createRedirectRow = function( oldUrl, newUrl, redirectType, redirectInfo ) {
 			var targetClasses = [ "val" ];
 
 			if (
 				! redirectInfo.isTargetRelative ||
-				"" === new_url ||
-				"/" === new_url
+				"" === newUrl ||
+				"/" === newUrl
 			) {
 				targetClasses.push( "remove-slashes" );
 			}
@@ -516,11 +518,11 @@
 					$( "<input>" )
 						.attr( "name", "wpseo_redirects_bulk_delete[]" )
 						.attr( "type", "checkbox" )
-						.val( _.escape( old_url ) )
+						.val( _.escape( oldUrl ) )
 				)
 			).append(
 				$( "<td>" ).append(
-					$( "<div>" ).addClass( "val type" ).html( _.escape( redirect_type ) )
+					$( "<div>" ).addClass( "val type" ).html( _.escape( redirectType ) )
 				).append(
 					$( "<div>" ).addClass( "row-actions" ).append(
 						$( "<span>" ).addClass( "edit" ).append(
@@ -534,11 +536,11 @@
 				)
 			).append(
 				$( "<td>" ).addClass( "column-old" ).append(
-					$( "<div>" ).addClass( "val" ).html( _.escape( old_url ) )
+					$( "<div>" ).addClass( "val" ).html( _.escape( oldUrl ) )
 				)
 			).append(
 				$( "<td>" ).addClass( "column-new" ).append(
-					$( "<div>" ).addClass( targetClasses.join( " " ) ).html( _.escape( new_url ) )
+					$( "<div>" ).addClass( targetClasses.join( " " ) ).html( _.escape( newUrl ) )
 				)
 			);
 
@@ -566,7 +568,7 @@
 		 *
 		 * @returns {boolean} True when redirect has been added successfully.
 		 */
-		this.add_redirect = function() {
+		this.addRedirect = function() {
 			// Do the validation.
 			var redirectForm     = new RedirectForm( $( ".wpseo-new-redirect-form" ) );
 			var validateRedirect = new ValidateRedirect( redirectForm, type );
@@ -603,12 +605,12 @@
 					that.find( ".no-items" ).remove();
 
 					// Creating tr
-					var tr = that.create_redirect_row( response.origin, response.target, response.type, response.info );
+					var tr = that.createRedirectRow( response.origin, response.target, response.type, response.info );
 
 					// Add the new row
 					$( "form#" + type ).find( "#the-list" ).prepend( tr );
 
-					that.open_dialog( wpseo_premium_strings.redirect_added );
+					that.openDialog( wpseo_premium_strings.redirect_added );
 				}
 			);
 
@@ -620,7 +622,7 @@
 		 *
 		 * @returns {boolean} True when updates is successful.
 		 */
-		this.update_redirect = function() {
+		this.updateRedirect = function() {
 			// Do the validation.
 			var redirectForm     = new RedirectForm( redirectsQuickEdit.getForm() );
 			var validateRedirect = new ValidateRedirect( redirectForm, type );
@@ -632,7 +634,7 @@
 
 			// Setting the vars for the row and its values.
 			var row = redirectsQuickEdit.getRow();
-			var rowCells = this.row_cells( row );
+			var rowCells = this.rowCells( row );
 
 			// Post the request.
 			that.post(
@@ -665,7 +667,7 @@
 
 					redirectsQuickEdit.remove();
 
-					that.open_dialog( wpseo_premium_strings.redirect_updated );
+					that.openDialog( wpseo_premium_strings.redirect_updated );
 				}
 			);
 
@@ -679,8 +681,8 @@
 		 *
 		 * @returns {void}
 		 */
-		this.delete_redirect = function( row ) {
-			var rowCells = this.row_cells( row );
+		this.deleteRedirect = function( row ) {
+			var rowCells = this.rowCells( row );
 
 			that.post(
 				{
@@ -700,7 +702,7 @@
 						}
 					);
 
-					that.open_dialog( wpseo_premium_strings.redirect_deleted );
+					that.openDialog( wpseo_premium_strings.redirect_deleted );
 				}
 			);
 		};
@@ -741,47 +743,47 @@
 			$( ".wpseo-new-redirect-form" )
 				.on( "click", "a.button-primary", function() {
 					lastAction = function() {
-						that.add_redirect();
+						that.addRedirect();
 					};
 
-					that.add_redirect();
+					that.addRedirect();
 					return false;
 				} )
 				.on( "keypress", "input", function( evt ) {
 					if ( evt.which === KEYS.ENTER ) {
 						lastAction = function() {
-							that.add_redirect();
+							that.addRedirect();
 						};
 
 						evt.preventDefault();
-						that.add_redirect();
+						that.addRedirect();
 					}
-				});
+				} );
 
 			$( ".wp-list-table" )
 				.on( "click", ".edit", function( evt ) {
 					var row = $( evt.target ).closest( "tr" );
 
-					that.edit_row( row );
+					that.editRow( row );
 				} )
 				.on( "click", ".trash", function( evt ) {
 					var row = $( evt.target ).closest( "tr" );
 
-					that.delete_redirect( row );
+					that.deleteRedirect( row );
 				} )
 				.on( "keypress", "input", function( evt ) {
 					if ( evt.which === KEYS.ENTER ) {
 						lastAction = function() {
-							that.update_redirect();
+							that.updateRedirect();
 						};
 
 						evt.preventDefault();
-						that.update_redirect();
+						that.updateRedirect();
 					}
 				} )
 				.on( "click", ".save", function() {
 					lastAction = function() {
-						that.update_redirect();
+						that.updateRedirect();
 					};
 
 					lastAction();
