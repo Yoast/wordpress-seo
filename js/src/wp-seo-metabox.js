@@ -1,5 +1,10 @@
 /* browser:true */
-/* global tb_show, wpseoSelect2Locale */
+/* global tb_show, wpseoSelect2Locale, wpseoAdminL10n, wpseoMediaL10n */
+
+/* jshint ignore:start */
+import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+/* jshint ignore:end */
+
 ( function( $ ) {
 	"use strict";
 
@@ -48,6 +53,8 @@
 		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code
+
+		intialiseAlgoliaSearch();
 	};
 
 	/**

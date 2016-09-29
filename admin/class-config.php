@@ -30,8 +30,6 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 
-
-
 	/**
 	 * Make sure the needed scripts are loaded for admin pages
 	 */

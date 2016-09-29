@@ -34,6 +34,7 @@ class WPSEO_Taxonomy {
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
+
 		// Needs a hook that runs before the description field.
 		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
@@ -41,7 +42,6 @@ class WPSEO_Taxonomy {
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
-
 		$this->analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 	}
@@ -86,6 +86,7 @@ class WPSEO_Taxonomy {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
 
+
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
 			self::is_term_edit( $pagenow ) &&
@@ -98,10 +99,12 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'term-scraper' );
+			$asset_manager->enqueue_style( 'kb-search' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( get_locale() ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', $this->localize_admin_script() );
 
 			$asset_manager->enqueue_script( 'admin-media' );
 
@@ -225,6 +228,35 @@ class WPSEO_Taxonomy {
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
 			'scope'          => $this->determine_scope(),
+		);
+	}
+
+	/**
+	 * Pass some variables to js for the admin JS module.
+	 *
+	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
+	 *
+	 * @return  array
+	 */
+	public function localize_admin_script() {
+		return array(
+			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
+			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
+			'locale' => get_locale(),
+			/* translators: %d: number of knowledge base search results found. */
+			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
+			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
+			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
+			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),
+			'kb_search_results_heading' => __( 'Search results', 'wordpress-seo' ),
+			'kb_error_message' => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
+			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
+			'kb_search' => __( 'search', 'wordpress-seo' ),
+			'kb_back' => __( 'Back', 'wordpress-seo' ),
+			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
+			'kb_open' => __( 'Open', 'wordpress-seo' ),
+			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
+			'kb_iframe_title' => __( 'Knowledge base article', 'wordpress-seo' ),
 		);
 	}
 
