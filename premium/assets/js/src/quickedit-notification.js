@@ -1,5 +1,4 @@
 /* global ajaxurl */
-/* jshint -W097 */
 
 var redirectFunctions = require( "./redirects/functions" );
 
@@ -8,11 +7,11 @@ var redirectFunctions = require( "./redirects/functions" );
  *
  * @type {number}
  */
-var wpseo_notification_counter = 0;
+var wpseoNotificationCounter = 0;
 
 /**
- * Show notification to user when there's a redirect created. When the response is empty, up the notification counter with 1, wait 100 ms and call function again.
- * Stop when the notification counter is bigger than 20.
+ * Show notification to user when there's a redirect created. When the response is empty, up the notification counter with 1,
+ * wait 100 ms and call function again. Stop when the notification counter is bigger than 20.
  *
  * @returns {void}
  */
@@ -24,11 +23,11 @@ function wpseo_show_notification() {
 			if ( response !== "" ) {
 				var insertAfterElement = jQuery( ".wrap" ).children().eq( 0 );
 				jQuery( response ).insertAfter( insertAfterElement );
-				wpseo_notification_counter = 0;
+				wpseoNotificationCounter = 0;
 			}
 
-			if ( wpseo_notification_counter < 20 && response === "" ) {
-				wpseo_notification_counter++;
+			if ( wpseoNotificationCounter < 20 && response === "" ) {
+				wpseoNotificationCounter++;
 				setTimeout( wpseo_show_notification, 500 );
 			}
 		}
@@ -47,6 +46,35 @@ function wpseo_get_current_page() {
 }
 
 window.wpseo_get_current_page = wpseo_get_current_page;
+
+/**
+ * Gets the currently active editor used in quick edit.
+ *
+ * @returns {Object} The editor that is currently active.
+ */
+function wpseo_get_active_editor() {
+	return jQuery( "tr.inline-editor" );
+}
+
+window.wpseo_get_active_editor = wpseo_get_active_editor;
+
+/**
+ * Gets the current post or term id.
+ * Returns an empty string if no editor is currently active.
+ *
+ * @returns {string} The ID of the current post or term.
+ */
+function wpseo_get_item_id() {
+	var editor = wpseo_get_active_editor();
+
+	if ( editor === "" ) {
+		return "";
+	}
+
+	return editor.attr( "id" ).replace( "edit-", "" );
+}
+
+window.wpseo_get_item_id = wpseo_get_item_id;
 
 /**
  * Gets the current slug of a post based on the current page and post or term being edited.
@@ -84,35 +112,6 @@ function wpseo_slug_changed() {
 }
 
 window.wpseo_slug_changed = wpseo_slug_changed;
-
-/**
- * Gets the currently active editor used in quick edit.
- *
- * @returns {Object} The editor that is currently active.
- */
-function wpseo_get_active_editor() {
-	return jQuery( "tr.inline-editor" );
-}
-
-window.wpseo_get_active_editor = wpseo_get_active_editor;
-
-/**
- * Gets the current post or term id.
- * Returns an empty string if no editor is currently active.
- *
- * @returns {string} The ID of the current post or term.
- */
-function wpseo_get_item_id() {
-	var editor = wpseo_get_active_editor();
-
-	if ( editor === "" ) {
-		return "";
-	}
-
-	return editor.attr( "id" ).replace( "edit-", "" );
-}
-
-window.wpseo_get_item_id = wpseo_get_item_id;
 
 /**
  * Handles the key-based events in the quick edit editor.

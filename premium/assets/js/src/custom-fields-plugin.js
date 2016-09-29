@@ -46,8 +46,10 @@
 	 */
 	YoastCustomFieldsPlugin.prototype.addCustomFields = function( content ) {
 		for( var fieldName in this.customFields ) {
-			content += " ";
-			content += this.customFields[ fieldName ];
+			if( this.customFields.hasOwnProperty( fieldName ) ) {
+				content += " ";
+				content += this.customFields[ fieldName ];
+			}
 		}
 		return content;
 	};

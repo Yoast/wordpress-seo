@@ -43,14 +43,14 @@ function wpseo_create_redirect( origin, type, nonce, source ) {
 	var target = "";
 
 	if( parseInt( type, 10 ) !== 410 ) {
-		/* eslint-disable no-alert */
+		/* eslint-disable */
 		target = window.prompt( wpseo_premium_strings.enter_new_url.replace( "%s", origin ) );
-		/* eslint-enable no-alert */
+		/* eslint-enable */
 
-		if ( target === '' ) {
-			/* eslint-disable no-alert */
+		if ( target === "" ) {
+			/* eslint-disable */
 			window.alert( wpseo_premium_strings.error_new_url );
-			/* eslint-enable no-alert */
+			/* eslint-enable */
 			return;
 		}
 	}

@@ -187,7 +187,7 @@ window.YoastSEO = ( "undefined" === typeof window.YoastSEO ) ? {} : window.Yoast
 			currentTabLink = $( "li.active > .wpseo_tablink" );
 			currentTabLink.data( "keyword", focusKeyword );
 			currentTabLink.find( "span.wpseo_keyword" ).text( focusKeyword || wpseoPostScraperL10n.enterFocusKeyword );
-		}.bind( this ) );
+		} );
 	};
 
 	/**
@@ -223,9 +223,11 @@ window.YoastSEO = ( "undefined" === typeof window.YoastSEO ) ? {} : window.Yoast
 
 		if ( keywords.length > 0 ) {
 			for( var i in keywords ) {
-				var keyword = keywords[ i ].keyword;
-				var score = keywords[ i ].score;
-				this.addKeywordTab( keyword, score, i === 0 );
+				if( keywords.hasOwnProperty( i ) ) {
+					var keyword = keywords[ i ].keyword;
+					var score = keywords[ i ].score;
+					this.addKeywordTab( keyword, score, i === 0 );
+				}
 			}
 		}
 	};
