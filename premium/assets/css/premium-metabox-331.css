@@ -3,7 +3,6 @@
 	margin: 0 0 0 -3px;
 	padding: 5px 6px 6px;
 	border: none;
-	outline: none;
 	background: transparent;
 	cursor: pointer;
 }
@@ -24,6 +23,7 @@
 }
 
 .remove-keyword:focus {
+	outline: none;
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
