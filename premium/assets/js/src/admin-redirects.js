@@ -277,8 +277,12 @@
 	 * Shows the quick edit form and hides the redirect row.
 	 */
 	RedirectQuickEdit.prototype.show = function() {
-		this.row.addClass('hidden');
-		this.quick_edit_row.insertAfter( this.row ).show();
+		this.row.addClass( 'hidden' );
+		this.quick_edit_row
+			.insertAfter( this.row )
+			.show( 400, function() {
+				$( this ).find( ':input' ).first().focus();
+			});
 	};
 
 	/**
@@ -318,6 +322,9 @@
 		var ignore = false;
 
 		var last_action;
+
+		// The element focus keybaord shoule be moved back to.
+		var returnFocusToEl = null;
 
 		/**
 		 * Resets the ignore and last_action.
@@ -407,7 +414,10 @@
 						of: window
 					},
 					buttons: buttons,
-					modal: true
+					modal: true,
+					close: function( event, ui ) {
+						returnFocusToEl.focus();
+					}
 				}
 			);
 		};
@@ -480,23 +490,23 @@
 			}
 
 			var tr = $( '<tr>' ).append(
-				$( '<th>' ).addClass( 'check-column' ).attr( 'role', 'row' ).append(
+				$( '<th>' ).addClass( 'check-column' ).attr( 'scope', 'row' ).append(
 					$( '<input>' )
 						.attr( 'name', 'wpseo_redirects_bulk_delete[]' )
 						.attr( 'type', 'checkbox' )
 						.val( _.escape( old_url ) )
 				)
 			).append(
-				$( '<td>' ).append(
+				$( '<td>' ).addClass( 'type column-type has-row-actions column-primary' ).append(
 					$( '<div>' ).addClass( 'val type' ).html( _.escape( redirect_type ) )
 				).append(
 					$( '<div>' ).addClass( 'row-actions' ).append(
 						$( '<span>' ).addClass( 'edit' ).append(
-							$( '<a>' ).attr( 'href', 'javascript:;' ).html( 'Edit' )
+							$( '<a>' ).attr({ 'href': '#', 'role': 'button', 'class': 'redirect-edit' }).html( 'Edit' )
 						).append( ' | ' )
 					).append(
 						$( '<span>' ).addClass( 'trash' ).append(
-							$( '<a>' ).attr( 'href', 'javascript:;' ).html( 'Delete' )
+							$( '<a>' ).attr({ 'href': '#', 'role': 'button', 'class': 'redirect-delete' }).html( 'Delete' )
 						)
 					)
 				)
@@ -673,6 +683,7 @@
 		 * Running the setup of this element.
 		 */
 		this.setup = function() {
+			var $row;
 			// Adding dialog
 			$('body').append('<div id="YoastRedirectDialog"><div id="YoastRedirectDialogText"></div></div>');
 
@@ -702,12 +713,13 @@
 
 			// Adding events for the add form
 			$('.wpseo-new-redirect-form')
-				.on( 'click', 'a.button-primary', function() {
+				.on( 'click', '.button-primary', function() {
 					last_action = function() {
 						that.add_redirect();
 					};
 
 					that.add_redirect();
+					returnFocusToEl = this;
 					return false;
 				} )
 				.on( 'keypress', 'input', function( evt ) {
@@ -722,17 +734,20 @@
 				});
 
 			$( '.wp-list-table' )
-				.on( 'click', '.edit', function( evt ) {
-					var row = $( evt.target ).closest( 'tr' );
+				.on( 'click', '.redirect-edit', function( evt ) {
+					$row = $( evt.target ).closest( 'tr' );
 
 					evt.preventDefault();
-					that.edit_row( row );
+					that.edit_row( $row );
+					returnFocusToEl = this;
 				})
-				.on( 'click', '.trash', function( evt ) {
-					var row = $( evt.target ).closest( 'tr' );
+				.on( 'click', '.redirect-delete', function( evt ) {
+					$row = $( evt.target ).closest( 'tr' );
 
 					evt.preventDefault();
-					that.delete_redirect( row );
+					that.delete_redirect( $row );
+					// When a row gets deleted, where focus should land?
+					returnFocusToEl = $( '#cb-select-all-1' );
 				})
 				.on( 'keypress', 'input', function( evt ) {
 					if ( evt.which === KEYS.ENTER ) {
@@ -754,6 +769,8 @@
 				.on( 'click', '.cancel', function() {
 					last_action = null;
 					redirectsQuickEdit.remove();
+					// Move focus back to the Edit link.
+					$row.find( '.redirect-edit' ).focus();
 				});
 		};
 
