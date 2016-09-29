@@ -112,7 +112,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( "<div class='val'>target</div>", $this->class_instance->column_default( $item, 'new' ) );
 		$this->assertEquals( "<div class='val'>origin</div>", $this->class_instance->column_default( $item, 'old' ) );
-		$this->assertContains( '<div class="val type">301</div><div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div>', $this->class_instance->column_default( $item, 'type' ) );
+		$this->assertContains( '<div class="val type">301</div><div class="row-actions"><span class=\'edit\'><a href="#" role="button" class="redirect-edit">Edit</a> | </span><span class=\'trash\'><a href="#" role="button" class="redirect-delete">Delete</a></span></div>', $this->class_instance->column_default( $item, 'type' ) );
 	}
 
 	/**
