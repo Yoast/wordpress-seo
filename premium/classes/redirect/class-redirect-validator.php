@@ -27,6 +27,11 @@ class WPSEO_Redirect_Validator {
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
+		'subdirectory-presence'  => array(
+			'validation_class' => 'WPSEO_Redirect_Subdirectory_Validation',
+			'exclude_types'  => array(),
+			'exclude_format' => array(),
+		),
 		'accessible' => array(
 			'validation_class' => 'WPSEO_Redirect_Accessible_Validation',
 			'exclude_types'  => array( WPSEO_Redirect::DELETED, WPSEO_Redirect::UNAVAILABLE ),
