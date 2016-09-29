@@ -97,8 +97,8 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_column_cb() {
 		$this->assertEquals(
-			'<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="origin" />',
-			$this->class_instance->column_cb( array( 'old' => 'origin', 'new' => 'target', 'type' => 301 ) )
+			'<label class="screen-reader-text" for="wpseo-redirects-bulk-cb-1">Select this redirect</label> <input type="checkbox" name="wpseo_redirects_bulk_delete[]" id="wpseo-redirects-bulk-cb-1" value="origin" />',
+			$this->class_instance->column_cb( array( 'old' => 'origin', 'new' => 'target', 'type' => 301, 'row_number' => 1 ) )
 		);
 	}
 
