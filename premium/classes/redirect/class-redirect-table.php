@@ -322,8 +322,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private function get_row_actions( $column ) {
 		if ( $column === $this->primary_column ) {
 			$actions = array(
-				'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
-				'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
+				'edit'  => '<a href="#" role="button">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
+				'trash' => '<a href="#" role="button">' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
 			);
 
 			return $this->row_actions( $actions );

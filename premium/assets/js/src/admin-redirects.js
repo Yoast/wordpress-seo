@@ -725,11 +725,13 @@
 				.on( 'click', '.edit', function( evt ) {
 					var row = $( evt.target ).closest( 'tr' );
 
+					evt.preventDefault();
 					that.edit_row( row );
 				})
 				.on( 'click', '.trash', function( evt ) {
 					var row = $( evt.target ).closest( 'tr' );
 
+					evt.preventDefault();
 					that.delete_redirect( row );
 				})
 				.on( 'keypress', 'input', function( evt ) {
