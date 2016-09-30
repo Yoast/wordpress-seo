@@ -28,7 +28,7 @@ class Yoast_Notification_Center {
 	 */
 	private function __construct() {
 
-		$this->retrieve_notifications_from_storage();
+		add_action( 'init', array( $this, 'init' ), 99 );
 
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
 
@@ -38,6 +38,13 @@ class Yoast_Notification_Center {
 		add_action( 'shutdown', array( $this, 'update_storage' ) );
 	}
 
+	/**
+	 * load the user notices on WP init
+	 */
+	public function init(){
+		$this->retrieve_notifications_from_storage();
+	}
+	
 	/**
 	 * Singleton getter
 	 *
