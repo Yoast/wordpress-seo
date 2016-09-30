@@ -527,7 +527,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
 				break;
+			case 'focuskeyword':
+				if ( $placeholder !== '' ) {
+					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
+				}
 
+				$content .= '<div id="wpseofocuskeyword">';
+				$content .= '<section class="snippet-editor__preview">';
+				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">'. __( 'Focus keyword' ) .'</h3>';
+				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '</section>';
+				$content .= '</div>';
+				$content .= '<div id="yoast_wpseo_focuskw_text_input" class="large_text"></div>';
+				break;
 			case 'text':
 				$ac = '';
 				if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
@@ -536,7 +548,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				if ( $placeholder !== '' ) {
 					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
 				}
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<input type="text"' . $placeholder . 'id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
 				break;
 
 			case 'textarea':
@@ -641,8 +653,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$help_button = $help->get_button_html();
 				$help_panel  = $help->get_panel_html();
 			}
-
-			if ( $meta_field_def['type'] === 'pageanalysis' || $meta_field_def['type'] === 'snippetpreview' ) {
+			if ( in_array( $meta_field_def['type'], array(
+					'snippetpreview',
+					'pageanalysis',
+					'focuskeyword',
+				), true )
+			) {
 				return $this->create_content_box( $content, $help_button, $help_panel );
 			}
 
