@@ -61,10 +61,11 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 * @return string
 	 */
 	public function link() {
+
+		$html = '<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s"%3$s>%4$s</a></li>';
+
 		if ( $this->single ) {
 			$html = '<li class="%1$s %2$s"><span class="wpseo_tablink"%3$s>%4$s</span></li>';
-		} else {
-			$html = '<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s"%3$s>%4$s</a></li>';
 		}
 
 		return sprintf(
