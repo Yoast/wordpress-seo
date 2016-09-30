@@ -48,15 +48,7 @@
 		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code
-
-		moveHelpElements();
 	};
-
-	function moveHelpElements() {
-		jQuery( "#help_yoast_wpseo_pageanalysis" ).detach().insertAfter(  jQuery(" #pageanalysis-section" ).find('h3') ).css( "display", "block" );
-
-		jQuery( "#help_yoast_wpseo_snippetpreview" ).detach().insertAfter(  jQuery(" #wpseosnippet" ).find('h3') ).css( "display", "block" );
-	}
 
 	/**
 	 * Adds select2 for selected fields.
@@ -125,6 +117,21 @@
 		}
 	}
 
+	/**
+	 * Move the help elements by injecting them into the h3 elements.
+	 *
+	 * @returns {void}
+	 */
+	function moveHelpElements() {
+		jQuery( " #pageanalysis-section" ).find( "h3" ).append(
+			jQuery( "#help_yoast_wpseo_pageanalysis" ).detach().removeClass( "wpseo_hidden" )
+		);
+
+		jQuery( " #wpseosnippet" ).find( "h3" ).append(
+			jQuery( "#help_yoast_wpseo_snippetpreview" ).detach().removeClass( "wpseo_hidden" )
+		);
+	}
+
 	jQuery( document ).ready( function() {
 		jQuery( ".wpseo-meta-section" ).each( function( _, el ) {
 			jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
@@ -134,6 +141,8 @@
 
 		initAddKeywordPopup();
 		initSelect2();
+
+		jQuery( window ).on( "YoastSEO:ready", moveHelpElements );
 	} );
 }( jQuery ) );
 
