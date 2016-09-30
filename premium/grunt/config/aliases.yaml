@@ -11,6 +11,7 @@ build:
   - 'uglify'
 'build:css':
   - 'copy:css_social_previews'
+  - 'sass'
   - 'autoprefixer'
   - 'wpcss'
   - 'cssmin'
