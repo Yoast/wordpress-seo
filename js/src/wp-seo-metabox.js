@@ -48,7 +48,15 @@
 		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code
+
+		moveHelpElements();
 	};
+
+	function moveHelpElements() {
+		jQuery( "#help_yoast_wpseo_pageanalysis" ).detach().insertAfter(  jQuery(" #pageanalysis-section" ).find('h3') ).css( "display", "block" );
+
+		jQuery( "#help_yoast_wpseo_snippetpreview" ).detach().insertAfter(  jQuery(" #wpseosnippet" ).find('h3') ).css( "display", "block" );
+	}
 
 	/**
 	 * Adds select2 for selected fields.
