@@ -516,8 +516,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
-				$content .= '<div id="snippet_preview">';
-				$content .= '<section class="snippet-editor__preview">';
+				$content .= '<div id="pageanalysis">';
+				$content .= '<section class="snippet-editor__preview" id="pageanalysis-section">';
 				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">'. __( 'Analysis' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
@@ -659,7 +659,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'focuskeyword',
 				), true )
 			) {
-				return $this->create_content_box( $content, $help_button, $help_panel );
+				return $this->create_content_box( $content, $esc_form_key, $help_button, $help_panel );
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
@@ -683,10 +683,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 
-	private function create_content_box( $content,  $help_button, $help_panel ) {
+	private function create_content_box( $content, $esc_form_key,  $help_button, $help_panel ) {
 		$html = '<tr><td>';
 		$html .= $content;
-		$html .= '<div class="wpseo_hidden">' . $help_button . $help_panel . '</div>';
+		$html .= '<div class="wpseo_hidden" id="help_'. $esc_form_key. '">' . $help_button . $help_panel . '</div>';
 		$html .= '</td></tr>';
 		return $html;
 	}
