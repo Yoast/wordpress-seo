@@ -516,8 +516,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
+				$content .= '<div id="snippet_preview">';
+				$content .= '<section class="snippet-editor__preview">';
+				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">'. __( 'Analysis' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
+				$content .= '</section>';
+				$content .= '</div>';
 				break;
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
@@ -637,6 +642,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$help_panel  = $help->get_panel_html();
 			}
 
+			if ( $meta_field_def['type'] === 'pageanalysis' || $meta_field_def['type'] === 'snippetpreview' ) {
+				return $this->create_content_box( $content, $help_button, $help_panel );
+			}
+
 			if ( $meta_field_def['type'] === 'hidden' ) {
 				$html = '<tr class="wpseo_hidden"><td colspan="2">' . $content . '</td></tr>';
 			}
@@ -654,6 +663,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 		}
 
+		return $html;
+	}
+
+
+	private function create_content_box( $content,  $help_button, $help_panel ) {
+		$html = '<tr><td>';
+		$html .= $content;
+		$html .= '<div class="wpseo_hidden">' . $help_button . $help_panel . '</div>';
+		$html .= '</td></tr>';
 		return $html;
 	}
 
