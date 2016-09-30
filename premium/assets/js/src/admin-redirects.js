@@ -348,7 +348,7 @@
 
 		var lastAction;
 
-		// The element focus keybaord shoule be moved back to.
+		// The element focus keyboard should be moved back to.
 		var returnFocusToEl = null;
 
 		/**
