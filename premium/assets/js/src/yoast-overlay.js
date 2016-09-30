@@ -2,7 +2,7 @@ var yoast_overlay = null;
 ( function( $ ) {
 	yoast_overlay = {
 		messages: [],
-		currentM: null,
+		currentMessage: null,
 		add_message: function( title, text, autoclose ) {
 			this.messages.push( { title: title, text: text, autoclose: autoclose } );
 			this.display_message();
