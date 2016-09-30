@@ -36,6 +36,7 @@
     "grunt-phplint": "0.0.5",
     "grunt-po2json": "^0.3.0",
     "grunt-replace": "^0.8.0",
+    "grunt-sass": "^1.2.1",
     "grunt-shell": "^1.1.2",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
     "grunt-wp-i18n": "^0.4.8",
