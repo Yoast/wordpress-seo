@@ -12,7 +12,7 @@ describe( "An assessment for the fleschReading", function(){
 		var result = fleschReadingAssessment.getResult( paper, Factory.buildMockResearcher( 63.9 ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The copy scores 63.9 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='_blank'>Flesch Reading Ease</a> test, which is considered ok to read. " );
+		expect( result.getText() ).toBe( "The copy scores 63.9 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered ok to read. " );
 
 		paper = new Paper( "A piece of text to calculate scores." );
 
