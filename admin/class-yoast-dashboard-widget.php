@@ -92,7 +92,7 @@ class Yoast_Dashboard_Widget {
 		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
 		$user_id   = get_current_user_id();
 
-		if ( isset( $transient[ $user_id ][1] ) ) {
+		if ( isset( $transient[ $user_id ] ) ) {
 			return $transient[ $user_id ];
 		}
 
@@ -160,8 +160,8 @@ class Yoast_Dashboard_Widget {
 			WPSEO_Rank::BAD      => __( 'Posts with bad SEO score', 'wordpress-seo' ),
 			WPSEO_Rank::OK       => __( 'Posts with OK SEO score', 'wordpress-seo' ),
 			WPSEO_Rank::GOOD     => __( 'Posts with good SEO score', 'wordpress-seo' ),
-			/* translators: %s expands to <code>noindex</code> */
-			WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to %s', 'wordpress-seo' ), '<code>noindex</code>' ),
+			/* translators: %s expands to <span lang="en">noindex</span> */
+			WPSEO_Rank::NO_INDEX => sprintf( __( 'Posts that are set to &#8220;%s&#8221;', 'wordpress-seo' ), '<span lang="en">noindex</span>' ),
 		);
 
 		return $labels[ $rank->get_rank() ];
@@ -186,6 +186,6 @@ class Yoast_Dashboard_Widget {
 	private function show_widget() {
 		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 
-		return $analysis_seo->is_enabled();
+		return $analysis_seo->is_enabled() && current_user_can( 'edit_posts' );
 	}
 }

@@ -78,10 +78,20 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
+		add_filter( 'wpseo_submenu_pages', array( $this, 'filter_settings_pages' ) );
+
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
-			add_action( 'admin_head', array( $this, 'enqueue_assets' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		}
+
+		if ( WPSEO_Utils::is_api_available() ) {
+			$configuration = new WPSEO_Configuration_Page();
+
+			if ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER ) {
+				$configuration->catch_configuration_request();
+			}
 		}
 	}
 
@@ -123,6 +133,8 @@ class WPSEO_Admin {
 			return;
 		}
 
+		global $admin_page_hooks;
+
 		// Base 64 encoded SVG image.
 		$icon_svg = WPSEO_Utils::get_icon_svg();
 
@@ -140,6 +152,8 @@ class WPSEO_Admin {
 			$this,
 			'load_page',
 		), $icon_svg, '99.31337' );
+
+		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // Wipe notification bits from hooks. R.
 
 		// Sub menu pages.
 		$submenu_pages = array(
@@ -208,13 +222,12 @@ class WPSEO_Admin {
 			array(
 				self::PAGE_IDENTIFIER,
 				'',
-				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
+				__( 'Go Premium', 'wordpress-seo' ) . ' ' . $this->get_premium_indicator(),
 				$manage_options_cap,
 				'wpseo_licenses',
 				array( $this, 'load_page' ),
 				null,
 			),
-
 		);
 
 		// Allow submenu pages manipulation.
@@ -224,8 +237,15 @@ class WPSEO_Admin {
 		if ( count( $submenu_pages ) ) {
 			foreach ( $submenu_pages as $submenu_page ) {
 
+				$page_title = $submenu_page[2] . ' - Yoast SEO';
+
+				// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
+				if ( 'wpseo_licenses' === $submenu_page[4] ) {
+					$page_title = __( 'Premium', 'wordpress-seo' ) . ' - Yoast SEO';
+				}
+
 				// Add submenu page.
-				$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[2] . ' - Yoast SEO', $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
+				$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
 
 				// Check if we need to hook.
 				if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
@@ -372,13 +392,16 @@ class WPSEO_Admin {
 				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
 				break;
 
+			case 'wpseo_configurator':
+				require_once( WPSEO_PATH . 'admin/config-ui/class-configuration-page.php' );
+				break;
+
 			case self::PAGE_IDENTIFIER:
 			default:
 				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
 				break;
 		}
 	}
-
 
 	/**
 	 * Loads the form for the network configuration page.
@@ -544,6 +567,32 @@ class WPSEO_Admin {
 	}
 
 	/**
+	 * Filters all advanced settings pages from the given pages.
+	 *
+	 * @param array $pages The pages to filter.
+	 *
+	 * @return array
+	 */
+	public function filter_settings_pages( array $pages ) {
+
+		if ( $this->options['enable_setting_pages'] ) {
+			return $pages;
+		}
+
+		$pages_to_hide = array( 'wpseo_titles', 'wpseo_social', 'wpseo_xml', 'wpseo_advanced', 'wpseo_tools' );
+
+		foreach ( $pages as $page_key => $page ) {
+			$page_name = $page[4];
+
+			if ( in_array( $page_name, $pages_to_hide ) ) {
+				unset( $pages[ $page_key ] );
+			}
+		}
+
+		return $pages;
+	}
+
+	/**
 	 * Returns the stopwords for the current language
 	 *
 	 * @since 1.1.7
@@ -615,7 +664,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Extending the current page URL with two params to be able to ignore the tour.
+	 * Extending the current page URL with two params to be able to ignore the notice.
 	 *
 	 * @param string $dismiss_param The param used to dismiss the notification.
 	 *
@@ -630,6 +679,37 @@ class WPSEO_Admin {
 		return esc_url( add_query_arg( $arr_params ) );
 	}
 
+	/**
+	 * @return string
+	 */
+	private function get_premium_indicator() {
+		/**
+		 * The class that will be applied to the premium indicator.
+		 *
+		 * @type array Classes that will be applied tot the premium indicator.
+		 */
+		$classes = apply_filters( 'wpseo_premium_indicator_classes', array(
+			'wpseo-premium-indicator',
+			'wpseo-premium-indicator--no',
+			'wpseo-js-premium-indicator',
+			'update-plugins',
+		) );
+
+		/**
+		 * The text to put inside the premium indicator.
+		 *
+		 * @type string The text to read to screen readers.
+		 */
+		$text = apply_filters( 'wpseo_premium_indicator_text', __( 'Disabled', 'wordpress-seo' ) );
+
+		$premium_indicator = sprintf(
+			"<span class='%s' aria-hidden='true'><svg width=\"20\" height=\"20\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"currentColor\" d=\"M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z\"/></svg></span><span class='screen-reader-text'>%s</span>",
+			esc_attr( implode( ' ', $classes ) ),
+			esc_html( $text )
+		);
+
+		return $premium_indicator;
+	}
 
 	/********************** DEPRECATED METHODS **********************/
 

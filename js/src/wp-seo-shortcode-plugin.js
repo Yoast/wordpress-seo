@@ -38,6 +38,8 @@
 
 	/**
 	 * Declares ready with YoastSEO.
+	 *
+	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.declareReady = function() {
 		this._app.pluginReady( "YoastShortcodePlugin" );
@@ -46,6 +48,8 @@
 
 	/**
 	 * Declares reloaded with YoastSEO.
+	 *
+	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.declareReloaded = function() {
 		this._app.pluginReloaded( "YoastShortcodePlugin" );
@@ -53,6 +57,8 @@
 
 	/**
 	 * Registers the modifications for the content in which we want to replace shortcodes.
+	 *
+	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.registerModifications = function() {
 		this._app.registerModification( "content", this.replaceShortcodes.bind( this ), "YoastShortcodePlugin" );
@@ -83,6 +89,8 @@
 	 * the analyzer and the snippetpreview
 	 *
 	 * @param {function} callback To declare either ready or reloaded after parsing.
+	 *
+	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.loadShortcodes = function( callback ) {
 		var unparsedShortcodes = this.getUnparsedShortcodes( this.getShortcodes( this.getContentTinyMCE() ) );
@@ -95,6 +103,8 @@
 
 	/**
 	 * Bind elements to be able to reload the dataset if shortcodes get added.
+	 *
+	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.bindElementEvents = function() {
 		var contentElement = document.getElementById( "content" ) || false;
@@ -235,6 +245,8 @@
 	 *
 	 * @param {Array} shortcodes shortcodes to be parsed.
 	 * @param {function} callback function to be called in the context of the AJAX callback.
+	 *
+	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.parseShortcodes = function( shortcodes, callback ) {
 		if ( typeof callback !== "function" ) {
@@ -265,6 +277,8 @@
 	 *
 	 * @param {Array} shortcodeResults
 	 * @param {function} callback
+	 *
+	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.saveParsedShortcodes = function( shortcodeResults, callback ) {
 		shortcodeResults = JSON.parse( shortcodeResults );
