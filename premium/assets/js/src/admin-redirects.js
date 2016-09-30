@@ -526,11 +526,11 @@
 				).append(
 					$( "<div>" ).addClass( "row-actions" ).append(
 						$( "<span>" ).addClass( "edit" ).append(
-							$( "<a>" ).attr( "href", "javascript:;" ).html( "Edit" )
+							$( "<a>" ).attr( "href", "javascript:;" ).html( wpseo_premium_strings.editAction )
 						).append( " | " )
 					).append(
 						$( "<span>" ).addClass( "trash" ).append(
-							$( "<a>" ).attr( "href", "javascript:;" ).html( "Delete" )
+							$( "<a>" ).attr( "href", "javascript:;" ).html( wpseo_premium_strings.deleteAction )
 						)
 					)
 				)
