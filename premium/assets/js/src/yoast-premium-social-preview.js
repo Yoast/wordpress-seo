@@ -1,5 +1,4 @@
 /* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO, ajaxurl  */
-/* eslint-disable no-use-before-define */
 
 var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 var helpPanel = require( "./helpPanel" );
