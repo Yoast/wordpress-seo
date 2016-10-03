@@ -22,14 +22,15 @@ $snippet_width: 600px;
 	background-image: url(svg-icon-caret-left($color));
 }
 
-/* css for snippet */
-#snippet_preview {
+.yoast-section {
 	border: 1px solid $color_border;
 	border-radius: 20px;
 	background-color: #fff;
 	position: relative;
 	width: $snippet_width + 40;
 }
+
+/* css for snippet */
 
 .snippet_container {
 	@include clearfix;
@@ -56,14 +57,20 @@ $snippet_width: 600px;
 			border-top: 1px solid $color_border;
 		}
 
-		&-icon-eye {
-			background: url(svg-icon-eye($color_headings)) no-repeat;
+		&-icon {
+			background-repeat: no-repeat;
 			/* rtlcss needs this as separate property */
-			background-position: left 20px top 50%;
+			background-position: left 20px top 0.6em;
 			background-size: 16px;
 
 			padding-left: 45px;
+
+			&-eye {
+				background-image: url(svg-icon-eye($color_headings));
+			}
 		}
+
+
 	}
 
 	&__container {
