@@ -517,8 +517,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
 				$content .= '<div id="pageanalysis">';
-				$content .= '<section class="snippet-editor__preview" id="pageanalysis-section">';
-				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">'. __( 'Analysis' ) .'</h3>';
+				$content .= '<section class="snippet-editor__preview yoast-section" id="pageanalysis-section">';
+				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
 				$content .= '</section>';
@@ -533,8 +533,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				}
 
 				$content .= '<div id="wpseofocuskeyword">';
-				$content .= '<section class="snippet-editor__preview">';
-				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">'. __( 'Focus keyword' ) .'</h3>';
+				$content .= '<section class="snippet-editor__preview yoast-section">';
+				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-key">'. __( 'Focus keyword' ) .'</h3>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
 				$content .= '</section>';
 				$content .= '</div>';

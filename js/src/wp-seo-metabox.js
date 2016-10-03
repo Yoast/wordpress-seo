@@ -127,6 +127,10 @@
 			jQuery( "#help_yoast_wpseo_pageanalysis" ).detach().removeClass( "wpseo_hidden" )
 		);
 
+		jQuery( " #wpseofocuskeyword" ).find( "h3" ).append(
+			jQuery( "#help_yoast_wpseo_focuskw_text_input" ).detach().removeClass( "wpseo_hidden" )
+		);
+
 		jQuery( " #wpseosnippet" ).find( "h3" ).append(
 			jQuery( "#help_yoast_wpseo_snippetpreview" ).detach().removeClass( "wpseo_hidden" )
 		);
