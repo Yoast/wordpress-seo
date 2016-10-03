@@ -5,7 +5,7 @@
 
 ?>
 	<script type="text/plain" id="tmpl-redirects-inline-edit">
-			<tr id="inline-edit" class="inline-edit-row" style="display: none">
+			<tr id="inline-edit" class="inline-edit-row hidden">
 				<td colspan="<?php echo $total_columns; ?>" class="colspanchange">
 
 					<fieldset>
