@@ -42,9 +42,10 @@ class Yoast_Notification_Center {
 	 * Load the user notices on WP init
 	 */
 	public function init() {
+
 		$this->retrieve_notifications_from_storage();
 	}
-	
+
 	/**
 	 * Singleton getter
 	 *
