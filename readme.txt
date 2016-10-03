@@ -116,6 +116,13 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.6.1 =
+
+Release Date: Oktober 3rd, 2016
+
+* Bugfixes:
+	* Fixes a bug where the admin bar would still show advanced settings when the advanced settings were disabled.
+
 = 3.6.0 =
 
 Release Date: September 27th, 2016
