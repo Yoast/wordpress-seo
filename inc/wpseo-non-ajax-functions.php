@@ -248,7 +248,7 @@ function wpseo_admin_bar_menu() {
 	// @todo: add links to bulk title and bulk description edit pages.
 	if ( $user_is_admin_or_networkadmin ) {
 
-		$advanced_settings = advanced_settings_enabled( $options );
+		$advanced_settings = wpseo_advanced_settings_enabled( $options );
 
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-menu',
@@ -424,12 +424,13 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 
 /**
- * @summary Detects if the advanced settings are enabled.
- * @param {array} $wpseo_options The wpseo settings.
+ * Detects if the advanced settings are enabled.
  *
- * @returns True if the advanced settings are enabled, false if not.
+ * @param array $wpseo_options The wpseo settings.
+ *
+ * @returns boolean True if the advanced settings are enabled, false if not.
  */
-function advanced_settings_enabled( $wpseo_options ) {
+function wpseo_advanced_settings_enabled( $wpseo_options ) {
 	return ( $wpseo_options['enable_setting_pages'] === true );
 }
 
