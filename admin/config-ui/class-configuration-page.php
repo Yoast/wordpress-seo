@@ -4,7 +4,7 @@
  */
 
 /**
- * @class WPSEO_Configuration_Wizard Loads the Yoast onboarding wizard.
+ * @class WPSEO_Configuration_Wizard Loads the Yoast configuration wizard.
  */
 class WPSEO_Configuration_Page {
 
@@ -98,7 +98,7 @@ class WPSEO_Configuration_Page {
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php _e( 'Yoast SEO &rsaquo; Setup Wizard', 'wordpress-seo' ); ?></title>
+			<title><?php _e( 'Yoast SEO &rsaquo; Configuration Wizard', 'wordpress-seo' ); ?></title>
 			<?php
 				do_action( 'admin_print_styles' );
 				do_action( 'admin_print_scripts' );
@@ -216,7 +216,7 @@ class WPSEO_Configuration_Page {
 	}
 
 	/**
-	 * Remove the options that triggers the notice for the onboarding wizard.
+	 * Remove the options that triggers the notice for the configuration wizard.
 	 */
 	private function remove_notification_option() {
 		$options = $this->get_options();
