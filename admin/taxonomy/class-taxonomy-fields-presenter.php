@@ -94,7 +94,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 			case 'pageanalysis' :
 				$field .= '<div id="pageanalysis-section"' . $aria_describedby . '>';
 				$field .= '<section class="snippet-editor__preview yoast-section" id="wpseo-pageanalysis-section">';
-				$field .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis' ) .'</h3>';
+				$field .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) .'</h3>';
 				$field .= '<div id="wpseo_analysis"></div>';
 				$field .= '</section>';
 				$field .= '</div>';
@@ -102,7 +102,9 @@ class WPSEO_Taxonomy_Fields_Presenter {
 			case 'focuskeyword':
 				$field .= '<div id="wpseofocuskeyword"' . $aria_describedby . '>';
 				$field .= '<section class="snippet-editor__preview yoast-section" id="wpseo-focuskeyword-section">';
-				$field .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-key">'. __( 'Focus keyword' ) .'</h3>';
+				$field .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-key">';
+				$field .= '<label for="' . $field_name . '">' . __( 'Focus keyword', 'wordpress-seo' ) . '</label>';
+				$field .= '</h3>';
 				$field .= '<input type="text" id="' . $field_name . '" autocomplete="off" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
 				$field .= '</section>';
 				$field .= '</div>';
