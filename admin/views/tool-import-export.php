@@ -79,7 +79,7 @@ if ( isset( $import ) ) {
 
 		$status = ( $import->success ) ? 'updated' : 'error';
 
-		echo '<div id="message" class="message ', $status, '" style="width:94%;"><p>', $msg, '</p></div>';
+		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}
 }
 

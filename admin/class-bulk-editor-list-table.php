@@ -734,14 +734,16 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function column_attributes( $column_name, $hidden, $classes ) {
 
-		$class = sprintf( 'class="%1$s column-%1$s%2$s"', $column_name, $classes );
-		$style = '';
+		$attributes = '';
+		$class = array( $column_name, "column-$column_name$classes" );
 
 		if ( in_array( $column_name, $hidden ) ) {
-			$style = ' style="display:none;"';
+			$class[] = 'hidden';
 		}
 
-		$attributes = $class . $style;
+		if ( ! empty( $class ) ) {
+			$attributes = 'class="' . implode( ' ', $class ) . '"';
+		}
 
 		return $attributes;
 	}
