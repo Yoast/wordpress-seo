@@ -40,7 +40,7 @@ class WPSEO_Configuration_Page {
 		$this->remove_notification();
 		$this->remove_notification_option();
 
-		wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
+		wp_redirect( admin_url( 'admin.php?page=' . self::get_configuration_page_identifier() ) );
 		exit;
 	}
 
@@ -49,7 +49,7 @@ class WPSEO_Configuration_Page {
 	 *  Registers the page for the wizard.
 	 */
 	public function add_wizard_page() {
-		add_dashboard_page( '', '', 'manage_options', self::PAGE_IDENTIFIER, '' );
+		add_dashboard_page( '', '', 'manage_options', self::get_configuration_page_identifier(), '' );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class WPSEO_Configuration_Page {
 	 */
 	public function show_wizard() {
 		$this->enqueue_assets();
-		$dashboard_url = admin_url( '/admin.php?page=wpseo_dashboard' );
+		$dashboard_url = admin_url( '/admin.php?page='. self::get_wpseo_dashboard_page() );
 		?>
 		<!DOCTYPE html>
 		<!--[if IE 9]>
@@ -138,7 +138,7 @@ class WPSEO_Configuration_Page {
 			'nonce'             => wp_create_nonce( 'wp_rest' ),
 			'root'              => esc_url_raw( rest_url() ),
 			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-			'finishUrl'         => admin_url( 'admin.php?page=wpseo_dashboard&configuration=finished' ),
+			'finishUrl'         => admin_url( 'admin.php?page=' . self::get_wpseo_dashboard_page() . '&configuration=finished' ),
 			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
 			'gscProfiles'       => $service->get_sites(),
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),
@@ -187,7 +187,7 @@ class WPSEO_Configuration_Page {
 		$message = sprintf(
 			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
 			'Yoast SEO',
-			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
+			'<a href="' . admin_url( '?page=' . self::get_configuration_page_identifier() ) . '">',
 			'</a>'
 		);
 
@@ -233,5 +233,23 @@ class WPSEO_Configuration_Page {
 	 */
 	private function get_options() {
 		return get_option( 'wpseo' );
+	}
+
+	/**
+	 * Returns the page identifier for the configuration UI.
+	 *
+	 * @return string The configuration page identifier.
+	 */
+	public static function get_configuration_page_identifier() {
+		return self::PAGE_IDENTIFIER;
+	}
+
+	/**
+	 * Returns the page identifier for the wpseo dashboard.
+	 *
+	 * @return string The dashboard page identifier.
+	 */
+	public static function get_wpseo_dashboard_page() {
+		return WPSEO_Admin::PAGE_IDENTIFIER;
 	}
 }
