@@ -123,17 +123,18 @@
 	 * @returns {void}
 	 */
 	function moveHelpElements() {
-		jQuery( " #pageanalysis-section" ).find( "h3" ).append(
-			jQuery( "#help_yoast_wpseo_pageanalysis" ).detach().removeClass( "wpseo_hidden" )
+
+		jQuery( " #wpseo-focuskeyword-section" ).find( "h3" ).append(
+			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
 		);
 
-		jQuery( " #wpseofocuskeyword" ).find( "h3" ).append(
-			jQuery( "#help_yoast_wpseo_focuskw_text_input" ).detach().removeClass( "wpseo_hidden" )
+		jQuery( " #wpseo-analysis-section" ).find( "h3" ).append(
+			jQuery( "#help-yoast-analysis" ).detach().removeClass( "wpseo_hidden" )
 		);
 
-		jQuery( " #wpseosnippet" ).find( "h3" ).append(
-			jQuery( "#help_yoast_wpseo_snippetpreview" ).detach().removeClass( "wpseo_hidden" )
-		);
+		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
+		jQuery( " #wpseosnippet" ).find( "h3" ).append( snippetHelp );
+		jQuery( " #wpseo_snippet" ).find( "h3" ).append( snippetHelp );
 	}
 
 	jQuery( document ).ready( function() {
