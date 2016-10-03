@@ -1,13 +1,9 @@
 /* browser:true */
-/* global tb_show, wpseoSelect2Locale, wpseoAdminL10n, wpseoMediaL10n */
+/* global tb_show, wpseoSelect2Locale */
 
-/* jshint ignore:start */
 import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
-/* jshint ignore:end */
 
 ( function( $ ) {
-	"use strict";
-
 	window.wpseo_init_tabs = function() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" ).on( "click", "a.wpseo_tablink", function( ev ) {
@@ -58,7 +54,9 @@ import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	};
 
 	/**
-	 * Adds select2 for selected fields.
+	 * @summary Adds select2 for selected fields.
+	 *
+	 * @returns {void}
 	 */
 	function initSelect2() {
 		// Select2 for Yoast SEO Metabox Advanced tab
@@ -67,7 +65,9 @@ import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	}
 
 	/**
-	 * Shows a informational popup if someone click the add keyword button
+	 * @summary Shows a informational popup if someone click the add keyword button.
+	 *
+	 * @returns {void}
 	 */
 	function addKeywordPopup() {
 		var $buyButton = $( "#wpseo-add-keyword-popup-button" ),
@@ -115,7 +115,9 @@ import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	}
 
 	/**
-	 * Adds keyword popup if the template for it is found
+	 * @summary Adds keyword popup if the template for it is found.
+	 *
+	 * @returns {void}
 	 */
 	function initAddKeywordPopup() {
 		// If add keyword popup exists bind it to the add keyword button
@@ -144,6 +146,7 @@ import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
  * @deprecated since version 3.0
  *
  * @param {string} str
+ *
  * @returns {string}
  */
 function ystClean( str ) {

@@ -1,8 +1,6 @@
-/* global wp, _, wpseoPrimaryCategoryL10n, wpseoAdminL10n */
+/* global wp, _, wpseoPrimaryCategoryL10n */
 
-/* jshint ignore:start */
 import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
-/* jshint ignore:end */
 
 ( function( $ ) {
 	"use strict";
