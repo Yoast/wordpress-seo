@@ -8,7 +8,7 @@ var intialiseAlgoliaSearch = () => {
 // Inject kb-search in divs with the classname of 'wpseo-kb-search'.
 	var mountingPoints = jQuery( ".wpseo-kb-search" );
 	var algoliaSearchers = [];
-	jQuery.each( mountingPoints, function ( index, mountingPoint ) {
+	jQuery.each( mountingPoints, function( index, mountingPoint ) {
 		var tabId = jQuery( mountingPoint ).closest( ".wpseotab" ).attr( "id" );
 		var translations = {
 			noResultsText: wpseoAdminL10n.kb_no_results,
@@ -33,17 +33,17 @@ var intialiseAlgoliaSearch = () => {
 	} );
 
 // Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
-	jQuery( ".contact-support" ).on( "click", function () {
+	jQuery( ".contact-support" ).on( "click", function() {
 		var activeTabName = jQuery( ".wpseotab.active" ).attr( "id" );
 
 		// 1st by default. (Used for the Advanced settings pages because of how the tabs were set up)
 		var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher;
 
-		jQuery.each( algoliaSearchers, function ( key, searcher ) {
+		jQuery.each( algoliaSearchers, function( key, searcher ) {
 			if ( searcher.tabName === activeTabName ) {
 				activeAlgoliaSearcher = searcher.algoliaSearcher;
 
-				// returning false breaks the loop.
+				// Returning false breaks the loop.
 				return false;
 			}
 		} );
