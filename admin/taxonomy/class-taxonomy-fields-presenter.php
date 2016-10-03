@@ -56,7 +56,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
-		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'analysis', 'snippetpreview' ) ) ) {
+		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'pageanalysis', 'snippetpreview' ) ) ) {
 			return $this->parse_section_row( $field, $field_configuration['type'], $help );
 		}
 
@@ -91,9 +91,9 @@ class WPSEO_Taxonomy_Fields_Presenter {
 			case 'snippetpreview':
 				$field .= '<div id="wpseo_snippet" class="wpseosnippet"></div>';
 				break;
-			case 'analysis' :
+			case 'pageanalysis' :
 				$field .= '<div id="pageanalysis-section"' . $aria_describedby . '>';
-				$field .= '<section class="snippet-editor__preview yoast-section" id="wpseo-analysis-section">';
+				$field .= '<section class="snippet-editor__preview yoast-section" id="wpseo-pageanalysis-section">';
 				$field .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis' ) .'</h3>';
 				$field .= '<div id="wpseo_analysis"></div>';
 				$field .= '</section>';

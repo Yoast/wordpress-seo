@@ -36,7 +36,7 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 			'analysis' => $this->get_field_config(
 				__( 'Analysis', 'wordpress-seo' ),
 				'',
-				'analysis',
+				'pageanalysis',
 				array(
 					'help-button' => __( 'Content Analysis Help', 'wordpress-seo' ),
 					'help'        => sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %sLearn more about the Content Analysis Tool%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' ),

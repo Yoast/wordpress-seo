@@ -128,8 +128,8 @@
 			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
 		);
 
-		jQuery( " #wpseo-analysis-section" ).find( "h3" ).append(
-			jQuery( "#help-yoast-analysis" ).detach().removeClass( "wpseo_hidden" )
+		jQuery( " #wpseo-pageanalysis-section" ).find( "h3" ).append(
+			jQuery( "#help-yoast-pageanalysis" ).detach().removeClass( "wpseo_hidden" )
 		);
 
 		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );

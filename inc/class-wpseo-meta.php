@@ -154,7 +154,7 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 			),
 			'pageanalysis'   => array(
-				'type'         => 'analysis',
+				'type'         => 'pageanalysis',
 				'title'        => '', // Translation added later.
 				'help'         => '', // Translation added later.
 				'help-button'  => '', // Translation added later.

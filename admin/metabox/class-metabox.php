@@ -515,9 +515,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		switch ( $meta_field_def['type'] ) {
-			case 'analysis':
+			case 'pageanalysis':
 				$content .= '<div id="pageanalysis">';
-				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-analysis-section">';
+				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-pageanalysis-section">';
 				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
@@ -653,7 +653,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			if ( in_array( $meta_field_def['type'], array(
 					'snippetpreview',
-					'analysis',
+					'pageanalysis',
 					'focuskeyword',
 				), true )
 			) {
