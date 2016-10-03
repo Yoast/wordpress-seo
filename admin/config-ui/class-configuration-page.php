@@ -34,7 +34,7 @@ class WPSEO_Configuration_Page {
 	 */
 	public function catch_configuration_request() {
 		if ( filter_input( INPUT_GET, 'configuration' ) !== 'finished'
-		     && ( ! filter_input( INPUT_GET, 'page' ) === self::get_configuration_page_identifier() ) ) {
+		     || ( ! filter_input( INPUT_GET, 'page' ) === WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) {
 			return;
 		}
 
