@@ -6,7 +6,7 @@ var getL10nObject = require("./getL10nObject");
 /**
  * Returns the description placeholder for use in the description forms.
  *
- * @returns {string}
+ * @returns {string} The description placeholder.
  */
 function getDescriptionPlaceholder() {
 	var descriptionPlaceholder = "";
@@ -53,7 +53,7 @@ var getL10nObject = require("./getL10nObject");
 /**
  * Returns the title placeholder for use in the title forms.
  *
- * @returns {string}
+ * @returns {string} The title placeholder.
  */
 function getTitlePlaceholder() {
 	var titlePlaceholder = "";
@@ -97,19 +97,20 @@ function isUndefined(value) {
 module.exports = isUndefined;
 
 },{}],5:[function(require,module,exports){
-/* jshint -W097 */
-
 'use strict';
+
+/* jshint -W097 */
 
 /**
  * Returns the HTML for a help button
  *
  * @param {string} text The text to put in the button.
  * @param {string} controls The HTML ID of the element this button controls.
+ *
+ * @returns {string} Generated HTML.
  */
-
 function helpButton(text, controls) {
-  return '<button type="button" class="yoast_help yoast-help-button dashicons" aria-expanded="false" aria-controls="' + controls + '"><span class="screen-reader-text">' + text + '</span></button>';
+  return '<button type="button" class="yoast_help yoast-help-button dashicons" aria-expanded="false" ' + 'aria-controls="' + controls + '"><span class="screen-reader-text">' + text + '</span></button>';
 }
 
 /**
@@ -117,6 +118,8 @@ function helpButton(text, controls) {
  *
  * @param {string} text The text to put in the button.
  * @param {string} id The HTML ID to give this button.
+ *
+ * @returns {string} The generated HTMl.
  */
 function helpText(text, id) {
   return '<p id="' + id + '" class="yoast-help-panel">' + text + '</p>';
@@ -128,21 +131,23 @@ module.exports = {
 };
 
 },{}],6:[function(require,module,exports){
+"use strict";
+
 /* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO, ajaxurl  */
 /* jshint -W097 */
-'use strict';
 
-var getImages = require('yoastseo/js/stringProcessing/imageInText');
-var helpPanel = require('./helpPanel');
-var getTitlePlaceholder = require('../../../../js/src/analysis/getTitlePlaceholder');
-var getDescriptionPlaceholder = require('../../../../js/src/analysis/getDescriptionPlaceholder');
+var getImages = require("yoastseo/js/stringProcessing/imageInText");
+var helpPanel = require("./helpPanel");
+var getTitlePlaceholder = require("../../../../js/src/analysis/getTitlePlaceholder");
+var getDescriptionPlaceholder = require("../../../../js/src/analysis/getDescriptionPlaceholder");
 
-var clone = require('lodash/clone');
-var forEach = require('lodash/forEach');
-var _has = require('lodash/has');
-var isUndefined = require('lodash/isUndefined');
+var clone = require("lodash/clone");
+var forEach = require("lodash/forEach");
+var _has = require("lodash/has");
+var isUndefined = require("lodash/isUndefined");
 
-var Jed = require('jed');
+var Jed = require("jed");
+var socialPreviews = require("yoast-social-previews");
 
 (function ($) {
 	/**
@@ -150,13 +155,12 @@ var Jed = require('jed');
   * @type {{content: string, featured: string}}
   */
 	var imageFallBack = {
-		content: '',
-		featured: ''
+		content: "",
+		featured: ""
 	};
 
 	var canReadFeaturedImage = true;
 
-	var socialPreviews = require('yoast-social-previews');
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
 
@@ -175,16 +179,18 @@ var Jed = require('jed');
   * @param {string} removeButton ID name for the remove button.
   * @param {function} onMediaSelect The event that will be ran when image is chosen.
   * @param {Object} imagePreviewElement The image preview element that can be clicked to update as well.
+  *
+  * @returns {void}
   */
 	function bindUploadButtonEvents(imageUrl, imageButton, removeButton, onMediaSelect, imagePreviewElement) {
-		var social_preview_uploader = wp.media.frames.file_frame = wp.media({
+		var socialPreviewUploader = wp.media.frames.file_frame = wp.media({
 			title: yoastSocialPreview.choose_image,
 			button: { text: yoastSocialPreview.choose_image },
 			multiple: false
 		});
 
-		social_preview_uploader.on('select', function () {
-			var attachment = social_preview_uploader.state().get('selection').first().toJSON();
+		socialPreviewUploader.on("select", function () {
+			var attachment = socialPreviewUploader.state().get("selection").first().toJSON();
 
 			// Set the image URL.
 			imageUrl.val(attachment.url);
@@ -198,7 +204,7 @@ var Jed = require('jed');
 			evt.preventDefault();
 
 			// Clear the image URL
-			imageUrl.val('');
+			imageUrl.val("");
 
 			onMediaSelect();
 
@@ -207,11 +213,11 @@ var Jed = require('jed');
 
 		$(imageButton).click(function (evt) {
 			evt.preventDefault();
-			social_preview_uploader.open();
+			socialPreviewUploader.open();
 		});
 
-		$(imagePreviewElement).on('click', function (eventObject) {
-			social_preview_uploader.open();
+		$(imagePreviewElement).on("click", function (eventObject) {
+			socialPreviewUploader.open();
 		});
 	}
 
@@ -219,86 +225,88 @@ var Jed = require('jed');
   * Adds the choose image button and hides the input field.
   *
   * @param {Object} preview The preview to add the upload button to.
+  *
+  * @returns {void}
   */
 	function addUploadButton(preview) {
-		if (typeof wp.media === 'undefined') {
+		if (typeof wp.media === "undefined") {
 			return;
 		}
 
-		var imageUrl = $(preview.element.formContainer).find('.js-snippet-editor-imageUrl');
+		var imageUrl = $(preview.element.formContainer).find(".js-snippet-editor-imageUrl");
 
-		var buttonDiv = $('<div></div>');
+		var buttonDiv = $("<div></div>");
 		buttonDiv.insertAfter(imageUrl);
 
 		var uploadButtonText = getUploadButtonText(preview);
 
-		var imageFieldId = jQuery(imageUrl).attr('id');
-		var imageButtonId = imageFieldId + '_button';
-		var imageButtonHtml = '<button id="' + imageButtonId + '" class="button button-primary wpseo_preview_image_upload_button" type="button">' + uploadButtonText + '</button>';
+		var imageFieldId = jQuery(imageUrl).attr("id");
+		var imageButtonId = imageFieldId + "_button";
+		var imageButtonHtml = '<button id="' + imageButtonId + '" ' + 'class="button button-primary wpseo_preview_image_upload_button" type="button">' + uploadButtonText + '</button>';
 
-		var removeButtonId = imageFieldId + '_remove_button';
-		var removeButtonHtml = '<button id="' + removeButtonId + '" type="button" class="button wpseo_preview_image_upload_button">' + yoastSocialPreview.removeImageButton + '</button>';
+		var removeButtonId = imageFieldId + "_remove_button";
+		var removeButtonHtml = '<button id="' + removeButtonId + '" type="button" ' + 'class="button wpseo_preview_image_upload_button">' + yoastSocialPreview.removeImageButton + '</button>';
 
 		$(buttonDiv).append(imageButtonHtml);
 		$(buttonDiv).append(removeButtonHtml);
 
 		imageUrl.hide();
-		if (imageUrl.val() === '') {
-			$('#' + removeButtonId).hide();
+		if (imageUrl.val() === "") {
+			$("#" + removeButtonId).hide();
 		}
 
-		bindUploadButtonEvents(imageUrl, '#' + imageButtonId, '#' + removeButtonId, preview.updatePreview.bind(preview), $(preview.element.container).find('.editable-preview__image'));
+		bindUploadButtonEvents(imageUrl, "#" + imageButtonId, "#" + removeButtonId, preview.updatePreview.bind(preview), $(preview.element.container).find(".editable-preview__image"));
 	}
 
 	/**
   * Returns the type of the current page: post or term.
   *
-  * @returns {string}
+  * @returns {string} The current type.
   */
 	function getCurrentType() {
 		// When this field exists, it is a post.
-		if ($('#post_ID').length > 0) {
-			return 'post';
+		if ($("#post_ID").length > 0) {
+			return "post";
 		}
 
 		// When this field is found, it is a term.
-		if ($('input[name=tag_ID]').length > 0) {
-			return 'term';
+		if ($("input[name=tag_ID]").length > 0) {
+			return "term";
 		}
 
-		return '';
+		return "";
 	}
 
 	/**
   * Returns the prefix for the fields, because of the fields for the post do have an othere prefix than the ones for
   * a taxonomy.
   *
-  * @returns {*}
+  * @returns {*} The prefix to use.
   */
 	function fieldPrefix() {
 		switch (getCurrentType()) {
-			case 'post':
-				return 'yoast_wpseo';
-			case 'term':
-				return 'wpseo';
+			case "post":
+				return "yoast_wpseo";
+			case "term":
+				return "wpseo";
 			default:
-				return '';
+				return "";
 		}
 	}
 
 	/**
   * Returns the name of the tinymce and textarea fields.
   *
-  * @returns {string}
+  * @returns {string} The name for the content field.
   */
 	function contentTextName() {
 		switch (getCurrentType()) {
-			case 'post':
-				return 'content';
-			case 'term':
-				return 'description';
+			case "post":
+				return "content";
+			case "term":
+				return "description";
 			default:
-				return '';
+				return "";
 		}
 	}
 
@@ -307,23 +315,30 @@ var Jed = require('jed');
   *
   * @param {Object} socialPreviewholder The holder element where the container will be append to.
   * @param {string} containerId The id the container will get
+  * @returns {void}
   */
 	function createSocialPreviewContainer(socialPreviewholder, containerId) {
 		socialPreviewholder.append('<div id="' + containerId + '"></div>');
-		socialPreviewholder.find('.form-table').hide();
+		socialPreviewholder.find(".form-table").hide();
 	}
 
 	/**
   * Gets the meta description from the snippet editor
+  * @returns {void}
   */
 	function getMetaDescription() {
-		return $('#yoast_wpseo_metadesc').val();
+		return $("#yoast_wpseo_metadesc").val();
 	}
 
+	/**
+  * Returns the placeholder for the meta description field.
+  *
+  * @returns {string} The placeholder for the meta description.
+  */
 	function getSocialDescriptionPlaceholder() {
 		var description = getMetaDescription();
 
-		if ('' === description) {
+		if ("" === description) {
 			description = getDescriptionPlaceholder();
 		}
 
@@ -336,7 +351,12 @@ var Jed = require('jed');
   * @param {string} targetElement The element where the preview is loaded.
   * @param {string} fieldPrefix The prefix each form element has.
   *
-  * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
+  * @returns { {
+  * 		targetElement: Element,
+  *		data: {title: *, description: *, imageUrl: *},
+  * 		baseURL: *,
+  * 		callbacks: {updateSocialPreview: callbacks.updateSocialPreview}
+  * } } The arguments for the social preview.
   */
 	function getSocialPreviewArgs(targetElement, fieldPrefix) {
 		var titlePlaceholder = getTitlePlaceholder();
@@ -345,40 +365,40 @@ var Jed = require('jed');
 		var args = {
 			targetElement: $(targetElement).get(0),
 			data: {
-				title: $('#' + fieldPrefix + '-title').val(),
-				description: $('#' + fieldPrefix + '-description').val(),
-				imageUrl: $('#' + fieldPrefix + '-image').val()
+				title: $("#" + fieldPrefix + "-title").val(),
+				description: $("#" + fieldPrefix + "-description").val(),
+				imageUrl: $("#" + fieldPrefix + "-image").val()
 			},
 			baseURL: yoastSocialPreview.website,
 			callbacks: {
 				updateSocialPreview: function updateSocialPreview(data) {
-					$('#' + fieldPrefix + '-title').val(data.title);
-					$('#' + fieldPrefix + '-description').val(data.description);
-					$('#' + fieldPrefix + '-image').val(data.imageUrl);
+					$("#" + fieldPrefix + "-title").val(data.title);
+					$("#" + fieldPrefix + "-description").val(data.description);
+					$("#" + fieldPrefix + "-image").val(data.imageUrl);
 
 					// Make sure Twitter is updated if a Facebook image is set
-					$('.editable-preview').trigger('imageUpdate');
+					$(".editable-preview").trigger("imageUpdate");
 
-					if (data.imageUrl !== '') {
-						var buttonPrefix = targetElement.attr('id').replace('Preview', '');
+					if (data.imageUrl !== "") {
+						var buttonPrefix = targetElement.attr("id").replace("Preview", "");
 						setUploadButtonValue(buttonPrefix, yoastSocialPreview.useOtherImage);
 					}
 
-					jQuery(targetElement).find('.editable-preview').trigger('titleUpdate');
-					jQuery(targetElement).find('.editable-preview').trigger('descriptionUpdate');
+					jQuery(targetElement).find(".editable-preview").trigger("titleUpdate");
+					jQuery(targetElement).find(".editable-preview").trigger("descriptionUpdate");
 				},
 				modifyImageUrl: function modifyImageUrl(imageUrl) {
-					if (imageUrl === '') {
-						imageUrl = getFallbackImage('');
+					if (imageUrl === "") {
+						imageUrl = getFallbackImage("");
 					}
 
 					return imageUrl;
 				},
 				modifyTitle: function modifyTitle(title) {
-					if (fieldPrefix.indexOf('twitter') > -1) {
-						if (title === $('#twitter-editor-title').attr('placeholder')) {
-							var facebookTitle = $('#facebook-editor-title').val();
-							if (facebookTitle !== '') {
+					if (fieldPrefix.indexOf("twitter") > -1) {
+						if (title === $("#twitter-editor-title").attr("placeholder")) {
+							var facebookTitle = $("#facebook-editor-title").val();
+							if (facebookTitle !== "") {
 								title = facebookTitle;
 							}
 						}
@@ -387,10 +407,10 @@ var Jed = require('jed');
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariables(title);
 				},
 				modifyDescription: function modifyDescription(description) {
-					if (fieldPrefix.indexOf('twitter') > -1) {
-						if (description === $('#twitter-editor-description').attr('placeholder')) {
-							var facebookDescription = $('#facebook-editor-description').val();
-							if (facebookDescription !== '') {
+					if (fieldPrefix.indexOf("twitter") > -1) {
+						if (description === $("#twitter-editor-description").attr("placeholder")) {
+							var facebookDescription = $("#facebook-editor-description").val();
+							if (facebookDescription !== "") {
 								description = facebookDescription;
 							}
 						}
@@ -407,7 +427,7 @@ var Jed = require('jed');
 			}
 		};
 
-		if ('' !== descriptionPlaceholder) {
+		if ("" !== descriptionPlaceholder) {
 			args.placeholder.description = descriptionPlaceholder;
 			args.defaultValue.description = descriptionPlaceholder;
 		}
@@ -419,12 +439,13 @@ var Jed = require('jed');
   * Try to get the Facebook author name via AJAX and put it to the Facebook preview.
   *
   * @param {FacebookPreview} facebookPreview The Facebook preview object
+  * @returns {void}
   */
 	function getFacebookAuthor(facebookPreview) {
 		$.get(ajaxurl, {
-			action: 'wpseo_get_facebook_name',
+			action: "wpseo_get_facebook_name",
 			_ajax_nonce: yoastSocialPreview.facebookNonce,
-			user_id: $('#post_author_override').val()
+			user_id: $("#post_author_override").val()
 		}, function (author) {
 			if (author !== 0) {
 				facebookPreview.setAuthor(author);
@@ -436,15 +457,16 @@ var Jed = require('jed');
   * Initialize the Facebook preview.
   *
   * @param {Object} facebookHolder Target element for adding the Facebook preview.
+  * @returns {void}
   */
 	function initFacebook(facebookHolder) {
-		createSocialPreviewContainer(facebookHolder, 'facebookPreview');
+		createSocialPreviewContainer(facebookHolder, "facebookPreview");
 
-		var facebookPreviewContainer = $('#facebookPreview');
-		facebookPreview = new FacebookPreview(getSocialPreviewArgs(facebookPreviewContainer, fieldPrefix() + '_opengraph'), i18n);
+		var facebookPreviewContainer = $("#facebookPreview");
+		facebookPreview = new FacebookPreview(getSocialPreviewArgs(facebookPreviewContainer, fieldPrefix() + "_opengraph"), i18n);
 
-		facebookPreviewContainer.on('imageUpdate', '.editable-preview', function () {
-			setUploadButtonValue('facebook', getUploadButtonText(facebookPreview));
+		facebookPreviewContainer.on("imageUpdate", ".editable-preview", function () {
+			setUploadButtonValue("facebook", getUploadButtonText(facebookPreview));
 			setFallbackImage(facebookPreview);
 		});
 
@@ -452,10 +474,10 @@ var Jed = require('jed');
 
 		addUploadButton(facebookPreview);
 
-		var postAuthorDropdown = $('#post_author_override');
+		var postAuthorDropdown = $("#post_author_override");
 		if (postAuthorDropdown.length > 0) {
-			postAuthorDropdown.on('change', getFacebookAuthor.bind(this, facebookPreview));
-			postAuthorDropdown.trigger('change');
+			postAuthorDropdown.on("change", getFacebookAuthor.bind(this, facebookPreview));
+			postAuthorDropdown.trigger("change");
 		}
 	}
 
@@ -463,22 +485,23 @@ var Jed = require('jed');
   * Initialize the twitter preview.
   *
   * @param {Object} twitterHolder Target element for adding the twitter preview.
+  * @returns {void}
   */
 	function initTwitter(twitterHolder) {
-		createSocialPreviewContainer(twitterHolder, 'twitterPreview');
+		createSocialPreviewContainer(twitterHolder, "twitterPreview");
 
-		var twitterPreviewContainer = $('#twitterPreview');
-		twitterPreview = new TwitterPreview(getSocialPreviewArgs(twitterPreviewContainer, fieldPrefix() + '_twitter'), i18n);
+		var twitterPreviewContainer = $("#twitterPreview");
+		twitterPreview = new TwitterPreview(getSocialPreviewArgs(twitterPreviewContainer, fieldPrefix() + "_twitter"), i18n);
 
-		twitterPreviewContainer.on('imageUpdate', '.editable-preview', function () {
-			setUploadButtonValue('twitter', getUploadButtonText(twitterPreview));
+		twitterPreviewContainer.on("imageUpdate", ".editable-preview", function () {
+			setUploadButtonValue("twitter", getUploadButtonText(twitterPreview));
 			setFallbackImage(twitterPreview);
 		});
 
-		var facebookPreviewContainer = $('#facebookPreview');
-		facebookPreviewContainer.on('titleUpdate', '.editable-preview', twitterTitleFallback.bind(this, twitterPreview));
+		var facebookPreviewContainer = $("#facebookPreview");
+		facebookPreviewContainer.on("titleUpdate", ".editable-preview", twitterTitleFallback.bind(this, twitterPreview));
 
-		facebookPreviewContainer.on('descriptionUpdate', '.editable-preview', twitterDescriptionFallback.bind(this, twitterPreview));
+		facebookPreviewContainer.on("descriptionUpdate", ".editable-preview", twitterDescriptionFallback.bind(this, twitterPreview));
 
 		twitterPreview.init();
 
@@ -491,19 +514,20 @@ var Jed = require('jed');
   * When twitter title is empty, use the Facebook title
   *
   * @param {TwitterPreview} twitterPreview The twitter preview object
+  * @returns {void}
   */
 	function twitterTitleFallback(twitterPreview) {
-		var $twitterTitle = $('#twitter-editor-title');
+		var $twitterTitle = $("#twitter-editor-title");
 		var twitterTitle = $twitterTitle.val();
-		if (twitterTitle !== '') {
+		if (twitterTitle !== "") {
 			return;
 		}
 
-		var facebookTitle = $('#facebook-editor-title').val();
-		if (facebookTitle !== '') {
+		var facebookTitle = $("#facebook-editor-title").val();
+		if (facebookTitle !== "") {
 			twitterPreview.setTitle(facebookTitle);
 		} else {
-			twitterPreview.setTitle($twitterTitle.attr('placeholder'));
+			twitterPreview.setTitle($twitterTitle.attr("placeholder"));
 		}
 	}
 
@@ -511,19 +535,20 @@ var Jed = require('jed');
   * When twitter description is empty, use the description title
   *
   * @param {TwitterPreview} twitterPreview The twitter preview object
+  * @returns {void}
   */
 	function twitterDescriptionFallback(twitterPreview) {
-		var $twitterDescription = $('#twitter-editor-description');
+		var $twitterDescription = $("#twitter-editor-description");
 		var twitterDescription = $twitterDescription.val();
-		if (twitterDescription !== '') {
+		if (twitterDescription !== "") {
 			return;
 		}
 
-		var facebookDescription = $('#facebook-editor-description').val();
-		if (facebookDescription !== '') {
+		var facebookDescription = $("#facebook-editor-description").val();
+		if (facebookDescription !== "") {
 			twitterPreview.setDescription(facebookDescription);
 		} else {
-			twitterPreview.setDescription($twitterDescription.attr('placeholder'));
+			twitterPreview.setDescription($twitterDescription.attr("placeholder"));
 		}
 	}
 
@@ -531,10 +556,11 @@ var Jed = require('jed');
   * Set the fallback image for the preview if no image has been set
   *
   * @param {Object} preview Preview to set fallback image on.
+  * @returns {void}
      */
 	function setFallbackImage(preview) {
-		if (preview.data.imageUrl === '') {
-			preview.setImage(getFallbackImage(''));
+		if (preview.data.imageUrl === "") {
+			preview.setImage(getFallbackImage(""));
 		}
 	}
 
@@ -543,16 +569,19 @@ var Jed = require('jed');
   *
   * @param {string} buttonPrefix The value before the id name.
   * @param {string} text The text on the button.
+  * @returns {void}
   */
 	function setUploadButtonValue(buttonPrefix, text) {
-		$('#' + buttonPrefix + '-editor-imageUrl_button').html(text);
+		$("#" + buttonPrefix + "-editor-imageUrl_button").html(text);
 	}
 
 	/**
   * Bind the image events to set the fallback and rendering the preview.
+  *
+  * @returns {void}
   */
 	function bindImageEvents() {
-		if (getCurrentType() === 'post') {
+		if (getCurrentType() === "post") {
 			bindFeaturedImageEvents();
 		}
 
@@ -563,14 +592,16 @@ var Jed = require('jed');
   * Get the text that the upload button needs to display
   *
   * @param {Object} preview Preview to read image from.
-  * @returns {*}
+  * @returns {*} The text for the button.
      */
 	function getUploadButtonText(preview) {
-		return preview.data.imageUrl === '' ? yoastSocialPreview.uploadImage : yoastSocialPreview.useOtherImage;
+		return preview.data.imageUrl === "" ? yoastSocialPreview.uploadImage : yoastSocialPreview.useOtherImage;
 	}
 
 	/**
   * Binds the events for the featured image.
+  *
+  * @returns {void}
   */
 	function bindFeaturedImageEvents() {
 		if (isUndefined(wp.media) || isUndefined(wp.media.featuredImage)) {
@@ -580,15 +611,15 @@ var Jed = require('jed');
 		// When the featured image is being changed
 		var featuredImage = wp.media.featuredImage.frame();
 
-		featuredImage.on('select', function () {
-			var imageDetails = featuredImage.state().get('selection').first().attributes;
+		featuredImage.on("select", function () {
+			var imageDetails = featuredImage.state().get("selection").first().attributes;
 
 			canReadFeaturedImage = true;
 
 			setFeaturedImage(imageDetails.url);
 		});
 
-		$('#postimagediv').on('click', '#remove-post-thumbnail', function () {
+		$("#postimagediv").on("click", "#remove-post-thumbnail", function () {
 			canReadFeaturedImage = false;
 
 			clearFeaturedImage();
@@ -597,18 +628,20 @@ var Jed = require('jed');
 
 	/**
   * Bind the events for the content.
+  *
+  * @returns {void}
   */
 	function bindContentEvents() {
 		// Bind the event when something changed in the text editor.
-		var contentElement = $('#' + contentTextName());
+		var contentElement = $("#" + contentTextName());
 		if (contentElement.length > 0) {
-			contentElement.on('input', detectImageFallback);
+			contentElement.on("input", detectImageFallback);
 		}
 
-		//Bind the events when something changed in the tinyMCE editor.
-		if (typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function') {
-			var events = ['input', 'change', 'cut', 'paste'];
-			tinyMCE.on('addEditor', function (e) {
+		// Bind the events when something changed in the tinyMCE editor.
+		if (typeof tinyMCE !== "undefined" && typeof tinyMCE.on === "function") {
+			var events = ["input", "change", "cut", "paste"];
+			tinyMCE.on("addEditor", function (e) {
 				for (var i = 0; i < events.length; i++) {
 					e.editor.on(events[i], detectImageFallback);
 				}
@@ -618,22 +651,26 @@ var Jed = require('jed');
 
 	/**
   * Sets the featured image fallback value as an empty value and runs the fallback method.
+  *
+  * @returns {void}
   */
 	function clearFeaturedImage() {
-		setFeaturedImage('');
+		setFeaturedImage("");
 		detectImageFallback();
 	}
 
 	/**
   * Sets the image fallbacks like the featured image (in case of a post) and the content image.
+  *
+  * @returns {void}
   */
 	function detectImageFallback() {
 		// In case of a post: we want to have the featured image.
-		if (getCurrentType() === 'post') {
+		if (getCurrentType() === "post") {
 			var featuredImage = getFeaturedImage();
 			setFeaturedImage(featuredImage);
 
-			if (featuredImage !== '') {
+			if (featuredImage !== "") {
 				return;
 			}
 		}
@@ -647,13 +684,14 @@ var Jed = require('jed');
   * Sets the featured image based on the given image URL.
   *
   * @param {string} featuredImage The image we want to set.
+  * @returns {void}
   */
 	function setFeaturedImage(featuredImage) {
 		if (imageFallBack.featured !== featuredImage) {
 			imageFallBack.featured = featuredImage;
 
-			// Just refresh the image URL
-			$('.editable-preview').trigger('imageUpdate');
+			// Just refresh the image URL.
+			$(".editable-preview").trigger("imageUpdate");
 		}
 	}
 
@@ -661,32 +699,33 @@ var Jed = require('jed');
   * Sets the content image base on the given image URL
   *
   * @param {string} contentImage The image we want to set.
+  * @returns {void}
   */
 	function setContentImage(contentImage) {
 		if (imageFallBack.content !== contentImage) {
 			imageFallBack.content = contentImage;
 
-			// Just refresh the image URL
-			$('.editable-preview').trigger('imageUpdate');
+			// Just refresh the image URL.
+			$(".editable-preview").trigger("imageUpdate");
 		}
 	}
 
 	/**
   * Gets the featured image source from the DOM.
   *
-  * @returns {string}
+  * @returns {string} The url to the featured image.
   */
 	function getFeaturedImage() {
 		if (canReadFeaturedImage === false) {
-			return '';
+			return "";
 		}
 
-		var postThumbnail = $('.attachment-post-thumbnail');
+		var postThumbnail = $(".attachment-post-thumbnail");
 		if (postThumbnail.length > 0) {
-			return $(postThumbnail.get(0)).attr('src');
+			return $(postThumbnail.get(0)).attr("src");
 		}
 
-		return '';
+		return "";
 	}
 
 	/**
@@ -694,13 +733,13 @@ var Jed = require('jed');
   *
   * @param {Function} callback function to call if a bigger size is available.
   *
-  * @returns {string}
+  * @returns {string} The first image found in the content.
   */
 	function getContentImage(callback) {
 		var content = getContent();
 
 		var images = getImages(content);
-		var image = '';
+		var image = "";
 
 		if (images.length === 0) {
 			return image;
@@ -710,12 +749,12 @@ var Jed = require('jed');
 			var currentImage = images.shift();
 			currentImage = $(currentImage);
 
-			var imageSource = currentImage.prop('src');
+			var imageSource = currentImage.prop("src");
 
 			if (imageSource) {
 				image = imageSource;
 			}
-		} while ('' === image && images.length > 0);
+		} while ("" === image && images.length > 0);
 
 		image = getBiggerImage(image, callback);
 
@@ -725,8 +764,9 @@ var Jed = require('jed');
 	/**
   * Try to retrieve a bigger image for a certain image found in the content.
   *
-  * @param url
+  * @param {string}   url      The URL to retrieve.
   * @param {Function} callback The callback to call if there is a bigger image.
+  * @returns {string} Returns the bigger image url.
   */
 	function getBiggerImage(url, callback) {
 		if (_has(biggerImages, url)) {
@@ -747,13 +787,14 @@ var Jed = require('jed');
   *
   * @param {string} url The image URL to retrieve the metadata from.
   * @param {Function} callback Callback to call with the image URL result.
+  * @returns {void}
   */
 	function retrieveImageDataFromURL(url, callback) {
 		$.getJSON(ajaxurl, {
-			action: 'retrieve_image_data_from_url',
+			action: "retrieve_image_data_from_url",
 			imageURL: url
 		}, function (response) {
-			if ('success' === response.status) {
+			if ("success" === response.status) {
 				callback(response.result);
 			}
 		});
@@ -762,29 +803,29 @@ var Jed = require('jed');
 	/**
   * Returns the content from current visible content editor
   *
-  * @returns {string}
+  * @returns {string} The value of the tinymce box.
   */
 	function getContent() {
 		if (isTinyMCEAvailable()) {
 			return tinyMCE.get(contentTextName()).getContent();
 		}
 
-		var contentElement = $('#' + contentTextName());
+		var contentElement = $("#" + contentTextName());
 		if (contentElement.length > 0) {
 			return contentElement.val();
 		}
 
-		return '';
+		return "";
 	}
 
 	/**
   * Check if tinymce is active on the current page.
   *
-  * @returns {boolean}
+  * @returns {boolean} True when tinymce is available.
   * @private
   */
 	function isTinyMCEAvailable() {
-		if (typeof tinyMCE === 'undefined' || typeof tinyMCE.editors === 'undefined' || tinyMCE.editors.length === 0 || tinyMCE.get(contentTextName()) === null || tinyMCE.get(contentTextName()).isHidden()) {
+		if (typeof tinyMCE === "undefined" || typeof tinyMCE.editors === "undefined" || tinyMCE.editors.length === 0 || tinyMCE.get(contentTextName()) === null || tinyMCE.get(contentTextName()).isHidden()) {
 			return false;
 		}
 
@@ -795,23 +836,23 @@ var Jed = require('jed');
   * Check if there is a fallback image like the featured image or the first image in the content.
   *
   * @param {string} defaultImage The default image when nothing has been found.
-  * @returns {string}
+  * @returns {string} The image to use.
   */
 	function getFallbackImage(defaultImage) {
 		// Twitter always first falls back to Facebook
-		if (facebookPreview.data.imageUrl !== '') {
+		if (facebookPreview.data.imageUrl !== "") {
 			return facebookPreview.data.imageUrl;
 		}
 
 		// In case of an post: we want to have the featured image.
-		if (getCurrentType() === 'post') {
-			if (imageFallBack.featured !== '') {
+		if (getCurrentType() === "post") {
+			if (imageFallBack.featured !== "") {
 				return imageFallBack.featured;
 			}
 		}
 
 		// When the featured image is empty, try an image in the content
-		if (imageFallBack.content !== '') {
+		if (imageFallBack.content !== "") {
 			return imageFallBack.content;
 		}
 
@@ -819,56 +860,58 @@ var Jed = require('jed');
 			return defaultImage;
 		}
 
-		return '';
+		return "";
 	}
 
 	/**
   * Adds the help panels to the social previews
+  *
+  * @returns {void}
   */
 	function addHelpPanels() {
 		var panels = [{
-			beforeElement: '#facebook-editor-imageUrl',
+			beforeElement: "#facebook-editor-imageUrl",
 			buttonText: translations.helpButton.facebookImage,
 			descriptionText: translations.help.facebookImage,
-			id: 'facebook-editor-image-help'
+			id: "facebook-editor-image-help"
 		}, {
-			beforeElement: '#facebook-editor-title',
+			beforeElement: "#facebook-editor-title",
 			buttonText: translations.helpButton.facebookTitle,
 			descriptionText: translations.help.facebookTitle,
-			id: 'facebook-editor-title-help'
+			id: "facebook-editor-title-help"
 		}, {
-			beforeElement: '#facebook-editor-description',
+			beforeElement: "#facebook-editor-description",
 			buttonText: translations.helpButton.facebookDescription,
 			descriptionText: translations.help.facebookDescription,
-			id: 'facebook-editor-description-help'
+			id: "facebook-editor-description-help"
 		}, {
-			beforeElement: '#twitter-editor-imageUrl',
+			beforeElement: "#twitter-editor-imageUrl",
 			buttonText: translations.helpButton.twitterImage,
 			descriptionText: translations.help.twitterImage,
-			id: 'twitter-editor-image-help'
+			id: "twitter-editor-image-help"
 		}, {
-			beforeElement: '#twitter-editor-title',
+			beforeElement: "#twitter-editor-title",
 			buttonText: translations.helpButton.twitterTitle,
 			descriptionText: translations.help.twitterTitle,
-			id: 'twitter-editor-title-help'
+			id: "twitter-editor-title-help"
 		}, {
-			beforeElement: '#twitter-editor-description',
+			beforeElement: "#twitter-editor-description",
 			buttonText: translations.helpButton.twitterDescription,
 			descriptionText: translations.help.twitterDescription,
-			id: 'twitter-editor-description-help'
+			id: "twitter-editor-description-help"
 		}];
 
 		forEach(panels, function (panel) {
 			$(panel.beforeElement).before(helpPanel.helpButton(panel.buttonText, panel.id) + helpPanel.helpText(panel.descriptionText, panel.id));
 		});
 
-		$('.snippet-editor__form').on('click', '.yoast-help-button', function () {
+		$(".snippet-editor__form").on("click", ".yoast-help-button", function () {
 			var $button = $(this),
-			    helpPanel = $('#' + $button.attr('aria-controls')),
-			    isPanelVisible = helpPanel.is(':visible');
+			    helpPanel = $("#" + $button.attr("aria-controls")),
+			    isPanelVisible = helpPanel.is(":visible");
 
 			$(helpPanel).slideToggle(200, function () {
-				$button.attr('aria-expanded', !isPanelVisible);
+				$button.attr("aria-expanded", !isPanelVisible);
 			});
 		});
 	}
@@ -879,19 +922,18 @@ var Jed = require('jed');
   * @returns {Object} translations mapped to the proper domain.
   */
 	function addLibraryTranslations(translations) {
+		if (typeof translations !== "undefined" && typeof translations.domain !== "undefined") {
+			translations.domain = "yoast-social-previews";
+			translations.locale_data["yoast-social-previews"] = clone(translations.locale_data["wordpress-seo-premium"]);
 
-		if (typeof translations !== 'undefined' && typeof translations.domain !== 'undefined') {
-			translations.domain = 'yoast-social-previews';
-			translations.locale_data['yoast-social-previews'] = clone(translations.locale_data['wordpress-seo-premium']);
-
-			delete translations.locale_data['wordpress-seo-premium'];
+			delete translations.locale_data["wordpress-seo-premium"];
 
 			return translations;
 		}
 
 		return {
-			"domain": "yoast-social-previews",
-			"locale_data": {
+			domain: "yoast-social-previews",
+			locale_data: {
 				"yoast-social-previews": {
 					"": {}
 				}
@@ -901,13 +943,15 @@ var Jed = require('jed');
 
 	/**
   * Initialize the social previews.
+  *
+  * @returns {void}
   */
 	function initYoastSocialPreviews() {
-		var facebookHolder = $('#wpseo_facebook');
-		var twitterHolder = $('#wpseo_twitter');
+		var facebookHolder = $("#wpseo_facebook");
+		var twitterHolder = $("#wpseo_twitter");
 
 		if (facebookHolder.length > 0 || twitterHolder.length > 0) {
-			jQuery(window).on('YoastSEO:ready', function () {
+			jQuery(window).on("YoastSEO:ready", function () {
 				detectImageFallback();
 
 				if (facebookHolder.length > 0) {
@@ -927,7 +971,7 @@ var Jed = require('jed');
 	$(initYoastSocialPreviews);
 })(jQuery);
 
-},{"../../../../js/src/analysis/getDescriptionPlaceholder":1,"../../../../js/src/analysis/getTitlePlaceholder":3,"./helpPanel":5,"jed":7,"lodash/clone":125,"lodash/forEach":127,"lodash/has":129,"lodash/isUndefined":143,"yoast-social-previews":151,"yoastseo/js/stringProcessing/imageInText":338}],7:[function(require,module,exports){
+},{"../../../../js/src/analysis/getDescriptionPlaceholder":1,"../../../../js/src/analysis/getTitlePlaceholder":3,"./helpPanel":5,"jed":7,"lodash/clone":125,"lodash/forEach":127,"lodash/has":129,"lodash/isUndefined":143,"yoast-social-previews":151,"yoastseo/js/stringProcessing/imageInText":339}],7:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -10607,7 +10651,7 @@ module.exports = {
 	getBlocks: memoize( getBlocks ),
 };
 
-},{"lodash/forEach":320,"lodash/memoize":335,"tokenizer2/core":150}],227:[function(require,module,exports){
+},{"lodash/forEach":321,"lodash/memoize":336,"tokenizer2/core":150}],227:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -10683,67 +10727,222 @@ module.exports = function( text ) {
 
 },{}],229:[function(require,module,exports){
 arguments[4][8][0].apply(exports,arguments)
-},{"./_getNative":275,"./_root":307,"dup":8}],230:[function(require,module,exports){
+},{"./_getNative":276,"./_root":308,"dup":8}],230:[function(require,module,exports){
 arguments[4][9][0].apply(exports,arguments)
-},{"./_hashClear":279,"./_hashDelete":280,"./_hashGet":281,"./_hashHas":282,"./_hashSet":283,"dup":9}],231:[function(require,module,exports){
+},{"./_hashClear":280,"./_hashDelete":281,"./_hashGet":282,"./_hashHas":283,"./_hashSet":284,"dup":9}],231:[function(require,module,exports){
 arguments[4][10][0].apply(exports,arguments)
 },{"./_listCacheClear":291,"./_listCacheDelete":292,"./_listCacheGet":293,"./_listCacheHas":294,"./_listCacheSet":295,"dup":10}],232:[function(require,module,exports){
 arguments[4][11][0].apply(exports,arguments)
-},{"./_getNative":275,"./_root":307,"dup":11}],233:[function(require,module,exports){
+},{"./_getNative":276,"./_root":308,"dup":11}],233:[function(require,module,exports){
 arguments[4][12][0].apply(exports,arguments)
 },{"./_mapCacheClear":296,"./_mapCacheDelete":297,"./_mapCacheGet":298,"./_mapCacheHas":299,"./_mapCacheSet":300,"dup":12}],234:[function(require,module,exports){
 arguments[4][13][0].apply(exports,arguments)
-},{"./_getNative":275,"./_root":307,"dup":13}],235:[function(require,module,exports){
+},{"./_getNative":276,"./_root":308,"dup":13}],235:[function(require,module,exports){
 arguments[4][14][0].apply(exports,arguments)
-},{"./_getNative":275,"./_root":307,"dup":14}],236:[function(require,module,exports){
+},{"./_getNative":276,"./_root":308,"dup":14}],236:[function(require,module,exports){
 arguments[4][15][0].apply(exports,arguments)
-},{"./_MapCache":233,"./_setCacheAdd":308,"./_setCacheHas":309,"dup":15}],237:[function(require,module,exports){
-arguments[4][16][0].apply(exports,arguments)
-},{"./_ListCache":231,"./_stackClear":311,"./_stackDelete":312,"./_stackGet":313,"./_stackHas":314,"./_stackSet":315,"dup":16}],238:[function(require,module,exports){
+},{"./_MapCache":233,"./_setCacheAdd":309,"./_setCacheHas":310,"dup":15}],237:[function(require,module,exports){
+var ListCache = require('./_ListCache'),
+    stackClear = require('./_stackClear'),
+    stackDelete = require('./_stackDelete'),
+    stackGet = require('./_stackGet'),
+    stackHas = require('./_stackHas'),
+    stackSet = require('./_stackSet');
+
+/**
+ * Creates a stack cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Stack(entries) {
+  var data = this.__data__ = new ListCache(entries);
+  this.size = data.size;
+}
+
+// Add methods to `Stack`.
+Stack.prototype.clear = stackClear;
+Stack.prototype['delete'] = stackDelete;
+Stack.prototype.get = stackGet;
+Stack.prototype.has = stackHas;
+Stack.prototype.set = stackSet;
+
+module.exports = Stack;
+
+},{"./_ListCache":231,"./_stackClear":312,"./_stackDelete":313,"./_stackGet":314,"./_stackHas":315,"./_stackSet":316}],238:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./_root":307,"dup":17}],239:[function(require,module,exports){
+},{"./_root":308,"dup":17}],239:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
-},{"./_root":307,"dup":18}],240:[function(require,module,exports){
+},{"./_root":308,"dup":18}],240:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
-},{"./_getNative":275,"./_root":307,"dup":19}],241:[function(require,module,exports){
+},{"./_getNative":276,"./_root":308,"dup":19}],241:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
 },{"dup":22}],242:[function(require,module,exports){
 arguments[4][23][0].apply(exports,arguments)
-},{"./_baseTimes":262,"./_isIndex":285,"./isArguments":324,"./isArray":325,"dup":23}],243:[function(require,module,exports){
+},{"./_baseTimes":262,"./_isIndex":285,"./isArguments":325,"./isArray":326,"dup":23}],243:[function(require,module,exports){
 arguments[4][26][0].apply(exports,arguments)
 },{"dup":26}],244:[function(require,module,exports){
 arguments[4][28][0].apply(exports,arguments)
-},{"./eq":319,"dup":28}],245:[function(require,module,exports){
+},{"./eq":320,"dup":28}],245:[function(require,module,exports){
 arguments[4][32][0].apply(exports,arguments)
-},{"./_baseForOwn":247,"./_createBaseEach":267,"dup":32}],246:[function(require,module,exports){
+},{"./_baseForOwn":247,"./_createBaseEach":268,"dup":32}],246:[function(require,module,exports){
 arguments[4][33][0].apply(exports,arguments)
-},{"./_createBaseFor":268,"dup":33}],247:[function(require,module,exports){
+},{"./_createBaseFor":269,"dup":33}],247:[function(require,module,exports){
 arguments[4][34][0].apply(exports,arguments)
-},{"./_baseFor":246,"./keys":334,"dup":34}],248:[function(require,module,exports){
+},{"./_baseFor":246,"./keys":335,"dup":34}],248:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
-},{"./_castPath":265,"./_isKey":286,"./_toKey":317,"dup":35}],249:[function(require,module,exports){
+},{"./_castPath":266,"./_isKey":286,"./_toKey":318,"dup":35}],249:[function(require,module,exports){
 arguments[4][37][0].apply(exports,arguments)
 },{"dup":37}],250:[function(require,module,exports){
 arguments[4][39][0].apply(exports,arguments)
 },{"dup":39}],251:[function(require,module,exports){
 arguments[4][40][0].apply(exports,arguments)
-},{"./_baseIsEqualDeep":252,"./isObject":330,"./isObjectLike":331,"dup":40}],252:[function(require,module,exports){
-arguments[4][41][0].apply(exports,arguments)
-},{"./_Stack":237,"./_equalArrays":269,"./_equalByTag":270,"./_equalObjects":271,"./_getTag":276,"./_isHostObject":284,"./isArray":325,"./isTypedArray":333,"dup":41}],253:[function(require,module,exports){
+},{"./_baseIsEqualDeep":252,"./isObject":331,"./isObjectLike":332,"dup":40}],252:[function(require,module,exports){
+var Stack = require('./_Stack'),
+    equalArrays = require('./_equalArrays'),
+    equalByTag = require('./_equalByTag'),
+    equalObjects = require('./_equalObjects'),
+    getTag = require('./_getTag'),
+    isArray = require('./isArray'),
+    isTypedArray = require('./isTypedArray');
+
+/** Used to compose bitmasks for comparison styles. */
+var PARTIAL_COMPARE_FLAG = 2;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual`
+ *  for more details.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = arrayTag,
+      othTag = arrayTag;
+
+  if (!objIsArr) {
+    objTag = getTag(object);
+    objTag = objTag == argsTag ? objectTag : objTag;
+  }
+  if (!othIsArr) {
+    othTag = getTag(other);
+    othTag = othTag == argsTag ? objectTag : othTag;
+  }
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
+      : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
+  }
+  if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+
+      stack || (stack = new Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, customizer, bitmask, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
+}
+
+module.exports = baseIsEqualDeep;
+
+},{"./_Stack":237,"./_equalArrays":270,"./_equalByTag":271,"./_equalObjects":272,"./_getTag":277,"./isArray":326,"./isTypedArray":334}],253:[function(require,module,exports){
 arguments[4][42][0].apply(exports,arguments)
 },{"./_Stack":237,"./_baseIsEqual":251,"dup":42}],254:[function(require,module,exports){
-arguments[4][43][0].apply(exports,arguments)
-},{"./_isHostObject":284,"./_isMasked":288,"./_toSource":318,"./isFunction":328,"./isObject":330,"dup":43}],255:[function(require,module,exports){
+var isFunction = require('./isFunction'),
+    isMasked = require('./_isMasked'),
+    isObject = require('./isObject'),
+    toSource = require('./_toSource');
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+module.exports = baseIsNative;
+
+},{"./_isMasked":288,"./_toSource":319,"./isFunction":329,"./isObject":331}],255:[function(require,module,exports){
 arguments[4][44][0].apply(exports,arguments)
-},{"./isLength":329,"./isObjectLike":331,"dup":44}],256:[function(require,module,exports){
+},{"./isLength":330,"./isObjectLike":332,"dup":44}],256:[function(require,module,exports){
 arguments[4][45][0].apply(exports,arguments)
-},{"./_baseMatches":258,"./_baseMatchesProperty":259,"./identity":323,"./isArray":325,"./property":336,"dup":45}],257:[function(require,module,exports){
+},{"./_baseMatches":258,"./_baseMatchesProperty":259,"./identity":324,"./isArray":326,"./property":337,"dup":45}],257:[function(require,module,exports){
 arguments[4][46][0].apply(exports,arguments)
-},{"./_isPrototype":289,"./_nativeKeys":304,"dup":46}],258:[function(require,module,exports){
+},{"./_isPrototype":289,"./_nativeKeys":305,"dup":46}],258:[function(require,module,exports){
 arguments[4][47][0].apply(exports,arguments)
-},{"./_baseIsMatch":253,"./_getMatchData":274,"./_matchesStrictComparable":302,"dup":47}],259:[function(require,module,exports){
+},{"./_baseIsMatch":253,"./_getMatchData":275,"./_matchesStrictComparable":302,"dup":47}],259:[function(require,module,exports){
 arguments[4][48][0].apply(exports,arguments)
-},{"./_baseIsEqual":251,"./_isKey":286,"./_isStrictComparable":290,"./_matchesStrictComparable":302,"./_toKey":317,"./get":321,"./hasIn":322,"dup":48}],260:[function(require,module,exports){
+},{"./_baseIsEqual":251,"./_isKey":286,"./_isStrictComparable":290,"./_matchesStrictComparable":302,"./_toKey":318,"./get":322,"./hasIn":323,"dup":48}],260:[function(require,module,exports){
 arguments[4][49][0].apply(exports,arguments)
 },{"dup":49}],261:[function(require,module,exports){
 arguments[4][50][0].apply(exports,arguments)
@@ -10751,155 +10950,850 @@ arguments[4][50][0].apply(exports,arguments)
 arguments[4][51][0].apply(exports,arguments)
 },{"dup":51}],263:[function(require,module,exports){
 arguments[4][52][0].apply(exports,arguments)
-},{"./_Symbol":238,"./isSymbol":332,"dup":52}],264:[function(require,module,exports){
+},{"./_Symbol":238,"./isSymbol":333,"dup":52}],264:[function(require,module,exports){
 arguments[4][53][0].apply(exports,arguments)
 },{"dup":53}],265:[function(require,module,exports){
+/**
+ * Checks if a `cache` value for `key` exists.
+ *
+ * @private
+ * @param {Object} cache The cache to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function cacheHas(cache, key) {
+  return cache.has(key);
+}
+
+module.exports = cacheHas;
+
+},{}],266:[function(require,module,exports){
 arguments[4][54][0].apply(exports,arguments)
-},{"./_stringToPath":316,"./isArray":325,"dup":54}],266:[function(require,module,exports){
+},{"./_stringToPath":317,"./isArray":326,"dup":54}],267:[function(require,module,exports){
 arguments[4][66][0].apply(exports,arguments)
-},{"./_root":307,"dup":66}],267:[function(require,module,exports){
+},{"./_root":308,"dup":66}],268:[function(require,module,exports){
 arguments[4][67][0].apply(exports,arguments)
-},{"./isArrayLike":326,"dup":67}],268:[function(require,module,exports){
+},{"./isArrayLike":327,"dup":67}],269:[function(require,module,exports){
 arguments[4][68][0].apply(exports,arguments)
-},{"dup":68}],269:[function(require,module,exports){
-arguments[4][69][0].apply(exports,arguments)
-},{"./_SetCache":236,"./_arraySome":243,"dup":69}],270:[function(require,module,exports){
+},{"dup":68}],270:[function(require,module,exports){
+var SetCache = require('./_SetCache'),
+    arraySome = require('./_arraySome'),
+    cacheHas = require('./_cacheHas');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for arrays with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Array} array The array to compare.
+ * @param {Array} other The other array to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
+ *  for more details.
+ * @param {Object} stack Tracks traversed `array` and `other` objects.
+ * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+ */
+function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
+  var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
+      arrLength = array.length,
+      othLength = other.length;
+
+  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+    return false;
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(array);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var index = -1,
+      result = true,
+      seen = (bitmask & UNORDERED_COMPARE_FLAG) ? new SetCache : undefined;
+
+  stack.set(array, other);
+  stack.set(other, array);
+
+  // Ignore non-index properties.
+  while (++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, arrValue, index, other, array, stack)
+        : customizer(arrValue, othValue, index, array, other, stack);
+    }
+    if (compared !== undefined) {
+      if (compared) {
+        continue;
+      }
+      result = false;
+      break;
+    }
+    // Recursively compare arrays (susceptible to call stack limits).
+    if (seen) {
+      if (!arraySome(other, function(othValue, othIndex) {
+            if (!cacheHas(seen, othIndex) &&
+                (arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack))) {
+              return seen.push(othIndex);
+            }
+          })) {
+        result = false;
+        break;
+      }
+    } else if (!(
+          arrValue === othValue ||
+            equalFunc(arrValue, othValue, customizer, bitmask, stack)
+        )) {
+      result = false;
+      break;
+    }
+  }
+  stack['delete'](array);
+  stack['delete'](other);
+  return result;
+}
+
+module.exports = equalArrays;
+
+},{"./_SetCache":236,"./_arraySome":243,"./_cacheHas":265}],271:[function(require,module,exports){
 arguments[4][70][0].apply(exports,arguments)
-},{"./_Symbol":238,"./_Uint8Array":239,"./_equalArrays":269,"./_mapToArray":301,"./_setToArray":310,"./eq":319,"dup":70}],271:[function(require,module,exports){
+},{"./_Symbol":238,"./_Uint8Array":239,"./_equalArrays":270,"./_mapToArray":301,"./_setToArray":311,"./eq":320,"dup":70}],272:[function(require,module,exports){
 arguments[4][71][0].apply(exports,arguments)
-},{"./keys":334,"dup":71}],272:[function(require,module,exports){
+},{"./keys":335,"dup":71}],273:[function(require,module,exports){
 arguments[4][72][0].apply(exports,arguments)
-},{"dup":72}],273:[function(require,module,exports){
+},{"dup":72}],274:[function(require,module,exports){
 arguments[4][74][0].apply(exports,arguments)
-},{"./_isKeyable":287,"dup":74}],274:[function(require,module,exports){
+},{"./_isKeyable":287,"dup":74}],275:[function(require,module,exports){
 arguments[4][75][0].apply(exports,arguments)
-},{"./_isStrictComparable":290,"./keys":334,"dup":75}],275:[function(require,module,exports){
+},{"./_isStrictComparable":290,"./keys":335,"dup":75}],276:[function(require,module,exports){
 arguments[4][76][0].apply(exports,arguments)
-},{"./_baseIsNative":254,"./_getValue":277,"dup":76}],276:[function(require,module,exports){
-arguments[4][79][0].apply(exports,arguments)
-},{"./_DataView":229,"./_Map":232,"./_Promise":234,"./_Set":235,"./_WeakMap":240,"./_baseGetTag":249,"./_toSource":318,"dup":79}],277:[function(require,module,exports){
+},{"./_baseIsNative":254,"./_getValue":278,"dup":76}],277:[function(require,module,exports){
+var DataView = require('./_DataView'),
+    Map = require('./_Map'),
+    Promise = require('./_Promise'),
+    Set = require('./_Set'),
+    WeakMap = require('./_WeakMap'),
+    baseGetTag = require('./_baseGetTag'),
+    toSource = require('./_toSource');
+
+/** `Object#toString` result references. */
+var mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+var dataViewTag = '[object DataView]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = toSource(DataView),
+    mapCtorString = toSource(Map),
+    promiseCtorString = toSource(Promise),
+    setCtorString = toSource(Set),
+    weakMapCtorString = toSource(WeakMap);
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = objectToString.call(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? toSource(Ctor) : undefined;
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+module.exports = getTag;
+
+},{"./_DataView":229,"./_Map":232,"./_Promise":234,"./_Set":235,"./_WeakMap":240,"./_baseGetTag":249,"./_toSource":319}],278:[function(require,module,exports){
 arguments[4][80][0].apply(exports,arguments)
-},{"dup":80}],278:[function(require,module,exports){
-arguments[4][81][0].apply(exports,arguments)
-},{"./_castPath":265,"./_isIndex":285,"./_isKey":286,"./_toKey":317,"./isArguments":324,"./isArray":325,"./isLength":329,"dup":81}],279:[function(require,module,exports){
-arguments[4][82][0].apply(exports,arguments)
-},{"./_nativeCreate":303,"dup":82}],280:[function(require,module,exports){
-arguments[4][83][0].apply(exports,arguments)
-},{"dup":83}],281:[function(require,module,exports){
+},{"dup":80}],279:[function(require,module,exports){
+var castPath = require('./_castPath'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isIndex = require('./_isIndex'),
+    isKey = require('./_isKey'),
+    isLength = require('./isLength'),
+    toKey = require('./_toKey');
+
+/**
+ * Checks if `path` exists on `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path to check.
+ * @param {Function} hasFunc The function to check properties.
+ * @returns {boolean} Returns `true` if `path` exists, else `false`.
+ */
+function hasPath(object, path, hasFunc) {
+  path = isKey(path, object) ? [path] : castPath(path);
+
+  var index = -1,
+      length = path.length,
+      result = false;
+
+  while (++index < length) {
+    var key = toKey(path[index]);
+    if (!(result = object != null && hasFunc(object, key))) {
+      break;
+    }
+    object = object[key];
+  }
+  if (result || ++index != length) {
+    return result;
+  }
+  length = object ? object.length : 0;
+  return !!length && isLength(length) && isIndex(key, length) &&
+    (isArray(object) || isArguments(object));
+}
+
+module.exports = hasPath;
+
+},{"./_castPath":266,"./_isIndex":285,"./_isKey":286,"./_toKey":318,"./isArguments":325,"./isArray":326,"./isLength":330}],280:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/**
+ * Removes all key-value entries from the hash.
+ *
+ * @private
+ * @name clear
+ * @memberOf Hash
+ */
+function hashClear() {
+  this.__data__ = nativeCreate ? nativeCreate(null) : {};
+  this.size = 0;
+}
+
+module.exports = hashClear;
+
+},{"./_nativeCreate":304}],281:[function(require,module,exports){
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @name delete
+ * @memberOf Hash
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(key) {
+  var result = this.has(key) && delete this.__data__[key];
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+module.exports = hashDelete;
+
+},{}],282:[function(require,module,exports){
 arguments[4][84][0].apply(exports,arguments)
-},{"./_nativeCreate":303,"dup":84}],282:[function(require,module,exports){
+},{"./_nativeCreate":304,"dup":84}],283:[function(require,module,exports){
 arguments[4][85][0].apply(exports,arguments)
-},{"./_nativeCreate":303,"dup":85}],283:[function(require,module,exports){
-arguments[4][86][0].apply(exports,arguments)
-},{"./_nativeCreate":303,"dup":86}],284:[function(require,module,exports){
-arguments[4][90][0].apply(exports,arguments)
-},{"dup":90}],285:[function(require,module,exports){
+},{"./_nativeCreate":304,"dup":85}],284:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Hash
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the hash instance.
+ */
+function hashSet(key, value) {
+  var data = this.__data__;
+  this.size += this.has(key) ? 0 : 1;
+  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+  return this;
+}
+
+module.exports = hashSet;
+
+},{"./_nativeCreate":304}],285:[function(require,module,exports){
 arguments[4][91][0].apply(exports,arguments)
 },{"dup":91}],286:[function(require,module,exports){
 arguments[4][92][0].apply(exports,arguments)
-},{"./isArray":325,"./isSymbol":332,"dup":92}],287:[function(require,module,exports){
+},{"./isArray":326,"./isSymbol":333,"dup":92}],287:[function(require,module,exports){
 arguments[4][93][0].apply(exports,arguments)
 },{"dup":93}],288:[function(require,module,exports){
 arguments[4][94][0].apply(exports,arguments)
-},{"./_coreJsData":266,"dup":94}],289:[function(require,module,exports){
+},{"./_coreJsData":267,"dup":94}],289:[function(require,module,exports){
 arguments[4][95][0].apply(exports,arguments)
 },{"dup":95}],290:[function(require,module,exports){
 arguments[4][96][0].apply(exports,arguments)
-},{"./isObject":330,"dup":96}],291:[function(require,module,exports){
-arguments[4][97][0].apply(exports,arguments)
-},{"dup":97}],292:[function(require,module,exports){
-arguments[4][98][0].apply(exports,arguments)
-},{"./_assocIndexOf":244,"dup":98}],293:[function(require,module,exports){
+},{"./isObject":331,"dup":96}],291:[function(require,module,exports){
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+function listCacheClear() {
+  this.__data__ = [];
+  this.size = 0;
+}
+
+module.exports = listCacheClear;
+
+},{}],292:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype;
+
+/** Built-in value references. */
+var splice = arrayProto.splice;
+
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  --this.size;
+  return true;
+}
+
+module.exports = listCacheDelete;
+
+},{"./_assocIndexOf":244}],293:[function(require,module,exports){
 arguments[4][99][0].apply(exports,arguments)
 },{"./_assocIndexOf":244,"dup":99}],294:[function(require,module,exports){
 arguments[4][100][0].apply(exports,arguments)
 },{"./_assocIndexOf":244,"dup":100}],295:[function(require,module,exports){
-arguments[4][101][0].apply(exports,arguments)
-},{"./_assocIndexOf":244,"dup":101}],296:[function(require,module,exports){
-arguments[4][102][0].apply(exports,arguments)
-},{"./_Hash":230,"./_ListCache":231,"./_Map":232,"dup":102}],297:[function(require,module,exports){
-arguments[4][103][0].apply(exports,arguments)
-},{"./_getMapData":273,"dup":103}],298:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    ++this.size;
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+
+module.exports = listCacheSet;
+
+},{"./_assocIndexOf":244}],296:[function(require,module,exports){
+var Hash = require('./_Hash'),
+    ListCache = require('./_ListCache'),
+    Map = require('./_Map');
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapCacheClear() {
+  this.size = 0;
+  this.__data__ = {
+    'hash': new Hash,
+    'map': new (Map || ListCache),
+    'string': new Hash
+  };
+}
+
+module.exports = mapCacheClear;
+
+},{"./_Hash":230,"./_ListCache":231,"./_Map":232}],297:[function(require,module,exports){
+var getMapData = require('./_getMapData');
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapCacheDelete(key) {
+  var result = getMapData(this, key)['delete'](key);
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+module.exports = mapCacheDelete;
+
+},{"./_getMapData":274}],298:[function(require,module,exports){
 arguments[4][104][0].apply(exports,arguments)
-},{"./_getMapData":273,"dup":104}],299:[function(require,module,exports){
+},{"./_getMapData":274,"dup":104}],299:[function(require,module,exports){
 arguments[4][105][0].apply(exports,arguments)
-},{"./_getMapData":273,"dup":105}],300:[function(require,module,exports){
-arguments[4][106][0].apply(exports,arguments)
-},{"./_getMapData":273,"dup":106}],301:[function(require,module,exports){
+},{"./_getMapData":274,"dup":105}],300:[function(require,module,exports){
+var getMapData = require('./_getMapData');
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapCacheSet(key, value) {
+  var data = getMapData(this, key),
+      size = data.size;
+
+  data.set(key, value);
+  this.size += data.size == size ? 0 : 1;
+  return this;
+}
+
+module.exports = mapCacheSet;
+
+},{"./_getMapData":274}],301:[function(require,module,exports){
 arguments[4][107][0].apply(exports,arguments)
 },{"dup":107}],302:[function(require,module,exports){
 arguments[4][108][0].apply(exports,arguments)
 },{"dup":108}],303:[function(require,module,exports){
+var memoize = require('./memoize');
+
+/** Used as the maximum memoize cache size. */
+var MAX_MEMOIZE_SIZE = 500;
+
+/**
+ * A specialized version of `_.memoize` which clears the memoized function's
+ * cache when it exceeds `MAX_MEMOIZE_SIZE`.
+ *
+ * @private
+ * @param {Function} func The function to have its output memoized.
+ * @returns {Function} Returns the new memoized function.
+ */
+function memoizeCapped(func) {
+  var result = memoize(func, function(key) {
+    if (cache.size === MAX_MEMOIZE_SIZE) {
+      cache.clear();
+    }
+    return key;
+  });
+
+  var cache = result.cache;
+  return result;
+}
+
+module.exports = memoizeCapped;
+
+},{"./memoize":336}],304:[function(require,module,exports){
 arguments[4][109][0].apply(exports,arguments)
-},{"./_getNative":275,"dup":109}],304:[function(require,module,exports){
+},{"./_getNative":276,"dup":109}],305:[function(require,module,exports){
 arguments[4][110][0].apply(exports,arguments)
-},{"./_overArg":306,"dup":110}],305:[function(require,module,exports){
+},{"./_overArg":307,"dup":110}],306:[function(require,module,exports){
 arguments[4][111][0].apply(exports,arguments)
-},{"./_freeGlobal":272,"dup":111}],306:[function(require,module,exports){
+},{"./_freeGlobal":273,"dup":111}],307:[function(require,module,exports){
 arguments[4][112][0].apply(exports,arguments)
-},{"dup":112}],307:[function(require,module,exports){
+},{"dup":112}],308:[function(require,module,exports){
 arguments[4][113][0].apply(exports,arguments)
-},{"./_freeGlobal":272,"dup":113}],308:[function(require,module,exports){
+},{"./_freeGlobal":273,"dup":113}],309:[function(require,module,exports){
 arguments[4][114][0].apply(exports,arguments)
-},{"dup":114}],309:[function(require,module,exports){
+},{"dup":114}],310:[function(require,module,exports){
 arguments[4][115][0].apply(exports,arguments)
-},{"dup":115}],310:[function(require,module,exports){
+},{"dup":115}],311:[function(require,module,exports){
 arguments[4][116][0].apply(exports,arguments)
-},{"dup":116}],311:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./_ListCache":231,"dup":117}],312:[function(require,module,exports){
-arguments[4][118][0].apply(exports,arguments)
-},{"dup":118}],313:[function(require,module,exports){
+},{"dup":116}],312:[function(require,module,exports){
+var ListCache = require('./_ListCache');
+
+/**
+ * Removes all key-value entries from the stack.
+ *
+ * @private
+ * @name clear
+ * @memberOf Stack
+ */
+function stackClear() {
+  this.__data__ = new ListCache;
+  this.size = 0;
+}
+
+module.exports = stackClear;
+
+},{"./_ListCache":231}],313:[function(require,module,exports){
+/**
+ * Removes `key` and its value from the stack.
+ *
+ * @private
+ * @name delete
+ * @memberOf Stack
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function stackDelete(key) {
+  var data = this.__data__,
+      result = data['delete'](key);
+
+  this.size = data.size;
+  return result;
+}
+
+module.exports = stackDelete;
+
+},{}],314:[function(require,module,exports){
 arguments[4][119][0].apply(exports,arguments)
-},{"dup":119}],314:[function(require,module,exports){
+},{"dup":119}],315:[function(require,module,exports){
 arguments[4][120][0].apply(exports,arguments)
-},{"dup":120}],315:[function(require,module,exports){
-arguments[4][121][0].apply(exports,arguments)
-},{"./_ListCache":231,"./_Map":232,"./_MapCache":233,"dup":121}],316:[function(require,module,exports){
-arguments[4][122][0].apply(exports,arguments)
-},{"./memoize":335,"./toString":337,"dup":122}],317:[function(require,module,exports){
+},{"dup":120}],316:[function(require,module,exports){
+var ListCache = require('./_ListCache'),
+    Map = require('./_Map'),
+    MapCache = require('./_MapCache');
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * Sets the stack `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Stack
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the stack cache instance.
+ */
+function stackSet(key, value) {
+  var data = this.__data__;
+  if (data instanceof ListCache) {
+    var pairs = data.__data__;
+    if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+      pairs.push([key, value]);
+      this.size = ++data.size;
+      return this;
+    }
+    data = this.__data__ = new MapCache(pairs);
+  }
+  data.set(key, value);
+  this.size = data.size;
+  return this;
+}
+
+module.exports = stackSet;
+
+},{"./_ListCache":231,"./_Map":232,"./_MapCache":233}],317:[function(require,module,exports){
+var memoizeCapped = require('./_memoizeCapped'),
+    toString = require('./toString');
+
+/** Used to match property names within property paths. */
+var reLeadingDot = /^\./,
+    rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+
+/** Used to match backslashes in property paths. */
+var reEscapeChar = /\\(\\)?/g;
+
+/**
+ * Converts `string` to a property path array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the property path array.
+ */
+var stringToPath = memoizeCapped(function(string) {
+  string = toString(string);
+
+  var result = [];
+  if (reLeadingDot.test(string)) {
+    result.push('');
+  }
+  string.replace(rePropName, function(match, number, quote, string) {
+    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  });
+  return result;
+});
+
+module.exports = stringToPath;
+
+},{"./_memoizeCapped":303,"./toString":338}],318:[function(require,module,exports){
 arguments[4][123][0].apply(exports,arguments)
-},{"./isSymbol":332,"dup":123}],318:[function(require,module,exports){
+},{"./isSymbol":333,"dup":123}],319:[function(require,module,exports){
 arguments[4][124][0].apply(exports,arguments)
-},{"dup":124}],319:[function(require,module,exports){
+},{"dup":124}],320:[function(require,module,exports){
 arguments[4][126][0].apply(exports,arguments)
-},{"dup":126}],320:[function(require,module,exports){
-arguments[4][127][0].apply(exports,arguments)
-},{"./_arrayEach":241,"./_baseEach":245,"./_baseIteratee":256,"./isArray":325,"dup":127}],321:[function(require,module,exports){
+},{"dup":126}],321:[function(require,module,exports){
+var arrayEach = require('./_arrayEach'),
+    baseEach = require('./_baseEach'),
+    baseIteratee = require('./_baseIteratee'),
+    isArray = require('./isArray');
+
+/**
+ * Iterates over elements of `collection` and invokes `iteratee` for each element.
+ * The iteratee is invoked with three arguments: (value, index|key, collection).
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * **Note:** As with other "Collections" methods, objects with a "length"
+ * property are iterated like arrays. To avoid this behavior use `_.forIn`
+ * or `_.forOwn` for object iteration.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @alias each
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ * @see _.forEachRight
+ * @example
+ *
+ * _.forEach([1, 2], function(value) {
+ *   console.log(value);
+ * });
+ * // => Logs `1` then `2`.
+ *
+ * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
+ *   console.log(key);
+ * });
+ * // => Logs 'a' then 'b' (iteration order is not guaranteed).
+ */
+function forEach(collection, iteratee) {
+  var func = isArray(collection) ? arrayEach : baseEach;
+  return func(collection, baseIteratee(iteratee, 3));
+}
+
+module.exports = forEach;
+
+},{"./_arrayEach":241,"./_baseEach":245,"./_baseIteratee":256,"./isArray":326}],322:[function(require,module,exports){
 arguments[4][128][0].apply(exports,arguments)
-},{"./_baseGet":248,"dup":128}],322:[function(require,module,exports){
+},{"./_baseGet":248,"dup":128}],323:[function(require,module,exports){
 arguments[4][130][0].apply(exports,arguments)
-},{"./_baseHasIn":250,"./_hasPath":278,"dup":130}],323:[function(require,module,exports){
+},{"./_baseHasIn":250,"./_hasPath":279,"dup":130}],324:[function(require,module,exports){
 arguments[4][131][0].apply(exports,arguments)
-},{"dup":131}],324:[function(require,module,exports){
+},{"dup":131}],325:[function(require,module,exports){
 arguments[4][132][0].apply(exports,arguments)
-},{"./isArrayLikeObject":327,"dup":132}],325:[function(require,module,exports){
+},{"./isArrayLikeObject":328,"dup":132}],326:[function(require,module,exports){
 arguments[4][133][0].apply(exports,arguments)
-},{"dup":133}],326:[function(require,module,exports){
+},{"dup":133}],327:[function(require,module,exports){
 arguments[4][134][0].apply(exports,arguments)
-},{"./isFunction":328,"./isLength":329,"dup":134}],327:[function(require,module,exports){
+},{"./isFunction":329,"./isLength":330,"dup":134}],328:[function(require,module,exports){
 arguments[4][135][0].apply(exports,arguments)
-},{"./isArrayLike":326,"./isObjectLike":331,"dup":135}],328:[function(require,module,exports){
+},{"./isArrayLike":327,"./isObjectLike":332,"dup":135}],329:[function(require,module,exports){
 arguments[4][137][0].apply(exports,arguments)
-},{"./isObject":330,"dup":137}],329:[function(require,module,exports){
+},{"./isObject":331,"dup":137}],330:[function(require,module,exports){
 arguments[4][138][0].apply(exports,arguments)
-},{"dup":138}],330:[function(require,module,exports){
-arguments[4][139][0].apply(exports,arguments)
-},{"dup":139}],331:[function(require,module,exports){
-arguments[4][140][0].apply(exports,arguments)
-},{"dup":140}],332:[function(require,module,exports){
+},{"dup":138}],331:[function(require,module,exports){
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+},{}],332:[function(require,module,exports){
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+},{}],333:[function(require,module,exports){
 arguments[4][141][0].apply(exports,arguments)
-},{"./isObjectLike":331,"dup":141}],333:[function(require,module,exports){
+},{"./isObjectLike":332,"dup":141}],334:[function(require,module,exports){
 arguments[4][142][0].apply(exports,arguments)
-},{"./_baseIsTypedArray":255,"./_baseUnary":264,"./_nodeUtil":305,"dup":142}],334:[function(require,module,exports){
+},{"./_baseIsTypedArray":255,"./_baseUnary":264,"./_nodeUtil":306,"dup":142}],335:[function(require,module,exports){
 arguments[4][144][0].apply(exports,arguments)
-},{"./_arrayLikeKeys":242,"./_baseKeys":257,"./isArrayLike":326,"dup":144}],335:[function(require,module,exports){
-arguments[4][145][0].apply(exports,arguments)
-},{"./_MapCache":233,"dup":145}],336:[function(require,module,exports){
+},{"./_arrayLikeKeys":242,"./_baseKeys":257,"./isArrayLike":327,"dup":144}],336:[function(require,module,exports){
+var MapCache = require('./_MapCache');
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a function that memoizes the result of `func`. If `resolver` is
+ * provided, it determines the cache key for storing the result based on the
+ * arguments provided to the memoized function. By default, the first argument
+ * provided to the memoized function is used as the map cache key. The `func`
+ * is invoked with the `this` binding of the memoized function.
+ *
+ * **Note:** The cache is exposed as the `cache` property on the memoized
+ * function. Its creation may be customized by replacing the `_.memoize.Cache`
+ * constructor with one whose instances implement the
+ * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+ * method interface of `delete`, `get`, `has`, and `set`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to have its output memoized.
+ * @param {Function} [resolver] The function to resolve the cache key.
+ * @returns {Function} Returns the new memoized function.
+ * @example
+ *
+ * var object = { 'a': 1, 'b': 2 };
+ * var other = { 'c': 3, 'd': 4 };
+ *
+ * var values = _.memoize(_.values);
+ * values(object);
+ * // => [1, 2]
+ *
+ * values(other);
+ * // => [3, 4]
+ *
+ * object.a = 2;
+ * values(object);
+ * // => [1, 2]
+ *
+ * // Modify the result cache.
+ * values.cache.set(object, ['a', 'b']);
+ * values(object);
+ * // => ['a', 'b']
+ *
+ * // Replace `_.memoize.Cache`.
+ * _.memoize.Cache = WeakMap;
+ */
+function memoize(func, resolver) {
+  if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var memoized = function() {
+    var args = arguments,
+        key = resolver ? resolver.apply(this, args) : args[0],
+        cache = memoized.cache;
+
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    var result = func.apply(this, args);
+    memoized.cache = cache.set(key, result) || cache;
+    return result;
+  };
+  memoized.cache = new (memoize.Cache || MapCache);
+  return memoized;
+}
+
+// Expose `MapCache`.
+memoize.Cache = MapCache;
+
+module.exports = memoize;
+
+},{"./_MapCache":233}],337:[function(require,module,exports){
 arguments[4][146][0].apply(exports,arguments)
-},{"./_baseProperty":260,"./_basePropertyDeep":261,"./_isKey":286,"./_toKey":317,"dup":146}],337:[function(require,module,exports){
+},{"./_baseProperty":260,"./_basePropertyDeep":261,"./_isKey":286,"./_toKey":318,"dup":146}],338:[function(require,module,exports){
 arguments[4][149][0].apply(exports,arguments)
-},{"./_baseToString":263,"dup":149}],338:[function(require,module,exports){
+},{"./_baseToString":263,"dup":149}],339:[function(require,module,exports){
 /** @module stringProcessing/imageInText */
 
 var matchStringWithRegex = require( "./matchStringWithRegex.js" );
@@ -10914,7 +11808,7 @@ module.exports = function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 };
 
-},{"./matchStringWithRegex.js":339}],339:[function(require,module,exports){
+},{"./matchStringWithRegex.js":340}],340:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**

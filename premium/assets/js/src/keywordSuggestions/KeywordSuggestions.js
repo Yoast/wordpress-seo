@@ -5,8 +5,9 @@ import ReactDOM from "react-dom";
 import { KeywordSuggestions as KeywordSuggestionsComponent } from "yoast-premium-components";
 
 class KeywordSuggestions {
-	constructor() {
+	constructor( multiKeyword ) {
 		this.words = [];
+		this._multiKeyword = multiKeyword;
 	}
 
 	/**
@@ -19,6 +20,7 @@ class KeywordSuggestions {
 		this.renderComponent();
 
 		jQuery( window ).on( "YoastSEO:numericScore", this.updateWords.bind( this ) );
+		jQuery( this._multiKeyword ).on( "changedCurrentKeywords", this.renderComponent.bind( this ) );
 	}
 
 	/**
@@ -31,9 +33,9 @@ class KeywordSuggestions {
 
 		const words = researcher.getResearch( "relevantWords" );
 
-		this.words = words.map( ( word ) => {
+		this.words = words.slice( 0, 5 ).map( ( word ) => {
 			return word.getCombination();
-		} ).slice( 0, 5 );
+		} );
 
 		this.renderComponent();
 	}
@@ -51,6 +53,23 @@ class KeywordSuggestions {
 	}
 
 	/**
+	 * Adds a focus keyword to multi keyword if possible.
+	 *
+	 * @param {string} keyword The keyword to be added.
+	 * @returns {void}
+	 */
+	addFocusKeyword( keyword ) {
+		if ( ! this._multiKeyword.canAddTab() ) {
+			return;
+		}
+
+		let addedTab = this._multiKeyword.addKeywordTab( keyword, "na", false );
+		this._multiKeyword.updateKeywordTab( addedTab );
+
+		this.renderComponent();
+	}
+
+	/**
 	 * Appends the suggestions div to the DOM
 	 *
 	 * @returns {void}
@@ -64,6 +83,17 @@ class KeywordSuggestions {
 	}
 
 	/**
+	 * Retrieves the current keywords from the multi keyword object.
+	 *
+	 * @returns {string[]} The current keywords in a flat array of strings.
+	 */
+	getCurrentKeywords() {
+		let currentKeywords = this._multiKeyword.getKeywords();
+
+		return currentKeywords.map( keywordObject => keywordObject.keyword );
+	}
+
+	/**
 	 * Initializes the component inside the suggestions div.
 	 *
 	 * @returns {void}
@@ -72,7 +102,9 @@ class KeywordSuggestions {
 		ReactDOM.render(
 			<KeywordSuggestionsComponent
 				relevantWords={this.words}
-				useAsFocusKeyword={this.updateKeywordField.bind( this )} />,
+				currentKeywords={this.getCurrentKeywords()}
+				useAsFocusKeyword={this.updateKeywordField.bind( this )}
+				addFocusKeyword={this.addFocusKeyword.bind( this )} />,
 			this.suggestionsDiv
 		);
 	}

@@ -1,8 +1,23 @@
 /* global jQuery */
 
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
+import MultiKeyword from "./metabox/multiKeyword";
 
-var focusKeywordSuggestions = new FocusKeywordSuggestions();
+let multiKeyword = new MultiKeyword();
+let focusKeywordSuggestions = new FocusKeywordSuggestions( multiKeyword );
+
+/**
+ * Initializes the metabox for premium
+ *
+ * @returns {void}
+ */
+function initializeMetabox() {
+	window.YoastSEO.multiKeyword = true;
+	multiKeyword.initDOM();
+
+	// The focus keyword suggestions depend on multi keyword so initialize it after multi keyword.
+	focusKeywordSuggestions.initializeDOM();
+}
 
 /**
  * Initializes the metabox for premium
@@ -10,7 +25,7 @@ var focusKeywordSuggestions = new FocusKeywordSuggestions();
  * @returns {void}
  */
 function initializeDOM() {
-	focusKeywordSuggestions.initializeDOM();
+	window.jQuery( window ).on( "YoastSEO:ready", initializeMetabox );
 }
 
-jQuery( initializeDOM );
+window.jQuery( initializeDOM );

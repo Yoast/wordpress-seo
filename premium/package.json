@@ -50,6 +50,7 @@
     "lodash": "^4.7.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
+    "sassdash": "^0.8.2",
     "yoast-premium-components": "github:yoast/yoast-premium-components",
     "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews.git#master",
     "yoastseo": "git+ssh://git@github.com/Yoast/YoastSEO.js.git#master"
