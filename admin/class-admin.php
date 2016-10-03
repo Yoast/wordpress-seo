@@ -575,7 +575,7 @@ class WPSEO_Admin {
 	 */
 	public function filter_settings_pages( array $pages ) {
 
-		if ( $this->options['enable_setting_pages'] ) {
+		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}
 
