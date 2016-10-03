@@ -518,7 +518,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'pageanalysis':
 				$content .= '<div id="pageanalysis">';
 				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-pageanalysis-section">';
-				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis' ) .'</h3>';
+				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis', 'wordpress-seo' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
 				$content .= '</section>';
@@ -685,7 +685,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Creates a sections specific row.
 	 *
-	 * @param string $content          The content to show
+	 * @param string $content          The content to show.
 	 * @param string $hidden_help_name Escaped form key name.
 	 * @param string $help_button      The help button.
 	 * @param string $help_panel       The help text.

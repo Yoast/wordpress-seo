@@ -215,13 +215,13 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Creates a sections specific row.
 	 *
-	 * @param string                 $content      The content to show
+	 * @param string                 $content      The content to show.
 	 * @param string                 $esc_form_key Escaped form key name.
 	 * @param WPSEO_Admin_Help_Panel $help         The help button.
 	 *
 	 * @return string
 	 */
-	private function parse_section_row( $content, $esc_form_key,  WPSEO_Admin_Help_Panel $help ) {
+	private function parse_section_row( $content, $esc_form_key, WPSEO_Admin_Help_Panel $help ) {
 		$html = '<tr><td>';
 		$html .= $content;
 		$html .= '<div class="wpseo_hidden" id="help-yoast-'. $esc_form_key. '">' . $help->get_button_html() . $help->get_panel_html() . '</div>';
