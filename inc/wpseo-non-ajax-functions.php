@@ -311,7 +311,7 @@ function wpseo_admin_bar_menu() {
 }
 
 /**
- * Returns the SEO score element for the adminbar.
+ * Returns the SEO score element for the admin bar.
  *
  * @return string
  */
@@ -425,6 +425,9 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 
 /**
  * @summary Detects if the advanced settings are enabled.
+ * @param {array} $wpseo_options The wpseo settings.
+ *
+ * @returns True if the advanced settings are enabled, false if not.
  */
 function advanced_settings_enabled( $wpseo_options ) {
 	return ( $wpseo_options['enable_setting_pages'] === true );
