@@ -117,6 +117,26 @@
 		}
 	}
 
+	/**
+	 * Move the help elements by injecting them into the h3 elements.
+	 *
+	 * @returns {void}
+	 */
+	function moveHelpElements() {
+
+		jQuery( " #wpseo-focuskeyword-section" ).find( "h3" ).append(
+			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
+		);
+
+		jQuery( " #wpseo-pageanalysis-section" ).find( "h3" ).append(
+			jQuery( "#help-yoast-pageanalysis" ).detach().removeClass( "wpseo_hidden" )
+		);
+
+		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
+		jQuery( " #wpseosnippet" ).find( "h3" ).append( snippetHelp );
+		jQuery( " #wpseo_snippet" ).find( "h3" ).append( snippetHelp );
+	}
+
 	jQuery( document ).ready( function() {
 		jQuery( ".wpseo-meta-section" ).each( function( _, el ) {
 			jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
@@ -126,6 +146,8 @@
 
 		initAddKeywordPopup();
 		initSelect2();
+
+		jQuery( window ).on( "YoastSEO:ready", moveHelpElements );
 	} );
 }( jQuery ) );
 

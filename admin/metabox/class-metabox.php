@@ -516,13 +516,32 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
+				$content .= '<div id="pageanalysis">';
+				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-pageanalysis-section">';
+				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis', 'wordpress-seo' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
+				$content .= '</section>';
+				$content .= '</div>';
 				break;
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
 				break;
+			case 'focuskeyword':
+				if ( $placeholder !== '' ) {
+					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
+				}
 
+				$content .= '<div id="wpseofocuskeyword">';
+				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-focuskeyword-section">';
+				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-key">';
+			    $content .= '<label for="' . $esc_form_key . '">' . esc_html( $meta_field_def['title'] ) . '</label>';
+				$content .= '</h3>';
+				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '</section>';
+				$content .= '</div>';
+				$content .= '<div id="yoast_wpseo_focuskw_text_input" class="large_text"></div>';
+				break;
 			case 'text':
 				$ac = '';
 				if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
@@ -531,7 +550,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				if ( $placeholder !== '' ) {
 					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
 				}
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<input type="text"' . $placeholder . 'id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
 				break;
 
 			case 'textarea':
@@ -621,8 +640,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			$label = esc_html( $meta_field_def['title'] );
 			if ( in_array( $meta_field_def['type'], array(
-					'snippetpreview',
-					'pageanalysis',
 					'radio',
 					'checkbox',
 				), true ) === false
@@ -635,6 +652,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$help = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
 				$help_button = $help->get_button_html();
 				$help_panel  = $help->get_panel_html();
+			}
+			if ( in_array( $meta_field_def['type'], array(
+					'snippetpreview',
+					'pageanalysis',
+					'focuskeyword',
+				), true )
+			) {
+				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
@@ -654,6 +679,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 		}
 
+		return $html;
+	}
+
+	/**
+	 * Creates a sections specific row.
+	 *
+	 * @param string $content          The content to show.
+	 * @param string $hidden_help_name Escaped form key name.
+	 * @param string $help_button      The help button.
+	 * @param string $help_panel       The help text.
+	 *
+	 * @return string
+	 */
+	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
+		$html = '<tr><td>';
+		$html .= $content;
+		$html .= '<div class="wpseo_hidden" id="help-yoast-'. $hidden_help_name. '">' . $help_button . $help_panel . '</div>';
+		$html .= '</td></tr>';
 		return $html;
 	}
 
