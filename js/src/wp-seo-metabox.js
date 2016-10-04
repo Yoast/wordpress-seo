@@ -1,7 +1,7 @@
 /* browser:true */
 /* global tb_show, wpseoSelect2Locale */
 
-import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+import intializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 ( function( $ ) {
 	window.wpseo_init_tabs = function() {
@@ -50,7 +50,7 @@ import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code
 
-		intialiseAlgoliaSearch();
+		intializeAlgoliaSearch();
 	};
 
 	/**

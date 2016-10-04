@@ -4,7 +4,7 @@
 /* jshint unused:false */
 
 /* jshint ignore:start */
-import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+import intializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 /* jshint ignore:end */
 
 ( function() {
@@ -245,7 +245,7 @@ import intialiseAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 	jQuery( document ).ready( function() {
 
-		intialiseAlgoliaSearch();
+		intializeAlgoliaSearch();
 
 		// events
 		jQuery( "#enablexmlsitemap" ).change( function() {
