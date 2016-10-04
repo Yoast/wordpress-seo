@@ -28,7 +28,7 @@ $form_presenter->display(
 );
 ?>
 
-			<a href='javascript:;' class='button button-primary'><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></a>
+			<button type="button" class="button button-primary"><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></button>
 		</div>
 	</form>
 
