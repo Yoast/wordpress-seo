@@ -5,7 +5,7 @@ import React from "react";
  * Represents a visual section within the page.
  *
  * @param {Object} props The props for this component.
- * @param {string} props.title The title to put inside the heading
+ * @param {string} props.title The title to put inside the heading.
  * @param {string} props.icon The classname to give to the section element.
  * @param {ReactElement} props.sectionContent The content to put inside the section.
  * @returns {ReactElement} The rendered component.
