@@ -33,25 +33,13 @@ class KeywordSuggestions {
 	updateWords() {
 		const researcher = YoastSEO.app.researcher;
 
-		const words = researcher.getResearch( "relevantWords" );
+		this.words = researcher.getResearch( "relevantWords" );
 
-		this.words = words.slice( 0, 3 ).map( ( word ) => {
-			return word.getCombination();
-		} );
+		// this.words = words.slice( 0, 3 ).map( ( word ) => {
+		// 	return word.getCombination();
+		// } );
 
 		this.renderComponent();
-	}
-
-	/**
-	 * Updates the keyword field with the given word.
-	 *
-	 * @param {string} word The word to update the keyword field with.
-	 * @returns {void}
-	 */
-	updateKeywordField( word ) {
-		this.keywordField.val( word );
-
-		YoastSEO.app.refresh();
 	}
 
 	/**
@@ -125,11 +113,18 @@ class KeywordSuggestions {
 	 * @returns {void}
 	 */
 	appendSuggestionsDiv() {
-		this.keywordField = jQuery( "#yoast_wpseo_focuskw_text_input" );
+		let contentDiv = jQuery( "#wpseo_content" );
+
+		let tbody = contentDiv.find( "tbody" );
+		let newRow = jQuery( "<tr><td></td></tr>");
+
+		tbody.append( newRow );
+
+		let td = newRow.find( "td" );
 
 		this.suggestionsDiv = document.createElement( "div" );
 
-		this.keywordField.after( this.suggestionsDiv );
+		td.html( this.suggestionsDiv );
 	}
 
 	/**
@@ -153,9 +148,6 @@ class KeywordSuggestions {
 			<KeywordSuggestionsComponent
 				relevantWords={this.words}
 				currentKeywords={this.getCurrentKeywords()}
-				useAsFocusKeyword={this.updateKeywordField.bind( this )}
-				addFocusKeyword={this.addFocusKeyword.bind( this )}
-				errorMessage={this._errorMessage}
 			/>,
 			this.suggestionsDiv
 		);
