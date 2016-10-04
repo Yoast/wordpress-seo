@@ -1,11 +1,6 @@
 /* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
-/* jshint -W097 */
-/* jshint -W003 */
-/* jshint unused:false */
 
-/* jshint ignore:start */
-import intializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
-/* jshint ignore:end */
+import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 ( function() {
 	"use strict";
@@ -245,7 +240,7 @@ import intializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 	jQuery( document ).ready( function() {
 
-		intializeAlgoliaSearch();
+		initializeAlgoliaSearch();
 
 		// events
 		jQuery( "#enablexmlsitemap" ).change( function() {
