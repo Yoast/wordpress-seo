@@ -15,7 +15,7 @@ class WPSEO_Config_Field_Site_Type extends WPSEO_Config_Field_Choice {
 		parent::__construct( 'siteType' );
 
 		/* translators: %1$s resolves to the home_url of the blog. */
-		$this->set_property( 'label', sprintf( __( 'What type of site is %1$s?', 'wordpress-seo' ), get_home_url() ) );
+		$this->set_property( 'label', sprintf( __( 'What kind of site is %1$s?', 'wordpress-seo' ), get_home_url() ) );
 
 		$this->add_choice( 'blog', __( 'Blog', 'wordpress-seo' ) );
 		$this->add_choice( 'shop', __( 'Webshop', 'wordpress-seo' ) );

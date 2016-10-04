@@ -57,7 +57,7 @@ abstract class WPSEO_Taxonomy_Fields {
 	 * @param string       $label       The label displayed before the field.
 	 * @param string       $description Description which will explain the field.
 	 * @param string       $type        The field type, for example: input, select.
-	 * @param string|array $options     Optional array with additional attributes for the field.
+	 * @param string|array $options     Optional. Array with additional options.
 	 * @param bool         $hide        Should the field be hidden.
 	 *
 	 * @return array

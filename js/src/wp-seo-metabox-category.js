@@ -10,7 +10,7 @@
 	 *
 	 * @param {Object} checkbox
 	 *
-	 * @return {boolean}
+	 * @returns {boolean}
 	 */
 	function hasPrimaryTermElements( checkbox ) {
 		return 1 === $( checkbox ).closest( "li" ).children( ".wpseo-make-primary-term" ).length;
@@ -20,7 +20,7 @@
 	 * Retrieves the primary term for a taxonomy
 	 *
 	 * @param {string} taxonomyName
-	 * @return {string}
+	 * @returns {string}
 	 */
 	function getPrimaryTerm( taxonomyName ) {
 		var primaryTermInput;
@@ -34,6 +34,8 @@
 	 *
 	 * @param {string} taxonomyName
 	 * @param {string} termId
+	 *
+	 * @returns {void}
 	 */
 	function setPrimaryTerm( taxonomyName, termId ) {
 		var primaryTermInput;
@@ -47,6 +49,8 @@
 	 *
 	 * @param {string} taxonomyName
 	 * @param {Object} checkbox
+	 *
+	 * @returns {void}
 	 */
 	function createPrimaryTermElements( taxonomyName, checkbox ) {
 		var label, html;
@@ -65,6 +69,8 @@
 	 * Updates the primary term selectors/indicators for a certain taxonomy
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function updatePrimaryTermSelectors( taxonomyName ) {
 		var checkedTerms, uncheckedTerms;
@@ -118,6 +124,8 @@
 	 * Makes the first term primary for a certain taxonomy
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function makeFirstTermPrimary( taxonomyName ) {
 		var firstTerm = $( "#" + taxonomyName + 'checklist input[type="checkbox"]:checked:first' );
@@ -130,6 +138,8 @@
 	 * If we check a term while there is no primary term we make that one the primary term.
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function ensurePrimaryTerm( taxonomyName ) {
 		if ( "" === getPrimaryTerm( taxonomyName ) ) {
@@ -141,7 +151,7 @@
 	 * Returns the term checkbox handler for a certain taxonomy name
 	 *
 	 * @param {string} taxonomyName
-	 * @return {Function}
+	 * @returns {Function}
 	 */
 	function termCheckboxHandler( taxonomyName ) {
 		return function() {
@@ -160,7 +170,7 @@
 	 * Returns the term list add handler for a certain taxonomy name
 	 *
 	 * @param {string} taxonomyName
-	 * @return {Function}
+	 * @returns {Function}
 	 */
 	function termListAddHandler( taxonomyName ) {
 		return function() {
@@ -173,7 +183,7 @@
 	 * Returns the make primary event handler for a certain taxonomy name
 	 *
 	 * @param {string} taxonomyName
-	 * @return {Function}
+	 * @returns {Function}
 	 */
 	function makePrimaryHandler( taxonomyName ) {
 		return function( e ) {

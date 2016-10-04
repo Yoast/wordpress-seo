@@ -18,33 +18,36 @@ class WPSEO_Configuration_Storage {
 	 * Add default fields
 	 */
 	public function add_default_fields() {
-		$this->add_field( new WPSEO_Config_Field_Upsell_Configuration_Service() );
-		$this->add_field( new WPSEO_Config_Field_Upsell_Site_Review() );
-		$this->add_field( new WPSEO_Config_Field_Success_Message() );
-		$this->add_field( new WPSEO_Config_Field_Mailchimp_Signup() );
-		$this->add_field( new WPSEO_Config_Field_Environment() );
-		$this->add_field( new WPSEO_Config_Field_Site_Type() );
-		$this->add_field( new WPSEO_Config_Field_Tag_Line() );
-		$this->add_field( new WPSEO_Config_Field_Multiple_Authors() );
-		$this->add_field( new WPSEO_Config_Field_Site_Name() );
-		$this->add_field( new WPSEO_Config_Field_Separator() );
-
-		$this->add_field( new WPSEO_Config_Field_Profile_URL_Facebook() );
-		$this->add_field( new WPSEO_Config_Field_Profile_URL_Twitter() );
-		$this->add_field( new WPSEO_Config_Field_Profile_URL_Instagram() );
-		$this->add_field( new WPSEO_Config_Field_Profile_URL_LinkedIn() );
-		$this->add_field( new WPSEO_Config_Field_Profile_URL_MySpace() );
-		$this->add_field( new WPSEO_Config_Field_Profile_URL_Pinterest() );
-		$this->add_field( new WPSEO_Config_Field_Profile_URL_YouTube() );
-		$this->add_field( new WPSEO_Config_Field_Profile_URL_GooglePlus() );
-
-		$this->add_field( new WPSEO_Config_Field_Company_Or_Person() );
-		$this->add_field( new WPSEO_Config_Field_Company_Name() );
-		$this->add_field( new WPSEO_Config_Field_Company_Logo() );
-		$this->add_field( new WPSEO_Config_Field_Person_Name() );
+		$fields = array(
+			new WPSEO_Config_Field_Upsell_Configuration_Service(),
+			new WPSEO_Config_Field_Upsell_Site_Review(),
+			new WPSEO_Config_Field_Success_Message(),
+			new WPSEO_Config_Field_Mailchimp_Signup(),
+			new WPSEO_Config_Field_Environment(),
+			new WPSEO_Config_Field_Site_Type(),
+			new WPSEO_Config_Field_Multiple_Authors(),
+			new WPSEO_Config_Field_Site_Name(),
+			new WPSEO_Config_Field_Separator(),
+			new WPSEO_Config_Field_Social_Profiles_Intro(),
+			new WPSEO_Config_Field_Profile_URL_Facebook(),
+			new WPSEO_Config_Field_Profile_URL_Twitter(),
+			new WPSEO_Config_Field_Profile_URL_Instagram(),
+			new WPSEO_Config_Field_Profile_URL_LinkedIn(),
+			new WPSEO_Config_Field_Profile_URL_MySpace(),
+			new WPSEO_Config_Field_Profile_URL_Pinterest(),
+			new WPSEO_Config_Field_Profile_URL_YouTube(),
+			new WPSEO_Config_Field_Profile_URL_GooglePlus(),
+			new WPSEO_Config_Field_Company_Or_Person(),
+			new WPSEO_Config_Field_Company_Name(),
+			new WPSEO_Config_Field_Company_Logo(),
+			new WPSEO_Config_Field_Person_Name(),
+			new WPSEO_Config_Field_Post_Type_Visibility(),
+		);
 
 		$post_type_factory = new WPSEO_Config_Factory_Post_Type();
-		foreach ( $post_type_factory->get_fields() as $field ) {
+		$fields = array_merge( $fields, $post_type_factory->get_fields() );
+
+		foreach ( $fields as $field ) {
 			$this->add_field( $field );
 		}
 	}
@@ -111,11 +114,11 @@ class WPSEO_Configuration_Storage {
 	/**
 	 * Save the data
 	 *
-	 * @param array $data Data provided by the API which needs to be processed for saving.
+	 * @param array $data_to_store Data provided by the API which needs to be processed for saving.
 	 *
 	 * @return string Results
 	 */
-	public function store( $data ) {
+	public function store( $data_to_store ) {
 		$output = array();
 
 		/** @var WPSEO_Config_Field $field */
@@ -123,9 +126,13 @@ class WPSEO_Configuration_Storage {
 
 			$field_identifier = $field->get_identifier();
 
+			if ( ! array_key_exists( $field_identifier, $data_to_store ) ) {
+				continue;
+			}
+
 			$field_data = array();
-			if ( isset( $data[ $field_identifier ] ) ) {
-				$field_data = $data[ $field_identifier ];
+			if ( isset( $data_to_store[ $field_identifier ] ) ) {
+				$field_data = $data_to_store[ $field_identifier ];
 			}
 
 			$result = $this->adapter->set( $field, $field_data );

@@ -17,6 +17,8 @@ var $ = jQuery;
  * @param {Object} options.search_url The URL to link the user to if the keyword has been used multiple times.
  * @param {Object} options.post_edit_url The URL to link the user to if the keyword has been used a single time.
  * @param {App} app The app for which to keep track of the used keywords.
+ *
+ * @returns {void}
  */
 function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 	this._keywordUsage = options.keyword_usage;
@@ -36,6 +38,8 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 
 /**
  * Initializes everything necessary for used keywords
+ *
+ * @returns {void}
  */
 UsedKeywords.prototype.init = function() {
 	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
@@ -46,6 +50,8 @@ UsedKeywords.prototype.init = function() {
 
 /**
  * Handles an event of the keyword input field
+ *
+ * @returns {void}
  */
 UsedKeywords.prototype.keywordChangeHandler = function() {
 	var keyword = this._focusKeywordElement.val();
@@ -59,6 +65,8 @@ UsedKeywords.prototype.keywordChangeHandler = function() {
  * Request keyword usage from the server
  *
  * @param {string} keyword The keyword to request the usage for.
+ *
+ * @returns {void}
  */
 UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
 	$.post( ajaxurl, {
@@ -74,6 +82,8 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  *
  * @param {string} keyword The keyword for which the usage was requested.
  * @param {*} response The response retrieved from the server.
+ *
+ * @returns {void}
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 	if ( response && _isArray( response ) ) {

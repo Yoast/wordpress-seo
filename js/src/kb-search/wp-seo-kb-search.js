@@ -10,6 +10,8 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @constructor
 	 * @param {object} props Properties of the AlgoliaSearcher component.
+	 *
+	 * @returns {void}
 	 */
 	constructor( props ) {
 		super();
@@ -26,7 +28,7 @@ class AlgoliaSearcher extends React.Component {
 			// A description of a search error, if any.
 			errorMessage: "",
 
-			// Shows Shows the search results if is set to false. Otherwhise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
+			// Shows the search results if is set to false. Otherwise, it shows the content of the article which index (of the state.results array) correlates with the value of showDetail.
 			showDetail: false,
 
 			// Used to display a loading spinner while searching.
@@ -41,6 +43,8 @@ class AlgoliaSearcher extends React.Component {
 
 	/**
 	 * Initializes the algolia client and index variables.
+	 *
+	 * @returns {void}
 	 */
 	initAlgoliaClient() {
 		this.client = initAlgoliaSearch( this.props.algoliaApplicationId, this.props.algoliaApiKey );
@@ -51,6 +55,8 @@ class AlgoliaSearcher extends React.Component {
 	 * Handles the form submit event. Stores the search string and performs a search.
 	 *
 	 * @param {object} evt The React SyntheticEvent.
+	 *
+	 * @returns {void}
 	 */
 	searchButtonClicked( evt ) {
 		let searchString = evt.target.getElementsByTagName( "input" )[ 0 ].value;
@@ -63,7 +69,7 @@ class AlgoliaSearcher extends React.Component {
 			this.setState( {
 				searchString: searchString,
 				usedQueries: usedQueries,
-				searching: true
+				searching: true,
 			}, function() {
 				// After the state was set.
 				this.updateSearchResults();
@@ -74,6 +80,8 @@ class AlgoliaSearcher extends React.Component {
 	/**
 	 * Performs a search with the searchstring saved in the state and sets the
 	 * results property of the state to the results found.
+	 *
+	 * @returns {void}
 	 */
 	updateSearchResults() {
 		this.setState( {
@@ -119,6 +127,7 @@ class AlgoliaSearcher extends React.Component {
 	 *
 	 * @param {number} resultArrayIndex The index of the article you want to
 	 *                                  show in the state.results array.
+	 * @returns {void}
 	 */
 	showDetail( resultArrayIndex ) {
 		let usedQueries = this.state.usedQueries;
@@ -135,6 +144,8 @@ class AlgoliaSearcher extends React.Component {
 
 	/**
 	 * Hide the details page and return to the results page.
+	 *
+	 * @returns {void}
 	 */
 	hideDetail() {
 		this.setState( { showDetail: false } );
@@ -219,7 +230,7 @@ class AlgoliaSearcher extends React.Component {
 	render() {
 		var content = "";
 		var searchBar = <SearchBar headingText={this.props.headingText} submitAction={this.searchButtonClicked}
-								   searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
+								searchString={this.state.searchString} searchButtonText={this.props.searchButtonText}/>;
 
 		// Show an error message.
 		if ( this.state.errorMessage ) {
