@@ -88,6 +88,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		/* Clear the cache on update/add */
 		add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
+
+		/**
+		 * Filter the `wpseo` option defaults.
+		 *
+		 * @param array $defaults Array the defaults for the `wpseo` option attributes.
+		 */
+		$this->defaults = apply_filters( 'wpseo_option_wpseo_defaults', $this->defaults );
 	}
 
 
