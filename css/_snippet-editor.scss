@@ -24,6 +24,7 @@ $snippet_width: 600px;
 
 .yoast-section {
 	border: 1px solid $color_border;
+	box-sizing: border-box;
 	border-radius: 20px;
 	background-color: #fff;
 	position: relative;
