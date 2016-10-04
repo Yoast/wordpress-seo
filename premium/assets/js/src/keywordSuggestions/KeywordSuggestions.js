@@ -4,6 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { KeywordSuggestions as KeywordSuggestionsComponent } from "yoast-premium-components";
 import a11ySpeak from "a11y-speak";
+import StyledSection from "yoast-components/forms/StyledSection/StyledSection";
 
 class KeywordSuggestions {
 	constructor( multiKeyword ) {
@@ -144,11 +145,15 @@ class KeywordSuggestions {
 	 * @returns {void}
 	 */
 	renderComponent() {
-		ReactDOM.render(
-			<KeywordSuggestionsComponent
+		let keywordSuggestions = ( <KeywordSuggestionsComponent
 				relevantWords={this.words}
 				currentKeywords={this.getCurrentKeywords()}
-			/>,
+			/> );
+
+		let title = "Insights";
+
+		ReactDOM.render(
+			<StyledSection title={title} icon="file-text-o" sectionContent={keywordSuggestions} />,
 			this.suggestionsDiv
 		);
 	}
