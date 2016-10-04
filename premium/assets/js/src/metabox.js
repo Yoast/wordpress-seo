@@ -4,7 +4,7 @@ import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
 let multiKeyword = new MultiKeyword();
-let focusKeywordSuggestions = new FocusKeywordSuggestions( multiKeyword );
+let focusKeywordSuggestions = new FocusKeywordSuggestions();
 
 /**
  * Initializes the metabox for premium
@@ -15,7 +15,6 @@ function initializeMetabox() {
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
-	// The focus keyword suggestions depend on multi keyword so initialize it after multi keyword.
 	focusKeywordSuggestions.initializeDOM();
 }
 
