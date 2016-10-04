@@ -51,6 +51,21 @@ if ( ! is_admin() ) {
 	new WPSEO_Redirect_Handler();
 }
 
+/**
+ * Filters the defaults for the `wpseo` option.
+ * @param $wpseo_defaults The defaults for the `wpseo` option.
+ *
+ * @return array
+ */
+function wpseo_premium_add_general_option_defaults( $wpseo_defaults ) {
+	$premium_defaults = array(
+		'enable_metabox_insights' => true,
+	);
+
+	return array_merge( $wpseo_defaults, $premium_defaults );
+}
+add_filter( 'wpseo_option_wpseo_defaults', 'wpseo_premium_add_general_option_defaults' );
+
 // Load the WordPress SEO plugin.
 require_once( dirname( WPSEO_FILE ) . '/wp-seo-main.php' );
 require_once( dirname( WPSEO_PREMIUM_PLUGIN_FILE ) . '/premium/class-premium.php' );
