@@ -36,7 +36,7 @@ class WPSEO_Configuration_Page {
 		$configuration_page = filter_input( INPUT_GET, 'configuration' );
 		$page          = filter_input( INPUT_GET, 'page' );
 
-		if ( ! ( $configuration_page === 'finished' && ( $page === WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) ) {
+		if ( ! ( $configuration_page === 'finished' && ( $page === WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
 			return;
 		}
 
