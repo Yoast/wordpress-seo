@@ -47,6 +47,7 @@
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
+    "a11y-speak": "github:yoast/a11y-speak",
     "lodash": "^4.7.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",

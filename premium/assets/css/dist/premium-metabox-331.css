@@ -1,7 +1,7 @@
 .yoast-keyword-suggestions__list {
 	display: -ms-flexbox;
 	display: flex;
-	margin: 0 -30px;
+	margin: 0;
 
 	-ms-flex-pack: start;
 	-ms-flex-wrap: wrap;
@@ -11,12 +11,11 @@
 
 .yoast-keyword-suggestions__item {
 	min-width: 450px;
-	margin: 0.5em 30px;
+	margin: 0.8em 0;
 }
 
 .yoast-keyword-suggestions__in-use {
 	display: block;
-	float: right;
 	padding: 3px 10px 3px 2em;
 	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20fill%3D%22%237ad03a%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1671%20566q0%2040%2D28%2068l%2D724%20724%2D136%20136q%2D28%2028%2D68%2028t%2D68%2D28l%2D136%2D136%2D362%2D362q%2D28%2D28%2D28%2D68t28%2D68l136%2D136q28%2D28%2068%2D28t68%2028l294%20295%20656%2D657q28%2D28%2068%2D28t68%2028l136%20136q28%2028%2028%2068z%22%2F%3E%3C%2Fsvg%3E") no-repeat;
 	background-position: 0.5em center;
@@ -25,8 +24,7 @@
 
 .yoast-keyword-suggestions__button {
 	display: block;
-	float: right;
-	margin: -2px 0 0 2em;
+	margin: 0.5em 0 0 0;
 	padding: 3px 10px 3px 2em;
 	border: 1px solid #dbdbdb;
 	border-radius: 4px;
@@ -36,6 +34,10 @@
 	background-size: 16px;
 	font-size: 0.8rem;
 	cursor: pointer;
+}
+
+.yoast-keyword-suggestions__error {
+	color: #dc3232;
 }
 
 a.remove-keyword {
