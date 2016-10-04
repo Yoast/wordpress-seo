@@ -296,44 +296,13 @@ a:focus {
 	margin-left: 1em;
 }
 
-.yoast-wizard--button__next button:hover,
-.yoast-wizard--button__next button:focus {
-	background-color: #832055 !important;
-}
-
-.yoast-wizard--button__next button:hover div,
-.yoast-wizard--button__next button:focus div {
-	background-color: transparent !important;
-}
-
-.yoast-wizard--button__previous button:focus {
-	background: #ebebeb !important;
-}
-
-.yoast-wizard--button__previous button:focus:active {
-	background: transparent !important;
-}
-
-.yoast-wizard--button__previous button:hover > div > span,
-.yoast-wizard--button__previous button:focus > div > span {
-	color: #000 !important;
-}
-
 @media screen and (max-width: 768px) {
 	.yoast-wizard--step__active {
-		overflow: hidden;
-		width: 38px;
-	}
-
-	.yoast-wizard--step__active div {
-		display: inline-block !important;
-		vertical-align: middle;
+		text-indent: -9999px;
 	}
 
 	.yoast-wizard--step__active div > span > span {
-		display: block !important;
-		margin-left: -7px;
-		padding-right: 99px !important;
+		padding-right: 0 !important;
 	}
 }
 
@@ -351,10 +320,6 @@ a:focus {
 	.yoast-wizard--step__inactive {
 		display: none !important;
 	}
-}
-
-.yoast-wizard--step--container:focus {
-	outline: none;
 }
 
 .yoast-wizard--step--container h1 {
@@ -435,7 +400,7 @@ a:focus {
 	cursor: pointer;
 }
 
-.yoast-wizard-text-input [type="text"] {
+.yoast-wizard-text-input-field {
 	box-sizing: border-box;
 	width: 100%;
 	max-width: 450px;
