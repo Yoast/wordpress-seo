@@ -12,7 +12,7 @@ class WPSEO_Config_Field_Profile_URL_Pinterest extends WPSEO_Config_Field {
 	 * WPSEO_Config_Field_Profile_URL_Pinterest constructor.
 	 */
 	public function __construct() {
-		parent::__construct( 'profileUrlPinterest', 'input' );
+		parent::__construct( 'profileUrlPinterest', 'Input' );
 
 		$this->set_property( 'label', __( 'Pinterest URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/www\.pinterest\.com\/([^/]+)\/$' );

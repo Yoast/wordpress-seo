@@ -185,6 +185,8 @@ TermDataCollector.prototype.getPageTitle = function() {
  *
  * @param {Object} value Value for the data to set.
  * @param {String} type The field(type) that the data is set for.
+ *
+ * @returns {void}
  */
 TermDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
@@ -209,6 +211,8 @@ TermDataCollector.prototype.setDataFromSnippet = function( value, type ) {
  * @param {string} data.title
  * @param {string} data.urlPath
  * @param {string} data.metaDesc
+ *
+ * @returns {void}
  */
 TermDataCollector.prototype.saveSnippetData = function( data ) {
 	this.setDataFromSnippet( data.title, "snippet_title" );
@@ -218,6 +222,8 @@ TermDataCollector.prototype.saveSnippetData = function( data ) {
 
 /**
  * Binds TermDataCollector events to elements.
+ *
+ * @returns {void}
  */
 TermDataCollector.prototype.bindElementEvents = function( app ) {
 	this.inputElementEventBinder( app );
@@ -225,6 +231,8 @@ TermDataCollector.prototype.bindElementEvents = function( app ) {
 
 /**
  * Binds the renewData function on the change of inputelements.
+ *
+ * @returns {void}
  */
 TermDataCollector.prototype.inputElementEventBinder = function( app ) {
 	var elems = [ "name", tmceId, "slug", "wpseo_focuskw" ];
@@ -241,6 +249,8 @@ TermDataCollector.prototype.inputElementEventBinder = function( app ) {
  * Creates SVG for the overall score.
  *
  * @param {number} score Score to save.
+ *
+ * @returns {void}
  */
 TermDataCollector.prototype.saveScores = function( score ) {
 	var indicator = getIndicatorForScore( score );
@@ -259,6 +269,8 @@ TermDataCollector.prototype.saveScores = function( score ) {
  * Saves the content score to a hidden field.
  *
  * @param {number} score The score calculated by the content assessor.
+ *
+ * @returns {void}
  */
 TermDataCollector.prototype.saveContentScore = function( score ) {
 	var indicator = getIndicatorForScore( score );
@@ -275,6 +287,8 @@ TermDataCollector.prototype.saveContentScore = function( score ) {
 
 /**
  * Initializes keyword tab with the correct template.
+ *
+ * @returns {void}
  */
 TermDataCollector.prototype.initKeywordTabTemplate = function() {
 	// Remove default functionality to prevent scrolling to top.

@@ -19,6 +19,7 @@ class WPSEO_Configuration_Components {
 	 */
 	public function __construct() {
 		$this->add_component( new WPSEO_Config_Component_Connect_Google_Search_Console() );
+		$this->add_component( new WPSEO_Config_Component_Mailchimp_Signup() );
 	}
 
 	/**

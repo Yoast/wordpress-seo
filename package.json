@@ -20,6 +20,7 @@
     "autoprefixer": "^6.3.1",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
     "envify": "^3.4.1",
     "eslint-config-yoast": "^1.3.1",
@@ -45,9 +46,10 @@
     "grunt-shell": "^1.1.2",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
     "grunt-wp-i18n": "^0.5.4",
+    "i18n-calypso": "^1.6.3",
     "load-grunt-config": "^0.19.2",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
     "sassdash": "^0.8.1",
     "time-grunt": "^1.0.0"
   },
@@ -55,9 +57,14 @@
     "grunt-contrib-imagemin": "^1.0.0"
   },
   "dependencies": {
+    "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
+    "babel-polyfill": "^6.13.0",
+    "jed": "^1.1.1",
     "lodash": "^4.7.0",
+    "material-ui": "^0.15.4",
+    "react-tap-event-plugin": "^1.0.0",
     "select2": "^4.0.3",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release/1.5",
-    "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master"
+    "yoast-components": "^1.0.0",
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
   }
 }

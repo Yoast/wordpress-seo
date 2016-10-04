@@ -14,7 +14,8 @@ class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 	public function __construct() {
 		parent::__construct( 'separator' );
 
-		$this->set_property( 'label', __( 'Separator', 'wordpress-seo' ) );
+		$this->set_property( 'label', __( 'Title Separator', 'wordpress-seo' ) );
+		$this->set_property( 'explanation', __( 'Choose the symbol to use as your title separator. This will display, for instance, between your post title and site name. Symbols are shown in the size they\'ll appear in the search results.', 'wordpress-seo' ) );
 
 		$this->add_choice( 'sc-dash', '-', __( 'Dash', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-ndash', '&ndash;', __( 'En dash', 'wordpress-seo' ) );
@@ -28,7 +29,7 @@ class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 		$this->add_choice( 'sc-laquo', '&laquo;', __( 'Left angle quotation mark', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-raquo', '&raquo;', __( 'Right angle quotation mark', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-lt', '&lt;', __( 'Less than sign', 'wordpress-seo' ) );
-		$this->add_choice( 'sc-gt', '&gt;', __( 'Greate than sign', 'wordpress-seo' ) );
+		$this->add_choice( 'sc-gt', '&gt;', __( 'Greater than sign', 'wordpress-seo' ) );
 	}
 
 	/**

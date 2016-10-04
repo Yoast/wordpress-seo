@@ -62,15 +62,32 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-metabox-sidebar li span {
 	margin: 3px 0 0 -5px;
 	padding: 0 2px 0 5px;
-	border-width: 0 0 0 3px;
-	border-style: solid;
-	border-color: transparent;
+	border: 0 solid transparent;
+	border-left-width: 3px;
 	border-radius: 3px;
+
+	&.wpseo-buy-premium {
+		color: #a4286a;
+
+		&:hover {
+			color: #832055;
+		}
+	}
 }
 
 .wpseo-metabox-sidebar li.active span {
 	border-color: #333;
 	color: #333;
+
+	&.wpseo-buy-premium {
+		color: #a4286a;
+		border-color: #a4286a;
+
+		&:hover {
+			color: #832055;
+			border-color: #832055;
+		}
+	}
 }
 
 /* Floated to reset white space between list items */
@@ -79,9 +96,8 @@ ul.wpseo-metabox-tabs li {
 	margin-right: 5px;
 	margin-bottom: -1px;
 	padding: 0;
-	border-width: 1px 1px 0;
-	border-style: solid solid none;
-	border-color: #dfdfdf;
+	border: 1px solid #dfdfdf;
+	border-bottom: 0 none;
 
 	.wpseo-keyword {
 		display: inline-block;
@@ -464,8 +480,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	width: 18px;
 	margin-right: 5px;
 	height: 18px;
-	background-image: url(svg-icon-yoast(#999));
-	background-repeat: no-repeat;
+	background: url(svg-icon-yoast(#999)) no-repeat;
 	background-size: 18px;
 }
 
@@ -496,4 +511,31 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .term-php .wpseo-taxonomy-metabox-postbox h2 {
 	border-bottom: 1px solid #eee;
+}
+
+.wpseo-metabox-go-to {
+	&::after {
+		content: " \00BB";
+		position: static;
+		top: auto;
+		right: auto;
+		width: auto;
+		height: auto;
+		border: none;
+	}
+}
+
+#wpseo-buy-premium-popup-button.button-buy-premium {
+	background: #A4286A;
+	border-color: #A4286A;
+	color: #fff;
+}
+
+.wpseo-metabox-premium-description {
+	margin-top: 0.5em;
+}
+
+ul.wpseo-metabox-premium-advantages {
+  	list-style: disc;
+	padding-left: 1.5em;
 }

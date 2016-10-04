@@ -130,7 +130,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-350',
+				'src'  => 'wp-seo-admin-360',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -189,7 +189,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-350',
+				'src'  => 'wp-seo-post-scraper-360',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -198,14 +198,14 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-350',
+				'src'  => 'wp-seo-term-scraper-360',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
-				'src'  => 'wp-seo-replacevar-plugin-350',
+				'src'  => 'wp-seo-replacevar-plugin-360',
 			),
 			array(
 				'name' => 'shortcode-plugin',
@@ -213,7 +213,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-350',
+				'src'  => 'wp-seo-recalculate-360',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -246,6 +246,13 @@ class WPSEO_Admin_Asset_Manager {
 				),
 				'version' => '4.0.3',
 				'suffix' => '',
+			),
+			array(
+				'name' => 'configuration-wizard',
+				'src'  => 'configuration-wizard-360',
+				'deps' => array(
+					'jquery',
+				),
 			),
 		);
 	}
@@ -292,14 +299,14 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-350',
+				'src'  => 'metabox-360',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
 			),
 			array(
 				'name' => 'wp-dashboard',
-				'src'  => 'dashboard-330',
+				'src'  => 'dashboard-360',
 			),
 			array(
 				'name' => 'scoring',
@@ -335,6 +342,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'admin-global',
 				'src'  => 'admin-global-350',
+			),
+			array(
+				'name' => 'yoast-components',
+				'src'  => 'yoast-components-360',
 			),
 		);
 	}

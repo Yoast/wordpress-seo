@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.3
 Tested up to: 4.6
-Stable tag: 3.5
+Stable tag: 3.6
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -116,6 +116,35 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.6.0 =
+
+Release Date: September 27th, 2016
+
+* Enhancements:
+    * Introduces the installation wizard that enables an easy way of setting up Yoast SEO. The installation wizard enables you to:
+        - Newsletter signup.
+        - Specify the environment in which a site is running.
+        - Specify the type of a site.
+        - Specify a company or person for the metadata used in Google's Knowledge Graph.
+        - Specify social profiles.
+        - Specify post type visibility.
+        - Specify if you have multiple authors.
+        - Setup Google Search Console.
+        - Setup the title settings.
+    * The installation wizard replaces the tour.
+    * Adds a notification to the Yoast notification center to start the onboarding wizard.
+    * Adds a button on the general settings page to start the onboarding wizard.
+    * Adds a premium tab to the metabox.
+	* Introduces a feature toggles tab on the Yoast SEO dashboard where users can enable/disable certain features.
+		* New: Enable/disable the advanced settings pages.
+		* New: Enable/disable the Yoast SEO admin bar menu. Added after receiving feedback from multiple users who wanted this option.
+		* Moved: Enable/disable The OnPage.org integration.
+	* Removes the tour. With the help center available on every Yoast SEO page or section and the new installation wizard, there was no real usecase for the tour anymore.
+
+* Bugfixes:
+    * Fixes sorting the table in sitemaps.
+    * Fixes a bug where keywords with a $ where not recognized.
+
 = 3.5.0 =
 
 Release Date: September 7th, 2016
@@ -155,85 +184,7 @@ Release Date: September 7th, 2016
     * Fixes a bug where the <code>og:image</code> tag would be omitted.
     * Fixes a bug for canonicals for search pages with empty search queries.
 
-= 3.4.2 =
 
-Release Date: August 8th, 2016
-
-* Bugfixes:
-	* Fixes a bug where apostrophes would be stripped from the focus keyword.
-
-= 3.4.1 =
-
-Release Date: August 2nd, 2016
-
-* Bugfixes:
-	* Fixes a stored XSS issue in the Yoast SEO metabox. Thanks [Hammad Shamsi](https://twitter.com/hammadshamsii) for reporting and responsibly disclosing this issue.
-
-= 3.4.0 =
-
-Release Date: July 19th, 2016
-
-* Enhancements:
-	* Adds readability checks for consecutive sentences beginning with the same word for the following languages:
-		* English, German, French, Spanish.
-	* Adds transition words check for German, French and Spanish.
-	* Adds transliterations for the following languages:
-		* Breton, Chamorro, Corsican, Kashubian, Welsh, Ewe
-		* Estonian, Basque, Fulah, Fijian, Arpitan, Friulian
-		* Frisian, Irish, Scottish Gaelic, Galician, Guarani
-		* Swiss German, Haitian Creole, Hawaiian, Croatian
-		* Georgian, Greenlandic, Kinyarwanda, Luxembourgish
-		* Limburgish, Lingala, Lithuanian, Malagasy, Macedonian
-		* Maori, Mirandese, Occitan, Oromo, Portuguese, Romansh Vallader
-		* Aromanian, Romanian, Slovak, Slovenian, Albanian
-		* Klingon (in Latin characters, not KLI PlqaD script yet)
-		* Hungarian, Sardinian, Silesian, Tahitian, Venetian, Walloon
-	* Improves the Russian transliteration.
-	* Improves the feedback strings of content checks.
-	* Adds a setting and a user option to disable the SEO analysis.
-	* Adds the readability score to the post and term overview.
-	* Disables the analysis marker buttons when switching from visual to text view in the editor.
-	* Accessibility enhancements:
-		* Improves the headings in the dashboard widget.
-		* Improves the headings hierarchy on the following pages:
-			* titles and metas
-			* user profile
-			* advanced settings
-			* social settings
-			* XML sitemap
-			* general settings
-		* Improves the headings hierarchy for dashboard alerts.
-		* Improves the debug information headings.
-		* Adds a legend for the title seperator on the titles and metas page.
-		* Improves the intro text of the social tabs.
-		* Improves consistency of buttons using WordPress styles.
-		* Adds a background to the YoastSEO issue counter to improve readability.
-		* Improves the focus style for the dismiss and restore buttons.
-		* Improves the redirect attachment warnings style by using the native WordPress notices style.
-		* Improves the links on the credit screen.
-		* Improves the release video iframe by adding a title.
-		* Improves the knowledge base results by making them focusable and operable with a keyboard.
-		* Improves the admin bar menu items by making them focusable and operable with a keyboard.
-		* Adds labels to the buttons of the knowledge base search for use with a screen reader.
-		* Adds label to the search field in the knowledge base for screen readers.
-		* Makes the knowledge base search button translatable.
-		* Improves the semantics of the knowledge base results.
-	* Improves the alignment of the icons in the metabox tab sections.
-	* Improve code to be consistent with WordPress standards, props [danielbachhuber](https://github.com/danielbachhuber).
-
-* Bugfixes:
-	* Fixes a bug where non-ANSI characters would break the sitemap feature.
-	* Fixes a bug where MS Edge would not display the traffic light image in the help center properly.
-	* Fixes a bug where the style of the 'open article' button was overwritten and made unreadable.
-	* Fixes the link of the FAQ that linked to a non-existing page.
-	* Fixes a typo to make the KB search "Open" link translatable.
-	* Reintroduces the text length check for taxonomies.
-	* Fixes a bug where a 404 could be thrown when there was no locale set.
-	* Fixes a bug where in certain cases a yoastmark would leave traces in the text, these are now removed.
-	* Fixes a bug where the score bullet wouldn't be shown on the frontend.
-	* Fixes the generation of permalinks for new posts by ignoring the permalink sample and generating the permalink
-	from the posttitle, props [Robert Korulczyk](https://github.com/rob006).
-	* Fixes getting the incorrect primary category when getting the permalink, props [pawawat](https://github.com/pawawat).
 
 = Earlier versions =
 

@@ -156,7 +156,7 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 				<a target="_blank" href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
 					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 					printf(
-						__( 'More information %1$sabout %3$s%2$s' ),
+						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 						'<span class="screen-reader-text">',
 						'</span>',
 						$extension->title
@@ -208,7 +208,7 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $url . $utm_info ); ?>"><?php
 							/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 							printf(
-								__( 'More information %1$sabout %3$s%2$s' ),
+								__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 								'<span class="screen-reader-text">',
 								'</span>',
 								$extension->title
