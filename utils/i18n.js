@@ -44,7 +44,7 @@ export function getGlobalJed() {
  * @param {number} number The number on which to base the single/plural form.
  * @returns {string} The translated string.
  */
-function translate( singleForm, pluralForm = "", number = 0 ) {
+export function translate( singleForm, pluralForm = "", number = 0 ) {
 	let jed = getGlobalJed();
 
 	if ( pluralForm === "" ) {
