@@ -46,7 +46,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		$this->set_items( $redirects );
 
-		add_filter( 'list_table_primary_column', array( $this, 'redirect_list_table_primary_column' ) , 10, 2 );
+		add_filter( 'list_table_primary_column', array( $this, 'redirect_list_table_primary_column' ), 10, 2 );
 	}
 
 	/**
@@ -171,7 +171,12 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_cb( $item ) {
-		return sprintf( '<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', esc_attr( $item['old'] ) );
+		return sprintf(
+			'<label class="screen-reader-text" for="wpseo-redirects-bulk-cb-%2$s">%3$s</label> <input type="checkbox" name="wpseo_redirects_bulk_delete[]" id="wpseo-redirects-bulk-cb-%2$s" value="%1$s" />',
+			esc_attr( $item['old'] ),
+			$item['row_number'],
+			esc_html( __( 'Select this redirect', 'wordpress-seo-premium' ) )
+		);
 	}
 
 	/**
@@ -275,12 +280,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		// Format the data.
 		$formatted_items = array();
 
+		$counter = 1;
+
 		foreach ( $this->items as $old => $redirect ) {
 			$formatted_items[] = array(
-				'old'  => $redirect->get_origin(),
-				'new'  => $redirect->get_target(),
-				'type' => $redirect->get_type(),
+				'old'        => $redirect->get_origin(),
+				'new'        => $redirect->get_target(),
+				'type'       => $redirect->get_type(),
+				'row_number' => $counter,
 			);
+			$counter++;
 		}
 
 		$this->items = $formatted_items;
@@ -313,8 +322,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private function get_row_actions( $column ) {
 		if ( $column === $this->primary_column ) {
 			$actions = array(
-				'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
-				'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
+				'edit'  => '<a href="#" role="button" class="redirect-edit">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
+				'trash' => '<a href="#" role="button" class="redirect-delete">' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
 			);
 
 			return $this->row_actions( $actions );
