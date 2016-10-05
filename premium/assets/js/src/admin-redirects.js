@@ -236,7 +236,7 @@
 			type: this.form.getTypeField().val().toString(),
 		};
 
-		// When the redirect type is deleted or unavailable, the target can be emptied
+		// When the redirect type is deleted or unavailable, the target can be emptied.
 		if ( jQuery.inArray( parseInt( values.type, 10 ), ALLOW_EMPTY_TARGET ) > -1 ) {
 			values.target = "";
 		}
@@ -298,7 +298,11 @@
 	 */
 	RedirectQuickEdit.prototype.show = function() {
 		this.row.addClass( "hidden" );
-		this.quickEditRow.insertAfter( this.row ).show();
+		this.quick_edit_row
+			.insertAfter( this.row )
+			.show( 400, function() {
+				$( this ).find( ":input" ).first().focus();
+			} );
 	};
 
 	/**
@@ -343,6 +347,9 @@
 		var ignore = false;
 
 		var lastAction;
+
+		// The element focus keyboard should be moved back to.
+		var returnFocusToEl = null;
 
 		/**
 		 * Resets the ignore and lastAction.
@@ -437,6 +444,9 @@
 					},
 					buttons: buttons,
 					modal: true,
+					close: function() {
+						returnFocusToEl.focus();
+					},
 				}
 			);
 		};
@@ -514,23 +524,23 @@
 			}
 
 			var tr = $( "<tr>" ).append(
-				$( "<th>" ).addClass( "check-column" ).attr( "role", "row" ).append(
+				$( "<th>" ).addClass( "check-column" ).attr( "scope", "row" ).append(
 					$( "<input>" )
 						.attr( "name", "wpseo_redirects_bulk_delete[]" )
 						.attr( "type", "checkbox" )
-						.val( _.escape( oldUrl ) )
+						.val( _.escape( old_url ) )
 				)
 			).append(
-				$( "<td>" ).append(
-					$( "<div>" ).addClass( "val type" ).html( _.escape( redirectType ) )
+				$( "<td>" ).addClass( "type column-type has-row-actions column-primary" ).append(
+					$( "<div>" ).addClass( "val type" ).html( _.escape( redirect_type ) )
 				).append(
 					$( "<div>" ).addClass( "row-actions" ).append(
 						$( "<span>" ).addClass( "edit" ).append(
-							$( "<a>" ).attr( "href", "javascript:;" ).html( wpseo_premium_strings.editAction )
+							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-edit" } ).html( wpseo_premium_strings.editAction )
 						).append( " | " )
 					).append(
 						$( "<span>" ).addClass( "trash" ).append(
-							$( "<a>" ).attr( "href", "javascript:;" ).html( wpseo_premium_strings.deleteAction )
+							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-delete" } ).html( wpseo_premium_strings.deleteAction )
 						)
 					)
 				)
@@ -578,7 +588,7 @@
 
 			var redirectValues = validateRedirect.getFormValues();
 
-			// Do post
+			// Do post.
 			that.post(
 				{
 					action: "wpseo_add_redirect_" + type,
@@ -601,13 +611,13 @@
 					redirectForm.getOriginField().val( "" );
 					redirectForm.getTargetField().val( "" );
 
-					// Remove the no items row
+					// Remove the no items row.
 					that.find( ".no-items" ).remove();
 
-					// Creating tr
+					// Creating tr.
 					var tr = that.createRedirectRow( response.origin, response.target, response.type, response.info );
 
-					// Add the new row
+					// Add the new row.
 					$( "form#" + type ).find( "#the-list" ).prepend( tr );
 
 					that.openDialog( wpseo_premium_strings.redirect_added );
@@ -695,7 +705,7 @@
 					},
 				},
 				function() {
-					// When the redirect is removed, just fade out the row and remove it after its faded
+					// When the redirect is removed, just fade out the row and remove it after its faded.
 					row.fadeTo( "fast", 0 ).slideUp(
 						function() {
 							$( this ).remove();
@@ -713,7 +723,8 @@
 		 * @returns {void}
 		 */
 		this.setup = function() {
-			// Adding dialog
+			var $row;
+			// Adding dialog.
 			$( "body" ).append( "<div id=\"YoastRedirectDialog\"><div id=\"YoastRedirectDialogText\"></div></div>" );
 
 			// When the window will be closed/reloaded and there is a inline edit opened show a message.
@@ -739,14 +750,15 @@
 					}
 				} );
 
-			// Adding events for the add form
+			// Adding events for the add form.
 			$( ".wpseo-new-redirect-form" )
-				.on( "click", "a.button-primary", function() {
-					lastAction = function() {
-						that.addRedirect();
+				.on( "click", ".button-primary", function() {
+					last_action = function() {
+						that.add_redirect();
 					};
 
-					that.addRedirect();
+					that.add_redirect();
+					returnFocusToEl = $( this );
 					return false;
 				} )
 				.on( "keypress", "input", function( evt ) {
@@ -761,15 +773,20 @@
 				} );
 
 			$( ".wp-list-table" )
-				.on( "click", ".edit", function( evt ) {
-					var row = $( evt.target ).closest( "tr" );
+				.on( "click", ".redirect-edit", function( evt ) {
+					$row = $( evt.target ).closest( "tr" );
 
-					that.editRow( row );
+					evt.preventDefault();
+					that.edit_row( $row );
+					returnFocusToEl = $( this );
 				} )
-				.on( "click", ".trash", function( evt ) {
-					var row = $( evt.target ).closest( "tr" );
+				.on( "click", ".redirect-delete", function( evt ) {
+					$row = $( evt.target ).closest( "tr" );
 
-					that.deleteRedirect( row );
+					evt.preventDefault();
+					that.delete_redirect( $row );
+					// When a row gets deleted, where focus should land?
+					returnFocusToEl = $( "#cb-select-all-1" );
 				} )
 				.on( "keypress", "input", function( evt ) {
 					if ( evt.which === KEYS.ENTER ) {
@@ -791,6 +808,8 @@
 				.on( "click", ".cancel", function() {
 					lastAction = null;
 					redirectsQuickEdit.remove();
+					// Move focus back to the Edit link.
+					$row.find( ".redirect-edit" ).focus();
 				} );
 		};
 
