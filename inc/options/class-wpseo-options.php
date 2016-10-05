@@ -386,7 +386,7 @@ class WPSEO_Options {
 	 * @param string $option_name              The name for the option to set.
 	 * @param *      $option_value             The value for the option.
 	 *
-	 * @return string Saving successful.
+	 * @return boolean Returns true if the options is successfully saved in the database.
 	 */
 	public static function save_option( $wpseo_options_group_name, $option_name, $option_value ) {
 		$options                           = WPSEO_Options::get_option( $wpseo_options_group_name );
