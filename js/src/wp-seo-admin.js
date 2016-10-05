@@ -177,7 +177,7 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 						tb_remove();
 						break;
 					case 0 :
-						jQuery( resp.html ).insertAfter( target_form.find( "h3" ) );
+						target_form.find( ".form-wrap" ).prepend( resp.html );
 						break;
 				}
 			}
