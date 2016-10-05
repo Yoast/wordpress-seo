@@ -15,7 +15,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.14.2';
+  var VERSION = '4.16.2';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -24,7 +24,7 @@
   var symbolTag = '[object Symbol]';
 
   /** Used to match HTML entities and HTML characters. */
-  var reUnescapedHtml = /[&<>"'`]/g,
+  var reUnescapedHtml = /[&<>"']/g,
       reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
 
   /** Used to map characters to HTML entities. */
@@ -33,8 +33,7 @@
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
-    "'": '&#39;',
-    '`': '&#96;'
+    "'": '&#39;'
   };
 
   /** Detect free variable `global` from Node.js. */
@@ -141,7 +140,7 @@
    * // => false
    */
   function isObjectLike(value) {
-    return !!value && typeof value == 'object';
+    return value != null && typeof value == 'object';
   }
 
   /**
@@ -194,8 +193,8 @@
   /*------------------------------------------------------------------------*/
 
   /**
-   * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
-   * their corresponding HTML entities.
+   * Converts the characters "&", "<", ">", '"', and "'" in `string` to their
+   * corresponding HTML entities.
    *
    * **Note:** No other characters are escaped. To escape additional
    * characters use a third-party library like [_he_](https://mths.be/he).
@@ -205,12 +204,6 @@
    * unless they're part of a tag or unquoted attribute value. See
    * [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
    * (under "semi-related fun fact") for more details.
-   *
-   * Backticks are escaped because in IE < 9, they can break out of
-   * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
-   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
-   * [#133](https://html5sec.org/#133) of the
-   * [HTML5 Security Cheatsheet](https://html5sec.org/) for more details.
    *
    * When working with HTML you should always
    * [quote attribute values](http://wonko.com/post/html-escaping) to reduce
@@ -335,7 +328,7 @@
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<div id="snippet_preview">\n    <section class="snippet-editor__preview">\n		<h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __p += '<div id="snippet_preview" class="yoast-section">\n    <section class="snippet-editor__preview">\n		<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
     '</h3>\n    <p class="screen-reader-text">' +
     __e( i18n.snippetPreviewDescription ) +
