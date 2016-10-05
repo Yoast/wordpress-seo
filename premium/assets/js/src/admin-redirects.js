@@ -536,11 +536,11 @@
 				).append(
 					$( "<div>" ).addClass( "row-actions" ).append(
 						$( "<span>" ).addClass( "edit" ).append(
-							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-edit" } ).html( "Edit" )
+							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-edit" } ).html( wpseo_premium_strings.editAction )
 						).append( " | " )
 					).append(
 						$( "<span>" ).addClass( "trash" ).append(
-							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-delete" } ).html( "Delete" )
+							$( "<a>" ).attr( { href: "#", role: "button", "class": "redirect-delete" } ).html( wpseo_premium_strings.deleteAction )
 						)
 					)
 				)
