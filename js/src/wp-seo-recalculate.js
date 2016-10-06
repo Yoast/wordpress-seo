@@ -39,6 +39,8 @@ var isUndefined = require( "lodash/isUndefined" );
 
 	/**
 	 * Sets up the Assessors needed for the recalculation.
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.setupAssessors = function() {
 		var postAssessor = new SEOAssessor( i18n );
@@ -57,6 +59,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * @param {string} fetch_type
 	 * @param {string} id_field
 	 * @param {Function|bool} callback
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.start = function( items_to_fetch, fetch_type, id_field, callback ) {
 		if ( ! this.validAssessors.hasOwnProperty( fetch_type ) ) {
@@ -77,6 +81,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Updates the progressbar
 	 *
 	 * @param {int} total_posts
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.updateProgressBar = function( total_posts ) {
 		var current_value = jQuery( "#wpseo_count" ).text();
@@ -92,6 +98,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Updates the element with the new count value
 	 *
 	 * @param {int} new_value
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.updateCountElement = function( new_value ) {
 		jQuery( "#wpseo_count" ).html( new_value );
@@ -102,6 +110,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 *
 	 * @param {int}   total_items
 	 * @param {array} items
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.calculateScores = function( total_items, items ) {
 		var scores = [];
@@ -142,6 +152,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Pass the post to the analyzer to calculates it's core
 	 *
 	 * @param {Object} item
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.calculateItemScore = function( item ) {
 		var tempPaper = new Paper( item.text, {
@@ -163,6 +175,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Parse the response given by request in getItemsToRecalculate.
 	 *
 	 * @param {Object} response
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.parseResponse = function( response ) {
 		if ( response !== "" && response !== null ) {
@@ -189,6 +203,8 @@ var isUndefined = require( "lodash/isUndefined" );
 
 	/**
 	 * Run the oncomplete method when the process is done..
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.onCompleteRequest = function() {
 		// When there is nothing to do.
@@ -202,6 +218,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Sends the scores to the backend
 	 *
 	 * @param {array} scores
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.sendScores = function( scores ) {
 		jQuery.post(
@@ -219,6 +237,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Get the posts which have to be recalculated.
 	 *
 	 * @param {int} current_page
+	 *
+	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.getItemsToRecalculate = function( current_page ) {
 		jQuery.post(
@@ -238,6 +258,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * Starting the recalculation process
 	 *
 	 * @param {object} response
+	 *
+	 * @returns {void}
 	 */
 	function start_recalculate( response ) {
 		var PostsToFetch = parseInt( response.posts, 10 );
@@ -252,6 +274,8 @@ var isUndefined = require( "lodash/isUndefined" );
 
 	/**
 	 * Initializes the event handler for the recalculate button.
+	 *
+	 * @returns {void}
 	 */
 	function init() {
 		var recalculate_link = jQuery( "#wpseo_recalculate_link" );

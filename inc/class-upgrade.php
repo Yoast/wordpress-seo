@@ -52,6 +52,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_33();
 		}
 
+		if ( version_compare( $this->options['version'], '3.6', '<' ) ) {
+			$this->upgrade_36();
+		}
+
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO
 		 *
@@ -177,6 +181,16 @@ class WPSEO_Upgrade {
 	private function upgrade_33() {
 		// Notification dismissals have been moved to User Meta instead of global option.
 		delete_option( Yoast_Notification_Center::STORAGE_KEY );
+	}
+
+	/**
+	 * Performs upgrade functions to Yoast SEO 3.6
+	 */
+	private function upgrade_36() {
+		global $wpdb;
+
+		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
+		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%" AND autoload = "yes"' );
 	}
 
 	/**

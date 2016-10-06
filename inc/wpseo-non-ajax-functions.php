@@ -18,12 +18,17 @@ function wpseo_admin_bar_menu() {
 		return;
 	}
 
+	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_ms' ) );
+
+	if ( $options['enable_admin_bar_menu'] !== true ) {
+		return;
+	}
+
 	global $wp_admin_bar, $post;
 
 	// Determine is user is admin or network admin.
 	$user_is_admin_or_networkadmin = current_user_can( 'manage_options' );
 	if ( ! $user_is_admin_or_networkadmin && is_multisite() ) {
-		$options    = get_site_option( 'wpseo_ms' );
 		$user_is_admin_or_networkadmin = ( $options['access'] === 'superadmin' && is_super_admin() );
 	}
 

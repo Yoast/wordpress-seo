@@ -183,18 +183,20 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $people );
 			?>
 		</ul>
-<!--		<h3 class="wp-people-group">--><?php //_e( 'Community contributors', 'wordpress-seo' ); ?><!--</h3>-->
-<!--		--><?php
-//		$patches_from = array();
-//		?>
-<!--		<p>--><?php //printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?><!--</p>-->
-<!--		<ul class="ul-square">-->
-<!--			--><?php
-//			foreach ( $patches_from as $patcher => $link ) {
-//				echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
-//			}
-//			?>
-<!--		</ul>-->
+		<?php
+		$patches_from = array();
+		if ( ! empty( $patches_from ) ) :
+			?>
+			<h3 class="wp-people-group"><?php _e( 'Community contributors', 'wordpress-seo' ); ?></h3>
+			<p><?php printf( __( 'We\'re always grateful for patches from non-regular contributors, in %1$s %2$s, patches from the following people made it in:', 'wordpress-seo' ), 'Yoast SEO', $version ); ?></p>
+			<ul class="ul-square">
+				<?php
+				foreach ( $patches_from as $patcher => $link ) {
+					echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
+				}
+				?>
+			</ul>
+		<?php endif; ?>
 	</div>
 
 	<div id="integrations" class="wpseotab">

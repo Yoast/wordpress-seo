@@ -23,6 +23,8 @@
 	 * Set's the featured image to use in the analysis
 	 *
 	 * @param {String} featuredImage
+	 *
+	 * @returns {void}
 	 */
 	FeaturedImagePlugin.prototype.setFeaturedImage = function( featuredImage ) {
 		this.featuredImage = featuredImage;
@@ -32,6 +34,8 @@
 
 	/**
 	 * Removes featured image and reloads analyzer
+	 *
+	 * @returns {void}
 	 */
 	FeaturedImagePlugin.prototype.removeFeaturedImage = function() {
 		this.setFeaturedImage( null );
@@ -39,6 +43,8 @@
 
 	/**
 	 * Registers this plugin to YoastSEO
+	 *
+	 * @returns {void}
 	 */
 	FeaturedImagePlugin.prototype.registerPlugin = function() {
 		this._app.registerPlugin( this.pluginName, { status: "ready" } );
@@ -46,6 +52,8 @@
 
 	/**
 	 * Registers modifications to YoastSEO
+	 *
+	 * @returns {void}
 	 */
 	FeaturedImagePlugin.prototype.registerModifications = function() {
 		this._app.registerModification( "content", this.addImageToContent.bind( this ), this.pluginName, 10 );
@@ -67,6 +75,8 @@
 
 	/**
 	 * Remove opengraph warning frame and borders
+	 *
+	 * @returns {void}
 	 */
 	function removeOpengraphWarning() {
 		$( "#yst_opengraph_image_warning" ).remove();
@@ -76,6 +86,8 @@
 	/**
 	 * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
 	 * @param {object} featuredImage
+	 *
+	 * @returns {void}
 	 */
 	function checkFeaturedImage( featuredImage ) {
 		var attachment = featuredImage.state().get( "selection" ).first().toJSON();

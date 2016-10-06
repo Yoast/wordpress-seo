@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, require, YoastSEO */
+/* global wpseoReplaceVarsL10n, require */
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -22,6 +22,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 	/**
 	 * Variable replacement plugin for WordPress.
+	 *
+	 * @returns {void}
 	 */
 	var YoastReplaceVarPlugin = function( app ) {
 		this._app = app;
@@ -38,6 +40,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 	/**
 	 * Registers all the placeholders and their replacements.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.registerReplacements = function() {
 		this.addReplacement( new ReplaceVar( "%%currentdate%%",     "currentdate" ) );
@@ -93,6 +97,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 	/**
 	 * Register all the necessary events to live replace, placeholders.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.registerEvents = function() {
 		var currentScope = wpseoReplaceVarsL10n.scope;
@@ -112,6 +118,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Add a replacement object to be used when replacing placeholders.
 	 *
 	 * @param {ReplaceVar} replacement The replacement to add to the placeholders.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.addReplacement = function( replacement ) {
 		placeholders[ replacement.placeholder ] = replacement;
@@ -121,6 +129,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Removes a replacement if it exists.
 	 *
 	 * @param {ReplaceVar} replacement The replacement to remove.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.removeReplacement = function( replacement ) {
 		delete placeholders[ replacement.getPlaceholder() ];
@@ -128,6 +138,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 	/**
 	 * Registers the modifications for the plugin on initial load.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.registerModifications = function() {
 		var callback = this.replaceVariables.bind( this );
@@ -198,7 +210,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Replaces placeholder variables with their replacement value.
 	 *
 	 * @param {string} text The text to have its placeholders replaced.
-	 * @return {string} The text in which the placeholders have been replaced.
+	 * @returns {string} The text in which the placeholders have been replaced.
 	 */
 	YoastReplaceVarPlugin.prototype.replacePlaceholders = function( text ) {
 		forEach( placeholders, function( replaceVar ) {
@@ -212,9 +224,11 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 	/**
 	 * Declares reloaded with YoastSEO.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
-		YoastSEO.app.pluginReloaded( "replaceVariablePlugin" );
+		this._app.pluginReloaded( "replaceVariablePlugin" );
 	};
 
 	/**
@@ -244,6 +258,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 *
 	 * @param {Object} checkboxes The checkboxes to check.
 	 * @param {string} taxonomyName The taxonomy name to use as a reference.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.parseTaxonomies = function( checkboxes, taxonomyName ) {
 		if ( isUndefined( taxonomyElements[ taxonomyName ] ) ) {
@@ -283,6 +299,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 *
 	 * @param {int} index The index of the element.
 	 * @param {Object} taxonomyElement The element to bind the events to.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function( index, taxonomyElement ) {
 		taxonomyElement = jQuery( taxonomyElement );
@@ -349,6 +367,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Get the custom fields that are available on the current page and adds them to the placeholders.
 	 *
 	 * @param {Object} customFields The custom fields to parse and add.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.parseFields = function( customFields ) {
 		jQuery( customFields ).each( function( i, customField ) {
@@ -367,6 +387,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Removes the custom fields from the placeholders.
 	 *
 	 * @param {Object} customFields The fields to parse and remove.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.removeFields = function( customFields ) {
 		jQuery( customFields ).each( function( i, customField ) {
@@ -411,6 +433,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 *
 	 * @param {int} index The index of the element.
 	 * @param {Object} customFieldElement The element to bind the events to.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.bindFieldEvents = function( index, customFieldElement ) {
 		customFieldElement = jQuery( customFieldElement );
@@ -427,6 +451,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 	/**
 	 * Looks for custom fields in the list of placeholders and deletes them.
+	 *
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.removeCustomFields = function() {
 		var customFields = filter( placeholders, function( item, key ) {
