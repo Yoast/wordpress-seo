@@ -33,7 +33,7 @@
 					// Make the element tooltip-able again.
 					jQuery( this ).removeClass( "yoast-tooltip-hidden" );
 				} );
-		};
+		}
 
 		if ( jQuery( ".wpseo-meta-section" ).length > 0 ) {
 			jQuery( "#wpseo-meta-section-content" ).addClass( "active" );
@@ -64,7 +64,7 @@
 					// Make the element tooltip-able again.
 					jQuery( this ).removeClass( "yoast-tooltip-hidden" );
 				} );
-		};
+		}
 
 		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
@@ -144,7 +144,6 @@
 	 * @returns {void}
 	 */
 	function moveHelpElements() {
-
 		jQuery( " #wpseo-focuskeyword-section" ).find( "h3" ).append(
 			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
 		);

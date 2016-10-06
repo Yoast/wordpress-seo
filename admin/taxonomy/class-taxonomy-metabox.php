@@ -116,7 +116,7 @@ class WPSEO_Taxonomy_Metabox {
 			array( $tab ),
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-multiline yoast-tooltip-e',
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}
