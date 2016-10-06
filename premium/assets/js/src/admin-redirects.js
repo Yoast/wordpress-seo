@@ -298,7 +298,7 @@
 	 */
 	RedirectQuickEdit.prototype.show = function() {
 		this.row.addClass( "hidden" );
-		this.quick_edit_row
+		this.quickEditRow
 			.insertAfter( this.row )
 			.show( 400, function() {
 				$( this ).find( ":input" ).first().focus();
@@ -528,11 +528,11 @@
 					$( "<input>" )
 						.attr( "name", "wpseo_redirects_bulk_delete[]" )
 						.attr( "type", "checkbox" )
-						.val( _.escape( old_url ) )
+						.val( _.escape( oldUrl ) )
 				)
 			).append(
 				$( "<td>" ).addClass( "type column-type has-row-actions column-primary" ).append(
-					$( "<div>" ).addClass( "val type" ).html( _.escape( redirect_type ) )
+					$( "<div>" ).addClass( "val type" ).html( _.escape( redirectType ) )
 				).append(
 					$( "<div>" ).addClass( "row-actions" ).append(
 						$( "<span>" ).addClass( "edit" ).append(
@@ -753,11 +753,11 @@
 			// Adding events for the add form.
 			$( ".wpseo-new-redirect-form" )
 				.on( "click", ".button-primary", function() {
-					last_action = function() {
-						that.add_redirect();
+					lastAction = function() {
+						that.addRedirect();
 					};
 
-					that.add_redirect();
+					that.addRedirect();
 					returnFocusToEl = $( this );
 					return false;
 				} )
@@ -777,14 +777,14 @@
 					$row = $( evt.target ).closest( "tr" );
 
 					evt.preventDefault();
-					that.edit_row( $row );
+					that.editRow( $row );
 					returnFocusToEl = $( this );
 				} )
 				.on( "click", ".redirect-delete", function( evt ) {
 					$row = $( evt.target ).closest( "tr" );
 
 					evt.preventDefault();
-					that.delete_redirect( $row );
+					that.deleteRedirect( $row );
 					// When a row gets deleted, where focus should land?
 					returnFocusToEl = $( "#cb-select-all-1" );
 				} )
