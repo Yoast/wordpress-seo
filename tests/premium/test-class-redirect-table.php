@@ -97,8 +97,8 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_column_cb() {
 		$this->assertEquals(
-			'<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="origin" />',
-			$this->class_instance->column_cb( array( 'old' => 'origin', 'new' => 'target', 'type' => 301 ) )
+			'<label class="screen-reader-text" for="wpseo-redirects-bulk-cb-1">Select this redirect</label> <input type="checkbox" name="wpseo_redirects_bulk_delete[]" id="wpseo-redirects-bulk-cb-1" value="origin" />',
+			$this->class_instance->column_cb( array( 'old' => 'origin', 'new' => 'target', 'type' => 301, 'row_number' => 1 ) )
 		);
 	}
 
@@ -112,7 +112,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( "<div class='val'>target</div>", $this->class_instance->column_default( $item, 'new' ) );
 		$this->assertEquals( "<div class='val'>origin</div>", $this->class_instance->column_default( $item, 'old' ) );
-		$this->assertContains( '<div class="val type">301</div><div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div>', $this->class_instance->column_default( $item, 'type' ) );
+		$this->assertContains( '<div class="val type">301</div><div class="row-actions"><span class=\'edit\'><a href="#" role="button" class="redirect-edit">Edit</a> | </span><span class=\'trash\'><a href="#" role="button" class="redirect-delete">Delete</a></span></div>', $this->class_instance->column_default( $item, 'type' ) );
 	}
 
 	/**
