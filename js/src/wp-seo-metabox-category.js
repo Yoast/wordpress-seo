@@ -10,7 +10,7 @@
 	 *
 	 * @param {Object} checkbox
 	 *
-	 * @return {boolean}
+	 * @returns {boolean}
 	 */
 	function hasPrimaryTermElements( checkbox ) {
 		return 1 === $( checkbox ).closest( "li" ).children( ".wpseo-make-primary-term" ).length;
@@ -20,7 +20,7 @@
 	 * Retrieves the primary term for a taxonomy
 	 *
 	 * @param {string} taxonomyName
-	 * @return {string}
+	 * @returns {string}
 	 */
 	function getPrimaryTerm( taxonomyName ) {
 		var primaryTermInput;
@@ -34,6 +34,8 @@
 	 *
 	 * @param {string} taxonomyName
 	 * @param {string} termId
+	 *
+	 * @returns {void}
 	 */
 	function setPrimaryTerm( taxonomyName, termId ) {
 		var primaryTermInput;
@@ -47,6 +49,8 @@
 	 *
 	 * @param {string} taxonomyName
 	 * @param {Object} checkbox
+	 *
+	 * @returns {void}
 	 */
 	function createPrimaryTermElements( taxonomyName, checkbox ) {
 		var label, html;
@@ -65,6 +69,8 @@
 	 * Updates the primary term selectors/indicators for a certain taxonomy
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function updatePrimaryTermSelectors( taxonomyName ) {
 		var checkedTerms, uncheckedTerms;
@@ -72,22 +78,24 @@
 
 		checkedTerms = $( "#" + taxonomyName + 'checklist input[type="checkbox"]:checked' );
 		uncheckedTerms = $( "#" + taxonomyName + 'checklist input[type="checkbox"]:not(:checked)' );
-        $( "#" + taxonomyName + 'checklist li').removeClass("wpseo-term-unchecked wpseo-primary-term wpseo-non-primary-term");
+
+		// Remove all classes for a consistent experience
+		checkedTerms.add( uncheckedTerms ).closest( "li" )
+			.removeClass( "wpseo-term-unchecked" )
+			.removeClass( "wpseo-primary-term" )
+			.removeClass( "wpseo-non-primary-term" );
 
 		$( ".wpseo-primary-category-label" ).remove();
 
 		// If there is only one term selected we don't want to show our interface.
 		if ( checkedTerms.length <= 1 ) {
-            $( "#" + taxonomyName + 'checklist li').addClass("wpseo-term-unchecked");
+			checkedTerms.add( uncheckedTerms ).closest( "li" ).addClass( "wpseo-term-unchecked" );
 			return;
-		} else {
-            $( "#" + taxonomyName + 'checklist li').addClass("wpseo-term-unchecked");
-        }
+		}
 
 		checkedTerms.each( function( i, term ) {
 			term = $( term );
 			listItem = term.closest( "li" );
-            listItem.removeClass("wpseo-term-unchecked");
 
 			// Create our interface elements if they don't exist.
 			if ( ! hasPrimaryTermElements( term ) ) {
@@ -107,12 +115,17 @@
 				listItem.addClass( "wpseo-non-primary-term" );
 			}
 		} );
+
+		// Hide our interface elements on all unchecked checkboxes.
+		uncheckedTerms.closest( "li" ).addClass( "wpseo-term-unchecked" );
 	}
 
 	/**
 	 * Makes the first term primary for a certain taxonomy
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function makeFirstTermPrimary( taxonomyName ) {
 		var firstTerm = $( "#" + taxonomyName + 'checklist input[type="checkbox"]:checked:first' );
@@ -125,6 +138,8 @@
 	 * If we check a term while there is no primary term we make that one the primary term.
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function ensurePrimaryTerm( taxonomyName ) {
 		if ( "" === getPrimaryTerm( taxonomyName ) ) {
@@ -136,7 +151,7 @@
 	 * Returns the term checkbox handler for a certain taxonomy name
 	 *
 	 * @param {string} taxonomyName
-	 * @return {Function}
+	 * @returns {Function}
 	 */
 	function termCheckboxHandler( taxonomyName ) {
 		return function() {
