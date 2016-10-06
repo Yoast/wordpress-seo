@@ -276,7 +276,8 @@ class WPSEO_Premium_Import_Manager {
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 
-		echo '<textarea name="htaccess" rows="4" cols="50" style="width:70%; height: 200px;">' . $textarea_value . '</textarea><br/>' . PHP_EOL;
+		echo '<label for="htaccess" class="screen-reader-text">' . __( 'Enter redirects to import', 'wordpress-seo-premium' ) . '</label>';
+		echo '<textarea name="htaccess" id="htaccess" rows="15" class="large-text code">' . $textarea_value . '</textarea><br/>' . PHP_EOL;
 		echo '<input type="submit" class="button button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo-premium' ) . '"/>' . PHP_EOL;
 		echo '</form>' . PHP_EOL;
 		echo '</div>' . PHP_EOL;
