@@ -339,7 +339,7 @@ class WPSEO_Redirect_Handler {
 				$blog_details = get_blog_details();
 				if ( $blog_details && ! empty( $blog_details->path ) ) {
 					$blog_path = ltrim( $blog_details->path, '/' );
-					if ( 0 === strpos( $target_url, $blog_path ) ) {
+					if ( ! empty( $blog_path ) &&  0 === strpos( $target_url, $blog_path ) ) {
 						$target_url = substr( $target_url, strlen( $blog_path ) );
 					}
 				}

@@ -87,11 +87,8 @@ class WPSEO_Admin {
 		}
 
 		if ( WPSEO_Utils::is_api_available() ) {
-			$configuration = new WPSEO_Configuration_Page();
-
-			if ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER ) {
-				$configuration->catch_configuration_request();
-			}
+			$configuration = new WPSEO_Configuration_Page;
+			$configuration->catch_configuration_request();
 		}
 	}
 
@@ -575,7 +572,7 @@ class WPSEO_Admin {
 	 */
 	public function filter_settings_pages( array $pages ) {
 
-		if ( $this->options['enable_setting_pages'] ) {
+		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}
 
