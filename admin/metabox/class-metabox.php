@@ -517,8 +517,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
 				$content .= '<div id="pageanalysis">';
-				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-pageanalysis-section">';
-				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis', 'wordpress-seo' ) .'</h3>';
+				$content .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">'. __( 'Analysis', 'wordpress-seo' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
 				$content .= '</section>';
@@ -533,8 +533,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				}
 
 				$content .= '<div id="wpseofocuskeyword">';
-				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-focuskeyword-section">';
-				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-key">';
+				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">';
 			    $content .= '<label for="' . $esc_form_key . '">' . esc_html( $meta_field_def['title'] ) . '</label>';
 				$content .= '</h3>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
