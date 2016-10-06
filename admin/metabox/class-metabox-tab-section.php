@@ -47,14 +47,21 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	 * @param array  $options      Optional link attributes.
 	 */
 	public function __construct( $name, $link_content, array $tabs = array(), array $options = array() ) {
+		$default_options = array(
+			'link_title'      => '',
+			'link_class'      => '',
+			'link_aria_label' => '',
+		);
+		$options = array_merge( $default_options, $options );
+
 		$this->name = $name;
 		foreach ( $tabs as $tab ) {
 			$this->add_tab( $tab );
 		}
 		$this->link_content    = $link_content;
-		$this->link_title      = isset( $options['link_title'] ) ? $options['link_title'] : '';
-		$this->link_class      = isset( $options['link_class'] ) ? $options['link_class'] : '';
-		$this->link_aria_label = isset( $options['link_aria_label'] ) ? $options['link_aria_label'] : '';
+		$this->link_title      = $options['link_title'];
+		$this->link_class      = $options['link_class'];
+		$this->link_aria_label = $options['link_aria_label'];
 	}
 
 	/**
