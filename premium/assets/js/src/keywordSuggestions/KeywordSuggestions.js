@@ -12,7 +12,7 @@ class KeywordSuggestions {
 	}
 
 	/**
-	 * Initializes into the DOM and adds all event handlers
+	 * Initializes into the DOM and adds all event handlers.
 	 *
 	 * @returns {void}
 	 */
@@ -38,7 +38,7 @@ class KeywordSuggestions {
 
 
 	/**
-	 * Appends the suggestions div to the DOM
+	 * Appends the suggestions div to the DOM.
 	 *
 	 * @returns {void}
 	 */
