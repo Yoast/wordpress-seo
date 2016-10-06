@@ -1,0 +1,51 @@
+a.remove-keyword {
+	display: inline-block;
+	margin-left: -3px;
+	padding: 5px 6px 6px;
+}
+
+a.remove-keyword span {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 100%;
+	color: #686868;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 15px;
+	text-align: center;
+	vertical-align: top;
+}
+
+a.remove-keyword:hover span,
+a.remove-keyword:focus span {
+	color: white;
+	background-color: #dc3232;
+}
+
+.wpseo-add-keyword:disabled {
+	display: none;
+}
+
+/* Bold the main keyword tab */
+.wpseo_content_tab + .wpseo_keyword_tab .wpseo-keyword {
+	font-weight: 600;
+}
+
+/* But not bold when there is no keyword set */
+.wpseo_content_tab + .wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	font-weight: normal;
+}
+
+/* Narrow all the tabs without a focus keyword */
+.wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	max-width: 1em;
+	max-width: 1rem;
+}
+
+/* Except the active one */
+.wpseo_keyword_tab.active a[data-score="na"] .wpseo-keyword {
+	max-width: none;
+}
