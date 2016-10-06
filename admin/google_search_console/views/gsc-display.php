@@ -12,8 +12,8 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 	?>
 		<form action="" method="post">
 			<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />
-			<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button button-primary"
-				   style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
+			<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button button-primary alignright"
+				   value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
 		</form>
 <?php } ?>
 		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs; ?>

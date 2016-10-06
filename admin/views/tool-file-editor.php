@@ -64,7 +64,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 }
 
 if ( isset( $msg ) && ! empty( $msg ) ) {
-	echo '<div id="message" style="width:94%;" class="updated fade"><p>', esc_html( $msg ), '</p></div>';
+	echo '<div id="message" class="updated fade"><p>', esc_html( $msg ), '</p></div>';
 }
 
 if ( is_multisite() ) {
