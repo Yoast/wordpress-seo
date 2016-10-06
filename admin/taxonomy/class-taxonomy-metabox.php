@@ -50,13 +50,15 @@ class WPSEO_Taxonomy_Metabox {
 			$product_title .= ' Premium';
 		}
 
-		printf( '<div id="poststuff" class="postbox wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
+		printf( '<div id="wpseo_meta" class="postbox wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
 
-		// Add Help Center to the taxonomy metabox see #4701.
 		echo '<div class="inside">';
-		$tab_video_url = 'https://yoa.st/metabox-taxonomy-screencast';
-		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 
+		$helpcenter_tab = new WPSEO_Option_Tab( 'tax-metabox', 'Meta box',
+			array( 'video_url' => 'https://yoa.st/metabox-taxonomy-screencast' ) );
+
+		$helpcenter = new WPSEO_Help_Center( 'tax-metabox', $helpcenter_tab );
+		$helpcenter->output_help_center();
 
 		echo '<div id="taxonomy_overall"></div>';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';

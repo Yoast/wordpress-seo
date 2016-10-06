@@ -1,8 +1,9 @@
 /* browser:true */
 /* global tb_show, wpseoSelect2Locale */
-( function( $ ) {
-	"use strict";
 
+import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+
+( function( $ ) {
 	window.wpseo_init_tabs = function() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )
@@ -69,10 +70,14 @@
 		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code.
+
+		initializeAlgoliaSearch();
 	};
 
 	/**
-	 * Adds select2 for selected fields.
+	 * @summary Adds select2 for selected fields.
+	 *
+	 * @returns {void}
 	 */
 	function initSelect2() {
 		// Select2 for Yoast SEO Metabox Advanced tab
@@ -81,7 +86,9 @@
 	}
 
 	/**
-	 * Shows a informational popup if someone click the add keyword button
+	 * @summary Shows a informational popup if someone click the add keyword button.
+	 *
+	 * @returns {void}
 	 */
 	function addKeywordPopup() {
 		var $buyButton = $( "#wpseo-add-keyword-popup-button" ),
@@ -129,7 +136,9 @@
 	}
 
 	/**
-	 * Adds keyword popup if the template for it is found
+	 * @summary Adds keyword popup if the template for it is found.
+	 *
+	 * @returns {void}
 	 */
 	function initAddKeywordPopup() {
 		// If add keyword popup exists bind it to the add keyword button
@@ -179,6 +188,7 @@
  * @deprecated since version 3.0
  *
  * @param {string} str
+ *
  * @returns {string}
  */
 function ystClean( str ) {

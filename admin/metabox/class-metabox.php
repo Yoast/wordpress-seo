@@ -289,9 +289,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
-		// Add Help Center to the metabox see #4701.
-		$tab_video_url = 'https://yoa.st/metabox-screencast';
-		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', 'Meta box',
+			array( 'video_url' => 'https://yoa.st/metabox-screencast' ) );
+
+		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
+		$helpcenter->output_help_center();
 
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
@@ -527,8 +529,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
 				$content .= '<div id="pageanalysis">';
-				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-pageanalysis-section">';
-				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-list">'. __( 'Analysis', 'wordpress-seo' ) .'</h3>';
+				$content .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">'. __( 'Analysis', 'wordpress-seo' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
 				$content .= '</section>';
@@ -543,8 +545,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				}
 
 				$content .= '<div id="wpseofocuskeyword">';
-				$content .= '<section class="snippet-editor__preview yoast-section" id="wpseo-focuskeyword-section">';
-				$content .= '<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-key">';
+				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">';
 			    $content .= '<label for="' . $esc_form_key . '">' . esc_html( $meta_field_def['title'] ) . '</label>';
 				$content .= '</h3>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
@@ -828,6 +830,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'select2' );
+			$asset_manager->enqueue_style( 'kb-search' );
 
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'admin-media' );
@@ -843,6 +846,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( get_locale() ) );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
