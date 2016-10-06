@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.5\n"
+"Project-Id-Version: Yoast SEO 3.6\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-09-26 10:59:10+00:00\n"
+"POT-Creation-Date: 2016-10-03 13:54:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -133,7 +133,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: admin/class-admin.php:151 admin/class-admin.php:261
-#: admin/pages/dashboard.php:58 inc/wpseo-non-ajax-functions.php:259
+#: admin/pages/dashboard.php:58 inc/wpseo-non-ajax-functions.php:262
 msgid "Dashboard"
 msgstr ""
 
@@ -150,34 +150,34 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: admin/class-admin.php:172 inc/wpseo-non-ajax-functions.php:265
+#: admin/class-admin.php:172 inc/wpseo-non-ajax-functions.php:269
 msgid "Titles &amp; Metas"
 msgstr ""
 
 #: admin/class-admin.php:180 admin/class-social-admin.php:106
 #: admin/taxonomy/class-taxonomy-metabox.php:189
-#: inc/wpseo-non-ajax-functions.php:271
+#: inc/wpseo-non-ajax-functions.php:275
 msgid "Social"
 msgstr ""
 
-#: admin/class-admin.php:189 inc/wpseo-non-ajax-functions.php:277
+#: admin/class-admin.php:189 inc/wpseo-non-ajax-functions.php:281
 msgid "XML Sitemaps"
 msgstr ""
 
 #: admin/class-admin.php:198 admin/metabox/class-metabox.php:379
-#: admin/metabox/class-metabox.php:387 inc/wpseo-non-ajax-functions.php:283
+#: admin/metabox/class-metabox.php:387 inc/wpseo-non-ajax-functions.php:287
 msgid "Advanced"
 msgstr ""
 
-#: admin/class-admin.php:207 inc/wpseo-non-ajax-functions.php:289
+#: admin/class-admin.php:207 inc/wpseo-non-ajax-functions.php:293
 msgid "Tools"
 msgstr ""
 
-#: admin/class-admin.php:216 inc/wpseo-non-ajax-functions.php:295
+#: admin/class-admin.php:216 inc/wpseo-non-ajax-functions.php:300
 msgid "Search Console"
 msgstr ""
 
-#: admin/class-admin.php:225
+#: admin/class-admin.php:225 inc/wpseo-non-ajax-functions.php:306
 msgid "Go Premium"
 msgstr ""
 
@@ -232,7 +232,6 @@ msgid "Edit Files"
 msgstr ""
 
 #: admin/class-admin.php:348 admin/pages/licenses.php:112
-#: inc/wpseo-non-ajax-functions.php:301
 msgid "Extensions"
 msgstr ""
 
@@ -2862,8 +2861,7 @@ msgstr ""
 #: admin/views/tabs/dashboard/features.php:36
 msgid ""
 "%1$s comes with a lot of features. You can enable / disable some of them "
-"below. However, we recommend keeping everything enabled in order to have the "
-"best results."
+"below."
 msgstr ""
 
 #: admin/views/tabs/dashboard/general.php:13
@@ -4017,7 +4015,7 @@ msgstr ""
 msgid "Mobile-Friendly Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:253
+#: inc/wpseo-non-ajax-functions.php:256
 msgid "SEO Settings"
 msgstr ""
 

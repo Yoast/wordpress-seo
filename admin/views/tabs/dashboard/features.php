@@ -33,7 +33,7 @@ $features = array(
 <h2>Features</h2>
 
 <?php echo esc_html( sprintf(
-	__( '%1$s comes with a lot of features. You can enable / disable some of them below. However, we recommend keeping everything enabled in order to have the best results.', 'wordpress-seo' ),
+	__( '%1$s comes with a lot of features. You can enable / disable some of them below.', 'wordpress-seo' ),
 	'Yoast SEO'
 ) ) ?>
 <?php foreach ( $features as $feature ) : ?>
