@@ -28,6 +28,37 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 	wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
 	exit;
 }
+
+/**
+ * Outputs a help center.
+ *
+ * @param string $id The id for the tab.
+ */
+function render_help_center( $id ) {
+	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, 'Bulk editor',
+		array( 'video_url' => 'https://yoa.st/screencast-tools-bulk-editor' ) );
+
+	$helpcenter = new WPSEO_Help_Center( 'bulk-editor' . $id, $helpcenter_tab );
+	$helpcenter->output_help_center();
+}
+
+/**
+ * Renders a bulk editor tab.
+ *
+ * @param WPSEO_Bulk_List_Table $table The table to render.
+ * @param string                $id    The id for the tab.
+ */
+function get_rendered_tab( $table, $id ) {
+	?>
+	<div id="<?php echo $id ?>" class="wpseotab">
+		<?php
+		render_help_center( $id );
+		$table->show_page();
+		?>
+	</div>
+	<?php
+}
+
 ?>
 <script>
 	var wpseo_bulk_editor_nonce = '<?php echo wp_create_nonce( 'wpseo-bulk-editor' ); ?>';
@@ -42,26 +73,7 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 	</h2>
 
 	<div class="tabwrapper">
-		<div id="title" class="wpseotab">
-			<?php
-
-			$tab_video_url = 'https://yoa.st/screencast-tools-bulk-editor';
-			include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
-
-			$wpseo_bulk_titles_table->show_page();
-
-			?>
-		</div>
-		<div id="description" class="wpseotab">
-			<?php
-
-			$tab_video_url = 'https://yoa.st/screencast-tools-bulk-editor';
-			include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
-
-			$wpseo_bulk_description_table->show_page();
-
-			?>
-		</div>
-
+		<?php get_rendered_tab( $wpseo_bulk_titles_table, 'title' )?>
+		<?php get_rendered_tab( $wpseo_bulk_description_table, 'description' )?>
 	</div>
 </div>
