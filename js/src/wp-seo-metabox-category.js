@@ -73,10 +73,12 @@
 		var listItem, label;
 
 		checkedTerms = $( "#" + taxonomyName + 'checklist input[type="checkbox"]:checked' );
-        $( "#" + taxonomyName + "checklist li" ).removeClass( "wpseo-term-unchecked wpseo-primary-term wpseo-non-primary-term" );
+
+		var taxonomyListItem = $( "#" + taxonomyName + "checklist li" );
+		taxonomyListItem.removeClass( "wpseo-term-unchecked wpseo-primary-term wpseo-non-primary-term" );
 
 		$( ".wpseo-primary-category-label" ).remove();
-		$( "#" + taxonomyName + "checklist li" ).addClass("wpseo-term-unchecked");
+		taxonomyListItem.addClass( "wpseo-term-unchecked" );
 
 		// If there is only one term selected we don't want to show our interface.
 		if ( checkedTerms.length <= 1 ) {
@@ -86,7 +88,7 @@
 		checkedTerms.each( function( i, term ) {
 			term = $( term );
 			listItem = term.closest( "li" );
-            listItem.removeClass("wpseo-term-unchecked");
+			listItem.removeClass( "wpseo-term-unchecked" );
 
 			// Create our interface elements if they don't exist.
 			if ( ! hasPrimaryTermElements( term ) ) {
