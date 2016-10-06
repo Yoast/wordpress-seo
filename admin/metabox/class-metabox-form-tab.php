@@ -83,17 +83,17 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 */
 	public function link() {
 
-		$html = '<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s"%3$s>%4$s</a></li>';
+		$html = '<li class="%1$s%2$s"><a class="wpseo_tablink%3$s" href="#wpseo_%1$s"%4$s%5$s>%6$s</a></li>';
 
 		if ( $this->single ) {
-			$html = '<li class="%1$s %2$s"><span class="wpseo_tablink"%3$s>%4$s</span></li>';
+			$html = '<li class="%1$s%2$s"><span class="wpseo_tablink%3$s"%4$s%5$s>%6$s</span></li>';
 		}
 
 		return sprintf(
 			$html,
 			esc_attr( $this->name ),
-			esc_attr( $this->tab_class ),
-			esc_attr( $this->link_class ),
+			( '' !== $this->tab_class ) ? ' ' . esc_attr( $this->tab_class ) : '',
+			( '' !== $this->link_class ) ? ' ' . esc_attr( $this->link_class ) : '',
 			( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
 			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
 			$this->link_content
