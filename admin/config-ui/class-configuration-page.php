@@ -7,8 +7,10 @@
  * @class WPSEO_Configuration_Wizard Loads the Yoast onboarding wizard.
  */
 class WPSEO_Configuration_Page {
-
-	const PAGE_IDENTIFIER = 'wpseo_configurator';
+	/**
+	 * @var string The identifier for the configuration page.
+	 */
+	private $page_identifier = 'wpseo_configurator';
 
 	/**
 	 * WPSEO_Configuration_Wizard constructor.
@@ -19,7 +21,7 @@ class WPSEO_Configuration_Page {
 			$this->add_notification();
 		}
 
-		if ( filter_input( INPUT_GET, 'page' ) !== self::PAGE_IDENTIFIER ) {
+		if ( filter_input( INPUT_GET, 'page' ) !== $this->get_page_identifier() ) {
 			return;
 		}
 
@@ -43,7 +45,7 @@ class WPSEO_Configuration_Page {
 		$this->remove_notification();
 		$this->remove_notification_option();
 
-		wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
+		wp_redirect( admin_url( 'admin.php?page=' . $this->get_page_identifier() ) );
 		exit;
 	}
 
@@ -52,7 +54,7 @@ class WPSEO_Configuration_Page {
 	 *  Registers the page for the wizard.
 	 */
 	public function add_wizard_page() {
-		add_dashboard_page( '', '', 'manage_options', self::PAGE_IDENTIFIER, '' );
+		add_dashboard_page( '', '', 'manage_options', $this->get_page_identifier(), '' );
 	}
 
 	/**
@@ -89,7 +91,7 @@ class WPSEO_Configuration_Page {
 	 */
 	public function show_wizard() {
 		$this->enqueue_assets();
-		$dashboard_url = admin_url( '/admin.php?page=wpseo_dashboard' );
+		$dashboard_url = admin_url( '/admin.php?page='. WPSEO_Admin::PAGE_IDENTIFIER );
 		?>
 		<!DOCTYPE html>
 		<!--[if IE 9]>
@@ -141,7 +143,7 @@ class WPSEO_Configuration_Page {
 			'nonce'             => wp_create_nonce( 'wp_rest' ),
 			'root'              => esc_url_raw( rest_url() ),
 			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-			'finishUrl'         => admin_url( 'admin.php?page=wpseo_dashboard&configuration=finished' ),
+			'finishUrl'         => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&configuration=finished' ),
 			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
 			'gscProfiles'       => $service->get_sites(),
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),
@@ -170,7 +172,7 @@ class WPSEO_Configuration_Page {
 	 */
 	private function add_notification() {
 		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->add_notification( self::get_notification() );
+		$notification_center->add_notification( $this->get_notification() );
 	}
 
 	/**
@@ -178,7 +180,7 @@ class WPSEO_Configuration_Page {
 	 */
 	private function remove_notification() {
 		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification( self::get_notification() );
+		$notification_center->remove_notification( $this->get_notification() );
 	}
 
 	/**
@@ -186,11 +188,11 @@ class WPSEO_Configuration_Page {
 	 *
 	 * @return Yoast_Notification
 	 */
-	private static function get_notification() {
+	private function get_notification() {
 		$message = sprintf(
 			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
 			'Yoast SEO',
-			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
+			'<a href="' . admin_url( '?page=' . $this->get_page_identifier() ) . '">',
 			'</a>'
 		);
 
@@ -236,5 +238,14 @@ class WPSEO_Configuration_Page {
 	 */
 	private function get_options() {
 		return get_option( 'wpseo' );
+	}
+
+	/**
+	 * Returns the page identifier for the configuration UI.
+	 *
+	 * @return string The configuration page identifier.
+	 */
+	public function get_page_identifier() {
+		return $this->page_identifier;
 	}
 }
