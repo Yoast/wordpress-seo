@@ -34,6 +34,7 @@ class WPSEO_Taxonomy_Metabox {
 		$this->taxonomy             = $taxonomy;
 		$this->taxonomy_tab_content = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 
+		add_action( 'admin_footer', array( $this, 'template_generic_tab' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 	}
 
@@ -83,6 +84,10 @@ class WPSEO_Taxonomy_Metabox {
 			$this->get_social_meta_section(),
 			$this->get_settings_meta_section(),
 		);
+
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+			$content_sections[] = $this->get_buy_premium_section();
+		}
 
 		return $content_sections;
 	}
@@ -192,6 +197,66 @@ class WPSEO_Taxonomy_Metabox {
 	}
 
 	/**
+	 * Returns the metabox section for the Premium section.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_buy_premium_section() {
+		$content = sprintf( "<div class='wpseo-metabox-premium-description'>
+			%s
+			<ul class='wpseo-metabox-premium-advantages'>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+			</ul>
+			
+			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
+				%s
+			</a>
+			
+			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
+		</div>",
+			__( 'You\'re not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:', 'wordpress-seo' ),
+			__( 'Redirect manager', 'wordpress-seo' ),
+			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
+			__( 'Multiple focus keywords', 'wordpress-seo' ),
+			__( 'Optimize a single post for up to 5 keywords.', 'wordpress-seo' ),
+			__( 'Social Previews', 'wordpress-seo' ),
+			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
+			__( 'Premium support', 'wordpress-seo' ),
+			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
+			'https://yoa.st/pe-buy-premium',
+			__( 'Get Yoast SEO Premium now!', 'wordpress-seo' ),
+			'https://yoa.st/pe-premium-page',
+			__( 'More info', 'wordpress-seo' )
+		);
+
+		$tab = new WPSEO_Metabox_Form_Tab(
+			'premium',
+			$content,
+			__( 'Yoast SEO Premium', 'wordpress-seo' )
+		);
+
+		return new WPSEO_Metabox_Tab_Section(
+			'premium',
+			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
+			array( $tab ),
+			array(
+				'link_title' => __( 'Yoast SEO Premium', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	/**
 	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
 	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
 	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
@@ -256,6 +321,30 @@ SVG;
 	}
 
 	/**
+	 * Generic tab.
+	 */
+	public function template_generic_tab() {
+		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
+		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' ) ) {
+			return;
+		}
+
+		echo '<script type="text/html" id="tmpl-generic_tab">
+				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
+					<a class="wpseo_tablink" href="#wpseo_generic" data-score="{{data.score}}">
+						<span class="wpseo-score-icon {{data.score}}"></span>
+						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
+						<span class="wpseo-tab-label">{{data.label}}</span>
+						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
+					</a>
+					<# if ( data.hideable ) { #>
+						<a href="#" class="remove-tab"><span>x</span></a>
+					<# } #>
+				</li>
+			</script>';
+	}
+
+	/**
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
@@ -265,14 +354,14 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
+				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-keyword-tab-prefix">{{data.prefix}}</span>
-						<em class="wpseo-keyword">{{data.placeholder}}</em>
+						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
+						<em class="wpseo-keyword">{{data.label}}</em>
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
 					</a>
-					<# if ( ! data.hideRemove ) { #>
+					<# if ( data.hideable ) { #>
 						<a href="#" class="remove-keyword"><span>x</span></a>
 					<# } #>
 				</li>

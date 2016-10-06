@@ -353,6 +353,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		if ( 'top' === $which ) {
 			$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ) );
 
+			$instance_type = esc_attr( $this->page_type );
+
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				global $wpdb;
 
@@ -379,7 +381,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
 				$selected         = ( ! empty( $post_type_filter ) ) ? sanitize_text_field( $post_type_filter ) : '-1';
 
-				$options = '<option value="-1">Show All Post Types</option>';
+				$options = '<option value="-1">' . __( 'Show All Post Types', 'wordpress-seo' ) . '</option>';
 
 				if ( is_array( $post_types ) && $post_types !== array() ) {
 					foreach ( $post_types as $post_type ) {
@@ -388,7 +390,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					}
 				}
 
-				echo sprintf( '<select name="post_type_filter">%1$s</select>', $options );
+				printf(
+					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
+					'post-type-filter-' . $instance_type,
+					__( 'Filter by post type', 'wordpress-seo' )
+				);
+				echo sprintf( '<select name="post_type_filter" id="post-type-filter-%2$s">%1$s</select>', $options, $instance_type );
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
@@ -683,7 +690,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$records = $this->items;
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		if ( ( is_array( $records ) && $records !== array() ) && ( is_array( $columns ) && $columns !== array() ) ) {
 
@@ -693,7 +700,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				foreach ( $columns as $column_name => $column_display_name ) {
 
-					$attributes = $this->column_attributes( $column_name, $hidden );
+					$classes = '';
+					if ( $primary === $column_name ) {
+						$classes .= ' has-row-actions column-primary';
+					}
+
+					$attributes = $this->column_attributes( $column_name, $hidden, $classes );
 
 					$column_value = $this->parse_column( $column_name, $rec );
 
@@ -716,19 +728,22 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @param string $column_name Column name string.
 	 * @param array  $hidden      Set of hidden columns.
+	 * @param string $classes     Additional CSS classes.
 	 *
 	 * @return string
 	 */
-	protected function column_attributes( $column_name, $hidden ) {
+	protected function column_attributes( $column_name, $hidden, $classes ) {
 
-		$class = sprintf( 'class="%1$s column-%1$s"', $column_name );
-		$style = '';
+		$attributes = '';
+		$class = array( $column_name, "column-$column_name$classes" );
 
 		if ( in_array( $column_name, $hidden ) ) {
-			$style = ' style="display:none;"';
+			$class[] = 'hidden';
 		}
 
-		$attributes = $class . $style;
+		if ( ! empty( $class ) ) {
+			$attributes = 'class="' . implode( ' ', $class ) . '"';
+		}
 
 		return $attributes;
 	}
@@ -742,7 +757,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_page_title_column( $rec ) {
 
-		$return = sprintf( '<strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $rec->post_title ) ) );
+		$title = empty( $rec->post_title ) ? __( '(no title)', 'wordpress-seo' ) : $rec->post_title;
+
+		$return = sprintf( '<strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $title ) ) );
 
 		$post_type_object = get_post_type_object( $rec->post_type );
 		$can_edit_post    = current_user_can( $post_type_object->cap->edit_post, $rec->ID );
@@ -750,17 +767,35 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$actions = array();
 
 		if ( $can_edit_post && 'trash' !== $rec->post_status ) {
-			$actions['edit'] = '<a href="' . esc_url( get_edit_post_link( $rec->ID, true ) ) . '" title="' . esc_attr( __( 'Edit this item', 'wordpress-seo' ) ) . '">' . __( 'Edit', 'wordpress-seo' ) . '</a>';
+			$actions['edit'] = sprintf(
+				'<a href="%s" aria-label="%s">%s</a>',
+				esc_url( get_edit_post_link( $rec->ID, true ) ),
+				/* translators: %s: post title */
+				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+				__( 'Edit', 'wordpress-seo' )
+			);
 		}
 
 		if ( $post_type_object->public ) {
 			if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 				if ( $can_edit_post ) {
-					$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
+					$actions['view'] = sprintf(
+						'<a href="%s" aria-label="%s">%s</a>',
+						esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ),
+						/* translators: %s: post title */
+						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+						__( 'Preview', 'wordpress-seo' )
+					);
 				}
 			}
 			elseif ( 'trash' !== $rec->post_status ) {
-				$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
+				$actions['view'] = sprintf(
+					'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
+					esc_url( get_permalink( $rec->ID ) ),
+					/* translators: %s: post title */
+					esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $title ) ),
+					__( 'View', 'wordpress-seo' )
+				);
 			}
 		}
 
@@ -812,7 +847,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				break;
 
 			case 'col_row_action':
-				$column_value = sprintf( '<a href="#" class="wpseo-save" data-id="%1$s">Save</a> | <a href="#" class="wpseo-save-all">Save All</a>', $rec->ID );
+				$column_value = sprintf( '<a href="#" role="button" class="wpseo-save" data-id="%1$s">Save</a> <span aria-hidden="true">|</span> <a href="#" role="button" class="wpseo-save-all">Save All</a>', $rec->ID );
 				break;
 		}
 

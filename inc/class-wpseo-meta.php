@@ -106,7 +106,7 @@ class WPSEO_Meta {
 				'help-button'  => '', // Translation added later.
 			),
 			'focuskw_text_input' => array(
-				'type'          => 'text',
+				'type'          => 'focuskeyword',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'autocomplete'  => false,
@@ -468,7 +468,6 @@ class WPSEO_Meta {
 				}
 				break;
 
-
 			case ( $field_def['type'] === 'checkbox' ):
 				// Only allow value if it's one of the predefined options.
 				if ( in_array( $meta_value, array( 'on', 'off' ), true ) ) {
@@ -527,6 +526,19 @@ class WPSEO_Meta {
 			default:
 				if ( is_string( $meta_value ) ) {
 					$clean = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
+				}
+
+				if ( $meta_key === self::$meta_prefix . 'focuskw' ) {
+					$clean = str_replace( array(
+						'&lt;',
+						'&gt;',
+						'&quot',
+						'&#96',
+						'<',
+						'>',
+						'"',
+						'`',
+					), '', $clean );
 				}
 				break;
 		}
@@ -732,6 +744,19 @@ class WPSEO_Meta {
 		return update_post_meta( $post_id, self::$meta_prefix . $key, $meta_value );
 	}
 
+	/**
+	 * Deletes a meta value for a post
+	 *
+	 * @static
+	 *
+	 * @param string $key The internal key of the meta value to change (without prefix).
+	 * @param int    $post_id The ID of the post to change the meta for.
+	 *
+	 * @return bool Whether the value was changed
+	 */
+	public static function delete( $key, $post_id ) {
+		return delete_post_meta( $post_id, self::$meta_prefix . $key );
+	}
 
 	/**
 	 * Used for imports, this functions imports the value of $old_metakey into $new_metakey for those post
@@ -1030,6 +1055,11 @@ class WPSEO_Meta {
 	 * @return array
 	 */
 	public static function keyword_usage( $keyword, $post_id ) {
+
+		if ( empty( $keyword ) ) {
+			return array();
+		}
+
 		$get_posts = new WP_Query(
 			array(
 				'meta_key'       => '_yoast_wpseo_focuskw',

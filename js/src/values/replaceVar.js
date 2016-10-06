@@ -1,13 +1,10 @@
 /* global require */
-(function() {
-	'use strict';
+var isEmpty = require( "lodash/isEmpty" );
+var indexOf = require( "lodash/indexOf" );
+var defaults = require( "lodash/defaults" );
 
-	var isUndefined = require( 'lodash/isUndefined' );
-	var isEmpty = require( 'lodash/isEmpty' );
-	var indexOf = require( 'lodash/indexOf' );
-	var defaults = require( 'lodash/defaults' );
-
-	var defaultOptions = { source: 'wpseoReplaceVarsL10n', scope: [], aliases: [] };
+( function() {
+	var defaultOptions = { source: "wpseoReplaceVarsL10n", scope: [], aliases: [] };
 
 	/**
 	 * Constructs the replace var.
@@ -33,7 +30,7 @@
 		includeAliases = includeAliases || false;
 
 		if ( includeAliases && this.hasAlias() ) {
-			return this.placeholder + '|' + this.getAliases().join('|');
+			return this.placeholder + "|" + this.getAliases().join( "|" );
 		}
 
 		return this.placeholder;
@@ -43,6 +40,8 @@
 	 * Override the source of the replacement.
 	 *
 	 * @param {string} source The source to use.
+	 *
+	 * @returns {void}
 	 */
 	ReplaceVar.prototype.setSource = function( source ) {
 		this.options.source = source;
@@ -61,6 +60,8 @@
 	 * Adds a scope to the replace var.
 	 *
 	 * @param {string} scope The scope to add.
+	 *
+	 * @returns {void}
 	 */
 	ReplaceVar.prototype.addScope = function( scope ) {
 		if ( ! this.hasScope() ) {
@@ -97,6 +98,8 @@
 	 * Adds an alias to the replace var.
 	 *
 	 * @param {string} alias The alias to add.
+	 *
+	 * @returns {void}
 	 */
 	ReplaceVar.prototype.addAlias = function( alias ) {
 		if ( ! this.hasAlias() ) {
@@ -116,4 +119,4 @@
 	};
 
 	module.exports = ReplaceVar;
-}());
+}() );

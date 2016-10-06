@@ -44,6 +44,11 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	private $link_aria_label;
 
 	/**
+	 * @var boolean
+	 */
+	private $single;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param string $name         The name of the tab, used as an identifier in the html.
@@ -57,6 +62,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 			'link_class'      => '',
 			'link_title'      => '',
 			'link_aria_label' => '',
+			'single'          => false,
 		);
 		$options = array_merge( $default_options, $options );
 
@@ -67,6 +73,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 		$this->link_class      = $options['link_class'];
 		$this->link_title      = $options['link_title'];
 		$this->link_aria_label = $options['link_aria_label'];
+		$this->single          = $options['single'];
 	}
 
 	/**
@@ -75,8 +82,15 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 * @return string
 	 */
 	public function link() {
+
+		$html = '<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s"%3$s>%4$s</a></li>';
+
+		if ( $this->single ) {
+			$html = '<li class="%1$s %2$s"><span class="wpseo_tablink"%3$s>%4$s</span></li>';
+		}
+
 		return sprintf(
-			'<li class="%1$s %2$s"><a class="wpseo_tablink %3$s" href="#wpseo_%1$s"%4$s%5$s>%6$s</a></li>',
+			$html,
 			esc_attr( $this->name ),
 			esc_attr( $this->tab_class ),
 			esc_attr( $this->link_class ),

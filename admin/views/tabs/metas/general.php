@@ -25,3 +25,6 @@ echo '<h2>' . __( 'Enabled analysis', 'wordpress-seo' ) . '</h2>';
 
 $yform->light_switch( 'content-analysis-active', __( 'Readability analysis', 'wordpress-seo' ) );
 echo '<p class="description">', __( 'Removes the readability tab from the metabox and disables all readability-related suggestions.', 'wordpress-seo' ) . '</p>';
+
+$yform->light_switch( 'keyword-analysis-active', __( 'Keyword analysis', 'wordpress-seo' ) );
+echo '<p class="description">', __( 'Removes the keyword tab from the metabox and disables all keyword-related suggestions.', 'wordpress-seo' ) . '</p>';

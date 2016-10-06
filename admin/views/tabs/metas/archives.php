@@ -27,6 +27,8 @@ printf( __( 'If you\'re running a one author blog, the author archive will be ex
 echo ' ';
 /* translators: %s expands to <code>noindex, follow</code> */
 printf( __( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
+echo ' ';
+echo __( 'Note that links to archives might be still output by your theme and you would need to remove them separately.', 'wordpress-seo' );
 echo '</p>';
 echo '</div>';
 

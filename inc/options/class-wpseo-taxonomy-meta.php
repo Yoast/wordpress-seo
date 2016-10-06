@@ -49,6 +49,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_sitemap_include' => '-',
 		'wpseo_focuskw'         => '',
 		'wpseo_linkdex'         => '',
+		'wpseo_content_score'   => '',
 
 		// Social fields.
 		'wpseo_opengraph-title'         => '',
@@ -312,6 +313,19 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				default:
 					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
+					}
+
+					if ( 'wpseo_focuskw' === $key ) {
+						$clean[ $key ] = str_replace( array(
+							'&lt;',
+							'&gt;',
+							'&quot',
+							'&#96',
+							'<',
+							'>',
+							'"',
+							'`',
+						), '', $clean[ $key ] );
 					}
 					break;
 			}

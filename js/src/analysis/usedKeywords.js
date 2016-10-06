@@ -1,9 +1,9 @@
 /* global jQuery, ajaxurl */
 
-var UsedKeywordsPlugin = require( 'yoastseo' ).bundledPlugins.usedKeywords;
-var _has = require( 'lodash/has' );
-var _debounce = require( 'lodash/debounce' );
-var _isArray = require( 'lodash/isArray' );
+var UsedKeywordsPlugin = require( "yoastseo" ).bundledPlugins.usedKeywords;
+var _has = require( "lodash/has" );
+var _debounce = require( "lodash/debounce" );
+var _isArray = require( "lodash/isArray" );
 var $ = jQuery;
 
 /**
@@ -17,6 +17,8 @@ var $ = jQuery;
  * @param {Object} options.search_url The URL to link the user to if the keyword has been used multiple times.
  * @param {Object} options.post_edit_url The URL to link the user to if the keyword has been used a single time.
  * @param {App} app The app for which to keep track of the used keywords.
+ *
+ * @returns {void}
  */
 function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 	this._keywordUsage = options.keyword_usage;
@@ -25,27 +27,31 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 	this._plugin = new UsedKeywordsPlugin( app, {
 		usedKeywords: options.keyword_usage,
 		searchUrl: options.search_url,
-		postUrl: options.post_edit_url
+		postUrl: options.post_edit_url,
 	}, app.i18n );
 
-	this._postID = $( '#post_ID, [name=tag_ID]' ).val();
-	this._taxonomy = $( '[name=taxonomy]' ).val() || "";
+	this._postID = $( "#post_ID, [name=tag_ID]" ).val();
+	this._taxonomy = $( "[name=taxonomy]" ).val() || "";
 	this._ajaxAction = ajaxAction;
 	this._app = app;
 }
 
 /**
  * Initializes everything necessary for used keywords
+ *
+ * @returns {void}
  */
 UsedKeywords.prototype.init = function() {
 	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
 
 	this._plugin.registerPlugin();
-	this._focusKeywordElement.on( 'keyup', eventHandler );
+	this._focusKeywordElement.on( "keyup", eventHandler );
 };
 
 /**
  * Handles an event of the keyword input field
+ *
+ * @returns {void}
  */
 UsedKeywords.prototype.keywordChangeHandler = function() {
 	var keyword = this._focusKeywordElement.val();
@@ -59,14 +65,16 @@ UsedKeywords.prototype.keywordChangeHandler = function() {
  * Request keyword usage from the server
  *
  * @param {string} keyword The keyword to request the usage for.
+ *
+ * @returns {void}
  */
 UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
 	$.post( ajaxurl, {
 		action: this._ajaxAction,
 		post_id: this._postID,
 		keyword: keyword,
-		taxonomy: this._taxonomy
-	}, this.updateKeywordUsage.bind( this, keyword ), 'json' );
+		taxonomy: this._taxonomy,
+	}, this.updateKeywordUsage.bind( this, keyword ), "json" );
 };
 
 /**
@@ -74,6 +82,8 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  *
  * @param {string} keyword The keyword for which the usage was requested.
  * @param {*} response The response retrieved from the server.
+ *
+ * @returns {void}
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 	if ( response && _isArray( response ) ) {
