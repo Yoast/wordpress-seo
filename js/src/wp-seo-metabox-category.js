@@ -1,4 +1,7 @@
 /* global wp, _, wpseoPrimaryCategoryL10n */
+
+import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+
 ( function( $ ) {
 	"use strict";
 
@@ -231,5 +234,6 @@
 		primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
 
 		$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
+		initializeAlgoliaSearch();
 	} );
 }( jQuery ) );

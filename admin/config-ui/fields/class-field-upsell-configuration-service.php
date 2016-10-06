@@ -14,7 +14,7 @@ class WPSEO_Config_Field_Upsell_Configuration_Service extends WPSEO_Config_Field
 	public function __construct() {
 		parent::__construct( 'upsellConfigurationService', 'HTML' );
 
-		$intro_text = __( 'Welcome to the Yoast SEO installation wizard. In a few simple steps we\'ll help you configure your SEO settings to match your website\'s needs!', 'wordpress-seo' );
+		$intro_text = __( 'Welcome to the Yoast SEO configuration wizard. In a few simple steps we\'ll help you configure your SEO settings to match your website\'s needs!', 'wordpress-seo' );
 
 		/* Translators: %1$s opens the link, %2$s closes the link. */
 		$upsell_text = sprintf(
