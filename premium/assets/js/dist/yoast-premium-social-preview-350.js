@@ -971,7 +971,7 @@ var socialPreviews = require("yoast-social-previews");
 	$(initYoastSocialPreviews);
 })(jQuery);
 
-},{"../../../../js/src/analysis/getDescriptionPlaceholder":1,"../../../../js/src/analysis/getTitlePlaceholder":3,"./helpPanel":5,"jed":7,"lodash/clone":127,"lodash/forEach":129,"lodash/has":131,"lodash/isUndefined":145,"yoast-social-previews":153,"yoastseo/js/stringProcessing/imageInText":341}],7:[function(require,module,exports){
+},{"../../../../js/src/analysis/getDescriptionPlaceholder":1,"../../../../js/src/analysis/getTitlePlaceholder":3,"./helpPanel":5,"jed":7,"lodash/clone":127,"lodash/forEach":129,"lodash/has":131,"lodash/isUndefined":145,"yoast-social-previews":153,"yoastseo/js/stringProcessing/imageInText":343}],7:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -10755,7 +10755,7 @@ module.exports = {
 	getBlocks: memoize( getBlocks ),
 };
 
-},{"lodash/forEach":323,"lodash/memoize":338,"tokenizer2/core":152}],229:[function(require,module,exports){
+},{"lodash/forEach":323,"lodash/memoize":339,"tokenizer2/core":152}],229:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -10867,7 +10867,7 @@ arguments[4][33][0].apply(exports,arguments)
 arguments[4][34][0].apply(exports,arguments)
 },{"./_createBaseFor":271,"dup":34}],249:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
-},{"./_baseFor":248,"./keys":337,"dup":35}],250:[function(require,module,exports){
+},{"./_baseFor":248,"./keys":338,"dup":35}],250:[function(require,module,exports){
 arguments[4][36][0].apply(exports,arguments)
 },{"./_castPath":268,"./_isKey":288,"./_toKey":320,"dup":36}],251:[function(require,module,exports){
 arguments[4][38][0].apply(exports,arguments)
@@ -10875,17 +10875,106 @@ arguments[4][38][0].apply(exports,arguments)
 arguments[4][40][0].apply(exports,arguments)
 },{"dup":40}],253:[function(require,module,exports){
 arguments[4][41][0].apply(exports,arguments)
-},{"./_baseIsEqualDeep":254,"./isObject":333,"./isObjectLike":334,"dup":41}],254:[function(require,module,exports){
-arguments[4][42][0].apply(exports,arguments)
-},{"./_Stack":239,"./_equalArrays":272,"./_equalByTag":273,"./_equalObjects":274,"./_getTag":279,"./isArray":328,"./isTypedArray":336,"dup":42}],255:[function(require,module,exports){
+},{"./_baseIsEqualDeep":254,"./isObject":334,"./isObjectLike":335,"dup":41}],254:[function(require,module,exports){
+var Stack = require('./_Stack'),
+    equalArrays = require('./_equalArrays'),
+    equalByTag = require('./_equalByTag'),
+    equalObjects = require('./_equalObjects'),
+    getTag = require('./_getTag'),
+    isArray = require('./isArray'),
+    isBuffer = require('./isBuffer'),
+    isTypedArray = require('./isTypedArray');
+
+/** Used to compose bitmasks for comparison styles. */
+var PARTIAL_COMPARE_FLAG = 2;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual`
+ *  for more details.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = arrayTag,
+      othTag = arrayTag;
+
+  if (!objIsArr) {
+    objTag = getTag(object);
+    objTag = objTag == argsTag ? objectTag : objTag;
+  }
+  if (!othIsArr) {
+    othTag = getTag(other);
+    othTag = othTag == argsTag ? objectTag : othTag;
+  }
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && isBuffer(object)) {
+    if (!isBuffer(other)) {
+      return false;
+    }
+    objIsArr = true;
+    objIsObj = false;
+  }
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
+      : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
+  }
+  if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+
+      stack || (stack = new Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, customizer, bitmask, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
+}
+
+module.exports = baseIsEqualDeep;
+
+},{"./_Stack":239,"./_equalArrays":272,"./_equalByTag":273,"./_equalObjects":274,"./_getTag":279,"./isArray":328,"./isBuffer":331,"./isTypedArray":337}],255:[function(require,module,exports){
 arguments[4][43][0].apply(exports,arguments)
 },{"./_Stack":239,"./_baseIsEqual":253,"dup":43}],256:[function(require,module,exports){
 arguments[4][44][0].apply(exports,arguments)
-},{"./_isMasked":290,"./_toSource":321,"./isFunction":331,"./isObject":333,"dup":44}],257:[function(require,module,exports){
+},{"./_isMasked":290,"./_toSource":321,"./isFunction":332,"./isObject":334,"dup":44}],257:[function(require,module,exports){
 arguments[4][45][0].apply(exports,arguments)
-},{"./isLength":332,"./isObjectLike":334,"dup":45}],258:[function(require,module,exports){
+},{"./isLength":333,"./isObjectLike":335,"dup":45}],258:[function(require,module,exports){
 arguments[4][46][0].apply(exports,arguments)
-},{"./_baseMatches":260,"./_baseMatchesProperty":261,"./identity":326,"./isArray":328,"./property":339,"dup":46}],259:[function(require,module,exports){
+},{"./_baseMatches":260,"./_baseMatchesProperty":261,"./identity":326,"./isArray":328,"./property":340,"dup":46}],259:[function(require,module,exports){
 arguments[4][47][0].apply(exports,arguments)
 },{"./_isPrototype":291,"./_nativeKeys":307,"dup":47}],260:[function(require,module,exports){
 arguments[4][48][0].apply(exports,arguments)
@@ -10899,7 +10988,7 @@ arguments[4][51][0].apply(exports,arguments)
 arguments[4][52][0].apply(exports,arguments)
 },{"dup":52}],265:[function(require,module,exports){
 arguments[4][53][0].apply(exports,arguments)
-},{"./_Symbol":240,"./isSymbol":335,"dup":53}],266:[function(require,module,exports){
+},{"./_Symbol":240,"./isSymbol":336,"dup":53}],266:[function(require,module,exports){
 arguments[4][54][0].apply(exports,arguments)
 },{"dup":54}],267:[function(require,module,exports){
 arguments[4][55][0].apply(exports,arguments)
@@ -10917,13 +11006,13 @@ arguments[4][71][0].apply(exports,arguments)
 arguments[4][72][0].apply(exports,arguments)
 },{"./_Symbol":240,"./_Uint8Array":241,"./_equalArrays":272,"./_mapToArray":303,"./_setToArray":313,"./eq":322,"dup":72}],274:[function(require,module,exports){
 arguments[4][73][0].apply(exports,arguments)
-},{"./keys":337,"dup":73}],275:[function(require,module,exports){
+},{"./keys":338,"dup":73}],275:[function(require,module,exports){
 arguments[4][74][0].apply(exports,arguments)
 },{"dup":74}],276:[function(require,module,exports){
 arguments[4][76][0].apply(exports,arguments)
 },{"./_isKeyable":289,"dup":76}],277:[function(require,module,exports){
 arguments[4][77][0].apply(exports,arguments)
-},{"./_isStrictComparable":292,"./keys":337,"dup":77}],278:[function(require,module,exports){
+},{"./_isStrictComparable":292,"./keys":338,"dup":77}],278:[function(require,module,exports){
 arguments[4][78][0].apply(exports,arguments)
 },{"./_baseIsNative":256,"./_getValue":280,"dup":78}],279:[function(require,module,exports){
 arguments[4][81][0].apply(exports,arguments)
@@ -10931,7 +11020,7 @@ arguments[4][81][0].apply(exports,arguments)
 arguments[4][82][0].apply(exports,arguments)
 },{"dup":82}],281:[function(require,module,exports){
 arguments[4][83][0].apply(exports,arguments)
-},{"./_castPath":268,"./_isIndex":287,"./_isKey":288,"./_toKey":320,"./isArguments":327,"./isArray":328,"./isLength":332,"dup":83}],282:[function(require,module,exports){
+},{"./_castPath":268,"./_isIndex":287,"./_isKey":288,"./_toKey":320,"./isArguments":327,"./isArray":328,"./isLength":333,"dup":83}],282:[function(require,module,exports){
 arguments[4][84][0].apply(exports,arguments)
 },{"./_nativeCreate":306,"dup":84}],283:[function(require,module,exports){
 arguments[4][85][0].apply(exports,arguments)
@@ -10945,7 +11034,7 @@ arguments[4][88][0].apply(exports,arguments)
 arguments[4][92][0].apply(exports,arguments)
 },{"dup":92}],288:[function(require,module,exports){
 arguments[4][93][0].apply(exports,arguments)
-},{"./isArray":328,"./isSymbol":335,"dup":93}],289:[function(require,module,exports){
+},{"./isArray":328,"./isSymbol":336,"dup":93}],289:[function(require,module,exports){
 arguments[4][94][0].apply(exports,arguments)
 },{"dup":94}],290:[function(require,module,exports){
 arguments[4][95][0].apply(exports,arguments)
@@ -10953,7 +11042,7 @@ arguments[4][95][0].apply(exports,arguments)
 arguments[4][96][0].apply(exports,arguments)
 },{"dup":96}],292:[function(require,module,exports){
 arguments[4][97][0].apply(exports,arguments)
-},{"./isObject":333,"dup":97}],293:[function(require,module,exports){
+},{"./isObject":334,"dup":97}],293:[function(require,module,exports){
 arguments[4][98][0].apply(exports,arguments)
 },{"dup":98}],294:[function(require,module,exports){
 arguments[4][99][0].apply(exports,arguments)
@@ -10979,7 +11068,7 @@ arguments[4][108][0].apply(exports,arguments)
 arguments[4][109][0].apply(exports,arguments)
 },{"dup":109}],305:[function(require,module,exports){
 arguments[4][110][0].apply(exports,arguments)
-},{"./memoize":338,"dup":110}],306:[function(require,module,exports){
+},{"./memoize":339,"dup":110}],306:[function(require,module,exports){
 arguments[4][111][0].apply(exports,arguments)
 },{"./_getNative":278,"dup":111}],307:[function(require,module,exports){
 arguments[4][112][0].apply(exports,arguments)
@@ -11007,9 +11096,9 @@ arguments[4][122][0].apply(exports,arguments)
 arguments[4][123][0].apply(exports,arguments)
 },{"./_ListCache":233,"./_Map":234,"./_MapCache":235,"dup":123}],319:[function(require,module,exports){
 arguments[4][124][0].apply(exports,arguments)
-},{"./_memoizeCapped":305,"./toString":340,"dup":124}],320:[function(require,module,exports){
+},{"./_memoizeCapped":305,"./toString":342,"dup":124}],320:[function(require,module,exports){
 arguments[4][125][0].apply(exports,arguments)
-},{"./isSymbol":335,"dup":125}],321:[function(require,module,exports){
+},{"./isSymbol":336,"dup":125}],321:[function(require,module,exports){
 arguments[4][126][0].apply(exports,arguments)
 },{"dup":126}],322:[function(require,module,exports){
 arguments[4][128][0].apply(exports,arguments)
@@ -11027,29 +11116,75 @@ arguments[4][134][0].apply(exports,arguments)
 arguments[4][135][0].apply(exports,arguments)
 },{"dup":135}],329:[function(require,module,exports){
 arguments[4][136][0].apply(exports,arguments)
-},{"./isFunction":331,"./isLength":332,"dup":136}],330:[function(require,module,exports){
+},{"./isFunction":332,"./isLength":333,"dup":136}],330:[function(require,module,exports){
 arguments[4][137][0].apply(exports,arguments)
-},{"./isArrayLike":329,"./isObjectLike":334,"dup":137}],331:[function(require,module,exports){
-arguments[4][139][0].apply(exports,arguments)
-},{"./isObject":333,"dup":139}],332:[function(require,module,exports){
+},{"./isArrayLike":329,"./isObjectLike":335,"dup":137}],331:[function(require,module,exports){
+arguments[4][138][0].apply(exports,arguments)
+},{"./_root":310,"./stubFalse":341,"dup":138}],332:[function(require,module,exports){
+var isObject = require('./isObject');
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    proxyTag = '[object Proxy]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag || tag == proxyTag;
+}
+
+module.exports = isFunction;
+
+},{"./isObject":334}],333:[function(require,module,exports){
 arguments[4][140][0].apply(exports,arguments)
-},{"dup":140}],333:[function(require,module,exports){
+},{"dup":140}],334:[function(require,module,exports){
 arguments[4][141][0].apply(exports,arguments)
-},{"dup":141}],334:[function(require,module,exports){
+},{"dup":141}],335:[function(require,module,exports){
 arguments[4][142][0].apply(exports,arguments)
-},{"dup":142}],335:[function(require,module,exports){
+},{"dup":142}],336:[function(require,module,exports){
 arguments[4][143][0].apply(exports,arguments)
-},{"./isObjectLike":334,"dup":143}],336:[function(require,module,exports){
+},{"./isObjectLike":335,"dup":143}],337:[function(require,module,exports){
 arguments[4][144][0].apply(exports,arguments)
-},{"./_baseIsTypedArray":257,"./_baseUnary":266,"./_nodeUtil":308,"dup":144}],337:[function(require,module,exports){
+},{"./_baseIsTypedArray":257,"./_baseUnary":266,"./_nodeUtil":308,"dup":144}],338:[function(require,module,exports){
 arguments[4][146][0].apply(exports,arguments)
-},{"./_arrayLikeKeys":244,"./_baseKeys":259,"./isArrayLike":329,"dup":146}],338:[function(require,module,exports){
+},{"./_arrayLikeKeys":244,"./_baseKeys":259,"./isArrayLike":329,"dup":146}],339:[function(require,module,exports){
 arguments[4][147][0].apply(exports,arguments)
-},{"./_MapCache":235,"dup":147}],339:[function(require,module,exports){
+},{"./_MapCache":235,"dup":147}],340:[function(require,module,exports){
 arguments[4][148][0].apply(exports,arguments)
-},{"./_baseProperty":262,"./_basePropertyDeep":263,"./_isKey":288,"./_toKey":320,"dup":148}],340:[function(require,module,exports){
+},{"./_baseProperty":262,"./_basePropertyDeep":263,"./_isKey":288,"./_toKey":320,"dup":148}],341:[function(require,module,exports){
+arguments[4][150][0].apply(exports,arguments)
+},{"dup":150}],342:[function(require,module,exports){
 arguments[4][151][0].apply(exports,arguments)
-},{"./_baseToString":265,"dup":151}],341:[function(require,module,exports){
+},{"./_baseToString":265,"dup":151}],343:[function(require,module,exports){
 /** @module stringProcessing/imageInText */
 
 var matchStringWithRegex = require( "./matchStringWithRegex.js" );
@@ -11064,7 +11199,7 @@ module.exports = function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 };
 
-},{"./matchStringWithRegex.js":342}],342:[function(require,module,exports){
+},{"./matchStringWithRegex.js":344}],344:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
