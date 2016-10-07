@@ -105,6 +105,8 @@ class WPSEO_Configuration_Service {
 	 * @return array List of settings.
 	 */
 	public function get_configuration() {
+		$this->components->initialize();
+
 		$fields = $this->storage->retrieve();
 		$steps  = $this->structure->retrieve();
 
@@ -122,6 +124,8 @@ class WPSEO_Configuration_Service {
 	 * @return array List of feedback per option if saving succeeded.
 	 */
 	public function set_configuration( WP_REST_Request $request ) {
+		$this->components->initialize();
+
 		return $this->storage->store( $request->get_json_params() );
 	}
 }
