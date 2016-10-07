@@ -16,6 +16,9 @@
     "url": "https://github.com/Yoast/wordpress-seo-premium"
   },
   "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
     "eslint": "^3.3.1",
     "eslint-config-yoast": "^2.0.1",
     "eslint-plugin-react": "^6.1.2",
@@ -44,8 +47,14 @@
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
+    "a11y-speak": "github:yoast/a11y-speak",
     "lodash": "^4.7.0",
-    "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews.git#master",
-    "yoastseo": "git+ssh://git@github.com/Yoast/YoastSEO.js.git#master"
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "sassdash": "^0.8.2",
+    "yoast-components": "github:yoast/yoast-components#develop",
+    "yoast-premium-components": "github:yoast/yoast-premium-components#stories/at/implement-keyword-suggestions",
+    "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews.git#develop",
+    "yoastseo": "git+ssh://git@github.com/Yoast/YoastSEO.js.git#develop"
   }
 }

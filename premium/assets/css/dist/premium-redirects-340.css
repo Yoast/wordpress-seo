@@ -30,12 +30,3 @@ tbody .column-old .remove-slashes:after {
 .wpseo-redirect-clear {
 	clear: both;
 }
-
-.wpseo-redirects-table-form .inline-edit-row fieldset label span.title {
-	float: none;
-	width: auto;
-}
-
-.widefat .wpseo_redirect_form a {
-	text-decoration: underline;
-}
