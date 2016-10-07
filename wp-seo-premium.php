@@ -53,11 +53,12 @@ if ( ! is_admin() ) {
 
 /**
  * Filters the defaults for the `wpseo` option.
- * @param $wpseo_defaults The defaults for the `wpseo` option.
+ *
+ * @param array $wpseo_defaults The defaults for the `wpseo` option.
  *
  * @return array
  */
-function wpseo_premium_add_general_option_defaults( $wpseo_defaults ) {
+function wpseo_premium_add_general_option_defaults( array $wpseo_defaults ) {
 	$premium_defaults = array(
 		'enable_metabox_insights' => true,
 	);
