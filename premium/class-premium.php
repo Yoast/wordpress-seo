@@ -71,6 +71,25 @@ class WPSEO_Premium {
 	}
 
 	/**
+	 * Adds a feature toggle to the given feature_toggles.
+	 *
+	 * @param array $feature_toggles The feature toggles to extend.
+	 *
+	 * @return array
+	 */
+	public function add_feature_toggles( array $feature_toggles ) {
+		$premium_toggles = array(
+			(object) array(
+				'name'    => __( 'Metabox insights', 'wordpress-seo-premium' ),
+				'setting' => 'enable_metabox_insights',
+				'label'   => __( 'The metabox insights section contains insights about your content, like an overview of the most prominent words in your text.', 'wordpress-seo-premium' ),
+			),
+		);
+
+		return array_merge( $feature_toggles, $premium_toggles );
+	}
+
+	/**
 	 * Setup the Yoast SEO premium plugin
 	 */
 	private function setup() {
@@ -84,6 +103,7 @@ class WPSEO_Premium {
 		if ( is_admin() ) {
 			// Make sure priority is below registration of other implementations of the beacon in News, Video, etc.
 			add_action( 'admin_init', array( $this, 'init_helpscout_support' ), 1 );
+			add_filter( 'wpseo_feature_toggles', array( $this, 'add_feature_toggles' ) );
 
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( $this->is_yoast_seo_premium_page( filter_input( INPUT_GET, 'page' ) ) ) {
