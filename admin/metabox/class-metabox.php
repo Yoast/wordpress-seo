@@ -302,7 +302,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
-
 			if ( $content_section->name === 'premium' ) {
 				continue;
 			}
