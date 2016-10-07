@@ -867,15 +867,17 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Checks if the WP-REST-API with at least version 2.0 is available.
+	 * Checks if the WP-REST-API is available.
 	 *
 	 * @since 3.6
 	 *
-	 * @return bool
+	 * @param string $minimum_version The minimum version the API should be.
+	 *
+	 * @return bool Returns true if the API is available.
 	 */
-	public static function is_api_available() {
+	public static function is_api_available( $minimum_version = '2.0' ) {
 		return ( defined( 'REST_API_VERSION' )
-		         && version_compare( REST_API_VERSION, '2.0', '>=' ) );
+		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
 	/**
