@@ -70,12 +70,19 @@ class WPSEO_Premium {
 		$this->setup();
 	}
 
-	public function add_feature_toggles( $feature_toggles ) {
+	/**
+	 * Adds a feature toggle to the given feature_toggles.
+	 *
+	 * @param array $feature_toggles The feature toggles to extend.
+	 *
+	 * @return array
+	 */
+	public function add_feature_toggles( array $feature_toggles ) {
 		$premium_toggles = array(
 			(object) array(
-				'name'    => __( 'Metabox insights', 'wordpress-seo' ),
+				'name'    => __( 'Metabox insights', 'wordpress-seo-premium' ),
 				'setting' => 'enable_metabox_insights',
-				'label'   => __( 'The metabox insights section contains insights about your content, like an overview of the most prominent words in your text.', 'wordpress-seo' ),
+				'label'   => __( 'The metabox insights section contains insights about your content, like an overview of the most prominent words in your text.', 'wordpress-seo-premium' ),
 			),
 		);
 
