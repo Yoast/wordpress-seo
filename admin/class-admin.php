@@ -90,6 +90,15 @@ class WPSEO_Admin {
 			$configuration = new WPSEO_Configuration_Page;
 			$configuration->catch_configuration_request();
 		}
+
+		// When WPSEO_Premium doesn't exists, it indicates that premium isn't installed.
+		if ( ! class_exists( 'WPSEO_Premium' ) ) {
+			$upsell = new WPSEO_Product_Upsell_Notice();
+			$upsell->initialize();
+			$upsell->dismiss_notice_listener();
+		}
+
+
 	}
 
 	/**
