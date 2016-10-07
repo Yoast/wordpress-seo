@@ -34,11 +34,6 @@ class WPSEO_Configuration_Service {
 	 * Register the service and boot handlers
 	 */
 	public function initialize() {
-		$this->storage->set_adapter( $this->adapter );
-		$this->storage->add_default_fields();
-
-		$this->components->set_storage( $this->storage );
-
 		$this->endpoint->register();
 	}
 
@@ -100,12 +95,23 @@ class WPSEO_Configuration_Service {
 	}
 
 	/**
+	 * Populate the configuration
+	 */
+	protected function populate_configuration() {
+		$this->storage->set_adapter( $this->adapter );
+		$this->storage->add_default_fields();
+
+		$this->components->initialize();
+		$this->components->set_storage( $this->storage );
+	}
+
+	/**
 	 * Used by endpoint to retrieve configuration
 	 *
 	 * @return array List of settings.
 	 */
 	public function get_configuration() {
-		$this->components->initialize();
+		$this->populate_configuration();
 
 		$fields = $this->storage->retrieve();
 		$steps  = $this->structure->retrieve();
@@ -124,7 +130,7 @@ class WPSEO_Configuration_Service {
 	 * @return array List of feedback per option if saving succeeded.
 	 */
 	public function set_configuration( WP_REST_Request $request ) {
-		$this->components->initialize();
+		$this->populate_configuration();
 
 		return $this->storage->store( $request->get_json_params() );
 	}
