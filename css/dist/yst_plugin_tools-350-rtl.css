@@ -938,6 +938,11 @@ label {
 	margin-right: 6px;
 }
 
+.yoast-inline-label {
+	float: none;
+	margin: 0;
+}
+
 label.radio {
 	float: none;
 	margin-left: 20px;
@@ -1367,4 +1372,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 #wpseo_progressbar .ui-progressbar-value {
 	height: 25px;
 	background: #006691;
+}
+
+.wpseo-add-fb-admin-form-wrap .notice span {
+	margin-right: 10px;
 }
