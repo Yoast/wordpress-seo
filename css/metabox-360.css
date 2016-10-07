@@ -874,6 +874,9 @@ ul.wpseo-metabox-tabs li {
 .wpseo-heading {
   padding-left: 10px; }
 
+#wpseo_meta .inside {
+  overflow: auto; }
+
 .wpseotab {
   display: none; }
 
