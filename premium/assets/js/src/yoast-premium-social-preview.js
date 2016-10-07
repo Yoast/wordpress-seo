@@ -276,7 +276,6 @@ var socialPreviews = require( "yoast-social-previews" );
 							}
 						}
 					}
-
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariables( title );
 				},
 				modifyDescription: function( description ) {
@@ -286,6 +285,9 @@ var socialPreviews = require( "yoast-social-previews" );
 							if ( facebookDescription !== "" ) {
 								description = facebookDescription;
 							}
+						}
+						if ( isUndefined( description ) ){
+							description = $( '#twitter-editor-description' ).attr( 'placeholder' );
 						}
 					}
 
@@ -743,7 +745,7 @@ var socialPreviews = require( "yoast-social-previews" );
 	 */
 	function getFallbackImage( defaultImage ) {
 		// Twitter always first falls back to Facebook
-		if ( facebookPreview.data.imageUrl !== "" ) {
+		if ( ! isUndefined( facebookPreview ) && facebookPreview.data.imageUrl !== "" ) {
 			return facebookPreview.data.imageUrl;
 		}
 
