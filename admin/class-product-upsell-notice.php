@@ -117,13 +117,13 @@ class WPSEO_Product_Upsell_Notice {
 		if ( $features->is_free() ) {
 			/* translators: %1$s expands anchor to premium plugin page, %2$s expands to </a> */
 			return sprintf(
-				__( "By the way, did you know we also have a %1\$sPremium plugin%2\$s? It offers advanced features, like a redirect manager and support for multiple keywords. It also comes with 24/7 personal support." , 'wordpress-seo' ),
+				__( 'By the way, did you know we also have a %1\$sPremium plugin%2\$s? It offers advanced features, like a redirect manager and support for multiple keywords. It also comes with 24/7 personal support.' , 'wordpress-seo' ),
 				"<a href='https://yoa.st/premium-notification'>",
 				'</a>'
 			);
 		}
 
-		return "";
+		return '';
 	}
 
 	/**
