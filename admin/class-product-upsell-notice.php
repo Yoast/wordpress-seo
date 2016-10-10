@@ -16,10 +16,16 @@ class WPSEO_Product_Upsell_Notice {
 	protected $options;
 
 	/**
+	 * Sets the options, because they always have to be there on instance.
+	 */
+	public function __construct() {
+		$this->options = $this->get_options();
+	}
+
+	/**
 	 * Checks if the notice should be added or removed.
 	 */
 	public function initialize() {
-		$this->options = $this->get_options();
 
 		$features = new WPSEO_Features();
 		if ( $features->is_premium() || $this->is_notice_dismissed() ) {
