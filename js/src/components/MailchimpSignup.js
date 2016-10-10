@@ -20,7 +20,7 @@ class MailchimpSignup extends React.Component {
 		// Change the URL to work with json-p.
 		super( props );
 
-		this.props.properties.title = this.props.translate( "Mailchimp signup" );
+		this.props.properties.title = this.props.translate( "Sign up for our newsletter!" );
 
 		this.state = {
 			successfulSignup: this.props.value,

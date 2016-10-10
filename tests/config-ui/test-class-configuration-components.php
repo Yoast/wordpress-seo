@@ -13,10 +13,7 @@ class WPSEO_Configuration_Components_Mock extends WPSEO_Configuration_Components
 	 *
 	 * Removes default registrations
 	 */
-	public function __construct( $execute_default_constructor = false ) {
-		if ( $execute_default_constructor ) {
-			parent::__construct();
-		}
+	public function __construct() {
 	}
 
 	/**
@@ -60,7 +57,8 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Components::__construct()
 	 */
 	public function test_constructor() {
-		$components = new WPSEO_Configuration_Components_Mock( true );
+		$components = new WPSEO_Configuration_Components_Mock();
+		$components->initialize();
 		$list       = $components->get_components();
 
 		$this->assertEquals( 2, count( $list ) );

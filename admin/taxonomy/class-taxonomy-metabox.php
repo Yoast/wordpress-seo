@@ -61,9 +61,18 @@ class WPSEO_Taxonomy_Metabox {
 		$helpcenter->output_help_center();
 
 		echo '<div id="taxonomy_overall"></div>';
+
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+			echo $this->get_buy_premium_link();
+		}
+
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
+			if ( $content_section->name === 'premium' ) {
+				continue;
+			}
+
 			$content_section->display_link();
 		}
 
@@ -194,7 +203,19 @@ class WPSEO_Taxonomy_Metabox {
 	}
 
 	/**
-	 * Returns the metabox section for the Premium section.
+	 * Returns a link to activate the Buy Premium tab.
+	 *
+	 * @return string
+	 */
+	private function get_buy_premium_link() {
+		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+			'wpseo-metabox-buy-premium',
+			__( 'Go Premium', 'wordpress-seo' )
+		);
+	}
+
+	/**
+	 * Returns the metabox section for the Premium section..
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */

@@ -189,6 +189,12 @@ ul.wpseo-metabox-tabs li {
 	padding-left: 10px;
 }
 
+#wpseo_meta {
+	.inside {
+		overflow: auto;
+	}
+}
+
 .wpseotab {
 	display: none;
 }
@@ -224,6 +230,10 @@ ul.wpseo-metabox-tabs li {
 .inside .wpseotab .form-table td input,
 .inside .wpseotab .form-table td select {
 	margin-top: -5px;
+}
+
+.inside .wpseotab .form-table #yoast_wpseo_focuskw_text_input {
+	margin-top: 0;
 }
 
 .inside .wpseotab .form-table td select[multiple] {
@@ -364,7 +374,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseotab .yoast_help.yoast-help-button {
 	float: right;
-	margin-top: -22px;
+	margin-top: -48px;
 }
 
 .wpseo-admin-page .yoast_help.yoast-help-button {
@@ -393,7 +403,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .yoast-help-panel {
 	display: none;
 	max-width: 30em !important;
-	padding: 0;
+	padding: 0 0 1em;
 	font-weight: normal;
 	white-space: normal;
 }
@@ -532,6 +542,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	border-bottom: 1px solid #eee;
 }
 
+.wpseo-buy-premium {
+	color: #A4286A;
+	padding-right: 5px;
+}
+
 .wpseo-metabox-go-to {
 	&::after {
 		content: " \00BB";
@@ -548,6 +563,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	background: #A4286A;
 	border-color: #A4286A;
 	color: #fff;
+}
+
+.wpseo-metabox-buy-premium {
+	position: absolute;
+	right: 12px;
+	top: 6px;
+	vertical-align: middle;
 }
 
 .wpseo-metabox-premium-description {
