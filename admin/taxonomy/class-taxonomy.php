@@ -35,8 +35,13 @@ class WPSEO_Taxonomy {
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-		// Needs a hook that runs before the description field.
-		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
+		// Needs a hook that runs before the description field. Prior to WP version 4.5 we need to use edit_form as
+		// term_edit_form_top was introduced in WP 4.5. This can be removed after <4.5 is no longer supported.
+		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {
+			add_action( "{$this->taxonomy}_edit_form", array( $this, 'custom_category_description_editor' ) );
+		} else {
+			add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
+		}
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
@@ -179,7 +184,6 @@ class WPSEO_Taxonomy {
 	 * Output the WordPress editor.
 	 */
 	public function custom_category_description_editor() {
-
 		if ( ! $this->show_metabox() ) {
 			return;
 		}
