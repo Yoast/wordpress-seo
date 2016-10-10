@@ -108,23 +108,42 @@ class WPSEO_Product_Upsell_Notice {
 	}
 
 	/**
+	 * Returns a premium upsell section if using the free plugin.
+	 *
+	 * @return string
+	 */
+	protected function get_premium_upsell_section() {
+		$features = new WPSEO_Features();
+		if ( $features->is_free() ) {
+			/* translators: %1$s expands anchor to premium plugin page, %2$s expands to </a> */
+			return sprintf(
+				__( "By the way, did you know we also have a %1\$sPremium plugin%2\$s? It offers advanced features, like a redirect manager and support for multiple keywords. It also comes with 24/7 personal support." , 'wordpress-seo' ),
+				"<a href='https://yoa.st/premium-notification'>",
+				"</a>"
+			);
+		}
+
+		return "";
+	}
+
+	/**
 	 * Gets the notification value.
 	 *
 	 * @return Yoast_Notification
 	 */
 	protected function get_notification() {
-		/* translators: %1$s expands anchor to plugin page on WordPress.org, %2$s expands anchor to the bugreport guidelines on the knowledge base, %3$s expands anchor to premium plugin page, %4$a expands to the notice dismissal anchor, %5$s expands to </a>  */
+		/* translators: %1$s expands anchor to plugin page on WordPress.org, %2$s expands anchor to the bugreport guidelines on the knowledge base, %3$s expands to a section about Premium, %4$a expands to the notice dismissal anchor, %5$s expands to </a> */
 		$message = sprintf(
 			__( "We've noticed you've been using Yoast SEO for some time now; we hope you love it!
 			
 			We'd be thrilled if you could %1\$sgive us a 5* rating on WordPress.org%5\$s! If you are experiencing issues, %2\$splease file a bug report%5\$s and we'll do our best to help you out.
 			
-			By the way, did you know we also have a %3\$sPremium plugin%5\$s? It offers advanced features, like a redirect manager and support for multiple keywords. It also comes with 24/7 personal support.
+			%3\$s
 
 			%4\$sPlease don't show me this notification anymore%5\$s", 'wordpress-seo' ),
 			"<a href='https://yoa.st/rate-yoast-seo'>",
 			"<a href='https://yoa.st/bugreport'>",
-			"<a href='https://yoa.st/premium-notification'>",
+			$this->get_premium_upsell_section(),
 			"<a class='button' href=' " . admin_url( '?page=' .  WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . " '>",
 			"</a>"
 		);

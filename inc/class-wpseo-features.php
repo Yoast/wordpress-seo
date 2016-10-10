@@ -17,4 +17,13 @@ class WPSEO_Features {
 	public function is_premium() {
 		return ( defined( 'WPSEO_Premium_File' ) );
 	}
+
+	/**
+	 * Checks if using the free version of the plugin.
+	 *
+	 * @return bool
+	 */
+	public function is_free() {
+		return ! $this->is_premium();
+	}
 }
