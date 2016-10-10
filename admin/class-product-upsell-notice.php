@@ -117,7 +117,7 @@ class WPSEO_Product_Upsell_Notice {
 		$message = sprintf(
 			__( "We've noticed you've been using Yoast SEO for some time now; we hope you love it!
 			
-			We'd be thrilled if you could %1\$sgive us a good rating on WordPress.org%5\$s! If you are experiencing issues, %2\$splease file a bug report%5\$s and we'll do our best to help you out.
+			We'd be thrilled if you could %1\$sgive us a 5* rating on WordPress.org%5\$s! If you are experiencing issues, %2\$splease file a bug report%5\$s and we'll do our best to help you out.
 			
 			By the way, did you know we also have a %3\$sPremium plugin%5\$s? It offers advanced features, like a redirect manager and support for multiple keywords. It also comes with 24/7 personal support.
 
