@@ -337,7 +337,6 @@ class WPSEO_Taxonomy {
 	 */
 	private function insert_description_field_editor() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {
-
 			add_action( "{$this->taxonomy}_edit_form", array( $this, 'custom_category_description_editor' ) );
 			return;
 		}
