@@ -538,6 +538,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	border-bottom: 1px solid #eee;
 }
 
+.wpseo-buy-premium {
+	color: #A4286A;
+	padding-right: 5px;
+}
+
 .wpseo-metabox-go-to {
 	&::after {
 		content: " \00BB";
@@ -554,6 +559,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	background: #A4286A;
 	border-color: #A4286A;
 	color: #fff;
+}
+
+.wpseo-metabox-buy-premium {
+	position: absolute;
+	right: 12px;
+	top: 6px;
+	vertical-align: middle;
 }
 
 .wpseo-metabox-premium-description {
