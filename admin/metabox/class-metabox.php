@@ -296,9 +296,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
 		$helpcenter->output_help_center();
 
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+			echo $this->get_buy_premium_link();
+		}
+
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
+			if ( $content_section->name === 'premium' ) {
+				continue;
+			}
+
 			$content_section->display_link();
 		}
 
@@ -392,6 +400,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			array(
 				'link_title' => __( 'Advanced', 'wordpress-seo' ),
 			)
+		);
+	}
+
+	/**
+	 * Returns a link to activate the Buy Premium tab.
+	 *
+	 * @return string
+	 */
+	private function get_buy_premium_link() {
+		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+			'wpseo-metabox-buy-premium',
+			__( 'Go Premium', 'wordpress-seo' )
 		);
 	}
 

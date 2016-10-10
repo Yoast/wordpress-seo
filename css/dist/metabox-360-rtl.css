@@ -1150,6 +1150,10 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 	padding-right: 10px;
 }
 
+#wpseo_meta .inside {
+	overflow: auto;
+}
+
 .wpseotab {
 	display: none;
 }
@@ -1483,6 +1487,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	border-bottom: 1px solid #eee;
 }
 
+.wpseo-buy-premium {
+	padding-left: 5px; 
+	color: #a4286a;
+}
+
 .wpseo-metabox-go-to::after {
 	position: static;
 	top: auto;
@@ -1497,6 +1506,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	border-color: #a4286a;
 	color: #fff; 
 	background: #a4286a;
+}
+
+.wpseo-metabox-buy-premium {
+	position: absolute;
+	top: 6px;
+	left: 12px;
+	vertical-align: middle;
 }
 
 .wpseo-metabox-premium-description {
