@@ -73,6 +73,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['label']       = __( 'Enter a focus keyword', 'wordpress-seo' );
 		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
@@ -295,9 +296,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
 		$helpcenter->output_help_center();
 
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+			echo $this->get_buy_premium_link();
+		}
+
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
+			if ( $content_section->name === 'premium' ) {
+				continue;
+			}
+
 			$content_section->display_link();
 		}
 
@@ -391,6 +400,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			array(
 				'link_title' => __( 'Advanced', 'wordpress-seo' ),
 			)
+		);
+	}
+
+	/**
+	 * Returns a link to activate the Buy Premium tab.
+	 *
+	 * @return string
+	 */
+	private function get_buy_premium_link() {
+		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+			'wpseo-metabox-buy-premium',
+			__( 'Go Premium', 'wordpress-seo' )
 		);
 	}
 
@@ -542,9 +563,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 				$content .= '<div id="wpseofocuskeyword">';
 				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
-				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">';
-			    $content .= '<label for="' . $esc_form_key . '">' . esc_html( $meta_field_def['title'] ) . '</label>';
-				$content .= '</h3>';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
+			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
 				$content .= '</section>';
 				$content .= '</div>';

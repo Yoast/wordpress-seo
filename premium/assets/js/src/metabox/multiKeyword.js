@@ -155,6 +155,7 @@ YoastMultiKeyword.prototype.bindKeywordTab = function() {
 
 		// Because deactive removes all 'active' classes from all tabs we need to re-add the active class ourselves.
 		tabManager.getContentTab().deactivate();
+
 		$this.closest( ".wpseo_keyword_tab" ).addClass( "active" );
 
 		YoastSEO.app.refresh();
@@ -232,11 +233,10 @@ YoastMultiKeyword.prototype.addKeywordTabs = function() {
 	$( "#wpseo-metabox-tabs" ).find( ".wpseo_keyword_tab" ).remove();
 
 	if ( keywords.length > 0 ) {
-		for( var i in keywords ) {
-			var keyword = keywords[ i ].keyword;
-			var score = keywords[ i ].score;
-			this.addKeywordTab( keyword, score, i === 0 );
-		}
+		keywords.forEach( function( keywordObject, index ) {
+			this.addKeywordTab( keywordObject.keyword, keywordObject.score, index === 0 );
+
+		}.bind( this ) );
 	}
 };
 
