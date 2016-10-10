@@ -232,6 +232,10 @@ ul.wpseo-metabox-tabs li {
 	margin-top: -5px;
 }
 
+.inside .wpseotab .form-table #yoast_wpseo_focuskw_text_input {
+	margin-top: 0;
+}
+
 .inside .wpseotab .form-table td select[multiple] {
 	margin-top: 0;
 }
@@ -370,7 +374,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseotab .yoast_help.yoast-help-button {
 	float: right;
-	margin-top: -22px;
+	margin-top: -48px;
 }
 
 .wpseo-admin-page .yoast_help.yoast-help-button {
@@ -399,7 +403,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .yoast-help-panel {
 	display: none;
 	max-width: 30em !important;
-	padding: 0;
+	padding: 0 0 1em;
 	font-weight: normal;
 	white-space: normal;
 }
