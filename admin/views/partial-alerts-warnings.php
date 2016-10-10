@@ -7,6 +7,7 @@ $type = 'warnings';
 $dashicon = 'flag';
 
 $i18n_title = __( 'Notifications', 'wordpress-seo' );
+$i18n_issues = '';
 $i18n_no_issues = __( 'No notifications found.', 'wordpress-seo' );
 
 $active_total = count( $alerts_data['warnings']['active'] );
