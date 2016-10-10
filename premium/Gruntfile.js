@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 			},
 			grunt: 'grunt/',
 			js: 'assets/js/',
-			css: 'assets/css/',
+			css: 'assets/css/dist/',
 			languages: 'languages/',
 			logs: 'logs/'
 		},
@@ -22,8 +22,8 @@ module.exports = function(grunt) {
 				'assets/js/src/**/*.js'
 			],
 			css: [
-				'assets/css/*.css',
-				'!assets/css/*.min.css'
+				'assets/css/dist/*.css',
+				'!assets/css/dist/*.min.css'
 			],
 			php: [
 				'*.php',

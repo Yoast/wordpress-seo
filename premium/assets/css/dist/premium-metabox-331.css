@@ -1,0 +1,93 @@
+.yoast-section {
+	position: relative;
+	width: 640px;
+	padding: 0 20px 15px;
+	border: 1px solid #f7f7f7;
+	border-radius: 20px;
+	background-color: #fff;
+}
+
+.yoast-section__heading {
+	margin: 0 -20px 15px;
+	padding: 8px 20px;
+	border-bottom: 1px solid #f7f7f7;
+	color: #555;
+	font-family: "Open Sans", sans-serif;
+	font-size: 0.9rem;
+	font-weight: 300;
+}
+
+.yoast-section__heading-icon {
+	padding-left: 45px;
+	background-repeat: no-repeat;
+	background-position: left 20px top 0.6em;
+	background-size: 16px;
+}
+
+.yoast-section__heading-icon-file-text-o {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20file%3D%22%23555555%22%20d%3D%22M1596%20380q28%2028%2048%2076t20%2088v1152q0%2040%2D28%2068t%2D68%2028h%2D1344q%2D40%200%2D68%2D28t%2D28%2D68v%2D1600q0%2D40%2028%2D68t68%2D28h896q40%200%2088%2020t76%2048zm%2D444%2D244v376h376q%2D10%2D29%2D22%2D41l%2D313%2D313q%2D12%2D12%2D41%2D22zm384%201528v%2D1024h%2D416q%2D40%200%2D68%2D28t%2D28%2D68v%2D416h%2D768v1536h1280zm%2D1024%2D864q0%2D14%209%2D23t23%2D9h704q14%200%2023%209t9%2023v64q0%2014%2D9%2023t%2D23%209h%2D704q%2D14%200%2D23%2D9t%2D9%2D23v%2D64zm736%20224q14%200%2023%209t9%2023v64q0%2014%2D9%2023t%2D23%209h%2D704q%2D14%200%2D23%2D9t%2D9%2D23v%2D64q0%2D14%209%2D23t23%2D9h704zm0%20256q14%200%2023%209t9%2023v64q0%2014%2D9%2023t%2D23%209h%2D704q%2D14%200%2D23%2D9t%2D9%2D23v%2D64q0%2D14%209%2D23t23%2D9h704z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.yoast-section *,
+.yoast-section {
+	box-sizing: border-box;
+}
+
+.yoast-section *:before,
+.yoast-section *:after,
+.yoast-section:before,
+.yoast-section:after {
+	box-sizing: border-box;
+}
+
+a.remove-keyword {
+	display: inline-block;
+	margin-left: -3px;
+	padding: 5px 6px 6px;
+}
+
+a.remove-keyword span {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 100%;
+	color: #686868;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 15px;
+	text-align: center;
+	vertical-align: top;
+}
+
+a.remove-keyword:hover span,
+a.remove-keyword:focus span {
+	color: white;
+	background-color: #dc3232;
+}
+
+.wpseo-add-keyword:disabled {
+	display: none;
+}
+
+/* Bold the main keyword tab */
+.wpseo_content_tab + .wpseo_keyword_tab .wpseo-keyword {
+	font-weight: 600;
+}
+
+/* But not bold when there is no keyword set */
+.wpseo_content_tab + .wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	font-weight: normal;
+}
+
+/* Narrow all the tabs without a focus keyword */
+.wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	max-width: 1em;
+	max-width: 1rem;
+}
+
+/* Except the active one */
+.wpseo_keyword_tab.active a[data-score="na"] .wpseo-keyword {
+	max-width: none;
+}

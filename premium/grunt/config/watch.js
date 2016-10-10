@@ -36,7 +36,8 @@ module.exports = {
 	},
 	css: {
 		files: [
-			'css/*css'
+			'css/*css',
+			'assets/css/src/*.scss',
 		],
 		tasks: [
 			'build:css'

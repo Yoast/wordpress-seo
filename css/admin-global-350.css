@@ -31,6 +31,10 @@
 	font-size: 1.3em;
 }
 
+.wpseo-premium-popup-icon {
+	margin: 10px;
+}
+
 .edit-tags-php .column-description img {
 	max-width: 100%;
 	height: auto;
@@ -50,4 +54,8 @@
 .select2-container .select2-search--inline .select2-search__field {
 	margin-top: 6px !important;
 	line-height: inherit;
+}
+
+.yoast-label-strong {
+	font-weight: 600;
 }
