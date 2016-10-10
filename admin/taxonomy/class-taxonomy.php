@@ -39,7 +39,8 @@ class WPSEO_Taxonomy {
 		// term_edit_form_top was introduced in WP 4.5. This can be removed after <4.5 is no longer supported.
 		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {
 			add_action( "{$this->taxonomy}_edit_form", array( $this, 'custom_category_description_editor' ) );
-		} else {
+		}
+		else {
 			add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
 		}
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
