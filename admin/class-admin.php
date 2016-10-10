@@ -92,7 +92,7 @@ class WPSEO_Admin {
 		}
 
 		// When WPSEO_Premium doesn't exists, it indicates that premium isn't installed.
-		if ( ! class_exists( 'WPSEO_Premium' ) ) {
+		if ( ! WPSEO_Features::is_premium() ) {
 			$upsell = new WPSEO_Product_Upsell_Notice();
 			$upsell->initialize();
 			$upsell->dismiss_notice_listener();
