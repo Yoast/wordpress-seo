@@ -121,8 +121,8 @@ class WPSEO_Product_Upsell_Notice {
 			Not sure about the meaning of all these options and settings, or how to configure everything? Our %2\$s can help. We'll set up your website in the best possible way. The service also includes a free copy of Yoast SEO Premium, which will be installed by our team. You'll be up and running in no-time.
 			
 			That's all really nice, but please %3\$sdon't show me this notification anymore%4\$s.", 'wordpress-seo' ),
-			"<a href=''>",
-			"<a href=''>Yoast Configuration Service</a>",
+			"<a href='https://yoa.st/premium-notification'>",
+			"<a href='https://yoa.st/configuration-notification'>Yoast Configuration Service</a>",
 			"<a href=' " . admin_url( '?page=' .  WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . " '>",
 			"</a>"
 		);
