@@ -44,7 +44,7 @@ class WPSEO_Premium_Metabox {
 		$insights_enabled = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
 
 		$data = array(
-			'insightsEnabled' => ( $insights_enabled ? 'enabled' : 'disabled' ),
+			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
 		);
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'wpseoPremiumMetaboxL10n', $data );
