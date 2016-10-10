@@ -201,7 +201,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'first_activated_on' :
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
-						if( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
+						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 					}

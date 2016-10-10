@@ -56,7 +56,7 @@ class WPSEO_Upgrade {
 			$this->upgrade_36();
 		}
 
-		// Since 3.7
+		// Since 3.7.
 		if ( ! class_exists( 'WPSEO_Premium' ) ) {
 			$upsell_notice = new WPSEO_Product_Upsell_Notice();
 			$upsell_notice->set_upgrade_notice();

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin
+ */
 
 /**
  * Represents the upsell notice.
@@ -111,7 +114,7 @@ class WPSEO_Product_Upsell_Notice {
 	 *
 	 * @return Yoast_Notification
 	 */
-	protected function get_notification(  ) {
+	protected function get_notification() {
 		/* translators: %1$s expands anchor to the premium plugin page, %2$s expands to an anchor to the Yoast configuration service %3$a expands to the notice dismissal anchor, %4$s expands to </a>  */
 		$message = sprintf(
 			__( "We've noticed you've been using Yoast SEO for some time now; we hope you love it!
@@ -124,7 +127,7 @@ class WPSEO_Product_Upsell_Notice {
 			"<a href='https://yoa.st/premium-notification'>",
 			"<a href='https://yoa.st/configuration-notification'>Yoast Configuration Service</a>",
 			"<a href=' " . admin_url( '?page=' .  WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . " '>",
-			"</a>"
+			'</a>'
 		);
 
 		$notification = new Yoast_Notification(
