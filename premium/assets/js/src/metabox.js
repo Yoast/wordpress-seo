@@ -1,10 +1,12 @@
-/* global jQuery */
+/* global jQuery, wpseoPremiumMetaboxL10n */
 
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
 let multiKeyword = new MultiKeyword();
 let focusKeywordSuggestions = new FocusKeywordSuggestions();
+
+let settings = wpseoPremiumMetaboxL10n;
 
 /**
  * Initializes the metabox for premium
@@ -15,7 +17,9 @@ function initializeMetabox() {
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
-	focusKeywordSuggestions.initializeDOM();
+	if ( settings.insightsEnabled === "enabled" ) {
+		focusKeywordSuggestions.initializeDOM();
+	}
 }
 
 /**

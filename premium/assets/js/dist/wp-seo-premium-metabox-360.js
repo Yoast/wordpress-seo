@@ -123,7 +123,7 @@ var KeywordSuggestions = function () {
 	}
 
 	/**
-  * Initializes into the DOM and adds all event handlers
+  * Initializes into the DOM and adds all event handlers.
   *
   * @returns {void}
   */
@@ -155,7 +155,7 @@ var KeywordSuggestions = function () {
 		}
 
 		/**
-   * Appends the suggestions div to the DOM
+   * Appends the suggestions div to the DOM.
    *
    * @returns {void}
    */
@@ -211,10 +211,12 @@ var _multiKeyword2 = _interopRequireDefault(_multiKeyword);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* global jQuery */
+/* global jQuery, wpseoPremiumMetaboxL10n */
 
 var multiKeyword = new _multiKeyword2.default();
 var focusKeywordSuggestions = new _KeywordSuggestions2.default();
+
+var settings = wpseoPremiumMetaboxL10n;
 
 /**
  * Initializes the metabox for premium
@@ -225,7 +227,9 @@ function initializeMetabox() {
   window.YoastSEO.multiKeyword = true;
   multiKeyword.initDOM();
 
-  focusKeywordSuggestions.initializeDOM();
+  if (settings.insightsEnabled === "enabled") {
+    focusKeywordSuggestions.initializeDOM();
+  }
 }
 
 /**

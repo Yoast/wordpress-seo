@@ -31,6 +31,22 @@ class WPSEO_Premium_Metabox {
 		if ( WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) ) {
 			wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox' );
 			wp_enqueue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox' );
+
+			$this->send_data_to_assets();
 		}
+	}
+
+	/**
+	 * Send data to assets by using wp_localize_script.
+	 */
+	public function send_data_to_assets() {
+		$options = WPSEO_Options::get_option( 'wpseo' );
+		$insights_enabled = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
+
+		$data = array(
+			'insightsEnabled' => $insights_enabled ? 'enabled' : 'disabled',
+		);
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'wpseoPremiumMetaboxL10n', $data );
 	}
 }
