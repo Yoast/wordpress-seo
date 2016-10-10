@@ -16,16 +16,10 @@ class WPSEO_Product_Upsell_Notice {
 	protected $options;
 
 	/**
-	 * Sets the options.
-	 */
-	public function __construct() {
-		$this->options = $this->get_options();
-	}
-
-	/**
 	 * Checks if the notice should be added or removed.
 	 */
 	public function initialize() {
+		$this->options = $this->get_options();
 
 		$features = new WPSEO_Features();
 		if ( $features->is_premium() || $this->is_notice_dismissed() ) {
@@ -92,13 +86,6 @@ class WPSEO_Product_Upsell_Notice {
 	}
 
 	/**
-	 * Saves the options to the database.
-	 */
-	protected function save_options() {
-		update_option( self::OPTION_NAME, $this->options );
-	}
-
-	/**
 	 * Adds a notification to the notification center.
 	 */
 	protected function add_notification() {
@@ -149,15 +136,6 @@ class WPSEO_Product_Upsell_Notice {
 	}
 
 	/**
-	 * Returns the set options
-	 *
-	 * @return mixed|void
-	 */
-	protected function get_options() {
-		return get_option( self::OPTION_NAME );
-	}
-
-	/**
 	 * Dismisses the notice.
 	 *
 	 * @return string
@@ -171,5 +149,21 @@ class WPSEO_Product_Upsell_Notice {
 	 */
 	protected function dismiss_notice() {
 		update_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true );
+	}
+
+	/**
+	 * Returns the set options
+	 *
+	 * @return mixed|void
+	 */
+	protected function get_options() {
+		return get_option( self::OPTION_NAME );
+	}
+
+	/**
+	 * Saves the options to the database.
+	 */
+	protected function save_options() {
+		update_option( self::OPTION_NAME, $this->options );
 	}
 }
