@@ -119,7 +119,7 @@ class WPSEO_Product_Upsell_Notice {
 			return sprintf(
 				__( "By the way, did you know we also have a %1\$sPremium plugin%2\$s? It offers advanced features, like a redirect manager and support for multiple keywords. It also comes with 24/7 personal support." , 'wordpress-seo' ),
 				"<a href='https://yoa.st/premium-notification'>",
-				"</a>"
+				'</a>'
 			);
 		}
 
@@ -145,7 +145,7 @@ class WPSEO_Product_Upsell_Notice {
 			"<a href='https://yoa.st/bugreport'>",
 			$this->get_premium_upsell_section(),
 			"<a class='button' href=' " . admin_url( '?page=' .  WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . " '>",
-			"</a>"
+			'</a>'
 		);
 
 		$notification = new Yoast_Notification(
