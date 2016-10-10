@@ -8,9 +8,9 @@
  */
 class WPSEO_Product_Upsell_Notice {
 
-	const USER_META_DISMISSED = 'wpseo-dismiss-upsell-notice';
+	const USER_META_DISMISSED = 'wpseo-remove-upsell-notice';
 
-	const OPTION_NAME = '';
+	const OPTION_NAME = 'wpseo';
 
 	/** @var array */
 	protected $options;
@@ -26,13 +26,17 @@ class WPSEO_Product_Upsell_Notice {
 	 * Checks if the notice should be added or removed.
 	 */
 	public function initialize() {
-		if ( $this->should_add_notification() && ! $this->is_notice_dismissed() ) {
-			$this->add_notification();
+
+		$features = new WPSEO_Features();
+		if ( $features->is_premium() || $this->is_notice_dismissed() ) {
+			$this->remove_notification();
 
 			return;
 		}
 
-		$this->remove_notification();
+		if ( $this->should_add_notification() ) {
+			$this->add_notification();
+		}
 	}
 
 	/**
@@ -58,7 +62,8 @@ class WPSEO_Product_Upsell_Notice {
 
 		$this->dismiss_notice();
 
-		wp_redirect( remove_query_arg( 'yoast_dismiss' ) );
+		wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
+		exit;
 	}
 
 	/**
@@ -90,7 +95,7 @@ class WPSEO_Product_Upsell_Notice {
 	 * Saves the options to the database.
 	 */
 	protected function save_options() {
-		update_option( 'wpseo', $this->options );
+		update_option( self::OPTION_NAME, $this->options );
 	}
 
 	/**
@@ -134,7 +139,7 @@ class WPSEO_Product_Upsell_Notice {
 			$message,
 			array(
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'wpseo-dismiss-upsell-notice',
+				'id'           => 'wpseo-upsell-notice',
 				'capabilities' => 'manage_options',
 				'priority'     => 0.8,
 			)
@@ -149,7 +154,7 @@ class WPSEO_Product_Upsell_Notice {
 	 * @return mixed|void
 	 */
 	protected function get_options() {
-		return get_option( 'wpseo' );
+		return get_option( self::OPTION_NAME );
 	}
 
 	/**
@@ -158,13 +163,13 @@ class WPSEO_Product_Upsell_Notice {
 	 * @return string
 	 */
 	protected function is_notice_dismissed() {
-		return get_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true ) === 'seen';
+		return get_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true ) === '1';
 	}
 
 	/**
 	 * Dismisses the notice.
 	 */
 	protected function dismiss_notice() {
-		update_user_meta( get_current_user_id(), self::USER_META_DISMISSED, 'seen' );
+		update_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true );
 	}
 }

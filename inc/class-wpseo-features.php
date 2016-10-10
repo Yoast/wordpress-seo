@@ -14,7 +14,7 @@ class WPSEO_Features {
 	 *
 	 * @return bool
 	 */
-	public static function is_premium() {
+	public function is_premium() {
 		return ( defined( 'WPSEO_Premium_File' ) );
 	}
 }

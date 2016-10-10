@@ -57,7 +57,8 @@ class WPSEO_Upgrade {
 		}
 
 		// Since 3.7.
-		if ( ! WPSEO_Features::is_premium() ) {
+		$features = new WPSEO_Features();
+		if ( ! $features->is_premium() ) {
 			$upsell_notice = new WPSEO_Product_Upsell_Notice();
 			$upsell_notice->set_upgrade_notice();
 		}

@@ -91,14 +91,7 @@ class WPSEO_Admin {
 			$configuration->catch_configuration_request();
 		}
 
-		// When WPSEO_Premium doesn't exists, it indicates that premium isn't installed.
-		if ( ! WPSEO_Features::is_premium() ) {
-			$upsell = new WPSEO_Product_Upsell_Notice();
-			$upsell->initialize();
-			$upsell->dismiss_notice_listener();
-		}
-
-
+		$this->set_upsell_notice();
 	}
 
 	/**
@@ -715,6 +708,15 @@ class WPSEO_Admin {
 		);
 
 		return $premium_indicator;
+	}
+
+	/**
+	 * Sets the upsell notice.
+	 */
+	protected function set_upsell_notice() {
+		$upsell = new WPSEO_Product_Upsell_Notice();
+		$upsell->dismiss_notice_listener();
+		$upsell->initialize();
 	}
 
 	/********************** DEPRECATED METHODS **********************/
