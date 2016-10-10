@@ -568,7 +568,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
 				$content .= '</section>';
 				$content .= '</div>';
-				$content .= '<div id="yoast_wpseo_focuskw_text_input" class="large_text"></div>';
 				break;
 			case 'text':
 				$ac = '';
