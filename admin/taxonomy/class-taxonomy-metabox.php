@@ -208,14 +208,14 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return string
 	 */
 	private function get_buy_premium_link() {
-		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link' title='Yoast SEO Premium'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
 			'wpseo-metabox-buy-premium',
 			__( 'Go Premium', 'wordpress-seo' )
 		);
 	}
 
 	/**
-	 * Returns the metabox section for the Premium section.
+	 * Returns the metabox section for the Premium section..
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
