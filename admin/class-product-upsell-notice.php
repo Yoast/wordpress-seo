@@ -113,19 +113,20 @@ class WPSEO_Product_Upsell_Notice {
 	 * @return Yoast_Notification
 	 */
 	protected function get_notification() {
-		/* translators: %1$s expands anchor to the premium plugin page, %2$s expands to an anchor to the Yoast configuration service %3$a expands to the notice dismissal anchor, %4$s expands to </a>  */
+		/* translators: %1$s expands anchor to plugin page on WordPress.org, %2$s expands anchor to the bugreport guidelines on the knowledge base, %3$s expands anchor to premium plugin page, %4$a expands to the notice dismissal anchor, %5$s expands to </a>  */
 		$message = sprintf(
 			__( "We've noticed you've been using Yoast SEO for some time now; we hope you love it!
 			
-			Did you know that we also have a %1\$sPremium plugin%4\$s which offers advanced features, like a redirect manager and support for multiple keywords? It also comes with 24/7 personal support.
+			We'd be thrilled if you could %1\$sgive us a good rating on WordPress.org%5\$s! If you are experiencing issues, %2\$splease file a bug report%5\$s and we'll do our best to help you out.
 			
-			Not sure about the meaning of all these options and settings, or how to configure everything? Our %2\$s can help. We'll set up your website in the best possible way. The service also includes a free copy of Yoast SEO Premium, which will be installed by our team. You'll be up and running in no-time.
-			
-			That's all really nice, but please %3\$sdon't show me this notification anymore%4\$s.", 'wordpress-seo' ),
+			By the way, did you know we also have a %3\$sPremium plugin%5\$s? It offers advanced features, like a redirect manager and support for multiple keywords. It also comes with 24/7 personal support.
+
+			%4\$sPlease don't show me this notification anymore%5\$s", 'wordpress-seo' ),
+			"<a href='https://yoa.st/rate-yoast-seo'>",
+			"<a href='https://yoa.st/bugreport'>",
 			"<a href='https://yoa.st/premium-notification'>",
-			"<a href='https://yoa.st/configuration-notification'>Yoast Configuration Service</a>",
-			"<a href=' " . admin_url( '?page=' .  WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . " '>",
-			'</a>'
+			"<a class='button' href=' " . admin_url( '?page=' .  WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . " '>",
+			"</a>"
 		);
 
 		$notification = new Yoast_Notification(
