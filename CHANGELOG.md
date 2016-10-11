@@ -5,6 +5,21 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.7.0: September 11th, 2016
+
+## Added
+
+* Adds relevant word research that returns a list of most prominent words in a given Paper.
+
+## Changed
+
+* Changes all target= links to consistently be target=_blank.
+
+## Fixed
+
+* Adds missing transition words to German transition word list.
+* Fixes a bug where empty sentences could be marked when marking the beginning of sentences.
+
 ## 1.6.0: September 27th, 2016
 
 ## Changed
