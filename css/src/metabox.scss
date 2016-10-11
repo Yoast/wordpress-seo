@@ -10,6 +10,10 @@
 	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M832 512q0-80-56-136t-136-56-136 56-56 136q0 42 19 83-41-19-83-19-80 0-136 56t-56 136 56 136 136 56 136-56 56-136q0-42-19-83 41 19 83 19 80 0 136-56t56-136zm851 704q0 17-49 66t-66 49q-9 0-28.5-16t-36.5-33-38.5-40-24.5-26l-96 96 220 220q28 28 28 68 0 42-39 81t-81 39q-40 0-68-28l-671-671q-176 131-365 131-163 0-265.5-102.5t-102.5-265.5q0-160 95-313t248-248 313-95q163 0 265.5 102.5t102.5 265.5q0 189-131 365l355 355 96-96q-3-3-26-24.5t-40-38.5-33-36.5-16-28.5q0-17 49-66t66-49q13 0 23 10 6 6 46 44.5t82 79.5 86.5 86 73 78 28.5 41z"/></svg>' );
 }
 
+@function svg-icon-edit($color) {
+  @return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z" /></svg>');
+}
+
 /* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
 #edittag > #wp-description-wrap {
 	display: none;
@@ -232,7 +236,8 @@ ul.wpseo-metabox-tabs li {
 	margin-top: -5px;
 }
 
-.inside .wpseotab .form-table #yoast_wpseo_focuskw_text_input {
+.inside .wpseotab .form-table #yoast_wpseo_focuskw_text_input,
+.inside .wpseotab .form-table #yoast_wpseo_metakeywords {
 	margin-top: 0;
 }
 
@@ -590,6 +595,10 @@ ul.wpseo-metabox-premium-advantages {
 
 		&-icon-key {
 			background-image: url( svg-icon-key( $color_headings ) );
+		}
+
+		&-icon-edit {
+			background-image: url( svg-icon-edit( $color_headings ) );
 		}
 	}
 }

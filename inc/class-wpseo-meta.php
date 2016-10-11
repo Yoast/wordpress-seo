@@ -147,7 +147,7 @@ class WPSEO_Meta {
 				'description'   => '',
 			),
 			'metakeywords'   => array(
-				'type'          => 'text',
+				'type'          => 'metakeywords',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metakeywords',

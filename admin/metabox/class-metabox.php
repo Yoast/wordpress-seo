@@ -82,6 +82,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['metadesc']['title']       = __( 'Meta description', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta keywords', 'wordpress-seo' );
+		self::$meta_fields['general']['metakeywords']['label']       = __( 'Enter the meta keywords', 'wordpress-seo' );
 		self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
 
 
@@ -565,10 +566,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
 			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
 				$content .= '</section>';
 				$content .= '</div>';
-				$content .= '<div id="yoast_wpseo_focuskw_text_input" class="large_text"></div>';
+				break;
+			case 'metakeywords':
+				$content .= '<div id="wpseometakeywords">';
+				$content .= '<section class="yoast-section" id="wpseo-metakeywords-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-edit">' . esc_html( $meta_field_def['title'] ) . '</h3>';
+			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
+				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= $description;
+				$content .= '</section>';
+				$content .= '</div>';
 				break;
 			case 'text':
 				$ac = '';
@@ -685,6 +695,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'snippetpreview',
 					'pageanalysis',
 					'focuskeyword',
+					'metakeywords',
 				), true )
 			) {
 				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
