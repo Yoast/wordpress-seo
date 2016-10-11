@@ -52,9 +52,9 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "sassdash": "^0.8.2",
-    "yoast-components": "github:yoast/yoast-components#develop",
-    "yoast-premium-components": "github:yoast/yoast-premium-components#develop",
-    "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews.git#develop",
-    "yoastseo": "git+ssh://git@github.com/Yoast/YoastSEO.js.git#develop"
+    "yoast-components": "github:yoast/yoast-components#master",
+    "yoast-premium-components": "github:yoast/yoast-premium-components#master",
+    "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews.git#master",
+    "yoastseo": "git+ssh://git@github.com/Yoast/YoastSEO.js.git#master"
   }
 }
