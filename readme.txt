@@ -116,7 +116,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= 3.6.0 =
+= 3.7.0 =
 
 Release Date: October 11th, 2016
 
