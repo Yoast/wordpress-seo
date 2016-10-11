@@ -87,7 +87,7 @@ module.exports = ( function() {
 	 */
 	GenericTab.prototype.updateScore = function( score ) {
 		var indicator = this.getIndicator( score );
-console.log(indicator);
+
 		this.score = indicator.className;
 		this.scoreText = indicator.screenReaderReadabilityText;
 
