@@ -1540,3 +1540,9 @@ ul.wpseo-metabox-premium-advantages {
 #snippet_preview {
 	padding: 0;
 }
+
+/* Workaround for VoiceOver bug see issue #5857 */
+.screen-reader-text.wpseo-generic-tab-textual-score,
+.screen-reader-text.wpseo-keyword-tab-textual-score {
+	display: block;
+}
