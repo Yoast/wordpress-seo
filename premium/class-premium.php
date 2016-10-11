@@ -78,15 +78,17 @@ class WPSEO_Premium {
 	 * @return array
 	 */
 	public function add_feature_toggles( array $feature_toggles ) {
-		$premium_toggles = array(
-			(object) array(
+		$language = WPSEO_Utils::get_language( get_locale() );
+
+		if ( $language === 'en' ) {
+			$feature_toggles[] = (object) array(
 				'name'    => __( 'Metabox insights', 'wordpress-seo-premium' ),
 				'setting' => 'enable_metabox_insights',
 				'label'   => __( 'The metabox insights section contains insights about your content, like an overview of the most prominent words in your text.', 'wordpress-seo-premium' ),
-			),
-		);
+			);
+		}
 
-		return array_merge( $feature_toggles, $premium_toggles );
+		return $feature_toggles;
 	}
 
 	/**

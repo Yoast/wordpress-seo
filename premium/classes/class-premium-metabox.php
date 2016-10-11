@@ -42,6 +42,11 @@ class WPSEO_Premium_Metabox {
 	public function send_data_to_assets() {
 		$options = WPSEO_Options::get_option( 'wpseo' );
 		$insights_enabled = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
+		$language = WPSEO_Utils::get_language( get_locale() );
+
+		if ( $language !== 'en' ) {
+			$insights_enabled = false;
+		}
 
 		$data = array(
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
