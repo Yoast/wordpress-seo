@@ -1,3 +1,6 @@
+### 3.7.1 October 11th, 2016
+* Adds a message when there no prominent words were detected in the text.
+
 ### 3.7.0: October 11th, 2016
 * Adds an insights section to the Yoast SEO metabox that shows authors the most prominent words in their text.
 * Adds a validation to check if the origin url in a redirect contains the subdirectory in case WordPress is installed in a subdirectory.
