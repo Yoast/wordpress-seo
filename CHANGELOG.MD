@@ -5,6 +5,19 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/).
 
+## 1.1: October 11th, 2016
+
+### Added
+
+* [StyledSection] Adds a StyledSection component. This component is used to render a HTML section including a heading with an icon.
+* [CSS] Adds the `file-text-o` font awesome icon.
+* [utils] Exports flat `translate` function in the i18n util.
+
+### Fixed
+
+* [Label] Adds an `aria-label` attribute.
+* [Choice] Passes the screenReaderText to the label as `aria-label`.
+
 ## 1.0: September 27th, 2016
 
 ### Added
