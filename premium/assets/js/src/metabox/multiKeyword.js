@@ -371,6 +371,7 @@ YoastMultiKeyword.prototype.getIndicator = function( score, keyword ) {
 
 	if ( "" === keyword ) {
 		rating = "feedback";
+		indicators[ rating ].screenReaderText = "";
 	}
 
 	return indicators[ rating ];
