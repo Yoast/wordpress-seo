@@ -26,9 +26,7 @@ class WPSEO_Product_Upsell_Notice {
 	 * Checks if the notice should be added or removed.
 	 */
 	public function initialize() {
-
-		$features = new WPSEO_Features();
-		if ( $features->is_premium() || $this->is_notice_dismissed() ) {
+		if ( $this->is_notice_dismissed() ) {
 			$this->remove_notification();
 
 			return;
