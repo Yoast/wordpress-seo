@@ -42,6 +42,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_setting_pages'            => true,
 		'enable_admin_bar_menu'			  => true,
 		'show_onboarding_notice'          => false,
+		'first_activated_on'              => false,
 	);
 
 	/**
@@ -194,6 +195,15 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					$clean[ $key ] = '';
 					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], $this->environment_types, true ) ) {
 						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
+
+				case 'first_activated_on' :
+					$clean[ $key ] = false;
+					if ( isset( $dirty[ $key ] ) ) {
+						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
 					}
 					break;
 
