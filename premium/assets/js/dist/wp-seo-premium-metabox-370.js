@@ -24589,6 +24589,27 @@ var getKeywordResearchArticleLink = function getKeywordResearchArticleLink(trans
 };
 
 /**
+ * @summary Determine the keyword suggestion explanation.
+ *
+ * @param {Function} translate The translator function.
+ * @param {Array} keywords The keyword suggestions that were found.
+ * @returns {JSX.Element} The translated text.
+ */
+var getKeywordSuggestionExplanation = function getKeywordSuggestionExplanation(translate, keywords) {
+	if (keywords.length === 0) {
+		return(
+			/* Translators: Prominent words explanation when there is no copy yet. */
+			translate("Once you add a bit more copy, we'll give you a list of words and " + "word combination that occur the most in the content. These give an indication of what your content focuses on.")
+		);
+	}
+
+	return(
+		/* Translators: Prominent words explanation. */
+		translate("The following words and word combinations occur the most in the content. " + "These give an indication of what your content focuses on. " + "If the words differ a lot from your topic, " + "you might want to rewrite your content accordingly. ")
+	);
+};
+
+/**
  * @summary Keyword suggestion component.
  *
  * @param {Function} translate The translator function.
@@ -24606,12 +24627,10 @@ var KeywordSuggestions = function KeywordSuggestions(_ref) {
 		return word.getCombination();
 	});
 
-	var explanation =
-	/* Translators: Prominent words explanation. */
-	_react2.default.createElement(
+	var explanation = _react2.default.createElement(
 		"p",
 		null,
-		translate("The following words and word combinations occur the most in the content. " + "These give an indication of what your content focuses on. " + "If the words differ a lot from your topic, " + "you might want to rewrite your content accordingly. ")
+		getKeywordSuggestionExplanation(translate, keywords)
 	);
 
 	var list = _react2.default.createElement(
