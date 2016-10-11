@@ -399,6 +399,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 		keyword: keyword,
 		label: label,
 		score: indicators.className,
+		scoreText: indicators.screenReaderText,
 		isKeywordTab: true,
 		classes: "wpseo_tab wpseo_keyword_tab",
 		hideable: true,
