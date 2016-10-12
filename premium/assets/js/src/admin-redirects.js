@@ -1,3 +1,6 @@
+/* jshint -W097 */
+/* jshint -W098 */
+/* jshint -W107 */
 /* global ajaxurl, alert, wpseo_premium_strings, wp, _, wpseoSelect2Locale */
 
 ( function( $ ) {
@@ -216,7 +219,7 @@
 	ValidateRedirect.prototype.addValidationError = function( error, fields ) {
 		this.form.setErrorMessage( error );
 
-		if( typeof fields !== "undefined" ) {
+		if( fields !== undefined ) {
 			this.form.highLightRowErrors( fields );
 		}
 	};
@@ -421,7 +424,7 @@
 		 * @returns {void}
 		 */
 		this.dialog = function( title, text, type ) {
-			if ( typeof type === "undefined" || type === "error" ) {
+			if ( type === undefined || type === "error" ) {
 				type = "default";
 			}
 
