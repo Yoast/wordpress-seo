@@ -16,4 +16,18 @@ module.exports = {
 			"assets/js/dist/wp-seo-premium-metabox-370.js": [ "assets/js/src/metabox.js" ],
 		},
 	},
+	"release-es6": {
+		options: {
+			transform: [
+				['babelify', { presets: ['es2015'] } ],
+
+				// This is here to make a production build of React.
+				['envify', {
+					global: true, // This makes sure we also transform the React files.
+					NODE_ENV: 'production'
+				} ]
+			]
+		},
+		files: '<%= browserify.build.files %>'
+	}
 };
