@@ -57,7 +57,7 @@ class Textfield extends React.Component {
 				              hasFocus={this.props.hasFocus}
 				              value={this.props.value}
 					/>
-					<Explanation text={this.props.properties.explanation}/>
+					<Explanation text={this.props.explanation}/>
 				</div>
 			);
 		}
@@ -71,7 +71,7 @@ class Textfield extends React.Component {
 				       value={this.props.value}
 				       hasFocus={this.props.hasFocus}
 				       optionalAttributes={this.optionalAttributes.field}/>
-				<Explanation text={this.props.properties.explanation}/>
+				<Explanation text={this.props.explanation}/>
 			</div>
 				);
 	}
