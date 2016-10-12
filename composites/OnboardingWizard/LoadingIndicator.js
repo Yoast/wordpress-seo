@@ -15,6 +15,8 @@ const style = {
 
 /**
  * Loading indicator component. Displays an loading indicator animation.
+ *
+ * @returns {void}
  */
 const LoadingIndicator = () => (
 	<div className="yoast-wizard-overlay-loader">

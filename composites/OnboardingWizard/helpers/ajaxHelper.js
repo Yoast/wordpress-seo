@@ -64,8 +64,9 @@ let sendJQueryRequest = ( url, requestParams ) => {
 /**
  * Parses the headers so the can be used for jQuery or Fetch.
  *
- * @param type The type of headers, "jquery" or "fetch".
- * @param config The config containing the headers.
+ * @param {string} type The type of headers, "jquery" or "fetch".
+ * @param {Object} config The config containing the headers.
+ * @returns {void}
  */
 var parseHeaders = ( type, config ) => {
 	if ( type === "jquery" ) {
@@ -88,8 +89,8 @@ var parseHeaders = ( type, config ) => {
 /**
  * @summary Parses the arguments needed for sending a JSON or Fetch request.
  *
- * @param requestArgs The arguments for the request.
- * @param type The type of request, can be: "jquery" or "fetch".
+ * @param {Object} requestArgs The arguments for the request.
+ * @param {string} type The type of request, can be: "jquery" or "fetch".
  * @returns {object} Containing the parsed arguments for a request
  *                   with either jQuery or Fetch.
  */

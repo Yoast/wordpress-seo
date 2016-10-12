@@ -25,6 +25,7 @@ class StepIndicator extends React.Component {
 	 * Updates the state and re-renders the indicator when new properties are set.
 	 *
 	 * @param {object} props The properties for the StepIndicator.
+	 * @returns {void}
 	 */
 	componentWillReceiveProps( props ) {
 		this.setState( props );
@@ -56,9 +57,8 @@ class StepIndicator extends React.Component {
 						verticalAlign: "middle",
 					},
 				}, currentField.title );
-			}
-			// Return a custom step button, without a label for non-active steps.
-			else {
+			} else {
+				// Return a custom step button, without a label for non-active steps.
 				let className = this.getStepButtonClass( key, amountOfSteps );
 
 				button = new CustomStepButton( {
@@ -116,6 +116,8 @@ class StepIndicator extends React.Component {
 StepIndicator.propTypes = {
 	steps: React.PropTypes.object.isRequired,
 	stepIndex: React.PropTypes.number.isRequired,
+	translate: React.PropTypes.any,
+	onClick: React.PropTypes.func,
 };
 
 StepIndicator.defaultProps = {

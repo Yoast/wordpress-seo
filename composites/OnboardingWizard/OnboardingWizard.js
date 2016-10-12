@@ -93,6 +93,7 @@ class OnboardingWizard extends React.Component {
 	 * and sets the state to the target step when successful.
 	 *
 	 * @param {step} step The step to render after the current state is stored.
+	 * @param {SyntheticEvent} evt The click even that triggered this post step.
 	 *
 	 * @returns {void}
 	 */
@@ -139,10 +140,12 @@ class OnboardingWizard extends React.Component {
 			currentStepId: step,
 		} );
 
+		/* eslint-disable react/no-find-dom-node */
 		// Set focus on the main content but not when clicking the step buttons.
 		if ( -1 === this.clickedButton.className.indexOf( "step" ) ) {
 			ReactDOM.findDOMNode( this.refs.step.refs.stepContainer ).focus();
 		}
+		/* eslint-enable react/no-find-dom-node */
 	}
 
 	/**
@@ -159,6 +162,7 @@ class OnboardingWizard extends React.Component {
 	/**
 	 * Updates the state to the next stepId in the wizard.
 	 *
+	 * @param {SyntheticEvent} evt The click event that triggered the next step call.
 	 * @returns {void}
 	 */
 	setNextStep( evt ) {
@@ -170,6 +174,7 @@ class OnboardingWizard extends React.Component {
 	/**
 	 * Updates the state to the previous stepId in the wizard.
 	 *
+	 * @param {SyntheticEvent} evt The click event that triggered the next step call.
 	 * @returns {void}
 	 */
 	setPreviousStep( evt ) {
@@ -208,11 +213,12 @@ class OnboardingWizard extends React.Component {
 	/**
 	 * Creates a next or previous button to navigate through the steps.
 	 *
-	 * @param type A next or previous button.
-	 * @param attributes The attributes for the button component.
-	 * @param currentStep The current step object in the wizard.
+	 * @param {string} type A next or previous button.
+	 * @param {Object} attributes The attributes for the button component.
+	 * @param {string} currentStep The current step object in the wizard.
+	 * @param {string} className The class name for the button.
 	 *
-	 * @returns {RaisedButton || ""} Returns a RaisedButton component depending on an existing previous/next step.
+	 * @returns {ReactElement} Returns a RaisedButton component depending on an existing previous/next step.
 	 */
 	getNavigationbutton( type, attributes, currentStep, className ) {
 		let hideButton = false;
@@ -234,10 +240,7 @@ class OnboardingWizard extends React.Component {
 			hideButton = true;
 		}
 
-		return ( ! hideButton )
-			? <RaisedButton className={className}
-			                {...attributes} />
-			: "";
+		return ( hideButton ) ? "" : <RaisedButton className={className} {...attributes} />;
 	}
 
 	/**
@@ -296,6 +299,7 @@ OnboardingWizard.propTypes = {
 	fields: React.PropTypes.object.isRequired,
 	customComponents: React.PropTypes.object,
 	finishUrl: React.PropTypes.string,
+	translate: React.PropTypes.any,
 };
 
 OnboardingWizard.defaultProps = {

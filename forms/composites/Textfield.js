@@ -120,15 +120,14 @@ Textfield.propTypes = {
 	optionalAttributes: React.PropTypes.object,
 	multiline: React.PropTypes.bool,
 	hasFocus: React.PropTypes.bool,
-};
-
-Textfield.defaultProps = {
-	hasFocus: false,
+	"class": React.PropTypes.string,
+	explanation: React.PropTypes.string,
 };
 
 Textfield.defaultProps = {
 	optionalAttributes: {},
 	multiline: false,
+	hasFocus: false,
 };
 
 export default Textfield;
