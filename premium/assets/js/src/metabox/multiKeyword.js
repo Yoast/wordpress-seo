@@ -198,7 +198,7 @@ YoastMultiKeyword.prototype.bindKeywordField = function() {
 		currentTabLink = $( "li.active > .wpseo_tablink" );
 		currentTabLink.data( "keyword", focusKeyword );
 		currentTabLink.find( "span.wpseo_keyword" ).text( focusKeyword || wpseoPostScraperL10n.enterFocusKeyword );
-	}.bind( this ) );
+	} );
 };
 
 /**
