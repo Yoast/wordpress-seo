@@ -1,58 +1,58 @@
 jest.unmock( '../ProgressIndicator' );
 
-import React from 'react';
+import React from "react";
 import TestUtils from "react-addons-test-utils";
 import ProgressIndicator from '../ProgressIndicator';
 
-describe( 'a processIndicator component', () => {
+describe( "a processIndicator component", () => {
 	let renderer = TestUtils.createRenderer();
 
 	let inputProps = {
 		currentStepNumber: 1,
-		totalSteps: 1
+		totalSteps: 1,
 	};
 
-	it( 'shows a paragraph with the progress', () => {
+	it( "shows a paragraph with the progress", () => {
 		let processIndicator = new ProgressIndicator( inputProps );
 		let children = processIndicator.props.children;
 
-		expect( processIndicator.type ).toEqual( 'p' );
+		expect( processIndicator.type ).toEqual( "p" );
 
-		expect( children[ 0 ] ).toEqual( 'Step ' );
+		expect( children[ 0 ] ).toEqual( "Step " );
 		expect( children[ 1 ] ).toEqual( inputProps.currentStepNumber );
-		expect( children[ 2 ] ).toEqual( ' of ' );
+		expect( children[ 2 ] ).toEqual( " of " );
 		expect( children[ 3 ] ).toEqual( inputProps.totalSteps );
 	} );
 
-	it( 'shows unknown progress with currentStepNumber 0', () => {
+	it( "shows unknown progress with currentStepNumber 0", () => {
 		let processIndicator = new ProgressIndicator(
 			{
 				currentStepNumber: 0,
-				totalSteps: 1
+				totalSteps: 1,
 			}
 		);
 
-		expect( processIndicator.type ).toEqual( 'p' );
-		expect( processIndicator.props.children ).toEqual( 'Unknown step progress' );
+		expect( processIndicator.type ).toEqual( "p" );
+		expect( processIndicator.props.children ).toEqual( "Unknown step progress" );
 	} );
 
-	it( 'shows unknown progress with total steps lower than the current step', () => {
+	it( "shows unknown progress with total steps lower than the current step", () => {
 		let currentStepNumber = 2;
 
 		let processIndicator = new ProgressIndicator(
 			{
 				currentStepNumber,
-				totalSteps: 1
+				totalSteps: 1,
 			}
 		);
 
 		let children = processIndicator.props.children;
 
-		expect( children[ 0 ] ).toEqual( 'Step ' );
+		expect( children[ 0 ] ).toEqual( "Step " );
 		expect( children[ 1 ] ).toEqual( currentStepNumber );
 	} );
 
-	it( 'throws error with one or more missing parameters', () => {
+	it( "throws error with one or more missing parameters", () => {
 		console.error = jest.genMockFn();
 		renderer.render( <ProgressIndicator /> );
 		renderer.getRenderOutput();
@@ -66,7 +66,7 @@ describe( 'a processIndicator component', () => {
 			.toContain( "Warning: Failed prop type: Required prop `totalSteps` was not specified in `ProgressIndicator`." );
 	} );
 
-	it( 'throws error with invalid prop types', () => {
+	it( "throws error with invalid prop types", () => {
 		console.error = jest.genMockFn();
 		renderer.render( <ProgressIndicator currentStepNumber={"test"} totalSteps={[]}/> );
 		renderer.getRenderOutput();

@@ -30,3 +30,15 @@
 		}
 	}
 }
+
+@mixin svg-caret-before($color) {
+	background-image: url(svg-icon-caret-right($color));
+	background-size: 25px;
+	content: '';
+	display: block;
+	height: 24px;
+	left: -3px;
+	margin-top: -3px;
+	position: absolute;
+	width: 24px;
+}

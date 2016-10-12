@@ -67,9 +67,7 @@ class Step extends React.Component {
 		fieldNames.forEach(
 			( fieldName ) => {
 				if ( typeof fieldValues[ currentStep ][ fieldName ] === "undefined" ) {
-					fieldValues[ currentStep ][ fieldName ] =
-						(typeof fields[fieldName].data !== "undefined")
-							? fields[fieldName].data : "";
+					fieldValues[ currentStep ][ fieldName ] = ( typeof fields[ fieldName ].data === "undefined" ) ? "" : fields[ fieldName ].data;
 				}
 			}
 		);
@@ -108,7 +106,6 @@ class Step extends React.Component {
 	 * @returns {boolean} True if there is a value.
 	 */
 	hasFieldValue( stepName, fieldName ) {
-
 		if ( this.state.fieldValues.hasOwnProperty( stepName ) ) {
 			return ( typeof this.state.fieldValues[ stepName ][ fieldName ] !== "undefined" );
 		}
@@ -129,11 +126,10 @@ class Step extends React.Component {
 		keys = this.filterConditonalFields( keys, fields );
 
 		return keys.map( ( name, key ) => {
-
 			let currentField = fields[ name ];
 
-			if ( typeof this.components[ currentField.componentName ] === "undefined"
-			     || ! this.components[ currentField.componentName ] ) {
+			if ( typeof this.components[ currentField.componentName ] === "undefined" ||
+				! this.components[ currentField.componentName ] ) {
 				console.error( `Trying to load non-existing component: ${currentField.componentName}` );
 				return null;
 			}
@@ -142,7 +138,6 @@ class Step extends React.Component {
 			let fieldProps = this.getFieldProps( currentField.componentName, fieldKey, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
-
 		} );
 	}
 
@@ -156,7 +151,7 @@ class Step extends React.Component {
 	 */
 	filterConditonalFields( fieldKeys, fields ) {
 		return fieldKeys.filter( ( name ) => {
-			if( fields[ name ].hasOwnProperty( 'requires' ) ) {
+			if( fields[ name ].hasOwnProperty( "requires" ) ) {
 				return this.showConditionalField( fields[ name ].requires );
 			}
 
@@ -207,9 +202,9 @@ class Step extends React.Component {
 	/**
 	 * Gets the properties for a specific field type.
 	 *
-	 * @param componentType The field component type, for example: Input or Choice.
-	 * @param key The unique id key for this element.
-	 * @param name The name for the field.
+	 * @param {string} componentType The field component type, for example: Input or Choice.
+	 * @param {string} key The unique id key for this element.
+	 * @param {string} name The name for the field.
 	 * @param {Object} currentField The current field with its settings.
 	 *
 	 * @returns {Object} The initialized properties for the element.
@@ -231,16 +226,16 @@ class Step extends React.Component {
 				"field-className": `${this.props.classPrefix}-text-input-field`,
 				optionalAttributes: {
 					"class": `${this.props.classPrefix}-text-input`,
-				}
+				},
 			};
 
-			Object.assign( props, inputFieldProperties )
+			Object.assign( props, inputFieldProperties );
 		}
 
 		if ( componentType === "Choice" ) {
 			let choiceFieldProperties = {
-				"className": `${this.props.classPrefix}-input-radio`,
-				"optionClassName": `${this.props.classPrefix}-input-radio-option`,
+				className: `${this.props.classPrefix}-input-radio`,
+				optionClassName: `${this.props.classPrefix}-input-radio-option`,
 			};
 
 			Object.assign( props, choiceFieldProperties );
@@ -271,6 +266,7 @@ Step.propTypes = {
 	fields: React.PropTypes.object,
 	currentStep: React.PropTypes.string,
 	classPrefix: React.PropTypes.string,
+	customComponents: React.PropTypes.object,
 };
 
 Step.defaultProps = {

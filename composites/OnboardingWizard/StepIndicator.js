@@ -1,6 +1,6 @@
 import React from "react";
 import CustomStepButton from "./StepButton";
-import {Stepper, Step, StepButton} from 'material-ui/Stepper';
+import { Stepper, Step, StepButton } from "material-ui/Stepper";
 import { localize } from "../../utils/i18n";
 
 /**
@@ -25,6 +25,7 @@ class StepIndicator extends React.Component {
 	 * Updates the state and re-renders the indicator when new properties are set.
 	 *
 	 * @param {object} props The properties for the StepIndicator.
+	 * @returns {void}
 	 */
 	componentWillReceiveProps( props ) {
 		this.setState( props );
@@ -44,8 +45,8 @@ class StepIndicator extends React.Component {
 			var currentField = this.props.steps[ name ];
 			let stepNumber = key.valueOf() + 1;
 			/* %1$d expands to the number of the step, %2$s expands to the name of the step */
-			let ariaLabel = this.props.translate( 'Step %1$d: %2$s' );
-			ariaLabel = ariaLabel.replace( '%1$d', stepNumber ).replace( '%2$s', currentField.title );
+			let ariaLabel = this.props.translate( "Step %1$d: %2$s" );
+			ariaLabel = ariaLabel.replace( "%1$d", stepNumber ).replace( "%2$s", currentField.title );
 
 			if ( key === this.state.stepIndex ) {
 				button = React.createElement( StepButton, {
@@ -56,9 +57,8 @@ class StepIndicator extends React.Component {
 						verticalAlign: "middle",
 					},
 				}, currentField.title );
-			}
-			// Return a custom step button, without a label for non-active steps.
-			else {
+			} else {
+				// Return a custom step button, without a label for non-active steps.
 				let className = this.getStepButtonClass( key, amountOfSteps );
 
 				button = new CustomStepButton( {
@@ -71,7 +71,7 @@ class StepIndicator extends React.Component {
 						userSelect: "auto",
 					},
 					onClick: ( evt ) => {
-						this.props.onClick( name, evt )
+						this.props.onClick( name, evt );
 					},
 				} );
 			}
@@ -116,6 +116,8 @@ class StepIndicator extends React.Component {
 StepIndicator.propTypes = {
 	steps: React.PropTypes.object.isRequired,
 	stepIndex: React.PropTypes.number.isRequired,
+	translate: React.PropTypes.any,
+	onClick: React.PropTypes.func,
 };
 
 StepIndicator.defaultProps = {

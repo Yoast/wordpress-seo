@@ -27,8 +27,14 @@ class Textfield extends React.Component {
 	 * @returns {JSX.Element} A representation of the TextField component.
 	 */
 	render() {
+		this.optionalAttributes = this.parseOptionalAttributes();
+
+		if ( this.props.class ) {
+			this.optionalAttributes.container.className = this.props.class;
+		}
+
 		return (
-			<div className={this.props.optionalAttributes.class}>
+			<div {...this.optionalAttributes.container}>
 				<Label for={this.props.name} optionalAttributes={this.optionalAttributes.label}>{this.props.label}</Label>
 				{this.getTextField()}
 			</div>
@@ -38,7 +44,7 @@ class Textfield extends React.Component {
 	/**
 	 * Get TextInput or a TextArea component based on the multiline property.
 	 *
-	 * @returns {JSX.Element} A representation of either the Textarea or Input component.
+	 * @returns {JSX.Element} A representation of either the Textfield or Input component.
 	 */
 	getTextField() {
 		if ( this.props.multiline === true ) {
@@ -48,9 +54,10 @@ class Textfield extends React.Component {
 				              id={this.props.name}
 				              onChange={this.props.onChange}
 				              optionalAttributes={this.optionalAttributes.field}
+				              hasFocus={this.props.hasFocus}
 				              value={this.props.value}
 					/>
-					<Explanation text={this.props.properties.explanation}/>
+					<Explanation text={this.props.explanation}/>
 				</div>
 			);
 		}
@@ -62,8 +69,9 @@ class Textfield extends React.Component {
 				       type="text"
 				       onChange={this.props.onChange}
 				       value={this.props.value}
+				       hasFocus={this.props.hasFocus}
 				       optionalAttributes={this.optionalAttributes.field}/>
-				<Explanation text={this.props.properties.explanation}/>
+				<Explanation text={this.props.explanation}/>
 			</div>
 				);
 	}
@@ -71,26 +79,31 @@ class Textfield extends React.Component {
 	/**
 	 * Parses the optional attributes and splits them up into individual categories.
 	 *
-	 * @returns {{label: {}, field: {id: string}}}
+	 * @returns {object} A categorized collection of attributes.
 	 */
 	parseOptionalAttributes() {
+		let containerConfiguration = {};
 		let labelConfiguration = {};
-		let fieldConfiguration = { id: this.props.name,	};
-		let props = Object.keys(this.props);
+		let fieldConfiguration = { id: this.props.name };
+		let props = Object.keys( this.props );
 
 		props.forEach( function( propKey ) {
 			if ( propKey.startsWith( "label-" ) ) {
-				labelConfiguration[propKey.split("-").pop()] = this.props[propKey];
+				labelConfiguration[ propKey.split( "-" ).pop() ] = this.props[ propKey ];
 			}
 
 			if ( propKey.startsWith( "field-" ) ) {
-				fieldConfiguration[propKey.split("-").pop()] = this.props[propKey];
+				fieldConfiguration[ propKey.split( "-" ).pop() ] = this.props[ propKey ];
+			}
+
+			if ( propKey.startsWith( "container-" ) ) {
+				containerConfiguration[ propKey.split( "-" ).pop() ] = this.props[ propKey ];
 			}
 
 			return;
-		}.bind(this) );
+		}.bind( this ) );
 
-		return { label: labelConfiguration, field: fieldConfiguration, };
+		return { label: labelConfiguration, field: fieldConfiguration, container: containerConfiguration };
 	}
 }
 
@@ -103,13 +116,18 @@ Textfield.propTypes = {
 	label: React.PropTypes.string.isRequired,
 	name: React.PropTypes.string.isRequired,
 	onChange: React.PropTypes.func.isRequired,
+	value: React.PropTypes.string,
 	optionalAttributes: React.PropTypes.object,
 	multiline: React.PropTypes.bool,
+	hasFocus: React.PropTypes.bool,
+	"class": React.PropTypes.string,
+	explanation: React.PropTypes.string,
 };
 
 Textfield.defaultProps = {
 	optionalAttributes: {},
 	multiline: false,
+	hasFocus: false,
 };
 
 export default Textfield;

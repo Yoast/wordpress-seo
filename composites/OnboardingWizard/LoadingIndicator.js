@@ -1,5 +1,5 @@
-import React from 'react';
-import RefreshIndicator from 'material-ui/RefreshIndicator';
+import React from "react";
+import RefreshIndicator from "material-ui/RefreshIndicator";
 
 /**
  * The (inline)styles for the refresh indicator.
@@ -8,13 +8,15 @@ import RefreshIndicator from 'material-ui/RefreshIndicator';
  */
 const style = {
 	refresh: {
-		display: 'inline-block',
-		position: 'relative',
+		display: "inline-block",
+		position: "relative",
 	},
 };
 
 /**
  * Loading indicator component. Displays an loading indicator animation.
+ *
+ * @returns {void}
  */
 const LoadingIndicator = () => (
 	<div className="yoast-wizard-overlay-loader">

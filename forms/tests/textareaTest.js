@@ -1,4 +1,4 @@
-jest.unmock("../Textarea");
+jest.unmock( "../Textarea" );
 
 import React from "react";
 import TestUtils from "react-addons-test-utils";
@@ -31,7 +31,7 @@ describe( "A Textarea component", () => {
 		renderer.render( <Textarea value={0} /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `value` of type `number` supplied to `Textarea`, expected `string`." );
 	} );
 
@@ -41,8 +41,11 @@ describe( "A Textarea component", () => {
 		renderer.render( <Textarea name="customTextarea" onChange={0} /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `onChange` of type `number` supplied to `Textarea`, expected `function`." );
 	} );
 
+	it( "receives focus when it's focus property is set", () => {
+		// Cannot seem to simulate clicking / cannot read the focus property.
+	} );
 } );

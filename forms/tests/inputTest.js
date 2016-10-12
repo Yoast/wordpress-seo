@@ -1,4 +1,4 @@
-jest.unmock("../Input");
+jest.unmock( "../Input" );
 
 import React from "react";
 import TestUtils from "react-addons-test-utils";
@@ -41,7 +41,7 @@ describe( "Input", () => {
 		renderer.render( <Input type="invalidType" /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `type` of value `invalidType` supplied to `Input`" );
 	} );
 
@@ -60,7 +60,6 @@ describe( "Input", () => {
 	} );
 
 	it( "generates an input based on the defaults and an onChange event binding", () => {
-
 		renderer.render( <Input name="textInput" onChange={ () => {} } /> );
 
 		let result = renderer.getRenderOutput();
@@ -75,7 +74,7 @@ describe( "Input", () => {
 		renderer.render( <Input name="textInput" onChange={0} /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[0][0] )
+		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `onChange` of type `number` supplied to `Input`, expected `function`." );
 	} );
 } );

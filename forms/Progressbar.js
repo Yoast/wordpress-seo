@@ -36,7 +36,7 @@ class Progressbar extends React.Component {
 	 * @returns {JSX.Element} The rendered progress bar.
 	 */
 	render() {
-		if ( typeof document.createElement( "progress" ) === "undefined" ) {
+		if ( typeof document.createElement( "progress" ) === "undefined" || this.props.forceFallback ) {
 			return this.fallback( this.props.value, this.props.max );
 		}
 
@@ -63,6 +63,7 @@ Progressbar.propTypes = {
 	onChange: React.PropTypes.func,
 	min: React.PropTypes.number,
 	max: React.PropTypes.number,
+	forceFallback: React.PropTypes.bool,
 	optionalAttributes: React.PropTypes.shape( {
 		className: React.PropTypes.string,
 	} ),

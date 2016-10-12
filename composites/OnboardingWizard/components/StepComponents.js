@@ -15,7 +15,7 @@ import HTML from "./Html";
 let Components = {
 	Choice,
 	Input,
-	HTML
+	HTML,
 };
 
 export default Components;

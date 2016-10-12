@@ -11,12 +11,10 @@ import React from "react";
  * @constructor
  */
 const Explanation = ( props ) => {
-
-	if ( typeof props.text !== "undefined"
-	     && props.text !== "" ) {
+	if ( typeof props.text !== "undefined" && props.text !== "" ) {
 		return <p className="yoast-wizard-input__explanation">
 			{props.text}
-		</p>
+		</p>;
 	}
 	return null;
 };

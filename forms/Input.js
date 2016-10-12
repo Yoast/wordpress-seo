@@ -23,11 +23,45 @@ const inputTypes = [
  * @returns {JSX} A representation of the input HTML element based on the passed props.
  * @constructor
  */
-const Input = ( props ) => {
-	return (
-		<input type={props.type} name={props.name} defaultValue={props.value} onChange={props.onChange} {...props.optionalAttributes} />
-	);
-};
+class Input extends React.Component {
+
+	/**
+	 * Determines whether or not the component updated and sets its focus accordingly.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate() {
+		if ( this.props.hasFocus ) {
+			this.ref.focus();
+		}
+	}
+
+	/**
+	 * Sets a reference to the current component.
+	 *
+	 * @param {Object} ref The reference to set.
+	 * @returns {void}
+	 */
+	setReference( ref ) {
+		this.ref = ref;
+	}
+
+	/**
+	 * Renders a representation of the Input component.
+	 *
+	 * @returns {JSX.Element} A representation of the Input component.
+	 */
+	render() {
+		return (
+			<input ref={this.setReference.bind( this )}
+			       type={this.props.type}
+			       name={this.props.name}
+			       defaultValue={this.props.value}
+			       onChange={this.props.onChange}
+			       {...this.props.optionalAttributes} />
+		);
+	}
+}
 
 /**
  * Adds validation for the properties.
@@ -41,6 +75,7 @@ Input.propTypes = {
 	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,
 	optionalAttributes: React.PropTypes.object,
+	hasFocus: React.PropTypes.bool,
 };
 
 /**
@@ -52,6 +87,7 @@ Input.defaultProps = {
 	name: "input",
 	type: "text",
 	value: "",
+	hasFocus: false,
 };
 
 export default Input;

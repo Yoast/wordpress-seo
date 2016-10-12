@@ -5,13 +5,12 @@ import TestUtils from "react-addons-test-utils";
 import Step from "../Step";
 
 describe( "a step component", () => {
-
 	let inputProps = {
-		id: '',
-		title: 'Title',
+		id: "",
+		title: "Title",
 		fields: {},
 		components: {},
-		currentStep: ''
+		currentStep: "",
 	};
 
 	let renderer = TestUtils.createRenderer();
@@ -24,14 +23,14 @@ describe( "a step component", () => {
 		expect( stepComponent.props.className ).toEqual( 'yoast-wizard--step--container' );
 	} );
 
-	it( 'has a h1 header title', () => {
+	it( "has a h1 header title", () => {
 		let header = stepComponent.props.children[ 0 ];
 
 		expect( header.type ).toEqual( 'h1' );
 		expect( header.props.children ).toEqual( inputProps.title );
 	} );
 
-	it( 'throws an error when required property title is missing', () => {
+	it( "throws an error when required property title is missing", () => {
 		console.error = jest.genMockFn();
 
 		renderer.render( <Step /> );
@@ -42,12 +41,12 @@ describe( "a step component", () => {
 			.toContain( "Warning: Failed prop type: Required prop `title` was not specified in `Step`" );
 	} );
 
-	it( 'throws an error when property fields is not an object ', () => {
+	it( "throws an error when property fields is not an object ", () => {
 		console.error = jest.genMockFn();
 
 		let inputProps = {
-			fields: '',
-			title: 'Title',
+			fields: "",
+			title: "Title",
 		};
 
 		renderer.render( <Step {...inputProps} /> );
@@ -59,7 +58,7 @@ describe( "a step component", () => {
 			            " expected `object`." );
 	} );
 
-	it( 'throws an error when property title is not a string', () => {
+	it( "throws an error when property title is not a string", () => {
 		console.error = jest.genMockFn();
 
 		let inputProps = {
@@ -74,12 +73,12 @@ describe( "a step component", () => {
 			.toContain( "Warning: Failed prop type: Invalid prop `title` of type `number` supplied to `Step`, expected `string`." );
 	} );
 
-	it( 'throws an error when property currentStep is not a string', () => {
+	it( "throws an error when property currentStep is not a string", () => {
 		console.error = jest.genMockFn();
 
 		let inputProps = {
-			title: 'Title',
-			currentStep: false
+			title: "Title",
+			currentStep: false,
 		};
 
 		renderer.render( <Step {...inputProps} /> );
@@ -89,5 +88,4 @@ describe( "a step component", () => {
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type: Invalid prop `currentStep` of type `boolean` supplied to `Step`, expected `string`." );
 	} );
-
 } );

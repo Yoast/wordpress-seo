@@ -44,7 +44,6 @@ let sendFetchRequest = ( url, requestParams ) => {
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
 let sendJQueryRequest = ( url, requestParams ) => {
-
 	Object.assign( requestParams, { url } );
 
 	return new Promise( ( resolve, reject )=> {
@@ -65,8 +64,9 @@ let sendJQueryRequest = ( url, requestParams ) => {
 /**
  * Parses the headers so the can be used for jQuery or Fetch.
  *
- * @param type The type of headers, "jquery" or "fetch".
- * @param config The config containing the headers.
+ * @param {string} type The type of headers, "jquery" or "fetch".
+ * @param {Object} config The config containing the headers.
+ * @returns {void}
  */
 var parseHeaders = ( type, config ) => {
 	if ( type === "jquery" ) {
@@ -89,42 +89,41 @@ var parseHeaders = ( type, config ) => {
 /**
  * @summary Parses the arguments needed for sending a JSON or Fetch request.
  *
- * @param requestArgs The arguments for the request.
- * @param type The type of request, can be: "jquery" or "fetch".
+ * @param {Object} requestArgs The arguments for the request.
+ * @param {string} type The type of request, can be: "jquery" or "fetch".
  * @returns {object} Containing the parsed arguments for a request
  *                   with either jQuery or Fetch.
  */
-let parseRequestArgs = (requestArgs, type) => {
-
+let parseRequestArgs = ( requestArgs, type ) => {
 	let defaults = {
-		dataType : "json",
+		dataType: "json",
 		method: "PUT",
-		contentType : 'application/json',
+		contentType: "application/json",
 	};
 
 	let config = requestArgs;
 
-	for (var key in defaults) {
-		if (defaults.hasOwnProperty(key)) {
-			if(typeof config[key] === "undefined" || config[key] === ""){
-				config[key] = defaults[key];
+	for ( var key in defaults ) {
+		if ( defaults.hasOwnProperty( key ) ) {
+			if( typeof config[ key ] === "undefined" || config[ key ] === "" ) {
+				config[ key ] = defaults[ key ];
 			}
 		}
 	}
 
-	if ( typeof config[ "headers" ] !== "undefined" || config[ "headers" ] !== "" ) {
+	if ( typeof config.headers !== "undefined" || config.headers !== "" ) {
 		parseHeaders( type, config );
 	}
 
-	if(config.dataType === "json"){
-		config["data"] = JSON.stringify(config["data"]);
+	if( config.dataType === "json" ) {
+		config.data = JSON.stringify( config.data );
 	}
 
 	if ( type === "fetch" ) {
 		Object.assign( config, {
-				body: config[ "data" ],
-			}
-		)
+			body: config.data,
+		}
+		);
 	}
 
 	return config;
@@ -138,15 +137,14 @@ let parseRequestArgs = (requestArgs, type) => {
  *
  * @returns {Promise} Returns a wrapped promise.
  */
-let sendRequest = ( url, args) => {
-
+let sendRequest = ( url, args ) => {
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
-		let requestArgs = parseRequestArgs(args, "fetch");
+		let requestArgs = parseRequestArgs( args, "fetch" );
 
-		return sendFetchRequest( url, requestArgs);
+		return sendFetchRequest( url, requestArgs );
 	}
 
-	let requestArgs = parseRequestArgs(args, "jquery");
+	let requestArgs = parseRequestArgs( args, "jquery" );
 
 	return sendJQueryRequest( url, requestArgs );
 };
