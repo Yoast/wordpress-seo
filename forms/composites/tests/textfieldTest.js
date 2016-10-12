@@ -18,9 +18,6 @@ describe( "A Textfield component", () => {
 
 		// Test label
 		expect( children[ 0 ].props.for ).toBe( "customTextArea" );
-
-		// Test input
-		expect( children[ 1 ].props.name ).toBe( "customTextArea" );
 	} );
 
 	it( "generates a warning when no label is passed", () => {
@@ -54,8 +51,5 @@ describe( "A Textfield component", () => {
 
 		// Test label
 		expect( children[ 0 ].props.for ).toBe( "customTextArea" );
-
-		// Test input
-		expect( children[ 1 ].props.name ).toBe( "customTextArea" );
 	} );
 } );
