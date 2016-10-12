@@ -3,6 +3,7 @@ import React from "react";
 import Label from "../Label";
 import Input from "../Input";
 import Textarea from "../Textarea";
+import Explanation from "../../composites/OnboardingWizard/components/Explanation";
 
 /**
  * Represents the Textfield composite component.
@@ -17,6 +18,7 @@ class Textfield extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
+		this.optionalAttributes = this.parseOptionalAttributes();
 	}
 
 	/**
@@ -27,42 +29,51 @@ class Textfield extends React.Component {
 	render() {
 		this.optionalAttributes = this.parseOptionalAttributes();
 
+		if ( this.props.class ) {
+			this.optionalAttributes.container.className = this.props.class;
+		}
+
 		return (
 			<div {...this.optionalAttributes.container}>
 				<Label for={this.props.name} optionalAttributes={this.optionalAttributes.label}>{this.props.label}</Label>
-				{this.determineFieldType()}
+				{this.getTextField()}
 			</div>
 		);
 	}
 
 	/**
-	 * Determines whether a text input or a textarea should be rendered.
+	 * Get TextInput or a TextArea component based on the multiline property.
 	 *
 	 * @returns {JSX.Element} A representation of either the Textfield or Input component.
 	 */
-	determineFieldType() {
+	getTextField() {
 		if ( this.props.multiline === true ) {
 			return (
-				<Textarea name={this.props.name}
-			              id={this.props.name}
-			              onChange={this.props.onChange}
-			              optionalAttributes={this.optionalAttributes.field}
-			              hasFocus={this.props.hasFocus}
-				          value={this.props.value}
-				/>
+				<div>
+					<Textarea name={this.props.name}
+				              id={this.props.name}
+				              onChange={this.props.onChange}
+				              optionalAttributes={this.optionalAttributes.field}
+				              hasFocus={this.props.hasFocus}
+				              value={this.props.value}
+					/>
+					<Explanation text={this.props.properties.explanation}/>
+				</div>
 			);
 		}
 
 		return (
-			<Input name={this.props.name}
-			       id={this.props.name}
-			       type="text"
-			       onChange={this.props.onChange}
-			       value={this.props.value}
-			       hasFocus={this.props.hasFocus}
-			       optionalAttributes={this.optionalAttributes.field}
-			/>
-		);
+			<div>
+				<Input name={this.props.name}
+				       id={this.props.name}
+				       type="text"
+				       onChange={this.props.onChange}
+				       value={this.props.value}
+				       hasFocus={this.props.hasFocus}
+				       optionalAttributes={this.optionalAttributes.field}/>
+				<Explanation text={this.props.properties.explanation}/>
+			</div>
+				);
 	}
 
 	/**
@@ -73,7 +84,7 @@ class Textfield extends React.Component {
 	parseOptionalAttributes() {
 		let containerConfiguration = {};
 		let labelConfiguration = {};
-		let fieldConfiguration = { id: this.props.name	};
+		let fieldConfiguration = { id: this.props.name };
 		let props = Object.keys( this.props );
 
 		props.forEach( function( propKey ) {
@@ -113,6 +124,11 @@ Textfield.propTypes = {
 
 Textfield.defaultProps = {
 	hasFocus: false,
+};
+
+Textfield.defaultProps = {
+	optionalAttributes: {},
+	multiline: false,
 };
 
 export default Textfield;

@@ -56,7 +56,7 @@ class Input extends React.Component {
 			<input ref={this.setReference.bind( this )}
 			       type={this.props.type}
 			       name={this.props.name}
-			       value={this.props.value}
+			       defaultValue={this.props.value}
 			       onChange={this.props.onChange}
 			       {...this.props.optionalAttributes} />
 		);

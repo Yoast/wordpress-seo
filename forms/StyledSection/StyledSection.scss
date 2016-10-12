@@ -1,0 +1,40 @@
+@import "../../css/colors";
+@import "../../css/icons";
+
+.yoast-section {
+	position: relative;
+	width: 640px;
+	border: 1px solid $color_border;
+	border-radius: 20px;
+	background-color: #fff;
+	padding: 0 20px 15px;
+
+	&__heading {
+		padding: 8px 20px;
+		font-size: 0.9rem;
+		margin: 0 -20px 15px;
+		border-bottom: 1px solid $color_border;
+		font-family: "Open Sans", sans-serif;
+		font-weight: 300;
+		color: #555;
+
+		&-icon {
+			padding-left: 45px;
+			background-repeat: no-repeat;
+			background-position: left 20px top 0.6em;
+			background-size: 16px;
+
+			&-file-text-o {
+				background-image: url( svg-icon-file-text-o( $color_headings ) );
+			}
+		}
+	}
+
+	*, & {
+		box-sizing: border-box;
+
+		&:before, &:after {
+			box-sizing: border-box;
+		}
+	}
+}

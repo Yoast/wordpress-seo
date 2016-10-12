@@ -1,44 +1,44 @@
-import MailchimpSignup from "../custom_components/MailchimpSignup";
-import PublishingEntity from "../custom_components/PublishingEntity";
-import PostTypeVisibility from "../custom_components/PostTypeVisibility";
-import ConnectGoogleSearchConsole from "../custom_components/ConnectGoogleSearchConsole";
-
+import MailchimpSignup from '../components/custom_components/MailchimpSignup';
+import PublishingEntity from "../components/custom_components/PublishingEntity"
+import PostTypeVisibility from "../components/custom_components/PostTypeVisibility"
+import ConnectGoogleSearchConsole from "../components/custom_components/ConnectGoogleSearchConsole"
 
 let configuration = {
+	'finishUrl' : '',
 	"endpoint": "http://127.0.0.1:8882/onboarding?wp_nonce=nonce",
 	"customComponents": {
 		MailchimpSignup, PublishingEntity, PostTypeVisibility, ConnectGoogleSearchConsole,
 	},
 	"fields": {
 		"upsellConfigurationService": {
-			"component": "HTML",
+			"componentName": "HTML",
 			"properties": {
-				"html": "You can now have Yoast configure Yoast SEO for you.",
+				"html": "You can now have Yoast configure Yoast SEO for you!",
 			},
 		},
 		"upsellSiteReview": {
-			"component": "HTML",
+			"componentName": "HTML",
 			"properties": {
 				"html": "Get more visitors! Our SEO website review will tell you what to improve!",
 			},
 		},
 		"successMessage": {
-			"component": "HTML",
+			"componentName": "HTML",
 			"properties": {
 				"html": "Good Job! You've finished setting up Yoast SEO. Thereby you've covered the technical part of your site's SEO. Now it's time to focus on optimizing your content for onpage SEO. You can use our content analysis for that: <br>{gif_showing_content_analysis}",
 			},
 		},
 		"mailchimpSignup": {
-			"component": "MailchimpSignup",
+			"componentName": "MailchimpSignup",
 			"properties": {
 				"label": "If you would like us to keep you up-to-date regarding Yoast SEO and other plugins by Yoast, subscribe to our newsletter:",
 				"mailchimpActionUrl": "{http://yoast.us1.list-manage1.com/subscribe/post?u=ffa93edfe21752c921f860358&amp;id=972f1c9122}",
 				"currentUserEmail": "{current_user_email:String}",
 			},
-			"data": "",
+			"data": "false",
 		},
 		"environment": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "Please specify the environment {site_url} is running in.",
 				"choices": {
@@ -53,11 +53,11 @@ let configuration = {
 					},
 				},
 			},
-			"data": "",
+			"data": "development",
 			"default": "production",
 		},
 		"siteType": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "What type of site is {site_url}?",
 				"choices": {
@@ -81,25 +81,48 @@ let configuration = {
 					},
 				},
 			},
-			"data": "",
+			"data": "blog",
 		},
 		"publishingEntity": {
-			"component": "PublishingEntity",
-			"data": {
-				"publishingEntityType": "{publishing_entity_type}",
-				"publishingEntityPersonName": "{publishing_entity_person_name}",
-				"publishingEntityCompanyName": "{publishing_entity_company_name}",
-				"publishingEntityCompanyLogo": "{publishing_entity_company_logo}",
+			"componentName": "Choice",
+			"properties": {
+				"label": "Is this a personal site or is it for a company?",
+				"choices": {
+					"person": {
+						"label": "Personal website",
+					},
+					"company": {
+						"label": "Company website",
+					},
+				},
 			},
-			"defaults": {
-				"publishingEntityType": "",
-				"publishingEntityPersonName": "{currentuser.name}",
-				"publishingEntityCompanyName": "",
-				"publishingEntityCompanyLogo": "",
+			"data": "person",
+		},
+		"personPublishingEntity": {
+			"componentName": "Input",
+			"properties": {
+				"label": "Your name:",
+				"pattern": "*",
 			},
+			"requires": {
+				"field": "publishingEntity",
+				"value": "person",
+			}
+		},
+		"businessPublishingEntity": {
+			"componentName": "Input",
+			"conditionalType": "TextField",
+			"properties": {
+				"label": "The company name:",
+				"pattern": "*",
+			},
+			"requires": {
+				"field": "publishingEntity",
+				"value": "company",
+			}
 		},
 		"profileUrlFacebook": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Facebook page url",
 				"pattern": "^https:\/\/www\.facebook\.com\/([^/]+)\/$",
@@ -107,7 +130,7 @@ let configuration = {
 			"data": "{profile_url_facebook}",
 		},
 		"profileUrlTwitter": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Twitter url",
 				"pattern": "^https:\/\/twitter\.com\/([^/]+)$",
@@ -115,7 +138,7 @@ let configuration = {
 			"data": "{profile_url_twitter}",
 		},
 		"profileUrlInstagram": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Instagram url",
 				"pattern": "^https:\/\/www\.instagram\.com\/([^/]+)\/$",
@@ -123,7 +146,7 @@ let configuration = {
 			"data": "{profile_url_instagram}",
 		},
 		"profileUrlLinkedIn": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "LinkedIn url",
 				"pattern": "^https:\/\/www\.linkedin\.com\/in\/([^/]+)$",
@@ -131,7 +154,7 @@ let configuration = {
 			"data": "{profile_url_linkedin}",
 		},
 		"profileUrlMySpace": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "MySpace url",
 				"pattern": "^https:\/\/myspace\.com\/([^/]+)\/$",
@@ -139,7 +162,7 @@ let configuration = {
 			"data": "{profile_url_myspace}",
 		},
 		"profileUrlPinterest": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Pinterest url",
 				"pattern": "^https:\/\/www\.pinterest\.com\/([^/]+)\/$",
@@ -147,7 +170,7 @@ let configuration = {
 			"data": "{profile_url_pinterest}",
 		},
 		"profileUrlYouTube": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "YouTube url",
 				"pattern": "^https:\/\/www\.youtube\.com\/([^/]+)$",
@@ -155,7 +178,7 @@ let configuration = {
 			"data": "{profile_url_youtube}",
 		},
 		"profileUrlGooglePlus": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Google+ URL",
 				"pattern": "^https:\/\/plus\.google\.com\/([^/]+)$",
@@ -163,7 +186,7 @@ let configuration = {
 			"data": "{profile_url_google_plus}",
 		},
 		"multipleAuthors": {
-			"component": "Choice",
+			"componentName": "Choice",
 			"properties": {
 				"label": "Does your site have multiple authors?",
 				"choices": {
@@ -175,17 +198,17 @@ let configuration = {
 					},
 				},
 			},
-			"data": "",
+			"data": "yes",
 		},
 		"tagLine": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "You still have the default WordPress tagline, even an empty one is probably better. Please clear it or replace it with something unique.",
 			},
 			"data": "{wp_tagline}",
 		},
 		"postTypeVisibility": {
-			"component": "PostTypeVisibility",
+			"componentName": "PostTypeVisibility",
 			"properties": {
 				"label": "Please specify if which of the following public post types you would like Google to see",
 				"postTypes": {
@@ -199,23 +222,29 @@ let configuration = {
 			},
 		},
 		"connectGoogleSearchConsole": {
-			"component": "ConnectGoogleSearchConsole",
+			"componentName": "ConnectGoogleSearchConsole",
 			"data": {
 				"token": "{gsc_token}",
 				"profile": "{gsc_profile}",
 			},
 		},
 		"siteName": {
-			"component": "Input",
+			"componentName": "Input",
 			"properties": {
 				"label": "Sitename",
+				"explanation" : "Google shows your website's name in the search results, " +
+				                "we will default to your site name but you can adapt it here.",
 			},
 			"data": "{sitename}",
 		},
 		"separator": {
-			"component": "Choice",
+			"componentName": "Choice",
+
 			"properties": {
 				"label": "Separator",
+				"explanation" : "Choose the symbol to use as your title separator. " +
+				                "This will display, for instance, between your post title and site name. " +
+				                "Symbols are shown in the size they'll appear in the search results.",
 				"choices": {
 					"dash": {
 						"label": "‐",
@@ -258,15 +287,15 @@ let configuration = {
 						"screenReaderText": "Left angle quotation mark",
 					},
 					"raquo": {
-						"label": "»",
+						"label": "&raquo;",
 						"screenReaderText": "Right angle quotation mark",
 					},
 					"lt": {
-						"label": "<",
+						"label": "&lt;",
 						"screenReaderText": "Less than sign",
 					},
 					"gt": {
-						"label": ">",
+						"label": "&gt;",
 						"screenReaderText": "Greater than sign",
 					},
 				},
@@ -289,7 +318,11 @@ let configuration = {
 		},
 		"publishingEntity": {
 			"title": "Company or person",
-			"fields": [ "publishingEntity" ],
+			"fields": [
+				"publishingEntity",
+				"personPublishingEntity",
+				"businessPublishingEntity",
+			],
 		},
 		"profileUrls": {
 			"title": "Social profiles",

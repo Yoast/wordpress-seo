@@ -5,6 +5,7 @@ import Label from "./forms/Label";
 import Progressbar from "./forms/Progressbar";
 import Section from "./forms/Section";
 import Textarea from "./forms/Textarea";
+import OnboardingWizard from "./composites/OnboardingWizard/OnboardingWizard";
 
 export {
 	Textfield,
@@ -14,4 +15,5 @@ export {
 	Progressbar,
 	Section,
 	Textarea,
+	OnboardingWizard
 };

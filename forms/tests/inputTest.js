@@ -13,7 +13,7 @@ describe( "Input", () => {
 		let result = renderer.getRenderOutput();
 
 		expect( result.props.name ).toBe( "textInput" );
-		expect( result.props.value ).toBe( "" );
+		expect( result.props.defaultValue ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are missing", () => {
@@ -23,7 +23,7 @@ describe( "Input", () => {
 
 		expect( result.props.name ).toBe( "input" );
 		expect( result.props.type ).toBe( "text" );
-		expect( result.props.value ).toBe( "" );
+		expect( result.props.defaultValue ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are partially missing", () => {
@@ -33,7 +33,7 @@ describe( "Input", () => {
 
 		expect( result.props.name ).toBe( "textInput" );
 		expect( result.props.type ).toBe( "text" );
-		expect( result.props.value ).toBe( "" );
+		expect( result.props.defaultValue ).toBe( "" );
 	} );
 
 	it( "generates a warning when a faulty input type is passed", () => {

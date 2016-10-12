@@ -2,28 +2,26 @@ var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
 
 module.exports = function( grunt ) {
-	"use strict";
-
 	// Define project configuration
 	var project = {
 		paths: {
 			grunt: "grunt/",
 			get config() {
 				return this.grunt + "config/";
-			}
+			},
 		},
 		files: {
 			components: [
 				"forms/**/*.js",
 				"a11y/**/*.js",
 				"composites/**/*.js",
-				"!composites/onboarding-wizard/tests/**/*.js",
-				"!composites/onboarding-wizard/config/**/*.js"
+				"!composites/OnboardingWizard/tests/**/*.js",
+				"!composites/OnboardingWizard/config/**/*.js",
 			],
 			get config() {
 				return project.paths.config + "*.js";
 			},
-			grunt: "Gruntfile.js"
+			grunt: "Gruntfile.js",
 		},
 		pkg: grunt.file.readJSON( "package.json" ),
 	};

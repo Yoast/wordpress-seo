@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Wizard from "./composites/onboarding-wizard/wizard";
-import Config from "./composites/onboarding-wizard/config/config";
+import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
+import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
+import apiConfig from "./composites/OnboardingWizard/config/api-config";
+
+// Required to make Material UI work with touch screens.
+import injectTapEventPlugin from "react-tap-event-plugin";
 
 function cloneDeep( object ) {
 	return JSON.parse( JSON.stringify( object ) );
@@ -13,6 +17,8 @@ class App extends React.Component {
 
 	constructor() {
 		super();
+
+		injectTapEventPlugin();
 
 		this.state = {
 			activeComponent: "wizard"
@@ -30,6 +36,11 @@ class App extends React.Component {
 			case "wizard":
 			default:
 				let config = cloneDeep( Config );
+
+				// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
+				config.customComponents = Config.customComponents;
+				config.endpoint = apiConfig;
+
 				content = <Wizard {...config} />;
 				break;
 		}

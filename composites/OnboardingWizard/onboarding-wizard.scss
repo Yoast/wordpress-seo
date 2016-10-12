@@ -1,0 +1,326 @@
+$prefix: "yoast-wizard";
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f0f0f0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.375; /* 22px based on default browser font size 16px. */
+}
+
+/* Default WordPress links styling. */
+a {
+	color: #0073aa;
+	outline: 0;
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+}
+
+a:hover,
+a:active {
+	color: #00a0d2;
+}
+
+a:focus {
+	color: #124964;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
+#container {
+	max-width: 1660px;
+	margin: 0 auto;
+}
+
+.#{$prefix}-body {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 80%;
+  margin: 1rem auto 4rem;
+  @media screen and (max-width: 768px) {
+	width: auto;
+	margin: 0;
+  }
+
+}
+
+.#{$prefix}__logo {
+  margin: 0 auto;
+  display: block;
+}
+
+.#{$prefix} {
+  text-align: left;
+  min-height: 20px;
+  background: #fff;
+  padding: 3em;
+  @media screen and (max-width: 768px) {
+	padding: 1em 1em 2em;
+  }
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+
+  &--navigation {
+    text-align: right;
+    width: 100%;
+  }
+
+  &--button {
+    margin-top: 1em;
+
+    &__next {
+      margin-left: 1em;
+
+	  button:hover,
+	  button:focus {
+		background-color: #832055 !important;
+
+		div {
+		  background-color: transparent !important;
+		}
+	  }
+    }
+
+	&__previous {
+	  button:focus {
+  		background: #ebebeb !important;
+	  }
+	  button:focus:active {
+  		background: transparent !important;
+	  }
+	  button:hover > div > span,
+	  button:focus > div > span {
+	    color: #000 !important;
+	  }
+	}
+
+  }
+
+  &--step {
+    &__active {
+      @media screen and (max-width: 768px) {
+		width: 38px;
+		overflow: hidden;
+
+        div {
+		  display: inline-block !important;
+		  vertical-align: middle;
+        }
+
+        div > span > span {
+          display: block !important;
+          margin-left: -7px;
+          padding-right: 99px !important;
+        }
+      }
+
+      svg {
+        color: #5D237A;
+        fill: #5D237A;
+      }
+    }
+    &__inactive {
+	  div {
+		pointer-events: none;
+	  }
+      @media screen and (max-width: 768px) {
+        display: none !important;
+      }
+    }
+  }
+
+  &--step--container {
+	&:focus {
+	  outline: none;
+	}
+
+    h1 {
+      color: #a4286a;
+      margin-top: 0;
+	  margin-bottom: 16px;
+      margin-bottom: 1rem;
+      font-size: 2.75em;
+      letter-spacing: normal;
+      line-height: 3.68rem;
+      font-weight: 300;
+	  @media screen and (max-width: 768px) {
+		font-size: 2em;
+		line-height: 1.25;
+	  }
+    }
+
+    h2 {
+      color: #a4286a;
+	  font-size: 1.375em;
+      font-weight: 400;
+    }
+  }
+
+  &--stepper {
+    width: 100%;
+    margin: auto;
+  }
+
+  &-overlay {
+    z-index: 10;
+    opacity: 0.2;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    color: #ffffff;
+    text-align: center;
+    width: 100%;
+
+    &-loader {
+      position: relative;
+    }
+  }
+
+  &-container {
+    border: 1px solid #CCC;
+
+    text-align: left;
+    min-height: 20px;
+    position: relative;
+
+    box-shadow: rgba(0, 0, 0, 0.156863) 0 3px 10px, rgba(0, 0, 0, 0.227451) 0 3px 10px;
+
+	@media screen and (max-width: 768px) {
+	  box-shadow: none;
+	}
+
+    fieldset {
+      border: 0;
+      margin: 1em 0;
+	  padding-left: 0.5em;
+    }
+  }
+
+  &-text-input {
+    font-size: 14px;
+    padding-bottom: 0.5em;
+
+    &-label {
+      cursor: pointer;
+      display: block;
+      margin: 0.5em 0 0;
+      font-weight: bold;
+    }
+
+    [type="text"] {
+      width: 100%;
+      max-width: 450px;
+      box-sizing: border-box;
+    }
+  }
+
+  &-field-description {
+    font-weight: bold;
+  }
+
+  input {
+    line-height: 140%;
+    font-size: 14px;
+    margin: 0.5em 0;
+    padding: 5px;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  input[type="radio"] {
+    margin: 0.3em 0.7em 0.3em 0;
+    vertical-align: middle;
+  }
+
+  &-input {
+    &__explanation {
+      color: #555555;
+      margin-top: 0;
+      font-style: italic;
+    }
+
+    &-radio {
+      font-size: 14px;
+
+      &-option {
+        label {
+          padding-top: 2px;
+        }
+      }
+
+      &-separator {
+        padding: 0;
+
+        input {
+          /* visually hide the radio buttons but keep them accessible */
+          position: absolute;
+          left: -9999em;
+          width: 1px;
+          height: 1px;
+
+          & + label {
+            float: left;
+            width: 30px !important;
+            margin: 0 5px 5px 0 !important;
+            padding: 9px 6px;
+            border: 1px solid #ccc;
+            /* Don't change: these mimic Google's font and font size for titles */
+            font-family: Arial, Helvetica, sans-serif !important;
+            font-size: 18px !important;
+            line-height: 24px;
+            text-align: center;
+            cursor: pointer;
+          }
+          &:checked + label {
+            border: 1px solid #a4286a;
+            background-color: #fff;
+            box-shadow: inset 0 0 0 2px #a4286a;
+          }
+          &:checked + label,
+          &:focus + label {
+            border-radius: 10px;
+            border-bottom-right-radius: 0;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+/* Responsive videos. */
+/* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
+.yoast-video-container-max-width {
+	max-width: 560px;
+}
+
+.yoast-video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.yoast-video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

@@ -1,8 +1,8 @@
-jest.unmock( "../step" );
+jest.unmock( "../Step" );
 
 import React from "react";
 import TestUtils from "react-addons-test-utils";
-import Step from "../step";
+import Step from "../Step";
 
 describe( "a step component", () => {
 	let inputProps = {
@@ -18,16 +18,16 @@ describe( "a step component", () => {
 
 	let stepComponent = renderer.getRenderOutput();
 
-	it( "has div container with correct id", () => {
-		expect( stepComponent.type ).toEqual( "div" );
-		expect( stepComponent.props.id ).toEqual( "yoast-wizard-step-container" );
+	it( 'has div container with correct id', () => {
+		expect( stepComponent.type ).toEqual( 'div' );
+		expect( stepComponent.props.className ).toEqual( 'yoast-wizard--step--container' );
 	} );
 
 	it( "has a h1 header title", () => {
 		let header = stepComponent.props.children[ 0 ];
 
-		expect( header.type ).toEqual( "h1" );
-		expect( header.props.children ).toEqual( [ "Step: ", inputProps.title ] );
+		expect( header.type ).toEqual( 'h1' );
+		expect( header.props.children ).toEqual( inputProps.title );
 	} );
 
 	it( "throws an error when required property title is missing", () => {
