@@ -2,7 +2,7 @@ module.exports = {
 	build: {
 		options: {
 			transform: [
-				['babelify', { presets: ['es2015']}]
+				[ "babelify", { presets: [ "es2015" ] } ],
 			],
 			browserifyOptions: {
 				debug: true,
@@ -22,15 +22,15 @@ module.exports = {
 	"release-es6": {
 		options: {
 			transform: [
-				['babelify', { presets: ['es2015'] } ],
+				[ "babelify", { presets: [ "es2015" ] } ],
 
 				// This is here to make a production build of React.
-				['envify', {
-					global: true, // This makes sure we also transform the React files.
-					NODE_ENV: 'production'
-				} ]
-			]
+				[ "envify", {
+					global: true,
+					NODE_ENV: "production",
+				} ],
+			],
 		},
-		files: '<%= browserify.build.files %>'
-	}
+		files: "<%= browserify.build.files %>",
+	},
 };
