@@ -4,6 +4,9 @@ module.exports = {
 			transform: [
 				['babelify', { presets: ['es2015']}]
 			],
+			browserifyOptions: {
+				debug: true,
+			},
 		},
 		files: {
 			"assets/js/dist/yoast-premium-social-preview-370.js": [ "assets/js/src/yoast-premium-social-preview.js" ],
