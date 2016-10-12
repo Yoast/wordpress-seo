@@ -1540,3 +1540,16 @@ ul.wpseo-metabox-premium-advantages {
 #snippet_preview {
 	padding: 0;
 }
+
+@media screen and (max-width: 782px) {
+	.yoast-help-panel {
+		max-width: none !important;
+	}
+	#wpseo-crawl-issues-table-form .subsubsub {
+		float: none;
+		max-width: calc( 100vw - 20px);
+	}
+	#wpseo-crawl-issues-table-form .yoast-help-button {
+		margin-top: 3px;
+	}
+}
