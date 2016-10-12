@@ -1,8 +1,9 @@
 /* browser:true */
 /* global tb_show, wpseoSelect2Locale */
-( function( $ ) {
-	"use strict";
 
+import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+
+( function( $ ) {
 	window.wpseo_init_tabs = function() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" ).on( "click", "a.wpseo_tablink", function( ev ) {
@@ -48,10 +49,14 @@
 		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code
+
+		initializeAlgoliaSearch();
 	};
 
 	/**
-	 * Adds select2 for selected fields.
+	 * @summary Adds select2 for selected fields.
+	 *
+	 * @returns {void}
 	 */
 	function initSelect2() {
 		// Select2 for Yoast SEO Metabox Advanced tab
@@ -60,7 +65,9 @@
 	}
 
 	/**
-	 * Shows a informational popup if someone click the add keyword button
+	 * @summary Shows a informational popup if someone click the add keyword button.
+	 *
+	 * @returns {void}
 	 */
 	function addKeywordPopup() {
 		var $buyButton = $( "#wpseo-add-keyword-popup-button" ),
@@ -108,13 +115,37 @@
 	}
 
 	/**
-	 * Adds keyword popup if the template for it is found
+	 * @summary Adds keyword popup if the template for it is found.
+	 *
+	 * @returns {void}
 	 */
 	function initAddKeywordPopup() {
 		// If add keyword popup exists bind it to the add keyword button
 		if ( 1 === $( "#wpseo-add-keyword-popup" ).length ) {
 			$( ".wpseo-add-keyword" ).on( "click", addKeywordPopup );
 		}
+	}
+
+	/**
+	 * Move the help elements by injecting them into the h3 elements.
+	 *
+	 * @returns {void}
+	 */
+	function moveHelpElements() {
+
+		jQuery( "#wpseo-focuskeyword-section" ).find( "h3" ).after(
+			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
+		);
+
+		jQuery( "#wpseo-pageanalysis-section" ).find( "h3" ).after(
+			jQuery( "#help-yoast-pageanalysis" ).detach().removeClass( "wpseo_hidden" )
+		);
+
+		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
+		// Post/media meta box.
+		jQuery( "#wpseosnippet" ).find( "h3" ).after( snippetHelp );
+		// Taxonomy meta box.
+		jQuery( "#wpseo_snippet" ).find( "h3" ).after( snippetHelp );
 	}
 
 	jQuery( document ).ready( function() {
@@ -126,6 +157,8 @@
 
 		initAddKeywordPopup();
 		initSelect2();
+
+		jQuery( window ).on( "YoastSEO:ready", moveHelpElements );
 	} );
 }( jQuery ) );
 
@@ -137,6 +170,7 @@
  * @deprecated since version 3.0
  *
  * @param {string} str
+ *
  * @returns {string}
  */
 function ystClean( str ) {

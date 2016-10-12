@@ -5,7 +5,7 @@
 
 ?>
 	<script type="text/plain" id="tmpl-redirects-inline-edit">
-			<tr id="inline-edit" class="inline-edit-row" style="display: none">
+			<tr id="inline-edit" class="inline-edit-row hidden">
 				<td colspan="<?php echo $total_columns; ?>" class="colspanchange">
 
 					<fieldset>
@@ -29,10 +29,8 @@
 					</fieldset>
 
 					<p class="inline-edit-save submit">
-						<button type="button" class="button button-primary save alignleft"><?php _e( 'Update Redirect', 'wordpress-seo-premium' ); ?></button>
-						<span class="alignleft">&nbsp;</span>
-						<button type="button" class="button button-secondary cancel alignleft">Cancel</button>
-						<br class="clear" />
+						<button type="button" class="button button-primary save"><?php _e( 'Update Redirect', 'wordpress-seo-premium' ); ?></button>
+						<button type="button" class="button cancel"><?php _e( 'Cancel', 'wordpress-seo-premium' ); ?></button>
 					</p>
 				</td>
 			</tr>

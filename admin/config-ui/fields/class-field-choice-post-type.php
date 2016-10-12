@@ -22,10 +22,11 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 
 		$this->post_type = $post_type;
 
-		$this->set_property( 'label', $label );
+		/* Translators: %1$s expands to the name of the post type. The options given to the user are "visible" and "hidden" */
+		$this->set_property( 'label', sprintf( __( 'The post type "%1$s" should be', 'wordpress-seo' ), $label ) );
 
-		$this->add_choice( 'true', 'Visible' );
-		$this->add_choice( 'false', 'Hidden' );
+		$this->add_choice( 'true', __( 'Visible', 'wordpress-seo' ) );
+		$this->add_choice( 'false', __( 'Hidden', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -58,7 +59,13 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 
 		$key = 'post_types-' . $this->get_post_type() . '-not_in_sitemap';
 
-		return ( ! isset( $option[ $key ] ) || false === $option[ $key ] );
+		$storedData = ! isset( $option[ $key ] ) || false === $option[ $key ];
+
+		if ( $storedData ) {
+			return 'true';
+		}
+
+		return 'false';
 	}
 
 	/**
@@ -73,13 +80,13 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 
 		$option = WPSEO_Options::get_option( 'wpseo_xml' );
 
-		$option[ 'post_types-' . $post_type . '-not_in_sitemap' ] = ( $visible !== 'false' );
+		$option[ 'post_types-' . $post_type . '-not_in_sitemap' ] = ( $visible === 'false' );
 
 		update_option( 'wpseo_xml', $option );
 
 		// Check if everything got saved properly.
 		$saved_option = WPSEO_Options::get_option( 'wpseo_xml' );
 
-		return ( ( $visible !== 'false' ) && $saved_option[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true );
+		return ( ( $visible === 'false' ) && $saved_option[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true );
 	}
 }

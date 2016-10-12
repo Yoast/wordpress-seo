@@ -49,8 +49,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
-		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
-		add_action( 'admin_init', array( $this, 'load_tour' ) );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
@@ -455,45 +453,11 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * See if we should start our tour.
-	 */
-	public function load_tour() {
-		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
-		if ( $restart_tour ) {
-			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
-		}
-
-		if ( ! $this->has_ignored_tour() ) {
-			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
-		}
-	}
-
-	/**
 	 * See if we should start our XML Sitemaps Admin class
 	 */
 	private function load_xml_sitemaps_admin() {
 		if ( $this->options['enablexmlsitemap'] === true ) {
 			new WPSEO_Sitemaps_Admin;
-		}
-	}
-
-	/**
-	 * Returns the value of the ignore tour.
-	 *
-	 * @return bool
-	 */
-	private function has_ignored_tour() {
-		$user_meta = get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
-
-		return ! empty( $user_meta );
-	}
-
-	/**
-	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true.
-	 */
-	public function ignore_tour() {
-		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
-			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
 	}
 

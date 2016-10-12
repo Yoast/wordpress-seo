@@ -52,6 +52,9 @@ class WPSEO_Premium_Javascript_Strings {
 
 			'edit_redirect'     => __( 'Edit redirect', 'wordpress-seo-premium' ),
 			'editing_redirect'  => __( 'You are already editing a redirect, please finish this one first', 'wordpress-seo-premium' ),
+
+			'editAction'   => __( 'Edit', 'wordpress-seo-premium' ),
+			'deleteAction' => __( 'Delete', 'wordpress-seo-premium' ),
 		);
 	}
 

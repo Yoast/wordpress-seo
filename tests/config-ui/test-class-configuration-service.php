@@ -133,10 +133,6 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::initialize()
 	 */
 	public function test_initialize_functions() {
-		$adapter = $this
-			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->getMock();
-
 		$endpoint = $this
 			->getMockBuilder( 'WPSEO_Configuration_Endpoint' )
 			->setMethods( array( 'register' ) )
@@ -146,35 +142,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 			->expects( $this->once() )
 			->method( 'register' );
 
-		$storage = $this
-			->getMockBuilder( 'WPSEO_Configuration_Storage' )
-			->setMethods( array( 'add_default_fields', 'set_adapter' ) )
-			->getMock();
-
-		$storage
-			->expects( $this->once() )
-			->method( 'add_default_fields' );
-
-		$storage
-			->expects( $this->once() )
-			->method( 'set_adapter' )
-			->with( $adapter );
-
-		$components = $this
-			->getMockBuilder( 'WPSEO_Configuration_Components' )
-			->setMethods( array( 'set_storage' ) )
-			->getMock();
-
-		$components
-			->expects( $this->once() )
-			->method( 'set_storage' )
-			->with( $storage );
-
-		$this->configuration_service->set_storage( $storage );
 		$this->configuration_service->set_endpoint( $endpoint );
-		$this->configuration_service->set_options_adapter( $adapter );
-		$this->configuration_service->set_components( $components );
-
 		$this->configuration_service->initialize();
 
 	}
@@ -187,6 +155,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	public function test_get_configuration() {
 		$storage   = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( array( 'retrieve' ) )->getMock();
 		$structure = $this->getMockBuilder( 'WPSEO_Configuration_Structure' )->setMethods( array( 'retrieve' ) )->getMock();
+		$adapter = new WPSEO_Configuration_Options_Adapter();
 
 		$storage
 			->expects( $this->once() )
@@ -199,7 +168,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( array() ) );
 
 		$this->configuration_service->set_storage( $storage );
+		$this->configuration_service->set_options_adapter( $adapter );
 		$this->configuration_service->set_structure( $structure );
+		$this->configuration_service->set_components( new WPSEO_Configuration_Components() );
 
 		$result = $this->configuration_service->get_configuration();
 
@@ -243,6 +214,8 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 			->with( $expected );
 
 		$this->configuration_service->set_storage( $storage );
+		$this->configuration_service->set_options_adapter( new WPSEO_Configuration_Options_Adapter() );
+		$this->configuration_service->set_components( new WPSEO_Configuration_Components() );
 		$this->configuration_service->set_configuration( $data );
 	}
 

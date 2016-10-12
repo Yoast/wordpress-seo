@@ -73,30 +73,32 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['label']       = __( 'Enter a focus keyword', 'wordpress-seo' );
 		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
-		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
+		self::$meta_fields['general']['title']['title']       = __( 'SEO title', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metadesc']['title']       = __( 'Meta description', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta keywords', 'wordpress-seo' );
+		self::$meta_fields['general']['metakeywords']['label']       = __( 'Enter the meta keywords', 'wordpress-seo' );
 		self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
 
 
-		self::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Meta Robots Index', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Meta robots index', 'wordpress-seo' );
 		if ( '0' == get_option( 'blog_public' ) ) {
 			self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
 		}
 		self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for this post type, currently: %s', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = 'Index';
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = 'Noindex';
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = 'index';
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = 'noindex';
 
-		self::$meta_fields['advanced']['meta-robots-nofollow']['title']        = __( 'Meta Robots Follow', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-nofollow']['title']        = __( 'Meta robots follow', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = 'follow';
 		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['1'] = 'nofollow';
 
-		self::$meta_fields['advanced']['meta-robots-adv']['title']                   = __( 'Meta Robots Advanced', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['title']                   = __( 'Meta robots advanced', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['description']             = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['-']            = __( 'Site-wide default: %s', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['none']         = __( 'None', 'wordpress-seo' );
@@ -289,13 +291,23 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
-		// Add Help Center to the metabox see #4701.
-		$tab_video_url = 'https://yoa.st/metabox-screencast';
-		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', 'Meta box',
+			array( 'video_url' => 'https://yoa.st/metabox-screencast' ) );
+
+		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
+		$helpcenter->output_help_center();
+
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+			echo $this->get_buy_premium_link();
+		}
 
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
+			if ( $content_section->name === 'premium' ) {
+				continue;
+			}
+
 			$content_section->display_link();
 		}
 
@@ -323,9 +335,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+			$content_sections[] = $this->get_buy_premium_section();
+		}
+
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
+
 		return $content_sections;
 	}
 
@@ -371,7 +388,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'advanced',
 			$content,
-			__( 'Advanced', 'wordpress-seo' )
+			__( 'Advanced', 'wordpress-seo' ),
+			array(
+				'single' => true,
+			)
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -380,6 +400,81 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			array( $tab ),
 			array(
 				'link_title' => __( 'Advanced', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	/**
+	 * Returns a link to activate the Buy Premium tab.
+	 *
+	 * @return string
+	 */
+	private function get_buy_premium_link() {
+		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+			'wpseo-metabox-buy-premium',
+			__( 'Go Premium', 'wordpress-seo' )
+		);
+	}
+
+	/**
+	 * Returns the metabox section for the Premium section.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_buy_premium_section() {
+		$content = sprintf( "<div class='wpseo-metabox-premium-description'>
+			%s
+			<ul class='wpseo-metabox-premium-advantages'>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+				<li>
+					<strong>%s</strong> - %s
+				</li>
+			</ul>
+
+			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
+				%s
+			</a>
+
+			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
+		</div>",
+			__( 'You\'re not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:', 'wordpress-seo' ),
+			__( 'Redirect manager', 'wordpress-seo' ),
+			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
+			__( 'Multiple focus keywords', 'wordpress-seo' ),
+			__( 'Optimize a single post for up to 5 keywords.', 'wordpress-seo' ),
+			__( 'Social Previews', 'wordpress-seo' ),
+			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
+			__( 'Premium support', 'wordpress-seo' ),
+			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
+			'https://yoa.st/pe-buy-premium',
+			__( 'Get Yoast SEO Premium now!', 'wordpress-seo' ),
+			'https://yoa.st/pe-premium-page',
+			__( 'More info', 'wordpress-seo' )
+			);
+
+		$tab = new WPSEO_Metabox_Form_Tab(
+			'premium',
+			$content,
+			__( 'Yoast SEO Premium', 'wordpress-seo' ),
+			array(
+				'single' => true,
+			)
+		);
+
+		return new WPSEO_Metabox_Tab_Section(
+			'premium',
+			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
+			array( $tab ),
+			array(
+				'link_title' => __( 'Yoast SEO Premium', 'wordpress-seo' ),
 			)
 		);
 	}
@@ -451,13 +546,40 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		switch ( $meta_field_def['type'] ) {
 			case 'pageanalysis':
+				$content .= '<div id="pageanalysis">';
+				$content .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">'. __( 'Analysis', 'wordpress-seo' ) .'</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
+				$content .= '</section>';
+				$content .= '</div>';
 				break;
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
 				break;
+			case 'focuskeyword':
+				if ( $placeholder !== '' ) {
+					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
+				}
 
+				$content .= '<div id="wpseofocuskeyword">';
+				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
+			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
+				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
+				$content .= '</section>';
+				$content .= '</div>';
+				break;
+			case 'metakeywords':
+				$content .= '<div id="wpseometakeywords">';
+				$content .= '<section class="yoast-section" id="wpseo-metakeywords-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-edit">' . esc_html( $meta_field_def['title'] ) . '</h3>';
+			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
+				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= $description;
+				$content .= '</section>';
+				$content .= '</div>';
+				break;
 			case 'text':
 				$ac = '';
 				if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
@@ -466,7 +588,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				if ( $placeholder !== '' ) {
 					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
 				}
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<input type="text"' . $placeholder . 'id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
 				break;
 
 			case 'textarea':
@@ -509,8 +631,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 					$options_count = count( $meta_field_def['options'] );
 
-					// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate.
-					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '"' . $aria_describedby . '>';
+					// This select now uses Select2.
+					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '"' . $aria_describedby . '>';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = '';
 						if ( in_array( $val, $selected_arr ) ) {
@@ -556,8 +678,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			$label = esc_html( $meta_field_def['title'] );
 			if ( in_array( $meta_field_def['type'], array(
-					'snippetpreview',
-					'pageanalysis',
 					'radio',
 					'checkbox',
 				), true ) === false
@@ -570,6 +690,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$help = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
 				$help_button = $help->get_button_html();
 				$help_panel  = $help->get_panel_html();
+			}
+			if ( in_array( $meta_field_def['type'], array(
+					'snippetpreview',
+					'pageanalysis',
+					'focuskeyword',
+					'metakeywords',
+				), true )
+			) {
+				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
@@ -589,6 +718,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 		}
 
+		return $html;
+	}
+
+	/**
+	 * Creates a sections specific row.
+	 *
+	 * @param string $content          The content to show.
+	 * @param string $hidden_help_name Escaped form key name.
+	 * @param string $help_button      The help button.
+	 * @param string $help_panel       The help text.
+	 *
+	 * @return string
+	 */
+	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
+		$html = '<tr><td>';
+		$html .= $content;
+		$html .= '<div class="wpseo_hidden" id="help-yoast-'. $hidden_help_name. '">' . $help_button . $help_panel . '</div>';
+		$html .= '</td></tr>';
 		return $html;
 	}
 
@@ -710,6 +857,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'select2' );
+			$asset_manager->enqueue_style( 'kb-search' );
 
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'admin-media' );
@@ -725,6 +873,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( get_locale() ) );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

@@ -37,6 +37,10 @@ module.exports = function( grunt ) {
 				"frontend/**/*.php",
 				"inc/**/*.php",
 			],
+			pot: {
+				yoastseo: "node_modules/yoastseo/languages/yoast-seo.pot",
+				yoastComponents: "<%= paths.languages %>/yoast-components.pot",
+			},
 			phptests: "tests/**/*.php",
 			get config() {
 				return project.paths.config + "*.js";
