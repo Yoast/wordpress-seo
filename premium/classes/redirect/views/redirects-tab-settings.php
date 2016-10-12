@@ -59,7 +59,7 @@ if ( ! empty( $redirect_file ) ) {
 	?>
 
 <div id="table-settings" class="tab-url redirect-table-tab">
-<?php echo '<h2>' . esc_html( 'Redirects settings', 'wordpress-seo' ) . '</h2>'; ?>
+<?php echo '<h2>' . esc_html( 'Redirects settings', 'wordpress-seo-premium' ) . '</h2>'; ?>
 	<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
 		<?php
 		settings_fields( 'yoast_wpseo_redirect_options' );

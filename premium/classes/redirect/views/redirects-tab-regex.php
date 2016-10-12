@@ -12,7 +12,7 @@
 ?>
 
 <div id="table-regex" class="tab-url redirect-table-tab">
-<?php echo '<h2>' . esc_html( 'Regular Expressions redirects', 'wordpress-seo' ) . '</h2>'; ?>
+<?php echo '<h2>' . esc_html( 'Regular Expressions redirects', 'wordpress-seo-premium' ) . '</h2>'; ?>
 	<p>
 		<?php
 		printf(
