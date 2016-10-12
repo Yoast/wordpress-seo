@@ -67,14 +67,15 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 	public function set_data( $data ) {
 		$value = ( $data === 'yes' );
 
-		$option                           = WPSEO_Options::get_option( 'wpseo' );
-		$option['has_multiple_authors'] = $value;
+		// Set multiple authors option.
+		$result_multiple_authors = WPSEO_Options::save_option( 'wpseo', 'has_multiple_authors', $value );
 
-		update_option( 'wpseo', $option );
+		/*
+		 * Set disable author archives option. When multiple authors is set to true,
+		 * the disable author option has to be false. Because of this the $value is inversed.
+		 */
+		$result_author_archives = WPSEO_Options::save_option( 'wpseo_titles', 'disable-author', ! $value );
 
-		// Check if everything got saved properly.
-		$saved_option = WPSEO_Options::get_option( 'wpseo' );
-
-		return ( $saved_option['has_multiple_authors'] === $option['has_multiple_authors'] );
+		return ( $result_multiple_authors === true && $result_author_archives === true );
 	}
 }
