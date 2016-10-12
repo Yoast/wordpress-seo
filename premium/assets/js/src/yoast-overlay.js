@@ -1,25 +1,24 @@
-/* jshint -W097 */
 var yoast_overlay = null;
 ( function( $ ) {
 	yoast_overlay = {
 		messages: [],
-		current_message: null,
+		currentMessage: null,
 		add_message: function( title, text, autoclose ) {
 			this.messages.push( { title: title, text: text, autoclose: autoclose } );
 			this.display_message();
 		},
 		close_message: function( el ) {
 			$( el ).remove();
-			this.current_message = null;
+			this.currentMessage = null;
 			this.display_message();
 		},
 		display_message: function() {
-			if ( this.current_message === null && this.messages.length > 0 ) {
+			if ( this.currentMessage === null && this.messages.length > 0 ) {
 				// Store this in a local var.
 				var that = this;
 
 				// Set the current message.
-				this.current_message = this.messages.shift();
+				this.currentMessage = this.messages.shift();
 
 				// Create the element.
 				var el = $( "<div>" );
@@ -40,13 +39,13 @@ var yoast_overlay = null;
 
 				// The title.
 				$( el ).append( $( "<h2>" )
-					.html( this.current_message.title )
+					.html( this.currentMessage.title )
 					.css( "margin", 0 )
 					.css( "padding", "0 0 7px" )
 					.css( "border-bottom", "1px solid #f18500" ) );
 
 				// The text.
-				$( el ).append( $( "<p>" ).css( "margin-bottom", 0 ).html( this.current_message.text ) );
+				$( el ).append( $( "<p>" ).css( "margin-bottom", 0 ).html( this.currentMessage.text ) );
 
 				// The close button.
 				var elClose = $( "<a>" )
@@ -71,12 +70,12 @@ var yoast_overlay = null;
 				$( "body" ).append( el );
 
 				// Check autoclose
-				if ( this.current_message.autoclose !== undefined &&
-					this.current_message.autoclose !== false &&
-					this.current_message.autoclose > 0 ) {
+				if ( typeof this.currentMessage.autoclose !== "undefined" &&
+					this.currentMessage.autoclose !== false &&
+					this.currentMessage.autoclose > 0 ) {
 					setTimeout( function() {
 						that.close_message( el );
-					}, ( this.current_message.autoclose * 1000 )
+					}, ( this.currentMessage.autoclose * 1000 )
 					);
 				}
 			}

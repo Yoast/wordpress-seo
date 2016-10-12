@@ -1,5 +1,4 @@
 /* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO, ajaxurl  */
-/* jshint -W097 */
 
 var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 var helpPanel = require( "./helpPanel" );
@@ -81,7 +80,7 @@ var socialPreviews = require( "yoast-social-previews" );
 			socialPreviewUploader.open();
 		} );
 
-		$( imagePreviewElement ).on( "click", function( eventObject ) {
+		$( imagePreviewElement ).on( "click", function() {
 			socialPreviewUploader.open();
 		} );
 	}
@@ -425,11 +424,11 @@ var socialPreviews = require( "yoast-social-previews" );
 		}
 
 		var facebookTitle = $( "#facebook-editor-title" ).val();
-		if ( facebookTitle !== "" ) {
-			twitterPreview.setTitle( facebookTitle );
-		} else {
-			twitterPreview.setTitle( $twitterTitle.attr( "placeholder" ) );
+		if ( facebookTitle === "" ) {
+			facebookTitle = $twitterTitle.attr( "placeholder" );
 		}
+
+		twitterPreview.setTitle( facebookTitle );
 	}
 
 	/**
@@ -446,11 +445,11 @@ var socialPreviews = require( "yoast-social-previews" );
 		}
 
 		var facebookDescription = $( "#facebook-editor-description" ).val();
-		if ( facebookDescription !== "" ) {
-			twitterPreview.setDescription( facebookDescription );
-		} else {
-			twitterPreview.setDescription( $twitterDescription.attr( "placeholder" ) );
+		if ( facebookDescription === "" ) {
+			facebookDescription = $twitterDescription.attr( "placeholder" );
 		}
+
+		twitterPreview.setDescription( facebookDescription );
 	}
 
 	/**
@@ -761,7 +760,7 @@ var socialPreviews = require( "yoast-social-previews" );
 			return imageFallBack.content;
 		}
 
-		if ( defaultImage !== undefined ) {
+		if ( typeof defaultImage !== "undefined" ) {
 			return defaultImage;
 		}
 

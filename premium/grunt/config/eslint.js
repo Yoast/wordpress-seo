@@ -9,7 +9,7 @@ module.exports = {
 	grunt: {
 		src: [ "<%= files.grunt %>", "<%= files.config %>" ],
 		options: {
-			maxWarnings: 298,
+			maxWarnings: 285,
 		},
 	},
 };
