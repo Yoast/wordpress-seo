@@ -97,7 +97,7 @@ class WPSEO_Social_Previews {
 	 * Register the required assets.
 	 */
 	private function register_assets() {
-		wp_register_script( 'yoast-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-social-preview-350' . WPSEO_CSSJS_SUFFIX . '.js', array(
+		wp_register_script( 'yoast-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-social-preview-370' . WPSEO_CSSJS_SUFFIX . '.js', array(
 			'jquery',
 			'jquery-ui-core',
 		), WPSEO_VERSION );
@@ -107,7 +107,7 @@ class WPSEO_Social_Previews {
 		$deps = array( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox-css' );
 
 		wp_register_style( 'yoast-social-preview-css', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/dist/social_preview/yoast-social-preview-' . '350' . '.min.css', $deps, WPSEO_VERSION );
-		wp_register_style( 'yoast-premium-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-social-preview-' . '340' . '.min.css', $deps, WPSEO_VERSION );
+		wp_register_style( 'yoast-premium-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-social-preview-' . '340' . '.min.css', $deps, WPSEO_VERSION );
 	}
 
 	/**

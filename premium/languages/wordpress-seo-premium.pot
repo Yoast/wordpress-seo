@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-09-08 11:52:26+00:00\n"
+"POT-Creation-Date: 2016-10-11 11:30:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,19 +24,29 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:322
+#: class-premium.php:85
+msgid "Metabox insights"
+msgstr ""
+
+#: class-premium.php:87
+msgid ""
+"The metabox insights section contains insights about your content, like an "
+"overview of the most prominent words in your text."
+msgstr ""
+
+#: class-premium.php:343
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:354
+#: class-premium.php:375
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:373 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:394 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:407
+#: class-premium.php:428
 msgid "Enabled"
 msgstr ""
 
@@ -118,7 +128,11 @@ msgid ""
 "redirects into %2$s."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:280
+#: classes/class-premium-import-manager.php:279
+msgid "Enter redirects to import"
+msgstr ""
+
+#: classes/class-premium-import-manager.php:281
 msgid "Import .htaccess"
 msgstr ""
 
@@ -191,6 +205,7 @@ msgid "OK"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:49
+#: classes/redirect/views/redirects-quick-edit.php:33
 msgid "Cancel"
 msgstr ""
 
@@ -209,6 +224,17 @@ msgstr ""
 
 #: classes/class-premium-javascript-strings.php:54
 msgid "You are already editing a redirect, please finish this one first"
+msgstr ""
+
+#: classes/class-premium-javascript-strings.php:56
+#: classes/redirect/class-redirect-table.php:325
+msgid "Edit"
+msgstr ""
+
+#: classes/class-premium-javascript-strings.php:57
+#: classes/redirect/class-redirect-table.php:236
+#: classes/redirect/class-redirect-table.php:326
+msgid "Delete"
 msgstr ""
 
 #: classes/class-social-previews.php:129
@@ -371,6 +397,14 @@ msgid ""
 "\t\t\t\t\tPlease choose a different URL to redirect to."
 msgstr ""
 
+#. translators: %1$s expands to the subdirectory WordPress is installed.
+#: classes/redirect/class-redirect-subdirectory-validation.php:41
+msgid ""
+"Your redirect is missing the subdirectory where WordPress is installed in. "
+"This will result in a redirect that won't work. Make sure the redirect "
+"starts with %1$s"
+msgstr ""
+
 #: classes/redirect/class-redirect-table-presenter.php:67
 msgid "Regular Expression"
 msgstr ""
@@ -383,13 +417,8 @@ msgstr ""
 msgid "New URL"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:231
-#: classes/redirect/class-redirect-table.php:317
-msgid "Delete"
-msgstr ""
-
-#: classes/redirect/class-redirect-table.php:316
-msgid "Edit"
+#: classes/redirect/class-redirect-table.php:178
+msgid "Select this redirect"
 msgstr ""
 
 #: classes/redirect/class-redirect-uniqueness-validation.php:34
