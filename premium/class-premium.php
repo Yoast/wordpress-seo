@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '3.6.1';
+	const PLUGIN_VERSION_NAME = '3.7.1';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://my.yoast.com';
@@ -78,15 +78,17 @@ class WPSEO_Premium {
 	 * @return array
 	 */
 	public function add_feature_toggles( array $feature_toggles ) {
-		$premium_toggles = array(
-			(object) array(
+		$language = WPSEO_Utils::get_language( get_locale() );
+
+		if ( $language === 'en' ) {
+			$feature_toggles[] = (object) array(
 				'name'    => __( 'Metabox insights', 'wordpress-seo-premium' ),
 				'setting' => 'enable_metabox_insights',
 				'label'   => __( 'The metabox insights section contains insights about your content, like an overview of the most prominent words in your text.', 'wordpress-seo-premium' ),
-			),
-		);
+			);
+		}
 
-		return array_merge( $feature_toggles, $premium_toggles );
+		return $feature_toggles;
 	}
 
 	/**
@@ -509,6 +511,6 @@ class WPSEO_Premium {
 	 * Add the Yoast contact support assets
 	 */
 	public function enqueue_contact_support() {
-		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-contact-support-350' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-contact-support-370' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 	}
 }
