@@ -1377,3 +1377,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .wpseo-add-fb-admin-form-wrap .notice span {
 	margin-left: 10px;
 }
+
+#author-archives-titles-metas-content,
+#date-archives-titles-metas-content {
+	padding-top: 1em;
+}
