@@ -60,6 +60,7 @@ AssessorPresenter.prototype.getIndicator = function( rating ) {
 		className: this.getIndicatorColorClass( rating ),
 		screenReaderText: this.getIndicatorScreenReaderText( rating ),
 		fullText: this.getIndicatorFullText( rating ),
+		screenReaderReadabilityText: this.getIndicatorScreenReaderReadabilityText( rating ),
 	};
 };
 
@@ -87,6 +88,19 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
 	}
 
 	return this.presenterConfig[ rating ].screenReaderText;
+};
+
+/**
+ * Get the indicator screen reader readability text from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} Translated string containing the screen reader readability text to be used.
+ */
+AssessorPresenter.prototype.getIndicatorScreenReaderReadabilityText = function( rating ) {
+	if ( ! this.configHasProperty( rating ) ) {
+		return "";
+	}
+
+	return this.presenterConfig[ rating ].screenReaderReadabilityText;
 };
 
 /**
