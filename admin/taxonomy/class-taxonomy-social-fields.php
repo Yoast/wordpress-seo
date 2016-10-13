@@ -60,7 +60,7 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 				/* translators: %1$s expands to the social network name */
 				sprintf( esc_html__( 'If you want to use an image for sharing on %1$s, you can upload / choose an image or add the image URL here.', 'wordpress-seo' ), $settings['label'] ) . '<br />' .
 				/* translators: %1$s expands to the social network name, %2$s expands to the image size */
-				sprintf( __( 'The recommended image size for %1$s is %2$spx.', 'wordpress-seo' ), $settings['label'], $settings['size'] ),
+				sprintf( __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' ), $settings['label'], $settings['size'] ),
 				'upload'
 			),
 		);
@@ -90,8 +90,8 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	private function get_social_networks() {
 		$social_networks = array(
 			// Source: https://developers.facebook.com/docs/sharing/best-practices#images.
-			'opengraph'  => $this->social_network( 'opengraph', __( 'Facebook', 'wordpress-seo' ), '1200 × 630' ),
-			'twitter'    => $this->social_network( 'twitter', __( 'Twitter', 'wordpress-seo' ), '1024 × 512' ),
+			'opengraph'  => $this->social_network( 'opengraph', __( 'Facebook', 'wordpress-seo' ), __( '1200 by 630', 'wordpress-seo' ) ),
+			'twitter'    => $this->social_network( 'twitter', __( 'Twitter', 'wordpress-seo' ), __( '1024 by 512', 'wordpress-seo' ) ),
 		);
 		$social_networks = $this->filter_social_networks( $social_networks );
 
