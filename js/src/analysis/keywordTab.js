@@ -1,4 +1,4 @@
-/* global wp, jQuery, YoastSEO */
+/* global wp, jQuery */
 var isUndefined = require( "lodash/isUndefined" );
 var defaultsDeep = require( "lodash/defaultsDeep" );
 
