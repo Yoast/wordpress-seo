@@ -89,7 +89,7 @@ module.exports = ( function() {
 		var indicator = this.getIndicator( score );
 
 		this.score = indicator.className;
-		this.scoreText = indicator.screenReaderText;
+		this.scoreText = indicator.screenReaderReadabilityText;
 
 		this.refresh();
 	};

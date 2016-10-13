@@ -327,7 +327,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content_sections = array( $this->get_content_meta_section() );
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
-		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
+		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
