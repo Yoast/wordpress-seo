@@ -230,7 +230,7 @@ YoastMultiKeyword.prototype.addKeywordTabs = function() {
 	} );
 
 	// Clear the container
-	$( "#wpseo-metabox-tabs" ).find( ".wpseo_keyword_tab" ).remove();
+	$( ".wpseo-metabox-tabs" ).find( ".wpseo_keyword_tab" ).remove();
 
 	if ( keywords.length > 0 ) {
 		keywords.forEach( function( keywordObject, index ) {

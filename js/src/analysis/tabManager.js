@@ -38,7 +38,7 @@ function TabManager( args ) {
  * @returns {void}
  */
 TabManager.prototype.init = function() {
-	var metaboxTabs = $( "#wpseo-metabox-tabs" );
+	var metaboxTabs = $( ".wpseo-metabox-tabs" );
 
 	// Remove default functionality to prevent scrolling to top.
 	metaboxTabs.on( "click", ".wpseo_tablink", function( ev ) {
