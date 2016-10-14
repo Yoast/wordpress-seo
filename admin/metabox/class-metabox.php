@@ -213,6 +213,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Adds CSS classes to the meta box.
+	 *
+	 * @param array $classes An array of postbox CSS classes.
+	 *
+	 * @return array
 	 */
 	public function wpseo_metabox_class( $classes ) {
 		$classes[] = 'yoast wpseo-metabox';
