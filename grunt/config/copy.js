@@ -1,4 +1,4 @@
-// https://github.com/gruntjs/grunt-contrib-copy
+// See https://github.com/gruntjs/grunt-contrib-copy
 module.exports = {
 	dependencies: {
 		files: [

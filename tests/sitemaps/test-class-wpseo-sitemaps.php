@@ -25,21 +25,6 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Sitemaps::get_last_modified
-	 */
-	public function test_get_last_modified() {
-
-		// create and go to post
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$date = self::$class_instance->get_last_modified( array( 'post' ) );
-		$post = get_post( $post_id );
-
-		$this->assertEquals( $date, date( 'c', strtotime( $post->post_modified_gmt ) ) );
-	}
-
-	/**
 	 * Test the nested sitemap generation.
 	 */
 	public function test_post_sitemap() {
@@ -87,7 +72,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		) );
 	}
 
-	/**d
+	/**
 	 * Test for last modified date
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
@@ -97,10 +82,12 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		$older_date  = '2015-01-01 12:00:00';
 		$newest_date = '2016-01-01 12:00:00';
 
-		$this->factory->post->create( array( 'post_status' => 'publish', 'post_date' => $newest_date ) );
-		$this->factory->post->create( array( 'post_status' => 'publish', 'post_date' => $older_date ) );
+		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
 
-		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( array( 'post' ) ) );
+		$this->factory->post->create( array( 'post_status' => 'publish', 'post_type' => 'yoast', 'post_date' => $newest_date ) );
+		$this->factory->post->create( array( 'post_status' => 'publish', 'post_type' => 'yoast', 'post_date' => $older_date ) );
+
+		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( array( 'yoast' ) ) );
 	}
 
 	/**

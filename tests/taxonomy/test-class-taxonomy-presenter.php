@@ -43,7 +43,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$expected = '<tr><th scope="row"><label for="wpseo_fieldname">test field</label></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/><p class="description">this is a test field</p></td></tr>';
+		$expected = '<tr><th scope="row"><label for="wpseo_fieldname">test field</label></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc">this is a test field</p></td></tr>';
 		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
 
 		$this->assertEquals( $expected, $output );
@@ -66,7 +66,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$expected = '<tr><th scope="row"></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/><p class="description">this is a test field</p></td></tr>';
+		$expected = '<tr><th scope="row"></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc">this is a test field</p></td></tr>';
 		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
 
 		$this->assertEquals( $expected, $output );
@@ -192,15 +192,13 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 				'fieldname' => array(
 					'label'       => 'test field',
 					'type'        => 'upload',
-					'description' => '',
-					'options'     => array(
-						'description' => 'description for the field'
-					)
+					'description' => 'description for the field',
+					'options'     => ''
 				)
 			)
 		);
 
-		$this->assertContains( '<p class="description">description for the field</p>', $output );
+		$this->assertContains( '<p id="wpseo_fieldname-desc">description for the field</p>', $output );
 	}
 
 }

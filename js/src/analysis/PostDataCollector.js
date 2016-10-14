@@ -33,6 +33,8 @@ let PostDataCollector = function( args ) {
 /**
  * Get data from input fields and store them in an analyzerData object. This object will be used to fill
  * the analyzer and the snippet preview.
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.getData = function() {
 	return {
@@ -225,6 +227,8 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  * When the snippet is updated, update the (hidden) fields on the page.
  * @param {Object} value
  * @param {String} type
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
@@ -267,6 +271,8 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
  * @param {string} data.title
  * @param {string} data.urlPath
  * @param {string} data.metaDesc
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.saveSnippetData = function( data ) {
 	this.setDataFromSnippet( data.title, "snippet_title" );
@@ -276,6 +282,8 @@ PostDataCollector.prototype.saveSnippetData = function( data ) {
 
 /**
  * Calls the event binders.
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.bindElementEvents = function( app ) {
 	this.inputElementEventBinder( app );
@@ -284,6 +292,8 @@ PostDataCollector.prototype.bindElementEvents = function( app ) {
 
 /**
  * Binds the reanalyze timer on change of dom element.
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.changeElementEventBinder = function( app ) {
 	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
@@ -294,6 +304,8 @@ PostDataCollector.prototype.changeElementEventBinder = function( app ) {
 
 /**
  * Binds the renewData function on the change of input elements.
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.inputElementEventBinder = function( app ) {
 	var elems = [ "excerpt", "content", "yoast_wpseo_focuskw_text_input", "title" ];
@@ -311,6 +323,8 @@ PostDataCollector.prototype.inputElementEventBinder = function( app ) {
 
 /**
  * Resets the current queue if focus keyword is changed and not empty.
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.resetQueue = function() {
 	if ( this.app.rawData.keyword !== "" ) {
@@ -322,7 +336,9 @@ PostDataCollector.prototype.resetQueue = function() {
  * Saves the score to the linkdex.
  * Outputs the score in the overall target.
  *
- * @param {string} score
+ * @param {string} score The score to save.
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.saveScores = function( score ) {
 	var indicator = getIndicatorForScore( score );
@@ -359,7 +375,9 @@ PostDataCollector.prototype.saveScores = function( score ) {
 /**
  * Saves the content score to a hidden field.
  *
- * @param {number} score
+ * @param {number} score The score to save.
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.saveContentScore = function( score ) {
 	this._tabManager.updateContentTab( score );
@@ -376,6 +394,8 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 
 /**
  * Initializes keyword tab with the correct template if multi keyword isn't available.
+ *
+ * @returns {void}
  */
 PostDataCollector.prototype.initKeywordTabTemplate = function() {
 	// If multi keyword is available we don't have to initialize this as multi keyword does this for us.

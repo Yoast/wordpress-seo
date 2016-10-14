@@ -18,6 +18,7 @@ class WPSEO_Admin_Asset {
 
 	// Style specific.
 	const MEDIA = 'media';
+	const RTL = 'rtl';
 
 	// Script specific.
 	const IN_FOOTER = 'in_footer';
@@ -53,6 +54,11 @@ class WPSEO_Admin_Asset {
 	protected $in_footer;
 
 	/**
+	 * @var boolean
+	 */
+	protected $rtl;
+
+	/**
 	 * @var string
 	 */
 	protected $suffix;
@@ -75,6 +81,7 @@ class WPSEO_Admin_Asset {
 			'deps'      => array(),
 			'version'   => WPSEO_VERSION,
 			'in_footer' => true,
+			'rtl'       => true,
 			'media'     => 'all',
 			'suffix'    => WPSEO_CSSJS_SUFFIX,
 		), $args );
@@ -85,6 +92,7 @@ class WPSEO_Admin_Asset {
 		$this->version   = $args['version'];
 		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
+		$this->rtl       = $args['rtl'];
 		$this->suffix    = $args['suffix'];
 	}
 
@@ -128,6 +136,13 @@ class WPSEO_Admin_Asset {
 	 */
 	public function is_in_footer() {
 		return $this->in_footer;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function has_rtl() {
+		return $this->rtl;
 	}
 
 	/**
@@ -185,7 +200,7 @@ class WPSEO_Admin_Asset {
 	 * @return string
 	 */
 	protected function get_relative_path( $type, $force_suffix = null ) {
-		$relative_path = '';
+		$relative_path = $rtl_path = $rtl_suffix = '';
 
 		$suffix = ( is_null( $force_suffix ) ) ? $this->get_suffix() : $force_suffix;
 
@@ -195,7 +210,12 @@ class WPSEO_Admin_Asset {
 				break;
 
 			case self::TYPE_CSS:
-				$relative_path = 'css/' . $this->get_src() . $suffix . '.css';
+				// Path and suffix for RTL stylesheets.
+				if ( function_exists( 'is_rtl' ) && is_rtl() && $this->has_rtl() ) {
+					$rtl_path = 'dist/';
+					$rtl_suffix = '-rtl';
+				}
+				$relative_path = 'css/' . $rtl_path . $this->get_src() . $rtl_suffix . $suffix . '.css';
 				break;
 		}
 

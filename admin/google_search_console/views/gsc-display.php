@@ -12,8 +12,8 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 	?>
 		<form action="" method="post">
 			<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />
-			<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button button-primary"
-				   style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
+			<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button button-primary alignright"
+				   value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
 		</form>
 <?php } ?>
 		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs; ?>
@@ -23,13 +23,15 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== 
 
 // Video explains about the options when connected only.
 if ( null !== $this->service->get_client()->getAccessToken() ) {
-	$tab_video_url = 'https://yoa.st/screencast-search-console';
-	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+	$video_url = 'https://yoa.st/screencast-search-console';
 }
 else {
-	$tab_video_url = 'https://yoa.st/screencast-connect-search-console';
-	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+	$video_url = 'https://yoa.st/screencast-connect-search-console';
 }
+
+$tab = new WPSEO_Option_Tab( 'GSC', __( 'Google Search Console' ), array( 'video_url' => $video_url ) );
+$GSCHelpCenter = new WPSEO_Help_Center( 'google-search-console', $tab );
+$GSCHelpCenter->output_help_center();
 
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
@@ -41,7 +43,7 @@ switch ( $platform_tabs->current_tab() ) {
 			echo sprintf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
 			echo "</p>\n";
 			echo '<input type="hidden" id="gsc_auth_url" value="', $this->service->get_client()->createAuthUrl() , '" />';
-			echo "<button type='button' id='gsc_auth_code' class='button button-secondary'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
+			echo "<button type='button' id='gsc_auth_code' class='button'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
 
 			echo '<p id="gsc-enter-code-label">' . __( 'Enter your Google Authorization Code and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
 			echo "<form action='" . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . "' method='post'>\n";
@@ -51,7 +53,7 @@ switch ( $platform_tabs->current_tab() ) {
 			echo "</form>\n";
 		}
 		else {
-			$reset_button = '<a class="button button-secondary" href="' . add_query_arg( 'gsc_reset', 1 ) . '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
+			$reset_button = '<a class="button" href="' . add_query_arg( 'gsc_reset', 1 ) . '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
 			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
 			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
 				echo '<p>';
@@ -98,8 +100,8 @@ switch ( $platform_tabs->current_tab() ) {
 		get_current_screen()->set_screen_reader_content( array(
 			// There are no views links in this screen, so no need for the views heading.
 			'heading_views'      => null,
-			'heading_pagination' => __( 'Crawl issues list navigation' ),
-			'heading_list'       => __( 'Crawl issues list' ),
+			'heading_pagination' => __( 'Crawl issues list navigation', 'wordpress-seo' ),
+			'heading_list'       => __( 'Crawl issues list', 'wordpress-seo' ),
 		) );
 
 		// Open <form>.

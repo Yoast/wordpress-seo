@@ -1,0 +1,137 @@
+.fieldset-switch-toggle label {
+	float: none;
+}
+
+@media only screen {
+	.switch-light.switch-yoast-seo {
+		margin-bottom: 0.2em;
+	}
+
+	.fieldset-switch-toggle legend,
+	.switch-light.switch-yoast-seo > strong {
+		display: block;
+		box-sizing: border-box;
+		min-width: 200px;
+		margin-top: 10px;
+		padding-left: 1em;
+		font-weight: bold;
+		line-height: 2em;
+		vertical-align: middle;
+	}
+
+	.switch-toggle.switch-yoast-seo,
+	.switch-light.switch-yoast-seo > span {
+		width: 250px;
+		border: 1px solid #ccc;
+		border-radius: 0.5em;
+		background-color: #dcdcdc;
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+	}
+
+	.switch-toggle.switch-yoast-seo {
+		float: right;
+	}
+
+	.switch-light.switch-yoast-seo > span {
+		/* to contain floats instead of the original overflow: hidden; */
+		display: inline-block;
+		/* to make the focus style fully visible */
+		overflow: visible;
+		/*float: right;*/
+	}
+
+	.switch-toggle.switch-yoast-seo a,
+	.switch-light.switch-yoast-seo a {
+		border-color: #b5b5b5;
+		border-radius: 0.5em;
+		background: #a4286a none;
+	}
+
+/* reset and rebuild focus style */
+	.switch-toggle.switch-yoast-seo input:focus ~ span a,
+	.switch-light.switch-yoast-seo input:focus ~ span a,
+	.switch-toggle.switch-yoast-seo input:focus + label,
+	.switch-light.switch-yoast-seo input:focus + label {
+		outline: none;
+	}
+
+	.switch-toggle.switch-yoast-seo input:focus ~ a,
+	.switch-light.switch-yoast-seo input:focus ~ span a {
+		border-color: #5b9dd9;
+		box-shadow: 0 0 2px rgba(0, 115, 170, 0.8);
+	}
+
+	.switch-toggle.switch-yoast-seo input:checked ~ span a,
+	.switch-light.switch-yoast-seo input:checked ~ span a {
+		border-color: #b5b5b5;
+		background: #a4286a none;
+	}
+
+	.switch-light.switch-yoast-seo span span,
+	.switch-light.switch-yoast-seo input:checked ~ span span:first-child,
+	.switch-toggle.switch-yoast-seo label {
+		color: #333;
+		text-shadow: none;
+		font-weight: inherit;
+	}
+
+	.switch-candy.switch-yoast-seo input ~ span span:first-child,
+	.switch-candy.switch-yoast-seo input:checked ~ span span:nth-child(2),
+	.switch-candy.switch-yoast-seo input:checked + label {
+		color: #fff;
+		text-shadow: none;
+	}
+
+	.switch-light.switch-yoast-seo-reverse input:checked ~ span a {
+		right: 0;
+	}
+
+	.switch-light.switch-yoast-seo-reverse a {
+		right: 50%;
+	}
+
+	.switch-light.switch-yoast-seo-reverse span span {
+		float: left;
+	}
+
+	.switch-toggle.switch-yoast-seo label,
+	label.switch-light.switch-yoast-seo {
+		margin-right: 0;
+		/* to help old iOS: ensure labels have cursor pointer instead of
+		   using the empty onclick hack */
+		cursor: pointer;
+	}
+
+/* IE11 and JAWS 17.0 need this hack */
+	.switch-yoast-seo .switch-yoast-seo-jaws-a11y {
+		display: block;
+		overflow: hidden;
+		height: 1px;
+		margin-bottom: -1px;
+	}
+
+	.switch-toggle.switch-yoast-seo label code,
+	.switch-light.switch-yoast-seo label code {
+		background-color: inherit;
+		vertical-align: top;
+	}
+
+	.switch-container .label-text {
+		display: block;
+		margin: 0.5em 0;
+		font-weight: 600;
+	}
+
+	.switch-container {
+		clear: both;
+		margin: 0 0 1em 0;
+	}
+
+	.switch-container + .switch-container {
+		margin-top: 0.5em;
+	}
+
+	.switch-container + p {
+		margin: -0.5em 0 1em 0;
+	}
+}

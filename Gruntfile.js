@@ -15,6 +15,7 @@ module.exports = function( grunt ) {
 				return this.grunt + "config/";
 			},
 			css: "css/",
+			sass: "css/src/",
 			grunt: "grunt/",
 			images: "images/",
 			js: "js/src/",
@@ -22,7 +23,7 @@ module.exports = function( grunt ) {
 			logs: "logs/",
 		},
 		files: {
-			sass: [ "css/src/*.scss" ],
+			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
 				"css/*.css",
 				"!css/*.min.css",
@@ -36,6 +37,10 @@ module.exports = function( grunt ) {
 				"frontend/**/*.php",
 				"inc/**/*.php",
 			],
+			pot: {
+				yoastseo: "node_modules/yoastseo/languages/yoast-seo.pot",
+				yoastComponents: "<%= paths.languages %>/yoast-components.pot",
+			},
 			phptests: "tests/**/*.php",
 			get config() {
 				return project.paths.config + "*.js";
