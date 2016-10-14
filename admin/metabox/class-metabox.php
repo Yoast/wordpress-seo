@@ -199,8 +199,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$product_title .= ' Premium';
 					}
 
-					$screen_id = get_current_screen()->id;
-					add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+					if ( null !== get_current_screen() ) {
+						$screen_id = get_current_screen()->id;
+						add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+					}
 
 					add_meta_box( 'wpseo_meta', $product_title, array(
 						$this,
