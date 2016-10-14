@@ -16,7 +16,11 @@ class WPSEO_Admin_Stop_WordsTest extends PHPUnit_Framework_TestCase {
 	public function test_remove_stop_words() {
 		$original = 'and-without-about-stop-blaat-words';
 		$expected = 'without-stop-words';
-		$subject = $this->getMock( 'WPSEO_Admin_Stop_Words', array( 'list_stop_words' ) );
+		$subject  =
+			$this
+				->getMockBuilder( 'WPSEO_Admin_Stop_Words' )
+				->setMethods( array( 'list_stop_words' ) )
+				->getMock();
 
 		$subject
 			->expects( $this->once() )

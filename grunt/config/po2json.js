@@ -1,19 +1,25 @@
-// https://github.com/rockykitamura/grunt-po2json
+// See https://github.com/rockykitamura/grunt-po2json
 module.exports = {
+	options: {
+		format: "jed1.x",
+		domain: "wordpress-seo",
+	},
 	all: {
-		options: {
-			format: 'jed1.x',
-			domain: 'wordpress-seo'
+		src: [ "languages/*.po" ],
+		dest: "languages",
+	},
+	yoastComponents: {
+		src: [ "languages/*.po" ],
+		dest: "languages",
+		fileName: ( fileName ) => {
+			return fileName.replace( "wordpress-seo", "yoast-components" );
 		},
-		src: ['languages/*.po'],
-		dest: 'languages'
 	},
 	js: {
-		options: {
-			format: 'jed1.x',
-			domain: 'wordpress-seo'
-		},
-		src: ['node_modules/yoastseo/languages/yoast-seo.pot'],
-		dest: 'languages'
-	}
+		src: [
+			"<%= files.pot.yoastseo %>",
+			"<%= files.pot.yoastComponents %>",
+		],
+		dest: "languages",
+	},
 };

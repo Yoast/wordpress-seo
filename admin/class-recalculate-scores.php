@@ -41,7 +41,7 @@ class WPSEO_Recalculate_Scores {
 		);
 
 		?>
-		<div id="wpseo_recalculate" style="display:none;">
+		<div id="wpseo_recalculate" class="hidden">
 			<p><?php esc_html_e( 'Recalculating SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ); ?></p>
 
 			<div id="wpseo_progressbar"></div>

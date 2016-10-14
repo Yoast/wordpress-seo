@@ -106,7 +106,7 @@ class WPSEO_Meta {
 				'help-button'  => '', // Translation added later.
 			),
 			'focuskw_text_input' => array(
-				'type'          => 'text',
+				'type'          => 'focuskeyword',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'autocomplete'  => false,
@@ -147,7 +147,7 @@ class WPSEO_Meta {
 				'description'   => '',
 			),
 			'metakeywords'   => array(
-				'type'          => 'text',
+				'type'          => 'metakeywords',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metakeywords',
@@ -533,12 +533,10 @@ class WPSEO_Meta {
 						'&lt;',
 						'&gt;',
 						'&quot',
-						'&#39',
 						'&#96',
 						'<',
 						'>',
 						'"',
-						'\'',
 						'`',
 					), '', $clean );
 				}
@@ -1057,6 +1055,11 @@ class WPSEO_Meta {
 	 * @return array
 	 */
 	public static function keyword_usage( $keyword, $post_id ) {
+
+		if ( empty( $keyword ) ) {
+			return array();
+		}
+
 		$get_posts = new WP_Query(
 			array(
 				'meta_key'       => '_yoast_wpseo_focuskw',
