@@ -49,6 +49,10 @@ class Yoast_Dashboard_Widget {
 
 	/**
 	 * Adds CSS classes to the dashboard widget.
+	 *
+	 * @param array $classes An array of postbox CSS classes.
+	 *
+	 * @return array
 	 */
 	public function wpseo_dashboard_overview_class( $classes ) {
 		$classes[] = 'yoast wpseo-dashboard-overview';
