@@ -4,6 +4,8 @@ var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
 
 describe( "An assessment for transition word percentage", function(){
+	let mockPaper, assessment;
+
 	it( "returns the score for 10.0% of the sentences with transition words", function(){
 		var mockPaper = new Paper();
 		var assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
