@@ -171,7 +171,6 @@ YoastMultiKeyword.prototype.bindKeywordRemove = function() {
 	$( ".wpseo-metabox-tabs" ).on( "click", ".remove-keyword", function( ev ) {
 		var previousTab, currentTab;
 
-		ev.preventDefault();
 		currentTab = $( ev.currentTarget ).parent( "li" );
 		previousTab = currentTab.prev();
 		currentTab.remove();
@@ -259,6 +258,7 @@ YoastMultiKeyword.prototype.addKeywordTab = function( keyword, score, focus ) {
 	templateArgs = {
 		keyword: keyword,
 		label: label,
+		removeLabel: wpseoPostScraperL10n.removeKeyword,
 		score: score,
 		isKeywordTab: true,
 		classes: "wpseo_tab wpseo_keyword_tab wpseo_keyword_tab_hideable",
@@ -400,6 +400,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 	templateArgs = {
 		keyword: keyword,
 		label: label,
+		removeLabel: wpseoPostScraperL10n.removeKeyword,
 		score: indicators.className,
 		scoreText: indicators.screenReaderText,
 		isKeywordTab: true,
