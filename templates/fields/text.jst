@@ -1,5 +1,6 @@
 <label<% if (id) { %> for="<%- id %>"<% } %><% if (labelClassName) { %> class="<%- labelClassName %>"<% } %>>
-	<%- title %>
+<% if (id) { %><%- title %></label><% } %>
+<% if (!id) { %><%- title %><% } %>
 	<input type="text"
 		<% if (value) { %>value="<%- value %>"<% } %>
 		<% if (placeholder) { %>placeholder="<%- placeholder %>"<% } %>
@@ -7,4 +8,4 @@
 		<% if (id) { %>id="<%- id %>"<% } %>
 		<% if (name) { %>name="<%- name %>"<% } %>
 	/>
-</label>
+<% if (!id) { %></label><% } %>

@@ -362,9 +362,18 @@
     __e( labelClassName ) +
     '"';
      }
-    __p += '>\n	' +
+    __p += '>\n';
+     if (id) {
+    __p +=
     __e( title ) +
-    '\n	<input type="text"\n		';
+    '</label>';
+     }
+    __p += '\n';
+     if (!id) {
+    __p +=
+    __e( title );
+     }
+    __p += '\n	<input type="text"\n		';
      if (value) {
     __p += 'value="' +
     __e( value ) +
@@ -394,7 +403,11 @@
     __e( name ) +
     '"';
      }
-    __p += '\n	/>\n</label>\n';
+    __p += '\n	/>\n';
+     if (!id) {
+    __p += '</label>';
+     }
+    __p += '\n';
 
     }
     return __p
