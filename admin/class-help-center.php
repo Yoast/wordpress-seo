@@ -178,7 +178,7 @@ class WPSEO_Help_Center {
 	 * @return bool
 	 */
 	private function is_a_help_center_item( $item ) {
-		return is_a( $item, 'WPSEO_Help_Center_Item' );
+		return ( $item instanceof WPSEO_Help_Center_Item );
 	}
 
 	/**
