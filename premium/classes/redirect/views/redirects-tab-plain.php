@@ -12,7 +12,7 @@
 ?>
 
 <div id="table-plain" class="tab-url redirect-table-tab">
-<?php echo '<h2>' . esc_html( 'Plain redirects', 'wordpress-seo' ) . '</h2>'; ?>
+<?php echo '<h2>' . esc_html( 'Plain redirects', 'wordpress-seo-premium' ) . '</h2>'; ?>
 	<form class='wpseo-new-redirect-form' method='post'>
 		<div class='wpseo_redirect_form'>
 <?php
