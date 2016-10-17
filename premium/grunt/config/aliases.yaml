@@ -7,7 +7,7 @@ build:
   - 'build:i18n'
 # Build JavaScript from assets to production
 'build:js':
-  - 'browserify'
+  - 'browserify:build'
   - 'uglify'
 'build:css':
   - 'copy:css_social_previews'
@@ -31,6 +31,15 @@ check:
   - 'phplint'
   - 'phpcs'
   - 'checktextdomain'
+# Get the project ready for release
+release:
+  - 'build:css'
+  - 'build:images'
+  - 'release:js'
+'release:js':
+  - 'browserify:build'
+  - 'browserify:release-es6'
+  - 'uglify'
 # Default task
 default:
   - build

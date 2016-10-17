@@ -197,7 +197,7 @@ YoastMultiKeyword.prototype.bindKeywordField = function() {
 		currentTabLink = $( "li.active > .wpseo_tablink" );
 		currentTabLink.data( "keyword", focusKeyword );
 		currentTabLink.find( "span.wpseo_keyword" ).text( focusKeyword || wpseoPostScraperL10n.enterFocusKeyword );
-	}.bind( this ) );
+	} );
 };
 
 /**
@@ -261,12 +261,13 @@ YoastMultiKeyword.prototype.addKeywordTab = function( keyword, score, focus ) {
 		removeLabel: wpseoPostScraperL10n.removeKeyword,
 		score: score,
 		isKeywordTab: true,
-		classes: "wpseo_tab wpseo_keyword_tab",
+		classes: "wpseo_tab wpseo_keyword_tab wpseo_keyword_tab_hideable",
 		hideable: true,
 	};
 
 	if ( 0 === $( ".wpseo_keyword_tab" ).length ) {
 		templateArgs.hideable = false;
+		templateArgs.classes = "wpseo_tab wpseo_keyword_tab";
 	}
 
 	html = keywordTabTemplate( templateArgs );
@@ -371,6 +372,7 @@ YoastMultiKeyword.prototype.getIndicator = function( score, keyword ) {
 
 	if ( "" === keyword ) {
 		rating = "feedback";
+		indicators[ rating ].screenReaderText = "";
 	}
 
 	return indicators[ rating ];
@@ -400,8 +402,9 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 		label: label,
 		removeLabel: wpseoPostScraperL10n.removeKeyword,
 		score: indicators.className,
+		scoreText: indicators.screenReaderText,
 		isKeywordTab: true,
-		classes: "wpseo_tab wpseo_keyword_tab",
+		classes: "wpseo_tab wpseo_keyword_tab wpseo_keyword_tab_hideable",
 		hideable: true,
 	};
 
@@ -411,6 +414,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 	// The first keyword tab isn't deletable, this first keyword tab is the second tab because of the content tab.
 	if ( firstKeywordTabIndex === tabElement.index() ) {
 		templateArgs.hideable = false;
+		templateArgs.classes = "wpseo_tab wpseo_keyword_tab";
 	}
 
 	if ( true === active ) {
