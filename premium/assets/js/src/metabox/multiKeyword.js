@@ -261,12 +261,13 @@ YoastMultiKeyword.prototype.addKeywordTab = function( keyword, score, focus ) {
 		label: label,
 		score: score,
 		isKeywordTab: true,
-		classes: "wpseo_tab wpseo_keyword_tab",
+		classes: "wpseo_tab wpseo_keyword_tab wpseo_keyword_tab_hideable",
 		hideable: true,
 	};
 
 	if ( 0 === $( ".wpseo_keyword_tab" ).length ) {
 		templateArgs.hideable = false;
+		templateArgs.classes = "wpseo_tab wpseo_keyword_tab";
 	}
 
 	html = keywordTabTemplate( templateArgs );
@@ -402,7 +403,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 		score: indicators.className,
 		scoreText: indicators.screenReaderText,
 		isKeywordTab: true,
-		classes: "wpseo_tab wpseo_keyword_tab",
+		classes: "wpseo_tab wpseo_keyword_tab wpseo_keyword_tab_hideable",
 		hideable: true,
 	};
 
@@ -412,6 +413,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 	// The first keyword tab isn't deletable, this first keyword tab is the second tab because of the content tab.
 	if ( firstKeywordTabIndex === tabElement.index() ) {
 		templateArgs.hideable = false;
+		templateArgs.classes = "wpseo_tab wpseo_keyword_tab";
 	}
 
 	if ( true === active ) {
