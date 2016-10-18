@@ -4,9 +4,9 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
-Requires at least: 4.3
+Requires at least: 4.4
 Tested up to: 4.6
-Stable tag: 3.6
+Stable tag: 3.7.0
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -116,6 +116,31 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.7.0 =
+
+Release Date: October 11th, 2016
+
+* Enhancements:
+	* Includes a few design improvements in the analysis section of the metabox. Design is now more consistent.
+	* Makes sure author archives are disabled when a user confirms his site is single-author.
+	* The configuration wizard is now called "configuration wizard" consistently throughout the plugin.
+	* Makes sure the help center is now included on all Yoast SEO pages.
+	* Added a notification asking users to rate Yoast SEO on WordPress.org.
+
+* Bugfixes:
+	* Fixes a bug where the metabox was taking up too much space on small screens.
+	* Fixes a bug where the marking for consecutive sentences beginning with the same word was off by one.
+	* Fixes a bug where the Google Search Console integration wasn't working well on multisite.
+	* Fixes a bug where the newsletter signup always did a http request, causing mixed content errors on https sites.
+
+
+= 3.6.1 =
+
+Release Date: October 3rd, 2016
+
+* Bugfixes:
+	* Fixes a bug where the admin bar would still show advanced settings when the advanced settings were disabled.
+
 = 3.6.0 =
 
 Release Date: September 27th, 2016
@@ -144,47 +169,6 @@ Release Date: September 27th, 2016
 * Bugfixes:
     * Fixes sorting the table in sitemaps.
     * Fixes a bug where keywords with a $ where not recognized.
-
-= 3.5.0 =
-
-Release Date: September 7th, 2016
-
-* Enhancements:
-    * Adds Flesch Reading tests for Dutch and German.
-    * Added info about author links in theme to disable setting on archives settings page.
-    * Explicitly checks for public post type status when creating sitemap.
-    * Removes frequency and priority from sitemap, see release post for clarification.
-    * Improves sitemap "blocking files" notification.
-    * Improves sitemap generation for posts when dealing with a large number of posts.
-    * Improves reliability in some PHP configurations.
-    * Improves styling for notices below tabs.
-    * Adds @id fields to JSON LD output.
-    * Adds table headings and labels to the bulk editor.
-    * Improves the accessibility of the bulk editor.
-    * Prevented loading the network admin when not network active.
-    * Don't show keyword filter in post list when keyword analysis is disabled.
-    * Improves message for settings import.
-    * Adds translations for notification counts.
-    * Makes upload image buttons translatable.
-    * Improves alignment of form fields.
-    * Adds descriptions for breadcrumb and canonicals on category pages.
-    * Improves accessibility on plugin conflict notification links.
-
-* Bugfixes:
-    * Fixes a bug where a new post with focus keyword would show up as a post without a keyword on the dashboard.
-    * Fixes a bug that would break rich term descriptions with large images.
-    * Fixes cache check in dashboard widget, which could cause unnecessary queries.
-    * No longer load toolbar styles when toolbar is disabled.
-    * Fixes a bug to prevent "cannot modify headers" notice on export.
-    * Fixes a bug to improve passive voice recognition.
-    * Fixes a bug to improve sentence detection.
-    * Fixes a bug that prevented the markings from working correctly.
-    * Fixes a bug where select2 would generate a 404 on a non-supported language.
-    * Fixes a bug where HTML attributes could be translated.
-    * Fixes a bug where the <code>og:image</code> tag would be omitted.
-    * Fixes a bug for canonicals for search pages with empty search queries.
-
-
 
 = Earlier versions =
 

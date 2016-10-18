@@ -73,6 +73,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['label']       = __( 'Enter a focus keyword', 'wordpress-seo' );
 		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
@@ -81,6 +82,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['metadesc']['title']       = __( 'Meta description', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta keywords', 'wordpress-seo' );
+		self::$meta_fields['general']['metakeywords']['label']       = __( 'Enter the meta keywords', 'wordpress-seo' );
 		self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
 
 
@@ -295,9 +297,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$helpcenter = new WPSEO_Help_Center( 'metabox', $helpcenter_tab );
 		$helpcenter->output_help_center();
 
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+			echo $this->get_buy_premium_link();
+		}
+
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
+			if ( $content_section->name === 'premium' ) {
+				continue;
+			}
+
 			$content_section->display_link();
 		}
 
@@ -317,7 +327,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content_sections = array( $this->get_content_meta_section() );
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
-		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
+		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
@@ -393,6 +403,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'link_aria_label' => __( 'Advanced', 'wordpress-seo' ),
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
+		);
+	}
+
+	/**
+	 * Returns a link to activate the Buy Premium tab.
+	 *
+	 * @return string
+	 */
+	private function get_buy_premium_link() {
+		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+			'wpseo-metabox-buy-premium',
+			__( 'Go Premium', 'wordpress-seo' )
 		);
 	}
 
@@ -546,13 +568,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 				$content .= '<div id="wpseofocuskeyword">';
 				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
-				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">';
-			    $content .= '<label for="' . $esc_form_key . '">' . esc_html( $meta_field_def['title'] ) . '</label>';
-				$content .= '</h3>';
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
+			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
+				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
 				$content .= '</section>';
 				$content .= '</div>';
-				$content .= '<div id="yoast_wpseo_focuskw_text_input" class="large_text"></div>';
+				break;
+			case 'metakeywords':
+				$content .= '<div id="wpseometakeywords">';
+				$content .= '<section class="yoast-section" id="wpseo-metakeywords-section">';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-edit">' . esc_html( $meta_field_def['title'] ) . '</h3>';
+			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
+				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= $description;
+				$content .= '</section>';
+				$content .= '</div>';
 				break;
 			case 'text':
 				$ac = '';
@@ -669,6 +699,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'snippetpreview',
 					'pageanalysis',
 					'focuskeyword',
+					'metakeywords',
 				), true )
 			) {
 				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
@@ -1080,10 +1111,10 @@ SVG;
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
 						<span class="wpseo-tab-label">{{data.label}}</span>
-						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
+						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}</span>
 					</a>
 					<# if ( data.hideable ) { #>
-						<a href="#" class="remove-tab"><span>x</span></a>
+						<button type="button" class="remove-tab" aria-label="{{data.removeLabel}}"><span>x</span></button>
 					<# } #>
 				</li>
 			</script>';
@@ -1104,10 +1135,10 @@ SVG;
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
 						<em class="wpseo-keyword">{{data.label}}</em>
-						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
 					</a>
 					<# if ( data.hideable ) { #>
-						<a href="#" class="remove-keyword"><span>x</span></a>
+						<button type="button" class="remove-keyword" aria-label="{{data.removeLabel}}"><span>x</span></button>
 					<# } #>
 				</li>
 			</script>';

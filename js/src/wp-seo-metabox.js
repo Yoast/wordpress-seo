@@ -153,17 +153,19 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 	 * @returns {void}
 	 */
 	function moveHelpElements() {
-		jQuery( " #wpseo-focuskeyword-section" ).find( "h3" ).append(
+		jQuery( "#wpseo-focuskeyword-section" ).find( "h3" ).after(
 			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
 		);
 
-		jQuery( " #wpseo-pageanalysis-section" ).find( "h3" ).append(
+		jQuery( "#wpseo-pageanalysis-section" ).find( "h3" ).after(
 			jQuery( "#help-yoast-pageanalysis" ).detach().removeClass( "wpseo_hidden" )
 		);
 
 		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
-		jQuery( " #wpseosnippet" ).find( "h3" ).append( snippetHelp );
-		jQuery( " #wpseo_snippet" ).find( "h3" ).append( snippetHelp );
+		// Post/media meta box.
+		jQuery( "#wpseosnippet" ).find( "h3" ).after( snippetHelp );
+		// Taxonomy meta box.
+		jQuery( "#wpseo_snippet" ).find( "h3" ).after( snippetHelp );
 	}
 
 	jQuery( document ).ready( function() {

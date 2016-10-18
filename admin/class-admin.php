@@ -90,6 +90,8 @@ class WPSEO_Admin {
 			$configuration = new WPSEO_Configuration_Page;
 			$configuration->catch_configuration_request();
 		}
+
+		$this->set_upsell_notice();
 	}
 
 	/**
@@ -572,7 +574,7 @@ class WPSEO_Admin {
 	 */
 	public function filter_settings_pages( array $pages ) {
 
-		if ( $this->options['enable_setting_pages'] ) {
+		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}
 
@@ -706,6 +708,15 @@ class WPSEO_Admin {
 		);
 
 		return $premium_indicator;
+	}
+
+	/**
+	 * Sets the upsell notice.
+	 */
+	protected function set_upsell_notice() {
+		$upsell = new WPSEO_Product_Upsell_Notice();
+		$upsell->dismiss_notice_listener();
+		$upsell->initialize();
 	}
 
 	/********************** DEPRECATED METHODS **********************/

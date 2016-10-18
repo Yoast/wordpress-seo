@@ -46,6 +46,7 @@ function getIndicatorForScore( score ) {
 		className: "",
 		screenReaderText: "",
 		fullText: "",
+		screenReaderReadabilityText: "",
 	};
 
 	var presenter = getPresenter();
