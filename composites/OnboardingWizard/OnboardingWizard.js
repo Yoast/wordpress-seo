@@ -138,7 +138,7 @@ class OnboardingWizard extends React.Component {
 	handleSuccessful( step ) {
 		this.setState( {
 			isLoading: false,
-			currentStepId: step
+			currentStepId: step,
 		} );
 
 		// Set focus on the main content but not when clicking the step buttons.
