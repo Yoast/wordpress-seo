@@ -9,11 +9,11 @@
  */
 // Todo: move auxiliaries, type and locale to attributes object. See Paper.
 var Participle = function( participle, sentencePart, auxiliaries, type ) {
-	this._participle = participle;
-	this._sentencePart = sentencePart;
-	this._type = type;
-	this._auxiliaries = auxiliaries;
-	this._determinesSentencePartIsPassive = true;
+	this._participle = participle || "";
+	this._sentencePart = sentencePart || "";
+	this._type = type || "";
+	this._auxiliaries = auxiliaries || [];
+	this._determinesSentencePartIsPassive = false;
 };
 
 /**
