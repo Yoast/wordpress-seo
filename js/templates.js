@@ -351,50 +351,62 @@
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
     __p += '<label';
-     if (id) {
+     if ( id ) {
     __p += ' for="' +
     __e( id ) +
     '"';
      }
 
-     if (labelClassName) {
+     if ( labelClassName ) {
     __p += ' class="' +
     __e( labelClassName ) +
     '"';
      }
-    __p += '>\n	' +
+    __p += '>';
+
+    if ( id ) {
+    __p +=
     __e( title ) +
-    '\n	<input type="text"\n		';
-     if (value) {
+    '</label>';
+     } else {
+    __p +=
+    __e( title );
+     }
+    __p += '\n	<input type="text"\n		';
+     if ( value ) {
     __p += 'value="' +
     __e( value ) +
     '"';
      }
     __p += '\n		';
-     if (placeholder) {
+     if ( placeholder ) {
     __p += 'placeholder="' +
     __e( placeholder ) +
     '"';
      }
     __p += '\n		';
-     if (className) {
+     if ( className ) {
     __p += 'class="' +
     __e( className ) +
     '"';
      }
     __p += '\n		';
-     if (id) {
+     if ( id ) {
     __p += 'id="' +
     __e( id ) +
     '"';
      }
     __p += '\n		';
-     if (name) {
+     if ( name ) {
     __p += 'name="' +
     __e( name ) +
     '"';
      }
-    __p += '\n	/>\n</label>\n';
+    __p += '\n	/>\n';
+     if ( ! id ) {
+    __p += '</label>';
+     }
+    __p += '\n';
 
     }
     return __p
@@ -406,39 +418,47 @@
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
     __p += '<label';
-     if (id) {
+     if ( id ) {
     __p += ' for="' +
     __e( id ) +
     '"';
      }
 
-     if (labelClassName) {
+     if ( labelClassName ) {
     __p += ' class="' +
     __e( labelClassName ) +
     '"';
      }
-    __p += '>\n	' +
+    __p += '>';
+
+    if ( id ) {
+    __p +=
     __e( title ) +
-    '\n	<textarea\n\n		   ';
-     if (placeholder) {
+    '</label>';
+     } else {
+    __p +=
+    __e( title );
+     }
+    __p += '\n	<textarea\n		   ';
+     if ( placeholder ) {
     __p += 'placeholder="' +
     __e( placeholder ) +
     '"';
      }
     __p += '\n		   ';
-     if (className) {
+     if ( className ) {
     __p += 'class="' +
     __e( className ) +
     '"';
      }
     __p += '\n		   ';
-     if (id) {
+     if ( id ) {
     __p += 'id="' +
     __e( id ) +
     '"';
      }
     __p += '\n		   ';
-     if (name) {
+     if ( name ) {
     __p += 'name="' +
     __e( name ) +
     '"';
@@ -448,7 +468,11 @@
     __p +=
     __e( value );
      }
-    __p += '\n	</textarea>\n</label>\n';
+    __p += '\n	</textarea>\n';
+     if ( ! id ) {
+    __p += '</label>';
+     }
+    __p += '\n';
 
     }
     return __p

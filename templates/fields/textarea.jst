@@ -1,12 +1,11 @@
-<label<% if (id) { %> for="<%- id %>"<% } %><% if (labelClassName) { %> class="<%- labelClassName %>"<% } %>>
-	<%- title %>
+<label<% if ( id ) { %> for="<%- id %>"<% } %><% if ( labelClassName ) { %> class="<%- labelClassName %>"<% } %>><%
+if ( id ) { %><%- title %></label><% } else { %><%- title %><% } %>
 	<textarea
-
-		   <% if (placeholder) { %>placeholder="<%- placeholder %>"<% } %>
-		   <% if (className) { %>class="<%- className %>"<% } %>
-		   <% if (id) { %>id="<%- id %>"<% } %>
-		   <% if (name) { %>name="<%- name %>"<% } %>
+		   <% if ( placeholder ) { %>placeholder="<%- placeholder %>"<% } %>
+		   <% if ( className ) { %>class="<%- className %>"<% } %>
+		   <% if ( id ) { %>id="<%- id %>"<% } %>
+		   <% if ( name ) { %>name="<%- name %>"<% } %>
 	>
 		<% if (value) { %><%- value %><% } %>
 	</textarea>
-</label>
+<% if ( ! id ) { %></label><% } %>
