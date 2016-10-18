@@ -29,6 +29,7 @@ class OnboardingWizard extends React.Component {
 			isLoading: false,
 			steps: this.parseSteps( this.props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
+			errorMessage: "",
 		};
 	}
 
@@ -137,6 +138,7 @@ class OnboardingWizard extends React.Component {
 		this.setState( {
 			isLoading: false,
 			currentStepId: step,
+			errorMessage: "",
 		} );
 
 		// Set focus on the main content but not when clicking the step buttons.
@@ -150,9 +152,10 @@ class OnboardingWizard extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	handleFailure() {
+	handleFailure( args ) {
 		this.setState( {
 			isLoading: false,
+			errorMessage: this.props.translate( "The request couldn't be completed because of a server error." ),
 		} );
 	}
 
@@ -275,6 +278,7 @@ class OnboardingWizard extends React.Component {
 					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
 					<div className="yoast-wizard-container">
 						<div className="yoast-wizard">
+							{ this.renderErrorMessage() }
 							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
 							      fields={step.fields} customComponents={this.props.customComponents} />
 							<div className="yoast-wizard--navigation">
@@ -287,6 +291,19 @@ class OnboardingWizard extends React.Component {
 				</div>
 			</MuiThemeProvider>
 		);
+	}
+
+	/**
+	 * Renders the error message
+	 *
+	 * @returns {JSX.Element|string} The rendered output.
+	 */
+	renderErrorMessage() {
+		if( this.state.errorMessage === "" ) {
+			return "";
+		}
+
+		return <div className="yoast-wizard-notice yoast-wizard-notice__error">{this.state.errorMessage}</div>
 	}
 }
 
