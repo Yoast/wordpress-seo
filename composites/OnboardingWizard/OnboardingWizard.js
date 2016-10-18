@@ -155,7 +155,12 @@ class OnboardingWizard extends React.Component {
 	handleFailure() {
 		this.setState( {
 			isLoading: false,
-			errorMessage: this.props.translate( "The request couldn't be completed because of a server error." ),
+			/** Translators: %1$s resolves to the link opening tag to yoa.st/bugreport, %2$s resolves to the link closing tag. **/
+			errorMessage: this.props.translate(
+				"A problem occurred when saving the changes you entered, %1$splease file a bug report$2%s describing what step you are on and which changes you want to make."
+			)
+			.replace( '%1$s', '<a href="https://yoa.st/bugreport" target="_blank">' )
+			.replace( '%2$s', '</a>' ),
 		} );
 	}
 
