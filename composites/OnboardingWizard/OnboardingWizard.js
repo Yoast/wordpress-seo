@@ -152,7 +152,7 @@ class OnboardingWizard extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	handleFailure( args ) {
+	handleFailure() {
 		this.setState( {
 			isLoading: false,
 			errorMessage: this.props.translate( "The request couldn't be completed because of a server error." ),
