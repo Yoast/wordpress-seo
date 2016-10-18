@@ -156,6 +156,10 @@ class WPSEO_Frontend {
 		$primary_category->register_hooks();
 
 		$this->hooks = array( $primary_category );
+
+		if ( 'genesis' == get_template() ) {
+			$this->genesis_compat();
+		}
 	}
 
 	/**
@@ -1935,5 +1939,29 @@ class WPSEO_Frontend {
 		}
 
 		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
+	}
+
+	/**
+	 * Compatibility initializer for Genesis hooks
+	 */
+	private function genesis_compat() {
+		add_filter( 'genesis_site_title_wrap', array( $this, 'genesis_element_title' ) );
+		add_filter( 'genesis_site_description_wrap', array( $this, 'genesis_element_description' ) );
+	}
+
+	public function genesis_element_title( $wrap ) {
+		// Validate for empty because it can also be false or null
+		if ( ! empty( $this->options['genesis-element-title'] ) ) {
+			$wrap = (string) $this->options['genesis-element-title'];
+		}
+		return $wrap;
+	}
+
+	public function genesis_element_description( $wrap ) {
+		// Validate for empty because it can also be false or null
+		if ( ! empty( $this->options['genesis-element-description'] ) ) {
+			$wrap = (string) $this->options['genesis-element-description'];
+		}
+		return $wrap;
 	}
 }

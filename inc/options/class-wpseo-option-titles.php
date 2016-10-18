@@ -48,6 +48,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'disable-date'           => false,
 		'disable-post_format'    => false,
 
+		'genesis-element-title'       => '', // Select
+		'genesis-element-description' => '', // Select
+
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name        => ''; // Text field.
@@ -82,6 +85,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'showdate-',
 		'hideeditbox-',
 		'bctitle-ptarchive-',
+		'genesis',
 	);
 
 	/**
@@ -331,6 +335,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
+					}
+					break;
+
+				/*
+				Genesis
+				*/
+				case 'genesis':
+					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
 
