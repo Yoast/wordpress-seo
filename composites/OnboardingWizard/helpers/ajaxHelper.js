@@ -98,8 +98,8 @@ let parseRequestArgs = (requestArgs, type) => {
 
 	let defaults = {
 		dataType : "json",
-		method: "PUT",
-		contentType : 'application/json',
+		method: "POST",
+		contentType : "application/json",
 	};
 
 	let config = requestArgs;
