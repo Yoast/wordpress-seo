@@ -9,6 +9,7 @@ import YoastLogo from '../basic/YoastLogo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { localize } from "../../utils/i18n";
 import muiTheme from './config/yoast-theme';
+import interpolateComponents from 'interpolate-components';
 
 /**
  * The OnboardingWizard class.
@@ -102,7 +103,7 @@ class OnboardingWizard extends React.Component {
 			return;
 		}
 
-		this.setState( { isLoading: true } );
+		this.setState( { isLoading: true, errorMessage: "" } );
 		this.clickedButton = evt.currentTarget;
 
 		sendStep(
@@ -137,8 +138,7 @@ class OnboardingWizard extends React.Component {
 	handleSuccessful( step ) {
 		this.setState( {
 			isLoading: false,
-			currentStepId: step,
-			errorMessage: "",
+			currentStepId: step
 		} );
 
 		// Set focus on the main content but not when clicking the step buttons.
@@ -155,12 +155,13 @@ class OnboardingWizard extends React.Component {
 	handleFailure() {
 		this.setState( {
 			isLoading: false,
-			/** Translators: %1$s resolves to the link opening tag to yoa.st/bugreport, %2$s resolves to the link closing tag. **/
-			errorMessage: this.props.translate(
-				"A problem occurred when saving the changes you entered, %1$splease file a bug report$2%s describing what step you are on and which changes you want to make."
-			)
-			.replace( '%1$s', '<a href="https://yoa.st/bugreport" target="_blank">' )
-			.replace( '%2$s', '</a>' ),
+			errorMessage: interpolateComponents( {
+				/** Translators: {{link}} resolves to the link opening tag to yoa.st/bugreport, {{/link}} resolves to the link closing tag. **/
+				mixedString: this.props.translate(
+					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} describing what step you are on and which changes you want to make (if any)."
+				),
+				components: { link: <a href="https://yoa.st/bugreport" target="_blank" /> }
+			} )
 		} );
 	}
 
