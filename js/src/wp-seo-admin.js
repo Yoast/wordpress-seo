@@ -299,6 +299,13 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 			wpseoKillBlockingFiles( jQuery( this ).data( "nonce" ) );
 		} );
 
+		// Prevent form submission when pressing Enter on the switch-toggles.
+		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
+			if ( "keydown" === event.type && 13 === event.which ) {
+				event.preventDefault();
+			}
+		} );
+
 		setInitialActiveTab();
 		initSelect2();
 	} );
