@@ -191,7 +191,7 @@ class WPSEO_Help_Center {
 	public static function get_translated_texts() {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
-			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
+			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
 			'locale' => get_locale(),
 			/* translators: %d: number of knowledge base search results found. */
 			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
