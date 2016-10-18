@@ -26,6 +26,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "i18n-calypso": "^1.6.2",
+    "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "whatwg-fetch": "^1.0.0"
   },
@@ -62,10 +63,10 @@
     "webpack-dev-server": "^1.14.1"
   },
   "peerDependencies": {
-    "react-tap-event-plugin": "^1.0.0",
     "material-ui": "^0.15.4",
     "react": "^15.3.1",
-    "react-dom": "^15.3.1"
+    "react-dom": "^15.3.1",
+    "react-tap-event-plugin": "^1.0.0"
   },
   "browserify": {
     "transform": [
