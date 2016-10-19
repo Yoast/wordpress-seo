@@ -1330,6 +1330,9 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseotab .yoast_help.yoast-help-button {
 	float: right;
+}
+
+.wpseotab.content .yoast_help.yoast-help-button {
 	margin-top: -48px;
 }
 

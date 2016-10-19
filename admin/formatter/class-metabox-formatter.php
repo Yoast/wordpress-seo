@@ -50,6 +50,7 @@ class WPSEO_Metabox_Formatter {
 			'contentTab'        => __( 'Readability', 'wordpress-seo' ),
 			'keywordTab'        => __( 'Keyword:', 'wordpress-seo' ),
 			'enterFocusKeyword' => __( 'Enter your focus keyword', 'wordpress-seo' ),
+			'removeKeyword'     => __( 'Remove keyword', 'wordpress-seo' ),
 			'locale'            => get_locale(),
 			'translations'      => $this->get_translations(),
 			'keyword_usage'     => array(),
