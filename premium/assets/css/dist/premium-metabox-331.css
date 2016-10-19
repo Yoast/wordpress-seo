@@ -40,13 +40,16 @@
 	box-sizing: border-box;
 }
 
-a.remove-keyword {
+.remove-keyword {
 	display: inline-block;
-	margin-left: -3px;
+	margin: 0 0 0 -3px;
 	padding: 5px 6px 6px;
+	border: none;
+	background: transparent;
+	cursor: pointer;
 }
 
-a.remove-keyword span {
+.remove-keyword span {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
@@ -55,14 +58,19 @@ a.remove-keyword span {
 	border-radius: 100%;
 	color: #686868;
 	font-size: 12px;
-	font-weight: 500;
+	font-weight: 400;
 	line-height: 15px;
 	text-align: center;
 	vertical-align: top;
 }
 
-a.remove-keyword:hover span,
-a.remove-keyword:focus span {
+.remove-keyword:focus {
+	outline: none;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.remove-keyword:hover span,
+.remove-keyword:focus span {
 	color: white;
 	background-color: #dc3232;
 }
@@ -90,4 +98,8 @@ a.remove-keyword:focus span {
 /* Except the active one */
 .wpseo_keyword_tab.active a[data-score="na"] .wpseo-keyword {
 	max-width: none;
+}
+
+.wpseo-metabox-tabs .wpseo_keyword_tab_hideable .wpseo_tablink {
+	padding-right: 0;
 }
