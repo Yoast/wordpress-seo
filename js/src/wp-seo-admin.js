@@ -314,7 +314,6 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 		// Check correct variables usage in title and description templates.
 		jQuery( ".template" ).change( function() {
-			console.log('testing');
 			wpseoDetectWrongVariables( jQuery( this ) );
 		} ).change();
 
