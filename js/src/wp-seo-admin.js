@@ -44,13 +44,13 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		jQuery.each( wrongVariables, function( index, variable ) {
 			error_id = e.attr( "id" ) + "-" + variable + "-warning";
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
-				e.addClass( "wpseo_variable_warning" );
+				e.addClass( "wpseo-variable-warning-element" );
 				var msg = wpseoAdminL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
 				if ( jQuery( "#" + error_id ).length ) {
 					jQuery( "#" + error_id ).html( msg );
 				}
 				else {
-					e.after( ' <div id="' + error_id + '" class="wpseo_variable_warning"><div class="clear"></div>' + msg + "</div>" );
+					e.after( ' <div id="' + error_id + '" class="wpseo-variable-warning" aria-live="assertive">' + msg + "</div>" );
 				}
 				warn = true;
 			}
@@ -62,7 +62,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		}
 		);
 		if ( warn === false ) {
-			e.removeClass( "wpseo_variable_warning" );
+			e.removeClass( "wpseo-variable-warning-element" );
 		}
 	}
 
@@ -297,6 +297,13 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		// XML sitemaps "Fix it" button.
 		jQuery( "#blocking_files .button" ).on( "click", function() {
 			wpseoKillBlockingFiles( jQuery( this ).data( "nonce" ) );
+		} );
+
+		// Prevent form submission when pressing Enter on the switch-toggles.
+		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
+			if ( "keydown" === event.type && 13 === event.which ) {
+				event.preventDefault();
+			}
 		} );
 
 		setInitialActiveTab();
