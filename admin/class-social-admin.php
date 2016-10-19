@@ -75,6 +75,11 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	public function get_meta_section() {
 		$tabs = array();
 		$social_meta_fields = $this->get_meta_field_defs( 'social' );
+		$single = true;
+
+		if ( $this->options['opengraph'] === true && $this->options['twitter'] === true ) {
+			$single = null;
+		}
 
 		if ( $this->options['opengraph'] === true ) {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
@@ -83,6 +88,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
 					'link_title' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
+					'single' => $single,
 				)
 			);
 		}
@@ -94,6 +100,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				'<span class="dashicons dashicons-twitter"></span>',
 				array(
 					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
+					'single' => $single,
 				)
 			);
 		}
