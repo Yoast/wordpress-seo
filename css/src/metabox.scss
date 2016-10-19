@@ -611,6 +611,12 @@ ul.wpseo-metabox-premium-advantages {
 	padding: 0;
 }
 
+/* Workaround for VoiceOver bug see issue #5857 */
+.screen-reader-text.wpseo-generic-tab-textual-score,
+.screen-reader-text.wpseo-keyword-tab-textual-score {
+	display: block;
+}
+
 @media screen and ( max-width: 782px ) {
 	.yoast-help-panel {
 		max-width: none !important;
