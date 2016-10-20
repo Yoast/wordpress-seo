@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.6.1\n"
+"Project-Id-Version: Yoast SEO 3.7.0\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-10-11 09:42:17+00:00\n"
+"POT-Creation-Date: 2016-10-20 08:23:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -678,8 +678,8 @@ msgstr ""
 #. </a>
 #: admin/class-product-upsell-notice.php:120
 msgid ""
-"By the way, did you know we also have a %1\\$sPremium plugin%2\\$s? It "
-"offers advanced features, like a redirect manager and support for multiple "
+"By the way, did you know we also have a %1$sPremium plugin%2$s? It offers "
+"advanced features, like a redirect manager and support for multiple "
 "keywords. It also comes with 24/7 personal support."
 msgstr ""
 
@@ -5037,24 +5037,31 @@ msgstr ""
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:262
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:271
 msgid "Next step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:261
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:270
 msgid "Next"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:253
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:262
 msgid "Previous step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:252
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:261
 msgid "Previous"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:222
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:231
 msgid "Close the Wizard"
+msgstr ""
+
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:160
+msgid ""
+"A problem occurred when saving the current step, {{link}}please file a bug "
+"report{{/link}} describing what step you are on and which changes you want "
+"to make (if any)."
 msgstr ""
 
 #: yoast-components/composites/OnboardingWizard/StepIndicator.js:47

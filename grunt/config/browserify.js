@@ -9,7 +9,7 @@ module.exports = {
 			},
 		},
 		files: {
-			"js/dist/configuration-wizard-370.js": [ "js/src/configuration-wizard.js" ],
+			"js/dist/configuration-wizard-371.js": [ "js/src/configuration-wizard.js" ],
 			"js/dist/wp-seo-admin-370.js": [ "js/src/wp-seo-admin.js" ],
 			"js/dist/wp-seo-admin-global-350.js": [ "js/src/wp-seo-admin-global.js" ],
 			"js/dist/wp-seo-admin-gsc-350.js": [ "js/src/wp-seo-admin-gsc.js" ],

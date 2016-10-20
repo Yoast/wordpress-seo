@@ -249,7 +249,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'configuration-wizard',
-				'src'  => 'configuration-wizard-370',
+				'src'  => 'configuration-wizard-371',
 				'deps' => array(
 					'jquery',
 				),
@@ -345,7 +345,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'yoast-components',
-				'src'  => 'yoast-components-360',
+				'src'  => 'yoast-components-371',
 			),
 		);
 	}
