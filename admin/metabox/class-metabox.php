@@ -465,7 +465,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'premium',
 			$content,
-			__( 'Yoast SEO Premium', 'wordpress-seo' ),
+			'Yoast SEO Premium',
 			array(
 				'single' => true,
 			)
@@ -476,7 +476,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
 			array( $tab ),
 			array(
-				'link_aria_label' => __( 'Yoast SEO Premium', 'wordpress-seo' ),
+				'link_aria_label' => 'Yoast SEO Premium',
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
