@@ -249,7 +249,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 		// Toggle the Author archives section.
 		jQuery( "#disable-author input[type='radio']" ).change( function() {
-			// on is disabled, off is enabled.
+			// The value on is disabled, off is enabled.
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
 			}
@@ -257,7 +257,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 
 		// Toggle the Date archives section.
 		jQuery( "#disable-date input[type='radio']" ).change( function() {
-			// on is disabled, off is enabled.
+			// The value on is disabled, off is enabled.
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
 			}

@@ -1382,7 +1382,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	margin-right: 10px;
 }
 
-#author-archives-titles-metas-content,
-#date-archives-titles-metas-content {
+.archives-titles-metas-content {
 	padding-top: 1em;
 }

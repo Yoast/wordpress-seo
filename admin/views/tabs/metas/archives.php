@@ -28,7 +28,7 @@ $yform->toggle_switch( 'disable-author', array(
 	'on'  => __( 'Disabled', 'wordpress-seo' ),
 ), __( 'Author archives', 'wordpress-seo' ) );
 
-echo "<div id='author-archives-titles-metas-content'>";
+echo "<div id='author-archives-titles-metas-content' class='archives-titles-metas-content'>";
 $yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 $yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
 if ( $options['usemetakeywords'] === true ) {
@@ -47,7 +47,7 @@ $yform->toggle_switch( 'disable-date', array(
 	'on'  => __( 'Disabled', 'wordpress-seo' ),
 ), __( 'Date archives', 'wordpress-seo' ) );
 
-echo "<div id='date-archives-titles-metas-content'>";
+echo "<div id='date-archives-titles-metas-content' class='archives-titles-metas-content'>";
 $yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 $yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
 $yform->toggle_switch( 'noindex-archive-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
