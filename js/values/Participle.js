@@ -1,3 +1,6 @@
+var getType = require( "./../helpers/types.js" ).getType;
+var isSameType = require( "./../helpers/types.js" ).isSameType;
+
 var defaults = require( "lodash/defaults" );
 var forEach = require( "lodash/forEach" );
 
@@ -9,36 +12,20 @@ var defaultAttributes = {
 	auxiliaries: [],
 	type: "",
 };
-/**
- * Gets the parsed type name of attributes.
- *
- * @param {array|object|string|number} attribute The attribute to get the parsed type from.
- * @returns {string} The parsed type name.
- */
-var getType = function( attribute ) {
-	var rawTypeName = toString.call( attribute );
-	var parsedTypeName = "undefined";
 
-	switch( rawTypeName ) {
-		case "[object Array]":
-			parsedTypeName =  "array";
-			break;
-		case "[object Object]":
-			parsedTypeName = "object";
-			break;
-		case "[object String]":
-			parsedTypeName = "string";
-			break;
-		case "[object Number]":
-			parsedTypeName = "number";
-			break;
-		case "[object Boolean]":
-			parsedTypeName = "boolean";
-			break;
-		default:
-			return rawTypeName;
-	}
-	return parsedTypeName;
+/**
+ * Validates the type of all attributes. Throws an error if the type is invalid.
+ *
+ * @param {object} attributes The object containing all attributes.
+ * @returns {void}
+ */
+var validateAttributes = function( attributes ) {
+	forEach( attributes, function( attributeValue, attributeName ) {
+		var expectedType = getType( defaultAttributes[ attributeName ] );
+		if ( isSameType( attributeValue, expectedType ) === false ) {
+			throw Error( "Attribute " + attributeName + " has invalid type. Expected " + expectedType + ", got " + getType( attributeValue ) + "." );
+		}
+	} );
 };
 
 /**
@@ -50,45 +37,29 @@ var getType = function( attribute ) {
  * @constructor
  */
 var Participle = function( participle, sentencePart, attributes ) {
-	this._participle = participle || "";
-	this._sentencePart = sentencePart || "";
+	this.setParticiple( participle );
+	this.setSentencePart( sentencePart );
 	this._determinesSentencePartIsPassive = false;
-
-	if ( this._participle === "" ) {
-		throw Error( "The participle should not be empty." );
-	}
-
-	if ( this._sentencePart === "" ) {
-		throw Error( "The sentence part should not be empty." );
-	}
 
 	attributes = attributes || {};
 
-	this.validateAttributes( attributes );
-
 	defaults( attributes, defaultAttributes );
+
+	validateAttributes( attributes );
+
 	this._attributes = attributes;
 };
 
 /**
- * Validates the type of all attributes. Throws an error if the type is invalid.
- *
- * @param {object} attributes The object containing all attributes.
- * @returns {void}
+ * Sets the participle.
+ * @param {string} participle The participle.
+ * @returns {void}.
  */
-Participle.prototype.validateAttributes = function( attributes ) {
-	forEach( attributes, function( attributeValue, attributeName ) {
-		var passedType = getType( attributeValue );
-		var expectedType = getType( defaultAttributes[ attributeName ] );
-
-		if ( expectedType === "undefined" ) {
-			return;
-		}
-
-		if( passedType !== expectedType ) {
-			throw Error( "Attribute " + attributeName + " has invalid type. Expecting " + expectedType + ", got " + passedType + "." );
-		}
-	} );
+Participle.prototype.setParticiple = function( participle ) {
+	if ( participle === "" ) {
+		throw Error( "The participle should not be empty." );
+	}
+	this._participle = participle;
 };
 
 /**
@@ -97,6 +68,19 @@ Participle.prototype.validateAttributes = function( attributes ) {
  */
 Participle.prototype.getParticiple = function() {
 	return this._participle;
+};
+
+/**
+ * Sets the SentencePart.
+ *
+ * @param {string} sentencePart The sentence part.
+ * @returns {void}.
+ */
+Participle.prototype.setSentencePart = function( sentencePart ) {
+	if ( sentencePart === "" ) {
+		throw Error( "The sentence part should not be empty." );
+	}
+	this._sentencePart = sentencePart;
 };
 
 /**
@@ -137,9 +121,8 @@ Participle.prototype.determinesSentencePartIsPassive = function() {
  * @returns {void}
  */
 Participle.prototype.setSentencePartPassiveness = function( passive ) {
-	var passiveType = getType( passive );
-	if ( passiveType !== "boolean" ) {
-		throw Error( "Passiveness had invalid type. Expected boolean, got " + passiveType + "." );
+	if ( ! isSameType( passive, "boolean" ) ) {
+		throw Error( "Passiveness had invalid type. Expected boolean, got " + getType( passive ) + "." );
 	}
 	this._determinesSentencePartIsPassive = passive;
 };

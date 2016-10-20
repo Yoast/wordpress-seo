@@ -31,11 +31,11 @@ describe( "A test for checking the Participle", function() {
 	});
 
 	it( "throws an error when the auxiliaries are not an array.", function() {
-		expect( function() { new Participle( "geschlossen", "Wir werden geschlossen haben.",  { auxiliaries: 9 , type: {} } ) } ).toThrowError( "Attribute auxiliaries has invalid type. Expecting array, got number." )
+		expect( function() { new Participle( "geschlossen", "Wir werden geschlossen haben.",  { auxiliaries: 9 , type: {} } ) } ).toThrowError( "Attribute auxiliaries has invalid type. Expected array, got number." )
 	});
 
 	it( "throws an error when the type is not a string.", function() {
-		expect( function() { new Participle( "geschlossen", "Wir werden geschlossen haben.",  { auxiliaries: [ "werden" ] , type: [ "irregular" ] } ) } ).toThrowError( "Attribute type has invalid type. Expecting string, got array." )
+		expect( function() { new Participle( "geschlossen", "Wir werden geschlossen haben.",  { auxiliaries: [ "werden" ] , type: [ "irregular" ] } ) } ).toThrowError( "Attribute type has invalid type. Expected string, got array." )
 	});
 
 	it( "throws an error when the participle is empty.", function() {
@@ -45,5 +45,6 @@ describe( "A test for checking the Participle", function() {
 	it( "throws an error when the sentence part is empty.", function() {
 		expect( function() { new Participle( "geschlossen", "",  { auxiliaries: [ "werden" ] , type: [ "irregular" ] } ) } ).toThrowError( "The sentence part should not be empty." )
 	});
+
 });
 
