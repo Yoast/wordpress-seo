@@ -166,6 +166,12 @@ class WPSEO_Taxonomy_Metabox {
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
 
 		$tabs = array();
+		$single = true;
+
+		if ( $options['opengraph'] === true && $options['twitter'] === true ) {
+			$single = null;
+		}
+
 		if ( $options['opengraph'] === true ) {
 			$facebook_meta_fields = $taxonomy_social_fields->get_by_network( 'opengraph' );
 
@@ -175,6 +181,7 @@ class WPSEO_Taxonomy_Metabox {
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
 					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
+					'single' => $single,
 				)
 			);
 		}
@@ -188,6 +195,7 @@ class WPSEO_Taxonomy_Metabox {
 				'<span class="dashicons dashicons-twitter"></span>',
 				array(
 					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
+					'single' => $single,
 				)
 			);
 		}
