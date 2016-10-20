@@ -116,6 +116,13 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.7.1 =
+
+Release Date: October 20th, 2016
+
+* Bugfixes:
+	* Fixes a bug where the configuration wizard couldn't go to the next step if PUT requests were disabled on the server.
+
 = 3.7.0 =
 
 Release Date: October 11th, 2016
