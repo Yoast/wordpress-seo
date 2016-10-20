@@ -72,6 +72,11 @@ class UrlStructure {
 		return data[ urlPartConfig.name ];
 	}
 
+	/**
+	 * Returns the structure
+	 *
+	 * @returns {Array} The structure of the URL.
+	 */
 	getStructure() {
 		return this._structure;
 	}
@@ -95,6 +100,7 @@ class UrlStructure {
 			};
 
 			if ( "variable" === token.type ) {
+				// Strip the %% at the start and the end of the variable URL part.
 				urlPart.name = urlPart.value.substr( 2, urlPart.value.length - 4 );
 			}
 
