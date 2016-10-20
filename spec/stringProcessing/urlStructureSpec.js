@@ -1,4 +1,3 @@
-// import UrlStructure from "../../js/stringProcessing/urlStructure";
 let UrlStructure = require( "../../js/stringProcessing/urlStructure" );
 
 describe( "UrlStructure", () => {
