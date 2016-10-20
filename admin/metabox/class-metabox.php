@@ -45,7 +45,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
 
-		// Check if on of the social settings is checked in the options, if so, initialize the social_admin object.
+		// Check if one of the social settings is checked in the options, if so, initialize the social_admin object.
 		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true ) {
 			$this->social_admin = new WPSEO_Social_Admin( $this->options );
 		}
