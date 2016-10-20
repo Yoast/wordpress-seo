@@ -5,6 +5,8 @@ var i18n = Factory.buildJed();
 
 var paper = new Paper();
 describe( "An assessment for finding the length of the subheadings.", function() {
+	let assessment;
+
 	it( "returns headings < 50 chars. ", function() {
 		var assessment = subHeadingLengthAssessment.getResult( paper, Factory.buildMockResearcher( [ 5, 5, 40 ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );

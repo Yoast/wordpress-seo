@@ -6,7 +6,7 @@ var MissingArgument = require( "../js/errors/missingArgument" );
 var factory = require( "./helpers/factory.js" );
 var i18n = factory.buildJed();
 
-window = {};
+global.window = {};
 
 describe( "an assessor object", function() {
 
