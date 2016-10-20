@@ -1,3 +1,6 @@
+### 3.7.2 October 20th, 2016
+* Includes every change in Yoast SEO core 3.7.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.7.1 October 11th, 2016
 * Adds a message when no prominent words were detected in the text.
 
