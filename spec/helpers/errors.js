@@ -1,12 +1,5 @@
 var showTrace = require( "../../js/helpers/errors" ).showTrace;
 
-var receivedMessage = null;
-console = {
-	trace: function( message ) {
-		receivedMessage = message;
-	}
-};
-
 describe( "showTrace", function() {
 	beforeEach( function() {
 		spyOn( console, "trace" )
