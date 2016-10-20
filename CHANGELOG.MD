@@ -3,7 +3,13 @@
 This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 
 All notable changes to this project will be documented in this file.
-We will follow [Semantic Versioning](http://semver.org/).
+We follow [Semantic Versioning](http://semver.org/).
+
+## 2.0: October 20th, 2016
+
+### Breaking changes
+
+* Changed default server request from a PUT to a POST request.
 
 ## 1.1: October 11th, 2016
 
