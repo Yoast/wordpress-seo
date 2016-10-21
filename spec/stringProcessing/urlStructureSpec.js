@@ -74,5 +74,16 @@ describe( "UrlStructure", () => {
 
 			expect( urlStructure.buildUrl( input ) ).toBe( expected );
 		});
+
+		it( "ignores special characters", () => {
+			let specialCharacters = ",./;'[]\-=<>?:\"{}|_+!@#$%^&*()`~";
+			let expected = `http://example.org/${specialCharacters}/`;
+			let input = {
+				placeholder: specialCharacters,
+			};
+			let urlStructure = UrlStructure.fromUrl( "http://example.org/%%placeholder%%/" );
+
+			expect( urlStructure.buildUrl( input ) ).toBe( expected );
+		} );
 	} );
 } );
