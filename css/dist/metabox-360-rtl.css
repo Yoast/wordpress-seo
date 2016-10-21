@@ -1005,7 +1005,7 @@ ul.wpseo-metabox-tabs {
 /* Contain floated list items and have overflow visible for the active tab */
 ul.wpseo-metabox-tabs:after {
 	display: table;
-	clear: both; 
+	clear: both;
 	content: "";
 }
 
@@ -1054,11 +1054,11 @@ ul.wpseo-metabox-tabs li.active {
 	color: #333;
 }
 .wpseo-metabox-sidebar li.active span.wpseo-buy-premium {
-	border-color: #a4286a; 
+	border-color: #a4286a;
 	color: #a4286a;
 }
 .wpseo-metabox-sidebar li.active span.wpseo-buy-premium:hover {
-	border-color: #832055; 
+	border-color: #832055;
 	color: #832055;
 }
 
@@ -1163,7 +1163,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 #wpseo_meta .wpseo-tab-video-container h2 {
-	margin-bottom: 20px; 
+	margin-bottom: 20px;
 	padding-right: 0;
 	border: 0;
 	font-size: 1.3em;
@@ -1489,7 +1489,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseo-buy-premium {
-	padding-left: 5px; 
+	padding-left: 5px;
 	color: #a4286a;
 }
 
@@ -1499,13 +1499,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	left: auto;
 	width: auto;
 	height: auto;
-	border: none; 
+	border: none;
 	content: " \00BB";
 }
 
 #wpseo-buy-premium-popup-button.button-buy-premium {
 	border-color: #a4286a;
-	color: #fff; 
+	color: #fff;
 	background: #a4286a;
 }
 
@@ -1521,7 +1521,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 ul.wpseo-metabox-premium-advantages {
-	padding-right: 1.5em; 
+	padding-right: 1.5em;
 	list-style: disc;
 }
 
