@@ -1,15 +1,19 @@
 var Participle = require( "../../values/Participle.js" );
 
 var nonVerbsEndingEd = require( "./passivevoice-english/non-verb-ending-ed.js" )();
-var matchDeterminers = require( "../english/passivevoice-english/wordIndicesRegexes.js" )().determiners;
-var matchHaving = require( "../english/passivevoice-english/wordIndicesRegexes.js" )().having;
-
-var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
+var getWordIndices = require( "../english/passivevoice-english/wordIndicesRegexes.js" );
+var determinerList = require( "./../english/passivevoice-english/determiners.js" )();
+var havingList = require( "./../english/passivevoice-english/having.js" )();
+var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 
 var forEach = require( "lodash/forEach" );
 var includes = require( "lodash/includes" );
 var isEmpty = require( "lodash/isEmpty" );
 var intersection = require( "lodash/intersection" );
+
+var determinersRegex = arrayToRegex( determinerList );
+var havingRegex = arrayToRegex( havingList );
+var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 
 /**
  * Checks whether a participle is directly preceded by a given word.
@@ -20,15 +24,17 @@ var intersection = require( "lodash/intersection" );
  * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
  */
 var includesIndex = function( precedingWords, participleIndex ) {
-	if ( ! isEmpty( precedingWords ) ) {
-		var precedingWordsEndIndices = [];
-		forEach( precedingWords, function( precedingWord ) {
-			var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length;
-			precedingWordsEndIndices.push( precedingWordsEndIndex );
-		} );
-		return includes( precedingWordsEndIndices, participleIndex );
+	if ( isEmpty( precedingWords ) ) {
+		return false;
 	}
-	return false;
+
+	var precedingWordsEndIndices = [];
+	forEach( precedingWords, function( precedingWord ) {
+		var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length;
+		precedingWordsEndIndices.push( precedingWordsEndIndex );
+	} );
+
+	return includes( precedingWordsEndIndices, participleIndex );
 };
 
 /**
@@ -46,7 +52,7 @@ var isPrecededByDeterminer = function( participle, word, sentencePart ) {
 		return false;
 	}
 	var indexOfFit = sentencePart.indexOf( word );
-	var determinerMatches = matchDeterminers( sentencePart );
+	var determinerMatches = getWordIndices( sentencePart, determinersRegex );
 	return includesIndex( determinerMatches, indexOfFit );
 };
 
@@ -62,7 +68,7 @@ var isPrecededByDeterminer = function( participle, word, sentencePart ) {
  */
 var EnglishParticiple = function( participle, sentencePart, auxiliary, type ) {
 	Participle.call( this, participle, sentencePart, auxiliary, type );
-	this.isException();
+	this.checkException();
 };
 
 require( "util" ).inherits( EnglishParticiple, Participle );
@@ -71,7 +77,7 @@ require( "util" ).inherits( EnglishParticiple, Participle );
  * Sets sentence part passiveness to passive if there is no exception.
  * @returns {void}
  */
-EnglishParticiple.prototype.isException = function() {
+EnglishParticiple.prototype.checkException = function() {
 	if ( isEmpty( this.getParticiple() ) ) {
 		this.setSentencePartPassiveness( false );
 		return;
@@ -109,8 +115,8 @@ EnglishParticiple.prototype.isNonVerbEndingEd = function() {
  */
 EnglishParticiple.prototype.hasRidException = function() {
 	var participle = this.getParticiple();
-	var auxiliaries = this.getAuxiliaries();
 	if ( participle === "rid" ) {
+		var auxiliaries = this.getAuxiliaries();
 		return  ! isEmpty( intersection( irregularExclusionArray, auxiliaries ) );
 	}
 	return false;
@@ -126,7 +132,7 @@ EnglishParticiple.prototype.hasHavingException = function() {
 	var participle = this.getParticiple();
 	var sentencePart = this.getSentencePart();
 	var wordIndex = sentencePart.indexOf( participle );
-	var havingMatch = matchHaving( sentencePart );
+	var havingMatch = getWordIndices( sentencePart, havingRegex );
 	return includesIndex( havingMatch, wordIndex );
 };
 
