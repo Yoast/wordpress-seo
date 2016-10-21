@@ -45,7 +45,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
 
-		// Check if on of the social settings is checked in the options, if so, initialize the social_admin object.
+		// Check if one of the social settings is checked in the options, if so, initialize the social_admin object.
 		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true ) {
 			$this->social_admin = new WPSEO_Social_Admin( $this->options );
 		}
@@ -327,7 +327,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content_sections = array( $this->get_content_meta_section() );
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
-		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
+		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
@@ -1107,7 +1107,7 @@ SVG;
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
 						<span class="wpseo-tab-label">{{data.label}}</span>
-						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
+						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}</span>
 					</a>
 					<# if ( data.hideable ) { #>
 						<button type="button" class="remove-tab" aria-label="{{data.removeLabel}}"><span>x</span></button>
@@ -1131,7 +1131,7 @@ SVG;
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
 						<em class="wpseo-keyword">{{data.label}}</em>
-						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
 					</a>
 					<# if ( data.hideable ) { #>
 						<button type="button" class="remove-keyword" aria-label="{{data.removeLabel}}"><span>x</span></button>

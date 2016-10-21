@@ -22,7 +22,7 @@ function isolate( snippetContainer ) {
 	tr.siblings().hide();
 
 	// Remove the tab navigation.
-	jQuery( "#wpseo-metabox-tabs" ).hide();
+	jQuery( ".wpseo-metabox-tabs" ).hide();
 }
 
 /**
