@@ -8,7 +8,7 @@ var havingRegex = arrayToRegex( havingList );
 
 describe( "a test for matching determiners.", function() {
 	it( "matches a single determiner in a sentence part", function() {
-		determiners = wordIndicesRegexes( "A boy.", determinersRegex );
+		var determiners = wordIndicesRegexes( "A boy.", determinersRegex );
 		expect( determiners ).toEqual(
 			[
 				{ match: 'A ', index: 0 }
@@ -17,7 +17,7 @@ describe( "a test for matching determiners.", function() {
 	} );
 
 	it( "matches multiple determiners in a sentence part", function() {
-		determiners = wordIndicesRegexes( "The boy, the girl, a dog.", determinersRegex );
+		var determiners = wordIndicesRegexes( "The boy, the girl, a dog.", determinersRegex );
 		expect( determiners ).toEqual(
 			[
 				{ match: 'The ', index: 0 },
@@ -28,19 +28,19 @@ describe( "a test for matching determiners.", function() {
 	} );
 
 	it( "does not match anything in a sentence part without determiners", function() {
-		determiners = wordIndicesRegexes( "was chosen.", determinersRegex );
+		var determiners = wordIndicesRegexes( "was chosen.", determinersRegex );
 		expect( determiners ).toEqual( [] );
 	} );
 
 	it( "does not match an empty string", function() {
-		determiners = wordIndicesRegexes( "", determinersRegex );
+		var determiners = wordIndicesRegexes( "", determinersRegex );
 		expect( determiners ).toEqual( [] );
 	} );
 } );
 
 describe( "a test for matching 'having'.", function() {
 	it( "matches a single instance of 'having' in a sentence part", function() {
-		havingMatches = wordIndicesRegexes( "was having the house painted", havingRegex );
+		var havingMatches = wordIndicesRegexes( "was having the house painted", havingRegex );
 		expect( havingMatches ).toEqual(
 			[
 				{ match: ' having ', index: 3 }
@@ -49,7 +49,7 @@ describe( "a test for matching 'having'.", function() {
 	} );
 
 	it( "matches multiple instances of 'having' in a sentence part", function() {
-		havingMatches = wordIndicesRegexes( "having fun, having the house painted", havingRegex );
+		var havingMatches = wordIndicesRegexes( "having fun, having the house painted", havingRegex );
 		expect( havingMatches ).toEqual(
 			[
 				{ match: 'having ', index: 0 },
@@ -59,12 +59,12 @@ describe( "a test for matching 'having'.", function() {
 	} );
 
 	it( "does not match anything in a sentence part without 'having'", function() {
-		havingMatches = wordIndicesRegexes( "was chosen.", havingRegex );
+		var havingMatches = wordIndicesRegexes( "was chosen.", havingRegex );
 		expect( havingMatches ).toEqual( [] );
 	} );
 
 	it( "does not match an empty string", function() {
-		havingMatches = wordIndicesRegexes( "", havingRegex );
+		var havingMatches = wordIndicesRegexes( "", havingRegex );
 		expect( havingMatches ).toEqual( [] );
 	} );
 } );

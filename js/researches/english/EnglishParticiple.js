@@ -61,13 +61,12 @@ var isPrecededByDeterminer = function( participle, word, sentencePart ) {
  *
  * @param {string} participle The participle.
  * @param {string} sentencePart The sentence part that contains the participle.
- * @param {string} auxiliary  The auxiliary in the sentence part.
- * @param {string} type The type of participle found.
+ * @param {object} attributes  The attributes object.
  *
  * @constructor
  */
-var EnglishParticiple = function( participle, sentencePart, auxiliary, type ) {
-	Participle.call( this, participle, sentencePart, auxiliary, type );
+var EnglishParticiple = function( participle, sentencePart, attributes ) {
+	Participle.call( this, participle, sentencePart, attributes );
 	this.checkException();
 };
 

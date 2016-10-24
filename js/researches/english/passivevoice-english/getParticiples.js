@@ -21,11 +21,13 @@ module.exports = function( sentencePart ) {
 
 	forEach( words, function( word ) {
 		if( regularParticiples( word ).length !== 0 ) {
-			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "regular" ) );
+			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(),
+				{ auxiliaries: sentencePart.getAuxiliaries(), type: "regular" } ) );
 			return;
 		}
 		if( irregularParticiples( word ).length !== 0 ) {
-			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "irregular" ) );
+			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(),
+				{ auxiliaries: sentencePart.getAuxiliaries(), type: "irregular" } ) );
 		}
 	} );
 	return foundParticiples;
