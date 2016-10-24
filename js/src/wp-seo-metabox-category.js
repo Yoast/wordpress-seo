@@ -49,6 +49,8 @@
 	 *
 	 * @param {string} taxonomyName
 	 * @param {Object} checkbox
+	 *
+	 * @returns {void}
 	 */
 	function createPrimaryTermElements( taxonomyName, checkbox ) {
 		var label, html;
@@ -67,6 +69,8 @@
 	 * Updates the primary term selectors/indicators for a certain taxonomy.
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function updatePrimaryTermSelectors( taxonomyName ) {
 		var checkedTerms;
@@ -114,6 +118,8 @@
 	 * Makes the first term primary for a certain taxonomy.
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function makeFirstTermPrimary( taxonomyName ) {
 		var firstTerm = $( "#" + taxonomyName + 'checklist input[type="checkbox"]:checked:first' );
@@ -126,6 +132,8 @@
 	 * If we check a term while there is no primary term we make that one the primary term.
 	 *
 	 * @param {string} taxonomyName
+	 *
+	 * @returns {void}
 	 */
 	function ensurePrimaryTerm( taxonomyName ) {
 		if ( "" === getPrimaryTerm( taxonomyName ) ) {
