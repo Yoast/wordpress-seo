@@ -1,19 +1,65 @@
+var getType = require( "./../helpers/types.js" ).getType;
+var isSameType = require( "./../helpers/types.js" ).isSameType;
+
+var defaults = require( "lodash/defaults" );
+var forEach = require( "lodash/forEach" );
+
+/**
+ * Default attributes to be used by the Participle if they are left undefined.
+ * @type { { auxiliaries: array, type: string } }
+ */
+var defaultAttributes = {
+	auxiliaries: [],
+	type: "",
+};
+
+/**
+ * Validates the type of all attributes. Throws an error if the type is invalid.
+ *
+ * @param {object} attributes The object containing all attributes.
+ * @returns {void}
+ */
+var validateAttributes = function( attributes ) {
+	forEach( attributes, function( attributeValue, attributeName ) {
+		var expectedType = getType( defaultAttributes[ attributeName ] );
+		if ( isSameType( attributeValue, expectedType ) === false ) {
+			throw Error( "Attribute " + attributeName + " has invalid type. Expected " + expectedType + ", got " + getType( attributeValue ) + "." );
+		}
+	} );
+};
+
 /**
  * Construct the Participle object and set the participle, sentence part, auxiliary and type.
  *
  * @param {string} participle The participle.
  * @param {string} sentencePart The sentence part where the participle is from.
- * @param {Array} auxiliaries The list with auxiliaries.
- * @param {string} type The type of participle.
+ * @param {object} attributes The object containing all attributes.
  * @constructor
  */
-// Todo: move auxiliaries, type and locale to attributes object. See Paper.
-var Participle = function( participle, sentencePart, auxiliaries, type ) {
-	this._participle = participle || "";
-	this._sentencePart = sentencePart || "";
-	this._type = type || "";
-	this._auxiliaries = auxiliaries || [];
+var Participle = function( participle, sentencePart, attributes ) {
+	this.setParticiple( participle );
+	this.setSentencePart( sentencePart );
 	this._determinesSentencePartIsPassive = false;
+
+	attributes = attributes || {};
+
+	defaults( attributes, defaultAttributes );
+
+	validateAttributes( attributes );
+
+	this._attributes = attributes;
+};
+
+/**
+ * Sets the participle.
+ * @param {string} participle The participle.
+ * @returns {void}.
+ */
+Participle.prototype.setParticiple = function( participle ) {
+	if ( participle === "" ) {
+		throw Error( "The participle should not be empty." );
+	}
+	this._participle = participle;
 };
 
 /**
@@ -22,6 +68,19 @@ var Participle = function( participle, sentencePart, auxiliaries, type ) {
  */
 Participle.prototype.getParticiple = function() {
 	return this._participle;
+};
+
+/**
+ * Sets the SentencePart.
+ *
+ * @param {string} sentencePart The sentence part.
+ * @returns {void}.
+ */
+Participle.prototype.setSentencePart = function( sentencePart ) {
+	if ( sentencePart === "" ) {
+		throw Error( "The sentence part should not be empty." );
+	}
+	this._sentencePart = sentencePart;
 };
 
 /**
@@ -37,7 +96,7 @@ Participle.prototype.getSentencePart = function() {
  * @returns {String} The type.
  */
 Participle.prototype.getType = function() {
-	return this._type;
+	return this._attributes.type;
 };
 
 /**
@@ -45,7 +104,7 @@ Participle.prototype.getType = function() {
  * @returns {String} The auxiliaries.
  */
 Participle.prototype.getAuxiliaries = function() {
-	return this._auxiliaries;
+	return this._attributes.auxiliaries;
 };
 
 /**
@@ -62,6 +121,9 @@ Participle.prototype.determinesSentencePartIsPassive = function() {
  * @returns {void}
  */
 Participle.prototype.setSentencePartPassiveness = function( passive ) {
+	if ( ! isSameType( passive, "boolean" ) ) {
+		throw Error( "Passiveness had invalid type. Expected boolean, got " + getType( passive ) + "." );
+	}
 	this._determinesSentencePartIsPassive = passive;
 };
 
