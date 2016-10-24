@@ -228,7 +228,7 @@ YoastMultiKeyword.prototype.addKeywordTabs = function() {
 		score: $( "#yoast_wpseo_linkdex" ).val(),
 	} );
 
-	// Clear the kyword tabs container.
+	// Clear the keyword tabs container.
 	$( ".wpseo-metabox-tab-content" ).find( ".wpseo_keyword_tab" ).remove();
 
 	if ( keywords.length > 0 ) {
