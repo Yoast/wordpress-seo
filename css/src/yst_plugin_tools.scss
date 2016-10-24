@@ -144,19 +144,23 @@ table.wpseo th {
 	min-width: 800px;
 }
 
-div.wpseo_variable_warning {
+.wpseo-variable-warning-element {
+	border: 1px solid #c62d2d !important;
+}
+
+.wpseo-variable-warning {
+	clear: both;
 	margin: 5px 0 0 0;
 	padding: 5px;
-	color: #dc3232;
+	color: #c62d2d;
 }
 
-input.wpseo_variable_warning,
-textarea.wpseo_variable_warning {
-	border: 1px solid #dc3232;
+.wpseo-variable-warning code {
+	color: #b02828;
 }
 
-.wpseo_variable_warning a {
-	color: #dc3232;
+.wpseo-variable-warning a {
+	color: #c62d2d;
 }
 
 .wpseo_content_wrapper h3 {
@@ -475,4 +479,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .wpseo-add-fb-admin-form-wrap .notice span {
 	margin-left: 10px;
+}
+
+.archives-titles-metas-content {
+	padding-top: 1em;
 }

@@ -535,6 +535,14 @@ a:focus {
 	height: 100%;
 }
 
+.yoast-wizard-notice__error {
+	margin-bottom: 15px;
+	padding: 12px;
+	border-right: 4px solid #dc3232;
+	background: #fff;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
 .yoast-wizard-return-link {
 	display: block;
 	margin: 1em 0;

@@ -43,6 +43,9 @@ window.yoastHideMarkers = true;
 		// Get the table cell that contains the description textarea.
 		var descriptionTd = jQuery( ".term-description-wrap" ).find( "td" );
 
+		// Get the description textarea label.
+		var descriptionLabel = jQuery( ".term-description-wrap" ).find( "label" );
+
 		// Get the textNode from the original textarea.
 		var textNode = descriptionTd.find( "textarea" ).val();
 
@@ -65,6 +68,9 @@ window.yoastHideMarkers = true;
 
 		// Populate the editor textarea with the original content,
 		document.getElementById( "description" ).value = textNode;
+
+		// Make the description textarea label plain text removing the label tag.
+		descriptionLabel.replaceWith( descriptionLabel.html() );
 	};
 
 	/**

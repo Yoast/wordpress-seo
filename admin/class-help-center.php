@@ -63,7 +63,7 @@ class WPSEO_Help_Center {
 			'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=popup&utm_campaign=multiple-keywords">Yoast SEO Premium</a>',
 			'yoast.com' );
 
-		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h3', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Email support', 'wordpress-seo' ),
@@ -178,7 +178,7 @@ class WPSEO_Help_Center {
 	 * @return bool
 	 */
 	private function is_a_help_center_item( $item ) {
-		return is_a( $item, 'WPSEO_Help_Center_Item' );
+		return ( $item instanceof WPSEO_Help_Center_Item );
 	}
 
 	/**

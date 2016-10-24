@@ -166,6 +166,12 @@ class WPSEO_Taxonomy_Metabox {
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
 
 		$tabs = array();
+		$single = true;
+
+		if ( $options['opengraph'] === true && $options['twitter'] === true ) {
+			$single = null;
+		}
+
 		if ( $options['opengraph'] === true ) {
 			$facebook_meta_fields = $taxonomy_social_fields->get_by_network( 'opengraph' );
 
@@ -175,6 +181,7 @@ class WPSEO_Taxonomy_Metabox {
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
 					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
+					'single' => $single,
 				)
 			);
 		}
@@ -188,6 +195,7 @@ class WPSEO_Taxonomy_Metabox {
 				'<span class="dashicons dashicons-twitter"></span>',
 				array(
 					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
+					'single' => $single,
 				)
 			);
 		}
@@ -353,7 +361,7 @@ SVG;
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
 						<span class="wpseo-tab-label">{{data.label}}</span>
-						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}.</span>
+						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}</span>
 					</a>
 					<# if ( data.hideable ) { #>
 						<button type="button" class="remove-tab" aria-label="{{data.removeLabel}}"><span>x</span></button>
@@ -377,7 +385,7 @@ SVG;
 						<span class="wpseo-score-icon {{data.score}}"></span>
 						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
 						<em class="wpseo-keyword">{{data.label}}</em>
-						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}.</span>
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
 					</a>
 					<# if ( data.hideable ) { #>
 						<button type="button" class="remove-keyword" aria-label="{{data.removeLabel}}"><span>x</span></button>
