@@ -166,48 +166,7 @@ class Yoast_Form {
 		}
 
 		$service_banners = $this->get_service_banners();
-
-		$plugin_banners = array(
-			array(
-				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
-				'img' => 'banner-premium-seo.png',
-				'alt' => __( 'Buy the Yoast SEO Premium plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
-			),
-		);
-
-		if ( ! class_exists( 'wpseo_Video_Sitemap' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
-				'img' => 'banner-video-seo.png',
-				'alt' => __( 'Buy the Yoast Video SEO plugin now and optimize your videos for video search results and social media!', 'wordpress-seo' ),
-			);
-		}
-
-		if ( class_exists( 'Woocommerce' ) && ! class_exists( 'Yoast_WooCommerce_SEO' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
-				'img' => 'banner-woocommerce-seo.png',
-				'alt' => __( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' ),
-			);
-		}
-
-		if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
-				'img' => 'banner-local-seo.png',
-				'alt' => __( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' ),
-			);
-		}
-
-		if ( ! class_exists( 'WPSEO_News' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
-				'img' => 'banner-news-seo.png',
-				'alt' => __( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' ),
-			);
-		}
-
-		shuffle( $plugin_banners );
+		$plugin_banners  = $this->get_plugin_banners();
 		?>
 		<div class="wpseo_content_cell" id="sidebar-container">
 			<div id="sidebar">
@@ -222,13 +181,8 @@ class Yoast_Form {
 			echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
 		}
 
-		$i = 0;
 		foreach ( $plugin_banners as $banner ) {
-			if ( $i == 2 ) {
-				break;
-			}
 			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="152" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
-			$i ++;
 		}
 		?>
 				<p class="wpseo-remove-ads">
@@ -606,6 +560,61 @@ class Yoast_Form {
 
 		$first_two_banners = array_slice( $service_banners, 0 , 2 );
 
-		return $service_banners;
+		return $first_two_banners;
+	}
+
+	/**
+	 * Returns two random selected plugin banners.
+     *
+     * @returns array
+     */
+	private function get_plugin_banners() {
+
+		$plugin_banners = array(
+			array(
+				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
+				'img' => 'banner-premium-seo.png',
+				'alt' => __( 'Buy the Yoast SEO Premium plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
+			),
+		);
+
+		if ( ! class_exists( 'wpseo_Video_Sitemap' ) ) {
+			$plugin_banners[] = array(
+				'url' => 'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
+				'img' => 'banner-video-seo.png',
+				'alt' => __( 'Buy the Yoast Video SEO plugin now and optimize your videos for video search results and social media!', 'wordpress-seo' ),
+			);
+		}
+
+		if ( class_exists( 'Woocommerce' ) && ! class_exists( 'Yoast_WooCommerce_SEO' ) ) {
+			$plugin_banners[] = array(
+				'url' => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
+				'img' => 'banner-woocommerce-seo.png',
+				'alt' => __( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' ),
+			);
+		}
+
+		if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
+			$plugin_banners[] = array(
+				'url' => 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
+				'img' => 'banner-local-seo.png',
+				'alt' => __( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' ),
+			);
+		}
+
+		if ( ! class_exists( 'WPSEO_News' ) ) {
+			$plugin_banners[] = array(
+				'url' => 'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
+				'img' => 'banner-news-seo.png',
+				'alt' => __( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' ),
+			);
+		}
+
+		shuffle( $plugin_banners );
+
+		$first_two_banners = array_slice( $plugin_banners, 0 , 2 );
+
+		return $first_two_banners;
+
 	}
 }
