@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Banner
+ */
 
 /**
  * Represents an admin banner.

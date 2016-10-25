@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Banner
+ */
 
 /**
  * Represents the render object for generating the html for the given banner.
