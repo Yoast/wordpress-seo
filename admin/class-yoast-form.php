@@ -238,6 +238,12 @@ class Yoast_Form {
 		?>
 		<div class="wpseo_content_cell" id="sidebar-container">
 			<div id="sidebar">
+				<div class="wpseo_content_cell_title">
+					<?php
+						/* translators: %s expands to Yoast  */
+						esc_html_e( sprintf( '%1s recommendations', 'Yoast'  ) );
+					?>
+				</div>
 		<?php
 
 		$i = 0;
