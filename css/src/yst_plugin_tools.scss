@@ -129,6 +129,21 @@ table.wpseo th {
 	margin: 0;
 	padding: 0;
 	vertical-align: top;
+
+	&_title {
+		width: 100%;
+		margin: 46px 0 20px;
+		padding: 10px;
+		border: none;
+		outline: none;
+		color: #a4286a;
+		background: none;
+		text-align: left;
+		box-sizing: border-box;
+		line-height: 19px;
+		border-bottom: 1px solid #a4286a;
+	}
+
 }
 
 .wpseo-remove-ads {
