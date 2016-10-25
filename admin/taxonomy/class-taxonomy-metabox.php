@@ -117,16 +117,17 @@ class WPSEO_Taxonomy_Metabox {
 			$content,
 			__( '', 'wordpress-seo' ),
 			array(
-				'link_class' => 'yoast-seo__remove-tab',
+				'tab_class' => 'yoast-seo__remove-tab',
 			)
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
 			'content',
-			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
+			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			array( $tab ),
 			array(
-				'link_title' => __( 'Content optimization', 'wordpress-seo' ),
+				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}
@@ -143,15 +144,19 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'settings',
 			$content,
-			__( 'Settings', 'wordpress-seo' )
+			__( 'Settings', 'wordpress-seo' ),
+			array(
+				'single' => true,
+			)
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
 			'settings',
-			'<span class="dashicons dashicons-admin-generic"></span>',
+			'<span class="screen-reader-text">' . __( 'Settings', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
 			array(
-				'link_title' => __( 'Settings', 'wordpress-seo' ),
+				'link_aria_label' => __( 'Settings', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}
@@ -178,10 +183,11 @@ class WPSEO_Taxonomy_Metabox {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
 				$this->taxonomy_tab_content->html( $facebook_meta_fields ),
-				'<span class="dashicons dashicons-facebook-alt"></span>',
+				'<span class="screen-reader-text">' . __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-facebook-alt"></span>',
 				array(
-					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
-					'single' => $single,
+					'link_aria_label' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
+					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
+					'single'          => $single,
 				)
 			);
 		}
@@ -192,20 +198,22 @@ class WPSEO_Taxonomy_Metabox {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
 				$this->taxonomy_tab_content->html( $twitter_meta_fields ),
-				'<span class="dashicons dashicons-twitter"></span>',
+				'<span class="screen-reader-text">' . __( 'Twitter metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-twitter"></span>',
 				array(
-					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
-					'single' => $single,
+					'link_aria_label' => __( 'Twitter metadata', 'wordpress-seo' ),
+					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
+					'single'          => $single,
 				)
 			);
 		}
 
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
-			'<span class="dashicons dashicons-share"></span>',
+			'<span class="screen-reader-text">' . __( 'Social', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-share"></span>',
 			$tabs,
 			array(
-				'link_title' => __( 'Social', 'wordpress-seo' ),
+				'link_aria_label' => __( 'Social', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}
@@ -269,7 +277,10 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'premium',
 			$content,
-			__( 'Yoast SEO Premium', 'wordpress-seo' )
+			'Yoast SEO Premium',
+			array(
+				'single' => true,
+			)
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -277,7 +288,8 @@ class WPSEO_Taxonomy_Metabox {
 			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
 			array( $tab ),
 			array(
-				'link_title' => __( 'Yoast SEO Premium', 'wordpress-seo' ),
+				'link_aria_label' => 'Yoast SEO Premium',
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}

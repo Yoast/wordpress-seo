@@ -87,10 +87,11 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
-				'<span class="dashicons dashicons-facebook-alt"></span>',
+				'<span class="screen-reader-text">' . __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-facebook-alt"></span>',
 				array(
-					'link_title' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
-					'single' => $single,
+					'link_aria_label' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
+					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
+					'single'          => $single,
 				)
 			);
 		}
@@ -99,20 +100,22 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
-				'<span class="dashicons dashicons-twitter"></span>',
+				'<span class="screen-reader-text">' . __( 'Twitter metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-twitter"></span>',
 				array(
-					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
-					'single' => $single,
+					'link_aria_label' => __( 'Twitter metadata', 'wordpress-seo' ),
+					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
+					'single'          => $single,
 				)
 			);
 		}
 
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
-			'<span class="dashicons dashicons-share"></span>',
+			'<span class="screen-reader-text">' . __( 'Social', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-share"></span>',
 			$tabs,
 			array(
-				'link_title' => __( 'Social', 'wordpress-seo' ),
+				'link_aria_label' => __( 'Social', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}

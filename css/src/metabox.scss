@@ -611,6 +611,11 @@ ul.wpseo-metabox-premium-advantages {
 	padding: 0;
 }
 
+.yoast-tooltip.yoast-tooltip-hidden::before,
+.yoast-tooltip.yoast-tooltip-hidden::after {
+	display: none;
+}
+
 /* Workaround for VoiceOver bug see issue #5857 */
 .screen-reader-text.wpseo-generic-tab-textual-score,
 .screen-reader-text.wpseo-keyword-tab-textual-score {
