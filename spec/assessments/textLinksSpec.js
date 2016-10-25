@@ -25,7 +25,7 @@ describe( "An assessor running the linkStatistics", function(){
 			totalKeyword: 0,
 			totalNaKeyword: 1};
 
-		var assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher( mockResult ), i18n );
+		var assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 8 );
 		expect( assessment.getText() ).toEqual ( 'This page has 0 nofollowed link(s) and 1 normal outbound link(s).' );
@@ -45,7 +45,7 @@ describe( "An assessor running the linkStatistics", function(){
 			totalKeyword: 0,
 			totalNaKeyword: 0};
 
-		assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher( mockResult ), i18n );
+		assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 7 );
 		expect( assessment.getText() ).toEqual ( 'This page has 1 outbound link(s), all nofollowed.' );
@@ -53,7 +53,7 @@ describe( "An assessor running the linkStatistics", function(){
 
 	it( "Accepts a paper and i18nobject  ", function(){
 		var mockPaper = new Paper( "" );
-		var assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher({ total: 0 }), i18n );
+		var assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher({ total: 0 }), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual ( 'No links appear in this page, consider adding some as appropriate.' );

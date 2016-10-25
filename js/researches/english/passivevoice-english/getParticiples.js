@@ -20,12 +20,16 @@ module.exports = function( sentencePart ) {
 	var foundParticiples = [];
 
 	forEach( words, function( word ) {
+		var type = "";
 		if( regularParticiples( word ).length !== 0 ) {
-			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "regular" ) );
-			return;
+			type = "regular";
 		}
 		if( irregularParticiples( word ).length !== 0 ) {
-			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "irregular" ) );
+			type = "irregular";
+		}
+		if ( type !== "" ) {
+			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(),
+				{ auxiliaries: sentencePart.getAuxiliaries(), type: type } ) );
 		}
 	} );
 	return foundParticiples;
