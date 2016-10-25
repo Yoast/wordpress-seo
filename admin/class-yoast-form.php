@@ -167,6 +167,8 @@ class Yoast_Form {
 
 		$service_banners = $this->get_service_banners();
 		$plugin_banners  = $this->get_plugin_banners();
+
+		$renderer = new WPSEO_Admin_Banner_Renderer;
 		?>
 		<div class="wpseo_content_cell" id="sidebar-container">
 			<div id="sidebar">
@@ -178,11 +180,11 @@ class Yoast_Form {
 				</div>
 		<?php
 		foreach ( $service_banners as $service_banner ) {
-			echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
+			echo $renderer->render( $service_banner );
 		}
 
 		foreach ( $plugin_banners as $banner ) {
-			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="152" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+			echo $renderer->render( $banner );
 		}
 		?>
 				<p class="wpseo-remove-ads">
@@ -525,34 +527,45 @@ class Yoast_Form {
 	/**
 	 * Returns two random selected service banners.
      *
-     * @returns array
+     * @returns WPSEO_Admin_Banner[]
      */
 	private function get_service_banners() {
+
 		$service_banners = array(
-			array(
-				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
-				'img' => 'banner-website-review.png',
-				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
+			new WPSEO_Admin_Banner(
+				'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
+				'banner-website-review.png',
+				__( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
+				261,
+				190
 			),
-			array(
-				'url' => 'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner',
-				'img' => 'banner-configuration-service.png',
-				'alt' => __( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' ),
+			new WPSEO_Admin_Banner(
+				'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner',
+				'banner-configuration-service.png',
+				__( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' ),
+				261,
+				190
 			),
-			array(
-				'url' => 'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
-				'img' => 'banner-seo-copywriting-training.png',
-				'alt' => __( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' ),
+			new WPSEO_Admin_Banner(
+				'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
+				'banner-seo-copywriting-training.png',
+				__( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' ),
+				261,
+				190
 			),
-			array(
-				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
-				'img' => 'banner-basic-seo-training.png',
-				'alt' => __( 'Take the online Basic SEO Training course and learn the fundamentals of SEO!', 'wordpress-seo' ),
+			new WPSEO_Admin_Banner(
+				'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
+				'banner-basic-seo-training.png',
+				__( 'Take the online Basic SEO Training course and learn the fundamentals of SEO!', 'wordpress-seo' ),
+				261,
+				190
 			),
-			array(
-				'url' => 'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
-				'img' => 'banner-yoast-seo-for-wordpress-training.png',
-				'alt' => __( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' ),
+			new WPSEO_Admin_Banner(
+				'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
+				'banner-yoast-seo-for-wordpress-training.png',
+				__( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' ),
+				261,
+				190
 			),
 		);
 
@@ -566,47 +579,57 @@ class Yoast_Form {
 	/**
 	 * Returns two random selected plugin banners.
      *
-     * @returns array
+     * @returns WPSEO_Admin_Banner[]
      */
 	private function get_plugin_banners() {
 
 		$plugin_banners = array(
-			array(
-				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
-				'img' => 'banner-premium-seo.png',
-				'alt' => __( 'Buy the Yoast SEO Premium plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
-			),
+			new WPSEO_Admin_Banner(
+				'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
+				'banner-premium-seo.png',
+				__( 'Buy the Yoast SEO Premium plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
+				261,
+				152
+			)
 		);
 
 		if ( ! class_exists( 'wpseo_Video_Sitemap' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
-				'img' => 'banner-video-seo.png',
-				'alt' => __( 'Buy the Yoast Video SEO plugin now and optimize your videos for video search results and social media!', 'wordpress-seo' ),
+			$plugin_banners[] = new WPSEO_Admin_Banner(
+				'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
+				'banner-video-seo.png',
+				__( 'Buy the Yoast Video SEO plugin now and optimize your videos for video search results and social media!', 'wordpress-seo' ),
+				261,
+				152
 			);
 		}
 
 		if ( class_exists( 'Woocommerce' ) && ! class_exists( 'Yoast_WooCommerce_SEO' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
-				'img' => 'banner-woocommerce-seo.png',
-				'alt' => __( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' ),
+			$plugin_banners[] = new WPSEO_Admin_Banner(
+				'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
+				'banner-woocommerce-seo.png',
+				__( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' ),
+				261,
+				152
 			);
 		}
 
 		if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
-				'img' => 'banner-local-seo.png',
-				'alt' => __( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' ),
+			$plugin_banners[] = new WPSEO_Admin_Banner(
+				'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
+				'banner-local-seo.png',
+				__( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' ),
+				261,
+				152
 			);
 		}
 
 		if ( ! class_exists( 'WPSEO_News' ) ) {
-			$plugin_banners[] = array(
-				'url' => 'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
-				'img' => 'banner-news-seo.png',
-				'alt' => __( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' ),
+			$plugin_banners[] = new WPSEO_Admin_Banner(
+				'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
+				'banner-news-seo.png',
+				__( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' ),
+				261,
+				152
 			);
 		}
 
