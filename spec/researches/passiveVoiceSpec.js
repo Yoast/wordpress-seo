@@ -269,10 +269,10 @@ describe( "detecting passive voice in sentences", function() {
 	 preceding 'fit' is not an option, because in that case 'fit' would be seen as a noun in sentences
 	 like "The model was fit by with the formula method" as well.
 	 */
-	// it( "returns active voice ( combination with fit )", function() {
-	// 	paper = new Paper( "It was the right fit" );
-	// 	expect( passiveVoice( paper ).passives.length ).toBe( 0 );
-	// });
+	xit( "returns active voice ( combination with fit )", function() {
+	 	paper = new Paper( "It was the right fit" );
+	 	expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	});
 
 	it( "returns passive voice ( combination with fit )", function() {
 		// Passive: was fit.

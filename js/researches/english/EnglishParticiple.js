@@ -82,13 +82,21 @@ EnglishParticiple.prototype.checkException = function() {
 		this.setSentencePartPassiveness( false );
 		return;
 	}
-	var isPassive =
-		! this.isNonVerbEndingEd() &&
-		! this.hasRidException() &&
-		! this.hasHavingException() &&
-		! this.hasLeftException() &&
-		! this.hasFitException();
-	this.setSentencePartPassiveness( isPassive );
+
+	this.setSentencePartPassiveness( this.isPassive() );
+};
+
+/**
+ * Checks if there are any exceptions to this participle that would determine the sentencepart
+ * not to be passive. If no exceptions are found, the sentence part is passive.
+ * @returns {boolean} Returns true if no exception is found.
+ */
+EnglishParticiple.prototype.isPassive = function() {
+	return 	! this.isNonVerbEndingEd() &&
+				! this.hasRidException() &&
+				! this.hasHavingException() &&
+				! this.hasLeftException() &&
+				! this.hasFitException();
 };
 
 /**
@@ -102,8 +110,7 @@ EnglishParticiple.prototype.isNonVerbEndingEd = function() {
 	if ( this.getType() === "irregular" ) {
 		return false;
 	}
-	var participle = this.getParticiple();
-	return includes( nonVerbsEndingEd, participle );
+	return includes( nonVerbsEndingEd, this.getParticiple() );
 };
 
 /**
@@ -114,8 +121,7 @@ EnglishParticiple.prototype.isNonVerbEndingEd = function() {
  * otherwise returns false.
  */
 EnglishParticiple.prototype.hasRidException = function() {
-	var participle = this.getParticiple();
-	if ( participle === "rid" ) {
+	if ( this.getParticiple() === "rid" ) {
 		var auxiliaries = this.getAuxiliaries();
 		return  ! isEmpty( intersection( irregularExclusionArray, auxiliaries ) );
 	}
@@ -129,9 +135,8 @@ EnglishParticiple.prototype.hasRidException = function() {
  * @returns {boolean} Returns true if having is directly preceding the participle, otherwise returns false.
  */
 EnglishParticiple.prototype.hasHavingException = function() {
-	var participle = this.getParticiple();
 	var sentencePart = this.getSentencePart();
-	var wordIndex = sentencePart.indexOf( participle );
+	var wordIndex = sentencePart.indexOf( this.getParticiple() );
 	var havingMatch = getWordIndices( sentencePart, havingRegex );
 	return includesIndex( havingMatch, wordIndex );
 };
