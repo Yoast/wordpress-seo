@@ -165,33 +165,7 @@ class Yoast_Form {
 			}
 		}
 
-		$service_banners = array(
-			array(
-				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
-				'img' => 'banner-website-review.png',
-				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner',
-				'img' => 'banner-configuration-service.png',
-				'alt' => __( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
-				'img' => 'banner-seo-copywriting-training.png',
-				'alt' => __( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
-				'img' => 'banner-basic-seo-training.png',
-				'alt' => __( 'Take the online Basic SEO Training course and learn the fundamentals of SEO!', 'wordpress-seo' ),
-			),
-			array(
-				'url' => 'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
-				'img' => 'banner-yoast-seo-for-wordpress-training.png',
-				'alt' => __( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' ),
-			),
-		);
+		$service_banners = $this->get_service_banners();
 
 		$plugin_banners = array(
 			array(
@@ -233,7 +207,6 @@ class Yoast_Form {
 			);
 		}
 
-		shuffle( $service_banners );
 		shuffle( $plugin_banners );
 		?>
 		<div class="wpseo_content_cell" id="sidebar-container">
@@ -245,14 +218,8 @@ class Yoast_Form {
 					?>
 				</div>
 		<?php
-
-		$i = 0;
 		foreach ( $service_banners as $service_banner ) {
-			if ( $i == 2 ) {
-				break;
-			}
 			echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
-			$i ++;
 		}
 
 		$i = 0;
@@ -599,5 +566,46 @@ class Yoast_Form {
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
+	}
+
+	/**
+	 * Returns two random selected service banners.
+     *
+     * @returns array
+     */
+	private function get_service_banners() {
+		$service_banners = array(
+			array(
+				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
+				'img' => 'banner-website-review.png',
+				'alt' => __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
+			),
+			array(
+				'url' => 'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner',
+				'img' => 'banner-configuration-service.png',
+				'alt' => __( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' ),
+			),
+			array(
+				'url' => 'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
+				'img' => 'banner-seo-copywriting-training.png',
+				'alt' => __( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' ),
+			),
+			array(
+				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
+				'img' => 'banner-basic-seo-training.png',
+				'alt' => __( 'Take the online Basic SEO Training course and learn the fundamentals of SEO!', 'wordpress-seo' ),
+			),
+			array(
+				'url' => 'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
+				'img' => 'banner-yoast-seo-for-wordpress-training.png',
+				'alt' => __( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' ),
+			),
+		);
+
+		shuffle( $service_banners );
+
+		$first_two_banners = array_slice( $service_banners, 0 , 2 );
+
+		return $service_banners;
 	}
 }
