@@ -90,7 +90,8 @@ class Yoast_Alerts {
 			$responses = [];
 			$notification_center = Yoast_Notification_Center::get();
 
-			foreach( $notifications as $notification) {
+			foreach ( $notifications as $notification ) {
+
 				$nonce = $notification['nonce'];
 
 				$notification = $notification_center->get_notification_by_id( $notification['id'] );
@@ -129,7 +130,8 @@ class Yoast_Alerts {
 	private function output_ajax_responses( $responses ) {
 		$html = [];
 
-		foreach( $responses as $response ) {
+		foreach ( $responses as $response ) {
+
 			$type = $response->get_type();
 
 			if ( $type === 'updated' ) {

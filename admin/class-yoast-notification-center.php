@@ -85,9 +85,9 @@ class Yoast_Notification_Center {
 	 * Determines if the notification will be dismissed by matching the notification's ID's.
 	 *
 	 * @param Yoast_Notification $notification The notification to check to see if it will be dismissed.
-	 * @param string $notification_key The notification key to check for to see if dismissal is possible.
+	 * @param string             $notification_key The notification key to check for to see if dismissal is possible.
 	 *
-	 * @return bool Returns whether or not the notification is dismissing
+	 * @return bool Returns whether or not the notification is dismissing.
 	 */
 	public static function is_notification_dismissing( Yoast_Notification $notification, $notification_key ) {
 		$dismissal_key = $notification->get_dismissal_key();
@@ -143,11 +143,12 @@ class Yoast_Notification_Center {
 	 *
 	 * @param string|Yoast_Notification $notification Notification to check dismissal of.
 	 * @param string                    $meta_value   Value to set the meta value to if dismissed.
-	 * @param string                    $notification_key   The notification key to match again.
+	 * @param string                    $notification_key   The notification key to match against.
+	 * @param string                    $user_nonce   The nonce to match against.
 	 *
 	 * @return bool True if dismissed.
 	 */
-	public static function maybe_dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen', $notification_key = '', $user_nonce = '') {
+	public static function maybe_dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen', $notification_key = '', $user_nonce = '' ) {
 
 		// Only persistent notifications are dismissible.
 		if ( ! $notification->is_persistent() ) {
