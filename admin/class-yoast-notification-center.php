@@ -127,7 +127,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Verifies the notification based on a specific nonce.
 	 *
-	 * @param string $nonce The nonce to verify against.
+	 * @param string             $nonce The nonce to verify against.
 	 * @param Yoast_Notification $notification The notification to verify.
 	 *
 	 * @return bool Returns false if the nonce isn't the same or can't be properly verified.
@@ -162,7 +162,7 @@ class Yoast_Notification_Center {
 
 		$notification_id = $notification->get_id();
 
-		// Notification key
+		// Notification key.
 		if ( $notification_key === '' ) {
 			$notification_key = self::get_user_input( 'notification' );
 		}

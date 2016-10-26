@@ -154,6 +154,7 @@ class Yoast_Alerts {
 
 	/**
 	 * Determines what kind of container CSS class to use.
+	 *
 	 * @param string $type The message type.
 	 *
 	 * @return string The CSS class to apply to the container.
