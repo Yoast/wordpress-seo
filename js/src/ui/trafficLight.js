@@ -8,6 +8,7 @@
 function updateTrafficLight( indicator ) {
 	var trafficLight = jQuery( ".yst-traffic-light" );
 	var trafficLightLink = trafficLight.closest( ".wpseo-meta-section-link" );
+	var trafficLightDesc = jQuery( "#wpseo-traffic-light-desc" );
 
 	// Update the traffic light image.
 	trafficLight
@@ -15,7 +16,15 @@ function updateTrafficLight( indicator ) {
 		.attr( "alt", "" );
 
 	// Update the traffic light link.
-	trafficLightLink.attr( "title", indicator.fullText );
+	trafficLightLink.attr( "aria-describedby", "wpseo-traffic-light-desc" );
+
+	if ( trafficLightDesc.length > 0 ) {
+		trafficLightDesc.text( indicator.screenReaderText );
+	} else {
+		trafficLightLink
+			.closest( "li" )
+			.append( "<span id='wpseo-traffic-light-desc' class='screen-reader-text'>" + indicator.screenReaderText + "</span>" );
+	}
 }
 
 module.exports = {

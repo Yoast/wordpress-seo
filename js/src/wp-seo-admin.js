@@ -246,29 +246,50 @@ import a11ySpeak from "a11y-speak";
 
 		initializeAlgoliaSearch();
 
-		// events
+		// Toggle the XML sitemap section.
 		jQuery( "#enablexmlsitemap" ).change( function() {
 			jQuery( "#sitemapinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Toggle the Author archives section.
+		jQuery( "#disable-author input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
+		// Toggle the Date archives section.
+		jQuery( "#disable-date input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
+		// Toggle the Format-based archives section.
 		jQuery( "#disable-post_format" ).change( function() {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
+		// Toggle the Breadcrumbs section.
 		jQuery( "#breadcrumbs-enable" ).change( function() {
 			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Toggle the Author / user sitemap section.
 		jQuery( "#disable_author_sitemap" ).find( "input:radio" ).change( function() {
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#xml_user_block" ).toggle( jQuery( this ).val() === "off" );
 			}
 		} ).change();
 
+		// Toggle the Redirect ugly URLs to clean permalinks section.
 		jQuery( "#cleanpermalinks" ).change( function() {
 			jQuery( "#cleanpermalinksdiv" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
@@ -278,6 +299,7 @@ import a11ySpeak from "a11y-speak";
 			jQuery( this ).addClass( "nav-tab-active" );
 		} );
 
+		// Handle the Company or Person select.
 		jQuery( "#company_or_person" ).change( function() {
 			var companyOrPerson = jQuery( this ).val();
 			if ( "company" === companyOrPerson ) {
@@ -294,6 +316,7 @@ import a11ySpeak from "a11y-speak";
 			}
 		} ).change();
 
+		// Check correct variables usage in title and description templates.
 		jQuery( ".template" ).change( function() {
 			wpseoDetectWrongVariables( jQuery( this ) );
 		} ).change();
