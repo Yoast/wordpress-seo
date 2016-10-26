@@ -87,7 +87,7 @@ class Yoast_Alerts {
 		$notifications = json_decode( filter_input( INPUT_POST, 'data' ), true );
 
 		if ( count( $notifications !== 0 ) ) {
-			$responses = [];
+			$responses = array();
 			$notification_center = Yoast_Notification_Center::get();
 
 			foreach ( $notifications as $notification ) {
@@ -128,7 +128,7 @@ class Yoast_Alerts {
 	 * @param array $responses Responses to parse.
 	 */
 	private function output_ajax_responses( $responses ) {
-		$html = [];
+		$html = array();
 
 		foreach ( $responses as $response ) {
 
