@@ -9,10 +9,10 @@ var EnglishParticiple = require( "../EnglishParticiple.js" );
 var forEach = require( "lodash/forEach" );
 
 /**
- * Creates EnglishParticiple Objects for the participles found in a sentence part.
+ * Creates English participle objects for the participles found in a sentence part.
  *
- * @param {string} sentencePart The sentence part to finds participles in.
- * @returns {Array} The array with EnglishParticiple Objects.
+ * @param {string} sentencePart The sentence part to find participles in.
+ * @returns {Array} The list with English participle objects.
  */
 module.exports = function( sentencePart ) {
 	var words = getWords( sentencePart.getSentencePartText() );

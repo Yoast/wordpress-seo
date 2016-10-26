@@ -1,7 +1,7 @@
 var Participle = require( "../../values/Participle.js" );
 
 var nonVerbsEndingEd = require( "./passivevoice-english/non-verb-ending-ed.js" )();
-var getWordIndices = require( "../english/passivevoice-english/wordIndicesRegexes.js" );
+var getWordIndices = require( "./passivevoice-english/getIndicesWithRegex.js" );
 var determinerList = require( "./../english/passivevoice-english/determiners.js" )();
 var havingList = require( "./../english/passivevoice-english/having.js" )();
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
@@ -38,8 +38,8 @@ var includesIndex = function( precedingWords, participleIndex ) {
 };
 
 /**
- * Looks for a specific participle and checks whether if it is directly preceded by a determiner.
- * If the participle is directly preceded by a determiner it is not a verb, hence the sentence part is not passive.
+ * Looks for a specific participle and checks if it is directly preceded by a determiner.
+ * If the participle is directly preceded by a determiner it is not a verb, and therefor the sentence part is not passive.
  *
  * @param {string} participle The participle.
  * @param {string} word The word to check whether it is preceded by a determiner.
@@ -86,8 +86,8 @@ EnglishParticiple.prototype.checkException = function() {
 };
 
 /**
- * Checks if there are any exceptions to this participle that would determine the sentencepart
- * not to be passive. If no exceptions are found, the sentence part is passive.
+ * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
+ * If no exceptions are found, the sentence part is passive.
  * @returns {boolean} Returns true if no exception is found.
  */
 EnglishParticiple.prototype.isPassive = function() {
@@ -114,15 +114,15 @@ EnglishParticiple.prototype.isNonVerbEndingEd = function() {
 
 /**
  * Checks whether the participle is 'rid' in combination with 'get', 'gets', 'getting', 'got' or 'gotten'.
- * If 'rid' appears in combination with 'get', 'gets', 'getting', 'got' or 'gotten', it is not passive.
+ * If this is true, the participle is not passive.
  *
- * @returns {boolean} Returns true if 'rid' is found in combination with 'get', 'gets', 'getting', 'got' or 'gotten',
+ * @returns {boolean} Returns true if 'rid' is found in combination with a form of 'get'
  * otherwise returns false.
  */
 EnglishParticiple.prototype.hasRidException = function() {
 	if ( this.getParticiple() === "rid" ) {
 		var auxiliaries = this.getAuxiliaries();
-		return  ! isEmpty( intersection( irregularExclusionArray, auxiliaries ) );
+		return ! isEmpty( intersection( irregularExclusionArray, auxiliaries ) );
 	}
 	return false;
 };

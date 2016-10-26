@@ -1,4 +1,4 @@
-var wordIndicesRegexes = require( "../../../../js/researches/english/passivevoice-english/wordIndicesRegexes.js" );
+var wordIndicesRegexes = require( "../../../../js/researches/english/passivevoice-english/getIndicesWithRegex.js" );
 
 var determinerList = require( "../../../../js/researches/english/passivevoice-english/determiners.js" )();
 var havingList = require( "../../../../js/researches/english/passivevoice-english/having.js" )();
