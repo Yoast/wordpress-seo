@@ -1,6 +1,7 @@
 /* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
 
 import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+import a11ySpeak from "a11y-speak";
 
 ( function() {
 	"use strict";
@@ -46,16 +47,15 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
 				e.addClass( "wpseo-variable-warning-element" );
 				var msg = wpseoAdminL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
-				var a11yMsg = wpseoAdminL10n.variable_warning.replace( "%s", variable );
 				if ( jQuery( "#" + error_id ).length ) {
 					jQuery( "#" + error_id ).html( msg );
 				}
 				else {
 					e.after( ' <div id="' + error_id + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
-				if ( typeof window.wp !== 'undefined' && window.wp.a11y ) {
-					window.wp.a11y.speak( a11yMsg, "assertive" );
-				}
+
+				a11ySpeak( wpseoAdminL10n.variable_warning.replace( "%s", variable ), "assertive" );
+
 				warn = true;
 			}
 			else {
