@@ -347,6 +347,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'yoast-components',
 				'src'  => 'yoast-components-360',
 			),
+			array(
+				'name' => 'extensions',
+				'src'  => 'yoast-extensions-370',
+			),
 		);
 	}
 }

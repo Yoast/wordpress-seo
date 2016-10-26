@@ -8,6 +8,7 @@
 
 /* css for snippet */
 .yoast-search-result-preview {
+	overflow: hidden;
 	background-color: #fff;
 	font-family: Arial, sans-serif;
 }
@@ -37,6 +38,30 @@
 
 .yoast-search-result-preview__field:after {
 	clear: both;
+}
+
+.yoast-search-result-preview__field--hover:before {
+	display: block;
+	position: absolute;
+	right: -3px;
+	width: 24px;
+	height: 24px;
+	margin-top: -3px;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23bfbfbf%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
+	background-size: 25px;
+	content: "";
+}
+
+.yoast-search-result-preview__field--focus:before {
+	display: block;
+	position: absolute;
+	right: -3px;
+	width: 24px;
+	height: 24px;
+	margin-top: -3px;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
+	background-size: 25px;
+	content: "";
 }
 
 .yoast-search-result-preview__title {
@@ -94,6 +119,7 @@
 }
 
 .yoast-search-result-form {
+	overflow: hidden;
 	background-color: #fff;
 	font-family: Arial, sans-serif;
 }
@@ -106,6 +132,32 @@
 	font-family: "Open Sans", sans-serif;
 	font-size: 0.9rem;
 	font-weight: 300;
+}
+
+.yoast-search-result-form__container--hover:before {
+	display: block;
+	position: absolute;
+	right: -3px;
+	width: 24px;
+	height: 24px;
+	margin-top: -3px;
+	margin-top: 15px;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23bfbfbf%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
+	background-size: 25px;
+	content: "";
+}
+
+.yoast-search-result-form__container--focus:before {
+	display: block;
+	position: absolute;
+	right: -3px;
+	width: 24px;
+	height: 24px;
+	margin-top: -3px;
+	margin-top: 15px;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
+	background-size: 25px;
+	content: "";
 }
 
 .yoast-search-result-form__label {
