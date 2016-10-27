@@ -75,5 +75,4 @@ class WPSEO_Admin_Banner_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 300, $this->admin_banner->get_height() );
 	}
 
-
 }

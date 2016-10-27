@@ -54,18 +54,47 @@ class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 
 		$this->admin_banner_spot->add_banner( $banner );
 
-		$this->assertTrue( in_array( $banner, $this->admin_banner_spot->get_banners() ) );
+		$this->assertInstanceOf( 'WPSEO_Admin_Banner', $this->admin_banner_spot->get_random_banner() );
 	}
 
 	/**
-	 * Testa the getting of the admin banners.
+	 * Tests the getting of a random banner with 10 banners being added.
 	 *
-	 * @covers WPSEO_Admin_Banner_Spot::get_banners
+	 * @covers WPSEO_Admin_Banner_Spot::get_random_banner
 	 */
-	public function test_get_banners() {
-		$this->assertTrue( is_array( $this->admin_banner_spot->get_banners() ) );
+	public function test_get_random_banner() {
+
+		for( $i = 1; $i <= 10; $i++ ) {
+			$banner = new WPSEO_Admin_Banner( 'random_url_' . $i, 'image', 'alt', 100, 100 );
+			$this->admin_banner_spot->add_banner( $banner );
+		}
+
+		$this->assertInstanceOf( 'WPSEO_Admin_Banner', $this->admin_banner_spot->get_random_banner() );
 	}
 
+	/**
+	 * Tests the getting of a random banner with 1 banner being added.
+	 *
+	 * @covers WPSEO_Admin_Banner_Spot::get_random_banner
+	 */
+	public function test_get_random_banner_with_single_banner() {
+
+		$banner = new WPSEO_Admin_Banner( 'url', 'image', 'alt', 100, 100 );
+
+		$this->admin_banner_spot->add_banner( $banner );
+
+		$this->assertInstanceOf( 'WPSEO_Admin_Banner', $this->admin_banner_spot->get_random_banner() );
+		$this->assertEquals( $banner, $this->admin_banner_spot->get_random_banner() );
+	}
+
+	/**
+	 * Tests the getting of a random banner.
+	 *
+	 * @covers WPSEO_Admin_Banner_Spot::get_random_banner
+	 */
+	public function test_get_random_banner_no_banners_added() {
+		$this->assertNull( $this->admin_banner_spot->get_random_banner() );
+	}
 
 
 }

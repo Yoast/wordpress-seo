@@ -56,11 +56,23 @@ class WPSEO_Admin_Banner_Spot {
 	}
 
 	/**
-	 * Returns the banners.
+	 * Returns a random banner.
 	 *
-	 * @return WPSEO_Admin_Banner[]
+	 * @return null|WPSEO_Admin_Banner
 	 */
-	public function get_banners() {
-		return $this->banners;
+	public function get_random_banner() {
+
+		if ( empty( $this->banners ) ) {
+			return null;
+		}
+
+		$total_banners = count( $this->banners );
+		if ( $total_banners === 1 ) {
+			return $this->banners[0];
+		}
+
+		$random_banner = rand( 0, ( $total_banners - 1 ) );
+
+		return $this->banners[ $random_banner ];
 	}
 }
