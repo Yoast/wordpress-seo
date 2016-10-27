@@ -1032,20 +1032,6 @@ table.wpseo th {
 	vertical-align: top;
 }
 
-.wpseo_content_cell_title {
-	box-sizing: border-box;
-	width: 100%;
-	margin: 46px 0 20px;
-	padding: 10px;
-	border: none;
-	border-bottom: 1px solid #a4286a;
-	outline: none;
-	color: #a4286a;
-	background: none;
-	line-height: 19px;
-	text-align: right;
-}
-
 .wpseo-remove-ads {
 	margin-top: 0;
 	padding: 12px;
@@ -1398,4 +1384,27 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .archives-titles-metas-content {
 	padding-top: 1em;
+}
+
+.yoast-sidebar__title {
+	box-sizing: border-box;
+	width: 100%;
+	margin: 46px 0 20px;
+	padding: 10px;
+	border: none;
+	border-bottom: 1px solid #a4286a;
+	outline: none;
+	color: #a4286a;
+	background: none;
+	line-height: 19px;
+	text-align: right;
+}
+
+.yoast-sidebar__spot {
+	padding: 10px 0 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.yoast-sidebar__spot a {
+	color: #a4286a;
 }

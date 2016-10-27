@@ -23,7 +23,7 @@ class WPSEO_Admin_Banner_Spot_Renderer {
 			return '';
 		}
 
-		$output  = '<div class="sidebar-spot"><strong>' . $banner_spot->get_title() . '</strong>';
+		$output  = '<div class="yoast-sidebar__spot"><strong>' . $banner_spot->get_title() . '</strong>';
 		$output .= '<p>' . $banner_spot->get_description() . '</p>';
 		$output .= $banner_renderer->render( $banner );
 		$output .= '</div>';

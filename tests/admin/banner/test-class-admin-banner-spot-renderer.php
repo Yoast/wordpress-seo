@@ -15,7 +15,7 @@ class WPSEO_Admin_Banner_Spot_Renderer_Test extends WPSEO_UnitTestCase {
 
 		$admin_banner_spot_renderer = new WPSEO_Admin_Banner_Spot_Renderer;
 
-		$expected_output = '<div class="sidebar-spot"><strong>Test spot</strong><p>This is a test spot</p>';
+		$expected_output = '<div class="yoast-sidebar__spot"><strong>Test spot</strong><p>This is a test spot</p>';
 		$actual_output   = $admin_banner_spot_renderer->render( $banner_spot, new WPSEO_Admin_Banner_Renderer() );
 
 		$this->assertStringStartsWith( $expected_output, $actual_output );
