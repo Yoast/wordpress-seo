@@ -175,7 +175,7 @@ class Yoast_Form {
 				<div class="wpseo_content_cell_title">
 					<?php
 						/* translators: %s expands to Yoast  */
-						esc_html_e( sprintf( '%1s recommendations', 'Yoast'  ) );
+						esc_html_e( sprintf( '%1s recommendations', 'Yoast' ) );
 					?>
 				</div>
 		<?php
@@ -526,10 +526,13 @@ class Yoast_Form {
 
 	/**
 	 * Returns two random selected service banners.
-     *
-     * @returns WPSEO_Admin_Banner[]
-     */
+	 *
+	 * @return WPSEO_Admin_Banner[]
+	 */
 	private function get_service_banners() {
+
+		$service_banner_spot = new WPSEO_Admin_Banner_Spot( 'service', 'This is the service text' );
+
 
 		$service_banners = array(
 			new WPSEO_Admin_Banner(
@@ -578,9 +581,9 @@ class Yoast_Form {
 
 	/**
 	 * Returns two random selected plugin banners.
-     *
-     * @returns WPSEO_Admin_Banner[]
-     */
+	 *
+	 * @return WPSEO_Admin_Banner[]
+	 */
 	private function get_plugin_banners() {
 
 		$plugin_banners = array(

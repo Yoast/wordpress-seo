@@ -11,7 +11,7 @@ class WPSEO_Admin_Banner_Renderer {
 	/**
 	 * Renders the admin banner.
 	 *
-	 * @param WPSEO_Admin_Banner $banner
+	 * @param WPSEO_Admin_Banner $banner The banner to render.
 	 *
 	 * @return string
 	 */
@@ -23,6 +23,4 @@ class WPSEO_Admin_Banner_Renderer {
 
 		return $output;
 	}
-
-
 }

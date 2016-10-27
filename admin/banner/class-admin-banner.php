@@ -34,7 +34,7 @@ class WPSEO_Admin_Banner {
 	 * @param integer $width  The width of the image.
 	 * @param integer $height The height of the image.
 	 */
-	public function __construct( $url, $image, $alt, $width, $height  ) {
+	public function __construct( $url, $image, $alt, $width, $height ) {
 		$this->url    = $url;
 		$this->image  = $image;
 		$this->alt    = $alt;
@@ -86,5 +86,4 @@ class WPSEO_Admin_Banner {
 	public function get_height() {
 		return $this->height;
 	}
-
 }
