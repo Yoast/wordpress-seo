@@ -168,24 +168,20 @@ class Yoast_Form {
 		$service_banners = $this->get_service_banners();
 		$plugin_banners  = $this->get_plugin_banners();
 
-		$renderer = new WPSEO_Admin_Banner_Renderer;
+		$banner_renderer = new WPSEO_Admin_Banner_Renderer;
+		$spot_renderer   = new WPSEO_Admin_Banner_Spot_Renderer();
 		?>
 		<div class="wpseo_content_cell" id="sidebar-container">
 			<div id="sidebar">
-				<div class="wpseo_content_cell_title">
+				<div class="wpseo_content_cell_title yoast-sidebar__title ">
 					<?php
 						/* translators: %s expands to Yoast  */
 						esc_html_e( sprintf( '%1s recommendations', 'Yoast' ) );
 					?>
 				</div>
 		<?php
-		foreach ( $service_banners as $service_banner ) {
-			echo $renderer->render( $service_banner );
-		}
-
-		foreach ( $plugin_banners as $banner ) {
-			echo $renderer->render( $banner );
-		}
+		echo $spot_renderer->render( $service_banners, $banner_renderer );
+		echo $spot_renderer->render( $plugin_banners, $banner_renderer );
 		?>
 				<p class="wpseo-remove-ads">
 				<strong><?php _e( 'Remove these ads?', 'wordpress-seo' ); ?></strong><br/>
@@ -527,66 +523,94 @@ class Yoast_Form {
 	/**
 	 * Returns two random selected service banners.
 	 *
-	 * @return WPSEO_Admin_Banner[]
+	 * @return WPSEO_Admin_Banner_Spot
 	 */
 	private function get_service_banners() {
 
-		$service_banner_spot = new WPSEO_Admin_Banner_Spot( 'service', 'This is the service text' );
+		$service_banner_spot = new WPSEO_Admin_Banner_Spot(
+			__( 'Services', 'wordpress-seo' ),
+			sprintf(
+				/* translators: %1$s expands to anchor start text with link to the Yoast Services page, %2$s to Yoast, %3$s is the a-closing tag.  */
+				__( 'Don\'t want dive into SEO yourself? %1$sLet team %2$s help you!%3$s' ),
+				'<a href="https://yoa.st/">',
+				'Yoast',
+				'</a>'
+			)
+		);
 
-
-		$service_banners = array(
+		$service_banner_spot->add_banner(
 			new WPSEO_Admin_Banner(
 				'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
 				'banner-website-review.png',
 				__( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' ),
 				261,
 				190
-			),
+			)
+		);
+
+		$service_banner_spot->add_banner(
 			new WPSEO_Admin_Banner(
 				'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner',
 				'banner-configuration-service.png',
 				__( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' ),
 				261,
 				190
-			),
+			)
+		);
+
+		$service_banner_spot->add_banner(
 			new WPSEO_Admin_Banner(
 				'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
 				'banner-seo-copywriting-training.png',
 				__( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' ),
 				261,
 				190
-			),
+			)
+		);
+
+		$service_banner_spot->add_banner(
 			new WPSEO_Admin_Banner(
 				'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
 				'banner-basic-seo-training.png',
 				__( 'Take the online Basic SEO Training course and learn the fundamentals of SEO!', 'wordpress-seo' ),
 				261,
 				190
-			),
+			)
+		);
+
+		$service_banner_spot->add_banner(
 			new WPSEO_Admin_Banner(
 				'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
 				'banner-yoast-seo-for-wordpress-training.png',
 				__( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' ),
 				261,
 				190
-			),
+			)
 		);
 
-		shuffle( $service_banners );
-
-		$first_two_banners = array_slice( $service_banners, 0 , 2 );
-
-		return $first_two_banners;
+		return $service_banner_spot;
 	}
 
 	/**
 	 * Returns two random selected plugin banners.
 	 *
-	 * @return WPSEO_Admin_Banner[]
+	 * @return WPSEO_Admin_Banner_Spot
 	 */
 	private function get_plugin_banners() {
 
-		$plugin_banners = array(
+		$plugin_banners = new WPSEO_Admin_Banner_Spot(
+			__( 'Extensions', 'wordpress-seo' ),
+			sprintf(
+				/* translators: %1$s expands to Yoast SEO, %2$s to anchor to the Yoast plugin page, %3$s is the a-closing tag.  */
+				__( 'Extend your %1$s plugin with our %2$sSEO plugins%3$s.', 'wordpress-seo' ),
+				'Yoast SEO',
+				'<a href="https://yoa.st/">',
+				'</a>'
+			)
+		);
+
+
+		$plugin_banners->add_banner(
 			new WPSEO_Admin_Banner(
 				'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
 				'banner-premium-seo.png',
@@ -597,50 +621,53 @@ class Yoast_Form {
 		);
 
 		if ( ! class_exists( 'wpseo_Video_Sitemap' ) ) {
-			$plugin_banners[] = new WPSEO_Admin_Banner(
-				'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
-				'banner-video-seo.png',
-				__( 'Buy the Yoast Video SEO plugin now and optimize your videos for video search results and social media!', 'wordpress-seo' ),
-				261,
-				152
+			$plugin_banners->add_banner(
+				new WPSEO_Admin_Banner(
+					'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
+					'banner-video-seo.png',
+					__( 'Buy the Yoast Video SEO plugin now and optimize your videos for video search results and social media!', 'wordpress-seo' ),
+					261,
+					152
+				)
 			);
 		}
 
 		if ( class_exists( 'Woocommerce' ) && ! class_exists( 'Yoast_WooCommerce_SEO' ) ) {
-			$plugin_banners[] = new WPSEO_Admin_Banner(
-				'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
-				'banner-woocommerce-seo.png',
-				__( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' ),
-				261,
-				152
+			$plugin_banners->add_banner(
+				new WPSEO_Admin_Banner(
+					'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
+					'banner-woocommerce-seo.png',
+					__( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' ),
+					261,
+					152
+				)
 			);
 		}
 
 		if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
-			$plugin_banners[] = new WPSEO_Admin_Banner(
-				'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
-				'banner-local-seo.png',
-				__( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' ),
-				261,
-				152
+			$plugin_banners->add_banner(
+				new WPSEO_Admin_Banner(
+					'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
+					'banner-local-seo.png',
+					__( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' ),
+					261,
+					152
+				)
 			);
 		}
 
 		if ( ! class_exists( 'WPSEO_News' ) ) {
-			$plugin_banners[] = new WPSEO_Admin_Banner(
-				'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
-				'banner-news-seo.png',
-				__( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' ),
-				261,
-				152
+			$plugin_banners->add_banner(
+				new WPSEO_Admin_Banner(
+					'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
+					'banner-news-seo.png',
+					__( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' ),
+					261,
+					152
+				)
 			);
 		}
 
-		shuffle( $plugin_banners );
-
-		$first_two_banners = array_slice( $plugin_banners, 0 , 2 );
-
-		return $first_two_banners;
-
+		return $plugin_banners;
 	}
 }
