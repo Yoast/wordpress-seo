@@ -14,27 +14,25 @@ class WPSEO_Admin_Banner {
 	/** @var string */
 	private $image;
 
+	/** @var integer */
+	private $width;
+
+	/** @var integer */
+	private $height;
+
 	/** @var string */
 	private $alt;
-
-	/** @var string */
-
-	private $width;
-	/**
-	 * @var string
-	 */
-	private $height;
 
 	/**
 	 * Sets the attributes for this object.
 	 *
 	 * @param string  $url    The URL where the banner links to.
 	 * @param string  $image  The image filename.
-	 * @param string  $alt    The alt text for the image.
 	 * @param integer $width  The width of the image.
 	 * @param integer $height The height of the image.
+	 * @param string  $alt    The alt text for the image.
 	 */
-	public function __construct( $url, $image, $alt, $width, $height ) {
+	public function __construct( $url, $image, $width, $height, $alt = '' ) {
 		$this->url    = $url;
 		$this->image  = $image;
 		$this->alt    = $alt;

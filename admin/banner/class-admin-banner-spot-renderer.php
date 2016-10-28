@@ -11,21 +11,18 @@ class WPSEO_Admin_Banner_Spot_Renderer {
 	/**
 	 * Renders the admin banner spot.
 	 *
-	 * @param WPSEO_Admin_Banner_Spot     $banner_spot     The spot to render.
-	 * @param WPSEO_Admin_Banner_Renderer $banner_renderer The banner renderer, for rendering the banner.
+	 * @param WPSEO_Admin_Banner_Spot $banner_spot The spot to render.
 	 *
 	 * @return string
 	 */
-	public function render( WPSEO_Admin_Banner_Spot $banner_spot, WPSEO_Admin_Banner_Renderer $banner_renderer ) {
-		$banner = $banner_spot->get_random_banner();
+	public function render( WPSEO_Admin_Banner_Spot $banner_spot ) {
+		$output  = '<div class="yoast-sidebar__spot"><strong>' . $banner_spot->get_title() . '</strong>';
 
-		if ( $banner === null ) {
-			return '';
+		if ( $banner_spot->get_description() !== '' ) {
+			$output .= '<p>' . $banner_spot->get_description() . '</p>';
 		}
 
-		$output  = '<div class="yoast-sidebar__spot"><strong>' . $banner_spot->get_title() . '</strong>';
-		$output .= '<p>' . $banner_spot->get_description() . '</p>';
-		$output .= $banner_renderer->render( $banner );
+		$output .= $banner_spot->render_banner();
 		$output .= '</div>';
 
 		return $output;

@@ -10,7 +10,7 @@ class WPSEO_Admin_Banner_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->admin_banner = new WPSEO_Admin_Banner( 'url', 'image.png', 'alt', 200, 300  );
+		$this->admin_banner = new WPSEO_Admin_Banner( 'url', 'image.png', 200, 300, 'alt' );
 	}
 
 
@@ -20,7 +20,7 @@ class WPSEO_Admin_Banner_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Banner::__construct
 	 */
 	public function test_constructor() {
-		$admin_banner = new WPSEO_Admin_Banner( 'target_url', 'the-image.png', 'the-alt', 700, 900  );
+		$admin_banner = new WPSEO_Admin_Banner( 'target_url', 'the-image.png', 700, 900, 'the-alt' );
 
 		$this->assertEquals( 'target_url', $admin_banner->get_url() );
 		$this->assertEquals( 'the-image.png', $admin_banner->get_image() );

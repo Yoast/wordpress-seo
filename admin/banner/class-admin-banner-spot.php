@@ -11,8 +11,8 @@ class WPSEO_Admin_Banner_Spot {
 	/** @var string */
 	private $title;
 
-	/** @var string  */
-	private $description;
+	/** @var string */
+	private $description = '';
 
 	/** @var WPSEO_Admin_Banner[] */
 	private $banners = array();
@@ -20,12 +20,12 @@ class WPSEO_Admin_Banner_Spot {
 	/**
 	 * WPSEO_Admin_Banner_Spot constructor.
 	 *
-	 * @param string $title       The title for the spot.
-	 * @param string $description The description for the spot.
+	 * @param string                      $title           The title for the spot.
+	 * @param WPSEO_Admin_Banner_Renderer $banner_renderer The renderer for the banner.
 	 */
-	public function __construct( $title, $description ) {
-		$this->title = $title;
-		$this->description = $description;
+	public function __construct( $title, WPSEO_Admin_Banner_Renderer $banner_renderer = null ) {
+		$this->title           = $title;
+		$this->banner_renderer = ( is_null( $banner_renderer ) ? new WPSEO_Admin_Banner_Renderer() : $banner_renderer );
 	}
 
 	/**
@@ -47,6 +47,15 @@ class WPSEO_Admin_Banner_Spot {
 	}
 
 	/**
+	 * Sets the description
+	 *
+	 * @param string $description The description.
+	 */
+	public function set_description( $description ) {
+		$this->description = $description;
+	}
+
+	/**
 	 * Adds an admin banner.
 	 *
 	 * @param WPSEO_Admin_Banner $banner The banner to add.
@@ -56,23 +65,33 @@ class WPSEO_Admin_Banner_Spot {
 	}
 
 	/**
+	 * Renders the banner.
+	 *
+	 * @return string
+	 */
+	public function render_banner() {
+		if ( ! $this->has_banners() ) {
+			return '';
+		}
+
+		return $this->banner_renderer->render( $this->get_random_banner() );
+	}
+
+	/**
+	 * Checks if there are any banners set.
+	 *
+	 * @return bool
+	 */
+	public function has_banners() {
+		return ! empty( $this->banners );
+	}
+
+	/**
 	 * Returns a random banner.
 	 *
 	 * @return null|WPSEO_Admin_Banner
 	 */
-	public function get_random_banner() {
-
-		if ( empty( $this->banners ) ) {
-			return null;
-		}
-
-		$total_banners = count( $this->banners );
-		if ( $total_banners === 1 ) {
-			return $this->banners[0];
-		}
-
-		$random_banner = rand( 0, ( $total_banners - 1 ) );
-
-		return $this->banners[ $random_banner ];
+	protected function get_random_banner() {
+		return $this->banners[ array_rand( $this->banners, 1 ) ];
 	}
 }
