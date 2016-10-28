@@ -74,6 +74,7 @@ require( "util" ).inherits( EnglishParticiple, Participle );
 
 /**
  * Sets sentence part passiveness to passive if there is no exception.
+ *
  * @returns {void}
  */
 EnglishParticiple.prototype.checkException = function() {
@@ -88,6 +89,7 @@ EnglishParticiple.prototype.checkException = function() {
 /**
  * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
  * If no exceptions are found, the sentence part is passive.
+ *
  * @returns {boolean} Returns true if no exception is found.
  */
 EnglishParticiple.prototype.isPassive = function() {
