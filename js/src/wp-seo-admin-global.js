@@ -192,7 +192,7 @@
 	 * @returns {void}
 	 */
 	function handleDismissRestoreResponse( $source, response ) {
-		$( ".yoast-alert-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
+		$( ".yoast-alert-holder" ).off( "click", ".restore, .dismiss" );
 
 		if ( typeof response.html === "undefined" ) {
 			return;
@@ -264,7 +264,6 @@
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Adds a disabled overlay to the specified container element.
 	 *
 	 * @param {Object} container The container object to append the overlay to.
