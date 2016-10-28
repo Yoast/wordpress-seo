@@ -5,12 +5,12 @@ var irregulars = require( "./irregulars" )();
 /**
  * Returns words that have been determined to be a regular participle.
  * @param {string} word The word to check
- * .
+ * 
  * @returns {Array} A list with the matches.
  */
 var regularParticiples = function( word ) {
 
-// Matches all words ending in ed.
+	// Matches all words ending in ed.
 	var regularParticiplesRegex = /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 
 	return word.match( regularParticiplesRegex ) || [];
@@ -18,6 +18,7 @@ var regularParticiples = function( word ) {
 
 /**
  * Returns the matches for a word in the list of irregulars.
+ * 
  * @param {string} word The word to match in the list.
  *
  * @returns {Array} A list with the matches.
