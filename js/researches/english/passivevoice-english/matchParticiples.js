@@ -6,7 +6,7 @@ var irregulars = require( "./irregulars" )();
  * Returns words that have been determined to be a regular participle.
  *
  * @param {string} word The word to check
- * 
+ *
  * @returns {Array} A list with the matches.
  */
 var regularParticiples = function( word ) {
@@ -19,7 +19,7 @@ var regularParticiples = function( word ) {
 
 /**
  * Returns the matches for a word in the list of irregulars.
- * 
+ *
  * @param {string} word The word to match in the list.
  *
  * @returns {Array} A list with the matches.
