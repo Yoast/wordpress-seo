@@ -170,11 +170,11 @@ function filterSpecialCharacters( wordCombinations, specialCharacters ) {
  * @param {number} syllableCount The number of syllables to use for filtering.
  * @returns {WordCombination[]} Filtered word combinations.
  */
- function filterOnSyllableCount( wordCombinations, syllableCount ) {
+function filterOnSyllableCount( wordCombinations, syllableCount ) {
 	return wordCombinations.filter( function( combination )  {
 		return ! ( combination.getLength() === 1 && countSyllables( combination.getWords()[ 0 ], "en_US" ) <= syllableCount );
 	} );
- }
+}
 
 /**
  * Filters word combinations based on keyword density if the word count is 200 or over.
