@@ -499,7 +499,7 @@ class WPSEO_Meta {
 				break;
 
 
-			case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
+			case ( $field_def['type'] === 'upload' && in_array( $meta_key, array( self::$meta_prefix . 'opengraph-image', self::$meta_prefix . 'twitter-image' ), true ) ):
 				// Validate as url.
 				$url = WPSEO_Utils::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
 				if ( $url !== '' ) {
