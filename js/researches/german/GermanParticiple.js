@@ -10,14 +10,28 @@ var forEach = require( "lodash/forEach" );
 var includes = require( "lodash/includes" );
 var map = require( "lodash/map" );
 
-var GermanParticiple = function(  participle, sentencePart, auxiliary, type ) {
-	Participle.call( this, participle, sentencePart, auxiliary, type );
-	this.isException();
+/**
+ * Creates an Participle object for the English language.
+ *
+ * @param {string} participle The participle.
+ * @param {string} sentencePart The sentence part that contains the participle.
+ * @param {object} attributes  The attributes object.
+ *
+ * @constructor
+ */
+var GermanParticiple = function(  participle, sentencePart, attributes ) {
+	Participle.call( this, participle, sentencePart, attributes );
+	this.checkException();
 };
 
 require( "util" ).inherits( GermanParticiple, Participle );
 
-GermanParticiple.prototype.isException = function() {
+/**
+ * Sets sentence part passiveness to passive if there is no exception.
+ *
+ * @returns {void}
+ */
+GermanParticiple.prototype.checkException = function() {
 	var isPassive = ! this.hasNounSuffix() && ! this.isInExceptionList() && ! this.hasHabenSeinException();
 	this.setSentencePartPassiveness( isPassive );
 };

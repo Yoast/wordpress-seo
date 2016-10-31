@@ -1,3 +1,4 @@
+// This is a list with stopwords used in German.
 module.exports = function() {
 	return [
 		":",
