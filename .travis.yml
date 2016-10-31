@@ -28,7 +28,7 @@ matrix:
     - php: 5.3
       env: WP_VERSION=4.6
     - php: 7.1
-      env: WP_VERSION=trunk
+      env: WP_VERSION=master
     - php: hhvm
       env: WP_VERSION=4.6
 
