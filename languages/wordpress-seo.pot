@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.6.1\n"
+"Project-Id-Version: Yoast SEO 3.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-10-11 09:42:17+00:00\n"
+"POT-Creation-Date: 2016-10-21 08:58:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: admin/class-admin.php:150 admin/class-admin.php:334
 #: admin/class-meta-columns.php:63
-#: admin/formatter/class-metabox-formatter.php:70
+#: admin/formatter/class-metabox-formatter.php:71
 #: admin/taxonomy/class-taxonomy-columns.php:51
 #: inc/wpseo-non-ajax-functions.php:105
 msgid "SEO"
@@ -154,8 +154,8 @@ msgstr ""
 msgid "Titles &amp; Metas"
 msgstr ""
 
-#: admin/class-admin.php:179 admin/class-social-admin.php:106
-#: admin/taxonomy/class-taxonomy-metabox.php:200
+#: admin/class-admin.php:179 admin/class-social-admin.php:115
+#: admin/taxonomy/class-taxonomy-metabox.php:208
 #: inc/wpseo-non-ajax-functions.php:275
 msgid "Social"
 msgstr ""
@@ -178,7 +178,7 @@ msgid "Search Console"
 msgstr ""
 
 #: admin/class-admin.php:224 admin/metabox/class-metabox.php:415
-#: admin/taxonomy/class-taxonomy-metabox.php:213
+#: admin/taxonomy/class-taxonomy-metabox.php:221
 #: inc/wpseo-non-ajax-functions.php:306
 msgid "Go Premium"
 msgstr ""
@@ -578,7 +578,7 @@ msgstr ""
 
 #: admin/class-meta-columns.php:66
 #: admin/formatter/class-metabox-formatter.php:50
-#: admin/formatter/class-metabox-formatter.php:69
+#: admin/formatter/class-metabox-formatter.php:70
 #: admin/taxonomy/class-taxonomy-columns.php:55
 msgid "Readability"
 msgstr ""
@@ -676,10 +676,10 @@ msgstr ""
 
 #. translators: %1$s expands anchor to premium plugin page, %2$s expands to
 #. </a>
-#: admin/class-product-upsell-notice.php:120
+#: admin/class-product-upsell-notice.php:118
 msgid ""
-"By the way, did you know we also have a %1\\$sPremium plugin%2\\$s? It "
-"offers advanced features, like a redirect manager and support for multiple "
+"By the way, did you know we also have a %1$sPremium plugin%2$s? It offers "
+"advanced features, like a redirect manager and support for multiple "
 "keywords. It also comes with 24/7 personal support."
 msgstr ""
 
@@ -687,7 +687,7 @@ msgstr ""
 #. expands anchor to the bugreport guidelines on the knowledge base, %3$s
 #. expands to a section about Premium, %4$a expands to the notice dismissal
 #. anchor, %5$s expands to </a>
-#: admin/class-product-upsell-notice.php:137
+#: admin/class-product-upsell-notice.php:135
 msgid ""
 "We've noticed you've been using Yoast SEO for some time now; we hope you "
 "love it!\n"
@@ -739,7 +739,7 @@ msgstr ""
 #. image size
 #: admin/class-social-admin.php:40
 #: admin/taxonomy/class-taxonomy-social-fields.php:63
-msgid "The recommended image size for %1$s is %2$spx."
+msgid "The recommended image size for %1$s is %2$s pixels."
 msgstr ""
 
 #: admin/class-social-admin.php:45 admin/pages/social.php:17
@@ -748,34 +748,42 @@ msgid "Facebook"
 msgstr ""
 
 #: admin/class-social-admin.php:46 admin/pages/social.php:18
-#: admin/taxonomy/class-taxonomy-social-fields.php:94
+#: admin/taxonomy/class-taxonomy-social-fields.php:97
 msgid "Twitter"
 msgstr ""
 
+#. translators: %1$s expands to the image recommended width, %2$s to its
+#. height.
+#: admin/class-social-admin.php:52 admin/class-social-admin.php:54
+#: admin/taxonomy/class-taxonomy-social-fields.php:95
+#: admin/taxonomy/class-taxonomy-social-fields.php:99
+msgid "%1$s by %2$s"
+msgstr ""
+
 #. translators: %s expands to the social network name
-#: admin/class-social-admin.php:58
+#: admin/class-social-admin.php:60
 #: admin/taxonomy/class-taxonomy-social-fields.php:44
 msgid "%s Title"
 msgstr ""
 
 #. translators: %s expands to the social network name
-#: admin/class-social-admin.php:61
+#: admin/class-social-admin.php:63
 #: admin/taxonomy/class-taxonomy-social-fields.php:52
 msgid "%s Description"
 msgstr ""
 
 #. translators: %s expands to the social network name
-#: admin/class-social-admin.php:64
+#: admin/class-social-admin.php:66
 #: admin/taxonomy/class-taxonomy-social-fields.php:59
 msgid "%s Image"
 msgstr ""
 
-#: admin/class-social-admin.php:85
+#: admin/class-social-admin.php:92
 msgid "Facebook / Open Graph metadata"
 msgstr ""
 
-#: admin/class-social-admin.php:96
-#: admin/taxonomy/class-taxonomy-metabox.php:190
+#: admin/class-social-admin.php:104
+#: admin/taxonomy/class-taxonomy-metabox.php:197
 msgid "Twitter metadata"
 msgstr ""
 
@@ -1361,19 +1369,23 @@ msgstr ""
 msgid "Enter your focus keyword"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:73 inc/class-wpseo-rank.php:101
+#: admin/formatter/class-metabox-formatter.php:53
+msgid "Remove keyword"
+msgstr ""
+
+#: admin/formatter/class-metabox-formatter.php:74 inc/class-wpseo-rank.php:101
 msgid "Not available"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:74
+#: admin/formatter/class-metabox-formatter.php:75
 msgid "Needs improvement"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:75 inc/class-wpseo-rank.php:104
+#: admin/formatter/class-metabox-formatter.php:76 inc/class-wpseo-rank.php:104
 msgid "OK"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:76 inc/class-wpseo-rank.php:105
+#: admin/formatter/class-metabox-formatter.php:77 inc/class-wpseo-rank.php:105
 msgid "Good"
 msgstr ""
 
@@ -1892,65 +1904,65 @@ msgid "Content optimization"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:448
-#: admin/taxonomy/class-taxonomy-metabox.php:246
+#: admin/taxonomy/class-taxonomy-metabox.php:254
 msgid ""
 "You're not getting the benefits of Yoast SEO Premium yet. If you had Yoast "
 "SEO Premium, you could use its awesome features:"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:449 admin/pages/licenses.php:130
-#: admin/taxonomy/class-taxonomy-metabox.php:247
+#: admin/taxonomy/class-taxonomy-metabox.php:255
 msgid "Redirect manager"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:450
-#: admin/taxonomy/class-taxonomy-metabox.php:248
+#: admin/taxonomy/class-taxonomy-metabox.php:256
 msgid "Create and manage redirects within your WordPress install."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:451 admin/pages/licenses.php:134
-#: admin/taxonomy/class-taxonomy-metabox.php:249
+#: admin/taxonomy/class-taxonomy-metabox.php:257
 msgid "Multiple focus keywords"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:452
-#: admin/taxonomy/class-taxonomy-metabox.php:250
+#: admin/taxonomy/class-taxonomy-metabox.php:258
 msgid "Optimize a single post for up to 5 keywords."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:453
-#: admin/taxonomy/class-taxonomy-metabox.php:251
+#: admin/taxonomy/class-taxonomy-metabox.php:259
 msgid "Social Previews"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:454
-#: admin/taxonomy/class-taxonomy-metabox.php:252
+#: admin/taxonomy/class-taxonomy-metabox.php:260
 msgid "Check what your Facebook or Twitter post will look like."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:455 admin/pages/licenses.php:142
-#: admin/taxonomy/class-taxonomy-metabox.php:253
+#: admin/taxonomy/class-taxonomy-metabox.php:261
 msgid "Premium support"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:456
-#: admin/taxonomy/class-taxonomy-metabox.php:254
+#: admin/taxonomy/class-taxonomy-metabox.php:262
 msgid "Gain access to our 24/7 support team."
 msgstr ""
 
 #: admin/metabox/class-metabox.php:458
-#: admin/taxonomy/class-taxonomy-metabox.php:256
+#: admin/taxonomy/class-taxonomy-metabox.php:264
 msgid "Get Yoast SEO Premium now!"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:460
-#: admin/taxonomy/class-taxonomy-metabox.php:258
+#: admin/taxonomy/class-taxonomy-metabox.php:266
 msgid "More info"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:466 admin/metabox/class-metabox.php:477
-#: admin/taxonomy/class-taxonomy-metabox.php:264
 #: admin/taxonomy/class-taxonomy-metabox.php:272
+#: admin/taxonomy/class-taxonomy-metabox.php:280
 msgid "Yoast SEO Premium"
 msgstr ""
 
@@ -2325,7 +2337,7 @@ msgstr ""
 msgid "Content Analysis Help"
 msgstr ""
 
-#: admin/taxonomy/class-taxonomy-metabox.php:177
+#: admin/taxonomy/class-taxonomy-metabox.php:183
 msgid "Facebook / Opengraph metadata"
 msgstr ""
 
@@ -5037,24 +5049,31 @@ msgstr ""
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:262
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:271
 msgid "Next step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:261
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:270
 msgid "Next"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:253
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:262
 msgid "Previous step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:252
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:261
 msgid "Previous"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:222
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:231
 msgid "Close the Wizard"
+msgstr ""
+
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:160
+msgid ""
+"A problem occurred when saving the current step, {{link}}please file a bug "
+"report{{/link}} describing what step you are on and which changes you want "
+"to make (if any)."
 msgstr ""
 
 #: yoast-components/composites/OnboardingWizard/StepIndicator.js:47

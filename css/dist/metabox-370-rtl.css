@@ -1330,6 +1330,9 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseotab .yoast_help.yoast-help-button {
 	float: left;
+}
+
+.wpseotab.content .yoast_help.yoast-help-button {
 	margin-top: -48px;
 }
 
@@ -1539,4 +1542,28 @@ ul.wpseo-metabox-premium-advantages {
 
 #snippet_preview {
 	padding: 0;
+}
+
+.yoast-tooltip.yoast-tooltip-hidden::before,
+.yoast-tooltip.yoast-tooltip-hidden::after {
+	display: none;
+}
+
+/* Workaround for VoiceOver bug see issue #5857 */
+.screen-reader-text.wpseo-generic-tab-textual-score,
+.screen-reader-text.wpseo-keyword-tab-textual-score {
+	display: block;
+}
+
+@media screen and (max-width: 782px) {
+	.yoast-help-panel {
+		max-width: none !important;
+	}
+	#wpseo-crawl-issues-table-form .subsubsub {
+		float: none;
+		max-width: calc( 100vw - 20px);
+	}
+	#wpseo-crawl-issues-table-form .yoast-help-button {
+		margin-top: 3px;
+	}
 }

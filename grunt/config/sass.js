@@ -22,7 +22,7 @@ module.exports = {
 			"css/yst_plugin_tools-370.css": [ "css/src/yst_plugin_tools.scss" ],
 			"css/yoast-extensions-370.css": [ "css/src/extensions.scss" ],
 			"css/yst_seo_score-330.css": [ "css/src/yst_seo_score.scss" ],
-			"css/yoast-components-360.css": [ "css/src/yoast-components.scss" ],
+			"css/yoast-components-371.css": [ "css/src/yoast-components.scss" ],
 		},
 	},
 };
