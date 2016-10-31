@@ -23,23 +23,23 @@ module.exports = function( sentence ) {
 
 	forEach( words, function( word ) {
 		if( verbsBeginningWithGe( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, "", "ge at beginning" ) );
+			foundParticiples.push( new GermanParticiple( word, sentence, { type: "ge at beginning" } ) );
 			return;
 		}
 		if ( verbsWithGeInMiddle( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, "", "ge in the middle" ) );
+			foundParticiples.push( new GermanParticiple( word, sentence, { type: "ge in the middle" } ) );
 			return;
 		}
 		if ( verbsBeginningWithErVerEntBeZerHer( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, "", "er/ver/ent/be/zer/her at beginning" ) );
+			foundParticiples.push( new GermanParticiple( word, sentence, { type: "er/ver/ent/be/zer/her at beginning" } ) );
 			return;
 		}
 		if ( verbsWithErVerEntBeZerHerInMiddle( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, "", "er/ver/ent/be/zer/her in the middle" ) );
+			foundParticiples.push( new GermanParticiple( word, sentence, { type: "er/ver/ent/be/zer/her in the middle" } ) );
 			return;
 		}
 		if ( verbsEndingWithIert( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, "", "iert at the end" ) );
+			foundParticiples.push( new GermanParticiple( word, sentence, { type: "iert at the end" } ) );
 		}
 	} );
 	return foundParticiples;
