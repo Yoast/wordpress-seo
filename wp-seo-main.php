@@ -367,18 +367,18 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 			new Yoast_Plugin_Conflict_Ajax();
 
 			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' ) {
-				add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+				add_action( 'after_setup_theme', 'wpseo_admin_init', 15 );
 			}
 		}
 		else {
-			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+			add_action( 'after_setup_theme', 'wpseo_admin_init', 15 );
 		}
 	}
 	else {
 		add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 	}
 
-	add_action( 'plugins_loaded', 'load_yoast_notifications' );
+	add_action( 'after_setup_theme', 'load_yoast_notifications' );
 }
 
 // Activation and deactivation hook.
