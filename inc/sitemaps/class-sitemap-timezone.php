@@ -74,7 +74,7 @@ class WPSEO_Sitemap_Timezone {
 		}
 
 		// Get UTC offset, if it isn't set then return UTC.
-		if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) ) {
+		if ( 0 === ( $utc_offset = (int) get_option( 'gmt_offset', 0 ) ) ) {
 			return 'UTC';
 		}
 
