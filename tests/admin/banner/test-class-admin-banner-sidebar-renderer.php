@@ -37,11 +37,11 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Banner_Sidebar_Renderer::render_banner_spots()
 	 */
 	public function test_render_banner_spots() {
-		$mock = $this->getMock(
-			'WPSEO_Admin_Banner_Sidebar_Renderer',
-			array( 'render_banner_spots' ),
-			array( new WPSEO_Admin_Banner_Spot_Renderer() )
-		);
+		$mock = $this->getMockBuilder( 'WPSEO_Admin_Banner_Sidebar_Renderer' )
+			->setConstructorArgs( array( new WPSEO_Admin_Banner_Spot_Renderer() ) )
+			->setMethods( array( 'render_banner_spots' ) )
+			->getMock();
+		
 
 		$mock
 			->expects( $this->once() )

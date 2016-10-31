@@ -26,11 +26,10 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	 * @return WPSEO_Admin_Banner_Sidebar
 	 */
 	public function getSidebarMock( array $methods_to_mock ) {
-		return $this->getMock(
-			'WPSEO_Admin_Banner_Sidebar',
-			$methods_to_mock,
-			array( 'test', new WPSEO_Admin_Banner_Renderer() )
-		);
+		return $this->getMockBuilder( 'WPSEO_Admin_Banner_Sidebar' )
+			->setConstructorArgs( array( 'test', new WPSEO_Admin_Banner_Renderer() ) )
+			->setMethods( $methods_to_mock )
+			->getMock();
 	}
 
 
