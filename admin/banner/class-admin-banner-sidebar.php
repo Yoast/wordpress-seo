@@ -97,7 +97,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$premium_spot->add_banner(
 			new WPSEO_Admin_Banner(
 				'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
-				'banner-premium-seo.png',
+				'premium-seo.png',
 				261,
 				152,
 				__( 'Buy the Yoast SEO Premium plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' )
@@ -127,13 +127,19 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$service_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner', 'banner-website-review.png', 261, 190, __( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' )
+				'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner', 'website-review.png',
+				261,
+				152,
+				__( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' )
 			)
 		);
 
 		$service_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner', 'banner-configuration-service.png', 261, 190, __( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' )
+				'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner', 'configuration-service.png',
+				261,
+				152,
+				__( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' )
 			)
 		);
 
@@ -178,7 +184,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
 					'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
-					'banner-video-seo.png',
+					'video-seo.png',
 					261,
 					152,
 					__( 'Buy the Yoast Video SEO plugin now and optimize your videos for video search results and social media!', 'wordpress-seo' )
@@ -189,7 +195,11 @@ class WPSEO_Admin_Banner_Sidebar {
 		if ( empty( $active_extensions['woocommerce'] )  ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
-					'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner', 'banner-woocommerce-seo.png', 261, 152, __( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' )
+					'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
+					'woocommerce-seo.png',
+					261,
+					152,
+					__( 'Buy the Yoast WooCommerce SEO plugin now and optimize your shop today to improve your product promotion!', 'wordpress-seo' )
 				)
 			);
 		}
@@ -197,7 +207,10 @@ class WPSEO_Admin_Banner_Sidebar {
 		if ( empty( $active_extensions['local'] ) ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
-					'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner', 'banner-local-seo.png', 261, 152, __( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' )
+					'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
+					'local-seo.png', 261,
+					152,
+					__( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' )
 				)
 			);
 		}
@@ -205,7 +218,11 @@ class WPSEO_Admin_Banner_Sidebar {
 		if ( empty( $active_extensions['news'] ) ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
-					'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner', 'banner-news-seo.png', 261, 152, __( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' )
+					'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
+					'news-seo.png',
+					261,
+					152,
+					__( 'Buy the Yoast News SEO plugin now and start optimizing to get your site featured in Google News!', 'wordpress-seo' )
 				)
 			);
 		}
@@ -233,19 +250,31 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner', 'banner-basic-seo-training.png', 261, 190, __( 'Take the online Basic SEO Training course and learn the fundamentals of SEO!', 'wordpress-seo' )
+				'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
+				'basic-seo-training.png',
+				261,
+				152,
+				__( 'Take the online Basic SEO Training course and learn the fundamentals of SEO!', 'wordpress-seo' )
 			)
 		);
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner', 'banner-yoast-seo-for-wordpress-training.png', 261, 190, __( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' )
+				'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
+				'yoast-seo-for-wordpress-training.png',
+				261,
+				152,
+				__( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' )
 			)
 		);
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner', 'banner-seo-copywriting-training.png', 261, 190, __( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' )
+				'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
+				'seo-copywriting-training.png',
+				261,
+				152,
+				__( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' )
 			)
 		);
 
