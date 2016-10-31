@@ -78,6 +78,12 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	public function test_get_banner_spots(  ) {
 		$this->admin_banner_sidebar->initialize( new WPSEO_Features() );
 
+		if ( ! method_exists( $this, 'assertContainsOnlyInstancesOf' ) ) {
+			$this->markTestSkipped( 'Method assertContainsOnlyInstancesOf does not exist' );
+
+			return;
+		}
+
 		$this->assertContainsOnlyInstancesOf(
 			'WPSEO_Admin_Banner_Spot',
 			$this->admin_banner_sidebar->get_banner_spots()
