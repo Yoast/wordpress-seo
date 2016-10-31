@@ -2,7 +2,8 @@ var Participle = require( "../../values/Participle.js" );
 
 var getIndices = require( "../../stringProcessing/indices.js" ).getIndices;
 var getIndicesOfList = require( "../../stringProcessing/indices.js" ).getIndicesOfList;
-var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var exceptionsRegex =
+	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var exceptionsParticiplesActive = require( "./passivevoice-german/exceptionsParticiplesActive.js" )();
 
 var forEach = require( "lodash/forEach" );
@@ -51,7 +52,7 @@ GermanParticiple.prototype.hasNounSuffix = function() {
  */
 GermanParticiple.prototype.hasHabenSeinException = function() {
 	var participleIndices = getIndices( this.getParticiple(), this.getSentencePart() );
-	var habenSeinIndices = getIndicesOfList( this.getSentencePart(), [ "haben", "sein" ] );
+	var habenSeinIndices = getIndicesOfList( [ "haben", "sein" ], this.getSentencePart() );
 	var isPassiveException = false;
 	if( participleIndices.length > 0 ) {
 		if ( habenSeinIndices.length === 0 ) {

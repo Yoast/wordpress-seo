@@ -6,19 +6,19 @@ var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" 
 /**
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
  *
- * @param {string} part The part to find in the text.
- * @param {string} text The text to check for parts.
+ * @param {string} word The word to find in the text.
+ * @param {string} text The text to check for the given word..
  * @returns {Array} All indices found.
  */
-function getIndices( part, text ) {
+function getIndices( word, text ) {
 	var startIndex = 0;
-	var searchStringLength = part.length;
+	var searchStringLength = word.length;
 	var index, indices = [];
-	while ( ( index = text.indexOf( part, startIndex ) ) > -1 ) {
+	while ( ( index = text.indexOf( word, startIndex ) ) > -1 ) {
 		indices.push(
 			{
 				index: index,
-				match: part,
+				match: word,
 			}
 		);
 		startIndex = index + searchStringLength;
@@ -29,23 +29,23 @@ function getIndices( part, text ) {
 /**
  * Matches string with an array, returns the word and the index it was found on.
  *
- * @param {string} sentence The sentence to match the strings from the array to.
- * @param {Array} matches The array with strings to match.
- * @returns {Array} The array with matches, containing the index of the match and the matched string.
+ * @param {Array} words The array with strings to match.
+ * @param {string} text The text to match the strings from the array to.
+ * @returns {Array} The array with words, containing the index of the match and the matched string.
  * Returns an empty array if none are found.
  */
-var getIndicesOfList = function( sentence, matches ) {
-	var matchedParts = [];
+var getIndicesOfList = function( words, text ) {
+	var matchedWords = [];
 
-	forEach( matches, function( part ) {
-		part = stripSpaces( part );
-		if ( ! matchWordInSentence( part, sentence ) ) {
+	forEach( words, function( word ) {
+		word = stripSpaces( word );
+		if ( ! matchWordInSentence( word, text ) ) {
 			return;
 		}
-		matchedParts = matchedParts.concat( getIndices( part, sentence ) );
+		matchedWords = matchedWords.concat( getIndices( word, text ) );
 	} );
 
-	return matchedParts;
+	return matchedWords;
 };
 
 /**
@@ -68,14 +68,23 @@ var sortIndices = function( indices ) {
  */
 var filterIndices = function( indices ) {
 	indices = sortIndices( indices );
+	var filtered = [];
 	for ( var i = 0; i < indices.length; i++ ) {
 		// If the next index is within the range of the current index and the length of the word, remove it
 		// This makes sure we don't match combinations twice, like "even though" and "though".
+		var isOverlapping = false;
 		if ( ! isUndefined( indices[ i + 1 ] ) && indices[ i + 1 ].index < indices[ i ].index + indices[ i ].match.length ) {
-			indices.pop( i + 1 );
+			filtered.push( indices[ i ] );
+
+			// Adds 1 to i, so we skip the next index that is overlapping with the current index.
+			i++;
+			isOverlapping = true;
+		}
+		if ( ! isOverlapping ) {
+			filtered.push( indices[ i ] );
 		}
 	}
-	return indices;
+	return filtered;
 };
 
 module.exports = {
