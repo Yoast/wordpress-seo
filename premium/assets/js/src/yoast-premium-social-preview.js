@@ -36,6 +36,8 @@ var socialPreviews = require( "yoast-social-previews" );
 	var i18n = new Jed( addLibraryTranslations( translations.library ) );
 	var biggerImages = {};
 
+	let postTitleInputId = "title";
+
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
 	 *
@@ -271,7 +273,7 @@ var socialPreviews = require( "yoast-social-previews" );
 					if ( fieldPrefix.indexOf( "twitter" ) > -1 ) {
 						if ( title === $( "#twitter-editor-title" ).attr( "placeholder" ) ) {
 							var facebookTitle = $( "#facebook-editor-title" ).val();
-							if ( facebookTitle !== "" ) {
+							if ( ! isUndefined( facebookTitle ) && facebookTitle !== "" ) {
 								title = facebookTitle;
 							}
 						}
@@ -365,6 +367,11 @@ var socialPreviews = require( "yoast-social-previews" );
 			postAuthorDropdown.on( "change", getFacebookAuthor.bind( this, facebookPreview ) );
 			postAuthorDropdown.trigger( "change" );
 		}
+
+		$( "#" + postTitleInputId ).on(
+			"keydown keyup input focus blur",
+			facebookPreview.updatePreview.bind( facebookPreview )
+		);
 	}
 
 	/**
@@ -425,7 +432,7 @@ var socialPreviews = require( "yoast-social-previews" );
 		}
 
 		var facebookTitle = $( "#facebook-editor-title" ).val();
-		if ( facebookTitle !== "" ) {
+		if ( ! isUndefined( facebookTitle ) && facebookTitle !== "" ) {
 			twitterPreview.setTitle( facebookTitle );
 		} else {
 			twitterPreview.setTitle( $twitterTitle.attr( "placeholder" ) );
