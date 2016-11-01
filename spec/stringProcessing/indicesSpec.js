@@ -1,6 +1,6 @@
 var indices = require ( "../../js/stringProcessing/indices.js" );
-var getIndices = indices.getIndices;
-var getIndicesOfList = indices.getIndicesOfList;
+var getIndices = indices.getIndicesByWord;
+var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
 var sortIndices = indices.sortIndices;
 

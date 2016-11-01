@@ -15,7 +15,7 @@ var stopwordRegex = arrayToRegex( stopwords );
  * @param {Array} matches The array with matched stopwords.
  * @returns {Array} The array with subsentences.
  */
-function splitOnWord( sentence, matches ) {
+function splitOnStopword( sentence, matches ) {
 	var currentSentence = sentence;
 	var subSentences = [];
 	forEach( matches, function( match ) {
@@ -37,16 +37,16 @@ function splitOnWord( sentence, matches ) {
  * @param {string} text The text to split into subsentences.
  * @returns {Array} The array with subsentences.
  */
-function splitSentences( text ) {
+function splitSentencesIntoSentenceParts( text ) {
 	var sentences = getSentences( text );
 	var splitSentences = [];
 	forEach( sentences, function( sentence ) {
 		var matches = sentence.match( stopwordRegex ) || [];
-		splitSentences = splitSentences.concat( splitOnWord( sentence, matches ) );
+		splitSentences = splitSentences.concat( splitOnStopword( sentence, matches ) );
 	} );
 	return splitSentences;
 }
 
 module.exports = function( text ) {
-	return splitSentences( text );
+	return splitSentencesIntoSentenceParts( text );
 };

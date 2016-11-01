@@ -10,7 +10,7 @@ var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" 
  * @param {string} text The text to check for the given word..
  * @returns {Array} All indices found.
  */
-function getIndices( word, text ) {
+function getIndicesByWord( word, text ) {
 	var startIndex = 0;
 	var searchStringLength = word.length;
 	var index, indices = [];
@@ -34,7 +34,7 @@ function getIndices( word, text ) {
  * @returns {Array} The array with words, containing the index of the match and the matched string.
  * Returns an empty array if none are found.
  */
-var getIndicesOfList = function( words, text ) {
+var getIndicesByWordList = function( words, text ) {
 	var matchedWords = [];
 
 	forEach( words, function( word ) {
@@ -42,7 +42,7 @@ var getIndicesOfList = function( words, text ) {
 		if ( ! matchWordInSentence( word, text ) ) {
 			return;
 		}
-		matchedWords = matchedWords.concat( getIndices( word, text ) );
+		matchedWords = matchedWords.concat( getIndicesByWord( word, text ) );
 	} );
 
 	return matchedWords;
@@ -72,24 +72,21 @@ var filterIndices = function( indices ) {
 	for ( var i = 0; i < indices.length; i++ ) {
 		// If the next index is within the range of the current index and the length of the word, remove it
 		// This makes sure we don't match combinations twice, like "even though" and "though".
-		var isOverlapping = false;
 		if ( ! isUndefined( indices[ i + 1 ] ) && indices[ i + 1 ].index < indices[ i ].index + indices[ i ].match.length ) {
 			filtered.push( indices[ i ] );
 
 			// Adds 1 to i, so we skip the next index that is overlapping with the current index.
 			i++;
-			isOverlapping = true;
+			continue;
 		}
-		if ( ! isOverlapping ) {
-			filtered.push( indices[ i ] );
-		}
+		filtered.push( indices[ i ] );
 	}
 	return filtered;
 };
 
 module.exports = {
-	getIndices: getIndices,
-	getIndicesOfList: getIndicesOfList,
+	getIndicesByWord: getIndicesByWord,
+	getIndicesByWordList: getIndicesByWordList,
 	filterIndices: filterIndices,
 	sortIndices: sortIndices,
 };

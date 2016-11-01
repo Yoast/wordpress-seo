@@ -1,7 +1,7 @@
 var Participle = require( "../../values/Participle.js" );
 
-var getIndices = require( "../../stringProcessing/indices.js" ).getIndices;
-var getIndicesOfList = require( "../../stringProcessing/indices.js" ).getIndicesOfList;
+var getIndices = require( "../../stringProcessing/indices.js" ).getIndicesByWord;
+var getIndicesOfList = require( "../../stringProcessing/indices.js" ).getIndicesByWordList;
 var exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var exceptionsParticiplesActive = require( "./passivevoice-german/exceptionsParticiplesActive.js" )();
@@ -21,19 +21,20 @@ var map = require( "lodash/map" );
  */
 var GermanParticiple = function(  participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
-	this.checkException();
+	this.setSentencePartPassiveness( this.isPassive() );
 };
 
 require( "util" ).inherits( GermanParticiple, Participle );
 
 /**
- * Sets sentence part passiveness to passive if there is no exception.
+ * Checks if the text is passive based on the participle exceptions.
  *
- * @returns {void}
+ * @returns {boolean} Returns true if there is no exception, and the sentence is passive.
  */
-GermanParticiple.prototype.checkException = function() {
-	var isPassive = ! this.hasNounSuffix() && ! this.isInExceptionList() && ! this.hasHabenSeinException();
-	this.setSentencePartPassiveness( isPassive );
+GermanParticiple.prototype.isPassive = function() {
+	return 	! this.hasNounSuffix() &&
+				! this.isInExceptionList() &&
+				! this.hasHabenSeinException();
 };
 
 /**
@@ -43,8 +44,7 @@ GermanParticiple.prototype.checkException = function() {
  * @returns {boolean} Returns true if it is in the exception list, otherwise returns false.
  */
 GermanParticiple.prototype.isInExceptionList = function() {
-	var participle = this.getParticiple();
-	return includes( exceptionsParticiplesActive, participle );
+	return includes( exceptionsParticiplesActive, this.getParticiple() );
 };
 
 /**
@@ -54,8 +54,7 @@ GermanParticiple.prototype.isInExceptionList = function() {
  * @returns {boolean} Returns true if it ends in a noun suffix, otherwise returns false.
  */
 GermanParticiple.prototype.hasNounSuffix = function() {
-	var participle = this.getParticiple();
-	return participle.match( exceptionsRegex ) !== null;
+	return this.getParticiple().match( exceptionsRegex ) !== null;
 };
 
 /**
@@ -68,16 +67,12 @@ GermanParticiple.prototype.hasHabenSeinException = function() {
 	var participleIndices = getIndices( this.getParticiple(), this.getSentencePart() );
 	var habenSeinIndices = getIndicesOfList( [ "haben", "sein" ], this.getSentencePart() );
 	var isPassiveException = false;
-	if( participleIndices.length > 0 ) {
-		if ( habenSeinIndices.length === 0 ) {
-			return isPassiveException;
-		}
-		habenSeinIndices = map( habenSeinIndices, "index" );
-		forEach( participleIndices, function( participleIndex ) {
-			isPassiveException = includes( habenSeinIndices, participleIndex.index + participleIndex.match.length + 1 );
-		} );
+	if( participleIndices.length > 0 && habenSeinIndices.length === 0 ) {
+		return isPassiveException;
 	}
-	return isPassiveException;
+	habenSeinIndices = map( habenSeinIndices, "index" );
+	var currentParticiple = participleIndices[ 0 ];
+	return includes( habenSeinIndices, currentParticiple.index + currentParticiple.match.length + 1 );
 };
 
 module.exports = GermanParticiple;
