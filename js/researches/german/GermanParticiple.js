@@ -6,7 +6,6 @@ var exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var exceptionsParticiplesActive = require( "./passivevoice-german/exceptionsParticiplesActive.js" )();
 
-var forEach = require( "lodash/forEach" );
 var includes = require( "lodash/includes" );
 var map = require( "lodash/map" );
 
