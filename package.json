@@ -60,7 +60,7 @@
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.13.0",
     "jed": "^1.1.1",
-    "lodash": "^4.7.0",
+    "lodash": "^4.16.6",
     "material-ui": "^0.15.4",
     "react-tap-event-plugin": "^1.0.0",
     "select2": "^4.0.3",
