@@ -65,9 +65,8 @@ GermanParticiple.prototype.hasNounSuffix = function() {
 GermanParticiple.prototype.hasHabenSeinException = function() {
 	var participleIndices = getIndices( this.getParticiple(), this.getSentencePart() );
 	var habenSeinIndices = getIndicesOfList( [ "haben", "sein" ], this.getSentencePart() );
-	var isPassiveException = false;
 	if( participleIndices.length > 0 && habenSeinIndices.length === 0 ) {
-		return isPassiveException;
+		return false;
 	}
 	habenSeinIndices = map( habenSeinIndices, "index" );
 	var currentParticiple = participleIndices[ 0 ];
