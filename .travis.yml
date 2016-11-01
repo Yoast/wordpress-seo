@@ -5,7 +5,6 @@ sudo: false
 matrix:
   allow_failures:
     - php: hhvm
-    - php: 7.1
   include:
     - php: 7.0
       env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node
@@ -28,7 +27,7 @@ matrix:
     - php: 5.3
       env: WP_VERSION=4.6
     - php: 7.1
-      env: WP_VERSION=4.6
+      env: WP_VERSION=master
     - php: hhvm
       env: WP_VERSION=4.6
 
