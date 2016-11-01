@@ -416,6 +416,11 @@ var socialPreviews = require( "yoast-social-previews" );
 		addUploadButton( twitterPreview );
 		twitterTitleFallback( twitterPreview );
 		twitterDescriptionFallback( twitterPreview );
+
+		$( "#" + postTitleInputId ).on(
+			"keydown keyup input focus blur",
+			twitterTitleFallback.bind( this, twitterPreview )
+		);
 	}
 
 	/**
