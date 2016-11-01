@@ -31,13 +31,14 @@ class WPSEO_Redirect_Url_Formatter {
 		$subdirectory = $this->get_subdirectory( $home_url );
 
 		if ( ! empty( $subdirectory ) ) {
+			$subdirectory  = trailingslashit( $subdirectory );
 			$path_position = strpos( $this->url, $subdirectory );
 			if ( $path_position === 0 ) {
-				return substr( $this->url, strlen( $subdirectory ) );
+				return '/' . $this->sanitize_url( substr( $this->url, strlen( $subdirectory ) ) );
 			}
 		}
 
-		return $this->url;
+		return '/' . $this->url;
 	}
 
 	/**
@@ -50,7 +51,6 @@ class WPSEO_Redirect_Url_Formatter {
 	protected function sanitize_url( $url ) {
 		return ltrim( $url, '/' );
 	}
-
 
 	/**
 	 * Returns the subdirectory from the given URL.
