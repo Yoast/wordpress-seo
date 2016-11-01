@@ -6,6 +6,7 @@ var helpPanel = require( "./helpPanel" );
 var getTitlePlaceholder = require( "../../../../js/src/analysis/getTitlePlaceholder" );
 var getDescriptionPlaceholder = require( "../../../../js/src/analysis/getDescriptionPlaceholder" );
 
+var _debounce = require("lodash/debounce");
 var clone = require( "lodash/clone" );
 var forEach = require( "lodash/forEach" );
 var _has = require( "lodash/has" );
@@ -370,7 +371,7 @@ var socialPreviews = require( "yoast-social-previews" );
 
 		$( "#" + postTitleInputId ).on(
 			"keydown keyup input focus blur",
-			facebookPreview.updatePreview.bind( facebookPreview )
+			_debounce( facebookPreview.updatePreview.bind( facebookPreview ), 500 )
 		);
 	}
 
@@ -419,7 +420,7 @@ var socialPreviews = require( "yoast-social-previews" );
 
 		$( "#" + postTitleInputId ).on(
 			"keydown keyup input focus blur",
-			twitterTitleFallback.bind( this, twitterPreview )
+			_debounce( twitterTitleFallback.bind( this, twitterPreview ), 500 )
 		);
 	}
 
