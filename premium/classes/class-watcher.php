@@ -244,6 +244,6 @@ abstract class WPSEO_Watcher {
 	 * @return string
 	 */
 	protected function create_hyperlink_from_url( $url ) {
-		return '<a target="_blank" href=' . $url . '>' . $url . '</a>';
+		return '<a target="_blank" href=' . esc_url( $url ) . '>' . esc_html( $url ) . '</a>';
 	}
 }
