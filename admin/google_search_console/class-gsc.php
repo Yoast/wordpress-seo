@@ -223,7 +223,7 @@ class WPSEO_GSC {
 		}
 
 		// When there is nothing being search and there is no search param in the url, break this method.
-		if( $search_string === '' && filter_input( INPUT_GET, 's' ) === null ) {
+		if ( $search_string === '' && filter_input( INPUT_GET, 's' ) === null ) {
 			return;
 		}
 
