@@ -101,7 +101,7 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 
 ?>
 
-<div class="wrap wpseo_table_page yoast">
+<div class="wrap yoast wpseo_table_page">
 
 	<h1 id="wpseo-title" class="yoast-h1"><?php
 		/* translators: %1$s expands to Yoast SEO */

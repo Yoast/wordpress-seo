@@ -64,7 +64,9 @@ function get_rendered_tab( $table, $id ) {
 	var wpseo_bulk_editor_nonce = '<?php echo wp_create_nonce( 'wpseo-bulk-editor' ); ?>';
 </script>
 
-<div class="wrap wpseo_table_page">
+<br/><br/>
+
+<div class="wpseo_table_page">
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>
