@@ -88,7 +88,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			sprintf(
 				/* translators: %1$s to anchor to the Yoast plugin page, %2$s is the a-closing tag, %3$s: Yoast SEO  */
 				__( 'Consider switching to the %1$sPremium version of %3$s%2$s.', 'wordpress-seo' ),
-				'<a href="https://yoa.st/">',
+				'<a target="_blank" href="https://yoa.st/ji">',
 				'</a>',
 				'Yoast SEO'
 			)
@@ -96,7 +96,7 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$premium_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
+				'https://yoa.st/jj',
 				'premium-seo.png',
 				261,
 				152,
@@ -119,7 +119,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			sprintf(
 				/* translators: %1$s expands to anchor start text with link to the Yoast Services page, %2$s to Yoast, %3$s is the a-closing tag.  */
 				__( 'Don\'t want dive into SEO yourself? %1$sLet team %2$s help you!%3$s' ),
-				'<a href="https://yoa.st/">',
+				'<a target="_blank" href="https://yoa.st/jk">',
 				'Yoast',
 				'</a>'
 			)
@@ -127,7 +127,8 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$service_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner', 'website-review.png',
+				'https://yoa.st/jl',
+				'website-review.png',
 				261,
 				152,
 				__( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' )
@@ -136,7 +137,8 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$service_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/hire-us/yoast-seo-configuration/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=configuration-service-banner', 'configuration-service.png',
+				'https://yoa.st/jm',
+				'configuration-service.png',
 				261,
 				152,
 				__( 'Let our experts set up your Yoast SEO Premium plugin!', 'wordpress-seo' )
@@ -175,7 +177,7 @@ class WPSEO_Admin_Banner_Sidebar {
 				/* translators: %1$s expands to Yoast SEO, %2$s to anchor to the Yoast plugin page, %3$s is the a-closing tag.  */
 				__( 'Extend your %1$s plugin with our %2$sSEO plugins%3$s.', 'wordpress-seo' ),
 				'Yoast SEO',
-				'<a href="https://yoa.st/">',
+				'<a target="_blank" href="https://yoa.st/jn">',
 				'</a>'
 			)
 		);
@@ -183,7 +185,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		if ( empty( $active_extensions['video'] ) ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
-					'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
+					'https://yoa.st/jo',
 					'video-seo.png',
 					261,
 					152,
@@ -195,7 +197,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		if ( empty( $active_extensions['woocommerce'] )  ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
-					'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
+					'https://yoa.st/jp',
 					'woocommerce-seo.png',
 					261,
 					152,
@@ -207,7 +209,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		if ( empty( $active_extensions['local'] ) ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
-					'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
+					'https://yoa.st/jq',
 					'local-seo.png', 261,
 					152,
 					__( 'Buy the Yoast Local SEO plugin now to improve your site&#8217;s Local SEO and ranking in Google Maps!', 'wordpress-seo' )
@@ -218,7 +220,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		if ( empty( $active_extensions['news'] ) ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
-					'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
+					'https://yoa.st/jr',
 					'news-seo.png',
 					261,
 					152,
@@ -242,14 +244,14 @@ class WPSEO_Admin_Banner_Sidebar {
 			sprintf(
 				/* translators: %1$s expands to anchor start text with link to the Yoast Services page, %2$s is the a-closing tag.  */
 				__( 'You can easily learn more about SEO, content and the like with one of %1$sour courses%2$s' ),
-				'<a href="https://yoa.st/">',
+				'<a target="_blank" href="https://yoa.st/jt">',
 				'</a>'
 			)
 		);
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
+				'https://yoa.st/ju',
 				'basic-seo-training.png',
 				261,
 				152,
@@ -259,7 +261,7 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
+				'https://yoa.st/jv',
 				'yoast-seo-for-wordpress-training.png',
 				261,
 				152,
@@ -270,7 +272,7 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/academy/course/seo-copywriting-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=seo-copywriting-training-banner',
+				'https://yoa.st/jw',
 				'seo-copywriting-training.png',
 				261,
 				152,
@@ -280,7 +282,7 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoast.com/academy/course/keyword-research-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=keyword-research-training-banner',
+				'https://yoa.st/jx',
 				'keyword-research-training.png',
 				261,
 				152,
@@ -303,7 +305,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		);
 
 		$remove_banner_spot->set_description(
-			'<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&amp;utm_medium=textlink&amp;utm_campaign=remove-ads-link">'.
+			'<a target="_blank" href="https://yoa.st/jy">'.
 			/* translators: %1$s expands to Yoast SEO Premium */
 			sprintf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ) .
 			'</a>'
