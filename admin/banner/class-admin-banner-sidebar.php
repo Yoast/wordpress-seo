@@ -243,7 +243,6 @@ class WPSEO_Admin_Banner_Sidebar {
 				/* translators: %1$s expands to anchor start text with link to the Yoast Services page, %2$s is the a-closing tag.  */
 				__( 'You can easily learn more about SEO, content and the like with one of %1$sour courses%2$s' ),
 				'<a href="https://yoa.st/">',
-				'Yoast',
 				'</a>'
 			)
 		);
@@ -285,7 +284,7 @@ class WPSEO_Admin_Banner_Sidebar {
 				'keyword-research-training.png',
 				261,
 				152,
-				__( 'Take the online Keyword Research Training course and learn how to do keyword research ', 'wordpress-seo' )
+				__( 'Take the online Keyword Research Training course and learn how to rank with your keywords!', 'wordpress-seo' )
 			)
 		);
 
