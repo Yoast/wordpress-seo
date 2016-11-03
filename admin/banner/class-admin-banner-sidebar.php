@@ -264,7 +264,8 @@ class WPSEO_Admin_Banner_Sidebar {
 				'yoast-seo-for-wordpress-training.png',
 				261,
 				152,
-				__( 'Take the Yoast SEO for WordPress Training course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' )
+				/* translators: %1$s expands to Yoast SEO for WordPress Training  */
+				sprintf( __( 'Take the %s course and become a certified Yoast SEO for WordPress expert!', 'wordpress-seo' ), 'Yoast SEO for WordPress Training' )
 			)
 		);
 
