@@ -278,6 +278,16 @@ class WPSEO_Admin_Banner_Sidebar {
 			)
 		);
 
+		$courses_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				'https://yoast.com/academy/course/keyword-research-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=keyword-research-training-banner',
+				'keyword-research-training.png',
+				261,
+				152,
+				__( 'Take the online Keyword Research Training course and learn how to do keyword research ', 'wordpress-seo' )
+			)
+		);
+
 		return $courses_spot;
 	}
 
