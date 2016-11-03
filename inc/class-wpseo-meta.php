@@ -295,6 +295,7 @@ class WPSEO_Meta {
 		unset( $extra_fields );
 
 		$register = function_exists( 'register_meta' );
+		$installed_version = get_bloginfo( 'version' );
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
@@ -304,7 +305,13 @@ class WPSEO_Meta {
 					 * function_exists as a precaution in case they remove it.
 					 */
 					if ( $register === true ) {
-						register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
+						if ( version_compare( $installed_version, '4.6', '>=' ) ) {
+							register_meta( 'post', self::$meta_prefix . $key, array(
+								'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
+							) );
+						} else {
+							register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
+						}
 					}
 					else {
 						add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
