@@ -57,7 +57,7 @@ var imageScoreClass = "image yoast-logo svg";
 	 */
 	function createScoresInPublishBox( type, status ) {
 		var publishSection = $( "<div />", {
-			"class": "misc-pub-section yoast-seo-score " + type + "-score",
+			"class": "misc-pub-section yoast yoast-seo-score " + type + "-score",
 			"id": type + "-score",
 		} );
 

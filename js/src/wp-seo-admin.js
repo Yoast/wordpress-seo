@@ -1,6 +1,7 @@
 /* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
 
 import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+import a11ySpeak from "a11y-speak";
 
 ( function() {
 	"use strict";
@@ -50,8 +51,11 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 					jQuery( "#" + error_id ).html( msg );
 				}
 				else {
-					e.after( ' <div id="' + error_id + '" class="wpseo-variable-warning" aria-live="assertive">' + msg + "</div>" );
+					e.after( ' <div id="' + error_id + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
+
+				a11ySpeak( wpseoAdminL10n.variable_warning.replace( "%s", variable ), "assertive" );
+
 				warn = true;
 			}
 			else {

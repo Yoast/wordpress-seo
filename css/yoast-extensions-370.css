@@ -21,14 +21,14 @@
 
 .yoast-list--usp li {
 	position: relative;
-	padding-right: 1.2533333333rem;
+	padding-left: 1.2533333333rem;
 	list-style: none !important;
 }
 
 .yoast-list--usp li::before {
 	position: absolute;
 	top: 0;
-	right: 0;
+	left: 0;
 	color: #77b227;
 	font-family: "FontAwesome", "Open Sans", Arial, sans-serif;
 	content: "\f00c\0020";
@@ -121,7 +121,7 @@
 	display: inline-block;
 	position: relative;
 	width: 100%;
-	padding: 0.345em 1em 0.345em 1.5em;
+	padding: 0.345em 1.5em 0.345em 1em;
 	border: 0;
 	color: #dc5c04;
 	background-color: transparent;
@@ -136,25 +136,25 @@
 	.yoast-button {
 		width: auto;
 		max-height: 2.86rem;
-		margin-left: 1.36rem;
+		margin-right: 1.36rem;
 	}
 
 	.yoast-button::after {
 		position: absolute;
 		top: 0;
-		left: -1.36rem;
+		right: -1.36rem;
 		width: 0;
 		height: 0;
 		border-top: 1.43rem solid transparent;
-		border-left: 0;
+		border-right: 0;
 		border-bottom: 1.44rem solid transparent;
-		border-right: 1.43rem solid #dc5c04;
+		border-left: 1.43rem solid #dc5c04;
 		content: "";
 	}
 
 	.yoast-button.left {
-		margin-left: 0;
-		margin-right: 1.36rem;
+		margin-right: 0;
+		margin-left: 1.36rem;
 	}
 
 	.yoast-button.left::after {
@@ -164,19 +164,19 @@
 	.yoast-button.left::before {
 		position: absolute;
 		top: 0;
-		right: -1.36rem;
+		left: -1.36rem;
 		width: 0;
 		height: 0;
 		border-top: 1.43rem solid transparent;
-		border-left: 1.43rem solid #dc5c04;
+		border-right: 1.43rem solid #dc5c04;
 		border-bottom: 1.44rem solid transparent;
-		border-right: 0;
+		border-left: 0;
 		content: "";
 	}
 }
 
 .yoast-button.alignleft {
-	margin: 1rem 0 0 2.5rem !important;
+	margin: 1rem 2.5rem 0 0 !important;
 }
 
 .yoast-button .arrow {
@@ -185,7 +185,7 @@
 
 .yoast-button + .yoast-button {
 	margin-top: 1em;
-	margin-right: 1.88rem;
+	margin-left: 1.88rem;
 }
 
 .yoast-button--full {
@@ -202,11 +202,11 @@
 }
 
 .yoast-button.default::after {
-	border-right-color: #dc5c04;
+	border-left-color: #dc5c04;
 }
 
 .yoast-button.default::before {
-	border-left-color: #dc5c04;
+	border-right-color: #dc5c04;
 }
 
 .yoast-button:hover,
@@ -218,12 +218,12 @@
 
 .yoast-button:hover::after,
 .yoast-button a:focus::after {
-	border-right-color: #f58223;
+	border-left-color: #f58223;
 }
 
 .yoast-button:hover::before,
 .yoast-button a:focus::before {
-	border-left-color: #f58223;
+	border-right-color: #f58223;
 }
 
 .yoast-button.academy {
@@ -232,11 +232,11 @@
 }
 
 .yoast-button.academy::after {
-	border-right-color: #5d237a;
+	border-left-color: #5d237a;
 }
 
 .yoast-button.academy::before {
-	border-left-color: #5d237a;
+	border-right-color: #5d237a;
 }
 
 @media only screen and (max-width: 20rem) {
@@ -251,11 +251,11 @@
 }
 
 .yoast-button.academy--secondary::after {
-	border-right-color: #a4286a;
+	border-left-color: #a4286a;
 }
 
 .yoast-button.academy--secondary::before {
-	border-left-color: #a4286a;
+	border-right-color: #a4286a;
 }
 
 @media only screen and (max-width: 20rem) {
@@ -270,11 +270,11 @@
 }
 
 .yoast-button.software::after {
-	border-right-color: #0075b3;
+	border-left-color: #0075b3;
 }
 
 .yoast-button.software::before {
-	border-left-color: #0075b3;
+	border-right-color: #0075b3;
 }
 
 .yoast-button.review {
@@ -283,11 +283,11 @@
 }
 
 .yoast-button.review::after {
-	border-right-color: #009288;
+	border-left-color: #009288;
 }
 
 .yoast-button.review::before {
-	border-left-color: #009288;
+	border-right-color: #009288;
 }
 
 .yoast-button.about {
@@ -296,11 +296,11 @@
 }
 
 .yoast-button.about::after {
-	border-right-color: #d93f69;
+	border-left-color: #d93f69;
 }
 
 .yoast-button.about::before {
-	border-left-color: #d93f69;
+	border-right-color: #d93f69;
 }
 
 .yoast_academy .yoast-button {
@@ -309,11 +309,11 @@
 }
 
 .yoast_academy .yoast-button::after {
-	border-right-color: #d93f69;
+	border-left-color: #d93f69;
 }
 
 .yoast_academy .yoast-button::before {
-	border-left-color: #d93f69;
+	border-right-color: #d93f69;
 }
 
 .yoast_academy .yoast-button:hover,
@@ -325,12 +325,12 @@
 
 .yoast_academy .yoast-button:hover::after,
 .yoast_academy .yoast-button a:focus::after {
-	border-right-color: #d42a59;
+	border-left-color: #d42a59;
 }
 
 .yoast_academy .yoast-button:hover::before,
 .yoast_academy .yoast-button a:focus::before {
-	border-left-color: #d42a59;
+	border-right-color: #d42a59;
 }
 
 body .yoast-button.dimmed,
@@ -341,12 +341,12 @@ body .yoast-button.dimmed,
 
 body .yoast-button.dimmed::after,
 .yoast_academy .yoast-button.dimmed::after {
-	border-right-color: #dcdcdc;
+	border-left-color: #dcdcdc;
 }
 
 body .yoast-button.dimmed::before,
 .yoast_academy .yoast-button.dimmed::before {
-	border-left-color: #dcdcdc;
+	border-right-color: #dcdcdc;
 }
 
 body .yoast-button.dimmed:hover,
@@ -362,14 +362,14 @@ body .yoast-button.dimmed:hover::after,
 body .yoast-button.dimmed a:focus::after,
 .yoast_academy .yoast-button.dimmed:hover::after,
 .yoast_academy .yoast-button.dimmed a:focus::after {
-	border-right-color: #cdcdcd;
+	border-left-color: #cdcdcd;
 }
 
 body .yoast-button.dimmed:hover:before,
 body .yoast-button.dimmed a:focus:before,
 .yoast_academy .yoast-button.dimmed:hover:before,
 .yoast_academy .yoast-button.dimmed a:focus:before {
-	border-left-color: #cdcdcd;
+	border-right-color: #cdcdcd;
 }
 
 .yoast-button--noarrow::after {
@@ -387,7 +387,7 @@ body .yoast-button.dimmed a:focus:before,
 }
 
 .yoast-button i.fa {
-	margin: 4px 0 0 10px;
+	margin: 4px 10px 0 0;
 	font-size: 140%;
 }
 
@@ -483,7 +483,7 @@ body .yoast-button.dimmed a:focus:before,
 	padding: 20px;
 	border: 1px solid;
 	border-radius: 30px;
-	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 	background-color: #fff;
 	font-family: "Merriweather", Georgia, serif;
 }
@@ -498,9 +498,9 @@ body .yoast-button.dimmed a:focus:before,
 
 .yoast-promoblock i.blockicon {
 	position: absolute;
-	left: 10px;
+	right: 10px;
 	bottom: 10px;
-	padding: 0 0.5em 0 0;
+	padding: 0 0 0 0.5em;
 	font-size: 2.25em;
 }
 
@@ -601,7 +601,7 @@ body .yoast-button.dimmed a:focus:before,
 
 .old-ie .yoast-promoblock--hometitle > * {
 	display: inline-block;
-	text-align: right;
+	text-align: left;
 }
 
 @media only screen and (max-width: 30rem) {
@@ -620,7 +620,7 @@ body .yoast-button.dimmed a:focus:before,
 }
 
 .yoast-promoblock--imageholdersmall:first-child {
-	right: 4rem;
+	left: 4rem;
 }
 
 .yoast-promoblock--imageholdersmall:last-child {
@@ -651,7 +651,7 @@ a.promoblock:hover {
 @media only screen and (min-width: 50rem) {
 	[class*="promoblock--icon"]::before {
 		position: absolute;
-		left: 0.47rem;
+		right: 0.47rem;
 		bottom: 0.47rem;
 		font-family: "FontAwesome", "Open Sans", Arial, sans-serif;
 		font-size: 2.2rem;
@@ -745,16 +745,16 @@ a.promoblock:hover {
 	position: absolute;
 	z-index: 1;
 	top: -2px;
-	right: 50%;
+	left: 50%;
 	height: 0;
 	border: none;
 	border-top: 20px solid #f1f1f1;
-	border-left: 40px solid transparent;
 	border-right: 40px solid transparent;
+	border-left: 40px solid transparent;
 	line-height: 0;
 	content: "";
-	-ms-transform: translateX(50%);
-	transform: translateX(50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
 
 	-webkit-filter: drop-shadow(0 1px 0 #a4286a);
 	-moz-filter: drop-shadow(0 1px 0 #a4286a);
@@ -767,7 +767,7 @@ a.promoblock:hover {
 	width: 1em;
 	height: 100%;
 	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%2377B227%22%20d%3D%22M1671%20566q0%2040%2D28%2068l%2D724%20724%2D136%20136q%2D28%2028%2D68%2028t%2D68%2D28l%2D136%2D136%2D362%2D362q%2D28%2D28%2D28%2D68t28%2D68l136%2D136q28%2D28%2068%2D28t68%2028l294%20295%20656%2D657q28%2D28%2068%2D28t68%2028l136%20136q28%2028%2028%2068z%22%2F%3E%3C%2Fsvg%3E") no-repeat;
-	background-position: right 0.4em;
+	background-position: left 0.4em;
 	background-size: contain;
 	content: "";
 }
@@ -779,7 +779,7 @@ a.promoblock:hover {
 .yoast-button-go-to:after {
 	position: static;
 	top: auto;
-	left: auto;
+	right: auto;
 	width: auto;
 	height: auto;
 	border: none;
@@ -800,7 +800,7 @@ a.promoblock:hover {
 .yoast-promo-extensions {
 	display: -ms-flexbox;
 	display: flex;
-	margin-right: -50px;
+	margin-left: -50px;
 
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
@@ -808,18 +808,18 @@ a.promoblock:hover {
 
 .yoast-promo-extensions > h2 {
 	width: 100%;
-	margin-right: 50px;
+	margin-left: 50px;
 }
 
 .yoast-promo-extension {
 	max-width: 330px;
-	margin-right: 50px;
+	margin-left: 50px;
 	border-color: #a4286a;
 	background-color: transparent;
 }
 
 .yoast-promo-extension:first-child {
-	margin-right: 0;
+	margin-left: 0;
 }
 
 .yoast-promo-extension img {
@@ -873,11 +873,11 @@ a.promoblock:hover {
 }
 
 .yoast-link--more-info {
-	padding-right: calc( 1em + 5px);
+	padding-left: calc( 1em + 5px);
 	color: #646464;
 	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23646464%22%20d%3D%22M1152%201376v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D96v%2D512q0%2D14%2D9%2D23t%2D23%2D9h%2D320q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h96v320h%2D96q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h448q14%200%2023%2D9t9%2D23zm%2D128%2D896v%2D160q0%2D14%2D9%2D23t%2D23%2D9h%2D192q%2D14%200%2D23%209t%2D9%2023v160q0%2014%209%2023t23%209h192q14%200%2023%2D9t9%2D23zm640%20416q0%20209%2D103%20385%2E5t%2D279%2E5%20279%2E5%2D385%2E5%20103%2D385%2E5%2D103%2D279%2E5%2D279%2E5%2D103%2D385%2E5%20103%2D385%2E5%20279%2E5%2D279%2E5%20385%2E5%2D103%20385%2E5%20103%20279%2E5%20279%2E5%20103%20385%2E5z%22%2F%3E%3C%2Fsvg%3E");
 	background-repeat: no-repeat;
-	background-position: right 0.2em;
+	background-position: left 0.2em;
 	background-size: 1em;
 }
 
@@ -888,7 +888,7 @@ a.promoblock:hover {
 .yoast-promo-extension .yoast-link--more-info {
 	display: block;
 	margin: 1em 0 0 0;
-	background-position: right 0.4em;
+	background-position: left 0.4em;
 }
 
 .yoast-heading-highlight {
@@ -899,534 +899,4 @@ a.promoblock:hover {
 .yoast-money-back-guarantee {
 	font-size: 1.1em;
 	font-style: italic;
-}
-
-h4 {
-	clear: both;
-	margin: 1.2em 0 0.5em 0;
-}
-
-p.desc {
-	margin: 6px 0 10px 0;
-	padding: 0 25px 8px 0;
-}
-
-p.desc.label {
-	margin: 0 0 20px;
-	padding: 0 200px 10px 0;
-}
-
-tr.yst_row {
-	margin: 5px 0 0 0;
-	padding: 5px 0 0 0;
-}
-
-tr.yst_row.even {
-	background-color: #f6f6f6;
-}
-
-div.yoastbox ul {
-	margin-right: 20px;
-}
-
-.postbox {
-	margin: 10px 0 0 10px;
-}
-
-label {
-	float: right;
-	margin-right: 6px;
-}
-
-.yoast-inline-label {
-	float: none;
-	margin: 0;
-}
-
-label.radio {
-	float: none;
-	margin-left: 20px;
-}
-
-input.textinput,
-textarea,
-select {
-	width: 400px;
-}
-
-input.checkbox + label.checkbox {
-	width: auto;
-}
-
-input.textinput,
-textarea.textinput,
-select.select {
-	float: right;
-	margin: 0 0 15px 3px;
-	padding: 5px;
-}
-
-textarea.textinput {
-	padding: 3px 6px;
-}
-
-select.select {
-	padding: 3px;
-}
-
-input.checkbox,
-input.checkbox.double {
-	float: right;
-	margin: 6px 0 6px 10px;
-}
-
-.textinput.metadesc {
-	height: 50px;
-}
-
-textarea.import {
-	width: 500px;
-	height: 100px;
-}
-
-label.textinput,
-label.select,
-label.checkbox {
-	width: 200px;
-	margin: 5px 0 5px 0;
-	background-color: transparent;
-}
-
-.wpseo-gsc-reload-crawl-issues-form {
-	position: relative;
-	top: 9px;
-}
-
-.wp-core-ui .button.wpseo-gsc-save-profile {
-	margin-right: 200px;
-}
-
-table.wpseo th {
-	text-align: right;
-}
-
-.wpseo_content_wrapper {
-	display: table;
-	width: 100%;
-}
-
-.wpseo_content_wrapper p,
-.wpseo_content_wrapper li {
-	max-width: 600px;
-}
-
-.wpseo_content_wrapper .notice p {
-	max-width: none;
-}
-
-/* Notices below Settings pages tabs. */
-#wpseo-tabs + .notice {
-	margin-top: 1.5em;
-}
-
-.wpseo_content_cell {
-	display: table-cell;
-	height: 500px;
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
-}
-
-.wpseo-remove-ads {
-	margin-top: 0;
-	padding: 12px;
-	border: 1px solid #0075b3;
-	border-radius: 20px;
-	border-bottom-left-radius: 0;
-	background-color: #fff;
-}
-
-#wpseo_content_top {
-	min-width: 800px;
-}
-
-.wpseo-variable-warning-element {
-	border: 1px solid #c62d2d !important;
-}
-
-.wpseo-variable-warning {
-	clear: both;
-	margin: 5px 0 0 0;
-	padding: 5px;
-	color: #c62d2d;
-}
-
-.wpseo-variable-warning code {
-	color: #b02828;
-}
-
-.wpseo-variable-warning a {
-	color: #c62d2d;
-}
-
-.wpseo_content_wrapper h3 {
-	margin: 1em 0 0.5em 0;
-}
-
-.wpseo_content_wrapper h1.wpseo-redirect-url-title {
-	margin: 1em 0 0.5em 0;
-	font-size: 1.3em;
-}
-
-#sidebar-container {
-	width: 261px;
-	padding: 0 20px 0 0;
-}
-
-@media (max-width: 1020px) {
-	#wpseo_content_top {
-		margin-right: 0;
-		padding-right: 0;
-	}
-}
-
-.wpseo-admin-page .form-table tr,
-.wpseo-admin-page .form-table th,
-.wpseo-admin-page .form-table td {
-	vertical-align: top;
-}
-
-.postbox form {
-	line-height: 150%;
-}
-
-div.yoastbox ul li {
-	list-style: square;
-}
-
-.text {
-	width: 250px;
-}
-
-div.yoastbox .button:hover,
-div.yoastbox .button-primary:hover {
-	text-decoration: none;
-}
-
-/*.button, .button-primary {*/
-/*margin-top: 10px;*/
-/*}*/
-table.yoast_help,
-table.yoast_help th,
-table.yoast_help td {
-	border: 1px solid #ddd;
-	border-collapse: collapse;
-	color: #444;
-	font-size: 12px;
-}
-
-table.yoast_help th,
-table.yoast_help td {
-	padding: 5px 10px;
-	text-align: right;
-	vertical-align: text-top;
-}
-
-table.yoast_help tr {
-	background-color: #f1f1f1;
-}
-
-table.yoast_help tr:nth-child(2n) {
-	background-color: #fbfbfe;
-}
-
-table.yoast_help tr:hover {
-	background-color: #ddd;
-}
-
-.correct {
-	padding: 5px;
-	color: white;
-	background-color: green;
-}
-
-.wrong {
-	padding: 5px;
-	color: white;
-	background-color: #dc3232;
-}
-
-.wrong code {
-	padding: 3px 8px;
-	color: #000;
-}
-
-.yoast-notice-blocking-files code {
-	color: #000;
-	line-height: 2;
-}
-
-.yoast-notice-blocking-files .button {
-	margin: 0.5em 0;
-}
-
-.wpseo_content_wrapper .yoast-blocking-files-error p {
-	max-width: none;
-}
-
-.button.fixit {
-	float: left;
-	margin: 0 5px;
-}
-
-.button.checkit {
-	float: left;
-	margin: 0 5px;
-	padding: 5px 8px;
-}
-
-.fb-buttons .button-primary,
-.fb-buttons .button {
-	margin-left: 8px;
-}
-
-.postbox#donate {
-	border: 2px green;
-}
-
-.wpseotab {
-	display: none;
-	margin-top: 15px;
-}
-
-.wpseotab.active {
-	display: block;
-}
-
-.wpseotab p.expl {
-	margin-right: 6px;
-}
-
-.wpseotab p.expl strong {
-	font-size: 115%;
-}
-
-#sidebar .yoastbox {
-	margin: 0 0 10px 0;
-	padding: 10px 15px;
-	border: 1px solid #ccc;
-	border-radius: 25px 5px;
-}
-
-#sidebar .yoastbox h2 {
-	font-size: 16px;
-}
-
-#sidebar .promo {
-	color: #000;
-}
-
-#donate.yoastbox,
-#sitereview.yoastbox {
-	border-color: green;
-	background-color: #cfc;
-}
-
-h2 {
-	margin-bottom: 20px;
-}
-
-h2 code {
-	font-size: 23px;
-}
-
-#pointer-primary {
-	margin: 0 0 0 5px;
-}
-
-#wpseo-debug-info {
-	clear: both;
-}
-
-#wpseo-debug-info .hndle {
-	cursor: auto;
-}
-
-#wpseo-debug-info .wpseo-debug-heading {
-	font-size: 1em;
-}
-
-#wpseo-debug-info .wpseo-debug {
-	display: inline-block;
-	padding-right: 20px;
-	color: #c00;
-}
-
-input.wpseo-new-title,
-textarea.wpseo-new-metadesc {
-	width: 100%;
-	max-width: 100%;
-}
-
-.wpseotab .extension {
-	float: right;
-	box-sizing: border-box;
-	width: 300px;
-	height: 230px;
-	margin: 10px 0 10px 20px;
-	border: 1px solid #ccc;
-}
-
-.wpseotab .extension p {
-	margin: 0;
-	padding: 10px;
-}
-
-.wpseotab .extension h3 {
-	box-sizing: border-box;
-	height: 110px;
-	margin: 0;
-	padding: 20px 120px 0 10px;
-	border-bottom: 1px solid #ccc;
-	background: #fff no-repeat left 10px;
-	background-size: 130px 100px;
-}
-
-.wpseotab .extension a {
-	text-decoration: none;
-}
-
-.wpseotab .extension button.installed {
-	border-color: #00a000;
-	background-color: #00a000;
-	cursor: default;
-}
-
-#separator {
-	margin: 1.5em 0 1em;
-}
-
-#separator input.radio {
-	/* visually hide the radio buttons but keep them accessible */
-	position: absolute;
-	right: -9999em;
-	width: 1px;
-	height: 1px;
-}
-
-#separator input.radio + label {
-	float: right;
-	width: 30px !important;
-	margin: 0 0 0 5px !important;
-	padding: 9px 6px;
-	border: 1px solid #ccc;
-	/* Don't change: these mimic Google's font and font size for titles */
-	font-family: Arial, Helvetica, sans-serif !important;
-	font-size: 18px !important;
-	line-height: 24px;
-	text-align: center;
-	cursor: pointer;
-}
-
-#separator input.radio:checked + label {
-	border: 1px solid #a4286a;
-	background-color: #fff;
-	box-shadow: inset 0 0 0 2px #a4286a;
-}
-
-#separator input.radio:focus + label {
-	border-radius: 10px;
-	border-bottom-left-radius: 0;
-}
-
-.svg-container {
-	text-align: center;
-}
-
-.svg-container .dashicons {
-	width: 200px;
-	height: 100px;
-	font-size: 100px;
-}
-
-body.toplevel_page_wpseo_dashboard .wp-badge {
-	border: none;
-	background: url(../images/Yoast_SEO_Icon.svg);
-	background-size: 150px 160px;
-	box-shadow: none;
-}
-
-.nav-tab .dashicons {
-	width: 18px;
-	height: 18px;
-	font-size: 18px;
-	line-height: 24px;
-}
-
-.nav-tab .pinteresticon {
-	width: 12px;
-	height: 24px;
-	margin-left: 2px;
-	background-image: url(../images/pinterest-23x30.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: contain;
-}
-
-#wpseo_progressbar {
-	height: 25px;
-	border: 1px solid #006691;
-}
-
-#wpseo_progressbar .ui-progressbar-value {
-	height: 25px;
-	background: #006691;
-}
-
-.wpseo-add-fb-admin-form-wrap .notice span {
-	margin-right: 10px;
-}
-
-.archives-titles-metas-content {
-	padding-top: 1em;
-}
-
-@media screen and (max-width: 782px) {
-	.wpseo-gsc-reload-crawl-issues-form {
-		top: 0;
-		margin: 1em 0;
-	}
-
-	.wpseo-gsc-reload-crawl-issues-form .alignright {
-		float: none;
-	}
-}
-
-@media screen and (max-width: 600px) {
-	.wpseo-gsc-reload-crawl-issues-form {
-		margin-bottom: 0;
-	}
-}
-
-.yoast-sidebar__title {
-	box-sizing: border-box;
-	width: 100%;
-	margin: 46px 0 20px;
-	padding: 10px;
-	border: none;
-	border-bottom: 1px solid #a4286a;
-	outline: none;
-	color: #a4286a;
-	background: none;
-	line-height: 19px;
-	text-align: right;
-}
-
-.yoast-sidebar__spot {
-	padding: 10px 0;
-	border-bottom: 1px solid #ddd;
-}
-
-.yoast-sidebar__spot a {
-	color: #a4286a;
 }
