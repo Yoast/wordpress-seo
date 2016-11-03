@@ -121,7 +121,18 @@ class WPSEO_OpenGraph {
 			$namespaces[] = 'fb: http://ogp.me/ns/fb#';
 		}
 
-		$namespace_string = implode( ' ', array_unique( apply_filters( 'wpseo_html_namespaces', $namespaces ) ) );
+		/**
+		 * Allow for adding additional namespaces to the <html> prefix attributes.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param array $namespaces Currently registered namespaces which are to be
+		 *                          added to the prefix attribute.
+		 *                          Namespaces are strings and have the following syntax:
+		 *                          ns: http://url.to.namespace/definition
+		 */
+		$namespaces       = apply_filters( 'wpseo_html_namespaces', $namespaces );
+		$namespace_string = implode( ' ', array_unique( $namespaces ) );
 
 		if ( strpos( $input, ' prefix=' ) !== false ) {
 			$regex   = '`prefix=([\'"])(.+?)\1`';
