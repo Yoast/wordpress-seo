@@ -272,14 +272,8 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			array(
-				'name'    => 'toggle-switch-lib',
-				'src'     => 'toggle-switch/toggle-switch',
-				'version' => '4.0.2',
-			),
-			array(
 				'name'   => 'toggle-switch',
 				'src'    => 'toggle-switch-330',
-				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
 			),
 			array(
 				'name' => 'dismissible',
