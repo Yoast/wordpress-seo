@@ -250,7 +250,7 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Formats the redirect url.
 	 *
-	 * @param string $url The url to format
+	 * @param string $url The url to format.
 	 *
 	 * @return string
 	 */
