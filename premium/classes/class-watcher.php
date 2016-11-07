@@ -201,8 +201,8 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function set_undo_slug_notification( WPSEO_Redirect $redirect ) {
 		$id = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
-		$old_url = $this->create_hyperlink_from_url( home_url() . '/' . $redirect->get_origin() );
-		$new_url = $this->create_hyperlink_from_url( home_url() . '/' . $redirect->get_target() );
+		$old_url = $this->format_redirect_url( $redirect->get_origin() );
+		$new_url = $this->format_redirect_url( $redirect->get_target() );
 
 		// Format the message.
 		$message = sprintf(
@@ -210,8 +210,8 @@ abstract class WPSEO_Watcher {
 			'Yoast SEO Premium',
 			'<a target="_blank" href="' . $this->admin_redirect_url( $redirect->get_origin() ) . '">',
 			'</a>',
-			$old_url,
-			$new_url,
+			$this->create_hyperlink_from_url( $old_url ),
+			$this->create_hyperlink_from_url( $new_url ),
 			'<button type="button" class="button" onclick=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
 			'</button>'
 		);
@@ -244,6 +244,19 @@ abstract class WPSEO_Watcher {
 	 * @return string
 	 */
 	protected function create_hyperlink_from_url( $url ) {
-		return '<a target="_blank" href=' . $url . '>' . $url . '</a>';
+		return '<a target="_blank" href=' . esc_url( $url ) . '>' . esc_html( $url ) . '</a>';
+	}
+
+	/**
+	 * Formats the redirect url.
+	 *
+	 * @param string $url The url to format.
+	 *
+	 * @return string
+	 */
+	protected function format_redirect_url( $url ) {
+		$redirect_url_format = new WPSEO_Redirect_Url_Formatter( $url );
+
+		return home_url( $redirect_url_format->format_without_subdirectory( get_home_url() ) );
 	}
 }
