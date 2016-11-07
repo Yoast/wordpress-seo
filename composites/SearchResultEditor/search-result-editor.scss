@@ -7,7 +7,7 @@ $prefix: "yoast-";
 
 .#{$prefix}search-result-editor {
   padding: 0 20px 20px;
-  background-color: #fff;
+  background-color: $color_palette_white;
   border: 1px solid $color_border;
   border-radius: 20px;
   position: relative;

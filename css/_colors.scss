@@ -1,24 +1,55 @@
-$color_bad: #dc3232;
-$color_ok: #ee7c1b;
-$color_good: #7ad03a;
+$color_palette_background:    #f1f1f1;
+$color_palette_white:         #fff;
+$color_palette_black:         #000;
+$color_palette_grey:          #dcdcdc;
+$color_palette_grey_wp:       #72777c;
+$color_palette_grey_light:    #f7f7f7;
+$color_palette_grey_dark:     #555;
+$color_palette_border:        #ccc;
+$color_palette_input_border:  #ddd;
+$color_palette_grey_disabled: #a0a5aa;
+$color_palette_grey_rgba15:   rgba(0, 0, 0, 0.15);
+$color_palette_grey_rgba20:   rgba(0, 0, 0, 0.2);
 
-$color_caret: #555555;
-$color_caret_hover: #bfbfbf;
-$color_caret_focus: #1074a8;
+$color_palette_red:           #dc3232;
+$color_palette_blue:          #0075b3;
 
-$color_border: #f7f7f7;
+$color_palette-pink-dark:     #a4286a;
+$color_palette_purple: 	      #5d237a;
+$color_palette-purple-dark:   #6c2548;
 
-$color_input_border: #bfbfbf;
-$color_input_border_focus: #1074a8;
+$color_palette_link:          #0073aa;
+$color_palette_link_hover:    #00a0d2;
+$color_palette_link_focus:    #124964;
+$color_palette_focus_shadow1: #5b9dd9;
+$color_palette_focus_shadow2: rgba(30, 140, 190, .8);
+$color_palette_green_light:   #7ad03a;
+$color_palette_orange_light:  #ee7c1b;
 
-$color_progress_background: #f7f7f7;
+$color_google_link:           #1a0dab; // was #1e0fbe
+$color_google_url:            #006621;
 
-$color_button: #f7f7f7;
-$color_button_border: #dbdbdb;
+$color_bad:                   $color_palette_red;
+$color_ok:                    $color_palette_orange_light;
+$color_good:                  $color_palette_green_light;
 
-$color_headings: #555555;
-$color_buttons: #555555;
+$color_caret:                 $color_palette_grey_dark;
+$color_caret_hover:           $color_palette_grey;
+$color_caret_focus:           $color_palette_blue;
 
-$color_marker_inactive: #555555;
-$color_marker_active: #ffffff;
-$color_marker_disabled: #e6e6e6;
+$color_border:                $color_palette_grey_light;
+
+$color_input_border:          $color_palette_input_border;
+$color_input_border_focus:    $color_palette_blue;
+
+$color_progress_background:   $color_palette_grey_light;
+
+$color_button:                $color_palette_grey_light;
+$color_button_border:         $color_palette_border;
+
+$color_headings:              $color_palette_grey_dark;
+$color_buttons:               $color_palette_grey_dark;
+
+$color_marker_inactive:       $color_palette_grey_dark;
+$color_marker_active:         $color_palette_white;
+$color_marker_disabled:       $color_palette_grey_disabled;
