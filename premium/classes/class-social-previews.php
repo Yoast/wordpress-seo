@@ -97,7 +97,7 @@ class WPSEO_Social_Previews {
 	 * Register the required assets.
 	 */
 	private function register_assets() {
-		wp_register_script( 'yoast-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-social-preview-370' . WPSEO_CSSJS_SUFFIX . '.js', array(
+		wp_register_script( 'yoast-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-social-preview-380' . WPSEO_CSSJS_SUFFIX . '.js', array(
 			'jquery',
 			'jquery-ui-core',
 		), WPSEO_VERSION );

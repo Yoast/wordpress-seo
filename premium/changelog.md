@@ -1,3 +1,9 @@
+### 3.8.0 November 8th, 2016
+* Fixes a bug where keyword tabs didn't have a correct screen reader text.
+* Fixes a bug where certain translations weren't translatable, props [Pedro Mendonça](https://github.com/pedro-mendonca)
+* Removes React debugging tools from eventual build JavaScript files.
+* Includes every change in Yoast SEO core 3.8.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.7.2 October 20th, 2016
 * Includes every change in Yoast SEO core 3.7.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 

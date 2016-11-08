@@ -20,8 +20,8 @@ class WPSEO_Premium_Metabox {
 	 * Registers assets to WordPress
 	 */
 	public function register_assets() {
-		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-370' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'wp-util', 'underscore' ), WPSEO_VERSION );
-		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-331' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
+		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-380' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'wp-util', 'underscore' ), WPSEO_VERSION );
+		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-380' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 	}
 
 	/**
