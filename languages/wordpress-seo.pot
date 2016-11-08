@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-10-21 08:58:28+00:00\n"
+"POT-Creation-Date: 2016-11-03 12:45:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -154,8 +154,10 @@ msgstr ""
 msgid "Titles &amp; Metas"
 msgstr ""
 
-#: admin/class-admin.php:179 admin/class-social-admin.php:115
-#: admin/taxonomy/class-taxonomy-metabox.php:208
+#: admin/class-admin.php:179 admin/class-social-admin.php:114
+#: admin/class-social-admin.php:117
+#: admin/taxonomy/class-taxonomy-metabox.php:212
+#: admin/taxonomy/class-taxonomy-metabox.php:215
 #: inc/wpseo-non-ajax-functions.php:275
 msgid "Social"
 msgstr ""
@@ -164,8 +166,9 @@ msgstr ""
 msgid "XML Sitemaps"
 msgstr ""
 
-#: admin/class-admin.php:197 admin/metabox/class-metabox.php:391
-#: admin/metabox/class-metabox.php:402 inc/wpseo-non-ajax-functions.php:287
+#: admin/class-admin.php:197 admin/metabox/class-metabox.php:392
+#: admin/metabox/class-metabox.php:400 admin/metabox/class-metabox.php:403
+#: inc/wpseo-non-ajax-functions.php:287
 msgid "Advanced"
 msgstr ""
 
@@ -177,8 +180,8 @@ msgstr ""
 msgid "Search Console"
 msgstr ""
 
-#: admin/class-admin.php:224 admin/metabox/class-metabox.php:415
-#: admin/taxonomy/class-taxonomy-metabox.php:221
+#: admin/class-admin.php:224 admin/metabox/class-metabox.php:417
+#: admin/taxonomy/class-taxonomy-metabox.php:229
 #: inc/wpseo-non-ajax-functions.php:306
 msgid "Go Premium"
 msgstr ""
@@ -243,8 +246,9 @@ msgstr ""
 
 #: admin/class-admin.php:456
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
-#: admin/taxonomy/class-taxonomy-metabox.php:146
-#: admin/taxonomy/class-taxonomy-metabox.php:154
+#: admin/taxonomy/class-taxonomy-metabox.php:147
+#: admin/taxonomy/class-taxonomy-metabox.php:155
+#: admin/taxonomy/class-taxonomy-metabox.php:158
 msgid "Settings"
 msgstr ""
 
@@ -276,8 +280,8 @@ msgstr ""
 #: admin/class-admin.php:702 admin/class-yoast-form.php:369
 #: admin/views/tabs/dashboard/features.php:54
 #: admin/views/tabs/dashboard/security.php:16
-#: admin/views/tabs/metas/archives.php:21
-#: admin/views/tabs/metas/archives.php:43
+#: admin/views/tabs/metas/archives.php:28
+#: admin/views/tabs/metas/archives.php:47
 #: admin/views/tabs/metas/taxonomies.php:25
 #: admin/views/tabs/sitemaps/user-sitemap.php:16
 msgid "Disabled"
@@ -380,7 +384,7 @@ msgstr ""
 msgid "New %1$s Title"
 msgstr ""
 
-#: admin/class-config.php:112 admin/metabox/class-metabox.php:897
+#: admin/class-config.php:112 admin/metabox/class-metabox.php:901
 #: admin/taxonomy/class-taxonomy.php:112
 msgid "Use Image"
 msgstr ""
@@ -475,11 +479,9 @@ msgstr ""
 #. translators: %s: '%%term_title%%' variable used in titles and meta's
 #. template that's not compatible with the given template
 #: admin/class-help-center.php:194
-msgid "Warning: the variable %s cannot be used in this template."
-msgstr ""
-
-#: admin/class-help-center.php:194
-msgid "See the help tab for more info."
+msgid ""
+"Warning: the variable %s cannot be used in this template. See the help "
+"center for more info."
 msgstr ""
 
 #. translators: %d: number of knowledge base search results found.
@@ -778,12 +780,15 @@ msgstr ""
 msgid "%s Image"
 msgstr ""
 
-#: admin/class-social-admin.php:92
+#: admin/class-social-admin.php:90 admin/class-social-admin.php:92
+#: admin/taxonomy/class-taxonomy-metabox.php:186
+#: admin/taxonomy/class-taxonomy-metabox.php:188
 msgid "Facebook / Open Graph metadata"
 msgstr ""
 
-#: admin/class-social-admin.php:104
-#: admin/taxonomy/class-taxonomy-metabox.php:197
+#: admin/class-social-admin.php:103 admin/class-social-admin.php:105
+#: admin/taxonomy/class-taxonomy-metabox.php:201
+#: admin/taxonomy/class-taxonomy-metabox.php:203
 msgid "Twitter metadata"
 msgstr ""
 
@@ -987,14 +992,14 @@ msgstr ""
 
 #: admin/class-yoast-form.php:369 admin/views/tabs/dashboard/features.php:53
 #: admin/views/tabs/dashboard/security.php:16
-#: admin/views/tabs/metas/archives.php:20
-#: admin/views/tabs/metas/archives.php:42
+#: admin/views/tabs/metas/archives.php:27
+#: admin/views/tabs/metas/archives.php:46
 #: admin/views/tabs/metas/taxonomies.php:25
 #: admin/views/tabs/sitemaps/user-sitemap.php:16
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:518 admin/metabox/class-metabox.php:667
+#: admin/class-yoast-form.php:518 admin/metabox/class-metabox.php:671
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:126
 msgid "Upload Image"
 msgstr ""
@@ -1746,7 +1751,7 @@ msgstr ""
 msgid "Show information about the snippet editor"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:71 admin/metabox/class-metabox.php:551
+#: admin/metabox/class-metabox.php:71 admin/metabox/class-metabox.php:555
 #: admin/taxonomy/class-taxonomy-content-fields.php:37
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:97
 msgid "Analysis"
@@ -1898,79 +1903,74 @@ msgstr ""
 msgid "(no parent)"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:375
+#: admin/metabox/class-metabox.php:372 admin/metabox/class-metabox.php:375
+#: admin/taxonomy/class-taxonomy-metabox.php:126
 #: admin/taxonomy/class-taxonomy-metabox.php:129
 msgid "Content optimization"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:448
-#: admin/taxonomy/class-taxonomy-metabox.php:254
+#: admin/metabox/class-metabox.php:450
+#: admin/taxonomy/class-taxonomy-metabox.php:262
 msgid ""
 "You're not getting the benefits of Yoast SEO Premium yet. If you had Yoast "
 "SEO Premium, you could use its awesome features:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:449 admin/pages/licenses.php:130
-#: admin/taxonomy/class-taxonomy-metabox.php:255
+#: admin/metabox/class-metabox.php:451 admin/pages/licenses.php:130
+#: admin/taxonomy/class-taxonomy-metabox.php:263
 msgid "Redirect manager"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:450
-#: admin/taxonomy/class-taxonomy-metabox.php:256
+#: admin/metabox/class-metabox.php:452
+#: admin/taxonomy/class-taxonomy-metabox.php:264
 msgid "Create and manage redirects within your WordPress install."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:451 admin/pages/licenses.php:134
-#: admin/taxonomy/class-taxonomy-metabox.php:257
+#: admin/metabox/class-metabox.php:453 admin/pages/licenses.php:134
+#: admin/taxonomy/class-taxonomy-metabox.php:265
 msgid "Multiple focus keywords"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:452
-#: admin/taxonomy/class-taxonomy-metabox.php:258
+#: admin/metabox/class-metabox.php:454
+#: admin/taxonomy/class-taxonomy-metabox.php:266
 msgid "Optimize a single post for up to 5 keywords."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:453
-#: admin/taxonomy/class-taxonomy-metabox.php:259
+#: admin/metabox/class-metabox.php:455
+#: admin/taxonomy/class-taxonomy-metabox.php:267
 msgid "Social Previews"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:454
-#: admin/taxonomy/class-taxonomy-metabox.php:260
+#: admin/metabox/class-metabox.php:456
+#: admin/taxonomy/class-taxonomy-metabox.php:268
 msgid "Check what your Facebook or Twitter post will look like."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:455 admin/pages/licenses.php:142
-#: admin/taxonomy/class-taxonomy-metabox.php:261
+#: admin/metabox/class-metabox.php:457 admin/pages/licenses.php:142
+#: admin/taxonomy/class-taxonomy-metabox.php:269
 msgid "Premium support"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:456
-#: admin/taxonomy/class-taxonomy-metabox.php:262
+#: admin/metabox/class-metabox.php:458
+#: admin/taxonomy/class-taxonomy-metabox.php:270
 msgid "Gain access to our 24/7 support team."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:458
-#: admin/taxonomy/class-taxonomy-metabox.php:264
+#: admin/metabox/class-metabox.php:460
+#: admin/taxonomy/class-taxonomy-metabox.php:272
 msgid "Get Yoast SEO Premium now!"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:460
-#: admin/taxonomy/class-taxonomy-metabox.php:266
+#: admin/metabox/class-metabox.php:462
+#: admin/taxonomy/class-taxonomy-metabox.php:274
 msgid "More info"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:466 admin/metabox/class-metabox.php:477
-#: admin/taxonomy/class-taxonomy-metabox.php:272
-#: admin/taxonomy/class-taxonomy-metabox.php:280
-msgid "Yoast SEO Premium"
-msgstr ""
-
-#: admin/metabox/class-metabox.php:494
+#: admin/metabox/class-metabox.php:494 admin/metabox/class-metabox.php:497
 msgid "Add-ons"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:884
+#: admin/metabox/class-metabox.php:888
 msgid ""
 "The featured image should be at least 200x200 pixels to be picked up by "
 "Facebook and other social media sites."
@@ -2335,10 +2335,6 @@ msgstr ""
 
 #: admin/taxonomy/class-taxonomy-content-fields.php:41
 msgid "Content Analysis Help"
-msgstr ""
-
-#: admin/taxonomy/class-taxonomy-metabox.php:183
-msgid "Facebook / Opengraph metadata"
 msgstr ""
 
 #: admin/taxonomy/class-taxonomy-settings-fields.php:38
@@ -3022,44 +3018,9 @@ msgstr ""
 msgid "Yandex Webmaster Tools"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:13
-#: admin/views/tabs/metas/archives.php:22
-msgid "Author archives"
-msgstr ""
-
-#: admin/views/tabs/metas/archives.php:14
-#: admin/views/tabs/metas/archives.php:39
-#: admin/views/tabs/metas/archives.php:58
-#: admin/views/tabs/metas/archives.php:61 admin/views/tabs/metas/home.php:15
-#: admin/views/tabs/metas/post-types.php:30
-#: admin/views/tabs/metas/taxonomies.php:30
-msgid "Title template"
-msgstr ""
-
-#: admin/views/tabs/metas/archives.php:15
-#: admin/views/tabs/metas/archives.php:40 admin/views/tabs/metas/home.php:16
-#: admin/views/tabs/metas/post-types.php:31
-#: admin/views/tabs/metas/taxonomies.php:31
-msgid "Meta description template"
-msgstr ""
-
-#: admin/views/tabs/metas/archives.php:17 admin/views/tabs/metas/home.php:18
-#: admin/views/tabs/metas/post-types.php:33
-#: admin/views/tabs/metas/taxonomies.php:33
-msgid "Meta keywords template"
-msgstr ""
-
-#: admin/views/tabs/metas/archives.php:23
-#: admin/views/tabs/metas/archives.php:45
-#: admin/views/tabs/metas/post-types.php:35
-#: admin/views/tabs/metas/post-types.php:74
-#: admin/views/tabs/metas/taxonomies.php:35
-msgid "Meta Robots"
-msgstr ""
-
 #. translators: %1$s / %2$s: links to an article about duplicate content on
 #. yoast.com
-#: admin/views/tabs/metas/archives.php:26
+#: admin/views/tabs/metas/archives.php:14
 msgid ""
 "If you're running a one author blog, the author archive will be exactly the "
 "same as your homepage. This is what's called a %1$sduplicate content problem"
@@ -3067,48 +3028,86 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to <code>noindex, follow</code>
-#: admin/views/tabs/metas/archives.php:29
+#: admin/views/tabs/metas/archives.php:17
 msgid ""
 "If this is the case on your site, you can choose to either disable it (which "
 "makes it redirect to the homepage), or to add %s to it so it doesn't show up "
 "in the search results."
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:31
+#: admin/views/tabs/metas/archives.php:19
 msgid ""
 "Note that links to archives might be still output by your theme and you "
 "would need to remove them separately."
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:38
-msgid "Date archives"
-msgstr ""
-
-#: admin/views/tabs/metas/archives.php:44
-msgid "Date-based archives"
-msgstr ""
-
-#: admin/views/tabs/metas/archives.php:47
+#: admin/views/tabs/metas/archives.php:21
 msgid ""
 "Date-based archives could in some cases also be seen as duplicate content."
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:54
+#: admin/views/tabs/metas/archives.php:25
+msgid "Author archives settings"
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:29
+msgid "Author archives"
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:32
+#: admin/views/tabs/metas/archives.php:51
+#: admin/views/tabs/metas/archives.php:64
+#: admin/views/tabs/metas/archives.php:67 admin/views/tabs/metas/home.php:15
+#: admin/views/tabs/metas/post-types.php:30
+#: admin/views/tabs/metas/taxonomies.php:30
+msgid "Title template"
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:33
+#: admin/views/tabs/metas/archives.php:52 admin/views/tabs/metas/home.php:16
+#: admin/views/tabs/metas/post-types.php:31
+#: admin/views/tabs/metas/taxonomies.php:31
+msgid "Meta description template"
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:35 admin/views/tabs/metas/home.php:18
+#: admin/views/tabs/metas/post-types.php:33
+#: admin/views/tabs/metas/taxonomies.php:33
+msgid "Meta keywords template"
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:37
+#: admin/views/tabs/metas/archives.php:53
+#: admin/views/tabs/metas/post-types.php:35
+#: admin/views/tabs/metas/post-types.php:74
+#: admin/views/tabs/metas/taxonomies.php:35
+msgid "Meta Robots"
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:44
+msgid "Date archives settings"
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:48
+msgid "Date archives"
+msgstr ""
+
+#: admin/views/tabs/metas/archives.php:60
 msgid "Special Pages"
 msgstr ""
 
 #. translators: %s expands to <code>noindex, follow</code>
-#: admin/views/tabs/metas/archives.php:56
+#: admin/views/tabs/metas/archives.php:62
 msgid ""
 "These pages will be %s by default, so they will never show up in search "
 "results."
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:57
+#: admin/views/tabs/metas/archives.php:63
 msgid "Search pages"
 msgstr ""
 
-#: admin/views/tabs/metas/archives.php:60
+#: admin/views/tabs/metas/archives.php:66
 msgid "404 pages"
 msgstr ""
 
@@ -3276,31 +3275,33 @@ msgstr ""
 msgid "Your XML Sitemap"
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:16
-msgid "You can find your XML Sitemap here: %sXML Sitemap%s"
+#. translators: %1$s opening tag of the link to the Sitemap, %2$s closing tag
+#. for the link.
+#: admin/views/tabs/sitemaps/general.php:18
+msgid "You can find your XML Sitemap here: %1$sXML Sitemap%2$s"
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:19
+#: admin/views/tabs/sitemaps/general.php:24
 msgid ""
 "You do <strong>not</strong> need to generate the XML sitemap, nor will it "
 "take up time to generate after publishing a post."
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:23
+#: admin/views/tabs/sitemaps/general.php:28
 msgid "Save your settings to activate your XML Sitemap."
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:26
+#: admin/views/tabs/sitemaps/general.php:31
 msgid "Entries per sitemap page"
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:29
+#: admin/views/tabs/sitemaps/general.php:34
 msgid ""
 "Please enter the maximum number of entries per sitemap page (defaults to %s, "
 "you might want to lower this to prevent memory issues on some installs):"
 msgstr ""
 
-#: admin/views/tabs/sitemaps/general.php:33
+#: admin/views/tabs/sitemaps/general.php:38
 msgid "Max entries per sitemap"
 msgstr ""
 

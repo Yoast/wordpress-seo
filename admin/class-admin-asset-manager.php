@@ -130,7 +130,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-370',
+				'src'  => 'wp-seo-admin-380',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -164,7 +164,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-370',
+				'src'  => 'wp-seo-metabox-380',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -189,7 +189,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-370',
+				'src'  => 'wp-seo-post-scraper-380',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -198,14 +198,14 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-370',
+				'src'  => 'wp-seo-term-scraper-380',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
-				'src'  => 'wp-seo-replacevar-plugin-370',
+				'src'  => 'wp-seo-replacevar-plugin-380',
 			),
 			array(
 				'name' => 'shortcode-plugin',
@@ -213,7 +213,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-370',
+				'src'  => 'wp-seo-recalculate-380',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -222,7 +222,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'primary-category',
-				'src'  => 'wp-seo-metabox-category-350',
+				'src'  => 'wp-seo-metabox-category-380',
 				'deps' => array(
 					'jquery',
 					'wp-util',
@@ -249,7 +249,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'configuration-wizard',
-				'src'  => 'configuration-wizard-371',
+				'src'  => 'configuration-wizard-380',
 				'deps' => array(
 					'jquery',
 				),
@@ -268,7 +268,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-370',
+				'src'  => 'yst_plugin_tools-380',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			array(
@@ -299,7 +299,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-370',
+				'src'  => 'metabox-380',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
