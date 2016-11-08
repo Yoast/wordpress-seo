@@ -31,18 +31,28 @@ $palette_red:               #dc3232;
 $palette_link:              #0073aa;
 $palette_link_hover:        #00a0d2;
 $palette_link_focus:        #124964;
-$palette_focus_shadow1:     #5b9dd9;
-$palette_focus_shadow2:     rgba(30, 140, 190, .8);
+$palette_focus_shape1:      #5b9dd9;
+$palette_focus_shape2:      rgba(30, 140, 190, .8); // #1e8cbe used in Yoast SEO score icon noindex
 
 $color_google_link:         #1a0dab; // was #1e0fbe
 $color_google_url:          #006621;
-$color_google_date:         #808080;
+$color_google_date:         #808080; // only 3.95:1 on white
 
 $color_bad:                 $palette_red;
 $color_ok:                  $palette_orange_light;
 $color_good:                $palette_green_light;
 $color_score_icon:          $palette_grey_medium_dark;
 
+$color_white:               $palette_white;
+$color_black:               $palette_black;
+$color_grey:                $palette_grey;
+$color_grey_dark:           $palette_grey_dark;
+$color_purple:              $palette_purple;
+$color_purple_dark:         $palette_purple_dark;
+$color_pink_light:          $palette_pink_light;
+$color_pink_dark:           $palette_pink_dark;
+$color_blue:                $palette_blue;
+$color_red:                 $palette_red;
 $color_background:          $palette_grey_light;
 $color_grey_wp:             $palette_grey_wp;
 
@@ -54,7 +64,7 @@ $color_border_light:        $palette_grey_ultra_light;
 $color_border:              $palette_grey_medium;
 
 $color_input_border:        $palette_grey;
-$color_input_border_focus:  $palette_blue;
+$color_input_border_focus:  $palette_focus_shape1;
 
 $color_background_light:    $palette_grey_ultra_light;
 

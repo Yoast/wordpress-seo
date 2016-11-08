@@ -5,7 +5,7 @@
 $prefix: 'yoast-';
 
 .#{$prefix}search-result-form {
-  background-color: $palette_white;
+  background-color: $color_white;
   font-family: Arial, sans-serif;
   overflow: hidden;
 
@@ -16,7 +16,7 @@ $prefix: 'yoast-';
     border-bottom: 1px solid $color_border_light;
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
-    color: $palette_grey_dark;
+    color: $color_grey_dark;
   }
 
   &__container {

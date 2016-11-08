@@ -6,7 +6,7 @@
 	width: 640px;
 	border: 1px solid $color_border_light;
 	border-radius: 20px;
-	background-color: $palette_white;
+	background-color: $color_white;
 	padding: 0 20px 15px;
 
 	&__heading {
@@ -16,7 +16,7 @@
 		border-bottom: 1px solid $color_border_light;
 		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
-		color: $palette_grey_dark;
+		color: $color_grey_dark;
 
 		&-icon {
 			padding-left: 45px;
