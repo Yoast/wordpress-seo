@@ -132,13 +132,11 @@ class WPSEO_Product_Upsell_Notice {
 	protected function get_notification() {
 		/* translators: %1$s expands anchor to plugin page on WordPress.org, %2$s expands anchor to the bugreport guidelines on the knowledge base, %3$s expands to a section about Premium, %4$a expands to the notice dismissal anchor, %5$s expands to </a> */
 		$message = sprintf(
-			__( "We've noticed you've been using Yoast SEO for some time now; we hope you love it!
-			
-			We'd be thrilled if you could %1\$sgive us a 5* rating on WordPress.org%5\$s! If you are experiencing issues, %2\$splease file a bug report%5\$s and we'll do our best to help you out.
-			
-			%3\$s
-
-			%4\$sPlease don't show me this notification anymore%5\$s", 'wordpress-seo' ),
+			__( "We've noticed you've been using Yoast SEO for some time now; we hope you love it!" .
+			    "We'd be thrilled if you could %1\$sgive us a 5* rating on WordPress.org%5\$s!\n\n" .
+				"If you are experiencing issues, %2\$splease file a bug report%5\$s and we'll do our best to help you out." .
+				"\n\n%3\$s" .
+			    "%4\$sPlease don't show me this notification anymore%5\$s", 'wordpress-seo' ),
 			"<a href='https://yoa.st/rate-yoast-seo'>",
 			"<a href='https://yoa.st/bugreport'>",
 			$this->get_premium_upsell_section(),

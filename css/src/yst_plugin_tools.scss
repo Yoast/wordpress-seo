@@ -96,6 +96,11 @@ label.checkbox {
 	background-color: transparent;
 }
 
+.wpseo-gsc-reload-crawl-issues-form {
+	position: relative;
+	top: 9px;
+}
+
 .wp-core-ui .button.wpseo-gsc-save-profile {
 	margin-left: 200px;
 }
@@ -483,4 +488,49 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .archives-titles-metas-content {
 	padding-top: 1em;
+}
+
+@media screen and ( max-width: 782px ) {
+	.wpseo-gsc-reload-crawl-issues-form {
+		top: 0;
+		margin: 1em 0;
+	}
+
+	.wpseo-gsc-reload-crawl-issues-form .alignright {
+		float: none;
+	}
+}
+
+@media screen and ( max-width: 600px ) {
+	.wpseo-gsc-reload-crawl-issues-form {
+		margin-bottom: 0;
+	}
+}
+
+.yoast-sidebar {
+
+	&__title {
+		width: 100%;
+		margin: 46px 0 20px;
+		padding: 10px;
+		border: none;
+		outline: none;
+		color: #a4286a;
+		background: none;
+		text-align: left;
+		box-sizing: border-box;
+		line-height: 19px;
+		border-bottom: 1px solid #a4286a
+	}
+
+	&__spot {
+		padding: 10px 0;
+		border-bottom: 1px solid #DDD;
+
+		a {
+			color: #a4286a;
+		}
+	}
+
+
 }

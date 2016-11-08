@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.4
 Tested up to: 4.6
-Stable tag: 3.7.1
+Stable tag: 3.8
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -116,6 +116,21 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.8.0 =
+
+Release Date: November 8th, 2016
+
+* Enhancements:
+	* Makes tooltips on tabs icons accessible.
+	* Adds check to prevent sitemap from having empty image entries.
+	* Improves screenreader text for the readability tab.
+	* Adds a toggle for author and date archives.
+	* Adds several improvements for readability and consistent styling.
+
+* Bugfixes:
+	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
+	* Fixes a bug with VoiceOver on the readability and keyword tabs.
+
 = 3.7.1 =
 
 Release Date: October 20th, 2016
@@ -139,43 +154,6 @@ Release Date: October 11th, 2016
 	* Fixes a bug where the marking for consecutive sentences beginning with the same word was off by one.
 	* Fixes a bug where the Google Search Console integration wasn't working well on multisite.
 	* Fixes a bug where the newsletter signup always did a http request, causing mixed content errors on https sites.
-
-
-= 3.6.1 =
-
-Release Date: October 3rd, 2016
-
-* Bugfixes:
-	* Fixes a bug where the admin bar would still show advanced settings when the advanced settings were disabled.
-
-= 3.6.0 =
-
-Release Date: September 27th, 2016
-
-* Enhancements:
-    * Introduces the installation wizard that enables an easy way of setting up Yoast SEO. The installation wizard enables you to:
-        - Newsletter signup.
-        - Specify the environment in which a site is running.
-        - Specify the type of a site.
-        - Specify a company or person for the metadata used in Google's Knowledge Graph.
-        - Specify social profiles.
-        - Specify post type visibility.
-        - Specify if you have multiple authors.
-        - Setup Google Search Console.
-        - Setup the title settings.
-    * The installation wizard replaces the tour.
-    * Adds a notification to the Yoast notification center to start the onboarding wizard.
-    * Adds a button on the general settings page to start the onboarding wizard.
-    * Adds a premium tab to the metabox.
-	* Introduces a feature toggles tab on the Yoast SEO dashboard where users can enable/disable certain features.
-		* New: Enable/disable the advanced settings pages.
-		* New: Enable/disable the Yoast SEO admin bar menu. Added after receiving feedback from multiple users who wanted this option.
-		* Moved: Enable/disable The OnPage.org integration.
-	* Removes the tour. With the help center available on every Yoast SEO page or section and the new installation wizard, there was no real usecase for the tour anymore.
-
-* Bugfixes:
-    * Fixes sorting the table in sitemaps.
-    * Fixes a bug where keywords with a $ where not recognized.
 
 = Earlier versions =
 
