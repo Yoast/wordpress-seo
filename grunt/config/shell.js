@@ -6,8 +6,8 @@ module.exports = function( grunt ) {
 		"combine-pot-files": {
 			fromFiles: [
 				"languages/<%= pkg.plugin.textdomain %>-temp.pot",
-				"node_modules/yoastseo/languages/yoast-seo.pot",
-				"languages/yoast-components.pot",
+				"<%= files.pot.yoastseojs %>",
+				"<%= files.pot.yoastComponents %>",
 			],
 			toFile: "languages/<%= pkg.plugin.textdomain %>.pot",
 			command: function() {
@@ -39,6 +39,26 @@ module.exports = function( grunt ) {
 				return "./node_modules/.bin/i18n-calypso" +
 					" -o <%= files.pot.yoastComponents %>" +
 					" -f POT" +
+					" " + files.join( " " );
+			},
+		},
+
+		"makepot-yoastseojs": {
+			potFile: "languages/yoast-seo-js.pot",
+			textdomain: "js-text-analysis",
+			command: function() {
+				var files;
+
+				files = [ "./node_modules/yoastseo/js/**/*.js" ];
+				files = grunt.file.expand( files );
+
+				return "xgettext" +
+					" --default-domain=js-text-analysis" +
+					" -o <%= files.pot.yoastseojs %>" +
+					" --force-po" +
+					" --from-code=UTF-8" +
+					" --add-comments=\"translators: \"" +
+					" --add-comments=\"Translators: \"" +
 					" " + files.join( " " );
 			},
 		},
