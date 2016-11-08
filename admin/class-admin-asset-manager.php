@@ -164,7 +164,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-370',
+				'src'  => 'wp-seo-metabox-380',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -268,7 +268,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-370',
+				'src'  => 'yst_plugin_tools-380',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			array(
