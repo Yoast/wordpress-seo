@@ -4,14 +4,14 @@ $prefix: "yoast-wizard";
 body {
   margin: 0;
   padding: 0;
-  background: $color_palette_background;
+  background: $color_background;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   line-height: 1.375; /* 22px based on default browser font size 16px. */
 }
 
 /* Default WordPress links styling. */
 a {
-	color: $color_palette_link;
+	color: $palette_link;
 	outline: 0;
 	-webkit-transition-property: border, background, color;
 	transition-property: border, background, color;
@@ -23,17 +23,17 @@ a {
 
 a:hover,
 a:active {
-	color: $color_palette_link_hover;
+	color: $palette_link_hover;
 }
 
 a:focus {
-	color: $color_palette_link_focus;
+	color: $palette_link_focus;
 	-webkit-box-shadow:
-		0 0 0 1px $color_palette_focus_shadow1,
-		0 0 2px 1px $color_palette_focus_shadow2;
+		0 0 0 1px $palette_focus_shadow1,
+		0 0 2px 1px $palette_focus_shadow2;
 	box-shadow:
-		0 0 0 1px $color_palette_focus_shadow1,
-		0 0 2px 1px $color_palette_focus_shadow2;
+		0 0 0 1px $palette_focus_shadow1,
+		0 0 2px 1px $palette_focus_shadow2;
 }
 
 #container {
@@ -62,7 +62,7 @@ a:focus {
 .#{$prefix} {
   text-align: left;
   min-height: 20px;
-  background: $color_palette_white;
+  background: $palette_white;
   padding: 3em;
   @media screen and (max-width: 768px) {
 	padding: 1em 1em 2em;
@@ -86,7 +86,7 @@ a:focus {
 
 	  button:hover,
 	  button:focus {
-		background-color: $color_palette-purple-dark !important;
+		background-color: $palette_purple_dark !important;
 
 		div {
 		  background-color: transparent !important;
@@ -96,14 +96,14 @@ a:focus {
 
 	&__previous {
 	  button:focus {
-  		background: $color_palette_grey !important;
+  		background: $palette_grey !important;
 	  }
 	  button:focus:active {
   		background: transparent !important;
 	  }
 	  button:hover > div > span,
 	  button:focus > div > span {
-	    color: $color_palette_black !important;
+	    color: $palette_black !important;
 	  }
 	}
 
@@ -128,8 +128,8 @@ a:focus {
       }
 
       svg {
-        color: $color_palette_purple;
-        fill: $color_palette_purple;
+        color: $palette_purple;
+        fill: $palette_purple;
       }
     }
     &__inactive {
@@ -148,7 +148,7 @@ a:focus {
 	}
 
     h1 {
-      color: $color_palette-pink-dark;
+      color: $palette_pink_dark;
       margin-top: 0;
 	  margin-bottom: 16px;
       margin-bottom: 1rem;
@@ -163,7 +163,7 @@ a:focus {
     }
 
     h2 {
-      color: $color_palette-pink-dark;
+      color: $palette_pink_dark;
 	  font-size: 1.375em;
       font-weight: 400;
     }
@@ -177,12 +177,12 @@ a:focus {
   &-overlay {
     z-index: 10;
     opacity: 0.2;
-    background-color: $color_palette_black;
+    background-color: $palette_black;
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
-    color: $color_palette_white;
+    color: $palette_white;
     text-align: center;
     width: 100%;
 
@@ -192,13 +192,13 @@ a:focus {
   }
 
   &-container {
-    border: 1px solid $color_palette_border;
+    border: 1px solid $color_border;
 
     text-align: left;
     min-height: 20px;
     position: relative;
 
-    box-shadow: $color_palette_grey_rgba15 0 3px 10px, $color_palette_grey_rgba20 0 3px 10px;
+    box-shadow: $palette_grey_rgba15 0 3px 10px, $palette_grey_rgba20 0 3px 10px;
 
 	@media screen and (max-width: 768px) {
 	  box-shadow: none;
@@ -251,7 +251,7 @@ a:focus {
 
   &-input {
     &__explanation {
-      color: $color_palette_grey_dark;
+      color: $palette_grey_dark;
       margin-top: 0;
       font-style: italic;
     }
@@ -280,7 +280,7 @@ a:focus {
             width: 30px !important;
             margin: 0 5px 5px 0 !important;
             padding: 9px 6px;
-            border: 1px solid $color_palette_border;
+            border: 1px solid $color_button_border;
             /* Don't change: these mimic Google's font and font size for titles */
             font-family: Arial, Helvetica, sans-serif !important;
             font-size: 18px !important;
@@ -289,9 +289,9 @@ a:focus {
             cursor: pointer;
           }
           &:checked + label {
-            border: 1px solid $color_palette-pink-dark;
-            background-color: $color_palette_white;
-            box-shadow: inset 0 0 0 2px $color_palette-pink-dark;
+            border: 1px solid $palette_pink_dark;
+            background-color: $palette_white;
+            box-shadow: inset 0 0 0 2px $palette_pink_dark;
           }
           &:checked + label,
           &:focus + label {

@@ -5,7 +5,7 @@
 $prefix: 'yoast-';
 
 .#{$prefix}search-result-form {
-  background-color: $color_palette_white;
+  background-color: $palette_white;
   font-family: Arial, sans-serif;
   overflow: hidden;
 
@@ -13,10 +13,10 @@ $prefix: 'yoast-';
     padding: 8px 20px;
     font-size: 0.9rem;
     margin: 0 -20px 15px;
-    border-bottom: 1px solid $color_palette_grey_light;
+    border-bottom: 1px solid $color_border_light;
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
-    color: $color_palette_grey_dark;
+    color: $palette_grey_dark;
   }
 
   &__container {
@@ -73,7 +73,7 @@ $prefix: 'yoast-';
     width: 100%;
 
     &::-webkit-progress-bar  {
-      background-color: $color_progress_background;
+      background-color: $color_background_light;
       border: 1px solid $color_input_border;
     }
   }

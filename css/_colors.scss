@@ -1,55 +1,69 @@
-$color_palette_background:    #f1f1f1;
-$color_palette_white:         #fff;
-$color_palette_black:         #000;
-$color_palette_grey:          #dcdcdc;
-$color_palette_grey_wp:       #72777c;
-$color_palette_grey_light:    #f7f7f7;
-$color_palette_grey_dark:     #555;
-$color_palette_border:        #ccc;
-$color_palette_input_border:  #ddd;
-$color_palette_grey_disabled: #a0a5aa;
-$color_palette_grey_rgba15:   rgba(0, 0, 0, 0.15);
-$color_palette_grey_rgba20:   rgba(0, 0, 0, 0.2);
+$palette_white:             #fff;
+$palette_black:             #000;
+$palette_grey_ultra_light:  #f7f7f7;
+$palette_grey_light:        #f1f1f1;
+$palette_grey:              #ddd;
+$palette_grey_medium:       #ccc;
+$palette_grey_disabled:     #a0a5aa;
+$palette_grey_medium_dark:  #888;
+$palette_grey_wp:           #72777c;
+$palette_grey_text:         #646464;
+$palette_grey_dark:         #555;
 
-$color_palette_red:           #dc3232;
-$color_palette_blue:          #0075b3;
+$palette_grey_rgba15:       rgba(0, 0, 0, 0.15);
+$palette_grey_rgba20:       rgba(0, 0, 0, 0.2);
+$palette_grey_rgba80:       rgba(0, 0, 0, 0.8);
 
-$color_palette-pink-dark:     #a4286a;
-$color_palette_purple: 	      #5d237a;
-$color_palette-purple-dark:   #6c2548;
+$palette_purple: 	        #5d237a;
+$palette_purple_dark:       #6c2548;
+$palette_pink:              #d93f69;
+$palette_pink_light:        #e1bee7;
+$palette_pink_dark:         #a4286a;
+$palette_blue:              #0075b3;
+$palette_blue_dark:         #084a67;
+$palette_green:             #77b227;
+$palette_green_light:       #7ad03a;
+$palette_green_blue:        #009288;
+$palette_orange:            #dc5c04;
+$palette_orange_light:      #ee7c1b;
+$palette_red:               #dc3232;
 
-$color_palette_link:          #0073aa;
-$color_palette_link_hover:    #00a0d2;
-$color_palette_link_focus:    #124964;
-$color_palette_focus_shadow1: #5b9dd9;
-$color_palette_focus_shadow2: rgba(30, 140, 190, .8);
-$color_palette_green_light:   #7ad03a;
-$color_palette_orange_light:  #ee7c1b;
+$palette_link:              #0073aa;
+$palette_link_hover:        #00a0d2;
+$palette_link_focus:        #124964;
+$palette_focus_shadow1:     #5b9dd9;
+$palette_focus_shadow2:     rgba(30, 140, 190, .8);
 
-$color_google_link:           #1a0dab; // was #1e0fbe
-$color_google_url:            #006621;
+$color_google_link:         #1a0dab; // was #1e0fbe
+$color_google_url:          #006621;
+$color_google_date:         #808080;
 
-$color_bad:                   $color_palette_red;
-$color_ok:                    $color_palette_orange_light;
-$color_good:                  $color_palette_green_light;
+$color_bad:                 $palette_red;
+$color_ok:                  $palette_orange_light;
+$color_good:                $palette_green_light;
+$color_score_icon:          $palette_grey_medium_dark;
 
-$color_caret:                 $color_palette_grey_dark;
-$color_caret_hover:           $color_palette_grey;
-$color_caret_focus:           $color_palette_blue;
+$color_background:          $palette_grey_light;
+$color_grey_wp:             $palette_grey_wp;
 
-$color_border:                $color_palette_grey_light;
+$color_caret:               $palette_grey_dark;
+$color_caret_hover:         $palette_grey;
+$color_caret_focus:         $palette_blue;
 
-$color_input_border:          $color_palette_input_border;
-$color_input_border_focus:    $color_palette_blue;
+$color_border_light:        $palette_grey_ultra_light;
+$color_border:              $palette_grey_medium;
 
-$color_progress_background:   $color_palette_grey_light;
+$color_input_border:        $palette_grey;
+$color_input_border_focus:  $palette_blue;
 
-$color_button:                $color_palette_grey_light;
-$color_button_border:         $color_palette_border;
+$color_background_light:    $palette_grey_ultra_light;
 
-$color_headings:              $color_palette_grey_dark;
-$color_buttons:               $color_palette_grey_dark;
+$color_button:              $palette_grey_ultra_light;
+$color_button_text:         $palette_grey_dark;
+$color_button_border:       $palette_grey_medium;
 
-$color_marker_inactive:       $color_palette_grey_dark;
-$color_marker_active:         $color_palette_white;
-$color_marker_disabled:       $color_palette_grey_disabled;
+$color_headings:            $palette_grey_dark;
+
+$color_marker_inactive:     $palette_grey_dark;
+$color_marker_active:       $palette_white;
+$color_marker_disabled:     $palette_grey_disabled;

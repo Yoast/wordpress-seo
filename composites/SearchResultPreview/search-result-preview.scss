@@ -7,7 +7,7 @@ $prefix: 'yoast-';
 
 /* css for snippet */
 .#{$prefix}search-result-preview {
-  background-color: $color_palette_white;
+  background-color: $palette_white;
   font-family: Arial, sans-serif;
   overflow: hidden;
 
@@ -15,10 +15,10 @@ $prefix: 'yoast-';
     padding: 8px 20px;
     font-size: 0.9rem;
     margin: 0 -20px 15px;
-    border-bottom: 1px solid $color_palette_grey_light;
+    border-bottom: 1px solid $color_border_light;
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
-    color: $color_palette_grey_dark;
+    color: $palette_grey_dark;
   }
 
   &__field {
@@ -62,7 +62,7 @@ $prefix: 'yoast-';
   }
 
   &__description, &__date {
-    color: $color_palette_grey_wp;
+    color: $color_grey_wp;
     font-size: 13px;
     line-height: 1.4;
   }
@@ -78,10 +78,10 @@ $prefix: 'yoast-';
 }
 
 .#{$prefix}button {
-  background: $color_palette_grey_light;
-  border: 1px solid $color_palette_border;
+  background: $color_background_light;
+  border: 1px solid $color_button_border;
   border-radius: 4px;
-  color: $color_palette_grey_dark;
+  color: $palette_grey_dark;
   padding: 8px 10px;
   cursor: pointer;
   font-size: 0.8rem;
@@ -89,7 +89,7 @@ $prefix: 'yoast-';
   &__edit {
     @extend .#{$prefix}button;
 
-    background: $color_palette_grey_light url(svg-icon-edit($color_headings)) no-repeat 8px center / 16px 16px;
+    background: $color_background_light url(svg-icon-edit($color_headings)) no-repeat 8px center / 16px 16px;
     background-size: 16px;
     padding-left: 32px;
     display: block;
