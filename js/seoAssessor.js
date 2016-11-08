@@ -48,7 +48,6 @@ var SEOAssessor = function( i18n, options ) {
 	];
 };
 
+require( "util" ).inherits( SEOAssessor, Assessor );
+
 module.exports = SEOAssessor;
-
-require( "util" ).inherits( module.exports, Assessor );
-
