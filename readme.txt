@@ -128,7 +128,7 @@ Release Date: November 8th, 2016
 	* Adds several improvements for readability and consistent styling.
 
 * Bugfixes:
-	* Fixes a bug where the category picker would become slow with 1000+ categories.
+	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
 	* Fixes a bug with VoiceOver on the readability and keyword tabs.
 
 = 3.7.1 =
