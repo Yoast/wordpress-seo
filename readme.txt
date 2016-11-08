@@ -118,6 +118,8 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 3.8.0 =
 
+Release Date: November 8th, 2016
+
 * Enhancements:
 	* Makes tooltips on tabs icons accessible.
 	* Adds check to prevent sitemap from having empty image entries.
