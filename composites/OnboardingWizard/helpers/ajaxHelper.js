@@ -96,8 +96,8 @@ var parseHeaders = ( type, config ) => {
  */
 let parseRequestArgs = ( requestArgs, type ) => {
 	let defaults = {
-		dataType: "json",
-		method: "PUT",
+		dataType : "json",
+		method: "POST",
 		contentType: "application/json",
 	};
 

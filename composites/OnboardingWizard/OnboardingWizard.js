@@ -9,6 +9,7 @@ import YoastLogo from "../basic/YoastLogo";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { localize } from "../../utils/i18n";
 import muiTheme from "./config/yoast-theme";
+import interpolateComponents from "interpolate-components";
 
 /**
  * The OnboardingWizard class.
@@ -29,6 +30,7 @@ class OnboardingWizard extends React.Component {
 			isLoading: false,
 			steps: this.parseSteps( this.props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
+			errorMessage: "",
 		};
 	}
 
@@ -102,7 +104,7 @@ class OnboardingWizard extends React.Component {
 			return;
 		}
 
-		this.setState( { isLoading: true } );
+		this.setState( { isLoading: true, errorMessage: "" } );
 		this.clickedButton = evt.currentTarget;
 
 		sendStep(
@@ -156,6 +158,13 @@ class OnboardingWizard extends React.Component {
 	handleFailure() {
 		this.setState( {
 			isLoading: false,
+			errorMessage: interpolateComponents( {
+				/** Translators: {{link}} resolves to the link opening tag to yoa.st/bugreport, {{/link}} resolves to the link closing tag. **/
+				mixedString: this.props.translate(
+					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} describing what step you are on and which changes you want to make (if any)."
+				),
+				components: { link: <a href="https://yoa.st/bugreport" target="_blank" /> }
+			} )
 		} );
 	}
 
@@ -278,6 +287,7 @@ class OnboardingWizard extends React.Component {
 					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
 					<div className="yoast-wizard-container">
 						<div className="yoast-wizard">
+							{ this.renderErrorMessage() }
 							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
 							      fields={step.fields} customComponents={this.props.customComponents} />
 							<div className="yoast-wizard--navigation">
@@ -290,6 +300,19 @@ class OnboardingWizard extends React.Component {
 				</div>
 			</MuiThemeProvider>
 		);
+	}
+
+	/**
+	 * Renders the error message
+	 *
+	 * @returns {JSX.Element|string} The rendered output.
+	 */
+	renderErrorMessage() {
+		if( this.state.errorMessage === "" ) {
+			return "";
+		}
+
+		return <div className="yoast-wizard-notice yoast-wizard-notice__error">{this.state.errorMessage}</div>
 	}
 }
 

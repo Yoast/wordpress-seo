@@ -324,3 +324,15 @@ a:focus {
     width: 100%;
     height: 100%;
 }
+
+.#{$prefix}-notice {
+	&__error {
+		//background: $color_bad;
+		//color: $color_border;
+		margin-bottom: 15px;
+		padding: 12px;
+		border-left: 4px solid $color_bad;
+		background: #fff;
+		box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	}
+}
