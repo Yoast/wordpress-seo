@@ -6,6 +6,7 @@ var helpPanel = require( "./helpPanel" );
 var getTitlePlaceholder = require( "../../../../js/src/analysis/getTitlePlaceholder" );
 var getDescriptionPlaceholder = require( "../../../../js/src/analysis/getDescriptionPlaceholder" );
 
+var _debounce = require("lodash/debounce");
 var clone = require( "lodash/clone" );
 var forEach = require( "lodash/forEach" );
 var _has = require( "lodash/has" );
@@ -35,6 +36,8 @@ var socialPreviews = require( "yoast-social-previews" );
 
 	var i18n = new Jed( addLibraryTranslations( translations.library ) );
 	var biggerImages = {};
+
+	let postTitleInputId = "title";
 
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
@@ -271,7 +274,7 @@ var socialPreviews = require( "yoast-social-previews" );
 					if ( fieldPrefix.indexOf( "twitter" ) > -1 ) {
 						if ( title === $( "#twitter-editor-title" ).attr( "placeholder" ) ) {
 							var facebookTitle = $( "#facebook-editor-title" ).val();
-							if ( facebookTitle !== "" ) {
+							if ( ! isUndefined( facebookTitle ) && facebookTitle !== "" ) {
 								title = facebookTitle;
 							}
 						}
@@ -365,6 +368,11 @@ var socialPreviews = require( "yoast-social-previews" );
 			postAuthorDropdown.on( "change", getFacebookAuthor.bind( this, facebookPreview ) );
 			postAuthorDropdown.trigger( "change" );
 		}
+
+		$( "#" + postTitleInputId ).on(
+			"keydown keyup input focus blur",
+			_debounce( facebookPreview.updatePreview.bind( facebookPreview ), 500 )
+		);
 	}
 
 	/**
@@ -409,6 +417,11 @@ var socialPreviews = require( "yoast-social-previews" );
 		addUploadButton( twitterPreview );
 		twitterTitleFallback( twitterPreview );
 		twitterDescriptionFallback( twitterPreview );
+
+		$( "#" + postTitleInputId ).on(
+			"keydown keyup input focus blur",
+			_debounce( twitterTitleFallback.bind( this, twitterPreview ), 500 )
+		);
 	}
 
 	/**
@@ -425,7 +438,7 @@ var socialPreviews = require( "yoast-social-previews" );
 		}
 
 		var facebookTitle = $( "#facebook-editor-title" ).val();
-		if ( facebookTitle !== "" ) {
+		if ( ! isUndefined( facebookTitle ) && facebookTitle !== "" ) {
 			twitterPreview.setTitle( facebookTitle );
 		} else {
 			twitterPreview.setTitle( $twitterTitle.attr( "placeholder" ) );
