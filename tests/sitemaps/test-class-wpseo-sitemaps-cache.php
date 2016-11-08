@@ -100,7 +100,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$content   = get_transient( $cache_key );
 
 		// Assert.
-		$this->assertEmpty( $content );
+		$this->assertTrue( empty( $content ) );
 	}
 
 	/**
