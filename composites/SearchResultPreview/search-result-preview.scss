@@ -1,4 +1,5 @@
 @import "../../css/colors";
+@import "../../css/colors-google";
 @import "../../css/icons";
 @import "../../css/mixins";
 
@@ -43,7 +44,7 @@ $prefix: 'yoast-';
   }
 
   &__title {
-    color: $color_google_link;
+    color: $color_google_title;
     overflow: hidden;
     text-overflow: ellipsis;
     text-decoration: none;
@@ -62,9 +63,16 @@ $prefix: 'yoast-';
   }
 
   &__description, &__date {
-    color: $color_google_date;
     font-size: 13px;
     line-height: 1.4;
+  }
+
+  &__date {
+    color: $color_google_date;
+  }
+
+  &__description {
+    color: $color_google_desc;
   }
 }
 
