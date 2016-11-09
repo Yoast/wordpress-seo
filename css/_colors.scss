@@ -15,13 +15,14 @@ $palette_grey_rgba80:       rgba(0, 0, 0, 0.8);
 
 $palette_purple: 	        #5d237a;
 $palette_purple_dark:       #6c2548;
-$palette_pink:              #d93f69;
+$palette_pink:              #d73763;
 $palette_pink_light:        #e1bee7;
 $palette_pink_dark:         #a4286a;
 $palette_blue:              #0075b3;
 $palette_blue_dark:         #084a67;
 $palette_green:             #77b227;
 $palette_green_light:       #7ad03a;
+$palette_green_medium:      #008a00;
 $palette_green_blue:        #009288;
 $palette_orange:            #dc5c04;
 $palette_orange_light:      #ee7c1b;
@@ -63,3 +64,13 @@ $color_headings:            $palette_grey_dark;
 $color_marker_inactive:     $palette_grey_dark;
 $color_marker_active:       $palette_white;
 $color_marker_disabled:     $palette_grey_disabled;
+
+$color-error:               $palette_red;
+$color-orange-hover:        darken( $palette_orange, 5% );
+$color-grey-hover:          darken( $palette_grey, 6% );
+$color-pink-hover:          darken( $palette_pink, 5% );
+
+$color-grey-cta:            $palette_grey;
+$color-grey-line:           $palette_grey;
+$color-grey-quote:          $palette_grey_text;
+$color-grey-text:           $palette_grey_text;
