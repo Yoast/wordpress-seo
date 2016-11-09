@@ -1,4 +1,4 @@
-var find = require ( "lodash/find" );
+var find = require( "lodash/find" );
 
 var irregulars = require( "./irregulars" )();
 
@@ -10,7 +10,6 @@ var irregulars = require( "./irregulars" )();
  * @returns {Array} A list with the matches.
  */
 var regularParticiples = function( word ) {
-
 	// Matches all words ending in ed.
 	var regularParticiplesRegex = /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 

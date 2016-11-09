@@ -12,11 +12,11 @@ var forEach = require( "lodash/forEach" );
  * Creates English participle objects for the participles found in a sentence part.
  *
  * @param {string} sentencePart The sentence part to find participles in.
+ * @param {array} auxiliaries The list of auxiliaries from the sentence part.
  * @returns {Array} The list with English participle objects.
  */
-module.exports = function( sentencePart ) {
-	var words = getWords( sentencePart.getSentencePartText() );
-
+module.exports = function( sentencePart, auxiliaries ) {
+	var words = getWords( sentencePart );
 	var foundParticiples = [];
 
 	forEach( words, function( word ) {
@@ -28,8 +28,8 @@ module.exports = function( sentencePart ) {
 			type = "irregular";
 		}
 		if ( type !== "" ) {
-			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(),
-				{ auxiliaries: sentencePart.getAuxiliaries(), type: type } ) );
+			foundParticiples.push( new EnglishParticiple( word, sentencePart,
+				{ auxiliaries: auxiliaries, type: type } ) );
 		}
 	} );
 	return foundParticiples;
