@@ -4,36 +4,6 @@ $prefix: "yoast-wizard";
 body {
   margin: 0;
   padding: 0;
-  background: $color_background;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  line-height: 1.375; /* 22px based on default browser font size 16px. */
-}
-
-/* Default WordPress links styling. */
-a {
-	color: $palette_link;
-	outline: 0;
-	-webkit-transition-property: border, background, color;
-	transition-property: border, background, color;
-	-webkit-transition-duration: .05s;
-	transition-duration: .05s;
-	-webkit-transition-timing-function: ease-in-out;
-	transition-timing-function: ease-in-out;
-}
-
-a:hover,
-a:active {
-	color: $palette_link_hover;
-}
-
-a:focus {
-	color: $palette_link_focus;
-	-webkit-box-shadow:
-		0 0 0 1px $palette_focus_shape1,
-		0 0 2px 1px $palette_focus_shape2;
-	box-shadow:
-		0 0 0 1px $palette_focus_shape1,
-		0 0 2px 1px $palette_focus_shape2;
 }
 
 #container {
