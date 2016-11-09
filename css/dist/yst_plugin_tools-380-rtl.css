@@ -457,6 +457,7 @@ body .yoast-button.dimmed a:focus:before,
 }
 
 .link.yoast-promoblock::after {
+	-webkit-filter: drop-shadow(1px 0 0 #dc5c04);
 	-moz-filter: drop-shadow(1px 0 0 #dc5c04);
 	-ms-filter: drop-shadow(1px 0 0 #dc5c04);
 	-o-filter: drop-shadow(1px 0 0 #dc5c04);
@@ -468,6 +469,7 @@ body .yoast-button.dimmed a:focus:before,
 }
 
 .cta.yoast-promoblock::after {
+	-webkit-filter: drop-shadow(1px 0 0 #dc5c04);
 	-moz-filter: drop-shadow(1px 0 0 #dc5c04);
 	-ms-filter: drop-shadow(1px 0 0 #dc5c04);
 	-o-filter: drop-shadow(1px 0 0 #dc5c04);
@@ -754,6 +756,7 @@ a.promoblock:hover {
 	-ms-transform: translateX(50%);
 	transform: translateX(50%);
 
+	-webkit-filter: drop-shadow(0 1px 0 #a4286a);
 	-moz-filter: drop-shadow(0 1px 0 #a4286a);
 	-ms-filter: drop-shadow(0 1px 0 #a4286a);
 	-o-filter: drop-shadow(0 1px 0 #a4286a);
