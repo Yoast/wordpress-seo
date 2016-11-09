@@ -4,6 +4,8 @@ var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
 
 describe( "An assessment for sentence length", function(){
+	let mockPaper, assessment;
+
 	it( "returns the score for all short sentences", function(){
 		var mockPaper = new Paper();
 		var assessment = sentenceLengthInDescriptionAssessment.getResult( mockPaper, Factory.buildMockResearcher( [

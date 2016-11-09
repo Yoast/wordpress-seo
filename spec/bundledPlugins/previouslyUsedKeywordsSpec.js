@@ -18,6 +18,7 @@ var args = {
 };
 
 describe( "checks for keyword doubles", function(){
+
 	it("returns array with keyword", function(){
 		var paper = new Paper( "text", { keyword: "keyword"} );
 
@@ -52,7 +53,7 @@ describe( "replaces keyword usage", function(){
 			postUrl: postUrl
 		};
 
-		plugin = new PreviouslyUsedKeywords( app, args, i18n );
+		let plugin = new PreviouslyUsedKeywords( app, args, i18n );
 		expect( plugin.usedKeywords ).not.toBeDefined();
 		plugin.updateKeywordUsage(  { "keyword": [1], "test": [2,3,4] } );
 		expect( plugin.usedKeywords[ "keyword" ] ).toContain( 1 );

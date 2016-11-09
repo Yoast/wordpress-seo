@@ -2,6 +2,7 @@ var subheadingPresence = require( "../../js/researches/getSubheadingPresence.js"
 var Paper = require( "../../js/values/Paper.js" );
 
 describe( "checks if there is a subheading in text", function() {
+	let paper;
 
 	it( "returns 0", function() {
 		var paper = new Paper( "this is text" );

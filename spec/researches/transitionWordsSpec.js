@@ -2,6 +2,7 @@ var transitionWordsResearch = require( "../../js/researches/findTransitionWords.
 var Paper = require( "../../js/values/Paper.js" );
 
 describe("a test for finding transition words from a string", function() {
+	let mockPaper, result;
 
 	it("returns 1 when a transition word is found in the middle of a sentence (English)", function () {
 		// Transition word: above all.
