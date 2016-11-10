@@ -1,32 +1,33 @@
-$palette_white:             #fff;
-$palette_black:             #000;
-$palette_grey_ultra_light:  #f7f7f7;
-$palette_grey_light:        #f1f1f1;
-$palette_grey:              #ddd;
-$palette_grey_medium:       #ccc;
-$palette_grey_disabled:     #a0a5aa;
-$palette_grey_medium_dark:  #888;
-$palette_grey_text:         #646464;
-$palette_grey_dark:         #555;
+$palette_white:             #fff;    // Safe to use with $palette_grey_text – $palette_black.
+// Shades of gray from lighter to darker.
+$palette_grey_ultra_light:  #f7f7f7; // Safe to use with $palette_grey_text – $palette_black.
+$palette_grey_light:        #f1f1f1; // Safe to use with $palette_grey_text – $palette_black.
+$palette_grey:              #ddd;    // Safe to use with $palette_grey_dark – $palette_black.
+$palette_grey_medium:       #ccc;    // Safe to use with $palette_grey_dark – $palette_black.
+$palette_grey_disabled:     #a0a5aa; // Should be used only for disabled controls text.
+$palette_grey_medium_dark:  #888;    // Safe to use with $palette_black.
+$palette_grey_text:         #646464; // Safe to use with $palette_white – $palette_grey_light.
+$palette_grey_dark:         #555;    // Safe to use with $palette_white – $palette_grey_medium.
+$palette_black:             #000;    // Safe to use with $palette_white – $palette_grey_medium.
 
 $palette_grey_rgba15:       rgba(0, 0, 0, 0.15);
 $palette_grey_rgba20:       rgba(0, 0, 0, 0.2);
 $palette_grey_rgba80:       rgba(0, 0, 0, 0.8);
 
-$palette_purple: 	        #5d237a;
-$palette_purple_dark:       #6c2548;
-$palette_pink:              #d73763;
-$palette_pink_light:        #e1bee7;
-$palette_pink_dark:         #a4286a;
-$palette_blue:              #0075b3;
-$palette_blue_dark:         #084a67;
-$palette_green:             #77b227;
-$palette_green_light:       #7ad03a;
-$palette_green_medium:      #008a00;
-$palette_green_blue:        #009288;
-$palette_orange:            #dc5c04;
-$palette_orange_light:      #ee7c1b;
-$palette_red:               #dc3232;
+$palette_purple: 	        #5d237a; // Safe to use with $palette_white – $palette_grey_medium.
+$palette_purple_dark:       #6c2548; // Safe to use with $palette_white – $palette_grey_medium.
+$palette_pink:              #d73763; // Safe to use with $palette_white and $palette_black.
+$palette_pink_light:        #e1bee7; // Safe to use with $palette_grey_dark – $palette_black.
+$palette_pink_dark:         #a4286a; // Safe to use with $palette_white – $palette_grey.
+$palette_blue:              #0075b3; // Safe to use with $palette_white – $palette_grey_ultra_light.
+$palette_blue_dark:         #084a67; // Safe to use with $palette_white – $palette_grey_medium.
+$palette_green:             #77b227; // Safe to use with $palette_black.
+$palette_green_light:       #7ad03a; // Safe to use with $palette_black.
+$palette_green_medium:      #008a00; // Safe to use with $palette_white and $palette_black.
+$palette_green_blue:        #009288; // Safe to use with $palette_black.
+$palette_orange:            #dc5c04; // Safe to use with $palette_black.
+$palette_orange_light:      #ee7c1b; // Safe to use with $palette_black.
+$palette_red:               #dc3232; // Safe to use with $palette_white and $palette_black.
 
 $color_bad:                 $palette_red;
 $color_ok:                  $palette_orange_light;
