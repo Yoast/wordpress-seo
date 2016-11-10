@@ -25,57 +25,32 @@ module.exports = function( sentence, auxiliaries ) {
 	forEach( words, function( word ) {
 		if( verbsBeginningWithGe( word ).length !== 0 ) {
 			foundParticiples.push(
-				new GermanParticiple(
-				word,
-				sentence,
-				{
-					auxiliaries: auxiliaries,
-					type: "ge at beginning"
-				} ) );
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "ge at beginning" } )
+			);
 			return;
 		}
 		if ( verbsWithGeInMiddle( word ).length !== 0 ) {
 			foundParticiples.push(
-				new GermanParticiple(
-				word,
-				sentence,
-				{
-					auxiliaries: auxiliaries,
-					type: "ge in the middle"
-				} ) );
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "ge in the middle" } )
+			);
 			return;
 		}
 		if ( verbsBeginningWithErVerEntBeZerHer( word ).length !== 0 ) {
 			foundParticiples.push(
-				new GermanParticiple(
-				word,
-				sentence,
-				{
-					auxiliaries: auxiliaries,
-					type: "er/ver/ent/be/zer/her at beginning"
-				} ) );
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her at beginning" } )
+			);
 			return;
 		}
 		if ( verbsWithErVerEntBeZerHerInMiddle( word ).length !== 0 ) {
 			foundParticiples.push(
-				new GermanParticiple(
-				word,
-				sentence,
-				{
-					auxiliaries: auxiliaries,
-					type: "er/ver/ent/be/zer/her in the middle"
-				} ) );
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her in the middle" } )
+			);
 			return;
 		}
 		if ( verbsEndingWithIert( word ).length !== 0 ) {
 			foundParticiples.push(
-				new GermanParticiple(
-				word,
-				sentence,
-				{
-					auxiliaries: auxiliaries,
-					type: "iert at the end"
-				} ) );
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "iert at the end" } )
+			);
 		}
 	} );
 	return foundParticiples;
