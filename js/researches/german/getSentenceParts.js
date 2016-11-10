@@ -14,18 +14,18 @@ var auxiliaryRegex = arrayToRegex( auxiliaries );
  * Splits sentences into sentence parts based on stopwords.
  *
  * @param {string} sentence The sentence to split.
- * @param {Array} matches The array with matched stopwords.
+ * @param {Array} stopwords The array with matched stopwords.
  * @returns {Array} The array with sentence parts.
  */
-function splitOnWord( sentence, matches ) {
+function splitOnWord( sentence, stopwords ) {
 	var currentSentence = sentence;
 	var sentenceParts = [];
-	forEach( matches, function( match ) {
-		var splitSentence = currentSentence.split( match );
+	forEach( stopwords, function( stopword ) {
+		var splitSentence = currentSentence.split( stopword );
 		if ( ! isEmpty( splitSentence[ 0 ] ) ) {
 			sentenceParts.push( new SentencePart( splitSentence[ 0 ], splitSentence[ 0 ].match( auxiliaryRegex || [] ) ) );
 		}
-		var startIndex = currentSentence.indexOf( match );
+		var startIndex = currentSentence.indexOf( stopword );
 		var endIndex = currentSentence.length;
 		currentSentence = ( stripSpaces( currentSentence.substr( startIndex, endIndex ) ) );
 	} );
@@ -39,12 +39,18 @@ function splitOnWord( sentence, matches ) {
  * @param {string} sentence The text to split into sentence parts.
  * @returns {Array} The array with sentence parts.
  */
-function splitSentences( sentence ) {
+function splitSentence( sentence ) {
 	var matches = sentence.match( stopwordRegex ) || [];
 	return splitOnWord( sentence, matches );
 }
 
+/**
+ * Splits up the sentence in parts based on German stopwords.
+ *
+ * @param {string} sentence The sentence to split up in parts.
+ * @returns {Array} The array with the sentence parts.
+ */
 module.exports = function( sentence ) {
-	return splitSentences( sentence );
+	return splitSentence( sentence );
 };
 
