@@ -95,7 +95,7 @@ var termsTmceId = "description";
 	function getContentTinyMce( content_id ) {
 		// if no TinyMce object available
 		var content = "";
-		if ( isTinyMCEAvailable( content_id ) === false || isTinyMCEBodyAvailable === false ) {
+		if ( isTinyMCEAvailable( content_id ) === false || isTinyMCEBodyAvailable() === false ) {
 			content = tinyMCEElementContent( content_id );
 		}
 		else {
