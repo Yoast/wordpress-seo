@@ -474,7 +474,7 @@ class WPSEO_Twitter {
 		$img = apply_filters( 'wpseo_twitter_image', $img );
 
 		if ( WPSEO_Utils::is_url_relative( $img ) === true && $img[0] === '/' ) {
-			$parsed_url = parse_url( home_url() );
+			$parsed_url = wp_parse_url( home_url() );
 			$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
 		}
 
