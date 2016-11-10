@@ -3,6 +3,7 @@ var getParticiples = require( "./passivevoice-english/getParticiples.js" );
 
 /**
  * Creates a English specific sentence part.
+ *
  * @param {string} sentencePartText The text from the sentence part.
  * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
  * @param {string} locale The locale used for this sentence part.

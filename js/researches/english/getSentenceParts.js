@@ -20,11 +20,11 @@ var map = require( "lodash/map" );
 /**
  * Gets active verbs (ending in ing) to determine sentence breakers.
  *
-	* @param {string} sentence The sentence to get the active verbs from.
-	* @returns {Array} The array with valid matches.
-	*/
+ * @param {string} sentence The sentence to get the active verbs from.
+ * @returns {Array} The array with valid matches.
+ */
 var getVerbsEndingInIng = function( sentence ) {
-	// Matches the sentences with words ending in ing
+	// Matches the sentences with words ending in ing.
 	var matches = sentence.match( verbEndingInIngRegex ) || [];
 
 	// Filters out words ending in -ing that aren't verbs.
@@ -57,6 +57,20 @@ var getSentenceBreakers = function( sentence ) {
 };
 
 /**
+ * Gets the matches with the auxiliaries in the sentence.
+ *
+ * @param {string} sentencePart The part of the sentence to match for auxiliaries.
+ * @returns {Array} All formatted matches from the sentence part.
+ */
+var getAuxiliaryMatches = function( sentencePart ) {
+	var auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
+
+	return map( auxiliaryMatches, function( auxiliaryMatch ) {
+		return stripSpaces( auxiliaryMatch );
+	} );
+};
+
+/**
  * Gets the sentence parts from a sentence by determining sentence breakers.
  *
  * @param {string} sentence The sentence to split up in sentence parts.
@@ -64,36 +78,41 @@ var getSentenceBreakers = function( sentence ) {
  */
 var getSentenceParts = function( sentence ) {
 	var sentenceParts = [];
-
 	sentence = normalizeSingleQuotes( sentence );
 
-// First check if there is an auxiliary in the sentence.
-	if ( sentence.match( auxiliaryRegex ) !== null ) {
-		var indices = getSentenceBreakers( sentence );
-		// Get the words after the found auxiliary.
-		for ( var i = 0; i < indices.length; i++ ) {
-			var endIndex = sentence.length;
-			if ( ! isUndefined( indices[ i + 1 ] ) ) {
-				endIndex = indices[ i + 1 ].index;
-			}
+	// First check if there is an auxiliary in the sentence.
+	if ( sentence.match( auxiliaryRegex ) === null ) {
+		return sentenceParts;
+	}
 
-			// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
-			var sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+	var indices = getSentenceBreakers( sentence );
 
-			var auxiliaryMatches = sentencePart.match( auxiliaryRegex );
+	// Get the words after the found auxiliary.
+	for ( var i = 0; i < indices.length; i++ ) {
+		var endIndex = sentence.length;
+		if ( ! isUndefined( indices[ i + 1 ] ) ) {
+			endIndex = indices[ i + 1 ].index;
+		}
 
-				// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
-			if ( auxiliaryMatches !== null ) {
-				auxiliaryMatches = map( auxiliaryMatches, function( auxiliaryMatch ) {
-					return stripSpaces( auxiliaryMatch );
-				} );
-				sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );
-			}
+		// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
+		var sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+
+		var auxiliaryMatches = getAuxiliaryMatches(  sentencePart );
+
+		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
+		if ( auxiliaryMatches.length !== 0 ) {
+			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );
 		}
 	}
 	return sentenceParts;
 };
 
+/**
+ * Split the sentence in sentence parts based on auxiliaries.
+ *
+ * @param {string} sentence The sentence to split in parts.
+ * @returns {Array} A list with sentence parts.
+ */
 module.exports = function( sentence ) {
 	return getSentenceParts( sentence );
 };
