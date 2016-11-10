@@ -867,6 +867,20 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Checks if the WP-REST-API is available.
+	 *
+	 * @since 3.6
+	 *
+	 * @param string $minimum_version The minimum version the API should be.
+	 *
+	 * @return bool Returns true if the API is available.
+	 */
+	public static function is_api_available( $minimum_version = '2.0' ) {
+		return ( defined( 'REST_API_VERSION' )
+		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
+	}
+
+	/**
 	 * Wrapper for the PHP filter input function.
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...

@@ -37,7 +37,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		/* translators: %s expands to the social network's name */
 		$image_text       = __( 'If you want to override the image used on %s for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
 		/* translators: %1$s expands to the social network, %2$s to the recommended image size */
-		$image_size_text  = __( 'The recommended image size for %1$s is %2$spx.', 'wordpress-seo' );
+		$image_size_text  = __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' );
 
 		$options = WPSEO_Options::get_option( 'wpseo_social' );
 
@@ -48,8 +48,10 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		// Source: https://blog.bufferapp.com/ideal-image-sizes-social-media-posts.
 		$recommended_image_sizes = array(
-			'opengraph'   => '1200 × 630', // Source: https://developers.facebook.com/docs/sharing/best-practices#images.
-			'twitter'     => '1024 × 512',
+			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
+			'opengraph'   => sprintf( __( '%1$s by %2$s', 'wordpress-seo' ), '1200', '630' ), // Source: https://developers.facebook.com/docs/sharing/best-practices#images.
+			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
+			'twitter'     => sprintf( __( '%1$s by %2$s', 'wordpress-seo' ), '1024', '512' ),
 		);
 
 		foreach ( $social_networks as $network => $label ) {
@@ -75,14 +77,21 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	public function get_meta_section() {
 		$tabs = array();
 		$social_meta_fields = $this->get_meta_field_defs( 'social' );
+		$single = true;
+
+		if ( $this->options['opengraph'] === true && $this->options['twitter'] === true ) {
+			$single = null;
+		}
 
 		if ( $this->options['opengraph'] === true ) {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
-				'<span class="dashicons dashicons-facebook-alt"></span>',
+				'<span class="screen-reader-text">' . __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-facebook-alt"></span>',
 				array(
-					'link_title' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
+					'link_aria_label' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
+					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
+					'single'          => $single,
 				)
 			);
 		}
@@ -91,19 +100,22 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
-				'<span class="dashicons dashicons-twitter"></span>',
+				'<span class="screen-reader-text">' . __( 'Twitter metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-twitter"></span>',
 				array(
-					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
+					'link_aria_label' => __( 'Twitter metadata', 'wordpress-seo' ),
+					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
+					'single'          => $single,
 				)
 			);
 		}
 
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
-			'<span class="dashicons dashicons-share"></span>',
+			'<span class="screen-reader-text">' . __( 'Social', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-share"></span>',
 			$tabs,
 			array(
-				'link_title' => __( 'Social', 'wordpress-seo' ),
+				'link_aria_label' => __( 'Social', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
 	}

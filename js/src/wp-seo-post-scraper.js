@@ -346,12 +346,13 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 		postDataCollector.app = app;
 
-		tmceHelper.wpTextViewOnInitCheck();
-
 		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 		let shortcodePlugin = new YoastShortcodePlugin( app );
 
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
+
+		tmceHelper.wpTextViewOnInitCheck();
+
 		activateEnabledAnalysis( tabManager );
 
 		jQuery( window ).trigger( "YoastSEO:ready" );

@@ -46,7 +46,7 @@ class WPSEO_Configuration_Endpoint {
 
 		// Register save changes.
 		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_STORE, array(
-			'methods'             => 'PUT',
+			'methods'             => 'POST',
 			'callback'            => array(
 				$this->service,
 				'set_configuration',

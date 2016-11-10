@@ -379,6 +379,24 @@ class WPSEO_Options {
 		}
 	}
 
+	/**
+	 * Saves the option to the database.
+	 *
+	 * @param string $wpseo_options_group_name The name for the wpseo option group in the database.
+	 * @param string $option_name              The name for the option to set.
+	 * @param *      $option_value             The value for the option.
+	 *
+	 * @return boolean Returns true if the option is successfully saved in the database.
+	 */
+	public static function save_option( $wpseo_options_group_name, $option_name, $option_value ) {
+		$options                           = WPSEO_Options::get_option( $wpseo_options_group_name );
+		$options[ $option_name ] = $option_value;
+		update_option( $wpseo_options_group_name, $options );
+
+		// Check if everything got saved properly.
+		$saved_option = self::get_option( $wpseo_options_group_name );
+		return $saved_option[ $option_name ] === $options[ $option_name ];
+	}
 
 	/********************** DEPRECATED FUNCTIONS **********************/
 

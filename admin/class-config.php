@@ -30,8 +30,6 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 
-
-
 	/**
 	 * Make sure the needed scripts are loaded for admin pages
 	 */
@@ -83,7 +81,7 @@ class WPSEO_Admin_Pages {
 	function config_page_scripts() {
 		$this->asset_manager->enqueue_script( 'admin-script' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
 
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
@@ -112,35 +110,6 @@ class WPSEO_Admin_Pages {
 	public function localize_media_script() {
 		return array(
 			'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-		);
-	}
-
-	/**
-	 * Pass some variables to js for the admin JS module.
-	 *
-	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
-	 *
-	 * @return  array
-	 */
-	public function localize_admin_script() {
-		return array(
-			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
-			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
-			'locale' => get_locale(),
-			/* translators: %d: number of knowledge base search results found. */
-			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
-			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
-			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
-			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),
-			'kb_search_results_heading' => __( 'Search results', 'wordpress-seo' ),
-			'kb_error_message' => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
-			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
-			'kb_search' => __( 'search', 'wordpress-seo' ),
-			'kb_back' => __( 'Back', 'wordpress-seo' ),
-			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
-			'kb_open' => __( 'Open', 'wordpress-seo' ),
-			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
-			'kb_iframe_title' => __( 'Knowledge base article', 'wordpress-seo' ),
 		);
 	}
 

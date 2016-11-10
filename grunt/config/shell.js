@@ -25,12 +25,15 @@ module.exports = function( grunt ) {
 		},
 
 		"makepot-yoast-components": {
+			fromFiles: [
+				"node_modules/yoast-components/**/*.js",
+				"!node_modules/yoast-components/node_modules/**/*.js",
+				"<%= paths.js %>components/*.js",
+			],
 			textdomain: "yoast-components",
 			command: function() {
-				let files = [
-					"node_modules/yoast-components/**/*.js",
-					"!node_modules/yoast-components/node_modules/**/*.js",
-				];
+				let files = grunt.config.get( "shell.makepot-yoast-components.fromFiles" );
+
 				files = grunt.file.expand( files );
 
 				return "./node_modules/.bin/i18n-calypso" +

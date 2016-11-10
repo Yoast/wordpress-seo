@@ -71,7 +71,7 @@ class WPSEO_Configuration_Options_Adapter {
 	public function add_custom_lookup( $class_name, $callback_get, $callback_set ) {
 
 		if ( ! is_callable( $callback_get ) || ! is_callable( $callback_set ) ) {
-			throw new InvalidArgumentException( __( 'Custom option must be callable.', 'wordpress-seo' ) );
+			throw new InvalidArgumentException( 'Custom option must be callable.' );
 		}
 
 		$this->add_lookup( $class_name, self::OPTION_TYPE_CUSTOM, array(

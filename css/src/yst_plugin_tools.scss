@@ -37,6 +37,11 @@ label {
 	margin-left: 6px;
 }
 
+.yoast-inline-label {
+	float: none;
+	margin: 0;
+}
+
 label.radio {
 	float: none;
 	margin-right: 20px;
@@ -91,6 +96,11 @@ label.checkbox {
 	background-color: transparent;
 }
 
+.wpseo-gsc-reload-crawl-issues-form {
+	position: relative;
+	top: 9px;
+}
+
 .wp-core-ui .button.wpseo-gsc-save-profile {
 	margin-left: 200px;
 }
@@ -139,19 +149,23 @@ table.wpseo th {
 	min-width: 800px;
 }
 
-div.wpseo_variable_warning {
+.wpseo-variable-warning-element {
+	border: 1px solid #c62d2d !important;
+}
+
+.wpseo-variable-warning {
+	clear: both;
 	margin: 5px 0 0 0;
 	padding: 5px;
-	color: #dc3232;
+	color: #c62d2d;
 }
 
-input.wpseo_variable_warning,
-textarea.wpseo_variable_warning {
-	border: 1px solid #dc3232;
+.wpseo-variable-warning code {
+	color: #b02828;
 }
 
-.wpseo_variable_warning a {
-	color: #dc3232;
+.wpseo-variable-warning a {
+	color: #c62d2d;
 }
 
 .wpseo_content_wrapper h3 {
@@ -466,4 +480,57 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 #wpseo_progressbar .ui-progressbar-value {
 	height: 25px;
 	background: #006691;
+}
+
+.wpseo-add-fb-admin-form-wrap .notice span {
+	margin-left: 10px;
+}
+
+.archives-titles-metas-content {
+	padding-top: 1em;
+}
+
+@media screen and ( max-width: 782px ) {
+	.wpseo-gsc-reload-crawl-issues-form {
+		top: 0;
+		margin: 1em 0;
+	}
+
+	.wpseo-gsc-reload-crawl-issues-form .alignright {
+		float: none;
+	}
+}
+
+@media screen and ( max-width: 600px ) {
+	.wpseo-gsc-reload-crawl-issues-form {
+		margin-bottom: 0;
+	}
+}
+
+.yoast-sidebar {
+
+	&__title {
+		width: 100%;
+		margin: 46px 0 20px;
+		padding: 10px;
+		border: none;
+		outline: none;
+		color: #a4286a;
+		background: none;
+		text-align: left;
+		box-sizing: border-box;
+		line-height: 19px;
+		border-bottom: 1px solid #a4286a
+	}
+
+	&__spot {
+		padding: 10px 0;
+		border-bottom: 1px solid #DDD;
+
+		a {
+			color: #a4286a;
+		}
+	}
+
+
 }

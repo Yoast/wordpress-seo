@@ -2,6 +2,7 @@
 
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
+import { localize } from "yoast-components/utils/i18n";
 
 /**
  * @summary Media upload component.
@@ -9,25 +10,24 @@ import RaisedButton from "material-ui/RaisedButton";
 class MediaUpload extends React.Component {
 
 	constructor( props ) {
-
 		super( props );
 
 		this.state = {
 			currentUpload: props.value,
-			media_upload : wp.media( {
-				title: "Choose an image",
-				button: { text: "Choose an image" },
-				multiple: false
+			mediaUpload: wp.media( {
+				title: this.props.translate( "Choose an image" ),
+				button: { text: this.props.translate( "Choose an image" ) },
+				multiple: false,
 			} ),
 		};
 
-		this.state.media_upload.on( "select", this.selectUpload.bind( this ) );
+		this.state.mediaUpload.on( "select", this.selectUpload.bind( this ) );
 	}
 	/**
 	 * Sends the change event, because the component is updated.
 	 *
-	 * @param {Object} prevProps
-	 * @param {Object} prevState
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
 	 *
 	 * @returns {void}
 	 */
@@ -43,51 +43,57 @@ class MediaUpload extends React.Component {
 	 * Opens the media upload.
 	 *
 	 * @param {Event} evt The event that is triggered.
+	 *
+	 * @returns {void}
 	 */
 	chooseUpload( evt ) {
 		evt.preventDefault();
 
-		this.state.media_upload.open();
+		this.state.mediaUpload.open();
 	}
 
 	/**
 	 * Selects the image and put the value of it to the state.
+	 *
+	 * @returns {void}
 	 */
 	selectUpload() {
-		var attachment = this.state.media_upload.state().get( "selection" ).first().toJSON();
+		var attachment = this.state.mediaUpload.state().get( "selection" ).first().toJSON();
 
 		this.setState( {
-			"currentUpload": attachment.url,
+			currentUpload: attachment.url,
 		} );
 	}
 
 	/**
 	 * Clears the current upload.
+	 *
+	 * @returns {void}
 	 */
 	removeUpload() {
 		this.setState( {
-			"currentUpload" : "",
+			currentUpload: "",
 		} );
 	}
 
 	/**
 	 * Renders the output.
 	 *
-	 * @returns {JSX.Element}
+	 * @returns {JSX.Element} The rendered HTML.
 	 */
 	render() {
 		let removeButton;
 		let image;
 		if( this.state.currentUpload !== "" ) {
 			removeButton = <RaisedButton
-				label="Remove the image"
+				label={this.props.translate( "Remove the image" )}
 				onClick={ this.removeUpload.bind( this ) }
 				className="yoast-wizard-image-upload-container-buttons__remove"
 				type="button"/>;
 			image = <img className="yoast-wizard-image-upload-container__image"
-			             ref="companyImage"
-			             src={this.state.currentUpload}
-			             alt="company logo image preview"/>;
+						ref="companyImage"
+						src={this.state.currentUpload}
+						alt={this.props.translate( "company logo image preview" )}/>;
 		}
 
 		return (
@@ -97,10 +103,10 @@ class MediaUpload extends React.Component {
 				</p>
 				{image}
 				<div className="yoast-wizard-image-upload-container-buttons">
-					<RaisedButton label="Choose image"
-					              onClick={ this.chooseUpload.bind( this ) }
-					              type="button"
-					              className="yoast-wizard-image-upload-container-buttons__choose"/>
+					<RaisedButton label={this.props.translate( "Choose image" )}
+						onClick={ this.chooseUpload.bind( this ) }
+						type="button"
+						className="yoast-wizard-image-upload-container-buttons__choose"/>
 					{removeButton}
 				</div>
 			</div>
@@ -129,12 +135,13 @@ class MediaUpload extends React.Component {
  * Adds validation for the properties.
  */
 MediaUpload.propTypes = {
+	translate: React.PropTypes.func.isRequired,
 	name: React.PropTypes.string.isRequired,
 	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,
 	properties: React.PropTypes.shape( {
-		label : React.PropTypes.string
-	} )
+		label: React.PropTypes.string,
+	} ),
 };
 
-export default MediaUpload;
+export default localize( MediaUpload );

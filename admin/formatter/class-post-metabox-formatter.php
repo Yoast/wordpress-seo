@@ -49,7 +49,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			'metaDescriptionDate' => '',
 		);
 
-		if ( is_a( $this->post, 'WP_Post' ) ) {
+		if ( $this->post instanceof WP_Post ) {
 			$values_to_set = array(
 				'keyword_usage'       => $this->get_focus_keyword_usage(),
 				'title_template'      => $this->get_title_template(),

@@ -63,7 +63,7 @@ class WPSEO_Help_Center {
 			'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=popup&utm_campaign=multiple-keywords">Yoast SEO Premium</a>',
 			'yoast.com' );
 
-		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h3', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Email support', 'wordpress-seo' ),
@@ -178,6 +178,35 @@ class WPSEO_Help_Center {
 	 * @return bool
 	 */
 	private function is_a_help_center_item( $item ) {
-		return is_a( $item, 'WPSEO_Help_Center_Item' );
+		return ( $item instanceof WPSEO_Help_Center_Item );
+	}
+
+	/**
+	 * Pass text variables to js for the help center JS module.
+	 *
+	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
+	 *
+	 * @return  array Translated text strings for the help center.
+	 */
+	public static function get_translated_texts() {
+		return array(
+			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
+			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
+			'locale' => get_locale(),
+			/* translators: %d: number of knowledge base search results found. */
+			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
+			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
+			'kb_heading' => __( 'Search the Yoast knowledge base', 'wordpress-seo' ),
+			'kb_search_button_text' => __( 'Search', 'wordpress-seo' ),
+			'kb_search_results_heading' => __( 'Search results', 'wordpress-seo' ),
+			'kb_error_message' => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
+			'kb_loading_placeholder' => __( 'Loading...', 'wordpress-seo' ),
+			'kb_search' => __( 'search', 'wordpress-seo' ),
+			'kb_back' => __( 'Back', 'wordpress-seo' ),
+			'kb_back_label' => __( 'Back to search results' , 'wordpress-seo' ),
+			'kb_open' => __( 'Open', 'wordpress-seo' ),
+			'kb_open_label' => __( 'Open the knowledge base article in a new window or read it in the iframe below' , 'wordpress-seo' ),
+			'kb_iframe_title' => __( 'Knowledge base article', 'wordpress-seo' ),
+		);
 	}
 }

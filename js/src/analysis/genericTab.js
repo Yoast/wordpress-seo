@@ -37,8 +37,8 @@ module.exports = ( function() {
 	/**
 	 * Initialize a keyword tab.
 	 *
-	 * @param {HTMLElement} container The container element to add the tab to.
-	 * @param {string} [position] Either prepend or append for the position in the container.
+	 * @param {string|Object} container The container element to add the tab to. jQuery object or selector.
+	 * @param {string}        position  Either prepend or append for the position in the container.
 	 *
 	 * @returns {void}
 	 */
@@ -53,7 +53,7 @@ module.exports = ( function() {
 	 * Adds the current tab to the container element.
 	 *
 	 * @param {string|Object} container The container element to add the tab to. jQuery object or selector.
-	 * @param {string} [position] Either prepend or append for the position in the
+	 * @param {string}        position  Either prepend or append for the position in the container.
 	 *
 	 * @returns {void}
 	 */
@@ -89,7 +89,7 @@ module.exports = ( function() {
 		var indicator = this.getIndicator( score );
 
 		this.score = indicator.className;
-		this.scoreText = indicator.screenReaderText;
+		this.scoreText = indicator.screenReaderReadabilityText;
 
 		this.refresh();
 	};

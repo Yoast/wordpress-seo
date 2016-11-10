@@ -29,7 +29,7 @@ class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 		$this->add_choice( 'sc-laquo', '&laquo;', __( 'Left angle quotation mark', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-raquo', '&raquo;', __( 'Right angle quotation mark', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-lt', '&lt;', __( 'Less than sign', 'wordpress-seo' ) );
-		$this->add_choice( 'sc-gt', '&gt;', __( 'Greate than sign', 'wordpress-seo' ) );
+		$this->add_choice( 'sc-gt', '&gt;', __( 'Greater than sign', 'wordpress-seo' ) );
 	}
 
 	/**

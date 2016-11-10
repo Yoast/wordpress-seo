@@ -124,8 +124,6 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 	 * When there is no post passed into the function.
 	 *
 	 * @covers WPSEO_Frontend_Primary_Category::post_link_category
-	 *
-	 * @group test
 	 */
 	public function test_post_link_category_primary_term_with_invalid_post_ID() {
 		$post     = 99;

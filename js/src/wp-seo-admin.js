@@ -1,13 +1,7 @@
 /* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
-/* jshint -W097 */
-/* jshint -W003 */
-/* jshint unused:false */
 
-/* jshint ignore:start */
-import React from "react";
-import ReactDom from "react-dom";
-import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
-/* jshint ignore:end */
+import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
+import a11ySpeak from "a11y-speak";
 
 ( function() {
 	"use strict";
@@ -51,14 +45,17 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 		jQuery.each( wrongVariables, function( index, variable ) {
 			error_id = e.attr( "id" ) + "-" + variable + "-warning";
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
-				e.addClass( "wpseo_variable_warning" );
+				e.addClass( "wpseo-variable-warning-element" );
 				var msg = wpseoAdminL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
 				if ( jQuery( "#" + error_id ).length ) {
 					jQuery( "#" + error_id ).html( msg );
 				}
 				else {
-					e.after( ' <div id="' + error_id + '" class="wpseo_variable_warning"><div class="clear"></div>' + msg + "</div>" );
+					e.after( ' <div id="' + error_id + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
+
+				a11ySpeak( wpseoAdminL10n.variable_warning.replace( "%s", variable ), "assertive" );
+
 				warn = true;
 			}
 			else {
@@ -69,7 +66,7 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 		}
 		);
 		if ( warn === false ) {
-			e.removeClass( "wpseo_variable_warning" );
+			e.removeClass( "wpseo-variable-warning-element" );
 		}
 	}
 
@@ -177,7 +174,7 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 						tb_remove();
 						break;
 					case 0 :
-						jQuery( resp.html ).insertAfter( target_form.find( "h3" ) );
+						target_form.find( ".form-wrap" ).prepend( resp.html );
 						break;
 				}
 			}
@@ -246,75 +243,53 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
-		// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
-		var mountingPoints = jQuery( ".wpseo-kb-search" );
-		var algoliaSearchers = [];
-		jQuery.each( mountingPoints, function( index, mountingPoint ) {
-			var tabId = jQuery( mountingPoint ).closest( ".wpseotab" ).attr( "id" );
-			var translations = {
-				noResultsText: wpseoAdminL10n.kb_no_results,
-				headingText: wpseoAdminL10n.kb_heading,
-				searchButtonText: wpseoAdminL10n.kb_search_button_text,
-				searchResultsHeading: wpseoAdminL10n.kb_search_results_heading,
-				errorMessage: wpseoAdminL10n.kb_error_message,
-				loadingPlaceholder: wpseoAdminL10n.kb_loading_placeholder,
-				search: wpseoAdminL10n.kb_search,
-				open: wpseoAdminL10n.kb_open,
-				openLabel: wpseoAdminL10n.kb_open_label,
-				back: wpseoAdminL10n.kb_back,
-				backLabel: wpseoAdminL10n.kb_back_label,
-				iframeTitle: wpseoAdminL10n.kb_iframe_title,
-			};
-			algoliaSearchers.push( {
-				/* jshint ignore:start */
-				tabName: tabId,
-				algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher, translations ), mountingPoint ),
-				/* jshint ignore:end */
-			} );
-		} );
 
-		// Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
-		jQuery( ".contact-support" ).on( "click", function() {
-			var activeTabName = jQuery( ".wpseotab.active" ).attr( "id" );
+		initializeAlgoliaSearch();
 
-			// 1st by default. (Used for the Advanced settings pages because of how the tabs were set up)
-			var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher;
-
-			jQuery.each( algoliaSearchers, function( key, searcher ) {
-				if ( searcher.tabName === activeTabName ) {
-					activeAlgoliaSearcher = searcher.algoliaSearcher;
-
-					// returning false breaks the loop.
-					return false;
-				}
-			} );
-			var usedQueries = activeAlgoliaSearcher.state.usedQueries;
-			jQuery( window ).trigger( "YoastSEO:ContactSupport", { usedQueries: usedQueries } );
-		} );
-
-		// events
+		// Toggle the XML sitemap section.
 		jQuery( "#enablexmlsitemap" ).change( function() {
 			jQuery( "#sitemapinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Toggle the Author archives section.
+		jQuery( "#disable-author input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
+		// Toggle the Date archives section.
+		jQuery( "#disable-date input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
+		// Toggle the Format-based archives section.
 		jQuery( "#disable-post_format" ).change( function() {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
+		// Toggle the Breadcrumbs section.
 		jQuery( "#breadcrumbs-enable" ).change( function() {
 			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Toggle the Author / user sitemap section.
 		jQuery( "#disable_author_sitemap" ).find( "input:radio" ).change( function() {
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#xml_user_block" ).toggle( jQuery( this ).val() === "off" );
 			}
 		} ).change();
 
+		// Toggle the Redirect ugly URLs to clean permalinks section.
 		jQuery( "#cleanpermalinks" ).change( function() {
 			jQuery( "#cleanpermalinksdiv" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
+		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
@@ -324,6 +299,7 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 			jQuery( this ).addClass( "nav-tab-active" );
 		} );
 
+		// Handle the Company or Person select.
 		jQuery( "#company_or_person" ).change( function() {
 			var companyOrPerson = jQuery( this ).val();
 			if ( "company" === companyOrPerson ) {
@@ -340,6 +316,7 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 			}
 		} ).change();
 
+		// Check correct variables usage in title and description templates.
 		jQuery( ".template" ).change( function() {
 			wpseoDetectWrongVariables( jQuery( this ) );
 		} ).change();
@@ -347,6 +324,13 @@ import AlgoliaSearcher from "./kb-search/wp-seo-kb-search.js";
 		// XML sitemaps "Fix it" button.
 		jQuery( "#blocking_files .button" ).on( "click", function() {
 			wpseoKillBlockingFiles( jQuery( this ).data( "nonce" ) );
+		} );
+
+		// Prevent form submission when pressing Enter on the switch-toggles.
+		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
+			if ( "keydown" === event.type && 13 === event.which ) {
+				event.preventDefault();
+			}
 		} );
 
 		setInitialActiveTab();

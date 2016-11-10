@@ -38,10 +38,10 @@ function TabManager( args ) {
  * @returns {void}
  */
 TabManager.prototype.init = function() {
-	var metaboxTabs = $( "#wpseo-metabox-tabs" );
+	var metaboxTabsContainer = $( ".wpseo-metabox-tab-content" );
 
 	// Remove default functionality to prevent scrolling to top.
-	metaboxTabs.on( "click", ".wpseo_tablink", function( ev ) {
+	metaboxTabsContainer.on( "click", ".wpseo_tablink", function( ev ) {
 		ev.preventDefault();
 	} );
 
@@ -84,11 +84,11 @@ TabManager.prototype.init = function() {
 	} );
 
 	if ( this.arguments.keywordAnalysisActive ) {
-		this.mainKeywordTab.init( metaboxTabs );
+		this.mainKeywordTab.init( metaboxTabsContainer );
 	}
 
 	if ( this.arguments.contentAnalysisActive ) {
-		this.contentTab.init( metaboxTabs );
+		this.contentTab.init( metaboxTabsContainer );
 	}
 
 	$( ".yoast-seo__remove-tab" ).remove();

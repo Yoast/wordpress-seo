@@ -89,6 +89,13 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = $this->get_image_item( $post, $src, $post->post_title, $alt );
 		}
 
+		foreach ( $images as $key => $image ) {
+
+			if ( empty( $image['src'] ) ) {
+				unset( $images[ $key ] );
+			}
+		}
+
 		/**
 		 * Filter images to be included for the post in XML sitemap.
 		 *
@@ -386,6 +393,10 @@ class WPSEO_Sitemap_Image_Parser {
 	 * @return string
 	 */
 	protected function get_absolute_url( $src ) {
+
+		if ( empty( $src ) || ! is_string( $src ) ) {
+			return $src;
+		}
 
 		if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
 

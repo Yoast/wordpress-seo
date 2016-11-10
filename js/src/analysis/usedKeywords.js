@@ -45,7 +45,7 @@ UsedKeywords.prototype.init = function() {
 	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
 
 	this._plugin.registerPlugin();
-	this._focusKeywordElement.on( "keyup", eventHandler );
+	this._focusKeywordElement.on( "input", eventHandler );
 };
 
 /**

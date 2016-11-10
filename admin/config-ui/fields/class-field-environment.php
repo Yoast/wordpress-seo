@@ -27,6 +27,69 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
-		$adapter->add_yoast_lookup( $this->get_identifier(), 'wpseo', 'environment_type' );
+		$adapter->add_custom_lookup(
+			$this->get_identifier(),
+			array( $this, 'get_data' ),
+			array( $this, 'set_data' )
+		);
+	}
+
+	/**
+	 * Gets the option that is set for this field.
+	 *
+	 * @return string The value for the environment_type wpseo option.
+	 */
+	public function get_data() {
+		$option = WPSEO_Options::get_option( 'wpseo' );
+
+		return $option['environment_type'];
+	}
+
+	/**
+	 * Set new data.
+	 *
+	 * @param string $environment_type The site's environment type.
+	 *
+	 * @return bool Returns whether the value is successfully set.
+	 */
+	public function set_data( $environment_type ) {
+		$option = WPSEO_Options::get_option( 'wpseo' );
+
+		if ( $option['environment_type'] !== $environment_type ) {
+			$option['environment_type'] = $environment_type;
+			update_option( 'wpseo', $option );
+			if ( ! $this->set_indexation( $environment_type ) ) {
+				return false;
+			}
+		}
+
+		$saved_environment_option = WPSEO_Options::get_option( 'wpseo' );
+
+		return ( $saved_environment_option['environment_type'] === $option['environment_type'] );
+	}
+
+	/**
+	 * Set the WordPress Search Engine Visibility option based on the environment type.
+	 *
+	 * @param string $environment_type The environment the site is running in.
+	 *
+	 * @return bool Returns if the options is set successfully.
+	 */
+	protected function set_indexation( $environment_type ) {
+		$new_blog_public_value     = 0;
+		$current_blog_public_value = get_option( 'blog_public' );
+
+		if ( $environment_type === 'production' ) {
+			$new_blog_public_value = 1;
+		}
+
+		if ( $current_blog_public_value !== $new_blog_public_value ) {
+			update_option( 'blog_public', $new_blog_public_value );
+
+			return true;
+		}
+		$saved_blog_public_value = get_option( 'blog_public' );
+
+		return ( $saved_blog_public_value === $new_blog_public_value );
 	}
 }

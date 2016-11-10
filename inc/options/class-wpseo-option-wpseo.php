@@ -40,6 +40,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'has_multiple_authors'            => '',
 		'environment_type'                => '',
 		'enable_setting_pages'            => true,
+		'enable_admin_bar_menu'			  => true,
+		'show_onboarding_notice'          => false,
+		'first_activated_on'              => false,
 	);
 
 	/**
@@ -86,6 +89,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		/* Clear the cache on update/add */
 		add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
+
+		/**
+		 * Filter the `wpseo` option defaults.
+		 *
+		 * @param array $defaults Array the defaults for the `wpseo` option attributes.
+		 */
+		$this->defaults = apply_filters( 'wpseo_option_wpseo_defaults', $this->defaults );
 	}
 
 
@@ -177,14 +187,23 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'site_type':
 					$clean[ $key ] = '';
-					if ( in_array( $dirty[ $key ], $this->site_types, true ) ) {
+					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], $this->site_types, true ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
 				case 'environment_type':
 					$clean[ $key ] = '';
-					if ( in_array( $dirty[ $key ], $this->environment_types, true ) ) {
+					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], $this->environment_types, true ) ) {
 						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
+
+				case 'first_activated_on' :
+					$clean[ $key ] = false;
+					if ( isset( $dirty[ $key ] ) ) {
+						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
 					}
 					break;
 

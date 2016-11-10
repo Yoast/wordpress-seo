@@ -1,4 +1,4 @@
-/* global wp, jQuery, YoastSEO */
+/* global wp, jQuery */
 var isUndefined = require( "lodash/isUndefined" );
 var defaultsDeep = require( "lodash/defaultsDeep" );
 
@@ -58,7 +58,7 @@ module.exports = ( function() {
 
 		if ( keyword === "" ) {
 			this.score = "na";
-			this.scoreText = YoastSEO.app.i18n.dgettext( "js-text-analysis", "Enter a focus keyword to calculate the SEO score" );
+			this.scoreText = "";
 			this.refresh();
 
 			return;
