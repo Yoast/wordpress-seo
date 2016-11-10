@@ -17,7 +17,7 @@ let fileFooter = NEWLINE + [
 ].join( NEWLINE ) + NEWLINE;
 
 /**
- * Escapes double quotes
+ * Escapes double quotes.
  *
  * @param {string} input The string to be escaped.
  * @returns {string} The escaped string.
@@ -27,7 +27,7 @@ function escapeDoubleQuotes( input ) {
 }
 
 /**
- * Converts a translation parsed from the POT file to lines of WP PHP
+ * Converts a translation parsed from the POT file to lines of WP PHP.
  *
  * @param {Object} translation The translation to convert.
  * @param {string} textdomain The text domain to use in the WordPress translation function call.
@@ -75,6 +75,12 @@ function convertTranslationToPHP( translation, textdomain ) {
 	return php;
 }
 
+/**
+ * A task that converts a POT file to a WordPress PHP file.
+ *
+ * @param {Object} grunt The grunt helper object.
+ * @returns {void}
+ */
 module.exports = function( grunt ) {
 	grunt.registerMultiTask( "convert-pot-to-wp", "Make a PHP file for wordpress.org so the strings end up in the translation project", function() {
 		let options = this.options( {
