@@ -50,7 +50,7 @@ class WPSEO_Taxonomy_Metabox {
 			$product_title .= ' Premium';
 		}
 
-		printf( '<div id="wpseo_meta" class="postbox wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
+		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
 
 		echo '<div class="inside">';
 

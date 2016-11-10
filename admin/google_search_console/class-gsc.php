@@ -216,13 +216,23 @@ class WPSEO_GSC {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	private function list_table_search_post_to_get() {
-		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
-			$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
+		$search_string = filter_input( INPUT_POST, 's' );
 
-			// Do the redirect.
-			wp_redirect( $url );
-			exit;
+		if ( $search_string === null ) {
+			return;
 		}
+
+		// When there is nothing being search and there is no search param in the url, break this method.
+		if ( $search_string === '' && filter_input( INPUT_GET, 's' ) === null ) {
+			return;
+		}
+
+		$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
+
+		// Do the redirect.
+		wp_redirect( $url );
+		exit;
+
 	}
 
 	/**

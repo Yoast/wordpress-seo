@@ -9,14 +9,6 @@
 class WPSEO_Configuration_Components_Mock extends WPSEO_Configuration_Components {
 
 	/**
-	 * WPSEO_Configuration_Components_Mock constructor.
-	 *
-	 * Removes default registrations
-	 */
-	public function __construct() {
-	}
-
-	/**
 	 * Retrieve all components
 	 *
 	 * @return array
@@ -54,7 +46,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::__construct()
+	 * @covers WPSEO_Configuration_Components::initialize()
 	 */
 	public function test_constructor() {
 		$components = new WPSEO_Configuration_Components_Mock();
