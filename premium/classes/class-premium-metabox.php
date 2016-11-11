@@ -6,7 +6,7 @@
 /**
  * The metabox for premium
  */
-class WPSEO_Premium_Metabox {
+class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers relevant hooks to WordPress

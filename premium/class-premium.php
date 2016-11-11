@@ -35,6 +35,11 @@ class WPSEO_Premium {
 	private $redirects;
 
 	/**
+	 * @var WPSEO_WordPress_Integration[]
+	 */
+	private $integrations;
+
+	/**
 	 * Function that will be executed when plugin is activated
 	 */
 	public static function install() {
@@ -67,6 +72,10 @@ class WPSEO_Premium {
 	 * WPSEO_Premium Constructor
 	 */
 	public function __construct() {
+		$this->integrations = array(
+			'premium-metabox' => new WPSEO_Premium_Metabox(),
+		);
+
 		$this->setup();
 	}
 
@@ -191,8 +200,9 @@ class WPSEO_Premium {
 		$facebook_name = new WPSEO_Facebook_Profile();
 		$facebook_name->set_hooks();
 
-		$premium_metabox = new WPSEO_Premium_Metabox();
-		$premium_metabox->register_hooks();
+		foreach ( $this->integrations as $integration ) {
+			$integration->register_hooks();
+		}
 	}
 
 	/**
