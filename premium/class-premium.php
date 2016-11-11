@@ -74,6 +74,7 @@ class WPSEO_Premium {
 	public function __construct() {
 		$this->integrations = array(
 			'premium-metabox' => new WPSEO_Premium_Metabox(),
+			'prominent-words-registration' => new WPSEO_Premium_Prominent_Words_Registration(),
 		);
 
 		$this->setup();
