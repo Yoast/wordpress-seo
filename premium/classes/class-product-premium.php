@@ -28,6 +28,10 @@ if ( class_exists( 'Yoast_Product' ) && ! class_exists( 'WPSEO_Product_Premium',
 				WPSEO_Premium::PLUGIN_AUTHOR,
 				$file
 			);
+
+			if ( method_exists( $this, 'set_extension_url' ) ) {
+				$this->set_extension_url( 'https://my.yoast.com/licenses/' );
+			}
 		}
 	}
 
