@@ -275,6 +275,7 @@ App.prototype.getDefaultOutputElement = function( args ) {
  * Initializes assessors based on if the respective analysis is active.
  *
  * @param {Object} args The arguments passed to the App.
+ * @returns {void}
  */
 App.prototype.initializeAssessors = function( args ) {
 	if ( args.keywordAnalysisActive ) {
@@ -290,6 +291,7 @@ App.prototype.initializeAssessors = function( args ) {
  * Initializes the SEO assessor.
  *
  * @param {Object} args The arguments passed to the App.
+ * @returns {void}
  */
 App.prototype.initializeSEOAssessor = function( args ) {
 	// Set the assessor
@@ -304,6 +306,7 @@ App.prototype.initializeSEOAssessor = function( args ) {
  * Initializes the content assessor.
  *
  * @param {Object} args The arguments passed to the App.
+ * @returns {void}
  */
 App.prototype.initializeContentAssessor = function( args ) {
 	// Set the content assessor
@@ -397,6 +400,7 @@ App.prototype.getData = function() {
 
 /**
  * Refreshes the analyzer and output of the analyzer, is debounced for a better experience.
+ * @returns {void}
  */
 App.prototype.refresh = function() {
 	this._pureRefresh();
@@ -404,6 +408,7 @@ App.prototype.refresh = function() {
 
 /**
  * Refreshes the analyzer and output of the analyzer, is throttled to prevent performance issues.
+ * @returns {void}
  *
  * @private
  */
@@ -437,6 +442,7 @@ App.prototype.initSnippetPreview = function() {
 
 /**
  * Initializes the assessorpresenters for content and SEO.
+ * @returns {void}
  */
 App.prototype.initAssessorPresenters = function() {
 	// Pass the assessor result through to the formatter
@@ -701,6 +707,8 @@ App.prototype.registerModification = function( modification, callable, pluginNam
  * Scores 6 and 7 result in a yellow circle
  * Scores 8, 9 and 10 result in a red circle
  *
+ * @returns {void}
+ *
  * @deprecated since version 1.2
  */
 App.prototype.registerTest = function() {
@@ -729,6 +737,7 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 
 /**
  * Disables markers visually in the UI.
+ * @returns {void}
  */
 App.prototype.disableMarkers = function() {
 	if ( ! isUndefined( this.seoAssessorPresenter ) ) {

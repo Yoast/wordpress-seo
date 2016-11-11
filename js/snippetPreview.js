@@ -49,16 +49,16 @@ var titleMaxLength = 600;
 
 var inputPreviewBindings = [
 	{
-		"preview": "title_container",
-		"inputField": "title",
+		preview: "title_container",
+		inputField: "title",
 	},
 	{
-		"preview": "url_container",
-		"inputField": "urlPath",
+		preview: "url_container",
+		inputField: "urlPath",
 	},
 	{
-		"preview": "meta_container",
-		"inputField": "metaDesc",
+		preview: "meta_container",
+		inputField: "metaDesc",
 	},
 ];
 
@@ -1134,6 +1134,8 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 
 /**
  * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
+ *
+ * @returns {void}
  */
 SnippetPreview.prototype.createMeasurementElements = function() {
 	var metaDescriptionElement, spanHolder;
@@ -1155,6 +1157,8 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 
 /**
  * Copies the title text to the title measure element to calculate the width in pixels.
+ *
+ * @returns {void}
  */
 SnippetPreview.prototype.measureTitle = function() {
 	if( this.element.rendered.title.offsetWidth !== 0 || this.element.rendered.title.textContent === "" ) {
@@ -1164,6 +1168,8 @@ SnippetPreview.prototype.measureTitle = function() {
 
 /**
  * Copies the metadescription text to the metadescription measure element to calculate the height in pixels.
+ *
+ * @returns {void}
  */
 SnippetPreview.prototype.measureMetaDescription = function() {
 	var metaHeightElement = this.element.measurers.metaHeight;
