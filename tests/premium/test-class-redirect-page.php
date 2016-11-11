@@ -38,7 +38,7 @@ class WPSEO_Redirect_Page_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_clean();
 
-		$this->assertContains( '<div class="wrap wpseo-admin-page page-wpseo_redirects">', $output );
+		$this->assertContains( '<div class="wrap yoast wpseo-admin-page page-wpseo_redirects">', $output );
 		$this->assertContains( "<form class='wpseo-new-redirect-form' method='post'>", $output );
 		$this->assertContains( "<select name='wpseo_redirects_type' id='wpseo_redirects_type' class='select'>", $output );
 		$this->assertContains( '<button type="button" class="button button-primary">Add Redirect</button>', $output );
