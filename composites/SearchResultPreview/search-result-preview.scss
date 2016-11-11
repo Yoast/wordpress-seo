@@ -31,13 +31,13 @@ $prefix: 'yoast-';
 
     &--hover {
       &:before {
-        @include svg-caret-before($color_caret_hover);
+        @include svg-caret-before($color_grey_text);
       }
     }
 
     &--focus {
       &:before {
-        @include svg-caret-before($color_caret_focus)
+        @include svg-caret-before($color_blue)
       }
     }
 
