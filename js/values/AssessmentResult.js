@@ -99,6 +99,7 @@ AssessmentResult.prototype.setText = function( text ) {
  * Sets the identifier
  *
  * @param {string} identifier An alphanumeric identifier for this result.
+ * @returns {void}
  */
 AssessmentResult.prototype.setIdentifier = function( identifier ) {
 	this._identifier = identifier;
@@ -117,6 +118,7 @@ AssessmentResult.prototype.getIdentifier = function() {
  * Sets the marker, a pure function that can return the marks for a given Paper
  *
  * @param {Function} marker The marker to set.
+ * @returns {void}
  */
 AssessmentResult.prototype.setMarker = function( marker ) {
 	this._marker = marker;
@@ -144,6 +146,7 @@ AssessmentResult.prototype.getMarker = function() {
  * Sets the value of _hasMarks to determine if there is something to mark.
  *
  * @param {boolean} hasMarks Is there something to mark.
+ * @returns {void}
  */
 AssessmentResult.prototype.setHasMarks = function( hasMarks ) {
 	this._hasMarks = hasMarks;

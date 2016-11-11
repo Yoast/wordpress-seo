@@ -171,6 +171,8 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 /**
  * Register test for a specific plugin
  *
+ * @returns {void}
+ *
  * @deprecated
  */
 Pluggable.prototype._registerTest = function() {
@@ -323,13 +325,13 @@ Pluggable.prototype._addPluginTests = function( analyzer ) {
  */
 Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
 	analyzer.addAnalysis( {
-		"name": pluginTest.name,
-		"callable": pluginTest.analysis,
+		name: pluginTest.name,
+		callable: pluginTest.analysis,
 	} );
 
 	analyzer.analyzeScorer.addScoring( {
-		"name": pluginTest.name,
-		"scoring": pluginTest.scoring,
+		name: pluginTest.name,
+		scoring: pluginTest.scoring,
 	} );
 };
 

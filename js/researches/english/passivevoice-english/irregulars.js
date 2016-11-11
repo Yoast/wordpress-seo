@@ -103,7 +103,7 @@ module.exports = function() {
 		"given",
 		"gone",
 		"undergone",
-//		"got",
+		//	Is also auxiliary: "got",
 		"gotten",
 		"ground",
 		"reground",

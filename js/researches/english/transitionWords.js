@@ -1,7 +1,7 @@
 /** @module config/transitionWords */
 
 var singleWords = [ "accordingly", "additionally", "afterward", "afterwards", "albeit", "also", "although", "altogether",
-	 "another", "basically", "because", "before", "besides", "but", "certainly", "chiefly", "comparatively",
+	"another", "basically", "because", "before", "besides", "but", "certainly", "chiefly", "comparatively",
 	"concurrently", "consequently", "contrarily", "conversely", "correspondingly", "despite", "doubtedly", "during",
 	"e.g.", "earlier", "emphatically", "equally", "especially", "eventually", "evidently", "explicitly", "finally",
 	"firstly", "following", "formerly", "forthwith", "fourthly", "further", "furthermore", "generally", "hence",
@@ -50,6 +50,6 @@ module.exports = function() {
 	return {
 		singleWords: singleWords,
 		multipleWords: multipleWords,
-		allWords: singleWords.concat( multipleWords )
+		allWords: singleWords.concat( multipleWords ),
 	};
 };

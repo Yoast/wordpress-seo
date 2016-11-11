@@ -31,6 +31,8 @@ var htmlBlockTokenizer;
 
 /**
  * Creates a tokenizer to tokenize HTML into blocks.
+ *
+ * @returns {void}
  */
 function createTokenizer() {
 	tokens = [];

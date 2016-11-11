@@ -20,6 +20,7 @@ var SyllableCountIterator = function( config ) {
  * Creates a syllable count step object for each exclusion.
  *
  * @param {object} syllableCounts The object containing all exclusion syllables including the multipliers.
+ * @returns {void}
  */
 SyllableCountIterator.prototype.createSyllableCountSteps = function( syllableCounts ) {
 	forEach( syllableCounts, function( syllableCountStep ) {
