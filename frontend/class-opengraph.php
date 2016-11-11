@@ -561,14 +561,26 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param string|boolean $image Optional image URL.
 	 */
+
 	public function image( $image = false ) {
 		$opengraph_images = new WPSEO_OpenGraph_Image( $this->options, $image );
 
-		foreach ( $opengraph_images->get_images() as $img ) {
+		/**
+		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph images of the page
+		 *
+		 */
+		$images = apply_filters( 'wpseo_opengraph_image', $opengraph_images->get_images() );
+
+		foreach ( $images as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
 		}
 
 		$dimensions = $opengraph_images->get_dimensions();
+		/**
+		 * Filter: 'wpseo_opengraph_dimensions' - Allow changing the OpenGraph page images dimensions.
+		 *
+		 */
+		$dimensions = apply_filters( 'wpseo_opengraph_dimensions', $dimensions );
 
 		if ( ! empty( $dimensions['width'] ) ) {
 			$this->og_tag( 'og:image:width', absint( $dimensions['width'] ) );
