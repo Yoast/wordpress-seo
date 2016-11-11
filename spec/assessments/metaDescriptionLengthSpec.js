@@ -33,6 +33,6 @@ describe( "An descriptionLength assessment", function(){
 		var assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 140 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The length of the meta description is sufficient. But how does it compare to the competition? Could it be made more appealing?" );
+		expect( assessment.getText() ).toEqual ( "The length of the meta description is sufficient." );
 	} );
 } );
