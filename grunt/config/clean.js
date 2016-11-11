@@ -5,8 +5,11 @@ module.exports = {
 		"<%= paths.languages %><%= pkg.plugin.textdomain %>-temp.pot",
 		"<%= paths.languages %>yoast-seo.json",
 
+		"<%= files.pot.yoastComponents %>",
 		"<%= paths.languages %>yoast-components.pot",
 		"<%= paths.languages %>yoast-components.json",
+
+		"<%= files.pot.yoastseojs %>",
 	],
 	"release-css": [
 		"css/src/**",
