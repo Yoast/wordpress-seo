@@ -661,7 +661,7 @@ class WPSEO_Utils {
 	 * @return mixed
 	 */
 	public static function format_url( $url ) {
-		$parsed_url = parse_url( $url );
+		$parsed_url = wp_parse_url( $url );
 
 		$formatted_url = '';
 		if ( ! empty( $parsed_url['path'] ) ) {
