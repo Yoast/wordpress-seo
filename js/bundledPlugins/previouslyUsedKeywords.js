@@ -44,7 +44,8 @@ PreviouslyUsedKeyword.prototype.registerPlugin = function() {
 };
 
 /**
- * Updates the usedKeywords
+ * Updates the usedKeywords.
+ *
  * @param {object} usedKeywords An object with keywords and ids where they are used.
  * @returns {void}
  */

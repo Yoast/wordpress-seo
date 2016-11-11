@@ -376,6 +376,7 @@ App.prototype.constructI18n = function( translations ) {
 
 /**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ *
  * @returns {void}
  */
 App.prototype.getData = function() {
@@ -400,6 +401,7 @@ App.prototype.getData = function() {
 
 /**
  * Refreshes the analyzer and output of the analyzer, is debounced for a better experience.
+ *
  * @returns {void}
  */
 App.prototype.refresh = function() {
@@ -408,6 +410,7 @@ App.prototype.refresh = function() {
 
 /**
  * Refreshes the analyzer and output of the analyzer, is throttled to prevent performance issues.
+ *
  * @returns {void}
  *
  * @private
@@ -431,6 +434,7 @@ App.prototype.createSnippetPreview = function() {
 
 /**
  * Initializes the snippet preview for this App.
+ *
  * @returns {void}
  */
 App.prototype.initSnippetPreview = function() {
@@ -442,6 +446,7 @@ App.prototype.initSnippetPreview = function() {
 
 /**
  * Initializes the assessorpresenters for content and SEO.
+ *
  * @returns {void}
  */
 App.prototype.initAssessorPresenters = function() {
@@ -470,6 +475,7 @@ App.prototype.initAssessorPresenters = function() {
 
 /**
  * Binds the refresh function to the input of the targetElement on the page.
+ *
  * @returns {void}
  */
 App.prototype.bindInputEvent = function() {
@@ -481,6 +487,7 @@ App.prototype.bindInputEvent = function() {
 
 /**
  * Runs the rerender function of the snippetPreview if that object is defined.
+ *
  * @returns {void}
  */
 App.prototype.reloadSnippetText = function() {
@@ -491,6 +498,7 @@ App.prototype.reloadSnippetText = function() {
 
 /**
  * Sets the startTime timestamp.
+ *
  * @returns {void}
  */
 App.prototype.startTime = function() {
@@ -499,6 +507,7 @@ App.prototype.startTime = function() {
 
 /**
  * Sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ *
  * @returns {void}
  */
 App.prototype.endTime = function() {
@@ -513,6 +522,7 @@ App.prototype.endTime = function() {
 /**
  * Inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
+ *
  * @returns {void}
  */
 App.prototype.runAnalyzer = function() {
@@ -571,6 +581,7 @@ App.prototype.runAnalyzer = function() {
 
 /**
  * Modifies the data with plugins before it is sent to the analyzer.
+ *
  * @param   {Object}  data      The data to be modified.
  * @returns {Object}            The data with the applied modifications.
  */
@@ -586,6 +597,7 @@ App.prototype.modifyData = function( data ) {
 
 /**
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+ *
  * @returns {void}
  */
 App.prototype.pluginsLoaded = function() {
@@ -611,7 +623,8 @@ App.prototype.showLoadingDialog = function() {
 };
 
 /**
- * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
+ * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading.
+ *
  * @param   {Object}  plugins   The plugins to be parsed into the dialog.
  * @returns {void}
  */
@@ -635,6 +648,7 @@ App.prototype.updateLoadingDialog = function( plugins ) {
 
 /**
  * Removes the pluging load dialog.
+ *
  * @returns {void}
  */
 App.prototype.removeLoadingDialog = function() {
@@ -737,6 +751,7 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 
 /**
  * Disables markers visually in the UI.
+ *
  * @returns {void}
  */
 App.prototype.disableMarkers = function() {
