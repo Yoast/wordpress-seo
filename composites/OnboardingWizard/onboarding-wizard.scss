@@ -168,7 +168,7 @@ body {
     min-height: 20px;
     position: relative;
 
-    box-shadow: $palette_grey_rgba15 0 3px 10px, $palette_grey_rgba20 0 3px 10px;
+    box-shadow: rgba( $color_black, .15 ) 0 3px 10px, rgba( $color_black, .2 ) 0 3px 10px;
 
 	@media screen and (max-width: 768px) {
 	  box-shadow: none;
