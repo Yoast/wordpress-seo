@@ -1,6 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
-
+/**
+ * Handles the actual requests to the prominent words endpoints.
+ */
 class WPSEO_Premium_Prominent_Words_Service {
 
 	/**

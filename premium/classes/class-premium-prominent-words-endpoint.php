@@ -1,7 +1,10 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
 /**
- * Registers the endpoint for the prominent words to WordPress
+ * Registers the endpoint for the prominent words to WordPress.
  */
 class WPSEO_Premium_Prominent_Words_Endpoint implements WPSEO_WordPress_Integration {
 

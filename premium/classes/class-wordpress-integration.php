@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
 /**
  * An interface for registering integrations with WordPress

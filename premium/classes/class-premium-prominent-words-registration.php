@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin
+ */
 
 /**
  * Registers the prominent words as a taxonomy.
