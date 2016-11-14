@@ -4,6 +4,9 @@
  * Registers the prominent words as a taxonomy.
  */
 class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Integration {
+
+	const TERM_NAME = 'yst_prominent_words';
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -15,7 +18,7 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 	 * Registers the prominent words taxonomy
 	 */
 	public function register() {
-		register_taxonomy( 'yst_prominent_words', 'post', $this->get_args() );
+		register_taxonomy( self::TERM_NAME, 'post', $this->get_args() );
 	}
 
 	/**
