@@ -1,12 +1,18 @@
-/* global jQuery, wpseoPremiumMetaboxL10n */
+/* global jQuery, wpseoPremiumMetaboxData */
 
+import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
-let multiKeyword = new MultiKeyword();
-let focusKeywordSuggestions = new FocusKeywordSuggestions();
+let settings = wpseoPremiumMetaboxData;
 
-let settings = wpseoPremiumMetaboxL10n;
+let multiKeyword = new MultiKeyword();
+let prominentWordStorage = new ProminentWordStorage( { postID: settings.postID, rootUrl: settings.restApi.root, nonce: settings.restApi.nonce } );
+let focusKeywordSuggestions = new FocusKeywordSuggestions( {
+	insightsEnabled: settings.insightsEnabled === "enabled",
+	prominentWordStorage,
+} );
+
 
 /**
  * Initializes the metabox for premium
@@ -17,6 +23,7 @@ function initializeMetabox() {
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
+	// Initialize prominent words watching and saving.
 	if ( settings.insightsEnabled === "enabled" ) {
 		focusKeywordSuggestions.initializeDOM();
 	}

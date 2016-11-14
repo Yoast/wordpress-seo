@@ -15,7 +15,7 @@ class WPSEO_Premium_Prominent_Words_Service {
 		$term = get_term_by( 'name', $word, WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
 
 		if ( ! $term instanceof WP_Term ) {
-			return new WP_REST_Response( null, 404 );
+			return new WP_REST_Response( null );
 		}
 
 		$controller = new WP_REST_Terms_Controller( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
