@@ -14,32 +14,43 @@ var forEach = require( "lodash/forEach" );
  * Creates GermanParticiple Objects for the participles found in a sentence.
  *
  * @param {string} sentence The sentence to finds participles in.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
  * @returns {Array} The array with GermanParticiple Objects.
  */
-module.exports = function( sentence ) {
+module.exports = function( sentence, auxiliaries ) {
 	var words = getWords( sentence );
 
 	var foundParticiples = [];
 
 	forEach( words, function( word ) {
 		if( verbsBeginningWithGe( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, { type: "ge at beginning" } ) );
+			foundParticiples.push(
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "ge at beginning" } )
+			);
 			return;
 		}
 		if ( verbsWithGeInMiddle( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, { type: "ge in the middle" } ) );
+			foundParticiples.push(
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "ge in the middle" } )
+			);
 			return;
 		}
 		if ( verbsBeginningWithErVerEntBeZerHer( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, { type: "er/ver/ent/be/zer/her at beginning" } ) );
+			foundParticiples.push(
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her at beginning" } )
+			);
 			return;
 		}
 		if ( verbsWithErVerEntBeZerHerInMiddle( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, { type: "er/ver/ent/be/zer/her in the middle" } ) );
+			foundParticiples.push(
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her in the middle" } )
+			);
 			return;
 		}
 		if ( verbsEndingWithIert( word ).length !== 0 ) {
-			foundParticiples.push( new GermanParticiple( word, sentence, { type: "iert at the end" } ) );
+			foundParticiples.push(
+				new GermanParticiple( word, sentence, { auxiliaries: auxiliaries, type: "iert at the end" } )
+			);
 		}
 	} );
 	return foundParticiples;
