@@ -5,6 +5,7 @@ var clone = require( "lodash/clone" );
 var defaultsDeep = require( "lodash/defaultsDeep" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
+var escapeRegExp = require( "lodash/escapeRegExp" );
 
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" ).stripFullTags;
@@ -733,7 +734,7 @@ SnippetPreview.prototype.getPeriodMatches = function() {
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 	// Removes characters from the keyword that could break the regex, or give unwanted results.
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\{\}\(\)\*\+\?\.\^\$\|]/g, " " );
+	var keyword = escapeRegExp( this.refObj.rawData.keyword );
 
 	// Match keyword case-insensitively.
 	var keywordRegex = stringToRegex( keyword, "", false );
