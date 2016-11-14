@@ -10,7 +10,6 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  * @returns {String} The text without characters.
  */
 module.exports = function( text ) {
-	text = text.replace( /[\[\]\{\}\(\)\*\+\?\^\$\|]/g, "" );
 	text = stripTags( text );
 	text = stripSpaces( text );
 

@@ -5,11 +5,9 @@ var clone = require( "lodash/clone" );
 var defaultsDeep = require( "lodash/defaultsDeep" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
-var escapeRegExp = require( "lodash/escapeRegExp" );
 
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" ).stripFullTags;
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 var transliterate = require( "../js/stringProcessing/transliterate.js" );
@@ -734,10 +732,10 @@ SnippetPreview.prototype.getPeriodMatches = function() {
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 	// Removes characters from the keyword that could break the regex, or give unwanted results.
-	var keyword = escapeRegExp( this.refObj.rawData.keyword );
+	var keyword = this.refObj.rawData.keyword;
 
 	// Match keyword case-insensitively.
-	var keywordRegex = stringToRegex( keyword, "", false );
+	var keywordRegex = stringToRegex( this.refObj.rawData.keyword, "", false );
 
 	textString = textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
@@ -763,7 +761,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void} The formatted keyword string to be used in the URL.
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = sanitizeString( this.refObj.rawData.keyword );
+	var keyword = this.refObj.rawData.keyword;
 	keyword = transliterate( keyword, this.refObj.rawData.locale );
 	keyword = keyword.replace( /'/, "" );
 

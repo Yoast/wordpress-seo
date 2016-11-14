@@ -1,8 +1,10 @@
 /** @module stringProcessing/stringToRegex */
 var isUndefined = require( "lodash/isUndefined" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
+var sanitizeString = require( "../stringProcessing/sanitizeString" );
+
+var escapeRegExp = require( "lodash/escapeRegExp" );
 
 var memoize = require( "lodash/memoize" );
 
@@ -24,6 +26,7 @@ module.exports = memoize( function( string, extraBoundary, doReplaceDiacritics )
 	}
 
 	string = sanitizeString( string );
+	string = escapeRegExp( string );
 	string = addWordBoundary( string, extraBoundary );
 	return new RegExp( string, "ig" );
 } );

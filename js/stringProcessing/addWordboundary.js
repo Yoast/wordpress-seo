@@ -11,7 +11,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
 	var _extraWordBoundary = extraWordBoundary || "";
 
-	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›" + _extraWordBoundary + "<>]";
+	wordBoundary = "[ \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›" + _extraWordBoundary + "<>]";
 	wordBoundaryStart = "(^|" + wordBoundary + ")";
 	wordBoundaryEnd = "($|" + wordBoundary + ")";
 

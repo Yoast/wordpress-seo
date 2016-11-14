@@ -1,5 +1,5 @@
 var countWords = require( "../stringProcessing/countWords" );
-var sanitizeString = require( "../stringProcessing/sanitizeString" );
+var escapeRegExp = require( "lodash/escapeRegExp" );
 
 /**
  * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
@@ -8,7 +8,7 @@ var sanitizeString = require( "../stringProcessing/sanitizeString" );
  * @returns {number} The length of the keyphrase
  */
 function keyphraseLengthResearch( paper ) {
-	var keyphrase = sanitizeString( paper.getKeyword() );
+	var keyphrase = escapeRegExp( paper.getKeyword() );
 
 	return countWords( keyphrase );
 }
