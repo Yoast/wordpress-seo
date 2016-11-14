@@ -171,6 +171,10 @@ class WPSEO_Premium {
 					add_action( 'all_admin_notices', array( $message, 'display' ) );
 				}
 			}
+
+			$link_suggestions = new WPSEO_Metabox_Link_Suggestions();
+			$link_suggestions->set_hooks();
+
 		}
 		else {
 			// Add 404 redirect link to WordPress toolbar.
