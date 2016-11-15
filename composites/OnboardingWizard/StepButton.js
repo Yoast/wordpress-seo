@@ -1,6 +1,7 @@
 import React from "react";
 import IconButton from "material-ui/IconButton";
 import SvgIcon from "material-ui/SvgIcon";
+import colors from '../../style-guide/colors.json';
 
 /**
  * Creates a step button for the wizard. The step buttons are meant to be rendered in a stepper component(StepIndicator)
@@ -16,9 +17,9 @@ import SvgIcon from "material-ui/SvgIcon";
 const StepButton = ( props ) => (
 	<IconButton className={props.className} onClick={props.onClick} tooltip={props.tooltip} touch={true}
 	            tooltipPosition="top-center" tooltipStyles={props.tooltipStyles} aria-label={props.ariaLabel}>
-		<SvgIcon color="rgb(114, 119, 124)">
+		<SvgIcon color={colors.$color_grey_text}>
 			<circle cx="12" cy="12" r="10"/>
-			<text x="12" y="16" textAnchor="middle" fontSize="12" fill="#fff">
+			<text x="12" y="16" textAnchor="middle" fontSize="12" fill={colors.$color_white}>
 				{props.index}
 			</text>
 		</SvgIcon>
