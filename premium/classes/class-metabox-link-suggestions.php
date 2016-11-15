@@ -13,8 +13,6 @@ class WPSEO_Metabox_Link_Suggestions {
 	 */
 	public function set_hooks() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -85,7 +83,16 @@ class WPSEO_Metabox_Link_Suggestions {
 		);
 	}
 
+	/**
+	 * Returns the localization string with the suggestions.
+	 *
+	 * @return array
+	 */
 	protected function get_localizations() {
-		return [ 'app', 'node', 'mii' ];
+		return array(
+			'suggestions' => array(
+				array( 'value' => 'This is a suggestion example', 'url' => home_url( 'example' ) ),
+			),
+		);
 	}
 }

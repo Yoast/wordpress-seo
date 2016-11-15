@@ -1,3 +1,5 @@
+/* global yoastLinkSuggestions */
+
 // Required for browser compatibility.
 import "babel-polyfill";
 
@@ -15,17 +17,9 @@ class App extends React.Component {
 	 * @returns {JSX.Element|null} The rendered app component.
 	 */
 	render() {
-
-		let suggestions = [
-			{
-				value: 'This is a suggestion',
-				url: 'https://yoast.com'
-			}
-		];
-
 		return (
 			<div>
-				<Suggestions suggestions={suggestions} />
+				<Suggestions suggestions={yoastLinkSuggestions.suggestions} />
 			</div>
 		);
 	}
