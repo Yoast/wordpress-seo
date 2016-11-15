@@ -232,6 +232,10 @@ $snippet_width: 600px;
 	line-height: 1.4;
 }
 
+.snippet_container .url .down_arrow {
+
+}
+
 .snippet_container .url {
 	display: block;
 	font-size: 14px;
@@ -245,7 +249,11 @@ $snippet_width: 600px;
 }
 
 .snippet_container .desc-default {
-	color: #333;
+	color: #545454;
+}
+
+.snippet_container .desc-default strong{
+	color: #6a6a6a;
 }
 
 .snippet_container .desc-render {
