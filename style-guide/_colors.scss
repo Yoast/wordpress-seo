@@ -32,6 +32,8 @@ $color_score_icon:          $palette_grey_medium_dark;
 
 $color_white:               $palette_white;
 $color_black:               $palette_black;
+$color_green:               $palette_green;
+$color_green_blue:          $palette_green_blue;
 $color_grey:                $palette_grey;
 $color_grey_dark:           $palette_grey_dark;
 $color_purple:              $palette_purple;
@@ -60,6 +62,7 @@ $color_marker_active:       $palette_white;
 $color_marker_disabled:     $palette_grey_disabled;
 
 $color_error:               $palette_red;
+$color_orange:              $palette_orange;
 $color_orange_hover:        darken( $palette_orange, 5% );
 $color_grey_hover:          darken( $palette_grey, 6% );
 $color_pink_hover:          darken( $palette_pink, 5% );
