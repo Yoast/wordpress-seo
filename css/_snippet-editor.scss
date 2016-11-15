@@ -232,21 +232,21 @@ $snippet_width: 600px;
 	line-height: 1.4;
 }
 
-.snippet_container .down_arrow {
-	border-left: 4px solid transparent;
-	border-right: 4px solid transparent;
-	border-top: 5px solid #006621;
-	margin-top: 6px;
-	margin-left: 5px;
-	float: left;
-}
-
 .snippet_container .url {
 	display: inline-block;
 	font-size: 14px;
 	line-height: 16px;
 	color: #006621;
 	font-style: normal;
+	float: left;
+}
+
+.snippet_container .down_arrow {
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 5px solid #006621;
+	margin-top: 6px;
+	margin-left: 5px;
 	float: left;
 }
 
