@@ -12,7 +12,10 @@ class WPSEO_Metabox_Link_Suggestions {
 	 * Sets the hooks for adding the metaboxes.
 	 */
 	public function set_hooks() {
-		 add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
 	/**
@@ -21,7 +24,7 @@ class WPSEO_Metabox_Link_Suggestions {
 	public function add_meta_boxes() {
 		$post_types = $this->get_post_types();
 
-		foreach( $post_types as $post_type ) {
+		foreach ( $post_types as $post_type ) {
 			$this->add_meta_box( $post_type );
 		}
 	}
@@ -34,6 +37,16 @@ class WPSEO_Metabox_Link_Suggestions {
 	 */
 	public function render_metabox_content( WP_Post $post, $metabox ) {
 		_e( 'Consider linking to these articles', 'wordpress-seo-premium' );
+
+		echo "<div class='yoast-link-suggestions' id='" . esc_attr( 'yoast_metabox_link_suggestions_' . $metabox['args']['post_type'] ) . "'></div>";
+	}
+
+	/**
+	 * Add the Yoast contact support assets
+	 */
+	public function enqueue_scripts() {
+		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX  . 'link-suggestions', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-link-suggestions-400' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'link-suggestions', 'yoastLinkSuggestions', $this->get_localizations() );
 	}
 
 	/**
@@ -70,5 +83,9 @@ class WPSEO_Metabox_Link_Suggestions {
 			'low',
 			array( 'post_type' => $post_type )
 		);
+	}
+
+	protected function get_localizations() {
+		return [ 'app', 'node', 'mii' ];
 	}
 }
