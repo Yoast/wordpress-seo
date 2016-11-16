@@ -6,7 +6,7 @@
 /**
  * The metabox for premium
  */
-class WPSEO_Premium_Metabox {
+class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers relevant hooks to WordPress
@@ -20,7 +20,12 @@ class WPSEO_Premium_Metabox {
 	 * Registers assets to WordPress
 	 */
 	public function register_assets() {
-		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-380' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'wp-util', 'underscore' ), WPSEO_VERSION );
+		wp_register_script(
+			WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox',
+			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-380' . WPSEO_CSSJS_SUFFIX . '.js',
+			array( 'jquery', 'wp-util', 'underscore' ),
+			WPSEO_VERSION
+		);
 		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-380' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 	}
 
@@ -50,8 +55,22 @@ class WPSEO_Premium_Metabox {
 
 		$data = array(
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
+			'postID' => $this->get_post_ID(),
+			'restApi' => array(
+				'root' => esc_url_raw( rest_url() ),
+				'nonce' => wp_create_nonce( 'wp_rest' ),
+			),
 		);
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'wpseoPremiumMetaboxL10n', $data );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'wpseoPremiumMetaboxData', $data );
+	}
+
+	/**
+	 * Retrieves the post ID from the globals
+	 *
+	 * @return {int} The post ID.
+	 */
+	protected function get_post_ID() {
+		return $GLOBALS['post_ID'];
 	}
 }
