@@ -1,3 +1,4 @@
+// This is a list of irregular participles used in German.
 module.exports = function() {
 	return [
 		"angefangen",
