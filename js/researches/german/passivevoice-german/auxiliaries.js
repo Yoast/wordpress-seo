@@ -1,4 +1,3 @@
-// This is a list of all german auxiliaries we check for in German.
 module.exports = function() {
 	return [
 		"werde",

@@ -6,9 +6,22 @@ var auxiliaries = require( "./passivevoice-german/auxiliaries.js" )();
 
 var forEach = require( "lodash/forEach" );
 var isEmpty = require( "lodash/isEmpty" );
+var map = require( "lodash/map" );
 
 var stopwordRegex = arrayToRegex( stopwords );
 var auxiliaryRegex = arrayToRegex( auxiliaries );
+
+/**
+ * Strips spaces from the auxiliary matches.
+ *
+ * @param {Array} matches A list with matches of auxiliaries.
+ * @returns {Array} A list with matches with spaces removed.
+ */
+function sanitizeMatches( matches ) {
+	return map( matches, function( match ) {
+		return stripSpaces( match );
+	} );
+}
 
 /**
  * Splits sentences into sentence parts based on stopwords.
@@ -23,13 +36,15 @@ function splitOnWord( sentence, stopwords ) {
 	forEach( stopwords, function( stopword ) {
 		var splitSentence = currentSentence.split( stopword );
 		if ( ! isEmpty( splitSentence[ 0 ] ) ) {
-			sentenceParts.push( new SentencePart( splitSentence[ 0 ], splitSentence[ 0 ].match( auxiliaryRegex || [] ) ) );
+			var foundAuxiliaries = sanitizeMatches( splitSentence[ 0 ].match( auxiliaryRegex || [] ) );
+			sentenceParts.push( new SentencePart( splitSentence[ 0 ], foundAuxiliaries,  "de_DE" ) );
 		}
 		var startIndex = currentSentence.indexOf( stopword );
 		var endIndex = currentSentence.length;
 		currentSentence = ( stripSpaces( currentSentence.substr( startIndex, endIndex ) ) );
 	} );
-	sentenceParts.push( new SentencePart( stripSpaces( currentSentence ), currentSentence.match( auxiliaryRegex || [] ) ) );
+	var foundAuxiliaries = sanitizeMatches( currentSentence.match( auxiliaryRegex || [] ) );
+	sentenceParts.push( new SentencePart( stripSpaces( currentSentence ), foundAuxiliaries,  "de_DE" ) );
 	return sentenceParts;
 }
 

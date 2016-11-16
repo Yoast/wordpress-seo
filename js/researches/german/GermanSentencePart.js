@@ -6,10 +6,11 @@ var getParticiples = require( "./passivevoice-german/getParticiples.js" );
  * Creates a German specific sentence part.
  *
  * @param {string} sentencePartText The text from the sentence part.
+ * @param {Array} auxiliaries The list with auxiliaries.
  * @constructor
  */
-var GermanSentencePart = function( sentencePartText ) {
-	SentencePart.call( this, sentencePartText );
+var GermanSentencePart = function( sentencePartText, auxiliaries ) {
+	SentencePart.call( this, sentencePartText, auxiliaries, "de_DE" );
 };
 
 require( "util" ).inherits( GermanSentencePart, SentencePart );
