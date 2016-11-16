@@ -6,7 +6,7 @@ import "babel-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { Suggestions } from "yoast-premium-components";
+import { LinkSuggestions } from "yoast-premium-components";
 
 
 class App extends React.Component {
@@ -19,7 +19,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<Suggestions suggestions={yoastLinkSuggestions.suggestions} />
+				<LinkSuggestions suggestions={yoastLinkSuggestions.suggestions} />
 			</div>
 		);
 	}
