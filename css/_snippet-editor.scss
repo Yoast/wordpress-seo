@@ -233,19 +233,29 @@ $snippet_width: 600px;
 }
 
 .snippet_container .url {
-	display: block;
+	display: inline-block;
 	font-size: 14px;
 	line-height: 16px;
 	color: #006621;
 	font-style: normal;
+	float: left;
 }
 
-.snippet_container .urlBase{
+.snippet_container .down_arrow {
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 5px solid #006621;
+	margin-top: 6px;
+	margin-left: 5px;
 	float: left;
 }
 
 .snippet_container .desc-default {
-	color: #333;
+	color: #545454;
+}
+
+.snippet_container .desc-default strong{
+	color: #6a6a6a;
 }
 
 .snippet_container .desc-render {
