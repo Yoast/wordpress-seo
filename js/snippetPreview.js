@@ -6,12 +6,11 @@ var defaultsDeep = require( "lodash/defaultsDeep" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 
-var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
-var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" ).stripFullTags;
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
-var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
-var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
-var transliterate = require( "../js/stringProcessing/transliterate.js" );
+var createWordRegex = require( "./stringProcessing/createWordRegex.js" );
+var stripHTMLTags = require( "./stringProcessing/stripHTMLTags.js" ).stripFullTags;
+var stripSpaces = require( "./stringProcessing/stripSpaces.js" );
+var replaceDiacritics = require( "./stringProcessing/replaceDiacritics.js" );
+var transliterate = require( "./stringProcessing/transliterate.js" );
 var analyzerConfig = require( "./config/config.js" );
 
 var templates = require( "./templates.js" );
@@ -733,10 +732,10 @@ SnippetPreview.prototype.getPeriodMatches = function() {
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 	// Removes characters from the keyword that could break the regex, or give unwanted results.
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\{\}\(\)\*\+\?\.\^\$\|]/g, " " );
+	var keyword = this.refObj.rawData.keyword;
 
 	// Match keyword case-insensitively.
-	var keywordRegex = stringToRegex( keyword, "", false );
+	var keywordRegex = createWordRegex( keyword, "", false );
 
 	textString = textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
@@ -745,7 +744,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	// Transliterate the keyword for highlighting
 	var transliterateKeyword = transliterate( keyword, this.refObj.rawData.locale );
 	if ( transliterateKeyword !== keyword ) {
-		keywordRegex = stringToRegex( transliterateKeyword, "", false );
+		keywordRegex = createWordRegex( transliterateKeyword, "", false );
 		textString = textString.replace( keywordRegex, function( str ) {
 			return "<strong>" + str + "</strong>";
 		} );
@@ -762,14 +761,14 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void} The formatted keyword string to be used in the URL.
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = sanitizeString( this.refObj.rawData.keyword );
+	var keyword = this.refObj.rawData.keyword;
 	keyword = transliterate( keyword, this.refObj.rawData.locale );
 	keyword = keyword.replace( /'/, "" );
 
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
+	var keywordRegex = createWordRegex( dashedKeyword, "\\-" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {

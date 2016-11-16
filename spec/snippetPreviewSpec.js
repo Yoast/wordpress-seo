@@ -95,6 +95,57 @@ describe( "The SnippetPreview format functions", function(){
 			expect( snippetPreview.formatCite() ).toBe( "<strong>keyword</strong>/")
 		});
 	});
+
+	describe( "The snippet preview format functions with special characters like periods", function() {
+		// Makes lodash think this is a valid HTML element
+		var mockElement = [];
+		mockElement.nodeType = 1;
+
+		var mockApp = {
+			rawData: {
+				snippetMeta: "This is the Yoast SEO 3.9 release",
+				keyword: "Yoast SEO 3.9"
+			},
+			pluggable: {
+				loaded: true,
+				_applyModifications: function(name, text){return text}
+			}
+		};
+
+		var snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+
+		it( "should highlight the keywords", function(){
+			expect( snippetPreview.formatMeta() ).toBe( "This is the<strong> Yoast SEO 3.9 </strong>release")
+		});
+	} );
+	describe( "The snippet preview format functions with special characters like periods", function() {
+		// Makes lodash think this is a valid HTML element
+		var mockElement = [];
+		mockElement.nodeType = 1;
+
+		var mockApp = {
+			rawData: {
+				snippetMeta: "If you like Yoast SEO, please give a 5* rating",
+				keyword: "5* rating"
+			},
+			pluggable: {
+				loaded: true,
+				_applyModifications: function(name, text){return text}
+			}
+		};
+
+		var snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+
+		it( "should highlight the keywords", function(){
+			expect( snippetPreview.formatMeta() ).toBe( "If you like Yoast SEO, please give a<strong> 5* rating</strong>" )
+		});
+	});
 } );
 
 describe( "Adds dashes to the keyword for highlighting in the snippet", function() {
