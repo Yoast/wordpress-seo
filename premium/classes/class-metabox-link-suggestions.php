@@ -4,7 +4,7 @@
  */
 
 /**
- * Represents the class for adding the link suggestions metabox for each posttype.
+ * Represents the class for adding the link suggestions metabox for each post type.
  */
 class WPSEO_Metabox_Link_Suggestions {
 
@@ -17,7 +17,7 @@ class WPSEO_Metabox_Link_Suggestions {
 	}
 
 	/**
-	 * Adds a meta for each public posttype.
+	 * Adds a meta for each public post type.
 	 */
 	public function add_meta_boxes() {
 		$post_types = $this->get_post_types();
@@ -40,7 +40,7 @@ class WPSEO_Metabox_Link_Suggestions {
 	}
 
 	/**
-	 * Add the Yoast contact support assets
+	 * Sets the link suggestions assets.
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX  . 'link-suggestions', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-link-suggestions-400' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
@@ -48,7 +48,7 @@ class WPSEO_Metabox_Link_Suggestions {
 	}
 
 	/**
-	 * Returns all the public posttypes.
+	 * Returns all the public post types.
 	 *
 	 * @return array
 	 */
@@ -65,7 +65,7 @@ class WPSEO_Metabox_Link_Suggestions {
 	/**
 	 * Adds a meta box for the given post type.
 	 *
-	 * @param string $post_type The posttype to add a meta box for.
+	 * @param string $post_type The post type to add a meta box for.
 	 */
 	protected function add_meta_box( $post_type ) {
 		add_meta_box(
