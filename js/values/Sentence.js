@@ -14,10 +14,9 @@ var defaultAttributes = {
  * @constructor
  */
 var Sentence = function( sentence, locale ) {
-	this._sentenceText = sentence;
+	this._sentenceText = sentence || "";
 	this._locale = locale || defaultAttributes.locale;
 	this._isPassive = false;
-	this._sentenceParts = [];
 };
 
 /**
@@ -34,14 +33,6 @@ Sentence.prototype.getSentenceText = function() {
  */
 Sentence.prototype.getLocale = function() {
 	return this._locale;
-};
-
-/**
- * Returns the sentence parts.
- * @returns {Array} The list of sentence parts.
- */
-Sentence.prototype.getSentenceParts = function() {
-	return this._sentenceParts;
 };
 
 module.exports = Sentence;
