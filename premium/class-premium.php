@@ -37,7 +37,7 @@ class WPSEO_Premium {
 	/**
 	 * @var WPSEO_WordPress_Integration[]
 	 */
-	private $integrations;
+	private $integrations = array();
 
 	/**
 	 * Function that will be executed when plugin is activated

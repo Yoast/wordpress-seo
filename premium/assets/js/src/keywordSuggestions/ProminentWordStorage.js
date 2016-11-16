@@ -60,7 +60,7 @@ class ProminentWordStorage {
 	 * @returns {Promise} Resolves to the ID of the prominent word term.
 	 */
 	retrieveProminentWordId( prominentWord ) {
-		let cachedId = this._cache.get( prominentWord.getCombination() );
+		let cachedId = this._cache.getID( prominentWord.getCombination() );
 		if ( 0 !== cachedId ) {
 			return Promise.resolve( cachedId );
 		}
@@ -94,7 +94,7 @@ class ProminentWordStorage {
 		} );
 
 		return createdProminentWord.then( ( prominentWordTerm ) => {
-			this._cache.set( prominentWord.getCombination(), prominentWordTerm.id );
+			this._cache.setID( prominentWord.getCombination(), prominentWordTerm.id );
 
 			return prominentWordTerm.id;
 		} );

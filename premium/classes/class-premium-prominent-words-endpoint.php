@@ -35,7 +35,7 @@ class WPSEO_Premium_Prominent_Words_Endpoint implements WPSEO_WordPress_Integrat
 	}
 
 	/**
-	 * Register it to WordPress
+	 * Register the REST endpoint to WordPress.
 	 */
 	public function register() {
 		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_QUERY, array(
@@ -59,7 +59,7 @@ class WPSEO_Premium_Prominent_Words_Endpoint implements WPSEO_WordPress_Integrat
 	}
 
 	/**
-	 * Permission callback implementation
+	 * Determines if the current user is allowed to use this endpoint.
 	 *
 	 * @return bool
 	 */

@@ -18,14 +18,16 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 	}
 
 	/**
-	 * Registers the prominent words taxonomy
+	 * Registers the prominent words taxonomy.
 	 */
 	public function register() {
 		register_taxonomy( self::TERM_NAME, 'post', $this->get_args() );
 	}
 
 	/**
-	 * @return array The labels for the taxonomy
+	 * Retrieves the labels for the taxonomy.
+	 *
+	 * @return array The labels for the taxonomy.
 	 */
 	private function get_labels() {
 		return array(
@@ -51,7 +53,9 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 	}
 
 	/**
-	 * @return array The arguments for the registration to WordPress
+	 * Retrieves the arguments for the taxonomy registration.
+	 *
+	 * @return array The arguments for the registration to WordPress.
 	 */
 	private function get_args() {
 		return array(

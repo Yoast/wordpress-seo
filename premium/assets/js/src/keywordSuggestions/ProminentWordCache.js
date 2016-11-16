@@ -11,7 +11,7 @@ class ProminentWordCache {
 	 * @param {string} name The name of the prominent word.
 	 * @returns {number} The ID of the prominent word.
 	 */
-	get( name ) {
+	getID( name ) {
 		if ( this._cache.hasOwnProperty( name ) ) {
 			return this._cache[ name ];
 		}
@@ -26,7 +26,7 @@ class ProminentWordCache {
 	 * @param {number} id The ID of the prominent word.
 	 * @returns {void}
 	 */
-	set( name, id ) {
+	setID( name, id ) {
 		this._cache[ name ] = id;
 	}
 }
