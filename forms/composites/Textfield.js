@@ -73,7 +73,7 @@ class Textfield extends React.Component {
 				       optionalAttributes={this.optionalAttributes.field}/>
 				<Explanation text={this.props.explanation}/>
 			</div>
-				);
+		);
 	}
 
 	/**

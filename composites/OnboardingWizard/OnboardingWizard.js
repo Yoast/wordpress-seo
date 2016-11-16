@@ -161,10 +161,11 @@ class OnboardingWizard extends React.Component {
 			errorMessage: interpolateComponents( {
 				/** Translators: {{link}} resolves to the link opening tag to yoa.st/bugreport, {{/link}} resolves to the link closing tag. **/
 				mixedString: this.props.translate(
-					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} describing what step you are on and which changes you want to make (if any)."
+					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} " +
+					"describing what step you are on and which changes you want to make (if any)."
 				),
-				components: { link: <a href="https://yoa.st/bugreport" target="_blank" /> }
-			} )
+				components: { link: <a href="https://yoa.st/bugreport" target="_blank" /> },
+			} ),
 		} );
 	}
 
@@ -312,7 +313,7 @@ class OnboardingWizard extends React.Component {
 			return "";
 		}
 
-		return <div className="yoast-wizard-notice yoast-wizard-notice__error">{this.state.errorMessage}</div>
+		return <div className="yoast-wizard-notice yoast-wizard-notice__error">{this.state.errorMessage}</div>;
 	}
 }
 
