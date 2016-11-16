@@ -7,8 +7,18 @@ import StyledSection from "yoast-components/forms/StyledSection/StyledSection";
 import { translate } from "yoast-components/utils/i18n";
 
 class KeywordSuggestions {
-	constructor() {
-		this.words = [];
+
+	/**
+	 * @param {ProminentWordStorage} prominentWordStorage The class that handles the focus keyword storage.
+	 * @param {bool} insightsEnabled Whether or not the insights UI is enabled.
+	 */
+	constructor( { prominentWordStorage, insightsEnabled } ) {
+		this._insightsEnabled = insightsEnabled;
+		this._storageEnabled = false;
+		this.words = null;
+		this._prominentWordStorage = prominentWordStorage;
+
+		jQuery( window ).on( "YoastSEO:numericScore", this.updateWords.bind( this ) );
 	}
 
 	/**
@@ -17,10 +27,20 @@ class KeywordSuggestions {
 	 * @returns {void}
 	 */
 	initializeDOM() {
-		this.appendSuggestionsDiv();
-		this.renderComponent();
+		if ( this._insightsEnabled ) {
+			this.appendSuggestionsDiv();
+			this.renderComponent();
+		}
 
-		jQuery( window ).on( "YoastSEO:numericScore", this.updateWords.bind( this ) );
+		// Be mindful of our impact, only start polling and savings prominent words after 10 seconds.
+		window.setTimeout( () => {
+			this._storageEnabled = true;
+
+			// If we have ever retrieved words we can trigger the first storage call.
+			if ( this.words !== null ) {
+				this._prominentWordStorage.saveProminentWords( this.words );
+			}
+		}, 10000 );
 	}
 
 	/**
@@ -33,7 +53,13 @@ class KeywordSuggestions {
 
 		this.words = researcher.getResearch( "relevantWords" );
 
-		this.renderComponent();
+		if ( this._storageEnabled ) {
+			this._prominentWordStorage.saveProminentWords( this.words );
+		}
+
+		if ( this._insightsEnabled ) {
+			this.renderComponent();
+		}
 	}
 
 
@@ -63,7 +89,12 @@ class KeywordSuggestions {
 	 * @returns {void}
 	 */
 	renderComponent() {
-		let keywordSuggestions = ( <KeywordSuggestionsComponent relevantWords={this.words} /> );
+		let words = this.words;
+		if ( words === null ) {
+			words = [];
+		}
+
+		let keywordSuggestions = ( <KeywordSuggestionsComponent relevantWords={words} /> );
 		let title = translate( "Insights" );
 
 		ReactDOM.render(
