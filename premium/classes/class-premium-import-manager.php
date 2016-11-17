@@ -9,18 +9,6 @@
 class WPSEO_Premium_Import_Manager {
 
 	/**
-	 * Holds the import message, if any
-	 *
-	 * @var string
-	 */
-	public $msg = '';
-	/**
-	 * Indicates whether a successful import has taken place
-	 *
-	 * @var bool
-	 */
-	public $success = false;
-	/**
 	 * Indicates whether redirects where imported
 	 *
 	 * @var bool
