@@ -192,11 +192,11 @@ class WPSEO_Premium_Import_Manager {
 
 			// Display success message.
 			add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_success' ) );
-
-		} else {
-			// Display fail message.
-			add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_no_redirects' ) );
+			return true;
 		}
+
+		// Display fail message.
+		add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_no_redirects' ) );
 	}
 
 	/**
@@ -248,10 +248,11 @@ class WPSEO_Premium_Import_Manager {
 
 			// Add success message.
 			add_filter( 'wpseo_import_message', array( $this, 'message_redirect_import_success' ) );
-		} else {
-			// Add no redirects found message.
-			add_filter( 'wpseo_import_message', array( $this, 'message_redirect_import_no_redirects' ) );
+			return true;
 		}
+
+		// Add no redirects found message.
+		add_filter( 'wpseo_import_message', array( $this, 'message_redirect_import_no_redirects' ) );
 	}
 
 	/**
@@ -300,10 +301,11 @@ class WPSEO_Premium_Import_Manager {
 
 			// Add success message.
 			add_filter( 'wpseo_import_message', array( $this, 'message_redirect_import_success' ) );
-		} else {
-			// Add no redirects found message.
-			add_filter( 'wpseo_import_message', array( $this, 'message_redirect_import_no_redirects' ) );
+			return true;
 		}
+
+		// Add no redirects found message.
+		add_filter( 'wpseo_import_message', array( $this, 'message_redirect_import_no_redirects' ) );
 	}
 
 	/**
