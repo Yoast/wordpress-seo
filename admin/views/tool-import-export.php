@@ -62,7 +62,7 @@ if ( isset( $_FILES['settings_import_file'] ) ) {
 	$import = new WPSEO_Import();
 }
 
-if ( isset( $import ) ) {
+if ( isset( $import ) || has_filter( 'wpseo_import_status' ) ) {
 	/**
 	 * Allow customization of import&export message
 	 *
@@ -76,8 +76,12 @@ if ( isset( $import ) ) {
 	}
 
 	if ( $msg != '' ) {
-
-		$status = ( $import->success ) ? 'updated' : 'error';
+		/**
+		 * Allow customization of import&export status
+		 *
+		 * @api  bool  $success  The status.
+		 */
+		$status = ( apply_filters( 'wpseo_import_status', $import->success ) ) ? 'updated' : 'error';
 
 		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}
