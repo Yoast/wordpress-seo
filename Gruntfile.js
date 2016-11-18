@@ -38,8 +38,13 @@ module.exports = function( grunt ) {
 				"inc/**/*.php",
 			],
 			pot: {
-				yoastseo: "node_modules/yoastseo/languages/yoast-seo.pot",
-				yoastComponents: "<%= paths.languages %>/yoast-components.pot",
+				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
+				yoastComponents: "<%= paths.languages %>yoast-components.pot",
+
+				php: {
+					yoastseojs: "<%= paths.languages %>yoast-seo-js.php",
+					yoastComponents: "<%= paths.languages %>yoast-components.php",
+				},
 			},
 			phptests: "tests/**/*.php",
 			get config() {

@@ -1011,7 +1011,7 @@ class WPSEO_Frontend {
 	private function base_url( $path = null ) {
 		$url = get_option( 'home' );
 
-		$parts = parse_url( $url );
+		$parts = wp_parse_url( $url );
 
 		$base_url = trailingslashit( $parts['scheme'] . '://' . $parts['host'] );
 

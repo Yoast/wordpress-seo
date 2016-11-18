@@ -11,7 +11,11 @@ module.exports = {
 				"last-translator": "<%= pkg.pot.lasttranslator %>",
 			},
 			type: "wp-plugin",
-			exclude: [ "premium/.*" ],
+			exclude: [
+				"premium/.*",
+				"<%= files.pot.php.yoastseojs %>",
+				"<%= files.pot.php.yoastComponents %>",
+			],
 		},
 	},
 };
