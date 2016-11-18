@@ -68,20 +68,16 @@ if ( isset( $import ) || has_filter( 'wpseo_import_status' ) ) {
 	 *
 	 * @api  string  $msg  The message.
 	 */
-	$msg = apply_filters( 'wpseo_import_message', $import->msg );
-
-	// Check if we've deleted old data and adjust message to match it.
-	if ( $replace ) {
-		$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
-	}
+	$msg = apply_filters( 'wpseo_import_message', isset( $import->msg ) ? $import->msg : '' );
 
 	if ( $msg != '' ) {
-		/**
-		 * Allow customization of import&export status
-		 *
-		 * @api  bool  $success  The status.
-		 */
-		$status = ( apply_filters( 'wpseo_import_status', $import->success ) ) ? 'updated' : 'error';
+		// Check if we've deleted old data and adjust message to match it.
+		if ( $replace ) {
+			$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
+		}
+
+
+		$status = ( apply_filters( 'wpseo_import_status', isset( $import->success ) ? $import->success : 'error' ) ) ? 'updated' : 'error';
 
 		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}
@@ -89,11 +85,11 @@ if ( isset( $import ) || has_filter( 'wpseo_import_status' ) ) {
 
 $tabs = array(
 	'wpseo-import' => array(
-		'label'                => __( 'Import', 'wordpress-seo' ),
+		'label'                => __( 'Import settings', 'wordpress-seo' ),
 		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
 	),
 	'wpseo-export' => array(
-		'label'                => __( 'Export', 'wordpress-seo' ),
+		'label'                => __( 'Export settings', 'wordpress-seo' ),
 		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
 	),
 	'import-seo'   => array(
