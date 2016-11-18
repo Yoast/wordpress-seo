@@ -167,8 +167,6 @@ class WPSEO_Premium_Import_Manager {
 			// Get all redirects.
 			if ( preg_match_all( $regex['pattern'], $htaccess, $redirects, PREG_SET_ORDER ) ) {
 
-				echo '<pre>' . print_r( $redirects, 1 ) . '</pre>';
-
 				if ( count( $redirects ) > 0 ) {
 					foreach( $redirects as $redirect ) {
 						$type   = trim( $redirect[1] );
