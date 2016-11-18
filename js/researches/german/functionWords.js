@@ -7,6 +7,7 @@ var transitionWords = require( "./transitionWords.js" )().singleWords;
  */
 
 var articles = [ "das", "dem", "den", "der", "des", "die", "ein", "eine", "einem", "einen", "einer", "eines" ];
+
 var numerals = [ "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf",
 	"zwoelf", "dreizehn", "vierzehn", "fünfzehn", "fuenfzehn", "sechzehn", "siebzehn", "achtzehn", "neunzehn",
 	"zwanzig", "erste", "zweite", "dritte", "vierte", "fünfte", "fuenfte", "sechste", "siebte", "achte", "neunte",
@@ -14,55 +15,71 @@ var numerals = [ "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "ac
 	"achtzehnte", "nehnzehnte", "zwanzigste", "hundert", "einhundert", "zweihundert", "zweihundert", "dreihundert",
 	"vierhundert", "fünfhundert", "fuenfhundert", "sechshundert", "siebenhundert", "achthundert", "neunhundert",
 	"tausend", "million", "milliarde", "billion", "billiarde" ];
+
 var personalPronounsNominative = [ "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" ];
+
 var personalPronounsAccusative = [ "mich", "dich", "ihn", "sie", "es", "uns", "euch" ];
+
 var personalPronounsDative = [ "mir", "dir", "ihm", "ihr", "uns", "euch", "ihnen" ];
+
 var demonstrativePronouns = [ "denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses",
 	"jene",	"jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches" ];
+
 var possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "dein", "deine", "deinem", "deiner",
 	"deines", "sein", "seine", "seinem", "seiner", "seines", "ihr", "ihre", "ihrem", "ihren", "ihrer", "ihres",
 	"unser", "unsere", "unserem", "unseren", "unserer", "unseres", "euer", "eure", "eurem", "euren", "eurer",
 	"eures" ];
 
-
 var quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vielem", "alle", "aller", "alles",
 	"allen", "allem", "allerlei", "solcherlei", "einige", "etliche", "manch", "wenige", "weniger", "wenigen",
 	"wenigem", "weniges", "wenig", "wenigerer", "wenigeren", "wenigerem", "wenigere", "wenigeres", "wenig",
-	"bisschen", "paar", "irgendwelche", "kein", "keines", "keinem", "keinen", "keine", "mehrere", "nichts",
-	"etwas", "genug", "mehrere", "mehrerer", "mehreren", "mehrerem", "mehreres", "verschiedene", "verschiedener",
+	"bisschen", "paar", "kein", "keines", "keinem", "keinen", "keine", "mehrere", "nichts",
+	"genug", "mehrere", "mehrerer", "mehreren", "mehrerem", "mehreres", "verschiedene", "verschiedener",
 	"verschiedenen", "verschiedenem", "verschiedenes", "verschiedne", "verschiedner", "verschiednen", "verschiednem",
 	"verschiednes", "art", "arten", "sorte", "sorten" ];
 
+var reflexivePronouns = [ "mich", "mir", "dich", "dir", "sich", "uns", "euch" ];
 
-var reflexivePronouns = [ "myself", "yourself", "himself", "herself", "itself", "oneself", "ourselves", "yourselves", "themselves" ];
-var indefinitePronouns = [ "none", "nobody", "everyone", "everybody", "someone", "somebody", "anyone", "anybody", "nothing",
-	"everything", "something", "anything", "each", "another", "other", "whatever", "whichever", "whoever", "whomever",
-	"whomsoever", "whosoever", "others", "neither", "both", "either", "any", "such" ];
+// "Welch", "welcher", and "welches" are already included in the demonstrativePronouns.
+var indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes", "andren", "andern", "andrem",
+	"anderm", "andre", "andrer", "andres", "beide", "beides", "beidem", "beider", "beiden", "etwas", "irgendetwas",
+	"irgendein", "irgendeinen", "irgendeinem", "irgendeines", "irgendeine", "irgendeiner", "irgendwas", "irgendwessen",
+	"irgendwer", "irgendwen", "irgendwem", "irgendwessen", "irgendwelche", "irgendwelcher", "irgendwelchem",
+	"irgendwelchen", "irgendwelches", "irgendjemand", "irgendjemanden", "irgendjemandem", "irgendjemandes",
+	"wer", "wen", "wem", "wessen", "was", "wessen", "welchen", "welchem", "jeder", "jedes", "jedem", "jeden",
+	"jede", "jedweder", "jedweden", "jedwedem", "jedwedes", "jedwede", "jeglicher", "jeglichen", "jeglichem",
+	"jegliches", "jegliche", "jedermann", "jedermanns", "jemand", "jemanden", "jemandem", "jemands",  "jemandes",
+	"man", "meinesgleichen", "niemanden", "niemandem", "niemands", "niemandes", "niemand", "sämtlich", "saemtlich",
+	"sämtlicher", "saemtlicher", "sämtlichen", "saemtlichen", "sämtlichem",	"saemtlichem", "sämtliches",
+	"saemtliches", "sämtliche", "saemtliche", "solche", "solcher", "solchen", "solchem", "solches", "niemand",
+	"niemanden", "niemandem", "niemandes", "niemands", "nichts", "jeglicher", "jeglichen", 	"jeglichem", "jegliches",
+	"jegliche", "zweiter" ];
 
-var indefinitePronouns = [ "andere", "beide", "einer", "etwas", "irgendetwas", "irgendein", "irgendwas", "irgendwer",
-	"jeder", "jedes", "jedem", "jeden", "jede", "jedweder", "jeglicher", "jedermann", "jemand", "irgendjemand",
-	"man", "meinesgleichen", "niemand",	"sämtlich", "saemtlich", "solche", "solcher", "solchen", "solchem", "solches"];
+var relativePronouns = [ "dessen", "deren", "derer", "denen", "wes" ];
 
-var indefinitePronounsPossessive  = [ "one's", "nobody's", "everyone's", "everybody's", "someone's", "somebody's", "anyone's",
-	"anybody's", "nothing's", "everything's", "something's", "anything's", "whoever's", "others'", "other's", "another's",
-	"neither's", "either's" ];
+var interrogativeProAdverbs =  [ "warum", "wie", "wo", "woher", "wohin" ];
 
-// All relativePronouns are already included in other lists (interrogativeDeterminers, interrogativePronouns)
-var relativePronouns = [];
-var interrogativeDeterminers = [ "which", "what", "whose" ];
-var interrogativePronouns = [ "who", "whom" ];
-var interrogativeProAdverbs = [ "where", "whither", "whence", "how", "why", "whether", "wherever", "whomever", "whenever",
-	"however", "whyever", "whoever", "whatever", "wheresoever", "whomsoever", "whensoever", "howsoever", "whysoever", "whosoever",
-	"whatsoever", "whereso", "whomso", "whenso", "howso", "whyso", "whoso", "whatso" ];
-var pronominalAdverbs = [ "therefor", "therein", "hereby", "hereto", "wherein", "therewith", "herewith", "wherewith", "thereby" ];
-var locativeAdverbs = [ "there", "here", "whither", "thither", "hither", "whence", "thence", "hence" ];
-var adverbialGenitives = [ "always", "afterwards", "towards", "once", "twice", "thrice", "amidst", "amongst", "midst", "whilst" ];
-var otherAuxiliaries = [ "can", "cannot", "can't", "could", "couldn't", "could've", "dare", "dares", "dared", "daring", "do",
-	"don't", "does", "doesn't", "did", "didn't", "doing", "done", "have", "haven't", "had", "hadn't", "has", "hasn't", "having",
-	"i've", "you've", "we've", "they've", "i'd", "you'd", "he'd", "she'd", "it'd", "we'd", "they'd", "would", "wouldn't",
-	"would've", "may", "might", "must", "need", "needn't", "needs", "ought", "shall", "shalln't", "shan't", "should",
-	"shouldn't", "will", "won't", "i'll", "you'll", "he'll", "she'll", "it'll", "we'll", "they'll", "there's", "there're",
-	"there'll", "here's", "here're", "there'll" ];
+var pronominalAdverbs = [ "dabei", "dadurch", "dafür", "dafuer", "dagegen", "dahinter", "damit", "danach", "daneben",
+	"daran", "darauf", "daraus", "darin", "darum", "darunter", "darüber", "darueber", "davon", "davor", "dazu",
+	"dazwischen", "hieran",	"hierauf", "hieraus", "hierbei", "hierdurch", "hierfuer", "hierfür", "hiergegen",
+	"hierhinter", "hierin",	"hiermit", "hiernach", "hierum", "hierunter", "hierueber", "hierüber", "hiervor",
+	"hierzu", "hierzwischen", "hierneben", "hiervon", "wobei", "wodurch", "worin", "worauf", "wobei", "wodurch",
+	"wofür", "wofuer", "wogegen", "wohinter", "womit", "wonach", "woneben", "woran",	"worauf", "woraus", "worin",
+	"worum", "worunter", "worüber", "wovon", "wovor", "wozu", "wozwischen" ];
+
+var locativeAdverbs = [ "da", "hier", "dorthin", "hierher", "whence", "dorther", "daher" ];
+
+var adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernfalls", "andrenfalls",
+	"äußerstenfalls", "bejahendenfalls","bestenfalls", "ebenfalls", "eintretendenfalls", "entgegengesetztenfalls",
+	"erforderlichenfalls", "gegebenenfalls", "geringstenfalls", "gleichfalls", "günstigenfalls", "günstigstenfalls",
+	"höchstenfalls", "jedenfalls", "möglichenfalls", "notfalls", "nötigenfalls", "notwendigenfalls",
+	"schlimmstenfalls", "vorkommendenfalls", "widrigenfalls", "zutreffendenfalls", "angesichts", "morgens", "mittags",
+	"abends", "nachts", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs", "geradewegs", "gradenwegs",
+	"halbwegs", "mittwegs", "unterwegs" ];
+
+var otherAuxiliaries = [ "habe", "hast", "hat", "haben", "habt", "habest", "habet", "hatte", "hattest", "hatte",
+	"hatten", "hätte", "hättest", "hätten", "hättet", "hab" ];
+
 var copula = [ "appear", "appears", "appearing", "appeared", "become", "becomes", "becoming", "became", "come", "comes",
 	"coming", "came", "keep", "keeps", "kept", "keeping", "remain", "remains", "remaining", "remained", "stay",
 	"stays", "stayed", "staying", "turn", "turns", "turned" ];
@@ -120,6 +137,8 @@ var generalAdjectivesAdverbs = [ "new", "newer", "newest", "old", "older", "olde
 	"continually", "directly", "easily", "nearly", "slightly", "somewhere", "estimated", "latest", "different", "similar",
 	"widely", "bad", "worse", "worst", "great" ];
 
+var generalAdjectivesAdverbs = [ "einerlei", "egal" ]
+
 var interjections = [ "oh", "wow", "tut-tut", "tsk-tsk", "ugh", "whew", "phew", "yeah", "yea", "shh", "oops", "ouch", "aha",
 	"yikes" ];
 
@@ -135,6 +154,9 @@ var vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likeliho
 // 'No' is already included in the quantifier list.
 var miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "%" ];
 
+var miscellaneous = [ "nix", "nixe", "nixes", "nixen" ];
+
+
 module.exports = function() {
 	return {
 		articles: articles,
@@ -149,7 +171,7 @@ module.exports = function() {
 		passiveAuxiliaries: passiveAuxiliaries,
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns,
-			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
+			interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, passiveAuxiliaries,
 			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs,
