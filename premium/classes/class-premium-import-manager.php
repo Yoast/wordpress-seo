@@ -135,7 +135,7 @@ class WPSEO_Premium_Import_Manager {
 	 */
 	private function htaccess_import() {
 		$htaccess = stripcslashes( filter_input( INPUT_POST, 'htaccess' ) );
-		if ( !$htaccess || '' === $htaccess ) {
+		if ( ! $htaccess || '' === $htaccess ) {
 			return;
 		}
 
