@@ -88,10 +88,7 @@ class WPSEO_Premium_Import_Manager {
 	 * Do premium imports
 	 */
 	public function do_premium_imports() {
-		if ( $htaccess = filter_input( INPUT_POST, 'htaccess' ) ) {
-			$this->htaccess_import( $htaccess );
-		}
-
+		$this->htaccess_import();
 		$this->do_plugin_imports();
 	}
 
@@ -134,13 +131,13 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Do .htaccess file import.
 	 *
-	 * @param string $htaccess
-	 *
-	 * @return bool
+	 * @return void
 	 */
-	private function htaccess_import( $htaccess ) {
-		// The htaccess post.
-		$htaccess = stripcslashes( $htaccess );
+	private function htaccess_import() {
+		$htaccess = stripcslashes( filter_input( INPUT_POST, 'htaccess' ) );
+		if ( !$htaccess || '' === $htaccess ) {
+			return;
+		}
 
 		// Regexpressions.
 		$regex_patterns = array(
@@ -168,7 +165,7 @@ class WPSEO_Premium_Import_Manager {
 			if ( preg_match_all( $regex['pattern'], $htaccess, $redirects, PREG_SET_ORDER ) ) {
 
 				if ( count( $redirects ) > 0 ) {
-					foreach( $redirects as $redirect ) {
+					foreach ( $redirects as $redirect ) {
 						$type   = trim( $redirect[1] );
 						$source = trim( $redirect[2] );
 						$target = trim( $redirect[3] );
@@ -190,7 +187,7 @@ class WPSEO_Premium_Import_Manager {
 			// Display success message.
 			add_filter( 'wpseo_import_status', '__return_true' );
 			add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_success' ) );
-			return true;
+			return;
 		}
 
 		// Display fail message.
@@ -263,7 +260,7 @@ class WPSEO_Premium_Import_Manager {
 			foreach ( $items as $item ) {
 				$format = WPSEO_Redirect::FORMAT_PLAIN;
 
-				// Special case for safe redirect wildcard system
+				// Special case for safe redirect wildcard system.
 				if ( substr( $item['redirect_from'], - 1, 1 ) === '*' ) {
 					$item['redirect_from'] = preg_replace( '/(\*)$/', '.*', $item['redirect_from'] );
 					$item['enable_regex']  = 1;
@@ -274,7 +271,7 @@ class WPSEO_Premium_Import_Manager {
 				}
 
 				// Safe redirect manager has support for 404 and 403 status codes, we don't, so let's bend them to 410's.
-				// Also, it supports 303's, which we change into 302's
+				// Also, it supports 303's, which we change into 302's.
 				switch ( $item['status_code'] ) {
 					case 303:
 						$status_code = 302;
