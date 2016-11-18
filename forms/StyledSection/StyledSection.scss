@@ -1,22 +1,22 @@
-@import "../../css/colors";
+@import "../../style-guide/colors";
 @import "../../css/icons";
 
 .yoast-section {
 	position: relative;
 	width: 640px;
-	border: 1px solid $color_border;
+	border: 1px solid $color_border_light;
 	border-radius: 20px;
-	background-color: #fff;
+	background-color: $color_white;
 	padding: 0 20px 15px;
 
 	&__heading {
 		padding: 8px 20px;
 		font-size: 0.9rem;
 		margin: 0 -20px 15px;
-		border-bottom: 1px solid $color_border;
+		border-bottom: 1px solid $color_border_light;
 		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
-		color: #555;
+		color: $color_grey_dark;
 
 		&-icon {
 			padding-left: 45px;

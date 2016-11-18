@@ -1,4 +1,5 @@
-@import "../../css/colors";
+@import "../../style-guide/colors";
+@import "../../style-guide/colors-google";
 @import "../../css/icons";
 @import "../../css/mixins";
 
@@ -7,7 +8,7 @@ $prefix: 'yoast-';
 
 /* css for snippet */
 .#{$prefix}search-result-preview {
-  background-color: #fff;
+  background-color: $color_white;
   font-family: Arial, sans-serif;
   overflow: hidden;
 
@@ -15,10 +16,10 @@ $prefix: 'yoast-';
     padding: 8px 20px;
     font-size: 0.9rem;
     margin: 0 -20px 15px;
-    border-bottom: 1px solid #f7f7f7;
+    border-bottom: 1px solid $color_border_light;
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
-    color: #555;
+    color: $color_grey_dark;
   }
 
   &__field {
@@ -30,20 +31,20 @@ $prefix: 'yoast-';
 
     &--hover {
       &:before {
-        @include svg-caret-before($color_caret_hover);
+        @include svg-caret-before($color_grey_text);
       }
     }
 
     &--focus {
       &:before {
-        @include svg-caret-before($color_caret_focus)
+        @include svg-caret-before($color_blue)
       }
     }
 
   }
 
   &__title {
-    color: #1e0fbe;
+    color: $color_google_title;
     overflow: hidden;
     text-overflow: ellipsis;
     text-decoration: none;
@@ -57,14 +58,21 @@ $prefix: 'yoast-';
   &__url {
     font-size: 14px;
     line-height: 16px;
-    color: #006621;
+    color: $color_google_url;
     font-style: normal;
   }
 
   &__description, &__date {
-    color: #777;
     font-size: 13px;
     line-height: 1.4;
+  }
+
+  &__date {
+    color: $color_google_date;
+  }
+
+  &__description {
+    color: $color_google_desc;
   }
 }
 
@@ -78,10 +86,10 @@ $prefix: 'yoast-';
 }
 
 .#{$prefix}button {
-  background: #f7f7f7;
-  border: 1px solid #dbdbdb;
+  background: $color_background_light;
+  border: 1px solid $color_button_border;
   border-radius: 4px;
-  color: #555;
+  color: $color_grey_dark;
   padding: 8px 10px;
   cursor: pointer;
   font-size: 0.8rem;
@@ -89,7 +97,7 @@ $prefix: 'yoast-';
   &__edit {
     @extend .#{$prefix}button;
 
-    background: #f7f7f7 url(svg-icon-edit($color_headings)) no-repeat 8px center / 16px 16px;
+    background: $color_background_light url(svg-icon-edit($color_headings)) no-repeat 8px center / 16px 16px;
     background-size: 16px;
     padding-left: 32px;
     display: block;

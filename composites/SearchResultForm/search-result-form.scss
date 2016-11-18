@@ -1,11 +1,11 @@
-@import "../../css/colors";
+@import "../../style-guide/colors";
 @import "../../css/icons";
 @import "../../css/mixins";
 
 $prefix: 'yoast-';
 
 .#{$prefix}search-result-form {
-  background-color: #fff;
+  background-color: $color_white;
   font-family: Arial, sans-serif;
   overflow: hidden;
 
@@ -13,23 +13,23 @@ $prefix: 'yoast-';
     padding: 8px 20px;
     font-size: 0.9rem;
     margin: 0 -20px 15px;
-    border-bottom: 1px solid #f7f7f7;
+    border-bottom: 1px solid $color_border_light;
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
-    color: #555;
+    color: $color_grey_dark;
   }
 
   &__container {
     &--hover {
       &:before {
-        @include svg-caret-before($color_caret_hover);
+        @include svg-caret-before($color_grey_text);
         margin-top:15px;
       }
     }
 
     &--focus {
       &:before {
-        @include svg-caret-before($color_caret_focus);
+        @include svg-caret-before($color_blue);
         margin-top:15px;
       }
     }
@@ -73,7 +73,7 @@ $prefix: 'yoast-';
     width: 100%;
 
     &::-webkit-progress-bar  {
-      background-color: $color_progress_background;
+      background-color: $color_background_light;
       border: 1px solid $color_input_border;
     }
   }

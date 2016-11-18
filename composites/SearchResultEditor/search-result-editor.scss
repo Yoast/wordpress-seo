@@ -1,4 +1,4 @@
-@import "../../css/colors";
+@import "../../style-guide/colors";
 @import "../SearchResultPreview/search-result-preview";
 @import "../SearchResultForm/search-result-Form";
 
@@ -7,8 +7,8 @@ $prefix: "yoast-";
 
 .#{$prefix}search-result-editor {
   padding: 0 20px 20px;
-  background-color: #fff;
-  border: 1px solid $color_border;
+  background-color: $color_white;
+  border: 1px solid $color_border_light;
   border-radius: 20px;
   position: relative;
   width: $snippet_width + 40;

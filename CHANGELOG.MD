@@ -5,6 +5,19 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Added
+
+* Adds Sass and JSON colors palette.
+* Adds `grunt-scss-to-json` package to generate the JSON colors file.
+
+### Changed
+
+* Splits color schemes in a separate Sass file.
+* Splits snippet preview colors in a separate Sass file.
+* Removes, updates, and adds colors. See the related issue for a [list of colors changes](https://github.com/Yoast/yoast-components/issues/106).
+
 ## 2.0: October 20th, 2016
 
 ### Breaking changes
