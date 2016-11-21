@@ -9,17 +9,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-/**
- * @todo [JRF => testers] Extensively test the export & import of the (new) settings!
- * If that all works fine, getting testers to export before and after upgrade will make testing easier.
- *
- * @todo [Yoast] The import for the RSS Footer plugin checks for data already entered via Yoast SEO,
- * the other import routines should do that too.
- */
-
 $yform = Yoast_Form::get_instance();
 
 $replace = false;
+$import  = false;
 
 /**
  * The import method is used to dermine if there should be something imported.
@@ -50,10 +43,6 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
-
-	// Allow custom import actions.
-	do_action( 'wpseo_handle_import' );
-
 }
 
 if ( isset( $_FILES['settings_import_file'] ) ) {
@@ -61,6 +50,13 @@ if ( isset( $_FILES['settings_import_file'] ) ) {
 
 	$import = new WPSEO_Import();
 }
+
+/**
+ * Allow custom import actions.
+ *
+ * @api bool|object $import Contains info about the handled import
+ */
+do_action( 'wpseo_handle_import', $import );
 
 if ( isset( $import ) || has_filter( 'wpseo_import_status' ) ) {
 	/**
@@ -76,8 +72,7 @@ if ( isset( $import ) || has_filter( 'wpseo_import_status' ) ) {
 			$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
 		}
 
-
-		$status = ( apply_filters( 'wpseo_import_status', isset( $import->success ) ? $import->success : 'error' ) ) ? 'updated' : 'error';
+		$status = ( $import->success ) ? 'updated' : 'error';
 
 		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}
