@@ -2,6 +2,7 @@
 /**
  * @package WPSEO\Premium\Views
  */
+
 ?>
 <div id="import-htaccess" class="wpseotab">
 	<h2><?php _e( 'Import from other redirect plugins', 'wordpress-seo-premium' ); ?></h2>
