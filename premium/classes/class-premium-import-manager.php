@@ -27,7 +27,7 @@ class WPSEO_Premium_Import_Manager {
 	 */
 	public function __construct() {
 		// Handle premium imports.
-		add_filter( 'wpseo_handle_import', array( $this, 'do_premium_imports' ), 10, 1 );
+		add_filter( 'wpseo_handle_import', array( $this, 'do_premium_imports' ) );
 
 		// Add htaccess import block.
 		add_action( 'wpseo_import_tab_content', array( $this, 'add_redirect_import_block' ) );
@@ -64,16 +64,15 @@ class WPSEO_Premium_Import_Manager {
 
 	/**
 	 * Adding the import block for htaccess. Makes it able to import redirects from htaccess
-	 *
-	 * @param array $admin_object Unused.
 	 */
-	public function add_redirect_import_block( $admin_object ) {
-		// Display the form.
+	public function add_redirect_import_block() {
+		// The plugins we have import functions for.
 		$plugins = array(
 			'redirection'           => __( 'Redirection', 'wordpress-seo-premium' ) . '<br/>',
 			'safe_redirect_manager' => __( 'Safe Redirect Manager', 'wordpress-seo-premium' ) . '<br/>',
 		);
 
+		// Display the forms.
 		require( 'views/import-redirects.php' );
 	}
 
@@ -168,7 +167,7 @@ class WPSEO_Premium_Import_Manager {
 
 	/**
 	 * Matches the string (containing redirects) for the given regex
-	 * 
+	 *
 	 * @param string $regex
 	 * @param string $htaccess
 	 */
