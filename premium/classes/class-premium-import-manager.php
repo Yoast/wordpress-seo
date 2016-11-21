@@ -17,6 +17,7 @@ class WPSEO_Premium_Import_Manager {
 
 	/**
 	 * Holds the import object
+	 *
 	 * @var object
 	 */
 	private $import;
@@ -31,6 +32,49 @@ class WPSEO_Premium_Import_Manager {
 		// Add htaccess import block.
 		add_action( 'wpseo_import_tab_content', array( $this, 'add_redirect_import_block' ) );
 		add_action( 'wpseo_import_tab_header', array( $this, 'redirects_import_header' ) );
+	}
+
+	/**
+	 * Do premium imports
+	 *
+	 * @param object|bool $import
+	 *
+	 * @return object
+	 */
+	public function do_premium_imports( $import ) {
+		if ( ! $import ) {
+			$import = (object) array(
+				'msg'     => '',
+				'success' => false
+			);
+		}
+		$this->import = $import;
+		$this->htaccess_import();
+		$this->do_plugin_imports();
+		return $this->import;
+	}
+
+	/**
+	 * Outputs a tab header for the htaccess import block
+	 */
+	public function redirects_import_header() {
+		/* translators: %s: '.htaccess' file name */
+		echo '<a class="nav-tab" id="import-htaccess-tab" href="#top#import-htaccess">' . __( 'Import redirects', 'wordpress-seo-premium' ) . '</a>';
+	}
+
+	/**
+	 * Adding the import block for htaccess. Makes it able to import redirects from htaccess
+	 *
+	 * @param array $admin_object Unused.
+	 */
+	public function add_redirect_import_block( $admin_object ) {
+		// Display the form.
+		$plugins = array(
+			'redirection'           => __( 'Redirection', 'wordpress-seo-premium' ) . '<br/>',
+			'safe_redirect_manager' => __( 'Safe Redirect Manager', 'wordpress-seo-premium' ) . '<br/>',
+		);
+
+		require( 'views/import-redirects.php' );
 	}
 
 	/**
@@ -71,26 +115,6 @@ class WPSEO_Premium_Import_Manager {
 	}
 
 	/**
-	 * Do premium imports
-	 *
-	 * @param object|bool $import
-	 *
-	 * @return object
-	 */
-	public function do_premium_imports( $import ) {
-		if ( ! $import ) {
-			$import = (object) array(
-				'msg'     => '',
-				'success' => false
-			);
-		}
-		$this->import = $import;
-		$this->htaccess_import();
-		$this->do_plugin_imports();
-		return $this->import;
-	}
-
-	/**
 	 * Do .htaccess file import.
 	 *
 	 * @return void
@@ -124,22 +148,7 @@ class WPSEO_Premium_Import_Manager {
 		// Loop through patterns.
 		foreach ( $regex_patterns as $regex ) {
 			// Get all redirects.
-			if ( preg_match_all( $regex['pattern'], $htaccess, $redirects, PREG_SET_ORDER ) ) {
-
-				if ( count( $redirects ) > 0 ) {
-					foreach ( $redirects as $redirect ) {
-						$type   = trim( $redirect[1] );
-						$source = trim( $redirect[2] );
-						$target = trim( $redirect[3] );
-
-						if ( '' !== $source && '' !== $target ) {
-							// Adding the redirect to importer class.
-							$this->get_redirect_option()->add( new WPSEO_Redirect( $source, $target, $type, $regex['type'] ) );
-							$this->redirects_imported = true;
-						}
-					}
-				}
-			}
+			$this->match_redirect_regex( $regex, $htaccess );
 		}
 
 		// Check if we've imported any redirects.
@@ -155,6 +164,30 @@ class WPSEO_Premium_Import_Manager {
 
 		// Display fail message.
 		$this->message_htaccess_no_redirects();
+	}
+
+	/**
+	 * Matches the string (containing redirects) for the given regex
+	 * 
+	 * @param string $regex
+	 * @param string $htaccess
+	 */
+	private function match_redirect_regex( $regex, $htaccess ) {
+		preg_match_all( $regex['pattern'], $htaccess, $redirects, PREG_SET_ORDER );
+
+		if ( is_array( $redirects ) ) {
+			foreach ( $redirects as $redirect ) {
+				$type   = trim( $redirect[1] );
+				$source = trim( $redirect[2] );
+				$target = trim( $redirect[3] );
+
+				if ( '' !== $source && '' !== $target ) {
+					// Adding the redirect to importer class.
+					$this->get_redirect_option()->add( new WPSEO_Redirect( $source, $target, $type, $regex['type'] ) );
+					$this->redirects_imported = true;
+				}
+			}
+		}
 	}
 
 	/**
@@ -189,16 +222,16 @@ class WPSEO_Premium_Import_Manager {
 		if ( isset( $wpseo_post['import_plugin'] ) ) {
 			switch ( $wpseo_post['import_plugin'] ) {
 				case 'redirection':
-					$return = $this->redirection_import();
+					$success = $this->redirection_import();
 					break;
 				case 'safe_redirect_manager':
-					$return = $this->safe_redirect_import();
+					$success = $this->safe_redirect_import();
 					break;
 				default:
-					$return = false;
+					$success = false;
 					break;
 			}
-			if ( $return ) {
+			if ( $success ) {
 				// Add success message.
 				$this->message_redirect_import_success();
 				$this->import->success = true;
@@ -231,7 +264,6 @@ class WPSEO_Premium_Import_Manager {
 
 		// Loop and add redirect to Yoast SEO Premium.
 		if ( count( $items ) > 0 ) {
-
 			foreach ( $items as $item ) {
 				$format = WPSEO_Redirect::FORMAT_PLAIN;
 				if ( 1 === (int) $item->regex ) {
@@ -241,7 +273,6 @@ class WPSEO_Premium_Import_Manager {
 				$this->get_redirect_option()->add( new WPSEO_Redirect( $item->url, $item->action_data, $item->action_code, $format ) );
 				$this->redirects_imported = true;
 			}
-
 			return true;
 		}
 
@@ -298,45 +329,4 @@ class WPSEO_Premium_Import_Manager {
 		return false;
 	}
 
-	/**
-	 * Outputs a tab header for the htaccess import block
-	 */
-	public function redirects_import_header() {
-		/* translators: %s: '.htaccess' file name */
-		echo '<a class="nav-tab" id="import-htaccess-tab" href="#top#import-htaccess">' . __( 'Import redirects', 'wordpress-seo-premium' ) . '</a>';
-	}
-
-	/**
-	 * Adding the import block for htaccess. Makes it able to import redirects from htaccess
-	 *
-	 * @param array $admin_object Unused.
-	 */
-	public function add_redirect_import_block( $admin_object ) {
-		// Display the form.
-		echo '<div id="import-htaccess" class="wpseotab">' . PHP_EOL;
-		echo '<h2>' . __( 'Import from other redirect plugins', 'wordpress-seo-premium' ) . '</h2>' . PHP_EOL;
-		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
-		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
-		$plugins = array(
-			'redirection'           => __( 'Redirection', 'wordpress-seo-premium' ) . '<br/>',
-			'safe_redirect_manager' => __( 'Safe Redirect Manager', 'wordpress-seo-premium' ) . '<br/>',
-		);
-		Yoast_Form::get_instance()->radio( 'import_plugin', $plugins, __( 'Import from:', 'wordpress-seo-premium' ) );
-		echo '<br/>';
-		echo '<input type="submit" class="button button-primary" name="import" value="' . __( 'Import redirects', 'wordpress-seo-premium' ) . '"/>' . PHP_EOL;
-		echo '</form>';
-		echo '<br/>';
-		/* translators: %s: '.htaccess' file name */
-		echo '<h2>' . sprintf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</h2>' . PHP_EOL;
-		/* translators: %1$s: '.htaccess' file name, %2$s plugin name */
-		echo '<p>' . sprintf( __( 'You can copy the contents of any %1$s file in here, and it will import the redirects into %2$s.', 'wordpress-seo-premium' ), '<code>.htaccess</code>', 'Yoast SEO Premium' ) . '</p>' . PHP_EOL;
-		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
-		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
-
-		echo '<label for="htaccess" class="screen-reader-text">' . __( 'Enter redirects to import', 'wordpress-seo-premium' ) . '</label>';
-		echo '<textarea name="htaccess" id="htaccess" rows="15" class="large-text code"></textarea><br/>' . PHP_EOL;
-		echo '<input type="submit" class="button button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo-premium' ) . '"/>' . PHP_EOL;
-		echo '</form>' . PHP_EOL;
-		echo '</div>' . PHP_EOL;
-	}
 }
