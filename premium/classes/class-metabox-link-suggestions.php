@@ -6,12 +6,12 @@
 /**
  * Represents the class for adding the link suggestions metabox for each post type.
  */
-class WPSEO_Metabox_Link_Suggestions {
+class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Sets the hooks for adding the metaboxes.
 	 */
-	public function set_hooks() {
+	public function register_hooks() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
@@ -75,8 +75,7 @@ class WPSEO_Metabox_Link_Suggestions {
 			array( $this, 'render_metabox_content' ),
 			$post_type,
 			'side',
-			'low',
-			array( 'post_type' => $post_type )
+			'low'
 		);
 	}
 

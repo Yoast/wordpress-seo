@@ -76,6 +76,7 @@ class WPSEO_Premium {
 			'premium-metabox' => new WPSEO_Premium_Metabox(),
 			'prominent-words-registration' => new WPSEO_Premium_Prominent_Words_Registration(),
 			'prominent-words-endpoint' => new WPSEO_Premium_Prominent_Words_Endpoint( new WPSEO_Premium_Prominent_Words_Service() ),
+			'link-suggestions' => new WPSEO_Metabox_Link_Suggestions(),
 		);
 
 		$this->setup();
@@ -182,10 +183,6 @@ class WPSEO_Premium {
 					add_action( 'all_admin_notices', array( $message, 'display' ) );
 				}
 			}
-
-			$link_suggestions = new WPSEO_Metabox_Link_Suggestions();
-			$link_suggestions->set_hooks();
-
 		}
 		else {
 			// Add 404 redirect link to WordPress toolbar.
