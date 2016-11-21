@@ -2,7 +2,7 @@
 
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
-import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
+import linkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
 let settings = wpseoPremiumMetaboxData;
@@ -29,7 +29,7 @@ function initializeMetabox() {
 		focusKeywordSuggestions.initializeDOM();
 	}
 
-	LinkSuggestions( yoastLinkSuggestions.suggestions, document.getElementById( 'yoast_internal_linking' ).getElementsByClassName( 'inside' )[0]);
+	linkSuggestions( yoastLinkSuggestions.suggestions, document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[0] );
 }
 
 /**
