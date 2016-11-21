@@ -30,6 +30,7 @@ matrix:
       env: WP_VERSION=4.6
 
 cache:
+  yarn: true
   directories:
     - vendor
     - $HOME/.composer/cache
@@ -44,8 +45,8 @@ install:
 - composer install --no-interaction
 - composer config-yoastcs
 - phpenv local --unset
-- if [[ "$CHECKJS" == "1" ]]; then npm install -g grunt-cli; fi
-- if [[ "$CHECKJS" == "1" ]]; then npm install --no-optional; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn global add grunt-cli; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn install --ignore-optional; fi
 
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
