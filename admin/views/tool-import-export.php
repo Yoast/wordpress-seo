@@ -56,7 +56,7 @@ if ( isset( $_FILES['settings_import_file'] ) ) {
  *
  * @api bool|object $import Contains info about the handled import
  */
-do_action( 'wpseo_handle_import', $import );
+$import = apply_filters( 'wpseo_handle_import', $import );
 
 if ( isset( $import ) || has_filter( 'wpseo_import_status' ) ) {
 	/**
@@ -98,7 +98,7 @@ $tabs = array(
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<?php foreach ( $tabs as $identifier => $tab ) : ?>
-		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+			<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
 		<?php endforeach; ?>
 
 		<?php
