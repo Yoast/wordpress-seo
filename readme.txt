@@ -116,6 +116,14 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.9.0 =
+
+Release Date: November 22nd, 2016
+
+* Bugfixes:
+    * Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
+    * Fixes a bug that prevented bulk actions to work in the Google Search Console.
+
 = 3.8.0 =
 
 Release Date: November 8th, 2016
@@ -131,29 +139,7 @@ Release Date: November 8th, 2016
 	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
 	* Fixes a bug with VoiceOver on the readability and keyword tabs.
 
-= 3.7.1 =
 
-Release Date: October 20th, 2016
-
-* Bugfixes:
-	* Fixes a bug where the configuration wizard couldn't go to the next step if PUT requests were disabled on the server.
-
-= 3.7.0 =
-
-Release Date: October 11th, 2016
-
-* Enhancements:
-	* Includes a few design improvements in the analysis section of the metabox. Design is now more consistent.
-	* Makes sure author archives are disabled when a user confirms his site is single-author.
-	* The configuration wizard is now called "configuration wizard" consistently throughout the plugin.
-	* Makes sure the help center is now included on all Yoast SEO pages.
-	* Added a notification asking users to rate Yoast SEO on WordPress.org.
-
-* Bugfixes:
-	* Fixes a bug where the metabox was taking up too much space on small screens.
-	* Fixes a bug where the marking for consecutive sentences beginning with the same word was off by one.
-	* Fixes a bug where the Google Search Console integration wasn't working well on multisite.
-	* Fixes a bug where the newsletter signup always did a http request, causing mixed content errors on https sites.
 
 = Earlier versions =
 
