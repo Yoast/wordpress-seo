@@ -44,7 +44,13 @@
 	display: table-cell;
 }
 
+.yoast-link-suggestion {
+	display: block;
+	width: 100%;
+}
+
 .yoast-link-suggestion__copy {
+	display: table-cell;
 	float: left;
 	width: 30px;
 	height: 30px;
@@ -72,7 +78,7 @@
 }
 
 .yoast-link-suggestion__value {
-	float: left;
+	display: table-cell;
 	padding: 6px 0;
 }
 
