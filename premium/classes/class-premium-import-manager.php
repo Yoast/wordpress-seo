@@ -339,7 +339,7 @@ class WPSEO_Premium_Import_Manager {
 		// Get redirects.
 		$redirects = get_option( '301_redirects' );
 
-		// Whether to use wildcards
+		// Whether to use wildcards.
 		$wildcard = get_option( '301_redirects_wildcard' );
 
 		// Loop and add redirect to Yoast SEO Premium.
@@ -347,7 +347,7 @@ class WPSEO_Premium_Import_Manager {
 			foreach ( $redirects as $origin => $target ) {
 				$format = WPSEO_Redirect::FORMAT_PLAIN;
 
-				// If wildcard redirects had been used, and this is one, flip it
+				// If wildcard redirects had been used, and this is one, flip it.
 				if ( $wildcard && strpos( $origin, '*' ) !== false ) {
 					$format = WPSEO_Redirect::FORMAT_REGEX;
 					$origin = str_replace( '*', '(.*)', $origin );
