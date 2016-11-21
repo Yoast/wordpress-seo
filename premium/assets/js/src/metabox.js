@@ -1,7 +1,8 @@
-/* global jQuery, wpseoPremiumMetaboxData */
+/* global jQuery, wpseoPremiumMetaboxL10n, yoastLinkSuggestions */
 
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
+import linkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
 let settings = wpseoPremiumMetaboxData;
@@ -27,10 +28,12 @@ function initializeMetabox() {
 	if ( settings.insightsEnabled === "enabled" ) {
 		focusKeywordSuggestions.initializeDOM();
 	}
+
+	linkSuggestions( yoastLinkSuggestions.suggestions, document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[0] );
 }
 
 /**
- * Initializes the metabox for premium
+ * Initializes the metaboxes for premium
  *
  * @returns {void}
  */
