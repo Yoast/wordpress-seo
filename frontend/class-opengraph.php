@@ -881,7 +881,7 @@ class WPSEO_OpenGraph_Image {
 	private function get_singular_image() {
 		global $post;
 
-		if ( $this->get_opengraph_image_post() ) {
+		if ( $this->get_opengraph_image_post( $post->ID ) ) {
 			return;
 		}
 
