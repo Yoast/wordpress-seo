@@ -37,7 +37,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Do premium imports
 	 *
-	 * @param object|bool $import
+	 * @param object|bool $import The import object
 	 *
 	 * @return object
 	 */
@@ -45,7 +45,7 @@ class WPSEO_Premium_Import_Manager {
 		if ( ! $import ) {
 			$import = (object) array(
 				'msg'     => '',
-				'success' => false
+				'success' => false,
 			);
 		}
 		$this->import = $import;
@@ -168,8 +168,8 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Matches the string (containing redirects) for the given regex
 	 *
-	 * @param string $regex
-	 * @param string $htaccess
+	 * @param string $regex     The regular expression to match redirects
+	 * @param string $htaccess  The string of redirects
 	 */
 	private function match_redirect_regex( $regex, $htaccess ) {
 		preg_match_all( $regex['pattern'], $htaccess, $redirects, PREG_SET_ORDER );
@@ -321,11 +321,8 @@ class WPSEO_Premium_Import_Manager {
 				$this->get_redirect_option()->add( new WPSEO_Redirect( $item['redirect_from'], $item['redirect_to'], $status_code, $format ) );
 				$this->redirects_imported = true;
 			}
-
 			return true;
 		}
-
 		return false;
 	}
-
 }
