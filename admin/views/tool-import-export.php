@@ -58,7 +58,7 @@ if ( isset( $_FILES['settings_import_file'] ) ) {
  */
 $import = apply_filters( 'wpseo_handle_import', $import );
 
-if ( isset( $import ) || has_filter( 'wpseo_import_status' ) ) {
+if ( $import ) {
 	/**
 	 * Allow customization of import&export message
 	 *
