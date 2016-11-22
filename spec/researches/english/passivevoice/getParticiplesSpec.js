@@ -1,4 +1,4 @@
-var getParticiples = require("../../../../js/researches/english/passivevoice-english/getParticiples.js");
+var getParticiples = require("../../../../js/researches/english/passivevoice/getParticiples.js");
 var sentencePart = require ( "../../../../js/values/SentencePart.js");
 
 describe("Test for matching English participles", function(){

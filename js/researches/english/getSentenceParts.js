@@ -1,16 +1,17 @@
 var verbEndingInIngRegex = /\w+ing($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being" ];
-var getIndicesOfList = require( "../../stringProcessing/indices" ).getIndicesByWordList;
-var filterIndices = require( "../../stringProcessing/indices" ).filterIndices;
-var sortIndices = require( "../../stringProcessing/indices" ).sortIndices;
+var indices = require( "../../stringProcessing/indices" );
+var getIndicesOfList = indices.getIndicesByWordList;
+var filterIndices = indices.filterIndices;
+var sortIndices = indices.sortIndices;
 var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
 var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normalizeSingle;
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 
-var auxiliaries = require( "./passivevoice-english/auxiliaries.js" )().all;
-var SentencePart = require( "./EnglishSentencePart.js" );
+var auxiliaries = require( "./passivevoice/auxiliaries.js" )().all;
+var SentencePart = require( "./SentencePart.js" );
 var auxiliaryRegex = arrayToRegex( auxiliaries );
-var stopwords = require( "./passivevoice-english/stopwords.js" )();
+var stopwords = require( "./passivevoice/stopwords.js" )();
 
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );

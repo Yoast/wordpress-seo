@@ -1,5 +1,5 @@
 var SentencePart = require( "../../values/SentencePart.js" );
-var getParticiples = require( "./passivevoice-english/getParticiples.js" );
+var getParticiples = require( "./passivevoice/getParticiples.js" );
 
 /**
  * Creates a English specific sentence part.
