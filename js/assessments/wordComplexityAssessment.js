@@ -95,8 +95,8 @@ var markComplexWordsInSentence = function( sentence, complexWords ) {
 	forEach( complexWords, function( complexWord ) {
 		var wordIndex = complexWord.wordIndex;
 
-		if ( complexWord.word === splitWords[ wordIndex ]
-			|| complexWord.word === removeSentenceTerminators( splitWords[ wordIndex ] ) ) {
+		if ( complexWord.word === splitWords[ wordIndex ] ||
+			complexWord.word === removeSentenceTerminators( splitWords[ wordIndex ] ) ) {
 			splitWords[ wordIndex ] = splitWords[ wordIndex ].replace( complexWord.word, addMark( complexWord.word ) );
 		}
 	} );

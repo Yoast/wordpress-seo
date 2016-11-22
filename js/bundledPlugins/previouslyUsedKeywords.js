@@ -31,6 +31,8 @@ var PreviouslyUsedKeyword = function( app, args ) {
 
 /**
  * Registers the assessment with the assessor.
+ *
+ * @returns {void}
  */
 PreviouslyUsedKeyword.prototype.registerPlugin = function() {
 	this.app.registerAssessment( "usedKeywords", {
@@ -42,8 +44,10 @@ PreviouslyUsedKeyword.prototype.registerPlugin = function() {
 };
 
 /**
- * Updates the usedKeywords
+ * Updates the usedKeywords.
+ *
  * @param {object} usedKeywords An object with keywords and ids where they are used.
+ * @returns {void}
  */
 PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
 	this.usedKeywords = usedKeywords;

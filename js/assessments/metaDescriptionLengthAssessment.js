@@ -12,29 +12,28 @@ var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
 	if ( descriptionLength === 0 ) {
 		return {
 			score: 1,
-			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
-				"search engines will display copy from the page instead." ),
+			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified. " +
+				"Search engines will display copy from the page instead." ),
 		};
 	}
 	if ( descriptionLength <= recommendedValue ) {
 		return {
 			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
-				"however up to %2$d characters are available." ), recommendedValue, maximumValue ),
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters long. " +
+				"However, up to %2$d characters are available." ), recommendedValue, maximumValue ),
 		};
 	}
 	if ( descriptionLength > maximumValue ) {
 		return {
 			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
-				"Reducing it will ensure the entire description is visible." ), maximumValue ),
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is over %1$d characters. " +
+				"Reducing the length will ensure the entire description will be visible." ), maximumValue ),
 		};
 	}
 	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
 		return {
 			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
-				"How does it compare to the competition? Could it be made more appealing?" ),
+			text: i18n.dgettext( "js-text-analysis", "The length of the meta description is sufficient." ),
 		};
 	}
 };

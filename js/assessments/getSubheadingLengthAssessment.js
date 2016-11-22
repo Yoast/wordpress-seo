@@ -11,6 +11,7 @@ var forEach = require( "lodash/forEach" );
 
 /**
  * Calculates the result based on the score from the researcher.
+ *
  * @param {number} score The lowest score of the subheadings.
  * @param {number} tooLongHeaders The number of subheadings that are too long.
  * @param {number} recommendedValue The recommended maximum length for subheadings.
@@ -95,7 +96,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 		)[ 0 ];
 	}
 
-	// formatNumber because of js rounding errors
+	// Uses formatNumber because of js rounding errors.
 	lowestScore = formatNumber( lowestScore );
 
 	var subheadingsLengthResult = subheadingsLengthScore( lowestScore, tooLong, recommendedValue, i18n );
@@ -110,7 +111,7 @@ var getSubheadingLength = function( paper, researcher, i18n ) {
 };
 
 /**
- * Marks text for the subheading length assessment
+ * Marks text for the subheading length assessment.
  *
  * @param {Paper} paper The paper that should be marked.
  * @returns {Array<Mark>} A list of marks that should be applied.

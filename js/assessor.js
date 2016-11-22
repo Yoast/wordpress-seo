@@ -15,7 +15,7 @@ var find = require( "lodash/find" );
 var ScoreRating = 9;
 
 /**
- * Creates the Assessor
+ * Creates the Assessor.
  *
  * @param {Object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
@@ -32,8 +32,10 @@ var Assessor = function( i18n, options ) {
 
 /**
  * Checks if the i18n object is defined and sets it.
+ *
  * @param {Object} i18n The i18n object used for translations.
  * @throws {MissingArgument} Parameter needs to be a valid i18n object.
+ * @returns {void}
  */
 Assessor.prototype.setI18n = function( i18n ) {
 	if ( isUndefined( i18n ) ) {
@@ -52,6 +54,7 @@ Assessor.prototype.getAvailableAssessments = function() {
 
 /**
  * Checks whether or not the Assessment is applicable.
+ *
  * @param {Object} assessment The Assessment object that needs to be checked.
  * @param {Paper} paper The Paper object to check against.
  * @param {Researcher} [researcher] The Researcher object containing additional information.
@@ -66,7 +69,7 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
 };
 
 /**
- * Determines whether or not an assessment has a marker
+ * Determines whether or not an assessment has a marker.
  *
  * @param {Object} assessment The assessment to check for.
  * @returns {boolean} Whether or not the assessment has a marker.
@@ -80,7 +83,7 @@ Assessor.prototype.hasMarker = function( assessment ) {
 };
 
 /**
- * Returns the specific marker for this assessor
+ * Returns the specific marker for this assessor.
  *
  * @returns {Function} The specific marker for this assessor.
  */
@@ -89,7 +92,7 @@ Assessor.prototype.getSpecificMarker = function() {
 };
 
 /**
- * Returns the paper that was most recently assessed
+ * Returns the paper that was most recently assessed.
  *
  * @returns {Paper} The paper that was most recently assessed.
  */
@@ -119,7 +122,9 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
 
 /**
  * Runs the researches defined in the tasklist or the default researches.
+ *
  * @param {Paper} paper The paper to run assessments on.
+ * @returns {void}
  */
 Assessor.prototype.assess = function( paper ) {
 	var researcher = new Researcher( paper );
@@ -139,7 +144,8 @@ Assessor.prototype.assess = function( paper ) {
 /**
  * Sets the value of has markers with a boolean to determine if there are markers.
  *
- * @param {bool} hasMarkers True when there are markers, otherwise it is false.
+ * @param {boolean} hasMarkers True when there are markers, otherwise it is false.
+ * @returns {void}
  */
 Assessor.prototype.setHasMarkers = function( hasMarkers ) {
 	this._hasMarkers = hasMarkers;
@@ -148,14 +154,14 @@ Assessor.prototype.setHasMarkers = function( hasMarkers ) {
 /**
  * Returns true when there are markers.
  *
- * @returns {bool} Are there markers
+ * @returns {boolean} Are there markers
  */
 Assessor.prototype.hasMarkers = function() {
 	return this._hasMarkers;
 };
 
 /**
- * Executes an assessment and returns the AssessmentResult
+ * Executes an assessment and returns the AssessmentResult.
  *
  * @param {Paper} paper The paper to pass to the assessment.
  * @param {Researcher} researcher The researcher to pass to the assessment.
@@ -192,6 +198,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 
 /**
  * Filters out all assessmentresults that have no score and no text.
+ *
  * @returns {Array<AssessmentResult>} The array with all the valid assessments.
  */
 Assessor.prototype.getValidResults = function() {
@@ -202,6 +209,7 @@ Assessor.prototype.getValidResults = function() {
 
 /**
  * Returns if an assessmentResult is valid.
+ *
  * @param {object} assessmentResult The assessmentResult to validate.
  * @returns {boolean} whether or not the result is valid.
  */
@@ -245,7 +253,9 @@ Assessor.prototype.addAssessment = function( name, assessment ) {
 
 /**
  * Remove a specific Assessment from the list of Assessments.
+ *
  * @param {string} name The Assessment to remove from the list of assessments.
+ * @returns {void}
  */
 Assessor.prototype.removeAssessment = function( name ) {
 	var toDelete = findIndex( this._assessments, function( assessment ) {

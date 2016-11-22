@@ -34,8 +34,10 @@ var AssessorPresenter = function( args ) {
 };
 
 /**
- * Sets the keyword
+ * Sets the keyword.
+ *
  * @param {string} keyword The keyword to use.
+ * @returns {void}
  */
 AssessorPresenter.prototype.setKeyword = function( keyword ) {
 	this.keyword = keyword;
@@ -43,6 +45,7 @@ AssessorPresenter.prototype.setKeyword = function( keyword ) {
 
 /**
  * Checks whether or not a specific property exists in the presenter configuration.
+ *
  * @param {string} property The property name to search for.
  * @returns {boolean} Whether or not the property exists.
  */
@@ -52,6 +55,7 @@ AssessorPresenter.prototype.configHasProperty = function( property ) {
 
 /**
  * Gets a fully formatted indicator object that can be used.
+ *
  * @param {string} rating The rating to use.
  * @returns {Object} An object containing the class, the screen reader text, and the full text.
  */
@@ -66,6 +70,7 @@ AssessorPresenter.prototype.getIndicator = function( rating ) {
 
 /**
  * Gets the indicator color class from the presenter configuration, if it exists.
+ *
  * @param {string} rating The rating to check against the config.
  * @returns {string} String containing the CSS class to be used.
  */
@@ -79,6 +84,7 @@ AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
 
 /**
  * Get the indicator screen reader text from the presenter configuration, if it exists.
+ *
  * @param {string} rating The rating to check against the config.
  * @returns {string} Translated string containing the screen reader text to be used.
  */
@@ -92,6 +98,7 @@ AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
 
 /**
  * Get the indicator screen reader readability text from the presenter configuration, if it exists.
+ *
  * @param {string} rating The rating to check against the config.
  * @returns {string} Translated string containing the screen reader readability text to be used.
  */
@@ -105,6 +112,7 @@ AssessorPresenter.prototype.getIndicatorScreenReaderReadabilityText = function( 
 
 /**
  * Get the indicator full text from the presenter configuration, if it exists.
+ *
  * @param {string} rating The rating to check against the config.
  * @returns {string} Translated string containing the full text to be used.
  */
@@ -118,6 +126,7 @@ AssessorPresenter.prototype.getIndicatorFullText = function( rating ) {
 
 /**
  * Adds a rating based on the numeric score.
+ *
  * @param {Object} result Object based on the Assessment result. Requires a score property to work.
  * @returns {Object} The Assessment result object with the rating added.
  */
@@ -133,6 +142,7 @@ AssessorPresenter.prototype.resultToRating = function( result ) {
 
 /**
  * Takes the individual assessment results, sorts and rates them.
+ *
  * @returns {Object} Object containing all the individual ratings.
  */
 AssessorPresenter.prototype.getIndividualRatings = function() {
@@ -149,6 +159,7 @@ AssessorPresenter.prototype.getIndividualRatings = function() {
 
 /**
  * Excludes items from the results that are present in the exclude array.
+ *
  * @param {Array} results Array containing the items to filter through.
  * @param {Array} exclude Array of results to exclude.
  * @returns {Array} Array containing items that remain after exclusion.
@@ -159,6 +170,7 @@ AssessorPresenter.prototype.excludeFromResults = function( results, exclude ) {
 
 /**
  * Sorts results based on their score property and always places items considered to be unsortable, at the top.
+ *
  * @param {Array} results Array containing the results that need to be sorted.
  * @returns {Array} Array containing the sorted results.
  */
@@ -175,6 +187,7 @@ AssessorPresenter.prototype.sort = function( results ) {
 
 /**
  * Returns a subset of results that have an undefined score or a score set to zero.
+ *
  * @param {Array} results The results to filter through.
  * @returns {Array} A subset of results containing items with an undefined score or where the score is zero.
  */
@@ -186,6 +199,7 @@ AssessorPresenter.prototype.getUndefinedScores = function( results ) {
 
 /**
  * Creates a rating object based on the item that is being passed.
+ *
  * @param {AssessmentResult} item The item to check and create a rating object from.
  * @returns {Object} Object containing a parsed item, including a colored indicator.
  */
@@ -203,6 +217,7 @@ AssessorPresenter.prototype.addRating = function( item ) {
 
 /**
  * Calculates the overall rating score based on the overall score.
+ *
  * @param {Number} overallScore The overall score to use in the calculation.
  * @returns {Object} The rating based on the score.
  */
@@ -225,6 +240,7 @@ AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
  *
  * @param {string} identifier The identifier for the assessment/marker.
  * @param {Function} marker The marker function.
+ * @returns {void}
  */
 AssessorPresenter.prototype.markAssessment = function( identifier, marker ) {
 	if ( this._activeMarker === identifier ) {
@@ -240,6 +256,8 @@ AssessorPresenter.prototype.markAssessment = function( identifier, marker ) {
 
 /**
  * Disables the currently active marker in the UI.
+ *
+ * @returns {void}
  */
 AssessorPresenter.prototype.disableMarker = function() {
 	this._activeMarker = false;
@@ -248,6 +266,8 @@ AssessorPresenter.prototype.disableMarker = function() {
 
 /**
  * Disables the marker buttons.
+ *
+ * @returns {void}
  */
 AssessorPresenter.prototype.disableMarkerButtons = function() {
 	this._disableMarkerButtons = true;
@@ -256,6 +276,8 @@ AssessorPresenter.prototype.disableMarkerButtons = function() {
 
 /**
  * Enables the marker buttons.
+ *
+ * @returns {void}
  */
 AssessorPresenter.prototype.enableMarkerButtons = function() {
 	this._disableMarkerButtons = false;
@@ -267,6 +289,7 @@ AssessorPresenter.prototype.enableMarkerButtons = function() {
  *
  * @param {string} identifier The identifier for the assessment the marker belongs to.
  * @param {Function} marker The marker function that can mark the assessment in the text.
+ * @returns {void}
  */
 AssessorPresenter.prototype.addMarkerEventHandler = function( identifier, marker ) {
 	var container = document.getElementById( this.output );
@@ -277,6 +300,8 @@ AssessorPresenter.prototype.addMarkerEventHandler = function( identifier, marker
 
 /**
  * Renders out both the individual and the overall ratings.
+ *
+ * @returns {void}
  */
 AssessorPresenter.prototype.render = function() {
 	this.renderIndividualRatings();
@@ -287,6 +312,8 @@ AssessorPresenter.prototype.render = function() {
  * Adds event handlers to the mark buttons
  *
  * @param {Array} scores The list of rendered scores.
+ *
+ * @returns {void}
  */
 AssessorPresenter.prototype.bindMarkButtons = function( scores ) {
 	// Make sure the button works for every score with a marker.
@@ -299,6 +326,8 @@ AssessorPresenter.prototype.bindMarkButtons = function( scores ) {
 
 /**
  * Removes all marks currently on the text
+ *
+ * @returns {void}
  */
 AssessorPresenter.prototype.removeAllMarks = function() {
 	var marker = this.assessor.getSpecificMarker();
@@ -308,6 +337,8 @@ AssessorPresenter.prototype.removeAllMarks = function() {
 
 /**
  * Renders out the individual ratings.
+ *
+ * @returns {void}
  */
 AssessorPresenter.prototype.renderIndividualRatings = function() {
 	var outputTarget = document.getElementById( this.output );
@@ -329,6 +360,8 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 
 /**
  * Renders out the overall rating.
+ *
+ * @returns {void}
  */
 AssessorPresenter.prototype.renderOverallRating = function() {
 	var overallRating = this.getOverallRating( this.assessor.calculateOverallScore() );

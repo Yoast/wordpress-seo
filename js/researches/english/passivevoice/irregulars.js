@@ -103,7 +103,7 @@ module.exports = function() {
 		"given",
 		"gone",
 		"undergone",
-//		Excluded because of false positives:, "got",
+		//	Is also auxiliary: "got",
 		"gotten",
 		"ground",
 		"reground",
