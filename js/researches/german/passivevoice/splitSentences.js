@@ -1,5 +1,5 @@
 var getSentences = require( "../../../stringProcessing/getSentences.js" );
-var stopwords = require( "../../german/passivevoice-german/stopwords.js" )();
+var stopwords = require( "/stopwords.js" )();
 var arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
 var stripSpaces = require( "../../../stringProcessing/stripSpaces.js" );
 

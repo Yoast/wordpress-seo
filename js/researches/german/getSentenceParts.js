@@ -1,8 +1,8 @@
-var stopwords = require( "./passivevoice-german/stopwords.js" )();
+var stopwords = require( "./passivevoice/stopwords.js" )();
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
-var SentencePart = require( "./GermanSentencePart.js" );
-var auxiliaries = require( "./passivevoice-german/auxiliaries.js" )();
+var SentencePart = require( "./SentencePart.js" );
+var auxiliaries = require( "./passivevoice/auxiliaries.js" )();
 
 var forEach = require( "lodash/forEach" );
 var isEmpty = require( "lodash/isEmpty" );

@@ -1,8 +1,8 @@
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
-var auxiliaries = require( "./passivevoice-german/auxiliaries.js" )();
-var getParticiples = require( "./passivevoice-german/getParticiples.js" );
+var auxiliaries = require( "./passivevoice/auxiliaries.js" )();
+var getParticiples = require( "./passivevoice/getParticiples.js" );
 
-var forEach = require( "lodash/forEach" );
+var determineSentencePartIsPassive =  require( "../passivevoice/determineSentencePartIsPassive.js" );
 
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 
@@ -20,10 +20,5 @@ module.exports = function( sentencePartText, auxiliaries ) {
 		return passive;
 	}
 	var participles = getParticiples( sentencePartText, auxiliaries );
-	forEach( participles, function( participle ) {
-		if ( participle.determinesSentencePartIsPassive() ) {
-			passive = true;
-		}
-	} );
-	return passive;
+	return determineSentencePartIsPassive( participles );
 };

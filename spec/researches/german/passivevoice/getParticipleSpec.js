@@ -1,4 +1,4 @@
-var getParticiples = require("../../../../js/researches/german/passivevoice-german/getParticiples.js");
+var getParticiples = require("../../../../js/researches/german/passivevoice/getParticiples.js");
 
 describe("Test for matching German participles", function(){
 	it("returns matched participles with 'ge' at the beginning.", function(){
