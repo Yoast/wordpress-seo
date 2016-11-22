@@ -70,6 +70,7 @@ class WPSEO_Premium_Import_Manager {
 		$plugins = array(
 			'redirection'           => __( 'Redirection', 'wordpress-seo-premium' ) . '<br/>',
 			'safe_redirect_manager' => __( 'Safe Redirect Manager', 'wordpress-seo-premium' ) . '<br/>',
+			'simple-301-redirects'  => __( 'Simple 301 Redirects', 'wordpress-seo-premium' ) . '<br/>',
 		);
 
 		// Display the forms.
@@ -226,6 +227,9 @@ class WPSEO_Premium_Import_Manager {
 				case 'safe_redirect_manager':
 					$success = $this->safe_redirect_import();
 					break;
+				case 'simple-301-redirects':
+					$success = $this->simple_301_redirects_import();
+					break;
 				default:
 					$success = false;
 					break;
@@ -279,7 +283,7 @@ class WPSEO_Premium_Import_Manager {
 	}
 
 	/**
-	 * Do redirection(http://wordpress.org/plugins/redirection/) import.
+	 * Do a safe redirect manager (https://wordpress.org/plugins/safe-redirect-manager/) import.
 	 *
 	 * @return bool
 	 */
@@ -319,6 +323,38 @@ class WPSEO_Premium_Import_Manager {
 				}
 
 				$this->get_redirect_option()->add( new WPSEO_Redirect( $item['redirect_from'], $item['redirect_to'], $status_code, $format ) );
+				$this->redirects_imported = true;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Do Simple 301 redirects (https://wordpress.org/plugins/simple-301-redirects/) import.
+	 *
+	 * @return bool
+	 */
+	private function simple_301_redirects_import() {
+		// Get redirects.
+		$redirects = get_option( '301_redirects' );
+
+		// Whether to use wildcards.
+		$wildcard = get_option( '301_redirects_wildcard' );
+
+		// Loop and add redirect to Yoast SEO Premium.
+		if ( count( $redirects ) > 0 ) {
+			foreach ( $redirects as $origin => $target ) {
+				$format = WPSEO_Redirect::FORMAT_PLAIN;
+
+				// If wildcard redirects had been used, and this is one, flip it.
+				if ( $wildcard && strpos( $origin, '*' ) !== false ) {
+					$format = WPSEO_Redirect::FORMAT_REGEX;
+					$origin = str_replace( '*', '(.*)', $origin );
+					$target = str_replace( '*', '$1', $target );
+				}
+
+				$this->get_redirect_option()->add( new WPSEO_Redirect( $origin, $target, 301, $format ) );
 				$this->redirects_imported = true;
 			}
 			return true;
