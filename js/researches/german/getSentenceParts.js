@@ -37,11 +37,11 @@ function splitOnWords( sentence, stopwords ) {
 	forEach( stopwords, function( stopword ) {
 		var splitSentence = sentence.split( stopword );
 		if ( ! isEmpty( splitSentence[ 0 ] ) ) {
-			splitSentences.push ( splitSentence[ 0] );
+			splitSentences.push( splitSentence[ 0 ] );
 		}
 		var startIndex = sentence.indexOf( stopword );
 		var endIndex = sentence.length;
-		sentence = ( stripSpaces( sentence.substr( startIndex, endIndex ) ) );
+		sentence = stripSpaces( sentence.substr( startIndex, endIndex ) );
 	} );
 
 	// Push the remainder of the sentence in the sentence parts array.
