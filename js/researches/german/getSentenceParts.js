@@ -31,19 +31,36 @@ function sanitizeMatches( matches ) {
  * @returns {Array} The array with sentence parts.
  */
 function splitOnWords( sentence, stopwords ) {
-	var sentenceParts = [];
+	var splitSentences = [];
+
+	// Split the sentence on each found stopword and push this part in an array.
 	forEach( stopwords, function( stopword ) {
 		var splitSentence = sentence.split( stopword );
 		if ( ! isEmpty( splitSentence[ 0 ] ) ) {
-			var foundAuxiliaries = sanitizeMatches( splitSentence[ 0 ].match( auxiliaryRegex || [] ) );
-			sentenceParts.push( new SentencePart( splitSentence[ 0 ], foundAuxiliaries,  "de_DE" ) );
+			splitSentences.push ( splitSentence[ 0] );
 		}
 		var startIndex = sentence.indexOf( stopword );
 		var endIndex = sentence.length;
 		sentence = ( stripSpaces( sentence.substr( startIndex, endIndex ) ) );
 	} );
-	var foundAuxiliaries = sanitizeMatches( sentence.match( auxiliaryRegex || [] ) );
-	sentenceParts.push( new SentencePart( stripSpaces( sentence ), foundAuxiliaries,  "de_DE" ) );
+
+	// Push the remainder of the sentence in the sentence parts array.
+	splitSentences.push( sentence );
+	return splitSentences;
+}
+
+/**
+ * Creates sentence parts based on split sentences.
+ *
+ * @param {Array} sentences The array with split sentences.
+ * @returns {Array} The array with sentence parts.
+ */
+function createSentenceParts( sentences ) {
+	var sentenceParts = [];
+	forEach( sentences, function( part ) {
+		var foundAuxiliaries = sanitizeMatches( part.match( auxiliaryRegex || [] ) );
+		sentenceParts.push( new SentencePart( part, foundAuxiliaries,  "de_DE" ) );
+	} );
 	return sentenceParts;
 }
 
@@ -54,8 +71,9 @@ function splitOnWords( sentence, stopwords ) {
  * @returns {Array} The array with sentence parts.
  */
 function splitSentence( sentence ) {
-	var matches = sentence.match( stopwordRegex ) || [];
-	return splitOnWords( sentence, matches );
+	var stopwords = sentence.match( stopwordRegex ) || [];
+	var splitSentences = splitOnWords( sentence, stopwords );
+	return createSentenceParts( splitSentences );
 }
 
 /**
