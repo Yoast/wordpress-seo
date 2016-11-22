@@ -85,22 +85,22 @@ describe( "An assessment for the flesch reading", function(){
 		expect( result.getText() ).toBe( "The copy scores 0 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered very difficult to read. Try to make shorter sentences, using less difficult words to improve readability." );
 	} );
 
-	it( "returns true for isApplicable on and English paper with text.", function() {
+	it( "returns true for isApplicable for an English paper with text.", function() {
 		var paper = new Paper( "This is a very interesting paper.", {locale: "en_EN"} );
 		expect( fleschReadingAssessment.isApplicable( paper )).toBe( true );
 	} );
 
-	it( "returns false for isApplicable on and Afrikaans paper with text.", function() {
+	it( "returns false for isApplicable for an Afrikaans paper with text.", function() {
 		var paper = new Paper( "Hierdie is 'n interessante papier.", {locale: "af_ZA"} );
 		expect( fleschReadingAssessment.isApplicable( paper )).toBe( false );
 	} );
 
-	it( "returns false for isApplicable on and English paper without text.", function() {
+	it( "returns false for isApplicable for an English paper without text.", function() {
 		var paper = new Paper( "", {locale: "en_EN"} );
 		expect( fleschReadingAssessment.isApplicable( paper )).toBe( false );
 	} );
 
-	it( "returns false for isApplicable on and Afrikaans paper without text.", function() {
+	it( "returns false for isApplicable for an Afrikaans paper without text.", function() {
 		var paper = new Paper( "", {locale: "af_ZA"} );
 		expect( fleschReadingAssessment.isApplicable( paper )).toBe( false );
 	} );
