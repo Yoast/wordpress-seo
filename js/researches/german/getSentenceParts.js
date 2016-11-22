@@ -30,21 +30,20 @@ function sanitizeMatches( matches ) {
  * @param {Array} stopwords The array with matched stopwords.
  * @returns {Array} The array with sentence parts.
  */
-function splitOnWord( sentence, stopwords ) {
-	var currentSentence = sentence;
+function splitOnWords( sentence, stopwords ) {
 	var sentenceParts = [];
 	forEach( stopwords, function( stopword ) {
-		var splitSentence = currentSentence.split( stopword );
+		var splitSentence = sentence.split( stopword );
 		if ( ! isEmpty( splitSentence[ 0 ] ) ) {
 			var foundAuxiliaries = sanitizeMatches( splitSentence[ 0 ].match( auxiliaryRegex || [] ) );
 			sentenceParts.push( new SentencePart( splitSentence[ 0 ], foundAuxiliaries,  "de_DE" ) );
 		}
-		var startIndex = currentSentence.indexOf( stopword );
-		var endIndex = currentSentence.length;
-		currentSentence = ( stripSpaces( currentSentence.substr( startIndex, endIndex ) ) );
+		var startIndex = sentence.indexOf( stopword );
+		var endIndex = sentence.length;
+		sentence = ( stripSpaces( sentence.substr( startIndex, endIndex ) ) );
 	} );
-	var foundAuxiliaries = sanitizeMatches( currentSentence.match( auxiliaryRegex || [] ) );
-	sentenceParts.push( new SentencePart( stripSpaces( currentSentence ), foundAuxiliaries,  "de_DE" ) );
+	var foundAuxiliaries = sanitizeMatches( sentence.match( auxiliaryRegex || [] ) );
+	sentenceParts.push( new SentencePart( stripSpaces( sentence ), foundAuxiliaries,  "de_DE" ) );
 	return sentenceParts;
 }
 
@@ -56,7 +55,7 @@ function splitOnWord( sentence, stopwords ) {
  */
 function splitSentence( sentence ) {
 	var matches = sentence.match( stopwordRegex ) || [];
-	return splitOnWord( sentence, matches );
+	return splitOnWords( sentence, matches );
 }
 
 /**

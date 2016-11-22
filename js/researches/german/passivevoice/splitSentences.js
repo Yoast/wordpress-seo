@@ -9,40 +9,39 @@ var isEmpty = require( "lodash/isEmpty" );
 var stopwordRegex = arrayToRegex( stopwords );
 
 /**
- * Splits sentences into subsentences based on stopwords.
+ * Splits sentences into sentence parts based on stopwords.
  *
  * @param {string} sentence The sentence to split.
  * @param {Array} stopwords The array with matched stopwords.
- * @returns {Array} The array with subsentences.
+ * @returns {Array} The array with sentence parts.
  */
-function splitOnWord( sentence, stopwords ) {
-	var currentSentence = sentence;
-	var subSentences = [];
+function splitOnWords( sentence, stopwords ) {
+	var sentenceParts = [];
 	forEach( stopwords, function( word ) {
-		var splitSentence = currentSentence.split( word );
+		var splitSentence = sentence.split( word );
 		if ( ! isEmpty( splitSentence[ 0 ] ) ) {
-			subSentences = subSentences.concat( splitSentence[ 0 ] );
+			sentenceParts = sentenceParts.concat( splitSentence[ 0 ] );
 		}
-		var startIndex = currentSentence.indexOf( word );
-		var endIndex = currentSentence.length;
-		currentSentence = ( stripSpaces( currentSentence.substr( startIndex, endIndex ) ) );
+		var startIndex = sentence.indexOf( word );
+		var endIndex = sentence.length;
+		sentence = ( stripSpaces( sentence.substr( startIndex, endIndex ) ) );
 	} );
-	subSentences = subSentences.concat( stripSpaces( currentSentence ) );
-	return subSentences;
+	sentenceParts = sentenceParts.concat( stripSpaces( sentence ) );
+	return sentenceParts;
 }
 
 /**
- * Splits the sentences from a text into subsentences based on stopwords.
+ * Splits the sentences from a text into sentence parts based on stopwords.
  *
- * @param {string} text The text to split into subsentences.
- * @returns {Array} The array with subsentences.
+ * @param {string} text The text to split into sentence parts.
+ * @returns {Array} The array with sentence parts.
  */
 function splitSentences( text ) {
 	var sentences = getSentences( text );
 	var splitSentences = [];
 	forEach( sentences, function( sentence ) {
 		var matches = sentence.match( stopwordRegex ) || [];
-		splitSentences = splitSentences.concat( splitOnWord( sentence, matches ) );
+		splitSentences = splitSentences.concat( splitOnWords( sentence, matches ) );
 	} );
 	return splitSentences;
 }
