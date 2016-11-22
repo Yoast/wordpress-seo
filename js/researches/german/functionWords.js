@@ -63,35 +63,67 @@ var pronominalAdverbs = [ "dabei", "dadurch", "dafür", "dafuer", "dagegen", "da
 	"daran", "darauf", "daraus", "darin", "darum", "darunter", "darüber", "darueber", "davon", "davor", "dazu",
 	"dazwischen", "hieran",	"hierauf", "hieraus", "hierbei", "hierdurch", "hierfuer", "hierfür", "hiergegen",
 	"hierhinter", "hierin",	"hiermit", "hiernach", "hierum", "hierunter", "hierueber", "hierüber", "hiervor",
-	"hierzu", "hierzwischen", "hierneben", "hiervon", "wobei", "wodurch", "worin", "worauf", "wobei", "wodurch",
-	"wofür", "wofuer", "wogegen", "wohinter", "womit", "wonach", "woneben", "woran",	"worauf", "woraus", "worin",
-	"worum", "worunter", "worüber", "wovon", "wovor", "wozu", "wozwischen" ];
+	"hierzu", "hierzwischen", "hierneben", "hiervon", "wobei", "wodurch", "worin", "worauf", "wobei", "wofür", "wofuer",
+	"wogegen", "wohinter", "womit", "wonach", "woneben", "woran", "worauf", "woraus", "worin",	"worum", "worunter",
+	"worüber", "worueber", "wovon", "wovor", "wozu", "wozwischen" ];
 
 var locativeAdverbs = [ "da", "hier", "dorthin", "hierher", "whence", "dorther", "daher" ];
 
 var adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernfalls", "andrenfalls",
-	"äußerstenfalls", "bejahendenfalls","bestenfalls", "ebenfalls", "eintretendenfalls", "entgegengesetztenfalls",
+	"äußerstenfalls", "bejahendenfalls", "bestenfalls", "ebenfalls", "eintretendenfalls", "entgegengesetztenfalls",
 	"erforderlichenfalls", "gegebenenfalls", "geringstenfalls", "gleichfalls", "günstigenfalls", "günstigstenfalls",
 	"höchstenfalls", "jedenfalls", "möglichenfalls", "notfalls", "nötigenfalls", "notwendigenfalls",
 	"schlimmstenfalls", "vorkommendenfalls", "widrigenfalls", "zutreffendenfalls", "angesichts", "morgens", "mittags",
 	"abends", "nachts", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs", "geradewegs", "gradenwegs",
 	"halbwegs", "mittwegs", "unterwegs" ];
 
-var otherAuxiliaries = [ "habe", "hast", "hat", "haben", "habt", "habest", "habet", "hatte", "hattest", "hatte",
-	"hatten", "hätte", "hättest", "hätten", "hättet", "hab" ];
+var otherAuxiliaries = [ "habe", "hast", "hat", "haben", "habt", "habest", "habet", "hatte", "hattest", "hatten",
+	"hätte", "haette", "hättest", "haettest", "hätten", "haetten", "haettet", "hättet", "hab", "bin", "bist", "ist", "sind",
+	"sein", "sei", "seiest", "seien", "seiet", "war", "warst", "waren", "wart", "wäre", "waere", "wärest", "waerest",
+	"wärst", "waerst", "wären", "waeren", "wäret", "waeret", "wärt", "waert", "seid", "darf",  "darfst", "dürfen", "duerfen",
+	"dürft", "duerft", "dürfe", "duerfe", "dürfest", "duerfest", "dürfet", "duerfet", "durfte", "durftest", "durften",
+	"durftet", "dürfte", "duerfte", "dürftest", "duerftest", "dürften", "duerften", "dürftet", "duerftet", "kann", "kannst",
+	"können", "koennen", "könnt", "koennt", "könne", "koenne", "könnest", "koennest", "könnet", "koennet", "konnte",
+	"konntest", "konnten", "konntet", "könnte", "koennte", "könntest", "koenntest", "könnten", "koennten", "könntet",
+	"koenntet", "mag", "magst", "mögen", "moegen", "mögt", "moegt", "möge", "moege", "mögest", "moegest", "möget", "moeget",
+	"mochte", "mochtest", "mochten", "mochtet", "möchte", "moechte", "möchtest", "moechtest", "möchten", "moechten",
+	"möchtet", "moechtet", "muss", "muß", "musst", "mußt", "müssen", "muessen", "müsst", "muesst", "müßt", "mueßt", "müsse",
+	"muesse", "müssest", "muessest", "müsset", "muesset", "musste", "mußte", "musstest", "mußtest", "mussten", "mußten",
+	"musstet", "mußtet", "müsste", "muesste", "müßte", "mueßte", "müsstest", "muesstest", "müßtest", "mueßtest", "müssten",
+	"muessten", "müßten", "mueßten", "müsstet", "muesstet", "müßtet", "mueßtet", "soll", "sollst", "sollen", "sollt",
+	"solle", "sollest", "sollet", "sollte", "solltest", "sollten", "solltet", "will", "willst", "wollen", "wollt", "wolle",
+	"wollest", "wollet", "wollte", "wolltest", "wollten", "wolltet", "lasse", "lässt", "laesst", "läßt", "laeßt", "lassen",
+	"lasst", "laßt", "lassest", "lasset", "ließ", "ließest", "ließt", "ließen", "ließe", "ließet", "liess", "liessest",
+	"liesst", "liessen", "liesse", "liesset" ];
 
-var copula = [ "appear", "appears", "appearing", "appeared", "become", "becomes", "becoming", "became", "come", "comes",
-	"coming", "came", "keep", "keeps", "kept", "keeping", "remain", "remains", "remaining", "remained", "stay",
-	"stays", "stayed", "staying", "turn", "turns", "turned" ];
+// Forms from 'aussehen' with two parts, like 'sehe aus', are not included, because we remove words on an single word basis.
+var copula = [ "bleibe", "bleibst", "bleibt", "bleiben", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben",
+	"bliebe", "bliebest", "bliebet", "heiße", "heißt", "heißen", "heißest", "heißet", "heisse", "heisst", "heissen",
+	"heissest", "heisset", "hieß", "hießest", "hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen",
+	"hiesse", "hiesset", "gelte", "giltst", "gilt", "gelten", "geltet", "gelte", "geltest", "galt", "galtest", "galtst",
+	"galten", "galtet", "gälte", "gaelte", "gölte", "goelte", "gältest", "gaeltest", "göltest", "goeltest", "gälten",
+	"gaelten", "gölten", "goelten", "gältet", "gaeltet", "göltet", "goeltet", "aussehe", "aussiehst", "aussieht", "aussehen",
+	"ausseht", "aussehest", "aussehet", "aussah", "aussahst", "aussah", "aussahen", "aussaht", "aussähe", "aussaehe",
+	"aussähest", "aussaehest", "aussähst", "aussaehst", "aussähet", "aussaehet", "aussäht", "aussaeht", "aussähen",
+	"aussaehen", "scheine", "scheinst", "scheint", "scheinen", "scheinest", "scheinet", "schien", "schienst", "schienen",
+	"schient", "schiene", "schienest", "schienet", "erscheine", "erscheinst", "erscheint", "erscheinen", "erscheinest",
+	"erscheinet", "erschien", "erschienst", "erschienen", "erschient", "erschiene", "erschienest", "erschienet" ];
 
-var prepositions = [ "in", "from", "with", "under", "throughout", "atop", "for", "on", "until", "of", "to", "aboard", "about",
-	"above", "abreast", "absent", "across", "adjacent", "after", "against", "along", "alongside", "amid", "midst", "mid",
-	"among", "apropos", "apud", "around", "as", "astride", "at", "ontop", "before", "afore", "tofore", "behind", "ahind",
-	"below", "ablow", "beneath", "neath", "beside", "besides", "between", "atween", "beyond", "ayond", "but", "by", "chez",
-	"circa", "come", "despite", "spite", "down", "during", "except", "into", "less", "like", "minus", "near", "nearer",
-	"nearest", "anear", "notwithstanding", "off", "onto", "opposite", "out", "outen", "over", "past", "per", "pre", "qua",
-	"sans", "sauf", "since", "sithence", "than", "through", "thru", "truout", "toward", "underneath", "unlike", "until",
-	"up", "upon", "upside", "versus", "via", "vis-à-vis", "without", "ago", "apart", "aside", "aslant", "away", "withal" ];
+var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "als", "an", "anfangs", "angelegentlich",
+	"angesichts", "anhand", "anlässlich", "anlaesslich", "anstatt", "anstelle", "auf", "aufgrund", "aus", "ausgenommen",
+	"ausschließlich", "ausschliesslich", "ausser", "außer", "außerhalb", "ausserhalb", "bar", "behufs", "bei", "betreffs",
+	"bezüglich", "bezueglich", "binnen", "bis", "dank", "diesseits", "durch", "einbezüglich", "einbezueglich", "eingedenk",
+	"einschließlich", "einschliesslich", "entgegen", "entlang", "entsprechend", "exklusive", "fern", "fernab", "frei",
+	"fuer", "für", "gegen", "gegenüber", "gegenueber", "gelegentlich", "gemäß", "gemaeß", "getreu", "gleich", "halber",
+	"hinsichtlich", "hinter", "in", "infolge", "inklusive", "inmitten", "innerhalb", "je", "jenseits", "kontra", "kraft",
+	"lang", "längs", "laengs", "laut", "links", "mangels", "minus", "mit", "mitsamt", "mittels", "nach", "nächst", "naechst",
+	"nah", "namens", "neben", "nebst", "nördlich", "noerdlich", "nordöstlich", "nordoestlich", "nordwestlich", "ob",
+	"oberhalb", "ohne", "östlich", "oestlich", "per", "plus", "pro", "quer", "rechts", "rücksichtlich", "ruecksichtlich",
+	"samt", "seit", "seitens", "seitlich", "statt", "südlich", "suedlich", "südöstlich", "suedoestlich", "südwestlich",
+	"suedwestlich", "trotz", "über", "ueber", "um", "unbeschadet", "unfern", "ungeachtet", "unter", "unterhalb", "unweit",
+	"vermittels", "vermöge", "vermoege", "voll", "von", "vor", "vorbehaltlich", "wegen", "wider", "während", "waehrend",
+	"zeit", "zu", "zufolge", "zugunsten", "zuliebe", "zusätzlich", "zusaetzlich", "zuungunsten", "zuwider", "zuzüglich",
+	"zuzueglich", "zwecks", "zwischen" ];
 
 // Many prepositional adverbs are already listed as preposition.
 var prepositionalAdverbs = [ "back", "within", "forward", "backward", "ahead" ];
