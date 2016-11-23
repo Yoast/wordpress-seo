@@ -62,7 +62,6 @@ var determinePassives = function( sentencePart, language ) {
  */
 module.exports = function( paper ) {
 	var text = paper.getText();
-	text = text.toLocaleLowerCase();
 	var locale = paper.getLocale();
 	var language = getLanguage( locale );
 	var sentences = getSentences( text );
@@ -77,7 +76,7 @@ module.exports = function( paper ) {
 
 	// Get sentence parts for each sentence.
 	forEach( sentenceObjects, function( sentence ) {
-		var strippedSentence = stripHTMLTags( sentence.getSentenceText() );
+		var strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
 
 		var sentenceParts = getSentenceParts( strippedSentence, language );
 
