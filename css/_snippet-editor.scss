@@ -46,21 +46,27 @@ $snippet_width: 600px;
 			border-radius: 2px;
 			border-bottom: 1px hidden #fff;
 			margin: 0 0 10px 0;
+			padding: 13px 0 ;
 
 			.snippet_container {
 				display: block;
+				line-height: 20px;
 
 				&__title {
-					line-height: 20px;
 					font-size: 16px;
-					padding: 13px 16px 0 16px;
+					padding: 0 16px;
 					word-wrap: break-word;
+
+					.title {
+						font-size: 16px;
+					}
+
 				}
 
 				&__url {
-					line-height: 20px;
 					border-bottom: 1px solid #ebebeb;
 					padding: 0 16px 11px;
+					margin-bottom: 13px;
 					font-size: 14px;
 					max-width: 95%;
 					white-space: nowrap;
@@ -68,8 +74,7 @@ $snippet_width: 600px;
 
 				&__meta {
 					font-size: 14px;
-					line-height: 20px;
-					padding: 13px 16px 13px 16px;
+					padding: 0 16px;
 				}
 
 			}
