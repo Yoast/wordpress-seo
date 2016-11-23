@@ -38,6 +38,45 @@ $snippet_width: 600px;
 }
 
 .snippet-editor {
+
+	&__view {
+		&--mobile {
+			background-color: #fff;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+			border-radius: 2px;
+			border-bottom: 1px hidden #fff;
+			margin: 0 0 10px 0;
+
+			.snippet_container {
+				display: block;
+
+				&__title {
+					line-height: 20px;
+					font-size: 16px;
+					padding: 13px 16px 0 16px;
+					word-wrap: break-word;
+				}
+
+				&__url {
+					line-height: 20px;
+					border-bottom: 1px solid #ebebeb;
+					padding: 0 16px 11px;
+					font-size: 14px;
+					max-width: 95%;
+					white-space: nowrap;
+				}
+
+				&__meta {
+					font-size: 14px;
+					line-height: 20px;
+					padding: 13px 16px 13px 16px;
+				}
+
+			}
+		}
+
+	}
+
 	&__container {
 		position: relative;
 		cursor: pointer;

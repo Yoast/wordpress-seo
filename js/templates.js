@@ -15,7 +15,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.16.6';
+  var VERSION = '4.17.1';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -442,27 +442,27 @@
     __e( i18n.snippetPreview ) +
     '</h3>\n    <p class="screen-reader-text">' +
     __e( i18n.snippetPreviewDescription ) +
-    '</p>\n\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="screen-reader-text">' +
+    '</p>\n\n        <div class="snippet_editor__view snippet-editor__view--mobile">\n            <div class="snippet_container snippet_container__title snippet-editor__container" id="title_container">\n                <span class="screen-reader-text">' +
     __e( i18n.titleLabel ) +
-    '</span>\n            <span class="title" id="render_title_container">\n                <span id="snippet_title">\n                    ' +
+    '</span>\n                <span class="title" id="render_title_container">\n                    <span id="snippet_title">\n                        ' +
     __e( rendered.title ) +
-    '\n                </span>\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <span class="screen-reader-text">' +
+    '\n                    </span>\n                </span>\n                <span class="title" id="snippet_sitename"></span>\n            </div>\n            <div class="snippet_container snippet_container__url snippet-editor__container" id="url_container">\n                <span class="screen-reader-text">' +
     __e( i18n.slugLabel ) +
-    '</span>\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
+    '</span>\n                <cite class="url urlBase" id="snippet_citeBase">\n                    ' +
     __e( rendered.baseUrl ) +
-    '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
+    '\n                </cite>\n                <cite class="url" id="snippet_cite">\n                    ' +
     __e( rendered.snippetCite ) +
-    '\n            </cite>\n            <span class="down_arrow"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="meta_container">\n            <span class="screen-reader-text">' +
+    '\n                </cite>\n            </div>\n            <div class="snippet_container snippet_container__meta snippet-editor__container" id="meta_container">\n                <span class="screen-reader-text">' +
     __e( i18n.metaDescriptionLabel ) +
-    '</span>\n            ';
+    '</span>\n                ';
      if ( "" !== metaDescriptionDate ) {
-    __p += '\n                <span class="snippet-editor__date">\n                    ' +
+    __p += '\n                    <span class="snippet-editor__date">\n                        ' +
     __e( metaDescriptionDate ) +
-    ' -\n                </span>\n            ';
+    ' -\n                    </span>\n                ';
      }
-    __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
+    __p += '\n                <span class="desc" id="snippet_meta">\n                    ' +
     __e( rendered.meta ) +
-    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n            ' +
+    '\n                </span>\n            </div>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n            ' +
     __e( i18n.edit ) +
     '\n        </button>\n    </section>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
     __e( i18n.title ) +
