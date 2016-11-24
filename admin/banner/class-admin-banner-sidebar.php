@@ -243,7 +243,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$courses_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to anchor start text with link to the Yoast Services page, %2$s is the a-closing tag.  */
-				__( 'You can easily learn more about SEO, content and the like with one of %1$sour courses%2$s' ),
+				__( 'You can easily learn more about SEO, content and the like with one of %1$sour courses%2$s.' ),
 				'<a target="_blank" href="https://yoa.st/jt">',
 				'</a>'
 			)
