@@ -118,7 +118,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$service_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to anchor start text with link to the Yoast Services page, %2$s to Yoast, %3$s is the a-closing tag.  */
-				__( 'Don\'t want dive into SEO yourself? %1$sLet team %2$s help you!%3$s' ),
+				__( 'Don\'t want to dive into SEO yourself? %1$sLet team %2$s help you!%3$s' ),
 				'<a target="_blank" href="https://yoa.st/jk">',
 				'Yoast',
 				'</a>'
