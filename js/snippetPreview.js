@@ -16,6 +16,7 @@ var analyzerConfig = require( "./config/config.js" );
 var templates = require( "./templates.js" );
 var snippetEditorTemplate = templates.snippetEditor;
 var hiddenElement = templates.hiddenSpan;
+var SnippetPreviewToggler = require( "./snippetPreviewToggler" );
 
 var domManipulation = require( "./helpers/domManipulation.js" );
 
@@ -42,6 +43,8 @@ var defaults = {
 	},
 	addTrailingSlash: true,
 	metaDescriptionDate: "",
+	previewMode: "mobile",
+
 };
 
 var titleMaxLength = 600;
@@ -254,6 +257,8 @@ function updateProgressBar( element, value, maximum, rating ) {
  *
  * @param {Jed}            opts.i18n                      - The translation object.
  *
+ * @param {string}         opts.previewMode               - The current preview mode.
+ *
  * @property {App}         refObj                         - The connected app object.
  * @property {Jed}         i18n                           - The translation object.
  *
@@ -430,6 +435,12 @@ SnippetPreview.prototype.renderTemplate = function() {
 	this.opened = false;
 	this.createMeasurementElements();
 	this.updateProgressBars();
+
+	var snippetPreviewToggle = new SnippetPreviewToggler(
+		this.opts.previewMode, this.opts.targetElement.getElementsByClassName( "snippet-editor__view-icon" )
+	);
+	snippetPreviewToggle.initialize();
+	snippetPreviewToggle.setEvents();
 };
 
 /**
