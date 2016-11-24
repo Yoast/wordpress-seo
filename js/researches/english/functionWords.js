@@ -68,7 +68,7 @@ var subordinatingConjunctions = [ "after", "although", "when", "as", "if", "thou
 	"whereas", "while" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
-// 'Claim','claims', 'state' and 'stated' are not included, because these words are also nouns.
+// 'Claim','claims', 'state' and 'states' are not included, because these words are also nouns.
 var interviewVerbs = [ "say", "says", "said", "saying", "claimed", "ask", "asks", "asked", "asking", "stated", "stating",
 	"explain", "explains", "explained", "think", "thinks" ];
 
@@ -90,7 +90,7 @@ var delexicalisedVerbs = [ "seem", "seems", "seemed", "seeming", "let", "let's",
 	"called", "based", "add", "adds", "adding", "added", "contain", "contains", "containing", "contained" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
-// Key word combinations containing these adjectives/adverbs are fine.
+// Keyword combinations containing these adjectives/adverbs are fine.
 var generalAdjectivesAdverbs = [ "new", "newer", "newest", "old", "older", "oldest", "previous", "good", "well", "better", "best",
 	"big", "bigger", "biggest", "easy", "easier", "easiest", "fast", "faster", "fastest", "far", "hard", "harder", "hardest",
 	"least", "own", "large", "larger", "largest", "long", "longer", "longest", "low", "lower", "lowest", "high", "higher",
@@ -109,8 +109,8 @@ var recipeWords = [ "tbs", "tbsp", "spk", "lb", "qt", "pk", "bu", "oz", "pt", "m
 
 // 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 var vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likelihood", "ones", "piece", "pieces", "stuff", "times",
-	"part", "parts", "percent", "instance", "instances", "aspect", "aspects", "item", "items", "people", "idea", "theme",
-	"person", "percent" ];
+	"part", "parts", "percent", "instance", "instances", "aspect", "aspects", "item", "items", "idea", "theme",
+	"person" ];
 
 // 'No' is already included in the quantifier list.
 var miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "%" ];
