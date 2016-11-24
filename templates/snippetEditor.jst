@@ -3,8 +3,12 @@
 		<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h3>
     <p class="screen-reader-text"><%- i18n.snippetPreviewDescription %></p>
 
+		<div class="snippet-editor__view-toggle">
+			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop" data-type="desktop" />
+			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile" data-type="mobile" />
+		</div>
 
-		<div class="snippet_editor__view snippet-editor__view--mobile">
+		<div id="snippet-preview-view" class="snippet-editor__view snippet-editor__view--mobile">
 			<div class="snippet_container snippet_container__title snippet-editor__container" id="title_container">
 				<span class="screen-reader-text"><%- i18n.titleLabel %></span>
 				<span class="title" id="render_title_container">
