@@ -40,6 +40,41 @@ $snippet_width: 600px;
 .snippet-editor {
 
 	&__view {
+		clear: both;
+
+		&-toggle {
+			clear: both;
+			float: left;
+			margin: 0 0 10px;
+		}
+
+		&-icon {
+			$size: 20px;
+			width: $size;
+			height: $size;
+			background-size: $size;
+			float: left;
+			cursor: pointer;
+			background-color: transparent;
+			border: none;
+		}
+
+		&-icon-desktop {
+			background-image: url(svg-icon-desktop($color_caret));
+
+			&:hover, &--active {
+				background-image: url( svg-icon-desktop( $color_caret_focus ) );
+			}
+		}
+
+		&-icon-mobile {
+			background-image: url(svg-icon-mobile-phone($color_caret));
+
+			&:hover, &--active {
+				background-image: url( svg-icon-mobile-phone( $color_caret_focus ) );
+			}
+		}
+
 		&--mobile {
 			background-color: #fff;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.2);
