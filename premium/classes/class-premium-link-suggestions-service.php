@@ -7,6 +7,8 @@
  * Handles the actual requests to the prominent words endpoints.
  */
 class WPSEO_Premium_Link_Suggestions_Service {
+	const CACHE_PREFIX = 'wpseo_link_suggestions_';
+
 	/**
 	 * @param WP_REST_Request $request The request object.
 	 * @return WP_REST_Response The response for the query of link suggestions.
@@ -34,7 +36,11 @@ class WPSEO_Premium_Link_Suggestions_Service {
 
 		usort( $posts, array( $this, 'compare_post_count' ) );
 
-		return array_map( array( $this, 'get_post_link' ), $posts );
+		$suggestions = array_map( array( $this, 'get_post_object' ), $posts );
+
+		set_transient( $this->get_cache_key( $prominent_words ), $suggestions, WEEK_IN_SECONDS );
+
+		return $suggestions;
 	}
 
 	/**
@@ -51,6 +57,18 @@ class WPSEO_Premium_Link_Suggestions_Service {
 				'terms' => $term_id,
 			),
 		);
+	}
+
+	/**
+	 * Creates the cache key for the list of prominent words.
+	 *
+	 * @param int[] $prominent_words The prominent words to cache the link suggestions for.
+	 * @return string The cache key with which to save cache the link suggestions in the transients.
+	 */
+	public function get_cache_key( $prominent_words ) {
+		sort( $prominent_words );
+
+		return self::CACHE_PREFIX . md5( implode( ',', $prominent_words ) );
 	}
 
 	/**
@@ -109,9 +127,13 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 * @param WP_Post $post The post to prepare.
 	 * @return string The link to put in the link suggestions
 	 */
-	private function get_post_link( $post ) {
+	private function get_post_object( $post ) {
 		$post = $post['post'];
 
-		return get_permalink( $post );
+		return array(
+			'id'    => $post->ID,
+			'title' => $post->post_title,
+			'link'  => get_permalink( $post ),
+		);
 	}
 }

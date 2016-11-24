@@ -13,7 +13,25 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+	}
+
+	/**
+	 * Returns the data required for the JS to function.
+	 */
+	public function get_js_data() {
+		global $post_ID;
+
+		$service = new WPSEO_Premium_Link_Suggestions_Service();
+
+		$prominent_words = wp_get_post_terms( $post_ID, WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
+		$prominent_words = wp_list_pluck( $prominent_words, 'term_id' );
+
+		$suggestions = get_transient( $service->get_cache_key( $prominent_words ) );
+		if ( empty( $suggestions ) ) {
+			$suggestions = false;
+		}
+
+		return $suggestions;
 	}
 
 	/**
@@ -28,20 +46,10 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Renders the content for the metabox.
-	 *
-	 * @param WP_Post $post    The current post.
-	 * @param array   $metabox With metabox id, title, callback, and args elements.
+	 * Renders the content for the metabox. We leave this empty because we render with React.
 	 */
-	public function render_metabox_content( WP_Post $post, $metabox ) {
+	public function render_metabox_content() {
 		echo '';
-	}
-
-	/**
-	 * Sets the link suggestions assets.
-	 */
-	public function enqueue_scripts() {
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'yoastLinkSuggestions', $this->get_localizations() );
 	}
 
 	/**
@@ -76,19 +84,6 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 			$post_type,
 			'side',
 			'low'
-		);
-	}
-
-	/**
-	 * Returns the localization string with the suggestions.
-	 *
-	 * @return array
-	 */
-	protected function get_localizations() {
-		return array(
-			'suggestions' => array(
-				array( 'value' => 'This is a suggestion example', 'url' => home_url( 'example' ) ),
-			),
 		);
 	}
 }

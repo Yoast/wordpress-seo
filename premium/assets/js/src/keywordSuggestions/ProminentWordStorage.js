@@ -1,16 +1,18 @@
 import ProminentWordCache from "./ProminentWordCache";
+import EventEmitter from "events";
 
 /**
  * Handles the retrieval and storage of focus keyword suggestions
  */
-class ProminentWordStorage {
-
+class ProminentWordStorage extends EventEmitter {
 	/**
 	 * @param {string} rootUrl The root URL of the WP REST API.
 	 * @param {string} nonce The WordPress nonce required to save anything to the REST API endpoints.
 	 * @param {number} postID The postID of the post to save prominent words for.
 	 */
 	constructor( { postID, rootUrl, nonce } ) {
+		super();
+
 		this._rootUrl = rootUrl;
 		this._nonce = nonce;
 		this._cache = new ProminentWordCache();
@@ -48,6 +50,8 @@ class ProminentWordStorage {
 				},
 				dataType: "json",
 			} ).always( () => {
+				this.emit( "savedProminentWords", prominentWords );
+
 				this._savingProminentWords = false;
 			} );
 		} );

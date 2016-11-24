@@ -9,11 +9,31 @@
 class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 
 	/**
+	 * @var WPSEO_Metabox_Link_Suggestions
+	 */
+	protected $link_suggestions;
+
+	/**
+	 * Creates the meta box class.
+	 *
+	 * @param WPSEO_Metabox_Link_Suggestions $link_suggestions The link suggestions meta box.
+	 */
+	public function __construct( WPSEO_Metabox_Link_Suggestions $link_suggestions = null ) {
+		if ( $link_suggestions === null ) {
+			$link_suggestions = new WPSEO_Metabox_Link_Suggestions();
+		}
+
+		$this->link_suggestions = $link_suggestions;
+	}
+
+	/**
 	 * Registers relevant hooks to WordPress
 	 */
 	public function register_hooks() {
 		add_action( 'admin_init', array( $this, 'register_assets' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+
+		$this->link_suggestions->register_hooks();
 	}
 
 	/**
@@ -60,9 +80,11 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'root' => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			),
+			'linkSuggestions' => $this->link_suggestions->get_js_data(),
 		);
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'wpseoPremiumMetaboxData', $data );
+		// Use an extra level in the array to preserve booleans. WordPress sanitizes scalar values in the first level of the array.
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'wpseoPremiumMetaboxData', array( 'data' => $data ) );
 	}
 
 	/**
