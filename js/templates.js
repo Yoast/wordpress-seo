@@ -442,7 +442,11 @@
     __e( i18n.snippetPreview ) +
     '</h3>\n    <p class="screen-reader-text">' +
     __e( i18n.snippetPreviewDescription ) +
-    '</p>\n\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop" data-type="desktop" />\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile" data-type="mobile" />\n		</div>\n\n		<div id="snippet-preview-view" class="snippet-editor__view snippet-editor__view--mobile">\n			<div class="snippet_container snippet_container__title snippet-editor__container" id="title_container">\n				<span class="screen-reader-text">' +
+    '</p>\n\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop" data-type="desktop" aria-label="' +
+    __e( i18n.desktopMode ) +
+    '"  />\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile" data-type="mobile" aria-label="' +
+    __e( i18n.mobileMode ) +
+    '" />\n		</div>\n\n		<div id="snippet-preview-view" class="snippet-editor__view snippet-editor__view--mobile">\n			<div class="snippet_container snippet_container__title snippet-editor__container" id="title_container">\n				<span class="screen-reader-text">' +
     __e( i18n.titleLabel ) +
     '</span>\n				<span class="title" id="render_title_container">\n					<span id="snippet_title">\n						' +
     __e( rendered.title ) +

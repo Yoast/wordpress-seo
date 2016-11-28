@@ -3,7 +3,7 @@ var forEach = require( "lodash/forEach" );
 var domManipulation = require( "./helpers/domManipulation.js" );
 
 var previewModes = {
-	desktop: "",
+	desktop: "snippet-editor__view--desktop",
 	mobile: "snippet-editor__view--mobile",
 };
 
@@ -14,7 +14,7 @@ var previewModes = {
  * @param {Element[]} previewToggles Array with toggle elements.
  *
  * @property {string}   previewMode    The current preview mode.
- * @propert {Element[]} preivewToggles The array with toggle elements.
+ * @propert {Element[]} previewToggles The array with toggle elements.
  * @constructor
  */
 var SnippetPreviewToggler = function( previewMode, previewToggles ) {

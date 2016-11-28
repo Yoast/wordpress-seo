@@ -380,6 +380,8 @@ SnippetPreview.prototype.renderTemplate = function() {
 				"js-text-analysis",
 				"You can click on each element in the preview to jump to the Snippet Editor."
 			),
+			desktopMode: this.i18n.dgettext( "js-text-analysis", "Desktop preview" ),
+			mobileMode: this.i18n.dgettext( "js-text-analysis", "Mobile preview" ),
 		},
 	} );
 
