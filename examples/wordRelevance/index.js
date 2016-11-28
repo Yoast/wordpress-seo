@@ -36,7 +36,7 @@ if ( ! filepath ) {
 }
 var text = fs.readFileSync( filepath, { "encoding": "utf-8" } );
 
-var relevantWordss = map( getRelevantWords( text ), function( word ) {
+var relevantWordss = map( getRelevantWords( text, "en_US" ), function( word ) {
    var words = getWords( text );
 
    var output = {

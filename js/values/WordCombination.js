@@ -1,4 +1,4 @@
-var functionWords = require( "../researches/english/functionWords" )().all;
+var functionWords = require( "../researches/german/functionWords" )().all;
 var forEach = require( "lodash/forEach" );
 var has = require( "lodash/has" );
 
