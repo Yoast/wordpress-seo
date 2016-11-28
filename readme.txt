@@ -130,7 +130,6 @@ Release Date: November 29nd, 2016
     * Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
     * Fixes a bug that prevented bulk actions to work in the Google Search Console.
     * Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
-    * Fixes a bug where bulk actions in the Google Search Console didn't work
 
 = 3.8.0 =
 
