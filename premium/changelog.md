@@ -1,4 +1,4 @@
-### 3.9.0
+### 3.9.0 November 29th, 2016
 * Improves the title updates in the social previews.
 * Fixes a bug where the wrong URLs where used in redirect notices.
 * Includes every change in Yoast SEO core 3.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
