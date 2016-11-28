@@ -88,7 +88,7 @@ function calculateOccurrences( wordCombinations ) {
 function getRelevantCombinations( wordCombinations ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
 		return combination.getOccurrences() !== 1 &&
-			combination.getRelevance( ) !== 0;
+			combination.getRelevance() !== 0;
 	} );
 	return wordCombinations;
 }
