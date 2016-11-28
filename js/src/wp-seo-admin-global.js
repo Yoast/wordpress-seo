@@ -390,9 +390,11 @@
 		var $slideout = $container.find( ".wpseo-tab-video-slideout" );
 		if ( $slideout.is( ":hidden" ) ) {
 			openVideoSlideout( $container );
+			$( "#sidebar-container" ).hide();
 		}
 		else {
 			closeVideoSlideout();
+			$( "#sidebar-container" ).show();
 		}
 	} );
 }() );
