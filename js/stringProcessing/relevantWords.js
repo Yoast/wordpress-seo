@@ -31,9 +31,10 @@ var specialCharacters = [ "–", "—", "-" ];
  *
  * @param {string} text The text to retrieve combinations for.
  * @param {number} combinationSize The size of the combinations to retrieve.
+ * @param {Function} functionWords The function containing the lists of function words.
  * @returns {WordCombination[]} All word combinations for the given text.
  */
-function getWordCombinations( text, combinationSize ) {
+function getWordCombinations( text, combinationSize, functionWords ) {
 	var sentences = getSentences( text );
 
 	var words, combination;
@@ -47,7 +48,7 @@ function getWordCombinations( text, combinationSize ) {
 			// If there are still enough words in the sentence to slice of.
 			if ( i + combinationSize - 1 < words.length ) {
 				combination = words.slice( i, i + combinationSize );
-				return new WordCombination( combination );
+				return new WordCombination( combination, 0, functionWords );
 			}
 
 			return false;
@@ -87,7 +88,7 @@ function calculateOccurrences( wordCombinations ) {
 function getRelevantCombinations( wordCombinations ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
 		return combination.getOccurrences() !== 1 &&
-			combination.getRelevance() !== 0;
+			combination.getRelevance( ) !== 0;
 	} );
 	return wordCombinations;
 }
@@ -226,8 +227,6 @@ function filterCombinations( combinations, functionWords, locale ) {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords( text, locale ) {
-	var words = getWordCombinations( text, 1 );
-	var wordCount = words.length;
 	var functionWords;
 	switch( getLanguage( locale ) ) {
 		case "de":
@@ -239,6 +238,9 @@ function getRelevantWords( text, locale ) {
 			break;
 	}
 
+	var words = getWordCombinations( text, 1, functionWords().all );
+	var wordCount = words.length;
+
 	var oneWordCombinations = getRelevantCombinations(
 		calculateOccurrences( words )
 	);
@@ -249,13 +251,13 @@ function getRelevantWords( text, locale ) {
 	var oneWordRelevanceMap = {};
 
 	forEach( oneWordCombinations, function( combination ) {
-		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance();
+		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance( functionWords );
 	} );
 
-	var twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2 ) );
-	var threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3 ) );
-	var fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4 ) );
-	var fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5 ) );
+	var twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords().all ) );
+	var threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords().all ) );
+	var fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords().all ) );
+	var fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords().all ) );
 
 	var combinations = oneWordCombinations.concat(
 		twoWordCombinations,

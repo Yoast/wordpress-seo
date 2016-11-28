@@ -33,7 +33,7 @@ var possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "dein"
 var quantifiers = [ "manche", "manch", "viele", "viel", "vieler", "vielen", "vielem", "alle", "aller", "alles",
 	"allen", "allem", "allerlei", "solcherlei", "einige", "etliche", "manch", "wenige", "weniger", "wenigen",
 	"wenigem", "weniges", "wenig", "wenigerer", "wenigeren", "wenigerem", "wenigere", "wenigeres", "wenig",
-	"bisschen", "paar", "kein", "keines", "keinem", "keinen", "keine", "mehrere", "nichts",
+	"bisschen", "paar", "kein", "keines", "keinem", "keinen", "keine", "mehr", "mehrere", "nichts",
 	"genug", "mehrere", "mehrerer", "mehreren", "mehrerem", "mehreres", "verschiedene", "verschiedener",
 	"verschiedenen", "verschiedenem", "verschiedenes", "verschiedne", "verschiedner", "verschiednen", "verschiednem",
 	"verschiednes", "art", "arten", "sorte", "sorten" ];
@@ -174,7 +174,7 @@ var delexicalisedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
-var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neuer", "neuen", "neues", "neuem", "neuerer", "neueren", "neuerem", "neueres",
+var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "neuen", "neues", "neuem", "neuerer", "neueren", "neuerem", "neueres",
 	"neuere", "neuester", "neuster", "neuesten", "neusten", "neuestem", "neustem", "neuestes", "neustes", "neueste", "neuste", "alt",
 	"alter", "alten", "altem", "altes", "alte", "ältere", "älteren", "älterer", "älteres", "ältester", "ältesten", "ältestem", "ältestes",
 	"älteste", "aeltere", "aelteren", "aelterer", "aelteres", "aeltester", "aeltesten", "aeltestem", "aeltestes", "aelteste", "gut", "guter",

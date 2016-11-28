@@ -1,4 +1,3 @@
-var functionWords = require( "../researches/german/functionWords" )().all;
 var forEach = require( "lodash/forEach" );
 var has = require( "lodash/has" );
 
@@ -6,9 +5,10 @@ var has = require( "lodash/has" );
  * Returns whether or not the given word is a function word.
  *
  * @param {string} word The word to check.
+ * @param {Function} functionWords The function containing the lists of function words.
  * @returns {boolean} Whether or not the word is a function word.
  */
-function isFunctionWord( word ) {
+function isFunctionWord( word, functionWords ) {
 	return -1 !== functionWords.indexOf( word.toLocaleLowerCase() );
 }
 
@@ -19,11 +19,13 @@ function isFunctionWord( word ) {
  *
  * @param {string[]} words The list of words that this combination consists of.
  * @param {number} [occurrences] The number of occurrences, defaults to 0.
+ * @param {Function} functionWords The function containing the lists of function words.
  */
-function WordCombination( words, occurrences ) {
+function WordCombination( words, occurrences, functionWords ) {
 	this._words = words;
 	this._length = words.length;
 	this._occurrences = occurrences || 0;
+	this._functionWords = functionWords;
 }
 
 WordCombination.lengthBonus = {
@@ -141,7 +143,7 @@ WordCombination.prototype.getRelevantWordPercentage = function() {
  * @returns {number} The relevance of this word combination.
  */
 WordCombination.prototype.getRelevance = function() {
-	if ( this._words.length === 1 && isFunctionWord( this._words[ 0 ] ) ) {
+	if ( this._words.length === 1 && isFunctionWord( this._words[ 0 ], this._functionWords ) ) {
 		return 0;
 	}
 
