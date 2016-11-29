@@ -107,12 +107,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 == Screenshots ==
 
 1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. Some of the sites using this Yoast SEO plugin.
-3. The Yoast SEO settings for a taxonomy.
-4. The fully configurable XML sitemap for Yoast SEO.
-5. Easily import SEO data from All In One SEO pack and HeadSpace2 SEO.
-6. Example of the Page Analysis functionality.
-7. The advanced section of the Yoast SEO meta box.
+2. The fully configurable XML sitemap for Yoast SEO.
+3. Easily import SEO data from All In One SEO pack and HeadSpace2 SEO.
+4. Example of the SEO analysis functionality.
+5. Example of the readability analysis functionality.
+6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
 
