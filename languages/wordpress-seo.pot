@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.8\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-11-10 11:11:45+00:00\n"
+"POT-Creation-Date: 2016-11-29 10:31:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4145,6 +4145,20 @@ msgstr ""
 msgid "Register now &raquo;"
 msgstr ""
 
+#: vendor/yoast/license-manager/class-license-manager.php:114
+msgid ""
+"<b>Warning!</b> You didn't set your %s license key yet, which means you're "
+"missing out on updates and support! <a href=\"%s\">Enter your license key</"
+"a> or <a href=\"%s\" target=\"_blank\">get a license here</a>."
+msgstr ""
+
+#: vendor/yoast/license-manager/class-license-manager.php:116
+msgid ""
+"<b>Warning!</b> Your %s license is inactive which means you're missing out "
+"on updates and support! <a href=\"%s\">Activate your license</a> or <a href="
+"\"%s\" target=\"_blank\">get a license here</a>."
+msgstr ""
+
 #: vendor/yoast/license-manager/class-license-manager.php:134
 msgid ""
 "<b>Warning!</b> You're blocking external requests which means you won't be "
@@ -4232,10 +4246,13 @@ msgid ""
 "stop, 'OK' to update."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-theme-update-manager.php:97
+#. translators: %1$s expands to product name, %2$s expands to version, %3$s
+#. expands to changelog HTML link, %4$s expands to closing HTML link tag, %5$s
+#. expands to update HTML link
+#: vendor/yoast/license-manager/class-theme-update-manager.php:98
 msgid ""
-"<strong>%s version %s</strong> is available. <a href=\"%s\" class=\"thickbox"
-"\" title=\"%s\">Check out what's new</a> or <a href=\"%s\" %s>update now</a>."
+"<strong>%1$s version %2$s</strong> is available. %3$sCheck out what's new"
+"%4$s or %5$supdate now%4$s."
 msgstr ""
 
 #: vendor/yoast/license-manager/class-update-manager.php:79
@@ -4267,6 +4284,22 @@ msgstr ""
 msgid "License status"
 msgstr ""
 
+#: vendor/yoast/license-manager/views/form.php:34
+msgid "ACTIVE"
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:34
+msgid "you are receiving updates."
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:36
+msgid "INACTIVE"
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:36
+msgid "you are <strong>not</strong> receiving updates."
+msgstr ""
+
 #: vendor/yoast/license-manager/views/form.php:41
 msgid "Toggle license status"
 msgstr ""
@@ -4293,7 +4326,7 @@ msgid "License Key"
 msgstr ""
 
 #: vendor/yoast/license-manager/views/form.php:62
-msgid "Paste your %s license key here.."
+msgid "Paste your %s license key here..."
 msgstr ""
 
 #: vendor/yoast/license-manager/views/form.php:64
@@ -5091,73 +5124,73 @@ msgstr ""
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:271
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:275
 msgid "Next step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:270
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:274
 msgid "Next"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:262
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:266
 msgid "Previous step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:261
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:265
 msgid "Previous"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:231
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:238
 msgid "Close the Wizard"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:160
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:163
 msgid ""
 "A problem occurred when saving the current step, {{link}}please file a bug "
 "report{{/link}} describing what step you are on and which changes you want "
 "to make (if any)."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/StepIndicator.js:47
+#: yoast-components/composites/OnboardingWizard/StepIndicator.js:48
 msgid "Step %1$d: %2$s"
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:58
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:67
 msgid "Close search result form"
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:37
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:46
 msgid "Please provide a meta description by editing it here."
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:36
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:28
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:45
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
 msgid "Meta description preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:35
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:44
 msgid "Slug preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:34
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:26
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:43
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:42
 msgid "This is an example title - edit by clicking here"
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:33
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:25
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:42
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:41
 msgid "SEO title preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:31
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:40
 msgid "Search Result Form"
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:27
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
 msgid "URL preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:23
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:39
 msgid "Search Result Preview"
 msgstr ""
 
