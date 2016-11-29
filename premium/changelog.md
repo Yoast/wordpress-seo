@@ -1,3 +1,8 @@
+### 3.9.0 November 29th, 2016
+* Improves the title updates in the social previews.
+* Fixes a bug where the wrong URLs were used in redirect notices.
+* Includes every change in Yoast SEO core 3.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.8.0 November 8th, 2016
 * Fixes a bug where keyword tabs didn't have a correct screen reader text.
 * Fixes a bug where certain translations weren't translatable, props [Pedro Mendonça](https://github.com/pedro-mendonca)
