@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 2.1.0: November 29th, 2016
 
 ### Added
 
@@ -17,14 +17,15 @@ We follow [Semantic Versioning](http://semver.org/).
 * Splits color schemes in a separate Sass file.
 * Splits snippet preview colors in a separate Sass file.
 * Removes, updates, and adds colors. See the related issue for a [list of colors changes](https://github.com/Yoast/yoast-components/issues/106).
+* Adds 2.0.0 as a possibility for react-tap-plugin as a peer dependency.
 
-## 2.0: October 20th, 2016
+## 2.0.0: October 20th, 2016
 
 ### Breaking changes
 
 * Changed default server request from a PUT to a POST request.
 
-## 1.1: October 11th, 2016
+## 1.1.0: October 11th, 2016
 
 ### Added
 
@@ -37,7 +38,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * [Label] Adds an `aria-label` attribute.
 * [Choice] Passes the screenReaderText to the label as `aria-label`.
 
-## 1.0: September 27th, 2016
+## 1.0.0: September 27th, 2016
 
 ### Added
 
