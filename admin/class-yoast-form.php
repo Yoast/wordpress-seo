@@ -514,7 +514,7 @@ class Yoast_Form {
 			__( 'Services', 'wordpress-seo' ),
 			sprintf(
 				/* translators: %1$s expands to anchor start text with link to the Yoast Services page, %2$s to Yoast, %3$s is the a-closing tag.  */
-				__( 'Don\'t want dive into SEO yourself? %1$sLet team %2$s help you!%3$s' ),
+				__( 'Don\'t want dive into SEO yourself? %1$sLet team %2$s help you!%3$s', 'wordpress-seo' ),
 				'<a href="https://yoa.st/">',
 				'Yoast',
 				'</a>'
