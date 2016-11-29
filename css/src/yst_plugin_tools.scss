@@ -520,17 +520,25 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		text-align: left;
 		box-sizing: border-box;
 		line-height: 19px;
-		border-bottom: 1px solid #a4286a
+		border-bottom: 1px solid #a4286a;
 	}
 
 	&__spot {
 		padding: 10px 0;
-		border-bottom: 1px solid #DDD;
+		border-bottom: 1px solid #ddd;
 
 		a {
 			color: #a4286a;
 		}
 	}
+}
 
+.wpseo-banner {
+	&__link {
+	   display: inline-block;
+	}
 
+	&__image {
+	   vertical-align: top;
+	}
 }
