@@ -134,15 +134,6 @@ table.wpseo th {
 	vertical-align: top;
 }
 
-.wpseo-remove-ads {
-	margin-top: 0;
-	padding: 12px;
-	border: 1px solid #0075b3;
-	border-radius: 20px;
-	border-bottom-right-radius: 0;
-	background-color: #fff;
-}
-
 #wpseo_content_top {
 	min-width: 800px;
 }
@@ -178,6 +169,10 @@ table.wpseo th {
 #sidebar-container {
 	width: 261px;
 	padding: 0 0 0 20px;
+}
+
+.yoast-help-center-open #sidebar-container {
+	display: none;
 }
 
 @media (max-width: 1020px) {
