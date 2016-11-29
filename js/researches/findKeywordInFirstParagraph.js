@@ -4,6 +4,8 @@ var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 
 var escapeRegExp = require( "lodash/escapeRegExp" );
+var reject = require( "lodash/reject" );
+var isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
@@ -14,7 +16,8 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
  * @returns {number} The number of occurrences of the keyword in the first paragraph.
  */
 module.exports = function( paper ) {
-	var paragraph = matchParagraphs( paper.getText() );
+	var paragraphs = matchParagraphs( paper.getText() );
 	var keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
-	return wordMatch( paragraph[ 0 ], keyword, paper.getLocale() );
+	var paragraph = reject( paragraphs, function( paragraph ){ return isEmpty( paragraph ) } )[ 0 ] || "";
+	return wordMatch( paragraph, keyword, paper.getLocale() );
 };

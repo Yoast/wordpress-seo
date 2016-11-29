@@ -22,3 +22,14 @@ describe( "checks for the keyword in the first paragraph", function(){
 		expect( firstParagraph( new Paper( "<p>this is a $keyword with an extra char</p>", {keyword:"$keyword"} ) ) ).toBe( 1 );
 	});
 });
+
+// Empty paragraphs can occur when there are only shortcodes that are filtered out.
+describe( "The first paragraph should be skipped when it is empty.", function(){
+	it( "returns the number of matches in the first not empty paragraph",  function(){
+		expect( firstParagraph( new Paper( "<p></p><p>this is a keyword</p>", {keyword:"keyword"} ) ) ).toBe( 1 );
+		expect( firstParagraph( new Paper( "<p></p><p>this is a keyword</p>", {keyword:""} ) ) ).toBe( 0 );
+		expect( firstParagraph( new Paper ( "<p></p>", {keyword: "keyword"} ) ) ).toBe( 0 );
+	});
+});
+
+
