@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.4: November 29th, 2016
+
+### Changes
+
+* Change headings from h4 to h3 for better heading structure.
+* Fix the alignment of the headings
+
+
 ## 1.3.1: October 11th, 2016
 
 ### Changes
