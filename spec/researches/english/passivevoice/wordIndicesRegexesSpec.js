@@ -1,7 +1,7 @@
-var wordIndicesRegexes = require( "../../../../js/researches/english/passivevoice-english/getIndicesWithRegex.js" );
+var wordIndicesRegexes = require( "../../../../js/researches/english/passivevoice/getIndicesWithRegex.js" );
 
-var determinerList = require( "../../../../js/researches/english/passivevoice-english/determiners.js" )();
-var havingList = require( "../../../../js/researches/english/passivevoice-english/having.js" )();
+var determinerList = require( "../../../../js/researches/english/passivevoice/determiners.js" )();
+var havingList = require( "../../../../js/researches/english/passivevoice/having.js" )();
 var arrayToRegex = require( "../../../../js/stringProcessing/createRegexFromArray.js" );
 var determinersRegex = arrayToRegex( determinerList );
 var havingRegex = arrayToRegex( havingList );
