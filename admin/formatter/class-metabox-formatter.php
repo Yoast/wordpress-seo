@@ -82,17 +82,15 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Gets the locale used for translations. 
+	 * Gets the locale used for translations.
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	private function get_translation_locale() {
-		$locale = get_locale();
-
 		if ( function_exists ( 'get_user_locale' ) ) {
-			$locale = get_user_locale();
+			return  get_user_locale();
 		}
-		return $locale;
+		return get_locale();
 	}
 
 	/**
