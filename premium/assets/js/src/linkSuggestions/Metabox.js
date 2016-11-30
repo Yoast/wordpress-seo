@@ -2,8 +2,18 @@ import React, { Component } from "react";
 import { LinkSuggestions as LinkSuggestionsElement } from "yoast-premium-components";
 import Loader from "yoast-components/composites/basic/Loader";
 
+/**
+ * Link suggestions metabox component.
+ */
 export default class Metabox extends Component {
-
+	/**
+	 * Constructs a metabox component for the link suggestions.
+	 *
+	 * @param {Object} props The properties for this components.
+	 * @param {boolean} props.isLoading Whether this component should start of showing a loader.
+	 * @param {Array} props.suggestionsn The suggestions to render initially.
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -17,6 +27,12 @@ export default class Metabox extends Component {
 		this.props.linkSuggestions.on( "retrievedLinkSuggestions", this.retrievedLinkSuggestions );
 	}
 
+	/**
+	 * Updates the link suggestions in the state.
+	 *
+	 * @param {Array} suggestions The link suggestions to set in the state.
+	 * @returns {void}
+	 */
 	retrievedLinkSuggestions( suggestions ) {
 		this.setState( {
 			suggestions,
@@ -24,6 +40,11 @@ export default class Metabox extends Component {
 		} );
 	}
 
+	/**
+	 * Renders this component.
+	 *
+	 * @returns {React.Element} The rendered element.
+	 */
 	render() {
 		if ( this.state.loading ) {
 			return <div className="yoast-link-suggestions yoast-link-suggestions--loading"><Loader /></div>;

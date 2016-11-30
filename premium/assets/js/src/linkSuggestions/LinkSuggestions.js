@@ -76,7 +76,7 @@ class LinkSuggestions extends EventEmitter {
 	/**
 	 * Retrieves link suggestions based on prominent words using AJAX.
 	 *
-	 * @param {int[]} prominentWords The prominent words to retrieve link suggestions for.
+	 * @param {number[]} prominentWords The prominent words to retrieve link suggestions for.
 	 * @returns {Promise} Resolves with the response from the server.
 	 */
 	retrieveLinkSuggestions( prominentWords ) {
@@ -108,6 +108,12 @@ class LinkSuggestions extends EventEmitter {
 		} );
 	}
 
+	/**
+	 * Emits an event suggesting we can now render link suggestions.
+	 *
+	 * @param {Array} suggestions The actual link suggestions.
+	 * @returns {void}
+	 */
 	render( suggestions ) {
 		this.emit( "retrievedLinkSuggestions", suggestions );
 	}
