@@ -62,6 +62,9 @@ $knowledge_graph_label = ( 'company' === $options['company_or_person'] ) ? __( '
 $tabs->add_tab( new WPSEO_Option_Tab( 'knowledge-graph', __( $knowledge_graph_label, 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-knowledge-graph' ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'webmaster-tools', __( 'Webmaster Tools', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-general-search-console' ) ) );
 $tabs->add_tab( new WPSEO_Option_Tab( 'security', __( 'Security', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-security' ) ) );
+
+do_action( 'wpseo_settings_tabs_dashboard', $tabs );
+
 $tabs->display( $yform, $options );
 
 do_action( 'wpseo_dashboard' );
