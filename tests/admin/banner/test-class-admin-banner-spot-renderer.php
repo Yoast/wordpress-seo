@@ -49,7 +49,7 @@ class WPSEO_Admin_Banner_Spot_Renderer_Test extends WPSEO_UnitTestCase {
 		$banner_spot->set_description( 'This is a test spot' );
 		$banner_spot->add_banner( new WPSEO_Admin_Banner( 'url', 'image', 100, 100, 'alt' ) );
 
-		$expected_output = '<div class="yoast-sidebar__spot"><strong>Test spot</strong><p>This is a test spot</p><a target="_blank" href=';
+		$expected_output = '<div class="yoast-sidebar__spot"><strong>Test spot</strong><p>This is a test spot</p><a class="wpseo-banner__link" target="_blank" href=';
 		$actual_output   = $this->admin_banner_spot_renderer->render( $banner_spot );
 
 		$this->assertStringStartsWith( $expected_output, $actual_output );
@@ -64,7 +64,7 @@ class WPSEO_Admin_Banner_Spot_Renderer_Test extends WPSEO_UnitTestCase {
 		$banner_spot = new WPSEO_Admin_Banner_Spot( 'Test spot' );
 		$banner_spot->add_banner( new WPSEO_Admin_Banner( 'url', 'image', 100, 100, 'alt' ) );
 
-		$expected_output = '<div class="yoast-sidebar__spot"><strong>Test spot</strong><a target="_blank" href=';
+		$expected_output = '<div class="yoast-sidebar__spot"><strong>Test spot</strong><a class="wpseo-banner__link" target="_blank" href=';
 		$actual_output   = $this->admin_banner_spot_renderer->render( $banner_spot );
 
 		$this->assertStringStartsWith( $expected_output, $actual_output );
