@@ -87,7 +87,13 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_user_locale() . '.json';
+		$locale = get_locale();
+
+		if ( function_exists ( get_user_locale ) ) {
+			$locale = get_user_locale();
+		}
+
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}
