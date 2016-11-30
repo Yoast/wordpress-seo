@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.8\n"
+"Project-Id-Version: Yoast SEO 3.9\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-11-10 11:09:57+00:00\n"
+"POT-Creation-Date: 2016-11-30 11:08:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -84,7 +84,7 @@ msgstr ""
 #. Services page, %2$s to Yoast, %3$s is the a-closing tag.
 #: admin/banner/class-admin-banner-sidebar.php:121
 #: admin/class-yoast-form.php:517
-msgid "Don't want dive into SEO yourself? %1$sLet team %2$s help you!%3$s"
+msgid "Don't want to dive into SEO yourself? %1$sLet team %2$s help you!%3$s"
 msgstr ""
 
 #: admin/banner/class-admin-banner-sidebar.php:134
@@ -148,7 +148,7 @@ msgstr ""
 #: admin/banner/class-admin-banner-sidebar.php:246
 msgid ""
 "You can easily learn more about SEO, content and the like with one of "
-"%1$sour courses%2$s"
+"%1$sour courses%2$s."
 msgstr ""
 
 #: admin/banner/class-admin-banner-sidebar.php:258
@@ -260,7 +260,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: admin/class-admin.php:150 admin/class-admin.php:260
-#: admin/pages/dashboard.php:58 inc/wpseo-non-ajax-functions.php:262
+#: admin/pages/dashboard.php:58 inc/wpseo-non-ajax-functions.php:260
 msgid "Dashboard"
 msgstr ""
 
@@ -268,7 +268,7 @@ msgstr ""
 #: admin/class-meta-columns.php:63
 #: admin/formatter/class-metabox-formatter.php:71
 #: admin/taxonomy/class-taxonomy-columns.php:51
-#: inc/wpseo-non-ajax-functions.php:105
+#: inc/wpseo-non-ajax-functions.php:103
 msgid "SEO"
 msgstr ""
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: admin/class-admin.php:171 inc/wpseo-non-ajax-functions.php:269
+#: admin/class-admin.php:171 inc/wpseo-non-ajax-functions.php:267
 msgid "Titles &amp; Metas"
 msgstr ""
 
@@ -285,31 +285,31 @@ msgstr ""
 #: admin/class-social-admin.php:117
 #: admin/taxonomy/class-taxonomy-metabox.php:212
 #: admin/taxonomy/class-taxonomy-metabox.php:215
-#: inc/wpseo-non-ajax-functions.php:275
+#: inc/wpseo-non-ajax-functions.php:273
 msgid "Social"
 msgstr ""
 
-#: admin/class-admin.php:188 inc/wpseo-non-ajax-functions.php:281
+#: admin/class-admin.php:188 inc/wpseo-non-ajax-functions.php:279
 msgid "XML Sitemaps"
 msgstr ""
 
 #: admin/class-admin.php:197 admin/metabox/class-metabox.php:410
 #: admin/metabox/class-metabox.php:418 admin/metabox/class-metabox.php:421
-#: inc/wpseo-non-ajax-functions.php:287
+#: inc/wpseo-non-ajax-functions.php:285
 msgid "Advanced"
 msgstr ""
 
-#: admin/class-admin.php:206 inc/wpseo-non-ajax-functions.php:293
+#: admin/class-admin.php:206 inc/wpseo-non-ajax-functions.php:291
 msgid "Tools"
 msgstr ""
 
-#: admin/class-admin.php:215 inc/wpseo-non-ajax-functions.php:300
+#: admin/class-admin.php:215 inc/wpseo-non-ajax-functions.php:298
 msgid "Search Console"
 msgstr ""
 
 #: admin/class-admin.php:224 admin/metabox/class-metabox.php:435
 #: admin/taxonomy/class-taxonomy-metabox.php:229
-#: inc/wpseo-non-ajax-functions.php:306
+#: inc/wpseo-non-ajax-functions.php:304
 msgid "Go Premium"
 msgstr ""
 
@@ -407,7 +407,7 @@ msgid "Disabled"
 msgstr ""
 
 #. translators: %1$s resolves to https:github.com/Yoast/wordpress-seo
-#: admin/class-asset.php:180
+#: admin/class-asset.php:179
 msgid ""
 "You are trying to load non-minified files, these are only available in our "
 "development package. Check out %1$s to see all the source files."
@@ -2617,7 +2617,7 @@ msgid "Restore this item."
 msgstr ""
 
 #: admin/views/partial-alerts-warnings.php:9
-#: inc/wpseo-non-ajax-functions.php:117
+#: inc/wpseo-non-ajax-functions.php:115
 msgid "Notifications"
 msgstr ""
 
@@ -3539,7 +3539,6 @@ msgid "Delete the old data after import? (recommended)"
 msgstr ""
 
 #: admin/views/tabs/tool/import-seo.php:35
-#: admin/views/tool-import-export.php:88
 msgid "Import"
 msgstr ""
 
@@ -3570,6 +3569,7 @@ msgid "Choose your settings.zip file"
 msgstr ""
 
 #: admin/views/tabs/tool/wpseo-import.php:25
+#: admin/views/tool-import-export.php:83
 msgid "Import settings"
 msgstr ""
 
@@ -3652,15 +3652,15 @@ msgid ""
 "If you had a .htaccess file and it was editable, you could edit it from here."
 msgstr ""
 
-#: admin/views/tool-import-export.php:75
+#: admin/views/tool-import-export.php:72
 msgid "The old data of the imported plugin was deleted successfully."
 msgstr ""
 
-#: admin/views/tool-import-export.php:92
-msgid "Export"
+#: admin/views/tool-import-export.php:87
+msgid "Export settings"
 msgstr ""
 
-#: admin/views/tool-import-export.php:96
+#: admin/views/tool-import-export.php:91
 msgid "Import from other SEO plugins"
 msgstr ""
 
@@ -4043,75 +4043,75 @@ msgid_plural "You have %d new issues concerning your SEO!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/wpseo-non-ajax-functions.php:125
+#: inc/wpseo-non-ajax-functions.php:123
 msgid "Keyword Research"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:131
+#: inc/wpseo-non-ajax-functions.php:129
 msgid "AdWords External"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:138
+#: inc/wpseo-non-ajax-functions.php:136
 msgid "Google Trends"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:145
+#: inc/wpseo-non-ajax-functions.php:143
 msgid "SEO Book"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:157
+#: inc/wpseo-non-ajax-functions.php:155
 msgid "Analyze this page"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:163
+#: inc/wpseo-non-ajax-functions.php:161
 msgid "Check Inlinks (OSE)"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:170
+#: inc/wpseo-non-ajax-functions.php:168
 msgid "Check Keyword Density"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:178
+#: inc/wpseo-non-ajax-functions.php:176
 msgid "Check Google Cache"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:185
+#: inc/wpseo-non-ajax-functions.php:183
 msgid "Check Headers"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:192
+#: inc/wpseo-non-ajax-functions.php:190
 msgid "Google Structured Data Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:199
+#: inc/wpseo-non-ajax-functions.php:197
 msgid "Facebook Debugger"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:206
+#: inc/wpseo-non-ajax-functions.php:204
 msgid "Pinterest Rich Pins Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:213
+#: inc/wpseo-non-ajax-functions.php:211
 msgid "HTML Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:220
+#: inc/wpseo-non-ajax-functions.php:218
 msgid "CSS Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:227
+#: inc/wpseo-non-ajax-functions.php:225
 msgid "Google Page Speed Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:234
+#: inc/wpseo-non-ajax-functions.php:232
 msgid "Microsoft Edge Site Scan"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:241
+#: inc/wpseo-non-ajax-functions.php:239
 msgid "Mobile-Friendly Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:256
+#: inc/wpseo-non-ajax-functions.php:254
 msgid "SEO Settings"
 msgstr ""
 
@@ -4143,6 +4143,20 @@ msgstr ""
 
 #: vendor/yoast/i18n-module/i18n-module.php:199
 msgid "Register now &raquo;"
+msgstr ""
+
+#: vendor/yoast/license-manager/class-license-manager.php:114
+msgid ""
+"<b>Warning!</b> You didn't set your %s license key yet, which means you're "
+"missing out on updates and support! <a href=\"%s\">Enter your license key</"
+"a> or <a href=\"%s\" target=\"_blank\">get a license here</a>."
+msgstr ""
+
+#: vendor/yoast/license-manager/class-license-manager.php:116
+msgid ""
+"<b>Warning!</b> Your %s license is inactive which means you're missing out "
+"on updates and support! <a href=\"%s\">Activate your license</a> or <a href="
+"\"%s\" target=\"_blank\">get a license here</a>."
 msgstr ""
 
 #: vendor/yoast/license-manager/class-license-manager.php:134
@@ -4232,10 +4246,13 @@ msgid ""
 "stop, 'OK' to update."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-theme-update-manager.php:97
+#. translators: %1$s expands to product name, %2$s expands to version, %3$s
+#. expands to changelog HTML link, %4$s expands to closing HTML link tag, %5$s
+#. expands to update HTML link
+#: vendor/yoast/license-manager/class-theme-update-manager.php:98
 msgid ""
-"<strong>%s version %s</strong> is available. <a href=\"%s\" class=\"thickbox"
-"\" title=\"%s\">Check out what's new</a> or <a href=\"%s\" %s>update now</a>."
+"<strong>%1$s version %2$s</strong> is available. %3$sCheck out what's new"
+"%4$s or %5$supdate now%4$s."
 msgstr ""
 
 #: vendor/yoast/license-manager/class-update-manager.php:79
@@ -4267,6 +4284,22 @@ msgstr ""
 msgid "License status"
 msgstr ""
 
+#: vendor/yoast/license-manager/views/form.php:34
+msgid "ACTIVE"
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:34
+msgid "you are receiving updates."
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:36
+msgid "INACTIVE"
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:36
+msgid "you are <strong>not</strong> receiving updates."
+msgstr ""
+
 #: vendor/yoast/license-manager/views/form.php:41
 msgid "Toggle license status"
 msgstr ""
@@ -4293,7 +4326,7 @@ msgid "License Key"
 msgstr ""
 
 #: vendor/yoast/license-manager/views/form.php:62
-msgid "Paste your %s license key here.."
+msgid "Paste your %s license key here..."
 msgstr ""
 
 #: vendor/yoast/license-manager/views/form.php:64
@@ -5091,73 +5124,73 @@ msgstr ""
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:271
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:275
 msgid "Next step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:270
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:274
 msgid "Next"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:262
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:266
 msgid "Previous step"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:261
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:265
 msgid "Previous"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:231
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:238
 msgid "Close the Wizard"
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:160
+#: yoast-components/composites/OnboardingWizard/OnboardingWizard.js:163
 msgid ""
 "A problem occurred when saving the current step, {{link}}please file a bug "
 "report{{/link}} describing what step you are on and which changes you want "
 "to make (if any)."
 msgstr ""
 
-#: yoast-components/composites/OnboardingWizard/StepIndicator.js:47
+#: yoast-components/composites/OnboardingWizard/StepIndicator.js:48
 msgid "Step %1$d: %2$s"
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:58
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:67
 msgid "Close search result form"
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:37
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:46
 msgid "Please provide a meta description by editing it here."
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:36
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:28
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:45
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:44
 msgid "Meta description preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:35
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:44
 msgid "Slug preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:34
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:26
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:43
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:42
 msgid "This is an example title - edit by clicking here"
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:33
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:25
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:42
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:41
 msgid "SEO title preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultForm/SearchResultForm.js:31
+#: yoast-components/composites/SearchResultForm/SearchResultForm.js:40
 msgid "Search Result Form"
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:27
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:43
 msgid "URL preview: "
 msgstr ""
 
-#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:23
+#: yoast-components/composites/SearchResultPreview/SearchResultPreview.js:39
 msgid "Search Result Preview"
 msgstr ""
 

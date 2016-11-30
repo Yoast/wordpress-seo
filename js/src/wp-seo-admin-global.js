@@ -362,6 +362,8 @@
 		else {
 			activateVideo( $container );
 		}
+
+		$( "#sidebar-container" ).hide();
 	}
 
 	/**
@@ -379,6 +381,7 @@
 		$container.find( ".wpseo-tab-video-container__handle" ).attr( "aria-expanded", "false" );
 
 		$( "#wpcontent" ).removeClass( "yoast-help-center-open" );
+		$( "#sidebar-container" ).show();
 	}
 
 	$( ".nav-tab" ).click( function() {
@@ -390,8 +393,7 @@
 		var $slideout = $container.find( ".wpseo-tab-video-slideout" );
 		if ( $slideout.is( ":hidden" ) ) {
 			openVideoSlideout( $container );
-		}
-		else {
+		} else {
 			closeVideoSlideout();
 		}
 	} );
