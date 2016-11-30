@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.4
-Tested up to: 4.6
-Stable tag: 3.8
+Tested up to: 4.7
+Stable tag: 3.9
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -107,14 +107,28 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 == Screenshots ==
 
 1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. Some of the sites using this Yoast SEO plugin.
-3. The Yoast SEO settings for a taxonomy.
-4. The fully configurable XML sitemap for Yoast SEO.
-5. Easily import SEO data from All In One SEO pack and HeadSpace2 SEO.
-6. Example of the Page Analysis functionality.
-7. The advanced section of the Yoast SEO meta box.
+2. The fully configurable XML sitemap for Yoast SEO.
+3. Easily import SEO data from All In One SEO pack and HeadSpace2 SEO.
+4. Example of the SEO analysis functionality.
+5. Example of the readability analysis functionality.
+6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 3.9.0 =
+
+Release Date: November 29nd, 2016
+
+* Enhancements:
+    * Updates the banners on the admin pages.
+    * Improves accessibility by moving the Google Search Console reload button from the header.
+    * Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
+    * Prevent conflicts with other plugins/themes which also add html namespaces.
+
+* Bugfixes:
+    * Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
+    * Fixes a bug that prevented bulk actions to work in the Google Search Console.
+    * Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
 
 = 3.8.0 =
 
@@ -131,29 +145,7 @@ Release Date: November 8th, 2016
 	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
 	* Fixes a bug with VoiceOver on the readability and keyword tabs.
 
-= 3.7.1 =
 
-Release Date: October 20th, 2016
-
-* Bugfixes:
-	* Fixes a bug where the configuration wizard couldn't go to the next step if PUT requests were disabled on the server.
-
-= 3.7.0 =
-
-Release Date: October 11th, 2016
-
-* Enhancements:
-	* Includes a few design improvements in the analysis section of the metabox. Design is now more consistent.
-	* Makes sure author archives are disabled when a user confirms his site is single-author.
-	* The configuration wizard is now called "configuration wizard" consistently throughout the plugin.
-	* Makes sure the help center is now included on all Yoast SEO pages.
-	* Added a notification asking users to rate Yoast SEO on WordPress.org.
-
-* Bugfixes:
-	* Fixes a bug where the metabox was taking up too much space on small screens.
-	* Fixes a bug where the marking for consecutive sentences beginning with the same word was off by one.
-	* Fixes a bug where the Google Search Console integration wasn't working well on multisite.
-	* Fixes a bug where the newsletter signup always did a http request, causing mixed content errors on https sites.
 
 = Earlier versions =
 

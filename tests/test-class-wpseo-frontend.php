@@ -1028,7 +1028,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 				unset( $GLOBALS[ $v ] );
 			}
 		}
-		$parts = parse_url( $url );
+		$parts = wp_parse_url( $url );
 		if ( isset( $parts['scheme'] ) ) {
 			$req = isset( $parts['path'] ) ? $parts['path'] : '';
 			if ( isset( $parts['query'] ) ) {
