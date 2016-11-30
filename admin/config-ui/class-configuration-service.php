@@ -111,6 +111,14 @@ class WPSEO_Configuration_Service {
 	 * @return array List of settings.
 	 */
 	public function get_configuration() {
+		// Disable debug output on this page.
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true );
+		}
+		if ( ! defined( 'QM_DISABLED' ) ) {
+			define( 'QM_DISABLED' , true );
+		}
+
 		$this->populate_configuration();
 
 		$fields = $this->storage->retrieve();
