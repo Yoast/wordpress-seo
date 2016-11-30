@@ -56,8 +56,8 @@ class WPSEO_Upgrade {
 			$this->upgrade_36();
 		}
 
-		if ( version_compare( $this->options['version'], '4.1', '<' ) ) {
-			$this->upgrade_41();
+		if ( version_compare( $this->options['version'], '4.0', '<' ) ) {
+			$this->upgrade_40();
 		}
 
 		// Since 3.7.
@@ -231,7 +231,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Removes the about notice when its still in the database.
 	 */
-	private function upgrade_41() {
+	private function upgrade_40() {
 		$center       = Yoast_Notification_Center::get();
 		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
 
