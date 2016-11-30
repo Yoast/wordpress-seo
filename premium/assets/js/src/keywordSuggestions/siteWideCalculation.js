@@ -6,6 +6,15 @@ let postStatuses = [ "future", "draft", "pending", "private", "publish" ];
 
 class SiteWideCalculation extends EventEmitter {
 
+	/**
+	 * Constructs a calculation object.
+	 *
+	 * @param {boolean} recalculateAll Whether to calculate all posts or only posts without prominent words.
+	 * @param {number} totalPosts The amount of posts to calculate prominent words for.
+	 * @param {string} rootUrl The root REST API URL.
+	 * @param {string} nonce The nonce to use when using the REST API.
+	 * @param {number[]} allProminentWordIds A list of all prominent word IDs present on the site.
+	 */
 	constructor( { recalculateAll = false, totalPosts, rootUrl, nonce, allProminentWordIds } ) {
 		super();
 
@@ -24,12 +33,19 @@ class SiteWideCalculation extends EventEmitter {
 		this.incrementProcessedPosts = this.incrementProcessedPosts.bind( this );
 	}
 
+	/**
+	 * Starts calculating prominent words.
+	 *
+	 * @returns {void}
+	 */
 	start() {
 		this.calculate();
 	}
 
 	/**
+	 * Does a calculation step for the current page.
 	 *
+	 * @returns {void}
 	 */
 	calculate() {
 		let data = {
@@ -77,9 +93,10 @@ class SiteWideCalculation extends EventEmitter {
 	}
 
 	/**
+	 * Processes a post returned from the REST API.
 	 *
-	 * @param post
-	 * @retuns {Promise}
+	 * @param {Object} post A post object with rendered content.
+	 * @returns {Promise} Resolves when the prominent words are saved for the post.
 	 */
 	processPost( post ) {
 		let content = post.content.rendered;
