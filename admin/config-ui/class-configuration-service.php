@@ -110,11 +110,7 @@ class WPSEO_Configuration_Service {
 	 *
 	 * @return array List of settings.
 	 */
-	public function get_configuration() {	
-		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-			define( 'DONOTCACHEPAGE', true );
-		}
-
+	public function get_configuration() {
 		$this->populate_configuration();
 
 		$fields = $this->storage->retrieve();
