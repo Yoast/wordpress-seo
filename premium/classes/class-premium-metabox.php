@@ -57,6 +57,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
 			'postID' => $this->get_post_ID(),
 			'restApi' => array(
+				'available' => WPSEO_Utils::is_api_available(),
 				'root' => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			),
