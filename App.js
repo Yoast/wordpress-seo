@@ -5,6 +5,7 @@ import Wizard from "./composites/OnboardingWizard/OnboardingWizard";
 import Config from "./composites/OnboardingWizard/config/production-config";
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import apiConfig from "./composites/OnboardingWizard/config/api-config";
+import Loader from "./composites/basic/Loader";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -21,7 +22,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "wizard"
+			activeComponent: "wizard",
 		};
 	}
 
@@ -31,6 +32,10 @@ class App extends React.Component {
 		switch ( this.state.activeComponent ) {
 			case "search-results-editor":
 				content = <SearchResultsEditor />;
+				break;
+
+			case "loader":
+				content = <Loader />;
 				break;
 
 			case "wizard":
@@ -56,9 +61,10 @@ class App extends React.Component {
 
 	getMenu() {
 		return (
-			<nav style={{margin: '0 0 2rem 0', textAlign: 'center'}}>
+			<nav style={ {margin: "0 0 2rem 0", textAlign: "center" } }>
 				<button type="button" onClick={this.navigate.bind( this, "wizard" )}>Wizard</button>
 				<button type="button" onClick={this.navigate.bind( this, "search-results-editor" )}>Search results editor</button>
+				<button type="button" onClick={this.navigate.bind( this, "loader" )}>Loader</button>
 			</nav>
 		);
 	}
