@@ -1,6 +1,6 @@
 var getWords = require( "../../../stringProcessing/getWords.js" );
 
-var regexFunction = require( "../../../../js/researches/english/passivevoice-english/matchParticiples" )();
+var regexFunction = require( "../../../../js/researches/english/passivevoice/matchParticiples" )();
 var regularParticiples = regexFunction.regularParticiples;
 var irregularParticiples = regexFunction.irregularParticiples;
 
@@ -11,12 +11,12 @@ var forEach = require( "lodash/forEach" );
 /**
  * Creates English participle objects for the participles found in a sentence part.
  *
- * @param {string} sentencePart The sentence part to find participles in.
+ * @param {string} sentencePartText The sentence part to find participles in.
+ * @param {array} auxiliaries The list of auxiliaries from the sentence part.
  * @returns {Array} The list with English participle objects.
  */
-module.exports = function( sentencePart ) {
-	var words = getWords( sentencePart.getSentencePartText() );
-
+module.exports = function( sentencePartText, auxiliaries ) {
+	var words = getWords( sentencePartText );
 	var foundParticiples = [];
 
 	forEach( words, function( word ) {
@@ -28,8 +28,8 @@ module.exports = function( sentencePart ) {
 			type = "irregular";
 		}
 		if ( type !== "" ) {
-			foundParticiples.push( new EnglishParticiple( word, sentencePart.getSentencePartText(),
-				{ auxiliaries: sentencePart.getAuxiliaries(), type: type } ) );
+			foundParticiples.push( new EnglishParticiple( word, sentencePartText,
+				{ auxiliaries: auxiliaries, type: type } ) );
 		}
 	} );
 	return foundParticiples;
