@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
 /**
  * Handles adding site wide analysis UI to the WordPress admin.
