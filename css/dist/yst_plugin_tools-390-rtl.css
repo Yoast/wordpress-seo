@@ -5,12 +5,12 @@ h4 {
 
 p.desc {
 	margin: 6px 0 10px 0;
-	padding: 0 0 8px 25px;
+	padding: 0 25px 8px 0;
 }
 
 p.desc.label {
 	margin: 0 0 20px;
-	padding: 0 0 10px 200px;
+	padding: 0 200px 10px 0;
 }
 
 tr.yst_row {
@@ -23,16 +23,16 @@ tr.yst_row.even {
 }
 
 div.yoastbox ul {
-	margin-left: 20px;
+	margin-right: 20px;
 }
 
 .postbox {
-	margin: 10px 10px 0 0;
+	margin: 10px 0 0 10px;
 }
 
 label {
-	float: left;
-	margin-left: 6px;
+	float: right;
+	margin-right: 6px;
 }
 
 .yoast-inline-label {
@@ -42,7 +42,7 @@ label {
 
 label.radio {
 	float: none;
-	margin-right: 20px;
+	margin-left: 20px;
 }
 
 input.textinput,
@@ -58,8 +58,8 @@ input.checkbox + label.checkbox {
 input.textinput,
 textarea.textinput,
 select.select {
-	float: left;
-	margin: 0 3px 15px 0;
+	float: right;
+	margin: 0 0 15px 3px;
 	padding: 5px;
 }
 
@@ -73,8 +73,8 @@ select.select {
 
 input.checkbox,
 input.checkbox.double {
-	float: left;
-	margin: 6px 10px 6px 0;
+	float: right;
+	margin: 6px 0 6px 10px;
 }
 
 .textinput.metadesc {
@@ -100,11 +100,11 @@ label.checkbox {
 }
 
 .wp-core-ui .button.wpseo-gsc-save-profile {
-	margin-left: 200px;
+	margin-right: 200px;
 }
 
 table.wpseo th {
-	text-align: left;
+	text-align: right;
 }
 
 .wpseo_content_wrapper {
@@ -139,7 +139,7 @@ table.wpseo th {
 	padding: 12px;
 	border: 1px solid #0075b3;
 	border-radius: 20px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 	background-color: #fff;
 }
 
@@ -177,13 +177,13 @@ table.wpseo th {
 
 #sidebar-container {
 	width: 261px;
-	padding: 0 0 0 20px;
+	padding: 0 20px 0 0;
 }
 
 @media (max-width: 1020px) {
 	#wpseo_content_top {
-		margin-left: 0;
-		padding-left: 0;
+		margin-right: 0;
+		padding-right: 0;
 	}
 }
 
@@ -225,7 +225,7 @@ table.yoast_help td {
 table.yoast_help th,
 table.yoast_help td {
 	padding: 5px 10px;
-	text-align: left;
+	text-align: right;
 	vertical-align: text-top;
 }
 
@@ -259,8 +259,8 @@ table.yoast_help tr:hover {
 }
 
 .yoast-notice-blocking-files code {
-	line-height: 2;
 	color: #000;
+	line-height: 2;
 }
 
 .yoast-notice-blocking-files .button {
@@ -272,19 +272,19 @@ table.yoast_help tr:hover {
 }
 
 .button.fixit {
-	float: right;
+	float: left;
 	margin: 0 5px;
 }
 
 .button.checkit {
-	float: right;
+	float: left;
 	margin: 0 5px;
 	padding: 5px 8px;
 }
 
 .fb-buttons .button-primary,
 .fb-buttons .button {
-	margin-right: 8px;
+	margin-left: 8px;
 }
 
 .postbox#donate {
@@ -301,7 +301,7 @@ table.yoast_help tr:hover {
 }
 
 .wpseotab p.expl {
-	margin-left: 6px;
+	margin-right: 6px;
 }
 
 .wpseotab p.expl strong {
@@ -312,7 +312,7 @@ table.yoast_help tr:hover {
 	margin: 0 0 10px 0;
 	padding: 10px 15px;
 	border: 1px solid #ccc;
-	border-radius: 5px 25px;
+	border-radius: 25px 5px;
 }
 
 #sidebar .yoastbox h2 {
@@ -338,7 +338,7 @@ h2 code {
 }
 
 #pointer-primary {
-	margin: 0 5px 0 0;
+	margin: 0 0 0 5px;
 }
 
 #wpseo-debug-info {
@@ -355,7 +355,7 @@ h2 code {
 
 #wpseo-debug-info .wpseo-debug {
 	display: inline-block;
-	padding-left: 20px;
+	padding-right: 20px;
 	color: #c00;
 }
 
@@ -366,11 +366,11 @@ textarea.wpseo-new-metadesc {
 }
 
 .wpseotab .extension {
-	float: left;
+	float: right;
 	box-sizing: border-box;
 	width: 300px;
 	height: 230px;
-	margin: 10px 20px 10px 0;
+	margin: 10px 0 10px 20px;
 	border: 1px solid #ccc;
 }
 
@@ -383,9 +383,9 @@ textarea.wpseo-new-metadesc {
 	box-sizing: border-box;
 	height: 110px;
 	margin: 0;
-	padding: 20px 10px 0 120px;
+	padding: 20px 120px 0 10px;
 	border-bottom: 1px solid #ccc;
-	background: #fff no-repeat left 10px;
+	background: #fff no-repeat right 10px;
 	background-size: 130px 100px;
 }
 
@@ -406,15 +406,15 @@ textarea.wpseo-new-metadesc {
 #separator input.radio {
 	/* visually hide the radio buttons but keep them accessible */
 	position: absolute;
-	left: -9999em;
+	right: -9999em;
 	width: 1px;
 	height: 1px;
 }
 
 #separator input.radio + label {
-	float: left;
+	float: right;
 	width: 30px !important;
-	margin: 0 5px 0 0 !important;
+	margin: 0 0 0 5px !important;
 	padding: 9px 6px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
@@ -433,7 +433,7 @@ textarea.wpseo-new-metadesc {
 
 #separator input.radio:focus + label {
 	border-radius: 10px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 .svg-container {
@@ -463,7 +463,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .nav-tab .pinteresticon {
 	width: 12px;
 	height: 24px;
-	margin-right: 2px;
+	margin-left: 2px;
 	background-image: url(../images/pinterest-23x30.png);
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -481,14 +481,14 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-add-fb-admin-form-wrap .notice span {
-	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .archives-titles-metas-content {
 	padding-top: 1em;
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.wpseo-gsc-reload-crawl-issues-form {
 		top: 0;
 		margin: 1em 0;
@@ -499,44 +499,39 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 }
 
-@media screen and ( max-width: 600px ) {
+@media screen and (max-width: 600px) {
 	.wpseo-gsc-reload-crawl-issues-form {
 		margin-bottom: 0;
 	}
 }
 
-.yoast-sidebar {
-
-	&__title {
-		width: 100%;
-		margin: 46px 0 20px;
-		padding: 10px;
-		border: none;
-		outline: none;
-		color: #a4286a;
-		background: none;
-		text-align: left;
-		box-sizing: border-box;
-		line-height: 19px;
-		border-bottom: 1px solid #a4286a;
-	}
-
-	&__spot {
-		padding: 10px 0;
-		border-bottom: 1px solid #ddd;
-
-		a {
-			color: #a4286a;
-		}
-	}
+.yoast-sidebar__title {
+	box-sizing: border-box;
+	width: 100%;
+	margin: 46px 0 20px;
+	padding: 10px;
+	border: none;
+	border-bottom: 1px solid #a4286a;
+	outline: none;
+	color: #a4286a;
+	background: none;
+	line-height: 19px;
+	text-align: right;
 }
 
-.wpseo-banner {
-	&__link {
-	   display: inline-block;
-	}
+.yoast-sidebar__spot {
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
 
-	&__image {
-	   vertical-align: top;
-	}
+.yoast-sidebar__spot a {
+	color: #a4286a;
+}
+
+.wpseo-banner__link {
+	display: inline-block;
+}
+
+.wpseo-banner__image {
+	vertical-align: top;
 }

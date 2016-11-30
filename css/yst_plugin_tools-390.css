@@ -259,8 +259,8 @@ table.yoast_help tr:hover {
 }
 
 .yoast-notice-blocking-files code {
-	line-height: 2;
 	color: #000;
+	line-height: 2;
 }
 
 .yoast-notice-blocking-files .button {
@@ -488,7 +488,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	padding-top: 1em;
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.wpseo-gsc-reload-crawl-issues-form {
 		top: 0;
 		margin: 1em 0;
@@ -499,44 +499,39 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 }
 
-@media screen and ( max-width: 600px ) {
+@media screen and (max-width: 600px) {
 	.wpseo-gsc-reload-crawl-issues-form {
 		margin-bottom: 0;
 	}
 }
 
-.yoast-sidebar {
-
-	&__title {
-		width: 100%;
-		margin: 46px 0 20px;
-		padding: 10px;
-		border: none;
-		outline: none;
-		color: #a4286a;
-		background: none;
-		text-align: left;
-		box-sizing: border-box;
-		line-height: 19px;
-		border-bottom: 1px solid #a4286a;
-	}
-
-	&__spot {
-		padding: 10px 0;
-		border-bottom: 1px solid #ddd;
-
-		a {
-			color: #a4286a;
-		}
-	}
+.yoast-sidebar__title {
+	box-sizing: border-box;
+	width: 100%;
+	margin: 46px 0 20px;
+	padding: 10px;
+	border: none;
+	border-bottom: 1px solid #a4286a;
+	outline: none;
+	color: #a4286a;
+	background: none;
+	line-height: 19px;
+	text-align: left;
 }
 
-.wpseo-banner {
-	&__link {
-	   display: inline-block;
-	}
+.yoast-sidebar__spot {
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
 
-	&__image {
-	   vertical-align: top;
-	}
+.yoast-sidebar__spot a {
+	color: #a4286a;
+}
+
+.wpseo-banner__link {
+	display: inline-block;
+}
+
+.wpseo-banner__image {
+	vertical-align: top;
 }
