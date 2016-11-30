@@ -233,7 +233,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_41() {
 		$center       = Yoast_Notification_Center::get();
-		$notification = $center->get_notification_by_id( "wpseo-dismiss-about" );
+		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about's );
 
 		if ( $notification ) {
 			$center->remove_notification( $notification );
