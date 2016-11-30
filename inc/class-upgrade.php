@@ -229,7 +229,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Removes the about x.version notice.
+	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_41() {
 		$center       = Yoast_Notification_Center::get();
