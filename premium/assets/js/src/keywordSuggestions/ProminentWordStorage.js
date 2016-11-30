@@ -24,7 +24,7 @@ class ProminentWordStorage {
 	 * Saves prominent words to the database using AJAX
 	 *
 	 * @param {WordCombination[]} prominentWords The prominent words to save.
-	 * @returns {void}
+	 * @returns {Promise}
 	 */
 	saveProminentWords( prominentWords ) {
 		// If there is already a save sequence in progress, don't do it again.
@@ -35,7 +35,7 @@ class ProminentWordStorage {
 
 		let prominentWordIds = prominentWords.slice( 0, 20 ).map( this.retrieveProminentWordId );
 
-		Promise.all( prominentWordIds ).then( ( prominentWords ) => {
+		return Promise.all( prominentWordIds ).then( ( prominentWords ) => {
 			jQuery.ajax( {
 				type: "POST",
 				url: this._rootUrl + "wp/v2/posts/" + this._postID,

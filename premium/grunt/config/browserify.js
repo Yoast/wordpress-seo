@@ -9,6 +9,7 @@ module.exports = {
 			},
 		},
 		files: {
+			"assets/js/dist/yoast-premium-site-wide-analysis-400.js": [ "assets/js/src/site-wide-analysis.js" ],
 			"assets/js/dist/yoast-premium-social-preview-380.js": [ "assets/js/src/yoast-premium-social-preview.js" ],
 			"assets/js/dist/wpseo-premium-contact-support-370.js": [ "assets/js/src/contact-support.js" ],
 			"assets/js/dist/wp-seo-premium-admin-redirects-370.js": [ "assets/js/src/admin-redirects.js" ],
