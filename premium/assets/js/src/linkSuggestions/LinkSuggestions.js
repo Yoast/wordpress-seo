@@ -45,7 +45,7 @@ class LinkSuggestions extends EventEmitter {
 	/**
 	 * Handles changed prominent words, makes sure they are actually changed. If so, retrieve new link suggestions.
 	 *
-	 * @param {int[]} prominentWords The new prominent words.
+	 * @param {number[]} prominentWords The new prominent words IDs.
 	 * @returns {void}
 	 */
 	updatedProminentWords( prominentWords ) {
@@ -76,7 +76,7 @@ class LinkSuggestions extends EventEmitter {
 	/**
 	 * Retrieves link suggestions based on prominent words using AJAX.
 	 *
-	 * @param {number[]} prominentWords The prominent words to retrieve link suggestions for.
+	 * @param {number[]} prominentWords The prominent word IDs to retrieve link suggestions for.
 	 * @returns {Promise} Resolves with the response from the server.
 	 */
 	retrieveLinkSuggestions( prominentWords ) {
