@@ -18,6 +18,6 @@ var isEmpty = require( "lodash/isEmpty" );
 module.exports = function( paper ) {
 	var paragraphs = matchParagraphs( paper.getText() );
 	var keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
-	var paragraph = reject( paragraphs, isEmpty ) [ 0 ] || "";
+	var paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";
 	return wordMatch( paragraph, keyword, paper.getLocale() );
 };
