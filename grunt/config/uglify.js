@@ -8,7 +8,7 @@ module.exports = {
 		files: {
 			"dist/yoast-seo.min.js": [
 				"dist/yoast-seo.js",
-			]
+			],
 		},
 	},
 };
