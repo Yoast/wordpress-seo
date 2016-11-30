@@ -12,10 +12,6 @@ module.exports = {
 		files: "<%= files.scss %>",
 		tasks: [ "sass:build", "postcss:build" ],
 	},
-	"cssmin-example": {
-		files: [ "examples/standalone/style.css" ],
-		tasks: [ "cssmin" ],
-	},
 	templates: {
 		files: "<%= files.templates %>",
 		tasks: [ "build:jst" ],
