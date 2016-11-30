@@ -259,7 +259,8 @@ class WPSEO_Taxonomy_Metabox {
 
 			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
 		</div>",
-			__( 'You\'re not getting the benefits of Yoast SEO Premium yet. If you had Yoast SEO Premium, you could use its awesome features:', 'wordpress-seo' ),
+			/* translators: %1$s expands to Yoast SEO Premium. */
+			sprintf( __( 'You\'re not getting the benefits of %1$s yet. If you had %1$s, you could use its awesome features:', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			__( 'Redirect manager', 'wordpress-seo' ),
 			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
 			__( 'Multiple focus keywords', 'wordpress-seo' ),
@@ -269,7 +270,8 @@ class WPSEO_Taxonomy_Metabox {
 			__( 'Premium support', 'wordpress-seo' ),
 			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
 			'https://yoa.st/pe-buy-premium',
-			__( 'Get Yoast SEO Premium now!', 'wordpress-seo' ),
+			/* translators: %s expands to Yoast SEO Premium. */
+			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			'https://yoa.st/pe-premium-page',
 			__( 'More info', 'wordpress-seo' )
 		);

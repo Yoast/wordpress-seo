@@ -101,7 +101,13 @@ class WPSEO_Configuration_Page {
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php _e( 'Yoast SEO &rsaquo; Configuration Wizard', 'wordpress-seo' ); ?></title>
+			<title><?php
+				printf(
+					/* translators: %s expands to Yoast SEO. */
+					__( '%s &rsaquo; Configuration Wizard', 'wordpress-seo' ),
+					'Yoast SEO'
+				);
+			?></title>
 			<?php
 				do_action( 'admin_print_styles' );
 				do_action( 'admin_print_scripts' );
@@ -111,7 +117,13 @@ class WPSEO_Configuration_Page {
 		<body class="wp-admin">
 		<div id="wizard"></div>
 		<a class="yoast-wizard-return-link" href="<?php echo $dashboard_url ?>">
-			<?php _e( 'Go back to the Yoast SEO dashboard.', 'wordpress-seo' ); ?>
+			<?php
+			printf(
+				/* translators: %s expands to Yoast SEO. */
+				__( 'Go back to the %s dashboard.', 'wordpress-seo' ),
+				'Yoast SEO'
+			);
+			?>
 		</a>
 		<footer>
 			<?php
