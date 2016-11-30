@@ -122,7 +122,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$service_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s to Yoast, %3$s is the link closing tag. */
-				__( 'Don\'t want to dive into SEO yourself? %1$sLet team %2$s help you!%3$s' ),
+				__( 'Don\'t want to dive into SEO yourself? %1$sLet team %2$s help you!%3$s', 'wordpress-seo' ),
 				'<a target="_blank" href="https://yoa.st/jk">',
 				'Yoast',
 				'</a>'
@@ -267,7 +267,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$courses_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s is the link closing tag. */
-				__( 'You can easily learn more about SEO, content and the like with one of %1$sour courses%2$s.' ),
+				__( 'You can easily learn more about SEO, content and the like with one of %1$sour courses%2$s.', 'wordpress-seo' ),
 				'<a target="_blank" href="https://yoa.st/jt">',
 				'</a>'
 			)

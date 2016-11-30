@@ -20,7 +20,7 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				'',
 				'snippetpreview',
 				array(
-					'help-button' => __( 'Snippet Editor Help', 'wordpress-seo' ),
+					'help-button' => __( 'Show information about the snippet editor', 'wordpress-seo' ),
 					'help'        => sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %sLearn more about the Snippet Preview%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' ),
 				)
 			),
@@ -29,7 +29,7 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				'',
 				'focuskeyword',
 				array(
-					'help-button' => __( 'Focus Keyword Help', 'wordpress-seo' ),
+					'help-button' => __( 'Show information about the focus keyword', 'wordpress-seo' ),
 					'help'        => sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' ),
 				)
 			),
@@ -38,7 +38,7 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				'',
 				'pageanalysis',
 				array(
-					'help-button' => __( 'Content Analysis Help', 'wordpress-seo' ),
+					'help-button' => __( 'Show information about the content analysis', 'wordpress-seo' ),
 					'help'        => sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %sLearn more about the Content Analysis Tool%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' ),
 				)
 			),
