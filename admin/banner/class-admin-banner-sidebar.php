@@ -86,11 +86,10 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$premium_spot->set_description(
 			sprintf(
-				/* translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s is the link closing tag, %3$s: Yoast SEO. */
-				__( 'Consider switching to the %1$sPremium version of %3$s%2$s.', 'wordpress-seo' ),
+				/* translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s is the link closing tag */
+				__( 'Want to get the most out of your SEO-strategy? %1$sGo premium!%2$s.', 'wordpress-seo' ),
 				'<a target="_blank" href="https://yoa.st/ji">',
-				'</a>',
-				'Yoast SEO'
+				'</a>'
 			)
 		);
 
@@ -122,7 +121,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$service_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s to Yoast, %3$s is the link closing tag. */
-				__( 'Don\'t want to dive into SEO yourself? %1$sLet team %2$s help you!%3$s', 'wordpress-seo' ),
+				__( 'Do you want to know how to improve your rankings? %1$sLet team %2$s help you!%3$s', 'wordpress-seo' ),
 				'<a target="_blank" href="https://yoa.st/jk">',
 				'Yoast',
 				'</a>'
@@ -182,9 +181,8 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$extension_spot->set_description(
 			sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s to a link start tag to the Yoast plugin page, %3$s is the link closing tag. */
-				__( 'Extend your %1$s plugin with our %2$sSEO plugins%3$s.', 'wordpress-seo' ),
-				'Yoast SEO',
+				/* translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s is the link closing tag. */
+				__( 'Take your SEO to the next level and outrank your competition with our %1$sSEO plugins%2$s.', 'wordpress-seo' ),
 				'<a target="_blank" href="https://yoa.st/jn">',
 				'</a>'
 			)
@@ -267,7 +265,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$courses_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s is the link closing tag. */
-				__( 'You can easily learn more about SEO, content and the like with one of %1$sour courses%2$s.', 'wordpress-seo' ),
+				__( 'Do you want to get a grip on your own SEO-strategy? Learn all about it in one of %1$sour courses%2$s.', 'wordpress-seo' ),
 				'<a target="_blank" href="https://yoa.st/jt">',
 				'</a>'
 			)
