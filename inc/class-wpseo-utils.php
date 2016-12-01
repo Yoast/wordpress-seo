@@ -881,6 +881,19 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Checks if the content endpoints are available.
+	 *
+	 * @return bool Returns true if the content endpoints are available
+	 */
+	public static function are_content_endpoints_available() {
+		if ( function_exists( 'rest_get_server' ) ) {
+			$namespaces = rest_get_server()->get_namespaces();
+			return in_array( 'wp/v2', $namespaces );
+		}
+		return false;
+	}
+
+	/**
 	 * Wrapper for the PHP filter input function.
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
