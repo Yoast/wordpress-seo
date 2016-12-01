@@ -22,6 +22,15 @@ class KeywordSuggestions {
 	}
 
 	/**
+	 * Checks if the rest API is available.
+	 *
+	 * @returns {boolean} True if the API is available.
+	 */
+	isRestApiAvailable() {
+		return wpseoPremiumMetaboxData.restApi.available && wpseoPremiumMetaboxData.restApi.contentEndpointAvailable;
+	}
+
+	/**
 	 * Initializes into the DOM and adds all event handlers.
 	 *
 	 * @returns {void}
@@ -34,11 +43,13 @@ class KeywordSuggestions {
 
 		// Be mindful of our impact, only start polling and savings prominent words after 10 seconds.
 		window.setTimeout( () => {
-			this._storageEnabled = true;
+			if( isRestApiAvailable() ) {
+				this._storageEnabled = true;
 
-			// If we have ever retrieved words we can trigger the first storage call.
-			if ( this.words !== null ) {
-				this._prominentWordStorage.saveProminentWords( this.words );
+				// If we have ever retrieved words we can trigger the first storage call.
+				if ( this.words !== null ) {
+					this._prominentWordStorage.saveProminentWords( this.words );
+				}
 			}
 		}, 10000 );
 	}
