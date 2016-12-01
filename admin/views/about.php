@@ -149,11 +149,6 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
 				),
-				'rensw90'       => (object) array(
-					'name'     => 'Rens Weerman',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'b0a3b8fed2b5ac66a082f0e915d4ea6f',
-				),
 			);
 
 			wpseo_display_contributors( $people );
