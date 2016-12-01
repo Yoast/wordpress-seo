@@ -125,7 +125,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 * Prepares an item for our response.
 	 *
 	 * @param WP_Post $post The post to prepare.
-	 * @return string The link to put in the link suggestions
+	 * @return array The link to put in the link suggestions
 	 */
 	private function get_post_object( $post ) {
 		$post = $post['post'];

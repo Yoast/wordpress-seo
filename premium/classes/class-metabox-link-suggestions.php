@@ -17,6 +17,8 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Returns the data required for the JS to function.
+	 *
+	 * @return false|array Either an array of cached suggestions or false.
 	 */
 	public function get_js_data() {
 		global $post_ID;

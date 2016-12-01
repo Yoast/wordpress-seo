@@ -16,7 +16,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	/**
 	 * Creates the meta box class.
 	 *
-	 * @param WPSEO_Metabox_Link_Suggestions $link_suggestions The link suggestions meta box.
+	 * @param WPSEO_Metabox_Link_Suggestions|null $link_suggestions The link suggestions meta box.
 	 */
 	public function __construct( WPSEO_Metabox_Link_Suggestions $link_suggestions = null ) {
 		if ( $link_suggestions === null ) {
