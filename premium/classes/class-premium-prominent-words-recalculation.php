@@ -41,9 +41,9 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			<h2><?php esc_html_e( 'Site wide analysis', 'wordpress-seo-premium' ); ?></h2>
 			<h3><?php esc_html_e( 'Prominent words', 'wordpress-seo-premium' ); ?></h3>
 			<?php
-			$has_prominent_words = $this->count_posts_prominent_words();
-			$has_no_prominent_words = $this->count_posts_without_prominent_words();
-			$total = ( $has_no_prominent_words + $has_prominent_words );
+			$total_posts_with_prominent_words = $this->count_posts_prominent_words();
+			$total_posts_without_prominent_words = $this->count_posts_without_prominent_words();
+			$total = ( $total_posts_without_prominent_words + $total_posts_with_prominent_words );
 			?>
 			<ul>
 				<li>
@@ -60,8 +60,8 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					<?php
 					echo esc_html(
 						sprintf(
-							_n( '%d post with prominent words', '%d posts with prominent words', $has_prominent_words, 'wordpress-seo-premium' ),
-							$has_prominent_words
+							_n( '%d post with prominent words', '%d posts with prominent words', $total_posts_with_prominent_words, 'wordpress-seo-premium' ),
+							$total_posts_with_prominent_words
 						)
 					);
 					?>
@@ -70,8 +70,8 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					<?php
 					echo esc_html(
 						sprintf(
-							_n( '%d post without prominent words', '%d posts without prominent words', $has_no_prominent_words, 'wordpress-seo-premium' ),
-							$has_no_prominent_words
+							_n( '%d post without prominent words', '%d posts without prominent words', $total_posts_without_prominent_words, 'wordpress-seo-premium' ),
+							$total_posts_without_prominent_words
 						)
 					); ?>
 				</li>

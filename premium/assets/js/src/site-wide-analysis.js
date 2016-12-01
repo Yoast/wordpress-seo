@@ -15,7 +15,7 @@ let progressContainer, completedContainer;
  * @returns {void}
  */
 function startRecalculating( postCount, recalculateAll = true ) {
-	// Prevent duplicate calculation
+	// Prevent duplicate calculation.
 	if ( prominentWordCalculation !== null ) {
 		return;
 	}

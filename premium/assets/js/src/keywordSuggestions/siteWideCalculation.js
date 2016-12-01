@@ -4,6 +4,9 @@ import EventEmitter from "events";
 
 let postStatuses = [ "future", "draft", "pending", "private", "publish" ];
 
+/**
+ * Calculates prominent words for all posts on the site.
+ */
 class SiteWideCalculation extends EventEmitter {
 
 	/**
@@ -15,12 +18,12 @@ class SiteWideCalculation extends EventEmitter {
 	 * @param {string} nonce The nonce to use when using the REST API.
 	 * @param {number[]} allProminentWordIds A list of all prominent word IDs present on the site.
 	 */
-	constructor( { recalculateAll = false, totalPosts, rootUrl, nonce, allProminentWordIds } ) {
+	constructor( { totalPosts, rootUrl, nonce, allProminentWordIds, recalculateAll = false } ) {
 		super();
 
 		this._perPage = 10;
 		this._totalPosts = totalPosts;
-		this._pages = Math.ceil( totalPosts / this._perPage );
+		this._totalPages = Math.ceil( totalPosts / this._perPage );
 		this._processedPosts = 0;
 		this._currentPage = 1;
 		this._rootUrl = rootUrl;
@@ -72,8 +75,13 @@ class SiteWideCalculation extends EventEmitter {
 		} );
 	}
 
+	/**
+	 * Process response from the index request for posts.
+	 *
+	 * @param {Array} response The list of found posts from the server.
+	 * @returns {void}
+	 */
 	processResponse( response ) {
-
 		let processPromises = response.map( ( post ) => {
 			return this.processPost( post );
 		} );
@@ -81,10 +89,15 @@ class SiteWideCalculation extends EventEmitter {
 		Promise.all( processPromises ).then( this.continueProcessing ).catch( this.continueProcessing );
 	}
 
+	/**
+	 * Continues processing by going to the next page if there is one.
+	 *
+	 * @returns {void}
+	 */
 	continueProcessing() {
-		this.emit( "processedPage", this._currentPage, this._pages );
+		this.emit( "processedPage", this._currentPage, this._totalPages );
 
-		if ( this._currentPage < this._pages ) {
+		if ( this._currentPage < this._totalPages ) {
 			this._currentPage += 1;
 			this.calculate();
 		} else {
