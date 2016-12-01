@@ -88,7 +88,7 @@ class WPSEO_Metabox_Formatter {
 	 */
 	private function get_translation_locale() {
 		if ( function_exists( 'get_user_locale' ) ) {
-			return  get_user_locale();
+			return get_user_locale();
 		}
 		return get_locale();
 	}
