@@ -26,6 +26,10 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 		$service = new WPSEO_Premium_Link_Suggestions_Service();
 
 		$prominent_words = get_the_terms( $post_ID, WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
+		if ( false === $prominent_words ) {
+			return false;
+		}
+
 		$prominent_words = wp_list_pluck( $prominent_words, 'term_id' );
 
 		$suggestions = get_transient( $service->get_cache_key( $prominent_words ) );
