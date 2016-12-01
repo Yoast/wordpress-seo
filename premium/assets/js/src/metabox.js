@@ -1,11 +1,11 @@
-/* global jQuery, wpseoPremiumMetaboxL10n, yoastLinkSuggestions */
+/* global jQuery, wpseoPremiumMetaboxData */
 
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
-import linkSuggestions from "./linkSuggestions/LinkSuggestions";
+import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
-let settings = wpseoPremiumMetaboxData;
+let settings = wpseoPremiumMetaboxData.data;
 
 let multiKeyword = new MultiKeyword();
 let prominentWordStorage = new ProminentWordStorage( { postID: settings.postID, rootUrl: settings.restApi.root, nonce: settings.restApi.nonce } );
@@ -14,6 +14,7 @@ let focusKeywordSuggestions = new FocusKeywordSuggestions( {
 	prominentWordStorage,
 } );
 
+let linkSuggestions;
 
 /**
  * Initializes the metabox for premium
@@ -29,7 +30,14 @@ function initializeMetabox() {
 		focusKeywordSuggestions.initializeDOM();
 	}
 
-	linkSuggestions( yoastLinkSuggestions.suggestions, document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[0] );
+	linkSuggestions = new LinkSuggestions( {
+		target: document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
+		rootUrl: settings.restApi.root,
+		nonce: settings.restApi.nonce,
+	} );
+	linkSuggestions.initializeDOM( settings.linkSuggestions );
+
+	prominentWordStorage.on( "savedProminentWords", linkSuggestions.updatedProminentWords.bind( linkSuggestions ) );
 }
 
 /**

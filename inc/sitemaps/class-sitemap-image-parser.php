@@ -29,7 +29,7 @@ class WPSEO_Sitemap_Image_Parser {
 	public function __construct() {
 
 		$this->home_url = home_url();
-		$parsed_home    = parse_url( $this->home_url );
+		$parsed_home    = wp_parse_url( $this->home_url );
 
 		if ( ! empty( $parsed_home['host'] ) ) {
 			$this->host = str_replace( 'www.', '', $parsed_home['host'] );

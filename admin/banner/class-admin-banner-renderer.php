@@ -19,8 +19,8 @@ class WPSEO_Admin_Banner_Renderer {
 	 * @return string
 	 */
 	public function render( WPSEO_Admin_Banner $banner ) {
-		$output  = '<a target="_blank" href="' . esc_url( $banner->get_url() ) . '">';
-		$output .= '<img width="' . esc_attr( $banner->get_width() ) . '" height="' . esc_attr( $banner->get_height() ) . '" src="' . esc_attr( $this->get_image_path( $banner->get_image() ) ) . '" alt="' . esc_attr( $banner->get_alt() ) . '"/>';
+		$output  = '<a class="wpseo-banner__link" target="_blank" href="' . esc_url( $banner->get_url() ) . '">';
+		$output .= '<img class="wpseo-banner__image" width="' . esc_attr( $banner->get_width() ) . '" height="' . esc_attr( $banner->get_height() ) . '" src="' . esc_attr( $this->get_image_path( $banner->get_image() ) ) . '" alt="' . esc_attr( $banner->get_alt() ) . '"/>';
 		$output .= '</a>';
 
 		return $output;

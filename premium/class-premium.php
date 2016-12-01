@@ -72,13 +72,15 @@ class WPSEO_Premium {
 	 * WPSEO_Premium Constructor
 	 */
 	public function __construct() {
+		$link_suggestions_service = new WPSEO_Premium_Link_Suggestions_Service();
+
 		$this->integrations = array(
 			'premium-metabox' => new WPSEO_Premium_Metabox(),
 			'prominent-words-registration' => new WPSEO_Premium_Prominent_Words_Registration(),
 			'prominent-words-endpoint' => new WPSEO_Premium_Prominent_Words_Endpoint( new WPSEO_Premium_Prominent_Words_Service() ),
 			'prominent-words-recalculation' => new WPSEO_Premium_Prominent_Words_Recalculation(),
 			'link-suggestions' => new WPSEO_Metabox_Link_Suggestions(),
-			'link-suggestions-endpoint' => new WPSEO_Premium_Link_Suggestions_Endpoint( new WPSEO_Premium_Link_Suggestions_Service() ),
+			'link-suggestions-endpoint' => new WPSEO_Premium_Link_Suggestions_Endpoint( $link_suggestions_service ),
 		);
 
 		$this->setup();

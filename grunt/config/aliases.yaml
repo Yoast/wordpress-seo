@@ -33,6 +33,8 @@ build:
 'build:i18n:potFiles':
   - 'makepot'
   - 'shell:makepot-yoast-components'
+  - 'shell:makepot-yoastseojs'
+  - 'convert-pot-to-wp'
   - 'shell:combine-pot-files'
 # Download and build the latest translations
 'build:i18n:translations':
