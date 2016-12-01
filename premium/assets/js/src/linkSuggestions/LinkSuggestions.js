@@ -19,7 +19,7 @@ class LinkSuggestions extends EventEmitter {
 		this._target = target;
 		this._rootUrl = rootUrl;
 		this._nonce = nonce;
-		this._previousProminentWords = [];
+		this._previousProminentWords = false;
 	}
 
 	/**
