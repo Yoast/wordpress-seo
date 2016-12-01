@@ -36,7 +36,7 @@ if ( ! empty( $tab_video_url ) ) :
 		endif;
 		?>
 		<div class="wpseo-tab-video__panel__textarea">
-			<?php /* translators: %s expands to Yoast SEO */ ?>
+			<?php /* translators: %s expands to Yoast SEO. */ ?>
 			<h3><?php printf( __( 'Want to be a %s Expert?', 'wordpress-seo' ), 'Yoast SEO' ); ?></h3>
 			<?php /* translators: %$1s expands to Yoast SEO */ ?>
 			<p><?php printf( __( 'Follow our %1$s for WordPress training and become a certified %1$s Expert!', 'wordpress-seo' ), 'Yoast SEO' ); ?></p>
