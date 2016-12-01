@@ -11,23 +11,16 @@ class KeywordSuggestions {
 	/**
 	 * @param {ProminentWordStorage} prominentWordStorage The class that handles the focus keyword storage.
 	 * @param {bool} insightsEnabled Whether or not the insights UI is enabled.
+	 * @param {bool} contentEndpointsAvailable Whether or not the content endpoints are available.
 	 */
-	constructor( { prominentWordStorage, insightsEnabled } ) {
+	constructor( { prominentWordStorage, insightsEnabled, contentEndpointsAvailable = true } ) {
 		this._insightsEnabled = insightsEnabled;
 		this._storageEnabled = false;
+		this._contentEndpointsAvailable = contentEndpointsAvailable;
 		this.words = null;
 		this._prominentWordStorage = prominentWordStorage;
 
 		jQuery( window ).on( "YoastSEO:numericScore", this.updateWords.bind( this ) );
-	}
-
-	/**
-	 * Checks if the rest API is available.
-	 *
-	 * @returns {boolean} True if the API is available.
-	 */
-	isRestApiAvailable() {
-		return wpseoPremiumMetaboxData.restApi.available && wpseoPremiumMetaboxData.restApi.contentEndpointAvailable;
 	}
 
 	/**
@@ -41,17 +34,19 @@ class KeywordSuggestions {
 			this.renderComponent();
 		}
 
-		// Be mindful of our impact, only start polling and savings prominent words after 10 seconds.
-		window.setTimeout( () => {
-			if( this.isRestApiAvailable() ) {
-				this._storageEnabled = true;
+		if ( this._contentEndpointsAvailable  ) {
+			// Be mindful of our impact, only start polling and savings prominent words after 10 seconds.
+			window.setTimeout( this.startStoringWords.bind( this ), 1 );
+		}
+	}
 
-				// If we have ever retrieved words we can trigger the first storage call.
-				if ( this.words !== null ) {
-					this._prominentWordStorage.saveProminentWords( this.words );
-				}
-			}
-		}, 10000 );
+	startStoringWords() {
+		this._storageEnabled = true;
+
+		// If we have ever retrieved words we can trigger the first storage call.
+		if ( this.words !== null ) {
+			this._prominentWordStorage.saveProminentWords( this.words );
+		}
 	}
 
 	/**

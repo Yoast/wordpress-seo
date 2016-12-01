@@ -7,11 +7,14 @@ import MultiKeyword from "./metabox/multiKeyword";
 
 let settings = wpseoPremiumMetaboxData.data;
 
+let contentEndpointsAvailable = wpseoPremiumMetaboxData.data.restApi.available && wpseoPremiumMetaboxData.data.restApi.contentEndpointsAvailable;
+
 let multiKeyword = new MultiKeyword();
 let prominentWordStorage = new ProminentWordStorage( { postID: settings.postID, rootUrl: settings.restApi.root, nonce: settings.restApi.nonce } );
 let focusKeywordSuggestions = new FocusKeywordSuggestions( {
 	insightsEnabled: settings.insightsEnabled === "enabled",
 	prominentWordStorage,
+	contentEndpointsAvailable,
 } );
 
 let linkSuggestions;
