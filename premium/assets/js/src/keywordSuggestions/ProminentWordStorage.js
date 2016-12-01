@@ -26,7 +26,7 @@ class ProminentWordStorage extends EventEmitter {
 	 * Saves prominent words to the database using AJAX
 	 *
 	 * @param {WordCombination[]} prominentWords The prominent words to save.
-	 * @returns {void}
+	 * @returns {Promise} Resolves when the prominent words are saved.
 	 */
 	saveProminentWords( prominentWords ) {
 		// If there is already a save sequence in progress, don't do it again.
@@ -37,22 +37,26 @@ class ProminentWordStorage extends EventEmitter {
 
 		let prominentWordIds = prominentWords.slice( 0, 20 ).map( this.retrieveProminentWordId );
 
-		Promise.all( prominentWordIds ).then( ( prominentWords ) => {
-			jQuery.ajax( {
-				type: "POST",
-				url: this._rootUrl + "wp/v2/posts/" + this._postID,
-				beforeSend: ( xhr ) => {
-					xhr.setRequestHeader( "X-WP-Nonce", this._nonce );
-				},
-				data: {
-					// eslint-disable-next-line camelcase
-					yst_prominent_words: prominentWords,
-				},
-				dataType: "json",
-			} ).always( () => {
-				this.emit( "savedProminentWords", prominentWords );
+		return Promise.all( prominentWordIds ).then( ( prominentWords ) => {
+			return new Promise( ( resolve, reject ) => {
+				jQuery.ajax( {
+					type: "POST",
+					url: this._rootUrl + "wp/v2/posts/" + this._postID,
+					beforeSend: ( xhr ) => {
+						xhr.setRequestHeader( "X-WP-Nonce", this._nonce );
+					},
+					data: {
+						// eslint-disable-next-line camelcase
+						yst_prominent_words: prominentWords,
+					},
+					dataType: "json",
+					success: resolve,
+					error: reject,
+				} ).always( () => {
+					this.emit( "savedProminentWords", prominentWords );
 
-				this._savingProminentWords = false;
+					this._savingProminentWords = false;
+				} );
 			} );
 		} );
 	}
