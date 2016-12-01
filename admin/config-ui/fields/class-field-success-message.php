@@ -14,11 +14,23 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 	public function __construct() {
 		parent::__construct( 'successMessage', 'HTML' );
 
-		$success_message = __( 'You’ve done it! You&#039;ve set up Yoast SEO, and Yoast SEO will now take care of all the needed technical optimization of your site. To really improve your site&#039;s performance in the search results, it&#039;s important to start creating content that ranks well for keywords you care about.', 'wordpress-seo' );
-		$onpage_seo = __( 'Check out the video below in which we explain how to use the Yoast SEO metabox when you edit posts or pages', 'wordpress-seo' );
+		$success_message = sprintf(
+			/* translators: %1$s expands to Yoast SEO. */
+			__( 'You&#039;ve done it! You&#039;ve set up %1$s, and %1$s will now take care of all the needed technical optimization of your site. To really improve your site&#039;s performance in the search results, it&#039;s important to start creating content that ranks well for keywords you care about.', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
+		$onpage_seo = sprintf(
+			/* translators: %1$s expands to Yoast SEO. */
+			__( 'Check out the video below in which we explain how to use the %1$s metabox when you edit posts or pages', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
 		$content_analysis_video = sprintf(
 			'<iframe width="560" height="315" src="https://yoa.st/metabox-screencast" title="%s" frameborder="0" allowfullscreen></iframe>',
-			__( 'Yoast SEO video tutorial', 'wordpress-seo' )
+			sprintf(
+				/* translators: %1$s expands to Yoast SEO. */
+				__( '%1$s video tutorial', 'wordpress-seo' ),
+				'Yoast SEO'
+			)
 		);
 
 		$html = '<p>' . $success_message . '</p>';
