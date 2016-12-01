@@ -43,7 +43,7 @@ class KeywordSuggestions {
 
 		// Be mindful of our impact, only start polling and savings prominent words after 10 seconds.
 		window.setTimeout( () => {
-			if( isRestApiAvailable() ) {
+			if( this.isRestApiAvailable() ) {
 				this._storageEnabled = true;
 
 				// If we have ever retrieved words we can trigger the first storage call.
