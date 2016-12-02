@@ -129,33 +129,38 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 Release Date:
 
 * Enhancements:
-    * License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
-    * License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
-    * Updated the credits page.
-    * Improved plugin naming in translations.
-    * Improved translations by making texts more consistent.
-    * Displays the translations in the language chosen by the user in stead of using only the site language.
-    * Improves the styling of the banners.
-
+	* License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
+	* License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
+	* Updated the credits page.
+	* Improved plugin naming in translations.
+	* Improved translations by making texts more consistent.
+	* Displays the translations in the language chosen by the user in stead of using only the site language.
+	* Improves the styling of the banners.
+	* Adds passive voice for German.
+	* Added more transition words for French.
+	* Improved feedback strings for the meta description length assessment.
+	* Improves matching of the keyword in the first paragraph.
+	* Improved the snippet preview to match the styling of googles snippet.
 
 * Bugfixes:
-    * Fixed a bug where post format archives showed up in sitemap when disabled.
-    * Fixed a bug where an old update notice would not be removed.
+	* Fixed a bug where post format archives showed up in sitemap when disabled.
+	* Fixed a bug where an old update notice would not be removed.
+	* Fixes a bug where keywords with periods where not highlighted in the snippet.
 
 = 3.9.0 =
 
 Release Date: November 29nd, 2016
 
 * Enhancements:
-    * Updates the banners on the admin pages.
-    * Improves accessibility by moving the Google Search Console reload button from the header.
-    * Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
-    * Prevent conflicts with other plugins/themes which also add html namespaces.
+	* Updates the banners on the admin pages.
+	* Improves accessibility by moving the Google Search Console reload button from the header.
+	* Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
+	* Prevent conflicts with other plugins/themes which also add html namespaces.
 
 * Bugfixes:
-    * Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
-    * Fixes a bug that prevented bulk actions to work in the Google Search Console.
-    * Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
+	* Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
+	* Fixes a bug that prevented bulk actions to work in the Google Search Console.
+	* Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
 
 = Earlier versions =
 
