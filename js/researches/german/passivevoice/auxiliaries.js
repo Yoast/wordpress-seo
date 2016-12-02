@@ -46,7 +46,6 @@ module.exports = function() {
 		"krieget",
 		"gehöre",
 		"gehörst",
-		"gehört",
 		"gehören",
 		"gehörte",
 		"gehörtest",

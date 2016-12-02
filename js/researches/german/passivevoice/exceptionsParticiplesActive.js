@@ -365,6 +365,7 @@ module.exports = function() {
 		"gewerbegebiet",
 		"gewerberecht",
 		"gewerbsunzucht",
+		"gewerkschaft",
 		"gewerkschaftsjournalist",
 		"gewindestift",
 		"gewinnsucht",
