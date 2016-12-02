@@ -124,6 +124,24 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.0.0 =
+
+Release Date:
+
+* Enhancements:
+    * License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
+    * License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
+    * Updated the credits page.
+    * Improved plugin naming in translations.
+    * Improved translations by making texts more consistent.
+    * Displays the translations in the language chosen by the user in stead of using only the site language.
+    * Improves the styling of the banners.
+
+
+* Bugfixes:
+    * Fixed a bug where post format archives showed up in sitemap when disabled.
+    * Fixed a bug where an old update notice would not be removed.
+
 = 3.9.0 =
 
 Release Date: November 29nd, 2016
@@ -138,21 +156,6 @@ Release Date: November 29nd, 2016
     * Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
     * Fixes a bug that prevented bulk actions to work in the Google Search Console.
     * Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
-
-= 3.8.0 =
-
-Release Date: November 8th, 2016
-
-* Enhancements:
-	* Makes tooltips on tabs icons accessible.
-	* Adds check to prevent sitemap from having empty image entries.
-	* Improves screenreader text for the readability tab.
-	* Adds a toggle for author and date archives.
-	* Adds several improvements for readability and consistent styling.
-
-* Bugfixes:
-	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
-	* Fixes a bug with VoiceOver on the readability and keyword tabs.
 
 = Earlier versions =
 
