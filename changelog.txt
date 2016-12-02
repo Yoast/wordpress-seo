@@ -2,6 +2,21 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
+= 3.8.0 =
+
+Release Date: November 8th, 2016
+
+* Enhancements:
+	* Makes tooltips on tabs icons accessible.
+	* Adds check to prevent sitemap from having empty image entries.
+	* Improves screenreader text for the readability tab.
+	* Adds a toggle for author and date archives.
+	* Adds several improvements for readability and consistent styling.
+
+* Bugfixes:
+	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
+	* Fixes a bug with VoiceOver on the readability and keyword tabs.
+
 = 3.7.1 =
 
 Release Date: October 20th, 2016
