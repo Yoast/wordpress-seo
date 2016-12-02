@@ -15,7 +15,7 @@
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
-    "test": "babel-node ./node_modules/istanbul/lib/cli.js test jasmine",
+    "test": "babel-node ./node_modules/istanbul/lib/cli.js cover jasmine",
     "check-coverage": "istanbul check-coverage --statements 83 --branches 73 --functions 74 --lines 83"
   },
   "browser": "js/browser.js",

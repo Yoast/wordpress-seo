@@ -20,9 +20,9 @@ before_script:
 - grunt build:jst
 
 script:
-- yarn test --coverage
+- yarn test
 - grunt check
-- yarn run check-coverage --silent
+- yarn run check-coverage
 
 after_success:
 - yarn global add codeclimate-test-reporter
