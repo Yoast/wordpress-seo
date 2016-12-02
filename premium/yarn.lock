@@ -4819,11 +4819,7 @@ watchify@^3.3.1:
     through2 "^2.0.0"
     xtend "^4.0.0"
 
-whatwg-fetch@>=0.10.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.1.tgz#078b9461bbe91cea73cbce8bb122a05f9e92b772"
-
-whatwg-fetch@^1.0.0:
+whatwg-fetch@>=0.10.0, whatwg-fetch@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-1.1.1.tgz#ac3c9d39f320c6dce5339969d054ef43dd333319"
 
@@ -4956,9 +4952,9 @@ yoast-components@^1.0.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
-"yoast-premium-components@https://github.com/yoast/yoast-premium-components#release/1.1":
+"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#release/1.1":
   version "1.0.1"
-  resolved "https://github.com/yoast/yoast-premium-components#a2deb0dfe828070130828f4b7ae0a19bc9e01d44"
+  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#a2deb0dfe828070130828f4b7ae0a19bc9e01d44"
   dependencies:
     babel-core "^6.11.4"
     babel-loader "^6.2.4"
@@ -4971,9 +4967,9 @@ yoast-components@^1.0.0:
     react-dom "^15.3.0"
     yoast-components "^1.0.0"
 
-"yoast-social-previews@https://github.com/yoast/yoast-social-previews#master":
+"yoast-social-previews@git+ssh://git@github.com/yoast/yoast-social-previews#master":
   version "1.4.0"
-  resolved "https://github.com/yoast/yoast-social-previews#bbf05850610b0384c11b7e032202350ac44f86b2"
+  resolved "git+ssh://git@github.com/yoast/yoast-social-previews#bbf05850610b0384c11b7e032202350ac44f86b2"
   dependencies:
     jed "^1.1.0"
     lodash "^3.10.1"
@@ -4988,9 +4984,9 @@ yoast-components@^1.0.0:
     sassdash "^0.8.1"
     tokenizer2 "^2.0.0"
 
-"yoastseo@git+ssh://git@github.com/Yoast/YoastSEO.js.git#release/1.8":
+"yoastseo@github:Yoast/YoastSEO.js#release/1.8":
   version "1.7.0"
-  resolved "git+ssh://git@github.com/Yoast/YoastSEO.js.git#ca5e33320336af0b699f65cff1c4096ab75f8909"
+  resolved "https://codeload.github.com/Yoast/YoastSEO.js/tar.gz/ca5e33320336af0b699f65cff1c4096ab75f8909"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"
