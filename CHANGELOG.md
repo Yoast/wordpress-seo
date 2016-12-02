@@ -7,9 +7,22 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.8.0: November
 
+## Added.
+
+* Adds passive voice for German. 
+* Added more transition words for French.
+
 ## Changed
 
-* Updated translations.
+* Created value objects for sentence parts and participles.
+* Improved feedback strings for the meta description length assessment. 
+* Improves matching of the keyword in the first paragraph.
+* Improved the snippet preview to match the styling of googles snippet.
+
+## Fixed
+
+* Fixed the extending of the assessor in the SEO assessor.
+* Fixes a bug where keywords with periods where not highlighted in the snippet.
 
 ## 1.7.0: October 11th, 2016
 
