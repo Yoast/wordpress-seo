@@ -4,7 +4,7 @@ var getIndices = require( "../../stringProcessing/indices.js" ).getIndicesByWord
 var getIndicesOfList = require( "../../stringProcessing/indices.js" ).getIndicesByWordList;
 var exceptionsParticiplesActive = require( "./passivevoice/exceptionsParticiplesActive.js" )();
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
-var auxiliaries = require( "./passivevoice/auxiliaries.js" )();
+var auxiliaries = require( "./passivevoice/auxiliaries.js" )().participleLike;
 
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 var exceptionsRegex =

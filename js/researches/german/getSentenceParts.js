@@ -2,7 +2,7 @@ var stopwords = require( "./passivevoice/stopwords.js" )();
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
 var SentencePart = require( "./SentencePart.js" );
-var auxiliaries = require( "./passivevoice/auxiliaries.js" )();
+var auxiliaries = require( "./passivevoice/auxiliaries.js" )().allAuxiliaries;
 
 var forEach = require( "lodash/forEach" );
 var isEmpty = require( "lodash/isEmpty" );
