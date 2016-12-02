@@ -20,11 +20,11 @@ matrix:
       env: WP_VERSION=4.6
 
 cache:
+  yarn: true
   directories:
     - vendor
     - $HOME/.composer/cache
     - node_modules
-    - $HOME/.yarn-cache
 
 before_install:
 - if [[ "$CHECKJS" == "1" ]]; then nvm install $TRAVIS_NODE_VERSION; fi
