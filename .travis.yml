@@ -20,6 +20,7 @@ matrix:
       env: WP_VERSION=4.6
 
 cache:
+  yarn: true
   directories:
     - vendor
     - $HOME/.composer/cache
@@ -28,6 +29,8 @@ cache:
 
 before_install:
 - if [[ "$CHECKJS" == "1" ]]; then nvm install $TRAVIS_NODE_VERSION; fi
+- if [[ "$CHECKJS" == "1" ]]; then curl -o- -L https://yarnpkg.com/install.sh | bash; fi
+- if [[ "$CHECKJS" == "1" ]]; then export PATH=$HOME/.yarn/bin:$PATH; fi
 
 install:
 - phpenv local 5.6
@@ -35,8 +38,8 @@ install:
 - composer install --no-interaction
 - composer config-yoastcs
 - phpenv local --unset
-- if [[ "$CHECKJS" == "1" ]]; then npm install -g grunt-cli; fi
-- if [[ "$CHECKJS" == "1" ]]; then cd premium && npm install --no-optional && cd ..; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn global add grunt-cli; fi
+- if [[ "$CHECKJS" == "1" ]]; then cd premium && yarn install --ignore-optional && cd ..; fi
 
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
