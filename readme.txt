@@ -3,7 +3,7 @@ Contributors: joostdevalk
 Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
+Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.4
 Tested up to: 4.7
 Stable tag: 3.9
