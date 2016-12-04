@@ -54,7 +54,7 @@ Are you being outranked by scrapers? Instead of cursing at them, use them to you
 = Breadcrumbs =
 If your theme is compatible, and themes based on Genesis or by WooThemes for instance often are, you can use the built-in Breadcrumbs functionality. This allows you to create an easy navigation that is great for both users and search engines and will support the search engines in understanding the structure of your site.
 
-Making your theme compatible isn't hard either, check [these instructions](https://yoast.com/wordpress/plugins/breadcrumbs/).
+Making your theme compatible isn't hard either, check [these instructions](https://kb.yoast.com/kb/implement-wordpress-seo-breadcrumbs/).
 
 = Edit your .htaccess and robots.txt file =
 Using the built-in file editor you can edit your WordPress blogs `.htaccess` and `robots.txt` file, giving you direct access to the two most powerful files, from an SEO perspective, in your WordPress install.
