@@ -35,9 +35,24 @@ class ProminentWordStorage extends EventEmitter {
 		}
 		this._savingProminentWords = true;
 
-		let prominentWordIds = prominentWords.slice( 0, 20 ).map( this.retrieveProminentWordId );
+		let firstTwentyWords = prominentWords.slice( 0, 20 );
 
-		return Promise.all( prominentWordIds ).then( ( prominentWords ) => {
+		// Retrieve IDs of all prominent word terms, but do it in sequence to prevent overloading servers.
+		let prominentWordIds = firstTwentyWords.reduce( ( previousPromise, prominentWord ) => {
+			return previousPromise.then( ( ids ) => {
+				return this.retrieveProminentWordId( prominentWord ).then( ( newId ) => {
+					ids.push( newId );
+
+					return ids;
+
+				// On error, just continue with the other terms.
+				}, () => {
+					return ids;
+				} );
+			} );
+		}, Promise.resolve( [] ) );
+
+		return prominentWordIds.then( ( prominentWords ) => {
 			return new Promise( ( resolve, reject ) => {
 				jQuery.ajax( {
 					type: "POST",
