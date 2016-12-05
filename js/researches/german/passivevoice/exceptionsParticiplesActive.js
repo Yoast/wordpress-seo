@@ -687,6 +687,7 @@ module.exports = function() {
 		"entscheidungsrecht",
 		"entscheidungsschlacht",
 		"entstehungsort",
+		"entsteht",
 		"entwässerungsschacht",
 		"entwicklungsabschnitt",
 		"entwicklungsinstitut",
