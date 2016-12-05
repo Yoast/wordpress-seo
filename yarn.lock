@@ -5781,11 +5781,7 @@ websocket-extensions@>=0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.1.tgz#76899499c184b6ef754377c2dbb0cd6cb55d29e7"
 
-whatwg-fetch@>=0.10.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.1.tgz#078b9461bbe91cea73cbce8bb122a05f9e92b772"
-
-whatwg-fetch@^1.0.0:
+whatwg-fetch@>=0.10.0, whatwg-fetch@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-1.1.1.tgz#ac3c9d39f320c6dce5339969d054ef43dd333319"
 
@@ -5926,6 +5922,15 @@ yauzl@^2.2.1:
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#master":
   version "1.7.0"
   resolved "git+https://github.com/Yoast/YoastSEO.js.git#8ee1ec8ab921d00305916cbfb098e2a046d3dfd4"
+  dependencies:
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
+
+"yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.8":
+  version "1.7.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#ca5e33320336af0b699f65cff1c4096ab75f8909"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"
