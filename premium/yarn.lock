@@ -4945,7 +4945,7 @@ yoast-components@^1.0.0:
 
 "yoast-components@github:yoast/yoast-components#release/2.2":
   version "2.1.0"
-  resolved "https://codeload.github.com/yoast/yoast-components/tar.gz/6eb316d7e9716a75378b0ea2b16092fe20210e4e"
+  resolved "https://codeload.github.com/yoast/yoast-components/tar.gz/7974f864878ca750193c57c06cfe36e2b53de92b"
   dependencies:
     i18n-calypso "^1.6.2"
     interpolate-components "^1.1.0"
