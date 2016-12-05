@@ -1,9 +1,9 @@
 === Yoast SEO ===
-Contributors: joostdevalk
+Contributors: yoast, joostdevalk, tacoverdo, omarreiss, atimmer, jipmoors
 Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
+Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.4
 Tested up to: 4.7
 Stable tag: 3.9
@@ -39,7 +39,7 @@ While out of the box WordPress is pretty good for SEO, it needs some tweaks here
 = Meta & Link Elements =
 With the Yoast SEO plugin you can control which pages Google shows in its search results and which pages it doesn't show. By default, it will tell search engines to index all of your pages, including category and tag archives, but only show the first pages in the search results. It's not very useful for a user to end up on the third page of your "personal" category, right?
 
-WordPress itself only shows canonical link elements on single pages, Yoast SEO makes it output canonical link elements everywhere. Google has recently announced they would also use `rel="next"` and `rel="prev"` link elements in the `head` section of your paginated archives, this plugin adds those automatically, see [this post](https://yoast.com/rel-next-prev-paginated-archives/ title="rel=next & rel=prev for paginated archives") for more info.
+WordPress itself only shows canonical link elements on single pages, Yoast SEO makes it output canonical link elements everywhere. Google has recently announced they would also use `rel="next"` and `rel="prev"` link elements in the `head` section of your paginated archives, this plugin adds those automatically, see [this post](https://yoast.com/rel-next-prev-paginated-archives/) for more info.
 
 = XML Sitemaps =
 Yoast SEO plugin has the most advanced XML Sitemaps functionality in any WordPress plugin. Once you check the box, it automatically creates XML sitemaps and notifies Google & Bing of the sitemaps existence. These XML sitemaps include the images in your posts & pages too, so that your images may be found better in the search engines too.
@@ -54,10 +54,10 @@ Are you being outranked by scrapers? Instead of cursing at them, use them to you
 = Breadcrumbs =
 If your theme is compatible, and themes based on Genesis or by WooThemes for instance often are, you can use the built-in Breadcrumbs functionality. This allows you to create an easy navigation that is great for both users and search engines and will support the search engines in understanding the structure of your site.
 
-Making your theme compatible isn't hard either, check [these instructions](https://yoast.com/wordpress/plugins/breadcrumbs/).
+Making your theme compatible isn't hard either, check [these instructions](https://kb.yoast.com/kb/implement-wordpress-seo-breadcrumbs/).
 
 = Edit your .htaccess and robots.txt file =
-Using the built-in file editor you can edit your WordPress blogs .htaccess and robots.txt file, giving you direct access to the two most powerful files, from an SEO perspective, in your WordPress install.
+Using the built-in file editor you can edit your WordPress blogs `.htaccess` and `robots.txt` file, giving you direct access to the two most powerful files, from an SEO perspective, in your WordPress install.
 
 = Social Integration =
 SEO and Social Media are heavily intertwined, that's why this plugin also comes with a Facebook OpenGraph implementation and will soon also support Google+ sharing tags.
@@ -84,31 +84,40 @@ Be sure to also check out the premium [News SEO module](https://yoast.com/wordpr
 = Further Reading =
 For more info, check out the following articles:
 
-* The [Yoast SEO Knowledgebase](http://kb.yoast.com/category/42-wordpress-seo).
+* The [Yoast SEO Knowledgebase](https://kb.yoast.com/kb/category/yoast-seo/).
 * [WordPress SEO - The definitive Guide by Yoast](https://yoast.com/articles/wordpress-seo/).
 * Once you have great SEO, you'll need the [best WordPress Hosting](https://yoast.com/articles/wordpress-hosting/).
 * The [Yoast SEO Plugin](https://yoast.com/wordpress/plugins/seo/) official homepage.
-* Other [WordPress Plugins](https://yoast.com/wordpress/plugins/) by the same author.
+* Other [WordPress Plugins](https://yoast.com/wordpress/plugins/) by the same team.
 * Follow Yoast on [Facebook](https://facebook.com/yoast) & [Twitter](http://twitter.com/yoast).
-
-= Tags =
-seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 
 == Installation ==
 
+=== From within WordPress ===
+1. Visit 'Plugins > Add New'
+1. Search for 'Yoast SEO'
+1. Activate Yoast SEO from your Plugins page.
+1. Go to "after activation" below.
+
+=== Manually ===
 1. Upload the `wordpress-seo` folder to the `/wp-content/plugins/` directory
 1. Activate the Yoast SEO plugin through the 'Plugins' menu in WordPress
-1. Configure the plugin by going to the `SEO` menu that appears in your admin menu
+1. Go to "after activation" below.
+
+=== After activation ===
+1. You should see (a notice to start) the Yoast SEO configuration wizard.
+1. Go through the configuration wizard and set up the plugin for your site.
+1. You're done!
 
 == Frequently Asked Questions ==
 
-You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/).
+You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast.com/kb/category/yoast-seo/).
 
 == Screenshots ==
 
 1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
 2. The fully configurable XML sitemap for Yoast SEO.
-3. Easily import SEO data from All In One SEO pack and HeadSpace2 SEO.
+3. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 4. Example of the SEO analysis functionality.
 5. Example of the readability analysis functionality.
 6. The advanced section of the Yoast SEO meta box.
@@ -144,8 +153,6 @@ Release Date: November 8th, 2016
 * Bugfixes:
 	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
 	* Fixes a bug with VoiceOver on the readability and keyword tabs.
-
-
 
 = Earlier versions =
 
