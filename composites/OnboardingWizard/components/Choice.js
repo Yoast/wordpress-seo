@@ -19,14 +19,13 @@ const Choice = ( props ) => {
 	let type = props.properties.type;
 
 	let fieldSet = () => {
-		let choiceName;
 		let field;
 
 		if ( type === "select" ) {
 			field =
 				<fieldset className={"yoast-wizard-input-select-" + fieldName}>
 					<select defaultValue={props.value} name={fieldName}
-					        className={props.optionClassName + " " + choiceName} onChange={props.onChange}>
+					        className={props.optionClassName} onChange={props.onChange}>
 						{fieldKeys.map( ( choiceName, index ) => {
 							let choice = choices[ choiceName ];
 
