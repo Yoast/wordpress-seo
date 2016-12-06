@@ -8,6 +8,7 @@ module.exports = function() {
 		"bis",
 		"da",
 		"damit",
+		"daß",
 		"dass",
 		"denn",
 		"doch",
