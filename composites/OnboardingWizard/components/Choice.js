@@ -20,9 +20,10 @@ const Choice = ( props ) => {
 
 	let fieldSet = () => {
 		let choiceName;
+		let field;
 
 		if ( type === "select" ) {
-			return (
+			field =
 				<fieldset className={"yoast-wizard-input-select-" + fieldName}>
 					<select defaultValue={props.value} name={fieldName}
 					        className={props.optionClassName + " " + choiceName} onChange={props.onChange}>
@@ -37,11 +38,9 @@ const Choice = ( props ) => {
 						} )}
 					</select>
 				</fieldset>
-			);
-		}
-
-		if ( type === "radio" ) {
-			return (
+			;
+		} else {
+			field =
 				<fieldset className={"yoast-wizard-input-radio-" + fieldName}>
 					{fieldKeys.map( ( choiceName, index ) => {
 						let choice = choices[ choiceName ];
@@ -60,8 +59,10 @@ const Choice = ( props ) => {
 						);
 					} )}
 				</fieldset>
-			);
+			;
 		}
+
+		return field;
 	};
 
 	return (
