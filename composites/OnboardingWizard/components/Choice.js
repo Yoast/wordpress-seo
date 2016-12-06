@@ -18,6 +18,11 @@ const Choice = ( props ) => {
 	let fieldName = props.name;
 	let type = props.properties.type;
 
+	if ( typeof type === "undefined" ) {
+		type = "radio";
+	}
+	let wrapperClass = "yoast-wizard-input-" + type;
+
 	let fieldSet = () => {
 		let field;
 
@@ -65,7 +70,7 @@ const Choice = ( props ) => {
 	};
 
 	return (
-		<div className={props.className}>
+		<div className={wrapperClass}>
 			<p className="yoast-wizard-field-description">{props.properties.label}</p>
 			{fieldSet()}
 			<Explanation text={props.properties.explanation}/>
