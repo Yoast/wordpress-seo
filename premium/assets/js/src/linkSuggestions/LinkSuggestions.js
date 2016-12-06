@@ -12,14 +12,16 @@ class LinkSuggestions extends EventEmitter {
 	 * @param {string} target The DOM element of the meta box.
 	 * @param {string} rootUrl The root URL to do AJAX requests to.
 	 * @param {string} nonce The nonce to use when sending requests to the REST API.
+	 * @param {number} currentPostId The post ID of the post we are currently displaying.
 	 */
-	constructor( { target, rootUrl, nonce } ) {
+	constructor( { target, rootUrl, nonce, currentPostId } ) {
 		super();
 
 		this._target = target;
 		this._rootUrl = rootUrl;
 		this._nonce = nonce;
 		this._previousProminentWords = false;
+		this._currentPostId = currentPostId;
 	}
 
 	/**
@@ -36,6 +38,10 @@ class LinkSuggestions extends EventEmitter {
 			currentLinkSuggestions = [];
 			isLoading = true;
 		}
+
+		currentLinkSuggestions = currentLinkSuggestions.filter( ( linkSuggestion ) => {
+			return linkSuggestion.id !== this._currentPostId;
+		} );
 
 		currentLinkSuggestions = this.constructor.mapSuggestionsForComponent( currentLinkSuggestions );
 
