@@ -30,6 +30,14 @@ button.yoast-tooltip {
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 
+/*
+ * Use a data attribute as alternative source for the tooltip text.
+ * Add this selector as modifier of the base selector.
+ */
+.yoast-tooltip-alt::after {
+	content: attr(data-label);
+}
+
 .yoast-tooltip::before {
 	display: none;
 	position: absolute;
