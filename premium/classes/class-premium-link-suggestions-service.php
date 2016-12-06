@@ -129,7 +129,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 */
 	private function get_post_object( $post ) {
 		$post = $post['post'];
-		$title = $post->post_title;
+		$title = trim( $post->post_title );
 
 		if ( empty( $title ) ) {
 			$title = __( '(no title)' );
