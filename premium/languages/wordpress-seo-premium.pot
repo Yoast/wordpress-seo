@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-11-08 11:54:09+00:00\n"
+"POT-Creation-Date: 2016-12-06 15:56:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,30 +24,35 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:85
+#: class-premium.php:101
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:87
+#: class-premium.php:103
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:343
+#: class-premium.php:360
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:375
+#: class-premium.php:392
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:394 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:411 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:428
+#: class-premium.php:445
 msgid "Enabled"
+msgstr ""
+
+#. translators: %s expands to Yoast
+#: classes/class-metabox-link-suggestions.php:86
+msgid "%s internal linking"
 msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
@@ -84,56 +89,44 @@ msgid ""
 "to do? %3$sRead this post %4$s."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:34
-msgid "Redirection redirects have been imported."
+#. translators: %s: '.htaccess' file name
+#: classes/class-premium-import-manager.php:62
+#: classes/views/import-redirects.php:15
+msgid "Import redirects"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:45
-msgid ""
-"Redirection import failed: Redirection plugin not installed or activated."
+#: classes/class-premium-import-manager.php:71
+msgid "Redirection"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:56
-msgid "Redirection import failed: No redirects found."
+#: classes/class-premium-import-manager.php:72
+msgid "Safe Redirect Manager"
+msgstr ""
+
+#: classes/class-premium-import-manager.php:73
+msgid "Simple 301 Redirects"
+msgstr ""
+
+#: classes/class-premium-import-manager.php:84
+msgid "Redirects have been imported."
+msgstr ""
+
+#: classes/class-premium-import-manager.php:91
+msgid "Redirect import failed: Redirection plugin not installed or activated."
+msgstr ""
+
+#: classes/class-premium-import-manager.php:98
+msgid "Redirect import failed: No redirects found."
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/class-premium-import-manager.php:68
+#: classes/class-premium-import-manager.php:106
 msgid "%s redirects have been imported."
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/class-premium-import-manager.php:80
+#: classes/class-premium-import-manager.php:114
 msgid "%s import failed: No redirects found."
-msgstr ""
-
-#: classes/class-premium-import-manager.php:244
-msgid "Import from Redirection?"
-msgstr ""
-
-#. translators: %s: '.htaccess' file name
-#: classes/class-premium-import-manager.php:252
-msgid "%s import"
-msgstr ""
-
-#. translators: %s: '.htaccess' file name
-#: classes/class-premium-import-manager.php:273
-msgid "Import redirects from %s"
-msgstr ""
-
-#. translators: %1$s: '.htaccess' file name, %2$s plugin name
-#: classes/class-premium-import-manager.php:275
-msgid ""
-"You can copy the contents of any %1$s file in here, and it will import the "
-"redirects into %2$s."
-msgstr ""
-
-#: classes/class-premium-import-manager.php:279
-msgid "Enter redirects to import"
-msgstr ""
-
-#: classes/class-premium-import-manager.php:281
-msgid "Import .htaccess"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:21
@@ -235,6 +228,113 @@ msgstr ""
 #: classes/redirect/class-redirect-table.php:236
 #: classes/redirect/class-redirect-table.php:326
 msgid "Delete"
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:41
+msgid "Site wide analysis"
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:42
+#: classes/class-premium-prominent-words-registration.php:36
+msgid "Prominent words"
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:53
+msgid "%d total post"
+msgid_plural "%d total posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:63
+msgid "%d post with prominent words"
+msgid_plural "%d posts with prominent words"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:73
+msgid "%d post without prominent words"
+msgid_plural "%d posts without prominent words"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:81
+msgid "Currently calculating prominent words."
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:84
+msgid "Calculated %1$s out of %2$s post"
+msgid_plural "Calculated %1$s out of %2$s posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:93
+msgid "Calculated prominent words for %1$s post"
+msgid_plural "Calculated prominent words for %1$s posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:98
+msgid "Calculate prominent words for all posts"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:37
+msgid "All prominent words"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:38
+msgid "New prominent word"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:39
+msgid "Add new prominent word"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:40
+msgid "Edit prominent word"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:41
+msgid "Update prominent word"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:42
+msgid "View prominent word"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:43
+msgid "Separate prominent words with commas"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:44
+msgid "Add or remove prominent words"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:45
+msgid "Choose from the most used"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:46
+msgid "Popular prominent words"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:47
+msgid "Search prominent words"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:48
+msgid "Not Found"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:49
+msgid "No prominent words"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:50
+msgid "Prominent words list"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:51
+msgid "Prominent words list navigation"
 msgstr ""
 
 #: classes/class-social-previews.php:129
@@ -521,6 +621,44 @@ msgstr ""
 
 #: classes/redirect/views/redirects-tab-settings.php:91
 msgid "Save Changes"
+msgstr ""
+
+#: classes/views/import-redirects.php:8
+msgid "Import from other redirect plugins"
+msgstr ""
+
+#: classes/views/import-redirects.php:12
+msgid "Import from:"
+msgstr ""
+
+#. translators: %s: '.htaccess' file name
+#: classes/views/import-redirects.php:20
+msgid "Import redirects from %s"
+msgstr ""
+
+#. translators: %1$s: '.htaccess' file name, %2$s plugin name
+#: classes/views/import-redirects.php:25
+msgid ""
+"You can copy the contents of any %1$s file in here, and it will import the "
+"redirects into %2$s."
+msgstr ""
+
+#: classes/views/import-redirects.php:30
+msgid "Enter redirects to import"
+msgstr ""
+
+#: classes/views/import-redirects.php:32
+msgid "Import .htaccess"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:34
+msgctxt "Taxonomy General Name"
+msgid "Prominent words"
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:35
+msgctxt "Taxonomy Singular Name"
+msgid "Prominent word"
 msgstr ""
 
 #: classes/redirect/class-redirect-table.php:60
