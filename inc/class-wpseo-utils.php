@@ -867,6 +867,24 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Returns the user locale for the language to be used in the admin.
+	 *
+	 * WordPress 4.7 introduced the ability for users to specify an Admin language
+	 * different from the language used on the front end. This checks if the feature
+	 * is available and returns the user's language, with a fallback to the site's language.
+	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
+	 * of WordPress get_user_locale() that already fallbacks to the site’s locale.
+	 *
+	 * @returns string The locale.
+	 */
+	public static function get_user_locale() {
+		if ( function_exists( 'get_user_locale' ) ) {
+			return get_user_locale();
+		}
+		return get_locale();
+	}
+
+	/**
 	 * Checks if the WP-REST-API is available.
 	 *
 	 * @since 3.6

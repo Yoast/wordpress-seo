@@ -88,7 +88,7 @@ class WPSEO_Admin_Pages {
 
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( get_locale() ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
 		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
 			wp_enqueue_media();
