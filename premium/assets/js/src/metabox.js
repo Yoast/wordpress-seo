@@ -37,6 +37,7 @@ function initializeMetabox() {
 		target: document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
+		currentPostId: settings.postID,
 	} );
 	linkSuggestions.initializeDOM( settings.linkSuggestions );
 
