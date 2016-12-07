@@ -48,8 +48,7 @@ class App extends React.Component {
 		let config = yoastWizardConfig;
 
 		return {
-			url: `${config.root}${config.namespace}
-			/${config.endpoint_retrieve}`,
+			url: `${config.root}${config.namespace}/${config.endpoint_retrieve}`,
 			headers: {
 				"X-WP-Nonce": config.nonce,
 			},
