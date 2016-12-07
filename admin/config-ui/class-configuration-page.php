@@ -103,6 +103,7 @@ class WPSEO_Configuration_Page {
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 			<title><?php _e( 'Yoast SEO &rsaquo; Configuration Wizard', 'wordpress-seo' ); ?></title>
 			<?php
+            wp_print_head_scripts();
 			wp_print_styles( 'yoast-seo-yoast-components' );
 
 			/**
@@ -121,7 +122,10 @@ class WPSEO_Configuration_Page {
 			<?php _e( 'Go back to the Yoast SEO dashboard.', 'wordpress-seo' ); ?>
 		</a>
 		<?php
-			/**
+            wp_print_media_templates();
+	    	wp_print_footer_scripts();
+
+    		/**
 			 * Is called before the closing </body> tag in the Yoast Configuration wizard.
 			 *
 			 * Allows users to add their own scripts or content.
@@ -129,6 +133,7 @@ class WPSEO_Configuration_Page {
 			 * @since 4.0
 			 */
 			do_action( 'wpseo_configuration_wizard_footer' );
+
 			wp_print_scripts( 'yoast-seo-configuration-wizard' );
 		?>
 		</body>
