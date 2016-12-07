@@ -129,10 +129,15 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 */
 	private function get_post_object( $post ) {
 		$post = $post['post'];
+		$title = trim( $post->post_title );
+
+		if ( empty( $title ) ) {
+			$title = __( '(no title)' );
+		}
 
 		return array(
 			'id'    => $post->ID,
-			'title' => $post->post_title,
+			'title' => $title,
 			'link'  => get_permalink( $post ),
 		);
 	}

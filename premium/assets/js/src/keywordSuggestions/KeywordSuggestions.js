@@ -36,7 +36,7 @@ class KeywordSuggestions {
 
 		if ( this._contentEndpointsAvailable  ) {
 			// Be mindful of our impact, only start polling and savings prominent words after 10 seconds.
-			window.setTimeout( this.startStoringWords.bind( this ), 1 );
+			window.setTimeout( this.startStoringWords.bind( this ), 10000 );
 		}
 	}
 
