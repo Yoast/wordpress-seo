@@ -56,6 +56,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_36();
 		}
 
+		if ( version_compare( $this->options['version'], '4.0', '<' ) ) {
+			$this->upgrade_40();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -222,5 +226,17 @@ class WPSEO_Upgrade {
 		WPSEO_Sitemaps_Cache::clear();                                 // Flush the sitemap cache.
 
 		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245.
+	}
+
+	/**
+	 * Removes the about notice when its still in the database.
+	 */
+	private function upgrade_40() {
+		$center       = Yoast_Notification_Center::get();
+		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
+
+		if ( $notification ) {
+			$center->remove_notification( $notification );
+		}
 	}
 }

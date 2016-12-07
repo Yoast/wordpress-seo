@@ -82,12 +82,26 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
+	 * Gets the locale used for translations.
+	 *
+	 * @return string
+	 */
+	private function get_translation_locale() {
+		if ( function_exists( 'get_user_locale' ) ) {
+			return get_user_locale();
+		}
+		return get_locale();
+	}
+
+	/**
 	 * Returns Jed compatible YoastSEO.js translations.
 	 *
 	 * @return array
 	 */
 	private function get_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		$locale = $this->get_translation_locale();
+
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}

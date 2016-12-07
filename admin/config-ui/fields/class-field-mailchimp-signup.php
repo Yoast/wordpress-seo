@@ -18,7 +18,14 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 		$user_email = ( $current_user->ID > 0 ) ? $current_user->user_email : '';
 
 		$this->set_property( 'title' , __( 'Newsletter signup', 'wordpress-seo' ) );
-		$this->set_property( 'label', __( 'If you would like us to keep you up-to-date regarding Yoast SEO, other plugins by Yoast and major news in the world of SEO, subscribe to our newsletter:', 'wordpress-seo' ) );
+		$this->set_property(
+			'label',
+			sprintf(
+				/* translators: %s expands to Yoast SEO. */
+				__( 'If you would like us to keep you up-to-date regarding %s, other plugins by Yoast and major news in the world of SEO, subscribe to our newsletter:', 'wordpress-seo' ),
+				'Yoast SEO'
+			)
+		);
 
 		$this->set_property( 'mailchimpActionUrl', 'https://yoast.us1.list-manage.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122' );
 		$this->set_property( 'currentUserEmail', $user_email );
