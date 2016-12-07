@@ -81,7 +81,7 @@ class LinkSuggestions extends EventEmitter {
 	}
 
 	/**
-	 * Removes the current post from the link suggestions
+	 * Removes the current post from the link suggestions.
 	 *
 	 * @param {Array} linkSuggestions The current link suggestions.
 	 * @returns {Array} The link suggestions without the current post.
