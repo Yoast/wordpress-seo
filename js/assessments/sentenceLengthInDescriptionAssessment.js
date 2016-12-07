@@ -1,6 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var formatNumber = require( "../helpers/formatNumber.js" );
 var countTooLongSentences = require( "./../assessmentHelpers/checkForTooLongSentences.js" );
-var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthPercentageScore.js" );
+var inRange = require( "../helpers/inRange.js" ).inRangeEndInclusive;
 
 /**
  * Calculates sentence length score
@@ -9,11 +10,30 @@ var calculateTooLongSentences = require( "./../assessmentHelpers/sentenceLengthP
  * @returns {object} Object containing score and text.
  */
 var calculateSentenceLengthResult = function( sentences, i18n ) {
+	var score;
+	var percentage = 0;
 	var recommendedValue = 20;
-	var tooLong = countTooLongSentences( sentences, recommendedValue ).length;
-	var percentage = ( tooLong / sentences.length ) * 100;
-	var score = calculateTooLongSentences( percentage );
+	var tooLongTotal = countTooLongSentences( sentences, recommendedValue ).length;
 	var sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
+
+	if ( sentences.length !== 0 ) {
+		percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );
+	}
+
+	if ( percentage <= 25 ) {
+		// Green indicator.
+		score = 9;
+	}
+
+	if ( inRange( percentage, 25, 30 ) ) {
+		// Orange indicator.
+		score = 6;
+	}
+
+	if ( percentage > 30 ) {
+		// Red indicator.
+		score = 3;
+	}
 
 	if ( score >= 7 ) {
 		return {
@@ -35,7 +55,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
 			"The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to shorten this sentence.",
 			"The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to shorten these sentences.",
-			tooLong ), tooLong, sentenceLengthURL, recommendedValue, "</a>"
+			tooLongTotal ), tooLongTotal, sentenceLengthURL, recommendedValue, "</a>"
 		),
 	};
 };
