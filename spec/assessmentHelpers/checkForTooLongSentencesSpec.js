@@ -8,8 +8,8 @@ describe( "Checks if sentences are too long", function() {
 				{ sentence: "", sentenceLength: 64 },
 				{ sentence: "", sentenceLength: 128 },
 			];
-		var wordCount = 256;
-		expect( checkForTooLongSentences( sentences, wordCount ) ).toEqual( [ ] );
+		var recommendedValue = 256;
+		expect( checkForTooLongSentences( sentences, recommendedValue ) ).toEqual( [ ] );
 	} );
 	it( "Returns all sentences, all are too long", function() {
 		var sentences =
@@ -18,10 +18,10 @@ describe( "Checks if sentences are too long", function() {
 				{ sentence: "", sentenceLength: 64 },
 				{ sentence: "", sentenceLength: 128 },
 			];
-		var wordCount = 16;
-		expect( checkForTooLongSentences( sentences, wordCount ) ).toEqual( sentences );
+		var recommendedValue = 16;
+		expect( checkForTooLongSentences( sentences, recommendedValue ) ).toEqual( sentences );
 	} );
-	it( "Returns 2 out of 4 sentences", function() {
+	it( "Returns 2 sentences that exceed the recommended value", function() {
 		var sentences =
 			[
 				{ sentence: "", sentenceLength: 32 },
@@ -29,13 +29,13 @@ describe( "Checks if sentences are too long", function() {
 				{ sentence: "", sentenceLength: 128 },
 				{ sentence: "", sentenceLength: 256 },
 			];
-		var wordCount = 96;
+		var recommendedValue = 96;
 		var expectedOutput =
 			[
 				{ sentence: "", sentenceLength: 128 },
 				{ sentence: "", sentenceLength: 256 },
 			];
-		expect( checkForTooLongSentences( sentences, wordCount ) ).toEqual( expectedOutput );
+		expect( checkForTooLongSentences( sentences, recommendedValue ) ).toEqual( expectedOutput );
 	} );
 	it( "Returns no sentences, since they are the exact allowed length.", function() {
 		var sentences =
@@ -44,7 +44,7 @@ describe( "Checks if sentences are too long", function() {
 				{ sentence: "", sentenceLength: 64 },
 				{ sentence: "", sentenceLength: 64 },
 			];
-		var wordCount = 64;
-		expect( checkForTooLongSentences( sentences, wordCount ) ).toEqual( [ ] );
+		var recommendedValue = 64;
+		expect( checkForTooLongSentences( sentences, recommendedValue ) ).toEqual( [ ] );
 	} );
 } );
