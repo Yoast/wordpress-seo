@@ -20,17 +20,17 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 		percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );
 	}
 
-	if ( percentage <= 25 ) {
+	if ( percentage <= 20 ) {
 		// Green indicator.
 		score = 9;
 	}
 
-	if ( inRange( percentage, 25, 30 ) ) {
+	if ( inRange( percentage, 20, 25 ) ) {
 		// Orange indicator.
 		score = 6;
 	}
 
-	if ( percentage > 30 ) {
+	if ( percentage > 25 ) {
 		// Red indicator.
 		score = 3;
 	}
