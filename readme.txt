@@ -134,6 +134,7 @@ Release Date:
 	* Improved the snippet preview to match the styling of googles snippet.
 
 * Bugfixes:
+	* Fixed a compatibility bug with the onboard wizard and Polylang, and possibly more plugins that prevented the configuration wizard from working properly.
 	* Fixed a bug where post format archives showed up in sitemap when disabled.
 	* Fixed a bug where an old update notice would not be removed.
 	* Fixes a bug where keywords with periods where not highlighted in the snippet.
