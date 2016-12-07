@@ -109,7 +109,7 @@ class WPSEO_Configuration_Page {
 				);
 			?></title>
 			<?php
-            wp_print_head_scripts();
+			wp_print_head_scripts();
 			wp_print_styles( 'yoast-seo-yoast-components' );
 
 			/**
@@ -134,10 +134,10 @@ class WPSEO_Configuration_Page {
 			?>
 		</a>
 		<?php
-            wp_print_media_templates();
-	    	wp_print_footer_scripts();
+			wp_print_media_templates();
+			wp_print_footer_scripts();
 
-    		/**
+			/**
 			 * Is called before the closing </body> tag in the Yoast Configuration wizard.
 			 *
 			 * Allows users to add their own scripts or content.
