@@ -1,5 +1,9 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
+var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+
+var availableLanguages = [ "en" ];
+
 /**
  * Calculate the score based on the amount of stop words in the keyword.
  * @param {number} stopWordCount The amount of stop words to be checked against.
@@ -52,6 +56,7 @@ module.exports = {
 	identifier: "keywordStopWords",
 	getResult: keywordHasStopWordsAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasKeyword();
+		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		return paper.hasKeyword() && isLanguageAvailable;
 	},
 };
