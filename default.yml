@@ -22,7 +22,7 @@ rules:
   # Possible Errors
   comma-dangle: [2, always-multiline]
   no-cond-assign: 2
-  no-console: 0
+  no-console: [ 1, { allow: ["warn", "error", "trace"] } ]
   no-constant-condition: 2
   no-control-regex: 2
   no-debugger: 2
@@ -103,7 +103,7 @@ rules:
   no-useless-call: 2
   no-useless-concat: 2
   no-void: 2
-  no-warning-comments: 0
+  no-warning-comments: [ 1, { "terms": [ "todo" ], "location": "anywhere" } ]
   no-with: 2
   radix: 2
   vars-on-top: 0
@@ -188,7 +188,7 @@ rules:
   operator-assignment: 0
   operator-linebreak: 2
   padded-blocks: [2, "never"]
-  quote-props: [2, "as-needed", {"keywords": true}]
+  quote-props: [1, "as-needed", {"keywords": true}]
   quotes: [2, double, avoid-escape]
   require-jsdoc: 2
   semi-spacing: 2
