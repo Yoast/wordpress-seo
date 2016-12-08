@@ -188,7 +188,7 @@ rules:
   operator-assignment: 0
   operator-linebreak: 2
   padded-blocks: [2, "never"]
-  quote-props: [1, "as-needed", {"keywords": true}]
+  quote-props: [2, "as-needed", {"keywords": true}]
   quotes: [2, double, avoid-escape]
   require-jsdoc: 2
   semi-spacing: 2
