@@ -3,10 +3,8 @@ var Participle = require( "../../values/Participle.js" );
 var getIndices = require( "../../stringProcessing/indices.js" ).getIndicesByWord;
 var getIndicesOfList = require( "../../stringProcessing/indices.js" ).getIndicesByWordList;
 var exceptionsParticiplesActive = require( "./passivevoice/exceptionsParticiplesActive.js" )();
-var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 var auxiliaries = require( "./passivevoice/auxiliaries.js" )().participleLike;
 
-var auxiliaryRegex = arrayToRegex( auxiliaries );
 var exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 
@@ -85,7 +83,7 @@ GermanParticiple.prototype.hasHabenSeinException = function() {
  * @returns {boolean} Returns true if it is an auxiliary, otherwise returns false.
  */
 GermanParticiple.prototype.isAuxiliary = function() {
-	return this.getParticiple().match( auxiliaryRegex ) !== null;
+	return includes( auxiliaries, this.getParticiple() );
 };
 
 
