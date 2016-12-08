@@ -7,6 +7,7 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.hasHabenSeinException() ).toBe( true );
 		expect( mockParticiple.isInExceptionList() ).toBe( false );
 		expect( mockParticiple.hasNounSuffix() ).toBe( false );
+		expect( mockParticiple.isAuxiliary() ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -16,6 +17,7 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
 		expect( mockParticiple.isInExceptionList() ).toBe( false );
 		expect( mockParticiple.hasNounSuffix() ).toBe( false );
+		expect( mockParticiple.isAuxiliary() ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	});
 
@@ -25,6 +27,7 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
 		expect( mockParticiple.isInExceptionList() ).toBe( false );
 		expect( mockParticiple.hasNounSuffix() ).toBe( false );
+		expect( mockParticiple.isAuxiliary() ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	});
 
@@ -34,6 +37,17 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
 		expect( mockParticiple.isInExceptionList() ).toBe( true );
 		expect( mockParticiple.hasNounSuffix() ).toBe( false );
+		expect( mockParticiple.isAuxiliary() ).toBe( false );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	});
+
+	it( "checks the properties of the german participle object with a participle that is an auxiliary.", function () {
+		var mockParticiple = new GermanParticiple( "bekommst", "In deinem Netzwerk bekommst du emotionale Unterstützung.", { auxiliaries: [ "bekommst" ], type: "be- at beginning" } );
+		expect( mockParticiple.getParticiple() ).toBe( "bekommst" );
+		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
+		expect( mockParticiple.isInExceptionList() ).toBe( false );
+		expect( mockParticiple.hasNounSuffix() ).toBe( false );
+		expect( mockParticiple.isAuxiliary() ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -43,7 +57,12 @@ describe( "A test for checking the german Participle", function() {
 		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
 		expect( mockParticiple.isInExceptionList() ).toBe( false );
 		expect( mockParticiple.hasNounSuffix() ).toBe( true );
+		expect( mockParticiple.isAuxiliary() ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
+
+
+
+
 
 });

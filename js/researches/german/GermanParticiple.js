@@ -2,9 +2,11 @@ var Participle = require( "../../values/Participle.js" );
 
 var getIndices = require( "../../stringProcessing/indices.js" ).getIndicesByWord;
 var getIndicesOfList = require( "../../stringProcessing/indices.js" ).getIndicesByWordList;
+var exceptionsParticiplesActive = require( "./passivevoice/exceptionsParticiplesActive.js" )();
+var auxiliaries = require( "./passivevoice/auxiliaries.js" )().participleLike;
+
 var exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var exceptionsParticiplesActive = require( "./passivevoice/exceptionsParticiplesActive.js" )();
 
 var includes = require( "lodash/includes" );
 var map = require( "lodash/map" );
@@ -33,7 +35,8 @@ require( "util" ).inherits( GermanParticiple, Participle );
 GermanParticiple.prototype.isPassive = function() {
 	return 	! this.hasNounSuffix() &&
 				! this.isInExceptionList() &&
-				! this.hasHabenSeinException();
+				! this.hasHabenSeinException() &&
+				! this.isAuxiliary();
 };
 
 /**
@@ -72,5 +75,16 @@ GermanParticiple.prototype.hasHabenSeinException = function() {
 	var currentParticiple = participleIndices[ 0 ];
 	return includes( habenSeinIndices, currentParticiple.index + currentParticiple.match.length + 1 );
 };
+
+/**
+ * Checks whether a found participle is an auxiliary.
+ * If a word is an auxiliary, it isn't a participle.
+ *
+ * @returns {boolean} Returns true if it is an auxiliary, otherwise returns false.
+ */
+GermanParticiple.prototype.isAuxiliary = function() {
+	return includes( auxiliaries, this.getParticiple() );
+};
+
 
 module.exports = GermanParticiple;
