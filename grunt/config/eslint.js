@@ -3,7 +3,7 @@ module.exports = {
 	target: {
 		src: [ "<%= files.js %>", "!js/templates.js" ],
 		options: {
-			maxWarnings: 20,
+			maxWarnings: 22,
 		},
 	},
 };
