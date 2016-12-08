@@ -130,17 +130,27 @@ class WPSEO_Product_Upsell_Notice {
 	 * @return Yoast_Notification
 	 */
 	protected function get_notification() {
-		/* translators: %1$s expands anchor to plugin page on WordPress.org, %2$s expands anchor to the bugreport guidelines on the knowledge base, %3$s expands to a section about Premium, %4$a expands to the notice dismissal anchor, %5$s expands to </a> */
+		/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the plugin page on WordPress.org, %3$s is the link closing tag. */
 		$message = sprintf(
-			__( "We've noticed you've been using Yoast SEO for some time now; we hope you love it!" .
-			    "We'd be thrilled if you could %1\$sgive us a 5* rating on WordPress.org%5\$s!\n\n" .
-				"If you are experiencing issues, %2\$splease file a bug report%5\$s and we'll do our best to help you out." .
-				"\n\n%3\$s" .
-			    "%4\$sPlease don't show me this notification anymore%5\$s", 'wordpress-seo' ),
-			"<a href='https://yoa.st/rate-yoast-seo'>",
-			"<a href='https://yoa.st/bugreport'>",
-			$this->get_premium_upsell_section(),
-			"<a class='button' href=' " . admin_url( '?page=' .  WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . " '>",
+			__( 'We\'ve noticed you\'ve been using %1$s for some time now; we hope you love it! We\'d be thrilled if you could %2$sgive us a 5 stars rating on WordPress.org%3$s!', 'wordpress-seo' ),
+			'Yoast SEO',
+			'<a href="https://yoa.st/rate-yoast-seo">',
+			'</a>'
+		) . "\n\n";
+
+		$message .= sprintf(
+			/* translators: %1$s is a link start tag to the bugreport guidelines on the Yoast knowledge base, %2$s is the link closing tag. */
+			__( 'If you are experiencing issues, %1$splease file a bug report%2$s and we\'ll do our best to help you out.', 'wordpress-seo' ),
+			'<a href="https://yoa.st/bugreport">',
+			'</a>'
+		) . "\n\n";
+
+		$message .= $this->get_premium_upsell_section() . "\n\n";
+
+		$message .= sprintf(
+		 	/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
+			__( '%1$sPlease don\'t show me this notification anymore%2$s', 'wordpress-seo' ),
+			'<a class="button" href="' . admin_url( '?page=' .  WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . '">',
 			'</a>'
 		);
 

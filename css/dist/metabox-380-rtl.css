@@ -1353,7 +1353,8 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	color: #0073aa;
 }
 
-.yoast_help.yoast-help-button:focus:before {
+.yoast_help.yoast-help-button:focus:before,
+.assessment-results__mark:focus {
 	border-radius: 100%;
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }

@@ -257,7 +257,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( 'post_format' === $taxonomy_name && ! empty( $this->options['disable-post_format'] ) ) {
+		if ( 'post_format' === $taxonomy_name && ! empty( $options['disable-post_format'] ) ) {
 			return false;
 		}
 

@@ -167,8 +167,7 @@ class WPSEO_Admin_Asset {
 			return '';
 		}
 
-		if ( ! $this->get_suffix() ) {
-
+		if ( 'development' !== YOAST_ENVIRONMENT && ! $this->get_suffix() ) {
 			$plugin_path = plugin_dir_path( $plugin_file );
 			if ( ! file_exists( $plugin_path . $relative_path ) ) {
 
