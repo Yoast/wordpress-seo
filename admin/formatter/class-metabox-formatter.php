@@ -51,7 +51,7 @@ class WPSEO_Metabox_Formatter {
 			'keywordTab'        => __( 'Keyword:', 'wordpress-seo' ),
 			'enterFocusKeyword' => __( 'Enter your focus keyword', 'wordpress-seo' ),
 			'removeKeyword'     => __( 'Remove keyword', 'wordpress-seo' ),
-			'locale'            => get_locale(),
+			'locale'            => WPSEO_Utils::get_user_locale(),
 			'translations'      => $this->get_translations(),
 			'keyword_usage'     => array(),
 			'title_template'    => '',
@@ -82,24 +82,12 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Gets the locale used for translations.
-	 *
-	 * @return string
-	 */
-	private function get_translation_locale() {
-		if ( function_exists( 'get_user_locale' ) ) {
-			return get_user_locale();
-		}
-		return get_locale();
-	}
-
-	/**
 	 * Returns Jed compatible YoastSEO.js translations.
 	 *
 	 * @return array
 	 */
 	private function get_translations() {
-		$locale = $this->get_translation_locale();
+		$locale = WPSEO_Utils::get_user_locale();
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
