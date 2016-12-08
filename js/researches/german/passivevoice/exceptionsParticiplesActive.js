@@ -2225,5 +2225,5 @@ module.exports = function() {
 		"ueberzeugungstat",
 		"überziehungskredit",
 		"ueberziehungskredit",
-,	];
+	];
 };

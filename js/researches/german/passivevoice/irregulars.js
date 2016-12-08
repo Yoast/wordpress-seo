@@ -175,7 +175,7 @@ module.exports = function() {
 		"ueberbraten",
 		"übergebraten",
 		"uebergebraten",
-		//Participles ending in -st are not found with the regex to avoid second person singular verbs.
+		// Participles ending in -st are not found with the regex to avoid second person singular verbs.
 		"überbremst",
 		"ueberbremst",
 		"übergeblieben",
@@ -218,8 +218,8 @@ module.exports = function() {
 		"ueberfroren",
 		"übergegeben",
 		"uebergegeben",
-		'übergeben',
-		'uebergeben',
+		"übergeben",
+		"uebergeben",
 		"übergegangen",
 		"uebergegangen",
 		"übergangen",
