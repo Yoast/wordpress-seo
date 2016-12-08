@@ -12,14 +12,19 @@ class LinkSuggestions extends EventEmitter {
 	 * @param {string} target The DOM element of the meta box.
 	 * @param {string} rootUrl The root URL to do AJAX requests to.
 	 * @param {string} nonce The nonce to use when sending requests to the REST API.
+	 * @param {number} currentPostId The post ID of the post we are currently displaying.
 	 */
-	constructor( { target, rootUrl, nonce } ) {
+	constructor( { target, rootUrl, nonce, currentPostId } ) {
 		super();
 
 		this._target = target;
 		this._rootUrl = rootUrl;
 		this._nonce = nonce;
 		this._previousProminentWords = false;
+		this._currentPostId = currentPostId;
+
+		this.render = this.render.bind( this );
+		this.filterCurrentPost = this.filterCurrentPost.bind( this );
 	}
 
 	/**
@@ -37,6 +42,7 @@ class LinkSuggestions extends EventEmitter {
 			isLoading = true;
 		}
 
+		currentLinkSuggestions = this.filterCurrentPost( currentLinkSuggestions );
 		currentLinkSuggestions = this.constructor.mapSuggestionsForComponent( currentLinkSuggestions );
 
 		ReactDOM.render( <LinkSuggestionsMetabox linkSuggestions={this} suggestions={currentLinkSuggestions} isLoading={isLoading} />, this._target );
@@ -53,8 +59,9 @@ class LinkSuggestions extends EventEmitter {
 			this._previousProminentWords = prominentWords;
 
 			this.retrieveLinkSuggestions( prominentWords )
+				.then( this.filterCurrentPost )
 				.then( this.constructor.mapSuggestionsForComponent )
-				.then( this.render.bind( this ) );
+				.then( this.render  );
 		}
 	}
 
@@ -71,6 +78,16 @@ class LinkSuggestions extends EventEmitter {
 				url: linkSuggestion.link,
 			};
 		} );
+	}
+
+	/**
+	 * Removes the current post from the link suggestions.
+	 *
+	 * @param {Array} linkSuggestions The current link suggestions.
+	 * @returns {Array} The link suggestions without the current post.
+	 */
+	filterCurrentPost( linkSuggestions ) {
+		return linkSuggestions.filter( ( linkSuggestion ) => linkSuggestion.id !== this._currentPostId );
 	}
 
 	/**
