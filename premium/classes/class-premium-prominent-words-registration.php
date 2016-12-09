@@ -72,5 +72,7 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
 			$args['show_ui'] = true;
 		}
+
+		return $args;
 	}
 }
