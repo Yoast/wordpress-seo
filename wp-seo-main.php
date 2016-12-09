@@ -278,10 +278,30 @@ function wpseo_init() {
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
 	if ( WPSEO_Utils::is_api_available() ) {
+		// Display the Configuration Wizard in the user's locale in WordPress 4.7+.
+		if ( function_exists( 'switch_to_locale' ) ) {
+			// Switch to the user locale with fallback to the site locale.
+			switch_to_locale( WPSEO_Utils::get_user_locale() );
+			// Make sure we have our translations available.
+			wpseo_load_textdomain();
+		}
 		// Boot up REST API endpoints.
 		$configuration_service = new WPSEO_Configuration_Service();
 		$configuration_service->set_default_providers();
 		$configuration_service->register_hooks();
+	}
+}
+
+/**
+ * Restore the frontend to the correct locale.
+ */
+if ( function_exists( 'restore_previous_locale' ) ) {
+	add_action( 'wp', 'wpseo_restore_locale' );
+
+	function wpseo_restore_locale() {
+		if ( is_locale_switched() ) {
+			restore_previous_locale();
+		}
 	}
 }
 
