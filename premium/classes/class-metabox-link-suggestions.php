@@ -47,6 +47,11 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 		$post_types = $this->get_post_types();
 
 		foreach ( $post_types as $post_type ) {
+			// We only support 'standard' posts right now.
+			if ( 'post' !== $post_type ) {
+				continue;
+			}
+
 			$this->add_meta_box( $post_type );
 		}
 	}
