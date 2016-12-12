@@ -145,9 +145,23 @@ class WPSEO_Admin_Banner_Sidebar {
 				261,
 				152,
 				sprintf(
-					/* translators: %1$s expands to Yoast SEO Premium. */
+				/* translators: %1$s expands to Yoast SEO Premium. */
 					__( 'Let our experts set up your %1$s plugin!', 'wordpress-seo' ),
 					'Yoast SEO Premium'
+				)
+			)
+		);
+
+		$service_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				'https://yoa.st/seocarebanner',
+				'seo-care.png',
+				261,
+				152,
+				sprintf(
+				/* translators: %1$s expands to Yoast SEO Care. */
+					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
+					'Yoast SEO Care'
 				)
 			)
 		);
