@@ -20,7 +20,7 @@ let focusKeywordSuggestions = new FocusKeywordSuggestions( {
 let linkSuggestions;
 
 /**
- * Initializes the metabox for premium
+ * Initializes the metabox for premium.
  *
  * @returns {void}
  */
@@ -33,6 +33,17 @@ function initializeMetabox() {
 		focusKeywordSuggestions.initializeDOM();
 	}
 
+	if ( wpseoAdminL10n.userLocale.indexOf( "en" ) !== -1 ) {
+		initializeLinkSuggestionsMetabox();
+	}
+}
+
+/**
+ * Initializes the metabox for linksuggestions.
+ *
+ * @returns {void}
+ */
+function initializeLinkSuggestionsMetabox() {
 	linkSuggestions = new LinkSuggestions( {
 		target: document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
 		rootUrl: settings.restApi.root,
