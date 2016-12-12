@@ -154,7 +154,7 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$service_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoa.st/seocarebanner',
+				'https://yoa.st/seo-care-banner',
 				'seo-care.png',
 				261,
 				152,
