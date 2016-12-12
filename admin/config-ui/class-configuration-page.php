@@ -109,9 +109,17 @@ class WPSEO_Configuration_Page {
 				);
 			?></title>
 			<?php
-				do_action( 'admin_print_styles' );
-				do_action( 'admin_print_scripts' );
-				do_action( 'admin_head' );
+			wp_print_head_scripts();
+			wp_print_styles( 'yoast-seo-yoast-components' );
+
+			/**
+			 * Is called before the closing </head> tag in the Yoast Configuration wizard.
+			 *
+			 * Allows users to add their own scripts or styles.
+			 *
+			 * @since 4.0
+			 */
+			do_action( 'wpseo_configuration_wizard_head' );
 			?>
 		</head>
 		<body class="wp-admin">
@@ -125,13 +133,21 @@ class WPSEO_Configuration_Page {
 			);
 			?>
 		</a>
-		<footer>
-			<?php
-			do_action( 'admin_print_footer_scripts' );
-			do_action( 'admin_footer' );
+		<?php
+			wp_print_media_templates();
+			wp_print_footer_scripts();
+
+			/**
+			 * Is called before the closing </body> tag in the Yoast Configuration wizard.
+			 *
+			 * Allows users to add their own scripts or content.
+			 *
+			 * @since 4.0
+			 */
+			do_action( 'wpseo_configuration_wizard_footer' );
+
 			wp_print_scripts( 'yoast-seo-configuration-wizard' );
-			?>
-		</footer>
+		?>
 		</body>
 		</html>
 		<?php
