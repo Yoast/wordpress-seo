@@ -5,8 +5,6 @@ import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
-let take = require( "lodash/take" );
-
 let settings = wpseoPremiumMetaboxData.data;
 
 let contentEndpointsAvailable = wpseoPremiumMetaboxData.data.restApi.available && wpseoPremiumMetaboxData.data.restApi.contentEndpointsAvailable;
@@ -20,8 +18,6 @@ let focusKeywordSuggestions = new FocusKeywordSuggestions( {
 } );
 
 let linkSuggestions;
-
-let numberOfLinkSuggestions = 20;
 
 /**
  * Initializes the metabox for premium
@@ -43,7 +39,7 @@ function initializeMetabox() {
 		nonce: settings.restApi.nonce,
 	} );
 
-	linkSuggestions.initializeDOM( take( settings.linkSuggestions, numberOfLinkSuggestions ) );
+	linkSuggestions.initializeDOM( settings.linkSuggestions );
 
 	prominentWordStorage.on( "savedProminentWords", linkSuggestions.updatedProminentWords.bind( linkSuggestions ) );
 }
