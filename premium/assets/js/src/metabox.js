@@ -33,7 +33,7 @@ function initializeMetabox() {
 		focusKeywordSuggestions.initializeDOM();
 	}
 
-	if ( wpseoAdminL10n.locale.indexOf( "en" ) !== -1 ) {
+	if ( wpseoAdminL10n.userLocale.indexOf( "en" ) !== -1 ) {
 		initializeLinkSuggestionsMetabox();
 	}
 }

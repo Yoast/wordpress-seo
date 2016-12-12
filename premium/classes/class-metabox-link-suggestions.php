@@ -79,7 +79,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 * @param string $post_type The post type to add a meta box for.
 	 */
 	protected function add_meta_box( $post_type ) {
-		$language = WPSEO_Utils::get_language( get_locale() );
+		$language = WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() );
 
 		if ( $language === 'en' ) {
 			add_meta_box(
