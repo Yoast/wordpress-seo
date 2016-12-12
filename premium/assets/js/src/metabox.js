@@ -38,7 +38,6 @@ function initializeMetabox() {
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
 	} );
-
 	linkSuggestions.initializeDOM( settings.linkSuggestions );
 
 	prominentWordStorage.on( "savedProminentWords", linkSuggestions.updatedProminentWords.bind( linkSuggestions ) );
