@@ -24,17 +24,25 @@ class WPSEO_Configuration_Service {
 	protected $adapter;
 
 	/**
-	 * Hook into the REST API
-	 */
-	public function register_hooks() {
-		add_action( 'rest_api_init', array( $this, 'initialize' ) );
-	}
-
-	/**
-	 * Register the service and boot handlers
+	 * Hook into the REST API and switch language.
 	 */
 	public function initialize() {
+		// Switch to the user locale with fallback to the site locale.
+		if ( function_exists( 'switch_to_locale' ) ) {
+			switch_to_locale( WPSEO_Utils::get_user_locale() );
+		}
+
+		// Make sure we have our translations available.
+		wpseo_load_textdomain();
+
+		$this->set_default_providers();
+		$this->populate_configuration();
 		$this->endpoint->register();
+
+		// @todo: check if this is really needed, since the switch happens only in the API.
+		if ( function_exists( 'restore_current_locale' ) ) {
+			restore_current_locale();
+		}
 	}
 
 	/**
@@ -111,8 +119,6 @@ class WPSEO_Configuration_Service {
 	 * @return array List of settings.
 	 */
 	public function get_configuration() {
-		$this->populate_configuration();
-
 		$fields = $this->storage->retrieve();
 		$steps  = $this->structure->retrieve();
 
