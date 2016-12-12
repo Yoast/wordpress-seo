@@ -147,6 +147,7 @@ Release Date:
 	* Fixed a bug where post format archives showed up in sitemap when disabled.
 	* Fixed a bug where an old update notice would not be removed.
 	* Fixes a bug where keywords with periods where not highlighted in the snippet.
+    * Fixes a bug where the title of the metabox wasn't displayed correctly.
 
 = 3.9.0 =
 
