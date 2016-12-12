@@ -192,7 +192,8 @@ class WPSEO_Help_Center {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
-			'locale' => get_locale(),
+			'locale'     => get_locale(),
+			'userLocale' => WPSEO_Utils::get_user_locale(),
 			/* translators: %d: number of knowledge base search results found. */
 			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
 			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),
