@@ -74,26 +74,41 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Whether the current content language is supported, this is explicitly not the user language.
+	 *
+	 * @return boolean Whether the current content language is supported.
+	 */
+	protected function is_content_language_supported() {
+		$language = WPSEO_Utils::get_language( get_locale() );
+
+		return $language === 'en';
+	}
+
+	/**
 	 * Adds a meta box for the given post type.
 	 *
 	 * @param string $post_type The post type to add a meta box for.
 	 */
 	protected function add_meta_box( $post_type ) {
-		$language = WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() );
-
-		if ( $language === 'en' ) {
-			add_meta_box(
-				'yoast_internal_linking',
-				sprintf(
-				/* translators: %s expands to Yoast  */
-					__( '%s internal linking', 'wordpress-seo-premium' ),
-					'Yoast'
-				),
-				array( $this, 'render_metabox_content' ),
-				$post_type,
-				'side',
-				'low'
-			);
+		if ( ! $this->is_content_language_supported() ) {
+			return;
 		}
+
+		if ( ! WPSEO_Utils::are_content_endpoints_available() ) {
+			return;
+		}
+
+		add_meta_box(
+			'yoast_internal_linking',
+			sprintf(
+				/* translators: %s expands to Yoast  */
+				__( '%s internal linking', 'wordpress-seo-premium' ),
+				'Yoast'
+			),
+			array( $this, 'render_metabox_content' ),
+			$post_type,
+			'side',
+			'low'
+		);
 	}
 }

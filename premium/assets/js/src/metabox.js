@@ -1,4 +1,4 @@
-/* global jQuery, wpseoPremiumMetaboxData */
+/* global jQuery, wpseoPremiumMetaboxData, wpseoAdminL10n */
 
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
@@ -20,6 +20,15 @@ let focusKeywordSuggestions = new FocusKeywordSuggestions( {
 let linkSuggestions;
 
 /**
+ * Whether the content language is supported for the link suggestions. This is explicitly not the user language.
+ *
+ * @returns {boolean} Whether the content language is supported.
+ */
+function contentLanguageSupported() {
+	return wpseoAdminL10n.locale.indexOf( "en" ) === 0;
+}
+
+/**
  * Initializes the metabox for premium.
  *
  * @returns {void}
@@ -33,7 +42,7 @@ function initializeMetabox() {
 		focusKeywordSuggestions.initializeDOM();
 	}
 
-	if ( wpseoAdminL10n.userLocale.indexOf( "en" ) !== -1 ) {
+	if ( contentLanguageSupported() && contentEndpointsAvailable ) {
 		initializeLinkSuggestionsMetabox();
 	}
 }
