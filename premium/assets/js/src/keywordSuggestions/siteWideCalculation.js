@@ -1,8 +1,11 @@
 import { getRelevantWords } from "yoastseo/js/stringProcessing/relevantWords";
 import ProminentWordStorage from "./ProminentWordStorage";
+import ProminentWordCache from "./ProminentWordCache";
+import ProminentWordCachePopulator from "./ProminentWordCachePopulator";
+import RestApi from "../helpers/restApi";
 import EventEmitter from "events";
 
-let postStatuses = [ "future", "draft", "pending", "private", "publish" ];
+let postStatuses = [ "future", "draft", "pending", "private", "publish" ].join( "," );
 
 /**
  * Calculates prominent words for all posts on the site.
@@ -31,9 +34,16 @@ class SiteWideCalculation extends EventEmitter {
 		this._recalculateAll = recalculateAll;
 		this._allProminentWordIds = allProminentWordIds;
 
+		let restApi =  new RestApi( { rootUrl, nonce } );
+
+		this._prominentWordCache = new ProminentWordCache();
+		this._prominentWordCachePopulator = new ProminentWordCachePopulator( { cache: this._prominentWordCache, restApi: restApi } );
+
+		this.processPost = this.processPost.bind( this );
 		this.continueProcessing = this.continueProcessing.bind( this );
 		this.processResponse = this.processResponse.bind( this );
 		this.incrementProcessedPosts = this.incrementProcessedPosts.bind( this );
+		this.calculate = this.calculate.bind( this );
 	}
 
 	/**
@@ -42,7 +52,8 @@ class SiteWideCalculation extends EventEmitter {
 	 * @returns {void}
 	 */
 	start() {
-		this.calculate();
+		this._prominentWordCachePopulator.populate()
+			.then( this.calculate );
 	}
 
 	/**
@@ -82,11 +93,13 @@ class SiteWideCalculation extends EventEmitter {
 	 * @returns {void}
 	 */
 	processResponse( response ) {
-		let processPromises = response.map( ( post ) => {
-			return this.processPost( post );
-		} );
+		let processPromises = response.reduce( ( previousPromise, post ) => {
+			return previousPromise.then( () => {
+				return this.processPost( post );
+			} );
+		}, Promise.resolve() );
 
-		Promise.all( processPromises ).then( this.continueProcessing ).catch( this.continueProcessing );
+		processPromises.then( this.continueProcessing ).catch( this.continueProcessing );
 	}
 
 	/**
@@ -120,6 +133,7 @@ class SiteWideCalculation extends EventEmitter {
 			postID: post.id,
 			rootUrl: this._rootUrl,
 			nonce: this._nonce,
+			cache: this._prominentWordCache,
 		} );
 
 		return prominentWordStorage.saveProminentWords( prominentWords ).then( this.incrementProcessedPosts, this.incrementProcessedPosts );

@@ -1,6 +1,11 @@
-
+/**
+ * A key value store for prominent words to their respective IDs.
+ */
 class ProminentWordCache {
 
+	/**
+	 * Sets the initial cache.
+	 */
 	constructor() {
 		this._cache = {};
 	}

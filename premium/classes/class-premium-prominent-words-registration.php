@@ -58,7 +58,7 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 	 * @return array The arguments for the registration to WordPress.
 	 */
 	private function get_args() {
-		return array(
+		$args = array(
 			'labels'                     => $this->get_labels(),
 			'hierarchical'               => false,
 			'public'                     => false,
@@ -68,5 +68,11 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 			'show_tagcloud'              => false,
 			'show_in_rest'               => true,
 		);
+
+		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
+			$args['show_ui'] = true;
+		}
+
+		return $args;
 	}
 }

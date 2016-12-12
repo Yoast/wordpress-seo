@@ -9,15 +9,20 @@ class ProminentWordStorage extends EventEmitter {
 	 * @param {string} rootUrl The root URL of the WP REST API.
 	 * @param {string} nonce The WordPress nonce required to save anything to the REST API endpoints.
 	 * @param {number} postID The postID of the post to save prominent words for.
+	 * @param {ProminentWordCache} cache The cache to use for the prominent word term IDs.
 	 */
-	constructor( { postID, rootUrl, nonce } ) {
+	constructor( { postID, rootUrl, nonce, cache = null } ) {
 		super();
 
 		this._rootUrl = rootUrl;
 		this._nonce = nonce;
-		this._cache = new ProminentWordCache();
 		this._postID = postID;
 		this._savingProminentWords = false;
+
+		if ( cache === null ) {
+			cache = new ProminentWordCache();
+		}
+		this._cache = cache;
 
 		this.retrieveProminentWordId = this.retrieveProminentWordId.bind( this );
 	}
@@ -35,9 +40,24 @@ class ProminentWordStorage extends EventEmitter {
 		}
 		this._savingProminentWords = true;
 
-		let prominentWordIds = prominentWords.slice( 0, 20 ).map( this.retrieveProminentWordId );
+		let firstTwentyWords = prominentWords.slice( 0, 20 );
 
-		return Promise.all( prominentWordIds ).then( ( prominentWords ) => {
+		// Retrieve IDs of all prominent word terms, but do it in sequence to prevent overloading servers.
+		let prominentWordIds = firstTwentyWords.reduce( ( previousPromise, prominentWord ) => {
+			return previousPromise.then( ( ids ) => {
+				return this.retrieveProminentWordId( prominentWord ).then( ( newId ) => {
+					ids.push( newId );
+
+					return ids;
+
+				// On error, just continue with the other terms.
+				}, () => {
+					return ids;
+				} );
+			} );
+		}, Promise.resolve( [] ) );
+
+		return prominentWordIds.then( ( prominentWords ) => {
 			return new Promise( ( resolve, reject ) => {
 				jQuery.ajax( {
 					type: "POST",
