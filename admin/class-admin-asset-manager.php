@@ -117,7 +117,7 @@ class WPSEO_Admin_Asset_Manager {
 	private function scripts_to_be_registered() {
 
 		$select2_language = 'en';
-		$locale           = get_locale();
+		$locale           = WPSEO_Utils::get_user_locale();
 		$language         = WPSEO_Utils::get_language( $locale );
 
 		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$locale}.js" ) ) {
