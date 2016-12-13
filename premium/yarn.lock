@@ -4943,18 +4943,18 @@ yoast-components@^1.0.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
-"yoast-components@github:yoast/yoast-components#release/2.2":
-  version "2.1.0"
-  resolved "https://codeload.github.com/yoast/yoast-components/tar.gz/7974f864878ca750193c57c06cfe36e2b53de92b"
+yoast-components@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.2.0.tgz#e8b6895beded50a4900e6e90dc1fb902283d6b67"
   dependencies:
     i18n-calypso "^1.6.2"
     interpolate-components "^1.1.0"
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
-"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#release/1.1":
-  version "1.0.1"
-  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#a2deb0dfe828070130828f4b7ae0a19bc9e01d44"
+"yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#master":
+  version "1.1.0"
+  resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#4df5ea43f5a6a9a750c6535fb65c12dd4b245fdd"
   dependencies:
     babel-core "^6.11.4"
     babel-loader "^6.2.4"
@@ -4984,9 +4984,9 @@ yoast-components@^1.0.0:
     sassdash "^0.8.1"
     tokenizer2 "^2.0.0"
 
-"yoastseo@github:Yoast/YoastSEO.js#release/1.8":
-  version "1.7.0"
-  resolved "https://codeload.github.com/Yoast/YoastSEO.js/tar.gz/ca5e33320336af0b699f65cff1c4096ab75f8909"
+"yoastseo@github:Yoast/YoastSEO.js#master":
+  version "1.8.0"
+  resolved "https://codeload.github.com/Yoast/YoastSEO.js/tar.gz/b5f0645a9a786af11a4e1b8ea500281eaee116d1"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"
