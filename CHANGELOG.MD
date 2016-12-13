@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.2.0: December 13th, 2016
+ 
+### Added
+
+* [Loader] Adds Loader component to be used when something is occurring in the background.
+
 ## 2.1.0: November 29th, 2016
 
 ### Added
