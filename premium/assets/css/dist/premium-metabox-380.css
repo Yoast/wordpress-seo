@@ -113,8 +113,6 @@
 }
 
 #yoast_internal_linking .inside {
-	overflow-y: auto;
-	max-height: 200px;
 	margin-top: 0;
 }
 
