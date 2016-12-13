@@ -11,7 +11,6 @@
 * Fixes a bug where keywords with periods where not highlighted in the snippet.
 * Includes every change in Yoast SEO core 4.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
-
 ### 3.9.0 November 29th, 2016
 * Improves the title updates in the social previews.
 * Fixes a bug where the wrong URLs were used in redirect notices.
