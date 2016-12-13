@@ -17,7 +17,7 @@ module.exports = {
 			"assets/js/dist/wp-seo-premium-quickedit-notification-352.js": [ "assets/js/src/quickedit-notification.js" ],
 			"assets/js/dist/wpseo-premium-yoast-overlay-350.js": [ "assets/js/src/yoast-overlay.js" ],
 			"assets/js/dist/wp-seo-premium-redirect-notifications-352.js": [ "assets/js/src/redirect-notifications.js" ],
-			"assets/js/dist/wp-seo-premium-metabox-390.js": [ "assets/js/src/metabox.js" ],
+			"assets/js/dist/wp-seo-premium-metabox-400.js": [ "assets/js/src/metabox.js" ],
 		},
 	},
 	"release-es6": {
