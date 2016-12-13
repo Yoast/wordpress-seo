@@ -1,7 +1,7 @@
 ### 4.0.0 December 13th, 2016
-* Add a metabox "Yoast internal linking" that contains link suggestions for the current post.
+* Adds a metabox "Yoast internal linking" that contains link suggestions for the current post.
 * Adds import functionality for Safe Redirect Manager.
-* Add import support for Simple 301 Redirects.
+* Adds import support for Simple 301 Redirects.
 * Fixes import messaging when importing redirects.
 * .htaccess import no longer overwrites the real htaccess file.
 * .htaccess import properly imports all redirects.
