@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.9' );
+define( 'WPSEO_VERSION', '4.0' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -278,10 +278,9 @@ function wpseo_init() {
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
 	if ( WPSEO_Utils::is_api_available() ) {
-		// Boot up REST API endpoints.
+		// Boot up REST API.
 		$configuration_service = new WPSEO_Configuration_Service();
-		$configuration_service->set_default_providers();
-		$configuration_service->register_hooks();
+		$configuration_service->initialize();
 	}
 }
 
@@ -354,7 +353,7 @@ if ( ! function_exists( 'wp_installing' ) ) {
 
 if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
-	add_action( 'init', 'wpseo_init_rest_api' );
+	add_action( 'rest_api_init', 'wpseo_init_rest_api' );
 
 	if ( is_admin() ) {
 

@@ -34,11 +34,11 @@ $generated_i18n_strings = array(
 	   %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
 	__( "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/getSubheadingLengthAssessment.js:33
+	// Reference: node_modules/yoastseo/js/assessments/getSubheadingLengthAssessment.js:34
 	/* Translators: %1$d expands to the recommended maximum number of characters. */
 	__( "The length of all subheadings is less than or equal to the recommended maximum of %1$d characters, which is great.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/getSubheadingLengthAssessment.js:46
+	// Reference: node_modules/yoastseo/js/assessments/getSubheadingLengthAssessment.js:47
 	/* Translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters. */
 	_n( "You have %1$d subheading containing more than the recommended maximum of %2$d characters.", "You have %1$d subheadings containing more than the recommended maximum of %2$d characters.", 1, "wordpress-seo" ),
 
@@ -83,16 +83,16 @@ $generated_i18n_strings = array(
 	__( "A meta description has been specified, but it does not contain the focus keyword.", "wordpress-seo" ),
 
 	// Reference: node_modules/yoastseo/js/assessments/metaDescriptionLengthAssessment.js:15
-	__( "No meta description has been specified, search engines will display copy from the page instead.", "wordpress-seo" ),
+	__( "No meta description has been specified. Search engines will display copy from the page instead.", "wordpress-seo" ),
 
 	// Reference: node_modules/yoastseo/js/assessments/metaDescriptionLengthAssessment.js:22
-	__( "The meta description is under %1$d characters, however up to %2$d characters are available.", "wordpress-seo" ),
+	__( "The meta description is under %1$d characters long. However, up to %2$d characters are available.", "wordpress-seo" ),
 
 	// Reference: node_modules/yoastseo/js/assessments/metaDescriptionLengthAssessment.js:29
-	__( "The specified meta description is over %1$d characters. Reducing it will ensure the entire description is visible.", "wordpress-seo" ),
+	__( "The meta description is over %1$d characters. Reducing the length will ensure the entire description will be visible.", "wordpress-seo" ),
 
 	// Reference: node_modules/yoastseo/js/assessments/metaDescriptionLengthAssessment.js:36
-	__( "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?", "wordpress-seo" ),
+	__( "The length of the meta description is sufficient.", "wordpress-seo" ),
 
 	// Reference: node_modules/yoastseo/js/assessments/pageTitleWidthAssessment.js:19
 	__( "The page title is too short. Use the space to add keyword variations or create compelling call-to-action copy.", "wordpress-seo" ),
@@ -327,18 +327,18 @@ $generated_i18n_strings = array(
 	   %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables. */
 	__( "%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than the recommended maximum of %5$s.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessor.js:185
+	// Reference: node_modules/yoastseo/js/assessor.js:191
 	/* Translators: %1$s expands to the name of the assessment. */
 	__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:65
+	// Reference: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:69
 	__( "You've never used this focus keyword before, very good.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:73
+	// Reference: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:77
 	/* Translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
 	__( "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:83
+	// Reference: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:87
 	/* Translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
 	   keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content */
 	__( "You've used this focus keyword %1$s%2$d times before%3$s, it's probably a good idea to read %4$sthis post on cornerstone content%5$s and improve your keyword strategy.", "wordpress-seo" ),
@@ -349,67 +349,76 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/config/presenter.js:11
 	__( "Content optimization: Has feedback", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/config/presenter.js:15
+	// Reference: node_modules/yoastseo/js/config/presenter.js:16
 	__( "Bad SEO score", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/config/presenter.js:16
+	// Reference: node_modules/yoastseo/js/config/presenter.js:17
 	__( "Content optimization: Bad SEO score", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/config/presenter.js:20
+	// Reference: node_modules/yoastseo/js/config/presenter.js:18
+	__( "Needs improvement", "wordpress-seo" ),
+
+	// Reference: node_modules/yoastseo/js/config/presenter.js:22
 	__( "OK SEO score", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/config/presenter.js:21
+	// Reference: node_modules/yoastseo/js/config/presenter.js:23
 	__( "Content optimization: OK SEO score", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/config/presenter.js:25
+	// Reference: node_modules/yoastseo/js/config/presenter.js:24
+	__( "OK", "wordpress-seo" ),
+
+	// Reference: node_modules/yoastseo/js/config/presenter.js:28
 	__( "Good SEO score", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/config/presenter.js:26
+	// Reference: node_modules/yoastseo/js/config/presenter.js:29
 	__( "Content optimization: Good SEO score", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:305
+	// Reference: node_modules/yoastseo/js/config/presenter.js:30
+	__( "Good", "wordpress-seo" ),
+
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:350
 	__( "Marks are disabled in current view", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:306
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:351
 	__( "Mark this result in the text", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:307
+	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:352
 	__( "Remove marks in the text", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:366
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:365
 	__( "Edit snippet", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:367
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:366
 	__( "SEO title", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:368
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:367
 	__( "Slug", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:369
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:368
 	__( "Meta description", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:370
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:369
 	__( "Close snippet editor", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:371
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:370
 	__( "Snippet preview", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:372
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:371
 	__( "SEO title preview:", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:373
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:372
 	__( "Slug preview:", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:374
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:373
 	__( "Meta description preview:", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:377
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:376
 	__( "You can click on each element in the preview to jump to the Snippet Editor.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:575
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:574
 	__( "Please provide an SEO title by editing the snippet below.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:651
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:650
 	__( "Please provide a meta description by editing the snippet below.", "wordpress-seo" )
 );
 /* THIS IS THE END OF THE GENERATED FILE */

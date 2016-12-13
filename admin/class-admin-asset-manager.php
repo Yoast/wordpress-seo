@@ -117,7 +117,7 @@ class WPSEO_Admin_Asset_Manager {
 	private function scripts_to_be_registered() {
 
 		$select2_language = 'en';
-		$locale           = get_locale();
+		$locale           = WPSEO_Utils::get_user_locale();
 		$language         = WPSEO_Utils::get_language( $locale );
 
 		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$locale}.js" ) ) {
@@ -130,7 +130,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-380',
+				'src'  => 'wp-seo-admin-400',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -164,7 +164,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-390',
+				'src'  => 'wp-seo-metabox-400',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -189,7 +189,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-390',
+				'src'  => 'wp-seo-post-scraper-400',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -198,7 +198,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-390',
+				'src'  => 'wp-seo-term-scraper-400',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
@@ -213,7 +213,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-390',
+				'src'  => 'wp-seo-recalculate-400',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -249,7 +249,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'configuration-wizard',
-				'src'  => 'configuration-wizard-380',
+				'src'  => 'configuration-wizard-400',
 				'deps' => array(
 					'jquery',
 				),
@@ -268,7 +268,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-390',
+				'src'  => 'yst_plugin_tools-400',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			array(
@@ -293,7 +293,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-380',
+				'src'  => 'metabox-400',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
@@ -339,7 +339,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'yoast-components',
-				'src'  => 'yoast-components-371',
+				'src'  => 'yoast-components-400',
 			),
 			array(
 				'name' => 'extensions',
