@@ -4,7 +4,7 @@
 module.exports = {
 	build: {
 		files: {
-			"<%= paths.css %>premium-metabox-380.css": [ "assets/css/src/metabox.scss" ],
+			"<%= paths.css %>premium-metabox-400.css": [ "assets/css/src/metabox.scss" ],
 			"<%= paths.css %>premium-redirects-340.css": [ "assets/css/src/redirects.scss" ],
 			"<%= paths.css %>premium-social-preview-340.css": [ "assets/css/src/social-preview.scss" ],
 		},
