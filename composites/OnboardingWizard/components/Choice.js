@@ -24,11 +24,8 @@ const Choice = ( props ) => {
 	let wrapperClass = "yoast-wizard-input-" + type;
 
 	let fieldSet = () => {
-		let field;
-
 		if ( type === "select" ) {
-			return
-				<fieldset className={"yoast-wizard-input-select-" + fieldName}>
+				return <fieldset className={"yoast-wizard-input-select-" + fieldName}>
 					<select defaultValue={props.value} name={fieldName}
 					        className={props.optionClassName} onChange={props.onChange}>
 						{fieldKeys.map( ( choiceName, index ) => {
@@ -44,8 +41,7 @@ const Choice = ( props ) => {
 				</fieldset>
 			;
 		}
-		return
-			<fieldset className={"yoast-wizard-input-radio-" + fieldName}>
+		return <fieldset className={"yoast-wizard-input-radio-" + fieldName}>
 				{fieldKeys.map( ( choiceName, index ) => {
 					let choice = choices[ choiceName ];
 					let id = `${fieldName}-${index}`;
