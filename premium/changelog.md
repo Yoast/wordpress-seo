@@ -1,3 +1,17 @@
+### 4.0.0 December 13th, 2016
+* Add a metabox "Yoast internal linking" that contains link suggestions for the current post.
+* Adds import functionality for Safe Redirect Manager.
+* Add import support for Simple 301 Redirects.
+* Fixes import messaging when importing redirects.
+* .htaccess import no longer overwrites the real htaccess file.
+* .htaccess import properly imports all redirects.
+* .htaccess import properly imports redirects with quotes.
+* Fixes a bug where post format archives showed up in sitemap when disabled.
+* Fixes a bug where an old update notice would not be removed.
+* Fixes a bug where keywords with periods where not highlighted in the snippet.
+* Includes every change in Yoast SEO core 4.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
+
 ### 3.9.0 November 29th, 2016
 * Improves the title updates in the social previews.
 * Fixes a bug where the wrong URLs were used in redirect notices.
