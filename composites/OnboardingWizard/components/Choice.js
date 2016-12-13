@@ -25,20 +25,20 @@ const Choice = ( props ) => {
 
 	let fieldSet = () => {
 		if ( type === "select" ) {
-				return <fieldset className={"yoast-wizard-input-select-" + fieldName}>
-					<select defaultValue={props.value} name={fieldName}
-					        className={props.optionClassName} onChange={props.onChange}>
-						{fieldKeys.map( ( choiceName, index ) => {
-							let choice = choices[ choiceName ];
+			return <fieldset className={"yoast-wizard-input-select-" + fieldName}>
+				<select defaultValue={props.value} name={fieldName}
+				        className={props.optionClassName} onChange={props.onChange}>
+					{fieldKeys.map( ( choiceName, index ) => {
+						let choice = choices[ choiceName ];
 
-							return (
-								<option value={choiceName} key={index}>
-									{htmlDecoder( choice.label )}
-								</option>
-							);
-						} )}
-					</select>
-				</fieldset>
+						return (
+							<option value={choiceName} key={index}>
+								{htmlDecoder( choice.label )}
+							</option>
+						);
+					} )}
+				</select>
+			</fieldset>
 			;
 		}
 		return <fieldset className={"yoast-wizard-input-radio-" + fieldName}>
