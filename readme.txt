@@ -126,28 +126,28 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 = 4.0.0 =
 
-Release Date:
+Release Date: December 13th, 2016
 
 * Enhancements:
 	* License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
 	* License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
-	* Updated the credits page.
-	* Improved plugin naming in translations.
-	* Improved translations by making texts more consistent.
+	* Updates the credits page.
+	* Improves plugin naming in translations.
+	* Improves translations by making texts more consistent.
 	* Displays the translations in the language chosen by the user in stead of using only the site language.
 	* Improves the styling of the banners.
 	* Adds passive voice for German.
-	* Added more transition words for French.
-	* Improved feedback strings for the meta description length assessment.
+	* Adds more transition words for French.
+	* Improves feedback strings for the meta description length assessment.
 	* Improves matching of the keyword in the first paragraph.
-	* Improved the snippet preview to match the styling of googles snippet.
+	* Improves the snippet preview to match the styling of googles snippet.
 
 * Bugfixes:
-	* Fixed a compatibility bug with the onboard wizard and Polylang, and possibly more plugins that prevented the configuration wizard from working properly.
-	* Fixed a bug where post format archives showed up in sitemap when disabled.
-	* Fixed a bug where an old update notice would not be removed.
+	* Fixes a compatibility bug with the onboarding wizard and Polylang, and possibly more plugins that prevented the configuration wizard from working properly.
+	* Fixes a bug where post format archives showed up in sitemap when disabled.
+	* Fixes a bug where an old update notice would not be removed.
 	* Fixes a bug where keywords with periods where not highlighted in the snippet.
-    * Fixes a bug where the title of the metabox wasn't displayed correctly.
+	* Fixes a bug where the title of the metabox wasn't displayed correctly.
 
 = 3.9.0 =
 
