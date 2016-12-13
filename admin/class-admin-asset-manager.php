@@ -130,7 +130,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-380',
+				'src'  => 'wp-seo-admin-400',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -164,7 +164,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-390',
+				'src'  => 'wp-seo-metabox-400',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -189,7 +189,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-390',
+				'src'  => 'wp-seo-post-scraper-400',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -198,7 +198,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-390',
+				'src'  => 'wp-seo-term-scraper-400',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
@@ -213,7 +213,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-390',
+				'src'  => 'wp-seo-recalculate-400',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -249,7 +249,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'configuration-wizard',
-				'src'  => 'configuration-wizard-380',
+				'src'  => 'configuration-wizard-400',
 				'deps' => array(
 					'jquery',
 				),
