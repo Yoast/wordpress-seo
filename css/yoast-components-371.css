@@ -605,6 +605,28 @@ body {
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
+@keyframes heartbeat {
+	0% {
+		opacity: 0.4;
+		transform: scale(0.7);
+	}
+
+	80% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(0.95);
+	}
+}
+
+.yoast-loader {
+	animation: heartbeat 1.15s infinite;
+	animation-timing-function: cubic-bezier(0.96, 0.02, 0.63, 0.86);
+	animation-direction: alternate;
+}
+
 .yoast-wizard-return-link {
 	display: block;
 	margin: 1em 0;
