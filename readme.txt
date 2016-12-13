@@ -115,37 +115,45 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 4.0.0 =
+
+Release Date:
+
+* Enhancements:
+	* License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
+	* License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
+	* Updated the credits page.
+	* Improved plugin naming in translations.
+	* Improved translations by making texts more consistent.
+	* Displays the translations in the language chosen by the user in stead of using only the site language.
+	* Improves the styling of the banners.
+	* Adds passive voice for German.
+	* Added more transition words for French.
+	* Improved feedback strings for the meta description length assessment.
+	* Improves matching of the keyword in the first paragraph.
+	* Improved the snippet preview to match the styling of googles snippet.
+
+* Bugfixes:
+	* Fixed a compatibility bug with the onboard wizard and Polylang, and possibly more plugins that prevented the configuration wizard from working properly.
+	* Fixed a bug where post format archives showed up in sitemap when disabled.
+	* Fixed a bug where an old update notice would not be removed.
+	* Fixes a bug where keywords with periods where not highlighted in the snippet.
+    * Fixes a bug where the title of the metabox wasn't displayed correctly.
+
 = 3.9.0 =
 
 Release Date: November 29nd, 2016
 
 * Enhancements:
-    * Updates the banners on the admin pages.
-    * Improves accessibility by moving the Google Search Console reload button from the header.
-    * Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
-    * Prevent conflicts with other plugins/themes which also add html namespaces.
+	* Updates the banners on the admin pages.
+	* Improves accessibility by moving the Google Search Console reload button from the header.
+	* Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
+	* Prevent conflicts with other plugins/themes which also add html namespaces.
 
 * Bugfixes:
-    * Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
-    * Fixes a bug that prevented bulk actions to work in the Google Search Console.
-    * Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
-
-= 3.8.0 =
-
-Release Date: November 8th, 2016
-
-* Enhancements:
-	* Makes tooltips on tabs icons accessible.
-	* Adds check to prevent sitemap from having empty image entries.
-	* Improves screenreader text for the readability tab.
-	* Adds a toggle for author and date archives.
-	* Adds several improvements for readability and consistent styling.
-
-* Bugfixes:
-	* Fixes a bug where the category picker would become slow with 1000+ categories, props [Ron Willemse](https://github.com/RonWillemse)
-	* Fixes a bug with VoiceOver on the readability and keyword tabs.
-
-
+	* Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
+	* Fixes a bug that prevented bulk actions to work in the Google Search Console.
+	* Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
 
 = Earlier versions =
 
