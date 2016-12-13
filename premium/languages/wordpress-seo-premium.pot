@@ -4,11 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2016-12-06 15:56:15+00:00\n"
-=======
-"POT-Creation-Date: 2016-11-29 12:02:02+00:00\n"
->>>>>>> master
+"POT-Creation-Date: 2016-12-13 12:33:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -55,7 +51,7 @@ msgid "Enabled"
 msgstr ""
 
 #. translators: %s expands to Yoast
-#: classes/class-metabox-link-suggestions.php:86
+#: classes/class-metabox-link-suggestions.php:110
 msgid "%s internal linking"
 msgstr ""
 
@@ -234,50 +230,55 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:41
+#: classes/class-premium-link-suggestions-service.php:135
+msgid "(no title)"
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:33
+#: classes/class-premium-prominent-words-recalculation.php:43
 msgid "Site wide analysis"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:42
+#: classes/class-premium-prominent-words-recalculation.php:44
 #: classes/class-premium-prominent-words-registration.php:36
 msgid "Prominent words"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:53
+#: classes/class-premium-prominent-words-recalculation.php:55
 msgid "%d total post"
 msgid_plural "%d total posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:63
+#: classes/class-premium-prominent-words-recalculation.php:65
 msgid "%d post with prominent words"
 msgid_plural "%d posts with prominent words"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:73
+#: classes/class-premium-prominent-words-recalculation.php:75
 msgid "%d post without prominent words"
 msgid_plural "%d posts without prominent words"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:81
+#: classes/class-premium-prominent-words-recalculation.php:83
 msgid "Currently calculating prominent words."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:84
+#: classes/class-premium-prominent-words-recalculation.php:86
 msgid "Calculated %1$s out of %2$s post"
 msgid_plural "Calculated %1$s out of %2$s posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:93
+#: classes/class-premium-prominent-words-recalculation.php:95
 msgid "Calculated prominent words for %1$s post"
 msgid_plural "Calculated prominent words for %1$s posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:98
+#: classes/class-premium-prominent-words-recalculation.php:100
 msgid "Calculate prominent words for all posts"
 msgstr ""
 
