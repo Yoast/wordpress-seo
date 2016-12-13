@@ -185,7 +185,7 @@ class WPSEO_Configuration_Page {
 	 * @returns array The translations for the configuration wizard.
 	 */
 	public function get_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/yoast-components-' . get_locale() . '.json';
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/yoast-components-' . WPSEO_Utils::get_user_locale() . '.json';
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}
