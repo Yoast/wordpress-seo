@@ -268,7 +268,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-390',
+				'src'  => 'yst_plugin_tools-400',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			array(
@@ -293,7 +293,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-380',
+				'src'  => 'metabox-400',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
@@ -339,7 +339,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'yoast-components',
-				'src'  => 'yoast-components-371',
+				'src'  => 'yoast-components-400',
 			),
 			array(
 				'name' => 'extensions',
