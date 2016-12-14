@@ -12,7 +12,7 @@ describe( "Checks whether a value is in range", function(){
 	it( "returns false, the value isn't in range", function(){
 		expect( inRange(10, 10, 30 ) ).toBe( false );
 	} );
-	it( "returns false, the value is in range", function(){
+	it( "returns true, the value is in range", function(){
 		expect( inRange(30, 10, 30 ) ).toBe( true );
 	} );
 } );
