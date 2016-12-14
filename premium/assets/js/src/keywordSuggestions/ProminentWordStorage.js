@@ -23,9 +23,8 @@ class ProminentWordStorage extends EventEmitter {
 
 		this._postSaveEndpoint = postSaveEndpoint;
 		if ( postTypeBase !== null ) {
-			this._postSaveEndpoint = this._rootUrl + "wp/v2/" + this._postTypeBase + "/" + this._postID
+			this._postSaveEndpoint = this._rootUrl + "wp/v2/" + postTypeBase + "/" + this._postID
 		}
-		this._postTypeBase = postTypeBase;
 
 		if ( cache === null ) {
 			cache = new ProminentWordCache();
