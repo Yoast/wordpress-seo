@@ -19,6 +19,7 @@ class ProminentWordStorage extends EventEmitter {
 		this._nonce = nonce;
 		this._postID = postID;
 		this._savingProminentWords = false;
+		this._previousProminentWords = [];
 
 		if ( cache === null ) {
 			cache = new ProminentWordCache();
