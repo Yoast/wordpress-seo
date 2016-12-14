@@ -285,6 +285,7 @@ module.exports = function() {
 		miscellaneous: miscellaneous,
 		interjections: interjections,
 		pronominalAdverbs: pronominalAdverbs,
+		reflexivePronouns: reflexivePronouns,
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
 			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,	pronominalAdverbs,
 			locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries,

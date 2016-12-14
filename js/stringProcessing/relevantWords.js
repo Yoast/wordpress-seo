@@ -223,10 +223,12 @@ function filterCombinations( combinations, functionWords, locale ) {
 		case "en":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
 			break;
 		case "de":
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
 			combinations = filterFunctionWords( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			break;
 	}
 	return combinations;
