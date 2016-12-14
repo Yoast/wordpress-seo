@@ -12,7 +12,7 @@ let contentEndpointsAvailable = wpseoPremiumMetaboxData.data.restApi.available &
 
 let multiKeyword = new MultiKeyword();
 
-let prominentWordStorage;
+let prominentWordStorage = new ProminentWordNoStorage();
 let focusKeywordSuggestions;
 
 let linkSuggestions;
@@ -41,8 +41,6 @@ function initializeMetabox() {
 			rootUrl: settings.restApi.root,
 			nonce: settings.restApi.nonce,
 		} );
-	} else {
-		prominentWordStorage = new ProminentWordNoStorage();
 	}
 
 	focusKeywordSuggestions = new FocusKeywordSuggestions( {
