@@ -63,6 +63,7 @@ class ProminentWordStorage extends EventEmitter {
 			if ( isEqual( prominentWords, this._previousProminentWords ) ) {
 				return Promise.resolve();
 			}
+			this._previousProminentWords = prominentWords;
 
 			return new Promise( ( resolve, reject ) => {
 				jQuery.ajax( {
