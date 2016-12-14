@@ -57,16 +57,11 @@ class ProminentWordStorage extends EventEmitter {
 			} );
 		}, Promise.resolve( [] ) );
 
-		let postType = window.typenow;
-		if ( postType === 'page' ) {
-			postType = 'pages';
-		}
-
 		return prominentWordIds.then( ( prominentWords ) => {
 			return new Promise( ( resolve, reject ) => {
 				jQuery.ajax( {
 					type: "POST",
-					url: this._rootUrl + "wp/v2/" + postType + "/" + this._postID,
+					url: this._rootUrl + "wp/v2/posts/" + this._postID,
 					beforeSend: ( xhr ) => {
 						xhr.setRequestHeader( "X-WP-Nonce", this._nonce );
 					},
