@@ -1,5 +1,5 @@
 var WordCombination = require( "../../js/values/WordCombination" );
-var functionWords = require( "../../js/researches/English/functionWords.js" )().all;
+var functionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
 describe( "WordCombination", function() {
 	describe( "getCombination", function() {

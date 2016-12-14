@@ -10,7 +10,7 @@ var filterFunctionWords = relevantWords.filterFunctionWords;
 var filterSpecialCharacters = relevantWords.filterSpecialCharacters;
 var filterOnSyllableCount = relevantWords.filterOnSyllableCount;
 var filterOnDensity = relevantWords.filterOnDensity;
-var functionWords = require( "../../js/researches/English/functionWords.js" )().all;
+var functionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
 describe( "getWordCombinations", function() {
 	it( "should split a sentence on words", function() {
