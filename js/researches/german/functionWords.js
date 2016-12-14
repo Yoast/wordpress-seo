@@ -58,7 +58,7 @@ var indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes",
 
 var relativePronouns = [ "dessen", "deren", "derer", "denen", "wes" ];
 
-var interrogativeProAdverbs =  [ "warum", "wie", "wo", "woher", "wohin" ];
+var interrogativeProAdverbs =  [ "warum", "wie", "wo", "woher", "wohin", "wann" ];
 
 var pronominalAdverbs = [ "dabei", "dadurch", "dafür", "dafuer", "dagegen", "dahinter", "damit", "danach", "daneben",
 	"daran", "darauf", "daraus", "darin", "darum", "darunter", "darüber", "darueber", "davon", "davor", "dazu",
@@ -78,24 +78,25 @@ var adverbialGenitives = [ "allenfalls", "keinesfalls", "anderenfalls", "andernf
 	"abends", "nachts", "keineswegs", "durchwegs", "geradenwegs", "geradeswegs", "geradewegs", "gradenwegs",
 	"halbwegs", "mittwegs", "unterwegs" ];
 
-var otherAuxiliaries = [ "habe", "hast", "hat", "haben", "habt", "habest", "habet", "hatte", "hattest", "hatten",
-	"hätte", "haette", "hättest", "haettest", "hätten", "haetten", "haettet", "hättet", "hab", "bin", "bist", "ist", "sind",
-	"sein", "sei", "seiest", "seien", "seiet", "war", "warst", "waren", "wart", "wäre", "waere", "wärest", "waerest",
-	"wärst", "waerst", "wären", "waeren", "wäret", "waeret", "wärt", "waert", "seid", "darf",  "darfst", "dürfen", "duerfen",
-	"dürft", "duerft", "dürfe", "duerfe", "dürfest", "duerfest", "dürfet", "duerfet", "durfte", "durftest", "durften",
-	"durftet", "dürfte", "duerfte", "dürftest", "duerftest", "dürften", "duerften", "dürftet", "duerftet", "kann", "kannst",
-	"können", "koennen", "könnt", "koennt", "könne", "koenne", "könnest", "koennest", "könnet", "koennet", "konnte",
-	"konntest", "konnten", "konntet", "könnte", "koennte", "könntest", "koenntest", "könnten", "koennten", "könntet",
-	"koenntet", "mag", "magst", "mögen", "moegen", "mögt", "moegt", "möge", "moege", "mögest", "moegest", "möget", "moeget",
-	"mochte", "mochtest", "mochten", "mochtet", "möchte", "moechte", "möchtest", "moechtest", "möchten", "moechten",
-	"möchtet", "moechtet", "muss", "muß", "musst", "mußt", "müssen", "muessen", "müsst", "muesst", "müßt", "mueßt", "müsse",
-	"muesse", "müssest", "muessest", "müsset", "muesset", "musste", "mußte", "musstest", "mußtest", "mussten", "mußten",
-	"musstet", "mußtet", "müsste", "muesste", "müßte", "mueßte", "müsstest", "muesstest", "müßtest", "mueßtest", "müssten",
-	"muessten", "müßten", "mueßten", "müsstet", "muesstet", "müßtet", "mueßtet", "soll", "sollst", "sollen", "sollt",
-	"solle", "sollest", "sollet", "sollte", "solltest", "sollten", "solltet", "will", "willst", "wollen", "wollt", "wolle",
-	"wollest", "wollet", "wollte", "wolltest", "wollten", "wolltet", "lasse", "lässt", "laesst", "läßt", "laeßt", "lassen",
-	"lasst", "laßt", "lassest", "lasset", "ließ", "ließest", "ließt", "ließen", "ließe", "ließet", "liess", "liessest",
-	"liesst", "liessen", "liesse", "liesset" ];
+var otherAuxiliaries = [ "habe", "hast", "hat", "habt", "habest", "habet", "hatte", "hattest", "hatten", "hätte", "haette",
+	"hättest", "haettest", "hätten", "haetten", "haettet", "hättet", "hab", "bin", "bist", "ist", "sind", "sei", "seiest",
+	"seien", "seiet", "war", "warst", "waren", "wart", "wäre", "waere", "wärest", "waerest", "wärst", "waerst", "wären",
+	"waeren", "wäret", "waeret", "wärt", "waert", "seid", "darf", "darfst", "dürft", "duerft", "dürfe", "duerfe", "dürfest",
+	"duerfest", "dürfet", "duerfet", "durfte", "durftest", "durften", "durftet", "dürfte", "duerfte", "dürftest", "duerftest",
+	"dürften", "duerften", "dürftet", "duerftet", "kann", "kannst",	"könnt", "koennt", "könne", "koenne", "könnest", "koennest",
+	"könnet", "koennet", "konnte", "konntest", "konnten", "konntet", "könnte", "koennte", "könntest", "koenntest", "könnten",
+	"koennten", "könntet", "koenntet", "mag", "magst", "mögt", "moegt", "möge", "moege", "mögest", "moegest", "möget", "moeget",
+	"mochte", "mochtest", "mochten", "mochtet", "möchte", "moechte", "möchtest", "moechtest", "möchten", "moechten", "möchtet",
+	"moechtet", "muss", "muß", "musst", "mußt", "müsst", "muesst", "müßt", "mueßt", "müsse", "muesse", "müssest", "muessest",
+	"müsset", "muesset", "musste", "mußte", "musstest", "mußtest", "mussten", "mußten",	"musstet", "mußtet", "müsste", "muesste",
+	"müßte", "mueßte", "müsstest", "muesstest", "müßtest", "mueßtest", "müssten", "muessten", "müßten", "mueßten", "müsstet",
+	"muesstet", "müßtet", "mueßtet", "soll", "sollst", "sollt", "solle", "sollest", "sollet", "sollte", "solltest", "sollten",
+	"solltet", "will", "willst", "wollt", "wolle", "wollest", "wollet", "wollte", "wolltest", "wollten", "wolltet", "lasse",
+	"lässt", "laesst", "läßt", "laeßt", "lasst", "laßt", "lassest", "lasset", "ließ", "ließest", "ließt", "ließen", "ließe",
+	"ließet", "liess", "liessest", "liesst", "liessen", "liesse", "liesset" ];
+
+var otherAuxiliariesInfinitive = [ "haben", "sein", "dürfen", "duerfen", "können", "koennen", "mögen", "moegen", "müssen", "muessen",
+	"sollen", "wollen", "lassen" ];
 
 // Forms from 'aussehen' with two parts, like 'sehe aus', are not included, because we remove words on an single word basis.
 var copula = [ "bleibe", "bleibst", "bleibt", "bleiben", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben",
@@ -171,7 +172,9 @@ var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weita
 
 // These verbs convey little meaning.
 var delexicalisedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
-	"gemeint", "tun", "machen" ];
+	"gemeint", "stehe", "stehst", "steht" ];
+
+var delexicalisedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
@@ -252,17 +255,21 @@ module.exports = function() {
 			possessivePronouns ),
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
-		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
+		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
 		verbs: filteredPassiveAuxiliaries.concat( notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns.concat( interrogativeProAdverbs ),
-		passiveAuxiliaries: filteredPassiveAuxiliaries.concat(notFilteredPassiveAuxiliaries),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
+		delexicalisedVerbs: delexicalisedVerbs.concat( delexicalisedVerbsInfinitive ),
+		// These verbs that should be filtered at the beginning of prominent word combinations.
+		beginningVerbs: otherAuxiliaries.concat( otherAuxiliariesInfinitive, filteredPassiveAuxiliaries, delexicalisedVerbs, delexicalisedVerbsInfinitive ),
+		// These verbs that should be filtered at the beginning of prominent word combinations.
+		endVerbs: otherAuxiliaries.concat( filteredPassiveAuxiliaries, delexicalisedVerbs ),
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
 			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries,
-			copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords,
-			additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs, recipeWords,
-			vagueNouns, miscellaneous ),
+			otherAuxiliariesInfinitive, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
+			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, delexicalisedVerbsInfinitive, interjections, generalAdjectivesAdverbs,
+			recipeWords, vagueNouns, miscellaneous ),
 	};
 };
