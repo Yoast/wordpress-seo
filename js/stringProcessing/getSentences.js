@@ -254,7 +254,6 @@ function getSentencesFromTokens( tokens ) {
 					break;
 				}
 				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
-
 				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";

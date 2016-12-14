@@ -1,9 +1,9 @@
 var Participle = require( "../../values/Participle.js" );
 
-var nonVerbsEndingEd = require( "./passivevoice-english/non-verb-ending-ed.js" )();
-var getWordIndices = require( "./passivevoice-english/getIndicesWithRegex.js" );
-var determinerList = require( "./../english/passivevoice-english/determiners.js" )();
-var havingList = require( "./../english/passivevoice-english/having.js" )();
+var nonVerbsEndingEd = require( "./passivevoice/non-verb-ending-ed.js" )();
+var getWordIndices = require( "./passivevoice/getIndicesWithRegex.js" );
+var determinerList = require( "./passivevoice/determiners.js" )();
+var havingList = require( "./passivevoice/having.js" )();
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
 
 var forEach = require( "lodash/forEach" );
