@@ -74,6 +74,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		}
 
 		$post = $this->get_post();
+		$post_type = get_post_type_object( $post->post_type );
 
 		$data = array(
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
@@ -83,6 +84,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'contentEndpointsAvailable' => WPSEO_Utils::are_content_endpoints_available(),
 				'root' => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
+				'postTypeBase' => $post_type->rest_base,
 			),
 			'linkSuggestionsAvailable' => $this->link_suggestions->is_available( $post->post_type ),
 			'linkSuggestions' => $this->link_suggestions->get_js_data(),

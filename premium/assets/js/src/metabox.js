@@ -40,6 +40,7 @@ function initializeMetabox() {
 			postID: settings.postID,
 			rootUrl: settings.restApi.root,
 			nonce: settings.restApi.nonce,
+			postTypeBase: settings.restApi.postTypeBase,
 		} );
 	} else {
 		prominentWordStorage = new ProminentWordNoStorage();
