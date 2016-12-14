@@ -21,7 +21,7 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 	 * Registers the prominent words taxonomy.
 	 */
 	public function register() {
-		register_taxonomy( self::TERM_NAME, 'post', $this->get_args() );
+		register_taxonomy( self::TERM_NAME, array( 'post', 'page' ), $this->get_args() );
 	}
 
 	/**

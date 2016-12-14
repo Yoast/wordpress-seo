@@ -57,7 +57,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 */
 	public function is_available( $post_type ) {
 		// Consider applying a filter here, REST endpoint should be available though!
-		$allowed_post_types = array( 'post' );
+		$allowed_post_types = array( 'post', 'page' );
 
 		return in_array( $post_type, $allowed_post_types );
 	}
