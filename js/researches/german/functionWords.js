@@ -142,7 +142,7 @@ var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "al
 	"zuwider", "zuzüglich",	"zuzueglich", "zwecks", "zwischen" ];
 
 // Many coordinating conjunctions are already included in the transition words list.
-var coordinatingConjunctions = [ "und", "oder", "als", "wie" ];
+var coordinatingConjunctions = [ "und", "oder", "als" ];
 
 /*
 'Entweder' is part of 'wntweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
@@ -277,7 +277,8 @@ module.exports = function() {
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
 		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries ),
 		quantifiers: quantifiers,
-		relativePronouns: relativePronouns.concat( interrogativeProAdverbs ),
+		relativePronouns: relativePronouns,
+		interrogativeProAdverbs: interrogativeProAdverbs,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
 		beginningVerbs: otherAuxiliariesInfinitive.concat( notFilteredPassiveAuxiliaries,

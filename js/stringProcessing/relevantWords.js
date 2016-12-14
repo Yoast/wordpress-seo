@@ -221,14 +221,15 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterOnSyllableCount( combinations, 1, locale );
 	switch( getLanguage( locale ) ) {
 		case "en":
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			break;
 		case "de":
-			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
 			combinations = filterFunctionWords( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().interrogativeProAdverbs );
 			break;
 	}
 	return combinations;
