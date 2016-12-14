@@ -99,17 +99,18 @@ var otherAuxiliariesInfinitive = [ "haben", "sein", "dürfen", "duerfen", "könn
 	"sollen", "wollen", "lassen" ];
 
 // Forms from 'aussehen' with two parts, like 'sehe aus', are not included, because we remove words on an single word basis.
-var copula = [ "bleibe", "bleibst", "bleibt", "bleiben", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben",
-	"bliebe", "bliebest", "bliebet", "heiße", "heißt", "heißen", "heißest", "heißet", "heisse", "heisst", "heissen",
-	"heissest", "heisset", "hieß", "hießest", "hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen",
-	"hiesse", "hiesset", "gelte", "giltst", "gilt", "gelten", "geltet", "gelte", "geltest", "galt", "galtest", "galtst",
-	"galten", "galtet", "gälte", "gaelte", "gölte", "goelte", "gältest", "gaeltest", "göltest", "goeltest", "gälten",
-	"gaelten", "gölten", "goelten", "gältet", "gaeltet", "göltet", "goeltet", "aussehe", "aussiehst", "aussieht", "aussehen",
-	"ausseht", "aussehest", "aussehet", "aussah", "aussahst", "aussah", "aussahen", "aussaht", "aussähe", "aussaehe",
-	"aussähest", "aussaehest", "aussähst", "aussaehst", "aussähet", "aussaehet", "aussäht", "aussaeht", "aussähen",
-	"aussaehen", "scheine", "scheinst", "scheint", "scheinen", "scheinest", "scheinet", "schien", "schienst", "schienen",
-	"schient", "schiene", "schienest", "schienet", "erscheine", "erscheinst", "erscheint", "erscheinen", "erscheinest",
+var copula = [ "bleibe", "bleibst", "bleibt", "bleibest", "bleibet", "blieb", "bliebst", "bliebt", "blieben", "bliebe",
+	"bliebest", "bliebet", "heiße", "heißt", "heißest", "heißet", "heisse", "heisst", "heissest", "heisset", "hieß", "hießest",
+	"hießt", "hießen", "hieße", "hießet", "hiess", "hiessest", "hiesst", "hiessen",	"hiesse", "hiesset", "gelte", "giltst",
+	"gilt", "geltet", "gelte", "geltest", "galt", "galtest", "galtst", "galten", "galtet", "gälte", "gaelte", "gölte", "goelte",
+	"gältest", "gaeltest", "göltest", "goeltest", "gälten", "gaelten", "gölten", "goelten", "gältet", "gaeltet", "göltet",
+	"goeltet", "aussehe", "aussiehst", "aussieht", "ausseht", "aussehest", "aussehet", "aussah", "aussahst", "aussah", "aussahen",
+	"aussaht", "aussähe", "aussaehe", "aussähest", "aussaehest", "aussähst", "aussaehst", "aussähet", "aussaehet", "aussäht",
+	"aussaeht", "aussähen",	"aussaehen", "scheine", "scheinst", "scheint", "scheinest", "scheinet", "schien", "schienst", "schienen",
+	"schient", "schiene", "schienest", "schienet", "erscheine", "erscheinst", "erscheint", "erscheinest",
 	"erscheinet", "erschien", "erschienst", "erschienen", "erschient", "erschiene", "erschienest", "erschienet" ];
+
+var copulaInfinitive = [ "bleiben", "heißen", "heissen", "gelten", "aussehen", "scheinen", "erscheinen" ];
 
 var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "als", "am", "an", "anfangs", "angelegentlich",
 	"angesichts", "anhand", "anlässlich", "anlaesslich", "ans", "anstatt", "anstelle", "auf", "aufgrund", "aufs", "aufseiten",
@@ -145,12 +146,14 @@ var subordinatingConjunctions = [ "nun", "so", "gleichwohl" ];
 These verbs are frequently used in interviews to indicate questions and answers. 'Frage' and 'fragen' are not included,
 because those words are also nouns.
  */
-var interviewVerbs = [ "sage", "sagst", "sagt", "sagen", "sagest", "saget", "sagte", "sagtest", "sagte", "sagten", "sagtet", "gesagt",
+var interviewVerbs = [ "sage", "sagst", "sagt", "sagest", "saget", "sagte", "sagtest", "sagte", "sagten", "sagtet", "gesagt",
 	"fragst", "fragt", "fragest", "fraget", "fragte", "fragtest", "fragten", "fragtet", "gefragt", "erkläre", "erklärst", "erklärt",
-	"erklären", "erklaere", "erklaerst", "erklaert", "erklaeren", "erklärte", "erklärtest", "erklärte",	"erklärtet", "erklärten",
-	"erklaerte", "erklaertest", "erklaerte", "erklaertet", "erklaerten", "denke", "denkst", "denkt", "denken", "denkest", "denket",
+	"erklaere", "erklaerst", "erklaert", "erklärte", "erklärtest", "erklärte",	"erklärtet", "erklärten",
+	"erklaerte", "erklaertest", "erklaerte", "erklaertet", "erklaerten", "denke", "denkst", "denkt", "denkest", "denket",
 	"dachte", "dachtest", "dachten", "dachtet", "dächte", "dächtest", "dächten", "dächtet", "daechte", "daechtest", "daechten",
-	"daechtet", "finde", "findest", "findet", "finden", "gefunden" ];
+	"daechtet", "finde", "findest", "findet", "gefunden" ];
+
+var interviewVerbsInfinitive = [ "sagen", "erklären", "erklaeren", "denken", "finden" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
 var additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "definitiv", "bestimmt", "immer", "äußerst", "aeußerst",
@@ -174,7 +177,7 @@ var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weita
 var delexicalisedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
 	"gemeint", "stehe", "stehst", "steht" ];
 
-var delexicalisedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen" ];
+var delexicalisedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
@@ -256,20 +259,20 @@ module.exports = function() {
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
-		verbs: filteredPassiveAuxiliaries.concat( notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
+		verbs: copula.concat( notFilteredPassiveAuxiliaries, interviewVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns.concat( interrogativeProAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
-		delexicalisedVerbs: delexicalisedVerbs.concat( delexicalisedVerbsInfinitive ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
-		beginningVerbs: otherAuxiliaries.concat( otherAuxiliariesInfinitive, filteredPassiveAuxiliaries, delexicalisedVerbs, delexicalisedVerbsInfinitive ),
+		beginningVerbs: otherAuxiliaries.concat( otherAuxiliariesInfinitive, filteredPassiveAuxiliaries, delexicalisedVerbs, delexicalisedVerbsInfinitive,
+			copulaInfinitive, interviewVerbsInfinitive ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
 		endVerbs: otherAuxiliaries.concat( filteredPassiveAuxiliaries, delexicalisedVerbs ),
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
 			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries,
-			otherAuxiliariesInfinitive, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
-			transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, delexicalisedVerbsInfinitive, interjections, generalAdjectivesAdverbs,
-			recipeWords, vagueNouns, miscellaneous ),
+			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions,
+			interviewVerbs,	interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, delexicalisedVerbsInfinitive,
+			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous ),
 	};
 };

@@ -214,11 +214,11 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().transitionWords );
-	combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );
 	combinations = filterOnSyllableCount( combinations, 1, locale );
 	switch( getLanguage( locale ) ) {
 		case "en":
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
 			break;
 		case "de":
