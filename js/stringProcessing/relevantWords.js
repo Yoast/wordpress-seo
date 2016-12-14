@@ -1,7 +1,7 @@
 var getWords = require( "../stringProcessing/getWords" );
 var getSentences = require( "../stringProcessing/getSentences" );
 var WordCombination = require( "../values/WordCombination" );
-var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
+var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 var germanFunctionWords = require( "../researches/german/functionWords.js" );
 var englishFunctionWords = require( "../researches/english/functionWords.js" );
 var countSyllables = require( "../stringProcessing/syllables/count.js" );
@@ -41,7 +41,7 @@ function getWordCombinations( text, combinationSize, functionWords ) {
 
 	return flatMap( sentences, function( sentence ) {
 		sentence = sentence.toLocaleLowerCase();
-		sentence = normalizeSingleQuotes( sentence );
+		sentence = normalizeQuotes( sentence );
 		words = getWords( sentence );
 
 		return filter( map( words, function( word, i ) {
