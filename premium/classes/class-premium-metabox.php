@@ -73,6 +73,8 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 			$insights_enabled = false;
 		}
 
+		$post = $this->get_post();
+
 		$data = array(
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
 			'postID' => $this->get_post_ID(),
@@ -82,11 +84,21 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'root' => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			),
+			'linkSuggestionsAvailable' => $this->link_suggestions->is_available( $post->post_type ),
 			'linkSuggestions' => $this->link_suggestions->get_js_data(),
 		);
 
 		// Use an extra level in the array to preserve booleans. WordPress sanitizes scalar values in the first level of the array.
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'wpseoPremiumMetaboxData', array( 'data' => $data ) );
+	}
+
+	/**
+	 * Returns the post for the current admin page.
+	 *
+	 * @return WP_Post The post for the current admin page.
+	 */
+	protected function get_post() {
+		return get_post( $this->get_post_ID() );
 	}
 
 	/**

@@ -46,10 +46,20 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	public function add_meta_boxes() {
 		$post_types = $this->get_post_types();
 
-		// Consider applying a filter here, REST endpoint should be available though!
-		$allowed_post_types = array( 'post', 'page' );
-		$post_types = array_intersect( $allowed_post_types, $post_types );
 		array_map( array( $this, 'add_meta_box' ), $post_types );
+	}
+
+	/**
+	 * Returns whether the link suggestions are available for the given post type.
+	 *
+	 * @param string $post_type The post type for which to check if the link suggestions are available.
+	 * @return boolean Whether the link suggestions are available for the given post type.
+	 */
+	public function is_available( $post_type ) {
+		// Consider applying a filter here, REST endpoint should be available though!
+		$allowed_post_types = array( 'post' );
+
+		return in_array( $post_type, $allowed_post_types );
 	}
 
 	/**
@@ -91,6 +101,10 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 * @param string $post_type The post type to add a meta box for.
 	 */
 	protected function add_meta_box( $post_type ) {
+		if ( ! $this->is_available( $post_type ) ) {
+			return;
+		}
+
 		if ( ! $this->is_content_language_supported() ) {
 			return;
 		}
