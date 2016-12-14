@@ -213,6 +213,7 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWords( combinations, functionWords().conjunctions );
 	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
+	combinations = filterFunctionWords( combinations, functionWords().transitionWords );
 	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );

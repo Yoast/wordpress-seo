@@ -127,7 +127,7 @@ var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "al
 	"waehrend", "zeit", "zu", "zufolge", "zugunsten", "zulieb", "zuliebe", "zum", "zur", "zusätzlich", "zusaetzlich", "zuungunsten",
 	"zuwider", "zuzüglich",	"zuzueglich", "zwecks", "zwischen" ];
 
-// Many coordinating conjunctions are already included in the transition words list. 'Wenn' is part of 'wenn auch'.
+// Many coordinating conjunctions are already included in the transition words list.
 var coordinatingConjunctions = [ "und", "oder", "als", "wie" ];
 
 /*
@@ -256,6 +256,7 @@ module.exports = function() {
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns.concat( interrogativeProAdverbs ),
 		passiveAuxiliaries: passiveAuxiliaries,
+		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
 			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, passiveAuxiliaries, otherAuxiliaries, copula, prepositions,
