@@ -27,8 +27,6 @@ var indefinitePronounsPossessive  = [ "one's", "nobody's", "everyone's", "everyb
 	"anybody's", "nothing's", "everything's", "something's", "anything's", "whoever's", "others'", "other's", "another's",
 	"neither's", "either's" ];
 
-// All relativePronouns are already included in other lists (interrogativeDeterminers, interrogativePronouns)
-var relativePronouns = [];
 var interrogativeDeterminers = [ "which", "what", "whose" ];
 var interrogativePronouns = [ "who", "whom" ];
 var interrogativeProAdverbs = [ "where", "whither", "whence", "how", "why", "whether", "wherever", "whomever", "whenever",
@@ -132,7 +130,7 @@ module.exports = function() {
 		interjections: interjections,
 		reflexivePronouns: reflexivePronouns,
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns,
+			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
 			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,
