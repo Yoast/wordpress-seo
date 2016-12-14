@@ -46,6 +46,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	public function add_meta_boxes() {
 		$post_types = $this->get_post_types();
 
+		// Consider applying a filter here, REST endpoint should be available though!
 		$allowed_post_types = array( 'post', 'page' );
 		$post_types = array_intersect( $allowed_post_types, $post_types );
 		array_map( array( $this, 'add_meta_box' ), $post_types );
