@@ -1,4 +1,5 @@
-var passiveAuxiliaries = require( "./passivevoice-german/auxiliaries.js" )();
+var filteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().filteredAuxiliaries;
+var notFilteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().notFilteredAuxiliaries;
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
@@ -252,15 +253,15 @@ module.exports = function() {
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
-		verbs: passiveAuxiliaries.concat( otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
+		verbs: filteredPassiveAuxiliaries.concat( notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns.concat( interrogativeProAdverbs ),
-		passiveAuxiliaries: passiveAuxiliaries,
+		passiveAuxiliaries: filteredPassiveAuxiliaries.concat(notFilteredPassiveAuxiliaries),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
 			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
-			pronominalAdverbs, locativeAdverbs, adverbialGenitives, passiveAuxiliaries, otherAuxiliaries, copula, prepositions,
-			coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords,
+			pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries,
+			copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, transitionWords,
 			additionalTransitionWords, intensifiers, delexicalisedVerbs, interjections, generalAdjectivesAdverbs, recipeWords,
 			vagueNouns, miscellaneous ),
 	};
