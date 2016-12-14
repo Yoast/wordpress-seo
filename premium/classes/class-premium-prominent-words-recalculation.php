@@ -41,13 +41,23 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		?>
 		<section class="yoast-js-site-wide-prominent-words">
 			<h2><?php esc_html_e( 'Site wide analysis', 'wordpress-seo-premium' ); ?></h2>
-			<h3><?php esc_html_e( 'Prominent words', 'wordpress-seo-premium' ); ?></h3>
+			<p>
+				<?php
+				printf(
+					/* translators: %1$s expands to a link start tag to the Yoast.com website, %2$s is the link closing tag. */
+					__( 'The Site wide analysis can help you get the most out of %1$sthe internal linking tool%2$s and calculate the most prominent words for your complete site.', 'wordpress-seo-premium' ),
+					'<a href="https://yoast.com/why-use-yoast-internal-linking/" target="_blank">',
+					'</a>'
+				);
+				?>
+			</p>
+			<h3><?php esc_html_e( 'Prominent words summary', 'wordpress-seo-premium' ); ?></h3>
 			<?php
 			$total_posts_with_prominent_words = $this->count_posts_prominent_words();
 			$total_posts_without_prominent_words = $this->count_posts_without_prominent_words();
 			$total = ( $total_posts_without_prominent_words + $total_posts_with_prominent_words );
 			?>
-			<ul>
+			<ul class="ul-disc">
 				<li>
 					<?php
 						echo esc_html(
@@ -78,6 +88,11 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					); ?>
 				</li>
 			</ul>
+			<p>
+				<?php
+					esc_html_e( 'Run the analysis now to calculate the prominent words of all your posts. The initial indexation may take a while, depending on the size of your site.', 'wordpress-seo-premium' );
+				?>
+			</p>
 			<div class="yoast-js-prominent-words-progress">
 				<?php
 					esc_html_e( 'Currently calculating prominent words.', 'wordpress-seo-premium' );
@@ -122,10 +137,13 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					'hasProminentWords' => $has_prominent_words,
 					'hasNoProminentWords' => $has_no_prominent_words,
 				),
-
 				'restApi' => array(
 					'root' => esc_url_raw( rest_url() ),
 					'nonce' => wp_create_nonce( 'wp_rest' ),
+				),
+				'l10n' => array(
+					'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
+					'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo-premium' ),
 				),
 			);
 

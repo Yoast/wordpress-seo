@@ -1,6 +1,7 @@
 /* global yoastSiteWideAnalysisData */
 
 import ProminentWordCalculation from "./keywordSuggestions/siteWideCalculation";
+import a11ySpeak from "a11y-speak";
 
 let settings = yoastSiteWideAnalysisData.data;
 
@@ -38,12 +39,16 @@ function startRecalculating( postCount, recalculateAll = true ) {
 
 	prominentWordCalculation.start();
 
+	a11ySpeak( settings.l10n.calculationInProgress );
+
 	// Free up the variable to start another recalculation.
 	prominentWordCalculation.on( "complete", () => {
 		prominentWordCalculation = null;
 
 		progressContainer.hide();
 		completedContainer.show();
+
+		a11ySpeak( settings.l10n.calculationCompleted );
 	} );
 }
 
