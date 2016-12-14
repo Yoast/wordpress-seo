@@ -1,5 +1,6 @@
 import ProminentWordCache from "./ProminentWordCache";
 import EventEmitter from "events";
+import isEqual from "lodash/isEqual";
 
 /**
  * Handles the retrieval and storage of focus keyword suggestions
@@ -58,6 +59,10 @@ class ProminentWordStorage extends EventEmitter {
 		}, Promise.resolve( [] ) );
 
 		return prominentWordIds.then( ( prominentWords ) => {
+			if ( isEqual( prominentWords, this._previousProminentWords ) ) {
+				return Promise.resolve();
+			}
+
 			return new Promise( ( resolve, reject ) => {
 				jQuery.ajax( {
 					type: "POST",
