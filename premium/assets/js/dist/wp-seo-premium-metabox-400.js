@@ -909,8 +909,14 @@ function initializeMetabox() {
  * @returns {void}
  */
 function initializeLinkSuggestionsMetabox() {
+	// Link Suggestions are not active on all post-types yet, don't assume the element is present.
+	var container = document.getElementById("yoast_internal_linking");
+	if (!container) {
+		return;
+	}
+
 	linkSuggestions = new _LinkSuggestions2.default({
-		target: document.getElementById("yoast_internal_linking").getElementsByClassName("inside")[0],
+		target: container.getElementsByClassName("inside")[0],
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
 		currentPostId: settings.postID
