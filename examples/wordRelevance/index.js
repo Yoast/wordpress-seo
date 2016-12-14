@@ -43,7 +43,7 @@ if ( ! locale ) {
 
 var text = fs.readFileSync( filepath, { "encoding": "utf-8" } );
 
-var relevantWordss = map( getRelevantWords( text, locale ), function( word ) {
+var relevantWords = map( getRelevantWords( text, locale ), function( word ) {
    var words = getWords( text );
 
    var output = {
@@ -66,4 +66,4 @@ var relevantWordss = map( getRelevantWords( text, locale ), function( word ) {
    return output;
 });
 
-console.table( relevantWordss );
+console.table( relevantWords );
