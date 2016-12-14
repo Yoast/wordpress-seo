@@ -263,7 +263,7 @@ var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 	"zeug", "zeuge", "zeuges", "zeugen", "mal", "einmal", "teil", "teile", "teiles", "teilen", "prozent", "prozents", "prozentes", "prozente",
 	"prozenten", "beispiel", "beispiele", "beispieles", "beispiels", "beispielen", "aspekt", "aspekte", "aspektes", "aspekts", "aspekten",
 	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "falls", "fälle", "fällen",
-	"faelle", "faellen" ];
+	"faelle", "faellen", "mensch", "menschen" ];
 
 var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "%", "nicht", "amen", "ja", "nein" ];
 
