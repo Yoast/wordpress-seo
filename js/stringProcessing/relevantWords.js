@@ -214,7 +214,10 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().transitionWords );
+	combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
+	combinations = filterFunctionWords( combinations, functionWords().interjections );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords().miscellaneous );
 	combinations = filterOnSyllableCount( combinations, 1, locale );
 	switch( getLanguage( locale ) ) {
 		case "en":
