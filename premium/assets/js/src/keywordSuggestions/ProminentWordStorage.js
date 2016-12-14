@@ -61,6 +61,7 @@ class ProminentWordStorage extends EventEmitter {
 
 		return prominentWordIds.then( ( prominentWords ) => {
 			if ( isEqual( prominentWords, this._previousProminentWords ) ) {
+				this._savingProminentWords = false;
 				return Promise.resolve();
 			}
 			this._previousProminentWords = prominentWords;
