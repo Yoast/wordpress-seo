@@ -21,7 +21,7 @@ class ProminentWordStorage extends EventEmitter {
 		this._nonce = nonce;
 		this._postID = postID;
 		this._savingProminentWords = false;
-		this._previousProminentWords = [];
+		this._previousProminentWords = null;
 
 		this._postSaveEndpoint = postSaveEndpoint;
 		if ( postTypeBase !== null ) {
