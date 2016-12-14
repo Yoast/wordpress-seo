@@ -24,7 +24,8 @@ var personalPronounsAccusative = [ "mich", "dich", "ihn", "sie", "es", "uns", "e
 var personalPronounsDative = [ "mir", "dir", "ihm", "ihr", "uns", "euch", "ihnen" ];
 
 var demonstrativePronouns = [ "denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses",
-	"jene",	"jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches" ];
+	"jene",	"jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches", "derjenige", "desjenigen", "demjenigen",
+	"denjenigen", "diejenige", "derjenigen", "dasjenige", "diejenigen" ];
 
 var possessivePronouns = [ "mein", "meine", "meinem", "meiner", "meines", "dein", "deine", "deinem", "deiner",
 	"deines", "deinen", "sein", "seine", "seinem", "seiner", "seines", "ihr", "ihre", "ihrem", "ihren", "ihrer", "ihres",
@@ -168,16 +169,16 @@ var additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "def
 	"gegenwärtig", "nebenbei", "übrigens", "uebrigens", "anderswo", "woanders", "anderswohin", "anderorts", "besonders", "insbesondere",
 	"namentlich", "sonderlich", "ausdrücklich", "ausdruecklich", "vollends", "kürzlich", "kuerzlich", "jüngst", "juengst", "unlängst",
 	"unlaengst", "neuerdings", "neulich", "letztens", "neuerlich", "relativ", "verhältnismäßig", "verhaeltnismaessig", "deutlich", "klar",
-	"eindeutig", "offenbar", "anscheinend", "genau" ];
+	"eindeutig", "offenbar", "anscheinend", "genau", "u.a" ];
 
 var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weitaus", "einigermaßen", "einigermassen", "ganz", "schampar",
-	"schwer", "stief", "tierisch", "ungleich", "voll", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus" ];
+	"schwer", "stief", "tierisch", "ungleich", "voll", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus", "gar" ];
 
 // These verbs convey little meaning.
 var delexicalisedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
 	"gemeint", "stehe", "stehst", "steht" ];
 
-var delexicalisedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen" ];
+var delexicalisedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
@@ -185,9 +186,9 @@ var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"neuere", "neuester", "neuster", "neuesten", "neusten", "neuestem", "neustem", "neuestes", "neustes", "neueste", "neuste", "alt",
 	"alter", "alten", "altem", "altes", "alte", "ältere", "älteren", "älterer", "älteres", "ältester", "ältesten", "ältestem", "ältestes",
 	"älteste", "aeltere", "aelteren", "aelterer", "aelteres", "aeltester", "aeltesten", "aeltestem", "aeltestes", "aelteste", "gut", "guter",
-	"gutem", "guten", "gutes", "gute", "besserer", "besseren", "besserem", "besseres", "bester", "besten", "bestem", "bestes", "beste", "groß",
-	"großer", "großen", "großem", "großes", "große", "großerer", "großerem", "großeren", "großeres", "großere", "großter", "großten",
-	"großtem", "großtes", "großte", "gross", "grosser", "grossen", "grossem", "grosses", "grosse", "grosserer", "grosserem", "grosseren",
+	"gutem", "guten", "gutes", "gute", "besser", "besserer", "besseren", "besserem", "besseres", "bester", "besten", "bestem", "bestes",
+	"beste", "groß", "großer", "großen", "großem", "großes", "große", "großerer", "großerem", "großeren", "großeres", "großere", "großter",
+	"großten", "großtem", "großtes", "großte", "gross", "grosser", "grossen", "grossem", "grosses", "grosse", "grosserer", "grosserem", "grosseren",
 	"grosseres", "grossere", "grosster", "grossten", "grosstem", "grosstes", "grosste", "einfach", "einfacher", "einfachen", "einfachem",
 	"einfaches", "einfache", "einfacherer", "einfacheren", "einfacherem", "einfacheres", "einfachere", "einfachste", "einfachster",
 	"einfachsten", "einfachstes", "einfachstem", "schnell", "schneller", "schnellen", "schnellem", "schnelles", "schnelle", "schnellere",
@@ -226,7 +227,7 @@ var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"bestimmten", "bestimmtem", "bestimmtes", "bestimmte", "bestimmtere", "bestimmterer", "bestimmterem", "bestimmteren", "bestimmteres",
 	"bestimmtester", "bestimmtesten", "bestimmtestem", "bestimmtestes", "bestimmteste", "hauptsächlich", "hauptsaechlich", "überwiegend",
 	"ueberwiegend", "zumeist", "meistens", "kürzlich", "kuerzlich", "großenteils", "grossenteils", "meistenteils", "gewöhnlich",
-	"gewoehnlich", "häufig", "haeufig", "weithin", "ständig", "staendig", "laufend", "dauernd", "andauernd", "immerfort", "irgendwo",
+	"gewoehnlich", "häufig", "haeufig", "weithin", "ständig", "staendig", "laufend", "dauernd", "andauernd", "immerfort", "irgendwo", "irgendwann",
 	"ähnlicher", "ähnlichen", "ähnlichem", "ähnliches", "ähnliche", "ähnlich", "ähnlicherer", "ähnlicheren", "ähnlicherem", "ähnlicheres",
 	"ähnlichere", "ähnlichster", "ähnlichsten", "ähnlichstem", "ähnlichstes", "ähnlichste", "schlecht", "schlechter", "schlechten",
 	"schlechtem", "schlechtes", "schlechte", "schlechterer", "schlechteren", "schlechterem", "schlechteres", "schlechtere", "schlechtester",
@@ -242,6 +243,9 @@ var interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch"
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 var recipeWords = [ "g", "el", "es", "tl", "wg", "be", "bd", "cl", "dl", "dag", "do", "gl", "gr", "kg", "kl", "cb", "ccm", "l", "ms", "mg",
 	"ml", "mi", "pk", "pr", "pp", "sc", "sp", "st", "sk", "ta", "tr", "cm", "mass" ];
+
+var timeWords = [ "sekunde", "sekunden", "minute", "minuten", "uhr", "uhren", "tag", "tages", "tags", "tage", "tagen", "jahr", "jahres",
+	"jahrs", "jahre", "jahren" ];
 
 var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sache", "sachen", "weise", "weisen", "wahrscheinlichkeit",
 	"zeug", "zeuge", "zeuges", "zeugen", "mal", "einmal", "teil", "teile", "teiles", "teilen", "prozent", "prozents", "prozentes", "prozente",
@@ -259,20 +263,19 @@ module.exports = function() {
 		prepositions: prepositions,
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions, correlativeConjunctions ),
-		verbs: copula.concat( notFilteredPassiveAuxiliaries, interviewVerbs ),
+		verbs: copula.concat( interviewVerbs, otherAuxiliaries, filteredPassiveAuxiliaries ),
 		quantifiers: quantifiers,
 		relativePronouns: relativePronouns.concat( interrogativeProAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
-		beginningVerbs: otherAuxiliaries.concat( otherAuxiliariesInfinitive, filteredPassiveAuxiliaries, delexicalisedVerbs, delexicalisedVerbsInfinitive,
-			copulaInfinitive, interviewVerbsInfinitive ),
-		// These verbs that should be filtered at the beginning of prominent word combinations.
-		endVerbs: otherAuxiliaries.concat( filteredPassiveAuxiliaries, delexicalisedVerbs ),
+		beginningVerbs: otherAuxiliariesInfinitive.concat( notFilteredPassiveAuxiliaries,
+			delexicalisedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
-			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,
-			pronominalAdverbs, locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries,
-			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions,
-			interviewVerbs,	interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalisedVerbs, delexicalisedVerbsInfinitive,
-			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous ),
+			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,	pronominalAdverbs,
+			locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries,
+			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
+			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers,
+			delexicalisedVerbs, delexicalisedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
+			timeWords ),
 	};
 };

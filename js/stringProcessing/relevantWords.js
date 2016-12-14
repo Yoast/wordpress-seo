@@ -223,7 +223,7 @@ function filterCombinations( combinations, functionWords, locale ) {
 			break;
 		case "de":
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().endVerbs );
+			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			break;
 	}
 	return combinations;
