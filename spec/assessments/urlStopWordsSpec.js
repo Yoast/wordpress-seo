@@ -35,7 +35,7 @@ describe( "A stop word in url assessment", function() {
 	} );
 } );
 
-describe( "Checks if the assesment is applicable", function() {
+describe( "Checks if the assessment is applicable", function() {
 	it( "returns true for isApplicable for an English paper", function() {
 		var paper = new Paper( "", {locale: "en_EN"} );
 		expect( stopWordsInUrlAssessment.isApplicable( paper )).toBe( true );
