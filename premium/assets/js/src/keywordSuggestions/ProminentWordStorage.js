@@ -78,7 +78,7 @@ class ProminentWordStorage extends EventEmitter {
 					this._savingProminentWords = false;
 				} );
 			} );
-		} );
+		} ).catch( (e) => {} );
 	}
 
 	/**
