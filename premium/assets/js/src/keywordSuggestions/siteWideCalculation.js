@@ -1,8 +1,6 @@
 import { getRelevantWords } from "yoastseo/js/stringProcessing/relevantWords";
 import ProminentWordStorage from "./ProminentWordStorage";
 import ProminentWordCache from "./ProminentWordCache";
-import ProminentWordCachePopulator from "./ProminentWordCachePopulator";
-import RestApi from "../helpers/restApi";
 import EventEmitter from "events";
 
 let postStatuses = [ "future", "draft", "pending", "private", "publish" ].join( "," );
@@ -21,8 +19,9 @@ class SiteWideCalculation extends EventEmitter {
 	 * @param {string} nonce The nonce to use when using the REST API.
 	 * @param {number[]} allProminentWordIds A list of all prominent word IDs present on the site.
 	 * @param {string} listEndpoint The endpoint to call when retrieving posts or pages.
+	 * @param {ProminentWordCache} prominentWordCache The cache for prominent words.
 	 */
-	constructor( { totalPosts, rootUrl, nonce, allProminentWordIds, listEndpoint, recalculateAll = false } ) {
+	constructor( { totalPosts, rootUrl, nonce, allProminentWordIds, listEndpoint, prominentWordCache = null, recalculateAll = false } ) {
 		super();
 
 		this._perPage = 10;
@@ -36,10 +35,10 @@ class SiteWideCalculation extends EventEmitter {
 		this._allProminentWordIds = allProminentWordIds;
 		this._listEndpoint = listEndpoint;
 
-		let restApi =  new RestApi( { rootUrl, nonce } );
-
-		this._prominentWordCache = new ProminentWordCache();
-		this._prominentWordCachePopulator = new ProminentWordCachePopulator( { cache: this._prominentWordCache, restApi: restApi } );
+		if ( prominentWordCache === null ) {
+			prominentWordCache = new ProminentWordCache();
+		}
+		this._prominentWordCache = prominentWordCache;
 
 		this.processPost = this.processPost.bind( this );
 		this.continueProcessing = this.continueProcessing.bind( this );
@@ -54,8 +53,7 @@ class SiteWideCalculation extends EventEmitter {
 	 * @returns {void}
 	 */
 	start() {
-		this._prominentWordCachePopulator.populate()
-			.then( this.calculate );
+		this.calculate();
 	}
 
 	/**

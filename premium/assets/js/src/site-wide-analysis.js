@@ -1,10 +1,14 @@
 /* global yoastSiteWideAnalysisData */
 
 import ProminentWordCalculation from "./keywordSuggestions/siteWideCalculation";
+import ProminentWordCache from "./keywordSuggestions/ProminentWordCache";
+import ProminentWordCachePopulator from "./keywordSuggestions/ProminentWordCachePopulator";
+import RestApi from "./helpers/restApi";
 
 let settings = yoastSiteWideAnalysisData.data;
 
 let progressContainer, completedContainer;
+let prominentWordCache;
 
 /**
  * Recalculates posts
@@ -23,6 +27,7 @@ function recalculatePosts() {
 			nonce: settings.restApi.nonce,
 			allProminentWordIds: settings.allWords,
 			listEndpoint: rootUrl + "wp/v2/posts/",
+			prominentWordCache,
 		} );
 
 		postsCalculation.on( "processedPost", ( postCount ) => {
@@ -53,6 +58,7 @@ function recalculatePages() {
 			nonce: settings.restApi.nonce,
 			allProminentWordIds: settings.allWords,
 			listEndpoint: rootUrl + "wp/v2/pages/",
+			prominentWordCache,
 		} );
 
 		pagesCalculation.on( "processedPost", ( postCount ) => {
@@ -84,7 +90,13 @@ function showCompletion() {
 function startRecalculating() {
 	progressContainer.show();
 
-	recalculatePosts()
+	let restApi = new RestApi( { rootUrl: settings.restApi.root, nonce: settings.restApi.nonce } );
+
+	prominentWordCache = new ProminentWordCache();
+	let populator = new ProminentWordCachePopulator( { cache: prominentWordCache, restApi: restApi } );
+
+	populator.populate()
+		.then( recalculatePosts )
 		.then( recalculatePages )
 		.then( showCompletion );
 }
