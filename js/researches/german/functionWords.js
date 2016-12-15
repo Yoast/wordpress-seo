@@ -1,5 +1,5 @@
 var filteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().filteredAuxiliaries;
-var notFilteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().notFilteredAuxiliaries;
+var notFilteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().infinitiveAuxiliaries;
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
@@ -197,10 +197,10 @@ var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"alter", "alten", "altem", "altes", "alte", "ältere", "älteren", "älterer", "älteres", "ältester", "ältesten", "ältestem", "ältestes",
 	"älteste", "aeltere", "aelteren", "aelterer", "aelteres", "aeltester", "aeltesten", "aeltestem", "aeltestes", "aelteste", "gut", "guter",
 	"gutem", "guten", "gutes", "gute", "besser", "besserer", "besseren", "besserem", "besseres", "bester", "besten", "bestem", "bestes",
-	"beste", "größte", "grösste", "groß", "großer", "großen", "großem", "großes", "große", "großerer", "großerem", "großeren", "großeres", "großere", "großter",
-	"großten", "großtem", "großtes", "großte", "gross", "grosser", "grossen", "grossem", "grosses", "grosse", "grosserer", "grosserem", "grosseren",
-	"grosseres", "grossere", "grosster", "grossten", "grosstem", "grosstes", "grosste", "einfach", "einfacher", "einfachen", "einfachem",
-	"einfaches", "einfache", "einfacherer", "einfacheren", "einfacherem", "einfacheres", "einfachere", "einfachste", "einfachster",
+	"beste", "größte", "grösste", "groß", "großer", "großen", "großem", "großes", "große", "großerer", "großerem", "großeren", "großeres", "großere",
+	"großter", "großten", "großtem", "großtes", "großte", "gross", "grosser", "grossen", "grossem", "grosses", "grosse", "grosserer", "grosserem",
+	"grosseren",	"grosseres", "grossere", "grosster", "grossten", "grosstem", "grosstes", "grosste", "einfach", "einfacher", "einfachen",
+	"einfachem",	"einfaches", "einfache", "einfacherer", "einfacheren", "einfacherem", "einfacheres", "einfachere", "einfachste", "einfachster",
 	"einfachsten", "einfachstes", "einfachstem", "schnell", "schneller", "schnellen", "schnellem", "schnelles", "schnelle", "schnellere",
 	"schnellerer", "schnelleren", "schnelleres", "schnellerem", "schnellster", "schnellste", "schnellsten", "schnellstem", "schnellstes",
 	"weiter", "weit", "weiten", "weitem", "weites", "weiterer", "weiteren", "weiterem", "weiteres", "weitere", "weitester", "weitesten",

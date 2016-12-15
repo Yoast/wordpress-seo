@@ -68,7 +68,7 @@ var otherAuxiliaries = [
 	"erhalte",
 	"erhalten",
 	"erhielten",
-	"erhielte"
+	"erhielte",
 ];
 
 // These first person plural auxiliaries also function as an infinitive.
