@@ -1,3 +1,9 @@
+### 4.0.1 December 14th, 2016
+* Fixes a JavaScript error when editing pages in the admin, this fixes conflicts with page builders.
+* Fixes an uncaught (in promise) error when using the prominent words in combinations with Fusion builder or Divi themes.
+* Adds link suggestions meta box to pages.
+* Fixes a bug where prominent words would be saved too often when editing a post.
+
 ### 4.0.0 December 13th, 2016
 * Adds a metabox "Yoast internal linking" that contains link suggestions for the current post.
 * Adds import functionality for Safe Redirect Manager.

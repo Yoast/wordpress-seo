@@ -1,6 +1,7 @@
 /* global jQuery, wpseoPremiumMetaboxData, wpseoAdminL10n */
 
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
+import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
@@ -10,12 +11,9 @@ let settings = wpseoPremiumMetaboxData.data;
 let contentEndpointsAvailable = wpseoPremiumMetaboxData.data.restApi.available && wpseoPremiumMetaboxData.data.restApi.contentEndpointsAvailable;
 
 let multiKeyword = new MultiKeyword();
-let prominentWordStorage = new ProminentWordStorage( { postID: settings.postID, rootUrl: settings.restApi.root, nonce: settings.restApi.nonce } );
-let focusKeywordSuggestions = new FocusKeywordSuggestions( {
-	insightsEnabled: settings.insightsEnabled === "enabled",
-	prominentWordStorage,
-	contentEndpointsAvailable,
-} );
+
+let prominentWordStorage = new ProminentWordNoStorage();
+let focusKeywordSuggestions;
 
 let linkSuggestions;
 
@@ -37,6 +35,21 @@ function initializeMetabox() {
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
+	if ( settings.linkSuggestionsAvailable ) {
+		prominentWordStorage = new ProminentWordStorage( {
+			postID: settings.postID,
+			rootUrl: settings.restApi.root,
+			nonce: settings.restApi.nonce,
+			postTypeBase: settings.restApi.postTypeBase,
+		} );
+	}
+
+	focusKeywordSuggestions = new FocusKeywordSuggestions( {
+		insightsEnabled: settings.insightsEnabled === "enabled",
+		prominentWordStorage,
+		contentEndpointsAvailable,
+	} );
+
 	// Initialize prominent words watching and saving.
 	if ( settings.insightsEnabled === "enabled" ) {
 		focusKeywordSuggestions.initializeDOM();
@@ -53,6 +66,11 @@ function initializeMetabox() {
  * @returns {void}
  */
 function initializeLinkSuggestionsMetabox() {
+	if ( ! settings.linkSuggestionsAvailable ) {
+		return;
+	}
+
+
 	linkSuggestions = new LinkSuggestions( {
 		target: document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
 		rootUrl: settings.restApi.root,
@@ -70,7 +88,13 @@ function initializeLinkSuggestionsMetabox() {
  * @returns {void}
  */
 function initializeDOM() {
-	window.jQuery( window ).on( "YoastSEO:ready", initializeMetabox );
+	window.jQuery( window ).on( "YoastSEO:ready", () => {
+		try {
+			initializeMetabox();
+		} catch ( caughtError ) {
+			console.error( caughtError );
+		}
+	} );
 }
 
 window.jQuery( initializeDOM );

@@ -42,7 +42,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	public function register_assets() {
 		wp_register_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox',
-			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-400' . WPSEO_CSSJS_SUFFIX . '.js',
+			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-401' . WPSEO_CSSJS_SUFFIX . '.js',
 			array( 'jquery', 'wp-util', 'underscore' ),
 			WPSEO_VERSION
 		);
@@ -73,6 +73,9 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 			$insights_enabled = false;
 		}
 
+		$post = $this->get_post();
+		$post_type = get_post_type_object( $post->post_type );
+
 		$data = array(
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
 			'postID' => $this->get_post_ID(),
@@ -81,12 +84,23 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'contentEndpointsAvailable' => WPSEO_Utils::are_content_endpoints_available(),
 				'root' => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
+				'postTypeBase' => $post_type->rest_base,
 			),
+			'linkSuggestionsAvailable' => $this->link_suggestions->is_available( $post->post_type ),
 			'linkSuggestions' => $this->link_suggestions->get_js_data(),
 		);
 
 		// Use an extra level in the array to preserve booleans. WordPress sanitizes scalar values in the first level of the array.
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', 'wpseoPremiumMetaboxData', array( 'data' => $data ) );
+	}
+
+	/**
+	 * Returns the post for the current admin page.
+	 *
+	 * @return WP_Post The post for the current admin page.
+	 */
+	protected function get_post() {
+		return get_post( $this->get_post_ID() );
 	}
 
 	/**
