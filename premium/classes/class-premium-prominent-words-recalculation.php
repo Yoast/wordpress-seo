@@ -93,24 +93,35 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					esc_html_e( 'Run the analysis now to calculate the prominent words of all your posts. The initial indexation may take a while, depending on the size of your site.', 'wordpress-seo-premium' );
 				?>
 			</p>
-			<div class="yoast-js-prominent-words-progress">
+			<div class="yoast-js-prominent-words-info notice notice-info inline">
+				<p>
 				<?php
-					esc_html_e( 'Currently calculating prominent words.', 'wordpress-seo-premium' );
+					esc_html_e( 'Once started, the calculation will be incomplete if you navigate away from this page.', 'wordpress-seo-premium' );
+				?>
+				</p>
+			</div>
+			<div class="yoast-js-prominent-words-progress notice notice-info inline">
+				<p>
+				<?php
+					esc_html_e( 'Calculation in progress.', 'wordpress-seo-premium' );
 					echo ' ';
 					echo sprintf(
-						esc_html( _n( 'Calculated %1$s out of %2$s post', 'Calculated %1$s out of %2$s posts', $total, 'wordpress-seo-premium' ) ),
+						esc_html( _n( 'Analyzed %1$s out of %2$s post', 'Analyzed %1$s out of %2$s posts.', $total, 'wordpress-seo-premium' ) ),
 						"<span class='yoast-js-prominent-words-progress-current'>0</span>",
 						$total
 					);
 				?>
+				</p>
 			</div>
-			<div class="yoast-js-prominent-words-completed">
+			<div class="yoast-js-prominent-words-completed notice notice-success inline">
+				<p>
 				<?php echo esc_html(
 					sprintf(
-						_n( 'Calculated prominent words for %1$s post', 'Calculated prominent words for %1$s posts', $total, 'wordpress-seo-premium' ),
+						_n( 'Calculated prominent words for %1$s post', 'Calculated prominent words for %1$s posts.', $total, 'wordpress-seo-premium' ),
 						$total
 					)
 				); ?>
+			</p>
 			</div>
 			<button type="button" class="button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all"><?php esc_html_e( 'Calculate prominent words for all posts', 'wordpress-seo-premium' ); ?></button>
 		</section>

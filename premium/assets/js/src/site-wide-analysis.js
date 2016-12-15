@@ -6,7 +6,7 @@ import a11ySpeak from "a11y-speak";
 let settings = yoastSiteWideAnalysisData.data;
 
 let prominentWordCalculation = null;
-let progressContainer, completedContainer;
+let infoContainer, progressContainer, completedContainer;
 
 /**
  * Start recalculating.
@@ -23,6 +23,7 @@ function startRecalculating( postCount, recalculateAll = true ) {
 
 	let progressElement = jQuery( ".yoast-js-prominent-words-progress-current" );
 
+	infoContainer.hide();
 	progressContainer.show();
 
 	prominentWordCalculation = new ProminentWordCalculation( {
@@ -63,6 +64,8 @@ function init() {
 
 		jQuery( this ).hide();
 	} );
+
+	infoContainer = jQuery( ".yoast-js-prominent-words-info" );
 
 	progressContainer = jQuery( ".yoast-js-prominent-words-progress" );
 	progressContainer.hide();
