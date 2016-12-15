@@ -20,8 +20,9 @@ class SiteWideCalculation extends EventEmitter {
 	 * @param {string} rootUrl The root REST API URL.
 	 * @param {string} nonce The nonce to use when using the REST API.
 	 * @param {number[]} allProminentWordIds A list of all prominent word IDs present on the site.
+	 * @param {string} listEndpoint The endpoint to call when retrieving posts or pages.
 	 */
-	constructor( { totalPosts, rootUrl, nonce, allProminentWordIds, recalculateAll = false } ) {
+	constructor( { totalPosts, rootUrl, nonce, allProminentWordIds, listEndpoint, recalculateAll = false } ) {
 		super();
 
 		this._perPage = 10;
@@ -33,6 +34,7 @@ class SiteWideCalculation extends EventEmitter {
 		this._nonce = nonce;
 		this._recalculateAll = recalculateAll;
 		this._allProminentWordIds = allProminentWordIds;
+		this._listEndpoint = listEndpoint;
 
 		let restApi =  new RestApi( { rootUrl, nonce } );
 
@@ -76,7 +78,7 @@ class SiteWideCalculation extends EventEmitter {
 
 		jQuery.ajax( {
 			type: "GET",
-			url: this._rootUrl + "wp/v2/posts/",
+			url: this._listEndpoint,
 			beforeSend: ( xhr ) => {
 				xhr.setRequestHeader( "X-WP-Nonce", this._nonce );
 			},
