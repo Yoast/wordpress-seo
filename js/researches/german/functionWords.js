@@ -142,7 +142,7 @@ var prepositions = [ "a", "à", "ab", "abseits", "abzüglich", "abzueglich", "al
 	"zuwider", "zuzüglich",	"zuzueglich", "zwecks", "zwischen" ];
 
 // Many coordinating conjunctions are already included in the transition words list.
-var coordinatingConjunctions = [ "und", "oder", "als" ];
+var coordinatingConjunctions = [ "und", "oder", "als", "umso" ];
 
 /*
 'Entweder' is part of 'wntweder...oder', 'sowohl', 'auch' is part of 'sowohl als...auch', 'weder' and 'noch' are part of 'weder...noch',
@@ -197,7 +197,7 @@ var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"alter", "alten", "altem", "altes", "alte", "ältere", "älteren", "älterer", "älteres", "ältester", "ältesten", "ältestem", "ältestes",
 	"älteste", "aeltere", "aelteren", "aelterer", "aelteres", "aeltester", "aeltesten", "aeltestem", "aeltestes", "aelteste", "gut", "guter",
 	"gutem", "guten", "gutes", "gute", "besser", "besserer", "besseren", "besserem", "besseres", "bester", "besten", "bestem", "bestes",
-	"beste", "groß", "großer", "großen", "großem", "großes", "große", "großerer", "großerem", "großeren", "großeres", "großere", "großter",
+	"beste", "größte", "grösste", "groß", "großer", "großen", "großem", "großes", "große", "großerer", "großerem", "großeren", "großeres", "großere", "großter",
 	"großten", "großtem", "großtes", "großte", "gross", "grosser", "grossen", "grossem", "grosses", "grosse", "grosserer", "grosserem", "grosseren",
 	"grosseres", "grossere", "grosster", "grossten", "grosstem", "grosstes", "grosste", "einfach", "einfacher", "einfachen", "einfachem",
 	"einfaches", "einfache", "einfacherer", "einfacheren", "einfacherem", "einfacheres", "einfachere", "einfachste", "einfachster",
@@ -236,7 +236,7 @@ var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"gleicheren", "gleicherem", "gleicheres", "gleichere", "gleichster", "gleichsten", "gleichstem", "gleichstes", "gleichste", "bestimmter",
 	"bestimmten", "bestimmtem", "bestimmtes", "bestimmte", "bestimmtere", "bestimmterer", "bestimmterem", "bestimmteren", "bestimmteres",
 	"bestimmtester", "bestimmtesten", "bestimmtestem", "bestimmtestes", "bestimmteste", "hauptsächlich", "hauptsaechlich", "überwiegend",
-	"ueberwiegend", "zumeist", "meistens", "kürzlich", "kuerzlich", "großenteils", "grossenteils", "meistenteils", "gewöhnlich",
+	"ueberwiegend", "zumeist", "meistens", "meisten", "kürzlich", "kuerzlich", "großenteils", "grossenteils", "meistenteils", "gewöhnlich",
 	"gewoehnlich", "häufig", "haeufig", "weithin", "ständig", "staendig", "laufend", "dauernd", "andauernd", "immerfort", "irgendwo", "irgendwann",
 	"ähnlicher", "ähnlichen", "ähnlichem", "ähnliches", "ähnliche", "ähnlich", "ähnlicherer", "ähnlicheren", "ähnlicherem", "ähnlicheres",
 	"ähnlichere", "ähnlichster", "ähnlichsten", "ähnlichstem", "ähnlichstes", "ähnlichste", "schlecht", "schlechter", "schlechten",
@@ -263,9 +263,9 @@ var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 	"zeug", "zeuge", "zeuges", "zeugen", "mal", "einmal", "teil", "teile", "teiles", "teilen", "prozent", "prozents", "prozentes", "prozente",
 	"prozenten", "beispiel", "beispiele", "beispieles", "beispiels", "beispielen", "aspekt", "aspekte", "aspektes", "aspekts", "aspekten",
 	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "falls", "fälle", "fällen",
-	"faelle", "faellen", "mensch", "menschen" ];
+	"faelle", "faellen", "mensch", "menschen", "leute" ];
 
-var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "%", "nicht", "amen", "ja", "nein" ];
+var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "%", "nicht", "amen", "ja", "nein", "euro", "prozent" ];
 
 module.exports = function() {
 	return {
