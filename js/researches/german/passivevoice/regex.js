@@ -1,7 +1,8 @@
 var verbsBeginningWithGeRegex = /^((ge)\S+t($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>]))/ig;
-var verbsBeginningWithErVerEntBeZerRegex = /^((be|ent|er|her|ver|zer)\S+t($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>]))/ig;
+var verbsBeginningWithErVerEntBeZerHerUberRegex = /^(((be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>]))/ig;
 var verbsWithGeInMiddleRegex = /(ab|an|auf|aus|vor|wieder|zurück)(ge)\S+t($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var verbsWithErVerEntBeZerInMiddleRegex = /(ab|an|auf|aus|vor|wieder|zurück)(be|ent|er|her|ver|zer)\S+t($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+var verbsWithErVerEntBeZerHerUberInMiddleRegex =
+	/((ab|an|auf|aus|vor|wieder|zurück)(be|ent|er|her|ver|zer|über|ueber)\S+([^s]t|sst))($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var verbsEndingWithIertRegex = /\S+iert($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 
@@ -21,8 +22,8 @@ var verbsBeginningWithGe = function( word ) {
  * @param {string} word The word to match.
  * @returns {Array} A list with matches.
  */
-var verbsBeginningWithErVerEntBeZer = function( word ) {
-	return word.match( verbsBeginningWithErVerEntBeZerRegex ) || [];
+var verbsBeginningWithErVerEntBeZerHerUber = function( word ) {
+	return word.match( verbsBeginningWithErVerEntBeZerHerUberRegex ) || [];
 };
 
 /**
@@ -42,8 +43,8 @@ var verbsWithGeInMiddle = function( word ) {
  * @param {string} word The word to match.
  * @returns {Array} A list with matches.
  */
-var verbsWithErVerEntBeZerInMiddle = function( word ) {
-	return word.match( verbsWithErVerEntBeZerInMiddleRegex ) || [];
+var verbsWithErVerEntBeZerHerUberInMiddle = function( word ) {
+	return word.match( verbsWithErVerEntBeZerHerUberInMiddleRegex ) || [];
 };
 
 /**
@@ -69,9 +70,9 @@ var exceptions = function( word ) {
 module.exports = function() {
 	return {
 		verbsBeginningWithGe: verbsBeginningWithGe,
-		verbsBeginningWithErVerEntBeZer: verbsBeginningWithErVerEntBeZer,
+		verbsBeginningWithErVerEntBeZerHerUber: verbsBeginningWithErVerEntBeZerHerUber,
 		verbsWithGeInMiddle: verbsWithGeInMiddle,
-		verbsWithErVerEntBeZerInMiddle: verbsWithErVerEntBeZerInMiddle,
+		verbsWithErVerEntBeZerHerUberInMiddle: verbsWithErVerEntBeZerHerUberInMiddle,
 		verbsEndingWithIert: verbsEndingWithIert,
 		exceptions: exceptions,
 	};

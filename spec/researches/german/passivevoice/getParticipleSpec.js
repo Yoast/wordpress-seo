@@ -12,7 +12,7 @@ describe("Test for matching German participles", function(){
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "wird" ] );
 	});
 
-	it("returns matched participles with 'be' in the middle.", function(){
+	it("returns matched participles with 'be' in the middle and -[^s]t at the end.", function(){
 		var sentence = "Es wird vorbereitet.";
 		var auxiliaries = [ "wird" ];
 		var foundParticiples = getParticiples( sentence, auxiliaries );
@@ -34,7 +34,7 @@ describe("Test for matching German participles", function(){
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "wurde" ] );
 	});
 
-	it("returns matched participles with 'er' at the beginning.", function(){
+	it("returns matched participles with 'er' at the beginning and -[^s]t at the end.", function(){
 		var sentence = "Das Passiv wurde uns erklärt.";
 		var auxiliaries = [ "wurde" ];
 		var foundParticiples = getParticiples( sentence, auxiliaries );
@@ -43,6 +43,17 @@ describe("Test for matching German participles", function(){
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "Das Passiv wurde uns erklärt." );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "wurde" ] );
+	});
+
+	it("returns matched participles with 'ver' at the beginning and -sst at the end.", function(){
+		var sentence = "Er wird veranlasst.";
+		var auxiliaries = [ "wird" ];
+		var foundParticiples = getParticiples( sentence, auxiliaries );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "veranlasst" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "er/ver/ent/be/zer/her at beginning" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "Er wird veranlasst." );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "wird" ] );
 	});
 
 	it("returns matched participles with 'iert'.", function(){
@@ -58,6 +69,12 @@ describe("Test for matching German participles", function(){
 
 	it("returns an empty array when there is no participle", function(){
 		var sentence = "Yahoo prüfte seitdem den Sachverhalt.";
+		var foundParticiples = getParticiples( sentence );
+		expect( foundParticiples ).toEqual( [] );
+	});
+
+	it("returns an empty array when there is no participle because the verb ends in [^s]st.", function(){
+		var sentence = "De verhilfst.";
 		var foundParticiples = getParticiples( sentence );
 		expect( foundParticiples ).toEqual( [] );
 	});

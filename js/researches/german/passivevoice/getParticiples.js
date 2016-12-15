@@ -1,9 +1,9 @@
 var getWords = require( "../../../stringProcessing/getWords.js" );
 var regexFunction = require( "./regex.js" )();
-var verbsBeginningWithErVerEntBeZerHer = regexFunction.verbsBeginningWithErVerEntBeZer;
+var verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
 var verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
 var verbsWithGeInMiddle = regexFunction.verbsWithGeInMiddle;
-var verbsWithErVerEntBeZerHerInMiddle = regexFunction.verbsWithErVerEntBeZerInMiddle;
+var verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZerHerUberInMiddle;
 var verbsEndingWithIert = regexFunction.verbsEndingWithIert;
 var irregularParticiples = require( "./irregulars.js" )();
 
@@ -37,13 +37,13 @@ module.exports = function( sentencePartText, auxiliaries ) {
 			);
 			return;
 		}
-		if ( verbsBeginningWithErVerEntBeZerHer( word ).length !== 0 ) {
+		if ( verbsBeginningWithErVerEntBeZerHerUber( word ).length !== 0 ) {
 			foundParticiples.push(
 				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her at beginning" } )
 			);
 			return;
 		}
-		if ( verbsWithErVerEntBeZerHerInMiddle( word ).length !== 0 ) {
+		if ( verbsWithErVerEntBeZerHerUberInMiddle( word ).length !== 0 ) {
 			foundParticiples.push(
 				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her in the middle" } )
 			);

@@ -1,5 +1,5 @@
 var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
-var auxiliaries = require( "./passivevoice/auxiliaries.js" )().all;
+var auxiliaries = require( "./passivevoice/auxiliaries.js" )().allAuxiliaries;
 var getParticiples = require( "./passivevoice/getParticiples.js" );
 
 var determineSentencePartIsPassive =  require( "../passivevoice/determineSentencePartIsPassive.js" );
