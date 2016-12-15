@@ -57,7 +57,7 @@ var indefinitePronouns = [ "andere", "anderer", "anderem", "anderen", "anderes",
 	"anderm", "andre", "andrer", "andres", "beide", "beides", "beidem", "beider", "beiden", "etwas", "irgendetwas",
 	"irgendein", "irgendeinen", "irgendeinem", "irgendeines", "irgendeine", "irgendeiner", "irgendwas", "irgendwessen",
 	"irgendwer", "irgendwen", "irgendwem", "irgendwessen", "irgendwelche", "irgendwelcher", "irgendwelchem",
-	"irgendwelchen", "irgendwelches", "irgendjemand", "irgendjemanden", "irgendjemandem", "irgendjemandes",
+	"irgendwelchen", "irgendwelches", "irgendjemand", "irgendjemanden", "irgendjemandem", "irgendjemandes", "irgendwie",
 	"wer", "wen", "wem", "wessen", "was", "wessen", "welchen", "welchem", "welche", "jeder", "jedes", "jedem", "jeden",
 	"jede", "jedweder", "jedweden", "jedwedem", "jedwedes", "jedwede", "jeglicher", "jeglichen", "jeglichem",
 	"jegliches", "jegliche", "jedermann", "jedermanns", "jemand", "jemanden", "jemandem", "jemands",  "jemandes",
@@ -179,7 +179,7 @@ var additionalTransitionWords = [ "etwa", "absolut", "unbedingt", "wieder", "def
 	"gegenwärtig", "nebenbei", "übrigens", "uebrigens", "anderswo", "woanders", "anderswohin", "anderorts", "besonders", "insbesondere",
 	"namentlich", "sonderlich", "ausdrücklich", "ausdruecklich", "vollends", "kürzlich", "kuerzlich", "jüngst", "juengst", "unlängst",
 	"unlaengst", "neuerdings", "neulich", "letztens", "neuerlich", "relativ", "verhältnismäßig", "verhaeltnismaessig", "deutlich", "klar",
-	"eindeutig", "offenbar", "anscheinend", "genau", "u.a", "damals" ];
+	"eindeutig", "offenbar", "anscheinend", "genau", "u.a", "damals", "zumindest" ];
 
 var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weitaus", "einigermaßen", "einigermassen", "ganz", "schampar",
 	"schwer", "stief", "tierisch", "ungleich", "voll", "ziemlich", "übelst", "uebelst", "stark", "volkommen", "durchaus", "gar" ];
@@ -188,7 +188,7 @@ var intensifiers = [ "sehr", "recht", "überaus", "ueberaus", "ungemein", "weita
 var delexicalisedVerbs = [ "geschienen", "meine", "meinst", "meint", "meinen", "meinest", "meinet", "meinte", "meintest", "meinten", "meintet",
 	"gemeint", "stehe", "stehst", "steht" ];
 
-var delexicalisedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen" ];
+var delexicalisedVerbsInfinitive = [ "geschienen", "meinen", "tun", "machen", "stehen", "wissen", "gehen", "kommen" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
@@ -247,7 +247,8 @@ var generalAdjectivesAdverbs = [ "einerlei", "egal", "neu", "neue", "neuer", "ne
 	"tolleres", "tollster", "tollsten", "tollstem", "tollstes", "tollste", "super", "mögliche", "möglicher", "mögliches", "möglichen",
 	"möglichem", "möglich", "moegliche", "moeglicher", "moegliches", "moeglichen", "moeglichem", "moeglich", "nächsten", "naechsten",
 	"voll", "voller", "vollen", "vollem", "volle", "volles", "vollerer", "volleren", "vollerem", "vollere", "volleres", "vollster",
-	"vollsten", "vollstem", "vollste", "vollstes", "außen", "ganzer", "ganzen", "ganzem", "ganze", "ganzes", "gerne", "oben", "unten" ];
+	"vollsten", "vollstem", "vollste", "vollstes", "außen", "ganzer", "ganzen", "ganzem", "ganze", "ganzes", "gerne", "oben", "unten", "zurück",
+	"zurueck" ];
 
 var interjections = [  "ach", "aha", "oh", "au", "bäh", "baeh", "igitt", "huch", "hurra", "hoppla", "nanu", "oha", "olala", "pfui", "tja",
 	"uups", "wow", "grr", "äh", "aeh", "ähm", "aeh", "öhm", "oehm", "hm", "mei", "nun", "tja", "mhm", "okay", "richtig", "eijeijeijei" ];
@@ -265,7 +266,7 @@ var vagueNouns = [ "ding", "dinge", "dinges", "dinger", "dingern", "dingen", "sa
 	"idee", "ideen", "ahnung", "ahnungen", "thema", "themas", "themata", "themen", "fall", "falle", "falles", "falls", "fälle", "fällen",
 	"faelle", "faellen", "mensch", "menschen", "leute" ];
 
-var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "%", "nicht", "amen", "ja", "nein", "euro", "prozent" ];
+var miscellaneous = [ "nix", "nixe", "nixes", "nixen", "usw.", "%", "nicht", "amen", "ja", "nein", "euro", "prozent", "was" ];
 
 module.exports = function() {
 	return {

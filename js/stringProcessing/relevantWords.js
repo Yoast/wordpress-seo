@@ -23,8 +23,8 @@ var densityUpperLimit = 0.03;
 var relevantWordLimit = 100;
 var wordCountLowerLimit = 200;
 
-// En dash, em dash and hyphen-minus.
-var specialCharacters = [ "–", "—", "-" ];
+// En dash, em dash, hyphen-minus, and hash.
+var specialCharacters = [ "–", "—", "-", "#" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
