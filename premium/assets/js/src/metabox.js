@@ -51,9 +51,7 @@ function initializeMetabox() {
 	} );
 
 	// Initialize prominent words watching and saving.
-	if ( settings.insightsEnabled === "enabled" ) {
-		focusKeywordSuggestions.initializeDOM();
-	}
+	focusKeywordSuggestions.initializeDOM();
 
 	if ( contentLanguageSupported() && contentEndpointsAvailable ) {
 		initializeLinkSuggestionsMetabox();
