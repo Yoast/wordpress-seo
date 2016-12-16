@@ -46,7 +46,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 				printf(
 					/* translators: %1$s expands to a link start tag to the Yoast.com website, %2$s is the link closing tag. */
 					__( 'The Site wide analysis can help you get the most out of %1$sthe internal linking tool%2$s and calculate the most prominent words for your complete site.', 'wordpress-seo-premium' ),
-					'<a href="https://yoast.com/why-use-yoast-internal-linking/" target="_blank">',
+					'<a href="https://yoa.st/oj" target="_blank">',
 					'</a>'
 				);
 				?>
