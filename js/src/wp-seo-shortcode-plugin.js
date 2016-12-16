@@ -73,7 +73,7 @@
 	 * @returns {string} The text with removed unknown shortcodes.
 	 */
 	YoastShortcodePlugin.prototype.removeUnkownShortCodes = function( data ) {
-		data = data.replace( /\[[^\s0-9][/a-z0-9_=\-"'\s]+\]/g, "" );
+		data = data.replace( /\[[^\s0-9][/a-z0-9_=\-"'\s.,:;]+\]/g, "" );
 		return data;
 	};
 
