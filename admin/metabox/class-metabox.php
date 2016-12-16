@@ -905,7 +905,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 				$asset_manager->enqueue_script( 'featured-image' );
 
-				$featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
+				$featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
 				wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
 			}
 		}

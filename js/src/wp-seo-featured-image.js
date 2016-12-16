@@ -3,6 +3,7 @@
 /* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
+import a11ySpeak from "a11y-speak";
 
 ( function( $ ) {
 	"use strict";
@@ -98,9 +99,11 @@
 				var $postImageDiv = $( "#postimagediv" );
 				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + "</p></div>" ).insertBefore( $postImageDiv );
 				$postImageDiv.css( {
-					border: "solid #dd3d36",
+					border: "solid #dc3232",
 					borderWidth: "3px 4px 4px 4px",
 				} );
+
+				a11ySpeak( wpseoFeaturedImageL10n.featured_image_notice, "assertive" );
 			}
 		} else {
 			// Force reset warning
