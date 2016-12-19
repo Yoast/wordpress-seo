@@ -43,9 +43,13 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			<h2><?php esc_html_e( 'Site wide analysis', 'wordpress-seo-premium' ); ?></h2>
 			<h3><?php esc_html_e( 'Prominent words', 'wordpress-seo-premium' ); ?></h3>
 			<?php
-			$total_posts_with_prominent_words = $this->count_posts_prominent_words();
-			$total_posts_without_prominent_words = $this->count_posts_without_prominent_words();
+			$total_posts_with_prominent_words = $this->count_posts_prominent_words( 'post' );
+			$total_posts_without_prominent_words = $this->count_posts_without_prominent_words( 'post' );
 			$total = ( $total_posts_without_prominent_words + $total_posts_with_prominent_words );
+
+			$total_pages_with_prominent_words = $this->count_posts_prominent_words( 'page' );
+			$total_pages_without_prominent_words = $this->count_posts_without_prominent_words( 'page' );
+			$total_pages = ( $total_pages_without_prominent_words + $total_pages_with_prominent_words );
 			?>
 			<ul>
 				<li>
@@ -77,15 +81,50 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 						)
 					); ?>
 				</li>
+				<li>
+					<?php
+					echo esc_html(
+						sprintf(
+							_n( '%d total page', '%d total pages', $total_pages, 'wordpress-seo-premium' ),
+							$total_pages
+						)
+					);
+					?>
+				</li>
+				<li>
+					<?php
+					echo esc_html(
+						sprintf(
+							_n( '%d page with prominent words', '%d pages with prominent words', $total_pages_with_prominent_words, 'wordpress-seo-premium' ),
+							$total_pages_with_prominent_words
+						)
+					);
+					?>
+				</li>
+				<li>
+					<?php
+					echo esc_html(
+						sprintf(
+							_n( '%d page without prominent words', '%d pages without prominent words', $total_pages_without_prominent_words, 'wordpress-seo-premium' ),
+							$total_pages_without_prominent_words
+						)
+					); ?>
+				</li>
 			</ul>
 			<div class="yoast-js-prominent-words-progress">
 				<?php
 					esc_html_e( 'Currently calculating prominent words.', 'wordpress-seo-premium' );
-					echo ' ';
+					echo '<br />';
 					echo sprintf(
 						esc_html( _n( 'Calculated %1$s out of %2$s post', 'Calculated %1$s out of %2$s posts', $total, 'wordpress-seo-premium' ) ),
 						"<span class='yoast-js-prominent-words-progress-current'>0</span>",
 						$total
+					);
+					echo '<br />';
+					echo sprintf(
+						esc_html( _n( 'Calculated %1$s out of %2$s page', 'Calculated %1$s out of %2$s pages', $total_pages, 'wordpress-seo-premium' ) ),
+						"<span class='yoast-js-prominent-words-pages-progress-current'>0</span>",
+						$total_pages
 					);
 				?>
 			</div>
@@ -94,6 +133,13 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					sprintf(
 						_n( 'Calculated prominent words for %1$s post', 'Calculated prominent words for %1$s posts', $total, 'wordpress-seo-premium' ),
 						$total
+					)
+				); ?>
+				<br />
+				<?php echo esc_html(
+					sprintf(
+						_n( 'Calculated prominent words for %1$s page', 'Calculated prominent words for %1$s pages', $total_pages, 'wordpress-seo-premium' ),
+						$total_pages
 					)
 				); ?>
 			</div>
@@ -110,9 +156,13 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-401' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
 
-		$has_prominent_words = $this->count_posts_prominent_words();
-		$has_no_prominent_words = $this->count_posts_without_prominent_words();
+		$has_prominent_words = $this->count_posts_prominent_words( 'post' );
+		$has_no_prominent_words = $this->count_posts_without_prominent_words( 'post' );
 		$total = ( $has_no_prominent_words + $has_prominent_words );
+
+		$total_pages_with_prominent_words = $this->count_posts_prominent_words( 'page' );
+		$total_pages_without_prominent_words = $this->count_posts_without_prominent_words( 'page' );
+		$total_pages = ( $total_pages_without_prominent_words + $total_pages_with_prominent_words );
 
 		if ( $page === 'wpseo_dashboard' ) {
 			$data = array(
@@ -121,6 +171,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					'total' => $total,
 					'hasProminentWords' => $has_prominent_words,
 					'hasNoProminentWords' => $has_no_prominent_words,
+				),
+
+				'amountPages' => array(
+					'total' => $total_pages,
 				),
 
 				'restApi' => array(
@@ -146,13 +200,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	/**
 	 * Counts posts that have prominent words.
 	 *
+	 * @param string $post_type The post type to count.
 	 * @return int The amount of posts.
 	 */
-	protected function count_posts_prominent_words() {
+	protected function count_posts_prominent_words( $post_type ) {
 		$taxonomy = WPSEO_Premium_Prominent_Words_Registration::TERM_NAME;
 
 		$total_posts = new WP_Query( array(
-			'post_type' => 'post',
+			'post_type' => $post_type,
 			'tax_query' => array(
 				array(
 					'taxonomy' => $taxonomy,
@@ -168,13 +223,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	/**
 	 * Counts posts that have no prominent words.
 	 *
+	 * @param string $post_type The post type to count.
 	 * @return int The amount of posts.
 	 */
-	protected function count_posts_without_prominent_words() {
+	protected function count_posts_without_prominent_words( $post_type ) {
 		$taxonomy = WPSEO_Premium_Prominent_Words_Registration::TERM_NAME;
 
 		$total_posts = new WP_Query( array(
-			'post_type' => 'post',
+			'post_type' => $post_type,
 			'tax_query' => array(
 				array(
 					'taxonomy' => $taxonomy,
