@@ -260,7 +260,7 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 			callbacks: {
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
-			locale: wpseoPostScraperL10n.locale,
+			locale: wpseoPostScraperL10n.contentLocale,
 			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
