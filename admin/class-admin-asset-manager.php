@@ -117,11 +117,11 @@ class WPSEO_Admin_Asset_Manager {
 	private function scripts_to_be_registered() {
 
 		$select2_language = 'en';
-		$locale           = WPSEO_Utils::get_user_locale();
-		$language         = WPSEO_Utils::get_language( $locale );
+		$user_locale      = WPSEO_Utils::get_user_locale();
+		$language         = WPSEO_Utils::get_language( $user_locale );
 
-		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$locale}.js" ) ) {
-			$select2_language = $locale; // Chinese and some others use full locale.
+		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$user_locale}.js" ) ) {
+			$select2_language = $user_locale; // Chinese and some others use full locale.
 		}
 		elseif ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$language}.js" ) ) {
 			$select2_language = $language;
