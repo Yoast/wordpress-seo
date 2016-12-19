@@ -897,3 +897,15 @@ a.promoblock:hover {
 	font-size: 1.1em;
 	font-style: italic;
 }
+
+.yoast-license-status-active {
+	padding: 3px 6px;
+	color: #fff;
+	background: #008a00;
+}
+
+.yoast-license-status-inactive {
+	padding: 3px 6px;
+	color: #fff;
+	background: #dc3232;
+}
