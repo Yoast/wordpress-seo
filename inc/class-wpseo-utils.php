@@ -992,6 +992,7 @@ class WPSEO_Utils {
 	 * @return mixed
 	 */
 	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'PHP native filter_input()' );
 		return filter_input( $type, $variable_name, $filter );
 	}
 
@@ -1007,6 +1008,7 @@ class WPSEO_Utils {
 	 * @param string $type   Sitemap type.
 	 */
 	public static function register_cache_clear_option( $option, $type = '' ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Cache::register_clear_on_option_update()' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option, $type );
 	}
 
@@ -1021,6 +1023,7 @@ class WPSEO_Utils {
 	 * @param string $option The option that's being updated.
 	 */
 	public static function clear_transient_cache( $option ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Cache::clear_on_option_update()' );
 		WPSEO_Sitemaps_Cache::clear_on_option_update( $option );
 	}
 
@@ -1035,6 +1038,7 @@ class WPSEO_Utils {
 	 * @param array $types Set of sitemap types to invalidate cache for.
 	 */
 	public static function clear_sitemap_cache( $types = array() ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Cache::clear()' );
 		WPSEO_Sitemaps_Cache::clear( $types );
 	}
 
@@ -1052,6 +1056,7 @@ class WPSEO_Utils {
 	 * @return false|string
 	 */
 	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.3', 'wp_json_encode()' );
 		return wp_json_encode( $array_to_encode, $options, $depth );
 	}
 }

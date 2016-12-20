@@ -524,6 +524,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function seen_tagline_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
 		return false;
 	}
 

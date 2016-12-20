@@ -511,7 +511,7 @@ class WPSEO_Sitemaps {
 	 * @return string
 	 */
 	public function sitemap_url( $url ) {
-
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Renderer::sitemap_url()' );
 		return $this->renderer->sitemap_url( $url );
 	}
 
@@ -524,6 +524,7 @@ class WPSEO_Sitemaps {
 	 * @param string $stylesheet Full xml-stylesheet declaration.
 	 */
 	public function set_stylesheet( $stylesheet ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Renderer::set_stylesheet()' );
 		$this->renderer->set_stylesheet( $stylesheet );
 	}
 
@@ -540,6 +541,8 @@ class WPSEO_Sitemaps {
 	 * @return mixed|void
 	 */
 	static public function filter_frequency( $filter, $default, $url ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
+
 		/**
 		 * Filter the specific change frequency
 		 *

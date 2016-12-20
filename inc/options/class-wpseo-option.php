@@ -232,6 +232,8 @@ abstract class WPSEO_Option {
 	 * @return  mixed   unchanged value
 	 */
 	public function wp37_add_default_filters( $new_value ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
+
 		$this->add_default_filters();
 
 		return $new_value;

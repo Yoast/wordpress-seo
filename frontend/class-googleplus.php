@@ -19,7 +19,7 @@ class WPSEO_GooglePlus {
 	 * Class constructor.
 	 */
 	public function __construct() {
-
+		_deprecated_constructor( __CLASS__, 'WPSEO 3.2' );
 	}
 
 	/**
@@ -28,6 +28,8 @@ class WPSEO_GooglePlus {
 	 * @return object
 	 */
 	public static function get_instance() {
+		_deprecated_function( __METHOD__, '3.2' );
+
 		if ( ! ( self::$instance instanceof self ) ) {
 			self::$instance = new self();
 		}
