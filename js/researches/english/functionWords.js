@@ -27,8 +27,6 @@ var indefinitePronounsPossessive  = [ "one's", "nobody's", "everyone's", "everyb
 	"anybody's", "nothing's", "everything's", "something's", "anything's", "whoever's", "others'", "other's", "another's",
 	"neither's", "either's" ];
 
-// All relativePronouns are already included in other lists (interrogativeDeterminers, interrogativePronouns)
-var relativePronouns = [];
 var interrogativeDeterminers = [ "which", "what", "whose" ];
 var interrogativePronouns = [ "who", "whom" ];
 var interrogativeProAdverbs = [ "where", "whither", "whence", "how", "why", "whether", "wherever", "whomever", "whenever",
@@ -68,7 +66,7 @@ var subordinatingConjunctions = [ "after", "although", "when", "as", "if", "thou
 	"whereas", "while" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
-// 'Claim','claims', 'state' and 'stated' are not included, because these words are also nouns.
+// 'Claim','claims', 'state' and 'states' are not included, because these words are also nouns.
 var interviewVerbs = [ "say", "says", "said", "saying", "claimed", "ask", "asks", "asked", "asking", "stated", "stating",
 	"explain", "explains", "explained", "think", "thinks" ];
 
@@ -90,7 +88,7 @@ var delexicalisedVerbs = [ "seem", "seems", "seemed", "seeming", "let", "let's",
 	"called", "based", "add", "adds", "adding", "added", "contain", "contains", "containing", "contained" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
-// Key word combinations containing these adjectives/adverbs are fine.
+// Keyword combinations containing these adjectives/adverbs are fine.
 var generalAdjectivesAdverbs = [ "new", "newer", "newest", "old", "older", "oldest", "previous", "good", "well", "better", "best",
 	"big", "bigger", "biggest", "easy", "easier", "easiest", "fast", "faster", "fastest", "far", "hard", "harder", "hardest",
 	"least", "own", "large", "larger", "largest", "long", "longer", "longest", "low", "lower", "lowest", "high", "higher",
@@ -109,8 +107,8 @@ var recipeWords = [ "tbs", "tbsp", "spk", "lb", "qt", "pk", "bu", "oz", "pt", "m
 
 // 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 var vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likelihood", "ones", "piece", "pieces", "stuff", "times",
-	"part", "parts", "percent", "instance", "instances", "aspect", "aspects", "item", "items", "people", "idea", "theme",
-	"person", "percent" ];
+	"part", "parts", "percent", "instance", "instances", "aspect", "aspects", "item", "items", "idea", "theme",
+	"person" ];
 
 // 'No' is already included in the quantifier list.
 var miscellaneous = [ "not", "yes", "rid", "sure", "top", "bottom", "ok", "okay", "amen", "aka", "%" ];
@@ -125,9 +123,14 @@ module.exports = function() {
 		verbs: filteredPassiveAuxiliaries.concat( notFilteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalisedVerbs ),
 		quantifiers: quantifiers,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
-		filteredPassiveAuxiliaries: filteredPassiveAuxiliaries,
+		passiveAuxiliaries: filteredPassiveAuxiliaries,
+		transitionWords: transitionWords.concat( additionalTransitionWords ),
+		miscellaneous: miscellaneous,
+		pronominalAdverbs: pronominalAdverbs,
+		interjections: interjections,
+		reflexivePronouns: reflexivePronouns,
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			personalPronounsNominative, personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns,
+			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,
 			indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
 			pronominalAdverbs, locativeAdverbs, adverbialGenitives, prepositionalAdverbs, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries,
 			otherAuxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs,

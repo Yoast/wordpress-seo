@@ -1,4 +1,4 @@
-// These auxiliaries are filtered from the beginning of word combinations in the keyword suggestions.
+// These auxiliaries are filtered from the beginning of word combinations in the prominent words.
 var filteredAuxiliaries =  [
 	"am",
 	"is",
@@ -25,7 +25,7 @@ var filteredAuxiliaries =  [
 	"aren't",
 ];
 
-// These auxiliaries are not filtered from the beginning of word combinations in the keyword suggestions.
+// These auxiliaries are not filtered from the beginning of word combinations in the prominent words.
 var notFilteredAuxiliaries = [
 	"being",
 	"getting",

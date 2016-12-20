@@ -43,8 +43,8 @@ var multipleWords = [ "above all", "after all", "after that", "all in all", "all
 	"without a doubt", "without delay", "without doubt", "without reservation" ];
 
 /**
- * Returns an array with transition words to be used by the assessments.
- * @returns {Array} The array filled with transition words.
+ * Returns lists with transition words to be used by the assessments.
+ * @returns {Object} The object with transition word lists.
  */
 module.exports = function() {
 	return {
