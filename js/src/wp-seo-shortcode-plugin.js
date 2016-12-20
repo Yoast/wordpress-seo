@@ -4,6 +4,12 @@
 /* global _ */
 /* global JSON */
 /* global console */
+const shortcodeNameMatcher = "[^<>&/\\[\\]\x00-\x20=]+?";
+const shortcodeAttributesMatcher = "( [^\\]]+?)?";
+
+const shortcodeStartRegex = new RegExp( "\\[" + shortcodeNameMatcher + shortcodeAttributesMatcher + "\\]", "g" );
+const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g" );
+
 ( function() {
 	"use strict";
 
@@ -73,7 +79,9 @@
 	 * @returns {string} The text with removed unknown shortcodes.
 	 */
 	YoastShortcodePlugin.prototype.removeUnknownShortCodes = function( data ) {
-		data = data.replace( /\[[^\s0-9][/a-z0-9_=\-"'\s.,:;]+\]/g, "" );
+		data = data.replace( shortcodeStartRegex, "" );
+		data = data.replace( shortcodeEndRegex, "" );
+
 		return data;
 	};
 
