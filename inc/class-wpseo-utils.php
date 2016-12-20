@@ -981,6 +981,8 @@ class WPSEO_Utils {
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
 	 *
  	 * @since 1.8.0
+	 *
+	 * @deprecated 3.0
 	 * @deprecated Passes through to PHP call, no longer used in code.
 	 *
 	 * @param int    $type          Input type constant.
@@ -996,7 +998,9 @@ class WPSEO_Utils {
 	/**
 	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
 	 *
-	 * @deprecated
+ 	 * @since 2.2.0
+	 *
+	 * @deprecated 3.2
 	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
 	 *
 	 * @param string $option Option name.
@@ -1009,7 +1013,9 @@ class WPSEO_Utils {
 	/**
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
 	 *
-	 * @deprecated
+ 	 * @since 2.2.0
+	 *
+	 * @deprecated 3.2
 	 * @see WPSEO_Sitemaps_Cache::clear_on_option_update()
 	 *
 	 * @param string $option The option that's being updated.
@@ -1021,7 +1027,9 @@ class WPSEO_Utils {
 	/**
 	 * Clear entire XML sitemap cache
 	 *
-	 * @deprecated
+ 	 * @since 1.8.0
+ 	 *
+	 * @deprecated 3.2
 	 * @see WPSEO_Sitemaps_Cache::clear()
 	 *
 	 * @param array $types Set of sitemap types to invalidate cache for.

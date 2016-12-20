@@ -61,7 +61,7 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have no focus keyword
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
@@ -74,7 +74,7 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have a bad SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
@@ -87,7 +87,7 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have a poor SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
@@ -100,7 +100,7 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have an ok SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
@@ -113,7 +113,7 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have a good SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */
@@ -126,7 +126,7 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the amount of posts that have no SEO ranking
 	 *
-	 * @deprecated
+	 * @deprecated 3.0
 	 *
 	 * @return int
 	 */

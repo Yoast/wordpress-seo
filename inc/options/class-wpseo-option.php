@@ -225,7 +225,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @param   mixed $new_value Pass through value in filter.
 	 *
-	 * @deprecated 3.7 version no longer supported.
+	 * @deprecated 3.0 WP 3.7 is no longer supported.
 	 *
 	 * @todo Drop this and logic adding it. R.
 	 *

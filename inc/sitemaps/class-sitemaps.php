@@ -503,7 +503,8 @@ class WPSEO_Sitemaps {
 	/**
 	 * Build the `<url>` tag for a given URL.
 	 *
-	 * @deprecated
+	 * @deprecated 3.2
+	 * @see WPSEO_Sitemaps_Renderer::sitemap_url()
 	 *
 	 * @param array $url Array of parts that make up this entry.
 	 *
@@ -517,7 +518,8 @@ class WPSEO_Sitemaps {
 	/**
 	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
 	 *
-	 * @deprecated
+	 * @deprecated 3.2
+	 * @see WPSEO_Sitemaps_Renderer::set_stylesheet()
 	 *
 	 * @param string $stylesheet Full xml-stylesheet declaration.
 	 */
