@@ -25,7 +25,10 @@ class WPSEO_Sitemaps {
 	/** @var int $max_entries The maximum number of entries per sitemap page. */
 	private $max_entries;
 
-	/** @var string $http_protocol HTTP protocol to use in headers. */
+	/**
+	 * @var string $http_protocol HTTP protocol to use in headers.
+	 * @since 3.2
+	 */
 	protected $http_protocol = 'HTTP/1.1';
 
 	/** @var int $current_page Holds the n variable. */
@@ -34,16 +37,28 @@ class WPSEO_Sitemaps {
 	/** @var WPSEO_Sitemap_Timezone $timezone */
 	private $timezone;
 
-	/** @var WPSEO_Sitemaps_Router $router */
+	/**
+	 * @var WPSEO_Sitemaps_Router $router
+	 * @since 3.2
+	 */
 	public $router;
 
-	/** @var WPSEO_Sitemaps_Renderer $renderer */
+	/**
+	 * @var WPSEO_Sitemaps_Renderer $renderer
+	 * @since 3.2
+	 */
 	public $renderer;
 
-	/** @var WPSEO_Sitemaps_Cache $cache */
+	/**
+	 * @var WPSEO_Sitemaps_Cache $cache
+	 * @since 3.2
+	 */
 	public $cache;
 
-	/** @var WPSEO_Sitemap_Provider[] $providers */
+	/**
+	 * @var WPSEO_Sitemap_Provider[] $providers
+	 * @since 3.2
+	 */
 	public $providers;
 
 	/**
@@ -106,6 +121,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Register your own XSL file. Call this during 'init'.
+	 *
+	 * @since 1.4.23
 	 *
 	 * @param string   $name     The name of the XSL file.
 	 * @param callback $function Function to build your XSL file.
@@ -385,6 +402,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Get the GMT modification date for the last modified post in the post type.
+	 *
+	 * @since 3.2
 	 *
 	 * @param string|array $post_types Post type or array of types.
 	 * @param bool         $return_all Flag to return array of values.
