@@ -15,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/Yoast/wordpress-seo"
   },
+  "scripts": {
+    "test": "jest"
+  },
   "devDependencies": {
     "algoliasearch": "^3.16.0",
     "autoprefixer": "^6.3.1",

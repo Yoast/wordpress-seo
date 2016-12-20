@@ -5,7 +5,6 @@ const { removeUnknownShortCodes } = YoastShortcodePlugin.prototype;
 
 describe( 'removeUnknownShortcodes', () => {
 	it( 'filters undefined shortcodes', () => {
-		console.log( YoastShortcodePlugin );
 		const input = "[shortcode]Hello[/shortcode]";
 		const expected = "Hello";
 
