@@ -577,6 +577,7 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function filter_settings_pages( array $pages ) {
+		$this->turn_on_advanced_settings();
 
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
@@ -593,6 +594,17 @@ class WPSEO_Admin {
 		}
 
 		return $pages;
+	}
+
+	/**
+	 * Checks if the user is on an advanced settings page.
+	 * If so, make sure the advanced settings are enabled again.
+	 */
+	public function turn_on_advanced_settings() {
+		if (WPSEO_Utils::is_yoast_seo_advanced_settings_page( filter_input( INPUT_GET, 'page')) ){
+			$this->options['enable_setting_pages'] = true;
+			update_option( 'wpseo', $this->options );
+		}
 	}
 
 	/**
