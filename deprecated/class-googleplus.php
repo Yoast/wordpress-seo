@@ -3,6 +3,8 @@
  * @package WPSEO\Frontend
  */
 
+_deprecated_file( __FILE__, 'WPSEO 3.2' );
+
 /**
  * This code handles the Google+ specific output that's not covered by OpenGraph.
  *

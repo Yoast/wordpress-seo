@@ -6,6 +6,8 @@
  * @deprecated 3.0 Class inside file is removed.
  */
 
+_deprecated_file( __FILE__, 'WPSEO 3.0', null, __( 'Use javascript instead.', 'wordpress-seo' ) );
+
 /**
  * Class WPSEO_Snippet_Preview
  *

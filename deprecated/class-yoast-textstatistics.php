@@ -5,6 +5,8 @@
  * @deprecated 3.0 Removed.
  */
 
+_deprecated_file( __FILE__, 'WPSEO 3.0' );
+
 /**
  * @deprecated 3.0 Removed, use javascript instead.
  */

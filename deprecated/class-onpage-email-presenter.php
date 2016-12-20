@@ -3,6 +3,8 @@
  * @package WPSEO\Admin
  */
 
+_deprecated_file( __FILE__, 'WPSEO 3.0.7' );
+
 /**
  * @deprecated
  *
