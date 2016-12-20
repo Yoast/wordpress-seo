@@ -34,3 +34,14 @@ describe( "A stop word in url assessment", function() {
 		expect( assessment.getText() ).toEqual ( "The slug for this page contains <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop words</a>, consider removing them." );
 	} );
 } );
+
+describe( "Checks if the assessment is applicable", function() {
+	it( "returns true for isApplicable for an English paper", function() {
+		var paper = new Paper( "", {locale: "en_EN"} );
+		expect( stopWordsInUrlAssessment.isApplicable( paper )).toBe( true );
+	} );
+	it( "returns false for isApplicable for an Dutch paper", function() {
+		var paper = new Paper( "", {locale: "nl_NL"} );
+		expect( stopWordsInUrlAssessment.isApplicable( paper )).toBe( false );
+	} );
+});

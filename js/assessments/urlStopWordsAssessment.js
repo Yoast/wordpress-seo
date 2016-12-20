@@ -1,5 +1,9 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
+var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+
+var availableLanguages = [ "en" ];
+
 /**
  * Calculate the score based on the amount of stop words in the url.
  * @param {number} stopWordCount The amount of stop words to be checked against.
@@ -48,5 +52,8 @@ var urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
 
 module.exports = {
 	identifier: "urlStopWords",
+	isApplicable: function( paper ) {
+		return getLanguageAvailability( paper.getLocale(), availableLanguages );
+	},
 	getResult: urlHasStopWordsAssessment,
 };

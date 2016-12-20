@@ -36,3 +36,22 @@ describe( "A stop word in keyword assessment", function() {
 		expect( assessment.getText() ).toEqual ( "The focus keyword contains 2 stop words. This may or may not be wise depending on the circumstances. Read <a href='https://yoast.com/handling-stopwords/' target='_blank'>this article</a> for more info.");
 	} );
 } );
+
+describe( "Checks if the assessment is applicable", function() {
+	it( "returns false for isApplicable for an English paper without keyword.", function() {
+		var paper = new Paper( "", {locale: "en_EN"} );
+		expect( stopWordsInKeywordAssessment.isApplicable( paper )).toBe( false );
+	} );
+	it( "returns true for isApplicable for an English paper with keyword.", function() {
+		var paper = new Paper( "", {locale: "en_EN", keyword: "keyword"} );
+		expect( stopWordsInKeywordAssessment.isApplicable( paper )).toBe( true );
+	} );
+	it( "returns false for isApplicable for an Dutch paper without keyword.", function() {
+		var paper = new Paper( "", {locale: "nl_NL"} );
+		expect( stopWordsInKeywordAssessment.isApplicable( paper )).toBe( false );
+	} );
+	it( "returns false for isApplicable for an Dutch paper with keyword.", function() {
+		var paper = new Paper( "", {locale: "nl_NL", keyword: "keyword"} );
+		expect( stopWordsInKeywordAssessment.isApplicable( paper )).toBe( false );
+	} );
+});
