@@ -733,7 +733,7 @@ abstract class WPSEO_Option {
 	 * @return string
 	 */
 	public static function sanitize_text_field( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_text_field()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_text_field()' );
 
 		return WPSEO_Utils::sanitize_text_field( $value );
 	}
@@ -753,7 +753,7 @@ abstract class WPSEO_Option {
 	 * @return  string
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_url()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_url()' );
 
 		return WPSEO_Utils::sanitize_url( $value, $allowed_protocols );
 	}
@@ -772,7 +772,7 @@ abstract class WPSEO_Option {
 	 * @return  bool
 	 */
 	public static function validate_bool( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_bool()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_bool()' );
 
 		return WPSEO_Utils::validate_bool( $value );
 	}
@@ -791,7 +791,7 @@ abstract class WPSEO_Option {
 	 * @return    bool
 	 */
 	public static function emulate_filter_bool( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_bool()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_bool()' );
 
 		return WPSEO_Utils::emulate_filter_bool( $value );
 	}
@@ -809,7 +809,7 @@ abstract class WPSEO_Option {
 	 * @return  mixed  int or false in case of failure to convert to int
 	 */
 	public static function validate_int( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_int()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_int()' );
 
 		return WPSEO_Utils::validate_int( $value );
 	}
@@ -828,7 +828,7 @@ abstract class WPSEO_Option {
 	 * @return    int|bool
 	 */
 	public static function emulate_filter_int( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_int()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_int()' );
 
 		return WPSEO_Utils::emulate_filter_int( $value );
 	}
@@ -849,7 +849,7 @@ abstract class WPSEO_Option {
 	 * @return  mixed      Trimmed value or array of trimmed values
 	 */
 	public static function trim_recursive( $value ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::trim_recursive()' );
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::trim_recursive()' );
 
 		return WPSEO_Utils::trim_recursive( $value );
 	}

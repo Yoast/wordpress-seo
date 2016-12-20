@@ -543,6 +543,6 @@ class WPSEO_Admin_Init {
 	 * @deprecated 3.5
 	 */
 	public function after_update_notice() {
-		_deprecated_function( 'WPSEO_Admin_Init::after_update_notice', 'WPSEO 3.5' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
 	}
 }

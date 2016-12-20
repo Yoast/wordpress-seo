@@ -43,7 +43,7 @@ class WPSEO_GooglePlus {
 	 * @deprecated 3.2
 	 */
 	public function output() {
-		_deprecated_function( 'WPSEO_GooglePlus::output', '3.2' );
+		_deprecated_function( __METHOD__, '3.2' );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class WPSEO_GooglePlus {
 	 * @deprecated 3.2
 	 */
 	public function description() {
-		_deprecated_function( 'WPSEO_GooglePlus::description', '3.2' );
+		_deprecated_function( __METHOD__, '3.2' );
 	}
 
 	/**
@@ -61,13 +61,13 @@ class WPSEO_GooglePlus {
 	 * @deprecated 3.2
 	 */
 	public function google_plus_title() {
-		_deprecated_function( 'WPSEO_GooglePlus::google_plus_title', '3.2' );
+		_deprecated_function( __METHOD__, '3.2' );
 	}
 
 	/**
 	 * Output the Google+ specific image
 	 */
 	public function google_plus_image() {
-		_deprecated_function( 'WPSEO_GooglePlus::google_plus_image', '3.2' );
+		_deprecated_function( __METHOD__, '3.2' );
 	}
 }

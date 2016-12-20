@@ -447,7 +447,7 @@ new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax:
  * @deprecated 3.3.2
  */
 function wpseo_get_export() {
-	_deprecated_function( __METHOD__, 'WPSEO 3.3.2', 'This method is deprecated.' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.2', 'This method is deprecated.' );
 
 	wpseo_ajax_json_echo_die( '' );
 }
