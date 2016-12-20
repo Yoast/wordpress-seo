@@ -124,6 +124,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.0.2 =
+
+Release Date: December 20th, 2016
+
+* Bugfixes
+	* Fixes a bug where shortcodes would be kept in the content that would be analyzed, which would result in incorrect results.
+	* Fixes a bug where the user language would be used to analyze the content instead of the site language.
+
 = 4.0.0 =
 
 Release Date: December 13th, 2016
