@@ -188,7 +188,7 @@ window.yoastHideMarkers = true;
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 			},
-			locale: wpseoTermScraperL10n.locale,
+			locale: wpseoTermScraperL10n.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			snippetPreview: snippetPreview,

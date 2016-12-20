@@ -4,6 +4,12 @@
 /* global _ */
 /* global JSON */
 /* global console */
+const shortcodeNameMatcher = "[^<>&/\\[\\]\x00-\x20=]+?";
+const shortcodeAttributesMatcher = "( [^\\]]+?)?";
+
+const shortcodeStartRegex = new RegExp( "\\[" + shortcodeNameMatcher + shortcodeAttributesMatcher + "\\]", "g" );
+const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g" );
+
 ( function() {
 	"use strict";
 
@@ -64,6 +70,21 @@
 		this._app.registerModification( "content", this.replaceShortcodes.bind( this ), "YoastShortcodePlugin" );
 	};
 
+
+	/**
+	 * Removes all unknown shortcodes. Not all plugins properly registerd their shortcodes in the WordPress backend.
+	 * Since we cannot use the data from these shortcodes they must be removed.
+	 *
+	 * @param {string} data The text to remove unknown shortcodes.
+	 * @returns {string} The text with removed unknown shortcodes.
+	 */
+	YoastShortcodePlugin.prototype.removeUnknownShortCodes = function( data ) {
+		data = data.replace( shortcodeStartRegex, "" );
+		data = data.replace( shortcodeEndRegex, "" );
+
+		return data;
+	};
+
 	/**
 	 * The callback used to replace the shortcodes.
 	 *
@@ -78,6 +99,8 @@
 				data = data.replace( parsedShortcodes[ i ].shortcode, parsedShortcodes[ i ].output );
 			}
 		}
+
+		data = this.removeUnknownShortCodes( data );
 
 		return data;
 	};
