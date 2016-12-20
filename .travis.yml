@@ -2,6 +2,11 @@ language: php
 
 sudo: false
 
+branches:
+  only:
+    - master
+    - trunk
+
 matrix:
   allow_failures:
     - php: hhvm
