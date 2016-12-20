@@ -125,12 +125,7 @@ abstract class WPSEO_Option {
 			 */
 			add_action( 'add_option', array( $this, 'add_default_filters' ) ); // Adding back after INSERT.
 
-			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) { // Adding back after non-WP 3.7 UPDATE.
-				add_action( 'update_option', array( $this, 'add_default_filters' ) );
-			}
-			else { // Adding back after WP 3.7 UPDATE.
-				add_filter( 'pre_update_option_' . $this->option_name, array( $this, 'wp37_add_default_filters' ) );
-			}
+			add_action( 'update_option', array( $this, 'add_default_filters' ) );
 		}
 		else if ( is_multisite() ) {
 			/*
