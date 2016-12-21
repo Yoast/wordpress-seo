@@ -117,11 +117,11 @@ class WPSEO_Admin_Asset_Manager {
 	private function scripts_to_be_registered() {
 
 		$select2_language = 'en';
-		$locale           = WPSEO_Utils::get_user_locale();
-		$language         = WPSEO_Utils::get_language( $locale );
+		$user_locale      = WPSEO_Utils::get_user_locale();
+		$language         = WPSEO_Utils::get_language( $user_locale );
 
-		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$locale}.js" ) ) {
-			$select2_language = $locale; // Chinese and some others use full locale.
+		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$user_locale}.js" ) ) {
+			$select2_language = $user_locale; // Chinese and some others use full locale.
 		}
 		elseif ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$language}.js" ) ) {
 			$select2_language = $language;
@@ -189,7 +189,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-400',
+				'src'  => 'wp-seo-post-scraper-402',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -198,7 +198,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-400',
+				'src'  => 'wp-seo-term-scraper-402',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
@@ -209,11 +209,11 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'shortcode-plugin',
-				'src'  => 'wp-seo-shortcode-plugin-350',
+				'src'  => 'wp-seo-shortcode-plugin-402',
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-400',
+				'src'  => 'wp-seo-recalculate-402',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',

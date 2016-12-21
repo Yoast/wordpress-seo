@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.9\n"
+"Project-Id-Version: Yoast SEO 4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-12-13 10:36:02+00:00\n"
+"POT-Creation-Date: 2016-12-20 15:03:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -279,7 +279,7 @@ msgstr ""
 
 #: admin/class-admin.php:150 admin/class-admin.php:338
 #: admin/class-meta-columns.php:63
-#: admin/formatter/class-metabox-formatter.php:71
+#: admin/formatter/class-metabox-formatter.php:72
 #: admin/taxonomy/class-taxonomy-columns.php:51
 #: inc/wpseo-non-ajax-functions.php:103
 msgid "SEO"
@@ -711,7 +711,7 @@ msgstr ""
 
 #: admin/class-meta-columns.php:66
 #: admin/formatter/class-metabox-formatter.php:50
-#: admin/formatter/class-metabox-formatter.php:70
+#: admin/formatter/class-metabox-formatter.php:71
 #: admin/taxonomy/class-taxonomy-columns.php:55
 msgid "Readability"
 msgstr ""
@@ -1470,19 +1470,19 @@ msgstr ""
 msgid "Remove keyword"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:74 inc/class-wpseo-rank.php:101
+#: admin/formatter/class-metabox-formatter.php:75 inc/class-wpseo-rank.php:101
 msgid "Not available"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:75
+#: admin/formatter/class-metabox-formatter.php:76
 msgid "Needs improvement"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:76 inc/class-wpseo-rank.php:104
+#: admin/formatter/class-metabox-formatter.php:77 inc/class-wpseo-rank.php:104
 msgid "OK"
 msgstr ""
 
-#: admin/formatter/class-metabox-formatter.php:77 inc/class-wpseo-rank.php:105
+#: admin/formatter/class-metabox-formatter.php:78 inc/class-wpseo-rank.php:105
 msgid "Good"
 msgstr ""
 

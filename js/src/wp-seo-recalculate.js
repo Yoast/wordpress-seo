@@ -159,7 +159,7 @@ var isUndefined = require( "lodash/isUndefined" );
 		var tempPaper = new Paper( item.text, {
 			keyword: item.keyword,
 			url: item.url,
-			locale: wpseoAdminL10n.locale,
+			locale: wpseoAdminL10n.contentLocale,
 			description: item.meta,
 			title: item.pageTitle,
 		} );
