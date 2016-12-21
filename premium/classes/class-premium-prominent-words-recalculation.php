@@ -145,7 +145,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					);
 					echo '<br />';
 					echo sprintf(
-						esc_html( _n( 'Calculated %1$s out of %2$s page.', 'Calculated %1$s out of %2$s pages.', $total_pages, 'wordpress-seo-premium' ) ),
+						esc_html( _n( 'Analyzed %1$s out of %2$s page.', 'Analyzed %1$s out of %2$s pages.', $total_pages, 'wordpress-seo-premium' ) ),
 						"<span class='yoast-js-prominent-words-pages-progress-current'>0</span>",
 						$total_pages
 					);
