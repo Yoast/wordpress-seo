@@ -161,7 +161,10 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 */
 	protected function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="wpseo_crawl_issues[]" value="%s" />', $item['url']
+			'<input type="checkbox" name="wpseo_crawl_issues[]" id="cb-%1$s" value="%2$s" /><label for="cb-%1$s" class="screen-reader-text">%3$s</label>',
+			md5( $item['url'] ),
+			$item['url'],
+			__( 'Select redirect', 'wordpress-seo' )
 		);
 	}
 

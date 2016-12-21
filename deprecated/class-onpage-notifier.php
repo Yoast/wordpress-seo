@@ -3,6 +3,8 @@
  * @package WPSEO\Admin
  */
 
+_deprecated_file( __FILE__, 'WPSEO 3.0.7' );
+
 /**
  * Notify the admin there is an indexibility change
  *
@@ -16,7 +18,7 @@ class WPSEO_OnPage_Notifier {
 	 * @deprecated 3.0.7
 	 */
 	public function send_email() {
-		_deprecated_constructor( 'WPSEO_OnPage_Email_Presenter', 'WPSEO 3.0.7' );
+		_deprecated_constructor( __CLASS__, 'WPSEO 3.0.7' );
 	}
 
 	/**
@@ -25,7 +27,7 @@ class WPSEO_OnPage_Notifier {
 	 * @deprecated 3.0.7
 	 */
 	public function set_content_type() {
-		_deprecated_function( 'WPSEO_OnPage_Notifier', 'WPSEO 3.0.7' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0.7' );
 
 		return 'text/html';
 	}
@@ -37,7 +39,7 @@ class WPSEO_OnPage_Notifier {
 	 * @deprecated 3.0.7
 	 */
 	public function show_notices() {
-		_deprecated_function( 'WPSEO_OnPage_Notifier', 'WPSEO 3.0.7' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0.7' );
 	}
 
 }

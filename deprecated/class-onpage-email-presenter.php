@@ -3,6 +3,8 @@
  * @package WPSEO\Admin
  */
 
+_deprecated_file( __FILE__, 'WPSEO 3.0.7' );
+
 /**
  * @deprecated
  *
@@ -15,14 +17,14 @@ class WPSEO_OnPage_Email_Presenter {
 	 * @deprecated 3.0.7
 	 */
 	public function __construct() {
-		_deprecated_constructor( 'WPSEO_OnPage_Email_Presenter', 'WPSEO 3.0.7' );
+		_deprecated_constructor( __CLASS__, 'WPSEO 3.0.7' );
 	}
 
 	/**
 	 * @deprecated 3.0.7
 	 */
 	public function get_subject() {
-		_deprecated_function( 'WPSEO_OnPage_Email_Presenter', 'WPSEO 3.0.7' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0.7' );
 
 		return array(
 			'0' => '',
@@ -34,7 +36,7 @@ class WPSEO_OnPage_Email_Presenter {
 	 * @deprecated 3.0.7
 	 */
 	public function get_message() {
-		_deprecated_function( 'WPSEO_OnPage_Email_Presenter', 'WPSEO 3.0.7' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0.7' );
 
 		return '';
 	}

@@ -120,7 +120,7 @@ class WPSEO_OnPage_Option {
 	 * @return bool
 	 */
 	public function is_indexable() {
-		_deprecated_function( 'WPSEO_OnPage_Option::is_indexable', 'WPSEO 3.0.2' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0.2' );
 
 		return self::IS_INDEXABLE === $this->get_status();
 	}

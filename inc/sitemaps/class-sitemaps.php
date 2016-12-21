@@ -25,7 +25,10 @@ class WPSEO_Sitemaps {
 	/** @var int $max_entries The maximum number of entries per sitemap page. */
 	private $max_entries;
 
-	/** @var string $http_protocol HTTP protocol to use in headers. */
+	/**
+	 * @var string $http_protocol HTTP protocol to use in headers.
+	 * @since 3.2
+	 */
 	protected $http_protocol = 'HTTP/1.1';
 
 	/** @var int $current_page Holds the n variable. */
@@ -34,16 +37,28 @@ class WPSEO_Sitemaps {
 	/** @var WPSEO_Sitemap_Timezone $timezone */
 	private $timezone;
 
-	/** @var WPSEO_Sitemaps_Router $router */
+	/**
+	 * @var WPSEO_Sitemaps_Router $router
+	 * @since 3.2
+	 */
 	public $router;
 
-	/** @var WPSEO_Sitemaps_Renderer $renderer */
+	/**
+	 * @var WPSEO_Sitemaps_Renderer $renderer
+	 * @since 3.2
+	 */
 	public $renderer;
 
-	/** @var WPSEO_Sitemaps_Cache $cache */
+	/**
+	 * @var WPSEO_Sitemaps_Cache $cache
+	 * @since 3.2
+	 */
 	public $cache;
 
-	/** @var WPSEO_Sitemap_Provider[] $providers */
+	/**
+	 * @var WPSEO_Sitemap_Provider[] $providers
+	 * @since 3.2
+	 */
 	public $providers;
 
 	/**
@@ -106,6 +121,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Register your own XSL file. Call this during 'init'.
+	 *
+	 * @since 1.4.23
 	 *
 	 * @param string   $name     The name of the XSL file.
 	 * @param callback $function Function to build your XSL file.
@@ -386,6 +403,8 @@ class WPSEO_Sitemaps {
 	/**
 	 * Get the GMT modification date for the last modified post in the post type.
 	 *
+	 * @since 3.2
+	 *
 	 * @param string|array $post_types Post type or array of types.
 	 * @param bool         $return_all Flag to return array of values.
 	 *
@@ -484,25 +503,28 @@ class WPSEO_Sitemaps {
 	/**
 	 * Build the `<url>` tag for a given URL.
 	 *
-	 * @deprecated
+	 * @deprecated 3.2
+	 * @see WPSEO_Sitemaps_Renderer::sitemap_url()
 	 *
 	 * @param array $url Array of parts that make up this entry.
 	 *
 	 * @return string
 	 */
 	public function sitemap_url( $url ) {
-
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Renderer::sitemap_url()' );
 		return $this->renderer->sitemap_url( $url );
 	}
 
 	/**
 	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
 	 *
-	 * @deprecated
+	 * @deprecated 3.2
+	 * @see WPSEO_Sitemaps_Renderer::set_stylesheet()
 	 *
 	 * @param string $stylesheet Full xml-stylesheet declaration.
 	 */
 	public function set_stylesheet( $stylesheet ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Renderer::set_stylesheet()' );
 		$this->renderer->set_stylesheet( $stylesheet );
 	}
 
@@ -519,6 +541,8 @@ class WPSEO_Sitemaps {
 	 * @return mixed|void
 	 */
 	static public function filter_frequency( $filter, $default, $url ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
+
 		/**
 		 * Filter the specific change frequency
 		 *

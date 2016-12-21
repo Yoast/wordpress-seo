@@ -1,5 +1,6 @@
 import ProminentWordCache from "./ProminentWordCache";
 import EventEmitter from "events";
+import isEqual from "lodash/isEqual";
 
 /**
  * Handles the retrieval and storage of focus keyword suggestions
@@ -8,16 +9,24 @@ class ProminentWordStorage extends EventEmitter {
 	/**
 	 * @param {string} rootUrl The root URL of the WP REST API.
 	 * @param {string} nonce The WordPress nonce required to save anything to the REST API endpoints.
+	 * @param {string} postSaveEndpoint The endpoint to use to save the post.
+	 * @param {string} postTypeBase The base of the post type to use in the REST API URL.
 	 * @param {number} postID The postID of the post to save prominent words for.
 	 * @param {ProminentWordCache} cache The cache to use for the prominent word term IDs.
 	 */
-	constructor( { postID, rootUrl, nonce, cache = null } ) {
+	constructor( { postID, rootUrl, nonce, postSaveEndpoint = "", postTypeBase = null, cache = null } ) {
 		super();
 
 		this._rootUrl = rootUrl;
 		this._nonce = nonce;
 		this._postID = postID;
 		this._savingProminentWords = false;
+		this._previousProminentWords = null;
+
+		this._postSaveEndpoint = postSaveEndpoint;
+		if ( postTypeBase !== null ) {
+			this._postSaveEndpoint = this._rootUrl + "wp/v2/" + postTypeBase + "/" + this._postID;
+		}
 
 		if ( cache === null ) {
 			cache = new ProminentWordCache();
@@ -58,10 +67,16 @@ class ProminentWordStorage extends EventEmitter {
 		}, Promise.resolve( [] ) );
 
 		return prominentWordIds.then( ( prominentWords ) => {
+			if ( isEqual( prominentWords, this._previousProminentWords ) ) {
+				this._savingProminentWords = false;
+				return Promise.resolve();
+			}
+			this._previousProminentWords = prominentWords;
+
 			return new Promise( ( resolve, reject ) => {
 				jQuery.ajax( {
 					type: "POST",
-					url: this._rootUrl + "wp/v2/posts/" + this._postID,
+					url: this._postSaveEndpoint,
 					beforeSend: ( xhr ) => {
 						xhr.setRequestHeader( "X-WP-Nonce", this._nonce );
 					},
@@ -78,7 +93,7 @@ class ProminentWordStorage extends EventEmitter {
 					this._savingProminentWords = false;
 				} );
 			} );
-		} );
+		} ).catch( (e) => {} );
 	}
 
 	/**
