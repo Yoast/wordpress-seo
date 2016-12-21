@@ -41,7 +41,17 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		?>
 		<section class="yoast-js-site-wide-prominent-words">
 			<h2><?php esc_html_e( 'Site wide analysis', 'wordpress-seo-premium' ); ?></h2>
-			<h3><?php esc_html_e( 'Prominent words', 'wordpress-seo-premium' ); ?></h3>
+			<p>
+				<?php
+				printf(
+					/* translators: %1$s expands to a link start tag to the Yoast.com website, %2$s is the link closing tag. */
+					__( 'The Site wide analysis can help you get the most out of %1$sthe internal linking tool%2$s and calculate the most prominent words for your site.', 'wordpress-seo-premium' ),
+					'<a href="https://yoa.st/oj" target="_blank">',
+					'</a>'
+				);
+				?>
+			</p>
+			<h3><?php esc_html_e( 'Prominent words summary', 'wordpress-seo-premium' ); ?></h3>
 			<?php
 			$total_posts_with_prominent_words = $this->count_posts_prominent_words( 'post' );
 			$total_posts_without_prominent_words = $this->count_posts_without_prominent_words( 'post' );
@@ -51,7 +61,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			$total_pages_without_prominent_words = $this->count_posts_without_prominent_words( 'page' );
 			$total_pages = ( $total_pages_without_prominent_words + $total_pages_with_prominent_words );
 			?>
-			<ul>
+			<ul class="ul-disc">
 				<li>
 					<?php
 						echo esc_html(
@@ -111,39 +121,55 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					); ?>
 				</li>
 			</ul>
-			<div class="yoast-js-prominent-words-progress">
+			<p>
 				<?php
-					esc_html_e( 'Currently calculating prominent words.', 'wordpress-seo-premium' );
+					esc_html_e( 'Run the analysis now to calculate the prominent words of all your posts and pages. The initial indexation may take a while, depending on the size of your site.', 'wordpress-seo-premium' );
+				?>
+			</p>
+			<div class="yoast-js-prominent-words-info notice notice-info inline">
+				<p>
+				<?php
+					esc_html_e( 'Once started, the calculation will be incomplete if you navigate away from this page.', 'wordpress-seo-premium' );
+				?>
+				</p>
+			</div>
+			<div class="yoast-js-prominent-words-progress notice notice-info inline">
+				<p>
+				<?php
+					esc_html_e( 'Calculation in progress...', 'wordpress-seo-premium' );
 					echo '<br />';
 					echo sprintf(
-						esc_html( _n( 'Calculated %1$s out of %2$s post', 'Calculated %1$s out of %2$s posts', $total, 'wordpress-seo-premium' ) ),
+						esc_html( _n( 'Analyzed %1$s out of %2$s post.', 'Analyzed %1$s out of %2$s posts.', $total, 'wordpress-seo-premium' ) ),
 						"<span class='yoast-js-prominent-words-progress-current'>0</span>",
 						$total
 					);
 					echo '<br />';
 					echo sprintf(
-						esc_html( _n( 'Calculated %1$s out of %2$s page', 'Calculated %1$s out of %2$s pages', $total_pages, 'wordpress-seo-premium' ) ),
+						esc_html( _n( 'Analyzed %1$s out of %2$s page.', 'Analyzed %1$s out of %2$s pages.', $total_pages, 'wordpress-seo-premium' ) ),
 						"<span class='yoast-js-prominent-words-pages-progress-current'>0</span>",
 						$total_pages
 					);
 				?>
+				</p>
 			</div>
-			<div class="yoast-js-prominent-words-completed">
+			<div class="yoast-js-prominent-words-completed notice notice-success inline">
+				<p>
 				<?php echo esc_html(
 					sprintf(
-						_n( 'Calculated prominent words for %1$s post', 'Calculated prominent words for %1$s posts', $total, 'wordpress-seo-premium' ),
+						_n( 'Calculated prominent words for %1$s post.', 'Calculated prominent words for %1$s posts.', $total, 'wordpress-seo-premium' ),
 						$total
 					)
 				); ?>
 				<br />
 				<?php echo esc_html(
 					sprintf(
-						_n( 'Calculated prominent words for %1$s page', 'Calculated prominent words for %1$s pages', $total_pages, 'wordpress-seo-premium' ),
+						_n( 'Calculated prominent words for %1$s page.', 'Calculated prominent words for %1$s pages.', $total_pages, 'wordpress-seo-premium' ),
 						$total_pages
 					)
 				); ?>
+				</p>
 			</div>
-			<button type="button" class="button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all"><?php esc_html_e( 'Calculate prominent words for all posts', 'wordpress-seo-premium' ); ?></button>
+			<button type="button" class="button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all"><?php esc_html_e( 'Calculate prominent words', 'wordpress-seo-premium' ); ?></button>
 		</section>
 		<?php
 	}
@@ -172,14 +198,16 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					'hasProminentWords' => $has_prominent_words,
 					'hasNoProminentWords' => $has_no_prominent_words,
 				),
-
 				'amountPages' => array(
 					'total' => $total_pages,
 				),
-
 				'restApi' => array(
 					'root' => esc_url_raw( rest_url() ),
 					'nonce' => wp_create_nonce( 'wp_rest' ),
+				),
+				'l10n' => array(
+					'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
+					'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo-premium' ),
 				),
 			);
 

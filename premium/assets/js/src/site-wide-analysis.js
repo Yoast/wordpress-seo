@@ -4,10 +4,11 @@ import ProminentWordCalculation from "./keywordSuggestions/siteWideCalculation";
 import ProminentWordCache from "./keywordSuggestions/ProminentWordCache";
 import ProminentWordCachePopulator from "./keywordSuggestions/ProminentWordCachePopulator";
 import RestApi from "./helpers/restApi";
+import a11ySpeak from "a11y-speak";
 
 let settings = yoastSiteWideAnalysisData.data;
 
-let progressContainer, completedContainer;
+let progressContainer, completedContainer, infoContainer;
 let prominentWordCache;
 
 /**
@@ -80,6 +81,7 @@ function recalculatePages() {
 function showCompletion() {
 	progressContainer.hide();
 	completedContainer.show();
+	a11ySpeak( settings.l10n.calculationCompleted );
 }
 
 /**
@@ -88,7 +90,10 @@ function showCompletion() {
  * @returns {void}
  */
 function startRecalculating() {
+	infoContainer.hide();
 	progressContainer.show();
+
+	a11ySpeak( settings.l10n.calculationInProgress );
 
 	let restApi = new RestApi( { rootUrl: settings.restApi.root, nonce: settings.restApi.nonce } );
 
@@ -112,6 +117,8 @@ function init() {
 
 		jQuery( this ).hide();
 	} );
+
+	infoContainer = jQuery( ".yoast-js-prominent-words-info" );
 
 	progressContainer = jQuery( ".yoast-js-prominent-words-progress" );
 	progressContainer.hide();

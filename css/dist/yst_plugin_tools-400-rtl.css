@@ -399,6 +399,11 @@ textarea.wpseo-new-metadesc {
 	cursor: default;
 }
 
+/* For the Premium "Site wide analysis" tab. */
+#site-analysis.active ~ .submit {
+	display: none;
+}
+
 #separator {
 	margin: 1.5em 0 1em;
 }
