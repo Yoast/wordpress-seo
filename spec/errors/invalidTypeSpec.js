@@ -1,10 +1,9 @@
-var invalidType = require( "../../js/errors/invalidType.js" );
+import InvalidTypeError from "../../js/errors/invalidType";
 
-var error = new invalidType( "Error" );
-
-describe( "Invalid type error", function(){
-	it( "throws an error", function(){
+describe( "Invalid type error", function() {
+	it( "has the correct name and message", function() {
+		let error = new InvalidTypeError( "Error" );
 		expect ( error.message ).toBe( "Error" );
 		expect ( error.name ).toBe( "InvalidTypeError" );
-	});
-});
+	} );
+} );
