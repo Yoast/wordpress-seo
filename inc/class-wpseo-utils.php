@@ -29,7 +29,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @return boolean
 	 */
@@ -54,7 +54,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @return bool
 	 */
@@ -80,7 +80,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @return bool
 	 */
@@ -97,7 +97,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @return bool
 	 */
@@ -112,7 +112,7 @@ class WPSEO_Utils {
 	/**
 	 * Register a notification to be shown in the JavaScript console
 	 *
- 	 * @since 3.3.2
+	 * @since 3.3.2
 	 *
 	 * @param string $identifier    Notification identifier.
 	 * @param string $message       Message to be shown.
@@ -142,7 +142,7 @@ class WPSEO_Utils {
 	/**
 	 * Localize the console notifications to JavaScript
 	 *
- 	 * @since 3.3.2
+	 * @since 3.3.2
 	 */
 	public static function localize_console_notices() {
 		if ( empty( self::$console_notifications ) ) {
@@ -155,7 +155,7 @@ class WPSEO_Utils {
 	/**
 	 * Check whether a url is relative
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param string $url URL string to check.
 	 *
@@ -168,7 +168,7 @@ class WPSEO_Utils {
 	/**
 	 * List all the available user roles
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @static
 	 *
@@ -191,7 +191,7 @@ class WPSEO_Utils {
 	 *
 	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param string $string String input to standardize.
 	 *
@@ -207,7 +207,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param string $text Input string that might contain shortcodes.
 	 *
@@ -223,7 +223,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to trim or array of values to trim.
 	 *
@@ -245,7 +245,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param int  $val       The decimal score to translate.
 	 * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
@@ -277,7 +277,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param string $value String value to sanitize.
 	 *
@@ -325,7 +325,7 @@ class WPSEO_Utils {
 	 *
 	 * @todo [JRF => whomever] check/improve url verification
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param string $value             String URL value to sanitize.
 	 * @param array  $allowed_protocols Optional set of allowed protocols.
@@ -341,7 +341,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to validate.
 	 *
@@ -365,7 +365,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to cast.
 	 *
@@ -432,7 +432,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to validate.
 	 *
@@ -456,7 +456,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to cast.
 	 *
@@ -498,7 +498,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 */
 	public static function clear_cache() {
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
@@ -514,7 +514,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 */
 	public static function flush_w3tc_cache() {
 		if ( defined( 'W3TC_DIR' ) && function_exists( 'w3tc_objectcache_flush' ) ) {
@@ -527,7 +527,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 */
 	public static function clear_rewrites() {
 		delete_option( 'rewrite_rules' );
@@ -669,7 +669,7 @@ class WPSEO_Utils {
 	/**
 	 * Trim whitespace and NBSP (Non-breaking space) from string
 	 *
- 	 * @since 2.0.0
+	 * @since 2.0.0
 	 *
 	 * @param string $string String input to trim.
 	 *
@@ -686,7 +686,7 @@ class WPSEO_Utils {
 	/**
 	 * Check if a string is a valid datetime
 	 *
- 	 * @since 2.0.0
+	 * @since 2.0.0
 	 *
 	 * @param string $datetime String input to check as valid input for DateTime class.
 	 *
@@ -710,7 +710,7 @@ class WPSEO_Utils {
 	 *
 	 * This method will parse the URL and combine them in one string.
 	 *
- 	 * @since 2.3.0
+	 * @since 2.3.0
 	 *
 	 * @param string $url URL string.
 	 *
@@ -741,7 +741,7 @@ class WPSEO_Utils {
 	/**
 	 * Get plugin name from file
 	 *
- 	 * @since 2.3.3
+	 * @since 2.3.3
 	 *
 	 * @param string $plugin Plugin path relative to plugins directory.
 	 *
@@ -760,7 +760,7 @@ class WPSEO_Utils {
 	/**
 	 * Retrieves the sitename.
 	 *
- 	 * @since 3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return string
 	 */
@@ -771,7 +771,7 @@ class WPSEO_Utils {
 	/**
 	 * Retrieves the title separator.
 	 *
- 	 * @since 3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return string
 	 */
@@ -799,7 +799,7 @@ class WPSEO_Utils {
 	/**
 	 * Check if the current opened page is a Yoast SEO page.
 	 *
- 	 * @since 3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return bool
 	 */
@@ -817,7 +817,7 @@ class WPSEO_Utils {
 	/**
 	 * Check if the current opened page belongs to Yoast SEO Free.
 	 *
- 	 * @since 3.3.0
+	 * @since 3.3.0
 	 *
 	 * @param string $current_page the current page the user is on.
 	 *
@@ -843,7 +843,7 @@ class WPSEO_Utils {
 	 *
 	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
 	 *
- 	 * @since 3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return bool
 	 */
@@ -871,7 +871,7 @@ class WPSEO_Utils {
 	/**
 	 * Retrieve home URL with proper trailing slash.
 	 *
- 	 * @since 3.3.0
+	 * @since 3.3.0
 	 *
 	 * @param string      $path   Path relative to home URL.
 	 * @param string|null $scheme Scheme to apply.
@@ -906,7 +906,7 @@ class WPSEO_Utils {
 	/**
 	 * Returns a base64 URL for the svg for use in the menu
 	 *
- 	 * @since 3.3.0
+	 * @since 3.3.0
 	 *
 	 * @param bool $base64 Whether or not to return base64'd output.
 	 *
@@ -925,7 +925,7 @@ class WPSEO_Utils {
 	/**
 	 * Returns the language part of a given locale, defaults to english when the $locale is empty
 	 *
- 	 * @since 3.4
+	 * @since 3.4
 	 *
 	 * @param string $locale The locale to get the language of.
 	 * @returns string The language part of the locale.
@@ -949,7 +949,7 @@ class WPSEO_Utils {
 	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
 	 * of WordPress get_user_locale() that already fallbacks to the site’s locale.
 	 *
- 	 * @since 4.1
+	 * @since 4.1
 	 *
 	 * @returns string The locale.
 	 */
@@ -980,7 +980,7 @@ class WPSEO_Utils {
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
 	 *
- 	 * @since 1.8.0
+	 * @since 1.8.0
 	 *
 	 * @deprecated 3.0
 	 * @deprecated Passes through to PHP call, no longer used in code.
@@ -999,7 +999,7 @@ class WPSEO_Utils {
 	/**
 	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
 	 *
- 	 * @since 2.2.0
+	 * @since 2.2.0
 	 *
 	 * @deprecated 3.2
 	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
@@ -1015,7 +1015,7 @@ class WPSEO_Utils {
 	/**
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
 	 *
- 	 * @since 2.2.0
+	 * @since 2.2.0
 	 *
 	 * @deprecated 3.2
 	 * @see WPSEO_Sitemaps_Cache::clear_on_option_update()
@@ -1030,8 +1030,8 @@ class WPSEO_Utils {
 	/**
 	 * Clear entire XML sitemap cache
 	 *
- 	 * @since 1.8.0
- 	 *
+	 * @since 1.8.0
+	 *
 	 * @deprecated 3.2
 	 * @see WPSEO_Sitemaps_Cache::clear()
 	 *
@@ -1045,7 +1045,7 @@ class WPSEO_Utils {
 	/**
 	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exist.
 	 *
- 	 * @since 3.0.0
+	 * @since 3.0.0
 	 *
 	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
 	 *
