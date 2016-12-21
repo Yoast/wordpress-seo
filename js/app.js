@@ -62,8 +62,9 @@ var defaults = {
 	dynamicDelay: true,
 	locale: "en_US",
 	translations: {
-		"domain": "js-text-analysis",
-		"locale_data": {
+		domain: "js-text-analysis",
+		// eslint-disable-next-line camelcase
+		locale_data: {
 			"js-text-analysis": {
 				"": {},
 			},
@@ -360,8 +361,9 @@ App.prototype.extendSampleText = function( sampleText ) {
  */
 App.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
-		"domain": "js-text-analysis",
-		"locale_data": {
+		domain: "js-text-analysis",
+		// eslint-disable-next-line camelcase
+		locale_data: {
 			"js-text-analysis": {
 				"": {},
 			},

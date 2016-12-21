@@ -8,8 +8,12 @@ var transitionWords = require( "./assessments/transitionWordsAssessment.js" );
 var passiveVoice = require( "./assessments/passiveVoiceAssessment.js" );
 var sentenceBeginnings = require( "./assessments/sentenceBeginningsAssessment.js" );
 var textPresence = require( "./assessments/textPresenceAssessment.js" );
-// var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
-// var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
+/*
+	Temporarily disabled:
+
+	var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
+	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
+ */
 
 var scoreToRating = require( "./interpreters/scoreToRating" );
 
@@ -37,7 +41,7 @@ var ContentAssessor = function( i18n, options ) {
 		passiveVoice,
 		textPresence,
 		sentenceBeginnings,
-		// wordComplexity,
+		// Temporarily disabled: wordComplexity,
 	];
 };
 
