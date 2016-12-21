@@ -286,6 +286,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return int 0 if equal, 1 if $a is larger else or -1;
 	 */
 	public function user_map_sorter( $first, $second ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.3', __( 'Use queries instead', 'wordpress-seo' ) );
 
 		if ( ! isset( $first->_yoast_wpseo_profile_updated ) ) {
 			$first->_yoast_wpseo_profile_updated = time();

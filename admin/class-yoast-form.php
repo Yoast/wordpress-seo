@@ -5,26 +5,33 @@
 
 /**
  * Admin form class.
+ *
+ * @since 2.0
  */
 class Yoast_Form {
 
 	/**
 	 * @var object    Instance of this class
+	 * @since 2.0
 	 */
 	public static $instance;
 
 	/**
 	 * @var string
+	 * @since 2.0
 	 */
 	public $option_name;
 
 	/**
 	 * @var array
+	 * @since 2.0
 	 */
 	public $options;
 
 	/**
 	 * Get the singleton instance of this class
+	 *
+	 * @since 2.0
 	 *
 	 * @return Yoast_Form
 	 */
@@ -38,6 +45,8 @@ class Yoast_Form {
 
 	/**
 	 * Generates the header for admin pages
+	 *
+	 * @since 2.0
 	 *
 	 * @param bool   $form             Whether or not the form start tag should be included.
 	 * @param string $option           The short name of the option to use for the current page.
@@ -74,6 +83,8 @@ class Yoast_Form {
 	/**
 	 * Set the option used in output for form elements
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $option_name Option key.
 	 */
 	public function set_option( $option_name ) {
@@ -85,6 +96,7 @@ class Yoast_Form {
 	 * Retrieve options based on whether we're on multisite or not.
 	 *
 	 * @since 1.2.4
+	 * @since 2.0   Moved to this class.
 	 *
 	 * @return array
 	 */
@@ -98,6 +110,8 @@ class Yoast_Form {
 
 	/**
 	 * Generates the footer for admin pages
+	 *
+	 * @since 2.0
 	 *
 	 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
 	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it.
@@ -154,6 +168,8 @@ class Yoast_Form {
 
 	/**
 	 * Generates the sidebar for admin pages.
+	 *
+	 * @since 2.0
 	 */
 	public function admin_sidebar() {
 
@@ -180,6 +196,8 @@ class Yoast_Form {
 	/**
 	 * Output a label element
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $text Label text string.
 	 * @param array  $attr HTML attributes set.
 	 */
@@ -199,6 +217,8 @@ class Yoast_Form {
 	/**
 	 * Output a legend element.
 	 *
+	 * @since 3.4
+	 *
 	 * @param string $text Legend text string.
 	 * @param array  $attr HTML attributes set.
 	 */
@@ -214,6 +234,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a Checkbox input field.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $var        The variable within the option to create the checkbox for.
 	 * @param string $label      The label to show for the variable.
@@ -250,6 +272,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a light switch input field.
+	 *
+	 * @since 3.1
 	 *
 	 * @param string  $var        The variable within the option to create the checkbox for.
 	 * @param string  $label      The label to show for the variable.
@@ -294,6 +318,9 @@ class Yoast_Form {
 	/**
 	 * Create a Text input field.
 	 *
+	 * @since 2.0
+	 * @since 2.1 Introduced the `$attr` parameter.
+	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
 	 * @param string       $label The label to show for the variable.
 	 * @param array|string $attr  Extra class to add to the input field.
@@ -316,6 +343,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a textarea.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $var   The variable within the option to create the textarea for.
 	 * @param string $label The label to show for the variable.
@@ -341,6 +370,8 @@ class Yoast_Form {
 	/**
 	 * Create a hidden input field.
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $var The variable within the option to create the hidden input for.
 	 * @param string $id  The ID of the element.
 	 */
@@ -359,6 +390,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a Select Box.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $field_name     The variable within the option to create the select for.
 	 * @param string $label          The label to show for the variable.
@@ -385,6 +418,8 @@ class Yoast_Form {
 	/**
 	 * Create a File upload field.
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $var   The variable within the option to create the file upload field for.
 	 * @param string $label The label to show for the variable.
 	 */
@@ -410,6 +445,8 @@ class Yoast_Form {
 	/**
 	 * Media input
 	 *
+	 * @since 2.0
+	 *
 	 * @param string $var   Option name.
 	 * @param string $label Label message.
 	 */
@@ -429,6 +466,8 @@ class Yoast_Form {
 
 	/**
 	 * Create a Radio input field.
+	 *
+	 * @since 2.0
 	 *
 	 * @param string $var         The variable within the option to create the radio button for.
 	 * @param array  $values      The radio options to choose from.
@@ -469,6 +508,8 @@ class Yoast_Form {
 	/**
 	 * Create a toggle switch input field.
 	 *
+	 * @since 3.1
+	 *
 	 * @param string $var    The variable within the option to create the file upload field for.
 	 * @param array  $values The radio options to choose from.
 	 * @param string $label  The label to show for the variable.
@@ -505,6 +546,8 @@ class Yoast_Form {
 
 	/**
 	 * Returns two random selected service banners.
+	 *
+	 * @since 3.9
 	 *
 	 * @return WPSEO_Admin_Banner_Spot
 	 */
@@ -585,6 +628,8 @@ class Yoast_Form {
 
 	/**
 	 * Returns two random selected plugin banners.
+	 *
+	 * @since 3.9
 	 *
 	 * @return WPSEO_Admin_Banner_Spot
 	 */

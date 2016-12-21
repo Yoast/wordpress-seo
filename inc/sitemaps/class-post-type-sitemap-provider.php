@@ -607,6 +607,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return float|mixed
 	 */
 	private function calculate_priority( $post ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
 
 		$return = 0.6;
 		if ( $post->post_parent == 0 && $post->post_type == 'page' ) {

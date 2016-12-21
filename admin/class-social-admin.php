@@ -223,7 +223,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return string
 	 */
 	public function tab_header() {
-		_deprecated_function( 'WPSEO_Social_Admin::tab_header', 'WPSEO 3.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 
 		return '';
 	}
@@ -234,7 +234,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return string
 	 */
 	public function tab_content() {
-		_deprecated_function( 'WPSEO_Social_Admin::tab_content', 'WPSEO 3.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 
 		return '';
 	}

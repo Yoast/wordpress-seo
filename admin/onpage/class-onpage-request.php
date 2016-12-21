@@ -69,7 +69,7 @@ class WPSEO_OnPage_Request {
 	 * @return array
 	 */
 	public function get_response() {
-		_deprecated_function( 'WPSEO_OnPage_Request::get_response', 'WPSEO 3.1.2', 'WPSEO_OnPage_Request::do_request' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.1.2', 'WPSEO_OnPage_Request::do_request' );
 
 		return array();
 	}
