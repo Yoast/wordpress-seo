@@ -23,7 +23,7 @@ let linkSuggestions;
  * @returns {boolean} Whether the content language is supported.
  */
 function contentLanguageSupported() {
-	return wpseoAdminL10n.locale.indexOf( "en" ) === 0;
+	return wpseoAdminL10n.contentLocale.indexOf( "en" ) === 0;
 }
 
 /**
@@ -51,9 +51,7 @@ function initializeMetabox() {
 	} );
 
 	// Initialize prominent words watching and saving.
-	if ( settings.insightsEnabled === "enabled" ) {
-		focusKeywordSuggestions.initializeDOM();
-	}
+	focusKeywordSuggestions.initializeDOM();
 
 	if ( contentLanguageSupported() && contentEndpointsAvailable ) {
 		initializeLinkSuggestionsMetabox();
