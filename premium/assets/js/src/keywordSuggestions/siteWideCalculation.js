@@ -127,7 +127,7 @@ class SiteWideCalculation extends EventEmitter {
 	processPost( post ) {
 		let content = post.content.rendered;
 
-		let prominentWords = getRelevantWords( content );
+		let prominentWords = getRelevantWords( content, wpseoAdminL10n.contentLocale );
 
 		let prominentWordStorage = new ProminentWordStorage( {
 			postID: post.id,

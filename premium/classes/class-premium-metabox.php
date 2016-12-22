@@ -69,7 +69,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		$insights_enabled = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
 		$language = WPSEO_Utils::get_language( get_locale() );
 
-		if ( $language !== 'en' ) {
+		if ( $language !== 'en' && $language !== 'de' ) {
 			$insights_enabled = false;
 		}
 

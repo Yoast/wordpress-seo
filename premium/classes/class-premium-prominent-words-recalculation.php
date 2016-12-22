@@ -222,7 +222,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @return bool Whether the current language is supported for the link suggestions.
 	 */
 	protected function is_content_language_supported() {
-		return WPSEO_Utils::get_language( get_locale() ) === 'en';
+		return WPSEO_Utils::get_language( get_locale() ) === 'en' || WPSEO_Utils::get_language( get_locale() ) === 'de';
 	}
 
 	/**

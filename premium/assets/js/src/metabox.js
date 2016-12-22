@@ -23,7 +23,8 @@ let linkSuggestions;
  * @returns {boolean} Whether the content language is supported.
  */
 function contentLanguageSupported() {
-	return wpseoAdminL10n.contentLocale.indexOf( "en" ) === 0;
+	let locale = wpseoAdminL10n.contentLocale;
+	return locale.indexOf( "en" ) === 0 || locale.indexOf( "de" ) === 0;
 }
 
 /**

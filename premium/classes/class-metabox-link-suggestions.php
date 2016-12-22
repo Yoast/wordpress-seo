@@ -92,7 +92,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	protected function is_content_language_supported() {
 		$language = WPSEO_Utils::get_language( get_locale() );
 
-		return $language === 'en';
+		return $language === 'en' || $language === 'de';
 	}
 
 	/**
