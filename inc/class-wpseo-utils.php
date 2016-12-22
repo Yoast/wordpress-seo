@@ -772,6 +772,13 @@ class WPSEO_Utils {
 		return in_array( $current_page, $yoast_seo_free_pages );
 	}
 
+	/**
+	 * Check if the current page is a Yoast SEO advanced settings page.
+	 *
+	 * @param string $current_page the current page the user is on
+	 *
+	 * @return bool
+	 */
 	public static function is_yoast_seo_advanced_settings_page( $current_page ) {
 		$yoast_seo_advanced_settings_pages = array(
 			'wpseo_titles',
