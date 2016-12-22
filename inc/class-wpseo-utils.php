@@ -772,6 +772,18 @@ class WPSEO_Utils {
 		return in_array( $current_page, $yoast_seo_free_pages );
 	}
 
+	public static function is_yoast_seo_advanced_settings_page( $current_page ) {
+		$yoast_seo_advanced_settings_pages = array(
+			'wpseo_titles',
+			'wpseo_social',
+			'wpseo_xml',
+			'wpseo_advanced',
+			'wpseo_tools'
+		);
+
+		return in_array( $current_page, $yoast_seo_advanced_settings_pages );
+	}
+
 	/**
 	 * Determine if Yoast SEO is in development mode?
 	 *
