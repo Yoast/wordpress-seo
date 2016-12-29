@@ -78,7 +78,7 @@ var subheadingsTextLength = function( subheadingTextsLength, tooLongTexts, i18n 
 		text: i18n.sprintf(
 			i18n.dngettext(
 				"js-text-analysis",
-				"%1$d of the subheadings is followed by more than the recommended maximum of %2$d words. Try to insert another subheading.",
+				"%1$d subheading is followed by more than the recommended maximum of %2$d words. Try to insert another subheading.",
 				"%1$d of the subheadings are followed by more than the recommended maximum of %2$d words. Try to insert additional subheadings.",
 				tooLongTexts ),
 			tooLongTexts, recommendedValue
