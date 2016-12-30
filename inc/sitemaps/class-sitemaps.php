@@ -79,8 +79,8 @@ class WPSEO_Sitemaps {
 		$this->cache       = new WPSEO_Sitemaps_Cache();
 		$this->providers   = array( // TODO API for add/remove. R.
 			new WPSEO_Post_Type_Sitemap_Provider(),
-			new WPSEO_Taxonomy_Sitemap_Provider(),
 			new WPSEO_Author_Sitemap_Provider(),
+			new WPSEO_Taxonomy_Sitemap_Provider(),
 		);
 
 		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
