@@ -15,6 +15,7 @@ var scoreToRating = require( "./interpreters/scoreToRating" );
 
 var map = require( "lodash/map" );
 var sum = require( "lodash/sum" );
+var filter = require( "lodash/filter" );
 
 /**
  * Creates the Assessor
@@ -49,7 +50,7 @@ require( "util" ).inherits( ContentAssessor, Assessor );
  * @param {number} rating The rating to be weighted.
  * @returns {number} The weighted rating.
  */
-ContentAssessor.prototype.calculatePenaltyPointsEnglish = function( rating ) {
+ContentAssessor.prototype.calculatePenaltyPointsSupportedLanguage = function( rating ) {
 	switch ( rating ) {
 		case "bad":
 			return 3;
@@ -67,7 +68,7 @@ ContentAssessor.prototype.calculatePenaltyPointsEnglish = function( rating ) {
  * @param {number} rating The rating to be weighted.
  * @returns {number} The weighted rating.
  */
-ContentAssessor.prototype.calculatePenaltyPointsNonEnglish = function( rating ) {
+ContentAssessor.prototype.calculatePenaltyPointsUnsupportedLanguage = function( rating ) {
 	switch ( rating ) {
 		case "bad":
 			return 4;
@@ -80,6 +81,22 @@ ContentAssessor.prototype.calculatePenaltyPointsNonEnglish = function( rating ) 
 };
 
 /**
+ * Checks which of the available assessments are applicable and returns an array with applicable assessments.
+ *
+ * @returns {Array} The array with applicable assessments.
+ */
+ContentAssessor.prototype.getApplicableAssessments = function() {
+	var availableAssessments = this.getAvailableAssessments();
+	var paper = this.getPaper();
+	return filter(
+		availableAssessments,
+		function( availableAssessment ) {
+			return this.isApplicable( availableAssessment, paper )
+		}.bind( this )
+	);
+};
+
+/**
  * Calculates the penalty points based on the assessment results.
  *
  * @returns {number} The total penalty points for the results.
@@ -87,14 +104,17 @@ ContentAssessor.prototype.calculatePenaltyPointsNonEnglish = function( rating ) 
 ContentAssessor.prototype.calculatePenaltyPoints = function() {
 	var results = this.getValidResults();
 
+	var numberOfAssessments = 8;
+	var applicableAssessments = this.getApplicableAssessments();
+
 	var penaltyPoints = map( results, function( result ) {
 		var rating = scoreToRating( result.getScore() );
 
-		if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
-			return this.calculatePenaltyPointsEnglish( rating );
+		if ( applicableAssessments.length >= numberOfAssessments ) {
+			return this.calculatePenaltyPointsSupportedLanguage( rating );
 		}
 
-		return this.calculatePenaltyPointsNonEnglish( rating );
+		return this.calculatePenaltyPointsUnsupportedLanguage( rating );
 	}.bind( this ) );
 
 	return sum( penaltyPoints );
