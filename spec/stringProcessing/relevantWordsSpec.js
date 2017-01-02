@@ -10,6 +10,7 @@ var filterFunctionWords = relevantWords.filterFunctionWords;
 var filterSpecialCharacters = relevantWords.filterSpecialCharacters;
 var filterOnSyllableCount = relevantWords.filterOnSyllableCount;
 var filterOnDensity = relevantWords.filterOnDensity;
+var functionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
 describe( "getWordCombinations", function() {
 	it( "should split a sentence on words", function() {
@@ -76,11 +77,11 @@ describe( "calculateOccurrences", function() {
 describe( "getRelevantCombinations", function() {
 	it( "removes combinations with one occurence", function() {
 		var input = [
-			new WordCombination( [ "irrelevant" ], 1 ),
-			new WordCombination( [ "occurrence" ], 2 )
+			new WordCombination( [ "irrelevant" ], 1, functionWords ),
+			new WordCombination( [ "occurrence" ], 2, functionWords )
 		];
 		var expected = [
-			new WordCombination( [ "occurrence" ], 2 )
+			new WordCombination( [ "occurrence" ], 2, functionWords )
 		];
 
 		var actual = getRelevantCombinations( input, 100 );
@@ -90,7 +91,7 @@ describe( "getRelevantCombinations", function() {
 
 	it( "removes function words", function() {
 		var input = [
-			new WordCombination( [ "yes" ], 2 )
+			new WordCombination( [ "yes" ], 2, functionWords )
 		];
 		var expected = [];
 
@@ -289,28 +290,28 @@ describe( "getWordCombinations", function() {
 			" suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur," +
 			" vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
 		var expected = [
-			new WordCombination( [ "qui", "dolorem" ], 2 ),
-			new WordCombination( [ "sed", "quia" ], 2 ),
-			new WordCombination( [ "200", "words" ], 2 ),
-			new WordCombination( [ "syllable", "combinations" ], 2 ),
-			new WordCombination( [ "voluptatem" ], 4 ),
-			new WordCombination( [ "quia" ], 4 ),
-			new WordCombination( [ "syllables" ], 2 ),
-			new WordCombination( [ "enim" ], 2 ),
-			new WordCombination( [ "combinations" ], 2 ),
-			new WordCombination( [ "dolorem" ], 2 ),
-			new WordCombination( [ "velit" ], 2 ),
-			new WordCombination( [ "consequatur" ], 2 ),
-			new WordCombination( [ "syllable" ], 2 ),
-			new WordCombination( [ "important" ], 2 ),
-			new WordCombination( [ "weather" ], 2 ),
-			new WordCombination( [ "voluptas" ], 2 ),
+			new WordCombination( [ "qui", "dolorem" ], 2, functionWords ),
+			new WordCombination( [ "sed", "quia" ], 2, functionWords ),
+			new WordCombination( [ "200", "words" ], 2, functionWords ),
+			new WordCombination( [ "syllable", "combinations" ], 2, functionWords ),
+			new WordCombination( [ "voluptatem" ], 4, functionWords ),
+			new WordCombination( [ "quia" ], 4, functionWords ),
+			new WordCombination( [ "syllables" ], 2, functionWords ),
+			new WordCombination( [ "enim" ], 2, functionWords ),
+			new WordCombination( [ "combinations" ], 2, functionWords ),
+			new WordCombination( [ "dolorem" ], 2, functionWords ),
+			new WordCombination( [ "velit" ], 2, functionWords ),
+			new WordCombination( [ "consequatur" ], 2, functionWords ),
+			new WordCombination( [ "syllable" ], 2, functionWords ),
+			new WordCombination( [ "important" ], 2, functionWords ),
+			new WordCombination( [ "weather" ], 2, functionWords ),
+			new WordCombination( [ "voluptas" ], 2, functionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		var words = getRelevantWords( input );
+		var words = getRelevantWords( input, "la_LA" );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );

@@ -7,7 +7,7 @@ var getRelevantWords = require( "../stringProcessing/relevantWords" ).getRelevan
  * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
  */
 function relevantWords( paper ) {
-	return getRelevantWords( paper.getText() );
+	return getRelevantWords( paper.getText(), paper.getLocale() );
 }
 
 

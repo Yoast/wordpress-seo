@@ -1,9 +1,11 @@
 var getWords = require( "../stringProcessing/getWords" );
 var getSentences = require( "../stringProcessing/getSentences" );
 var WordCombination = require( "../values/WordCombination" );
-var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalizeSingle;
-var functionWords = require( "../researches/english/functionWords.js" );
+var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
+var germanFunctionWords = require( "../researches/german/functionWords.js" );
+var englishFunctionWords = require( "../researches/english/functionWords.js" );
 var countSyllables = require( "../stringProcessing/syllables/count.js" );
+var getLanguage = require( "../helpers/getLanguage.js" );
 
 var filter = require( "lodash/filter" );
 var map = require( "lodash/map" );
@@ -21,31 +23,32 @@ var densityUpperLimit = 0.03;
 var relevantWordLimit = 100;
 var wordCountLowerLimit = 200;
 
-// En dash, em dash and hyphen-minus.
-var specialCharacters = [ "–", "—", "-" ];
+// En dash, em dash, hyphen-minus, and hash.
+var specialCharacters = [ "–", "—", "-", "#" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
  *
  * @param {string} text The text to retrieve combinations for.
  * @param {number} combinationSize The size of the combinations to retrieve.
+ * @param {Function} functionWords The function containing the lists of function words.
  * @returns {WordCombination[]} All word combinations for the given text.
  */
-function getWordCombinations( text, combinationSize ) {
+function getWordCombinations( text, combinationSize, functionWords ) {
 	var sentences = getSentences( text );
 
 	var words, combination;
 
 	return flatMap( sentences, function( sentence ) {
 		sentence = sentence.toLocaleLowerCase();
-		sentence = normalizeSingleQuotes( sentence );
+		sentence = normalizeQuotes( sentence );
 		words = getWords( sentence );
 
 		return filter( map( words, function( word, i ) {
 			// If there are still enough words in the sentence to slice of.
 			if ( i + combinationSize - 1 < words.length ) {
 				combination = words.slice( i, i + combinationSize );
-				return new WordCombination( combination );
+				return new WordCombination( combination, 0, functionWords );
 			}
 
 			return false;
@@ -140,7 +143,7 @@ function filterFunctionWordsAtEnding( wordCombinations, functionWords ) {
  * Filters word combinations beginning and ending with certain function words.
  *
  * @param {WordCombination[]} wordCombinations The word combinations to filter.
- * @param {array} functionWords The list of function words.
+ * @param {Array} functionWords The list of function words.
  * @returns {WordCombination[]} Filtered word combinations.
  */
 function filterFunctionWords( wordCombinations, functionWords ) {
@@ -168,11 +171,12 @@ function filterSpecialCharacters( wordCombinations, specialCharacters ) {
  *
  * @param {WordCombination[]} wordCombinations The word combinations to filter.
  * @param {number} syllableCount The number of syllables to use for filtering.
+ * @param {string} locale The paper's locale.
  * @returns {WordCombination[]} Filtered word combinations.
  */
-function filterOnSyllableCount( wordCombinations, syllableCount ) {
+function filterOnSyllableCount( wordCombinations, syllableCount, locale ) {
 	return wordCombinations.filter( function( combination )  {
-		return ! ( combination.getLength() === 1 && countSyllables( combination.getWords()[ 0 ], "en_US" ) <= syllableCount );
+		return ! ( combination.getLength() === 1 && countSyllables( combination.getWords()[ 0 ], locale ) <= syllableCount );
 	} );
 }
 
@@ -193,13 +197,63 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
 }
 
 /**
+ * Filters the list of word combination objects.
+ * Word combinations with specific parts of speech at the beginning and/or end, as well as one-syllable single words, are removed.
+ *
+ * @param {Array} combinations The list of word combination objects.
+ * @param {Function} functionWords The function containing the lists of function words.
+ * @param {string} locale The paper's locale.
+ * @returns {Array} The filtered list of word combination objects.
+ */
+function filterCombinations( combinations, functionWords, locale ) {
+	combinations = filterFunctionWords( combinations, specialCharacters );
+	combinations = filterFunctionWords( combinations, functionWords().articles );
+	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
+	combinations = filterFunctionWords( combinations, functionWords().prepositions );
+	combinations = filterFunctionWords( combinations, functionWords().conjunctions );
+	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
+	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
+	combinations = filterFunctionWords( combinations, functionWords().transitionWords );
+	combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
+	combinations = filterFunctionWords( combinations, functionWords().interjections );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords().miscellaneous );
+	combinations = filterOnSyllableCount( combinations, 1, locale );
+	switch( getLanguage( locale ) ) {
+		case "en":
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
+			break;
+		case "de":
+			combinations = filterFunctionWords( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().interrogativeProAdverbs );
+			break;
+	}
+	return combinations;
+}
+/**
  * Returns the relevant words in a given text.
  *
  * @param {string} text The text to retrieve the relevant words of.
+ * @param {string} locale The paper's locale.
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
-function getRelevantWords( text ) {
-	var words = getWordCombinations( text, 1 );
+function getRelevantWords( text, locale ) {
+	var functionWords;
+	switch( getLanguage( locale ) ) {
+		case "de":
+			functionWords = germanFunctionWords;
+			break;
+		default:
+		case "en":
+			functionWords = englishFunctionWords;
+			break;
+	}
+
+	var words = getWordCombinations( text, 1, functionWords().all );
 	var wordCount = words.length;
 
 	var oneWordCombinations = getRelevantCombinations(
@@ -212,13 +266,13 @@ function getRelevantWords( text ) {
 	var oneWordRelevanceMap = {};
 
 	forEach( oneWordCombinations, function( combination ) {
-		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance();
+		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance( functionWords );
 	} );
 
-	var twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2 ) );
-	var threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3 ) );
-	var fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4 ) );
-	var fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5 ) );
+	var twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords().all ) );
+	var threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords().all ) );
+	var fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords().all ) );
+	var fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords().all ) );
 
 	var combinations = oneWordCombinations.concat(
 		twoWordCombinations,
@@ -227,18 +281,7 @@ function getRelevantWords( text ) {
 		fiveWordCombinations
 	);
 
-	combinations = filterFunctionWords( combinations, specialCharacters );
-	combinations = filterFunctionWords( combinations, functionWords().articles );
-	combinations = filterFunctionWords( combinations, functionWords().personalPronouns );
-	combinations = filterFunctionWords( combinations, functionWords().prepositions );
-	combinations = filterFunctionWords( combinations, functionWords().conjunctions );
-	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
-	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
-	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().filteredPassiveAuxiliaries );
-	combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
-	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );
-	combinations = filterOnSyllableCount( combinations, 1 );
-
+	combinations = filterCombinations( combinations, functionWords, locale );
 
 	forEach( combinations, function( combination ) {
 		combination.setRelevantWords( oneWordRelevanceMap );

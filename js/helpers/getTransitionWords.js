@@ -1,6 +1,6 @@
 var transitionWordsEnglish = require( "../researches/english/transitionWords.js" )().allWords;
 var twoPartTransitionWordsEnglish = require( "../researches/english/twoPartTransitionWords.js" );
-var transitionWordsGerman = require( "../researches/german/transitionWords.js" )();
+var transitionWordsGerman = require( "../researches/german/transitionWords.js" )().allWords;
 var twoPartTransitionWordsGerman = require( "../researches/german/twoPartTransitionWords.js" );
 var transitionWordsFrench = require( "../researches/french/transitionWords.js" )();
 var twoPartTransitionWordsFrench = require( "../researches/french/twoPartTransitionWords.js" );

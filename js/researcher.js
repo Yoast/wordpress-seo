@@ -27,9 +27,7 @@ var wordComplexity = require( "./researches/getWordComplexity.js" );
 var getParagraphLength = require( "./researches/getParagraphLength.js" );
 var countSentencesFromText = require( "./researches/countSentencesFromText.js" );
 var countSentencesFromDescription = require( "./researches/countSentencesFromDescription.js" );
-var getSubheadingLength = require( "./researches/getSubheadingLength.js" );
 var getSubheadingTextLengths = require( "./researches/getSubheadingTextLengths.js" );
-var getSubheadingPresence = require( "./researches/getSubheadingPresence.js" );
 var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
@@ -67,9 +65,7 @@ var Researcher = function( paper ) {
 		getParagraphLength: getParagraphLength,
 		countSentencesFromText: countSentencesFromText,
 		countSentencesFromDescription: countSentencesFromDescription,
-		getSubheadingLength: getSubheadingLength,
 		getSubheadingTextLengths: getSubheadingTextLengths,
-		getSubheadingPresence: getSubheadingPresence,
 		findTransitionWords: findTransitionWords,
 		passiveVoice: passiveVoice,
 		getSentenceBeginnings: getSentenceBeginnings,
