@@ -130,16 +130,6 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$service_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				'https://yoa.st/jl',
-				'website-review.png',
-				261,
-				152,
-				__( 'Order a Website Review and we will tell you what to improve to attract more visitors!', 'wordpress-seo' )
-			)
-		);
-
-		$service_spot->add_banner(
-			new WPSEO_Admin_Banner(
 				'https://yoa.st/jm',
 				'configuration-service.png',
 				261,
