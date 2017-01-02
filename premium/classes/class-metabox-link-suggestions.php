@@ -91,13 +91,12 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 */
 	protected function add_meta_box( $post_type ) {
 
-		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
 		if ( ! $this->is_available( $post_type ) ) {
 			return;
 		}
 
-		if ( ! $language_support->is_language_supported( get_locale() ) ) {
-			var_dump( get_locale() );
+		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
+		if ( ! $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
 			return;
 		}
 

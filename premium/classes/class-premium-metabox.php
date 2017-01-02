@@ -67,9 +67,10 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	public function send_data_to_assets() {
 		$options = WPSEO_Options::get_option( 'wpseo' );
 		$insights_enabled = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
-		$language = WPSEO_Utils::get_language( get_locale() );
 
-		if ( $language !== 'en' && $language !== 'de' ) {
+		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
+
+		if ( ! $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
 			$insights_enabled = false;
 		}
 

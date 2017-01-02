@@ -30,7 +30,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 */
 	public function add_tab( $tabs ) {
 		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
-		if ( WPSEO_Utils::are_content_endpoints_available() && $language_support->is_language_supported( get_locale() ) ) {
+		if ( WPSEO_Utils::are_content_endpoints_available() && $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
 			$tabs->add_tab( new WPSEO_Option_Tab( 'site-analysis', __( 'Site wide analysis', 'wordpress-seo-premium' ) ) );
 		}
 	}
