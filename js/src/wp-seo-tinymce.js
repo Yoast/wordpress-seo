@@ -45,15 +45,17 @@ var termsTmceId = "description";
 	}
 
 	/**
-	 * Checks if the content_ifr iframe is available. TinyMCE needs this for getContent to be working.
+	 * Checks if the TinyMCE iframe is available. TinyMCE needs this for getContent to be working.
 	 * If this element isn't loaded yet, it will let tinyMCE crash when calling getContent. Since tinyMCE
 	 * itself doesn't have a check for this and simply assumes the element is always there, we need
 	 * to do this check ourselves.
 	 *
+	 * @param {string} editorID The ID of the tinyMCE editor.
+	 *
 	 * @returns {boolean} Whether the element is found or not.
 	 */
-	function isTinyMCEBodyAvailable() {
-		return document.getElementById( "content_ifr" ) !== null;
+	function isTinyMCEBodyAvailable( editorID ) {
+		return document.getElementById( editorID + "_ifr" ) !== null;
 	}
 
 	/**
@@ -95,7 +97,7 @@ var termsTmceId = "description";
 	function getContentTinyMce( content_id ) {
 		// if no TinyMce object available
 		var content = "";
-		if ( isTinyMCEAvailable( content_id ) === false || isTinyMCEBodyAvailable() === false ) {
+		if ( isTinyMCEAvailable( content_id ) === false || isTinyMCEBodyAvailable( content_id ) === false ) {
 			content = tinyMCEElementContent( content_id );
 		}
 		else {
