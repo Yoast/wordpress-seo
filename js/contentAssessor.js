@@ -87,11 +87,10 @@ ContentAssessor.prototype.calculatePenaltyPointsUnsupportedLanguage = function( 
  */
 ContentAssessor.prototype.getApplicableAssessments = function() {
 	var availableAssessments = this.getAvailableAssessments();
-	var paper = this.getPaper();
 	return filter(
 		availableAssessments,
 		function( availableAssessment ) {
-			return this.isApplicable( availableAssessment, paper )
+			return this.isApplicable( availableAssessment, this.getPaper() )
 		}.bind( this )
 	);
 };

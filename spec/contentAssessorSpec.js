@@ -51,6 +51,10 @@ describe( "A content assesor", function() {
 		});
 
 		it( "should return 3 for a red assessment result", function() {
+			contentAssessor.getApplicableAssessments = function () {
+				return [ {}, {}, {}, {}, {}, {}, {}, {} ];
+			};
+
 			results = [
 				new AssessmentResult({ score: 3 })
 			];
@@ -73,6 +77,9 @@ describe( "A content assesor", function() {
 		});
 
 		it( "should return an aggregate for a mixed resultset", function() {
+			contentAssessor.getApplicableAssessments = function () {
+				return [ {}, {}, {}, {}, {}, {}, {}, {} ];
+			};
 			results = [
 				new AssessmentResult({ score: 9 }),
 				new AssessmentResult({ score: 6 }),
