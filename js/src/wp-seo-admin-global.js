@@ -16,11 +16,13 @@
 			return;
 		}
 
+		/* eslint-disable */
 		/* jshint ignore:start */
 		for ( var index = 0; index < wpseoConsoleNotifications.length; index++ ) {
 			console.warn( wpseoConsoleNotifications[ index ] );
 		}
 		/* jshint ignore:end */
+		/* eslint-enable */
 	}
 
 	jQuery( document ).ready( displayConsoleNotifications );
@@ -132,7 +134,7 @@
 	var $ = jQuery;
 
 	/**
-	 * Hide popup showing new alerts are present
+	 * Hide popup showing new alerts are present.
 	 *
 	 * @returns {void}
 	 */
@@ -142,7 +144,7 @@
 	}
 
 	/**
-	 * Show popup with new alerts message
+	 * Show popup with new alerts message.
 	 *
 	 * @returns {void}
 	 */
@@ -153,29 +155,13 @@
 	}
 
 	/**
-	 * Handle dismiss and restore AJAX responses
+	 * Updates the notification counter based on the amount of notifications passed.
 	 *
-	 * @param {Object} $source Object that triggered the request.
-	 * @param {Object} response AJAX response.
+	 * @param {number} total The amount of notifications that are currently available.
 	 *
 	 * @returns {void}
 	 */
-	function handleDismissRestoreResponse( $source, response ) {
-		$( ".yoast-alert-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
-
-		if ( typeof response.html === "undefined" ) {
-			return;
-		}
-
-		if ( response.html ) {
-			$source.closest( ".yoast-container" ).html( response.html );
-			/* jshint ignore:start */
-			/* eslint-disable */
-			hookDismissRestoreButtons();
-			/* jshint ignore:end */
-			/* eslint-enable */
-		}
-
+	function updateNotificationCounter( total ) {
 		var $wpseo_menu = $( "#wp-admin-bar-wpseo-menu" );
 		var $issue_counter = $wpseo_menu.find( ".yoast-issue-counter" );
 
@@ -184,65 +170,185 @@
 			$issue_counter = $wpseo_menu.find( ".yoast-issue-counter" );
 		}
 
-		$issue_counter.html( response.total );
-		if ( response.total === 0 ) {
+		$issue_counter.html( total );
+
+		if ( total === 0 ) {
 			$issue_counter.hide();
-		} else {
+		}
+
+		if ( total !== 0 ) {
 			$issue_counter.show();
 		}
 
-		$( "#toplevel_page_wpseo_dashboard .update-plugins" ).removeClass().addClass( "update-plugins count-" + response.total );
-		$( "#toplevel_page_wpseo_dashboard .plugin-count" ).html( response.total );
+		$( "#toplevel_page_wpseo_dashboard .update-plugins" ).removeClass().addClass( "update-plugins count-" + total );
 	}
 
 	/**
-	 * Hook the restore and dismiss buttons
+	 * Handle dismiss and restore AJAX responses.
+	 *
+	 * @param {Object} $source Object that triggered the request.
+	 * @param {Object} response AJAX response.
+	 *
+	 * @returns {void}
+	 */
+	function handleDismissRestoreResponse( $source, response ) {
+		$( ".yoast-alert-holder" ).off( "click", ".restore, .dismiss" );
+
+		if ( typeof response.html === "undefined" ) {
+			return;
+		}
+
+		if ( typeof response.total === "undefined" ) {
+			response.total = 0;
+		}
+
+		if ( response.html ) {
+			$source.html( response.html );
+			/* jshint ignore:start */
+			/* eslint-disable */
+			hookDismissRestoreButtons();
+			/* jshint ignore:end */
+			/* eslint-enable */
+		}
+
+		updateNotificationCounter( response.total );
+	}
+
+	/**
+	 * Sends a request to the backend to handle the dismissal or restoration of a notification.
+	 *
+	 * @param {string} action The function to call in the backend to process the request.
+	 * @param {string} notificationId The notification ID that needs to be dismissed.
+	 * @param {string} nonce The nonce used by the notification to validate the current request.
+	 * @param {Object} data Extra data to send to the backend.
+	 * @param {Object} responseTarget The targeted object to output the response to.
+	 *
+	 * @returns {void}
+	 */
+	function sendRequest( action, notificationId, nonce, data, responseTarget ) {
+		$.post(
+			ajaxurl,
+			{
+				action: action,
+				notification: notificationId,
+				nonce: nonce,
+				data: data,
+			},
+			handleDismissRestoreResponse.bind( this, responseTarget ),
+			"json"
+		);
+	}
+
+	/**
+	 * Restores a particular notification.
+	 *
+	 * @param {Object} source The data source to use for the AJAX request to the backend.
+	 * @param {Object} responseTarget The target element to return the response to.
+	 *
+	 * @returns {void}
+	 */
+	function restore( source, responseTarget ) {
+		sendRequest( "yoast_restore_alert", source.attr( "id" ), source.data( "nonce" ), source.data( "json" ), responseTarget );
+	}
+
+	/**
+	 * Dismisses a particular notification.
+	 *
+	 * @param {Object} source The data source to use for the AJAX request to the backend.
+	 * @param {Object} responseTarget The target element to return the response to.
+	 *
+	 * @returns {void}
+	 */
+	function dismiss( source, responseTarget ) {
+		sendRequest( "yoast_dismiss_alert", source.attr( "id" ), source.data( "nonce" ), source.data( "json" ), responseTarget );
+	}
+
+	/**
+	 * Adds a disabled overlay to the specified container element.
+	 *
+	 * @param {Object} container The container object to append the overlay to.
+	 *
+	 * @returns {void}
+	 */
+	function disableContainer( container ) {
+		container.append( '<div class="yoast-container-disabled"/>' );
+	}
+
+	/**
+	 * Hook the restore and dismiss buttons.
 	 *
 	 * @returns {void}
 	 */
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( ".yoast-alert-holder" );
 
-		$dismissible.on( "click", ".dismiss", function() {
+		$dismissible.on( "click", ".restore, .dismiss", function() {
 			var $this = $( this );
-			var $source = $this.closest( ".yoast-alert-holder" );
+			var holder = $this.closest( ".yoast-alert-holder" );
+			var container = holder.closest( ".yoast-container" );
 
-			var $container = $this.closest( ".yoast-container" );
-			$container.append( '<div class="yoast-container-disabled"/>' );
+			disableContainer( container );
 
-			$this.find( "span" ).removeClass( "dashicons-no-alt" ).addClass( "dashicons-randomize" );
+			if ( $this.hasClass( "restore" ) ) {
+				$this.find( "span" ).removeClass( "dashicons-arrow-up" ).addClass( "dashicons-randomize" );
+				restore( holder, container );
+			}
 
-			$.post(
-				ajaxurl,
-				{
-					action: "yoast_dismiss_alert",
-					notification: $source.attr( "id" ),
-					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" ),
-				},
-				handleDismissRestoreResponse.bind( this, $source ),
-				"json"
-			);
+			if ( $this.hasClass( "dismiss" ) ) {
+				$this.find( "span" ).removeClass( "dashicons-no-alt" ).addClass( "dashicons-randomize" );
+				dismiss( holder, container );
+			}
+		} );
+	}
+
+	/**
+	 * Extracts the necessary data from the notifications for bulk dismissal.
+	 *
+	 * @param {Object} holders The holder elements for the notifications.
+	 *
+	 * @returns {Array} A filtered list of the notifications to be used for mass dismissal.
+	 */
+	function extractHolderData( holders ) {
+		var data = [];
+
+		holders.each( function() {
+			var $this = $( this );
+
+			data.push( {
+				id: $this.attr( "id" ),
+				nonce: $this.data( "nonce" ),
+				data: $this.data( "json" ),
+				target: $this,
+			} );
 		} );
 
-		$dismissible.on( "click", ".restore", function() {
-			var $this = $( this );
-			var $source = $this.closest( ".yoast-alert-holder" );
+		return data;
+	}
 
-			var $container = $this.closest( ".yoast-container" );
-			$container.append( '<div class="yoast-container-disabled"/>' );
+	/**
+	 * Hooks the dismiss all button and sends the necessary requests to the backend.
+	 *
+	 * @returns {void}
+	 */
+	function hookDismissAllButton() {
+		$( document ).on( "click", ".yoast-dismiss-all", function( ev ) {
+			ev.preventDefault();
 
-			$this.find( "span" ).removeClass( "dashicons-arrow-up" ).addClass( "dashicons-randomize" );
+			var alerts = extractHolderData( $( ".yoast-alert-holder" ) );
+
+			disableContainer( $( ".yoast-container" ) );
 
 			$.post(
 				ajaxurl,
 				{
-					action: "yoast_restore_alert",
-					notification: $source.attr( "id" ),
-					nonce: $source.data( "nonce" ),
-					data: $source.data( "json" ),
+					action: "yoast_dismiss_alerts",
+					data: JSON.stringify( alerts )
 				},
-				handleDismissRestoreResponse.bind( this, $source ),
+				function( data ) {
+					$.each( $( data.html )[0], function( key, item ) {
+						handleDismissRestoreResponse( $( item.container ), { html: item.html, total: 0 } );
+					} );
+				},
 				"json"
 			);
 		} );
@@ -276,6 +382,7 @@
 
 	$( document ).ready( function() {
 		showAlertPopup();
+		hookDismissAllButton();
 		hookDismissRestoreButtons();
 		setPremiumIndicatorColor();
 	} );
@@ -312,7 +419,7 @@
 	}
 
 	/**
-	 * Open tab
+	 * Open tab.
 	 *
 	 * @param {object} $container Container that contains the tab.
 	 * @param {object} $tab Tab that is activated.
@@ -328,7 +435,7 @@
 	}
 
 	/**
-	 * Open Video Slideout
+	 * Open Video Slideout.
 	 *
 	 * @param {object} $container Tab to open video slider of.
 	 *
@@ -367,7 +474,7 @@
 	}
 
 	/**
-	 * Close Video Slideout
+	 * Close Video Slideout.
 	 *
 	 * @returns {void}
 	 */

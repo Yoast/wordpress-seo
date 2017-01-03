@@ -36,7 +36,7 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Add hooks
+	 * Adds hooks.
 	 */
 	private function add_hooks() {
 
@@ -49,12 +49,13 @@ class Yoast_Alerts {
 		add_action( 'admin_init', array( __CLASS__, 'collect_alerts' ), 99 );
 
 		// Add AJAX hooks.
+		add_action( 'wp_ajax_yoast_dismiss_alerts', array( $this, 'ajax_dismiss_alerts' ) );
 		add_action( 'wp_ajax_yoast_dismiss_alert', array( $this, 'ajax_dismiss_alert' ) );
 		add_action( 'wp_ajax_yoast_restore_alert', array( $this, 'ajax_restore_alert' ) );
 	}
 
 	/**
-	 * Enqueue assets
+	 * Enqueues assets.
 	 */
 	public function enqueue_assets() {
 
@@ -63,7 +64,7 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Handle ajax request to dismiss an alert
+	 * Handles ajax request to dismiss an alert.
 	 */
 	public function ajax_dismiss_alert() {
 
@@ -79,7 +80,35 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Handle ajax request to restore an alert
+	 * Handles ajax request to dismiss all alerts.
+	 */
+	public function ajax_dismiss_alerts() {
+
+		$notifications = json_decode( filter_input( INPUT_POST, 'data' ), true );
+
+		if ( count( $notifications !== 0 ) ) {
+			$responses = array();
+			$notification_center = Yoast_Notification_Center::get();
+
+			foreach ( $notifications as $notification ) {
+
+				$nonce = $notification['nonce'];
+
+				$notification = $notification_center->get_notification_by_id( $notification['id'] );
+				$notification_center->maybe_dismiss_notification( $notification, 'seen', $notification->get_id(), $nonce );
+
+				$responses[] = $notification;
+			}
+
+			// Only return the last response.
+			$this->output_ajax_responses( array_unique( $responses ) );
+		}
+
+		wp_die();
+	}
+
+	/**
+	 * Handles ajax request to restore an alert.
 	 */
 	public function ajax_restore_alert() {
 
@@ -94,7 +123,52 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Create AJAX response data
+	 * Creates AJAX response data.
+	 *
+	 * @param array $responses Responses to parse.
+	 */
+	private function output_ajax_responses( $responses ) {
+		$html = array();
+
+		foreach ( $responses as $response ) {
+
+			$type = $response->get_type();
+
+			if ( $type === 'updated' ) {
+				$type = 'warning';
+			}
+
+			$html[ $type ] = array(
+				'html' => $this->get_view_html( $response->get_type() ),
+				'container' => '.' . $this->determine_container( $type ),
+			);
+		}
+
+		echo wp_json_encode(
+			array(
+				'html'  => $html,
+				'total' => self::get_active_alert_count(),
+			)
+		);
+	}
+
+	/**
+	 * Determines what kind of container CSS class to use.
+	 *
+	 * @param string $type The message type.
+	 *
+	 * @return string The CSS class to apply to the container.
+	 */
+	private function determine_container( $type ) {
+		if ( $type === 'error' ) {
+			return 'yoast-container__alert';
+		}
+
+		return 'yoast-container__warning';
+	}
+
+	/**
+	 * Creates AJAX response data.
 	 *
 	 * @param string $type Alert type.
 	 */
@@ -110,11 +184,11 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Get the HTML to return in the AJAX request
+	 * Gets the HTML to return in the AJAX request.
 	 *
 	 * @param string $type Alert type.
 	 *
-	 * @return bool|string
+	 * @return string Returns the proper view to display.
 	 */
 	private function get_view_html( $type ) {
 
@@ -143,9 +217,9 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Extract the Yoast Notification from the AJAX request
+	 * Extracts the Yoast Notification from the AJAX request.
 	 *
-	 * @return null|Yoast_Notification
+	 * @return null|Yoast_Notification The Yoast_Notification object or null if none is found.
 	 */
 	private function get_notification_from_ajax_request() {
 
@@ -156,7 +230,7 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Show the alerts overview page
+	 * Shows the alerts overview page.
 	 */
 	public static function show_overview_page() {
 
@@ -167,7 +241,7 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Collect the alerts and group them together
+	 * Collects the alerts and group them together.
 	 */
 	public static function collect_alerts() {
 
@@ -186,9 +260,9 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Get the variables needed in the views
+	 * Gets the variables needed in the views.
 	 *
-	 * @return array
+	 * @return array Array containing the variables for the template.
 	 */
 	public static function get_template_variables() {
 
@@ -211,9 +285,9 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Get the number of active alerts
+	 * Gets the number of active alerts.
 	 *
-	 * @return int
+	 * @return int The amount of active alerts.
 	 */
 	public static function get_active_alert_count() {
 
@@ -221,11 +295,11 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Filter out any non-errors
+	 * Filters out any non-errors.
 	 *
 	 * @param Yoast_Notification $notification Notification to test.
 	 *
-	 * @return bool
+	 * @return bool Whether or not the notification type equals to error.
 	 */
 	private static function filter_error_alerts( Yoast_Notification $notification ) {
 
@@ -233,7 +307,7 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Filter out any non-warnings
+	 * Filters out any non-warnings.
 	 *
 	 * @param Yoast_Notification $notification Notification to test.
 	 *
@@ -245,7 +319,7 @@ class Yoast_Alerts {
 	}
 
 	/**
-	 * Filter out any dismissed notifications
+	 * Filters out any dismissed notifications.
 	 *
 	 * @param Yoast_Notification $notification Notification to test.
 	 *
