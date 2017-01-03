@@ -184,4 +184,26 @@ describe( "A content assesor", function() {
 			});
 		});
 	});
+	describe( "Checks the applicable assessments", function() {
+		var contentAssessor = new ContentAssessor( i18n );
+		it( "Should have 8 available assessments for a fully supported language", function() {
+			contentAssessor.getPaper = function() {
+				return new Paper( "test", { locale: "en_EN" } );
+			};
+
+			var actual = contentAssessor.getApplicableAssessments().length;
+			var expected = 8;
+			expect( actual ).toBe( expected );
+		});
+
+		it( "Should have 4 available assessments for a basic supported language", function() {
+			contentAssessor.getPaper = function() {
+				return new Paper( "test", { locale: "xx_XX" } );
+			};
+
+			var actual = contentAssessor.getApplicableAssessments().length;
+			var expected = 4;
+			expect( actual ).toBe( expected );
+		});
+	})
 });
