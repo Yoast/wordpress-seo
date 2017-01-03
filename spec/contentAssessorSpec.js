@@ -51,8 +51,8 @@ describe( "A content assesor", function() {
 		});
 
 		it( "should return 3 for a red assessment result", function() {
-			contentAssessor.getApplicableAssessments = function () {
-				return [ {}, {}, {}, {}, {}, {}, {}, {} ];
+			contentAssessor.isLanguageFullySupported = function () {
+				return true;
 			};
 
 			results = [
@@ -77,8 +77,8 @@ describe( "A content assesor", function() {
 		});
 
 		it( "should return an aggregate for a mixed resultset", function() {
-			contentAssessor.getApplicableAssessments = function () {
-				return [ {}, {}, {}, {}, {}, {}, {}, {} ];
+			contentAssessor.isLanguageFullySupported = function () {
+				return true;
 			};
 			results = [
 				new AssessmentResult({ score: 9 }),
@@ -140,6 +140,10 @@ describe( "A content assesor", function() {
 
 			forEach( testCases, function( testCase ) {
 				points = testCase.points;
+
+				contentAssessor.isLanguageFullySupported = function () {
+					return true;
+				};
 
 				var actual = contentAssessor.calculateOverallScore();
 

@@ -96,6 +96,18 @@ ContentAssessor.prototype.getApplicableAssessments = function() {
 };
 
 /**
+ * Determines whether a language is fully supported. If a language supports 8 content assessments
+ * it is fully supported
+ *
+ * @returns {boolean} True if fully supported.
+ */
+ContentAssessor.prototype.isLanguageFullySupported = function() {
+	var numberOfAssessments = 8;
+	var applicableAssessments = this.getApplicableAssessments();
+	return applicableAssessments.length === numberOfAssessments;
+};
+
+/**
  * Calculates the penalty points based on the assessment results.
  *
  * @returns {number} The total penalty points for the results.
@@ -103,13 +115,10 @@ ContentAssessor.prototype.getApplicableAssessments = function() {
 ContentAssessor.prototype.calculatePenaltyPoints = function() {
 	var results = this.getValidResults();
 
-	var numberOfAssessments = 8;
-	var applicableAssessments = this.getApplicableAssessments();
-
 	var penaltyPoints = map( results, function( result ) {
 		var rating = scoreToRating( result.getScore() );
 
-		if ( applicableAssessments.length >= numberOfAssessments ) {
+		if ( this.isLanguageFullySupported() ) {
 			return this.calculatePenaltyPointsSupportedLanguage( rating );
 		}
 
@@ -133,7 +142,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
 		return 30;
 	}
 
-	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
+	if ( this.isLanguageFullySupported() ) {
 		// Determine the total score based on the total penalty points.
 		if ( totalPenaltyPoints > 6 ) {
 			// A red indicator.
