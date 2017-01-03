@@ -159,15 +159,13 @@
 			} )
 			.fadeIn();
 
-		// Attach a namespaced hover event on the menu top level list items.
-		$( "#wp-admin-bar-root-default > li" ).on( "hover.yoastalertpopup", function() {
-			/*
-			 * Hide the notification popup when hovering the menu top level list items.
-			 * Note: this will work just the first time the list items get hovered in the
-			 * first 3 seconds after DOM ready because this event is then removed.
-			 */
-			hideAlertPopup();
-		} );
+		/*
+		 * Attach a namespaced hover event on the menu top level items to hide
+		 * the notification popup when hovering them.
+		 * Note: this will work just the first time the list items get hovered in the
+		 * first 3 seconds after DOM ready because this event is then removed.
+		 */
+		$( "#wp-admin-bar-root-default > li" ).on( "hover.yoastalertpopup", hideAlertPopup );
 
 		// Hide the notification popup after 3 seconds from DOM ready.
 		setTimeout( hideAlertPopup, 3000 );
