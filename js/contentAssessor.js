@@ -90,7 +90,7 @@ ContentAssessor.prototype.getApplicableAssessments = function() {
 	return filter(
 		availableAssessments,
 		function( availableAssessment ) {
-			return this.isApplicable( availableAssessment, this.getPaper() )
+			return this.isApplicable( availableAssessment, this.getPaper() );
 		}.bind( this )
 	);
 };
