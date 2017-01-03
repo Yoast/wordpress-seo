@@ -3,7 +3,6 @@ var domManipulation = require ( "../../js/helpers/domManipulation.js" );
 var hasClass = domManipulation.hasClass;
 var addClass = domManipulation.addClass;
 var removeClass = domManipulation.removeClass;
-var removeClasses= domManipulation.removeClasses;
 
 describe ( "Checks whether an element has a specific class", function() {
 	var mockElement = [];
@@ -29,6 +28,28 @@ describe ( "Checks whether an element has a specific class", function() {
 describe( "Adds a class to an element", function(){
 	var mockElementToAddClass = [];
 	mockElementToAddClass.nodeType = 1;
+	mockElementToAddClass.className = "default";
 	addClass( mockElementToAddClass, "test" );
-	expect( mockElementToAddClass.className ).toBe( "test" );
+
+	it( "Returns the className of the element",function( ) {
+		expect( mockElementToAddClass.className ).toBe( "default test" );
+	} )
+
+	addClass( mockElementToAddClass, "test" );
+
+	it( "Returns the className of the element, doesn't add a class twice",function( ) {
+		expect( mockElementToAddClass.className ).toBe( "default test" );
+	} )
 });
+
+describe( "Removes a class from an element", function(){
+	var mockElementToRemoveClass = [];
+	mockElementToRemoveClass.nodeType = 1;
+	mockElementToRemoveClass.className = "default test";
+	removeClass( mockElementToRemoveClass, "test" );
+
+	it( "Returns the className of the element",function( ) {
+		expect( mockElementToRemoveClass.className ).toBe( "default" );
+	} )
+});
+
