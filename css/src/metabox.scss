@@ -23,6 +23,11 @@
 	border: 0;
 }
 
+.form-table th,
+.form-table td {
+	border: 1px solid #c30 !important;
+}
+
 /* Give the original textarea enough height to mitigate content flash. */
 .term-description-wrap td > textarea#description {
 	min-height: 530px;
@@ -219,30 +224,21 @@ ul.wpseo-metabox-tabs li {
 	}
 }
 
-.inside .wpseotab .form-table th {
-	width: 140px !important;
-	font-size: 13px;
+.inside .wpseotab label {
+	display: block;
 }
 
-.inside .wpseotab .form-table td {
-	padding-top: 20px;
+.inside .wpseotab input[type="radio"] + label,
+.inside .wpseotab input[type="checkbox"] + label {
+	display: inline-block;
 }
 
-.inside .wpseotab .form-table label {
-	vertical-align: top;
-}
-
-.inside .wpseotab .form-table td input,
-.inside .wpseotab .form-table td select {
-	margin-top: -5px;
-}
-
-.inside .wpseotab .form-table #yoast_wpseo_focuskw_text_input,
-.inside .wpseotab .form-table #yoast_wpseo_metakeywords {
+.inside .wpseotab #yoast_wpseo_focuskw_text_input,
+.inside .wpseotab #yoast_wpseo_metakeywords {
 	margin-top: 0;
 }
 
-.inside .wpseotab .form-table td select[multiple] {
+.inside .wpseotab select[multiple] {
 	margin-top: 0;
 }
 
@@ -293,29 +289,6 @@ ul.wpseo-metabox-tabs li {
 
 .wpseo_hidden {
 	display: none;
-}
-
-/* Linkdex analysis block */
-table.wpseoanalysis th {
-	padding: 15px 0 5px 0;
-	font-size: 14px;
-	text-align: left;
-}
-
-table.wpseoanalysis th.first {
-	padding-top: 0;
-}
-
-table.wpseoanalysis td {
-	margin: 5px 0;
-	font-size: 13px;
-	line-height: 16px;
-}
-
-table.wpseoanalysis td.score {
-	width: 20px;
-	height: 18px;
-	padding-left: 10px;
 }
 
 .wpseo_msg {
@@ -450,16 +423,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 /**
  * Lines below came from taxonomy-meta.css
  */
-.wpseo-taxonomy-form tr,
-.wpseo-taxonomy-form th,
-.wpseo-taxonomy-form td {
-	vertical-align: top;
-}
-
-.inside .wpseotab .form-table.wpseo-taxonomy-form th {
-	width: 200px !important;
-}
-
 .yst-traffic-light-container {
 	display: block;
 	height: 30px;

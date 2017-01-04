@@ -295,10 +295,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function do_tab( $id, $heading, $content ) {
 		?>
 		<div id="wpseo_<?php echo esc_attr( $id ) ?>" class="wpseotab <?php echo esc_attr( $id ) ?>">
-			<h4 class="wpseo-heading"><?php echo esc_html( $heading ); ?></h4>
-			<table class="form-table">
-				<?php echo $content ?>
-			</table>
+			<h3 class="wpseo-heading"><?php echo esc_html( $heading ); ?></h3>
+			<?php echo $content ?>
 		</div>
 	<?php
 	}
@@ -521,7 +519,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Gets the table contents for the metabox tab.
+	 * Gets the contents for the metabox tab.
 	 *
 	 * @param string $tab_name Tab for which to retrieve the field definitions.
 	 *
@@ -624,7 +622,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'hidden':
-				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/><br />';
+				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/>' . "\n";
 				break;
 			case 'select':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
@@ -726,19 +724,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
-				$html = '<tr class="wpseo_hidden"><td colspan="2">' . $content . '</td></tr>';
+				$html = $content;
 			}
 			else {
-				$html = '
-					<tr>
-						<th scope="row">' . $label . $help_button . '</th>
-						<td>' . $help_panel;
-
-				$html .= $content . $description;
-
-				$html .= '
-					</td>
-				</tr>';
+				$html = $label . $help_button . $help_panel . $content . $description;
 			}
 		}
 
@@ -756,10 +745,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
-		$html = '<tr><td>';
-		$html .= $content;
+		$html = $content;
 		$html .= '<div class="wpseo_hidden" id="help-yoast-'. $hidden_help_name. '">' . $help_button . $help_panel . '</div>';
-		$html .= '</td></tr>';
 		return $html;
 	}
 
