@@ -8,6 +8,7 @@ import ReactDOM from "react-dom";
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
 import { OnboardingWizard } from "yoast-components";
+import { MessageBox } from "yoast-components";
 
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
@@ -116,6 +117,21 @@ class App extends React.Component {
 	render() {
 
 		if ( this.state.isLoading === false && this.state.config !== {} ) {
+
+			if ( typeof ( this.state.config ) === "undefined" ) {
+				let message = {
+					mixedString:
+					"An error occurred while loading the configuration wizard. This might be caused by a plugin conflict." +
+					" {{link}}Please check for plugin conflicts{{/link}} "
+					,
+					components: { link: <a href="https://yoa.st/pluginconflict" target="_blank" /> },
+				};
+				return (
+					<div>
+						<MessageBox { ...message }/>
+					</div>
+				)
+			}
 
 			return (
 				<div>
