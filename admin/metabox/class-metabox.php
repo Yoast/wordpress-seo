@@ -563,7 +563,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$aria_describedby = $description = '';
 		if ( isset( $meta_field_def['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $esc_form_key . '-desc"';
-			$description = '<p id="' . $esc_form_key . '-desc">' . $meta_field_def['description'] . '</p>';
+			$description = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
 		switch ( $meta_field_def['type'] ) {
@@ -588,7 +588,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
 			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
+				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
 				$content .= '</section>';
 				$content .= '</div>';
 				break;
@@ -597,7 +597,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<section class="yoast-section" id="wpseo-metakeywords-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-edit">' . esc_html( $meta_field_def['title'] ) . '</h3>';
 			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
-				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
 				$content .= $description;
 				$content .= '</section>';
 				$content .= '</div>';
@@ -610,7 +610,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				if ( $placeholder !== '' ) {
 					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
 				}
-				$content .= '<input type="text"' . $placeholder . 'id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<input type="text"' . $placeholder . 'id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
 				break;
 
 			case 'textarea':
@@ -670,7 +670,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'checkbox':
 				$checked = checked( $meta_value, 'on', false );
 				$expl    = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
-				$content .= '<label for="' . $esc_form_key . '"><input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"' . $aria_describedby . '/> ' . $expl . '</label><br />';
+				$content .= '<input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"' . $aria_describedby . '/> <label for="' . $esc_form_key . '">' . $expl . '</label>';
 				unset( $checked, $expl );
 				break;
 
@@ -689,7 +689,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<input id="' . $esc_form_key . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
 				break;
 		}
-
 
 		$html = '';
 		if ( $content === '' ) {

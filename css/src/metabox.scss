@@ -23,11 +23,6 @@
 	border: 0;
 }
 
-.form-table th,
-.form-table td {
-	border: 1px solid #c30 !important;
-}
-
 /* Give the original textarea enough height to mitigate content flash. */
 .term-description-wrap td > textarea#description {
 	min-height: 530px;
@@ -129,12 +124,24 @@ ul.wpseo-metabox-tabs li {
 
 }
 
-.wpseotab.active {
-	display: block;
+.wpseotab {
+	display: none;
 	overflow: auto;
-	padding: 0.5em 0.9em;
+	padding: 20px 15px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
+}
+
+.wpseotab.active {
+	display: block;
+}
+
+
+/* Tabs content. */
+#wpseosnippet,
+#wpseofocuskeyword,
+#wpseometakeywords {
+	margin-bottom: 3em;
 }
 
 .wpseo-metabox-tabs .wpseo_tablink {
@@ -205,10 +212,6 @@ ul.wpseo-metabox-tabs li {
 	}
 }
 
-.wpseotab {
-	display: none;
-}
-
 #wpseo_meta .postbox .inside .wpseotab {
 	font-size: 13px !important;
 }
@@ -234,20 +237,13 @@ ul.wpseo-metabox-tabs li {
 }
 
 .inside .wpseotab #yoast_wpseo_focuskw_text_input,
-.inside .wpseotab #yoast_wpseo_metakeywords {
-	margin-top: 0;
-}
-
+.inside .wpseotab #yoast_wpseo_metakeywords,
 .inside .wpseotab select[multiple] {
 	margin-top: 0;
 }
 
 .wpseotab .wpseo_image_upload_button {
 	margin-left: 3px;
-}
-
-.wpseotab .wpseoanalysis {
-	margin-top: 0;
 }
 
 .good,
