@@ -1,6 +1,6 @@
 import sentenceLengthInDescriptionAssessment from "../../js/assessments/sentenceLengthInDescriptionAssessment" ;
-let Paper = require( "../../js/values/Paper.js" );
-let Factory = require( "../helpers/factory.js" );
+import Paper from "../../js/values/Paper.js";
+import Factory from "../helpers/factory.js";
 let i18n = Factory.buildJed();
 
 describe( "An assessment for sentence length", function(){
@@ -62,7 +62,7 @@ describe( "An assessment for sentence length", function(){
 			"<a href='https://yoa.st/short-sentences' target='_blank'>over 20 words</a>. Try to shorten these sentences." );
 	} );
 
-	it( "checks the applicability", function(){
+	it( "is not applicable for empty papers", function(){
 		mockPaper = new Paper();
 		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
