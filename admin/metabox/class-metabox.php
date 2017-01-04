@@ -697,21 +697,30 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $content !== '' ) {
 
-			$label = esc_html( $meta_field_def['title'] );
-			if ( in_array( $meta_field_def['type'], array(
-					'radio',
-					'checkbox',
-				), true ) === false
-			) {
-				$label = '<label for="' . $esc_form_key . '">' . $label . '</label>';
-			}
+			$title = esc_html( $meta_field_def['title'] );
 
+			// By default, use the field title as a label element.
+			$label = '<label for="' . $esc_form_key . '">' . $title . '</label>';
+
+			// Set the inline help and help panel, if any.
 			$help_button = $help_panel = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
 				$help = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
 				$help_button = $help->get_button_html();
 				$help_panel  = $help->get_panel_html();
 			}
+
+			// If it's a set of radio buttons, output proper fieldset and legend.
+			if ( 'radio' === $meta_field_def['type'] ) {
+				return '<fieldset><legend>' . $title . '</legend>' . $help_button . $help_panel . $content . $description . '</fieldset>';
+			}
+
+			// If it's a single checkbox, ignore the title.
+			if ( 'checkbox' === $meta_field_def['type'] ) {
+				$label = '';
+			}
+
+			// Special meta box sections such as the Snippet Preview, the Analysis, etc.
 			if ( in_array( $meta_field_def['type'], array(
 					'snippetpreview',
 					'pageanalysis',
@@ -722,6 +731,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
 			}
 
+			// Other meta box content or form fields.
 			if ( $meta_field_def['type'] === 'hidden' ) {
 				$html = $content;
 			}
