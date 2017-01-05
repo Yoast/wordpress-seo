@@ -132,23 +132,42 @@
 	var $ = jQuery;
 
 	/**
-	 * Hide popup showing new alerts are present
+	 * Hide popup showing new alerts message.
 	 *
 	 * @returns {void}
 	 */
 	function hideAlertPopup() {
-		$( "#wp-admin-bar-root-default > li" ).off( "hover", hideAlertPopup );
+		// Remove the namespaced hover event from the menu top level list items.
+		$( "#wp-admin-bar-root-default > li" ).off( "hover.yoastalertpopup" );
+		// Hide the notification popup by fading it out.
 		$( ".yoast-issue-added" ).fadeOut( 200 );
 	}
 
 	/**
-	 * Show popup with new alerts message
+	 * Show popup with new alerts message.
 	 *
 	 * @returns {void}
 	 */
 	function showAlertPopup() {
-		$( ".yoast-issue-added" ).hover( hideAlertPopup ).fadeIn();
-		$( "#wp-admin-bar-root-default > li" ).on( "hover", hideAlertPopup );
+		// Attach an hover event and show the notification popup by fading it in.
+		$( ".yoast-issue-added" )
+			.on( "hover", function( evt ) {
+				// Avoid the hover event to propagate on the parent elements.
+				evt.stopPropagation();
+				// Hide the notification popup when hovering on it.
+				hideAlertPopup();
+			} )
+			.fadeIn();
+
+		/*
+		 * Attach a namespaced hover event on the menu top level items to hide
+		 * the notification popup when hovering them.
+		 * Note: this will work just the first time the list items get hovered in the
+		 * first 3 seconds after DOM ready because this event is then removed.
+		 */
+		$( "#wp-admin-bar-root-default > li" ).on( "hover.yoastalertpopup", hideAlertPopup );
+
+		// Hide the notification popup after 3 seconds from DOM ready.
 		setTimeout( hideAlertPopup, 3000 );
 	}
 
