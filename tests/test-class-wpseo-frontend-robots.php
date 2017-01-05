@@ -142,7 +142,7 @@ class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase {
 
 	public function test_private_post() {
 		// create and go to post
-		$post_id = $this->factory->post->create( [ 'post_status' => 'private' ] );
+		$post_id = $this->factory->post->create( array( 'post_status' => 'private' ) );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// test private posts
