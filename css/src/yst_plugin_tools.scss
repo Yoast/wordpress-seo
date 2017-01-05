@@ -1,35 +1,43 @@
-h4 {
-	clear: both;
-	margin: 1.2em 0 0.5em 0;
+/* Settings pages layout. */
+.wpseo_content_wrapper {
+	display: table;
+	width: 100%;
 }
 
-p.desc {
-	margin: 6px 0 10px 0;
-	padding: 0 0 8px 25px;
+.wpseo_content_cell {
+	display: table-cell;
+	height: 500px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
 }
 
-p.desc.label {
-	margin: 0 0 20px;
-	padding: 0 0 10px 200px;
+#wpseo_content_top {
+	min-width: 800px;
 }
 
+#sidebar-container {
+	width: 260px;
+	padding: 0 0 0 20px;
+}
+
+/* @todo: check this. */
 tr.yst_row {
 	margin: 5px 0 0 0;
 	padding: 5px 0 0 0;
 }
 
+/* @todo: check this. */
 tr.yst_row.even {
 	background-color: #f6f6f6;
 }
 
-div.yoastbox ul {
-	margin-left: 20px;
-}
-
+/* @todo: check this. */
 .postbox {
 	margin: 10px 10px 0 0;
 }
 
+/* Forms. */
 label {
 	float: left;
 	margin-left: 6px;
@@ -59,16 +67,7 @@ input.textinput,
 textarea.textinput,
 select.select {
 	float: left;
-	margin: 0 3px 15px 0;
-	padding: 5px;
-}
-
-textarea.textinput {
-	padding: 3px 6px;
-}
-
-select.select {
-	padding: 3px;
+	margin: 0 0 15px 0;
 }
 
 input.checkbox,
@@ -90,10 +89,21 @@ label.textinput,
 label.select,
 label.checkbox {
 	width: 200px;
-	margin: 5px 0 5px 0;
+	margin: 5px 0;
 	background-color: transparent;
 }
 
+p.desc {
+	margin: 6px 0 10px 0;
+	padding: 0 0 8px 25px;
+}
+
+p.desc.label {
+	margin: 0 0 20px;
+	padding: 0 0 10px 200px;
+}
+
+/* Google Search Console: Reload crawl issues form. */
 .wpseo-gsc-reload-crawl-issues-form {
 	position: relative;
 	top: 9px;
@@ -103,13 +113,14 @@ label.checkbox {
 	margin-left: 200px;
 }
 
-table.wpseo th {
-	text-align: left;
+/* Styles for Yoast specific content. @todo: check this. */
+.wpseo_content_wrapper h3 {
+	margin: 1em 0 0.5em 0;
 }
 
-.wpseo_content_wrapper {
-	display: table;
-	width: 100%;
+h4 {
+	clear: both;
+	margin: 1.2em 0 0.5em 0;
 }
 
 .wpseo_content_wrapper p,
@@ -121,32 +132,17 @@ table.wpseo th {
 	max-width: none;
 }
 
+/* @todo: check this. */
+table.wpseo th {
+	text-align: left;
+}
+
 /* Notices below Settings pages tabs. */
 #wpseo-tabs + .notice {
 	margin-top: 1.5em;
 }
 
-.wpseo_content_cell {
-	display: table-cell;
-	height: 500px;
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
-}
-
-.wpseo-remove-ads {
-	margin-top: 0;
-	padding: 12px;
-	border: 1px solid #0075b3;
-	border-radius: 20px;
-	border-bottom-right-radius: 0;
-	background-color: #fff;
-}
-
-#wpseo_content_top {
-	min-width: 800px;
-}
-
+/* Template variables error. */
 .wpseo-variable-warning-element {
 	border: 1px solid #c62d2d !important;
 }
@@ -166,53 +162,23 @@ table.wpseo th {
 	color: #c62d2d;
 }
 
-.wpseo_content_wrapper h3 {
-	margin: 1em 0 0.5em 0;
-}
-
+/* Create redirect popup. */
 .wpseo_content_wrapper h1.wpseo-redirect-url-title {
 	margin: 1em 0 0.5em 0;
 	font-size: 1.3em;
 }
 
-#sidebar-container {
-	width: 261px;
-	padding: 0 0 0 20px;
-}
-
-@media (max-width: 1020px) {
-	#wpseo_content_top {
-		margin-left: 0;
-		padding-left: 0;
-	}
-}
-
-.wpseo-admin-page .form-table tr,
-.wpseo-admin-page .form-table th,
-.wpseo-admin-page .form-table td {
-	vertical-align: top;
-}
-
+/* @todo: check this. */
 .postbox form {
 	line-height: 150%;
 }
 
-div.yoastbox ul li {
-	list-style: square;
-}
-
+/* @todo: check this. */
 .text {
 	width: 250px;
 }
 
-div.yoastbox .button:hover,
-div.yoastbox .button-primary:hover {
-	text-decoration: none;
-}
-
-/*.button, .button-primary {*/
-/*margin-top: 10px;*/
-/*}*/
+/* Template variables table. */
 table.yoast_help,
 table.yoast_help th,
 table.yoast_help td {
@@ -241,18 +207,21 @@ table.yoast_help tr:hover {
 	background-color: #ddd;
 }
 
+/* @todo: check this. */
 .correct {
 	padding: 5px;
 	color: white;
 	background-color: green;
 }
 
+/* @todo: check this. */
 .wrong {
 	padding: 5px;
 	color: white;
 	background-color: #dc3232;
 }
 
+/* @todo: check this. */
 .wrong code {
 	padding: 3px 8px;
 	color: #000;
@@ -271,11 +240,13 @@ table.yoast_help tr:hover {
 	max-width: none;
 }
 
+/* @todo: check this. */
 .button.fixit {
 	float: right;
 	margin: 0 5px;
 }
 
+/* @todo: check this. */
 .button.checkit {
 	float: right;
 	margin: 0 5px;
@@ -287,10 +258,7 @@ table.yoast_help tr:hover {
 	margin-right: 8px;
 }
 
-.postbox#donate {
-	border: 2px green;
-}
-
+/* Tabs. */
 .wpseotab {
 	display: none;
 	margin-top: 15px;
@@ -308,39 +276,7 @@ table.yoast_help tr:hover {
 	font-size: 115%;
 }
 
-#sidebar .yoastbox {
-	margin: 0 0 10px 0;
-	padding: 10px 15px;
-	border: 1px solid #ccc;
-	border-radius: 5px 25px;
-}
-
-#sidebar .yoastbox h2 {
-	font-size: 16px;
-}
-
-#sidebar .promo {
-	color: #000;
-}
-
-#donate.yoastbox,
-#sitereview.yoastbox {
-	border-color: green;
-	background-color: #cfc;
-}
-
-h2 {
-	margin-bottom: 20px;
-}
-
-h2 code {
-	font-size: 23px;
-}
-
-#pointer-primary {
-	margin: 0 5px 0 0;
-}
-
+/* Debug Information meta box. */
 #wpseo-debug-info {
 	clear: both;
 }
@@ -359,46 +295,14 @@ h2 code {
 	color: #c00;
 }
 
+/* Bulk editor. */
 input.wpseo-new-title,
 textarea.wpseo-new-metadesc {
 	width: 100%;
 	max-width: 100%;
 }
 
-.wpseotab .extension {
-	float: left;
-	box-sizing: border-box;
-	width: 300px;
-	height: 230px;
-	margin: 10px 20px 10px 0;
-	border: 1px solid #ccc;
-}
-
-.wpseotab .extension p {
-	margin: 0;
-	padding: 10px;
-}
-
-.wpseotab .extension h3 {
-	box-sizing: border-box;
-	height: 110px;
-	margin: 0;
-	padding: 20px 10px 0 120px;
-	border-bottom: 1px solid #ccc;
-	background: #fff no-repeat left 10px;
-	background-size: 130px 100px;
-}
-
-.wpseotab .extension a {
-	text-decoration: none;
-}
-
-.wpseotab .extension button.installed {
-	border-color: #00a000;
-	background-color: #00a000;
-	cursor: default;
-}
-
+/* Titles & Metas: title separator. */
 #separator {
 	margin: 1.5em 0 1em;
 }
@@ -436,16 +340,19 @@ textarea.wpseo-new-metadesc {
 	border-bottom-right-radius: 0;
 }
 
+/* @todo: check this. */
 .svg-container {
 	text-align: center;
 }
 
+/* @todo: check this. */
 .svg-container .dashicons {
 	width: 200px;
 	height: 100px;
 	font-size: 100px;
 }
 
+/* Yoast SEO credits page. */
 body.toplevel_page_wpseo_dashboard .wp-badge {
 	border: none;
 	background: url(../images/Yoast_SEO_Icon.svg);
@@ -453,6 +360,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	box-shadow: none;
 }
 
+/* @todo: remove this, see #6380. */
 .nav-tab .dashicons {
 	width: 18px;
 	height: 18px;
@@ -460,6 +368,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	line-height: 24px;
 }
 
+/* @todo: remove this, see #6380. */
 .nav-tab .pinteresticon {
 	width: 12px;
 	height: 24px;
@@ -470,6 +379,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	background-size: contain;
 }
 
+/* Recalculate score progress bar. Note: currently not used. */
 #wpseo_progressbar {
 	height: 25px;
 	border: 1px solid #006691;
@@ -480,6 +390,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	background: #006691;
 }
 
+/* Add Facebook admin popup: notification when submitting empty form. */
 .wpseo-add-fb-admin-form-wrap .notice span {
 	margin-left: 10px;
 }
@@ -488,6 +399,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	padding-top: 1em;
 }
 
+/* Google Search Console: Reload crawl issues form. */
 @media screen and ( max-width: 782px ) {
 	.wpseo-gsc-reload-crawl-issues-form {
 		top: 0;
@@ -505,6 +417,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 }
 
+/* Banners sidebar. */
 .yoast-sidebar {
 
 	&__title {
