@@ -9,6 +9,7 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 	protected $subject;
 
 	public function setUp() {
+		parent::setUp();
 		$this->subject = new WPSEO_Metabox_Editor();
 	}
 

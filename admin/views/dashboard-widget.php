@@ -72,15 +72,20 @@ if ( ! empty( $onpage ) && $can_access ) : ?>
 			case WPSEO_OnPage_Option::CANNOT_FETCH :
 				echo '<span class="wpseo-score-icon na"></span>';
 				printf(
-					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-					__( '%1$sYoast SEO has not been able to fetch your site’s indexability status%2$s from OnPage.org', 'wordpress-seo' ),
+					/* translators: %1$s opens a link to a related knowledge base article, %2$s expands to Yoast SEO, %3$s closes the link. */
+					__( '%1$s%2$s has not been able to fetch your site\'s indexability status%3$s from OnPage.org', 'wordpress-seo' ),
 					'<a href="https://yoa.st/onpagerequestfailed" target="_blank">',
+					'Yoast SEO',
 					'</a>'
 				);
 				break;
 			case WPSEO_OnPage_Option::NOT_FETCHED :
 				echo '<span class="wpseo-score-icon na"></span>';
-				esc_html_e( 'Yoast SEO has not fetched your site’s indexability status yet from OnPage.org', 'wordpress-seo' );
+				echo esc_html( sprintf(
+					/* translators: %s expands to Yoast SEO. */
+					__( '%s has not fetched your site\'s indexability status yet from OnPage.org', 'wordpress-seo' ),
+					'Yoast SEO'
+				) );
 				break;
 		endswitch;
 		?>

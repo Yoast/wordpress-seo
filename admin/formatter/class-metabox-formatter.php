@@ -51,7 +51,8 @@ class WPSEO_Metabox_Formatter {
 			'keywordTab'        => __( 'Keyword:', 'wordpress-seo' ),
 			'enterFocusKeyword' => __( 'Enter your focus keyword', 'wordpress-seo' ),
 			'removeKeyword'     => __( 'Remove keyword', 'wordpress-seo' ),
-			'locale'            => get_locale(),
+			'contentLocale'     => get_locale(),
+			'userLocale'        => WPSEO_Utils::get_user_locale(),
 			'translations'      => $this->get_translations(),
 			'keyword_usage'     => array(),
 			'title_template'    => '',
@@ -87,7 +88,9 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		$locale = WPSEO_Utils::get_user_locale();
+
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}

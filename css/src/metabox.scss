@@ -195,6 +195,7 @@ ul.wpseo-metabox-tabs li {
 
 #wpseo_meta {
 	.inside {
+		margin: 6px 0 0 0;
 		overflow: auto;
 	}
 }
@@ -402,7 +403,8 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	color: #0073aa;
 }
 
-.yoast_help.yoast-help-button:focus:before {
+.yoast_help.yoast-help-button:focus:before,
+.assessment-results__mark:focus {
 	border-radius: 100%;
 	box-shadow: 0 0 0 1px #5b9dd9,
 	0 0 2px 1px rgba(30, 140, 190, 0.8);
@@ -542,12 +544,12 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	background-image: url(svg-icon-yoast($color));
 }
 
-#poststuff.wpseo-taxonomy-metabox-postbox {
-	padding-top: 0;
-}
-
 .term-php .wpseo-taxonomy-metabox-postbox h2 {
+	margin: 0;
+	padding: 8px 12px;
 	border-bottom: 1px solid #eee;
+	font-size: 14px;
+	line-height: 1.4;
 }
 
 .wpseo-buy-premium {

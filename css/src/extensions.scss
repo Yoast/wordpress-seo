@@ -184,4 +184,16 @@
 		font-style: italic;
 		font-size: 1.1em;
 	}
+
+	&-license-status-active {
+		padding: 3px 6px;
+		color: $color_white;
+		background: $color_green_medium;
+	}
+
+	&-license-status-inactive {
+		padding: 3px 6px;
+		color: $color_white;
+		background: $color_error;
+	}
 }

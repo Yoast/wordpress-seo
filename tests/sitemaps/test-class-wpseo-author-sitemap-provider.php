@@ -24,6 +24,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 * Set up our double class
 	 */
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 		self::$class_instance = new WPSEO_Author_Sitemap_Provider;
 	}
 
@@ -109,24 +110,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 		// User should be removed.
 		$this->assertEmpty( $sitemap_links );
-	}
-
-	/**
-	 * Test if a user is -not- excluded from the sitemap when there are posts
-	 */
-	public function test_author_not_exclused_from_sitemap_by_zero_posts() {
-		$user = $this->get_user();
-
-		// Don't allow no posts.
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
-
-		// Make the user -have- posts.
-		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_posts' ) );
-
-		$result = self::$class_instance->user_sitemap_remove_excluded_authors( array( $user ) );
-
-		// User should not be removed.
-		$this->assertEquals( $result, array( $user ) );
 	}
 
 	/**

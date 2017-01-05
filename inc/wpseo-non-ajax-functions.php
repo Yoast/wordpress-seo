@@ -64,7 +64,7 @@ function wpseo_admin_bar_menu() {
 	}
 
 	// Never display notifications for network admin.
-	$counter = '';
+	$counter = $alert_popup = '';
 
 	// Set the top level menu item content for admins and network admins.
 	if ( $user_is_admin_or_networkadmin ) {
@@ -95,7 +95,7 @@ function wpseo_admin_bar_menu() {
 					_n( 'You have a new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
 					$new_notifications_count
 				);
-				$counter .= '<div class="yoast-issue-added">' . $notification . '</div>';
+				$alert_popup = '<div class="yoast-issue-added">' . $notification . '</div>';
 			}
 		}
 	}
@@ -104,7 +104,7 @@ function wpseo_admin_bar_menu() {
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
-		'title' => $title . $score . $counter,
+		'title' => $title . $score . $counter . $alert_popup,
 		'href'  => $seo_url,
 		'meta'   => array( 'tabindex' => $top_level_link_tabindex ),
 	) );

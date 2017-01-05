@@ -2,6 +2,11 @@ language: php
 
 sudo: false
 
+branches:
+  only:
+    - master
+    - trunk
+
 matrix:
   allow_failures:
     - php: hhvm
@@ -10,26 +15,17 @@ matrix:
       env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node
     - php: 5.2
       env: WP_VERSION=4.6 WP_MULTISITE=1 PHPLINT=1
-    - php: 7.0
-      env: WP_VERSION=4.6
-    - php: 7.0
-      env: WP_VERSION=4.5
-    - php: 7.0
-      env: WP_VERSION=4.4
     - php: 5.6
       env: WP_VERSION=4.6
-    - php: 5.5
-      env: WP_VERSION=4.6
-    - php: 5.4
-      env: WP_VERSION=4.6
     - php: 5.3
-      env: WP_VERSION=4.6
+      env: WP_VERSION=4.5
     - php: 7.1
       env: WP_VERSION=master
     - php: hhvm
       env: WP_VERSION=4.6
 
 cache:
+  yarn: true
   directories:
     - vendor
     - $HOME/.composer/cache
@@ -37,6 +33,8 @@ cache:
 
 before_install:
 - if [[ "$CHECKJS" == "1" ]]; then nvm install $TRAVIS_NODE_VERSION; fi
+- if [[ "$CHECKJS" == "1" ]]; then curl -o- -L https://yarnpkg.com/install.sh | bash; fi
+- if [[ "$CHECKJS" == "1" ]]; then export PATH=$HOME/.yarn/bin:$PATH; fi
 
 install:
 - phpenv local 5.6
@@ -44,8 +42,8 @@ install:
 - composer install --no-interaction
 - composer config-yoastcs
 - phpenv local --unset
-- if [[ "$CHECKJS" == "1" ]]; then npm install -g grunt-cli; fi
-- if [[ "$CHECKJS" == "1" ]]; then npm install --no-optional; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn global add grunt-cli; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn install --ignore-optional; fi
 
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
@@ -68,6 +66,7 @@ script:
 - if [[ "$CHECKJS" == "1" ]]; then grunt check:js; fi
 - if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn test; fi
 
 after_success:
 - if [[ "$COVERAGE" == "1" ]]; then vendor/bin/test-reporter; fi
