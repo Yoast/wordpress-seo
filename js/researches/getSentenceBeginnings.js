@@ -1,13 +1,12 @@
-import getSentences from "../stringProcessing/getSentences.js";
-import getWords from "../stringProcessing/getWords.js";
-import stripSpaces from "../stringProcessing/stripSpaces.js";
-import stripHTLMTags from "../stringProcessing/stripHTMLTags.js";
-let stripTags = stripHTLMTags.stripFullTags;
-import getFirstWordExceptions from "../helpers/getFirstWordExceptions.js";
+let getSentences = require( "../stringProcessing/getSentences.js" );
+let getWords = require( "../stringProcessing/getWords.js" );
+let stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+let stripTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
+let getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
 
-import isEmpty from "lodash/isEmpty";
-import forEach from "lodash/forEach";
-import filter from "lodash/filter";
+let isEmpty = require( "lodash/isEmpty" );
+let forEach = require( "lodash/forEach" );
+let filter = require( "lodash/filter" );
 
 /**
  * Compares the first word of each sentence with the first word of the following sentence.

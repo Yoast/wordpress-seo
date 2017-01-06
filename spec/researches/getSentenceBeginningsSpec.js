@@ -1,5 +1,5 @@
-import sentenceBeginnings from "../../js/researches/getSentenceBeginnings";
-import Paper from "../../js/values/Paper.js";
+let sentenceBeginnings = require(  "../../js/researches/getSentenceBeginnings" );
+let Paper = require( "../../js/values/Paper.js" );
 
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
 	it( "returns an object with sentence beginnings and counts for two sentences in English starting with different words.", function() {

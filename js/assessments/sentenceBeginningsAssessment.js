@@ -1,19 +1,18 @@
-import AssessmentResult from "../values/AssessmentResult.js";
-import stripHTMLTags from "../stringProcessing/stripHTMLTags";
-let stripTags = stripHTMLTags.stripIncompleteTags;
+let AssessmentResult = require( "../values/AssessmentResult.js" );
+let stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
-import partition from "lodash/partition";
-import sortBy from "lodash/sortBy";
-import map from "lodash/map";
-import filter from "lodash/filter";
-import flatten from "lodash/flatten";
+let partition = require( "lodash/partition" );
+let sortBy = require( "lodash/sortBy" );
+let map = require( "lodash/map" );
+let filter = require( "lodash/filter" );
+let flatten = require( "lodash/flatten" );
 
-import Mark from "../values/Mark.js";
-import marker from "../markers/addMark.js";
+let Mark = require( "../values/Mark.js" );
+let marker = require( "../markers/addMark.js" );
 
 let maximumConsecutiveDuplicates = 2;
 
-import getLanguageAvailability from "../helpers/getLanguageAvailability.js";
+let getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
 let availableLanguages = [ "en", "de", "es", "fr", "nl" ];
 
 /**
@@ -114,7 +113,7 @@ module.exports = {
 	identifier: "sentenceBeginnings",
 	getResult: sentenceBeginningsAssessment,
 	isApplicable: function( paper ) {
-		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		let isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
 	getMarks: sentenceBeginningMarker,
