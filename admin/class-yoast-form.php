@@ -337,7 +337,7 @@ class Yoast_Form {
 		) );
 		$val  = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
-		$this->label( $label . ':', array( 'for' => $var ) );
+		$this->label( $label . ':', array( 'for' => $var, 'class' => 'textinput' ) );
 		echo '<input class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"/>', '<br class="clear" />';
 	}
 

@@ -1,4 +1,4 @@
-/* Settings pages layout. */
+/* Settings pages layout based on CSS table model. */
 .wpseo_content_wrapper {
 	display: table;
 	width: 100%;
@@ -13,12 +13,13 @@
 }
 
 #wpseo_content_top {
-	min-width: 800px;
+	width: 100%;
 }
 
 #sidebar-container {
-	width: 260px;
-	padding: 0 0 0 20px;
+	/* For historical reasons banner images have a 261px width. */
+	width: 261px;
+	padding: 0 0 0 19px;
 }
 
 /* @todo: check this. */
@@ -38,19 +39,16 @@ tr.yst_row.even {
 }
 
 /* Forms. */
-label {
+label.textinput,
+label.select {
 	float: left;
-	margin-left: 6px;
+	width: 200px;
+	margin: 5px 0;
 }
 
 .yoast-inline-label {
 	float: none;
 	margin: 0;
-}
-
-label.radio {
-	float: none;
-	margin-right: 20px;
 }
 
 input.textinput,
@@ -59,38 +57,28 @@ select {
 	width: 400px;
 }
 
-input.checkbox + label.checkbox {
-	width: auto;
-}
-
 input.textinput,
 textarea.textinput,
 select.select {
-	float: left;
 	margin: 0 0 15px 0;
 }
 
+/* @todo: check if the .double class is still used. */
+input.radio,
 input.checkbox,
 input.checkbox.double {
-	float: left;
 	margin: 6px 10px 6px 0;
 }
 
+/* @todo: check this. */
 .textinput.metadesc {
 	height: 50px;
 }
 
+/* @todo: check this. Couldn't find any textarea with class 'import'. */
 textarea.import {
 	width: 500px;
 	height: 100px;
-}
-
-label.textinput,
-label.select,
-label.checkbox {
-	width: 200px;
-	margin: 5px 0;
-	background-color: transparent;
 }
 
 p.desc {
@@ -128,6 +116,7 @@ h4 {
 	max-width: 600px;
 }
 
+.yoast .search-box,
 .wpseo_content_wrapper .notice p {
 	max-width: none;
 }
@@ -253,6 +242,7 @@ table.yoast_help tr:hover {
 	padding: 5px 8px;
 }
 
+/* Add Facebook admins buttons. @todo: remove this. */
 .fb-buttons .button-primary,
 .fb-buttons .button {
 	margin-right: 8px;
@@ -399,24 +389,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	padding-top: 1em;
 }
 
-/* Google Search Console: Reload crawl issues form. */
-@media screen and ( max-width: 782px ) {
-	.wpseo-gsc-reload-crawl-issues-form {
-		top: 0;
-		margin: 1em 0;
-	}
-
-	.wpseo-gsc-reload-crawl-issues-form .alignright {
-		float: none;
-	}
-}
-
-@media screen and ( max-width: 600px ) {
-	.wpseo-gsc-reload-crawl-issues-form {
-		margin-bottom: 0;
-	}
-}
-
 /* Banners sidebar. */
 .yoast-sidebar {
 
@@ -451,5 +423,96 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 	&__image {
 	   vertical-align: top;
+	}
+}
+
+/* Responsive layout. */
+@media screen and ( max-width: 1024px ) {
+	.wpseo_content_wrapper,
+	.wpseo_content_cell {
+		display: block;
+		height: auto;
+	}
+
+	#wpseo_content_top {
+		width: auto;
+	}
+
+	#sidebar-container {
+		width: auto;
+		padding: 0;
+	}
+
+	/* Banners sidebar. */
+	.yoast-sidebar {
+
+		&__spot {
+			float: left;
+			width: 50%;
+			border: none;
+
+			p {
+				max-width: 261px;
+			}
+		}
+	}
+}
+
+@media screen and ( max-width: 782px ) {
+	/* Forms. */
+	label.textinput,
+	label.select {
+		display: inline-block;
+		float: none;
+		width: auto;
+	}
+
+	input.textinput,
+	textarea,
+	textarea.textinput {
+		display: block;
+		width: 100%;
+	}
+
+	select,
+	select.select,
+	.select2-container {
+		display: block;
+		max-width: 100%;
+	}
+
+	p.desc.label {
+		padding-left: 0;
+	}
+
+	.wp-core-ui .button.wpseo-gsc-save-profile {
+		margin-left: 0;
+	}
+
+	/* Google Search Console: Reload crawl issues form. */
+	.wpseo-gsc-reload-crawl-issues-form {
+		top: 0;
+		margin: 1em 0;
+	}
+
+	.wpseo-gsc-reload-crawl-issues-form .alignright {
+		float: none;
+	}
+}
+
+@media screen and ( max-width: 600px ) {
+	/* Google Search Console: Reload crawl issues form. */
+	.wpseo-gsc-reload-crawl-issues-form {
+		margin-bottom: 0;
+	}
+
+	/* Banners sidebar. */
+	.yoast-sidebar {
+
+		&__spot {
+			float: none;
+			width: auto;
+			border-bottom: 1px solid #ddd;
+		}
 	}
 }
