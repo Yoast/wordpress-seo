@@ -13,7 +13,7 @@ var marker = require( "../markers/addMark.js" );
 var maximumConsecutiveDuplicates = 2;
 
 var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
-var availableLanguages = [ "en", "de", "es", "fr" ];
+var availableLanguages = [ "en", "de", "es", "fr", "nl" ];
 
 /**
  * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.

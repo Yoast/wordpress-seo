@@ -118,6 +118,26 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( sentenceBeginnings( mockPaper )[0].count ).toBe( 3 );
 	} );
 
+	it( "returns an object with sentence beginnings and counts for two sentences in Dutch starting with different words.", function() {
+		var mockPaper = new Paper( "Hallo wereld. Hoe gaat het? ", { locale: 'nl_NL'} );
+		expect( sentenceBeginnings( mockPaper )[0].word ).toBe( "hallo" );
+		expect( sentenceBeginnings( mockPaper )[0].count ).toBe( 1 );
+		expect( sentenceBeginnings( mockPaper )[1].word ).toBe( "hoe" );
+		expect( sentenceBeginnings( mockPaper )[1].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Dutch starting with the same word.", function() {
+		var mockPaper = new Paper( "Hallo wereld. Hallo mensheid.", { locale: 'nl_NL'} );
+		expect( sentenceBeginnings( mockPaper )[0].word ).toBe( "hallo" );
+		expect( sentenceBeginnings( mockPaper )[0].count ).toBe( 2 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Dutch all starting with one of the exception words.", function() {
+		var mockPaper = new Paper( "Het is een nacht die je normaal alleen in films ziet. Het is een nacht die wordt bezongen in het mooiste lied. Het is een nacht waarvan ik dacht dat ik 'm nooit beleven zou", { locale: 'nl_NL'} );
+		expect( sentenceBeginnings( mockPaper )[0].word ).toBe( "het is" );
+		expect( sentenceBeginnings( mockPaper )[0].count ).toBe( 3 );
+	} );
+
 	it( "returns an object with English sentence beginnings in lists", function() {
 		var mockPaper = new Paper( "<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>" );
 		expect( sentenceBeginnings( mockPaper )[ 0 ].word ).toBe( "item", { locale: 'en_US'} );

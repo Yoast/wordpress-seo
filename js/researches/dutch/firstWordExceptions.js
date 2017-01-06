@@ -9,7 +9,7 @@ module.exports = function() {
 		// Indefinite articles:
 		"een",
 		// Numbers 1-10:
-		"één", "eén","twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien",
+		"één", "eén", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien",
 		// Demonstrative pronouns:
 		"dit", "dat", "die", "deze",
 	];
