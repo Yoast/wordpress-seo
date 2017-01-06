@@ -1158,10 +1158,12 @@ class WPSEO_Frontend {
 
 	/**
 	 * Outputs the meta keywords element.
+         *
+	 * @param bool $echo Echo or return output flag.
 	 *
 	 * @return void
 	 */
-	public function metakeywords() {
+	public function metakeywords( $echo = true ) {
 		global $wp_query, $post;
 
 		if ( $this->options['usemetakeywords'] === false ) {
@@ -1226,8 +1228,13 @@ class WPSEO_Frontend {
 		 */
 		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // More appropriately named.
 
-		if ( is_string( $keywords ) && $keywords !== '' ) {
-			echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
+                if ( $echo !== false ) {
+                    if ( is_string( $keywords ) && $keywords !== '' ) {
+                            echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
+                    }
+                }
+                else {
+			return esc_attr( strip_tags( stripslashes( $keywords ) ) );
 		}
 	}
 
