@@ -1,10 +1,10 @@
-var firstWordExceptionsEnglish = require( "../researches/english/firstWordExceptions.js" );
-var firstWordExceptionsGerman = require( "../researches/german/firstWordExceptions.js" );
-var firstWordExceptionsSpanish = require( "../researches/spanish/firstWordExceptions.js" );
-var firstWordExceptionsFrench = require( "../researches/french/firstWordExceptions.js" );
-var firstWordExceptionsDutch = require( "../researches/dutch/firstWordExceptions.js" );
+import firstWordExceptionsEnglish from "../researches/english/firstWordExceptions.js";
+import firstWordExceptionsGerman from "../researches/german/firstWordExceptions.js";
+import firstWordExceptionsSpanish from "../researches/spanish/firstWordExceptions.js";
+import firstWordExceptionsFrench from "../researches/french/firstWordExceptions.js";
+import firstWordExceptionsDutch from "../researches/dutch/firstWordExceptions.js";
 
-var getLanguage = require( "./getLanguage.js" );
+let getLanguage = require( "./getLanguage.js" );
 
 module.exports = function( locale ) {
 	switch( getLanguage( locale ) ) {

@@ -1,12 +1,13 @@
-var getSentences = require( "../stringProcessing/getSentences.js" );
-var getWords = require( "../stringProcessing/getWords.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
-var getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
+import getSentences from "../stringProcessing/getSentences.js";
+import getWords from "../stringProcessing/getWords.js";
+import stripSpaces from "../stringProcessing/stripSpaces.js";
+import stripHTLMTags from "../stringProcessing/stripHTMLTags.js";
+let stripTags = stripHTLMTags.stripFullTags;
+import getFirstWordExceptions from "../helpers/getFirstWordExceptions.js";
 
-var isEmpty = require( "lodash/isEmpty" );
-var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
+import isEmpty from "lodash/isEmpty";
+import forEach from "lodash/forEach";
+import filter from "lodash/filter";
 
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
@@ -15,7 +16,7 @@ var filter = require( "lodash/filter" );
  * @param {string} nextSentenceBeginning The first word of the next sentence.
  * @returns {boolean} Returns true if sentence beginnings match.
  */
-var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
+let startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
 	if ( ! isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
 		return true;
 	}
@@ -30,14 +31,14 @@ var startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginni
  * @param {Array} sentences The array containing all sentences.
  * @returns {Array} The array containing the objects containing the first words and the corresponding counts.
  */
-var compareFirstWords = function( sentenceBeginnings, sentences ) {
-	var consecutiveFirstWords = [];
-	var foundSentences = [];
-	var sameBeginnings = 1;
+let compareFirstWords = function( sentenceBeginnings, sentences ) {
+	let consecutiveFirstWords = [];
+	let foundSentences = [];
+	let sameBeginnings = 1;
 
 	forEach( sentenceBeginnings, function( beginning, i ) {
-		var currentSentenceBeginning = beginning;
-		var nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
+		let currentSentenceBeginning = beginning;
+		let nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
 		foundSentences.push( sentences[ i ] );
 
 		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
@@ -75,13 +76,13 @@ function sanitizeSentence( sentence ) {
 function getSentenceBeginning( sentence, firstWordExceptions ) {
 	sentence = sanitizeSentence( sentence );
 
-	var words = getWords( stripSpaces( sentence ) );
+	let words = getWords( stripSpaces( sentence ) );
 
 	if ( words.length === 0 ) {
 		return "";
 	}
 
-	var firstWord = words[ 0 ].toLocaleLowerCase();
+	let firstWord = words[ 0 ].toLocaleLowerCase();
 
 	if ( firstWordExceptions.indexOf( firstWord ) > -1 && words.length > 1 ) {
 		firstWord += " " + words[ 1 ];
@@ -96,10 +97,10 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
  * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
  */
 module.exports = function( paper ) {
-	var sentences = getSentences( paper.getText() );
-	var firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
+	let sentences = getSentences( paper.getText() );
+	let firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 
-	var sentenceBeginnings = sentences.map( function( sentence ) {
+	let sentenceBeginnings = sentences.map( function( sentence ) {
 		return getSentenceBeginning( sentence, firstWordExceptions );
 	} );
 

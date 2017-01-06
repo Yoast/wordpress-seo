@@ -1,27 +1,28 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+import AssessmentResult from "../values/AssessmentResult.js";
+import stripHTMLTags from "../stringProcessing/stripHTMLTags";
+let stripTags = stripHTMLTags.stripIncompleteTags;
 
-var partition = require( "lodash/partition" );
-var sortBy = require( "lodash/sortBy" );
-var map = require( "lodash/map" );
-var filter = require( "lodash/filter" );
-var flatten = require( "lodash/flatten" );
+import partition from "lodash/partition";
+import sortBy from "lodash/sortBy";
+import map from "lodash/map";
+import filter from "lodash/filter";
+import flatten from "lodash/flatten";
 
-var Mark = require( "../values/Mark.js" );
-var marker = require( "../markers/addMark.js" );
+import Mark from "../values/Mark.js";
+import marker from "../markers/addMark.js";
 
-var maximumConsecutiveDuplicates = 2;
+let maximumConsecutiveDuplicates = 2;
 
-var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
-var availableLanguages = [ "en", "de", "es", "fr", "nl" ];
+import getLanguageAvailability from "../helpers/getLanguageAvailability.js";
+let availableLanguages = [ "en", "de", "es", "fr", "nl" ];
 
 /**
  * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.
  * @param {array} sentenceBeginnings The array containing the objects containing the beginning words and counts.
  * @returns {object} The object containing the total number of too often used beginnings and the lowest count within those.
  */
-var groupSentenceBeginnings = function( sentenceBeginnings ) {
-	var tooOften = partition( sentenceBeginnings, function( word ) {
+let groupSentenceBeginnings = function( sentenceBeginnings ) {
+	let tooOften = partition( sentenceBeginnings, function( word ) {
 		return word.count > maximumConsecutiveDuplicates;
 	} );
 
@@ -29,7 +30,7 @@ var groupSentenceBeginnings = function( sentenceBeginnings ) {
 		return { total: 0 };
 	}
 
-	var sortedCounts = sortBy( tooOften[ 0 ], function( word ) {
+	let sortedCounts = sortBy( tooOften[ 0 ], function( word ) {
 		return word.count;
 	} );
 
@@ -42,7 +43,7 @@ var groupSentenceBeginnings = function( sentenceBeginnings ) {
  * @param {object} i18n The object used for translations.
  * @returns {{score: number, text: string, hasMarks: boolean}} resultobject with score and text.
  */
-var calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
+let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
 	if ( groupedSentenceBeginnings.total > 0 ) {
 		return {
 			score: 3,
@@ -70,19 +71,19 @@ var calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
  * @param {object} researcher The researcher used for calling research.
  * @returns {object} All marked sentences.
  */
-var sentenceBeginningMarker = function( paper, researcher ) {
-	var sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
+let sentenceBeginningMarker = function( paper, researcher ) {
+	let sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 	sentenceBeginnings = filter( sentenceBeginnings, function( sentenceBeginning ) {
 		return sentenceBeginning.count > maximumConsecutiveDuplicates;
 	} );
 
-	var sentences = map( sentenceBeginnings, function( begin ) {
+	let sentences = map( sentenceBeginnings, function( begin ) {
 		return begin.sentences;
 	} );
 
 	return map( flatten( sentences ), function( sentence ) {
 		sentence = stripTags( sentence );
-		var marked = marker( sentence );
+		let marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
 			marked: marked,
@@ -97,11 +98,11 @@ var sentenceBeginningMarker = function( paper, researcher ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} The Assessment result
  */
-var sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
-	var sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
-	var groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
-	var sentenceBeginningsResult = calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
-	var assessmentResult = new AssessmentResult();
+let sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
+	let sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
+	let groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
+	let sentenceBeginningsResult = calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
+	let assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( sentenceBeginningsResult.score );
 	assessmentResult.setText( sentenceBeginningsResult.text );
