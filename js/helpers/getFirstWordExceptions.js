@@ -1,8 +1,8 @@
-import firstWordExceptionsEnglish from "../researches/english/firstWordExceptions.js";
-import firstWordExceptionsGerman from "../researches/german/firstWordExceptions.js";
-import firstWordExceptionsSpanish from "../researches/spanish/firstWordExceptions.js";
-import firstWordExceptionsFrench from "../researches/french/firstWordExceptions.js";
-import firstWordExceptionsDutch from "../researches/dutch/firstWordExceptions.js";
+let firstWordExceptionsEnglish = require( "../researches/english/firstWordExceptions.js" );
+let firstWordExceptionsGerman = require( "../researches/german/firstWordExceptions.js" );
+let firstWordExceptionsSpanish = require( "../researches/spanish/firstWordExceptions.js" );
+let firstWordExceptionsFrench = require( "../researches/french/firstWordExceptions.js" );
+let firstWordExceptionsDutch = require( "../researches/dutch/firstWordExceptions.js" );
 
 let getLanguage = require( "./getLanguage.js" );
 

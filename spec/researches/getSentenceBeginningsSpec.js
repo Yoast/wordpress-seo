@@ -1,4 +1,4 @@
-import sentenceBeginnings from "../../js/researches/getSentenceBeginnings.js";
+import sentenceBeginnings from "../../js/researches/getSentenceBeginnings";
 import Paper from "../../js/values/Paper.js";
 
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
