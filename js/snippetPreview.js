@@ -1146,6 +1146,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 	);
 
 	spanHolder = document.createElement( "div" );
+	spanHolder.className = "yoast-measurement-elements-holder";
 
 	spanHolder.innerHTML = metaDescriptionElement;
 
