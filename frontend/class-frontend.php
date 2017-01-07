@@ -1228,19 +1228,19 @@ class WPSEO_Frontend {
 		 */
 		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // More appropriately named.
 
-		if ( $echo !== false ) {
-			if ( is_string( $keywords ) && $keywords !== '' ) {
+		
+		if ( is_string( $keywords ) && $keywords !== '' ) {
+			if ( $echo !== false ) {
 				echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
 			}
+			elseif ( $echo === false ){
+				return esc_attr( strip_tags( stripslashes( $keywords ) ) ); 
+			} 
 		}
-		else {
-			if ( is_string( $keywords ) && $keywords !== '' ) {
-				return esc_attr( strip_tags( stripslashes( $keywords ) ) );
-			}
-			else {
-				return '';
-			}
-		}
+
+		if ( $echo === false ){
+			return ''; 
+		}  
 	}
 
 	/**
