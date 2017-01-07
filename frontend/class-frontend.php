@@ -1233,7 +1233,7 @@ class WPSEO_Frontend {
 				echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
 			}
 		}
-		else {
+		if ( $echo !== true ) {
 			if ( is_string( $keywords ) && $keywords !== '' ) {
 				return esc_attr( strip_tags( stripslashes( $keywords ) ) );
 			}
