@@ -1158,7 +1158,7 @@ class WPSEO_Frontend {
 
 	/**
 	 * Outputs the meta keywords element.
-         *
+	 *
 	 * @param bool $echo Echo or return output flag.
 	 *
 	 * @return void
@@ -1238,7 +1238,7 @@ class WPSEO_Frontend {
 				return esc_attr( strip_tags( stripslashes( $keywords ) ) );
 			}
 			else {
-				return "";
+				return '';
 			}
 		}
 	}
