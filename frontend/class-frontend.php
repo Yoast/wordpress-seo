@@ -1237,9 +1237,7 @@ class WPSEO_Frontend {
 			if ( is_string( $keywords ) && $keywords !== '' ) {
 				return esc_attr( strip_tags( stripslashes( $keywords ) ) );
 			}
-			else {
-				return '';
-			}
+			return '';
 		}
 	}
 
