@@ -1,10 +1,16 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
 /**
  * Class WPSEO_Premium_Prominent_Words_Language_Support
  */
 class WPSEO_Premium_Prominent_Words_Language_Support {
 
+	/**
+	 * @var array List of supported languages.
+	 */
 	protected $supported_languages = array( 'en', 'de' );
 
 	/**

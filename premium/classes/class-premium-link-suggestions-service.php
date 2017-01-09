@@ -132,7 +132,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		$title = trim( $post->post_title );
 
 		if ( empty( $title ) ) {
-			$title = __( '(no title)' );
+			$title = __( '(no title)', 'wordpress-seo' );
 		}
 
 		return array(
