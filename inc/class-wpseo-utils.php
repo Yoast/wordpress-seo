@@ -841,7 +841,7 @@ class WPSEO_Utils {
 	/**
 	 * Check if the current page is a Yoast SEO advanced settings page.
 	 *
-	 * @param string $current_page the current page the user is on
+	 * @param string $current_page the current page the user is on.
 	 *
 	 * @return bool
 	 */
@@ -851,7 +851,7 @@ class WPSEO_Utils {
 			'wpseo_social',
 			'wpseo_xml',
 			'wpseo_advanced',
-			'wpseo_tools'
+			'wpseo_tools',
 		);
 
 		return in_array( $current_page, $yoast_seo_advanced_settings_pages );
