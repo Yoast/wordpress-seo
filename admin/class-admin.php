@@ -580,6 +580,7 @@ class WPSEO_Admin {
 		$this->turn_on_advanced_settings();
 
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
+			echo 'true';
 			return $pages;
 		}
 
@@ -594,17 +595,6 @@ class WPSEO_Admin {
 		}
 
 		return $pages;
-	}
-
-	/**
-	 * Checks if the user is on an advanced settings page.
-	 * If so, make sure the advanced settings are enabled again.
-	 */
-	public function turn_on_advanced_settings() {
-		if (WPSEO_Utils::is_yoast_seo_advanced_settings_page( filter_input( INPUT_GET, 'page')) ){
-			$this->options['enable_setting_pages'] = true;
-			update_option( 'wpseo', $this->options );
-		}
 	}
 
 	/**
@@ -662,6 +652,17 @@ class WPSEO_Admin {
 			foreach ( $users as $user ) {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 			}
+		}
+	}
+
+	/**
+	 * Checks if the user is on an advanced settings page.
+	 * If so, make sure the advanced settings are enabled again.
+	 */
+	protected function turn_on_advanced_settings() {
+		if ( WPSEO_Utils::is_yoast_seo_advanced_settings_page( filter_input( INPUT_GET, 'page' ) ) ) {
+			$this->options['enable_setting_pages'] = true;
+			update_option( 'wpseo', $this->options );
 		}
 	}
 

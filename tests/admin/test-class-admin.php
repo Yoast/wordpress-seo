@@ -1,6 +1,22 @@
 <?php
 
+class WPSEO_Admin_Double extends WPSEO_Admin {
+	protected $options = array(
+		'enable_setting_pages' => 'false'
+	);
+}
+
 class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
+
+	private $class_instance;
+
+	public function setUp() {
+		$this->class_instance =
+			$this
+				->getMockBuilder( 'WPSEO_Admin_Double' )
+				->setMethods( array( 'turn_on_advanced_settings' ) )
+				->getMock();
+	}
 
 	/**
 	 * Test that admin_features returns the correct array when we're editing/creating a post.
@@ -41,5 +57,56 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
 	}
 
+	/**
+	 * Test that filter_settings_pages calls the turn_on_advanced_settings function.
+	 *
+	 * @covers WPSEO_Admin::filter_settings_pages
+	 */
+	public function test_filter_settings_pages_CALLS_turn_on_advanced_settings() {
+		$pages = array (
+			0 =>
+				array (
+					4 => 'wpseo_dashboard',
+				),
+			1 =>
+				array (
+					4 => 'wpseo_titles',
+				),
+			2 =>
+				array (
+					4 => 'wpseo_social',
+				),
+			3 =>
+				array (
+					4 => 'wpseo_xml',
+				),
+			4 =>
+				array(
+					4 => 'wpseo_advanced',
+				),
+			5 =>
+				array (
+					4 => 'wpseo_tools',
+				),
+			6 =>
+				array (
+					4 => 'wpseo_search_console',
+				),
+			7 =>
+				array (
+					4 => 'wpseo_licenses',
+				),
+		);
+
+		$this->class_instance
+			->expects( $this->once() )
+			->method( 'turn_on_advanced_settings' );
+
+		$options['enable_setting_pages'] = true;
+		update_option( 'wpseo', $options );
+
+		$this->class_instance->filter_settings_pages( $pages );
+
+	}
 
 }
