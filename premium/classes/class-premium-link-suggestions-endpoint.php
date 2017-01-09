@@ -11,7 +11,7 @@ class WPSEO_Premium_Link_Suggestions_Endpoint implements WPSEO_WordPress_Integra
 	const REST_NAMESPACE = 'yoast/v1';
 	const ENDPOINT_QUERY = 'link_suggestions';
 
-	const CAPABILITY_RETRIEVE = 'manage_categories';
+	const CAPABILITY_RETRIEVE = 'edit_posts';
 
 	/**
 	 * @var WPSEO_Premium_Link_Suggestions_Service

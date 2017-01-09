@@ -11,7 +11,7 @@ class WPSEO_Premium_Prominent_Words_Endpoint implements WPSEO_WordPress_Integrat
 	const REST_NAMESPACE = 'yoast/v1';
 	const ENDPOINT_QUERY = 'prominent_words';
 
-	const CAPABILITY_RETRIEVE = 'manage_categories';
+	const CAPABILITY_RETRIEVE = 'edit_posts';
 
 	/**
 	 * @var WPSEO_Premium_Prominent_Words_Service
