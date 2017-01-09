@@ -29,7 +29,8 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @param WPSEO_Option_Tabs $tabs The tabs object.
 	 */
 	public function add_tab( $tabs ) {
-		if ( WPSEO_Utils::are_content_endpoints_available() && $this->is_content_language_supported() ) {
+		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
+		if ( WPSEO_Utils::are_content_endpoints_available() && $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
 			$tabs->add_tab( new WPSEO_Option_Tab( 'site-analysis', __( 'Site wide analysis', 'wordpress-seo-premium' ) ) );
 		}
 	}
@@ -214,15 +215,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis' );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', 'yoastSiteWideAnalysisData', array( 'data' => $data ) );
 		}
-	}
-
-	/**
-	 * Returns whether the current language is supported for the link suggestions.
-	 *
-	 * @return bool Whether the current language is supported for the link suggestions.
-	 */
-	protected function is_content_language_supported() {
-		return WPSEO_Utils::get_language( get_locale() ) === 'en';
 	}
 
 	/**
