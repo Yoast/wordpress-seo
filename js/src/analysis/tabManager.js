@@ -47,6 +47,7 @@ TabManager.prototype.init = function() {
 
 	this.focusKeywordInput = $( "#yoast_wpseo_focuskw_text_input,#wpseo_focuskw" );
 	this.focusKeywordRow = this.focusKeywordInput.closest( "tr" );
+	this.metaKeywordsRow = $( "#wpseometakeywords" ).closest( "tr" );
 	this.contentAnalysis = $( "#yoast-seo-content-analysis" );
 	this.keywordAnalysis = $( "#wpseo-pageanalysis, #wpseo_analysis" );
 	this.snippetPreview  = $( "#wpseosnippet" ).closest( "tr" );
@@ -57,6 +58,7 @@ TabManager.prototype.init = function() {
 	this.contentAnalysis.show();
 	this.keywordAnalysis.hide();
 	this.focusKeywordRow.hide();
+	this.metaKeywordsRow.hide();
 
 	// Initialize an instance of the keyword tab.
 	this.mainKeywordTab = new KeywordTab( {
@@ -102,6 +104,7 @@ TabManager.prototype.init = function() {
 TabManager.prototype.showKeywordAnalysis = function() {
 	this.focusKeywordRow.show();
 	this.keywordAnalysis.show();
+	this.metaKeywordsRow.show();
 	this.contentAnalysis.hide();
 
 	if ( this.arguments.keywordAnalysisActive ) {
@@ -117,6 +120,7 @@ TabManager.prototype.showKeywordAnalysis = function() {
 TabManager.prototype.showContentAnalysis = function() {
 	this.focusKeywordRow.hide();
 	this.keywordAnalysis.hide();
+	this.metaKeywordsRow.hide();
 	this.contentAnalysis.show();
 
 	if ( this.arguments.keywordAnalysisActive ) {
