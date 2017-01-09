@@ -5,6 +5,7 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	public function setUp() {
+		parent::setUp();
 		$this->class_instance =
 			$this
 				->getMockBuilder( 'WPSEO_Admin' )
