@@ -15,7 +15,6 @@ var scoreToRating = require( "./interpreters/scoreToRating" );
 
 var map = require( "lodash/map" );
 var sum = require( "lodash/sum" );
-var filter = require( "lodash/filter" );
 
 /**
  * Creates the Assessor
