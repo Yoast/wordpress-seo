@@ -67,6 +67,7 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 			'show_in_nav_menus'          => false,
 			'show_tagcloud'              => false,
 			'show_in_rest'               => true,
+			'capabilities'               => array( 'edit_terms' => 'edit_posts' ),
 		);
 
 		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
