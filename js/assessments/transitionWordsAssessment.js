@@ -1,14 +1,14 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var formatNumber = require( "../helpers/formatNumber.js" );
-var map = require( "lodash/map" );
-var inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
-var stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+let AssessmentResult = require( "../values/AssessmentResult.js" );
+let formatNumber = require( "../helpers/formatNumber.js" );
+let map = require( "lodash/map" );
+let inRange = require( "../helpers/inRange.js" ).inRangeStartInclusive;
+let stripTags = require( "../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
-var Mark = require( "../values/Mark.js" );
-var marker = require( "../markers/addMark.js" );
+let Mark = require( "../values/Mark.js" );
+let marker = require( "../markers/addMark.js" );
 
-var getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
-var availableLanguages = [ "en", "de", "es", "fr" ];
+let getLanguageAvailability = require( "../helpers/getLanguageAvailability.js" );
+let availableLanguages = [ "en", "de", "es", "fr", "nl" ];
 
 /**
  * Calculates the actual percentage of transition words in the sentences.
@@ -17,7 +17,7 @@ var availableLanguages = [ "en", "de", "es", "fr" ];
  * a transition word.
  * @returns {number} The percentage of sentences containing a transition word.
  */
-var calculateTransitionWordPercentage = function( sentences ) {
+let calculateTransitionWordPercentage = function( sentences ) {
 	if ( sentences.transitionWordSentences === 0 || sentences.totalSentences === 0 ) {
 		return 0;
 	}
@@ -32,11 +32,11 @@ var calculateTransitionWordPercentage = function( sentences ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} Object containing score and text.
  */
-var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
-	var score;
-	var percentage = calculateTransitionWordPercentage( transitionWordSentences );
-	var hasMarks   = ( percentage > 0 );
-	var transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
+let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
+	let score;
+	let percentage = calculateTransitionWordPercentage( transitionWordSentences );
+	let hasMarks   = ( percentage > 0 );
+	let transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
 
 	if ( percentage < 20 ) {
 		// Red indicator.
@@ -54,7 +54,7 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	}
 
 	if ( score < 7 ) {
-		var recommendedMinimum = 30;
+		let recommendedMinimum = 30;
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
@@ -89,10 +89,10 @@ var calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} The Assessment result.
  */
-var transitionWordsAssessment = function( paper, researcher, i18n ) {
-	var transitionWordSentences = researcher.getResearch( "findTransitionWords" );
-	var transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
-	var assessmentResult = new AssessmentResult();
+let transitionWordsAssessment = function( paper, researcher, i18n ) {
+	let transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+	let transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
+	let assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( transitionWordResult.score );
 	assessmentResult.setText( transitionWordResult.text );
@@ -107,11 +107,11 @@ var transitionWordsAssessment = function( paper, researcher, i18n ) {
  * @param {Researcher} researcher The researcher containing the necessary research.
  * @returns {Array<Mark>} A list of marks that should be applied.
  */
-var transitionWordsMarker = function( paper, researcher ) {
-	var transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+let transitionWordsMarker = function( paper, researcher ) {
+	let transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 
 	return map( transitionWordSentences.sentenceResults, function( sentenceResult ) {
-		var sentence = sentenceResult.sentence;
+		let sentence = sentenceResult.sentence;
 		sentence = stripTags( sentence );
 		return new Mark( {
 			original: sentence,
@@ -124,7 +124,7 @@ module.exports = {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
-		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		let isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
 	getMarks: transitionWordsMarker,

@@ -111,8 +111,8 @@ describe( "An assessment for transition word percentage", function(){
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "is not applicable for unsupported locales, nl_NL in this case", function(){
-		mockPaper = new Paper( "This is a string", { locale: "nl_NL" } );
+	it( "is not applicable for unsupported locales, xx_YY in this case", function(){
+		mockPaper = new Paper( "This is a string", { locale: "xx_YY" } );
 		assessment = transitionWordsAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
 	} );
