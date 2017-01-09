@@ -1,11 +1,5 @@
 <?php
 
-class WPSEO_Admin_Double extends WPSEO_Admin {
-	protected $options = array(
-		'enable_setting_pages' => 'false'
-	);
-}
-
 class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 	private $class_instance;
@@ -13,7 +7,7 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		$this->class_instance =
 			$this
-				->getMockBuilder( 'WPSEO_Admin_Double' )
+				->getMockBuilder( 'WPSEO_Admin' )
 				->setMethods( array( 'turn_on_advanced_settings' ) )
 				->getMock();
 	}

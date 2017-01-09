@@ -580,7 +580,6 @@ class WPSEO_Admin {
 		$this->turn_on_advanced_settings();
 
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
-			echo 'true';
 			return $pages;
 		}
 
