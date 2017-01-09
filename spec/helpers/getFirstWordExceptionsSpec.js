@@ -17,7 +17,7 @@ describe("a test for getting the correct first word exception array", function()
 		expect(firstWordExceptions("de_DE")()).toEqual([ 'das', 'dem', 'den', 'der', 'des', 'die', 'ein', 'eine', 'einem', 'einen', 'einer', 'eines', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun', 'zehn', 'denen', 'deren', 'derer', 'dessen', 'diese', 'diesem', 'diesen', 'dieser', 'dieses', 'jene', 'jenem', 'jenen', 'jener', 'jenes', 'welch', 'welcher', 'welches' ]);
 	});
 
-	it("returns the Dytch first word exception array in case of nl_NL locale", function () {
+	it("returns the Dutch first word exception array in case of nl_NL locale", function () {
 		expect(firstWordExceptions("nl_NL")()).toEqual([ 'de', 'het', 'een', 'één', 'eén', 'twee', 'drie', 'vier', 'vijf', 'zes', 'zeven', 'acht', 'negen', 'tien', 'dit', 'dat', 'die', 'deze' ]);
 	});
 
