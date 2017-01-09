@@ -605,6 +605,8 @@ class WPSEO_Admin {
 	 * @return array $stopwords array of stop words to check and / or remove from slug
 	 */
 	function stopwords() {
+		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
+
 		$stop_words = new WPSEO_Admin_Stop_Words();
 		return $stop_words->list_stop_words();
 	}
@@ -621,6 +623,8 @@ class WPSEO_Admin {
 	 * @return bool|mixed
 	 */
 	function stopwords_check( $haystack, $checkingUrl = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
+
 		$stopWords = $this->stopwords();
 
 		if ( is_array( $stopWords ) && $stopWords !== array() ) {
@@ -805,7 +809,7 @@ class WPSEO_Admin {
 	 * @deprecated 3.3
 	 */
 	function blog_public_warning() {
-		return;
+		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
 	}
 
 	/**

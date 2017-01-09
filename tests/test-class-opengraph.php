@@ -15,6 +15,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * Set up class instance
 	 */
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		self::$class_instance = new WPSEO_OpenGraph;
 	}
 
@@ -34,6 +36,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * Clean output buffer after each test
 	 */
 	public function tearDown() {
+		parent::tearDown();
+
 		ob_clean();
 	}
 

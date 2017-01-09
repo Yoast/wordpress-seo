@@ -604,6 +604,9 @@ class WPSEO_Replace_Vars {
 		if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
 			$post_type = $wp_query->query_vars['post_type'];
 		}
+		elseif ( isset( $this->args->post_type ) && ( is_string( $this->args->post_type ) && $this->args->post_type !== '' ) ) {
+			$post_type = $this->args->post_type;
+		}
 		else {
 			// Make it work in preview mode.
 			$post_type = $wp_query->get_queried_object()->post_type;

@@ -7,6 +7,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	private $asset_manager;
 
 	public function setUp() {
+		parent::setUp();
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 

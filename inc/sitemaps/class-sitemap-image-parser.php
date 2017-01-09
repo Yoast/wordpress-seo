@@ -423,6 +423,6 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	public function cache_attachments() {
 
-		_deprecated_function( __FUNCTION__, '3.3' );
+		_deprecated_function( __METHOD__, '3.3' );
 	}
 }

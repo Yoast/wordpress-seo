@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 4.0
+Stable tag: 4.0.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -123,6 +123,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 4.0.2 =
+
+Release Date: December 20th, 2016
+
+* Bugfixes
+	* Fixes a bug where shortcodes would be kept in the content that would be analyzed, which would result in incorrect results.
+	* Fixes a bug where the user language would be used to analyze the content instead of the site language.
 
 = 4.0.0 =
 
