@@ -45,13 +45,13 @@
     "grunt-shell": "^1.1.2",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
     "grunt-wp-i18n": "^0.4.8",
+    "jest": "^18.1.0",
     "load-grunt-config": "^0.16.0",
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
     "a11y-speak": "github:yoast/a11y-speak",
     "babel-polyfill": "^6.16.0",
-    "jest": "^18.1.0",
     "lodash": "^4.7.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",

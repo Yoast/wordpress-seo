@@ -44,6 +44,7 @@ install:
 - composer config-yoastcs
 - phpenv local --unset
 - if [[ "$CHECKJS" == "1" ]]; then yarn global add grunt-cli; fi
+- if [[ "$CHECKJS" == "1" ]]; then yarn install --ignore-optional; fi
 - if [[ "$CHECKJS" == "1" ]]; then cd premium && yarn install --ignore-optional && cd ..; fi
 
 before_script:
