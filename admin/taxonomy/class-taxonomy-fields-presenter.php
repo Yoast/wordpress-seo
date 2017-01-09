@@ -89,7 +89,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				break;
 
 			case 'snippetpreview':
-				$field .= '<div id="wpseo_snippet" class="wpseosnippet"></div>';
+				$field .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
 				break;
 			case 'pageanalysis' :
 				$field .= '<div id="pageanalysis">';
