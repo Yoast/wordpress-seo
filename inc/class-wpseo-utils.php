@@ -846,7 +846,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_yoast_seo_advanced_settings_page( $current_page ) {
-		$yoast_seo_advanced_settings_pages = array(
+		$advanced_settings_pages = array(
 			'wpseo_titles',
 			'wpseo_social',
 			'wpseo_xml',
@@ -854,7 +854,7 @@ class WPSEO_Utils {
 			'wpseo_tools',
 		);
 
-		return in_array( $current_page, $yoast_seo_advanced_settings_pages );
+		return in_array( $current_page, $advanced_settings_pages );
 	}
 
 	/**
