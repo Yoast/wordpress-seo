@@ -241,6 +241,15 @@ table.yoast_help tr:hover {
 	background-color: #ddd;
 }
 
+table.yoast_help thead tr,
+table.yoast_help thead tr:hover {
+	background-color: #fff;
+}
+
+.yoast_help .variable-name {
+	font-weight: 600;
+}
+
 .correct {
 	padding: 5px;
 	color: white;
@@ -496,6 +505,26 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 	.wpseo-gsc-reload-crawl-issues-form .alignright {
 		float: none;
+	}
+
+	.yoast-table-responsive,
+	.yoast-table-responsive thead,
+	.yoast-table-responsive tbody,
+	.yoast-table-responsive tr,
+	.yoast-table-responsive th,
+	.yoast-table-responsive td {
+		display: block;
+		width: auto;
+	}
+
+	.yoast-table-responsive .variable-name {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	.yoast-table-responsive .variable-desc {
+		padding-top: 0;
+		border-top: none;
 	}
 }
 
