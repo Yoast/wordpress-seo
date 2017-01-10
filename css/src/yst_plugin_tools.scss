@@ -241,6 +241,15 @@ table.yoast_help tr:hover {
 	background-color: #ddd;
 }
 
+table.yoast_help thead tr,
+table.yoast_help thead tr:hover {
+	background-color: #fff;
+}
+
+.yoast_help .variable-name {
+	font-weight: 600;
+}
+
 .correct {
 	padding: 5px;
 	color: white;
