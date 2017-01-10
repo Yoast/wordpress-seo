@@ -506,6 +506,20 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	.wpseo-gsc-reload-crawl-issues-form .alignright {
 		float: none;
 	}
+
+	.yoast_help th,
+	.yoast_help td {
+		display: block;
+		width: auto;
+	}
+
+	.yoast_help .variable-name {
+		border-bottom: none;
+	}
+
+	.yoast_help .variable-desc {
+		border-top: none;
+	}
 }
 
 @media screen and ( max-width: 600px ) {
