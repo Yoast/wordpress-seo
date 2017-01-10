@@ -87,6 +87,10 @@ $snippet_width: 600px;
 				display: block;
 				line-height: 20px;
 
+				&__title, &__url, &__meta {
+					width: 100%;
+				}
+
 				&__title {
 					font-size: 16px;
 					padding: 0 16px;
