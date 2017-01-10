@@ -1,5 +1,5 @@
-var transitionWordsResearch = require( "../../js/researches/findTransitionWords.js" );
-var Paper = require( "../../js/values/Paper.js" );
+let transitionWordsResearch = require( "../../js/researches/findTransitionWords.js" );
+let Paper = require( "../../js/values/Paper.js" );
 
 describe("a test for finding transition words from a string", function() {
 	let mockPaper, result;
@@ -178,7 +178,7 @@ describe("a test for finding transition words from a string", function() {
 	});
 
 	it("returns 1 when a two-part transition word is found in a sentence (French)", function () {
-		// Transition word: non seulement, mais encore. 
+		// Transition word: non seulement, mais encore.
 		mockPaper = new Paper("Non seulement on l’estime, mais encore on l’aime.", { locale: 'fr_FR'} );
 		result = transitionWordsResearch(mockPaper);
 		expect(result.totalSentences).toBe(1);
@@ -195,6 +195,29 @@ describe("a test for finding transition words from a string", function() {
 
 	it("returns 0 when no transition words are present in a sentence (French)", function () {
 		mockPaper = new Paper("Une, deux, trois.", { locale: 'fr_FR'} );
+		result = transitionWordsResearch(mockPaper);
+		expect(result.totalSentences).toBe(1);
+		expect(result.transitionWordSentences).toBe(0);
+	});
+
+	it("returns 1 when a transition word is found in a sentence (Dutch)", function () {
+		// Transition word: want.
+		mockPaper = new Paper("Want daar brandt nog licht.", { locale: 'nl_NL'} );
+		result = transitionWordsResearch(mockPaper);
+		expect(result.totalSentences).toBe(1);
+		expect(result.transitionWordSentences).toBe(1);
+	});
+
+	it("returns 1 when a two-part transition word is found in a sentence (Dutch)", function () {
+		// Transition word: zowel, als.
+		mockPaper = new Paper("Zowel 'deze' als 'zin' staat in deze zin.", { locale: 'nl_NL'} );
+		result = transitionWordsResearch(mockPaper);
+		expect(result.totalSentences).toBe(1);
+		expect(result.transitionWordSentences).toBe(1);
+	});
+
+	it("returns 0 when no transition words are present in a sentence (Dutch)", function () {
+		mockPaper = new Paper("Een, twee, drie.", { locale: 'nl_NL'} );
 		result = transitionWordsResearch(mockPaper);
 		expect(result.totalSentences).toBe(1);
 		expect(result.transitionWordSentences).toBe(0);
@@ -259,7 +282,7 @@ describe("a test for finding transition words from a string", function() {
 	it( "works with the no-break space character", function() {
 		// Transition word: then.
 		mockPaper = new Paper( "and\u00a0then" );
-		var expected = {
+		let expected = {
 			totalSentences: 1,
 			sentenceResults: [{
 				sentence: "and\u00a0then",
@@ -268,7 +291,7 @@ describe("a test for finding transition words from a string", function() {
 			transitionWordSentences: 1
 		};
 
-		var result = transitionWordsResearch( mockPaper );
+		let result = transitionWordsResearch( mockPaper );
 
 		expect( result ).toEqual( expected );
 	});
