@@ -105,7 +105,7 @@ class WPSEO_Premium {
 			$feature_toggles[] = (object) array(
 				'name'    => __( 'Link suggestions', 'wordpress-seo-premium' ),
 				'setting' => 'enable_link_suggestions',
-				'label'   => __( 'The link suggestions section contains a list of potential links you can point to in your post.', 'wordpress-seo-premium' ),
+				'label'   => __( 'The link suggestions section contains a list of posts on your blog with similar content that might be interesting to link to.', 'wordpress-seo-premium' ),
 			);
 		}
 
