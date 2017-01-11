@@ -82,8 +82,8 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		$rest_base = isset( $post_type->rest_base ) ? $post_type->rest_base : '';
 
 		$data = array(
-			'insightsEnabled' => $insights_enabled ? 'enabled' : 'disabled',
-			'linkSuggestionsEnabled' => $link_suggestions_enabled ? 'enabled' : 'disabled',
+			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
+			'linkSuggestionsEnabled' => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
 			'postID' => $this->get_post_ID(),
 			'restApi' => array(
 				'available' => WPSEO_Utils::is_api_available(),

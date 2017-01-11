@@ -86,7 +86,8 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Returns whether or not the Link Suggestions are enabled.
-	 * @return bool
+	 *
+	 * @return bool Whether or not the link suggestions are enabled.
 	 */
 	public function is_enabled() {
 		$options = WPSEO_Options::get_option( 'wpseo' );
