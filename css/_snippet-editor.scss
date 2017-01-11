@@ -44,38 +44,52 @@ $snippet_width: 600px;
 		clear: both;
 
 		&-toggle {
-			clear: both;
-			float: left;
-			margin: 0 0 10px;
-
-			&--hidden {
-				display: none;
-			}
+			display: inline-block;
+			background-color: $color_button;
+			border: 1px solid $color_button_border;
+			border-radius: 4px;
+			margin: 0 0.5em;
+			overflow: hidden;
+			margin-top: 15px;
 		}
 
 		&-icon {
-			$size: 20px;
+			$size: 32px;
 			width: $size;
 			height: $size;
-			background-size: $size;
 			float: left;
 			cursor: pointer;
 			background-color: transparent;
+			background-repeat: no-repeat;
+			background-position: center, center;
 			border: none;
+			border-bottom: 4px solid transparent;
+
+		  &:hover, &:focus {
+				background-color: #ffffff;
+				border-color: $color_caret_focus;
+				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
+			}
+		  &--active {
+				border-color: $color_caret;
+				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
+		  }
 		}
 
 		&-icon-desktop {
 			background-image: url(svg-icon-desktop($color_caret));
+			background-size: 18px;
 
-			&:hover, &--active {
+			&:hover, &:focus {
 				background-image: url( svg-icon-desktop( $color_caret_focus ) );
 			}
 		}
 
 		&-icon-mobile {
 			background-image: url(svg-icon-mobile-phone($color_caret));
+			background-size: 22px;
 
-			&:hover, &--active {
+			&:hover, &:focus {
 				background-image: url( svg-icon-mobile-phone( $color_caret_focus ) );
 			}
 		}
@@ -206,9 +220,11 @@ $snippet_width: 600px;
 		background-position: left 8px top 50%;
 		background-size: 16px;
 		padding-left: 32px;
-
-		display: block;
-		margin-top: 1em;
+		display: inline;
+		float: left;
+		overflow: hidden;
+		box-sizing: border-box;
+		margin-top: 15px;
 	}
 
 	&__form {

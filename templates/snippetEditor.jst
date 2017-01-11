@@ -1,12 +1,7 @@
 <div id="snippet_preview" class="yoast-section">
-    <section class="snippet-editor__preview">
+	<section class="snippet-editor__preview">
 		<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h3>
-    <p class="screen-reader-text"><%- i18n.snippetPreviewDescription %></p>
-
-		<div class="snippet-editor__view-toggle">
-			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop" data-type="desktop" aria-label="<%- i18n.desktopMode %>"  />
-			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile" data-type="mobile" aria-label="<%- i18n.mobileMode %>" />
-		</div>
+	<p class="screen-reader-text"><%- i18n.snippetPreviewDescription %></p>
 
 		<div id="snippet-preview-view" class="snippet-editor__view snippet-editor__view--mobile">
 			<div class="snippet_container snippet_container__title snippet-editor__container" id="title_container">
@@ -41,31 +36,35 @@
 			</div>
 		</div>
 
-        <button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">
-            <%- i18n.edit %>
-        </button>
-    </section>
+		<button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">
+			<%- i18n.edit %>
+		</button>
+		<div class="snippet-editor__view-toggle">
+			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop" data-type="desktop" aria-label="<%- i18n.desktopMode %>" />
+			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile" data-type="mobile" aria-label="<%- i18n.mobileMode %>" />
+		</div>
+	</section>
 
-    <div class="snippet-editor__form snippet-editor--hidden">
-        <label for="snippet-editor-title" class="snippet-editor__label">
-            <%- i18n.title %>
-            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="<%- raw.title %>" placeholder="<%- placeholder.title %>" />
-        </label>
-        <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title" aria-hidden="true">
-            <div class="snippet-editor__progress-bar"></div>
-        </progress>
-        <label for="snippet-editor-slug" class="snippet-editor__label">
-            <%- i18n.slug %>
-            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="<%- raw.snippetCite %>" placeholder="<%- placeholder.urlPath %>" />
-        </label>
-        <label for="snippet-editor-meta-description" class="snippet-editor__label">
-            <%- i18n.metaDescription %>
-            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="<%- placeholder.metaDesc %>"><%- raw.meta %></textarea>
-        </label>
-        <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description" aria-hidden="true">
-            <div class="snippet-editor__progress-bar"></div>
-        </progress>
+	<div class="snippet-editor__form snippet-editor--hidden">
+		<label for="snippet-editor-title" class="snippet-editor__label">
+			<%- i18n.title %>
+			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="<%- raw.title %>" placeholder="<%- placeholder.title %>" />
+		</label>
+		<progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title" aria-hidden="true">
+			<div class="snippet-editor__progress-bar"></div>
+		</progress>
+		<label for="snippet-editor-slug" class="snippet-editor__label">
+			<%- i18n.slug %>
+			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="<%- raw.snippetCite %>" placeholder="<%- placeholder.urlPath %>" />
+		</label>
+		<label for="snippet-editor-meta-description" class="snippet-editor__label">
+			<%- i18n.metaDescription %>
+			<textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="<%- placeholder.metaDesc %>"><%- raw.meta %></textarea>
+		</label>
+		<progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description" aria-hidden="true">
+			<div class="snippet-editor__progress-bar"></div>
+		</progress>
 
-        <button class="snippet-editor__submit snippet-editor__button" type="button"><%- i18n.save %></button>
-    </div>
+		<button class="snippet-editor__submit snippet-editor__button" type="button"><%- i18n.save %></button>
+	</div>
 </div>
