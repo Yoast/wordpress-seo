@@ -95,7 +95,7 @@ $snippet_width: 600px;
 		}
 
 		&--desktop {
-		width: 640px;
+		width: $snippet_width;
 		background: #FFF;
 		  .snippet_container {
 			&__title {
@@ -209,6 +209,8 @@ $snippet_width: 600px;
 
 	&__preview {
 		padding: 0 20px 15px;
+	  	max-width: $snippet_width + 40;
+	  	overflow-x: auto;
 	}
 
 	&__button {
