@@ -85,26 +85,6 @@ SnippetPreviewToggler.prototype._setPreviewMode = function( previewMode, toggleE
 };
 
 /**
- * Shows the Snippet Preview Toggle icons.
- *
- * @returns {void}
- */
-SnippetPreviewToggler.prototype.showToggler = function() {
-	var toggleElement  = document.getElementsByClassName( "snippet-editor__view-toggle" )[ 0 ];
-	domManipulation.removeClass( toggleElement, "snippet-editor__view-toggle--hidden");
-};
-
-/**
- * Hides the Snippet Preview Toggle icons.
- *
- * @returns {void}
- */
-SnippetPreviewToggler.prototype.hideToggler = function() {
-	var toggleElement  = document.getElementsByClassName( "snippet-editor__view-toggle" )[ 0 ];
-	domManipulation.addClass( toggleElement, "snippet-editor__view-toggle--hidden");
-};
-
-/**
  * Sets the Snippet Preview Toggler to desktop mode.
  *
  * @returns {void}
