@@ -46,6 +46,10 @@ $snippet_width: 600px;
 			clear: both;
 			float: left;
 			margin: 0 0 10px;
+
+			&--hidden {
+				display: none;
+			}
 		}
 
 		&-icon {
