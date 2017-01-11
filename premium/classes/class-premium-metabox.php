@@ -67,11 +67,13 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	public function send_data_to_assets() {
 		$options = WPSEO_Options::get_option( 'wpseo' );
 		$insights_enabled = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
+		$link_suggestions_enabled = ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
 
 		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
 
 		if ( ! $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
 			$insights_enabled = false;
+			$link_suggestions_enabled = false;
 		}
 
 		$post = $this->get_post();
@@ -80,7 +82,8 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		$rest_base = isset( $post_type->rest_base ) ? $post_type->rest_base : '';
 
 		$data = array(
-			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
+			'insightsEnabled' => $insights_enabled ? 'enabled' : 'disabled',
+			'linkSuggestionsEnabled' => $link_suggestions_enabled ? 'enabled' : 'disabled',
 			'postID' => $this->get_post_ID(),
 			'restApi' => array(
 				'available' => WPSEO_Utils::is_api_available(),

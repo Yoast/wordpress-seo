@@ -102,6 +102,11 @@ class WPSEO_Premium {
 				'setting' => 'enable_metabox_insights',
 				'label'   => __( 'The metabox insights section contains insights about your content, like an overview of the most prominent words in your text.', 'wordpress-seo-premium' ),
 			);
+			$feature_toggles[] = (object) array(
+				'name'    => __( 'Link suggestions', 'wordpress-seo-premium' ),
+				'setting' => 'enable_link_suggestions',
+				'label'   => __( 'The link suggestions section contains a list of potential links you can point to in your post.', 'wordpress-seo-premium' ),
+			);
 		}
 
 		return $feature_toggles;

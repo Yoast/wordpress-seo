@@ -28,6 +28,32 @@ function contentLanguageSupported() {
 }
 
 /**
+ * Determines whether or not Insights is enabled.
+ *
+ * @returns {boolean} Whether or not Insights is enabled.
+ */
+function insightsEnabled() {
+	return settings.insightsEnabled === "enabled";
+}
+
+/**
+ * Determines whether or not link suggestions are enabled.
+ *
+ * @returns {boolean} Whether or not link suggestions are enabled.
+ */
+function linkSuggestionsEnabled() {
+	return settings.linkSuggestionsEnabled === "enabled" && settings.linkSuggestionsAvailable;
+}
+
+/**
+ * Determines whether or not link suggestions is supported.
+ *
+ * @returns {boolean} Whether or not link suggestions is supported.
+ */
+let linkSuggestionsIsSupported = function () {
+	return contentLanguageSupported() && contentEndpointsAvailable && linkSuggestionsEnabled();
+};
+/**
  * Initializes the metabox for premium.
  *
  * @returns {void}
@@ -36,27 +62,45 @@ function initializeMetabox() {
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
-	if ( settings.linkSuggestionsAvailable ) {
-		prominentWordStorage = new ProminentWordStorage( {
-			postID: settings.postID,
-			rootUrl: settings.restApi.root,
-			nonce: settings.restApi.nonce,
-			postTypeBase: settings.restApi.postTypeBase,
-		} );
+	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
+		initializeKeywordSuggestionsMetabox();
 	}
 
+	if ( linkSuggestionsIsSupported() ) {
+		initializeLinkSuggestionsMetabox();
+	}
+}
+
+/**
+ * Initializes the prominent word storage.
+ *
+ * @returns {void}
+ */
+let initializeProminentWordStorage = function () {
+	prominentWordStorage = new ProminentWordStorage( {
+		postID: settings.postID,
+		rootUrl: settings.restApi.root,
+		nonce: settings.restApi.nonce,
+		postTypeBase: settings.restApi.postTypeBase,
+	} );
+};
+
+/**
+ * Initializes the metabox for keyword suggestions.
+ *
+ * @returns {void}
+ */
+function initializeKeywordSuggestionsMetabox() {
+	initializeProminentWordStorage();
+
 	focusKeywordSuggestions = new FocusKeywordSuggestions( {
-		insightsEnabled: settings.insightsEnabled === "enabled",
+		insightsEnabled: insightsEnabled(),
 		prominentWordStorage,
 		contentEndpointsAvailable,
 	} );
 
 	// Initialize prominent words watching and saving.
 	focusKeywordSuggestions.initializeDOM();
-
-	if ( contentLanguageSupported() && contentEndpointsAvailable ) {
-		initializeLinkSuggestionsMetabox();
-	}
 }
 
 /**
@@ -65,17 +109,13 @@ function initializeMetabox() {
  * @returns {void}
  */
 function initializeLinkSuggestionsMetabox() {
-	if ( ! settings.linkSuggestionsAvailable ) {
-		return;
-	}
-
-
 	linkSuggestions = new LinkSuggestions( {
 		target: document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
 		currentPostId: settings.postID,
 	} );
+
 	linkSuggestions.initializeDOM( settings.linkSuggestions );
 
 	prominentWordStorage.on( "savedProminentWords", linkSuggestions.updatedProminentWords.bind( linkSuggestions ) );
