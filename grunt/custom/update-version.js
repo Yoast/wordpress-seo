@@ -13,7 +13,9 @@ module.exports = function( grunt ) {
 			let options = this.options(
 				{
 					version: "version",
-					regEx: "regEx"
+					regEx: "regEx",
+					preVersionMatch: "preVersionMatch",
+					postVersionMatch: "postVersionMatch"
 				}
 			);
 
@@ -21,7 +23,7 @@ module.exports = function( grunt ) {
 				file.src.forEach( (path) => {
 					let contents = grunt.file.read( path ).replace(
 						options.regEx,
-						'$1' + options.version + '$6'
+						options.preVersionMatch + options.version + options.postVersionMatch
 					);
 					grunt.file.write( path, contents );
 				} );
