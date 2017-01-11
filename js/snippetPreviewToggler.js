@@ -100,7 +100,8 @@ SnippetPreviewToggler.prototype._removeActiveStates = function() {
  * @private
  */
 SnippetPreviewToggler.prototype._removeActiveState = function( previewToggle ) {
-	domManipulation.removeClass( previewToggle,  "snippet-editor__view-icon-" + previewToggle.getAttribute( "data-type" ) + "--active" );
+	domManipulation.removeClass( previewToggle, "snippet-editor__view-icon-" + previewToggle.getAttribute( "data-type" ) + "--active" );
+	domManipulation.removeClass( previewToggle, "snippet-editor__view-icon--active" );
 };
 
 /**
@@ -112,6 +113,7 @@ SnippetPreviewToggler.prototype._removeActiveState = function( previewToggle ) {
  */
 SnippetPreviewToggler.prototype._setActiveState = function( elementToActivate ) {
 	domManipulation.addClass( elementToActivate, "snippet-editor__view-icon-" + elementToActivate.getAttribute( "data-type" ) + "--active"  );
+	domManipulation.addClass( elementToActivate, "snippet-editor__view-icon--active"  );
 };
 
 module.exports = SnippetPreviewToggler;
