@@ -944,10 +944,10 @@ SnippetPreview.prototype.updateProgressBars = function() {
  * Gets the width of the Snippet Preview to set the Snippet Preview Toggler visibility.
  * @returns {void}
  */
-SnippetPreview.prototype.handleWindowSize = function() {
+SnippetPreview.prototype.handleWindowSize = debounce( function() {
 	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
 	this.snippetPreviewToggle.setToggleVisibility( previewWidth );
-};
+}, 25 );
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
