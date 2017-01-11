@@ -7,6 +7,8 @@ var previewModes = {
 	mobile: "snippet-editor__view--mobile",
 };
 
+var minimumDesktopWidth = 640;
+
 /**
  * Constructs the snippet preview toggle.
  *
@@ -80,6 +82,58 @@ SnippetPreviewToggler.prototype._setPreviewMode = function( previewMode, toggleE
 	domManipulation.addClass( viewElement, previewModes[ previewMode ] );
 
 	this.previewMode = previewMode;
+};
+
+/**
+ * Shows the Snippet Preview Toggle icons.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.showToggler = function() {
+	var toggleElement  = document.getElementsByClassName( "snippet-editor__view-toggle" )[ 0 ];
+	domManipulation.removeClass( toggleElement, "snippet-editor__view-toggle--hidden");
+};
+
+/**
+ * Hides the Snippet Preview Toggle icons.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.hideToggler = function() {
+	var toggleElement  = document.getElementsByClassName( "snippet-editor__view-toggle" )[ 0 ];
+	domManipulation.addClass( toggleElement, "snippet-editor__view-toggle--hidden");
+};
+
+/**
+ * Sets the Snippet Preview Toggler to desktop mode.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.setDesktopMode = function() {
+	this._setPreviewMode( "desktop", this._findElementByMode( "desktop" ) );
+};
+
+/**
+ * Sets the Snippet Preview Toggler to desktop mode.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.setMobileMode = function() {
+	this._setPreviewMode( "mobile", this._findElementByMode( "mobile" ) );
+};
+
+/**
+ * Sets the visibility based on the width of the Snippet Preview container.
+ *
+ * @param {number} previewWidth the width of the Snippet Preview container.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.setToggleVisibility = function( previewWidth ) {
+	if( previewWidth < minimumDesktopWidth ) {
+		this.setMobileMode();
+		return;
+	}
 };
 
 /**

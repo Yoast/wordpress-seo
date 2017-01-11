@@ -434,15 +434,24 @@ SnippetPreview.prototype.renderTemplate = function() {
 		} );
 	}
 
+	this.initPreviewToggler();
+	this.handleWindowSize();
+
 	this.opened = false;
 	this.createMeasurementElements();
 	this.updateProgressBars();
+};
 
-	var snippetPreviewToggle = new SnippetPreviewToggler(
+/**
+ * Initializes the Snippet Preview Toggler.
+ * @returns {void}
+ */
+SnippetPreview.prototype.initPreviewToggler = function() {
+	this.snippetPreviewToggle = new SnippetPreviewToggler(
 		this.opts.previewMode, this.opts.targetElement.getElementsByClassName( "snippet-editor__view-icon" )
 	);
-	snippetPreviewToggle.initialize();
-	snippetPreviewToggle.setEvents();
+	this.snippetPreviewToggle.initialize();
+	this.snippetPreviewToggle.setEvents();
 };
 
 /**
@@ -932,6 +941,15 @@ SnippetPreview.prototype.updateProgressBars = function() {
 };
 
 /**
+ * Gets the width of the Snippet Preview to set the Snippet Preview Toggler visibility.
+ * @returns {void}
+ */
+SnippetPreview.prototype.handleWindowSize = function() {
+	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
+	this.snippetPreviewToggle.setToggleVisibility( previewWidth );
+};
+
+/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  * @returns {void}
  */
@@ -952,6 +970,8 @@ SnippetPreview.prototype.bindEvents = function() {
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+
+	window.addEventListener( "resize", this.handleWindowSize.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( inputPreviewBindings, function( binding ) {
