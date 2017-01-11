@@ -50,7 +50,7 @@ function linkSuggestionsEnabled() {
  *
  * @returns {boolean} Whether or not link suggestions is supported.
  */
-let linkSuggestionsIsSupported = function () {
+let linkSuggestionsIsSupported = function() {
 	return contentLanguageSupported() && contentEndpointsAvailable && linkSuggestionsEnabled();
 };
 /**
@@ -76,7 +76,7 @@ function initializeMetabox() {
  *
  * @returns {void}
  */
-let initializeProminentWordStorage = function () {
+let initializeProminentWordStorage = function() {
 	prominentWordStorage = new ProminentWordStorage( {
 		postID: settings.postID,
 		rootUrl: settings.restApi.root,
