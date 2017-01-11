@@ -36,19 +36,19 @@ describe( "Matches verbs with the verb regexes for German.", function(){
 	});
 
 	it( "returns an empty array when nothing is matched with the verbsBeginningWithErVerEntBeZerHerUber regex", function() {
-		expect( verbsBeginningWithErVerEntBeZerHerUber( "funktioniert" ) ).toEqual ( [  ] );
+		expect( verbsBeginningWithErVerEntBeZerHerUber( "funktioniert" ) ).toEqual ( [ ] );
 	});
 
 	it( "returns an empty array when nothing is matched with the verbsWithGeInMiddle regex", function() {
-		expect( verbsWithGeInMiddle( "funktioniert" ) ).toEqual ( [  ] );
+		expect( verbsWithGeInMiddle( "funktioniert" ) ).toEqual ( [ ] );
 	});
 
 	it( "an empty array when nothing is matched with the verbsWithErVerEntBeZerHerUberInMiddle regex", function() {
-		expect( verbsWithErVerEntBeZerHerUberInMiddle( "funktioniert" ) ).toEqual ( [  ] );
+		expect( verbsWithErVerEntBeZerHerUberInMiddle( "funktioniert" ) ).toEqual ( [ ] );
 	});
 
 	it( "an empty array when nothing is matched with the verbsEndingWithIert regex", function() {
-		expect( verbsEndingWithIert( "gebraucht" ) ).toEqual ( [  ] );
+		expect( verbsEndingWithIert( "gebraucht" ) ).toEqual ( [ ] );
 	});
 
 	it( "returns an empty array when nothing is matched with the exception regex.", function() {
