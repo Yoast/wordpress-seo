@@ -95,9 +95,17 @@ $snippet_width: 600px;
 		}
 
 		&--desktop {
+		width: 640px;
+		background: #FFF;
+		  .snippet_container {
 			&__title {
 				width: $snippet_width;
+
+				.title {
+					white-space: nowrap;
+				}
 			}
+		  }
 		}
 
 		&--mobile {
@@ -114,6 +122,7 @@ $snippet_width: 600px;
 
 				&__title, &__url, &__meta {
 					width: 100%;
+					box-sizing: border-box;
 				}
 
 				&__title {
@@ -328,7 +337,6 @@ $snippet_width: 600px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-decoration: none;
-	white-space: nowrap;
 	font-size: 18px;
 	line-height: 1.2;
 	font-weight: normal;
