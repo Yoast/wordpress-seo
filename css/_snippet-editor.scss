@@ -28,7 +28,8 @@ $snippet_width: 600px;
 	border-radius: 20px;
 	background-color: #fff;
 	position: relative;
-	width: $snippet_width + 40;
+	width: auto;
+	max-width: $snippet_width + 40;
 }
 
 /* css for snippet */
@@ -117,7 +118,7 @@ $snippet_width: 600px;
 					padding: 0 16px 11px;
 					margin-bottom: 13px;
 					font-size: 14px;
-					max-width: 95%;
+					box-sizing: border-box;
 					white-space: nowrap;
 				}
 
