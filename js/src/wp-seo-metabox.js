@@ -162,7 +162,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		);
 
 		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
-		// Post/media meta box.
+		// Post/taxonomy/media meta box.
 		jQuery( "#wpseosnippet" ).find( "h3" ).after( snippetHelp );
 	}
 
