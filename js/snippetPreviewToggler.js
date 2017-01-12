@@ -34,24 +34,32 @@ SnippetPreviewToggler.prototype.initialize = function() {
 };
 
 /**
- * Sets the events for the preview toggles to switch between the preview modes.
+ * Binds a function on the click event of the preview toggle.
  *
- * @returns {void}
+ * @param {string} previewToggle The previewToggle to bind the click event on.
  */
-SnippetPreviewToggler.prototype.setEvents = function() {
-	forEach( this.previewToggles, function( previewToggle ) {
-		previewToggle.addEventListener( "click", function( evt ) {
-			evt.preventDefault();
-
-			this._setPreviewMode( previewToggle.getAttribute( "data-type" ), previewToggle );
-		}.bind( this ) );
+SnippetPreviewToggler.prototype.bindClickEvent = function( previewToggle ) {
+	previewToggle.addEventListener( "click", function( evt ) {
+		evt.preventDefault();
+		this._setPreviewMode( previewToggle.getAttribute( "data-type" ), previewToggle );
 	}.bind( this ) );
 };
 
 /**
- * Returns the element by given node.
+ * Sets the events for the preview toggles to switch between the preview modes.
  *
- * @param {string} previewMode The element to search.
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.bindEvents = function() {
+	forEach( this.previewToggles, function( previewToggle ) {
+		this.bindClickEvent( previewToggle );
+	}.bind( this ) );
+};
+
+/**
+ * Returns the element by given mode.
+ *
+ * @param {string} previewMode The mode used to find the element.
  * @returns {Element} The found element.
  * @private
  */
@@ -109,7 +117,7 @@ SnippetPreviewToggler.prototype.setMobileMode = function() {
  *
  * @returns {void}
  */
-SnippetPreviewToggler.prototype.setToggleVisibility = function( previewWidth ) {
+SnippetPreviewToggler.prototype.setVisibility = function( previewWidth ) {
 	if( previewWidth < minimumDesktopWidth ) {
 		this.setMobileMode();
 		return;

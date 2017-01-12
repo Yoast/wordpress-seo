@@ -15,6 +15,7 @@ var transliterate = require( "./stringProcessing/transliterate.js" );
 var templates = require( "./templates.js" );
 var snippetEditorTemplate = templates.snippetEditor;
 var hiddenElement = templates.hiddenSpan;
+
 var SnippetPreviewToggler = require( "./snippetPreviewToggler" );
 
 var domManipulation = require( "./helpers/domManipulation.js" );
@@ -380,8 +381,8 @@ SnippetPreview.prototype.renderTemplate = function() {
 				"js-text-analysis",
 				"You can click on each element in the preview to jump to the Snippet Editor."
 			),
-			desktopMode: this.i18n.dgettext( "js-text-analysis", "Desktop preview" ),
-			mobileMode: this.i18n.dgettext( "js-text-analysis", "Mobile preview" ),
+			desktopPreviewMode: this.i18n.dgettext( "js-text-analysis", "Desktop preview" ),
+			mobilePreviewMode: this.i18n.dgettext( "js-text-analysis", "Mobile preview" ),
 		},
 	} );
 
@@ -435,7 +436,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 	}
 
 	this.initPreviewToggler();
-	this.handleWindowSize();
+	this.handleWindowResizing();
 
 	this.opened = false;
 	this.createMeasurementElements();
@@ -451,7 +452,7 @@ SnippetPreview.prototype.initPreviewToggler = function() {
 		this.opts.previewMode, this.opts.targetElement.getElementsByClassName( "snippet-editor__view-icon" )
 	);
 	this.snippetPreviewToggle.initialize();
-	this.snippetPreviewToggle.setEvents();
+	this.snippetPreviewToggle.bindEvents();
 };
 
 /**
@@ -944,9 +945,9 @@ SnippetPreview.prototype.updateProgressBars = function() {
  * Gets the width of the Snippet Preview to set the Snippet Preview Toggler visibility.
  * @returns {void}
  */
-SnippetPreview.prototype.handleWindowSize = debounce( function() {
+SnippetPreview.prototype.handleWindowResizing = debounce( function() {
 	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
-	this.snippetPreviewToggle.setToggleVisibility( previewWidth );
+	this.snippetPreviewToggle.setVisibility( previewWidth );
 }, 25 );
 
 /**
@@ -971,7 +972,7 @@ SnippetPreview.prototype.bindEvents = function() {
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
-	window.addEventListener( "resize", this.handleWindowSize.bind( this ) );
+	window.addEventListener( "resize", this.handleWindowResizing.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( inputPreviewBindings, function( binding ) {
