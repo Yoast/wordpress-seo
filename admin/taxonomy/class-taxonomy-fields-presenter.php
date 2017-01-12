@@ -80,7 +80,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 		if ( ! empty( $options['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $field_name . '-desc"';
-			$description = '<p id="' . $field_name . '-desc">' . $options['description'] . '</p>';
+			$description = '<p id="' . $field_name . '-desc" class="yoast-metabox__description">' . $options['description'] . '</p>';
 		}
 
 		switch ( $field_type ) {
