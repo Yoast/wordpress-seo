@@ -23,6 +23,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 * Makes a list of suggestions based on the passed prominent words.
 	 *
 	 * @param int[] $prominent_words The prominent words to base the link suggestion on.
+	 *
 	 * @return string[] Links for the post that are suggested.
 	 */
 	public function get_suggestions( $prominent_words ) {
@@ -46,8 +47,9 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	/**
 	 * Returns the tax query to retrieve posts of a prominent word.
 	 *
-	 * @param {int} $term_id The ID of the prominent word to get posts for.
-	 * @return {array} The tax query for the prominent word.
+	 * @param int $term_id The ID of the prominent word to get posts for.
+	 *
+	 * @return array The tax query for the prominent word.
 	 */
 	public function get_tax_query( $term_id ) {
 		return array(
@@ -63,6 +65,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 * Creates the cache key for the list of prominent words.
 	 *
 	 * @param int[] $prominent_words The prominent words to cache the link suggestions for.
+	 *
 	 * @return string The cache key with which to save cache the link suggestions in the transients.
 	 */
 	public function get_cache_key( $prominent_words ) {
@@ -74,7 +77,8 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	/**
 	 * Retrieves posts that are connected to a specific prominent word.
 	 *
-	 * @param {int} $prominent_word_id ID of the prominent word to get posts for.
+	 * @param int $prominent_word_id ID of the prominent word to get posts for.
+	 *
 	 * @return WP_Query The query to retrieve the posts for the prominent word.
 	 */
 	private function retrieve_posts( $prominent_word_id ) {
@@ -115,7 +119,8 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 *
 	 * @param array $postA An associative array with a post object and a post count.
 	 * @param array $postB An associative array with a post object and a post count.
-	 * @return {int} -1 if $a has a higher count, 0 if $a and $b have an identical count, 1 if $b has a higher count.
+	 *
+	 * @return int -1 if $a has a higher count, 0 if $a and $b have an identical count, 1 if $b has a higher count.
 	 */
 	private function compare_post_count( $postA, $postB ) {
 		return ( $postB['count'] - $postA['count'] );
@@ -125,6 +130,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 * Prepares an item for our response.
 	 *
 	 * @param WP_Post $post The post to prepare.
+	 *
 	 * @return array The link to put in the link suggestions
 	 */
 	private function get_post_object( $post ) {

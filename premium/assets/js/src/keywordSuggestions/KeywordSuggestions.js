@@ -68,7 +68,6 @@ class KeywordSuggestions {
 		}
 	}
 
-
 	/**
 	 * Appends the suggestions div to the DOM.
 	 *

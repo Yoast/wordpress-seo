@@ -61,6 +61,7 @@ if ( ! is_admin() ) {
 function wpseo_premium_add_general_option_defaults( array $wpseo_defaults ) {
 	$premium_defaults = array(
 		'enable_metabox_insights' => true,
+		'enable_link_suggestions' => true,
 	);
 
 	return array_merge( $wpseo_defaults, $premium_defaults );

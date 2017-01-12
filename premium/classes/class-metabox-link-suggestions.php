@@ -85,17 +85,27 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Returns whether or not the Link Suggestions are enabled.
+	 *
+	 * @return bool Whether or not the link suggestions are enabled.
+	 */
+	public function is_enabled() {
+		$options = WPSEO_Options::get_option( 'wpseo' );
+		return ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
+	}
+
+	/**
 	 * Adds a meta box for the given post type.
 	 *
 	 * @param string $post_type The post type to add a meta box for.
 	 */
 	protected function add_meta_box( $post_type ) {
-
-		if ( ! $this->is_available( $post_type ) ) {
+		if ( ! $this->is_available( $post_type ) || ! $this->is_enabled() ) {
 			return;
 		}
 
 		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
+
 		if ( ! $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
 			return;
 		}
