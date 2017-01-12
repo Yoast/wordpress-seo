@@ -67,7 +67,6 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 				} );
 		}
 
-		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code.
 
