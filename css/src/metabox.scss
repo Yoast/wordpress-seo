@@ -591,6 +591,11 @@ ul.wpseo-metabox-premium-advantages {
 	padding-left: 1.5em;
 }
 
+.wpseosnippet .yoast-section {
+	width: auto;
+	max-width: 640px;
+}
+
 // TODO: Move this to the yoast-components repository
 .yoast-section {
 	&__heading {
@@ -611,6 +616,7 @@ ul.wpseo-metabox-premium-advantages {
 // Workaround for conflicting styles of .yoast-section and .snippet-editor__preview
 #snippet_preview {
 	padding: 0;
+	width: auto;
 }
 
 .yoast-tooltip.yoast-tooltip-hidden::before,
