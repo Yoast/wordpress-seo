@@ -1,7 +1,8 @@
 .yoast-section {
 	position: relative;
 	box-sizing: border-box;
-	width: 640px;
+	width: auto;
+	max-width: 640px;
 	border: 1px solid #f7f7f7;
 	border-radius: 20px;
 	background-color: #fff;
@@ -23,45 +24,70 @@
 }
 
 .snippet-editor__view-toggle {
-	float: right;
-	clear: both;
-	margin: 0 0 10px;
-}
-
-.snippet-editor__view-toggle--hidden {
-	display: none;
+	display: inline-block;
+	overflow: hidden;
+	margin: 0 0.5em;
+	margin-top: 15px;
+	border: 1px solid #dbdbdb;
+	border-radius: 4px;
+	background-color: #f7f7f7;
 }
 
 .snippet-editor__view-icon {
 	float: right;
-	width: 20px;
-	height: 20px;
+	width: 32px;
+	height: 32px;
 	border: none;
+	border-bottom: 4px solid transparent;
 	background-color: transparent;
-	background-size: 20px;
+	background-repeat: no-repeat;
+	background-position: center, center;
 	cursor: pointer;
+}
+
+.snippet-editor__view-icon:hover,
+.snippet-editor__view-icon:focus {
+	border-color: #1074a8;
+	background-color: #fff;
+	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+}
+
+.snippet-editor__view-icon--active {
+	border-color: #555;
+	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
 }
 
 .snippet-editor__view-icon-desktop {
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M1728%20992v%2D832q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D1600q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v832q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h1600q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm128%2D832v1088q0%2066%2D47%20113t%2D113%2047h%2D544q0%2037%2016%2077%2E5t32%2071%2016%2043%2E5q0%2026%2D19%2045t%2D45%2019h%2D512q%2D26%200%2D45%2D19t%2D19%2D45q0%2D14%2016%2D44t32%2D70%2016%2D78h%2D544q%2D66%200%2D113%2D47t%2D47%2D113v%2D1088q0%2D66%2047%2D113t113%2D47h1600q66%200%20113%2047t47%20113z%22%2F%3E%3C%2Fsvg%3E");
+	background-size: 18px;
 }
 
 .snippet-editor__view-icon-desktop:hover,
-.snippet-editor__view-icon-desktop--active {
+.snippet-editor__view-icon-desktop:focus {
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M1728%20992v%2D832q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D1600q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v832q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h1600q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm128%2D832v1088q0%2066%2D47%20113t%2D113%2047h%2D544q0%2037%2016%2077%2E5t32%2071%2016%2043%2E5q0%2026%2D19%2045t%2D45%2019h%2D512q%2D26%200%2D45%2D19t%2D19%2D45q0%2D14%2016%2D44t32%2D70%2016%2D78h%2D544q%2D66%200%2D113%2D47t%2D47%2D113v%2D1088q0%2D66%2047%2D113t113%2D47h1600q66%200%20113%2047t47%20113z%22%2F%3E%3C%2Fsvg%3E");
 }
 
 .snippet-editor__view-icon-mobile {
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M976%201408q0%2D33%2D23%2E5%2D56%2E5t%2D56%2E5%2D23%2E5%2D56%2E5%2023%2E5%2D23%2E5%2056%2E5%2023%2E5%2056%2E5%2056%2E5%2023%2E5%2056%2E5%2D23%2E5%2023%2E5%2D56%2E5zm208%2D160v%2D704q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D512q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v704q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h512q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm%2D192%2D848q0%2D16%2D16%2D16h%2D160q%2D16%200%2D16%2016t16%2016h160q16%200%2016%2D16zm288%2D16v1024q0%2052%2D38%2090t%2D90%2038h%2D512q%2D52%200%2D90%2D38t%2D38%2D90v%2D1024q0%2D52%2038%2D90t90%2D38h512q52%200%2090%2038t38%2090z%22%2F%3E%3C%2Fsvg%3E");
+	background-size: 22px;
 }
 
 .snippet-editor__view-icon-mobile:hover,
-.snippet-editor__view-icon-mobile--active {
+.snippet-editor__view-icon-mobile:focus {
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M976%201408q0%2D33%2D23%2E5%2D56%2E5t%2D56%2E5%2D23%2E5%2D56%2E5%2023%2E5%2D23%2E5%2056%2E5%2023%2E5%2056%2E5%2056%2E5%2023%2E5%2056%2E5%2D23%2E5%2023%2E5%2D56%2E5zm208%2D160v%2D704q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D512q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v704q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h512q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm%2D192%2D848q0%2D16%2D16%2D16h%2D160q%2D16%200%2D16%2016t16%2016h160q16%200%2016%2D16zm288%2D16v1024q0%2052%2D38%2090t%2D90%2038h%2D512q%2D52%200%2D90%2D38t%2D38%2D90v%2D1024q0%2D52%2038%2D90t90%2D38h512q52%200%2090%2038t38%2090z%22%2F%3E%3C%2Fsvg%3E");
 }
 
-.snippet-editor__view--desktop__title {
+.snippet-editor__view--desktop {
 	width: 600px;
+	background: #fff;
+}
+
+.snippet-editor__view--desktop .snippet_container__title {
+	width: 600px;
+}
+
+.snippet-editor__view--desktop .snippet_container__title .title {
+	white-space: nowrap;
 }
 
 .snippet-editor__view--mobile {
@@ -81,6 +107,7 @@
 .snippet-editor__view--mobile .snippet_container__title,
 .snippet-editor__view--mobile .snippet_container__url,
 .snippet-editor__view--mobile .snippet_container__meta {
+	box-sizing: border-box;
 	width: 100%;
 }
 
@@ -95,7 +122,7 @@
 }
 
 .snippet-editor__view--mobile .snippet_container__url {
-	max-width: 95%;
+	box-sizing: border-box;
 	margin-bottom: 13px;
 	padding: 0 16px 11px;
 	border-bottom: 1px solid #ebebeb;
@@ -165,6 +192,8 @@
 }
 
 .snippet-editor__preview {
+	overflow-x: auto;
+	max-width: 640px;
 	padding: 0 20px 15px;
 }
 
@@ -179,8 +208,11 @@
 }
 
 .snippet-editor__edit-button {
-	display: block;
-	margin-top: 1em;
+	display: inline;
+	float: right;
+	overflow: hidden;
+	box-sizing: border-box;
+	margin-top: 15px;
 	padding-right: 32px;
 	background: #f7f7f7 url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M491%201536l91%2D91%2D235%2D235%2D91%2091v107h128v128h107zm523%2D928q0%2D22%2D22%2D22%2D10%200%2D17%207l%2D542%20542q%2D7%207%2D7%2017%200%2022%2022%2022%2010%200%2017%2D7l542%2D542q7%2D7%207%2D17zm%2D54%2D192l416%20416%2D832%20832h%2D416v%2D416zm683%2096q0%2053%2D37%2090l%2D166%20166%2D416%2D416%20166%2D165q36%2D38%2090%2D38%2053%200%2091%2038l235%20234q37%2039%2037%2091z%22%20%2F%3E%3C%2Fsvg%3E") no-repeat;
 	/* rtlcss needs this as separate property */
@@ -286,7 +318,6 @@
 	font-size: 18px;
 	font-weight: normal;
 	line-height: 1.2;
-	white-space: nowrap;
 	text-decoration: none;
 	text-overflow: ellipsis;
 }
@@ -1256,7 +1287,16 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 	font-size: 1.3em;
 }
 
-/* Basic styling for social, advanced, and add-ons tabs form controls. */
+/* Basic styling for social, advanced, and add-ons tabs content. */
+.wpseotab input,
+.wpseotab label,
+.wpseotab textarea,
+.wpseotab .select2-container,
+.yoast-metabox__description,
+.wpseotab p.error-message {
+	max-width: 600px;
+}
+
 .wpseotab fieldset {
 	padding-top: 5px;
 }
@@ -1301,7 +1341,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 	margin-top: 10px;
 }
 
-/* Radio buttons are inline. */
+/* Radio buttons. */
 .wpseotab input[type="radio"] {
 	margin-top: 0;
 }
@@ -1655,5 +1695,20 @@ ul.wpseo-metabox-premium-advantages {
 	}
 	#wpseo-crawl-issues-table-form .yoast-help-button {
 		margin-top: 3px;
+	}
+
+/* Necessary to override a WP rule. */
+	.wpseotab select[multiple] {
+		height: auto !important;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	/* Reduce the tabs padding on smaller screens. */
+	.wpseotab {
+		padding: 20px 20px;
+	}
+	.wpseotab.content {
+		padding: 20px 0;
 	}
 }
