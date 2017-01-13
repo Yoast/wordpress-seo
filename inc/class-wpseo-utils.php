@@ -133,7 +133,8 @@ class WPSEO_Utils {
 
 		if ( $one_time_only ) {
 			self::$console_notifications[ $identifier ] = $message;
-		} else {
+		}
+		else {
 			self::$console_notifications[] = $message;
 		}
 	}
@@ -231,7 +232,8 @@ class WPSEO_Utils {
 	public static function trim_recursive( $value ) {
 		if ( is_string( $value ) ) {
 			$value = trim( $value );
-		} elseif ( is_array( $value ) ) {
+		}
+		elseif ( is_array( $value ) ) {
 			$value = array_map( array( __CLASS__, 'trim_recursive' ), $value );
 		}
 
@@ -288,7 +290,8 @@ class WPSEO_Utils {
 			$filtered = wp_pre_kses_less_than( $filtered );
 			// This will strip extra whitespace for us.
 			$filtered = wp_strip_all_tags( $filtered, true );
-		} else {
+		}
+		else {
 			$filtered = trim( preg_replace( '`[\r\n\t ]+`', ' ', $filtered ) );
 		}
 
@@ -351,7 +354,8 @@ class WPSEO_Utils {
 
 		if ( self::$has_filters ) {
 			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-		} else {
+		}
+		else {
 			return self::emulate_filter_bool( $value );
 		}
 	}
@@ -400,17 +404,22 @@ class WPSEO_Utils {
 
 		if ( is_bool( $value ) ) {
 			return $value;
-		} else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
+		}
+		else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
 			return (bool) $value;
-		} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
+		}
+		else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
 			return (bool) $value;
-		} else if ( is_string( $value ) ) {
+		}
+		else if ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( in_array( $value, $true, true ) ) {
 				return true;
-			} else if ( in_array( $value, $false, true ) ) {
+			}
+			else if ( in_array( $value, $false, true ) ) {
 				return false;
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
@@ -436,7 +445,8 @@ class WPSEO_Utils {
 
 		if ( self::$has_filters ) {
 			return filter_var( $value, FILTER_VALIDATE_INT );
-		} else {
+		}
+		else {
 			return self::emulate_filter_int( $value );
 		}
 	}
@@ -455,21 +465,27 @@ class WPSEO_Utils {
 	public static function emulate_filter_int( $value ) {
 		if ( is_int( $value ) ) {
 			return $value;
-		} else if ( is_float( $value ) ) {
+		}
+		else if ( is_float( $value ) ) {
 			if ( (int) $value == $value && ! is_nan( $value ) ) {
 				return (int) $value;
-			} else {
+			}
+			else {
 				return false;
 			}
-		} else if ( is_string( $value ) ) {
+		}
+		else if ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( $value === '' ) {
 				return false;
-			} else if ( ctype_digit( $value ) ) {
+			}
+			else if ( ctype_digit( $value ) ) {
 				return (int) $value;
-			} else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
+			}
+			else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
 				return (int) $value;
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
@@ -487,7 +503,8 @@ class WPSEO_Utils {
 	public static function clear_cache() {
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
 			w3tc_pgcache_flush();
-		} elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
+		}
+		elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
 			wp_cache_clear_cache();
 		}
 	}
@@ -592,7 +609,8 @@ class WPSEO_Utils {
 			case 'divide':
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // String, or NULL if right_operand is 0.
-				} elseif ( $number2 != 0 ) {
+				}
+				elseif ( $number2 != 0 ) {
 					$result = ( $number1 / $number2 );
 				}
 
@@ -606,7 +624,8 @@ class WPSEO_Utils {
 			case 'modulus':
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2 ); // String, or NULL if modulus is 0.
-				} elseif ( $number2 != 0 ) {
+				}
+				elseif ( $number2 != 0 ) {
 					$result = ( $number1 % $number2 );
 				}
 
@@ -621,7 +640,8 @@ class WPSEO_Utils {
 				$compare = true;
 				if ( $bc ) {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
-				} else {
+				}
+				else {
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
 				}
 				break;
@@ -634,7 +654,8 @@ class WPSEO_Utils {
 					if ( $decimals === 0 ) {
 						$result = (int) $result;
 					}
-				} else {
+				}
+				else {
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
@@ -831,7 +852,8 @@ class WPSEO_Utils {
 
 		if ( defined( 'WPSEO_DEBUG' ) ) {
 			$development_mode = WPSEO_DEBUG;
-		} elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
+		}
+		elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
 			$development_mode = true;
 		}
 
