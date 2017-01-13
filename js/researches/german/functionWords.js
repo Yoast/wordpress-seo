@@ -3,7 +3,7 @@ var infinitivePassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
- * Returns an array with exceptions for the keyword suggestion researcher.
+ * Returns an array with exceptions for the prominent words researcher
  * @returns {Array} The array filled with exceptions.
  */
 

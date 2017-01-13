@@ -1,11 +1,12 @@
 let transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
- * Returns an array with exceptions for the keyword suggestion researcher.
+ * Returns an array with exceptions for the prominent words researcher.
  * @returns {Array} The array filled with exceptions.
  */
 
 let articles = [ "de", "het", "een" ];
+
 let numerals = [ "eén", "één", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien", "elf", "twaalf", "dertien",
 	"veertien", "vijftien", "zestien", "zeventien", "achttien", "negentien", "twintig", "eerste", "tweede", "derde", "vierde",
 	"vijfde", "zesde", "zevende", "achtste", "negende", "tiende", "elfde", "twaalfde", "dertiende", "veertiende", "vijftiende",
@@ -24,15 +25,21 @@ let quantifiers = [ "alle", "sommige", "sommigen", "allen", "weinig", "weinige",
 	"laatste", "laatsten", "ieder", "iedere", "allemaal", "alles", "al", "zekere", "ander", "andere", "gene", "enig", "enige", "verscheidene",
 	"verschillende", "voldoende", "wat", "allerlei", "allerhande", "enerlei", "enerhande", "beiderlei", "beiderhande", "tweeërlei", "tweeërhande",
 	"drieërlei", "drieërhande", "velerlei", "velerhande", "menigerlei", "menigerhande", "enigerlei", "enigerhande", "generlei", "generhande" ];
+
 let reflexivePronouns = [ "mezelf", "mijzelf", "jezelf", "jouzelf", "zichzelf", "haarzelf", "hemzelf", "onszelf", "julliezelf",
 	"henzelf", "hunzelf", "zich" ];
+
 let reciprocalPronouns = [ "mekaar", "elkaar", "elkander", "mekander" ];
+
 let indefinitePronouns = [ "iedereen", "ieder", "eenieder", "alleman", "allen", "alles", "iemand", "niemand", "iets",
 	"niets", "menigeen" ];
+
 let indefinitePronounsPossessive  = [ "ieders", "aller", "iedereens", "eenieders" ];
 
 let interrogativePronouns = [ "welke", "welk", "wat", "wie", "wiens", "wier" ];
+
 let interrogativeAdverbs = [ "hoe", "waarom", "waar", "hoezo", "wanneer", "hoeveel" ];
+
 let pronominalAdverbs = [ "daaraan", "daarachter", "daaraf", "daarbij", "daarbinnen", "daarboven", "daarbuiten", "daardoor", "daardoorheen",
 	"daarheen", "daarin", "daarjegens", "daarmede", "daarmee", "daarna", "daarnaar", "daarnaartoe", "daarnaast", "daarom", "daaromtrent",
 	"daaronder", "daarop", "daarover", "daaroverheen", "daarrond", "daartegen", "daartoe", "daartussen", "daartussenuit", "daaruit", "daarvan",
@@ -46,10 +53,14 @@ let pronominalAdverbs = [ "daaraan", "daarachter", "daaraf", "daarbij", "daarbin
 	"waarbuiten", "waardoor", "waardoorheen", "waarheen", "waarin", "waarjegens", "waarmede", "waarmee", "waarna", "waarnaar", "waarnaartoe",
 	"waarnaast", "waaronder", "waarop", "waarover", "waaroverheen", "waarrond", "waartegen", "waartegenin", "waartoe", "waartussen",
 	"waartussenuit", "waaruit", "waarvan", "waarvandaan", "waarvoor" ];
+
 let locativeAdverbs = [ "daar", "hier", "ginder", "daarginds", "ginds", "ver", "veraf", "ergens", "nergens", "overal", "dichtbij",
 	"nabij", "kortbij" ];
+
 let filteredPassiveAuxiliaries = [ "word", "wordt", "werd", "werden", "ben", "bent", "is", "was", "waren" ];
+
 let infinitivePassiveAuxiliaries = [ "worden", "zijn" ];
+
 let otherAuxiliaries = [ "heb", "hebt", "heeft", "hebben", "hadden", "had", "kun", "kan", "kunt", "kunnen", "kon", "konden", "mag",
 	"mogen", "mocht", "mochten", "dien", "dient", "dienen", "diende", "dienden", "moet", "moeten", "moest", "moesten", "ga", "gaat",
 	"gaan", "ging", "gingen" ];
@@ -77,13 +88,13 @@ let coordinatingConjunctions = [ "en", "noch", "alsmede", "alsook", "maar", "doc
 /* 'Zowel' and 'als' are part of 'zowel...als', 'evenmin' is part of 'evenmin...als', 'zomin' is part of 'zomin...als',
  'hetzij' is part of 'hetzij...hetzij'. */
 let correlativeConjunctions = [ "zowel", "als", "evenmin", "zomin", "hetzij" ];
+
 let subordinatingConjunctions = [ "omdat", "doordat", "aangezien", "vermits", "dewijl", "dorodien", "naardien", "nademaal", "overmits",
 	"wijl", "voordat", "eer", "eerdat", "aleer", "vooraleer", "alvorens", "tot", "totdat", "terwijl", "zolang", "zodra", "sinds", "sedert",
 	"toen", "nu", "nadat", "zodat", "opdat", "teneinde", "indien", "ingeval", "tenware", "hoewel", "alhoewel", "ofschoon", "hoezeer",
 	"behalve", "uitgezonderd", "zoverre", "zover", "naargelang", "naarmate", "alsof", "zoals", "evenals" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
-// 'Claim','claims', 'state' and 'states' are not included, because these words are also nouns.
 let interviewVerbs = [ "zegt", "zei", "aldus", "vraagt", "vroeg", "denkt", "dacht", "stelt", "pleit", "pleitte" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
@@ -125,7 +136,6 @@ let interjections = [ "oh", "wauw", "hèhè", "hè", "hé", "au", "ai", "jaja", 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
 let recipeWords = [ "ml", "cl", "dl", "l", "tl", "el", "mg", "g", "gr", "kg", "ca", "theel", "min", "sec", "uur"  ];
 
-// 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 let vagueNouns = [ "ding", "dingen", "manier", "manieren", "item", "items", "keer", "maal", "procent", "geval", "aspect", "persoon",
 	"personen", "deel" ];
 
