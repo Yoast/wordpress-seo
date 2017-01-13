@@ -11,7 +11,7 @@
 }
 
 @function svg-icon-edit($color) {
-  @return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z" /></svg>');
+	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z" /></svg>');
 }
 
 /* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
@@ -124,14 +124,31 @@ ul.wpseo-metabox-tabs li {
 
 }
 
-.wpseotab.active {
-	display: block;
+.wpseotab {
+	display: none;
 	overflow: auto;
-	padding: 0.5em 0.9em;
+	padding: 20px 35px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
 }
 
+.wpseotab.content {
+	padding: 20px 15px;
+}
+
+.wpseotab.active {
+	display: block;
+}
+
+
+/* Content tab. */
+#wpseosnippet,
+#wpseofocuskeyword,
+#wpseometakeywords {
+	margin-bottom: 2em;
+}
+
+/* Tab links. */
 .wpseo-metabox-tabs .wpseo_tablink {
 	display: inline-block;
 	vertical-align: top;
@@ -200,10 +217,6 @@ ul.wpseo-metabox-tabs li {
 	}
 }
 
-.wpseotab {
-	display: none;
-}
-
 #wpseo_meta .postbox .inside .wpseotab {
 	font-size: 13px !important;
 }
@@ -219,30 +232,77 @@ ul.wpseo-metabox-tabs li {
 	}
 }
 
-.inside .wpseotab .form-table th {
-	width: 140px !important;
-	font-size: 13px;
+/* Basic styling for social, advanced, and add-ons tabs content. */
+.wpseotab input,
+.wpseotab label,
+.wpseotab textarea,
+.wpseotab .select2-container,
+.yoast-metabox__description,
+.wpseotab p.error-message {
+	max-width: 600px;
 }
 
-.inside .wpseotab .form-table td {
-	padding-top: 20px;
+.wpseotab fieldset {
+	padding-top: 5px;
 }
 
-.inside .wpseotab .form-table label {
-	vertical-align: top;
+.wpseotab legend {
+	font-weight: 600;
 }
 
-.inside .wpseotab .form-table td input,
-.inside .wpseotab .form-table td select {
-	margin-top: -5px;
+/* By default, labels are set to display block. */
+.wpseotab label {
+	display: block;
+	font-weight: 600;
 }
 
-.inside .wpseotab .form-table #yoast_wpseo_focuskw_text_input,
-.inside .wpseotab .form-table #yoast_wpseo_metakeywords {
+/* Radio buttons and checkboxes labels are set to display inline-block. */
+.wpseotab input[type="radio"] + label,
+.wpseotab input[type="checkbox"] + label {
+	display: inline-block;
+	font-weight: 400;
+}
+
+/* Default vertical spacing between blocks of controls. */
+.wpseotab label,
+.wpseotab fieldset {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+}
+
+.wpseotab input[type="checkbox"],
+.wpseotab input[type="checkbox"] + label {
+	margin-top: 2em;
+	margin-bottom: 0;
+	font-size: 1em; /* 1em = 13px. Necessary for proper calculation of margins in em. */
+}
+
+/* First form controls in a tab need a smaller top margin. */
+.wpseotab label:first-child,
+.wpseotab fieldset:first-child,
+.wpseotab input[type="checkbox"]:first-child,
+.wpseotab input[type="checkbox"]:first-child + label {
+	margin-top: 10px;
+}
+
+/* Radio buttons. */
+.wpseotab input[type="radio"] {
 	margin-top: 0;
 }
 
-.inside .wpseotab .form-table td select[multiple] {
+.wpseotab input[type="radio"] + label {
+	margin: 0 1em 0 0;
+}
+
+/* Descriptions and error messages below the fields. */
+.yoast-metabox__description,
+.wpseotab p.error-message {
+	margin: 0.5em 0;
+}
+
+.wpseotab #yoast_wpseo_focuskw_text_input,
+.wpseotab #yoast_wpseo_metakeywords,
+.wpseotab select[multiple] {
 	margin-top: 0;
 }
 
@@ -250,14 +310,10 @@ ul.wpseo-metabox-tabs li {
 	margin-left: 3px;
 }
 
-.wpseotab .wpseoanalysis {
-	margin-top: 0;
-}
-
 .good,
 .warn,
 .wrong {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .good {
@@ -293,29 +349,6 @@ ul.wpseo-metabox-tabs li {
 
 .wpseo_hidden {
 	display: none;
-}
-
-/* Linkdex analysis block */
-table.wpseoanalysis th {
-	padding: 15px 0 5px 0;
-	font-size: 14px;
-	text-align: left;
-}
-
-table.wpseoanalysis th.first {
-	padding-top: 0;
-}
-
-table.wpseoanalysis td {
-	margin: 5px 0;
-	font-size: 13px;
-	line-height: 16px;
-}
-
-table.wpseoanalysis td.score {
-	width: 20px;
-	height: 18px;
-	padding-left: 10px;
 }
 
 .wpseo_msg {
@@ -450,16 +483,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 /**
  * Lines below came from taxonomy-meta.css
  */
-.wpseo-taxonomy-form tr,
-.wpseo-taxonomy-form th,
-.wpseo-taxonomy-form td {
-	vertical-align: top;
-}
-
-.inside .wpseotab .form-table.wpseo-taxonomy-form th {
-	width: 200px !important;
-}
-
 .yst-traffic-light-container {
 	display: block;
 	height: 30px;
@@ -587,8 +610,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 ul.wpseo-metabox-premium-advantages {
-  	list-style: disc;
+	list-style: disc;
 	padding-left: 1.5em;
+}
+
+.wpseosnippet .yoast-section {
+	width: auto;
+	max-width: 640px;
 }
 
 // TODO: Move this to the yoast-components repository
@@ -631,10 +659,26 @@ ul.wpseo-metabox-premium-advantages {
 
 	#wpseo-crawl-issues-table-form .subsubsub {
 		float: none;
-	    max-width: calc( 100vw - 20px );
+		max-width: calc( 100vw - 20px );
 	}
 
 	#wpseo-crawl-issues-table-form .yoast-help-button {
-	    margin-top: 3px;
+		margin-top: 3px;
+	}
+
+	/* Necessary to override a WP rule. */
+	.wpseotab select[multiple] {
+	    height: auto !important;
+	}
+}
+
+@media screen and ( max-width: 600px ) {
+	/* Reduce the tabs padding on smaller screens. */
+	.wpseotab {
+		padding: 20px 20px;
+	}
+
+	.wpseotab.content {
+		padding: 20px 0;
 	}
 }

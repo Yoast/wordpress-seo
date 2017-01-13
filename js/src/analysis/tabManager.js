@@ -45,11 +45,10 @@ TabManager.prototype.init = function() {
 		ev.preventDefault();
 	} );
 
-	this.focusKeywordInput = $( "#yoast_wpseo_focuskw_text_input,#wpseo_focuskw" );
-	this.focusKeywordRow = this.focusKeywordInput.closest( "tr" );
+	this.focusKeywordRow = $( "#wpseofocuskeyword" );
 	this.contentAnalysis = $( "#yoast-seo-content-analysis" );
 	this.keywordAnalysis = $( "#wpseo-pageanalysis, #wpseo_analysis" );
-	this.snippetPreview  = $( "#wpseosnippet" ).closest( "tr" );
+	this.snippetPreview  = $( "#wpseosnippet" );
 
 	var initialKeyword   = $( this.arguments.focusKeywordField ).val();
 

@@ -295,10 +295,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function do_tab( $id, $heading, $content ) {
 		?>
 		<div id="wpseo_<?php echo esc_attr( $id ) ?>" class="wpseotab <?php echo esc_attr( $id ) ?>">
-			<h4 class="wpseo-heading"><?php echo esc_html( $heading ); ?></h4>
-			<table class="form-table">
-				<?php echo $content ?>
-			</table>
+			<h3 class="wpseo-heading"><?php echo esc_html( $heading ); ?></h3>
+			<?php echo $content ?>
 		</div>
 	<?php
 	}
@@ -521,7 +519,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Gets the table contents for the metabox tab.
+	 * Gets the contents for the metabox tab.
 	 *
 	 * @param string $tab_name Tab for which to retrieve the field definitions.
 	 *
@@ -565,7 +563,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$aria_describedby = $description = '';
 		if ( isset( $meta_field_def['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $esc_form_key . '-desc"';
-			$description = '<p id="' . $esc_form_key . '-desc">' . $meta_field_def['description'] . '</p>';
+			$description = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
 		switch ( $meta_field_def['type'] ) {
@@ -590,7 +588,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
 			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
+				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
 				$content .= '</section>';
 				$content .= '</div>';
 				break;
@@ -599,7 +597,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<section class="yoast-section" id="wpseo-metakeywords-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-edit">' . esc_html( $meta_field_def['title'] ) . '</h3>';
 			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
-				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<input type="text" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
 				$content .= $description;
 				$content .= '</section>';
 				$content .= '</div>';
@@ -612,7 +610,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				if ( $placeholder !== '' ) {
 					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
 				}
-				$content .= '<input type="text"' . $placeholder . 'id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/><br />';
+				$content .= '<input type="text"' . $placeholder . 'id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
 				break;
 
 			case 'textarea':
@@ -624,7 +622,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'hidden':
-				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/><br />';
+				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/>' . "\n";
 				break;
 			case 'select':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
@@ -672,7 +670,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'checkbox':
 				$checked = checked( $meta_value, 'on', false );
 				$expl    = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
-				$content .= '<label for="' . $esc_form_key . '"><input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"' . $aria_describedby . '/> ' . $expl . '</label><br />';
+				$content .= '<input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"' . $aria_describedby . '/> <label for="' . $esc_form_key . '">' . $expl . '</label>';
 				unset( $checked, $expl );
 				break;
 
@@ -692,7 +690,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 		}
 
-
 		$html = '';
 		if ( $content === '' ) {
 			$content = apply_filters( 'wpseo_do_meta_box_field_' . $key, $content, $meta_value, $esc_form_key, $meta_field_def, $key );
@@ -700,21 +697,30 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $content !== '' ) {
 
-			$label = esc_html( $meta_field_def['title'] );
-			if ( in_array( $meta_field_def['type'], array(
-					'radio',
-					'checkbox',
-				), true ) === false
-			) {
-				$label = '<label for="' . $esc_form_key . '">' . $label . '</label>';
-			}
+			$title = esc_html( $meta_field_def['title'] );
 
+			// By default, use the field title as a label element.
+			$label = '<label for="' . $esc_form_key . '">' . $title . '</label>';
+
+			// Set the inline help and help panel, if any.
 			$help_button = $help_panel = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
 				$help = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
 				$help_button = $help->get_button_html();
 				$help_panel  = $help->get_panel_html();
 			}
+
+			// If it's a set of radio buttons, output proper fieldset and legend.
+			if ( 'radio' === $meta_field_def['type'] ) {
+				return '<fieldset><legend>' . $title . '</legend>' . $help_button . $help_panel . $content . $description . '</fieldset>';
+			}
+
+			// If it's a single checkbox, ignore the title.
+			if ( 'checkbox' === $meta_field_def['type'] ) {
+				$label = '';
+			}
+
+			// Special meta box sections such as the Snippet Preview, the Analysis, etc.
 			if ( in_array( $meta_field_def['type'], array(
 					'snippetpreview',
 					'pageanalysis',
@@ -725,20 +731,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
 			}
 
+			// Other meta box content or form fields.
 			if ( $meta_field_def['type'] === 'hidden' ) {
-				$html = '<tr class="wpseo_hidden"><td colspan="2">' . $content . '</td></tr>';
+				$html = $content;
 			}
 			else {
-				$html = '
-					<tr>
-						<th scope="row">' . $label . $help_button . '</th>
-						<td>' . $help_panel;
-
-				$html .= $content . $description;
-
-				$html .= '
-					</td>
-				</tr>';
+				$html = $label . $help_button . $help_panel . $content . $description;
 			}
 		}
 
@@ -756,10 +754,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
-		$html = '<tr><td>';
-		$html .= $content;
+		$html = $content;
 		$html .= '<div class="wpseo_hidden" id="help-yoast-'. $hidden_help_name. '">' . $help_button . $help_panel . '</div>';
-		$html .= '</td></tr>';
 		return $html;
 	}
 
