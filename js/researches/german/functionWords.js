@@ -1,5 +1,5 @@
 var filteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().filteredAuxiliaries;
-var notFilteredPassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().infinitiveAuxiliaries;
+var infinitivePassiveAuxiliaries = require( "./passivevoice/auxiliaries.js" )().infinitiveAuxiliaries;
 var transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
@@ -282,7 +282,7 @@ module.exports = function() {
 		interrogativeProAdverbs: interrogativeProAdverbs,
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
 		// These verbs that should be filtered at the beginning of prominent word combinations.
-		beginningVerbs: otherAuxiliariesInfinitive.concat( notFilteredPassiveAuxiliaries,
+		beginningVerbs: otherAuxiliariesInfinitive.concat( infinitivePassiveAuxiliaries,
 			delexicalisedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ),
 		miscellaneous: miscellaneous,
 		interjections: interjections,
@@ -290,7 +290,7 @@ module.exports = function() {
 		reflexivePronouns: reflexivePronouns,
 		all: articles.concat( numerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, personalPronounsNominative,
 			personalPronounsAccusative, relativePronouns, quantifiers, indefinitePronouns, interrogativeProAdverbs,	pronominalAdverbs,
-			locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, notFilteredPassiveAuxiliaries, otherAuxiliaries,
+			locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries, infinitivePassiveAuxiliaries, otherAuxiliaries,
 			otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers,
 			delexicalisedVerbs, delexicalisedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
