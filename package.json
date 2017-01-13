@@ -54,7 +54,7 @@
     "jest": "^18.0.0",
     "load-grunt-config": "^0.19.2",
     "react": "^15.3.1",
-    "react-dom": "^15.3.1",
+    "react-dom": "^15.4.0",
     "sassdash": "^0.8.1",
     "time-grunt": "^1.0.0"
   },

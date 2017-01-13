@@ -107,7 +107,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 */
 	public function content() {
 		return sprintf(
-			'<div id="wpseo_%1$s" class="wpseotab %1$s"><table class="form-table">%2$s</table></div>',
+			'<div id="wpseo_%1$s" class="wpseotab %1$s">%2$s</div>',
 			esc_attr( $this->name ),
 			$this->content
 		);
