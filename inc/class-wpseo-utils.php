@@ -54,7 +54,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @since 1.8.0
+	 * @since    1.8.0
 	 *
 	 * @return bool
 	 */
@@ -133,8 +133,7 @@ class WPSEO_Utils {
 
 		if ( $one_time_only ) {
 			self::$console_notifications[ $identifier ] = $message;
-		}
-		else {
+		} else {
 			self::$console_notifications[] = $message;
 		}
 	}
@@ -232,8 +231,7 @@ class WPSEO_Utils {
 	public static function trim_recursive( $value ) {
 		if ( is_string( $value ) ) {
 			$value = trim( $value );
-		}
-		elseif ( is_array( $value ) ) {
+		} elseif ( is_array( $value ) ) {
 			$value = array_map( array( __CLASS__, 'trim_recursive' ), $value );
 		}
 
@@ -265,7 +263,7 @@ class WPSEO_Utils {
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
 	 *
-	 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
+	 * @see   https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
 	 *
 	 * Sanitize a string from user input or from the db
 	 *
@@ -290,8 +288,7 @@ class WPSEO_Utils {
 			$filtered = wp_pre_kses_less_than( $filtered );
 			// This will strip extra whitespace for us.
 			$filtered = wp_strip_all_tags( $filtered, true );
-		}
-		else {
+		} else {
 			$filtered = trim( preg_replace( '`[\r\n\t ]+`', ' ', $filtered ) );
 		}
 
@@ -323,7 +320,7 @@ class WPSEO_Utils {
 	 * Sanitize a url for saving to the database
 	 * Not to be confused with the old native WP function
 	 *
-	 * @todo [JRF => whomever] check/improve url verification
+	 * @todo  [JRF => whomever] check/improve url verification
 	 *
 	 * @since 1.8.0
 	 *
@@ -354,8 +351,7 @@ class WPSEO_Utils {
 
 		if ( self::$has_filters ) {
 			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-		}
-		else {
+		} else {
 			return self::emulate_filter_bool( $value );
 		}
 	}
@@ -404,22 +400,17 @@ class WPSEO_Utils {
 
 		if ( is_bool( $value ) ) {
 			return $value;
-		}
-		else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
+		} else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
 			return (bool) $value;
-		}
-		else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
+		} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
 			return (bool) $value;
-		}
-		else if ( is_string( $value ) ) {
+		} else if ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( in_array( $value, $true, true ) ) {
 				return true;
-			}
-			else if ( in_array( $value, $false, true ) ) {
+			} else if ( in_array( $value, $false, true ) ) {
 				return false;
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
@@ -445,8 +436,7 @@ class WPSEO_Utils {
 
 		if ( self::$has_filters ) {
 			return filter_var( $value, FILTER_VALIDATE_INT );
-		}
-		else {
+		} else {
 			return self::emulate_filter_int( $value );
 		}
 	}
@@ -465,27 +455,21 @@ class WPSEO_Utils {
 	public static function emulate_filter_int( $value ) {
 		if ( is_int( $value ) ) {
 			return $value;
-		}
-		else if ( is_float( $value ) ) {
+		} else if ( is_float( $value ) ) {
 			if ( (int) $value == $value && ! is_nan( $value ) ) {
 				return (int) $value;
-			}
-			else {
+			} else {
 				return false;
 			}
-		}
-		else if ( is_string( $value ) ) {
+		} else if ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( $value === '' ) {
 				return false;
-			}
-			else if ( ctype_digit( $value ) ) {
+			} else if ( ctype_digit( $value ) ) {
 				return (int) $value;
-			}
-			else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
+			} else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
 				return (int) $value;
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
@@ -503,8 +487,7 @@ class WPSEO_Utils {
 	public static function clear_cache() {
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
 			w3tc_pgcache_flush();
-		}
-		elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
+		} elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
 			wp_cache_clear_cache();
 		}
 	}
@@ -609,8 +592,7 @@ class WPSEO_Utils {
 			case 'divide':
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // String, or NULL if right_operand is 0.
-				}
-				elseif ( $number2 != 0 ) {
+				} elseif ( $number2 != 0 ) {
 					$result = ( $number1 / $number2 );
 				}
 
@@ -624,8 +606,7 @@ class WPSEO_Utils {
 			case 'modulus':
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2 ); // String, or NULL if modulus is 0.
-				}
-				elseif ( $number2 != 0 ) {
+				} elseif ( $number2 != 0 ) {
 					$result = ( $number1 % $number2 );
 				}
 
@@ -640,8 +621,7 @@ class WPSEO_Utils {
 				$compare = true;
 				if ( $bc ) {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
-				}
-				else {
+				} else {
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
 				}
 				break;
@@ -654,8 +634,7 @@ class WPSEO_Utils {
 					if ( $decimals === 0 ) {
 						$result = (int) $result;
 					}
-				}
-				else {
+				} else {
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
@@ -852,8 +831,7 @@ class WPSEO_Utils {
 
 		if ( defined( 'WPSEO_DEBUG' ) ) {
 			$development_mode = WPSEO_DEBUG;
-		}
-		elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
+		} elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
 			$development_mode = true;
 		}
 
@@ -903,23 +881,24 @@ class WPSEO_Utils {
 		return $home_url;
 	}
 
-    /**
-     * Get an option only if it's been auto-loaded.
-     *
-     * @param string $option The option to retrieve.
-     * @param bool|mixed $default A default value to return.
-     *
-     * @return bool|mixed
-     */
+	/**
+	 * Get an option only if it's been auto-loaded.
+	 *
+	 * @param string     $option  The option to retrieve.
+	 * @param bool|mixed $default A default value to return.
+	 *
+	 * @return bool|mixed
+	 */
 	public static function get_autoloaded_option( $option, $default = false ) {
-        $value = wp_cache_get( $option, 'options' );
-        if ( false === $value ) {
-            $passed_default = func_num_args() > 1;
-            return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
-        }
+		$value = wp_cache_get( $option, 'options' );
+		if ( false === $value ) {
+			$passed_default = func_num_args() > 1;
 
-        return apply_filters( "option_{$option}", maybe_unserialize( $value ), $option );
-    }
+			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
+		}
+
+		return apply_filters( "option_{$option}", maybe_unserialize( $value ), $option );
+	}
 
 	/**
 	 * Returns a base64 URL for the svg for use in the menu
@@ -946,6 +925,7 @@ class WPSEO_Utils {
 	 * @since 3.4
 	 *
 	 * @param string $locale The locale to get the language of.
+	 *
 	 * @returns string The language part of the locale.
 	 */
 	public static function get_language( $locale ) {
@@ -975,6 +955,7 @@ class WPSEO_Utils {
 		if ( function_exists( 'get_user_locale' ) ) {
 			return get_user_locale();
 		}
+
 		return get_locale();
 	}
 
@@ -998,7 +979,7 @@ class WPSEO_Utils {
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
 	 *
-	 * @since 1.8.0
+	 * @since      1.8.0
 	 *
 	 * @deprecated 3.0
 	 * @deprecated Passes through to PHP call, no longer used in code.
@@ -1011,16 +992,17 @@ class WPSEO_Utils {
 	 */
 	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'PHP native filter_input()' );
+
 		return filter_input( $type, $variable_name, $filter );
 	}
 
 	/**
 	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
 	 *
-	 * @since 2.2.0
+	 * @since      2.2.0
 	 *
 	 * @deprecated 3.2
-	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
+	 * @see        WPSEO_Sitemaps_Cache::register_clear_on_option_update()
 	 *
 	 * @param string $option Option name.
 	 * @param string $type   Sitemap type.
@@ -1033,10 +1015,10 @@ class WPSEO_Utils {
 	/**
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
 	 *
-	 * @since 2.2.0
+	 * @since      2.2.0
 	 *
 	 * @deprecated 3.2
-	 * @see WPSEO_Sitemaps_Cache::clear_on_option_update()
+	 * @see        WPSEO_Sitemaps_Cache::clear_on_option_update()
 	 *
 	 * @param string $option The option that's being updated.
 	 */
@@ -1048,10 +1030,10 @@ class WPSEO_Utils {
 	/**
 	 * Clear entire XML sitemap cache
 	 *
-	 * @since 1.8.0
+	 * @since      1.8.0
 	 *
 	 * @deprecated 3.2
-	 * @see WPSEO_Sitemaps_Cache::clear()
+	 * @see        WPSEO_Sitemaps_Cache::clear()
 	 *
 	 * @param array $types Set of sitemap types to invalidate cache for.
 	 */
@@ -1063,7 +1045,7 @@ class WPSEO_Utils {
 	/**
 	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exist.
 	 *
-	 * @since 3.0.0
+	 * @since      3.0.0
 	 *
 	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
 	 *
@@ -1075,6 +1057,7 @@ class WPSEO_Utils {
 	 */
 	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.3', 'wp_json_encode()' );
+
 		return wp_json_encode( $array_to_encode, $options, $depth );
 	}
 }
