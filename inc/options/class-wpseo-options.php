@@ -217,6 +217,27 @@ class WPSEO_Options {
 	}
 
 	/**
+	 * Get an option only if it's been auto-loaded.
+	 *
+	 * @static
+	 * 
+	 * @param string     $option  The option to retrieve.
+	 * @param bool|mixed $default A default value to return.
+	 *
+	 * @return bool|mixed
+	 */
+	public static function get_autoloaded_option( $option, $default = false ) {
+		$value = wp_cache_get( $option, 'options' );
+		if ( false === $value ) {
+			$passed_default = func_num_args() > 1;
+
+			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
+		}
+
+		return apply_filters( "option_{$option}", maybe_unserialize( $value ), $option );
+	}
+
+	/**
 	 * Run the clean up routine for one or all options
 	 *
 	 * @param  array|string $option_name     (optional) the option you want to clean or an array of

@@ -904,25 +904,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Get an option only if it's been auto-loaded.
-	 *
-	 * @param string     $option  The option to retrieve.
-	 * @param bool|mixed $default A default value to return.
-	 *
-	 * @return bool|mixed
-	 */
-	public static function get_autoloaded_option( $option, $default = false ) {
-		$value = wp_cache_get( $option, 'options' );
-		if ( false === $value ) {
-			$passed_default = func_num_args() > 1;
-
-			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
-		}
-
-		return apply_filters( "option_{$option}", maybe_unserialize( $value ), $option );
-	}
-
-	/**
 	 * Returns a base64 URL for the svg for use in the menu
 	 *
 	 * @since 3.3.0
