@@ -903,6 +903,17 @@ class WPSEO_Utils {
 		return $home_url;
 	}
 
+    /**
+     * Get an option only if it's been autoloaded
+     *
+     * @param string  $option
+     *
+     * @return bool|mixed
+     */
+	public static function get_autoloaded_option( $option ) {
+        return wp_cache_get( $option, 'options' );
+    }
+
 	/**
 	 * Returns a base64 URL for the svg for use in the menu
 	 *
