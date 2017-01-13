@@ -16,6 +16,8 @@ var templates = require( "./templates.js" );
 var snippetEditorTemplate = templates.snippetEditor;
 var hiddenElement = templates.hiddenSpan;
 
+var SnippetPreviewToggler = require( "./snippetPreviewToggler" );
+
 var domManipulation = require( "./helpers/domManipulation.js" );
 
 var defaults = {
@@ -41,6 +43,8 @@ var defaults = {
 	},
 	addTrailingSlash: true,
 	metaDescriptionDate: "",
+	previewMode: "mobile",
+
 };
 
 var titleMaxLength = 600;
@@ -254,6 +258,8 @@ function updateProgressBar( element, value, maximum, rating ) {
  *
  * @param {Jed}            opts.i18n                      - The translation object.
  *
+ * @param {string}         opts.previewMode               - The current preview mode.
+ *
  * @property {App}         refObj                         - The connected app object.
  * @property {Jed}         i18n                           - The translation object.
  *
@@ -375,6 +381,8 @@ SnippetPreview.prototype.renderTemplate = function() {
 				"js-text-analysis",
 				"You can click on each element in the preview to jump to the Snippet Editor."
 			),
+			desktopPreviewMode: this.i18n.dgettext( "js-text-analysis", "Desktop preview" ),
+			mobilePreviewMode: this.i18n.dgettext( "js-text-analysis", "Mobile preview" ),
 		},
 	} );
 
@@ -427,9 +435,24 @@ SnippetPreview.prototype.renderTemplate = function() {
 		} );
 	}
 
+	this.initPreviewToggler();
+	this.handleWindowResizing();
+
 	this.opened = false;
 	this.createMeasurementElements();
 	this.updateProgressBars();
+};
+
+/**
+ * Initializes the Snippet Preview Toggler.
+ * @returns {void}
+ */
+SnippetPreview.prototype.initPreviewToggler = function() {
+	this.snippetPreviewToggle = new SnippetPreviewToggler(
+		this.opts.previewMode, this.opts.targetElement.getElementsByClassName( "snippet-editor__view-icon" )
+	);
+	this.snippetPreviewToggle.initialize();
+	this.snippetPreviewToggle.bindEvents();
 };
 
 /**
@@ -919,6 +942,15 @@ SnippetPreview.prototype.updateProgressBars = function() {
 };
 
 /**
+ * Gets the width of the Snippet Preview to set the Snippet Preview Toggler visibility.
+ * @returns {void}
+ */
+SnippetPreview.prototype.handleWindowResizing = debounce( function() {
+	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
+	this.snippetPreviewToggle.setVisibility( previewWidth );
+}, 25 );
+
+/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  * @returns {void}
  */
@@ -939,6 +971,8 @@ SnippetPreview.prototype.bindEvents = function() {
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+
+	window.addEventListener( "resize", this.handleWindowResizing.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( inputPreviewBindings, function( binding ) {
