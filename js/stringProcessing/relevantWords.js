@@ -227,11 +227,6 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			break;
 		case "de":
-			combinations = filterFunctionWords( combinations, functionWords().verbs );
-			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
-			combinations = filterFunctionWordsAtEnding( combinations, functionWords().interrogativeProAdverbs );
-			break;
 		case "nl":
 			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
