@@ -497,7 +497,7 @@ class WPSEO_Admin_Init {
 
 		foreach ( $deprecated_notices as $deprecated_filter ) {
 			_deprecated_function(
-				/* %s expands to the actual filter/action that has been used. */
+				/* translators: %s expands to the actual filter/action that has been used. */
 				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
 				'WPSEO 3.0',
 				'javascript'
