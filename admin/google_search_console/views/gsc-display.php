@@ -28,7 +28,7 @@ else {
 	$video_url = 'https://yoa.st/screencast-connect-search-console';
 }
 
-$tab = new WPSEO_Option_Tab( 'GSC', __( 'Google Search Console' ), array( 'video_url' => $video_url ) );
+$tab = new WPSEO_Option_Tab( 'GSC', __( 'Google Search Console', 'wordpress-seo' ), array( 'video_url' => $video_url ) );
 $GSCHelpCenter = new WPSEO_Help_Center( 'google-search-console', $tab );
 $GSCHelpCenter->output_help_center();
 
