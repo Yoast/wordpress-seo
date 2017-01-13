@@ -55,7 +55,7 @@ describe( "ScreenReaderShortcut", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `children` was not specified in `ScreenReaderShortcut`." );
+			.toContain( "Warning: Failed prop type" );
 	} );
 
 	it( "generates a warning when no anchor prop is passed in.", () => {
@@ -64,6 +64,6 @@ describe( "ScreenReaderShortcut", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `anchor` was not specified in `ScreenReaderShortcut`." );
+			.toContain( "Warning: Failed prop type" );
 	} );
 } );

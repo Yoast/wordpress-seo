@@ -38,7 +38,7 @@ describe( "a step component", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `title` was not specified in `Step`" );
+			.toContain( "Warning: Failed prop type" );
 	} );
 
 	it( "throws an error when property fields is not an object ", () => {
