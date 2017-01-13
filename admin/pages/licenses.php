@@ -64,7 +64,6 @@ $extensions = array(
 		'installed' => false,
 		'image'     => plugins_url( 'images/extensions-woo.png', WPSEO_FILE ),
 		'benefits' => array(
-			/* %1$s expands to Pinterest */
 			sprintf( __( 'Improve sharing on Pinterest', 'wordpress-seo' ) ),
 
 			/* %1$s expands to Yoast, %2$s expands to WooCommerce */
