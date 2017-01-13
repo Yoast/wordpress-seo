@@ -77,9 +77,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
-		self::$meta_fields['general']['title']['title']       = __( 'SEO title', 'wordpress-seo' );
+		self::$meta_fields['general']['title']['title']              = __( 'SEO title', 'wordpress-seo' );
 
-		self::$meta_fields['general']['metadesc']['title']       = __( 'Meta description', 'wordpress-seo' );
+		self::$meta_fields['general']['metadesc']['title']           = __( 'Meta description', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta keywords', 'wordpress-seo' );
 		self::$meta_fields['general']['metakeywords']['label']       = __( 'Enter the meta keywords', 'wordpress-seo' );
