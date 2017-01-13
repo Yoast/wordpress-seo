@@ -904,9 +904,9 @@ class WPSEO_Utils {
 	}
 
     /**
-     * Get an option only if it's been autoloaded
+     * Get an option only if it's been auto-loaded.
      *
-     * @param string  $option
+     * @param string $option The option to retrieve.
      *
      * @return bool|mixed
      */
