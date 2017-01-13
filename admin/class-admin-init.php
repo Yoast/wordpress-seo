@@ -183,8 +183,9 @@ class WPSEO_Admin_Init {
 	 */
 	public function has_default_tagline() {
 		$blog_description = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-		return __( $default_blog_description ) === $blog_description || $default_blog_description === $blog_description;
+		$default_blog_description    = 'Just another WordPress site';
+		$translated_blog_description = __( 'Just another WordPress site' );
+		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
 
 	/**
