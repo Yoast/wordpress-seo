@@ -35,7 +35,7 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
  * @param string $id The id for the tab.
  */
 function render_help_center( $id ) {
-	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, 'Bulk editor',
+	$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-' . $id, __( 'Bulk editor', 'wordpress-seo' ),
 		array( 'video_url' => 'https://yoa.st/screencast-tools-bulk-editor' ) );
 
 	$helpcenter = new WPSEO_Help_Center( 'bulk-editor' . $id, $helpcenter_tab );
