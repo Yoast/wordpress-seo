@@ -395,11 +395,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	&__title {
 		width: 100%;
 		margin: 46px 0 20px;
-		padding: 10px;
-		border: none;
-		outline: none;
+		padding: 10px 0;
 		color: #a4286a;
-		background: none;
 		text-align: left;
 		box-sizing: border-box;
 		line-height: 19px;
@@ -450,9 +447,19 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			float: left;
 			width: 50%;
 			border: none;
+			text-align: center;
+
+			strong:first-child {
+				display: block;
+				max-width: 261px;
+				margin: 0 auto;
+				text-align: left;
+			}
 
 			p {
 				max-width: 261px;
+				margin: 1em auto;
+				text-align: left;
 			}
 		}
 	}
