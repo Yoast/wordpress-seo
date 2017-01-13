@@ -27,7 +27,7 @@ describe( "A Textfield component", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `label` was not specified in `Textfield`." );
+			.toContain( "Warning: Failed prop type" );
 	} );
 
 	it( "generates a warning when a faulty value is passed", () => {

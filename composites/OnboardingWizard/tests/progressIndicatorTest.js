@@ -61,9 +61,9 @@ describe( "a processIndicator component", () => {
 
 		let errors = console.error.mock.calls;
 		expect( errors[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `currentStepNumber` was not specified in `ProgressIndicator`." );
+			.toContain( "Warning: Failed prop type" );
 		expect( errors[ 1 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Required prop `totalSteps` was not specified in `ProgressIndicator`." );
+			.toContain( "Warning: Failed prop type" );
 	} );
 
 	it( "throws error with invalid prop types", () => {
@@ -75,8 +75,8 @@ describe( "a processIndicator component", () => {
 
 		let errors = console.error.mock.calls;
 		expect( errors[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `currentStepNumber` of type `string` supplied to `ProgressIndicator`" );
+			.toContain( "Warning: Failed prop type" );
 		expect( errors[ 1 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `totalSteps` of type `array` supplied to `ProgressIndicator`" );
+			.toContain( "Warning: Failed prop type" );
 	} );
 } );
