@@ -5,7 +5,7 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
  * @returns {Array} The array filled with exceptions.
  */
 
-let articles = [ "de", "het", "een" ];
+let articles = [ "de", "het", "een", "der", "des", "den" ];
 
 let numerals = [ "eén", "één", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien", "elf", "twaalf", "dertien",
 	"veertien", "vijftien", "zestien", "zeventien", "achttien", "negentien", "twintig", "eerste", "tweede", "derde", "vierde",
@@ -14,9 +14,9 @@ let numerals = [ "eén", "één", "twee", "drie", "vier", "vijf", "zes", "zeven"
 	"miljoenen", "biljoen", "biljoenen" ];
 
 // 'Het' is already included in the list of articles.
-let personalPronounsNominative = [ "ik", "jij", "hij", "ze", "we", "wij", "jullie", "zij" ];
+let personalPronounsNominative = [ "ik", "je", "jij", "hij", "ze", "we", "wij", "jullie", "zij" ];
 let personalPronounsAccusative = [ "mij", "jou", "hem", "haar", "hen", "hun" ];
-let demonstrativePronouns = [ "dit", "dat", "deze", "die" ];
+let demonstrativePronouns = [ "dit", "dat", "deze", "die", "zelf" ];
 
 // What to do with 'zijn', since it is also a verb?
 let possessivePronouns = [ "mijn", "mijne", "jouw", "jouwe", "zijne", "hare", "ons", "onze", "hunne" ];
@@ -106,15 +106,15 @@ let additionalTransitionWords = [ "absoluut", "zeker", "ongetwijfeld", "sowieso"
 	"geregeld", "menigmaal", "regelmatig", "veelvuldig", "eenvoudigweg", "simpelweg", "louter", "kortweg", "stomweg", "domweg", "zomaar",
 	"eventueel", "mogelijkerwijs", "eens", "weleens", "nooit", "ooit", "anders", "momenteel", "thans", "incidenteel", "trouwens", "elders",
 	"volgend", "recent", "onlangs", "recentelijk", "laatst", "zojuist", "relatief", "duidelijk", "overduidelijk", "klaarblijkelijk",
-	"nadrukkelijk", "ogenschijnlijk", "duidelijk", "kennelijk", "schijnbaar", "alweer", "continu", "herhaaldelijk" ];
+	"nadrukkelijk", "ogenschijnlijk", "duidelijk", "kennelijk", "schijnbaar", "alweer", "continu", "herhaaldelijk", "nog", "steeds" ];
 
 let intensifiers = [ "zeer", "erg", "redelijk", "flink", "beetje", "tikkeltje", "bijzonder", "ernstig", "enigszins",
-	"hoe", "zo", "wat", "tamelijk", "nogal", "vrij", "genoeg", "behoorlijk", "hard", "zwaar", "heel", "reuze", "buitengewoon",
+	"hoe", "zo", "wat", "tamelijk", "nogal", "vrij", "genoeg", "behoorlijk", "hard", "zwaar", "heel", "hele", "reuze", "buitengewoon",
 	"ontzettend", "vreselijk" ];
 
 // These verbs convey little meaning.
 let delexicalisedVerbs = [ "laten", "laat", "liet", "lieten", "komen", "kom", "komt", "kwam", "kwamen", "maken", "maakt",
-	"maak", "maakte", "maakten", "doen", "doe", "doet", "deed", "deden" ];
+	"maak", "maakte", "maakten", "doen", "doe", "doet", "deed", "deden", "vinden", "vindt", "vind", "vond", "vonden" ];
 
 /* These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 Keyword combinations containing these adjectives/adverbs are fine. */
@@ -127,7 +127,7 @@ let generalAdjectivesAdverbs = [ "nieuw", "nieuwe", "nieuwer", "nieuwere", "nieu
 	"weinig", "weinige", "minder", "mindere", "minst", "minste", "eigen", "laag", "lage", "lager", "lagere", "laagst", "laagste",
 	"hoog", "hoge", "hoger", "hogere", "hoogst", "hoogste", "klein", "kleine", "kleiner", "kleinere", "kleinst", "kleinste", "kort",
 	"korte", "korter", "kortere", "kortst", "kortste", "zekere", "herhaaldelijke", "directe", "ongeveer", "slecht", "slechte", "slechter",
-	"slechtere", "slechtst", "slechtste", "zulke", "zulk", "zo'n", "zulks", "er", "extreem" ];
+	"slechtere", "slechtst", "slechtste", "zulke", "zulk", "zo'n", "zulks", "er", "extreem", "extreme", "bijbehorende", "bijbehorend" ];
 
 let interjections = [ "oh", "wauw", "hèhè", "hè", "hé", "au", "ai", "jaja", "welja", "jawel", "ssst", "heremijntijd", "hemeltjelief", "aha",
 	"er", "foei", "hmm", "nou", "nee", "tja", "nja", "okido", "ho", "halt", "komaan", "komop", "verrek", "nietwaar", "brr", "oef",
@@ -140,7 +140,7 @@ let vagueNouns = [ "ding", "dingen", "manier", "manieren", "item", "items", "kee
 	"personen", "deel" ];
 
 // 'No' is already included in the quantifier list.
-let miscellaneous = [ "niet", "wel", "ja", "nee", "neen", "oké", "oke", "okee", "ok", "niets", "zoiets", "%", "€" ];
+let miscellaneous = [ "niet", "wel", "ja", "nee", "neen", "oké", "oke", "okee", "ok", "niets", "zoiets", "%", "€", "euro" ];
 
 module.exports = function() {
 	return {
