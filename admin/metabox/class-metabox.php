@@ -570,7 +570,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'pageanalysis':
 				$content .= '<div id="pageanalysis">';
 				$content .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
-				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">'. __( 'Analysis', 'wordpress-seo' ) .'</h3>';
+				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) . '</h3>';
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				$content .= '<div id="yoast-seo-content-analysis"></div>';
 				$content .= '</section>';
@@ -755,7 +755,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
 		$html = $content;
-		$html .= '<div class="wpseo_hidden" id="help-yoast-'. $hidden_help_name. '">' . $help_button . $help_panel . '</div>';
+		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $hidden_help_name . '">' . $help_button . $help_panel . '</div>';
 		return $html;
 	}
 
