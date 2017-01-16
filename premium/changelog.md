@@ -1,3 +1,9 @@
+### 4.1.0: January, 2017
+* Adds a feature toggle to disable link suggestions (sitewide).
+* Allows contributors to also use the prominent words that link suggestions depend on, these generated a 403. 
+* Adds German support for Yoast internal linking. 
+* Improves the user interface for the prominent word recalculation.
+
 ### 4.0.2: December 20th, 2016
 * Adds site wide calculation of prominent words for pages.
 * Fixes a notice that would be thrown on custom post types: "Undefined property: WP_Post_Type::$rest_base".
