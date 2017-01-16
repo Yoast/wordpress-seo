@@ -614,9 +614,9 @@ class Yoast_Form {
 				'banner-yoast-seo-for-wordpress-training.png',
 				261,
 				190,
-				/* translators: %1$s expands to Yoast SEO for WordPress Training, %2$s to Yoast SEO for WordPress. */
 				sprintf(
-					__( 'Take the %s course and become a certified %2$s expert!', 'wordpress-seo' ),
+					/* translators: %1$s expands to Yoast SEO for WordPress Training, %2$s to Yoast SEO for WordPress. */
+					__( 'Take the %1$s course and become a certified %2$s expert!', 'wordpress-seo' ),
 					'Yoast SEO for WordPress Training',
 					'Yoast SEO for WordPress'
 				)

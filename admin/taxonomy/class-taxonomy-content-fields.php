@@ -21,7 +21,8 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				'snippetpreview',
 				array(
 					'help-button' => __( 'Show information about the snippet editor', 'wordpress-seo' ),
-					'help'        => sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %sLearn more about the Snippet Preview%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' ),
+					/* translators: 1: link open tag; 2: link close tag. */
+					'help'        => sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' ),
 				)
 			),
 			'focuskw' => $this->get_field_config(
@@ -30,7 +31,8 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				'focuskeyword',
 				array(
 					'help-button' => __( 'Show information about the focus keyword', 'wordpress-seo' ),
-					'help'        => sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %sLearn more about the Focus Keyword%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' ),
+					/* translators: 1: link open tag; 2: link close tag. */
+					'help'        => sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %1$sLearn more about the Focus Keyword%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' ),
 				)
 			),
 			'analysis' => $this->get_field_config(
@@ -39,7 +41,8 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				'pageanalysis',
 				array(
 					'help-button' => __( 'Show information about the content analysis', 'wordpress-seo' ),
-					'help'        => sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %sLearn more about the Content Analysis Tool%s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' ),
+					/* translators: 1: link open tag; 2: link close tag. */
+					'help'        => sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %1$sLearn more about the Content Analysis Tool%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' ),
 				)
 			),
 			'title' => $this->get_field_config(
