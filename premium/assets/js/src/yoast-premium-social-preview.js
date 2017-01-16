@@ -195,7 +195,6 @@ var socialPreviews = require( "yoast-social-previews" );
 	 */
 	function createSocialPreviewContainer( socialPreviewholder, containerId ) {
 		socialPreviewholder.append( '<div id="' + containerId + '"></div>' );
-		socialPreviewholder.find( ".form-table" ).hide();
 	}
 
 	/**
