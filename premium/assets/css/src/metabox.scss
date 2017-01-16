@@ -18,8 +18,8 @@
 }
 
 /* Reduce top margin of the Social Previews inner containers. */
-.editable-preview__inner--facebook,
-.editable-preview__inner--twitter,
+.editable-preview .editable-preview__inner--facebook,
+.editable-preview .editable-preview__inner--twitter,
 .editable-preview--facebook .snippet-editor__form,
 .editable-preview--twitter .snippet-editor__form {
 	padding-top: 0;
