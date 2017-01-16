@@ -67,10 +67,10 @@ $extensions = array(
 			/* %1$s expands to Pinterest */
 			sprintf( __( 'Improve sharing on Pinterest', 'wordpress-seo' ) ),
 
-			/* %1$s expands to Yoast, %2$s expands to WooCommerce */
+			/* translators: %1$s expands to Yoast, %2$s expands to WooCommerce */
 			sprintf( __( 'Use %1$s breadcrumbs instead of %2$s ones', 'wordpress-seo' ), 'Yoast', 'WooCommerce' ),
 
-			/* %1$s expands to Yoast SEO, %2$s expands to WooCommerce */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to WooCommerce */
 			sprintf( __( 'A seamless integration between %1$s and %2$s', 'wordpress-seo' ), 'Yoast SEO', 'WooCommerce' ),
 		),
 		'buy_button' => 'WooCommerce SEO',
@@ -170,7 +170,7 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 
 			<section class="yoast-promo-extensions">
 				<h2><?php
-					/* %1$s expands to Yoast SEO */
+					/* translators: %1$s expands to Yoast SEO */
 					$yoast_seo_extensions = sprintf( __( '%1$s extensions', 'wordpress-seo' ), 'Yoast SEO' );
 
 					$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
