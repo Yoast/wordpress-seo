@@ -2,6 +2,29 @@
 @import "../../../node_modules/yoast-components/forms/StyledSection/StyledSection";
 @import "linkSuggestions";
 
+/*
+ * Meta box tabs by default have `padding: 20px 35px;` but we use a smaller
+ * padding on the Content tab. We should do the same for the Social Previews tabs.
+ */
+.wpseotab.facebook,
+.wpseotab.twitter {
+	padding: 20px 15px;
+}
+
+/* Fix the help buttons positioning. */
+.wpseotab.facebook .yoast_help.yoast-help-button,
+.wpseotab.twitter .yoast_help.yoast-help-button {
+	margin-top: -29px;
+}
+
+/* Reduce top margin of the Social Previews inner containers. */
+.editable-preview__inner--facebook,
+.editable-preview__inner--twitter,
+.editable-preview--facebook .snippet-editor__form,
+.editable-preview--twitter .snippet-editor__form {
+	padding-top: 0;
+}
+
 .remove-keyword {
 	display: inline-block;
 	margin: 0 0 0 -3px;
@@ -64,4 +87,12 @@
 
 .wpseo-metabox-tabs .wpseo_keyword_tab_hideable .wpseo_tablink {
 	padding-right: 0;
+}
+
+@media screen and ( max-width: 600px ) {
+	/* Reduce the tabs padding on smaller screens. */
+	.wpseotab.facebook,
+	.wpseotab.twitter {
+		padding: 20px 0;
+	}
 }
