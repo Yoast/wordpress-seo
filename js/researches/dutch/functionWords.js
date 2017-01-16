@@ -139,8 +139,12 @@ let recipeWords = [ "ml", "cl", "dl", "l", "tl", "el", "mg", "g", "gr", "kg", "c
 let vagueNouns = [ "ding", "dingen", "manier", "manieren", "item", "items", "keer", "maal", "procent", "geval", "aspect", "persoon",
 	"personen", "deel" ];
 
-// 'No' is already included in the quantifier list.
 let miscellaneous = [ "niet", "wel", "ja", "nee", "neen", "oké", "oke", "okee", "ok", "niets", "zoiets", "%", "€", "euro" ];
+
+/*
+Exports all function words concatenated, and specific word categories and category combinations
+to be used as filters for the prominent words.
+ */
 
 module.exports = function() {
 	return {
