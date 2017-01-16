@@ -94,7 +94,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 			case 'pageanalysis' :
 				$field .= '<div id="pageanalysis">';
 				$field .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
-				$field .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) .'</h3>';
+				$field .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) . '</h3>';
 				$field .= '<div id="wpseo_analysis"></div>';
 				$field .= '</section>';
 				$field .= '</div>';
@@ -222,7 +222,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 */
 	private function parse_section_row( $content, $esc_form_key, WPSEO_Admin_Help_Panel $help ) {
 		$html = $content;
-		$html .= '<div class="wpseo_hidden" id="help-yoast-'. $esc_form_key. '">' . $help->get_button_html() . $help->get_panel_html() . '</div>';
+		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $esc_form_key . '">' . $help->get_button_html() . $help->get_panel_html() . '</div>';
 		return $html;
 	}
 }

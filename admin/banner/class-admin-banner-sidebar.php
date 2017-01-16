@@ -335,7 +335,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		);
 
 		$remove_banner_spot->set_description(
-			'<a target="_blank" href="https://yoa.st/jy">'.
+			'<a target="_blank" href="https://yoa.st/jy">' .
 			/* translators: %1$s expands to Yoast SEO Premium */
 			sprintf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ) .
 			'</a>'
