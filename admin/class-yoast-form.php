@@ -616,7 +616,7 @@ class Yoast_Form {
 				190,
 				sprintf(
 					/* translators: %1$s expands to Yoast SEO for WordPress Training, %2$s to Yoast SEO for WordPress. */
-					__( 'Take the %s course and become a certified %2$s expert!', 'wordpress-seo' ),
+					__( 'Take the %1$s course and become a certified %2$s expert!', 'wordpress-seo' ),
 					'Yoast SEO for WordPress Training',
 					'Yoast SEO for WordPress'
 				)
