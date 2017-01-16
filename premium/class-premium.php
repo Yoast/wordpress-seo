@@ -96,7 +96,7 @@ class WPSEO_Premium {
 	public function add_feature_toggles( array $feature_toggles ) {
 		$language = WPSEO_Utils::get_language( get_locale() );
 
-		if ( $language === 'en' ) {
+		if ( $language === 'en' || $language === 'de' ) {
 			$feature_toggles[] = (object) array(
 				'name'    => __( 'Metabox insights', 'wordpress-seo-premium' ),
 				'setting' => 'enable_metabox_insights',
