@@ -69,7 +69,7 @@
     "material-ui": "^0.15.4",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
-    "yoast-components": "^2.2.0",
+    "yoast-components": "^2.3.0",
     "yoastseo": "https://github.com/Yoast/YoastSEO.js#master"
   }
 }
