@@ -44,17 +44,16 @@ $snippet_width: 600px;
 		clear: both;
 
 		&-toggle {
-			display: inline-block;
+			display: inline-block; /* Contain floated children and margins do not collapse. */
 			background-color: $color_button;
 			border: 1px solid $color_button_border;
 			border-radius: 4px;
-			margin: 0 0.5em;
-			overflow: hidden;
-			margin-top: 15px;
+			margin-top: 10px;
+			vertical-align: top;
 		}
 
 		&-icon {
-			$size: 32px;
+			$size: 31px; /* To match the Edit snippet button height. */
 			width: $size;
 			height: $size;
 			float: left;
@@ -231,11 +230,9 @@ $snippet_width: 600px;
 		background-position: left 8px top 50%;
 		background-size: 16px;
 		padding-left: 32px;
-		display: inline;
-		float: left;
-		overflow: hidden;
+		display: inline-block; /* Margins do not collapse. */
 		box-sizing: border-box;
-		margin-top: 15px;
+		margin-top: 10px;
 	}
 
 	&__form {

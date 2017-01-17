@@ -39,8 +39,7 @@ SnippetPreviewToggler.prototype.initialize = function() {
  * @param {string} previewToggle The previewToggle to bind the click event on.
  */
 SnippetPreviewToggler.prototype.bindClickEvent = function( previewToggle ) {
-	previewToggle.addEventListener( "click", function( evt ) {
-		evt.preventDefault();
+	previewToggle.addEventListener( "click", function() {
 		this._setPreviewMode( previewToggle.getAttribute( "data-type" ), previewToggle );
 	}.bind( this ) );
 };
@@ -144,6 +143,7 @@ SnippetPreviewToggler.prototype._removeActiveStates = function() {
 SnippetPreviewToggler.prototype._removeActiveState = function( previewToggle ) {
 	domManipulation.removeClass( previewToggle, "snippet-editor__view-icon-" + previewToggle.getAttribute( "data-type" ) + "--active" );
 	domManipulation.removeClass( previewToggle, "snippet-editor__view-icon--active" );
+	previewToggle.setAttribute( 'aria-pressed', 'false' );
 };
 
 /**
@@ -156,6 +156,7 @@ SnippetPreviewToggler.prototype._removeActiveState = function( previewToggle ) {
 SnippetPreviewToggler.prototype._setActiveState = function( elementToActivate ) {
 	domManipulation.addClass( elementToActivate, "snippet-editor__view-icon-" + elementToActivate.getAttribute( "data-type" ) + "--active"  );
 	domManipulation.addClass( elementToActivate, "snippet-editor__view-icon--active"  );
+	elementToActivate.setAttribute( 'aria-pressed', 'true' );
 };
 
 module.exports = SnippetPreviewToggler;
