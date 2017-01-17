@@ -6598,9 +6598,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@https://github.com/yoast/yoast-components#release/2.3":
-  version "2.2.0"
-  resolved "https://github.com/yoast/yoast-components#d5fd4a127caac3742200ad17503096467527bbfb"
+yoast-components@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.3.0.tgz#99372fca22dedefc0c3633ca7607da27edd6432d"
   dependencies:
     i18n-calypso "^1.6.2"
     interpolate-components "^1.1.0"
@@ -6610,15 +6610,6 @@ yauzl@^2.2.1:
 "yoastseo@https://github.com/Yoast/YoastSEO.js#master":
   version "1.9.0"
   resolved "https://github.com/Yoast/YoastSEO.js#d7657585485d60edbb22ccb3ad53f3bb1ec64ac0"
-  dependencies:
-    jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
-
-"yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.9":
-  version "1.8.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#4740652f755bb307e373a85d9639c7da61b1c7f2"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"
