@@ -6609,7 +6609,7 @@ yauzl@^2.2.1:
 
 "yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.9":
   version "1.8.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#d24c5f3789f0790f4dec33abc75f7f676ce53589"
+  resolved "https://github.com/Yoast/YoastSEO.js#4740652f755bb307e373a85d9639c7da61b1c7f2"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"

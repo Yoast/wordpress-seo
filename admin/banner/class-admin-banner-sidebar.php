@@ -320,6 +320,16 @@ class WPSEO_Admin_Banner_Sidebar {
 			)
 		);
 
+		$courses_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				'https://yoa.st/qy',
+				'site-structure-training.png',
+				261,
+				152,
+				__( 'Take the online Site Structure Training course and learn how to structure your website!', 'wordpress-seo' )
+			)
+		);
+
 		return $courses_spot;
 	}
 
