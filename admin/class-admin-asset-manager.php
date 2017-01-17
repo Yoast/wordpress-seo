@@ -293,7 +293,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-400',
+				'src'  => 'metabox-410',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
@@ -308,7 +308,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-330',
+				'src'  => 'snippet-410',
 			),
 			array(
 				'name' => 'adminbar',
@@ -343,7 +343,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'extensions',
-				'src'  => 'yoast-extensions-390',
+				'src'  => 'yoast-extensions-410',
 			),
 		);
 	}
