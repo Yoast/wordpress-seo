@@ -397,5 +397,4 @@ class WPSEO_Options {
 		$saved_option = self::get_option( $wpseo_options_group_name );
 		return $saved_option[ $option_name ] === $options[ $option_name ];
 	}
-
 }

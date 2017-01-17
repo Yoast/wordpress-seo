@@ -858,5 +858,4 @@ class WPSEO_Breadcrumbs {
 
 		return $class;
 	}
-
 }

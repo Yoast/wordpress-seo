@@ -147,5 +147,4 @@ class WPSEO_Admin_Pages {
 
 		}
 	}
-
 } /* End of class */

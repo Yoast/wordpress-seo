@@ -711,5 +711,4 @@ abstract class WPSEO_Option {
 
 		return $key;
 	}
-
 }
