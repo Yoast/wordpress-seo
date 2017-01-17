@@ -253,16 +253,4 @@ class WPSEO_JSON_LD {
 
 		return get_bloginfo( 'name' );
 	}
-
-	/**
-	 * Renders internal search schema markup
-	 *
-	 * @deprecated 2.1
-	 * @deprecated use WPSEO_JSON_LD::website()
-	 */
-	public function internal_search() {
-		_deprecated_function( __METHOD__, 'WPSEO 2.1', 'WPSEO_JSON_LD::website()' );
-
-		$this->website();
-	}
 }

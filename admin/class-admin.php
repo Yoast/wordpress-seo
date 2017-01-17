@@ -730,68 +730,6 @@ class WPSEO_Admin {
 	/********************** DEPRECATED METHODS **********************/
 
 	/**
-	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::grant_access()
-	 * @see        WPSEO_Utils::grant_access()
-	 *
-	 * @return boolean
-	 */
-	function grant_access() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::grant_access()' );
-
-		return WPSEO_Utils::grant_access();
-	}
-
-	/**
-	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use wpseo_do_upgrade()
-	 * @see        WPSEO_Upgrade
-	 */
-	function maybe_upgrade() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
-		new WPSEO_Upgrade();
-	}
-
-	/**
-	 * Clears the cache
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::clear_cache()
-	 * @see        WPSEO_Utils::clear_cache()
-	 */
-	function clear_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_cache()' );
-		WPSEO_Utils::clear_cache();
-	}
-
-	/**
-	 * Clear rewrites
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::clear_rewrites()
-	 * @see        WPSEO_Utils::clear_rewrites()
-	 */
-	function clear_rewrites() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_rewrites()' );
-		WPSEO_Utils::clear_rewrites();
-	}
-
-	/**
-	 * Register all the options needed for the configuration pages.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Option::register_setting() on each individual option
-	 * @see        WPSEO_Option::register_setting()
-	 */
-	function options_init() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
-	}
-
-	/**
 	 * Display an error message when the blog is set to private.
 	 *
 	 * @deprecated 3.3

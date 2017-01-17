@@ -443,53 +443,6 @@ function wpseo_advanced_settings_enabled( $wpseo_options ) {
 /********************** DEPRECATED FUNCTIONS **********************/
 
 /**
- * Set the default settings.
- *
- * @deprecated 1.5.0
- * @deprecated use WPSEO_Options::initialize()
- * @see        WPSEO_Options::initialize()
- */
-function wpseo_defaults() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::initialize()' );
-	WPSEO_Options::initialize();
-}
-
-/**
- * Translates a decimal analysis score into a textual one.
- *
- * @deprecated 1.5.6.1
- * @deprecated use WPSEO_Utils::translate_score()
- * @see        WPSEO_Utils::translate_score()
- *
- * @param int  $val       The decimal score to translate.
- * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
- *
- * @return string
- */
-function wpseo_translate_score( $val, $css_value = true ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::translate_score()' );
-
-	return WPSEO_Utils::translate_score();
-}
-
-/**
- * Check whether file editing is allowed for the .htaccess and robots.txt files
- *
- * @deprecated 1.5.6.1
- * @deprecated use WPSEO_Utils::allow_system_file_edit()
- * @see        WPSEO_Utils::allow_system_file_edit()
- *
- * @internal   current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
- *
- * @return bool
- */
-function wpseo_allow_system_file_edit() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::allow_system_file_edit()' );
-
-	return WPSEO_Utils::allow_system_file_edit();
-}
-
-/**
  * Test whether force rewrite should be enabled or not.
  *
  * @deprecated 3.3
