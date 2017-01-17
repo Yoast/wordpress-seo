@@ -208,8 +208,7 @@ $snippet_width: 600px;
 
 	&__preview {
 		padding: 0 20px 15px;
-	  	max-width: $snippet_width + 40;
-	  	overflow-x: auto;
+		max-width: $snippet_width + 40;
 	}
 
 	&__button {

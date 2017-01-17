@@ -462,9 +462,9 @@
      }
     __p += '\n				<span class="desc" id="snippet_meta">\n					' +
     __e( rendered.meta ) +
-    '\n				</span>\n			</div>\n		</div>\n\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile" type="button" data-type="mobile" aria-label="' +
+    '\n				</span>\n			</div>\n		</div>\n\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile yoast-tooltip yoast-tooltip-se" type="button" data-type="mobile" aria-label="' +
     __e( i18n.mobilePreviewMode ) +
-    '" />\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop" type="button" data-type="desktop" aria-label="' +
+    '" />\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop yoast-tooltip yoast-tooltip-se" type="button" data-type="desktop" aria-label="' +
     __e( i18n.desktopPreviewMode ) +
     '" />\n		</div>\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n			' +
     __e( i18n.edit ) +
