@@ -34,14 +34,6 @@ $generated_i18n_strings = array(
 	   %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
 	__( "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/getSubheadingLengthAssessment.js:34
-	/* Translators: %1$d expands to the recommended maximum number of characters. */
-	__( "The length of all subheadings is less than or equal to the recommended maximum of %1$d characters, which is great.", "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/getSubheadingLengthAssessment.js:47
-	/* Translators: %1$d expands to the number of subheadings. %2$d expands to the recommended maximum number of characters. */
-	_n( "You have %1$d subheading containing more than the recommended maximum of %2$d characters.", "You have %1$d subheadings containing more than the recommended maximum of %2$d characters.", 1, "wordpress-seo" ),
-
 	// Reference: node_modules/yoastseo/js/assessments/introductionKeywordAssessment.js:14
 	__( "The focus keyword appears in the first paragraph of the copy.", "wordpress-seo" ),
 
@@ -72,7 +64,7 @@ $generated_i18n_strings = array(
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
 	__( "The keyword density is %1$s, which is too low; the focus keyword was found %2$d times.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/keywordStopWordsAssessment.js:16
+	// Reference: node_modules/yoastseo/js/assessments/keywordStopWordsAssessment.js:20
 	/* Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
 	_n( "The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info.", "The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info.", 1, "wordpress-seo" ),
 
@@ -113,21 +105,6 @@ $generated_i18n_strings = array(
 	/* Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value */
 	_n( "%1$d of the paragraphs contains more than the recommended maximum of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?", "%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of these paragraphs is about the same topic, and therefore belongs in a single paragraph?", 1, "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/paragraphTooShortAssessment.js:40
-	__( "None of the paragraphs are too short, which is great.", "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/paragraphTooShortAssessment.js:50
-	/* Translators: %1$d expands to the number of paragraphs. */
-	_n( "%1$d of the paragraphs is too short.", "%1$d of the paragraphs are too short.", 1, "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/paragraphTooShortAssessment.js:57
-	// Reference: node_modules/yoastseo/js/assessments/subheadingDistributionTooShortAssessment.js:65
-	/* Translators: %2$d expands to the recommended value. */
-	_n( "The recommended minimum is %2$d word.", "The recommended minimum is %2$d words.", 1, "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/paragraphTooShortAssessment.js:63
-	_n( "Try to expand this paragraph, or connect it to the previous or next paragraph.", "Try to expand these paragraphs, or connect each of them to the previous or next paragraph.", 1, "wordpress-seo" ),
-
 	// Reference: node_modules/yoastseo/js/assessments/passiveVoiceAssessment.js:54
 	/* Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 	   %3$s expands to the anchor end tag, %4$s expands to the recommended value. */
@@ -143,12 +120,12 @@ $generated_i18n_strings = array(
 	   %2$d expands to the number of consecutive sentences starting with the same word. */
 	_n( "The text contains %2$d consecutive sentences starting with the same word. Try to mix things up!", "The text contains %1$d instances where %2$d or more consecutive sentences start with the same word. Try to mix things up!", 1, "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/sentenceLengthInDescriptionAssessment.js:25
+	// Reference: node_modules/yoastseo/js/assessments/sentenceLengthInDescriptionAssessment.js:45
 	/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
 	   %3$s expands to the anchor end tag. */
 	__( "The meta description contains no sentences %1$sover %2$s words%3$s.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/sentenceLengthInDescriptionAssessment.js:36
+	// Reference: node_modules/yoastseo/js/assessments/sentenceLengthInDescriptionAssessment.js:56
 	/* Translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
 	   %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag. */
 	_n( "The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to shorten this sentence.", "The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to shorten these sentences.", 1, "wordpress-seo" ),
@@ -165,18 +142,7 @@ $generated_i18n_strings = array(
 	   %5$s expands to the recommended maximum percentage. */
 	__( "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s. Try to shorten the sentences.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/sentenceVariationAssessment.js:42
-	/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
-	   %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score. */
-	__( "The %1$ssentence length variation%2$s score is %3$s, which is more than or equal to the recommended minimum of %4$d. The text contains a nice combination of long and short sentences.", "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/sentenceVariationAssessment.js:57
-	/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the calculated score,
-	   %3$d expands to the anchor end tag, %4$s expands to the recommended minimum score. */
-	__( "The %1$ssentence length variation%2$s score is %3$s, which is less than the recommended minimum of %4$d. Try to alternate more between long and short sentences.", "wordpress-seo" ),
-
 	// Reference: node_modules/yoastseo/js/assessments/subheadingDistributionTooLongAssessment.js:40
-	// Reference: node_modules/yoastseo/js/assessments/subheadingPresenceAssessment.js:28
 	__( "The text does not contain any subheadings. Add at least one subheading.", "wordpress-seo" ),
 
 	// Reference: node_modules/yoastseo/js/assessments/subheadingDistributionTooLongAssessment.js:68
@@ -184,19 +150,6 @@ $generated_i18n_strings = array(
 
 	// Reference: node_modules/yoastseo/js/assessments/subheadingDistributionTooLongAssessment.js:81
 	_n( "%1$d of the subheadings is followed by more than the recommended maximum of %2$d words. Try to insert another subheading.", "%1$d of the subheadings are followed by more than the recommended maximum of %2$d words. Try to insert additional subheadings.", 1, "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/subheadingDistributionTooShortAssessment.js:46
-	__( "The number of words following each of the subheadings exceeds the recommended minimum of %1$d words, which is great.", "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/subheadingDistributionTooShortAssessment.js:59
-	/* Translators: %1$d expands to the number of subheadings. */
-	_n( "The number of words following %1$d of the subheadings is too small.", "The number of words following %1$d of the subheadings is too small.", 1, "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/subheadingDistributionTooShortAssessment.js:70
-	_n( "Consider deleting that particular subheading, or the following subheading.", "Consider deleting those particular subheadings, or the subheading following each of them.", 1, "wordpress-seo" ),
-
-	// Reference: node_modules/yoastseo/js/assessments/subheadingPresenceAssessment.js:18
-	_n( "The text contains %1$d subheading, which is great.", "The text contains %1$d subheadings, which is great.", 1, "wordpress-seo" ),
 
 	// Reference: node_modules/yoastseo/js/assessments/subheadingsKeywordAssessment.js:14
 	__( "You have not used the focus keyword in any subheading (such as an H2) in your copy.", "wordpress-seo" ),
@@ -307,11 +260,11 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/assessments/urlLengthAssessment.js:16
 	__( "The slug for this page is a bit long, consider shortening it.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/urlStopWordsAssessment.js:16
+	// Reference: node_modules/yoastseo/js/assessments/urlStopWordsAssessment.js:20
 	/* Translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
 	_n( "The slug for this page contains a %1$sstop word%2$s, consider removing it.", "The slug for this page contains %1$sstop words%2$s, consider removing them.", 1, "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/assessments/urlStopWordsAssessment.js:42
+	// Reference: node_modules/yoastseo/js/assessments/urlStopWordsAssessment.js:46
 	/* Translators: this link is referred to in the content analysis when a slug contains one or more stop words */
 	__( "http://en.wikipedia.org/wiki/Stop_words", "wordpress-seo" ),
 
@@ -385,40 +338,46 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:352
 	__( "Remove marks in the text", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:365
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:371
 	__( "Edit snippet", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:366
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:372
 	__( "SEO title", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:367
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:373
 	__( "Slug", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:368
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:374
 	__( "Meta description", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:369
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:375
 	__( "Close snippet editor", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:370
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:376
 	__( "Snippet preview", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:371
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:377
 	__( "SEO title preview:", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:372
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:378
 	__( "Slug preview:", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:373
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:379
 	__( "Meta description preview:", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:376
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:382
 	__( "You can click on each element in the preview to jump to the Snippet Editor.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:574
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:384
+	__( "Desktop preview", "wordpress-seo" ),
+
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:385
+	__( "Mobile preview", "wordpress-seo" ),
+
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:597
 	__( "Please provide an SEO title by editing the snippet below.", "wordpress-seo" ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:650
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:673
 	__( "Please provide a meta description by editing the snippet below.", "wordpress-seo" )
 );
 /* THIS IS THE END OF THE GENERATED FILE */
