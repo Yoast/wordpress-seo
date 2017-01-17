@@ -6607,6 +6607,15 @@ yauzl@^2.2.1:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
+"yoastseo@https://github.com/Yoast/YoastSEO.js#master":
+  version "1.9.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#d7657585485d60edbb22ccb3ad53f3bb1ec64ac0"
+  dependencies:
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
+
 "yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.9":
   version "1.8.0"
   resolved "https://github.com/Yoast/YoastSEO.js#4740652f755bb307e373a85d9639c7da61b1c7f2"
