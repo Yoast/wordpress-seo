@@ -59,6 +59,6 @@
     "yoast-components": "^2.2.0",
     "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#master",
     "yoast-social-previews": "git+ssh://git@github.com/yoast/yoast-social-previews#master",
-    "yoastseo": "github:Yoast/YoastSEO.js#master"
+    "yoastseo": "https://github.com/Yoast/YoastSEO.js#master"
   }
 }
