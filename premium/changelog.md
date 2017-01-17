@@ -1,5 +1,5 @@
-### 4.1.0: January, 2017
-* Adds a feature toggle to disable link suggestions (sitewide).
+### 4.1.0: January, 17th, 2017
+* Adds a feature toggle to disable link suggestions (site wide).
 * Allows contributors to also use the prominent words that link suggestions depend on, these generated a 403. 
 * Adds German support for Yoast internal linking. 
 * Improves the user interface for the prominent word recalculation.
