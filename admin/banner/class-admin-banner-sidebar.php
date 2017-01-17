@@ -291,9 +291,9 @@ class WPSEO_Admin_Banner_Sidebar {
 				'yoast-seo-for-wordpress-training.png',
 				261,
 				152,
-				/* translators: %1$s expands to Yoast SEO for WordPress Training, %2$s to Yoast SEO for WordPress. */
 				sprintf(
-					__( 'Take the %s course and become a certified %2$s expert!', 'wordpress-seo' ),
+					/* translators: %1$s expands to Yoast SEO for WordPress Training, %2$s to Yoast SEO for WordPress. */
+					__( 'Take the %1$s course and become a certified %2$s expert!', 'wordpress-seo' ),
 					'Yoast SEO for WordPress Training',
 					'Yoast SEO for WordPress'
 				)
@@ -345,7 +345,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		);
 
 		$remove_banner_spot->set_description(
-			'<a target="_blank" href="https://yoa.st/jy">'.
+			'<a target="_blank" href="https://yoa.st/jy">' .
 			/* translators: %1$s expands to Yoast SEO Premium */
 			sprintf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ) .
 			'</a>'

@@ -20,13 +20,11 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 		$this->import_taxonomy_metas();
 
 		$this->set_msg(
-			__(
-				sprintf(
-					'wpSEO data successfully imported. Would you like to %sdisable the wpSEO plugin%s?',
-					'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_wpseo=1#top#import-seo' ) ) . '">',
-					'</a>'
-				),
-				'wordpress-seo'
+			sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
+				__( 'wpSEO data successfully imported. Would you like to %1$sdisable the wpSEO plugin%2$s?', 'wordpress-seo' ),
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_wpseo=1#top#import-seo' ) ) . '">',
+				'</a>'
 			)
 		);
 
