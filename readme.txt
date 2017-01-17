@@ -126,18 +126,18 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 = 4.1.0 =
 
-Release Date: January, 2017
+Release Date: January 17th, 2017
 
 * Bugfixes:
-    * Fixes a glitch in the notification center where a notification was showed twice.
-    * Fixes a bug where the realtime analysis didn't work on termpages.
-    * Fixes a bug where the sitemap invalidation uses an expensive query to clean up old validators.
+	* Fixes a glitch in the notification center where a notification would be shown twice.
+	* Fixes a bug where the realtime analysis didn't work on term pages.
+	* Fixes a bug where the sitemap invalidation uses an expensive query to clean up old validators.
 
 * Enhancements:
-    * Added a mobile snippet preview.
-    * Added a function that allows retrieving an option only when it's been autoloaded.
-    * Remove review banner from mobile, props [abhinavkumar940](https://github.com/abhinavkumar940).
-    * Add labels to redirect checkboxes in the search console to improve accessibility.
+	* Added a mobile snippet preview.
+	* Added a function that allows retrieving an option only when it's been autoloaded.
+	* Remove review banner from mobile, props [abhinavkumar940](https://github.com/abhinavkumar940).
+	* Add labels to redirect checkboxes in the search console to improve accessibility.
 
 = 4.0.2 =
 
