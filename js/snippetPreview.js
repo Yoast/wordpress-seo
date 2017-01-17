@@ -43,7 +43,7 @@ var defaults = {
 	},
 	addTrailingSlash: true,
 	metaDescriptionDate: "",
-	previewMode: "mobile",
+	previewMode: "desktop",
 
 };
 
