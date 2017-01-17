@@ -1,14 +1,14 @@
-# Copyright (C) 2016 
+# Copyright (C) 2017 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-12-13 12:33:13+00:00\n"
+"POT-Creation-Date: 2017-01-17 12:06:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Yoast Translate Team <translations@yoast.com>\n"
 "Language-Team: Yoast Translate <translations@yoast.com>\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
@@ -34,24 +34,34 @@ msgid ""
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:360
+#: class-premium.php:106
+msgid "Link suggestions"
+msgstr ""
+
+#: class-premium.php:108
+msgid ""
+"The link suggestions section contains a list of posts on your blog with "
+"similar content that might be interesting to link to."
+msgstr ""
+
+#: class-premium.php:365
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:392
+#: class-premium.php:397
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:411 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:416 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:445
+#: class-premium.php:450
 msgid "Enabled"
 msgstr ""
 
 #. translators: %s expands to Yoast
-#: classes/class-metabox-link-suggestions.php:110
+#: classes/class-metabox-link-suggestions.php:121
 msgid "%s internal linking"
 msgstr ""
 
@@ -230,56 +240,115 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: classes/class-premium-link-suggestions-service.php:135
+#: classes/class-premium-link-suggestions-service.php:141
 msgid "(no title)"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:33
-#: classes/class-premium-prominent-words-recalculation.php:43
+#: classes/class-premium-prominent-words-recalculation.php:34
+#: classes/class-premium-prominent-words-recalculation.php:44
 msgid "Site wide analysis"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:44
-#: classes/class-premium-prominent-words-registration.php:36
-msgid "Prominent words"
+#. translators: %1$s expands to a link start tag to the Yoast.com website, %2$s
+#. is the link closing tag.
+#: classes/class-premium-prominent-words-recalculation.php:49
+msgid ""
+"The Site wide analysis can help you get the most out of %1$sthe internal "
+"linking tool%2$s and calculate the most prominent words for your site."
 msgstr ""
 
 #: classes/class-premium-prominent-words-recalculation.php:55
+msgid "Prominent words summary"
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:70
 msgid "%d total post"
 msgid_plural "%d total posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:65
+#: classes/class-premium-prominent-words-recalculation.php:80
 msgid "%d post with prominent words"
 msgid_plural "%d posts with prominent words"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:75
+#: classes/class-premium-prominent-words-recalculation.php:90
 msgid "%d post without prominent words"
 msgid_plural "%d posts without prominent words"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:83
-msgid "Currently calculating prominent words."
+#: classes/class-premium-prominent-words-recalculation.php:99
+msgid "%d total page"
+msgid_plural "%d total pages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:109
+msgid "%d page with prominent words"
+msgid_plural "%d pages with prominent words"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:119
+msgid "%d page without prominent words"
+msgid_plural "%d pages without prominent words"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:127
+msgid ""
+"Run the analysis now to calculate the prominent words of all your posts and "
+"pages. The initial indexation may take a while, depending on the size of "
+"your site."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:86
-msgid "Calculated %1$s out of %2$s post"
-msgid_plural "Calculated %1$s out of %2$s posts"
+#: classes/class-premium-prominent-words-recalculation.php:133
+msgid ""
+"Once started, the calculation will be incomplete if you navigate away from "
+"this page."
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:140
+#: classes/class-premium-prominent-words-recalculation.php:210
+msgid "Calculation in progress..."
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:143
+msgid "Analyzed %1$s out of %2$s post."
+msgid_plural "Analyzed %1$s out of %2$s posts."
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:95
-msgid "Calculated prominent words for %1$s post"
-msgid_plural "Calculated prominent words for %1$s posts"
+#: classes/class-premium-prominent-words-recalculation.php:149
+msgid "Analyzed %1$s out of %2$s page."
+msgid_plural "Analyzed %1$s out of %2$s pages."
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/class-premium-prominent-words-recalculation.php:100
-msgid "Calculate prominent words for all posts"
+#: classes/class-premium-prominent-words-recalculation.php:160
+msgid "Calculated prominent words for %1$s post."
+msgid_plural "Calculated prominent words for %1$s posts."
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:167
+msgid "Calculated prominent words for %1$s page."
+msgid_plural "Calculated prominent words for %1$s pages."
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-premium-prominent-words-recalculation.php:173
+msgid "Calculate prominent words"
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:211
+msgid "Calculation completed."
+msgstr ""
+
+#: classes/class-premium-prominent-words-registration.php:36
+msgid "Prominent words"
 msgstr ""
 
 #: classes/class-premium-prominent-words-registration.php:37
