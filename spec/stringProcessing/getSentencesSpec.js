@@ -180,7 +180,7 @@ describe("Get sentences from text", function(){
 			},
 			{
 				input: "This is an IP (127.0.0.1) 1 sentence",
-				expected: "This is an IP (127.0.0.1) 1 sentence"
+				expected: [ "This is an IP (127.0.0.1) 1 sentence" ]
 			}
 		];
 
