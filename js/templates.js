@@ -465,9 +465,9 @@
     '\n				</span>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n			' +
     __e( i18n.edit ) +
     '\n		</button>\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile" data-type="mobile" aria-label="' +
-    __e( i18n.mobileMode ) +
+    __e( i18n.mobilePreviewMode ) +
     '" />\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop" data-type="desktop" aria-label="' +
-    __e( i18n.desktopMode ) +
+    __e( i18n.desktopPreviewMode ) +
     '" />\n		</div>\n	</section>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="snippet-editor-title" class="snippet-editor__label">\n			' +
     __e( i18n.title ) +
     '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
