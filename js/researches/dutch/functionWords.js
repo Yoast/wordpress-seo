@@ -14,12 +14,12 @@ let numerals = [ "eén", "één", "twee", "drie", "vier", "vijf", "zes", "zeven"
 	"miljoenen", "biljoen", "biljoenen" ];
 
 // 'Het' is already included in the list of articles.
-let personalPronounsNominative = [ "ik", "je", "jij", "hij", "ze", "we", "wij", "jullie", "zij" ];
-let personalPronounsAccusative = [ "mij", "jou", "hem", "haar", "hen", "hun" ];
+let personalPronounsNominative = [ "ik", "je", "jij", "hij", "ze", "we", "wij", "jullie", "zij", "u", "ge", "gij" ];
+let personalPronounsAccusative = [ "mij", "jou", "hem", "haar", "hen", "hun", "uw" ];
 let demonstrativePronouns = [ "dit", "dat", "deze", "die", "zelf" ];
 
 // What to do with 'zijn', since it is also a verb?
-let possessivePronouns = [ "mijn", "mijne", "jouw", "jouwe", "zijne", "hare", "ons", "onze", "hunne" ];
+let possessivePronouns = [ "mijn", "mijne", "jouw", "jouwe", "zijne", "hare", "ons", "onze", "hunne", "uwe" ];
 let quantifiers = [ "alle", "sommige", "sommigen", "allen", "weinig", "weinige", "weinigen", "veel", "vele", "velen", "geen", "beetje",
 	"elke", "elk", "genoeg", "meer", "meest", "meeste", "meesten", "paar", "zoveel", "enkele", "enkelen", "zoveelste", "hoeveelste",
 	"laatste", "laatsten", "ieder", "iedere", "allemaal", "alles", "al", "zekere", "ander", "andere", "gene", "enig", "enige", "verscheidene",
@@ -27,7 +27,7 @@ let quantifiers = [ "alle", "sommige", "sommigen", "allen", "weinig", "weinige",
 	"drieërlei", "drieërhande", "velerlei", "velerhande", "menigerlei", "menigerhande", "enigerlei", "enigerhande", "generlei", "generhande" ];
 
 let reflexivePronouns = [ "mezelf", "mijzelf", "jezelf", "jouzelf", "zichzelf", "haarzelf", "hemzelf", "onszelf", "julliezelf",
-	"henzelf", "hunzelf", "zich" ];
+	"henzelf", "hunzelf", "uzelf", "zich" ];
 
 let reciprocalPronouns = [ "mekaar", "elkaar", "elkander", "mekander" ];
 
