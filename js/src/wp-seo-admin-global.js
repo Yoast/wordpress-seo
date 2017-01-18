@@ -293,10 +293,49 @@
 		} );
 	}
 
+	/**
+	 * Make tables responsive.
+	 *
+	 * @returns {void}
+	 */
+	function responsiveTables() {
+		$( ".yoast-table-responsive" ).each( function() {
+			var table = $( this );
+
+			// Create the table container element with an inner div necessary for styling.
+			var scrollContainer = $( "<div />", {
+				"class": "yoast-table-responsive-container",
+				html: "<div />",
+			} ).insertBefore( table );
+
+			// For each table, store a reference to its container element.
+			table.data( "scrollContainer", scrollContainer );
+
+			// Move the scrollable table inside the container.
+			table.appendTo( scrollContainer.children( "div" ) );
+
+			// Check if the table is wider than its parent and thus needs to be scrollable.
+			if ( table.outerWidth() > table.parent().outerWidth() ) {
+				table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
+			}
+
+			// When the viewport size changes, check again if the table needs to be scrollable.
+			$( window ).on( "wp-window-resized orientationchange", function() {
+				console.log( "resize or orientation change" );
+				if ( table.outerWidth() > table.parent().outerWidth() ) {
+					table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
+				} else {
+					table.data( "scrollContainer" ).removeClass( "yoast-has-scroll" );
+				}
+			} );
+		} );
+	}
+
 	$( document ).ready( function() {
 		showAlertPopup();
 		hookDismissRestoreButtons();
 		setPremiumIndicatorColor();
+		responsiveTables();
 	} );
 }() );
 

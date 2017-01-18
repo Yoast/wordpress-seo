@@ -59,17 +59,3 @@
 .yoast-label-strong {
 	font-weight: 600;
 }
-
-@media screen and (max-width: 782px) {
-	.screen-reader-text-responsive {
-		overflow: hidden;
-		clip: rect(0 0 0 0);
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		margin: -1px;
-		padding: 0;
-		border: 0;
-		word-wrap: normal !important;
-	}
-}
