@@ -43,7 +43,7 @@ var defaults = {
 	},
 	addTrailingSlash: true,
 	metaDescriptionDate: "",
-	previewMode: "mobile",
+	previewMode: "desktop",
 
 };
 
@@ -926,14 +926,16 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	titleRating = rateTitleLength( this.data.titleWidth );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
 
-	updateProgressBar(
+	updateProgressBar.call(
+		this,
 		this.element.progress.title,
 		this.data.titleWidth,
 		titleMaxLength,
 		titleRating
 	);
 
-	updateProgressBar(
+	updateProgressBar.call(
+		this,
 		this.element.progress.metaDesc,
 		metaDescription.length,
 		metadescriptionMaxLength,
