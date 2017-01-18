@@ -15,5 +15,3 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @param Yoast_Form $yform The yoast form object.
  */
 do_action( 'wpseo_settings_tab_site_analysis', $yform );
-
-?>

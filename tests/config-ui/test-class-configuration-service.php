@@ -52,8 +52,6 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Make sure the REST API init is hooked on
-	 *
-	 * @covers WPSEO_Configuration_Service::register_hooks()
 	 */
 	public function test_rest_api_init_hooked() {
 		$this->assertEquals( 10, has_action( 'rest_api_init', 'wpseo_init_rest_api' ) );

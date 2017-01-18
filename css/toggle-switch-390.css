@@ -265,7 +265,8 @@
 		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
 	}
 
-	.switch-toggle.switch-yoast-seo {
+	.switch-toggle.switch-yoast-seo,
+	.switch-light.switch-yoast-seo {
 		float: left;
 	}
 
