@@ -177,6 +177,10 @@ describe("Get sentences from text", function(){
 			{
 				input: "This is 255.255.255.255 complete sentence",
 				expected: [ "This is 255.255.255.255 complete sentence" ]
+			},
+			{
+				input: "This is an IP (127.0.0.1) 1 sentence",
+				expected: [ "This is an IP (127.0.0.1) 1 sentence" ]
 			}
 		];
 
