@@ -9,7 +9,11 @@
 class WPSEO_Validation_Error extends WPSEO_Validation_Result {
 
 	/**
-	 * @var string Type is error.
+	 * Gets error as the validation result type.
+	 *
+	 * @return string
 	 */
-	protected $type = 'error';
+	public function get_type() {
+		return 'error';
+	}
 }

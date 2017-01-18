@@ -9,7 +9,11 @@
 class WPSEO_Validation_Warning extends WPSEO_Validation_Result {
 
 	/**
-	 * @var string Type is warning.
+	 * Gets warning as the validation result type.
+	 *
+	 * @return string
 	 */
-	protected $type = 'warning';
+	public function get_type() {
+		return 'warning';
+	}
 }

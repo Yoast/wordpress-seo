@@ -14,14 +14,16 @@ abstract class WPSEO_Validation_Result {
 	protected $message;
 
 	/**
-	 * @var string The type of result (error|warning)
-	 */
-	protected $type;
-
-	/**
 	 * @var array The field that has the error.
 	 */
 	private $fields = array();
+
+	/**
+	 * Gets the validation result type.
+	 *
+	 * @return string
+	 */
+	abstract public function get_type();
 
 	/**
 	 * Constructing the object
@@ -44,22 +46,13 @@ abstract class WPSEO_Validation_Result {
 	}
 
 	/**
-	 * Gets the validation result type.
-	 *
-	 * @return string
-	 */
-	public function get_type() {
-		return $this->type;
-	}
-
-	/**
 	 * Returns an Array representation of the validation result.
 	 *
 	 * @return array
 	 */
 	public function to_array() {
 		return array(
-			'type'    => $this->type,
+			'type'    => $this->get_type(),
 			'message' => $this->message,
 			'fields'  => $this->fields,
 		);
