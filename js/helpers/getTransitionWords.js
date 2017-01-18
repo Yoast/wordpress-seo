@@ -1,13 +1,15 @@
-var transitionWordsEnglish = require( "../researches/english/transitionWords.js" )().allWords;
-var twoPartTransitionWordsEnglish = require( "../researches/english/twoPartTransitionWords.js" );
-var transitionWordsGerman = require( "../researches/german/transitionWords.js" )().allWords;
-var twoPartTransitionWordsGerman = require( "../researches/german/twoPartTransitionWords.js" );
-var transitionWordsFrench = require( "../researches/french/transitionWords.js" )();
-var twoPartTransitionWordsFrench = require( "../researches/french/twoPartTransitionWords.js" );
-var transitionWordsSpanish = require( "../researches/spanish/transitionWords.js" )();
-var twoPartTransitionWordsSpanish = require( "../researches/spanish/twoPartTransitionWords.js" );
+let transitionWordsEnglish = require( "../researches/english/transitionWords.js" )().allWords;
+let twoPartTransitionWordsEnglish = require( "../researches/english/twoPartTransitionWords.js" );
+let transitionWordsGerman = require( "../researches/german/transitionWords.js" )().allWords;
+let twoPartTransitionWordsGerman = require( "../researches/german/twoPartTransitionWords.js" );
+let transitionWordsFrench = require( "../researches/french/transitionWords.js" )();
+let twoPartTransitionWordsFrench = require( "../researches/french/twoPartTransitionWords.js" );
+let transitionWordsSpanish = require( "../researches/spanish/transitionWords.js" )();
+let twoPartTransitionWordsSpanish = require( "../researches/spanish/twoPartTransitionWords.js" );
+let transitionWordsDutch = require( "../researches/dutch/transitionWords.js" )().allWords;
+let twoPartTransitionWordsDutch = require( "../researches/dutch/twoPartTransitionWords.js" );
 
-var getLanguage = require( "./getLanguage.js" );
+let getLanguage = require( "./getLanguage.js" );
 
 module.exports = function( locale ) {
 	switch( getLanguage( locale ) ) {
@@ -25,6 +27,11 @@ module.exports = function( locale ) {
 			return {
 				transitionWords: transitionWordsFrench,
 				twoPartTransitionWords: twoPartTransitionWordsFrench,
+			};
+		case "nl":
+			return {
+				transitionWords: transitionWordsDutch,
+				twoPartTransitionWords: twoPartTransitionWordsDutch,
 			};
 		default:
 		case "en":

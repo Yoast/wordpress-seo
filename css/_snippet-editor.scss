@@ -28,7 +28,8 @@ $snippet_width: 600px;
 	border-radius: 20px;
 	background-color: #fff;
 	position: relative;
-	width: $snippet_width + 40;
+	width: auto;
+	max-width: $snippet_width + 40;
 }
 
 /* css for snippet */
@@ -38,6 +39,122 @@ $snippet_width: 600px;
 }
 
 .snippet-editor {
+
+	&__view {
+		clear: both;
+
+		&-toggle {
+			display: inline-block;
+			background-color: $color_button;
+			border: 1px solid $color_button_border;
+			border-radius: 4px;
+			margin: 0 0.5em;
+			overflow: hidden;
+			margin-top: 15px;
+		}
+
+		&-icon {
+			$size: 32px;
+			width: $size;
+			height: $size;
+			float: left;
+			cursor: pointer;
+			background-color: transparent;
+			background-repeat: no-repeat;
+			background-position: center, center;
+			border: none;
+			border-bottom: 4px solid transparent;
+
+		  &:hover, &:focus {
+				background-color: #ffffff;
+				border-color: $color_caret_focus;
+				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
+			}
+		  &--active {
+				border-color: $color_caret;
+				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
+		  }
+		}
+
+		&-icon-desktop {
+			background-image: url(svg-icon-desktop($color_caret));
+			background-size: 18px;
+
+			&:hover, &:focus {
+				background-image: url( svg-icon-desktop( $color_caret_focus ) );
+			}
+		}
+
+		&-icon-mobile {
+			background-image: url(svg-icon-mobile-phone($color_caret));
+			background-size: 22px;
+
+			&:hover, &:focus {
+				background-image: url( svg-icon-mobile-phone( $color_caret_focus ) );
+			}
+		}
+
+		&--desktop {
+		width: $snippet_width;
+		background: #FFF;
+		  .snippet_container {
+			&__title {
+				width: $snippet_width;
+
+				.title {
+					white-space: nowrap;
+				}
+			}
+		  }
+		}
+
+		&--mobile {
+			background-color: #fff;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+			border-radius: 2px;
+			border-bottom: 1px hidden #fff;
+			margin: 0 0 10px 0;
+			padding: 13px 0 ;
+
+			.snippet_container {
+				display: block;
+				line-height: 20px;
+
+				&__title, &__url, &__meta {
+					width: 100%;
+					box-sizing: border-box;
+				}
+
+				&__title {
+					font-size: 16px;
+					padding: 0 16px;
+					word-wrap: break-word;
+
+					.title {
+						font-size: 16px;
+					}
+
+				}
+
+				&__url {
+					border-bottom: 1px solid #ebebeb;
+					padding: 0 16px 11px;
+					margin-bottom: 13px;
+					font-size: 14px;
+					box-sizing: border-box;
+					white-space: nowrap;
+				}
+
+				&__meta {
+					font-size: 14px;
+					padding: 0 16px;
+				}
+
+			}
+		}
+
+	}
+
 	&__container {
 		position: relative;
 		cursor: pointer;
@@ -92,6 +209,8 @@ $snippet_width: 600px;
 
 	&__preview {
 		padding: 0 20px 15px;
+	  	max-width: $snippet_width + 40;
+	  	overflow-x: auto;
 	}
 
 	&__button {
@@ -112,9 +231,11 @@ $snippet_width: 600px;
 		background-position: left 8px top 50%;
 		background-size: 16px;
 		padding-left: 32px;
-
-		display: block;
-		margin-top: 1em;
+		display: inline;
+		float: left;
+		overflow: hidden;
+		box-sizing: border-box;
+		margin-top: 15px;
 	}
 
 	&__form {
@@ -218,8 +339,6 @@ $snippet_width: 600px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-decoration: none;
-	white-space: nowrap;
-	width: $snippet_width;
 	font-size: 18px;
 	line-height: 1.2;
 	font-weight: normal;
