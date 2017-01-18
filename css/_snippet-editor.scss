@@ -432,6 +432,11 @@ $snippet_width: 600px;
 	}
 }
 
+.yoast-measurement-elements-holder {
+	position: absolute;
+	left: -9999em;
+}
+
 @mixin progress-bar-color ($class, $color) {
 	#{$class}[value] {
 		color: $color;
