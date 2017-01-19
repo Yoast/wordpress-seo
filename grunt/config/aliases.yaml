@@ -61,6 +61,8 @@ artifact:
   - 'clean:artifact'
   # Copy only the relevant files to the folder
   - 'copy:artifact'
+  # Create a zip file
+  - 'compress:artifact'
 
 # Get the project ready for release
 release:

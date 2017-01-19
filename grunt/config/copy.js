@@ -24,6 +24,7 @@ module.exports = {
 				src: [
 					"admin/**",
 					"css/**",
+					"!css/src/**",
 					"deprecated/**",
 					"frontend/**",
 					"images/**",
