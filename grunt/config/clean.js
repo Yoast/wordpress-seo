@@ -33,4 +33,7 @@ module.exports = {
 		"phpdoc.xml",
 		"README.md",
 	],
+	artifact: [
+		"artifact",
+	],
 };
