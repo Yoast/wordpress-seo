@@ -117,11 +117,11 @@ class WPSEO_Admin_Asset_Manager {
 	private function scripts_to_be_registered() {
 
 		$select2_language = 'en';
-		$locale           = WPSEO_Utils::get_user_locale();
-		$language         = WPSEO_Utils::get_language( $locale );
+		$user_locale      = WPSEO_Utils::get_user_locale();
+		$language         = WPSEO_Utils::get_language( $user_locale );
 
-		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$locale}.js" ) ) {
-			$select2_language = $locale; // Chinese and some others use full locale.
+		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$user_locale}.js" ) ) {
+			$select2_language = $user_locale; // Chinese and some others use full locale.
 		}
 		elseif ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$language}.js" ) ) {
 			$select2_language = $language;
@@ -159,12 +159,12 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-390',
+				'src'  => 'wp-seo-admin-global-410',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-400',
+				'src'  => 'wp-seo-metabox-410',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -189,7 +189,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-400',
+				'src'  => 'wp-seo-post-scraper-410',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -198,7 +198,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-400',
+				'src'  => 'wp-seo-term-scraper-410',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
@@ -209,11 +209,11 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'shortcode-plugin',
-				'src'  => 'wp-seo-shortcode-plugin-350',
+				'src'  => 'wp-seo-shortcode-plugin-402',
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-400',
+				'src'  => 'wp-seo-recalculate-410',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -293,7 +293,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-400',
+				'src'  => 'metabox-410',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
@@ -308,7 +308,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-330',
+				'src'  => 'snippet-410',
 			),
 			array(
 				'name' => 'adminbar',
@@ -343,7 +343,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'extensions',
-				'src'  => 'yoast-extensions-390',
+				'src'  => 'yoast-extensions-410',
 			),
 		);
 	}

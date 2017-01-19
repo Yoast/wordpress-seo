@@ -482,7 +482,7 @@ class WPSEO_Meta_Columns {
 	 */
 	public function seo_score_posts_where( $where ) {
 
-		_deprecated_function( 'WPSEO_Metabox_Columns::seo_score_posts_where', '3.5' );
+		_deprecated_function( __METHOD__, '3.5' );
 
 		global $wpdb;
 

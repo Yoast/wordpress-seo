@@ -91,6 +91,7 @@ class WPSEO_Admin_Init {
 		), wp_customize_url() );
 
 		$info_message = sprintf(
+			/* translators: 1: link open tag; 2: link close tag. */
 			__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_attr( $customize_url ) . '">',
 			'</a>'
@@ -152,8 +153,8 @@ class WPSEO_Admin_Init {
 		$info_message = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
 		$info_message .= '<br/>';
 
-		/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
 		$info_message .= sprintf(
+			/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
 			__( 'Simply uncheck the box before "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
 			'</a>'
@@ -183,8 +184,9 @@ class WPSEO_Admin_Init {
 	 */
 	public function has_default_tagline() {
 		$blog_description = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-		return __( $default_blog_description ) === $blog_description || $default_blog_description === $blog_description;
+		$default_blog_description    = 'Just another WordPress site';
+		$translated_blog_description = __( 'Just another WordPress site' );
+		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
 
 	/**
@@ -301,7 +303,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function get_yoast_seo_compatibility_notification( $name, $plugin, $level = Yoast_Notification::WARNING ) {
 		$info_message = sprintf(
-		/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
 			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 			'Yoast SEO',
 			$plugin['version'],
@@ -333,8 +335,8 @@ class WPSEO_Admin_Init {
 		if ( $can_access && ! $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
-					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
 					sprintf(
+						/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
 						__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
 						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
 						'</a>'
@@ -497,7 +499,7 @@ class WPSEO_Admin_Init {
 
 		foreach ( $deprecated_notices as $deprecated_filter ) {
 			_deprecated_function(
-				/* %s expands to the actual filter/action that has been used. */
+				/* translators: %s expands to the actual filter/action that has been used. */
 				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
 				'WPSEO 3.0',
 				'javascript'
@@ -524,6 +526,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function seen_tagline_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
 		return false;
 	}
 
@@ -542,6 +545,6 @@ class WPSEO_Admin_Init {
 	 * @deprecated 3.5
 	 */
 	public function after_update_notice() {
-		_deprecated_function( 'WPSEO_Admin_Init::after_update_notice', 'WPSEO 3.5' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
 	}
 }

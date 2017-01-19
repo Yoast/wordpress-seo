@@ -57,6 +57,7 @@ class WPSEO_Help_Center {
 	 * Add the contact support help center item to the help center.
 	 */
 	private function add_contact_support_item() {
+		/* translators: %s: expands to 'Yoast SEO Premium'. */
 		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		/* translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 		$popup_content = sprintf( __( 'To be able to contact our support team, you need %1$s. You can buy the plugin, including one year of support, updates and upgrades, on %2$s.', 'wordpress-seo' ),
@@ -192,8 +193,8 @@ class WPSEO_Help_Center {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
-			'locale'     => get_locale(),
-			'userLocale' => WPSEO_Utils::get_user_locale(),
+			'contentLocale' => get_locale(),
+			'userLocale'    => WPSEO_Utils::get_user_locale(),
 			/* translators: %d: number of knowledge base search results found. */
 			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
 			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),

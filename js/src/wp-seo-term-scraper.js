@@ -163,7 +163,7 @@ window.yoastHideMarkers = true;
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
-		snippetContainer = $( "#wpseo_snippet" );
+		snippetContainer = $( "#wpseosnippet" );
 
 		insertTinyMCE();
 
@@ -188,7 +188,7 @@ window.yoastHideMarkers = true;
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 			},
-			locale: wpseoTermScraperL10n.locale,
+			locale: wpseoTermScraperL10n.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			snippetPreview: snippetPreview,

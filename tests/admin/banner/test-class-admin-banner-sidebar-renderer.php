@@ -6,6 +6,7 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 	protected $sidebar;
 
 	public function setUp(  ) {
+		parent::setUp();
 		$this->sidebar = new WPSEO_Admin_Banner_Sidebar( 'test_title', new WPSEO_Admin_Banner_Renderer() );
 		$this->sidebar->initialize( new WPSEO_Features() );
 	}
@@ -41,7 +42,7 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 			->setConstructorArgs( array( new WPSEO_Admin_Banner_Spot_Renderer() ) )
 			->setMethods( array( 'render_banner_spots' ) )
 			->getMock();
-		
+
 
 		$mock
 			->expects( $this->once() )

@@ -47,8 +47,8 @@ $unique_id = md5( $url );
 			echo '<h1 class="wpseo-redirect-url-title">', __( 'Error: a redirect for this URL already exists', 'wordpress-seo' ), '</h1>';
 			echo '<p>';
 
-			/* Translators: %1$s: expands to the current URL and %2$s expands to URL the redirects points to. */
 			echo sprintf(
+				/* Translators: %1$s: expands to the current URL and %2$s expands to URL the redirects points to. */
 				__( 'You do not have to create a redirect for URL %1$s because a redirect already exists. The existing redirect points to %2$s. If this is fine you can mark this issue as fixed. If not, please go to the redirects page and change the target URL.', 'wordpress-seo' ),
 				$url,
 				$current_redirect
@@ -61,8 +61,8 @@ $unique_id = md5( $url );
 			/* Translators: %s: expands to Yoast SEO Premium */
 			echo '<h1 class="wpseo-redirect-url-title">', sprintf( __( 'Creating redirects is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ), '</h1>';
 			echo '<p>';
-			/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 			echo sprintf(
+				/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 				__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year of support and updates, on %2$s.', 'wordpress-seo' ),
 				'Yoast SEO Premium',
 				'<a href="https://yoa.st/redirects" target="_blank">yoast.com</a>'
