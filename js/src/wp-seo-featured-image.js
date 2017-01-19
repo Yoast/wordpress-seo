@@ -8,7 +8,9 @@ import a11ySpeak from "a11y-speak";
 ( function( $ ) {
 	"use strict";
 	var featuredImagePlugin;
-	var featuredImageElement;
+	var $featuredImageElement;
+	var $postImageDiv;
+	var $postImageDivHeading;
 
 	var FeaturedImagePlugin = function( app ) {
 		this._app = app;
@@ -81,7 +83,7 @@ import a11ySpeak from "a11y-speak";
 	 */
 	function removeOpengraphWarning() {
 		$( "#yst_opengraph_image_warning" ).remove();
-		$( "#postimagediv" ).css( "border", "none" );
+		$postImageDiv.removeClass( "yoast-opengraph-image-notice" );
 	}
 
 	/**
@@ -96,12 +98,13 @@ import a11ySpeak from "a11y-speak";
 		if ( attachment.width < 200 || attachment.height < 200 ) {
 			// Show warning to user and do not add image to OG
 			if ( 0 === $( "#yst_opengraph_image_warning" ).length ) {
-				var $postImageDiv = $( "#postimagediv" );
-				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + "</p></div>" ).insertBefore( $postImageDiv );
-				$postImageDiv.css( {
-					border: "solid #dc3232",
-					borderWidth: "3px 4px 4px 4px",
-				} );
+				// Create a warning using native WordPress notices styling.
+				$( '<div id="yst_opengraph_image_warning" class="notice notice-error notice-alt"><p>' +
+					wpseoFeaturedImageL10n.featured_image_notice +
+					"</p></div>" )
+					.insertAfter( $postImageDivHeading );
+
+				$postImageDiv.addClass( "yoast-opengraph-image-notice" );
 
 				a11ySpeak( wpseoFeaturedImageL10n.featured_image_notice, "assertive" );
 			}
@@ -115,6 +118,9 @@ import a11ySpeak from "a11y-speak";
 		var featuredImage = wp.media.featuredImage.frame();
 
 		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
+
+		$postImageDiv = $( "#postimagediv" );
+		$postImageDivHeading = $postImageDiv.find( ".hndle" );
 
 		featuredImage.on( "select", function() {
 			var selectedImageHTML, selectedImage, alt;
@@ -140,13 +146,13 @@ import a11ySpeak from "a11y-speak";
 			featuredImagePlugin.setFeaturedImage( selectedImageHTML );
 		} );
 
-		$( "#postimagediv" ).on( "click", "#remove-post-thumbnail", function() {
+		$postImageDiv.on( "click", "#remove-post-thumbnail", function() {
 			featuredImagePlugin.removeFeaturedImage();
 			removeOpengraphWarning();
 		} );
 
-		featuredImageElement = $( "#set-post-thumbnail > img" );
-		if ( "undefined" !== typeof featuredImageElement.prop( "src" ) ) {
+		$featuredImageElement = $( "#set-post-thumbnail > img" );
+		if ( "undefined" !== typeof $featuredImageElement.prop( "src" ) ) {
 			featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
 		}
 	} );
