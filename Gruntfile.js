@@ -10,6 +10,7 @@ module.exports = function( grunt ) {
 
 	// Define project configuration
 	var project = {
+		pluginVersion: "4.0.2",
 		paths: {
 			get config() {
 				return this.grunt + "config/";
