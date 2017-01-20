@@ -221,6 +221,7 @@ $snippet_width: 600px;
 		cursor: pointer;
 
 		font-size: 0.8rem;
+		line-height: 15px; /* Avoid browsers rounding that affect the button's height (Firefox computed value would be 15.4333px otherwise). */
 	}
 
 	&__edit-button {
