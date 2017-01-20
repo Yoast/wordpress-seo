@@ -74,6 +74,15 @@ $snippet_width: 600px;
 				border-color: $color_caret;
 				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
 		  }
+
+		  // Adjust the tooltips position because buttons have a 4px bottom border.
+		  &.yoast-tooltip:before {
+				bottom: -10px
+		  }
+
+		  &.yoast-tooltip:after {
+				margin-top: 10px;
+		  }
 		}
 
 		&-icon-desktop {
