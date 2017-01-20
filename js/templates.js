@@ -15,7 +15,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.1';
+  var VERSION = '4.17.4';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -130,8 +130,7 @@
     if (value == null) {
       return value === undefined ? undefinedTag : nullTag;
     }
-    value = Object(value);
-    return (symToStringTag && symToStringTag in value)
+    return (symToStringTag && symToStringTag in Object(value))
       ? getRawTag(value)
       : objectToString(value);
   }
@@ -420,14 +419,14 @@
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<span style="width: ' +
+    __p += '<span aria-hidden="true" style="width: ' +
     __e( width ) +
     '; height: auto; position: absolute; visibility: hidden; ';
      if ( "" !== whiteSpace ) {
     __p += 'white-space: ' +
     __e(whiteSpace );
        }
-    __p += '">\n\n</span>';
+    __p += '">\n\n</span>\n';
 
     }
     return __p

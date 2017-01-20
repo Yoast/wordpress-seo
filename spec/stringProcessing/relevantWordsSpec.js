@@ -10,7 +10,8 @@ var filterFunctionWords = relevantWords.filterFunctionWords;
 var filterSpecialCharacters = relevantWords.filterSpecialCharacters;
 var filterOnSyllableCount = relevantWords.filterOnSyllableCount;
 var filterOnDensity = relevantWords.filterOnDensity;
-var functionWords = require( "../../js/researches/english/functionWords.js" )().all;
+var englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
+var germanFunctionWords = require( "../../js/researches/german/functionWords.js" )().all;
 
 describe( "getWordCombinations", function() {
 	it( "should split a sentence on words", function() {
@@ -77,11 +78,11 @@ describe( "calculateOccurrences", function() {
 describe( "getRelevantCombinations", function() {
 	it( "removes combinations with one occurence", function() {
 		var input = [
-			new WordCombination( [ "irrelevant" ], 1, functionWords ),
-			new WordCombination( [ "occurrence" ], 2, functionWords )
+			new WordCombination( [ "irrelevant" ], 1, englishFunctionWords ),
+			new WordCombination( [ "occurrence" ], 2, englishFunctionWords )
 		];
 		var expected = [
-			new WordCombination( [ "occurrence" ], 2, functionWords )
+			new WordCombination( [ "occurrence" ], 2, englishFunctionWords )
 		];
 
 		var actual = getRelevantCombinations( input, 100 );
@@ -91,7 +92,7 @@ describe( "getRelevantCombinations", function() {
 
 	it( "removes function words", function() {
 		var input = [
-			new WordCombination( [ "yes" ], 2, functionWords )
+			new WordCombination( [ "yes" ], 2, englishFunctionWords )
 		];
 		var expected = [];
 
@@ -290,22 +291,22 @@ describe( "getWordCombinations", function() {
 			" suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur," +
 			" vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
 		var expected = [
-			new WordCombination( [ "qui", "dolorem" ], 2, functionWords ),
-			new WordCombination( [ "sed", "quia" ], 2, functionWords ),
-			new WordCombination( [ "200", "words" ], 2, functionWords ),
-			new WordCombination( [ "syllable", "combinations" ], 2, functionWords ),
-			new WordCombination( [ "voluptatem" ], 4, functionWords ),
-			new WordCombination( [ "quia" ], 4, functionWords ),
-			new WordCombination( [ "syllables" ], 2, functionWords ),
-			new WordCombination( [ "enim" ], 2, functionWords ),
-			new WordCombination( [ "combinations" ], 2, functionWords ),
-			new WordCombination( [ "dolorem" ], 2, functionWords ),
-			new WordCombination( [ "velit" ], 2, functionWords ),
-			new WordCombination( [ "consequatur" ], 2, functionWords ),
-			new WordCombination( [ "syllable" ], 2, functionWords ),
-			new WordCombination( [ "important" ], 2, functionWords ),
-			new WordCombination( [ "weather" ], 2, functionWords ),
-			new WordCombination( [ "voluptas" ], 2, functionWords ),
+			new WordCombination( [ "qui", "dolorem" ], 2, englishFunctionWords ),
+			new WordCombination( [ "sed", "quia" ], 2, englishFunctionWords ),
+			new WordCombination( [ "200", "words" ], 2, englishFunctionWords ),
+			new WordCombination( [ "syllable", "combinations" ], 2, englishFunctionWords ),
+			new WordCombination( [ "voluptatem" ], 4, englishFunctionWords ),
+			new WordCombination( [ "quia" ], 4, englishFunctionWords ),
+			new WordCombination( [ "syllables" ], 2, englishFunctionWords ),
+			new WordCombination( [ "enim" ], 2, englishFunctionWords ),
+			new WordCombination( [ "combinations" ], 2, englishFunctionWords ),
+			new WordCombination( [ "dolorem" ], 2, englishFunctionWords ),
+			new WordCombination( [ "velit" ], 2, englishFunctionWords ),
+			new WordCombination( [ "consequatur" ], 2, englishFunctionWords ),
+			new WordCombination( [ "syllable" ], 2, englishFunctionWords ),
+			new WordCombination( [ "important" ], 2, englishFunctionWords ),
+			new WordCombination( [ "weather" ], 2, englishFunctionWords ),
+			new WordCombination( [ "voluptas" ], 2, englishFunctionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.
@@ -321,3 +322,66 @@ describe( "getWordCombinations", function() {
 	});
 });
 
+describe( "gets English Word Combinations", function() {
+	it( "returns word combinations", function() {
+		var input = "Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. ";
+		var expected = [
+			new WordCombination( [ "ton", "of", "syllables" ], 37, englishFunctionWords ),
+			new WordCombination( [ "here", "are", "a", "ton" ], 37, englishFunctionWords ),
+			new WordCombination( [ "syllables" ], 37, englishFunctionWords ),
+		];
+
+		// Make sure our words aren't filtered by density.
+		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
+
+		var words = getRelevantWords( input, "en_US" );
+
+		words.forEach( function( word ) {
+			delete( word._relevantWords );
+		});
+
+		expect( words ).toEqual( expected );
+	});
+});
+
+describe( "gets German Word Combinations", function() {
+	it( "returns word combinations", function() {
+		var input = "Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
+			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren.  Probieren geht über Studieren.";
+		var expected = [
+			new WordCombination( [ "probieren", "geht", "über", "studieren" ], 48, germanFunctionWords ),
+			new WordCombination( [ "geht", "über", "studieren" ], 48, germanFunctionWords ),
+			new WordCombination( [ "probieren", "geht" ], 48, germanFunctionWords ),
+			new WordCombination( [ "probieren" ], 48, germanFunctionWords ),
+			new WordCombination( [ "studieren" ], 48, germanFunctionWords ),
+		];
+
+		// Make sure our words aren't filtered by density.
+		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
+
+		var words = getRelevantWords( input, "de_DE" );
+
+		words.forEach( function( word ) {
+			delete( word._relevantWords );
+		});
+
+		expect( words ).toEqual( expected );
+	});
+});
