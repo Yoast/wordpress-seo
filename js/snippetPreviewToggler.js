@@ -37,6 +37,8 @@ SnippetPreviewToggler.prototype.initialize = function() {
  * Binds a function on the click event of the preview toggle.
  *
  * @param {string} previewToggle The previewToggle to bind the click event on.
+ *
+ * @returns {void}
  */
 SnippetPreviewToggler.prototype.bindClickEvent = function( previewToggle ) {
 	previewToggle.addEventListener( "click", function() {
@@ -49,6 +51,8 @@ SnippetPreviewToggler.prototype.bindClickEvent = function( previewToggle ) {
  * Binds a function on the mouseleave event of the preview toggle.
  *
  * @param {string} previewToggle The previewToggle to bind the mouseleave event on.
+ *
+ * @returns {void}
  */
 SnippetPreviewToggler.prototype.bindMouseleaveEvent = function( previewToggle ) {
 	previewToggle.addEventListener( "mouseleave", function() {
@@ -60,6 +64,8 @@ SnippetPreviewToggler.prototype.bindMouseleaveEvent = function( previewToggle ) 
  * Binds a function on the blur event of the preview toggle.
  *
  * @param {string} previewToggle The previewToggle to bind the blur event on.
+ *
+ * @returns {void}
  */
 SnippetPreviewToggler.prototype.bindBlurEvent = function( previewToggle ) {
 	previewToggle.addEventListener( "blur", function() {
@@ -71,6 +77,8 @@ SnippetPreviewToggler.prototype.bindBlurEvent = function( previewToggle ) {
  * Binds a function on the mouseenter event of the preview toggle.
  *
  * @param {string} previewToggle The previewToggle to bind the mouseenter event on.
+ *
+ * @returns {void}
  */
 SnippetPreviewToggler.prototype.bindMouseenterEvent = function( previewToggle ) {
 	previewToggle.addEventListener( "mouseenter", function() {
