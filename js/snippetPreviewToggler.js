@@ -102,7 +102,7 @@ SnippetPreviewToggler.prototype.setDesktopMode = function() {
 };
 
 /**
- * Sets the Snippet Preview Toggler to desktop mode.
+ * Sets the Snippet Preview Toggler to mobile mode.
  *
  * @returns {void}
  */
