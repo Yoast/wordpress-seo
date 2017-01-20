@@ -123,7 +123,7 @@ class WPSEO_Help_Center {
 						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 			</button>
-			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout">
+			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout hidden">
 				<div class="yoast-help-center-tabs">
 					<ul>
 						<?php
@@ -152,7 +152,7 @@ class WPSEO_Help_Center {
 				</div>
 				<div class="contextual-help-tabs-wrap">
 					<?php
-					$classes = 'help-tab-content active';
+					$classes = 'yoast-help-tab-content active';
 					foreach ( $help_center_items as $help_center_item ) {
 						$id = $help_center_item->get_identifier();
 
@@ -162,7 +162,7 @@ class WPSEO_Help_Center {
 							<?php echo $help_center_item->get_content(); ?>
 						</div>
 						<?php
-						$classes = 'help-tab-content';
+						$classes = 'yoast-help-tab-content';
 					}
 					?>
 				</div>

@@ -39,7 +39,7 @@
 }
 
 .wpseo-tab-video-slideout {
-  display: none;
+  display: flex;
   flex-wrap: wrap;
   min-height: 320px;
   margin: 0 -9999px;
@@ -49,12 +49,16 @@
   /* hide the container bottom border when expanded */
   margin-bottom: -1px;
 
+  &.hidden {
+	display: none;
+  }
+
   .contextual-help-tabs-wrap {
-	  /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
-	  flex-grow: 1;
-	  flex-shrink: 1;
-	  flex-basis: 0;
-	  padding: 0;
+	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: 0;
+	padding: 0;
   }
 
   a {
@@ -117,20 +121,24 @@
 	}
   }
 
-  .help-tab-content {
-    margin: 0;
+  .yoast-help-tab-content {
+	display: none;
+	margin: 0;
 	color: white;
 	font-weight: 300;
+
+	&.active {
+	  display: flex;
+	  flex-wrap: wrap;
+	}
   }
 
   .wpseo-tab-video__panel {
 
 	&--video {
-	  flex: 0 0 auto;
+	  flex: 0 0 560px;
 	  margin-right: 1em;
 	  padding-bottom: 1em;
-	  /* In the settings pages is not a children of the flexbox container. */
-	  float: left;
 
 	  iframe {
 		  /* remove iframe descender space */
@@ -193,5 +201,22 @@
   &.active a {
     color: #a4286a;
     background-color: white;
+  }
+}
+
+@media screen and ( max-width: 782px ) {
+  .wpseo-tab-video-slideout {
+	display: block;
+
+	.wpseo-tab-video__panel {
+
+	  &--video {
+		margin-right: 0;
+	  }
+	}
+
+	.yoast-help-tab-content.active {
+	  display: block;
+	}
   }
 }

@@ -15,7 +15,7 @@ if ( ! empty( $tab_video_url ) ) :
 	?>
 
 	<div class="wpseo-tab-video__panel wpseo-tab-video__panel--video">
-		<div class="wpseo-tab-video__data" data-url="<?php echo $tab_video_url ?>"></div>
+		<div class="wpseo-tab-video__data yoast-video-container" data-url="<?php echo $tab_video_url ?>"></div>
 	</div>
 	<div class="wpseo-tab-video__panel wpseo-tab-video__panel--text">
 		<?php
