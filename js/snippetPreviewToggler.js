@@ -180,7 +180,7 @@ SnippetPreviewToggler.prototype._removeActiveStates = function() {
 SnippetPreviewToggler.prototype._removeActiveState = function( previewToggle ) {
 	domManipulation.removeClass( previewToggle, "snippet-editor__view-icon-" + previewToggle.getAttribute( "data-type" ) + "--active" );
 	domManipulation.removeClass( previewToggle, "snippet-editor__view-icon--active" );
-	previewToggle.setAttribute( 'aria-pressed', 'false' );
+	previewToggle.setAttribute( "aria-pressed", "false" );
 };
 
 /**
@@ -191,7 +191,7 @@ SnippetPreviewToggler.prototype._removeActiveState = function( previewToggle ) {
  */
 SnippetPreviewToggler.prototype.removeTooltipAbility = function( previewToggle ) {
 	domManipulation.addClass( previewToggle, "yoast-tooltip-hidden" );
-}
+};
 
 /**
  * Makes an element tooltip visible.
@@ -201,7 +201,7 @@ SnippetPreviewToggler.prototype.removeTooltipAbility = function( previewToggle )
  */
 SnippetPreviewToggler.prototype.restoreTooltipAbility = function( previewToggle ) {
 	domManipulation.removeClass( previewToggle, "yoast-tooltip-hidden" );
-}
+};
 
 /**
  * Adds active state to the given element.
@@ -213,7 +213,7 @@ SnippetPreviewToggler.prototype.restoreTooltipAbility = function( previewToggle 
 SnippetPreviewToggler.prototype._setActiveState = function( elementToActivate ) {
 	domManipulation.addClass( elementToActivate, "snippet-editor__view-icon-" + elementToActivate.getAttribute( "data-type" ) + "--active"  );
 	domManipulation.addClass( elementToActivate, "snippet-editor__view-icon--active"  );
-	elementToActivate.setAttribute( 'aria-pressed', 'true' );
+	elementToActivate.setAttribute( "aria-pressed", "true" );
 };
 
 module.exports = SnippetPreviewToggler;
