@@ -63,6 +63,7 @@ $snippet_width: 600px;
 			background-position: center, center;
 			border: none;
 			border-bottom: 4px solid transparent;
+			outline: none; /* Reset native outline especially on webkit on Macs. */
 
 		  &:hover, &:focus {
 				background-color: #ffffff;
