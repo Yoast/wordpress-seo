@@ -1,6 +1,6 @@
 /* Dynamically set when the Help is expanded to avoid horizontal scrolling */
 #wpcontent.yoast-help-center-open {
-	overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .wpseo-tab-video-container {
@@ -8,8 +8,8 @@
   border-bottom: 1px solid #a4286a;
 
   &__handle {
-	width: 100%;
-	margin: 0;
+    width: 100%;
+    margin: 0;
     padding: 10px;
     border: none;
     outline: none;
@@ -17,7 +17,7 @@
     background: none;
     text-align: left;
     cursor: pointer;
-	line-height: 19px;
+    line-height: 19px;
 
     .toggle__arrow {
       text-decoration: none;
@@ -50,24 +50,24 @@
   margin-bottom: -1px;
 
   &.hidden {
-	display: none;
+    display: none;
   }
 
   .contextual-help-tabs-wrap {
-	/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
-	flex-grow: 1;
-	flex-shrink: 1;
-	flex-basis: 0;
-	padding: 0;
+    /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    padding: 0;
   }
 
   a {
-	color: white;
+    color: white;
 
-	&.button,
-	&.button-primary {
-	  text-decoration: none;
-	}
+    &.button,
+    &.button-primary {
+      text-decoration: none;
+    }
   }
 
   h1,
@@ -76,33 +76,34 @@
   h4,
   h5,
   h6 {
-	margin-top: 0.5em;
-	padding-top: 0;
-	color: white;
-	font-weight: 500;
+    margin-top: 0.5em;
+    padding-top: 0;
+    color: white;
+    font-weight: 500;
   }
 
   .wpseo-tab-video__panel__textarea {
-	float: left;
-	/* min-width to make two boxes always have the same min width */
+    float: left;
+    /* min-width to make two boxes always have the same min width */
     min-width: 234px;
-	/* max-width to make two boxes take the same space of the video above: 560px */
-	max-width: 242px;
+    /* max-width to make two boxes take the same space of the video above: 560px */
+	/* The math is: ((242+15+15+1+1)*2)+12 = 560 = the video width. */
+    max-width: 242px;
     margin: 0 12px 1em 0;
     padding: 15px 15px 5px;
     border: 1px solid;
     border-color: white;
     border-radius: 30px;
     border-bottom-right-radius: 0;
-	background-color: #a4286a;
+    background-color: #a4286a;
     color: white;
 
-	a,
-	a:hover,
-	a:focus {
-	  color: white;
-	  font-weight: 500;
-	}
+    a,
+    a:hover,
+    a:focus {
+      color: white;
+      font-weight: 500;
+    }
 
     h3 {
       margin: 0;
@@ -110,54 +111,63 @@
   }
 
   .yoast-help-center-tabs {
-	flex: 0 0 auto;
-	width: 180px;
-	padding: 0 1em 1em 0;
+    flex: 0 0 auto;
+    width: 168px;
+    padding: 0 12px 1em 0;
     color: white;
     background-color: #a4286a;
 
-	ul {
-	  margin: 0;
-	}
+    ul {
+      margin: 0;
+    }
   }
 
   .yoast-help-tab-content {
-	display: none;
-	margin: 0;
-	color: white;
-	font-weight: 300;
+    display: none;
+    margin: 0;
+    color: white;
+    font-weight: 300;
 
-	&.active {
-	  display: flex;
-	  flex-wrap: wrap;
-	}
+    &.active {
+      display: block;
+    }
+
+    /* Only the video tab content needs to use flexbox. */
+    &.active#tab-panel-metabox_metabox__video,
+    &.active#tab-panel-metas_general__video {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 
   .wpseo-tab-video__panel {
 
-	&--video {
-	  flex: 0 0 560px;
+    &--video {
+      /* Set initial video width to 560px and allow to shrink. */
+      flex: 0 1 560px;
+      max-width: 560px;
 	  margin-right: 1em;
-	  padding-bottom: 1em;
+      padding-bottom: 1em;
 
-	  iframe {
-		  /* remove iframe descender space */
-		  vertical-align: middle;
-	  }
-	}
+      iframe {
+        /* remove iframe descender space */
+        vertical-align: middle;
+      }
+    }
 
-	&--text {
-	  /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
-	  flex-grow: 1;
-	  flex-shrink: 1;
-	  flex-basis: 0;
-	  margin: 0 auto;
-	  min-width: 264px; /* must be less than a text box min width */
-	}
+    &--text {
+      /* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0;
+      margin: 0 auto;
+      min-width: 264px; /* must be less than a text box min width */
+    }
   }
 
+  /* Reset right margin on the last `.wpseo-tab-video__panel__textarea`. */
   .wpseo-tab-video__panel--text div:last-child {
-  	margin-right: 0;
+    margin-right: 0;
   }
 }
 
@@ -183,14 +193,15 @@
 
   a {
     display: block;
-	padding: 10px 12px;
-	color: white;
-	text-decoration: none;
+    padding: 10px 12px;
+    color: white;
+    text-decoration: none;
+	line-height: 20px; /* Same value as the dashicons. */
 
     &:hover,
     &:focus {
       text-decoration: underline;
-	}
+    }
 
     &.dashicons-before:before {
       text-decoration: none;
@@ -204,19 +215,64 @@
   }
 }
 
+@media screen and ( max-width: 1024px ) {
+  .wpseo-tab-video-slideout {
+    .wpseo-tab-video__panel {
+
+      &--video {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
 @media screen and ( max-width: 782px ) {
   .wpseo-tab-video-slideout {
-	display: block;
+    display: block;
 
-	.wpseo-tab-video__panel {
+    /* Stop the video tab content from using flexbox. */
+    #tab-panel-metas_general__video.yoast-help-tab-content.active {
+      display: block;
+    }
 
-	  &--video {
-		margin-right: 0;
-	  }
-	}
+    .yoast-help-center-tabs {
+      width: auto;
+	  padding-right: 0;
+    }
+  }
 
-	.yoast-help-tab-content.active {
-	  display: block;
-	}
+  .wpseo-help-center-item {
+
+    a {
+      display: inline-block;
+	  margin: 0 4px 8px 0;
+	  border: 1px solid rgba( #fff, 0.5 );
+    }
+  }
+}
+
+@media screen and ( max-width: 600px ) {
+  .wpseo-tab-video-slideout {
+    .wpseo-tab-video__panel {
+
+      &--video,
+      &--text {
+        max-width: none;
+        min-width: 0;
+      }
+
+      &__textarea {
+        float: none;
+        min-width: 0;
+        max-width: none;
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media screen and ( max-width: 480px ) {
+  .wpseo-premium-popup-icon {
+    display: none;
   }
 }

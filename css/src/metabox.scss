@@ -699,11 +699,12 @@ ul.wpseo-metabox-premium-advantages {
 		left: 1px;
 	}
 
-	/* Go Premium dashicon. */
+	/* The Go Premium dashicon must stay unchanged in the responsive view. */
 	.wpseo-metabox-buy-premium .wpseo-buy-premium {
 		display: inline-block;
-		height: auto;
-		padding-right: 5px;
+		width: 20px;
+		height: 20px;
+		padding: 0 5px 0;
 	}
 
 	.wpseo-metabox-buy-premium .dashicons:before {
