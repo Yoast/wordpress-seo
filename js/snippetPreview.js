@@ -926,14 +926,16 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	titleRating = rateTitleLength( this.data.titleWidth );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
 
-	updateProgressBar(
+	updateProgressBar.call(
+		this,
 		this.element.progress.title,
 		this.data.titleWidth,
 		titleMaxLength,
 		titleRating
 	);
 
-	updateProgressBar(
+	updateProgressBar.call(
+		this,
 		this.element.progress.metaDesc,
 		metaDescription.length,
 		metadescriptionMaxLength,
@@ -1180,6 +1182,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
 	);
 
 	spanHolder = document.createElement( "div" );
+	spanHolder.className = "yoast-measurement-elements-holder";
 
 	spanHolder.innerHTML = metaDescriptionElement;
 

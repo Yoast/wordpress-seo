@@ -15,7 +15,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.1';
+  var VERSION = '4.17.4';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -130,8 +130,7 @@
     if (value == null) {
       return value === undefined ? undefinedTag : nullTag;
     }
-    value = Object(value);
-    return (symToStringTag && symToStringTag in value)
+    return (symToStringTag && symToStringTag in Object(value))
       ? getRawTag(value)
       : objectToString(value);
   }
@@ -420,14 +419,14 @@
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<span style="width: ' +
+    __p += '<span aria-hidden="true" style="width: ' +
     __e( width ) +
     '; height: auto; position: absolute; visibility: hidden; ';
      if ( "" !== whiteSpace ) {
     __p += 'white-space: ' +
     __e(whiteSpace );
        }
-    __p += '">\n\n</span>';
+    __p += '">\n\n</span>\n';
 
     }
     return __p
@@ -438,15 +437,11 @@
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<div id="snippet_preview" class="yoast-section">\n    <section class="snippet-editor__preview">\n		<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-eye">' +
+    __p += '<div id="snippet_preview" class="yoast-section">\n	<section class="snippet-editor__preview">\n		<h3 class="snippet-editor__heading snippet-editor__heading-icon snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h3>\n    <p class="screen-reader-text">' +
+    '</h3>\n	<p class="screen-reader-text">' +
     __e( i18n.snippetPreviewDescription ) +
-    '</p>\n\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop" data-type="desktop" aria-label="' +
-    __e( i18n.desktopMode ) +
-    '"  />\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile" data-type="mobile" aria-label="' +
-    __e( i18n.mobileMode ) +
-    '" />\n		</div>\n\n		<div id="snippet-preview-view" class="snippet-editor__view snippet-editor__view--mobile">\n			<div class="snippet_container snippet_container__title snippet-editor__container" id="title_container">\n				<span class="screen-reader-text">' +
+    '</p>\n\n		<div id="snippet-preview-view" class="snippet-editor__view snippet-editor__view--mobile">\n			<div class="snippet_container snippet_container__title snippet-editor__container" id="title_container">\n				<span class="screen-reader-text">' +
     __e( i18n.titleLabel ) +
     '</span>\n				<span class="title" id="render_title_container">\n					<span id="snippet_title">\n						' +
     __e( rendered.title ) +
@@ -466,29 +461,33 @@
      }
     __p += '\n				<span class="desc" id="snippet_meta">\n					' +
     __e( rendered.meta ) +
-    '\n				</span>\n			</div>\n		</div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n            ' +
+    '\n				</span>\n			</div>\n		</div>\n\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile yoast-tooltip yoast-tooltip-se" type="button" data-type="mobile" aria-label="' +
+    __e( i18n.mobilePreviewMode ) +
+    '" />\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop yoast-tooltip yoast-tooltip-se" type="button" data-type="desktop" aria-label="' +
+    __e( i18n.desktopPreviewMode ) +
+    '" />\n		</div>\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n			' +
     __e( i18n.edit ) +
-    '\n        </button>\n    </section>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    '\n		</button>\n	</section>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="snippet-editor-title" class="snippet-editor__label">\n			' +
     __e( i18n.title ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
+    '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
     __e( raw.title ) +
     '" placeholder="' +
     __e( placeholder.title ) +
-    '" />\n        </label>\n        <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title" aria-hidden="true">\n            <div class="snippet-editor__progress-bar"></div>\n        </progress>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
+    '" />\n		</label>\n		<progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title" aria-hidden="true">\n			<div class="snippet-editor__progress-bar"></div>\n		</progress>\n		<label for="snippet-editor-slug" class="snippet-editor__label">\n			' +
     __e( i18n.slug ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
+    '\n			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
     __e( raw.snippetCite ) +
     '" placeholder="' +
     __e( placeholder.urlPath ) +
-    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
+    '" />\n		</label>\n		<label for="snippet-editor-meta-description" class="snippet-editor__label">\n			' +
     __e( i18n.metaDescription ) +
-    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
+    '\n			<textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
     __e( placeholder.metaDesc ) +
     '">' +
     __e( raw.meta ) +
-    '</textarea>\n        </label>\n        <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description" aria-hidden="true">\n            <div class="snippet-editor__progress-bar"></div>\n        </progress>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
+    '</textarea>\n		</label>\n		<progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description" aria-hidden="true">\n			<div class="snippet-editor__progress-bar"></div>\n		</progress>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
     __e( i18n.save ) +
-    '</button>\n    </div>\n</div>\n';
+    '</button>\n	</div>\n</div>\n';
 
     }
     return __p

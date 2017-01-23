@@ -39,17 +39,16 @@ $snippet_width: 600px;
 		clear: both;
 
 		&-toggle {
-			display: inline-block;
+			display: inline-block; /* Contain floated children and margins do not collapse. */
 			background-color: $color_button;
 			border: 1px solid $color_button_border;
 			border-radius: 4px;
-			margin: 0 0.5em;
-			overflow: hidden;
-			margin-top: 15px;
+			margin-top: 10px;
+			vertical-align: top;
 		}
 
 		&-icon {
-			$size: 32px;
+			$size: 31px; /* To match the Edit snippet button height. */
 			width: $size;
 			height: $size;
 			float: left;
@@ -59,6 +58,7 @@ $snippet_width: 600px;
 			background-position: center, center;
 			border: none;
 			border-bottom: 4px solid transparent;
+			outline: none; /* Reset native outline especially on webkit on Macs. */
 
 		  &:hover, &:focus {
 				background-color: #ffffff;
@@ -68,6 +68,15 @@ $snippet_width: 600px;
 		  &--active {
 				border-color: $color_caret;
 				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
+		  }
+
+		  // Adjust the tooltips position because buttons have a 4px bottom border.
+		  &.yoast-tooltip:before {
+				bottom: -10px
+		  }
+
+		  &.yoast-tooltip:after {
+				margin-top: 10px;
 		  }
 		}
 
@@ -201,8 +210,7 @@ $snippet_width: 600px;
 
 	&__preview {
 		padding: 0 20px 15px;
-	  	max-width: $snippet_width + 40;
-	  	overflow-x: auto;
+		max-width: $snippet_width + 40;
 	}
 
 	&__button {
@@ -215,6 +223,7 @@ $snippet_width: 600px;
 		cursor: pointer;
 
 		font-size: 0.8rem;
+		line-height: 15px; /* Avoid browsers rounding that affect the button's height (Firefox computed value would be 15.4333px otherwise). */
 	}
 
 	&__edit-button {
@@ -223,11 +232,9 @@ $snippet_width: 600px;
 		background-position: left 8px top 50%;
 		background-size: 16px;
 		padding-left: 32px;
-		display: inline;
-		float: left;
-		overflow: hidden;
+		display: inline-block; /* Margins do not collapse. */
 		box-sizing: border-box;
-		margin-top: 15px;
+		margin-top: 10px;
 	}
 
 	&__form {
@@ -422,6 +429,11 @@ $snippet_width: 600px;
 	&--hidden {
 		display: none;
 	}
+}
+
+.yoast-measurement-elements-holder {
+	position: absolute;
+	left: -9999em;
 }
 
 @mixin progress-bar-color ($class, $color) {
