@@ -172,22 +172,22 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "2c617396446eac6123f2df49ffe5cb7356bbd65a"
+                "reference": "f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/2c617396446eac6123f2df49ffe5cb7356bbd65a",
-                "reference": "2c617396446eac6123f2df49ffe5cb7356bbd65a",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047",
+                "reference": "f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "classmap": [
-                    "i18n-module.php"
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -206,7 +206,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-01-03T11:28:09+00:00"
+            "time": "2017-01-23T13:39:06+00:00"
         },
         {
             "name": "yoast/license-manager",
@@ -319,7 +319,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2016-08-15T17:21:16+00:00"
+            "time": "2016-08-15 17:21:16"
         },
         {
             "name": "guzzle/guzzle",
