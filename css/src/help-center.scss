@@ -133,8 +133,8 @@
     }
 
     /* Only the video tab content needs to use flexbox. */
-    &.active#tab-panel-metabox_metabox__video,
-    &.active#tab-panel-metas_general__video {
+	/* Needs to work in the post metabox, taxonomy metabox, and setting pages. Assumes it's the first tab content. */
+    &.active:first-child {
       display: flex;
       flex-wrap: wrap;
     }
