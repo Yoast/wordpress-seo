@@ -72,7 +72,7 @@ let calculateRelevantWords = function () {
 };
 
 /**
- * Outputs the relevant words table.
+ * Renders the relevant words table.
  *
  * @returns {void}
  */
