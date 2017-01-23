@@ -176,12 +176,6 @@
   margin: -6px -12px 20px;
 }
 
-/* When it's inside the metabox (posts, terms, media ). */
-.postbox .wpseo-tab-video-slideout {
-  margin: 0;
-  padding: 2em 0 15px;
-}
-
 .inside {
   .wpseo-tab-video-slideout {
     height: auto;
@@ -229,6 +223,8 @@
 @media screen and ( max-width: 782px ) {
   .wpseo-tab-video-slideout {
     display: block;
+    margin: 0 -9999px;
+    padding: 2em 9999px;
 
     /* Stop the video tab content from using flexbox. */
     #tab-panel-metas_general__video.yoast-help-tab-content.active {
