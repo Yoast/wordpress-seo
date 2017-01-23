@@ -6,13 +6,18 @@ let calculateOccurrences = relevantWords.calculateOccurrences;
 let getRelevantCombinations = relevantWords.getRelevantCombinations;
 let WordCombination = require( "../../js/values/WordCombination" );
 let getWords = require( "../../js/stringProcessing/getWords" );
-var template = require( "../../js/templates.js" ).relevantWords;
+let template = require( "../../js/templates.js" ).relevantWords;
 
 let map = require( "lodash/map" );
 let forEach = require( "lodash/forEach" );
 
-// Binds the renewData function on the change of inputelements.
-let bindEvents = function( ) {
+
+/**
+ * Binds the renewData function on the change of input elements.
+ *
+ * @returns {void}
+ */
+let bindEvents = function() {
 	let elems = [ "content", "locale" ];
 	for ( let i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( "input", outputRelevantWords );
@@ -34,6 +39,11 @@ let formatNumber = function ( number ) {
 	return Math.round( number * 10000 ) / 10000;
 };
 
+/**
+ * Calculates all properties for the relevant word objects.
+ *
+ * @returns {object} The relevant word objects.
+ */
 let calculateRelevantWords = function () {
 	let locale = document.getElementById( "locale" ).value || "en_US";
 	let text = document.getElementById( "content" ).value;
@@ -56,11 +66,16 @@ let calculateRelevantWords = function () {
 		}
 
 		output[ "density" ] = formatNumber( word.getDensity( words.length ) );
-
 		return output;
+
 	} );
 };
 
+/**
+ * Outputs the relevant words table.
+ *
+ * @returns {void}
+ */
 let outputRelevantWords = function() {
 	let foundRelevantWords = calculateRelevantWords();
 
@@ -69,6 +84,11 @@ let outputRelevantWords = function() {
 	} );
 };
 
+/**
+ * Executes the bindEvents function on load.
+ *
+ * @returns {void}
+ */
 window.onload = function() {
 	bindEvents();
 };
