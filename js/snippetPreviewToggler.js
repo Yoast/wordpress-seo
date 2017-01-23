@@ -37,22 +37,66 @@ SnippetPreviewToggler.prototype.initialize = function() {
  * Binds a function on the click event of the preview toggle.
  *
  * @param {string} previewToggle The previewToggle to bind the click event on.
+ *
+ * @returns {void}
  */
 SnippetPreviewToggler.prototype.bindClickEvent = function( previewToggle ) {
-	previewToggle.addEventListener( "click", function( evt ) {
-		evt.preventDefault();
+	previewToggle.addEventListener( "click", function() {
 		this._setPreviewMode( previewToggle.getAttribute( "data-type" ), previewToggle );
+		this.removeTooltipAbility( previewToggle );
 	}.bind( this ) );
 };
 
 /**
- * Sets the events for the preview toggles to switch between the preview modes.
+ * Binds a function on the mouseleave event of the preview toggle.
+ *
+ * @param {string} previewToggle The previewToggle to bind the mouseleave event on.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.bindMouseleaveEvent = function( previewToggle ) {
+	previewToggle.addEventListener( "mouseleave", function() {
+		this.removeTooltipAbility( previewToggle );
+	}.bind( this ) );
+};
+
+/**
+ * Binds a function on the blur event of the preview toggle.
+ *
+ * @param {string} previewToggle The previewToggle to bind the blur event on.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.bindBlurEvent = function( previewToggle ) {
+	previewToggle.addEventListener( "blur", function() {
+		this.restoreTooltipAbility( previewToggle );
+	}.bind( this ) );
+};
+
+/**
+ * Binds a function on the mouseenter event of the preview toggle.
+ *
+ * @param {string} previewToggle The previewToggle to bind the mouseenter event on.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.bindMouseenterEvent = function( previewToggle ) {
+	previewToggle.addEventListener( "mouseenter", function() {
+		this.restoreTooltipAbility( previewToggle );
+	}.bind( this ) );
+};
+
+/**
+ * Sets the events for the preview toggles to switch between the preview modes and handle the tooltips.
  *
  * @returns {void}
  */
 SnippetPreviewToggler.prototype.bindEvents = function() {
 	forEach( this.previewToggles, function( previewToggle ) {
 		this.bindClickEvent( previewToggle );
+		this.bindMouseleaveEvent( previewToggle );
+		this.bindBlurEvent( previewToggle );
+		this.bindMouseenterEvent( previewToggle );
 	}.bind( this ) );
 };
 
@@ -144,6 +188,27 @@ SnippetPreviewToggler.prototype._removeActiveStates = function() {
 SnippetPreviewToggler.prototype._removeActiveState = function( previewToggle ) {
 	domManipulation.removeClass( previewToggle, "snippet-editor__view-icon-" + previewToggle.getAttribute( "data-type" ) + "--active" );
 	domManipulation.removeClass( previewToggle, "snippet-editor__view-icon--active" );
+	previewToggle.setAttribute( "aria-pressed", "false" );
+};
+
+/**
+ * Makes an element tooltip hidden.
+ *
+ * @param {Element} previewToggle The element on which the tooltip should be hidden.
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.removeTooltipAbility = function( previewToggle ) {
+	domManipulation.addClass( previewToggle, "yoast-tooltip-hidden" );
+};
+
+/**
+ * Makes an element tooltip visible.
+ *
+ * @param {Element} previewToggle The element on which the tooltip should be visible.
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.restoreTooltipAbility = function( previewToggle ) {
+	domManipulation.removeClass( previewToggle, "yoast-tooltip-hidden" );
 };
 
 /**
@@ -156,6 +221,7 @@ SnippetPreviewToggler.prototype._removeActiveState = function( previewToggle ) {
 SnippetPreviewToggler.prototype._setActiveState = function( elementToActivate ) {
 	domManipulation.addClass( elementToActivate, "snippet-editor__view-icon-" + elementToActivate.getAttribute( "data-type" ) + "--active"  );
 	domManipulation.addClass( elementToActivate, "snippet-editor__view-icon--active"  );
+	elementToActivate.setAttribute( "aria-pressed", "true" );
 };
 
 module.exports = SnippetPreviewToggler;
