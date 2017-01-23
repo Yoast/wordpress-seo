@@ -225,3 +225,9 @@ button.yoast-tooltip {
 		margin-right: 4.5px;
 	}
 }
+
+/* Rule with higher specificity to hide the tooltips when necessary. */
+.yoast-tooltip.yoast-tooltip-hidden::before,
+.yoast-tooltip.yoast-tooltip-hidden::after {
+	display: none;
+}

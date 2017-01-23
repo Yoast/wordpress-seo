@@ -260,11 +260,6 @@ function getSentencesFromTokens( tokens ) {
 				}
 				break;
 
-			case "newline":
-				tokenSentences.push( currentSentence );
-				currentSentence = "";
-				break;
-
 			case "block-start":
 				currentSentence += token.src;
 				break;
