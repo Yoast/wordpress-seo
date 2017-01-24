@@ -177,7 +177,12 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function invalidate_helper( $unused, $type ) {
 
-		self::invalidate( $type );
+		$sitemap_options = WPSEO_Options::get_option( 'wpseo_xml' );
+
+		$taxonomy_not_in_sitemap = 'taxonomies-' . $type . '-not_in_sitemap';
+		if ( isset( $sitemap_options[ $taxonomy_not_in_sitemap ] ) && $sitemap_options[ $taxonomy_not_in_sitemap ] === false ) {
+			self::invalidate( $type );
+		}
 	}
 
 	/**
