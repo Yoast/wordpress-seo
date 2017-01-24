@@ -54,7 +54,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @since 1.8.0
+	 * @since    1.8.0
 	 *
 	 * @return bool
 	 */
@@ -265,7 +265,7 @@ class WPSEO_Utils {
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
 	 *
-	 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
+	 * @see   https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
 	 *
 	 * Sanitize a string from user input or from the db
 	 *
@@ -323,7 +323,7 @@ class WPSEO_Utils {
 	 * Sanitize a url for saving to the database
 	 * Not to be confused with the old native WP function
 	 *
-	 * @todo [JRF => whomever] check/improve url verification
+	 * @todo  [JRF => whomever] check/improve url verification
 	 *
 	 * @since 1.8.0
 	 *
@@ -928,6 +928,7 @@ class WPSEO_Utils {
 	 * @since 3.4
 	 *
 	 * @param string $locale The locale to get the language of.
+	 *
 	 * @returns string The language part of the locale.
 	 */
 	public static function get_language( $locale ) {
@@ -957,6 +958,7 @@ class WPSEO_Utils {
 		if ( function_exists( 'get_user_locale' ) ) {
 			return get_user_locale();
 		}
+
 		return get_locale();
 	}
 
@@ -980,7 +982,7 @@ class WPSEO_Utils {
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
 	 *
-	 * @since 1.8.0
+	 * @since      1.8.0
 	 *
 	 * @deprecated 3.0
 	 * @deprecated Passes through to PHP call, no longer used in code.
@@ -993,16 +995,17 @@ class WPSEO_Utils {
 	 */
 	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'PHP native filter_input()' );
+
 		return filter_input( $type, $variable_name, $filter );
 	}
 
 	/**
 	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
 	 *
-	 * @since 2.2.0
+	 * @since      2.2.0
 	 *
 	 * @deprecated 3.2
-	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
+	 * @see        WPSEO_Sitemaps_Cache::register_clear_on_option_update()
 	 *
 	 * @param string $option Option name.
 	 * @param string $type   Sitemap type.
@@ -1015,10 +1018,10 @@ class WPSEO_Utils {
 	/**
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
 	 *
-	 * @since 2.2.0
+	 * @since      2.2.0
 	 *
 	 * @deprecated 3.2
-	 * @see WPSEO_Sitemaps_Cache::clear_on_option_update()
+	 * @see        WPSEO_Sitemaps_Cache::clear_on_option_update()
 	 *
 	 * @param string $option The option that's being updated.
 	 */
@@ -1030,10 +1033,10 @@ class WPSEO_Utils {
 	/**
 	 * Clear entire XML sitemap cache
 	 *
-	 * @since 1.8.0
+	 * @since      1.8.0
 	 *
 	 * @deprecated 3.2
-	 * @see WPSEO_Sitemaps_Cache::clear()
+	 * @see        WPSEO_Sitemaps_Cache::clear()
 	 *
 	 * @param array $types Set of sitemap types to invalidate cache for.
 	 */
@@ -1045,7 +1048,7 @@ class WPSEO_Utils {
 	/**
 	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exist.
 	 *
-	 * @since 3.0.0
+	 * @since      3.0.0
 	 *
 	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
 	 *
@@ -1057,6 +1060,7 @@ class WPSEO_Utils {
 	 */
 	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.3', 'wp_json_encode()' );
+
 		return wp_json_encode( $array_to_encode, $options, $depth );
 	}
 }

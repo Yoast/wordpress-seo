@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 4.0.2
+Stable tag: 4.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -124,6 +124,21 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.1.0 =
+
+Release Date: January 17th, 2017
+
+* Bugfixes:
+	* Fixes a glitch in the notification center where a notification would be shown twice.
+	* Fixes a bug where the realtime analysis didn't work on term pages.
+	* Fixes a bug where the sitemap invalidation uses an expensive query to clean up old validators.
+
+* Enhancements:
+	* Added a mobile snippet preview.
+	* Added a function that allows retrieving an option only when it's been autoloaded.
+	* Remove review banner from mobile, props [abhinavkumar940](https://github.com/abhinavkumar940).
+	* Add labels to redirect checkboxes in the search console to improve accessibility.
+
 = 4.0.2 =
 
 Release Date: December 20th, 2016
@@ -156,21 +171,6 @@ Release Date: December 13th, 2016
 	* Fixes a bug where an old update notice would not be removed.
 	* Fixes a bug where keywords with periods where not highlighted in the snippet.
 	* Fixes a bug where the title of the metabox wasn't displayed correctly.
-
-= 3.9.0 =
-
-Release Date: November 29nd, 2016
-
-* Enhancements:
-	* Updates the banners on the admin pages.
-	* Improves accessibility by moving the Google Search Console reload button from the header.
-	* Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
-	* Prevent conflicts with other plugins/themes which also add html namespaces.
-
-* Bugfixes:
-	* Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
-	* Fixes a bug that prevented bulk actions to work in the Google Search Console.
-	* Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
 
 = Earlier versions =
 

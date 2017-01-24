@@ -163,7 +163,7 @@ window.yoastHideMarkers = true;
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
-		snippetContainer = $( "#wpseo_snippet" );
+		snippetContainer = $( "#wpseosnippet" );
 
 		insertTinyMCE();
 

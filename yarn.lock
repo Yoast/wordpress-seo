@@ -5210,7 +5210,7 @@ react-addons-transition-group@^15.2.1:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/react-addons-transition-group/-/react-addons-transition-group-15.4.1.tgz#27d92717089c5e2db202e654a85b76a41b703acc"
 
-"react-dom@^0.14.3 || ^15.1.0", react-dom@^15.3.1:
+"react-dom@^0.14.3 || ^15.1.0", react-dom@^15.4.0:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.1.tgz#d54c913261aaedb17adc20410d029dcc18a1344a"
   dependencies:
@@ -6598,9 +6598,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.2.0.tgz#e8b6895beded50a4900e6e90dc1fb902283d6b67"
+yoast-components@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.3.0.tgz#99372fca22dedefc0c3633ca7607da27edd6432d"
   dependencies:
     i18n-calypso "^1.6.2"
     interpolate-components "^1.1.0"
@@ -6608,8 +6608,8 @@ yoast-components@^2.2.0:
     whatwg-fetch "^1.0.0"
 
 "yoastseo@https://github.com/Yoast/YoastSEO.js#master":
-  version "1.8.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#b5f0645a9a786af11a4e1b8ea500281eaee116d1"
+  version "1.9.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#d7657585485d60edbb22ccb3ad53f3bb1ec64ac0"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"

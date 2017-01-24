@@ -1,7 +1,8 @@
 .yoast-section {
 	position: relative;
 	box-sizing: border-box;
-	width: 640px;
+	width: auto;
+	max-width: 640px;
 	border: 1px solid #f7f7f7;
 	border-radius: 20px;
 	background-color: #fff;
@@ -16,6 +17,122 @@
 
 .snippet_container:after {
 	clear: both;
+}
+
+.snippet-editor__view {
+	clear: both;
+}
+
+.snippet-editor__view-toggle {
+	display: inline-block;
+	overflow: hidden;
+	margin: 0 0.5em;
+	margin-top: 15px;
+	border: 1px solid #dbdbdb;
+	border-radius: 4px;
+	background-color: #f7f7f7;
+}
+
+.snippet-editor__view-icon {
+	float: left;
+	width: 32px;
+	height: 32px;
+	border: none;
+	border-bottom: 4px solid transparent;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center, center;
+	cursor: pointer;
+}
+
+.snippet-editor__view-icon:hover,
+.snippet-editor__view-icon:focus {
+	border-color: #1074a8;
+	background-color: #fff;
+	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+}
+
+.snippet-editor__view-icon--active {
+	border-color: #555;
+	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+}
+
+.snippet-editor__view-icon-desktop {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M1728%20992v%2D832q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D1600q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v832q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h1600q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm128%2D832v1088q0%2066%2D47%20113t%2D113%2047h%2D544q0%2037%2016%2077%2E5t32%2071%2016%2043%2E5q0%2026%2D19%2045t%2D45%2019h%2D512q%2D26%200%2D45%2D19t%2D19%2D45q0%2D14%2016%2D44t32%2D70%2016%2D78h%2D544q%2D66%200%2D113%2D47t%2D47%2D113v%2D1088q0%2D66%2047%2D113t113%2D47h1600q66%200%20113%2047t47%20113z%22%2F%3E%3C%2Fsvg%3E");
+	background-size: 18px;
+}
+
+.snippet-editor__view-icon-desktop:hover,
+.snippet-editor__view-icon-desktop:focus {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M1728%20992v%2D832q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D1600q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v832q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h1600q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm128%2D832v1088q0%2066%2D47%20113t%2D113%2047h%2D544q0%2037%2016%2077%2E5t32%2071%2016%2043%2E5q0%2026%2D19%2045t%2D45%2019h%2D512q%2D26%200%2D45%2D19t%2D19%2D45q0%2D14%2016%2D44t32%2D70%2016%2D78h%2D544q%2D66%200%2D113%2D47t%2D47%2D113v%2D1088q0%2D66%2047%2D113t113%2D47h1600q66%200%20113%2047t47%20113z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.snippet-editor__view-icon-mobile {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M976%201408q0%2D33%2D23%2E5%2D56%2E5t%2D56%2E5%2D23%2E5%2D56%2E5%2023%2E5%2D23%2E5%2056%2E5%2023%2E5%2056%2E5%2056%2E5%2023%2E5%2056%2E5%2D23%2E5%2023%2E5%2D56%2E5zm208%2D160v%2D704q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D512q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v704q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h512q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm%2D192%2D848q0%2D16%2D16%2D16h%2D160q%2D16%200%2D16%2016t16%2016h160q16%200%2016%2D16zm288%2D16v1024q0%2052%2D38%2090t%2D90%2038h%2D512q%2D52%200%2D90%2D38t%2D38%2D90v%2D1024q0%2D52%2038%2D90t90%2D38h512q52%200%2090%2038t38%2090z%22%2F%3E%3C%2Fsvg%3E");
+	background-size: 22px;
+}
+
+.snippet-editor__view-icon-mobile:hover,
+.snippet-editor__view-icon-mobile:focus {
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M976%201408q0%2D33%2D23%2E5%2D56%2E5t%2D56%2E5%2D23%2E5%2D56%2E5%2023%2E5%2D23%2E5%2056%2E5%2023%2E5%2056%2E5%2056%2E5%2023%2E5%2056%2E5%2D23%2E5%2023%2E5%2D56%2E5zm208%2D160v%2D704q0%2D13%2D9%2E5%2D22%2E5t%2D22%2E5%2D9%2E5h%2D512q%2D13%200%2D22%2E5%209%2E5t%2D9%2E5%2022%2E5v704q0%2013%209%2E5%2022%2E5t22%2E5%209%2E5h512q13%200%2022%2E5%2D9%2E5t9%2E5%2D22%2E5zm%2D192%2D848q0%2D16%2D16%2D16h%2D160q%2D16%200%2D16%2016t16%2016h160q16%200%2016%2D16zm288%2D16v1024q0%2052%2D38%2090t%2D90%2038h%2D512q%2D52%200%2D90%2D38t%2D38%2D90v%2D1024q0%2D52%2038%2D90t90%2D38h512q52%200%2090%2038t38%2090z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.snippet-editor__view--desktop {
+	width: 600px;
+	background: #fff;
+}
+
+.snippet-editor__view--desktop .snippet_container__title {
+	width: 600px;
+}
+
+.snippet-editor__view--desktop .snippet_container__title .title {
+	white-space: nowrap;
+}
+
+.snippet-editor__view--mobile {
+	margin: 0 0 10px 0;
+	padding: 13px 0;
+	border-bottom: 1px hidden #fff;
+	border-radius: 2px;
+	background-color: #fff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.snippet-editor__view--mobile .snippet_container {
+	display: block;
+	line-height: 20px;
+}
+
+.snippet-editor__view--mobile .snippet_container__title,
+.snippet-editor__view--mobile .snippet_container__url,
+.snippet-editor__view--mobile .snippet_container__meta {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.snippet-editor__view--mobile .snippet_container__title {
+	padding: 0 16px;
+	font-size: 16px;
+	word-wrap: break-word;
+}
+
+.snippet-editor__view--mobile .snippet_container__title .title {
+	font-size: 16px;
+}
+
+.snippet-editor__view--mobile .snippet_container__url {
+	box-sizing: border-box;
+	margin-bottom: 13px;
+	padding: 0 16px 11px;
+	border-bottom: 1px solid #ebebeb;
+	font-size: 14px;
+	white-space: nowrap;
+}
+
+.snippet-editor__view--mobile .snippet_container__meta {
+	padding: 0 16px;
+	font-size: 14px;
 }
 
 .snippet-editor__container {
@@ -38,10 +155,10 @@
 }
 
 .snippet-editor__heading-icon {
-	padding-right: 45px;
+	padding-left: 45px;
 	background-repeat: no-repeat;
 	/* rtlcss needs this as separate property */
-	background-position: right 20px top 0.6em;
+	background-position: left 20px top 0.6em;
 	background-size: 16px;
 }
 
@@ -53,7 +170,7 @@
 	display: block;
 	position: absolute;
 	top: -3px;
-	right: -22px;
+	left: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23bfbfbf%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -66,7 +183,7 @@
 	display: block;
 	position: absolute;
 	top: -3px;
-	right: -22px;
+	left: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -75,6 +192,8 @@
 }
 
 .snippet-editor__preview {
+	overflow-x: auto;
+	max-width: 640px;
 	padding: 0 20px 15px;
 }
 
@@ -89,12 +208,15 @@
 }
 
 .snippet-editor__edit-button {
-	display: block;
-	margin-top: 1em;
-	padding-right: 32px;
+	display: inline;
+	float: left;
+	overflow: hidden;
+	box-sizing: border-box;
+	margin-top: 15px;
+	padding-left: 32px;
 	background: #f7f7f7 url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M491%201536l91%2D91%2D235%2D235%2D91%2091v107h128v128h107zm523%2D928q0%2D22%2D22%2D22%2D10%200%2D17%207l%2D542%20542q%2D7%207%2D7%2017%200%2022%2022%2022%2010%200%2017%2D7l542%2D542q7%2D7%207%2D17zm%2D54%2D192l416%20416%2D832%20832h%2D416v%2D416zm683%2096q0%2053%2D37%2090l%2D166%20166%2D416%2D416%20166%2D165q36%2D38%2090%2D38%2053%200%2091%2038l235%20234q37%2039%2037%2091z%22%20%2F%3E%3C%2Fsvg%3E") no-repeat;
 	/* rtlcss needs this as separate property */
-	background-position: right 8px top 50%;
+	background-position: left 8px top 50%;
 	background-size: 16px;
 }
 
@@ -118,7 +240,7 @@
 	position: absolute;
 	top: -3px;
 	top: 20px;
-	right: -22px;
+	left: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23bfbfbf%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -131,7 +253,7 @@
 	position: absolute;
 	top: -3px;
 	top: 20px;
-	right: -22px;
+	left: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -191,13 +313,11 @@
 .snippet_container .title {
 	display: block;
 	overflow: hidden;
-	width: 600px;
 	margin: 0;
 	color: #1e0fbe;
 	font-size: 18px;
 	font-weight: normal;
 	line-height: 1.2;
-	white-space: nowrap;
 	text-decoration: none;
 	text-overflow: ellipsis;
 }
@@ -210,7 +330,7 @@
 
 .snippet_container .url {
 	display: inline-block;
-	float: right;
+	float: left;
 	color: #006621;
 	font-size: 14px;
 	font-style: normal;
@@ -218,12 +338,12 @@
 }
 
 .snippet_container .down_arrow {
-	float: right;
+	float: left;
 	margin-top: 6px;
-	margin-right: 5px;
+	margin-left: 5px;
 	border-top: 5px solid #006621;
-	border-left: 4px solid transparent;
 	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
 }
 
 .snippet_container .desc-default {
@@ -340,11 +460,11 @@
 
 /* css for analyzer */
 .wpseoanalysis {
-	padding-left: 0;
+	padding-right: 0;
 }
 
 .wpseo-score-text {
-	float: right;
+	float: left;
 	width: 86%;
 	/* make room for score and mark icons, consider to use a better layout model */
 	width: calc( 100% - 56px);
@@ -352,10 +472,10 @@
 
 /* needs higher specificity than other score icons */
 .assessment-results .wpseo-score-icon {
-	float: right;
+	float: left;
 	width: 12px;
 	height: 12px;
-	margin: 3px 0 0 10px;
+	margin: 3px 10px 0 0;
 	border-radius: 50%;
 	background: #888;
 }
@@ -406,7 +526,7 @@ li.score:after {
 .assessment-results__mark.icon-eye-inactive,
 .assessment-results__mark.icon-eye-active,
 .assessment-results__mark.icon-eye-disabled {
-	float: right;
+	float: left;
 	width: 28px;
 	height: 28px;
 	margin: -5px 3px 0 3px;
@@ -444,7 +564,7 @@ li.score:after {
 
 .assessment-results__mark-container {
 	display: inline-block;
-	float: left;
+	float: right;
 	width: 33px;
 	min-height: 1px;
 }
@@ -457,11 +577,11 @@ li.score:after {
 
 @keyframes animatedBackground {
 	from {
-		background-position: 100% 0;
+		background-position: 0 0;
 	}
 
 	to {
-		background-position: 0% 0;
+		background-position: 100% 0;
 	}
 }
 
@@ -472,8 +592,8 @@ li.score:after {
 	margin: 10px 0 10px 0;
 	border: 1px solid #dfdfdf;
 	/*multiple background definitions for the sake of browsercompatibility*/
-	background-image: linear-gradient(to right, #fff, #0063ff, #fff, #0063ff);
-	background-position: 100% 0;
+	background-image: linear-gradient(to left, #fff, #0063ff, #fff, #0063ff);
+	background-position: 0 0;
 	background-size: 300% 100%;
 	animation: animatedBackground 5s linear infinite;
 }
@@ -577,7 +697,7 @@ button.yoast-tooltip {
 .yoast-tooltip-se::after,
 .yoast-tooltip-sw::after {
 	top: 100%;
-	left: 50%;
+	right: 50%;
 	margin-top: 5px;
 }
 
@@ -585,26 +705,26 @@ button.yoast-tooltip {
 .yoast-tooltip-se::before,
 .yoast-tooltip-sw::before {
 	top: auto;
-	left: 50%;
+	right: 50%;
 	bottom: -5px;
-	margin-left: -5px;
+	margin-right: -5px;
 	border-bottom-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-se::after {
-	left: auto;
-	right: 50%;
-	margin-right: -15px;
+	right: auto;
+	left: 50%;
+	margin-left: -15px;
 }
 
 .yoast-tooltip-sw::after {
-	margin-left: -15px;
+	margin-right: -15px;
 }
 
 .yoast-tooltip-n::after,
 .yoast-tooltip-ne::after,
 .yoast-tooltip-nw::after {
-	left: 50%;
+	right: 50%;
 	bottom: 100%;
 	margin-bottom: 5px;
 }
@@ -613,32 +733,32 @@ button.yoast-tooltip {
 .yoast-tooltip-ne::before,
 .yoast-tooltip-nw::before {
 	top: -5px;
-	left: 50%;
+	right: 50%;
 	bottom: auto;
-	margin-left: -5px;
+	margin-right: -5px;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-ne::after {
-	left: auto;
-	right: 50%;
-	margin-right: -15px;
+	right: auto;
+	left: 50%;
+	margin-left: -15px;
 }
 
 .yoast-tooltip-nw::after {
-	margin-left: -15px;
+	margin-right: -15px;
 }
 
 .yoast-tooltip-s::after,
 .yoast-tooltip-n::after {
-	-ms-transform: translateX(-50%);
-	transform: translateX(-50%);
+	-ms-transform: translateX(50%);
+	transform: translateX(50%);
 }
 
 .yoast-tooltip-w::after {
-	left: 100%;
+	right: 100%;
 	bottom: 50%;
-	margin-left: 5px;
+	margin-right: 5px;
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -646,25 +766,25 @@ button.yoast-tooltip {
 .yoast-tooltip-w::before {
 	top: 50%;
 	bottom: 50%;
-	right: -5px;
+	left: -5px;
 	margin-top: -5px;
-	border-right-color: rgba(0, 0, 0, 0.8);
+	border-left-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-e::after {
 	bottom: 50%;
-	right: 100%;
-	margin-right: 5px;
+	left: 100%;
+	margin-left: 5px;
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
 
 .yoast-tooltip-e::before {
 	top: 50%;
-	left: -5px;
+	right: -5px;
 	bottom: 50%;
 	margin-top: -5px;
-	border-left-color: rgba(0, 0, 0, 0.8);
+	border-right-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-multiline::after {
@@ -680,15 +800,15 @@ button.yoast-tooltip {
 
 .yoast-tooltip-multiline.yoast-tooltip-s::after,
 .yoast-tooltip-multiline.yoast-tooltip-n::after {
-	left: auto;
-	right: 50%;
-	-ms-transform: translateX(50%);
-	transform: translateX(50%);
+	right: auto;
+	left: 50%;
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
 }
 
 .yoast-tooltip-multiline.yoast-tooltip-w::after,
 .yoast-tooltip-multiline.yoast-tooltip-e::after {
-	left: 100%;
+	right: 100%;
 }
 
 @media screen and (min-width: 0\0) {
@@ -708,7 +828,7 @@ button.yoast-tooltip {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
 	.yoast-tooltip-w::after {
-		margin-left: 4.5px;
+		margin-right: 4.5px;
 	}
 }
 
@@ -731,7 +851,7 @@ button.yoast-tooltip {
 	color: #a4286a;
 	background: none;
 	line-height: 19px;
-	text-align: right;
+	text-align: left;
 	cursor: pointer;
 }
 
@@ -745,7 +865,7 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-container__handle .dashicons-before:before {
-	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .wpseotab .wpseo-tab-video-container {
@@ -800,17 +920,17 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
-	float: right;
+	float: left;
 	/* min-width to make two boxes always have the same min width */
 	min-width: 234px;
 	/* max-width to make two boxes take the same space of the video above: 560px */
 	max-width: 242px;
-	margin: 0 0 1em 12px;
+	margin: 0 12px 1em 0;
 	padding: 15px 15px 5px;
 	border: 1px solid;
 	border-color: white;
 	border-radius: 30px;
-	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 	color: white;
 	background-color: #a4286a;
 }
@@ -828,7 +948,7 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
 	width: 180px;
-	padding: 0 0 1em 1em;
+	padding: 0 1em 1em 0;
 	color: white;
 	background-color: #a4286a;
 
@@ -848,8 +968,8 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
 	/* In the settings pages is not a children of the flexbox container. */
-	float: right;
-	margin-left: 1em;
+	float: left;
+	margin-right: 1em;
 	padding-bottom: 1em;
 
 	-ms-flex: 0 0 auto;
@@ -876,7 +996,7 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
-	margin-left: 0;
+	margin-right: 0;
 }
 
 /* When it's inside the metabox (posts, terms, media ). */
@@ -911,7 +1031,7 @@ button.yoast-tooltip {
 }
 
 .wpseo-help-center-item a.dashicons-before:before {
-	margin-left: 3px;
+	margin-right: 3px;
 	text-decoration: none;
 }
 
@@ -922,7 +1042,6 @@ button.yoast-tooltip {
 
 .yoast-section {
 	position: relative;
-	width: 640px;
 	padding: 0 20px 15px;
 	border: 1px solid #f7f7f7;
 	border-radius: 20px;
@@ -940,9 +1059,9 @@ button.yoast-tooltip {
 }
 
 .yoast-section__heading-icon {
-	padding-right: 45px;
+	padding-left: 45px;
 	background-repeat: no-repeat;
-	background-position: right 20px top 0.6em;
+	background-position: left 20px top 0.6em;
 	background-size: 16px;
 }
 
@@ -1015,16 +1134,16 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-metabox-sidebar {
 	display: table-cell;
 	width: 40px;
-	padding: 0 0 0 5px;
+	padding: 0 5px 0 0;
 	background-color: #fff;
 	vertical-align: top;
 }
 
 .wpseo-metabox-sidebar li span {
-	margin: 3px -5px 0 0;
-	padding: 0 5px 0 2px;
+	margin: 3px 0 0 -5px;
+	padding: 0 2px 0 5px;
 	border: 0 solid transparent;
-	border-right-width: 3px;
+	border-left-width: 3px;
 	border-radius: 3px;
 }
 .wpseo-metabox-sidebar li span.wpseo-buy-premium {
@@ -1049,8 +1168,8 @@ ul.wpseo-metabox-tabs li.active {
 
 /* Floated to reset white space between list items */
 ul.wpseo-metabox-tabs li {
-	float: right;
-	margin-left: 5px;
+	float: left;
+	margin-right: 5px;
 	margin-bottom: -1px;
 	padding: 0;
 	border: 1px solid #dfdfdf;
@@ -1066,14 +1185,30 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 	text-overflow: ellipsis;
 }
 
-.wpseotab.active {
-	display: block;
+.wpseotab {
+	display: none;
 	overflow: auto;
-	padding: 0.5em 0.9em;
+	padding: 20px 35px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
 }
 
+.wpseotab.content {
+	padding: 20px 15px;
+}
+
+.wpseotab.active {
+	display: block;
+}
+
+/* Content tab. */
+#wpseosnippet,
+#wpseofocuskeyword,
+#wpseometakeywords {
+	margin-bottom: 2em;
+}
+
+/* Tab links. */
 .wpseo-metabox-tabs .wpseo_tablink {
 	display: inline-block;
 	padding: 5px 12px 6px 12px;
@@ -1084,11 +1219,11 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 /* Bigger right padding only for the content tab and the main keyword tabs */
 .wpseo-metabox-tabs .wpseo_content_tab a,
 .wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
-	padding-left: 12px;
+	padding-right: 12px;
 }
 
 .wpseo-metabox-tabs .wpseo-score-icon {
-	margin-right: 0;
+	margin-left: 0;
 }
 
 #wpseo-meta-section-social .wpseo-metabox-tabs .wpseo_tablink {
@@ -1132,16 +1267,12 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 .wpseo-heading {
-	padding-right: 10px;
+	padding-left: 10px;
 }
 
 #wpseo_meta .inside {
 	overflow: auto; 
 	margin: 6px 0 0 0;
-}
-
-.wpseotab {
-	display: none;
 }
 
 #wpseo_meta .postbox .inside .wpseotab {
@@ -1150,50 +1281,94 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 
 #wpseo_meta .wpseo-tab-video-container h2 {
 	margin-bottom: 20px; 
-	padding-right: 0;
+	padding-left: 0;
 	border: 0;
 	font-size: 1.3em;
 }
 
-.inside .wpseotab .form-table th {
-	width: 140px !important;
-	font-size: 13px;
+/* Basic styling for social, advanced, and add-ons tabs content. */
+.wpseotab input,
+.wpseotab label,
+.wpseotab textarea,
+.wpseotab .select2-container,
+.yoast-metabox__description,
+.wpseotab p.error-message {
+	max-width: 600px;
 }
 
-.inside .wpseotab .form-table td {
-	padding-top: 20px;
+.wpseotab fieldset {
+	padding-top: 5px;
 }
 
-.inside .wpseotab .form-table label {
-	vertical-align: top;
+.wpseotab legend {
+	font-weight: 600;
 }
 
-.inside .wpseotab .form-table td input,
-.inside .wpseotab .form-table td select {
-	margin-top: -5px;
+/* By default, labels are set to display block. */
+.wpseotab label {
+	display: block;
+	font-weight: 600;
 }
 
-.inside .wpseotab .form-table #yoast_wpseo_focuskw_text_input,
-.inside .wpseotab .form-table #yoast_wpseo_metakeywords {
+/* Radio buttons and checkboxes labels are set to display inline-block. */
+.wpseotab input[type="radio"] + label,
+.wpseotab input[type="checkbox"] + label {
+	display: inline-block;
+	font-weight: 400;
+}
+
+/* Default vertical spacing between blocks of controls. */
+.wpseotab label,
+.wpseotab fieldset {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+}
+
+.wpseotab input[type="checkbox"],
+.wpseotab input[type="checkbox"] + label {
+	margin-top: 2em;
+	margin-bottom: 0;
+	font-size: 1em;
+	/* 1em = 13px. Necessary for proper calculation of margins in em. */
+}
+
+/* First form controls in a tab need a smaller top margin. */
+.wpseotab label:first-child,
+.wpseotab fieldset:first-child,
+.wpseotab input[type="checkbox"]:first-child,
+.wpseotab input[type="checkbox"]:first-child + label {
+	margin-top: 10px;
+}
+
+/* Radio buttons. */
+.wpseotab input[type="radio"] {
 	margin-top: 0;
 }
 
-.inside .wpseotab .form-table td select[multiple] {
+.wpseotab input[type="radio"] + label {
+	margin: 0 1em 0 0;
+}
+
+/* Descriptions and error messages below the fields. */
+.yoast-metabox__description,
+.wpseotab p.error-message {
+	margin: 0.5em 0;
+}
+
+.wpseotab #yoast_wpseo_focuskw_text_input,
+.wpseotab #yoast_wpseo_metakeywords,
+.wpseotab select[multiple] {
 	margin-top: 0;
 }
 
 .wpseotab .wpseo_image_upload_button {
-	margin-right: 3px;
-}
-
-.wpseotab .wpseoanalysis {
-	margin-top: 0;
+	margin-left: 3px;
 }
 
 .good,
 .warn,
 .wrong {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .good {
@@ -1223,35 +1398,12 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 #focuskwresults li {
-	margin: 0 20px 0 0;
+	margin: 0 0 0 20px;
 	list-style-type: disc;
 }
 
 .wpseo_hidden {
 	display: none;
-}
-
-/* Linkdex analysis block */
-table.wpseoanalysis th {
-	padding: 15px 0 5px 0;
-	font-size: 14px;
-	text-align: right;
-}
-
-table.wpseoanalysis th.first {
-	padding-top: 0;
-}
-
-table.wpseoanalysis td {
-	margin: 5px 0;
-	font-size: 13px;
-	line-height: 16px;
-}
-
-table.wpseoanalysis td.score {
-	width: 20px;
-	height: 18px;
-	padding-right: 10px;
 }
 
 .wpseo_msg {
@@ -1315,7 +1467,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseotab .yoast_help.yoast-help-button {
-	float: left;
+	float: right;
 }
 
 .wpseotab.content .yoast_help.yoast-help-button {
@@ -1323,13 +1475,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseo-admin-page .yoast_help.yoast-help-button {
-	margin-left: 6px;
+	margin-right: 6px;
 }
 
 .yoast_help.yoast-help-button:before {
 	position: absolute;
 	top: 0;
-	right: 0;
+	left: 0;
 	padding: 4px;
 	content: "\f223";
 }
@@ -1359,7 +1511,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast-seo-help-container {
-	float: right;
+	float: left;
 	width: 100%;
 	max-width: none;
 }
@@ -1385,16 +1537,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 /**
  * Lines below came from taxonomy-meta.css
  */
-.wpseo-taxonomy-form tr,
-.wpseo-taxonomy-form th,
-.wpseo-taxonomy-form td {
-	vertical-align: top;
-}
-
-.inside .wpseotab .form-table.wpseo-taxonomy-form th {
-	width: 200px !important;
-}
-
 .yst-traffic-light-container {
 	display: block;
 	height: 30px;
@@ -1403,7 +1545,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .yst-traffic-light {
 	width: 19px;
 	height: 30px;
-	margin: 0 5px 0 0;
+	margin: 0 0 0 5px;
 }
 
 .yst-traffic-light .traffic-light-color {
@@ -1434,18 +1576,18 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
  * Traffic light in publish box
  */
 #wpseo-score {
-	float: right;
-	margin: 0 -5px 0 5px;
+	float: left;
+	margin: 0 5px 0 -5px;
 }
 
 /**
 * Content and SEO score in publish bar
 */
 .yoast-seo-score .yoast-logo.svg {
-	float: right;
+	float: left;
 	width: 18px;
 	height: 18px;
-	margin-left: 5px;
+	margin-right: 5px;
 	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23999%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E") no-repeat;
 	background-size: 18px;
 }
@@ -1479,14 +1621,14 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseo-buy-premium {
-	padding-left: 5px; 
+	padding-right: 5px; 
 	color: #a4286a;
 }
 
 .wpseo-metabox-go-to::after {
 	position: static;
 	top: auto;
-	left: auto;
+	right: auto;
 	width: auto;
 	height: auto;
 	border: none; 
@@ -1502,7 +1644,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .wpseo-metabox-buy-premium {
 	position: absolute;
 	top: 6px;
-	left: 12px;
+	right: 12px;
 	vertical-align: middle;
 }
 
@@ -1511,8 +1653,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 ul.wpseo-metabox-premium-advantages {
-	padding-right: 1.5em; 
+	padding-left: 1.5em; 
 	list-style: disc;
+}
+
+.wpseosnippet .yoast-section {
+	width: auto;
+	max-width: 640px;
 }
 
 .yoast-section__heading-icon-list {
@@ -1552,5 +1699,20 @@ ul.wpseo-metabox-premium-advantages {
 	}
 	#wpseo-crawl-issues-table-form .yoast-help-button {
 		margin-top: 3px;
+	}
+
+/* Necessary to override a WP rule. */
+	.wpseotab select[multiple] {
+		height: auto !important;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	/* Reduce the tabs padding on smaller screens. */
+	.wpseotab {
+		padding: 20px 20px;
+	}
+	.wpseotab.content {
+		padding: 20px 0;
 	}
 }

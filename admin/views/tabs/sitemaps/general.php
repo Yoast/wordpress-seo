@@ -13,8 +13,8 @@ echo '<h2>' . esc_html__( 'Your XML Sitemap', 'wordpress-seo' ) . '</h2>';
 
 if ( $options['enablexmlsitemap'] === true ) {
 	echo '<p>';
-	/* translators: %1$s opening tag of the link to the Sitemap, %2$s closing tag for the link. */
 	printf(
+		/* translators: %1$s opening tag of the link to the Sitemap, %2$s closing tag for the link. */
 		esc_html__( 'You can find your XML Sitemap here: %1$sXML Sitemap%2$s', 'wordpress-seo' ),
 		'<a target="_blank" href="' . esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) ) . '">',
 		'</a>'

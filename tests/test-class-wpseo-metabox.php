@@ -11,6 +11,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 		self::$class_instance = new WPSEO_Metabox;
 	}
 

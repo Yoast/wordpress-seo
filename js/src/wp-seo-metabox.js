@@ -67,7 +67,6 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 				} );
 		}
 
-		jQuery( ".wpseo-heading" ).hide();
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code.
 
@@ -162,10 +161,8 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		);
 
 		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
-		// Post/media meta box.
+		// Post/taxonomy/media meta box.
 		jQuery( "#wpseosnippet" ).find( "h3" ).after( snippetHelp );
-		// Taxonomy meta box.
-		jQuery( "#wpseo_snippet" ).find( "h3" ).after( snippetHelp );
 	}
 
 	jQuery( document ).ready( function() {
