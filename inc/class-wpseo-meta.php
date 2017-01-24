@@ -368,18 +368,6 @@ class WPSEO_Meta {
 					/* Don't show the keywords field if keywords aren't enabled */
 					unset( $field_defs['metakeywords'] );
 				}
-				/**
-				 * Filter the WPSEO metabox form field definitions for the general tab, backward compatibility
-				 *
-				 * @deprecated 1.5.0
-				 * @deprecated use the 'wpseo_metabox_entries_general' filter instead
-				 * @see        WPSEO_Meta::get_meta_field_defs()
-				 *
-				 * @param      array $field_defs Metabox orm definitions.
-				 *
-				 * @return     array
-				 */
-				$field_defs = apply_filters( 'wpseo_metabox_entries', $field_defs );
 				break;
 
 
