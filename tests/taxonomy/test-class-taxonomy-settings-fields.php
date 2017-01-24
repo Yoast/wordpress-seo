@@ -106,4 +106,13 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 			$fields_after['noindex']['options']['options']['default']
 		);
 	}
+
+	public function test_get_noindex_options_ON_non_public_blog() {
+		update_option( 'blog_public', '0' );
+
+		$no_index_options = $this->class_instance->get();
+
+		$this->assertEquals( '<br /><span class="error-message">Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won&#039;t have an effect.</span>', $no_index_options['noindex']['options']['description'] );
+
+	}
 }
