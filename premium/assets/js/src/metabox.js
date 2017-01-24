@@ -18,16 +18,6 @@ let focusKeywordSuggestions;
 let linkSuggestions;
 
 /**
- * Whether the content language is supported for the link suggestions. This is explicitly not the user language.
- *
- * @returns {boolean} Whether the content language is supported.
- */
-function contentLanguageSupported() {
-	let locale = wpseoAdminL10n.contentLocale;
-	return locale.indexOf( "en" ) === 0 || locale.indexOf( "de" ) === 0;
-}
-
-/**
  * Determines whether or not Insights is enabled.
  *
  * @returns {boolean} Whether or not Insights is enabled.
@@ -51,7 +41,7 @@ function linkSuggestionsEnabled() {
  * @returns {boolean} Whether or not link suggestions is supported.
  */
 let linkSuggestionsIsSupported = function() {
-	return contentLanguageSupported() && contentEndpointsAvailable && linkSuggestionsEnabled();
+	return contentEndpointsAvailable && linkSuggestionsEnabled();
 };
 /**
  * Initializes the metabox for premium.
