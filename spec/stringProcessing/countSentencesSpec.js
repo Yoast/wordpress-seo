@@ -5,7 +5,6 @@ describe("Counting of sentences", function(){
 		expect( sentenceCount( "First sentence. Second sentence. 3rd sentence." ) ).toBe( 3 );
 		expect( sentenceCount( "<p></p>" ) ).toBe( 0 );
 
-
 		// These don't work yet because of the repeated sentence terminators, but they aren't important right now.
 		// expect( sentenceCount( "First sentence.. Second sentence. 3rd sentence." ) ).toBe( 3 );
 		// expect( sentenceCount( "First sentence!!! Second sentence. 3rd sentence." ) ).toBe( 3 );
