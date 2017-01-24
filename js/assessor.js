@@ -279,4 +279,20 @@ Assessor.prototype.getAssessment = function( identifier ) {
 	} );
 };
 
+/**
+ * Checks which of the available assessments are applicable and returns an array with applicable assessments.
+ *
+ * @returns {Array} The array with applicable assessments.
+ */
+Assessor.prototype.getApplicableAssessments = function() {
+	var availableAssessments = this.getAvailableAssessments();
+	return filter(
+		availableAssessments,
+		function( availableAssessment ) {
+			return this.isApplicable( availableAssessment, this.getPaper() );
+		}.bind( this )
+	);
+};
+
+
 module.exports = Assessor;
