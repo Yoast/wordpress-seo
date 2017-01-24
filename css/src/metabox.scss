@@ -208,7 +208,7 @@ ul.wpseo-metabox-tabs li {
 }
 
 #wpseo_meta .inside {
-	margin: 6px 0 0 0;
+	margin: 0;
 	overflow: auto;
 }
 
@@ -596,8 +596,8 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .wpseo-metabox-buy-premium {
 	position: absolute;
 	right: 12px;
-	top: 6px;
-	vertical-align: middle;
+	top: 0;
+	padding: 10px 0; /* To have the same height of the `.wpseo-tab-video-container__handle` button. */
 }
 
 .wpseo-metabox-premium-description {
@@ -710,10 +710,6 @@ ul.wpseo-metabox-premium-advantages {
 		padding: 0 5px 0;
 	}
 
-	.wpseo-metabox-buy-premium .dashicons:before {
-		vertical-align: top;
-	}
-
 	.yoast-help-panel {
 		max-width: none !important;
 	}
@@ -729,7 +725,7 @@ ul.wpseo-metabox-premium-advantages {
 
 	/* Necessary to override a WP rule. */
 	.wpseotab select[multiple] {
-	    height: auto !important;
+		height: auto !important;
 	}
 }
 
