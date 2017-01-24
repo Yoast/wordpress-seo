@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-01-17 12:06:02+00:00\n"
+"POT-Creation-Date: 2017-01-24 11:23:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,39 +24,39 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:101
+#: class-premium.php:103
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:103
+#: class-premium.php:105
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:106
+#: class-premium.php:108
 msgid "Link suggestions"
 msgstr ""
 
-#: class-premium.php:108
+#: class-premium.php:110
 msgid ""
 "The link suggestions section contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:365
+#: class-premium.php:367
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:397
+#: class-premium.php:399
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:416 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:418 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:450
+#: class-premium.php:452
 msgid "Enabled"
 msgstr ""
 
