@@ -32,8 +32,8 @@ th#wpseo-score {
 	width: 63px;
 }
 
-th#wpseo-score {
-	width: 70px;
+th#wpseo-score-readability {
+	width: 75px;
 }
 
 @media screen and (max-width: 782px) {
