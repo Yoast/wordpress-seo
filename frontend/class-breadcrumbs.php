@@ -435,7 +435,7 @@ class WPSEO_Breadcrumbs {
 	 * Add Homepage crumb to the crumbs property
 	 */
 	private function maybe_add_home_crumb() {
-		if ($this->options['breadcrumbs-home'] !== '') {
+		if ( $this->options['breadcrumbs-home'] !== '' ) {
 			$this->add_predefined_crumb(
 				$this->options['breadcrumbs-home'],
 				WPSEO_Utils::home_url(),
