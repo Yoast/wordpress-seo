@@ -15,7 +15,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.4';
+  var VERSION = '4.17.1';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -130,7 +130,8 @@
     if (value == null) {
       return value === undefined ? undefinedTag : nullTag;
     }
-    return (symToStringTag && symToStringTag in Object(value))
+    value = Object(value);
+    return (symToStringTag && symToStringTag in value)
       ? getRawTag(value)
       : objectToString(value);
   }
@@ -343,6 +344,7 @@
   var templates = {
     'assessmentPresenterResult': {},
     'hiddenSpan': {},
+    'relevantWords': {},
     'snippetEditor': {}
   };
 
@@ -427,6 +429,37 @@
     __e(whiteSpace );
        }
     __p += '">\n\n</span>\n';
+
+    }
+    return __p
+  };
+
+  templates['relevantWords'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<table>\n    <tr>\n        <th>Word</th>\n        <th>Density</th>\n        <th>Occurrences</th>\n        <th>Length</th>\n        <th>Relevant word percentage</th>\n        <th>Length bonus</th>\n        <th>Multiplier</th>\n        <th>Relevance</th>\n    </tr>\n    ';
+     for (var i in words) {
+    __p += '\n        <tr>\n            <td>' +
+    ((__t = ( words[ i ].word )) == null ? '' : __t) +
+    '</td>\n            <td>' +
+    ((__t = ( words[ i ].density )) == null ? '' : __t) +
+    '</td>\n            <td>' +
+    ((__t = ( words[ i ].occurrences )) == null ? '' : __t) +
+    '</td>\n            <td>' +
+    ((__t = ( words[ i ].length )) == null ? '' : __t) +
+    '</td>\n            <td>' +
+    ((__t = ( words[ i ].relevantWordPercentage )) == null ? '' : __t) +
+    '</td>\n            <td>' +
+    ((__t = ( words[ i ].lengthBonus )) == null ? '' : __t) +
+    '</td>\n            <td>' +
+    ((__t = ( words[ i ].multiplier )) == null ? '' : __t) +
+    '</td>\n            <td>' +
+    ((__t = ( words[ i ].relevance )) == null ? '' : __t) +
+    '</td>\n        </tr>\n    ';
+     }
+    __p += '\n</table>\n';
 
     }
     return __p
