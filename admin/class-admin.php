@@ -729,6 +729,7 @@ class WPSEO_Admin {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
@@ -810,4 +811,6 @@ class WPSEO_Admin {
 	function meta_description_warning() {
 		_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 	}
+
+	// @codeCoverageIgnoreEnd
 }

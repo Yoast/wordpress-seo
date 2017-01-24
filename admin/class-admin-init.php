@@ -520,6 +520,7 @@ class WPSEO_Admin_Init {
 	 * Returns whether or not the user has seen the tagline notice
 	 *
 	 * @deprecated 3.3
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
@@ -541,6 +542,7 @@ class WPSEO_Admin_Init {
 	 * Redirect first time or just upgraded users to the about screen.
 	 *
 	 * @deprecated 3.5
+	 * @codeCoverageIgnore
 	 */
 	public function after_update_notice() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
