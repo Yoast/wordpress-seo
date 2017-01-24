@@ -67,7 +67,6 @@ release:
   - 'cssmin'
 'release:js':
   - 'copy'
-  - 'browserify:build'
   - 'browserify:release-es6'
   - 'uglify'
 'release:clean':
