@@ -58,6 +58,9 @@ class WPSEO_Statistics {
 		return $posts->found_posts;
 	}
 
+	/********************** DEPRECATED METHODS **********************/
+
+	// @codeCoverageIgnoreStart
 	/**
 	 * Returns the amount of posts that have no focus keyword
 	 *
@@ -135,4 +138,5 @@ class WPSEO_Statistics {
 
 		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_INDEX ) );
 	}
+	// @codeCoverageIgnoreEnd
 }

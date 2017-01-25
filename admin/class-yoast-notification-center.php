@@ -562,6 +562,7 @@ class Yoast_Notification_Center {
 	 * Function renamed to 'update_storage'.
 	 *
 	 * @deprecated 3.2 remove in 3.5
+	 * @codeCoverageIgnore
 	 */
 	public function set_transient() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.2' );

@@ -862,6 +862,7 @@ class WPSEO_Breadcrumbs {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Wrapper function for the breadcrumb so it can be output for the supported themes.
 	 *
@@ -886,4 +887,5 @@ class WPSEO_Breadcrumbs {
 	public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.2.3', 'yoast_breadcrumbs' );
 	}
+	// @codeCoverageIgnoreEnd
 }
