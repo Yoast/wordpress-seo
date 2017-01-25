@@ -15,13 +15,15 @@ var minimumDesktopWidth = 640;
  * @param {string}    previewMode    The default preview mode.
  * @param {Element[]} previewToggles Array with toggle elements.
  *
- * @property {string}   previewMode    The current preview mode.
- * @propert {Element[]} previewToggles The array with toggle elements.
+ * @property {string}    previewMode    The current preview mode.
+ * @property {Element[]} previewToggles The array with toggle elements.
+ * @property {Element}   viewElement    The target element.
  * @constructor
  */
 var SnippetPreviewToggler = function( previewMode, previewToggles ) {
 	this.previewMode    = previewMode;
 	this.previewToggles = previewToggles;
+	this.viewElement     = document.getElementById( "snippet-preview-view" );
 };
 
 /**
@@ -124,14 +126,10 @@ SnippetPreviewToggler.prototype._setPreviewMode = function( previewMode, toggleE
 	this._removeActiveStates();
 	this._setActiveState( toggleElement );
 
-	if( previewMode === this.previewMode ) {
-		return;
+	if( this.previewMode !== previewMode ) {
+		domManipulation.removeClass( this.viewElement, previewModes[ this.previewMode ] );
+		domManipulation.addClass( this.viewElement, previewModes[ previewMode ] );
 	}
-
-	var viewElement = document.getElementById( "snippet-preview-view" );
-
-	domManipulation.removeClass( viewElement, previewModes[ this.previewMode ] );
-	domManipulation.addClass( viewElement, previewModes[ previewMode ] );
 
 	this.previewMode = previewMode;
 };
