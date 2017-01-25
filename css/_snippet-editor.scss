@@ -23,11 +23,6 @@ $snippet_width: 600px;
 }
 
 .yoast-section {
-	border: 1px solid $color_border;
-	box-sizing: border-box;
-	border-radius: 20px;
-	background-color: #fff;
-	position: relative;
 	width: auto;
 	max-width: $snippet_width + 40;
 }
@@ -173,9 +168,6 @@ $snippet_width: 600px;
 		padding: 8px 20px;
 		font-size: 0.9rem;
 		margin: 0 -20px 15px;
-
-		border-bottom: 1px solid $color_border;
-
 		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
 		color: $color_headings;
