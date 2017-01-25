@@ -209,7 +209,6 @@ ul.wpseo-metabox-tabs li {
 
 #wpseo_meta .inside {
 	margin: 0;
-	overflow: auto;
 }
 
 #wpseo_meta .postbox .inside .wpseotab {
@@ -638,11 +637,6 @@ ul.wpseo-metabox-premium-advantages {
 }
 
 @media screen and ( max-width: 782px ) {
-	#wpseo_meta .inside {
-		/* Necessary for the full-width background. */
-		overflow: visible;
-	}
-
 	.wpseo-metabox-sidebar {
 		display: inline-block; /* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
 		width: auto;

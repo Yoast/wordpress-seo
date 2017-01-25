@@ -120,10 +120,11 @@
 		}
 
 		&--text {
-			// Do not use the shorthand syntax to avoid the flex-basis unitless bug in IE 11.
 			flex-grow: 1;
 			flex-shrink: 1;
-			flex-basis: 0;
+			// https://github.com/philipwalton/flexbugs#11-min-and-max-size-declarations-are-ignored-when-wrapping-flex-items
+			// Fixed in Safari > 10 tested with Safari Technology Preview Release 21 (Safari 10.2, WebKit 12604.1.2)
+			flex-basis: 220px;
 			// Allow to have fluid width just to some extent.
 			min-width: 220px;
 		}
