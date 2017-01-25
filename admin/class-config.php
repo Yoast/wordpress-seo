@@ -154,6 +154,8 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Exports the current site's Yoast SEO settings.
 	 *
+	 * @deprecated 2.0
+	 *
 	 * @param bool $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
 	 *
 	 * @return bool|string $return False when failed, the URL to the export file when succeeded.

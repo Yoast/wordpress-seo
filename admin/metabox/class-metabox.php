@@ -1185,6 +1185,7 @@ SVG;
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Adds the Yoast SEO box
 	 *
@@ -1678,4 +1679,5 @@ SVG;
 
 		return '';
 	}
+	// @codeCoverageIgnoreEnd
 }

@@ -977,6 +977,9 @@ class WPSEO_Utils {
 		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
+	/********************** DEPRECATED METHODS **********************/
+
+	// @codeCoverageIgnoreStart
 	/**
 	 * Wrapper for the PHP filter input function.
 	 *
@@ -1063,4 +1066,5 @@ class WPSEO_Utils {
 
 		return wp_json_encode( $array_to_encode, $options, $depth );
 	}
+	// @codeCoverageIgnoreEnd
 }

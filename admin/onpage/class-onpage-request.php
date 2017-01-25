@@ -66,6 +66,8 @@ class WPSEO_OnPage_Request {
 	 * Returns the fetched response
 	 *
 	 * @deprecated 3.1.2
+	 * @codeCoverageIgnore
+	 *
 	 * @return array
 	 */
 	public function get_response() {
