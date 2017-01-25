@@ -150,7 +150,7 @@ class WPSEO_Help_Center {
 						?>
 					</ul>
 				</div>
-				<div class="contextual-help-tabs-wrap">
+				<div class="yoast-help-center-tabs-wrap">
 					<?php
 					$classes = 'yoast-help-tab-content active';
 					foreach ( $help_center_items as $help_center_item ) {

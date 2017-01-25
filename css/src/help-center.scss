@@ -1,11 +1,18 @@
-/* Dynamically set when the Help is expanded to avoid horizontal scrolling */
-#wpcontent.yoast-help-center-open {
-	overflow-x: hidden;
-}
-
 .wpseo-tab-video-container {
 	margin-bottom: 20px;
 	border-bottom: 1px solid #a4286a;
+
+	// Reset the bottom border when it's open.
+	.yoast-help-center-open & {
+		border-bottom: none;
+	}
+
+	// When the Help Center is inside the metabox (posts, terms, media)
+	// it must compensate the metabox padding.
+	.postbox & {
+		margin-left: -12px;
+		margin-right: -12px;
+	}
 
 	&__handle {
 		width: 100%;
@@ -19,10 +26,6 @@
 		cursor: pointer;
 		line-height: 19px;
 
-		.toggle__arrow {
-			text-decoration: none;
-		}
-
 		&:hover,
 		&:focus {
 			text-decoration: underline;
@@ -31,67 +34,43 @@
 		.dashicons-before:before {
 			margin-right: 5px;
 		}
-	}
-}
 
-.wpseotab .wpseo-tab-video-container {
-	margin-top: -15px;
-}
-
-.wpseo-tab-video-slideout {
-	display: flex;
-	flex-wrap: wrap;
-	min-height: 320px;
-	margin: 0;
-	padding: 2em 0;
-	background-color: #a4286a;
-	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
-	/* hide the container bottom border when expanded */
-	margin-bottom: -1px;
-
-	/* In the settings pages, mimic the WordPress meta box border. */
-	.wpseo-admin-page & {
-		border: 1px solid #e5e5e5;
-	}
-
-	&.hidden {
-		display: none;
-	}
-
-	.contextual-help-tabs-wrap {
-		/* do not use the shorthand syntax to avoid the unitless bug in IE 11 */
-		flex-grow: 1;
-		flex-shrink: 1;
-		flex-basis: 0;
-		padding: 0;
-	}
-
-	a {
-		color: white;
-
-		&.button,
-		&.button-primary {
+		.toggle__arrow {
 			text-decoration: none;
 		}
 	}
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		margin-top: 0.5em;
-		padding-top: 0;
-		color: white;
-		font-weight: 500;
+	.wpseo-premium-popup {
+		// Content 600px + Yoast_SEO_Icon.svg 170px.
+		max-width: 770px;
+	}
+}
+
+.wpseo-tab-video-slideout {
+	// Use flexbox but we don't want children to wrap.
+	display: flex;
+	padding: 2em 0;
+	background-color: #a4286a;
+	box-shadow: inset 0 10px 10px -5px rgba(123, 30, 80, 0.5), inset 0 -10px 10px -5px rgba(123, 30, 80, 0.5);
+
+	// In the settings pages, mimic the WordPress meta box border.
+	.wpseo-admin-page & {
+		border: 1px solid #e5e5e5;
+		border-top: 0;
 	}
 
+	// CSS class to toggle visibility.
+	&.hidden {
+		display: none;
+	}
+
+	// The max-width of the Help Center content is 164 + 916 = 1080 pixels.
+	// Worth noting it's an arbitrary number, based on the content width.
 	.yoast-help-center-tabs {
-		flex: 0 0 auto;
-		width: 168px;
-		padding: 0 12px 1em 0;
-		color: white;
+		// 164 pixels fixed width.
+		flex: 0 0 164px;
+		padding: 0 0 1em 0;
+		color: #fff;
 		background-color: #a4286a;
 
 		ul {
@@ -99,62 +78,60 @@
 		}
 	}
 
+	.yoast-help-center-tabs-wrap {
+		// Max width 916px - video 560px - 12px video right margin - tab content padding 24px
+		// ends up in a 320 pixels available and fluid width for the text boxes.
+		flex: 0 1 916px;
+		max-width: 916px;
+		padding: 0;
+	}
+
 	.yoast-help-tab-content {
 		display: none;
-		margin: 0;
-		color: white;
+		padding: 0 12px;
+		color: #fff;
 		font-weight: 300;
 
 		&.active {
 			display: block;
 		}
 
-		/* Only the video tab content needs to use flexbox. */
-		/* Needs to work in the post metabox, taxonomy metabox, and setting pages. Assumes it's the first tab content. */
+		// Only the video tab content needs to use flexbox.
+		// Needs to work in the post metabox, taxonomy metabox, and setting pages.
+		// Assumes it's always the first tab content.
 		&.active:first-child {
 			display: flex;
 			flex-wrap: wrap;
-			padding-right: 12px;
 		}
 	}
 
 	.wpseo-tab-video__panel {
 
 		&--video {
-			/* Set initial video width to 560px and allow to shrink but not to grow. */
+			// Set initial video width to 560px and allow to shrink but not to grow.
 			flex: 0 1 560px;
 			margin-right: 12px;
 			padding-bottom: 12px;
 
 			iframe {
-				/* remove iframe descender space */
+				// Remove iframe descender space.
 				vertical-align: middle;
 			}
 		}
 
 		&--text {
-			/* do not use the shorthand syntax to avoid the flex-basis unitless bug in IE 11. */
+			// Do not use the shorthand syntax to avoid the flex-basis unitless bug in IE 11.
 			flex-grow: 1;
 			flex-shrink: 1;
 			flex-basis: 0;
-			margin: 0;
-		}
-
-		&__flexwrapper {
-			display: flex;
-			flex-wrap: wrap;
-			max-width: 560px;
-			justify-content: space-between;
 		}
 
 		&__textarea {
-			/* Make two boxes take the same space of the video above. */
-			/* The math is: ((274)*2)+12 space-between = 560 = the video width. */
-			flex: 0 1 274px;
 			box-sizing: border-box;
-			/* Allow 50px fluid width. */
-			min-width: 224px;
-			max-width: 274px;
+			// Allow to have fluid width just to some extent.
+			min-width: 220px;
+			// Same max width as the video.
+			max-width: 560px;
 			margin: 0 0 12px 0;
 			padding: 15px 15px 5px;
 			border: 1px solid #fff;
@@ -166,7 +143,7 @@
 			a,
 			a:hover,
 			a:focus {
-				color: white;
+				color: #fff;
 				font-weight: 500;
 			}
 
@@ -175,16 +152,31 @@
 			}
 		}
 	}
-}
 
-/* When it's inside the metabox (posts, terms, media ). */
-.postbox .wpseo-tab-video-container {
-	margin: 0 -12px 20px;
-}
+	a {
+		color: #fff;
 
-.inside {
-	.wpseo-tab-video-slideout {
-		height: auto;
+		&.button,
+		&.button-primary {
+			text-decoration: none;
+		}
+	}
+
+	// Needs to override some WP rules.
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	#wpseo_meta & h2 {
+		margin-top: 0.5em;
+		margin-bottom: 1em;
+		padding: 0;
+		color: #fff;
+		font-size: 1.3em;
+		line-height: 1.4;
+		font-weight: 400;
 	}
 }
 
@@ -194,9 +186,10 @@
 	a {
 		display: block;
 		padding: 10px 12px;
-		color: white;
+		color: #fff;
 		text-decoration: none;
-		line-height: 20px; /* Same value as the dashicons. */
+		// Same value as the dashicons.
+		line-height: 20px;
 
 		&:hover,
 		&:focus {
@@ -211,51 +204,106 @@
 
 	&.active a {
 		color: #a4286a;
-		background-color: white;
+		background-color: #fff;
+	}
+}
+
+@media screen and ( max-width: 1280px ) {
+	// On the post edit screen when the layout is in two columns this needs
+	// to happen earlier.
+	.columns-2 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
+
+		&--video {
+			margin-right: 0;
+		}
 	}
 }
 
 @media screen and ( max-width: 1024px ) {
-	.wpseo-tab-video-slideout {
+	.wpseo-tab-video-slideout .wpseo-tab-video__panel {
+
+		&--video {
+			margin-right: 0;
+		}
+	}
+
+	// On the post edit screen when the layout is in two columns the switch from
+	// flexbox to a block layout needs to happen earlier.
+	.columns-2 .wpseo-tab-video-slideout {
+		// Switch from flexbox to a block layout.
+		display: block;
+
+		// Need to re-set this for the higher specificity of the columns-2 slideout.
+		&.hidden {
+			display: none;
+		}
+
+		.yoast-help-center-tabs {
+			width: auto;
+			padding-left: 12px;
+			padding-right: 12px;
+		}
+
+		.yoast-help-tab-content {
+
+			&.active:first-child {
+				// Stop the video tab content from using flexbox.
+				display: block;
+				// Video full width.
+				padding: 0;
+			}
+		}
+
 		.wpseo-tab-video__panel {
 
-			&--video {
-				margin-right: 0;
+			&--text {
+				padding: 0 12px;
 			}
 
 			&__textarea {
-				flex-grow: 1;
 				max-width: none;
 			}
+		}
+	}
+
+	.columns-2 .wpseo-help-center-item {
+
+		a {
+			display: inline-block;
+			margin: 0 4px 8px 0;
+			border: 1px solid rgba( #fff, 0.5 );
 		}
 	}
 }
 
 @media screen and ( max-width: 782px ) {
 	.wpseo-tab-video-slideout {
+		// Switch from flexbox to a block layout.
 		display: block;
-		/* Full width background hack for the responsive view. */
-		margin: 0 -9999px;
-		padding: 2em 9999px;
 
 		.yoast-help-center-tabs {
 			width: auto;
-			padding-right: 0;
+			padding-left: 12px;
+			padding-right: 12px;
 		}
 
 		.yoast-help-tab-content {
 
 			&.active:first-child {
-				/* Stop the video tab content from using flexbox. */
+				// Stop the video tab content from using flexbox.
 				display: block;
-				padding-right: 0;
+				// Video full width.
+				padding: 0;
 			}
 		}
 
 		.wpseo-tab-video__panel {
 
-			&__flexwrapper {
-				display: block;
+			&--text {
+				padding: 0 12px;
+			}
+
+			&__textarea {
 				max-width: none;
 			}
 		}
@@ -269,28 +317,8 @@
 			border: 1px solid rgba( #fff, 0.5 );
 		}
 	}
-}
 
-@media screen and ( max-width: 600px ) {
-	.wpseo-tab-video-slideout {
-		.wpseo-tab-video__panel {
-
-			&--video,
-			&--text {
-				max-width: none;
-				min-width: 0;
-			}
-
-			&__textarea {
-				min-width: 0;
-				max-width: none;
-				margin-right: 0;
-			}
-		}
-	}
-}
-
-@media screen and ( max-width: 480px ) {
+	// Hide the Yoast_SEO_Icon.svg on the Email support tab.
 	.wpseo-premium-popup-icon {
 		display: none;
 	}

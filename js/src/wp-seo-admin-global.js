@@ -339,7 +339,7 @@
 	 * @returns {void}
 	 */
 	function openHelpCenterTab( $container, $tab ) {
-		$container.find( ".contextual-help-tabs-wrap div" ).removeClass( "active" );
+		$container.find( ".yoast-help-center-tabs-wrap div" ).removeClass( "active" );
 		$tab.addClass( "active" );
 
 		stopVideos();

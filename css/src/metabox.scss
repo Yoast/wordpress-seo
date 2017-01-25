@@ -216,17 +216,6 @@ ul.wpseo-metabox-tabs li {
 	font-size: 13px !important;
 }
 
-#wpseo_meta {
-	.wpseo-tab-video-container{
-		h2 {
-			font-size: 1.3em;
-			padding-left: 0px;
-			border: 0px;
-			margin-bottom: 20px;
-		}
-	}
-}
-
 /* Basic styling for social, advanced, and add-ons tabs content. */
 .wpseotab input,
 .wpseotab label,
@@ -562,7 +551,8 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	background-image: url(svg-icon-yoast($color));
 }
 
-.term-php .wpseo-taxonomy-metabox-postbox h2 {
+// Fix for the Taxonomy metabox heading: get just the first level h2.
+.term-php .wpseo-taxonomy-metabox-postbox > h2 {
 	margin: 0;
 	padding: 8px 12px;
 	border-bottom: 1px solid #eee;
