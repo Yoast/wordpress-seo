@@ -26,7 +26,7 @@ describe( "An assessment for scoring too long text fragments following a subhead
 	it ( "returns score 3 for a text fragment over 350 words", function() {
 		let assessment = subheadingDistributionTooLong.getResult( paper, Factory.buildMockResearcher( [ {text: "", wordCount: 60},  {text: "", wordCount: 400}, {text: "", wordCount: 300} ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "1 of the subheadings is followed by more than the recommended maximum of 300 words. Try to insert another subheading." );
+		expect( assessment.getText() ).toBe( "1 subheading is followed by more than the recommended maximum of 300 words. Try to insert another subheading." );
 	} );
 
 	it ( "returns score 6 for text fragments between 300 and 350 words", function() {
