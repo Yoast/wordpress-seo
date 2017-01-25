@@ -124,12 +124,12 @@
 			flex-grow: 1;
 			flex-shrink: 1;
 			flex-basis: 0;
+			// Allow to have fluid width just to some extent.
+			min-width: 220px;
 		}
 
 		&__textarea {
 			box-sizing: border-box;
-			// Allow to have fluid width just to some extent.
-			min-width: 220px;
 			// Same max width as the video.
 			max-width: 560px;
 			margin: 0 0 12px 0;
