@@ -517,6 +517,17 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Check if the permalink uses %postname%
+	 *
+	 * @return bool
+	 */
+	private function has_postname_in_permalink() {
+		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+	}
+
+	/********************** DEPRECATED METHODS **********************/
+
+	/**
 	 * Returns whether or not the user has seen the tagline notice
 	 *
 	 * @deprecated 3.3
@@ -527,15 +538,6 @@ class WPSEO_Admin_Init {
 	public function seen_tagline_notice() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
 		return false;
-	}
-
-	/**
-	 * Check if the permalink uses %postname%
-	 *
-	 * @return bool
-	 */
-	private function has_postname_in_permalink() {
-		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
 	}
 
 	/**
