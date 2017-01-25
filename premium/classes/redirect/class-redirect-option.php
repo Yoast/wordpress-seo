@@ -135,7 +135,7 @@ class WPSEO_Redirect_Option {
 	 *
 	 * @param string $origin The redirect to search for.
 	 *
-	 * @return WPSEO_Redirect|bool
+	 * @return int|bool
 	 */
 	public function search( $origin ) {
 		foreach ( $this->redirects as $redirect_key => $redirect ) {
