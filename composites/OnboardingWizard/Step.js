@@ -125,7 +125,7 @@ class Step extends React.Component {
 
 		keys = this.filterConditonalFields( keys, fields );
 
-		return keys.map( ( name, key ) => {
+		return keys.map( ( name ) => {
 			let currentField = fields[ name ];
 
 			if ( typeof this.components[ currentField.componentName ] === "undefined" ||
@@ -134,7 +134,7 @@ class Step extends React.Component {
 				return null;
 			}
 
-			let fieldKey = `${this.state.currentStep}-${key}`;
+			let fieldKey = `${this.state.currentStep}-${name}`;
 			let fieldProps = this.getFieldProps( currentField.componentName, fieldKey, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
