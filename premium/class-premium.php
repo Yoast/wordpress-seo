@@ -322,18 +322,18 @@ class WPSEO_Premium {
 		$redirects = new WPSEO_Redirect_Option( false );
 		$path      = parse_url( $requested_url, PHP_URL_PATH );
 
-		if ( $redirects->search( $path ) ) {
-			$redirect     = $redirects->get( $path );
-			$redirect_url = $redirect->get_origin();
-			if ( '/' === substr( $redirect_url, 0, 1 ) ) {
-				$redirect_url = home_url( $redirect_url );
-			}
-
-			wp_redirect( $redirect_url, $redirect->get_type() );
-			exit;
+		if ( ! $redirects->search( $path ) ) {
+			return $redirect_url;
 		}
 
-		return $redirect_url;
+		$redirect     = $redirects->get( $path );
+		$redirect_url = $redirect->get_origin();
+		if ( '/' === substr( $redirect_url, 0, 1 ) ) {
+			$redirect_url = home_url( $redirect_url );
+		}
+
+		wp_redirect( $redirect_url, $redirect->get_type() );
+		exit;
 	}
 
 	/**
