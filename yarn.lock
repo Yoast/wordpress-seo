@@ -6609,7 +6609,7 @@ yoast-components@^2.3.0:
 
 "yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.10.0":
   version "1.9.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#1f46161807c8067474d9779584cdd09a9ddd39b7"
+  resolved "https://github.com/Yoast/YoastSEO.js#9d4d00085d63a253e455ae3d54d20c627512e66e"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"
