@@ -5,6 +5,21 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.10.0: January 31st, 2017
+
+## Added
+* Adds prominent words for Dutch.
+* Adds example for testing the relevant words analysis.
+* Adds the tooltip CSS rule from Yoast SEO to yoastSEO.js.
+
+## Changed
+* Improves the accessibility for the snippet preview toggle buttons.
+* Makes the mark buttons tooltips always visible.
+
+## Fixed
+* Fixes a bug where the initial state of the toggle button of the snippet preview is 'desktop', but should be 'mobile'.
+* Fixes a bug where the measurement elements holder `<div>` breaks the responsive view of the media modal.
+
 ## 1.9.0: January 17th, 2017
 
 ## Added
