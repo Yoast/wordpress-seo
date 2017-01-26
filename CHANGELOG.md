@@ -9,15 +9,14 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## Added
 * Adds prominent words for Dutch.
-* Adds example for testing the relevant words analysis.
+* Adds example for testing the prominent words analysis.
 * Adds the tooltip CSS rule from Yoast SEO to yoastSEO.js.
 
 ## Changed
-* Improves the accessibility for the snippet preview toggle buttons.
+* Improves the accessibility of the snippet preview toggle buttons.
 * Makes the mark buttons tooltips always visible.
 
 ## Fixed
-* Fixes a bug where the initial state of the toggle button of the snippet preview is 'desktop', but should be 'mobile'.
 * Fixes a bug where the measurement elements holder `<div>` breaks the responsive view of the media modal.
 
 ## 1.9.0: January 17th, 2017
