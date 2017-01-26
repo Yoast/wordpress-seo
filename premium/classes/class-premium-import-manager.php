@@ -185,20 +185,23 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Saves all the given redirects.
 	 *
-	 * @param mixed $redirects
+	 * @param mixed  $redirects The redirects to save.
+	 * @param string $format    The format for the redirects.
 	 */
 	protected function save_redirects_from_regex( $redirects, $format ) {
-		if ( is_array( $redirects ) ) {
-			foreach ( $redirects as $redirect ) {
-				$type   = trim( $redirect[1] );
-				$source = trim( $redirect[2] );
-				$target = trim( $redirect[3] );
+		if ( ! is_array( $redirects ) ) {
+			return;
+		}
 
-				if ( '' !== $source && '' !== $target ) {
-					// Adding the redirect to importer class.
-					$this->get_redirect_option()->add( new WPSEO_Redirect( $source, $target, $type, $format ) );
-					$this->redirects_imported = true;
-				}
+		foreach ( $redirects as $redirect ) {
+			$type   = trim( $redirect[1] );
+			$source = trim( $redirect[2] );
+			$target = trim( $redirect[3] );
+
+			if ( '' !== $source && '' !== $target ) {
+				// Adding the redirect to importer class.
+				$this->get_redirect_option()->add( new WPSEO_Redirect( $source, $target, $type, $format ) );
+				$this->redirects_imported = true;
 			}
 		}
 	}
