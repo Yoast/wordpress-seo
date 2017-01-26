@@ -75,13 +75,13 @@ class WPSEO_Premium_Import_Manager_Test extends WPSEO_UnitTestCase {
 		$regex_to_match = '`^Redirect ([0-9]{3}) "([^"]+)" ([a-z0-9-_+/.:%&?=#\][]+)`im';
 
 		return array(
-			// Mentioned in https://github.com/Yoast/wordpress-seo-premium/issues/934
+			// Variant of https://github.com/Yoast/wordpress-seo-premium/issues/934.
 			array(
 				$regex_to_match,
 				'Redirect 301 "/denver-balayage-sal/" https://dothebangthingsalon.com/denver-balayage-salon/',
 				'https://dothebangthingsalon.com/denver-balayage-salon/',
 			),
-			// Mentioned in https://github.com/Yoast/wordpress-seo-premium/issues/934
+			// Variant of https://github.com/Yoast/wordpress-seo-premium/issues/934.
 			array(
 				$regex_to_match,
 				'Redirect 301 "/video/endoscopic-repair-of-tracheal-bronchial-sinus-tract/nqf3kv0qyp" /video/endoscopic-repair-of-tracheal-bronchial-sinus-tract/',
