@@ -421,6 +421,7 @@ class WPSEO_Options {
 
 	/********************** DEPRECATED FUNCTIONS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
@@ -473,4 +474,5 @@ class WPSEO_Options {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::clear_rewrites()' );
 		WPSEO_Utils::clear_rewrites();
 	}
+	// @codeCoverageIgnoreEnd
 }
