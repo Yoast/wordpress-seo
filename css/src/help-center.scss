@@ -92,12 +92,12 @@
 		color: #fff;
 		font-weight: 300;
 
+		// The visibility of the normal tab content gets toggled using display block.
 		&.active {
 			display: block;
 		}
 
 		// Only the video tab content needs to use flexbox.
-		// Needs to work in the post metabox, taxonomy metabox, and setting pages.
 		// Assumes it's always the first tab content.
 		&.active:first-child {
 			display: flex;
@@ -108,8 +108,12 @@
 	.wpseo-tab-video__panel {
 
 		&--video {
-			// Set initial video width to 560px and allow to shrink but not to grow.
+			// The initial video width is set to 560px. We could also use 100%
+			// but then Safari 10 doesn't understand how many items should be on
+			// the flexbox line and drops the text boxes area below the video.
+			// We change the flex-basis value later for IE11 and Edge.
 			flex: 0 1 560px;
+			max-width: 560px;
 			margin-right: 12px;
 			padding-bottom: 12px;
 
@@ -120,19 +124,17 @@
 		}
 
 		&--text {
-			flex-grow: 1;
-			flex-shrink: 1;
 			// https://github.com/philipwalton/flexbugs#11-min-and-max-size-declarations-are-ignored-when-wrapping-flex-items
-			// Fixed in Safari > 10 tested with Safari Technology Preview Release 21 (Safari 10.2, WebKit 12604.1.2)
-			flex-basis: 220px;
-			// Allow to have fluid width just to some extent.
+			// Allow to have fluid width but not less then 220 pixels.
+			// This value can be tweaked as needed.
+			flex: 1 1 220px;
 			min-width: 220px;
-		}
-
-		&__textarea {
-			box-sizing: border-box;
 			// Same max width as the video.
 			max-width: 560px;
+		}
+
+		// The text boxes are just fluid-width block elements.
+		&__textarea {
 			margin: 0 0 12px 0;
 			padding: 15px 15px 5px;
 			border: 1px solid #fff;
@@ -164,13 +166,13 @@
 	}
 
 	// Needs to override some WP rules.
+	#wpseo_meta & h2,
 	h1,
 	h2,
 	h3,
 	h4,
 	h5,
-	h6,
-	#wpseo_meta & h2 {
+	h6 {
 		margin-top: 0.5em;
 		margin-bottom: 1em;
 		padding: 0;
@@ -182,6 +184,7 @@
 }
 
 .wpseo-help-center-item {
+	// Left sidebar menu items.
 	display: inline;
 
 	a {
@@ -221,15 +224,25 @@
 }
 
 @media screen and ( max-width: 1024px ) {
+	// At a 1024px viewport width we're sure the text boxes are below the video.
+	// Actually, it happens even before depending on the admin menu state, number
+	// of columns in the page, etc. At this point we could even switch the video
+	// and text boxes area to display block. Keeping it simple, we just switch
+	// the flex-basis because of IE11 and Edge.
 	.wpseo-tab-video-slideout .wpseo-tab-video__panel {
 
 		&--video {
+			// IE11 and Edge need to switch flex-basis from the initial value
+			// of 560px to 100% to make the video responsive.
+			flex-basis: 100%;
 			margin-right: 0;
 		}
 	}
 
-	// On the post edit screen when the layout is in two columns the switch from
-	// flexbox to a block layout needs to happen earlier.
+	// The switch from flexbox to a block layout normally happens at 782px but
+	// on the post edit screen, when the layout is in 2 columns, it needs to
+	// happen earlier. Thus, this block of rules is basically the same as the
+	// one in the 782px media query. It's just prepended with `.columns-2`.
 	.columns-2 .wpseo-tab-video-slideout {
 		// Switch from flexbox to a block layout.
 		display: block;
@@ -257,12 +270,13 @@
 
 		.wpseo-tab-video__panel {
 
-			&--text {
-				padding: 0 12px;
+			&--video {
+				max-width: none;
 			}
 
-			&__textarea {
+			&--text {
 				max-width: none;
+				padding: 0 12px;
 			}
 		}
 	}
@@ -300,12 +314,13 @@
 
 		.wpseo-tab-video__panel {
 
-			&--text {
-				padding: 0 12px;
+			&--video {
+				max-width: none;
 			}
 
-			&__textarea {
+			&--text {
 				max-width: none;
+				padding: 0 12px;
 			}
 		}
 	}
