@@ -58,7 +58,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 				}
 				.expl a {
 					color: #da3114;
-					font-weight: bold;
+					font-weight: 600;
 				}
 				.expl a:visited {
 					color: #da3114;
