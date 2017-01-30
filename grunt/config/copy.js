@@ -29,7 +29,7 @@ module.exports = {
 					"frontend/**",
 					"images/**",
 					"inc/**",
-					"js/dist/**",
+					"js/dist/**/*.min.js",
 					"languages/**",
 					"vendor/**",
 					"index.php",
