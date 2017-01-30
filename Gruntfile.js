@@ -8,9 +8,11 @@ module.exports = function( grunt ) {
 
 	timeGrunt( grunt );
 
+	let pluginVersion = "4.2";
+
 	// Define project configuration
 	var project = {
-		pluginVersion: "4.0.2",
+		pluginVersion: pluginVersion,
 		paths: {
 			get config() {
 				return this.grunt + "config/";
@@ -58,6 +60,12 @@ module.exports = function( grunt ) {
 		},
 		pkg: grunt.file.readJSON( "package.json" ),
 	};
+
+	let versionParts = pluginVersion.split( "." );
+	if ( versionParts.length === 2 ) {
+		versionParts.push( 0 );
+	}
+	project.pluginVersionSlug = versionParts.join( "" );
 
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {
