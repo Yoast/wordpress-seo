@@ -16,7 +16,6 @@ module.exports = {
 			"css/metabox-410.css": [ "css/src/metabox.scss" ],
 			"css/metabox-primary-category.css": [ "css/src/metabox-primary-category.scss" ],
 			"css/snippet-410.css": [ "css/src/snippet.scss" ],
-			"css/taxonomy-meta.css": [ "css/src/taxonomy-meta.scss" ],
 			"css/toggle-switch-390.css": [ "css/src/toggle-switch.scss" ],
 			"css/wpseo-dismissible-350.css": [ "css/src/wpseo-dismissible.scss" ],
 			"css/yst_plugin_tools-400.css": [ "css/src/yst_plugin_tools.scss" ],
