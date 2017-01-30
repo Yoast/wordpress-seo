@@ -100,3 +100,9 @@
 .yoast-settings__radio + label {
 	margin: 0 1em 0 0;
 }
+
+@media screen and ( max-width: 1024px ) {
+	.yoast-settings {
+		margin-left: 0;
+	}
+}
