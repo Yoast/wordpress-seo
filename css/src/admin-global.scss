@@ -44,3 +44,59 @@
 .yoast-label-strong {
 	font-weight: 600;
 }
+
+// Forms.
+.yoast-settings {
+	max-width: 600px;
+	margin-left: 220px;
+}
+
+.yoast-settings fieldset {
+	padding-top: 5px;
+}
+
+.yoast-settings legend {
+	font-weight: 600;
+}
+
+// By default, text inputs and Textarea are set to display block.
+.yoast-settings__text,
+.yoast-settings__textarea {
+	display: block;
+}
+
+// By default, labels are set to display block.
+.yoast-settings label {
+	display: block;
+	font-weight: 600;
+}
+
+// Radio buttons and checkboxes labels are set to display inline-block.
+.yoast-settings__radio + label,
+.yoast-settings__checkbox + label {
+	display: inline-block;
+}
+
+// Default vertical spacing between blocks of controls.
+.yoast-settings label,
+.yoast-settings fieldset {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+}
+
+.yoast .yoast-settings__checkbox, // Needs higher specificity.
+.yoast-settings__checkbox + label {
+	margin-top: 2em;
+	margin-bottom: 0;
+	// 1em = 13px. Necessary for proper calculation of margins in em.
+	font-size: 1em;
+}
+
+// Radio buttons.
+.yoast-settings__radio {
+	margin-top: 0;
+}
+
+.yoast-settings__radio + label {
+	margin: 0 1em 0 0;
+}
