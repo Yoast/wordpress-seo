@@ -3,7 +3,7 @@
   "license": "GPL-2.0+",
   "description": "Development files for the Yoast SEO plugin",
   "plugin": {
-    "glotpress": "http://translate.yoast.com",
+    "glotpress": "http://translate.wordpress.org",
     "textdomain": "wordpress-seo"
   },
   "pot": {
