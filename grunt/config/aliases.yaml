@@ -71,7 +71,6 @@ release:
   - 'build:images'
   - 'release:css'
   - 'release:js'
-  - 'release:clean'
   - 'build:i18n'
 'release:css':
   - 'build:css'
@@ -81,10 +80,6 @@ release:
   - 'browserify:build'
   - 'browserify:release-es6'
   - 'uglify'
-'release:clean':
-  - 'clean:release-js'
-  - 'clean:release-css'
-  - 'clean:release-misc'
 # Default task
 default:
   - build
