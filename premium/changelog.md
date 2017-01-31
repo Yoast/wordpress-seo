@@ -1,4 +1,7 @@
-### 4.1.0: January, 17th, 2017
+### 4.2.0: January 31st, 2017
+* Adds link suggestions and insights for Dutch.
+
+### 4.1.0: January 17th, 2017
 * Adds a feature toggle to disable link suggestions (site wide).
 * Allows contributors to also use the prominent words that link suggestions depend on, these generated a 403. 
 * Adds German support for Yoast internal linking. 
