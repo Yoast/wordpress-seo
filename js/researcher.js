@@ -49,6 +49,7 @@ var Researcher = function( paper ) {
 		findKeywordInPageTitle: findKeywordInPageTitle,
 		calculateFleschReading: calculateFleschReading,
 		getLinkStatistics: getLinkStatistics,
+		getLinks: getLinks,
 		linkCount: linkCount,
 		imageCount: imageCount,
 		altTagCount: altTagCount,

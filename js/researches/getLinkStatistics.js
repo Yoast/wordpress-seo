@@ -1,6 +1,6 @@
 /** @module analyses/getLinkStatistics */
 
-var getLinks = require( "./getLinks.js" );
+var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
 var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
 var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
@@ -46,7 +46,7 @@ var keywordInAnchor = function( keyword, anchor, locale ) {
 var countLinkTypes = function( paper ) {
 	var keyword = escapeRegExp( paper.getKeyword() );
 	var locale = paper.getLocale();
-	var anchors = getLinks( paper.getText() );
+	var anchors = getAnchors( paper.getText() );
 	var permalink = paper.getPermalink();
 
 	var linkCount = {
