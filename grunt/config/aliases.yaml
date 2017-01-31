@@ -57,6 +57,8 @@ check:
   - 'checktextdomain'
 
 artifact:
+  # Update the version numbers in the relevant files
+  - 'update-version'
   # Build like we normally would
   - 'release'
   # Remove build folder
