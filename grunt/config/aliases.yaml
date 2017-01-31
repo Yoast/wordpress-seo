@@ -77,7 +77,6 @@ release:
   - 'cssmin'
 'release:js':
   - 'copy:dependencies'
-  - 'browserify:build'
   - 'browserify:release-es6'
   - 'uglify'
 # Default task
