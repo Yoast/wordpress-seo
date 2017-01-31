@@ -6,7 +6,6 @@ var removeClass = domManipulation.removeClass;
 
 describe ( "Checks whether an element has a specific class", function() {
 	var mockElement = [];
-	mockElement.nodeType = 1;
 	mockElement.className = "test";
 	it( "Returns true, the element has the specified class", function(){
 		expect( hasClass( mockElement, "test" ) ).toBe( true );
@@ -17,7 +16,6 @@ describe ( "Checks whether an element has a specific class", function() {
 	} );
 
 	var mockElementNoClass = [];
-	mockElementNoClass.nodeType = 1;
 	mockElementNoClass.className = "";
 
 	it( "Returns false, the element doesn't have the specified class, because it has no classes", function() {
@@ -27,7 +25,6 @@ describe ( "Checks whether an element has a specific class", function() {
 
 describe( "Adds a class to an element", function(){
 	var mockElementToAddClass = [];
-	mockElementToAddClass.nodeType = 1;
 	mockElementToAddClass.className = "default";
 	addClass( mockElementToAddClass, "test" );
 
@@ -44,7 +41,6 @@ describe( "Adds a class to an element", function(){
 
 describe( "Removes a class from an element", function(){
 	var mockElementToRemoveClass = [];
-	mockElementToRemoveClass.nodeType = 1;
 	mockElementToRemoveClass.className = "default test";
 	removeClass( mockElementToRemoveClass, "test" );
 
@@ -53,3 +49,11 @@ describe( "Removes a class from an element", function(){
 	} )
 });
 
+describe( "Removes multiple classes from an element", function(){
+	var mockElementToRemoveClass = [];
+	mockElementToRemoveClass.className = "default test1 test2";
+	domManipulation.removeClasses( mockElementToRemoveClass, [ "test1", "test2" ] );
+	it( "Returns the className of the element",function( ) {
+		expect( mockElementToRemoveClass.className ).toBe( "default" );
+	} )
+});
