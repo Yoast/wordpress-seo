@@ -34,7 +34,7 @@
 }
 
 .snippet-editor__view-icon {
-	float: left;
+	float: right;
 	width: 32px;
 	height: 32px;
 	border: none;
@@ -155,10 +155,10 @@
 }
 
 .snippet-editor__heading-icon {
-	padding-left: 45px;
+	padding-right: 45px;
 	background-repeat: no-repeat;
 	/* rtlcss needs this as separate property */
-	background-position: left 20px top 0.6em;
+	background-position: right 20px top 0.6em;
 	background-size: 16px;
 }
 
@@ -170,7 +170,7 @@
 	display: block;
 	position: absolute;
 	top: -3px;
-	left: -22px;
+	right: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23bfbfbf%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -183,7 +183,7 @@
 	display: block;
 	position: absolute;
 	top: -3px;
-	left: -22px;
+	right: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -209,14 +209,14 @@
 
 .snippet-editor__edit-button {
 	display: inline;
-	float: left;
+	float: right;
 	overflow: hidden;
 	box-sizing: border-box;
 	margin-top: 15px;
-	padding-left: 32px;
+	padding-right: 32px;
 	background: #f7f7f7 url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555555%22%20d%3D%22M491%201536l91%2D91%2D235%2D235%2D91%2091v107h128v128h107zm523%2D928q0%2D22%2D22%2D22%2D10%200%2D17%207l%2D542%20542q%2D7%207%2D7%2017%200%2022%2022%2022%2010%200%2017%2D7l542%2D542q7%2D7%207%2D17zm%2D54%2D192l416%20416%2D832%20832h%2D416v%2D416zm683%2096q0%2053%2D37%2090l%2D166%20166%2D416%2D416%20166%2D165q36%2D38%2090%2D38%2053%200%2091%2038l235%20234q37%2039%2037%2091z%22%20%2F%3E%3C%2Fsvg%3E") no-repeat;
 	/* rtlcss needs this as separate property */
-	background-position: left 8px top 50%;
+	background-position: right 8px top 50%;
 	background-size: 16px;
 }
 
@@ -240,7 +240,7 @@
 	position: absolute;
 	top: -3px;
 	top: 20px;
-	left: -22px;
+	right: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23bfbfbf%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -253,7 +253,7 @@
 	position: absolute;
 	top: -3px;
 	top: 20px;
-	left: -22px;
+	right: -22px;
 	width: 24px;
 	height: 24px;
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231074a8%22%20d%3D%22M1152%20896q0%2026%2D19%2045l%2D448%20448q%2D19%2019%2D45%2019t%2D45%2D19%2D19%2D45v%2D896q0%2D26%2019%2D45t45%2D19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E");
@@ -330,7 +330,7 @@
 
 .snippet_container .url {
 	display: inline-block;
-	float: left;
+	float: right;
 	color: #006621;
 	font-size: 14px;
 	font-style: normal;
@@ -338,12 +338,12 @@
 }
 
 .snippet_container .down_arrow {
-	float: left;
+	float: right;
 	margin-top: 6px;
-	margin-left: 5px;
+	margin-right: 5px;
 	border-top: 5px solid #006621;
-	border-right: 4px solid transparent;
 	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
 }
 
 .snippet_container .desc-default {
@@ -460,11 +460,11 @@
 
 /* css for analyzer */
 .wpseoanalysis {
-	padding-right: 0;
+	padding-left: 0;
 }
 
 .wpseo-score-text {
-	float: left;
+	float: right;
 	width: 86%;
 	/* make room for score and mark icons, consider to use a better layout model */
 	width: calc( 100% - 56px);
@@ -472,10 +472,10 @@
 
 /* needs higher specificity than other score icons */
 .assessment-results .wpseo-score-icon {
-	float: left;
+	float: right;
 	width: 12px;
 	height: 12px;
-	margin: 3px 10px 0 0;
+	margin: 3px 0 0 10px;
 	border-radius: 50%;
 	background: #888;
 }
@@ -526,7 +526,7 @@ li.score:after {
 .assessment-results__mark.icon-eye-inactive,
 .assessment-results__mark.icon-eye-active,
 .assessment-results__mark.icon-eye-disabled {
-	float: left;
+	float: right;
 	width: 28px;
 	height: 28px;
 	margin: -5px 3px 0 3px;
@@ -564,7 +564,7 @@ li.score:after {
 
 .assessment-results__mark-container {
 	display: inline-block;
-	float: right;
+	float: left;
 	width: 33px;
 	min-height: 1px;
 }
@@ -577,11 +577,11 @@ li.score:after {
 
 @keyframes animatedBackground {
 	from {
-		background-position: 0 0;
+		background-position: 100% 0;
 	}
 
 	to {
-		background-position: 100% 0;
+		background-position: 0% 0;
 	}
 }
 
@@ -592,8 +592,8 @@ li.score:after {
 	margin: 10px 0 10px 0;
 	border: 1px solid #dfdfdf;
 	/*multiple background definitions for the sake of browsercompatibility*/
-	background-image: linear-gradient(to left, #fff, #0063ff, #fff, #0063ff);
-	background-position: 0 0;
+	background-image: linear-gradient(to right, #fff, #0063ff, #fff, #0063ff);
+	background-position: 100% 0;
 	background-size: 300% 100%;
 	animation: animatedBackground 5s linear infinite;
 }
@@ -689,7 +689,7 @@ button.yoast-tooltip {
 .yoast-tooltip-se::after,
 .yoast-tooltip-sw::after {
 	top: 100%;
-	right: 50%;
+	left: 50%;
 	margin-top: 5px;
 }
 
@@ -697,26 +697,26 @@ button.yoast-tooltip {
 .yoast-tooltip-se::before,
 .yoast-tooltip-sw::before {
 	top: auto;
-	right: 50%;
+	left: 50%;
 	bottom: -5px;
-	margin-right: -5px;
+	margin-left: -5px;
 	border-bottom-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-se::after {
-	right: auto;
-	left: 50%;
-	margin-left: -15px;
+	left: auto;
+	right: 50%;
+	margin-right: -15px;
 }
 
 .yoast-tooltip-sw::after {
-	margin-right: -15px;
+	margin-left: -15px;
 }
 
 .yoast-tooltip-n::after,
 .yoast-tooltip-ne::after,
 .yoast-tooltip-nw::after {
-	right: 50%;
+	left: 50%;
 	bottom: 100%;
 	margin-bottom: 5px;
 }
@@ -725,32 +725,32 @@ button.yoast-tooltip {
 .yoast-tooltip-ne::before,
 .yoast-tooltip-nw::before {
 	top: -5px;
-	right: 50%;
+	left: 50%;
 	bottom: auto;
-	margin-right: -5px;
+	margin-left: -5px;
 	border-top-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-ne::after {
-	right: auto;
-	left: 50%;
-	margin-left: -15px;
+	left: auto;
+	right: 50%;
+	margin-right: -15px;
 }
 
 .yoast-tooltip-nw::after {
-	margin-right: -15px;
+	margin-left: -15px;
 }
 
 .yoast-tooltip-s::after,
 .yoast-tooltip-n::after {
-	-ms-transform: translateX(50%);
-	transform: translateX(50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
 }
 
 .yoast-tooltip-w::after {
-	right: 100%;
+	left: 100%;
 	bottom: 50%;
-	margin-right: 5px;
+	margin-left: 5px;
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
@@ -758,25 +758,25 @@ button.yoast-tooltip {
 .yoast-tooltip-w::before {
 	top: 50%;
 	bottom: 50%;
-	left: -5px;
+	right: -5px;
 	margin-top: -5px;
-	border-left-color: rgba(0, 0, 0, 0.8);
+	border-right-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-e::after {
 	bottom: 50%;
-	left: 100%;
-	margin-left: 5px;
+	right: 100%;
+	margin-right: 5px;
 	-ms-transform: translateY(50%);
 	transform: translateY(50%);
 }
 
 .yoast-tooltip-e::before {
 	top: 50%;
-	right: -5px;
+	left: -5px;
 	bottom: 50%;
 	margin-top: -5px;
-	border-right-color: rgba(0, 0, 0, 0.8);
+	border-left-color: rgba(0, 0, 0, 0.8);
 }
 
 .yoast-tooltip-multiline::after {
@@ -792,15 +792,15 @@ button.yoast-tooltip {
 
 .yoast-tooltip-multiline.yoast-tooltip-s::after,
 .yoast-tooltip-multiline.yoast-tooltip-n::after {
-	right: auto;
-	left: 50%;
-	-ms-transform: translateX(-50%);
-	transform: translateX(-50%);
+	left: auto;
+	right: 50%;
+	-ms-transform: translateX(50%);
+	transform: translateX(50%);
 }
 
 .yoast-tooltip-multiline.yoast-tooltip-w::after,
 .yoast-tooltip-multiline.yoast-tooltip-e::after {
-	right: 100%;
+	left: 100%;
 }
 
 @media screen and (min-width: 0\0) {
@@ -820,7 +820,7 @@ button.yoast-tooltip {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
 	.yoast-tooltip-w::after {
-		margin-right: 4.5px;
+		margin-left: 4.5px;
 	}
 }
 
@@ -843,7 +843,7 @@ button.yoast-tooltip {
 	color: #a4286a;
 	background: none;
 	line-height: 19px;
-	text-align: left;
+	text-align: right;
 	cursor: pointer;
 }
 
@@ -857,7 +857,7 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-container__handle .dashicons-before:before {
-	margin-right: 5px;
+	margin-left: 5px;
 }
 
 .wpseotab .wpseo-tab-video-container {
@@ -912,17 +912,17 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
-	float: left;
+	float: right;
 	/* min-width to make two boxes always have the same min width */
 	min-width: 234px;
 	/* max-width to make two boxes take the same space of the video above: 560px */
 	max-width: 242px;
-	margin: 0 12px 1em 0;
+	margin: 0 0 1em 12px;
 	padding: 15px 15px 5px;
 	border: 1px solid;
 	border-color: white;
 	border-radius: 30px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 	color: white;
 	background-color: #a4286a;
 }
@@ -940,7 +940,7 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .yoast-help-center-tabs {
 	width: 180px;
-	padding: 0 1em 1em 0;
+	padding: 0 0 1em 1em;
 	color: white;
 	background-color: #a4286a;
 
@@ -960,8 +960,8 @@ button.yoast-tooltip {
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
 	/* In the settings pages is not a children of the flexbox container. */
-	float: left;
-	margin-right: 1em;
+	float: right;
+	margin-left: 1em;
 	padding-bottom: 1em;
 
 	-ms-flex: 0 0 auto;
@@ -988,7 +988,7 @@ button.yoast-tooltip {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--text div:last-child {
-	margin-right: 0;
+	margin-left: 0;
 }
 
 /* When it's inside the metabox (posts, terms, media ). */
@@ -1023,7 +1023,7 @@ button.yoast-tooltip {
 }
 
 .wpseo-help-center-item a.dashicons-before:before {
-	margin-right: 3px;
+	margin-left: 3px;
 	text-decoration: none;
 }
 
@@ -1051,9 +1051,9 @@ button.yoast-tooltip {
 }
 
 .yoast-section__heading-icon {
-	padding-left: 45px;
+	padding-right: 45px;
 	background-repeat: no-repeat;
-	background-position: left 20px top 0.6em;
+	background-position: right 20px top 0.6em;
 	background-size: 16px;
 }
 
@@ -1126,16 +1126,36 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-metabox-sidebar {
 	display: table-cell;
 	width: 40px;
-	padding: 0 5px 0 0;
+	padding: 0 0 0 5px;
 	background-color: #fff;
 	vertical-align: top;
 }
 
+.wpseo-metabox-sidebar ul {
+	margin: 0;
+}
+
+.wpseo-metabox-sidebar li {
+	display: inline-block;
+	/* Microsoft Edge 38. */
+	margin-bottom: 0;
+	padding: 5px;
+}
+
+.wpseo-metabox-sidebar a {
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	font-size: 20px;
+	line-height: 30px;
+	text-decoration: none;
+}
+
 .wpseo-metabox-sidebar li span {
-	margin: 3px 0 0 -5px;
-	padding: 0 2px 0 5px;
+	margin: 3px -5px 0 0;
+	padding: 0 5px 0 2px;
 	border: 0 solid transparent;
-	border-left-width: 3px;
+	border-right-width: 3px;
 	border-radius: 3px;
 }
 .wpseo-metabox-sidebar li span.wpseo-buy-premium {
@@ -1160,8 +1180,8 @@ ul.wpseo-metabox-tabs li.active {
 
 /* Floated to reset white space between list items */
 ul.wpseo-metabox-tabs li {
-	float: left;
-	margin-right: 5px;
+	float: right;
+	margin-left: 5px;
 	margin-bottom: -1px;
 	padding: 0;
 	border: 1px solid #dfdfdf;
@@ -1211,11 +1231,11 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 /* Bigger right padding only for the content tab and the main keyword tabs */
 .wpseo-metabox-tabs .wpseo_content_tab a,
 .wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
-	padding-right: 12px;
+	padding-left: 12px;
 }
 
 .wpseo-metabox-tabs .wpseo-score-icon {
-	margin-left: 0;
+	margin-right: 0;
 }
 
 #wpseo-meta-section-social .wpseo-metabox-tabs .wpseo_tablink {
@@ -1234,32 +1254,10 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 	font-size: 30px;
 }
 
-.wpseo-metabox-sidebar a {
-	display: inline-block;
-	width: 35px;
-	height: 35px;
-	font-size: 20px;
-	line-height: 30px;
-	text-decoration: none;
-}
-
-.wpseo-metabox-sidebar ul {
-	margin: 0;
-}
-
-.wpseo-metabox-sidebar li {
-	margin-bottom: 0;
-	padding: 5px;
-}
-
 .wpseo-metabox-tabs-div div.wpseo-tabs-panel {
 	overflow: auto;
 	padding: 0.5em 0.9em;
 	border: 1px solid;
-}
-
-.wpseo-heading {
-	padding-left: 10px;
 }
 
 #wpseo_meta .inside {
@@ -1273,7 +1271,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 
 #wpseo_meta .wpseo-tab-video-container h2 {
 	margin-bottom: 20px; 
-	padding-left: 0;
+	padding-right: 0;
 	border: 0;
 	font-size: 1.3em;
 }
@@ -1338,7 +1336,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 .wpseotab input[type="radio"] + label {
-	margin: 0 1em 0 0;
+	margin: 0 0 0 1em;
 }
 
 /* Descriptions and error messages below the fields. */
@@ -1354,7 +1352,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 .wpseotab .wpseo_image_upload_button {
-	margin-left: 3px;
+	margin-right: 3px;
 }
 
 .good,
@@ -1390,7 +1388,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 #focuskwresults li {
-	margin: 0 0 0 20px;
+	margin: 0 20px 0 0;
 	list-style-type: disc;
 }
 
@@ -1459,7 +1457,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseotab .yoast_help.yoast-help-button {
-	float: right;
+	float: left;
 }
 
 .wpseotab.content .yoast_help.yoast-help-button {
@@ -1467,13 +1465,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseo-admin-page .yoast_help.yoast-help-button {
-	margin-right: 6px;
+	margin-left: 6px;
 }
 
 .yoast_help.yoast-help-button:before {
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	padding: 4px;
 	content: "\f223";
 }
@@ -1503,7 +1501,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast-seo-help-container {
-	float: left;
+	float: right;
 	width: 100%;
 	max-width: none;
 }
@@ -1537,7 +1535,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .yst-traffic-light {
 	width: 19px;
 	height: 30px;
-	margin: 0 0 0 5px;
+	margin: 0 5px 0 0;
 }
 
 .yst-traffic-light .traffic-light-color {
@@ -1568,18 +1566,18 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
  * Traffic light in publish box
  */
 #wpseo-score {
-	float: left;
-	margin: 0 5px 0 -5px;
+	float: right;
+	margin: 0 -5px 0 5px;
 }
 
 /**
 * Content and SEO score in publish bar
 */
 .yoast-seo-score .yoast-logo.svg {
-	float: left;
+	float: right;
 	width: 18px;
 	height: 18px;
-	margin-right: 5px;
+	margin-left: 5px;
 	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23999%22%20d%3D%22M403%20218h691l%2D26%2072h%2D665q%2D110%200%2D188%2E5%2079t%2D78%2E5%20189v771q0%2095%2060%2E5%20169%2E5t153%2E5%2093%2E5q23%205%2098%205v72h%2D45q%2D140%200%2D239%2E5%2D100t%2D99%2E5%2D240v%2D771q0%2D140%2099%2E5%2D240t239%2E5%2D100zm851%2D218h247l%2D482%201294q%2D23%2061%2D40%2E5%20103%2E5t%2D45%2098%2D54%2093%2E5%2D64%2E5%2078%2E5%2D79%2E5%2065%2D95%2E5%2041%2D116%2018%2E5v%2D195q163%2D26%20220%2D182%2020%2D52%2020%2D105%200%2D54%2D20%2D106l%2D285%2D733h228l187%20585zm474%20558v1111h%2D795q37%2D55%2045%2D73h678v%2D1038q0%2D85%2D49%2E5%2D155t%2D129%2E5%2D99l25%2D67q101%2034%20163%2E5%20123%2E5t62%2E5%20197%2E5z%22%2F%3E%3C%2Fsvg%3E") no-repeat;
 	background-size: 18px;
 }
@@ -1613,14 +1611,14 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseo-buy-premium {
-	padding-right: 5px; 
+	padding-left: 5px; 
 	color: #a4286a;
 }
 
 .wpseo-metabox-go-to::after {
 	position: static;
 	top: auto;
-	right: auto;
+	left: auto;
 	width: auto;
 	height: auto;
 	border: none; 
@@ -1636,7 +1634,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .wpseo-metabox-buy-premium {
 	position: absolute;
 	top: 6px;
-	right: 12px;
+	left: 12px;
 	vertical-align: middle;
 }
 
@@ -1645,7 +1643,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 ul.wpseo-metabox-premium-advantages {
-	padding-left: 1.5em; 
+	padding-right: 1.5em; 
 	list-style: disc;
 }
 
@@ -1682,13 +1680,78 @@ ul.wpseo-metabox-premium-advantages {
 }
 
 @media screen and (max-width: 782px) {
+	.wpseo-metabox-sidebar {
+		display: inline-block;
+		/* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
+		width: auto;
+		margin: 0 -5px 10px 0;
+		padding: 0;
+	}
+
+	.wpseo-meta-section.active {
+		display: block;
+		clear: both;
+	}
+
+	.wpseo-metabox-sidebar ul {
+		display: inline-block;
+		/* Contain floated children. */
+	}
+
+	.wpseo-metabox-sidebar li {
+		float: right;
+		text-align: center;
+	}
+
+	.wpseo-metabox-sidebar .wpseo-meta-section-link {
+		width: 40px;
+		height: 40px;
+	}
+
+	.wpseo-meta-section-link .dashicons,
+	.wpseo-meta-section-link .yst-traffic-light-container {
+		display: block;
+		width: 40px;
+		height: 35px;
+		/* 35+5+2+3=45 must be 5px taller than the container to show the border outside of the contaiiner. */
+		margin: 0;
+		padding: 5px 0 2px;
+		border-bottom-width: 3px;
+		border-right-width: 0;
+	}
+
+/* Traffic light svg and CSS generated dashicons. */
+	.wpseo-meta-section-link .yst-traffic-light,
+	.wpseo-meta-section-link .dashicons:before {
+		margin: 0;
+	}
+
+/* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
+	.wpseo-meta-section-link .dashicons-admin-generic:before {
+		position: relative;
+		right: 1px;
+	}
+
+/* Go Premium dashicon. */
+	.wpseo-metabox-buy-premium .wpseo-buy-premium {
+		display: inline-block;
+		height: auto;
+		padding-left: 5px;
+	}
+
+	.wpseo-metabox-buy-premium .dashicons:before {
+		vertical-align: top;
+	}
+
 	.yoast-help-panel {
 		max-width: none !important;
 	}
+
 	#wpseo-crawl-issues-table-form .subsubsub {
 		float: none;
 		max-width: calc( 100vw - 20px);
 	}
+
 	#wpseo-crawl-issues-table-form .yoast-help-button {
 		margin-top: 3px;
 	}
@@ -1704,6 +1767,7 @@ ul.wpseo-metabox-premium-advantages {
 	.wpseotab {
 		padding: 20px 20px;
 	}
+
 	.wpseotab.content {
 		padding: 20px 0;
 	}
