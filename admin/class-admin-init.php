@@ -440,18 +440,16 @@ class WPSEO_Admin_Init {
 	 * @link https://github.com/Yoast/i18n-module
 	 */
 	private function register_i18n_promo_class() {
-		new yoast_i18n(
-			array(
-				'textdomain'     => 'wordpress-seo',
-				'project_slug'   => 'wordpress-seo',
-				'plugin_name'    => 'Yoast SEO',
-				'hook'           => 'wpseo_admin_promo_footer',
-				'glotpress_url'  => 'http://translate.yoast.com/gp/',
-				'glotpress_name' => 'Yoast Translate',
-				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
-				'register_url'   => 'https://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
-			)
-		);
+		// BC, because an older version of the i18n-module didn't have this class.
+		if ( class_exists( 'Yoast_I18n_WordPressOrg' ) ) {
+			new Yoast_I18n_WordPressOrg(
+				array(
+					'textdomain'  => 'wordpress-seo',
+					'plugin_name' => 'Yoast SEO',
+					'hook'        => 'wpseo_admin_promo_footer',
+				)
+			);
+		}
 	}
 
 	/**

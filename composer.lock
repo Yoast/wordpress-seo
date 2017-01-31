@@ -185,22 +185,22 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "2c617396446eac6123f2df49ffe5cb7356bbd65a"
+                "reference": "f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/2c617396446eac6123f2df49ffe5cb7356bbd65a",
-                "reference": "2c617396446eac6123f2df49ffe5cb7356bbd65a",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047",
+                "reference": "f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "classmap": [
-                    "i18n-module.php"
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -219,7 +219,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-01-03 11:28:09"
+            "time": "2017-01-23 13:39:06"
         },
         {
             "name": "yoast/license-manager",
@@ -301,7 +301,7 @@
                 }
             ],
             "description": "A package to integrate the helpscout beacon into WordPress",
-            "time": "2016-07-14 09:16:23"
+            "time": "2016-06-14 09:21:49"
         }
     ],
     "packages-dev": [
@@ -311,12 +311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeclimate/php-test-reporter.git",
-                "reference": "c1e1d55738449147e29eead15cdedf3ff66fdca1"
+                "reference": "8c6e6b9331252029b15135830231f6141651863d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/c1e1d55738449147e29eead15cdedf3ff66fdca1",
-                "reference": "c1e1d55738449147e29eead15cdedf3ff66fdca1",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/8c6e6b9331252029b15135830231f6141651863d",
+                "reference": "8c6e6b9331252029b15135830231f6141651863d",
                 "shasum": ""
             },
             "require": {
@@ -361,7 +361,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2016-05-17 22:29:19"
+            "time": "2017-01-19 23:19:56"
         },
         {
             "name": "guzzle/guzzle",

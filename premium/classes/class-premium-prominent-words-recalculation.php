@@ -181,7 +181,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	public function enqueue() {
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-410' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
+		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-420' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
 
 		$has_prominent_words = $this->count_posts_prominent_words( 'post' );
 		$has_no_prominent_words = $this->count_posts_without_prominent_words( 'post' );

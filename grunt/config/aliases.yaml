@@ -21,7 +21,7 @@ build:
   - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
-  - 'copy'
+  - 'copy:dependencies'
   - 'browserify:build'
   - 'uglify'
 
@@ -56,24 +56,31 @@ check:
 'check:i18n':
   - 'checktextdomain'
 
+artifact:
+  # Update the version numbers in the relevant files
+  - 'update-version'
+  # Build like we normally would
+  - 'release'
+  # Remove build folder
+  - 'clean:artifact'
+  # Copy only the relevant files to the folder
+  - 'copy:artifact'
+  # Create a zip file
+  - 'compress:artifact'
+
 # Get the project ready for release
 release:
   - 'build:images'
   - 'release:css'
   - 'release:js'
-  - 'release:clean'
+  - 'build:i18n'
 'release:css':
   - 'build:css'
   - 'cssmin'
 'release:js':
-  - 'copy'
-  - 'browserify:build'
+  - 'copy:dependencies'
   - 'browserify:release-es6'
   - 'uglify'
-'release:clean':
-  - 'clean:release-js'
-  - 'clean:release-css'
-  - 'clean:release-misc'
 # Default task
 default:
   - build

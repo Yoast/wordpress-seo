@@ -220,7 +220,7 @@ class WPSEO_Options {
 	 * Get an option only if it's been auto-loaded.
 	 *
 	 * @static
-	 * 
+	 *
 	 * @param string     $option  The option to retrieve.
 	 * @param bool|mixed $default A default value to return.
 	 *
