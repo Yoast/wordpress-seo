@@ -215,7 +215,6 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().transitionWords );
-	combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
 	combinations = filterFunctionWords( combinations, functionWords().interjections );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().miscellaneous );
@@ -225,6 +224,7 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
+			combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
 			break;
 		case "de":
 		case "nl":
@@ -232,6 +232,7 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().interrogativeProAdverbs );
+			combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
 			break;
 	}
 	return combinations;
