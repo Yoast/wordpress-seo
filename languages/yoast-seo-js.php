@@ -66,7 +66,7 @@ $generated_i18n_strings = array(
 
 	// Reference: node_modules/yoastseo/js/assessments/keywordStopWordsAssessment.js:20
 	/* Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-	_n( 'The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info.', 'The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info.', 1, 'wordpress-seo' ),
+	_n_noop( 'The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info.', 'The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/metaDescriptionKeywordAssessment.js:13
 	__( 'The meta description contains the focus keyword.', 'wordpress-seo' ),
@@ -103,7 +103,7 @@ $generated_i18n_strings = array(
 
 	// Reference: node_modules/yoastseo/js/assessments/paragraphTooLongAssessment.js:68
 	/* Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value */
-	_n( '%1$d of the paragraphs contains more than the recommended maximum of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?', '%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of these paragraphs is about the same topic, and therefore belongs in a single paragraph?', 1, 'wordpress-seo' ),
+	_n_noop( '%1$d of the paragraphs contains more than the recommended maximum of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?', '%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of these paragraphs is about the same topic, and therefore belongs in a single paragraph?', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/passiveVoiceAssessment.js:54
 	/* Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
@@ -118,7 +118,7 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/assessments/sentenceBeginningsAssessment.js:56
 	/* Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
 	   %2$d expands to the number of consecutive sentences starting with the same word. */
-	_n( 'The text contains %2$d consecutive sentences starting with the same word. Try to mix things up!', 'The text contains %1$d instances where %2$d or more consecutive sentences start with the same word. Try to mix things up!', 1, 'wordpress-seo' ),
+	_n_noop( 'The text contains %2$d consecutive sentences starting with the same word. Try to mix things up!', 'The text contains %1$d instances where %2$d or more consecutive sentences start with the same word. Try to mix things up!', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/sentenceLengthInDescriptionAssessment.js:45
 	/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
@@ -128,7 +128,7 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/assessments/sentenceLengthInDescriptionAssessment.js:56
 	/* Translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
 	   %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag. */
-	_n( 'The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to shorten this sentence.', 'The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to shorten these sentences.', 1, 'wordpress-seo' ),
+	_n_noop( 'The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to shorten this sentence.', 'The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to shorten these sentences.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/sentenceLengthInTextAssessment.js:79
 	/* Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
@@ -149,7 +149,7 @@ $generated_i18n_strings = array(
 	__( 'The amount of words following each of the subheadings doesn\'t exceed the recommended maximum of %1$d words, which is great.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/subheadingDistributionTooLongAssessment.js:81
-	_n( '%1$d of the subheadings is followed by more than the recommended maximum of %2$d words. Try to insert another subheading.', '%1$d of the subheadings are followed by more than the recommended maximum of %2$d words. Try to insert additional subheadings.', 1, 'wordpress-seo' ),
+	_n_noop( '%1$d of the subheadings is followed by more than the recommended maximum of %2$d words. Try to insert another subheading.', '%1$d of the subheadings are followed by more than the recommended maximum of %2$d words. Try to insert additional subheadings.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/subheadingsKeywordAssessment.js:14
 	__( 'You have not used the focus keyword in any subheading (such as an H2) in your copy.', 'wordpress-seo' ),
@@ -169,18 +169,18 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/assessments/textLengthAssessment.js:94
 	/* Translators: %1$d expands to the number of words in the text.
 	   Translators: %1$d expands to the number of words in the text */
-	_n( 'The text contains %1$d word.', 'The text contains %1$d words.', 1, 'wordpress-seo' ),
+	_n_noop( 'The text contains %1$d word.', 'The text contains %1$d words.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/taxonomyTextLengthAssessment.js:26
 	// Reference: node_modules/yoastseo/js/assessments/textLengthAssessment.js:24
 	/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words. */
-	_n( 'This is more than or equal to the recommended minimum of %2$d word.', 'This is more than or equal to the recommended minimum of %2$d words.', 1, 'wordpress-seo' ),
+	_n_noop( 'This is more than or equal to the recommended minimum of %2$d word.', 'This is more than or equal to the recommended minimum of %2$d words.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/taxonomyTextLengthAssessment.js:45
 	// Reference: node_modules/yoastseo/js/assessments/textLengthAssessment.js:43
 	/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words.
 	   Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-	_n( 'This is slightly below the recommended minimum of %2$d word. Add a bit more copy.', 'This is slightly below the recommended minimum of %2$d words. Add a bit more copy.', 1, 'wordpress-seo' ),
+	_n_noop( 'This is slightly below the recommended minimum of %2$d word. Add a bit more copy.', 'This is slightly below the recommended minimum of %2$d words. Add a bit more copy.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/taxonomyTextLengthAssessment.js:64
 	// Reference: node_modules/yoastseo/js/assessments/taxonomyTextLengthAssessment.js:83
@@ -188,13 +188,13 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/assessments/textLengthAssessment.js:81
 	/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words.
 	   Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-	_n( 'This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.', 'This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.', 1, 'wordpress-seo' ),
+	_n_noop( 'This is below the recommended minimum of %2$d word. Add more content that is relevant for the topic.', 'This is below the recommended minimum of %2$d words. Add more content that is relevant for the topic.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/taxonomyTextLengthAssessment.js:102
 	// Reference: node_modules/yoastseo/js/assessments/textLengthAssessment.js:100
 	/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words.
 	   Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words */
-	_n( 'This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.', 'This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.', 1, 'wordpress-seo' ),
+	_n_noop( 'This is far below the recommended minimum of %2$d word. Add more content that is relevant for the topic.', 'This is far below the recommended minimum of %2$d words. Add more content that is relevant for the topic.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/textCompetingLinksAssessment.js:20
 	__( 'You\'re linking to another page with the focus keyword you want this page to rank for. Consider changing that if you truly want this page to rank.', 'wordpress-seo' ),
@@ -262,7 +262,7 @@ $generated_i18n_strings = array(
 
 	// Reference: node_modules/yoastseo/js/assessments/urlStopWordsAssessment.js:20
 	/* Translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
-	_n( 'The slug for this page contains a %1$sstop word%2$s, consider removing it.', 'The slug for this page contains %1$sstop words%2$s, consider removing them.', 1, 'wordpress-seo' ),
+	_n_noop( 'The slug for this page contains a %1$sstop word%2$s, consider removing it.', 'The slug for this page contains %1$sstop words%2$s, consider removing them.', 'wordpress-seo' ),
 
 	// Reference: node_modules/yoastseo/js/assessments/urlStopWordsAssessment.js:46
 	/* Translators: this link is referred to in the content analysis when a slug contains one or more stop words */
