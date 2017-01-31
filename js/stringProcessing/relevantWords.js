@@ -4,6 +4,7 @@ var WordCombination = require( "../values/WordCombination" );
 var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 var germanFunctionWords = require( "../researches/german/functionWords.js" );
 var englishFunctionWords = require( "../researches/english/functionWords.js" );
+var dutchFunctionWords = require( "../researches/dutch/functionWords" );
 var countSyllables = require( "../stringProcessing/syllables/count.js" );
 var getLanguage = require( "../helpers/getLanguage.js" );
 
@@ -226,6 +227,7 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
 			break;
 		case "de":
+		case "nl":
 			combinations = filterFunctionWords( combinations, functionWords().verbs );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().beginningVerbs );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
@@ -246,6 +248,9 @@ function getRelevantWords( text, locale ) {
 	switch( getLanguage( locale ) ) {
 		case "de":
 			functionWords = germanFunctionWords;
+			break;
+		case "nl":
+			functionWords = dutchFunctionWords;
 			break;
 		default:
 		case "en":

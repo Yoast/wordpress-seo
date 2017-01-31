@@ -48,12 +48,12 @@ var ContentAssessor = function( i18n, options ) {
 require( "util" ).inherits( ContentAssessor, Assessor );
 
 /**
- * Calculates the weighted rating for English languages based on a given rating.
+ * Calculates the weighted rating for languages that have all assessments based on a given rating.
  *
  * @param {number} rating The rating to be weighted.
  * @returns {number} The weighted rating.
  */
-ContentAssessor.prototype.calculatePenaltyPointsEnglish = function( rating ) {
+ContentAssessor.prototype.calculatePenaltyPointsFullSupport = function( rating ) {
 	switch ( rating ) {
 		case "bad":
 			return 3;
@@ -66,12 +66,12 @@ ContentAssessor.prototype.calculatePenaltyPointsEnglish = function( rating ) {
 };
 
 /**
- * Calculates the weighted rating for non-English languages based on a given rating.
+ * Calculates the weighted rating for languages that don't have all assessments based on a given rating.
  *
  * @param {number} rating The rating to be weighted.
  * @returns {number} The weighted rating.
  */
-ContentAssessor.prototype.calculatePenaltyPointsNonEnglish = function( rating ) {
+ContentAssessor.prototype.calculatePenaltyPointsPartialSupport = function( rating ) {
 	switch ( rating ) {
 		case "bad":
 			return 4;
@@ -81,6 +81,18 @@ ContentAssessor.prototype.calculatePenaltyPointsNonEnglish = function( rating ) 
 		case "good":
 			return 0;
 	}
+};
+
+/**
+ * Determines whether a language is fully supported. If a language supports 8 content assessments
+ * it is fully supported
+ *
+ * @returns {boolean} True if fully supported.
+ */
+ContentAssessor.prototype._allAssessmentsSupported = function() {
+	var numberOfAssessments = 8;
+	var applicableAssessments = this.getApplicableAssessments();
+	return applicableAssessments.length === numberOfAssessments;
 };
 
 /**
@@ -94,11 +106,11 @@ ContentAssessor.prototype.calculatePenaltyPoints = function() {
 	var penaltyPoints = map( results, function( result ) {
 		var rating = scoreToRating( result.getScore() );
 
-		if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
-			return this.calculatePenaltyPointsEnglish( rating );
+		if ( this._allAssessmentsSupported() ) {
+			return this.calculatePenaltyPointsFullSupport( rating );
 		}
 
-		return this.calculatePenaltyPointsNonEnglish( rating );
+		return this.calculatePenaltyPointsPartialSupport( rating );
 	}.bind( this ) );
 
 	return sum( penaltyPoints );
@@ -118,7 +130,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
 		return 30;
 	}
 
-	if ( this.getPaper().getLocale().indexOf( "en_" ) > -1 ) {
+	if ( this._allAssessmentsSupported() ) {
 		// Determine the total score based on the total penalty points.
 		if ( totalPenaltyPoints > 6 ) {
 			// A red indicator.

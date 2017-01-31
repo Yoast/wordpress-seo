@@ -5,6 +5,36 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.10.0: January 31st, 2017
+
+## Added
+* Adds prominent words for Dutch.
+* Adds example for testing the prominent words analysis.
+* Adds the tooltip CSS rule from Yoast SEO to yoastSEO.js.
+
+## Changed
+* Improves the accessibility of the snippet preview toggle buttons.
+* Makes the mark buttons tooltips always visible.
+
+## Fixed
+* Fixes a bug where the measurement elements holder `<div>` breaks the responsive view of the media modal.
+
+## 1.9.0: January 17th, 2017
+
+## Added
+
+* Adds mobile snippet preview.
+* Adds sentence length check for Dutch.
+* Adds sentence beginnings check for Dutch.
+* Adds transition words for Dutch.
+* Adds German prominent words.
+
+## Changed
+
+* Removes unused assessments; sentence length variation, subheading length, 
+    subheading presence, subheading distribution too short, paragraph too short
+* Makes the stop words check language dependant.
+
 ## 1.8.0: December 13th, 2016
 
 ## Added

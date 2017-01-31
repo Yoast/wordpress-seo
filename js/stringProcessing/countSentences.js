@@ -12,9 +12,7 @@ module.exports = function( text ) {
 	var sentences = getSentences( text );
 	var sentenceCount = 0;
 	for ( var i = 0; i < sentences.length; i++ ) {
-		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {
-			sentenceCount++;
-		}
+		sentenceCount++;
 	}
 	return sentenceCount;
 };

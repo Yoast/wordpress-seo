@@ -51,6 +51,10 @@ describe( "A content assesor", function() {
 		});
 
 		it( "should return 3 for a red assessment result", function() {
+			contentAssessor._allAssessmentsSupported = function () {
+				return true;
+			};
+
 			results = [
 				new AssessmentResult({ score: 3 })
 			];
@@ -73,6 +77,9 @@ describe( "A content assesor", function() {
 		});
 
 		it( "should return an aggregate for a mixed resultset", function() {
+			contentAssessor._allAssessmentsSupported = function () {
+				return true;
+			};
 			results = [
 				new AssessmentResult({ score: 9 }),
 				new AssessmentResult({ score: 6 }),
@@ -134,6 +141,10 @@ describe( "A content assesor", function() {
 			forEach( testCases, function( testCase ) {
 				points = testCase.points;
 
+				contentAssessor._allAssessmentsSupported = function () {
+					return true;
+				};
+
 				var actual = contentAssessor.calculateOverallScore();
 
 				expect( actual ).toBe( testCase.expected );
@@ -177,4 +188,26 @@ describe( "A content assesor", function() {
 			});
 		});
 	});
+	describe( "Checks the applicable assessments", function() {
+		var contentAssessor = new ContentAssessor( i18n );
+		it( "Should have 8 available assessments for a fully supported language", function() {
+			contentAssessor.getPaper = function() {
+				return new Paper( "test", { locale: "en_EN" } );
+			};
+
+			var actual = contentAssessor.getApplicableAssessments().length;
+			var expected = 8;
+			expect( actual ).toBe( expected );
+		});
+
+		it( "Should have 4 available assessments for a basic supported language", function() {
+			contentAssessor.getPaper = function() {
+				return new Paper( "test", { locale: "xx_XX" } );
+			};
+
+			var actual = contentAssessor.getApplicableAssessments().length;
+			var expected = 4;
+			expect( actual ).toBe( expected );
+		});
+	})
 });
