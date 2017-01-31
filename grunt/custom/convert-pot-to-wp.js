@@ -68,7 +68,7 @@ function convertTranslationToPHP( translation, textdomain ) {
 		} else {
 			let plural = escapeSingleQuotes( translation.msgid_plural );
 
-			php += TAB + `_n( '${original}', '${plural}', 1, '${textdomain}' )`;
+			php += TAB + `_n_noop( '${original}', '${plural}', '${textdomain}' )`;
 		}
 	}
 
