@@ -5,25 +5,26 @@
 
 ?>
 
-<h2 id="wordpress-seo"><?php
-	/* translators: %1$s expands to Yoast SEO */
-	printf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
-	?></h2>
-
 <div class="yoast yoast-settings">
+
+	<h2 id="wordpress-seo"><?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+		?></h2>
+
 	<label for="wpseo_author_title"><?php _e( 'Title to use for Author page', 'wordpress-seo' ); ?></label>
 	<input class="yoast-settings__text regular-text" type="text" id="wpseo_author_title" name="wpseo_author_title"
-		value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/>
+		value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/><br>
 
 	<label for="wpseo_author_metadesc"><?php _e( 'Meta description to use for Author page', 'wordpress-seo' ); ?></label>
-	<textarea rows="5" cols="30" id="wpseo_author_metadesc" class="yoast-settings__textarea large-text"
-		name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
+	<textarea rows="5" cols="30" id="wpseo_author_metadesc" class="yoast-settings__textarea yoast-settings__textarea--medium"
+		name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea><br>
 
 	<?php if ( $options['usemetakeywords'] === true ) { ?>
 		<label for="wpseo_author_metakey"><?php _e( 'Meta keywords to use for Author page', 'wordpress-seo' ); ?></label>
 		<input class="yoast-settings__text regular-text" type="text" id="wpseo_author_metakey"
 			name="wpseo_author_metakey"
-			value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>"/>
+			value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>"/><br>
 	<?php } ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_author_exclude"
 			name="wpseo_author_exclude"
