@@ -977,6 +977,9 @@ class WPSEO_Utils {
 		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
+	/********************** DEPRECATED METHODS **********************/
+
+	// @codeCoverageIgnoreStart
 	/**
 	 * Checks if the content endpoints are available.
 	 *
@@ -1076,4 +1079,5 @@ class WPSEO_Utils {
 
 		return wp_json_encode( $array_to_encode, $options, $depth );
 	}
+	// @codeCoverageIgnoreEnd
 }

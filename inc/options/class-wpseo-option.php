@@ -195,8 +195,6 @@ abstract class WPSEO_Option {
 	 */
 	// abstract public function enrich_defaults();
 
-// @codingStandardsIgnoreEnd
-
 	/* *********** METHODS INFLUENCING get_option() *********** */
 
 	/**
@@ -211,7 +209,7 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
+	// @codingStandardsIgnoreStart
 	/**
 	 * Abusing a filter to re-add our default filters
 	 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
@@ -715,6 +713,8 @@ abstract class WPSEO_Option {
 
 	/* *********** DEPRECATED METHODS *********** */
 
+	// @codeCoverageIgnoreStart
+
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
 	 *
@@ -849,4 +849,5 @@ abstract class WPSEO_Option {
 
 		return WPSEO_Utils::trim_recursive( $value );
 	}
+	// @codeCoverageIgnoreEnd
 }

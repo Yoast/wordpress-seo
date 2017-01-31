@@ -475,6 +475,7 @@ class WPSEO_Meta_Columns {
 	 * meta key clauses and not a combination - which is what we need.
 	 *
 	 * @deprecated 3.5 Unnecessary with nested meta queries in core.
+	 * @codeCoverageIgnore
 	 *
 	 * @param    string $where Where clause.
 	 *

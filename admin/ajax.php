@@ -445,6 +445,7 @@ new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax:
  * Create an export and return the URL
  *
  * @deprecated 3.3.2
+ * @codeCoverageIgnore
  */
 function wpseo_get_export() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.2', 'This method is deprecated.' );
