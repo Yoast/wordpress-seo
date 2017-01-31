@@ -1139,6 +1139,26 @@ ul.wpseo-metabox-tabs li.active {
 	vertical-align: top;
 }
 
+.wpseo-metabox-sidebar ul {
+	margin: 0;
+}
+
+.wpseo-metabox-sidebar li {
+	display: inline-block;
+	/* Microsoft Edge 38. */
+	margin-bottom: 0;
+	padding: 5px;
+}
+
+.wpseo-metabox-sidebar a {
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	font-size: 20px;
+	line-height: 30px;
+	text-decoration: none;
+}
+
 .wpseo-metabox-sidebar li span {
 	margin: 3px -5px 0 0;
 	padding: 0 5px 0 2px;
@@ -1242,32 +1262,10 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 	font-size: 30px;
 }
 
-.wpseo-metabox-sidebar a {
-	display: inline-block;
-	width: 35px;
-	height: 35px;
-	font-size: 20px;
-	line-height: 30px;
-	text-decoration: none;
-}
-
-.wpseo-metabox-sidebar ul {
-	margin: 0;
-}
-
-.wpseo-metabox-sidebar li {
-	margin-bottom: 0;
-	padding: 5px;
-}
-
 .wpseo-metabox-tabs-div div.wpseo-tabs-panel {
 	overflow: auto;
 	padding: 0.5em 0.9em;
 	border: 1px solid;
-}
-
-.wpseo-heading {
-	padding-right: 10px;
 }
 
 #wpseo_meta .inside {
@@ -1690,13 +1688,78 @@ ul.wpseo-metabox-premium-advantages {
 }
 
 @media screen and (max-width: 782px) {
+	.wpseo-metabox-sidebar {
+		display: inline-block;
+		/* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
+		width: auto;
+		margin: 0 -5px 10px 0;
+		padding: 0;
+	}
+
+	.wpseo-meta-section.active {
+		display: block;
+		clear: both;
+	}
+
+	.wpseo-metabox-sidebar ul {
+		display: inline-block;
+		/* Contain floated children. */
+	}
+
+	.wpseo-metabox-sidebar li {
+		float: right;
+		text-align: center;
+	}
+
+	.wpseo-metabox-sidebar .wpseo-meta-section-link {
+		width: 40px;
+		height: 40px;
+	}
+
+	.wpseo-meta-section-link .dashicons,
+	.wpseo-meta-section-link .yst-traffic-light-container {
+		display: block;
+		width: 40px;
+		height: 35px;
+		/* 35+5+2+3=45 must be 5px taller than the container to show the border outside of the contaiiner. */
+		margin: 0;
+		padding: 5px 0 2px;
+		border-bottom-width: 3px;
+		border-right-width: 0;
+	}
+
+/* Traffic light svg and CSS generated dashicons. */
+	.wpseo-meta-section-link .yst-traffic-light,
+	.wpseo-meta-section-link .dashicons:before {
+		margin: 0;
+	}
+
+/* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
+	.wpseo-meta-section-link .dashicons-admin-generic:before {
+		position: relative;
+		right: 1px;
+	}
+
+/* Go Premium dashicon. */
+	.wpseo-metabox-buy-premium .wpseo-buy-premium {
+		display: inline-block;
+		height: auto;
+		padding-left: 5px;
+	}
+
+	.wpseo-metabox-buy-premium .dashicons:before {
+		vertical-align: top;
+	}
+
 	.yoast-help-panel {
 		max-width: none !important;
 	}
+
 	#wpseo-crawl-issues-table-form .subsubsub {
 		float: none;
 		max-width: calc( 100vw - 20px);
 	}
+
 	#wpseo-crawl-issues-table-form .yoast-help-button {
 		margin-top: 3px;
 	}
@@ -1712,6 +1775,7 @@ ul.wpseo-metabox-premium-advantages {
 	.wpseotab {
 		padding: 20px 20px;
 	}
+
 	.wpseotab.content {
 		padding: 20px 0;
 	}
