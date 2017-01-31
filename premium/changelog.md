@@ -1,11 +1,13 @@
 ### 4.2.0: January 31st, 2017
 * Adds link suggestions and insights for Dutch.
+* Includes every change in Yoast SEO core 4.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 4.1.0: January 17th, 2017
 * Adds a feature toggle to disable link suggestions (site wide).
 * Allows contributors to also use the prominent words that link suggestions depend on, these generated a 403. 
 * Adds German support for Yoast internal linking. 
 * Improves the user interface for the prominent word recalculation.
+* Includes every change in Yoast SEO core 4.1.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 4.0.2: December 20th, 2016
 * Adds site wide calculation of prominent words for pages.
