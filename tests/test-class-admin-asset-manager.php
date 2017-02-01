@@ -275,4 +275,25 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->register_assets();
 	}
+
+	/**
+	 * Tests the flatten_version function
+	 *
+	 * @covers WPSEO_Admin_Asset_Manager::flatten_version
+	 * @dataProvider flatten_version_provider
+	 */
+	public function test_flatten_version( $original, $expected ) {
+		$this->assertEquals( $expected, $this->asset_manager->flatten_version( $original ) );
+	}
+
+	public function flatten_version_provider() {
+		return array(
+			array( '3.0', '300' ),
+			array( '1.4', '140' ),
+			array( '', '' ),
+			array( '3.0.0', '300' ),
+			array( '25.1456.140', '251456140' ),
+			array( '1', '1' ),
+		);
+	}
 }
