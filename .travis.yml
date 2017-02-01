@@ -7,11 +7,18 @@ branches:
     - master
     - trunk
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
 matrix:
   fast_finish: true
   include:
     - php: 7.0
-      env: WP_VERSION=4.7 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node
+      env: WP_VERSION=4.7 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node CXX=g++-4.8
     - php: 5.2
       env: WP_VERSION=4.6 WP_MULTISITE=1 PHPLINT=1
     - php: 5.3

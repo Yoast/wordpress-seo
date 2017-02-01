@@ -16,7 +16,6 @@ module.exports = {
 			"css/metabox-<%= pluginVersionSlug %>.css": [ "css/src/metabox.scss" ],
 			"css/metabox-primary-category-<%= pluginVersionSlug %>.css": [ "css/src/metabox-primary-category.scss" ],
 			"css/snippet-<%= pluginVersionSlug %>.css": [ "css/src/snippet.scss" ],
-			"css/taxonomy-meta-<%= pluginVersionSlug %>.css": [ "css/src/taxonomy-meta.scss" ],
 			"css/toggle-switch-<%= pluginVersionSlug %>.css": [ "css/src/toggle-switch.scss" ],
 			"css/wpseo-dismissible-<%= pluginVersionSlug %>.css": [ "css/src/wpseo-dismissible.scss" ],
 			"css/yst_plugin_tools-<%= pluginVersionSlug %>.css": [ "css/src/yst_plugin_tools.scss" ],
