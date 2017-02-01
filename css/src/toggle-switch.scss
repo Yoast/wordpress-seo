@@ -264,7 +264,7 @@
 		min-width: 200px;
 		margin-top: 10px;
 		padding-right: 1em;
-		font-weight: bold;
+		font-weight: 600;
 		line-height: 2em;
 		vertical-align: middle;
 	}
@@ -278,7 +278,8 @@
 		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
 	}
 
-	.switch-toggle.switch-yoast-seo {
+	.switch-toggle.switch-yoast-seo,
+	.switch-light.switch-yoast-seo {
 		float: left;
 	}
 

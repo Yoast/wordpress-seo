@@ -200,6 +200,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Define the meta boxes for the Social tab
 	 *
@@ -238,4 +239,5 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		return '';
 	}
+	// @codeCoverageIgnoreEnd
 } /* End of class */

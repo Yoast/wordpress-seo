@@ -636,6 +636,8 @@ class WPSEO_Twitter {
 	 * Displays the domain tag for the site.
 	 *
 	 * @deprecated 3.0
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function site_domain() {
 		_deprecated_function( __METHOD__, 'WPSEO 3.0' );

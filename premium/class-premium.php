@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '4.1';
+	const PLUGIN_VERSION_NAME = '4.2';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://my.yoast.com';
@@ -298,13 +298,8 @@ class WPSEO_Premium {
 	public function enqueue_social_previews() {
 		global $pagenow;
 
-		$metabox_pages = array(
-			'post-new.php',
-			'post.php',
-			'edit.php',
-		);
 		$social_previews = new WPSEO_Social_Previews();
-		if ( in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
+		if ( WPSEO_Metabox::is_post_edit( $pagenow ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
 			$social_previews->set_hooks();
 		}
 		$social_previews->set_ajax_hooks();
