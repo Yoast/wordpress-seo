@@ -9,8 +9,7 @@ var getLinks = require( "./getLinks" );
  * @returns {number} The number of links found in the text.
  */
 module.exports = function( paper ) {
-	var text = paper.getText();
-	var anchors = getLinks( text );
+	var anchors = getLinks( paper );
 
 	return anchors.length;
 };
