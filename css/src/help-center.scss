@@ -98,8 +98,7 @@
 		}
 
 		// Only the video tab content needs to use flexbox.
-		// Assumes it's always the first tab content.
-		&.active:first-child {
+		&.active.yoast-help-tab-content-video {
 			display: flex;
 			flex-wrap: wrap;
 		}
@@ -260,7 +259,7 @@
 
 		.yoast-help-tab-content {
 
-			&.active:first-child {
+			&.active.yoast-help-tab-content-video {
 				// Stop the video tab content from using flexbox.
 				display: block;
 				// Video full width.
@@ -304,7 +303,7 @@
 
 		.yoast-help-tab-content {
 
-			&.active:first-child {
+			&.active.yoast-help-tab-content-video {
 				// Stop the video tab content from using flexbox.
 				display: block;
 				// Video full width.

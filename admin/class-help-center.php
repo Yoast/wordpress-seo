@@ -156,9 +156,11 @@ class WPSEO_Help_Center {
 					foreach ( $help_center_items as $help_center_item ) {
 						$id = $help_center_item->get_identifier();
 
+						$video_tab_panel_class = ( 'video' === $id ) ? ' yoast-help-tab-content-video' : '';
+
 						$panel_id = "tab-panel-{$this->group_name}_{$this->tab->get_name()}__{$id}";
 						?>
-						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes; ?>">
+						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes . $video_tab_panel_class; ?>">
 							<?php echo $help_center_item->get_content(); ?>
 						</div>
 						<?php
