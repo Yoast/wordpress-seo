@@ -1,16 +1,22 @@
 <?php
 
+/**
+ * Test double for testing the result of the match_redirect_regex which is protected in the import manager.
+ */
 class WPSEO_Premium_Import_Manager_Double extends WPSEO_Premium_Import_Manager {
-
 	public function match_with_given_regex( $regex, $htaccess ) {
 		return $this->match_redirect_regex( $regex, $htaccess );
 	}
 
 }
 
+/**
+ * Test class for the WPSEO Premium Import Manager
+ */
 class WPSEO_Premium_Import_Manager_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Test the plain redirect regex when the redirect origin does not contain quotes.
 	 *
 	 * @dataProvider plain_redirect_provider
 	 */
@@ -22,6 +28,7 @@ class WPSEO_Premium_Import_Manager_Test extends WPSEO_UnitTestCase {
 
 	}
 	/**
+	 * Test the plain redirect regex when the redirect origin contain quotes.
 	 *
 	 * @dataProvider plain_redirect_provider_with_quotes
 	 */
@@ -33,7 +40,11 @@ class WPSEO_Premium_Import_Manager_Test extends WPSEO_UnitTestCase {
 
 	}
 
-
+	/**
+	 * Provider for the redirects without quotes around the origin.
+	 *
+	 * @return array
+	 */
 	public function plain_redirect_provider(  ) {
 		$regex_to_match = '`^Redirect ([0-9]{3}) ([^"\s]+) ([a-z0-9-_+/.:%&?=#\][]+)`im';
 
@@ -70,7 +81,11 @@ class WPSEO_Premium_Import_Manager_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
-
+	/**
+	 * Provider for the redirects with the origin surrounded by quotes.
+	 *
+	 * @return array
+	 */
 	public function plain_redirect_provider_with_quotes(  ) {
 		$regex_to_match = '`^Redirect ([0-9]{3}) "([^"]+)" ([a-z0-9-_+/.:%&?=#\][]+)`im';
 
