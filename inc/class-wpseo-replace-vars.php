@@ -115,7 +115,7 @@ class WPSEO_Replace_Vars {
 					$success = true;
 				}
 				else {
-					trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name more unique.', 'wordpress-seo' ), E_USER_WARNING );
+					trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 				}
 			}
 			else {
