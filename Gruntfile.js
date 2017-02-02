@@ -8,7 +8,7 @@ module.exports = function( grunt ) {
 
 	timeGrunt( grunt );
 
-	let pluginVersion = "4.2";
+	let pluginVersion = "4.2.1";
 
 	// Define project configuration
 	var project = {
