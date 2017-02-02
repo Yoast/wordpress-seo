@@ -31,7 +31,7 @@ class WPSEO_Admin_User_Profile {
 	 */
 	public function clear_author_sitemap_cache( $meta_id, $object_id, $meta_key ) {
 		if ( '_yoast_wpseo_profile_updated' === $meta_key ) {
-			WPSEO_Utils::clear_sitemap_cache( array( 'author' ) );
+			WPSEO_Sitemaps_Cache::clear( array( 'author' ) );
 		}
 	}
 
