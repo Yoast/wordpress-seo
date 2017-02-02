@@ -174,14 +174,13 @@ table.yoast_help td {
 	border: 1px solid #ddd;
 	border-collapse: collapse;
 	color: #444;
-	font-size: 12px;
 }
 
 table.yoast_help th,
 table.yoast_help td {
 	padding: 5px 10px;
 	text-align: left;
-	vertical-align: text-top;
+	vertical-align: top;
 }
 
 table.yoast_help tr {
@@ -424,11 +423,81 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .wpseo-banner {
 	&__link {
-	   display: inline-block;
+		display: inline-block;
 	}
 
 	&__image {
-	   vertical-align: top;
+		vertical-align: top;
+	}
+}
+
+// Scrollable tables.
+.yoast-table-scrollable {
+	&__container {
+		&.yoast-has-scroll {
+			position: relative;
+			overflow: hidden;
+
+			&:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 100%;
+				width: 50px;
+				height: 100%;
+				border-radius: 10px 0 0 10px / 50% 0 0 50%;
+				box-shadow: -5px 0 10px rgba(0, 0, 0, 0.25);
+			}
+		}
+
+		&.yoast-has-scroll .yoast-table-scrollable__inner {
+			overflow-x: scroll;
+		}
+	}
+
+	.variable-desc {
+		min-width: 280px; // Plus yoast_help td 20px padding = 300.
+	}
+
+	&__hintwrapper {
+		display: none;
+
+		&.yoast-has-scroll {
+			display: block;
+			margin: 1em 0;
+			text-align: center;
+		}
+	}
+
+	.yoast-has-scroll &__hint {
+		display: inline-block;
+		animation: hintshake 2.9s infinite ease-in-out;
+
+		&:before {
+			content: "\21c4";
+			display: inline-block;
+			margin-right: 10px;
+			font-size: 20px;
+			line-height: inherit;
+			vertical-align: text-top;
+		}
+	}
+}
+
+@keyframes hintshake {
+	0%, 70%, 80%, 90%, 100% {
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0)
+	}
+
+	10%, 30%, 50% {
+		-webkit-transform: translate3d(-10px, 0, 0);
+		transform: translate3d(-10px, 0, 0)
+	}
+
+	20%, 40%, 60% {
+		-webkit-transform: translate3d(10px, 0, 0);
+		transform: translate3d(10px, 0, 0)
 	}
 }
 
@@ -513,49 +582,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 	.wpseo-gsc-reload-crawl-issues-form .alignright {
 		float: none;
-	}
-
-	.yoast-table-responsive-container.yoast-has-scroll {
-		position: relative;
-		overflow: hidden;
-	}
-
-	.yoast-table-responsive-container.yoast-has-scroll:after {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 100%;
-		width: 50px;
-		height: 100%;
-		border-radius: 10px 0 0 10px / 50% 0 0 50%;
-		box-shadow: -5px 0 10px rgba(0, 0, 0, 0.25);
-	}
-
-	.yoast-table-responsive-container.yoast-has-scroll > div {
-		overflow-x: auto;
-	}
-
-/*
-	.yoast-has-scroll > div::-webkit-scrollbar {
-		-webkit-appearance: none;
-		width: 14px;
-		height: 14px;
-	}
-
-	.yoast-has-scroll > div::-webkit-scrollbar-thumb {
-		border-radius: 8px;
-		border: 3px solid #fff;
-		background-color: rgba(255, 0, 0, .3);
-	}
-*/
-
-	.yoast-table-responsive .variable-name {
-		padding-bottom: 0;
-	}
-
-	.yoast-table-responsive .variable-desc {
-		padding-top: 0;
-		min-width: 280px; /* Plus yoast_help td 20px padding. */
 	}
 }
 

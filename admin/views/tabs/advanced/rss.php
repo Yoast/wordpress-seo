@@ -27,7 +27,7 @@ echo '<h2>' . __( 'Available variables', 'wordpress-seo' ) . '</h2>';
 ?>
 
 <p><?php _e( 'You can use the following variables within the content, they will be replaced by the value on the right.', 'wordpress-seo' ); ?></p>
-<table class="wpseo yoast_help yoast-table-responsive">
+<table class="wpseo yoast_help yoast-table-scrollable">
 <thead>
 	<tr>
 		<th scope="col"><?php _e( 'Variable', 'wordpress-seo' ); ?></th>

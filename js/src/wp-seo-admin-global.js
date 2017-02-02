@@ -294,37 +294,54 @@
 	}
 
 	/**
-	 * Make tables responsive.
+	 * Make tables scrollable.
 	 *
 	 * @returns {void}
 	 */
-	function responsiveTables() {
-		$( ".yoast-table-responsive" ).each( function() {
+	function scrollableTables() {
+		$( ".yoast-table-scrollable" ).each( function() {
 			var table = $( this );
 
-			// Create the table container element with an inner div necessary for styling.
-			var scrollContainer = $( "<div />", {
-				"class": "yoast-table-responsive-container",
-				html: "<div />",
+			/*
+			 * Create an element with a hint message and insert it in the DOM
+			 * before each table.
+			 */
+			var scrollHint = $( "<div />", {
+				"class": "yoast-table-scrollable__hintwrapper",
+				html: "<span class='yoast-table-scrollable__hint' />",
 			} ).insertBefore( table );
 
-			// For each table, store a reference to its container element.
+			// Set the hint message text.
+			scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollableTableHint );
+
+			/*
+			 * Create a wrapper element with an inner div necessary for
+			 * styling and insert them in the DOM before each table.
+			 */
+			var scrollContainer = $( "<div />", {
+				"class": "yoast-table-scrollable__container",
+				html: "<div class='yoast-table-scrollable__inner' />",
+			} ).insertBefore( table );
+
+			// For each table, store a reference to its wrapper element.
 			table.data( "scrollContainer", scrollContainer );
 
-			// Move the scrollable table inside the container.
-			table.appendTo( scrollContainer.children( "div" ) );
+			// Move the scrollable table inside the wrapper.
+			table.appendTo( scrollContainer.find( ".yoast-table-scrollable__inner" ) );
 
-			// Check if the table is wider than its parent and thus needs to be scrollable.
+			// Check if the table is wider than its parent.
 			if ( table.outerWidth() > table.parent().outerWidth() ) {
+				$( ".yoast-table-scrollable__hintwrapper" ).addClass( "yoast-has-scroll" );
 				table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
 			}
 
 			// When the viewport size changes, check again if the table needs to be scrollable.
 			$( window ).on( "wp-window-resized orientationchange", function() {
-				console.log( "resize or orientation change" );
 				if ( table.outerWidth() > table.parent().outerWidth() ) {
+					$( ".yoast-table-scrollable__hintwrapper" ).addClass( "yoast-has-scroll" );
 					table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
 				} else {
+					$( ".yoast-table-scrollable__hintwrapper" ).removeClass( "yoast-has-scroll" );
 					table.data( "scrollContainer" ).removeClass( "yoast-has-scroll" );
 				}
 			} );
@@ -335,7 +352,7 @@
 		showAlertPopup();
 		hookDismissRestoreButtons();
 		setPremiumIndicatorColor();
-		responsiveTables();
+		scrollableTables();
 	} );
 }() );
 

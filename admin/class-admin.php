@@ -667,6 +667,7 @@ class WPSEO_Admin {
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
+			'scrollableTableHint'     => __( 'Scroll to see the table content', 'wordpress-seo' ),
 		);
 	}
 
