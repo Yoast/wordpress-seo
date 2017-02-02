@@ -126,7 +126,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 = 4.2.1 =
 
-Release Date:
+Release Date: February 2nd, 2017
 
 * Bugfixes
 	* Fixes a fatal error "Call to undefined method yoast_i18n::set_api_url()". This error occurred with certain other plugins that also include the i18n-module.
