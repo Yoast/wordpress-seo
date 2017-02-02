@@ -1,3 +1,6 @@
+### 4.2.1: February 2nd, 2017
+* Includes every change in Yoast SEO core 4.2.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 4.2.0: January 31st, 2017
 * Adds link suggestions and insights for Dutch.
 * Includes every change in Yoast SEO core 4.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
