@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 4.1\n"
+"Project-Id-Version: Yoast SEO 4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-01-31 09:11:39+00:00\n"
+"POT-Creation-Date: 2017-02-02 10:21:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -266,7 +266,7 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to the actual filter/action that has been used.
-#: admin/class-admin-init.php:501
+#: admin/class-admin-init.php:499
 msgid "%s filter/action"
 msgstr ""
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "edb5ad9463e19b2de7db3d1faa11e4b6",
+    "content-hash": "e91ca4631c3d196d0a968d0dd3547a2f",
     "packages": [
         {
             "name": "composer/installers",
@@ -172,16 +172,16 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "1.2.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047"
+                "reference": "d070527d915b5acf5f4550d038ed184ac42122cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047",
-                "reference": "f4c424ed3af9d89666b9ccb7aa8cfc21f42ed047",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/d070527d915b5acf5f4550d038ed184ac42122cc",
+                "reference": "d070527d915b5acf5f4550d038ed184ac42122cc",
                 "shasum": ""
             },
             "type": "library",
@@ -206,7 +206,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-01-23T13:39:06+00:00"
+            "time": "2017-02-02T09:46:41+00:00"
         },
         {
             "name": "yoast/license-manager",

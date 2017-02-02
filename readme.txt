@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 4.2
+Stable tag: 4.2.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -123,6 +123,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 4.2.1 =
+
+Release Date: February 2nd, 2017
+
+* Bugfixes
+	* Fixes a fatal error "Call to undefined method yoast_i18n::set_api_url()". This error occurred with certain other plugins that also include the i18n-module.
 
 = 4.2.0 =
 
