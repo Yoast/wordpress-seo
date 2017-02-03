@@ -189,48 +189,59 @@ let correlativeConjunctions = [ "tanto", "como", "ni", "ora", "ya", "igual", "me
 let subordinatingConjunctions = [ "apenas", "aun", "conque", "como", "cuando", "mientras", "porque", "segun", "según", "si", "tan", "tal" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
-// 'Claim','claims', 'state' and 'states' are not included, because these words are also nouns.
-let interviewVerbs = [ "say", "says", "said", "saying", "claimed", "ask", "asks", "asked", "asking", "stated", "stating",
-	"explain", "explains", "explained", "think", "thinks" ];
+// 'Dijo' is already included in the otherAuxiliaries category.
+let interviewVerbs = [ "apunto", "apunta", "confieso", "confiesa", "confesaba", "revelado", "revelo", "revela", "revelaba", "declarado",
+	"declaro", "declara", "declaba", "señalo", "señala", "señalaba", "declarou", "declaro", "declara", "declaraba", "comentou", "comento",
+	"comenta", "comentou", "revelou", "revelo", "revela", "revelaba" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
-let additionalTransitionWords = [ "siempre", "nunca", "ahora", "obviamente", "apenas", "quizá", "acaso", "inclusive", "probablemente",
-	"seguramente", "jamás",
-	"and", "or", "about", "absolutely", "again", "definitely", "eternally", "expressively",
-	"expressly", "extremely", "immediately", "including", "instantly", "namely", "naturally", "next", "notably", "now", "nowadays",
-	"ordinarily", "positively", "truly", "ultimately", "uniquely", "usually", "almost", "first", "second", "third", "maybe",
-	"probably", "granted", "initially", "overall", "too", "actually", "already", "e.g", "i.e", "often", "regularly", "simply",
-	"optionally", "perhaps", "sometimes", "likely", "never", "ever", "else", "inasmuch", "provided", "currently", "incidentally",
-	"elsewhere", "following", "particular", "recently", "relatively", "f.i", "clearly", "apparently" ];
+let additionalTransitionWords = [ "básicamente", "esencialmente", "primeramente", "siempre", "nunca", "ahora", "obviamente", "apenas",
+	"quizá", "acaso", "inclusive", "probablemente", "verdaderamente", "seguramente", "jamás", "obviamente",	"indiscutiblement",
+	"inmediatamente", "previamente", "y", "o" ];
 
-let intensifiers = [ "highly", "very", "really", "extremely", "absolutely", "completely", "totally", "utterly", "quite",
-	"somewhat", "seriously", "fairly", "fully", "amazingly" ];
+let intensifiers = [ "muy", "tan", "demasiado", "bastante", "completamente", "algo", "tanto", "poco", "suficiente", "tal", "tales" ];
 
-// These verbs convey little meaning. 'Show', 'shows', 'uses', "meaning" are not included, because these words could be relevant nouns.
-let delexicalisedVerbs = [ "seem", "seems", "seemed", "seeming", "let", "let's", "lets", "letting", "make", "making", "makes",
-	"made", "want", "showing", "showed", "shown", "go", "goes", "going", "went", "gone", "take", "takes", "took", "taken", "set", "sets",
-	"setting", "put", "puts", "putting", "use", "using", "used", "try", "tries", "tried", "trying", "mean", "means", "meant",
-	"called", "based", "add", "adds", "adding", "added", "contain", "contains", "containing", "contained" ];
+// These verbs convey little meaning.
+let delexicalisedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis",
+	"hicieron", "hacía", "hacías", "hacíamos", "hacíais", "hacían", "haría,", "harías", "haríamos", "haríais", "harían", "haré", "harás",
+	"hará", "haremos", "haréis", "harán", "haga", "hagas", "hagamos", "hagáis", "hagan", "hiciera", "hicieras", "hiciéramos", "hicierais",
+	"hicieran", "hiciese", "hicieses", "hiciésemos", "hicieseis", "hiciesen", "hiciere", "hicieres", "hiciéremos", "hiciereis", "hicieren",
+	"haz", "haced", "hecho", "parezco", "pareces", "parece", "parecemos", "parecéis", "parecen", "parecí", "pareciste", "pareció", "parecimos",
+	"parecisteis", "parecieron", "parecía", "parecías", "parecíamos", "parecíais", "parecían", "parecería", "parecerías", "pareceríamos",
+	"pareceríais", "parecerían", "pareceré", "parecerás", "parecerá", "pareceremos", "pareceréis", "parecerán", "parezca", "parezcas",
+	"parezcamos", "parezcáis", "parezcan", "pareciera", "parecieras", "pareciéramos", "parecierais", "parecieran", "pareciese", "parecieses",
+	"pareciésemos", "parecieseis", "pareciesen", "pareciere", "parecieres", "pareciéremos", "pareciereis", "parecieren", "pareced", "parecido" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
-let generalAdjectivesAdverbs = [ "ayer", "hoy", "mañana", "enfrente", "mal", "mejor", "peor", "más", "menos", "claro",
-	"bueno",
-	"new", "newer", "newest", "old", "older", "oldest", "previous", "good", "well", "better", "best",
-	"big", "bigger", "biggest", "easy", "easier", "easiest", "fast", "faster", "fastest", "far", "hard", "harder", "hardest",
-	"least", "own", "large", "larger", "largest", "long", "longer", "longest", "low", "lower", "lowest", "high", "higher",
-	"highest", "regular", "simple", "simpler", "simplest", "small", "smaller", "smallest", "tiny", "tinier", "tiniest",
-	"short", "shorter", "shortest", "main", "actual", "nice", "nicer", "nicest", "real", "same", "able", "certain", "usual",
-	"so-called", "mainly", "mostly", "recent", "anymore", "complete", "lately", "possible", "commonly", "constantly",
-	"continually", "directly", "easily", "nearly", "slightly", "somewhere", "estimated", "latest", "different", "similar",
-	"widely", "bad", "worse", "worst", "great" ];
+let generalAdjectivesAdverbs = [ "ayer", "hoy", "mañana", "enfrente", "mal", "mejor", "peor", "más", "menos", "claro", "bueno", "nuevo",
+	"nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "mejor", "grande", "gran", "grandes", "mayores", "fácil",
+	"fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "difícil", "difíciles", "propio", "propios", "propia", "propias",
+	"largo", "larga", "largos", "largas", "bajo", "bajos", "baja", "bajos", "alto", "alta", "altos", "altas", "regular", "regulares", "normal",
+	"pequeño", "pequeña", "pequeños", "pequeñas", "diminuta", "diminuto", "diminutas", "diminutos", "chiquitito", "chiquititos", "chiquitita",
+	"chiquititas", "corta", "corto", "cortas", "cortos", "principal", "principales", "mismo", "mismos", "misma", "mismas", "capaz", "capaces",
+	"cierta", "cierto", "ciertas", "ciertos", "llamado", "llamada", "llamados", "llamadas", "principalmente", "mayormente", "reciente",
+	"recientes", "completa", "completo", "completas", "completos", "absoluta", "absoluto", "absolutas", "absolutos", "últimamente", "posible",
+	"común", "comúnes", "comúnmente", "constantemente", "continuamente", "directamente", "fácilmente", "casi", "ligeramente", "estimado",
+	"estima", "estimada", "estimado", "aproximada", "aproximadamente", "última", "últimas", "último", "últimos", "diferente", "diferentes",
+	"similar", "mal", "malo", "malos", "mala", "malas", "perfectamente", "excelente" ];
 
-let interjections = [ "oh", "wow", "tut-tut", "tsk-tsk", "ugh", "whew", "phew", "yeah", "yea", "shh", "oops", "ouch", "aha",
-	"yikes" ];
+let interjections = [ "ah", "eh", "ejem", "ele", "abajo", "achís", "adelante", "adentro", "adiós", "afuera", "agur", "ajá", "ajajá", "ala",
+	"alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "amén", "ar", "aro", "arrarray", "arre", "arriba", "arsa", "atatay",
+	"atrás", "aúpa", "ax", "ay", "ayayay", "bah", "banzai", "barajo", "bla", "bravo", "bueno", "buf", "bum", "ca", "caguendiós", "canastos",
+	"caracho", "caracoles", "carajo", "caramba", "carape", "caray", "cáscaras", "cáspita", "cataplum", "ce", "chao", "chau", "che", "chis",
+	"chist", "chitón", "cho", "chucho", "chus", "cielos", "claro", "clo", "coche", "cochi", "cojones", "cómo", "concho", "contra", "coño",
+	"córcholis", "cuchí", "cuidado", "cuz", "demonio", "demontre", "despacio", "diablo", "diantre", "dios", "ea", "eh", "ejem", "ele",
+	"entonces", "epa", "equilicuá", "estúpido", "eureka", "evohé", "exacto", "fantástico", "firmes", "fo", "forte", "fuera", "gua", "gualá",
+	"guarte", "guay", "ha", "hala", "hale", "he", "hi", "hin", "hola", "hopo", "huesque", "huiche", "huichó", "huifa", "hurra", "huy", "ja",
+	"jajajá", "jajay", "jaque", "jau", "jo", "jobar", "joder", "jolín", "jopo", "leñe", "listo", "malhayas", "mamola", "mecachis", "miéchica",
+	"mondo", "moste", "mutis", "nanay", "narices", "oh", "ojalá", "ojo", "okay", "ole", "olé", "órdiga", "oste", "ostras", "ox", "oxte", "paf",
+	"pardiez", "paso", "pucha", "puf", "puff", "pumba", "puñeta", "quedo", "quia", "quiúbole", "recórcholis", "rediez", "rediós", "salve",
+	"sanseacabó", "sniff", "so", "socorro", "sus", "ta", "tararira", "tate", "tururú", "uf", "uh", "ui", "upa", "uste", "uy", "victoria",
+	"vítor", "viva", "za", "zambomba", "zapateta", "zape", "zas" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
-let recipeWords = [ "tbs", "tbsp", "spk", "lb", "qt", "pk", "bu", "oz", "pt", "mod", "doz", "hr", "f.g", "ml", "dl", "cl",
-	"l", "mg", "g", "kg", "quart" ];
+let recipeWords = [ "kg", "mg", "gr", "km", "m", "l", "ml", "cl" ];
 
 // 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 let vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likelihood", "ones", "piece", "pieces", "stuff", "times",
