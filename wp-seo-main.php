@@ -365,7 +365,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
 
-			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' ) {
+			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
 				add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 			}
 		}
