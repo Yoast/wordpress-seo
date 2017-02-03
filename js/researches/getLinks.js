@@ -3,7 +3,7 @@
 var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
 
 var map = require( "lodash/map" );
-var getFromAnchorTag = require( "../stringProcessing/url.js").getFromAnchorTag;
+var getFromAnchorTag = require( "../stringProcessing/url.js" ).getFromAnchorTag;
 
 /**
  * Checks a text for anchors and returns the number found.
