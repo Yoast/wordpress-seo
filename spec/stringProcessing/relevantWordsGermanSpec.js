@@ -3,7 +3,7 @@ let relevantWords = require( "../../js/stringProcessing/relevantWords" );
 let getRelevantWords = relevantWords.getRelevantWords;
 let germanFunctionWords = require( "../../js/researches/german/functionWords.js" )().all;
 
-describe( "gets German Word Combinations", function() {
+describe( "gets German word combinations", function() {
 	it( "returns word combinations", function() {
 		let input = "Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
 			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +

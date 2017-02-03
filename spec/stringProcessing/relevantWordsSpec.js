@@ -279,7 +279,7 @@ describe( "filter single words based on syllable count", function() {
 } );
 
 describe( "getRelevantWords", function() {
-	it( "uses the default in case of a unknown locale", function() {
+	it( "uses the default (English) function words in case of a unknown locale", function() {
 		let input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win! " +
 			"This text needs to contain 200 words, because one filter will only work if a text is long enough. 200 words is really, really long. I will just start talking" +
 			"about the weather. The weather is nice today, don't you think? It is sunny outside. It has been a while since it has rained. Let me think of something else to" +

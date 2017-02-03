@@ -4,7 +4,7 @@ let getRelevantWords = relevantWords.getRelevantWords;
 let getWordCombinations = relevantWords.getWordCombinations;
 let englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
-describe( "gets English Word Combinations", function() {
+describe( "gets English word combinations", function() {
 	it( "returns word combinations", function() {
 		let input = "Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
 			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +

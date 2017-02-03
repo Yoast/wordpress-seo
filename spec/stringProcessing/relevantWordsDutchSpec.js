@@ -3,7 +3,7 @@ let relevantWords = require( "../../js/stringProcessing/relevantWords" );
 let getRelevantWords = relevantWords.getRelevantWords;
 let dutchFunctionWords = require( "../../js/researches/dutch/functionWords.js" )().all;
 
-describe( "gets Dutch Word Combinations", function() {
+describe( "gets Dutch word combinations", function() {
 	it( "returns word combinations", function() {
 		let input = "Dit zijn heel veel zinnen met heel veel woorden. Dit zijn heel veel zinnen met heel veel woorden. Dit zijn" +
 			" heel veel zinnen met heel veel woorden. Dit zijn heel veel zinnen met heel veel woorden. Dit zijn heel veel zinnen" +
