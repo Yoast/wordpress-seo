@@ -1,45 +1,44 @@
-var WordCombination = require( "../../js/values/WordCombination" );
-var relevantWords = require( "../../js/stringProcessing/relevantWords" );
-var getRelevantWords = relevantWords.getRelevantWords;
-var getWordCombinations = relevantWords.getWordCombinations;
-var calculateOccurrences = relevantWords.calculateOccurrences;
-var getRelevantCombinations = relevantWords.getRelevantCombinations;
-var sortCombinations = relevantWords.sortCombinations;
-var filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
-var filterFunctionWords = relevantWords.filterFunctionWords;
-var filterSpecialCharacters = relevantWords.filterSpecialCharacters;
-var filterOnSyllableCount = relevantWords.filterOnSyllableCount;
-var filterOnDensity = relevantWords.filterOnDensity;
-var englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
-var germanFunctionWords = require( "../../js/researches/german/functionWords.js" )().all;
+let WordCombination = require( "../../js/values/WordCombination" );
+let relevantWords = require( "../../js/stringProcessing/relevantWords" );
+let getWordCombinations = relevantWords.getWordCombinations;
+let getRelevantWords = relevantWords.getRelevantWords;
+let calculateOccurrences = relevantWords.calculateOccurrences;
+let getRelevantCombinations = relevantWords.getRelevantCombinations;
+let sortCombinations = relevantWords.sortCombinations;
+let filterFunctionWordsAtBeginning = relevantWords.filterFunctionWordsAtBeginning;
+let filterFunctionWords = relevantWords.filterFunctionWords;
+let filterSpecialCharacters = relevantWords.filterSpecialCharacters;
+let filterOnSyllableCount = relevantWords.filterOnSyllableCount;
+let filterOnDensity = relevantWords.filterOnDensity;
+let englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
 describe( "getWordCombinations", function() {
-	it( "should split a sentence on words", function() {
-		var input = "A sentence";
-		var expected = [ new WordCombination( [ "a" ] ), new WordCombination( [ "sentence" ] ) ];
+	it( "splits a sentence on words", function() {
+		let input = "A sentence";
+		let expected = [ new WordCombination( [ "a" ] ), new WordCombination( [ "sentence" ] ) ];
 
-		var actual = getWordCombinations( input, 1 );
+		let actual = getWordCombinations( input, 1 );
 
 		expect( actual ).toEqual( expected );
 	});
 
 	it( "splits a sentence on combinations", function() {
-		var input = "This is a longer sentence";
-		var expected = [
+		let input = "This is a longer sentence";
+		let expected = [
 			new WordCombination( [ "this", "is" ] ),
 			new WordCombination( [ "is", "a" ] ),
 			new WordCombination( [ "a", "longer" ] ),
 			new WordCombination( [ "longer", "sentence" ] )
 		];
 
-		var actual = getWordCombinations( input, 2 );
+		let actual = getWordCombinations( input, 2 );
 
 		expect( actual ).toEqual( expected );
 	});
 
 	it( "splits while taking into account different sentences", function() {
-		var input = "This is a longer sentence. More sentence, more fun.";
-		var expected = [
+		let input = "This is a longer sentence. More sentence, more fun.";
+		let expected = [
 			new WordCombination( [ "this", "is" ] ),
 			new WordCombination( [ "is", "a" ] ),
 			new WordCombination( [ "a", "longer" ] ),
@@ -51,7 +50,7 @@ describe( "getWordCombinations", function() {
 			new WordCombination( [ "more", "fun" ] )
 		];
 
-		var actual = getWordCombinations( input, 2 );
+		let actual = getWordCombinations( input, 2 );
 
 		expect( actual ).toEqual( expected );
 	});
@@ -59,17 +58,17 @@ describe( "getWordCombinations", function() {
 
 describe( "calculateOccurrences", function() {
 	it( "calculates occurrences based on a list of word combinations", function() {
-		var input = [
+		let input = [
 			new WordCombination( [ "irrelevant" ] ),
 			new WordCombination( [ "occurrence" ] ),
 			new WordCombination( [ "irrelevant" ] )
 		];
-		var expected = [
+		let expected = [
 			new WordCombination( [ "irrelevant" ], 2 ),
 			new WordCombination( [ "occurrence" ], 1 )
 		];
 
-		var actual = calculateOccurrences( input );
+		let actual = calculateOccurrences( input );
 
 		expect( actual ).toEqual( expected );
 	});
@@ -77,34 +76,34 @@ describe( "calculateOccurrences", function() {
 
 describe( "getRelevantCombinations", function() {
 	it( "removes combinations with one occurence", function() {
-		var input = [
+		let input = [
 			new WordCombination( [ "irrelevant" ], 1, englishFunctionWords ),
 			new WordCombination( [ "occurrence" ], 2, englishFunctionWords )
 		];
-		var expected = [
+		let expected = [
 			new WordCombination( [ "occurrence" ], 2, englishFunctionWords )
 		];
 
-		var actual = getRelevantCombinations( input, 100 );
+		let actual = getRelevantCombinations( input, 100 );
 
 		expect( actual ).toEqual( expected );
 	});
 
 	it( "removes function words", function() {
-		var input = [
+		let input = [
 			new WordCombination( [ "yes" ], 2, englishFunctionWords )
 		];
-		var expected = [];
+		let expected = [];
 
-		var actual = getRelevantCombinations( input, 100 );
+		let actual = getRelevantCombinations( input, 100 );
 
 		expect( actual ).toEqual( expected );
 	});
 
 	it( "removes words with a high density", function() {
-		var combination = new WordCombination( ["density"], 2 );
-		var input = [ combination ];
-		var density = 0;
+		let combination = new WordCombination( ["density"], 2 );
+		let input = [ combination ];
+		let density = 0;
 		combination.getDensity = function() {
 			return density;
 		};
@@ -135,12 +134,12 @@ describe( "sortCombinations", function() {
 		// var relevanceIsOccurrences = function() {
 		// 	return this._occurrences;
 		// };
-		var combination1 = new WordCombination( [ "word1" ], 2 );
-		var combination2 = new WordCombination( [ "word2" ], 3 );
+		let combination1 = new WordCombination( [ "word1" ], 2 );
+		let combination2 = new WordCombination( [ "word2" ], 3 );
 
-		var output = [ combination1, combination2 ];
-		var initial = [ combination1, combination2 ];
-		var reversed = [ combination2, combination1 ];
+		let output = [ combination1, combination2 ];
+		let initial = [ combination1, combination2 ];
+		let reversed = [ combination2, combination1 ];
 
 		sortCombinations( output );
 
@@ -159,12 +158,12 @@ describe( "sortCombinations", function() {
 			return this._occurrences;
 		});
 
-		var combination1 = new WordCombination( [ "word1", "word3" ], 2 );
-		var combination2 = new WordCombination( [ "word2" ], 2 );
-		var combination3 = new WordCombination( [ "word4" ], 3 );
+		let combination1 = new WordCombination( [ "word1", "word3" ], 2 );
+		let combination2 = new WordCombination( [ "word2" ], 2 );
+		let combination3 = new WordCombination( [ "word4" ], 3 );
 
-		var output = [ combination1, combination2, combination3 ];
-		var sorted = [ combination3, combination1, combination2 ];
+		let output = [ combination1, combination2, combination3 ];
+		let sorted = [ combination3, combination1, combination2 ];
 
 		sortCombinations( output );
 
@@ -174,33 +173,33 @@ describe( "sortCombinations", function() {
 
 describe( "filter articles at beginning", function() {
 	it ( "filters word combinations beginning with an article", function() {
-		var input = [
+		let input = [
 			new WordCombination ( [ "a", "book" ] ),
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
-		var expected = [
+		let expected = [
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
 
-		var combinations  = filterFunctionWordsAtBeginning( input, [ "the", "an", "a" ] );
+		let combinations  = filterFunctionWordsAtBeginning( input, [ "the", "an", "a" ] );
 
 		expect( combinations ).toEqual( expected );
 	} );
 	it ( "does not filter word combinations ending with an article", function() {
-		var input = [
+		let input = [
 			new WordCombination ( [ "book", "a" ] ),
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
-		var expected = [
+		let expected = [
 			new WordCombination ( [ "book", "a" ] ),
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
 
-		var combinations  = filterFunctionWordsAtBeginning( input, [ "the", "an", "a" ] );
+		let combinations  = filterFunctionWordsAtBeginning( input, [ "the", "an", "a" ] );
 
 		expect( combinations ).toEqual( expected );
 	} );
@@ -208,16 +207,16 @@ describe( "filter articles at beginning", function() {
 
 describe( "filter articles at beginning and end", function() {
 	it ( "filters word combinations beginning and ending with an article", function() {
-		var input = [
+		let input = [
 			new WordCombination ( [ "a", "book" ] ),
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "a"] )
 		];
-		var expected = [
+		let expected = [
 			new WordCombination ( [ "book" ] ),
 		];
 
-		var combinations  = filterFunctionWords( input, [ "the", "an", "a" ] );
+		let combinations  = filterFunctionWords( input, [ "the", "an", "a" ] );
 
 		expect( combinations ).toEqual( expected );
 	} );
@@ -225,17 +224,17 @@ describe( "filter articles at beginning and end", function() {
 
 describe( "filter articles at end", function() {
 	it ( "filters word combinations ending with an article", function() {
-		var input = [
+		let input = [
 			new WordCombination ( [ "book", "a" ] ),
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
-		var expected = [
+		let expected = [
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
 
-		var combinations  = filterFunctionWords( input, [ "the", "an", "a" ] );
+		let combinations  = filterFunctionWords( input, [ "the", "an", "a" ] );
 
 		expect( combinations ).toEqual( expected );
 	});
@@ -243,19 +242,19 @@ describe( "filter articles at end", function() {
 
 describe( "filter special characters in word combinations", function() {
 	it ( "filters word combinations containing special characters", function() {
-		var input = [
+		let input = [
 			new WordCombination ( [ "book", "a", "-" ] ),
 			new WordCombination ( [ "—", "book" ] ),
 			new WordCombination ( [ "book", "–", "club"] ),
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
-		var expected = [
+		let expected = [
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "book", "club"] )
 		];
 
-		var combinations  = filterSpecialCharacters( input, [ "–", "—", "-" ] );
+		let combinations  = filterSpecialCharacters( input, [ "–", "—", "-" ] );
 
 		expect( combinations ).toEqual( expected );
 	});
@@ -263,25 +262,25 @@ describe( "filter special characters in word combinations", function() {
 
 describe( "filter single words based on syllable count", function() {
 	it ( "filters one-syllable single words", function() {
-		var input = [
+		let input = [
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "a", "book" ] ),
 			new WordCombination ( [ "book", "club"] ),
 		];
-		var expected = [
+		let expected = [
 			new WordCombination ( [ "a", "book" ] ),
 			new WordCombination ( [ "book", "club"] ),
 		];
 
-		var combinations  = filterOnSyllableCount( input, 1 );
+		let combinations  = filterOnSyllableCount( input, 1 );
 
 		expect( combinations ).toEqual( expected );
 	});
 } );
 
-describe( "getWordCombinations", function() {
-	it( "returns word combinations", function() {
-		var input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win! " +
+describe( "getRelevantWords", function() {
+	it( "uses the default (English) function words in case of a unknown locale", function() {
+		let input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win! " +
 			"This text needs to contain 200 words, because one filter will only work if a text is long enough. 200 words is really, really long. I will just start talking" +
 			"about the weather. The weather is nice today, don't you think? It is sunny outside. It has been a while since it has rained. Let me think of something else to" +
 			"talk about. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore" +
@@ -290,7 +289,7 @@ describe( "getWordCombinations", function() {
 			" numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis" +
 			" suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur," +
 			" vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
-		var expected = [
+		let expected = [
 			new WordCombination( [ "qui", "dolorem" ], 2, englishFunctionWords ),
 			new WordCombination( [ "sed", "quia" ], 2, englishFunctionWords ),
 			new WordCombination( [ "200", "words" ], 2, englishFunctionWords ),
@@ -312,76 +311,12 @@ describe( "getWordCombinations", function() {
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		var words = getRelevantWords( input, "la_LA" );
+		let words = getRelevantWords( input, "la_LA" );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );
 		});
 
 		expect( words ).toEqual( expected );
-	});
-});
-
-describe( "gets English Word Combinations", function() {
-	it( "returns word combinations", function() {
-		var input = "Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
-			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
-			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
-			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
-			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
-			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
-			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
-			" Here are a ton of syllables. Here are a ton of syllables. ";
-		var expected = [
-			new WordCombination( [ "ton", "of", "syllables" ], 37, englishFunctionWords ),
-			new WordCombination( [ "here", "are", "a", "ton" ], 37, englishFunctionWords ),
-			new WordCombination( [ "syllables" ], 37, englishFunctionWords ),
-		];
-
-		// Make sure our words aren't filtered by density.
-		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
-
-		var words = getRelevantWords( input, "en_US" );
-
-		words.forEach( function( word ) {
-			delete( word._relevantWords );
-		});
-
-		expect( words ).toEqual( expected );
-	});
-});
-
-describe( "gets German Word Combinations", function() {
-	it( "returns word combinations", function() {
-		var input = "Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
-			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren.  Probieren geht über Studieren.";
-		var expected = [
-			new WordCombination( [ "probieren", "geht", "über", "studieren" ], 48, germanFunctionWords ),
-			new WordCombination( [ "geht", "über", "studieren" ], 48, germanFunctionWords ),
-			new WordCombination( [ "probieren", "geht" ], 48, germanFunctionWords ),
-			new WordCombination( [ "probieren" ], 48, germanFunctionWords ),
-			new WordCombination( [ "studieren" ], 48, germanFunctionWords ),
-		];
-
-		// Make sure our words aren't filtered by density.
-		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
-
-		var words = getRelevantWords( input, "de_DE" );
-
-		words.forEach( function( word ) {
-			delete( word._relevantWords );
-		});
-
-		expect( words ).toEqual( expected );
-	});
-});
+	} );
+} );
