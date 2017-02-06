@@ -18,6 +18,9 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
 	}
 
+	/**
+	 * Renders the html for the internal linking interface.
+	 */
 	public function add_internal_linking_interface() {
         echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
         ?>
