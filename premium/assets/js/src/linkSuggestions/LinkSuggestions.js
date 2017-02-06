@@ -50,6 +50,7 @@ class LinkSuggestions extends EventEmitter {
 		this.saveLinkSuggestions( currentLinkSuggestions );
 		currentLinkSuggestions = this.markUsedLinks( currentLinkSuggestions );
 		currentLinkSuggestions = this.constructor.mapSuggestionsForComponent( currentLinkSuggestions );
+
 		ReactDOM.render( <LinkSuggestionsMetabox linkSuggestions={this} suggestions={currentLinkSuggestions} isLoading={isLoading} />, this._target );
 	}
 
@@ -62,6 +63,7 @@ class LinkSuggestions extends EventEmitter {
 	updatedProminentWords( prominentWords ) {
 		if ( ! isEqual( this._previousProminentWords, prominentWords ) ) {
 			this._previousProminentWords = prominentWords;
+
 			this.retrieveLinkSuggestions( prominentWords )
 				.then( this.filterCurrentPost )
 				.then (this.saveLinkSuggestions.bind( this ) )
