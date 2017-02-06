@@ -51,7 +51,7 @@ let interrogativePronouns = [ "cuyo" ];
 'Qué' is part of 'por qué' ('why'). The combination 'quien sea' ('whoever') is separated into two entries: 'quien' and 'sea'.
 'quira' is part of 'cuando quiera' ('whenever').
  */
-let interrogativeProAdverbs = [ "comoquiera", "cualesquiera", "cualquier", "cuando", "cuanta", "cuantas","cuanto", "cuantos", "cuál",
+let interrogativeProAdverbs = [ "comoquiera", "cualesquiera", "cualquier", "cuando", "cuanta", "cuantas", "cuanto", "cuantos", "cuál",
 	"cuáles", "cuánta", "cuántas", "cuánto", "cuántos", "como", "cómo", "dondequiera", "dónde", "donde", "quien", "quienes", "quienquiera",
 	"quiera", "quién", "quiénes", "qué", "que", "sea" ];
 
@@ -265,7 +265,7 @@ module.exports = function() {
 		demonstrativePronouns: demonstrativePronouns,
 		conjunctions: coordinatingConjunctions.concat( subordinatingConjunctions ),
 		verbs: otherAuxiliaries.concat( copula, interviewVerbs, delexicalisedVerbs, otherAuxiliariesInfinitive ),
-		infinitives: otherAuxiliariesInfinitive.concat ( copulaInfinitive ),
+		infinitives: otherAuxiliariesInfinitive.concat( copulaInfinitive ),
 		quantifiers: quantifiers,
 		relativePronouns: interrogativeDeterminers.concat( interrogativePronouns, interrogativeProAdverbs ),
 		transitionWords: transitionWords.concat( additionalTransitionWords ),
