@@ -1236,7 +1236,7 @@ SVG;
 	 * @return string
 	 */
 	public function strtolower_utf8( $string ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
 
 		return $string;
 	}
@@ -1258,7 +1258,7 @@ SVG;
 	 * @return string
 	 */
 	public function snippet() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead', 'wordpress-seo' ) );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0', __( 'Use javascript instead.', 'wordpress-seo' ) );
 
 		return '';
 	}
