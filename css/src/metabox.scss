@@ -413,7 +413,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .wpseotab.content .yoast_help.yoast-help-button {
-	margin-top: -48px;
+	margin-top: -47px;
 }
 
 .wpseo-admin-page .yoast_help.yoast-help-button {
@@ -611,9 +611,12 @@ ul.wpseo-metabox-premium-advantages {
 	padding-left: 1.5em;
 }
 
+/* Ensure the snippet preview section has always the proper width whatever the default yoast-section width is. */
 .wpseosnippet .yoast-section {
 	width: auto;
 	max-width: 640px;
+	/* The inner .snippet-editor__preview already has padding so we need to reset the .yoast-section default padding. */
+	padding: 0;
 }
 
 // TODO: Move this to the yoast-components repository
@@ -631,11 +634,6 @@ ul.wpseo-metabox-premium-advantages {
 			background-image: url( svg-icon-edit( $color_headings ) );
 		}
 	}
-}
-
-// Workaround for conflicting styles of .yoast-section and .snippet-editor__preview
-#snippet_preview {
-	padding: 0;
 }
 
 .yoast-tooltip.yoast-tooltip-hidden::before,

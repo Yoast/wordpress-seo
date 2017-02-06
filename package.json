@@ -3,7 +3,7 @@
   "license": "GPL-2.0+",
   "description": "Development files for the Yoast SEO plugin",
   "plugin": {
-    "glotpress": "http://translate.yoast.com",
+    "glotpress": "http://translate.wordpress.org",
     "textdomain": "wordpress-seo"
   },
   "pot": {
@@ -34,6 +34,7 @@
     "grunt-browserify": "^5.0.0",
     "grunt-checktextdomain": "^1.0.1",
     "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-compress": "^1.4.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-uglify": "^2.0.0",
@@ -70,6 +71,6 @@
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
     "yoast-components": "^2.3.0",
-    "yoastseo": "https://github.com/Yoast/YoastSEO.js#master"
+    "yoastseo": "https://github.com/Yoast/YoastSEO.js#1.10.0"
   }
 }
