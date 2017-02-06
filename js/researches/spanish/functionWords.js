@@ -241,12 +241,11 @@ let interjections = [ "ah", "eh", "ejem", "ele", "abajo", "achís", "adelante", 
 	"vítor", "viva", "za", "zambomba", "zapateta", "zape", "zas" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
-let recipeWords = [ "kg", "mg", "gr", "km", "m", "l", "ml", "cl" ];
+let recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
 
 // 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
-let vagueNouns = [ "thing", "things", "way", "ways", "matter", "case", "likelihood", "ones", "piece", "pieces", "stuff", "times",
-	"part", "parts", "percent", "instance", "instances", "aspect", "aspects", "item", "items", "idea", "theme",
-	"person" ];
+let vagueNouns = [ "cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "veces", "parte", "partes", "porcentaje",
+	"instancia", "aspecto", "aspectos", "punto", "puntos", "objeto", "objectos", "persona", "personas" ];
 
 // 'No' is already included in the quantifier list.
 let miscellaneous = [ "sí", "no", "%" ];
