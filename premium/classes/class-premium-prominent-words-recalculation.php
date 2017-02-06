@@ -12,27 +12,60 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * Registers all hooks to WordPress
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_settings_tabs_dashboard', array(
-			$this,
-			'add_tab',
-		) );
-		add_action( 'wpseo_settings_tab_site_analysis', array(
-			$this,
-			'display_tab',
-		) );
+		add_action( 'wpseo_internal_linking', array( $this, 'add_internal_linking_interface' ) );
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+		add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
+	}
+
+	public function add_internal_linking_interface() {
+        echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
+        ?>
+        <p><?php _e( 'Analyze your site to receive internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
+        <a href="#TB_inline?width=600&height=300&inlineId=wpseo_recalculate_internal_links_wrapper" class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
+		<?php
 	}
 
 	/**
-	 * Adds a tab to the dashboard.
-	 *
-	 * @param WPSEO_Option_Tabs $tabs The tabs object.
+	 * Initialize the modal box to be displayed when needed.
 	 */
-	public function add_tab( $tabs ) {
-		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
-		if ( WPSEO_Utils::are_content_endpoints_available() && $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
-			$tabs->add_tab( new WPSEO_Option_Tab( 'site-analysis', __( 'Site wide analysis', 'wordpress-seo-premium' ) ) );
-		}
+	public function modal_box() {
+		// Adding the thickbox.
+		add_thickbox();
+
+		$total_posts = $this->get_total_posts();
+		$total_pages = $this->get_total_pages();
+
+		$progressPosts = sprintf(
+		/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
+			__( '%1$s of %2$s done.', 'wordpress-seo-premium' ),
+			'<span id="wpseo_count_posts" class="wpseo-prominent-words-progress-current">0</span>',
+			'<strong id="wpseo_count_posts_total" class="wpseo-prominent-words-progress-total">' . $total_posts . '</strong>'
+		);
+
+		$progressPages = sprintf(
+		/* translators: 1: expands to a <span> containing the number of pages recalculated. 2: expands to a <strong> containing the total number of pages. */
+			__( '%1$s of %2$s done.', 'wordpress-seo-premium' ),
+			'<span id="wpseo_count_pages" class="wpseo-prominent-words-progress-current">0</span>',
+			'<strong id="wpseo_count_pages_total" class="wpseo-prominent-words-progress-total">' . $total_pages . '</strong>'
+		);
+
+		?>
+        <div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
+            <div id="wpseo_recalculate_internal_links">
+                <p><?php esc_html_e( 'Recalculating internal links for posts.', 'wordpress-seo-premium' ); ?></p>
+                <div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
+                <p><?php echo $progressPosts; ?></p>
+            </div>
+            <hr />
+            <div id="wpseo_recalculate_internal_links">
+                <p><?php esc_html_e( 'Recalculating internal links for pages.', 'wordpress-seo-premium' ); ?></p>
+                <div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
+                <p><?php echo $progressPages; ?></p>
+            </div>
+        </div>
+
+		<?php
 	}
 
 	/**
@@ -261,5 +294,27 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		) );
 
 		return (int) $total_posts->found_posts;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_total_posts() {
+		$total_posts_with_prominent_words    = $this->count_posts_prominent_words( 'post' );
+		$total_posts_without_prominent_words = $this->count_posts_without_prominent_words( 'post' );
+		$total_posts                         = ( $total_posts_without_prominent_words + $total_posts_with_prominent_words );
+
+		return $total_posts;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_total_pages() {
+		$total_pages_with_prominent_words    = $this->count_posts_prominent_words( 'page' );
+		$total_pages_without_prominent_words = $this->count_posts_without_prominent_words( 'page' );
+		$total_pages                         = ( $total_pages_without_prominent_words + $total_pages_with_prominent_words );
+
+		return $total_pages;
 	}
 }
