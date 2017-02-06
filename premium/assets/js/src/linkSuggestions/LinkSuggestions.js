@@ -66,7 +66,7 @@ class LinkSuggestions extends EventEmitter {
 
 			this.retrieveLinkSuggestions( prominentWords )
 				.then( this.filterCurrentPost )
-				.then (this.saveLinkSuggestions.bind( this ) )
+				.then (this.saveLinkSuggestions.bind( this ) );
 		}
 	}
 
