@@ -64,6 +64,8 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
                 <div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
                 <p><?php echo $progressPages; ?></p>
             </div>
+
+	        <button onclick="tb_remove();" type="button" class="button"><?php _e( 'Close', 'wordpress-seo-premium' ); ?></button>
         </div>
 
 		<?php
