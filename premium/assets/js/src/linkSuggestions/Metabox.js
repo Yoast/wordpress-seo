@@ -11,7 +11,7 @@ export default class Metabox extends Component {
 	 *
 	 * @param {Object} props The properties for this components.
 	 * @param {boolean} props.isLoading Whether this component should start of showing a loader.
-	 * @param {Array} props.suggestionsn The suggestions to render initially.
+	 * @param {Array} props.suggestions The suggestions to render initially.
 	 * @returns {void}
 	 */
 	constructor( props ) {
@@ -20,10 +20,11 @@ export default class Metabox extends Component {
 		this.state = {
 			loading: this.props.isLoading,
 			suggestions: this.props.suggestions,
+			usedLinks: this.props.usedLinks,
 		};
 
-		this.retrievedLinkSuggestions = this.retrievedLinkSuggestions.bind( this );
 
+		this.retrievedLinkSuggestions = this.retrievedLinkSuggestions.bind( this );
 		this.props.linkSuggestions.on( "retrievedLinkSuggestions", this.retrievedLinkSuggestions );
 	}
 
@@ -49,7 +50,6 @@ export default class Metabox extends Component {
 		if ( this.state.loading ) {
 			return <div className="yoast-link-suggestions yoast-link-suggestions--loading"><Loader /></div>;
 		}
-
 		return <div className="yoast-link-suggestions"><LinkSuggestionsElement suggestions={this.state.suggestions} /></div>;
 	}
 }
