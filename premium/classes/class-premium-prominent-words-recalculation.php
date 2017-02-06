@@ -22,10 +22,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * Renders the html for the internal linking interface.
 	 */
 	public function add_internal_linking_interface() {
-        echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
-        ?>
-        <p><?php _e( 'Analyze your site to receive internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
-        <a href="#TB_inline?width=600&height=300&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Internal linking: Analyzing the content', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
+		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
+		?>
+		<p><?php _e( 'Analyze your site to receive internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
+		<p><a href="#TB_inline?width=600&height=315&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Internal linking: Analyzing the content', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a></p>
 		<br />
 		<?php
 	}
