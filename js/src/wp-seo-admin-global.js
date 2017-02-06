@@ -308,7 +308,7 @@
 			 */
 			var scrollHint = $( "<div />", {
 				"class": "yoast-table-scrollable__hintwrapper",
-				html: "<span class='yoast-table-scrollable__hint' />",
+				html: "<span class='yoast-table-scrollable__hint' aria-hidden='true' />",
 			} ).insertBefore( table );
 
 			// Set the hint message text.
