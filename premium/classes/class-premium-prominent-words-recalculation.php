@@ -267,6 +267,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		$total_posts = new WP_Query( array(
 			'post_type' => $post_type,
+			'post_status' => 'publish',
 			'tax_query' => array(
 				array(
 					'taxonomy' => $taxonomy,
@@ -290,6 +291,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		$total_posts = new WP_Query( array(
 			'post_type' => $post_type,
+			'post_status' => 'publish',
 			'tax_query' => array(
 				array(
 					'taxonomy' => $taxonomy,
