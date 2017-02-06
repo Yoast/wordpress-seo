@@ -1156,6 +1156,21 @@ class WPSEO_Frontend {
 		return false;
 	}
 
+        /**
+         * Sanitizes keywords and returns either an empty string or sanitized
+         * keywords.
+         *
+         * @param type $keywords
+         * @return string
+         */
+        private function sanitize_keywords( $keywords ) {
+                if ( is_string( $keywords ) && $keywords !== '' ) {
+                        return esc_attr( strip_tags( stripslashes( $keywords ) ) );
+                }
+
+                return '';
+        }
+
 	/**
 	 * Outputs the meta keywords element.
 	 *
@@ -1228,17 +1243,17 @@ class WPSEO_Frontend {
 		 */
 		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // More appropriately named.
 
-		if ( $echo !== false ) {
-			if ( is_string( $keywords ) && $keywords !== '' ) {
-				echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
-			}
-		}
-		if ( $echo !== true ) {
-			if ( is_string( $keywords ) && $keywords !== '' ) {
-				return esc_attr( strip_tags( stripslashes( $keywords ) ) );
-			}
-			return '';
-		}
+                $sanitized_keywords = $this->sanitize_keywords( $keywords );
+
+                if ( $echo === false  ) {
+                      return $sanitized_keywords;
+                }
+
+                if ( $sanitized_keywords !== '' ) {
+                     echo '<meta name="keywords" content="', $sanitized_keywords, '"/>', "\n";
+                }
+
+                echo '';
 	}
 
 	/**
