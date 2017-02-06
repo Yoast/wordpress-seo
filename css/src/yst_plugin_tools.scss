@@ -471,7 +471,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 	.yoast-has-scroll &__hint {
 		display: inline-block;
-		animation: hintshake 2.9s infinite ease-in-out;
 
 		&:before {
 			content: "\21c4";
@@ -481,23 +480,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			line-height: inherit;
 			vertical-align: text-top;
 		}
-	}
-}
-
-@keyframes hintshake {
-	0%, 70%, 80%, 90%, 100% {
-		-webkit-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0)
-	}
-
-	10%, 30%, 50% {
-		-webkit-transform: translate3d(-10px, 0, 0);
-		transform: translate3d(-10px, 0, 0)
-	}
-
-	20%, 40%, 60% {
-		-webkit-transform: translate3d(10px, 0, 0);
-		transform: translate3d(10px, 0, 0)
 	}
 }
 
