@@ -92,6 +92,11 @@ function showCompletion() {
 	//	progressContainer.hide();
 //	completedContainer.show();
 	a11ySpeak( settings.l10n.calculationCompleted );
+
+	jQuery( '#openInternalLinksCalculation' )
+		.addClass( 'button-disabled' )
+		.removeClass( 'thickbox' )
+		.attr( 'href', '#top#general' );
 }
 
 /**

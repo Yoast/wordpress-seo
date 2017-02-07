@@ -22,10 +22,37 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * Renders the html for the internal linking interface.
 	 */
 	public function add_internal_linking_interface() {
+
+		$height = 315;
+		$unindexed_posts = $this->count_unindexed_posts_by_type( 'post' );
+		$unindexed_pages = $this->count_unindexed_posts_by_type( 'page' );
+		if ( $unindexed_posts === 0 ) {
+			$height -= 32;
+		}
+
+		if ( $unindexed_pages === 0 ) {
+			$height -= 32;
+		}
+
 		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
+
+		if ( $unindexed_posts === 0 && $unindexed_pages === 0 ) {
 		?>
-		<p><?php _e( 'Analyze your site to receive internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
-		<p><a href="#TB_inline?width=600&height=315&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Internal linking: Analyzing the content', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a></p>
+			<p><?php _e( 'All your posts and pages are analyzed at this moment, there is no need to analyze them.', 'wordpress-seo-premium' ); ?></p>
+			<p>
+				<a href="#" class="btn button button-disabled"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
+			</p>
+		<?php
+		}
+		else {
+		?>
+			<p><?php _e( 'Analyze your site to receive internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
+			<p>
+				<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=<?php echo $height; ?>&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Internal linking: Analyzing the content', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
+			</p>
+		<?php
+		}
+		?>
 		<br />
 		<?php
 	}
@@ -58,16 +85,23 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
         <div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
             <div id="wpseo_recalculate_internal_links">
                 <p><?php esc_html_e( 'Recalculating internal links for posts.', 'wordpress-seo-premium' ); ?></p>
+	            <?php if ( $total_posts > 0 ) : ?>
                 <div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
                 <p><?php echo $progressPosts; ?></p>
+				<?php else : ?>
+					<p><?php _e( 'All your posts are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
+				<?php endif; ?>
             </div>
             <hr />
             <div id="wpseo_recalculate_internal_links">
                 <p><?php esc_html_e( 'Recalculating internal links for pages.', 'wordpress-seo-premium' ); ?></p>
+	            <?php if ( $total_pages > 0 ) : ?>
                 <div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
                 <p><?php echo $progressPages; ?></p>
+				<?php else : ?>
+				<p><?php _e( 'All your pages are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
+			<?php endif; ?>
             </div>
-
 	        <button onclick="tb_remove();" type="button" class="button"><?php _e( 'Close', 'wordpress-seo-premium' ); ?></button>
         </div>
 
