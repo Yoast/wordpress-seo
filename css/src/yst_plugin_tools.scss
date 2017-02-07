@@ -344,9 +344,8 @@ textarea.wpseo-new-metadesc {
 
 /* Yoast SEO credits page. */
 body.toplevel_page_wpseo_dashboard .wp-badge {
-	border: none;
-	background: url(../images/Yoast_SEO_Icon.svg);
-	background-size: 150px 160px;
+	background: transparent url(../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
+	background-size: 140px 140px;
 	box-shadow: none;
 }
 
@@ -522,5 +521,14 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			margin: 0 auto;
 			border-bottom: 1px solid #ddd;
 		}
+	}
+}
+
+@media screen and ( max-width: 500px ) {
+	body.toplevel_page_wpseo_dashboard .wp-badge {
+		padding-top: 80px;
+		background-size: 100px 100px;
+		background-color: #a4286a;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 	}
 }
