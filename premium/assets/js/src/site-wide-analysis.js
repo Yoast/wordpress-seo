@@ -33,7 +33,7 @@ function recalculatePosts() {
 		} );
 
 		postsCalculation.on( "processedPost", ( postCount ) => {
-			var new_width = postCount * ( 100 / settings.amount.total );
+			let new_width = postCount * ( 100 / settings.amount.total );
 
 			progress.progressbar( "value", new_width );
 
