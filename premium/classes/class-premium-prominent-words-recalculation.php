@@ -37,8 +37,8 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		// Adding the thickbox.
 		add_thickbox();
 
-		$total_posts = $this->get_total_posts();
-		$total_pages = $this->get_total_pages();
+		$total_posts = $this->count_unindexed_posts_by_type( 'post' );
+		$total_pages = $this->count_unindexed_posts_by_type( 'page' );
 
 		$progressPosts = sprintf(
 		/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
@@ -222,24 +222,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-420' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
 
-		$has_prominent_words = $this->count_posts_prominent_words( 'post' );
-		$has_no_prominent_words = $this->count_posts_without_prominent_words( 'post' );
-		$total = ( $has_no_prominent_words + $has_prominent_words );
-
-		$total_pages_with_prominent_words = $this->count_posts_prominent_words( 'page' );
-		$total_pages_without_prominent_words = $this->count_posts_without_prominent_words( 'page' );
-		$total_pages = ( $total_pages_without_prominent_words + $total_pages_with_prominent_words );
-
 		if ( $page === 'wpseo_dashboard' ) {
 			$data = array(
 				'allWords' => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
 				'amount' => array(
-					'total' => $total,
-					'hasProminentWords' => $has_prominent_words,
-					'hasNoProminentWords' => $has_no_prominent_words,
+					'total' => $this->count_unindexed_posts_by_type( 'post' ),
 				),
 				'amountPages' => array(
-					'total' => $total_pages,
+					'total' => $this->count_unindexed_posts_by_type( 'page' ),
 				),
 				'restApi' => array(
 					'root' => esc_url_raw( rest_url() ),
@@ -262,19 +252,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @param string $post_type The post type to count.
 	 * @return int The amount of posts.
 	 */
-	protected function count_posts_prominent_words( $post_type ) {
-		$taxonomy = WPSEO_Premium_Prominent_Words_Registration::TERM_NAME;
-
+	protected function count_all_posts_by_type( $post_type ) {
 		$total_posts = new WP_Query( array(
 			'post_type' => $post_type,
-			'post_status' => 'publish',
-			'tax_query' => array(
-				array(
-					'taxonomy' => $taxonomy,
-					'terms' => get_terms( $taxonomy, array( 'fields' => 'ids' ) ),
-					'operator' => 'IN',
-				),
-			),
+			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
 		) );
 
 		return (int) $total_posts->found_posts;
@@ -286,43 +267,24 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @param string $post_type The post type to count.
 	 * @return int The amount of posts.
 	 */
-	protected function count_posts_without_prominent_words( $post_type ) {
-		$taxonomy = WPSEO_Premium_Prominent_Words_Registration::TERM_NAME;
-
+	protected function count_unindexed_posts_by_type( $post_type ) {
 		$total_posts = new WP_Query( array(
 			'post_type' => $post_type,
-			'post_status' => 'publish',
-			'tax_query' => array(
+			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
+			'meta_query' => array(
+				'relation' => 'OR',
 				array(
-					'taxonomy' => $taxonomy,
-					'terms' => get_terms( $taxonomy, array( 'fields' => 'ids' ) ),
-					'operator' => 'NOT IN',
+					'key'     => WPSEO_Premium_Prominent_Words_Version::POST_META_NAME,
+					'value'   => WPSEO_Premium_Prominent_Words_Version::VERSION_NUMBER,
+					'compare' => '!=',
+				),
+				array(
+					'key'     => WPSEO_Premium_Prominent_Words_Version::POST_META_NAME,
+					'compare' => 'NOT EXISTS',
 				),
 			),
 		) );
 
 		return (int) $total_posts->found_posts;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function get_total_posts() {
-		$total_posts_with_prominent_words    = $this->count_posts_prominent_words( 'post' );
-		$total_posts_without_prominent_words = $this->count_posts_without_prominent_words( 'post' );
-		$total_posts                         = ( $total_posts_without_prominent_words + $total_posts_with_prominent_words );
-
-		return $total_posts;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function get_total_pages() {
-		$total_pages_with_prominent_words    = $this->count_posts_prominent_words( 'page' );
-		$total_pages_without_prominent_words = $this->count_posts_without_prominent_words( 'page' );
-		$total_pages                         = ( $total_pages_without_prominent_words + $total_pages_with_prominent_words );
-
-		return $total_pages;
 	}
 }
