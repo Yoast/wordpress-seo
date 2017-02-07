@@ -25,6 +25,7 @@ if ( WPSEO_Utils::is_api_available() ) :
 
 	<br/>
 <?php
+endif;
 
 /**
  * Action: 'wpseo_internal_linking' - Hook to add the internal linking analyze interface to the interface.
