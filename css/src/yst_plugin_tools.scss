@@ -168,11 +168,14 @@ table.wpseo th {
 }
 
 /* Template variables table. */
+table.yoast_help {
+	border-collapse: collapse;
+}
+
 table.yoast_help,
 table.yoast_help th,
 table.yoast_help td {
 	border: 1px solid #ddd;
-	border-collapse: collapse;
 	color: #444;
 }
 
@@ -198,10 +201,6 @@ table.yoast_help tr:hover {
 table.yoast_help thead tr,
 table.yoast_help thead tr:hover {
 	background-color: #fff;
-}
-
-.yoast_help .variable-name {
-	font-weight: 600;
 }
 
 /* @todo: check this. */
@@ -432,7 +431,52 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 // Scrollable tables.
+//
+// The scrollable tables can be used in three different ways.
+//
+// 1. Full-width and always scrollable.
+// Just set the table width to a value higher than `100%`. The columns width can
+// be set to percentage values (recommended) or other values, as necessary.
+//
+// 2. Full-width responsive tables.
+// Set the initial table width to `100%`. Then, use media queries breakpoints to
+// increase the width to values higher than `100%` and make the table scrollable
+// on smaller screens. Columns width: same as above.
+//
+// 3. Tables width based on their content (non-full-width).
+// Don't set a CSS width on the table. Instead, set a `min-width` on one or more
+// table columns or use `white-space: nowrap` depending on the desired behavior.
+// The `min-width` should be set to what's a reasonably good value for a
+// comfortable readability of the column's cells content. The table cells use
+// `box-sizing: border-box` to make setting the `min-width` easier.
+
+// We want the variable names to don't wrap.
+.yoast_help .variable-name {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+// Variables tables in the Help Center.
+.wpseo-tab-video-slideout .variable-desc {
+	min-width: 400px;
+	font-weight: 400; // Overrides inheritance from the Help Center tab content.
+}
+
+// Variables table in the Advanced > RSS page.
+.page-wpseo_rss .variable-desc {
+	min-width: 300px;
+}
+
 .yoast-table-scrollable {
+	// Webkit uses `content-box`. Switch everything to `border-box` to have
+	// consistent results when setting/getting the table and cells width.
+	box-sizing: border-box;
+
+	& th,
+	& td {
+		box-sizing: border-box;
+	}
+
 	&__container {
 		&.yoast-has-scroll {
 			position: relative;
@@ -453,10 +497,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		&.yoast-has-scroll .yoast-table-scrollable__inner {
 			overflow-x: scroll;
 		}
-	}
-
-	.variable-desc {
-		min-width: 280px; // Plus yoast_help td 20px padding = 300.
 	}
 
 	&__hintwrapper {

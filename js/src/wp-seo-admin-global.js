@@ -296,53 +296,70 @@
 	/**
 	 * Make tables scrollable.
 	 *
+	 * Usage: see related stylesheet.
+	 *
 	 * @returns {void}
 	 */
 	function scrollableTables() {
 		$( ".yoast-table-scrollable" ).each( function() {
-			var table = $( this );
+			var $table = $( this );
 
 			/*
 			 * Create an element with a hint message and insert it in the DOM
 			 * before each table.
 			 */
-			var scrollHint = $( "<div />", {
+			var $scrollHint = $( "<div />", {
 				"class": "yoast-table-scrollable__hintwrapper",
 				html: "<span class='yoast-table-scrollable__hint' aria-hidden='true' />",
-			} ).insertBefore( table );
+			} ).insertBefore( $table );
 
 			// Set the hint message text.
-			scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollableTableHint );
+			$scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollableTableHint );
 
 			/*
 			 * Create a wrapper element with an inner div necessary for
 			 * styling and insert them in the DOM before each table.
 			 */
-			var scrollContainer = $( "<div />", {
+			var $scrollContainer = $( "<div />", {
 				"class": "yoast-table-scrollable__container",
 				html: "<div class='yoast-table-scrollable__inner' />",
-			} ).insertBefore( table );
+			} ).insertBefore( $table );
 
 			// For each table, store a reference to its wrapper element.
-			table.data( "scrollContainer", scrollContainer );
+			$table.data( "scrollContainer", $scrollContainer );
 
 			// Move the scrollable table inside the wrapper.
-			table.appendTo( scrollContainer.find( ".yoast-table-scrollable__inner" ) );
+			$table.appendTo( $scrollContainer.find( ".yoast-table-scrollable__inner" ) );
 
 			// Check if the table is wider than its parent.
-			if ( table.outerWidth() > table.parent().outerWidth() ) {
+			if ( $table.outerWidth() > $table.parent().outerWidth() ) {
 				$( ".yoast-table-scrollable__hintwrapper" ).addClass( "yoast-has-scroll" );
-				table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
+				$table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
 			}
 
-			// When the viewport size changes, check again if the table needs to be scrollable.
-			$( window ).on( "wp-window-resized orientationchange", function() {
-				if ( table.outerWidth() > table.parent().outerWidth() ) {
+			/*
+			 * When the viewport size changes, check again the elements size.
+			 * About the events: technically `wp-window-resized` is triggered on
+			 * the body but since it bubbles, it happens also on the window.
+			 * Also, instead of trying to detect events support on devices and
+			 * browsers, we just run the check on both `wp-window-resized` and
+			 * `orientationchange`. We also need a custom event, for example
+			 * when tables inside the Help Center tabs become visible.
+			 */
+			$( window ).on( "wp-window-resized orientationchange yoast-table-scrollable-check-size", function() {
+
+				// Skip hidden tables.
+				if ( $table.is( ":hidden" ) ) {
+					// Equivalent of 'continue' for jQuery loop.
+					return true;
+				}
+
+				if ( $table.outerWidth() > $table.parent().outerWidth() ) {
 					$( ".yoast-table-scrollable__hintwrapper" ).addClass( "yoast-has-scroll" );
-					table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
+					$table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
 				} else {
 					$( ".yoast-table-scrollable__hintwrapper" ).removeClass( "yoast-has-scroll" );
-					table.data( "scrollContainer" ).removeClass( "yoast-has-scroll" );
+					$table.data( "scrollContainer" ).removeClass( "yoast-has-scroll" );
 				}
 			} );
 		} );
@@ -417,6 +434,8 @@
 		var $activeTabLink = $container.find( ".wpseo-help-center-item.active > a" );
 
 		$( "#wpcontent" ).addClass( "yoast-help-center-open" );
+		// The first tab might contain scrollable tables: trigger a custom event to check their size.
+		$( window ).trigger( "yoast-table-scrollable-check-size" );
 
 		if ( $activeTabLink.length > 0 ) {
 			var activeTab = $activeTabLink.attr( "aria-controls" );
@@ -430,6 +449,8 @@
 				$link.parent().addClass( "active" );
 
 				openHelpCenterTab( $container, $( "#" + target ) );
+				// Trigger a custom event to check the scrollable tables size.
+				$( window ).trigger( "yoast-table-scrollable-check-size" );
 
 				e.preventDefault();
 			} );
