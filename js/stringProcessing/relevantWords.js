@@ -1,31 +1,32 @@
-var getWords = require( "../stringProcessing/getWords" );
-var getSentences = require( "../stringProcessing/getSentences" );
-var WordCombination = require( "../values/WordCombination" );
-var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-var germanFunctionWords = require( "../researches/german/functionWords.js" );
-var englishFunctionWords = require( "../researches/english/functionWords.js" );
-var dutchFunctionWords = require( "../researches/dutch/functionWords" );
-var countSyllables = require( "../stringProcessing/syllables/count.js" );
-var getLanguage = require( "../helpers/getLanguage.js" );
+let getWords = require( "../stringProcessing/getWords.js" );
+let getSentences = require( "../stringProcessing/getSentences.js" );
+let WordCombination = require( "../values/WordCombination.js" );
+let normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
+let germanFunctionWords = require( "../researches/german/functionWords.js" );
+let englishFunctionWords = require( "../researches/english/functionWords.js" );
+let dutchFunctionWords = require( "../researches/dutch/functionWords.js" );
+let spanishFunctionWords = require( "../researches/spanish/functionWords.js" );
+let countSyllables = require( "../stringProcessing/syllables/count.js" );
+let getLanguage = require( "../helpers/getLanguage.js" );
 
-var filter = require( "lodash/filter" );
-var map = require( "lodash/map" );
-var forEach = require( "lodash/forEach" );
-var has = require( "lodash/has" );
-var flatMap = require( "lodash/flatMap" );
-var values = require( "lodash/values" );
-var take = require( "lodash/take" );
-var includes = require( "lodash/includes" );
-var intersection = require( "lodash/intersection" );
-var isEmpty = require( "lodash/isEmpty" );
+let filter = require( "lodash/filter" );
+let map = require( "lodash/map" );
+let forEach = require( "lodash/forEach" );
+let has = require( "lodash/has" );
+let flatMap = require( "lodash/flatMap" );
+let values = require( "lodash/values" );
+let take = require( "lodash/take" );
+let includes = require( "lodash/includes" );
+let intersection = require( "lodash/intersection" );
+let isEmpty = require( "lodash/isEmpty" );
 
-var densityLowerLimit = 0;
-var densityUpperLimit = 0.03;
-var relevantWordLimit = 100;
-var wordCountLowerLimit = 200;
+let densityLowerLimit = 0;
+let densityUpperLimit = 0.03;
+let relevantWordLimit = 100;
+let wordCountLowerLimit = 200;
 
 // En dash, em dash, hyphen-minus, and hash.
-var specialCharacters = [ "–", "—", "-", "#" ];
+let specialCharacters = [ "–", "—", "-", "#" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
@@ -36,9 +37,9 @@ var specialCharacters = [ "–", "—", "-", "#" ];
  * @returns {WordCombination[]} All word combinations for the given text.
  */
 function getWordCombinations( text, combinationSize, functionWords ) {
-	var sentences = getSentences( text );
+	let sentences = getSentences( text );
 
-	var words, combination;
+	let words, combination;
 
 	return flatMap( sentences, function( sentence ) {
 		sentence = sentence.toLocaleLowerCase();
@@ -64,10 +65,10 @@ function getWordCombinations( text, combinationSize, functionWords ) {
  * @returns {WordCombination[]} Word combinations with their respective occurrences.
  */
 function calculateOccurrences( wordCombinations ) {
-	var occurrences = {};
+	let occurrences = {};
 
 	forEach( wordCombinations, function( wordCombination ) {
-		var combination = wordCombination.getCombination();
+		let combination = wordCombination.getCombination();
 
 		if ( ! has( occurrences, combination ) ) {
 			occurrences[ combination ] = wordCombination;
@@ -102,7 +103,7 @@ function getRelevantCombinations( wordCombinations ) {
  */
 function sortCombinations( wordCombinations ) {
 	wordCombinations.sort( function( combinationA, combinationB ) {
-		var difference = combinationB.getRelevance() - combinationA.getRelevance();
+		let difference = combinationB.getRelevance() - combinationA.getRelevance();
 		// The combination with the highest relevance comes first.
 		if ( difference !== 0 ) {
 			return difference;
@@ -134,8 +135,8 @@ function filterFunctionWordsAtBeginning( wordCombinations, functionWords ) {
  */
 function filterFunctionWordsAtEnding( wordCombinations, functionWords ) {
 	return wordCombinations.filter( function( combination ) {
-		var words = combination.getWords();
-		var lastWordIndex = words.length - 1;
+		let words = combination.getWords();
+		let lastWordIndex = words.length - 1;
 		return ! includes( functionWords, words[ lastWordIndex ] );
 	} );
 }
@@ -215,9 +216,9 @@ function filterCombinations( combinations, functionWords, locale ) {
 	combinations = filterFunctionWords( combinations, functionWords().quantifiers );
 	combinations = filterFunctionWords( combinations, functionWords().demonstrativePronouns );
 	combinations = filterFunctionWords( combinations, functionWords().transitionWords );
-	combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
 	combinations = filterFunctionWords( combinations, functionWords().interjections );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().relativePronouns );
+	combinations = filterFunctionWords( combinations, functionWords().pronominalAdverbs );
 	combinations = filterFunctionWordsAtEnding( combinations, functionWords().miscellaneous );
 	combinations = filterOnSyllableCount( combinations, 1, locale );
 	switch( getLanguage( locale ) ) {
@@ -225,6 +226,11 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
+			break;
+		case "es":
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
+			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().infinitives );
+			combinations = filterFunctionWordsAtEnding( combinations, functionWords().reflexivePronouns );
 			break;
 		case "de":
 		case "nl":
@@ -244,7 +250,7 @@ function filterCombinations( combinations, functionWords, locale ) {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords( text, locale ) {
-	var functionWords;
+	let functionWords;
 	switch( getLanguage( locale ) ) {
 		case "de":
 			functionWords = germanFunctionWords;
@@ -252,34 +258,37 @@ function getRelevantWords( text, locale ) {
 		case "nl":
 			functionWords = dutchFunctionWords;
 			break;
+		case "es":
+			functionWords = spanishFunctionWords;
+			break;
 		default:
 		case "en":
 			functionWords = englishFunctionWords;
 			break;
 	}
 
-	var words = getWordCombinations( text, 1, functionWords().all );
-	var wordCount = words.length;
+	let words = getWordCombinations( text, 1, functionWords().all );
+	let wordCount = words.length;
 
-	var oneWordCombinations = getRelevantCombinations(
+	let oneWordCombinations = getRelevantCombinations(
 		calculateOccurrences( words )
 	);
 
 	sortCombinations( oneWordCombinations );
 	oneWordCombinations = take( oneWordCombinations, 100 );
 
-	var oneWordRelevanceMap = {};
+	let oneWordRelevanceMap = {};
 
 	forEach( oneWordCombinations, function( combination ) {
 		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance( functionWords );
 	} );
 
-	var twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords().all ) );
-	var threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords().all ) );
-	var fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords().all ) );
-	var fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords().all ) );
+	let twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords().all ) );
+	let threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords().all ) );
+	let fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords().all ) );
+	let fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords().all ) );
 
-	var combinations = oneWordCombinations.concat(
+	let combinations = oneWordCombinations.concat(
 		twoWordCombinations,
 		threeWordCombinations,
 		fourWordCombinations,
