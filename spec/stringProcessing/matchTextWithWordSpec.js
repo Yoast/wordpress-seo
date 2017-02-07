@@ -60,4 +60,11 @@ describe("Counts the occurences of a word in a string", function(){
 	it( "should match keyphrases comprised of multiple words. ", function() {
 		expect( wordMatch( "text key word text", "key word" ) ).toBe( 1 );
 	});
+
+	it( "should match keywords preceded by a punctuation mark.", function() {
+		expect( wordMatch ( "¿keyword.", "keyword") ).toBe( 1 );
+		expect( wordMatch ( "¡keyword.", "keyword") ).toBe( 1 );
+		expect( wordMatch ( "«keyword»", "keyword") ).toBe( 1 );
+		expect( wordMatch ( "(keyword)", "keyword") ).toBe( 1 );
+	});
 });
