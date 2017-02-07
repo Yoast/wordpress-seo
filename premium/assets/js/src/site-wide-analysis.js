@@ -69,7 +69,7 @@ function recalculatePages() {
 		} );
 
 		pagesCalculation.on( "processedPost", ( pageCount ) => {
-			var new_width = pageCount * ( 100 / settings.amountPages.total );
+			let new_width = pageCount * ( 100 / settings.amountPages.total );
 
 			progress.progressbar( "value", new_width );
 			progressElement.html( pageCount );
