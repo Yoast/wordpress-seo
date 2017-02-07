@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '4.2';
+	const PLUGIN_VERSION_NAME = '4.2.1';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://my.yoast.com';
@@ -239,7 +239,7 @@ class WPSEO_Premium {
 	 * @link https://github.com/Yoast/i18n-module
 	 */
 	private function register_i18n_promo_class() {
-		new yoast_i18n(
+		new Yoast_I18n_v2(
 			array(
 				'textdomain'     => 'wordpress-seo-premium',
 				'project_slug'   => 'wordpress-seo-premium',

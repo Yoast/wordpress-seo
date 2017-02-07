@@ -217,8 +217,8 @@ table.yoast_help tr:hover {
 }
 
 .yoast-notice-blocking-files code {
+	color: #000; 
 	line-height: 2;
-	color: #000;
 }
 
 .yoast-notice-blocking-files .button {
@@ -429,82 +429,69 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 /* Banners sidebar. */
-.yoast-sidebar {
-
-	&__title {
-		width: 100%;
-		margin: 46px 0 20px;
-		padding: 10px 0;
-		color: #a4286a;
-		text-align: left;
-		box-sizing: border-box;
-		line-height: 19px;
-		border-bottom: 1px solid #a4286a;
-	}
-
-	&__spot {
-		padding: 10px 0;
-		border-bottom: 1px solid #ddd;
-
-		a {
-			color: #a4286a;
-		}
-	}
+.yoast-sidebar__title {
+	box-sizing: border-box;
+	width: 100%;
+	margin: 46px 0 20px;
+	padding: 10px 0;
+	border-bottom: 1px solid #a4286a; 
+	color: #a4286a;
+	line-height: 19px;
+	text-align: left;
 }
 
-.wpseo-banner {
-	&__link {
-	   display: inline-block;
-	}
+.yoast-sidebar__spot {
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
+.yoast-sidebar__spot a {
+	color: #a4286a;
+}
 
-	&__image {
-	   vertical-align: top;
-	}
+.wpseo-banner__link {
+	display: inline-block;
+}
+
+.wpseo-banner__image {
+	vertical-align: top;
 }
 
 /* Responsive layout. */
-@media screen and ( max-width: 1024px ) {
+@media screen and (max-width: 1024px) {
 	.wpseo_content_wrapper,
 	.wpseo_content_cell {
 		display: block;
 		height: auto;
 	}
-
 	#wpseo_content_top {
 		width: auto;
 	}
-
 	#sidebar-container {
 		width: auto;
 		padding: 0;
 	}
 
-	/* Banners sidebar. */
-	.yoast-sidebar {
-
-		&__spot {
-			float: left;
-			width: 50%;
-			border: none;
-			text-align: center;
-
-			strong:first-child {
-				display: block;
-				max-width: 261px;
-				margin: 0 auto;
-				text-align: left;
-			}
-
-			p {
-				max-width: 261px;
-				margin: 1em auto;
-				text-align: left;
-			}
-		}
+/* Banners sidebar. */
+	.yoast-sidebar__spot {
+		float: left;
+		width: 50%;
+		border: none;
+		text-align: center;
+	}
+	.yoast-sidebar__spot strong:first-child {
+		display: block;
+		max-width: 261px;
+		margin: 0 auto;
+		text-align: left;
+	}
+	.yoast-sidebar__spot p {
+		max-width: 261px;
+		margin: 1em auto;
+		text-align: left;
 	}
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	/* Forms. */
 	label.textinput,
 	label.select {
@@ -512,54 +499,46 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		float: none;
 		width: auto;
 	}
-
 	input.textinput,
 	textarea,
 	textarea.textinput {
 		display: block;
 		width: 100%;
 	}
-
 	select,
 	select.select,
 	.select2-container {
 		display: block;
 		max-width: 100%;
 	}
-
 	p.desc.label {
 		padding-left: 0;
 	}
-
 	.wp-core-ui .button.wpseo-gsc-save-profile {
 		margin-left: 0;
 	}
 
-	/* Google Search Console: Reload crawl issues form. */
+/* Google Search Console: Reload crawl issues form. */
 	.wpseo-gsc-reload-crawl-issues-form {
 		top: 0;
 		margin: 1em 0;
 	}
-
 	.wpseo-gsc-reload-crawl-issues-form .alignright {
 		float: none;
 	}
 }
 
-@media screen and ( max-width: 600px ) {
+@media screen and (max-width: 600px) {
 	/* Google Search Console: Reload crawl issues form. */
 	.wpseo-gsc-reload-crawl-issues-form {
 		margin-bottom: 0;
 	}
 
-	/* Banners sidebar. */
-	.yoast-sidebar {
-
-		&__spot {
-			float: none;
-			width: 261px;
-			margin: 0 auto;
-			border-bottom: 1px solid #ddd;
-		}
+/* Banners sidebar. */
+	.yoast-sidebar__spot {
+		float: none;
+		width: 261px;
+		margin: 0 auto;
+		border-bottom: 1px solid #ddd;
 	}
 }

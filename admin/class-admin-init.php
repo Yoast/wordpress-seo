@@ -441,15 +441,13 @@ class WPSEO_Admin_Init {
 	 */
 	private function register_i18n_promo_class() {
 		// BC, because an older version of the i18n-module didn't have this class.
-		if ( class_exists( 'Yoast_I18n_WordPressOrg' ) ) {
-			new Yoast_I18n_WordPressOrg(
-				array(
-					'textdomain'  => 'wordpress-seo',
-					'plugin_name' => 'Yoast SEO',
-					'hook'        => 'wpseo_admin_promo_footer',
-				)
-			);
-		}
+		new Yoast_I18n_WordPressOrg_v2(
+			array(
+				'textdomain'  => 'wordpress-seo',
+				'plugin_name' => 'Yoast SEO',
+				'hook'        => 'wpseo_admin_promo_footer',
+			)
+		);
 	}
 
 	/**
