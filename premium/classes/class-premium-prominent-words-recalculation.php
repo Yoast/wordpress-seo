@@ -24,14 +24,16 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	public function add_internal_linking_interface() {
 
 		$height = 315;
+		$saved_height_when_no_items = 32;
+
 		$unindexed_posts = $this->count_unindexed_posts_by_type( 'post' );
 		$unindexed_pages = $this->count_unindexed_posts_by_type( 'page' );
 		if ( $unindexed_posts === 0 ) {
-			$height -= 32;
+			$height -= $saved_height_when_no_items; // Reduce the height with 32, because there will be no progressbar.
 		}
 
 		if ( $unindexed_pages === 0 ) {
-			$height -= 32;
+			$height -= $saved_height_when_no_items;  // Reduce the height with 32, because there will be no progressbar.
 		}
 
 		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
