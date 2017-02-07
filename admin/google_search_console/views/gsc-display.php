@@ -117,6 +117,13 @@ switch ( $platform_tabs->current_tab() ) {
 		break;
 }
 ?>
+<?php
+        // Add link to Knowledge Base article about crawl issues.
+        echo '<p>';
+	    echo sprintf ('Please refer to <a href="https://kb.yoast.com/kb/how-to-connect-and-retrieve-crawl-issues/" target="_blank">our article about how to connect your website to Google Search Console</a> if you need assistance.', 'wordpress-seo');
+        echo '</p>';
+?>
+
 	<br class="clear" />
 <?php
 
