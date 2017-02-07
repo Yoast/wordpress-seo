@@ -8,7 +8,7 @@ import a11ySpeak from "a11y-speak";
 
 let settings = yoastSiteWideAnalysisData.data;
 
-let progressContainer, completedContainer, infoContainer;
+let infoContainer;
 let prominentWordCache;
 
 /**
@@ -88,9 +88,6 @@ function recalculatePages() {
  * @returns {void}
  */
 function showCompletion() {
-
-	//	progressContainer.hide();
-//	completedContainer.show();
 	a11ySpeak( settings.l10n.calculationCompleted );
 
 	jQuery( '#openInternalLinksCalculation' )
@@ -105,9 +102,6 @@ function showCompletion() {
  * @returns {void}
  */
 function startRecalculating() {
-//	infoContainer.hide();
-//	progressContainer.show();
-
 	a11ySpeak( settings.l10n.calculationInProgress );
 
 	let restApi = new RestApi( { rootUrl: settings.restApi.root, nonce: settings.restApi.nonce } );
@@ -129,17 +123,9 @@ function startRecalculating() {
 function init() {
 	jQuery( ".yoast-js-calculate-prominent-words--all" ).on( "click", function() {
 		startRecalculating();
-
-//	jQuery( this ).hide();
 	} );
 
-	infoContainer       = jQuery( ".yoast-js-prominent-words-info" );
-
-//	progressContainer   = jQuery( "#wpseo_recalculate_internal_links" );
-//	progressContainer.hide();
-
-//	completedContainer  = jQuery( ".yoast-js-prominent-words-completed" );
-//	completedContainer.hide();
+	infoContainer = jQuery( ".yoast-js-prominent-words-info" );
 }
 
 jQuery( init );
