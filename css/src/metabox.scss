@@ -207,26 +207,12 @@ ul.wpseo-metabox-tabs li {
 	border: 1px solid;
 }
 
-#wpseo_meta {
-	.inside {
-		margin: 6px 0 0 0;
-		overflow: auto;
-	}
+#wpseo_meta .inside {
+	margin: 0;
 }
 
 #wpseo_meta .postbox .inside .wpseotab {
 	font-size: 13px !important;
-}
-
-#wpseo_meta {
-	.wpseo-tab-video-container{
-		h2 {
-			font-size: 1.3em;
-			padding-left: 0px;
-			border: 0px;
-			margin-bottom: 20px;
-		}
-	}
 }
 
 /* Basic styling for social, advanced, and add-ons tabs content. */
@@ -564,7 +550,8 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	background-image: url(svg-icon-yoast($color));
 }
 
-.term-php .wpseo-taxonomy-metabox-postbox h2 {
+// Fix for the Taxonomy metabox heading: get just the first level h2.
+.term-php .wpseo-taxonomy-metabox-postbox > h2 {
 	margin: 0;
 	padding: 8px 12px;
 	border-bottom: 1px solid #eee;
@@ -598,8 +585,8 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .wpseo-metabox-buy-premium {
 	position: absolute;
 	right: 12px;
-	top: 6px;
-	vertical-align: middle;
+	top: 0;
+	padding: 10px 0; /* To have the same height of the `.wpseo-tab-video-container__handle` button. */
 }
 
 .wpseo-metabox-premium-description {
@@ -697,15 +684,12 @@ ul.wpseo-metabox-premium-advantages {
 		left: 1px;
 	}
 
-	/* Go Premium dashicon. */
+	/* The Go Premium dashicon must stay unchanged in the responsive view. */
 	.wpseo-metabox-buy-premium .wpseo-buy-premium {
 		display: inline-block;
-		height: auto;
-		padding-right: 5px;
-	}
-
-	.wpseo-metabox-buy-premium .dashicons:before {
-		vertical-align: top;
+		width: 20px;
+		height: 20px;
+		padding: 0 5px 0;
 	}
 
 	.yoast-help-panel {
@@ -723,7 +707,7 @@ ul.wpseo-metabox-premium-advantages {
 
 	/* Necessary to override a WP rule. */
 	.wpseotab select[multiple] {
-	    height: auto !important;
+		height: auto !important;
 	}
 }
 

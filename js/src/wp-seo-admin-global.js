@@ -412,7 +412,7 @@
 	 * @returns {void}
 	 */
 	function openHelpCenterTab( $container, $tab ) {
-		$container.find( ".contextual-help-tabs-wrap div" ).removeClass( "active" );
+		$container.find( ".yoast-help-center-tabs-wrap div" ).removeClass( "active" );
 		$tab.addClass( "active" );
 
 		stopVideos();
@@ -429,7 +429,7 @@
 	function openVideoSlideout( $container ) {
 		$container.find( ".toggle__arrow" ).removeClass( "dashicons-arrow-down" ).addClass( "dashicons-arrow-up" );
 		$container.find( ".wpseo-tab-video-container__handle" ).attr( "aria-expanded", "true" );
-		$container.find( ".wpseo-tab-video-slideout" ).css( "display", "flex" );
+		$container.find( ".wpseo-tab-video-slideout" ).removeClass( "hidden" );
 
 		var $activeTabLink = $container.find( ".wpseo-help-center-item.active > a" );
 
@@ -469,7 +469,7 @@
 	 */
 	function closeVideoSlideout() {
 		var $container = $( "#wpbody-content" ).find( ".wpseo-tab-video-container" );
-		$container.find( ".wpseo-tab-video-slideout" ).css( "display", "" );
+		$container.find( ".wpseo-tab-video-slideout" ).addClass( "hidden" );
 
 		stopVideos();
 
@@ -487,7 +487,7 @@
 	$( ".wpseo-tab-video-container" ).on( "click", ".wpseo-tab-video-container__handle", function( e ) {
 		var $container = $( e.delegateTarget );
 		var $slideout = $container.find( ".wpseo-tab-video-slideout" );
-		if ( $slideout.is( ":hidden" ) ) {
+		if ( $slideout.hasClass( "hidden" ) ) {
 			openVideoSlideout( $container );
 		} else {
 			closeVideoSlideout();

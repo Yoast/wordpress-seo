@@ -13,9 +13,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 if ( ! empty( $tab_video_url ) ) :
 
 	?>
-
+	<h2 class="screen-reader-text"><?php esc_html_e( 'Video tutorial', 'wordpress-seo' ) ?></h2>
 	<div class="wpseo-tab-video__panel wpseo-tab-video__panel--video">
-		<div class="wpseo-tab-video__data" data-url="<?php echo $tab_video_url ?>"></div>
+		<div class="wpseo-tab-video__data yoast-video-container" data-url="<?php echo $tab_video_url ?>"></div>
 	</div>
 	<div class="wpseo-tab-video__panel wpseo-tab-video__panel--text">
 		<?php

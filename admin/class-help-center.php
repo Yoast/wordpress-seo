@@ -64,7 +64,7 @@ class WPSEO_Help_Center {
 			'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=popup&utm_campaign=multiple-keywords">Yoast SEO Premium</a>',
 			'yoast.com' );
 
-		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h3', $popup_title, $popup_content );
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Email support', 'wordpress-seo' ),
@@ -123,7 +123,7 @@ class WPSEO_Help_Center {
 						class="dashicons-before dashicons-editor-help"><?php _e( 'Help center', 'wordpress-seo' ) ?></span>
 				<span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 			</button>
-			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout">
+			<div id="<?php echo $id ?>" class="wpseo-tab-video-slideout hidden">
 				<div class="yoast-help-center-tabs">
 					<ul>
 						<?php
@@ -150,19 +150,21 @@ class WPSEO_Help_Center {
 						?>
 					</ul>
 				</div>
-				<div class="contextual-help-tabs-wrap">
+				<div class="yoast-help-center-tabs-wrap">
 					<?php
-					$classes = 'help-tab-content active';
+					$classes = 'yoast-help-tab-content active';
 					foreach ( $help_center_items as $help_center_item ) {
 						$id = $help_center_item->get_identifier();
 
+						$video_tab_class = ( 'video' === $id ) ? ' yoast-help-tab-content-video' : '';
+
 						$panel_id = "tab-panel-{$this->group_name}_{$this->tab->get_name()}__{$id}";
 						?>
-						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes; ?>">
+						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes . $video_tab_class; ?>">
 							<?php echo $help_center_item->get_content(); ?>
 						</div>
 						<?php
-						$classes = 'help-tab-content';
+						$classes = 'yoast-help-tab-content';
 					}
 					?>
 				</div>
