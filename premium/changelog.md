@@ -1,3 +1,8 @@
+### 4.3.0: February , 2017
+* Adds link suggestions and insights for Spanish.
+* Fixes a bug where the rendering of the columns in the post overview was incorrect. 
+* Includes every change in Yoast SEO core 4.3.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 4.2.1: February 2nd, 2017
 * Includes every change in Yoast SEO core 4.2.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
