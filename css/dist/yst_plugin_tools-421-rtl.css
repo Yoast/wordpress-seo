@@ -294,7 +294,7 @@ textarea.wpseo-new-metadesc {
 
 /* Titles & Metas: title separator. */
 #separator {
-	margin: 1.5em 0 1em;
+	margin: 1.5em 0 0.5em;
 }
 
 #separator input.radio {
@@ -308,7 +308,7 @@ textarea.wpseo-new-metadesc {
 #separator input.radio + label {
 	float: right;
 	width: 30px !important;
-	margin: 0 0 0 5px !important;
+	margin: 0 0 0.5em 5px !important;
 	padding: 9px 6px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
@@ -344,9 +344,8 @@ textarea.wpseo-new-metadesc {
 
 /* Yoast SEO credits page. */
 body.toplevel_page_wpseo_dashboard .wp-badge {
-	border: none;
-	background: url(../images/Yoast_SEO_Icon.svg);
-	background-size: 150px 160px;
+	background: transparent url(../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
+	background-size: 140px 140px;
 	box-shadow: none;
 }
 
@@ -376,6 +375,23 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 #wpseo_progressbar .ui-progressbar-value {
+	height: 25px;
+	background: #006691;
+}
+
+.wpseo-progressbar-wrapper {
+	display: inline;
+	width: 100%;
+}
+
+.wpseo-progressbar {
+	display: block;
+	width: 100%;
+	height: 25px;
+	border: 1px solid #006691;
+}
+
+.wpseo-progressbar .ui-progressbar-value {
 	height: 25px;
 	background: #006691;
 }
@@ -501,5 +517,14 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		width: 261px;
 		margin: 0 auto;
 		border-bottom: 1px solid #ddd;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	body.toplevel_page_wpseo_dashboard .wp-badge {
+		padding-top: 80px;
+		background-color: #a4286a;
+		background-size: 100px 100px;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 	}
 }
