@@ -62,5 +62,9 @@ module.exports = function( grunt ) {
 					" " + files.join( " " );
 			},
 		},
+
+		"production-composer-install": {
+			command: "composer install --prefer-dist --optimize-autoloader --no-dev",
+		},
 	};
 };

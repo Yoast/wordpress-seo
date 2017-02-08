@@ -395,6 +395,23 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	background: #006691;
 }
 
+.wpseo-progressbar-wrapper {
+	display: inline;
+	width: 100%;
+}
+
+.wpseo-progressbar {
+	display: block;
+	width: 100%;
+	height: 25px;
+	border: 1px solid #006691;
+}
+
+.wpseo-progressbar .ui-progressbar-value {
+	height: 25px;
+	background: #006691;
+}
+
 /* Add Facebook admin popup: notification when submitting empty form. */
 .wpseo-add-fb-admin-form-wrap .notice span {
 	margin-right: 10px;
