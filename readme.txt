@@ -131,6 +131,9 @@ Release Date: February , 2017
 * Bugfixes
     * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla)
 
+* Enhancements
+    * Improved feedback text for subheading too long assessment.
+
 = 4.2.1 =
 
 Release Date: February 2nd, 2017
