@@ -205,6 +205,15 @@ table.yoast_help thead tr:hover {
 	background-color: #fff;
 }
 
+table.yoast_help .yoast-variable-name {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+table.yoast_help .yoast-variable-desc {
+	font-weight: 400; // Overrides inheritance from the Help Center tab content.
+}
+
 /* @todo: check this. */
 .correct {
 	padding: 5px;
@@ -447,19 +456,15 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 // Don't set a CSS width on the table. Instead, set a `min-width` on one or more
 // table columns or use `white-space: nowrap` depending on the desired behavior.
 // The `min-width` should be set to what's a reasonably good value for a
-// comfortable readability of the column's cells content. The table cells use
-// `box-sizing: border-box` to make setting the `min-width` easier.
+// comfortable readability of the column's cells content and at the same time
+// allow the table to shrink. The table cells use `box-sizing: border-box` to
+// make setting the `min-width` easier.
 
-// We want the variable names to don't wrap.
-.yoast_help .yoast-variable-name {
-	font-weight: 600;
-	white-space: nowrap;
-}
-
-// Variables tables in the Help Center.
-.wpseo-tab-video-slideout .yoast-variable-desc {
-	min-width: 400px;
-	font-weight: 400; // Overrides inheritance from the Help Center tab content.
+// Variables tables in the Help Center are inside flexbox and need a special treatment.
+@media screen and ( max-width: 1024px ) {
+	.wpseo-tab-video-slideout .yoast-table-scrollable {
+		width: 120%;
+	}
 }
 
 // Variables table in the Advanced > RSS page.

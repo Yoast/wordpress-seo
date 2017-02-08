@@ -204,6 +204,15 @@ table.yoast_help thead tr:hover {
 	background-color: #fff;
 }
 
+table.yoast_help .yoast-variable-name {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+table.yoast_help .yoast-variable-desc {
+	font-weight: 400;
+}
+
 /* @todo: check this. */
 .correct {
 	padding: 5px;
@@ -423,14 +432,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	vertical-align: top;
 }
 
-.yoast_help .yoast-variable-name {
-	font-weight: 600;
-	white-space: nowrap;
-}
-
-.wpseo-tab-video-slideout .yoast-variable-desc {
-	min-width: 400px;
-	font-weight: 400;
+@media screen and (max-width: 1024px) {
+	.wpseo-tab-video-slideout .yoast-table-scrollable {
+		width: 120%;
+	}
 }
 
 .page-wpseo_rss .yoast-variable-desc {

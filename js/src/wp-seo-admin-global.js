@@ -4,6 +4,8 @@
 /* jshint unused:false */
 
 ( function() {
+	var $ = jQuery;
+
 	/**
 	 * Displays console notifications.
 	 *
@@ -124,12 +126,6 @@
 	window.wpseoDismissTaglineNotice = wpseoDismissTaglineNotice;
 	window.wpseoSetIgnore = wpseoSetIgnore;
 	window.wpseoDismissLink = wpseoDismissLink;
-}() );
-
-( function() {
-	"use strict";
-
-	var $ = jQuery;
 
 	/**
 	 * Hides popup showing new alerts message.
@@ -294,6 +290,43 @@
 	}
 
 	/**
+	 * Checks a scrollable table width.
+	 *
+	 * Compares the scrollable table width against the size of its container and
+	 * adds or removes CSS classes accordingly.
+	 *
+	 * @param {object} table A jQuery object with one scrollable table.
+	 * @returns {void}
+	 */
+	function checkScrollableTableSize( table ) {
+		// Bail if the table is hidden.
+		if ( table.is( ":hidden" ) ) {
+			return;
+		}
+
+		// When the table is wider than its parent, make it scrollable.
+		if ( table.outerWidth() > table.parent().outerWidth() ) {
+			table.data( "scrollHint" ).addClass( "yoast-has-scroll" );
+			table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
+		} else {
+			table.data( "scrollHint" ).removeClass( "yoast-has-scroll" );
+			table.data( "scrollContainer" ).removeClass( "yoast-has-scroll" );
+		}
+	}
+
+	/**
+	 * Checks the width of multiple scrollable tables.
+	 *
+	 * @param {object} tables A jQuery collection of scrollable tables.
+	 * @returns {void}
+	 */
+	function checkMultipleScrollableTablesSize( tables ) {
+		tables.each( function() {
+			checkScrollableTableSize( $( this ) );
+		} );
+	}
+
+	/**
 	 * Makes tables scrollable.
 	 *
 	 * Usage: see related stylesheet.
@@ -301,69 +334,68 @@
 	 * @returns {void}
 	 */
 	function createScrollableTables() {
-		$( ".yoast-table-scrollable" ).each( function() {
-			var $table = $( this );
+		// Get the tables elected to be scrollable and store them for later reuse.
+		window.wpseoScrollableTables = $( ".yoast-table-scrollable" );
+
+		// Bail if there are no tables.
+		if ( ! window.wpseoScrollableTables.length ) {
+			return;
+		}
+
+		// Loop over the collection of tables and build some HTML around them.
+		window.wpseoScrollableTables.each( function() {
+			var table = $( this );
 
 			/*
 			 * Create an element with a hint message and insert it in the DOM
 			 * before each table.
 			 */
-			var $scrollHint = $( "<div />", {
+			var scrollHint = $( "<div />", {
 				"class": "yoast-table-scrollable__hintwrapper",
 				html: "<span class='yoast-table-scrollable__hint' aria-hidden='true' />",
-			} ).insertBefore( $table );
-
-			// Set the hint message text.
-			$scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollable_table_hint );
+			} ).insertBefore( table );
 
 			/*
 			 * Create a wrapper element with an inner div necessary for
 			 * styling and insert them in the DOM before each table.
 			 */
-			var $scrollContainer = $( "<div />", {
+			var scrollContainer = $( "<div />", {
 				"class": "yoast-table-scrollable__container",
 				html: "<div class='yoast-table-scrollable__inner' />",
-			} ).insertBefore( $table );
+			} ).insertBefore( table );
+
+			// Set the hint message text.
+			scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollable_table_hint );
 
 			// For each table, store a reference to its wrapper element.
-			$table.data( "scrollContainer", $scrollContainer );
+			table.data( "scrollContainer", scrollContainer );
+
+			// For each table, store a reference to its hint message.
+			table.data( "scrollHint", scrollHint );
 
 			// Move the scrollable table inside the wrapper.
-			$table.appendTo( $scrollContainer.find( ".yoast-table-scrollable__inner" ) );
+			table.appendTo( scrollContainer.find( ".yoast-table-scrollable__inner" ) );
 
-			// Check if the table is wider than its parent.
-			if ( $table.outerWidth() > $table.parent().outerWidth() ) {
-				$( ".yoast-table-scrollable__hintwrapper" ).addClass( "yoast-has-scroll" );
-				$table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
-			}
-
-			/*
-			 * When the viewport size changes, check again the elements size.
-			 * About the events: technically `wp-window-resized` is triggered on
-			 * the body but since it bubbles, it happens also on the window.
-			 * Also, instead of trying to detect events support on devices and
-			 * browsers, we just run the check on both `wp-window-resized` and
-			 * `orientationchange`. We also need a custom event, for example
-			 * when tables inside the Help Center tabs become visible.
-			 */
-			$( window ).on( "wp-window-resized orientationchange yoast-table-scrollable-check-size", function() {
-
-				// Skip hidden tables.
-				if ( $table.is( ":hidden" ) ) {
-					// Equivalent of 'continue' for jQuery loop.
-					return true;
-				}
-
-				if ( $table.outerWidth() > $table.parent().outerWidth() ) {
-					$( ".yoast-table-scrollable__hintwrapper" ).addClass( "yoast-has-scroll" );
-					$table.data( "scrollContainer" ).addClass( "yoast-has-scroll" );
-				} else {
-					$( ".yoast-table-scrollable__hintwrapper" ).removeClass( "yoast-has-scroll" );
-					$table.data( "scrollContainer" ).removeClass( "yoast-has-scroll" );
-				}
-			} );
+			// Check each table's width.
+			checkScrollableTableSize( table );
 		} );
 	}
+
+	/*
+	 * When the viewport size changes, check again the scrollable tables width.
+	 * About the events: technically `wp-window-resized` is triggered on the
+	 * body but since it bubbles, it happens also on the window.
+	 * Also, instead of trying to detect events support on devices and browsers,
+	 * we just run the check on both `wp-window-resized` and `orientationchange`.
+	 */
+	$( window ).on( "wp-window-resized orientationchange", function() {
+		// Bail if there are no tables.
+		if ( ! window.wpseoScrollableTables.length ) {
+			return;
+		}
+
+		checkMultipleScrollableTablesSize( window.wpseoScrollableTables );
+	} );
 
 	$( document ).ready( function() {
 		showAlertPopup();
@@ -371,12 +403,6 @@
 		setPremiumIndicatorColor();
 		createScrollableTables();
 	} );
-}() );
-
-( function() {
-	"use strict";
-
-	var $ = jQuery;
 
 	/**
 	 * Starts video if found on the tab.
@@ -417,6 +443,7 @@
 
 		stopVideos();
 		activateVideo( $tab );
+		checkMultipleScrollableTablesSize( $tab.find( ".yoast-table-scrollable" ) );
 	}
 
 	/**
@@ -434,12 +461,14 @@
 		var $activeTabLink = $container.find( ".wpseo-help-center-item.active > a" );
 
 		$( "#wpcontent" ).addClass( "yoast-help-center-open" );
-		// The first tab might contain scrollable tables: trigger a custom event to check their size.
-		$( window ).trigger( "yoast-table-scrollable-check-size" );
 
 		if ( $activeTabLink.length > 0 ) {
-			var activeTab = $activeTabLink.attr( "aria-controls" );
-			activateVideo( $( "#" + activeTab ) );
+			var activeTabId = $activeTabLink.attr( "aria-controls" ),
+				activeTab = $( "#" + activeTabId );
+
+			activateVideo( activeTab );
+
+			checkMultipleScrollableTablesSize( activeTab.find( ".yoast-table-scrollable" ) );
 
 			$container.on( "click", ".wpseo-help-center-item > a", function( e ) {
 				var $link = $( this );
@@ -449,13 +478,11 @@
 				$link.parent().addClass( "active" );
 
 				openHelpCenterTab( $container, $( "#" + target ) );
-				// Trigger a custom event to check the scrollable tables size.
-				$( window ).trigger( "yoast-table-scrollable-check-size" );
 
 				e.preventDefault();
 			} );
-		}
-		else {
+		} else {
+			// Todo: consider if scrollable tables need to be checked here too.
 			activateVideo( $container );
 		}
 
