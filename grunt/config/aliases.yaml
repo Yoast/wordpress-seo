@@ -57,6 +57,7 @@ check:
   - 'checktextdomain'
 
 artifact:
+  - 'shell:production-composer-install'
   # Update the version numbers in the relevant files
   - 'update-version'
   # Build like we normally would
@@ -81,6 +82,11 @@ release:
   - 'copy:dependencies'
   - 'browserify:release-es6'
   - 'uglify'
+
+'deploy:trunk':
+  - artifact
+  - wp_deploy:trunk
+
 # Default task
 default:
   - build
