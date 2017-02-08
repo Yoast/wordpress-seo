@@ -1,7 +1,7 @@
 let getLinks = require("../../js/researches/getLinks");
 let Paper = require( "../../js/values/Paper.js" );
 
-describe( "A test for getting the links from a test", function() {
+describe( "A test for getting the links from a text", function() {
 	it( "returns all links from the text", function(){
 		let mockPaper = new Paper( "This is a text with a <a href='http://yoast.com'>very nice</a> link" );
 		expect( getLinks( mockPaper ) ).toEqual( [ "http://yoast.com" ] );
