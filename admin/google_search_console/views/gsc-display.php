@@ -123,7 +123,7 @@ switch ( $platform_tabs->current_tab() ) {
 
         printf(
         /* translators: %1$s expands anchor to knowledge base article, %2$s expands to </a> */
-        __( 'Please refer to %1$sour article about how to connect your website to Google Search Console%2$s if you need assistance.', 'wordpress-seo'), '<a href="https://kb.yoast.com/kb/how-to-connect-and-retrieve-crawl-issues/" target="_blank">', '</a>' );
+        __( 'Please refer to %1$sour article about how to connect your website to Google Search Console%2$s if you need assistance.', 'wordpress-seo' ), '<a href="https://kb.yoast.com/kb/how-to-connect-and-retrieve-crawl-issues/" target="_blank">', '</a>' );
 
         echo '</p>';
 ?>
