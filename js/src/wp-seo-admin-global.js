@@ -64,7 +64,7 @@
 	}
 
 	/**
-	 * Generates a dismissable anchor button
+	 * Generates a dismissable anchor button.
 	 *
 	 * @param {string} dismiss_link The URL that leads to the dismissing of the notice.
 	 *
@@ -132,7 +132,7 @@
 	var $ = jQuery;
 
 	/**
-	 * Hide popup showing new alerts message.
+	 * Hides popup showing new alerts message.
 	 *
 	 * @returns {void}
 	 */
@@ -144,7 +144,7 @@
 	}
 
 	/**
-	 * Show popup with new alerts message.
+	 * Shows popup with new alerts message.
 	 *
 	 * @returns {void}
 	 */
@@ -172,7 +172,7 @@
 	}
 
 	/**
-	 * Handle dismiss and restore AJAX responses
+	 * Handles dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
 	 * @param {Object} response AJAX response.
@@ -215,7 +215,7 @@
 	}
 
 	/**
-	 * Hook the restore and dismiss buttons
+	 * Hooks the restore and dismiss buttons.
 	 *
 	 * @returns {void}
 	 */
@@ -294,13 +294,13 @@
 	}
 
 	/**
-	 * Make tables scrollable.
+	 * Makes tables scrollable.
 	 *
 	 * Usage: see related stylesheet.
 	 *
 	 * @returns {void}
 	 */
-	function scrollableTables() {
+	function createScrollableTables() {
 		$( ".yoast-table-scrollable" ).each( function() {
 			var $table = $( this );
 
@@ -314,7 +314,7 @@
 			} ).insertBefore( $table );
 
 			// Set the hint message text.
-			$scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollableTableHint );
+			$scrollHint.find( ".yoast-table-scrollable__hint" ).text( wpseoAdminGlobalL10n.scrollable_table_hint );
 
 			/*
 			 * Create a wrapper element with an inner div necessary for
@@ -369,7 +369,7 @@
 		showAlertPopup();
 		hookDismissRestoreButtons();
 		setPremiumIndicatorColor();
-		scrollableTables();
+		createScrollableTables();
 	} );
 }() );
 
@@ -379,7 +379,7 @@
 	var $ = jQuery;
 
 	/**
-	 * Start video if found on the tab
+	 * Starts video if found on the tab.
 	 *
 	 * @param {object} $tab Tab that is activated.
 	 *
@@ -395,7 +395,7 @@
 	}
 
 	/**
-	 * Stop playing any video.
+	 * Stops playing any video.
 	 *
 	 * @returns {void}
 	 */
@@ -404,7 +404,7 @@
 	}
 
 	/**
-	 * Open tab
+	 * Opens a tab.
 	 *
 	 * @param {object} $container Container that contains the tab.
 	 * @param {object} $tab Tab that is activated.
@@ -420,7 +420,7 @@
 	}
 
 	/**
-	 * Open Video Slideout
+	 * Opens the Video Slideout.
 	 *
 	 * @param {object} $container Tab to open video slider of.
 	 *
@@ -463,7 +463,7 @@
 	}
 
 	/**
-	 * Close Video Slideout
+	 * Closes the Video Slideout.
 	 *
 	 * @returns {void}
 	 */

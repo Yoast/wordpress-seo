@@ -423,17 +423,17 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	vertical-align: top;
 }
 
-.yoast_help .variable-name {
+.yoast_help .yoast-variable-name {
 	font-weight: 600;
 	white-space: nowrap;
 }
 
-.wpseo-tab-video-slideout .variable-desc {
+.wpseo-tab-video-slideout .yoast-variable-desc {
 	min-width: 400px;
 	font-weight: 400;
 }
 
-.page-wpseo_rss .variable-desc {
+.page-wpseo_rss .yoast-variable-desc {
 	min-width: 300px;
 }
 

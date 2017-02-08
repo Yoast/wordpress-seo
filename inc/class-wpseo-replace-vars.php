@@ -1037,8 +1037,8 @@ class WPSEO_Replace_Vars {
 		foreach ( self::$help_texts[ $type ] as $replace => $help_text ) {
 			$table .= '
 				<tr>
-					<td class="variable-name">%%' . esc_html( $replace ) . '%%</td>
-					<td class="variable-desc">' . $help_text . '</td>
+					<td class="yoast-variable-name">%%' . esc_html( $replace ) . '%%</td>
+					<td class="yoast-variable-desc">' . $help_text . '</td>
 				</tr>';
 		}
 

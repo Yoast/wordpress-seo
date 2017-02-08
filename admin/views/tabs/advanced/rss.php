@@ -36,20 +36,20 @@ echo '<h2>' . __( 'Available variables', 'wordpress-seo' ) . '</h2>';
 </thead>
 <tbody>
 	<tr>
-		<td class="variable-name">%%AUTHORLINK%%</td>
-		<td class="variable-desc"><?php _e( 'A link to the archive for the post author, with the authors name as anchor text.', 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-name">%%AUTHORLINK%%</td>
+		<td class="yoast-variable-desc"><?php _e( 'A link to the archive for the post author, with the authors name as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<td class="variable-name">%%POSTLINK%%</td>
-		<td class="variable-desc"><?php _e( 'A link to the post, with the title as anchor text.', 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-name">%%POSTLINK%%</td>
+		<td class="yoast-variable-desc"><?php _e( 'A link to the post, with the title as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<td class="variable-name">%%BLOGLINK%%</td>
-		<td class="variable-desc"><?php _e( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-name">%%BLOGLINK%%</td>
+		<td class="yoast-variable-desc"><?php _e( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<td class="variable-name">%%BLOGDESCLINK%%</td>
-		<td class="variable-desc"><?php _e( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-name">%%BLOGDESCLINK%%</td>
+		<td class="yoast-variable-desc"><?php _e( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ); ?></td>
 	</tr>
 </tbody>
 </table>

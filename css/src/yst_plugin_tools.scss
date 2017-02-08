@@ -451,19 +451,19 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 // `box-sizing: border-box` to make setting the `min-width` easier.
 
 // We want the variable names to don't wrap.
-.yoast_help .variable-name {
+.yoast_help .yoast-variable-name {
 	font-weight: 600;
 	white-space: nowrap;
 }
 
 // Variables tables in the Help Center.
-.wpseo-tab-video-slideout .variable-desc {
+.wpseo-tab-video-slideout .yoast-variable-desc {
 	min-width: 400px;
 	font-weight: 400; // Overrides inheritance from the Help Center tab content.
 }
 
 // Variables table in the Advanced > RSS page.
-.page-wpseo_rss .variable-desc {
+.page-wpseo_rss .yoast-variable-desc {
 	min-width: 300px;
 }
 
