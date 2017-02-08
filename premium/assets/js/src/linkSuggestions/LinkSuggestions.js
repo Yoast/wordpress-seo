@@ -73,7 +73,9 @@ class LinkSuggestions extends EventEmitter {
 	/**
 	 * Saves the link suggestions before rendering.
 	 *
-	 * @param linkSuggestions
+	 * @param {array} linkSuggestions The array with link suggestions.
+	 *
+	 * @returns {void}
 	 */
 	saveLinkSuggestions( linkSuggestions ) {
 		this.linkSuggestions = linkSuggestions;
@@ -82,6 +84,8 @@ class LinkSuggestions extends EventEmitter {
 
 	/**
 	 * Updates the used links so they can be marked when rendering.
+	 *
+	 * @returns {void}
 	 */
 	updateUsedLinks() {
 		this.usedLinks = YoastSEO.app.researcher.getResearch( "getLinks" );
