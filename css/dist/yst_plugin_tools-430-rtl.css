@@ -2,6 +2,7 @@
 .wpseo_content_wrapper {
 	display: table;
 	width: 100%;
+	table-layout: fixed;
 }
 
 .wpseo_content_cell {
@@ -19,7 +20,7 @@
 #sidebar-container {
 	/* For historical reasons banner images have a 261px width. */
 	width: 261px;
-	padding: 0 0 0 19px;
+	padding: 0 19px 0 0;
 }
 
 /* @todo: check this. */
@@ -35,13 +36,13 @@ tr.yst_row.even {
 
 /* @todo: check this. */
 .postbox {
-	margin: 10px 10px 0 0;
+	margin: 10px 0 0 10px;
 }
 
 /* Forms. */
 label.textinput,
 label.select {
-	float: left;
+	float: right;
 	width: 200px;
 	margin: 5px 0;
 }
@@ -67,7 +68,7 @@ select.select {
 input.radio,
 input.checkbox,
 input.checkbox.double {
-	margin: 6px 10px 6px 0;
+	margin: 6px 0 6px 10px;
 }
 
 /* @todo: check this. */
@@ -83,12 +84,12 @@ textarea.import {
 
 p.desc {
 	margin: 6px 0 10px 0;
-	padding: 0 0 8px 25px;
+	padding: 0 25px 8px 0;
 }
 
 p.desc.label {
 	margin: 0 0 20px;
-	padding: 0 0 10px 200px;
+	padding: 0 200px 10px 0;
 }
 
 /* Google Search Console: Reload crawl issues form. */
@@ -98,7 +99,7 @@ p.desc.label {
 }
 
 .wp-core-ui .button.wpseo-gsc-save-profile {
-	margin-left: 200px;
+	margin-right: 200px;
 }
 
 /* Styles for Yoast specific content. @todo: check this. */
@@ -123,7 +124,7 @@ h4 {
 
 /* @todo: check this. */
 table.wpseo th {
-	text-align: left;
+	text-align: right;
 }
 
 /* Notices below Settings pages tabs. */
@@ -180,7 +181,7 @@ table.yoast_help td {
 table.yoast_help th,
 table.yoast_help td {
 	padding: 5px 10px;
-	text-align: left;
+	text-align: right;
 	vertical-align: text-top;
 }
 
@@ -231,13 +232,13 @@ table.yoast_help tr:hover {
 
 /* @todo: check this. */
 .button.fixit {
-	float: right;
+	float: left;
 	margin: 0 5px;
 }
 
 /* @todo: check this. */
 .button.checkit {
-	float: right;
+	float: left;
 	margin: 0 5px;
 	padding: 5px 8px;
 }
@@ -245,13 +246,12 @@ table.yoast_help tr:hover {
 /* Add Facebook admins buttons. @todo: remove this. */
 .fb-buttons .button-primary,
 .fb-buttons .button {
-	margin-right: 8px;
+	margin-left: 8px;
 }
 
 /* Tabs. */
 .wpseotab {
 	display: none;
-	margin-top: 15px;
 }
 
 .wpseotab.active {
@@ -259,7 +259,7 @@ table.yoast_help tr:hover {
 }
 
 .wpseotab p.expl {
-	margin-left: 6px;
+	margin-right: 6px;
 }
 
 .wpseotab p.expl strong {
@@ -281,7 +281,7 @@ table.yoast_help tr:hover {
 
 #wpseo-debug-info .wpseo-debug {
 	display: inline-block;
-	padding-left: 20px;
+	padding-right: 20px;
 	color: #c00;
 }
 
@@ -293,11 +293,11 @@ textarea.wpseo-new-metadesc {
 }
 
 .wpseotab .extension {
-	float: left;
+	float: right;
 	box-sizing: border-box;
 	width: 300px;
 	height: 230px;
-	margin: 10px 20px 10px 0;
+	margin: 10px 0 10px 20px;
 	border: 1px solid #ccc;
 }
 
@@ -310,9 +310,9 @@ textarea.wpseo-new-metadesc {
 	box-sizing: border-box;
 	height: 110px;
 	margin: 0;
-	padding: 20px 10px 0 120px;
+	padding: 20px 120px 0 10px;
 	border-bottom: 1px solid #ccc;
-	background: #fff no-repeat left 10px;
+	background: #fff no-repeat right 10px;
 	background-size: 130px 100px;
 }
 
@@ -339,15 +339,15 @@ textarea.wpseo-new-metadesc {
 #separator input.radio {
 	/* visually hide the radio buttons but keep them accessible */
 	position: absolute;
-	left: -9999em;
+	right: -9999em;
 	width: 1px;
 	height: 1px;
 }
 
 #separator input.radio + label {
-	float: left;
+	float: right;
 	width: 30px !important;
-	margin: 0 5px 0.5em 0 !important;
+	margin: 0 0 0.5em 5px !important;
 	padding: 9px 6px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
@@ -366,7 +366,7 @@ textarea.wpseo-new-metadesc {
 
 #separator input.radio:focus + label {
 	border-radius: 10px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 /* @todo: check this. */
@@ -383,9 +383,8 @@ textarea.wpseo-new-metadesc {
 
 /* Yoast SEO credits page. */
 body.toplevel_page_wpseo_dashboard .wp-badge {
-	border: none;
-	background: url(../images/Yoast_SEO_Icon.svg);
-	background-size: 150px 160px;
+	background: transparent url(../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
+	background-size: 140px 140px;
 	box-shadow: none;
 }
 
@@ -401,7 +400,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .nav-tab .pinteresticon {
 	width: 12px;
 	height: 24px;
-	margin-right: 2px;
+	margin-left: 2px;
 	background-image: url(../images/pinterest-23x30.png);
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -419,9 +418,26 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	background: #006691;
 }
 
+.wpseo-progressbar-wrapper {
+	display: inline;
+	width: 100%;
+}
+
+.wpseo-progressbar {
+	display: block;
+	width: 100%;
+	height: 25px;
+	border: 1px solid #006691;
+}
+
+.wpseo-progressbar .ui-progressbar-value {
+	height: 25px;
+	background: #006691;
+}
+
 /* Add Facebook admin popup: notification when submitting empty form. */
 .wpseo-add-fb-admin-form-wrap .notice span {
-	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .archives-titles-metas-content {
@@ -437,7 +453,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	border-bottom: 1px solid #a4286a; 
 	color: #a4286a;
 	line-height: 19px;
-	text-align: left;
+	text-align: right;
 }
 
 .yoast-sidebar__spot {
@@ -473,7 +489,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 /* Banners sidebar. */
 	.yoast-sidebar__spot {
-		float: left;
+		float: right;
 		width: 50%;
 		border: none;
 		text-align: center;
@@ -482,12 +498,12 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		display: block;
 		max-width: 261px;
 		margin: 0 auto;
-		text-align: left;
+		text-align: right;
 	}
 	.yoast-sidebar__spot p {
 		max-width: 261px;
 		margin: 1em auto;
-		text-align: left;
+		text-align: right;
 	}
 }
 
@@ -512,10 +528,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		max-width: 100%;
 	}
 	p.desc.label {
-		padding-left: 0;
+		padding-right: 0;
 	}
 	.wp-core-ui .button.wpseo-gsc-save-profile {
-		margin-left: 0;
+		margin-right: 0;
 	}
 
 /* Google Search Console: Reload crawl issues form. */
@@ -540,5 +556,14 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		width: 261px;
 		margin: 0 auto;
 		border-bottom: 1px solid #ddd;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	body.toplevel_page_wpseo_dashboard .wp-badge {
+		padding-top: 80px;
+		background-color: #a4286a;
+		background-size: 100px 100px;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 	}
 }

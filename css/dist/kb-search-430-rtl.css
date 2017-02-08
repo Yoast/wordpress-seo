@@ -1,12 +1,25 @@
 .wpseo-kb-search-search-bar {
-	padding-bottom: 15px;
 	border-bottom: 1px solid #ccc;
 }
 
+.wpseo-kb-search-search-bar form {
+	display: -ms-flexbox;
+	display: flex;
+	max-width: 600px;
+}
+
 .wpseo-kb-search-search-bar input[type="text"] {
-	min-width: 50%;
-	height: 28px;
-	margin-left: 3px;
+	margin: 0 0 1em 7px;
+	padding: 0 5px 1px;
+	font-size: 13px;
+	line-height: 26px;
+
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
+}
+
+.wpseo-kb-search-search-bar .wpseo-kb-search-search-button {
+	margin: 0 0 1em 0;
 }
 
 .wpseo-kb-search-results {
@@ -17,7 +30,7 @@
 	list-style: none;
 }
 
-.help-tab-content .wpseo-kb-search-results li {
+.yoast-help-tab-content .wpseo-kb-search-results li {
 	max-width: none;
 	margin: 0;
 	list-style: none;
@@ -139,5 +152,25 @@
 
 	40% {
 		box-shadow: 0 2.5em 0 0;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.wpseo-kb-search-search-bar input[type="text"] {
+		padding: 6px 5px;
+		font-size: 14px;
+		line-height: normal;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.wpseo-kb-search-search-bar form {
+		display: block;
+		max-width: none;
+	}
+
+	.wpseo-kb-search-search-bar input[type="text"] {
+		width: 100%;
+		margin-left: 0;
 	}
 }

@@ -37,7 +37,7 @@ $feature_toggles = array(
 $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 
 ?>
-<h2>Features</h2>
+<h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
 
 <?php echo esc_html( sprintf(
 	__( '%1$s comes with a lot of features. You can enable / disable some of them below.', 'wordpress-seo' ),
