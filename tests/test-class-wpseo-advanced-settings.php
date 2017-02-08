@@ -36,6 +36,6 @@ class WPSEO_Advanced_Settings_Test extends WPSEO_UnitTestCase {
 	public function test_is_yoast_seo_advanced_settings_page_RETURNS_true() {
 		$current_page = 'wpseo_titles';
 
-		$this->assertTrue( WPSEO_Advanced_Settings::is_advanced_settings_page(($current_page) );
+		$this->assertTrue( WPSEO_Advanced_Settings::is_advanced_settings_page( $current_page ) );
 	}
 }
