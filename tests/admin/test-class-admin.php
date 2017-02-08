@@ -57,7 +57,7 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin::filter_settings_pages
 	 */
-	public function test_filter_settings_pages_CALLS_turn_on_advanced_settings() {
+	public function test_filter_settings_pages_CALLS_enable_advanced_settings() {
 		$pages = array (
 			0 =>
 				array (
@@ -95,7 +95,7 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance
 			->expects( $this->once() )
-			->method( 'turn_on_advanced_settings' );
+			->method( 'enable_advanced_settings' );
 
 		$options['enable_setting_pages'] = true;
 		update_option( 'wpseo', $options );
