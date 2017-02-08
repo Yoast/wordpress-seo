@@ -6744,6 +6744,15 @@ yoast-components@^2.3.0:
     sassdash "^0.8.1"
     tokenizer2 "^2.0.0"
 
+"yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.11.0":
+  version "1.10.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#7fbe16fae685cb7ac44db203d02cf59db2929649"
+  dependencies:
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
+
 zip-stream@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/zip-stream/-/zip-stream-1.1.1.tgz#5216b48bbb4d2651f64d5c6e6f09eb4a7399d557"
