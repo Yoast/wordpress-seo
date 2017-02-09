@@ -12,11 +12,14 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 * Returns an instance of WP Query.
 	 *
 	 * @param string $post_type The posttype to limit the resultset for.
+	 * @param array  $args
 	 *
 	 * @return WP_Query Instance of the WP Query.
 	 */
-	public function get_query( $post_type ) {
-		return new WP_Query( $this->get_query_args( $post_type ) );
+	public function get_query( $post_type, array $args = array() ) {
+		$args = wp_parse_args( $this->get_query_args( $post_type ), $args );
+
+		return new WP_Query( $args );
 	}
 
 	/**
@@ -43,16 +46,5 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 				),
 			),
 		);
-	}
-
-	/**
-	 * Returns the total amount of items in the resultset.
-	 *
-	 * @param string $post_type The posttype to get the total value for.
-	 *
-	 * @return int
-	 */
-	public function get_total( $post_type ) {
-		return (int) $this->get_query( $post_type )->post_count;
 	}
 }
