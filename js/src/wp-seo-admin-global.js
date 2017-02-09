@@ -3,9 +3,7 @@
 /* jshint -W097 */
 /* jshint unused:false */
 
-( function() {
-	var $ = jQuery;
-
+( function( $ ) {
 	/**
 	 * Displays console notifications.
 	 *
@@ -520,4 +518,4 @@
 			closeVideoSlideout();
 		}
 	} );
-}() );
+}( jQuery ) );
