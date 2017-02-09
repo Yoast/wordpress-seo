@@ -11,6 +11,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $feature_toggles = array(
 	(object) array(
+		'name'    => __( 'Readability analysis', 'wordpress-seo' ),
+		'setting' => 'content_analysis_active',
+		'label'   => __( 'Removes the readability tab from the metabox and disables all readability-related suggestions.', 'wordpress-seo' ),
+	),
+	(object) array(
+		'name'    => __( 'Keyword analysis', 'wordpress-seo' ),
+		'setting' => 'keyword_analysis_active',
+		'label'   => __( 'Removes the keyword tab from the metabox and disables all keyword-related suggestions.', 'wordpress-seo' ),
+	),
+	(object) array(
 		'name'    => __( 'Advanced settings pages', 'wordpress-seo' ),
 		'setting' => 'enable_setting_pages',
 		'label'   => __( 'The advanced settings include site-wide settings for your titles and meta descriptions, social metadata, sitemaps and much more.', 'wordpress-seo' ),
