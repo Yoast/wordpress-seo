@@ -167,23 +167,8 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @return int The amount of posts.
 	 */
 	protected function count_unindexed_posts_by_type( $post_type ) {
-		$total_posts = new WP_Query( array(
-			'post_type' => $post_type,
-			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
-			'meta_query' => array(
-				'relation' => 'OR',
-				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-					'value'   => WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
-					'compare' => '!=',
-				),
-				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-					'compare' => 'NOT EXISTS',
-				),
-			),
-		) );
+		$post_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
 
-		return (int) $total_posts->found_posts;
+		return $post_query->get_total( $post_type );
 	}
 }
