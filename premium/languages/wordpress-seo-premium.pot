@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-02-02 11:05:53+00:00\n"
+"POT-Creation-Date: 2017-02-09 09:00:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,19 +44,19 @@ msgid ""
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:367
+#: class-premium.php:363
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:399
+#: class-premium.php:395
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:418 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:414 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:452
+#: class-premium.php:448
 msgid "Enabled"
 msgstr ""
 
