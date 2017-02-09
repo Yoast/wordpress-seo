@@ -78,6 +78,7 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
+		add_filter( 'wpseo_submenu_pages', array( $this, 'enable_advanced_settings' ) );
 		add_filter( 'wpseo_submenu_pages', array( $this, 'filter_settings_pages' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
@@ -577,8 +578,6 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function filter_settings_pages( array $pages ) {
-		$this->enable_advanced_settings();
-
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}

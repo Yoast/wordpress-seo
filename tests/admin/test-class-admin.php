@@ -9,7 +9,7 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 		$this->class_instance =
 			$this
 				->getMockBuilder( 'WPSEO_Admin' )
-				->setMethods( array( 'turn_on_advanced_settings' ) )
+				->setMethods( array( 'enable_advanced_settings' ) )
 				->getMock();
 	}
 
@@ -53,7 +53,7 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that filter_settings_pages calls the turn_on_advanced_settings function.
+	 * Test that filter_settings_pages calls the enable_advanced_settings function.
 	 *
 	 * @covers WPSEO_Admin::filter_settings_pages
 	 */
