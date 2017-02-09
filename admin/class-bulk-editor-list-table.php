@@ -742,11 +742,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			$class[] = 'hidden';
 		}
 
-		$data_colname = ' data-colname="' . esc_attr( $column_display_name ) . '"';
-
 		if ( ! empty( $class ) ) {
-			$attributes = 'class="' . implode( ' ', $class ) . '"' . $data_colname;
+			$attributes = 'class="' . implode( ' ', $class ) . '"';
 		}
+
+		$attributes .= ' data-colname="' . esc_attr( $column_display_name ) . '"';
 
 		return $attributes;
 	}
