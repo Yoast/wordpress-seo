@@ -8,6 +8,9 @@
  */
 class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Integration {
 
+	const MODAL_DIALOG_HEIGHT_BASE = 250;
+	const PROGRESS_BAR_HEIGHT = 32;
+
 	/**
 	 * Registers all hooks to WordPress
 	 */
@@ -23,17 +26,17 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 */
 	public function add_internal_linking_interface() {
 
-		$height = 315;
-		$saved_height_when_no_items = 32;
+		$height = self::MODAL_DIALOG_HEIGHT_BASE;
 
 		$unindexed_posts = $this->count_unindexed_posts_by_type( 'post' );
 		$unindexed_pages = $this->count_unindexed_posts_by_type( 'page' );
-		if ( $unindexed_posts === 0 ) {
-			$height -= $saved_height_when_no_items; // Reduce the height with 32, because there will be no progressbar.
+
+		if ( $unindexed_posts > 0 ) {
+			$height += self::PROGRESS_BAR_HEIGHT;
 		}
 
-		if ( $unindexed_pages === 0 ) {
-			$height -= $saved_height_when_no_items;  // Reduce the height with 32, because there will be no progressbar.
+		if ( $unindexed_pages > 0 ) {
+			$height += self::PROGRESS_BAR_HEIGHT;
 		}
 
 		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
@@ -42,7 +45,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		?>
 			<p><?php _e( 'All your posts and pages are analyzed at this moment, there is no need to analyze them.', 'wordpress-seo-premium' ); ?></p>
 			<p>
-				<a href="#" class="btn button button-disabled"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
+				<button disabled='true' class="btn button"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></button>
 			</p>
 		<?php
 		}
@@ -70,42 +73,42 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		$total_pages = $this->count_unindexed_posts_by_type( 'page' );
 
 		$progressPosts = sprintf(
-		/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
+		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 			__( '%1$s of %2$s done.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_posts" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_posts_total" class="wpseo-prominent-words-progress-total">' . $total_posts . '</strong>'
 		);
 
 		$progressPages = sprintf(
-		/* translators: 1: expands to a <span> containing the number of pages recalculated. 2: expands to a <strong> containing the total number of pages. */
+		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 			__( '%1$s of %2$s done.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_pages" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_pages_total" class="wpseo-prominent-words-progress-total">' . $total_pages . '</strong>'
 		);
 
 		?>
-        <div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
-            <div id="wpseo_recalculate_internal_links">
-                <p><?php esc_html_e( 'Recalculating internal links for posts.', 'wordpress-seo-premium' ); ?></p>
-	            <?php if ( $total_posts > 0 ) : ?>
-                <div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
-                <p><?php echo $progressPosts; ?></p>
+		<div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
+			<div id="wpseo_recalculate_internal_links">
+				<p><?php esc_html_e( 'Recalculating internal links for posts.', 'wordpress-seo-premium' ); ?></p>
+				<?php if ( $total_posts > 0 ) : ?>
+				<div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
+				<p><?php echo $progressPosts; ?></p>
 				<?php else : ?>
-					<p><?php _e( 'All your posts are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
+				<p><?php _e( 'All your posts are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
 				<?php endif; ?>
-            </div>
-            <hr />
-            <div id="wpseo_recalculate_internal_links">
-                <p><?php esc_html_e( 'Recalculating internal links for pages.', 'wordpress-seo-premium' ); ?></p>
-	            <?php if ( $total_pages > 0 ) : ?>
-                <div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
-                <p><?php echo $progressPages; ?></p>
+			</div>
+			<hr />
+			<div id="wpseo_recalculate_internal_links">
+				<p><?php esc_html_e( 'Recalculating internal links for pages.', 'wordpress-seo-premium' ); ?></p>
+				<?php if ( $total_pages > 0 ) : ?>
+				<div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
+				<p><?php echo $progressPages; ?></p>
 				<?php else : ?>
 				<p><?php _e( 'All your pages are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
-			<?php endif; ?>
-            </div>
-	        <button onclick="tb_remove();" type="button" class="button"><?php _e( 'Close', 'wordpress-seo-premium' ); ?></button>
-        </div>
+				<?php endif; ?>
+			</div>
+			<button onclick="tb_remove();" type="button" class="button"><?php _e( 'Close', 'wordpress-seo-premium' ); ?></button>
+		</div>
 
 		<?php
 	}
@@ -170,12 +173,12 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			'meta_query' => array(
 				'relation' => 'OR',
 				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Version::POST_META_NAME,
-					'value'   => WPSEO_Premium_Prominent_Words_Version::VERSION_NUMBER,
+					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
+					'value'   => WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
 					'compare' => '!=',
 				),
 				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Version::POST_META_NAME,
+					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
 					'compare' => 'NOT EXISTS',
 				),
 			),

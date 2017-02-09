@@ -6,7 +6,7 @@
 /**
  * Keeps track of the prominent words version.
  */
-class WPSEO_Premium_Prominent_Words_Version implements WPSEO_WordPress_Integration {
+class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integration {
 
 	const VERSION_NUMBER = 1;
 
@@ -72,12 +72,12 @@ class WPSEO_Premium_Prominent_Words_Version implements WPSEO_WordPress_Integrati
 			$args['meta_query'] = array(
 				'relation' => 'OR',
 				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Version::POST_META_NAME,
-					'value'   => WPSEO_Premium_Prominent_Words_Version::VERSION_NUMBER,
+					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
+					'value'   => WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
 					'compare' => '!=',
 				),
 				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Version::POST_META_NAME,
+					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
 					'compare' => 'NOT EXISTS',
 				),
 			);

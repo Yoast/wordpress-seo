@@ -35,7 +35,7 @@ function recalculatePosts() {
 		postsCalculation.on( "processedPost", ( postCount ) => {
 			let new_width = postCount * ( 100 / settings.amount.total );
 
-			progress.progressbar( "value", new_width );
+			progress.progressbar( "value", Math.round( new_width ) );
 
 			progressElement.html( postCount );
 		} );
@@ -71,7 +71,7 @@ function recalculatePages() {
 		pagesCalculation.on( "processedPost", ( pageCount ) => {
 			let new_width = pageCount * ( 100 / settings.amountPages.total );
 
-			progress.progressbar( "value", new_width );
+			progress.progressbar( "value", Math.round( new_width ) );
 			progressElement.html( pageCount );
 		} );
 
