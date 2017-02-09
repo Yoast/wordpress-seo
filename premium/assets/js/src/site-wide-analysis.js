@@ -8,7 +8,7 @@ import a11ySpeak from "a11y-speak";
 
 let settings = yoastSiteWideAnalysisData.data;
 
-let progressContainer, completedContainer, infoContainer;
+let infoContainer;
 let prominentWordCache;
 
 /**
@@ -17,7 +17,8 @@ let prominentWordCache;
  * @returns {Promise} Resolves when we have recalculated posts.
  */
 function recalculatePosts() {
-	let progressElement = jQuery( ".yoast-js-prominent-words-progress-current" );
+	let progressElement = jQuery( "#wpseo_count_posts" );
+	let progress = jQuery( "#wpseo_internal_links_posts_progressbar" ).progressbar( { value: 0 } );
 	let rootUrl = settings.restApi.root;
 
 	return new Promise( ( resolve ) => {
@@ -32,6 +33,10 @@ function recalculatePosts() {
 		} );
 
 		postsCalculation.on( "processedPost", ( postCount ) => {
+			let new_width = postCount * ( 100 / settings.amount.total );
+
+			progress.progressbar( "value", Math.round( new_width ) );
+
 			progressElement.html( postCount );
 		} );
 
@@ -48,7 +53,8 @@ function recalculatePosts() {
  * @returns {Promise} Resolves when we have recalculated pages.
  */
 function recalculatePages() {
-	let progressElement = jQuery( ".yoast-js-prominent-words-pages-progress-current" );
+	let progressElement = jQuery( "#wpseo_count_pages" );
+	let progress = jQuery( "#wpseo_internal_links_pages_progressbar" ).progressbar( { value: 0 } );
 	let rootUrl = settings.restApi.root;
 
 	return new Promise( ( resolve ) => {
@@ -62,8 +68,11 @@ function recalculatePages() {
 			prominentWordCache,
 		} );
 
-		pagesCalculation.on( "processedPost", ( postCount ) => {
-			progressElement.html( postCount );
+		pagesCalculation.on( "processedPost", ( pageCount ) => {
+			let new_width = pageCount * ( 100 / settings.amountPages.total );
+
+			progress.progressbar( "value", Math.round( new_width ) );
+			progressElement.html( pageCount );
 		} );
 
 		pagesCalculation.start();
@@ -79,9 +88,12 @@ function recalculatePages() {
  * @returns {void}
  */
 function showCompletion() {
-	progressContainer.hide();
-	completedContainer.show();
 	a11ySpeak( settings.l10n.calculationCompleted );
+
+	jQuery( '#openInternalLinksCalculation' )
+		.addClass( 'button-disabled' )
+		.removeClass( 'thickbox' )
+		.attr( 'href', '#top#general' );
 }
 
 /**
@@ -90,15 +102,12 @@ function showCompletion() {
  * @returns {void}
  */
 function startRecalculating() {
-	infoContainer.hide();
-	progressContainer.show();
-
 	a11ySpeak( settings.l10n.calculationInProgress );
 
 	let restApi = new RestApi( { rootUrl: settings.restApi.root, nonce: settings.restApi.nonce } );
 
-	prominentWordCache = new ProminentWordCache();
-	let populator = new ProminentWordCachePopulator( { cache: prominentWordCache, restApi: restApi } );
+	prominentWordCache  = new ProminentWordCache();
+	let populator       = new ProminentWordCachePopulator( { cache: prominentWordCache, restApi: restApi } );
 
 	populator.populate()
 		.then( recalculatePosts )
@@ -114,17 +123,9 @@ function startRecalculating() {
 function init() {
 	jQuery( ".yoast-js-calculate-prominent-words--all" ).on( "click", function() {
 		startRecalculating();
-
-		jQuery( this ).hide();
 	} );
 
 	infoContainer = jQuery( ".yoast-js-prominent-words-info" );
-
-	progressContainer = jQuery( ".yoast-js-prominent-words-progress" );
-	progressContainer.hide();
-
-	completedContainer = jQuery( ".yoast-js-prominent-words-completed" );
-	completedContainer.hide();
 }
 
 jQuery( init );
