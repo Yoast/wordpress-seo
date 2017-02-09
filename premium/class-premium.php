@@ -51,6 +51,11 @@ class WPSEO_Premium {
 		WPSEO_Redirect_File_Util::create_upload_dir();
 
 		WPSEO_Premium::activate_license();
+
+		// Make sure the notice will be given at install.
+		require_once( WPSEO_PREMIUM_PATH . 'classes/class-premium-prominent-words-recalculation-notifier.php' );
+		$recalculation_notifier = new WPSEO_Premium_Prominent_Words_Recalculation_Notifier();
+		$recalculation_notifier->manage_notification();
 	}
 
 	/**

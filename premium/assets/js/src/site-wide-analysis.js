@@ -90,10 +90,21 @@ function recalculatePages() {
 function showCompletion() {
 	a11ySpeak( settings.l10n.calculationCompleted );
 
-	jQuery( '#openInternalLinksCalculation' )
-		.addClass( 'button-disabled' )
-		.removeClass( 'thickbox' )
-		.attr( 'href', '#top#general' );
+	jQuery.get(
+		{
+			url: ajaxurl,
+			data: {
+				action: "wpseo_premium_complete_recalculation",
+				_ajax_nonce: settings.recalculateNonce,
+			},
+			success: function() {
+				jQuery( '#openInternalLinksCalculation' )
+					.addClass( 'button-disabled' )
+					.removeClass( 'thickbox' )
+					.attr( 'href', '#top#general' );
+			}
+		}
+	);
 }
 
 /**
