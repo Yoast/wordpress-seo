@@ -4,7 +4,6 @@
  * @subpackage Internal
  */
 
-
 /**
  * Class containing methods for WPSEO Advanced Settings.
  */
@@ -29,12 +28,12 @@ class WPSEO_Advanced_Settings {
 	/**
 	 * Adds a page as an advanced settings page if it isn't already present or a default page.
 	 *
-	 * @param $page The page to add.
+	 * @param string $page The page to add.
 	 *
 	 * @returns void
 	 */
 	public static function add_advanced_page( $page ) {
-		if ( !in_array( $page, self::$default_advanced_pages ) && !in_array( $page, self::$additional_advanced_pages )  ) {
+		if ( ! in_array( $page, self::$default_advanced_pages ) && ! in_array( $page, self::$additional_advanced_pages )  ) {
 			self::$additional_advanced_pages[] = $page;
 		}
 	}
