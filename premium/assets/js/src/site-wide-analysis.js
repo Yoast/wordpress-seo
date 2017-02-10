@@ -90,10 +90,20 @@ function recalculatePages() {
 function showCompletion() {
 	a11ySpeak( settings.l10n.calculationCompleted );
 
-	jQuery( '#openInternalLinksCalculation' )
-		.addClass( 'button-disabled' )
-		.removeClass( 'thickbox' )
-		.attr( 'href', '#top#general' );
+	jQuery.get(
+		{
+			url: settings.restApi.root + 'yoast/v1/complete_recalculation/',
+			beforeSend: ( xhr ) => {
+				xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
+			},
+			success: function() {
+				jQuery( '#openInternalLinksCalculation' )
+					.addClass( 'button-disabled' )
+					.removeClass( 'thickbox' )
+					.attr( 'href', '#top#general' );
+			},
+		}
+	);
 }
 
 /**
@@ -123,6 +133,13 @@ function startRecalculating() {
 function init() {
 	jQuery( ".yoast-js-calculate-prominent-words--all" ).on( "click", function() {
 		startRecalculating();
+	} );
+
+	jQuery( '#noticeRunAnalysis' ).click( function( evt ) {
+		evt.preventDefault();
+
+		jQuery( '#general-tab' ).click();
+		jQuery( '#openInternalLinksCalculation' ).click();
 	} );
 
 	infoContainer = jQuery( ".yoast-js-prominent-words-info" );

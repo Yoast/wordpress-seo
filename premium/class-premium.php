@@ -51,6 +51,11 @@ class WPSEO_Premium {
 		WPSEO_Redirect_File_Util::create_upload_dir();
 
 		WPSEO_Premium::activate_license();
+
+		// Make sure the notice will be given at install.
+		require_once( WPSEO_PREMIUM_PATH . 'classes/class-premium-prominent-words-recalculation-notifier.php' );
+		$recalculation_notifier = new WPSEO_Premium_Prominent_Words_Recalculation_Notifier();
+		$recalculation_notifier->manage_notification();
 	}
 
 	/**
@@ -79,6 +84,8 @@ class WPSEO_Premium {
 			'prominent-words-registration' => new WPSEO_Premium_Prominent_Words_Registration(),
 			'prominent-words-endpoint' => new WPSEO_Premium_Prominent_Words_Endpoint( new WPSEO_Premium_Prominent_Words_Service() ),
 			'prominent-words-recalculation' => new WPSEO_Premium_Prominent_Words_Recalculation(),
+			'prominent-words-recalculation-notifier' => new WPSEO_Premium_Prominent_Words_Recalculation_Notifier(),
+			'prominent-words-recalculation-endpoint' => new WPSEO_Premium_Prominent_Words_Recalculation_Endpoint( new WPSEO_Premium_Prominent_Words_Recalculation_Service() ),
 			'prominent-words-version' => new WPSEO_Premium_Prominent_Words_Versioning(),
 			'link-suggestions' => new WPSEO_Metabox_Link_Suggestions(),
 			'link-suggestions-endpoint' => new WPSEO_Premium_Link_Suggestions_Endpoint( $link_suggestions_service ),
