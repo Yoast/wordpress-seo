@@ -510,7 +510,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 				top: 0;
 				left: 100%;
 				width: 50px;
-				height: 100%;
+				height: calc( 100% - 16px );
 				border-radius: 10px 0 0 10px / 50% 0 0 50%;
 				box-shadow: -5px 0 10px rgba(0, 0, 0, 0.25);
 			}
@@ -518,6 +518,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 		&.yoast-has-scroll .yoast-table-scrollable__inner {
 			overflow-x: scroll;
+			// Ensure the horizontal scrollbar doesn't overlap the table content.
+			padding-bottom: 16px;
 		}
 	}
 
