@@ -27,8 +27,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 		add_action( self::NOTIFICATION_ID, array( $this, 'manage_notification' ) );
 		add_action( 'wp_ajax_wpseo_premium_complete_recalculation', array( $this, 'complete_recalculation' ) );
 		add_action( 'update_option_wpseo', array( $this, 'handle_option_change' ), 10, 2 );
-
-		$this->add_notification( $this->get_notification() );
 	}
 
 	/**
