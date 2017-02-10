@@ -12,17 +12,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 
 	const UNINDEXED_THRESHOLD = 10;
 
-	/*
-	 *
-	 * x So, if a notification already exists we shouldn't query again.
-	 * x If the user recalculates the notification should be removed if there are no longer more than ten unindexed posts. -> ajax request.
-		x If the user goes to the SEO general page (where the recalculation button is) the query should be run again and the notification should be removed if there are no longer more than 10 posts unindexed.
-		The query should be run:
-			x During installation of the plugin.
-			x Every day using WP-Cron. For inspiration, look at the WordPress code for checking for core/plugin/theme updates.
-	 *
-	 */
-
 	/**
 	 * Registers all hooks to WordPress
 	 */
@@ -39,7 +28,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 		add_action( 'wp_ajax_wpseo_premium_complete_recalculation', array( $this, 'complete_recalculation' ) );
 		add_action( 'update_option_wpseo', array( $this, 'handle_option_change' ), 10, 2 );
 
-//		$this->add_notification( $this->get_notification() );
+		$this->add_notification( $this->get_notification() );
 	}
 
 	/**
