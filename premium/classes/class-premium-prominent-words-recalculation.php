@@ -107,7 +107,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 				<p><?php _e( 'All your pages are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
 				<?php endif; ?>
 			</div>
-			<button onclick="tb_remove();" type="button" class="button"><?php _e( 'Stop Analyzing', 'wordpress-seo-premium' ); ?></button>
+			<button onclick="tb_remove();" type="button" class="button"><?php _e( 'Stop analyzing', 'wordpress-seo-premium' ); ?></button>
 		</div>
 
 		<?php
