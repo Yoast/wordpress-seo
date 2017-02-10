@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '4.1';
+	const PLUGIN_VERSION_NAME = '4.2.1';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://my.yoast.com';
@@ -238,7 +238,7 @@ class WPSEO_Premium {
 	 * @link https://github.com/Yoast/i18n-module
 	 */
 	private function register_i18n_promo_class() {
-		new yoast_i18n(
+		new Yoast_I18n_v2(
 			array(
 				'textdomain'     => 'wordpress-seo-premium',
 				'project_slug'   => 'wordpress-seo-premium',
@@ -298,13 +298,8 @@ class WPSEO_Premium {
 	public function enqueue_social_previews() {
 		global $pagenow;
 
-		$metabox_pages = array(
-			'post-new.php',
-			'post.php',
-			'edit.php',
-		);
 		$social_previews = new WPSEO_Social_Previews();
-		if ( in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
+		if ( WPSEO_Metabox::is_post_edit( $pagenow ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
 			$social_previews->set_hooks();
 		}
 		$social_previews->set_ajax_hooks();
@@ -319,19 +314,20 @@ class WPSEO_Premium {
 	 * @return string
 	 */
 	function redirect_canonical_fix( $redirect_url, $requested_url ) {
-		$redirects = apply_filters( 'wpseo_premium_get_redirects', get_option( 'wpseo-premium-redirects', array() ) );
+		$redirects = new WPSEO_Redirect_Option( false );
 		$path      = parse_url( $requested_url, PHP_URL_PATH );
-		if ( isset( $redirects[ $path ] ) ) {
-			$redirect_url = $redirects[ $path ]['url'];
-			if ( '/' === substr( $redirect_url, 0, 1 ) ) {
-				$redirect_url = home_url( $redirect_url );
-			}
-
-			wp_redirect( $redirect_url, $redirects[ $path ]['type'] );
-			exit;
+		$redirect     = $redirects->get( $path );
+		if ( $redirect === false ) {
+			return $redirect_url;
 		}
 
-		return $redirect_url;
+		$redirect_url = $redirect->get_origin();
+		if ( '/' === substr( $redirect_url, 0, 1 ) ) {
+			$redirect_url = home_url( $redirect_url );
+		}
+
+		wp_redirect( $redirect_url, $redirect->get_type() );
+		exit;
 	}
 
 	/**

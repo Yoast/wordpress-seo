@@ -129,11 +129,11 @@ class WPSEO_Premium_Import_Manager {
 		$regex_patterns = array(
 			array(
 				'type'    => WPSEO_Redirect::FORMAT_PLAIN,
-				'pattern' => '`^Redirect ([0-9]{3}) ([^"\s]+) ([a-z/:%&#]+)`im',
+				'pattern' => '`^Redirect ([0-9]{3}) ([^"\s]+) ([a-z0-9-_+/.:%&?=#\][]+)`im',
 			),
 			array(
 				'type'    => WPSEO_Redirect::FORMAT_PLAIN,
-				'pattern' => '`^Redirect ([0-9]{3}) "([^"]+)" ([a-z/:%&#]+)`im',
+				'pattern' => '`^Redirect ([0-9]{3}) "([^"]+)" ([a-z0-9-_+/.:%&?=#\][]+)`im',
 			),
 			array(
 				'type'    => WPSEO_Redirect::FORMAT_REGEX,
@@ -148,7 +148,9 @@ class WPSEO_Premium_Import_Manager {
 		// Loop through patterns.
 		foreach ( $regex_patterns as $regex ) {
 			// Get all redirects.
-			$this->match_redirect_regex( $regex, $htaccess );
+			$redirects = $this->match_redirect_regex( $regex['pattern'], $htaccess );
+
+			$this->save_redirects_from_regex( $redirects, $regex['type'] );
 		}
 
 		// Check if we've imported any redirects.
@@ -169,23 +171,37 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Matches the string (containing redirects) for the given regex
 	 *
-	 * @param string $regex     The regular expression to match redirects.
+	 * @param string $pattern   The regular expression to match redirects.
 	 * @param string $htaccess  The string of redirects.
+	 *
+	 * @return mixed;
 	 */
-	private function match_redirect_regex( $regex, $htaccess ) {
-		preg_match_all( $regex['pattern'], $htaccess, $redirects, PREG_SET_ORDER );
+	protected function match_redirect_regex( $pattern, $htaccess ) {
+		preg_match_all( $pattern, $htaccess, $redirects, PREG_SET_ORDER );
 
-		if ( is_array( $redirects ) ) {
-			foreach ( $redirects as $redirect ) {
-				$type   = trim( $redirect[1] );
-				$source = trim( $redirect[2] );
-				$target = trim( $redirect[3] );
+		return $redirects;
+	}
 
-				if ( '' !== $source && '' !== $target ) {
-					// Adding the redirect to importer class.
-					$this->get_redirect_option()->add( new WPSEO_Redirect( $source, $target, $type, $regex['type'] ) );
-					$this->redirects_imported = true;
-				}
+	/**
+	 * Saves all the given redirects.
+	 *
+	 * @param mixed  $redirects The redirects to save.
+	 * @param string $format    The format for the redirects.
+	 */
+	protected function save_redirects_from_regex( $redirects, $format ) {
+		if ( ! is_array( $redirects ) ) {
+			return;
+		}
+
+		foreach ( $redirects as $redirect ) {
+			$type   = trim( $redirect[1] );
+			$source = trim( $redirect[2] );
+			$target = trim( $redirect[3] );
+
+			if ( '' !== $source && '' !== $target ) {
+				// Adding the redirect to importer class.
+				$this->get_redirect_option()->add( new WPSEO_Redirect( $source, $target, $type, $format ) );
+				$this->redirects_imported = true;
 			}
 		}
 	}
