@@ -8,7 +8,7 @@
  */
 class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Integration {
 
-	const MODAL_DIALOG_HEIGHT_BASE = 250;
+	const MODAL_DIALOG_HEIGHT_BASE = 282;
 	const PROGRESS_BAR_HEIGHT = 32;
 
 	/**
@@ -25,19 +25,8 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * Renders the html for the internal linking interface.
 	 */
 	public function add_internal_linking_interface() {
-
-		$height = self::MODAL_DIALOG_HEIGHT_BASE;
-
 		$unindexed_posts = $this->count_unindexed_posts_by_type( 'post' );
 		$unindexed_pages = $this->count_unindexed_posts_by_type( 'page' );
-
-		if ( $unindexed_posts > 0 ) {
-			$height += self::PROGRESS_BAR_HEIGHT;
-		}
-
-		if ( $unindexed_pages > 0 ) {
-			$height += self::PROGRESS_BAR_HEIGHT;
-		}
 
 		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
 
@@ -50,6 +39,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		<?php
 		}
 		else {
+			$height = $this->get_modal_height( $unindexed_posts, $unindexed_pages );
 		?>
 			<p><?php _e( 'Analyze your site to receive internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
 			<p>
@@ -171,5 +161,21 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		$post_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
 
 		return (int) $post_query->get_query( $post_type )->found_posts;
+	}
+
+	/**
+	 * Calculates the total height of the modal.
+	 *
+	 * @param int $total_posts The total amount of posts.
+	 * @param int $total_pages The total amount of pages.
+	 *
+	 * @return int
+	 */
+	protected function get_modal_height( $total_posts, $total_pages ) {
+		if ( $total_posts > 0 && $total_pages > 0 ) {
+			return ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT );
+		}
+
+		return self::MODAL_DIALOG_HEIGHT_BASE;
 	}
 }
