@@ -168,7 +168,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @param int $total_posts The total amount of posts.
 	 * @param int $total_pages The total amount of pages.
 	 *
-	 * @return int
+	 * @return int The calculated height.
 	 */
 	protected function get_modal_height( $total_posts, $total_pages ) {
 		if ( $total_posts > 0 && $total_pages > 0 ) {

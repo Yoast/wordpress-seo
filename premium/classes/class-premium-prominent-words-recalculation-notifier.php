@@ -32,11 +32,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	 * Removes the notification when it is set and the amount of unindexed items is lower than the threshold.
 	 */
 	public function cleanup_notification() {
-		if ( ! $this->has_notification() ) {
-			return;
-		}
-
-		if ( $this->is_unindexed_treshold_exceeded() ) {
+		if ( ! $this->has_notification() || $this->is_unindexed_threshold_exceeded() ) {
 			return;
 		}
 
@@ -48,11 +44,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	 * threshold.
 	 */
 	public function manage_notification() {
-		if ( $this->has_notification() ) {
-			return;
-		}
-
-		if ( ! $this->is_unindexed_treshold_exceeded() ) {
+		if ( $this->has_notification() || ! $this->is_unindexed_threshold_exceeded() ) {
 			return;
 		}
 
@@ -60,7 +52,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	}
 
 	/**
-	 * Handles the option change, to make sure the notification will be removed when link suggestions are disabled.
+	 * Handles the option change to make sure the notification will be removed when link suggestions are disabled.
 	 *
 	 * @param mixed $old_value The old value.
 	 * @param mixed $new_value The new value.
@@ -85,7 +77,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	}
 
 	/**
-	 * Removes the notification from the notification center..
+	 * Removes the notification from the notification center.
 	 *
 	 * @param Yoast_Notification $notification The notification to remove.
 	 */
@@ -96,7 +88,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	/**
 	 * Returns an instance of the notification.
 	 *
-	 * @return Yoast_Notification
+	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function get_notification() {
 		return new Yoast_Notification(
@@ -126,7 +118,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	/**
 	 * Checks if the notification has been set already.
 	 *
-	 * @return bool
+	 * @return bool True when there is a notification.
 	 */
 	protected function has_notification() {
 		$notification = Yoast_Notification_Center::get()->get_notification_by_id( self::NOTIFICATION_ID );
@@ -137,9 +129,9 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	/**
 	 * Checks if the unindexed threshold is exceeded.
 	 *
-	 * @return bool
+	 * @return bool True when the threshold is exceeded.
 	 */
-	protected function is_unindexed_treshold_exceeded() {
+	protected function is_unindexed_threshold_exceeded() {
 		$post_query  = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
 		$total_posts = $post_query->get_query( 'post', array( 'offset' => self::UNINDEXED_THRESHOLD + 1 ) )->found_posts;
 		$total_pages = $post_query->get_query( 'page', array( 'offset' => self::UNINDEXED_THRESHOLD + 1 ) )->found_posts;
@@ -148,13 +140,13 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	}
 
 	/**
-	 * Whether the user has insights enabled or not.
+	 * Whether the user has enable_link_suggestions enabled or not.
 	 *
-	 * @return bool
+	 * @return bool True when link sugggestions is enabled.
 	 */
 	protected function has_enabled_link_suggestions() {
 		$options = WPSEO_Options::get_option( 'wpseo' );
 
-		return ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
+		return ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
 	}
 }

@@ -27,7 +27,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 *
 	 * @param string $post_type The posttype to limit the resultset for.
 	 *
-	 * @return array
+	 * @return array Array with the query args.
 	 */
 	public function get_query_args( $post_type ) {
 		return array(

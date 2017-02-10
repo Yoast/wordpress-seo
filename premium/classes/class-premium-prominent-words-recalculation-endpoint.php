@@ -28,7 +28,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Endpoint implements WPSEO_Word
 	}
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
 		add_action( 'rest_api_init', array( $this, 'register' ) );

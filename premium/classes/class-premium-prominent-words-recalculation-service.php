@@ -13,7 +13,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Service {
 	 *
 	 * @param WP_REST_Request $request The current request. Unused.
 	 *
-	 * @return WP_REST_Response
+	 * @return WP_REST_Response The response to give.
 	 */
 	public function remove_notification( WP_REST_Request $request ) {
 		$notifier = new WPSEO_Premium_Prominent_Words_Recalculation_Notifier();
