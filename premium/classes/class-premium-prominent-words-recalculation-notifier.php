@@ -32,7 +32,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	 * Removes the notification when it is set and the amount of unindexed items is lower than the threshold.
 	 */
 	public function cleanup_notification() {
-		if ( ! $this->has_notification() || $this->is_unindexed_threshold_exceeded() ) {
+		if ( ! $this->has_notification() || $this->requires_notification()  ) {
 			return;
 		}
 
@@ -44,7 +44,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	 * threshold.
 	 */
 	public function manage_notification() {
-		if ( $this->has_notification() || ! $this->is_unindexed_threshold_exceeded() ) {
+		if ( $this->has_notification() || ! $this->requires_notification() ) {
 			return;
 		}
 
@@ -131,22 +131,38 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	 *
 	 * @return bool True when the threshold is exceeded.
 	 */
-	protected function is_unindexed_threshold_exceeded() {
+	protected function requires_notification() {
 		$post_query  = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
 		$total_posts = $post_query->get_query( 'post', array( 'offset' => self::UNINDEXED_THRESHOLD + 1 ) )->found_posts;
+
+		if ( $this->exceeds_threshold( $total_posts ) ) {
+			return true;
+		}
+
 		$total_pages = $post_query->get_query( 'page', array( 'offset' => self::UNINDEXED_THRESHOLD + 1 ) )->found_posts;
 
-		return ( $total_posts + $total_pages ) > self::UNINDEXED_THRESHOLD;
+		return $this->exceeds_threshold( $total_posts + $total_pages );
 	}
 
 	/**
-	 * Whether the user has enable_link_suggestions enabled or not.
+	 * Determines whether the user has enabled the links suggestions or not.
 	 *
-	 * @return bool True when link sugggestions is enabled.
+	 * @return bool True when link suggestions are enabled.
 	 */
 	protected function has_enabled_link_suggestions() {
 		$options = WPSEO_Options::get_option( 'wpseo' );
 
 		return ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
+	}
+
+	/**
+	 * Determines whether the threshold has been exceeded or not.
+	 *
+	 * @param integer $total_items The total amount of items.
+	 *
+	 * @return bool True if threshold has been exceeded.
+	 */
+	protected function exceeds_threshold( $total_items ) {
+		return $total_items > self::UNINDEXED_THRESHOLD;
 	}
 }
