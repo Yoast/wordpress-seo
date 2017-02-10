@@ -39,7 +39,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			$height += self::PROGRESS_BAR_HEIGHT;
 		}
 
-		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'Prominent words', 'wordpress-seo-premium' ) . '</h2>';
 
 		if ( $unindexed_posts === 0 && $unindexed_pages === 0 ) {
 		?>
@@ -51,9 +51,9 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		}
 		else {
 		?>
-			<p><?php _e( 'Analyze your site to receive internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
+			<p><?php _e( 'Analyze all the published posts and pages for prominent words. Prominent words are needed to provide link suggestions.', 'wordpress-seo-premium' ); ?></p>
 			<p>
-				<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=<?php echo $height; ?>&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Internal linking: Analyzing the content', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
+				<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=<?php echo $height; ?>&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Analyzing post and pages for prominent words', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
 			</p>
 		<?php
 		}
@@ -74,14 +74,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		$progressPosts = sprintf(
 		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-			__( '%1$s of %2$s done.', 'wordpress-seo-premium' ),
+			__( 'Prominent words analyzed for posts %1$s of %2$s.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_posts" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_posts_total" class="wpseo-prominent-words-progress-total">' . $total_posts . '</strong>'
 		);
 
 		$progressPages = sprintf(
 		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-			__( '%1$s of %2$s done.', 'wordpress-seo-premium' ),
+			__( 'Prominent words analyzed for pages %1$s of %2$s.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_pages" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_pages_total" class="wpseo-prominent-words-progress-total">' . $total_pages . '</strong>'
 		);
@@ -89,7 +89,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		?>
 		<div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
 			<div id="wpseo_recalculate_internal_links">
-				<p><?php esc_html_e( 'Recalculating internal links for posts.', 'wordpress-seo-premium' ); ?></p>
+				<p><?php esc_html_e( 'Analyzing posts for prominent words...', 'wordpress-seo-premium' ); ?></p>
 				<?php if ( $total_posts > 0 ) : ?>
 				<div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
 				<p><?php echo $progressPosts; ?></p>
@@ -99,7 +99,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			</div>
 			<hr />
 			<div id="wpseo_recalculate_internal_links">
-				<p><?php esc_html_e( 'Recalculating internal links for pages.', 'wordpress-seo-premium' ); ?></p>
+				<p><?php esc_html_e( 'Analyzing pages for prominent words...', 'wordpress-seo-premium' ); ?></p>
 				<?php if ( $total_pages > 0 ) : ?>
 				<div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
 				<p><?php echo $progressPages; ?></p>
@@ -107,7 +107,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 				<p><?php _e( 'All your pages are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
 				<?php endif; ?>
 			</div>
-			<button onclick="tb_remove();" type="button" class="button"><?php _e( 'Close', 'wordpress-seo-premium' ); ?></button>
+			<button onclick="tb_remove();" type="button" class="button"><?php _e( 'Stop Analyzing', 'wordpress-seo-premium' ); ?></button>
 		</div>
 
 		<?php
