@@ -136,6 +136,11 @@ function init() {
 		startRecalculating();
 	} );
 
+	jQuery( '#noticeRunAnalysis' ).click( function() {
+		jQuery( '#general-tab' ).click();
+		jQuery( '#openInternalLinksCalculation' ).click();
+	} );
+
 	infoContainer = jQuery( ".yoast-js-prominent-words-info" );
 }
 
