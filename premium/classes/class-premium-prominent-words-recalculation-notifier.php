@@ -25,7 +25,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 		}
 
 		add_action( self::NOTIFICATION_ID, array( $this, 'manage_notification' ) );
-		add_action( 'wp_ajax_wpseo_premium_complete_recalculation', array( $this, 'complete_recalculation' ) );
 		add_action( 'update_option_wpseo', array( $this, 'handle_option_change' ), 10, 2 );
 	}
 
@@ -58,17 +57,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 		}
 
 		$this->add_notification( $this->get_notification() );
-	}
-
-	/**
-	 * Sets the notice.
-	 */
-	public function complete_recalculation() {
-		check_ajax_referer( 'wpseo_complete_recalculation' );
-
-		$this->cleanup_notification();
-
-		wp_die( true );
 	}
 
 	/**

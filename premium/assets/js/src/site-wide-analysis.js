@@ -92,17 +92,16 @@ function showCompletion() {
 
 	jQuery.get(
 		{
-			url: ajaxurl,
-			data: {
-				action: "wpseo_premium_complete_recalculation",
-				_ajax_nonce: settings.recalculateNonce,
+			url: settings.restApi.root + 'yoast/v1/complete_recalculation/',
+			beforeSend: ( xhr ) => {
+				xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
 			},
 			success: function() {
 				jQuery( '#openInternalLinksCalculation' )
 					.addClass( 'button-disabled' )
 					.removeClass( 'thickbox' )
 					.attr( 'href', '#top#general' );
-			}
+			},
 		}
 	);
 }

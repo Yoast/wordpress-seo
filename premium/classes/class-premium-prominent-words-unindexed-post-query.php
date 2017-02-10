@@ -12,7 +12,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 * Returns an instance of WP Query.
 	 *
 	 * @param string $post_type The posttype to limit the resultset for.
-	 * @param array  $args
+	 * @param array  $args      The arguments to use in the WP_Query.
 	 *
 	 * @return WP_Query Instance of the WP Query.
 	 */

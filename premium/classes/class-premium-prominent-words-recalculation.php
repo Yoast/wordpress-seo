@@ -120,7 +120,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 				'amountPages' => array(
 					'total' => $this->count_unindexed_posts_by_type( 'page' ),
 				),
-				'recalculateNonce' => wp_create_nonce( 'wpseo_complete_recalculation' ),
 				'restApi' => array(
 					'root' => esc_url_raw( rest_url() ),
 					'nonce' => wp_create_nonce( 'wp_rest' ),
