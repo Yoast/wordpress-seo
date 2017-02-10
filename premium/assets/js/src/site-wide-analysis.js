@@ -121,8 +121,13 @@ function startRecalculating() {
  * @returns {void}
  */
 function init() {
+	let recalculating = false;
 	jQuery( ".yoast-js-calculate-prominent-words--all" ).on( "click", function() {
-		startRecalculating();
+		if( recalculating === false ) {
+			startRecalculating();
+
+			recalculating = true;
+		}
 	} );
 
 	infoContainer = jQuery( ".yoast-js-prominent-words-info" );
