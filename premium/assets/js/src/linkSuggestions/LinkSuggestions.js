@@ -103,7 +103,7 @@ class LinkSuggestions extends EventEmitter {
 			return {
 				value: linkSuggestion.title,
 				url: linkSuggestion.link,
-				active: linkSuggestion.active,
+				isActive: linkSuggestion.active,
 			};
 		} );
 	}
