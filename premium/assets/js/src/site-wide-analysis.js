@@ -136,7 +136,9 @@ function init() {
 		startRecalculating();
 	} );
 
-	jQuery( '#noticeRunAnalysis' ).click( function() {
+	jQuery( '#noticeRunAnalysis' ).click( function( evt ) {
+		evt.preventDefault();
+
 		jQuery( '#general-tab' ).click();
 		jQuery( '#openInternalLinksCalculation' ).click();
 	} );
