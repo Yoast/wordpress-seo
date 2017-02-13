@@ -113,7 +113,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 				),
 				'<a href="https://yoa.st/notification-internal-link">',
 				'</a>',
-				'<button id="noticeRunAnalysis" class="button">',
+				'<button type="button" id="noticeRunAnalysis" class="button">',
 				'</button>'
 			),
 			array(
