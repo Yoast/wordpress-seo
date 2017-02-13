@@ -64,6 +64,17 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	}
 
 	/**
+	 * Checks if the notification has been set already.
+	 *
+	 * @return bool True when there is a notification.
+	 */
+	public function has_notification() {
+		$notification = Yoast_Notification_Center::get()->get_notification_by_id( self::NOTIFICATION_ID );
+
+		return $notification instanceof Yoast_Notification;
+	}
+
+	/**
 	 * Adds a notication to the notification center.
 	 *
 	 * @param Yoast_Notification $notification The notification to add.
@@ -112,17 +123,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 				'priority'     => 0.8,
 			)
 		);
-	}
-
-	/**
-	 * Checks if the notification has been set already.
-	 *
-	 * @return bool True when there is a notification.
-	 */
-	protected function has_notification() {
-		$notification = Yoast_Notification_Center::get()->get_notification_by_id( self::NOTIFICATION_ID );
-
-		return $notification instanceof Yoast_Notification;
 	}
 
 	/**
