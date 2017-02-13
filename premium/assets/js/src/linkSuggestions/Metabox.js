@@ -54,7 +54,7 @@ class Metabox extends Component {
 
 		/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing.
 		3: button to the recalculation option. 4: closing button */
-		let message = this.props.translate( "You need to analyze your post and/or pages in order to receive the best %1$slink suggestions%2$s." +
+		let message = this.props.translate( "You need to analyze your posts and/or pages in order to receive the best %1$slink suggestions%2$s." +
 		              "\n\n" +
 		              "%3$sAnalyze the content%4$s to generate the missing link suggestions." );
 
