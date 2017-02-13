@@ -43,6 +43,15 @@ class Metabox extends Component {
 	}
 
 	/**
+	 * Starts prominent word analysis in a new tab.
+	 *
+	 * @returns {void}
+	 */
+	static startAnalyzing() {
+		window.open( "admin.php?page=wpseo_dashboard#open-internal-links-calculation", "yoastSeoAnalyzeProminentWords" );
+	}
+
+	/**
 	 * Generates a warning about the site not having been properly indexed.
 	 *
 	 * @returns {React.Element} The message or no element.
@@ -62,8 +71,8 @@ class Metabox extends Component {
 		message = message.replace( "%2$s", "{{/a}}" );
 
 		// These are here to keep the string the same as in the PHP
-		message = message.replace( "%3$s", "{{analysisLink}}" );
-		message = message.replace( "%4$s", "{{/analysisLink}}" );
+		message = message.replace( "%3$s", "{{startAnalysis}}" );
+		message = message.replace( "%4$s", "{{/startAnalysis}}" );
 
 		message = message.replace( "\n\n", "{{br /}}{{br /}}" );
 
@@ -71,7 +80,7 @@ class Metabox extends Component {
 			mixedString: message,
 			components: {
 				a: <a href="https://yoa.st/notification-internal-link" />,
-				analysisLink: <a href="admin.php?page=wpseo_dashboard#top#general" />,
+				startAnalysis: <button type="button" className="button" onClick={this.constructor.startAnalyzing} />,
 				br: <br />,
 			},
 		} );
