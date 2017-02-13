@@ -54,10 +54,9 @@ class Metabox extends Component {
 
 		/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing.
 		3: button to the recalculation option. 4: closing button */
-		let message = this.props.translate( "A significant amount of posts and/or pages have not been analyzed for prominent words yet." +
-		              "Because of this, these links will not appear in our %1$slink suggestions%2$s feature." +
+		let message = this.props.translate( "You need to analyze your post and/or pages in order to receive the best %1$slink suggestions%2$s." +
 		              "\n\n" +
-		              "%3$sRun the analysis%4$s to analyse the missing items and optimize the link suggestions." );
+		              "%3$sAnalyze the content%4$s to generate the missing link suggestions." );
 
 		message = message.replace( "%1$s", "{{a}}" );
 		message = message.replace( "%2$s", "{{/a}}" );
