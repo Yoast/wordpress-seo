@@ -661,13 +661,17 @@ class WPSEO_Admin {
 	 * Checks if the user is on an advanced settings page.
 	 * If so, make sure the advanced settings are enabled again.
 	 *
-	 * @return void
+	 * @param array $pages The pages that are currently available.
+	 *
+	 * @return array The pages that are currently available.
 	 */
-	protected function enable_advanced_settings() {
+	public function enable_advanced_settings( $pages ) {
 		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( filter_input( INPUT_GET, 'page' ) ) ) {
 			$this->options['enable_setting_pages'] = true;
 			update_option( 'wpseo', $this->options );
 		}
+
+		return $pages;
 	}
 
 	/**
