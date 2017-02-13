@@ -95,6 +95,17 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Returns whether or not we need to index more posts for correct link suggestion functionality
+	 *
+	 * @return bool Whether or not we need to index more posts.
+	 */
+	public function is_site_unindexed() {
+		$recalculation_notifier = new WPSEO_Premium_Prominent_Words_Recalculation_Notifier();
+
+		return $recalculation_notifier->has_notification();
+	}
+
+	/**
 	 * Adds a meta box for the given post type.
 	 *
 	 * @param string $post_type The post type to add a meta box for.

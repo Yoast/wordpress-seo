@@ -104,6 +104,7 @@ function initializeLinkSuggestionsMetabox() {
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
 		currentPostId: settings.postID,
+		showUnindexedWarning: settings.linkSuggestionsUnindexed,
 	} );
 
 	linkSuggestions.initializeDOM( settings.linkSuggestions );

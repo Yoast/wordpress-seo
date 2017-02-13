@@ -52,6 +52,7 @@
   "dependencies": {
     "a11y-speak": "github:yoast/a11y-speak",
     "babel-polyfill": "^6.16.0",
+    "interpolate-components": "^1.1.0",
     "lodash": "^4.7.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",

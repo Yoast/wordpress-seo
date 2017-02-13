@@ -13,8 +13,9 @@ class LinkSuggestions extends EventEmitter {
 	 * @param {string} rootUrl The root URL to do AJAX requests to.
 	 * @param {string} nonce The nonce to use when sending requests to the REST API.
 	 * @param {number} currentPostId The post ID of the post we are currently displaying.
+	 * @param {boolean} showUnindexedWarning Whether to show a warning about posts not being indexed yet.
 	 */
-	constructor( { target, rootUrl, nonce, currentPostId } ) {
+	constructor( { target, rootUrl, nonce, currentPostId, showUnindexedWarning } ) {
 		super();
 
 		this._target = target;
@@ -22,6 +23,7 @@ class LinkSuggestions extends EventEmitter {
 		this._nonce = nonce;
 		this._previousProminentWords = false;
 		this._currentPostId = currentPostId;
+		this._showUnindexedWarning = showUnindexedWarning;
 
 		this.render = this.render.bind( this );
 		this.filterCurrentPost = this.filterCurrentPost.bind( this );
@@ -45,7 +47,14 @@ class LinkSuggestions extends EventEmitter {
 		currentLinkSuggestions = this.filterCurrentPost( currentLinkSuggestions );
 		currentLinkSuggestions = this.constructor.mapSuggestionsForComponent( currentLinkSuggestions );
 
-		ReactDOM.render( <LinkSuggestionsMetabox linkSuggestions={this} suggestions={currentLinkSuggestions} isLoading={isLoading} />, this._target );
+		let metabox = (
+			<LinkSuggestionsMetabox linkSuggestions={this}
+			                        suggestions={currentLinkSuggestions}
+			                        isLoading={isLoading}
+			                        showUnindexedWarning={this._showUnindexedWarning} />
+		);
+
+		ReactDOM.render( metabox, this._target );
 	}
 
 	/**

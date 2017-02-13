@@ -83,7 +83,6 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 
 		$data = array(
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
-			'linkSuggestionsEnabled' => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
 			'postID' => $this->get_post_ID(),
 			'restApi' => array(
 				'available' => WPSEO_Utils::is_api_available(),
@@ -92,7 +91,9 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 				'postTypeBase' => $rest_base,
 			),
+			'linkSuggestionsEnabled' => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
 			'linkSuggestionsAvailable' => $this->link_suggestions->is_available( $post->post_type ),
+			'linkSuggestionsUnindexed' => $this->link_suggestions->is_site_unindexed() && current_user_can( 'manage_options' ),
 			'linkSuggestions' => $this->link_suggestions->get_js_data(),
 		);
 
