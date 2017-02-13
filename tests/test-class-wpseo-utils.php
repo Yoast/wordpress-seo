@@ -167,5 +167,4 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl_XX' ) );
 		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl' ) );
 	}
-	
 }
