@@ -93,13 +93,13 @@ function showCompletion() {
 
 	jQuery.get(
 		{
-			url: settings.restApi.root + 'yoast/v1/complete_recalculation/',
+			url: settings.restApi.root + "yoast/v1/complete_recalculation/",
 			beforeSend: ( xhr ) => {
 				xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
 			},
 			success: function() {
 				prominentWordsCalculated = true;
-				jQuery( '#internalLinksCalculation' ).html( settings.message.analysisCompleted );
+				jQuery( "#internalLinksCalculation" ).html( settings.message.analysisCompleted );
 
 				tb_remove();
 			},
@@ -127,6 +127,19 @@ function startRecalculating() {
 }
 
 /**
+ * Opens the internal link calculation modal.
+ *
+ * @returns {void}
+ */
+function openInternalLinkCalculation() {
+	jQuery( "#general-tab" ).click();
+
+	if ( prominentWordsCalculated === false ) {
+		jQuery( "#openInternalLinksCalculation" ).click();
+	}
+}
+
+/**
  * Initializes the site wide analysis tab.
  *
  * @returns {void}
@@ -141,14 +154,11 @@ function init() {
 		}
 	} );
 
-	jQuery( '#noticeRunAnalysis' ).click( function( evt ) {
-		evt.preventDefault();
+	jQuery( "#noticeRunAnalysis" ).click( openInternalLinkCalculation );
 
-		jQuery( '#general-tab' ).click();
-		if ( prominentWordsCalculated === true ) {
-			jQuery( '#openInternalLinksCalculation' ).click();
-		}
-	} );
+	if ( document.location.hash === "#open-internal-links-calculation" ) {
+		setTimeout( openInternalLinkCalculation, 0 );
+	}
 
 	infoContainer = jQuery( ".yoast-js-prominent-words-info" );
 }
