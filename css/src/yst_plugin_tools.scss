@@ -170,20 +170,22 @@ table.wpseo th {
 }
 
 /* Template variables table. */
+table.yoast_help {
+	border-collapse: collapse;
+}
+
 table.yoast_help,
 table.yoast_help th,
 table.yoast_help td {
 	border: 1px solid #ddd;
-	border-collapse: collapse;
 	color: #444;
-	font-size: 12px;
 }
 
 table.yoast_help th,
 table.yoast_help td {
 	padding: 5px 10px;
 	text-align: left;
-	vertical-align: text-top;
+	vertical-align: top;
 }
 
 table.yoast_help tr {
@@ -196,6 +198,20 @@ table.yoast_help tr:nth-child(2n) {
 
 table.yoast_help tr:hover {
 	background-color: #ddd;
+}
+
+table.yoast_help thead tr,
+table.yoast_help thead tr:hover {
+	background-color: #fff;
+}
+
+table.yoast_help .yoast-variable-name {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+table.yoast_help .yoast-variable-desc {
+	font-weight: 400; // Overrides inheritance from the Help Center tab content.
 }
 
 /* @todo: check this. */
@@ -432,11 +448,102 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .wpseo-banner {
 	&__link {
-	   display: inline-block;
+		display: inline-block;
 	}
 
 	&__image {
-	   vertical-align: top;
+		vertical-align: top;
+	}
+}
+
+// Scrollable tables.
+//
+// The scrollable tables can be used in three different ways.
+//
+// 1. Full-width and always scrollable.
+// Just set the table width to a value higher than `100%`. The columns width can
+// be set to percentage values (recommended) or other values, as necessary.
+//
+// 2. Full-width responsive tables.
+// Set the initial table width to `100%`. Then, use media queries breakpoints to
+// increase the width to values higher than `100%` and make the table scrollable
+// on smaller screens. Columns width: same as above.
+//
+// 3. Tables width based on their content (non-full-width).
+// Don't set a CSS width on the table. Instead, set a `min-width` on one or more
+// table columns or use `white-space: nowrap` depending on the desired behavior.
+// The `min-width` should be set to what's a reasonably good value for a
+// comfortable readability of the column's cells content and at the same time
+// allow the table to shrink. The table cells use `box-sizing: border-box` to
+// make setting the `min-width` easier.
+
+// Variables tables in the Help Center are inside flexbox and need a special treatment.
+@media screen and ( max-width: 1024px ) {
+	.wpseo-tab-video-slideout .yoast-table-scrollable {
+		width: 120%;
+	}
+}
+
+// Variables table in the Advanced > RSS page.
+.page-wpseo_rss .yoast-variable-desc {
+	min-width: 300px;
+}
+
+.yoast-table-scrollable {
+	// Webkit uses `content-box`. Switch everything to `border-box` to have
+	// consistent results when setting/getting the table and cells width.
+	box-sizing: border-box;
+
+	& th,
+	& td {
+		box-sizing: border-box;
+	}
+
+	&__container {
+		&.yoast-has-scroll {
+			position: relative;
+			overflow: hidden;
+
+			&:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 100%;
+				width: 50px;
+				height: calc( 100% - 16px );
+				border-radius: 10px 0 0 10px / 50% 0 0 50%;
+				box-shadow: -5px 0 10px rgba(0, 0, 0, 0.25);
+			}
+		}
+
+		&.yoast-has-scroll .yoast-table-scrollable__inner {
+			overflow-x: scroll;
+			// Ensure the horizontal scrollbar doesn't overlap the table content.
+			padding-bottom: 16px;
+		}
+	}
+
+	&__hintwrapper {
+		display: none;
+
+		&.yoast-has-scroll {
+			display: block;
+			margin: 1em 0;
+			text-align: center;
+		}
+	}
+
+	.yoast-has-scroll &__hint {
+		display: inline-block;
+
+		&:before {
+			content: "\21c4";
+			display: inline-block;
+			margin-right: 10px;
+			font-size: 20px;
+			line-height: inherit;
+			vertical-align: text-top;
+		}
 	}
 }
 
