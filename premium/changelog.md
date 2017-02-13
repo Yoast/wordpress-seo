@@ -1,5 +1,6 @@
 ### 4.3.0: February , 2017
 * Adds link suggestions and insights for Spanish.
+* Adds variable that indicates the recalculation is running already to prevent double executed recalculations.
 * Fixes a bug where the rendering of the columns in the post overview was incorrect. 
 * Includes every change in Yoast SEO core 4.3.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
