@@ -154,7 +154,7 @@ function init() {
 		}
 	} );
 
-	jQuery( "#noticeRunAnalysis" ).click( openInternalLinkCalculation() );
+	jQuery( "#noticeRunAnalysis" ).click( openInternalLinkCalculation );
 
 	if ( document.location.hash === "#open-internal-links-calculation" ) {
 		setTimeout( openInternalLinkCalculation, 0 );
