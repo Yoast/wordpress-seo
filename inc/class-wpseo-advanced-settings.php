@@ -26,6 +26,15 @@ class WPSEO_Advanced_Settings {
 	private static $additional_advanced_pages = array();
 
 	/**
+	 * Gets the list of default advanced pages.
+	 *
+	 * @return array The default advanced pages.
+	 */
+	public static function get_advanced_pages() {
+		return self::$default_advanced_pages;
+	}
+
+	/**
 	 * Adds a page as an advanced settings page if it isn't already present or a default page.
 	 *
 	 * @param string $page The page to add.

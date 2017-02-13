@@ -78,7 +78,6 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
-		add_filter( 'wpseo_submenu_pages', array( $this, 'enable_advanced_settings' ) );
 		add_filter( 'wpseo_submenu_pages', array( $this, 'filter_settings_pages' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
@@ -578,11 +577,16 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function filter_settings_pages( array $pages ) {
+		$pages_to_hide = WPSEO_Advanced_Settings::get_advanced_pages();
+		$page = filter_input( INPUT_GET, 'page' );
+
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}
 
-		$pages_to_hide = array( 'wpseo_titles', 'wpseo_social', 'wpseo_xml', 'wpseo_advanced', 'wpseo_tools' );
+		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( $page ) ) {
+			$pages_to_hide = $this->temporarily_enable_page( $pages_to_hide, $page );
+		}
 
 		foreach ( $pages as $page_key => $page ) {
 			$page_name = $page[4];
@@ -590,6 +594,24 @@ class WPSEO_Admin {
 			if ( in_array( $page_name, $pages_to_hide ) ) {
 				unset( $pages[ $page_key ] );
 			}
+		}
+
+		return $pages;
+	}
+
+	/**
+	 * Temporarily disables a particular page if it is present in the list of passed pages.
+	 *
+	 * @param array $pages The pages to search through.
+	 * @param string $page The page to temporarily enable.
+	 *
+	 * @return array The remaining pages that need to be disabled.
+	 */
+	private function temporarily_enable_page( $pages, $page ) {
+		$enable_page = array_search( $page, $pages );
+
+		if ( $enable_page !== false ) {
+			unset( $pages[ $enable_page ] );
 		}
 
 		return $pages;
@@ -655,23 +677,6 @@ class WPSEO_Admin {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 			}
 		}
-	}
-
-	/**
-	 * Checks if the user is on an advanced settings page.
-	 * If so, make sure the advanced settings are enabled again.
-	 *
-	 * @param array $pages The pages that are currently available.
-	 *
-	 * @return array The pages that are currently available.
-	 */
-	public function enable_advanced_settings( $pages ) {
-		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( filter_input( INPUT_GET, 'page' ) ) ) {
-			$this->options['enable_setting_pages'] = true;
-			update_option( 'wpseo', $this->options );
-		}
-
-		return $pages;
 	}
 
 	/**
