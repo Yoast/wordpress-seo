@@ -8,7 +8,7 @@
  */
 class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Integration {
 
-	const MODAL_DIALOG_HEIGHT_BASE = 250;
+	const MODAL_DIALOG_HEIGHT_BASE = 282;
 	const PROGRESS_BAR_HEIGHT = 32;
 
 	/**
@@ -25,21 +25,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * Renders the html for the internal linking interface.
 	 */
 	public function add_internal_linking_interface() {
-
-		$height = self::MODAL_DIALOG_HEIGHT_BASE;
-
 		$unindexed_posts = $this->count_unindexed_posts_by_type( 'post' );
 		$unindexed_pages = $this->count_unindexed_posts_by_type( 'page' );
 
-		if ( $unindexed_posts > 0 ) {
-			$height += self::PROGRESS_BAR_HEIGHT;
-		}
-
-		if ( $unindexed_pages > 0 ) {
-			$height += self::PROGRESS_BAR_HEIGHT;
-		}
-
-		echo '<h2>' . esc_html__( 'Prominent words', 'wordpress-seo-premium' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
 
 		if ( $unindexed_posts === 0 && $unindexed_pages === 0 ) {
 		?>
@@ -50,10 +39,11 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		<?php
 		}
 		else {
+			$height = $this->get_modal_height( $unindexed_posts, $unindexed_pages );
 		?>
-			<p><?php _e( 'Analyze all the published posts and pages for prominent words. Prominent words are needed to provide link suggestions.', 'wordpress-seo-premium' ); ?></p>
+			<p><?php _e( 'Want to use our internal linking tool? Analyze all the published posts and pages to generate internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
 			<p>
-				<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=<?php echo $height; ?>&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Analyzing post and pages for prominent words', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
+				<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=<?php echo $height; ?>&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Generating internal linking suggestions', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
 			</p>
 		<?php
 		}
@@ -74,14 +64,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 
 		$progressPosts = sprintf(
 		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-			__( 'Prominent words analyzed for posts %1$s of %2$s.', 'wordpress-seo-premium' ),
+			__( 'Post %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_posts" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_posts_total" class="wpseo-prominent-words-progress-total">' . $total_posts . '</strong>'
 		);
 
 		$progressPages = sprintf(
 		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-			__( 'Prominent words analyzed for pages %1$s of %2$s.', 'wordpress-seo-premium' ),
+			__( 'Page %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
 			'<span id="wpseo_count_pages" class="wpseo-prominent-words-progress-current">0</span>',
 			'<strong id="wpseo_count_pages_total" class="wpseo-prominent-words-progress-total">' . $total_pages . '</strong>'
 		);
@@ -89,7 +79,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		?>
 		<div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
 			<div id="wpseo_recalculate_internal_links">
-				<p><?php esc_html_e( 'Analyzing posts for prominent words...', 'wordpress-seo-premium' ); ?></p>
+				<p><?php esc_html_e( 'Generating suggestions for posts...', 'wordpress-seo-premium' ); ?></p>
 				<?php if ( $total_posts > 0 ) : ?>
 				<div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
 				<p><?php echo $progressPosts; ?></p>
@@ -99,7 +89,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 			</div>
 			<hr />
 			<div id="wpseo_recalculate_internal_links">
-				<p><?php esc_html_e( 'Analyzing pages for prominent words...', 'wordpress-seo-premium' ); ?></p>
+				<p><?php esc_html_e( 'Generating suggestions for pages...', 'wordpress-seo-premium' ); ?></p>
 				<?php if ( $total_pages > 0 ) : ?>
 				<div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
 				<p><?php echo $progressPages; ?></p>
@@ -167,23 +157,24 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @return int The amount of posts.
 	 */
 	protected function count_unindexed_posts_by_type( $post_type ) {
-		$total_posts = new WP_Query( array(
-			'post_type' => $post_type,
-			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
-			'meta_query' => array(
-				'relation' => 'OR',
-				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-					'value'   => WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
-					'compare' => '!=',
-				),
-				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-					'compare' => 'NOT EXISTS',
-				),
-			),
-		) );
+		$post_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
 
-		return (int) $total_posts->found_posts;
+		return (int) $post_query->get_query( $post_type )->found_posts;
+	}
+
+	/**
+	 * Calculates the total height of the modal.
+	 *
+	 * @param int $total_posts The total amount of posts.
+	 * @param int $total_pages The total amount of pages.
+	 *
+	 * @return int The calculated height.
+	 */
+	protected function get_modal_height( $total_posts, $total_pages ) {
+		if ( $total_posts > 0 && $total_pages > 0 ) {
+			return ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT );
+		}
+
+		return self::MODAL_DIALOG_HEIGHT_BASE;
 	}
 }
