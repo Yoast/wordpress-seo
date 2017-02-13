@@ -8,7 +8,7 @@
 #TB_window .wpseo_content_wrapper label {
 	margin: 0 10px 0 0;
 	font-size: 14px;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .wpseo-premium-popup-title {
@@ -43,4 +43,168 @@
 
 .yoast-label-strong {
 	font-weight: 600;
+}
+
+// Responsive videos.
+// Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5.
+.yoast-video-container-max-width {
+	max-width: 560px;
+}
+
+.yoast-video-container {
+	position: relative;
+	padding-bottom: 56.25%; // 16:9.
+	height: 0;
+	overflow: hidden;
+}
+
+.yoast-video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+// Forms.
+.yoast-settings {
+	margin-bottom: 2em;
+	// Mimic the WordPress table layout.
+	padding-left: 220px;
+}
+
+.yoast-settings h2 {
+	margin-bottom: 0;
+	margin-left: -220px;
+}
+
+// By default, labels are left aligned to mimic the WordPress table layout.
+.yoast-settings label {
+	display: inline-block;
+	width: 200px;
+	padding-top: 4px;
+	padding-right: 10px;
+	margin-right: 6px;
+	margin-left: -220px;
+	font-size: 14px;
+	line-height: 1.3;
+	font-weight: 600;
+	color: #23282d;
+	vertical-align: top;
+}
+
+// Default vertical spacing between blocks of controls.
+.yoast-settings label,
+.yoast-settings fieldset,
+.yoast-settings input[type="text"],
+.yoast .yoast-settings__checkbox, // Needs higher specificity.
+.yoast .yoast-settings__radio, // Needs higher specificity.
+.yoast-settings textarea,
+.yoast-settings select {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+}
+
+// Max-width for some elements.
+.yoast-settings__textarea--medium {
+	width: 100%;
+	max-width: 600px;
+}
+
+// Checkboxes and radio buttons need selectors with higher specificity.
+.yoast .yoast-settings__checkbox,
+.yoast .yoast-settings__radio {
+	vertical-align: top;
+	// Ideally, checkboxes and radio buttons should have the same height of a
+	// line of text. We fix the vertical alignment by other means.
+	position: relative;
+	top: 1px;
+}
+
+// Fieldsets for checkboxes and radio buttons.
+.yoast-settings__group--checkbox,
+.yoast-settings__group--radio {
+	padding-top: 1em;
+}
+
+// Checkboxes and radio buttons within a fieldset need smaller vertical margins.
+.yoast-settings__group--checkbox .yoast-settings__checkbox,
+.yoast-settings__group--radio .yoast-settings__radio {
+	margin: 0 4px 10px 0;
+}
+
+// Labels for checkboxes and radio buttons.
+.yoast-settings__checkbox + label,
+.yoast-settings__radio + label {
+	width: auto;
+	margin-left: 0;
+	margin-right: 0;
+	padding: 0;
+	max-width: calc( 100% - 25px );
+}
+
+// Labels for checkboxes and radio buttons within a fieldset.
+.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
+.yoast-settings__group--radio .yoast-settings__radio + label {
+	margin-top: 0;
+	margin-bottom: 10px;
+	font-weight: 400;
+}
+
+// Other form elements.
+.yoast-settings legend {
+	font-size: 14px;
+	font-weight: 600;
+	color: #23282d;
+}
+
+.yoast-settings .description {
+	margin-top: 0;
+	font-size: 14px;
+}
+
+@media screen and ( max-width: 782px ) {
+	.yoast-settings {
+		padding-left: 0;
+	}
+
+	.yoast-settings h2 {
+		margin-left: 0;
+	}
+
+	.yoast-settings label {
+		width: auto;
+		padding: 0;
+		margin-right: 0;
+		margin-left: 0;
+	}
+
+	.yoast .yoast-settings__radio,
+	.yoast-settings__radio + label {
+		margin-bottom: 1em;
+	}
+
+	.yoast-settings__checkbox + label,
+	.yoast-settings__radio + label {
+		max-width: calc( 100% - 35px );
+		padding-top: 8px;
+	}
+
+	.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
+	.yoast-settings__group--radio .yoast-settings__radio + label {
+		padding-top: 4px;
+	}
+
+	.yoast-settings input[type="text"],
+	.yoast-settings textarea,
+	.yoast-settings select {
+		display: block;
+		width: 100%;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding: 7px 10px;
+		max-width: none;
+		line-height: 1.5;
+		box-sizing: border-box;
+	}
 }

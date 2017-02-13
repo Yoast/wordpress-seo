@@ -114,6 +114,7 @@ class WPSEO_OnPage_Option {
 
 	/**
 	 * @deprecated 3.0.2
+	 * @codeCoverageIgnore
 	 *
 	 * Returns the indexable status of the website.
 	 *

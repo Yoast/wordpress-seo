@@ -705,7 +705,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 						$classes .= ' has-row-actions column-primary';
 					}
 
-					$attributes = $this->column_attributes( $column_name, $hidden, $classes );
+					$attributes = $this->column_attributes( $column_name, $hidden, $classes, $column_display_name );
 
 					$column_value = $this->parse_column( $column_name, $rec );
 
@@ -726,13 +726,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Getting the attributes for each table cell.
 	 *
-	 * @param string $column_name Column name string.
-	 * @param array  $hidden      Set of hidden columns.
-	 * @param string $classes     Additional CSS classes.
+	 * @param string $column_name         Column name string.
+	 * @param array  $hidden              Set of hidden columns.
+	 * @param string $classes             Additional CSS classes.
+	 * @param string $column_display_name Column display name string.
 	 *
 	 * @return string
 	 */
-	protected function column_attributes( $column_name, $hidden, $classes ) {
+	protected function column_attributes( $column_name, $hidden, $classes, $column_display_name ) {
 
 		$attributes = '';
 		$class = array( $column_name, "column-$column_name$classes" );
@@ -744,6 +745,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		if ( ! empty( $class ) ) {
 			$attributes = 'class="' . implode( ' ', $class ) . '"';
 		}
+
+		$attributes .= ' data-colname="' . esc_attr( $column_display_name ) . '"';
 
 		return $attributes;
 	}
@@ -847,7 +850,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				break;
 
 			case 'col_row_action':
-				$column_value = sprintf( '<a href="#" role="button" class="wpseo-save" data-id="%1$s">Save</a> <span aria-hidden="true">|</span> <a href="#" role="button" class="wpseo-save-all">Save All</a>', $rec->ID );
+				$column_value = sprintf(
+					'<a href="#" role="button" class="wpseo-save" data-id="%1$s">%2$s</a> <span aria-hidden="true">|</span> <a href="#" role="button" class="wpseo-save-all">%3$s</a>',
+					$rec->ID,
+					esc_html__( 'Save', 'wordpress-seo' ),
+					esc_html__( 'Save all', 'wordpress-seo' )
+				);
 				break;
 		}
 

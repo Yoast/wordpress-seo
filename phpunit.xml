@@ -25,6 +25,10 @@
 			<directory>./inc</directory>
 			<directory>./frontend</directory>
 			<directory>./admin</directory>
+			<exclude>
+				<directory suffix=".php">./deprecated</directory>
+				<file>./inc/wpseo-functions-deprecated.php</file>
+			</exclude>
 		</whitelist>
 	</filter>
 </phpunit>

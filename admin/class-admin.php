@@ -305,8 +305,12 @@ class WPSEO_Admin {
 			array(
 				'id'      => 'basic-help',
 				'title'   => __( 'Template explanation', 'wordpress-seo' ),
-				/* translators: %1$s expands to Yoast SEO */
-				'content' => '<p>' . sprintf( __( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
+				'content' => "\n\t\t<h2>" . __( 'Template explanation', 'wordpress-seo' ) . "</h2>\n\t\t" . '<p>' .
+					sprintf(
+						/* translators: %1$s expands to Yoast SEO. */
+						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
+						'Yoast SEO' ) .
+					'</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 			)
 		);
 
@@ -689,6 +693,7 @@ class WPSEO_Admin {
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
+			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 		);
 	}
 
@@ -751,6 +756,7 @@ class WPSEO_Admin {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
@@ -832,4 +838,56 @@ class WPSEO_Admin {
 	function meta_description_warning() {
 		_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 	}
+
+	/**
+	 * Returns the stopwords for the current language
+	 *
+	 * @since 1.1.7
+	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
+	 *
+	 * @return array $stopwords array of stop words to check and / or remove from slug
+	 */
+	function stopwords() {
+		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
+
+		$stop_words = new WPSEO_Admin_Stop_Words();
+		return $stop_words->list_stop_words();
+	}
+
+
+	/**
+	 * Check whether the stopword appears in the string
+	 *
+	 * @deprecated 3.1
+	 *
+	 * @param string $haystack    The string to be checked for the stopword.
+	 * @param bool   $checkingUrl Whether or not we're checking a URL.
+	 *
+	 * @return bool|mixed
+	 */
+	function stopwords_check( $haystack, $checkingUrl = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
+
+		$stopWords = $this->stopwords();
+
+		if ( is_array( $stopWords ) && $stopWords !== array() ) {
+			foreach ( $stopWords as $stopWord ) {
+				// If checking a URL remove the single quotes.
+				if ( $checkingUrl ) {
+					$stopWord = str_replace( "'", '', $stopWord );
+				}
+
+				// Check whether the stopword appears as a whole word.
+				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
+				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
+				if ( $res > 0 ) {
+					return $stopWord;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	// @codeCoverageIgnoreEnd
 }

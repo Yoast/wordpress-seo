@@ -1,0 +1,210 @@
+.wpseo-premium-indicator {
+	display: inline-block;
+	width: 1px;
+	height: 1px;
+}
+
+#adminmenu .wpseo-premium-indicator {
+	margin: -2px 0 -3px 2px;
+	color: inherit;
+}
+
+.wpseo-premium-indicator svg {
+	display: none;
+	width: auto;
+	height: 100%;
+}
+
+#TB_window .wpseo_content_wrapper p {
+	font-size: 14px;
+	font-style: normal;
+}
+
+#TB_window .wpseo_content_wrapper label {
+	margin: 0 10px 0 0;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.wpseo-premium-popup-title {
+	margin: 1em 0;
+	font-size: 1.3em;
+}
+
+.wpseo-premium-popup-icon {
+	margin: 10px;
+}
+
+.edit-tags-php .column-description img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Select2 specific fixes for WordPress */
+.select2-search__field {
+	margin: 0;
+}
+
+.select2-results__option,
+.select2-selection__choice,
+.select2-search--inline {
+	margin-bottom: 0;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+	margin-top: 6px !important;
+	line-height: inherit;
+}
+
+.yoast-label-strong {
+	font-weight: 600;
+}
+
+.yoast-video-container-max-width {
+	max-width: 560px;
+}
+
+.yoast-video-container {
+	overflow: hidden;
+	position: relative;
+	height: 0;
+	padding-bottom: 56.25%;
+}
+
+.yoast-video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.yoast-settings {
+	margin-bottom: 2em;
+	padding-left: 220px;
+}
+
+.yoast-settings h2 {
+	margin-bottom: 0;
+	margin-left: -220px;
+}
+
+.yoast-settings label {
+	display: inline-block;
+	width: 200px;
+	margin-right: 6px;
+	margin-left: -220px;
+	padding-top: 4px;
+	padding-right: 10px;
+	color: #23282d;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.3;
+	vertical-align: top;
+}
+
+.yoast-settings label,
+.yoast-settings fieldset,
+.yoast-settings input[type="text"],
+.yoast .yoast-settings__checkbox,
+.yoast .yoast-settings__radio,
+.yoast-settings textarea,
+.yoast-settings select {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+}
+
+.yoast-settings__textarea--medium {
+	width: 100%;
+	max-width: 600px;
+}
+
+.yoast .yoast-settings__checkbox,
+.yoast .yoast-settings__radio {
+	position: relative;
+	top: 1px;
+	vertical-align: top;
+}
+
+.yoast-settings__group--checkbox,
+.yoast-settings__group--radio {
+	padding-top: 1em;
+}
+
+.yoast-settings__group--checkbox .yoast-settings__checkbox,
+.yoast-settings__group--radio .yoast-settings__radio {
+	margin: 0 4px 10px 0;
+}
+
+.yoast-settings__checkbox + label,
+.yoast-settings__radio + label {
+	width: auto;
+	max-width: calc( 100% - 25px);
+	margin-right: 0;
+	margin-left: 0;
+	padding: 0;
+}
+
+.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
+.yoast-settings__group--radio .yoast-settings__radio + label {
+	margin-top: 0;
+	margin-bottom: 10px;
+	font-weight: 400;
+}
+
+.yoast-settings legend {
+	color: #23282d;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.yoast-settings .description {
+	margin-top: 0;
+	font-size: 14px;
+}
+
+@media screen and (max-width: 782px) {
+	.yoast-settings {
+		padding-left: 0;
+	}
+
+	.yoast-settings h2 {
+		margin-left: 0;
+	}
+
+	.yoast-settings label {
+		width: auto;
+		margin-right: 0;
+		margin-left: 0;
+		padding: 0;
+	}
+
+	.yoast .yoast-settings__radio,
+	.yoast-settings__radio + label {
+		margin-bottom: 1em;
+	}
+
+	.yoast-settings__checkbox + label,
+	.yoast-settings__radio + label {
+		max-width: calc( 100% - 35px);
+		padding-top: 8px;
+	}
+
+	.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
+	.yoast-settings__group--radio .yoast-settings__radio + label {
+		padding-top: 4px;
+	}
+
+	.yoast-settings input[type="text"],
+	.yoast-settings textarea,
+	.yoast-settings select {
+		display: block;
+		box-sizing: border-box;
+		width: 100%;
+		max-width: none;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding: 7px 10px;
+		line-height: 1.5;
+	}
+}
