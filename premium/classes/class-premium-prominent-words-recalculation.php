@@ -29,20 +29,18 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		$unindexed_pages = $this->count_unindexed_posts_by_type( 'page' );
 
 		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
-
+		echo '<p>' . __( 'Want to use our internal linking tool? Analyze all the published posts and pages to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
 		if ( $unindexed_posts === 0 && $unindexed_pages === 0 ) {
 		?>
-			<p><?php _e( 'All your posts and pages are analyzed at this moment, there is no need to analyze them.', 'wordpress-seo-premium' ); ?></p>
-			<p>
-				<button disabled='true' class="btn button"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></button>
-			</p>
+
+			<p><?php echo $this->messageAlreadyIndexed(); ?></p>
 		<?php
 		}
 		else {
 			$height = $this->get_modal_height( $unindexed_posts, $unindexed_pages );
 		?>
-			<p><?php _e( 'Want to use our internal linking tool? Analyze all the published posts and pages to generate internal linking suggestions.', 'wordpress-seo-premium' ); ?></p>
-			<p>
+
+			<p id="internalLinksCalculation">
 				<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=<?php echo $height; ?>&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Generating internal linking suggestions', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
 			</p>
 		<?php
@@ -124,6 +122,9 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 					'root' => esc_url_raw( rest_url() ),
 					'nonce' => wp_create_nonce( 'wp_rest' ),
 				),
+				'message' => array(
+					'analysisCompleted' => $this->messageAlreadyIndexed(),
+				),
 				'l10n' => array(
 					'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
 					'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo-premium' ),
@@ -176,5 +177,14 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		}
 
 		return self::MODAL_DIALOG_HEIGHT_BASE;
+	}
+
+	/**
+	 * Returns the already indexed message.
+	 *
+	 * @return string The message to return when it is already indexed.
+	 */
+	private function messageAlreadyIndexed() {
+		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions.', 'wordpress-seo-premium' );
 	}
 }

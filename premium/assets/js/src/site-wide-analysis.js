@@ -10,6 +10,7 @@ let settings = yoastSiteWideAnalysisData.data;
 
 let infoContainer;
 let prominentWordCache;
+let prominentWordsCalculated = false;
 
 /**
  * Recalculates posts
@@ -97,10 +98,10 @@ function showCompletion() {
 				xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
 			},
 			success: function() {
-				jQuery( '#openInternalLinksCalculation' )
-					.addClass( 'button-disabled' )
-					.removeClass( 'thickbox' )
-					.attr( 'href', '#top#general' );
+				prominentWordsCalculated = true;
+				jQuery( '#internalLinksCalculation' ).html( settings.message.analysisCompleted );
+
+				tb_remove();
 			},
 		}
 	);
@@ -131,15 +132,22 @@ function startRecalculating() {
  * @returns {void}
  */
 function init() {
+	let recalculating = false;
 	jQuery( ".yoast-js-calculate-prominent-words--all" ).on( "click", function() {
-		startRecalculating();
+		if( recalculating === false ) {
+			startRecalculating();
+
+			recalculating = true;
+		}
 	} );
 
 	jQuery( '#noticeRunAnalysis' ).click( function( evt ) {
 		evt.preventDefault();
 
 		jQuery( '#general-tab' ).click();
-		jQuery( '#openInternalLinksCalculation' ).click();
+		if ( prominentWordsCalculated === true ) {
+			jQuery( '#openInternalLinksCalculation' ).click();
+		}
 	} );
 
 	infoContainer = jQuery( ".yoast-js-prominent-words-info" );
