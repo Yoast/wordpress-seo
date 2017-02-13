@@ -581,12 +581,12 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function filter_settings_pages( array $pages ) {
-		$pages_to_hide = WPSEO_Advanced_Settings::get_advanced_pages();
-		$page = filter_input( INPUT_GET, 'page' );
-
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}
+
+		$pages_to_hide = WPSEO_Advanced_Settings::get_advanced_pages();
+		$page = filter_input( INPUT_GET, 'page' );
 
 		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( $page ) ) {
 			$pages_to_hide = $this->temporarily_enable_page( $pages_to_hide, $page );
@@ -619,56 +619,6 @@ class WPSEO_Admin {
 		}
 
 		return $pages;
-	}
-
-	/**
-	 * Returns the stopwords for the current language
-	 *
-	 * @since 1.1.7
-	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
-	 *
-	 * @return array $stopwords array of stop words to check and / or remove from slug
-	 */
-	function stopwords() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
-
-		$stop_words = new WPSEO_Admin_Stop_Words();
-		return $stop_words->list_stop_words();
-	}
-
-
-	/**
-	 * Check whether the stopword appears in the string
-	 *
-	 * @deprecated 3.1
-	 *
-	 * @param string $haystack    The string to be checked for the stopword.
-	 * @param bool   $checkingUrl Whether or not we're checking a URL.
-	 *
-	 * @return bool|mixed
-	 */
-	function stopwords_check( $haystack, $checkingUrl = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
-
-		$stopWords = $this->stopwords();
-
-		if ( is_array( $stopWords ) && $stopWords !== array() ) {
-			foreach ( $stopWords as $stopWord ) {
-				// If checking a URL remove the single quotes.
-				if ( $checkingUrl ) {
-					$stopWord = str_replace( "'", '', $stopWord );
-				}
-
-				// Check whether the stopword appears as a whole word.
-				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
-				if ( $res > 0 ) {
-					return $stopWord;
-				}
-			}
-		}
-
-		return false;
 	}
 
 	/**
