@@ -95,10 +95,9 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 			sprintf(
 				/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing. 3: button to the recalculation option. 4: closing button */
 				__(
-					'A significant amount of posts and/or pages have not been analyzed for prominent words yet.
-					Because of this, these links will not appear in our %1$slink suggestions%2$s feature.
-		
-					%3$sRun the analysis%4$s to analyse the missing items and optimize the link suggestions.',
+					'You need to analyze your post and/or pages in order to receive the best %1$slink suggestions%2$s.
+
+					%3$sAnalyze the content%4$s to generate the missing link suggestions.',
 					'wordpress-seo-premium'
 				),
 				'<a href="https://yoa.st/notification-internal-link">',
