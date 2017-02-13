@@ -550,3 +550,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 	}
 }
+
+.wpseo-checkmark-ok-icon {
+	float: left;
+	width: 18px;
+	margin-right: 5px;
+	height: 18px;
+	background: url(svg-icon-check-ok()) no-repeat;
+	background-size: 18px;
+	vertical-align: top;
+}
