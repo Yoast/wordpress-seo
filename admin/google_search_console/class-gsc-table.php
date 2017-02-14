@@ -12,6 +12,8 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  */
 class WPSEO_GSC_Table extends WP_List_Table {
 
+	const FREEMODALHEIGHT = 140;
+
 	/**
 	 * @var string
 	 */
@@ -39,16 +41,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 */
 	private $current_page = 1;
 
-	/**
-	 * @var array
-	 */
-	private $modal_heights = array(
-		'create'         => 300,
-		'no_premium'     => 140,
-		'already_exists' => 160,
-	);
-
-	/**
+ 	/**
 	 * Search Console table class constructor (subclasses list table).
 	 *
 	 * @param string $platform Platform (desktop, mobile, feature phone).
@@ -62,7 +55,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		add_thickbox();
 
 		// Set search string.
-		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
+		$search_string = filter_input( INPUT_GET, 's' );
+		if ( $search_string !== '' ) {
 			$this->search_string = $search_string;
 		}
 
