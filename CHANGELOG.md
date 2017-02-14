@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.4.1: February 14th, 2017
+
+### Changes
+
+* Changes the styling of the editable preview to match YoastSEO.js and yoast-components.
+
 ## 1.4: November 29th, 2016
 
 ### Changes
