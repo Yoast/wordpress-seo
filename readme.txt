@@ -126,7 +126,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 = 4.3.0 =
 
-Release Date: February , 2017
+Release Date: February 14th, 2017
 
 * Bugfixes
     * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla)
