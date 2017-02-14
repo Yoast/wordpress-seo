@@ -249,7 +249,7 @@ class WPSEO_Upgrade {
 		$option_titles = get_option( 'wpseo_titles' );
 		$option_wpseo = get_option( 'wpseo' );
 
-		if( isset( $option_titles['content-analysis-active'] ) && isset( $option_titles['keyword-analysis-active'] ) ) {
+		if ( isset( $option_titles['content-analysis-active'] ) && isset( $option_titles['keyword-analysis-active'] ) ) {
 			$option_wpseo['content_analysis_active'] = $option_titles['content-analysis-active'];
 			unset( $option_titles['content-analysis-active'] );
 
