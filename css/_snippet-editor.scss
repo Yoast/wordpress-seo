@@ -357,6 +357,11 @@ $snippet_width: 600px;
 	color: #006621;
 	font-style: normal;
 	float: left;
+
+	strong {
+		// Ensure it's a full bold regardless of the inherited styles.
+		font-weight: 700;
+	}
 }
 
 .snippet_container .down_arrow {
@@ -370,10 +375,12 @@ $snippet_width: 600px;
 
 .snippet_container .desc-default {
 	color: #545454;
-}
 
-.snippet_container .desc-default strong{
-	color: #6a6a6a;
+	strong {
+		color: #6a6a6a;
+		// Ensure it's a full bold regardless of the inherited styles.
+		font-weight: 700;
+	}
 }
 
 .snippet_container .desc-render {
