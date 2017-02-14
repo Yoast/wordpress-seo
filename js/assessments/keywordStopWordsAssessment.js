@@ -18,9 +18,9 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 				"js-text-analysis",
 				/* Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
 				"The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
+				"%1$sLearn more about the stop words%2$s.",
 				"The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
+				"%1$sLearn more about the stop words%2$s.",
 				stopWordCount
 			),
 		};
