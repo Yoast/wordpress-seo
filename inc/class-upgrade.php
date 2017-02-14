@@ -60,8 +60,8 @@ class WPSEO_Upgrade {
 			$this->upgrade_40();
 		}
 
-		if ( version_compare( $this->options['version'], '4.3', '<' ) ) {
-			$this->upgrade_43();
+		if ( version_compare( $this->options['version'], '4.4', '<' ) ) {
+			$this->upgrade_44();
 		}
 
 		// Since 3.7.
@@ -245,7 +245,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
 	 */
-	private function upgrade_43() {
+	private function upgrade_44() {
 		$option_titles = get_option( 'wpseo_titles' );
 
 		if( isset( $option_titles['content-analysis-active'] ) && isset( $option_titles['keyword-analysis-active'] ) ) {
