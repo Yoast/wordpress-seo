@@ -5,14 +5,14 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.11.0: February , 2017
+## 1.11.0: February 14th, 2017
 
 ## Added
 * Adds prominent words for Spanish.
-* Adds getLinks to the researcher.
+* Adds getLinks to the researcher, this function retrieves the URLs of the links from the text.
 
 ## Changed
-* Improved feedback text for subheading too long assessment.
+* Improves feedback text for subheading too long assessment.
 
 ## 1.10.0: January 31st, 2017
 
