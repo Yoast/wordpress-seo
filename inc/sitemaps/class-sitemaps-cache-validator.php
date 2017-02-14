@@ -161,14 +161,8 @@ class WPSEO_Sitemaps_Cache_Validator {
 			$like = sprintf( '%s%%', self::STORAGE_KEY_PREFIX );
 		}
 		else {
-			if ( ! is_null( $validator ) ) {
-				// Clear all cache for provided type-validator.
-				$like = sprintf( '%%_%s', $validator );
-			}
-			else {
-				// Clear type cache for all type keys.
-				$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
-			}
+			// Clear type cache for all type keys.
+			$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
 		}
 
 		/**

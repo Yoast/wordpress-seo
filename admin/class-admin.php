@@ -305,8 +305,12 @@ class WPSEO_Admin {
 			array(
 				'id'      => 'basic-help',
 				'title'   => __( 'Template explanation', 'wordpress-seo' ),
-				/* translators: %1$s expands to Yoast SEO */
-				'content' => '<p>' . sprintf( __( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
+				'content' => "\n\t\t<h2>" . __( 'Template explanation', 'wordpress-seo' ) . "</h2>\n\t\t" . '<p>' .
+					sprintf(
+						/* translators: %1$s expands to Yoast SEO. */
+						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
+						'Yoast SEO' ) .
+					'</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 			)
 		);
 
@@ -577,12 +581,16 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function filter_settings_pages( array $pages ) {
-
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}
 
-		$pages_to_hide = array( 'wpseo_titles', 'wpseo_social', 'wpseo_xml', 'wpseo_advanced', 'wpseo_tools' );
+		$pages_to_hide = WPSEO_Advanced_Settings::get_advanced_pages();
+		$page = filter_input( INPUT_GET, 'page' );
+
+		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( $page ) ) {
+			$pages_to_hide = $this->temporarily_enable_page( $pages_to_hide, $page );
+		}
 
 		foreach ( $pages as $page_key => $page ) {
 			$page_name = $page[4];
@@ -596,53 +604,21 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Returns the stopwords for the current language
+	 * Temporarily disables a particular page if it is present in the list of passed pages.
 	 *
-	 * @since 1.1.7
-	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
+	 * @param array  $pages The pages to search through.
+	 * @param string $page  The page to temporarily enable.
 	 *
-	 * @return array $stopwords array of stop words to check and / or remove from slug
+	 * @return array The remaining pages that need to be disabled.
 	 */
-	function stopwords() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
+	private function temporarily_enable_page( $pages, $page ) {
+		$enable_page = array_search( $page, $pages );
 
-		$stop_words = new WPSEO_Admin_Stop_Words();
-		return $stop_words->list_stop_words();
-	}
-
-
-	/**
-	 * Check whether the stopword appears in the string
-	 *
-	 * @deprecated 3.1
-	 *
-	 * @param string $haystack    The string to be checked for the stopword.
-	 * @param bool   $checkingUrl Whether or not we're checking a URL.
-	 *
-	 * @return bool|mixed
-	 */
-	function stopwords_check( $haystack, $checkingUrl = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
-
-		$stopWords = $this->stopwords();
-
-		if ( is_array( $stopWords ) && $stopWords !== array() ) {
-			foreach ( $stopWords as $stopWord ) {
-				// If checking a URL remove the single quotes.
-				if ( $checkingUrl ) {
-					$stopWord = str_replace( "'", '', $stopWord );
-				}
-
-				// Check whether the stopword appears as a whole word.
-				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
-				if ( $res > 0 ) {
-					return $stopWord;
-				}
-			}
+		if ( $enable_page !== false ) {
+			unset( $pages[ $enable_page ] );
 		}
 
-		return false;
+		return $pages;
 	}
 
 	/**
@@ -667,6 +643,7 @@ class WPSEO_Admin {
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
+			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 		);
 	}
 
@@ -729,6 +706,7 @@ class WPSEO_Admin {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
@@ -810,4 +788,56 @@ class WPSEO_Admin {
 	function meta_description_warning() {
 		_deprecated_function( __FUNCTION__, 'WPSEO 3.3.0' );
 	}
+
+	/**
+	 * Returns the stopwords for the current language
+	 *
+	 * @since 1.1.7
+	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
+	 *
+	 * @return array $stopwords array of stop words to check and / or remove from slug
+	 */
+	function stopwords() {
+		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
+
+		$stop_words = new WPSEO_Admin_Stop_Words();
+		return $stop_words->list_stop_words();
+	}
+
+
+	/**
+	 * Check whether the stopword appears in the string
+	 *
+	 * @deprecated 3.1
+	 *
+	 * @param string $haystack    The string to be checked for the stopword.
+	 * @param bool   $checkingUrl Whether or not we're checking a URL.
+	 *
+	 * @return bool|mixed
+	 */
+	function stopwords_check( $haystack, $checkingUrl = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
+
+		$stopWords = $this->stopwords();
+
+		if ( is_array( $stopWords ) && $stopWords !== array() ) {
+			foreach ( $stopWords as $stopWord ) {
+				// If checking a URL remove the single quotes.
+				if ( $checkingUrl ) {
+					$stopWord = str_replace( "'", '', $stopWord );
+				}
+
+				// Check whether the stopword appears as a whole word.
+				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
+				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
+				if ( $res > 0 ) {
+					return $stopWord;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	// @codeCoverageIgnoreEnd
 }

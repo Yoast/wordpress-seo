@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 4.0.2
+Stable tag: 4.2.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -124,53 +124,42 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
-= 4.0.2 =
+= 4.2.1 =
 
-Release Date: December 20th, 2016
+Release Date: February 2nd, 2017
 
 * Bugfixes
-	* Fixes a bug where shortcodes would be kept in the content that would be analyzed, which would result in incorrect results.
-	* Fixes a bug where the user language would be used to analyze the content instead of the site language.
+	* Fixes a fatal error "Call to undefined method yoast_i18n::set_api_url()". This error occurred with certain other plugins that also include the i18n-module.
 
-= 4.0.0 =
+= 4.2.0 =
 
-Release Date: December 13th, 2016
-
-* Enhancements:
-	* License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
-	* License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
-	* Updates the credits page.
-	* Improves plugin naming in translations.
-	* Improves translations by making texts more consistent.
-	* Displays the translations in the language chosen by the user in stead of using only the site language.
-	* Improves the styling of the banners.
-	* Adds passive voice for German.
-	* Adds more transition words for French.
-	* Improves feedback strings for the meta description length assessment.
-	* Improves matching of the keyword in the first paragraph.
-	* Improves the snippet preview to match the styling of googles snippet.
+Release Date: January 31st, 2017
 
 * Bugfixes:
-	* Fixes a compatibility bug with the onboarding wizard and Polylang, and possibly more plugins that prevented the configuration wizard from working properly.
-	* Fixes a bug where post format archives showed up in sitemap when disabled.
-	* Fixes a bug where an old update notice would not be removed.
-	* Fixes a bug where keywords with periods where not highlighted in the snippet.
-	* Fixes a bug where the title of the metabox wasn't displayed correctly.
-
-= 3.9.0 =
-
-Release Date: November 29nd, 2016
+	* Fixes a bug where the sitemaps were being invalidated too often.
+	* Fixes a bug where the 'meta keywords' meta box section stayed visible when switching to the readability tab.
 
 * Enhancements:
-	* Updates the banners on the admin pages.
-	* Improves accessibility by moving the Google Search Console reload button from the header.
-	* Allow for other plugins and themes to more easily add html namespaces through the new wpseo_html_namespaces filter.
-	* Prevent conflicts with other plugins/themes which also add html namespaces.
+	* Moves translations from translate.yoast.com to translate.wordpress.org.
+	* Improves the styling of the featured image warning and sends an audible message for screen readers.
+	* Makes the left sidebar of the meta box responsive.
+	* Removes unused heading from the meta box.
+	* Improves responsiveness for settings pages.
+
+= 4.1.0 =
+
+Release Date: January 17th, 2017
 
 * Bugfixes:
-	* Adds a check to prevent a "Cannot read property 'body' of undefined" error with tinyMCE that occurred with Visual Composer and some themes.
-	* Fixes a bug that prevented bulk actions to work in the Google Search Console.
-	* Fixed incorrect timezone for zero offset case (Atlantic/Azores instead of UTC).
+	* Fixes a glitch in the notification center where a notification would be shown twice.
+	* Fixes a bug where the realtime analysis didn't work on term pages.
+	* Fixes a bug where the sitemap invalidation uses an expensive query to clean up old validators.
+
+* Enhancements:
+	* Added a mobile snippet preview.
+	* Added a function that allows retrieving an option only when it's been autoloaded.
+	* Remove review banner from mobile, props [abhinavkumar940](https://github.com/abhinavkumar940).
+	* Add labels to redirect checkboxes in the search console to improve accessibility.
 
 = Earlier versions =
 

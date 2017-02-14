@@ -15,6 +15,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	 * Set up our class.
 	 */
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 		self::$class_instance = new WPSEO_Sitemaps_Router();
 	}
 

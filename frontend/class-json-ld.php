@@ -259,6 +259,8 @@ class WPSEO_JSON_LD {
 	 *
 	 * @deprecated 2.1
 	 * @deprecated use WPSEO_JSON_LD::website()
+
+	 * @codeCoverageIgnore
 	 */
 	public function internal_search() {
 		_deprecated_function( __METHOD__, 'WPSEO 2.1', 'WPSEO_JSON_LD::website()' );

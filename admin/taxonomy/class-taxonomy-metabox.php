@@ -115,7 +115,7 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
-			__( '', 'wordpress-seo' ),
+			'',
 			array(
 				'tab_class' => 'yoast-seo__remove-tab',
 			)

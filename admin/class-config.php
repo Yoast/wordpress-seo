@@ -150,8 +150,11 @@ class WPSEO_Admin_Pages {
 
 	/********************** DEPRECATED METHODS **********************/
 
+	// @codeCoverageIgnoreStart
 	/**
 	 * Exports the current site's Yoast SEO settings.
+	 *
+	 * @deprecated 2.0
 	 *
 	 * @param bool $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
 	 *
@@ -432,4 +435,5 @@ class WPSEO_Admin_Pages {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
 		WPSEO_Options::reset();
 	}
+	// @codeCoverageIgnoreEnd
 } /* End of class */
