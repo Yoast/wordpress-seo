@@ -5679,6 +5679,15 @@ yoast-components@^2.3.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
+yoast-components@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.4.0.tgz#13b53dddc55620a20e81109f071b39d428b4ec3c"
+  dependencies:
+    i18n-calypso "^1.6.2"
+    interpolate-components "^1.1.0"
+    jed "^1.1.1"
+    whatwg-fetch "^1.0.0"
+
 "yoast-premium-components@git+ssh://git@github.com/yoast/yoast-premium-components.git#master":
   version "1.1.0"
   resolved "git+ssh://git@github.com/yoast/yoast-premium-components.git#4df5ea43f5a6a9a750c6535fb65c12dd4b245fdd"
@@ -5711,18 +5720,9 @@ yoast-components@^2.3.0:
     sassdash "^0.8.1"
     tokenizer2 "^2.0.0"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js#1.10.0":
-  version "1.10.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#ce89f7d7fc809d13e6abb9a5e5f4270c733be2f9"
-  dependencies:
-    jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
-
-"yoastseo@https://github.com/Yoast/YoastSEO.js#master":
-  version "1.9.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#d7657585485d60edbb22ccb3ad53f3bb1ec64ac0"
+"yoastseo@https://github.com/Yoast/YoastSEO.js#1.11.0":
+  version "1.11.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#4e6ca3a592be136178b2af045309a7e808c6ce9d"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"
