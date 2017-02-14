@@ -5670,15 +5670,6 @@ yoast-components@^1.0.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
-yoast-components@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.3.0.tgz#99372fca22dedefc0c3633ca7607da27edd6432d"
-  dependencies:
-    i18n-calypso "^1.6.2"
-    interpolate-components "^1.1.0"
-    jed "^1.1.1"
-    whatwg-fetch "^1.0.0"
-
 yoast-components@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-2.4.0.tgz#13b53dddc55620a20e81109f071b39d428b4ec3c"
@@ -5706,6 +5697,14 @@ yoast-components@^2.4.0:
 "yoast-social-previews@git+ssh://git@github.com/yoast/yoast-social-previews#master":
   version "1.4.0"
   resolved "git+ssh://git@github.com/yoast/yoast-social-previews#bbf05850610b0384c11b7e032202350ac44f86b2"
+  dependencies:
+    jed "^1.1.0"
+    lodash "^3.10.1"
+    yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
+
+"yoast-social-previews@https://github.com/Yoast/yoast-social-previews#master":
+  version "1.4.1"
+  resolved "https://github.com/Yoast/yoast-social-previews#455299f10fcedd46d54904321818ad51c60309ca"
   dependencies:
     jed "^1.1.0"
     lodash "^3.10.1"
