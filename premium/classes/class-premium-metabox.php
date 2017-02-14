@@ -46,7 +46,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 			array( 'jquery', 'wp-util', 'underscore' ),
 			WPSEO_VERSION
 		);
-		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-410' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
+		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-430' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 	}
 
 	/**
