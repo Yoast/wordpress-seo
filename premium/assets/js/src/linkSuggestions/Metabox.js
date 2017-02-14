@@ -32,12 +32,13 @@ export default class Metabox extends Component {
 	 * Updates the link suggestions in the state.
 	 *
 	 * @param {Array} suggestions The link suggestions to set in the state.
+	 * @param {bool} isLoading The loading state of the link suggestions.
 	 * @returns {void}
 	 */
-	retrievedLinkSuggestions( suggestions ) {
+	retrievedLinkSuggestions( suggestions, isLoading ) {
 		this.setState( {
 			suggestions,
-			loading: false,
+			loading: isLoading || false,
 		} );
 	}
 
