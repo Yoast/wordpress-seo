@@ -101,20 +101,21 @@ function wpseo_update_category_count( category ) {
 }
 
 /**
- * Marks a search console crawl issue as fixed.
+ * Sends the request to mark the given url as fixed.
  *
- * @param {string} url The URL that has been fixed.
+ * @param {string} nonce    The nonce for the request
+ * @param {string} platform The platform to mark the issue for.
+ * @param {string} category The category to mark the issue for.
+ * @param {string} url      The url to mark as fixed.
  */
-function wpseo_mark_as_fixed( url ) {
-	"use strict";
-
+function wpseo_send_mark_as_fixed( nonce, platform, category, url ) {
 	jQuery.post(
 		ajaxurl,
 		{
 			action: "wpseo_mark_fixed_crawl_issue",
-			ajax_nonce: jQuery( ".wpseo-gsc-ajax-security" ).val(),
-			platform: jQuery( "#field_platform" ).val(),
-			category: jQuery( "#field_category" ).val(),
+			ajax_nonce: nonce,
+			platform: platform,
+			category: category,
 			url: url,
 		},
 		function( response ) {
@@ -126,5 +127,24 @@ function wpseo_mark_as_fixed( url ) {
 	);
 }
 
+/**
+ * Marks a search console crawl issue as fixed.
+ *
+ * @param {string} url The URL that has been fixed.
+ *
+ * @returns {void}
+ */
+function wpseo_mark_as_fixed( url ) {
+	"use strict";
+
+	wpseo_send_mark_as_fixed(
+		jQuery( ".wpseo-gsc-ajax-security" ).val(),
+		jQuery( "#field_platform" ).val(),
+		jQuery( "#field_category" ).val(),
+		url,
+	);
+}
+
 window.wpseo_update_category_count = wpseo_update_category_count;
 window.wpseo_mark_as_fixed = wpseo_mark_as_fixed;
+window.wpseo_mark_as_fixed = wpseo_send_mark_as_fixed;
