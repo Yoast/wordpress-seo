@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.4.0: February 14th, 2016
+
+### Added
+
+* [Choice] Adds a radio button option to the Choice components.
+
+### Removed
+
+* [StyledSection] Removes width from StyledSection to be usable in different contexts.
+
 ## 2.3.0: January 17th, 2016
 
 ### Changed
