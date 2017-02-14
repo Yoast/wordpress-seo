@@ -2,6 +2,21 @@
 
 This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
 
+= 4.1.0 =
+
+Release Date: January 17th, 2017
+
+* Bugfixes:
+	* Fixes a glitch in the notification center where a notification would be shown twice.
+	* Fixes a bug where the realtime analysis didn't work on term pages.
+	* Fixes a bug where the sitemap invalidation uses an expensive query to clean up old validators.
+
+* Enhancements:
+	* Adds a mobile snippet preview.
+	* Adds a function that allows retrieving an option only when it's been autoloaded.
+	* Removes review banner from mobile, props [abhinavkumar940](https://github.com/abhinavkumar940).
+	* Adds labels to redirect checkboxes in the search console to improve accessibility.
+
 = 4.0.2 =
 
 Release Date: December 20th, 2016

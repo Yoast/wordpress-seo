@@ -124,12 +124,29 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.3.0 =
+
+Release Date: February , 2017
+
+* Bugfixes
+    * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla)
+
+* Enhancements
+    * Improves feedback text for subheading too long assessment.
+
 = 4.2.1 =
 
 Release Date: February 2nd, 2017
 
 * Bugfixes
 	* Fixes a fatal error "Call to undefined method yoast_i18n::set_api_url()". This error occurred with certain other plugins that also include the i18n-module.
+	* Fixes a bug where some strings wouldn't be translated.
+	* Makes the Yoast SEO menu top and first item visible in the responsive view.
+	* Fixes a bug where the yoast icon on the credits page wasn't displayed properly in some views.
+
+* Enhancements:
+    * Improves the sytling of the notification center.
+    * Improves the styling of the title separators.
 
 = 4.2.0 =
 
@@ -145,21 +162,6 @@ Release Date: January 31st, 2017
 	* Makes the left sidebar of the meta box responsive.
 	* Removes unused heading from the meta box.
 	* Improves responsiveness for settings pages.
-
-= 4.1.0 =
-
-Release Date: January 17th, 2017
-
-* Bugfixes:
-	* Fixes a glitch in the notification center where a notification would be shown twice.
-	* Fixes a bug where the realtime analysis didn't work on term pages.
-	* Fixes a bug where the sitemap invalidation uses an expensive query to clean up old validators.
-
-* Enhancements:
-	* Added a mobile snippet preview.
-	* Added a function that allows retrieving an option only when it's been autoloaded.
-	* Remove review banner from mobile, props [abhinavkumar940](https://github.com/abhinavkumar940).
-	* Add labels to redirect checkboxes in the search console to improve accessibility.
 
 = Earlier versions =
 
