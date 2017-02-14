@@ -41,7 +41,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 */
 	private $current_page = 1;
 
- 	/**
+	/**
 	 * Search Console table class constructor (subclasses list table).
 	 *
 	 * @param string $platform Platform (desktop, mobile, feature phone).
