@@ -4,7 +4,7 @@
  */
 
 /**
- * Represents the Google Search console model.
+ * Represents the Google Search Console modal.
  */
 class WPSEO_GSC_Modal {
 

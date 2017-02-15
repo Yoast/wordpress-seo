@@ -12,7 +12,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  */
 class WPSEO_GSC_Table extends WP_List_Table {
 
-	const FREEMODALHEIGHT = 140;
+	const FREE_MODAL_HEIGHT = 140;
 
 	/**
 	 * @var string
@@ -56,6 +56,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 
 		// Set search string.
 		$search_string = filter_input( INPUT_GET, 's' );
+
 		if ( $search_string !== '' ) {
 			$this->search_string = $search_string;
 		}
@@ -326,15 +327,14 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Checks if premium is loaded, if not the nopremium modal will be shown. Otherwise it will load the orem
+	 * Checks if premium is loaded, if not the nopremium modal will be shown. Otherwise it will load the premium one.
 	 *
 	 * @param string $url URL string.
 	 *
-	 * @return WPSEO_GSC_Modal
+	 * @return WPSEO_GSC_Modal Instance of the GSC modal.
 	 */
 	private function get_modal_box( $url ) {
-		$is_premium = defined( 'WPSEO_PREMIUM_FILE' ) && class_exists( 'WPSEO_Premium_GSC_Modal' );
-		if ( $is_premium ) {
+		if ( defined( 'WPSEO_PREMIUM_FILE' ) && class_exists( 'WPSEO_Premium_GSC_Modal' ) ) {
 			static $premium_modal;
 
 			if ( ! $premium_modal ) {
@@ -346,7 +346,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 
 		return new WPSEO_GSC_Modal(
 			dirname( __FILE__ ) . '/views/gsc-redirect-nopremium.php',
-			self::FREEMODALHEIGHT,
+			self::FREE_MODAL_HEIGHT,
 			array( 'url' => $url )
 		);
 	}

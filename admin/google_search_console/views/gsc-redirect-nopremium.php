@@ -2,7 +2,7 @@
 /**
  * @package WPSEO\Admin|Google_Search_Console
  *
- * This is the view for the modal box that appears when the create redirect link is clicked
+ * This is the view for the modal box that appears when premium isn't loaded.
  */
 
 /* Translators: %s: expands to Yoast SEO Premium */
