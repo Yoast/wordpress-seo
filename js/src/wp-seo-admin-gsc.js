@@ -1,7 +1,6 @@
 /* jshint unused:false */
 /* global ajaxurl */
 /* global tb_click */
-/* global tb_remove */
 jQuery( function() {
 	"use strict";
 
