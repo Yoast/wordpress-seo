@@ -81,6 +81,8 @@ class WPSEO_Premium {
 			'prominent-words-recalculation' => new WPSEO_Premium_Prominent_Words_Recalculation(),
 			'link-suggestions' => new WPSEO_Metabox_Link_Suggestions(),
 			'link-suggestions-endpoint' => new WPSEO_Premium_Link_Suggestions_Endpoint( $link_suggestions_service ),
+			'premium-search-console' => new WPSEO_Premium_GSC(),
+			'redirects-endpoint'    => new WPSEO_Premium_Redirect_EndPoint( new WPSEO_Premium_Redirect_Service() ),
 		);
 
 		$this->setup();
