@@ -42,4 +42,29 @@ function wpseoPostRedirectToGSC() {
 	return false;
 }
 
+/**
+ * Adds onchange event to the dropdowns.
+ *
+ * @returns {void}
+ */
+jQuery( function() {
+	var redirectTypes = jQuery( "select[name=redirect-type]" );
+
+	var ALLOW_EMPTY_TARGET = [
+		410, 451,
+	];
+
+	redirectTypes.on( "change", function ( evt ) {
+		var type            = parseInt( this.value, 10 );
+		var fieldToToggle = jQuery( evt.target ).closest( ".wpseo_content_wrapper" ).find( ".form-field-target" )[0];
+
+		// Hide the target field in case of a 410 redirect.
+		if( jQuery.inArray( type, ALLOW_EMPTY_TARGET ) > -1 ) {
+			jQuery( fieldToToggle ).hide();
+		} else {
+			jQuery( fieldToToggle ).show();
+		}
+	} );
+} );
+
 window.wpseoPostRedirectToGSC = wpseoPostRedirectToGSC;
