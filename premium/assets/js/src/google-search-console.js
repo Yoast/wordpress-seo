@@ -10,6 +10,7 @@ function wpseoPostRedirectToGSC() {
 	let oldURL     = jQuery( targetForm ).find( "input[name=current_url]" ).val();
 	let newURL     = jQuery( targetForm ).find( "input[name=new_url]" ).val();
 	let isChecked  = jQuery( targetForm ).find( "input[name=mark_as_fixed]" ).prop( "checked" );
+	let type       = parseInt( jQuery( targetForm ).find( "select[name=redirect-type]" ).val(), 10 );
 
 	jQuery.ajax( {
 		type: "POST",
@@ -21,7 +22,7 @@ function wpseoPostRedirectToGSC() {
 		data: {
 			origin: oldURL,
 			target: newURL,
-			type: "301",
+			type: type,
 		},
 		success: function( response ) {
 			if( response === "true" && isChecked === true ) {
