@@ -9,7 +9,8 @@
  * @var string $url Redirect for URL.
  */
 
-$unique_id = md5( $url );
+$unique_id      = md5( $url );
+$redirect_types = new WPSEO_Redirect_Types();
 ?>
 	<h1 class="wpseo-redirect-url-title"><?php esc_html_e( 'Redirect this broken URL and fix the error', 'wordpress-seo-premium' ); ?></h1>
 
@@ -18,6 +19,17 @@ $unique_id = md5( $url );
 		<input type='text' id='wpseo-current-url-<?php echo $unique_id; ?>' name='current_url' value='<?php echo esc_attr( $url ); ?>' readonly />
 	</div>
 	<div class='form-field form-required'>
+		<label for='wpseo-redirect-type-<?php echo $unique_id; ?>'><?php echo _x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
+		<select name='redirect-type' id='wpseo-redirect-type-<?php echo $unique_id; ?>' class='select'>
+			<?php
+			// Loop through the redirect types.
+			foreach ( $redirect_types->get() as $type => $desc ) {
+				echo '<option value="' . $type . '">' . $desc . '</option>' . PHP_EOL;
+			}
+			?>
+		</select>
+	</div>
+	<div class='form-field form-required form-field-target'>
 		<label for='wpseo-new-url-<?php echo $unique_id; ?>'><?php esc_html_e( 'New URL:', 'wordpress-seo-premium' ); ?></label>
 		<input type='text' id='wpseo-new-url-<?php echo $unique_id; ?>' name='new_url' value='' />
 	</div>
