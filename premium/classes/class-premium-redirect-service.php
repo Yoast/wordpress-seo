@@ -25,6 +25,7 @@ class WPSEO_Premium_Redirect_Service {
 		$redirect = new WPSEO_Redirect( $origin, $target, $type );
 
 		$redirect_manager = new WPSEO_Redirect_Manager();
+
 		if ( $redirect_manager->create_redirect( $redirect ) ) {
 			return new WP_REST_Response( 'true' );
 		}

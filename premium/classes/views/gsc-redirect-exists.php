@@ -2,12 +2,12 @@
 /**
  * @package WPSEO\Admin|Google_Search_Console
  *
- * This is the view for the modal box that appears when the create redirect link is clicked
+ * This is the view for the modal box, when the url is already redirected.
  */
 
 /**
- * @var WPSEO_Redirect $redirect  The existing redirect
- * @var string         $url       Redirect for URL
+ * @var WPSEO_Redirect $redirect  The existing redirect.
+ * @var string         $url       Redirect for URL.
  */
 ?>
 <h1 class="wpseo-redirect-url-title"><?php esc_html_e( 'Error: a redirect for this URL already exists', 'wordpress-seo-premium' ); ?></h1>

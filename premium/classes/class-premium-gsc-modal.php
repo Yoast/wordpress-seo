@@ -4,15 +4,15 @@
  */
 
 /**
- * Represents a premium google search console modal.
+ * Represents a premium Google Search Console modal.
  */
 class WPSEO_Premium_GSC_Modal {
 
 	/** @var  WPSEO_Redirect_Manager */
 	protected $redirect_manager;
 
-	const EXISTINGREDIRECTHEIGHT = 160;
-	const CREATEREDIRECTHEIGHT   = 300;
+	const EXISTING_REDIRECT_HEIGHT = 160;
+	const CREATE_REDIRECT_HEIGHT   = 300;
 
 	/**
 	 * Constructor, sets the redirect manager instance.
@@ -26,21 +26,21 @@ class WPSEO_Premium_GSC_Modal {
 	 *
 	 * @param string $url The URL to get the modal for.
 	 *
-	 * @return WPSEO_GSC_Modal
+	 * @return WPSEO_GSC_Modal Instance of GSC Modal.
 	 */
 	public function show( $url ) {
 		$redirect = $this->redirect_manager->get_redirect( $url );
 		if ( $redirect ) {
 			return new WPSEO_GSC_Modal(
 				dirname( __FILE__ ) . '/views/gsc-redirect-exists.php',
-				self::EXISTINGREDIRECTHEIGHT,
+				self::EXISTING_REDIRECT_HEIGHT,
 				array( 'redirect' => $redirect ,'url' => $url )
 			);
 		}
 
 		return new WPSEO_GSC_Modal(
 			dirname( __FILE__ ) . '/views/gsc-redirect-create.php',
-			self::CREATEREDIRECTHEIGHT,
+			self::CREATE_REDIRECT_HEIGHT,
 			array( 'url' => $url )
 		);
 	}

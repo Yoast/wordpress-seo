@@ -2,13 +2,11 @@
 /**
  * @package WPSEO\Admin|Google_Search_Console
  *
- * This is the view for the modal box that appears when the create redirect link is clicked
+ * This is the view for the modal box that appears when the url can be added as a redirect.
  */
 
 /**
- * @var string         $view_type        The type of view to be displayed, can be 'create', 'already_exists', 'no_premium'
- * @var WPSEO_Redirect $current_redirect The existing redirect
- * @var string         $url              Redirect for URL
+ * @var string $url Redirect for URL.
  */
 
 $unique_id = md5( $url );

@@ -1,26 +1,27 @@
 
 /**
- * Adds a redirect from the google search console overview.
+ * Adds a redirect from the Google Search Console overview.
  *
  * @returns {boolean} Always returns false to cancel the default event handler.
  */
 function wpseo_gsc_post_redirect() {
 	"use strict";
 
-	var target_form = jQuery( "#TB_ajaxContent" );
-	var old_url     = jQuery( target_form ).find( "input[name=current_url]" ).val();
-	var is_checked  = jQuery( target_form ).find( "input[name=mark_as_fixed]" ).prop( "checked" );
+	let target_form = jQuery( "#TB_ajaxContent" );
+	let old_url     = jQuery( target_form ).find( "input[name=current_url]" ).val();
+	let new_url     = jQuery( target_form ).find( "input[name=new_url]" ).val();
+	let is_checked  = jQuery( target_form ).find( "input[name=mark_as_fixed]" ).prop( "checked" );
 
 	jQuery.ajax( {
 		type: "POST",
 		url: yoastPremiumGSC.data.restApi.root + "yoast/v1/redirects",
 		beforeSend: ( xhr ) => {
-			xhr.setRequestHeader( "X-WP-Nonce", yoastPremiumGSC.data.restApi.nonce );
+			xhr.setRequestHeader( "X-WP-Nonce", yoastPremiumGSC.data.restAPI.nonce );
 		},
 		dataType: "json",
 		data: {
 			origin: old_url,
-			target: jQuery( target_form ).find( "input[name=new_url]" ).val(),
+			target: new_url,
 			type: "301",
 		},
 		success: function( response ) {

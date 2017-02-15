@@ -28,7 +28,7 @@ class WPSEO_Premium_Redirect_EndPoint implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
 		add_action( 'rest_api_init', array( $this, 'register' ) );
@@ -71,7 +71,7 @@ class WPSEO_Premium_Redirect_EndPoint implements WPSEO_WordPress_Integration {
 	/**
 	 * Determines if the current user is allowed to use this endpoint.
 	 *
-	 * @return bool
+	 * @return bool True user is allowed to use this endpoint.
 	 */
 	public function can_retrieve_data() {
 		return current_user_can( self::CAPABILITY_RETRIEVE );

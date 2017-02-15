@@ -28,7 +28,7 @@ class WPSEO_Premium_GSC implements WPSEO_WordPress_Integration {
 		}
 
 		$data = array(
-			'restApi' => array(
+			'restAPI' => array(
 				'root' => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			),
