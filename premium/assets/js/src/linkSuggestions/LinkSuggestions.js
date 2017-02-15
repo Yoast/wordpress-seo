@@ -177,7 +177,6 @@ class LinkSuggestions extends EventEmitter {
 		let linkSuggestions = this.markUsedLinks( this.linkSuggestions );
 
 		linkSuggestions = this.constructor.mapSuggestionsForComponent( linkSuggestions );
-		console.log( "linksuggestions", linkSuggestions );
 		this.emit( "retrievedLinkSuggestions", linkSuggestions, this._isLoading );
 	}
 }
