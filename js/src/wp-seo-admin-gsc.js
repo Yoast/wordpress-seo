@@ -147,4 +147,4 @@ function wpseo_mark_as_fixed( url ) {
 
 window.wpseo_update_category_count = wpseo_update_category_count;
 window.wpseo_mark_as_fixed = wpseo_mark_as_fixed;
-window.wpseo_mark_as_fixed = wpseo_send_mark_as_fixed;
+window.wpseo_send_mark_as_fixed = wpseo_send_mark_as_fixed;
