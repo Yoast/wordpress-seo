@@ -141,7 +141,7 @@ function wpseo_mark_as_fixed( url ) {
 		jQuery( ".wpseo-gsc-ajax-security" ).val(),
 		jQuery( "#field_platform" ).val(),
 		jQuery( "#field_category" ).val(),
-		url,
+		url
 	);
 }
 
