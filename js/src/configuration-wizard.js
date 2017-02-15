@@ -121,10 +121,10 @@ class App extends React.Component {
 			if ( typeof ( this.state.config ) === "undefined" ) {
 				let message = {
 					mixedString:
-					"An error occurred while loading the configuration wizard. This might be caused by a plugin conflict." +
-					" {{link}}Please check for plugin conflicts{{/link}} "
+					"The configuration wizard could not be started." +
+					" The likely cause is an interfering plugin, please {{link}}check for plugin conflicts{{/link}} to solve this problem. "
 					,
-					components: { link: <a href="https://yoa.st/pluginconflict" target="_blank" /> },
+					components: { link: <a href="https://yoa.st/configuration-wizard-error-plugin-conflict" target="_blank" /> },
 				};
 				return (
 					<div>
