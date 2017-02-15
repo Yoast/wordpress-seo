@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import isEqual from "lodash/isEqual";
+import forEach from "lodash/forEach";
+import includes from "lodash/includes";
 import EventEmitter from "events";
 import LinkSuggestionsMetabox from "./Metabox";
 
@@ -22,9 +24,11 @@ class LinkSuggestions extends EventEmitter {
 		this._nonce = nonce;
 		this._previousProminentWords = false;
 		this._currentPostId = currentPostId;
-
+		this._isLoading = false;
 		this.render = this.render.bind( this );
 		this.filterCurrentPost = this.filterCurrentPost.bind( this );
+
+		jQuery( window ).on( "YoastSEO:numericScore", this.updateUsedLinks.bind( this ) );
 	}
 
 	/**
@@ -34,18 +38,19 @@ class LinkSuggestions extends EventEmitter {
 	 * @returns {void}
 	 */
 	initializeDOM( currentLinkSuggestions ) {
-		let isLoading = false;
 
 		// If the server has no cached suggestions, we want to show a loader.
 		if ( currentLinkSuggestions === false ) {
 			currentLinkSuggestions = [];
-			isLoading = true;
+			this._isLoading = true;
 		}
 
 		currentLinkSuggestions = this.filterCurrentPost( currentLinkSuggestions );
+		this.saveLinkSuggestions( currentLinkSuggestions );
+		currentLinkSuggestions = this.markUsedLinks( currentLinkSuggestions );
 		currentLinkSuggestions = this.constructor.mapSuggestionsForComponent( currentLinkSuggestions );
 
-		ReactDOM.render( <LinkSuggestionsMetabox linkSuggestions={this} suggestions={currentLinkSuggestions} isLoading={isLoading} />, this._target );
+		ReactDOM.render( <LinkSuggestionsMetabox linkSuggestions={this} suggestions={currentLinkSuggestions} isLoading={this._isLoading} />, this._target );
 	}
 
 	/**
@@ -55,14 +60,36 @@ class LinkSuggestions extends EventEmitter {
 	 * @returns {void}
 	 */
 	updatedProminentWords( prominentWords ) {
+		this._isLoading = false;
 		if ( ! isEqual( this._previousProminentWords, prominentWords ) ) {
 			this._previousProminentWords = prominentWords;
 
 			this.retrieveLinkSuggestions( prominentWords )
 				.then( this.filterCurrentPost )
-				.then( this.constructor.mapSuggestionsForComponent )
-				.then( this.render  );
+				.then (this.saveLinkSuggestions.bind( this ) );
 		}
+	}
+
+	/**
+	 * Saves the link suggestions before rendering.
+	 *
+	 * @param {array} linkSuggestions The array with link suggestions.
+	 *
+	 * @returns {void}
+	 */
+	saveLinkSuggestions( linkSuggestions ) {
+		this.linkSuggestions = linkSuggestions;
+		this.render();
+	}
+
+	/**
+	 * Updates the used links so they can be marked when rendering.
+	 *
+	 * @returns {void}
+	 */
+	updateUsedLinks() {
+		this.usedLinks = YoastSEO.app.researcher.getResearch( "getLinks" );
+		this.render();
 	}
 
 	/**
@@ -76,6 +103,7 @@ class LinkSuggestions extends EventEmitter {
 			return {
 				value: linkSuggestion.title,
 				url: linkSuggestion.link,
+				isActive: linkSuggestion.active,
 			};
 		} );
 	}
@@ -88,6 +116,20 @@ class LinkSuggestions extends EventEmitter {
 	 */
 	filterCurrentPost( linkSuggestions ) {
 		return linkSuggestions.filter( ( linkSuggestion ) => linkSuggestion.id !== this._currentPostId );
+	}
+
+	/**
+	 * Adds to each link suggestion if it has been used or not.
+	 *
+	 * @param {Array} linkSuggestions The current link suggestions.
+	 * @returns {Array} The link suggestions with marks if links are used.
+	 */
+	markUsedLinks( linkSuggestions ) {
+		let usedLinks = this.usedLinks || [];
+		forEach( linkSuggestions, function( linkSuggestion ){
+			linkSuggestion.active = includes( usedLinks, linkSuggestion.link );
+		});
+		return linkSuggestions;
 	}
 
 	/**
@@ -131,8 +173,11 @@ class LinkSuggestions extends EventEmitter {
 	 * @param {Array} suggestions The actual link suggestions.
 	 * @returns {void}
 	 */
-	render( suggestions ) {
-		this.emit( "retrievedLinkSuggestions", suggestions );
+	render() {
+		let linkSuggestions = this.markUsedLinks( this.linkSuggestions );
+
+		linkSuggestions = this.constructor.mapSuggestionsForComponent( linkSuggestions );
+		this.emit( "retrievedLinkSuggestions", linkSuggestions, this._isLoading );
 	}
 }
 

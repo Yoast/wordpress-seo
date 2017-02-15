@@ -106,8 +106,11 @@ function initializeLinkSuggestionsMetabox() {
 		currentPostId: settings.postID,
 	} );
 
-	linkSuggestions.initializeDOM( settings.linkSuggestions );
-
+	let usedLinks = [];
+	if ( typeof YoastSEO.app.researcher !== 'undefined' ) {
+		usedLinks = YoastSEO.app.researcher.getResearch( "getLinks" );
+	}
+	linkSuggestions.initializeDOM( settings.linkSuggestions, usedLinks );
 	prominentWordStorage.on( "savedProminentWords", linkSuggestions.updatedProminentWords.bind( linkSuggestions ) );
 }
 
