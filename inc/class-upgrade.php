@@ -246,8 +246,12 @@ class WPSEO_Upgrade {
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
 	 */
 	private function upgrade_44() {
-		$option_titles = get_option( 'wpseo_titles' );
-		$option_wpseo = get_option( 'wpseo' );
+		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
+		$option_wpseo = WPSEO_Options::get_option( 'wpseo' );
+		echo $option_titles;
+		echo "<br><br>------------------------------------<br><br>";
+		echo $option_wpseo;
+		exit;
 
 		if ( isset( $option_titles['content-analysis-active'] ) && isset( $option_titles['keyword-analysis-active'] ) ) {
 			$option_wpseo['content_analysis_active'] = $option_titles['content-analysis-active'];
