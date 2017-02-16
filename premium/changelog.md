@@ -1,3 +1,6 @@
+### 4.3.1: February 16th, 2017
+* Fixes a bug where a query would be run on every page of the admin.
+
 ### 4.3.0: February 14th, 2017
 * Adds link suggestions and insights for Spanish.
 * Adds variable that indicates the recalculation is running already to prevent double executed recalculations.
