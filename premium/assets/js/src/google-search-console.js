@@ -48,15 +48,15 @@ function wpseoPostRedirectToGSC() {
  * @returns {void}
  */
 jQuery( function() {
-	var redirectTypes = jQuery( "select[name=redirect-type]" );
+	let redirectTypes = jQuery( "select[name=redirect-type]" );
 
-	var ALLOW_EMPTY_TARGET = [
+	let ALLOW_EMPTY_TARGET = [
 		410, 451,
 	];
 
-	redirectTypes.on( "change", function ( evt ) {
-		var type            = parseInt( this.value, 10 );
-		var fieldToToggle = jQuery( evt.target ).closest( ".wpseo_content_wrapper" ).find( ".form-field-target" )[0];
+	redirectTypes.on( "change", function( evt ) {
+		let type            = parseInt( this.value, 10 );
+		let fieldToToggle = jQuery( evt.target ).closest( ".wpseo_content_wrapper" ).find( ".form-field-target" )[ 0 ];
 
 		// Hide the target field in case of a 410 redirect.
 		if( jQuery.inArray( type, ALLOW_EMPTY_TARGET ) > -1 ) {
