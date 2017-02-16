@@ -39,6 +39,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'site_type'                       => '', // List of options.
 		'has_multiple_authors'            => '',
 		'environment_type'                => '',
+		'content_analysis_active'         => true,
+		'keyword_analysis_active'         => true,
 		'enable_setting_pages'            => true,
 		'enable_admin_bar_menu'			  => true,
 		'show_onboarding_notice'          => false,

@@ -34,7 +34,7 @@
 		</span>
 		<span class="wpseo-dashboard-overview-post-count" aria-hidden="true">
 			<?php echo absint( $statistic['count'] ); ?>
-		</td>
+		</span>
 	</li>
 	<?php endforeach; ?>
 </ul>

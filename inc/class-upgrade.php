@@ -60,6 +60,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_40();
 		}
 
+		if ( version_compare( $this->options['version'], '4.4', '<' ) ) {
+			$this->upgrade_44();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -235,6 +239,25 @@ class WPSEO_Upgrade {
 
 		if ( $notification ) {
 			$center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
+	 */
+	private function upgrade_44() {
+		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
+		$option_wpseo = WPSEO_Options::get_option( 'wpseo' );
+
+		if ( isset( $option_titles['content-analysis-active'] ) && isset( $option_titles['keyword-analysis-active'] ) ) {
+			$option_wpseo['content_analysis_active'] = $option_titles['content-analysis-active'];
+			unset( $option_titles['content-analysis-active'] );
+
+			$option_wpseo['keyword_analysis_active'] = $option_titles['keyword-analysis-active'];
+			unset( $option_titles['keyword-analysis-active'] );
+
+			update_option( 'wpseo_titles', $option_titles );
+			update_option( 'wpseo', $option_wpseo );
 		}
 	}
 }
