@@ -18,7 +18,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 		add_action( 'wpseo_internal_linking', array( $this, 'add_internal_linking_interface' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-		add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
+
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
+			add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
+		}
 	}
 
 	/**
