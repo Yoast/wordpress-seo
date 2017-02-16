@@ -21,7 +21,7 @@ class WPSEO_Premium_GSC implements WPSEO_WordPress_Integration {
 	public function enqueue() {
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-gsc', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/yoast-premium-gsc-440' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
+		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-gsc', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/yoast-premium-gsc-440' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION, true );
 
 		if ( $page !== 'wpseo_search_console' ) {
 			return;

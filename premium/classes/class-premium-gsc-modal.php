@@ -12,7 +12,7 @@ class WPSEO_Premium_GSC_Modal {
 	protected $redirect_manager;
 
 	const EXISTING_REDIRECT_HEIGHT = 160;
-	const CREATE_REDIRECT_HEIGHT   = 300;
+	const CREATE_REDIRECT_HEIGHT   = 380;
 
 	/**
 	 * Constructor, sets the redirect manager instance.
