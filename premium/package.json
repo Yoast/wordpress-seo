@@ -52,13 +52,14 @@
   "dependencies": {
     "a11y-speak": "github:yoast/a11y-speak",
     "babel-polyfill": "^6.16.0",
+    "interpolate-components": "^1.1.0",
     "lodash": "^4.7.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "sassdash": "^0.8.2",
-    "yoast-components": "^2.3.0",
+    "yoast-components": "^2.4.0",
     "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#master",
-    "yoast-social-previews": "git+ssh://git@github.com/yoast/yoast-social-previews#master",
-    "yoastseo": "https://github.com/Yoast/YoastSEO.js#1.10.0"
+    "yoast-social-previews": "https://github.com/Yoast/yoast-social-previews#master",
+    "yoastseo": "https://github.com/Yoast/YoastSEO.js#1.11.0"
   }
 }

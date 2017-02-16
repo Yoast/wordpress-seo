@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-02-02 11:05:53+00:00\n"
+"POT-Creation-Date: 2017-02-16 10:42:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,44 +24,44 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:103
+#: class-premium.php:111
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:105
+#: class-premium.php:113
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:108
+#: class-premium.php:116
 msgid "Link suggestions"
 msgstr ""
 
-#: class-premium.php:110
+#: class-premium.php:118
 msgid ""
 "The link suggestions section contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:367
+#: class-premium.php:371
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:399
+#: class-premium.php:403
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:418 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:422 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:452
+#: class-premium.php:456
 msgid "Enabled"
 msgstr ""
 
 #. translators: %s expands to Yoast
-#: classes/class-metabox-link-suggestions.php:121
+#: classes/class-metabox-link-suggestions.php:132
 msgid "%s internal linking"
 msgstr ""
 
@@ -244,107 +244,81 @@ msgstr ""
 msgid "(no title)"
 msgstr ""
 
+#. translators: 1: link to yoast.com post about internal linking suggestion. 2:
+#. is anchor closing. 3: button to the recalculation option. 4: closing button
+#: classes/class-premium-prominent-words-recalculation-notifier.php:108
+msgid ""
+"You need to analyze your posts and/or pages in order to receive the best "
+"%1$slink suggestions%2$s.\n"
+"\n"
+"\t\t\t\t\t%3$sAnalyze the content%4$s to generate the missing link "
+"suggestions."
+msgstr ""
+
 #: classes/class-premium-prominent-words-recalculation.php:34
-#: classes/class-premium-prominent-words-recalculation.php:44
-msgid "Site wide analysis"
+msgid "Internal linking"
 msgstr ""
 
-#. translators: %1$s expands to a link start tag to the Yoast.com website, %2$s
-#. is the link closing tag.
-#: classes/class-premium-prominent-words-recalculation.php:49
+#: classes/class-premium-prominent-words-recalculation.php:35
 msgid ""
-"The Site wide analysis can help you get the most out of %1$sthe internal "
-"linking tool%2$s and calculate the most prominent words for your site."
+"Want to use our internal linking tool? Analyze all the published posts and "
+"pages to generate internal linking suggestions."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:55
-msgid "Prominent words summary"
+#: classes/class-premium-prominent-words-recalculation.php:47
+msgid "Generating internal linking suggestions"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:70
-msgid "%d total post"
-msgid_plural "%d total posts"
-msgstr[0] ""
-msgstr[1] ""
+#: classes/class-premium-prominent-words-recalculation.php:47
+msgid "Analyze your content"
+msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:80
-msgid "%d post with prominent words"
-msgid_plural "%d posts with prominent words"
-msgstr[0] ""
-msgstr[1] ""
+#. translators: 1: expands to a <span> containing the number of items
+#. recalculated. 2: expands to a <strong> containing the total number of items.
+#: classes/class-premium-prominent-words-recalculation.php:68
+msgid "Post %1$s of %2$s analyzed."
+msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:90
-msgid "%d post without prominent words"
-msgid_plural "%d posts without prominent words"
-msgstr[0] ""
-msgstr[1] ""
+#. translators: 1: expands to a <span> containing the number of items
+#. recalculated. 2: expands to a <strong> containing the total number of items.
+#: classes/class-premium-prominent-words-recalculation.php:75
+msgid "Page %1$s of %2$s analyzed."
+msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:99
-msgid "%d total page"
-msgid_plural "%d total pages"
-msgstr[0] ""
-msgstr[1] ""
+#: classes/class-premium-prominent-words-recalculation.php:83
+msgid "Generating suggestions for posts..."
+msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:109
-msgid "%d page with prominent words"
-msgid_plural "%d pages with prominent words"
-msgstr[0] ""
-msgstr[1] ""
-
-#: classes/class-premium-prominent-words-recalculation.php:119
-msgid "%d page without prominent words"
-msgid_plural "%d pages without prominent words"
-msgstr[0] ""
-msgstr[1] ""
-
-#: classes/class-premium-prominent-words-recalculation.php:127
+#: classes/class-premium-prominent-words-recalculation.php:88
 msgid ""
-"Run the analysis now to calculate the prominent words of all your posts and "
-"pages. The initial indexation may take a while, depending on the size of "
-"your site."
+"All your posts are already indexed, there is no need to do the recalculation "
+"for them."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:133
+#: classes/class-premium-prominent-words-recalculation.php:93
+msgid "Generating suggestions for pages..."
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:98
 msgid ""
-"Once started, the calculation will be incomplete if you navigate away from "
-"this page."
+"All your pages are already indexed, there is no need to do the recalculation "
+"for them."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:140
-#: classes/class-premium-prominent-words-recalculation.php:210
+#: classes/class-premium-prominent-words-recalculation.php:101
+msgid "Stop analyzing"
+msgstr ""
+
+#: classes/class-premium-prominent-words-recalculation.php:132
 msgid "Calculation in progress..."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:143
-msgid "Analyzed %1$s out of %2$s post."
-msgid_plural "Analyzed %1$s out of %2$s posts."
-msgstr[0] ""
-msgstr[1] ""
-
-#: classes/class-premium-prominent-words-recalculation.php:149
-msgid "Analyzed %1$s out of %2$s page."
-msgid_plural "Analyzed %1$s out of %2$s pages."
-msgstr[0] ""
-msgstr[1] ""
-
-#: classes/class-premium-prominent-words-recalculation.php:160
-msgid "Calculated prominent words for %1$s post."
-msgid_plural "Calculated prominent words for %1$s posts."
-msgstr[0] ""
-msgstr[1] ""
-
-#: classes/class-premium-prominent-words-recalculation.php:167
-msgid "Calculated prominent words for %1$s page."
-msgid_plural "Calculated prominent words for %1$s pages."
-msgstr[0] ""
-msgstr[1] ""
-
-#: classes/class-premium-prominent-words-recalculation.php:173
-msgid "Calculate prominent words"
+#: classes/class-premium-prominent-words-recalculation.php:133
+msgid "Calculation completed."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:211
-msgid "Calculation completed."
+#: classes/class-premium-prominent-words-recalculation.php:191
+msgid "Good job! You've optimized your internal linking suggestions."
 msgstr ""
 
 #: classes/class-premium-prominent-words-registration.php:36
@@ -409,6 +383,10 @@ msgstr ""
 
 #: classes/class-premium-prominent-words-registration.php:51
 msgid "Prominent words list navigation"
+msgstr ""
+
+#: classes/class-premium-prominent-words-versioning.php:54
+msgid "Limit result set to items that are unindexed."
 msgstr ""
 
 #: classes/class-social-previews.php:129

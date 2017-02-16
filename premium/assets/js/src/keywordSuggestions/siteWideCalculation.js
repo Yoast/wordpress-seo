@@ -63,10 +63,10 @@ class SiteWideCalculation extends EventEmitter {
 	 */
 	calculate() {
 		let data = {
-			page: this._currentPage,
 			// eslint-disable-next-line camelcase
 			per_page: this._perPage,
 			status: postStatuses,
+			yst_prominent_words_is_unindexed : true,
 		};
 
 		if ( ! this._recalculateAll ) {

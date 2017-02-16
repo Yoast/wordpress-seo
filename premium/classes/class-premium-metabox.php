@@ -42,11 +42,11 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	public function register_assets() {
 		wp_register_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox',
-			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-420' . WPSEO_CSSJS_SUFFIX . '.js',
+			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-430' . WPSEO_CSSJS_SUFFIX . '.js',
 			array( 'jquery', 'wp-util', 'underscore' ),
 			WPSEO_VERSION
 		);
-		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-410' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
+		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-430' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 	}
 
 	/**
@@ -83,7 +83,6 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 
 		$data = array(
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
-			'linkSuggestionsEnabled' => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
 			'postID' => $this->get_post_ID(),
 			'restApi' => array(
 				'available' => WPSEO_Utils::is_api_available(),
@@ -92,7 +91,9 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 				'postTypeBase' => $rest_base,
 			),
+			'linkSuggestionsEnabled' => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
 			'linkSuggestionsAvailable' => $this->link_suggestions->is_available( $post->post_type ),
+			'linkSuggestionsUnindexed' => $this->link_suggestions->is_site_unindexed() && current_user_can( 'manage_options' ),
 			'linkSuggestions' => $this->link_suggestions->get_js_data(),
 		);
 

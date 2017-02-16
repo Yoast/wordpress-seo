@@ -1,7 +1,11 @@
+@import "icons";
+
 /* Settings pages layout based on CSS table model. */
 .wpseo_content_wrapper {
 	display: table;
 	width: 100%;
+	// IE11 and Edge need this for the Help Center responsiveness.
+	table-layout: fixed;
 }
 
 .wpseo_content_cell {
@@ -251,7 +255,6 @@ table.yoast_help tr:hover {
 /* Tabs. */
 .wpseotab {
 	display: none;
-	margin-top: 15px;
 }
 
 .wpseotab.active {
@@ -383,9 +386,8 @@ textarea.wpseo-new-metadesc {
 
 /* Yoast SEO credits page. */
 body.toplevel_page_wpseo_dashboard .wp-badge {
-	border: none;
-	background: url(../images/Yoast_SEO_Icon.svg);
-	background-size: 150px 160px;
+	background: transparent url(../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
+	background-size: 140px 140px;
 	box-shadow: none;
 }
 
@@ -415,6 +417,23 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 #wpseo_progressbar .ui-progressbar-value {
+	height: 25px;
+	background: #006691;
+}
+
+.wpseo-progressbar-wrapper {
+	display: inline;
+	width: 100%;
+}
+
+.wpseo-progressbar {
+	display: block;
+	width: 100%;
+	height: 25px;
+	border: 1px solid #006691;
+}
+
+.wpseo-progressbar .ui-progressbar-value {
 	height: 25px;
 	background: #006691;
 }
@@ -562,4 +581,23 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			border-bottom: 1px solid #ddd;
 		}
 	}
+}
+
+@media screen and ( max-width: 500px ) {
+	body.toplevel_page_wpseo_dashboard .wp-badge {
+		padding-top: 80px;
+		background-size: 100px 100px;
+		background-color: #a4286a;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+	}
+}
+
+.wpseo-checkmark-ok-icon {
+	float: left;
+	width: 18px;
+	margin-right: 5px;
+	height: 18px;
+	background: url(svg-icon-check-ok()) no-repeat;
+	background-size: 18px;
+	vertical-align: top;
 }

@@ -8,170 +8,99 @@
  */
 class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Integration {
 
+	const MODAL_DIALOG_HEIGHT_BASE = 282;
+	const PROGRESS_BAR_HEIGHT = 32;
+
 	/**
 	 * Registers all hooks to WordPress
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_settings_tabs_dashboard', array(
-			$this,
-			'add_tab',
-		) );
-		add_action( 'wpseo_settings_tab_site_analysis', array(
-			$this,
-			'display_tab',
-		) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-	}
+		add_action( 'wpseo_internal_linking', array( $this, 'add_internal_linking_interface' ) );
 
-	/**
-	 * Adds a tab to the dashboard.
-	 *
-	 * @param WPSEO_Option_Tabs $tabs The tabs object.
-	 */
-	public function add_tab( $tabs ) {
-		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
-		if ( WPSEO_Utils::are_content_endpoints_available() && $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
-			$tabs->add_tab( new WPSEO_Option_Tab( 'site-analysis', __( 'Site wide analysis', 'wordpress-seo-premium' ) ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
+			add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
 		}
 	}
 
 	/**
-	 * Display the site wide analysis tab.
+	 * Renders the html for the internal linking interface.
 	 */
-	public function display_tab() {
-		?>
-		<section class="yoast-js-site-wide-prominent-words">
-			<h2><?php esc_html_e( 'Site wide analysis', 'wordpress-seo-premium' ); ?></h2>
-			<p>
-				<?php
-				printf(
-					/* translators: %1$s expands to a link start tag to the Yoast.com website, %2$s is the link closing tag. */
-					__( 'The Site wide analysis can help you get the most out of %1$sthe internal linking tool%2$s and calculate the most prominent words for your site.', 'wordpress-seo-premium' ),
-					'<a href="https://yoa.st/oj" target="_blank">',
-					'</a>'
-				);
-				?>
-			</p>
-			<h3><?php esc_html_e( 'Prominent words summary', 'wordpress-seo-premium' ); ?></h3>
-			<?php
-			$total_posts_with_prominent_words = $this->count_posts_prominent_words( 'post' );
-			$total_posts_without_prominent_words = $this->count_posts_without_prominent_words( 'post' );
-			$total = ( $total_posts_without_prominent_words + $total_posts_with_prominent_words );
+	public function add_internal_linking_interface() {
+		$unindexed_posts = $this->count_unindexed_posts_by_type( 'post' );
+		$unindexed_pages = $this->count_unindexed_posts_by_type( 'page' );
 
-			$total_pages_with_prominent_words = $this->count_posts_prominent_words( 'page' );
-			$total_pages_without_prominent_words = $this->count_posts_without_prominent_words( 'page' );
-			$total_pages = ( $total_pages_without_prominent_words + $total_pages_with_prominent_words );
-			?>
-			<ul class="ul-disc">
-				<li>
-					<?php
-						echo esc_html(
-							sprintf(
-								_n( '%d total post', '%d total posts', $total, 'wordpress-seo-premium' ),
-								$total
-							)
-						);
-					?>
-				</li>
-				<li>
-					<?php
-					echo esc_html(
-						sprintf(
-							_n( '%d post with prominent words', '%d posts with prominent words', $total_posts_with_prominent_words, 'wordpress-seo-premium' ),
-							$total_posts_with_prominent_words
-						)
-					);
-					?>
-				</li>
-				<li>
-					<?php
-					echo esc_html(
-						sprintf(
-							_n( '%d post without prominent words', '%d posts without prominent words', $total_posts_without_prominent_words, 'wordpress-seo-premium' ),
-							$total_posts_without_prominent_words
-						)
-					); ?>
-				</li>
-				<li>
-					<?php
-					echo esc_html(
-						sprintf(
-							_n( '%d total page', '%d total pages', $total_pages, 'wordpress-seo-premium' ),
-							$total_pages
-						)
-					);
-					?>
-				</li>
-				<li>
-					<?php
-					echo esc_html(
-						sprintf(
-							_n( '%d page with prominent words', '%d pages with prominent words', $total_pages_with_prominent_words, 'wordpress-seo-premium' ),
-							$total_pages_with_prominent_words
-						)
-					);
-					?>
-				</li>
-				<li>
-					<?php
-					echo esc_html(
-						sprintf(
-							_n( '%d page without prominent words', '%d pages without prominent words', $total_pages_without_prominent_words, 'wordpress-seo-premium' ),
-							$total_pages_without_prominent_words
-						)
-					); ?>
-				</li>
-			</ul>
-			<p>
-				<?php
-					esc_html_e( 'Run the analysis now to calculate the prominent words of all your posts and pages. The initial indexation may take a while, depending on the size of your site.', 'wordpress-seo-premium' );
-				?>
+		echo '<h2>' . esc_html__( 'Internal linking', 'wordpress-seo-premium' ) . '</h2>';
+		echo '<p>' . __( 'Want to use our internal linking tool? Analyze all the published posts and pages to generate internal linking suggestions.', 'wordpress-seo-premium' ) . '</p>';
+		if ( $unindexed_posts === 0 && $unindexed_pages === 0 ) {
+		?>
+
+			<p><?php echo $this->messageAlreadyIndexed(); ?></p>
+		<?php
+		}
+		else {
+			$height = $this->get_modal_height( $unindexed_posts, $unindexed_pages );
+		?>
+
+			<p id="internalLinksCalculation">
+				<a id="openInternalLinksCalculation" href="#TB_inline?width=600&height=<?php echo $height; ?>&inlineId=wpseo_recalculate_internal_links_wrapper" title='<?php echo __( 'Generating internal linking suggestions', 'wordpress-seo-premium' ); ?>' class="btn button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all thickbox"><?php esc_html_e( 'Analyze your content', 'wordpress-seo-premium' ); ?></a>
 			</p>
-			<div class="yoast-js-prominent-words-info notice notice-info inline">
-				<p>
-				<?php
-					esc_html_e( 'Once started, the calculation will be incomplete if you navigate away from this page.', 'wordpress-seo-premium' );
-				?>
-				</p>
+		<?php
+		}
+		?>
+		<br />
+		<?php
+	}
+
+	/**
+	 * Initialize the modal box to be displayed when needed.
+	 */
+	public function modal_box() {
+		// Adding the thickbox.
+		add_thickbox();
+
+		$total_posts = $this->count_unindexed_posts_by_type( 'post' );
+		$total_pages = $this->count_unindexed_posts_by_type( 'page' );
+
+		$progressPosts = sprintf(
+		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
+			__( 'Post %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
+			'<span id="wpseo_count_posts" class="wpseo-prominent-words-progress-current">0</span>',
+			'<strong id="wpseo_count_posts_total" class="wpseo-prominent-words-progress-total">' . $total_posts . '</strong>'
+		);
+
+		$progressPages = sprintf(
+		/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
+			__( 'Page %1$s of %2$s analyzed.', 'wordpress-seo-premium' ),
+			'<span id="wpseo_count_pages" class="wpseo-prominent-words-progress-current">0</span>',
+			'<strong id="wpseo_count_pages_total" class="wpseo-prominent-words-progress-total">' . $total_pages . '</strong>'
+		);
+
+		?>
+		<div id="wpseo_recalculate_internal_links_wrapper" class="hidden">
+			<div id="wpseo_recalculate_internal_links">
+				<p><?php esc_html_e( 'Generating suggestions for posts...', 'wordpress-seo-premium' ); ?></p>
+				<?php if ( $total_posts > 0 ) : ?>
+				<div id="wpseo_internal_links_posts_progressbar" class="wpseo-progressbar"></div>
+				<p><?php echo $progressPosts; ?></p>
+				<?php else : ?>
+				<p><?php _e( 'All your posts are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
+				<?php endif; ?>
 			</div>
-			<div class="yoast-js-prominent-words-progress notice notice-info inline">
-				<p>
-				<?php
-					esc_html_e( 'Calculation in progress...', 'wordpress-seo-premium' );
-					echo '<br />';
-					echo sprintf(
-						esc_html( _n( 'Analyzed %1$s out of %2$s post.', 'Analyzed %1$s out of %2$s posts.', $total, 'wordpress-seo-premium' ) ),
-						"<span class='yoast-js-prominent-words-progress-current'>0</span>",
-						$total
-					);
-					echo '<br />';
-					echo sprintf(
-						esc_html( _n( 'Analyzed %1$s out of %2$s page.', 'Analyzed %1$s out of %2$s pages.', $total_pages, 'wordpress-seo-premium' ) ),
-						"<span class='yoast-js-prominent-words-pages-progress-current'>0</span>",
-						$total_pages
-					);
-				?>
-				</p>
+			<hr />
+			<div id="wpseo_recalculate_internal_links">
+				<p><?php esc_html_e( 'Generating suggestions for pages...', 'wordpress-seo-premium' ); ?></p>
+				<?php if ( $total_pages > 0 ) : ?>
+				<div id="wpseo_internal_links_pages_progressbar" class="wpseo-progressbar"></div>
+				<p><?php echo $progressPages; ?></p>
+				<?php else : ?>
+				<p><?php _e( 'All your pages are already indexed, there is no need to do the recalculation for them.', 'wordpress-seo-premium' ); ?></p>
+				<?php endif; ?>
 			</div>
-			<div class="yoast-js-prominent-words-completed notice notice-success inline">
-				<p>
-				<?php echo esc_html(
-					sprintf(
-						_n( 'Calculated prominent words for %1$s post.', 'Calculated prominent words for %1$s posts.', $total, 'wordpress-seo-premium' ),
-						$total
-					)
-				); ?>
-				<br />
-				<?php echo esc_html(
-					sprintf(
-						_n( 'Calculated prominent words for %1$s page.', 'Calculated prominent words for %1$s pages.', $total_pages, 'wordpress-seo-premium' ),
-						$total_pages
-					)
-				); ?>
-				</p>
-			</div>
-			<button type="button" class="button yoast-js-calculate-prominent-words yoast-js-calculate-prominent-words--all"><?php esc_html_e( 'Calculate prominent words', 'wordpress-seo-premium' ); ?></button>
-		</section>
+			<button onclick="tb_remove();" type="button" class="button"><?php _e( 'Stop analyzing', 'wordpress-seo-premium' ); ?></button>
+		</div>
+
 		<?php
 	}
 
@@ -181,30 +110,23 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	public function enqueue() {
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-420' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
-
-		$has_prominent_words = $this->count_posts_prominent_words( 'post' );
-		$has_no_prominent_words = $this->count_posts_without_prominent_words( 'post' );
-		$total = ( $has_no_prominent_words + $has_prominent_words );
-
-		$total_pages_with_prominent_words = $this->count_posts_prominent_words( 'page' );
-		$total_pages_without_prominent_words = $this->count_posts_without_prominent_words( 'page' );
-		$total_pages = ( $total_pages_without_prominent_words + $total_pages_with_prominent_words );
+		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-430' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
 
 		if ( $page === 'wpseo_dashboard' ) {
 			$data = array(
 				'allWords' => get_terms( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME, array( 'fields' => 'ids' ) ),
 				'amount' => array(
-					'total' => $total,
-					'hasProminentWords' => $has_prominent_words,
-					'hasNoProminentWords' => $has_no_prominent_words,
+					'total' => $this->count_unindexed_posts_by_type( 'post' ),
 				),
 				'amountPages' => array(
-					'total' => $total_pages,
+					'total' => $this->count_unindexed_posts_by_type( 'page' ),
 				),
 				'restApi' => array(
 					'root' => esc_url_raw( rest_url() ),
 					'nonce' => wp_create_nonce( 'wp_rest' ),
+				),
+				'message' => array(
+					'analysisCompleted' => $this->messageAlreadyIndexed(),
 				),
 				'l10n' => array(
 					'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo-premium' ),
@@ -223,18 +145,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @param string $post_type The post type to count.
 	 * @return int The amount of posts.
 	 */
-	protected function count_posts_prominent_words( $post_type ) {
-		$taxonomy = WPSEO_Premium_Prominent_Words_Registration::TERM_NAME;
-
+	protected function count_all_posts_by_type( $post_type ) {
 		$total_posts = new WP_Query( array(
 			'post_type' => $post_type,
-			'tax_query' => array(
-				array(
-					'taxonomy' => $taxonomy,
-					'terms' => get_terms( $taxonomy, array( 'fields' => 'ids' ) ),
-					'operator' => 'IN',
-				),
-			),
+			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
 		) );
 
 		return (int) $total_posts->found_posts;
@@ -246,20 +160,34 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * @param string $post_type The post type to count.
 	 * @return int The amount of posts.
 	 */
-	protected function count_posts_without_prominent_words( $post_type ) {
-		$taxonomy = WPSEO_Premium_Prominent_Words_Registration::TERM_NAME;
+	protected function count_unindexed_posts_by_type( $post_type ) {
+		$post_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
 
-		$total_posts = new WP_Query( array(
-			'post_type' => $post_type,
-			'tax_query' => array(
-				array(
-					'taxonomy' => $taxonomy,
-					'terms' => get_terms( $taxonomy, array( 'fields' => 'ids' ) ),
-					'operator' => 'NOT IN',
-				),
-			),
-		) );
+		return (int) $post_query->get_query( $post_type )->found_posts;
+	}
 
-		return (int) $total_posts->found_posts;
+	/**
+	 * Calculates the total height of the modal.
+	 *
+	 * @param int $total_posts The total amount of posts.
+	 * @param int $total_pages The total amount of pages.
+	 *
+	 * @return int The calculated height.
+	 */
+	protected function get_modal_height( $total_posts, $total_pages ) {
+		if ( $total_posts > 0 && $total_pages > 0 ) {
+			return ( self::MODAL_DIALOG_HEIGHT_BASE + self::PROGRESS_BAR_HEIGHT );
+		}
+
+		return self::MODAL_DIALOG_HEIGHT_BASE;
+	}
+
+	/**
+	 * Returns the already indexed message.
+	 *
+	 * @return string The message to return when it is already indexed.
+	 */
+	private function messageAlreadyIndexed() {
+		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! You\'ve optimized your internal linking suggestions.', 'wordpress-seo-premium' );
 	}
 }

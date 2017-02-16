@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '4.2.1';
+	const PLUGIN_VERSION_NAME = '4.3.2';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://my.yoast.com';
@@ -51,6 +51,11 @@ class WPSEO_Premium {
 		WPSEO_Redirect_File_Util::create_upload_dir();
 
 		WPSEO_Premium::activate_license();
+
+		// Make sure the notice will be given at install.
+		require_once( WPSEO_PREMIUM_PATH . 'classes/class-premium-prominent-words-recalculation-notifier.php' );
+		$recalculation_notifier = new WPSEO_Premium_Prominent_Words_Recalculation_Notifier();
+		$recalculation_notifier->manage_notification();
 	}
 
 	/**
@@ -79,6 +84,9 @@ class WPSEO_Premium {
 			'prominent-words-registration' => new WPSEO_Premium_Prominent_Words_Registration(),
 			'prominent-words-endpoint' => new WPSEO_Premium_Prominent_Words_Endpoint( new WPSEO_Premium_Prominent_Words_Service() ),
 			'prominent-words-recalculation' => new WPSEO_Premium_Prominent_Words_Recalculation(),
+			'prominent-words-recalculation-notifier' => new WPSEO_Premium_Prominent_Words_Recalculation_Notifier(),
+			'prominent-words-recalculation-endpoint' => new WPSEO_Premium_Prominent_Words_Recalculation_Endpoint( new WPSEO_Premium_Prominent_Words_Recalculation_Service() ),
+			'prominent-words-version' => new WPSEO_Premium_Prominent_Words_Versioning(),
 			'link-suggestions' => new WPSEO_Metabox_Link_Suggestions(),
 			'link-suggestions-endpoint' => new WPSEO_Premium_Link_Suggestions_Endpoint( $link_suggestions_service ),
 			'premium-search-console' => new WPSEO_Premium_GSC(),
