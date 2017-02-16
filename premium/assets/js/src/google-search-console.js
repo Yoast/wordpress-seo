@@ -14,7 +14,7 @@ function wpseoPostRedirectToGSC() {
 
 	jQuery.ajax( {
 		type: "POST",
-		url: yoastPremiumGSC.data.restApi.root + "yoast/v1/redirects",
+		url: yoastPremiumGSC.data.restAPI.root + "yoast/v1/redirects",
 		beforeSend: ( xhr ) => {
 			xhr.setRequestHeader( "X-WP-Nonce", yoastPremiumGSC.data.restAPI.nonce );
 		},
