@@ -42,6 +42,6 @@ $redirect_types = new WPSEO_Redirect_Types();
 			?></p>
 	</div>
 	<p class='submit'>
-		<input type='button' name='submit' id='submit-<?php echo $unique_id; ?>' class='button button-primary' value='<?php esc_attr_e( 'Create redirect', 'wordpress-seo-premium' ); ?>' onclick='wpseo_gsc_post_redirect( jQuery( this ) );' />
+		<input type='button' name='submit' id='submit-<?php echo $unique_id; ?>' class='button button-primary' value='<?php esc_attr_e( 'Create redirect', 'wordpress-seo-premium' ); ?>' onclick='wpseoPostRedirectToGSC( jQuery( this ) );' />
 		<button type="button" class="button wpseo-redirect-close"><?php esc_html_e( 'Cancel', 'wordpress-seo-premium' ); ?></button>
 	</p>
