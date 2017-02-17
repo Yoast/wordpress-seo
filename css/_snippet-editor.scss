@@ -60,24 +60,25 @@ $snippet_width: 600px;
 			border-bottom: 4px solid transparent;
 			outline: none; /* Reset native outline especially on webkit on Macs. */
 
-		  &:hover, &:focus {
+			&:hover, &:focus {
 				background-color: #ffffff;
 				border-color: $color_caret_focus;
 				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
 			}
-		  &--active {
+
+			&--active {
 				border-color: $color_caret;
 				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
-		  }
+			}
 
-		  // Adjust the tooltips position because buttons have a 4px bottom border.
-		  &.yoast-tooltip:before {
+			// Adjust the tooltips position because buttons have a 4px bottom border.
+			&.yoast-tooltip:before {
 				bottom: -10px
-		  }
+			}
 
-		  &.yoast-tooltip:after {
+			&.yoast-tooltip:after {
 				margin-top: 10px;
-		  }
+			}
 		}
 
 		&-icon-desktop {
@@ -99,17 +100,20 @@ $snippet_width: 600px;
 		}
 
 		&--desktop {
-		width: $snippet_width;
-		background: #FFF;
-		  .snippet_container {
-			&__title {
-				width: $snippet_width;
+			width: $snippet_width;
+			max-width: 100%;
+			overflow: auto;
+			background: #fff;
 
-				.title {
-					white-space: nowrap;
+			.snippet_container {
+				&__title {
+					width: $snippet_width;
+
+					.title {
+						white-space: nowrap;
+					}
 				}
 			}
-		  }
 		}
 
 		&--mobile {
