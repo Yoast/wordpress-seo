@@ -93,6 +93,10 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'rps-sitemap-generator/rps-sitemap-generator.php',
 			// RPS Sitemap Generator (redpixelstudios).
 		),
+		'cloaking' => array(
+			'rs-head-cleaner/rs-head-cleaner.php',
+			// RS Head Cleaner Plus https://wordpress.org/plugins/rs-head-cleaner/
+		),	
 	);
 
 	/**
@@ -149,6 +153,9 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			                  . sprintf( __( 'Configure %1$s\'s XML Sitemap settings', 'wordpress-seo' ), 'Yoast SEO' )
 			                  . '</a>';
 		}
+		
+		/* translators: %1$s expands to Yoast SEO, %2$s: 'RS Head Cleaner' plugin name of possibly conflicting plugin with regard to the creation of sitemaps*/
+		$plugins_sections['cloaking'] = __( 'The plugin %2$s changes your site\'s output and in doing that differentiates between search engines and normal users, a process that\'s called cloaking. We highly recommend that you disable it.', 'wordpress-seo' );
 
 		$instance->check_plugin_conflicts( $plugin_sections );
 	}
