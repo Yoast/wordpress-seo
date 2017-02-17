@@ -21,9 +21,9 @@ var minimumDesktopWidth = 640;
  * @constructor
  */
 var SnippetPreviewToggler = function( previewMode, previewToggles ) {
-	this.previewMode    = previewMode;
-	this.previewToggles = previewToggles;
-	this.viewElement     = document.getElementById( "snippet-preview-view" );
+	this.previewMode      = previewMode;
+	this.previewToggles   = previewToggles;
+	this.viewElement      = document.getElementById( "snippet-preview-view" );
 };
 
 /**
@@ -160,8 +160,11 @@ SnippetPreviewToggler.prototype.setMobileMode = function() {
  * @returns {void}
  */
 SnippetPreviewToggler.prototype.setVisibility = function( previewWidth ) {
-	if( previewWidth < minimumDesktopWidth ) {
+	domManipulation.removeClass( this.viewElement, "yoast-has-scroll" );
+
+	if ( previewWidth < minimumDesktopWidth ) {
 		this.setMobileMode();
+		domManipulation.addClass( this.viewElement, "yoast-has-scroll" );
 		return;
 	}
 };

@@ -383,6 +383,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			),
 			desktopPreviewMode: this.i18n.dgettext( "js-text-analysis", "Desktop preview" ),
 			mobilePreviewMode: this.i18n.dgettext( "js-text-analysis", "Mobile preview" ),
+			isScrollableHint: this.i18n.dgettext( "js-text-analysis", "Scroll to see the preview content." ),
 		},
 	} );
 

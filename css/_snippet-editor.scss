@@ -160,7 +160,29 @@ $snippet_width: 600px;
 
 			}
 		}
+	}
 
+	&__is-scrollable-hintwrapper {
+		display: none;
+
+		.snippet-editor__view--desktop.yoast-has-scroll + & {
+			display: block;
+			margin: 1em 0;
+			text-align: center;
+		}
+	}
+
+	&__is-scrollable-hint {
+		display: inline-block;
+
+		&:before {
+			content: "\21c4";
+			display: inline-block;
+			margin-right: 10px;
+			font-size: 20px;
+			line-height: inherit;
+			vertical-align: text-top;
+		}
 	}
 
 	&__container {
