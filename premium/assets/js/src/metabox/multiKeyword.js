@@ -1,4 +1,4 @@
-/* global wp, wpseoPostScraperL10n, _ */
+/* global wp, wpseoPostScraperL10n, _, YoastSEO */
 
 var scoreToRating = require( "yoastseo/js/interpreters/scoreToRating" );
 var indicatorsFactory = require( "yoastseo/js/config/presenter" );
@@ -244,7 +244,6 @@ YoastMultiKeyword.prototype.addKeywordTabs = function() {
 	if ( keywords.length > 0 ) {
 		keywords.forEach( function( keywordObject, index ) {
 			this.addKeywordTab( keywordObject.keyword, keywordObject.score, index === 0 );
-
 		}.bind( this ) );
 	}
 };
