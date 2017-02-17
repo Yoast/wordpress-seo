@@ -60,7 +60,8 @@ $extensions = array(
 		),
 	),
 	'woocommerce-seo' => (object) array(
-		'url'       => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
+		'buyUrl'    => 'https://yoa.st/zr',
+		'infoUrl'   => 'https://yoa.st/zq',
 		'title'     => 'Yoast WooCommerce SEO',
 		/* translators: %1$s expands to Yoast SEO */
 		'desc'      => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
