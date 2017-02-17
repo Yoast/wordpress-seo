@@ -145,7 +145,7 @@ Release Date: February 2nd, 2017
 	* Fixes a bug where the yoast icon on the credits page wasn't displayed properly in some views.
 
 * Enhancements:
-    * Improves the sytling of the notification center.
+    * Improves the styling of the notification center.
     * Improves the styling of the title separators.
 
 = 4.2.0 =
