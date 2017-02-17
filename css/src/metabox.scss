@@ -61,13 +61,14 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-meta-section.active {
-	display: table-cell;
+	display: inline-block;
+	max-width: calc( 100% - 50px );
 }
 
 .wpseo-metabox-sidebar {
-	display: table-cell;
-	width: 40px;
-	padding: 0 5px 0 0;
+	float: left;
+	width: 50px;
+	padding: 0;
 	background-color: #fff;
 	vertical-align: top;
 }
@@ -145,7 +146,6 @@ ul.wpseo-metabox-tabs li {
 
 .wpseotab {
 	display: none;
-	overflow: auto;
 	padding: 20px 35px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
