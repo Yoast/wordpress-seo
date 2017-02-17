@@ -72,6 +72,7 @@
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",
     "yoast-components": "^2.4.0",
+    "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews#master",
     "yoastseo": "https://github.com/Yoast/YoastSEO.js#1.11.0"
   }
 }

@@ -6735,18 +6735,17 @@ yoast-components@^2.4.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js#1.11.0":
-  version "1.11.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#4e6ca3a592be136178b2af045309a7e808c6ce9d"
+"yoast-social-previews@git+ssh://git@github.com/Yoast/yoast-social-previews#master":
+  version "1.4.1"
+  resolved "git+ssh://git@github.com/Yoast/yoast-social-previews#455299f10fcedd46d54904321818ad51c60309ca"
   dependencies:
     jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
+    lodash "^3.10.1"
+    yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
 
-"yoastseo@https://github.com/yoast/yoastseo.js#release/1.11.0":
-  version "1.10.0"
-  resolved "https://github.com/yoast/yoastseo.js#7fbe16fae685cb7ac44db203d02cf59db2929649"
+"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#master", "yoastseo@https://github.com/Yoast/YoastSEO.js#1.11.0":
+  version "1.11.0"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#4e6ca3a592be136178b2af045309a7e808c6ce9d"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"
