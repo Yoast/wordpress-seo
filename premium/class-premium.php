@@ -254,7 +254,7 @@ class WPSEO_Premium {
 				'project_slug'   => 'wordpress-seo-premium',
 				'plugin_name'    => 'Yoast SEO premium',
 				'hook'           => 'wpseo_admin_promo_footer',
-				'glotpress_url'  => 'https://yoa.st/translate',
+				'glotpress_url'  => 'http://translate.yoast.com/gp/',
 				'glotpress_name' => 'Yoast Translate',
 				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
 				'register_url'   => 'https://yoa.st/translate',
