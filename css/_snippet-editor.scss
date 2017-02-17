@@ -37,6 +37,7 @@ $snippet_width: 600px;
 
 	&__view {
 		clear: both;
+		background: #fff;
 
 		&-toggle {
 			display: inline-block; /* Contain floated children and margins do not collapse. */
@@ -103,21 +104,44 @@ $snippet_width: 600px;
 			width: $snippet_width;
 			max-width: 100%;
 			overflow: auto;
-			background: #fff;
+		}
 
-			.snippet_container {
-				&__title {
-					width: $snippet_width;
+		// In the initial and desktop view, title and url don't wrap in new lines and use ellipsis.
+		.snippet_container {
+			&__title {
+				width: $snippet_width;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 
-					.title {
-						white-space: nowrap;
-					}
+			&__url {
+				width: $snippet_width;
+				white-space: nowrap;
+
+				// In the desktop view, due to the presence of the down_arrow we
+				// apply the overflow and ellipsis on the urlFull wrapper.
+				& .urlFull {
+					display: inline-block;
+					max-width: $snippet_width - 14; // down_arrow 8+6 pixels.
+					overflow: hidden;
+					text-overflow: ellipsis;
+					vertical-align: top;
 				}
+			}
+
+			& .down_arrow {
+				display: inline-block;
+				border-left: 4px solid transparent;
+				border-right: 4px solid transparent;
+				border-top: 5px solid #006621;
+				margin-top: 6px;
+				margin-left: 6px;
+				vertical-align: top;
 			}
 		}
 
 		&--mobile {
-			background-color: #fff;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 			border-radius: 2px;
 			border-bottom: 1px hidden #fff;
@@ -130,12 +154,16 @@ $snippet_width: 600px;
 
 				&__title, &__url, &__meta {
 					width: 100%;
+					// Worth noting inside the yoast-section everything is already border-box
+					// setting this proprty on specific element is needed just for the browserified example.
 					box-sizing: border-box;
 				}
 
 				&__title {
 					font-size: 16px;
 					padding: 0 16px;
+					white-space: normal;
+					overflow: visible;
 					word-wrap: break-word;
 
 					.title {
@@ -144,13 +172,27 @@ $snippet_width: 600px;
 
 				}
 
+				// In the mobile view there's no down arrow so we apply the
+				// overflow and ellipsis on the full url container.
 				&__url {
 					border-bottom: 1px solid #ebebeb;
 					padding: 0 16px 11px;
 					margin-bottom: 13px;
 					font-size: 14px;
-					box-sizing: border-box;
-					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+					// Reset the urlFull wrapper.
+					& .urlFull {
+						display: inline;
+						max-width: none;
+						overflow: visible;
+					}
+				}
+
+				// In the mobile view there's no down arrow.
+				& .down_arrow {
+					display: none;
 				}
 
 				&__meta {
@@ -360,9 +402,6 @@ $snippet_width: 600px;
 
 .snippet_container .title {
 	color: #1e0fbe;
-	display: block;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	text-decoration: none;
 	font-size: 18px;
 	line-height: 1.2;
@@ -370,33 +409,21 @@ $snippet_width: 600px;
 	margin: 0;
 }
 
-.snippet_container .url,
 .snippet_container .desc {
 	font-size: 13px;
 	line-height: 1.4;
 }
 
 .snippet_container .url {
-	display: inline-block;
 	font-size: 14px;
 	line-height: 16px;
 	color: #006621;
 	font-style: normal;
-	float: left;
 
 	strong {
 		// Ensure it's a full bold regardless of the inherited styles.
 		font-weight: 700;
 	}
-}
-
-.snippet_container .down_arrow {
-	border-left: 4px solid transparent;
-	border-right: 4px solid transparent;
-	border-top: 5px solid #006621;
-	margin-top: 6px;
-	margin-left: 5px;
-	float: left;
 }
 
 .snippet_container .desc-default {

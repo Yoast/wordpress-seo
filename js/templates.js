@@ -479,11 +479,11 @@
     __e( rendered.title ) +
     '\n					</span>\n				</span>\n				<span class="title" id="snippet_sitename"></span>\n			</div>\n			<div class="snippet_container snippet_container__url snippet-editor__container" id="url_container">\n				<span class="screen-reader-text">' +
     __e( i18n.slugLabel ) +
-    '</span>\n				<cite class="url urlBase" id="snippet_citeBase">\n					' +
+    '</span>\n				<span class="urlFull">\n					<cite class="url urlBase" id="snippet_citeBase">\n						' +
     __e( rendered.baseUrl ) +
-    '\n				</cite>\n				<cite class="url" id="snippet_cite">\n					' +
+    '\n					</cite><cite class="url" id="snippet_cite">\n						' +
     __e( rendered.snippetCite ) +
-    '\n				</cite>\n				<span class="down_arrow"></span>\n			</div>\n			<div class="snippet_container snippet_container__meta snippet-editor__container" id="meta_container">\n				<span class="screen-reader-text">' +
+    '\n					</cite>\n				</span><span class="down_arrow"></span>\n			</div>\n			<div class="snippet_container snippet_container__meta snippet-editor__container" id="meta_container">\n				<span class="screen-reader-text">' +
     __e( i18n.metaDescriptionLabel ) +
     '</span>\n				';
      if ( "" !== metaDescriptionDate ) {
