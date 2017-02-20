@@ -156,7 +156,7 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 						?></a>
 				<?php endif; ?>
 
-				<a target="_blank" href="yoa.st/zy" class="yoast-link--more-info"><?php
+				<a target="_blank" href="https://yoa.st/zy" class="yoast-link--more-info"><?php
 					printf(
 						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
