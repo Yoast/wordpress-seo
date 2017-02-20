@@ -1,4 +1,4 @@
-/* global wp, wpseoPostScraperL10n, _ */
+/* global wp, wpseoPostScraperL10n, _, YoastSEO */
 
 var scoreToRating = require( "yoastseo/js/interpreters/scoreToRating" );
 var indicatorsFactory = require( "yoastseo/js/config/presenter" );
@@ -17,6 +17,16 @@ var tabManager;
 var YoastMultiKeyword = function() {};
 
 let $ = jQuery;
+
+/**
+ * Returns the index of the first keyword tab.
+ *
+ * @returns {number} The index of the keyword tab.
+ */
+function getFirstKeywordTabIndex() {
+	// If there is no content tab the first keyword tab has a different index.
+	return isContentAnalysisActive() ? 1 : 0;
+}
 
 /**
  * Initialized the dom.
@@ -234,7 +244,6 @@ YoastMultiKeyword.prototype.addKeywordTabs = function() {
 	if ( keywords.length > 0 ) {
 		keywords.forEach( function( keywordObject, index ) {
 			this.addKeywordTab( keywordObject.keyword, keywordObject.score, index === 0 );
-
 		}.bind( this ) );
 	}
 };
@@ -317,6 +326,12 @@ YoastMultiKeyword.prototype.updateActiveKeywordTab = function( score ) {
 
 	tab     = $( ".wpseo_keyword_tab.active" );
 	keyword = $( "#yoast_wpseo_focuskw_text_input" ).val();
+
+	let firstKeywordTabIndex = getFirstKeywordTabIndex();
+
+	if ( firstKeywordTabIndex === tab.index() ) {
+		$( "#yoast_wpseo_linkdex" ).val( score );
+	}
 
 	this.renderKeywordTab( keyword, score, tab, true );
 };
@@ -408,8 +423,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 		hideable: true,
 	};
 
-	// If there is no content tab the first keyword tab has a different index.
-	var firstKeywordTabIndex = isContentAnalysisActive() ? 1 : 0;
+	let firstKeywordTabIndex = getFirstKeywordTabIndex();
 
 	// The first keyword tab isn't deletable, this first keyword tab is the second tab because of the content tab.
 	if ( firstKeywordTabIndex === tabElement.index() ) {
