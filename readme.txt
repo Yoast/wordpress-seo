@@ -136,6 +136,7 @@ Release date: February 28th, 2017
 * Enhancements:
 	* Moves the options to disable keyword and content analysis from the general tab to the features tab.
 	* Improves styling of tables so they are viewable on mobile.
+	* Changes the links into shortlinks for the extensions page, helpcenter, facebook settings and premium popup.
 
 = 4.3.0 =
 
