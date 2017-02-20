@@ -16,6 +16,7 @@
 
 .snippet-editor__view {
 	clear: both;
+	background: #fff;
 }
 
 .snippet-editor__view-toggle {
@@ -84,16 +85,43 @@
 }
 
 .snippet-editor__view--desktop {
+	overflow: auto;
 	width: 600px;
-	background: #fff;
+	max-width: 100%;
 }
 
-.snippet-editor__view--desktop .snippet_container__title {
+.snippet-editor__view .snippet_container__title {
+	overflow: hidden;
 	width: 600px;
-}
-
-.snippet-editor__view--desktop .snippet_container__title .title {
 	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.snippet-editor__view .snippet_container__url {
+	width: 600px;
+	white-space: nowrap;
+}
+
+.snippet-editor__view .snippet_container__url .urlFull {
+	display: inline-block;
+	overflow: hidden;
+	max-width: 586px;
+	vertical-align: top;
+	text-overflow: ellipsis;
+}
+
+.snippet-editor__view .snippet_container .down_arrow {
+	display: inline-block;
+	margin-top: 6px;
+	margin-left: 6px;
+	border-top: 5px solid #006621;
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+	vertical-align: top;
+}
+
+.snippet-editor__view .snippet_container__meta {
+	width: 600px;
 }
 
 .snippet-editor__view--mobile {
@@ -101,7 +129,6 @@
 	padding: 13px 0;
 	border-bottom: 1px hidden #fff;
 	border-radius: 2px;
-	background-color: #fff;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -118,8 +145,10 @@
 }
 
 .snippet-editor__view--mobile .snippet_container__title {
+	overflow: visible;
 	padding: 0 16px;
 	font-size: 16px;
+	white-space: normal;
 	word-wrap: break-word;
 }
 
@@ -128,17 +157,50 @@
 }
 
 .snippet-editor__view--mobile .snippet_container__url {
-	box-sizing: border-box;
+	overflow: hidden;
 	margin-bottom: 13px;
 	padding: 0 16px 11px;
 	border-bottom: 1px solid #ebebeb;
 	font-size: 14px;
-	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.snippet-editor__view--mobile .snippet_container__url .urlFull {
+	display: inline;
+	overflow: visible;
+	max-width: none;
+}
+
+.snippet-editor__view--mobile .snippet_container .down_arrow {
+	display: none;
 }
 
 .snippet-editor__view--mobile .snippet_container__meta {
 	padding: 0 16px;
 	font-size: 14px;
+}
+
+.snippet-editor__is-scrollable-hintwrapper {
+	display: none;
+	margin: 1em 0 5px;
+	text-align: center;
+}
+
+.snippet-editor__view--desktop.snippet-editor__view--desktop-has-scroll + .snippet-editor__is-scrollable-hintwrapper {
+	display: block;
+}
+
+.snippet-editor__is-scrollable-hint {
+	display: inline-block;
+}
+
+.snippet-editor__is-scrollable-hint:before {
+	display: inline-block;
+	margin-right: 10px;
+	font-size: 20px;
+	line-height: inherit;
+	vertical-align: text-top;
+	content: "\21c4";
 }
 
 .snippet-editor__container {
@@ -312,47 +374,35 @@
 }
 
 .snippet_container .title {
-	display: block;
-	overflow: hidden;
 	margin: 0; 
 	color: #1e0fbe;
 	font-size: 18px;
 	font-weight: normal;
 	line-height: 1.2;
 	text-decoration: none;
-	text-overflow: ellipsis;
 }
 
-.snippet_container .url,
 .snippet_container .desc {
 	font-size: 13px;
 	line-height: 1.4;
 }
 
 .snippet_container .url {
-	display: inline-block;
-	float: left; 
 	color: #006621;
 	font-size: 14px;
-	font-style: normal;
+	font-style: normal; 
 	line-height: 16px;
 }
-
-.snippet_container .down_arrow {
-	float: left; 
-	margin-top: 6px;
-	margin-left: 5px;
-	border-top: 5px solid #006621;
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
+.snippet_container .url strong {
+	font-weight: 700;
 }
 
 .snippet_container .desc-default {
 	color: #545454;
 }
-
 .snippet_container .desc-default strong {
 	color: #6a6a6a;
+	font-weight: 700;
 }
 
 .snippet_container .desc-render {
@@ -1136,19 +1186,19 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-meta-section {
 	display: none;
 	width: 100%;
+	max-width: calc( 100% - 50px);
 	vertical-align: top;
 }
 
 .wpseo-meta-section.active {
-	display: table-cell;
+	display: inline-block;
 }
 
 .wpseo-metabox-sidebar {
-	display: table-cell;
-	width: 40px;
-	padding: 0 5px 0 0;
+	float: left;
+	width: 50px;
+	padding: 0;
 	background-color: #fff;
-	vertical-align: top;
 }
 
 .wpseo-metabox-sidebar ul {
@@ -1224,7 +1274,6 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 
 .wpseotab {
 	display: none;
-	overflow: auto;
 	padding: 20px 35px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
@@ -1699,14 +1748,17 @@ ul.wpseo-metabox-premium-advantages {
 @media screen and (max-width: 782px) {
 	.wpseo-metabox-sidebar {
 		display: inline-block;
+		float: none;
 		/* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
 		width: auto;
 		margin: 0 0 10px -5px;
 		padding: 0;
+		vertical-align: top;
 	}
 	.wpseo-meta-section.active {
 		display: block;
-		clear: both;
+		clear: both; 
+		max-width: none;
 	}
 	.wpseo-metabox-sidebar ul {
 		display: inline-block;
