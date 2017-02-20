@@ -423,7 +423,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 		hideable: true,
 	};
 
-	var firstKeywordTabIndex = getFirstKeywordTabIndex();
+	let firstKeywordTabIndex = getFirstKeywordTabIndex();
 
 	// The first keyword tab isn't deletable, this first keyword tab is the second tab because of the content tab.
 	if ( firstKeywordTabIndex === tabElement.index() ) {
