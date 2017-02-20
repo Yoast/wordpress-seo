@@ -57,12 +57,12 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-meta-section {
 	display: none;
 	width: 100%;
+	max-width: calc( 100% - 50px );
 	vertical-align: top;
 }
 
 .wpseo-meta-section.active {
 	display: inline-block;
-	max-width: calc( 100% - 50px );
 }
 
 .wpseo-metabox-sidebar {
@@ -70,7 +70,6 @@ ul.wpseo-metabox-tabs li.active {
 	width: 50px;
 	padding: 0;
 	background-color: #fff;
-	vertical-align: top;
 }
 
 .wpseo-metabox-sidebar ul {
@@ -636,14 +635,17 @@ ul.wpseo-metabox-premium-advantages {
 
 @media screen and ( max-width: 782px ) {
 	.wpseo-metabox-sidebar {
+		float: none;
 		display: inline-block; /* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
 		width: auto;
 		margin: 0 0 10px -5px;
 		padding: 0;
+		vertical-align: top;
 	}
 
 	.wpseo-meta-section.active {
 		display: block;
+		max-width: none;
 		clear: both;
 	}
 
