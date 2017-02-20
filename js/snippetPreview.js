@@ -975,6 +975,7 @@ SnippetPreview.prototype.bindEvents = function() {
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
+	// Note: `handleWindowResizing` is called also in Yoast SEO when the WP admin menu state changes.
 	window.addEventListener( "resize", this.handleWindowResizing.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.

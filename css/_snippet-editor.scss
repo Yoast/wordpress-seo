@@ -107,6 +107,7 @@ $snippet_width: 600px;
 		}
 
 		// In the initial and desktop view, title and url don't wrap in new lines and use ellipsis.
+		// The meta description is allowed to wrap. All three elements have a 600 pixels fixed width.
 		.snippet_container {
 			&__title {
 				width: $snippet_width;
@@ -139,6 +140,10 @@ $snippet_width: 600px;
 				margin-left: 6px;
 				vertical-align: top;
 			}
+
+			&__meta {
+				width: $snippet_width;
+			}
 		}
 
 		&--mobile {
@@ -148,13 +153,15 @@ $snippet_width: 600px;
 			margin: 0 0 10px 0;
 			padding: 13px 0 ;
 
+			// In the mobile view title, url, and meta description have a fluid width.
+			// Title and meta description wrap in new lines. Url doesn't wrap.
 			.snippet_container {
 				display: block;
 				line-height: 20px;
 
 				&__title, &__url, &__meta {
 					width: 100%;
-					// Worth noting inside the yoast-section everything is already border-box
+					// Worth noting inside the yoast-section everything is already border-box.
 					// setting this proprty on specific element is needed just for the browserified example.
 					box-sizing: border-box;
 				}
@@ -199,7 +206,6 @@ $snippet_width: 600px;
 					font-size: 14px;
 					padding: 0 16px;
 				}
-
 			}
 		}
 	}
@@ -209,7 +215,7 @@ $snippet_width: 600px;
 
 		.snippet-editor__view--desktop.yoast-has-scroll + & {
 			display: block;
-			margin: 1em 0;
+			margin: 1em 0 5px;
 			text-align: center;
 		}
 	}
