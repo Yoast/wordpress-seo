@@ -2,6 +2,7 @@
 * Adds redirect types in the Search Console settings page.
 * Checks for links that are already used in the text when suggesting links.
 * Includes every change in Yoast SEO core 4.4.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Change links to shortlinks in premium translation promo box.
 
 ### 4.3.2: February 16th, 2017
 * Fixes a bug where CSS & JavaScript would be loaded with incorrect version numbers.
