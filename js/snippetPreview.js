@@ -437,7 +437,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 	}
 
 	this.initPreviewToggler();
-	this.handleWindowResizing();
+	this.setInitialView();
 
 	this.opened = false;
 	this.createMeasurementElements();
@@ -945,12 +945,21 @@ SnippetPreview.prototype.updateProgressBars = function() {
 };
 
 /**
- * Gets the width of the Snippet Preview to set the Snippet Preview Toggler visibility.
+ * Gets the width of the Snippet Preview to set its initial view to desktop or mobile.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setInitialView = function() {
+	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
+	this.snippetPreviewToggle.setVisibility( previewWidth );
+};
+
+/**
+ * When the window is resized, gets the width of the Snippet Preview to set the Scroll Hint visibility.
  * @returns {void}
  */
 SnippetPreview.prototype.handleWindowResizing = debounce( function() {
 	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
-	this.snippetPreviewToggle.setVisibility( previewWidth );
+	this.snippetPreviewToggle.setScrollHintVisibility( previewWidth );
 }, 25 );
 
 /**

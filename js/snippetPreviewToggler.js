@@ -126,10 +126,8 @@ SnippetPreviewToggler.prototype._setPreviewMode = function( previewMode, toggleE
 	this._removeActiveStates();
 	this._setActiveState( toggleElement );
 
-	if( this.previewMode !== previewMode ) {
-		domManipulation.removeClass( this.viewElement, previewModes[ this.previewMode ] );
-		domManipulation.addClass( this.viewElement, previewModes[ previewMode ] );
-	}
+	domManipulation.removeClass( this.viewElement, previewModes[ this.previewMode ] );
+	domManipulation.addClass( this.viewElement, previewModes[ previewMode ] );
 
 	this.previewMode = previewMode;
 };
@@ -153,19 +151,34 @@ SnippetPreviewToggler.prototype.setMobileMode = function() {
 };
 
 /**
- * Sets the visibility based on the width of the Snippet Preview container.
+ * Sets the initial view to desktop or mobile based on the width of the Snippet Preview container.
  *
  * @param {number} previewWidth the width of the Snippet Preview container.
  *
  * @returns {void}
  */
 SnippetPreviewToggler.prototype.setVisibility = function( previewWidth ) {
-	domManipulation.removeClass( this.viewElement, "yoast-has-scroll" );
-
 	if ( previewWidth < minimumDesktopWidth ) {
 		this.setMobileMode();
-		domManipulation.addClass( this.viewElement, "yoast-has-scroll" );
-		return;
+		// At this point the desktop view is scrollable: set a CSS class to show the Scroll Hint message.
+		domManipulation.addClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
+	} else {
+		this.setDesktopMode();
+	}
+};
+
+/**
+ * When the window is resized, sets the visibilty of the Scroll Hint message.
+ *
+ * @param {number} previewWidth the width of the Snippet Preview container.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.setScrollHintVisibility = function( previewWidth ) {
+	domManipulation.removeClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
+
+	if ( previewWidth < minimumDesktopWidth ) {
+		domManipulation.addClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
 	}
 };
 

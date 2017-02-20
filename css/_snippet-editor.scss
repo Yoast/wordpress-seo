@@ -106,8 +106,9 @@ $snippet_width: 600px;
 			overflow: auto;
 		}
 
-		// In the initial and desktop view, title and url don't wrap in new lines and use ellipsis.
-		// The meta description is allowed to wrap. All three elements have a 600 pixels fixed width.
+		// Used for the desktop view and then overriden for the mobile one:
+		// title and slug don't wrap in new lines and use ellipsis. The meta
+		// description is allowed to wrap. All three elements have a 600 pixels fixed width.
 		.snippet_container {
 			&__title {
 				width: $snippet_width;
@@ -153,8 +154,8 @@ $snippet_width: 600px;
 			margin: 0 0 10px 0;
 			padding: 13px 0 ;
 
-			// In the mobile view title, url, and meta description have a fluid width.
-			// Title and meta description wrap in new lines. Url doesn't wrap.
+			// In the mobile view title, slug, and meta description have a fluid width.
+			// Title and meta description wrap in new lines. Slug doesn't wrap.
 			.snippet_container {
 				display: block;
 				line-height: 20px;
@@ -212,11 +213,11 @@ $snippet_width: 600px;
 
 	&__is-scrollable-hintwrapper {
 		display: none;
+		margin: 1em 0 5px;
+		text-align: center;
 
-		.snippet-editor__view--desktop.yoast-has-scroll + & {
+		.snippet-editor__view--desktop.snippet-editor__view--desktop-has-scroll + & {
 			display: block;
-			margin: 1em 0 5px;
-			text-align: center;
 		}
 	}
 
