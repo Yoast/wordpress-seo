@@ -302,7 +302,7 @@ class WPSEO_Breadcrumbs {
 		/** @var WP_Query $wp_query */
 		global $wp_query;
 
-		$this->add_home_crumb();
+		$this->maybe_add_home_crumb();
 		$this->maybe_add_blog_crumb();
 
 		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
@@ -434,12 +434,14 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add Homepage crumb to the crumbs property
 	 */
-	private function add_home_crumb() {
-		$this->add_predefined_crumb(
-			$this->options['breadcrumbs-home'],
-			WPSEO_Utils::home_url(),
-			true
-		);
+	private function maybe_add_home_crumb() {
+		if ( $this->options['breadcrumbs-home'] !== '' ) {
+			$this->add_predefined_crumb(
+				$this->options['breadcrumbs-home'],
+				WPSEO_Utils::home_url(),
+				true
+			);
+		}
 	}
 
 	/**
