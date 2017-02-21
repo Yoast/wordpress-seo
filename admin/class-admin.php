@@ -92,6 +92,8 @@ class WPSEO_Admin {
 		}
 
 		$this->set_upsell_notice();
+
+		$this->requirePHPVersion();
 	}
 
 	/**
@@ -704,6 +706,25 @@ class WPSEO_Admin {
 		$upsell->initialize();
 	}
 
+	/**
+	 * Initializes Whip to show a notice for outdated PHP versions.
+	 */
+	protected function requirePHPVersion() {
+		// Only show for admin users.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$wpMessagePresenter = new Whip_WPMessagePresenter();
+		$wpMessagePresenter->register_hooks();
+
+		$messageControl = new Whip_VersionMessage(
+			new Whip_PHPVersionDetector( 'wordpress-seo' ),
+			array( $wpMessagePresenter )
+		);
+		$messageControl->requireVersion( '5.3' );
+	}
+
 	/********************** DEPRECATED METHODS **********************/
 
 	// @codeCoverageIgnoreStart
@@ -803,7 +824,6 @@ class WPSEO_Admin {
 		$stop_words = new WPSEO_Admin_Stop_Words();
 		return $stop_words->list_stop_words();
 	}
-
 
 	/**
 	 * Check whether the stopword appears in the string
