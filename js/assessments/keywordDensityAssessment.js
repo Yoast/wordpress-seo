@@ -6,6 +6,7 @@ var inRange = require( "../helpers/inRange.js" );
 
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
 var inRangeStartInclusive = inRange.inRangeStartInclusive;
+var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 
 /**
  * Returns the scores and text for keyword density
@@ -49,7 +50,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
 
-	if ( inRangeEndInclusive( roundedKeywordDensity, 0.5, 2.5 ) ) {
+	if ( inRangeStartEndInclusive( roundedKeywordDensity, 0.5, 2.5 ) ) {
 		score = 9;
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
