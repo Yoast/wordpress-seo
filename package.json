@@ -68,6 +68,7 @@
     "grunt-wp-deploy": "^1.2.1",
     "jed": "^1.1.1",
     "lodash": "^4.7.0",
+    "marked": "^0.3.6",
     "material-ui": "^0.15.4",
     "react-tap-event-plugin": "^2.0.0",
     "select2": "^4.0.3",

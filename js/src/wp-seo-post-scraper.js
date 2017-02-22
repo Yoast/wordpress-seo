@@ -2,6 +2,7 @@
 
 import PostDataCollector from "./analysis/PostDataCollector";
 import { tmceId } from "./wp-seo-tinymce";
+import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
 var isUndefined = require( "lodash/isUndefined" );
 
@@ -348,6 +349,11 @@ var UsedKeywords = require( "./analysis/usedKeywords" );
 
 		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 		let shortcodePlugin = new YoastShortcodePlugin( app );
+
+		if ( wpseoPostScraperL10n.markdownEnabled ) {
+			let markdownPlugin = new YoastMarkdownPlugin( app );
+			markdownPlugin.register();
+		}
 
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
 
