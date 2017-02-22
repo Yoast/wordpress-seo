@@ -106,7 +106,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return boolean
 	 */
 	private function is_markdown_enabled() {
-		if( class_exists( 'Jetpack') && method_exists( 'Jetpack', 'get_active_modules') ) {
+		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) ) {
 			$active_modules = Jetpack::get_active_modules();
 
 			return in_array( 'markdown', $active_modules );
