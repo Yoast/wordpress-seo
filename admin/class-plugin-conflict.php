@@ -93,6 +93,12 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'rps-sitemap-generator/rps-sitemap-generator.php',
 			// RPS Sitemap Generator (redpixelstudios).
 		),
+		'cloaking' => array(
+			'rs-head-cleaner/rs-head-cleaner.php',
+			// RS Head Cleaner Plus https://wordpress.org/plugins/rs-head-cleaner/.
+			'rs-head-cleaner-lite/rs-head-cleaner-lite.php',
+			// RS Head Cleaner Lite https://wordpress.org/plugins/rs-head-cleaner-lite/.
+		),
 	);
 
 	/**
@@ -129,11 +135,11 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		// Only check for open graph problems when they are enabled.
 		$social_options = WPSEO_Options::get_option( 'wpseo_social' );
 		if ( $social_options['opengraph'] ) {
-			/* translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output*/
+			/* translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output. */
 			$plugin_sections['open_graph'] = __( 'Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' )
 			                                 . '<br/><br/>'
 			                                 . '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_social#top#facebook' ) . '">'
-			                                 /* translators: %1$s expands to Yoast SEO */
+			                                 /* translators: %1$s expands to Yoast SEO. */
 			                                 . sprintf( __( 'Configure %1$s\'s OpenGraph settings', 'wordpress-seo' ), 'Yoast SEO' )
 			                                 . '</a>';
 		}
@@ -141,14 +147,17 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		// Only check for XML conflicts if sitemaps are enabled.
 		$xml_sitemap_options = WPSEO_Options::get_option( 'wpseo_xml' );
 		if ( $xml_sitemap_options['enablexmlsitemap'] ) {
-			/* translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin name of possibly conflicting plugin with regard to the creation of sitemaps*/
+			/* translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin name of possibly conflicting plugin with regard to the creation of sitemaps. */
 			$plugin_sections['xml_sitemaps'] = __( 'Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site.', 'wordpress-seo' )
 			                  . '<br/><br/>'
 			                  . '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_xml' ) . '">'
-			                  /* translators: %1$s expands to Yoast SEO */
+			                  /* translators: %1$s expands to Yoast SEO. */
 			                  . sprintf( __( 'Configure %1$s\'s XML Sitemap settings', 'wordpress-seo' ), 'Yoast SEO' )
 			                  . '</a>';
 		}
+
+		/* translators: %2$s expands to 'RS Head Cleaner' plugin name of possibly conflicting plugin with regard to differentiating output between search engines and normal users. */
+		$plugin_sections['cloaking'] = __( 'The plugin %2$s changes your site\'s output and in doing that differentiates between search engines and normal users, a process that\'s called cloaking. We highly recommend that you disable it.', 'wordpress-seo' );
 
 		$instance->check_plugin_conflicts( $plugin_sections );
 	}
