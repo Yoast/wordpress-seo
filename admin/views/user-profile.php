@@ -30,6 +30,7 @@
 			name="wpseo_author_exclude"
 			value="on" <?php echo ( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
 		<label class="yoast-label-strong" for="wpseo_author_exclude"><?php _e( 'Exclude user from Author-sitemap', 'wordpress-seo' ); ?></label><br>
+
 	<?php if ( $options['keyword_analysis_active'] === true ) { ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_keyword_analysis_disable"
 			name="wpseo_keyword_analysis_disable" aria-describedby="wpseo_keyword_analysis_disable_desc"
