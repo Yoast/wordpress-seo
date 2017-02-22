@@ -27,5 +27,10 @@ describe( "An assessment for the keywordDensity", function(){
 		expect( result.getScore() ).toBe( -10 );
 		expect( result.getText() ).toBe( "The keyword density is 3%, which is over the advised 2.5% maximum; the focus keyword was found 2 times.");
 
+		paper = new Paper( "string with the keyword  and keyword ", {keyword: "keyword"} );
+		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( 0.5 ), i18n );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "The keyword density is 0.5%, which is great; the focus keyword was found 2 times.");
+
 	} );
 } );
