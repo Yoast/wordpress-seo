@@ -38,7 +38,7 @@ class WPSEO_Meta_Columns {
 
 		$options = WPSEO_Options::get_option( 'wpseo' );
 
-		if ( ! empty( $options['keyword_analysis_active'] ) ) {
+		if ( $this->analysis_seo->is_enabled() ) {
 			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 		}
 
