@@ -36,8 +36,6 @@ class WPSEO_Meta_Columns {
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
 
-		$options = WPSEO_Options::get_option( 'wpseo' );
-
 		if ( $this->analysis_seo->is_enabled() ) {
 			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 		}
