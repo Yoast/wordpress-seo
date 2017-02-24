@@ -20,7 +20,7 @@ if ( WPSEO_Utils::is_api_available() ) :
 	</p>
 <p>
 	<a class="button"
-	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ); ?>"><?php _e( 'Open the configuration wizard', 'wordpress-seo' ); ?></a>
+	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ); ?>"><?php esc_html_e( 'Open the configuration wizard', 'wordpress-seo' ); ?></a>
 </p>
 
 	<br/>
@@ -43,7 +43,7 @@ echo '<h2>' . esc_html__( 'Credits', 'wordpress-seo' ) . '</h2>';
 
 <p>
 	<a class="button"
-	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php _e( 'View Credits', 'wordpress-seo' ); ?></a>
+	   href="<?php echo esc_url( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&intro=1' ) ); ?>"><?php esc_html_e( 'View credits', 'wordpress-seo' ); ?></a>
 </p>
 <br/>
 <?php
@@ -57,7 +57,7 @@ echo '<h2>' . esc_html__( 'Restore default settings', 'wordpress-seo' ) . '</h2>
 </p>
 
 <p>
-	<a onclick="if ( !confirm( '<?php _e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>' ) ) return false;"
+	<a onclick="if ( !confirm( '<?php esc_html_e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>' ) ) return false;"
 	   class="button"
-	   href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&wpseo_reset_defaults=1' ) ) ); ?>"><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></a>
+	   href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&wpseo_reset_defaults=1' ) ) ); ?>"><?php esc_html_e( 'Restore default settings', 'wordpress-seo' ); ?></a>
 </p>
