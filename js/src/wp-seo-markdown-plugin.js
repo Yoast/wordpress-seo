@@ -9,7 +9,7 @@ class YoastMarkdownPlugin {
 	}
 
 	/**
-	 *	Registers the plugin and modification with YoastSEO.js
+	 * Registers the plugin and modification with YoastSEO.js
 	 *
 	 * @returns {void}
 	 */
