@@ -1,4 +1,5 @@
 require( "./config/config.js" );
+
 var SnippetPreview = require( "./snippetPreview.js" );
 
 var defaultsDeep = require( "lodash/defaultsDeep" );
@@ -19,6 +20,8 @@ var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
 var Paper = require( "./values/Paper.js" );
+
+var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
 
 var inputDebounceDelay = 400;
 
@@ -540,8 +543,14 @@ App.prototype.runAnalyzer = function() {
 
 	this.snippetPreview.refresh();
 
+	let text = this.analyzerData.text;
+
+	// Insert HTML stripping code
+	text = removeHtmlBlocks( text );
+	console.log( text );
+
 	// Create a paper object for the Researcher
-	this.paper = new Paper( this.analyzerData.text, {
+	this.paper = new Paper( text, {
 		keyword: this.analyzerData.keyword,
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
@@ -627,7 +636,7 @@ App.prototype.showLoadingDialog = function() {
 /**
  * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading.
  *
- * @param   {Object}  plugins   The plugins to be parsed into the dialog.
+ * @param   {Object}  plugins   The plugins to be parsed into the dialog..
  * @returns {void}
  */
 App.prototype.updateLoadingDialog = function( plugins ) {
