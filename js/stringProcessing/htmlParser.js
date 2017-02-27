@@ -1,6 +1,6 @@
 let htmlparser = require( "htmlparser2" );
 
-let textArray = [];
+let textArray;
 let inScriptBlock = false;
 let inlineTags = [ "script", "style" ];
 
@@ -26,14 +26,8 @@ let parser = new htmlparser.Parser( {
 	},
 }, { decodeEntities: true } );
 
-let callParser = function( text ) {
-	parser.write( text );
-	parser.end();
-}
-
 module.exports = function( text ) {
-	callParser( text );
-	//console.log( text );
-	//console.log (textArray);
-	return textArray.join(" ");
+	textArray = [];
+	parser.write( text );
+	return textArray.join("");
 };

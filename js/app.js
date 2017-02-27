@@ -547,7 +547,6 @@ App.prototype.runAnalyzer = function() {
 
 	// Insert HTML stripping code
 	text = removeHtmlBlocks( text );
-	console.log( text );
 
 	// Create a paper object for the Researcher
 	this.paper = new Paper( text, {
