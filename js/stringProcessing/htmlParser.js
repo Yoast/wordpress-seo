@@ -1,33 +1,71 @@
+// We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
 let htmlparser = require( "htmlparser2" );
 
+// The array containing the text parts without the blocks defined in inlineTags.
 let textArray;
+
+// False when we are not in a block defined in inlineTags. True if we are.
 let inScriptBlock = false;
+
+// The blocks we filter out of the text that needs to be parsed.
 let inlineTags = [ "script", "style" ];
 
+/**
+ * Parses the text.
+ */
 let parser = new htmlparser.Parser( {
-	onopentag: function( name ) {
-		if ( inlineTags.includes( name ) ) {
+	/**
+	 * Handles the opening tag. If the opening tag is included in the inlineTags array, set inScriptBlock to true.
+	 * If the opening tag is not included in the inlineTags array, push the tag to the textArray.
+	 *
+	 * @param {string} tagName The tag name.
+	 *
+	 * @returns {void}
+	 */
+	onopentag: function( tagName ) {
+		if ( inlineTags.includes( tagName ) ) {
 			inScriptBlock = true;
 		} else {
-			textArray.push( "<" + name + ">" );
+			textArray.push( "<" + tagName + ">" );
 		}
 	},
+	/**
+	 * Handles the text that doesn't contain opening or closing tags. If inScriptBlock is false, the text gets pushed to the textArray array.
+	 *
+	 * @param {string} text The text that doesn't contain opening or closing tags.
+	 *
+	 * @returns {void}
+	 */
 	ontext: function( text ) {
 		if ( ! inScriptBlock ) {
 			textArray.push( text );
 		}
 	},
-	onclosetag: function( name ) {
-		if( inlineTags.includes( name ) ) {
+	/**
+	 * Handles the closing tag. If the closing tag is included in the inlineTags array, set inScriptBlock to false.
+	 * If the closing tag is not included in the inlineTags array, push the tag to the textArray.
+	 *
+	 * @param {string} tagName The tag name.
+	 *
+	 * @returns {void}
+	 */
+	onclosetag: function( tagName ) {
+		if( inlineTags.includes( tagName ) ) {
 			inScriptBlock = false;
 		} else {
-			textArray.push( "</" + name + ">" );
+			textArray.push( "</" + tagName + ">" );
 		}
 	},
 }, { decodeEntities: true } );
 
+/**
+ * Calls the htmlparser and returns the text without the HTML blocks as defined in the inlineTags array.
+ *
+ * @param {string} text The text to parse.
+ * @returns {string} The text without the HTML blocks as defined in the inlineTags array.
+ */
 module.exports = function( text ) {
 	textArray = [];
 	parser.write( text );
-	return textArray.join("");
+	return textArray.join( "" );
 };
