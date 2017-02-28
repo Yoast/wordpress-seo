@@ -4,7 +4,7 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.4
+Requires at least: 4.6
 Tested up to: 4.7
 Stable tag: 4.3
 
