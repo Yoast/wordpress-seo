@@ -80,7 +80,8 @@ class WPSEO_Admin_User_Profile {
 	 * @param WP_User $user User instance to output for.
 	 */
 	public function user_profile( $user ) {
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$options = WPSEO_Options::get_option( 'wpseo' );
+		$options_titles = WPSEO_Options::get_option( 'wpseo_titles' );
 
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 
