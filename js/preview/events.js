@@ -137,11 +137,11 @@ PreviewEvents.prototype.toggleEditor = function() {
  * @returns {void}
  */
 PreviewEvents.prototype._updateFocusCarets = function() {
-	var focusedLabel, focusedPreview;
+	var focusedCaretHook, focusedPreview;
 
 	// Disable all carets on the labels.
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
+	forEach( this.element.caretHooks, function( element ) {
+		removeClass( element, "snippet-editor__caret-hook--focus" );
 	} );
 
 	// Disable all carets on the previews.
@@ -150,10 +150,10 @@ PreviewEvents.prototype._updateFocusCarets = function() {
 	} );
 
 	if ( null !== this._currentFocus ) {
-		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedCaretHook = this.element.caretHooks[ this._currentFocus ];
 		focusedPreview = this.element.preview[ this._currentFocus ];
 
-		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedCaretHook, "snippet-editor__caret-hook--focus" );
 		addClass( focusedPreview, "snippet-editor__container--focus" );
 	}
 };
@@ -166,16 +166,16 @@ PreviewEvents.prototype._updateFocusCarets = function() {
  * @returns {void}
  */
 PreviewEvents.prototype._updateHoverCarets = function() {
-	var hoveredLabel;
+	var hoveredCaretHook;
 
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
+	forEach( this.element.caretHooks, function( element ) {
+		removeClass( element, "snippet-editor__caret-hook--hover" );
 	} );
 
 	if ( null !== this._currentHover ) {
-		hoveredLabel = this.element.label[ this._currentHover ];
+		hoveredCaretHook = this.element.caretHooks[ this._currentHover ];
 
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
+		addClass( hoveredCaretHook, "snippet-editor__caret-hook--hover" );
 	}
 };
 
