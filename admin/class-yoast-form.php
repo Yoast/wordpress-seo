@@ -118,7 +118,7 @@ class Yoast_Form {
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
-			submit_button();
+			submit_button( __( 'Save changes', 'wordpress-seo' ) );
 
 			echo '
 			</form>';
