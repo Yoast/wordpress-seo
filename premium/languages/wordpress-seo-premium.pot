@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-02-16 10:42:57+00:00\n"
+"POT-Creation-Date: 2017-02-28 10:56:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,39 +24,39 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:111
+#: class-premium.php:113
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:113
+#: class-premium.php:115
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:116
+#: class-premium.php:118
 msgid "Link suggestions"
 msgstr ""
 
-#: class-premium.php:118
+#: class-premium.php:120
 msgid ""
 "The link suggestions section contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:371
+#: class-premium.php:373
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:403
+#: class-premium.php:405
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:422 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:424 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:456
+#: class-premium.php:458
 msgid "Enabled"
 msgstr ""
 
@@ -209,6 +209,7 @@ msgstr ""
 
 #: classes/class-premium-javascript-strings.php:49
 #: classes/redirect/views/redirects-quick-edit.php:33
+#: classes/views/gsc-redirect-create.php:46
 msgid "Cancel"
 msgstr ""
 
@@ -507,26 +508,6 @@ msgstr ""
 msgid "We're unable to write data to the file %s"
 msgstr ""
 
-#: classes/redirect/class-redirect-form-presenter.php:49
-msgid "301 Moved Permanently"
-msgstr ""
-
-#: classes/redirect/class-redirect-form-presenter.php:50
-msgid "302 Found"
-msgstr ""
-
-#: classes/redirect/class-redirect-form-presenter.php:51
-msgid "307 Temporary Redirect"
-msgstr ""
-
-#: classes/redirect/class-redirect-form-presenter.php:52
-msgid "410 Content Deleted"
-msgstr ""
-
-#: classes/redirect/class-redirect-form-presenter.php:53
-msgid "451 Unavailable For Legal Reasons"
-msgstr ""
-
 #: classes/redirect/class-redirect-page.php:66
 msgid "Redirects per page"
 msgstr ""
@@ -571,6 +552,26 @@ msgstr ""
 
 #: classes/redirect/class-redirect-table.php:178
 msgid "Select this redirect"
+msgstr ""
+
+#: classes/redirect/class-redirect-types.php:18
+msgid "301 Moved Permanently"
+msgstr ""
+
+#: classes/redirect/class-redirect-types.php:19
+msgid "302 Found"
+msgstr ""
+
+#: classes/redirect/class-redirect-types.php:20
+msgid "307 Temporary Redirect"
+msgstr ""
+
+#: classes/redirect/class-redirect-types.php:21
+msgid "410 Content Deleted"
+msgstr ""
+
+#: classes/redirect/class-redirect-types.php:22
+msgid "451 Unavailable For Legal Reasons"
 msgstr ""
 
 #: classes/redirect/class-redirect-uniqueness-validation.php:34
@@ -675,6 +676,57 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
+#: classes/views/gsc-redirect-create.php:15
+msgid "Redirect this broken URL and fix the error"
+msgstr ""
+
+#: classes/views/gsc-redirect-create.php:18
+msgid "Current URL:"
+msgstr ""
+
+#: classes/views/gsc-redirect-create.php:33
+msgid "New URL:"
+msgstr ""
+
+#: classes/views/gsc-redirect-create.php:37
+msgid "Mark as fixed:"
+msgstr ""
+
+#. Translators: %1$s: expands to 'Google Search Console'.
+#: classes/views/gsc-redirect-create.php:41
+msgid "Mark this issue as fixed in %1$s."
+msgstr ""
+
+#: classes/views/gsc-redirect-create.php:45
+msgid "Create redirect"
+msgstr ""
+
+#: classes/views/gsc-redirect-exists.php:13
+msgid "Error: a redirect for this URL already exists"
+msgstr ""
+
+#. Translators: %1$s: expands to the current URL.
+#: classes/views/gsc-redirect-exists.php:20
+msgid ""
+"You do not have to create a redirect for URL %1$s because a redirect already "
+"exists. If this is fine you can mark this issue as fixed. If not, please go "
+"to the redirects page and change the redirect."
+msgstr ""
+
+#. Translators: %1$s: expands to the current URL and %2$s expands to URL the
+#. redirects points to.
+#: classes/views/gsc-redirect-exists.php:27
+msgid ""
+"You do not have to create a redirect for URL %1$s because a redirect already "
+"exists. The existing redirect points to %2$s. If this is fine you can mark "
+"this issue as fixed. If not, please go to the redirects page and change the "
+"target URL."
+msgstr ""
+
+#: classes/views/gsc-redirect-exists.php:34
+msgid "Close"
+msgstr ""
+
 #: classes/views/import-redirects.php:8
 msgid "Import from other redirect plugins"
 msgstr ""
@@ -715,6 +767,7 @@ msgstr ""
 
 #: classes/redirect/class-redirect-table.php:60
 #: classes/redirect/views/redirects-form.php:13
+#: classes/views/gsc-redirect-create.php:22
 msgctxt "noun"
 msgid "Type"
 msgstr ""
