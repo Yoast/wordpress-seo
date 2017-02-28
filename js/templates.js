@@ -15,7 +15,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.1';
+  var VERSION = '4.17.4';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -130,8 +130,7 @@
     if (value == null) {
       return value === undefined ? undefinedTag : nullTag;
     }
-    value = Object(value);
-    return (symToStringTag && symToStringTag in value)
+    return (symToStringTag && symToStringTag in Object(value))
       ? getRawTag(value)
       : objectToString(value);
   }
