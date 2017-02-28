@@ -604,7 +604,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Temporarily disables a particular page if it is present in the list of passed pages.
+	 * Given a list of passed pages that will be disabled, removes the given page from the list so that it will no longer be disabled.
 	 *
 	 * @param array  $pages The pages to search through.
 	 * @param string $page  The page to temporarily enable.
