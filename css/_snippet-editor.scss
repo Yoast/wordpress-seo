@@ -106,7 +106,7 @@ $snippet_width: 600px;
 			overflow: auto;
 		}
 
-		// Used for the desktop view and then overriden for the mobile one:
+		// Used for the desktop view and then overridden for the mobile one:
 		// title and slug don't wrap in new lines and use ellipsis. The meta
 		// description is allowed to wrap. All three elements have a 600 pixels fixed width.
 		.snippet_container {
@@ -162,8 +162,8 @@ $snippet_width: 600px;
 
 				&__title, &__url, &__meta {
 					width: 100%;
-					// Worth noting inside the yoast-section everything is already border-box.
-					// setting this proprty on specific element is needed just for the browserified example.
+					// Worth noting that inside the yoast-section everything is already border-box.
+					// Setting this property on specific elements is needed just for the browserified example.
 					box-sizing: border-box;
 				}
 
