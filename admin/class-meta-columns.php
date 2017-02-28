@@ -36,9 +36,7 @@ class WPSEO_Meta_Columns {
 	public function setup_hooks() {
 		$this->set_post_type_hooks();
 
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
-
-		if ( ! empty( $options['keyword-analysis-active'] ) ) {
+		if ( $this->analysis_seo->is_enabled() ) {
 			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 		}
 
