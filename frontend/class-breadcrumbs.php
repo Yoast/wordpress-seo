@@ -331,6 +331,8 @@ class WPSEO_Breadcrumbs {
 
 				if ( $post_type && is_string( $post_type ) ) {
 					$this->add_ptarchive_crumb( $post_type );
+				} elseif ( $post_type && is_array( $post_type ) ) {
+					$this->add_ptarchive_crumb( array_shift( $post_type ) );
 				}
 			}
 			elseif ( is_tax() || is_tag() || is_category() ) {
