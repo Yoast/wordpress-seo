@@ -581,12 +581,16 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function filter_settings_pages( array $pages ) {
-
 		if ( wpseo_advanced_settings_enabled( $this->options ) ) {
 			return $pages;
 		}
 
-		$pages_to_hide = array( 'wpseo_titles', 'wpseo_social', 'wpseo_xml', 'wpseo_advanced', 'wpseo_tools' );
+		$pages_to_hide = WPSEO_Advanced_Settings::get_advanced_pages();
+		$page = filter_input( INPUT_GET, 'page' );
+
+		if ( WPSEO_Advanced_Settings::is_advanced_settings_page( $page ) ) {
+			$pages_to_hide = $this->temporarily_enable_page( $pages_to_hide, $page );
+		}
 
 		foreach ( $pages as $page_key => $page ) {
 			$page_name = $page[4];
@@ -594,6 +598,24 @@ class WPSEO_Admin {
 			if ( in_array( $page_name, $pages_to_hide ) ) {
 				unset( $pages[ $page_key ] );
 			}
+		}
+
+		return $pages;
+	}
+
+	/**
+	 * Temporarily disables a particular page if it is present in the list of passed pages.
+	 *
+	 * @param array  $pages The pages to search through.
+	 * @param string $page  The page to temporarily enable.
+	 *
+	 * @return array The remaining pages that need to be disabled.
+	 */
+	private function temporarily_enable_page( $pages, $page ) {
+		$enable_page = array_search( $page, $pages );
+
+		if ( $enable_page !== false ) {
+			unset( $pages[ $enable_page ] );
 		}
 
 		return $pages;
@@ -621,6 +643,7 @@ class WPSEO_Admin {
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
+			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 		);
 	}
 

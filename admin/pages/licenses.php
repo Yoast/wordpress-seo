@@ -21,7 +21,8 @@ $extensions = array(
 		'benefits'  => array(),
 	),
 	'video-seo'       => (object) array(
-		'url'       => 'https://yoast.com/wordpress/plugins/video-seo/',
+		'buyUrl'    => 'https://yoa.st/zx/',
+		'infoUrl'   => 'https://yoa.st/zw/',
 		'title'     => 'Video SEO',
 		'desc'      => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
 		'installed' => false,
@@ -33,7 +34,8 @@ $extensions = array(
 		),
 	),
 	'news-seo'        => (object) array(
-		'url'       => 'https://yoast.com/wordpress/plugins/news-seo/',
+		'buyUrl'    => 'https://yoa.st/zv/',
+		'infoUrl'   => 'https://yoa.st/zu/',
 		'title'     => 'News SEO',
 		'desc'      => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
 		'installed' => false,
@@ -44,8 +46,9 @@ $extensions = array(
 			__( 'Creates XML News Sitemaps', 'wordpress-seo' ),
 		),
 	),
-	'local-seo'       => (object) array(
-		'url'       => 'https://yoast.com/wordpress/plugins/local-seo/',
+	'local-seo'     => (object) array(
+		'buyUrl'    => 'https://yoa.st/zt',
+		'infoUrl'   => 'https://yoa.st/zs',
 		'title'     => 'Local SEO',
 		'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 		'installed' => false,
@@ -57,7 +60,8 @@ $extensions = array(
 		),
 	),
 	'woocommerce-seo' => (object) array(
-		'url'       => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
+		'buyUrl'    => 'https://yoa.st/zr',
+		'infoUrl'   => 'https://yoa.st/zq',
 		'title'     => 'Yoast WooCommerce SEO',
 		/* translators: %1$s expands to Yoast SEO */
 		'desc'      => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
@@ -146,13 +150,13 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 				<?php if ( $extension->installed ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 				<?php else : ?>
-					<a target="_blank" href="<?php echo esc_url( $url . $utm_buy ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
+					<a target="_blank" href="https://yoa.st/zz" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
 						/* translators: $1$s expands to Yoast SEO Premium */
 						printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title );
 						?></a>
 				<?php endif; ?>
 
-				<a target="_blank" href="<?php echo esc_url( $url . $utm_info ); ?>" class="yoast-link--more-info"><?php
+				<a target="_blank" href="https://yoa.st/zy" class="yoast-link--more-info"><?php
 					printf(
 						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
@@ -181,7 +185,9 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 				<?php unset( $extensions['seo-premium'] ); ?>
 
 				<?php foreach ( $extensions as $id => $extension ) : ?>
-					<?php $url = $extension->url; ?>
+					<?php $buyUrl = $extension->buyUrl;
+					$infoUrl = $extension->infoUrl; ?>
+
 
 					<section class="yoast-promoblock secondary yoast-promo-extension">
 						<img alt="" width="280" height="147" src="<?php echo esc_attr( $extension->image ); ?>" />
@@ -197,14 +203,14 @@ $utm_info = '#utm_source=wordpress-seo-config&utm_medium=button-info&utm_campaig
 						<?php if ( $extension->installed ) : ?>
 							<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 						<?php else : ?>
-							<a target="_blank" class="yoast-button default yoast-button--noarrow academy--secondary yoast-button-go-to" href="<?php echo esc_url( $url . $utm_buy ); ?>">
+							<a target="_blank" class="yoast-button default yoast-button--noarrow academy--secondary yoast-button-go-to" href="<?php echo esc_url( $buyUrl ); ?>">
 								<?php $product_name = isset( $extension->buy_button ) ? $extension->buy_button : $extension->title; ?>
 								<?php /* translators: %s expands to the product name */ ?>
 								<?php printf( __( 'Buy %s', 'wordpress-seo' ), $product_name ); ?>
 							</a>
 						<?php endif; ?>
 
-						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $url . $utm_info ); ?>"><?php
+						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $infoUrl ); ?>"><?php
 							printf(
 								/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 								__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),

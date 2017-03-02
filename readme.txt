@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 4.3.2
+Stable tag: 4.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -29,7 +29,7 @@ Using the snippet preview, you can see a rendering of what your post or page wil
 = Page Analysis =
 The Yoast SEO plugins [Page Analysis](https://yoast.com/content-seo-wordpress-linkdex/) functionality checks simple things you're bound to forget. It checks, for instance, if you have images in your post and whether they have an alt tag containing the focus keyword for that post. It also checks whether your posts are long enough, whether you've written a meta description and if that meta description contains your focus keyword, if you've used any subheadings within your post, etc. etc.
 
-The plugin also allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
+The plugin alsgruo allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
 
 Combined, this plugin makes sure that your content is the type of content search engines will love!
 
@@ -124,44 +124,29 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.4.0 =
+
+Release date: February 28th, 2017
+
+* Bugfixes:
+	* Fixes a bug where a `span` tag wasn't closed correctly, props [lubobill1990](https://github.com/lubobill1990).
+	* Fixes a bug where there were deprecation warnings shown when an existing author was being updated.
+	* Fixes a bug where the user received an 'insufficient rights' error when the advanced settings are disabled, but an advanced page is visited.
+
+* Enhancements:
+	* Moves the options to disable keyword and content analysis from the general tab to the features tab.
+	* Improves styling of tables so they are viewable on mobile.
+	* Changes the links into shortlinks for the extensions page, helpcenter, facebook settings and premium popup.
+
 = 4.3.0 =
 
 Release Date: February 14th, 2017
 
 * Bugfixes
-    * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla)
+    * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla).
 
 * Enhancements
     * Improves feedback text for subheading too long assessment.
-
-= 4.2.1 =
-
-Release Date: February 2nd, 2017
-
-* Bugfixes
-	* Fixes a fatal error "Call to undefined method yoast_i18n::set_api_url()". This error occurred with certain other plugins that also include the i18n-module.
-	* Fixes a bug where some strings wouldn't be translated.
-	* Makes the Yoast SEO menu top and first item visible in the responsive view.
-	* Fixes a bug where the yoast icon on the credits page wasn't displayed properly in some views.
-
-* Enhancements:
-    * Improves the sytling of the notification center.
-    * Improves the styling of the title separators.
-
-= 4.2.0 =
-
-Release Date: January 31st, 2017
-
-* Bugfixes:
-	* Fixes a bug where the sitemaps were being invalidated too often.
-	* Fixes a bug where the 'meta keywords' meta box section stayed visible when switching to the readability tab.
-
-* Enhancements:
-	* Moves translations from translate.yoast.com to translate.wordpress.org.
-	* Improves the styling of the featured image warning and sends an audible message for screen readers.
-	* Makes the left sidebar of the meta box responsive.
-	* Removes unused heading from the meta box.
-	* Improves responsiveness for settings pages.
 
 = Earlier versions =
 

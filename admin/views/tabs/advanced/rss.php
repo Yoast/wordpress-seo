@@ -22,24 +22,34 @@ $textarea_atts = array(
 );
 $yform->textarea( 'rssbefore', __( 'Content to put before each post in the feed', 'wordpress-seo' ), '', $textarea_atts );
 $yform->textarea( 'rssafter', __( 'Content to put after each post in the feed', 'wordpress-seo' ), '', $textarea_atts );
+
+echo '<h2>' . __( 'Available variables', 'wordpress-seo' ) . '</h2>';
 ?>
 
 <p><?php _e( 'You can use the following variables within the content, they will be replaced by the value on the right.', 'wordpress-seo' ); ?></p>
-<table class="wpseo">
+<table class="wpseo yoast_help yoast-table-scrollable">
+<thead>
 	<tr>
-		<th><strong><code>%%AUTHORLINK%%</code></strong></th>
-		<td><?php _e( 'A link to the archive for the post author, with the authors name as anchor text.', 'wordpress-seo' ); ?></td>
+		<th scope="col"><?php _e( 'Variable', 'wordpress-seo' ); ?></th>
+		<th scope="col"><?php _e( 'Description', 'wordpress-seo' ); ?></th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="yoast-variable-name">%%AUTHORLINK%%</td>
+		<td class="yoast-variable-desc"><?php _e( 'A link to the archive for the post author, with the authors name as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<th><strong><code>%%POSTLINK%%</code></strong></th>
-		<td><?php _e( 'A link to the post, with the title as anchor text.', 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-name">%%POSTLINK%%</td>
+		<td class="yoast-variable-desc"><?php _e( 'A link to the post, with the title as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<th><strong><code>%%BLOGLINK%%</code></strong></th>
-		<td><?php _e( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-name">%%BLOGLINK%%</td>
+		<td class="yoast-variable-desc"><?php _e( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<th><strong><code>%%BLOGDESCLINK%%</code></strong></th>
-		<td><?php _e( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-name">%%BLOGDESCLINK%%</td>
+		<td class="yoast-variable-desc"><?php _e( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ); ?></td>
 	</tr>
+</tbody>
 </table>

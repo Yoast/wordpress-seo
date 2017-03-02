@@ -1025,17 +1025,25 @@ class WPSEO_Replace_Vars {
 		}
 
 		$table = '
-			<table class="yoast_help">';
+			<table class="yoast_help yoast-table-scrollable">
+			<thead>
+				<tr>
+					<th scope="col">' . esc_html__( 'Variable', 'wordpress-seo' ) . '</th>
+					<th scope="col">' . esc_html__( 'Description', 'wordpress-seo' ) . '</th>
+				</tr>
+			</thead>
+			<tbody>';
 
 		foreach ( self::$help_texts[ $type ] as $replace => $help_text ) {
 			$table .= '
 				<tr>
-					<th>%%' . esc_html( $replace ) . '%%</th>
-					<td>' . $help_text . '</td>
+					<td class="yoast-variable-name">%%' . esc_html( $replace ) . '%%</td>
+					<td class="yoast-variable-desc">' . $help_text . '</td>
 				</tr>';
 		}
 
 		$table .= '
+			</tbody>
 			</table>';
 
 		return $table;
