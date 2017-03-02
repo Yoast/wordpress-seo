@@ -124,6 +124,16 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.5.0 =
+
+Release Date: March 14th, 2017
+
+* Bugfixes
+	* Adds a check for the breadcrumbs-home option to prevent a blank entry being added to the crumbs array, props [codemonkeynorth](https://github.com/codemonkeynorth)
+	
+* Enhancements
+	* Throws a warning in the admin for the RS Head Cleaner plugin, because the plugin cloaks.
+
 = 4.4.0 =
 
 Release date: February 28th, 2017
