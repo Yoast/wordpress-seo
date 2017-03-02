@@ -295,7 +295,7 @@ class Yoast_Social_Facebook_Form {
 		);
 		echo ' ';
 		/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
-		printf( __( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
+		printf( __( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/facebook-insights">', '</a>' );
 		echo '</p>';
 
 		return $this;
@@ -316,7 +316,7 @@ class Yoast_Social_Facebook_Form {
 		echo '</p>';
 		echo '<p>';
 		/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
-		printf( __( 'If you don\'t know where to find the needed ID, see %1$sthis knowledge base article%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
+		printf( __( 'If you don\'t know where to find the needed ID, see %1$sthis knowledge base article%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/facebook-insights">', '</a>' );
 		echo '</p>';
 		echo '<div class="form-field form-required">';
 		echo '<label for="fb_admin_name">' . __( 'Admin\'s name:', 'wordpress-seo' ) . '</label>';

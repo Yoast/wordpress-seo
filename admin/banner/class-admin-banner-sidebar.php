@@ -330,6 +330,16 @@ class WPSEO_Admin_Banner_Sidebar {
 			)
 		);
 
+		$courses_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				'https://yoa.st/jaa',
+				'technical-seo-training.png',
+				261,
+				152,
+				__( 'Take the online Technical SEO Training course and learn essential technical SEO-concepts!', 'wordpress-seo' )
+			)
+		);
+
 		return $courses_spot;
 	}
 
