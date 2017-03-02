@@ -1,3 +1,7 @@
+### 4.5.0:
+* Fixes a bug where the SEO score wouldn’t be saved correctly, resulting in gray bullets on the post overview screen.
+* Includes every change in Yoast SEO core 4.5.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 4.4.0: February 28th, 2017
 * Adds redirect types in the Search Console settings page.
 * Checks for links that are already used in the text when suggesting links.
