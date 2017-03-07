@@ -17,7 +17,7 @@ $palette_pink_light:        #e1bee7; // Safe to use with $palette_grey_dark – 
 $palette_pink_dark:         #a4286a; // Safe to use with $palette_white – $palette_grey.
 $palette_blue:              #0075b3; // Safe to use with $palette_white – $palette_grey_ultra_light.
 $palette_blue_dark:         #084a67; // Safe to use with $palette_white – $palette_grey_medium.
-$palette_blue_light:        #a9a9ce;
+$palette_blue_light:        #a9a9ce; // Safe to use with $palette_black.
 $palette_green:             #77b227; // Safe to use with $palette_black.
 $palette_green_light:       #7ad03a; // Safe to use with $palette_black.
 $palette_green_medium:      #008a00; // Safe to use with $palette_white and $palette_black.
@@ -73,5 +73,3 @@ $color_grey_cta:            $palette_grey;
 $color_grey_line:           $palette_grey;
 $color_grey_quote:          $palette_grey_text;
 $color_grey_text:           $palette_grey_text;
-
-
