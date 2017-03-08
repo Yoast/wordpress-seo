@@ -58,8 +58,8 @@ window.onload = function() {
 
 	var args = {
 		usedKeywords: {"keyword": [1], "test": [2, 3, 4]},
-		searchUrl: "http://example.com/post?id={id}",
-		postUrl: "http://example.com/search?kw={keyword}"
+		postUrl: "http://example.com/post?id={id}",
+		searchUrl: "http://example.com/search?kw={keyword}"
 	};
 
 	var testPlugin = new TestPlugin( app, args, app.i18n );
