@@ -710,9 +710,26 @@ class WPSEO_Admin {
 	 * Initializes Whip to show a notice for outdated PHP versions.
 	 */
 	protected function check_php_version() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( ! $this->on_dashboard_page() ) {
+			return;
+		}
+
 		whip_wp_check_versions( array(
 			'php' => '>=5.3',
 		) );
+	}
+
+	/**
+	 * Whether we are on the admin dashboard page.
+	 *
+	 * @returns bool
+	 */
+	protected function on_dashboard_page() {
+		return 'index.php' === $GLOBALS['pagenow'];
 	}
 
 	/********************** DEPRECATED METHODS **********************/
