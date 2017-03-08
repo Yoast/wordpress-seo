@@ -1,35 +1,36 @@
-$palette_white:             #fff;    // Safe to use with $palette_grey_text – $palette_black.
+$palette_white:              #fff;    // Safe to use with $palette_grey_text – $palette_black.
 // Shades of gray from lighter to darker.
-$palette_grey_ultra_light:  #f7f7f7; // Safe to use with $palette_grey_text – $palette_black.
-$palette_grey_light:        #f1f1f1; // Safe to use with $palette_grey_text – $palette_black.
-$palette_grey:              #ddd;    // Safe to use with $palette_grey_dark – $palette_black.
-$palette_grey_medium:       #ccc;    // Safe to use with $palette_grey_dark – $palette_black.
-$palette_grey_disabled:     #a0a5aa; // Should be used only for disabled controls text.
-$palette_grey_medium_dark:  #888;    // Safe to use with $palette_black.
-$palette_grey_text:         #646464; // Safe to use with $palette_white – $palette_grey_light.
-$palette_grey_dark:         #555;    // Safe to use with $palette_white – $palette_grey_medium.
-$palette_black:             #000;    // Safe to use with $palette_white – $palette_grey_medium.
+$palette_grey_ultra_light:   #f7f7f7; // Safe to use with $palette_grey_text – $palette_black.
+$palette_grey_light:         #f1f1f1; // Safe to use with $palette_grey_text – $palette_black.
+$palette_grey:               #ddd;    // Safe to use with $palette_grey_dark – $palette_black.
+$palette_grey_medium:        #ccc;    // Safe to use with $palette_grey_dark – $palette_black.
+$palette_grey_disabled:      #a0a5aa; // Should be used only for disabled controls text.
+$palette_grey_medium_dark:   #888;    // Safe to use with $palette_black or $palette_white bold > 18.5px.
+$palette_grey_text:          #646464; // Safe to use with $palette_white – $palette_grey_light.
+$palette_grey_dark:          #555;    // Safe to use with $palette_white – $palette_grey_medium.
+$palette_black:              #000;    // Safe to use with $palette_white – $palette_grey_medium.
 
-$palette_purple: 	        #5d237a; // Safe to use with $palette_white – $palette_grey_medium.
-$palette_purple_dark:       #6c2548; // Safe to use with $palette_white – $palette_grey_medium.
-$palette_pink:              #d73763; // Safe to use with $palette_white and $palette_black.
-$palette_pink_light:        #e1bee7; // Safe to use with $palette_grey_dark – $palette_black.
-$palette_pink_dark:         #a4286a; // Safe to use with $palette_white – $palette_grey.
-$palette_blue:              #0075b3; // Safe to use with $palette_white – $palette_grey_ultra_light.
-$palette_blue_dark:         #084a67; // Safe to use with $palette_white – $palette_grey_medium.
-$palette_blue_light:        #a9a9ce; // Safe to use with $palette_black.
-$palette_green:             #77b227; // Safe to use with $palette_black.
-$palette_green_light:       #7ad03a; // Safe to use with $palette_black.
-$palette_green_medium:      #008a00; // Safe to use with $palette_white and $palette_black.
-$palette_green_blue:        #009288; // Safe to use with $palette_black.
-$palette_orange:            #dc5c04; // Safe to use with $palette_black.
-$palette_orange_light:      #ee7c1b; // Safe to use with $palette_black.
-$palette_red:               #dc3232; // Safe to use with $palette_white and $palette_black.
+$palette_purple: 	         #5d237a; // Safe to use with $palette_white – $palette_grey_medium.
+$palette_purple_dark:        #6c2548; // Safe to use with $palette_white – $palette_grey_medium.
+$palette_pink:               #d73763; // Safe to use with $palette_white and $palette_black.
+$palette_pink_light:         #e1bee7; // Safe to use with $palette_grey_dark – $palette_black.
+$palette_pink_dark:          #a4286a; // Safe to use with $palette_white – $palette_grey.
+$palette_blue:               #0075b3; // Safe to use with $palette_white – $palette_grey_ultra_light.
+$palette_blue_light:         #a9a9ce; // Safe to use with $palette_black.
+$palette_blue_dark:          #084a67; // Safe to use with $palette_white – $palette_grey_medium.
+$palette_green:              #77b227; // Safe to use with $palette_black.
+$palette_green_light:        #7ad03a; // Safe to use with $palette_black.
+$palette_green_medium_light: #64a60a; // Safe to use with $palette_black or $palette_white bold > 18.5px.
+$palette_green_medium:       #008a00; // Safe to use with $palette_white and $palette_black.
+$palette_green_blue:         #009288; // Safe to use with $palette_black.
+$palette_orange:             #dc5c04; // Safe to use with $palette_black.
+$palette_orange_light:       #ee7c1b; // Safe to use with $palette_black.
+$palette_red:                #dc3232; // Safe to use with $palette_white and $palette_black.
 
-$color_bad:                 $palette_red;
-$color_ok:                  $palette_orange_light;
-$color_good:                $palette_green_light;
-$color_score_icon:          $palette_grey_medium_dark;
+$color_bad:                  $palette_red;
+$color_ok:                   $palette_orange_light;
+$color_good:                 $palette_green_light;
+$color_score_icon:           $palette_grey_medium_dark;
 
 $color_white:               $palette_white;
 $color_black:               $palette_black;
@@ -46,30 +47,44 @@ $color_blue:                $palette_blue;
 $color_blue_light:          $palette_blue_light;
 $color_red:                 $palette_red;
 
-$color_border_light:        $palette_grey_ultra_light;
-$color_border:              $palette_grey_medium;
+$color_border_light:         $palette_grey_ultra_light;
+$color_border:               $palette_grey_medium;
 
-$color_input_border:        $palette_grey;
+$color_input_border:         $palette_grey;
 
-$color_background_light:    $palette_grey_ultra_light;
+$color_background_light:     $palette_grey_ultra_light;
 
-$color_button:              $palette_grey_ultra_light;
-$color_button_text:         $palette_grey_dark;
-$color_button_border:       $palette_grey_medium;
+$color_button:               $palette_grey_ultra_light;
+$color_button_text:          $palette_grey_dark;
+$color_button_border:        $palette_grey_medium;
 
-$color_headings:            $palette_grey_dark;
+$color_headings:             $palette_grey_dark;
 
-$color_marker_inactive:     $palette_grey_dark;
-$color_marker_active:       $palette_white;
-$color_marker_disabled:     $palette_grey_disabled;
+$color_marker_inactive:      $palette_grey_dark;
+$color_marker_active:        $palette_white;
+$color_marker_disabled:      $palette_grey_disabled;
 
-$color_error:               $palette_red;
-$color_orange:              $palette_orange;
-$color_orange_hover:        darken( $palette_orange, 5% );
-$color_grey_hover:          darken( $palette_grey, 6% );
-$color_pink_hover:          darken( $palette_pink, 5% );
+$color_error:                $palette_red;
+$color_orange:               $palette_orange;
+$color_orange_hover:         darken( $palette_orange, 5% );
+$color_grey_hover:           darken( $palette_grey, 6% );
+$color_pink_hover:           darken( $palette_pink, 5% );
 
-$color_grey_cta:            $palette_grey;
-$color_grey_line:           $palette_grey;
-$color_grey_quote:          $palette_grey_text;
-$color_grey_text:           $palette_grey_text;
+$color_grey_cta:             $palette_grey;
+$color_grey_line:            $palette_grey;
+$color_grey_quote:           $palette_grey_text;
+$color_grey_text:            $palette_grey_text;
+
+// My Yoast colors.
+$color_chevron:              $palette_grey_medium_dark;
+$color_round_button:         $palette_green_medium_light;
+$color_button_my_yoast:      $palette_blue;
+$color_link_my_yoast:        $palette_blue;
+$color_toggle_on_knob:       $palette_blue;
+$color_toggle_on_gutter:     $palette_blue_light;
+$color_toggle_off_knob:      $palette_grey_disabled;
+$color_toggle_off_gutter:    $palette_grey_medium;
+$nav_my_yoast:               $palette_pink_dark;
+$background:                 $palette_grey_light;
+$input_my_yoast:             $palette_grey_light;
+$zebra_stripe:               $palette_grey_ultra_light;
