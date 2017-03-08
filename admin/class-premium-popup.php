@@ -64,7 +64,7 @@ class WPSEO_Premium_Popup {
 		}
 
 		$assets_uri = trailingslashit( plugin_dir_url( WPSEO_FILE ) );
-		$premium_uri = 'https://yoa.st/contact-support';
+		$premium_uri = WPSEO_Shortlinker::get( 'https://yoa.st/contact-support' );
 
 		/* translators: %s expands to Yoast SEO Premium */
 		$cta_text = sprintf( __( 'Buy %s', 'wordpress-seo' ), 'Yoast SEO Premium' );

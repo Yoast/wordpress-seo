@@ -47,4 +47,13 @@ class WPSEO_Shortlinker {
 
 		return $shortlinker->build_shortlink( $url );
 	}
+
+	/**
+	 * Echoes a version of the URL with a utm_content with the current version.
+	 *
+	 * @param string $url The URL to build upon.
+	 */
+	public static function e( $url ) {
+		echo self::get( $url );
+	}
 }
