@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1cd3caf41ec39d9a085da8f5f70bfdb",
+    "content-hash": "5904b9c312b1c1e8e963a8f48081b13e",
     "packages": [
         {
             "name": "composer/installers",
@@ -255,26 +255,29 @@
         },
         {
             "name": "yoast/whip",
-            "version": "1.0.0-beta.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/whip.git",
-                "reference": "35063c11cbacde6bc43beac31b3f587b835d95dd"
+                "reference": "cd625fc803aec4fe91488cc837a4fb23f80c02f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/whip/zipball/35063c11cbacde6bc43beac31b3f587b835d95dd",
-                "reference": "35063c11cbacde6bc43beac31b3f587b835d95dd",
+                "url": "https://api.github.com/repos/Yoast/whip/zipball/cd625fc803aec4fe91488cc837a4fb23f80c02f3",
+                "reference": "cd625fc803aec4fe91488cc837a4fb23f80c02f3",
                 "shasum": ""
             },
             "require": {
                 "xrstf/composer-php52": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^3.0.0"
+                "phpunit/phpunit": "^3.6.12"
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/facades/wordpress.php"
+                ],
                 "classmap": [
                     "src/"
                 ]
@@ -290,7 +293,7 @@
                 }
             ],
             "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
-            "time": "2017-02-21T14:44:44+00:00"
+            "time": "2017-03-08 13:25:25"
         }
     ],
     "packages-dev": [
@@ -358,7 +361,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2016-08-15T17:21:16+00:00"
+            "time": "2016-08-15 17:21:16"
         },
         {
             "name": "guzzle/guzzle",
@@ -647,7 +650,7 @@
                     "name": "Manuel Pichler",
                     "email": "github@manuel-pichler.de",
                     "homepage": "https://github.com/manuelpichler",
-                    "role": "Project Founder"
+                    "role": "Project founder"
                 },
                 {
                     "name": "Other contributors",
@@ -845,12 +848,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "d2d2b288abab05abc1f00a33c61c74ef9441ac61"
+                "reference": "58ded81f1f582a87c528ef3dae9a859f78b5f374"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/d2d2b288abab05abc1f00a33c61c74ef9441ac61",
-                "reference": "d2d2b288abab05abc1f00a33c61c74ef9441ac61",
+                "url": "https://api.github.com/repos/symfony/config/zipball/58ded81f1f582a87c528ef3dae9a859f78b5f374",
+                "reference": "58ded81f1f582a87c528ef3dae9a859f78b5f374",
                 "shasum": ""
             },
             "require": {
@@ -1323,7 +1326,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "yoast/whip": 10,
+        "yoast/whip": 20,
         "codeclimate/php-test-reporter": 20
     },
     "prefer-stable": true,

@@ -93,7 +93,7 @@ class WPSEO_Admin {
 
 		$this->set_upsell_notice();
 
-		$this->requirePHPVersion();
+		$this->check_php_version();
 	}
 
 	/**
@@ -709,20 +709,10 @@ class WPSEO_Admin {
 	/**
 	 * Initializes Whip to show a notice for outdated PHP versions.
 	 */
-	protected function requirePHPVersion() {
-		// Only show for admin users.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$wpMessagePresenter = new Whip_WPMessagePresenter();
-		$wpMessagePresenter->register_hooks();
-
-		$messageControl = new Whip_VersionMessage(
-			new Whip_PHPVersionDetector( 'wordpress-seo' ),
-			array( $wpMessagePresenter )
-		);
-		$messageControl->requireVersion( '5.3' );
+	protected function check_php_version() {
+		whip_wp_check_versions( array(
+			'php' => '>=5.3',
+		) );
 	}
 
 	/********************** DEPRECATED METHODS **********************/
