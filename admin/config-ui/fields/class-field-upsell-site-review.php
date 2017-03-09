@@ -20,7 +20,6 @@ class WPSEO_Config_Field_Upsell_Site_Review extends WPSEO_Config_Field {
 			'<a href="https://yoa.st/yoastseotraining" target="_blank">Yoast SEO for WordPress training</a>',
 			'<a href="https://yoa.st/configuration-wizard-copywrite-course-link" target="_blank">',
 			'</a>'
-
 		);
 
 		$html = '<p>' . $upsell_text . '</p>';
