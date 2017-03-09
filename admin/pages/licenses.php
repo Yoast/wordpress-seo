@@ -147,7 +147,7 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 				<?php if ( $extension->installed ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 				<?php else : ?>
-					<a target="_blank" href="<?php WPSEO_Shortlinker::e( 'https://yoa.st/zz' ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
+					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button default yoast-button--noarrow yoast-button-go-to"><?php
 						/* translators: $1$s expands to Yoast SEO Premium */
 						printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->title );
 						?></a>

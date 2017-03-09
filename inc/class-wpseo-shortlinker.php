@@ -53,7 +53,7 @@ class WPSEO_Shortlinker {
 	 *
 	 * @param string $url The URL to build upon.
 	 */
-	public static function e( $url ) {
+	public static function show( $url ) {
 		echo self::get( $url );
 	}
 }
