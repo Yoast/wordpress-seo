@@ -95,14 +95,14 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 			$popupWindow,
 			$closeButton;
 
-		tb_show( title, "#TB_inline?width=650&height=350&inlineId=wpseo-add-keyword-popup", "group" );
+		tb_show( title, "#TB_inline?width=650&height=400&inlineId=wpseo-add-keyword-popup", "group" );
 
 		// The thicbox popup UI is now available.
 		$popupWindow = $( "#TB_window" );
 		$closeButton = $( "#TB_closeWindowButton" );
 
 		// The container window isn't the correct size, rectify this and also the centering.
-		$popupWindow.css( { width: 680, height: 235, "margin-left": -340 } );
+		$popupWindow.css( { width: 680, height: 400, "margin-left": -340 } );
 
 		// Accessibility improvements.
 		$popupWindow
