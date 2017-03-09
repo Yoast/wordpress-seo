@@ -6,7 +6,7 @@
 /**
  * Helps with creating shortlinks in the plugin
  */
-class WPSEO_Shortlinker {
+class  WPSEO_Shortlinker {
 
 	/**
 	 * @var string
@@ -54,6 +54,6 @@ class WPSEO_Shortlinker {
 	 * @param string $url The URL to build upon.
 	 */
 	public static function show( $url ) {
-		echo self::get( $url );
+		echo esc_url( self::get( $url ) );
 	}
 }
