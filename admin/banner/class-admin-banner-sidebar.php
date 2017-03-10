@@ -142,19 +142,19 @@ class WPSEO_Admin_Banner_Sidebar {
 			)
 		);
 
-		$service_spot->add_banner(
-			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/seo-care-banner' ),
-				'seo-care.png',
-				261,
-				152,
-				sprintf(
-				/* translators: %1$s expands to Yoast SEO Care. */
-					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
-					'Yoast SEO Care'
-				)
-			)
-		);
+//		$service_spot->add_banner(
+//			new WPSEO_Admin_Banner(
+//				WPSEO_Shortlinker::get( 'https://yoa.st/seo-care-banner' ),
+//				'seo-care.png',
+//				261,
+//				152,
+//				sprintf(
+//				/* translators: %1$s expands to Yoast SEO Care. */
+//					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
+//					'Yoast SEO Care'
+//				)
+//			)
+//		);
 
 		return $service_spot;
 	}
