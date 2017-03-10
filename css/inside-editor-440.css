@@ -1,6 +1,8 @@
 .yoast-text-mark {
-  background-color: #e1bee7; }
+	background-color: #e1bee7;
+}
 
 .yoast-text-mark__highlight {
-  background-color: #4a148c;
-  color: white; }
+	color: white;
+	background-color: #4a148c;
+}
