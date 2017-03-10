@@ -437,8 +437,25 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	padding: 10px 0;
 	border-bottom: 1px solid #ddd;
 }
+.yoast-sidebar__spot h2,
 .yoast-sidebar__spot a {
 	color: #a4286a;
+}
+.yoast-sidebar__spot h2 {
+	margin-top: 0;
+}
+.yoast-sidebar__spot ul {
+	position: relative;
+}
+.yoast-sidebar__spot li {
+	margin-left: 20px; 
+	list-style: none;
+}
+.yoast-sidebar__spot li::before {
+	position: absolute;
+	left: 0;
+	font-weight: bold; 
+	content: "+";
 }
 
 .wpseo-banner__link {
