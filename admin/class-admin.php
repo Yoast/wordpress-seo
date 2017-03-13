@@ -92,6 +92,8 @@ class WPSEO_Admin {
 		}
 
 		$this->set_upsell_notice();
+
+		$this->check_php_version();
 	}
 
 	/**
@@ -704,6 +706,32 @@ class WPSEO_Admin {
 		$upsell->initialize();
 	}
 
+	/**
+	 * Initializes Whip to show a notice for outdated PHP versions.
+	 */
+	protected function check_php_version() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( ! $this->on_dashboard_page() ) {
+			return;
+		}
+
+		whip_wp_check_versions( array(
+			'php' => '>=5.3',
+		) );
+	}
+
+	/**
+	 * Whether we are on the admin dashboard page.
+	 *
+	 * @returns bool
+	 */
+	protected function on_dashboard_page() {
+		return 'index.php' === $GLOBALS['pagenow'];
+	}
+
 	/********************** DEPRECATED METHODS **********************/
 
 	// @codeCoverageIgnoreStart
@@ -803,7 +831,6 @@ class WPSEO_Admin {
 		$stop_words = new WPSEO_Admin_Stop_Words();
 		return $stop_words->list_stop_words();
 	}
-
 
 	/**
 	 * Check whether the stopword appears in the string
