@@ -4,7 +4,7 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.4
+Requires at least: 4.6
 Tested up to: 4.7
 Stable tag: 4.4
 
@@ -123,6 +123,17 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 6. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 4.5.0 =
+
+Release Date: March 14th, 2017
+
+* Bugfixes
+	* Adds a check for the breadcrumbs-home option to prevent a blank entry being added to the crumbs array, props [codemonkeynorth](https://github.com/codemonkeynorth)
+
+* Enhancements
+	* Throws a warning in the admin for the RS Head Cleaner plugin, because the plugin cloaks.
+	* Improved copy about Yoast SEO Premium benefits.
 
 = 4.4.0 =
 

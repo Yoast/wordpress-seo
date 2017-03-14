@@ -908,6 +908,10 @@ button.yoast-tooltip {
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 }
+.wpseo-tab-video-slideout .yoast-help-tab-content li {
+	margin: 2px 10px; 
+	list-style: disc inside;
+}
 .wpseo-tab-video-slideout .wpseo-tab-video__panel--video {
 	max-width: 560px;
 	margin-left: 12px;
@@ -1433,7 +1437,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	padding: 3px 6px;
 	color: #000;
 	background: transparent;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 1;
 	vertical-align: top;
 	text-decoration: none;
@@ -1676,6 +1680,26 @@ ul.wpseo-metabox-premium-advantages {
 	padding: 0;
 }
 
+#TB_window #TB_ajaxContent p {
+	margin: 5px 0 0 0;
+	padding: 5px 0 0 0;
+}
+
+#TB_window #TB_ajaxContent ul {
+	margin: 5px 0 10px 0;
+}
+
+#TB_window #TB_ajaxContent li {
+	margin: 5px 0 0 0;
+	list-style: none;
+}
+
+#TB_window #TB_ajaxContent li::before {
+	margin: 0 0 0 10px;
+	font-weight: bold;
+	content: "+";
+}
+
 .yoast-section__heading-icon-list {
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M384%201408q0%2080%2D56%20136t%2D136%2056%2D136%2D56%2D56%2D136%2056%2D136%20136%2D56%20136%2056%2056%20136zm0%2D512q0%2080%2D56%20136t%2D136%2056%2D136%2D56%2D56%2D136%2056%2D136%20136%2D56%20136%2056%2056%20136zm1408%20416v192q0%2013%2D9%2E5%2022%2E5t%2D22%2E5%209%2E5h%2D1216q%2D13%200%2D22%2E5%2D9%2E5t%2D9%2E5%2D22%2E5v%2D192q0%2D13%209%2E5%2D22%2E5t22%2E5%2D9%2E5h1216q13%200%2022%2E5%209%2E5t9%2E5%2022%2E5zm%2D1408%2D928q0%2080%2D56%20136t%2D136%2056%2D136%2D56%2D56%2D136%2056%2D136%20136%2D56%20136%2056%2056%20136zm1408%20416v192q0%2013%2D9%2E5%2022%2E5t%2D22%2E5%209%2E5h%2D1216q%2D13%200%2D22%2E5%2D9%2E5t%2D9%2E5%2D22%2E5v%2D192q0%2D13%209%2E5%2D22%2E5t22%2E5%2D9%2E5h1216q13%200%2022%2E5%209%2E5t9%2E5%2022%2E5zm0%2D512v192q0%2013%2D9%2E5%2022%2E5t%2D22%2E5%209%2E5h%2D1216q%2D13%200%2D22%2E5%2D9%2E5t%2D9%2E5%2D22%2E5v%2D192q0%2D13%209%2E5%2D22%2E5t22%2E5%2D9%2E5h1216q13%200%2022%2E5%209%2E5t9%2E5%2022%2E5z%22%2F%3E%3C%2Fsvg%3E");
 }
@@ -1759,7 +1783,7 @@ ul.wpseo-metabox-premium-advantages {
 	}
 	#wpseo-crawl-issues-table-form .subsubsub {
 		float: none;
-		max-width: calc( 100vw - 20px);
+		max-width: calc(100vw - 20px);
 	}
 	#wpseo-crawl-issues-table-form .yoast-help-button {
 		margin-top: 3px;

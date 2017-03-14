@@ -59,10 +59,16 @@ class WPSEO_Help_Center {
 	private function add_contact_support_item() {
 		/* translators: %s: expands to 'Yoast SEO Premium'. */
 		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
-		/* translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
-		$popup_content = sprintf( __( 'To be able to contact our support team, you need %1$s. You can buy the plugin, including one year of support, updates and upgrades, on %2$s.', 'wordpress-seo' ),
-			'<a href="https://yoa.st/multiple-keywords">Yoast SEO Premium</a>',
-			'yoast.com' );
+
+		$popup_content = '<p>' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the set-up and use of the plug-in!  ', 'wordpress-seo' ) . '</p>';
+		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
+		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
+		$popup_content .= '<ul>';
+		$popup_content .= '<li>' . __( 'No more dead links: easy redirect manager', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( 'Superfast internal link suggestions', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( 'Social media preview: Facebook & Twitter', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '</ul>';
 
 		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(

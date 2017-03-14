@@ -64,21 +64,23 @@ class WPSEO_Premium_Popup {
 		}
 
 		$assets_uri = trailingslashit( plugin_dir_url( WPSEO_FILE ) );
-		$premium_uri = 'https://yoa.st/contact-support';
+		$premium_uri = WPSEO_Shortlinker::get( 'https://yoa.st/contact-support' );
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$cta_text = sprintf( __( 'Buy %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$cta_text = sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		$classes = '';
 		if ( $popup ) {
 			$classes = ' hidden';
 		}
+		$micro_copy = __( '1 year free updates and upgrades included!', 'wordpress-seo' );
 
 		$popup = <<<EO_POPUP
 <div id="wpseo-{$this->identifier}-popup" class="wpseo-premium-popup wp-clearfix$classes">
 	<img class="alignright wpseo-premium-popup-icon" src="{$assets_uri}images/Yoast_SEO_Icon.svg" width="150" height="150" alt="Yoast SEO"/>
 	<{$this->heading_level} id="wpseo-contact-support-popup-title" class="wpseo-premium-popup-title">{$this->title}</{$this->heading_level}>
-	<p>{$this->content}</p>
-	<a id="wpseo-{$this->identifier}-popup-button" class="button button-primary" href="{$premium_uri}">{$cta_text}</a>
+	{$this->content}
+	<a id="wpseo-{$this->identifier}-popup-button" class="button button-primary" href="{$premium_uri}">{$cta_text}</a><br/>
+	<small>{$micro_copy}</small>
 </div>
 EO_POPUP;
 

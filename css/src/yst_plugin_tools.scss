@@ -481,9 +481,30 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		padding: 10px 0;
 		border-bottom: 1px solid #ddd;
 
-		a {
+		h2, a {
 			color: #a4286a;
 		}
+
+		h2 {
+			margin-top: 0;
+		}
+
+		ul {
+			position: relative;
+		}
+
+		li {
+			list-style: none;
+			margin-left: 20px;
+
+			&::before {
+				content: '+';
+				position: absolute;
+				left: 0;
+				font-weight: bold;
+			}
+		}
+
 	}
 }
 

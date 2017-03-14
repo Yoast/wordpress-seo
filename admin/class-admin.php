@@ -92,6 +92,8 @@ class WPSEO_Admin {
 		}
 
 		$this->set_upsell_notice();
+
+		$this->check_php_version();
 	}
 
 	/**
@@ -604,7 +606,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Temporarily disables a particular page if it is present in the list of passed pages.
+	 * Given a list of passed pages that will be disabled, removes the given page from the list so that it will no longer be disabled.
 	 *
 	 * @param array  $pages The pages to search through.
 	 * @param string $page  The page to temporarily enable.
@@ -702,6 +704,32 @@ class WPSEO_Admin {
 		$upsell = new WPSEO_Product_Upsell_Notice();
 		$upsell->dismiss_notice_listener();
 		$upsell->initialize();
+	}
+
+	/**
+	 * Initializes Whip to show a notice for outdated PHP versions.
+	 */
+	protected function check_php_version() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( ! $this->on_dashboard_page() ) {
+			return;
+		}
+
+		whip_wp_check_versions( array(
+			'php' => '>=5.3',
+		) );
+	}
+
+	/**
+	 * Whether we are on the admin dashboard page.
+	 *
+	 * @returns bool
+	 */
+	protected function on_dashboard_page() {
+		return 'index.php' === $GLOBALS['pagenow'];
 	}
 
 	/********************** DEPRECATED METHODS **********************/
@@ -803,7 +831,6 @@ class WPSEO_Admin {
 		$stop_words = new WPSEO_Admin_Stop_Words();
 		return $stop_words->list_stop_words();
 	}
-
 
 	/**
 	 * Check whether the stopword appears in the string

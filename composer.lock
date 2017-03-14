@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8c4106040488d3d75637a5938b0037b",
+    "content-hash": "8be0296868cc31f08acfd61652f5a7ce",
     "packages": [
         {
             "name": "composer/installers",
@@ -264,6 +264,48 @@
                 "wordpress"
             ],
             "time": "2017-02-28T09:22:38+00:00"
+        },
+        {
+            "name": "yoast/whip",
+            "version": "1.0.0-beta.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yoast/whip.git",
+                "reference": "3c32dc6ac3749dc10dc6f0bdb6d18f9593b48bd7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yoast/whip/zipball/3c32dc6ac3749dc10dc6f0bdb6d18f9593b48bd7",
+                "reference": "3c32dc6ac3749dc10dc6f0bdb6d18f9593b48bd7",
+                "shasum": ""
+            },
+            "require": {
+                "xrstf/composer-php52": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^3.6.12"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/facades/wordpress.php"
+                ],
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Team Yoast",
+                    "email": "support@yoast.com"
+                }
+            ],
+            "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
+            "time": "2017-03-11T11:34:13+00:00"
         },
         {
             "name": "yoast/wp-helpscout",
@@ -1404,6 +1446,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "yoast/whip": 10,
         "codeclimate/php-test-reporter": 20
     },
     "prefer-stable": true,

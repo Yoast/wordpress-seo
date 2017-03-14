@@ -3,29 +3,29 @@
 @import "../../node_modules/yoast-components/forms/StyledSection/StyledSection";
 
 @function svg-icon-list($color) {
-	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z"/></svg>' );
+  @return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z"/></svg>');
 }
 
 @function svg-icon-key($color) {
-	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M832 512q0-80-56-136t-136-56-136 56-56 136q0 42 19 83-41-19-83-19-80 0-136 56t-56 136 56 136 136 56 136-56 56-136q0-42-19-83 41 19 83 19 80 0 136-56t56-136zm851 704q0 17-49 66t-66 49q-9 0-28.5-16t-36.5-33-38.5-40-24.5-26l-96 96 220 220q28 28 28 68 0 42-39 81t-81 39q-40 0-68-28l-671-671q-176 131-365 131-163 0-265.5-102.5t-102.5-265.5q0-160 95-313t248-248 313-95q163 0 265.5 102.5t102.5 265.5q0 189-131 365l355 355 96-96q-3-3-26-24.5t-40-38.5-33-36.5-16-28.5q0-17 49-66t66-49q13 0 23 10 6 6 46 44.5t82 79.5 86.5 86 73 78 28.5 41z"/></svg>' );
+  @return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M832 512q0-80-56-136t-136-56-136 56-56 136q0 42 19 83-41-19-83-19-80 0-136 56t-56 136 56 136 136 56 136-56 56-136q0-42-19-83 41 19 83 19 80 0 136-56t56-136zm851 704q0 17-49 66t-66 49q-9 0-28.5-16t-36.5-33-38.5-40-24.5-26l-96 96 220 220q28 28 28 68 0 42-39 81t-81 39q-40 0-68-28l-671-671q-176 131-365 131-163 0-265.5-102.5t-102.5-265.5q0-160 95-313t248-248 313-95q163 0 265.5 102.5t102.5 265.5q0 189-131 365l355 355 96-96q-3-3-26-24.5t-40-38.5-33-36.5-16-28.5q0-17 49-66t66-49q13 0 23 10 6 6 46 44.5t82 79.5 86.5 86 73 78 28.5 41z"/></svg>');
 }
 
 @function svg-icon-edit($color) {
-	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z" /></svg>');
+  @return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z" /></svg>');
 }
 
 /* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
 #edittag > #wp-description-wrap {
-	display: none;
+  display: none;
 }
 
 #wp-description-wrap .wp-editor-area {
-	border: 0;
+  border: 0;
 }
 
 /* Give the original textarea enough height to mitigate content flash. */
 .term-description-wrap td > textarea#description {
-	min-height: 530px;
+  min-height: 530px;
 }
 
 /**
@@ -34,185 +34,184 @@
  * Metabox Tabs
  */
 ul.wpseo-metabox-tabs {
-	display: none;
-	margin-top: 6px;
-	margin-bottom: 0;
+  display: none;
+  margin-top: 6px;
+  margin-bottom: 0;
 }
 
 /* Contain floated list items and have overflow visible for the active tab */
 ul.wpseo-metabox-tabs:after {
-	content: "";
-	display: table;
-	clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .wpseo-metabox-tabs-div ul {
-	list-style: none;
+  list-style: none;
 }
 
 ul.wpseo-metabox-tabs li.active {
-	background-color: #fdfdfd;
+  background-color: #fdfdfd;
 }
 
 .wpseo-meta-section {
-	display: none;
-	width: 100%;
-	vertical-align: top;
+  display: none;
+  width: 100%;
+  vertical-align: top;
 }
 
 .wpseo-meta-section.active {
-	display: table-cell;
+  display: table-cell;
 }
 
 .wpseo-metabox-sidebar {
-	display: table-cell;
-	width: 40px;
-	padding: 0 5px 0 0;
-	background-color: #fff;
-	vertical-align: top;
+  display: table-cell;
+  width: 40px;
+  padding: 0 5px 0 0;
+  background-color: #fff;
+  vertical-align: top;
 }
 
 .wpseo-metabox-sidebar ul {
-	margin: 0;
+  margin: 0;
 }
 
 .wpseo-metabox-sidebar li {
-	display: inline-block; /* Microsoft Edge 38. */
-	margin-bottom: 0;
-	padding: 5px;
+  display: inline-block; /* Microsoft Edge 38. */
+  margin-bottom: 0;
+  padding: 5px;
 }
 
 .wpseo-metabox-sidebar a {
-	display: inline-block;
-	width: 35px;
-	height: 35px;
-	font-size: 20px;
-	line-height: 30px;
-	text-decoration: none;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  font-size: 20px;
+  line-height: 30px;
+  text-decoration: none;
 }
 
 .wpseo-metabox-sidebar li span {
-	margin: 3px 0 0 -5px;
-	padding: 0 2px 0 5px;
-	border: 0 solid transparent;
-	border-left-width: 3px;
-	border-radius: 3px;
+  margin: 3px 0 0 -5px;
+  padding: 0 2px 0 5px;
+  border: 0 solid transparent;
+  border-left-width: 3px;
+  border-radius: 3px;
 
-	&.wpseo-buy-premium {
-		color: #a4286a;
+  &.wpseo-buy-premium {
+    color: #a4286a;
 
-		&:hover {
-			color: #832055;
-		}
-	}
+    &:hover {
+      color: #832055;
+    }
+  }
 }
 
 .wpseo-metabox-sidebar li.active span {
-	border-color: #333;
-	color: #333;
+  border-color: #333;
+  color: #333;
 
-	&.wpseo-buy-premium {
-		color: #a4286a;
-		border-color: #a4286a;
+  &.wpseo-buy-premium {
+    color: #a4286a;
+    border-color: #a4286a;
 
-		&:hover {
-			color: #832055;
-			border-color: #832055;
-		}
-	}
+    &:hover {
+      color: #832055;
+      border-color: #832055;
+    }
+  }
 }
 
 /* Floated to reset white space between list items */
 ul.wpseo-metabox-tabs li {
-	float: left;
-	margin-right: 5px;
-	margin-bottom: -1px;
-	padding: 0;
-	border: 1px solid #dfdfdf;
-	border-bottom: 0 none;
+  float: left;
+  margin-right: 5px;
+  margin-bottom: -1px;
+  padding: 0;
+  border: 1px solid #dfdfdf;
+  border-bottom: 0 none;
 
-	.wpseo-keyword {
-		display: inline-block;
-		vertical-align: top;
-		max-width: 8em;
-		max-width: 8rem;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
+  .wpseo-keyword {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 8em;
+    max-width: 8rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
 }
 
 .wpseotab {
-	display: none;
-	overflow: auto;
-	padding: 20px 35px;
-	border: 1px solid #ddd;
-	background-color: #fdfdfd;
+  display: none;
+  overflow: auto;
+  padding: 20px 35px;
+  border: 1px solid #ddd;
+  background-color: #fdfdfd;
 }
 
 .wpseotab.content {
-	padding: 20px 15px;
+  padding: 20px 15px;
 }
 
 .wpseotab.active {
-	display: block;
+  display: block;
 }
-
 
 /* Content tab. */
 #wpseosnippet,
 #wpseofocuskeyword,
 #wpseometakeywords {
-	margin-bottom: 2em;
+  margin-bottom: 2em;
 }
 
 /* Tab links. */
 .wpseo-metabox-tabs .wpseo_tablink {
-	display: inline-block;
-	vertical-align: top;
-	padding: 5px 12px 6px 12px;
-	text-decoration: none;
+  display: inline-block;
+  vertical-align: top;
+  padding: 5px 12px 6px 12px;
+  text-decoration: none;
 }
 
 /* Bigger right padding only for the content tab and the main keyword tabs */
 .wpseo-metabox-tabs .wpseo_content_tab a,
 .wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
-	padding-right: 12px;
+  padding-right: 12px;
 }
 
 .wpseo-metabox-tabs .wpseo-score-icon {
-	margin-left: 0;
+  margin-left: 0;
 }
 
 #wpseo-meta-section-social .wpseo-metabox-tabs .wpseo_tablink {
-	padding: 5px 7px;
+  padding: 5px 7px;
 }
 
 .wpseo-metabox-tabs .wpseo_tablink .dashicons {
-	width: 16px;
-	height: 16px;
-	font-size: 16px;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
 }
 
 .wpseo-metabox-sidebar .dashicons {
-	width: 30px;
-	height: 30px;
-	font-size: 30px;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
 }
 
 .wpseo-metabox-tabs-div div.wpseo-tabs-panel {
-	overflow: auto;
-	padding: 0.5em 0.9em;
-	border: 1px solid;
+  overflow: auto;
+  padding: 0.5em 0.9em;
+  border: 1px solid;
 }
 
 #wpseo_meta .inside {
-	margin: 0;
+  margin: 0;
 }
 
 #wpseo_meta .postbox .inside .wpseotab {
-	font-size: 13px !important;
+  font-size: 13px !important;
 }
 
 /* Basic styling for social, advanced, and add-ons tabs content. */
@@ -222,42 +221,42 @@ ul.wpseo-metabox-tabs li {
 .wpseotab .select2-container,
 .yoast-metabox__description,
 .wpseotab p.error-message {
-	max-width: 600px;
+  max-width: 600px;
 }
 
 .wpseotab fieldset {
-	padding-top: 5px;
+  padding-top: 5px;
 }
 
 .wpseotab legend {
-	font-weight: 600;
+  font-weight: 600;
 }
 
 /* By default, labels are set to display block. */
 .wpseotab label {
-	display: block;
-	font-weight: 600;
+  display: block;
+  font-weight: 600;
 }
 
 /* Radio buttons and checkboxes labels are set to display inline-block. */
 .wpseotab input[type="radio"] + label,
 .wpseotab input[type="checkbox"] + label {
-	display: inline-block;
-	font-weight: 400;
+  display: inline-block;
+  font-weight: 400;
 }
 
 /* Default vertical spacing between blocks of controls. */
 .wpseotab label,
 .wpseotab fieldset {
-	margin-top: 2em;
-	margin-bottom: 0.5em;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
 }
 
 .wpseotab input[type="checkbox"],
 .wpseotab input[type="checkbox"] + label {
-	margin-top: 2em;
-	margin-bottom: 0;
-	font-size: 1em; /* 1em = 13px. Necessary for proper calculation of margins in em. */
+  margin-top: 2em;
+  margin-bottom: 0;
+  font-size: 1em; /* 1em = 13px. Necessary for proper calculation of margins in em. */
 }
 
 /* First form controls in a tab need a smaller top margin. */
@@ -265,102 +264,102 @@ ul.wpseo-metabox-tabs li {
 .wpseotab fieldset:first-child,
 .wpseotab input[type="checkbox"]:first-child,
 .wpseotab input[type="checkbox"]:first-child + label {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 /* Radio buttons. */
 .wpseotab input[type="radio"] {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .wpseotab input[type="radio"] + label {
-	margin: 0 1em 0 0;
+  margin: 0 1em 0 0;
 }
 
 /* Descriptions and error messages below the fields. */
 .yoast-metabox__description,
 .wpseotab p.error-message {
-	margin: 0.5em 0;
+  margin: 0.5em 0;
 }
 
 .wpseotab #yoast_wpseo_focuskw_text_input,
 .wpseotab #yoast_wpseo_metakeywords,
 .wpseotab select[multiple] {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .wpseotab .wpseo_image_upload_button {
-	margin-left: 3px;
+  margin-left: 3px;
 }
 
 .good,
 .warn,
 .wrong {
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .good {
-	color: green;
+  color: green;
 }
 
 .warn {
-	color: maroon;
+  color: maroon;
 }
 
 .wrong {
-	color: #dc3232;
+  color: #dc3232;
 }
 
 #current_seo_title span {
-	padding: 2px 5px;
-	background-color: lightyellow;
+  padding: 2px 5px;
+  background-color: lightyellow;
 }
 
 #focuskwresults ul {
-	margin: 0;
+  margin: 0;
 }
 
 #focuskwresults p,
 #focuskwresults li {
-	font-size: 13px;
+  font-size: 13px;
 }
 
 #focuskwresults li {
-	margin: 0 0 0 20px;
-	list-style-type: disc;
+  margin: 0 0 0 20px;
+  list-style-type: disc;
 }
 
 .wpseo_hidden {
-	display: none;
+  display: none;
 }
 
 .wpseo_msg {
-	margin: 5px 0 10px 0;
-	padding: 0 5px;
-	border: 1px solid #e6db55;
-	background-color: lightYellow;
+  margin: 5px 0 10px 0;
+  padding: 0 5px;
+  border: 1px solid #e6db55;
+  background-color: lightYellow;
 }
 
 ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
-	border: none;
+  border: none;
 }
 
 .wpseo-tab-add-keyword .wpseo-add-keyword.button {
-	height: auto;
-	margin-top: 1px;
-	padding: 3px 6px;
-	color: #000;
-	background: transparent;
-	font-size: 14px;
-	line-height: 1;
-	vertical-align: top;
-	text-decoration: none;
-	cursor: pointer;
+  height: auto;
+  margin-top: 1px;
+  padding: 3px 6px;
+  color: #000;
+  background: transparent;
+  font-size: 12px;
+  line-height: 1;
+  vertical-align: top;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 #wpseo-add-keyword-popup-title {
-	margin: 1em 0;
-	font-size: 1.3em;
+  margin: 1em 0;
+  font-size: 1.3em;
 }
 
 /**
@@ -370,354 +369,382 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
  * Or, maybe, take advantage of the `.button` CSS class in WordPress.
  */
 .snippet-editor__button.snippet-editor__edit-button:focus {
-	border-color: #5b9dd9;
-	outline: none;
-	color: #23282d;
-	background-color: #fafafa;
-	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+  border-color: #5b9dd9;
+  outline: none;
+  color: #23282d;
+  background-color: #fafafa;
+  box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 }
 
 .yoast_help.yoast-help-button {
-	overflow: visible;
-	position: relative;
-	width: 20px;
-	height: 20px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: none;
-	color: #72777c;
-	background: transparent;
-	box-shadow: none;
-	vertical-align: top;
-	/* IE 11 */
-	cursor: pointer;
+  overflow: visible;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  color: #72777c;
+  background: transparent;
+  box-shadow: none;
+  vertical-align: top;
+  /* IE 11 */
+  cursor: pointer;
 }
 
 .wpseotab .yoast_help.yoast-help-button {
-	float: right;
+  float: right;
 }
 
 .wpseotab.content .yoast_help.yoast-help-button {
-	margin-top: -47px;
+  margin-top: -47px;
 }
 
 .wpseo-admin-page .yoast_help.yoast-help-button {
-	margin-right: 6px;
+  margin-right: 6px;
 }
 
 .yoast_help.yoast-help-button:before {
-	position: absolute;
-	top: 0;
-	left: 0;
-	padding: 4px;
-	content: "\f223";
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 4px;
+  content: "\f223";
 }
 
 .yoast_help.yoast-help-button:hover,
 .yoast_help.yoast-help-button:focus {
-	color: #0073aa;
+  color: #0073aa;
 }
 
 .yoast_help.yoast-help-button:focus:before,
 .assessment-results__mark:focus {
-	border-radius: 100%;
-	box-shadow: 0 0 0 1px #5b9dd9,
-	0 0 2px 1px rgba(30, 140, 190, 0.8);
+  border-radius: 100%;
+  box-shadow: 0 0 0 1px #5b9dd9,
+  0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .yoast-help-panel {
-	display: none;
-	max-width: 30em !important;
-	padding: 0 0 1em;
-	font-weight: normal;
-	white-space: normal;
+  display: none;
+  max-width: 30em !important;
+  padding: 0 0 1em;
+  font-weight: normal;
+  white-space: normal;
 }
 
 .wpseo-admin-page .subsubsub li {
-	display: inline;
-	max-width: none;
+  display: inline;
+  max-width: none;
 }
 
 .yoast-seo-help-container {
-	float: left;
-	width: 100%;
-	max-width: none;
+  float: left;
+  width: 100%;
+  max-width: none;
 }
 
 .yoast-seo-help-container .yoast-help-panel {
-	margin: 0.5em 0 !important;
+  margin: 0.5em 0 !important;
 }
 
 .wpseo_content_wrapper p.search-box {
-	margin: 10px 0 5px 0;
+  margin: 10px 0 5px 0;
 }
 
 .wpseo-metabox-tabs .active a {
-	color: #333;
+  color: #333;
 }
 
 #wpseotab .ui-widget-content .ui-state-hover {
-	border: 1px solid #dfdfdf;
-	color: #333;
-	background: #f1f1f1;
+  border: 1px solid #dfdfdf;
+  color: #333;
+  background: #f1f1f1;
 }
 
 /**
  * Lines below came from taxonomy-meta.css
  */
 .yst-traffic-light-container {
-	display: block;
-	height: 30px;
+  display: block;
+  height: 30px;
 }
 
 .yst-traffic-light {
-	width: 19px;
-	height: 30px;
-	margin: 0 0 0 5px;
+  width: 19px;
+  height: 30px;
+  margin: 0 0 0 5px;
 }
 
 .yst-traffic-light .traffic-light-color {
-	display: none;
+  display: none;
 }
 
 .yst-traffic-light.init .traffic-light-init {
-	display: inline;
+  display: inline;
 }
 
 .yst-traffic-light.bad .traffic-light-red {
-	display: inline;
+  display: inline;
 }
 
 .yst-traffic-light.ok .traffic-light-orange {
-	display: inline;
+  display: inline;
 }
 
 .yst-traffic-light.good .traffic-light-green {
-	display: inline;
+  display: inline;
 }
 
 .yst-traffic-light.na .traffic-light-empty {
-	display: inline;
+  display: inline;
 }
 
 /**
  * Traffic light in publish box
  */
 #wpseo-score {
-	float: left;
-	margin: 0 5px 0 -5px;
+  float: left;
+  margin: 0 5px 0 -5px;
 }
 
 @function inline-svg($svg) {
-	@return 'data:image/svg+xml;charset=utf8,#{_encode( $svg )}';
+  @return 'data:image/svg+xml;charset=utf8,#{_encode( $svg )}';
 }
 
-@function svg-icon-yoast($color){
-	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M403 218h691l-26 72h-665q-110 0-188.5 79t-78.5 189v771q0 95 60.5 169.5t153.5 93.5q23 5 98 5v72h-45q-140 0-239.5-100t-99.5-240v-771q0-140 99.5-240t239.5-100zm851-218h247l-482 1294q-23 61-40.5 103.5t-45 98-54 93.5-64.5 78.5-79.5 65-95.5 41-116 18.5v-195q163-26 220-182 20-52 20-105 0-54-20-106l-285-733h228l187 585zm474 558v1111h-795q37-55 45-73h678v-1038q0-85-49.5-155t-129.5-99l25-67q101 34 163.5 123.5t62.5 197.5z"/></svg>');
+@function svg-icon-yoast($color) {
+  @return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M403 218h691l-26 72h-665q-110 0-188.5 79t-78.5 189v771q0 95 60.5 169.5t153.5 93.5q23 5 98 5v72h-45q-140 0-239.5-100t-99.5-240v-771q0-140 99.5-240t239.5-100zm851-218h247l-482 1294q-23 61-40.5 103.5t-45 98-54 93.5-64.5 78.5-79.5 65-95.5 41-116 18.5v-195q163-26 220-182 20-52 20-105 0-54-20-106l-285-733h228l187 585zm474 558v1111h-795q37-55 45-73h678v-1038q0-85-49.5-155t-129.5-99l25-67q101 34 163.5 123.5t62.5 197.5z"/></svg>');
 }
 
 /**
 * Content and SEO score in publish bar
 */
 .yoast-seo-score .yoast-logo.svg {
-	float: left;
-	width: 18px;
-	margin-right: 5px;
-	height: 18px;
-	background: url(svg-icon-yoast(#999)) no-repeat;
-	background-size: 18px;
+  float: left;
+  width: 18px;
+  margin-right: 5px;
+  height: 18px;
+  background: url(svg-icon-yoast(#999)) no-repeat;
+  background-size: 18px;
 }
 
 .yoast-seo-score .yoast-logo.svg.good {
-	$color: #7ad03a;
-	background-image: url(svg-icon-yoast($color));
+  $color: #7ad03a;
+  background-image: url(svg-icon-yoast($color));
 }
+
 .yoast-seo-score .yoast-logo.svg.ok {
-	$color: #ee7c1b;
-	background-image: url(svg-icon-yoast($color));
+  $color: #ee7c1b;
+  background-image: url(svg-icon-yoast($color));
 }
+
 .yoast-seo-score .yoast-logo.svg.bad {
-	$color: #dc3232;
-	background-image: url(svg-icon-yoast($color));
+  $color: #dc3232;
+  background-image: url(svg-icon-yoast($color));
 }
+
 .yoast-seo-score .yoast-logo.svg.na {
-	$color: #999;
-	background-image: url(svg-icon-yoast($color));
+  $color: #999;
+  background-image: url(svg-icon-yoast($color));
 }
+
 .yoast-seo-score .yoast-logo.svg.noindex {
-	$color: #1e8cbe;
-	background-image: url(svg-icon-yoast($color));
+  $color: #1e8cbe;
+  background-image: url(svg-icon-yoast($color));
 }
 
 // Fix for the Taxonomy metabox heading: get just the first level h2.
 .term-php .wpseo-taxonomy-metabox-postbox > h2 {
-	margin: 0;
-	padding: 8px 12px;
-	border-bottom: 1px solid #eee;
-	font-size: 14px;
-	line-height: 1.4;
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .wpseo-buy-premium {
-	color: #A4286A;
-	padding-right: 5px;
+  color: #A4286A;
+  padding-right: 5px;
 }
 
 .wpseo-metabox-go-to {
-	&::after {
-		content: " \00BB";
-		position: static;
-		top: auto;
-		right: auto;
-		width: auto;
-		height: auto;
-		border: none;
-	}
+  &::after {
+    content: " \00BB";
+    position: static;
+    top: auto;
+    right: auto;
+    width: auto;
+    height: auto;
+    border: none;
+  }
 }
 
 #wpseo-buy-premium-popup-button.button-buy-premium {
-	background: #A4286A;
-	border-color: #A4286A;
-	color: #fff;
+  background: #A4286A;
+  border-color: #A4286A;
+  color: #fff;
 }
 
 .wpseo-metabox-buy-premium {
-	position: absolute;
-	right: 12px;
-	top: 0;
-	padding: 10px 0; /* To have the same height of the `.wpseo-tab-video-container__handle` button. */
+  position: absolute;
+  right: 12px;
+  top: 0;
+  padding: 10px 0; /* To have the same height of the `.wpseo-tab-video-container__handle` button. */
 }
 
 .wpseo-metabox-premium-description {
-	margin-top: 0.5em;
+  margin-top: 0.5em;
 }
 
 ul.wpseo-metabox-premium-advantages {
-	list-style: disc;
-	padding-left: 1.5em;
+  list-style: disc;
+  padding-left: 1.5em;
 }
 
 /* Ensure the snippet preview section has always the proper width whatever the default yoast-section width is. */
 .wpseosnippet .yoast-section {
-	width: auto;
-	max-width: 640px;
-	/* The inner .snippet-editor__preview already has padding so we need to reset the .yoast-section default padding. */
-	padding: 0;
+  width: auto;
+  max-width: 640px;
+  /* The inner .snippet-editor__preview already has padding so we need to reset the .yoast-section default padding. */
+  padding: 0;
+}
+
+#TB_window {
+  #TB_ajaxContent {
+    p {
+      padding: 5px 0 0 0;
+      margin: 5px 0 0 0;
+    }
+
+    ul {
+      margin: 5px 0 10px 0;
+    }
+
+    li {
+      list-style: none;
+      margin: 5px 0 0 0;
+
+      &::before {
+        content: '+';
+        margin: 0 10px 0 0;
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 // TODO: Move this to the yoast-components repository
 .yoast-section {
-	&__heading {
-		&-icon-list {
-			background-image: url( svg-icon-list( $color_headings ) );
-		}
+  &__heading {
+    &-icon-list {
+      background-image: url(svg-icon-list($color_headings));
+    }
 
-		&-icon-key {
-			background-image: url( svg-icon-key( $color_headings ) );
-		}
+    &-icon-key {
+      background-image: url(svg-icon-key($color_headings));
+    }
 
-		&-icon-edit {
-			background-image: url( svg-icon-edit( $color_headings ) );
-		}
-	}
+    &-icon-edit {
+      background-image: url(svg-icon-edit($color_headings));
+    }
+  }
 }
 
 .yoast-tooltip.yoast-tooltip-hidden::before,
 .yoast-tooltip.yoast-tooltip-hidden::after {
-	display: none;
+  display: none;
 }
 
 /* Workaround for VoiceOver bug see issue #5857 */
 .screen-reader-text.wpseo-generic-tab-textual-score,
 .screen-reader-text.wpseo-keyword-tab-textual-score {
-	display: block;
+  display: block;
 }
 
-@media screen and ( max-width: 782px ) {
-	.wpseo-metabox-sidebar {
-		display: inline-block; /* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
-		width: auto;
-		margin: 0 0 10px -5px;
-		padding: 0;
-	}
+@media screen and (max-width: 782px) {
+  .wpseo-metabox-sidebar {
+    display: inline-block; /* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
+    width: auto;
+    margin: 0 0 10px -5px;
+    padding: 0;
+  }
 
-	.wpseo-meta-section.active {
-		display: block;
-		clear: both;
-	}
+  .wpseo-meta-section.active {
+    display: block;
+    clear: both;
+  }
 
-	.wpseo-metabox-sidebar ul {
-		display: inline-block; /* Contain floated children. */
-	}
+  .wpseo-metabox-sidebar ul {
+    display: inline-block; /* Contain floated children. */
+  }
 
-	.wpseo-metabox-sidebar li {
-		float: left;
-		text-align: center;
-	}
+  .wpseo-metabox-sidebar li {
+    float: left;
+    text-align: center;
+  }
 
-	.wpseo-metabox-sidebar .wpseo-meta-section-link {
-		width: 40px;
-		height: 40px;
-	}
+  .wpseo-metabox-sidebar .wpseo-meta-section-link {
+    width: 40px;
+    height: 40px;
+  }
 
-	.wpseo-meta-section-link .dashicons,
-	.wpseo-meta-section-link .yst-traffic-light-container {
-		display: block;
-		width: 40px;
-		height: 35px; /* 35+5+2+3=45 must be 5px taller than the container to show the border outside of the contaiiner. */
-		margin: 0;
-		padding: 5px 0 2px;
-		border-left-width: 0;
-		border-bottom-width: 3px;
-	}
+  .wpseo-meta-section-link .dashicons,
+  .wpseo-meta-section-link .yst-traffic-light-container {
+    display: block;
+    width: 40px;
+    height: 35px; /* 35+5+2+3=45 must be 5px taller than the container to show the border outside of the contaiiner. */
+    margin: 0;
+    padding: 5px 0 2px;
+    border-left-width: 0;
+    border-bottom-width: 3px;
+  }
 
-	/* Traffic light svg and CSS generated dashicons. */
-	.wpseo-meta-section-link .yst-traffic-light,
-	.wpseo-meta-section-link .dashicons:before {
-		margin: 0;
-	}
+  /* Traffic light svg and CSS generated dashicons. */
+  .wpseo-meta-section-link .yst-traffic-light,
+  .wpseo-meta-section-link .dashicons:before {
+    margin: 0;
+  }
 
-	/* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
-	.wpseo-meta-section-link .dashicons-admin-generic:before {
-		position: relative;
-		left: 1px;
-	}
+  /* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
+  .wpseo-meta-section-link .dashicons-admin-generic:before {
+    position: relative;
+    left: 1px;
+  }
 
-	/* The Go Premium dashicon must stay unchanged in the responsive view. */
-	.wpseo-metabox-buy-premium .wpseo-buy-premium {
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-		padding: 0 5px 0;
-	}
+  /* The Go Premium dashicon must stay unchanged in the responsive view. */
+  .wpseo-metabox-buy-premium .wpseo-buy-premium {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    padding: 0 5px 0;
+  }
 
-	.yoast-help-panel {
-		max-width: none !important;
-	}
+  .yoast-help-panel {
+    max-width: none !important;
+  }
 
-	#wpseo-crawl-issues-table-form .subsubsub {
-		float: none;
-		max-width: calc( 100vw - 20px );
-	}
+  #wpseo-crawl-issues-table-form .subsubsub {
+    float: none;
+    max-width: calc(100vw - 20px);
+  }
 
-	#wpseo-crawl-issues-table-form .yoast-help-button {
-		margin-top: 3px;
-	}
+  #wpseo-crawl-issues-table-form .yoast-help-button {
+    margin-top: 3px;
+  }
 
-	/* Necessary to override a WP rule. */
-	.wpseotab select[multiple] {
-		height: auto !important;
-	}
+  /* Necessary to override a WP rule. */
+  .wpseotab select[multiple] {
+    height: auto !important;
+  }
 }
 
-@media screen and ( max-width: 600px ) {
-	/* Reduce the tabs padding on smaller screens. */
-	.wpseotab {
-		padding: 20px 20px;
-	}
+@media screen and (max-width: 600px) {
+  /* Reduce the tabs padding on smaller screens. */
+  .wpseotab {
+    padding: 20px 20px;
+  }
 
-	.wpseotab.content {
-		padding: 20px 0;
-	}
+  .wpseotab.content {
+    padding: 20px 0;
+  }
 }
