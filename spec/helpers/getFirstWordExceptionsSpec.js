@@ -21,6 +21,10 @@ describe("a test for getting the correct first word exception array", function()
 		expect(firstWordExceptions("nl_NL")()).toEqual([ 'de', 'het', 'een', 'één', 'eén', 'twee', 'drie', 'vier', 'vijf', 'zes', 'zeven', 'acht', 'negen', 'tien', 'dit', 'dat', 'die', 'deze' ]);
 	});
 
+	it("returns the Italian first word exception array in case of it_IT locale", function () {
+		expect(firstWordExceptions("it_IT")()).toEqual([ 'il', 'lo', 'la', 'i', 'gli', 'le', 'uno', 'un', 'una', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove', 'dieci', 'questo', 'questa', 'quello', 'quella', 'questi', 'queste', 'quelli', 'quelle', 'codesto', 'codesti', 'codesta', 'codeste' ]);
+	});
+
 	it("returns the English first word exception array in case of empty locale", function () {
 		expect(firstWordExceptions("")()).toEqual([ 'the', 'a', 'an', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'this', 'that', 'these', 'those' ]);
 	});
