@@ -26,6 +26,7 @@ $palette_green_blue:         #009288; // Safe to use with $palette_black.
 $palette_orange:             #dc5c04; // Safe to use with $palette_black.
 $palette_orange_light:       #ee7c1b; // Safe to use with $palette_black.
 $palette_red:                #dc3232; // Safe to use with $palette_white and $palette_black.
+$palette_yellow:             #FFEB3B; // Safe to use with $palette_white and $palette_black.
 
 $color_bad:                  $palette_red;
 $color_ok:                   $palette_orange_light;
@@ -88,3 +89,4 @@ $nav_my_yoast:               $palette_pink_dark;
 $background:                 $palette_grey_light;
 $input_my_yoast:             $palette_grey_light;
 $zebra_stripe:               $palette_grey_ultra_light;
+$color_no_sites:             $palette_yellow;
