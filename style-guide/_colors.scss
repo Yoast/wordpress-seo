@@ -26,27 +26,27 @@ $palette_green_blue:         #009288; // Safe to use with $palette_black.
 $palette_orange:             #dc5c04; // Safe to use with $palette_black.
 $palette_orange_light:       #ee7c1b; // Safe to use with $palette_black.
 $palette_red:                #dc3232; // Safe to use with $palette_white and $palette_black.
-$palette_yellow:             #FFEB3B; // Safe to use with $palette_white and $palette_black.
+$palette_yellow:             #ffeb3b; // Safe to use with $palette_grey_text - $palette_black.
 
 $color_bad:                  $palette_red;
 $color_ok:                   $palette_orange_light;
 $color_good:                 $palette_green_light;
 $color_score_icon:           $palette_grey_medium_dark;
 
-$color_white:               $palette_white;
-$color_black:               $palette_black;
-$color_green:               $palette_green;
-$color_green_blue:          $palette_green_blue;
-$color_grey:                $palette_grey;
-$color_grey_dark:           $palette_grey_dark;
-$color_purple:              $palette_purple;
-$color_purple_dark:         $palette_purple_dark;
-$color_pink:                $palette_pink;
-$color_pink_light:          $palette_pink_light;
-$color_pink_dark:           $palette_pink_dark;
-$color_blue:                $palette_blue;
-$color_blue_light:          $palette_blue_light;
-$color_red:                 $palette_red;
+$color_white:                $palette_white;
+$color_black:                $palette_black;
+$color_green:                $palette_green;
+$color_green_blue:           $palette_green_blue;
+$color_grey:                 $palette_grey;
+$color_grey_dark:            $palette_grey_dark;
+$color_purple:               $palette_purple;
+$color_purple_dark:          $palette_purple_dark;
+$color_pink:                 $palette_pink;
+$color_pink_light:           $palette_pink_light;
+$color_pink_dark:            $palette_pink_dark;
+$color_blue:                 $palette_blue;
+$color_blue_light:           $palette_blue_light;
+$color_red:                  $palette_red;
 
 $color_border_light:         $palette_grey_ultra_light;
 $color_border:               $palette_grey_medium;
@@ -89,4 +89,4 @@ $nav_my_yoast:               $palette_pink_dark;
 $background:                 $palette_grey_light;
 $input_my_yoast:             $palette_grey_light;
 $zebra_stripe:               $palette_grey_ultra_light;
-$color_no_sites:             $palette_yellow;
+$color_yellow:               $palette_yellow;
