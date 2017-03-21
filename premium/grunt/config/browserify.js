@@ -18,7 +18,7 @@ module.exports = {
 			"assets/js/dist/wpseo-premium-yoast-overlay-350.js": [ "assets/js/src/yoast-overlay.js" ],
 			"assets/js/dist/wp-seo-premium-redirect-notifications-352.js": [ "assets/js/src/redirect-notifications.js" ],
 			"assets/js/dist/yoast-premium-gsc-440.js": [ "assets/js/src/google-search-console.js" ],
-			"assets/js/dist/wp-seo-premium-metabox-440.js": [ "assets/js/src/metabox.js" ],
+			"assets/js/dist/wp-seo-premium-metabox-450.js": [ "assets/js/src/metabox.js" ],
 		},
 	},
 	"release-es6": {
