@@ -6735,9 +6735,9 @@ yoast-components@^2.4.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js#1.12.0":
-  version "1.12.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#9db755003c439f2b111dbbc31729dc1cc6e8292d"
+"yoastseo@https://github.com/Yoast/YoastSEO.js#1.13.0":
+  version "1.13.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#e785fc4d3819d9c68ec2002ea538446e822a2157"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"
