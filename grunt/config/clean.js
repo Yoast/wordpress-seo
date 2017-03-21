@@ -14,7 +14,8 @@ module.exports = {
 	"build-assets": [
 		"<%= paths.css %>/*.css",
 		"<%= paths.css %>/dist/*.css",
-		"js/dist/*.js"
+		"js/dist/*.js",
+		"!js/dist/jquery.tablesorter.min.js"
 	],
 	"before-rtlcss": [
 		"css/dist/*.css",
