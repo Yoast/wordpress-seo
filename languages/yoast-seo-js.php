@@ -46,21 +46,21 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/assessments/keyphraseLengthAssessment.js:22
 	__( 'The keyphrase is over 10 words, a keyphrase should be shorter.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/keywordDensityAssessment.js:29
+	// Reference: node_modules/yoastseo/js/assessments/keywordDensityAssessment.js:30
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 	   %3$s expands to the maximum keyword density percentage. */
 	__( 'The keyword density is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d times.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/keywordDensityAssessment.js:43
+	// Reference: node_modules/yoastseo/js/assessments/keywordDensityAssessment.js:44
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 	   %3$s expands to the maximum keyword density percentage. */
 	__( 'The keyword density is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d times.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/keywordDensityAssessment.js:56
+	// Reference: node_modules/yoastseo/js/assessments/keywordDensityAssessment.js:57
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
 	__( 'The keyword density is %1$s, which is great; the focus keyword was found %2$d times.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/keywordDensityAssessment.js:66
+	// Reference: node_modules/yoastseo/js/assessments/keywordDensityAssessment.js:67
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
 	__( 'The keyword density is %1$s, which is too low; the focus keyword was found %2$d times.', 'wordpress-seo' ),
 
