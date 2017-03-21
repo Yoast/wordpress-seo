@@ -11,6 +11,11 @@ module.exports = {
 
 		"<%= files.pot.yoastseojs %>",
 	],
+	"build-assets": [
+		"<%= paths.css %>/*.css",
+		"<%= paths.css %>/dist/*.css",
+		"js/dist/*.js"
+	],
 	"before-rtlcss": [
 		"css/dist/*.css",
 		"css/dist/toggle-switch/*.css",
