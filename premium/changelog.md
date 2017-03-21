@@ -1,4 +1,4 @@
-### 4.5.0:
+### 4.5.0: March 21st, 2017
 * Fixes a bug where the SEO score wouldn’t be saved correctly, resulting in gray bullets on the post overview screen.
 * Includes every change in Yoast SEO core 4.5.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
