@@ -593,7 +593,7 @@ class WPSEO_Frontend {
 		$title = $this->title( '' );
 
 		if ( ! empty( $old_wp_query ) ) {
-			$GLOBALS['wp_query'] = $old_wp_query;
+			$GLOBALS['wp_query'] = $old_wp_query; // WPCS: override ok.
 			unset( $old_wp_query );
 		}
 
@@ -672,7 +672,7 @@ class WPSEO_Frontend {
 		echo '<!-- / ', $this->head_product_name(), ". -->\n\n";
 
 		if ( ! empty( $old_wp_query ) ) {
-			$GLOBALS['wp_query'] = $old_wp_query;
+			$GLOBALS['wp_query'] = $old_wp_query;// WPCS: override ok.
 			unset( $old_wp_query );
 		}
 
@@ -1807,7 +1807,7 @@ class WPSEO_Frontend {
 		$content = preg_replace( '/<title.*?\/title>/i', '', $content );
 		$content = str_replace( $this->debug_mark( false ), $this->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $content );
 
-		$GLOBALS['wp_query'] = $old_wp_query;
+		$GLOBALS['wp_query'] = $old_wp_query; // WPCS: override ok.
 
 		echo $content;
 
