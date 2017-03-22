@@ -191,7 +191,8 @@ class WPSEO_Meta_Columns {
 	 * @return array
 	 */
 	public function column_sort_orderby( $vars ) {
-		if ( $seo_filter = filter_input( INPUT_GET, 'seo_filter' ) ) {
+		$seo_filter = filter_input( INPUT_GET, 'seo_filter' );
+		if ( $seo_filter ) {
 			$rank = new WPSEO_Rank( $seo_filter );
 
 			if ( WPSEO_Rank::NO_FOCUS === $seo_filter || WPSEO_Rank::NO_INDEX === $seo_filter ) {
@@ -202,7 +203,8 @@ class WPSEO_Meta_Columns {
 			}
 		}
 
-		if ( $seo_kw_filter = filter_input( INPUT_GET, 'seo_kw_filter' ) ) {
+		$seo_kw_filter = filter_input( INPUT_GET, 'seo_kw_filter' );
+		if ( $seo_kw_filter ) {
 			$vars = array_merge(
 				$vars, array(
 					'post_type'  => get_query_var( 'post_type', 'post' ),
@@ -414,7 +416,8 @@ class WPSEO_Meta_Columns {
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
 	private function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) &&  $get_post_type = filter_input( INPUT_GET, 'post_type' ) ) {
+		$get_post_type = filter_input( INPUT_GET, 'post_type' );
+		if ( ! isset( $post_type ) && $get_post_type ) {
 			$post_type = sanitize_text_field( $get_post_type );
 		}
 

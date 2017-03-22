@@ -63,12 +63,12 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 	private function import_post_robot( $post_id ) {
 		$wpseo_robots = get_post_meta( $post_id, '_wpseo_edit_robots', true );
 
-		// Does the value exists in our mapping.
-		if ( $robot_value = $this->get_robot_value( $wpseo_robots ) ) {
-			// Saving the new meta values for Yoast SEO.
-			WPSEO_Meta::set_value( $robot_value['index'], 'meta-robots-noindex', $post_id );
-			WPSEO_Meta::set_value( $robot_value['follow'], 'meta-robots-nofollow', $post_id );
-		}
+		// Get the values.
+		$robot_value = $this->get_robot_value( $wpseo_robots );
+
+		// Saving the new meta values for Yoast SEO.
+		WPSEO_Meta::set_value( $robot_value['index'], 'meta-robots-noindex', $post_id );
+		WPSEO_Meta::set_value( $robot_value['follow'], 'meta-robots-nofollow', $post_id );
 
 		$this->delete_post_robot( $post_id );
 	}
