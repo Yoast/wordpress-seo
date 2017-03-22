@@ -82,6 +82,7 @@ class WPSEO_Premium {
 		$this->integrations = array(
 			'premium-metabox' => new WPSEO_Premium_Metabox(),
 			'prominent-words-registration' => new WPSEO_Premium_Prominent_Words_Registration(),
+			'prominent-words-remove-modified-date' => new WPSEO_Premium_Prominent_Words_Remove_Modified_Date(),
 			'prominent-words-endpoint' => new WPSEO_Premium_Prominent_Words_Endpoint( new WPSEO_Premium_Prominent_Words_Service() ),
 			'prominent-words-recalculation' => new WPSEO_Premium_Prominent_Words_Recalculation(),
 			'prominent-words-recalculation-notifier' => new WPSEO_Premium_Prominent_Words_Recalculation_Notifier(),
