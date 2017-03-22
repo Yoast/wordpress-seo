@@ -30,7 +30,7 @@
 		"yoast/whip": "1.0.1"
 	},
 	"require-dev": {
-		"yoast/yoastcs": "0.3",
+		"yoast/yoastcs": "~0.4.3",
 		"codeclimate/php-test-reporter": "dev-master",
 		"yoast/php-development-environment": "^1.0"
 	},
