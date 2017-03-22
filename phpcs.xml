@@ -34,4 +34,9 @@
         </properties>
     </rule>
 
+    <!-- TEMPORARY exclusion! This has to do with a bug in WPCS 0.10.0. The bug has been fixed in WPCS 0.11.0. -->
+    <rule ref="WordPress.WP.I18n.UnorderedPlaceholders">
+        <exclude-pattern>inc/class-wpseo-replace-vars.php</exclude-pattern>
+    </rule>
+
 </ruleset>
