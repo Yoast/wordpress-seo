@@ -163,7 +163,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	protected function count_unindexed_posts_by_type( $post_type ) {
 		$post_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
 
-		return (int) $post_query->get_query( $post_type )->found_posts;
+		return (int) $post_query->get_query( $post_type );
 	}
 
 	/**

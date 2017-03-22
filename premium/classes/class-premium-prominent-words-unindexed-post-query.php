@@ -9,42 +9,25 @@
 class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 
 	/**
-	 * Returns an instance of WP Query.
+	 * Returns the total amount of posts.
 	 *
 	 * @param string $post_type The posttype to limit the resultset for.
-	 * @param array  $args      The arguments to use in the WP_Query.
+	 * @param int    $limit     The offset for the query.
 	 *
-	 * @return WP_Query Instance of the WP Query.
+	 * @return int The total posts.
 	 */
-	public function get_query( $post_type, array $args = array() ) {
-		$args = wp_parse_args( $this->get_query_args( $post_type ), $args );
+	public function get_query( $post_type, $limit = 10 ) {
+		global $wpdb;
 
-		return new WP_Query( $args );
-	}
-
-	/**
-	 * Returns the query args.
-	 *
-	 * @param string $post_type The posttype to limit the resultset for.
-	 *
-	 * @return array Array with the query args.
-	 */
-	public function get_query_args( $post_type ) {
-		return array(
-			'post_type' => $post_type,
-			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
-			'meta_query' => array(
-				'relation' => 'OR',
-				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-					'value'   => WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
-					'compare' => '!=',
-				),
-				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-					'compare' => 'NOT EXISTS',
-				),
-			),
-		);
+		// @codingStandardsIgnoreStart
+		return $wpdb->get_var( "
+			SELECT COUNT( ID ) 
+			FROM   wp_posts 
+			WHERE  ID NOT IN( 
+				SELECT post_id FROM wp_postmeta WHERE meta_key = 'yst_prominent_words_version' && meta_value = '1' 
+			) && post_status IN( 'future, draft, pending, private, publish' ) && post_type = '" . $post_type . "'
+			LIMIT " . $limit . '
+		' );
+		// @codingStandardsIgnoreEnd
 	}
 }

@@ -132,7 +132,7 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	 */
 	protected function requires_notification() {
 		$post_query  = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
-		$total_posts = $post_query->get_query( 'post', array( 'offset' => self::UNINDEXED_THRESHOLD + 1 ) )->found_posts;
+		$total_posts = $post_query->get_query( 'post', self::UNINDEXED_THRESHOLD + 1 );
 
 		if ( $this->exceeds_threshold( $total_posts ) ) {
 			return true;
