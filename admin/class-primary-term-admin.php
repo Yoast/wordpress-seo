@@ -108,22 +108,22 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Returns all the taxonomies for which the primary term selection is enabled
 	 *
-	 * @param int $post_ID Default current post ID.
+	 * @param int $post_id Default current post ID.
 	 * @return array
 	 */
-	protected function get_primary_term_taxonomies( $post_ID = null ) {
+	protected function get_primary_term_taxonomies( $post_id = null ) {
 
-		if ( null === $post_ID ) {
-			$post_ID = $this->get_current_id();
+		if ( null === $post_id ) {
+			$post_id = $this->get_current_id();
 		}
 
-		if ( false !== ( $taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_ID, 'wpseo' ) ) ) {
+		if ( false !== ( $taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_id, 'wpseo' ) ) ) {
 			return $taxonomies;
 		}
 
-		$taxonomies = $this->generate_primary_term_taxonomies( $post_ID );
+		$taxonomies = $this->generate_primary_term_taxonomies( $post_id );
 
-		wp_cache_set( 'primary_term_taxonomies_' . $post_ID, $taxonomies, 'wpseo' );
+		wp_cache_set( 'primary_term_taxonomies_' . $post_id, $taxonomies, 'wpseo' );
 
 		return $taxonomies;
 	}
