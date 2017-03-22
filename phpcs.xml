@@ -31,7 +31,7 @@
 
     <rule ref="WordPress.NamingConventions.ValidVariableName">
         <properties>
-            <property name="customVariablesWhitelist" type="array" value="pageUrl,responseCode,siteEntry,siteUrl,countPerTypes,urlCrawlErrorSample,buyUrl,infoUrl" />
+            <property name="customPropertiesWhitelist" type="array" value="pageUrl,responseCode,siteEntry,siteUrl,countPerTypes,urlCrawlErrorSample,buyUrl,infoUrl" />
         </properties>
     </rule>
 
