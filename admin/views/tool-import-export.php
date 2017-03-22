@@ -40,6 +40,10 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import->import_headspace();
 	}
 
+	if ( ! empty( $post_wpseo['importjetpackseo'] ) || filter_input( INPUT_GET, 'importjetpackseo' ) ) {
+		$import = new WPSEO_Import_Jetpack_SEO( $replace );
+	}
+
 	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
