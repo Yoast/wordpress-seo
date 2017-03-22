@@ -30,9 +30,10 @@
 		"yoast/whip": "1.0.1"
 	},
 	"require-dev": {
-		"yoast/yoastcs": "~0.4.3",
+		"yoast/yoastcs": "0.5.*",
 		"codeclimate/php-test-reporter": "dev-master",
-		"yoast/php-development-environment": "^1.0"
+		"yoast/php-development-environment": "^1.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.4.1"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -46,7 +47,7 @@
 	},
 	"scripts": {
 		"config-yoastcs": [
-			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
+			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
 		],
 		"post-install-cmd": [
