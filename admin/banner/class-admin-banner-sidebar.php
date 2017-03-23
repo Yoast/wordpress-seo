@@ -101,29 +101,32 @@ class WPSEO_Admin_Banner_Sidebar {
 		    '<a id="wpseo-premium-button" class="button button-primary" href="'. $premium_uri . '">' . sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>' .
 			'<small>' . __( 'Prices start as low as 69,- for one site', 'wordpress-seo' ) . '</small><br/><br/>'
 		);
-/*		$premium_spot->set_description(
+
+		// Temporary early return.
+		return $premium_spot;
+
+		$premium_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s is the link closing tag */
-		/*				__( 'Want to get the most out of your SEO-strategy? %1$sGo premium!%2$s.', 'wordpress-seo' ),
-						'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/ji' ) . '">',
-						'</a>'
-					)
-				);
-				/*
+				__( 'Want to get the most out of your SEO-strategy? %1$sGo premium!%2$s.', 'wordpress-seo' ),
+				'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/ji' ) . '">',
+				'</a>'
+			)
+		);
 
-				$premium_spot->add_banner(
-					new WPSEO_Admin_Banner(
-						WPSEO_Shortlinker::get( 'https://yoa.st/jj' ),
-						'premium-seo.png',
-						261,
-						152,
-						sprintf(
-							/* translators: %1$s expands to Yoast SEO Premium. */
-			/*		__( 'Buy the %1$s plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
+		$premium_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				WPSEO_Shortlinker::get( 'https://yoa.st/jj' ),
+				'premium-seo.png',
+				261,
+				152,
+				sprintf(
+					/* translators: %1$s expands to Yoast SEO Premium. */
+					__( 'Buy the %1$s plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
 					'Yoast SEO Premium'
 				)
 			)
-		); */
+		);
 
 		return $premium_spot;
 	}
@@ -160,19 +163,22 @@ class WPSEO_Admin_Banner_Sidebar {
 			)
 		);
 
-//		$service_spot->add_banner(
-//			new WPSEO_Admin_Banner(
-//				WPSEO_Shortlinker::get( 'https://yoa.st/seo-care-banner' ),
-//				'seo-care.png',
-//				261,
-//				152,
-//				sprintf(
-//				/* translators: %1$s expands to Yoast SEO Care. */
-//					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
-//					'Yoast SEO Care'
-//				)
-//			)
-//		);
+		// Temporary early return.
+		return $service_spot;
+
+		$service_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				WPSEO_Shortlinker::get( 'https://yoa.st/seo-care-banner' ),
+				'seo-care.png',
+				261,
+				152,
+				sprintf(
+				/* translators: %1$s expands to Yoast SEO Care. */
+					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
+					'Yoast SEO Care'
+				)
+			)
+		);
 
 		return $service_spot;
 	}
