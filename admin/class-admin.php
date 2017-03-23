@@ -740,6 +740,8 @@ class WPSEO_Admin {
 		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
 		$cornerstone_filter->register_hooks();
 
+		$cornerstone_metabox = new WPSEO_Cornerstone_Metabox();
+		$cornerstone_metabox->register_hooks();
 	}
 
 	/********************** DEPRECATED METHODS **********************/
