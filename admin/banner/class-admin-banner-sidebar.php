@@ -98,7 +98,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			'<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>' .
 			'</ul>' .
 			/* translators: %s expands to Yoast SEO Premium */
-		    '<a id="wpseo-premium-button" class="button button-primary" href="'. $premium_uri . '">' . sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>' .
+		    '<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '">' . sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>' .
 			'<small>' . __( 'Prices start as low as 69,- for one site', 'wordpress-seo' ) . '</small><br/><br/>'
 		);
 /*		$premium_spot->set_description(
@@ -226,7 +226,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			);
 		}
 
-		if ( empty( $active_extensions['woocommerce'] )  ) {
+		if ( empty( $active_extensions['woocommerce'] ) ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
 					WPSEO_Shortlinker::get( 'https://yoa.st/jp' ),
