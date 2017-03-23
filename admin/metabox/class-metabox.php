@@ -1447,12 +1447,12 @@ SVG;
 	/**
 	 * @deprecated 3.0
 	 *
-	 * @param string $inputString              String to clean up.
-	 * @param bool   $removeOptionalCharacters Whether or not to do a cleanup of optional chars too.
+	 * @param string $input_string               String to clean up.
+	 * @param bool   $remove_optional_characters Whether or not to do a cleanup of optional chars too.
 	 *
 	 * @return string
 	 */
-	public function strip_separators_and_fold( $inputString, $removeOptionalCharacters ) {
+	public function strip_separators_and_fold( $input_string, $remove_optional_characters ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 
 		return '';
