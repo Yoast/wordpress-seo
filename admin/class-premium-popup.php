@@ -59,7 +59,7 @@ class WPSEO_Premium_Popup {
 	 */
 	public function get_premium_message( $popup = true ) {
 		// Don't show in Premium.
-		if ( defined( 'WPSEO_PREMIUM_FILE' ) ) {
+		if ( defined( 'WPSEO_PREMIUM_FILE' ) ||  defined( 'WPSEO_LOCAL_FILE' ) ) {
 			return '';
 		}
 
