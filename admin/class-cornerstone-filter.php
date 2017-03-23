@@ -14,7 +14,11 @@ class WPSEO_Cornerstone_Filter {
 	 * Registers the hook.
 	 */
 	public function register_hooks() {
-		add_filter( 'views_edit-post', array( $this, 'add_filter_link' ) );
+		$post_types = array( 'post', 'page' );
+		foreach ( $post_types as $post_type ) {
+			add_filter( 'views_edit-' . $post_type, array( $this, 'add_filter_link' ) );
+		}
+
 		add_filter( 'posts_where', array( $this, 'filter_posts' ) );
 	}
 
@@ -76,13 +80,17 @@ class WPSEO_Cornerstone_Filter {
 	protected function get_cornerstone_total() {
 		global $wpdb;
 
-		// @codingStandardsIgnoreStart
-		return (int) $wpdb->get_var( "
-			SELECT COUNT( post_id )
-			FROM   wp_postmeta
-			WHERE  meta_key = '" . WPSEO_Cornerstone::META_NAME . "'
-		" );
-		// @codingStandardsIgnoreEnd
+		return (int) $wpdb->get_var(
+			$wpdb->prepare( "
+				SELECT COUNT( 1 )
+				FROM   wp_postmeta
+				WHERE post_id IN( SELECT ID FROM wp_posts WHERE post_type = '%s' ) && 
+				meta_value = '1' &&  meta_key = '%s'
+				",
+				$this->get_current_post_type(),
+				WPSEO_Cornerstone::META_NAME
+			)
+		);
 	}
 
 	/**
@@ -92,5 +100,19 @@ class WPSEO_Cornerstone_Filter {
 	 */
 	protected function is_cornerstone_filter_active() {
 		return ( filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === '1' );
+	}
+
+	/**
+	 * Returns the current post type.
+	 *
+	 * @return string
+	 */
+	protected function get_current_post_type() {
+		return filter_input(
+			INPUT_GET, 'post_type', FILTER_DEFAULT, array(
+				'options' => array( 'default' => 'post' ),
+			)
+		);
+
 	}
 }
