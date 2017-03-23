@@ -154,12 +154,12 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Generate the primary term taxonomies.
 	 *
-	 * @param int $post_ID ID of the post.
+	 * @param int $post_id ID of the post.
 	 *
 	 * @return array
 	 */
-	protected function generate_primary_term_taxonomies( $post_ID ) {
-		$post_type      = get_post_type( $post_ID );
+	protected function generate_primary_term_taxonomies( $post_id ) {
+		$post_type      = get_post_type( $post_id );
 		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
 		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
 
