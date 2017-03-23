@@ -94,7 +94,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			'<li><strong>' . __( 'No more dead links', 'wordpress-seo' ) . '</strong><br/>' . __( 'Easy redirect manager', 'wordpress-seo' ) . '</li>' .
 			'<li><strong>' . __( 'Internal linking suggestions', 'wordpress-seo' ) . '</strong><br/>' . __( 'Find related posts superfast', 'wordpress-seo' ) . '</li>' .
 			'<li><strong>' . __( 'Social media preview', 'wordpress-seo' ) . '</strong><br/>' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( '24/7 Support', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>' .
 			'<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>' .
 			'</ul>' .
 			/* translators: %s expands to Yoast SEO Premium */
