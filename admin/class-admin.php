@@ -94,6 +94,7 @@ class WPSEO_Admin {
 		$this->set_upsell_notice();
 
 		$this->check_php_version();
+		$this->initialize_cornerstone_content();
 	}
 
 	/**
@@ -730,6 +731,15 @@ class WPSEO_Admin {
 	 */
 	protected function on_dashboard_page() {
 		return 'index.php' === $GLOBALS['pagenow'];
+	}
+
+	/**
+	 * Loads the cornerstone filter
+	 */
+	protected function initialize_cornerstone_content() {
+		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
+		$cornerstone_filter->register_hooks();
+
 	}
 
 	/********************** DEPRECATED METHODS **********************/
