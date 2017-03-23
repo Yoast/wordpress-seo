@@ -138,15 +138,15 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Save the primary term for a specific taxonomy
 	 *
-	 * @param int     $post_ID  Post ID to save primary term for.
+	 * @param int     $post_id  Post ID to save primary term for.
 	 * @param WP_Term $taxonomy Taxonomy to save primary term for.
 	 */
-	protected function save_primary_term( $post_ID, $taxonomy ) {
+	protected function save_primary_term( $post_id, $taxonomy ) {
 		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
 
 		// We accept an empty string here because we need to save that if no terms are selected.
 		if ( null !== $primary_term && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) ) {
-			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_ID );
+			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
 			$primary_term_object->set_primary_term( $primary_term );
 		}
 	}
