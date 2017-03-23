@@ -34,7 +34,7 @@ class WPSEO_Configuration_Page {
 	 */
 	public function catch_configuration_request() {
 		$configuration_page = filter_input( INPUT_GET, 'configuration' );
-		$page          = filter_input( INPUT_GET, 'page' );
+		$page               = filter_input( INPUT_GET, 'page' );
 
 		if ( ! ( $configuration_page === 'finished' && ( $page === WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
 			return;
@@ -161,8 +161,8 @@ class WPSEO_Configuration_Page {
 	 */
 	public function get_config() {
 		$translations = $this->get_translations();
-		$service = new WPSEO_GSC_Service();
-		$config  = array(
+		$service      = new WPSEO_GSC_Service();
+		$config       = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
 			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
 			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
@@ -215,8 +215,10 @@ class WPSEO_Configuration_Page {
 	 * @return Yoast_Notification
 	 */
 	private static function get_notification() {
-	    $message  = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
-		$message .= '<br/>' . sprintf(
+		$message = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
+		$message .= '<br/>';
+		$message .= sprintf(
+			/* translators: %1$s resolves to Yoast SEO, %2$s resolves to the starting tag of the link to the wizard, %3$s resolves to the closing link tag */
 			__( 'We have detected that you have not finished this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
