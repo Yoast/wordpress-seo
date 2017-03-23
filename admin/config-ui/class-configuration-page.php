@@ -215,8 +215,9 @@ class WPSEO_Configuration_Page {
 	 * @return Yoast_Notification
 	 */
 	private static function get_notification() {
-		$message = sprintf(
-			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
+	    $message  = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
+		$message .= '<br/>' . sprintf(
+			__( 'We have detected that you have not finished this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
 			'</a>'
