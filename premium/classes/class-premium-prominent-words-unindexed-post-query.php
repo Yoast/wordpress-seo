@@ -48,7 +48,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 * @return WP_Query Instance of the WP Query.
 	 */
 	public function get_query( $post_type, array $args = array() ) {
-		_deprecated_function( __METHOD__, 'WPSEO 4.6.0', 'WPSEO_Premium_Prominent_Words_Unindexed_Post_Query::get_total' );
+		_deprecated_function( __METHOD__, 'WPSEO 4.6.0' );
 
 		$args = wp_parse_args( $this->get_query_args( $post_type ), $args );
 		return new WP_Query( $args );
