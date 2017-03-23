@@ -76,18 +76,18 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Saves all selected primary terms
 	 *
-	 * @param int $post_ID Post ID to save primary terms for.
+	 * @param int $post_id Post ID to save primary terms for.
 	 */
-	public function save_primary_terms( $post_ID ) {
+	public function save_primary_terms( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( is_multisite() && ms_is_switched() ) {
 			return;
 		}
 
-		$taxonomies = $this->get_primary_term_taxonomies( $post_ID );
+		$taxonomies = $this->get_primary_term_taxonomies( $post_id );
 
 		foreach ( $taxonomies as $taxonomy ) {
-			$this->save_primary_term( $post_ID, $taxonomy );
+			$this->save_primary_term( $post_id, $taxonomy );
 		}
 	}
 
