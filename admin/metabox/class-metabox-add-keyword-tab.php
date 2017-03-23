@@ -30,13 +30,13 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		$popup_content = '<p>' . sprintf( __( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
 				'<a href="https://yoa.st/pe-premium-page">Yoast SEO Premium</a>',
 				'yoast.com' ) . '</p>';
-		$popup_content .= '<p>' . __( 'Other benefits of Yoast SEO Premium for you:' ) . '</p>';
+		$popup_content .= '<p>' . __( 'Other benefits of Yoast SEO Premium for you:', 'wordpress-seo' ) . '</p>';
 		$popup_content .= '<ul>';
-		$popup_content .= '<li>' . __( '<strong>No more dead links</strong>: easy redirect manager' ) . '</li>';
-		$popup_content .= '<li><strong>' . __( 'Superfast internal linking suggestions' ) . '</strong></li>';
-		$popup_content .= '<li>' . __( '<strong>Social media preview</strong>: Facebook &amp; Twitter' ) . '</li>';
-		$popup_content .= '<li><strong>' . __( '24/7 support' ) . '</strong></li>';
-		$popup_content .= '<li><strong>' . __( 'No ads!' ) . '</strong></li>';
+		$popup_content .= '<li>' . __( '<strong>No more dead links</strong>: easy redirect manager', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li><strong>' . __( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong></li>';
+		$popup_content .= '<li>' . __( '<strong>Social media preview</strong>: Facebook &amp; Twitter', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>';
+		$popup_content .= '<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>';
 		$popup_content .= '</ul>';
 		$premium_popup = new WPSEO_Premium_Popup( 'add-keyword', 'h1', $popup_title, $popup_content );
 		echo $premium_popup->get_premium_message();
