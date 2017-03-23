@@ -392,13 +392,13 @@ add_action( 'wp_ajax_get_term_keyword_usage',  'ajax_get_term_keyword_usage' );
  * Removes stopword from the sample permalink that is generated in an AJAX request
  *
  * @param array  $permalink The permalink generated for this post by WordPress.
- * @param int    $post_ID The ID of the post.
- * @param string $title The title for the post that the user used.
- * @param string $name The name for the post that the user used.
+ * @param int    $post_id   The ID of the post.
+ * @param string $title     The title for the post that the user used.
+ * @param string $name      The name for the post that the user used.
  *
  * @return array
  */
-function wpseo_remove_stopwords_sample_permalink( $permalink, $post_ID, $title, $name ) {
+function wpseo_remove_stopwords_sample_permalink( $permalink, $post_id, $title, $name ) {
 	WPSEO_Options::get_instance();
 	$options = WPSEO_Options::get_options( array( 'wpseo_permalinks' ) );
 	if ( $options['cleanslugs'] !== true ) {
