@@ -26,15 +26,15 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 		);
 		$content_analysis_video = sprintf(
 			'<iframe width="560" height="315" src="https://yoa.st/metabox-screencast" title="%s" frameborder="0" allowfullscreen></iframe>',
-			sprintf(
+			esc_attr( sprintf(
 				/* translators: %1$s expands to Yoast SEO. */
 				__( '%1$s video tutorial', 'wordpress-seo' ),
 				'Yoast SEO'
-			)
+			) )
 		);
 
-		$html = '<p>' . $success_message . '</p>';
-		$html .= '<p>' . $onpage_seo . '</p>';
+		$html = '<p>' . esc_html( $success_message ) . '</p>';
+		$html .= '<p>' . esc_html( $onpage_seo ) . '</p>';
 		$html .= '<div class="yoast-video-container-max-width"><div class="yoast-video-container">' . $content_analysis_video . '</div></div>';
 
 		$this->set_property( 'html', $html );

@@ -16,7 +16,7 @@ class WPSEO_Config_Field_Post_Type_Visibility extends WPSEO_Config_Field {
 
 		$copy = __( 'Please specify which of the following public post types you would like Google to see.', 'wordpress-seo' );
 
-		$html = '<p>' . $copy . '</p><br/>';
+		$html = '<p>' . esc_html( $copy ) . '</p><br/>';
 
 		$this->set_property( 'html', $html );
 	}
