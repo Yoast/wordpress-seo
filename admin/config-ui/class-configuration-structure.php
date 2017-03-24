@@ -17,6 +17,7 @@ class WPSEO_Configuration_Structure {
 	public function __construct() {
 
 		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), array(
+			'configurationChoices',
 			'upsellConfigurationService',
 			'mailchimpSignup',
 		) );

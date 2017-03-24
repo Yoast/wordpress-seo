@@ -10,6 +10,7 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 import { OnboardingWizard } from "yoast-components";
 
 import MailchimpSignup from "./components/MailchimpSignup";
+import ConfigurationChoices from "./components/ConfigurationChoices";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 
@@ -73,6 +74,7 @@ class App extends React.Component {
 				MailchimpSignup,
 				MediaUpload,
 				ConnectGoogleSearchConsole,
+				ConfigurationChoices,
 			},
 		} );
 
