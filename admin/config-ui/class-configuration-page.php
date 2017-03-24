@@ -74,10 +74,10 @@ class WPSEO_Configuration_Page {
 		 * it's easier to override selectors with the same specificity later.
 		 */
 		wp_enqueue_style( 'forms' );
-		$assetManager = new WPSEO_Admin_Asset_Manager();
-		$assetManager->register_assets();
-		$assetManager->enqueue_script( 'configuration-wizard' );
-		$assetManager->enqueue_style( 'yoast-components' );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->register_assets();
+		$asset_manager->enqueue_script( 'configuration-wizard' );
+		$asset_manager->enqueue_style( 'yoast-components' );
 
 		$config = $this->get_config();
 
