@@ -53,6 +53,33 @@
 		}
 	}
 
+	&-columns {
+		display: flex;
+
+		.yoast-wizard-text-input-field {
+			max-width: 100%;
+		}
+
+		& > div {
+			flex-basis: 50%;
+			margin-left: 1em;
+		}
+
+		& > div:first-child {
+			margin-left: 0;
+		}
+	}
+
+	@media screen and (max-width: 50rem) {
+		&-columns {
+			display: block;
+
+			& > div {
+				margin-left: 0;
+			}
+		}
+	}
+
 }
 .ie9 .yoast-wizard--stepper {
 	display: none;

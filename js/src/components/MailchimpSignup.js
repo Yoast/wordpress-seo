@@ -202,27 +202,29 @@ class MailchimpSignup extends React.Component {
 			<div>
 				<h2>{this.props.properties.title}</h2>
 				<p>{this.props.properties.label}</p>
-				<div className="yoast-wizard-text-input">
-					<label
-						htmlFor="mailchimpName"
-						className="yoast-wizard-text-input-label">
-						{this.props.translate( "Name" )}
-					</label>
-					<input
-						id="mailchimpName"
-						className="yoast-wizard-text-input-field"
-						ref="nameInput"
-						type="text"
-						name="name"
-						defaultValue={this.props.properties.userName}/>
-				</div>
-				<div className="yoast-wizard-text-input">
-					<label
-						htmlFor="mailchimpEmail"
-						className="yoast-wizard-text-input-label">
-						{this.props.translate( "Email" )}
-					</label>
-					{input}
+				<div className="yoast-wizard-columns">
+					<div className="yoast-wizard-text-input">
+						<label
+							htmlFor="mailchimpName"
+							className="yoast-wizard-text-input-label">
+							{this.props.translate( "Name" )}
+						</label>
+						<input
+							id="mailchimpName"
+							className="yoast-wizard-text-input-field"
+							ref="nameInput"
+							type="text"
+							name="name"
+							defaultValue={this.props.properties.userName}/>
+					</div>
+					<div className="yoast-wizard-text-input">
+						<label
+							htmlFor="mailchimpEmail"
+							className="yoast-wizard-text-input-label">
+							{this.props.translate( "Email" )}
+						</label>
+						{input}
+					</div>
 				</div>
 				{button}
 				{message}
