@@ -2,6 +2,7 @@ import React from "react";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components/utils/i18n";
+import IconMailOutline from "./IconMailOutline";
 import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
 
 /**
@@ -191,7 +192,9 @@ class MailchimpSignup extends React.Component {
 		/>;
 		let button = <RaisedButton
 			label={this.props.translate( "Sign Up!" )}
-			onClick={this.signup.bind( this )}/>;
+			onClick={this.signup.bind( this )}
+			icon={<div style={{margin: '5px 0 0 8px', float: 'left'}}><IconMailOutline/></div>}
+		/>;
 		let message = this.getSignupMessage();
 		let loader = this.getLoadingIndicator();
 
