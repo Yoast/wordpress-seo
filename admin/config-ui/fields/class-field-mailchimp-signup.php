@@ -22,7 +22,7 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 			'label',
 			sprintf(
 				/* translators: %s expands to Yoast SEO. */
-				__( 'If you would like us to keep you up-to-date regarding %s, other plugins by Yoast and major news in the world of SEO, subscribe to our newsletter:', 'wordpress-seo' ),
+				__( 'Sign up to our newsletter if you like to keep up-to-date regarding %s, other plugins by Yoast and major news in the world of SEO.', 'wordpress-seo' ),
 				'Yoast SEO'
 			)
 		);

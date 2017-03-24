@@ -202,7 +202,7 @@ class MailchimpSignup extends React.Component {
 			<div>
 				<h2>{this.props.properties.title}</h2>
 				<p>{this.props.properties.label}</p>
-				<div className="yoast-wizard-columns">
+					<div className="yoast-wizard-columns yoast-wizard-columns__even">
 					<div className="yoast-wizard-text-input">
 						<label
 							htmlFor="mailchimpName"
