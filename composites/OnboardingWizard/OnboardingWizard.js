@@ -32,6 +32,9 @@ class OnboardingWizard extends React.Component {
 			currentStepId: this.getFirstStep( props.steps ),
 			errorMessage: "",
 		};
+
+		this.setNextStep = this.setNextStep.bind(this);
+		this.setPreviousStep = this.setPreviousStep.bind(this);
 	}
 
 	/**
@@ -264,7 +267,7 @@ class OnboardingWizard extends React.Component {
 		let previousButton = this.getNavigationbutton( "previous", {
 			label: this.props.translate( "Previous" ),
 			"aria-label": this.props.translate( "Previous step" ),
-			onClick: this.setPreviousStep.bind( this ),
+			onClick: this.setPreviousStep,
 			disableFocusRipple: true,
 			disableTouchRipple: true,
 			disableKeyboardFocus: true,
@@ -274,7 +277,7 @@ class OnboardingWizard extends React.Component {
 			label: this.props.translate( "Next" ),
 			"aria-label": this.props.translate( "Next step" ),
 			primary: true,
-			onClick: this.setNextStep.bind( this ),
+			onClick: this.setNextStep,
 			disableFocusRipple: true,
 			disableTouchRipple: true,
 			disableKeyboardFocus: true,
@@ -290,7 +293,9 @@ class OnboardingWizard extends React.Component {
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
 							<Step ref="step" currentStep={this.state.currentStepId} title={step.title}
-							      fields={step.fields} customComponents={this.props.customComponents} />
+							      fields={step.fields} customComponents={this.props.customComponents}
+							      nextStep={this.setNextStep}
+							      previousStep={this.setPreviousStep} />
 							<div className="yoast-wizard--navigation">
 								{previousButton}
 								{nextButton}
