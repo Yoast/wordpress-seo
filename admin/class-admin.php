@@ -313,7 +313,7 @@ class WPSEO_Admin {
 						/* translators: %1$s expands to Yoast SEO. */
 						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
 						'Yoast SEO' ) .
-					'</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
+					'</p><p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 			)
 		);
 
@@ -849,28 +849,28 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 3.1
 	 *
-	 * @param string $haystack    The string to be checked for the stopword.
-	 * @param bool   $checkingUrl Whether or not we're checking a URL.
+	 * @param string $haystack     The string to be checked for the stopword.
+	 * @param bool   $checking_url Whether or not we're checking a URL.
 	 *
 	 * @return bool|mixed
 	 */
-	function stopwords_check( $haystack, $checkingUrl = false ) {
+	function stopwords_check( $haystack, $checking_url = false ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
 
-		$stopWords = $this->stopwords();
+		$stop_words = $this->stopwords();
 
-		if ( is_array( $stopWords ) && $stopWords !== array() ) {
-			foreach ( $stopWords as $stopWord ) {
+		if ( is_array( $stop_words ) && $stop_words !== array() ) {
+			foreach ( $stop_words as $stop_word ) {
 				// If checking a URL remove the single quotes.
-				if ( $checkingUrl ) {
-					$stopWord = str_replace( "'", '', $stopWord );
+				if ( $checking_url ) {
+					$stop_word = str_replace( "'", '', $stop_word );
 				}
 
 				// Check whether the stopword appears as a whole word.
 				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
+				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stop_word, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
 				if ( $res > 0 ) {
-					return $stopWord;
+					return $stop_word;
 				}
 			}
 		}
