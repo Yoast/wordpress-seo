@@ -625,7 +625,7 @@ class WPSEO_Meta {
 			return true; // Stop saving the value.
 		}
 
-		return null; // Go on with the normal execution (update) in meta.php.
+		return $null; // Go on with the normal execution (update) in meta.php.
 	}
 
 
@@ -647,7 +647,7 @@ class WPSEO_Meta {
 			return true; // Stop saving the value.
 		}
 
-		return null; // Go on with the normal execution (add) in meta.php.
+		return $null; // Go on with the normal execution (add) in meta.php.
 	}
 
 
