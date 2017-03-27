@@ -10,6 +10,10 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { localize } from "../../utils/i18n";
 import muiTheme from "./config/yoast-theme";
 import interpolateComponents from "interpolate-components";
+import ArrowForwardIcon from 'material-ui/svg-icons/navigation/arrow-forward';
+import ArrowBackwardIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
+
 
 /**
  * The OnboardingWizard class.
@@ -239,6 +243,7 @@ class OnboardingWizard extends React.Component {
 		if ( type === "next" && ! currentStep.next ) {
 			attributes.label = this.props.translate( "Close" );
 			attributes[ "aria-label" ] = this.props.translate( "Close the Wizard" );
+			attributes.icon = <CloseIcon viewBox="0 0 28 28" />;
 			attributes.onClick = () => {
 				if( this.props.finishUrl !== "" ) {
 					window.location.href = this.props.finishUrl;
@@ -271,6 +276,7 @@ class OnboardingWizard extends React.Component {
 			disableFocusRipple: true,
 			disableTouchRipple: true,
 			disableKeyboardFocus: true,
+			icon: <ArrowBackwardIcon viewBox="0 0 28 28" />
 		}, step, "yoast-wizard--button yoast-wizard--button__previous" );
 
 		let nextButton = this.getNavigationbutton( "next", {
@@ -281,6 +287,8 @@ class OnboardingWizard extends React.Component {
 			disableFocusRipple: true,
 			disableTouchRipple: true,
 			disableKeyboardFocus: true,
+			labelPosition: "before",
+			icon: <ArrowForwardIcon viewBox="0 0 28 28" />
 		}, step, "yoast-wizard--button yoast-wizard--button__next" );
 
 		return (
