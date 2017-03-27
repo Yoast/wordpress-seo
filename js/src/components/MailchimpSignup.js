@@ -21,8 +21,6 @@ class MailchimpSignup extends React.Component {
 		// Change the URL to work with json-p.
 		super( props );
 
-		this.props.properties.title = this.props.translate( "Sign up for our newsletter!" );
-
 		this.state = {
 			successfulSignup: this.props.value,
 			isLoading: false,
@@ -191,16 +189,18 @@ class MailchimpSignup extends React.Component {
 			defaultValue={this.props.properties.currentUserEmail}
 		/>;
 		let button = <RaisedButton
+			primary={true}
 			label={this.props.translate( "Sign Up!" )}
 			onClick={this.signup.bind( this )}
-			icon={<div style={{margin: '5px 0 0 8px', float: 'left'}}><IconMailOutline/></div>}
+			icon={<div style={{margin: '5px 0 0 8px', float: 'left'}}><IconMailOutline fill="#ffffff"/></div>}
 		/>;
 		let message = this.getSignupMessage();
 		let loader = this.getLoadingIndicator();
 
 		return (
-			<div>
-				<h2>{this.props.properties.title}</h2>
+			<div className="yoast-wizard-columns yoast-wizard-newsletter">
+				<div>
+				<h2 className="yoast-wizard-newsletter--header"><IconMailOutline fill="#"/>{this.props.properties.title}</h2>
 				<p>{this.props.properties.label}</p>
 					<div className="yoast-wizard-columns yoast-wizard-columns__even">
 					<div className="yoast-wizard-text-input">
@@ -229,6 +229,10 @@ class MailchimpSignup extends React.Component {
 				{button}
 				{message}
 				{loader}
+				</div>
+				<div className="hide-on-tablet yoast-wizard-newsletter--decoration">
+					<img src={this.props.properties.decoration}/>
+				</div>
 			</div>
 		);
 	}
@@ -242,7 +246,7 @@ class MailchimpSignup extends React.Component {
 	skipRendering() {
 		let stepState            = this.props.stepState;
 		let isCurrentStepSuccess = ( stepState.currentStep === "success" );
-		let hasMailchimpSignup   = ( stepState.fieldValues.intro.mailchimpSignup.hasSignup === true );
+		let hasMailchimpSignup   = ( stepState.fieldValues.newsletter.mailchimpSignup.hasSignup === true );
 
 		return ( isCurrentStepSuccess && hasMailchimpSignup );
 	}

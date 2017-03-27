@@ -54,7 +54,7 @@ class WPSEO_Configuration_Structure {
 			'siteName',
 			'separator',
 		) );
-		$this->add_step( 'newsletter', __( 'Newsletter signup' ), array(
+		$this->add_step( 'newsletter', __( 'Newsletter' ), array(
 			'mailchimpSignup',
 		));
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(

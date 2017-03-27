@@ -2,6 +2,10 @@
 @import "wp";
 @import "../../node_modules/yoast-components/css/all.scss";
 
+#wizard {
+	overflow: hidden;
+}
+
 .yoast-wizard {
 
 	&-return-link {
@@ -95,6 +99,26 @@
 		}
 	}
 
+	&-newsletter {
+		&--header {
+			svg {
+				fill: $palette_pink_dark;
+				top: 4px;
+				position: relative;
+				margin-right: 6px;
+			}
+		}
+
+		&--decoration {
+			width: 490px;
+			img {
+				width: 490px;
+				/* Compensate for Header spacing */
+				margin-top: -4.3em;
+			}
+		}
+	}
+
 	@media screen and (max-width: 80em) {
 		&-columns {
 			display: block;
@@ -115,6 +139,10 @@
 			& > div {
 				margin-left: 1em;
 			}
+		}
+
+		.hide-on-tablet {
+			display: none;
 		}
 	}
 

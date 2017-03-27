@@ -425,9 +425,9 @@ body {
 	margin-bottom: 1rem;
 	color: #a4286a;
 	font-size: 2.75em;
-	font-weight: 300;
+	font-weight: 100;
 	line-height: 3.68rem;
-	letter-spacing: normal;
+	letter-spacing: 0.03em;
 }
 
 @media screen and (max-width: 768px) {
@@ -627,6 +627,10 @@ body {
 	animation-direction: alternate;
 }
 
+#wizard {
+	overflow: hidden;
+}
+
 .yoast-wizard-return-link {
 	display: block;
 	margin: 1em 0;
@@ -709,6 +713,24 @@ body {
 	color: #a4286a;
 }
 
+.yoast-wizard-newsletter--header svg {
+	position: relative;
+	top: 4px;
+	margin-right: 6px;
+
+	fill: #a4286a;
+}
+
+.yoast-wizard-newsletter--decoration {
+	width: 490px;
+}
+
+.yoast-wizard-newsletter--decoration img {
+	width: 490px;
+	/* Compensate for Header spacing */
+	margin-top: -4.3em;
+}
+
 @media screen and (max-width: 80em) {
 	.yoast-wizard-columns {
 		display: block;
@@ -730,6 +752,10 @@ body {
 
 	.yoast-wizard-box > div {
 		margin-left: 1em;
+	}
+
+	.yoast-wizard .hide-on-tablet {
+		display: none;
 	}
 }
 
