@@ -18,8 +18,6 @@ class WPSEO_Configuration_Structure {
 
 		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), array(
 			'configurationChoices',
-			'upsellConfigurationService',
-			'mailchimpSignup',
 		) );
 		$this->add_step( 'environment_type', __( 'Environment', 'wordpress-seo' ), array( 'environment_type' ) );
 		$this->add_step( 'siteType', __( 'Site type', 'wordpress-seo' ), array( 'siteType' ) );
@@ -56,10 +54,12 @@ class WPSEO_Configuration_Structure {
 			'siteName',
 			'separator',
 		) );
+		$this->add_step( 'newsletter', __( 'Newsletter signup' ), array(
+			'mailchimpSignup',
+		));
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',
 			'upsellSiteReview',
-			'mailchimpSignup',
 		) );
 	}
 

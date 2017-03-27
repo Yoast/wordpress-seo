@@ -60,8 +60,13 @@
 			max-width: 100%;
 		}
 
+		&__even {
+			& > div {
+				flex-basis: 50%;
+			}
+		}
+
 		& > div {
-			flex-basis: 50%;
 			margin-left: 1em;
 		}
 
@@ -70,8 +75,55 @@
 		}
 	}
 
-	@media screen and (max-width: 50rem) {
+	&-choice {
+		p {
+			margin-top: 0.3em;
+		}
+	}
+
+	&-box {
+		border: 1px solid $palette_pink_dark;
+		padding: 1em;
+
+		& > div:first-child {
+			flex-basis: 100px;
+		}
+
+		h3 {
+			margin: 0;
+			color: $palette_pink_dark;
+		}
+	}
+
+	@media screen and (max-width: 80em) {
 		&-columns {
+			display: block;
+
+			& > div {
+				margin-left: 0;
+			}
+		}
+
+		&-box {
+			display: flex;
+			margin-top: 1em;
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			& > div {
+				margin-left: 1em;
+			}
+		}
+	}
+
+	@media screen and (max-width: 50rem) {
+		.hide-on-mobile {
+			display: none;
+		}
+
+		&-box {
 			display: block;
 
 			& > div {

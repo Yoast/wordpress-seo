@@ -18,20 +18,23 @@ class WPSEO_Config_Field_Configuration_Choices extends WPSEO_Config_Field {
 	}
 
 	/**
-	 * Add a choice to the properties
+	 * Adds a choice to the properties
 	 *
-	 * @param string $action
-	 * @param string $title
-	 * @param string $copy
-	 * @param string $button_type
-	 * @param string $button_text
+	 * @param string      $title  The title of the choice.
+	 * @param string      $copy   The text explaining the choice.
+	 * @param array       $button The button details.
+	 * @param null|string $image  The image accompanying the choice.
 	 */
-	public function add_choice( $title, $copy, $button ) {
+	public function add_choice( $title, $copy, $button, $image = null ) {
 		$choice = array(
-			'title' => $title,
-			'copy' => $copy,
+			'title'  => $title,
+			'copy'   => $copy,
 			'button' => $button,
 		);
+
+		if ( ! empty( $image ) ) {
+			$choice['image'] = $image;
+		}
 
 		$this->properties['choices'][] = $choice;
 	}
