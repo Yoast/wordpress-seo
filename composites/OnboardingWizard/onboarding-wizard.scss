@@ -1,4 +1,5 @@
 @import "../../style-guide/colors";
+
 $prefix: "yoast-wizard";
 
 body {
@@ -7,8 +8,8 @@ body {
 }
 
 #container {
-	max-width: 1660px;
-	margin: 0 auto;
+  max-width: 1660px;
+  margin: 0 auto;
 }
 
 .#{$prefix}-body {
@@ -18,8 +19,8 @@ body {
   width: 80%;
   margin: 1rem auto 4rem;
   @media screen and (max-width: 768px) {
-	width: auto;
-	margin: 0;
+    width: auto;
+    margin: 0;
   }
 
 }
@@ -35,7 +36,7 @@ body {
   background: $color_white;
   padding: 3em;
   @media screen and (max-width: 768px) {
-	padding: 1em 1em 2em;
+    padding: 1em 1em 2em;
   }
 
   -webkit-box-sizing: border-box;
@@ -54,40 +55,40 @@ body {
     &__next {
       margin-left: 1em;
 
-	  button:hover,
-	  button:focus {
-		background-color: $color_purple_dark !important;
+      button:hover,
+      button:focus {
+        background-color: $color_purple_dark !important;
 
-		div {
-		  background-color: transparent !important;
-		}
-	  }
+        div {
+          background-color: transparent !important;
+        }
+      }
     }
 
-	&__previous {
-	  button:focus {
-  		background: $color_grey !important;
-	  }
-	  button:focus:active {
-  		background: transparent !important;
-	  }
-	  button:hover > div > span,
-	  button:focus > div > span {
-	    color: $color_black !important;
-	  }
-	}
+    &__previous {
+      button:focus {
+        background: $color_grey !important;
+      }
+      button:focus:active {
+        background: transparent !important;
+      }
+      button:hover > div > span,
+      button:focus > div > span {
+        color: $color_black !important;
+      }
+    }
 
   }
 
   &--step {
     &__active {
       @media screen and (max-width: 768px) {
-		width: 38px;
-		overflow: hidden;
+        width: 38px;
+        overflow: hidden;
 
         div {
-		  display: inline-block !important;
-		  vertical-align: middle;
+          display: inline-block !important;
+          vertical-align: middle;
         }
 
         div > span > span {
@@ -103,9 +104,9 @@ body {
       }
     }
     &__inactive {
-	  div {
-		pointer-events: none;
-	  }
+      div {
+        pointer-events: none;
+      }
       @media screen and (max-width: 768px) {
         display: none !important;
       }
@@ -113,28 +114,28 @@ body {
   }
 
   &--step--container {
-	&:focus {
-	  outline: none;
-	}
+    &:focus {
+      outline: none;
+    }
 
     h1 {
       color: $color_pink_dark;
       margin-top: 0;
-	  margin-bottom: 16px;
+      margin-bottom: 16px;
       margin-bottom: 1rem;
       font-size: 2.75em;
       letter-spacing: normal;
       line-height: 3.68rem;
-      font-weight: 300;
-	  @media screen and (max-width: 768px) {
-		font-size: 2em;
-		line-height: 1.25;
-	  }
+      font-weight: 100;
+      @media screen and (max-width: 768px) {
+        font-size: 2em;
+        line-height: 1.25;
+      }
     }
 
     h2 {
       color: $color_pink_dark;
-	  font-size: 1.375em;
+      font-size: 1.375em;
       font-weight: 400;
     }
   }
@@ -168,16 +169,16 @@ body {
     min-height: 20px;
     position: relative;
 
-    box-shadow: rgba( $color_black, .15 ) 0 3px 10px, rgba( $color_black, .2 ) 0 3px 10px;
+    box-shadow: rgba($color_black, .15) 0 3px 10px, rgba($color_black, .2) 0 3px 10px;
 
-	@media screen and (max-width: 768px) {
-	  box-shadow: none;
-	}
+    @media screen and (max-width: 768px) {
+      box-shadow: none;
+    }
 
     fieldset {
       border: 0;
       margin: 1em 0;
-	  padding-left: 0.5em;
+      padding-left: 0.5em;
     }
   }
 
@@ -278,32 +279,32 @@ body {
 /* Responsive videos. */
 /* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
 .yoast-video-container-max-width {
-	max-width: 560px;
+  max-width: 560px;
 }
 
 .yoast-video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 */
-    height: 0;
-    overflow: hidden;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
 }
 
 .yoast-video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .#{$prefix}-notice {
-	&__error {
-		//background: $color_bad;
-		//color: $color_border;
-		margin-bottom: 15px;
-		padding: 12px;
-		border-left: 4px solid $color_bad;
-		background: #fff;
-		box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-	}
+  &__error {
+    //background: $color_bad;
+    //color: $color_border;
+    margin-bottom: 15px;
+    padding: 12px;
+    border-left: 4px solid $color_bad;
+    background: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  }
 }
