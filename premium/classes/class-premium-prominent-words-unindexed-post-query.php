@@ -67,7 +67,6 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		return $this->totals[ $post_type ];
 	}
 
-
 	/**
 	 * Returns the totals for each posttype by counting them.
 	 *
