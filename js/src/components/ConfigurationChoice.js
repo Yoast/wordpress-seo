@@ -48,7 +48,7 @@ class ConfigurationChoice extends React.Component {
 					<img src={this.props.image} alt={this.props.title}
 					     width="100"/></div>
 				<div>
-					<h3>{this.props.title}</h3>
+					<h3 className="yoast-wizard--heading">{this.props.title}</h3>
 					<p>{this.props.copy}</p>
 					<RaisedButton {...buttonProps} />
 				</div>

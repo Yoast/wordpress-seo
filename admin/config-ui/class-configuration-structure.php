@@ -59,7 +59,6 @@ class WPSEO_Configuration_Structure {
 		));
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',
-			'upsellSiteReview',
 		) );
 	}
 
