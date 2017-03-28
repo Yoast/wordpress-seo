@@ -8,6 +8,22 @@
 
 .yoast-wizard {
 
+  input[type="text"] {
+    min-width: 250px;
+
+    & + div {
+      margin-right: 1em;
+    }
+  }
+
+  #gsc_authorization_code {
+    margin-right: 1em;
+  }
+
+  &-body {
+    max-width: 80em;
+  }
+
   &-return-link {
     /* lighter #555d66 */
     color: #646d78;
@@ -57,7 +73,7 @@
     }
   }
 
-  &-columns {
+  &--columns {
     display: flex;
 
     .yoast-wizard-text-input-field {
@@ -84,7 +100,7 @@
       color: $palette_pink_dark;
     }
 
-    & > .yoast-wizard-column__push_ {
+    & > .yoast-wizard--column__push_ {
       &right {
         order: 2;
       }
@@ -139,14 +155,14 @@
   }
 
   @media screen and (max-width: 80em) {
-    &-columns {
+    &--columns {
       display: block;
 
       & > div {
         margin-left: 0;
       }
 
-      & > .yoast-wizard-column__push_ {
+      & > .yoast-wizard--column__push_ {
         &left {
           margin-right: 0;
           margin-top: 2em;

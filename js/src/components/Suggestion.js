@@ -32,15 +32,15 @@ class Suggestion extends React.Component {
 		}
 
 		return (
-			<div className="yoast-wizard--list yoast-wizard-columns yoast-wizard--suggestion">
-				<div className="yoast-wizard-column__push_right">
+			<div className="yoast-wizard--list yoast-wizard--columns yoast-wizard--suggestion">
+				<div className="yoast-wizard--column__push_right">
 					<h3 className="yoast-wizard--heading">{ this.props.title }</h3>
 					<p>{ this.props.copy }</p>
 					<a href={this.props.button.url} target="_blank">
 						<RaisedButton { ...buttonProps } className={ className }/>
 					</a>
 				</div>
-				<div className="yoast-wizard-column__push_left yoast-wizard--video-frame">
+				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
 					<iframe width="400" height="225" src={ this.props.video } frameBorder="0"
 					        allowFullScreen/>
 				</div>

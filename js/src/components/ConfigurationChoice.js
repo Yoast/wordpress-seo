@@ -19,33 +19,29 @@ class ConfigurationChoice extends React.Component {
 			disableKeyboardFocus: true
 		};
 
-		let className = "";
-
 		buttonProps["aria-label"] = this.props.button.text;
 
 		switch ( this.props.button.action ) {
 			case "followURL":
 				buttonProps.href = this.props.button.url;
-				className = "yoast-wizard--button yoast-wizard--button__url";
 				buttonProps.icon = <InfoIcon viewBox="0 0 28 28" />;
 				break;
 			case "nextStep":
 				buttonProps.onClick = this.props.nextStep;
 				buttonProps.labelPosition = "before";
 				buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28" />;
-				className = "yoast-wizard--button yoast-wizard--button__next";
 				break;
 		}
 
 		return (
-			<div className="yoast-wizard--box yoast-wizard-columns yoast-wizard--choice">
+			<div className="yoast-wizard--box yoast-wizard--columns yoast-wizard--choice">
 				<div className="hide-on-mobile">
 					<img src={ this.props.image } alt={ this.props.title }
 					     width="100"/></div>
 				<div>
 					<h3 className="yoast-wizard--heading">{ this.props.title }</h3>
 					<p>{ this.props.copy }</p>
-					<RaisedButton { ...buttonProps } className={ className } />
+					<RaisedButton { ...buttonProps }/>
 				</div>
 			</div>
 		);

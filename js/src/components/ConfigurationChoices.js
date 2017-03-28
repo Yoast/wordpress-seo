@@ -19,7 +19,7 @@ class ConfigurationChoices extends React.Component {
 			<div>
 				<h2>{ this.props.properties.title }</h2>
 				<p>{ this.props.properties.label }</p>
-				<div className="yoast-wizard-columns yoast-wizard-columns__even">
+				<div className="yoast-wizard--columns yoast-wizard--columns__even">
 					{
 						this.props.properties.choices.map( function( choice, key ) {
 							return <ConfigurationChoice key={ key } { ...choiceProps } { ...choice } />;
