@@ -18,7 +18,8 @@ class WPSEO_Configuration_Structure {
 
 		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), array(
 			'configurationChoices',
-		) );
+		), false );
+
 		$this->add_step( 'environment_type', __( 'Environment', 'wordpress-seo' ), array( 'environment_type' ) );
 		$this->add_step( 'siteType', __( 'Site type', 'wordpress-seo' ), array( 'siteType' ) );
 		$this->add_step( 'publishingEntity', __( 'Company or person', 'wordpress-seo' ), array(
@@ -71,11 +72,13 @@ class WPSEO_Configuration_Structure {
 	 * @param string $identifier Identifier for this step.
 	 * @param string $title      Title to display for this step.
 	 * @param array  $fields     Fields to use on the step.
+	 * @param bool   $navigaton  Show navigation buttons.
 	 */
-	protected function add_step( $identifier, $title, $fields ) {
+	protected function add_step( $identifier, $title, $fields, $navigaton = true ) {
 		$this->steps[ $identifier ] = array(
 			'title'  => $title,
 			'fields' => $fields,
+			'navigation' => $navigaton,
 		);
 	}
 
