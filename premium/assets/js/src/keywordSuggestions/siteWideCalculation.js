@@ -134,7 +134,6 @@ class SiteWideCalculation extends EventEmitter {
 			rootUrl: this._rootUrl,
 			nonce: this._nonce,
 			cache: this._prominentWordCache,
-			postSaveEndpoint: post._links.self[0].href,
 		} );
 
 		return prominentWordStorage.saveProminentWords( prominentWords ).then( this.incrementProcessedPosts, this.incrementProcessedPosts );
