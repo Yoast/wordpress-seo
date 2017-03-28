@@ -20,7 +20,7 @@ class WPSEO_Premium_Prominent_Words_Link_Service {
 		$post    = get_post( $post_id );
 
 		if ( ! $post instanceof WP_Post ) {
-			return new WP_REST_Response( __( 'There is no post found for the given post id.', 'wordpress-seo' ) );
+			return new WP_REST_Response( __( 'There is no post found for the given post id.', 'wordpress-seo-premium' ) );
 		}
 
 		$terms_to_save = $request->get_param( WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
@@ -30,6 +30,6 @@ class WPSEO_Premium_Prominent_Words_Link_Service {
 
 		wp_set_object_terms( $post_id, $terms_to_save, WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
 
-		return new WP_REST_Response( __( 'The terms are saved successful for the given post.', 'wordpress-seo' ) );
+		return new WP_REST_Response( __( 'The terms are saved successful for the given post.', 'wordpress-seo-premium' ) );
 	}
 }
