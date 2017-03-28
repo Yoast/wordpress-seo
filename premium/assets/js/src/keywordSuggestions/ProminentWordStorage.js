@@ -83,7 +83,6 @@ class ProminentWordStorage extends EventEmitter {
 					data: {
 						// eslint-disable-next-line camelcase
 						yst_prominent_words: prominentWords,
-						remove_modified_date: true,
 					},
 					dataType: "json",
 					success: resolve,
