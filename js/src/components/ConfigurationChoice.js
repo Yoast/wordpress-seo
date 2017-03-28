@@ -1,7 +1,6 @@
 import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
-import InfoIcon from "material-ui/svg-icons/action/info";
+import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
+import RaisedNextStepButton from "./RaisedNextStepButton";
 
 class ConfigurationChoice extends React.Component {
 	/**
@@ -11,25 +10,14 @@ class ConfigurationChoice extends React.Component {
 	 */
 	render() {
 
-		let buttonProps = {
-			label: this.props.button.text,
-			primary: this.props.button.type === "primary",
-			disableFocusRipple: true,
-			disableTouchRipple: true,
-			disableKeyboardFocus: true
-		};
-
-		buttonProps["aria-label"] = this.props.button.text;
+		let button;
 
 		switch ( this.props.button.action ) {
 			case "followURL":
-				buttonProps.href = this.props.button.url;
-				buttonProps.icon = <InfoIcon viewBox="0 0 28 28" />;
+				button = <RaisedURLNewWindowButton { ...this.props.button } />
 				break;
 			case "nextStep":
-				buttonProps.onClick = this.props.nextStep;
-				buttonProps.labelPosition = "before";
-				buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28" />;
+				button = <RaisedNextStepButton { ...this.props.button } onClick={ this.props.nextStep }/>
 				break;
 		}
 
@@ -41,7 +29,7 @@ class ConfigurationChoice extends React.Component {
 				<div>
 					<h3 className="yoast-wizard--heading">{ this.props.title }</h3>
 					<p>{ this.props.copy }</p>
-					<RaisedButton { ...buttonProps }/>
+					{ button }
 				</div>
 			</div>
 		);
