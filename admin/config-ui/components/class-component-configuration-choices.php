@@ -33,7 +33,7 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 			sprintf( __( 'Welcome to the %1$s configuration wizard. In a few simple steps we\'ll help you configure your SEO settings to match your website\'s needs! %1$s will take care of all the technical optimizations your site needs.', 'wordpress-seo' ), 'Yoast SEO' ),
 			array(
 				'type'   => 'primary',
-				'text'   => __( 'Start your configuration', 'wordpress-seo' ),
+				'label'   => sprintf( __( 'Configure %s', 'wordpress-seo' ), 'Yoast SEO' ),
 				'action' => 'nextStep',
 			),
 			plugin_dir_url( WPSEO_FILE ) . '/images/Yoast_SEO_Icon.svg'
@@ -47,9 +47,9 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 			),
 			array(
 				'type'   => 'secondary',
-				'text'   => __( 'Configuration service', 'wordpress-seo' ),
+				'label'   => __( 'Configuration service', 'wordpress-seo' ),
 				'action' => 'followURL',
-				'url'    => 'https://yoa.st/configuration_service',
+				'url'    => 'https://yoa.st/wizard-configuration-upsell',
 			),
 			plugin_dir_url( WPSEO_FILE ) . 'images/yoast-configuration-icon.svg'
 		);
