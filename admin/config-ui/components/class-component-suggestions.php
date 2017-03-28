@@ -50,18 +50,29 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			'https://yoa.st/video-course-copywriting'
 		);
 
-		/*
 		$field->add_suggestion(
-			__( 'An in-depth analysis of your site', 'wordpress-seo' ),
-			__( 'Some text...', 'wordpress-seo' ),
+			sprintf( __( 'Get the most out of %1$s with the %2$s', 'wordpress-seo' ), 'Yoast SEO', 'Yoast SEO plugin training' ),
+			sprintf( __( 'Do you want to know all the ins and outs of the %1$s plugin? Do you want to learn all about our advanced settings? Want to be able to really get the most out of the %1$s plugin? Check out our %1$s plugin training and start outranking the competition!', 'wordpress-seo' ), 'Yoast SEO' ),
 			array(
-				'text' => __( 'Website review', 'wordpress-seo' ),
+				'label' => 'Yoast SEO plugin training',
 				'type' => 'link',
-				'url'  => 'https://yoa.st/copywriting',
+				'url' => '',
 			),
-			'video-url'
+			'video url'
 		);
-		*/
+
+		if ( defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ) {
+			$field->add_suggestion(
+				sprintf( __( 'Attract more customers near you', 'wordpress-seo' ), 'Yoast SEO', 'Yoast SEO plugin training' ),
+				sprintf( __( 'If you want to outrank the competition in a specific town or region, check out our %1$s plugin! You’ll be able to easily insert Google maps, opening hours, contact information and a store locator. Besides that %1$s helps you to improve the usability of your contact page.', 'wordpress-seo' ), 'Local SEO' ),
+				array(
+					'label' => 'Local SEO',
+					'type' => 'link',
+					'url' => '',
+				),
+				'video url'
+			);
+		}
 
 		return $field;
 	}
