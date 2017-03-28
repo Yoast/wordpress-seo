@@ -13,6 +13,7 @@ import MailchimpSignup from "./components/MailchimpSignup";
 import ConfigurationChoices from "./components/ConfigurationChoices";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
+import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
 
 import { setTranslations } from "yoast-components/utils/i18n";
@@ -76,6 +77,7 @@ class App extends React.Component {
 				MediaUpload,
 				ConnectGoogleSearchConsole,
 				ConfigurationChoices,
+				Suggestions,
 				FinalStep,
 			},
 		} );

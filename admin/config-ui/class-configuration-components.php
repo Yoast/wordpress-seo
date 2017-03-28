@@ -21,6 +21,7 @@ class WPSEO_Configuration_Components {
 		$this->add_component( new WPSEO_Config_Component_Connect_Google_Search_Console() );
 		$this->add_component( new WPSEO_Config_Component_Mailchimp_Signup() );
 		$this->add_component( new WPSEO_Config_Component_Configuration_Choices() );
+		$this->add_component( new WPSEO_Config_Component_Suggestions() );
 	}
 
 	/**
