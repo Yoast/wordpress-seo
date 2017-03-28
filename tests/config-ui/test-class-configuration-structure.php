@@ -81,7 +81,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue( isset( $steps[ $identifier ] ) );
 		$this->assertEquals(
-			array( 'title' => $title, 'fields' => $fields ),
+			array( 'title' => $title, 'fields' => $fields, 'navigation' => true ),
 			$steps[ $identifier ]
 		);
 	}
