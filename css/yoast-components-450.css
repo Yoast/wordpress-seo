@@ -631,6 +631,10 @@ body {
 	overflow: hidden;
 }
 
+.yoast-wizard {
+	padding-top: 2em;
+}
+
 .yoast-wizard input[type="text"] {
 	min-width: 250px;
 }
@@ -645,6 +649,12 @@ body {
 
 .yoast-wizard-body {
 	max-width: 80em;
+}
+
+.yoast-wizard--navigation {
+	margin-top: 2em;
+	padding-top: 1em;
+	border-top: 1px solid #a4286a;
 }
 
 .yoast-wizard-return-link {
@@ -686,6 +696,16 @@ body {
 
 .yoast-wizard-image-upload-container-description {
 	display: block;
+}
+
+.yoast-wizard--emphasis {
+	font-weight: bold;
+}
+
+.yoast-wizard--navigation {
+	margin-top: 2em;
+	padding-top: 1em;
+	border-top: 1px solid #a4286a;
 }
 
 .yoast-wizard--columns {
@@ -799,8 +819,13 @@ body {
 
 .yoast-wizard--suggestion {
 	margin-bottom: 2em;
-	padding-bottom: 2em;
-	border-bottom: 1px solid #a4286a;
+	padding-top: 2em;
+	border-top: 1px solid #a4286a;
+}
+
+.yoast-wizard--suggestion:first-child {
+	padding-top: 0;
+	border-top: none;
 }
 
 @media screen and (max-width: 50rem) {
