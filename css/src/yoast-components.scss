@@ -8,6 +8,8 @@
 
 .yoast-wizard {
 
+  padding-top: 2em;
+
   input[type="text"] {
     min-width: 250px;
 
@@ -22,6 +24,12 @@
 
   &-body {
     max-width: 80em;
+  }
+
+  &--navigation {
+    border-top: 1px solid $palette_pink_dark;
+    margin-top: 2em;
+    padding-top: 1em;
   }
 
   &-return-link {
@@ -71,6 +79,16 @@
     &-description {
       display: block;
     }
+  }
+
+  &--emphasis {
+    font-weight: bold;
+  }
+
+  &--navigation {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid $palette_pink_dark;
   }
 
   &--columns {
@@ -189,9 +207,13 @@
   }
 
   &--suggestion {
-    border-bottom: 1px solid $palette_pink_dark;
-    padding-bottom: 2em;
+    border-top: 1px solid $palette_pink_dark;
+    padding-top: 2em;
     margin-bottom: 2em;
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
   }
 
   @media screen and (max-width: 50rem) {
