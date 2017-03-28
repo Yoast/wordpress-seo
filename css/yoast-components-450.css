@@ -708,6 +708,14 @@ body {
 	border-top: 1px solid #a4286a;
 }
 
+.yoast-wizard--rows {
+	display: -ms-flexbox;
+	display: flex;
+	flex-direction: column;
+
+	-ms-flex-direction: column;
+}
+
 .yoast-wizard--columns {
 	display: -ms-flexbox;
 	display: flex;
@@ -748,7 +756,20 @@ body {
 	order: 1;
 }
 
+.yoast-wizard--suggestion > .yoast-wizard--rows,
+.yoast-wizard--choice > .yoast-wizard--rows {
+	height: 100%;
+}
+
+.yoast-wizard--suggestion div,
+.yoast-wizard--choice div {
+	align-self: flex-start;
+	-ms-flex-item-align: start;
+}
+
+.yoast-wizard--suggestion p,
 .yoast-wizard--choice p {
+	height: 100%;
 	margin-top: 0.3em;
 }
 

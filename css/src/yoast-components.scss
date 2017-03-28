@@ -91,6 +91,11 @@
     border-top: 1px solid $palette_pink_dark;
   }
 
+  &--rows {
+    display: flex;
+    flex-direction: column;
+  }
+
   &--columns {
     display: flex;
 
@@ -132,8 +137,17 @@
   }
 
   &--choice {
+    & > .yoast-wizard--rows {
+      height: 100%;
+    }
+
+    & div {
+      align-self: flex-start;
+    }
+
     p {
       margin-top: 0.3em;
+      height: 100%;
     }
   }
 

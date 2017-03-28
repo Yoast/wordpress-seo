@@ -26,7 +26,7 @@ class ConfigurationChoice extends React.Component {
 				<div className="hide-on-mobile">
 					<img src={ this.props.image } alt={ this.props.title }
 					     width="100"/></div>
-				<div>
+				<div className="yoast-wizard--rows">
 					<h3 className="yoast-wizard--heading">{ this.props.title }</h3>
 					<p>{ this.props.copy }</p>
 					{ button }
