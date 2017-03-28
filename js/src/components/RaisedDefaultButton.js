@@ -13,7 +13,7 @@ const RaisedDefaultButton = ( props ) => {
 
 	return (
 		<RaisedButton { ...buttonProps } { ...props } />
-	)
+	);
 };
 
 RaisedDefaultButton.propTypes = {

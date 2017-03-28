@@ -1,7 +1,5 @@
 import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
-import InfoIcon from "material-ui/svg-icons/action/info";
 import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
 
 class Suggestion extends React.Component {

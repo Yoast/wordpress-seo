@@ -7,7 +7,7 @@ const RaisedNextStepButton = ( props ) => {
 		<RaisedDefaultButton { ...props }
 		                     labelPosition="before"
 		                     icon={ <ArrowForwardIcon viewBox="0 0 28 28"/> }/>
-	)
+	);
 };
 
 export default RaisedNextStepButton;

@@ -3,7 +3,7 @@ import RaisedDefaultButton from "./RaisedDefaultButton";
 import InfoIcon from "material-ui/svg-icons/action/info";
 
 const RaisedURLNewWindowButton = ( props ) => {
-	const buttonProps = Object.assign({}, props);
+	const buttonProps = Object.assign( {}, props );
 	delete buttonProps.url;
 
 	return (

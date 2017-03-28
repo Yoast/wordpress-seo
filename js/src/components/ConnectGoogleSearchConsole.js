@@ -2,7 +2,7 @@
 
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
-import {localize} from "yoast-components/utils/i18n";
+import { localize } from "yoast-components/utils/i18n";
 import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
 
 /**

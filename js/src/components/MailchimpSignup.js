@@ -1,7 +1,7 @@
 import React from "react";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
-import {localize} from "yoast-components/utils/i18n";
+import { localize } from "yoast-components/utils/i18n";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
 import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
 import colors from "yoast-components/style-guide/colors.json";

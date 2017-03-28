@@ -14,10 +14,10 @@ class ConfigurationChoice extends React.Component {
 
 		switch ( this.props.button.action ) {
 			case "followURL":
-				button = <RaisedURLNewWindowButton { ...this.props.button } />
+				button = <RaisedURLNewWindowButton { ...this.props.button } />;
 				break;
 			case "nextStep":
-				button = <RaisedNextStepButton { ...this.props.button } onClick={ this.props.nextStep }/>
+				button = <RaisedNextStepButton { ...this.props.button } onClick={ this.props.nextStep }/>;
 				break;
 		}
 
