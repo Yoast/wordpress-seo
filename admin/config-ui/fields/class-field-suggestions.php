@@ -9,7 +9,7 @@
 class WPSEO_Config_Field_Suggestions extends WPSEO_Config_Field {
 
 	/**
-	 * WPSEO_Config_Field_Choice constructor.
+	 * WPSEO_Config_Field_Suggestions constructor.
 	 */
 	public function __construct() {
 		parent::__construct( 'suggestions', 'Suggestions' );
