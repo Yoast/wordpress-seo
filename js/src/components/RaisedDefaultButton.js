@@ -21,7 +21,7 @@ RaisedDefaultButton.propTypes = {
 };
 
 RaisedDefaultButton.defaultProps = {
-	type: '',
+	type: "",
 };
 
 export default RaisedDefaultButton;
