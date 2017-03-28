@@ -9,7 +9,6 @@ class ConfigurationChoice extends React.Component {
 	 * @returns {JSX.Element} Rendered Component.
 	 */
 	render() {
-
 		let button;
 
 		switch ( this.props.button.action ) {
@@ -25,7 +24,7 @@ class ConfigurationChoice extends React.Component {
 			<div className="yoast-wizard--box yoast-wizard--columns yoast-wizard--choice">
 				<div className="hide-on-mobile">
 					<img src={ this.props.image } alt={ this.props.title }
-					     width="100"/></div>
+						width="100"/></div>
 				<div className="yoast-wizard--rows">
 					<h3 className="yoast-wizard--heading">{ this.props.title }</h3>
 					<p>{ this.props.copy }</p>
@@ -37,3 +36,11 @@ class ConfigurationChoice extends React.Component {
 }
 
 export default ConfigurationChoice;
+
+ConfigurationChoice.propTypes = {
+	title: React.PropTypes.string.isRequired,
+	copy: React.PropTypes.string.isRequired,
+	image: React.PropTypes.string.isRequired,
+	button: React.PropTypes.object.isRequired,
+	nextStep: React.PropTypes.func.isRequired,
+};

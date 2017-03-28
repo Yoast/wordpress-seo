@@ -31,4 +31,10 @@ class ConfigurationChoices extends React.Component {
 	}
 }
 
+ConfigurationChoices.propTypes = {
+	nextStep: React.PropTypes.func.isRequired,
+	previousStep: React.PropTypes.func.isRequired,
+	properties: React.PropTypes.object.isRequired,
+};
+
 export default localize( ConfigurationChoices );

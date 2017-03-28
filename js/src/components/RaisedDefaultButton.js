@@ -9,7 +9,7 @@ const RaisedDefaultButton = ( props ) => {
 		disableKeyboardFocus: true,
 	};
 
-	buttonProps["aria-label"] = props.text;
+	buttonProps[ "aria-label" ] = props.label;
 
 	return (
 		<RaisedButton { ...buttonProps } { ...props } />
@@ -18,6 +18,10 @@ const RaisedDefaultButton = ( props ) => {
 
 RaisedDefaultButton.propTypes = {
 	type: React.PropTypes.string,
+};
+
+RaisedDefaultButton.defaultProps = {
+	type: '',
 };
 
 export default RaisedDefaultButton;

@@ -12,6 +12,7 @@ const RaisedURLNewWindowButton = ( props ) => {
 };
 
 RaisedURLNewWindowButton.propTypes = {
+	url: React.PropTypes.string.isRequired,
 	icon: React.PropTypes.object,
 };
 

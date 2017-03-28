@@ -9,7 +9,6 @@ class Suggestion extends React.Component {
 	 * @returns {JSX.Element} Rendered Component.
 	 */
 	render() {
-
 		let buttonProps = {};
 
 		if ( this.props.button.type === "primary" ) {
@@ -26,7 +25,7 @@ class Suggestion extends React.Component {
 				</div>
 				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
 					<iframe width="400" height="225" src={ this.props.video } frameBorder="0"
-					        allowFullScreen/>
+							allowFullScreen/>
 				</div>
 			</div>
 		);
@@ -34,3 +33,10 @@ class Suggestion extends React.Component {
 }
 
 export default Suggestion;
+
+Suggestion.PropTypes = {
+	title: React.PropTypes.string.isRequired,
+	copy: React.PropTypes.string.isRequired,
+	video: React.PropTypes.string.isRequired,
+	button: React.PropTypes.array.isRequired,
+};

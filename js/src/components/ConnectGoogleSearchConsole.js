@@ -57,16 +57,8 @@ class ConnectGoogleSearchConsole extends React.Component {
 		let authUrl = yoastWizardConfig.gscAuthURL,
 			w = 600,
 			h = 500,
-			left = (
-			       screen.width / 2
-			       ) - (
-			       w / 2
-			       ),
-			top = (
-			      screen.height / 2
-			      ) - (
-			      h / 2
-			      );
+			left = ( screen.width / 2 ) - ( w / 2 ),
+			top = ( screen.height / 2 ) - ( h / 2 );
 
 		return window.open(
 			authUrl,
@@ -280,15 +272,15 @@ class ConnectGoogleSearchConsole extends React.Component {
 					{this.props.translate( "Select profile" ) }
 				</label>
 				<select className="yoast-wizard-input__select"
-				        id="yoast-wizard-gsc-select-profile"
-				        onChange={this.setProfile.bind( this )}
-				        name={this.name} value={this.state.profile}>
+						id="yoast-wizard-gsc-select-profile"
+						onChange={this.setProfile.bind( this )}
+						name={this.name} value={this.state.profile}>
 					<option value="">{this.props.translate( "Choose a profile" )}</option>
 					{ profileKeys.map(
 						( profileKey, index ) => {
 							return (
 								<option value={profileKey} key={index}>
-									{ profiles[profileKey] }
+									{ profiles[ profileKey ] }
 								</option>
 							);
 						}
