@@ -10,9 +10,9 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { localize } from "../../utils/i18n";
 import muiTheme from "./config/yoast-theme";
 import interpolateComponents from "interpolate-components";
-import ArrowForwardIcon from 'material-ui/svg-icons/navigation/arrow-forward';
-import ArrowBackwardIcon from 'material-ui/svg-icons/navigation/arrow-back';
-import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
+import ArrowBackwardIcon from "material-ui/svg-icons/navigation/arrow-back";
+import CloseIcon from "material-ui/svg-icons/navigation/close";
 
 
 /**
@@ -37,8 +37,8 @@ class OnboardingWizard extends React.Component {
 			errorMessage: "",
 		};
 
-		this.setNextStep = this.setNextStep.bind(this);
-		this.setPreviousStep = this.setPreviousStep.bind(this);
+		this.setNextStep = this.setNextStep.bind( this );
+		this.setPreviousStep = this.setPreviousStep.bind( this );
 	}
 
 	/**
@@ -269,7 +269,7 @@ class OnboardingWizard extends React.Component {
 	render() {
 		let step = this.getCurrentStep();
 
-		let navigation = '';
+		let navigation = "";
 		if ( step.navigation ) {
 			let previousButton = this.getNavigationbutton( "previous", {
 				label: this.props.translate( "Previous" ),
@@ -278,7 +278,7 @@ class OnboardingWizard extends React.Component {
 				disableFocusRipple: true,
 				disableTouchRipple: true,
 				disableKeyboardFocus: true,
-				icon: <ArrowBackwardIcon viewBox="0 0 28 28" />
+				icon: <ArrowBackwardIcon viewBox="0 0 28 28" />,
 			}, step, "yoast-wizard--button yoast-wizard--button__previous" );
 
 			let nextButton = this.getNavigationbutton( "next", {
@@ -290,7 +290,7 @@ class OnboardingWizard extends React.Component {
 				disableTouchRipple: true,
 				disableKeyboardFocus: true,
 				labelPosition: "before",
-				icon: <ArrowForwardIcon viewBox="0 0 28 28" />
+				icon: <ArrowForwardIcon viewBox="0 0 28 28" />,
 			}, step, "yoast-wizard--button yoast-wizard--button__next" );
 
 			navigation = <div className="yoast-wizard--navigation">{previousButton}{nextButton}</div>;

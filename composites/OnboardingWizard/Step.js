@@ -265,6 +265,8 @@ class Step extends React.Component {
 
 Step.propTypes = {
 	title: React.PropTypes.string.isRequired,
+	nextStep: React.PropTypes.function.isRequired,
+	previousStep: React.PropTypes.function.isRequired,
 	fields: React.PropTypes.object,
 	currentStep: React.PropTypes.string,
 	classPrefix: React.PropTypes.string,
