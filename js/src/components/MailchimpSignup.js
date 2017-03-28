@@ -192,7 +192,7 @@ class MailchimpSignup extends React.Component {
 			primary={true}
 			label={this.props.translate( "Sign Up!" )}
 			onClick={this.signup.bind( this )}
-			icon={<div style={{margin: '5px 0 0 8px', float: 'left'}}><IconMailOutline fill="#ffffff"/></div>}
+			icon={ <div style={{ margin: "5px 0 0 8px", float: "left" }}><IconMailOutline fill="#ffffff"/></div> }
 		/>;
 		let message = this.getSignupMessage();
 		let loader = this.getLoadingIndicator();

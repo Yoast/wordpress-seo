@@ -1,5 +1,7 @@
-import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
+import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
+import InfoIcon from "material-ui/svg-icons/action/info";
 
 class ConfigurationChoice extends React.Component {
 	/**
@@ -9,48 +11,41 @@ class ConfigurationChoice extends React.Component {
 	 */
 	render() {
 
-		/*
-		 @todo: Depending on the `action` we perform an action
-		 - open a new window with the link provided
-		 - go to the next step in the wizard
-
-		 @todo: add the image
-
-		 @todo: style the button (icon, color, buttonRaised)
-		 */
-
 		let buttonProps = {
 			label: this.props.button.text,
-			primary: this.props.button.type === 'primary',
+			primary: this.props.button.type === "primary",
 			disableFocusRipple: true,
 			disableTouchRipple: true,
 			disableKeyboardFocus: true
 		};
 
-		let className = '';
+		let className = "";
 
 		buttonProps["aria-label"] = this.props.button.text;
 
 		switch ( this.props.button.action ) {
-			case 'followURL':
+			case "followURL":
 				buttonProps.href = this.props.button.url;
-				className = 'yoast-wizard--button yoast-wizard--button__url';
+				className = "yoast-wizard--button yoast-wizard--button__url";
+				buttonProps.icon = <InfoIcon viewBox="0 0 28 28" />;
 				break;
-			case 'nextStep':
+			case "nextStep":
 				buttonProps.onClick = this.props.nextStep;
-				className = 'yoast-wizard--button yoast-wizard--button__next';
+				buttonProps.labelPosition = "before";
+				buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28" />;
+				className = "yoast-wizard--button yoast-wizard--button__next";
 				break;
 		}
 
 		return (
-			<div className="yoast-wizard-box yoast-wizard-columns yoast-wizard-choice">
+			<div className="yoast-wizard--box yoast-wizard-columns yoast-wizard--choice">
 				<div className="hide-on-mobile">
-					<img src={this.props.image} alt={this.props.title}
+					<img src={ this.props.image } alt={ this.props.title }
 					     width="100"/></div>
 				<div>
-					<h3 className="yoast-wizard--heading">{this.props.title}</h3>
-					<p>{this.props.copy}</p>
-					<RaisedButton {...buttonProps} />
+					<h3 className="yoast-wizard--heading">{ this.props.title }</h3>
+					<p>{ this.props.copy }</p>
+					<RaisedButton { ...buttonProps } className={ className } />
 				</div>
 			</div>
 		);

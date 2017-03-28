@@ -20,7 +20,7 @@ IconMailOutline.propTypes = {
 IconMailOutline.defaultProps = {
 	width: 24,
 	height: 24,
-	fill: '#aaa',
+	fill: "#aaa",
 };
 
 export default IconMailOutline;

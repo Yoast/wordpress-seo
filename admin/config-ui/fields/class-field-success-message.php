@@ -31,14 +31,5 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 				),
 			)
 		);
-
-//		$content_analysis_video = sprintf(
-//			'<iframe width="560" height="315" src="https://yoa.st/metabox-screencast" title="%s" frameborder="0" allowfullscreen></iframe>',
-//			esc_attr(  )
-//		);
-//
-//		$html .= '<div class="yoast-video-container-max-width"><div class="yoast-video-container">' . $content_analysis_video . '</div></div>';
-//
-//		$this->set_property( 'html', $html );
 	}
 }
