@@ -78,7 +78,7 @@ class WPSEO_Configuration_Structure {
 		$this->steps[ $identifier ] = array(
 			'title'  => $title,
 			'fields' => $fields,
-			'navigation' => $navigaton,
+			'hideNavigation' => ! (bool) $navigaton,
 		);
 	}
 
