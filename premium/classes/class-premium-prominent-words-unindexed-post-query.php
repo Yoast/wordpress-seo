@@ -8,8 +8,8 @@
  */
 class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 
-	/** @var null|array */
-	protected $totals;
+	/** @var array */
+	protected $totals = array();
 
 	/**
 	 * Returns the total amount of posts.
@@ -55,8 +55,12 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 * @return int The total amount of unindexed posts.
 	 */
 	public function get_total( $post_type ) {
-		if ( ! is_array( $this->totals ) ) {
-			$this->totals = $this->get_totals( $this->get_post_types() );
+		if ( ! array_key_exists( $post_type, $this->totals ) ) {
+			$totals = $this->get_totals( $this->get_post_types() );
+
+			foreach ( $totals as $total_post_type => $total ) {
+				$this->totals[ $total_post_type ] = $total;
+			}
 		}
 
 		if ( ! array_key_exists( $post_type, $this->totals ) ) {
@@ -75,7 +79,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 *
 	 * @return array Array with the totals for the requested posttypes.
 	 */
-	public function get_totals( $post_types ) {
+	protected function get_totals( $post_types ) {
 		global $wpdb;
 
 		// Put the IN-values hard into the SQL, because the prepare method escapes the values horrible.
@@ -97,7 +101,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		);
 		// @codingStandardsIgnoreEnd
 
-		$totals = array_combine( array_values( $post_types ), array_fill( 0, count( $post_types ), 0 ) );
+		$totals = array();
 
 		foreach ( $results as $result ) {
 			$totals[ $result->post_type ] = (int) $result->total;
