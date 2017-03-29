@@ -30,8 +30,8 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		$total_items = $wpdb->query(
 			$wpdb->prepare( '
 				SELECT ID
-				FROM   ' . $wpdb->posts . ' 
-				WHERE  ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "%s" ) 
+				FROM ' . $wpdb->posts . ' 
+				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "%s" ) 
 					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
 					AND post_type IN( ' . $formatted_post_types . ' )
 				LIMIT %d',
@@ -89,8 +89,8 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT COUNT( ID ) as total, post_type
-				FROM   ' . $wpdb->posts . ' 
-				WHERE  ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "%s" ) 
+				FROM ' . $wpdb->posts . ' 
+				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "%s" ) 
 					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
 					AND post_type IN( ' . $formatted_post_types . ' )
 			    GROUP BY post_type
