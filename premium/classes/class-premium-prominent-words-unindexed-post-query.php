@@ -55,7 +55,6 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 * @return int The total amount of unindexed posts.
 	 */
 	public function get_total( $post_type ) {
-
 		if ( ! is_array( $this->totals ) ) {
 			$this->totals = $this->get_totals( $this->get_post_types() );
 		}
@@ -83,7 +82,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		$formatted_post_types = $this->format_post_types( $post_types );
 
 		// @codingStandardsIgnoreStart
-		$results =  $wpdb->get_results(
+		$results = $wpdb->get_results(
 			$wpdb->prepare( '
 				SELECT COUNT( ID ) as total, post_type
 				FROM   wp_posts 
