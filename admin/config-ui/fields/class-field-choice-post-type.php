@@ -59,9 +59,9 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 
 		$key = 'post_types-' . $this->get_post_type() . '-not_in_sitemap';
 
-		$storedData = ! isset( $option[ $key ] ) || false === $option[ $key ];
+		$stored_data = ! isset( $option[ $key ] ) || false === $option[ $key ];
 
-		if ( $storedData ) {
+		if ( $stored_data ) {
 			return 'true';
 		}
 

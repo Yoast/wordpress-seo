@@ -141,7 +141,7 @@ class WPSEO_Product_Upsell_Notice {
 		$message .= sprintf(
 			/* translators: %1$s is a link start tag to the bugreport guidelines on the Yoast knowledge base, %2$s is the link closing tag. */
 			__( 'If you are experiencing issues, %1$splease file a bug report%2$s and we\'ll do our best to help you out.', 'wordpress-seo' ),
-			'<a href="'. WPSEO_Shortlinker::get( 'https://yoa.st/bugreport' ) . '">',
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/bugreport' ) . '">',
 			'</a>'
 		) . "\n\n";
 

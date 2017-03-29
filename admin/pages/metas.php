@@ -39,12 +39,12 @@ function yoast_add_meta_options_help_center_tabs( $tabs ) {
 		'basic-help',
 		__( 'Template explanation', 'wordpress-seo' ),
 		array(
-			'content' => "\n\t\t<h2>" . __( 'Template explanation', 'wordpress-seo' ) . "</h2>\n\t\t" . '<p>' .'<p>' .
+			'content' => "\n\t\t<h2>" . __( 'Template explanation', 'wordpress-seo' ) . "</h2>\n\t\t" . '<p><p>' .
 				sprintf(
 					/* translators: %1$s expands to Yoast SEO. */
 					__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
 					'Yoast SEO' ) .
-				'</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
+				'</p><p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 		)
 	);
 

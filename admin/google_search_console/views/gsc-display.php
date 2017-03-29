@@ -29,8 +29,8 @@ else {
 }
 
 $tab = new WPSEO_Option_Tab( 'GSC', __( 'Google Search Console', 'wordpress-seo' ), array( 'video_url' => $video_url ) );
-$GSCHelpCenter = new WPSEO_Help_Center( 'google-search-console', $tab );
-$GSCHelpCenter->output_help_center();
+$gsc_help_center = new WPSEO_Help_Center( 'google-search-console', $tab );
+$gsc_help_center->output_help_center();
 
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :

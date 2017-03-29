@@ -94,17 +94,19 @@ class WPSEO_Admin_Banner_Sidebar {
 			'<li><strong>' . __( 'No more dead links', 'wordpress-seo' ) . '</strong><br/>' . __( 'Easy redirect manager', 'wordpress-seo' ) . '</li>' .
 			'<li><strong>' . __( 'Internal linking suggestions', 'wordpress-seo' ) . '</strong><br/>' . __( 'Find related posts superfast', 'wordpress-seo' ) . '</li>' .
 			'<li><strong>' . __( 'Social media preview', 'wordpress-seo' ) . '</strong><br/>' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( '24/7 Support', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>' .
 			'<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>' .
 			'</ul>' .
 			/* translators: %s expands to Yoast SEO Premium */
-		    '<a id="wpseo-premium-button" class="button button-primary" href="'. $premium_uri . '">' . sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>' .
+		    '<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '">' . sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>' .
 			'<small>' . __( 'Prices start as low as 69,- for one site', 'wordpress-seo' ) . '</small><br/><br/>'
 		);
-/*		$premium_spot->set_description(
+
+		/*
+		$premium_spot->set_description(
 			sprintf(
-				/* translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s is the link closing tag */
-		/*				__( 'Want to get the most out of your SEO-strategy? %1$sGo premium!%2$s.', 'wordpress-seo' ),
+				/* translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s is the link closing tag * /
+						__( 'Want to get the most out of your SEO-strategy? %1$sGo premium!%2$s.', 'wordpress-seo' ),
 						'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/ji' ) . '">',
 						'</a>'
 					)
@@ -118,12 +120,13 @@ class WPSEO_Admin_Banner_Sidebar {
 						261,
 						152,
 						sprintf(
-							/* translators: %1$s expands to Yoast SEO Premium. */
-			/*		__( 'Buy the %1$s plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
+							/* translators: %1$s expands to Yoast SEO Premium. * /
+					__( 'Buy the %1$s plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
 					'Yoast SEO Premium'
 				)
 			)
-		); */
+		);
+		*/
 
 		return $premium_spot;
 	}
@@ -160,19 +163,21 @@ class WPSEO_Admin_Banner_Sidebar {
 			)
 		);
 
-//		$service_spot->add_banner(
-//			new WPSEO_Admin_Banner(
-//				WPSEO_Shortlinker::get( 'https://yoa.st/seo-care-banner' ),
-//				'seo-care.png',
-//				261,
-//				152,
-//				sprintf(
-//				/* translators: %1$s expands to Yoast SEO Care. */
-//					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
-//					'Yoast SEO Care'
-//				)
-//			)
-//		);
+		/*
+		$service_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				WPSEO_Shortlinker::get( 'https://yoa.st/seo-care-banner' ),
+				'seo-care.png',
+				261,
+				152,
+				sprintf(
+				/* translators: %1$s expands to Yoast SEO Care. * /
+					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
+					'Yoast SEO Care'
+				)
+			)
+		);
+		*/
 
 		return $service_spot;
 	}
@@ -226,7 +231,7 @@ class WPSEO_Admin_Banner_Sidebar {
 			);
 		}
 
-		if ( empty( $active_extensions['woocommerce'] )  ) {
+		if ( empty( $active_extensions['woocommerce'] ) ) {
 			$extension_spot->add_banner(
 				new WPSEO_Admin_Banner(
 					WPSEO_Shortlinker::get( 'https://yoa.st/jp' ),

@@ -182,8 +182,8 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 				<?php unset( $extensions['seo-premium'] ); ?>
 
 				<?php foreach ( $extensions as $id => $extension ) : ?>
-					<?php $buyUrl = $extension->buyUrl;
-					$infoUrl = $extension->infoUrl; ?>
+					<?php $buy_url = $extension->buyUrl;
+					$info_url = $extension->infoUrl; ?>
 
 
 					<section class="yoast-promoblock secondary yoast-promo-extension">
@@ -200,14 +200,14 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 						<?php if ( $extension->installed ) : ?>
 							<div class="yoast-button yoast-button--noarrow yoast-button--installed"><?php _e( 'Installed', 'wordpress-seo' ); ?></div>
 						<?php else : ?>
-							<a target="_blank" class="yoast-button default yoast-button--noarrow academy--secondary yoast-button-go-to" href="<?php echo esc_url( $buyUrl ); ?>">
+							<a target="_blank" class="yoast-button default yoast-button--noarrow academy--secondary yoast-button-go-to" href="<?php echo esc_url( $buy_url ); ?>">
 								<?php $product_name = isset( $extension->buy_button ) ? $extension->buy_button : $extension->title; ?>
 								<?php /* translators: %s expands to the product name */ ?>
 								<?php printf( __( 'Buy %s', 'wordpress-seo' ), $product_name ); ?>
 							</a>
 						<?php endif; ?>
 
-						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $infoUrl ); ?>"><?php
+						<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $info_url ); ?>"><?php
 							printf(
 								/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 								__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),

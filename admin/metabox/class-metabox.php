@@ -1433,13 +1433,13 @@ SVG;
 	/**
 	 * @deprecated 3.0
 	 *
-	 * @param array  $results      The results array used to store results.
-	 * @param int    $scoreValue   The score value.
-	 * @param string $scoreMessage The score message.
-	 * @param string $scoreLabel   The label of the score to use in the results array.
-	 * @param string $rawScore     The raw score, to be used by other filters.
+	 * @param array  $results       The results array used to store results.
+	 * @param int    $score_value   The score value.
+	 * @param string $score_message The score message.
+	 * @param string $score_label   The label of the score to use in the results array.
+	 * @param string $raw_score     The raw score, to be used by other filters.
 	 */
-	public function save_score_result( &$results, $scoreValue, $scoreMessage, $scoreLabel, $rawScore = null ) {
+	public function save_score_result( &$results, $score_value, $score_message, $score_label, $raw_score = null ) {
 
 		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 	}
@@ -1447,12 +1447,12 @@ SVG;
 	/**
 	 * @deprecated 3.0
 	 *
-	 * @param string $inputString              String to clean up.
-	 * @param bool   $removeOptionalCharacters Whether or not to do a cleanup of optional chars too.
+	 * @param string $input_string               String to clean up.
+	 * @param bool   $remove_optional_characters Whether or not to do a cleanup of optional chars too.
 	 *
 	 * @return string
 	 */
-	public function strip_separators_and_fold( $inputString, $removeOptionalCharacters ) {
+	public function strip_separators_and_fold( $input_string, $remove_optional_characters ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 
 		return '';
