@@ -216,6 +216,8 @@ class Step extends React.Component {
 			onChange: this.onChange.bind( this ),
 			properties: currentField.properties,
 			stepState: this.state,
+			nextStep: this.props.nextStep,
+			previousStep: this.props.previousStep,
 			value: this.getFieldValue( name, currentField ),
 		};
 
@@ -263,6 +265,8 @@ class Step extends React.Component {
 
 Step.propTypes = {
 	title: React.PropTypes.string.isRequired,
+	nextStep: React.PropTypes.func.isRequired,
+	previousStep: React.PropTypes.func.isRequired,
 	fields: React.PropTypes.object,
 	currentStep: React.PropTypes.string,
 	classPrefix: React.PropTypes.string,
