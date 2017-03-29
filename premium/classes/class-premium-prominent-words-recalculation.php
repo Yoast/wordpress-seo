@@ -143,21 +143,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	}
 
 	/**
-	 * Counts posts that have prominent words.
-	 *
-	 * @param string $post_type The post type to count.
-	 * @return int The amount of posts.
-	 */
-	protected function count_all_posts_by_type( $post_type ) {
-		$total_posts = new WP_Query( array(
-			'post_type' => $post_type,
-			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
-		) );
-
-		return (int) $total_posts->found_posts;
-	}
-
-	/**
 	 * Counts posts that have no prominent words.
 	 *
 	 * @param string $post_type The post type to count.
