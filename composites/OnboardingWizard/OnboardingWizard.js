@@ -270,7 +270,7 @@ class OnboardingWizard extends React.Component {
 		let step = this.getCurrentStep();
 
 		let navigation = "";
-		if ( step.navigation ) {
+		if ( ! step.hideNavigation ) {
 			let previousButton = this.getNavigationbutton( "previous", {
 				label: this.props.translate( "Previous" ),
 				"aria-label": this.props.translate( "Previous step" ),

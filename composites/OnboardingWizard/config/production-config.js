@@ -307,17 +307,14 @@ let configuration = {
 		"intro": {
 			"title": "Intro",
 			"fields": [ "upsellConfigurationService", "mailchimpSignup" ],
-			"navigation": true,
 		},
 		"environment": {
 			"title": "Environment",
 			"fields": [ "environment" ],
-			"navigation": true,
 		},
 		"siteType": {
 			"title": "Site type",
 			"fields": [ "siteType" ],
-			"navigation": true,
 		},
 		"publishingEntity": {
 			"title": "Company or person",
@@ -326,7 +323,6 @@ let configuration = {
 				"personPublishingEntity",
 				"businessPublishingEntity",
 			],
-			"navigation": true,
 		},
 		"profileUrls": {
 			"title": "Social profiles",
@@ -340,37 +336,30 @@ let configuration = {
 				"profileUrlYouTube",
 				"profileUrlGooglePlus",
 			],
-			"navigation": true,
 		},
 		"postTypeVisibility": {
 			"title": "Post type visibility",
 			"fields": [ "postTypeVisibility" ],
-			"navigation": true,
 		},
 		"multipleAuthors": {
 			"title": "Multiple authors",
 			"fields": [ "multipleAuthors" ],
-			"navigation": true,
 		},
 		"connectGoogleSearchConsole": {
 			"title": "Google Search Console",
 			"fields": [ "connectGoogleSearchConsole" ],
-			"navigation": true,
 		},
 		"titleTemplate": {
 			"title": "Title settings",
 			"fields": [ "siteName", "separator" ],
-			"navigation": true,
 		},
 		"tagLine": {
 			"title": "Tagline",
 			"fields": [ "tagLine" ],
-			"navigation": true,
 		},
 		"success": {
 			"title": "Success!",
 			"fields": [ "successMessage", "upsellSiteReview", "mailchimpSignup" ],
-			"navigation": true,
 		},
 	},
 };
