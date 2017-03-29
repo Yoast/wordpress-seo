@@ -51,7 +51,7 @@ class WPSEO_Metabox_Editor {
 		if ( ! empty( $tinymce_config['custom_elements'] ) ) {
 			$custom_elements = $tinymce_config['custom_elements'];
 
-			$custom_elements .= ',' . '~yoastmark';
+			$custom_elements .= ',~yoastmark';
 		}
 		else {
 			$custom_elements = '~yoastmark';

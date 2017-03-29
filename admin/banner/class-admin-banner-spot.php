@@ -73,7 +73,7 @@ class WPSEO_Admin_Banner_Spot {
 	 * @param string $extra The "extra".
 	 */
 	public function set_extra( $extra ) {
-		$this->extra= $extra;
+		$this->extra = $extra;
 	}
 
 	/**
