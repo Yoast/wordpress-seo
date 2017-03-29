@@ -61,9 +61,9 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			array(
 				'label' => 'Yoast SEO plugin training',
 				'type' => 'link',
-				'url' => '',
+				'url' => 'https://yoa.st/wizard-suggestion-plugincourse',
 			),
-			'video url'
+			'https://yoa.st/video-plugin-course'
 		);
 
 		// When we are running in Yoast SEO Premium and don't have Local SEO installed, show Local SEO as suggestion.
@@ -75,9 +75,9 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				array(
 					'label' => 'Local SEO',
 					'type' => 'link',
-					'url' => '',
+					'url' => 'https://yoa.st/wizard-suggestion-localseo',
 				),
-				'video url'
+				'https://yoa.st/video-localseo'
 			);
 		}
 
