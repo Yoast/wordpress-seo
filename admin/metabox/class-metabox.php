@@ -588,11 +588,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
 				}
 
+				$cornerstone_field = new WPSEO_Cornerstone_Metabox_Field();
+
 				$content .= '<div id="wpseofocuskeyword">';
 				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
 			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
+				$content .= $cornerstone_field->get_html( $this->get_metabox_post() );
 				$content .= '</section>';
 				$content .= '</div>';
 				break;
