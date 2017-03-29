@@ -35,7 +35,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				array(
 					'label' => __( 'Upgrade to Premium', 'wordpress-seo' ),
 					'type' => 'primary',
-					'url'  => 'https://yoa.st/premium',
+					'url'  => 'https://yoa.st/wizard-suggestion-premium',
 				),
 				'https://yoa.st/video-yoast-seo-premium'
 			);
