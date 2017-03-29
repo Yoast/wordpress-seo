@@ -11,6 +11,8 @@ describe( "a step component", () => {
 		fields: {},
 		components: {},
 		currentStep: "",
+		nextStep: () => {},
+		previousStep: () => {},
 	};
 
 	let renderer = TestUtils.createRenderer();
