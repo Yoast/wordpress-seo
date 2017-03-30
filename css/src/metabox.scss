@@ -149,6 +149,10 @@ ul.wpseo-metabox-tabs li {
   padding: 20px 35px;
   border: 1px solid #ddd;
   background-color: #fdfdfd;
+
+  .wpseo-cornerstone-checkbox {
+    margin-right: 0.5em;
+  }
 }
 
 .wpseotab.content {
@@ -747,9 +751,4 @@ ul.wpseo-metabox-premium-advantages {
   .wpseotab.content {
     padding: 20px 0;
   }
-}
-
-.wpseotab input[type="checkbox"].wpseo-cornerstone-checkbox {
-  margin-top: 1.9em;
-  margin-right: 0.5em;
 }
