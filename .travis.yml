@@ -55,6 +55,7 @@ before_install:
 install:
 - phpenv local 5.6
 - composer selfupdate 1.0.0 --no-interaction
+- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then composer require --dev phpunit/phpunit ^5.7; fi
 - composer install --no-interaction
 - composer config-yoastcs
 - phpenv local --unset
@@ -81,7 +82,11 @@ script:
 - if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v; fi
 - if [[ "$CHECKJS" == "1" ]]; then grunt check:js; fi
 - if [[ -z "$CODECLIMATE_REPO_TOKEN" ]]; then COVERAGE="0"; fi
-- if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
+- if [[ "$COVERAGE" != "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == hhv* ]]; then phpunit -c phpunit.xml; fi
+- if [[ "$COVERAGE" != "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then phpunit -c phpunit.xml; fi
+# Coverage environment variable is only set on the PHP 7 build, so we can safely
+# assume that PHPUnit is in the vendor directory.
+- if [[ "$COVERAGE" == "1" ]]; then vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; fi
 - if [[ "$CHECKJS" == "1" ]]; then yarn test; fi
 
 after_success:
