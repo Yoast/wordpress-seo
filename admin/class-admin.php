@@ -737,11 +737,11 @@ class WPSEO_Admin {
 	 * Loads the cornerstone filter
 	 */
 	protected function initialize_cornerstone_content() {
+		$cornerstone = new WPSEO_Cornerstone();
+		$cornerstone->register_hooks();
+
 		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
 		$cornerstone_filter->register_hooks();
-
-		$cornerstone_metabox = new WPSEO_Cornerstone_Metabox();
-		$cornerstone_metabox->register_hooks();
 	}
 
 	/********************** DEPRECATED METHODS **********************/

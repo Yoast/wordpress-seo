@@ -14,8 +14,7 @@ class WPSEO_Cornerstone_Filter {
 	 * Registers the hook.
 	 */
 	public function register_hooks() {
-		$post_types = array( 'post', 'page' );
-		foreach ( $post_types as $post_type ) {
+		foreach ( $this->get_post_types() as $post_type ) {
 			add_filter( 'views_edit-' . $post_type, array( $this, 'add_filter_link' ) );
 		}
 
@@ -34,7 +33,7 @@ class WPSEO_Cornerstone_Filter {
 		$cornerstone_url = $this->get_cornerstone_url();
 
 		$views['yoast_cornerstone'] = sprintf(
-			'<a href="%1$s" class="%2$s" >%3$s</a> (%4$s)',
+			'<a href="%1$s" class="%2$s">%3$s</a> (%4$s)',
 			esc_url( $cornerstone_url ),
 			( $this->is_cornerstone_filter_active() ) ? 'current' : '',
 			__( 'Cornerstone articles', 'wordpress-seo' ),
@@ -53,7 +52,12 @@ class WPSEO_Cornerstone_Filter {
 	 */
 	public function filter_posts( $where ) {
 		if ( $this->is_cornerstone_filter_active() ) {
-			$where .= " AND ID IN( SELECT post_id FROM wp_postmeta WHERE meta_key = '" . WPSEO_Cornerstone::META_NAME . "' AND meta_value = 1 ) ";
+			global $wpdb;
+
+			$where .= sprintf(
+				" AND ID IN( SELECT post_id FROM " . $wpdb->postmeta . " WHERE meta_key = '%s' AND meta_value = '1' ) ",
+				WPSEO_Cornerstone::META_NAME
+			);
 		}
 
 		return $where;
@@ -83,9 +87,9 @@ class WPSEO_Cornerstone_Filter {
 		return (int) $wpdb->get_var(
 			$wpdb->prepare( "
 				SELECT COUNT( 1 )
-				FROM   wp_postmeta
-				WHERE post_id IN( SELECT ID FROM wp_posts WHERE post_type = '%s' ) && 
-				meta_value = '1' &&  meta_key = '%s'
+				FROM " . $wpdb->postmeta . "
+				WHERE post_id IN( SELECT ID FROM " . $wpdb->posts . " WHERE post_type = '%s' ) && 
+				meta_value = '1' AND meta_key = '%s'
 				",
 				$this->get_current_post_type(),
 				WPSEO_Cornerstone::META_NAME
@@ -113,6 +117,14 @@ class WPSEO_Cornerstone_Filter {
 				'options' => array( 'default' => 'post' ),
 			)
 		);
+	}
 
+	/**
+	 * Returns the post types which can be used to set as cornerstone content.
+	 *
+	 * @return array
+	 */
+	protected function get_post_types() {
+		return array( 'post', 'page' );
 	}
 }

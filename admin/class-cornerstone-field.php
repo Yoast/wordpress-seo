@@ -6,7 +6,7 @@
 /**
  * Adds a checkbox to the focus keyword section.
  */
-class WPSEO_Cornerstone_Metabox_Field {
+class WPSEO_Cornerstone_Field {
 
 	/**
 	 * Returns a label with a checkbox in it. Make it possible to mark the page as cornerstone content.
@@ -16,14 +16,14 @@ class WPSEO_Cornerstone_Metabox_Field {
 	 * @return string The HTML to show.
 	 */
 	public function get_html( $post ) {
-		$checked = checked( $this->get_meta_value( $post->ID ), '1', false );
-
 		$return  = '';
 		$return .= sprintf(
-			'<input id="%1$s" class="wpseo-cornerstone-checkbox" type="checkbox" value="1" name="%1$s" ' . $checked . ' />',
-			WPSEO_Cornerstone::META_NAME
+			'<input id="%1$s" class="wpseo-cornerstone-checkbox" type="checkbox" value="1" name="%1$s" %2$s/>',
+			WPSEO_Cornerstone::META_NAME,
+			checked( $this->get_meta_value( $post->ID ), '1', false )
 		);
-		$return .= '<label for="' . WPSEO_Cornerstone::META_NAME . '">';
+
+		$return .= sprintf( '<label for="%1$s">', WPSEO_Cornerstone::META_NAME );
 
 		/* translators: 1: link open tag; 2: link close tag. */
 		$return .= sprintf(
@@ -46,6 +46,4 @@ class WPSEO_Cornerstone_Metabox_Field {
 	protected function get_meta_value( $post_id ) {
 		return get_post_meta( $post_id, WPSEO_Cornerstone::META_NAME, true );
 	}
-
-
 }

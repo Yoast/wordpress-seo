@@ -588,7 +588,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
 				}
 
-				$cornerstone_field = new WPSEO_Cornerstone_Metabox_Field();
+				$cornerstone_field = new WPSEO_Cornerstone_Field();
 
 				$content .= '<div id="wpseofocuskeyword">';
 				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
