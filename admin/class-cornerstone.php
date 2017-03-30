@@ -27,5 +27,4 @@ class WPSEO_Cornerstone {
 
 		update_post_meta( $post_id, self::META_NAME, $is_cornerstone );
 	}
-
 }
