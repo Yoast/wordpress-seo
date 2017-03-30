@@ -21,28 +21,8 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 * @return bool True when the limit has been exceeded.
 	 */
 	public function exceeds_limit( $limit ) {
-		global $wpdb;
-
-		// Put the IN-values hard into the SQL, because the prepare method escapes the values horrible.
-		$formatted_post_types = $this->format_post_types( $this->get_post_types() );
-
-		// @codingStandardsIgnoreStart
-		$total_items = $wpdb->query(
-			$wpdb->prepare( '
-				SELECT ID
-				FROM ' . $wpdb->posts . ' 
-				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "%s" ) 
-					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
-					AND post_type IN( ' . $formatted_post_types . ' )
-				LIMIT %d',
-				WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-				WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
-				( $limit + 1 )
-			)
-		);
-		// @codingStandardsIgnoreEnd
-
-		return $total_items > $limit;
+		$unindexed_post_ids = $this->get_unindexed_post_ids( $this->get_post_types(), ( $limit + 1 ) );
+		return count( $unindexed_post_ids ) > $limit;
 	}
 
 	/**
@@ -130,6 +110,47 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		$post_types = array_map( array( $this, 'format_post_type' ), $post_types );
 
 		return implode( ',', $post_types );
+	}
+
+	/**
+	 * Gets the Post IDs of un-indexed objects
+	 *
+	 * @param array|string $post_types The post type(s) to fetch.
+	 * @param int          $limit      Limit the number of results.
+	 *
+	 * @return int[] Post IDs found which are un-indexed.
+	 */
+	public function get_unindexed_post_ids( $post_types, $limit ) {
+		global $wpdb;
+
+		if ( is_string( $post_types ) ) {
+			$post_types = (array) $post_types;
+		}
+
+		// Put the IN-values hard into the SQL, because the prepare method escapes the values horrible.
+		$formatted_post_types = $this->format_post_types( $post_types );
+
+		// @codingStandardsIgnoreStart
+		$results = $wpdb->get_results(
+			$wpdb->prepare( '
+				SELECT ID
+				FROM ' . $wpdb->posts . ' 
+				WHERE ID NOT IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "%s" ) 
+					AND post_status IN( "future", "draft", "pending", "private", "publish" ) 
+					AND post_type IN( ' . $formatted_post_types . ' )
+				LIMIT %d',
+				WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
+				WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
+				$limit
+			),
+			ARRAY_A
+		);
+		// @codingStandardsIgnoreEnd
+
+		// Make sure we return a list of IDs.
+		$results = wp_list_pluck( $results, 'ID' );
+
+		return $results;
 	}
 
 	/**
