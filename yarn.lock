@@ -6735,18 +6735,18 @@ yoast-components@^2.4.0:
     jed "^1.1.1"
     whatwg-fetch "^1.0.0"
 
+"yoast-components@https://github.com/Yoast/yoast-components#release/2.5":
+  version "2.4.0"
+  resolved "https://github.com/Yoast/yoast-components#6dc4ca4803e653b8c033787376feb5e6674efc0b"
+  dependencies:
+    i18n-calypso "^1.6.2"
+    interpolate-components "^1.1.0"
+    jed "^1.1.1"
+    whatwg-fetch "^1.0.0"
+
 "yoastseo@https://github.com/Yoast/YoastSEO.js#1.13.0":
   version "1.13.0"
   resolved "https://github.com/Yoast/YoastSEO.js#e785fc4d3819d9c68ec2002ea538446e822a2157"
-  dependencies:
-    jed "^1.1.0"
-    lodash "^4.14.1"
-    sassdash "^0.8.1"
-    tokenizer2 "^2.0.0"
-
-"yoastseo@https://github.com/Yoast/YoastSEO.js#release/1.13.0":
-  version "1.12.0"
-  resolved "https://github.com/Yoast/YoastSEO.js#5633a60375ed3f41a8a5a3b4bf14d31b4281f152"
   dependencies:
     jed "^1.1.0"
     lodash "^4.14.1"

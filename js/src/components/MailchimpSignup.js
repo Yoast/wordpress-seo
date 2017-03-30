@@ -2,7 +2,9 @@ import React from "react";
 import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components/utils/i18n";
+import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
 import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
+import colors from "yoast-components/style-guide/colors.json";
 
 /**
  * @summary Mailchimp signup component.
@@ -19,8 +21,6 @@ class MailchimpSignup extends React.Component {
 	constructor( props ) {
 		// Change the URL to work with json-p.
 		super( props );
-
-		this.props.properties.title = this.props.translate( "Sign up for our newsletter!" );
 
 		this.state = {
 			successfulSignup: this.props.value,
@@ -107,7 +107,7 @@ class MailchimpSignup extends React.Component {
 						message: response.msg,
 					} );
 				} )
-			.catch( ( response )=> {
+			.catch( ( response ) => {
 				console.error( this.props.translate( "MailChimp signup failed:" ), response );
 			} );
 	}
@@ -166,7 +166,9 @@ class MailchimpSignup extends React.Component {
 			return null;
 		}
 
-		return ( <div className="yoast-wizard-overlay"><LoadingIndicator/></div> );
+		return (
+			<div className="yoast-wizard-overlay"><LoadingIndicator/></div>
+		);
 	}
 
 	/**
@@ -190,40 +192,51 @@ class MailchimpSignup extends React.Component {
 			defaultValue={this.props.properties.currentUserEmail}
 		/>;
 		let button = <RaisedButton
+			primary={true}
 			label={this.props.translate( "Sign Up!" )}
-			onClick={this.signup.bind( this )}/>;
+			onClick={this.signup.bind( this )}
+			icon={ <IconMailOutline color="#ffffff" viewBox="0 0 28 28"/> }
+		/>;
 		let message = this.getSignupMessage();
 		let loader = this.getLoadingIndicator();
 
 		return (
-			<div>
-				<h2>{this.props.properties.title}</h2>
-				<p>{this.props.properties.label}</p>
-				<div className="yoast-wizard-text-input">
-					<label
-						htmlFor="mailchimpName"
-						className="yoast-wizard-text-input-label">
-						{this.props.translate( "Name" )}
-					</label>
-					<input
-						id="mailchimpName"
-						className="yoast-wizard-text-input-field"
-						ref="nameInput"
-						type="text"
-						name="name"
-						defaultValue={this.props.properties.userName}/>
+			<div className="yoast-wizard--columns yoast-wizard-newsletter">
+				<div>
+					<h2 className="yoast-wizard-newsletter--header"><IconMailOutline
+						color={ colors.$palette_pink_dark }/>{this.props.properties.title}</h2>
+					<p>{this.props.properties.label}</p>
+					<div className="yoast-wizard--columns yoast-wizard--columns__even">
+						<div className="yoast-wizard-text-input">
+							<label
+								htmlFor="mailchimpName"
+								className="yoast-wizard-text-input-label">
+								{this.props.translate( "Name" )}
+							</label>
+							<input
+								id="mailchimpName"
+								className="yoast-wizard-text-input-field"
+								ref="nameInput"
+								type="text"
+								name="name"
+								defaultValue={this.props.properties.userName}/>
+						</div>
+						<div className="yoast-wizard-text-input">
+							<label
+								htmlFor="mailchimpEmail"
+								className="yoast-wizard-text-input-label">
+								{this.props.translate( "Email" )}
+							</label>
+							{input}
+						</div>
+					</div>
+					{button}
+					{message}
+					{loader}
 				</div>
-				<div className="yoast-wizard-text-input">
-					<label
-						htmlFor="mailchimpEmail"
-						className="yoast-wizard-text-input-label">
-						{this.props.translate( "Email" )}
-					</label>
-					{input}
+				<div className="hide-on-tablet yoast-wizard-newsletter--decoration">
+					<img src={this.props.properties.decoration}/>
 				</div>
-				{button}
-				{message}
-				{loader}
 			</div>
 		);
 	}
@@ -235,11 +248,17 @@ class MailchimpSignup extends React.Component {
 	 *                    component should be rendered.
 	 */
 	skipRendering() {
-		let stepState            = this.props.stepState;
-		let isCurrentStepSuccess = ( stepState.currentStep === "success" );
-		let hasMailchimpSignup   = ( stepState.fieldValues.intro.mailchimpSignup.hasSignup === true );
+		let stepState = this.props.stepState;
+		let isCurrentStepSuccess = (
+			stepState.currentStep === "success"
+		);
+		let hasMailchimpSignup = (
+			stepState.fieldValues.newsletter.mailchimpSignup.hasSignup === true
+		);
 
-		return ( isCurrentStepSuccess && hasMailchimpSignup );
+		return (
+			isCurrentStepSuccess && hasMailchimpSignup
+		);
 	}
 
 	/**
