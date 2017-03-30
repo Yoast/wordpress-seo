@@ -4,7 +4,7 @@
  */
 
 /**
- * Registers the endpoint for the linking prominent words to a post to WordPress.
+ * Registers the endpoint for the linking prominent words to a post.
  */
 class WPSEO_Premium_Prominent_Words_Link_Endpoint implements WPSEO_WordPress_Integration {
 
@@ -35,7 +35,7 @@ class WPSEO_Premium_Prominent_Words_Link_Endpoint implements WPSEO_WordPress_Int
 	}
 
 	/**
-	 * Register the REST endpoint to WordPress.
+	 * Registers the REST endpoint to WordPress.
 	 */
 	public function register() {
 		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_QUERY . '/(?P<id>[\d]+)', array(
