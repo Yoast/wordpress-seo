@@ -1,11 +1,12 @@
 import React from "react";
 
 /**
- * @summary Mailchimp signup component.
+ * @summary Final step in the wizard component.
  */
 class FinalStep extends React.Component {
 
 	/**
+	 * Renders the video next to the final congratulation message for completing the wizard
 	 *
 	 * @returns {JSX.Element} A HTML paragraph element containing the Final Step response.
 	 */

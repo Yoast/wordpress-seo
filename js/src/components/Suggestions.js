@@ -4,7 +4,7 @@ import Suggestion from "./Suggestion";
 
 class Suggestions extends React.Component {
 	/**
-	 * @summary Renders the Choices component.
+	 * @summary Renders the Suggestions component.
 	 *
 	 * @returns {JSX.Element} Rendered Choices Component.
 	 */

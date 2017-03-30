@@ -87,7 +87,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 	/**
 	 * Get the data for the field.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function get_data() {
 		return array();
@@ -98,7 +98,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 	 *
 	 * @param array $data Data containing changes.
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function set_data( $data ) {
 		return true;

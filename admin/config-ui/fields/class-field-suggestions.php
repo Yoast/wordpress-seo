@@ -4,7 +4,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Suggestions
+ * Holds the suggestions for the 'You might also like' page in the wizard
  */
 class WPSEO_Config_Field_Suggestions extends WPSEO_Config_Field {
 

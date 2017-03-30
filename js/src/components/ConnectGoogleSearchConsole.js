@@ -187,7 +187,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	/**
 	 * @summary Sets the profile list.
 	 *
-	 * @param {Object|string} response                   The response object.
+	 * @param {Object|string} response                 The response object.
 	 * @param {Object}        response.profileList     List with all available profiles.
 	 * @param {bool}          response.hasAccessToken  Is there an access token?
 	 *
@@ -239,11 +239,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 */
 	hasProfiles() {
 		if ( this.state.profileList !== null && typeof this.state.profileList === "object" ) {
-			var totalProfiles = Object.keys( this.state.profileList ).length;
-
-			return (
-			totalProfiles !== 0
-			);
+			return ( Object.keys( this.state.profileList ).length !== 0 );
 		}
 
 		return false;

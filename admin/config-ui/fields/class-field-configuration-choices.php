@@ -4,7 +4,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Choice
+ * Holds the choices for the Configuration method to be chosen in the first step of the wizard
  */
 class WPSEO_Config_Field_Configuration_Choices extends WPSEO_Config_Field {
 

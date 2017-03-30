@@ -4,7 +4,7 @@ import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
 
 class Suggestion extends React.Component {
 	/**
-	 * @summary Renders the Choice component.
+	 * @summary Renders the Suggestion component.
 	 *
 	 * @returns {JSX.Element} Rendered Component.
 	 */

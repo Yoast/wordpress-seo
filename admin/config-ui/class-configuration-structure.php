@@ -72,13 +72,13 @@ class WPSEO_Configuration_Structure {
 	 * @param string $identifier Identifier for this step.
 	 * @param string $title      Title to display for this step.
 	 * @param array  $fields     Fields to use on the step.
-	 * @param bool   $navigaton  Show navigation buttons.
+	 * @param bool   $navigation Show navigation buttons.
 	 */
-	protected function add_step( $identifier, $title, $fields, $navigaton = true ) {
+	protected function add_step( $identifier, $title, $fields, $navigation = true ) {
 		$this->steps[ $identifier ] = array(
-			'title'  => $title,
-			'fields' => $fields,
-			'hideNavigation' => ! (bool) $navigaton,
+			'title'          => $title,
+			'fields'         => $fields,
+			'hideNavigation' => ! (bool) $navigation,
 		);
 	}
 

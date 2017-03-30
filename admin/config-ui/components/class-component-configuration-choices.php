@@ -60,7 +60,7 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 	/**
 	 * Get the data for the field.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function get_data() {
 		return array();
@@ -71,7 +71,7 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 	 *
 	 * @param array $data Data containing changes.
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function set_data( $data ) {
 		return true;
