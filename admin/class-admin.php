@@ -737,6 +737,10 @@ class WPSEO_Admin {
 	 * Loads the cornerstone filter
 	 */
 	protected function initialize_cornerstone_content() {
+		if ( ! $this->options['enable_cornerstone_content'] ) {
+			return false;
+		}
+
 		$cornerstone = new WPSEO_Cornerstone();
 		$cornerstone->register_hooks();
 
