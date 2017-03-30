@@ -4,7 +4,7 @@
  */
 
 /**
- * Represents the configuration choices component.
+ * Represents the configuration suggestions component.
  */
 class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 
