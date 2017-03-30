@@ -756,18 +756,15 @@ body {
 	order: 1;
 }
 
-.yoast-wizard--suggestion > .yoast-wizard--rows,
 .yoast-wizard--choice > .yoast-wizard--rows {
 	height: 100%;
 }
 
-.yoast-wizard--suggestion div,
 .yoast-wizard--choice div {
 	align-self: flex-start;
 	-ms-flex-item-align: start;
 }
 
-.yoast-wizard--suggestion p,
 .yoast-wizard--choice p {
 	height: 100%;
 	margin-top: 0.3em;
@@ -792,11 +789,13 @@ body {
 }
 
 .yoast-wizard-newsletter--decoration {
-	width: 490px;
+	width: 100%;
+	max-width: 490px;
 }
 
 .yoast-wizard-newsletter--decoration img {
 	width: 490px;
+	max-width: 100%;
 	/* Compensate for Header spacing */
 	margin-top: -3em;
 }

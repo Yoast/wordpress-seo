@@ -171,9 +171,11 @@
     }
 
     &--decoration {
-      width: 490px;
+      width: 100%;
+      max-width: 490px;
       img {
         width: 490px;
+        max-width: 100%;
         /* Compensate for Header spacing */
         margin-top: -3em;
       }

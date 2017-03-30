@@ -61,7 +61,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			array(
 				'label' => 'Yoast SEO plugin training',
 				'type' => 'link',
-				'url' => 'https://yoa.st/wizard-suggestion-plugincourse',
+				'url' => 'https://yoa.st/wizard-suggestion-plugin-course',
 			),
 			'https://yoa.st/video-plugin-course'
 		);
