@@ -132,15 +132,8 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	 */
 	protected function requires_notification() {
 		$post_query  = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
-		$total_posts = $post_query->get_query( 'post', array( 'offset' => self::UNINDEXED_THRESHOLD + 1 ) )->found_posts;
 
-		if ( $this->exceeds_threshold( $total_posts ) ) {
-			return true;
-		}
-
-		$total_pages = $post_query->get_query( 'page', array( 'offset' => self::UNINDEXED_THRESHOLD + 1 ) )->found_posts;
-
-		return $this->exceeds_threshold( $total_posts + $total_pages );
+		return $post_query->exceeds_limit( self::UNINDEXED_THRESHOLD );
 	}
 
 	/**
@@ -152,16 +145,5 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 		$options = WPSEO_Options::get_option( 'wpseo' );
 
 		return ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
-	}
-
-	/**
-	 * Determines whether the threshold has been exceeded or not.
-	 *
-	 * @param integer $total_items The total amount of items.
-	 *
-	 * @return bool True if threshold has been exceeded.
-	 */
-	protected function exceeds_threshold( $total_items ) {
-		return $total_items > self::UNINDEXED_THRESHOLD;
 	}
 }
