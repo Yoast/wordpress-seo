@@ -30,6 +30,19 @@ class WPSEO_Premium_Prominent_Words_Link_Service {
 
 		wp_set_object_terms( $post_id, $terms_to_save, WPSEO_Premium_Prominent_Words_Registration::TERM_NAME );
 
+		// Save the post meta.
+		$this->save_version_number( $post_id );
+
 		return new WP_REST_Response( __( 'The terms are saved successful for the given post.', 'wordpress-seo-premium' ) );
+	}
+
+	/**
+	 * Saves the version number as a meta.
+	 *
+	 * @param int $post_id The post ID to save the version number for.
+	 */
+	protected function save_version_number( $post_id ) {
+		$versioning = new WPSEO_Premium_Prominent_Words_Versioning();
+		$versioning->save_version_number( $post_id );
 	}
 }

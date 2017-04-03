@@ -18,8 +18,6 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 	 * {@inheritdoc}
 	 */
 	public function register_hooks() {
-		add_action( 'save_post', array( $this, 'save_version_number' ) );
-
 		if ( ! $this->can_retrieve_data() ) {
 			return;
 		}
@@ -37,9 +35,6 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 	 */
 	public function save_version_number( $post_id ) {
 		add_post_meta( $post_id, self::POST_META_NAME, self::VERSION_NUMBER, true );
-
-		// Prevent infinite loops.
-		remove_action( 'save_post', array( $this, 'save_version_number' ), 10 );
 	}
 
 	/**
