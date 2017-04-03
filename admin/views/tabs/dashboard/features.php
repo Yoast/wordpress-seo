@@ -43,7 +43,7 @@ $feature_toggles = array(
 		/* translators: 1: open link tag 2: close link tag */
 		'label'   => sprintf(
 			__( 'The Cornerstone content functionality enables you to mark and filter cornerstone content on your website. %1$sRead more about how cornerstone content can help you improve your site structure.%2$s', 'wordpress-seo' ),
-			'<a href="' .  WPSEO_Shortlinker::get( 'https://yoa.st' ) . '">',
+			'<a href="' .  WPSEO_Shortlinker::get( 'https://yoa.st/dashboard-help-cornerstone' ) . '">',
 			'</a>'
 		),
 	),
