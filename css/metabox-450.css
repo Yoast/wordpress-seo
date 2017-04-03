@@ -337,9 +337,6 @@
 	font-style: normal;
 	line-height: 16px;
 }
-.snippet_container .url strong {
-	font-weight: 700;
-}
 
 .snippet_container .down_arrow {
 	float: left; 
@@ -353,9 +350,9 @@
 .snippet_container .desc-default {
 	color: #545454;
 }
+
 .snippet_container .desc-default strong {
 	color: #6a6a6a;
-	font-weight: 700;
 }
 
 .snippet_container .desc-render {
@@ -1069,12 +1066,14 @@ button.yoast-tooltip {
 .yoast-section {
 	position: relative;
 	padding: 0 20px 15px; 
+	border: 1px solid #f7f7f7;
+	border-radius: 20px;
 	background-color: #fff;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 .yoast-section__heading {
 	margin: 0 -20px 15px;
 	padding: 8px 20px;
+	border-bottom: 1px solid #f7f7f7;
 	color: #555; 
 	font-family: "Open Sans", sans-serif;
 	font-size: 0.9rem;
@@ -1235,6 +1234,10 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 	padding: 20px 35px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
+}
+
+.wpseotab .wpseo-cornerstone-checkbox {
+	margin-right: 0.5em;
 }
 
 .wpseotab.content {
