@@ -113,6 +113,7 @@ class LinkSuggestions extends EventEmitter {
 				value: linkSuggestion.title,
 				url: linkSuggestion.link,
 				isActive: linkSuggestion.active,
+				isCornerstone: linkSuggestion.isCornerstone
 			};
 		} );
 	}
