@@ -18,8 +18,6 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 	 * {@inheritdoc}
 	 */
 	public function register_hooks() {
-		add_action( 'save_post', array( $this, 'save_version_number' ) );
-
 		if ( ! $this->can_retrieve_data() ) {
 			return;
 		}
@@ -37,9 +35,6 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 	 */
 	public function save_version_number( $post_id ) {
 		add_post_meta( $post_id, self::POST_META_NAME, self::VERSION_NUMBER, true );
-
-		// Prevent infinite loops.
-		remove_action( 'save_post', array( $this, 'save_version_number' ), 10 );
 	}
 
 	/**
@@ -69,18 +64,21 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 	 */
 	public function rest_add_query_args( $args, WP_REST_Request $request ) {
 		if ( $request->get_param( self::COLLECTION_PARAM ) === true ) {
-			$args['meta_query'] = array(
-				'relation' => 'OR',
-				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-					'value'   => WPSEO_Premium_Prominent_Words_Versioning::VERSION_NUMBER,
-					'compare' => '!=',
-				),
-				array(
-					'key'     => WPSEO_Premium_Prominent_Words_Versioning::POST_META_NAME,
-					'compare' => 'NOT EXISTS',
-				),
-			);
+
+			$limit = 10;
+			if ( ! empty( $args['posts_per_page'] ) ) {
+				$limit = $args['posts_per_page'];
+			}
+
+			$prominent_words = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
+			$post_ids = $prominent_words->get_unindexed_post_ids( $args['post_type'], $limit );
+
+			// Make sure WP_Query uses our list, especially when it's empty!
+			if ( empty( $post_ids ) ) {
+				$post_ids = array( 0 );
+			}
+
+			$args['post__in'] = $post_ids;
 		}
 
 		return $args;

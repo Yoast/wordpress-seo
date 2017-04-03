@@ -2,58 +2,266 @@
 @import "wp";
 @import "../../node_modules/yoast-components/css/all.scss";
 
+#wizard {
+  overflow: hidden;
+}
+
 .yoast-wizard {
 
-	&-return-link {
-		/* lighter #555d66 */
-		color: #646d78;
-		margin: 1em 0;
-		display: block;
-		text-align: center;
-	}
+  padding-top: 2em;
 
-	&-mailchimp {
+  input[type="text"] {
+    min-width: 250px;
 
-		&-message {
+    & + div {
+      margin-right: 1em;
+    }
+  }
 
-			&-error {
-				color: #dc3232;
-			}
+  #gsc_authorization_code {
+    margin-right: 1em;
+  }
 
-			&-success {
-				color: #008a00;
-			}
-		}
-	}
+  &-body {
+    max-width: 80em;
+  }
 
-	&-input {
-		padding-bottom: 0.5em;
+  &--navigation {
+    border-top: 1px solid $palette_pink_dark;
+    margin-top: 2em;
+    padding-top: 1em;
+  }
 
-		&__select {
-		margin: 1em 0;
-		font-size: 14px;
-		}
-	}
+  &-return-link {
+    /* lighter #555d66 */
+    color: #646d78;
+    margin: 1em 0;
+    display: block;
+    text-align: center;
+  }
 
-	&-image-upload-container {
+  &-mailchimp {
 
-		&__image {
-			max-width: 151px;
-		}
+    &-message {
 
-		&-buttons {
-			margin-top: 1em;
+      &-error {
+        color: #dc3232;
+      }
 
-			&__remove {
-				margin-left: 1em;
-			}
-		}
-		&-description {
-			display: block;
-		}
-	}
+      &-success {
+        color: #008a00;
+      }
+    }
+  }
+
+  &-input {
+    padding-bottom: 0.5em;
+
+    &__select {
+      margin: 1em 0;
+      font-size: 14px;
+    }
+  }
+
+  &-image-upload-container {
+
+    &__image {
+      max-width: 151px;
+    }
+
+    &-buttons {
+      margin-top: 1em;
+
+      &__remove {
+        margin-left: 1em;
+      }
+    }
+    &-description {
+      display: block;
+    }
+  }
+
+  &--emphasis {
+    font-weight: bold;
+  }
+
+  &--navigation {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid $palette_pink_dark;
+  }
+
+  &--rows {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &--columns {
+    display: flex;
+
+    .yoast-wizard-text-input-field {
+      max-width: 100%;
+    }
+
+    &__even {
+      & > div {
+        flex-basis: 50%;
+      }
+    }
+
+    & > div {
+      margin-left: 1em;
+    }
+
+    & > div:first-child {
+      margin-left: 0;
+    }
+
+    .yoast-wizard--heading {
+      margin: 0;
+
+      color: $palette_pink_dark;
+    }
+
+    & > .yoast-wizard--column__push_ {
+      &right {
+        order: 2;
+      }
+
+      &left {
+        order: 1;
+        margin-left: 0;
+        margin-right: 1em;
+      }
+    }
+  }
+
+  &--choice {
+    & > .yoast-wizard--rows {
+      height: 100%;
+    }
+
+    & div {
+      align-self: flex-start;
+    }
+
+    p {
+      margin-top: 0.3em;
+      height: 100%;
+    }
+  }
+
+  &--box {
+    border: 1px solid $palette_pink_dark;
+    padding: 1em;
+
+    & > div:first-child {
+      flex-basis: 100px;
+    }
+  }
+
+  &-newsletter {
+    &--header {
+      svg {
+        fill: $palette_pink_dark;
+        top: 4px;
+        position: relative;
+        margin-right: 6px;
+      }
+    }
+
+    &--decoration {
+      width: 100%;
+      max-width: 490px;
+      img {
+        width: 490px;
+        max-width: 100%;
+        /* Compensate for Header spacing */
+        margin-top: -3em;
+      }
+    }
+  }
+
+  &--video-frame {
+    iframe {
+      border: none;
+    }
+  }
+
+  @media screen and (max-width: 80em) {
+    &--columns {
+      display: block;
+
+      & > div {
+        margin-left: 0;
+      }
+
+      & > .yoast-wizard--column__push_ {
+        &left {
+          margin-right: 0;
+          margin-top: 2em;
+        }
+      }
+    }
+
+    &--box {
+      display: flex;
+      margin-top: 1em;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      & > div {
+        margin-left: 1em;
+      }
+    }
+
+    .hide-on-tablet {
+      display: none;
+    }
+  }
+
+  &--suggestion {
+    border-top: 1px solid $palette_pink_dark;
+    padding-top: 2em;
+    margin-bottom: 2em;
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+  }
+
+  @media screen and (max-width: 50rem) {
+    .hide-on-mobile {
+      display: none;
+    }
+
+    &--box {
+      display: block;
+
+      & > div {
+        margin-left: 0;
+      }
+    }
+
+    &--video-frame {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+
+      iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 
 }
+
 .ie9 .yoast-wizard--stepper {
-	display: none;
+  display: none;
 }
