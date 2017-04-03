@@ -43,6 +43,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'keyword_analysis_active'         => true,
 		'enable_setting_pages'            => true,
 		'enable_admin_bar_menu'			  => true,
+		'enable_cornerstone_content'      => true,
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
 	);

@@ -29,8 +29,13 @@ class WPSEO_Config_Field_Upsell_Configuration_Service extends WPSEO_Config_Field
 			'</a>'
 		);
 
-		$html = '<p>' . $intro_text . '</p>';
-		$html .= '<p><em>' . $upsell_text . '</em></p>';
+		$html = '<p>' . esc_html( $intro_text ) . '</p>';
+		$html .= '<p><em>' . wp_kses( $upsell_text, array(
+				'a' => array(
+					'target' => array( '_blank' ),
+					'href'   => array(),
+				),
+			) ) . '</em></p>';
 
 
 		$this->set_property( 'html', $html );

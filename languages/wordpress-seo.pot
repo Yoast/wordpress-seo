@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2017-03-21 09:15:33+00:00\n"
+"POT-Creation-Date: 2017-03-24 14:34:04+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -96,7 +96,8 @@ msgid "Facebook & Twitter"
 msgstr ""
 
 #: admin/banner/class-admin-banner-sidebar.php:97
-msgid "24/7 Support"
+#: admin/metabox/class-metabox-add-keyword-tab.php:38
+msgid "24/7 support"
 msgstr ""
 
 #: admin/banner/class-admin-banner-sidebar.php:98
@@ -118,117 +119,117 @@ msgstr ""
 msgid "Prices start as low as 69,- for one site"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:137
+#: admin/banner/class-admin-banner-sidebar.php:140
 msgid "Services"
 msgstr ""
 
 #. translators: %1$s expands to a link start tag to the Yoast Services page,
 #. %2$s to Yoast, %3$s is the link closing tag.
-#: admin/banner/class-admin-banner-sidebar.php:142
+#: admin/banner/class-admin-banner-sidebar.php:145
 msgid ""
 "Do you want to know how to improve your rankings? %1$sLet team %2$s help you!"
 "%3$s"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium.
-#: admin/banner/class-admin-banner-sidebar.php:157
+#: admin/banner/class-admin-banner-sidebar.php:160
 msgid "Let our experts set up your %1$s plugin!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:202 admin/class-admin.php:357
+#: admin/banner/class-admin-banner-sidebar.php:207 admin/class-admin.php:357
 #: admin/pages/licenses.php:112
 msgid "Extensions"
 msgstr ""
 
 #. translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s
 #. is the link closing tag.
-#: admin/banner/class-admin-banner-sidebar.php:207
+#: admin/banner/class-admin-banner-sidebar.php:212
 msgid ""
 "Take your SEO to the next level and outrank your competition with our "
 "%1$sSEO plugins%2$s."
 msgstr ""
 
 #. translators: %1$s expands to Yoast Video SEO.
-#: admin/banner/class-admin-banner-sidebar.php:222
+#: admin/banner/class-admin-banner-sidebar.php:227
 msgid ""
 "Buy the %1$s plugin now and optimize your videos for video search results "
 "and social media!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast WooCommerce SEO.
-#: admin/banner/class-admin-banner-sidebar.php:238
+#: admin/banner/class-admin-banner-sidebar.php:243
 msgid ""
 "Buy the %1$s plugin now and optimize your shop today to improve your product "
 "promotion!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast Local SEO.
-#: admin/banner/class-admin-banner-sidebar.php:253
+#: admin/banner/class-admin-banner-sidebar.php:258
 msgid ""
 "Buy the %1$s plugin now to improve your site&#8217;s Local SEO and ranking "
 "in Google Maps!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast News SEO.
-#: admin/banner/class-admin-banner-sidebar.php:269
+#: admin/banner/class-admin-banner-sidebar.php:274
 msgid ""
 "Buy the %1$s plugin now and start optimizing to get your site featured in "
 "Google News!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:285
+#: admin/banner/class-admin-banner-sidebar.php:290
 msgid "Courses"
 msgstr ""
 
 #. translators: %1$s expands to a link start tag to the Yoast Services page,
 #. %2$s is the link closing tag.
-#: admin/banner/class-admin-banner-sidebar.php:290
+#: admin/banner/class-admin-banner-sidebar.php:295
 msgid ""
 "Do you want to get a grip on your own SEO-strategy? Learn all about it in "
 "one of %1$sour courses%2$s."
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:302
+#: admin/banner/class-admin-banner-sidebar.php:307
 msgid ""
 "Take the online Basic SEO Training course and learn the fundamentals of SEO!"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO for WordPress Training, %2$s to Yoast
 #. SEO for WordPress.
-#: admin/banner/class-admin-banner-sidebar.php:314
+#: admin/banner/class-admin-banner-sidebar.php:319
 msgid "Take the %1$s course and become a certified %2$s expert!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:327
+#: admin/banner/class-admin-banner-sidebar.php:332
 msgid ""
 "Take the online SEO Copywriting Training course and learn how to write "
 "awesome copy that ranks!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:337
+#: admin/banner/class-admin-banner-sidebar.php:342
 msgid ""
 "Take the online Keyword Research Training course and learn how to rank with "
 "your keywords!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:347
+#: admin/banner/class-admin-banner-sidebar.php:352
 msgid ""
 "Take the online Site Structure Training course and learn how to structure "
 "your website!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:357
+#: admin/banner/class-admin-banner-sidebar.php:362
 msgid ""
 "Take the online Technical SEO Training course and learn essential technical "
 "SEO-concepts!"
 msgstr ""
 
-#: admin/banner/class-admin-banner-sidebar.php:372
+#: admin/banner/class-admin-banner-sidebar.php:377
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/banner/class-admin-banner-sidebar.php:378
+#: admin/banner/class-admin-banner-sidebar.php:383
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
@@ -627,11 +628,11 @@ msgstr ""
 msgid "This export includes taxonomy metadata"
 msgstr ""
 
-#: admin/class-export.php:183
+#: admin/class-export.php:184
 msgid "No taxonomy metadata found"
 msgstr ""
 
-#: admin/class-export.php:221
+#: admin/class-export.php:222
 msgid "Could not zip settings-file."
 msgstr ""
 
@@ -1327,8 +1328,8 @@ msgstr ""
 #. translators: %s expands to Yoast SEO.
 #: admin/config-ui/fields/class-field-mailchimp-signup.php:25
 msgid ""
-"If you would like us to keep you up-to-date regarding %s, other plugins by "
-"Yoast and major news in the world of SEO, subscribe to our newsletter:"
+"Sign up to our newsletter if you like to keep up-to-date regarding %s, other "
+"plugins by Yoast and major news in the world of SEO."
 msgstr ""
 
 #: admin/config-ui/fields/class-field-multiple-authors.php:16
@@ -1906,10 +1907,6 @@ msgstr ""
 
 #: admin/metabox/class-metabox-add-keyword-tab.php:37
 msgid "<strong>Social media preview</strong>: Facebook &amp; Twitter"
-msgstr ""
-
-#: admin/metabox/class-metabox-add-keyword-tab.php:38
-msgid "24/7 support"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:67
@@ -4569,9 +4566,9 @@ msgstr ""
 #: vendor/yoast/whip/src/messages/Whip_UpgradePhpMessage.php:49
 msgid ""
 "If you cannot upgrade your PHP version yourself, you can send an email to "
-"your host. We have examples here. If they don't want to upgrade your PHP "
-"version, we would suggest you switch hosts. Have a look at one of our "
-"recommended %1$sWordPress hosting partners%2$s, they've all been vetted by "
+"your host. We have %1$sexamples here%2$s. If they don't want to upgrade your "
+"PHP version, we would suggest you switch hosts. Have a look at one of our "
+"recommended %3$sWordPress hosting partners%4$s, they've all been vetted by "
 "our Yoast support team and provide all the features a modern host should "
 "provide."
 msgstr ""
@@ -5358,23 +5355,23 @@ msgstr ""
 msgid "There is an error with the request."
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:220
+#: js/src/components/MailchimpSignup.js:224
 msgid "Email"
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:206
+#: js/src/components/MailchimpSignup.js:210
 msgid "Name"
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:193
+#: js/src/components/MailchimpSignup.js:194
 msgid "Sign Up!"
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:111
+#: js/src/components/MailchimpSignup.js:112
 msgid "MailChimp signup failed:"
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:23
+#: js/src/components/MailchimpSignup.js:24
 msgid "Sign up for our newsletter!"
 msgstr ""
 
