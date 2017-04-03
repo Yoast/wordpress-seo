@@ -105,7 +105,7 @@ window.wpseo_get_active_editor = wpseo_get_active_editor;
 function wpseo_get_item_id() {
 	var editor = wpseo_get_active_editor();
 
-	if ( editor === "" ) {
+	if ( editor.length === 0 || editor === "" ) {
 		return "";
 	}
 
