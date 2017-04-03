@@ -71,7 +71,6 @@ let initializeProminentWordStorage = function() {
 		postID: settings.postID,
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
-		postTypeBase: settings.restApi.postTypeBase,
 	} );
 };
 
