@@ -44,6 +44,7 @@
 .yoast-link-suggestion {
 	display: block;
 	width: 100%;
+	margin-bottom: 5px;
 }
 
 .yoast-link-suggestion-icon {
@@ -52,13 +53,13 @@
 	width: 30px;
 	height: 30px;
 	margin-right: 5px;
-	border: none;
-	border-radius: 15px;
+	border: 1px solid #dbdbdb;
+	border-radius: 5px;
 	outline: none;
-	background-color: transparent;
+	background-color: #f7f7f7;
 	background-repeat: no-repeat;
 	background-position: left 0.6em top 0.6em;
-	background-size: 16px;
+	background-size: 14px;
 	cursor: pointer;
 }
 
