@@ -41,6 +41,38 @@ class WPSEO_Premium_Link_Suggestions_Service {
 
 		set_transient( $this->get_cache_key( $prominent_words ), $suggestions, WEEK_IN_SECONDS );
 
+		return $this->add_is_cornerstone( $suggestions );
+	}
+
+	/**
+	 * Determines the cornerstone content items in the suggestions.
+	 *
+	 * @param array $suggestions List of suggestions from cache.
+	 *
+	 * @return array Suggestions added with isCornerstone field.
+	 */
+	public function add_is_cornerstone( $suggestions ) {
+		global $wpdb;
+
+		if ( empty( $suggestions ) ) {
+			return $suggestions;
+		}
+
+		// Get the IDs from the suggestions.
+		$suggestion_ids = wp_list_pluck( $suggestions, 'id' );
+
+		$suggestion_ids = "'" . implode( "', '", $suggestion_ids ) . "'";
+
+		// Find all posts in the list that are cornerstone items.
+		$sql = $wpdb->prepare( 'SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE post_id IN ( ' . $suggestion_ids . ' ) AND meta_key = "%s" AND meta_value = "1"', WPSEO_Cornerstone::META_NAME );
+		$results = $wpdb->get_results( $sql );
+
+		$results = wp_list_pluck( $results, 'post_id' );
+
+		foreach ($suggestions as & $suggestion ) {
+			$suggestion['isCornerstone'] = in_array( $suggestion['id'], $results, false );
+		}
+
 		return $suggestions;
 	}
 
@@ -145,9 +177,6 @@ class WPSEO_Premium_Link_Suggestions_Service {
 			'id'            => $post->ID,
 			'title'         => $title,
 			'link'          => get_permalink( $post ),
-
-			// Is this post cornerstone content?
-			'isCornerstone' => get_post_meta( $post->ID, WPSEO_Cornerstone::META_NAME, true ),
 		);
 	}
 }
