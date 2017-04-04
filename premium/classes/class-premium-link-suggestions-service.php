@@ -47,26 +47,6 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	}
 
 	/**
-	 * Sorts suggestions by isCornerstone
-	 *
-	 * @param array $a Suggestion A.
-	 * @param array $b Suggestion B.
-	 *
-	 * @return int -1 if $a should be higher, 0 if $a and $b are identical, 1 if $b has to be higher.
-	 */
-	protected function sort_by_cornerstone( $a, $b ) {
-		if ( $a['isCornerstone'] === true && $b['isCornerstone'] === true ) {
-			return 0;
-		}
-
-		if ( $a['isCornerstone'] === true ) {
-			return -1;
-		}
-
-		return 1;
-	}
-
-	/**
 	 * Determines the cornerstone content items in the suggestions.
 	 *
 	 * @param array $suggestions List of suggestions from cache.
@@ -129,6 +109,26 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		sort( $prominent_words );
 
 		return self::CACHE_PREFIX . md5( implode( ',', $prominent_words ) );
+	}
+
+	/**
+	 * Sorts suggestions by isCornerstone
+	 *
+	 * @param array $a Suggestion A.
+	 * @param array $b Suggestion B.
+	 *
+	 * @return int -1 if $a should be higher, 0 if $a and $b are identical, 1 if $b has to be higher.
+	 */
+	protected function sort_by_cornerstone( $a, $b ) {
+		if ( $a['isCornerstone'] === true && $b['isCornerstone'] === true ) {
+			return 0;
+		}
+
+		if ( $a['isCornerstone'] === true ) {
+			return -1;
+		}
+
+		return 1;
 	}
 
 	/**
