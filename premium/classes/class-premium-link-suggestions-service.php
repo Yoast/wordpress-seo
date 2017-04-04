@@ -142,9 +142,12 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		}
 
 		return array(
-			'id'    => $post->ID,
-			'title' => $title,
-			'link'  => get_permalink( $post ),
+			'id'            => $post->ID,
+			'title'         => $title,
+			'link'          => get_permalink( $post ),
+
+			// Is this post cornerstone content?
+			'isCornerstone' => get_post_meta( $post->ID, WPSEO_Cornerstone::META_NAME, true ),
 		);
 	}
 }
