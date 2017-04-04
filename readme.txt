@@ -124,6 +124,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.6.0 =
+
+Release Date: April 11th, 2017
+* Enhancements
+	* Improves a language string, props [Sören Wrede](https://github.com/Soean).
+	* Improves the configuration wizard with clear information about the configuration.
+	* Adds the ability to mark posts as cornerstone content.
+
 = 4.5.0 =
 
 Release Date: March 21st, 2017
