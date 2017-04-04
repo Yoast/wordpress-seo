@@ -1,3 +1,10 @@
+### 4.6.0: April 11th, 2017
+* Adds the ability to mark a post as cornerstone content and display this in the link suggestions box.
+* Fixes a bug where the post_modified was updated whenever the prominent words were calculated.
+* Fixes a bug where a JavaScript error was thrown when creating a new taxonomy with a custom field plugin active.
+* Fixes a bug where websites ran into timeouts due to a big query when calculating the prominent words.
+* Includes every change in Yoast SEO core 4.6.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 4.5.0: March 21st, 2017
 * Fixes a bug where the SEO score wouldn’t be saved correctly, resulting in gray bullets on the post overview screen.
 * Includes every change in Yoast SEO core 4.5.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
