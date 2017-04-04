@@ -41,7 +41,29 @@ class WPSEO_Premium_Link_Suggestions_Service {
 
 		set_transient( $this->get_cache_key( $prominent_words ), $suggestions, WEEK_IN_SECONDS );
 
-		return $this->add_is_cornerstone( $suggestions );
+		$suggestions = $this->add_is_cornerstone( $suggestions );
+
+		return $suggestions;
+	}
+
+	/**
+	 * Sorts suggestions by isCornerstone
+	 *
+	 * @param array $a Suggestion A.
+	 * @param array $b Suggestion B.
+	 *
+	 * @return int -1 if $a should be higher, 0 if $a and $b are identical, 1 if $b has to be higher.
+	 */
+	protected function sort_by_cornerstone( $a, $b ) {
+		if ( $a['isCornerstone'] === true && $b['isCornerstone'] === true ) {
+			return 0;
+		}
+
+		if ( $a['isCornerstone'] === true ) {
+			return -1;
+		}
+
+		return 1;
 	}
 
 	/**
@@ -72,6 +94,9 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		foreach ($suggestions as & $suggestion ) {
 			$suggestion['isCornerstone'] = in_array( $suggestion['id'], $results, false );
 		}
+
+		// Sort list to have cornerstone articles appear first.
+		usort( $suggestions, array( $this, 'sort_by_cornerstone' ) );
 
 		return $suggestions;
 	}
