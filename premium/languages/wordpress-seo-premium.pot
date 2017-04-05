@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-03-21 10:42:35+00:00\n"
+"POT-Creation-Date: 2017-04-05 08:52:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,39 +24,39 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:113
+#: class-premium.php:114
 msgid "Metabox insights"
 msgstr ""
 
-#: class-premium.php:115
+#: class-premium.php:116
 msgid ""
 "The metabox insights section contains insights about your content, like an "
 "overview of the most prominent words in your text."
 msgstr ""
 
-#: class-premium.php:118
+#: class-premium.php:119
 msgid "Link suggestions"
 msgstr ""
 
-#: class-premium.php:120
+#: class-premium.php:121
 msgid ""
 "The link suggestions section contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: class-premium.php:373
+#: class-premium.php:374
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:405
+#: class-premium.php:406
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:424 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:425 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:458
+#: class-premium.php:459
 msgid "Enabled"
 msgstr ""
 
@@ -245,6 +245,14 @@ msgstr ""
 msgid "(no title)"
 msgstr ""
 
+#: classes/class-premium-prominent-words-link-service.php:23
+msgid "There is no post found for the given post id."
+msgstr ""
+
+#: classes/class-premium-prominent-words-link-service.php:36
+msgid "The terms are saved successful for the given post."
+msgstr ""
+
 #. translators: 1: link to yoast.com post about internal linking suggestion. 2:
 #. is anchor closing. 3: button to the recalculation option. 4: closing button
 #: classes/class-premium-prominent-words-recalculation-notifier.php:108
@@ -256,69 +264,69 @@ msgid ""
 "suggestions."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:34
+#: classes/class-premium-prominent-words-recalculation.php:37
 msgid "Internal linking"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:35
+#: classes/class-premium-prominent-words-recalculation.php:38
 msgid ""
 "Want to use our internal linking tool? Analyze all the published posts and "
 "pages to generate internal linking suggestions."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:47
+#: classes/class-premium-prominent-words-recalculation.php:50
 msgid "Generating internal linking suggestions"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:47
+#: classes/class-premium-prominent-words-recalculation.php:50
 msgid "Analyze your content"
 msgstr ""
 
 #. translators: 1: expands to a <span> containing the number of items
 #. recalculated. 2: expands to a <strong> containing the total number of items.
-#: classes/class-premium-prominent-words-recalculation.php:68
+#: classes/class-premium-prominent-words-recalculation.php:71
 msgid "Post %1$s of %2$s analyzed."
 msgstr ""
 
 #. translators: 1: expands to a <span> containing the number of items
 #. recalculated. 2: expands to a <strong> containing the total number of items.
-#: classes/class-premium-prominent-words-recalculation.php:75
+#: classes/class-premium-prominent-words-recalculation.php:78
 msgid "Page %1$s of %2$s analyzed."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:83
+#: classes/class-premium-prominent-words-recalculation.php:86
 msgid "Generating suggestions for posts..."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:88
+#: classes/class-premium-prominent-words-recalculation.php:91
 msgid ""
 "All your posts are already indexed, there is no need to do the recalculation "
 "for them."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:93
+#: classes/class-premium-prominent-words-recalculation.php:96
 msgid "Generating suggestions for pages..."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:98
+#: classes/class-premium-prominent-words-recalculation.php:101
 msgid ""
 "All your pages are already indexed, there is no need to do the recalculation "
 "for them."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:101
+#: classes/class-premium-prominent-words-recalculation.php:104
 msgid "Stop analyzing"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:132
+#: classes/class-premium-prominent-words-recalculation.php:135
 msgid "Calculation in progress..."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:133
+#: classes/class-premium-prominent-words-recalculation.php:136
 msgid "Calculation completed."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:191
+#: classes/class-premium-prominent-words-recalculation.php:182
 msgid "Good job! You've optimized your internal linking suggestions."
 msgstr ""
 
@@ -386,7 +394,7 @@ msgstr ""
 msgid "Prominent words list navigation"
 msgstr ""
 
-#: classes/class-premium-prominent-words-versioning.php:54
+#: classes/class-premium-prominent-words-versioning.php:49
 msgid "Limit result set to items that are unindexed."
 msgstr ""
 
