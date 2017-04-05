@@ -44,10 +44,11 @@ class ProminentWordStorage extends EventEmitter {
 		}
 		this._savingProminentWords = true;
 
-		let firstTwentyWords = prominentWords.slice( 0, 20 );
+		let prominentWordsLimit = ProminentWordStorage.getProminentWordsLimit();
+		let prominentWordsToSave = prominentWords.slice( 0, prominentWordsLimit );
 
 		// Retrieve IDs of all prominent word terms, but do it in sequence to prevent overloading servers.
-		let prominentWordIds = firstTwentyWords.reduce( ( previousPromise, prominentWord ) => {
+		let prominentWordIds = prominentWordsToSave.reduce( ( previousPromise, prominentWord ) => {
 			return previousPromise.then( ( ids ) => {
 				return this.retrieveProminentWordId( prominentWord ).then( ( newId ) => {
 					ids.push( newId );
@@ -164,6 +165,19 @@ class ProminentWordStorage extends EventEmitter {
 				},
 			} );
 		} );
+	}
+
+	/**
+	 * Returns 50 when cornerstone checkbox is checked, if not checket it will return 20.
+	 *
+	 * @returns {number} The prominent words limit.
+	 */
+	static getProminentWordsLimit() {
+		if ( document.getElementById( 'yst_is_cornerstone' ).checked ) {
+			return 50;
+		}
+
+		return 20;
 	}
 }
 
