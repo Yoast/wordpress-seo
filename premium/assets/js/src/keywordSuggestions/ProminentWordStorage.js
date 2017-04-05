@@ -168,7 +168,7 @@ class ProminentWordStorage extends EventEmitter {
 	}
 
 	/**
-	 * Returns 50 when cornerstone checkbox is checked, if not checket it will return 20.
+	 * Returns 50 when cornerstone checkbox is checked, if not checked it will return 20.
 	 *
 	 * @returns {number} The prominent words limit.
 	 */
