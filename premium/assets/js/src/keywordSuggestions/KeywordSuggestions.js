@@ -19,8 +19,17 @@ class KeywordSuggestions {
 		this._contentEndpointsAvailable = contentEndpointsAvailable;
 		this.words = null;
 		this._prominentWordStorage = prominentWordStorage;
+		this._updateProminentWordsEvent = "YoastSEO:updateProminentWords";
 
-		jQuery( window ).on( "YoastSEO:numericScore", this.updateWords.bind( this ) );
+		jQuery( window ).on( this._updateProminentWordsEvent, this.updateWords.bind( this ) );
+		jQuery( window ).on( "YoastSEO:numericScore", KeywordSuggestions.triggerUpdateProminentWords.bind( this ) );
+	}
+
+	/**
+	 * Triggers the event to update prominent words
+	 */
+	static triggerUpdateProminentWords() {
+		jQuery( window ).trigger( this._updateProminentWordsEvent );
 	}
 
 	/**
