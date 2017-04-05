@@ -69,11 +69,19 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		$sql = $wpdb->prepare( 'SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE post_id IN ( ' . $suggestion_ids . ' ) AND meta_key = "%s" AND meta_value = "1"', WPSEO_Cornerstone::META_NAME );
 		$results = $wpdb->get_results( $sql );
 
+		if ( ! is_array( $results ) ) {
+			$results = array();
+		}
+
+		// Fetch all the  post_ids from the results.
 		$results = wp_list_pluck( $results, 'post_id' );
 
+		// Loop through all suggestions and add the isCornerstone flag.
 		foreach ($suggestions as & $suggestion ) {
 			$suggestion['isCornerstone'] = in_array( $suggestion['id'], $results, false );
 		}
+		// Cleanup referenced value.
+		unset( $suggestion );
 
 		// Sort list to have cornerstone articles appear first.
 		usort( $suggestions, array( $this, 'sort_by_cornerstone' ) );
