@@ -99,7 +99,12 @@ class SiteWideCalculation extends EventEmitter {
 			} );
 		}, Promise.resolve() );
 
-		processPromises.then( this.continueProcessing ).catch( this.continueProcessing );
+		processPromises.then( this.continueProcessing ).catch( ( err ) => {
+			// eslint-disable-next-line
+			console.log( err );
+
+			this.continueProcessing();
+		} );
 	}
 
 	/**
