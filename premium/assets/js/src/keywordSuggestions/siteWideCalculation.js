@@ -101,7 +101,7 @@ class SiteWideCalculation extends EventEmitter {
 
 		processPromises.then( this.continueProcessing ).catch( ( err ) => {
 			// eslint-disable-next-line
-			console.log( err );
+			window.console && console.log( err );
 
 			this.continueProcessing();
 		} );

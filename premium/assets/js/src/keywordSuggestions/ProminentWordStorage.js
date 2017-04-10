@@ -102,7 +102,10 @@ class ProminentWordStorage extends EventEmitter {
 					this._savingProminentWords = false;
 				} );
 			} );
-		} ).catch( (e) => { console.log( e ); } );
+		} ).catch( (e) => {
+			// eslint-disable-next-line
+			window.console && console.log( e );
+		} );
 	}
 
 	/**
