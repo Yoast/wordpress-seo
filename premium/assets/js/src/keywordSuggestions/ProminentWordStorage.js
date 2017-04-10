@@ -7,12 +7,13 @@ import isEqual from "lodash/isEqual";
  */
 class ProminentWordStorage extends EventEmitter {
 	/**
-	 * @param {string} rootUrl The root URL of the WP REST API.
-	 * @param {string} nonce The WordPress nonce required to save anything to the REST API endpoints.
-	 * @param {number} postID The postID of the post to save prominent words for.
-	 * @param {ProminentWordCache} cache The cache to use for the prominent word term IDs.
+	 * @param {string} rootUrl             The root URL of the WP REST API.
+	 * @param {string} nonce               The WordPress nonce required to save anything to the REST API endpoints.
+	 * @param {number} postID              The postID of the post to save prominent words for.
+	 * @param {number} prominentWordsLimit The limit of prominent words.
+	 * @param {ProminentWordCache} cache   The cache to use for the prominent word term IDs.
 	 */
-	constructor( { postID, rootUrl, nonce, cache = null } ) {
+	constructor( { postID, rootUrl, nonce, prominentWordsLimit = 20, cache = null } ) {
 		super();
 
 		this._rootUrl = rootUrl;
@@ -20,7 +21,6 @@ class ProminentWordStorage extends EventEmitter {
 		this._postID = postID;
 		this._savingProminentWords = false;
 		this._previousProminentWords = null;
-		this._cornerstoneElementID = "yst_is_cornerstone";
 
 		this._postSaveEndpoint = this._rootUrl + "yoast/v1/prominent_words_link/" + this._postID;
 
@@ -29,16 +29,20 @@ class ProminentWordStorage extends EventEmitter {
 		}
 		this._cache = cache;
 
-		window.jQuery( document.body ).ready( this.bindCornerstoneChange.bind( this ) );
+		this.setProminentWordsLimit( prominentWordsLimit );
 
 		this.retrieveProminentWordId = this.retrieveProminentWordId.bind( this );
 	}
 
 	/**
-	 * Binds the change event listener to the cornerstone content checkbox
+	 * Sets the prominent words limit.
+	 *
+	 * @param {number} limit The limit to set.
+	 *
+	 * @returns {void}
 	 */
-	bindCornerstoneChange() {
-		window.jQuery( "#" + this._cornerstoneElementID ).change( ProminentWordStorage.triggerProminentWordsUpdate );
+	setProminentWordsLimit( limit ) {
+		this._prominentWordsLimit = limit;
 	}
 
 	/**
@@ -54,8 +58,7 @@ class ProminentWordStorage extends EventEmitter {
 		}
 		this._savingProminentWords = true;
 
-		let prominentWordsLimit = this.getProminentWordsLimit();
-		let prominentWordsToSave = prominentWords.slice( 0, prominentWordsLimit );
+		let prominentWordsToSave = prominentWords.slice( 0, this._prominentWordsLimit );
 
 		// Retrieve IDs of all prominent word terms, but do it in sequence to prevent overloading servers.
 		let prominentWordIds = prominentWordsToSave.reduce( ( previousPromise, prominentWord ) => {
@@ -99,7 +102,10 @@ class ProminentWordStorage extends EventEmitter {
 					this._savingProminentWords = false;
 				} );
 			} );
-		} ).catch( (e) => {} );
+		} ).catch( (e) => {
+			// eslint-disable-next-line
+			window.console && console.log( e );
+		} );
 	}
 
 	/**
@@ -175,26 +181,6 @@ class ProminentWordStorage extends EventEmitter {
 				},
 			} );
 		} );
-	}
-
-	/**
-	 * Triggers a window event to update the prominent words.
-	 */
-	static triggerProminentWordsUpdate() {
-		window.jQuery( window ).trigger( "YoastSEO:updateProminentWords" );
-	}
-
-	/**
-	 * Returns 50 when cornerstone checkbox is checked, if not checked it will return 20.
-	 *
-	 * @returns {number} The prominent words limit.
-	 */
-	getProminentWordsLimit() {
-		if ( document.getElementById( this._cornerstoneElementID ).checked ) {
-			return 50;
-		}
-
-		return 20;
 	}
 }
 
