@@ -148,30 +148,6 @@ Release Date: March 21st, 2017
 	* Improves copy about Yoast SEO Premium benefits.
 	* Adds link to our knowledge base article about connecting your website to Google Search Console.
 
-= 4.4.0 =
-
-Release date: February 28th, 2017
-
-* Bugfixes:
-	* Fixes a bug where a `span` tag wasn't closed correctly, props [lubobill1990](https://github.com/lubobill1990).
-	* Fixes a bug where there were deprecation warnings shown when an existing author was being updated.
-	* Fixes a bug where the user received an 'insufficient rights' error when the advanced settings are disabled, but an advanced page is visited.
-
-* Enhancements:
-	* Moves the options to disable keyword and content analysis from the general tab to the features tab.
-	* Improves styling of tables so they are viewable on mobile.
-	* Changes the links into shortlinks for the extensions page, helpcenter, facebook settings and premium popup.
-
-= 4.3.0 =
-
-Release Date: February 14th, 2017
-
-* Bugfixes
-    * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla).
-
-* Enhancements
-    * Improves feedback text for subheading too long assessment.
-
 = Earlier versions =
 
 For the changelog of earlier versions, please refer to the separate changelog.txt file.
