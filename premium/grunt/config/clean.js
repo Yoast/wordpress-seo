@@ -5,5 +5,9 @@ module.exports = {
 		'languages/yoast-social-previews.pot',
 		'languages/yoast-social-previews.json',
 		'languages/<%= pkg.plugin.textdomain %>-temp.pot'
-	]
+	],
+	"build-assets": [
+		"<%= paths.js %>/dist/*.js",
+		"<%= paths.css %>/*.css",
+	],
 };

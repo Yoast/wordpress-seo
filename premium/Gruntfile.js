@@ -4,8 +4,11 @@ module.exports = function(grunt) {
 
 	require('time-grunt')(grunt);
 
+	let pluginVersion = "4.6";
+
 	// Define project configuration
 	var project = {
+		pluginVersion: pluginVersion,
 		paths: {
 			get config() {
 				return this.grunt + 'config/';
@@ -41,6 +44,12 @@ module.exports = function(grunt) {
 		},
 		pkg: grunt.file.readJSON( 'package.json' )
 	};
+
+	let versionParts = pluginVersion.split( "." );
+	if ( versionParts.length === 2 ) {
+		versionParts.push( 0 );
+	}
+	project.pluginVersionSlug = versionParts.join( "" );
 
 	// Load Grunt configurations and tasks
 	require( 'load-grunt-config' )(grunt, {
