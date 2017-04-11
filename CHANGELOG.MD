@@ -5,6 +5,14 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.5.0: 
+
+### Added
+- [ConfigurationWizard] Adds possibility to disable navigation on a step page
+- [ConfigurationWizard] Adds icons to next, previous and close buttons
+- [ConfigurationWizard] Pass `nextStep` and `previousStep` functions to Steps
+- Adds Colors for use in my.yoast
+
 ## 2.4.0: February 14th, 2016
 
 ### Added
