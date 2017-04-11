@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2017-04-05 08:52:14+00:00\n"
+"POT-Creation-Date: 2017-04-11 10:24:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -67,7 +67,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href=''>, %4$s: </a>
-#: classes/class-post-watcher.php:135
+#: classes/class-post-watcher.php:138
 msgid ""
 "%1$s detected that you moved a post to the trash. You can either: %2$s Don't "
 "know what to do? %3$sRead this post%4$s."
@@ -75,7 +75,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>,
 #. %3$s: </a>
-#: classes/class-post-watcher.php:161
+#: classes/class-post-watcher.php:164
 msgid ""
 "%1$s detected that you restored a post from the trash. %2$sClick here to "
 "remove the redirect%3$s"
@@ -85,7 +85,7 @@ msgstr ""
 #. admin page, %4$s: Old slug of the post, %5$s: New slug of the post, the text
 #. surrounded by %6$s and %7$s is placed in a button that can undo the created
 #. redirect
-#: classes/class-post-watcher.php:311
+#: classes/class-post-watcher.php:314
 msgid ""
 "%1$s created a %2$sredirect%3$s from the old post URL to the new post URL. "
 "%6$sClick here to undo this%7$s <br> Old URL: %4$s <br> New URL: %5$s"
@@ -93,7 +93,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href='{post_with_explaination.}'>, %4$s: </a>
-#: classes/class-post-watcher.php:324
+#: classes/class-post-watcher.php:327
 msgid ""
 "%1$s detected that you deleted a post. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
@@ -241,7 +241,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: classes/class-premium-link-suggestions-service.php:141
+#: classes/class-premium-link-suggestions-service.php:206
 msgid "(no title)"
 msgstr ""
 
@@ -318,15 +318,15 @@ msgstr ""
 msgid "Stop analyzing"
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:135
+#: classes/class-premium-prominent-words-recalculation.php:138
 msgid "Calculation in progress..."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:136
+#: classes/class-premium-prominent-words-recalculation.php:139
 msgid "Calculation completed."
 msgstr ""
 
-#: classes/class-premium-prominent-words-recalculation.php:182
+#: classes/class-premium-prominent-words-recalculation.php:185
 msgid "Good job! You've optimized your internal linking suggestions."
 msgstr ""
 
@@ -398,39 +398,39 @@ msgstr ""
 msgid "Limit result set to items that are unindexed."
 msgstr ""
 
-#: classes/class-social-previews.php:129
+#: classes/class-social-previews.php:132
 msgid "Upload image"
 msgstr ""
 
-#: classes/class-social-previews.php:130
+#: classes/class-social-previews.php:133
 msgid "Use other image"
 msgstr ""
 
-#: classes/class-social-previews.php:131
+#: classes/class-social-previews.php:134
 msgid "Remove image"
 msgstr ""
 
-#: classes/class-social-previews.php:136
+#: classes/class-social-previews.php:139
 msgid "Show information about Facebook title"
 msgstr ""
 
-#: classes/class-social-previews.php:137
+#: classes/class-social-previews.php:140
 msgid "Show information about Facebook description"
 msgstr ""
 
-#: classes/class-social-previews.php:138
+#: classes/class-social-previews.php:141
 msgid "Show information about Facebook image"
 msgstr ""
 
-#: classes/class-social-previews.php:139
+#: classes/class-social-previews.php:142
 msgid "Show information about Twitter title"
 msgstr ""
 
-#: classes/class-social-previews.php:140
+#: classes/class-social-previews.php:143
 msgid "Show information about Twitter description"
 msgstr ""
 
-#: classes/class-social-previews.php:141
+#: classes/class-social-previews.php:144
 msgid "Show information about Twitter image"
 msgstr ""
 
@@ -438,7 +438,7 @@ msgstr ""
 #. admin page, %4$s: Old slug of the term, %5$s: New slug of the term, the text
 #. surrounded by %6$s and %7$s is placed in a button that can undo the created
 #. redirect
-#: classes/class-term-watcher.php:208
+#: classes/class-term-watcher.php:211
 msgid ""
 "%1$s created a %2$sredirect%3$s from the old term URL to the new term URL. "
 "%6$sClick here to undo this%7$s  <br> Old URL: %4$s <br> New URL: %5$s"
@@ -446,7 +446,7 @@ msgstr ""
 
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href='{post_with_explaination.}'>, %4$s: </a>
-#: classes/class-term-watcher.php:221
+#: classes/class-term-watcher.php:224
 msgid ""
 "%1$s detected that you deleted a term. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
@@ -516,7 +516,7 @@ msgstr ""
 msgid "We're unable to write data to the file %s"
 msgstr ""
 
-#: classes/redirect/class-redirect-page.php:66
+#: classes/redirect/class-redirect-page.php:69
 msgid "Redirects per page"
 msgstr ""
 
