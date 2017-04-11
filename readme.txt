@@ -133,6 +133,9 @@ Release Date: April 11th, 2017
 	* Improves the configuration wizard with clear information about the configuration.
 	* Adds the ability to mark posts as cornerstone content.
 
+* Bugfixes
+	* Fixes an issue in combination with WooCommerce 3.0 where the plugins would load incompatible select2 versions.
+
 = 4.5.0 =
 
 Release Date: March 21st, 2017
