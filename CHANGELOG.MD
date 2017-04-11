@@ -8,10 +8,10 @@ We follow [Semantic Versioning](http://semver.org/).
 ## 2.5.0: 
 
 ### Added
-- [ConfigurationWizard] Possibility to disable navigation on a step page
-- [ConfigurationWizard] Added icons to next, previous and close buttons
-- [ConfigurationWizard] Passing `nextStep` and `previousStep` functions to Steps
-- Colors for use in my.yoast
+- [ConfigurationWizard] Adds possibility to disable navigation on a step page
+- [ConfigurationWizard] Adds icons to next, previous and close buttons
+- [ConfigurationWizard] Pass `nextStep` and `previousStep` functions to Steps
+- Adds Colors for use in my.yoast
 
 ## 2.4.0: February 14th, 2016
 
