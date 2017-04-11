@@ -105,9 +105,9 @@ var multipleWords = [ "a breve", "a causa", "a causa di", "a condizione che", "a
  * @returns {Object} The object with transition word lists.
  */
 module.exports = function() {
-    return {
-        singleWords: singleWords,
-        multipleWords: multipleWords,
-        allWords: singleWords.concat( multipleWords ),
-    };
+	return {
+		singleWords: singleWords,
+		multipleWords: multipleWords,
+		allWords: singleWords.concat( multipleWords ),
+	};
 };
