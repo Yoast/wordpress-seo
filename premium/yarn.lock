@@ -5724,3 +5724,12 @@ yoast-components@^2.4.0:
     lodash "^4.14.1"
     sassdash "^0.8.1"
     tokenizer2 "^2.0.0"
+
+"yoastseo@https://github.com/Yoast/YoastSEO.js#1.14.0":
+  version "1.14.0"
+  resolved "https://github.com/Yoast/YoastSEO.js#dbe313c28cf68508650b854d60ec5de0bb9db8af"
+  dependencies:
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
