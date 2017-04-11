@@ -28,7 +28,7 @@ class WPSEO_Cornerstone_Field {
 		/* translators: 1: link open tag; 2: link close tag. */
 		$return .= sprintf(
 			__( 'This article is %1$scornerstone content%2$s', 'wordpress-seo' ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/metabox-help-cornerstone' ) . '">',
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/metabox-help-cornerstone' ) . '" target="_blank">',
 			'</a>'
 		);
 		$return .= '</label>';
