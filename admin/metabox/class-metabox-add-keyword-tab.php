@@ -26,15 +26,24 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 
 		<?php
 		$popup_title = __( 'Want to add more than one keyword?', 'wordpress-seo' );
-		/* translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
+		/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 		$popup_content = '<p>' . sprintf( __( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
-				'<a href="https://yoa.st/pe-premium-page">Yoast SEO Premium</a>',
-				'yoast.com' ) . '</p>';
-		$popup_content .= '<p>' . __( 'Other benefits of Yoast SEO Premium for you:', 'wordpress-seo' ) . '</p>';
+				'<a href="https://yoa.st/pe-premium-page">Yoast SEO Premium</a>'
+				) . '</p>';
+		$popup_content .= '<p>' . sprintf(
+			/* translators: %s expands to 'Yoast SEO Premium'. */
+			__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
+			) . '</p>';
 		$popup_content .= '<ul>';
-		$popup_content .= '<li>' . __( '<strong>No more dead links</strong>: easy redirect manager', 'wordpress-seo' ) . '</li>';
-		$popup_content .= '<li><strong>' . __( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong></li>';
-		$popup_content .= '<li>' . __( '<strong>Social media preview</strong>: Facebook &amp; Twitter', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . sprintf(
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ), '<strong>', '</strong>'
+		) . '</li>';
+		$popup_content .= '<li><strong>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</strong></li>';
+		$popup_content .= '<li>' . sprintf(
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ), '<strong>', '</strong>'
+		) . '</li>';
 		$popup_content .= '<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>';
 		$popup_content .= '<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>';
 		$popup_content .= '</ul>';
