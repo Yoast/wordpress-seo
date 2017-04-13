@@ -17,6 +17,11 @@ describe( "A function to remove the entire HTML style/script tag block.", functi
 		expect( htmlParser( "<script type='text/javascript'>test</script>") ).toEqual("");
 	} )
 	it( "doesn't remove a div block", function() {
-		expect( htmlParser( "<div>Hello</div>" ) ).toEqual( "<div>Hello</div>" );
+		expect( htmlParser( "<div class='hello'>Hello</div>" ) ).toEqual( "<div class='hello'>Hello</div>" );
 	} )
+
+	it( "doesn't remove an image block", function() {
+		expect( htmlParser( "<img src='yoast_logo.png' alt='Yoast logo' width='50px' height='50px' />" ) ).toEqual( "<img src='yoast_logo.png' alt='Yoast logo' width='50px' height='50px'></img>" );
+	} )
+
 })

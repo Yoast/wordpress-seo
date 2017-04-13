@@ -22,11 +22,19 @@ let parser = new htmlparser.Parser( {
 	 *
 	 * @returns {void}
 	 */
-	onopentag: function( tagName ) {
+	onopentag: function( tagName, nodeValue ) {
 		if ( inlineTags.includes( tagName ) ) {
 			inScriptBlock = true;
 		} else {
-			textArray.push( "<" + tagName + ">" );
+			let nodeValueType = Object.keys(nodeValue);
+			let nodeValueString = '';
+
+			nodeValueType.forEach(function(node) {
+				// Build the tag again.
+				nodeValueString += " " + node + "='" + nodeValue[node] + "'";
+			});
+
+			textArray.push( '<' + tagName + nodeValueString + '>');
 		}
 	},
 	/**
