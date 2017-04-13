@@ -29,12 +29,12 @@ let parser = new htmlparser.Parser( {
 			let nodeValueType = Object.keys( nodeValue );
 			let nodeValueString = " ";
 
-			nodeValueType.forEach(function( node ) {
+			nodeValueType.forEach( function( node ) {
 				// Build the tag again.
 				nodeValueString += " " + node + "='" + nodeValue[ node ] + "'";
 			});
 
-			textArray.push( "<| " + tagName + nodeValueString + ">");
+			textArray.push( "<" + tagName + nodeValueString + ">");
 		}
 	},
 	/**
