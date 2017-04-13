@@ -32,9 +32,9 @@ let parser = new htmlparser.Parser( {
 			nodeValueType.forEach( function( node ) {
 				// Build the tag again.
 				nodeValueString += " " + node + "='" + nodeValue[ node ] + "'";
-			});
+			} );
 
-			textArray.push( "<" + tagName + nodeValueString + ">");
+			textArray.push( "<" + tagName + nodeValueString + ">" );
 		}
 	},
 	/**
