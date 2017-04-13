@@ -27,7 +27,7 @@ let parser = new htmlparser.Parser( {
 			inScriptBlock = true;
 		} else {
 			let nodeValueType = Object.keys( nodeValue );
-			let nodeValueString = " ";
+			let nodeValueString = "";
 
 			nodeValueType.forEach( function( node ) {
 				// Build the tag again.
