@@ -19,22 +19,22 @@ let parser = new htmlparser.Parser( {
 	 * If the opening tag is not included in the inlineTags array, push the tag to the textArray.
 	 *
 	 * @param {string} tagName The tag name.
-	 *
+	 * @param {object} nodeValue The attribute with the keys and values of the tag.
 	 * @returns {void}
 	 */
 	onopentag: function( tagName, nodeValue ) {
 		if ( inlineTags.includes( tagName ) ) {
 			inScriptBlock = true;
 		} else {
-			let nodeValueType = Object.keys(nodeValue);
-			let nodeValueString = '';
+			let nodeValueType = Object.keys( nodeValue );
+			let nodeValueString = " ";
 
-			nodeValueType.forEach(function(node) {
+			nodeValueType.forEach(function( node ) {
 				// Build the tag again.
-				nodeValueString += " " + node + "='" + nodeValue[node] + "'";
+				nodeValueString += " " + node + "='" + nodeValue[ node ] + "'";
 			});
 
-			textArray.push( '<' + tagName + nodeValueString + '>');
+			textArray.push( "<| " + tagName + nodeValueString + ">");
 		}
 	},
 	/**
