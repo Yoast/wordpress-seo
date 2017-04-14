@@ -77,7 +77,7 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		$results = wp_list_pluck( $results, 'post_id' );
 
 		// Loop through all suggestions and add the isCornerstone flag.
-		foreach ($suggestions as & $suggestion ) {
+		foreach ( $suggestions as & $suggestion ) {
 			$suggestion['isCornerstone'] = in_array( $suggestion['id'], $results, false );
 		}
 		// Cleanup referenced value.
