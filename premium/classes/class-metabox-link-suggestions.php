@@ -37,7 +37,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 			$suggestions = false;
 		}
 
-		return $suggestions;
+		return $service->add_is_cornerstone( $suggestions );
 	}
 
 	/**

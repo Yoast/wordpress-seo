@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.6
 Tested up to: 4.7
-Stable tag: 4.5
+Stable tag: 4.6
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -124,6 +124,15 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.6.0 =
+
+Release Date: April 11th, 2017
+
+* Enhancements
+	* Improves a language string, props [Sören Wrede](https://github.com/Soean).
+	* Improves the configuration wizard with clear information about the configuration.
+	* Adds the ability to mark posts as cornerstone content.
+
 = 4.5.0 =
 
 Release Date: March 21st, 2017
@@ -138,30 +147,6 @@ Release Date: March 21st, 2017
 	* Throws a warning in the admin for the RS Head Cleaner plugin, because the plugin cloaks.
 	* Improves copy about Yoast SEO Premium benefits.
 	* Adds link to our knowledge base article about connecting your website to Google Search Console.
-
-= 4.4.0 =
-
-Release date: February 28th, 2017
-
-* Bugfixes:
-	* Fixes a bug where a `span` tag wasn't closed correctly, props [lubobill1990](https://github.com/lubobill1990).
-	* Fixes a bug where there were deprecation warnings shown when an existing author was being updated.
-	* Fixes a bug where the user received an 'insufficient rights' error when the advanced settings are disabled, but an advanced page is visited.
-
-* Enhancements:
-	* Moves the options to disable keyword and content analysis from the general tab to the features tab.
-	* Improves styling of tables so they are viewable on mobile.
-	* Changes the links into shortlinks for the extensions page, helpcenter, facebook settings and premium popup.
-
-= 4.3.0 =
-
-Release Date: February 14th, 2017
-
-* Bugfixes
-    * Fixes the width of the readability column on post overview, props [rikayla](https://github.com/rikayla).
-
-* Enhancements
-    * Improves feedback text for subheading too long assessment.
 
 = Earlier versions =
 

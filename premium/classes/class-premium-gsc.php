@@ -19,9 +19,12 @@ class WPSEO_Premium_GSC implements WPSEO_WordPress_Integration {
 	 * Enqueues site wide analysis script
 	 */
 	public function enqueue() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-gsc', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/yoast-premium-gsc-440' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION, true );
+		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-gsc', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/yoast-premium-gsc-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION, true );
 
 		if ( $page !== 'wpseo_search_console' ) {
 			return;

@@ -47,18 +47,21 @@ class WPSEO_Redirect_Page {
 	 * Load the admin redirects scripts
 	 */
 	public function enqueue_assets() {
-		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-yoast-overlay-350' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+
+		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-yoast-overlay-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 		wp_enqueue_script(
 			'wp-seo-premium-admin-redirects',
 			plugin_dir_url( WPSEO_PREMIUM_FILE ) .
-			'assets/js/dist/wp-seo-premium-admin-redirects-370' . WPSEO_CSSJS_SUFFIX . '.js',
+			'assets/js/dist/wp-seo-premium-admin-redirects-' . $version . WPSEO_CSSJS_SUFFIX . '.js',
 			array( 'jquery', 'jquery-ui-dialog', 'wp-util', 'underscore' ),
 			WPSEO_VERSION
 		);
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseoSelect2Locale', substr( WPSEO_Utils::get_user_locale(), 0, 2 ) );
 
-		wp_enqueue_style( 'wpseo-premium-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-redirects-' . '340' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
+		wp_enqueue_style( 'wpseo-premium-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-redirects-' . $version . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 

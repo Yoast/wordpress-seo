@@ -113,7 +113,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	public function enqueue() {
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-440' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+
+		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
 
 		if ( $page === 'wpseo_dashboard' ) {
 			$data = array(

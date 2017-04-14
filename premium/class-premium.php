@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '4.5';
+	const PLUGIN_VERSION_NAME = '4.6';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://my.yoast.com';
@@ -542,6 +542,9 @@ class WPSEO_Premium {
 	 * Add the Yoast contact support assets
 	 */
 	public function enqueue_contact_support() {
-		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-contact-support-370' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+
+		wp_enqueue_script( 'yoast-contact-support', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wpseo-premium-contact-support-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 	}
 }
