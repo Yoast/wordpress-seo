@@ -62,6 +62,9 @@ install:
 - if [[ "$CHECKJS" == "1" ]]; then yarn global add grunt-cli; fi
 - if [[ "$CHECKJS" == "1" ]]; then yarn install --ignore-optional; fi
 
+before_install:
+  - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-nl
+
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
