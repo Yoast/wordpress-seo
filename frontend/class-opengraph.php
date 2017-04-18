@@ -181,7 +181,7 @@ class WPSEO_OpenGraph {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 * @return boolean
-	 */
+	 */ge
 	public function website_facebook() {
 
 		if ( 'article' === $this->type( false ) && ! empty( $this->options['facebook_site'] ) ) {
