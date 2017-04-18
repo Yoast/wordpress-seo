@@ -237,11 +237,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::debug_marker
+	 * @covers WPSEO_Frontend::debug_mark
 	 */
-	public function test_debug_marker() {
+	public function test_debug_mark() {
 		// test if the version number is shown in the debug marker
-		$version_found = ( stristr( self::$class_instance->debug_marker( false ), WPSEO_VERSION ) !== false );
+		$version_found = ( stristr( self::$class_instance->debug_mark( false ), WPSEO_VERSION ) !== false );
 		$this->assertTrue( $version_found );
 	}
 
@@ -708,13 +708,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// turn on output buffering
 		self::$class_instance->force_rewrite_output_buffer();
 
-		$content = '<!DOCTYPE><html><head><title>TITLETOBEREPLACED</title>' . self::$class_instance->debug_marker( false ) . '</head><body>Some body content. Should remain unchanged.</body></html>';
+		$content = '<!DOCTYPE><html><head><title>TITLETOBEREPLACED</title>' . self::$class_instance->debug_mark( false ) . '</head><body>Some body content. Should remain unchanged.</body></html>';
 
 		// create expected output
 		global $sep;
 		$title    = self::$class_instance->title( '', $sep );
 		$expected = preg_replace( '/<title(.*)\/title>/i', '', $content );
-		$expected = str_replace( $c->debug_marker( false ), $c->debug_marker( false ) . "\n" . '<title>' . $title . '</title>', $expected );
+		$expected = str_replace( $c->debug_mark( false ), $c->debug_mark( false ) . "\n" . '<title>' . $title . '</title>', $expected );
 		echo $content;
 
 		// run function

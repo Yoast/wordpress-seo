@@ -11,8 +11,11 @@ import { OnboardingWizard } from "yoast-components";
 import { MessageBox } from "yoast-components";
 
 import MailchimpSignup from "./components/MailchimpSignup";
+import ConfigurationChoices from "./components/ConfigurationChoices";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
+import Suggestions from "./components/Suggestions";
+import FinalStep from "./components/FinalStep";
 
 import { setTranslations } from "yoast-components/utils/i18n";
 import isUndefined from "lodash/isUndefined";
@@ -74,6 +77,9 @@ class App extends React.Component {
 				MailchimpSignup,
 				MediaUpload,
 				ConnectGoogleSearchConsole,
+				ConfigurationChoices,
+				Suggestions,
+				FinalStep,
 			},
 		} );
 

@@ -17,9 +17,9 @@ class WPSEO_Configuration_Structure {
 	public function __construct() {
 
 		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), array(
-			'upsellConfigurationService',
-			'mailchimpSignup',
-		) );
+			'configurationChoices',
+		), false );
+
 		$this->add_step( 'environment_type', __( 'Environment', 'wordpress-seo' ), array( 'environment_type' ) );
 		$this->add_step( 'siteType', __( 'Site type', 'wordpress-seo' ), array( 'siteType' ) );
 		$this->add_step( 'publishingEntity', __( 'Company or person', 'wordpress-seo' ), array(
@@ -55,10 +55,14 @@ class WPSEO_Configuration_Structure {
 			'siteName',
 			'separator',
 		) );
+		$this->add_step( 'newsletter', __( 'Newsletter' ), array(
+			'mailchimpSignup',
+		) );
+		$this->add_step( 'suggestions', __( 'You might like', 'wordpress-seo' ), array(
+			'suggestions'
+		) );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), array(
 			'successMessage',
-			'upsellSiteReview',
-			'mailchimpSignup',
 		) );
 	}
 
@@ -68,11 +72,13 @@ class WPSEO_Configuration_Structure {
 	 * @param string $identifier Identifier for this step.
 	 * @param string $title      Title to display for this step.
 	 * @param array  $fields     Fields to use on the step.
+	 * @param bool   $navigation Show navigation buttons.
 	 */
-	protected function add_step( $identifier, $title, $fields ) {
+	protected function add_step( $identifier, $title, $fields, $navigation = true ) {
 		$this->steps[ $identifier ] = array(
-			'title'  => $title,
-			'fields' => $fields,
+			'title'          => $title,
+			'fields'         => $fields,
+			'hideNavigation' => ! (bool) $navigation,
 		);
 	}
 

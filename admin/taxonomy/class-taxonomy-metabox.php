@@ -269,10 +269,10 @@ class WPSEO_Taxonomy_Metabox {
 			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
 			__( 'Premium support', 'wordpress-seo' ),
 			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
-			'https://yoa.st/pe-buy-premium',
+			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
 			/* translators: %s expands to Yoast SEO Premium. */
 			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			'https://yoa.st/pe-premium-page',
+			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 			__( 'More info', 'wordpress-seo' )
 		);
 

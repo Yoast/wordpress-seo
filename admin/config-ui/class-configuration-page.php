@@ -34,7 +34,7 @@ class WPSEO_Configuration_Page {
 	 */
 	public function catch_configuration_request() {
 		$configuration_page = filter_input( INPUT_GET, 'configuration' );
-		$page          = filter_input( INPUT_GET, 'page' );
+		$page               = filter_input( INPUT_GET, 'page' );
 
 		if ( ! ( $configuration_page === 'finished' && ( $page === WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
 			return;
@@ -74,10 +74,10 @@ class WPSEO_Configuration_Page {
 		 * it's easier to override selectors with the same specificity later.
 		 */
 		wp_enqueue_style( 'forms' );
-		$assetManager = new WPSEO_Admin_Asset_Manager();
-		$assetManager->register_assets();
-		$assetManager->enqueue_script( 'configuration-wizard' );
-		$assetManager->enqueue_style( 'yoast-components' );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->register_assets();
+		$asset_manager->enqueue_script( 'configuration-wizard' );
+		$asset_manager->enqueue_style( 'yoast-components' );
 
 		$config = $this->get_config();
 
@@ -161,8 +161,8 @@ class WPSEO_Configuration_Page {
 	 */
 	public function get_config() {
 		$translations = $this->get_translations();
-		$service = new WPSEO_GSC_Service();
-		$config  = array(
+		$service      = new WPSEO_GSC_Service();
+		$config       = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
 			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
 			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
@@ -215,8 +215,11 @@ class WPSEO_Configuration_Page {
 	 * @return Yoast_Notification
 	 */
 	private static function get_notification() {
-		$message = sprintf(
-			__( 'Since you are new to %1$s you can configure the %2$splugin%3$s', 'wordpress-seo' ),
+		$message = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
+		$message .= '<br/>';
+		$message .= sprintf(
+			/* translators: %1$s resolves to Yoast SEO, %2$s resolves to the starting tag of the link to the wizard, %3$s resolves to the closing link tag */
+			__( 'We have detected that you have not finished this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
 			'</a>'

@@ -407,7 +407,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	function get_sortable_columns() {
-		return $sortable = array(
+		return array(
 			'col_page_title' => array( 'post_title', true ),
 			'col_post_type'  => array( 'post_type', false ),
 			'col_post_date'  => array( 'post_date', false ),

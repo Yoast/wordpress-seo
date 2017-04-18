@@ -31,7 +31,7 @@ class WPSEO_Admin_User_Profile {
 	 */
 	public function clear_author_sitemap_cache( $meta_id, $object_id, $meta_key ) {
 		if ( '_yoast_wpseo_profile_updated' === $meta_key ) {
-			WPSEO_Utils::clear_sitemap_cache( array( 'author' ) );
+			WPSEO_Sitemaps_Cache::clear( array( 'author' ) );
 		}
 	}
 
@@ -80,7 +80,8 @@ class WPSEO_Admin_User_Profile {
 	 * @param WP_User $user User instance to output for.
 	 */
 	public function user_profile( $user ) {
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$options = WPSEO_Options::get_option( 'wpseo' );
+		$options_titles = WPSEO_Options::get_option( 'wpseo_titles' );
 
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 

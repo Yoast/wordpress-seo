@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "97893552d2e7de5bcd42894f70bb82a5",
+    "content-hash": "23077cd67105e0b38b840fb77a5c7a5f",
     "packages": [
         {
             "name": "composer/installers",
@@ -210,16 +210,16 @@
         },
         {
             "name": "yoast/license-manager",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/License-Manager.git",
-                "reference": "2b3588aeed60c573bb622edd0f1144e0ee206bcf"
+                "reference": "bbd295b63a693d58ecb501b59b60a506a74aa225"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/2b3588aeed60c573bb622edd0f1144e0ee206bcf",
-                "reference": "2b3588aeed60c573bb622edd0f1144e0ee206bcf",
+                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/bbd295b63a693d58ecb501b59b60a506a74aa225",
+                "reference": "bbd295b63a693d58ecb501b59b60a506a74aa225",
                 "shasum": ""
             },
             "type": "library",
@@ -251,7 +251,49 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2016-11-11T11:18:13+00:00"
+            "time": "2017-02-28T09:22:38+00:00"
+        },
+        {
+            "name": "yoast/whip",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yoast/whip.git",
+                "reference": "192a294cd62d861aeecf19112bee0a83072de830"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yoast/whip/zipball/192a294cd62d861aeecf19112bee0a83072de830",
+                "reference": "192a294cd62d861aeecf19112bee0a83072de830",
+                "shasum": ""
+            },
+            "require": {
+                "xrstf/composer-php52": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^3.6.12"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/facades/wordpress.php"
+                ],
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Team Yoast",
+                    "email": "support@yoast.com"
+                }
+            ],
+            "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
+            "time": "2017-03-21T10:28:35+00:00"
         }
     ],
     "packages-dev": [

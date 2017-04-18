@@ -11,6 +11,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $feature_toggles = array(
 	(object) array(
+		'name'    => __( 'Readability analysis', 'wordpress-seo' ),
+		'setting' => 'content_analysis_active',
+		'label'   => __( 'Removes the readability tab from the metabox and disables all readability-related suggestions.', 'wordpress-seo' ),
+	),
+	(object) array(
+		'name'    => __( 'Keyword analysis', 'wordpress-seo' ),
+		'setting' => 'keyword_analysis_active',
+		'label'   => __( 'Removes the keyword tab from the metabox and disables all keyword-related suggestions.', 'wordpress-seo' ),
+	),
+	(object) array(
 		'name'    => __( 'Advanced settings pages', 'wordpress-seo' ),
 		'setting' => 'enable_setting_pages',
 		'label'   => __( 'The advanced settings include site-wide settings for your titles and meta descriptions, social metadata, sitemaps and much more.', 'wordpress-seo' ),
@@ -26,6 +36,16 @@ $feature_toggles = array(
 		'setting' => 'enable_admin_bar_menu',
 		/* translators: %1$s expands to Yoast SEO*/
 		'label'   => sprintf( __( 'The %1$s admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.', 'wordpress-seo' ), 'Yoast SEO' ),
+	),
+	(object) array(
+		'name'    => __( 'Cornerstone content', 'wordpress-seo' ),
+		'setting' => 'enable_cornerstone_content',
+		/* translators: 1: open link tag 2: close link tag */
+		'label'   => sprintf(
+			__( 'The Cornerstone content functionality enables you to mark and filter cornerstone content on your website. %1$sRead more about how cornerstone content can help you improve your site structure.%2$s', 'wordpress-seo' ),
+			'<a href="' .  WPSEO_Shortlinker::get( 'https://yoa.st/dashboard-help-cornerstone' ) . '">',
+			'</a>'
+		),
 	),
 );
 
