@@ -128,15 +128,14 @@ class App extends React.Component {
 				let message = {
 					mixedString:
 					"The configuration wizard could not be started." +
-					" The likely cause is an interfering plugin, please {{link}}check for plugin conflicts{{/link}} to solve this problem. "
-					,
+					" The likely cause is an interfering plugin, please {{link}}check for plugin conflicts{{/link}} to solve this problem. ",
 					components: { link: <a href="https://yoa.st/configuration-wizard-error-plugin-conflict" target="_blank" /> },
 				};
 				return (
 					<div>
 						<MessageBox { ...message }/>
 					</div>
-				)
+				);
 			}
 
 			return (
