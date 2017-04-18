@@ -33,7 +33,7 @@ class WPSEO_Premium_Prominent_Words_Link_Service {
 		// Save the post meta.
 		$this->save_version_number( $post_id );
 
-		return new WP_REST_Response( __( 'The terms are saved successful for the given post.', 'wordpress-seo-premium' ) );
+		return new WP_REST_Response( __( 'The terms saved successfully for the given post.', 'wordpress-seo-premium' ) );
 	}
 
 	/**
