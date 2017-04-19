@@ -37,6 +37,16 @@ $feature_toggles = array(
 		/* translators: %1$s expands to Yoast SEO*/
 		'label'   => sprintf( __( 'The %1$s admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.', 'wordpress-seo' ), 'Yoast SEO' ),
 	),
+	(object) array(
+		'name'    => __( 'Cornerstone content', 'wordpress-seo' ),
+		'setting' => 'enable_cornerstone_content',
+		/* translators: 1: open link tag 2: close link tag */
+		'label'   => sprintf(
+			__( 'The Cornerstone content functionality enables you to mark and filter cornerstone content on your website. %1$sRead more about how cornerstone content can help you improve your site structure.%2$s', 'wordpress-seo' ),
+			'<a href="' .  WPSEO_Shortlinker::get( 'https://yoa.st/dashboard-help-cornerstone' ) . '">',
+			'</a>'
+		),
+	),
 );
 
 /**
