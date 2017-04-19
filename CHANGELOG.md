@@ -5,23 +5,53 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.14.0: April 11th, 2017
+
+### Fixed
+* Fixes the provided example code, props [Alexander Guth](https://github.com/alxy).
+
+### Added
+* Introduces sentence beginnings assessment for Italian.
+
+## 1.13.0: March 21st, 2017
+
+### Fixed
+
+* Fixes a bug where the keyword density assessment would disappear when the density was 0.5%.
+
+## 1.12.0: February 28th, 2017
+
+### Fixed
+* Sets the boldness of the strong tags to 700 to enforce that they are displayed strong.
+* Changes strings that link to an article to improve context.
+* Changes links to short links so we can ensure they are always up to date.
+
+## 1.11.0: February 14th, 2017
+
+### Added
+* Adds prominent words for Spanish.
+* Adds getLinks to the researcher, this function retrieves the URLs of the links from the text.
+
+### Changed
+* Improves feedback text for subheading too long assessment.
+
 ## 1.10.0: January 31st, 2017
 
-## Added
+### Added
 * Adds prominent words for Dutch.
 * Adds example for testing the prominent words analysis.
 * Adds the tooltip CSS rule from Yoast SEO to yoastSEO.js.
 
-## Changed
+### Changed
 * Improves the accessibility of the snippet preview toggle buttons.
 * Makes the mark buttons tooltips always visible.
 
-## Fixed
+### Fixed
 * Fixes a bug where the measurement elements holder `<div>` breaks the responsive view of the media modal.
 
 ## 1.9.0: January 17th, 2017
 
-## Added
+### Added
 
 * Adds mobile snippet preview.
 * Adds sentence length check for Dutch.
@@ -29,7 +59,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds transition words for Dutch.
 * Adds German prominent words.
 
-## Changed
+### Changed
 
 * Removes unused assessments; sentence length variation, subheading length, 
     subheading presence, subheading distribution too short, paragraph too short
@@ -37,44 +67,44 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.8.0: December 13th, 2016
 
-## Added
+### Added
 
 * Adds passive voice for German. 
 * Adds more transition words for French.
 
-## Changed
+### Changed
 
 * Creates value objects for sentence parts and participles.
 * Improves feedback strings for the meta description length assessment. 
 * Improves matching of the keyword in the first paragraph.
 * Improves the snippet preview to match the styling of Google's snippet.
 
-## Fixed
+### Fixed
 
 * Fixes a bug where keywords with periods where not highlighted in the snippet.
 
 ## 1.7.0: October 11th, 2016
 
-## Added
+### Added
 
 * Adds relevant word research that returns a list of most prominent words in a given Paper.
 
-## Changed
+### Changed
 
 * Changes all target= links to consistently be target=_blank.
 
-## Fixed
+### Fixed
 
 * Adds missing transition words to German transition word list.
 * Fixes a bug where empty sentences could be marked when marking the beginning of sentences.
 
 ## 1.6.0: September 27th, 2016
 
-## Changed
+### Changed
 
 * Improves carets used in the snippet preview to support RTL.
 
-## Fixed
+### Fixed
 
 * Keywords with special characters are now matched.
 * Changes sassdash from a dev dependency to a regular dependency.

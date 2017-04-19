@@ -4,6 +4,7 @@
 
 $snippet_width: 600px;
 
+// Default caret icon: top alignment only suitable for the Snippet Preview.
 @mixin svg-caret-before($color) {
 	background-image: url(svg-icon-caret-right($color));
 
@@ -251,6 +252,10 @@ $snippet_width: 600px;
 	&__container {
 		position: relative;
 		cursor: pointer;
+
+		&.editable-preview__container--no-caret {
+			cursor: auto;
+		}
 	}
 
 	&__heading {
@@ -281,8 +286,8 @@ $snippet_width: 600px;
 
 	}
 
+	// Display the caret icons in the Snippet Preview.
 	&__container {
-
 		&:hover {
 			&:before {
 				@include svg-caret-before($color_caret_hover);
@@ -334,6 +339,9 @@ $snippet_width: 600px;
 		padding: 20px;
 	}
 
+	// Display the caret icons in the Snippet Editor.
+	// @todo: consider to use the new method used for the Social Previews, which
+	// doesn't use the labels but uses dedicated elements as hooks in the DOM.
 	&__label {
 		display: block;
 		width: 100%;
@@ -346,15 +354,15 @@ $snippet_width: 600px;
 
 		&--hover {
 			&:before {
-				@include svg_caret-before($color_caret_hover);
-				top: 20px;
+				@include svg-caret-before($color_caret_hover);
+				top: 20px; // Override default top alignment.
 			}
 		}
 
 		&--focus {
 			&:before {
-				@include svg_caret_before($color_caret_focus);
-				top: 20px;
+				@include svg-caret-before($color_caret_focus);
+				top: 20px; // Override default top alignment.
 			}
 		}
 	}
@@ -396,13 +404,13 @@ $snippet_width: 600px;
 	&__label {
 		&--hover {
 			&:before {
-				@include svg_caret-before-rtl($color_caret_hover);
+				@include svg-caret-before-rtl($color_caret_hover);
 			}
 		}
 
 		&--focus {
 			&:before {
-				@include svg_caret_before-rtl($color_caret_focus);
+				@include svg-caret-before-rtl($color_caret_focus);
 			}
 		}
 	}

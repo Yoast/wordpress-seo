@@ -9,14 +9,14 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.10.0",
+  "version": "1.14.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
     "test": "babel-node ./node_modules/istanbul/lib/cli.js cover jasmine",
-    "check-coverage": "istanbul check-coverage --statements 83 --branches 73 --functions 74 --lines 83"
+    "check-coverage": "istanbul check-coverage --statements 86 --branches 77 --functions 78 --lines 86"
   },
   "browser": "js/browser.js",
   "devDependencies": {
