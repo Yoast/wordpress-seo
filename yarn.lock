@@ -253,7 +253,7 @@ babel-code-frame@^6.16.0, babel-code-frame@^6.20.0:
     esutils "^2.0.2"
     js-tokens "^2.0.0"
 
-babel-core@^6.18.0:
+babel-core@^6.0.14, babel-core@^6.18.0:
   version "6.21.0"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.21.0.tgz#75525480c21c803f826ef3867d22c19f080a3724"
   dependencies:
@@ -646,6 +646,13 @@ babel-types@^6.16.0, babel-types@^6.18.0, babel-types@^6.19.0, babel-types@^6.21
     esutils "^2.0.2"
     lodash "^4.2.0"
     to-fast-properties "^1.0.1"
+
+babelify@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/babelify/-/babelify-7.3.0.tgz#aa56aede7067fd7bd549666ee16dc285087e88e5"
+  dependencies:
+    babel-core "^6.0.14"
+    object-assign "^4.0.0"
 
 babylon@^6.11.0:
   version "6.15.0"
@@ -2458,14 +2465,7 @@ js-tokens@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.0.tgz#a2f2a969caae142fb3cd56228358c89366957bd1"
 
-js-yaml@3.x, js-yaml@^3.5.1, js-yaml@~3.5.2:
-  version "3.5.5"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.5.5.tgz#0377c38017cabc7322b0d1fbcd25a491641f2fbe"
-  dependencies:
-    argparse "^1.0.2"
-    esprima "^2.6.0"
-
-js-yaml@^3.6.0:
+js-yaml@3.x, js-yaml@^3.5.1, js-yaml@^3.6.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.7.0.tgz#5c967ddd837a9bfdca5f2de84253abe8a1c03b80"
   dependencies:
@@ -2479,6 +2479,13 @@ js-yaml@~3.4.3:
     argparse "^1.0.2"
     esprima "^2.6.0"
     inherit "^2.2.2"
+
+js-yaml@~3.5.2:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.5.5.tgz#0377c38017cabc7322b0d1fbcd25a491641f2fbe"
+  dependencies:
+    argparse "^1.0.2"
+    esprima "^2.6.0"
 
 jsbn@~0.1.0:
   version "0.1.0"
@@ -2940,7 +2947,7 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-object-assign@^4.0.1, object-assign@^4.1.0:
+object-assign@^4.0.0, object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
@@ -4110,3 +4117,12 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+"yoastseo@https://github.com/yoast/yoastseo.js#release/1.14":
+  version "1.13.0"
+  resolved "https://github.com/yoast/yoastseo.js#aa7eb9fa30931a9de976066b6d8f5a301dfddfeb"
+  dependencies:
+    jed "^1.1.0"
+    lodash "^4.14.1"
+    sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"

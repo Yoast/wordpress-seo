@@ -5,6 +5,27 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.14.0: April 11th, 2017
+
+### Fixed
+* Fixes the provided example code, props [Alexander Guth](https://github.com/alxy).
+
+### Added
+* Introduces sentence beginnings assessment for Italian.
+
+## 1.13.0: March 21st, 2017
+
+### Fixed
+
+* Fixes a bug where the keyword density assessment would disappear when the density was 0.5%.
+
+## 1.12.0: February 28th, 2017
+
+### Fixed
+* Sets the boldness of the strong tags to 700 to enforce that they are displayed strong.
+* Changes strings that link to an article to improve context.
+* Changes links to short links so we can ensure they are always up to date.
+
 ## 1.11.0: February 14th, 2017
 
 ### Added
