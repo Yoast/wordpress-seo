@@ -788,37 +788,37 @@ var socialPreviews = require( "yoast-social-previews" );
 	function addHelpPanels() {
 		var panels = [
 			{
-				beforeElement: "#facebook-editor-imageUrl",
+				beforeElement: "#facebook-editor-imageUrl__caret-hook",
 				buttonText: translations.helpButton.facebookImage,
 				descriptionText: translations.help.facebookImage,
 				id: "facebook-editor-image-help",
 			},
 			{
-				beforeElement: "#facebook-editor-title",
+				beforeElement: "#facebook-editor-title__caret-hook",
 				buttonText: translations.helpButton.facebookTitle,
 				descriptionText: translations.help.facebookTitle,
 				id: "facebook-editor-title-help",
 			},
 			{
-				beforeElement: "#facebook-editor-description",
+				beforeElement: "#facebook-editor-description__caret-hook",
 				buttonText: translations.helpButton.facebookDescription,
 				descriptionText: translations.help.facebookDescription,
 				id: "facebook-editor-description-help",
 			},
 			{
-				beforeElement: "#twitter-editor-imageUrl",
+				beforeElement: "#twitter-editor-imageUrl__caret-hook",
 				buttonText: translations.helpButton.twitterImage,
 				descriptionText: translations.help.twitterImage,
 				id: "twitter-editor-image-help",
 			},
 			{
-				beforeElement: "#twitter-editor-title",
+				beforeElement: "#twitter-editor-title__caret-hook",
 				buttonText: translations.helpButton.twitterTitle,
 				descriptionText: translations.help.twitterTitle,
 				id: "twitter-editor-title-help",
 			},
 			{
-				beforeElement: "#twitter-editor-description",
+				beforeElement: "#twitter-editor-description__caret-hook",
 				buttonText: translations.helpButton.twitterDescription,
 				descriptionText: translations.help.twitterDescription,
 				id: "twitter-editor-description-help",
