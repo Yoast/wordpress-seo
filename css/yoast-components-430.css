@@ -425,9 +425,9 @@ body {
 	margin-bottom: 1rem;
 	color: #a4286a;
 	font-size: 2.75em;
-	font-weight: 300;
+	font-weight: 100;
 	line-height: 3.68rem;
-	letter-spacing: normal;
+	letter-spacing: 0.03em;
 }
 
 @media screen and (max-width: 768px) {

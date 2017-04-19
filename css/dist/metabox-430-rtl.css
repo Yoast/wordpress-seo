@@ -22,6 +22,7 @@
 .snippet-editor__view-toggle {
 	display: inline-block;
 	margin-top: 10px;
+	margin-right: 20px;
 	border: 1px solid #dbdbdb;
 	border-radius: 4px;
 	/* Contain floated children and margins do not collapse. */
@@ -86,19 +87,31 @@
 
 .snippet-editor__view--desktop {
 	overflow: auto;
-	width: 600px;
+	width: 640px;
 	max-width: 100%;
+	padding: 0 20px;
 }
 
 .snippet-editor__view .snippet_container__title {
-	overflow: hidden;
 	width: 600px;
 	white-space: nowrap;
+}
+
+.snippet-editor__view .snippet_container__title .title {
+	display: inline-block;
+	overflow: hidden;
+	max-width: 600px;
+	vertical-align: top;
 	text-overflow: ellipsis;
+}
+
+.snippet-editor__view .snippet_container__title .title#snippet_sitename {
+	display: inline;
 }
 
 .snippet-editor__view .snippet_container__url {
 	width: 600px;
+	line-height: 1;
 	white-space: nowrap;
 }
 
@@ -106,6 +119,8 @@
 	display: inline-block;
 	overflow: hidden;
 	max-width: 586px;
+	font-size: 14px;
+	line-height: 16px;
 	vertical-align: top;
 	text-overflow: ellipsis;
 }
@@ -125,8 +140,8 @@
 }
 
 .snippet-editor__view--mobile {
-	margin: 0 0 10px 0;
-	padding: 13px 0;
+	margin: 0 20px 10px;
+	padding: 11px 0;
 	border-bottom: 1px hidden #fff;
 	border-radius: 2px;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -147,28 +162,25 @@
 .snippet-editor__view--mobile .snippet_container__title {
 	overflow: visible;
 	padding: 0 16px;
-	font-size: 16px;
 	white-space: normal;
 	word-wrap: break-word;
 }
 
 .snippet-editor__view--mobile .snippet_container__title .title {
 	font-size: 16px;
+	line-height: 20px;
 }
 
 .snippet-editor__view--mobile .snippet_container__url {
-	overflow: hidden;
-	margin-bottom: 13px;
-	padding: 0 16px 11px;
+	margin-bottom: 9px;
+	padding: 0 16px 9px;
 	border-bottom: 1px solid #ebebeb;
-	font-size: 14px;
-	text-overflow: ellipsis;
 }
 
 .snippet-editor__view--mobile .snippet_container__url .urlFull {
-	display: inline;
-	overflow: visible;
-	max-width: none;
+	max-width: 100%;
+	font-size: 14px;
+	line-height: 20px;
 }
 
 .snippet-editor__view--mobile .snippet_container .down_arrow {
@@ -178,6 +190,12 @@
 .snippet-editor__view--mobile .snippet_container__meta {
 	padding: 0 16px;
 	font-size: 14px;
+	line-height: 20px;
+}
+
+.snippet-editor__view--mobile .snippet_container .desc {
+	font-size: 14px;
+	line-height: 20px;
 }
 
 .snippet-editor__is-scrollable-hintwrapper {
@@ -209,7 +227,7 @@
 }
 
 .snippet-editor__heading {
-	margin: 0 -20px 15px;
+	margin: 0 0 15px;
 	padding: 8px 20px;
 	color: #555;
 	font-family: "Open Sans", sans-serif;
@@ -260,7 +278,11 @@
 
 .snippet-editor__preview {
 	max-width: 640px;
-	padding: 0 20px 15px;
+	padding: 0 0 15px;
+}
+
+.snippet-editor__preview #help-yoast-snippetpreview {
+	padding: 0 20px;
 }
 
 .snippet-editor__button {
@@ -389,9 +411,7 @@
 
 .snippet_container .url {
 	color: #006621;
-	font-size: 14px;
-	font-style: normal; 
-	line-height: 16px;
+	font-style: normal;
 }
 .snippet_container .url strong {
 	font-weight: 700;
