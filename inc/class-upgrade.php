@@ -274,7 +274,7 @@ class WPSEO_Upgrade {
 		// The meta key has to be private, so prefix it.
 		$wpdb->query(
 			$wpdb->prepare(
-				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = "s"  WHERE meta_key = "yst_is_cornerstone"',
+				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = "%s"  WHERE meta_key = "yst_is_cornerstone"',
 				WPSEO_Cornerstone::META_NAME
 			)
 		);	}
