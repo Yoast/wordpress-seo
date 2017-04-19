@@ -40,13 +40,16 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	 * Registers assets to WordPress
 	 */
 	public function register_assets() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+
 		wp_register_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox',
-			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-430' . WPSEO_CSSJS_SUFFIX . '.js',
+			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-' . $version . WPSEO_CSSJS_SUFFIX . '.js',
 			array( 'jquery', 'wp-util', 'underscore' ),
 			WPSEO_VERSION
 		);
-		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-430' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
+		wp_register_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/dist/premium-metabox-' . $version . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 	}
 
 	/**
@@ -77,9 +80,6 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		}
 
 		$post = $this->get_post();
-		$post_type = get_post_type_object( $post->post_type );
-
-		$rest_base = isset( $post_type->rest_base ) ? $post_type->rest_base : '';
 
 		$data = array(
 			'insightsEnabled' => ( $insights_enabled ) ? 'enabled' : 'disabled',
@@ -89,7 +89,6 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'contentEndpointsAvailable' => WPSEO_Utils::are_content_endpoints_available(),
 				'root' => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
-				'postTypeBase' => $rest_base,
 			),
 			'linkSuggestionsEnabled' => ( $link_suggestions_enabled ) ? 'enabled' : 'disabled',
 			'linkSuggestionsAvailable' => $this->link_suggestions->is_available( $post->post_type ),

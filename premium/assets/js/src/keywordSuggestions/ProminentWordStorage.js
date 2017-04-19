@@ -7,14 +7,13 @@ import isEqual from "lodash/isEqual";
  */
 class ProminentWordStorage extends EventEmitter {
 	/**
-	 * @param {string} rootUrl The root URL of the WP REST API.
-	 * @param {string} nonce The WordPress nonce required to save anything to the REST API endpoints.
-	 * @param {string} postSaveEndpoint The endpoint to use to save the post.
-	 * @param {string} postTypeBase The base of the post type to use in the REST API URL.
-	 * @param {number} postID The postID of the post to save prominent words for.
-	 * @param {ProminentWordCache} cache The cache to use for the prominent word term IDs.
+	 * @param {string} rootUrl             The root URL of the WP REST API.
+	 * @param {string} nonce               The WordPress nonce required to save anything to the REST API endpoints.
+	 * @param {number} postID              The postID of the post to save prominent words for.
+	 * @param {number} prominentWordsLimit The limit of prominent words.
+	 * @param {ProminentWordCache} cache   The cache to use for the prominent word term IDs.
 	 */
-	constructor( { postID, rootUrl, nonce, postSaveEndpoint = "", postTypeBase = null, cache = null } ) {
+	constructor( { postID, rootUrl, nonce, prominentWordsLimit = 20, cache = null } ) {
 		super();
 
 		this._rootUrl = rootUrl;
@@ -23,17 +22,27 @@ class ProminentWordStorage extends EventEmitter {
 		this._savingProminentWords = false;
 		this._previousProminentWords = null;
 
-		this._postSaveEndpoint = postSaveEndpoint;
-		if ( postTypeBase !== null ) {
-			this._postSaveEndpoint = this._rootUrl + "wp/v2/" + postTypeBase + "/" + this._postID;
-		}
+		this._postSaveEndpoint = this._rootUrl + "yoast/v1/prominent_words_link/" + this._postID;
 
 		if ( cache === null ) {
 			cache = new ProminentWordCache();
 		}
 		this._cache = cache;
 
+		this.setProminentWordsLimit( prominentWordsLimit );
+
 		this.retrieveProminentWordId = this.retrieveProminentWordId.bind( this );
+	}
+
+	/**
+	 * Sets the prominent words limit.
+	 *
+	 * @param {number} limit The limit to set.
+	 *
+	 * @returns {void}
+	 */
+	setProminentWordsLimit( limit ) {
+		this._prominentWordsLimit = limit;
 	}
 
 	/**
@@ -49,10 +58,10 @@ class ProminentWordStorage extends EventEmitter {
 		}
 		this._savingProminentWords = true;
 
-		let firstTwentyWords = prominentWords.slice( 0, 20 );
+		let prominentWordsToSave = prominentWords.slice( 0, this._prominentWordsLimit );
 
 		// Retrieve IDs of all prominent word terms, but do it in sequence to prevent overloading servers.
-		let prominentWordIds = firstTwentyWords.reduce( ( previousPromise, prominentWord ) => {
+		let prominentWordIds = prominentWordsToSave.reduce( ( previousPromise, prominentWord ) => {
 			return previousPromise.then( ( ids ) => {
 				return this.retrieveProminentWordId( prominentWord ).then( ( newId ) => {
 					ids.push( newId );
@@ -93,7 +102,10 @@ class ProminentWordStorage extends EventEmitter {
 					this._savingProminentWords = false;
 				} );
 			} );
-		} ).catch( (e) => {} );
+		} ).catch( (e) => {
+			// eslint-disable-next-line
+			window.console && console.log( e );
+		} );
 	}
 
 	/**

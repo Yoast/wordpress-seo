@@ -11,6 +11,9 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	const MODAL_DIALOG_HEIGHT_BASE = 282;
 	const PROGRESS_BAR_HEIGHT = 32;
 
+	/** @var WPSEO_Premium_Prominent_Words_Unindexed_Post_Query */
+	protected $post_query;
+
 	/**
 	 * Registers all hooks to WordPress
 	 */
@@ -110,7 +113,10 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	public function enqueue() {
 		$page = filter_input( INPUT_GET, 'page' );
 
-		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-430' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$version = $asset_manager->flatten_version( WPSEO_VERSION );
+
+		wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-site-wide-analysis', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/dist/yoast-premium-site-wide-analysis-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
 
 		if ( $page === 'wpseo_dashboard' ) {
 			$data = array(
@@ -140,30 +146,18 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	}
 
 	/**
-	 * Counts posts that have prominent words.
-	 *
-	 * @param string $post_type The post type to count.
-	 * @return int The amount of posts.
-	 */
-	protected function count_all_posts_by_type( $post_type ) {
-		$total_posts = new WP_Query( array(
-			'post_type' => $post_type,
-			'post_status' => array( 'future', 'draft', 'pending', 'private', 'publish' ),
-		) );
-
-		return (int) $total_posts->found_posts;
-	}
-
-	/**
 	 * Counts posts that have no prominent words.
 	 *
 	 * @param string $post_type The post type to count.
+	 *
 	 * @return int The amount of posts.
 	 */
 	protected function count_unindexed_posts_by_type( $post_type ) {
-		$post_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
+		if ( ! $this->post_query ) {
+			$this->post_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
+		}
 
-		return (int) $post_query->get_query( $post_type )->found_posts;
+		return $this->post_query->get_total( $post_type );
 	}
 
 	/**

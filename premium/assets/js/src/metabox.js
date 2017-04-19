@@ -17,6 +17,8 @@ let focusKeywordSuggestions;
 
 let linkSuggestions;
 
+let cornerstoneElementID = "yst_is_cornerstone";
+
 /**
  * Determines whether or not Insights is enabled.
  *
@@ -71,7 +73,16 @@ let initializeProminentWordStorage = function() {
 		postID: settings.postID,
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
-		postTypeBase: settings.restApi.postTypeBase,
+		prominentWordsLimit: getProminentWordsLimit(),
+	} );
+
+	// Binds the change event listener to the cornerstone content checkbox
+	window.jQuery( "#" + cornerstoneElementID ).change( () => {
+		// Sets the limit based on the checkbox.
+		prominentWordStorage.setProminentWordsLimit( getProminentWordsLimit() );
+
+		// Triggers a window event to update the prominent words.
+		window.jQuery( window ).trigger( "YoastSEO:updateProminentWords" );
 	} );
 };
 
@@ -129,5 +140,19 @@ function initializeDOM() {
 		}
 	} );
 }
+
+/**
+ * Returns 50 when cornerstone checkbox is checked, if not checked it will return 20.
+ *
+ * @returns {number} The prominent words limit.
+ */
+function getProminentWordsLimit() {
+	if ( document.getElementById( cornerstoneElementID ) && document.getElementById( cornerstoneElementID ).checked ) {
+		return 50;
+	}
+
+	return 20;
+}
+
 
 window.jQuery( initializeDOM );

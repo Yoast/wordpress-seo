@@ -16,7 +16,7 @@ class WPSEO_Config_Field_Social_Profiles_Intro extends WPSEO_Config_Field {
 
 		$intro_text = __( 'Please add all your relevant social profiles. We use these to let search engines know about them, and to enhance your social metadata:', 'wordpress-seo' );
 
-		$html = '<p>' . $intro_text . '</p>';
+		$html = '<p>' . esc_html( $intro_text ) . '</p>';
 
 		$this->set_property( 'html', $html );
 	}

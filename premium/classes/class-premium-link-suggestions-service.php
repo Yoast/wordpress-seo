@@ -41,6 +41,51 @@ class WPSEO_Premium_Link_Suggestions_Service {
 
 		set_transient( $this->get_cache_key( $prominent_words ), $suggestions, WEEK_IN_SECONDS );
 
+		$suggestions = $this->add_is_cornerstone( $suggestions );
+
+		return $suggestions;
+	}
+
+	/**
+	 * Determines the cornerstone content items in the suggestions.
+	 *
+	 * @param array $suggestions List of suggestions from cache.
+	 *
+	 * @return array Suggestions added with isCornerstone field.
+	 */
+	public function add_is_cornerstone( $suggestions ) {
+		global $wpdb;
+
+		if ( empty( $suggestions ) ) {
+			return $suggestions;
+		}
+
+		// Get the IDs from the suggestions.
+		$suggestion_ids = wp_list_pluck( $suggestions, 'id' );
+
+		$suggestion_ids = "'" . implode( "', '", $suggestion_ids ) . "'";
+
+		// Find all posts in the list that are cornerstone items.
+		$sql = $wpdb->prepare( 'SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE post_id IN ( ' . $suggestion_ids . ' ) AND meta_key = "%s" AND meta_value = "1"', WPSEO_Cornerstone::META_NAME );
+		$results = $wpdb->get_results( $sql );
+
+		if ( ! is_array( $results ) ) {
+			$results = array();
+		}
+
+		// Fetch all the  post_ids from the results.
+		$results = wp_list_pluck( $results, 'post_id' );
+
+		// Loop through all suggestions and add the isCornerstone flag.
+		foreach ( $suggestions as & $suggestion ) {
+			$suggestion['isCornerstone'] = in_array( $suggestion['id'], $results, false );
+		}
+		// Cleanup referenced value.
+		unset( $suggestion );
+
+		// Sort list to have cornerstone articles appear first.
+		usort( $suggestions, array( $this, 'sort_by_cornerstone' ) );
+
 		return $suggestions;
 	}
 
@@ -72,6 +117,26 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		sort( $prominent_words );
 
 		return self::CACHE_PREFIX . md5( implode( ',', $prominent_words ) );
+	}
+
+	/**
+	 * Sorts suggestions by isCornerstone
+	 *
+	 * @param array $a Suggestion A.
+	 * @param array $b Suggestion B.
+	 *
+	 * @return int -1 if $a should be higher, 0 if $a and $b are identical, 1 if $b has to be higher.
+	 */
+	protected function sort_by_cornerstone( $a, $b ) {
+		if ( $a['isCornerstone'] === true && $b['isCornerstone'] === true ) {
+			return 0;
+		}
+
+		if ( $a['isCornerstone'] === true ) {
+			return -1;
+		}
+
+		return 1;
 	}
 
 	/**
@@ -142,9 +207,9 @@ class WPSEO_Premium_Link_Suggestions_Service {
 		}
 
 		return array(
-			'id'    => $post->ID,
-			'title' => $title,
-			'link'  => get_permalink( $post ),
+			'id'            => $post->ID,
+			'title'         => $title,
+			'link'          => get_permalink( $post ),
 		);
 	}
 }

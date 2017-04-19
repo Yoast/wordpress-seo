@@ -99,7 +99,12 @@ class SiteWideCalculation extends EventEmitter {
 			} );
 		}, Promise.resolve() );
 
-		processPromises.then( this.continueProcessing ).catch( this.continueProcessing );
+		processPromises.then( this.continueProcessing ).catch( ( err ) => {
+			// eslint-disable-next-line
+			window.console && console.log( err );
+
+			this.continueProcessing();
+		} );
 	}
 
 	/**
@@ -134,7 +139,6 @@ class SiteWideCalculation extends EventEmitter {
 			rootUrl: this._rootUrl,
 			nonce: this._nonce,
 			cache: this._prominentWordCache,
-			postSaveEndpoint: post._links.self[0].href,
 		} );
 
 		return prominentWordStorage.saveProminentWords( prominentWords ).then( this.incrementProcessedPosts, this.incrementProcessedPosts );

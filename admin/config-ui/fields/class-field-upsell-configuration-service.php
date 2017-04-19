@@ -25,12 +25,17 @@ class WPSEO_Config_Field_Upsell_Configuration_Service extends WPSEO_Config_Field
 			__( 'While we strive to make setting up %1$s as easy as possible, we understand it can be daunting. If you’d rather have us set up %1$s for you (and get a copy of %2$s in the process), order our %3$s%1$s configuration service%4$s here!', 'wordpress-seo' ),
 			'Yoast SEO',
 			'Yoast SEO Premium',
-			'<a target="_blank" href="https://yoa.st/configuration-package">',
+			'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/configuration-package' ) . '">',
 			'</a>'
 		);
 
-		$html = '<p>' . $intro_text . '</p>';
-		$html .= '<p><em>' . $upsell_text . '</em></p>';
+		$html = '<p>' . esc_html( $intro_text ) . '</p>';
+		$html .= '<p><em>' . wp_kses( $upsell_text, array(
+				'a' => array(
+					'target' => array( '_blank' ),
+					'href'   => array(),
+				),
+			) ) . '</em></p>';
 
 
 		$this->set_property( 'html', $html );

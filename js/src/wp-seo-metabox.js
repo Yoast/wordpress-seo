@@ -102,7 +102,7 @@ import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 		$closeButton = $( "#TB_closeWindowButton" );
 
 		// The container window isn't the correct size, rectify this and also the centering.
-		$popupWindow.css( { width: 680, height: 235, "margin-left": -340 } );
+		$popupWindow.css( { width: 680, height: 350, "margin-left": -340 } );
 
 		// Accessibility improvements.
 		$popupWindow
