@@ -1,5 +1,8 @@
 <label<% if ( id ) { %> for="<%- id %>"<% } %><% if ( labelClassName ) { %> class="<%- labelClassName %>"<% } %>><%
 if ( id ) { %><%- title %></label><% } else { %><%- title %><% } %>
+	<span class="snippet-editor__caret-hook"
+		<% if ( id ) { %>id="<%- id %>__caret-hook"<% } %>
+	></span>
 	<input type="text"
 		<% if ( value ) { %>value="<%- value %>"<% } %>
 		<% if ( placeholder ) { %>placeholder="<%- placeholder %>"<% } %>

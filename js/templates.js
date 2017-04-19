@@ -15,7 +15,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.16.6';
+  var VERSION = '4.17.4';
 
   /** Used as references for various `Number` constants. */
   var INFINITY = 1 / 0;
@@ -130,8 +130,7 @@
     if (value == null) {
       return value === undefined ? undefinedTag : nullTag;
     }
-    value = Object(value);
-    return (symToStringTag && symToStringTag in value)
+    return (symToStringTag && symToStringTag in Object(value))
       ? getRawTag(value)
       : objectToString(value);
   }
@@ -433,7 +432,13 @@
     __p +=
     __e( title );
      }
-    __p += '\n	<input type="text"\n		';
+    __p += '\n	<span class="snippet-editor__caret-hook"\n		';
+     if ( id ) {
+    __p += 'id="' +
+    __e( id ) +
+    '__caret-hook"';
+     }
+    __p += '\n	></span>\n	<input type="text"\n		';
      if ( value ) {
     __p += 'value="' +
     __e( value ) +
@@ -500,25 +505,31 @@
     __p +=
     __e( title );
      }
-    __p += '\n	<textarea\n		   ';
+    __p += '\n	<span class="snippet-editor__caret-hook"\n		';
+     if ( id ) {
+    __p += 'id="' +
+    __e( id ) +
+    '__caret-hook"';
+     }
+    __p += '\n	></span>\n	<textarea\n		';
      if ( placeholder ) {
     __p += 'placeholder="' +
     __e( placeholder ) +
     '"';
      }
-    __p += '\n		   ';
+    __p += '\n		';
      if ( className ) {
     __p += 'class="' +
     __e( className ) +
     '"';
      }
-    __p += '\n		   ';
+    __p += '\n		';
      if ( id ) {
     __p += 'id="' +
     __e( id ) +
     '"';
      }
-    __p += '\n		   ';
+    __p += '\n		';
      if ( name ) {
     __p += 'name="' +
     __e( name ) +

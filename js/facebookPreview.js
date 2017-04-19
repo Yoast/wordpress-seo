@@ -244,10 +244,10 @@ FacebookPreview.prototype.renderTemplate = function() {
 	this.element.fieldElements = this.getFieldElements();
 	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
-	this.element.label = {
-		title: this.element.input.title.parentNode,
-		imageUrl: this.element.input.imageUrl.parentNode,
-		description: this.element.input.description.parentNode
+	this.element.caretHooks = {
+		title: this.element.input.title.previousSibling,
+		imageUrl: this.element.input.imageUrl.previousSibling,
+		description: this.element.input.description.previousSibling
 	};
 
 	this.element.preview = {

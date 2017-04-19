@@ -97,6 +97,7 @@ $border_radius_twitter: .42857em;
 		}
 	}
 
+	// Position of the caret icons in the Social Previews snippet title and description.
 	&__container {
 		&--facebook,
 		&--twitter {
@@ -105,6 +106,28 @@ $border_radius_twitter: .42857em;
 				&:before {
 					left: -34px
 				}
+			}
+		}
+	}
+
+	// Display the caret icons in the Social Previews editor.
+	.snippet-editor__caret-hook {
+		display: block;
+		width: 100%;
+		height: 0px;
+		position: relative;
+
+		&--hover {
+			&:before {
+				@include svg-caret-before($color_caret_hover);
+				top: 0; // Override default top alignment.
+			}
+		}
+
+		&--focus {
+			&:before {
+				@include svg-caret-before($color_caret_focus);
+				top: 0; // Override default top alignment.
 			}
 		}
 	}
@@ -373,11 +396,10 @@ $border_radius_twitter: .42857em;
 
 	&--twitter {
 		background: url( './twitter-placeholder.svg' ) no-repeat center center;
-	  height: 100%;
+		height: 100%;
 		padding: 0;
 		// Reduce width with 2 pixels because element overlaps the bordered container.
 		width: 100%;
 		border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
 	}
 }
-
