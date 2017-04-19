@@ -45,6 +45,7 @@ $snippet_width: 600px;
 			border: 1px solid $color_button_border;
 			border-radius: 4px;
 			margin-top: 10px;
+			margin-left: 20px;
 			vertical-align: top;
 		}
 
@@ -101,8 +102,9 @@ $snippet_width: 600px;
 		}
 
 		&--desktop {
-			width: $snippet_width;
+			width: $snippet_width + 40;
 			max-width: 100%;
+			padding: 0 20px;
 			overflow: auto;
 		}
 
@@ -113,22 +115,33 @@ $snippet_width: 600px;
 			&__title {
 				width: $snippet_width;
 				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
+
+				& .title {
+					display: inline-block;
+					max-width: $snippet_width;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					vertical-align: top;
+
+					&#snippet_sitename {
+						display: inline; // Consider to remove this element from the template, probably no more used.
+					}
+				}
 			}
 
 			&__url {
 				width: $snippet_width;
 				white-space: nowrap;
+				line-height: 1; // Avoid to inherit line-height.
 
-				// In the desktop view, due to the presence of the down_arrow we
-				// apply the overflow and ellipsis on the urlFull wrapper.
 				& .urlFull {
 					display: inline-block;
 					max-width: $snippet_width - 14; // down_arrow 8+6 pixels.
 					overflow: hidden;
 					text-overflow: ellipsis;
 					vertical-align: top;
+					font-size: 14px;
+					line-height: 16px;
 				}
 			}
 
@@ -151,8 +164,8 @@ $snippet_width: 600px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 			border-radius: 2px;
 			border-bottom: 1px hidden #fff;
-			margin: 0 0 10px 0;
-			padding: 13px 0 ;
+			margin: 0 20px 10px;
+			padding: 11px 0;
 
 			// In the mobile view title, slug, and meta description have a fluid width.
 			// Title and meta description wrap in new lines. Slug doesn't wrap.
@@ -168,7 +181,6 @@ $snippet_width: 600px;
 				}
 
 				&__title {
-					font-size: 16px;
 					padding: 0 16px;
 					white-space: normal;
 					overflow: visible;
@@ -176,25 +188,21 @@ $snippet_width: 600px;
 
 					.title {
 						font-size: 16px;
+						line-height: 20px;
 					}
 
 				}
 
-				// In the mobile view there's no down arrow so we apply the
-				// overflow and ellipsis on the full url container.
 				&__url {
 					border-bottom: 1px solid #ebebeb;
-					padding: 0 16px 11px;
-					margin-bottom: 13px;
-					font-size: 14px;
-					overflow: hidden;
-					text-overflow: ellipsis;
+					padding: 0 16px 9px;
+					margin-bottom: 9px;
 
-					// Reset the urlFull wrapper.
+					// In the mobile view there's no down arrow.
 					& .urlFull {
-						display: inline;
-						max-width: none;
-						overflow: visible;
+						max-width: 100%;
+						font-size: 14px;
+						line-height: 20px;
 					}
 				}
 
@@ -205,7 +213,13 @@ $snippet_width: 600px;
 
 				&__meta {
 					font-size: 14px;
+					line-height: 20px;
 					padding: 0 16px;
+				}
+
+				& .desc {
+					font-size: 14px;
+					line-height: 20px;
 				}
 			}
 		}
@@ -242,7 +256,7 @@ $snippet_width: 600px;
 	&__heading {
 		padding: 8px 20px;
 		font-size: 0.9rem;
-		margin: 0 -20px 15px;
+		margin: 0 0 15px;
 		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
 		color: $color_headings;
@@ -284,8 +298,12 @@ $snippet_width: 600px;
 	}
 
 	&__preview {
-		padding: 0 20px 15px;
+		padding: 0 0 15px;
 		max-width: $snippet_width + 40;
+
+		& #help-yoast-snippetpreview {
+			padding: 0 20px;
+		}
 	}
 
 	&__button {
@@ -422,8 +440,6 @@ $snippet_width: 600px;
 }
 
 .snippet_container .url {
-	font-size: 14px;
-	line-height: 16px;
 	color: #006621;
 	font-style: normal;
 
