@@ -146,8 +146,8 @@ function wpseo_handle_button_events( ev ) {
 
 window.wpseo_handle_button_events = wpseo_handle_button_events;
 
-window.wpseo_undo_redirect = redirectFunctions.wpseo_undo_redirect;
-window.wpseo_create_redirect = redirectFunctions.wpseo_create_redirect;
+window.wpseoUndoRedirect = redirectFunctions.wpseoUndoRedirect;
+window.wpseoCreateRedirect = redirectFunctions.wpseoCreateRedirect;
 
 ( jQuery( function() {
 	var wpseoCurrentPage = wpseo_get_current_page();

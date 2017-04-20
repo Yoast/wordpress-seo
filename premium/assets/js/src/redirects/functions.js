@@ -11,7 +11,7 @@
  *
  * @returns {void}
  */
-function wpseo_undo_redirect( origin, target, type, nonce, source ) {
+function wpseoUndoRedirect( origin, target, type, nonce, source ) {
 	jQuery.post(
 		ajaxurl,
 		{
@@ -39,7 +39,7 @@ function wpseo_undo_redirect( origin, target, type, nonce, source ) {
  *
  * @returns {void}
  */
-function wpseo_create_redirect( origin, type, nonce, source ) {
+function wpseoCreateRedirect( origin, type, nonce, source ) {
 	var target = "";
 
 	if( parseInt( type, 10 ) !== 410 ) {
@@ -105,8 +105,6 @@ function wpseo_create_redirect( origin, type, nonce, source ) {
 }
 
 module.exports = {
-	/* eslint-disable camelcase */
-	wpseo_create_redirect: wpseo_create_redirect,
-	wpseo_undo_redirect: wpseo_undo_redirect,
-	/* eslint-enable camelcase */
+	wpseoCreateRedirect: wpseoCreateRedirect,
+	wpseoUndoRedirect: wpseoUndoRedirect,
 };
