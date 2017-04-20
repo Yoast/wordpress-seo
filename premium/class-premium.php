@@ -510,10 +510,12 @@ class WPSEO_Premium {
 	 */
 	public function init_helpscout_support() {
 		$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
+		$is_beacon_page = in_array( strtolower( $query_var ), $this->get_beacon_pages(), true );
 
 		// Only add the helpscout beacon on Yoast SEO pages.
-		if ( in_array( $query_var, $this->get_beacon_pages() ) ) {
+		if ( WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] )|| $is_beacon_page ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_contact_support' ) );
+
 			$beacon = yoast_get_helpscout_beacon( $query_var, 'no_search' );
 			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() );
 			$beacon->register_hooks();
