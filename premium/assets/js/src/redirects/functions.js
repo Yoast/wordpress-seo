@@ -1,4 +1,4 @@
-/* global wpseo_premium_strings, ajaxurl */
+/* global wpseoPremiumStrings, ajaxurl */
 
 /**
  * Undoes a redirect.
@@ -44,12 +44,12 @@ function wpseo_create_redirect( origin, type, nonce, source ) {
 
 	if( parseInt( type, 10 ) !== 410 ) {
 		/* eslint-disable no-alert */
-		target = window.prompt( wpseo_premium_strings.enter_new_url.replace( "%s", origin ) );
+		target = window.prompt( wpseoPremiumStrings.enter_new_url.replace( "%s", origin ) );
 		/* eslint-enable no-alert */
 
 		if ( target === "" ) {
 			/* eslint-disable no-alert */
-			window.alert( wpseo_premium_strings.error_new_url );
+			window.alert( wpseoPremiumStrings.error_new_url );
 			/* eslint-enable no-alert */
 			return;
 		}
@@ -88,9 +88,9 @@ function wpseo_create_redirect( origin, type, nonce, source ) {
 			// Parse the success message.
 			var successMessage = "";
 			if( parseInt( type, 10 ) === 410 ) {
-				successMessage = wpseo_premium_strings.redirect_saved_no_target;
+				successMessage = wpseoPremiumStrings.redirect_saved_no_target;
 			} else {
-				successMessage = wpseo_premium_strings.redirect_saved.replace( "%2$s", "<code>" + response.target + "</code>" );
+				successMessage = wpseoPremiumStrings.redirect_saved.replace( "%2$s", "<code>" + response.target + "</code>" );
 			}
 
 			successMessage = successMessage.replace( "%1$s", "<code>" + response.origin + "</code>" );
