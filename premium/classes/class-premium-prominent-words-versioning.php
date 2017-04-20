@@ -10,7 +10,7 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 
 	const VERSION_NUMBER = 1;
 
-	const POST_META_NAME = 'yst_prominent_words_version';
+	const POST_META_NAME = '_yst_prominent_words_version';
 
 	const COLLECTION_PARAM = 'yst_prominent_words_is_unindexed';
 
@@ -91,5 +91,20 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 	 */
 	public function can_retrieve_data() {
 		return current_user_can( WPSEO_Premium_Prominent_Words_Endpoint::CAPABILITY_RETRIEVE );
+	}
+
+	/**
+	 * Renames the meta key for the prominent words version. It was a public meta field and it has to be private.
+	 */
+	public static function upgrade_4_7() {
+		global $wpdb;
+
+		// The meta key has to be private, so prefix it.
+		$wpdb->query(
+			$wpdb->prepare(
+				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = "%s" WHERE meta_key = "yst_prominent_words_version"',
+				self::POST_META_NAME
+			)
+		);
 	}
 }
