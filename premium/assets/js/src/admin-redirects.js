@@ -341,7 +341,7 @@
 	 *
 	 * @returns {void}
 	 */
-	$.fn.wpseo_redirects = function( argType ) {
+	$.fn.wpseoRedirects = function( argType ) {
 		var that   = this;
 		var type   = argType.replace( "table-", "" );
 		var ignore = false;
@@ -843,7 +843,7 @@
 		$.each(
 			$( ".redirect-table-tab" ),
 			function( key, element ) {
-				$( element ).wpseo_redirects( $( element ).attr( "id" ) );
+				$( element ).wpseoRedirects( $( element ).attr( "id" ) );
 			}
 		);
 
