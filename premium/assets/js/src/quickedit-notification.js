@@ -11,7 +11,8 @@ var redirectFunctions = require( "./redirects/functions" );
 var wpseo_notification_counter = 0;
 
 /**
- * Show notification to user when there's a redirect created. When the response is empty, up the notification counter with 1, wait 100 ms and call function again.
+ * Show notification to user when there's a redirect created. When the response is empty, up the notification counter
+ * with 1, wait 100 ms and call function again.
  * Stop when the notification counter is bigger than 20.
  *
  * @returns {void}

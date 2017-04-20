@@ -219,7 +219,7 @@
 	ValidateRedirect.prototype.addValidationError = function( error, fields ) {
 		this.form.setErrorMessage( error );
 
-		if( fields !== undefined ) {
+		if( typeof fields !== "undefined" ) {
 			this.form.highLightRowErrors( fields );
 		}
 	};
@@ -424,7 +424,7 @@
 		 * @returns {void}
 		 */
 		this.dialog = function( title, text, type ) {
-			if ( type === undefined || type === "error" ) {
+			if ( typeof type === "undefined" || type === "error" ) {
 				type = "default";
 			}
 
@@ -484,10 +484,12 @@
 		this.editRow = function( row ) {
 			// Just show a dialog when there is already a quick edit form opened.
 			if( $( "#the-list" ).find( "#inline-edit" ).length > 0 ) {
+				/* eslint-disable camelcase */
 				this.dialog(
 					wpseo_premium_strings.edit_redirect,
 					wpseo_premium_strings.editing_redirect
 				);
+				/* eslint-enable camelcase */
 
 				return;
 			}
@@ -649,6 +651,7 @@
 			// Post the request.
 			that.post(
 				{
+					/* eslint-disable camelcase */
 					action: "wpseo_update_redirect_" + type,
 					ajax_nonce: $( ".wpseo_redirects_ajax_nonce" ).val(),
 					old_redirect: {
@@ -679,6 +682,7 @@
 
 					that.openDialog( wpseo_premium_strings.redirect_updated );
 				}
+				/* eslint-enable camelcase */
 			);
 
 			return true;

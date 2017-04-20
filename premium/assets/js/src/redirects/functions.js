@@ -47,7 +47,7 @@ function wpseo_create_redirect( origin, type, nonce, source ) {
 		target = window.prompt( wpseo_premium_strings.enter_new_url.replace( "%s", origin ) );
 		/* eslint-enable no-alert */
 
-		if ( target === '' ) {
+		if ( target === "" ) {
 			/* eslint-disable no-alert */
 			window.alert( wpseo_premium_strings.error_new_url );
 			/* eslint-enable no-alert */
@@ -105,6 +105,8 @@ function wpseo_create_redirect( origin, type, nonce, source ) {
 }
 
 module.exports = {
+	/* eslint-disable camelcase */
 	wpseo_create_redirect: wpseo_create_redirect,
 	wpseo_undo_redirect: wpseo_undo_redirect,
+	/* eslint-enable camelcase */
 };

@@ -6,7 +6,7 @@ var helpPanel = require( "./helpPanel" );
 var getTitlePlaceholder = require( "../../../../js/src/analysis/getTitlePlaceholder" );
 var getDescriptionPlaceholder = require( "../../../../js/src/analysis/getDescriptionPlaceholder" );
 
-var _debounce = require("lodash/debounce");
+var _debounce = require( "lodash/debounce" );
 var clone = require( "lodash/clone" );
 var forEach = require( "lodash/forEach" );
 var _has = require( "lodash/has" );
@@ -51,11 +51,13 @@ var socialPreviews = require( "yoast-social-previews" );
 	 * @returns {void}
 	 */
 	function bindUploadButtonEvents( imageUrl, imageButton, removeButton, onMediaSelect, imagePreviewElement ) {
+		/* eslint-disable camelcase */
 		var socialPreviewUploader = wp.media.frames.file_frame = wp.media( {
 			title: yoastSocialPreview.choose_image,
 			button: { text: yoastSocialPreview.choose_image },
 			multiple: false,
 		} );
+		/* eslint-enable camelcase */
 
 		socialPreviewUploader.on( "select", function() {
 			var attachment = socialPreviewUploader.state().get( "selection" ).first().toJSON();
@@ -288,8 +290,8 @@ var socialPreviews = require( "yoast-social-previews" );
 								description = facebookDescription;
 							}
 						}
-						if ( isUndefined( description ) ){
-							description = $( '#twitter-editor-description' ).attr( 'placeholder' );
+						if ( isUndefined( description ) ) {
+							description = $( "#twitter-editor-description" ).attr( 'placeholder' );
 						}
 					}
 
@@ -773,7 +775,7 @@ var socialPreviews = require( "yoast-social-previews" );
 			return imageFallBack.content;
 		}
 
-		if ( defaultImage !== undefined ) {
+		if ( typeof defaultImage !== "undefined" ) {
 			return defaultImage;
 		}
 

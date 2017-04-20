@@ -1,4 +1,4 @@
-/* global yoastSiteWideAnalysisData */
+/* global yoastSiteWideAnalysisData, tb_remove */
 
 import ProminentWordCalculation from "./keywordSuggestions/siteWideCalculation";
 import ProminentWordCache from "./keywordSuggestions/ProminentWordCache";
@@ -34,9 +34,9 @@ function recalculatePosts() {
 		} );
 
 		postsCalculation.on( "processedPost", ( postCount ) => {
-			let new_width = postCount * ( 100 / settings.amount.total );
+			let newWidth = postCount * ( 100 / settings.amount.total );
 
-			progress.progressbar( "value", Math.round( new_width ) );
+			progress.progressbar( "value", Math.round( newWidth ) );
 
 			progressElement.html( postCount );
 		} );
@@ -70,9 +70,9 @@ function recalculatePages() {
 		} );
 
 		pagesCalculation.on( "processedPost", ( pageCount ) => {
-			let new_width = pageCount * ( 100 / settings.amountPages.total );
+			let newWidth = pageCount * ( 100 / settings.amountPages.total );
 
-			progress.progressbar( "value", Math.round( new_width ) );
+			progress.progressbar( "value", Math.round( newWidth ) );
 			progressElement.html( pageCount );
 		} );
 
