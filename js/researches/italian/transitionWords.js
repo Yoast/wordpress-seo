@@ -1,6 +1,6 @@
 /** @module config/transitionWords */
 
-var singleWords = [ "abbastanza", "acciocché", "adesso", "affinché", "allora", "almeno", "alquanto", "altrettanto",
+let singleWords = [ "abbastanza", "acciocché", "adesso", "affinché", "allora", "almeno", "alquanto", "altrettanto",
 	"altrimenti", "analogamente", "anche", "ancora", "analogamente", "antecedentemente", "anzi", "anzitutto",
 	"apertamente", "appena", "assai", "attualmente", "benché", "beninteso", "bensì", "brevemente", "bruscamente",
 	"casomai", "celermente", "certamente", "certo", "chiaramente", "ciononostante", "cioé", "comparabilmente", "come",
@@ -29,7 +29,7 @@ var singleWords = [ "abbastanza", "acciocché", "adesso", "affinché", "allora",
 	"talmente", "terzo", "totalmente", "tranne", "tuttavia", "ugualmente", "ulteriormente", "ultimamente", "veramente",
 	"verosimilmente", "visto" ];
 
-var multipleWords = [ "a breve", "a causa", "a causa di", "a condizione che", "a conseguenza", "a conti fatti",
+let multipleWords = [ "a breve", "a causa", "a causa di", "a condizione che", "a conseguenza", "a conti fatti",
 	"a differenza di", "a differenza del", "a differenza della", "a differenza dei", "a differenza degli",
 	"a differenza delle", "a dire il vero", "a dire la verità", "a dirla tutta", "a dispetto di", "a lungo",
 	"a lungo termine", "a maggior ragione", "a meno che non", "a parte", "a patto che", "a prescindere", "a prima vista",
