@@ -8,7 +8,7 @@
  */
 class WPSEO_Cornerstone {
 
-	const META_NAME = 'yst_is_cornerstone';
+	const META_NAME = '_yst_is_cornerstone';
 
 	/**
 	 * Registers the hooks.
