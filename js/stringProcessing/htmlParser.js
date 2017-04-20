@@ -25,17 +25,18 @@ let parser = new htmlparser.Parser( {
 	onopentag: function( tagName, nodeValue ) {
 		if ( inlineTags.includes( tagName ) ) {
 			inScriptBlock = true;
-		} else {
-			let nodeValueType = Object.keys( nodeValue );
-			let nodeValueString = "";
-
-			nodeValueType.forEach( function( node ) {
-				// Build the tag again.
-				nodeValueString += " " + node + "='" + nodeValue[ node ] + "'";
-			} );
-
-			textArray.push( "<" + tagName + nodeValueString + ">" );
+			return;
 		}
+
+		let nodeValueType = Object.keys( nodeValue );
+		let nodeValueString = "";
+
+		nodeValueType.forEach( function( node ) {
+			// Build the tag again.
+			nodeValueString += " " + node + "='" + nodeValue[ node ] + "'";
+		} );
+
+		textArray.push( "<" + tagName + nodeValueString + ">" );
 	},
 	/**
 	 * Handles the text that doesn't contain opening or closing tags. If inScriptBlock is false, the text gets pushed to the textArray array.
@@ -60,9 +61,10 @@ let parser = new htmlparser.Parser( {
 	onclosetag: function( tagName ) {
 		if( inlineTags.includes( tagName ) ) {
 			inScriptBlock = false;
-		} else {
-			textArray.push( "</" + tagName + ">" );
+			return;
 		}
+
+		textArray.push( "</" + tagName + ">" );
 	},
 }, { decodeEntities: true } );
 

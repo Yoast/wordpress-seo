@@ -635,7 +635,7 @@ App.prototype.showLoadingDialog = function() {
 /**
  * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading.
  *
- * @param   {Object}  plugins   The plugins to be parsed into the dialog..
+ * @param   {Object}  plugins   The plugins to be parsed into the dialog.
  * @returns {void}
  */
 App.prototype.updateLoadingDialog = function( plugins ) {
