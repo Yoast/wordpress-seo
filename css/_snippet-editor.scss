@@ -100,17 +100,20 @@ $snippet_width: 600px;
 		}
 
 		&--desktop {
-		width: $snippet_width;
-		background: #FFF;
-		  .snippet_container {
-			&__title {
-				width: $snippet_width;
+			width:      $snippet_width;
+			background: #FFF;
+			.snippet_container {
+				&__title {
+					width:         $snippet_width;
+					white-space:   nowrap;
+					overflow:      hidden;
+					text-overflow: ellipsis;
 
-				.title {
-					white-space: nowrap;
+					.title {
+						white-space: nowrap;
+					}
 				}
 			}
-		  }
 		}
 
 		&--mobile {
