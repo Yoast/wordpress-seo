@@ -797,7 +797,7 @@ a.promoblock:hover {
 .yoast-promo-extensions {
 	display: -ms-flexbox;
 	display: flex;
-	margin-left: -50px;
+	margin-left: -24px;
 
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
@@ -805,12 +805,13 @@ a.promoblock:hover {
 
 .yoast-promo-extensions > h2 {
 	width: 100%;
-	margin-left: 50px;
+	margin-bottom: 32px;
+	margin-left: 32px;
 }
 
 .yoast-promo-extension {
 	max-width: 330px;
-	margin-left: 50px;
+	margin-left: 32px;
 	border-color: #a4286a;
 	background-color: transparent;
 }
@@ -849,6 +850,10 @@ a.promoblock:hover {
 		width: 100%;
 		max-width: none;
 	}
+}
+
+.yoast-seo-premium-extension {
+	margin: 1em 0.5em;
 }
 
 .yoast-seo-premium-extension:before,
