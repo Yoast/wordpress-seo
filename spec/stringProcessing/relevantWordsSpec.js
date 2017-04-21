@@ -10,6 +10,8 @@ let filterFunctionWords = relevantWords.filterFunctionWords;
 let filterSpecialCharacters = relevantWords.filterSpecialCharacters;
 let filterOnSyllableCount = relevantWords.filterOnSyllableCount;
 let filterOnDensity = relevantWords.filterOnDensity;
+let filterEndingWith = relevantWords.filterEndingWith;
+let filterStartingWith = relevantWords.filterStartingWith;
 let englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
 describe( "getWordCombinations", function() {
@@ -261,7 +263,7 @@ describe( "filter special characters in word combinations", function() {
 } );
 
 describe( "filter single words based on syllable count", function() {
-	it ( "filters one-syllable single words", function() {
+	it (  "filters one-syllable single words" , function() {
 		let input = [
 			new WordCombination ( [ "book" ] ),
 			new WordCombination ( [ "a", "book" ] ),
@@ -277,6 +279,40 @@ describe( "filter single words based on syllable count", function() {
 		expect( combinations ).toEqual( expected );
 	});
 } );
+
+describe("filter word combinations based on what string it starts with but with specified exceptions", function(){
+	it ( "filters word combinations that start with you but not word combinations that start with you are" , function(){
+		let input = [
+			new WordCombination (["you","do","you"]),
+			new WordCombination (["you","are","awesome"]),
+			new WordCombination (["who","are","you"]),
+		];
+		let expected = [
+			new WordCombination (["you","are","awesome"]),
+			new WordCombination (["who","are","you"]),
+		];
+		let combinations = filterStartingWith(input, "you", ["you are"]);
+		expect( combinations ).toEqual( expected );
+	});
+	
+});
+
+describe("filter word combinations based on what string it end with but with specified exceptions", function(){
+	it ( "filters word combinations that end with you but not word combinations that start with are you" , function(){
+		let input = [
+			new WordCombination (["you","do","you"]),
+			new WordCombination (["you","are","awesome"]),
+			new WordCombination (["who","are","you"]),
+		];
+		let expected = [
+			new WordCombination (["you","are","awesome"]),
+			new WordCombination (["who","are","you"]),
+		];
+		let combinations = filterEndingWith(input, "you", ["are you"]);
+		expect( combinations ).toEqual( expected );
+	});
+	
+});
 
 describe( "getRelevantWords", function() {
 	it( "uses the default (English) function words in case of a unknown locale", function() {

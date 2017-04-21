@@ -199,6 +199,54 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
 }
 
 /**
+ * Filters combinations based on whether they start with a specified string or not.
+ *
+ * @param {WordCombination[]} wordCombinations The array of WordCombinations to filter.
+ * @param {string} str The string the WordCombinations that need to be filtered out start with.
+ * @param {string[]} exceptions The array of strings containing exceptions to not filter.
+ * @returns {WordCombination[]} The filtered array of WordCombinations.
+ */
+function filterStartingWith( wordCombinations, str, exceptions ) {
+	wordCombinations = wordCombinations.filter( function( combination ) {
+		let combinationstr = combination.getCombination();
+		for ( let i = 0; i < exceptions.length; i++ ) {
+			if ( combinationstr.startsWith( exceptions[ i ] ) ) {
+				return true;
+			}
+		}
+		if ( combinationstr.startsWith( str ) ) {
+			return false;
+		}
+		return true;
+	} );
+	return wordCombinations;
+}
+
+/**
+ * Filters combinations based on whether they end with a specified string or not.
+ *
+ * @param {WordCombination[]} wordCombinations The array of WordCombinations to filter.
+ * @param {string} str The string the WordCombinations that need to be filtered out end with.
+ * @param {string[]} exceptions The array of strings containing exceptions to not filter.
+ * @returns {WordCombination[]} The filtered array of WordCombinations.
+ */
+function filterEndingWith( wordCombinations, str, exceptions ) {
+	wordCombinations = wordCombinations.filter( function( combination ) {
+		let combinationstr = combination.getCombination();
+		for ( let i = 0; i < exceptions.length; i++ ) {
+			if ( combinationstr.endsWith( exceptions[ i ] ) ) {
+				return true;
+			}
+		}
+		if ( combinationstr.endsWith( str ) ) {
+			return false;
+		}
+		return true;
+	} );
+	return wordCombinations;
+}
+
+/**
  * Filters the list of word combination objects.
  * Word combinations with specific parts of speech at the beginning and/or end, as well as one-syllable single words, are removed.
  *
@@ -226,6 +274,7 @@ function filterCombinations( combinations, functionWords, locale ) {
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().passiveAuxiliaries );
 			combinations = filterFunctionWordsAtBeginning( combinations, functionWords().reflexivePronouns );
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
+			combinations = filterEndingWith( combinations, "'s", [] );
 			break;
 		case "es":
 			combinations = filterFunctionWordsAtEnding( combinations, functionWords().verbs );
@@ -322,4 +371,6 @@ module.exports = {
 	filterSpecialCharacters: filterSpecialCharacters,
 	filterOnSyllableCount: filterOnSyllableCount,
 	filterOnDensity: filterOnDensity,
+	filterStartingWith: filterStartingWith,
+	filterEndingWith: filterEndingWith
 };
