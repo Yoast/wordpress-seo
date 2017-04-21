@@ -739,27 +739,6 @@ a.promoblock:hover {
 	border-top: 1px solid #a4286a;
 }
 
-.yoast-hr:after {
-	position: absolute;
-	z-index: 1;
-	top: -2px;
-	right: 50%;
-	height: 0;
-	border: none;
-	border-top: 20px solid #f1f1f1;
-	border-left: 40px solid transparent;
-	border-right: 40px solid transparent;
-	line-height: 0;
-	content: "";
-	-ms-transform: translateX(50%);
-	transform: translateX(50%);
-
-	-moz-filter: drop-shadow(0 1px 0 #a4286a);
-	-ms-filter: drop-shadow(0 1px 0 #a4286a);
-	-o-filter: drop-shadow(0 1px 0 #a4286a);
-	filter: drop-shadow(0 1px 0 #a4286a);
-}
-
 .yoast-list--usp li:before {
 	width: 1em;
 	height: 100%;
@@ -853,7 +832,7 @@ a.promoblock:hover {
 }
 
 .yoast-seo-premium-extension {
-	margin: 1em 0.5em;
+	margin: 2em 0.5em 1.5em;
 }
 
 .yoast-seo-premium-extension:before,
