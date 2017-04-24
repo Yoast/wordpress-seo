@@ -55,7 +55,7 @@ describe( "An assessor running the linkStatistics for internal links", function(
 		var mockPaper = new Paper( "" );
 		var assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher({ internalTotal: 0 }), i18n );
 
-		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual ( 'No internal links appear in this page, consider adding some as appropriate.' );
 	} );
 } );
