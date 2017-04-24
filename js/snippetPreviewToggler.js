@@ -126,10 +126,8 @@ SnippetPreviewToggler.prototype._setPreviewMode = function( previewMode, toggleE
 	this._removeActiveStates();
 	this._setActiveState( toggleElement );
 
-	if( this.previewMode !== previewMode ) {
-		domManipulation.removeClass( this.viewElement, previewModes[ this.previewMode ] );
-		domManipulation.addClass( this.viewElement, previewModes[ previewMode ] );
-	}
+	domManipulation.removeClass( this.viewElement, previewModes[ this.previewMode ] );
+	domManipulation.addClass( this.viewElement, previewModes[ previewMode ] );
 
 	this.previewMode = previewMode;
 };
@@ -162,7 +160,6 @@ SnippetPreviewToggler.prototype.setMobileMode = function() {
 SnippetPreviewToggler.prototype.setVisibility = function( previewWidth ) {
 	if( previewWidth < minimumDesktopWidth ) {
 		this.setMobileMode();
-		return;
 	}
 };
 
