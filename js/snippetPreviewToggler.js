@@ -1,4 +1,3 @@
-
 var forEach = require( "lodash/forEach" );
 var domManipulation = require( "./helpers/domManipulation.js" );
 
@@ -21,9 +20,9 @@ var minimumDesktopWidth = 640;
  * @constructor
  */
 var SnippetPreviewToggler = function( previewMode, previewToggles ) {
-	this.previewMode    = previewMode;
-	this.previewToggles = previewToggles;
-	this.viewElement     = document.getElementById( "snippet-preview-view" );
+	this.previewMode      = previewMode;
+	this.previewToggles   = previewToggles;
+	this.viewElement      = document.getElementById( "snippet-preview-view" );
 };
 
 /**
@@ -151,15 +150,34 @@ SnippetPreviewToggler.prototype.setMobileMode = function() {
 };
 
 /**
- * Sets the visibility based on the width of the Snippet Preview container.
+ * Sets the initial view to desktop or mobile based on the width of the Snippet Preview container.
  *
  * @param {number} previewWidth the width of the Snippet Preview container.
  *
  * @returns {void}
  */
 SnippetPreviewToggler.prototype.setVisibility = function( previewWidth ) {
-	if( previewWidth < minimumDesktopWidth ) {
+	if ( previewWidth < minimumDesktopWidth ) {
 		this.setMobileMode();
+		// At this point the desktop view is scrollable: set a CSS class to show the Scroll Hint message.
+		domManipulation.addClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
+	} else {
+		this.setDesktopMode();
+	}
+};
+
+/**
+ * When the window is resized, sets the visibilty of the Scroll Hint message.
+ *
+ * @param {number} previewWidth the width of the Snippet Preview container.
+ *
+ * @returns {void}
+ */
+SnippetPreviewToggler.prototype.setScrollHintVisibility = function( previewWidth ) {
+	domManipulation.removeClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
+
+	if ( previewWidth < minimumDesktopWidth ) {
+		domManipulation.addClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );
 	}
 };
 

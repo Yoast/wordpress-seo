@@ -479,11 +479,11 @@
     __e( rendered.title ) +
     '\n					</span>\n				</span>\n				<span class="title" id="snippet_sitename"></span>\n			</div>\n			<div class="snippet_container snippet_container__url snippet-editor__container" id="url_container">\n				<span class="screen-reader-text">' +
     __e( i18n.slugLabel ) +
-    '</span>\n				<cite class="url urlBase" id="snippet_citeBase">\n					' +
+    '</span>\n				<span class="urlFull">\n					<cite class="url urlBase" id="snippet_citeBase">\n						' +
     __e( rendered.baseUrl ) +
-    '\n				</cite>\n				<cite class="url" id="snippet_cite">\n					' +
+    '\n					</cite><cite class="url" id="snippet_cite">\n						' +
     __e( rendered.snippetCite ) +
-    '\n				</cite>\n				<span class="down_arrow"></span>\n			</div>\n			<div class="snippet_container snippet_container__meta snippet-editor__container" id="meta_container">\n				<span class="screen-reader-text">' +
+    '\n					</cite>\n				</span><span class="down_arrow"></span>\n			</div>\n			<div class="snippet_container snippet_container__meta snippet-editor__container" id="meta_container">\n				<span class="screen-reader-text">' +
     __e( i18n.metaDescriptionLabel ) +
     '</span>\n				';
      if ( "" !== metaDescriptionDate ) {
@@ -493,7 +493,9 @@
      }
     __p += '\n				<span class="desc" id="snippet_meta">\n					' +
     __e( rendered.meta ) +
-    '\n				</span>\n			</div>\n		</div>\n\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile yoast-tooltip yoast-tooltip-se" type="button" data-type="mobile" aria-label="' +
+    '\n				</span>\n			</div>\n		</div>\n\n		<div class="snippet-editor__is-scrollable-hintwrapper">\n			<span class=\'snippet-editor__is-scrollable-hint\' aria-hidden=\'true\'>' +
+    __e( i18n.isScrollableHint ) +
+    '</span>\n		</div>\n\n		<div class="snippet-editor__view-toggle">\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-mobile yoast-tooltip yoast-tooltip-se" type="button" data-type="mobile" aria-label="' +
     __e( i18n.mobilePreviewMode ) +
     '" />\n			<button class="snippet-editor__view-icon snippet-editor__view-icon-desktop yoast-tooltip yoast-tooltip-se" type="button" data-type="desktop" aria-label="' +
     __e( i18n.desktopPreviewMode ) +

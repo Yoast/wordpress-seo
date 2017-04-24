@@ -15,13 +15,13 @@
 			</div>
 			<div class="snippet_container snippet_container__url snippet-editor__container" id="url_container">
 				<span class="screen-reader-text"><%- i18n.slugLabel %></span>
-				<cite class="url urlBase" id="snippet_citeBase">
-					<%- rendered.baseUrl %>
-				</cite>
-				<cite class="url" id="snippet_cite">
-					<%- rendered.snippetCite %>
-				</cite>
-				<span class="down_arrow"></span>
+				<span class="urlFull">
+					<cite class="url urlBase" id="snippet_citeBase">
+						<%- rendered.baseUrl %>
+					</cite><cite class="url" id="snippet_cite">
+						<%- rendered.snippetCite %>
+					</cite>
+				</span><span class="down_arrow"></span>
 			</div>
 			<div class="snippet_container snippet_container__meta snippet-editor__container" id="meta_container">
 				<span class="screen-reader-text"><%- i18n.metaDescriptionLabel %></span>
@@ -34,6 +34,10 @@
 					<%- rendered.meta %>
 				</span>
 			</div>
+		</div>
+
+		<div class="snippet-editor__is-scrollable-hintwrapper">
+			<span class='snippet-editor__is-scrollable-hint' aria-hidden='true'><%- i18n.isScrollableHint %></span>
 		</div>
 
 		<div class="snippet-editor__view-toggle">

@@ -383,6 +383,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			),
 			desktopPreviewMode: this.i18n.dgettext( "js-text-analysis", "Desktop preview" ),
 			mobilePreviewMode: this.i18n.dgettext( "js-text-analysis", "Mobile preview" ),
+			isScrollableHint: this.i18n.dgettext( "js-text-analysis", "Scroll to see the preview content." ),
 		},
 	} );
 
@@ -436,7 +437,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 	}
 
 	this.initPreviewToggler();
-	this.handleWindowResizing();
+	this.setInitialView();
 
 	this.opened = false;
 	this.createMeasurementElements();
@@ -944,12 +945,21 @@ SnippetPreview.prototype.updateProgressBars = function() {
 };
 
 /**
- * Gets the width of the Snippet Preview to set the Snippet Preview Toggler visibility.
+ * Gets the width of the Snippet Preview to set its initial view to desktop or mobile.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setInitialView = function() {
+	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
+	this.snippetPreviewToggle.setVisibility( previewWidth );
+};
+
+/**
+ * When the window is resized, gets the width of the Snippet Preview to set the Scroll Hint visibility.
  * @returns {void}
  */
 SnippetPreview.prototype.handleWindowResizing = debounce( function() {
 	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
-	this.snippetPreviewToggle.setVisibility( previewWidth );
+	this.snippetPreviewToggle.setScrollHintVisibility( previewWidth );
 }, 25 );
 
 /**
@@ -974,6 +984,7 @@ SnippetPreview.prototype.bindEvents = function() {
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
+	// Note: `handleWindowResizing` is called also in Yoast SEO when the WP admin menu state changes.
 	window.addEventListener( "resize", this.handleWindowResizing.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
