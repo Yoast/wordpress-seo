@@ -16,11 +16,13 @@
 
 .snippet-editor__view {
 	clear: both;
+	background: #fff;
 }
 
 .snippet-editor__view-toggle {
 	display: inline-block;
 	margin-top: 10px;
+	margin-right: 20px;
 	border: 1px solid #dbdbdb;
 	border-radius: 4px;
 	/* Contain floated children and margins do not collapse. */
@@ -84,24 +86,64 @@
 }
 
 .snippet-editor__view--desktop {
-	width: 600px;
-	background: #fff;
+	overflow: auto;
+	width: 640px;
+	max-width: 100%;
+	padding: 0 20px;
 }
 
-.snippet-editor__view--desktop .snippet_container__title {
+.snippet-editor__view .snippet_container__title {
 	width: 600px;
-}
-
-.snippet-editor__view--desktop .snippet_container__title .title {
 	white-space: nowrap;
 }
 
+.snippet-editor__view .snippet_container__title .title {
+	display: inline-block;
+	overflow: hidden;
+	max-width: 600px;
+	vertical-align: top;
+	text-overflow: ellipsis;
+}
+
+.snippet-editor__view .snippet_container__title .title#snippet_sitename {
+	display: inline;
+}
+
+.snippet-editor__view .snippet_container__url {
+	width: 600px;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.snippet-editor__view .snippet_container__url .urlFull {
+	display: inline-block;
+	overflow: hidden;
+	max-width: 586px;
+	font-size: 14px;
+	line-height: 16px;
+	vertical-align: top;
+	text-overflow: ellipsis;
+}
+
+.snippet-editor__view .snippet_container .down_arrow {
+	display: inline-block;
+	margin-top: 6px;
+	margin-right: 6px;
+	border-top: 5px solid #006621;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	vertical-align: top;
+}
+
+.snippet-editor__view .snippet_container__meta {
+	width: 600px;
+}
+
 .snippet-editor__view--mobile {
-	margin: 0 0 10px 0;
-	padding: 13px 0;
+	margin: 0 20px 10px;
+	padding: 11px 0;
 	border-bottom: 1px hidden #fff;
 	border-radius: 2px;
-	background-color: #fff;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -118,27 +160,65 @@
 }
 
 .snippet-editor__view--mobile .snippet_container__title {
+	overflow: visible;
 	padding: 0 16px;
-	font-size: 16px;
+	white-space: normal;
 	word-wrap: break-word;
 }
 
 .snippet-editor__view--mobile .snippet_container__title .title {
 	font-size: 16px;
+	line-height: 20px;
 }
 
 .snippet-editor__view--mobile .snippet_container__url {
-	box-sizing: border-box;
-	margin-bottom: 13px;
-	padding: 0 16px 11px;
+	margin-bottom: 9px;
+	padding: 0 16px 9px;
 	border-bottom: 1px solid #ebebeb;
+}
+
+.snippet-editor__view--mobile .snippet_container__url .urlFull {
+	max-width: 100%;
 	font-size: 14px;
-	white-space: nowrap;
+	line-height: 20px;
+}
+
+.snippet-editor__view--mobile .snippet_container .down_arrow {
+	display: none;
 }
 
 .snippet-editor__view--mobile .snippet_container__meta {
 	padding: 0 16px;
 	font-size: 14px;
+	line-height: 20px;
+}
+
+.snippet-editor__view--mobile .snippet_container .desc {
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.snippet-editor__is-scrollable-hintwrapper {
+	display: none;
+	margin: 1em 0 5px;
+	text-align: center;
+}
+
+.snippet-editor__view--desktop.snippet-editor__view--desktop-has-scroll + .snippet-editor__is-scrollable-hintwrapper {
+	display: block;
+}
+
+.snippet-editor__is-scrollable-hint {
+	display: inline-block;
+}
+
+.snippet-editor__is-scrollable-hint:before {
+	display: inline-block;
+	margin-left: 10px;
+	font-size: 20px;
+	line-height: inherit;
+	vertical-align: text-top;
+	content: "\21c4";
 }
 
 .snippet-editor__container {
@@ -146,8 +226,12 @@
 	cursor: pointer;
 }
 
+.snippet-editor__container.editable-preview__container--no-caret {
+	cursor: auto;
+}
+
 .snippet-editor__heading {
-	margin: 0 -20px 15px;
+	margin: 0 0 15px;
 	padding: 8px 20px;
 	color: #555;
 	font-family: "Open Sans", sans-serif;
@@ -198,7 +282,11 @@
 
 .snippet-editor__preview {
 	max-width: 640px;
-	padding: 0 20px 15px;
+	padding: 0 0 15px;
+}
+
+.snippet-editor__preview #help-yoast-snippetpreview {
+	padding: 0 20px;
 }
 
 .snippet-editor__button {
@@ -312,42 +400,25 @@
 }
 
 .snippet_container .title {
-	display: block;
-	overflow: hidden;
 	margin: 0; 
 	color: #1e0fbe;
 	font-size: 18px;
 	font-weight: normal;
 	line-height: 1.2;
 	text-decoration: none;
-	text-overflow: ellipsis;
 }
 
-.snippet_container .url,
 .snippet_container .desc {
 	font-size: 13px;
 	line-height: 1.4;
 }
 
 .snippet_container .url {
-	display: inline-block;
-	float: right; 
 	color: #006621;
-	font-size: 14px;
 	font-style: normal;
-	line-height: 16px;
 }
 .snippet_container .url strong {
 	font-weight: 700;
-}
-
-.snippet_container .down_arrow {
-	float: right; 
-	margin-top: 6px;
-	margin-right: 5px;
-	border-top: 5px solid #006621;
-	border-left: 4px solid transparent;
-	border-right: 4px solid transparent;
 }
 
 .snippet_container .desc-default {
@@ -1143,19 +1214,19 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-meta-section {
 	display: none;
 	width: 100%;
+	max-width: calc( 100% - 50px);
 	vertical-align: top;
 }
 
 .wpseo-meta-section.active {
-	display: table-cell;
+	display: inline-block;
 }
 
 .wpseo-metabox-sidebar {
-	display: table-cell;
-	width: 40px;
-	padding: 0 0 0 5px;
+	float: right;
+	width: 50px;
+	padding: 0;
 	background-color: #fff;
-	vertical-align: top;
 }
 
 .wpseo-metabox-sidebar ul {
@@ -1231,7 +1302,6 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 
 .wpseotab {
 	display: none;
-	overflow: auto;
 	padding: 20px 35px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
@@ -1730,14 +1800,17 @@ ul.wpseo-metabox-premium-advantages {
 @media screen and (max-width: 782px) {
 	.wpseo-metabox-sidebar {
 		display: inline-block;
+		float: none;
 		/* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
 		width: auto;
 		margin: 0 -5px 10px 0;
 		padding: 0;
+		vertical-align: top;
 	}
 	.wpseo-meta-section.active {
 		display: block;
-		clear: both;
+		clear: both; 
+		max-width: none;
 	}
 	.wpseo-metabox-sidebar ul {
 		display: inline-block;
@@ -1787,7 +1860,7 @@ ul.wpseo-metabox-premium-advantages {
 	}
 	#wpseo-crawl-issues-table-form .subsubsub {
 		float: none;
-		max-width: calc(100vw - 20px);
+		max-width: calc( 100vw - 20px);
 	}
 	#wpseo-crawl-issues-table-form .yoast-help-button {
 		margin-top: 3px;
