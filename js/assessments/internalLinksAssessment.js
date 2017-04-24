@@ -65,7 +65,7 @@ var textHasInternalLinksAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	identifier: "textLinks",
+	identifier: "internalLinks",
 	getResult: textHasInternalLinksAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
