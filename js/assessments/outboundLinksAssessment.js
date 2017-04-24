@@ -29,7 +29,10 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 8,
 			/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)." ),
+			text: i18n.sprintf( i18n.dgettext(
+				"js-text-analysis",
+				"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
+				),
 				linkStatistics.externalNofollow, linkStatistics.externalDofollow ),
 		};
 	}
