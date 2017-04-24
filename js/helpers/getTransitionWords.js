@@ -8,6 +8,8 @@ let transitionWordsSpanish = require( "../researches/spanish/transitionWords.js"
 let twoPartTransitionWordsSpanish = require( "../researches/spanish/twoPartTransitionWords.js" );
 let transitionWordsDutch = require( "../researches/dutch/transitionWords.js" )().allWords;
 let twoPartTransitionWordsDutch = require( "../researches/dutch/twoPartTransitionWords.js" );
+let transitionWordsItalian = require( "../researches/italian/transitionWords.js" )().allWords;
+let twoPartTransitionWordsItalian = require( "../researches/italian/twoPartTransitionWords.js" );
 
 let getLanguage = require( "./getLanguage.js" );
 
@@ -32,6 +34,11 @@ module.exports = function( locale ) {
 			return {
 				transitionWords: transitionWordsDutch,
 				twoPartTransitionWords: twoPartTransitionWordsDutch,
+			};
+		case "it":
+			return {
+				transitionWords: transitionWordsItalian,
+				twoPartTransitionWords: twoPartTransitionWordsItalian,
 			};
 		default:
 		case "en":
