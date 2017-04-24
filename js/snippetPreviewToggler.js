@@ -1,4 +1,3 @@
-
 var forEach = require( "lodash/forEach" );
 var domManipulation = require( "./helpers/domManipulation.js" );
 
