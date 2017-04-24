@@ -53,7 +53,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var textHasLinksAssessment = function( paper, researcher, i18n ) {
+var textHasOutboundLinksAssessment = function( paper, researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var assessmentResult = new AssessmentResult();
 	if ( ! isEmpty( linkStatistics ) ) {
@@ -65,8 +65,8 @@ var textHasLinksAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	identifier: "textLinks",
-	getResult: textHasLinksAssessment,
+	identifier: "externalLinks",
+	getResult: textHasOutboundLinksAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	},
