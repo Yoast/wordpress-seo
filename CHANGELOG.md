@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.15.0: May 2nd, 2017
+
+### Fixed
+* Fixes a bug where style and script elements were parsed for the prominent words.
+* Fixes a bug where the cursor pointer was in front of the metabox.
+
+### Added
+* Adds transition words for Italian.
+* Adds a new assessment for internal linking that checks for the presence of at least one internal link.
+
 ## 1.14.0: April 11th, 2017
 
 ### Fixed
