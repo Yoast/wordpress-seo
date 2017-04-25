@@ -9,10 +9,10 @@ var isEmpty = require( "lodash/isEmpty" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.total === 0 ) {
+	if ( linkStatistics.externalTotal === 0 ) {
 		return {
 			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No links appear in this page, consider adding some as appropriate." ),
+			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." ),
 		};
 	}
 
@@ -29,7 +29,10 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 8,
 			/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
+			text: i18n.sprintf( i18n.dgettext(
+				"js-text-analysis",
+				"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
+				),
 				linkStatistics.externalNofollow, linkStatistics.externalDofollow ),
 		};
 	}
@@ -53,7 +56,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var textHasLinksAssessment = function( paper, researcher, i18n ) {
+var textHasOutboundLinksAssessment = function( paper, researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var assessmentResult = new AssessmentResult();
 	if ( ! isEmpty( linkStatistics ) ) {
@@ -65,8 +68,8 @@ var textHasLinksAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	identifier: "textLinks",
-	getResult: textHasLinksAssessment,
+	identifier: "externalLinks",
+	getResult: textHasOutboundLinksAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	},
