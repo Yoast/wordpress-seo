@@ -1,3 +1,5 @@
+/* global wpseoAdminL10n */
+
 import { getRelevantWords } from "yoastseo/js/stringProcessing/relevantWords";
 import ProminentWordStorage from "./ProminentWordStorage";
 import ProminentWordCache from "./ProminentWordCache";
@@ -63,10 +65,11 @@ class SiteWideCalculation extends EventEmitter {
 	 */
 	calculate() {
 		let data = {
-			// eslint-disable-next-line camelcase
+			/* eslint-disable camelcase */
 			per_page: this._perPage,
 			status: postStatuses,
-			yst_prominent_words_is_unindexed : true,
+			yst_prominent_words_is_unindexed: true,
+			/* eslint-enable camelcase */
 		};
 
 		if ( ! this._recalculateAll ) {

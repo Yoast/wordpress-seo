@@ -71,7 +71,9 @@ var yoast_overlay = null;
 				$( "body" ).append( el );
 
 				// Check autoclose
-				if ( this.current_message.autoclose !== undefined &&
+
+				/* eslint-disable camelcase */
+				if ( typeof this.current_message.autoclose !== "undefined" &&
 					this.current_message.autoclose !== false &&
 					this.current_message.autoclose > 0 ) {
 					setTimeout( function() {
@@ -79,6 +81,7 @@ var yoast_overlay = null;
 					}, ( this.current_message.autoclose * 1000 )
 					);
 				}
+				/* eslint-enable camelcase */
 			}
 		},
 	};
