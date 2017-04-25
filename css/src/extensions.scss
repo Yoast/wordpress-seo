@@ -13,7 +13,7 @@
 	letter-spacing: 0.01em;
 	color: #000;
 
-	$gutter: 50px;
+	$gutter: 32px;
 
 	*,
 	*:before,
@@ -27,29 +27,6 @@
 		padding-bottom: 1.88rem;
 		border-top: 1px solid $scheme-academy-secondary;
 		position: relative;
-
-		&:after {
-			content: '';
-			border: none;
-
-			// Hard-code color to match WordPress.
-			border-top: 20px solid #f1f1f1;
-			border-left: 40px solid transparent;
-			border-right: 40px solid transparent;
-			position: absolute;
-			top: -2px;
-			left: 50%;
-			z-index: 1;
-			height: 0;
-			line-height: 0;
-			-webkit-transform: translateX(-50%);
-			-moz-transform: translateX(-50%);
-			-ms-transform: translateX(-50%);
-			-o-transform: translateX(-50%);
-			transform: translateX(-50%);
-
-			@include vendor(filter, drop-shadow(0 1px 0 $scheme-academy-secondary));
-		}
 	}
 
 	&-list--usp {
@@ -93,11 +70,12 @@
 	&-promo-extensions {
 		display: flex;
 		flex-wrap: wrap;
-		margin-left: -1 * $gutter;
+		margin-left: ( -1 * $gutter ) + 8px;
 
 		> h2 {
 			width: 100%;
 			margin-left: $gutter;
+			margin-bottom: $gutter;
 		}
 	}
 
@@ -143,6 +121,7 @@
 	&-seo {
 		&-premium-extension {
 			@include clearfix;
+			margin: 2em 0.5em 1.5em;
 		}
 
 		&-premium-benefits {

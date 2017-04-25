@@ -102,6 +102,11 @@
 			display: flex;
 			flex-wrap: wrap;
 		}
+
+		li {
+			list-style: disc inside;
+			margin: 2px 10px;
+		}
 	}
 
 	.wpseo-tab-video__panel {

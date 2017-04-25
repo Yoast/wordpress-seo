@@ -20,7 +20,7 @@
 	<textarea rows="5" cols="30" id="wpseo_author_metadesc" class="yoast-settings__textarea yoast-settings__textarea--medium"
 		name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea><br>
 
-	<?php if ( $options['usemetakeywords'] === true ) { ?>
+	<?php if ( $options_titles['usemetakeywords'] === true ) { ?>
 		<label for="wpseo_author_metakey"><?php _e( 'Meta keywords to use for Author page', 'wordpress-seo' ); ?></label>
 		<input class="yoast-settings__text regular-text" type="text" id="wpseo_author_metakey"
 			name="wpseo_author_metakey"
@@ -31,7 +31,7 @@
 			value="on" <?php echo ( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
 		<label class="yoast-label-strong" for="wpseo_author_exclude"><?php _e( 'Exclude user from Author-sitemap', 'wordpress-seo' ); ?></label><br>
 
-	<?php if ( $options['keyword-analysis-active'] === true ) { ?>
+	<?php if ( $options['keyword_analysis_active'] === true ) { ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_keyword_analysis_disable"
 			name="wpseo_keyword_analysis_disable" aria-describedby="wpseo_keyword_analysis_disable_desc"
 			value="on" <?php echo ( get_the_author_meta( 'wpseo_keyword_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
@@ -41,7 +41,7 @@
 		</p>
 	<?php } ?>
 
-	<?php if ( $options['content-analysis-active'] === true ) { ?>
+	<?php if ( $options['content_analysis_active'] === true ) { ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_content_analysis_disable"
 			name="wpseo_content_analysis_disable" aria-describedby="wpseo_content_analysis_disable_desc"
 			value="on" <?php echo ( get_the_author_meta( 'wpseo_content_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />

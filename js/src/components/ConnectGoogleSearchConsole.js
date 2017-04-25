@@ -17,7 +17,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 */
 	constructor( props ) {
 		// Make sure the props is an object and not an empty array.
-		if( typeof props.value.profileList !== "object" ) {
+		if ( typeof props.value.profileList !== "object" ) {
 			props.value.profileList = {};
 		}
 
@@ -43,7 +43,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	componentDidUpdate( prevProps, prevState ) {
 		let profileListIsChanged = prevState.profileList !== this.state.profileList;
 		let profileIsChanged = prevState.profile !== this.state.profile;
-		if( profileListIsChanged || profileIsChanged  ) {
+		if ( profileListIsChanged || profileIsChanged ) {
 			this.sendChangeEvent();
 		}
 	}
@@ -187,14 +187,14 @@ class ConnectGoogleSearchConsole extends React.Component {
 	/**
 	 * @summary Sets the profile list.
 	 *
-	 * @param {Object|string} response			       The response object.
+	 * @param {Object|string} response                 The response object.
 	 * @param {Object}        response.profileList     List with all available profiles.
 	 * @param {bool}          response.hasAccessToken  Is there an access token?
 	 *
 	 * @returns {void}
 	 */
 	setProfileList( response ) {
-		if( response === "0" ) {
+		if ( response === "0" ) {
 			return;
 		}
 
@@ -231,16 +231,15 @@ class ConnectGoogleSearchConsole extends React.Component {
 			error: errorMessage,
 		} );
 	}
+
 	/**
 	 * @summary Checks if there are any profiles available.
 	 *
 	 * @returns {boolean} Returns true when there are profiles and false if not.
 	 */
 	hasProfiles() {
-		if( this.state.profileList !== null && typeof this.state.profileList === "object" ) {
-			var totalProfiles = Object.keys( this.state.profileList ).length;
-
-			return ( totalProfiles !== 0 );
+		if ( this.state.profileList !== null && typeof this.state.profileList === "object" ) {
+			return ( Object.keys( this.state.profileList ).length !== 0 );
 		}
 
 		return false;
@@ -252,11 +251,13 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @returns {JSX.Element} Profile select box wrapped in a div element.
 	 */
 	getProfileSelectBox() {
-		if( ! this.hasProfiles() ) {
-			return ( <p>{this.props.translate( "There were no profiles found" )}</p> );
+		if ( ! this.hasProfiles() ) {
+			return (
+				<p>{this.props.translate( "There were no profiles found" )}</p>
+			);
 		}
 
-		let profiles    = this.state.profileList;
+		let profiles = this.state.profileList;
 		let profileKeys = Object.keys( profiles );
 
 		return (
@@ -267,9 +268,9 @@ class ConnectGoogleSearchConsole extends React.Component {
 					{this.props.translate( "Select profile" ) }
 				</label>
 				<select className="yoast-wizard-input__select"
-					id="yoast-wizard-gsc-select-profile"
-					onChange={this.setProfile.bind( this )}
-					name={this.name} value={this.state.profile}>
+						id="yoast-wizard-gsc-select-profile"
+						onChange={this.setProfile.bind( this )}
+						name={this.name} value={this.state.profile}>
 					<option value="">{this.props.translate( "Choose a profile" )}</option>
 					{ profileKeys.map(
 						( profileKey, index ) => {
@@ -292,25 +293,29 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 *                        input field and submit button.
 	 */
 	getGoogleAuthCodeInput() {
-		return ( <div>
-			<p>
-				{this.props.translate(
-					"Enter your Google Authorization Code " +
-					"and press the Authenticate button."
-				)}
-			</p>
+		return (
+			<div>
+				<p>
+					{this.props.translate(
+						"Enter your Google Authorization Code " +
+						"and press the Authenticate button."
+					)}
+				</p>
 
-			<input
-				type="text"
-				id="gsc_authorization_code"
-				name="gsc_authorization_code"
-				defaultValue=""
-				placeholder={this.props.translate( "Authorization code" )}
-				aria-labelledby="gsc-enter-code-label" />
-			<RaisedButton
-				label={this.props.translate( "Authenticate" )}
-				onClick={this.saveAuthCode.bind( this )} />
-		</div> );
+				<input
+					type="text"
+					id="gsc_authorization_code"
+					name="gsc_authorization_code"
+					defaultValue=""
+					placeholder={this.props.translate( "Enter authorization code here..." )}
+					aria-labelledby="gsc-enter-code-label"
+				/>
+				<RaisedButton
+					label={this.props.translate( "Authenticate" )}
+					onClick={this.saveAuthCode.bind( this )}
+				/>
+			</div>
+		);
 	}
 
 	/**
@@ -324,7 +329,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 		let loader = this.getLoadingIndicator();
 
-		if( this.state.hasAccessToken ) {
+		if ( this.state.hasAccessToken ) {
 			let profileSelectBox = this.getProfileSelectBox();
 
 			return (
@@ -332,7 +337,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 					{profileSelectBox}
 					<RaisedButton
 						label={this.props.translate( "Reauthenticate with Google" )}
-						onClick={this.clearAuthCode.bind( this )} />
+						onClick={this.clearAuthCode.bind( this )}/>
 					{loader}
 				</div>
 			);
@@ -346,12 +351,12 @@ class ConnectGoogleSearchConsole extends React.Component {
 						"To allow %s to fetch your Google Search Console information, " +
 						"please enter your Google Authorization Code. " +
 						"Clicking the button below will open a new window."
-				).replace( "%s", "Yoast SEO" )}
+					).replace( "%s", "Yoast SEO" )}
 				</p>
 				<RaisedButton
 					label={this.props.translate( "Get Google Authorization Code" )}
 					primary={true}
-					onClick={this.openGoogleAuthDialog.bind( this )} />
+					onClick={this.openGoogleAuthDialog.bind( this )}/>
 				{this.getGoogleAuthCodeInput()}
 				{loader}
 			</div>
@@ -368,7 +373,9 @@ class ConnectGoogleSearchConsole extends React.Component {
 			return null;
 		}
 
-		return ( <div className="yoast-wizard-overlay"><LoadingIndicator/></div> );
+		return (
+			<div className="yoast-wizard-overlay"><LoadingIndicator/></div>
+		);
 	}
 
 }

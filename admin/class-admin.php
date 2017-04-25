@@ -92,6 +92,9 @@ class WPSEO_Admin {
 		}
 
 		$this->set_upsell_notice();
+
+		$this->check_php_version();
+		$this->initialize_cornerstone_content();
 	}
 
 	/**
@@ -153,6 +156,8 @@ class WPSEO_Admin {
 		), $icon_svg, '99.31337' );
 
 		$admin_page_hooks[ self::PAGE_IDENTIFIER ] = 'seo'; // Wipe notification bits from hooks. R.
+
+		$license_page_title = defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ? __( 'Premium', 'wordpress-seo' ) : __( 'Go Premium', 'wordpress-seo' ) . ' ' . $this->get_premium_indicator();
 
 		// Sub menu pages.
 		$submenu_pages = array(
@@ -221,7 +226,7 @@ class WPSEO_Admin {
 			array(
 				self::PAGE_IDENTIFIER,
 				'',
-				__( 'Go Premium', 'wordpress-seo' ) . ' ' . $this->get_premium_indicator(),
+				$license_page_title,
 				$manage_options_cap,
 				'wpseo_licenses',
 				array( $this, 'load_page' ),
@@ -310,7 +315,7 @@ class WPSEO_Admin {
 						/* translators: %1$s expands to Yoast SEO. */
 						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
 						'Yoast SEO' ) .
-					'</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
+					'</p><p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 			)
 		);
 
@@ -604,7 +609,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Temporarily disables a particular page if it is present in the list of passed pages.
+	 * Given a list of passed pages that will be disabled, removes the given page from the list so that it will no longer be disabled.
 	 *
 	 * @param array  $pages The pages to search through.
 	 * @param string $page  The page to temporarily enable.
@@ -702,6 +707,47 @@ class WPSEO_Admin {
 		$upsell = new WPSEO_Product_Upsell_Notice();
 		$upsell->dismiss_notice_listener();
 		$upsell->initialize();
+	}
+
+	/**
+	 * Initializes Whip to show a notice for outdated PHP versions.
+	 */
+	protected function check_php_version() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( ! $this->on_dashboard_page() ) {
+			return;
+		}
+
+		whip_wp_check_versions( array(
+			'php' => '>=5.3',
+		) );
+	}
+
+	/**
+	 * Whether we are on the admin dashboard page.
+	 *
+	 * @returns bool
+	 */
+	protected function on_dashboard_page() {
+		return 'index.php' === $GLOBALS['pagenow'];
+	}
+
+	/**
+	 * Loads the cornerstone filter
+	 */
+	protected function initialize_cornerstone_content() {
+		if ( ! $this->options['enable_cornerstone_content'] ) {
+			return false;
+		}
+
+		$cornerstone = new WPSEO_Cornerstone();
+		$cornerstone->register_hooks();
+
+		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
+		$cornerstone_filter->register_hooks();
 	}
 
 	/********************** DEPRECATED METHODS **********************/
@@ -804,34 +850,33 @@ class WPSEO_Admin {
 		return $stop_words->list_stop_words();
 	}
 
-
 	/**
 	 * Check whether the stopword appears in the string
 	 *
 	 * @deprecated 3.1
 	 *
-	 * @param string $haystack    The string to be checked for the stopword.
-	 * @param bool   $checkingUrl Whether or not we're checking a URL.
+	 * @param string $haystack     The string to be checked for the stopword.
+	 * @param bool   $checking_url Whether or not we're checking a URL.
 	 *
 	 * @return bool|mixed
 	 */
-	function stopwords_check( $haystack, $checkingUrl = false ) {
+	function stopwords_check( $haystack, $checking_url = false ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
 
-		$stopWords = $this->stopwords();
+		$stop_words = $this->stopwords();
 
-		if ( is_array( $stopWords ) && $stopWords !== array() ) {
-			foreach ( $stopWords as $stopWord ) {
+		if ( is_array( $stop_words ) && $stop_words !== array() ) {
+			foreach ( $stop_words as $stop_word ) {
 				// If checking a URL remove the single quotes.
-				if ( $checkingUrl ) {
-					$stopWord = str_replace( "'", '', $stopWord );
+				if ( $checking_url ) {
+					$stop_word = str_replace( "'", '', $stop_word );
 				}
 
 				// Check whether the stopword appears as a whole word.
 				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
+				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stop_word, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
 				if ( $res > 0 ) {
-					return $stopWord;
+					return $stop_word;
 				}
 			}
 		}

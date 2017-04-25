@@ -66,18 +66,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet editor', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/snippet-preview">', '</a>' );
+		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' ) . '">', '</a>' );
 		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
 		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Analysis', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %1$sLearn more about the Content Analysis Tool%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/content-analysis">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %1$sLearn more about the Content Analysis Tool%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/content-analysis' ) . '">', '</a>' );
 		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus keyword', 'wordpress-seo' );
 		self::$meta_fields['general']['focuskw_text_input']['label']       = __( 'Enter a focus keyword', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %1$sLearn more about the Focus Keyword%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://yoa.st/focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %1$sLearn more about the Focus Keyword%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/focus-keyword' ) . '">', '</a>' );
 		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
 		self::$meta_fields['general']['title']['title']              = __( 'SEO title', 'wordpress-seo' );
@@ -477,10 +477,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
 			__( 'Premium support', 'wordpress-seo' ),
 			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
-			'https://yoa.st/pe-buy-premium',
+			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
 			/* translators: %s expands to Yoast SEO Premium. */
 			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			'https://yoa.st/pe-premium-page',
+			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 			__( 'More info', 'wordpress-seo' )
 			);
 
@@ -593,6 +593,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
 			    $content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
+
+				if ( $this->options['enable_cornerstone_content'] ) {
+					$cornerstone_field = new WPSEO_Cornerstone_Field();
+
+					$content .= $cornerstone_field->get_html( $this->get_metabox_post() );
+				}
 				$content .= '</section>';
 				$content .= '</div>';
 				break;
@@ -1433,13 +1439,13 @@ SVG;
 	/**
 	 * @deprecated 3.0
 	 *
-	 * @param array  $results      The results array used to store results.
-	 * @param int    $scoreValue   The score value.
-	 * @param string $scoreMessage The score message.
-	 * @param string $scoreLabel   The label of the score to use in the results array.
-	 * @param string $rawScore     The raw score, to be used by other filters.
+	 * @param array  $results       The results array used to store results.
+	 * @param int    $score_value   The score value.
+	 * @param string $score_message The score message.
+	 * @param string $score_label   The label of the score to use in the results array.
+	 * @param string $raw_score     The raw score, to be used by other filters.
 	 */
-	public function save_score_result( &$results, $scoreValue, $scoreMessage, $scoreLabel, $rawScore = null ) {
+	public function save_score_result( &$results, $score_value, $score_message, $score_label, $raw_score = null ) {
 
 		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 	}
@@ -1447,12 +1453,12 @@ SVG;
 	/**
 	 * @deprecated 3.0
 	 *
-	 * @param string $inputString              String to clean up.
-	 * @param bool   $removeOptionalCharacters Whether or not to do a cleanup of optional chars too.
+	 * @param string $input_string               String to clean up.
+	 * @param bool   $remove_optional_characters Whether or not to do a cleanup of optional chars too.
 	 *
 	 * @return string
 	 */
-	public function strip_separators_and_fold( $inputString, $removeOptionalCharacters ) {
+	public function strip_separators_and_fold( $input_string, $remove_optional_characters ) {
 		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 
 		return '';
