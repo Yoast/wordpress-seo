@@ -124,6 +124,20 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
+= 4.7.0 =
+
+Release Date: May 2nd, 2017
+
+* Enhancements
+	* Adds transition words for Italian.
+	* Adds a new check in the analysis for the presence of at least one internal link.
+
+
+* Bugfixes
+	* Fixes a bug where the `_yst_is_cornerstone` meta value was not prefixed, causing some themes/plugins to output this meta value.
+	* Fixes a bug where style and script elements were parsed for the prominent words.
+    * Fixes a bug where the cursor pointer was in front of the metabox.
+
 = 4.6.0 =
 
 Release Date: April 11th, 2017
@@ -135,21 +149,6 @@ Release Date: April 11th, 2017
 
 * Bugfixes
 	* Fixes an issue in combination with WooCommerce 3.0 where the plugins would load incompatible select2 versions.
-
-= 4.5.0 =
-
-Release Date: March 21st, 2017
-
-* Additions
-	* Adds a message about the PHP version for WordPress installations that run on PHP 5.2. The warning also has pointers on how to address this situation. [We have an article about why we are doing this on yoast.com](https://yoa.st/x6).
-
-* Bugfixes
-	* Adds a check for the breadcrumbs-home option to prevent a blank entry being added to the crumbs array, props [codemonkeynorth](https://github.com/codemonkeynorth)
-
-* Enhancements
-	* Throws a warning in the admin for the RS Head Cleaner plugin, because the plugin cloaks.
-	* Improves copy about Yoast SEO Premium benefits.
-	* Adds link to our knowledge base article about connecting your website to Google Search Console.
 
 = Earlier versions =
 
