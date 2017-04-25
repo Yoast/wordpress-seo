@@ -14,7 +14,10 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
      */
     public function setUp() {
         parent::setUp();
-        $this->class_instance = $this->getMock( 'WPSEO_Post_Watcher', array( 'get_old_url', 'set_undo_slug_notification', 'get_target_url' ) );
+        $this->class_instance = $this
+	        ->getMockBuilder( 'WPSEO_Post_Watcher' )
+	        ->setMethods( array( 'get_old_url', 'set_undo_slug_notification', 'get_target_url' ) )
+	        ->getMock();
     }
 
     /**

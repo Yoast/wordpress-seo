@@ -21,7 +21,11 @@ class WPSEO_Term_Watcher_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance = $this->getMock( 'WPSEO_Term_Watcher_Double', array( 'get_taxonomy_permalink' ) );
+		$this->class_instance = $this
+			->getMockBuilder( 'WPSEO_Term_Watcher_Double' )
+			->setMethods( array( 'get_taxonomy_permalink' ) )
+			->getMock();
+
 	}
 
 	/**
