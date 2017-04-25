@@ -1,4 +1,4 @@
-/* global jQuery, wpseoPremiumMetaboxData, wpseoAdminL10n */
+/* global jQuery, wpseoPremiumMetaboxData, YoastSEO */
 
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
@@ -119,7 +119,7 @@ function initializeLinkSuggestionsMetabox() {
 	} );
 
 	let usedLinks = [];
-	if ( typeof YoastSEO.app.researcher !== 'undefined' ) {
+	if ( typeof YoastSEO.app.researcher !== "undefined" ) {
 		usedLinks = YoastSEO.app.researcher.getResearch( "getLinks" );
 	}
 	linkSuggestions.initializeDOM( settings.linkSuggestions, usedLinks );

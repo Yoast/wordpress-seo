@@ -12,6 +12,8 @@ class KeywordSuggestions {
 	 * @param {ProminentWordStorage} prominentWordStorage The class that handles the focus keyword storage.
 	 * @param {bool} insightsEnabled Whether or not the insights UI is enabled.
 	 * @param {bool} contentEndpointsAvailable Whether or not the content endpoints are available.
+	 *
+	 * @returns {void}
 	 */
 	constructor( { prominentWordStorage, insightsEnabled, contentEndpointsAvailable = true } ) {
 		this._insightsEnabled = insightsEnabled;
@@ -27,6 +29,7 @@ class KeywordSuggestions {
 
 	/**
 	 * Triggers the event to update prominent words
+	 * @returns {void}
 	 */
 	static triggerUpdateProminentWords() {
 		jQuery( window ).trigger( this._updateProminentWordsEvent );

@@ -122,7 +122,7 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function javascript_undo_redirect( WPSEO_Redirect $redirect, $id ) {
 		return sprintf(
-			'wpseo_undo_redirect( "%1$s", "%2$s", "%3$s", "%4$s", this );',
+			'wpseoUndoRedirect( "%1$s", "%2$s", "%3$s", "%4$s", this );',
 			esc_js( $redirect->get_origin() ),
 			esc_js( $redirect->get_target() ),
 			esc_js( $redirect->get_type() ),
@@ -161,7 +161,7 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function javascript_create_redirect( $url, $id, $type = WPSEO_Redirect::PERMANENT ) {
 		return sprintf(
-			'wpseo_create_redirect( "%1$s", "%2$s", "%3$s", this );',
+			'wpseoCreateRedirect( "%1$s", "%2$s", "%3$s", this );',
 			esc_js( $url ),
 			$type,
 			wp_create_nonce( 'wpseo-redirects-ajax-security' )
