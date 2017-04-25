@@ -136,6 +136,14 @@ class WPSEO_Premium_Import_Manager {
 				'pattern' => '`^Redirect ([0-9]{3}) "([^"]+)" ([a-z0-9-_+/.:%&?=#\][]+)`im',
 			),
 			array(
+				'type'    => WPSEO_Redirect::FORMAT_PLAIN,
+				'pattern' => '`^Redirect (410) ([^"\s]+)`im', // Matches a redirect without a target.
+			),
+			array(
+				'type'    => WPSEO_Redirect::FORMAT_PLAIN,
+				'pattern' => '`^Redirect (410) "([^"]+)"`im', // Matches a redirect without a target.
+			),
+			array(
 				'type'    => WPSEO_Redirect::FORMAT_REGEX,
 				'pattern' => '`^RedirectMatch ([0-9]{3}) ([^"\s]+) ([^\s]+)`im',
 			),
@@ -193,12 +201,22 @@ class WPSEO_Premium_Import_Manager {
 			return;
 		}
 
+		$types_needs_target = array( '410' );
+
 		foreach ( $redirects as $redirect ) {
 			$type   = trim( $redirect[1] );
 			$source = trim( $redirect[2] );
-			$target = trim( $redirect[3] );
+			$target = '';
 
-			if ( '' !== $source && '' !== $target ) {
+			if ( ! in_array( $type, $types_needs_target, true ) ) {
+				$target = trim( $redirect[3] );
+
+				// There is no target, skip it.
+				if ( $target === '' ) {
+					continue;
+				}
+			}
+			if ( '' !== $source ) {
 				// Adding the redirect to importer class.
 				$this->get_redirect_option()->add( new WPSEO_Redirect( $source, $target, $type, $format ) );
 				$this->redirects_imported = true;
