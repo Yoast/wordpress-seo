@@ -21,7 +21,9 @@ class YoastMarkdownPlugin {
 	/**
 	 * The modification that parses the markdown in the content.
 	 *
-	 * @returns {string} The parsed content
+	 * @param {string} content The content to parse.
+	 *
+ 	 * @returns {string} The parsed content
 	 */
 	parseMarkdown( content ) {
 		return marked( content );
