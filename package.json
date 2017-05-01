@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Yoast/yoast-social-previews#readme",
   "dependencies": {
+    "eslint-plugin-react": "^6.10.3",
     "jed": "^1.1.0",
     "lodash": "^3.10.1",
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
