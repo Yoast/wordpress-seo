@@ -18,8 +18,13 @@ class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Int
 	 * Registers all hooks to WordPress
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_internal_linking', array( $this, 'add_internal_linking_interface' ) );
+		// When the language isn't supported, stop adding hooks.
+		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
+		if ( ! $language_support->is_language_supported( WPSEO_Utils::get_language( get_locale() ) ) ) {
+			return;
+		}
 
+		add_action( 'wpseo_internal_linking', array( $this, 'add_internal_linking_interface' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
