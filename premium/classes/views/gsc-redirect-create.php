@@ -15,7 +15,7 @@ $redirect_types = new WPSEO_Redirect_Types();
 	<h1 class="wpseo-redirect-url-title"><?php esc_html_e( 'Redirect this broken URL and fix the error', 'wordpress-seo-premium' ); ?></h1>
 
 	<div class='form-field form-required'>
-		<label for='wpseo-current-url-<?php echo $unique_id; ?>'><?php esc_html_e( 'Current URL:', 'wordpress-seo-premium' ); ?></label>
+		<label for='wpseo-current-url-<?php echo $unique_id; ?>'><?php esc_html_e( 'Old URL:', 'wordpress-seo-premium' ); ?></label>
 		<input type='text' id='wpseo-current-url-<?php echo $unique_id; ?>' name='current_url' value='<?php echo esc_attr( $url ); ?>' readonly />
 	</div>
 	<div class='form-field form-required'>
