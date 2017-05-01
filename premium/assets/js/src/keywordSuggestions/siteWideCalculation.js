@@ -99,6 +99,11 @@ class SiteWideCalculation extends EventEmitter {
 		let processPromises = response.reduce( ( previousPromise, post ) => {
 			return previousPromise.then( () => {
 				return this.processPost( post );
+			} ).catch( ( err ) => {
+				// eslint-disable-next-line
+				window.console && console.log( err );
+
+				return this.saveProminentWords( post, [] );
 			} );
 		}, Promise.resolve() );
 
@@ -137,6 +142,17 @@ class SiteWideCalculation extends EventEmitter {
 
 		let prominentWords = getRelevantWords( content, wpseoAdminL10n.contentLocale );
 
+		return this.saveProminentWords( post, prominentWords ) ;
+	}
+
+	/**
+	 * Saves the prominent words.
+	 *
+	 * @param {Object} post A post object with rendered content.
+	 * @param {Array} prominentWords The prominent words to save.
+	 * @returns {Promise} Resolves when the prominent words are saved for the post.
+	 */
+	saveProminentWords( post, prominentWords ) {
 		let prominentWordStorage = new ProminentWordStorage( {
 			postID: post.id,
 			rootUrl: this._rootUrl,
