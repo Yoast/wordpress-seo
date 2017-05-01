@@ -65,7 +65,6 @@ class App extends React.Component {
 		let config = response;
 		let endpoint = this.getEndpoint();
 
-
 		if ( ! isUndefined( config.translations ) ) {
 			setTranslations( config.translations );
 		}
