@@ -3,12 +3,12 @@ module.exports = {
 	"js-text-analysis": {
 		options: {
 			preserveComments: "some",
-			report: "gzip"
+			report: "gzip",
 		},
 		files: {
 			"example/yoast-social-previews.min.js": [
-				"example/yoast-social-previews.js"
-			]
-		}
-	}
+				"example/yoast-social-previews.js",
+			],
+		},
+	},
 };

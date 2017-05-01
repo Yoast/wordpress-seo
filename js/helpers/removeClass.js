@@ -1,8 +1,10 @@
 /**
- * Removes a class from an element
+ * Removes a class from an element.
  *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
+ * @param {HTMLElement} element   The element to remove the class from.
+ * @param {string}      className The class to remove.
+ *
+ * @returns {void}
  */
 module.exports = function( element, className ) {
 	var classes = element.className.split( " " );

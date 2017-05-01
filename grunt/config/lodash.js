@@ -6,7 +6,7 @@ module.exports = {
 			exports: [ "node" ],
 			template: "<%= files.templates %>",
 			flags: [ "--development" ],
-			"moduleId": "none"
-		}
-	}
+			moduleId: "none",
+		},
+	},
 };
