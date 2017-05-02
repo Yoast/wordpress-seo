@@ -132,11 +132,10 @@ Release Date: May 2nd, 2017
 	* Adds transition words for Italian.
 	* Adds a new check in the analysis for the presence of at least one internal link.
 
-
 * Bugfixes
 	* Fixes a bug where the `_yst_is_cornerstone` meta value was not prefixed, causing some themes/plugins to output this meta value.
 	* Fixes a bug where style and script elements were parsed for the prominent words.
-    * Fixes a bug where the cursor pointer was in front of the metabox.
+	* Fixes a bug where the cursor pointer was in front of the metabox.
 
 = 4.6.0 =
 
