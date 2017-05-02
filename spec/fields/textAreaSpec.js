@@ -7,14 +7,14 @@ describe( 'a text area', function() {
 			value: "value"
 		});
 
-		expect( textArea.render() ).toBe( '<label><textarea>value</textarea></label>' );
+		expect( textArea.render() ).toBe( '<label><span class="snippet-editor__caret-hook"></span><textarea>value</textarea></label>' );
 	});
 
 	it( 'should accept a changed value', function() {
 		var textArea = new TextArea();
 		textArea.setValue( "value" );
 
-		expect( textArea.render() ).toBe( '<label><textarea>value</textarea></label>' );
+		expect( textArea.render() ).toBe( '<label><span class="snippet-editor__caret-hook"></span><textarea>value</textarea></label>' );
 	});
 
 	it( 'should accept a placeholder', function() {
@@ -22,7 +22,7 @@ describe( 'a text area', function() {
 			placeholder: "placeholder"
 		});
 
-		expect( textArea.render() ).toBe( '<label><textarea placeholder="placeholder"></textarea></label>' );
+		expect( textArea.render() ).toBe( '<label><span class="snippet-editor__caret-hook"></span><textarea placeholder="placeholder"></textarea></label>' );
 	});
 
 	it( 'should accept a name', function() {
@@ -30,7 +30,7 @@ describe( 'a text area', function() {
 			name: "name"
 		});
 
-		expect( textArea.render() ).toBe( '<label><textarea name="name"></textarea></label>' );
+		expect( textArea.render() ).toBe( '<label><span class="snippet-editor__caret-hook"></span><textarea name="name"></textarea></label>' );
 	});
 
 	it( 'should accept an id', function() {
@@ -38,7 +38,7 @@ describe( 'a text area', function() {
 			id: "id"
 		});
 
-		expect( textArea.render() ).toBe( '<label for="id"><textarea id="id"></textarea></label>' );
+		expect( textArea.render() ).toBe( '<label for="id"></label><span class="snippet-editor__caret-hook" id="id__caret-hook"></span><textarea id="id"></textarea>' );
 	});
 
 	it( 'should accept a class', function() {
@@ -46,14 +46,14 @@ describe( 'a text area', function() {
 			className: "class"
 		});
 
-		expect( textArea.render() ).toBe( '<label><textarea class="class"></textarea></label>' );
+		expect( textArea.render() ).toBe( '<label><span class="snippet-editor__caret-hook"></span><textarea class="class"></textarea></label>' );
 	});
 
 	it( 'should accept a changed class', function() {
 		var textArea = new TextArea();
 		textArea.setClassName( "class" );
 
-		expect( textArea.render() ).toBe( '<label><textarea class="class"></textarea></label>' );
+		expect( textArea.render() ).toBe( '<label><span class="snippet-editor__caret-hook"></span><textarea class="class"></textarea></label>' );
 	});
 
 	it( 'should accept a title', function() {
@@ -61,7 +61,7 @@ describe( 'a text area', function() {
 			title: "title"
 		});
 
-		expect( textArea.render() ).toBe( '<label>title<textarea></textarea></label>' );
+		expect( textArea.render() ).toBe( '<label>title<span class="snippet-editor__caret-hook"></span><textarea></textarea></label>' );
 	});
 
 	it( 'should accept multiple values', function() {
@@ -71,7 +71,7 @@ describe( 'a text area', function() {
 			id: "id"
 		});
 
-		expect( textArea.render() ).toBe( '<label for="id">title<textarea id="id">value</textarea></label>' );
+		expect( textArea.render() ).toBe( '<label for="id">title</label><span class="snippet-editor__caret-hook" id="id__caret-hook"></span><textarea id="id">value</textarea>' );
 	});
 
 	it( 'should accept a label class', function() {
@@ -79,6 +79,6 @@ describe( 'a text area', function() {
 			labelClassName: "label-class"
 		});
 
-		expect( textArea.render() ).toBe( '<label class="label-class"><textarea></textarea></label>' );
+		expect( textArea.render() ).toBe( '<label class="label-class"><span class="snippet-editor__caret-hook"></span><textarea></textarea></label>' );
 	});
 });

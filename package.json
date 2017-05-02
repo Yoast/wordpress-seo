@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Yoast/yoast-social-previews#readme",
   "dependencies": {
+
     "jed": "^1.1.0",
     "lodash": "^3.10.1",
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
@@ -24,6 +25,7 @@
   "devDependencies": {
     "autoprefixer": "^6.3.1",
     "eslint-config-yoast": "^2.0.1",
+    "eslint-plugin-react": "^6.0.0",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
